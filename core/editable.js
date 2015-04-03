@@ -272,7 +272,8 @@
 			 * @param {String} data The HTML to be inserted.
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
 			 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
-			 * instead of into the selection. Introduced in CKEditor 4.5.
+			 * instead of into the selection. The selection will be placed at the end of insertion (like in the normal case).
+			 * Introduced in CKEditor 4.5.
 			 */
 			insertHtml: function( data, mode, range ) {
 				var editor = this.editor;
@@ -659,9 +660,11 @@
 			 *
 			 * @since 4.5
 			 * @param {CKEDITOR.dom.range} range
-			 * @returns {CKEDITOR.dom.documentFragment}
+			 * @param {Boolean} [removeEmptyBlock=false] See {@link CKEDITOR.editor#extractSelectedHtml}'s parameter.
+			 * Note that the range will not be modified if this parameter is set to `true`.
+			 * @returns {CKEDITOR.dom.documentFragment} The extracted fragment of the editable contents.
 			 */
-			extractHtmlFromRange: function( range ) {
+			extractHtmlFromRange: function( range, removeEmptyBlock ) {
 				var helpers = extractHtmlFromRangeHelpers,
 					that = {
 						range: range,
@@ -736,15 +739,26 @@
 				helpers.table.purge( that, this );
 				helpers.block.merge( that, this );
 
-				// Auto paragraph, if needed.
-				helpers.autoParagraph( this.editor, range );
+				// Remove empty block, duh!
+				if ( removeEmptyBlock ) {
+					var path = range.startPath();
 
-				// Let's have a bogus next to the caret, if needed.
-				if ( isEmpty( range.startContainer ) )
-					range.startContainer.appendBogus();
+					// <p><b>^</b></p> is empty block.
+					if ( range.checkStartOfBlock() && range.checkEndOfBlock() && path.block && !range.root.equals( path.block ) ) {
+						range.moveToPosition( path.block, CKEDITOR.POSITION_BEFORE_START );
+						path.block.remove();
+					}
+				} else {
+					// Auto paragraph, if needed.
+					helpers.autoParagraph( this.editor, range );
+
+					// Let's have a bogus next to the caret, if needed.
+					if ( isEmpty( range.startContainer ) )
+						range.startContainer.appendBogus();
+				}
 
 				// Merge inline siblings if any around the caret.
-				range.startContainer.mergeSiblings( 1 );
+				range.startContainer.mergeSiblings();
 
 				return extractedFragment;
 			},
@@ -799,7 +813,7 @@
 				}, this );
 
 				this.attachListener( editor, 'insertHtml', function( evt ) {
-					this.insertHtml( evt.data.dataValue, evt.data.mode );
+					this.insertHtml( evt.data.dataValue, evt.data.mode, evt.data.range );
 				}, this );
 				this.attachListener( editor, 'insertElement', function( evt ) {
 					this.insertElement( evt.data );

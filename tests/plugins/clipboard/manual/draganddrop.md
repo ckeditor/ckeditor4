@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter
 
  * test internal D&amp;D in the editor,
  * dropping content from an external source (helpers, MS Word),
@@ -21,7 +21,8 @@ Drag scenarios:
  * drag link,
  * drag helpers textarea content,
  * drag helpers html content,
- * drag content from MS Word.
+ * drag content from MS Word,
+ * drag widget (inline and block).
 
 Drop scenarios:
 ---------------

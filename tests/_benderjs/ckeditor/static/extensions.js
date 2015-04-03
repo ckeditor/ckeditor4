@@ -58,7 +58,7 @@
 	 * Asserts that `innerHTML`-like HTML strings are equal. See the {@link bender.tools.html#compareInnerHtml}
 	 * method for more information.
 	 *
-	 * @param {String} expected
+	 * @param {String|Array} expected
 	 * @param {String} actual
 	 * @param {Object} [options] {@link #compareInnerHtml}'s options.
 	 * @param {String} [message]
@@ -74,9 +74,24 @@
 		if ( !bender.tools.html.compareInnerHtml( expected, actual, options ) ) {
 			throw new YUITest.ComparisonFailure(
 				YUITest.Assert._formatMessage( message, 'Values should be the same.' ),
-				bender.tools.html.prepareInnerHtmlPattern( expected ).toString(),
+				expectedToString( expected ),
 				bender.tools.html.prepareInnerHtmlForComparison( actual, options )
 			);
+		}
+
+		function expectedToString( expected ) {
+			var strings = [],
+				i;
+
+			if ( typeof expected === 'object' ) {
+				for ( i = 0; i < expected.length; i++ ) {
+					strings.push( bender.tools.html.prepareInnerHtmlPattern( expected[ i ] ).toString() );
+				}
+				return '\n' + strings.join( '\n' );
+			} else {
+				return bender.tools.html.prepareInnerHtmlPattern( expected ).toString();
+			}
+
 		}
 	};
 

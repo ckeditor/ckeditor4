@@ -1037,16 +1037,18 @@
 		 * @param {String} html HTML code to be inserted into the editor.
 		 * @param {String} [mode='html'] The mode in which the HTML code will be inserted. One of the following:
 		 *
-		 * * `"html"` &ndash; The content being inserted will completely override the styles
-		 *    at the selected position.
-		 * * `"unfiltered_html"` &ndash; Like `"html"` but the content is not filtered with {@link CKEDITOR.filter}.
-		 * * `"text"` &ndash; The content being inserted will inherit the styles applied in
+		 * * `'html'` &ndash; The content being inserted will completely override the styles at the selected position.
+		 * * `'unfiltered_html'` &ndash; Like `'html'` but the content is not filtered with {@link CKEDITOR.filter}.
+		 * * `'text'` &ndash; The content being inserted will inherit the styles applied in
 		 *    the selected position. This mode should be used when inserting "htmlified" plain text
-		 *    (HTML without inline styles and styling elements like
-		 *    `<b/>`, `<strong/>`, `<span style="..."/>`).
+		 *    (HTML without inline styles and styling elements like `<b>`, `<strong>`, `<span style="...">`).
+		 *
+		 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
+		 * instead of into the selection. The selection will be placed at the end of insertion (like in the normal case).
+		 * Introduced in CKEditor 4.5.
 		 */
-		insertHtml: function( html, mode ) {
-			this.fire( 'insertHtml', { dataValue: html, mode: mode } );
+		insertHtml: function( html, mode, range ) {
+			this.fire( 'insertHtml', { dataValue: html, mode: mode, range: range } );
 		},
 
 		/**
@@ -1133,9 +1135,12 @@
 		 *
 		 * @since 4.5
 		 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
-		 * @returns {CKEDITOR.dom.documentFragment/String}
+		 * @param {Boolean} [removeEmptyBlock=false] Default `false` means that the function will keep empty block (if the
+		 * whole content was removed) or it will create it (if block element was removed) and set the selection in that block.
+		 * If `true` the empty will be removed or not created. In this case the function will not handle the selection.
+		 * @returns {CKEDITOR.dom.documentFragment/String/null}
 		 */
-		extractSelectedHtml: function( toString ) {
+		extractSelectedHtml: function( toString, removeEmptyBlock ) {
 			var editable = this.editable(),
 				ranges = this.getSelection().getRanges();
 
@@ -1144,9 +1149,11 @@
 			}
 
 			var range = ranges[ 0 ],
-				docFragment = editable.extractHtmlFromRange( range );
+				docFragment = editable.extractHtmlFromRange( range, removeEmptyBlock );
 
-			this.getSelection().selectRanges( [ range ] );
+			if ( !removeEmptyBlock ) {
+				this.getSelection().selectRanges( [ range ] );
+			}
 
 			return toString ? docFragment.getHtml() : docFragment;
 		},
@@ -1825,6 +1832,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * @param data
  * @param {String} data.mode The mode in which the data is inserted (see {@link #method-insertHtml}).
  * @param {String} data.dataValue The HTML code to insert.
+ * @param {CKEDITOR.dom.range} [data.range] See {@link #method-insertHtml}'s `range` parameter.
  */
 
 /**

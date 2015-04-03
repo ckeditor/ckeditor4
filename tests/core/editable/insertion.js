@@ -144,6 +144,22 @@
 			} );
 
 			editor.insertHtml( '  foo  ' );
+		},
+
+		'test insertHtml with range': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setHtmlWithSelection( '<p id="p1">foo</p><p>bar^</p>' );
+
+			var range = editor.createRange();
+			range.setStartAfter( editor.document.getById( 'p1' ) );
+			range.collapse( true );
+
+			editor.insertHtml( '<p>bam</p>', 'html', range );
+
+			assert.isInnerHtmlMatching( '<p id="p1">foo</p><p>bam^@</p><p>bar@</p>',
+				bender.tools.selection.getWithHtml( editor ), { compareSelection: true, normalizeSelection: true } );
 		}
 	} );
 } )();

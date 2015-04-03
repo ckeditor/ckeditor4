@@ -668,6 +668,26 @@
 			} );
 		},
 
+		'test copying widget with context': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p>X<b><span id="w1" data-widget="test2">A</span></b>X</p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					evt = new CKEDITOR.dom.event( { keyCode: CKEDITOR.CTRL + 67 } );
+
+				widget.focus();
+
+				editor.editable().fire( 'keydown', evt );
+
+				wait( function() {
+					var range = editor.getSelection().getRanges()[ 0 ];
+					assert.areSame( 'b', range.startContainer.getName(), 'startContainer' );
+					assert.areSame( 'b', range.endContainer.getName(), 'endContainer' );
+					assert.isTrue( range.startContainer.getChild( 0 ).hasClass( 'cke_widget_wrapper' ) );
+				}, 150 );
+			} );
+		},
+
 		'test single inserted widget is focused': function() {
 			var editor = this.editor,
 				bot = this.editorBot;

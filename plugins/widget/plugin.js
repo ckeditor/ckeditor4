@@ -10,7 +10,6 @@
 'use strict';
 
 ( function() {
-
 	var DRAG_HANDLER_SIZE = 15;
 
 	CKEDITOR.plugins.add( 'widget', {
@@ -2270,6 +2269,9 @@
 		var editor = widgetsRepo.editor,
 			lineutils = CKEDITOR.plugins.lineutils;
 
+		// These listeners handle inline and block widgets drag and drop.
+		// The only thing we need to do to make block widgets custom drag and drop functionality
+		// is to fire those events with the right properties (like the target which must be the drag handle).
 		editor.on( 'dragstart', function( evt ) {
 			var target = evt.data.target;
 
@@ -2305,7 +2307,7 @@
 			dragRange.setEndAfter( sourceWidget.wrapper );
 			evt.data.dragRange = dragRange;
 
-			evt.data.dataTransfer.setData( 'text/html', sourceWidget.wrapper.getOuterHtml() );
+			evt.data.dataTransfer.setData( 'text/html', editor.editable().getHtmlFromRange( dragRange ).getHtml() );
 			editor.widgets.destroy( sourceWidget, true );
 		} );
 
@@ -2413,7 +2415,8 @@
 			// Note: mouseup won't be fired at all if widget was dragged and dropped, so
 			// this code will be executed only when drag handler was clicked.
 			editable.attachListener( evtRoot, 'mouseup', function() {
-				if ( widget && mouseDownOnDragHandler ) {
+				// Check if widget is not destroyed (if widget is destroyed the wrapper will be null).
+				if ( mouseDownOnDragHandler && widget && widget.wrapper ) {
 					mouseDownOnDragHandler = 0;
 					widget.focus();
 				}
@@ -2426,12 +2429,14 @@
 			// so we force fake selection after everything happened.
 			if ( CKEDITOR.env.ie ) {
 				editable.attachListener( evtRoot, 'mouseup', function() {
-					if ( widget ) {
-						setTimeout( function() {
+					setTimeout( function() {
+						// Check if widget is not destroyed (if widget is destroyed the wrapper will be null) and
+						// in editable contains widget (it could be dragged and removed).
+						if ( widget && widget.wrapper && editable.contains( widget.wrapper ) ) {
 							widget.focus();
 							widget = null;
-						} );
-					}
+						}
+					} );
 				} );
 			}
 		} );
@@ -2708,7 +2713,6 @@
 				widgetsRepo.checkWidgets( { initOnlyNew: true } );
 			} else {
 				editor.fire( 'lockSnapshot' );
-
 				// Init only new for performance reason.
 				// Focus inited if only widget was processed.
 				widgetsRepo.checkWidgets( { initOnlyNew: true, focusInited: processedWidgetOnly } );
@@ -2860,7 +2864,14 @@
 
 		copybin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-5000px' );
 
-		copybin.setHtml( '<span data-cke-copybin-start="1">\u200b</span>' + widget.wrapper.getOuterHtml() + '<span data-cke-copybin-end="1">\u200b</span>' );
+		var range = editor.createRange();
+		range.setStartBefore( widget.wrapper );
+		range.setEndAfter( widget.wrapper );
+
+		copybin.setHtml(
+			'<span data-cke-copybin-start="1">\u200b</span>' +
+			editor.editable().getHtmlFromRange( range ).getHtml() +
+			'<span data-cke-copybin-end="1">\u200b</span>' );
 
 		// Save snapshot with the current state.
 		editor.fire( 'saveSnapshot' );
@@ -2882,7 +2893,7 @@
 		// Once the clone of the widget is inside of copybin, select
 		// the entire contents. This selection will be copied by the
 		// native browser's clipboard system.
-		var range = editor.createRange();
+		range = editor.createRange();
 		range.selectNodeContents( copybin );
 		range.select();
 
@@ -3015,18 +3026,21 @@
 			widget.on( 'data', widget.updateDragHandlerPosition, widget );
 		}, 50 );
 
-		if ( widget.inline ) {
-			img.on( 'dragstart', function( evt ) {
-				evt.data.$.dataTransfer.setData( 'text', JSON.stringify( { type: 'cke-widget', editor: editor.name, id: widget.id } ) );
-			} );
-		} else {
+		if ( !widget.inline ) {
 			img.on( 'mousedown', onBlockWidgetDrag, widget );
+
+			// On IE8 'dragstart' is propagated to editable, so editor#dragstart is fired twice on block widgets.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				img.on( 'dragstart', function( evt ) {
+					evt.data.preventDefault( true );
+				} );
+			}
 		}
 
 		widget.dragHandlerContainer = container;
 	}
 
-	function onBlockWidgetDrag() {
+	function onBlockWidgetDrag( evt ) {
 		var finder = this.repository.finder,
 			locator = this.repository.locator,
 			liner = this.repository.liner,
@@ -3065,6 +3079,9 @@
 			buffer.input();
 		} ) );
 
+		// Fire drag start as it happens during the native D&D.
+		editor.fire( 'dragstart', { target: evt.sender } );
+
 		function onMouseUp() {
 			var l;
 
@@ -3074,19 +3091,23 @@
 			while ( ( l = listeners.pop() ) )
 				l.removeListener();
 
-			onBlockWidgetDrop.call( this, sorted );
+			onBlockWidgetDrop.call( this, sorted, evt.sender );
 		}
 
 		// Mouseup means "drop". This is when the widget is being detached
 		// from DOM and placed at range determined by the line (location).
 		listeners.push( editor.document.once( 'mouseup', onMouseUp, this ) );
 
-		// Mouseup may occur when user hovers the line, which belongs to
-		// the outer document. This is, of course, a valid listener too.
-		listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
+		// Prevent calling 'onBlockWidgetDrop' twice in the inline editor.
+		// `removeListener` does not work if it is called at the same time event is fired.
+		if ( !editable.isInline() ) {
+			// Mouseup may occur when user hovers the line, which belongs to
+			// the outer document. This is, of course, a valid listener too.
+			listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
+		}
 	}
 
-	function onBlockWidgetDrop( sorted ) {
+	function onBlockWidgetDrop( sorted, dragTarget ) {
 		var finder = this.repository.finder,
 			liner = this.repository.liner,
 			editor = this.editor,
@@ -3094,14 +3115,11 @@
 
 		if ( !CKEDITOR.tools.isEmpty( liner.visible ) ) {
 			// Retrieve range for the closest location.
-			var range = finder.getRange( sorted[ 0 ] );
+			var dropRange = finder.getRange( sorted[ 0 ] );
 
 			// Focus widget (it could lost focus after mousedown+mouseup)
 			// and save this state as the one where we want to be taken back when undoing.
 			this.focus();
-			editor.fire( 'saveSnapshot' );
-			// Group all following operations in one snapshot.
-			editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
 			// Reset the fake selection, which will be invalidated by insertElementIntoRange.
 			// This avoids a situation when getSelection() still returns a fake selection made
@@ -3109,16 +3127,11 @@
 			// an error thrown e.g. by saveSnapshot or stateUpdater.
 			editor.getSelection().reset();
 
-			// Attach widget at the place determined by range.
-			editable.insertElementIntoRange( this.wrapper, range );
-
-			// Focus again the dropped widget.
-			this.focus();
-
-			// Unlock snapshot and save new one, which will contain all changes done
-			// in this method.
-			editor.fire( 'unlockSnapshot' );
-			editor.fire( 'saveSnapshot' );
+			// Drag range will be set in the drop listener.
+			editor.fire( 'drop', {
+				dropRange: dropRange,
+				target: dropRange.startContainer
+			} );
 		}
 
 		// Clean-up custom cursor for editable.
@@ -3126,6 +3139,9 @@
 
 		// Clean-up all remaining lines.
 		liner.hideVisible();
+
+		// Clean-up drag & drop.
+		editor.fire( 'dragend', { target: dragTarget } );
 	}
 
 	function setupEditables( widget ) {
