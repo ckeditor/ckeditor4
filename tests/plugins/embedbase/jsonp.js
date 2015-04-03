@@ -1,13 +1,6 @@
-/* bender-ckeditor-plugins: embedbase,toolbar */
+/* bender-ckeditor-plugins: embedbase */
 
 'use strict';
-
-bender.editors = {
-	classic: {
-		name: 'editor_classic',
-		creator: 'replace'
-	}
-};
 
 var Jsonp;
 
