@@ -2269,6 +2269,9 @@
 		var editor = widgetsRepo.editor,
 			lineutils = CKEDITOR.plugins.lineutils;
 
+		// These listeners handle inline and block widgets drag and drop.
+		// The only thing we need to do to make block widgets custom drag and drop functionality
+		// is to fire those events with the right properties (like the target which must be the drag handle).
 		editor.on( 'dragstart', function( evt ) {
 			var target = evt.data.target;
 
