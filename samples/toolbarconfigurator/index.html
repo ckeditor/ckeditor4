@@ -293,6 +293,91 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 		modeSwitchBasic.on( 'click', toggleModeBasic );
 		modeSwitchAdvanced.on( 'click', toggleModeAdvanced );
+
+		CKEDITOR.document.getWindow().on( 'scroll', function( e ) {
+			var max = fixer.toBeFixed.length;
+			for ( var i = 0; i < max; i++ ) {
+				var current = fixer.toBeFixed[ i ];
+
+				fixer.tryToFix( current );
+			}
+		} );
+
+		var fixer = {};
+
+		// This element will float if needed.
+		// Store object: {
+		// 		element: CKEDITOR.dom.element, // Element which will float.
+		// 		placeholder: CKEDITOR.dom.element, // Placeholder which is place to prevent page bounce.
+		// 		isFixed: boolean // Whether element float now.
+		// }
+		fixer.toBeFixed = [];
+
+		fixer.addToFixing = function( element ) {
+			this.toBeFixed.push( {
+				element: element,
+				placeholder: new CKEDITOR.dom.element( 'div' ),
+				isFixed: false
+			} );
+		};
+
+		// Checking whether element should be fixed depending on current scroll state.
+		fixer.tryToFix = function( element ) {
+			var isFixed = element.isFixed;
+			var shouldBeFixed = fixer.shouldBeFixed( element );
+
+			// Nothing to be done.
+			if ( isFixed === shouldBeFixed ) {
+				return;
+			}
+
+			var placeholder = element.placeholder;
+
+			if ( isFixed ) {
+				// Unfixing.
+				placeholder.remove();
+
+				element.element.removeStyle( 'width' );
+				element.element.removeStyle( 'height' );
+
+				element.element.removeStyle( 'position' );
+				element.element.removeStyle( 'top' );
+				element.element.removeStyle( 'z-index' );
+
+			} else {
+				// Fixing.
+				var placeholder = element.placeholder;
+				placeholder.setStyle( 'width', element.element.getSize( 'width' ) + 'px' );
+				placeholder.setStyle( 'height', element.element.getSize( 'height' ) + 'px' );
+
+				var width = element.element.getSize( 'width' ),
+					height = element.element.getSize( 'height' );
+
+				// Workaround: Decrement width by one to keep the same visual width.
+				element.element.setStyle( 'width', ( width - 1 ) + 'px' );
+				element.element.setStyle( 'height', height + 'px' );
+
+				element.element.setStyle( 'position', 'fixed' );
+				element.element.setStyle( 'top', '0' );
+				element.element.setStyle( 'z-index', '1000' );
+
+				placeholder.insertAfter( element.element );
+			}
+
+			element.isFixed = !element.isFixed;
+		};
+
+		fixer.shouldBeFixed = function( element ) {
+			// If element is already fixed we are checking it's placeholder.
+			var related = ( element.isFixed ? element.placeholder : element.element ),
+				clientRect = related.$.getBoundingClientRect();
+
+			return ( clientRect.top < 0 );
+		};
+
+		// Floating editor
+		fixer.addToFixing( CKEDITOR.document.findOne( '.editors-container' ) );
+
 	} )();
 </script>
 </body>
