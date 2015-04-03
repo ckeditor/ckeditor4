@@ -3028,6 +3028,13 @@
 
 		if ( !widget.inline ) {
 			img.on( 'mousedown', onBlockWidgetDrag, widget );
+
+			// On IE8 'dragstart' is propagated to editable, so editor#dragstart is fired twice on block widgets.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				img.on( 'dragstart', function( evt ) {
+					evt.data.preventDefault( true );
+				} );
+			}
 		}
 
 		widget.dragHandlerContainer = container;
