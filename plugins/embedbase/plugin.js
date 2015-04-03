@@ -161,8 +161,8 @@
 			 *
 			 * @param {String} url Resource URL to be embedded.
 			 * @param {Object} opts
-			 * @param {Function} opts.callback Callback called when content was successfully loaded into editor.
-			 * @param {Function} opts.errorCallback Callback called when an error occurred.
+			 * @param {Function} [opts.callback] Callback called when content was successfully loaded into editor.
+			 * @param {Function} [opts.errorCallback] Callback called when an error occurred.
 			 * @param {String} opts.errorCallback.messageTypeOrMessage See {@link #getErrorMessage}.
 			 * @param {Boolean} [opts.noNotifications] Do not show notifications (useful when dialog is open).
 			 */
