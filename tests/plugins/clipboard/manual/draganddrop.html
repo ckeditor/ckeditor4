@@ -1,10 +1,13 @@
-<style type="text/css">
-h2 {
-	margin: 10px 0px 4px 0px;
-	padding: 0;
-	font-size: 14px;
-}
-</style>
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+	<style type="text/css">
+	h2 {
+		margin: 10px 0px 4px 0px;
+		padding: 0;
+		font-size: 14px;
+	}
+	</style>
+</head>
 <div>
 	<h2>Helpers (<a href="javascript:hideshow('helpers');">hide/show</a>)</h2>
 	<div id="helpers">
@@ -93,7 +96,11 @@ Aenean cursus egestas ipsum.
 		<p style="text-align: right;"><small>Source: <a href="http://en.wikipedia.org/wiki/Apollo_11">Wikipedia.org</a></small></p>
 	</div>
 </div>
-	<script type="text/javascript">
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		CKEDITOR.tools.enableHtml5Elements( document );
+	}
+
 	CKEDITOR.disableAutoInline = true;
 
 	function hideshow( id ) {
