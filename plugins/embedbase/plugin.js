@@ -219,7 +219,7 @@
 			 * @returns {Boolean} Whether the URL is valid (supported).
 			 */
 			isUrlValid: function( url ) {
-				return this.urlRegExp.test( url ) && ( this.fire( 'validateUrl', url ) !== false );
+				return this.urlRegExp.test( url ) && this.fire( 'validateUrl', url ) !== false;
 			},
 
 			/**
