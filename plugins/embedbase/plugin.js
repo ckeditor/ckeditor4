@@ -176,7 +176,9 @@
 						callback: finishLoading,
 						errorCallback: function( msg ) {
 							that._handleError( request, msg );
-							opts.errorCallback && opts.errorCallback( msg );
+							if ( opts.errorCallback ) {
+								opts.errorCallback( msg );
+							}
 						}
 					};
 
@@ -201,7 +203,9 @@
 
 					if ( that._handleResponse( request ) ) {
 						that._cacheResponse( url, response );
-						opts.callback && opts.callback();
+						if ( opts.callback ) {
+							opts.callback();
+						}
 					}
 				}
 			},
