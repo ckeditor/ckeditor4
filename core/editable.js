@@ -272,7 +272,7 @@
 			 * @param {String} data The HTML to be inserted.
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
 			 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
-			 * instead of into the selection. The selection will be moved to the end of the range anyway.
+			 * instead of into the selection. The selection will be placed at the end of insertion (like in the normal case).
 			 * Introduced in CKEditor 4.5.
 			 */
 			insertHtml: function( data, mode, range ) {
@@ -660,8 +660,9 @@
 			 *
 			 * @since 4.5
 			 * @param {CKEDITOR.dom.range} range
-			 * @param {Boolean} [removeEmptyBlock=false] @see CKEDITOR.editor#extractSelectedHtml
-			 * @returns {CKEDITOR.dom.documentFragment}
+			 * @param {Boolean} [removeEmptyBlock=false] See {@link CKEDITOR.editor#extractSelectedHtml}'s parameter.
+			 * Note that the range will not be modified if this parameter is set to `true`.
+			 * @returns {CKEDITOR.dom.documentFragment} The extracted fragment of the editable contents.
 			 */
 			extractHtmlFromRange: function( range, removeEmptyBlock ) {
 				var helpers = extractHtmlFromRangeHelpers,
