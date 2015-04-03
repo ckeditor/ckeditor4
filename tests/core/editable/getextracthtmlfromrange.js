@@ -54,6 +54,7 @@
 				// CKEDITOR.dom.element.createFromHtml( '<dd contenteditable="true" style="outline: 1px dashed orange; font-family: monospace">' + decodeBoguses( tc[ 0 ] ) + '</dd>' ).appendTo( playground );
 				// </DEV>
 
+				// getHtmlFromRange does not accept removeEmptyBlock param, so don't test it in such case.
 				if ( !removeEmptyBlock ) {
 					testsGet[ 'test getHtmlFromRange: ' + name ] = assertGetHtmlFromRange( editor, tc[ 0 ], tc[ 1 ] );
 				}
@@ -96,7 +97,7 @@
 
 			if ( removeEmptyBlock ) {
 				// If we remove empty ranges we do not care about selection.
-				assert.areSame( htmlWithSelection, bender.tools.fixHtml( editable.getHtml() ), 'HTML of editable, once extracted' );
+				assert.isInnerHtmlMatching( htmlWithSelection, editable.getHtml(), 'HTML of editable, once extracted' );
 			} else {
 				assert.isInnerHtmlMatching( htmlWithSelection, getWithHtml( editable, range ), compareInnerHtmlOptions, 'HTML of editable, once extracted' );
 			}
@@ -349,6 +350,7 @@
 		]
 	}, 'header' );
 
+	// With removeEmptyBlock = true.
 	addTests( {
 		'block': [
 			[ '<p>a</p>[<p>b</p>]<p>c</p>',											'<p>b</p>',														'<p>a</p><p>c</p>' ],
