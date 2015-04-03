@@ -99,5 +99,11 @@ bender.test( {
 
 		// If removeEmptyBlock is set we do not care about the selection.
 		assert.isInnerHtmlMatching( '<p>bar@</p>', editor.editable().getHtml(), 'contents of the editor' );
+	},
+
+	'test extractSelectedHtml returns null if editor is blured': function() {
+		bender.editorBot.create( { name: 'nofocus' }, function( bot ) {
+			assert.areSame( null, bot.editor.extractSelectedHtml() );
+		} );
 	}
 } );
