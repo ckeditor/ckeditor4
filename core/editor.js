@@ -1152,7 +1152,9 @@
 			var range = ranges[ 0 ],
 				docFragment = editable.extractHtmlFromRange( range, removeEmptyBlock );
 
-			this.getSelection().selectRanges( [ range ] );
+			if ( !removeEmptyBlock ) {
+				this.getSelection().selectRanges( [ range ] );
+			}
 
 			return toString ? docFragment.getHtml() : docFragment;
 		},
