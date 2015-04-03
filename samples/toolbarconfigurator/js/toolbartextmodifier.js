@@ -511,9 +511,8 @@
 		try {
 			var config = {};
 			( function() {
-				var CKEDITOR = {};
+				var CKEDITOR = Function( 'var CKEDITOR = {}; ' + val + '; return CKEDITOR;' )();
 
-				eval( val );
 				CKEDITOR.editorConfig( config );
 				parsed = config;
 			} )();
