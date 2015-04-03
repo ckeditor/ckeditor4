@@ -3098,9 +3098,13 @@
 		// from DOM and placed at range determined by the line (location).
 		listeners.push( editor.document.once( 'mouseup', onMouseUp, this ) );
 
-		// Mouseup may occur when user hovers the line, which belongs to
-		// the outer document. This is, of course, a valid listener too.
-		listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
+		// Prevent calling 'onBlockWidgetDrop' twice in the inline editor.
+		// `removeListener` does not work if it is called at the same time event is fired.
+		if ( !editable.isInline() ) {
+			// Mouseup may occur when user hovers the line, which belongs to
+			// the outer document. This is, of course, a valid listener too.
+			listeners.push( CKEDITOR.document.once( 'mouseup', onMouseUp, this ) );
+		}
 	}
 
 	function onBlockWidgetDrop( sorted, dragTarget ) {
