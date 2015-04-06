@@ -236,7 +236,7 @@
 		 * @returns {Boolean} `true` if all loaders finished their job, `false` otherwise.
 		 */
 		isFinished: function() {
-			for ( var id in this.loaders ) {
+			for ( var id = 0; id < this.loaders.length; ++id ) {
 				if ( !this.loaders[ id ].isFinished() ) {
 					return false;
 				}
