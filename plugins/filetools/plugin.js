@@ -204,15 +204,13 @@
 	function UploadsRepository( editor ) {
 		this.editor = editor;
 
-		this._ = {
-			loaders: []
-		};
+		this.loaders = [];
 	}
 
 	UploadsRepository.prototype = {
 		/**
 		 * Creates a {@link CKEDITOR.fileTools.fileLoader file loader} instance with a unique id.
-		 * The instance can be later retrieved from the repository using the {@link #get} method.
+		 * The instance can be later retrieved from the repository using the {@link #loaders} array.
 		 *
 		 * Fires {@link CKEDITOR.fileTools.uploadsRepository#instanceCreated instanceCreated} event.
 		 *
@@ -221,11 +219,11 @@
 		 * @returns {CKEDITOR.fileTools.fileLoader} The created file loader instance.
 		 */
 		create: function( fileOrData, fileName ) {
-			var id = this._.loaders.length,
+			var id = this.loaders.length,
 				loader = new FileLoader( this.editor, fileOrData, fileName );
 
 			loader.id = id;
-			this._.loaders[ id ] = loader;
+			this.loaders[ id ] = loader;
 
 			this.fire( 'instanceCreated', loader );
 
@@ -233,14 +231,27 @@
 		},
 
 		/**
-		 * Gets a {@link CKEDITOR.fileTools.fileLoader file loader} instance with a given id.
+		 * Returns `true` if all loaders finished their job.
 		 *
-		 * @param {Number} id File loader id.
-		 * @returns {CKEDITOR.fileTools.fileLoader} File loader instance with a given id.
+		 * @returns {Boolean} `true` if all loaders finished their job, `false` otherwise.
 		 */
-		get: function( id ) {
-			return this._.loaders[ id ];
+		isFinished: function() {
+			for ( var id = 0; id < this.loaders.length; ++id ) {
+				if ( !this.loaders[ id ].isFinished() ) {
+					return false;
+				}
+			}
+
+			return true;
 		}
+
+		/**
+		 * Array of loaders created by the {@link #create} method. Loaders' {@link CKEDITOR.fileTools.fileLoader#id ids}
+		 * are indexes.
+		 *
+		 * @readonly
+		 * @property {CKEDITOR.fileTools.fileLoader[]} loaders
+		 */
 
 		/**
 		 * Event fired when {@link CKEDITOR.fileTools.fileLoader FileLoader} is created.
@@ -661,6 +672,16 @@
 		 */
 		update: function() {
 			this.fire( 'update' );
+		},
+
+		/**
+		 * Returns `true` if the loading and uploading finished (successfully or not), so the {@link #status} is
+		 * `loaded`, `uploaded`, `error` or `abort`.
+		 *
+		 * @returns {Boolean} `true` if the loading and uploading finished.
+		 */
+		isFinished: function() {
+			return !!this.status.match( /^(?:loaded|uploaded|error|abort)$/ );
 		}
 
 		/**

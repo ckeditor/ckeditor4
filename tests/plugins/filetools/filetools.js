@@ -21,6 +21,9 @@
 			getUploadUrl = CKEDITOR.fileTools.getUploadUrl;
 			isTypeSupported = CKEDITOR.fileTools.isTypeSupported;
 			getExtention = CKEDITOR.fileTools.getExtention;
+
+			// Reset uploadsRepository.
+			this.editor.uploadsRepository.loaders = [];
 		},
 
 		'test getUploadUrl 1': function() {
@@ -110,27 +113,27 @@
 		'test UploadsRepository': function() {
 			var repository = this.editor.uploadsRepository;
 
-			assert.areSame( 0, repository._.loaders.length );
-			assert.isUndefined( repository.get( 0 ) );
+			assert.areSame( 0, repository.loaders.length );
+			assert.isUndefined( repository.loaders[ 0 ] );
 
 			var loader1 = repository.create( { name: 'name1' } );
 
 			assert.areSame( 0, loader1.id );
 			assert.areSame( 'name1', loader1.fileName );
 
-			assert.areSame( 1, repository._.loaders.length );
-			assert.areSame( 'name1', repository.get( 0 ).fileName );
-			assert.isUndefined( repository.get( 1 ) );
+			assert.areSame( 1, repository.loaders.length );
+			assert.areSame( 'name1', repository.loaders[ 0 ].fileName );
+			assert.isUndefined( repository.loaders[ 1 ] );
 
 			var loader2 = repository.create( { name: 'name2' } );
 
 			assert.areSame( 1, loader2.id );
 			assert.areSame( 'name2', loader2.fileName );
 
-			assert.areSame( 2, repository._.loaders.length );
-			assert.areSame( 'name1', repository.get( 0 ).fileName );
-			assert.areSame( 'name2', repository.get( 1 ).fileName );
-			assert.isUndefined( repository.get( 2 ) );
+			assert.areSame( 2, repository.loaders.length );
+			assert.areSame( 'name1', repository.loaders[ 0 ].fileName );
+			assert.areSame( 'name2', repository.loaders[ 1 ].fileName );
+			assert.isUndefined( repository.loaders[ 2 ] );
 		},
 
 
@@ -144,6 +147,29 @@
 
 			assert.isTrue( listener.calledOnce, 'Should be called once.' );
 			assert.areSame( loader, listener.firstCall.args[ 0 ].data, 'Should be called with loader.' );
+		},
+
+		'test UploadsRepository isFinished': function() {
+			var repository = this.editor.uploadsRepository;
+
+
+			repository.create( { name: 'foo1' } );
+			repository.create( { name: 'foo2' } );
+			repository.create( { name: 'foo3' } );
+
+			assert.isFalse( repository.isFinished(), '0/3' );
+
+			sinon.stub( repository.loaders[ 0 ], 'isFinished' ).returns( true );
+
+			assert.isFalse( repository.isFinished(), '1/3' );
+
+			sinon.stub( repository.loaders[ 2 ], 'isFinished' ).returns( true );
+
+			assert.isFalse( repository.isFinished(), '2/3' );
+
+			sinon.stub( repository.loaders[ 1 ], 'isFinished' ).returns( true );
+
+			assert.isTrue( repository.isFinished(), '3/3' );
 		}
 	} );
 } )();
