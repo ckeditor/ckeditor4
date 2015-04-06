@@ -246,11 +246,11 @@
 		}
 
 		/**
-		 * Map of the loaders created by the {@link #create create} method. Loaders {@link CKEDITOR.fileTools.fileLoader#id id}
-		 * is key, {@link CKEDITOR.fileTools.fileLoader loader instance} is a value.
+		 * Array of loaders created by the {@link #create} method. Loaders' {@link CKEDITOR.fileTools.fileLoader#id ids}
+		 * are indexes.
 		 *
 		 * @readonly
-		 * @property {String} loaders
+		 * @property {CKEDITOR.fileTools.fileLoader[]} loaders
 		 */
 
 		/**
@@ -681,7 +681,7 @@
 		 * @returns {Boolean} `true` if the loading and uploading finished.
 		 */
 		isFinished: function() {
-			return this.status == 'loaded' || this.status == 'uploaded' || this.status == 'error' || this.status == 'abort';
+			return !!this.status.match( /^(?:loaded|uploaded|error|abort)$/ );
 		}
 
 		/**
