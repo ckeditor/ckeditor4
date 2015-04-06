@@ -643,17 +643,6 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			if ( tabIndex === 0 && !CKEDITOR.dtd.$tabIndex[ this.getName() ] && parseInt( this.getAttribute( 'tabindex' ), 10 ) !== 0 )
 				return -1;
 
-			if ( tabIndex === undefined ) {
-				tabIndex = parseInt( this.getAttribute( 'tabindex' ), 10 );
-
-				// If the element don't have the tabindex attribute,
-				// then we should return -1.
-				if ( isNaN( tabIndex ) )
-					tabIndex = -1;
-
-				return tabIndex;
-			}
-
 			return tabIndex;
 		},
 
