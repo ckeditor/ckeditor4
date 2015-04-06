@@ -1627,18 +1627,7 @@
 	var sizePrefixes = [ 'top', 'left', 'right', 'bottom' ];
 
 	function getSize( that, element, ignoreScroll, force ) {
-		var getStyle = ( function() {
-				// Better "cache and reuse" than "call again and again".
-				var computed = env.ie ? element.$.currentStyle : that.win.$.getComputedStyle( element.$, '' );
-
-				return env.ie ?
-					function( propertyName ) {
-						return computed[ CKEDITOR.tools.cssStyleToDomStyle( propertyName ) ];
-					} : function( propertyName ) {
-						return computed.getPropertyValue( propertyName );
-					};
-			} )(),
-			docPosition = element.getDocumentPosition(),
+		var docPosition = element.getDocumentPosition(),
 			border = {},
 			margin = {},
 			padding = {},
@@ -1677,6 +1666,10 @@
 			margin: margin,
 			ignoreScroll: ignoreScroll
 		}, box, true );
+
+		function getStyle( propertyName ) {
+			return element.getComputedStyle.call( element, propertyName );
+		}
 	}
 
 	function updateSize( that, element, ignoreScroll ) {

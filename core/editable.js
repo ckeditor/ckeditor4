@@ -1378,7 +1378,13 @@
 
 	function isNotBubbling( fn, src ) {
 		return function( evt ) {
-			var other = CKEDITOR.dom.element.get( evt.data.$.toElement || evt.data.$.fromElement || evt.data.$.relatedTarget );
+			var other = evt.data.$.toElement || evt.data.$.fromElement || evt.data.$.relatedTarget;
+
+			// First of all, other may simply be null/undefined.
+			// Second of all, at least early versions of Spartan returned empty objects from evt.relatedTarget,
+			// so let's also check the node type.
+			other = ( other && other.nodeType == CKEDITOR.NODE_ELEMENT ) ? new CKEDITOR.dom.element( other ) : null;
+
 			if ( !( other && ( src.equals( other ) || src.contains( other ) ) ) )
 				fn.call( this, evt );
 		};

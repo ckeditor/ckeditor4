@@ -344,7 +344,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @param {CKEDITOR.dom.node} node
 		 * @returns {Boolean}
 		 */
-		contains: CKEDITOR.env.ie || CKEDITOR.env.webkit ?
+		contains: !document.compareDocumentPosition ?
 			function( node ) {
 				var $ = this.$;
 
@@ -590,14 +590,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @param {String} propertyName The style property name.
 		 * @returns {String} The property value.
 		 */
-		getComputedStyle: CKEDITOR.env.ie ?
-			function( propertyName ) {
-				return this.$.currentStyle[ CKEDITOR.tools.cssStyleToDomStyle( propertyName ) ];
-			} : function( propertyName ) {
-				var style = this.getWindow().$.getComputedStyle( this.$, null );
-				// Firefox may return null if we call the above on a hidden iframe. (#9117)
-				return style ? style.getPropertyValue( propertyName ) : '';
-			},
+		getComputedStyle: ( document.defaultView && document.defaultView.getComputedStyle ) ?
+				function( propertyName ) {
+					var style = this.getWindow().$.getComputedStyle( this.$, null );
+
+					// Firefox may return null if we call the above on a hidden iframe. (#9117)
+					return style ? style.getPropertyValue( propertyName ) : '';
+				} : function( propertyName ) {
+					return this.$.currentStyle[ CKEDITOR.tools.cssStyleToDomStyle( propertyName ) ];
+				},
 
 		/**
 		 * Gets the DTD entries for this element.
@@ -632,39 +633,18 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @method
 		 * @returns {Number} The tabindex value.
 		 */
-		getTabIndex: CKEDITOR.env.ie ?
-			function() {
-				var tabIndex = this.$.tabIndex;
+		getTabIndex: function() {
+			var tabIndex = this.$.tabIndex;
 
-				// IE returns tabIndex=0 by default for all elements. In
-				// those cases we must check that the element really has
-				// the tabindex attribute set to zero, or it is one of
-				// those element that should have zero by default.
-				if ( tabIndex === 0 && !CKEDITOR.dtd.$tabIndex[ this.getName() ] && parseInt( this.getAttribute( 'tabindex' ), 10 ) !== 0 )
-					tabIndex = -1;
+			// IE returns tabIndex=0 by default for all elements. In
+			// those cases we must check that the element really has
+			// the tabindex attribute set to zero, or it is one of
+			// those element that should have zero by default.
+			if ( tabIndex === 0 && !CKEDITOR.dtd.$tabIndex[ this.getName() ] && parseInt( this.getAttribute( 'tabindex' ), 10 ) !== 0 )
+				return -1;
 
-				return tabIndex;
-			} : CKEDITOR.env.webkit ?
-			function() {
-				var tabIndex = this.$.tabIndex;
-
-				// Safari returns "undefined" for elements that should not
-				// have tabindex (like a div). So, we must try to get it
-				// from the attribute.
-				// https://bugs.webkit.org/show_bug.cgi?id=20596
-				if ( tabIndex === undefined ) {
-					tabIndex = parseInt( this.getAttribute( 'tabindex' ), 10 );
-
-					// If the element don't have the tabindex attribute,
-					// then we should return -1.
-					if ( isNaN( tabIndex ) )
-						tabIndex = -1;
-				}
-
-				return tabIndex;
-			} : function() {
-				return this.$.tabIndex;
-			},
+			return tabIndex;
+		},
 
 		/**
 		 * Gets the text value of this element.
@@ -1452,7 +1432,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						scrollRelativeTop;
 
 					// See #12758 to know more about document.(documentElement|body).scroll(Left|Top) in Webkit.
-					if ( CKEDITOR.env.webkit ) {
+					if ( CKEDITOR.env.webkit || ( CKEDITOR.env.ie && CKEDITOR.env.version >= 12 ) ) {
 						scrollRelativeLeft = body.$.scrollLeft || $docElem.scrollLeft;
 						scrollRelativeTop = body.$.scrollTop || $docElem.scrollTop;
 					} else {
