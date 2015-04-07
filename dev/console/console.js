@@ -239,16 +239,16 @@ var CKCONSOLE = ( function() {
  *
  * or (with observed types):
  *
- * CKCONSOLE.addEventPanel( 'drop', [ 'nativeEvent', 'target' ] );
+ * CKCONSOLE.addEventPanel( 'drop', [ '$', 'target' ] );
  * CKCONSOLE.create( 'drop', { editor: 'inline' } );
  *
  * or (with observed types mapping):
  *
  * CKCONSOLE.addEventPanel( 'drop',
- * 		[ 'nativeEvent', 'target' ],
+ * 		[ '$', 'target' ],
  * 		function( evt ) {
  * 			return {
- * 				'nativeEvent': evt.data.nativeEvent,
+ * 				'$': evt.data.$,
  * 				'target': evt.data.target
  * 			};
  * 		}

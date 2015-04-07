@@ -1451,7 +1451,7 @@
 			// Fire drag/drop events (dragstart, dragend, drop).
 			function fireDragEvent( evt, dragRange, dropRange ) {
 				var eventData = {
-						nativeEvent: evt.data.$,
+						$: evt.data.$,
 						target: evt.data.getTarget()
 					};
 
@@ -1787,7 +1787,7 @@
 			// Create a new dataTransfer object based on the drop event.
 			// If this event was used on dragstart to create dataTransfer
 			// both dataTransfer objects will have the same id.
-			var nativeDataTransfer = evt.data.nativeEvent ? evt.data.nativeEvent.dataTransfer : null,
+			var nativeDataTransfer = evt.data.$ ? evt.data.$.dataTransfer : null,
 				dataTransfer = new this.dataTransfer( nativeDataTransfer, sourceEditor );
 
 			if ( !nativeDataTransfer ) {
@@ -2353,7 +2353,7 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {Object} data.nativeEvent Native drop event.
+ * @param {Object} data.$ Native drop event.
  * @param {CKEDITOR.dom.node} data.target Drop target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
  * @param {CKEDITOR.dom.range} data.dragRange Drag range, let you manipulate with drag range.
@@ -2373,7 +2373,7 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {Object} data.nativeEvent Native dragstart event.
+ * @param {Object} data.$ Native dragstart event.
  * @param {CKEDITOR.dom.node} data.target Drag target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
  */
@@ -2389,7 +2389,7 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {Object} data.nativeEvent Native dragend event.
+ * @param {Object} data.$ Native dragend event.
  * @param {CKEDITOR.dom.node} data.target Drag target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
  */

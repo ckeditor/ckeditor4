@@ -26,7 +26,7 @@ function drag( editor, evt ) {
 		dragEventCounter++;
 
 		assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dragEvt.data.dataTransfer );
-		assert.areSame( evt.$, dragEvt.data.nativeEvent );
+		assert.areSame( evt.$, dragEvt.data.$ );
 		assert.areSame( 'targetMock', dragEvt.data.target.$ );
 	} );
 
@@ -64,7 +64,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			values.dropRangeStartContainerMatch = config.element == dropEvt.data.dropRange.startContainer;
 			values.dropRangeStartOffsetMatch = config.offset == dropEvt.data.dropRange.startOffset;
 		}
-		values.dropNativeEventMatch = evt.$ == dropEvt.data.nativeEvent;
+		values.dropNativeEventMatch = evt.$ == dropEvt.data.$;
 		values.dropTarget = dropEvt.data.target.$;
 
 		if ( onDrop ) {
@@ -720,7 +720,7 @@ var testsForMultipleEditor = {
 				dragendCount++;
 
 				assert.areSame( 'foo', dragendEvt.data.dataTransfer.getData( 'Text' ), 'cke/custom' );
-				assert.areSame( evt.data.$, dragendEvt.data.nativeEvent, 'nativeEvent' );
+				assert.areSame( evt.data.$, dragendEvt.data.$, 'nativeEvent' );
 				assert.areSame( 'targetMock', dragendEvt.data.target.$, 'target' );
 			} );
 

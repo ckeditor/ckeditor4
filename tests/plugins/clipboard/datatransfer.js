@@ -648,9 +648,9 @@ bender.test( {
 	'test initDragDataTransfer binding': function() {
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			evt1a = { data: { nativeEvent: { dataTransfer: nativeData1 } } },
-			evt1b = { data: { nativeEvent: { dataTransfer: nativeData1 } } },
-			evt2 = { data: { nativeEvent: { dataTransfer: nativeData2 } } };
+			evt1a = { data: { $: { dataTransfer: nativeData1 } } },
+			evt1b = { data: { $: { dataTransfer: nativeData1 } } },
+			evt2 = { data: { $: { dataTransfer: nativeData2 } } };
 
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1a );
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1b );
@@ -688,7 +688,7 @@ bender.test( {
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			evt = { data: { nativeEvent: { dataTransfer: nativeData } } };
+			evt = { data: { $: { dataTransfer: nativeData } } };
 
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt, editor );
 
