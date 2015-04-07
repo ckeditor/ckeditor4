@@ -174,7 +174,7 @@
 						evt.cancel();
 					} else {
 						data.fileName = response.fileName;
-						data.url = encodeURI( response.url );
+						data.url = response.url;
 					}
 				} catch ( err ) {
 					// Response parsing error.
