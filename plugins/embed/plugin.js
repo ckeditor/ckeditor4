@@ -52,3 +52,19 @@
 	} );
 
 } )();
+
+/**
+ * A template for URL to the provider endpoint. This URL will be queried for each resource to be embedded.
+ * By default CKEditor uses [Iframely](https://iframely.com/) service.
+ *
+ * The template might use the following parameters:
+ *
+ *	* `url` - The URL of requested media, e.g. `https://twitter.com/ckeditor/status/401373919157821441`.
+ *	* `callback` - A name of globally available callback, used for JSONP requests.
+ *
+ * You can read more about content providers in {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl}.
+ *
+ * @since 4.5.0
+ * @cfg {String} [embed_provider=//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}]
+ * @member CKEDITOR.config
+ */

@@ -78,15 +78,28 @@
 			 *
 			 * See:
 			 *
-			 * * [https://iframely.com/docs/providers](https://iframely.com/docs/providers)
-			 * * {@link #isUrlValid}
+			 * * [https://iframely.com/docs/providers],
+			 * * {@link #isUrlValid}.
 			 */
 			urlRegExp: /^((https?:)?\/\/|www\.)/i,
 
 			/**
-			 * The template used to generate URL to the content provider.
+			 * The template used to generate URL to the content provider. Content provider is a service
+			 * which the embed widget will request in order to get an [oEmbed](http://www.oembed.com/) response that
+			 * can be transformed into a content which can be embedded in the editor.
 			 *
-			 * This property must be defined after creating embed widget base definition.
+			 * Example content providers are:
+			 *
+			 * * [Iframely](https://iframely.com/),
+			 * * [Noembed](https://noembed.com/).
+			 *
+			 * Both, Iframely and Noembed are **proxy** services which support **JSONP requests**, hence they are not limited by the
+			 * Same-origin policy. Unfortunately, usually oEmbed services exposed by real content providers
+			 * like YouTube or Twitter do not support XHR with CORS or do not support oEmbed at all what makes it
+			 * impossible or hard to get content to be embedded in the editor. This problem is solved by proxy content providers
+			 * like Iframely and Noembed.
+			 *
+			 * This property must be defined after creating an embed widget base definition.
 			 *
 			 * By default two values are passed to the template:
 			 *
