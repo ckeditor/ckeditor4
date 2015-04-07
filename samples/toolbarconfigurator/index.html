@@ -294,12 +294,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		modeSwitchBasic.on( 'click', toggleModeBasic );
 		modeSwitchAdvanced.on( 'click', toggleModeAdvanced );
 
-		CKEDITOR.document.getWindow().on( 'scroll', function( e ) {
-			var max = fixer.toBeFixed.length;
-			for ( var i = 0; i < max; i++ ) {
-				var current = fixer.toBeFixed[ i ];
-
-				fixer.tryToFix( current );
+		CKEDITOR.document.getWindow().on( 'scroll', function() {
+			for ( var i = 0; i < fixer.toBeFixed.length; i++ ) {
+				fixer.tryToFix( fixer.toBeFixed[ i ] );
 			}
 		} );
 
@@ -346,20 +343,20 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 			} else {
 				// Fixing.
-				var placeholder = element.placeholder;
 				placeholder.setStyle( 'width', element.element.getSize( 'width' ) + 'px' );
 				placeholder.setStyle( 'height', element.element.getSize( 'height' ) + 'px' );
 
 				var width = element.element.getSize( 'width' ),
 					height = element.element.getSize( 'height' );
 
-				// Workaround: Decrement width by one to keep the same visual width.
-				element.element.setStyle( 'width', ( width - 1 ) + 'px' );
-				element.element.setStyle( 'height', height + 'px' );
-
-				element.element.setStyle( 'position', 'fixed' );
-				element.element.setStyle( 'top', '0' );
-				element.element.setStyle( 'z-index', '1000' );
+				element.element.setStyles( {
+					// Workaround: Decrement width by one to keep the same visual width.
+					width: ( width - 1 ) + 'px',
+					height: height + 'px',
+					position: 'fixed',
+					top: '0',
+					'z-index': '1000'
+				} );
 
 				placeholder.insertAfter( element.element );
 			}
