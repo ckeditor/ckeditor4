@@ -294,11 +294,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		modeSwitchBasic.on( 'click', toggleModeBasic );
 		modeSwitchAdvanced.on( 'click', toggleModeAdvanced );
 
-		CKEDITOR.document.getWindow().on( 'scroll', function() {
+		CKEDITOR.document.getWindow().on( 'scroll', new CKEDITOR.tools.eventsBuffer( 100, function() {
 			for ( var i = 0; i < fixer.toBeFixed.length; i++ ) {
 				fixer.tryToFix( fixer.toBeFixed[ i ] );
 			}
-		} );
+		} ).input );
 
 		var fixer = {};
 
