@@ -155,7 +155,7 @@ bender.test( {
 					return true;
 				},
 
-				getErrorMessage: function( msg, suffix ) {
+				getErrorMessage: function( msg, url, suffix ) {
 					return msg + '-' + suffix;
 				},
 

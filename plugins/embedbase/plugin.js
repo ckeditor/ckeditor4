@@ -155,7 +155,7 @@
 			 *			},
 			 *
 			 *			errorCallback: function( message ) {
-			 *				editor.showNotification( widget.getErrorMessage( message, '', url ), 'warning' );
+			 *				editor.showNotification( widget.getErrorMessage( message, url ), 'warning' );
 			 *			}
 			 *		} );
 			 *
@@ -254,27 +254,27 @@
 			 * If you need to display your own error:
 			 *
 			 *		editor.showNotification(
-			 *			widget.getErrorMessage( '{url} cannot be embedded. Only rich type is supported.', '', wrongUrl )
+			 *			widget.getErrorMessage( '{url} cannot be embedded. Only rich type is supported.', wrongUrl )
 			 *		);
 			 *
 			 * Or with a message type:
 			 *
 			 *		editor.showNotification(
-			 *			widget.getErrorMessage( 'unsupportedUrl', '', wrongUrl )
+			 *			widget.getErrorMessage( 'unsupportedUrl', wrongUrl )
 			 *		);
 			 *
 			 * @param {String} messageTypeOrMessage
-			 * @param {String} [suffix]
 			 * @param {String} [url]
+			 * @param {String} [suffix]
 			 * @returns {String}
 			 */
-			getErrorMessage: function( messageTypeOrMessage, suffix, url ) {
+			getErrorMessage: function( messageTypeOrMessage, url, suffix ) {
 				var message = editor.lang.embedbase[ messageTypeOrMessage + ( suffix || '' ) ];
 				if ( !message ) {
 					message = messageTypeOrMessage;
 				}
 
-				return new CKEDITOR.template( message ).output( { url: url } );
+				return new CKEDITOR.template( message ).output( { url: url || '' } );
 			},
 
 			/**
@@ -342,7 +342,7 @@
 				if ( request.task ) {
 					request.task.cancel();
 
-					editor.showNotification( this.getErrorMessage( messageTypeOrMessage, '', request.url ), 'warning' );
+					editor.showNotification( this.getErrorMessage( messageTypeOrMessage, request.url ), 'warning' );
 				}
 			},
 

@@ -29,7 +29,9 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 				// We don't want the widget system to finalize widget insertion (it happens with priority 20).
 				evt.stop();
 
-				that.widget.loadContent( that.getValueOf( 'info', 'url' ), {
+				var url = that.getValueOf( 'info', 'url' );
+
+				that.widget.loadContent( url, {
 					noNotifications: true,
 
 					callback: function() {
@@ -49,7 +51,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 						// We need to enable the OK button so user can fix the URL.
 						okButton.enable();
 
-						alert( that.widget.getErrorMessage( messageTypeOrMessage, 'Given' ) );
+						alert( that.widget.getErrorMessage( messageTypeOrMessage, url, 'Given' ) );
 					}
 				} );
 			}, null, null, 15 );

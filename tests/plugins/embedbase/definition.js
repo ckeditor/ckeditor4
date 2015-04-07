@@ -180,8 +180,8 @@ bender.test( {
 	'test getErrorMessage - with custom message': function() {
 		var def = createDef( this.editors.inline );
 
-		assert.areSame( 'foo //bar.bom', def.getErrorMessage( 'foo {url}', '', '//bar.bom' ) );
-		assert.areSame( 'foo //bar.bom2', def.getErrorMessage( 'foo {url}', 'ignore me', '//bar.bom2' ) );
+		assert.areSame( 'foo //bar.bom', def.getErrorMessage( 'foo {url}', '//bar.bom' ) );
+		assert.areSame( 'foo //bar.bom2', def.getErrorMessage( 'foo {url}', '//bar.bom2', 'ignore me' ) );
 		assert.areSame( 'foo', def.getErrorMessage( 'foo' ) );
 	},
 
@@ -194,9 +194,9 @@ bender.test( {
 		lang.getErrorMessageSuff = 'bom {url}';
 
 		assert.areSame( 'foo', def.getErrorMessage( 'getErrorMessage' ) );
-		assert.areSame( 'foo', def.getErrorMessage( 'getErrorMessage', '', '//foo.foo' ) );
-		assert.areSame( 'bar //bar.bom', def.getErrorMessage( 'getErrorMessage2', '', '//bar.bom' ) );
-		assert.areSame( 'bom //bar.bom', def.getErrorMessage( 'getErrorMessage', 'Suff', '//bar.bom' ) );
+		assert.areSame( 'foo', def.getErrorMessage( 'getErrorMessage', '//foo.foo' ) );
+		assert.areSame( 'bar //bar.bom', def.getErrorMessage( 'getErrorMessage2', '//bar.bom' ) );
+		assert.areSame( 'bom //bar.bom', def.getErrorMessage( 'getErrorMessage', '//bar.bom', 'Suff' ) );
 	},
 
 	'test def.loadContent fires sendRequest event': function() {
