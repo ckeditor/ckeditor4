@@ -427,9 +427,26 @@
 
 		/**
 		 * Fired by the {@link #loadContent} method to dispatch a request to the provider.
-		 * The {@link #_sendRequest} method is added as a late-listener (with priority `999`)
-		 * and sends the request using JSONP technique. You can cancel this event and
-		 * send request using a different technique.
+		 * You can cancel this event and send request using a different technique.
+		 * By default, if the event is not stopped or canceled a request will be send
+		 * using the JSONP technique.
+		 *
+		 *		widget.on( 'sendRequest', function( evt ) {
+		 *			var request = evt.data;
+		 *
+		 *			// Send request using a technique of your choice (XHR with CORS for instance).
+		 *			myApp.requestOembedProvider( request.url, function( err, response ) {
+		 *				if ( err ) {
+		 *					request.errorCallback( err );
+		 *				} else {
+		 *					request.callback( response );
+		 *				}
+		 *			} );
+		 *
+		 *			// Do not call other listeners, so the default behavior (JSONP request)
+		 *			// will not be executed.
+		 *			evt.stop();
+		 *		} );
 		 *
 		 * @event sendRequest
 		 * @param {CKEDITOR.plugins.embedBase.request} data
