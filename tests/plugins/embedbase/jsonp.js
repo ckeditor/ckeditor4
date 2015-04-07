@@ -33,6 +33,8 @@ bender.test( {
 
 		assert.areSame(
 			-1,
+			// Match only the beginning of the src, so if anything is appended to it by the sendRequest() method
+			// the check will still work.
 			CKEDITOR.document.getBody().getHtml().indexOf( 'src="' + url ),
 			'script was removed'
 		);
