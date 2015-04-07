@@ -119,6 +119,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	font-size: 12px;
 	line-height: 18px;
 	z-index: 4;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .cke_notification_close

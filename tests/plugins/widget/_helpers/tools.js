@@ -6,7 +6,6 @@ var widgetTestsTools = ( function() {
 	//
 	// @param config
 	// @param config.name
-	// @param config.startupData
 	// @param config.widgetName
 	// @param [config.editorConfig]
 	// @param [config.extraPlugins]
@@ -18,7 +17,7 @@ var widgetTestsTools = ( function() {
 	// @param [config.assertWidgets]
 	//
 	// @param config.newData
-	// @param config.createdWidgetPattern
+	// @param config.newWidgetPattern
 	function addTests( tcs, config ) {
 		var editor,
 			editorBot,
