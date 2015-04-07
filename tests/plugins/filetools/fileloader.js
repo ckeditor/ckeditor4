@@ -304,6 +304,30 @@
 			wait();
 		},
 
+		'test upload response not encoded (#13030)': function() {
+			var loader = new FileLoader( editorMock, pngBase64, 'na me.png' ),
+				observer = observeEvents( loader );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ], {
+				responseText: '{"fileName":"na me2.png","uploaded":1,"url":"http:\/\/url\/na me2.png"}'
+			} );
+
+			resumeAfter( loader, 'uploaded', function() {
+				observer.assert( [
+					'uploading[uploading,na me.png,0/82/82,-,data:image/png;base64,-]',
+					'update[uploading,na me.png,0/82/82,-,data:image/png;base64,-]',
+					'update[uploading,na me.png,41/82/82,-,data:image/png;base64,-]',
+					'uploaded[uploaded,na me2.png,82/82/82,-,data:image/png;base64,http://url/na me2.png]',
+					'update[uploaded,na me2.png,82/82/82,-,data:image/png;base64,http://url/na me2.png]' ] );
+			}, 3 );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			assert.areSame( 'http:\/\/url\/', loader.uploadUrl );
+
+			wait();
+		},
+
 		'test loadAndUpload': function() {
 			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
