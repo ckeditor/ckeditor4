@@ -43,8 +43,7 @@
 				type: 'auto',
 				// This data will be recognized as pasted from Word.
 				dataValue: '<p>text <strong class="MsoNormal">text</strong></p>',
-				method: 'paste',
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer()
+				method: 'paste'
 			} );
 
 			wait();
@@ -145,8 +144,7 @@
 				type: 'auto',
 				// This data will be recognized as pasted from Word.
 				dataValue: '<p>text <strong class="MsoNormal">text</strong></p>',
-				method: 'paste',
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer()
+				method: 'paste'
 			} );
 
 			wait();

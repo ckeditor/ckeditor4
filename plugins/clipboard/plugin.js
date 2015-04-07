@@ -139,6 +139,11 @@
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			editor.on( 'paste', function( evt ) {
+				// Init `dataTransfer` if `paste` event was fired without it, so it will be always available.
+				if ( !evt.data.dataTransfer ) {
+					evt.data.dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
+				}
+
 				// If dataValue is already set do not override it.
 				if ( evt.data.dataValue ) {
 					return;
@@ -248,9 +253,7 @@
 					trueType,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html',
-					transferType = dataObj.dataTransfer && dataObj.dataTransfer.getTransferType( editor ),
-					// Treat pasting without dataTransfer as external.
-					external = !transferType || ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL );
+					transferType = dataObj.dataTransfer.getTransferType( editor );
 
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
@@ -273,7 +276,7 @@
 					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
 				}
 				// External paste and pasteFilter exists and filtering isn't disabled.
-				else if ( external && editor.pasteFilter && !dataObj.dontFilter ) {
+				else if ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !dataObj.dontFilter ) {
 					data = filterContent( editor, data, editor.pasteFilter );
 				}
 
