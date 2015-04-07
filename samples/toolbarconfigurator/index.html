@@ -147,6 +147,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 <script>
 	( function() {
+		'use strict';
+
 		var mode = ( window.location.hash.substr( 1 ) === 'advanced' ) ? 'advanced' : 'basic',
 			configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container.configurator' ),
 			basicInstruction = CKEDITOR.document.findOne( '#instructions-container > .basic' ),
@@ -293,6 +295,95 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 		modeSwitchBasic.on( 'click', toggleModeBasic );
 		modeSwitchAdvanced.on( 'click', toggleModeAdvanced );
+
+		//
+		// Position:sticky for the toolbar.
+		//
+
+		// Will make elements behave like they were styled with position:sticky.
+		var positionSticky = {
+			// Store object: {
+			// 		element: CKEDITOR.dom.element, // Element which will float.
+			// 		placeholder: CKEDITOR.dom.element, // Placeholder which is place to prevent page bounce.
+			// 		isFixed: boolean // Whether element float now.
+			// }
+			watched: [],
+
+			watch: function( element ) {
+				this.watched.push( {
+					element: element,
+					placeholder: new CKEDITOR.dom.element( 'div' ),
+					isFixed: false
+				} );
+			},
+
+			checkAll: function() {
+				for ( var i = 0; i < this.watched.length; i++ ) {
+					this.check( this.watched[ i ] );
+				}
+			},
+
+			check: function( element ) {
+				var isFixed = element.isFixed;
+				var shouldBeFixed = this.shouldBeFixed( element );
+
+				// Nothing to be done.
+				if ( isFixed === shouldBeFixed ) {
+					return;
+				}
+
+				var placeholder = element.placeholder;
+
+				if ( isFixed ) {
+					// Unfixing.
+					placeholder.remove();
+
+					element.element.removeStyle( 'width' );
+					element.element.removeStyle( 'height' );
+
+					element.element.removeStyle( 'position' );
+					element.element.removeStyle( 'top' );
+					element.element.removeStyle( 'z-index' );
+
+				} else {
+					// Fixing.
+					placeholder.setStyle( 'width', element.element.getSize( 'width' ) + 'px' );
+					placeholder.setStyle( 'height', element.element.getSize( 'height' ) + 'px' );
+
+					var width = element.element.getSize( 'width' ),
+						height = element.element.getSize( 'height' );
+
+					element.element.setStyles( {
+						// Workaround: Decrement width by one to keep the same visual width.
+						width: ( width - 1 ) + 'px',
+						height: height + 'px',
+						position: 'fixed',
+						top: '0',
+						'z-index': '1000'
+					} );
+
+					placeholder.insertAfter( element.element );
+				}
+
+				element.isFixed = !element.isFixed;
+			},
+
+			shouldBeFixed: function( element ) {
+				// If element is already fixed we are checking it's placeholder.
+				var related = ( element.isFixed ? element.placeholder : element.element ),
+					clientRect = related.$.getBoundingClientRect();
+
+				return ( clientRect.top < 0 );
+			}
+		};
+
+		CKEDITOR.document.getWindow().on( 'scroll',
+			new CKEDITOR.tools.eventsBuffer( 100, positionSticky.checkAll, positionSticky ).input
+		);
+
+		// Make the toolbar sticky.
+		positionSticky.watch( CKEDITOR.document.findOne( '.editors-container' ) );
+
 	} )();
 </script>
 </body>
