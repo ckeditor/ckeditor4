@@ -37,6 +37,7 @@ Fixed Issues:
 * [#12874](http://dev.ckeditor.com/ticket/12874): Fixed: Information about aggregated tasks should be somehow accessible in [aggregated#finished](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notificationAggregator-event-finished).
 * [#12503](http://dev.ckeditor.com/ticket/12503): [Blink/Webkit] Fixed: Incorrect result of select all, backspace/delete.
 * [#13001](http://dev.ckeditor.com/ticket/13001): [Firefox] Fixed bug with bogus br in the wrong position.
+* [#13093](http://dev.ckeditor.com/ticket/13093): [Webkit/Blink] Paste From Word's conflict with the paste filter.
 
 Other Changes:
 

@@ -266,11 +266,14 @@
 
 				// Strip presentional markup & unify text markup.
 				// Forced plain text (dialog or forcePAPT).
+				// Note: we do not check dontFilter option in this case, because forcePAPT was implemented
+				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5.0, so
+				// forcePAPT should have priority as it had before 4.5.0.
 				if ( type == 'text' && trueType == 'html' ) {
 					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
 				}
-				// External paste and pasteFilter exists.
-				else if ( external && editor.pasteFilter ) {
+				// External paste and pasteFilter exists and filtering isn't disabled.
+				else if ( external && editor.pasteFilter && !dataObj.dontFilter ) {
 					data = filterContent( editor, data, editor.pasteFilter );
 				}
 
@@ -2292,15 +2295,18 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {String} data.type Type of data in `data.dataValue`. Usually `html` or `text`, but for listeners
- * with priority less than 6 it may be also `auto`, what means that content type hasn't been recognised yet
- * (this will be done by content type sniffer that listens with priority 6).
+ * @param {String} data.type Type of data in `data.dataValue`. Usually `'html'` or `'text'`, but for listeners
+ * with priority less than `6` it may be also `'auto'`, what means that content type hasn't been recognised yet
+ * (this will be done by content type sniffer that listens with priority `6`).
  * @param {String} data.dataValue HTML to be pasted.
- * @param {String} method Indicates the method of the data transfer. It could be drag and drop or copy and paste.
- * Possible values: 'drop', 'paste'.
- * @param {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer Facade for the native dataTransfer object
+ * @param {String} data.method Indicates the method of the data transfer. It could be drag and drop or copy and paste.
+ * Possible values: `'drop'`, `'paste'`. Introduced in CKEditor 4.5.0.
+ * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer Facade for the native dataTransfer object
  * which provide access to the various data types, files and pass some date between linked events
- * (like drag and drop).
+ * (like drag and drop). Introduced in CKEditor 4.5.0.
+ * @param {Boolean} [data.dontFilter=false] Whether the {@link CKEDITOR.editor#pasteFilter paste filter} should not
+ * be applied to data. This option has no effect when `data.type` equals `'text'`, what means that for instance
+ * {@link CKEDITOR.config#forcePasteAsPlainText} has a higher priority. Introduced in CKEditor 4.5.0.
  */
 
 /**

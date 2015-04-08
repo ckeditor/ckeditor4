@@ -4,17 +4,34 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editors = {
+		inline: {
+			creator: 'inline',
+			name: 'inline'
+		},
+
+		indulgent: {
+			name: 'indulgent',
+			config: {
+				pasteFromWordRemoveFontStyles: false,
+				pasteFromWordRemoveStyles: false
+			}
+		}
+	};
 
 	bender.test( {
-		'tearDown': function() {
-			if ( this.editor.showNotification.restore ) {
-				this.editor.showNotification.restore();
+		spies: [],
+
+		tearDown: function() {
+			var spy;
+
+			while ( spy = this.spies.pop() ) {
+				spy.restore();
 			}
 		},
 
 		'test whether default filter is loaded': function() {
-			var editor = this.editor;
+			var editor = this.editors.inline;
 
 			editor.once( 'paste', function( evt ) {
 				resume( function() {
@@ -33,11 +50,44 @@
 			wait();
 		},
 
+		'test whether paste from word disabled the paste filter': function() {
+			var editor = this.editors.indulgent,
+				originalFilter = editor.pasteFilter;
+
+			this.spies.push( {
+				restore: function() {
+					editor.pasteFilter = originalFilter;
+				}
+			} );
+
+			// Plug some custom paste filter so on non Webkit/Blink browsers there is some.
+			editor.pasteFilter = new CKEDITOR.filter( 'p strong' );
+
+			editor.once( 'paste', function( evt ) {
+				resume( function() {
+					assert.isTrue( evt.data.dontFilter, 'data.dontFilter' );
+
+					assert.areSame( '<h1>text</h1><p>text <strong>text</strong></p>',
+						evt.data.dataValue, 'paste filter was not applied' );
+				} );
+			}, null, null, 999 );
+
+			editor.fire( 'paste', {
+				type: 'auto',
+				// This data will be recognized as pasted from Word.
+				dataValue: '<h1>text</h1><p>text <strong class="MsoNormal">text</strong></p>',
+				method: 'paste',
+				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer()
+			} );
+
+			wait();
+		},
+
 		'test paste data structure': function() {
 			if ( CKEDITOR.env.ie )
 				assert.ignore();
 
-			var editor = this.editor,
+			var editor = this.editors.inline,
 				editable = editor.editable();
 
 			CKEDITOR.env.ie && editable.once( 'beforepaste', function( evt ) {
@@ -73,7 +123,7 @@
 		},
 
 		'test showNotification in case of exception': function() {
-			var editor = this.editor;
+			var editor = this.editors.inline;
 
 			editor.once( 'beforeCleanWord', function( evt ) {
 				evt.data.filter.addRules( {
@@ -85,11 +135,11 @@
 				} );
 			} );
 
-			sinon.stub( editor, 'showNotification', function() {
+			this.spies.push( sinon.stub( editor, 'showNotification', function() {
 				resume( function() {
 					assert.isTrue( true );
 				} );
-			} );
+			} ) );
 
 			editor.fire( 'paste', {
 				type: 'auto',
