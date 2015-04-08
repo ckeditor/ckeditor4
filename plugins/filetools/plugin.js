@@ -302,13 +302,13 @@
 	 *				if ( CKEDITOR.fileTools.isTypeSupported( file, /image\/png/ ) ) {
 	 *					var loader = editor.uploadsRepository.create( file );
 	 *
-	 *					loader.on( 'update', function () {
+	 *					loader.on( 'update', function() {
 	 *						document.getElementById( 'uploadProgress' ).innerHTML = loader.status;
 	 *					} );
 	 *
-	 *					loader.on( 'error', function () {
+	 *					loader.on( 'error', function() {
 	 *						alert( 'Error!' );
-	 *				} );
+	 *					} );
 	 *
 	 *					loader.loadAndUpload( 'http://upload.url/' );
 	 *
@@ -317,7 +317,7 @@
 	 *			}
 	 *		} );
 	 *
-	 * Note that `FileLoader` use file API which is support since Internet Explorer 10.
+	 * Note that `FileLoader` uses the native file API which is supported **since Internet Explorer 10**.
 	 *
 	 * @since 4.5
 	 * @class CKEDITOR.fileTools.fileLoader

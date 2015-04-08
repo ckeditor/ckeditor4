@@ -87,54 +87,54 @@
 	 * using {@link CKEDITOR.fileTools#markElement markElement}. For example, instead of `fileToElement` helper from the
 	 * example above, `paste` listener can be created manually:
 	 *
-	 *	editor.on( 'paste', function( evt ) {
-	 *		var file, i, el, loader;
+	 *		editor.on( 'paste', function( evt ) {
+	 *			var file, i, el, loader;
 	 *
-	 *		for ( i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
-	 *			file = evt.data.dataTransfer.getFile( i );
+	 *			for ( i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
+	 *				file = evt.data.dataTransfer.getFile( i );
 	 *
-	 *			if ( CKEDITOR.fileTools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
-	 *				el = new CKEDITOR.dom.element( 'span' ),
-	 *				loader = editor.uploadsRepository.create( file );
+	 *				if ( CKEDITOR.fileTools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
+	 *					el = new CKEDITOR.dom.element( 'span' ),
+	 *					loader = editor.uploadsRepository.create( file );
 	 *
-	 *				el.setText( '...' );
+	 *					el.setText( '...' );
 	 *
-	 *				loader.load();
+	 *					loader.load();
 	 *
-	 *				fileTools.markElement( el, 'filereader', loader.id );
+	 *					CKEDITOR.fileTools.markElement( el, 'filereader', loader.id );
 	 *
-	 *				evt.data.dataValue += el.getOuterHtml();
+	 *					evt.data.dataValue += el.getOuterHtml();
+	 *				}
 	 *			}
-	 *		}
-	 *	} );
+	 *		} );
 	 *
 	 * Note that you can bind notifications to the upload widget on paste using
-	 * {@link CKEDITOR.fileTools.bindNotifications bindNotifications} method, so notifications will automatically
-	 * show the progress of the upload. Because this method show notification about upload do not use it if you only
+	 * the {@link CKEDITOR.fileTools#bindNotifications} method, so notifications will automatically
+	 * show the progress of the upload. Because this method shows notification about upload do not use it if you only
 	 * {@link CKEDITOR.fileTools.fileLoader#load load} (not upload) file.
 	 *
-	 *	editor.on( 'paste', function( evt ) {
-	 *		var file, i, el, loader;
+	 *		editor.on( 'paste', function( evt ) {
+	 *			var file, i, el, loader;
 	 *
-	 *		for ( i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
-	 *			file = evt.data.dataTransfer.getFile( i );
+	 *			for ( i = 0; i < evt.data.dataTransfer.getFilesCount(); i++ ) {
+	 *				file = evt.data.dataTransfer.getFile( i );
 	 *
-	 *			if ( CKEDITOR.fileTools.isTypeSupported( file, /text\/pdf/ ) ) {
-	 *				el = new CKEDITOR.dom.element( 'span' ),
-	 *				loader = editor.uploadsRepository.create( file );
+	 *				if ( CKEDITOR.fileTools.isTypeSupported( file, /text\/pdf/ ) ) {
+	 *					el = new CKEDITOR.dom.element( 'span' ),
+	 *					loader = editor.uploadsRepository.create( file );
 	 *
-	 *				el.setText( '...' );
+	 *					el.setText( '...' );
 	 *
-	 *				loader.upload();
+	 *					loader.upload();
 	 *
-	 *				fileTools.markElement( el, 'pdfuploader', loader.id );
+	 *					CKEDITOR.fileTools.markElement( el, 'pdfuploader', loader.id );
 	 *
-	 *				fileTools.bindNotifications( editor, loader );
+	 *					CKEDITOR.fileTools.bindNotifications( editor, loader );
 	 *
-	 *				evt.data.dataValue += el.getOuterHtml();
+	 *					evt.data.dataValue += el.getOuterHtml();
+	 *				}
 	 *			}
-	 *		}
-	 *	} );
+	 *		} );
 	 *
 	 * @member CKEDITOR.fileTools
 	 * @param {CKEDITOR.editor} editor The editor instance.
@@ -436,6 +436,7 @@
 	 * {@link CKEDITOR.fileTools.fileLoader#load loader.load} method was called, it works with
 	 * {@link CKEDITOR.fileTools.fileLoader#upload upload} and {@link CKEDITOR.fileTools.fileLoader#loadAndUpload loadAndUpload}.
 	 *
+	 * @member CKEDITOR.fileTools
 	 * @param {CKEDITOR.editor} editor The editor instance.
 	 * @param {CKEDITOR.fileTools.fileLoader} loader The fileLoader instance.
 	 */
