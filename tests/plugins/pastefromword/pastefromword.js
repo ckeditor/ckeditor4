@@ -7,9 +7,13 @@
 	bender.editor = true;
 
 	bender.test( {
-		'tearDown': function() {
-			if ( this.editor.showNotification.restore ) {
-				this.editor.showNotification.restore();
+		spies: [],
+
+		tearDown: function() {
+			var spy;
+
+			while ( spy = this.spies.pop() ) {
+				spy.restore();
 			}
 		},
 
@@ -85,11 +89,11 @@
 				} );
 			} );
 
-			sinon.stub( editor, 'showNotification', function() {
+			this.spies.push( sinon.stub( editor, 'showNotification', function() {
 				resume( function() {
 					assert.isTrue( true );
 				} );
-			} );
+			} ) );
 
 			editor.fire( 'paste', {
 				type: 'auto',
