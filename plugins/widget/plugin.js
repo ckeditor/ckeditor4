@@ -1075,7 +1075,7 @@
 			var evtData = { dialog: this.dialog },
 				that = this;
 
-			// Edit event was blocked, but there's no dialog to be automatically opened.
+			// Edit event was blocked or there's no dialog to be automatically opened.
 			if ( this.fire( 'edit', evtData ) === false || !evtData.dialog )
 				return false;
 
