@@ -98,7 +98,10 @@ bender.test( {
 		bender.editorBot.create( {
 				name: 'editor4',
 				config: {
-					toolbarCanCollapse: true
+					toolbarCanCollapse: true,
+					// Set the empty toolbar, so bazillions of buttons in the build mode will not
+					// break this test (the height comparison).
+					toolbar: [ [ 'Bold' ] ]
 				}
 			},
 			function( bot ) {
