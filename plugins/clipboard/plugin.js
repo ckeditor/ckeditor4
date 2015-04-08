@@ -11,30 +11,36 @@
 //
 // COPY & PASTE EXECUTION FLOWS:
 // -- CTRL+C
-//		* browser's default behaviour
-// -- CTRL+V
-//		* listen onKey (onkeydown)
-//		* simulate 'beforepaste' for non-IEs on editable
-//		* simulate 'paste' for Fx2/Opera on editable
-//		* listen 'onpaste' on editable ('onbeforepaste' for IE)
-//		* fire 'beforePaste' on editor
-//		* !canceled && getClipboardDataByPastebin
-//		* fire 'paste' on editor
-//		* !canceled && fire 'afterPaste' on editor
+// 		* if ( isDataFreelyAvailableInPasteEvent )
+// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
+//		* else
+//			* browser's default behavior
 // -- CTRL+X
 //		* listen onKey (onkeydown)
 //		* fire 'saveSnapshot' on editor
-//		* browser's default behaviour
+// 		* if ( isDataFreelyAvailableInPasteEvent )
+// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
+// 			* extractSelectedHtml // remove selected contents
+//		* else
+//			* browser's default behavior
 //		* deferred second 'saveSnapshot' event
+// -- CTRL+V
+//		* listen onKey (onkeydown)
+//		* simulate 'beforepaste' for non-IEs on editable
+//		* listen 'onpaste' on editable ('onbeforepaste' for IE)
+//		* fire 'beforePaste' on editor
+//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
+//		* fire 'paste' on editor
+//		* !canceled && fire 'afterPaste' on editor
 // -- Copy command
 //		* tryToCutCopy
 //			* execCommand
-//		* !success && alert
+//		* !success && notification
 // -- Cut command
 //		* fixCut
 //		* tryToCutCopy
 //			* execCommand
-//		* !success && alert
+//		* !success && notification
 // -- Paste command
 //		* fire 'paste' on editable ('beforepaste' for IE)
 //		* !canceled && execCommand 'paste'
@@ -46,7 +52,7 @@
 //		* listen 'onpaste'
 //		* cancel native event
 //		* fire 'beforePaste' on editor
-//		* !canceled && getClipboardDataByPastebin
+//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
 //		* execIECommand( 'paste' ) -> this fires another 'paste' event, so cancel it
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
@@ -73,6 +79,7 @@
 //		* content: html ->				filter
 //
 // -- Phases:
+// 		* if dataValue is empty copy data from dataTransfer to dataValue (priority 1)
 //		* filtering (priorities 3-5) - e.g. pastefromword filters
 //		* content type sniffing (priority 6)
 //		* markup transformations for text (priority 6)
@@ -91,7 +98,7 @@
 //			* getRangeAtDropPosition
 //			* create bookmarks for drag and drop ranges starting from the end of the document
 //			* dragRange.deleteContents()
-//			* fire 'paste' with saved html
+//			* fire 'paste' with saved html and drop range
 //		* if events text == saved timestamp && editor != saved editor
 //			cross editor drag & drop occurred
 //			* getRangeAtDropPosition
@@ -139,6 +146,11 @@
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			editor.on( 'paste', function( evt ) {
+				// Init `dataTransfer` if `paste` event was fired without it, so it will be always available.
+				if ( !evt.data.dataTransfer ) {
+					evt.data.dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
+				}
+
 				// If dataValue is already set do not override it.
 				if ( evt.data.dataValue ) {
 					return;
@@ -248,9 +260,7 @@
 					trueType,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html',
-					transferType = dataObj.dataTransfer && dataObj.dataTransfer.getTransferType( editor ),
-					// Treat pasting without dataTransfer as external.
-					external = !transferType || ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL );
+					transferType = dataObj.dataTransfer.getTransferType( editor );
 
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
@@ -273,7 +283,7 @@
 					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
 				}
 				// External paste and pasteFilter exists and filtering isn't disabled.
-				else if ( external && editor.pasteFilter && !dataObj.dontFilter ) {
+				else if ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !dataObj.dontFilter ) {
 					data = filterContent( editor, data, editor.pasteFilter );
 				}
 
@@ -1448,7 +1458,7 @@
 			// Fire drag/drop events (dragstart, dragend, drop).
 			function fireDragEvent( evt, dragRange, dropRange ) {
 				var eventData = {
-						nativeEvent: evt.data.$,
+						$: evt.data.$,
 						target: evt.data.getTarget()
 					};
 
@@ -1784,7 +1794,7 @@
 			// Create a new dataTransfer object based on the drop event.
 			// If this event was used on dragstart to create dataTransfer
 			// both dataTransfer objects will have the same id.
-			var nativeDataTransfer = evt.data.nativeEvent ? evt.data.nativeEvent.dataTransfer : null,
+			var nativeDataTransfer = evt.data.$ ? evt.data.$.dataTransfer : null,
 				dataTransfer = new this.dataTransfer( nativeDataTransfer, sourceEditor );
 
 			if ( !nativeDataTransfer ) {
@@ -2350,7 +2360,7 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {Object} data.nativeEvent Native drop event.
+ * @param {Object} data.$ Native drop event.
  * @param {CKEDITOR.dom.node} data.target Drop target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
  * @param {CKEDITOR.dom.range} data.dragRange Drag range, let you manipulate with drag range.
@@ -2370,7 +2380,7 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {Object} data.nativeEvent Native dragstart event.
+ * @param {Object} data.$ Native dragstart event.
  * @param {CKEDITOR.dom.node} data.target Drag target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
  */
@@ -2386,7 +2396,7 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {Object} data.nativeEvent Native dragend event.
+ * @param {Object} data.$ Native dragend event.
  * @param {CKEDITOR.dom.node} data.target Drag target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
  */
