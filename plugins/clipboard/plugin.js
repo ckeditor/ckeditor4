@@ -11,30 +11,36 @@
 //
 // COPY & PASTE EXECUTION FLOWS:
 // -- CTRL+C
-//		* browser's default behaviour
-// -- CTRL+V
-//		* listen onKey (onkeydown)
-//		* simulate 'beforepaste' for non-IEs on editable
-//		* simulate 'paste' for Fx2/Opera on editable
-//		* listen 'onpaste' on editable ('onbeforepaste' for IE)
-//		* fire 'beforePaste' on editor
-//		* !canceled && getClipboardDataByPastebin
-//		* fire 'paste' on editor
-//		* !canceled && fire 'afterPaste' on editor
+// 		* if ( isDataFreelyAvailableInPasteEvent )
+// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
+//		* else
+//			* browser's default behavior
 // -- CTRL+X
 //		* listen onKey (onkeydown)
 //		* fire 'saveSnapshot' on editor
-//		* browser's default behaviour
+// 		* if ( isDataFreelyAvailableInPasteEvent )
+// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
+// 			* extractSelectedHtml // remove selected contents
+//		* else
+//			* browser's default behavior
 //		* deferred second 'saveSnapshot' event
+// -- CTRL+V
+//		* listen onKey (onkeydown)
+//		* simulate 'beforepaste' for non-IEs on editable
+//		* listen 'onpaste' on editable ('onbeforepaste' for IE)
+//		* fire 'beforePaste' on editor
+//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
+//		* fire 'paste' on editor
+//		* !canceled && fire 'afterPaste' on editor
 // -- Copy command
 //		* tryToCutCopy
 //			* execCommand
-//		* !success && alert
+//		* !success && notification
 // -- Cut command
 //		* fixCut
 //		* tryToCutCopy
 //			* execCommand
-//		* !success && alert
+//		* !success && notification
 // -- Paste command
 //		* fire 'paste' on editable ('beforepaste' for IE)
 //		* !canceled && execCommand 'paste'
@@ -46,7 +52,7 @@
 //		* listen 'onpaste'
 //		* cancel native event
 //		* fire 'beforePaste' on editor
-//		* !canceled && getClipboardDataByPastebin
+//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
 //		* execIECommand( 'paste' ) -> this fires another 'paste' event, so cancel it
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
@@ -73,6 +79,7 @@
 //		* content: html ->				filter
 //
 // -- Phases:
+// 		* if dataValue is empty copy data from dataTransfer to dataValue (priority 1)
 //		* filtering (priorities 3-5) - e.g. pastefromword filters
 //		* content type sniffing (priority 6)
 //		* markup transformations for text (priority 6)
@@ -91,7 +98,7 @@
 //			* getRangeAtDropPosition
 //			* create bookmarks for drag and drop ranges starting from the end of the document
 //			* dragRange.deleteContents()
-//			* fire 'paste' with saved html
+//			* fire 'paste' with saved html and drop range
 //		* if events text == saved timestamp && editor != saved editor
 //			cross editor drag & drop occurred
 //			* getRangeAtDropPosition
