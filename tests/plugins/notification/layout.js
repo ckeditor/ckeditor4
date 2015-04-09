@@ -92,7 +92,7 @@ function createLayoutTest( mockValues, expected ) {
 		area.add( new CKEDITOR.plugins.notification( editor, { message: 'Foo' } ) );
 
 		if ( expected.position ) {
-			assert.areSame( expected.position, area.element.getStyle( 'position' ) , 'Position.' );
+			assert.areSame( expected.position, area.element.getStyle( 'position' ), 'Position.' );
 		}
 
 		if ( expected.top ) {
