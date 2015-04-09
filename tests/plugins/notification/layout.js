@@ -92,15 +92,19 @@ function createLayoutTest( mockValues, expected ) {
 		area.add( new CKEDITOR.plugins.notification( editor, { message: 'Foo' } ) );
 
 		if ( expected.position ) {
-			assert.areSame( expected.position, area.element.getStyle( 'position' ), 'Position.' );
+			assert.areSame( expected.position, area.element.getStyle( 'position' ) , 'Position.' );
 		}
 
 		if ( expected.top ) {
-			assert.areSame( expected.top, area.element.getStyle( 'top' ), 'Top.' );
+			assert.areSame( expected.top, roundValue( area.element.getStyle( 'top' ) ), 'Top.' );
 		}
 
 		if ( expected.left ) {
-			assert.areSame( expected.left, area.element.getStyle( 'left' ), 'Left.' );
+			assert.areSame( expected.left, roundValue( area.element.getStyle( 'left' ) ) , 'Left.' );
+		}
+
+		function roundValue( value ) {
+			return Math.round( value.replace( 'px', '' ) ) + 'px';
 		}
 	};
 }
