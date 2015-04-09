@@ -100,7 +100,7 @@
 					} ) );
 				},
 				then: function( iFrame ) {
-					assert.areSame( '20px', iFrame.getFrameDocument().getById( 'preview' ).getComputedStyle( 'font-size' ) );
+					assert.areSame( '20px', floor( iFrame.getFrameDocument().getById( 'preview' ).getComputedStyle( 'font-size' ) ) );
 				}
 			} );
 		},
@@ -189,4 +189,8 @@
 			} );
 		}
 	} );
+
+	function floor( value ) {
+		return Math.floor( value.replace( 'px', '' ) ) + 'px';
+	}
 } )();
