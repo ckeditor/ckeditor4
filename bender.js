@@ -51,6 +51,10 @@ var config = {
 				// IE8 (fails only in testing env - window.window === window gives false)
 				'tests/core/tools#test_clone_Window': 'env.ie && env.version == 8',
 
+				// IE8 (fails when elementspath plugin is initialized in the first editor in this file...
+				// it makes very little sense because it is enough when the elementspath's span is added to the bottom space)
+				'tests/core/selection/editor#test initial selection after set data in autoparagraphing inline editor': 'env.ie && env.version == 8',
+
 				// Safari (#11980)
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace #2': 'env.safari',
 				'tests/core/editable/keystrokes/delbackspacequirks/collapsed#test backspace #3': 'env.safari',

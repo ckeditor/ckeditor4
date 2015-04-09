@@ -746,7 +746,7 @@
 	 *
 	 * A widget can also be created in a completely custom way:
 	 *
-	 *		var element = editor.createElement( 'div' );
+	 *		var element = editor.document.createElement( 'div' );
 	 *		editor.insertElement( element );
 	 *		var widget = editor.widgets.initOn( element, 'simplebox' );
 	 *
