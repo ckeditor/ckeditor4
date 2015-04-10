@@ -76,7 +76,7 @@ java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release $JAV
 # Copy and build tests
 if [[ "$ARGS" == *\ \-t\ * ]]; then
 	echo ""
-	echo "Coping tests..."
+	echo "Copying tests..."
 
 	cp -r ../../tests release/ckeditor/tests
 	cp -r ../../package.json release/ckeditor/package.json
