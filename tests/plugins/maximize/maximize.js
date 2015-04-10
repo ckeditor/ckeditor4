@@ -4,6 +4,13 @@
 bender.editor = true;
 
 bender.test( {
+	setUp: function() {
+		// Maximize plugin is disabled on iOS (#8307).
+		if ( CKEDITOR.env.iOS ) {
+			assert.ignore();
+		}
+	},
+
 	// #4355
 	'test command exec not require editor focus': function() {
 		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )

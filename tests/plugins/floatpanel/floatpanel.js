@@ -110,6 +110,11 @@
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 				assert.ignore();
 
+			// On iOS resize is fired when the keyboard pop-ups so we do not want to hide panel then.
+			if ( CKEDITOR.env.iOS ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor;
 
 			testHideOn( editor, CKEDITOR.document.getWindow(), 'resize', function() {
