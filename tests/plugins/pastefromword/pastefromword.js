@@ -178,6 +178,42 @@
 
 				wait();
 			} );
+		},
+
+		'test paste list on Chrome': function() {
+			if ( !CKEDITOR.env.chrome )
+				assert.ignore();
+
+			var editor = this.editors.inline;
+
+			editor.once( 'paste', function( evt ) {
+				resume( function() {
+					assert.isInnerHtmlMatching( '<ul><li>item1</li><li>item2</li><li>item3</li></ul>', evt.data.dataValue );
+				} );
+			}, null, null, 999 );
+
+			editor.fire( 'paste', {
+				type: 'auto',
+				// This data will be recognized as pasted from Word.
+				dataValue:
+					'<p class=MsoListParagraphCxSpFirst style=\'text-indent:-18.0pt;mso-list:l0 level1 lfo1\'>' +
+					'<![if !supportLists]><span style=\'font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol\'>' +
+					'<span style=\'mso-list:Ignore\'>·<span style=\'font:7.0pt "Times New Roman"\'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+					'</span></span></span><![endif]>item1<o:p></o:p></p>' +
+					'' +
+					'<p class=MsoListParagraphCxSpMiddle style=\'text-indent:-18.0pt;mso-list:l0 level1 lfo1\'><![if !supportLists]><span' +
+					'style=\'font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:' +
+					'Symbol\'><span style=\'mso-list:Ignore\'>·<span style=\'font:7.0pt "Times New Roman"\'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+					'</span></span></span><![endif]>item2<o:p></o:p></p>' +
+					'' +
+					'<p class=MsoListParagraphCxSpLast style=\'text-indent:-18.0pt;mso-list:l0 level1 lfo1\'><![if !supportLists]><span' +
+					'style=\'font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:' +
+					'Symbol\'><span style=\'mso-list:Ignore\'>·<span style=\'font:7.0pt "Times New Roman"\'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+					'</span></span></span><![endif]>item3<o:p></o:p></p>',
+				method: 'paste'
+			} );
+
+			wait();
 		}
 	} );
 

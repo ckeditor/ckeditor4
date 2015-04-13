@@ -1131,6 +1131,10 @@
 	};
 
 	CKEDITOR.cleanWord = function( data, editor ) {
+		// We get <![if !supportLists]> and <![endif]> when we started using `dataTransfer` instead of pasteBin, so we need to
+		// change <![if !supportLists]> to <!--[if !supportLists]--> and <![endif]> to <!--[endif]-->.
+		data = data.replace( /<!\[(.*?)\]>/g, '<!--[$1]-->' );
+
 		// Firefox will be confused by those downlevel-revealed IE conditional
 		// comments, fixing them first( convert it to upperlevel-revealed one ).
 		// e.g. <![if !vml]>...<![endif]>
