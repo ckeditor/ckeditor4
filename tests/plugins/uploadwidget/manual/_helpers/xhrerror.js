@@ -7,14 +7,31 @@
 
 // Mock the real XMLHttpRequest so the upload test may show the effect of an error during upload.
 
+window.FormData = function() {
+	var total, filename;
+	return {
+		append: function( name, file, filename ) {
+			total = file.size;
+			filename = filename;
+		},
+		getTotal: function() {
+			return total;
+		},
+		getFileName: function() {
+			return filename;
+		}
+	};
+};
+
 window.XMLHttpRequest = function() {
 	return {
 		open: function() {},
 
-		send: function() {
+		send: function( formData ) {
 			// Total file size.
-			var loaded = 0,
-				step = 10,
+			var total = formData.getTotal(),
+				loaded = 0,
+				step = Math.round( total / 10 ),
 				onprogress = this.onprogress,
 				onerror = this.onerror,
 				interval;
