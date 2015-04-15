@@ -12,6 +12,24 @@ main .grid-container.freed-width {
 .switch {
 	background: darken( @global-link-font-color, 3% );
 	float: right;
+	overflow: visible;
+
+	// Switch balloon tooltip.
+	.balloon-a {
+		// Custom position relative to the switch.
+		position: absolute;
+		top: -40px;
+		right: 50%;
+		margin-right: -15px;
+
+		// Customize balloon colors.
+		background: #FFEFC1;
+		border-bottom-color: #DCDCA4;
+
+		&:before {
+			border-color: #FFEFC1 transparent transparent transparent;
+		}
+	}
 }
 
 #toolbar .editors-container {
