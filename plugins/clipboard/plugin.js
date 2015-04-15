@@ -11,14 +11,14 @@
 //
 // COPY & PASTE EXECUTION FLOWS:
 // -- CTRL+C
-// 		* if ( isDataFreelyAvailableInPasteEvent )
+// 		* if ( isCustomCopyCutSupported )
 // 			* dataTransfer.setData( 'text/html', getSelectedHtml )
 //		* else
 //			* browser's default behavior
 // -- CTRL+X
 //		* listen onKey (onkeydown)
 //		* fire 'saveSnapshot' on editor
-// 		* if ( isDataFreelyAvailableInPasteEvent )
+// 		* if ( isCustomCopyCutSupported )
 // 			* dataTransfer.setData( 'text/html', getSelectedHtml )
 // 			* extractSelectedHtml // remove selected contents
 //		* else
@@ -528,7 +528,7 @@
 		function addPasteListenersToEditable() {
 			var editable = editor.editable();
 
-			if ( CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				var initOnCopyCut = function( evt ) {
 					clipboard.initPasteDataTransfer( evt, editor );
 					evt.data.preventDefault();
@@ -1482,13 +1482,14 @@
 	 */
 	CKEDITOR.plugins.clipboard = {
 		/**
-		 * True if the environment allows to get data from the paste event without security dialog on the paste event.
+		 * True if the environment allows to set data on copy or cut manually. This value is false on IE, because it shows
+		 * security dialog when the script try to set clipboard data.
 		 *
 		 * @since 4.5
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		isDataFreelyAvailableInPasteEvent: !CKEDITOR.env.ie,
+		isCustomCopyCutSupported: !CKEDITOR.env.ie,
 
 		/**
 		 * True if the environment supports MIME types and custom data types in dataTransfer/cliboardData getData/setData methods.
@@ -1862,7 +1863,7 @@
 		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
 		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
-			if ( !this.isDataFreelyAvailableInPasteEvent ) {
+			if ( !this.isCustomCopyCutSupported ) {
 				return new this.dataTransfer( null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );

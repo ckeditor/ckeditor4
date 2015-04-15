@@ -1072,7 +1072,7 @@
 
 		'editor.getClipboardData - successful': function() {
 			// We cannot test them in IE because this tcs will open security alert which will stop tests.
-			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
 			var tc = this,
@@ -1118,7 +1118,7 @@
 
 		'editor.getClipboardData - unsuccessful': function() {
 			// We cannot test them in IE because this tcs will open security alert which will stop tests.
-			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
 			var tc = this,
@@ -1160,7 +1160,7 @@
 
 		'editor.getClipboardData - canceled beforePaste': function() {
 			// We cannot test them in IE because this tcs will open security alert which will stop tests.
-			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
 			var tc = this,
@@ -1302,7 +1302,7 @@
 		},
 
 		'test cut': function() {
-			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
 			var editor = this.editor,
@@ -1320,7 +1320,7 @@
 		},
 
 		'test copy': function() {
-			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
 			var editor = this.editor,
@@ -1338,7 +1338,7 @@
 		},
 
 		'test cut and paste': function() {
-			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
 			var editor = this.editor,
@@ -1375,7 +1375,7 @@
 		},
 
 		'test copy and paste': function() {
-			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
 			var editor = this.editor,
@@ -1412,7 +1412,7 @@
 		},
 
 		'test paste if dataTransfer is not empty': function() {
-			if ( !CKEDITOR.plugins.clipboard.isDataFreelyAvailableInPasteEvent )
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
 			var editor = this.editor;
