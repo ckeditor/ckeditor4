@@ -404,13 +404,14 @@ if ( !Object.keys ) {
 	 * @private
 	 */
 	AbstractToolbarModifier.prototype._createToolbarBtn = function( cfg ) {
-		var btn = ToolbarConfigurator.FullToolbarEditor.createButton( cfg.text, cfg.cssClass );
+		var btnText = ( typeof cfg.text === 'string' ? cfg.text : cfg.text.inactive ),
+			btn = ToolbarConfigurator.FullToolbarEditor.createButton( btnText, cfg.cssClass );
 
 		this.toolbarContainer.append( btn );
 		btn.data( 'group', cfg.group );
 		btn.addClass( cfg.position );
 		btn.on( 'click', function() {
-			cfg.clickCallback.call( this, btn );
+			cfg.clickCallback.call( this, btn, cfg );
 		}, this );
 
 		return btn;
