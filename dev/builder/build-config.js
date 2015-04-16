@@ -90,6 +90,7 @@ var CKBUILDER_CONFIG = {
     taoqtimaths : 1,
     taoqtimedia : 1,
     taounderline : 1,
+    taoqtiinclude : 1,
 		templates: 1,
 		toolbar: 1,
 		undo: 1,
