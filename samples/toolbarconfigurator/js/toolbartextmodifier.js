@@ -399,7 +399,7 @@
 
 		this._fixGroups( cfg );
 
-		cfg.toolbar = this._mapToolbarGroupsToToolbar( cfg.toolbarGroups );
+		cfg.toolbar = this._mapToolbarGroupsToToolbar( cfg.toolbarGroups, this.actualConfig.removeButtons );
 
 		this.actualConfig.toolbar = cfg.toolbar;
 		this.actualConfig.removeButtons = '';
