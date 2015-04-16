@@ -1032,7 +1032,7 @@
 					dataTransfer: clipboard.initPasteDataTransfer( evt )
 				},
 				// True if data transfer contains HTML data.
-				htmlInDataTransfer = !CKEDITOR.env.ie;
+				htmlInDataTransfer = !CKEDITOR.env.ie && !CKEDITOR.env.safari;
 
 			eventData.dataTransfer.cacheData();
 
