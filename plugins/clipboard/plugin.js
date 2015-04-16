@@ -29,7 +29,7 @@
 //		* simulate 'beforepaste' for non-IEs on editable
 //		* listen 'onpaste' on editable ('onbeforepaste' for IE)
 //		* fire 'beforePaste' on editor
-//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
+//		* if ( !canceled && htmlInDataTransfer && dataTransfer is not empty ) getClipboardDataByPastebin
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
 // -- Copy command
@@ -52,7 +52,7 @@
 //		* listen 'onpaste'
 //		* cancel native event
 //		* fire 'beforePaste' on editor
-//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
+//		* if ( !canceled && htmlInDataTransfer && dataTransfer is not empty ) getClipboardDataByPastebin
 //		* execIECommand( 'paste' ) -> this fires another 'paste' event, so cancel it
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
