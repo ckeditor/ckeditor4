@@ -1031,9 +1031,8 @@
 					method: 'paste',
 					dataTransfer: clipboard.initPasteDataTransfer( evt )
 				},
-				// True if we can fully rely on data from dataTransfer, this means that
-				// if HTML is available via native paste it is also available via getData.
-				htmlAlwaysInDataTransfer = CKEDITOR.env.chrome;
+				// True if data transfer contains HTML data.
+				htmlInDataTransfer = !CKEDITOR.env.ie;
 
 			eventData.dataTransfer.cacheData();
 
@@ -1044,9 +1043,8 @@
 			// after canceling 'beforePaste' event.
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
-			// Do not use paste bin if the browser let us get HTML from dataTranfer
-			// or we can be sure that no HTML in dataTranfer means no HTML at all.
-			if ( beforePasteNotCanceled && ( htmlAlwaysInDataTransfer || eventData.dataTransfer.getData( 'text/html' ) ) ) {
+			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
+			if ( beforePasteNotCanceled && htmlInDataTransfer && !eventData.dataTransfer.isEmpty() ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
