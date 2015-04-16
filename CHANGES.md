@@ -1,50 +1,80 @@
 CKEditor 4 Changelog
 ====================
 
-## CKEditor 4.5
+## CKEditor 4.5 beta
 
 New Features:
 
-* [#10986](http://dev.ckeditor.com/ticket/10986): Added support for changing dialog window's input and textarea text directions by using the *Shift+Alt+Home/End* keystrokes. The direction is stored in the value of the input by prepending the [`\u202A`](http://unicode.org/cldr/utility/character.jsp?a=202A) or [`\u202B`](http://unicode.org/cldr/utility/character.jsp?a=202B) marker to it. Read more in the [documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.textInput-property-bidi). Thanks to [edithkk](https://github.com/edithkk)!
-* [#12770](http://dev.ckeditor.com/ticket/12770): Added support for passing [widget](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget)'s startup data as a widget command's argument. Thanks to [Rebrov Boris](https://github.com/zipp3r) and [Tieme van Veen](https://github.com/tiemevanveen)!
-* [#10931](http://dev.ckeditor.com/ticket/10931): Introduce the ability to insert widgets into another widget's nested editables. Note that unless nested editable's [allowed content](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.nestedEditable.definition-property-allowedContent) is defined precisely, since CKEditor 4.5 some widget buttons may become enabled.
-* [#11437](http://dev.ckeditor.com/ticket/11437): Drag and Drop support.
-  * [#11460](http://dev.ckeditor.com/ticket/11460): Custom handling for dropped content in the editor.
-  * [#12168](http://dev.ckeditor.com/ticket/12168): `dataTransfer` facade.
-  * [#12169](http://dev.ckeditor.com/ticket/12169): Introduce [`editor.drop`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-drop), [`editor.dragstart`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragstart) and [`editor.dragend`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragend) events.
-  * [#12613](http://dev.ckeditor.com/ticket/12613): Show user that he can not drop on toolbar/ui on dragover.
-* [#11583](http://dev.ckeditor.com/ticket/11583): Added support for HTML5 `required` attribute in various form elements. Thanks to [Steven Busse](https://github.com/sbusse)!
-* [#12143](http://dev.ckeditor.com/ticket/12143): Added [`config.floatSpacePreferRight`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-floatSpacePreferRight) configuration option that switches the alignment of the floating toolbar. Thanks to [InvisibleBacon](http://github.com/InvisibleBacon)!
+* Clipboard (copy&paste, drag&drop) and file uploading features and improvements ([#11437](http://dev.ckeditor.com/ticket/10925)).
+
+  * Major features:
+    * Support for dropping and pasting files into the editor. Through a set of new facades for native APIs it is now possible to easily intercept and process inserted files.
+    * [File upload tools](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) were introduced in order to simplify controlling the loading, uploading and handling server response, including features like displaying [progress](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notificationAggregator) and success or error [notifications](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification).
+    * Image upload widget was introduced to handle editing and undo/redo operations when an image is being uploaded. A base class for the [upload widget](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition) was exposed too to make it simple to create new types of upload widgets.
+    * Integrated all drag and drop operations with the editor. All dropped content is passed through the [`editor#paste`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-paste) event and a set of new editor events was introduced - [`dragstart`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragstart), [`drop`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-drop), [`dragend`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-dragend).
+    * Introduced [Data Transfer](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.clipboard.dataTransfer) facade to unify access to data and files available in the native clipboard or through the pastebin.
+    * Switched to using the native clipboard access whenever possible. On browsers which supports it (Chrome, Safari on MacOS, Opera and Firefox) on paste the editor does not use pastebin any more, but access clipboard directly. This solved many issues related to pastebin such as unnecessary scrolling or data loss. Additionally, on copy and cut from the editor the clipboard data is set. Therefore, on paste the editor has access to clean data, undisturbed by the browsers.
+    * Drag and drop of inline and block widgets was integrated with the standard clipboard APIs. Therefore, by listening to drag events you will be notified about widgets too. This enables a possibility to filter pasted and dropped widgets.
+    * [#11621](http://dev.ckeditor.com/ticket/11621): Introduced configurable [paste filter](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFilter). The filter is by default turned to `'semantic-content'` on Webkit and Blink for all pasted content coming from external sources, because of the low quality of HTML that these engines put into the clipboard. Internal and cross-editor paste is safe due to the change explained in the previous point.
+
+  * Other changes and related fixes:
+    * [#12095](http://dev.ckeditor.com/ticket/12095): On drag and copy of widgets [the same method](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) is used to get selected HTML as in the normal case. Thanks to that styles applied to inline widgets are not lost.
+    * [#11219](http://dev.ckeditor.com/ticket/11219): Fixed: Dragging image2 with caption does not fire paste event.
+    * [#9554](http://dev.ckeditor.com/ticket/9554): Fixed: [Webkit Mac] Editor scrolls on paste.
+    * [#9898](http://dev.ckeditor.com/ticket/9898): Fixed: [Webkit&Divarea] Pasting cause undesirable scrolling.
+    * [#11993](http://dev.ckeditor.com/ticket/11993): Fixed: Pasting content scrolls document in Google Chrome.
+    * [#12613](http://dev.ckeditor.com/ticket/12613): Show user that they can not drop on editor UI (toolbar, the bottom space).
+    * [#12851](http://dev.ckeditor.com/ticket/12851): Fixed: [Blink/Webkit] Formatting disappears when pasting content into cells.
+    * [#12914](http://dev.ckeditor.com/ticket/12914): Fixed: Copy/Paste of table broken in DIV based editor.
+
+  * Browser support. Browsers support for related features varies significantly (see http://caniuse.com/clipboard).
+    * File APIs needed to operate and upload files is not supported on IE9 and below.
+    * Only Chrome and Safari on MacOS support setting custom data items in the clipboard so currently only on these browsers it is possible to recognize the origin of a copied content. All drag and drop operation can be identified thanks to the new Data Transfer facade.
+    * None IE browser support the standard clipboard API what results in small glitches like only plain text can be dropped from outside the editor. Thanks to the new Data Transfer facade, internal and cross-editor drag and drop supports full range of data.
+    * Only on Chrome, Safari on MacOS, Opera and Firefox direct access to clipboard could be implemented. Therefore, on other browsers the pastebin must still be used.
+
+* [#10925](http://dev.ckeditor.com/ticket/10925): The Media Embed and Semantic Media Embed plugins were introduced. Read more about the new features in [Embedding Content](http://docs.ckeditor.com/#!/guide/dev_media_embed).
+* [#10931](http://dev.ckeditor.com/ticket/10931): Added support for nesting widgets. It is now possible to insert one widget into another widget's nested editable. Note that unless nested editable's [allowed content](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.nestedEditable.definition-property-allowedContent) is defined precisely, starting from CKEditor 4.5 some widget buttons may become enabled. This feature is not supported on IE8. Included issues:
+  * [#12018](http://dev.ckeditor.com/ticket/12018): Fixed and reviewed: Nested widgets garbage collection.
+  * [#12024](http://dev.ckeditor.com/ticket/12024): [FF] Fixed: Outline is extended to the left by unpositioned drag handlers.
+  * [#12006](http://dev.ckeditor.com/ticket/12006): Fixed: Drag and drop of nested block widgets.
+  * [#12008](http://dev.ckeditor.com/ticket/12008): Fixed various cases of inserting a single non-editable element using the [`editor.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertHtml) method. Fixes pasting a widget with a nested editable inside another widget's nested editable.
+* Notifications system:
+  * [#11580](http://dev.ckeditor.com/ticket/11580): Introduced a [notifications system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification).
+  * [#12810](http://dev.ckeditor.com/ticket/12810): Introduced a [notifications aggregator](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notificationAggregator) for the [notifications system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification) which simplifies displaying a progress of many concurrent tasks.
+* [#11636](http://dev.ckeditor.com/ticket/11636): Introduce new, focused on UX, methods for getting selected HTML and deleting it &ndash; [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) and [`editor.deleteSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml).
 * [#12416](http://dev.ckeditor.com/ticket/12416): Added [`widget.definition.upcastPriority`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.definition-property-upcastPriority) property which gives more control over widgets upcasting order to the widget author.
-* [#12448](http://dev.ckeditor.com/ticket/12448): Set of new methods, params and events giving the developer more control over HTML insertion. See the [`editable.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertHtml) param `range`, the [`editable.insertHtmlIntoRange()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertHtmlIntoRange) method and the [`editor.afterInsertHtml`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-afterInsertHtml) event.
-* [#12036](http://dev.ckeditor.com/ticket/12036): Initialize editor in [`readOnly`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode when `<textarea>` has `readonly` attribute.
-* [#11905](http://dev.ckeditor.com/ticket/11905): [`resize` event](http://docs.ckeditor.dev/#!/api/CKEDITOR.editor-event-resize) pass dimensions in data.
-* [#12126](http://dev.ckeditor.com/ticket/12126): Introduced [`image_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image_prefillDimensions) and [`image2_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_prefillDimensions) to make pre-filling 'width' and 'height' configurable.
-* [#11580](http://dev.ckeditor.com/ticket/11580): Introduced the [notifications system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification).
-* [#11461](http://dev.ckeditor.com/ticket/11461): Introduced support for uploading pasted and dropped images with architecture for handling other types.
-* [#12810](http://dev.ckeditor.com/ticket/12810): Introduced [notifications aggregator](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notificationAggregator) for the [notifications system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification).
-* [#11636](http://dev.ckeditor.com/ticket/11636): Introduce new, focused on UX, methods for getting selected HTML and deleting it.
-* [#12746](http://dev.ckeditor.com/ticket/12746): Config option to hide [Enhanced Image](http://ckeditor.com/addon/image2) resizer.
+* [#12036](http://dev.ckeditor.com/ticket/12036): Initialize editor in [read-only](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode when `<textarea>` has a `readonly` attribute.
+* [#11905](http://dev.ckeditor.com/ticket/11905): The [`resize` event](http://docs.ckeditor.dev/#!/api/CKEDITOR.editor-event-resize) passes the current dimensions in its data.
+* [#12126](http://dev.ckeditor.com/ticket/12126): Introduced [`config.image_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image_prefillDimensions) and [`config.image2_prefillDimensions`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_prefillDimensions) to make pre-filling 'width' and 'height' configurable.
+* [#12746](http://dev.ckeditor.com/ticket/12746): Added a new config option to hide [Enhanced Image](http://ckeditor.com/addon/image2) resizer.
+* [#12150](http://dev.ckeditor.com/ticket/12150): Exposed [`getNestedEditable()`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-static-method-getNestedEditable) and `is*` [widget helper](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget) functions (see the static methods).
+* [#12448](http://dev.ckeditor.com/ticket/12448): Introduced a [`editable.insertHtmlIntoRange`]() method.
+* [#12143](http://dev.ckeditor.com/ticket/12143): Added [`config.floatSpacePreferRight`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-floatSpacePreferRight) configuration option that switches the alignment of the floating toolbar. Thanks to [InvisibleBacon](http://github.com/InvisibleBacon)!
+* [#10986](http://dev.ckeditor.com/ticket/10986): Added support for changing dialog's inputs and textareas text directions by using the *Shift+Alt+Home/End* keystrokes. The direction is stored in the value of the input by prepending the [`\u202A`](http://unicode.org/cldr/utility/character.jsp?a=202A) or [`\u202B`](http://unicode.org/cldr/utility/character.jsp?a=202B) marker to it. Read more in the [documentation](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.textInput-property-bidi). Thanks to [edithkk](https://github.com/edithkk)!
+* [#12770](http://dev.ckeditor.com/ticket/12770): Added support for passing [widget](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget)'s startup data as a widget command's argument. Thanks to [Rebrov Boris](https://github.com/zipp3r) and [Tieme van Veen](https://github.com/tiemevanveen)!
+* [#11583](http://dev.ckeditor.com/ticket/11583): Added support for HTML5 `required` attribute in various form elements. Thanks to [Steven Busse](https://github.com/sbusse)!
 
-Fixed Issues:
+Changes:
 
-* [#11586](http://dev.ckeditor.com/ticket/11586): Fixed: [`range.cloneContents()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-cloneContents) changes DOM and selection.
-* [#12018](http://dev.ckeditor.com/ticket/12018): [Nested widgets] Fixed and reviewed: Nested widgets garbage collection.
-* [#12024](http://dev.ckeditor.com/ticket/12024): [Nested widgets][FF] Fixed: Outline is extended to the left by unpositioned drag handlers.
-* [#12006](http://dev.ckeditor.com/ticket/12006): [Nested widgets] Fixed: Drag and drop of nested block widgets.
-* [#12008](http://dev.ckeditor.com/ticket/12008): Fixed various cases of inserting a single non-editable element using the [`editor.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-insertHtml) method. Fixes pasting a widget with a nested editable inside another widget's nested editable.
-* [#12148](http://dev.ckeditor.com/ticket/12148): Fixed: [`dom.element.getChild()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-getChild) should not modify passed array.
-* [#12874](http://dev.ckeditor.com/ticket/12874): Fixed: Information about aggregated tasks should be somehow accessible in [aggregated#finished](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notificationAggregator-event-finished).
-* [#12503](http://dev.ckeditor.com/ticket/12503): [Blink/Webkit] Fixed: Incorrect result of select all, backspace/delete.
-* [#13001](http://dev.ckeditor.com/ticket/13001): [Firefox] Fixed bug with bogus br in the wrong position.
-* [#13093](http://dev.ckeditor.com/ticket/13093): [Webkit/Blink] Paste From Word's conflict with the paste filter.
-
-Other Changes:
-
+* [#12858](http://dev.ckeditor.com/ticket/12858): Basic Spartan compatibility. Full compatibility will be introduced later, because at the moment Spartan is still too unstable to be used for tests and we see many changes from version to version.
+* [#12875](http://dev.ckeditor.com/ticket/12875): Samples and configuration tools.
+  * The old set of samples shipped with every CKEditor package was replaced with a shiny new single-page sample. This change concluded a long term plan which started from introducing the [CKEditor SDK](http://sdk.ckeditor.com/) and [CKEditor Functionality Overview](http://docs.ckeditor.com/#!/guide/dev_features) section in the documentation which essentially redefined the old samples.
+  * Toolbar configurators with live previews were introduced. They will be shipped with every CKEditor package and are meant to help in configuring toolbar layouts.
+* [#12948](http://dev.ckeditor.com/ticket/12948): The [`config.mathJaxLibrary`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-mathJaxLib) option does not default to the MathJax CDN any more.
+* [#13069](http://dev.ckeditor.com/ticket/13069): Fixed inconsistencies between [`editable.insertHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertElement) and [`editable.insertElement()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertElement) when the `range` parameter is used. Now, the `editor.insertElement()` method works on a higher level, what means that it saves undo snapshots and sets selection after insertion. Use the [`editable.insertElementIntoRange()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editable-method-insertElementIntoRange) method directly for the pre 4.5.0 behavior of `editable.insertElement()`.
+* [#12870](http://dev.ckeditor.com/ticket/12870): Use [`editor.showNotification()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-showNotification) instead of `alert()` directly whenever possible. When the [notification plugin](http://ckeditor.com/addon/notification) is loaded the notifications system is used automatically. Otherwise, the native `alert()` is displayed.
 * [#8024](http://dev.ckeditor.com/ticket/8024): Swapped behavior of the Split Cell Vertically and Horizontally features to be more intuitive. Thanks to [kevinisagit](https://github.com/kevinisagit)!
-* [#10903](http://dev.ckeditor.com/ticket/10903): Performance improvements for the [`dom.element.addClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass), [`dom.element.removeClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass) and [`dom.element.hasClass`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-hasClass) methods.
-* [#11856](http://dev.ckeditor.com/ticket/11856): jQuery adapter throw an meaningful error if CKEditor or jQuery is not loaded.
-* [#12150](http://dev.ckeditor.com/ticket/12150): Expose [`getNestedEditable`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget-static-method-getNestedEditable) and `is*` [widget helper](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget) functions.
+* [#10903](http://dev.ckeditor.com/ticket/10903): Performance improvements for the [`dom.element.addClass()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-addClass), [`dom.element.removeClass()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeClass) and [`dom.element.hasClass()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-hasClass) methods. Note: The previous implementation allowed passing multiple classes to `addClass()` although it was only a side effect of that implementation. The new implementation does not allow this.
+* [#11856](http://dev.ckeditor.com/ticket/11856): jQuery adapter throw a meaningful error if CKEditor or jQuery is not loaded.
+
+Fixed issues:
+
+* [#11586](http://dev.ckeditor.com/ticket/11586): Fixed: [`range.cloneContents()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-cloneContents) should not change the DOM in order to not affect selection.
+* [#12148](http://dev.ckeditor.com/ticket/12148): Fixed: [`dom.element.getChild()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-getChild) should not modify a passed array.
+* [#12503](http://dev.ckeditor.com/ticket/12503): [Blink/Webkit] Fixed: Incorrect result of select all and *Backspace* or *Delete*.
+* [#13001](http://dev.ckeditor.com/ticket/13001): [Firefox] Fixed: The `<br />` filler is placed in the wrong position by the [`range.fixBlock`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-fixBlock) method due to Firefox quirky behavior.
+* [#13101](http://dev.ckeditor.com/ticket/13101): [IE8] Fixed: IE8 prepends colons to HTML5 element names when cloning them.
 
 ## CKEditor 4.4.8
 
