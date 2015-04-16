@@ -29,7 +29,7 @@
 //		* simulate 'beforepaste' for non-IEs on editable
 //		* listen 'onpaste' on editable ('onbeforepaste' for IE)
 //		* fire 'beforePaste' on editor
-//		* if ( !canceled && htmlInDataTransfer && dataTransfer is not empty ) getClipboardDataByPastebin
+//		* if ( !canceled && ( htmlInDataTransfer || !external paste) && dataTransfer is not empty ) getClipboardDataByPastebin
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
 // -- Copy command
@@ -52,7 +52,7 @@
 //		* listen 'onpaste'
 //		* cancel native event
 //		* fire 'beforePaste' on editor
-//		* if ( !canceled && htmlInDataTransfer && dataTransfer is not empty ) getClipboardDataByPastebin
+//		* if ( !canceled && ( htmlInDataTransfer || !external paste) && dataTransfer is not empty ) getClipboardDataByPastebin
 //		* execIECommand( 'paste' ) -> this fires another 'paste' event, so cancel it
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
@@ -1044,7 +1044,9 @@
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
 			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
-			if ( beforePasteNotCanceled && htmlInDataTransfer && !eventData.dataTransfer.isEmpty() ) {
+			if ( beforePasteNotCanceled &&
+				( htmlInDataTransfer || eventData.dataTransfer.getTransferType( editor ) !== CKEDITOR.DATA_TRANSFER_EXTERNAL ) &&
+				!eventData.dataTransfer.isEmpty() ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
