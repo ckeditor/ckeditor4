@@ -14,7 +14,7 @@
   border: 1px solid silver;
 
   background: white;
-  font-size: 1.4em;
+  font-size: 90%;
   font-family: monospace;
 
   max-height: 20em;
@@ -32,7 +32,7 @@
   cursor: pointer;
 }
 
-.CodeMirror-hint-active {
+li.CodeMirror-hint-active {
   background: #08f;
   color: white;
 }
