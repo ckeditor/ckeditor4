@@ -26,7 +26,7 @@ function drag( editor, evt ) {
 		dragEventCounter++;
 
 		assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dragEvt.data.dataTransfer );
-		assert.areSame( evt.$, dragEvt.data.nativeEvent );
+		assert.areSame( evt.$, dragEvt.data.$ );
 		assert.areSame( 'targetMock', dragEvt.data.target.$ );
 	} );
 
@@ -64,7 +64,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			values.dropRangeStartContainerMatch = config.element == dropEvt.data.dropRange.startContainer;
 			values.dropRangeStartOffsetMatch = config.offset == dropEvt.data.dropRange.startOffset;
 		}
-		values.dropNativeEventMatch = evt.$ == dropEvt.data.nativeEvent;
+		values.dropNativeEventMatch = evt.$ == dropEvt.data.$;
 		values.dropTarget = dropEvt.data.target.$;
 
 		if ( onDrop ) {
@@ -561,6 +561,46 @@ var testsForMultipleEditor = {
 			}
 		},
 
+		'editable drop fires editor drop': function() {
+			var editor = this.editors.framed,
+				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+				listener = sinon.stub().returns( false ),
+				evt = bender.tools.mockDropEvent();
+
+			editor.once( 'drop', listener, null, null, -1 );
+
+			// dropRange must be not null.
+			evt.testRange = {};
+
+			dropTarget.fire( 'drop', evt );
+
+			assert.isTrue( listener.calledOnce );
+		},
+
+		'editable dragstart fires editor dragstart': function() {
+			var editor = this.editors.framed,
+				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+				listener = sinon.stub().returns( false );
+
+			editor.once( 'dragstart', listener, null, null, -1 );
+
+			dropTarget.fire( 'dragstart', bender.tools.mockDropEvent() );
+
+			assert.isTrue( listener.calledOnce );
+		},
+
+		'editable dragend fires editor dragend': function() {
+			var editor = this.editors.framed,
+				dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor ),
+				listener = sinon.stub().returns( false );
+
+			editor.once( 'dragend', listener, null, null, -1 );
+
+			dropTarget.fire( 'dragend', bender.tools.mockDropEvent() );
+
+			assert.isTrue( listener.calledOnce );
+		},
+
 		'test fixIESplittedNodes': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
@@ -680,7 +720,7 @@ var testsForMultipleEditor = {
 				dragendCount++;
 
 				assert.areSame( 'foo', dragendEvt.data.dataTransfer.getData( 'Text' ), 'cke/custom' );
-				assert.areSame( evt.data.$, dragendEvt.data.nativeEvent, 'nativeEvent' );
+				assert.areSame( evt.data.$, dragendEvt.data.$, 'nativeEvent' );
 				assert.areSame( 'targetMock', dragendEvt.data.target.$, 'target' );
 			} );
 

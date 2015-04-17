@@ -1,0 +1,21 @@
+<div style="display: none; text-align: center; color: red; font-weight: bold; padding: 20px;" id="ignore">
+	File uploading is not supported on Internet Explorer 9 and below.
+</div>
+
+<div id="editor"></div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		imageUploadUrl: 'http://sub.ckeditor.dev/'
+	} );
+
+	// We are going to overwrite server response to have encoded one.
+	var basePath = bender.config.tests[ bender.testData.group ].basePath;
+	XMLHttpRequest.responseData = {
+		url: '\/' + basePath + '_assets\/le%20na.jpg'
+	};
+
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+		document.getElementById( 'ignore' ).style.display = 'block';
+	}
+</script>

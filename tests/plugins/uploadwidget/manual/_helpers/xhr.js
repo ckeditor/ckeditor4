@@ -52,9 +52,7 @@ window.XMLHttpRequest = function() {
 				}
 				// If file is loaded call onload.
 				else {
-					clearInterval( interval );
-					xhr.status = 200;
-					xhr.responseText = JSON.stringify( {
+					var responseData = {
 						fileName: formData.getFileName(),
 						uploaded: 1,
 						url: '\/' + basePath + '_assets\/lena.jpg',
@@ -62,7 +60,12 @@ window.XMLHttpRequest = function() {
 							number: 201,
 							message: ''
 						}
-					} );
+					};
+					CKEDITOR.tools.extend( responseData, XMLHttpRequest.responseData, true );
+
+					clearInterval( interval );
+					xhr.status = 200;
+					xhr.responseText = JSON.stringify( responseData );
 					onload();
 				}
 			}, 400 );

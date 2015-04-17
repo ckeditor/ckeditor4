@@ -12,7 +12,13 @@
 		return editor.container.$.offsetHeight;
 	}
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			// Set the empty toolbar, so bazillions of buttons in the build mode will not
+			// break the resize event test (the height comparison).
+			toolbar: [ [ 'Table' ] ]
+		}
+	};
 
 	bender.test( {
 		'test resize event': function() {

@@ -439,7 +439,7 @@
  *
  * Please note that this must be a full or absolute path.
  *
- *		config.mathJaxLib = 'http://cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
+ *		config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
  *
  * **Note:** Since CKEditor 4.5.0 this option does not have a default value, so it must
  * be set in order to enable the MathJax plugin.

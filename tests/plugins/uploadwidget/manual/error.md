@@ -7,5 +7,5 @@ This test emulates an error during upload. When upload hits 50% an error occurs.
 
  * Drop an image.
  * Check if `upload widget` is displayed.
- * Check if image is removed after it reaches 50% of progress and no artifacts left.
+ * Check if image is removed when it reaches 50% of progress and no artifacts left.
  * Check if you see a message about the error.

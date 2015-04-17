@@ -878,6 +878,17 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'p', element.getName(), 'After rename' );
 		},
 
+		test_renameNode_in_documentFragment: function() {
+			var frag = new CKEDITOR.dom.documentFragment(),
+				inner = new CKEDITOR.dom.element( 'div' );
+
+			frag.append( inner );
+
+			assert.areEqual( 'div', frag.getChild( 0 ).getName(), 'Before rename' );
+			inner.renameNode( 'p' );
+			assert.areEqual( 'p', frag.getChild( 0 ).getName(), 'After rename' );
+		},
+
 		test_getDirection: function() {
 			assert.areEqual( 'rtl', doc.getById( 'getDirection' ).getDirection() );
 		},

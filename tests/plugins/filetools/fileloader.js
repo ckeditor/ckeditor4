@@ -304,6 +304,30 @@
 			wait();
 		},
 
+		'test upload response not encoded (#13030)': function() {
+			var loader = new FileLoader( editorMock, pngBase64, 'na me.png' ),
+				observer = observeEvents( loader );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ], {
+				responseText: '{"fileName":"na me2.png","uploaded":1,"url":"http:\/\/url\/na me2.png"}'
+			} );
+
+			resumeAfter( loader, 'uploaded', function() {
+				observer.assert( [
+					'uploading[uploading,na me.png,0/82/82,-,data:image/png;base64,-]',
+					'update[uploading,na me.png,0/82/82,-,data:image/png;base64,-]',
+					'update[uploading,na me.png,41/82/82,-,data:image/png;base64,-]',
+					'uploaded[uploaded,na me2.png,82/82/82,-,data:image/png;base64,http://url/na me2.png]',
+					'update[uploaded,na me2.png,82/82/82,-,data:image/png;base64,http://url/na me2.png]' ] );
+			}, 3 );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			assert.areSame( 'http:\/\/url\/', loader.uploadUrl );
+
+			wait();
+		},
+
 		'test loadAndUpload': function() {
 			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
@@ -935,6 +959,55 @@
 			loader.loadAndUpload( 'http:\/\/url\/' );
 
 			wait();
+		},
+
+		'test isFinished created': function() {
+			var loader = new FileLoader( editorMock, testFile );
+			loader.status = 'created';
+
+			assert.isFalse( loader.isFinished() );
+		},
+
+		'test isFinished loading': function() {
+			var loader = new FileLoader( editorMock, testFile );
+			loader.status = 'loading';
+
+			assert.isFalse( loader.isFinished() );
+		},
+
+		'test isFinished loaded': function() {
+			var loader = new FileLoader( editorMock, testFile );
+			loader.status = 'loaded';
+
+			assert.isTrue( loader.isFinished() );
+		},
+
+		'test isFinished uploading': function() {
+			var loader = new FileLoader( editorMock, testFile );
+			loader.status = 'uploading';
+
+			assert.isFalse( loader.isFinished() );
+		},
+
+		'test isFinished uploaded': function() {
+			var loader = new FileLoader( editorMock, testFile );
+			loader.status = 'uploaded';
+
+			assert.isTrue( loader.isFinished() );
+		},
+
+		'test isFinished error': function() {
+			var loader = new FileLoader( editorMock, testFile );
+			loader.status = 'error';
+
+			assert.isTrue( loader.isFinished() );
+		},
+
+		'test isFinished abort': function() {
+			var loader = new FileLoader( editorMock, testFile );
+			loader.status = 'abort';
+
+			assert.isTrue( loader.isFinished() );
 		}
 	} );
 } )();

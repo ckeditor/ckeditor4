@@ -1,0 +1,52 @@
+<p>Test URLs</p>
+
+<ul>
+	<li>https://twitter.com/reinmarpl/status/573118615274315776</li>
+	<li>https://www.youtube.com/watch?v=GUl9_5kK9ts</li>
+	<li>https://instagram.com/p/wZB11CIfqX/</li>
+	<li>https://www.google.dk/maps/place/Zygmunta+S%C5%82omi%C5%84skiego+15,+Warszawa</li>
+	<li>http://tellto.tumblr.com/post/112160646328</li>
+	<li>https://www.flickr.com/photos/polandmfa/7005560084/</li>
+	<li>http://i.imgur.com/Z3ilPBI.jpg</li>
+	<li>https://open.spotify.com/track/2XsTC2dPbmWREu5RQ1mQC0</li>
+</ul>
+
+<p>Dat rich editor</p>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Foo bar</p>
+
+	<div data-oembed-url="https://twitter.com/reinmarpl/status/573118615274315776">
+	<blockquote class="twitter-tweet">
+	<p>Coding session with <a href="https://twitter.com/fredck">@fredck</a>, <a href="https://twitter.com/anowodzinski">@anowodzinski</a> and Mr Carrot. <a href="http://t.co/FLV5UXpfaT">pic.twitter.com/FLV5UXpfaT</a></p>
+	&mdash; Piotrek Koszuliński (@reinmarpl) <a href="https://twitter.com/reinmarpl/status/573118615274315776">March 4, 2015</a></blockquote>
+	<script async="" charset="utf-8" src="//platform.twitter.com/widgets.js"></script>
+	</div>
+
+	<p>Foo bar.</p>
+
+	<div data-oembed-url="http://i.imgur.com/Z3ilPBI.jpg"><img alt="Imgur" src="//i.imgur.com/Z3ilPBI.jpg" style="max-width:100%" /></div>
+
+	<p>Foo bar.</p>
+</textarea>
+
+<p>Empty editor</p>
+
+<textarea id="editor2" cols="10" rows="10">
+	<p>Foo bar.</p>
+</textarea>
+
+<script>
+	( function() {
+		embedTools.delayJsonp();
+
+		var cfg = {
+			extraPlugins: 'wysiwygarea,sourcearea,htmlwriter,entities,toolbar,elementspath,undo,clipboard,format,basicstyles,image2,embed',
+			height: 500,
+			// Make them narrow so images don't take too much space.
+			width: 600
+		};
+		CKEDITOR.replace( 'editor1', cfg );
+		CKEDITOR.replace( 'editor2', cfg );
+	} )();
+</script>

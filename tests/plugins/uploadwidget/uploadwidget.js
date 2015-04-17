@@ -121,7 +121,7 @@
 				editor = bot.editor;
 
 			// Clear uploads repository.
-			editor.uploadsRepository._.loaders = [];
+			editor.uploadsRepository.loaders = [];
 
 			editor.resetUndo();
 		},
@@ -141,7 +141,7 @@
 				assert.areSame( 1, loadAndUploadCount, 'loadAndUpload should be called once.' );
 				assert.areSame( 'uploadUrl', lastUploadUrl );
 
-				var loader = editor.uploadsRepository.get( 0 );
+				var loader = editor.uploadsRepository.loaders[ 0 ];
 
 				loader.changeStatus( 'uploaded' );
 

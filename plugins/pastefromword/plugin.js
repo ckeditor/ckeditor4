@@ -70,6 +70,9 @@
 
 				// MS-WORD format sniffing.
 				if ( mswordHtml && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
+					// Do not apply paste filter to data filtered by the Word filter (#13093).
+					data.dontFilter = true;
+
 					// If filter rules aren't loaded then cancel 'paste' event,
 					// load them and when they'll get loaded fire new paste event
 					// for which data will be filtered in second execution of

@@ -230,14 +230,18 @@
 
 				evt.setTarget( widget.dragHandlerContainer.findOne( 'img' ) );
 
+				bender.tools.resumeAfter( editor, 'dragstart', function( evt ) {
+					var dataTransfer = evt.data.dataTransfer,
+						id = dataTransfer.getData( 'cke/widget-id' );
+
+					assert.isNumber( id, 'Id should be a number.' );
+					assert.areSame( id, getWidgetById( editor, 'w1' ).id, 'Id should match.' );
+					assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType( editor ), 'Source editor should equal this.editor' );
+				} );
+
 				dragstart( editor, evt );
 
-				var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } ),
-					id = dataTransfer.getData( 'cke/widget-id' );
-
-				assert.isNumber( id, 'Id should be a number.' );
-				assert.areSame( id, getWidgetById( editor, 'w1' ).id, 'Id should match.' );
-				assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType( editor ), 'Source editor should equal this.editor' );
+				wait();
 			} );
 		},
 
@@ -269,19 +273,19 @@
 
 			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
-					evt = bender.tools.mockDropEvent(),
+					evt = { data: bender.tools.mockDropEvent() },
 					widgetWasDestroyed = 0;
 
 				widget.on( 'destroy', function() {
 					widgetWasDestroyed += 1;
 				} );
 
-				var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } );
-				dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+				CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+				evt.data.dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
 
-				drop( editor, evt );
+				drop( editor, evt.data );
 
-				dragend( editor, evt );
+				dragend( editor, evt.data );
 
 				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
 				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
@@ -293,24 +297,28 @@
 
 			this.editorBot.setData( '<p><span data-widget="testwidget" id="w1">foo</span></p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
-					evt = bender.tools.mockDropEvent(),
+					evt = { data: bender.tools.mockDropEvent() },
 					widgetWasDestroyed = 0;
+
+				editor.focus();
 
 				widget.on( 'destroy', function() {
 					widgetWasDestroyed += 1;
 				} );
 
-				var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } );
-				dataTransfer.setData( 'cke/widget-id', -1 );
+				CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+				evt.data.dataTransfer.setData( 'cke/widget-id', -1 );
 
-				dragstart( editor, evt );
+				dragstart( editor, evt.data );
 
-				drop( editor, evt );
+				drop( editor, evt.data );
 
-				dragend( editor, evt );
+				dragend( editor, evt.data );
 
-				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
-				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
+				wait( function() {
+					assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
+					assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
+				}, 10 );
 			} );
 		},
 
@@ -319,44 +327,96 @@
 
 			this.editorBot.setData( '<p class="x">foo</p><p>x<span data-widget="testwidget" id="w1">foo</span>x</p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
-					evt = bender.tools.mockDropEvent(),
+					evt = { data: bender.tools.mockDropEvent() },
 					range = editor.createRange(),
-					widgetWasDestroyed = 0;
+					widgetWasDestroyedCounter = sinon.spy(),
+					widgetCreatedCounter = sinon.spy(),
+					pasteCounter = sinon.spy(),
+					dragstartCounter = sinon.spy(),
+					dragendCounter = sinon.spy(),
+					dropCounter = sinon.spy();
 
-				widget.on( 'destroy', function() {
-					widgetWasDestroyed += 1;
-				} );
+				widget.on( 'destroy', widgetWasDestroyedCounter );
 
 				editor.focus();
 
-				editor.on( 'afterPaste', function() {
-					resume( function() {
-						assert.areSame( 1, widgetWasDestroyed, 'original widget was destroyed' );
-						assert.areSame( '<p class="x">f<span data-widget="testwidget" id="w1">foo</span>oo</p><p>xx</p>', editor.getData() );
-						assert.areNotSame( widget.id, getWidgetById( editor, 'w1' ).id, 'new widet was created' );
-					} );
+				editor.widgets.on( 'instanceCreated', widgetCreatedCounter );
+
+				editor.on( 'paste', pasteCounter );
+				editor.on( 'dragstart', dragstartCounter );
+				editor.on( 'dragend', dragendCounter );
+				editor.on( 'drop', dropCounter );
+
+				bender.tools.resumeAfter( editor, 'afterPaste', function() {
+					assert.isTrue( pasteCounter.calledOnce, 'paste called once' );
+					assert.isTrue( dragstartCounter.calledOnce, 'dragstart called once' );
+					assert.isTrue( dragendCounter.calledOnce, 'dragend called once' );
+					assert.isTrue( dropCounter.calledOnce, 'drop called once' );
+					assert.isTrue( widgetWasDestroyedCounter.calledOnce, 'original widget was destroyed' );
+					assert.areSame( '<p class="x">f<span data-widget="testwidget">foo</span>oo</p><p>xx</p>', editor.getData() );
+					assert.isTrue( widgetCreatedCounter.calledOnce, 'new widget was created' );
 				} );
 
 				// Ensure async.
 				wait( function() {
-					dragstart( editor, evt );
+					dragstart( editor, evt.data );
 
-					var dataTransfer = CKEDITOR.plugins.clipboard.initDragDataTransfer( { data: evt } );
-					dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+					evt.data.dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
 
 					range.setStart( editor.document.findOne( '.x' ).getFirst(), 1 );
 					range.collapse( true );
-					evt.testRange = range;
+					evt.data.testRange = range;
 
-					drop( editor, evt );
+					drop( editor, evt.data );
 
-					dragend( editor, evt );
+					dragend( editor, evt.data );
+				} );
+			} );
+		},
+
+		'test drop widget with formating': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p class="x">foo</p><p><b>x<span data-widget="testwidget" id="w1">foo</span>x</b></p>', function() {
+				var evt = { data: bender.tools.mockDropEvent() },
+					range = editor.createRange();
+
+				editor.focus();
+
+				bender.tools.resumeAfter( editor, 'afterPaste', function() {
+					assert.areSame( '<p class="x">f<b><span data-widget="testwidget">foo</span></b>oo</p><p><b>xx</b></p>', editor.getData() );
+				} );
+
+				// Ensure async.
+				wait( function() {
+					dragstart( editor, evt.data );
+
+					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+					evt.data.dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+
+					range.setStart( editor.document.findOne( '.x' ).getFirst(), 1 );
+					range.collapse( true );
+					evt.data.testRange = range;
+
+					drop( editor, evt.data );
+
+					dragend( editor, evt.data );
 				} );
 			} );
 		},
 
 		'test drag and drop - block widget': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				pasteCounter = sinon.spy(),
+				dragstartCounter = sinon.spy(),
+				dragendCounter = sinon.spy(),
+				dropCounter = sinon.spy();
+
+			editor.on( 'paste', pasteCounter );
+			editor.on( 'dragstart', dragstartCounter );
+			editor.on( 'dragend', dragendCounter );
+			editor.on( 'drop', dropCounter );
 
 			// Override Finder's getRange to force a place for the
 			// widget to be dropped.
@@ -377,17 +437,21 @@
 				try {
 					img.fire( 'mousedown' );
 
-					assert.isFalse( !!editor.getSelection().isFake, 'widget was not focused on mousedown' );
-
 					// Create dummy line and pretend it's visible to cheat drop listener
 					// making if feel that there's a place for the widget to be dropped.
 					editor.widgets.liner.showLine( editor.widgets.liner.addLine() );
 
 					editor.document.fire( 'mouseup' );
 
-					assert.isTrue( !!editor.getSelection().isFake, 'widget was focused on mouseup' );
+					bender.tools.resumeAfter( editor, 'afterPaste', function() {
+						assert.isTrue( pasteCounter.calledOnce, 'paste called once' );
+						assert.isTrue( dragstartCounter.calledOnce, 'dragstart called once' );
+						assert.isTrue( dragendCounter.calledOnce, 'dragend called once' );
+						assert.isTrue( dropCounter.calledOnce, 'drop called once' );
+						assert.areSame( '<div data-widget="testwidget">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
+					} );
 
-					assert.areSame( '<div data-widget="testwidget" id="w1">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
+					wait();
 				} catch ( e ) {
 					throw e;
 				} finally {

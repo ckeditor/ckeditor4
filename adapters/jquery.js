@@ -20,11 +20,11 @@
 
 ( function( $ ) {
 	if ( typeof $ == 'undefined' ) {
-		throw new Error( 'jQuery should be loaded before CKEditor adapter. Have you mistaken loaded scripts order?' );
+		throw new Error( 'jQuery should be loaded before CKEditor jQuery adapter.' );
 	}
 
 	if ( typeof CKEDITOR == 'undefined' ) {
-		throw new Error( 'CKEditor core should be loaded before jQuery adapter. Have you mistaken loaded scripts order?' );
+		throw new Error( 'CKEditor should be loaded before CKEditor jQuery adapter.' );
 	}
 
 	/**

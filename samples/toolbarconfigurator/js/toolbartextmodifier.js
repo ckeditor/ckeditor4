@@ -34,8 +34,6 @@
 
 		this._createModifier( config ? this.actualConfig : undefined );
 
-		this._refreshEditor();
-
 		if ( typeof callback === 'function' )
 			callback( this.mainContainer );
 	};
@@ -513,9 +511,8 @@
 		try {
 			var config = {};
 			( function() {
-				var CKEDITOR = {};
+				var CKEDITOR = Function( 'var CKEDITOR = {}; ' + val + '; return CKEDITOR;' )();
 
-				eval( val );
 				CKEDITOR.editorConfig( config );
 				parsed = config;
 			} )();

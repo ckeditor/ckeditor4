@@ -217,20 +217,7 @@
 		},
 
 		'test update image (attributes)': function() {
-			var bot = this.editorBot,
-				// jscs:disable maximumLineLength
-				standard = '<img src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputIE = '<img src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputOpera = '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
-				outputSafari5 = '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
-				// jscs:enable maximumLineLength
-				output =
-					( CKEDITOR.env.ie && document.documentMode > 8 ) ? standard
-					: CKEDITOR.env.ie ? outputIE
-					: CKEDITOR.env.gecko ? standard
-					: CKEDITOR.env.safari && CKEDITOR.env.version < 536 ? outputSafari5
-					: CKEDITOR.env.webkit ? standard
-					: outputOpera;
+			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '[<img src="' + SRC + '" height="300" width="200" border="1" align="right" vspace="10" hspace="5"/>]' );
 			bot.dialog( 'image', function( dialog ) {
@@ -250,7 +237,14 @@
 
 				dialog.getButton( 'ok' ).click();
 
-				assert.areEqual( output.toLowerCase(), bot.getData( true ) );
+				var img = bot.editor.editable().findOne( 'img' );
+				assert.areEqual( img.getStyle( 'border-width' ), '2px' );
+				assert.areEqual( img.getStyle( 'border-style' ), 'solid' );
+				assert.areEqual( img.getStyle( 'margin' ), '10px 5px' );
+				assert.areEqual( img.getStyle( 'float' ), 'right' );
+				assert.areEqual( img.getStyle( 'height' ), '86px' );
+				assert.areEqual( img.getStyle( 'width' ), '414px' );
+				assert.areEqual( img.getAttribute( 'src' ), SRC );
 			} );
 		},
 

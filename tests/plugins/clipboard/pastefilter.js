@@ -223,6 +223,22 @@
 			{ dataValue: '<p>Foo bar</p>' } );
 	};
 
+	tests[ 'evt.data.dontFilter disables paste filter' ] = function() {
+		var editor = this.editors.editorPlain;
+
+		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>', dontFilter: true },
+			{ dataValue: '<h2>Foo <strong>bar</strong></h2>', dontFilter: true } );
+	};
+
+	tests[ 'evt.data.dontFilter does not disable the paste filter when forcePAPT is true' ] = function() {
+		var editor = this.editors.editorForcePAPT;
+
+		// Important: forcePAPT is implemented on #beforePaste and the below function does not fire this event.
+		// Therefore we're passing type:text explicitly.
+		assertPasteEvent( editor, { dataValue: '<h2>Foo <strong>bar</strong></h2>', dontFilter: true, type: 'text' },
+			{ dataValue: '<p>Foo bar</p>', dontFilter: true } );
+	};
+
 	createTest(
 		'test plain', 'editorPlain', contents.listWithSpan,
 		'<p>hefkdjfkdjllo</p><p>moto</p>'

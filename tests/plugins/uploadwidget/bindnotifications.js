@@ -264,7 +264,7 @@ bender.test( {
 
 		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading files, 1 of 2 done (34%)...', type: 'progress' },
+			{ message: 'Uploading files, 1 of 2 done (51%)...', type: 'progress' },
 			notificationShowStub.firstCall.args[ 0 ].data.notification );
 		this.assertNotification(
 			{ message: 'foo', type: 'warning' },

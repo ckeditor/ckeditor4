@@ -306,6 +306,30 @@
 			assert.isTrue( e.clone() instanceof CKEDITOR.dom.element );
 		},
 
+		'test_clone td': function() {
+			var td = newElement( 'td' );
+
+			td.appendText( 'foo' );
+
+			assert.areSame( '<td>foo</td>', getOuterHtml( td.clone( true ) ) );
+		},
+
+
+		'test_clone HTML5 figure': function() {
+			var figure = newElement( 'figure' );
+
+			assert.areSame( '<figure></figure>', getOuterHtml( figure.clone() ) );
+		},
+
+		'test_clone HTML5 div with figure': function() {
+			var div = newElement( 'div' ),
+				figure = newElement( 'figure' );
+
+			div.append( figure );
+
+			assert.areSame( '<div><figure></figure></div>', getOuterHtml( div.clone( true ) ) );
+		},
+
 		test_hasNext: function() {
 			var node1 = getNodeByTagName( 'b' ),
 				node2 = getNodeByTagName( 'i' );

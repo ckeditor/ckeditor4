@@ -1401,7 +1401,7 @@
 		 * (depending on {@link CKEDITOR.env#needsBrFiller}). This options is useful when IE8 incorrectly yields
 		 * `&nbsp;` in empty blocks.
 		 *
-		 * @param {String} expected
+		 * @param {String|Array} expected if array all patters will be tread as good
 		 * @param {String} actual
 		 * @param {Object} [options]
 		 * @param {Boolean} [options.sortAttributes=true] {@link bender.tools#compatHtml}'s option.
@@ -1419,11 +1419,22 @@
 		 */
 		compareInnerHtml: function( expected, actual, options ) {
 			var htmlTools = bender.tools.html,
-				pattern = htmlTools.prepareInnerHtmlPattern( expected );
+				i, pattern;
+
+			if ( typeof expected === 'string' ) {
+				expected = [ expected ];
+			}
 
 			actual = htmlTools.prepareInnerHtmlForComparison( actual, options );
 
-			return pattern.test( actual );
+			for ( i = 0; i < expected.length; i++ ) {
+				pattern = htmlTools.prepareInnerHtmlPattern( expected[ i ] );
+				if ( pattern.test( actual ) ) {
+					return true;
+				}
+			}
+
+			return false;
 		},
 
 		/**

@@ -29,7 +29,9 @@
 				group: 'edit',
 				position: 'left',
 				clickCallback: function( button ) {
-					button[ button.hasClass( 'fancy-button-active' ) ? 'removeClass' : 'addClass' ]( 'fancy-button-active' );
+					var className = 'button-a-background';
+
+					button[ button.hasClass( className ) ? 'removeClass' : 'addClass' ]( className );
 					this._toggleVisibilityEmptyElements();
 				}
 			},
@@ -66,7 +68,7 @@
 				text: 'Back to configurator',
 				group: 'config',
 				position: 'right',
-				cssClass: 'fancy-button-red',
+				cssClass: 'button-a-background',
 				clickCallback: function() {
 					if ( this.state === 'paste' ) {
 						var cfg = this.configContainer.findOne( 'textarea' ).getValue();
@@ -88,7 +90,7 @@
 				text: 'Get toolbar <span class="highlight">config</span>',
 				group: 'edit',
 				position: 'right',
-				cssClass: 'fancy-button-red',
+				cssClass: 'button-a-background icon-pos-left icon-download',
 				clickCallback: function() {
 					this.state = 'config';
 					this._showConfig();
@@ -161,8 +163,6 @@
 		this._createModifier();
 		this._refreshMoveBtnsAvalibility();
 		this._refreshBtnTabIndexes();
-
-		this._refreshEditor();
 
 		if ( typeof callback === 'function' )
 			callback( this.mainContainer );

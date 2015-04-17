@@ -77,7 +77,7 @@
 
 			for ( editorName in this.editors ) {
 				// Clear uploads repository.
-				this.editors[ editorName ].uploadsRepository._.loaders = [];
+				this.editors[ editorName ].uploadsRepository.loaders = [];
 			}
 
 			if ( CKEDITOR.fileTools.bindNotifications.reset ) {
@@ -93,7 +93,7 @@
 			assertUploadingWidgets( editor, LOADING_IMG );
 			assert.areSame( '', editor.getData(), 'getData on loading.' );
 
-			var loader = editor.uploadsRepository.get( 0 );
+			var loader = editor.uploadsRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
 			loader.changeStatus( 'uploading' );
@@ -123,7 +123,7 @@
 			assertUploadingWidgets( editor, LOADING_IMG );
 			assert.areSame( '', editor.getData(), 'getData on loading.' );
 
-			var loader = editor.uploadsRepository.get( 0 );
+			var loader = editor.uploadsRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
 			loader.changeStatus( 'uploading' );
@@ -155,7 +155,7 @@
 				assertUploadingWidgets( editor, LOADED_IMG );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on loading.' );
 
-				var loader = editor.uploadsRepository.get( 0 );
+				var loader = editor.uploadsRepository.loaders[ 0 ];
 
 				loader.data = bender.tools.pngBase64;
 				loader.changeStatus( 'uploading' );
@@ -243,7 +243,6 @@
 			} );
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue: '<img src="' + bender.tools.pngBase64 + '">'
 			} );
 
@@ -269,7 +268,6 @@
 			} );
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue: '<div>x<img src="' + bender.tools.pngBase64 + '">x' +
 							'<p>x<img src="' + bender.tools.pngBase64 + '">x</p></div>'
 			} );
@@ -288,7 +286,6 @@
 			} );
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue: 'foo'
 			} );
 
@@ -309,7 +306,6 @@
 			} );
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue: '<img src="' + IMG_URL + '">'
 			} );
 
@@ -334,7 +330,6 @@
 			uploads.create( bender.tools.getTestPngFile() );
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue: '<img src="' + bender.tools.pngBase64 + '" data-widget="uploadimage" data-cke-upload-id="0">'
 			} );
 
@@ -355,11 +350,10 @@
 			} );
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue:
-							'<div contentEditable="false">' +
-								'<img src="' + bender.tools.pngBase64 + '">' +
-							'</div>'
+					'<div contentEditable="false">' +
+						'<img src="' + bender.tools.pngBase64 + '">' +
+					'</div>'
 			} );
 
 			wait();
@@ -379,13 +373,12 @@
 			} );
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue:
-							'<div contentEditable="false">' +
-								'<div contentEditable="true">' +
-									'<img src="' + bender.tools.pngBase64 + '">' +
-								'</div>' +
-							'</div>'
+					'<div contentEditable="false">' +
+						'<div contentEditable="true">' +
+							'<img src="' + bender.tools.pngBase64 + '">' +
+						'</div>' +
+					'</div>'
 			} );
 
 			wait();
@@ -405,13 +398,12 @@
 			} );
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue:
-							'<div contentEditable="false">' +
-								'<div data-cke-editable="1">' +
-									'<img src="' + bender.tools.pngBase64 + '">' +
-								'</div>' +
-							'</div>'
+					'<div contentEditable="false">' +
+						'<div data-cke-editable="1">' +
+							'<img src="' + bender.tools.pngBase64 + '">' +
+						'</div>' +
+					'</div>'
 			} );
 
 			wait();
@@ -430,7 +422,6 @@
 			} );
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue: '<img src="' + bender.tools.pngBase64 + '">'
 			} );
 
@@ -443,7 +434,6 @@
 			window.attacked = sinon.spy();
 
 			editor.fire( 'paste', {
-				dataTransfer: new CKEDITOR.plugins.clipboard.dataTransfer(),
 				dataValue: '<img src="x" onerror="window.attacked();">' + bender.tools.pngBase64
 			} );
 

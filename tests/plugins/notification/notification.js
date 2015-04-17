@@ -233,7 +233,7 @@ bender.test( {
 
 		assertNotifications( editor, [ { message: 'Foo', type: 'warning' } ] );
 
-		editor.fire( 'key', { keyCode: 27 } ); /* ESC */
+		editor.fire( 'key', { keyCode: 27, domEvent: { getKey: sinon.stub().returns( 27 ) } } ); /* ESC */
 
 		assertNotifications( editor, [] );
 
