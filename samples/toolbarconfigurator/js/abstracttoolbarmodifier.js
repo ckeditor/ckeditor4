@@ -342,8 +342,10 @@ if ( !Object.keys ) {
 			var btns = that.editorInstance.ui.instances;
 
 			for ( var i in btns ) {
-				btns[ i ].click = empty;
-				btns[ i ].onClick = empty;
+				if ( btns[ i ] ) {
+					btns[ i ].click = empty;
+					btns[ i ].onClick = empty;
+				}
 			}
 
 			if ( !that.isEditableVisible ) {

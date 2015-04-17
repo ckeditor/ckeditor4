@@ -82,8 +82,13 @@
 		].join( '' );
 
 		function hint( cm ) {
-			var data = setupData( cm ),
-				unused = that.getUnusedButtonsArray( that.actualConfig.toolbar, true, data.charsBetween ),
+			var data = setupData( cm );
+
+			if ( data.charsBetween === null ) {
+				return;
+			}
+
+			var unused = that.getUnusedButtonsArray( that.actualConfig.toolbar, true, data.charsBetween ),
 				to = cm.getCursor(),
 				from = CodeMirror.Pos( to.line, ( to.ch - ( data.charsBetween.length ) ) ),
 				token = cm.getTokenAt( to ),
@@ -109,16 +114,6 @@
 			this._handlers = [];
 		}
 
-		function completeIfNeeded( character ) {
-			return function completeIfNeeded( cm ) {
-				return complete( cm, function() {
-					var data = setupData( cm, character );
-
-					return data.closestSpecialChar !== character;
-				}, character );
-			};
-		}
-
 		function setupData( cm, character ) {
 			var result = {};
 
@@ -127,33 +122,44 @@
 
 			result[ 'char' ] = character || result.tok.string.charAt( result.tok.string.length - 1 );
 
-			var curLineTillCur = cm.getRange( CodeMirror.Pos( result.cur.line, 0 ), result.cur ),
-				currLineTillCurReversed = curLineTillCur.split( '' ).reverse().join( '' ),
-				closestSpecialCharIndex = currLineTillCurReversed.search( /"|'|\{|\}|\[|\]|,|\:/ );
+			// Getting string between begin of line and cursor.
+			var curLineTillCur = cm.getRange( CodeMirror.Pos( result.cur.line, 0 ), result.cur );
 
-			closestSpecialCharIndex = ( closestSpecialCharIndex == -1 ? -1 : curLineTillCur.length - 1 - closestSpecialCharIndex );
-			result.closestSpecialChar = curLineTillCur.charAt( closestSpecialCharIndex );
+			// Reverse string.
+			var currLineTillCurReversed = curLineTillCur.split( '' ).reverse().join( '' );
 
-			//characters between cursor and special character
-			result.charsBetween = curLineTillCur.substring( closestSpecialCharIndex + 1, result.cur.ch )/* + result.char*/;
+			// Removing proper string definitions :
+			// FROM:
+			// R' ,'odeR' ,'odnU' [ :smeti{
+			//     ^^^^^^  ^^^^^^
+			// TO:
+			// R' , [ :smeti{
+			currLineTillCurReversed = currLineTillCurReversed.replace( /(['|"]\w*['|"])/g, '' );
+
+			// Matching letters till ' or " character and end string char.
+			// R' , [ :smeti{
+			// ^
+			result.charsBetween = currLineTillCurReversed.match( /(^\w*)(['|"])/ );
+
+			if ( result.charsBetween ) {
+				result.endChar = result.charsBetween[ 2 ];
+
+				// And reverse string (bring to original state).
+				result.charsBetween = result.charsBetween[ 1 ].split( '' ).reverse().join( '' );
+			}
 
 			return result;
 		}
 
-		function complete( cm, pred, character ) {
-			var permitted = ( typeof pred === 'function' ? pred( cm, character ) : true );
-
-			if ( permitted ) {
-				setTimeout( function() {
-					if ( !cm.state.completionActive ) {
-						CodeMirror.showHint( cm, hint, {
-							hintsClass: 'toolbar-modifier',
-							completeSingle: false
-						} );
-					}
-
-				}, 100 );
-			}
+		function complete( cm ) {
+			setTimeout( function() {
+				if ( !cm.state.completionActive ) {
+					CodeMirror.showHint( cm, hint, {
+						hintsClass: 'toolbar-modifier',
+						completeSingle: false
+					} );
+				}
+			}, 100 );
 
 			return CodeMirror.Pass;
 		}
@@ -174,11 +180,12 @@
 			indentWithTabs: true,
 			theme: 'neo',
 			extraKeys: {
-				'Ctrl-Space': complete,
-				"'''": completeIfNeeded( "'" ),
-				"'\"'": completeIfNeeded( '"' ),
-				Backspace: completeIfNeeded( '"' ),
-				Delete: completeIfNeeded( '"' ),
+				'Left': complete,
+				'Right': complete,
+				"'''": complete,
+				"'\"'": complete,
+				Backspace: complete,
+				Delete: complete,
 				Tab: false,
 				'Shift-Tab': false
 			}
@@ -192,7 +199,7 @@
 			if ( completionData === undefined )
 				return;
 
-			cm.replaceSelection( data.closestSpecialChar );
+			cm.replaceSelection( data.endChar );
 		} );
 
 		this.codeContainer.on( 'change', function() {
