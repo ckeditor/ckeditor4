@@ -18,6 +18,8 @@
 		],
 		backspaceOrDelete = { 8: 1, 46: 1 };
 
+	var useQtiXmlUndoHacks = true;
+
 	CKEDITOR.plugins.add( 'undo', {
 		// jscs:disable maximumLineLength
 		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
@@ -421,7 +423,10 @@
 			// by selectionChange listener).
 			this.locked = { level: 999 };
 
-			this.editor.loadSnapshot( image.contents );
+			if ( useQtiXmlUndoHacks && editor.mode === "wysiwyg" )
+				this.editor.loadSnapshot( image.contents.html );
+			else
+				this.editor.loadSnapshot( image.contents );
 
 			if ( image.bookmarks )
 				sel.selectBookmarks( image.bookmarks );
@@ -791,7 +796,19 @@
 			if ( CKEDITOR.env.ie && contents )
 				contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' );
 
-			this.contents = contents;
+			if ( useQtiXmlUndoHacks && editor.mode === "wysiwyg" ) {
+			    try {
+					var data = this.editor.dataProcessor.toDataFormat( contents );
+				} catch (e) {
+					// Happens during widget paste with nested
+					// editables. But in this case we don't need the
+					// xml.
+					var data = null;
+				}
+				this.contents = { html: contents, xml: data };
+			}
+			else
+				this.contents = contents;
 
 			if ( !contentsOnly ) {
 				var selection = contents && editor.getSelection();
@@ -812,6 +829,9 @@
 		equalsContent: function( otherImage ) {
 			var thisContents = this.contents,
 				otherContents = otherImage.contents;
+
+			if ( useQtiXmlUndoHacks && this.editor.mode === "wysiwyg" )
+				return thisContents.xml === otherContents.xml;
 
 			// For IE7 and IE QM: Comparing only the protected attribute values but not the original ones.(#4522)
 			if ( CKEDITOR.env.ie && ( CKEDITOR.env.ie7Compat || CKEDITOR.env.quirks ) ) {
