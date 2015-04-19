@@ -299,7 +299,7 @@
 						// Look for Image element.
 						var linkChildren = link.getChildren();
 						if ( linkChildren.count() == 1 ) {
-							var childTagName = linkChildren.getItem( 0 ).getName();
+							var childTagName = linkChildren.getItem( 0 );
 							if ( childTagName == 'img' || childTagName == 'input' ) {
 								this.imageElement = linkChildren.getItem( 0 );
 								if ( this.imageElement.getName() == 'img' )
