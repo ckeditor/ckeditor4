@@ -178,6 +178,8 @@
 			value: cfgValue,
 			smartIndent: false,
 			indentWithTabs: true,
+			indentUnit: 4,
+			tabSize: 4,
 			theme: 'neo',
 			extraKeys: {
 				'Left': complete,
@@ -186,8 +188,7 @@
 				"'\"'": complete,
 				Backspace: complete,
 				Delete: complete,
-				Tab: false,
-				'Shift-Tab': false
+				'Shift-Tab': 'indentLess'
 			}
 		} );
 
