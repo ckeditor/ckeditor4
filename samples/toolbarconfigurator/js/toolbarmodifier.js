@@ -28,6 +28,7 @@
 				text: 'Toggle visibility of empty elements',
 				group: 'edit',
 				position: 'left',
+				cssClass: 'button-a-soft',
 				clickCallback: function( button ) {
 					var className = 'button-a-background';
 
@@ -39,6 +40,7 @@
 				text: 'Add row separator',
 				group: 'edit',
 				position: 'left',
+				cssClass: 'button-a-soft',
 				clickCallback: function() {
 					this._addSeparator();
 				}
@@ -60,6 +62,7 @@
 				text: 'Select config',
 				group: 'config',
 				position: 'left',
+				cssClass: 'button-a-soft',
 				clickCallback: function() {
 					this.configContainer.findOne( 'textarea' ).$.select();
 				}
