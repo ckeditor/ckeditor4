@@ -9,6 +9,15 @@ bender.editor = {
 	}
 };
 
+bender.editors = {
+	editor2: {
+		name: 'editor2',
+		config: {
+			extraPlugins: 'sourcearea'
+		}
+	}
+};
+
 var stubs = [];
 
 bender.test( {
@@ -18,6 +27,14 @@ bender.test( {
 		while ( stub = stubs.pop() ) {
 			stub.restore();
 		}
+	},
+
+	'test getSelectedHtml in source mode (#13118)': function() {
+		var editor = this.editors.editor2;
+
+		editor.execCommand( 'source' );
+		editor.getSelectedHtml();
+		assert.isTrue( true, 'So far so good. Method "getSelectedHtml" shouldn\'t throw an error in a "source" mode.' );
 	},
 
 	'test getSelectedHtml': function() {
