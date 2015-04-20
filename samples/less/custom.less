@@ -12,6 +12,24 @@ main .grid-container.freed-width {
 .switch {
 	background: darken( @global-link-font-color, 3% );
 	float: right;
+	overflow: visible;
+
+	// Switch balloon tooltip.
+	.balloon-a {
+		// Custom position relative to the switch.
+		position: absolute;
+		top: -40px;
+		right: 50%;
+		margin-right: -15px;
+
+		// Customize balloon colors.
+		background: #FFEFC1;
+		border-bottom-color: #DCDCA4;
+
+		&:before {
+			border-color: #FFEFC1 transparent transparent transparent;
+		}
+	}
 }
 
 #toolbar .editors-container {
@@ -101,5 +119,55 @@ div.cke .cke_combo_button {
 	&.active {
 		height: auto;
 		opacity: 1;
+	}
+}
+
+// Styles that allow .balloon-a to be absolutely positioned.
+header {
+	overflow: visible;
+
+	div.grid-container {
+		overflow: visible;
+	}
+
+	.navigation-b {
+		overflow: visible;
+
+		ul {
+			overflow: visible;
+		}
+
+		a {
+			// Tip is relative to the anchor.
+			position: relative;
+		}
+	}
+
+	.balloon-a {
+		position: absolute;
+		top: 48px;
+
+		left: 50%;
+		margin-left: -35px;
+
+		// Switch the balloon arrow and position on narrow screen
+		// to make it fully visible.
+		.global-is-max-width( 1140px, {
+			left: auto;
+			margin-left: auto;
+
+			right: 50%;
+			margin-right: -35px;
+
+			&:before {
+				left: auto;
+				right: 22px;
+			}
+		} );
+
+		// Don't display the balloon on mobile.
+		.global-is-mobile( {
+			display: none;
+		} );
 	}
 }
