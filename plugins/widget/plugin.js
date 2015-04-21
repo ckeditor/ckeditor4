@@ -1814,8 +1814,10 @@
 								// Finalize creation AFTER (20) new data was set.
 								okListener = dialog.once( 'ok', finalizeCreation, null, null, 20 );
 
-								cancelListener = dialog.once( 'cancel', function() {
-									editor.widgets.destroy( instance, true );
+								cancelListener = dialog.once( 'cancel', function( evt ) {
+									if ( !( evt.data && evt.data.hide === false ) ) {
+										editor.widgets.destroy( instance, true );
+									}
 								} );
 
 								dialog.once( 'hide', function() {
