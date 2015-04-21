@@ -115,6 +115,33 @@
 			}, 10 );
 		},
 
+		'test finish upload notification marked as important and is visible (#13032).': function() {
+			var editor = this.editors.classic;
+
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+			var loader = editor.uploadsRepository.loaders[ 0 ];
+
+			loader.data = bender.tools.pngBase64;
+			loader.changeStatus( 'uploading' );
+
+			var area = editor._.notificationArea;
+
+			// Closing notification.
+			area.notifications[ 0 ].hide();
+
+			assertUploadingWidgets( editor, LOADED_IMG );
+
+			// IE needs to wait for image to be loaded so it can read width and height of the image.
+			wait( function() {
+				loader.url = IMG_URL;
+				loader.changeStatus( 'uploaded' );
+
+				assert.areSame( 1, area.notifications.length, 'Successs notification is present because it\'s important one.' );
+				assert.areSame( 'success', area.notifications[ 0 ].type );
+			}, 10 );
+		},
+
 		'test inline with image2 (integration test)': function() {
 			var editor = this.editors.inline;
 
