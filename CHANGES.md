@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5
 
+Fixed Issues:
+
+* [#13118](http://dev.ckeditor.com/ticket/13118): Fixed: The [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) method throws error when called in the source mode.
+
 ## CKEditor 4.5 Beta
 
 New Features:
