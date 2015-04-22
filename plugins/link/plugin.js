@@ -677,12 +677,15 @@
 			if ( set[ 'data-cke-saved-href' ] )
 				set.href = set[ 'data-cke-saved-href' ];
 
-			var removed = CKEDITOR.tools.extend( {
+			var removed = {
 				target: 1,
 				onclick: 1,
 				'data-cke-pa-onclick': 1,
 				'data-cke-saved-name': 1
-			}, advAttrNames );
+			};
+
+			if ( data.advanced )
+				CKEDITOR.tools.extend( removed, advAttrNames );
 
 			// Remove all attributes which are not currently set.
 			for ( var s in set )
