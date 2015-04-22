@@ -661,29 +661,31 @@
 				return false;
 			};
 
-			editor.once( 'dialogShow', function( evt ) {
-				var spy = sinon.stub( editor.widgets, 'destroy' ),
-					dialog = evt.data;
+			this.editorBot.setData( '<p>foo</p>', function() {
+				editor.once( 'dialogShow', function( evt ) {
+					var spy = sinon.stub( editor.widgets, 'destroy' ),
+						dialog = evt.data;
 
-				dialog.once( 'cancel', function() {
-					resume( function() {
-						// Teardown.
-						window.confirm = originalConfirm;
+					dialog.once( 'cancel', function() {
+						resume( function() {
+							// Teardown.
+							window.confirm = originalConfirm;
 
-						assert.isFalse( spy.called );
+							assert.isFalse( spy.called );
+						} );
 					} );
+
+					// We have to wait here because of this:
+					// https://github.com/cksource/ckeditor-dev/blob/4fbe94b5fb4be9b1d440462cbc8f0c75e00350a5/plugins/dialog/plugin.js#L910
+					setTimeout( function() {
+						dialog.getContentElement( 'info', 'value1' ).setValue( 'bar' );
+						dialog.getButton( 'cancel' ).click();
+					}, 200 );
 				} );
 
-				// We have to wait here because of this:
-				// https://github.com/cksource/ckeditor-dev/blob/4fbe94b5fb4be9b1d440462cbc8f0c75e00350a5/plugins/dialog/plugin.js#L910
-				setTimeout( function() {
-					dialog.getContentElement( 'info', 'value1' ).setValue( 'bar' );
-					dialog.getButton( 'cancel' ).click();
-				}, 200 );
+				editor.execCommand( 'test1' );
+				wait();
 			} );
-
-			editor.execCommand( 'test1' );
-			wait();
 		}
 	} );
 } )();
