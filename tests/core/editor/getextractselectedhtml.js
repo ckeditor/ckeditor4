@@ -35,8 +35,7 @@ bender.test( {
 
 		editor.setMode( 'source', function() {
 			resume( function() {
-				editor.getSelectedHtml();
-				assert.isTrue( true, 'So far so good. Method "getSelectedHtml" shouldn\'t throw an error in a "source" mode.' );
+				assert.isNull( editor.getSelectedHtml() );
 
 				// Clean up after the test.
 				editor.setMode( 'wysiwyg', resume );
