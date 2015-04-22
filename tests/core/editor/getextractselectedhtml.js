@@ -2,14 +2,15 @@
 
 'use strict';
 
-bender.editor = {
-	creator: 'inline',
-	config: {
-		allowedContent: true
-	}
-};
-
 bender.editors = {
+	editor: {
+		name: 'editor',
+		creator: 'inline',
+		config: {
+			allowedContent: true
+		}
+	},
+
 	editor2: {
 		name: 'editor2',
 		config: {
@@ -32,13 +33,22 @@ bender.test( {
 	'test getSelectedHtml in source mode (#13118)': function() {
 		var editor = this.editors.editor2;
 
-		editor.execCommand( 'source' );
-		editor.getSelectedHtml();
-		assert.isTrue( true, 'So far so good. Method "getSelectedHtml" shouldn\'t throw an error in a "source" mode.' );
+		editor.setMode( 'source', function() {
+			resume( function() {
+				editor.getSelectedHtml();
+				assert.isTrue( true, 'So far so good. Method "getSelectedHtml" shouldn\'t throw an error in a "source" mode.' );
+
+				// Clean up after the test.
+				editor.setMode( 'wysiwyg', resume );
+				wait();
+			} );
+		} );
+
+		wait();
 	},
 
 	'test getSelectedHtml': function() {
-		var editor = this.editor;
+		var editor = this.editors.editor;
 		bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
 
 		var frag = editor.getSelectedHtml();
@@ -48,7 +58,7 @@ bender.test( {
 	},
 
 	'test getSelectedHtml with toString option': function() {
-		var editor = this.editor;
+		var editor = this.editors.editor;
 		bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
 
 		assert.areSame( 'ob', editor.getSelectedHtml( true ) );
@@ -63,14 +73,14 @@ bender.test( {
 		sinon.stub( CKEDITOR.dom.selection.prototype, 'getRanges' ).returns( [] );
 		stubs.push( CKEDITOR.dom.selection.prototype.getRanges );
 
-		var editor = this.editor,
+		var editor = this.editors.editor,
 			selectedHtml = editor.getSelectedHtml();
 
 		assert.isNull( selectedHtml, 'There should be no error but null should be returns if selection contains no ranges' );
 	},
 
 	'test extractSelectedHtml': function() {
-		var editor = this.editor;
+		var editor = this.editors.editor;
 		bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
 
 		// We need to precisely check if selection was set, because
@@ -90,7 +100,7 @@ bender.test( {
 	},
 
 	'test extractSelectedHtml with toString option': function() {
-		var editor = this.editor;
+		var editor = this.editors.editor;
 		bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );
 
 		assert.areSame( 'ob', editor.extractSelectedHtml( true ) );
@@ -102,14 +112,14 @@ bender.test( {
 		sinon.stub( CKEDITOR.dom.selection.prototype, 'getRanges' ).returns( [] );
 		stubs.push( CKEDITOR.dom.selection.prototype.getRanges );
 
-		var editor = this.editor,
+		var editor = this.editors.editor,
 			selectedHtml = editor.getSelectedHtml();
 
 		assert.isNull( selectedHtml, 'There should be no error but null should be returns if selection contains no ranges' );
 	},
 
 	'test extractSelectedHtml with removeEmptyBlock': function() {
-		var editor = this.editor;
+		var editor = this.editors.editor;
 		bender.tools.selection.setWithHtml( editor, '<p>{foo}</p><p>bar</p>' );
 
 		assert.areSame( 'foo', editor.extractSelectedHtml( true, true ) );
