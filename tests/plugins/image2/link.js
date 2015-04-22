@@ -20,6 +20,20 @@
 		}
 	};
 
+	bender.editors = {
+		editor1: {
+			name: 'test_editor1',
+			config: {
+				image2_alignClasses: [ 'align-left', 'align-center', 'align-right' ],
+				image2_disableResizer: true,
+
+				stylesSet: [
+					{ name: 'Image 30%', type: 'widget', widget: 'image', attributes: { 'class': 'image30' } }
+				]
+			}
+		}
+	};
+
 	function getParentsList( el ) {
 		var parents = el.getParents(),
 			arr = [];
@@ -750,6 +764,21 @@
 						}
 					} );
 				} );
+			} );
+		},
+
+		// #13197
+		'test align classes transfered from nested image to widget wrapper': function() {
+			var bot = this.editorBots.editor1,
+				html = '<p>' +
+					'<a id="x" href="#foo">' +
+						'<img id="w" src="bar/baz.jpg" alt="bag" class="image30 align-right" />' +
+					'</a>' +
+				'</p>';
+
+			bot.setData( html, function() {
+				var widget = getById( bot.editor, 'x' );
+				assert.isTrue( widget.wrapper.hasClass( 'align-right' ) );
 			} );
 		}
 	} );
