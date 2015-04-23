@@ -668,10 +668,14 @@
 
 					dialog.once( 'cancel', function() {
 						resume( function() {
-							// Teardown.
-							window.confirm = originalConfirm;
-
 							assert.isFalse( spy.called );
+
+							// Teardown.
+							window.confirm = function() {
+								return true;
+							};
+							dialog.getButton( 'cancel' ).click();
+							window.confirm = originalConfirm;
 						} );
 					} );
 
