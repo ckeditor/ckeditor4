@@ -772,13 +772,16 @@
 			var bot = this.editorBots.editor1,
 				html = '<p>' +
 					'<a id="x" href="#foo">' +
-						'<img id="w" src="bar/baz.jpg" alt="bag" class="image30 align-right" />' +
+						'<img src="bar/baz.jpg" alt="bag" class="image30 align-right" />' +
 					'</a>' +
 				'</p>';
 
 			bot.setData( html, function() {
 				var widget = getById( bot.editor, 'x' );
+
 				assert.isTrue( widget.wrapper.hasClass( 'align-right' ) );
+				assert.areSame( 'right', widget.data.align );
+				assert.isFalse( widget.element.findOne( 'img' ).hasClass( 'align-right' ) );
 			} );
 		}
 	} );
