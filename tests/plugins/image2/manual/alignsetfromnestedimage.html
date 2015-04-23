@@ -1,0 +1,19 @@
+<textarea id="editor1">
+&lt;p&gt;&lt;a id="x" href="#foo"&gt;&lt;img src="%BASE_PATH%_assets/logo.png" alt="bag" class="image30 align-right" /&gt;&lt;/a&gt;&lt;/p&gt;
+</textarea>
+<script>
+	CKEDITOR.replace( 'editor1', {
+		contentsCss: '%TEST_DIR%/../../_assets/contents.css',
+		image2_alignClasses: [ 'align-left', 'align-center', 'align-right' ],
+		image2_disableResizer: true,
+
+		stylesSet: [ {
+				name: 'Image 30%',
+				type: 'widget',
+				widget: 'image',
+				attributes: {
+					'class': 'image30'
+				}
+		} ]
+	} );
+</script>
