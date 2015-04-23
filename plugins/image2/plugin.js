@@ -387,15 +387,17 @@
 				if ( !data.align ) {
 					// Read the initial left/right alignment from the class set on element.
 					if ( alignClasses ) {
-						if ( this.element.hasClass( alignClasses[ 0 ] ) )
+						if ( this.element.hasClass( alignClasses[ 0 ] ) || image.hasClass( alignClasses[ 0 ] ) )
 							data.align = 'left';
-						else if ( this.element.hasClass( alignClasses[ 2 ] ) )
+						else if ( this.element.hasClass( alignClasses[ 2 ] ) || image.hasClass( alignClasses[ 2 ] ) )
 							data.align = 'right';
 
-						if ( data.align )
+						if ( data.align ) {
 							this.element.removeClass( alignClasses[ alignmentsObj[ data.align ] ] );
-						else
+							image.removeClass( alignClasses[ alignmentsObj[ data.align ] ] );
+						} else {
 							data.align = 'none';
+						}
 					}
 					// Read initial float style from figure/image and then remove it.
 					else {
