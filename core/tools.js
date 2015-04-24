@@ -378,7 +378,7 @@
 		 * @returns {String} The encoded value.
 		 */
 		htmlEncodeAttr: function( text ) {
-			return text.replace( quoteRegex, '&quot;' ).replace( ltRegex, '&lt;' ).replace( gtRegex, '&gt;' );
+			return CKEDITOR.tools.htmlEncode( text ).replace( quoteRegex, '&quot;' );
 		},
 
 		/**
@@ -392,7 +392,7 @@
 		 * @returns {String} The decoded text.
 		 */
 		htmlDecodeAttr: function( text ) {
-			return text.replace( quoteEscRegex, '"' ).replace( ltEscRegex, '<' ).replace( gtEscRegex, '>' );
+			return CKEDITOR.tools.htmlDecode( text.replace( quoteEscRegex, '"' ) );
 		},
 
 		/**

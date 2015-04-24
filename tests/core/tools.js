@@ -95,15 +95,15 @@
 		},
 	
 		test_htmlEncodeAttr: function() {
-			assert.areSame( '&lt;a b=&quot;c&quot;/&gt;', CKEDITOR.tools.htmlEncodeAttr( '<a b="c"/>' ) );
+			assert.areSame( '&lt;a b=&quot;c&amp;d&quot;/&gt;', CKEDITOR.tools.htmlEncodeAttr( '<a b="c&d"/>' ) );
 		},
 	
 		test_htmlDecodeAttr: function() {
-			assert.areSame( '< " > &amp;', CKEDITOR.tools.htmlDecodeAttr( '&lt; &quot; &gt; &amp;' ) );
+			assert.areSame( '< " > &', CKEDITOR.tools.htmlDecodeAttr( '&lt; &quot; &gt; &amp;' ) );
 		},
 	
 		test_htmlDecodeAttr2: function() {
-			assert.areSame( '&amp;lt; &amp;quot; &amp;gt; &amp;amp;', CKEDITOR.tools.htmlDecodeAttr( '&amp;lt; &amp;quot; &amp;gt; &amp;amp;' ) );
+			assert.areSame( '&lt; &quot; &gt; &amp;', CKEDITOR.tools.htmlDecodeAttr( '&amp;lt; &amp;quot; &amp;gt; &amp;amp;' ) );
 		},
 
 		test_cssStyleToDomStyle1: function() {
