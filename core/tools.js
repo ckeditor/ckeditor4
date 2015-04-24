@@ -354,7 +354,13 @@
 		 * @returns {String} The encoded string.
 		 */
 		htmlEncode: function( text ) {
-			return text.replace( ampRegex, '&amp;' ).replace( gtRegex, '&gt;' ).replace( ltRegex, '&lt;' );
+			// Backwards compatibility - accept also non-string values (casting is done below).
+			// Since 4.4.8 we return empty string for null and undefined because these values make no sense.
+			if ( text === undefined || text === null ) {
+				return '';
+			}
+
+			return String( text ).replace( ampRegex, '&amp;' ).replace( gtRegex, '&gt;' ).replace( ltRegex, '&lt;' );
 		},
 
 		/**
