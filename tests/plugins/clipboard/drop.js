@@ -702,6 +702,47 @@ var testsForMultipleEditor = {
 			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
 		},
 
+		'test isRangeBefore 4': function() {
+			var editor = this.editors.framed,
+				bot = this.editorBots[ editor.name ],
+				firstRange = editor.createRange(),
+				secondRange = editor.createRange(),
+				p, text;
+
+			// <p> [2] "Lorem[1] ipsum" "sit amet." </p>
+			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum</p>' );
+			p = editor.document.getById( 'p' );
+			text = new CKEDITOR.dom.text( ' sit amet.' );
+			text.insertAfter( p.getChild( 0 ) );
+
+			firstRange.setStart( p.getChild( 0 ), 5 );
+			firstRange.collapse( true );
+
+			secondRange.setStart( p, 0 );
+			secondRange.collapse( true );
+
+			assert.isFalse( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+		},
+
+		'test isRangeBefore adjacent positions (#13140)': function() {
+			var editor = this.editors.framed,
+				bot = this.editorBots[ editor.name ],
+				firstRange = editor.createRange(),
+				secondRange = editor.createRange(),
+				div;
+
+			bot.setHtmlWithSelection( '<div><p id="foo">foo</p><p id="bar">bar</p></div>' );
+			div = editor.document.findOne( 'div' );
+
+			firstRange.setStart( div, 1 );
+			firstRange.setEnd( div, 2 );
+
+			secondRange.setStart( div, 2 );
+			secondRange.setEnd( div, 2 );
+
+			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+		},
+
 		'test dragEnd event': function() {
 			var editor = this.editors.inline,
 				bot = this.editorBots[ editor.name ],
@@ -814,6 +855,32 @@ var testsForMultipleEditor = {
 				assert.areSame( 'foo', dragstartData, 'dragstartData' );
 				assert.areSame( 'foo', dropData, 'dropData' );
 				assert.areSame( 'foo', dragendData, 'dragendData' );
+			} );
+		},
+
+		'test drop block element at the same position': function() {
+			var editor = this.editors.framed,
+				evt = bender.tools.mockDropEvent();
+
+			bender.tools.selection.setWithHtml(
+				editor,
+				'<p>x</p>' +
+				'[<p id="middle" contenteditable="false">middle</p>]' +
+				'<p>y</p>'
+			);
+
+			drag( editor, evt );
+			drop( editor, evt, {
+				element: editor.editable(),
+				offset: 2,
+				expectedPasteEventCount: 0
+			}, function() {
+				return false;
+			}, function() {
+				assert.areEqual(
+					'<p>x</p><p id="middle" contenteditable="false">middle</p>[]<p>y</p>',
+					bender.tools.selection.getWithHtml( editor )
+				);
 			} );
 		},
 
