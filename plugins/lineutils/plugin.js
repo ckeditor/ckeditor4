@@ -596,6 +596,7 @@
 		CKEDITOR.tools.extend( this, {
 			editor: editor,
 			editable: editable,
+			inline: editable.isInline(),
 			doc: editor.document,
 			win: editor.window,
 			container: CKEDITOR.document.getBody(),
@@ -604,8 +605,6 @@
 
 		this.hidden = {};
 		this.visible = {};
-
-		this.inline = editable.isInline();
 
 		if ( !this.inline )
 			this.frame = this.win.getFrame();
@@ -883,10 +882,36 @@
 			this.winTopScroll = this.winTop.getScrollPosition();
 			this.winTopPane = this.winTop.getViewPaneSize();
 
-			if ( this.inline )
-				this.rect = this.editable.getClientRect();
-			else
-				this.rect = this.frame.getClientRect();
+			// (#13155)
+			this.rect = this.getClientRect( this.inline ? this.editable : this.frame );
+		},
+
+		/**
+		 * Returns boundingClientRect of an element, shifted by the position
+		 * of `container` when container is not `static` (#13155).
+		 *
+		 * See also: {@link CKEDITOR.dom.element#getClientRect}.
+		 *
+		 * @param {CKEDITOR.dom.element} el A DOM element.
+		 * @returns {Object} A shifted rect, extended by `relativeY` and `relativeX` properties.
+		 */
+		getClientRect: function( el ) {
+			var rect = el.getClientRect(),
+				relativeContainerDocPosition = this.container.getDocumentPosition(),
+				relativeContainerComputedPosition = this.container.getComputedStyle( 'position' );
+
+			if ( relativeContainerComputedPosition != 'static' ) {
+				// Remember the offset used to shift the clientRect.
+				rect.relativeY = relativeContainerDocPosition.y;
+				rect.relativeX = relativeContainerDocPosition.x;
+
+				rect.top -= rect.relativeY;
+				rect.bottom -= rect.relativeY;
+				rect.left -= rect.relativeX;
+				rect.right -= rect.relativeX;
+			}
+
+			return rect;
 		}
 	};
 
