@@ -1582,10 +1582,11 @@
 		},
 
 		/**
-		 * Check if the beginning of the `firstRange` is before the beginning of the `secondRange`
-		 * and modification of the content in the `firstRange` may break `secondRange`.
+		 * Check if the end of the `firstRange` is before the beginning of the `secondRange`
+		 * and modification of the content in the `firstRange` may break `secondRange`. The ranges
+		 * may also be adjacent to each other (first ends in the same place where the second starts).
 		 *
-		 * Notify that this function returns `false` if these two ranges are in two
+		 * Note that this function returns `false` if these two ranges are in two
 		 * separate nodes and do not affect each other (even if `firstRange` is before `secondRange`).
 		 *
 		 * **Note:** This function is in the public scope for tests usage only.
@@ -1599,22 +1600,31 @@
 		isRangeBefore: function( firstRange, secondRange ) {
 			// Both ranges has the same parent and the first has smaller offset. E.g.:
 			//
-			// 		"Lorem ipsum dolor sit[1] amet consectetur[2] adipiscing elit."
-			// 		"Lorem ipsum dolor sit" [1] "amet consectetur" [2] "adipiscing elit."
+			// * Ranges anchored in a text node:
+			// 		"Lorem ipsum dolor sit[/1] amet consectetur[2] adipiscing elit."
+			// * Ranges anchored in an element:
+			// 		"Lorem ipsum dolor sit" [/1] "amet consectetur" [2] "adipiscing elit."
+			// * Adjacent ranges - first range's end offset is on the same position as second range's start offset (#13140):
+			//		[1]<p>foo</p><p>bar</p>[/1][2]
 			//
 			if ( firstRange.endContainer.equals( secondRange.startContainer ) &&
-				firstRange.endOffset < secondRange.startOffset )
+				firstRange.endOffset <= secondRange.startOffset )
 				return true;
+
+			// First range is inside a text node and the second is in paragraph located before text node from the first one.
+			// <p> [2] "Lorem[/1] ipsum" "sit amet." </p>
+			if ( firstRange.endContainer.getParent().equals( secondRange.startContainer ) && firstRange.endContainer.getIndex() >= secondRange.startOffset )
+				return false;
 
 			// First range is inside a text node and the second is not, but if we change the
 			// first range into bookmark and split the text node then the seconds node offset
 			// will be no longer correct.
 			//
-			// 		"Lorem ipsum dolor sit [1] amet" "consectetur" [2] "adipiscing elit."
+			// 		"Lorem ipsum dolor sit [/1] amet" "consectetur" [2] "adipiscing elit."
 			//
-			if ( firstRange.endContainer.getParent().equals( secondRange.startContainer ) &&
-				firstRange.endContainer.getIndex() < secondRange.startOffset )
+			if ( firstRange.endContainer.getParent().equals( secondRange.startContainer ) && firstRange.endContainer.getIndex() <= secondRange.startOffset )
 				return true;
+
 
 			return false;
 		},
