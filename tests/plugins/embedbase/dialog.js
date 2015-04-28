@@ -182,5 +182,34 @@ bender.test( {
 			dialog.setValueOf( 'info', 'url', 'bar' );
 			dialog.getButton( 'ok' ).click();
 		} );
+	},
+
+	'test embedding cancelled before it\'s done': function() {
+		var editor = this.editors.classic,
+			widget = {
+				data: {
+					url: 'foo'
+				},
+
+				isUrlValid: function() {
+					return true;
+				},
+
+				loadContent: function() {
+					return {
+						cancel: function() {
+							// So far so good. If we reached here, it means that cancel function was called properly.
+							assert.isTrue( true );
+						}
+					};
+				}
+			};
+
+		this.openDialog( editor, widget, function( dialog ) {
+			dialog.setValueOf( 'info', 'url', 'bar' );
+
+			dialog.getButton( 'ok' ).click();
+			dialog.getButton( 'cancel' ).click();
+		} );
 	}
 } );

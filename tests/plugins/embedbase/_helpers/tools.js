@@ -18,6 +18,12 @@ var embedTools = {
 				}, 100 );
 				// This method is mainly used for automated tests, but the 100ms timeout gives
 				// them a more realistic behaviour.
+
+				return {
+					cancel: function() {
+						throw new Error( 'Not implemented.' );
+					}
+				};
 			};
 		} );
 	},
@@ -28,11 +34,18 @@ var embedTools = {
 
 			CKEDITOR.plugins.embedBase._jsonp.sendRequest = function() {
 				var args = arguments,
-					that = this;
+					that = this,
+					timeout;
 
-				setTimeout( function() {
+				timeout = setTimeout( function() {
 					origSendRequest.apply( that, args );
-				}, Math.random() * 1000 );
+				}, Math.random() * 1000 + 1000 );
+
+				return {
+					cancel: function() {
+						clearTimeout( timeout );
+					}
+				};
 			};
 		} );
 	},

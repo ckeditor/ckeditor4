@@ -74,5 +74,26 @@ bender.test( {
 		);
 
 		wait();
+	},
+
+	'test sendRequest and cancel': function() {
+		var successCallback = sinon.spy();
+
+		var jsonpRequest = Jsonp.sendRequest(
+			new CKEDITOR.template( '%TEST_DIR%_assets/void.js' ),
+			null,
+			successCallback
+		);
+
+		assert.isFunction( jsonpRequest.cancel );
+
+		var jsonpCallbacksNumberPre = CKEDITOR.tools.objectKeys( CKEDITOR._.jsonpCallbacks ).length;
+
+		jsonpRequest.cancel();
+
+		var jsonpCallbacksNumberPost = CKEDITOR.tools.objectKeys( CKEDITOR._.jsonpCallbacks ).length;
+
+		assert.isFalse( successCallback.called, 'success callback was not executed' );
+		assert.areSame( jsonpCallbacksNumberPre - 1, jsonpCallbacksNumberPost, 'callback has been removed on cancel()' );
 	}
 } );

@@ -17,7 +17,8 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 
 		onLoad: function() {
 			var that = this,
-				okButton = that.getButton( 'ok' );
+				okButton = that.getButton( 'ok' ),
+				loadContentRequest = null;
 
 			this.on( 'ok', function( evt ) {
 				// We're going to hide it manually, after remote response is fetched.
@@ -31,7 +32,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 
 				var url = that.getValueOf( 'info', 'url' );
 
-				that.widget.loadContent( url, {
+				loadContentRequest = that.widget.loadContent( url, {
 					noNotifications: true,
 
 					callback: function() {
@@ -41,20 +42,31 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 
 						editor.fire( 'saveSnapshot' );
 
-						okButton.enable();
 						that.hide();
+						unlock();
 					},
 
 					errorCallback: function( messageTypeOrMessage ) {
 						that.getContentElement( 'info', 'url' ).select();
 
-						// We need to enable the OK button so user can fix the URL.
-						okButton.enable();
-
 						alert( that.widget.getErrorMessage( messageTypeOrMessage, url, 'Given' ) );
+
+						unlock();
 					}
 				} );
 			}, null, null, 15 );
+
+			this.on( 'cancel', function( evt ) {
+				if ( evt.data.hide && loadContentRequest ) {
+					loadContentRequest.cancel();
+					unlock();
+				}
+			} );
+
+			function unlock() {
+				okButton.enable();
+				loadContentRequest = null;
+			}
 		},
 
 		contents: [
