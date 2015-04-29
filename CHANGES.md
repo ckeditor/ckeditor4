@@ -6,6 +6,8 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#13118](http://dev.ckeditor.com/ticket/13118): Fixed: The [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) method throws error when called in the source mode.
+* Toolbar configurators:
+  * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
 
 ## CKEditor 4.5 Beta
 
