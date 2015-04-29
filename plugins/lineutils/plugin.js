@@ -790,7 +790,8 @@
 
 			// Let's calculate the vertical position of the line.
 			if ( this.inline )
-				styles.top = loc + this.winTopScroll.y;
+				// (#13155)
+				styles.top = loc + this.winTopScroll.y - this.rect.relativeY;
 			else
 				styles.top = this.rect.top + this.winTopScroll.y + loc;
 
@@ -800,7 +801,8 @@
 
 			// Now let's calculate the horizontal alignment (left and width).
 			if ( this.inline )
-				styles.left = rel.elementRect.left;
+				// (#13155)
+				styles.left = rel.elementRect.left - this.rect.relativeX;
 			else {
 				if ( rel.elementRect.left > 0 )
 					styles.left = this.rect.left + rel.elementRect.left;
