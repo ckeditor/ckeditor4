@@ -1,10 +1,9 @@
 /* neo theme for codemirror */
-/* source: https://github.com/codemirror/CodeMirror/blob/master/theme/neo.css */
 
 /* Color scheme */
 
 .cm-s-neo.CodeMirror {
-  background-color:#f5f5f5;
+  background-color:#ffffff;
   color:#2e383c;
   line-height:1.4375;
 }
