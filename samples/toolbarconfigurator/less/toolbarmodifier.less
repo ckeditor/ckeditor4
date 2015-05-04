@@ -64,8 +64,10 @@
 	.user-select( none );
 }
 .toolbar {
+	padding: 5px 0;
 	margin-bottom: 2 * @sample-standard-vgap;
 	overflow: hidden;
+	background: #fff;
 
 	button.button-a {
 		&.cke_button {
@@ -474,5 +476,24 @@ div.toolbarModifier {
 		// Complementory with std's CodeMirror-lines vertical padding.
 		// Not needed when we use lines number, but we can't due to a bug in CM.
 		padding: 0 @sample-standard-vgap/2;
+	}
+}
+
+.staticContainer {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 10;
+
+	> .grid-container {
+		max-width: 1044px + 2 * @grid-gutter-width;
+
+		.inner {
+			background: #fff;
+
+			.toolbar {
+				margin-bottom: 0;
+			}
+		}
 	}
 }

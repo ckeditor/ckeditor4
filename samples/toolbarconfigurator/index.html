@@ -239,6 +239,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		function onToolbarInit() {
 			if ( ++done === 2 ) {
 				onToolbarsDone();
+
+				positionSticky.watch( CKEDITOR.document.findOne( '.toolbar' ), function() {
+					return mode === 'advanced';
+				} );
 			}
 		}
 
@@ -309,11 +313,31 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			// }
 			watched: [],
 
-			watch: function( element ) {
+			active: [],
+
+			staticContainer: null,
+
+			init: function() {
+				var element = CKEDITOR.dom.element.createFromHtml(
+					'<div class="staticContainer">' +
+						'<div class="grid-container" >' +
+							'<div class="grid-width-100">' +
+								'<div class="inner"></div>' +
+							'</div>' +
+						'</div>' +
+					'</div>' );
+
+				this.staticContainer = element.findOne( '.inner' );
+
+				CKEDITOR.document.getBody().append( element );
+			},
+
+			watch: function( element, preventFunc ) {
 				this.watched.push( {
 					element: element,
 					placeholder: new CKEDITOR.dom.element( 'div' ),
-					isFixed: false
+					isFixed: false,
+					preventFunc: preventFunc
 				} );
 			},
 
@@ -336,46 +360,50 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 				if ( isFixed ) {
 					// Unfixing.
+
+					element.element.insertBefore( placeholder );
 					placeholder.remove();
 
-					element.element.removeStyle( 'width' );
-					element.element.removeStyle( 'height' );
+					element.element.removeStyle( 'margin' );
 
-					element.element.removeStyle( 'position' );
-					element.element.removeStyle( 'top' );
-					element.element.removeStyle( 'z-index' );
+					this.active.splice( CKEDITOR.tools.indexOf( this.active, element ), 1 );
 
 				} else {
 					// Fixing.
 					placeholder.setStyle( 'width', element.element.getSize( 'width' ) + 'px' );
 					placeholder.setStyle( 'height', element.element.getSize( 'height' ) + 'px' );
-
-					var width = element.element.getSize( 'width' ),
-						height = element.element.getSize( 'height' );
-
-					element.element.setStyles( {
-						// Workaround: Decrement width by one to keep the same visual width.
-						width: ( width - 1 ) + 'px',
-						height: height + 'px',
-						position: 'fixed',
-						top: '0',
-						'z-index': '1000'
-					} );
-
+					placeholder.setStyle( 'margin-bottom', element.element.getComputedStyle( 'margin-bottom' ) );
+					placeholder.setStyle( 'display', element.element.getComputedStyle( 'display' ) );
 					placeholder.insertAfter( element.element );
+
+					this.staticContainer.append( element.element );
+
+					this.active.push( element );
 				}
 
 				element.isFixed = !element.isFixed;
 			},
 
 			shouldBeFixed: function( element ) {
+				if ( element.preventFunc && element.preventFunc() ) {
+					return false;
+				}
+
 				// If element is already fixed we are checking it's placeholder.
 				var related = ( element.isFixed ? element.placeholder : element.element ),
-					clientRect = related.$.getBoundingClientRect();
+					clientRect = related.$.getBoundingClientRect(),
+					staticHeight = this.staticContainer.getSize('height' ),
+					elemHeight = element.element.getSize( 'height' );
 
-				return ( clientRect.top < 0 );
+				if ( element.isFixed ) {
+					return ( clientRect.top + elemHeight < staticHeight );
+				} else {
+					return ( clientRect.top < staticHeight );
+				}
 			}
 		};
+
+		positionSticky.init();
 
 		CKEDITOR.document.getWindow().on( 'scroll',
 			new CKEDITOR.tools.eventsBuffer( 100, positionSticky.checkAll, positionSticky ).input

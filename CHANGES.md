@@ -12,6 +12,7 @@ Fixed Issues:
   * [#13136](http://dev.ckeditor.com/ticket/13136): Fixed: Autocompleter is far too intrusive.
   * [#13133](http://dev.ckeditor.com/ticket/13133): Fixed: Tab leaves the editor.
   * [#13173](http://dev.ckeditor.com/ticket/13173): Fixed: `config.removeButtons` is ignored by the advanced toolbar configurator.
+  * [#13147](http://dev.ckeditor.com/ticket/13147): Add buttons to the sticky toolbar.
 
 ## CKEditor 4.5 Beta
 
