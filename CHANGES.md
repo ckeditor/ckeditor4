@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#13118](http://dev.ckeditor.com/ticket/13118): Fixed: The [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) method throws error when called in the source mode.
+* [#13158](http://dev.ckeditor.com/ticket/13158): Fixed: Error after canceling dialog when creating a widget.
 * Toolbar configurators:
   * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
   * [#13138](http://dev.ckeditor.com/ticket/13138): Fixed: The "Toggle empty elements" button label is unclear.
