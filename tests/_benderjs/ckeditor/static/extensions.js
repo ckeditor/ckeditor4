@@ -380,8 +380,9 @@
 	}
 
 	bender.configureEditor = function( config ) {
-		var regexp,
-			toLoad = 0,
+		var toLoad = 0,
+			removePlugins,
+			regexp,
 			i;
 
 		if ( config.plugins ) {
@@ -390,10 +391,13 @@
 				config.plugins.join( ',' );
 		}
 
-		if ( config[ 'remove-plugins' ] ) {
-			CKEDITOR.config.removePlugins = config[ 'remove-plugins' ].join( ',' );
+		// support both Bender <= 0.2.2 and >= 0.2.3 directives
+		removePlugins = config[ 'remove-plugins' ] || ( config.remove && config.remove.plugins );
 
-			regexp = new RegExp( '(?:^|,)(' + config[ 'remove-plugins' ].join( '|' ) + ')(?=,|$)', 'g' );
+		if ( removePlugins ) {
+			CKEDITOR.config.removePlugins = removePlugins.join( ',' );
+
+			regexp = new RegExp( '(?:^|,)(' + removePlugins.join( '|' ) + ')(?=,|$)', 'g' );
 
 			CKEDITOR.config.plugins = CKEDITOR.config.plugins
 				.replace( regexp, '' )
