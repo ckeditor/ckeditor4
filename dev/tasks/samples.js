@@ -1,3 +1,8 @@
+/**
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
+ */
+
 /* jshint node: true, browser: false, es3: false */
 
 'use strict';
@@ -5,11 +10,10 @@
 module.exports = function( grunt ) {
 	var banner = [
 			'/**',
-			' * Copyright (c) 2003-' + new Date().getFullYear() + ', CKSource - Frederico Knabben. All rights reserved.',
-			' * For licensing, see LICENSE.html or http://cksource.com/ckeditor/license',
-			' */',
+			' * @license Copyright (c) 2003-' + new Date().getFullYear() + ', CKSource - Frederico Knabben. All rights reserved.',
+			' * For licensing, see LICENSE.md or http://ckeditor.com/license',
+			' */\n',
 		],
-		jsBanner = banner.concat( [ '', '// jscs: disable', '// jshint ignore: start', '' ] ),
 		samplesFrameworkDir = 'node_modules/cksource-samples-framework',
 		samplesFrameworkJsFiles = [
 			samplesFrameworkDir + '/js/sf.js',
@@ -72,7 +76,7 @@ module.exports = function( grunt ) {
 			samples: {
 				options: {
 					stripBanners: true,
-					banner: jsBanner.join( '\n' )
+					banner: banner.join( '\n' )
 				},
 				src: samplesFrameworkJsFiles,
 				dest: 'samples/js/sf.js'

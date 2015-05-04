@@ -1,10 +1,9 @@
 /**
- * Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+/* exported SF */
 
-// jscs: disable
-// jshint ignore: start
 'use strict';
 
 var SF = ( function() {
@@ -33,7 +32,7 @@ var SF = ( function() {
 			return function( arr, elem ) {
 				var max = arr.length;
 
-				for( var i = 0; i < max; i++ ) {
+				for ( var i = 0; i < max; i++ ) {
 					if ( arr[ i ] === elem ) {
 						return i;
 					}
@@ -58,7 +57,7 @@ var SF = ( function() {
 		}
 
 		var i = children ? ( children.length || 0 ) : 0;
-		while( i-- ) {
+		while ( i-- ) {
 			SF.accept( children[ i ], visitor );
 		}
 	};
@@ -175,6 +174,8 @@ var SF = ( function() {
 		} );
 	}
 } )();
+/* global SF */
+
 'use strict';
 
 ( function() {
