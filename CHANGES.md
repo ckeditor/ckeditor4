@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.8
 
+Other Changes:
+
+* [#13103](http://dev.ckeditor.com/ticket/13103): Upgraded [Bender.js](https://github.com/benderjs/benderjs) to 0.2.3.
+
 Fixed Issues:
 
 * [#12899](http://dev.ckeditor.com/ticket/12899): Fixed: Corrected wrong tag ending for horizontal box definition in the [Dialog User Interface](http://ckeditor.com/addon/dialogui) plugin. Thanks to [mizafish](https://github.com/mizafish)!
@@ -14,7 +18,6 @@ Fixed Issues:
 * [#12729](http://dev.ckeditor.com/ticket/12729): Incorrect structure created when merging a block into a list item on *Backspace* and *Delete*.
 * [#13031](http://dev.ckeditor.com/ticket/13031): [Firefox] Fixed: No more line breaks in source view since Firefox 36.
 * [#13131](http://dev.ckeditor.com/ticket/13131): Fixed: The [Code Snippet](http://ckeditor.com/addon/codesnippet) plugin cannot be used without the [IFrame Editing Area](http://ckeditor.com/addon/wysiwygarea) plugin.
-* [#13103](http://dev.ckeditor.com/ticket/13103): Upgraded [Bender.js](https://github.com/benderjs/benderjs) to 0.2.3.
 
 Other Changes:
 
