@@ -772,7 +772,7 @@
 			var bot = this.editorBots.editor1,
 				html = '<p>' +
 					'<a id="x" href="#foo">' +
-						'<img src="bar/baz.jpg" alt="bag" class="image30 align-right" />' +
+						'<img src="_assets/foo.png" alt="bag" class="image30 align-right" />' +
 					'</a>' +
 				'</p>';
 
@@ -781,7 +781,7 @@
 
 				assert.isTrue( widget.wrapper.hasClass( 'align-right' ) );
 				assert.areSame( 'right', widget.data.align );
-				assert.isFalse( widget.element.findOne( 'img' ).hasClass( 'align-right' ) );
+				assert.isFalse( widget.parts.image.hasClass( 'align-right' ) );
 			} );
 		}
 	} );
