@@ -641,7 +641,7 @@
 
 				widget.focus();
 
-				widget.on( 'edit', function( evt ) {
+				widget.once( 'edit', function( evt ) {
 					editFired += 1;
 					evt.cancel();
 				} );
@@ -649,6 +649,46 @@
 				editor.execCommand( 'test1' );
 
 				assert.areSame( 1, editFired, 'Widget.edit was called' );
+			} );
+		},
+
+		'test cancelling cancel widget dialog does not destroy widget (#13158).': function() {
+			var editor = this.editor,
+				originalConfirm = window.confirm;
+
+			// Setup.
+			window.confirm = function() {
+				return false;
+			};
+
+			this.editorBot.setData( '<p>foo</p>', function() {
+				editor.once( 'dialogShow', function( evt ) {
+					var spy = sinon.stub( editor.widgets, 'destroy' ),
+						dialog = evt.data;
+
+					dialog.once( 'cancel', function() {
+						resume( function() {
+							assert.isFalse( spy.called );
+
+							// Teardown.
+							window.confirm = function() {
+								return true;
+							};
+							dialog.getButton( 'cancel' ).click();
+							window.confirm = originalConfirm;
+						} );
+					} );
+
+					// We have to wait here because of this:
+					// https://github.com/cksource/ckeditor-dev/blob/4fbe94b5fb4be9b1d440462cbc8f0c75e00350a5/plugins/dialog/plugin.js#L910
+					setTimeout( function() {
+						dialog.getContentElement( 'info', 'value1' ).setValue( 'bar' );
+						dialog.getButton( 'cancel' ).click();
+					}, 200 );
+				} );
+
+				editor.execCommand( 'test1' );
+				wait();
 			} );
 		}
 	} );
