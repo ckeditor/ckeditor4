@@ -3,10 +3,6 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.4.8
 
-Other Changes:
-
-* [#13103](http://dev.ckeditor.com/ticket/13103): Upgraded [Bender.js](https://github.com/benderjs/benderjs) to 0.2.3.
-
 Fixed Issues:
 
 * [#12899](http://dev.ckeditor.com/ticket/12899): Fixed: Corrected wrong tag ending for horizontal box definition in the [Dialog User Interface](http://ckeditor.com/addon/dialogui) plugin. Thanks to [mizafish](https://github.com/mizafish)!
@@ -22,7 +18,7 @@ Fixed Issues:
 
 Other Changes:
 
-* [#12844](http://dev.ckeditor.com/ticket/12844): Upgraded the [testing environment](http://docs.ckeditor.com/#!/guide/dev_tests) to [Bender.js](https://github.com/benderjs/benderjs) `0.2.*`.
+* [#12844](http://dev.ckeditor.com/ticket/12844) and [#13103](http://dev.ckeditor.com/ticket/13103): Upgraded the [testing environment](http://docs.ckeditor.com/#!/guide/dev_tests) to [Bender.js](https://github.com/benderjs/benderjs) `0.2.3`.
 * [#12930](http://dev.ckeditor.com/ticket/12930): Because of licenses, removed `truncated-mathjax/` from the `tests/` directory. Now `bender.config.mathJaxLibPath` must be configured manually in order to run MathJax plugin's tests.
 
 ## CKEditor 4.4.7
