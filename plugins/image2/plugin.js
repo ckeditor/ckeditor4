@@ -385,25 +385,26 @@
 				// Note: Center alignment is detected during upcast, so only left/right cases
 				// are checked below.
 				if ( !data.align ) {
+					var alignElement = data.hasCaption ? this.element : image;
+
 					// Read the initial left/right alignment from the class set on element.
 					if ( alignClasses ) {
-						if ( this.element.hasClass( alignClasses[ 0 ] ) || image.hasClass( alignClasses[ 0 ] ) )
+						if ( alignElement.hasClass( alignClasses[ 0 ] ) ) {
 							data.align = 'left';
-						else if ( this.element.hasClass( alignClasses[ 2 ] ) || image.hasClass( alignClasses[ 2 ] ) )
+						} else if ( alignElement.hasClass( alignClasses[ 2 ] ) ) {
 							data.align = 'right';
+						}
 
 						if ( data.align ) {
-							this.element.removeClass( alignClasses[ alignmentsObj[ data.align ] ] );
-							image.removeClass( alignClasses[ alignmentsObj[ data.align ] ] );
+							alignElement.removeClass( alignClasses[ alignmentsObj[ data.align ] ] );
 						} else {
 							data.align = 'none';
 						}
 					}
 					// Read initial float style from figure/image and then remove it.
 					else {
-						data.align = this.element.getStyle( 'float' ) || image.getStyle( 'float' ) || 'none';
-						this.element.removeStyle( 'float' );
-						image.removeStyle( 'float' );
+						data.align = alignElement.getStyle( 'float' ) || 'none';
+						alignElement.removeStyle( 'float' );
 					}
 				}
 
@@ -414,8 +415,9 @@
 					// Get rid of cke_widget_* classes in data. Otherwise
 					// they might appear in link dialog.
 					var advanced = data.link.advanced;
-					if ( advanced && advanced.advCSSClasses )
+					if ( advanced && advanced.advCSSClasses ) {
 						advanced.advCSSClasses = CKEDITOR.tools.trim( advanced.advCSSClasses.replace( /cke_\S+/, '' ) );
+					}
 				}
 
 				// Get rid of extra vertical space when there's no caption.
