@@ -18,6 +18,7 @@ Fixed Issues:
 * [#12729](http://dev.ckeditor.com/ticket/12729): Incorrect structure created when merging a block into a list item on *Backspace* and *Delete*.
 * [#13031](http://dev.ckeditor.com/ticket/13031): [Firefox] Fixed: No more line breaks in source view since Firefox 36.
 * [#13131](http://dev.ckeditor.com/ticket/13131): Fixed: The [Code Snippet](http://ckeditor.com/addon/codesnippet) plugin cannot be used without the [IFrame Editing Area](http://ckeditor.com/addon/wysiwygarea) plugin.
+* [#9086](http://dev.ckeditor.com/ticket/9086): Fixed: Invalid ARIA property used on paste iframe.
 
 Other Changes:
 
