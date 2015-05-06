@@ -53,7 +53,9 @@
 							// Switch context from somewhere inside list item to list item,
 							// if not found just assign self (doing nothing).
 							if ( !firstBlock.is( $listItem ) ) {
-								firstBlock = firstBlock.getAscendant( $listItem ) || firstBlock;
+								var ascendant = firstBlock.getAscendant( $listItem );
+
+								firstBlock = ( ascendant && path.contains( ascendant ) ) || firstBlock;
 							}
 
 							// Switch context from list item to list
