@@ -636,31 +636,31 @@ var testsForMultipleEditor = {
 			assert.isInnerHtmlMatching( '<p id="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 		},
 
-		'test isRangeBefore 1': function() {
+		'test isDropRangeAffectedByDragRange 1': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
-				firstRange = editor.createRange(),
-				secondRange = editor.createRange(),
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
 				p;
 
 			// "Lorem[1] ipsum[2] sit amet."
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
 			p = editor.document.getById( 'p' );
 
-			firstRange.setStart( p.getChild( 0 ), 5 );
-			firstRange.collapse( true );
+			dragRange.setStart( p.getChild( 0 ), 5 );
+			dragRange.collapse( true );
 
-			secondRange.setStart( p.getChild( 0 ), 11 );
-			secondRange.collapse( true );
+			dropRange.setStart( p.getChild( 0 ), 11 );
+			dropRange.collapse( true );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+			assert.isTrue( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
 		},
 
-		'test isRangeBefore 2': function() {
+		'test isDropRangeAffectedByDragRange 2': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
-				firstRange = editor.createRange(),
-				secondRange = editor.createRange(),
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
 				p, text;
 
 			// "Lorem " [1] " ipsum" [2] "sit amet."
@@ -671,20 +671,20 @@ var testsForMultipleEditor = {
 			text = new CKEDITOR.dom.text( ' sit amet.' );
 			text.insertAfter( p.getChild( 0 ) );
 
-			firstRange.setStart( p, 1 );
-			firstRange.collapse( true );
+			dragRange.setStart( p, 1 );
+			dragRange.collapse( true );
 
-			secondRange.setStart( p, 2 );
-			secondRange.collapse( true );
+			dropRange.setStart( p, 2 );
+			dropRange.collapse( true );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+			assert.isTrue( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
 		},
 
-		'test isRangeBefore 3': function() {
+		'test isDropRangeAffectedByDragRange 3': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
-				firstRange = editor.createRange(),
-				secondRange = editor.createRange(),
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
 				p, text;
 
 			// "Lorem[1] ipsum" [2] "sit amet."
@@ -693,20 +693,20 @@ var testsForMultipleEditor = {
 			text = new CKEDITOR.dom.text( ' sit amet.' );
 			text.insertAfter( p.getChild( 0 ) );
 
-			firstRange.setStart( p.getChild( 0 ), 5 );
-			firstRange.collapse( true );
+			dragRange.setStart( p.getChild( 0 ), 5 );
+			dragRange.collapse( true );
 
-			secondRange.setStart( p, 1 );
-			secondRange.collapse( true );
+			dropRange.setStart( p, 1 );
+			dropRange.collapse( true );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+			assert.isTrue( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
 		},
 
-		'test isRangeBefore 4': function() {
+		'test isDropRangeAffectedByDragRange 4': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
-				firstRange = editor.createRange(),
-				secondRange = editor.createRange(),
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
 				p, text;
 
 			// <p> [2] "Lorem[1] ipsum" "sit amet." </p>
@@ -715,32 +715,32 @@ var testsForMultipleEditor = {
 			text = new CKEDITOR.dom.text( ' sit amet.' );
 			text.insertAfter( p.getChild( 0 ) );
 
-			firstRange.setStart( p.getChild( 0 ), 5 );
-			firstRange.collapse( true );
+			dragRange.setStart( p.getChild( 0 ), 5 );
+			dragRange.collapse( true );
 
-			secondRange.setStart( p, 0 );
-			secondRange.collapse( true );
+			dropRange.setStart( p, 0 );
+			dropRange.collapse( true );
 
-			assert.isFalse( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+			assert.isFalse( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
 		},
 
-		'test isRangeBefore adjacent positions (#13140)': function() {
+		'test isDropRangeAffectedByDragRange adjacent positions (#13140)': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
-				firstRange = editor.createRange(),
-				secondRange = editor.createRange(),
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
 				div;
 
 			bot.setHtmlWithSelection( '<div><p id="foo">foo</p><p id="bar">bar</p></div>' );
 			div = editor.document.findOne( 'div' );
 
-			firstRange.setStart( div, 1 );
-			firstRange.setEnd( div, 2 );
+			dragRange.setStart( div, 1 );
+			dragRange.setEnd( div, 2 );
 
-			secondRange.setStart( div, 2 );
-			secondRange.setEnd( div, 2 );
+			dropRange.setStart( div, 2 );
+			dropRange.setEnd( div, 2 );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+			assert.isTrue( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
 		},
 
 		'test dragEnd event': function() {

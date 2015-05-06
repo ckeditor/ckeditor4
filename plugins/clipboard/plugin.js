@@ -1384,7 +1384,7 @@
 				// Execute drop with a timeout because otherwise selection, after drop,
 				// on IE is in the drag position, instead of drop position.
 				setTimeout( function() {
-					var dragBookmark, dropBookmark, isRangeBefore;
+					var dragBookmark, dropBookmark, isDropRangeAffected;
 
 					// Save and lock snapshot so there will be only
 					// one snapshot for both remove and insert content.
@@ -1399,13 +1399,13 @@
 					// changing one range (event creating a bookmark) may make other invalid.
 					// We need to change ranges into bookmarks so we can manipulate them easily in the future.
 					// We can change the range which is later in the text before we change the preceding range.
-					// We call isRangeBefore to test the order of ranges.
-					isRangeBefore = clipboard.isRangeBefore( dragRange, dropRange );
-					if ( !isRangeBefore ) {
+					// We call isDropRangeAffectedByDragRange to test the order of ranges.
+					isDropRangeAffected = clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange );
+					if ( !isDropRangeAffected ) {
 						dragBookmark = dragRange.createBookmark( 1 );
 					}
 					dropBookmark = dropRange.clone().createBookmark( 1 );
-					if ( isRangeBefore ) {
+					if ( isDropRangeAffected ) {
 						dragBookmark = dragRange.createBookmark( 1 );
 					}
 
@@ -1582,22 +1582,22 @@
 		},
 
 		/**
-		 * Check if the end of the `firstRange` is before the beginning of the `secondRange`
-		 * and modification of the content in the `firstRange` may break `secondRange`. The ranges
+		 * Check if the end of the `dragRange` is before the beginning of the `dropRange`
+		 * and modification of the content in the `dragRange` may break `dropRange`. The ranges
 		 * may also be adjacent to each other (first ends in the same place where the second starts).
 		 *
 		 * Note that this function returns `false` if these two ranges are in two
-		 * separate nodes and do not affect each other (even if `firstRange` is before `secondRange`).
+		 * separate nodes and do not affect each other (even if `dragRange` is before `dropRange`).
 		 *
 		 * **Note:** This function is in the public scope for tests usage only.
 		 *
 		 * @since 4.5
 		 * @private
-		 * @param {CKEDITOR.dom.range} firstRange The first range to compare.
-		 * @param {CKEDITOR.dom.range} secondRange The second range to compare.
+		 * @param {CKEDITOR.dom.range} dragRange The first range to compare.
+		 * @param {CKEDITOR.dom.range} dropRange The second range to compare.
 		 * @returns {Boolean} True if the first range in before the second range.
 		 */
-		isRangeBefore: function( firstRange, secondRange ) {
+		isDropRangeAffectedByDragRange: function( dragRange, dropRange ) {
 			// Both ranges has the same parent and the first has smaller offset. E.g.:
 			//
 			// * Ranges anchored in a text node:
@@ -1607,13 +1607,13 @@
 			// * Adjacent ranges - first range's end offset is on the same position as second range's start offset (#13140):
 			//		[1]<p>foo</p><p>bar</p>[/1][2]
 			//
-			if ( firstRange.endContainer.equals( secondRange.startContainer ) &&
-				firstRange.endOffset <= secondRange.startOffset )
+			if ( dragRange.endContainer.equals( dropRange.startContainer ) &&
+				dragRange.endOffset <= dropRange.startOffset )
 				return true;
 
 			// First range is inside a text node and the second is in paragraph located before text node from the first one.
 			// <p> [2] "Lorem[/1] ipsum" "sit amet." </p>
-			if ( firstRange.endContainer.getParent().equals( secondRange.startContainer ) && firstRange.endContainer.getIndex() >= secondRange.startOffset )
+			if ( dragRange.endContainer.getParent().equals( dropRange.startContainer ) && dragRange.endContainer.getIndex() >= dropRange.startOffset )
 				return false;
 
 			// First range is inside a text node and the second is not, but if we change the
@@ -1622,7 +1622,7 @@
 			//
 			// 		"Lorem ipsum dolor sit [/1] amet" "consectetur" [2] "adipiscing elit."
 			//
-			if ( firstRange.endContainer.getParent().equals( secondRange.startContainer ) && firstRange.endContainer.getIndex() <= secondRange.startOffset )
+			if ( dragRange.endContainer.getParent().equals( dropRange.startContainer ) && dragRange.endContainer.getIndex() <= dropRange.startOffset )
 				return true;
 
 
