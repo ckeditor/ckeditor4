@@ -8,13 +8,36 @@
 bender.editors = {
 	classic: {
 		name: 'editor_classic',
-		creator: 'replace'
+		creator: 'replace',
+		config: {
+			extraAllowedContent: 'div(a,b,c)'
+		}
 	}
 };
 
+var obj2Array = widgetTestsTools.obj2Array;
+var classes2Array = widgetTestsTools.classes2Array;
+
 embedTools.mockJsonp();
 
-var tcs = {};
+var tcs = {
+	'test support for widget classes': function() {
+		var bot = this.editorBots.classic,
+			editor = bot.editor,
+			data = '<div class="a b c" data-oembed-url="http://foo.jpg">' +
+					'<img alt="image" src="//foo.jpg" style="max-width:100%;" />' +
+				'</div>';
+
+		bot.setData( data, function() {
+			wait( function() {
+				arrayAssert.itemsAreSame( [ 'a', 'b', 'c' ],
+					classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
+
+				assert.areSame( data, bot.getData( 1, 1 ), 'classes transfered from widget.element back to data' );
+			}, 100 );
+		} );
+	}
+};
 
 widgetTestsTools.addTests( tcs, {
 	name: 'basic',
