@@ -32,7 +32,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( 'his is <b>some</b>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( 'his is <b id="_b">some</b>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -113,7 +113,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1>ckw3crange test</h1><p>this is <b>some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( '<h1>ckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -139,7 +139,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1>fckw3crange test</h1><p>this is <b>some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( '<h1>fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -165,7 +165,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1>fckw3crange test</h1><p>this is <b>some</b> text.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( '<h1 id="_h1">fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p>', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
@@ -214,7 +214,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( 'this is <b>some</b> text.', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
+			assert.areSame( 'this is <b id="_b">some</b> text.', getInnerHtml( tmpDiv.$ ), 'Cloned HTML' );
 
 			// The body HTML must remain unchanged.
 			assert.areSame( bodyHtml.replace( /\s+_cke_expando=["\d]+/g, '' ), document.getElementById( 'playground' ).innerHTML.replace( /\s+_cke_expando=["\d]+/g, '' ), 'The HTML must remain untouched' );
