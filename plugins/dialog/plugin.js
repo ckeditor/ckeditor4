@@ -1401,6 +1401,24 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				for ( var i = index + 1; i < this._.focusList.length; i++ )
 					this._.focusList[ i ].focusIndex++;
 			}
+		},
+
+		/**
+		 * Shows a loading spinner in dialog's title bar. The opposite of {@link hideSpinner}.
+		 *
+		 * **Note:** The spinner is added to DOM on demand. See initSpinner() to know more.
+		 */
+		showSpinner: function() {
+			( this.parts.spinner || initSpinner( this ) ).show();
+		},
+
+		/**
+		 * Hides the loading spinner in dialogs title bar. The opposite of {@link showSpinner}.
+		 */
+		hideSpinner: function() {
+			if ( this.parts.spinner ) {
+				this.parts.spinner.hide();
+			}
 		}
 	};
 
@@ -2008,6 +2026,29 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				coverDoc.removeListener( 'mousemove', mouseMoveHandler );
 			}
 		}
+	}
+
+	// Appends a spinner to dialog's title bar on demand.
+	//
+	// Note: To avoid cluttering dialog DOM with obsolete spinners (most of the dialogs don't need them),
+	// this function is called on demand, registering spinner in `dialog.parts.spinner` only when such
+	// UI component is required to be shown.
+	//
+	// @param {CKEDITOR.dialog} dialog Dialog instance.
+	// @see CKEDITOR.dialog.(show|hide)Spinner()
+	//
+	function initSpinner( dialog ) {
+		if ( !dialog.parts.spinner ) {
+			var spinner = dialog.parts.spinner = CKEDITOR.document.createElement( 'div', {
+				attributes: {
+					'class': 'cke_dialog_spinner'
+				}
+			} );
+
+			spinner.appendTo( dialog.parts.title, 1 );
+		}
+
+		return dialog.parts.spinner;
 	}
 
 	var resizeCover;
