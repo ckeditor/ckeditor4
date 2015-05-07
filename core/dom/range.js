@@ -395,7 +395,8 @@ CKEDITOR.dom.range = function( root ) {
 
 			// If cloning, just clone it.
 			if ( isClone || forceClone ) {
-				newParent.append( node.clone( true ), toStart );
+				// Make sure to preserve element ID while cloning (#13128).
+				newParent.append( node.clone( true, true ), toStart );
 			} else {
 				// Both Delete and Extract will remove the node.
 				node.remove();
