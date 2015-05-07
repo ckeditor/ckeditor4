@@ -76,6 +76,68 @@ Comments in this file will give more details about each of the above blocks.
 	border-bottom: 1px solid #eee;
 }
 
+.cke_dialog_spinner
+{
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+
+	width: 12px;
+	height: 12px;
+}
+
+.cke_dialog_spinner
+{
+	font-size: 10px;
+	text-indent: -9999em;
+
+	float: left;
+	margin-right: 8px;
+	display: block;
+
+	border-top: 2px solid rgba(102, 102, 102, 0.2);
+	border-right: 2px solid rgba(102, 102, 102, 0.2);
+	border-bottom: 2px solid rgba(102, 102, 102, 0.2);
+	border-left: 2px solid rgba(102, 102, 102, 1);
+
+	-webkit-animation: dialog_spinner 1s infinite linear;
+	animation: dialog_spinner 1s infinite linear;
+}
+
+/* A GIF fallback for IE8 and IE9 which does not support CSS animations. */
+.cke_browser_ie8 .cke_dialog_spinner,
+.cke_browser_ie9 .cke_dialog_spinner
+{
+	background: url(images/spinner.gif) center top no-repeat;
+	width: 16px;
+	height: 16px;
+	border: 0;
+}
+
+@-webkit-keyframes dialog_spinner
+{
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes dialog_spinner
+{
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
 /* The outer part of the dialog contants, which contains the contents body
    and the footer. */
 .cke_dialog_contents
