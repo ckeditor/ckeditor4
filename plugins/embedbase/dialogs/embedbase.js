@@ -30,6 +30,9 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 				// We don't want the widget system to finalize widget insertion (it happens with priority 20).
 				evt.stop();
 
+				// Indicate visually that waiting for the response (#13213).
+				that.showSpinner();
+
 				var url = that.getValueOf( 'info', 'url' );
 
 				loadContentRequest = that.widget.loadContent( url, {
@@ -64,6 +67,8 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 			} );
 
 			function unlock() {
+				// Visual waiting indicator is no longer needed (#13213).
+				that.hideSpinner();
 				okButton.enable();
 				loadContentRequest = null;
 			}
