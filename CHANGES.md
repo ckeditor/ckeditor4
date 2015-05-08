@@ -20,6 +20,8 @@ Other Changes:
 
 * [#12844](http://dev.ckeditor.com/ticket/12844) and [#13103](http://dev.ckeditor.com/ticket/13103): Upgraded the [testing environment](http://docs.ckeditor.com/#!/guide/dev_tests) to [Bender.js](https://github.com/benderjs/benderjs) `0.2.3`.
 * [#12930](http://dev.ckeditor.com/ticket/12930): Because of licenses, removed `truncated-mathjax/` from the `tests/` directory. Now `bender.config.mathJaxLibPath` must be configured manually in order to run MathJax plugin's tests.
+* [#13266](http://dev.ckeditor.com/ticket/13266): Added more shades of gray.
+
 
 ## CKEditor 4.4.7
 
