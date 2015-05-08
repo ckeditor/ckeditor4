@@ -1598,33 +1598,47 @@
 		 * @returns {Boolean} True if the first range in before the second range.
 		 */
 		isDropRangeAffectedByDragRange: function( dragRange, dropRange ) {
+			//
+			// [1] - dragRange
+			// [2] - dropRange
+			//
 			// Both ranges has the same parent and the first has smaller offset. E.g.:
 			//
 			// * Ranges anchored in a text node:
-			// 		"Lorem ipsum dolor sit[/1] amet consectetur[2] adipiscing elit."
+			// 		"Lorem ipsum dolor sit[/drag] amet consectetur[drop] adipiscing elit."
 			// * Ranges anchored in an element:
-			// 		"Lorem ipsum dolor sit" [/1] "amet consectetur" [2] "adipiscing elit."
+			// 		"Lorem ipsum dolor sit" [/drag] "amet consectetur" [drop] "adipiscing elit."
 			// * Adjacent ranges - first range's end offset is on the same position as second range's start offset (#13140):
-			//		[1]<p>foo</p><p>bar</p>[/1][2]
+			//		[drag]<p>foo</p><p>bar</p>[/drag][drop]
 			//
-			if ( dragRange.endContainer.equals( dropRange.startContainer ) &&
-				dragRange.endOffset <= dropRange.startOffset )
+			if (
+				dragRange.endContainer.equals( dropRange.startContainer ) &&
+				dragRange.endOffset <= dropRange.startOffset
+			) {
 				return true;
+			}
 
 			// First range is inside a text node and the second is in paragraph located before text node from the first one.
-			// <p> [2] "Lorem[/1] ipsum" "sit amet." </p>
-			if ( dragRange.endContainer.getParent().equals( dropRange.startContainer ) && dragRange.endContainer.getIndex() >= dropRange.startOffset )
+			// <p> [drop] "Lorem[/drag] ipsum" "sit amet." </p>
+			if (
+				dragRange.endContainer.getParent().equals( dropRange.startContainer ) &&
+				dragRange.endContainer.getIndex() >= dropRange.startOffset
+			) {
 				return false;
+			}
 
 			// First range is inside a text node and the second is not, but if we change the
 			// first range into bookmark and split the text node then the seconds node offset
 			// will be no longer correct.
 			//
-			// 		"Lorem ipsum dolor sit [/1] amet" "consectetur" [2] "adipiscing elit."
+			// 		"Lorem ipsum dolor sit [/drag] amet" "consectetur" [drop] "adipiscing elit."
 			//
-			if ( dragRange.endContainer.getParent().equals( dropRange.startContainer ) && dragRange.endContainer.getIndex() <= dropRange.startOffset )
+			if (
+				dragRange.endContainer.getParent().equals( dropRange.startContainer ) &&
+				dragRange.endContainer.getIndex() <= dropRange.startOffset
+			) {
 				return true;
-
+			}
 
 			return false;
 		},
