@@ -1,0 +1,20 @@
+CKEDITOR.plugins.add('taoqtiinclude', {
+    init: function(editor) {
+
+        editor.addCommand('insertQtiInclude', {
+            exec: function(editor) {
+                var config = editor.config.taoQtiItem;
+                if(typeof(config.insert) === 'function'){
+                    editor.insertHtml('<span data-new="true" data-qti-class="include" class="widget-box">&nbsp;</span>');
+                    config.insert.call(editor);
+                }
+            }
+        });
+        
+        editor.ui.addButton('TaoQtiInclude', {
+            label: 'Insert Shared Stimulus',
+            command: 'insertQtiInclude',
+            icon: this.path + 'images/taoqtiimage.png'
+        });
+    }
+});
