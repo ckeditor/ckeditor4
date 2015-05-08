@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#12899](http://dev.ckeditor.com/ticket/12899): Fixed: Corrected wrong tag ending for horizontal box definition in the [Dialog User Interface](http://ckeditor.com/addon/dialogui) plugin. Thanks to [mizafish](https://github.com/mizafish)!
+* [#13254](http://dev.ckeditor.com/ticket/13254): Fixed: Cannot outdent block after indent when using [Divarea](http://ckeditor.com/addon/divarea) plugin. Thanks to [Jonathan Cottrill](https://github.com/jcttrll)!
 * [#12796](http://dev.ckeditor.com/ticket/12796): Fixed: The [Indent List](http://ckeditor.com/addon/indentlist) plugin unwraps parent `<li>` elements.
 * [#12885](http://dev.ckeditor.com/ticket/12885): Added missing [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) parameter documentation.
 * [#11982](http://dev.ckeditor.com/ticket/11982): Bullet added in wrong position after the *Enter* key is pressed in a nested list.
