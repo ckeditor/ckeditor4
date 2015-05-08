@@ -236,16 +236,12 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		oRow.setAttribute( 'role', 'row' );
 
 		// Create the gray scale colors cells.
-		for ( var n = 0; n < 6; n++ ) {
-			appendColorCell( oRow.$, '#' + aColors[ n ] + aColors[ n ] + aColors[ n ] );
+		appendColorCell( oRow.$, '#000000' );
+		for ( var n = 0; n < 16; n++  ) {
+			var c = n.toString( 16 );
+			appendColorCell( oRow.$, '#' + c + c + c + c + c + c );
 		}
-
-		// Fill the row with gray cells.
-		var n = aColors.length * 2 + 1,step = Math.ceil(256/n),cc = '';
-		for ( var i = 1; i < n; i++ ){
-			cc = (i * step ).toString(16);
-			appendColorCell( oRow.$, '#'+cc+cc+cc);
-		}
+		appendColorCell( oRow.$, '#ffffff' );
 	}
 
 	var numbering = function( id ) {
