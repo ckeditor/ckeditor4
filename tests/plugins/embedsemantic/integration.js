@@ -96,7 +96,7 @@ var tcs = {
 				arrayAssert.itemsAreSame( [ 'a', 'b', 'c' ],
 					classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
 
-				assert.areSame( '<p>x</p><oembed class="c b a">http://widget/classes</oembed><p>x</p>', bot.getData(), 'classes transfered from widget.element back to data' );
+				assert.areSame( '<p>x</p><oembed class="a b c">http://widget/classes</oembed><p>x</p>', bot.getData(), 'classes transfered from widget.element back to data' );
 			}, 100 );
 		} );
 	}

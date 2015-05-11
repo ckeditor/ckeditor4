@@ -76,15 +76,13 @@
 					}
 				},
 
-				downcast: function() {
+				downcast: function( element ) {
 					var ret = new CKEDITOR.htmlParser.element( 'oembed' );
 					ret.add( new CKEDITOR.htmlParser.text( this.data.url ) );
 
 					// Transfer widget classes from widget element back to data (#13199).
-					var elementClasses = CKEDITOR.tools.objectKeys( this.data.classes ).join( ' ' );
-
-					if ( elementClasses ) {
-						ret.addClass( elementClasses );
+					if ( element.attributes[ 'class' ] ) {
+						ret.attributes[ 'class' ] = element.attributes[ 'class' ];
 					}
 
 					return ret;
