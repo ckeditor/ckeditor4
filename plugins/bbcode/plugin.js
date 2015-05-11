@@ -146,7 +146,12 @@
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
 						} else if ( attributesMap[ part ] ) {
-							attribs[attributesMap[part]] = optionPart;
+							// All the input BBCode is encoded at the beginning so <> characters in the textual part
+							// are later correctly preserved in HTML. However... it affects parts that now become
+							// attributes, so we need to revert that. As a matter of fact, the content should not be
+							// encoded at the beginning, but only later when creating text nodes (encoding should be more precise)
+							// but it's too late not for such changes.
+							attribs[ attributesMap[ part ] ] = CKEDITOR.tools.htmlDecode( optionPart );
 						}
 					}
 
