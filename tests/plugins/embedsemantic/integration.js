@@ -8,11 +8,15 @@
 bender.editors = {
 	classic: {
 		name: 'editor_classic',
-		creator: 'replace'
+		creator: 'replace',
+		config: {
+			extraAllowedContent: 'oembed(a,b,c)'
+		}
 	}
 };
 
 var obj2Array = widgetTestsTools.obj2Array;
+var classes2Array = widgetTestsTools.classes2Array;
 
 embedTools.mockJsonp();
 
@@ -79,6 +83,20 @@ var tcs = {
 				editor.execCommand( 'undo' );
 
 				assert.isFalse( loadContentSpy.called, 'widget.loadContent was not called on undo' );
+			}, 100 );
+		} );
+	},
+
+	'test support for widget classes': function() {
+		var bot = this.editorBots.classic,
+			editor = bot.editor;
+
+		bot.setData( '<p>x</p><oembed class="a c b">http://widget/classes</oembed><p>x</p>', function() {
+			wait( function() {
+				arrayAssert.itemsAreSame( [ 'a', 'b', 'c' ],
+					classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
+
+				assert.areSame( '<p>x</p><oembed class="a b c">http://widget/classes</oembed><p>x</p>', bot.getData(), 'classes transfered from widget.element back to data' );
 			}, 100 );
 		} );
 	}

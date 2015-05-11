@@ -68,13 +68,22 @@
 						data.loadOnReady = true;
 						div = new CKEDITOR.htmlParser.element( 'div' );
 						element.replaceWith( div );
+
+						// Transfer widget classes from data to widget element (#13199).
+						div.attributes[ 'class' ] = element.attributes[ 'class' ];
+
 						return div;
 					}
 				},
 
-				downcast: function() {
+				downcast: function( element ) {
 					var ret = new CKEDITOR.htmlParser.element( 'oembed' );
 					ret.add( new CKEDITOR.htmlParser.text( this.data.url ) );
+
+					// Transfer widget classes from widget element back to data (#13199).
+					if ( element.attributes[ 'class' ] ) {
+						ret.attributes[ 'class' ] = element.attributes[ 'class' ];
+					}
 
 					return ret;
 				}
