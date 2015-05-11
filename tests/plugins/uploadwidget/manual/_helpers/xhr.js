@@ -24,7 +24,8 @@ window.FormData = function() {
 };
 
 window.XMLHttpRequest = function() {
-	var basePath = bender.config.tests[ bender.testData.group ].basePath;
+	var basePath = bender.config.tests[ bender.testData.group ].basePath,
+		interval;
 
 	return {
 		open: function() {},
@@ -35,8 +36,7 @@ window.XMLHttpRequest = function() {
 				step = Math.round( total / 10 ),
 				xhr = this,
 				onprogress = this.onprogress,
-				onload = this.onload,
-				interval;
+				onload = this.onload;
 
 			// Wait 400 ms for every step.
 			interval = setInterval( function() {
@@ -73,6 +73,8 @@ window.XMLHttpRequest = function() {
 
 		// Abort should call onabort.
 		abort: function() {
+			clearInterval( interval );
+			this.status = 0;
 			this.onabort();
 		}
 	};
