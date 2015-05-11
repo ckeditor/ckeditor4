@@ -70,9 +70,7 @@
 		var regex = [],
 			entities = {
 				nbsp: '\u00A0', // IE | FF
-				shy: '\u00AD', // IE
-				gt: '\u003E', // IE | FF |   --   | Opera
-				lt: '\u003C' // IE | FF | Safari | Opera
+				shy: '\u00AD' // IE
 			};
 
 		for ( var entity in entities )
@@ -494,10 +492,6 @@
 
 			attribute: function( name, val ) {
 				if ( name == 'option' ) {
-					// Force simply ampersand in attributes.
-					if ( typeof val == 'string' )
-						val = val.replace( /&amp;/g, '&' );
-
 					this.write( '=', val );
 				}
 			},
