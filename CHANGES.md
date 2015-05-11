@@ -9,6 +9,7 @@ Fixed Issues:
 * [#13158](http://dev.ckeditor.com/ticket/13158): Fixed: Error after canceling dialog when creating a widget.
 * [#13197](http://dev.ckeditor.com/ticket/13197): Fixed: Linked inline image2's alignment class is not transferred to widget wrapper.
 * [#13199](http://dev.ckeditor.com/ticket/13199): Fixed: Embedsemantic does not support widget classes.
+* [#13003](http://dev.ckeditor.com/ticket/13003): Fixed: Anchors are uploaded when moving them by drag and drop.
 * Toolbar configurators:
   * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
   * [#13138](http://dev.ckeditor.com/ticket/13138): Fixed: The "Toggle empty elements" button label is unclear.
