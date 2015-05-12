@@ -79,7 +79,7 @@
 			var that = this,
 				editor = this.editor,
 				doc = this.doc,
-				el, x, y;
+				el, elfp, x, y;
 
 			var moveBuffer = CKEDITOR.tools.eventsBuffer( 50, function() {
 					if ( editor.readOnly || editor.mode != 'wysiwyg' )
@@ -87,7 +87,13 @@
 
 					that.relations = {};
 
-					el = new CKEDITOR.dom.element( doc.$.elementFromPoint( x, y ) );
+					// Sometimes it happens that elementFromPoint returns null (especially on IE).
+					// Any further traversal makes no sense if there's no start point. Abort.
+					if ( !( elfp = doc.$.elementFromPoint( x, y ) ) ) {
+						return;
+					}
+
+					el = new CKEDITOR.dom.element( elfp );
 
 					that.traverseSearch( el );
 
