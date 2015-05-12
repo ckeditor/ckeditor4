@@ -1,0 +1,62 @@
+<div>
+	<textarea cols="80" id="editor1" name="editor1" rows="10">
+	</textarea>
+	<style>
+		.cke_button__spinner_label {
+			display: inline;
+		}
+
+		.cke_button__spinner_icon {
+			display: none;
+		}
+	</style>
+	<script>
+		CKEDITOR.replace( 'editor1', {
+			on: {
+				pluginsLoaded: function() {
+					CKEDITOR.dialog.add( 'spinner', function() {
+						return {
+							title: 'Dialog with spinner',
+							minWidth: 100,
+							minHeight: 50,
+							onLoad: function( evt ) {
+								this.getContentElement( 'info', 'show' ).on( 'click', this.showSpinner, this );
+								this.getContentElement( 'info', 'hide' ).on( 'click', this.hideSpinner, this );
+							},
+							contents: [
+								{
+									id: 'info',
+									label: 'Info Tab',
+									elements: [
+										{
+											type: 'hbox',
+											children: [
+												{
+													type: 'button',
+													id: 'show',
+													label: 'Show spinner'
+												},
+												{
+													type: 'button',
+													id: 'hide',
+													label: 'Hide spinner'
+												}
+											]
+										}
+									]
+								}
+							]
+						};
+					} );
+
+					this.addCommand( 'spinner', new CKEDITOR.dialogCommand( 'spinner' ) );
+
+					this.ui.addButton( 'spinner', {
+						label: 'Show a dialog with spinner',
+						command: 'spinner',
+					} );
+				}
+			}
+		} );
+	</script>
+</div>
