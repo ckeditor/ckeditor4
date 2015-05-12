@@ -12,6 +12,8 @@
  */
 class One
 {
+    const CKFile = 'ckeditor.js';
+    
     public function __construct($basePath){
         if(file_exists($basePath.'ckeditor.js')){
             $this->basePath = $basePath;
@@ -21,8 +23,7 @@ class One
     }
     
     protected function append($file){
-        $ckFile = 'ckeditor.js';
-        file_put_contents($this->basePath.$ckFile, PHP_EOL.file_get_contents($file),  FILE_APPEND );
+        file_put_contents($this->basePath.self::CKFile, PHP_EOL.file_get_contents($file),  FILE_APPEND );
         $this->log($file);
     }
     
@@ -33,17 +34,16 @@ class One
     public function compilePlugins($plugins = array()){
         
         $lang = 'en';
-        $ckFile = 'ckeditor.js';
         $bakDir = $this->basePath.'bak/';
         
         if(!is_dir($bakDir)){
             mkdir($bakDir);
         }
         
-        if(file_exists($bakDir.$ckFile)){
-            copy($bakDir.$ckFile, $this->basePath.$ckFile);
+        if(file_exists($bakDir.self::CKFile)){
+            copy($bakDir.self::CKFile, $this->basePath.self::CKFile);
         }else{
-            copy($this->basePath.$ckFile, $bakDir.$ckFile);
+            copy($this->basePath.self::CKFile, $bakDir.self::CKFile);
         }
         
         foreach($plugins as $plugin){
