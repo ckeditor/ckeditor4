@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1404,16 +1404,20 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		},
 
 		/**
-		 * Shows a loading spinner in dialog's title bar. The opposite of {@link hideSpinner}.
+		 * Shows a loading spinner in dialog's title bar. The opposite of {@link #hideSpinner}.
 		 *
-		 * **Note:** The spinner is added to DOM on demand. See initSpinner() to know more.
+		 * **Note:** The spinner is added to DOM on demand. See `initSpinner()` to know more.
+		 *
+		 * @since 4.5
 		 */
 		showSpinner: function() {
 			( this.parts.spinner || initSpinner( this ) ).show();
 		},
 
 		/**
-		 * Hides the loading spinner in dialogs title bar. The opposite of {@link showSpinner}.
+		 * Hides the loading spinner in dialogs title bar. The opposite of {@link #showSpinner}.
+		 *
+		 * @since 4.5
 		 */
 		hideSpinner: function() {
 			if ( this.parts.spinner ) {
@@ -2034,6 +2038,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 	// this function is called on demand, registering spinner in `dialog.parts.spinner` only when such
 	// UI component is required to be shown.
 	//
+	// @since 4.5
 	// @param {CKEDITOR.dialog} dialog Dialog instance.
 	// @see CKEDITOR.dialog.(show|hide)Spinner()
 	//
