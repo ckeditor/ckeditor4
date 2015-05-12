@@ -2,6 +2,8 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter
 
+## Lineutils in a static body
+
 There's a number of classic and inline editors in this page.
 
 1. **Scroll right** to reveal the editors.
