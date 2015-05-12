@@ -78,20 +78,21 @@ class One
         }
     }
 
-    protected function getResources($dirname){
+    protected function getDirectoryResources($dirname, $exclusions = array()){
         $files = array(
             'js' => array(),
             'css' => array(),
             'img' => array()
         );
         foreach(scandir($dirname) as $file){
-            if($file == '.' || $file == '..'){
+            if($file == '.' || $file == '..' || in_array($file, $exclusions)){
                 continue;
             }
-            $file = $dirname .$file;
+            $file = $dirname.$file;
             if(is_dir($file)){
-                $files = array_merge_recursive($files, $this->getResources($file.'/'));
+                $files = array_merge_recursive($files, $this->getDirectoryResources($file.'/'));
             }else{
+                $file = str_replace($this->basePath, '', $file);
                 if(substr($file, -3) == '.js'){
                     $files['js'][] = $file;
                 }else if(substr($file, -4) == '.css'){
@@ -101,33 +102,53 @@ class One
                 }
             }
         }
-        
+
         return $files;
     }
 
     public function getPluginsResources($plugins){
         $files = array();
         foreach($plugins as $plugin){
-            $files = array_merge_recursive($files, $this->getResources($this->basePath.'plugins/'.$plugin.'/'));
+            $files = array_merge_recursive($files, $this->getDirectoryResources($this->basePath.'plugins/'.$plugin.'/'));
         }
         return $files;
     }
 
+    public function getCoreResources(){
+        $files = array();
+        $files = array_merge_recursive($files, $this->getDirectoryResources($this->basePath.'skins/tao/', array('scss', 'css')));//skip scss and css folders
+        $files = array_merge_recursive($files, $this->getDirectoryResources($this->basePath.'adapters/'));
+        return $files;
+    }
+    
     public function compile($plugins){
         $this->backup();
         $this->compileCore();
         $this->compilePlugins($plugins);
     }
+    
+    public function getResources($plugins){
+        return array_merge_recursive($this->getCoreResources(), $this->getPluginsResources($plugins));
+    }
 
 }
 $plugins = array(
     'autogrow',
-    'link',
     'clipboard',
-    'specialchar'
+    'colordialog',
+    'link',
+    'magicline',
+    'placeholder',
+    'sourcedialog',
+    'specialchar',
+    'taoqtiimage',
+    'taoqtimaths',
+    'taoqtimedia',
+    'taounderline',
+    'taoqtiinclude'
 );
 $one = new One(dirname(__FILE__).'/release/ckeditor/', 'en');
 $one->compile($plugins);
-$res = $one->getPluginsResources($plugins);
+$res = $one->getResources($plugins);
 var_dump($res);
 
