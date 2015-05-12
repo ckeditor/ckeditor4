@@ -84,16 +84,9 @@ Comments in this file will give more details about each of the above blocks.
 
 	width: 12px;
 	height: 12px;
-}
+	overflow: hidden;
 
-.cke_dialog_spinner
-{
-	font-size: 10px;
 	text-indent: -9999em;
-
-	float: left;
-	margin-right: 8px;
-	display: block;
 
 	border-top: 2px solid rgba(102, 102, 102, 0.2);
 	border-right: 2px solid rgba(102, 102, 102, 0.2);
