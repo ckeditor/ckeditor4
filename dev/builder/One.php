@@ -17,10 +17,10 @@ class One
 
     public function __construct($basePath, $lang = 'en'){
         $this->lang = $lang;
-        if(file_exists($basePath.'ckeditor.js')){
+        if(file_exists($basePath.self::CKFile)){
             $this->basePath = $basePath;
         }else{
-            throw new Exception('no ckeditor found in base path '.$basePath.'ckeditor.js');
+            throw new Exception('no ckeditor found in base path '.$basePath.self::CKFile);
         }
     }
 
@@ -116,19 +116,79 @@ class One
 
     public function getCoreResources(){
         $files = array();
-        $files = array_merge_recursive($files, $this->getDirectoryResources($this->basePath.'skins/tao/', array('scss', 'css')));//skip scss and css folders
+        $files = array_merge_recursive($files, $this->getDirectoryResources($this->basePath.'skins/tao/', array('scss', 'css'))); //skip scss and css folders
         $files = array_merge_recursive($files, $this->getDirectoryResources($this->basePath.'adapters/'));
         return $files;
     }
-    
-    public function compile($plugins){
+
+    public function compile($plugins, $destination = ''){
+        
         $this->backup();
         $this->compileCore();
         $this->compilePlugins($plugins);
+
+        if(!empty($destination)){
+            $resources = $this->getResources($plugins);
+            foreach($resources as $type){
+                foreach($type as $resource){
+                    $this->copy($this->basePath.$resource, $destination.$resource);
+                }
+            }
+            $this->copy($this->basePath.self::CKFile, $destination.self::CKFile);
+        }
     }
-    
+
     public function getResources($plugins){
         return array_merge_recursive($this->getCoreResources(), $this->getPluginsResources($plugins));
+    }
+
+    protected function copy($source, $destination){
+        
+        if(!is_readable($source)){
+            return false;
+        }
+
+        // Check for System File
+        $basename = basename($source);
+        if($basename[0] === '.'){
+            return false;
+        }
+
+        // Simple copy for a file
+        if(is_file($source)){
+            // get path info of destination.
+            $destInfo = pathinfo($destination);
+            if(isset($destInfo['dirname']) && !is_dir($destInfo['dirname'])){
+                if(!mkdir($destInfo['dirname'], 0777, true)){
+                    return false;
+                }
+            }
+
+            return copy($source, $destination);
+        }else{
+            //is_dir == true
+            //
+            // Make destination directory
+            if(!is_dir($destination)){
+                mkdir($destination, 0777, true);
+            }
+
+            // Loop through the folder
+            $dir = dir($source);
+            while(false !== $entry = $dir->read()){
+                // Skip pointers
+                if($entry === '.' || $entry === '..'){
+                    continue;
+                }
+
+                // Deep copy directories
+                return $this->copy("${source}/${entry}", "${destination}/${entry}");
+            }
+
+            // Clean up
+            $dir->close();
+            return true;
+        }
     }
 
 }
@@ -148,7 +208,7 @@ $plugins = array(
     'taoqtiinclude'
 );
 $one = new One(dirname(__FILE__).'/release/ckeditor/', 'en');
-$one->compile($plugins);
+$one->compile($plugins, dirname(__FILE__).'/release/ckeditor-reduced/');
 $res = $one->getResources($plugins);
 var_dump($res);
 
