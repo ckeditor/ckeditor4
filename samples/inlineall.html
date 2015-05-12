@@ -8,7 +8,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<meta charset="utf-8">
 	<title>Massive inline editing &mdash; CKEditor Sample</title>
 	<!--<script src="../ck.one.js"></script>-->
-	<script src="../dev/builder/release/ckeditor/ckeditor.js"></script>
+	<script src="../dev/builder/release/ckeditor-reduced/ckeditor.js"></script>
 	<script>
 
 		// This code is generally not necessary, but it is here to demonstrate
@@ -29,7 +29,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				// execution. This makes it possible to change the
 				// configurations before the editor initialization takes place.
 				editor.on( 'configLoaded', function() {
-
+                    
+                    editor.config.magicline_color = '#266D9C';
+                    
 					// Remove unnecessary plugins to make the editor simpler.
 					editor.config.removePlugins = 'colorbutton,find,flash,font,' +
 						'forms,iframe,image,newpage,removeformat,' +
