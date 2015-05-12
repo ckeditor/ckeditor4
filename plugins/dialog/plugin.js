@@ -2047,9 +2047,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			var spinner = dialog.parts.spinner = CKEDITOR.document.createElement( 'div', {
 				attributes: {
 					'class': 'cke_dialog_spinner'
+				},
+				styles: {
+					'float': 'left',
+					'margin-right': '8px'
 				}
 			} );
 
+			spinner.setHtml( '&#8987;' );
 			spinner.appendTo( dialog.parts.title, 1 );
 		}
 
