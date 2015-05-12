@@ -944,6 +944,9 @@
 				relativeContainerDocPosition = this.container.getDocumentPosition(),
 				relativeContainerComputedPosition = this.container.getComputedStyle( 'position' );
 
+			// Static or not, those values are used to offset the position of the line so they cannot be undefined.
+			rect.relativeX = rect.relativeY = 0;
+
 			if ( relativeContainerComputedPosition != 'static' ) {
 				// Remember the offset used to shift the clientRect.
 				rect.relativeY = relativeContainerDocPosition.y;
