@@ -10,7 +10,7 @@
  *
  * @author sam
  */
-class One
+class OneFileCompiler
 {
 
     const CKFile = 'ckeditor.js';
@@ -76,20 +76,23 @@ class One
             'css' => array(),
             'img' => array()
         );
-        foreach(scandir($dirname) as $file){
-            if($file == '.' || $file == '..' || in_array($file, $exclusions)){
-                continue;
-            }
-            $file = $dirname.$file;
-            if(is_dir($file)){
-                $files = array_merge_recursive($files, $this->getDirectoryResources($file.'/'));
-            }else{
-                if(substr($file, -3) == '.js'){
-                    $files['js'][] = $file;
-                }else if(substr($file, -4) == '.css'){
-                    $files['css'][] = $file;
-                }else if(preg_match('/(\.png|\.jpg)$/', $file)){
-                    $files['img'][] = $file;
+        
+        if(is_dir($dirname)){
+            foreach(scandir($dirname) as $file){
+                if($file == '.' || $file == '..' || in_array($file, $exclusions)){
+                    continue;
+                }
+                $file = $dirname.$file;
+                if(is_dir($file)){
+                    $files = array_merge_recursive($files, $this->getDirectoryResources($file.'/'));
+                }else{
+                    if(substr($file, -3) == '.js'){
+                        $files['js'][] = $file;
+                    }else if(substr($file, -4) == '.css'){
+                        $files['css'][] = $file;
+                    }else if(preg_match('/(\.png|\.jpg)$/', $file)){
+                        $files['img'][] = $file;
+                    }
                 }
             }
         }
@@ -211,23 +214,3 @@ class One
     }
 
 }
-$plugins = array(
-    'autogrow',
-    'clipboard',
-    'colordialog',
-    'link',
-    'magicline',
-    'placeholder',
-    'sourcedialog',
-    'specialchar',
-    'taoqtiimage',
-    'taoqtimaths',
-    'taoqtimedia',
-    'taounderline',
-    'taoqtiinclude'
-);
-$one = new One(dirname(__FILE__).'/release/ckeditor/', dirname(__FILE__).'/release/ckeditor-reduced/', 'en');
-$one->compile($plugins);
-$res = $one->getOutputResources($plugins);
-var_dump($res);
-
