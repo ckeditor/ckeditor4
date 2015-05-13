@@ -193,6 +193,7 @@ class OneFileCompiler
     protected function getCoreResources($basePath){
         $files = $this->getDirectoryResources($basePath.'skins/tao/', array('scss', 'css')); //skip scss and css folders
         $files = array_merge_recursive($files, $this->getDirectoryResources($basePath.'adapters/'));
+        $files['css'][] = $basePath.'contents.css';
         return $files;
     }
     
