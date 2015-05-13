@@ -15,17 +15,22 @@ class One
 
     const CKFile = 'ckeditor.js';
 
-    public function __construct($basePath, $lang = 'en'){
+    protected $lang = 'en';
+    protected $basePath = '';
+    protected $outputPath = '';
+
+    public function __construct($basePath, $outputPath, $lang = 'en'){
         $this->lang = $lang;
         if(file_exists($basePath.self::CKFile)){
             $this->basePath = $basePath;
+            $this->outputPath = $outputPath;
         }else{
             throw new Exception('no ckeditor found in base path '.$basePath.self::CKFile);
         }
     }
 
     protected function append($file){
-        file_put_contents($this->basePath.self::CKFile, PHP_EOL.file_get_contents($file), FILE_APPEND);
+        file_put_contents($this->outputPath.self::CKFile, PHP_EOL.file_get_contents($file), FILE_APPEND);
         $this->log($file);
     }
 
@@ -33,24 +38,11 @@ class One
 //        var_dump($message);
     }
 
-    protected function backup(){
-        $bakDir = $this->basePath.'bak/';
-
-        if(!is_dir($bakDir)){
-            mkdir($bakDir);
-        }
-
-        if(file_exists($bakDir.self::CKFile)){
-            copy($bakDir.self::CKFile, $this->basePath.self::CKFile);
-        }else{
-            copy($this->basePath.self::CKFile, $bakDir.self::CKFile);
-        }
-    }
-
     protected function compileCore(){
         $this->append($this->basePath.'lang/en.js');
         $this->append($this->basePath.'config.js');
         $this->append($this->basePath.'styles.js');
+        $this->append($this->basePath.'adapters/jquery.js');
     }
 
     protected function compilePlugins($plugins = array()){
@@ -92,7 +84,6 @@ class One
             if(is_dir($file)){
                 $files = array_merge_recursive($files, $this->getDirectoryResources($file.'/'));
             }else{
-                $file = str_replace($this->basePath, '', $file);
                 if(substr($file, -3) == '.js'){
                     $files['js'][] = $file;
                 }else if(substr($file, -4) == '.css'){
@@ -106,44 +97,72 @@ class One
         return $files;
     }
 
-    public function getPluginsResources($plugins){
+    protected function getPluginsResources($basePath, $plugins){
         $files = array();
         foreach($plugins as $plugin){
-            $files = array_merge_recursive($files, $this->getDirectoryResources($this->basePath.'plugins/'.$plugin.'/'));
+            $files = array_merge_recursive($files, $this->getDirectoryResources($basePath.'plugins/'.$plugin.'/'));
         }
+        $files['img'][] = $basePath.'plugins/icons.png';
+        $files['img'][] = $basePath.'plugins/icons_hidpi.png';
         return $files;
     }
 
-    public function getCoreResources(){
+    protected function getCoreResources($basePath){
         $files = array();
-        $files = array_merge_recursive($files, $this->getDirectoryResources($this->basePath.'skins/tao/', array('scss', 'css'))); //skip scss and css folders
-        $files = array_merge_recursive($files, $this->getDirectoryResources($this->basePath.'adapters/'));
+        $files = array_merge_recursive($files, $this->getDirectoryResources($basePath.'skins/tao/', array('scss', 'css'))); //skip scss and css folders
+        $files = array_merge_recursive($files, $this->getDirectoryResources($basePath.'adapters/'));
         return $files;
     }
 
-    public function compile($plugins, $destination = ''){
-        
-        $this->backup();
+    protected function compileInit(){
+        //init the compilation by copying the main ckeditor.js file into the destination path
+        $this->copy($this->basePath.self::CKFile, $this->outputPath.self::CKFile);
+    }
+
+    protected function compileFinish($plugins){
+
+        //copy resource file to destination
+        $resources = $this->getOriginalResources($plugins);
+        foreach($resources['css'] as $resource){
+            $this->copy($this->basePath.$resource, $this->outputPath.$resource);
+        }
+        foreach($resources['img'] as $resource){
+            $this->copy($this->basePath.$resource, $this->outputPath.$resource);
+        }
+
+        //empty the icons in tao skin
+        $this->copy($this->outputPath.'skins/tao/images/icons.png', $this->outputPath.'skins/tao/icons-hl.png');
+        $this->copy($this->outputPath.'skins/tao/images/icons.png', $this->outputPath.'skins/tao/icons.png');
+        $this->copy($this->outputPath.'skins/tao/images/icons.png', $this->outputPath.'skins/tao/icons_hidpi-hl.png');
+        $this->copy($this->outputPath.'skins/tao/images/icons.png', $this->outputPath.'skins/tao/icons_hidpi.png');
+        $this->copy($this->outputPath.'skins/tao/images/icons.png', $this->outputPath.'plugins/icons.png');
+        $this->copy($this->outputPath.'skins/tao/images/icons.png', $this->outputPath.'plugins/icons_hidpi.png');
+    }
+
+    public function compile($plugins){
+
+        $this->compileInit();
         $this->compileCore();
         $this->compilePlugins($plugins);
-
-        if(!empty($destination)){
-            $resources = $this->getResources($plugins);
-            foreach($resources as $type){
-                foreach($type as $resource){
-                    $this->copy($this->basePath.$resource, $destination.$resource);
-                }
-            }
-            $this->copy($this->basePath.self::CKFile, $destination.self::CKFile);
-        }
+        $this->compileFinish($plugins);
     }
 
-    public function getResources($plugins){
-        return array_merge_recursive($this->getCoreResources(), $this->getPluginsResources($plugins));
+    public function getOriginalResources($plugins){
+        $resources = array_merge_recursive($this->getCoreResources($this->basePath), $this->getPluginsResources($this->basePath, $plugins));
+        return array_map(function($file){
+            return str_replace($this->basePath, '', $file);
+        }, $resources);
+    }
+
+    public function getOutputResources($plugins){
+        $resources = array_merge_recursive($this->getCoreResources($this->outputPath), $this->getPluginsResources($this->outputPath, $plugins));
+        return array_map(function($file){
+            return str_replace($this->outputPath, '', $file);
+        }, $resources);
     }
 
     protected function copy($source, $destination){
-        
+
         if(!is_readable($source)){
             return false;
         }
@@ -207,8 +226,8 @@ $plugins = array(
     'taounderline',
     'taoqtiinclude'
 );
-$one = new One(dirname(__FILE__).'/release/ckeditor/', 'en');
-$one->compile($plugins, dirname(__FILE__).'/release/ckeditor-reduced/');
-$res = $one->getResources($plugins);
+$one = new One(dirname(__FILE__).'/release/ckeditor/', dirname(__FILE__).'/release/ckeditor-reduced/', 'en');
+$one->compile($plugins);
+$res = $one->getOutputResources($plugins);
 var_dump($res);
 
