@@ -243,7 +243,6 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *		// Result: '<p>This is some text</p>'
 		 *
 		 * @param {String} text The text to be appended.
-		 * @returns {CKEDITOR.dom.node} The appended node.
 		 */
 		appendText: function( text ) {
 			// On IE8 it is impossible to append node to script tag, so we use its text.
