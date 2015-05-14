@@ -54,8 +54,6 @@ Comments in this file will give more details about each of the above blocks.
 	border: solid 1px #ddd;
 	padding: 5px;
 	background-color: #fff;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
 
@@ -78,8 +76,6 @@ Comments in this file will give more details about each of the above blocks.
 
 .cke_dialog_spinner
 {
-	-moz-border-radius: 50%;
-	-webkit-border-radius: 50%;
 	border-radius: 50%;
 
 	width: 12px;
@@ -140,10 +136,6 @@ Comments in this file will give more details about each of the above blocks.
 	border-bottom: none;
 	overflow: auto;
 	padding: 17px 10px 5px 10px;
-	-moz-border-radius-topleft: 5px;
-	-moz-border-radius-topright: 5px;
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	margin-top: 22px;
@@ -165,10 +157,6 @@ Comments in this file will give more details about each of the above blocks.
 	background-color: #ebebeb;
 	border: solid 1px #fff;
 	border-bottom: none;
-	-moz-border-radius-bottomleft: 5px;
-	-moz-border-radius-bottomright: 5px;
-	-webkit-border-bottom-left-radius: 5px;
-	-webkit-border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
@@ -512,8 +500,6 @@ a.cke_dialog_ui_button
 	border-collapse: separate;
 	cursor: default;
 
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	background: transparent url(images/sprites.png) repeat-x scroll 0 -1069px;
 	text-align: center;
