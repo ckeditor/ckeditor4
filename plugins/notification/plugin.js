@@ -830,7 +830,7 @@ Area.prototype = {
 		}
 
 		function setCenter() {
-			area.setStyle( 'left', cssLength( leftBase + contentsRect.width / 2 - notificationWidth / 2 ) );
+			area.setStyle( 'left', cssLength( leftBase + contentsRect.width / 2 - notificationWidth / 2 - notificationMargin / 2 ) );
 		}
 
 		function setRight() {

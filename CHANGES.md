@@ -11,6 +11,7 @@ Fixed Issues:
 * [#13199](http://dev.ckeditor.com/ticket/13199): Fixed: Embedsemantic does not support widget classes.
 * [#13003](http://dev.ckeditor.com/ticket/13003): Fixed: Anchors are uploaded when moving them by drag and drop.
 * [#13032](http://dev.ckeditor.com/ticket/13032): Fixed: When upload is done notification update should be marked as important.
+* [#13036](http://dev.ckeditor.com/ticket/13036): Fixed: Notifications are 10px more to the right.
 * Toolbar configurators:
   * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
   * [#13138](http://dev.ckeditor.com/ticket/13138): Fixed: The "Toggle empty elements" button label is unclear.
