@@ -562,6 +562,18 @@
 			}
 		},
 
+		// Source protection in an attribute should work when there's no space between closing quotation mark of the last attribute and a slash (self-closing tag)
+		'test protected source in attribute': function() {
+			var source = '<p>Click at <a href="http://www.google.com.ua/"><img src="[[image]]"/></a>.</p>';
+			var result = '<p>Click at <a href="http://www.google.com.ua/"><img src="[[image]]" /></a>.</p>';
+			var processor = this.editor3.dataProcessor;
+
+			assert.areSame(
+				processor.toDataFormat(processor.toHtml(source)),
+				result
+			);
+		},
+
 		// Some elements should not have protected source markup inside. (#11223)
 		'test protected source in title': addProtectedSourceTC( '<p>[[mytag]]</p>', '[[mytag]]' ),
 		'test protected source in iframe': addProtectedSourceTC( '<p><iframe name="aa">[[mytag]]</iframe></p>' ),
