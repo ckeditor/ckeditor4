@@ -271,7 +271,7 @@
 
 			if ( fixStyles ) {
 				html = html.replace( / style="([^"]+)"/g, function( match, style ) {
-					style = CKEDITOR.tools.writeCssText( CKEDITOR.tools.parseCssText( style, true ) );
+					style = CKEDITOR.tools.writeCssText( CKEDITOR.tools.parseCssText( style, true ), true );
 					// Encode e.g. "" in urls().
 					style = CKEDITOR.tools.htmlEncodeAttr( style );
 
