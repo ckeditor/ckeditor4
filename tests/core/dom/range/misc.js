@@ -255,6 +255,21 @@
 			assert.areEqual( '<div>te[xt<div>]x</div></div>', bender.tools.getHtmlWithRanges( playground, new CKEDITOR.dom.rangeList( [ range ] ) ) );
 		},
 
+		'test clone': function() {
+			var range = new CKEDITOR.dom.range( doc );
+
+			range.selectNodeContents( doc.getBody() );
+
+			var range2 = range.clone();
+
+			assert.areSame( range.root, range2.root, 'root' );
+			assert.areSame( range.startContainer, range2.startContainer, 'startContainer' );
+			assert.areSame( range.endContainer, range2.endContainer, 'endContainer' );
+			assert.areSame( range.startOffset, range2.startOffset, 'startOffset' );
+			assert.areSame( range.endOffset, range2.endOffset, 'endOffset' );
+			assert.areSame( range.collapsed, range2.collapsed, 'collapsed' );
+		},
+
 		'test _setStartContainer': function() {
 			var range = new CKEDITOR.dom.range( doc ),
 				start = new CKEDITOR.dom.element( 'a', doc );
