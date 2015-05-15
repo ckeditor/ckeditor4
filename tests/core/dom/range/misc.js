@@ -259,6 +259,8 @@
 			var range = new CKEDITOR.dom.range( doc ),
 				start = new CKEDITOR.dom.element( 'a', doc );
 
+			doc.getBody().append( start );
+
 			range._setStartContainer( start );
 			assert.areSame( start, range.startContainer );
 		},
@@ -266,6 +268,8 @@
 		'test _setEndContainer': function() {
 			var range = new CKEDITOR.dom.range( doc ),
 				end = new CKEDITOR.dom.element( 'a', doc );
+
+			doc.getBody().append( end );
 
 			range._setEndContainer( end );
 			assert.areSame( end, range.endContainer );
