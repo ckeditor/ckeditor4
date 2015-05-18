@@ -46,7 +46,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<b>ome</b> t', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<b id="_b">ome</b> t', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( 'this is <b id="_b">s</b>ext.', getInnerHtml( '_Para' ), 'HTML after extraction' );
 
 			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
@@ -68,7 +68,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( 'his is <b>s</b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( 'his is <b id="_b">s</b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( 't<b id="_b">ome</b> text.', getInnerHtml( '_Para' ), 'HTML after extraction' );
 
 			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
@@ -90,7 +90,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1>ckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<h1 id="_h1">ckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( '<h1 id="_h1">f</h1><p>nother paragraph.</p>', getInnerHtml( 'playground' ) );
 
 			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
@@ -110,7 +110,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1>fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<h1 id="_h1">fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( '<h1 id="_h1"></h1><p></p>', getInnerHtml( 'playground' ) );
 
 			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
