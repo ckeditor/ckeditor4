@@ -353,7 +353,7 @@
 					assert.isTrue( dragendCounter.calledOnce, 'dragend called once' );
 					assert.isTrue( dropCounter.calledOnce, 'drop called once' );
 					assert.isTrue( widgetWasDestroyedCounter.calledOnce, 'original widget was destroyed' );
-					assert.areSame( '<p class="x">f<span data-widget="testwidget">foo</span>oo</p><p>xx</p>', editor.getData() );
+					assert.areSame( '<p class="x">f<span data-widget="testwidget" id="w1">foo</span>oo</p><p>xx</p>', editor.getData() );
 					assert.isTrue( widgetCreatedCounter.calledOnce, 'new widget was created' );
 				} );
 
