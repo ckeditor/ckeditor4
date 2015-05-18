@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#13232](http://dev.ckeditor.com/ticket/13232): [Safari] Fixed: Method [`element.appendText()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-appendText) work properly for empty elements.
 * [#13233](http://dev.ckeditor.com/ticket/13233): Fixed: HTMLDataProcessor can process `foo:href` attributes.
 * [#12899](http://dev.ckeditor.com/ticket/12899): Fixed: Corrected wrong tag ending for horizontal box definition in the [Dialog User Interface](http://ckeditor.com/addon/dialogui) plugin. Thanks to [mizafish](https://github.com/mizafish)!
 * [#13254](http://dev.ckeditor.com/ticket/13254): Fixed: Cannot outdent block after indent when using [Divarea](http://ckeditor.com/addon/divarea) plugin. Thanks to [Jonathan Cottrill](https://github.com/jcttrll)!
