@@ -514,6 +514,12 @@
 			}
 		},
 
+		// #13233
+		'test don\'t protect foo:href attributes': function() {
+			assert.areSame( '<a foo:href="http://ckeditor.com">foo</a>',
+				bender.tools.fixHtml( this.editor.dataProcessor.toHtml( '<a foo:href="http://ckeditor.com">foo</a>' ) ) );
+		},
+
 		// #4243
 		'test custom protected source': function() {
 			var source = '<p>some<protected>protected</protected>text</p>';
