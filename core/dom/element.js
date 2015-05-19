@@ -319,8 +319,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *		element.breakParent( parent );
 		 *
 		 * @param {CKEDITOR.dom.element} parent The anscestor element to get broken.
+		 * @param {Boolean} [cloneId=false] Whether to preserve ancestor ID attributes while breaking.
 		 */
-		breakParent: function( parent ) {
+		breakParent: function( parent, cloneId ) {
 			var range = new CKEDITOR.dom.range( this.getDocument() );
 
 			// We'll be extracting part of this element, so let's use our
@@ -329,7 +330,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			range.setEndAfter( parent );
 
 			// Extract it.
-			var docFrag = range.extractContents();
+			var docFrag = range.extractContents( false, cloneId || false );
 
 			// Move the element outside the broken element.
 			range.insertNode( this.remove() );
