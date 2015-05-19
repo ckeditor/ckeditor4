@@ -772,7 +772,7 @@
 		// 	'data-x' => '&lt;a href=&quot;X&quot;'
 		//
 		// which, can be easily filtered out (#11508).
-		protectAttributeRegex = /([\w-]+)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi,
+		protectAttributeRegex = /([\w-:]+)\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|(?:[^ "'>]+))/gi,
 		protectAttributeNameRegex = /^(href|src|name)$/i;
 
 		// Note: we use lazy star '*?' to prevent eating everything up to the last occurrence of </style> or </textarea>.

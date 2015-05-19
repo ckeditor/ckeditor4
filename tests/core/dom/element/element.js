@@ -133,6 +133,13 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'Test appendText', element.$.text );
 		},
 
+		// #13232
+		'test appendText to link': function() {
+			var element = newElement( 'a' );
+			element.appendText( '@' );
+			assert.areEqual( '@', element.getText() );
+		},
+
 		test_setHtml: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.setHtml( '<b>Test</b>' );
