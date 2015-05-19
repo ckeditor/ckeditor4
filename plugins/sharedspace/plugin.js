@@ -35,9 +35,14 @@
 		}
 	} );
 
-	function create( editor, spaceName, targetId ) {
-		var target = CKEDITOR.document.getById( targetId ),
-			innerHtml, space;
+	function create( editor, spaceName, targetP ) {
+		var target, innerHtml, space;
+
+		if ( typeof targetP === 'string' ) {
+			target = CKEDITOR.document.getById( targetP ); //Its an id... search for it
+		} else {
+			target =  new CKEDITOR.dom.element( targetP );
+		}
 
 		if ( target ) {
 			// Have other plugins filling the space.
@@ -120,6 +125,13 @@
  *		// elements path will remain attached to the editor UI.
  *		config.sharedSpaces = {
  *			top: 'someElementId'
+ *		};
+ *
+ *	    // Place the toolbar inside the HTMLElement "htmlElement". The
+ *		// elements path will remain attached to the editor UI.
+ *		var htmlElement = document.getElementById('someElementId')
+ *		config.sharedSpaces = {
+ *			top: htmlElement
  *		};
  *
  * **Note:** The [Maximize](http://ckeditor.com/addon/maximize) and [Editor Resize](http://ckeditor.com/addon/resize)

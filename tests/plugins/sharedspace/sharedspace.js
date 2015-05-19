@@ -47,7 +47,21 @@
 			}, function( bot ) {
 				assertEditor( bot.editor );
 			} );
+		},
+		'test themed creator_dom_element': function() {
+			bender.editorBot.create( {
+				name: 'editor_test3',
+				config: {
+					extraPlugins: 'stylescombo,basicstyles',
+					// Reuse custom styles from core/editor/styleset.js TC.
+					stylesSet: 'external:%BASE_PATH%_assets/custom_styles.js',
+					sharedSpaces: {
+						top: document.getElementById( 'editor_test3_top' )
+					}
+				}
+			}, function( bot ) {
+				assertEditor( bot.editor );
+			} );
 		}
 	} );
-
 } )();
