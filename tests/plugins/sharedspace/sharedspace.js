@@ -47,7 +47,19 @@
 			}, function( bot ) {
 				assertEditor( bot.editor );
 			} );
+		},
+		'test themed creator_dom_element': function() {
+			bender.editorBot.create( {
+				name: 'editor_test3',
+				config: {
+					extraPlugins: 'stylescombo,basicstyles',
+					sharedSpaces: {
+						top: document.getElementById( 'editor_test3_top' )
+					}
+				}
+			}, function( bot ) {
+				assertEditor( bot.editor );
+			} );
 		}
 	} );
-
 } )();
