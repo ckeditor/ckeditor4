@@ -562,16 +562,18 @@
 			}
 		},
 
-		// Source protection in an attribute should work when there's no space between closing quotation mark of the last attribute and a slash (self-closing tag)
-		'test protected source in attribute': function() {
-			var source = '<p>Click at <a href="http://www.google.com.ua/"><img src="[[image]]"/></a>.</p>';
-			var result = '<p>Click at <a href="http://www.google.com.ua/"><img src="[[image]]" /></a>.</p>';
-			var processor = this.editor3.dataProcessor;
+		// #13292
+		'test protected source in attribute in self-closing tag': function() {
+			var processor = this.editor3.dataProcessor,
+				source = '<p><img src="[[image]]"/></a></p>',
+				expectedHtml = '<p><img data-cke-saved-src="{cke_protected_1}" src="{cke_protected_1}" /></p>',
+				expectedOutput = '<p><img src="[[image]]" /></p>';
 
-			assert.areSame(
-				processor.toDataFormat(processor.toHtml(source)),
-				result
-			);
+			var html = processor.toHtml( source );
+
+			assert.isInnerHtmlMatching( expectedHtml, html, 'toHtml' );
+
+			assert.areSame( expectedOutput, processor.toDataFormat( html ), 'toDataFormat' );
 		},
 
 		// Some elements should not have protected source markup inside. (#11223)
