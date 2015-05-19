@@ -345,6 +345,26 @@
 
 			assert.isInnerHtmlMatching( '<h1></h1><h2></h2>', clone.getHtml() );
 			assert.isInnerHtmlMatching( '<h1></h1>[]<h2><br /></h2>', bender.tools.range.getWithHtml( root, range ) );
+		},
+
+		'test extractContents - don\'t clone element IDs': function() {
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_Para' ).getFirst(), 1 );
+			range.setEnd( doc.getById( '_Para' ), 2 );
+
+			var docFrag = range.extractContents( false, false );
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			assert.areSame( 'his is <b>some</b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( 't text.', getInnerHtml( '_Para' ), 'HTML after extraction' );
+
+			assert.areSame( document.getElementById( '_Para' ).firstChild, range.startContainer.$, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.areSame( document.getElementById( '_Para' ).firstChild, range.endContainer.$, 'range.endContainer' );
+			assert.areSame( 1, range.endOffset, 'range.endOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
 		}
 	};
 
