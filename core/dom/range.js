@@ -301,7 +301,8 @@ CKEDITOR.dom.range = function( root ) {
 					levelParent.append( range.document.createText( leftNode.substring( startOffset ) ) );
 				}
 			} else if ( doClone ) {
-				nextLevelParent = levelParent.append( leftNode.clone() );
+				// Make sure to preserve element ID while cloning (#13128).
+				nextLevelParent = levelParent.append( leftNode.clone( 0, 1 ) );
 			}
 
 			// 2.
@@ -358,7 +359,8 @@ CKEDITOR.dom.range = function( root ) {
 						levelParent.append( range.document.createText( rightNode.substring( 0, endOffset ) ) );
 					}
 				} else if ( doClone ) {
-					nextLevelParent = levelParent.append( rightNode.clone() );
+					// Make sure to preserve element ID while cloning (#13128).
+					nextLevelParent = levelParent.append( rightNode.clone( 0, 1 ) );
 				}
 
 				// 2.
