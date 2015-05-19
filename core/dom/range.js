@@ -2164,7 +2164,7 @@ CKEDITOR.dom.range = function( root ) {
 			var documentFragment = this.extractContents( false, cloneId || false );
 
 			// Duplicate the element after it.
-			var clone = toSplit.clone( false );
+			var clone = toSplit.clone( false, cloneId || false );
 
 			// Place the extracted contents into the duplicated element.
 			documentFragment.appendTo( clone );
