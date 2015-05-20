@@ -61,28 +61,24 @@
 	}
 
 	function createSnippetOne( dropRangeDesc, dragRangeDesc ) {
-		var root = new CKEDITOR.dom.element( 'div' ),
-			element = new CKEDITOR.dom.element( 'p' ),
+		var element = new CKEDITOR.dom.element( 'p' ),
 			textNodes = [ 'KOT', 'ALA', 'MA' ];
-
-		root.append( element );
 
 		for ( var i = 0; i < textNodes.length; i++ ) {
 			element.appendText( textNodes[ i ] );
 		}
 
-		var dragRange = new CKEDITOR.dom.range( root );
+		var dragRange = new CKEDITOR.dom.range( element );
 		dragRange.setStart( typeof dragRangeDesc.sc === 'number' ? element.getChild( dragRangeDesc.sc ) : element, dragRangeDesc.so );
 		dragRange.setEnd( typeof dragRangeDesc.ec === 'number' ? element.getChild( dragRangeDesc.ec ) : element, dragRangeDesc.eo );
 
 		var dropRangeStartContainer = getByAddress( dropRangeDesc.sca, element );
 
-		var dropRange = new CKEDITOR.dom.range( root );
+		var dropRange = new CKEDITOR.dom.range( element );
 		dropRange.setStart( dropRangeStartContainer, dropRangeDesc.so );
 		dropRange.collapse( true );
 
 		return {
-			root: root,
 			element: element,
 			dragRange: dragRange,
 			dropRange: dropRange
@@ -90,10 +86,8 @@
 	}
 
 	function createSnippetTwo( dropRangeDesc ) {
-		var root = new CKEDITOR.dom.element( 'div' ),
-			element = new CKEDITOR.dom.element( 'p' );
+		var element = new CKEDITOR.dom.element( 'p' );
 
-		root.append( element );
 		element.appendText( 'KOTMA' );
 
 		var dragRange = new CKEDITOR.dom.range( element );
@@ -102,12 +96,11 @@
 
 		var dropRangeStartContainer = getByAddress( dropRangeDesc.sca, element );
 
-		var dropRange = new CKEDITOR.dom.range( root );
+		var dropRange = new CKEDITOR.dom.range( element );
 		dropRange.setStart( dropRangeStartContainer, dropRangeDesc.so );
 		dropRange.collapse( true );
 
 		return {
-			root: root,
 			element: element,
 			dragRange: dragRange,
 			dropRange: dropRange
@@ -115,8 +108,7 @@
 	}
 
 	function createSnippetThree( dropRangeDesc ) {
-		var root = CKEDITOR.dom.element.createFromHtml( '<div><p>FOO<b>BAR</b>D</p></div>' ),
-			element = root.findOne( 'p' );
+		var element = CKEDITOR.dom.element.createFromHtml( '<p>FOO<b>BAR</b>D</p>' );
 
 		var dragRange = new CKEDITOR.dom.range( element );
 		dragRange.setStart( element.getChild( 0 ), 1 );
@@ -124,12 +116,11 @@
 
 		var dropRangeStartContainer = getByAddress( dropRangeDesc.sca, element );
 
-		var dropRange = new CKEDITOR.dom.range( root );
+		var dropRange = new CKEDITOR.dom.range( element );
 		dropRange.setStart( dropRangeStartContainer, dropRangeDesc.so );
 		dropRange.collapse( true );
 
 		return {
-			root: root,
 			element: element,
 			dragRange: dragRange,
 			dropRange: dropRange
@@ -222,15 +213,6 @@
 				clipboard = CKEDITOR.plugins.clipboard,
 				dataTransfer = bender.tools.mockNativeDataTransfer();
 
-			// This function doesn't modify nothing.
-			var result = clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange );
-
-			if ( dropRangeValue === '+' ) {
-				assert.isTrue( result, 'isDropRAffectedByDragR returned true' );
-			} else if ( dropRangeValue === '-' ) {
-				assert.isFalse( result, 'isDropRAffectedByDragR returned false' );
-			}
-
 			dataTransfer.isEmpty = function() {
 				return true;
 			};
@@ -241,6 +223,15 @@
 
 			editable.setHtml( '<p>tmp</p>' );
 			editable.insertElement( element );
+
+			// This function doesn't modify nothing.
+			var result = clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange );
+
+			if ( dropRangeValue === '+' ) {
+				assert.isTrue( result, 'isDropRAffectedByDragR returned true' );
+			} else if ( dropRangeValue === '-' ) {
+				assert.isFalse( result, 'isDropRAffectedByDragR returned false' );
+			}
 
 			// Should not throw. Then most likely it works (it has its own tests too of course).
 			clipboard.internalDrop( dragRange, dropRange, dataTransfer, bender.editors.normal );
