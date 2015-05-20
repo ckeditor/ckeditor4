@@ -609,7 +609,7 @@
 											return isValid;
 										},
 										setup: setupDimension,
-										commit: function( type, element, internalCommit ) {
+										commit: function( type, element ) {
 											var value = this.getValue();
 											if ( type == IMAGE ) {
 												if ( value && editor.activeFilter.check( 'img{width,height}' ) )
@@ -617,7 +617,7 @@
 												else
 													element.removeStyle( 'width' );
 
-												!internalCommit && element.removeAttribute( 'width' );
+												element.removeAttribute( 'width' );
 											} else if ( type == PREVIEW ) {
 												var aMatch = value.match( regexGetSize );
 												if ( !aMatch ) {
@@ -650,7 +650,7 @@
 											return isValid;
 										},
 										setup: setupDimension,
-										commit: function( type, element, internalCommit ) {
+										commit: function( type, element ) {
 											var value = this.getValue();
 											if ( type == IMAGE ) {
 												if ( value && editor.activeFilter.check( 'img{width,height}' ) )
@@ -658,7 +658,7 @@
 												else
 													element.removeStyle( 'height' );
 
-												!internalCommit && element.removeAttribute( 'height' );
+												element.removeAttribute( 'height' );
 											} else if ( type == PREVIEW ) {
 												var aMatch = value.match( regexGetSize );
 												if ( !aMatch ) {
@@ -755,7 +755,7 @@
 											this.setValue( value );
 										}
 									},
-									commit: function( type, element, internalCommit ) {
+									commit: function( type, element ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
 											if ( !isNaN( value ) ) {
@@ -765,7 +765,7 @@
 												element.removeStyle( 'border' );
 											}
 
-											if ( !internalCommit && type == IMAGE )
+											if ( type == IMAGE )
 												element.removeAttribute( 'border' );
 										} else if ( type == CLEANUP ) {
 											element.removeAttribute( 'border' );
@@ -806,7 +806,7 @@
 											this.setValue( value );
 										}
 									},
-									commit: function( type, element, internalCommit ) {
+									commit: function( type, element ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
 											if ( !isNaN( value ) ) {
@@ -817,7 +817,7 @@
 												element.removeStyle( 'margin-right' );
 											}
 
-											if ( !internalCommit && type == IMAGE )
+											if ( type == IMAGE )
 												element.removeAttribute( 'hspace' );
 										} else if ( type == CLEANUP ) {
 											element.removeAttribute( 'hspace' );
@@ -856,7 +856,7 @@
 											this.setValue( value );
 										}
 									},
-									commit: function( type, element, internalCommit ) {
+									commit: function( type, element ) {
 										var value = parseInt( this.getValue(), 10 );
 										if ( type == IMAGE || type == PREVIEW ) {
 											if ( !isNaN( value ) ) {
@@ -867,7 +867,7 @@
 												element.removeStyle( 'margin-bottom' );
 											}
 
-											if ( !internalCommit && type == IMAGE )
+											if ( type == IMAGE )
 												element.removeAttribute( 'vspace' );
 										} else if ( type == CLEANUP ) {
 											element.removeAttribute( 'vspace' );
@@ -916,7 +916,7 @@
 											this.setValue( value );
 										}
 									},
-									commit: function( type, element, internalCommit ) {
+									commit: function( type, element ) {
 										var value = this.getValue();
 										if ( type == IMAGE || type == PREVIEW ) {
 											if ( value )
@@ -924,7 +924,7 @@
 											else
 												element.removeStyle( 'float' );
 
-											if ( !internalCommit && type == IMAGE ) {
+											if ( type == IMAGE ) {
 												value = ( element.getAttribute( 'align' ) || '' ).toLowerCase();
 												switch ( value ) {
 													// we should remove it only if it matches "left" or "right",
