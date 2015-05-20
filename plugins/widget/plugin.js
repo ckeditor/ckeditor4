@@ -2706,7 +2706,28 @@
 
 		// Handle pasted single widget.
 		editor.on( 'paste', function( evt ) {
-			evt.data.dataValue = evt.data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
+			var data = evt.data;
+
+			data.dataValue = data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
+
+			// If drag'n'drop kind of paste into nested editable (data.range), selection is set AFTER
+			// data is pasted, which means editor has no chance to change activeFilter's context.
+			// As a result, pasted data is filtered with default editor's filter instead of NE's and
+			// funny things get inserted. Changing the filter by analysis of the paste range below (#13186).
+			if ( data.range ) {
+				// Check if pasting into nested editable.
+				var nestedEditable = Widget.getNestedEditable( editor.editable(), data.range.startContainer );
+
+				if ( nestedEditable ) {
+					// Retrieve the filter from NE's data and set it active before editor.insertHtml is done
+					// in clipboard plugin.
+					var filter = CKEDITOR.filter.instances[ nestedEditable.data( 'cke-filter' ) ];
+
+					if ( filter ) {
+						editor.setActiveFilter( filter );
+					}
+				}
+			}
 		} );
 
 		// Listen with high priority to check widgets after data was inserted.

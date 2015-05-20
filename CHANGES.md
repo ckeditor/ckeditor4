@@ -18,6 +18,7 @@ Fixed Issues:
 * [#13300](http://dev.ckeditor.com/ticket/13300): Fixed: The `internalCommit` argument in the image dialog seems to be never used.
 * [#13036](http://dev.ckeditor.com/ticket/13036): Fixed: Notifications are 10px more to the right.
 * [#13280](http://dev.ckeditor.com/ticket/13280): [IE8] Fixed: Undo after inline widget drag&drop throws an error.
+* [#13186](http://dev.ckeditor.com/ticket/13186): Fixed: Content dropped to a nested editable is not filtered by the Advanced Content Filter.
 * Toolbar configurators:
   * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
   * [#13138](http://dev.ckeditor.com/ticket/13138): Fixed: The "Toggle empty elements" button label is unclear.
