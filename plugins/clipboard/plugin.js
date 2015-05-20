@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1555,44 +1555,32 @@
 		 * @returns {Boolean} True if the first range in before the second range.
 		 */
 		isDropRangeAffectedByDragRange: function( dragRange, dropRange ) {
-			//
-			// [1] - dragRange
-			// [2] - dropRange
-			//
-			// Both ranges has the same parent and the first has smaller offset. E.g.:
-			//
-			// * Ranges anchored in a text node:
-			// 		"Lorem ipsum dolor sit[/drag] amet consectetur[drop] adipiscing elit."
-			// * Ranges anchored in an element:
-			// 		"Lorem ipsum dolor sit" [/drag] "amet consectetur" [drop] "adipiscing elit."
-			// * Adjacent ranges - first range's end offset is on the same position as second range's start offset (#13140):
-			//		[drag]<p>foo</p><p>bar</p>[/drag][drop]
-			//
+			var dropContainer = dropRange.startContainer,
+				dropOffset = dropRange.endOffset;
+
+			// Both containers are the same and drop offset is at the same position or later.
+			// " A L] A " " M A "
+			//       ^ ^
+			if ( dragRange.endContainer.equals( dropContainer ) && dragRange.endOffset <= dropOffset ) {
+				return true;
+			}
+
+			// Bookmark for drag start container will mess up with offsets.
+			// " O [L A " " M A "
+			//           ^       ^
 			if (
-				dragRange.endContainer.equals( dropRange.startContainer ) &&
-				dragRange.endOffset <= dropRange.startOffset
+				dragRange.startContainer.getParent().equals( dropContainer ) &&
+				dragRange.startContainer.getIndex() < dropOffset
 			) {
 				return true;
 			}
 
-			// First range is inside a text node and the second is in paragraph located before text node from the first one.
-			// <p> [drop] "Lorem[/drag] ipsum" "sit amet." </p>
+			// Bookmark for drag end container will mess up with offsets.
+			// " O] L A " " M A "
+			//           ^       ^
 			if (
-				dragRange.endContainer.getParent().equals( dropRange.startContainer ) &&
-				dragRange.endContainer.getIndex() >= dropRange.startOffset
-			) {
-				return false;
-			}
-
-			// First range is inside a text node and the second is not, but if we change the
-			// first range into bookmark and split the text node then the seconds node offset
-			// will be no longer correct.
-			//
-			// 		"Lorem ipsum dolor sit [/drag] amet" "consectetur" [drop] "adipiscing elit."
-			//
-			if (
-				dragRange.endContainer.getParent().equals( dropRange.startContainer ) &&
-				dragRange.endContainer.getIndex() <= dropRange.startOffset
+				dragRange.endContainer.getParent().equals( dropContainer ) &&
+				dragRange.endContainer.getIndex() < dropOffset
 			) {
 				return true;
 			}
