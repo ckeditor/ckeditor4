@@ -1394,7 +1394,7 @@
 				// Remove dragged content and make a snapshot.
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
 
-				editable.extractHtmlFromRange( dragRange );
+				dataTransfer.sourceEditor.editable().extractHtmlFromRange( dragRange );
 
 				dataTransfer.sourceEditor.getSelection().reset();
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
