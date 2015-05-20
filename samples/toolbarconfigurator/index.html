@@ -54,7 +54,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		<div class="grid-container">
 			<div class="content grid-width-100">
 				<div class="grid-container-nested">
-					<h1 class="grid-width-60">Toolbar Configurator</h1>
+					<h1 class="grid-width-60">
+						Toolbar Configurator
+						<a href="#help-content" type="button" title="Configurator help" id="help" class="button-a button-a-background button-a-no-text icon-pos-left icon-question-mark">Help</a>
+					</h1>
+
 					<div class="grid-width-40 grid-switch-magic">
 						<div class="switch">
 							<span class="balloon-a balloon-a-se">Select configurator type</span>
@@ -82,45 +86,46 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		</div>
 	</div>
 
-	<div class="grid-container">
-		<div id="info-box" class="content grid-width-100">
-			<div>
-				<h2>What am I doing here?</h2>
-				<button data-for="instructions-container" class="content toggler expanded icon-pos-right icon-toggler-expanded button-a">
-					<label data-collapse>Collapse this section</label>
-					<label data-expand>Expand this section</label>
-				</button>
-			</div>
-			<div id="instructions-container" class="toggler-container grid-container-nested">
-				<div class="basic">
-					<div class="content grid-width-50">
-						<p>Arrange <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbarGroups">toolbar groups</a> and toggle <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removeButtons">button visibility</a> according to your needs and get your toolbar configuration.</p>
-						<p>You can replace the content of the <a href="../../config.js"><code>config.js</code></a> with the generated configuration. If you have already set some configuration options by yourself, you will need to merge both configurations.</p>
-					</div>
-					<div class="content grid-width-50">
-						<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting editor configuration</a> and do not forget about <strong>clearing the browser cache</strong>!</p>
-						<p>Arranging toolbar groups is the recommended way of configuring the editor toolbar, but if you need more freedom you can use the <a href="#advanced">advanced configurator</a>.</p>
-					</div>
-				</div>
-				<div class="advanced grid-container-nested" style="display: none;">
-					<div class="content grid-width-50">
-						<p>With this code editor you can edit your <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbar">toolbar configuration</a> live.</p>
-						<p>You can replace the content of the <a href="../../config.js"><code>config.js</code></a> with the generated configuration. If you have already set some configuration options by yourself, you will need to merge both configurations.</p>
-					</div>
-					<div class="content grid-width-50">
-						<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting editor configuration</a> and do not forget about <strong>clearing the browser cache</strong>!</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<div class="grid-container configurator">
 		<div class="content grid-width-100">
 			<div class="configurator">
 				<div>
 					<div id="toolbarModifierWrapper"></div>
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="help-content">
+		<div class="grid-container">
+			<div class="grid-width-100">
+				<h2>What am I doing here?</h2>
+
+				<div class="grid-container grid-container-nested">
+					<div class="basic">
+						<div class="grid-width-50">
+							<p>Arrange <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbarGroups">toolbar groups</a> and toggle <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-removeButtons">buttons visibility</a> according to your needs and get your toolbar configuration.</p>
+							<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
+						</div>
+						<div class="grid-width-50">
+							<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
+							<p>Arranging toolbar groups is the recommended way of configuring toolbar, but if you need more freedom you can use the <a href="#advanced">advanced configurator</a>.</p>
+						</div>
+					</div>
+					<div class="advanced" style="display: none;">
+						<div class="grid-width-50">
+							<p>With this code editor you can edit live your <a href="http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-toolbar">toolbar configuration</a>.</p>
+							<p>You can replace <a href="../../config.js"><code>config.js</code></a> file contents with the generated configuration. If you already set some configuration options you will need to merge both configurations.</p>
+						</div>
+						<div class="grid-width-50">
+							<p>Read more about different ways of <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">setting configuration</a> and do not forget about <strong>clearing browser cache</strong>.</p>
+						</div>
+					</div>
+				</div>
+
+				<p class="grid-container grid-container-nested">
+					<button type="button" class="help-content-close grid-width-100 button-a button-a-background">Got it. Let's play!</button>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -151,8 +156,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 		var mode = ( window.location.hash.substr( 1 ) === 'advanced' ) ? 'advanced' : 'basic',
 			configuratorSection = CKEDITOR.document.findOne( 'main > .grid-container.configurator' ),
-			basicInstruction = CKEDITOR.document.findOne( '#instructions-container > .basic' ),
-			advancedInstruction = CKEDITOR.document.findOne( '#instructions-container > .advanced' ),
+			basicInstruction = CKEDITOR.document.findOne( '#help-content .basic' ),
+			advancedInstruction = CKEDITOR.document.findOne( '#help-content .advanced' ),
 
 			// Configurator mode switcher.
 			modeSwitchBasic = CKEDITOR.document.getById( 'radio-basic' ),
@@ -412,6 +417,29 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 		// Make the toolbar sticky.
 		positionSticky.watch( CKEDITOR.document.findOne( '.editors-container' ) );
 
+		// Help button and help-content.
+		( function() {
+			var helpButton = CKEDITOR.document.getById( 'help' ),
+				helpContent = CKEDITOR.document.getById( 'help-content' );
+
+			// Don't show help button on IE8 because it's unsupported by Pico Modal.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				helpButton.hide();
+			} else {
+				// Display help modal when the button is clicked.
+				helpButton.on( 'click', function( evt ) {
+					SF.modal( {
+						// Clone modal content from DOM.
+						content: helpContent.getHtml(),
+
+						afterCreate: function( modal ) {
+							// Enable modal content button to close the modal.
+							new CKEDITOR.dom.element( modal.modalElem() ).findOne( '.help-content-close' ).once( 'click', modal.close );
+						}
+					} ).show();
+				} );
+			}
+		} )();
 	} )();
 </script>
 </body>

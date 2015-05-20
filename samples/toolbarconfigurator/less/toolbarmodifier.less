@@ -462,7 +462,6 @@ div.toolbarModifier {
 
 /* Text modifier */
 #toolbarModifierWrapper {
-	margin-top: 2 * @sample-standard-vgap;
 	margin-bottom: @sample-standard-vgap;
 
 	.invalid .CodeMirror {
@@ -495,5 +494,16 @@ div.toolbarModifier {
 				margin-bottom: 0;
 			}
 		}
+	}
+}
+
+// Help button to display information about configurator.
+#help {
+	position: relative;
+	top: -15px;
+	left: -5px;
+
+	&-content {
+		display: none;
 	}
 }

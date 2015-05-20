@@ -14,10 +14,18 @@ module.exports = function( grunt ) {
 			' * For licensing, see LICENSE.md or http://ckeditor.com/license',
 			' */\n',
 		],
+		lintFreeBlockTemplate = [
+			'// jshint ignore:start',
+			'// jscs:disable',
+			'<%= block %>',
+			'// jscs:enable',
+			'// jshint ignore:end'
+		].join( '\n' ),
 		samplesFrameworkDir = 'node_modules/cksource-samples-framework',
 		samplesFrameworkJsFiles = [
 			samplesFrameworkDir + '/js/sf.js',
-			samplesFrameworkDir + '/components/**/*.js'
+			samplesFrameworkDir + '/components/**/*.js',
+			samplesFrameworkDir + '/node_modules/picomodal/src/picoModal.js'
 		];
 
 	grunt.config.merge( {
@@ -76,7 +84,17 @@ module.exports = function( grunt ) {
 			samples: {
 				options: {
 					stripBanners: true,
-					banner: banner.join( '\n' )
+					banner: banner.join( '\n' ),
+
+					// Don't run the linter on 3rd party libraries. You wouldn't be able to fix the errors anyway.
+					process: function( src, path ) {
+						console.log( path );
+						if ( path.match( /cksource-samples-framework\/node_modules/ig ) ) {
+							src = grunt.template.process( lintFreeBlockTemplate, { data: { block: src } } );
+						}
+
+						return src;
+					}
 				},
 				src: samplesFrameworkJsFiles,
 				dest: 'samples/js/sf.js'
