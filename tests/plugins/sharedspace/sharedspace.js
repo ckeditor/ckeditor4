@@ -48,6 +48,7 @@
 				assertEditor( bot.editor );
 			} );
 		},
+
 		'test themed creator_dom_element': function() {
 			bender.editorBot.create( {
 				name: 'editor_test3',

@@ -35,13 +35,13 @@
 		}
 	} );
 
-	function create( editor, spaceName, targetP ) {
-		var target, innerHtml, space;
+	function create( editor, spaceName, target ) {
+		var innerHtml, space;
 
-		if ( typeof targetP === 'string' ) {
-			target = CKEDITOR.document.getById( targetP ); //Its an id... search for it
+		if ( typeof target == 'string' ) {
+			target = CKEDITOR.document.getById( target );
 		} else {
-			target =  new CKEDITOR.dom.element( targetP );
+			target = new CKEDITOR.dom.element( target );
 		}
 
 		if ( target ) {
@@ -127,9 +127,9 @@
  *			top: 'someElementId'
  *		};
  *
- *	    // Place the toolbar inside the HTMLElement "htmlElement". The
+ *		// Place the toolbar inside a DOM element passed by a reference. The
  *		// elements path will remain attached to the editor UI.
- *		var htmlElement = document.getElementById('someElementId')
+ *		var htmlElement = document.getElementById( 'someElementId' );
  *		config.sharedSpaces = {
  *			top: htmlElement
  *		};
