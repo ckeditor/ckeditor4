@@ -142,7 +142,7 @@ bender.test( {
 		}, {
 			position: 'fixed',
 			top: '109px',
-			left: '814px'
+			left: '804px'
 		} ),
 
 	'test horizontal top fixed': createLayoutTest( {
@@ -160,7 +160,7 @@ bender.test( {
 		}, {
 			position: 'fixed',
 			top: '0px',
-			left: '687px'
+			left: '677px'
 		} ),
 
 	'test horizontal top': createLayoutTest( {
@@ -178,7 +178,7 @@ bender.test( {
 		}, {
 			position: 'absolute',
 			top: '752px',
-			left: '2329px'
+			left: '2319px'
 		} ),
 
 	'test horizontal bottom': createLayoutTest( {
@@ -196,7 +196,7 @@ bender.test( {
 	}, {
 		position: 'absolute',
 		top: '1014px',
-		left: '2329px'
+		left: '2319px'
 	} ),
 
 	'test vertical - narrow content - left 1': createLayoutTest( {
@@ -305,7 +305,7 @@ bender.test( {
 	}, {
 		position: 'fixed',
 		top: '0px',
-		left: '98px'
+		left: '88px'
 	} ),
 
 	'test vertical - wide content - right fixed': createLayoutTest( {
