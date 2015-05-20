@@ -359,7 +359,8 @@
 
 		// Because of FF bug we need to use this hack, otherwise cursor is hidden
 		// or it is not possible to move it (#12420).
-		if ( CKEDITOR.env.gecko && data.method == 'drop' ) {
+		// Also, check that editor.toolbox exists, because the toolbar plugin might not be loaded (#13305).
+		if ( CKEDITOR.env.gecko && data.method == 'drop' && editor.toolbox ) {
 			editor.once( 'afterPaste', function() {
 				editor.toolbox.focus();
 			} );
