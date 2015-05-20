@@ -11,6 +11,7 @@ Fixed Issues:
 * [#13199](http://dev.ckeditor.com/ticket/13199): Fixed: Embedsemantic does not support widget classes.
 * [#13003](http://dev.ckeditor.com/ticket/13003): Fixed: Anchors are uploaded when moving them by drag and drop.
 * [#13032](http://dev.ckeditor.com/ticket/13032): Fixed: When upload is done notification update should be marked as important.
+* [#13300](http://dev.ckeditor.com/ticket/13300): Fixed: The `internalCommit` argument in the image dialog seems to be never used.
 * [#13036](http://dev.ckeditor.com/ticket/13036): Fixed: Notifications are 10px more to the right.
 * Toolbar configurators:
   * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
