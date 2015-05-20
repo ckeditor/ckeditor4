@@ -17,6 +17,7 @@ Fixed Issues:
 * [#13032](http://dev.ckeditor.com/ticket/13032): Fixed: When upload is done notification update should be marked as important.
 * [#13300](http://dev.ckeditor.com/ticket/13300): Fixed: The `internalCommit` argument in the image dialog seems to be never used.
 * [#13036](http://dev.ckeditor.com/ticket/13036): Fixed: Notifications are 10px more to the right.
+* [#13280](http://dev.ckeditor.com/ticket/13280): [IE8] Fixed: Undo after inline widget drag&drop throws an error.
 * Toolbar configurators:
   * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
   * [#13138](http://dev.ckeditor.com/ticket/13138): Fixed: The "Toggle empty elements" button label is unclear.

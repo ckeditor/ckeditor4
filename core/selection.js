@@ -2065,7 +2065,7 @@
 			// It may happen that the content change during loading, before selection is set so bookmark leads to text node.
 			if ( bookmarks.isFake ) {
 				node = ranges[ 0 ].getEnclosedNode();
-				if ( node && node.type != CKEDITOR.NODE_ELEMENT ) {
+				if ( !node || node.type != CKEDITOR.NODE_ELEMENT ) {
 					// %REMOVE_START%
 					window.console && console.log( '[CKEDITOR.dom.selection.selectBookmarks] Selection is no longer fake.' ); // jshint ignore:line
 					// %REMOVE_END%
