@@ -62,10 +62,18 @@
 
 	function createSnippetOne( dropRangeDesc, dragRangeDesc ) {
 		var element = new CKEDITOR.dom.element( 'p' ),
-			textNodes = [ 'KOT', 'ALA', 'MA' ];
+			textNodes = [ 'KOT', 'ALA', 'MA' ],
+			tn;
 
 		for ( var i = 0; i < textNodes.length; i++ ) {
-			element.appendText( textNodes[ i ] );
+			// Do not use appendText here because we do not want IE8 to do any optimisations
+			// with the text nodes.
+			tn = new CKEDITOR.dom.text( textNodes[ i ] );
+			element.append( tn );
+		}
+
+		if ( element.getChildCount() != textNodes.length ) {
+			throw new Error( 'Houston, we\'ve got a problem with adjacent text nodes' );
 		}
 
 		var dragRange = new CKEDITOR.dom.range( element );
