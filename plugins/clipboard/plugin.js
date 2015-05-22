@@ -1539,12 +1539,16 @@
 		},
 
 		/**
-		 * Check if the end of the `dragRange` is before the beginning of the `dropRange`
-		 * and modification of the content in the `dragRange` may break `dropRange`. The ranges
-		 * may also be adjacent to each other (first ends in the same place where the second starts).
+		 * Checkes whether turning drag range into bookmarks will invalidate the drop range.
+		 * This usually happens when drop range shares the container with drag range and is located
+		 * after the drag range, but there are countless edge cases.
 		 *
-		 * Note that this function returns `false` if these two ranges are in two
-		 * separate nodes and do not affect each other (even if `dragRange` is before `dropRange`).
+		 * This function is stricly related to {@link #internalDrop} which toggles
+		 * order in which it creates bookmarks for both ranges based on a value returned
+		 * by this method. In some cases this method returns a value which does not necessarily
+		 * is true in terms of what it was meant to check, but it is convenient, because
+		 * we know how it is interpretted in {@link #internalDrop}, so the correct
+		 * behavior of the entire algorithm is assured.
 		 *
 		 * **Note:** This function is in the public scope for tests usage only.
 		 *
