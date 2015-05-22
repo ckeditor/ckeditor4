@@ -877,9 +877,9 @@ var testsForMultipleEditor = {
 			}, function() {
 				return false;
 			}, function() {
-				assert.areEqual(
-					'<p>x</p><p id="middle" contenteditable="false">middle</p>[]<p>y</p>',
-					bender.tools.selection.getWithHtml( editor )
+				assert.isInnerHtmlMatching(
+					'<p>x</p><p contenteditable="false" id="middle">middle</p><p>y</p>',
+					editor.editable().getHtml()
 				);
 			} );
 		},
