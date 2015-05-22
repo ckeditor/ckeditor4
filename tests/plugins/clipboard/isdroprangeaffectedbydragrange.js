@@ -222,7 +222,7 @@
 			}
 
 			editable.setHtml( '<p>tmp</p>' );
-			editable.insertElement( element );
+			editable.append( element );
 
 			// This function doesn't modify nothing.
 			var result = clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange );
