@@ -352,6 +352,11 @@
 				if ( el.equals( this.editable ) )
 					continue;
 
+				// On IE8 element.getElementsByTagName returns comments... sic! (#13176)
+				if ( el.type != CKEDITOR.NODE_ELEMENT ) {
+					continue;
+				}
+
 				// Don't visit non-editable internals, for example widget's
 				// guts (above wrapper, below nested). Still check editable limits,
 				// as they are siblings with editable contents.
