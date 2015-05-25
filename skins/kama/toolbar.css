@@ -135,7 +135,7 @@ a.cke_button
 /* This class is applied to the button when it is "active" (pushed).
    This style indicates that the feature associated with the button is active
    i.e. currently writing in bold or when spell checking is enabled. */
-.cke_button_on
+a.cke_button_on
 {
 	background-color: #a3d7ff;
 }
@@ -150,7 +150,7 @@ a.cke_button
 
 /* This class is applied to the button when the feature associated with the
    button is available but currently not active.*/
-.cke_button_off
+a.cke_button_off
 {
 	opacity: 0.7;
 }
@@ -159,7 +159,7 @@ a.cke_button
    button cannot be used (grayed-out).
    i.e. paste button remains disabled when there is nothing in the clipboard to
    be pasted. */
-.cke_button_disabled
+a.cke_button_disabled
 {
 	opacity: 0.3;
 }
