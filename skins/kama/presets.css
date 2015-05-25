@@ -29,6 +29,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	font-size: small;
 	background-color: #fff;
 	white-space: pre-wrap;
+	display: block;
 }
 
 .cke_wysiwyg_frame, .cke_wysiwyg_div
