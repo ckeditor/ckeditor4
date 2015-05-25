@@ -1,5 +1,5 @@
 @bender-tags: 4.5.0, tc
-@bender-ckeditor-plugins: wysiwygarea, sourcearea, toolbar, basicstyles, colorbutton, image, about,elementspath
+@bender-ckeditor-plugins: wysiwygarea, sourcearea, toolbar, basicstyles, colorbutton, image, font, about, language, elementspath
 @bender-ui: collapsed
 
 Test whether skin of the editor was not affected by page's styling. Check:
