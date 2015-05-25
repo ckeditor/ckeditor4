@@ -23,12 +23,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 }
 
 /* Editable regions */
-.cke_source
+textarea.cke_source
 {
 	font-family: 'Courier New', Monospace;
 	font-size: small;
 	background-color: #fff;
 	white-space: pre-wrap;
+	border: none;
+	padding: 0;
+	margin: 0;
 	display: block;
 }
 
