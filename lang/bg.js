@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'bg' ] = {
 	// ARIA description.
 	editor: 'Текстов редактор за форматиран текст',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Панел на текстовия редактор',
 
 	// Common messages and labels.
 	common: {
@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'bg' ] = {
 		alignTop: 'Горе',
 		alignMiddle: 'По средата',
 		alignBottom: 'Долу',
-		alignNone: 'None', // MISSING
+		alignNone: 'Без подравняване',
 		invalidValue	: 'Невалидна стойност.',
 		invalidHeight: 'Височината трябва да е число.',
 		invalidWidth: 'Ширина требе да е число.',
