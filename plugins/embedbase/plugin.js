@@ -178,6 +178,7 @@
 			 * @param {Function} [opts.errorCallback] Callback called when an error occurred.
 			 * @param {String} opts.errorCallback.messageTypeOrMessage See {@link #getErrorMessage}.
 			 * @param {Boolean} [opts.noNotifications] Do not show notifications (useful when dialog is open).
+			 * @returns {CKEDITOR.plugins.embedBase.request}
 			 */
 			loadContent: function( url, opts ) {
 				opts = opts || {};
@@ -221,6 +222,8 @@
 						}
 					}
 				}
+
+				return request;
 			},
 
 			/**
@@ -298,16 +301,22 @@
 			 * @param {CKEDITOR.plugins.embedBase.request} request
 			 */
 			_sendRequest: function( request ) {
-				Jsonp.sendRequest(
-					this.providerUrl,
-					{
-						url: encodeURIComponent( request.url )
-					},
-					request.callback,
-					function() {
-						request.errorCallback( 'fetchingFailed' );
-					}
-				);
+				var that = this,
+					jsonpRequest = Jsonp.sendRequest(
+						this.providerUrl,
+						{
+							url: encodeURIComponent( request.url )
+						},
+						request.callback,
+						function() {
+							request.errorCallback( 'fetchingFailed' );
+						}
+					);
+
+				request.cancel = function() {
+					jsonpRequest.cancel();
+					that.fire( 'requestCanceled', request );
+				};
 			},
 
 			/**
@@ -530,9 +539,11 @@
 		 * passed in `urlParams` can be used, plus `{callback}` must be defined which represent JSONP callback.
 		 * @param {Object} urlParams Params to be passed to the `urlTemplate`.
 		 * @param {Function} callback
-		 * @param {Function} errorCallback
+		 * @param {Function} [errorCallback]
+		 * @returns {Object} The request object with a `cancel()` method.
 		 */
 		sendRequest: function( urlTemplate, urlParams, callback, errorCallback ) {
+			var request = {};
 			urlParams = urlParams || {};
 
 			var callbackKey = CKEDITOR.tools.getNextNumber(),
@@ -552,13 +563,20 @@
 
 			scriptElement = this._attachScript( urlTemplate.output( urlParams ), function() {
 				cleanUp();
-				errorCallback();
+				errorCallback && errorCallback();
 			} );
 
+			request.cancel = cleanUp;
+
 			function cleanUp() {
-				scriptElement.remove();
-				delete CKEDITOR._.jsonpCallbacks[ callbackKey ];
+				if ( scriptElement ) {
+					scriptElement.remove();
+					delete CKEDITOR._.jsonpCallbacks[ callbackKey ];
+					scriptElement = null;
+				}
 			}
+
+			return request;
 		}
 	};
 
@@ -600,6 +618,12 @@
 	 * Response object. It is set once a response is received.
 	 *
 	 * @property {Object} [response]
+	 */
+
+	/**
+	 * Cancels the request.
+	 *
+	 * @method cancel
 	 */
 
 	CKEDITOR.plugins.embedBase = {
