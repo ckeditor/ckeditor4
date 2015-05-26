@@ -958,6 +958,29 @@ var testsForMultipleEditor = {
 				expectedBeforePasteEventCount: 1,
 				expectedPasteEventCount: 0
 			} );
+		},
+
+		'test drop on non editable (#13015)': function() {
+			var editor = this.editors.divarea,
+				bot = this.editorBots[ editor.name ],
+				evt = bender.tools.mockDropEvent();
+
+			bot.setHtmlWithSelection( '<div><p contenteditable="false">foo</p></div>' );
+			editor.resetUndo();
+
+			// Target is not editable.
+			evt.getTarget = function() {
+				return editor.editable().findOne( 'p' ).getFirst();
+			};
+
+			var dropSpy = sinon.spy();
+			editor.on( 'drop', dropSpy );
+
+			var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
+			dropTarget.fire( 'dragstart', evt );
+			dropTarget.fire( 'drop', evt );
+
+			assert.isFalse( dropSpy.called );
 		}
 	};
 

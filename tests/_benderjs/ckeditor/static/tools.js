@@ -817,6 +817,10 @@
 			var dataTransfer = this.mockNativeDataTransfer(),
 				target = new CKEDITOR.dom.node( 'targetMock' );
 
+			target.isReadOnly = function() {
+				return false;
+			};
+
 			return {
 				$: {
 					dataTransfer: dataTransfer
