@@ -1341,6 +1341,20 @@
 				// Cancel native drop.
 				evt.data.preventDefault();
 
+				var target = evt.data.getTarget();
+
+				var readOnly;
+				if ( target.is && target.is( 'html' ) ) {
+					readOnly = false;
+				} else {
+					readOnly = target.isReadOnly();
+				}
+
+				// Do nothing if drop on non editable element (#13015).
+				if ( readOnly ) {
+					return;
+				}
+
 				// Getting drop position is one of the most complex part.
 				var dropRange = clipboard.getRangeAtDropPosition( evt, editor ),
 					dragRange = clipboard.dragRange;

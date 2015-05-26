@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -3043,6 +3043,11 @@
 			container.append( img );
 			widget.wrapper.append( container );
 		}
+
+		// Preventing page reload (#13015).
+		widget.wrapper.on( 'dragover', function( evt ) {
+			evt.data.preventDefault();
+		}, widget );
 
 		widget.wrapper.on( 'mouseenter', widget.updateDragHandlerPosition, widget );
 		setTimeout( function() {
