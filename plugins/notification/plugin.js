@@ -7,6 +7,7 @@
 
 CKEDITOR.plugins.add( 'notification', {
 	lang: 'en', // %REMOVE_LINE_CORE%
+	requires: 'toolbar',
 
 	init: function( editor ) {
 		editor._.notificationArea = new Area( editor );

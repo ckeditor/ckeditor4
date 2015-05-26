@@ -18,7 +18,7 @@
 		},
 
 		init: function( editor ) {
-			// Do not execute this paste lister if it will not be possible to upload file.
+			// Do not execute this paste listener if it will not be possible to upload file.
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				return;
 			}
