@@ -618,7 +618,7 @@ var testsForMultipleEditor = {
 			assert.isTrue( listener.calledOnce );
 		},
 
-		'test fixIESplittedNodes': function() {
+		'test fixSplittedNodes': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
 				dragRange = editor.createRange(),
@@ -643,7 +643,7 @@ var testsForMultipleEditor = {
 			dropRange.collapse( true );
 
 			// Fix nodes.
-			CKEDITOR.plugins.clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange, 1, 1 );
+			CKEDITOR.plugins.clipboard.fixSplitNodesAfterDrop( dragRange, dropRange, 1, 1 );
 
 			// Asserts.
 			assert.areSame( 1, p.getChildCount() );
@@ -653,7 +653,7 @@ var testsForMultipleEditor = {
 			assert.isInnerHtmlMatching( '<p class="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 		},
 
-		'test fixIESplittedNodes 2': function() {
+		'test fixSplittedNodes (#13011)': function() {
 			// <p id="p"> "foo" "bar" <img /> </p>
 			//                 ^     [       ]
 
@@ -681,7 +681,7 @@ var testsForMultipleEditor = {
 
 			assert.areSame( 3, p.getChildCount() );
 
-			CKEDITOR.plugins.clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange, 2, 2 );
+			CKEDITOR.plugins.clipboard.fixSplitNodesAfterDrop( dragRange, dropRange, 2, 2 );
 
 			assert.areSame( 2, p.getChildCount() );
 			assert.areSame( 'foobar', p.getChild( 0 ).getText() );

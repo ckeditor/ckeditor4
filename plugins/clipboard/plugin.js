@@ -1296,6 +1296,7 @@
 				// Save drag range globally for cross editor D&D.
 				clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
 
+				// (#13011)
 				if ( clipboard.dragRange.startContainer.type === CKEDITOR.NODE_ELEMENT ) {
 					clipboard.dragStartContainerChildCount = clipboard.dragRange.startContainer.getChildCount();
 				}
@@ -1539,7 +1540,7 @@
 		 * @param {Number} preDragStartContainerChildCount Number of children of drag range start container before drop.
 		 * @param {Number} preDragEndContainerChildCount Number of children of drag range end container before drop.
 		 */
-		fixIESplitNodesAfterDrop: function( dragRange, dropRange, preDragStartContainerChildCount, preDragEndContainerChildCount ) {
+		fixSplitNodesAfterDrop: function( dragRange, dropRange, preDragStartContainerChildCount, preDragEndContainerChildCount ) {
 			var dropContainer = dropRange.startContainer;
 
 			// We are only concerned about.
@@ -1670,7 +1671,7 @@
 			editor.fire( 'saveSnapshot' );
 			editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
-			this.fixIESplitNodesAfterDrop(
+			this.fixSplitNodesAfterDrop(
 				dragRange,
 				dropRange,
 				clipboard.dragStartContainerChildCount,
