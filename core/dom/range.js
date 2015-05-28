@@ -169,6 +169,8 @@ CKEDITOR.dom.range = function( root ) {
 	//   * Then we do the same with end node parents (right branch), because it may contains notes we omit during the previous
 	//   step, for example if the right branch is deeper then left branch. Things are more complicated here because we have to
 	//   watch out for nodes that were already cloned.
+	//   * ***Note:** Setting `cloneId` option to `false` for **extraction** works for partially selected elements only.
+	//   See range.extractContents to know more.
 	// 4. Clean up.
 	//   * There are two things we need to do - updating the range position and perform the action of the "mergeThen"
 	//   param (see range.deleteContents or range.extractContents).
@@ -664,6 +666,10 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * The content nodes of the range are cloned and added to a document fragment,
 		 * meanwhile they are removed permanently from the DOM tree.
+		 *
+		 * **Note:** Setting `cloneId` option to `false` works for **partially** selected elements only.
+		 * If an element with an ID attribute is **fully enclosed** in a range, it will keep the ID attribute
+		 * regardless of `cloneId` option value. It's a known bug of.
 		 *
 		 * @param {Boolean} [mergeThen] Merge any splitted elements result in DOM true due to partial selection.
 		 * @param {Boolean} [cloneId=true] Whether to preserve ID attributes in the extracted content.
