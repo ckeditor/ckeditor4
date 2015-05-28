@@ -1531,21 +1531,22 @@
 		 * @param {CKEDITOR.dom.range} dropRange The drop range.
 		 */
 		fixIESplitNodesAfterDrop: function( dragRange, dropRange ) {
-			if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
-				dropRange.startOffset > 0 &&
-				dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
-				dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
+			if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
 				var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
-					nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset ),
-					offset = nodeBefore.getLength();
+					nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
 
-				if ( nodeAfter ) {
+				if (
+					nodeBefore && nodeBefore.type === CKEDITOR.NODE_TEXT &&
+					nodeAfter && nodeAfter.type === CKEDITOR.NODE_TEXT
+				) {
+					var offset = nodeBefore.getLength();
+
 					nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
 					nodeAfter.remove();
-				}
 
-				dropRange.setStart( nodeBefore, offset );
-				dropRange.collapse( true );
+					dropRange.setStart( nodeBefore, offset );
+					dropRange.collapse( true );
+				}
 			}
 		},
 
