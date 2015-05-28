@@ -1295,6 +1295,13 @@
 
 				// Save drag range globally for cross editor D&D.
 				clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
+
+				if ( clipboard.dragRange.startContainer.type === CKEDITOR.NODE_ELEMENT ) {
+					clipboard.dragStartContainerChildCount = clipboard.dragRange.startContainer.getChildCount();
+				}
+				if ( clipboard.dragRange.endContainer.type === CKEDITOR.NODE_ELEMENT ) {
+					clipboard.dragEndContainerChildCount = clipboard.dragRange.endContainer.getChildCount();
+				}
 			}, null, null, 2 );
 
 			// -------------- DRAGEND --------------
@@ -1529,24 +1536,61 @@
 		 * @private
 		 * @param {CKEDITOR.dom.range} dragRange The drag range.
 		 * @param {CKEDITOR.dom.range} dropRange The drop range.
+		 * @param {Number} preDragStartContainerChildCount Number of children of drag range start container before drop.
+		 * @param {Number} preDragEndContainerChildCount Number of children of drag range end container before drop.
 		 */
-		fixIESplitNodesAfterDrop: function( dragRange, dropRange ) {
-			if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
-				var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
-					nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
+		fixIESplitNodesAfterDrop: function( dragRange, dropRange, preDragStartContainerChildCount, preDragEndContainerChildCount ) {
+			var dropContainer = dropRange.startContainer;
 
-				if (
-					nodeBefore && nodeBefore.type === CKEDITOR.NODE_TEXT &&
-					nodeAfter && nodeAfter.type === CKEDITOR.NODE_TEXT
-				) {
-					var offset = nodeBefore.getLength();
+			// We are only concerned about.
+			if ( dropContainer.type !== CKEDITOR.NODE_ELEMENT ) {
+				return;
+			}
 
-					nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
-					nodeAfter.remove();
+			// <p> " f o " " o " <img /> </p>
+			//            ^     [       ]
+			//    0       1     2       3
+			var areDragAndDropContainersTheSame = dragRange.startContainer.equals( dropContainer ) ||  dragRange.endContainer.equals( dropContainer );
 
-					dropRange.setStart( nodeBefore, offset );
-					dropRange.collapse( true );
-				}
+			// <p> " f o " " o b a r b a r a " </p>
+			//            ^   {     }
+			//    0       1                   2
+			var areDragAndDropContainersRelative = dragRange.startContainer.getParent().equals( dropContainer ) ||  dragRange.endContainer.getParent().equals( dropContainer );
+
+			// Before drop there was one child of <p>
+			// <p> " f o o b a r " </p>
+			//        ^   {   }
+			//
+			// After drop there are two
+			// <p> " f " " o o b a r " </p>
+			//          ^
+
+			var childrenCountVary = (
+					( typeof preDragStartContainerChildCount === 'number' && preDragStartContainerChildCount !== dropContainer.getChildCount() ) ||
+					( typeof preDragEndContainerChildCount === 'number' && preDragEndContainerChildCount !== dropContainer.getChildCount() )
+				);
+
+			// Here we determine whether browser split text node into two. We are doing this by comparing children count right before
+			// drop and after. Drag ranges are unsafe only if drag and drop containers are the same.
+			if ( !( ( areDragAndDropContainersTheSame || areDragAndDropContainersRelative ) && childrenCountVary ) ) {
+				// Nothing changes, we are safe.
+				return;
+			}
+
+			var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
+				nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
+
+			if (
+				nodeBefore && nodeBefore.type === CKEDITOR.NODE_TEXT &&
+				nodeAfter && nodeAfter.type === CKEDITOR.NODE_TEXT
+			) {
+				var offset = nodeBefore.getLength();
+
+				nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
+				nodeAfter.remove();
+
+				dropRange.setStart( nodeBefore, offset );
+				dropRange.collapse( true );
 			}
 		},
 
@@ -1617,7 +1661,8 @@
 		 * @param {CKEDITOR.editor} editor
 		 */
 		internalDrop: function( dragRange, dropRange, dataTransfer, editor ) {
-			var editable = editor.editable(),
+			var clipboard = CKEDITOR.plugins.clipboard,
+				editable = editor.editable(),
 				dragBookmark, dropBookmark, isDropRangeAffected;
 
 			// Save and lock snapshot so there will be only
@@ -1625,9 +1670,12 @@
 			editor.fire( 'saveSnapshot' );
 			editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-				this.fixIESplitNodesAfterDrop( dragRange, dropRange );
-			}
+			this.fixIESplitNodesAfterDrop(
+				dragRange,
+				dropRange,
+				clipboard.dragStartContainerChildCount,
+				clipboard.dragEndContainerChildCount
+			);
 
 			// Because we manipulate multiple ranges we need to do it carefully,
 			// changing one range (event creating a bookmark) may make other invalid.

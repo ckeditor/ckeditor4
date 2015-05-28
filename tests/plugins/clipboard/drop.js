@@ -643,7 +643,7 @@ var testsForMultipleEditor = {
 			dropRange.collapse( true );
 
 			// Fix nodes.
-			CKEDITOR.plugins.clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange );
+			CKEDITOR.plugins.clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange, 1, 1 );
 
 			// Asserts.
 			assert.areSame( 1, p.getChildCount() );
@@ -681,7 +681,7 @@ var testsForMultipleEditor = {
 
 			assert.areSame( 3, p.getChildCount() );
 
-			CKEDITOR.plugins.clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange );
+			CKEDITOR.plugins.clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange, 2, 2 );
 
 			assert.areSame( 2, p.getChildCount() );
 			assert.areSame( 'foobar', p.getChild( 0 ).getText() );
