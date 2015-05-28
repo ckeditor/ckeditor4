@@ -89,7 +89,9 @@
 
 					// Sometimes it happens that elementFromPoint returns null (especially on IE).
 					// Any further traversal makes no sense if there's no start point. Abort.
-					if ( !( elfp = doc.$.elementFromPoint( x, y ) ) ) {
+					// Note: In IE8 elementFromPoint may return zombie nodes of undefined nodeType,
+					// so rejecting those as well.
+					if ( !( elfp = doc.$.elementFromPoint( x, y ) ) || !elfp.nodeType ) {
 						return;
 					}
 
