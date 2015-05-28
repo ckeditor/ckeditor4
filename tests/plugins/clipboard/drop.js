@@ -653,6 +653,40 @@ var testsForMultipleEditor = {
 			assert.isInnerHtmlMatching( '<p class="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 		},
 
+		'test fixIESplittedNodes 2': function() {
+			// <p id="p"> "foo" "bar" <img /> </p>
+			//                 ^     [       ]
+
+			var editor = this.editors.framed,
+				bot = this.editorBots[ editor.name ],
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
+				p, img;
+
+			// Create DOM
+			bot.setHtmlWithSelection( '<p id="p"></p>' );
+			p = editor.document.getById( 'p' );
+
+			p.appendText( 'foo' );
+			p.appendText( 'bar' );
+
+			img = new CKEDITOR.dom.element( 'img' );
+			p.append( img );
+
+			dropRange.setStart( p, 1 );
+			dropRange.collapse( true );
+
+			dragRange.setStart( p, 2 );
+			dragRange.setEnd( p, 3 );
+
+			assert.areSame( 3, p.getChildCount() );
+
+			CKEDITOR.plugins.clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange );
+
+			assert.areSame( 2, p.getChildCount() );
+			assert.areSame( 'foobar', p.getChild( 0 ).getText() );
+		},
+
 		'test isDropRangeAffectedByDragRange 1': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
