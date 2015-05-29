@@ -250,6 +250,24 @@ bender.test( {
 		assert.areSame( 'testdoubleclick', openedDialog, 'dialog was opened on doubleclick' );
 
 		revert();
+	},
+
+	'test dialog setState': function() {
+		var dialog = new CKEDITOR.dialog( this.editor, 'testDialog1' );
+		var stateEventFired = 0;
+
+		assert.isUndefined( dialog.parts.spinner, 'By default dialog has no spinner' );
+		assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state, 'Default dialog state' );
+
+		dialog.on( 'state', function() {
+			assert.areSame( CKEDITOR.DIALOG_STATE_BUSY, dialog.state, 'New dialog state' );
+			assert.isObject( dialog.parts.spinner, 'Dialog has a spinner element' );
+
+			++stateEventFired;
+		} );
+
+		dialog.setState( CKEDITOR.DIALOG_STATE_BUSY );
+		assert.areSame( 1, stateEventFired, 'State event has been fired' );
 	}
 } );
 
