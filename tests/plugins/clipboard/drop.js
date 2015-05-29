@@ -492,6 +492,12 @@ var testsForMultipleEditor = {
 
 				assert.isTrue( extractRangeSpy.called, 'extractHtmlFromRange was called on the source editor\'s editable' );
 
+				assert.isInnerHtmlMatching(
+					'<p class="p">Lorem ^sit amet.@</p>',
+					bender.tools.selection.getWithHtml( editorCross ),
+					htmlMatchOpts,
+					'selection was set in the source editor' );
+
 				editor.execCommand( 'undo' );
 				editorCross.execCommand( 'undo' );
 
