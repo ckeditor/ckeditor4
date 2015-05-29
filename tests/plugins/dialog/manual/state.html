@@ -2,11 +2,11 @@
 	<textarea cols="80" id="editor1" name="editor1" rows="10">
 	</textarea>
 	<style>
-		.cke_button__spinner_label {
+		.cke_button__state_label {
 			display: inline;
 		}
 
-		.cke_button__spinner_icon {
+		.cke_button__state_icon {
 			display: none;
 		}
 	</style>
@@ -14,14 +14,19 @@
 		CKEDITOR.replace( 'editor1', {
 			on: {
 				pluginsLoaded: function() {
-					CKEDITOR.dialog.add( 'spinner', function() {
+					CKEDITOR.dialog.add( 'state', function() {
 						return {
-							title: 'Dialog with spinner',
-							minWidth: 100,
+							title: 'Dialog with state indicator',
+							minWidth: 250,
 							minHeight: 50,
 							onLoad: function( evt ) {
-								this.getContentElement( 'info', 'show' ).on( 'click', this.showSpinner, this );
-								this.getContentElement( 'info', 'hide' ).on( 'click', this.hideSpinner, this );
+								this.getContentElement( 'info', 'busy' ).on( 'click', function() {
+									this.setState( CKEDITOR.DIALOG_STATE_BUSY );
+								}, this );
+
+								this.getContentElement( 'info', 'idle' ).on( 'click', function() {
+									this.setState( CKEDITOR.DIALOG_STATE_IDLE );
+								}, this );
 							},
 							contents: [
 								{
@@ -33,13 +38,13 @@
 											children: [
 												{
 													type: 'button',
-													id: 'show',
-													label: 'Show spinner'
+													id: 'busy',
+													label: 'Set dialog busy'
 												},
 												{
 													type: 'button',
-													id: 'hide',
-													label: 'Hide spinner'
+													id: 'idle',
+													label: 'Set dialog idle'
 												}
 											]
 										}
@@ -49,11 +54,11 @@
 						};
 					} );
 
-					this.addCommand( 'spinner', new CKEDITOR.dialogCommand( 'spinner' ) );
+					this.addCommand( 'state', new CKEDITOR.dialogCommand( 'state' ) );
 
-					this.ui.addButton( 'spinner', {
-						label: 'Show a dialog with spinner',
-						command: 'spinner',
+					this.ui.addButton( 'state', {
+						label: 'Show a dialog with state indicator',
+						command: 'state',
 					} );
 				}
 			}
