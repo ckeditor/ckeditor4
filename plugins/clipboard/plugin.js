@@ -1341,10 +1341,10 @@
 				// Cancel native drop.
 				evt.data.preventDefault();
 
-				var target = evt.data.getTarget();
+				var target = evt.data.getTarget(),
+					readOnly;
 
-				var readOnly;
-				if ( target.is && target.is( 'html' ) ) {
+				if ( target.type == CKEDITOR.NODE_ELEMENT && target.is( 'html' ) ) {
 					readOnly = false;
 				} else {
 					readOnly = target.isReadOnly();
