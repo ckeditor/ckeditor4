@@ -43,6 +43,24 @@ CKEDITOR.DIALOG_RESIZE_HEIGHT = 2;
  */
 CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
+/**
+ * Dialog state when idle.
+ *
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
+ */
+CKEDITOR.DIALOG_STATE_IDLE = 1;
+
+/**
+ * Dialog state when busy.
+ *
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
+ */
+CKEDITOR.DIALOG_STATE_BUSY = 2;
+
 ( function() {
 	var cssLength = CKEDITOR.tools.cssLength;
 
@@ -322,6 +340,12 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					evt.data.hide = false;
 			} );
 		}
+
+		// Set default dialog state.
+		this.state = CKEDITOR.DIALOG_STATE_IDLE;
+
+		// Observe future state changes and update dialog UI.
+		this.on( 'state', updateDialogStateIndicator );
 
 		if ( definition.onCancel ) {
 			this.on( 'cancel', function( evt ) {
@@ -640,6 +664,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		for ( i = 0; i < buttons.length; i++ )
 			this._.buttons[ buttons[ i ].id ] = buttons[ i ];
+
+		/**
+		 * Current state of the dialog. Use {@link #setState} method to update it.
+		 * See {@link #event-state} event to know more.
+		 *
+		 * @readonly
+		 * @property {Number} [state=CKEDITOR.DIALOG_STATE_IDLE]
+		 */
 	};
 
 	// Focusable interface. Use it via dialog.addFocusable.
@@ -1404,24 +1436,18 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		},
 
 		/**
-		 * Shows a loading spinner in dialog's title bar. The opposite of {@link #hideSpinner}.
-		 *
-		 * **Note:** The spinner is added to DOM on demand. See `initSpinner()` to know more.
+		 * Sets dialog {@link #property-state}.
 		 *
 		 * @since 4.5
+		 * @param {Number} state Either {@link CKEDITOR#DIALOG_STATE_IDLE} or {@link CKEDITOR#DIALOG_STATE_BUSY}.
 		 */
-		showSpinner: function() {
-			( this.parts.spinner || initSpinner( this ) ).show();
-		},
+		setState: function( state ) {
+			var oldState = this.state;
 
-		/**
-		 * Hides the loading spinner in dialogs title bar. The opposite of {@link #showSpinner}.
-		 *
-		 * @since 4.5
-		 */
-		hideSpinner: function() {
-			if ( this.parts.spinner ) {
-				this.parts.spinner.hide();
+			this.state = state;
+
+			if ( oldState !== state ) {
+				this.fire( 'state', state );
 			}
 		}
 	};
@@ -2032,33 +2058,38 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 		}
 	}
 
-	// Appends a spinner to dialog's title bar on demand.
+	// Updates dialog state indicator in the UI.
 	//
-	// Note: To avoid cluttering dialog DOM with obsolete spinners (most of the dialogs don't need them),
-	// this function is called on demand, registering spinner in `dialog.parts.spinner` only when such
-	// UI component is required to be shown.
+	// **Note:** To avoid cluttering dialog DOM, this function appends a spinner (`dialog.parts.spinner`)
+	// to dialog's title bar on demand.
 	//
 	// @since 4.5
-	// @param {CKEDITOR.dialog} dialog Dialog instance.
-	// @see CKEDITOR.dialog.(show|hide)Spinner()
-	//
-	function initSpinner( dialog ) {
-		if ( !dialog.parts.spinner ) {
-			var spinner = dialog.parts.spinner = CKEDITOR.document.createElement( 'div', {
-				attributes: {
-					'class': 'cke_dialog_spinner'
-				},
-				styles: {
-					'float': 'left',
-					'margin-right': '8px'
-				}
-			} );
+	// @param {CKEDITOR.event} evt State update event, which passes the dialog state in event `data`.
+	// @see CKEDITOR.dialog.setState
+	function updateDialogStateIndicator( evt ) {
+		if ( evt.data == CKEDITOR.DIALOG_STATE_BUSY ) {
+			// Insert the spinner on demand.
+			if ( !this.parts.spinner ) {
+				this.parts.spinner = CKEDITOR.document.createElement( 'div', {
+					attributes: {
+						'class': 'cke_dialog_spinner'
+					},
+					styles: {
+						'float': 'left',
+						'margin-right': '8px'
+					}
+				} );
 
-			spinner.setHtml( '&#8987;' );
-			spinner.appendTo( dialog.parts.title, 1 );
+				this.parts.spinner.setHtml( '&#8987;' );
+				this.parts.spinner.appendTo( this.parts.title, 1 );
+			}
+
+			// Finally, show the spinner.
+			this.parts.spinner.show();
+		} else if ( evt.data == CKEDITOR.DIALOG_STATE_IDLE ) {
+			// Hide the spinner. But don't do anything if there is no spinner yet.
+			this.parts.spinner && this.parts.spinner.hide();
 		}
-
-		return dialog.parts.spinner;
 	}
 
 	var resizeCover;
@@ -3351,4 +3382,14 @@ CKEDITOR.plugins.add( 'dialog', {
  * @param data
  * @param {Number} data.width The new width.
  * @param {Number} data.height The new height.
+ */
+
+/**
+ * Fired when a dialog state changes, usually by {@link CKEDITOR.dialog#setState}.
+ *
+ * @since 4.5
+ * @event state
+ * @member CKEDITOR.dialog
+ * @param data
+ * @param {Number} data The new state. Either {@link CKEDITOR#DIALOG_STATE_IDLE} or {@link CKEDITOR#DIALOG_STATE_BUSY}.
  */
