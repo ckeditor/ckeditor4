@@ -3044,7 +3044,10 @@
 			widget.wrapper.append( container );
 		}
 
-		// Preventing page reload (#13015).
+		// Preventing page reload when dropped content on widget wrapper (#13015).
+		// Widget is not editable so by default drop on it isn't allowed what means that
+		// browser handles it (there's no editable#drop event). If there's no drop event we cannot block
+		// the drop, so page is reloaded. This listener enables drop on widget wrappers.
 		widget.wrapper.on( 'dragover', function( evt ) {
 			evt.data.preventDefault();
 		} );
