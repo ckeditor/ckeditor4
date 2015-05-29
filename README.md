@@ -66,6 +66,10 @@ builder, for its first time at least.
 
 Read more on how to set up the environment and execute tests in the [CKEditor Testing Environment](http://docs.ckeditor.com/#!/guide/dev_tests) guide.
 
+### Reporting issues
+
+Please use the [CKEditor Developer Center](https://dev.ckeditor.com/).
+
 ### License
 
 Licensed under the GPL, LGPL and MPL licenses, at your choice.
