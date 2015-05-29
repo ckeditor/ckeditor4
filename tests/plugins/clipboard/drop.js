@@ -466,7 +466,8 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
 				botCross = bender.editorBots.cross,
-				editorCross = botCross.editor;
+				editorCross = botCross.editor,
+				extractRangeSpy = sinon.spy( editorCross.editable(), 'extractHtmlFromRange' );
 
 			setWithHtml( bot.editor, '<p class="p">{}Lorem ipsum sit amet.</p>' );
 			setWithHtml( botCross.editor, '<p class="p">Lorem {ipsum <b>dolor</b> }sit amet.</p>' );
@@ -484,8 +485,12 @@ var testsForMultipleEditor = {
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum <b>dolor</b> '
 			}, null, function() {
+				extractRangeSpy.restore();
+
 				assert.areSame( '<p class="p">Lorem ipsum <b>dolor</b> ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 				assert.areSame( '<p class="p">Lorem sit amet.</p>', editorCross.getData(), 'after drop - editor cross' );
+
+				assert.isTrue( extractRangeSpy.called, 'extractHtmlFromRange was called on the source editor\'s editable' );
 
 				editor.execCommand( 'undo' );
 				editorCross.execCommand( 'undo' );
