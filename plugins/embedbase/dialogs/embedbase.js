@@ -31,7 +31,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 				evt.stop();
 
 				// Indicate visually that waiting for the response (#13213).
-				that.showSpinner();
+				that.setState( CKEDITOR.DIALOG_STATE_BUSY );
 
 				var url = that.getValueOf( 'info', 'url' );
 
@@ -68,7 +68,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 
 			function unlock() {
 				// Visual waiting indicator is no longer needed (#13213).
-				that.hideSpinner();
+				that.setState( CKEDITOR.DIALOG_STATE_IDLE );
 				okButton.enable();
 				loadContentRequest = null;
 			}
