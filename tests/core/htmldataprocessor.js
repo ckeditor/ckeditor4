@@ -576,6 +576,26 @@
 			assert.areSame( expectedOutput, processor.toDataFormat( html ), 'toDataFormat' );
 		},
 
+		// #11754
+		'test malformed HTML does not hang the processor': function() {
+			var processor = this.editor.dataProcessor,
+				source = '<table border=0 cellspacing=0 cellpadding=0 style=\'border-collapse:collapse;></table>',
+				expectedHtml = '@';
+
+			assert.isInnerHtmlMatching( expectedHtml, processor.toHtml( source ) );
+		},
+
+		// #11846
+		'test malformed HTML does not hang the processor 2': function() {
+			var processor = this.editor.dataProcessor,
+				source =
+					'<span id="sample" overflow="hidden" ;"="" style="font-size:8pt; font-weight:normal; ' +
+						'font-style:normal; color:#808080; background:transparent">Text</span>';
+
+			processor.toHtml( source );
+			assert.isTrue( true, 'happy to be here' );
+		},
+
 		// Some elements should not have protected source markup inside. (#11223)
 		'test protected source in title': addProtectedSourceTC( '<p>[[mytag]]</p>', '[[mytag]]' ),
 		'test protected source in iframe': addProtectedSourceTC( '<p><iframe name="aa">[[mytag]]</iframe></p>' ),
