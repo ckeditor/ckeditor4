@@ -9,6 +9,7 @@ Fixed Issues:
 * [#13254](http://dev.ckeditor.com/ticket/13254): Fixed: Cannot outdent block after indent when using [Divarea](http://ckeditor.com/addon/divarea) plugin. Thanks to [Jonathan Cottrill](https://github.com/jcttrll)!
 * [#13268](http://dev.ckeditor.com/ticket/13268): Fixed: Documentation for `CKEDITOR.dom.text` is incorrect. Thanks to [Ben Kiefer](https://github.com/benkiefer)!
 * [#12739](http://dev.ckeditor.com/ticket/12739): Fixed: Link loses inline styles when edited without dialogadvtab. Thanks to [Віталій Крутько](https://github.com/asmforce)!
+* [#13292](http://dev.ckeditor.com/ticket/13292): Fixed: Protection pattern does not work in attribute in self-closing elements with no space before `/>`. Thanks to [Віталій Крутько](https://github.com/asmforce)!
 * [#13232](http://dev.ckeditor.com/ticket/13232): [Safari] Fixed: Method [`element.appendText()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-appendText) work properly for empty elements.
 * [#13233](http://dev.ckeditor.com/ticket/13233): Fixed: HTMLDataProcessor can process `foo:href` attributes.
 * [#12796](http://dev.ckeditor.com/ticket/12796): Fixed: The [Indent List](http://ckeditor.com/addon/indentlist) plugin unwraps parent `<li>` elements.
