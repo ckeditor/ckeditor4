@@ -3047,7 +3047,7 @@
 		// Preventing page reload (#13015).
 		widget.wrapper.on( 'dragover', function( evt ) {
 			evt.data.preventDefault();
-		}, widget );
+		} );
 
 		widget.wrapper.on( 'mouseenter', widget.updateDragHandlerPosition, widget );
 		setTimeout( function() {

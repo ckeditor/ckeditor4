@@ -1342,20 +1342,16 @@
 				evt.data.preventDefault();
 
 				var target = evt.data.getTarget(),
-					readOnly;
-
-				if ( target.type == CKEDITOR.NODE_ELEMENT && target.is( 'html' ) ) {
-					readOnly = false;
-				} else {
 					readOnly = target.isReadOnly();
-				}
 
 				// Do nothing if drop on non editable element (#13015).
-				if ( readOnly ) {
+				// The <html> tag isn't editable (body is), but we want to allow drop on it
+				// (so it is possible to drop below editor contents).
+				if ( readOnly && !( target.type == CKEDITOR.NODE_ELEMENT && target.is( 'html' ) ) ) {
 					return;
 				}
 
-				// Getting drop position is one of the most complex part.
+				// Getting drop position is one of the most complex parts.
 				var dropRange = clipboard.getRangeAtDropPosition( evt, editor ),
 					dragRange = clipboard.dragRange;
 
