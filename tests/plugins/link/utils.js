@@ -67,22 +67,10 @@
 	bender.test( {
 		'test link attributes - no link': function() {
 			assertLink( this.editorBot, '', {}, {}, [
-				'accessKey',
-				'charset',
-				'class',
 				'data-cke-pa-onclick',
 				'data-cke-saved-name',
-				'dir',
-				'id',
-				'lang',
-				'name',
 				'onclick',
-				'rel',
-				'style',
-				'tabindex',
-				'target',
-				'title',
-				'type'
+				'target'
 			] );
 		},
 
@@ -139,7 +127,7 @@
 		},
 
 		'test link attributes - mailto': function() {
-			var html = '<a href="mailto:foo?subject=bar&amp;body=bam">foo</a>';
+			var html = '<a href="mailto:foo?subject=bar&amp;body=bam" style="text-decoration: none;" id="some_link">foo</a>';
 
 			assertLink( this.editorBot, html,
 				{
@@ -148,9 +136,15 @@
 						address: 'foo',
 						subject: 'bar',
 						body: 'bam'
+					},
+					advanced: {
+						advId: 'some_link',
+						advStyles: 'text-decoration:none'
 					}
 				}, {
 					'data-cke-saved-href': 'mailto:foo?subject=bar&body=bam',
+					id: 'some_link',
+					style: 'text-decoration:none',
 					href: 'mailto:foo?subject=bar&body=bam'
 				},
 				[
@@ -160,12 +154,10 @@
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
 					'dir',
-					'id',
 					'lang',
 					'name',
 					'onclick',
 					'rel',
-					'style',
 					'tabindex',
 					'target',
 					'title',
@@ -174,7 +166,7 @@
 		},
 
 		'test link attributes - simple': function() {
-			var html = '<a href="http://x">foo</a>';
+			var html = '<a href="http://x" style="text-decoration: none;" id="some_link">foo</a>';
 
 			assertLink( this.editorBot, html,
 				{
@@ -182,9 +174,15 @@
 					url: {
 						protocol: 'http://',
 						url: 'x'
+					},
+					advanced: {
+						advId: 'some_link',
+						advStyles: 'text-decoration:none'
 					}
 				}, {
 					'data-cke-saved-href': 'http://x',
+					id: 'some_link',
+					style: 'text-decoration:none',
 					href: 'http://x'
 				},
 				[
@@ -194,12 +192,10 @@
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
 					'dir',
-					'id',
 					'lang',
 					'name',
 					'onclick',
 					'rel',
-					'style',
 					'tabindex',
 					'target',
 					'title',
@@ -222,27 +218,15 @@
 					href: '#a'
 				},
 				[
-					'accessKey',
-					'charset',
-					'class',
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
-					'dir',
-					'id',
-					'lang',
-					'name',
 					'onclick',
-					'rel',
-					'style',
-					'tabindex',
-					'target',
-					'title',
-					'type'
+					'target'
 				] );
 		},
 
 		'test link attributes - target popup': function() {
-			var html = '<a href="http://foo" onclick="window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,' +
+			var html = '<a href="http://foo" style="text-decoration: none;" id="some_link" onclick="window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,' +
 				'fullscreen=yes,scrollbars=yes,dependent=yes,width=10,left=20,height=30,top=40\'); return false;">foo</a>';
 
 			assertLink( this.editorBot, html,
@@ -267,11 +251,17 @@
 						left: '20',
 						height: '30',
 						top: '40'
+					},
+					advanced: {
+						advId: 'some_link',
+						advStyles: 'text-decoration:none'
 					}
 				}, {
 					'data-cke-saved-href': 'http://foo',
 					'data-cke-pa-onclick': 'window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,fullscreen=yes,' +
 						'scrollbars=yes,dependent=yes,width=10,left=20,height=30,top=40\'); return false;',
+					id: 'some_link',
+					style: 'text-decoration:none',
 					href: 'http://foo'
 				},
 				[
@@ -280,21 +270,18 @@
 					'class',
 					'data-cke-saved-name',
 					'dir',
-					'id',
 					'lang',
 					'name',
 					'onclick',
 					'rel',
-					'style',
 					'tabindex',
 					'target',
-					'title',
-					'type'
+					'title,type'
 				] );
 		},
 
 		'test link attributes - target _top': function() {
-			var html = '<a href="http://x" target="_top">foo</a>';
+			var html = '<a href="http://x" target="_top" style="text-decoration: none;" id="some_link">foo</a>';
 
 			assertLink( this.editorBot, html,
 				{
@@ -306,10 +293,16 @@
 					target: {
 						type: '_top',
 						name: '_top'
+					},
+					advanced: {
+						advId: 'some_link',
+						advStyles: 'text-decoration:none'
 					}
 				}, {
 					'data-cke-saved-href': 'http://x',
 					target: '_top',
+					id: 'some_link',
+					style: 'text-decoration:none',
 					href: 'http://x'
 				},
 				[
@@ -319,12 +312,10 @@
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
 					'dir',
-					'id',
 					'lang',
 					'name',
 					'onclick',
 					'rel',
-					'style',
 					'tabindex',
 					'title',
 					'type'

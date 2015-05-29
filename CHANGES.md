@@ -117,11 +117,13 @@ Fixed issues:
 
 Fixed Issues:
 
-* [#13232](http://dev.ckeditor.com/ticket/13232): [Safari] Fixed: Method [`element.appendText()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-appendText) work properly for empty elements.
-* [#13233](http://dev.ckeditor.com/ticket/13233): Fixed: HTMLDataProcessor can process `foo:href` attributes.
 * [#12899](http://dev.ckeditor.com/ticket/12899): Fixed: Corrected wrong tag ending for horizontal box definition in the [Dialog User Interface](http://ckeditor.com/addon/dialogui) plugin. Thanks to [mizafish](https://github.com/mizafish)!
 * [#13254](http://dev.ckeditor.com/ticket/13254): Fixed: Cannot outdent block after indent when using [Divarea](http://ckeditor.com/addon/divarea) plugin. Thanks to [Jonathan Cottrill](https://github.com/jcttrll)!
 * [#13268](http://dev.ckeditor.com/ticket/13268): Fixed: Documentation for `CKEDITOR.dom.text` is incorrect. Thanks to [Ben Kiefer](https://github.com/benkiefer)!
+* [#12739](http://dev.ckeditor.com/ticket/12739): Fixed: Link loses inline styles when edited without dialogadvtab. Thanks to [Віталій Крутько](https://github.com/asmforce)!
+* [#13292](http://dev.ckeditor.com/ticket/13292): Fixed: Protection pattern does not work in attribute in self-closing elements with no space before `/>`. Thanks to [Віталій Крутько](https://github.com/asmforce)!
+* [#13232](http://dev.ckeditor.com/ticket/13232): [Safari] Fixed: Method [`element.appendText()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-appendText) work properly for empty elements.
+* [#13233](http://dev.ckeditor.com/ticket/13233): Fixed: HTMLDataProcessor can process `foo:href` attributes.
 * [#12796](http://dev.ckeditor.com/ticket/12796): Fixed: The [Indent List](http://ckeditor.com/addon/indentlist) plugin unwraps parent `<li>` elements.
 * [#12885](http://dev.ckeditor.com/ticket/12885): Added missing [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) parameter documentation.
 * [#11982](http://dev.ckeditor.com/ticket/11982): Bullet added in wrong position after the *Enter* key is pressed in a nested list.
@@ -132,6 +134,7 @@ Fixed Issues:
 * [#13131](http://dev.ckeditor.com/ticket/13131): Fixed: The [Code Snippet](http://ckeditor.com/addon/codesnippet) plugin cannot be used without the [IFrame Editing Area](http://ckeditor.com/addon/wysiwygarea) plugin.
 * [#9086](http://dev.ckeditor.com/ticket/9086): Fixed: Invalid ARIA property used on paste iframe.
 * [#13164](http://dev.ckeditor.com/ticket/13164): Fixed: Error when inserting a hidden field.
+* [#13155](http://dev.ckeditor.com/ticket/13155): Fixed: Incorrect line utils positioning when `<body>` have a margin.
 
 Other Changes:
 

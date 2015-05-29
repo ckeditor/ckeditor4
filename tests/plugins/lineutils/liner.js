@@ -7,7 +7,8 @@
 	var liner;
 
 	CKEDITOR.addCss(
-		'body { padding: 0px !important; margin: 0px !important; }' +
+		// Note: body margin and position:relative are crucial for getClientRect tests.
+		'body { padding: 0px !important; margin: 10px 20px !important; position: relative; }' +
 		'body * { outline: 1px solid #ccc } '
 	);
 
@@ -123,6 +124,27 @@
 				assert.isFalse( spy.called, 'the editor.window.getFrame() was not called' );
 				assert.isFalse( 'frame' in liner, 'liner.frame was not set' );
 			} );
+		},
+
+		'test relative getClientRect': function() {
+			var el = CKEDITOR.dom.element.createFromHtml( '<div>getClientRect test</div>', CKEDITOR.document ),
+				body = CKEDITOR.document.getBody();
+
+			el.appendTo( body );
+
+			var defaultClientRect = el.getClientRect(),
+				linerClientRect = liner.getClientRect( el ),
+				bodyComputedPosition = body.getDocumentPosition();
+
+			assert.areSame( bodyComputedPosition.x, linerClientRect.relativeX, 'Rect relativeX shift is stored.' );
+			assert.areSame( bodyComputedPosition.y, linerClientRect.relativeY, 'Rect relativeY shift is stored.' );
+
+			assert.areSame( defaultClientRect.left, linerClientRect.left + bodyComputedPosition.x, 'Rect left is shifted.' );
+			assert.areSame( defaultClientRect.right, linerClientRect.right + bodyComputedPosition.x, 'Rect right is shifted.' );
+			assert.areSame( defaultClientRect.top, linerClientRect.top + bodyComputedPosition.y, 'Rect top is shifted.' );
+			assert.areSame( defaultClientRect.bottom, linerClientRect.bottom + bodyComputedPosition.y, 'Rect bottom is shifted.' );
+			assert.areSame( defaultClientRect.width, linerClientRect.width, 'Rect width remains.' );
+			assert.areSame( defaultClientRect.height, linerClientRect.height, 'Rect height remains.' );
 		}
 	} );
 } )();
