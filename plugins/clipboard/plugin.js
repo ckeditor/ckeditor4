@@ -1032,7 +1032,8 @@
 					dataTransfer: clipboard.initPasteDataTransfer( evt )
 				},
 				// True if data transfer contains HTML data.
-				htmlInDataTransfer = !CKEDITOR.env.ie && !CKEDITOR.env.safari;
+				htmlInDataTransfer = !CKEDITOR.env.ie && !CKEDITOR.env.safari,
+				external = eventData.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL;
 
 			eventData.dataTransfer.cacheData();
 
@@ -1044,9 +1045,7 @@
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
 			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
-			if ( beforePasteNotCanceled &&
-				( htmlInDataTransfer || eventData.dataTransfer.getTransferType( editor ) !== CKEDITOR.DATA_TRANSFER_EXTERNAL ) &&
-				!eventData.dataTransfer.isEmpty() ) {
+			if ( beforePasteNotCanceled && ( htmlInDataTransfer || !external ) && !eventData.dataTransfer.isEmpty() ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
