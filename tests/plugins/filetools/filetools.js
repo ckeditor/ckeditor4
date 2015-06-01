@@ -170,6 +170,38 @@
 			sinon.stub( repository.loaders[ 1 ], 'isFinished' ).returns( true );
 
 			assert.isTrue( repository.isFinished(), '3/3' );
+		},
+
+		'test fileUploadResponse event': function() {
+			var message = 'Not a JSON';
+			var contentType;
+
+			//Mock
+			var data = {
+				fileLoader: {
+					xhr: {
+						getResponseHeader: function() {
+							return contentType;
+						},
+						responseText: message
+					},
+					lang: {
+						filetools: {
+							responseError: 'Error: %1'
+						}
+					}
+				}
+			};
+
+			contentType = 'text/plain';
+
+			this.editor.fire( 'fileUploadResponse', data );
+			assert.areEqual( data.message, 'Error: ' + message );
+
+			contentType = 'text/html';
+
+			this.editor.fire( 'fileUploadResponse', data );
+			assert.areEqual( data.message, 'Error.' );
 		}
 	} );
 } )();
