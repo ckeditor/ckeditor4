@@ -57,7 +57,7 @@ The visual representation of a rich combo widget looks as follows:
 }
 
 /* The container for combo text and arrow. */
-.cke_combo_button
+a.cke_combo_button
 {
 	display: inline-block;
 	-moz-border-radius: 5px;

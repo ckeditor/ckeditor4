@@ -27,10 +27,10 @@ The following is a visual representation of its main elements:
 }
 
 /* Each item of the elements path. */
-.cke_path_item,
+a.cke_path_item,
 /* Empty element available at the end of the elements path, to help us keeping
    the proper box size when the elements path is empty. */
-.cke_path_empty
+span.cke_path_empty
 {
 	display: inline-block;
 	float: left;

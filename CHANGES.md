@@ -32,6 +32,7 @@ Fixed Issues:
 
 Other Changes:
 
+* [#13119](http://dev.ckeditor.com/ticket/13119): Improved compatibility of editor skins ([Moono](http://ckeditor.com/addon/moono) and [Kama](http://ckeditor.com/addon/kama)) with external web page style sheets.
 * Toolbar configurators:
   * [#13147](http://dev.ckeditor.com/ticket/13147): Add buttons to the sticky toolbar.
   * [#13207](http://dev.ckeditor.com/ticket/13207): Use modal window to display help in toolbar configurator.

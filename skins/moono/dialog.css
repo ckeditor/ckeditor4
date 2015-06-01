@@ -317,7 +317,7 @@ a.cke_dialog_tab_disabled
 
 /* The close button at the top of the dialog. */
 
-.cke_dialog_close_button
+a.cke_dialog_close_button
 {
 	background-image: url(images/close.png);
 	background-repeat: no-repeat;
@@ -327,7 +327,7 @@ a.cke_dialog_tab_disabled
 	text-align: center;
 	height: 20px;
 	width: 20px;
-	top: 5px;
+	top: 4px;
 	z-index: 5;
 	opacity: 0.8;
 	filter: alpha(opacity = 80);
