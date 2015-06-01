@@ -12,5 +12,6 @@ Test if photo uploading works properly:
 * If image is removed during upload, the process should be aborted.
 * Check if you see a message about the progress, success and abort.
 * Try to D&D elements which are not intended to be uploaded (e.g. empty anchor).
+* Page shouldn't reload when image is drop on another one.
 
 **Note:** This test use upload mock which will show you *Lena* instead of the real uploaded image.

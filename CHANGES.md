@@ -22,6 +22,7 @@ Fixed Issues:
 * [#13186](http://dev.ckeditor.com/ticket/13186): Fixed: Content dropped to a nested editable is not filtered by the Advanced Content Filter.
 * [#13140](http://dev.ckeditor.com/ticket/13140): Fixed: Error thrown when dropping a block widget right after itself.
 * [#13176](http://dev.ckeditor.com/ticket/13176): [IE8] Fixed: Errors while drag&drop of embed widgets.
+* [#13015](http://dev.ckeditor.com/ticket/13015): Fixed: Dropping image file on [Enhanced Image](http://ckeditor.com/addon/image2) causes page reload.
 * Toolbar configurators:
   * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
   * [#13138](http://dev.ckeditor.com/ticket/13138): Fixed: The "Toggle empty elements" button label is unclear.
