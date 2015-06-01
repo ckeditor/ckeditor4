@@ -1,0 +1,29 @@
+<textarea cols="80" id="classic" name="classic" rows="10">
+	<p>¯\_(ツ)_/¯</p>
+	<blockquote>
+		<p>Success is going from failure to failure without losing enthusiasm.</p>
+		<cite>– Winston Churchill</cite>
+	</blockquote>
+</textarea>
+
+<script>
+	var editor = CKEDITOR.replace( 'classic', {
+		allowedContent: true
+	} );
+
+	editor.on( 'instanceReady', function() {
+		var editable = editor.editable();
+
+		editable.on( 'copy', function() {
+			editor.showNotification( 'copy event fired.' );
+		} );
+
+		editable.on( 'cut', function() {
+			editor.showNotification( 'cut event fired.' );
+		} );
+
+		editable.on( 'paste', function() {
+			editor.showNotification( 'paste event fired.' );
+		} );
+	} );
+</script>
