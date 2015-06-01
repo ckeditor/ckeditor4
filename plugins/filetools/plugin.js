@@ -178,7 +178,12 @@
 					}
 				} catch ( err ) {
 					// Response parsing error.
-					data.message = fileLoader.lang.filetools.responseError.replace( '%1', xhr.responseText );
+					var responseError = fileLoader.lang.filetools.responseError;
+					if ( xhr.getResponseHeader( 'content-type' ).search( 'text/plain' ) !== -1 ) {
+						data.message = responseError.replace( '%1', xhr.responseText );
+					} else {
+						data.message = responseError.replace( ': %1', '.' );
+					}
 					evt.cancel();
 				}
 			}, null, null, 999 );
