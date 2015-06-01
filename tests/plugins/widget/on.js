@@ -48,13 +48,20 @@
 		};
 	}
 
+	bender.editors = {
+		editor: {
+			creator: 'inline',
+			name: 'test_editor'
+		}
+	};
+
 	bender.test( {
 		'test has on function': function() {
 			Repository = CKEDITOR.plugins.widget.repository;
 
 			var repo = new Repository( editorMock );
 
-			assert.isFunction( repo.on );
+			assert.isFunction( repo.onWidget );
 		},
 
 		'test event fired repository': function() {
@@ -62,11 +69,14 @@
 			Widget = CKEDITOR.plugins.widget;
 
 			var repo = new Repository( editorMock ),
-				element = mockElement(),
-				widget = new Widget( repo, 1, element, { name: 'image' }, {} ),
-				cbSpy = sinon.spy();
+				element = mockElement();
 
-			repo.on( 'image', 'action', cbSpy );
+			var widget = new Widget( repo, 1, element, { name: 'image' }, {} );
+
+			repo.instances[ widget.id ] = widget;
+			var cbSpy = sinon.spy();
+
+			repo.onWidget( 'image', 'action', cbSpy );
 			widget.fire( 'action' );
 
 			assert.isTrue( cbSpy.calledOnce );
@@ -81,10 +91,12 @@
 				widget = new Widget( repo, 1, element, { name: 'image' }, {} ),
 				cbSpy = sinon.spy();
 
-			repo.on( 'image', 'action', cbSpy );
-			widget.fire( 'action' );
+			repo.instances[ widget.id ] = widget;
 
-			assert.areSame( widget, cbSpy.args[ 0 ][ 0 ].data.target );
+			repo.onWidget( 'image', 'action', cbSpy );
+			widget.fire( 'action', { foo: 'bar' } );
+
+			assert.areSame( 'bar', cbSpy.args[ 0 ][ 0 ].data.foo );
 		},
 
 		'test event fired for element added to repo after callback': function() {
@@ -95,9 +107,10 @@
 				element = mockElement(),
 				cbSpy = sinon.spy();
 
-			repo.on( 'image', 'action', cbSpy );
+			repo.onWidget( 'image', 'action', cbSpy );
 
 			var widget = new Widget( repo, 1, element, { name: 'image' }, {} );
+			repo.instances[ widget.id ] = widget;
 			widget.fire( 'action' );
 
 			assert.isTrue( cbSpy.calledOnce );
@@ -111,9 +124,10 @@
 				element = mockElement(),
 				cbSpy = sinon.spy();
 
-			repo.on( 'image', 'action', cbSpy );
+			repo.onWidget( 'image', 'action', cbSpy );
 
 			var widget = new Widget( repo, 1, element, { name: 'notimage' }, {} );
+			repo.instances[ widget.id ] = widget;
 			widget.fire( 'action' );
 
 			assert.isTrue( cbSpy.notCalled );
@@ -127,9 +141,10 @@
 				element = mockElement(),
 				cbSpy = sinon.spy();
 
-			repo.on( 'notimage', 'action', cbSpy );
+			repo.onWidget( 'notimage', 'action', cbSpy );
 
 			var widget = new Widget( repo, 1, element, { name: 'image' }, {} );
+			repo.instances[ widget.id ] = widget;
 			widget.fire( 'action' );
 
 			assert.isTrue( cbSpy.notCalled );
