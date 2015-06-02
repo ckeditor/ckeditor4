@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter, link
 
  * test internal D&amp;D in the editor,
  * dropping content from an external source (helpers, MS Word),
@@ -9,7 +9,7 @@ Expected behavior:
 ------------------
  * proper drop position,
  * in the internal and cross editor D&D: dragged content should be removed,
- * dropped content should be (more less) the same as dragged content,
+ * no content lost (e.g. ids of anchors),
  * paste event should be fired,
  * undo should work properly (one undo operation for one D&D),
  * no crashes, nor errors.
