@@ -53,8 +53,6 @@ Special outer level classes used in this file:
 	border: 1px solid #b6b6b6;
 	padding: 0;
 
-	-moz-box-shadow: 0 0 3px rgba(0,0,0,.15);
-	-webkit-box-shadow: 0 0 3px rgba(0,0,0,.15);
 	box-shadow: 0 0 3px rgba(0,0,0,.15);
 }
 
@@ -106,8 +104,6 @@ Special outer level classes used in this file:
 	/* Allow breaking toolbars when in a narrow editor. (#9947) */
 	white-space: normal;
 
-	-moz-box-shadow: 0 1px 0 #fff inset;
-	-webkit-box-shadow: 0 1px 0 #fff inset;
 	box-shadow: 0 1px 0 #fff inset;
 
 	background: #cfd1cf;
@@ -133,8 +129,6 @@ Special outer level classes used in this file:
 
 	border-top: 1px solid #bfbfbf;
 
-	-moz-box-shadow: 0 1px 0 #fff inset;
-	-webkit-box-shadow: 0 1px 0 #fff inset;
 	box-shadow: 0 1px 0 #fff inset;
 
 	background: #cfd1cf;
@@ -179,8 +173,6 @@ Special outer level classes used in this file:
 		to keep a distance to the bottom edge. */
 	margin-bottom: 2px;
 
-	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.3);
-	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.3);
 	box-shadow: 0 1px 0 rgba(255,255,255,.3);
 }
 

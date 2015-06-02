@@ -145,8 +145,6 @@ Special outer level classes used in this file:
 	border: 1px solid #dedede;
 	background-color: #f2f2f2;
 
-	-moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
-	-webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 	box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 }
 

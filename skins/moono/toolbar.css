@@ -70,8 +70,6 @@ Special outer level classes used in this file:
 
 	border-radius: 3px;
 
-	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
 	background: #e4e4e4;
@@ -143,8 +141,6 @@ a.cke_button
    i.e. currently writing in bold or when spell checking is enabled. */
 a.cke_button_on
 {
-	-moz-box-shadow: 0 1px 5px rgba(0,0,0,.6) inset, 0 1px 0 rgba(0,0,0,.2);
-	-webkit-box-shadow: 0 1px 5px rgba(0,0,0,.6) inset, 0 1px 0 rgba(0,0,0,.2);
 	box-shadow: 0 1px 5px rgba(0,0,0,.6) inset, 0 1px 0 rgba(0,0,0,.2);
 
 	background: #b5b5b5;
@@ -189,8 +185,6 @@ a.cke_button_on:hover,
 a.cke_button_on:focus,
 a.cke_button_on:active
 {
-	-moz-box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
-	-webkit-box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
 	box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
 }
 
@@ -201,8 +195,6 @@ a.cke_button_disabled:hover,
 a.cke_button_disabled:focus,
 a.cke_button_disabled:active
 {
-	-moz-box-shadow: 0 0 1px rgba(0,0,0,.3) inset;
-	-webkit-box-shadow: 0 0 1px rgba(0,0,0,.3) inset;
 	box-shadow: 0 0 1px rgba(0,0,0,.3) inset;
 
 	background: #ccc;
@@ -307,8 +299,6 @@ a.cke_button_disabled:active
 	height: 18px;
 	width: 1px;
 
-	-webkit-box-shadow: 1px 0 1px rgba(255,255,255,.5);
-	-moz-box-shadow: 1px 0 1px rgba(255,255,255,.5);
 	box-shadow: 1px 0 1px rgba(255,255,255,.5);
 }
 
@@ -316,8 +306,6 @@ a.cke_button_disabled:active
 {
 	float: right;
 
-	-webkit-box-shadow: -1px 0 1px rgba(255,255,255,.1);
-	-moz-box-shadow: -1px 0 1px rgba(255,255,255,.1);
 	box-shadow: -1px 0 1px rgba(255,255,255,.1);
 }
 
@@ -357,8 +345,6 @@ a.cke_toolbox_collapser
 
 	border-radius: 3px;
 
-	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
 	background: #e4e4e4;

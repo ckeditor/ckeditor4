@@ -56,8 +56,6 @@ panel contents and color panels check menu.css and colorpanel.css.
 
    	border-radius: 3px;
 
-    -moz-box-shadow: 0 0 3px rgba(0,0,0,.15);
-    -webkit-box-shadow: 0 0 3px rgba(0,0,0,.15);
     box-shadow: 0 0 3px rgba(0,0,0,.15);
 }
 
@@ -174,8 +172,6 @@ is its visual representation:
 	border: 1px solid #dedede;
 	background-color: #f2f2f2;
 
-    -moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
-    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
     box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 }
 
@@ -186,8 +182,6 @@ is its visual representation:
 	border-color: #dedede;
 	background-color: #f2f2f2;
 
-    -moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
-    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
     box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 }
 
@@ -220,8 +214,6 @@ is its visual representation:
 
     border-radius: 2px 2px 0 0;
 
-    -moz-box-shadow: 0 1px 0 #fff inset;
-    -webkit-box-shadow: 0 1px 0 #fff inset;
     box-shadow: 0 1px 0 #fff inset;
 
     background: #cfd1cf;

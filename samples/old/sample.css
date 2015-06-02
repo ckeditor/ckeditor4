@@ -67,8 +67,6 @@ abbr
 	border: 1px solid #DA8028;
 	text-shadow: 0 1px 0 #C97626;
 
-	-moz-box-shadow: 0 2px 3px 0 #FFA54E inset;
-	-webkit-box-shadow: 0 2px 3px 0 #FFA54E inset;
 	box-shadow: 0 2px 3px 0 #FFA54E inset;
 }
 
@@ -79,8 +77,6 @@ abbr
 	text-shadow: 0 1px 0 #048CAD;
 	font-style: italic;
 
-	-moz-box-shadow: 0 2px 3px 0 #50D4FD inset;
-	-webkit-box-shadow: 0 2px 3px 0 #50D4FD inset;
 	box-shadow: 0 2px 3px 0 #50D4FD inset;
 }
 
