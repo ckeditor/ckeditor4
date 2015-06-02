@@ -178,12 +178,9 @@
 					}
 				} catch ( err ) {
 					// Response parsing error.
-					var responseError = fileLoader.lang.filetools.responseError;
-					if ( xhr.getResponseHeader( 'content-type' ).search( 'text/plain' ) !== -1 ) {
-						data.message = responseError.replace( '%1', xhr.responseText );
-					} else {
-						data.message = responseError.replace( ': %1', '.' );
-					}
+					data.message = fileLoader.lang.filetools.responseError;
+					window.console && window.console.log( xhr.responseText );
+
 					evt.cancel();
 				}
 			}, null, null, 999 );

@@ -173,35 +173,29 @@
 		},
 
 		'test fileUploadResponse event': function() {
-			var message = 'Not a JSON';
-			var contentType;
+			var log = window.console && sinon.spy( window.console, 'log' );
 
-			//Mock
+			var message = 'Not a JSON';
+			var error = 'Error.';
+
+			// Mock.
 			var data = {
 				fileLoader: {
 					xhr: {
-						getResponseHeader: function() {
-							return contentType;
-						},
 						responseText: message
 					},
+
 					lang: {
 						filetools: {
-							responseError: 'Error: %1'
+							responseError: error
 						}
 					}
 				}
 			};
 
-			contentType = 'text/plain';
-
 			this.editor.fire( 'fileUploadResponse', data );
-			assert.areEqual( data.message, 'Error: ' + message );
-
-			contentType = 'text/html';
-
-			this.editor.fire( 'fileUploadResponse', data );
-			assert.areEqual( data.message, 'Error.' );
+			assert.areEqual( data.message, error );
+			assert.isTrue( log ? log.calledWith( message ) : true );
 		}
 	} );
 } )();
