@@ -116,6 +116,24 @@
 			assert.isTrue( cbSpy.calledOn( widget ) );
 		},
 
+		'test event fired with overwritten context': function() {
+			Repository = CKEDITOR.plugins.widget.repository;
+			Widget = CKEDITOR.plugins.widget;
+
+			var repo = new Repository( editorMock ),
+				element = mockElement(),
+				widget = new Widget( repo, 1, element, { name: 'image' }, {} ),
+				cbSpy = sinon.spy(),
+				context = {};
+
+			repo.instances[ widget.id ] = widget;
+
+			repo.onWidget( 'image', 'action', cbSpy, context );
+			widget.fire( 'action', { foo: 'bar' } );
+
+			assert.isTrue( cbSpy.calledOn( context ) );
+		},
+
 		'test event fired for element added to repo after callback': function() {
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
@@ -165,6 +183,25 @@
 			widget.fire( 'action' );
 
 			assert.isTrue( cbSpy.notCalled );
+		},
+
+		'test event fired in proper order based on priority': function() {
+			Repository = CKEDITOR.plugins.widget.repository;
+			Widget = CKEDITOR.plugins.widget;
+
+			var repo = new Repository( editorMock ),
+				element = mockElement(),
+				cbSpy1 = sinon.spy(),
+				cbSpy2 = sinon.spy();
+
+			repo.onWidget( 'image', 'action', cbSpy1, null, null, 5 );
+			repo.onWidget( 'image', 'action', cbSpy2, null, null, 10 );
+
+			var widget = new Widget( repo, 1, element, { name: 'image' }, {} );
+			repo.instances[ widget.id ] = widget;
+			widget.fire( 'action' );
+
+			assert.isTrue( cbSpy1.calledBefore( cbSpy2 ) );
 		}
 	} );
 }() );
