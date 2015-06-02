@@ -54,13 +54,13 @@
 } )();
 
 /**
- * A template for URL to the provider endpoint. This URL will be queried for each resource to be embedded.
- * By default CKEditor uses [Iframely](https://iframely.com/) service.
+ * A template for the URL of the provider endpoint. This URL will be queried for each resource to be embedded.
+ * By default CKEditor uses the [Iframely](https://iframely.com/) service.
  *
  * The template might use the following parameters:
  *
- *	* `url` - The URL of requested media, e.g. `https://twitter.com/ckeditor/status/401373919157821441`.
- *	* `callback` - A name of globally available callback, used for JSONP requests.
+ *	* `url` &ndash; The URL of the requested media, e.g. `https://twitter.com/ckeditor/status/401373919157821441`.
+ *	* `callback` &ndash; The name of the globally available callback used for JSONP requests.
  *
  * You can read more about content providers in {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl}.
  *
