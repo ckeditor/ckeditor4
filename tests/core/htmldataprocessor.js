@@ -548,7 +548,7 @@
 
 		// #13292
 		'test protected source in attribute in self-closing tag': function() {
-			var processor = this.editor3.dataProcessor,
+			var processor = this.editors.editor3.dataProcessor,
 				source = '<p><img src="[[image]]"/></a></p>',
 				expectedHtml = '<p><img data-cke-saved-src="{cke_protected_1}" src="{cke_protected_1}" /></p>',
 				expectedOutput = '<p><img src="[[image]]" /></p>';
