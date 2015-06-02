@@ -126,47 +126,8 @@
 				] );
 		},
 
-		'test link attributes - mailto': function() {
-			var html = '<a href="mailto:foo?subject=bar&amp;body=bam" style="text-decoration: none;" id="some_link">foo</a>';
-
-			assertLink( this.editorBot, html,
-				{
-					type: 'email',
-					email: {
-						address: 'foo',
-						subject: 'bar',
-						body: 'bam'
-					},
-					advanced: {
-						advId: 'some_link',
-						advStyles: 'text-decoration:none'
-					}
-				}, {
-					'data-cke-saved-href': 'mailto:foo?subject=bar&body=bam',
-					id: 'some_link',
-					style: 'text-decoration:none',
-					href: 'mailto:foo?subject=bar&body=bam'
-				},
-				[
-					'accessKey',
-					'charset',
-					'class',
-					'data-cke-pa-onclick',
-					'data-cke-saved-name',
-					'dir',
-					'lang',
-					'name',
-					'onclick',
-					'rel',
-					'tabindex',
-					'target',
-					'title',
-					'type'
-				] );
-		},
-
-		'test link attributes - simple': function() {
-			var html = '<a href="http://x" style="text-decoration: none;" id="some_link">foo</a>';
+		'test link attributes - complex (partial)': function() {
+			var html = '<a accesskey="b" charset="i" class="h" dir="rtl" href="http://x" id="a" name="c" rel="j" style="margin-right: 0px;" target="a" title="f" type="g">foo</a>';
 
 			assertLink( this.editorBot, html,
 				{
@@ -175,31 +136,88 @@
 						protocol: 'http://',
 						url: 'x'
 					},
+					target: {
+						type: 'frame',
+						name: 'a'
+					},
 					advanced: {
-						advId: 'some_link',
-						advStyles: 'text-decoration:none'
+						advId: 'a',
+						advLangDir: 'rtl',
+						advAccessKey: 'b',
+						advName: 'c',
+						advTitle: 'f',
+						advContentType: 'g',
+						advCSSClasses: 'h',
+						advCharset: 'i',
+						advStyles: 'margin-right:0px',
+						advRel: 'j'
 					}
 				}, {
 					'data-cke-saved-href': 'http://x',
-					id: 'some_link',
-					style: 'text-decoration:none',
+					target: 'a',
+					id: 'a',
+					dir: 'rtl',
+					accessKey: 'b',
+					name: 'c',
+					title: 'f',
+					type: 'g',
+					'class': 'h',
+					charset: 'i',
+					style: 'margin-right:0px',
+					rel: 'j',
+					'data-cke-saved-name': 'c',
 					href: 'http://x'
 				},
 				[
-					'accessKey',
-					'charset',
-					'class',
+					'data-cke-pa-onclick',
+					'onclick',
+					'lang',
+					'tabindex'
+				] );
+		},
+
+		'test link attributes - mailto': function() {
+			var html = '<a href="mailto:foo?subject=bar&amp;body=bam">foo</a>';
+
+			assertLink( this.editorBot, html,
+				{
+					type: 'email',
+					email: {
+						address: 'foo',
+						subject: 'bar',
+						body: 'bam'
+					}
+				}, {
+					'data-cke-saved-href': 'mailto:foo?subject=bar&body=bam',
+					href: 'mailto:foo?subject=bar&body=bam'
+				},
+				[
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
-					'dir',
-					'lang',
-					'name',
 					'onclick',
-					'rel',
-					'tabindex',
-					'target',
-					'title',
-					'type'
+					'target'
+				] );
+		},
+
+		'test link attributes - simple': function() {
+			var html = '<a href="http://x">foo</a>';
+
+			assertLink( this.editorBot, html,
+				{
+					type: 'url',
+					url: {
+						protocol: 'http://',
+						url: 'x'
+					}
+				}, {
+					'data-cke-saved-href': 'http://x',
+					href: 'http://x'
+				},
+				[
+					'data-cke-pa-onclick',
+					'data-cke-saved-name',
+					'onclick',
+					'target'
 				] );
 		},
 
@@ -226,7 +244,7 @@
 		},
 
 		'test link attributes - target popup': function() {
-			var html = '<a href="http://foo" style="text-decoration: none;" id="some_link" onclick="window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,' +
+			var html = '<a href="http://foo" onclick="window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,' +
 				'fullscreen=yes,scrollbars=yes,dependent=yes,width=10,left=20,height=30,top=40\'); return false;">foo</a>';
 
 			assertLink( this.editorBot, html,
@@ -251,37 +269,22 @@
 						left: '20',
 						height: '30',
 						top: '40'
-					},
-					advanced: {
-						advId: 'some_link',
-						advStyles: 'text-decoration:none'
 					}
 				}, {
 					'data-cke-saved-href': 'http://foo',
 					'data-cke-pa-onclick': 'window.open(this.href, \'pop\', \'resizable=yes,status=yes,location=yes,toolbar=yes,menubar=yes,fullscreen=yes,' +
 						'scrollbars=yes,dependent=yes,width=10,left=20,height=30,top=40\'); return false;',
-					id: 'some_link',
-					style: 'text-decoration:none',
 					href: 'http://foo'
 				},
 				[
-					'accessKey',
-					'charset',
-					'class',
 					'data-cke-saved-name',
-					'dir',
-					'lang',
-					'name',
 					'onclick',
-					'rel',
-					'tabindex',
-					'target',
-					'title,type'
+					'target'
 				] );
 		},
 
 		'test link attributes - target _top': function() {
-			var html = '<a href="http://x" target="_top" style="text-decoration: none;" id="some_link">foo</a>';
+			var html = '<a href="http://x" target="_top">foo</a>';
 
 			assertLink( this.editorBot, html,
 				{
@@ -293,32 +296,16 @@
 					target: {
 						type: '_top',
 						name: '_top'
-					},
-					advanced: {
-						advId: 'some_link',
-						advStyles: 'text-decoration:none'
 					}
 				}, {
 					'data-cke-saved-href': 'http://x',
 					target: '_top',
-					id: 'some_link',
-					style: 'text-decoration:none',
 					href: 'http://x'
 				},
 				[
-					'accessKey',
-					'charset',
-					'class',
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
-					'dir',
-					'lang',
-					'name',
-					'onclick',
-					'rel',
-					'tabindex',
-					'title',
-					'type'
+					'onclick'
 				] );
 		}
 	} );

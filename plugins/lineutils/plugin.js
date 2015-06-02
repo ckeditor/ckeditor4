@@ -4,7 +4,7 @@
  */
 
  /**
- * @fileOverview A set of utilities to find and make horizontal spaces in edited contents.
+ * @fileOverview A set of utilities to find and create horizontal spaces in edited content.
  */
 
 'use strict';
@@ -41,13 +41,13 @@
 	CKEDITOR.LINEUTILS_INSIDE = 4;
 
 	/**
-	 * An utility that traverses DOM tree and discovers elements
+	 * A utility that traverses the DOM tree and discovers elements
 	 * (relations) matching user-defined lookups.
 	 *
 	 * @private
 	 * @class CKEDITOR.plugins.lineutils.finder
 	 * @constructor Creates a Finder class instance.
-	 * @param {CKEDITOR.editor} editor Editor instance that Finder belongs to.
+	 * @param {CKEDITOR.editor} editor Editor instance that the Finder belongs to.
 	 * @param {Object} def Finder's definition.
 	 * @since 4.3
 	 */
@@ -132,7 +132,7 @@
 		 * Returns a range representing the relation, according to its element
 		 * and type.
 		 *
-		 * @param {Object} location Location containing unique identifier and type.
+		 * @param {Object} location Location containing a unique identifier and type.
 		 * @returns {CKEDITOR.dom.range} Range representing the relation.
 		 */
 		getRange: ( function() {
@@ -152,7 +152,7 @@
 		} )(),
 
 		/**
-		 * Stores given relation in {@link #relations} object. Processes the relation
+		 * Stores given relation in a {@link #relations} object. Processes the relation
 		 * to normalize and avoid duplicates.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element of the relation.
@@ -191,9 +191,9 @@
 		} )(),
 
 		/**
-		 * Traverses DOM tree towards root, checking all ancestors
+		 * Traverses the DOM tree towards root, checking all ancestors
 		 * with lookup rules, avoiding duplicates. Stores positive relations
-		 * in {@link #relations} object.
+		 * in the {@link #relations} object.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
 		 */
@@ -226,8 +226,8 @@
 		},
 
 		/**
-		 * Iterates vertically pixel-by-pixel within given element starting
-		 * from given coordinates, searching for elements in the neighbourhood.
+		 * Iterates vertically pixel-by-pixel within a given element starting
+		 * from given coordinates, searching for elements in the neighborhood.
 		 * Once an element is found it is processed by {@link #traverseSearch}.
 		 *
 		 * @param {CKEDITOR.dom.element} el Element which is the starting point.
@@ -245,7 +245,7 @@
 			// Iterates pixel-by-pixel from starting coordinates, moving by defined
 			// step and getting elementFromPoint in every iteration. Iteration stops when:
 			//  * A valid element is found.
-			//  * Condition function returns false (i.e. reached boundaries of viewport).
+			//  * Condition function returns `false` (i.e. reached boundaries of viewport).
 			//  * No element is found (i.e. coordinates out of viewport).
 			//  * Element found is ascendant of starting element.
 			//
@@ -360,7 +360,7 @@
 		} )(),
 
 		/**
-		 * Unline {@link #traverseSearch}, it collects **all** elements from editable's DOM tree
+		 * Unlike {@link #traverseSearch}, it collects **all** elements from editable's DOM tree
 		 * and runs lookups for every one of them, collecting relations.
 		 *
 		 * @returns {Object} {@link #relations}.
@@ -407,7 +407,7 @@
 		/**
 		 * Relations express elements in DOM that match user-defined {@link #lookups}.
 		 * Every relation has its own `type` that determines whether
-		 * it refers to the space before, after or inside of `element`.
+		 * it refers to the space before, after or inside the `element`.
 		 * This object stores relations found by {@link #traverseSearch} or {@link #greedySearch}, structured
 		 * in the following way:
 		 *
@@ -448,7 +448,7 @@
 
 
 	/**
-	 * An utility that analyses relations found by
+	 * A utility that analyses relations found by
 	 * CKEDITOR.plugins.lineutils.finder and locates them
 	 * in the viewport as horizontal lines of specific coordinates.
 	 *
@@ -466,8 +466,8 @@
 
 	Locator.prototype = {
 		/**
-		 * Localizes Y coordinate for all types of every single relation and stores
-		 * them in the object.
+		 * Locates the Y coordinate for all types of every single relation and stores
+		 * them in an object.
 		 *
 		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}.
 		 * @returns {Object} {@link #locations}.
@@ -529,7 +529,7 @@
 		 * and sorts locations according to that distance.
 		 *
 		 * @param {Number} y The vertical coordinate used for sorting, used as a reference.
-		 * @param {Number} [howMany] Determines the number "closest locations" to be returned.
+		 * @param {Number} [howMany] Determines the number of "closest locations" to be returned.
 		 * @returns {Array} Sorted, array representation of {@link #locations}.
 		 */
 		sort: ( function() {
@@ -622,7 +622,7 @@
 			'</div>';
 
 	/**
-	 * An utility that draws horizontal lines in DOM according to locations
+	 * A utility that draws horizontal lines in DOM according to locations
 	 * returned by CKEDITOR.plugins.lineutils.locator.
 	 *
 	 * @private
@@ -768,7 +768,7 @@
 		/**
 		 * Shows a line at given location.
 		 *
-		 * @param {Object} location Location object containing unique identifier of the relation
+		 * @param {Object} location Location object containing the unique identifier of the relation
 		 * and its type. Usually returned by {@link CKEDITOR.plugins.lineutils.locator#sort}.
 		 * @param {Function} [callback] A callback to be called once the line is shown.
 		 */
@@ -816,7 +816,7 @@
 		},
 
 		/**
-		 * Creates style set to be used by the line, representing a particular
+		 * Creates a style set to be used by the line, representing a particular
 		 * relation (location).
 		 *
 		 * @param {Number} uid Unique identifier of the relation.
@@ -896,12 +896,12 @@
 		},
 
 		/**
-		 * Assigns an unique hash to the instance that is later utilized
+		 * Assigns a unique hash to the instance that is later used
 		 * to tell unwanted lines from new ones. This method **must** be called
 		 * before a new set of relations is to be visualized so {@link #cleanup}
 		 * eventually hides obsolete lines. This is because lines
 		 * are re-used between {@link #placeLine} calls and the number of
-		 * necessary ones may vary according to the number of relations.
+		 * necessary ones may vary depending on the number of relations.
 		 *
 		 * @param {Object} relations {@link CKEDITOR.plugins.lineutils.finder#relations}.
 		 * @param {Object} locations {@link CKEDITOR.plugins.lineutils.locator#locations}.
@@ -913,8 +913,8 @@
 		},
 
 		/**
-		 * Hides all visible lines that don't belong to current hash
-		 * and no-longer represent relations (locations).
+		 * Hides all visible lines that do not belong to current hash
+		 * and no longer represent relations (locations).
 		 *
 		 * See also: {@link #prepare}.
 		 */
@@ -944,8 +944,8 @@
 		},
 
 		/**
-		 * Returns boundingClientRect of an element, shifted by the position
-		 * of `container` when container is not `static` (#13155).
+		 * Returns `boundingClientRect` of an element, shifted by the position
+		 * of `container` when the container is not `static` (#13155).
 		 *
 		 * See also: {@link CKEDITOR.dom.element#getClientRect}.
 		 *
@@ -1003,7 +1003,7 @@
 	}
 
 	/**
-	 * Global namespace holding definitions and global helpers for the lineutils plugin.
+	 * Global namespace storing definitions and global helpers for the Line Utilities plugin.
 	 *
 	 * @private
 	 * @class
