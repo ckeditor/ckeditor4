@@ -811,11 +811,11 @@
 
 		/**
 		 * Returns an object to mock drop event with `dataTransfer` object and `preventDefault`
-		 * `getTarget` methods. To mock target new text mode is created with 'targetMock' string.
+		 * `getTarget` methods. To mock target new text node is created with 'targetMock' string.
 		 */
 		mockDropEvent: function() {
 			var dataTransfer = this.mockNativeDataTransfer(),
-				target = new CKEDITOR.dom.node( 'targetMock' );
+				target = new CKEDITOR.dom.text( 'targetMock' );
 
 			target.isReadOnly = function() {
 				return false;

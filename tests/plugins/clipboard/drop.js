@@ -27,7 +27,9 @@ function drag( editor, evt ) {
 
 		assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dragEvt.data.dataTransfer );
 		assert.areSame( evt.$, dragEvt.data.$ );
-		assert.areSame( 'targetMock', dragEvt.data.target.$ );
+		// Check that it's the mocked dragstart target created by the mockDragEvent().
+		assert.areSame( CKEDITOR.NODE_TEXT, dragEvt.data.target.type, 'drag target node type' );
+		assert.areSame( 'targetMock', dragEvt.data.target.getText(), 'drag target node' );
 	} );
 
 	dropTarget.fire( 'dragstart', evt );
@@ -65,7 +67,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			values.dropRangeStartOffsetMatch = config.dropOffset == dropEvt.data.dropRange.startOffset;
 		}
 		values.dropNativeEventMatch = evt.$ == dropEvt.data.$;
-		values.dropTarget = dropEvt.data.target.$;
+		values.dropTarget = dropEvt.data.target;
 
 		if ( onDrop ) {
 			return onDrop( dropEvt );
@@ -102,7 +104,9 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start offset should match.' );
 
 			assert.isTrue( values.dropNativeEventMatch, 'On drop: native event should match.' );
-			assert.areSame( 'targetMock', values.dropTarget, 'On drop: drop target should match.' );
+			// Check that it's the mocked drop target created by the mockDragEvent().
+			assert.areSame( CKEDITOR.NODE_TEXT, values.dropTarget.type, 'On drop: drop target node type should match.' );
+			assert.areSame( 'targetMock', values.dropTarget.getText(), 'On drop: drop target should match.' );
 
 			// Paste event asserts
 			assert.areSame( expectedBeforePasteEventCount, values.beforePasteEventCounter, 'Before paste event should be called ' + expectedBeforePasteEventCount + ' time(s).' );
@@ -775,7 +779,8 @@ var testsForMultipleEditor = {
 
 				assert.areSame( 'foo', dragendEvt.data.dataTransfer.getData( 'Text' ), 'cke/custom' );
 				assert.areSame( evt.data.$, dragendEvt.data.$, 'nativeEvent' );
-				assert.areSame( 'targetMock', dragendEvt.data.target.$, 'target' );
+				assert.areSame( CKEDITOR.NODE_TEXT, dragendEvt.data.target.type, 'drag target node type' );
+				assert.areSame( 'targetMock', dragendEvt.data.target.getText(), 'drag target node' );
 			} );
 
 			editable.fire( 'dragend', evt.data );
