@@ -37,9 +37,6 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	vertical-align: baseline;
 	box-sizing: content-box;
 	position: static;
-	-webkit-transition: none;
-	-moz-transition: none;
-	-ms-transition: none;
 	transition: none;
 }
 
@@ -58,9 +55,6 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	vertical-align: baseline;
 	box-sizing: content-box;
 	position: static;
-	-webkit-transition: none;
-	-moz-transition: none;
-	-ms-transition: none;
 	transition: none;
 
 	/* These are rule inherited by all children elements. */
