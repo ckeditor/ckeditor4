@@ -67,15 +67,11 @@
 		dropTarget.fire( 'drop', evt );
 	}
 
-	function dragend( editor, evt, dropRange ) {
+	function dragend( editor, evt, widget ) {
 		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
 
-		// If drop range is known use a realistic target. If no, then use a mock.
-		if ( dropRange ) {
-			evt.setTarget( dropRange.startContainer );
-		} else {
-			evt.setTarget( new CKEDITOR.dom.text( 'targetMock' ) );
-		}
+		// Use realistic target which is the drag handler.
+		evt.setTarget( widget.dragHandlerContainer.findOne( 'img' ) );
 
 		dropTarget.fire( 'dragend', evt );
 	}
@@ -278,7 +274,7 @@
 
 				drop( editor, evt );
 
-				dragend( editor, evt );
+				dragend( editor, evt, widget );
 
 				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
 				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
@@ -301,8 +297,6 @@
 				evt.data.dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
 
 				drop( editor, evt.data );
-
-				dragend( editor, evt.data );
 
 				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
 				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
@@ -330,7 +324,7 @@
 
 				drop( editor, evt.data );
 
-				dragend( editor, evt.data );
+				dragend( editor, evt.data, widget );
 
 				wait( function() {
 					assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
@@ -387,7 +381,7 @@
 
 					drop( editor, evt.data, range );
 
-					dragend( editor, evt.data, range );
+					dragend( editor, evt.data, widget );
 				} );
 			} );
 		},
@@ -420,7 +414,7 @@
 
 					drop( editor, evt.data, range );
 
-					dragend( editor, evt.data, range );
+					dragend( editor, evt.data, widget );
 				} );
 			} );
 		},

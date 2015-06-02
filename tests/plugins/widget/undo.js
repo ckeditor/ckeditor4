@@ -353,6 +353,8 @@
 					evt.testRange = range;
 					dropTarget.fire( 'drop', evt );
 
+					evt.setTarget( editor.document.findOne( 'img.cke_widget_drag_handler' ) );
+					evt.testRange = undefined;
 					dropTarget.fire( 'dragend', evt );
 				} );
 			} );
