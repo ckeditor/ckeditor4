@@ -666,9 +666,9 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * **Note:** Setting `cloneId` option to `false` works for **partially** selected elements only.
 		 * If an element with an ID attribute is **fully enclosed** in a range, it will keep the ID attribute
-		 * regardless of `cloneId` option value. It's a known bug of.
+		 * regardless of `cloneId` option value, because it is not cloned &ndash; it is moved to the returned document fragment.
 		 *
-		 * @param {Boolean} [mergeThen] Merge any splitted elements result in DOM true due to partial selection.
+		 * @param {Boolean} [mergeThen] Merge any split elements result in DOM true due to partial selection.
 		 * @param {Boolean} [cloneId=true] Whether to preserve ID attributes in the extracted content.
 		 * @returns {CKEDITOR.dom.documentFragment} Document fragment containing extracted content.
 		 */
