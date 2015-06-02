@@ -12,7 +12,7 @@
 			playground.setHtml( startHtml );
 		},
 
-		'test range#splitElement (cloneId=false) ': function() {
+		'test range#splitElement (cloneId=false)': function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.setStart( doc.getById( 'SE1I1' ).getFirst(), 3 );
@@ -26,7 +26,7 @@
 				'<p><b><i>ment</i></b>.</p>', splitElement.getOuterHtml(), 'Split element returned' );
 		},
 
-		'test range#splitElement (cloneId=true) ': function() {
+		'test range#splitElement (cloneId=true)': function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.setStart( doc.getById( 'SE1I1' ).getFirst(), 3 );
@@ -40,7 +40,7 @@
 				'<p id="SE1"><b id="SE1B1"><i id="SE1I1">ment</i></b>.</p>', splitElement.getOuterHtml(), 'Split element returned' );
 		},
 
-		'test range#splitBlock (cloneId=false) ': function() {
+		'test range#splitBlock (cloneId=false)': function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.setStart( doc.getById( 'SE1' ).getFirst(), 4 );
@@ -55,7 +55,7 @@
 			assert.isInnerHtmlMatching( '<p><b id="SE1B1"><i id="SE1I1">ment</i></b>.</p>', splitInfo.nextBlock.getOuterHtml(), 'Next block' );
 		},
 
-		'test range#splitBlock (cloneId=true) ': function() {
+		'test range#splitBlock (cloneId=true)': function() {
 			var range = new CKEDITOR.dom.range( doc );
 
 			range.setStart( doc.getById( 'SE1' ).getFirst(), 4 );
