@@ -303,7 +303,6 @@ CKEDITOR.dom.range = function( root ) {
 					levelParent.append( range.document.createText( leftNode.substring( startOffset ) ) );
 				}
 			} else if ( doClone ) {
-				// Make sure to preserve element ID while cloning (#13128).
 				nextLevelParent = levelParent.append( leftNode.clone( 0, cloneId ) );
 			}
 
@@ -361,7 +360,6 @@ CKEDITOR.dom.range = function( root ) {
 						levelParent.append( range.document.createText( rightNode.substring( 0, endOffset ) ) );
 					}
 				} else if ( doClone ) {
-					// Make sure to preserve element ID while cloning (#13128).
 					nextLevelParent = levelParent.append( rightNode.clone( 0, cloneId ) );
 				}
 
@@ -399,7 +397,6 @@ CKEDITOR.dom.range = function( root ) {
 
 			// If cloning, just clone it.
 			if ( isClone || forceClone ) {
-				// Make sure to preserve element ID while cloning (#13128).
 				newParent.append( node.clone( true, cloneId ), toStart );
 			} else {
 				// Both Delete and Extract will remove the node.
