@@ -1296,11 +1296,11 @@
 				// Save drag range globally for cross editor D&D.
 				clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
 
-				// (#13011)
-				if ( clipboard.dragRange.startContainer.type === CKEDITOR.NODE_ELEMENT ) {
+				// Store number of children, so we can later tell if any text node was split on drop. (#13011)
+				if ( clipboard.dragRange.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
 					clipboard.dragStartContainerChildCount = clipboard.dragRange.startContainer.getChildCount();
 				}
-				if ( clipboard.dragRange.endContainer.type === CKEDITOR.NODE_ELEMENT ) {
+				if ( clipboard.dragRange.endContainer.type == CKEDITOR.NODE_ELEMENT ) {
 					clipboard.dragEndContainerChildCount = clipboard.dragRange.endContainer.getChildCount();
 				}
 			}, null, null, 2 );
@@ -1543,20 +1543,20 @@
 		fixSplitNodesAfterDrop: function( dragRange, dropRange, preDragStartContainerChildCount, preDragEndContainerChildCount ) {
 			var dropContainer = dropRange.startContainer;
 
-			// We are only concerned about.
-			if ( dropContainer.type !== CKEDITOR.NODE_ELEMENT ) {
+			// We are only concerned about ranges anchored in elements.
+			if ( dropContainer.type != CKEDITOR.NODE_ELEMENT ) {
 				return;
 			}
 
 			// <p> " f o " " o " <img /> </p>
 			//            ^     [       ]
 			//    0       1     2       3
-			var areDragAndDropContainersTheSame = dragRange.startContainer.equals( dropContainer ) ||  dragRange.endContainer.equals( dropContainer );
+			var areDragAndDropContainersTheSame = dragRange.startContainer.equals( dropContainer ) || dragRange.endContainer.equals( dropContainer );
 
 			// <p> " f o " " o b a r b a r a " </p>
 			//            ^   {     }
 			//    0       1                   2
-			var areDragAndDropContainersRelative = dragRange.startContainer.getParent().equals( dropContainer ) ||  dragRange.endContainer.getParent().equals( dropContainer );
+			var areDragAndDropContainersRelative = dragRange.startContainer.getParent().equals( dropContainer ) || dragRange.endContainer.getParent().equals( dropContainer );
 
 			// Before drop there was one child of <p>
 			// <p> " f o o b a r " </p>
@@ -1567,8 +1567,8 @@
 			//          ^
 
 			var childrenCountVary = (
-					( typeof preDragStartContainerChildCount === 'number' && preDragStartContainerChildCount !== dropContainer.getChildCount() ) ||
-					( typeof preDragEndContainerChildCount === 'number' && preDragEndContainerChildCount !== dropContainer.getChildCount() )
+					( typeof preDragStartContainerChildCount == 'number' && preDragStartContainerChildCount != dropContainer.getChildCount() ) ||
+					( typeof preDragEndContainerChildCount == 'number' && preDragEndContainerChildCount != dropContainer.getChildCount() )
 				);
 
 			// Here we determine whether browser split text node into two. We are doing this by comparing children count right before
@@ -1582,8 +1582,8 @@
 				nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
 
 			if (
-				nodeBefore && nodeBefore.type === CKEDITOR.NODE_TEXT &&
-				nodeAfter && nodeAfter.type === CKEDITOR.NODE_TEXT
+				nodeBefore && nodeBefore.type == CKEDITOR.NODE_TEXT &&
+				nodeAfter && nodeAfter.type == CKEDITOR.NODE_TEXT
 			) {
 				var offset = nodeBefore.getLength();
 
