@@ -597,9 +597,9 @@
 								( env.hc ? 'font-size: 15px;line-height:14px;border:1px solid #fff;text-align:center;' : '' ) +
 								( env.hidpi ? 'background-size: 9px 10px;' : '' ),
 						looks: [
-							'top:-8px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px', 1 ),
-							'top:-17px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '2px 2px 0px 0px', 1 ),
-							'top:-1px;' + CKEDITOR.tools.cssVendorPrefix( 'border-radius', '0px 0px 2px 2px', 1 )
+							'top:-8px; border-radius: 2px;',
+							'top:-17px; border-radius: 2px 2px 0px 0px;',
+							'top:-1px; border-radius: 0px 0px 2px 2px;'
 						]
 					}
 				),
