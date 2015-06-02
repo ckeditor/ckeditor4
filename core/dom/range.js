@@ -169,11 +169,13 @@ CKEDITOR.dom.range = function( root ) {
 	//   * Then we do the same with end node parents (right branch), because it may contains notes we omit during the previous
 	//   step, for example if the right branch is deeper then left branch. Things are more complicated here because we have to
 	//   watch out for nodes that were already cloned.
+	//   * ***Note:** Setting `cloneId` option to `false` for **extraction** works for partially selected elements only.
+	//   See range.extractContents to know more.
 	// 4. Clean up.
 	//   * There are two things we need to do - updating the range position and perform the action of the "mergeThen"
 	//   param (see range.deleteContents or range.extractContents).
 	//   See comments in mergeAndUpdate because this is lots of fun too.
-	function execContentsAction( range, action, docFrag, mergeThen ) {
+	function execContentsAction( range, action, docFrag, mergeThen, cloneId ) {
 		'use strict';
 
 		range.optimizeBookmark();
@@ -301,7 +303,7 @@ CKEDITOR.dom.range = function( root ) {
 					levelParent.append( range.document.createText( leftNode.substring( startOffset ) ) );
 				}
 			} else if ( doClone ) {
-				nextLevelParent = levelParent.append( leftNode.clone() );
+				nextLevelParent = levelParent.append( leftNode.clone( 0, cloneId ) );
 			}
 
 			// 2.
@@ -358,7 +360,7 @@ CKEDITOR.dom.range = function( root ) {
 						levelParent.append( range.document.createText( rightNode.substring( 0, endOffset ) ) );
 					}
 				} else if ( doClone ) {
-					nextLevelParent = levelParent.append( rightNode.clone() );
+					nextLevelParent = levelParent.append( rightNode.clone( 0, cloneId ) );
 				}
 
 				// 2.
@@ -395,7 +397,7 @@ CKEDITOR.dom.range = function( root ) {
 
 			// If cloning, just clone it.
 			if ( isClone || forceClone ) {
-				newParent.append( node.clone( true ), toStart );
+				newParent.append( node.clone( true, cloneId ), toStart );
 			} else {
 				// Both Delete and Extract will remove the node.
 				node.remove();
@@ -632,13 +634,16 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * The content nodes of the range are cloned and added to a document fragment, which is returned.
 		 *
+		 * @param {Boolean} [cloneId=true] Whether to preserve ID attributes in the clone.
 		 * @returns {CKEDITOR.dom.documentFragment} Document fragment containing clone of range's content.
 		 */
-		cloneContents: function() {
+		cloneContents: function( cloneId ) {
 			var docFrag = new CKEDITOR.dom.documentFragment( this.document );
 
+			cloneId = typeof cloneId == 'undefined' ? true : cloneId;
+
 			if ( !this.collapsed )
-				execContentsAction( this, 2, docFrag );
+				execContentsAction( this, 2, docFrag, false, cloneId );
 
 			return docFrag;
 		},
@@ -659,14 +664,21 @@ CKEDITOR.dom.range = function( root ) {
 		 * The content nodes of the range are cloned and added to a document fragment,
 		 * meanwhile they are removed permanently from the DOM tree.
 		 *
-		 * @param {Boolean} [mergeThen] Merge any splitted elements result in DOM true due to partial selection.
+		 * **Note:** Setting `cloneId` option to `false` works for **partially** selected elements only.
+		 * If an element with an ID attribute is **fully enclosed** in a range, it will keep the ID attribute
+		 * regardless of `cloneId` option value, because it is not cloned &ndash; it is moved to the returned document fragment.
+		 *
+		 * @param {Boolean} [mergeThen] Merge any split elements result in DOM true due to partial selection.
+		 * @param {Boolean} [cloneId=true] Whether to preserve ID attributes in the extracted content.
 		 * @returns {CKEDITOR.dom.documentFragment} Document fragment containing extracted content.
 		 */
-		extractContents: function( mergeThen ) {
+		extractContents: function( mergeThen, cloneId ) {
 			var docFrag = new CKEDITOR.dom.documentFragment( this.document );
 
+			cloneId = typeof cloneId == 'undefined' ? true : cloneId;
+
 			if ( !this.collapsed )
-				execContentsAction( this, 1, docFrag, mergeThen );
+				execContentsAction( this, 1, docFrag, mergeThen, cloneId );
 
 			return docFrag;
 		},
@@ -2070,8 +2082,9 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * @todo
+		 * @param {Boolean} [cloneId=false] Whether to preserve ID attributes in the result blocks.
 		 */
-		splitBlock: function( blockTag ) {
+		splitBlock: function( blockTag, cloneId ) {
 			var startPath = new CKEDITOR.dom.elementPath( this.startContainer, this.root ),
 				endPath = new CKEDITOR.dom.elementPath( this.endContainer, this.root );
 
@@ -2115,7 +2128,7 @@ CKEDITOR.dom.range = function( root ) {
 					this.moveToPosition( startBlock, CKEDITOR.POSITION_BEFORE_START );
 					startBlock = null;
 				} else {
-					endBlock = this.splitElement( startBlock );
+					endBlock = this.splitElement( startBlock, cloneId || false );
 
 					// In Gecko, the last child node must be a bogus <br>.
 					// Note: bogus <br> added under <ul> or <ol> would cause
@@ -2141,19 +2154,20 @@ CKEDITOR.dom.range = function( root ) {
 		 * **Note:** The range must be collapsed and been enclosed by this element.
 		 *
 		 * @param {CKEDITOR.dom.element} element
+		 * @param {Boolean} [cloneId=false] Whether to preserve ID attributes in the result elements.
 		 * @returns {CKEDITOR.dom.element} Root element of the new branch after the split.
 		 */
-		splitElement: function( toSplit ) {
+		splitElement: function( toSplit, cloneId ) {
 			if ( !this.collapsed )
 				return null;
 
 			// Extract the contents of the block from the selection point to the end
 			// of its contents.
 			this.setEndAt( toSplit, CKEDITOR.POSITION_BEFORE_END );
-			var documentFragment = this.extractContents();
+			var documentFragment = this.extractContents( false, cloneId || false );
 
 			// Duplicate the element after it.
-			var clone = toSplit.clone( false );
+			var clone = toSplit.clone( false, cloneId || false );
 
 			// Place the extracted contents into the duplicated element.
 			documentFragment.appendTo( clone );

@@ -237,9 +237,12 @@
 		},
 		*/
 
-		'test enter key - start of block':				e( 'editor', '<p>{}foo</p>', '<p>@@</p><p>^foo@</p>' ),
-		'test enter key - middle of block':				e( 'editor', '<p>foo{}bar</p>', '<p>foo@</p><p>^bar@</p>' ),
-		'test enter key - end of block':				e( 'editor', '<p>foo{}</p>', '<p>foo@</p><p>^@</p>' ),
+		'test enter key - start of block':				e( 'editor', '<p id="x">{}foo</p>', '<p>@@</p><p id="x">^foo@</p>' ),
+		'test enter key - middle of block':				e( 'editor', '<p id="x">foo{}bar</p>', '<p id="x">foo@</p><p>^bar@</p>' ),
+		'test enter key - end of block':				e( 'editor', '<p id="x">foo{}</p>', '<p id="x">foo@</p><p>^@</p>' ),
+
+		'test enter key - inline with id':				e( 'editor', '<p>fo<b id="x">o{}b</b>ar</p>', '<p>fo<b id="x">o</b>@</p><p><b>^b</b>ar@</p>' ),
+		'test enter key - block with id':				e( 'editor', '<div><p id="x">fo<b id="y">o{}b</b>ar</p></div>', '<div><p id="x">fo<b id="y">o</b>@</p><p><b>^b</b>ar@</p></div>' ),
 
 		'test shift+enter key - middle of block':		se( 'editor', '<p>foo{}bar</p>', '<p>foo<br />^bar@</p>' ),
 		'test shift+enter key - list item':				se( 'editor', '<ul><li>foo{}bar</li></ul>', '<ul><li>foo<br />^bar@</li></ul>' ),

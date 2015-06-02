@@ -46,7 +46,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<b>ome</b> t', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<b id="_b">ome</b> t', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( 'this is <b id="_b">s</b>ext.', getInnerHtml( '_Para' ), 'HTML after extraction' );
 
 			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
@@ -68,7 +68,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( 'his is <b>s</b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( 'his is <b id="_b">s</b>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( 't<b id="_b">ome</b> text.', getInnerHtml( '_Para' ), 'HTML after extraction' );
 
 			assert.areSame( document.getElementById( '_Para' ), range.startContainer.$, 'range.startContainer' );
@@ -90,7 +90,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1>ckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<h1 id="_h1">ckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>a</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( '<h1 id="_h1">f</h1><p>nother paragraph.</p>', getInnerHtml( 'playground' ) );
 
 			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
@@ -110,7 +110,7 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			assert.areSame( '<h1>fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
+			assert.areSame( '<h1 id="_h1">fckw3crange test</h1><p id="_para">this is <b id="_b">some</b> text.</p><p>another paragraph.</p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
 			assert.areSame( '<h1 id="_h1"></h1><p></p>', getInnerHtml( 'playground' ) );
 
 			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
@@ -345,6 +345,28 @@
 
 			assert.isInnerHtmlMatching( '<h1></h1><h2></h2>', clone.getHtml() );
 			assert.isInnerHtmlMatching( '<h1></h1>[]<h2><br /></h2>', bender.tools.range.getWithHtml( root, range ) );
+		},
+
+		'test extractContents - ID attribute cloning of partially and fully selected elements': function() {
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( '_H1' ).getFirst(), 11 );
+			range.setEnd( doc.getById( '_Para' ).getLast(), 2 );
+
+			var docFrag = range.extractContents( false, false );
+
+			var tmpDiv = doc.createElement( 'div' );
+			docFrag.appendTo( tmpDiv );
+
+			var playground = doc.getById( 'playground' );
+
+			// See: execContentsAction in range.js.
+			assert.isInnerHtmlMatching( '<h1>Test</h1><p>t<b id="_B">some</b>This is</p>', tmpDiv.getHtml(), 'Extracted HTML' );
+			assert.isInnerHtmlMatching( '<h1 id="_H1">FCKW3CRange</h1><p id="_Para">ext.</p><p>Another paragraph.</p>',
+				playground.getHtml(), 'HTML after extraction' );
+
+			assert.areSame( playground, range.startContainer, 'range.startContainer' );
+			assert.areSame( 1, range.startOffset, 'range.startOffset' );
+			assert.isTrue( range.collapsed, 'range.collapsed' );
 		}
 	};
 
