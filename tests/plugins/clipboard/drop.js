@@ -27,7 +27,7 @@ function drag( editor, evt ) {
 
 		assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dragEvt.data.dataTransfer );
 		assert.areSame( evt.$, dragEvt.data.$ );
-		// Check that it's the mocked dragstart target created by the mockDragEvent().
+		// Check that it's the mocked dragstart target created by the mockDropEvent().
 		assert.areSame( CKEDITOR.NODE_TEXT, dragEvt.data.target.type, 'drag target node type' );
 		assert.areSame( 'targetMock', dragEvt.data.target.getText(), 'drag target node' );
 	} );
@@ -104,7 +104,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start offset should match.' );
 
 			assert.isTrue( values.dropNativeEventMatch, 'On drop: native event should match.' );
-			// Check that it's the mocked drop target created by the mockDragEvent().
+			// Check that it's the mocked drop target created by the mockDropEvent().
 			assert.areSame( CKEDITOR.NODE_TEXT, values.dropTarget.type, 'On drop: drop target node type should match.' );
 			assert.areSame( 'targetMock', values.dropTarget.getText(), 'On drop: drop target should match.' );
 
