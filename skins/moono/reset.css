@@ -36,8 +36,6 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	height: auto;
 	vertical-align: baseline;
 	box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
 	position: static;
 	-webkit-transition: none;
 	-moz-transition: none;
@@ -59,8 +57,6 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	height: auto;
 	vertical-align: baseline;
 	box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
 	position: static;
 	-webkit-transition: none;
 	-moz-transition: none;
@@ -117,8 +113,6 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 .cke_reset_all select
 {
 	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 }
 
 .cke_reset_all table

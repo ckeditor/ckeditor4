@@ -203,7 +203,5 @@ Special outer level classes used in this file:
 	padding: 0 8px;
 	outline-style: none;
 
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }

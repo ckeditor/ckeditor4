@@ -558,8 +558,6 @@ textarea.cke_dialog_ui_input_textarea
 	width: 100%;
 	*width: 95%;
 
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 
 	border-radius: 3px;
