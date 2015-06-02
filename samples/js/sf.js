@@ -464,9 +464,7 @@ var SF = ( function() {
                 top: "50px",
                 width: width,
                 '-ms-transform': 'translateX(-50%)',
-                '-moz-transform': 'translateX(-50%)',
                 '-webkit-transform': 'translateX(-50%)',
-                '-o-transform': 'translateX(-50%)',
                 'transform': 'translateX(-50%)'
             })
             .stylize(getOption('modalStyles', {
