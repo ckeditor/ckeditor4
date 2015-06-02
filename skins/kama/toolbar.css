@@ -69,11 +69,6 @@ Special outer level classes used in this file:
 	padding: 2px;
 	background: url(images/sprites.png) repeat-x 0 -500px;
 
-	background: -webkit-gradient(linear, 0 0, 0 100, from(#fff), to(#d3d3d3)); /* Chrome,Safari4+ */
-	background: -moz-linear-gradient(top, #fff, #d3d3d3 100px); /* FF3.6+ */
-	background: -webkit-linear-gradient(top, #fff, #d3d3d3 100px); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #fff, #d3d3d3 100px); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #fff, #d3d3d3 100px); /* IE10+ */
 	background: linear-gradient(top, #fff, #d3d3d3 100px); /* W3C */
 }
 

@@ -107,11 +107,6 @@ Special outer level classes used in this file:
 	box-shadow: 0 1px 0 #fff inset;
 
 	background: #cfd1cf;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#cfd1cf));
-	background-image: -moz-linear-gradient(top, #f5f5f5, #cfd1cf);
-	background-image: -webkit-linear-gradient(top, #f5f5f5, #cfd1cf);
-	background-image: -o-linear-gradient(top, #f5f5f5, #cfd1cf);
-	background-image: -ms-linear-gradient(top, #f5f5f5, #cfd1cf);
 	background-image: linear-gradient(top, #f5f5f5, #cfd1cf);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#cfd1cf');
 }
@@ -132,11 +127,6 @@ Special outer level classes used in this file:
 	box-shadow: 0 1px 0 #fff inset;
 
 	background: #cfd1cf;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#cfd1cf));
-	background-image: -moz-linear-gradient(top, #ebebeb, #cfd1cf);
-	background-image: -webkit-linear-gradient(top, #ebebeb, #cfd1cf);
-	background-image: -o-linear-gradient(top, #ebebeb, #cfd1cf);
-	background-image: -ms-linear-gradient(top, #ebebeb, #cfd1cf);
 	background-image: linear-gradient(top, #ebebeb, #cfd1cf);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');
 }
