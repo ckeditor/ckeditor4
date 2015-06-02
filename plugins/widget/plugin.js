@@ -207,6 +207,7 @@
 		 * 			// Event `action` occurs on `image` widget.
 		 * 		} );
 		 *
+		 * @since 4.5
 		 * @param {String} widgetName
 		 */
 		onWidget: function( widgetName ) {
