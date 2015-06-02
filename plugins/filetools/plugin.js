@@ -178,7 +178,9 @@
 					}
 				} catch ( err ) {
 					// Response parsing error.
-					data.message = fileLoader.lang.filetools.responseError.replace( '%1', xhr.responseText );
+					data.message = fileLoader.lang.filetools.responseError;
+					window.console && window.console.log( xhr.responseText );
+
 					evt.cancel();
 				}
 			}, null, null, 999 );
