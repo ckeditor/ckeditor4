@@ -103,17 +103,17 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 			cssId + ' .cke_dialog_tab' +
 			'{' +
 			'background-color:$color;' +
-				'linear-gradient( top,#fff -15px,$color 40px );' +
+				'linear-gradient( to bottom,#fff -15px,$color 40px );' +
 			'}' +
 
 			cssId + ' .cke_toolgroup' +
 			'{' +
-				'linear-gradient( top,#fff,$color 100px );' +
+				'linear-gradient( to bottom,#fff,$color 100px );' +
 			'}' +
 
 			cssId + ' .cke_combo_button' +
 			'{' +
-				'linear-gradient( bottom,#fff,$color 100px );' +
+				'linear-gradient( to top,#fff,$color 100px );' +
 			'}' +
 
 			cssId + ' .cke_dialog_contents,' +

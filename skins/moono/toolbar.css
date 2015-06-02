@@ -73,7 +73,7 @@ Special outer level classes used in this file:
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
 	background: #e4e4e4;
-	background-image: linear-gradient(top, #ffffff, #e4e4e4);
+	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
 }
 
@@ -139,7 +139,7 @@ a.cke_button_on
 	box-shadow: 0 1px 5px rgba(0,0,0,.6) inset, 0 1px 0 rgba(0,0,0,.2);
 
 	background: #b5b5b5;
-	background-image: linear-gradient(top, #aaa, #cacaca);
+	background-image: linear-gradient(to bottom, #aaa, #cacaca);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#aaaaaa', endColorstr='#cacaca');
 }
 
@@ -188,7 +188,7 @@ a.cke_button_disabled:active
 	box-shadow: 0 0 1px rgba(0,0,0,.3) inset;
 
 	background: #ccc;
-	background-image: linear-gradient(top, #f2f2f2, #ccc);
+	background-image: linear-gradient(to bottom, #f2f2f2, #ccc);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
 }
 
@@ -333,14 +333,14 @@ a.cke_toolbox_collapser
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
 	background: #e4e4e4;
-	background-image: linear-gradient(top, #ffffff, #e4e4e4);
+	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
 }
 
 .cke_toolbox_collapser:hover
 {
 	background: #ccc;
-	background-image: linear-gradient(top, #f2f2f2, #ccc);
+	background-image: linear-gradient(to bottom, #f2f2f2, #ccc);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
 }
 

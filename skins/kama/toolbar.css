@@ -69,7 +69,7 @@ Special outer level classes used in this file:
 	padding: 2px;
 	background: url(images/sprites.png) repeat-x 0 -500px;
 
-	background: linear-gradient(top, #fff, #d3d3d3 100px); /* W3C */
+	background: linear-gradient(to bottom, #fff, #d3d3d3 100px);
 }
 
 .cke_hc .cke_toolgroup

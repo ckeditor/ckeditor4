@@ -67,7 +67,7 @@ a.cke_combo_button
 	height: 22px;
 	margin: 0 5px 5px 0;
 
-	background: linear-gradient(bottom, #fff, #d3d3d3 100px);
+	background: linear-gradient(to top, #fff, #d3d3d3 100px);
 }
 
 /* Different states of the container. */

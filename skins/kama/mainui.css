@@ -77,7 +77,7 @@ Special outer level classes used in this file:
 
 	/* The white-to-color gradiend we see at the top of the editor. */
 	background: #d3d3d3 url(images/sprites.png) repeat-x 0 -1950px;
-	background: linear-gradient(top, #fff -15px, #d3d3d3 40px); /* W3C */
+	background: linear-gradient(to bottom, #fff -15px, #d3d3d3 40px);
 
 	/* Spacing with the inner blocks. */
 	padding: 5px;
