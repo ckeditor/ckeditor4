@@ -357,14 +357,15 @@
 			var tmpDiv = doc.createElement( 'div' );
 			docFrag.appendTo( tmpDiv );
 
-			// See: execContentsAction in range.js.
-			assert.areSame( '<h1> test</h1><p> t<b id="_b">some</b>this is </p>', getInnerHtml( tmpDiv.$ ), 'Extracted HTML' );
-			assert.areSame( '<h1 id="_h1">fckw3crange</h1><p id="_para">ext.</p><p>another paragraph.</p>', getInnerHtml( 'playground' ), 'HTML after extraction' );
+			var playground = doc.getById( 'playground' );
 
-			assert.areSame( document.getElementById( 'playground' ), range.startContainer.$, 'range.startContainer' );
+			// See: execContentsAction in range.js.
+			assert.isInnerHtmlMatching( '<h1>Test</h1><p>t<b id="_B">some</b>This is</p>', tmpDiv.getHtml(), 'Extracted HTML' );
+			assert.isInnerHtmlMatching( '<h1 id="_H1">FCKW3CRange</h1><p id="_Para">ext.</p><p>Another paragraph.</p>',
+				playground.getHtml(), 'HTML after extraction' );
+
+			assert.areSame( playground, range.startContainer, 'range.startContainer' );
 			assert.areSame( 1, range.startOffset, 'range.startOffset' );
-			assert.areSame( document.getElementById( 'playground' ), range.endContainer.$, 'range.endContainer' );
-			assert.areSame( 1, range.endOffset, 'range.endOffset' );
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		}
 	};

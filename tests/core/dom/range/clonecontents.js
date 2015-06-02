@@ -506,8 +506,8 @@
 			var cloneWithId = range.cloneContents(),
 				cloneWithoutId = range.cloneContents( false );
 
-			assert.areSame( '<p id="x">f<b id="y">o</b>o</p>', cloneWithId.getHtml(), 'Clone with IDs.' );
-			assert.areSame( '<p>f<b>o</b>o</p>', cloneWithoutId.getHtml(), 'Clone without IDs.' );
+			assert.isInnerHtmlMatching( '<p id="x">f<b id="y">o</b>o</p>', cloneWithId.getHtml(), 'Clone with IDs.' );
+			assert.isInnerHtmlMatching( '<p>f<b>o</b>o</p>', cloneWithoutId.getHtml(), 'Clone without IDs.' );
 
 			assert.isInnerHtmlMatching( '<div><p id="x">f<b id="y">o</b>o</p></div>', root.getHtml() );
 			assert.areSame( root.findOne( 'div' ), range.startContainer, 'range.startContainer' );
