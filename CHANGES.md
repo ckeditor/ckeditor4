@@ -23,6 +23,10 @@ Fixed Issues:
 * [#13140](http://dev.ckeditor.com/ticket/13140): Fixed: Error thrown when dropping a block widget right after itself.
 * [#13176](http://dev.ckeditor.com/ticket/13176): [IE8] Fixed: Errors while drag&drop of embed widgets.
 * [#13015](http://dev.ckeditor.com/ticket/13015): Fixed: Dropping image file on [Enhanced Image](http://ckeditor.com/addon/image2) causes page reload.
+* [#13128](http://dev.ckeditor.com/ticket/13128): Fixed: Various issues regarding cloning IDs of elements:
+  * Fixed the default behavior of [`range.cloneContents()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-cloneContents), [`range.extractContents()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-extractContents) methods which now clone IDs similarly to their native counterparts.
+  * Added `cloneId` arguments to the above methods and [`range.splitBlock()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-splitBlock) and [`element.breakParent()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-breakParent). Mind the default values and special behavior in the `extracContents()` method.
+  * Fixed issues where IDs were lost when copy&paste and drag&drop.
 * Toolbar configurators:
   * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
   * [#13138](http://dev.ckeditor.com/ticket/13138): Fixed: The "Toggle empty elements" button label is unclear.
