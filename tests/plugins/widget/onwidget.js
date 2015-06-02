@@ -56,7 +56,7 @@
 	};
 
 	bender.test( {
-		'test has on function': function() {
+		'test has onWidget function': function() {
 			Repository = CKEDITOR.plugins.widget.repository;
 
 			var repo = new Repository( editorMock );
