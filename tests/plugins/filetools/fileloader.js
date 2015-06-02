@@ -637,7 +637,7 @@
 		},
 
 		'test error incorrect response': function() {
-			editorMock.lang = { filetools: { responseError: 'responseError %1' } };
+			editorMock.lang = { filetools: { responseError: 'responseError' } };
 
 			var loader = new FileLoader( editorMock, testFile ),
 				observer = observeEvents( loader );
@@ -649,8 +649,8 @@
 					'uploading[uploading,name.png,0/0/82,-,-,-]',
 					'update[uploading,name.png,0/0/82,-,-,-]',
 					'update[uploading,name.png,41/0/82,-,-,-]',
-					'error[error,name.png,82/0/82,responseError incorrect,-,-]',
-					'update[error,name.png,82/0/82,responseError incorrect,-,-]' ] );
+					'error[error,name.png,82/0/82,responseError,-,-]',
+					'update[error,name.png,82/0/82,responseError,-,-]' ] );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
