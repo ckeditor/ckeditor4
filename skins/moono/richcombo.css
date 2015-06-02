@@ -70,8 +70,6 @@ a.cke_combo_button
 	border: 1px solid #a6a6a6;
 	border-bottom-color: #979797;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;

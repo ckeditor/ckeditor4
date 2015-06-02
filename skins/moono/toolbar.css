@@ -68,8 +68,6 @@ Special outer level classes used in this file:
 	border: 1px solid #a6a6a6;
 	border-bottom-color: #979797;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
@@ -116,8 +114,6 @@ a.cke_button
 .cke_rtl .cke_button:first-child
 {
 	/* Don't distort parent's rounded border. */
-	-moz-border-radius: 0 2px 2px 0;
-	-webkit-border-radius: 0 2px 2px 0;
 	border-radius: 0 2px 2px 0;
 }
 
@@ -125,8 +121,6 @@ a.cke_button
 .cke_rtl .cke_button:last-child
 {
 	/* Don't distort parent's rounded border. */
-	-moz-border-radius: 2px 0 0 2px;
-	-webkit-border-radius: 2px 0 0 2px;
 	border-radius: 2px 0 0 2px;
 }
 
@@ -361,8 +355,6 @@ a.cke_toolbox_collapser
 	border: 1px solid #a6a6a6;
 	border-bottom-color: #979797;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;

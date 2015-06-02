@@ -63,8 +63,6 @@ Special outer level classes used in this file:
 /* The box that holds buttons. */
 .cke_toolgroup
 {
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	float: left;
 	margin: 0 6px 5px 0;
@@ -104,8 +102,6 @@ a.cke_button
 	display: inline-block;
 	height: 18px;
 	padding: 2px 4px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	outline: none;
 	cursor: default;

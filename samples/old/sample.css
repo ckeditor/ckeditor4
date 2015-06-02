@@ -42,9 +42,6 @@ code
 	background: #f3f3f3;
 	border: 1px solid #ddd;
 	padding: 1px 4px;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
 
@@ -63,9 +60,6 @@ abbr
 	margin: 0 0 0 5px;
 	color: #fff;
 	float: right;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
 

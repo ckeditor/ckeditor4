@@ -54,8 +54,6 @@ panel contents and color panels check menu.css and colorpanel.css.
     border: 1px solid #b6b6b6;
     border-bottom-color: #999;
 
-   	-moz-border-radius: 3px;
-   	-webkit-border-radius: 3px;
    	border-radius: 3px;
 
     -moz-box-shadow: 0 0 3px rgba(0,0,0,.15);
@@ -152,8 +150,6 @@ is its visual representation:
 	overflow: hidden;
 	text-overflow: ellipsis;
 
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
 }
 
@@ -222,8 +218,6 @@ is its visual representation:
     text-shadow: 0 1px 0 rgba(255,255,255,.75);
     border-bottom: 1px solid #b6b6b6;
 
-    -moz-border-radius: 2px 2px 0 0;
-    -webkit-border-radius: 2px 2px 0 0;
     border-radius: 2px 2px 0 0;
 
     -moz-box-shadow: 0 1px 0 #fff inset;

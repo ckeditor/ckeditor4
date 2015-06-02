@@ -52,8 +52,6 @@ Special outer level classes used in this file:
 	display: block;
 
 	/* Rounded borders. */
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	border: 1px solid #D3D3D3;
 
@@ -74,8 +72,6 @@ Special outer level classes used in this file:
 	display: block;
 
 	/* Rounded borders. */
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 	-webkit-touch-callout: none;
 	border-radius: 5px;
 
