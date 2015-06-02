@@ -97,65 +97,63 @@ Aenean cursus egestas ipsum.
 	</div>
 </div>
 <script>
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-		CKEDITOR.tools.enableHtml5Elements( document );
+/* global console */
+
+if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+	CKEDITOR.tools.enableHtml5Elements( document );
+}
+
+CKEDITOR.disableAutoInline = true;
+
+function hideshow( id ) {
+	var element = CKEDITOR.document.getById( id );
+
+	if ( element.getStyle( 'display' ) == 'none' )
+		element.show();
+	else
+		element.hide();
+}
+
+function getTransferTypeAsString( evt ) {
+	var transferType = evt.data.dataTransfer.getTransferType( evt.editor );
+
+	switch ( transferType ) {
+		case CKEDITOR.DATA_TRANSFER_INTERNAL:
+			return 'internal';
+		case CKEDITOR.DATA_TRANSFER_EXTERNAL:
+			return 'external';
+		case CKEDITOR.DATA_TRANSFER_CROSS_EDITORS:
+			return 'cross editors';
 	}
+}
 
-	CKEDITOR.disableAutoInline = true;
+var editors = [ CKEDITOR.replace( 'classic' ), CKEDITOR.inline( 'inline' ) ];
 
-	function hideshow( id ) {
-		var element = CKEDITOR.document.getById( id );
+for ( var i = 0; i < editors.length; i++ ) {
+	var editor = editors[ i ];
 
-		if( element.getStyle( 'display' ) == 'none' )
-			element.show();
-		else
-			element.hide();
-	}
+	if ( !CKEDITOR.env.ie ) {
+		editor.on( 'contentDom', function( evt ) {
+			evt.editor.editable().on( 'paste', function( evt ) {
+				var clipboardData = evt.data.$.clipboardData,
+					types = clipboardData.types,
+					typesString = types.join( ', ' );
 
-	function getTransferTypeAsString( evt ) {
-		var transferType = evt.data.dataTransfer.getTransferType( evt.editor );
+				console.log( '------ clipboardData, types: ' + typesString + ' ------' );
 
-		switch (transferType) {
-			case CKEDITOR.DATA_TRANSFER_INTERNAL:
-				return 'internal';
-			case CKEDITOR.DATA_TRANSFER_EXTERNAL:
-				return 'external';
-			case CKEDITOR.DATA_TRANSFER_CROSS_EDITORS:
-				return 'cross editors';
-		}
-	}
-
-	var editors = [ CKEDITOR.replace( 'classic' ), CKEDITOR.inline( 'inline' ) ];
-
-	for ( var i = 0; i < editors.length; i++ ) {
-		var editor = editors[ i ];
-
-		if( !CKEDITOR.env.ie ) {
-			editor.on( 'contentDom', function( evt ) {
-				evt.editor.editable().on( 'paste', function( evt ) {
-					var clipboardData = evt.data.$.clipboardData,
-						types = clipboardData.types,
-						typesString = types.join(', ');
-
-					console.log( '------ clipboardData, types: ' + typesString + ' ------' );
-
-					for ( var j = 0; j < types.length; j++ ) {
-						console.log( types[ j ] + 'data:', clipboardData.getData( types[ j ] ) );
-					}
-				} );
+				for ( var j = 0; j < types.length; j++ ) {
+					console.log( types[ j ] + 'data:', clipboardData.getData( types[ j ] ) );
+				}
 			} );
-		}
-
-		editor.on( 'paste', function( evt ) {
-			console.log( '*** paste in ' + editor.name + ' editor ' +
-				'(' + getTransferTypeAsString( evt ) + ', data type: ' + evt.data.type + ') ***' );
-			console.log( evt.data.dataValue );
-			console.log( '------------------------------------------------------------------' );
 		} );
 	}
 
+	editor.on( 'paste', function( evt ) {
+		console.log( '*** paste in ' + editor.name + ' editor ' +
+			'(' + getTransferTypeAsString( evt ) + ', data type: ' + evt.data.type + ') ***' );
+		console.log( evt.data.dataValue );
+		console.log( '------------------------------------------------------------------' );
+	} );
+}
 
-	function logEvent( evt ) {
-		console.log( '`' + evt.name + '` event fired.' );
-	}
 </script>
