@@ -47,7 +47,7 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
  * Dialog state when idle.
  *
  * @readonly
- * @property {Number} [=2]
+ * @property {Number} [=1]
  * @member CKEDITOR
  */
 CKEDITOR.DIALOG_STATE_IDLE = 1;
@@ -56,7 +56,7 @@ CKEDITOR.DIALOG_STATE_IDLE = 1;
  * Dialog state when busy.
  *
  * @readonly
- * @property {Number} [=1]
+ * @property {Number} [=2]
  * @member CKEDITOR
  */
 CKEDITOR.DIALOG_STATE_BUSY = 2;
