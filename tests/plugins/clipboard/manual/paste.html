@@ -188,7 +188,10 @@ function getTransferTypeAsString( evt ) {
 	}
 }
 
-var editors = [ CKEDITOR.replace( 'classic' ), CKEDITOR.inline( 'inline' ) ];
+var config = {
+			imageUploadUrl: '%BASE_PATH%'
+		},
+	editors = [ CKEDITOR.replace( 'classic', config ), CKEDITOR.inline( 'inline', config ) ];
 
 for ( var i = 0; i < editors.length; i++ ) {
 	var editor = editors[ i ];
