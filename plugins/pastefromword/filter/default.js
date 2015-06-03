@@ -248,6 +248,11 @@
 							// The best situation: "mso-list:l0 level1 lfo2" tells the belonged list root, list item indentation, etc.
 							[ ( /^mso-list$/ ), null, function( val ) {
 								val = val.split( ' ' );
+								// Ignore values like "mso-list:Ignore". (FF #11976)
+								if ( val.length < 2 ) {
+									return;
+								}
+
 								var listId = Number( val[ 0 ].match( /\d+/ ) ),
 									indent = Number( val[ 1 ].match( /\d+/ ) );
 
