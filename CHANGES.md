@@ -34,6 +34,7 @@ Fixed Issues:
   * [#13136](http://dev.ckeditor.com/ticket/13136): Fixed: Autocompleter is far too intrusive.
   * [#13133](http://dev.ckeditor.com/ticket/13133): Fixed: Tab leaves the editor.
   * [#13173](http://dev.ckeditor.com/ticket/13173): Fixed: `config.removeButtons` is ignored by the advanced toolbar configurator.
+  * [#11976](http://dev.ckeditor.com/ticket/11976): Fixed: Copy&paste and drag&drop lists from MS Word to Chrome.
 
 Other Changes:
 

@@ -1,5 +1,8 @@
 /* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: pastefromword */
+/* bender-include: ../clipboard/_helpers/pasting.js */
+
+/* global assertPasteEvent */
 
 ( function() {
 	'use strict';
@@ -178,6 +181,23 @@
 
 				wait();
 			} );
+		},
+
+		// #11976 - lists look differently when HTML is taken directly from the clipboard instead of pastebin.
+		'test paste list on Webkit, Blink and Gecko': function() {
+			if ( !( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.inline;
+
+			assertPasteEvent( editor,
+				{ dataValue: CKEDITOR.document.getById( 'pastedHtmlList1' ).getValue() },
+				function( data ) {
+					assert.isInnerHtmlMatching( '<ul><li>item1</li><li>item2</li><li>item3</li></ul>', data.dataValue );
+				},
+				null, true
+			);
 		}
 	} );
 
