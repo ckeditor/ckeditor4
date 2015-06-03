@@ -201,7 +201,7 @@ for ( var i = 0; i < editors.length; i++ ) {
 			evt.editor.editable().on( 'paste', function( evt ) {
 				var clipboardData = evt.data.$.clipboardData,
 					types = clipboardData.types,
-					typesString = types.join( ', ' );
+					typesString = [].join.call( types, ', ' );
 
 				console.log( '------ clipboardData, types: ' + typesString + ' ------' );
 
