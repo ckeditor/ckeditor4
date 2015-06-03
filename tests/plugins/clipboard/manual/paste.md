@@ -15,6 +15,6 @@
  * copy and paste file (works only on Firefox),
  * copy and paste part of the image from the image editor,
  * copy and paste internal HTML,
- * copy and paste text from another editor HTML data.
+ * copy and paste text from another editor.
 
 Everything should works as described in [this research](http://dev.ckeditor.com/ticket/11526#comment:7) or better.
