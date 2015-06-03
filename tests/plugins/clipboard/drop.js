@@ -27,7 +27,9 @@ function drag( editor, evt ) {
 
 		assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dragEvt.data.dataTransfer );
 		assert.areSame( evt.$, dragEvt.data.$ );
-		assert.areSame( 'targetMock', dragEvt.data.target.$ );
+		// Check that it's the mocked dragstart target created by the mockDropEvent().
+		assert.areSame( CKEDITOR.NODE_TEXT, dragEvt.data.target.type, 'drag target node type' );
+		assert.areSame( 'targetMock', dragEvt.data.target.getText(), 'drag target node' );
 	} );
 
 	dropTarget.fire( 'dragstart', evt );
@@ -43,7 +45,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ? config.expectedPasteEventCount : 1,
 		expectedBeforePasteEventCount = typeof config.expectedBeforePasteEventCount !== 'undefined' ? config.expectedBeforePasteEventCount : expectedPasteEventCount;
 
-	range.setStart( config.element, config.offset );
+	range.setStart( config.dropContainer, config.dropOffset );
 	range.collapse( true );
 	range.select();
 
@@ -61,11 +63,11 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			values.dropRangeStartContainerMatch = !!dropEvt.data.dropRange.startContainer;
 			values.dropRangeStartOffsetMatch = !!dropEvt.data.dropRange.startOffset;
 		} else {
-			values.dropRangeStartContainerMatch = config.element == dropEvt.data.dropRange.startContainer;
-			values.dropRangeStartOffsetMatch = config.offset == dropEvt.data.dropRange.startOffset;
+			values.dropRangeStartContainerMatch = config.dropContainer == dropEvt.data.dropRange.startContainer;
+			values.dropRangeStartOffsetMatch = config.dropOffset == dropEvt.data.dropRange.startOffset;
 		}
 		values.dropNativeEventMatch = evt.$ == dropEvt.data.$;
-		values.dropTarget = dropEvt.data.target.$;
+		values.dropTarget = dropEvt.data.target;
 
 		if ( onDrop ) {
 			return onDrop( dropEvt );
@@ -102,7 +104,9 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start offset should match.' );
 
 			assert.isTrue( values.dropNativeEventMatch, 'On drop: native event should match.' );
-			assert.areSame( 'targetMock', values.dropTarget, 'On drop: drop target should match.' );
+			// Check that it's the mocked drop target created by the mockDropEvent().
+			assert.areSame( CKEDITOR.NODE_TEXT, values.dropTarget.type, 'On drop: drop target node type should match.' );
+			assert.areSame( 'targetMock', values.dropTarget.getText(), 'On drop: drop target should match.' );
 
 			// Paste event asserts
 			assert.areSame( expectedBeforePasteEventCount, values.beforePasteEventCounter, 'Before paste event should be called ' + expectedBeforePasteEventCount + ' time(s).' );
@@ -202,8 +206,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.h1' ).getChild( 0 ),
-				offset: 7,
+				dropContainer: editor.editable().findOne( '.h1' ).getChild( 0 ),
+				dropOffset: 7,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'dolor',
 				expectedHtml: 'dolor',
@@ -228,8 +232,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'dolor',
 				expectedHtml: 'dolor',
@@ -254,8 +258,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 2 ),
-				offset: 11,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 2 ),
+				dropOffset: 11,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'ipsum',
 				expectedHtml: 'ipsum',
@@ -280,10 +284,10 @@ var testsForMultipleEditor = {
 
 			drop( editor, evt, {
 				// IE8 split text node anyway so we need different drop position there.
-				element: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
+				dropContainer: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
 					editor.editable().findOne( '.p' ).getChild( 2 ) :
 					editor.editable().findOne( '.p' ).getChild( 1 ),
-				offset: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
+				dropOffset: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
 					11 :
 					17,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
@@ -310,8 +314,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 2 ),
-				offset: 16,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 2 ),
+				dropOffset: 16,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'ipsum',
 				expectedHtml: 'ipsum',
@@ -336,8 +340,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'ipsum',
 				expectedHtml: 'ipsum',
@@ -363,8 +367,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 1 ),
-				offset: 4,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 1 ),
+				dropOffset: 4,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'ipsum',
 				expectedHtml: '<a href="foo">ipsum</a>',
@@ -388,8 +392,8 @@ var testsForMultipleEditor = {
 			evt.$.dataTransfer.setData( 'Text', 'dolor' );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
 				expectedText: 'dolor',
 				expectedHtml: '',
@@ -421,8 +425,8 @@ var testsForMultipleEditor = {
 			}
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
 				expectedText: !isCustomDataTypesSupported ? '<b>dolor</b>' : '',
 				expectedHtml: !isCustomDataTypesSupported ? '' : '<b>dolor</b>',
@@ -451,8 +455,8 @@ var testsForMultipleEditor = {
 			editor.resetUndo();
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedBeforePasteEventCount: 1,
 				expectedPasteEventCount: 0
 			}, null, function() {
@@ -477,8 +481,8 @@ var testsForMultipleEditor = {
 			drag( editorCross, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
 				expectedText: 'ipsum dolor ',
 				expectedHtml: 'ipsum <b>dolor</b> ',
@@ -520,8 +524,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.drop1' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.drop1' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'drag1',
 				expectedHtml: '<b class="drag1">drag1</b>',
@@ -557,8 +561,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedPasteEventCount: 0
 			}, function() {
 				return false;
@@ -775,7 +779,8 @@ var testsForMultipleEditor = {
 
 				assert.areSame( 'foo', dragendEvt.data.dataTransfer.getData( 'Text' ), 'cke/custom' );
 				assert.areSame( evt.data.$, dragendEvt.data.$, 'nativeEvent' );
-				assert.areSame( 'targetMock', dragendEvt.data.target.$, 'target' );
+				assert.areSame( CKEDITOR.NODE_TEXT, dragendEvt.data.target.type, 'drag target node type' );
+				assert.areSame( 'targetMock', dragendEvt.data.target.getText(), 'drag target node' );
 			} );
 
 			editable.fire( 'dragend', evt.data );
@@ -856,8 +861,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedPasteEventCount: 0
 			}, function() {
 				return false;
@@ -884,8 +889,8 @@ var testsForMultipleEditor = {
 
 			drag( editor, evt );
 			drop( editor, evt, {
-				element: editor.editable(),
-				offset: 2,
+				dropContainer: editor.editable(),
+				dropOffset: 2,
 				expectedPasteEventCount: 0
 			}, function() {
 				return false;
@@ -923,8 +928,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedPasteEventCount: 0
 			}, function() {
 				return false;
@@ -953,8 +958,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.editable().findOne( '.p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedBeforePasteEventCount: 1,
 				expectedPasteEventCount: 0
 			} );
