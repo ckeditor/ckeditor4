@@ -17,9 +17,9 @@ if ( !CKEDITOR.env ) {
 	 */
 	CKEDITOR.env = ( function() {
 		var agent = navigator.userAgent.toLowerCase(),
-			spartan = agent.match( /edge[ \/](\d+.?\d*)/ ),
+			edge = agent.match( /edge[ \/](\d+.?\d*)/ ),
 			trident = agent.indexOf( 'trident/' ) > -1,
-			ie = !!( spartan || trident );
+			ie = !!( edge || trident );
 
 		var env = {
 			/**
@@ -28,12 +28,29 @@ if ( !CKEDITOR.env ) {
 			 *		if ( CKEDITOR.env.ie )
 			 *			alert( 'I\'m running in IE!' );
 			 *
+			 * **Note:** This property is also set to `true` if CKEditor is running
+			 * in {@link #edge Microsoft Edge}.
+			 *
 			 * @property {Boolean}
 			 */
 			ie: ie,
 
 			/**
-			 * Indicates that CKEditor is running in a WebKit-based browser, like Safari.
+			 * Indicates that CKEditor is running in Microsoft Edge.
+			 *
+			 *		if ( CKEDITOR.env.edge )
+			 *			alert( 'I\'m running in Edge!' );
+			 *
+			 * See also {@link #ie}.
+			 *
+			 * @since 4.5
+			 * @property {Boolean}
+			 */
+			edge: !!edge,
+
+			/**
+			 * Indicates that CKEditor is running in a WebKit-based browser, like Safari,
+			 * or Blink-based browser, like Blink.
 			 *
 			 *		if ( CKEDITOR.env.webkit )
 			 *			alert( 'I\'m running in a WebKit browser!' );
@@ -144,7 +161,7 @@ if ( !CKEDITOR.env ) {
 		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.ie );
 
 		/**
-		 * Indicates that CKEditor is running in Chrome.
+		 * Indicates that CKEditor is running in Blink-based browsers like Chrome.
 		 *
 		 *		if ( CKEDITOR.env.chrome )
 		 *			alert( 'I\'m running in Chrome!' );
@@ -172,8 +189,8 @@ if ( !CKEDITOR.env ) {
 		// Internet Explorer 6.0+
 		if ( env.ie ) {
 			// We use env.version for feature detection, so set it properly.
-			if ( spartan ) {
-				version = parseFloat( spartan[ 1 ] );
+			if ( edge ) {
+				version = parseFloat( edge[ 1 ] );
 			} else if ( env.quirks || !document.documentMode ) {
 				version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
 			} else {
