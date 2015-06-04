@@ -275,26 +275,28 @@ if ( !CKEDITOR.env ) {
 		env.version = version;
 
 		/**
-		 * Indicates that CKEditor is running in a compatible browser.
+		 * Since CKEditor 4.5.0 this property is a blacklist of browsers incompatible with CKEditor. It means that it is
+		 * set to `false` only in browsers that are known to be incompatible. Before CKEditor 4.5.0 this
+		 * property was a whitelist of browsers that were known to be compatible with CKEditor.
+		 *
+		 * The reason for this change is the rising fragmentation of the browsers market (especially the mobile segment).
+		 * It became too complicated to check on which new environments CKEditor is going to work.
+		 *
+		 * In order to enable CKEditor 4.4.x and below in unsupported environment see the
+		 * [Enabling CKEditor in Unsupported Environments](#!/guide/dev_unsupported_environments) article.
 		 *
 		 *		if ( CKEDITOR.env.isCompatible )
-		 *			alert( 'Your browser is pretty cool!' );
-		 *
-		 * See the [Enabling CKEditor in Unsupported Environments](#!/guide/dev_unsupported_environments)
-		 * article for more information.
+		 *			alert( 'Your browser is not known to be incompatible with CKEditor!' );
 		 *
 		 * @property {Boolean}
 		 */
 		env.isCompatible =
-			// White list of mobile devices that CKEditor supports.
-			env.iOS && version >= 534 ||
-			!env.mobile && (
-				( env.ie && version > 6 ) ||
-				( env.gecko && version >= 20000 ) ||
-				( env.air && version >= 1 ) ||
-				( env.webkit && version >= 522 ) ||
-				false
-			);
+			// IE 7+ (IE 7 is not supported, but IE Compat Mode is and it is recognized as IE7).
+			!( env.ie && version < 7 ) &&
+			// Firefox 4.0+.
+			!( env.gecko && version < 40000 ) &&
+			// Chrome 6+, Safari 5.1+, iOS 5+.
+			!( env.webkit && version < 534 );
 
 		/**
 		 * Indicates that CKEditor is running in the HiDPI environment.
