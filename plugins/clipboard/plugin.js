@@ -1548,50 +1548,36 @@
 				return;
 			}
 
-			// <p> " f o " " o " <img /> </p>
-			//            ^     [       ]
-			//    0       1     2       3
-			var areDragAndDropContainersTheSame = dragRange.startContainer.equals( dropContainer ) || dragRange.endContainer.equals( dropContainer );
+			var dropContainerChildCount = dropContainer.getChildCount(),
+				dragStartElement = dragRange.startContainer.type != CKEDITOR.NODE_ELEMENT ? dragRange.startContainer.getParent() : dragRange.startContainer;
 
-			// <p> " f o " " o b a r b a r a " </p>
-			//            ^   {     }
-			//    0       1                   2
-			var areDragAndDropContainersRelative = dragRange.startContainer.getParent().equals( dropContainer ) || dragRange.endContainer.getParent().equals( dropContainer );
-
-			// Before drop there was one child of <p>
-			// <p> " f o o b a r " </p>
-			//        ^   {   }
-			//
-			// After drop there are two
-			// <p> " f " " o o b a r " </p>
-			//          ^
-
-			var childrenCountVary = (
-					( typeof preDragStartContainerChildCount == 'number' && preDragStartContainerChildCount != dropContainer.getChildCount() ) ||
-					( typeof preDragEndContainerChildCount == 'number' && preDragEndContainerChildCount != dropContainer.getChildCount() )
-				);
-
-			// Here we determine whether browser split text node into two. We are doing this by comparing children count right before
-			// drop and after. Drag ranges are unsafe only if drag and drop containers are the same.
-			if ( !( ( areDragAndDropContainersTheSame || areDragAndDropContainersRelative ) && childrenCountVary ) ) {
-				// Nothing changes, we are safe.
+			if ( dragStartElement.equals( dropContainer ) && preDragStartContainerChildCount != dropContainerChildCount ) {
+				applyFix( dropRange );
 				return;
 			}
 
-			var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
-				nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
+			var dragEndElement = dragRange.endContainer.type != CKEDITOR.NODE_ELEMENT ? dragRange.endContainer.getParent() : dragRange.endContainer;
+			if ( dragEndElement.equals( dropContainer ) && preDragEndContainerChildCount != dropContainerChildCount ) {
+				applyFix( dropRange );
+				return;
+			}
 
-			if (
-				nodeBefore && nodeBefore.type == CKEDITOR.NODE_TEXT &&
-				nodeAfter && nodeAfter.type == CKEDITOR.NODE_TEXT
-			) {
-				var offset = nodeBefore.getLength();
+			function applyFix( dropRange ) {
+				var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
+					nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
 
-				nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
-				nodeAfter.remove();
+				if (
+					nodeBefore && nodeBefore.type == CKEDITOR.NODE_TEXT &&
+					nodeAfter && nodeAfter.type == CKEDITOR.NODE_TEXT
+				) {
+					var offset = nodeBefore.getLength();
 
-				dropRange.setStart( nodeBefore, offset );
-				dropRange.collapse( true );
+					nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
+					nodeAfter.remove();
+
+					dropRange.setStart( nodeBefore, offset );
+					dropRange.collapse( true );
+				}
 			}
 		},
 
