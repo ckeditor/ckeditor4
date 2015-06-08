@@ -23,6 +23,8 @@
 		ampEscRegex = /&amp;/g,
 		gtEscRegex = /&gt;/g,
 		ltEscRegex = /&lt;/g,
+		nbspEscRegex = /&nbsp;/g,
+		shyEscRegex = /&shy;/g,
 		quoteEscRegex = /&quot;/g;
 
 	CKEDITOR.on( 'reset', function() {
@@ -372,7 +374,12 @@
 		 * @returns {String} The decoded string.
 		 */
 		htmlDecode: function( text ) {
-			return text.replace( gtEscRegex, '>' ).replace( ltEscRegex, '<' ).replace( ampEscRegex, '&' );
+			// See http://dev.ckeditor.com/ticket/13105#comment:8
+
+			return text
+				.replace( gtEscRegex, '>' ).replace( ltEscRegex, '<' )
+				.replace( nbspEscRegex, '\u00a0' ).replace( shyEscRegex, '\u00ad' )
+				.replace( ampEscRegex, '&' );
 		},
 
 		/**

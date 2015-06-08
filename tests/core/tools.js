@@ -87,7 +87,7 @@
 		},
 
 		'test htmlDecode - all covered entities': function() {
-			assert.areSame( '<a & b >', htmlDecode( '&lt;a &amp; b &gt;' ) );
+			assert.areSame( '< a & b > c \u00a0 d \u00ad', htmlDecode( '&lt; a &amp; b &gt; c &nbsp; d &shy;' ) );
 		},
 
 		'test htmlDecode - duplications': function() {
@@ -95,7 +95,7 @@
 		},
 
 		'test htmlDecode - double encoding': function() {
-			assert.areSame( '&lt; &amp; &gt;', htmlDecode( '&amp;lt; &amp;amp; &amp;gt;' ) );
+			assert.areSame( '&lt; &amp; &gt; &nbsp; &shy;', htmlDecode( '&amp;lt; &amp;amp; &amp;gt; &amp;nbsp; &amp;shy;' ) );
 		},
 
 		'test htmlDecode - triple encoding': function() {
@@ -107,7 +107,7 @@
 		},
 
 		'test htmlDecodeAttr - all covered entities': function() {
-			assert.areSame( '< " > &', CKEDITOR.tools.htmlDecodeAttr( '&lt; &quot; &gt; &amp;' ) );
+			assert.areSame( '< " > & \u00a0 \u00ad', CKEDITOR.tools.htmlDecodeAttr( '&lt; &quot; &gt; &amp; &nbsp; &shy;' ) );
 		},
 
 		'test htmlDecodeAttr - double encoding': function() {
