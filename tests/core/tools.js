@@ -86,8 +86,13 @@
 			assert.areSame( 'line1\nline2', htmlEncode( 'line1\nline2' ) );
 		},
 
-		'test htmlDecode - all covered entities': function() {
+		// http://dev.ckeditor.com/ticket/13105#comment:8
+		'test htmlDecode - all covered named entities': function() {
 			assert.areSame( '< a & b > c \u00a0 d \u00ad', htmlDecode( '&lt; a &amp; b &gt; c &nbsp; d &shy;' ) );
+		},
+
+		'test htmlDecode - numeric entities': function() {
+			assert.areSame( '\u0001 \u000a \u00ff \uffff \u000c', htmlDecode( '&#1; &#10; &#255; &#65535; &#0012;' ) );
 		},
 
 		'test htmlDecode - duplications': function() {
@@ -107,7 +112,7 @@
 		},
 
 		'test htmlDecodeAttr - all covered entities': function() {
-			assert.areSame( '< " > & \u00a0 \u00ad', CKEDITOR.tools.htmlDecodeAttr( '&lt; &quot; &gt; &amp; &nbsp; &shy;' ) );
+			assert.areSame( '< " > & \u00a0 \u00ad \u000a', CKEDITOR.tools.htmlDecodeAttr( '&lt; &quot; &gt; &amp; &nbsp; &shy; &#10;' ) );
 		},
 
 		'test htmlDecodeAttr - double encoding': function() {

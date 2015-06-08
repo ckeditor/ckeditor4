@@ -25,7 +25,11 @@
 		ltEscRegex = /&lt;/g,
 		nbspEscRegex = /&nbsp;/g,
 		shyEscRegex = /&shy;/g,
-		quoteEscRegex = /&quot;/g;
+		quoteEscRegex = /&quot;/g,
+		numericEscRegex = /&#(\d{1,5});/g,
+		numericEscDecode = function( match, code ) {
+			return String.fromCharCode( parseInt( code, 10 ) );
+		};
 
 	CKEDITOR.on( 'reset', function() {
 		functions = [];
@@ -375,10 +379,13 @@
 		 */
 		htmlDecode: function( text ) {
 			// See http://dev.ckeditor.com/ticket/13105#comment:8
+			// PS. The order of execution will fail if we have &#38;amp; which should return &amp; but will return &.
+			// We can ignore it though, because none of the engines seem to encode & with a numeric entity.
 
 			return text
 				.replace( gtEscRegex, '>' ).replace( ltEscRegex, '<' )
 				.replace( nbspEscRegex, '\u00a0' ).replace( shyEscRegex, '\u00ad' )
+				.replace( numericEscRegex, numericEscDecode )
 				.replace( ampEscRegex, '&' );
 		},
 
