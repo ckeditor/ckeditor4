@@ -62,55 +62,55 @@
 			assert.isFalse( CKEDITOR.tools.isArray( window.x ) );
 		},
 
-		test_htmlEncode1: function() {
-			assert.areSame( '&lt;b&gt;Test&lt;/b&gt;', htmlEncode( '<b>Test</b>' ) );
+		'test_htmlEncode - all covered entities': function() {
+			assert.areSame( '&lt;b&gt;Test&amp;fun!&lt;/b&gt;', htmlEncode( '<b>Test&fun!</b>' ) );
 		},
 
-		test_htmlEncode2: function() {
+		'test htmlEncode - do not touch quotes': function() {
 			assert.areSame( 'Test\'s &amp; "quote"', htmlEncode( 'Test\'s & "quote"' ) );
 		},
 
-		test_htmlEncode3: function() {
+		'test htmlEncode - tabs': function() {
 			assert.areSame( 'A   B   \n\n\t\tC\n \t D', htmlEncode( 'A   B   \n\n\t\tC\n \t D' ), 'Tab should not be touched.' );
 		},
 
 		// Backwards compatibility with careless plugins like dialog or dialogui. All values must be accepted.
-		test_htmlEncode4: function() {
+		'test htmlEncode - backwards compat': function() {
 			assert.areSame( '', htmlEncode( undefined ), 'undef' );
 			assert.areSame( '', htmlEncode( null ), 'null' );
 			assert.areSame( '3', htmlEncode( 3 ), '3' );
 			assert.areSame( '0', htmlEncode( 0 ), '0' );
 		},
 
-		test_htmlDecode: function() {
-			assert.areSame( '<a & b >', htmlDecode( '&lt;a &amp; b &gt;' ) );
-		},
-
-		test_htmlDecode2: function() {
-			assert.areSame( '<a & b ><a & b >', htmlDecode( '&lt;a &amp; b &gt;&lt;a &amp; b &gt;' ) );
-		},
-
-		test_htmlDecode3: function() {
-			assert.areSame( '&lt; &amp; &gt;', htmlDecode( '&amp;lt; &amp;amp; &amp;gt;' ) );
-		},
-
-		test_htmlDecode4: function() {
-			assert.areSame( '&amp;lt; &amp;amp; &amp;gt;', htmlDecode( '&amp;amp;lt; &amp;amp;amp; &amp;amp;gt;' ) );
-		},
-
-		test_htmlEncode_3874: function() {
+		'test htmlEncode - #3874': function() {
 			assert.areSame( 'line1\nline2', htmlEncode( 'line1\nline2' ) );
 		},
 
-		test_htmlEncodeAttr: function() {
+		'test htmlDecode - all covered entities': function() {
+			assert.areSame( '<a & b >', htmlDecode( '&lt;a &amp; b &gt;' ) );
+		},
+
+		'test htmlDecode - duplications': function() {
+			assert.areSame( '<a & b ><a & b >', htmlDecode( '&lt;a &amp; b &gt;&lt;a &amp; b &gt;' ) );
+		},
+
+		'test htmlDecode - double encoding': function() {
+			assert.areSame( '&lt; &amp; &gt;', htmlDecode( '&amp;lt; &amp;amp; &amp;gt;' ) );
+		},
+
+		'test htmlDecode - triple encoding': function() {
+			assert.areSame( '&amp;lt; &amp;amp; &amp;gt;', htmlDecode( '&amp;amp;lt; &amp;amp;amp; &amp;amp;gt;' ) );
+		},
+
+		'test htmlEncodeAttr - all covered entities': function() {
 			assert.areSame( '&lt;a b=&quot;c&amp;d&quot;/&gt;', CKEDITOR.tools.htmlEncodeAttr( '<a b="c&d"/>' ) );
 		},
 
-		test_htmlDecodeAttr: function() {
+		'test htmlDecodeAttr - all covered entities': function() {
 			assert.areSame( '< " > &', CKEDITOR.tools.htmlDecodeAttr( '&lt; &quot; &gt; &amp;' ) );
 		},
 
-		test_htmlDecodeAttr2: function() {
+		'test htmlDecodeAttr - double encoding': function() {
 			assert.areSame( '&lt; &quot; &gt; &amp;', CKEDITOR.tools.htmlDecodeAttr( '&amp;lt; &amp;quot; &amp;gt; &amp;amp;' ) );
 		},
 
