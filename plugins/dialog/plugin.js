@@ -345,7 +345,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		this.state = CKEDITOR.DIALOG_STATE_IDLE;
 
 		// Observe future state changes and update dialog UI.
-		this.on( 'state', updateDialogStateIndicator );
+		this.on( 'state', onDialogStateChange );
 
 		if ( definition.onCancel ) {
 			this.on( 'cancel', function( evt ) {
@@ -2058,7 +2058,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}
 	}
 
-	// Updates dialog state indicator in the UI.
+	// Updates dialog UI according to the state.
 	//
 	// **Note:** To avoid cluttering dialog DOM, this function appends a spinner (`dialog.parts.spinner`)
 	// to dialog's title bar on demand.
@@ -2066,7 +2066,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	// @since 4.5
 	// @param {CKEDITOR.event} evt State update event, which passes the dialog state in event `data`.
 	// @see CKEDITOR.dialog.setState
-	function updateDialogStateIndicator( evt ) {
+	function onDialogStateChange( evt ) {
 		if ( evt.data == CKEDITOR.DIALOG_STATE_BUSY ) {
 			// Insert the spinner on demand.
 			if ( !this.parts.spinner ) {
@@ -2086,9 +2086,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			// Finally, show the spinner.
 			this.parts.spinner.show();
+
+			this.getButton( 'ok' ).disable();
 		} else if ( evt.data == CKEDITOR.DIALOG_STATE_IDLE ) {
 			// Hide the spinner. But don't do anything if there is no spinner yet.
 			this.parts.spinner && this.parts.spinner.hide();
+
+			this.getButton( 'ok' ).enable();
 		}
 	}
 
