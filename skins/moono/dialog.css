@@ -725,6 +725,22 @@ a.cke_dialog_ui_button_ok:hover
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#88be14', endColorstr='#5d9c0a',GradientType=0 );
 }
 
+a.cke_dialog_ui_button_ok.cke_disabled {
+	border-color: #7D9F51;
+
+	background: #8DAD62;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#B3D271), to(#8DAD62));
+	background-image: -webkit-linear-gradient(top, #B3D271, #8DAD62);
+	background-image: -o-linear-gradient(top, #B3D271, #8DAD62);
+	background-image: linear-gradient(to bottom, #B3D271, #8DAD62);
+	background-image: -moz-linear-gradient(top, #B3D271, #8DAD62);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#B3D271', endColorstr='#8DAD62');
+}
+
+a.cke_dialog_ui_button_ok.cke_disabled span {
+	color: #E0E8D1;
+}
+
 /* Default text shadow used for inner parts of all dialog buttons (both in dialog tabs and dialog footer). */
 a.cke_dialog_ui_button span
 {
@@ -756,6 +772,12 @@ a.cke_dialog_ui_button_ok:focus,
 a.cke_dialog_ui_button_ok:active
 {
 	border-color: #568C0A;
+}
+
+a.cke_dialog_ui_button_ok.cke_disabled:focus,
+a.cke_dialog_ui_button_ok.cke_disabled:active
+{
+	border-color: #6F8C49;
 }
 
 /* 	:focus/:active styles for dialog footer buttons (ok & cancel) spans */
