@@ -1657,12 +1657,14 @@
 			editor.fire( 'saveSnapshot' );
 			editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
-			this.fixSplitNodesAfterDrop(
-				dragRange,
-				dropRange,
-				clipboard.dragStartContainerChildCount,
-				clipboard.dragEndContainerChildCount
-			);
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+				this.fixSplitNodesAfterDrop(
+					dragRange,
+					dropRange,
+					clipboard.dragStartContainerChildCount,
+					clipboard.dragEndContainerChildCount
+				);
+			}
 
 			// Because we manipulate multiple ranges we need to do it carefully,
 			// changing one range (event creating a bookmark) may make other invalid.
