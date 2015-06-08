@@ -29,7 +29,7 @@
 //		* simulate 'beforepaste' for non-IEs on editable
 //		* listen 'onpaste' on editable ('onbeforepaste' for IE)
 //		* fire 'beforePaste' on editor
-//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
+//		* if ( !canceled && ( htmlInDataTransfer || !external paste) && dataTransfer is not empty ) getClipboardDataByPastebin
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
 // -- Copy command
@@ -52,7 +52,7 @@
 //		* listen 'onpaste'
 //		* cancel native event
 //		* fire 'beforePaste' on editor
-//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
+//		* if ( !canceled && ( htmlInDataTransfer || !external paste) && dataTransfer is not empty ) getClipboardDataByPastebin
 //		* execIECommand( 'paste' ) -> this fires another 'paste' event, so cancel it
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
@@ -151,7 +151,7 @@
 					evt.data.dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 				}
 
-				// If dataValue is already set do not override it.
+				// If dataValue is already set (manually or by paste bin), so do not override it.
 				if ( evt.data.dataValue ) {
 					return;
 				}
@@ -1031,9 +1031,9 @@
 					method: 'paste',
 					dataTransfer: clipboard.initPasteDataTransfer( evt )
 				},
-				// True if we can fully rely on data from dataTransfer, this means that
-				// if HTML is available via native paste it is also available via getData.
-				htmlAlwaysInDataTransfer = CKEDITOR.env.chrome;
+				// True if data transfer contains HTML data.
+				htmlInExternalDataTransfer = !CKEDITOR.env.ie && !CKEDITOR.env.safari,
+				external = eventData.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL;
 
 			eventData.dataTransfer.cacheData();
 
@@ -1044,9 +1044,8 @@
 			// after canceling 'beforePaste' event.
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
-			// Do not use paste bin if the browser let us get HTML from dataTranfer
-			// or we can be sure that no HTML in dataTranfer means no HTML at all.
-			if ( beforePasteNotCanceled && ( htmlAlwaysInDataTransfer || eventData.dataTransfer.getData( 'text/html' ) ) ) {
+			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
+			if ( beforePasteNotCanceled && ( htmlInExternalDataTransfer || !external ) && !eventData.dataTransfer.isEmpty() ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
