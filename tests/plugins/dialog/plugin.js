@@ -253,21 +253,56 @@ bender.test( {
 	},
 
 	'test dialog setState': function() {
-		var dialog = new CKEDITOR.dialog( this.editor, 'testDialog1' );
 		var stateEventFired = 0;
 
-		assert.isUndefined( dialog.parts.spinner, 'By default dialog has no spinner' );
-		assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state, 'Default dialog state' );
-
-		dialog.on( 'state', function() {
-			assert.areSame( CKEDITOR.DIALOG_STATE_BUSY, dialog.state, 'New dialog state' );
-			assert.isObject( dialog.parts.spinner, 'Dialog has a spinner element' );
-
-			++stateEventFired;
+		CKEDITOR.dialog.add( 'testDialog5', function() {
+			return {
+				title: 'Test Dialog 5',
+				contents: [
+					{
+						id: 'tab1',
+						label: 'Test 1',
+						elements: [
+							{
+								type: 'text',
+								id: 'foo',
+								label: 'foo',
+								requiredContent: 'p'
+							}
+						]
+					}
+				]
+			};
 		} );
 
-		dialog.setState( CKEDITOR.DIALOG_STATE_BUSY );
-		assert.areSame( 1, stateEventFired, 'State event has been fired' );
+		this.editor.openDialog( 'testDialog5', function( dialog ) {
+			resume( function() {
+				try {
+					assert.isTrue( dialog.getButton( 'ok' ).isEnabled(), 'OK button is enabled.' );
+					assert.isUndefined( dialog.parts.spinner, 'By default dialog has no spinner' );
+					assert.areSame( CKEDITOR.DIALOG_STATE_IDLE, dialog.state, 'Default dialog state' );
+
+					dialog.on( 'state', function() {
+						assert.areSame( CKEDITOR.DIALOG_STATE_BUSY, dialog.state, 'New dialog state' );
+						assert.isFalse( dialog.getButton( 'ok' ).isEnabled(), 'OK button is disabled' );
+						assert.isObject( dialog.parts.spinner, 'Dialog has a spinner element' );
+
+						++stateEventFired;
+					} );
+
+					dialog.setState( CKEDITOR.DIALOG_STATE_BUSY );
+					assert.areSame( 1, stateEventFired, 'State event has been fired' );
+				} catch ( e ) {
+					throw e;
+				} finally {
+					wait( function() {
+						dialog.getButton( 'cancel' ).click();
+					}, 100 );
+				}
+			} );
+		} );
+
+		wait();
 	}
 } );
 
