@@ -88,7 +88,7 @@
 
 		// http://dev.ckeditor.com/ticket/13105#comment:8
 		'test htmlDecode - all covered named entities': function() {
-			assert.areSame( '< a & b > c \u00a0 d \u00ad', htmlDecode( '&lt; a &amp; b &gt; c &nbsp; d &shy;' ) );
+			assert.areSame( '< a & b > c \u00a0 d \u00ad e "', htmlDecode( '&lt; a &amp; b &gt; c &nbsp; d &shy; e &quot;' ) );
 		},
 
 		'test htmlDecode - numeric entities': function() {
