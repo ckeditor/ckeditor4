@@ -296,6 +296,10 @@
 						this.linkElement = link;
 						this.linkEditMode = true;
 
+						// If there is an existing link, by default keep it (true).
+						// It will be removed if certain conditions are met and Link tab is enabled. (#13351)
+						this.addLink = true;
+
 						// Look for Image element.
 						var linkChildren = link.getChildren();
 						if ( linkChildren.count() == 1 ) {
@@ -402,12 +406,12 @@
 					// Insert a new Image.
 					if ( !this.imageEditMode ) {
 						if ( this.addLink ) {
-							//Insert a new Link.
+							// Insert a new Link.
 							if ( !this.linkEditMode ) {
 								editor.insertElement( this.linkElement );
 								this.linkElement.append( this.imageElement, false );
-							} else //Link already exists, image not.
-							editor.insertElement( this.imageElement );
+							} else // Link already exists, image not.
+								editor.insertElement( this.imageElement );
 						} else {
 							editor.insertElement( this.imageElement );
 						}
@@ -978,6 +982,8 @@
 
 									if ( this.getValue() || !editor.config.image_removeLinkByEmptyURL )
 										this.getDialog().addLink = true;
+									else
+										this.getDialog().addLink = false;
 								}
 							}
 						}
