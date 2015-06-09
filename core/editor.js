@@ -1031,7 +1031,7 @@
 		 *		CKEDITOR.instances.editor1.insertHtml( '<p>This is a new paragraph.</p>' );
 		 *
 		 * Fires the {@link #event-insertHtml} and {@link #event-afterInsertHtml} events. The HTML is inserted
-		 * in {@link #event-insertHtml} event's listener with a default priority (10) so you can add listeners with
+		 * in the {@link #event-insertHtml} event's listener with a default priority (10) so you can add listeners with
 		 * lower or higher priorities in order to execute some code before or after the HTML is inserted.
 		 *
 		 * @param {String} html HTML code to be inserted into the editor.
@@ -1043,8 +1043,8 @@
 		 *    the selected position. This mode should be used when inserting "htmlified" plain text
 		 *    (HTML without inline styles and styling elements like `<b>`, `<strong>`, `<span style="...">`).
 		 *
-		 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
-		 * instead of into the selection. The selection will be placed at the end of insertion (like in the normal case).
+		 * @param {CKEDITOR.dom.range} [range] If specified, the HTML will be inserted into the range
+		 * instead of into the selection. The selection will be placed at the end of the insertion (like in the normal case).
 		 * Introduced in CKEditor 4.5.
 		 */
 		insertHtml: function( html, mode, range ) {
@@ -1126,7 +1126,7 @@
 
 		/**
 		 * Gets the selected HTML (it is returned as a {@link CKEDITOR.dom.documentFragment document fragment}
-		 * or a string) and removes the selected part of the DOM. This method is designed to work as user would
+		 * or a string) and removes the selected part of the DOM. This method is designed to work as the user would
 		 * expect the cut and delete functionalities to work.
 		 *
 		 * See also:
@@ -1136,9 +1136,9 @@
 		 *
 		 * @since 4.5
 		 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
-		 * @param {Boolean} [removeEmptyBlock=false] Default `false` means that the function will keep empty block (if the
-		 * whole content was removed) or it will create it (if block element was removed) and set the selection in that block.
-		 * If `true` the empty will be removed or not created. In this case the function will not handle the selection.
+		 * @param {Boolean} [removeEmptyBlock=false] Default `false` means that the function will keep an empty block (if the
+		 * entire content was removed) or it will create it (if a block element was removed) and set the selection in that block.
+		 * If `true`, the empty block will be removed or not created. In this case the function will not handle the selection.
 		 * @returns {CKEDITOR.dom.documentFragment/String/null}
 		 */
 		extractSelectedHtml: function( toString, removeEmptyBlock ) {

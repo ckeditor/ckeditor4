@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -344,7 +344,7 @@
 		 *
 		 * @param {Boolean} [offline] Whether the widgets are offline (detached from the DOM tree) &mdash;
 		 * in this case the DOM (attributes, classes, etc.) will not be cleaned up.
-		 * @param {CKEDITOR.dom.element} [container] Container within widgets will be destroyed.
+		 * @param {CKEDITOR.dom.element} [container] The container within widgets will be destroyed.
 		 * This option will be ignored if the `offline` flag was set to `true`, because in such case
 		 * it is not possible to find widgets within the passed block.
 		 */
