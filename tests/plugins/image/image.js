@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor,unit,image */
 /* bender-ckeditor-plugins: image,button,toolbar,link */
 ( function() {
 	'use strict';
@@ -324,6 +324,67 @@
 				} );
 
 				wait();
+			} );
+		},
+
+		'test insert new image': function() {
+			var htmlWithSelection = '';
+
+			// jscs:disable maximumLineLength
+			var expectedOutput = chooseExpectedOutput( {
+				standard: '<img alt="" src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputIE: '<img alt="" src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputNewIE: '<img alt="" src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputNewIE2: '<img alt="" src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputOpera: '<img alt="" src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
+				outputSafari5: '<img alt="" src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />'
+			} );
+			// jscs:enable maximumLineLength
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				txtUrl: SRC, // set txtUrl first because it will overwrite txtHeight and txtWidth after image loads
+				txtWidth: 414,
+				txtHeight: 86,
+				txtBorder: 2,
+				txtHSpace: 5,
+				txtVSpace: 10,
+				cmbAlign: 'right'
+			} );
+		},
+
+		'test replace selected content': function() {
+			var htmlWithSelection = '<p>my [old] content</p>';
+			var expectedOutput = '<p>my <img alt="" src="' + SRC + '" style="height:10px;width:10px;" /> content</p>';
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				txtUrl: SRC,
+
+				// setting up txtHeight and txtWidth so the test will be unified across browsers
+				// without them, all browsers except of IE8 have style attribute empty, but IE8 sets it anyway
+				txtHeight: 10,
+				txtWidth: 10
+			} );
+		},
+
+		'test replace selected content in link': function() {
+			var htmlWithSelection = '<p>x<a href="#">y[<span contenteditable="false">foo</span>]y</a>x</p>';
+			var expectedOutput = '<p>x<a href="#">y<img alt="" src="' + SRC + '" style="height:10px;width:10px;" />y</a>x</p>';
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				txtUrl: SRC,
+				txtHeight: 10,
+				txtWidth: 10
+			} );
+		},
+
+		'test replace link with text': function() {
+			var htmlWithSelection = '<p>x[<a href="#">foo bar</a>]x</p>';
+			var expectedOutput = '<p>x<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>x</p>';
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				txtUrl: SRC,
+				txtHeight: 10,
+				txtWidth: 10
 			} );
 		}
 	} );
