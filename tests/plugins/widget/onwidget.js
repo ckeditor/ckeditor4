@@ -4,7 +4,9 @@
 	'use strict';
 
 	var Repository,
-		Widget;
+		Widget,
+		onSpy,
+		repo;
 
 	function widgetElementFactory() {
 		var span = new CKEDITOR.dom.element( 'span' );
@@ -21,152 +23,73 @@
 	};
 
 	bender.test( {
-		'test has onWidget function': function() {
+		'setUp': function() {
 			Repository = CKEDITOR.plugins.widget.repository;
+			Widget = CKEDITOR.plugins.widget;
+			repo = new Repository( bender.editors.editor );
 
-			var repo = new Repository( bender.editors.editor );
+			onSpy = sinon.spy( Widget.prototype, 'on' );
+		},
 
+		'tearDown': function() {
+			Widget.prototype.on.restore();
+		},
+
+		'test has onWidget function': function() {
 			assert.isFunction( repo.onWidget );
 		},
 
-		'test event fired repository': function() {
-			Repository = CKEDITOR.plugins.widget.repository;
-			Widget = CKEDITOR.plugins.widget;
+		'test event listener added on existing widget': function() {
+			var cbMock = sinon.mock();
 
-			var repo = new Repository( bender.editors.editor ),
-				element = widgetElementFactory();
-
-			var widget = new Widget( repo, 1, element, { name: 'image' }, {} );
-
+			var widget = new Widget( repo, 1, widgetElementFactory(), { name: 'image' }, {} );
 			repo.instances[ widget.id ] = widget;
-			var cbSpy = sinon.spy();
 
-			repo.onWidget( 'image', 'action', cbSpy );
-			widget.fire( 'action' );
+			repo.onWidget( 'image', 'action', cbMock );
 
-			assert.isTrue( cbSpy.calledOnce );
+			assert.isTrue( onSpy.calledOn( widget ) );
+			assert.isTrue( onSpy.calledWith( 'action', cbMock ) );
 		},
 
-		'test event fired with data': function() {
-			Repository = CKEDITOR.plugins.widget.repository;
-			Widget = CKEDITOR.plugins.widget;
+		'test event listener added for element added to repo after calling "onWidget" method': function() {
+			var cbMock = sinon.mock();
 
-			var repo = new Repository( bender.editors.editor ),
-				element = widgetElementFactory(),
-				widget = new Widget( repo, 1, element, { name: 'image' }, {} ),
-				cbSpy = sinon.spy();
+			repo.onWidget( 'image', 'action', cbMock );
 
+			var widget = new Widget( repo, 1, widgetElementFactory(), { name: 'image' }, {} );
 			repo.instances[ widget.id ] = widget;
 
-			repo.onWidget( 'image', 'action', cbSpy );
-			widget.fire( 'action', { foo: 'bar' } );
-
-			assert.areSame( 'bar', cbSpy.args[ 0 ][ 0 ].data.foo );
+			assert.isTrue( onSpy.firstCall.calledOn( widget ) );
+			assert.isTrue( onSpy.firstCall.calledWithExactly( 'action', cbMock ) );
 		},
 
-		'test event fired with context': function() {
-			Repository = CKEDITOR.plugins.widget.repository;
-			Widget = CKEDITOR.plugins.widget;
+		'test event listener not added for different widget type': function() {
+			repo.onWidget( 'image', 'action', sinon.mock() );
 
-			var repo = new Repository( bender.editors.editor ),
-				element = widgetElementFactory(),
-				widget = new Widget( repo, 1, element, { name: 'image' }, {} ),
-				cbSpy = sinon.spy();
-
+			var widget = new Widget( repo, 1, widgetElementFactory(), { name: 'notimage' }, {} );
 			repo.instances[ widget.id ] = widget;
 
-			repo.onWidget( 'image', 'action', cbSpy );
-			widget.fire( 'action', { foo: 'bar' } );
-
-			assert.isTrue( cbSpy.calledOn( widget ) );
+			assert.isTrue( onSpy.neverCalledWith( 'action' ) );
 		},
 
-		'test event fired with overwritten context': function() {
-			Repository = CKEDITOR.plugins.widget.repository;
-			Widget = CKEDITOR.plugins.widget;
+		'test event listener not added for different widget type 2': function() {
+			repo.onWidget( 'notimage', 'action', sinon.mock() );
 
-			var repo = new Repository( bender.editors.editor ),
-				element = widgetElementFactory(),
-				widget = new Widget( repo, 1, element, { name: 'image' }, {} ),
-				cbSpy = sinon.spy(),
-				context = {};
-
+			var widget = new Widget( repo, 1, widgetElementFactory(), { name: 'image' }, {} );
 			repo.instances[ widget.id ] = widget;
 
-			repo.onWidget( 'image', 'action', cbSpy, context );
-			widget.fire( 'action', { foo: 'bar' } );
-
-			assert.isTrue( cbSpy.calledOn( context ) );
+			assert.isTrue( onSpy.neverCalledWith( 'action' ) );
 		},
 
-		'test event fired for element added to repo after callback': function() {
-			Repository = CKEDITOR.plugins.widget.repository;
-			Widget = CKEDITOR.plugins.widget;
+		'test event listener called with proper arguments': function() {
+			var cbMock = sinon.mock();
 
-			var repo = new Repository( bender.editors.editor ),
-				element = widgetElementFactory(),
-				cbSpy = sinon.spy();
+			repo.onWidget( 'image', 'action', cbMock, null, null, 5 );
 
-			repo.onWidget( 'image', 'action', cbSpy );
-
-			var widget = new Widget( repo, 1, element, { name: 'image' }, {} );
+			var widget = new Widget( repo, 1, widgetElementFactory(), { name: 'image' }, {} );
 			repo.instances[ widget.id ] = widget;
-			widget.fire( 'action' );
 
-			assert.isTrue( cbSpy.calledOnce );
-		},
-
-		'test event not fired for different widget type': function() {
-			Repository = CKEDITOR.plugins.widget.repository;
-			Widget = CKEDITOR.plugins.widget;
-
-			var repo = new Repository( bender.editors.editor ),
-				element = widgetElementFactory(),
-				cbSpy = sinon.spy();
-
-			repo.onWidget( 'image', 'action', cbSpy );
-
-			var widget = new Widget( repo, 1, element, { name: 'notimage' }, {} );
-			repo.instances[ widget.id ] = widget;
-			widget.fire( 'action' );
-
-			assert.isTrue( cbSpy.notCalled );
-		},
-
-		'test event not fired for different widget type 2': function() {
-			Repository = CKEDITOR.plugins.widget.repository;
-			Widget = CKEDITOR.plugins.widget;
-
-			var repo = new Repository( bender.editors.editor ),
-				element = widgetElementFactory(),
-				cbSpy = sinon.spy();
-
-			repo.onWidget( 'notimage', 'action', cbSpy );
-
-			var widget = new Widget( repo, 1, element, { name: 'image' }, {} );
-			repo.instances[ widget.id ] = widget;
-			widget.fire( 'action' );
-
-			assert.isTrue( cbSpy.notCalled );
-		},
-
-		'test event fired in proper order based on priority': function() {
-			Repository = CKEDITOR.plugins.widget.repository;
-			Widget = CKEDITOR.plugins.widget;
-
-			var repo = new Repository( bender.editors.editor ),
-				element = widgetElementFactory(),
-				cbSpy1 = sinon.spy(),
-				cbSpy2 = sinon.spy();
-
-			repo.onWidget( 'image', 'action', cbSpy1, null, null, 5 );
-			repo.onWidget( 'image', 'action', cbSpy2, null, null, 10 );
-
-			var widget = new Widget( repo, 1, element, { name: 'image' }, {} );
-			repo.instances[ widget.id ] = widget;
-			widget.fire( 'action' );
-
-			assert.isTrue( cbSpy1.calledBefore( cbSpy2 ) );
+			assert.isTrue( onSpy.firstCall.calledWithExactly( 'action', cbMock, null, null, 5 ) );
 		}
 	} );
 }() );
