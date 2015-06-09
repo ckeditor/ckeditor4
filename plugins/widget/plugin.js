@@ -201,7 +201,7 @@
 		/**
 		 * Allows to listen to events on specific types of widgets, even if they are not created yet.
 		 *
-		 * Please note that this method inherits parameters from {@link CKEDITOR.event#method-on on method} with one extra parameter at the beginning which is a widget type.
+		 * Please note that this method inherits parameters from {@link CKEDITOR.event#method-on on method} with one extra parameter at the beginning which is a widget name.
 		 *
 		 * 		editor.widgets.onWidget( 'image', 'action', function( evt ) {
 		 * 			// Event `action` occurs on `image` widget.
@@ -209,6 +209,11 @@
 		 *
 		 * @since 4.5
 		 * @param {String} widgetName
+		 * @param {String} eventName
+		 * @param {Function} listenerFunction
+		 * @param {Object} [scopeObj]
+		 * @param {Object} [listenerData]
+		 * @param {Number} [priority=10]
 		 */
 		onWidget: function( widgetName ) {
 			var args = Array.prototype.slice.call( arguments );
@@ -226,7 +231,7 @@
 			this.on( 'instanceCreated', function( evt ) {
 				var widget = evt.data;
 
-				if ( widget.name === widgetName ) {
+				if ( widget.name == widgetName ) {
 					widget.on.apply( widget, args );
 				}
 			} );
