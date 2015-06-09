@@ -618,7 +618,7 @@ var testsForMultipleEditor = {
 			assert.isTrue( listener.calledOnce );
 		},
 
-		'test fixSplittedNodes': function() {
+		'test fix split nodes': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
 				dragRange = editor.createRange(),
@@ -653,7 +653,7 @@ var testsForMultipleEditor = {
 			assert.isInnerHtmlMatching( '<p class="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 		},
 
-		'test fixSplittedNodes 2 (#13011)': function() {
+		'test fix split nodes 2 (#13011)': function() {
 			// <p id="p"> " f o o " " b a r " <img /> </p>
 			//                     ^         [       ]
 			//                     drop      drag
@@ -688,7 +688,7 @@ var testsForMultipleEditor = {
 			assert.areSame( 'foobar', p.getChild( 0 ).getText() );
 		},
 
-		'test fixSplittedNodes 3': function() {
+		'test fix split nodes 3': function() {
 			// In this test nothing should change because drop range is not between two text nodes.
 			// <p> " f o o " <img /> " b a r "  </p>
 			//              ^           { }
