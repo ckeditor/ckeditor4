@@ -4,48 +4,13 @@
 	'use strict';
 
 	var Repository,
-		Widget,
-		editorMock = {
-			on: function() {},
-			plugins: {
-				widget: {
-					path: ''
-				}
-			},
-			lang: {
-				widget: {
-					move: ''
-				}
-			},
-			editable: function() {
-				return {
-					contains: function() {
-						return false;
-					}
-				};
-			}
-		};
+		Widget;
 
-	function mockElement() {
-		return {
-			getAttribute: function() {},
-			data: function() {},
-			addClass: function() {},
-			getParent: function() {
-				return {
-					getName: function() {
-						return 'span';
-					},
-					setAttribute: function() {
+	function widgetElementFactory() {
+		var span = new CKEDITOR.dom.element( 'span' );
+		new CKEDITOR.dom.element( 'p' ).append( span );
 
-					},
-					getLast: function() {},
-					append: function() {},
-					on: function() {},
-					removeClass: function() {}
-				};
-			}
-		};
+		return span;
 	}
 
 	bender.editors = {
@@ -59,7 +24,7 @@
 		'test has onWidget function': function() {
 			Repository = CKEDITOR.plugins.widget.repository;
 
-			var repo = new Repository( editorMock );
+			var repo = new Repository( bender.editors.editor );
 
 			assert.isFunction( repo.onWidget );
 		},
@@ -68,8 +33,8 @@
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
 
-			var repo = new Repository( editorMock ),
-				element = mockElement();
+			var repo = new Repository( bender.editors.editor ),
+				element = widgetElementFactory();
 
 			var widget = new Widget( repo, 1, element, { name: 'image' }, {} );
 
@@ -86,8 +51,8 @@
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
 
-			var repo = new Repository( editorMock ),
-				element = mockElement(),
+			var repo = new Repository( bender.editors.editor ),
+				element = widgetElementFactory(),
 				widget = new Widget( repo, 1, element, { name: 'image' }, {} ),
 				cbSpy = sinon.spy();
 
@@ -103,8 +68,8 @@
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
 
-			var repo = new Repository( editorMock ),
-				element = mockElement(),
+			var repo = new Repository( bender.editors.editor ),
+				element = widgetElementFactory(),
 				widget = new Widget( repo, 1, element, { name: 'image' }, {} ),
 				cbSpy = sinon.spy();
 
@@ -120,8 +85,8 @@
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
 
-			var repo = new Repository( editorMock ),
-				element = mockElement(),
+			var repo = new Repository( bender.editors.editor ),
+				element = widgetElementFactory(),
 				widget = new Widget( repo, 1, element, { name: 'image' }, {} ),
 				cbSpy = sinon.spy(),
 				context = {};
@@ -138,8 +103,8 @@
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
 
-			var repo = new Repository( editorMock ),
-				element = mockElement(),
+			var repo = new Repository( bender.editors.editor ),
+				element = widgetElementFactory(),
 				cbSpy = sinon.spy();
 
 			repo.onWidget( 'image', 'action', cbSpy );
@@ -155,8 +120,8 @@
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
 
-			var repo = new Repository( editorMock ),
-				element = mockElement(),
+			var repo = new Repository( bender.editors.editor ),
+				element = widgetElementFactory(),
 				cbSpy = sinon.spy();
 
 			repo.onWidget( 'image', 'action', cbSpy );
@@ -172,8 +137,8 @@
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
 
-			var repo = new Repository( editorMock ),
-				element = mockElement(),
+			var repo = new Repository( bender.editors.editor ),
+				element = widgetElementFactory(),
 				cbSpy = sinon.spy();
 
 			repo.onWidget( 'notimage', 'action', cbSpy );
@@ -189,8 +154,8 @@
 			Repository = CKEDITOR.plugins.widget.repository;
 			Widget = CKEDITOR.plugins.widget;
 
-			var repo = new Repository( editorMock ),
-				element = mockElement(),
+			var repo = new Repository( bender.editors.editor ),
+				element = widgetElementFactory(),
 				cbSpy1 = sinon.spy(),
 				cbSpy2 = sinon.spy();
 
