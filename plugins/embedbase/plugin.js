@@ -20,22 +20,22 @@
 	} );
 
 	/**
-	 * Creates new embed widget base definition. After other necessary properties are filled this definition
+	 * Creates a new embed widget base definition. After other necessary properties are filled this definition
 	 * may be {@link CKEDITOR.plugins.widget.repository#add registered} as a new, independent widget for
 	 * embedding content.
 	 *
 	 * By default an embed widget is set up to work with [oEmbed providers](http://www.oembed.com/) using JSONP
 	 * requests, such as [Iframely](https://iframely.com/) or [Noembed](https://noembed.com/). It can be,
-	 * however, easily reconfigured to use other providers and communication methods, including custom systems
-	 * or embed local databases.
+	 * however, easily configured to use other providers and communication methods, including custom systems
+	 * or local embed databases.
 	 *
 	 * See example usage of this method in:
 	 *
 	 * * [/plugins/embed/plugin.js](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/embed/plugin.js)
 	 * * [/plugins/embedsemantic/plugin.js](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/embedsemantic/plugin.js)
 	 *
-	 * Note that both these plugins reuse a [dialog](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/embedbase/dialogs/embedbase.js)
-	 * defined by the `embedbase` plugin. Integration of an asynchronous way of loading content with a dialog requires additional
+	 * Note that both these plugins reuse the [dialog](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/embedbase/dialogs/embedbase.js)
+	 * defined by the `embedbase` plugin. Integration of the asynchronous way of loading content with a dialog requires additional
 	 * effort. Check the dialog's code for more details.
 	 *
 	 * @static
@@ -48,14 +48,14 @@
 			lang = editor.lang.embedbase;
 
 		/**
-		 * An embed widget base definition. It predefines a few {@link CKEDITOR.plugins.widget.definition widget definition's}
-		 * properties such as {@link #mask}, {@link #template} and {@link #pathName} and adds methods related to the
+		 * An embed widget base definition. It predefines a few {@link CKEDITOR.plugins.widget.definition widget definition}
+		 * properties such as {@link #mask}, {@link #template} and {@link #pathName} and adds methods related to
 		 * content embedding.
 		 *
 		 * To create a base definition use the {@link CKEDITOR.plugins.embedBase#createWidgetBaseDefinition} method.
 		 *
 		 * Note: For easier browsing of this class's API you can hide inherited method using the "Show" drop-down
-		 * on the right hand side.
+		 * on the right-hand side.
 		 *
 		 * @abstract
 		 * @class CKEDITOR.plugins.embedBase.baseDefinition
@@ -74,7 +74,7 @@
 			_cache: {},
 
 			/**
-			 * Regexp to pre-validate URLs.
+			 * A regular expression to pre-validate URLs.
 			 *
 			 * See:
 			 *
@@ -84,27 +84,27 @@
 			urlRegExp: /^((https?:)?\/\/|www\.)/i,
 
 			/**
-			 * The template used to generate URL to the content provider. Content provider is a service
+			 * The template used to generate the URL of the content provider. Content provider is a service
 			 * which the embed widget will request in order to get an [oEmbed](http://www.oembed.com/) response that
-			 * can be transformed into a content which can be embedded in the editor.
+			 * can be transformed into content which can be embedded in the editor.
 			 *
 			 * Example content providers are:
 			 *
 			 * * [Iframely](https://iframely.com/),
 			 * * [Noembed](https://noembed.com/).
 			 *
-			 * Both, Iframely and Noembed are **proxy** services which support **JSONP requests**, hence they are not limited by the
-			 * Same-origin policy. Unfortunately, usually oEmbed services exposed by real content providers
-			 * like YouTube or Twitter do not support XHR with CORS or do not support oEmbed at all what makes it
-			 * impossible or hard to get content to be embedded in the editor. This problem is solved by proxy content providers
+			 * Both Iframely and Noembed are **proxy** services which support **JSONP requests**, hence they are not limited by the
+			 * same-origin policy. Unfortunately, usually oEmbed services exposed by real content providers
+			 * like YouTube or Twitter do not support XHR with CORS or do not support oEmbed at all which makes it
+			 * impossible or hard to get such content to be embedded in the editor. This problem is solved by proxy content providers
 			 * like Iframely and Noembed.
 			 *
 			 * This property must be defined after creating an embed widget base definition.
 			 *
 			 * By default two values are passed to the template:
 			 *
-			 * * `{url}` &ndash; URL of the resource to be embedded,
-			 * * `{callback}` &ndash; JSONP callback to be executed.
+			 * * `{url}` &ndash; The URL of the resource to be embedded.
+			 * * `{callback}` &ndash; The JSONP callback to be executed.
 			 *
 			 * Example value:
 			 *
@@ -142,17 +142,17 @@
 			},
 
 			/**
-			 * Loads content for a given resource URL by requesting a {@link #providerUrl provider}.
+			 * Loads content for a given resource URL by requesting the {@link #providerUrl provider}.
 			 *
 			 * Usually widgets are controlled by the {@link CKEDITOR.plugins.widget#setData} method. However,
 			 * loading content is an asynchronous operation due to client-server communication, and it would not
 			 * be possible to pass callbacks to the {@link CKEDITOR.plugins.widget#setData} method so this new method
 			 * is defined for embed widgets.
 			 *
-			 * This method fires two events that allows to customize widget behavior without changing its code:
+			 * This method fires two events that allow to customize widget behavior without changing its code:
 			 *
 			 * * {@link #sendRequest},
-			 * * {@link #handleResponse} (if request was successful).
+			 * * {@link #handleResponse} (if the request was successful).
 			 *
 			 * Note: This method is always asynchronous, even if the cache was hit.
 			 *
@@ -174,10 +174,11 @@
 			 *
 			 * @param {String} url Resource URL to be embedded.
 			 * @param {Object} opts
-			 * @param {Function} [opts.callback] Callback called when content was successfully loaded into editor.
+			 * @param {Function} [opts.callback] Callback called when content was successfully loaded into the editor.
 			 * @param {Function} [opts.errorCallback] Callback called when an error occurred.
 			 * @param {String} opts.errorCallback.messageTypeOrMessage See {@link #getErrorMessage}.
-			 * @param {Boolean} [opts.noNotifications] Do not show notifications (useful when dialog is open).
+			 * @param {Boolean} [opts.noNotifications] Do not show notifications (useful when the dialog is open).
+			 * @returns {CKEDITOR.plugins.embedBase.request}
 			 */
 			loadContent: function( url, opts ) {
 				opts = opts || {};
@@ -221,12 +222,14 @@
 						}
 					}
 				}
+
+				return request;
 			},
 
 			/**
-			 * Checks whether URL is valid. Usually the content provider makes the final validation
-			 * as only it knows what kind of URLs it accepts. However, to give user some immediate feedback
-			 * a synchronous validation is performed using {@link #urlRegExp} pattern and {@link #validateUrl} event.
+			 * Checks whether the URL is valid. Usually the content provider makes the final validation
+			 * as only the provider knows what kind of URLs are accepted. However, to give the user some immediate feedback
+			 * a synchronous validation is performed using the {@link #urlRegExp} pattern and the {@link #validateUrl} event.
 			 *
 			 * @param {String} url The URL to check.
 			 * @returns {Boolean} Whether the URL is valid (supported).
@@ -236,22 +239,22 @@
 			},
 
 			/**
-			 * Generates an error message based on message type (with possible suffix) or
-			 * a custom message template.
+			 * Generates an error message based on the message type (with a possible suffix) or
+			 * the custom message template.
 			 *
 			 * This method is used when showing a notification or an alert (in a dialog) about an error.
-			 * Usually it's used with error type which is a string from `editor.lang.embedbase` object.
+			 * Usually it is used with an error type which is a string from the `editor.lang.embedbase` object.
 			 *
 			 * There are two error types available at the moment: `'unsupportedUrl'` and `'fetchingFailed'`.
 			 * Additionally, both can be suffixed with `'Given'`. See the language entries to see the difference.
 			 * Inside the dialog this method is used with a suffix and to generate a notification message it is
 			 * used without a suffix.
 			 *
-			 * Additionally, a custom message may be passed and as well as language entries it can use the `{url}`
+			 * Additionally, a custom message may be passed and just like language entries, it can use the `{url}`
 			 * placeholder.
 			 *
-			 * While {@link #handleResponse handling response} you can set an error message or its type. It will
-			 * be later passed to this method.
+			 * While {@link #handleResponse handling the response} you can set an error message or its type. It will
+			 * be passed to this method later.
 			 *
 			 *		widget.on( 'handleResponse', function( evt ) {
 			 *			if ( evt.data.response.type != 'rich' ) {
@@ -291,32 +294,38 @@
 			},
 
 			/**
-			 * Sends a request to the {@link #providerUrl provider} using
-			 * {@link CKEDITOR.plugins.embedBase._jsonp JSONP} technique.
+			 * Sends the request to the {@link #providerUrl provider} using
+			 * the {@link CKEDITOR.plugins.embedBase._jsonp JSONP} technique.
 			 *
 			 * @private
 			 * @param {CKEDITOR.plugins.embedBase.request} request
 			 */
 			_sendRequest: function( request ) {
-				Jsonp.sendRequest(
-					this.providerUrl,
-					{
-						url: encodeURIComponent( request.url )
-					},
-					request.callback,
-					function() {
-						request.errorCallback( 'fetchingFailed' );
-					}
-				);
+				var that = this,
+					jsonpRequest = Jsonp.sendRequest(
+						this.providerUrl,
+						{
+							url: encodeURIComponent( request.url )
+						},
+						request.callback,
+						function() {
+							request.errorCallback( 'fetchingFailed' );
+						}
+					);
+
+				request.cancel = function() {
+					jsonpRequest.cancel();
+					that.fire( 'requestCanceled', request );
+				};
 			},
 
 			/**
-			 * Handles successful request's response.
+			 * Handles the response of a successful request.
 			 *
-			 * Fires {@link #handleResponse} event in order to convert the oEmbed response
+			 * Fires the {@link #handleResponse} event in order to convert the oEmbed response
 			 * to HTML that can be embedded.
 			 *
-			 * If the response can be handled the {@link #_setContent content is set}.
+			 * If the response can be handled, the {@link #_setContent content is set}.
 			 *
 			 * @private
 			 * @param {CKEDITOR.plugins.embedBase.request} request
@@ -344,7 +353,7 @@
 			},
 
 			/**
-			 * Handles error. An error can be caused either by request failure or unsupported
+			 * Handles an error. An error can be caused either by a request failure or an unsupported
 			 * oEmbed response type.
 			 *
 			 * @private
@@ -360,10 +369,10 @@
 			},
 
 			/**
-			 * Tries to return an embeddable HTML for the oEmbed response.
+			 * Returns embeddable HTML for an oEmbed response if it is of the `photo`, `video` or `rich` type.
 			 *
 			 * @private
-			 * @param {Object} response OEmbed response.
+			 * @param {Object} response The oEmbed response.
 			 * @returns {String/null} HTML string to be embedded or `null` if this response type is not supported.
 			 */
 			_responseToHtml: function( url, response ) {
@@ -378,7 +387,7 @@
 			},
 
 			/**
-			 * The very final step of {@link #loadContent content loading}. The data property `url` is changed
+			 * The very final step of {@link #loadContent content loading}. The `url` data property is changed
 			 * and the content is embedded ({@link CKEDITOR.plugins.widget#element}'s HTML is set).
 			 *
 			 * @private
@@ -391,7 +400,7 @@
 			},
 
 			/**
-			 * Creates notification aggregator's task.
+			 * Creates a notification aggregator task.
 			 *
 			 * @private
 			 * @returns {CKEDITOR.plugins.notificationAggregator.task}
@@ -409,7 +418,7 @@
 			},
 
 			/**
-			 * Caches provider's response.
+			 * Caches the provider response.
 			 *
 			 * @private
 			 * @param {String} url
@@ -420,11 +429,11 @@
 			},
 
 			/**
-			 * Returns cached response.
+			 * Returns the cached response.
 			 *
 			 * @private
 			 * @param {String} url
-			 * @returns {Object/undefined} Response or `undefined` if cache was missed.
+			 * @returns {Object/undefined} Response or `undefined` if the cache was missed.
 			 */
 			_getCachedResponse: function( url ) {
 				return this._cache[ url ];
@@ -432,7 +441,7 @@
 		};
 
 		/**
-		 * Fired by {@link #isUrlValid}. Cancel the event to make an URL invalid.
+		 * Fired by the {@link #isUrlValid} method. Cancel the event to make the URL invalid.
 		 *
 		 * @event validateUrl
 		 * @param {String} data The URL being validated.
@@ -440,14 +449,14 @@
 
 		/**
 		 * Fired by the {@link #loadContent} method to dispatch a request to the provider.
-		 * You can cancel this event and send request using a different technique.
-		 * By default, if the event is not stopped or canceled a request will be send
+		 * You can cancel this event and send the request using a different technique.
+		 * By default, if the event is not stopped or canceled a request will be sent
 		 * using the JSONP technique.
 		 *
 		 *		widget.on( 'sendRequest', function( evt ) {
 		 *			var request = evt.data;
 		 *
-		 *			// Send request using a technique of your choice (XHR with CORS for instance).
+		 *			// Send the request using a technique of your choice (XHR with CORS for instance).
 		 *			myApp.requestOembedProvider( request.url, function( err, response ) {
 		 *				if ( err ) {
 		 *					request.errorCallback( err );
@@ -467,7 +476,7 @@
 
 		/**
 		 * Fired after receiving a response from the {@link #providerUrl provider}.
-		 * This event's listeners job is to turn oEmbed response to an embeddable HTML by setting
+		 * This event listener job is to turn the oEmbed response to embeddable HTML by setting
 		 * `evt.data.html`.
 		 *
 		 *		widget.on( 'handleReaponse', function( evt ) {
@@ -479,14 +488,14 @@
 		 *
 		 *		widget.on( 'handleReaponse', function( evt ) {
 		 *			if ( evt.data.response.type == 'photo' ) {
-		 *				// Will display editor.lang.embedbase.unsupportedUrl(Given) message.
+		 *				// Will display the editor.lang.embedbase.unsupportedUrl(Given) message.
 		 *				evt.data.errorMessage = 'unsupportedUrl';
 		 *				evt.cancel();
 		 *			}
 		 *		} );
 		 *
-		 * This even has a default late-listener (with priority `999`) that, if `evt.data.html` has not
-		 * been set yet will try to handle the response by using the {@link #_responseToHtml} method.
+		 * This event has a default late-listener (with a priority of `999`) that, if `evt.data.html` has not
+		 * been set yet, will try to handle the response by using the {@link #_responseToHtml} method.
 		 *
 		 * @event handleResponse
 		 * @param {Object} data
@@ -494,7 +503,7 @@
 		 * @param {Object} data.response The oEmbed response.
 		 * @param {String} [data.html=''] The HTML which will be embedded.
 		 * @param {String} [data.errorMessage] The error message or message type (see {@link #getErrorMessage})
-		 * that must be set if this event is canceled to indicate unsupported oEmbed response.
+		 * that must be set if this event is canceled to indicate an unsupported oEmbed response.
 		 */
 	}
 
@@ -507,12 +516,12 @@
 	 */
 	var Jsonp = {
 		/**
-		 * Creates `<script>` element and attaches it to the document `<body>`.
+		 * Creates a `<script>` element and attaches it to the document `<body>`.
 		 *
 		 * @private
 		 */
 		_attachScript: function( url, errorCallback ) {
-			// ATM we can't use CKE scriptloader here, because it will make sure that script
+			// ATM we cannot use CKE scriptloader here, because it will make sure that script
 			// with given URL is added only once.
 			var script = new CKEDITOR.dom.element( 'script' );
 			script.setAttribute( 'src', url );
@@ -524,15 +533,17 @@
 		},
 
 		/**
-		 * Sends request using JSONP technique.
+		 * Sends a request using the JSONP technique.
 		 *
-		 * @param {CKEDITOR.template} urlTemplate Template of the URL to be requested. All properties
-		 * passed in `urlParams` can be used, plus `{callback}` must be defined which represent JSONP callback.
-		 * @param {Object} urlParams Params to be passed to the `urlTemplate`.
+		 * @param {CKEDITOR.template} urlTemplate The template of the URL to be requested. All properties
+		 * passed in `urlParams` can be used, plus a `{callback}`, which represent a JSONP callback, must be defined.
+		 * @param {Object} urlParams Parameters to be passed to the `urlTemplate`.
 		 * @param {Function} callback
-		 * @param {Function} errorCallback
+		 * @param {Function} [errorCallback]
+		 * @returns {Object} The request object with a `cancel()` method.
 		 */
 		sendRequest: function( urlTemplate, urlParams, callback, errorCallback ) {
+			var request = {};
 			urlParams = urlParams || {};
 
 			var callbackKey = CKEDITOR.tools.getNextNumber(),
@@ -552,18 +563,25 @@
 
 			scriptElement = this._attachScript( urlTemplate.output( urlParams ), function() {
 				cleanUp();
-				errorCallback();
+				errorCallback && errorCallback();
 			} );
 
+			request.cancel = cleanUp;
+
 			function cleanUp() {
-				scriptElement.remove();
-				delete CKEDITOR._.jsonpCallbacks[ callbackKey ];
+				if ( scriptElement ) {
+					scriptElement.remove();
+					delete CKEDITOR._.jsonpCallbacks[ callbackKey ];
+					scriptElement = null;
+				}
 			}
+
+			return request;
 		}
 	};
 
 	/**
-	 * Class representing a request object. It is created by the {@link CKEDITOR.plugins.embedBase.baseDefinition#loadContent}
+	 * Class representing the request object. It is created by the {@link CKEDITOR.plugins.embedBase.baseDefinition#loadContent}
 	 * method and is passed to other methods and events of this class.
 	 *
 	 * @abstract
@@ -577,7 +595,7 @@
 	 */
 
 	/**
-	 * Success callback to be executed once request's response is received.
+	 * Success callback to be executed once a response to a request is received.
 	 *
 	 * @property {Function} [callback]
 	 * @param {Object} response The response object.
@@ -600,6 +618,12 @@
 	 * Response object. It is set once a response is received.
 	 *
 	 * @property {Object} [response]
+	 */
+
+	/**
+	 * Cancels the request.
+	 *
+	 * @method cancel
 	 */
 
 	CKEDITOR.plugins.embedBase = {

@@ -1,3 +1,8 @@
+/**
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
+ */
+
 /* jshint node: true, browser: false, es3: false */
 
 'use strict';
@@ -5,15 +10,22 @@
 module.exports = function( grunt ) {
 	var banner = [
 			'/**',
-			' * Copyright (c) 2003-' + new Date().getFullYear() + ', CKSource - Frederico Knabben. All rights reserved.',
-			' * For licensing, see LICENSE.html or http://cksource.com/ckeditor/license',
-			' */',
+			' * @license Copyright (c) 2003-' + new Date().getFullYear() + ', CKSource - Frederico Knabben. All rights reserved.',
+			' * For licensing, see LICENSE.md or http://ckeditor.com/license',
+			' */\n',
 		],
-		jsBanner = banner.concat( [ '', '// jscs: disable', '// jshint ignore: start', '' ] ),
+		lintFreeBlockTemplate = [
+			'// jshint ignore:start',
+			'// jscs:disable',
+			'<%= block %>',
+			'// jscs:enable',
+			'// jshint ignore:end'
+		].join( '\n' ),
 		samplesFrameworkDir = 'node_modules/cksource-samples-framework',
 		samplesFrameworkJsFiles = [
 			samplesFrameworkDir + '/js/sf.js',
-			samplesFrameworkDir + '/components/**/*.js'
+			samplesFrameworkDir + '/components/**/*.js',
+			samplesFrameworkDir + '/node_modules/picomodal/src/picoModal.js'
 		];
 
 	grunt.config.merge( {
@@ -72,7 +84,17 @@ module.exports = function( grunt ) {
 			samples: {
 				options: {
 					stripBanners: true,
-					banner: jsBanner.join( '\n' )
+					banner: banner.join( '\n' ),
+
+					// Don't run the linter on 3rd party libraries. You wouldn't be able to fix the errors anyway.
+					process: function( src, path ) {
+						console.log( path );
+						if ( path.match( /cksource-samples-framework\/node_modules/ig ) ) {
+							src = grunt.template.process( lintFreeBlockTemplate, { data: { block: src } } );
+						}
+
+						return src;
+					}
 				},
 				src: samplesFrameworkJsFiles,
 				dest: 'samples/js/sf.js'

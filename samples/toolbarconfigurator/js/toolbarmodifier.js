@@ -25,15 +25,25 @@
 
 		this.toolbarButtons = [
 			{
-				text: 'Toggle visibility of empty elements',
+				text: {
+					active: 'Hide empty toolbar groups',
+					inactive: 'Show empty toolbar groups'
+				},
 				group: 'edit',
 				position: 'left',
 				cssClass: 'button-a-soft',
-				clickCallback: function( button ) {
+				clickCallback: function( button, buttonDefinition ) {
 					var className = 'button-a-background';
 
 					button[ button.hasClass( className ) ? 'removeClass' : 'addClass' ]( className );
+
 					this._toggleVisibilityEmptyElements();
+
+					if ( this.emptyVisible ) {
+						button.setText( buttonDefinition.text.active );
+					} else {
+						button.setText( buttonDefinition.text.inactive );
+					}
 				}
 			},
 			{

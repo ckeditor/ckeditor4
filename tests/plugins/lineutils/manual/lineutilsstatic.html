@@ -1,0 +1,222 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+	<style type="text/css">
+		/* Force horizontal page scroll – it's crucial for this test.  */
+		#editors {
+			margin-left: 2000px;
+		}
+
+		.inline-editor {
+			width: 600px;
+		}
+	</style>
+</head>
+
+<div id="editors">
+	<h2>Classic (iframe-based) Editor</h2>
+
+	<textarea id="editor1" cols="10" rows="10">
+		&lt;table border=&quot;0&quot; cellpadding=&quot;1&quot; cellspacing=&quot;1&quot; style=&quot;width: 100%; &quot;&gt;
+			&lt;tbody&gt;
+				&lt;tr&gt;
+					&lt;td&gt;This table&lt;/td&gt;
+					&lt;td&gt;is the&lt;/td&gt;
+					&lt;td&gt;very first&lt;/td&gt;
+					&lt;td&gt;element of the document.&lt;/td&gt;
+				&lt;/tr&gt;
+				&lt;tr&gt;
+					&lt;td&gt;We are still&lt;/td&gt;
+					&lt;td&gt;able to acces&lt;/td&gt;
+					&lt;td&gt;the space before it.&lt;/td&gt;
+					&lt;td style=&quot;padding: 25px&quot;&gt;
+					&lt;table border=&quot;0&quot; cellpadding=&quot;1&quot; cellspacing=&quot;1&quot; style=&quot;width: 100%; &quot;&gt;
+						&lt;tbody&gt;
+							&lt;tr&gt;
+								&lt;td&gt;This table is inside of a cell of another table.&lt;/td&gt;
+							&lt;/tr&gt;
+							&lt;tr&gt;
+								&lt;td&gt;We can type&amp;nbsp;either before or after it though.&lt;/td&gt;
+							&lt;/tr&gt;
+						&lt;/tbody&gt;
+					&lt;/table&gt;
+					&lt;/td&gt;
+				&lt;/tr&gt;
+			&lt;/tbody&gt;
+		&lt;/table&gt;
+
+		&lt;p&gt;Two succesive horizontal lines (&lt;tt&gt;HR&lt;/tt&gt; tags). We can access the space in between:&lt;/p&gt;
+
+		&lt;hr /&gt;
+		&lt;hr /&gt;
+		&lt;ol style=&quot;width: 300px&quot;&gt;
+			&lt;li&gt;This numbered list...&lt;/li&gt;
+			&lt;li&gt;...is a neighbour of a horizontal line...&lt;/li&gt;
+			&lt;li style=&quot;padding: 20px;&quot;&gt;
+				&lt;ol&gt;
+					&lt;li&gt;Nested list!&lt;/li&gt;
+				&lt;/ol&gt;
+			&lt;/li&gt;
+		&lt;/ol&gt;
+
+		&lt;ul style=&quot;width: 450px&quot;&gt;
+			&lt;li&gt;We can type between the lists...&lt;/li&gt;
+			&lt;li&gt;...thanks to &lt;strong&gt;Magicline&lt;/strong&gt;.&lt;/li&gt;
+		&lt;/ul&gt;
+
+		&lt;p&gt;Lorem ipsum dolor sit amet dui. Morbi vel turpis. Nullam et leo. Etiam rutrum, urna tellus dui vel tincidunt mattis egestas, justo fringilla vel, massa. Phasellus.&lt;/p&gt;
+
+		&lt;p&gt;Quisque iaculis, dui lectus varius vitae, tortor. Proin lacus. Pellentesque ac lacus. Aenean nonummy commodo nec, pede. Etiam blandit risus elit.&lt;/p&gt;
+
+		&lt;p&gt;Ut pretium. Vestibulum rutrum in, adipiscing elit. Sed in quam in purus sem vitae pede. Pellentesque bibendum, urna sem vel risus. Vivamus posuere metus. Aliquam gravida iaculis nisl. Nam enim. Aliquam erat ac lacus tellus ac felis.&lt;/p&gt;
+
+		&lt;div id=&quot;last&quot; style=&quot;padding: 10px; text-align: center;&quot;&gt;
+		&lt;p&gt;This text is wrapped in a&amp;nbsp;&lt;tt&gt;DIV&lt;/tt&gt;&amp;nbsp;element. We can type after this element though.&lt;/p&gt;
+		&lt;/div&gt;
+	</textarea>
+
+	<h2>Inline Editor</h2>
+
+	<div class="inline-editor" id="editor2" contenteditable="true">
+		<table border="0" cellpadding="1" cellspacing="1" style="width: 100%; ">
+			<tbody>
+				<tr>
+					<td>This table</td>
+					<td>is the</td>
+					<td>very first</td>
+					<td>element of the document.</td>
+				</tr>
+				<tr>
+					<td>We are still</td>
+					<td>able to acces</td>
+					<td>the space before it.</td>
+					<td style="padding: 25px">
+					<table border="0" cellpadding="1" cellspacing="1" style="width: 100%; ">
+						<tbody>
+							<tr>
+								<td>This table is inside of a cell of another table.</td>
+							</tr>
+							<tr>
+								<td>We can type&nbsp;either before or after it though.</td>
+							</tr>
+						</tbody>
+					</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<p>Two succesive horizontal lines (<tt>HR</tt> tags). We can access the space in between:</p>
+
+		<hr />
+		<hr />
+		<ol style="width: 300px">
+			<li>This numbered list...</li>
+			<li>...is a neighbour of a horizontal line...</li>
+			<li style="padding: 20px;">
+				<ol>
+					<li>Nested list!</li>
+				</ol>
+			</li>
+		</ol>
+
+		<ul style="width: 450px">
+			<li>We can type between the lists...</li>
+			<li>...thanks to <strong>Magicline</strong>.</li>
+		</ul>
+
+		<p>Lorem ipsum dolor sit amet dui. Morbi vel turpis. Nullam et leo. Etiam rutrum, urna tellus dui vel tincidunt mattis egestas, justo fringilla vel, massa. Phasellus.</p>
+
+		<p>Quisque iaculis, dui lectus varius vitae, tortor. Proin lacus. Pellentesque ac lacus. Aenean nonummy commodo nec, pede. Etiam blandit risus elit.</p>
+
+		<p>Ut pretium. Vestibulum rutrum in, adipiscing elit. Sed in quam in purus sem vitae pede. Pellentesque bibendum, urna sem vel risus. Vivamus posuere metus. Aliquam gravida iaculis nisl. Nam enim. Aliquam erat ac lacus tellus ac felis.</p>
+
+		<div id="last" style="padding: 10px; text-align: center;">
+			<p>This text is wrapped in a&nbsp;<tt>DIV</tt>&nbsp;element. We can type after this element though.</p>
+		</div>
+	</div>
+
+	<h2>Fancy inline Editor</h2>
+
+	<div class="inline-editor" id="editor3" contenteditable="true" style="left: 123px; border: 15px solid green;">
+		<div style="padding: 20px; width: 300px" class="1">Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim.</div>
+		<div style="padding: 30px;" class="static">
+			Position static
+			<div style="padding: 30px; border: 14px solid orange">foo</div>
+		</div>
+		<dl class="2">
+			<dt>Key</dt><dd>Value</dd>
+		</dl>
+		<div>Whatever</div>
+		<hr id="hr">
+		<p>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies</p>
+		<hr>
+		<hr>
+		<p>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies</p>
+		<div style="padding: 30px; width: 200px">foo</div>
+	</div>
+</div>
+
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		CKEDITOR.tools.enableHtml5Elements( document );
+	}
+
+	CKEDITOR.addCss(
+		// Highlight all elements in DOM so it's easier to verify if the line is located correctly.
+		'.cke_editable * { outline: 1px solid rgba( 0,255,0,.1 ); background: rgba( 0,255,0,.05 ) }' +
+
+		// Make sure body has margin and scroll – **it's essential for this test**.
+		'body { position: static !important; margin: 100px; width: 4000px; }'
+	);
+
+	CKEDITOR.disableAutoInline = true;
+
+	// Show lines continuously on editable hover, between all blocks.
+	function setupLineutils() {
+		var helpers = CKEDITOR.plugins.lineutils,
+
+			liner = new helpers.liner( this ),
+			locator = new helpers.locator( this ),
+			finder = new helpers.finder( this, {
+				lookups: {
+					'is block': function( el ) {
+						if ( el.is( CKEDITOR.dtd.$block ) )
+							return CKEDITOR.LINEUTILS_BEFORE | CKEDITOR.LINEUTILS_AFTER;
+					}
+				}
+			} ).start( function( relations, x, y ) {
+				locator.locate( relations );
+
+				var locations = locator.locations,
+					uid, type;
+
+				liner.prepare( relations, locations );
+
+				for ( uid in locations ) {
+					for ( type in locations[ uid ] )
+						liner.placeLine( { uid: uid, type: type } );
+				}
+
+				liner.cleanup();
+			} );
+	}
+
+	CKEDITOR.disableAutoInline = true;
+
+	var editorConfig = {
+		extraPlugins: 'lineutils',
+		removePlugins: 'magicline',
+		height: 450,
+		width: 600,
+		// There's a lot of fancy HTML content in the editors.
+		// It makes testing so much easier.
+		allowedContent: true,
+		on: {
+			contentDom: setupLineutils
+		}
+	};
+
+	CKEDITOR.replace( 'editor1', editorConfig );
+	CKEDITOR.inline( 'editor2', editorConfig );
+	CKEDITOR.inline( 'editor3', editorConfig );
+</script>

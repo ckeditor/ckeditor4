@@ -9,6 +9,10 @@
 	bender.editor = {
 		config: {
 			allowedContent: true,
+
+			// (#13186)
+			pasteFilter: null,
+
 			on: {
 				instanceReady: function( evt ) {
 					evt.editor.dataProcessor.writer.sortAttributes = 1;
@@ -1148,6 +1152,47 @@
 						editor.execCommand( 'paste', html );
 					} );
 				} );
+			} );
+		},
+
+		// (#13186)
+		'test pasting into widget nested editable when range in paste data (drop)': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			editor.widgets.add( 'widget1', {
+				editables: {
+					nested: {
+						selector: '#widget1-nested',
+						allowedContent: 'i(a,c){color}'
+					}
+				}
+			} );
+
+			bot.setData( '<p>foo</p><div id="w1" data-widget="widget1"><p id="widget1-nested">xx</p></div>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					nested = widget.editables.nested,
+					range = editor.createRange();
+
+				range.setStart( nested.getFirst(), 1 );
+				range.collapse( 1 );
+
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						assert.isInnerHtmlMatching( 'xy<i class="a c" style="color:green">z</i>yx@', nested.getHtml(), {
+							fixStyles: true
+						}, 'Nested editable filter in use.' );
+					} );
+				} );
+
+				editor.fire( 'paste', {
+					type: 'auto',
+					dataValue: 'y<i class="a b c d" style="margin-left:20px; color:green">z</i>y',
+					method: 'drop',
+					range: range
+				} );
+
+				wait();
 			} );
 		},
 

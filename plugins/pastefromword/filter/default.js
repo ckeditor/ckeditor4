@@ -248,6 +248,11 @@
 							// The best situation: "mso-list:l0 level1 lfo2" tells the belonged list root, list item indentation, etc.
 							[ ( /^mso-list$/ ), null, function( val ) {
 								val = val.split( ' ' );
+								// Ignore values like "mso-list:Ignore". (FF #11976)
+								if ( val.length < 2 ) {
+									return;
+								}
+
 								var listId = Number( val[ 0 ].match( /\d+/ ) ),
 									indent = Number( val[ 1 ].match( /\d+/ ) );
 
@@ -1131,6 +1136,10 @@
 	};
 
 	CKEDITOR.cleanWord = function( data, editor ) {
+		// We get <![if !supportLists]> and <![endif]> when we started using `dataTransfer` instead of pasteBin, so we need to
+		// change <![if !supportLists]> to <!--[if !supportLists]--> and <![endif]> to <!--[endif]-->.
+		data = data.replace( /<!\[([^\]]*?)\]>/g, '<!--[$1]-->' );
+
 		// Firefox will be confused by those downlevel-revealed IE conditional
 		// comments, fixing them first( convert it to upperlevel-revealed one ).
 		// e.g. <![if !vml]>...<![endif]>

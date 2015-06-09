@@ -1112,9 +1112,10 @@
 		 */
 		getSelectedHtml: function( toString ) {
 			var editable = this.editable(),
-				ranges = this.getSelection().getRanges();
+				selection = this.getSelection(),
+				ranges = selection && selection.getRanges();
 
-			if ( !editable || ranges.length === 0 ) {
+			if ( !editable || !ranges || ranges.length === 0 ) {
 				return null;
 			}
 

@@ -1,0 +1,10 @@
+<div id="editor">
+	<p><a href="foo" class="foo" style="border: solid 2px red" tabindex="555">I am your father, Luke!</a></p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		allowedContent: true,
+		removeDialogTabs: 'link:advanced'
+	} );
+</script>

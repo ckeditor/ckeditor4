@@ -38,8 +38,9 @@ module.exports = {
 
 			// add CKEditor plugins/adapters configuration if needed
 			if ( data.ckeditor && (
-				data.ckeditor.plugins || data.ckeditor[ 'remove-plugins' ] || data.ckeditor.adapters
-			) ) {
+					data.ckeditor.plugins || data.ckeditor[ 'remove-plugins' ] ||
+					( data.ckeditor.remove && data.ckeditor.remove.plugins ) || data.ckeditor.adapters
+				) ) {
 				head.push(
 					'<script>\n(function (bender) {\n',
 					'bender.configureEditor(',

@@ -325,7 +325,7 @@
 				editor.once( 'afterPaste', function() {
 					resume( function() {
 						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'widget was moved' );
-						assert.areSame( '<p id="p1"><span data-widget="test1">Y</span>xx</p>', editor.getData() );
+						assert.areSame( '<p id="p1"><span data-widget="test1" id="w1">Y</span>xx</p>', editor.getData() );
 						assertCommands( editor, true, false, 'after d&d' );
 
 						editor.execCommand( 'undo' );
@@ -335,7 +335,7 @@
 
 						editor.execCommand( 'redo' );
 						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widgets after redo' );
-						assert.areSame( '<p id="p1"><span data-widget="test1">Y</span>xx</p>', editor.getData() );
+						assert.areSame( '<p id="p1"><span data-widget="test1" id="w1">Y</span>xx</p>', editor.getData() );
 						assertCommands( editor, true, false, 'after redo' );
 					} );
 				} );
@@ -346,12 +346,15 @@
 						evt = bender.tools.mockDropEvent();
 
 					evt.setTarget( editor.document.findOne( 'img.cke_widget_drag_handler' ) );
-					evt.testRange = range;
-
 					dropTarget.fire( 'dragstart', evt );
 
+					// Use a realistic drop target for drop.
+					evt.setTarget( range.startContainer );
+					evt.testRange = range;
 					dropTarget.fire( 'drop', evt );
 
+					evt.setTarget( editor.document.findOne( 'img.cke_widget_drag_handler' ) );
+					evt.testRange = undefined;
 					dropTarget.fire( 'dragend', evt );
 				} );
 			} );
@@ -380,7 +383,7 @@
 				editor.once( 'afterPaste', function() {
 					resume( function() {
 						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'widget was moved' );
-						assert.areSame( '<div data-widget="test1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
+						assert.areSame( '<div data-widget="test1" id="w1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
 						assertCommands( editor, true, false, 'after d&d' );
 
 						editor.execCommand( 'undo' );
@@ -390,7 +393,7 @@
 
 						editor.execCommand( 'redo' );
 						assert.areSame( 1, obj2Array( editor.widgets.instances ).length, 'one widgets after redo' );
-						assert.areSame( '<div data-widget="test1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
+						assert.areSame( '<div data-widget="test1" id="w1">Y<p class="e">Z</p></div><p id="a">x</p>', editor.getData() );
 						assertCommands( editor, true, false, 'after redo' );
 					} );
 				} );

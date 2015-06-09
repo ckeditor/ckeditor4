@@ -45,20 +45,33 @@
 	var getWidgetById = widgetTestsTools.getWidgetById,
 		assertRelations = lineutilsTestsTools.assertRelations;
 
-	function dragstart( editor, evt ) {
+	function dragstart( editor, evt, widget ) {
 		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
+
+		// Use realistic target which is the drag handler.
+		evt.setTarget( widget.dragHandlerContainer.findOne( 'img' ) );
 
 		dropTarget.fire( 'dragstart', evt );
 	}
 
-	function drop( editor, evt ) {
+	function drop( editor, evt, dropRange ) {
 		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+
+		// If drop range is known use a realistic target. If no, then use a mock.
+		if ( dropRange ) {
+			evt.setTarget( dropRange.startContainer );
+		} else {
+			evt.setTarget( new CKEDITOR.dom.text( 'targetMock' ) );
+		}
 
 		dropTarget.fire( 'drop', evt );
 	}
 
-	function dragend( editor, evt ) {
+	function dragend( editor, evt, widget ) {
 		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+
+		// Use realistic target which is the drag handler.
+		evt.setTarget( widget.dragHandlerContainer.findOne( 'img' ) );
 
 		dropTarget.fire( 'dragend', evt );
 	}
@@ -239,7 +252,7 @@
 					assert.areSame( CKEDITOR.DATA_TRANSFER_INTERNAL, dataTransfer.getTransferType( editor ), 'Source editor should equal this.editor' );
 				} );
 
-				dragstart( editor, evt );
+				dragstart( editor, evt, widget );
 
 				wait();
 			} );
@@ -257,11 +270,11 @@
 					widgetWasDestroyed += 1;
 				} );
 
-				dragstart( editor, evt );
+				dragstart( editor, evt, widget );
 
 				drop( editor, evt );
 
-				dragend( editor, evt );
+				dragend( editor, evt, widget );
 
 				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
 				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
@@ -285,8 +298,6 @@
 
 				drop( editor, evt.data );
 
-				dragend( editor, evt.data );
-
 				assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
 				assert.areSame( 0, widgetWasDestroyed, 'Original widget should not be destroyed' );
 			} );
@@ -309,11 +320,11 @@
 				CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
 				evt.data.dataTransfer.setData( 'cke/widget-id', -1 );
 
-				dragstart( editor, evt.data );
+				dragstart( editor, evt.data, widget );
 
 				drop( editor, evt.data );
 
-				dragend( editor, evt.data );
+				dragend( editor, evt.data, widget );
 
 				wait( function() {
 					assert.areSame( '<p><span data-widget="testwidget" id="w1">foo</span></p>', editor.getData() );
@@ -353,24 +364,24 @@
 					assert.isTrue( dragendCounter.calledOnce, 'dragend called once' );
 					assert.isTrue( dropCounter.calledOnce, 'drop called once' );
 					assert.isTrue( widgetWasDestroyedCounter.calledOnce, 'original widget was destroyed' );
-					assert.areSame( '<p class="x">f<span data-widget="testwidget">foo</span>oo</p><p>xx</p>', editor.getData() );
+					assert.areSame( '<p class="x">f<span data-widget="testwidget" id="w1">foo</span>oo</p><p>xx</p>', editor.getData() );
 					assert.isTrue( widgetCreatedCounter.calledOnce, 'new widget was created' );
 				} );
 
 				// Ensure async.
 				wait( function() {
-					dragstart( editor, evt.data );
+					dragstart( editor, evt.data, widget );
 
 					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
-					evt.data.dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+					evt.data.dataTransfer.setData( 'cke/widget-id', widget.id );
 
 					range.setStart( editor.document.findOne( '.x' ).getFirst(), 1 );
 					range.collapse( true );
 					evt.data.testRange = range;
 
-					drop( editor, evt.data );
+					drop( editor, evt.data, range );
 
-					dragend( editor, evt.data );
+					dragend( editor, evt.data, widget );
 				} );
 			} );
 		},
@@ -385,23 +396,25 @@
 				editor.focus();
 
 				bender.tools.resumeAfter( editor, 'afterPaste', function() {
-					assert.areSame( '<p class="x">f<b><span data-widget="testwidget">foo</span></b>oo</p><p><b>xx</b></p>', editor.getData() );
+					assert.areSame( '<p class="x">f<b><span data-widget="testwidget" id="w1">foo</span></b>oo</p><p><b>xx</b></p>', editor.getData() );
 				} );
 
 				// Ensure async.
 				wait( function() {
-					dragstart( editor, evt.data );
+					var widget = getWidgetById( editor, 'w1' );
+
+					dragstart( editor, evt.data, widget );
 
 					CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
-					evt.data.dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+					evt.data.dataTransfer.setData( 'cke/widget-id', widget.id );
 
 					range.setStart( editor.document.findOne( '.x' ).getFirst(), 1 );
 					range.collapse( true );
 					evt.data.testRange = range;
 
-					drop( editor, evt.data );
+					drop( editor, evt.data, range );
 
-					dragend( editor, evt.data );
+					dragend( editor, evt.data, widget );
 				} );
 			} );
 		},
@@ -448,7 +461,7 @@
 						assert.isTrue( dragstartCounter.calledOnce, 'dragstart called once' );
 						assert.isTrue( dragendCounter.calledOnce, 'dragend called once' );
 						assert.isTrue( dropCounter.calledOnce, 'drop called once' );
-						assert.areSame( '<div data-widget="testwidget">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
+						assert.areSame( '<div data-widget="testwidget" id="w1">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
 					} );
 
 					wait();

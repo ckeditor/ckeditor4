@@ -7,6 +7,7 @@
 
 CKEDITOR.plugins.add( 'notification', {
 	lang: 'en', // %REMOVE_LINE_CORE%
+	requires: 'toolbar',
 
 	init: function( editor ) {
 		editor._.notificationArea = new Area( editor );
@@ -830,7 +831,7 @@ Area.prototype = {
 		}
 
 		function setCenter() {
-			area.setStyle( 'left', cssLength( leftBase + contentsRect.width / 2 - notificationWidth / 2 ) );
+			area.setStyle( 'left', cssLength( leftBase + contentsRect.width / 2 - notificationWidth / 2 - notificationMargin / 2 ) );
 		}
 
 		function setRight() {

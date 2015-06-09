@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -29,7 +29,7 @@
 //		* simulate 'beforepaste' for non-IEs on editable
 //		* listen 'onpaste' on editable ('onbeforepaste' for IE)
 //		* fire 'beforePaste' on editor
-//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
+//		* if ( !canceled && ( htmlInDataTransfer || !external paste) && dataTransfer is not empty ) getClipboardDataByPastebin
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
 // -- Copy command
@@ -52,7 +52,7 @@
 //		* listen 'onpaste'
 //		* cancel native event
 //		* fire 'beforePaste' on editor
-//		* if ( !canceled && !dataTransfer.getData( 'text/html' ) && !htmlAlwaysInDataTransfer ) getClipboardDataByPastebin
+//		* if ( !canceled && ( htmlInDataTransfer || !external paste) && dataTransfer is not empty ) getClipboardDataByPastebin
 //		* execIECommand( 'paste' ) -> this fires another 'paste' event, so cancel it
 //		* fire 'paste' on editor
 //		* !canceled && fire 'afterPaste' on editor
@@ -151,7 +151,7 @@
 					evt.data.dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
 				}
 
-				// If dataValue is already set do not override it.
+				// If dataValue is already set (manually or by paste bin), so do not override it.
 				if ( evt.data.dataValue ) {
 					return;
 				}
@@ -359,7 +359,8 @@
 
 		// Because of FF bug we need to use this hack, otherwise cursor is hidden
 		// or it is not possible to move it (#12420).
-		if ( CKEDITOR.env.gecko && data.method == 'drop' ) {
+		// Also, check that editor.toolbox exists, because the toolbar plugin might not be loaded (#13305).
+		if ( CKEDITOR.env.gecko && data.method == 'drop' && editor.toolbox ) {
 			editor.once( 'afterPaste', function() {
 				editor.toolbox.focus();
 			} );
@@ -1030,9 +1031,9 @@
 					method: 'paste',
 					dataTransfer: clipboard.initPasteDataTransfer( evt )
 				},
-				// True if we can fully rely on data from dataTransfer, this means that
-				// if HTML is available via native paste it is also available via getData.
-				htmlAlwaysInDataTransfer = CKEDITOR.env.chrome;
+				// True if data transfer contains HTML data.
+				htmlInExternalDataTransfer = !CKEDITOR.env.ie && !CKEDITOR.env.safari,
+				external = eventData.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL;
 
 			eventData.dataTransfer.cacheData();
 
@@ -1043,9 +1044,8 @@
 			// after canceling 'beforePaste' event.
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
-			// Do not use paste bin if the browser let us get HTML from dataTranfer
-			// or we can be sure that no HTML in dataTranfer means no HTML at all.
-			if ( beforePasteNotCanceled && ( htmlAlwaysInDataTransfer || eventData.dataTransfer.getData( 'text/html' ) ) ) {
+			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
+			if ( beforePasteNotCanceled && ( htmlInExternalDataTransfer || !external ) && !eventData.dataTransfer.isEmpty() ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
@@ -1340,7 +1340,17 @@
 				// Cancel native drop.
 				evt.data.preventDefault();
 
-				// Getting drop position is one of the most complex part.
+				var target = evt.data.getTarget(),
+					readOnly = target.isReadOnly();
+
+				// Do nothing if drop on non editable element (#13015).
+				// The <html> tag isn't editable (body is), but we want to allow drop on it
+				// (so it is possible to drop below editor contents).
+				if ( readOnly && !( target.type == CKEDITOR.NODE_ELEMENT && target.is( 'html' ) ) ) {
+					return;
+				}
+
+				// Getting drop position is one of the most complex parts.
 				var dropRange = clipboard.getRangeAtDropPosition( evt, editor ),
 					dragRange = clipboard.dragRange;
 
@@ -1370,60 +1380,17 @@
 					dataTransfer = data.dataTransfer;
 
 				if ( dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-					internalDrop( dragRange, dropRange, dataTransfer );
+					// Execute drop with a timeout because otherwise selection, after drop,
+					// on IE is in the drag position, instead of drop position.
+					setTimeout( function() {
+						clipboard.internalDrop( dragRange, dropRange, dataTransfer, editor );
+					}, 0 );
 				} else if ( dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
 					crossEditorDrop( dragRange, dropRange, dataTransfer );
 				} else {
 					externalDrop( dropRange, dataTransfer );
 				}
 			}, null, null, 9999 );
-
-			// Internal drag and drop (drag and drop in the same editor).
-			function internalDrop( dragRange, dropRange, dataTransfer ) {
-				// Execute drop with a timeout because otherwise selection, after drop,
-				// on IE is in the drag position, instead of drop position.
-				setTimeout( function() {
-					var dragBookmark, dropBookmark, isRangeBefore;
-
-					// Save and lock snapshot so there will be only
-					// one snapshot for both remove and insert content.
-					editor.fire( 'saveSnapshot' );
-					editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
-
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-						clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange );
-					}
-
-					// Because we manipulate multiple ranges we need to do it carefully,
-					// changing one range (event creating a bookmark) may make other invalid.
-					// We need to change ranges into bookmarks so we can manipulate them easily in the future.
-					// We can change the range which is later in the text before we change the preceding range.
-					// We call isRangeBefore to test the order of ranges.
-					isRangeBefore = clipboard.isRangeBefore( dragRange, dropRange );
-					if ( !isRangeBefore ) {
-						dragBookmark = dragRange.createBookmark( 1 );
-					}
-					dropBookmark = dropRange.clone().createBookmark( 1 );
-					if ( isRangeBefore ) {
-						dragBookmark = dragRange.createBookmark( 1 );
-					}
-
-					// No we can safely delete content for the drag range...
-					dragRange = editor.createRange();
-					dragRange.moveToBookmark( dragBookmark );
-					editable.extractHtmlFromRange( dragRange, 1 );
-
-					// ...and paste content into the drop position.
-					dropRange = editor.createRange();
-					dropRange.moveToBookmark( dropBookmark );
-
-					// We do not select drop range, because of may be in the place we can not set the selection
-					// (e.g. between blocks, in case of block widget D&D). We put range to the paste event instead.
-					firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop', range: dropRange }, 1 );
-
-					editor.fire( 'unlockSnapshot' );
-				}, 0 );
-			}
 
 			// Cross editor drag and drop (drag in one Editor and drop in the other).
 			function crossEditorDrop( dragRange, dropRange, dataTransfer ) {
@@ -1436,9 +1403,11 @@
 				// Remove dragged content and make a snapshot.
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
 
-				editable.extractHtmlFromRange( dragRange );
+				dataTransfer.sourceEditor.editable().extractHtmlFromRange( dragRange );
 
-				dataTransfer.sourceEditor.getSelection().reset();
+				// Make some selection before saving snapshot, otherwise error will be thrown, because
+				// there will be no valid selection after content is removed.
+				dataTransfer.sourceEditor.getSelection().selectRanges( [ dragRange ] );
 				dataTransfer.sourceEditor.fire( 'saveSnapshot' );
 			}
 
@@ -1581,41 +1550,112 @@
 		},
 
 		/**
-		 * Check if the beginning of the `firstRange` is before the beginning of the `secondRange`
-		 * and modification of the content in the `firstRange` may break `secondRange`.
+		 * Checkes whether turning drag range into bookmarks will invalidate the drop range.
+		 * This usually happens when drop range shares the container with drag range and is located
+		 * after the drag range, but there are countless edge cases.
 		 *
-		 * Notify that this function returns `false` if these two ranges are in two
-		 * separate nodes and do not affect each other (even if `firstRange` is before `secondRange`).
+		 * This function is stricly related to {@link #internalDrop} which toggles
+		 * order in which it creates bookmarks for both ranges based on a value returned
+		 * by this method. In some cases this method returns a value which does not necessarily
+		 * is true in terms of what it was meant to check, but it is convenient, because
+		 * we know how it is interpretted in {@link #internalDrop}, so the correct
+		 * behavior of the entire algorithm is assured.
 		 *
 		 * **Note:** This function is in the public scope for tests usage only.
 		 *
 		 * @since 4.5
 		 * @private
-		 * @param {CKEDITOR.dom.range} firstRange The first range to compare.
-		 * @param {CKEDITOR.dom.range} secondRange The second range to compare.
+		 * @param {CKEDITOR.dom.range} dragRange The first range to compare.
+		 * @param {CKEDITOR.dom.range} dropRange The second range to compare.
 		 * @returns {Boolean} True if the first range in before the second range.
 		 */
-		isRangeBefore: function( firstRange, secondRange ) {
-			// Both ranges has the same parent and the first has smaller offset. E.g.:
-			//
-			// 		"Lorem ipsum dolor sit[1] amet consectetur[2] adipiscing elit."
-			// 		"Lorem ipsum dolor sit" [1] "amet consectetur" [2] "adipiscing elit."
-			//
-			if ( firstRange.endContainer.equals( secondRange.startContainer ) &&
-				firstRange.endOffset < secondRange.startOffset )
-				return true;
+		isDropRangeAffectedByDragRange: function( dragRange, dropRange ) {
+			var dropContainer = dropRange.startContainer,
+				dropOffset = dropRange.endOffset;
 
-			// First range is inside a text node and the second is not, but if we change the
-			// first range into bookmark and split the text node then the seconds node offset
-			// will be no longer correct.
-			//
-			// 		"Lorem ipsum dolor sit [1] amet" "consectetur" [2] "adipiscing elit."
-			//
-			if ( firstRange.endContainer.getParent().equals( secondRange.startContainer ) &&
-				firstRange.endContainer.getIndex() < secondRange.startOffset )
+			// Both containers are the same and drop offset is at the same position or later.
+			// " A L] A " " M A "
+			//       ^ ^
+			if ( dragRange.endContainer.equals( dropContainer ) && dragRange.endOffset <= dropOffset ) {
 				return true;
+			}
+
+			// Bookmark for drag start container will mess up with offsets.
+			// " O [L A " " M A "
+			//           ^       ^
+			if (
+				dragRange.startContainer.getParent().equals( dropContainer ) &&
+				dragRange.startContainer.getIndex() < dropOffset
+			) {
+				return true;
+			}
+
+			// Bookmark for drag end container will mess up with offsets.
+			// " O] L A " " M A "
+			//           ^       ^
+			if (
+				dragRange.endContainer.getParent().equals( dropContainer ) &&
+				dragRange.endContainer.getIndex() < dropOffset
+			) {
+				return true;
+			}
 
 			return false;
+		},
+
+		/**
+		 * Internal drag and drop (drag and drop in the same editor).
+		 *
+		 * **Note:** This function is in the public scope for tests usage only.
+		 *
+		 * @since 4.5
+		 * @private
+		 * @param {CKEDITOR.dom.range} dragRange The first range to compare.
+		 * @param {CKEDITOR.dom.range} dropRange The second range to compare.
+		 * @param {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer
+		 * @param {CKEDITOR.editor} editor
+		 */
+		internalDrop: function( dragRange, dropRange, dataTransfer, editor ) {
+			var editable = editor.editable(),
+				dragBookmark, dropBookmark, isDropRangeAffected;
+
+			// Save and lock snapshot so there will be only
+			// one snapshot for both remove and insert content.
+			editor.fire( 'saveSnapshot' );
+			editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+				this.fixIESplitNodesAfterDrop( dragRange, dropRange );
+			}
+
+			// Because we manipulate multiple ranges we need to do it carefully,
+			// changing one range (event creating a bookmark) may make other invalid.
+			// We need to change ranges into bookmarks so we can manipulate them easily in the future.
+			// We can change the range which is later in the text before we change the preceding range.
+			// We call isDropRangeAffectedByDragRange to test the order of ranges.
+			isDropRangeAffected = this.isDropRangeAffectedByDragRange( dragRange, dropRange );
+			if ( !isDropRangeAffected ) {
+				dragBookmark = dragRange.createBookmark( 1 );
+			}
+			dropBookmark = dropRange.clone().createBookmark( 1 );
+			if ( isDropRangeAffected ) {
+				dragBookmark = dragRange.createBookmark( 1 );
+			}
+
+			// No we can safely delete content for the drag range...
+			dragRange = editor.createRange();
+			dragRange.moveToBookmark( dragBookmark );
+			editable.extractHtmlFromRange( dragRange, 1 );
+
+			// ...and paste content into the drop position.
+			dropRange = editor.createRange();
+			dropRange.moveToBookmark( dropBookmark );
+
+			// We do not select drop range, because of may be in the place we can not set the selection
+			// (e.g. between blocks, in case of block widget D&D). We put range to the paste event instead.
+			firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop', range: dropRange }, 1 );
+
+			editor.fire( 'unlockSnapshot' );
 		},
 
 		/**

@@ -736,7 +736,7 @@
 	 *		// insert a new simplebox widget or edit the one currently focused.
 	 *		editor.execCommand( 'simplebox' );
 	 *
-	 * Note: When using a command widget's `startupData` can be passed as the command argument:
+	 * Note: Since CKEditor 4.5.0 widget's `startupData` can be passed as the command argument:
 	 *
 	 *		editor.execCommand( 'simplebox', {
 	 *			startupData: {
@@ -1831,8 +1831,10 @@
 								// Finalize creation AFTER (20) new data was set.
 								okListener = dialog.once( 'ok', finalizeCreation, null, null, 20 );
 
-								cancelListener = dialog.once( 'cancel', function() {
-									editor.widgets.destroy( instance, true );
+								cancelListener = dialog.once( 'cancel', function( evt ) {
+									if ( !( evt.data && evt.data.hide === false ) ) {
+										editor.widgets.destroy( instance, true );
+									}
 								} );
 
 								dialog.once( 'hide', function() {
@@ -2732,7 +2734,28 @@
 
 		// Handle pasted single widget.
 		editor.on( 'paste', function( evt ) {
-			evt.data.dataValue = evt.data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
+			var data = evt.data;
+
+			data.dataValue = data.dataValue.replace( pasteReplaceRegex, pasteReplaceFn );
+
+			// If drag'n'drop kind of paste into nested editable (data.range), selection is set AFTER
+			// data is pasted, which means editor has no chance to change activeFilter's context.
+			// As a result, pasted data is filtered with default editor's filter instead of NE's and
+			// funny things get inserted. Changing the filter by analysis of the paste range below (#13186).
+			if ( data.range ) {
+				// Check if pasting into nested editable.
+				var nestedEditable = Widget.getNestedEditable( editor.editable(), data.range.startContainer );
+
+				if ( nestedEditable ) {
+					// Retrieve the filter from NE's data and set it active before editor.insertHtml is done
+					// in clipboard plugin.
+					var filter = CKEDITOR.filter.instances[ nestedEditable.data( 'cke-filter' ) ];
+
+					if ( filter ) {
+						editor.setActiveFilter( filter );
+					}
+				}
+			}
 		} );
 
 		// Listen with high priority to check widgets after data was inserted.
@@ -3048,6 +3071,14 @@
 			container.append( img );
 			widget.wrapper.append( container );
 		}
+
+		// Preventing page reload when dropped content on widget wrapper (#13015).
+		// Widget is not editable so by default drop on it isn't allowed what means that
+		// browser handles it (there's no editable#drop event). If there's no drop event we cannot block
+		// the drop, so page is reloaded. This listener enables drop on widget wrappers.
+		widget.wrapper.on( 'dragover', function( evt ) {
+			evt.data.preventDefault();
+		} );
 
 		widget.wrapper.on( 'mouseenter', widget.updateDragHandlerPosition, widget );
 		setTimeout( function() {

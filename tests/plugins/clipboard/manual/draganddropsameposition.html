@@ -1,0 +1,31 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+</head>
+<div>
+	<h2>Classic editor</h2>
+	<div id="classic-editor">
+		<textarea cols="80" id="classic" name="classic" rows="10">
+&lt;figure class="image right"&gt;&lt;img alt="CKEditor logo" src="%BASE_PATH%_assets/logo.png" /&gt;
+	&lt;figcaption&gt;CKEditor&lt;/figcaption&gt;
+&lt;/figure&gt;
+		</textarea>
+	</div>
+</div>
+<div>
+	<h2>Inline editor</h2>
+	<div id="inline" contenteditable="true">
+		<figure class="image right"><img alt="CKEditor logo" src="%BASE_PATH%_assets/logo.png" />
+			<figcaption>CKEditor</figcaption>
+		</figure>
+	</div>
+</div>
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		CKEDITOR.tools.enableHtml5Elements( document );
+	}
+
+	CKEDITOR.disableAutoInline = true;
+
+	CKEDITOR.replace( 'classic' );
+	CKEDITOR.inline( 'inline' );
+</script>

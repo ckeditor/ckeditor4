@@ -18,7 +18,7 @@
 		},
 
 		init: function( editor ) {
-			// Do not execute this paste lister if it will not be possible to upload file.
+			// Do not execute this paste listener if it will not be possible to upload file.
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				return;
 			}
@@ -80,10 +80,11 @@
 					img = imgs.getItem( i );
 
 					// Image have to contain src=data:...
-					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:';
+					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:',
+						isRealObject = img.data( 'cke-realelement' ) === null;
 
-					// We are not uploading images in non-editable blocs.
-					if ( isDataInSrc && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
+					// We are not uploading images in non-editable blocs and fake objects (#13003).
+					if ( isDataInSrc && isRealObject && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
 						var loader = editor.uploadsRepository.create( img.getAttribute( 'src' ) );
 						loader.upload( uploadUrl );
 

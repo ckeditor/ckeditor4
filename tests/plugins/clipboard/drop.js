@@ -27,7 +27,9 @@ function drag( editor, evt ) {
 
 		assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, dragEvt.data.dataTransfer );
 		assert.areSame( evt.$, dragEvt.data.$ );
-		assert.areSame( 'targetMock', dragEvt.data.target.$ );
+		// Check that it's the mocked dragstart target created by the mockDropEvent().
+		assert.areSame( CKEDITOR.NODE_TEXT, dragEvt.data.target.type, 'drag target node type' );
+		assert.areSame( 'targetMock', dragEvt.data.target.getText(), 'drag target node' );
 	} );
 
 	dropTarget.fire( 'dragstart', evt );
@@ -43,7 +45,7 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 		expectedPasteEventCount = typeof config.expectedPasteEventCount !== 'undefined' ? config.expectedPasteEventCount : 1,
 		expectedBeforePasteEventCount = typeof config.expectedBeforePasteEventCount !== 'undefined' ? config.expectedBeforePasteEventCount : expectedPasteEventCount;
 
-	range.setStart( config.element, config.offset );
+	range.setStart( config.dropContainer, config.dropOffset );
 	range.collapse( true );
 	range.select();
 
@@ -61,11 +63,11 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			values.dropRangeStartContainerMatch = !!dropEvt.data.dropRange.startContainer;
 			values.dropRangeStartOffsetMatch = !!dropEvt.data.dropRange.startOffset;
 		} else {
-			values.dropRangeStartContainerMatch = config.element == dropEvt.data.dropRange.startContainer;
-			values.dropRangeStartOffsetMatch = config.offset == dropEvt.data.dropRange.startOffset;
+			values.dropRangeStartContainerMatch = config.dropContainer == dropEvt.data.dropRange.startContainer;
+			values.dropRangeStartOffsetMatch = config.dropOffset == dropEvt.data.dropRange.startOffset;
 		}
 		values.dropNativeEventMatch = evt.$ == dropEvt.data.$;
-		values.dropTarget = dropEvt.data.target.$;
+		values.dropTarget = dropEvt.data.target;
 
 		if ( onDrop ) {
 			return onDrop( dropEvt );
@@ -102,7 +104,9 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start offset should match.' );
 
 			assert.isTrue( values.dropNativeEventMatch, 'On drop: native event should match.' );
-			assert.areSame( 'targetMock', values.dropTarget, 'On drop: drop target should match.' );
+			// Check that it's the mocked drop target created by the mockDropEvent().
+			assert.areSame( CKEDITOR.NODE_TEXT, values.dropTarget.type, 'On drop: drop target node type should match.' );
+			assert.areSame( 'targetMock', values.dropTarget.getText(), 'On drop: drop target should match.' );
 
 			// Paste event asserts
 			assert.areSame( expectedBeforePasteEventCount, values.beforePasteEventCounter, 'Before paste event should be called ' + expectedBeforePasteEventCount + ' time(s).' );
@@ -195,26 +199,26 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<h1 id="h1">Header1</h1>' +
+			bot.setHtmlWithSelection( '<h1 class="h1">Header1</h1>' +
 			'<p>Lorem ipsum [dolor] sit amet.</p>' );
 			editor.resetUndo();
 
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'h1' ).getChild( 0 ),
-				offset: 7,
+				dropContainer: editor.editable().findOne( '.h1' ).getChild( 0 ),
+				dropOffset: 7,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'dolor',
 				expectedHtml: 'dolor',
 				expectedDataType: 'html',
 				expectedDataValue: 'dolor'
 			}, null, function() {
-				assert.areSame( '<h1 id="h1">Header1dolor^</h1><p>Lorem ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<h1 class="h1">Header1dolor^</h1><p>Lorem ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<h1 id="h1">Header1</h1><p>Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
+				assert.areSame( '<h1 class="h1">Header1</h1><p>Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -222,25 +226,25 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum [dolor] sit amet.</p>' );
+			bot.setHtmlWithSelection( '<p class="p">Lorem ipsum [dolor] sit amet.</p>' );
 			editor.resetUndo();
 
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'dolor',
 				expectedHtml: 'dolor',
 				expectedDataType: 'html',
 				expectedDataValue: 'dolor'
 			}, null, function() {
-				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p class="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
+				assert.areSame( '<p class="p">Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -248,42 +252,42 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
+			bot.setHtmlWithSelection( '<p class="p">Lorem [ipsum] dolor sit amet.</p>' );
 			editor.resetUndo();
 
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 2 ),
-				offset: 11,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 2 ),
+				dropOffset: 11,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'ipsum',
 				expectedHtml: 'ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum'
 			}, null, function() {
-				assert.areSame( '<p id="p">Lorem dolor sit ipsum^amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p class="p">Lorem dolor sit ipsum^amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
+				assert.areSame( '<p class="p">Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
 		'test drop after range end': function( editor ) {
 			var evt = bender.tools.mockDropEvent();
 
-			setWithHtml( editor, '<p id="p"><b>lor{em</b> ipsum} dolor sit amet.</p>' );
+			setWithHtml( editor, '<p class="p"><b>lor{em</b> ipsum} dolor sit amet.</p>' );
 			editor.resetUndo();
 
 			drag( editor, evt );
 
 			drop( editor, evt, {
 				// IE8 split text node anyway so we need different drop position there.
-				element: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
-					editor.document.getById( 'p' ).getChild( 2 ) :
-					editor.document.getById( 'p' ).getChild( 1 ),
-				offset: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
+				dropContainer: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
+					editor.editable().findOne( '.p' ).getChild( 2 ) :
+					editor.editable().findOne( '.p' ).getChild( 1 ),
+				dropOffset: CKEDITOR.env.ie && CKEDITOR.env.version == 8 ?
 					11 :
 					17,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
@@ -292,11 +296,11 @@ var testsForMultipleEditor = {
 				expectedDataType: 'html',
 				expectedDataValue: '<b>em</b> ipsum'
 			}, null, function() {
-				assert.isInnerHtmlMatching( '<p id="p"><b>lor</b> dolor sit <b>em</b> ipsum^amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+				assert.isInnerHtmlMatching( '<p class="p"><b>lor</b> dolor sit <b>em</b> ipsum^amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p id="p"><b>lorem</b> ipsum dolor sit ^amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after undo' );
+				assert.isInnerHtmlMatching( '<p class="p"><b>lorem</b> ipsum dolor sit ^amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after undo' );
 			} );
 		},
 
@@ -304,25 +308,25 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p">Lorem [ipsum] dolor sit amet.</p>' );
+			bot.setHtmlWithSelection( '<p class="p">Lorem [ipsum] dolor sit amet.</p>' );
 			editor.resetUndo();
 
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 2 ),
-				offset: 16,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 2 ),
+				dropOffset: 16,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'ipsum',
 				expectedHtml: 'ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum'
 			}, null, function() {
-				assert.areSame( '<p id="p">Lorem dolor sit amet.ipsum^</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p class="p">Lorem dolor sit amet.ipsum^</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
+				assert.areSame( '<p class="p">Lorem ipsum dolor sit amet.</p>', editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -330,25 +334,25 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p" style="margin-left: 20px">Lorem [ipsum] dolor sit amet.</p>' );
+			bot.setHtmlWithSelection( '<p class="p" style="margin-left: 20px">Lorem [ipsum] dolor sit amet.</p>' );
 			editor.resetUndo();
 
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'ipsum',
 				expectedHtml: 'ipsum',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum'
 			}, null, function() {
-				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">ipsum^Lorem dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+				assert.isInnerHtmlMatching( '<p class="p" style="margin-left:20px">ipsum^Lorem dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.isInnerHtmlMatching( '<p id="p" style="margin-left:20px">Lorem ipsum dolor sit amet.@</p>', editor.getData(), htmlMatchOpts, 'after undo' );
+				assert.isInnerHtmlMatching( '<p class="p" style="margin-left:20px">Lorem ipsum dolor sit amet.@</p>', editor.getData(), htmlMatchOpts, 'after undo' );
 			} );
 		},
 
@@ -357,14 +361,14 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p" style="margin-left: 20px"><a href="foo">Lorem [ipsum] dolor</a> sit amet.</p>' );
+			bot.setHtmlWithSelection( '<p class="p" style="margin-left: 20px"><a href="foo">Lorem [ipsum] dolor</a> sit amet.</p>' );
 			editor.resetUndo();
 
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 1 ),
-				offset: 4,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 1 ),
+				dropOffset: 4,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'ipsum',
 				expectedHtml: '<a href="foo">ipsum</a>',
@@ -372,7 +376,7 @@ var testsForMultipleEditor = {
 				expectedDataValue: '<a href="foo">ipsum</a>'
 			}, null, function() {
 				assert.isInnerHtmlMatching(
-					'<p id="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">' +
+					'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">' +
 					'ipsum' + ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? '</a>^' : '^</a>' ) + ' amet.@</p>',
 					getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 			} );
@@ -382,25 +386,25 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
+			bot.setHtmlWithSelection( '<p class="p">Lorem ipsum sit amet.</p>' );
 			editor.resetUndo();
 
 			evt.$.dataTransfer.setData( 'Text', 'dolor' );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
 				expectedText: 'dolor',
 				expectedHtml: '',
 				expectedDataType: 'text',
 				expectedDataValue: 'dolor'
 			}, null, function() {
-				assert.areSame( '<p id="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p class="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
+				assert.areSame( '<p class="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
 
 				assert.isNull( CKEDITOR.plugins.clipboard.dragData, 'dragData should be reset' );
 			} );
@@ -411,7 +415,7 @@ var testsForMultipleEditor = {
 				bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
+			bot.setHtmlWithSelection( '<p class="p">Lorem ipsum sit amet.</p>' );
 			editor.resetUndo();
 
 			if ( isCustomDataTypesSupported ) {
@@ -421,8 +425,8 @@ var testsForMultipleEditor = {
 			}
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
 				expectedText: !isCustomDataTypesSupported ? '<b>dolor</b>' : '',
 				expectedHtml: !isCustomDataTypesSupported ? '' : '<b>dolor</b>',
@@ -430,14 +434,14 @@ var testsForMultipleEditor = {
 				expectedDataValue: !isCustomDataTypesSupported ? '&lt;b&gt;dolor&lt;/b&gt;' : '<b>dolor</b>'
 			}, null, function() {
 				if ( isCustomDataTypesSupported ) {
-					assert.areSame( '<p id="p">Lorem <b>dolor^</b>ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+					assert.areSame( '<p class="p">Lorem <b>dolor^</b>ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 				} else {
-					assert.areSame( '<p id="p">Lorem &lt;b&gt;dolor&lt;/b&gt;^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+					assert.areSame( '<p class="p">Lorem &lt;b&gt;dolor&lt;/b&gt;^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 				}
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
+				assert.areSame( '<p class="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
 
 				assert.isNull( CKEDITOR.plugins.clipboard.dragData, 'dragData should be reset' );
 			} );
@@ -447,16 +451,16 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p">Lorem ^ipsum sit amet.</p>' );
+			bot.setHtmlWithSelection( '<p class="p">Lorem ^ipsum sit amet.</p>' );
 			editor.resetUndo();
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedBeforePasteEventCount: 1,
 				expectedPasteEventCount: 0
 			}, null, function() {
-				assert.areSame( '<p id="p">Lorem ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p class="p">Lorem ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				assert.isNull( CKEDITOR.plugins.clipboard.dragData, 'dragData should be reset' );
 			} );
@@ -466,32 +470,43 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
 				botCross = bender.editorBots.cross,
-				editorCross = botCross.editor;
+				editorCross = botCross.editor,
+				extractRangeSpy = sinon.spy( editorCross.editable(), 'extractHtmlFromRange' );
 
-			setWithHtml( bot.editor, '<p id="p">{}Lorem ipsum sit amet.</p>' );
-			setWithHtml( botCross.editor, '<p id="p">Lorem {ipsum <b>dolor</b> }sit amet.</p>' );
+			setWithHtml( bot.editor, '<p class="p">{}Lorem ipsum sit amet.</p>' );
+			setWithHtml( botCross.editor, '<p class="p">Lorem {ipsum <b>dolor</b> }sit amet.</p>' );
 			bot.editor.resetUndo();
 			botCross.editor.resetUndo();
 
 			drag( editorCross, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 6,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_CROSS_EDITORS,
 				expectedText: 'ipsum dolor ',
 				expectedHtml: 'ipsum <b>dolor</b> ',
 				expectedDataType: 'html',
 				expectedDataValue: 'ipsum <b>dolor</b> '
 			}, null, function() {
-				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
-				assert.areSame( '<p id="p">Lorem sit amet.</p>', editorCross.getData(), 'after drop - editor cross' );
+				extractRangeSpy.restore();
+
+				assert.areSame( '<p class="p">Lorem ipsum <b>dolor</b> ^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p class="p">Lorem sit amet.</p>', editorCross.getData(), 'after drop - editor cross' );
+
+				assert.isTrue( extractRangeSpy.called, 'extractHtmlFromRange was called on the source editor\'s editable' );
+
+				assert.isInnerHtmlMatching(
+					'<p class="p">Lorem ^sit amet.@</p>',
+					bender.tools.selection.getWithHtml( editorCross ),
+					htmlMatchOpts,
+					'selection was set in the source editor' );
 
 				editor.execCommand( 'undo' );
 				editorCross.execCommand( 'undo' );
 
-				assert.areSame( '<p id="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
-				assert.areSame( '<p id="p">Lorem ipsum <b>dolor</b> sit amet.</p>', editorCross.getData(), 'after undo - editor cross' );
+				assert.areSame( '<p class="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
+				assert.areSame( '<p class="p">Lorem ipsum <b>dolor</b> sit amet.</p>', editorCross.getData(), 'after undo - editor cross' );
 			} );
 		},
 
@@ -500,37 +515,39 @@ var testsForMultipleEditor = {
 				evt = bender.tools.mockDropEvent();
 
 			bot.setHtmlWithSelection( '<p>x' +
-				'<b id="drag1">x[drag1]x</b>x' +
-				'<b id="drag2">drag2</b>x' +
-				'<b id="drop1">drop1</b>x' +
-				'<b id="drop2">drop2</b>x</p>' );
+				'<b class="drag1">x[drag1]x</b>x' +
+				'<b class="drag2">drag2</b>x' +
+				'<b class="drop1">drop1</b>x' +
+				'<b class="drop2">drop2</b>x</p>' );
 			editor.resetUndo();
 
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'drop1' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.drop1' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
 				expectedText: 'drag1',
-				expectedHtml: '<b id="drag1">drag1</b>',
+				expectedHtml: '<b class="drag1">drag1</b>',
 				expectedDataType: 'html',
-				expectedDataValue: '<b id="drag1">drag1</b>'
+				expectedDataValue: '<b class="drag1">drag1</b>'
 			}, function( evt ) {
 				if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) && !CKEDITOR.env.safari ) {
-					assert.areSame( editor.document.getById( 'drag1' ), evt.data.dragRange.startContainer, 'dropRange.startContainer' );
+					assert.areSame( editor.editable().findOne( '.drag1' ), evt.data.dragRange.startContainer, 'dropRange.startContainer' );
 					assert.areSame( 1, evt.data.dragRange.startOffset, 'dropRange.startOffset' );
 				}
 
-				evt.data.dragRange.selectNodeContents( editor.document.getById( 'drag2' ) );
-				evt.data.dropRange.setStart( editor.document.getById( 'drop2' ), 4 );
+				evt.data.dragRange.selectNodeContents( editor.editable().findOne( '.drag2' ) );
+				evt.data.dropRange.setStart( editor.editable().findOne( '.drop2' ), 4 );
 				evt.data.dropRange.collapse( true );
 			}, function() {
-				assert.areSame( '<p>x<b id="drag1">xdrag1x</b>xx<b id="drop1">drop1</b>x<b id="drop2">drop2</b><b id="drag1">drag1^</b>x</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p>x<b class="drag1">xdrag1x</b>xx<b class="drop1">drop1</b>x<b class="drop2">drop2</b><b class="drag1">drag1^</b>x</p>',
+					bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 
 				editor.execCommand( 'undo' );
 
-				assert.areSame( '<p>x<b id="drag1">xdrag1x</b>x<b id="drag2">drag2</b>x<b id="drop1">drop1</b>x<b id="drop2">drop2</b>x</p>', editor.getData(), 'after undo' );
+				assert.areSame( '<p>x<b class="drag1">xdrag1x</b>x<b class="drag2">drag2</b>x<b class="drop1">drop1</b>x<b class="drop2">drop2</b>x</p>',
+					editor.getData(), 'after undo' );
 			} );
 		},
 
@@ -538,19 +555,19 @@ var testsForMultipleEditor = {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			bot.setHtmlWithSelection( '<p class="p">^foo</p>' );
 			editor.resetUndo();
 
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedPasteEventCount: 0
 			}, function() {
 				return false;
 			}, function() {
-				assert.areSame( '<p id="p">^foo</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+				assert.areSame( '<p class="p">^foo</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 			} );
 		}
 	},
@@ -609,8 +626,8 @@ var testsForMultipleEditor = {
 				p, text;
 
 			// Create DOM
-			bot.setHtmlWithSelection( '<p id="p">lorem ipsum sit amet.</p>' );
-			p = editor.document.getById( 'p' );
+			bot.setHtmlWithSelection( '<p class="p">lorem ipsum sit amet.</p>' );
+			p = editor.editable().findOne( '.p' );
 
 			// Set drag range.
 			dragRange.setStart( p.getChild( 0 ), 11 );
@@ -631,75 +648,116 @@ var testsForMultipleEditor = {
 			// Asserts.
 			assert.areSame( 1, p.getChildCount() );
 			dragRange.select();
-			assert.isInnerHtmlMatching( '<p id="p">lorem ipsum^ sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
+			assert.isInnerHtmlMatching( '<p class="p">lorem ipsum^ sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 			dropRange.select();
-			assert.isInnerHtmlMatching( '<p id="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
+			assert.isInnerHtmlMatching( '<p class="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 		},
 
-		'test isRangeBefore 1': function() {
+		'test isDropRangeAffectedByDragRange 1': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
-				firstRange = editor.createRange(),
-				secondRange = editor.createRange(),
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
 				p;
 
 			// "Lorem[1] ipsum[2] sit amet."
-			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum sit amet.</p>' );
-			p = editor.document.getById( 'p' );
+			bot.setHtmlWithSelection( '<p class="p">Lorem ipsum sit amet.</p>' );
+			p = editor.editable().findOne( '.p' );
 
-			firstRange.setStart( p.getChild( 0 ), 5 );
-			firstRange.collapse( true );
+			dragRange.setStart( p.getChild( 0 ), 5 );
+			dragRange.collapse( true );
 
-			secondRange.setStart( p.getChild( 0 ), 11 );
-			secondRange.collapse( true );
+			dropRange.setStart( p.getChild( 0 ), 11 );
+			dropRange.collapse( true );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+			assert.isTrue( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
 		},
 
-		'test isRangeBefore 2': function() {
+		'test isDropRangeAffectedByDragRange 2': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
-				firstRange = editor.createRange(),
-				secondRange = editor.createRange(),
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
 				p, text;
 
 			// "Lorem " [1] " ipsum" [2] "sit amet."
-			bot.setHtmlWithSelection( '<p id="p">Lorem </p>' );
-			p = editor.document.getById( 'p' );
+			bot.setHtmlWithSelection( '<p class="p">Lorem </p>' );
+			p = editor.editable().findOne( '.p' );
 			text = new CKEDITOR.dom.text( ' ipsum' );
 			text.insertAfter( p.getChild( 0 ) );
 			text = new CKEDITOR.dom.text( ' sit amet.' );
 			text.insertAfter( p.getChild( 0 ) );
 
-			firstRange.setStart( p, 1 );
-			firstRange.collapse( true );
+			dragRange.setStart( p, 1 );
+			dragRange.collapse( true );
 
-			secondRange.setStart( p, 2 );
-			secondRange.collapse( true );
+			dropRange.setStart( p, 2 );
+			dropRange.collapse( true );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+			assert.isTrue( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
 		},
 
-		'test isRangeBefore 3': function() {
+		'test isDropRangeAffectedByDragRange 3': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
-				firstRange = editor.createRange(),
-				secondRange = editor.createRange(),
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
 				p, text;
 
 			// "Lorem[1] ipsum" [2] "sit amet."
+			bot.setHtmlWithSelection( '<p class="p">Lorem ipsum</p>' );
+			p = editor.editable().findOne( '.p' );
+			text = new CKEDITOR.dom.text( ' sit amet.' );
+			text.insertAfter( p.getChild( 0 ) );
+
+			dragRange.setStart( p.getChild( 0 ), 5 );
+			dragRange.collapse( true );
+
+			dropRange.setStart( p, 1 );
+			dropRange.collapse( true );
+
+			assert.isTrue( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
+		},
+
+		'test isDropRangeAffectedByDragRange 4': function() {
+			var editor = this.editors.framed,
+				bot = this.editorBots[ editor.name ],
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
+				p, text;
+
+			// <p> [2] "Lorem[1] ipsum" "sit amet." </p>
 			bot.setHtmlWithSelection( '<p id="p">Lorem ipsum</p>' );
 			p = editor.document.getById( 'p' );
 			text = new CKEDITOR.dom.text( ' sit amet.' );
 			text.insertAfter( p.getChild( 0 ) );
 
-			firstRange.setStart( p.getChild( 0 ), 5 );
-			firstRange.collapse( true );
+			dragRange.setStart( p.getChild( 0 ), 5 );
+			dragRange.collapse( true );
 
-			secondRange.setStart( p, 1 );
-			secondRange.collapse( true );
+			dropRange.setStart( p, 0 );
+			dropRange.collapse( true );
 
-			assert.isTrue( CKEDITOR.plugins.clipboard.isRangeBefore( firstRange, secondRange ) );
+			assert.isFalse( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
+		},
+
+		'test isDropRangeAffectedByDragRange adjacent positions (#13140)': function() {
+			var editor = this.editors.framed,
+				bot = this.editorBots[ editor.name ],
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
+				div;
+
+			bot.setHtmlWithSelection( '<div><p id="foo">foo</p><p id="bar">bar</p></div>' );
+			div = editor.document.findOne( 'div' );
+
+			dragRange.setStart( div, 1 );
+			dragRange.setEnd( div, 2 );
+
+			dropRange.setStart( div, 2 );
+			dropRange.setEnd( div, 2 );
+
+			assert.isTrue( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
 		},
 
 		'test dragEnd event': function() {
@@ -721,7 +779,8 @@ var testsForMultipleEditor = {
 
 				assert.areSame( 'foo', dragendEvt.data.dataTransfer.getData( 'Text' ), 'cke/custom' );
 				assert.areSame( evt.data.$, dragendEvt.data.$, 'nativeEvent' );
-				assert.areSame( 'targetMock', dragendEvt.data.target.$, 'target' );
+				assert.areSame( CKEDITOR.NODE_TEXT, dragendEvt.data.target.type, 'drag target node type' );
+				assert.areSame( 'targetMock', dragendEvt.data.target.getText(), 'drag target node' );
 			} );
 
 			editable.fire( 'dragend', evt.data );
@@ -783,7 +842,7 @@ var testsForMultipleEditor = {
 				evt = bender.tools.mockDropEvent(),
 				dragstartData, dropData, dragendData;
 
-			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			bot.setHtmlWithSelection( '<p class="p">^foo</p>' );
 			editor.resetUndo();
 
 			editor.once( 'dragstart', function( evt ) {
@@ -802,8 +861,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedPasteEventCount: 0
 			}, function() {
 				return false;
@@ -817,6 +876,32 @@ var testsForMultipleEditor = {
 			} );
 		},
 
+		'test drop block element at the same position': function() {
+			var editor = this.editors.framed,
+				evt = bender.tools.mockDropEvent();
+
+			bender.tools.selection.setWithHtml(
+				editor,
+				'<p>x</p>' +
+				'[<p id="middle" contenteditable="false">middle</p>]' +
+				'<p>y</p>'
+			);
+
+			drag( editor, evt );
+			drop( editor, evt, {
+				dropContainer: editor.editable(),
+				dropOffset: 2,
+				expectedPasteEventCount: 0
+			}, function() {
+				return false;
+			}, function() {
+				assert.isInnerHtmlMatching(
+					'<p>x</p><p contenteditable="false" id="middle">middle</p><p>y</p>',
+					editor.editable().getHtml()
+				);
+			} );
+		},
+
 		'test set custom data on drop': function() {
 			var editor = this.editors.inline,
 				editable = editor.editable(),
@@ -824,7 +909,7 @@ var testsForMultipleEditor = {
 				evt = bender.tools.mockDropEvent(),
 				dragstartData, dropData, dragendData;
 
-			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			bot.setHtmlWithSelection( '<p class="p">^foo</p>' );
 			editor.resetUndo();
 
 			editor.once( 'dragstart', function( evt ) {
@@ -843,8 +928,8 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedPasteEventCount: 0
 			}, function() {
 				return false;
@@ -863,7 +948,7 @@ var testsForMultipleEditor = {
 				bot = this.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
-			bot.setHtmlWithSelection( '<p id="p">^foo</p>' );
+			bot.setHtmlWithSelection( '<p class="p">^foo</p>' );
 			editor.resetUndo();
 
 			editor.once( 'beforePaste', function() {
@@ -873,11 +958,34 @@ var testsForMultipleEditor = {
 			drag( editor, evt );
 
 			drop( editor, evt, {
-				element: editor.document.getById( 'p' ).getChild( 0 ),
-				offset: 0,
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
 				expectedBeforePasteEventCount: 1,
 				expectedPasteEventCount: 0
 			} );
+		},
+
+		'test drop on non editable (#13015)': function() {
+			var editor = this.editors.divarea,
+				bot = this.editorBots[ editor.name ],
+				evt = bender.tools.mockDropEvent();
+
+			bot.setHtmlWithSelection( '<div><p contenteditable="false">foo</p></div>' );
+			editor.resetUndo();
+
+			// Target is not editable.
+			evt.getTarget = function() {
+				return editor.editable().findOne( 'p' ).getFirst();
+			};
+
+			var dropSpy = sinon.spy();
+			editor.on( 'drop', dropSpy );
+
+			var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
+			dropTarget.fire( 'dragstart', evt );
+			dropTarget.fire( 'drop', evt );
+
+			assert.isFalse( dropSpy.called );
 		}
 	};
 

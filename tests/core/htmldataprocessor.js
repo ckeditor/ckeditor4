@@ -498,6 +498,12 @@
 			}
 		},
 
+		// #13233
+		'test don\'t protect foo:href attributes': function() {
+			assert.areSame( '<a foo:href="http://ckeditor.com">foo</a>',
+				bender.tools.fixHtml( this.editor.dataProcessor.toHtml( '<a foo:href="http://ckeditor.com">foo</a>' ) ) );
+		},
+
 		// #4243
 		'test custom protected source': function() {
 			var source = '<p>some<protected>protected</protected>text</p>';
@@ -538,6 +544,40 @@
 					'tc ' + i
 				);
 			}
+		},
+
+		// #13292
+		'test protected source in attribute in self-closing tag': function() {
+			var processor = this.editors.editor3.dataProcessor,
+				source = '<p><img src="[[image]]"/></a></p>',
+				expectedHtml = '<p><img data-cke-saved-src="{cke_protected_1}" src="{cke_protected_1}" /></p>',
+				expectedOutput = '<p><img src="[[image]]" /></p>';
+
+			var html = processor.toHtml( source );
+
+			assert.isInnerHtmlMatching( expectedHtml, html, 'toHtml' );
+
+			assert.areSame( expectedOutput, processor.toDataFormat( html ), 'toDataFormat' );
+		},
+
+		// #11754
+		'test malformed HTML does not hang the processor': function() {
+			var processor = this.editor.dataProcessor,
+				source = '<table border=0 cellspacing=0 cellpadding=0 style=\'border-collapse:collapse;></table>',
+				expectedHtml = '@';
+
+			assert.isInnerHtmlMatching( expectedHtml, processor.toHtml( source ) );
+		},
+
+		// #11846
+		'test malformed HTML does not hang the processor 2': function() {
+			var processor = this.editor.dataProcessor,
+				source =
+					'<span id="sample" overflow="hidden" ;"="" style="font-size:8pt; font-weight:normal; ' +
+						'font-style:normal; color:#808080; background:transparent">Text</span>';
+
+			processor.toHtml( source );
+			assert.isTrue( true, 'happy to be here' );
 		},
 
 		// Some elements should not have protected source markup inside. (#11223)

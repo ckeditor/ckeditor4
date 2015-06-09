@@ -133,6 +133,13 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'Test appendText', element.$.text );
 		},
 
+		// #13232
+		'test appendText to link': function() {
+			var element = newElement( 'a' );
+			element.appendText( '@' );
+			assert.areEqual( '@', element.getText() );
+		},
+
 		test_setHtml: function() {
 			var element = newElement( document.getElementById( 'append' ) );
 			element.setHtml( '<b>Test</b>' );
@@ -650,7 +657,7 @@ bender.test( appendDomObjectTests(
 
 			element.breakParent( parent );
 
-			assert.areEqual( '<i>text1</i><b>text2</b><i>text3</i>', getInnerHtml( 'breakParent' ) );
+			assert.areEqual( '<i id="a">text1</i><b id="b">text2</b><i>text3</i>', getInnerHtml( 'breakParent' ) );
 		},
 
 		test_contains: function() {
