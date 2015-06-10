@@ -2533,6 +2533,7 @@ CKEDITOR.dom.range = function( root ) {
 
 			if ( !isRootAscendantOrSelf ) {
 				window.console && console.log && console.log( 'Element', startContainer, 'is not a descendant of root', this.root ); // jshint ignore:line
+				throw new Error( 1 );
 			}
 			// %REMOVE_END%
 			this.startContainer = startContainer;
@@ -2551,6 +2552,7 @@ CKEDITOR.dom.range = function( root ) {
 
 			if ( !isRootAscendantOrSelf ) {
 				window.console && console.log && console.log( 'Element', endContainer, 'is not a descendant of root', this.root ); // jshint ignore:line
+				throw new Error( 2 );
 			}
 			// %REMOVE_END%
 			this.endContainer = endContainer;

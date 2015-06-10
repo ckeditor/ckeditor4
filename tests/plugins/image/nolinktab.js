@@ -6,17 +6,16 @@
 	bender.editor = {
 		creator: 'inline',
 		config: {
-			autoParagraph: false,
 			removeDialogTabs: 'image:Link'
 		}
 	};
 
 	var SRC = '%BASE_PATH%_assets/img.gif';
-	var defaultExpectedOutput = '<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>';
+	var defaultExpectedOutput = '<p>x<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>x</p>';
 
 	function keepLinkTest( bot, htmlWithSelection, expectedOutput ) {
 		bot.editor.focus();
-		bot.setHtmlWithSelection( htmlWithSelection );
+		bender.tools.selection.setWithHtml( bot.editor, htmlWithSelection );
 		bot.dialog( 'image', function( dialog ) {
 			dialog.getContentElement( 'info', 'txtUrl' ).setValue( SRC );
 
@@ -34,22 +33,30 @@
 	bender.test( {
 		// #13351.
 		'keep link after editing (selected link)': function() {
-			keepLinkTest( this.editorBot, '[<a href="#"><img alt="" src="' + SRC + '" /></a>]', defaultExpectedOutput );
+			// IE8 isn't able to select link from outside.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+			keepLinkTest( this.editorBot, '<p>x[<a href="#"><img alt="" src="' + SRC + '" /></a>]x</p>', defaultExpectedOutput );
 		},
 
 		// #13351.
 		'keep link after editing (selected image)': function() {
-			keepLinkTest( this.editorBot, '<a href="#">[<img alt="" src="' + SRC + '" />]</a>', defaultExpectedOutput );
+			keepLinkTest( this.editorBot, '<p>x<a href="#">[<img alt="" src="' + SRC + '" />]</a>x</p>', defaultExpectedOutput );
 		},
 
 		// #13351.
 		'keep link after editing (selected text, new image)': function() {
-			keepLinkTest( this.editorBot, '<a href="#">[old content]</a>', defaultExpectedOutput );
+			keepLinkTest( this.editorBot, '<p>x<a href="#">[old content]</a>x</p>', defaultExpectedOutput );
 		},
 
 		// #13351.
 		'keep link after editing (selected link, new image)': function() {
-			keepLinkTest( this.editorBot, '[<a href="#">old content</a>]', defaultExpectedOutput );
+			// IE8 isn't able to select link from outside.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+			keepLinkTest( this.editorBot, '<p>x[<a href="#">old content</a>]x</p>', defaultExpectedOutput );
 		}
 	} );
 } )();
