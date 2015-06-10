@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor,unit,image */
 /* bender-ckeditor-plugins: image,button,toolbar,link */
 ( function() {
 	'use strict';
@@ -12,265 +12,226 @@
 
 	var SRC = '%BASE_PATH%_assets/logo.png';
 
+	var imageProps = {
+		txtWidth: 414,
+		txtHeight: 86,
+		txtBorder: 2,
+		txtHSpace: 5,
+		txtVSpace: 10,
+		cmbAlign: 'right'
+	};
+
+	function downloadImage( src, cb ) {
+		var img = new CKEDITOR.dom.element( 'img' );
+
+		img.once( 'load', onDone );
+		img.once( 'error', onDone );
+
+		function onDone() {
+			setTimeout( cb, 0 );
+		}
+
+		img.setAttribute( 'src', src );
+	}
+
+	function testReadImage( bot, htmlWithSelection, inpValMap, onDialogShowCb ) {
+		var key,
+			inputName,
+			tabName = 'info';
+
+		bot.editor.focus();
+		bot.setHtmlWithSelection( htmlWithSelection );
+
+		bot.dialog( 'image', function( dialog ) {
+			if ( typeof onDialogShowCb == 'function' ) {
+				onDialogShowCb( dialog );
+			}
+
+			for ( key in inpValMap ) {
+				if ( inpValMap.hasOwnProperty( key ) ) {
+					var expectedValue = inpValMap[ key ];
+
+					var keySplit = key.split( ':' );
+
+					if ( keySplit.length == 1 )
+						inputName = keySplit[ 0 ];
+					else {
+						inputName = keySplit[ 1 ];
+						tabName = keySplit[ 0 ];
+					}
+
+					var field = dialog.getContentElement( tabName, inputName );
+					// Typeof NaN == number, so if NaN is passed as expected value, input value will be parsed.
+					var realValue = ( typeof expectedValue == 'number' ) ? parseInt( field.getValue(), 10 ) : field.getValue();
+					var errorMessage = 'Wrong value for input ' + inputName + '.';
+
+					if ( isNaN( expectedValue ) )
+						assert.isNaN( realValue, errorMessage );
+					else
+						assert.areSame( expectedValue, realValue, errorMessage );
+				}
+			}
+
+			dialog.getButton( 'ok' ).click();
+		} );
+	}
+
+	function testUpdateImage( bot, htmlWithSelection, expectedOutput, inpValMap ) {
+		var key,
+			inputName,
+			tabName = 'info';
+
+		bot.editor.focus();
+		bot.setHtmlWithSelection( htmlWithSelection );
+
+		bot.dialog( 'image', function( dialog ) {
+			for ( key in inpValMap ) {
+				if ( inpValMap.hasOwnProperty( key ) ) {
+					var keySplit = key.split( ':' );
+
+					if ( keySplit.length == 1 )
+						inputName = keySplit[ 0 ];
+					else {
+						inputName = keySplit[ 1 ];
+						tabName = keySplit[ 0 ];
+					}
+
+					var field = dialog.getContentElement( tabName, inputName );
+
+					field.setValue( inpValMap[ key ] );
+				}
+			}
+
+			dialog.getButton( 'ok' ).click();
+
+			assert.areEqual( expectedOutput.toLowerCase(), bot.getData( true ) );
+		} );
+	}
+
+	function chooseExpectedOutput( o ) {
+		return ( CKEDITOR.env.ie && CKEDITOR.env.version >= 11 ) ? o.outputNewIE2
+			: ( CKEDITOR.env.ie && document.documentMode > 8 ) ? o.outputNewIE
+			: CKEDITOR.env.ie ? o.outputIE
+			: CKEDITOR.env.gecko ? o.standard
+			: CKEDITOR.env.safari && CKEDITOR.env.version < 536 ? o.outputSafari5
+			: CKEDITOR.env.webkit ? o.standard
+			: o.outputOpera;
+	}
+
 	bender.test( {
 		'test read image (inline styles)': function() {
-			var bot = this.editorBot;
+			var htmlWithSelection = '[<img src="' + SRC + '" style="border:solid 2px;height:86px;margin:10px 5px;float:right;width:414px;">]';
 
-			bot.setHtmlWithSelection( '[<img src="' + SRC + '" style="border:solid 2px;height:86px;margin:10px 5px;float:right;width:414px;">]' );
-			bot.dialog( 'image', function( dialog ) {
-				var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-					heightField = dialog.getContentElement( 'info', 'txtHeight' ),
-					borderField = dialog.getContentElement( 'info', 'txtBorder' ),
-					hspaceField = dialog.getContentElement( 'info', 'txtHSpace' ),
-					vspaceField = dialog.getContentElement( 'info', 'txtVSpace' ),
-					alignField = dialog.getContentElement( 'info', 'cmbAlign' );
-
-				assert.areSame( 414, parseInt( widthField.getValue(), 10 ) );
-				assert.areSame( 86, parseInt( heightField.getValue(), 10 ) );
-				assert.areSame( 2, parseInt( borderField.getValue(), 10 ) );
-				assert.areSame( 5, parseInt( hspaceField.getValue(), 10 ) );
-				assert.areSame( 10, parseInt( vspaceField.getValue(), 10 ) );
-				assert.areSame( 'right', alignField.getValue(), 10 );
-
-				dialog.getButton( 'ok' ).click();
-			} );
+			testReadImage( this.editorBot, htmlWithSelection, imageProps );
 		},
 
 		'test read image (attributes)': function() {
-			var bot = this.editorBot;
+			var htmlWithSelection = '[<img src="' + SRC + '" border="2" height="86" width="414" vspace="10" hspace="5" align="right">]';
 
-			bot.setHtmlWithSelection( '[<img src="' + SRC + '" border="2" height="86" width="414" vspace="10" hspace="5" align="left">]' );
-			bot.dialog( 'image', function( dialog ) {
-				var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-					heightField = dialog.getContentElement( 'info', 'txtHeight' ),
-					borderField = dialog.getContentElement( 'info', 'txtBorder' ),
-					hspaceField = dialog.getContentElement( 'info', 'txtHSpace' ),
-					vspaceField = dialog.getContentElement( 'info', 'txtVSpace' ),
-					alignField = dialog.getContentElement( 'info', 'cmbAlign' );
-
-				assert.areSame( 414, parseInt( widthField.getValue(), 10 ) );
-				assert.areSame( 86, parseInt( heightField.getValue(), 10 ) );
-				assert.areSame( 2, parseInt( borderField.getValue(), 10 ) );
-				assert.areSame( 5, parseInt( hspaceField.getValue(), 10 ) );
-				assert.areSame( 10, parseInt( vspaceField.getValue(), 10 ) );
-				assert.areSame( 'left', alignField.getValue() );
-
-				dialog.getButton( 'ok' ).click();
-			} );
+			testReadImage( this.editorBot, htmlWithSelection, imageProps );
 		},
 
 		'test read image (align)': function() {
-			var bot = this.editorBot;
+			var htmlWithSelection = '[<img src="' + SRC + '" align="texttop" style="float:inherit">]';
 
-			bot.setHtmlWithSelection( '[<img src="' + SRC + '" align="texttop" style="float:inherit">]' );
-			bot.dialog( 'image', function( dialog ) {
-				var alignField = dialog.getContentElement( 'info', 'cmbAlign' );
-				assert.areSame( '', alignField.getValue() );
-
-				dialog.getButton( 'ok' ).click();
+			testReadImage( this.editorBot, htmlWithSelection, {
+				cmbAlign: ''
 			} );
 		},
 
 		'test read image (inline v.s. attributes)': function() {
-			var bot = this.editorBot;
-
-			bot.setHtmlWithSelection(
-				'[<img src="' + SRC + '" ' +
+			var htmlWithSelection = '[<img src="' + SRC + '" ' +
 				'border="1" height="43" width="212" vspace="0" hspace="0" align="left" ' +
-				'style="border:solid 2px blue;width:414px;height:86px;margin:10px 5px;vertical-align:bottom;float:right">]'
-			);
+				'style="border:solid 2px blue;width:414px;height:86px;margin:10px 5px;vertical-align:bottom;float:right">]';
 
-			bot.dialog( 'image', function( dialog ) {
-				var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-						heightField = dialog.getContentElement( 'info', 'txtHeight' ),
-						borderField = dialog.getContentElement( 'info', 'txtBorder' ),
-						hspaceField = dialog.getContentElement( 'info', 'txtHSpace' ),
-						vspaceField = dialog.getContentElement( 'info', 'txtVSpace' ),
-						alignField = dialog.getContentElement( 'info', 'cmbAlign' );
-
-				assert.areSame( 414, parseInt( widthField.getValue(), 10 ) );
-				assert.areSame( 86, parseInt( heightField.getValue(), 10 ) );
-				assert.areSame( 2, parseInt( borderField.getValue(), 10 ) );
-				assert.areSame( 5, parseInt( hspaceField.getValue(), 10 ) );
-				assert.areSame( 10, parseInt( vspaceField.getValue(), 10 ) );
-				assert.areSame( 'right', alignField.getValue() );
-
-				dialog.getButton( 'ok' ).click();
-			} );
+			testReadImage( this.editorBot, htmlWithSelection, imageProps );
 		},
 
 		'test read image (border/margin styles)': function() {
-			var bot = this.editorBot;
-
-			bot.setHtmlWithSelection(
-				'[<img src="' + SRC + '" ' +
+			var htmlWithSelection = '[<img src="' + SRC + '" ' +
 				'style="border-bottom-width:2px;border-left-width:2px;border-right-width:2px;border-top-width:2px;' +
-				'margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;">]'
-			);
+				'margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;">]';
 
-			bot.dialog( 'image', function( dialog ) {
-				var borderField = dialog.getContentElement( 'info', 'txtBorder' ),
-					hspaceField = dialog.getContentElement( 'info', 'txtHSpace' ),
-					vspaceField = dialog.getContentElement( 'info', 'txtVSpace' );
-
-				assert.areSame( 2, parseInt( borderField.getValue(), 10 ) );
-				assert.areSame( 5, parseInt( hspaceField.getValue(), 10 ) );
-				assert.areSame( 10, parseInt( vspaceField.getValue(), 10 ) );
-
-				dialog.getButton( 'ok' ).click();
+			testReadImage( this.editorBot, htmlWithSelection, {
+				txtBorder: 2,
+				txtHSpace: 5,
+				txtVSpace: 10
 			} );
 		},
 
 		'test read image (unrecognized border styles)': function() {
-			var bot = this.editorBot;
-
-			bot.setHtmlWithSelection(
-				'[<img src="' + SRC + '" ' +
+			var htmlWithSelection = '[<img src="' + SRC + '" ' +
 				'style="border-style:solid;border-bottom-width:1px;border-left-width:2px;border-right-width:2px;border-top-width:2px;' +
-				'margin: 10px 5px 11px;">]'
-			);
+				'margin: 10px 5px 11px;">]';
 
-			bot.dialog( 'image', function( dialog ) {
-				var borderField = dialog.getContentElement( 'info', 'txtBorder' ),
-				hspaceField = dialog.getContentElement( 'info', 'txtHSpace' ),
-				vspaceField = dialog.getContentElement( 'info', 'txtVSpace' );
-
-				assert.isNaN( parseInt( borderField.getValue(), 10 ) );
-				assert.areSame( 5, parseInt( hspaceField.getValue(), 10 ) );
-				assert.isNaN( parseInt( vspaceField.getValue(), 10 ) );
-
-				dialog.getButton( 'ok' ).click();
+			testReadImage( this.editorBot, htmlWithSelection, {
+				txtBorder: Number.NaN,
+				txtHSpace: 5,
+				txtVSpace: Number.NaN
 			} );
 		},
 
 		'test read image (sync styles from advanced tab)': function() {
-			var bot = this.editorBot;
+			var htmlWithSelection = '[<img src="' + SRC + '" style="">]';
 
-			bot.setHtmlWithSelection( '[<img src="' + SRC + '" style="">]' );
-
-			bot.dialog( 'image', function( dialog ) {
-				var styleTextField = dialog.getContentElement( 'advanced', 'txtdlgGenStyle' ),
-				widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-				heightField = dialog.getContentElement( 'info', 'txtHeight' ),
-				borderField = dialog.getContentElement( 'info', 'txtBorder' ),
-				hspaceField = dialog.getContentElement( 'info', 'txtHSpace' ),
-				vspaceField = dialog.getContentElement( 'info', 'txtVSpace' ),
-				alignField = dialog.getContentElement( 'info', 'cmbAlign' );
-
+			testReadImage( this.editorBot, htmlWithSelection, {
+				txtWidth: 200,
+				txtHeight: 300,
+				txtBorder: 1,
+				txtHSpace: 5,
+				txtVSpace: 10,
+				cmbAlign: 'left'
+			}, function( dialog ) {
+				var styleTextField = dialog.getContentElement( 'advanced', 'txtdlgGenStyle' );
 				styleTextField.setValue( 'height:300px;width:200px;border: 1px solid;margin:10px 5px;vertical-align:top;float:left' );
-
-				assert.areSame( 200, parseInt( widthField.getValue(), 10 ) );
-				assert.areSame( 300, parseInt( heightField.getValue(), 10 ) );
-				assert.areSame( 1, parseInt( borderField.getValue(), 10 ) );
-				assert.areSame( 5, parseInt( hspaceField.getValue(), 10 ) );
-				assert.areSame( 10, parseInt( vspaceField.getValue(), 10 ) );
-				assert.areSame( 'left', alignField.getValue(), 10 );
-
-				dialog.getButton( 'ok' ).click();
 			} );
 		},
 
 		'test update image (inline styles)': function() {
-			var bot = this.editorBot,
-				// jscs:disable maximumLineLength
-				standard = '<img src="' + SRC + '" style="border:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputIE = '<img src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputNewIE = '<img src="' + SRC + '" style="border:2px solid currentcolor;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputNewIE2 = '<img src="' + SRC + '" style="border:2px solid currentcolor;border-image:none;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputOpera = '<img src="' + SRC + '" style="border-bottom-color:currentcolor;border-bottom-style:solid;border-bottom-width:2px;border-left-color:currentcolor;border-left-style:solid;border-left-width:2px;border-right-color:currentcolor;border-right-style:solid;border-right-width:2px;border-top-color:currentcolor;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
-				outputSafari5 = '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-color:initial;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
-				// jscs:enable maximumLineLength
-				output =
-					( CKEDITOR.env.ie && CKEDITOR.env.version >= 11 ) ? outputNewIE2
-					: ( CKEDITOR.env.ie && document.documentMode > 8 ) ? outputNewIE
-					: CKEDITOR.env.ie ? outputIE
-					: CKEDITOR.env.gecko ? standard
-					: CKEDITOR.env.safari && CKEDITOR.env.version < 536 ? outputSafari5
-					: CKEDITOR.env.webkit ? standard
-					: outputOpera;
+			var htmlWithSelection = '[<img src="' + SRC + '" style="height:300px;width:200px;border: 1px solid;float:left"/>]';
 
-			bot.setHtmlWithSelection( '[<img src="' + SRC + '" style="height:300px;width:200px;border: 1px solid;float:right"/>]' );
-			bot.dialog( 'image', function( dialog ) {
-				var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-					heightField = dialog.getContentElement( 'info', 'txtHeight' ),
-					borderField = dialog.getContentElement( 'info', 'txtBorder' ),
-					hspaceField = dialog.getContentElement( 'info', 'txtHSpace' ),
-					vspaceField = dialog.getContentElement( 'info', 'txtVSpace' ),
-					alignField = dialog.getContentElement( 'info', 'cmbAlign' );
-
-				widthField.setValue( 414 );
-				heightField.setValue( 86 );
-				borderField.setValue( 2 );
-				hspaceField.setValue( 5 );
-				vspaceField.setValue( 10 );
-				alignField.setValue( 'right' );
-
-				dialog.getButton( 'ok' ).click();
-
-				assert.areEqual( output.toLowerCase(), bot.getData( true ) );
+			// jscs:disable maximumLineLength
+			var expectedOutput = chooseExpectedOutput( {
+				standard: '<img src="' + SRC + '" style="border:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputIE: '<img src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputNewIE: '<img src="' + SRC + '" style="border:2px solid currentcolor;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputNewIE2: '<img src="' + SRC + '" style="border:2px solid currentcolor;border-image:none;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputOpera: '<img src="' + SRC + '" style="border-bottom-color:currentcolor;border-bottom-style:solid;border-bottom-width:2px;border-left-color:currentcolor;border-left-style:solid;border-left-width:2px;border-right-color:currentcolor;border-right-style:solid;border-right-width:2px;border-top-color:currentcolor;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
+				outputSafari5: '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-color:initial;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />'
 			} );
+			// jscs:enable maximumLineLength
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, imageProps );
 		},
 
 		'test update image (attributes)': function() {
-			var bot = this.editorBot,
-				// jscs:disable maximumLineLength
-				standard = '<img src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputIE = '<img src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
-				outputOpera = '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
-				outputSafari5 = '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
-				// jscs:enable maximumLineLength
-				output =
-					( CKEDITOR.env.ie && document.documentMode > 8 ) ? standard
-					: CKEDITOR.env.ie ? outputIE
-					: CKEDITOR.env.gecko ? standard
-					: CKEDITOR.env.safari && CKEDITOR.env.version < 536 ? outputSafari5
-					: CKEDITOR.env.webkit ? standard
-					: outputOpera;
+			var htmlWithSelection = '[<img src="' + SRC + '" height="300" width="200" border="1" align="right" vspace="10" hspace="5"/>]';
 
-			bot.setHtmlWithSelection( '[<img src="' + SRC + '" height="300" width="200" border="1" align="right" vspace="10" hspace="5"/>]' );
-			bot.dialog( 'image', function( dialog ) {
-				var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-				heightField = dialog.getContentElement( 'info', 'txtHeight' ),
-				borderField = dialog.getContentElement( 'info', 'txtBorder' ),
-				hspaceField = dialog.getContentElement( 'info', 'txtHSpace' ),
-				vspaceField = dialog.getContentElement( 'info', 'txtVSpace' ),
-				alignField = dialog.getContentElement( 'info', 'cmbAlign' );
-
-				widthField.setValue( 414 );
-				heightField.setValue( 86 );
-				borderField.setValue( 2 );
-				hspaceField.setValue( 5 );
-				vspaceField.setValue( 10 );
-				alignField.setValue( 'right' );
-
-				dialog.getButton( 'ok' ).click();
-
-				assert.areEqual( output.toLowerCase(), bot.getData( true ) );
+			// jscs:disable maximumLineLength
+			var expectedOutput = chooseExpectedOutput( {
+				standard: '<img src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputIE: '<img src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputNewIE: '<img src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputNewIE2: '<img src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputOpera: '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
+				outputSafari5: '<img src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />'
 			} );
+			// jscs:enable maximumLineLength
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, imageProps );
 		},
 
 		'test update image (remove)': function() {
-			var bot = this.editorBot,
-				output = '<img src="' + SRC + '" />';
+			var htmlWithSelection = '[<img src="' + SRC + '" height="300" width="200" border="1" align="right" vspace="10" hspace="5"/>]';
+			var expectedOutput = '<img src="' + SRC + '" />';
 
-			bot.setHtmlWithSelection( '[<img src="' + SRC + '" height="300" width="200" border="1" align="right" vspace="10" hspace="5"/>]' );
-			bot.dialog( 'image', function( dialog ) {
-				var widthField = dialog.getContentElement( 'info', 'txtWidth' ),
-				heightField = dialog.getContentElement( 'info', 'txtHeight' ),
-				borderField = dialog.getContentElement( 'info', 'txtBorder' ),
-				hspaceField = dialog.getContentElement( 'info', 'txtHSpace' ),
-				vspaceField = dialog.getContentElement( 'info', 'txtVSpace' ),
-				alignField = dialog.getContentElement( 'info', 'cmbAlign' );
-
-				widthField.setValue( '' );
-				heightField.setValue( '' );
-				borderField.setValue( '' );
-				hspaceField.setValue( '' );
-				vspaceField.setValue( '' );
-				alignField.setValue( '' );
-
-				dialog.getButton( 'ok' ).click();
-				assert.areEqual( output.toLowerCase(), bot.getData( true ) );
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				txtWidth: '',
+				txtHeight: '',
+				txtBorder: '',
+				txtHSpace: '',
+				txtVSpace: '',
+				cmbAlign: ''
 			} );
 		},
 
@@ -301,18 +262,12 @@
 
 		// #10867
 		'test set encoded URI as image\'s link': function() {
-			var bot = this.editorBot,
-				uri = 'http://ckeditor.dev/?q=%C5rsrapport';
+			var uri = 'http://ckeditor.dev/?q=%C5rsrapport';
+			var htmlWithSelection = '<p>[<img src="' + SRC + '" />]</p>';
+			var expectedOutput = '<p><a href="' + uri + '"><img src="' + SRC + '" /></a></p>';
 
-			bot.setHtmlWithSelection( '<p>[<img src="' + SRC + '" />]</p>' );
-			bot.dialog( 'image', function( dialog ) {
-				var linkInput = dialog.getContentElement( 'Link', 'txtUrl' );
-
-				linkInput.setValue( uri );
-
-				dialog.getButton( 'ok' ).click();
-
-				assert.areSame( '<p><a href="' + uri + '"><img src="' + SRC + '" /></a></p>', bot.editor.getData() );
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				'Link:txtUrl': uri
 			} );
 		},
 
@@ -372,21 +327,74 @@
 
 				wait();
 			} );
+		},
+
+		'test insert new image': function() {
+			var htmlWithSelection = '';
+
+			// jscs:disable maximumLineLength
+			var expectedOutput = chooseExpectedOutput( {
+				standard: '<img alt="" src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputIE: '<img alt="" src="' + SRC + '" style="border-bottom:2px solid;border-left:2px solid;border-right:2px solid;border-top:2px solid;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputNewIE: '<img alt="" src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputNewIE2: '<img alt="" src="' + SRC + '" style="border-style:solid;border-width:2px;float:right;height:86px;margin:10px 5px;width:414px;" />',
+				outputOpera: '<img alt="" src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />',
+				outputSafari5: '<img alt="" src="' + SRC + '" style="border-bottom-style:solid;border-bottom-width:2px;border-left-style:solid;border-left-width:2px;border-right-style:solid;border-right-width:2px;border-top-style:solid;border-top-width:2px;float:right;height:86px;margin-bottom:10px;margin-left:5px;margin-right:5px;margin-top:10px;width:414px;" />'
+			} );
+			// jscs:enable maximumLineLength
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				txtUrl: SRC, // set txtUrl first because it will overwrite txtHeight and txtWidth after image loads
+				txtWidth: 414,
+				txtHeight: 86,
+				txtBorder: 2,
+				txtHSpace: 5,
+				txtVSpace: 10,
+				cmbAlign: 'right'
+			} );
+		},
+
+		'test replace selected content': function() {
+			var htmlWithSelection = '<p>my [old] content</p>';
+			var expectedOutput = '<p>my <img alt="" src="' + SRC + '" style="height:10px;width:10px;" /> content</p>';
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				txtUrl: SRC,
+
+				// Setting up txtHeight and txtWidth so the test will be unified across browsers
+				// without them, all browsers except of IE8 have style attribute empty, but IE8 sets it anyway.
+				txtHeight: 10,
+				txtWidth: 10
+			} );
+		},
+
+		'test replace selected content in link': function() {
+			var htmlWithSelection = '<p>x<a href="#">y[<span contenteditable="false">foo</span>]y</a>x</p>';
+			var expectedOutput = '<p>x<a href="#">y<img alt="" src="' + SRC + '" style="height:10px;width:10px;" />y</a>x</p>';
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				txtUrl: SRC,
+				txtHeight: 10,
+				txtWidth: 10
+			} );
+		},
+
+		'test replace link with text': function() {
+			var htmlWithSelection = '<p>x[<a href="#">foo bar</a>]x</p>';
+			var expectedOutput;
+
+			// IE8 has some problems with selecting whole <a> element.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+				expectedOutput = '<p>x<img alt="" src="' + SRC + '" style="height:10px;width:10px;" />x</p>';
+			else
+				expectedOutput = '<p>x<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>x</p>';
+
+			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
+				txtUrl: SRC,
+				txtHeight: 10,
+				txtWidth: 10
+			} );
 		}
 	} );
-
-	function downloadImage( src, cb ) {
-		var img = new CKEDITOR.dom.element( 'img' );
-
-		img.once( 'load', onDone );
-		img.once( 'error', onDone );
-
-		function onDone() {
-			setTimeout( cb, 0 );
-		}
-
-		img.setAttribute( 'src', src );
-	}
-
 } )();
 //]]>
