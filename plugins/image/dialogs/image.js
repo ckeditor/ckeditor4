@@ -305,14 +305,12 @@
 						if ( linkChildren.count() == 1 ) {
 							var childTag = linkChildren.getItem( 0 );
 
-							// If the link childtag is not a text node.
-							if ( childTag.type != 3 ) {
-								var childTagName = childTag.getName();
-								if ( childTagName == 'img' || childTagName == 'input' ) {
+							if ( childTag.type == CKEDITOR.NODE_ELEMENT ) {
+								if ( childTag.is( 'img' ) || childTag.is( 'input' ) ) {
 									this.imageElement = linkChildren.getItem( 0 );
-									if ( this.imageElement.getName() == 'img' )
+									if ( this.imageElement.is( 'img' ) )
 										this.imageEditMode = 'img';
-									else if ( this.imageElement.getName() == 'input' )
+									else if ( this.imageElement.is( 'input' ) )
 										this.imageEditMode = 'input';
 								}
 							}
