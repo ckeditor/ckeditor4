@@ -199,45 +199,6 @@
 		MIN_SELECTION_CHECK_INTERVAL: 500,
 
 		/**
-		 * Allows to listen to events on specific types of widgets, even if they are not created yet.
-		 *
-		 * Please note that this method inherits parameters from {@link CKEDITOR.event#method-on on method} with one extra parameter at the beginning which is a widget name.
-		 *
-		 * 		editor.widgets.onWidget( 'image', 'action', function( evt ) {
-		 * 			// Event `action` occurs on `image` widget.
-		 * 		} );
-		 *
-		 * @since 4.5
-		 * @param {String} widgetName
-		 * @param {String} eventName
-		 * @param {Function} listenerFunction
-		 * @param {Object} [scopeObj]
-		 * @param {Object} [listenerData]
-		 * @param {Number} [priority=10]
-		 */
-		onWidget: function( widgetName ) {
-			var args = Array.prototype.slice.call( arguments );
-
-			args.shift();
-
-			for ( var i in this.instances ) {
-				var instance = this.instances[ i ];
-
-				if ( instance.name == widgetName ) {
-					instance.on.apply( instance, args );
-				}
-			}
-
-			this.on( 'instanceCreated', function( evt ) {
-				var widget = evt.data;
-
-				if ( widget.name == widgetName ) {
-					widget.on.apply( widget, args );
-				}
-			} );
-		},
-
-		/**
 		 * Adds a widget definition to the repository. Fires the {@link CKEDITOR.editor#widgetDefinition} event
 		 * which allows to modify the widget definition which is going to be registered.
 		 *
@@ -577,6 +538,46 @@
 			}
 
 			return newInstances;
+		},
+
+		/**
+		 * Allows to listen to events on specific types of widgets, even if they are not created yet.
+		 *
+		 * Please note that this method inherits parameters from the {@link CKEDITOR.event#method-on} method with one
+		 * extra parameter at the beginning which is a widget name.
+		 *
+		 *		editor.widgets.onWidget( 'image', 'action', function( evt ) {
+		 *			// Event `action` occurs on `image` widget.
+		 *		} );
+		 *
+		 * @since 4.5
+		 * @param {String} widgetName
+		 * @param {String} eventName
+		 * @param {Function} listenerFunction
+		 * @param {Object} [scopeObj]
+		 * @param {Object} [listenerData]
+		 * @param {Number} [priority=10]
+		 */
+		onWidget: function( widgetName ) {
+			var args = Array.prototype.slice.call( arguments );
+
+			args.shift();
+
+			for ( var i in this.instances ) {
+				var instance = this.instances[ i ];
+
+				if ( instance.name == widgetName ) {
+					instance.on.apply( instance, args );
+				}
+			}
+
+			this.on( 'instanceCreated', function( evt ) {
+				var widget = evt.data;
+
+				if ( widget.name == widgetName ) {
+					widget.on.apply( widget, args );
+				}
+			} );
 		},
 
 		/**
