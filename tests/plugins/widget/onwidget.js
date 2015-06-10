@@ -56,6 +56,7 @@
 
 			repo.onWidget( 'image', 'action', cbMock );
 
+			// The constructor fires repo#instanceCreated itself.
 			var widget = new Widget( repo, 1, widgetElementFactory(), { name: 'image' }, {} );
 			repo.instances[ widget.id ] = widget;
 
