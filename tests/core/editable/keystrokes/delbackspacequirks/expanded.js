@@ -2,7 +2,7 @@
 /* bender-ckeditor-plugins: list,table,undo */
 /* global quirksTools */
 
-( function( bd, bdf, b ) {
+( function( bd, bdf, b, df ) {
 	'use strict';
 
 	bender.editor = {
@@ -48,6 +48,12 @@
 			} );
 		},
 
+		'test delete on two paragraphs in read-only mode': function() {
+			this.editor.setReadOnly( true );
+			df( '<p>[Test</p><p>Test]</p>', '<p>[Test</p><p>Test]</p>' ).call( this );
+			this.editor.setReadOnly( false );
+		},
+
 		'test backspace and delete #1':					bd( '<p>xx[x</p><p>y]yy</p>',															'<p>xx^yy</p>' ),
 		'test backspace and delete #2':					bd( '<div>xx[x</div><div>y]yy</div>',													'<div>xx^yy</div>' ),
 		'test backspace and delete #3':					bd( '<p>x<strong>x[x</strong></p><p>y]yy</p>',											'<p>x<strong>x^</strong>yy</p>' ),
@@ -87,4 +93,6 @@
 		'test backspace and delete, no action #5':		bdf( '<p>x[xy]y</p>' ),
 		'test backspace and delete, no action #6':		bdf( '<table><tbody><tr><td>x[x</td></tr></tbody></table><table><tbody><tr><td>y]y</td></tr></tbody></table>' )
 	} );
-} )( quirksTools.bd, quirksTools.bdf, quirksTools.b );
+
+
+} )( quirksTools.bd, quirksTools.bdf, quirksTools.b, quirksTools.df );
