@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1543,23 +1543,36 @@
 		fixSplitNodesAfterDrop: function( dragRange, dropRange, preDragStartContainerChildCount, preDragEndContainerChildCount ) {
 			var dropContainer = dropRange.startContainer;
 
+			if (
+				typeof preDragEndContainerChildCount != 'number' ||
+				typeof preDragStartContainerChildCount != 'number'
+			) {
+				return;
+			}
+
 			// We are only concerned about ranges anchored in elements.
 			if ( dropContainer.type != CKEDITOR.NODE_ELEMENT ) {
 				return;
 			}
 
-			var dropContainerChildCount = dropContainer.getChildCount(),
-				dragStartElement = dragRange.startContainer.type != CKEDITOR.NODE_ELEMENT ? dragRange.startContainer.getParent() : dragRange.startContainer;
-
-			if ( dragStartElement.equals( dropContainer ) && preDragStartContainerChildCount != dropContainerChildCount ) {
-				applyFix( dropRange );
+			if ( handleContainer( dragRange.startContainer, dropContainer, preDragStartContainerChildCount ) ) {
 				return;
 			}
 
-			var dragEndElement = dragRange.endContainer.type != CKEDITOR.NODE_ELEMENT ? dragRange.endContainer.getParent() : dragRange.endContainer;
-			if ( dragEndElement.equals( dropContainer ) && preDragEndContainerChildCount != dropContainerChildCount ) {
-				applyFix( dropRange );
+			if ( handleContainer( dragRange.endContainer, dropContainer, preDragEndContainerChildCount ) ) {
 				return;
+			}
+
+			function handleContainer( dragContainer, dropContainer, preChildCount ) {
+				var dragElement = dragContainer;
+				if ( dragElement.type == CKEDITOR.NODE_TEXT ) {
+					dragElement = dragContainer.getParent();
+				}
+
+				if ( dragElement.equals( dropContainer ) && preChildCount != dropContainer.getChildCount() ) {
+					applyFix( dropRange );
+					return true;
+				}
 			}
 
 			function applyFix( dropRange ) {
