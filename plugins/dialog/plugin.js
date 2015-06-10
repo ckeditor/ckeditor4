@@ -344,8 +344,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		// Set default dialog state.
 		this.state = CKEDITOR.DIALOG_STATE_IDLE;
 
-		// Observe future state changes and update dialog UI.
-		this.on( 'state', onDialogStateChange );
+		// Observe future state changes and update dialog UI. Make sure changes are made
+		// before other listeners' callbacks are fired.
+		this.on( 'state', onDialogStateChange, this, null, -100 );
 
 		if ( definition.onCancel ) {
 			this.on( 'cancel', function( evt ) {
@@ -1110,6 +1111,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			this.foreach( function( contentObj ) {
 				contentObj.resetInitValue && contentObj.resetInitValue();
 			} );
+
+			// Reset dialog state back to IDLE, if busy (#13213).
+			this.setState( CKEDITOR.DIALOG_STATE_IDLE );
 		},
 
 		/**
