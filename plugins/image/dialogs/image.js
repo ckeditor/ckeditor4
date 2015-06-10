@@ -413,8 +413,7 @@
 								this.linkElement.append( this.imageElement, false );
 							} else {
 								// We already have a link in editor.
-
-								if ( editor.getSelection().getSelectedElement() == this.linkElement ) {
+								if ( this.linkElement.equals( editor.getSelection().getSelectedElement() ) ) {
 									// If the link is selected outside, replace it's content rather than the link itself. ([<a>foo</a>])
 									this.linkElement.setHtml( '' );
 									this.linkElement.append( this.imageElement, false );
