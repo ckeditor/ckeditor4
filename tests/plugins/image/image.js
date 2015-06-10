@@ -60,7 +60,7 @@
 					}
 
 					var field = dialog.getContentElement( tabName, inputName );
-					// typeof NaN == number, so if NaN is passed as expected value, input value will be parsed
+					// Typeof NaN == number, so if NaN is passed as expected value, input value will be parsed.
 					var realValue = ( typeof expectedValue == 'number' ) ? parseInt( field.getValue(), 10 ) : field.getValue();
 					var errorMessage = 'Wrong value for input ' + inputName + '.';
 
@@ -359,8 +359,8 @@
 			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
 				txtUrl: SRC,
 
-				// setting up txtHeight and txtWidth so the test will be unified across browsers
-				// without them, all browsers except of IE8 have style attribute empty, but IE8 sets it anyway
+				// Setting up txtHeight and txtWidth so the test will be unified across browsers
+				// without them, all browsers except of IE8 have style attribute empty, but IE8 sets it anyway.
 				txtHeight: 10,
 				txtWidth: 10
 			} );
@@ -381,7 +381,7 @@
 			var htmlWithSelection = '<p>x[<a href="#">foo bar</a>]x</p>';
 			var expectedOutput;
 
-			// IE8 has some problems with selecting whole <a> element
+			// IE8 has some problems with selecting whole <a> element.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 				expectedOutput = '<p>x<img alt="" src="' + SRC + '" style="height:10px;width:10px;" />x</p>';
 			else
