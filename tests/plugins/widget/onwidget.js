@@ -1,3 +1,4 @@
+/* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget */
 
 ( function() {
