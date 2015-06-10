@@ -15,6 +15,7 @@
 	var defaultExpectedOutput = '<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>';
 
 	function keepLinkTest( bot, htmlWithSelection, expectedOutput ) {
+		bot.editor.focus();
 		bot.setHtmlWithSelection( htmlWithSelection );
 		bot.dialog( 'image', function( dialog ) {
 			dialog.getContentElement( 'info', 'txtUrl' ).setValue( SRC );

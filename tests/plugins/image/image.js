@@ -39,6 +39,7 @@
 			inputName,
 			tabName = 'info';
 
+		bot.editor.focus();
 		bot.setHtmlWithSelection( htmlWithSelection );
 
 		bot.dialog( 'image', function( dialog ) {
@@ -80,6 +81,7 @@
 			inputName,
 			tabName = 'info';
 
+		bot.editor.focus();
 		bot.setHtmlWithSelection( htmlWithSelection );
 
 		bot.dialog( 'image', function( dialog ) {
