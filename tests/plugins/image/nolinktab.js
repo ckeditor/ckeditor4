@@ -18,6 +18,9 @@
 		bot.setHtmlWithSelection( htmlWithSelection );
 		bot.dialog( 'image', function( dialog ) {
 			dialog.getContentElement( 'info', 'txtUrl' ).setValue( SRC );
+
+			// setting up txtHeight and txtWidth so the test will be unified across browsers
+			// without them, all browsers except of IE8 have style attribute empty, but IE8 sets it anyway
 			dialog.getContentElement( 'info', 'txtWidth' ).setValue( 10 );
 			dialog.getContentElement( 'info', 'txtHeight' ).setValue( 10 );
 

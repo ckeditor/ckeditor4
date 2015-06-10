@@ -379,7 +379,13 @@
 
 		'test replace link with text': function() {
 			var htmlWithSelection = '<p>x[<a href="#">foo bar</a>]x</p>';
-			var expectedOutput = '<p>x<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>x</p>';
+			var expectedOutput;
+
+			// IE8 has some problems with selecting whole <a> element
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+				expectedOutput = '<p>x<img alt="" src="' + SRC + '" style="height:10px;width:10px;" />x</p>';
+			else
+				expectedOutput = '<p>x<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>x</p>';
 
 			testUpdateImage( this.editorBot, htmlWithSelection, expectedOutput, {
 				txtUrl: SRC,
