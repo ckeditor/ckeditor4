@@ -205,12 +205,10 @@ a.cke_dialog_tab
 	cursor: pointer;
 
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	a.cke_dialog_tab
-	{
-		background-image: url(images/hidpi/sprites.png);
-		background-size: 20px;
-	}
+.cke_hidpi a.cke_dialog_tab
+{
+	background-image: url(images/hidpi/sprites.png);
+	background-size: 20px;
 }
 
 a.cke_dialog_tab:hover
@@ -269,12 +267,10 @@ a.cke_dialog_tab_disabled
 	width: 20px;
 	top: 5px;
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	.cke_dialog_close_button
-	{
-		background-image: url(images/hidpi/sprites.png);
-		background-size: 20px;
-	}
+.cke_hidpi .cke_dialog_close_button
+{
+	background-image: url(images/hidpi/sprites.png);
+	background-size: 20px;
 }
 
 .cke_dialog_close_button span
@@ -478,12 +474,10 @@ a.cke_dialog_ui_button
 	text-align: center;
 	display: inline-block;
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	a.cke_dialog_ui_button
-	{
-		background-image: url(images/hidpi/sprites.png);
-		background-size: 20px;
-	}
+.cke_hidpi a.cke_dialog_ui_button
+{
+	background-image: url(images/hidpi/sprites.png);
+	background-size: 20px;
 }
 
 /* The inner part of the button (dialog footer buttons only). */
@@ -504,12 +498,10 @@ a.cke_dialog_ui_button_ok span
 {
 	background: transparent url(images/sprites.png) no-repeat scroll right -1216px;
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	a.cke_dialog_ui_button_ok span
-	{
-		background-image: url(images/hidpi/sprites.png);
-		background-size: 20px;
-	}
+.cke_hidpi a.cke_dialog_ui_button_ok span
+{
+	background-image: url(images/hidpi/sprites.png);
+	background-size: 20px;
 }
 
 .cke_rtl a.cke_dialog_ui_button_ok span
@@ -527,12 +519,10 @@ a.cke_dialog_ui_button_cancel span
 {
 	background: transparent url(images/sprites.png) no-repeat scroll right -1242px;
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	a.cke_dialog_ui_button_cancel span
-	{
-		background-image: url(images/hidpi/sprites.png);
-		background-size: 20px;
-	}
+.cke_hidpi a.cke_dialog_ui_button_cancel span
+{
+	background-image: url(images/hidpi/sprites.png);
+	background-size: 20px;
 }
 
 .cke_rtl a.cke_dialog_ui_button_cancel span
@@ -631,12 +621,10 @@ select.cke_dialog_ui_input_select
 	border: 1px none;
 	font-size: 1px;
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	.cke_dialog a.cke_btn_reset
-	{
-		background-image: url(images/hidpi/mini.gif);
-		background-size: 16px;
-	}
+.cke_hidpi .cke_dialog a.cke_btn_reset
+{
+	background-image: url(images/hidpi/mini.gif);
+	background-size: 16px;
 }
 
 .cke_rtl .cke_dialog a.cke_btn_reset
@@ -656,13 +644,11 @@ select.cke_dialog_ui_input_select
 	border: none 1px;
 	font-size: 1px;
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	.cke_dialog a.cke_btn_locked,
-	.cke_dialog a.cke_btn_unlocked
-	{
-		background-image: url(images/hidpi/mini.gif);
-		background-size: 16px;
-	}
+.cke_hidpi .cke_dialog a.cke_btn_locked,
+.cke_hidpi .cke_dialog a.cke_btn_unlocked
+{
+	background-image: url(images/hidpi/mini.gif);
+	background-size: 16px;
 }
 .cke_dialog a.cke_btn_locked .cke_icon
 {
@@ -680,12 +666,10 @@ select.cke_dialog_ui_input_select
 	background-position: 0 -16px;
 	background-image: url(images/mini.gif);
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	.cke_dialog a.cke_btn_unlocked
-	{
-		background-image: url(images/hidpi/mini.gif);
-		background-size: 16px;
-	}
+.cke_hidpi .cke_dialog a.cke_btn_unlocked
+{
+	background-image: url(images/hidpi/mini.gif);
+	background-size: 16px;
 }
 
 .cke_dialog .cke_btn_over

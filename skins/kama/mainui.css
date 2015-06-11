@@ -79,7 +79,17 @@ Special outer level classes used in this file:
 	-webkit-touch-callout: none;
 	border-radius: 5px;
 
-	/* The white-to-color gradiend we see at the top of the editor. */
+	/* Spacing with the inner blocks. */
+	padding: 5px;
+}
+.cke_hidpi .cke_inner
+{
+	background-image: url(images/hidpi/sprites.png);
+	background-size: 20px;
+}
+.cke_inner
+{
+	/* The white-to-color gradient we see at the top of the editor. */
 	background: #d3d3d3 url(images/sprites.png) repeat-x 0 -1950px;
 	background: -webkit-gradient(linear, 0 -15, 0 40, from(#fff), to(#d3d3d3)); /* Chrome,Safari4+ */
 	background: -moz-linear-gradient(top, #fff -15px, #d3d3d3 40px); /* FF3.6+ */
@@ -87,16 +97,6 @@ Special outer level classes used in this file:
 	background: -o-linear-gradient(top, #fff -15px, #d3d3d3 40px); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top, #fff -15px, #d3d3d3 40px); /* IE10+ */
 	background: linear-gradient(top, #fff -15px, #d3d3d3 40px); /* W3C */
-
-	/* Spacing with the inner blocks. */
-	padding: 5px;
-}
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	.cke_inner
-	{
-		background-image: url(images/hidpi/sprites.png);
-		background-size: 20px;
-	}
 }
 
 /* Added to the outer boundary of the UI when in inline editing,

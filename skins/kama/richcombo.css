@@ -68,16 +68,16 @@ The visual representation of a rich combo widget looks as follows:
 	padding: 2px 4px 2px 6px;
 	height: 22px;
 	margin: 0 5px 5px 0;
-
+}
+.cke_hidpi .cke_combo_button
+{
+	background-image: url(images/hidpi/sprites.png);
+	background-size: 20px;
+}
+.cke_combo_button
+{
 	background: -moz-linear-gradient(bottom, #fff, #d3d3d3 100px);
 	background: -webkit-gradient(linear, left bottom, left -100, from(#fff), to(#d3d3d3));
-}
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192ddpx) {
-	.cke_combo_button
-	{
-		background-image: url(images/hidpi/sprites.png);
-		background-size: 20px;
-	}
 }
 
 /* Different states of the container. */
