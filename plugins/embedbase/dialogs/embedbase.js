@@ -17,18 +17,17 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 
 		onLoad: function() {
 			var that = this,
-				okButton = that.getButton( 'ok' ),
 				loadContentRequest = null;
 
 			this.on( 'ok', function( evt ) {
 				// We're going to hide it manually, after remote response is fetched.
 				evt.data.hide = false;
 
-				// Disable the OK button for the time of loading, so user can't trigger multiple inserts.
-				okButton.disable();
-
 				// We don't want the widget system to finalize widget insertion (it happens with priority 20).
 				evt.stop();
+
+				// Indicate visually that waiting for the response (#13213).
+				that.setState( CKEDITOR.DIALOG_STATE_BUSY );
 
 				var url = that.getValueOf( 'info', 'url' );
 
@@ -64,7 +63,8 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 			} );
 
 			function unlock() {
-				okButton.enable();
+				// Visual waiting indicator is no longer needed (#13213).
+				that.setState( CKEDITOR.DIALOG_STATE_IDLE );
 				loadContentRequest = null;
 			}
 		},

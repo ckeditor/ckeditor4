@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -42,6 +42,24 @@ CKEDITOR.DIALOG_RESIZE_HEIGHT = 2;
  * @member CKEDITOR
  */
 CKEDITOR.DIALOG_RESIZE_BOTH = 3;
+
+/**
+ * Dialog state when idle.
+ *
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
+ */
+CKEDITOR.DIALOG_STATE_IDLE = 1;
+
+/**
+ * Dialog state when busy.
+ *
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
+ */
+CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 ( function() {
 	var cssLength = CKEDITOR.tools.cssLength;
@@ -322,6 +340,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 					evt.data.hide = false;
 			} );
 		}
+
+		// Set default dialog state.
+		this.state = CKEDITOR.DIALOG_STATE_IDLE;
 
 		if ( definition.onCancel ) {
 			this.on( 'cancel', function( evt ) {
@@ -640,6 +661,14 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 
 		for ( i = 0; i < buttons.length; i++ )
 			this._.buttons[ buttons[ i ].id ] = buttons[ i ];
+
+		/**
+		 * Current state of the dialog. Use {@link #setState} method to update it.
+		 * See {@link #event-state} event to know more.
+		 *
+		 * @readonly
+		 * @property {Number} [state=CKEDITOR.DIALOG_STATE_IDLE]
+		 */
 	};
 
 	// Focusable interface. Use it via dialog.addFocusable.
@@ -1078,6 +1107,9 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 			this.foreach( function( contentObj ) {
 				contentObj.resetInitValue && contentObj.resetInitValue();
 			} );
+
+			// Reset dialog state back to IDLE, if busy (#13213).
+			this.setState( CKEDITOR.DIALOG_STATE_IDLE );
 		},
 
 		/**
@@ -1401,6 +1433,52 @@ CKEDITOR.DIALOG_RESIZE_BOTH = 3;
 				for ( var i = index + 1; i < this._.focusList.length; i++ )
 					this._.focusList[ i ].focusIndex++;
 			}
+		},
+
+		/**
+		 * Sets dialog {@link #property-state}.
+		 *
+		 * @since 4.5
+		 * @param {Number} state Either {@link CKEDITOR#DIALOG_STATE_IDLE} or {@link CKEDITOR#DIALOG_STATE_BUSY}.
+		 */
+		setState: function( state ) {
+			var oldState = this.state;
+
+			if ( oldState == state ) {
+				return;
+			}
+
+			this.state = state;
+
+			if ( state == CKEDITOR.DIALOG_STATE_BUSY ) {
+				// Insert the spinner on demand.
+				if ( !this.parts.spinner ) {
+					this.parts.spinner = CKEDITOR.document.createElement( 'div', {
+						attributes: {
+							'class': 'cke_dialog_spinner'
+						},
+						styles: {
+							'float': 'left',
+							'margin-right': '8px'
+						}
+					} );
+
+					this.parts.spinner.setHtml( '&#8987;' );
+					this.parts.spinner.appendTo( this.parts.title, 1 );
+				}
+
+				// Finally, show the spinner.
+				this.parts.spinner.show();
+
+				this.getButton( 'ok' ).disable();
+			} else if ( state == CKEDITOR.DIALOG_STATE_IDLE ) {
+				// Hide the spinner. But don't do anything if there is no spinner yet.
+				this.parts.spinner && this.parts.spinner.hide();
+
+				this.getButton( 'ok' ).enable();
+			}
+
+			this.fire( 'state', state );
 		}
 	};
 
@@ -3300,4 +3378,14 @@ CKEDITOR.plugins.add( 'dialog', {
  * @param data
  * @param {Number} data.width The new width.
  * @param {Number} data.height The new height.
+ */
+
+/**
+ * Fired when a dialog state changes, usually by {@link CKEDITOR.dialog#setState}.
+ *
+ * @since 4.5
+ * @event state
+ * @member CKEDITOR.dialog
+ * @param data
+ * @param {Number} data The new state. Either {@link CKEDITOR#DIALOG_STATE_IDLE} or {@link CKEDITOR#DIALOG_STATE_BUSY}.
  */

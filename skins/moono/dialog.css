@@ -54,13 +54,7 @@ Comments in this file will give more details about each of the above blocks.
 	background: #eaeaea;
 	border: 1px solid #b2b2b2;
 	border-bottom-color: #999;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
-
-	-moz-box-shadow: 0 0 3px rgba(0, 0, 0, .15);
-	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .15);
 	box-shadow: 0 0 3px rgba(0, 0, 0, .15);
 }
 
@@ -83,13 +77,7 @@ Comments in this file will give more details about each of the above blocks.
 
 	border-bottom: 1px solid #999;
 	padding: 6px 10px;
-
-	-moz-border-radius: 2px 2px 0 0;
-	-webkit-border-radius: 2px 2px 0 0;
 	border-radius: 2px 2px 0 0;
-
-	-moz-box-shadow: 0 1px 0 #fff inset;
-	-webkit-box-shadow: 0 1px 0 #fff inset;
 	box-shadow: 0 1px 0 #fff inset;
 
 	background: #cfd1cf;
@@ -102,6 +90,59 @@ Comments in this file will give more details about each of the above blocks.
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#cfd1cf');
 }
 
+.cke_dialog_spinner
+{
+	border-radius: 50%;
+
+	width: 12px;
+	height: 12px;
+	overflow: hidden;
+
+	text-indent: -9999em;
+
+	border-top: 2px solid rgba(102, 102, 102, 0.2);
+	border-right: 2px solid rgba(102, 102, 102, 0.2);
+	border-bottom: 2px solid rgba(102, 102, 102, 0.2);
+	border-left: 2px solid rgba(102, 102, 102, 1);
+
+	-webkit-animation: dialog_spinner 1s infinite linear;
+	animation: dialog_spinner 1s infinite linear;
+}
+
+/* A GIF fallback for IE8 and IE9 which does not support CSS animations. */
+.cke_browser_ie8 .cke_dialog_spinner,
+.cke_browser_ie9 .cke_dialog_spinner
+{
+	background: url(images/spinner.gif) center top no-repeat;
+	width: 16px;
+	height: 16px;
+	border: 0;
+}
+
+@-webkit-keyframes dialog_spinner
+{
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes dialog_spinner
+{
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
 /* The outer part of the dialog contants, which contains the contents body
    and the footer. */
 .cke_dialog_contents
@@ -111,9 +152,6 @@ Comments in this file will give more details about each of the above blocks.
 	padding: 15px 10px 5px 10px;
 	margin-top: 30px;
 	border-top: 1px solid #bfbfbf;
-
-	-moz-border-radius: 0 0 3px 3px;
-	-webkit-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
 }
 
@@ -131,18 +169,10 @@ Comments in this file will give more details about each of the above blocks.
 {
 	text-align: right;
 	position: relative;
-
 	border: none;
 	outline: 1px solid #bfbfbf;
-
-	-moz-box-shadow: 0 1px 0 #fff inset;
-	-webkit-box-shadow: 0 1px 0 #fff inset;
 	box-shadow: 0 1px 0 #fff inset;
-
-	-moz-border-radius: 0 0 2px 2px;
-	-webkit-border-radius: 0 0 2px 2px;
 	border-radius: 0 0 2px 2px;
-
 	background: #cfd1cf;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#cfd1cf));
 	background-image: -moz-linear-gradient(top, #ebebeb, #cfd1cf);
@@ -590,13 +620,7 @@ a.cke_dialog_ui_button
 
 	border: 1px solid #b6b6b6;
 	border-bottom-color: #999;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
-
-	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
 	background: #e4e4e4;
@@ -635,8 +659,6 @@ a.cke_dialog_ui_button:active
 {
 	border-color: #969696;
 	outline: none;
-	-moz-box-shadow: 0 0 6px rgba(0,0,0,.4) inset;
-	-webkit-box-shadow: 0 0 6px rgba(0,0,0,.4) inset;
 	box-shadow: 0 0 6px rgba(0,0,0,.4) inset;
 }
 
@@ -703,6 +725,22 @@ a.cke_dialog_ui_button_ok:hover
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#88be14', endColorstr='#5d9c0a',GradientType=0 );
 }
 
+a.cke_dialog_ui_button_ok.cke_disabled {
+	border-color: #7D9F51;
+
+	background: #8DAD62;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#B3D271), to(#8DAD62));
+	background-image: -webkit-linear-gradient(top, #B3D271, #8DAD62);
+	background-image: -o-linear-gradient(top, #B3D271, #8DAD62);
+	background-image: linear-gradient(to bottom, #B3D271, #8DAD62);
+	background-image: -moz-linear-gradient(top, #B3D271, #8DAD62);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#B3D271', endColorstr='#8DAD62');
+}
+
+a.cke_dialog_ui_button_ok.cke_disabled span {
+	color: #E0E8D1;
+}
+
 /* Default text shadow used for inner parts of all dialog buttons (both in dialog tabs and dialog footer). */
 a.cke_dialog_ui_button span
 {
@@ -734,6 +772,12 @@ a.cke_dialog_ui_button_ok:focus,
 a.cke_dialog_ui_button_ok:active
 {
 	border-color: #568C0A;
+}
+
+a.cke_dialog_ui_button_ok.cke_disabled:focus,
+a.cke_dialog_ui_button_ok.cke_disabled:active
+{
+	border-color: #6F8C49;
 }
 
 /* 	:focus/:active styles for dialog footer buttons (ok & cancel) spans */
@@ -773,15 +817,8 @@ select.cke_dialog_ui_input_select
 	border: 1px solid #c9cccf;
 	border-top-color: #aeb3b9;
 	padding: 3px 3px 3px 6px;
-
 	outline: none;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
-
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
 	box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
 }
 
@@ -952,9 +989,6 @@ tendency that these will be moved to the plugins code in the future.
 	height: 130px;
 	background-color: white;
 	border: 1px solid #aeb3b9;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
 
