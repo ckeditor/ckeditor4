@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -396,11 +396,11 @@
 		},
 
 		/**
-		 * Transforms text to the valid HTML: creates paragraphs, replaces tabs with no breaking spaces etc..
+		 * Transforms text to valid HTML: creates paragraphs, replaces tabs with non-breaking spaces etc.
 		 *
 		 * @since 4.5
 		 * @param {String} text Text to transform.
-		 * @param {Number} enterMode Editors {@link CKEDITOR.config#enterMode enter mode}.
+		 * @param {Number} enterMode Editor {@link CKEDITOR.config#enterMode Enter mode}.
 		 * @returns {String} HTML generated from the text.
 		 */
 		transformPlainTextToHtml: function( text, enterMode ) {
@@ -477,8 +477,8 @@
 
 		/**
 		 * Gets a universally unique ID. It returns a random string
-		 * up to ISO/IEC 11578:1996, without dashes, with the "e" prefix to
-		 * make sure that ID does not starts with number.
+		 * compliant with ISO/IEC 11578:1996, without dashes, with the "e" prefix to
+		 * make sure that the ID does not start with a number.
 		 *
 		 * @returns {String} A global unique ID.
 		 */
@@ -518,14 +518,14 @@
 		},
 
 		/**
-		 * Executes a function after specified delay.
+		 * Executes a function after a specified delay.
 		 *
 		 *		CKEDITOR.tools.setTimeout( function() {
 		 *			alert( 'Executed after 2 seconds' );
 		 *		}, 2000 );
 		 *
 		 * @param {Function} func The function to be executed.
-		 * @param {Number} [milliseconds=0] The amount of time (in millisecods) to wait
+		 * @param {Number} [milliseconds=0] The amount of time (in milliseconds) to wait
 		 * to fire the function execution.
 		 * @param {Object} [scope=window] The object to store the function execution scope
 		 * (the `this` object).

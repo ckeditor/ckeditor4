@@ -1872,11 +1872,11 @@
 		},
 
 		/**
-		 * Global object keeping the data transfer of the current drag and drop operation.
-		 * Do not use it directly, use `{@link #initDragDataTransfer}` and `{@link #resetDragDataTransfer}`.
+		 * Global object storing the data transfer of the current drag and drop operation.
+		 * Do not use it directly, use {@link #initDragDataTransfer} and {@link #resetDragDataTransfer}.
 		 *
-		 * Note: This object is global (meaning that it is not related to a single editor) in order to
-		 * handle drag and drop from one editor to another.
+		 * Note: This object is global (meaning that it is not related to a single editor instance)
+		 * in order to handle drag and drop from one editor into another.
 		 *
 		 * @since 4.5
 		 * @private
@@ -2371,7 +2371,7 @@
  */
 
  /**
- * Fired after the {@link #paste} event if content was modified. Note the if the paste
+ * Fired after the {@link #paste} event if content was modified. Note that if the paste
  * event does not insert any data, the `afterPaste` event will not be fired.
  *
  * @event afterPaste

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -8,7 +8,7 @@
  *
  * @class
  * @mixins CKEDITOR.event
- * @constructor Creates an ui class instance.
+ * @constructor Creates a `ui` class instance.
  * @param {CKEDITOR.editor} editor The editor instance.
  */
 CKEDITOR.ui = function( editor ) {
@@ -20,7 +20,7 @@ CKEDITOR.ui = function( editor ) {
 	this.editor = editor;
 
 	/**
-	 * Object used to hold private stuff.
+	 * Object used to store private stuff.
 	 *
 	 * @private
 	 */
@@ -64,7 +64,7 @@ CKEDITOR.ui.prototype = {
 	},
 
 	/**
-	 * Retrieve the created ui objects by name.
+	 * Retrieves the created UI objects by name.
 	 *
 	 * @param {String} name The name of the UI definition.
 	 */
@@ -75,7 +75,7 @@ CKEDITOR.ui.prototype = {
 	/**
 	 * Gets a UI object.
 	 *
-	 * @param {String} name The UI item hame.
+	 * @param {String} name The UI item name.
 	 * @returns {Object} The UI element.
 	 */
 	create: function( name ) {
@@ -99,7 +99,7 @@ CKEDITOR.ui.prototype = {
 
 	/**
 	 * Adds a handler for a UI item type. The handler is responsible for
-	 * transforming UI item definitions in UI objects.
+	 * transforming UI item definitions into UI objects.
 	 *
 	 * @param {Object} type The item type.
 	 * @param {Object} handler The handler definition.
@@ -109,15 +109,15 @@ CKEDITOR.ui.prototype = {
 	},
 
 	/**
-	 * Returns the unique DOM element that represents one editor's UI part, as
-	 * the editor UI is made completely decoupled from DOM (no DOM reference hold),
-	 * this method is mainly used to retrieve the rendered DOM part by name.
+	 * Returns the unique DOM element that represents one editor's UI part, also known as "space".
+	 * There are 3 main editor spaces available: `top`, `contents` and `bottom`
+	 * and their availability depends on editor type.
 	 *
 	 *		// Hide the bottom space in the UI.
-	 *		var bottom = editor.ui.getSpace( 'bottom' );
+	 *		var bottom = editor.ui.space( 'bottom' );
 	 *		bottom.setStyle( 'display', 'none' );
 	 *
-	 * @param {String} name The space name.
+	 * @param {String} name The name of the space.
 	 * @returns {CKEDITOR.dom.element} The element that represents the space.
 	 */
 	space: function( name ) {
@@ -125,10 +125,10 @@ CKEDITOR.ui.prototype = {
 	},
 
 	/**
-	 * Generate the HTML ID from a specific UI space name.
+	 * Returns the HTML ID for a specific UI space name.
 	 *
-	 * @param name
-	 * @todo param and return types?
+	 * @param {String} name The name of the space.
+	 * @returns {String} The ID of an element representing this space in the DOM.
 	 */
 	spaceId: function( name ) {
 		return this.editor.id + '_' + name;
@@ -141,19 +141,19 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  * Internal event fired when a new UI element is ready.
  *
  * @event ready
- * @param {Object} data The new element.
+ * @param {Object} data The new UI element.
  */
 
 /**
  * Virtual class which just illustrates the features of handler objects to be
  * passed to the {@link CKEDITOR.ui#addHandler} function.
- * This class is not really part of the API, so don't call its constructor.
+ * This class is not really a part of the API, so do not call its constructor.
  *
  * @class CKEDITOR.ui.handlerDefinition
  */
 
 /**
- * Transforms an item definition into an UI item object.
+ * Transforms an item definition into a UI item object.
  *
  *		editorInstance.ui.addHandler( CKEDITOR.UI_BUTTON, {
  *			create: function( definition ) {
@@ -168,12 +168,12 @@ CKEDITOR.event.implementOn( CKEDITOR.ui );
  */
 
 /**
- * The element in the {@link CKEDITOR#document host page's document} which contains the editor content.
- * If the [fixed editor UI](http://sdk.ckeditor.com/samples/fixedui.html) is used, then it will be set to
- * `editor.ui.space( 'contents' )` &mdash; i.e. the `<div>` which contains an `<iframe>` (in case of the classic UI)
- * or {@link CKEDITOR.editable} (in case of the inline UI). Otherwise it is set to the {@link CKEDITOR.editable} itself.
+ * The element in the {@link CKEDITOR#document host page's document} that contains the editor content.
+ * If the [fixed editor UI](#!/guide/dev_uitypes-section-fixed-user-interface) is used, then it will be set to
+ * `editor.ui.space( 'contents' )` &mdash; i.e. the `<div>` which contains the editor `<iframe>` (in case of classic editor)
+ * or {@link CKEDITOR.editable} (in case of inline editor). Otherwise it is set to the {@link CKEDITOR.editable} itself.
  *
- * Use position of this element if you need to position elements placed in the host page's document relatively to the
+ * Use the position of this element if you need to position elements placed in the host page's document relatively to the
  * editor content.
  *
  *		var editor = CKEDITOR.instances.editor1;
