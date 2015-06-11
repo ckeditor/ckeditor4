@@ -906,6 +906,10 @@
 				// blocks on BACKSPACE/DEL (#11861,#9998).
 				if ( CKEDITOR.env.webkit ) {
 					this.attachListener( editor, 'key', function( evt ) {
+						if ( editor.readOnly ) {
+							return true;
+						}
+
 						// Use getKey directly in order to ignore modifiers.
 						// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
 						var key = evt.data.domEvent.getKey();
