@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -340,8 +340,8 @@
 
 /**
  * Along with {@link #floatSpaceDockedOffsetY} it defines the
- * amount of offset (in pixels) between float space and the editable left/right
- * boundaries when space element is docked at either side of the editable.
+ * amount of offset (in pixels) between the float space and the editable left/right
+ * boundaries when the space element is docked on either side of the editable.
  *
  *		config.floatSpaceDockedOffsetX = 10;
  *
@@ -351,8 +351,8 @@
 
 /**
  * Along with {@link #floatSpaceDockedOffsetX} it defines the
- * amount of offset (in pixels) between float space and the editable top/bottom
- * boundaries when space element is docked at either side of the editable.
+ * amount of offset (in pixels) between the float space and the editable top/bottom
+ * boundaries when the space element is docked on either side of the editable.
  *
  *		config.floatSpaceDockedOffsetY = 10;
  *
@@ -362,8 +362,8 @@
 
 /**
  * Along with {@link #floatSpacePinnedOffsetY} it defines the
- * amount of offset (in pixels) between float space and the view port boundaries
- * when space element is pinned.
+ * amount of offset (in pixels) between the float space and the viewport boundaries
+ * when the space element is pinned.
  *
  *		config.floatSpacePinnedOffsetX = 20;
  *
@@ -373,8 +373,8 @@
 
 /**
  * Along with {@link #floatSpacePinnedOffsetX} it defines the
- * amount of offset (in pixels) between float space and the view port boundaries
- * when space element is pinned.
+ * amount of offset (in pixels) between the float space and the viewport boundaries
+ * when the space element is pinned.
  *
  *		config.floatSpacePinnedOffsetY = 20;
  *
@@ -384,7 +384,7 @@
 
 /**
  * Indicates that the float space should be aligned to the right side
- * of editable area rather than to the left (if possible).
+ * of the editable area rather than to the left (if possible).
  *
  *		config.floatSpacePreferRight = true;
  *
@@ -394,7 +394,7 @@
  */
 
 /**
- * Fired when the viewport or editor parameters changes and the floating space needs to check and
+ * Fired when the viewport or editor parameters change and the floating space needs to check and
  * eventually update its position and dimensions.
  *
  * @since 4.5
@@ -402,5 +402,5 @@
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor The editor instance.
  * @param data
- * @param {Boolean} data.show True if floating space should show up as a result of this event.
+ * @param {Boolean} data.show True if the float space should show up as a result of this event.
  */
