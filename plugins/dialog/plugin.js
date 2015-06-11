@@ -344,10 +344,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		// Set default dialog state.
 		this.state = CKEDITOR.DIALOG_STATE_IDLE;
 
-		// Observe future state changes and update dialog UI. Make sure changes are made
-		// before other listeners' callbacks are fired.
-		this.on( 'state', onDialogStateChange, this, null, -100 );
-
 		if ( definition.onCancel ) {
 			this.on( 'cancel', function( evt ) {
 				if ( definition.onCancel.call( this, evt ) === false )
@@ -1448,11 +1444,41 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		setState: function( state ) {
 			var oldState = this.state;
 
+			if ( oldState == state ) {
+				return;
+			}
+
 			this.state = state;
 
-			if ( oldState !== state ) {
-				this.fire( 'state', state );
+			if ( state == CKEDITOR.DIALOG_STATE_BUSY ) {
+				// Insert the spinner on demand.
+				if ( !this.parts.spinner ) {
+					this.parts.spinner = CKEDITOR.document.createElement( 'div', {
+						attributes: {
+							'class': 'cke_dialog_spinner'
+						},
+						styles: {
+							'float': 'left',
+							'margin-right': '8px'
+						}
+					} );
+
+					this.parts.spinner.setHtml( '&#8987;' );
+					this.parts.spinner.appendTo( this.parts.title, 1 );
+				}
+
+				// Finally, show the spinner.
+				this.parts.spinner.show();
+
+				this.getButton( 'ok' ).disable();
+			} else if ( state == CKEDITOR.DIALOG_STATE_IDLE ) {
+				// Hide the spinner. But don't do anything if there is no spinner yet.
+				this.parts.spinner && this.parts.spinner.hide();
+
+				this.getButton( 'ok' ).enable();
 			}
+
+			this.fire( 'state', state );
 		}
 	};
 
@@ -2059,44 +2085,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				coverDoc.removeListener( 'mouseup', mouseUpHandler );
 				coverDoc.removeListener( 'mousemove', mouseMoveHandler );
 			}
-		}
-	}
-
-	// Updates dialog UI according to the state.
-	//
-	// **Note:** To avoid cluttering dialog DOM, this function appends a spinner (`dialog.parts.spinner`)
-	// to dialog's title bar on demand.
-	//
-	// @since 4.5
-	// @param {CKEDITOR.event} evt State update event, which passes the dialog state in event `data`.
-	// @see CKEDITOR.dialog.setState
-	function onDialogStateChange( evt ) {
-		if ( evt.data == CKEDITOR.DIALOG_STATE_BUSY ) {
-			// Insert the spinner on demand.
-			if ( !this.parts.spinner ) {
-				this.parts.spinner = CKEDITOR.document.createElement( 'div', {
-					attributes: {
-						'class': 'cke_dialog_spinner'
-					},
-					styles: {
-						'float': 'left',
-						'margin-right': '8px'
-					}
-				} );
-
-				this.parts.spinner.setHtml( '&#8987;' );
-				this.parts.spinner.appendTo( this.parts.title, 1 );
-			}
-
-			// Finally, show the spinner.
-			this.parts.spinner.show();
-
-			this.getButton( 'ok' ).disable();
-		} else if ( evt.data == CKEDITOR.DIALOG_STATE_IDLE ) {
-			// Hide the spinner. But don't do anything if there is no spinner yet.
-			this.parts.spinner && this.parts.spinner.hide();
-
-			this.getButton( 'ok' ).enable();
 		}
 	}
 
