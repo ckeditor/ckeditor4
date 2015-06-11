@@ -144,6 +144,8 @@ Fixed Issues:
 * [#9086](http://dev.ckeditor.com/ticket/9086): Fixed: Invalid ARIA property used on paste area `<iframe>`.
 * [#13164](http://dev.ckeditor.com/ticket/13164): Fixed: Error when inserting a hidden field.
 * [#13155](http://dev.ckeditor.com/ticket/13155): Fixed: Incorrect [Line Utilities](http://ckeditor.com/addon/lineutils) positioning when `<body>` has a margin.
+* [#13351](http://dev.ckeditor.com/ticket/13351): Fixed: Link lost when editing linked image with the link tab disabled. Also, fixed a bug when inserting an image into fully selected link would throw an error ([#12847](https://dev.ckeditor.com/ticket/12847)).
+* [#13344](http://dev.ckeditor.com/ticket/13344): [Webkit/Blink] Fixed: It is possible to remove/change editor contents in readonly mode.
 
 Other Changes:
 
