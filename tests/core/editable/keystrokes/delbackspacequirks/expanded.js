@@ -50,8 +50,14 @@
 
 		'test delete on two paragraphs in read-only mode': function() {
 			this.editor.setReadOnly( true );
-			df( '<p>[Test</p><p>Test]</p>', '<p>[Test</p><p>Test]</p>' ).call( this );
-			this.editor.setReadOnly( false );
+
+			try {
+				df( '<p>[Test</p><p>Test]</p>', '<p>[Test</p><p>Test]</p>' ).call( this );
+			} catch ( e ) {
+				throw e;
+			} finally {
+				this.editor.setReadOnly( false );
+			}
 		},
 
 		'test backspace and delete #1':					bd( '<p>xx[x</p><p>y]yy</p>',															'<p>xx^yy</p>' ),
