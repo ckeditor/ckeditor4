@@ -1,0 +1,37 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+</head>
+<div id="editor1"><div class="testwidget"><div class="col1"></div><div class="col2"></div></div>
+</div>
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		CKEDITOR.tools.enableHtml5Elements( document );
+	}
+
+	CKEDITOR.addCss( '.testwidget {	border: 1px dashed #AAAAFF;	} .col1, .col2 { border: 1px dashed #AA9090; margin: 5px; }' );
+
+	CKEDITOR.plugins.add( 'doublecolumn', {
+		requires: 'widget',
+		button: 'doublecolumn',
+
+		init: function( editor ) {
+			editor.widgets.add( 'dobulecolumn', {
+				button: 'doublecolumn',
+				template: '<div class="testwidget"><div class="col1"></div><div class="col2"></div></div>',
+				editables: {
+					col1: { selector: '.col1' },
+					col2: { selector: '.col2' }
+				},
+				upcast: function( element ) {
+					return element.hasClass( 'testwidget' );
+				}
+			} );
+		}
+	} );
+
+	CKEDITOR.replace( 'editor1', {
+		height: 500,
+		extraPlugins: 'doublecolumn',
+		allowedContent: true
+	} );
+</script>
