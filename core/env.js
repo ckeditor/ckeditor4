@@ -17,9 +17,9 @@ if ( !CKEDITOR.env ) {
 	 */
 	CKEDITOR.env = ( function() {
 		var agent = navigator.userAgent.toLowerCase(),
-			spartan = agent.match( /edge[ \/](\d+.?\d*)/ ),
+			edge = agent.match( /edge[ \/](\d+.?\d*)/ ),
 			trident = agent.indexOf( 'trident/' ) > -1,
-			ie = !!( spartan || trident );
+			ie = !!( edge || trident );
 
 		var env = {
 			/**
@@ -28,12 +28,29 @@ if ( !CKEDITOR.env ) {
 			 *		if ( CKEDITOR.env.ie )
 			 *			alert( 'I\'m running in IE!' );
 			 *
+			 * **Note:** This property is also set to `true` if CKEditor is running
+			 * in {@link #edge Microsoft Edge}.
+			 *
 			 * @property {Boolean}
 			 */
 			ie: ie,
 
 			/**
-			 * Indicates that CKEditor is running in a WebKit-based browser, like Safari.
+			 * Indicates that CKEditor is running in Microsoft Edge.
+			 *
+			 *		if ( CKEDITOR.env.edge )
+			 *			alert( 'I\'m running in Edge!' );
+			 *
+			 * See also {@link #ie}.
+			 *
+			 * @since 4.5
+			 * @property {Boolean}
+			 */
+			edge: !!edge,
+
+			/**
+			 * Indicates that CKEditor is running in a WebKit-based browser, like Safari,
+			 * or Blink-based browser, like Blink.
 			 *
 			 *		if ( CKEDITOR.env.webkit )
 			 *			alert( 'I\'m running in a WebKit browser!' );
@@ -144,7 +161,7 @@ if ( !CKEDITOR.env ) {
 		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.ie );
 
 		/**
-		 * Indicates that CKEditor is running in Chrome.
+		 * Indicates that CKEditor is running in Blink-based browsers like Chrome.
 		 *
 		 *		if ( CKEDITOR.env.chrome )
 		 *			alert( 'I\'m running in Chrome!' );
@@ -172,8 +189,8 @@ if ( !CKEDITOR.env ) {
 		// Internet Explorer 6.0+
 		if ( env.ie ) {
 			// We use env.version for feature detection, so set it properly.
-			if ( spartan ) {
-				version = parseFloat( spartan[ 1 ] );
+			if ( edge ) {
+				version = parseFloat( edge[ 1 ] );
 			} else if ( env.quirks || !document.documentMode ) {
 				version = parseFloat( agent.match( /msie (\d+)/ )[ 1 ] );
 			} else {
@@ -258,26 +275,28 @@ if ( !CKEDITOR.env ) {
 		env.version = version;
 
 		/**
-		 * Indicates that CKEditor is running in a compatible browser.
+		 * Since CKEditor 4.5.0 this property is a blacklist of browsers incompatible with CKEditor. It means that it is
+		 * set to `false` only in browsers that are known to be incompatible. Before CKEditor 4.5.0 this
+		 * property was a whitelist of browsers that were known to be compatible with CKEditor.
+		 *
+		 * The reason for this change is the rising fragmentation of the browsers market (especially the mobile segment).
+		 * It became too complicated to check on which new environments CKEditor is going to work.
+		 *
+		 * In order to enable CKEditor 4.4.x and below in unsupported environment see the
+		 * [Enabling CKEditor in Unsupported Environments](#!/guide/dev_unsupported_environments) article.
 		 *
 		 *		if ( CKEDITOR.env.isCompatible )
-		 *			alert( 'Your browser is pretty cool!' );
-		 *
-		 * See the [Enabling CKEditor in Unsupported Environments](#!/guide/dev_unsupported_environments)
-		 * article for more information.
+		 *			alert( 'Your browser is not known to be incompatible with CKEditor!' );
 		 *
 		 * @property {Boolean}
 		 */
 		env.isCompatible =
-			// White list of mobile devices that CKEditor supports.
-			env.iOS && version >= 534 ||
-			!env.mobile && (
-				( env.ie && version > 6 ) ||
-				( env.gecko && version >= 20000 ) ||
-				( env.air && version >= 1 ) ||
-				( env.webkit && version >= 522 ) ||
-				false
-			);
+			// IE 7+ (IE 7 is not supported, but IE Compat Mode is and it is recognized as IE7).
+			!( env.ie && version < 7 ) &&
+			// Firefox 4.0+.
+			!( env.gecko && version < 40000 ) &&
+			// Chrome 6+, Safari 5.1+, iOS 5+.
+			!( env.webkit && version < 534 );
 
 		/**
 		 * Indicates that CKEditor is running in the HiDPI environment.
