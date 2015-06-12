@@ -45,6 +45,7 @@ Other Changes:
 * Toolbar configurators:
   * [#13147](http://dev.ckeditor.com/ticket/13147): Add buttons to the sticky toolbar.
   * [#13207](http://dev.ckeditor.com/ticket/13207): Use modal window to display help in toolbar configurator.
+* [#13316](http://dev.ckeditor.com/ticket/13316): Made [`CKEDITOR.env.isCompatible`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-isCompatible) a blacklist rather than a whitelist. More about the change in the [Browser Compatibility](http://docs.ckeditor.com/#!/guide/dev_browsers) guide.
 
 ## CKEditor 4.5 Beta
 
