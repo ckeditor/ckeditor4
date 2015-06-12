@@ -3792,6 +3792,8 @@
 
 /**
  * An object containing definitions of nested editables (editable name => {@link CKEDITOR.plugins.widget.nestedEditable.definition}).
+ * Note that editables *have to* be defined in the same order as they are in DOM / {@link CKEDITOR.plugins.widget.definition#template template}.
+ * Otherwise errors will occur when nesting widgets inside each other.
  *
  *		editables: {
  *			header: 'h1',
