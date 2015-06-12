@@ -1,0 +1,12 @@
+<textarea id="editor1" cols="10" rows="10">
+	&lt;script><iframe src=javascript:alert(1)></iframe>
+</textarea>
+
+<textarea id="editor2" cols="10" rows="10">
+	&lt;script><iframe/src="javascript:alert(2)">
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2' );
+</script>
