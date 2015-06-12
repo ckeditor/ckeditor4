@@ -686,6 +686,8 @@
 			assert.areSame( 5, node.getParents( false, wrongParent ).length );
 			assert.areSame( node.getParents( false, guard )[ 0 ], guard );
 			assert.areSame( node.getParents( false, guard )[ 0 ], node.getParents( true, guard )[ 2 ] );
+			// guard and base node are the same elements - we should get only that node
+			assert.isTrue( node.getParents( false, node )[ 0 ].equals( node ) );
 		},
 
 		test_getCommonAncestor: function() {

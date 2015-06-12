@@ -1204,9 +1204,8 @@
 		 * @returns {Boolean} Whether an editable was successfully initialized.
 		 */
 		initEditable: function( editableName, definition ) {
-
 			// Don't fetch just first element which matched selector but look for a correct one. (#13334)
-			var editable = findCorrectEditable( this.wrapper, definition.selector );
+			var editable = this.findCorrectEditable( definition.selector );
 
 			if ( editable && editable.is( CKEDITOR.dtd.$editable ) ) {
 				editable = new NestedEditable( this.editor, editable, {
@@ -1245,6 +1244,46 @@
 			}
 
 			return false;
+		},
+
+		/**
+		 * Looks inside wrapper element to find a correct element that matches the selector.
+		 * Correct element should not be inside another widget's wrapper because then it is
+		 * already a part of other widget.
+		 * The path from a matched element to the wrapper element of this widget is checked,
+		 * looking of other wrappers. (#13334)
+		 *
+		 * @param {String} selector Selector to match.
+		 * @returns {CKEDITOR.dom.node} Node which matches given selector and is not a part of other widget or
+		 * null if such node has not been found.
+		 */
+		findCorrectEditable: function( selector ) {
+			var editable = null,
+				parents;
+
+			var matchedElements = this.wrapper.find( selector );
+
+			for ( var i = 0; i < matchedElements.count(); i++ ) {
+				editable = matchedElements.getItem( i );
+
+				parents = editable.getParents( true, this.wrapper );
+				parents.pop(); // Don't include wrapper element.
+
+				for ( var j = 0; j < parents.length; j++ ) {
+					// One of parents is a widget wrapper, so this match is already a part of other widget.
+					if ( Widget.isDomWidgetWrapper( parents[ j ] ) ) {
+						editable = null;
+						break;
+					}
+				}
+
+				// The first match is a good match.
+				// Other matches are probably parts of other widgets instances.
+				if ( editable != null )
+					break;
+			}
+
+			return editable;
 		},
 
 		/**
@@ -3357,39 +3396,6 @@
 
 	function writeDataToElement( widget ) {
 		widget.element.data( 'cke-widget-data', encodeURIComponent( JSON.stringify( widget.data ) ) );
-	}
-
-	// Looks inside wrapper element to find an element that matches the selector
-	// and is not inside another widget's wrapper (is not a part of other, already initialized widget).
-	// This situation may happen when widgets are nested. If there is other widgets wrapper on a path
-	// from a matched node to the wrapper element then the match is incorrect. (#13334)
-	function findCorrectEditable( wrapper, selector ) {
-		var editable = null,
-			parents;
-
-		var matchedElements = wrapper.find( selector );
-
-		for ( var i = 0; i < matchedElements.count(); i++ ) {
-			editable = matchedElements.getItem( i );
-
-			parents = editable.getParents( true, wrapper );
-			parents.pop(); // Don't include wrapper element.
-
-			for ( var j = 0; j < parents.length; j++ ) {
-				// One of parents is a widget wrapper, so this match is already a part of other widget.
-				if ( Widget.isDomWidgetWrapper( parents[ j ] ) ) {
-					editable = null;
-					break;
-				}
-			}
-
-			// The first match is a good match.
-			// Other matches are probably parts of other widgets instances.
-			if ( editable != null )
-				break;
-		}
-
-		return editable;
 	}
 
 	//

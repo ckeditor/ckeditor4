@@ -346,6 +346,34 @@
 			} );
 		},
 
+		'test findCorrectEditable': function() {
+			var editor = this.editors.editor;
+
+			var editorHtml =
+				'<div data-widget="test_findCorrectEditable" id="test_findCorrectEditable">' +
+					'<div>' +
+						'<div data-cke-widget-wrapper="1">' + // Added wrapper so we simulate that nested widget is already initialized.
+							'<div data-widget="test_findCorrectEditable"><div class="col1"></div><div class="col2" id="nestedcol2"></div></div>' +
+						'</div>' +
+					'</div>' +
+					'<div class="col2" id="uppercol2"></div>' +
+				'</div>';
+
+			editor.widgets.add( 'test_findCorrectEditable', {} );
+
+			this.editorBots.editor.setData( editorHtml, function() {
+				var widget = getWidgetById( editor, 'test_findCorrectEditable' );
+				var col1 = widget.findCorrectEditable( '.col1' );
+				var col2 = widget.findCorrectEditable( '.col2' );
+
+				// .col1 is only in another widget so it should not be found.
+				assert.areSame( null, col1, 'findCorrectEditable for selector .col1 returns' );
+
+				// findCorrectEditable should find .col2 which is not in another widget.
+				assert.areSame( 'uppercol2', col2.getId(), 'findCorrectEditable returned .col2 with id' );
+			} );
+		},
+
 		// #13334
 		'test editables are not matched from among nested widgets': function() {
 			var editor = this.editors.editor;
