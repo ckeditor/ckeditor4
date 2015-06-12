@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: embedbase,autoembed,enterkey,undo */
+/* bender-ckeditor-plugins: embed,autoembed,enterkey,undo */
 /* bender-include: ../embedbase/_helpers/tools.js, ../clipboard/_helpers/pasting.js */
 
 /* global embedTools, assertPasteEvent */

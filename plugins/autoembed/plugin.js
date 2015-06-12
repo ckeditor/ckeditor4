@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'autoembed', {
-		requires: 'autolink,embed,undo',
+		requires: 'autolink,undo',
 
 		init: function( editor ) {
 			var currentId = 1;
