@@ -1253,6 +1253,8 @@
 		 * The path from a matched element to the wrapper element of this widget is checked,
 		 * looking of other wrappers. (#13334)
 		 *
+		 * @since 4.5
+		 * @private
 		 * @param {String} selector Selector to match.
 		 * @returns {CKEDITOR.dom.node} Node which matches given selector and is not a part of other widget or
 		 * null if such node has not been found.
