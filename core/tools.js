@@ -20,10 +20,22 @@
 		ltRegex = /</g,
 		quoteRegex = /"/g,
 
-		ampEscRegex = /&amp;/g,
-		gtEscRegex = /&gt;/g,
-		ltEscRegex = /&lt;/g,
-		quoteEscRegex = /&quot;/g;
+		allEscRegex = /&(lt|gt|amp|quot|nbsp|shy|#\d{1,5});/g,
+		namedEntities = {
+			lt: '<',
+			gt: '>',
+			amp: '&',
+			quot: '"',
+			nbsp: '\u00a0',
+			shy: '\u00ad'
+		},
+		allEscDecode = function( match, code ) {
+			if ( code[ 0 ] == '#' ) {
+				return String.fromCharCode( parseInt( code.slice( 1 ), 10 ) );
+			} else {
+				return namedEntities[ code ];
+			}
+		};
 
 	CKEDITOR.on( 'reset', function() {
 		functions = [];
@@ -354,19 +366,32 @@
 		 * @returns {String} The encoded string.
 		 */
 		htmlEncode: function( text ) {
+			// Backwards compatibility - accept also non-string values (casting is done below).
+			// Since 4.4.8 we return empty string for null and undefined because these values make no sense.
+			if ( text === undefined || text === null ) {
+				return '';
+			}
+
 			return String( text ).replace( ampRegex, '&amp;' ).replace( gtRegex, '&gt;' ).replace( ltRegex, '&lt;' );
 		},
 
 		/**
-		 * Decodes HTML entities.
+		 * Decodes HTML entities which browsers tend to encode when used in text nodes.
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ) ); // '<a & b >'
+		 *
+		 * Read more about chosen entities in the [research](http://dev.ckeditor.com/ticket/13105#comment:8).
 		 *
 		 * @param {String} The string to be decoded.
 		 * @returns {String} The decoded string.
 		 */
 		htmlDecode: function( text ) {
-			return text.replace( ampEscRegex, '&' ).replace( gtEscRegex, '>' ).replace( ltEscRegex, '<' );
+			// See:
+			// * http://dev.ckeditor.com/ticket/13105#comment:8 and comment:9,
+			// * http://jsperf.com/wth-is-going-on-with-jsperf JSPerf has some serious problems, but you can observe
+			// that combined regexp tends to be quicker (except on V8). It will also not be prone to fail on '&amp;lt;'
+			// (see http://dev.ckeditor.com/ticket/13105#DXWTF:CKEDITOR.tools.htmlEnDecodeAttr).
+			return text.replace( allEscRegex, allEscDecode );
 		},
 
 		/**
@@ -378,21 +403,22 @@
 		 * @returns {String} The encoded value.
 		 */
 		htmlEncodeAttr: function( text ) {
-			return text.replace( quoteRegex, '&quot;' ).replace( ltRegex, '&lt;' ).replace( gtRegex, '&gt;' );
+			return CKEDITOR.tools.htmlEncode( text ).replace( quoteRegex, '&quot;' );
 		},
 
 		/**
-		 * Replace HTML entities previously encoded by
-		 * {@link #htmlEncodeAttr htmlEncodeAttr} back to their plain character
-		 * representation.
+		 * Decodes HTML entities which browsers tend to encode when used in attributes.
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&lt;a &quot; b&gt;' ) ); // '<a " b>'
+		 *
+		 * Since CKEditor 4.5.0 this method simply executes {@link #htmlDecode} which covers
+		 * all necessary entities.
 		 *
 		 * @param {String} text The text to be decoded.
 		 * @returns {String} The decoded text.
 		 */
 		htmlDecodeAttr: function( text ) {
-			return text.replace( quoteEscRegex, '"' ).replace( ltEscRegex, '<' ).replace( gtEscRegex, '>' );
+			return CKEDITOR.tools.htmlDecode( text );
 		},
 
 		/**
