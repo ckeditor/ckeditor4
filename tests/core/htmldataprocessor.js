@@ -758,8 +758,16 @@
 		'test process malformed script': function() {
 			var dataP = this.editor.dataProcessor;
 
-			// What we want to check is that on every browser iframe ends up being script's content.
-			assert.areSame( '<script><iframe src="foo"></iframe></sc' + 'ript>', dataP.toHtml( '<script><iframe src="foo"></iframe>' ) );
+			// What we check is that unclosed <script> tag will be protected.
+			assert.areSame( '<p>x</p><!--{cke_protected}%3Cscript%3E%3Ciframe%20src%3D%22foo%22%3E%3C%2Fiframe%3E-->',
+				dataP.toHtml( '<p>x</p><script><iframe src="foo"></iframe>' ) );
+			assert.areSame( '<p>x</p><!--{cke_protected}%3Cscript%3Ealert(1)%3B%3Cp%3Efoo%3C%2Fp%3E%3Cp%3Ebar%3C%2Fp%3E-->',
+				dataP.toHtml( '<p>x</p><script>alert(1);<p>foo</p><p>bar</p>' ) );
+			// Just to be sure that we don't swallow too much.
+			assert.areSame(
+				'<p>x</p><!--{cke_protected}%3Cscript%3Ealert(1)%3B%3C%2Fscript%3E-->' +
+				'<p>foo</p><!--{cke_protected}%3Cscript%3Ealert(2)%3B%3C%2Fscript%3E--><p>bar</p>',
+				dataP.toHtml( '<p>x</p><script>alert(1);</scr' + 'ipt><p>foo</p><script>alert(2);</scr' + 'ipt><p>bar</p>' ) );
 		},
 
 		'test toHtml event': function() {
