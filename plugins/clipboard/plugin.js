@@ -1297,10 +1297,17 @@
 				var dragRange = clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
 
 				// Store number of children, so we can later tell if any text node was split on drop. (#13011)
-				clipboard.dragStartContainerChildCount = dragRange.startContainer.type == CKEDITOR.NODE_ELEMENT ?
-					dragRange.startContainer.getChildCount() : null;
-				clipboard.dragEndContainerChildCount = dragRange.endContainer.type == CKEDITOR.NODE_ELEMENT ?
-					dragRange.endContainer.getChildCount() : null;
+				if ( dragRange.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
+					clipboard.dragStartContainerChildCount = dragRange.startContainer.getChildCount();
+				} else {
+					clipboard.dragStartContainerChildCount = dragRange.startContainer.getParent().getChildCount();
+				}
+
+				if ( dragRange.endContainer.type == CKEDITOR.NODE_ELEMENT ) {
+					clipboard.dragEndContainerChildCount = dragRange.endContainer.getChildCount();
+				} else {
+					clipboard.dragEndContainerChildCount = dragRange.endContainer.getParent().getChildCount();
+				}
 			}, null, null, 2 );
 
 			// -------------- DRAGEND --------------
