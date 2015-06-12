@@ -1269,7 +1269,8 @@
 				editable = matchedElements.getItem( i );
 
 				parents = editable.getParents( true, this.wrapper );
-				parents.pop(); // Don't include wrapper element.
+				// Don't include wrapper element.
+				parents.pop();
 
 				for ( var j = 0; j < parents.length; j++ ) {
 					// One of parents is a widget wrapper, so this match is already a part of other widget.
