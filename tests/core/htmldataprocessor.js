@@ -754,6 +754,14 @@
 				bender.tools.fixHtml( dataP.toHtml( '<p><a data-href="x" href="#" src-foo="y">a</a></p>' ) ) );
 		},
 
+		// #13393
+		'test process malformed script': function() {
+			var dataP = this.editor.dataProcessor;
+
+			// What we want to check is that on every browser iframe ends up being script's content.
+			assert.areSame( '<script><iframe src="foo"></iframe></sc' + 'ript>', dataP.toHtml( '<script><iframe src="foo"></iframe>' ) );
+		},
+
 		'test toHtml event': function() {
 			var editor = this.editor,
 				calls = 0;
