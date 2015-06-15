@@ -1779,10 +1779,8 @@
 			else
 				stripBlock( element, enterTag, toBeChecked );
 		}
-		// Special case - elements that may contain CDATA
-		// should be removed completely. <script> is handled
-		// by processProtectedElement().
-		else if ( name == 'style' )
+		// Special case - elements that may contain CDATA should be removed completely.
+		else if ( name in { style: 1, script: 1 } )
 			element.remove();
 		// The rest of inline elements. May also be the last resort
 		// for some special elements.
