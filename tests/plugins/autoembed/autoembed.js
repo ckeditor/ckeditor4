@@ -28,16 +28,23 @@ bender.editor = {
 	}
 };
 
+var nextIdMock;
 bender.test( {
 	setUp: function() {
 		jsonpCallback = correctJsonpCallback;
+		nextIdMock = sinon.stub( CKEDITOR.tools, 'getNextId' ).returns( 'cke_10' );
 	},
 
-	'test working example': function() {
-		var bot = this.editorBot;
+	tearDown: function() {
+		nextIdMock.restore();
+	},
+
+	'test undo': function() {
+		var bot = this.editorBot,
+			pastedText = 'https://foo.bar/g/200/300';
 
 		this.editor.once( 'paste', function( evt ) {
-			assert.isMatching( /^<a data-cke-autoembed="\d+" href="https:\/\/foo.bar\/g\/200\/300">https:\/\/foo.bar\/g\/200\/300<\/a>$/, evt.data.dataValue );
+			assert.isMatching( '<a data-cke-autoembed="cke_10" href="' + pastedText + '">' + pastedText + '<\/a>', evt.data.dataValue );
 		}, null, null, 900 );
 
 		bot.setData( '<p>This is an embed</p>', function() {
@@ -48,37 +55,47 @@ bender.test( {
 			range.collapse( true );
 			this.editor.getSelection().selectRanges( [ range ] );
 
-			this.editor.execCommand( 'paste', 'https://foo.bar/g/200/300' );
+			this.editor.execCommand( 'paste', pastedText );
 
 			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
-			assert.areSame( '<p>This is an<a href="https://foo.bar/g/200/300">https://foo.bar/g/200/300</a> embed</p>', bot.getData() );
+			assert.areSame( '<p>This is an<a href="' + pastedText + '">' + pastedText + '</a> embed</p>', bot.getData() );
 
 			wait( function() {
-				assert.areSame( '<p>This is an</p><div data-oembed-url="https://foo.bar/g/200/300"><img src="https://foo.bar/g/200/300" /></div><p>embed</p>', bot.getData() );
+				var finalState = '<p>This is an</p><div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>embed</p>';
+				assert.areSame( finalState, bot.getData() );
+
+				this.editor.execCommand( 'undo' );
+
+				assert.areSame( '<p>This is an<a href="' + pastedText + '">' + pastedText + '</a> embed</p>', bot.getData() );
+
+				this.editor.execCommand( 'redo' );
+
+				assert.areSame( finalState, bot.getData() );
 			}, 200 );
 		} );
 	},
 
 	'test embedding when request failed': function() {
-		var bot = this.editorBot;
+		var pastedText = 'https://foo.bar/g/200/302',
+			bot = this.editorBot;
 		jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
 			errorCallback();
 		};
 
 		bot.setData( '', function() {
 			bot.editor.focus();
-			this.editor.execCommand( 'paste', 'https://foo.bar/g/200/302' );
+			this.editor.execCommand( 'paste', pastedText );
 
 			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
 			assert.areSame(
-				'<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>',
+				'<p><a href="' + pastedText + '">' + pastedText + '</a></p>',
 				bot.getData( 1 ),
 				'link was pasted correctly'
 			);
 
 			wait( function() {
 				assert.areSame(
-					'<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>',
+					'<p><a href="' + pastedText + '">' + pastedText + '</a></p>',
 					bot.getData( 1 ),
 					'link was not auto embedded'
 				);
@@ -87,14 +104,15 @@ bender.test( {
 	},
 
 	'test when user splits the link before the request is finished': function() {
-		var bot = this.editorBot;
+		var pastedText = 'https://foo.bar/g/200/304',
+			bot = this.editorBot;
 
 		bot.setData( '', function() {
 			bot.editor.focus();
-			this.editor.execCommand( 'paste', 'https://foo.bar/g/200/304' );
+			this.editor.execCommand( 'paste', pastedText );
 
 			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
-			assert.areSame( '<p><a href="https://foo.bar/g/200/304">https://foo.bar/g/200/304</a></p>', bot.getData( 1 ) );
+			assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData( 1 ) );
 
 			var range = this.editor.createRange();
 			range.setStart( this.editor.editable().findOne( 'a' ).getFirst(), 5 );
@@ -103,7 +121,7 @@ bender.test( {
 			this.editor.execCommand( 'enter' );
 
 			assert.areSame(
-				'<p><a href="https://foo.bar/g/200/304">https</a></p><p><a href="https://foo.bar/g/200/304">foo.bar/g/200/304</a></p>',
+				'<p><a href="' + pastedText + '">https</a></p><p><a href="' + pastedText + '">foo.bar/g/200/304</a></p>',
 				bot.getData(),
 				'enter key worked'
 			);
@@ -111,8 +129,8 @@ bender.test( {
 			// It is not clear what should happen when the link was split, so we decided to embed only the first part.
 			wait( function() {
 				assert.areSame(
-					'<div data-oembed-url="https://foo.bar/g/200/304"><img src="https://foo.bar/g/200/304" /></div>' +
-					'<p><a href="https://foo.bar/g/200/304">foo.bar/g/200/304</a></p>',
+					'<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div>' +
+					'<p><a href="' + pastedText + '">foo.bar/g/200/304</a></p>',
 					bot.getData( 1 ),
 					'the first part of the link was auto embedded'
 				);
@@ -121,8 +139,9 @@ bender.test( {
 	},
 
 	'test uppercase link is auto embedded': function() {
-		var pastedText = '<A href="https://foo.bar/bom">https://foo.bar/bom</A>',
-			expected = /^<a data-cke-autoembed="\d+" href="https:\/\/foo.bar\/bom">https:\/\/foo.bar\/bom<\/a>$/;
+		var url = 'https://foo.bar/bom',
+			pastedText = '<A href="' + url + '">' + url + '</A>',
+			expected = '<a data-cke-autoembed="cke_10" href="' + url + '">' + url + '</a>';
 
 		assertPasteEvent( this.editor, { dataValue: pastedText }, function( data ) {
 			// Use prepInnerHtml to make sure attr are sorted.
@@ -131,8 +150,9 @@ bender.test( {
 	},
 
 	'test link with attributes is auto embedded': function() {
-		var pastedText = '<a id="kitty" name="colonelMeow" href="https://foo.bar/bom">https://foo.bar/bom</a>',
-			expected = /^<a data-cke-autoembed="\d+" href="https:\/\/foo.bar\/bom" id="kitty" name="colonelMeow">https:\/\/foo.bar\/bom<\/a>$/;
+		var url = 'https://foo.bar/bom',
+			pastedText = '<a id="kitty" name="colonelMeow" href="' + url + '">' + url + '</a>',
+			expected = '<a data-cke-autoembed="cke_10" href="' + url + '" id="kitty" name="colonelMeow">' + url + '<\/a>';
 
 		assertPasteEvent( this.editor, { dataValue: pastedText }, function( data ) {
 			// Use prepInnerHtml to make sure attr are sorted.
@@ -152,89 +172,6 @@ bender.test( {
 
 		assertPasteEvent( this.editor, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 	},
-
-	// 'test undo': function() {
-	// 	var bot = this.editorBot,
-	// 		pastedText = 'https://foo.bar/g/200/382';
-
-	// 	bot.setData( '', function() {
-	// 		this.editor.execCommand( 'paste', pastedText );
-	// 		assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
-
-	// 		this.editor.execCommand( 'undo' );
-
-	// 		wait( function() {
-	// 			assert.areSame( '', bot.getData() );
-	// 		}, 200 );
-	// 	} );
-	// },
-
-	// 'test undo after embed': function() {
-	// 	var bot = this.editorBot,
-	// 		pastedText = 'https://foo.bar/g/200/382',
-	// 		that = this;
-
-	// 	bot.setData( '', function() {
-	// 		this.editor.execCommand( 'paste', pastedText );
-	// 		assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
-
-	// 		wait( function() {
-	// 			this.editor.execCommand( 'undo' );
-
-	// 			// The "cke-auto-embed" attribute should not be present.
-	// 			assert.isInnerHtmlMatching( '<p><a data-cke-saved-href="' + pastedText + '" href="' + pastedText + '">' +
-	// 				pastedText + '[]</a><br /></p>', bender.tools.selection.getWithHtml( that.editor ) );
-	// 		}, 200 );
-	// 	} );
-	// },
-
-	// 'test double undo': function() {
-	// 	var bot = this.editorBot,
-	// 		pastedText = 'https://foo.bar/g/210/382';
-
-	// 	bot.setData( '<p></p>', function() {
-	// 		this.editor.execCommand( 'paste', pastedText );
-	// 		assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
-
-	// 		wait( function() {
-	// 			assert.areSame( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div>', bot.getData() );
-
-	// 			this.editor.execCommand( 'undo' );
-
-	// 			assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
-
-	// 			this.editor.execCommand( 'undo' );
-
-	// 			assert.areSame( '', bot.getData() );
-	// 		}, 200 );
-	// 	} );
-	// },
-
-	// 'test undo and redo': function() {
-	// 	var bot = this.editorBot,
-	// 		pastedText = 'https://foo.bar/g/400/382',
-	// 		that = this;
-
-	// 	bot.setData( '<p></p>', function() {
-	// 		this.editor.execCommand( 'paste', pastedText );
-	// 		assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
-
-	// 		wait( function() {
-	// 			this.editor.execCommand( 'undo' );
-	// 			assert.isInnerHtmlMatching( '<p>[]<br /></p>', bender.tools.selection.getWithHtml( that.editor ) );
-
-	// 			this.editor.execCommand( 'redo' );
-	// 			assert.isInnerHtmlMatching( [ '<p><a data-cke-saved-href="' + pastedText + '" href="' + pastedText + '">' +
-	// 				pastedText + '[]</a><br /></p>' ], bender.tools.selection.getWithHtml( that.editor ) );
-
-	// 			// Embedding never really happened, so an additional redo step should do nothing.
-	// 			this.editor.execCommand( 'redo' );
-	// 			assert.isInnerHtmlMatching( [ '<p><a data-cke-saved-href="' + pastedText + '" href="' + pastedText + '">' +
-	// 				pastedText + '[]</a><br /></p>' ], bender.tools.selection.getWithHtml( that.editor ) );
-
-	// 		}, 50 ); // User fired undo before the link was embedded.
-	// 	} );
-	// },
 
 	'test internal paste is not auto embedded - text URL': function() {
 		var	editor = this.editor,

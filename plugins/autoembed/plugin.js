@@ -10,7 +10,7 @@
 		requires: 'autolink,undo',
 
 		init: function( editor ) {
-			var currentId = 1;
+			var currentId;
 
 			editor.on( 'paste', function( evt ) {
 				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
@@ -32,7 +32,8 @@
 					link = parsedData.children[ 0 ];
 
 					if ( link.type == CKEDITOR.NODE_ELEMENT && link.getHtml() == link.attributes.href ) {
-						evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + data.substr( 2 );
+						currentId = CKEDITOR.tools.getNextId();
+						evt.data.dataValue = '<a data-cke-autoembed="' + currentId + '"' + data.substr( 2 );
 					}
 				}
 
