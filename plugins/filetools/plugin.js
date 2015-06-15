@@ -11,18 +11,18 @@
 
 		beforeInit: function( editor ) {
 			/**
-			 * An instance of {@link CKEDITOR.fileTools.uploadsRepository upload repository}.
+			 * An instance of {@link CKEDITOR.fileTools.uploadRepository upload repository}.
 			 * It allows you to create and get {@link CKEDITOR.fileTools.fileLoader file loaders}.
 			 *
-			 *		var loader = editor.uploadsRepository.create( file );
+			 *		var loader = editor.uploadRepository.create( file );
 			 *		loader.loadAndUpload( 'http://foo/bar' );
 			 *
 			 * @since 4.5
 			 * @readonly
-			 * @property {CKEDITOR.fileTools.uploadsRepository} uploadsRepository
+			 * @property {CKEDITOR.fileTools.uploadRepository} uploadRepository
 			 * @member CKEDITOR.editor
 			 */
-			editor.uploadsRepository = new UploadsRepository( editor );
+			editor.uploadRepository = new UploadRepository( editor );
 
 			/**
 			 * This event if fired when {@link CKEDITOR.fileTools.fileLoader FileLoader} should send XHR. If event will not be
@@ -190,31 +190,31 @@
 	/**
 	 * File loaders repository. It allows you to create and get {@link CKEDITOR.fileTools.fileLoader file loaders}.
 	 *
-	 * An instance of the repository is available as a {@link CKEDITOR.editor#uploadsRepository}.
+	 * An instance of the repository is available as a {@link CKEDITOR.editor#uploadRepository}.
 	 *
-	 *		var loader = editor.uploadsRepository.create( file );
+	 *		var loader = editor.uploadRepository.create( file );
 	 *		loader.loadAndUpload( 'http://foo/bar' );
 	 *
 	 * To find more information about handling files see the {@link CKEDITOR.fileTools.fileLoader} class.
 	 *
 	 * @since 4.5
-	 * @class CKEDITOR.fileTools.uploadsRepository
+	 * @class CKEDITOR.fileTools.uploadRepository
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates an instance of the repository.
 	 * @param {CKEDITOR.editor} editor Editor instance. Used only to get the language data.
 	 */
-	function UploadsRepository( editor ) {
+	function UploadRepository( editor ) {
 		this.editor = editor;
 
 		this.loaders = [];
 	}
 
-	UploadsRepository.prototype = {
+	UploadRepository.prototype = {
 		/**
 		 * Creates a {@link CKEDITOR.fileTools.fileLoader file loader} instance with a unique id.
 		 * The instance can be later retrieved from the repository using the {@link #loaders} array.
 		 *
-		 * Fires {@link CKEDITOR.fileTools.uploadsRepository#instanceCreated instanceCreated} event.
+		 * Fires {@link CKEDITOR.fileTools.uploadRepository#instanceCreated instanceCreated} event.
 		 *
 		 * @param {Blob/String} fileOrData See {@link CKEDITOR.fileTools.fileLoader}.
 		 * @param {String} fileName See {@link CKEDITOR.fileTools.fileLoader}.
@@ -293,7 +293,7 @@
 	 * or response handling you need to overwrite default behavior using the {@link CKEDITOR.editor#fileUploadRequest} and
 	 * {@link CKEDITOR.editor#fileUploadResponse} events. For more information see their documentation.
 	 *
-	 * To create a `FileLoader` instance use the {@link CKEDITOR.fileTools.uploadsRepository} class.
+	 * To create a `FileLoader` instance use the {@link CKEDITOR.fileTools.uploadRepository} class.
 	 *
 	 * Here is a simple usage of `FileLoader`:
 	 *
@@ -302,7 +302,7 @@
 	 *				var file = evt.data.dataTransfer.getFile( i );
 	 *
 	 *				if ( CKEDITOR.fileTools.isTypeSupported( file, /image\/png/ ) ) {
-	 *					var loader = editor.uploadsRepository.create( file );
+	 *					var loader = editor.uploadRepository.create( file );
 	 *
 	 *					loader.on( 'update', function() {
 	 *						document.getElementById( 'uploadProgress' ).innerHTML = loader.status;
@@ -463,7 +463,7 @@
 	 */
 
 	/**
-	 * If `FileLoader` was created using {@link CKEDITOR.fileTools.uploadsRepository}
+	 * If `FileLoader` was created using {@link CKEDITOR.fileTools.uploadRepository}
 	 * it gets an identifier which is stored in this property.
 	 *
 	 * @readonly
@@ -731,7 +731,7 @@
 		 */
 	};
 
-	CKEDITOR.event.implementOn( UploadsRepository.prototype );
+	CKEDITOR.event.implementOn( UploadRepository.prototype );
 	CKEDITOR.event.implementOn( FileLoader.prototype );
 
 	var base64HeaderRegExp = /^data:(\S*?);base64,/;
@@ -782,7 +782,7 @@
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.fileTools, {
-		uploadsRepository: UploadsRepository,
+		uploadRepository: UploadRepository,
 		fileLoader: FileLoader,
 
 		/**

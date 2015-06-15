@@ -22,8 +22,8 @@
 			isTypeSupported = CKEDITOR.fileTools.isTypeSupported;
 			getExtention = CKEDITOR.fileTools.getExtention;
 
-			// Reset uploadsRepository.
-			this.editor.uploadsRepository.loaders = [];
+			// Reset uploadRepository.
+			this.editor.uploadRepository.loaders = [];
 		},
 
 		'test getUploadUrl 1': function() {
@@ -110,8 +110,8 @@
 			assert.isFalse( isTypeSupported( { type: 'image/jpeg' }, /image\/(png|gif)/ ) );
 		},
 
-		'test UploadsRepository': function() {
-			var repository = this.editor.uploadsRepository;
+		'test UploadRepository': function() {
+			var repository = this.editor.uploadRepository;
 
 			assert.areSame( 0, repository.loaders.length );
 			assert.isUndefined( repository.loaders[ 0 ] );
@@ -137,8 +137,8 @@
 		},
 
 
-		'test UploadsRepository instanceCreated event': function() {
-			var repository = this.editor.uploadsRepository,
+		'test UploadRepository instanceCreated event': function() {
+			var repository = this.editor.uploadRepository,
 				listener = sinon.spy();
 
 			repository.on( 'instanceCreated', listener );
@@ -149,8 +149,8 @@
 			assert.areSame( loader, listener.firstCall.args[ 0 ].data, 'Should be called with loader.' );
 		},
 
-		'test UploadsRepository isFinished': function() {
-			var repository = this.editor.uploadsRepository;
+		'test UploadRepository isFinished': function() {
+			var repository = this.editor.uploadRepository;
 
 
 			repository.create( { name: 'foo1' } );

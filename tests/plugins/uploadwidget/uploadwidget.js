@@ -66,7 +66,7 @@
 			lang: {}
 		};
 
-		editor.uploadsRepository = new CKEDITOR.fileTools.uploadsRepository( editor );
+		editor.uploadRepository = new CKEDITOR.fileTools.uploadRepository( editor );
 
 		CKEDITOR.event.implementOn( editor );
 
@@ -120,8 +120,8 @@
 			var bot = this.editorBot,
 				editor = bot.editor;
 
-			// Clear uploads repository.
-			editor.uploadsRepository.loaders = [];
+			// Clear upload repository.
+			editor.uploadRepository.loaders = [];
 
 			editor.resetUndo();
 		},
@@ -141,7 +141,7 @@
 				assert.areSame( 1, loadAndUploadCount, 'loadAndUpload should be called once.' );
 				assert.areSame( 'uploadUrl', lastUploadUrl );
 
-				var loader = editor.uploadsRepository.loaders[ 0 ];
+				var loader = editor.uploadRepository.loaders[ 0 ];
 
 				loader.changeStatus( 'uploaded' );
 
@@ -158,7 +158,7 @@
 		'test replaceWith 1 element': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -186,7 +186,7 @@
 		'test replaceWith empty element': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -211,7 +211,7 @@
 		'test replaceWith multiple elements': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -236,7 +236,7 @@
 		'test replaceWith preserves selection placed before the widget': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -265,7 +265,7 @@
 		'test replaceWith preserves selection placed after the widget': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -294,7 +294,7 @@
 		'test custom event lister': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() ),
 				onErrorCount = 0, uploadId;
 
@@ -324,7 +324,7 @@
 		'test custom event lister with prevent default': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() ),
 				onErrorCount = 0, uploadId;
 
@@ -622,7 +622,7 @@
 		'test undo and redo': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -656,7 +656,7 @@
 		'test undo during upload': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -690,7 +690,7 @@
 		'test error during upload': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -717,7 +717,7 @@
 		'test changes and undo during upload': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() ),
 				p;
 
@@ -761,7 +761,7 @@
 		'test changes, undo and redo during upload': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() ),
 				p;
 
@@ -810,7 +810,7 @@
 		'test changes during upload and undo after upload': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() ),
 				p;
 
@@ -862,7 +862,7 @@
 		'test copy upload widget': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() ),
 				p;
 
@@ -914,7 +914,7 @@
 		'test remove during upload': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
@@ -950,7 +950,7 @@
 		'test set Class during upload': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() ),
 				wrapper;
 
@@ -980,7 +980,7 @@
 		'test text mode': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
-				uploads = editor.uploadsRepository,
+				uploads = editor.uploadRepository,
 				loader = uploads.create( bender.tools.getTestPngFile() );
 
 			loader.loadAndUpload( 'uploadUrl' );
