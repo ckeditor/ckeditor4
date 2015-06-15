@@ -70,21 +70,12 @@ a.cke_combo_button
 	border: 1px solid #a6a6a6;
 	border-bottom-color: #979797;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 
-	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
 	background: #e4e4e4;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e4e4e4));
-	background-image: -moz-linear-gradient(top, #ffffff, #e4e4e4);
-	background-image: -webkit-linear-gradient(top, #ffffff, #e4e4e4);
-	background-image: -o-linear-gradient(top, #ffffff, #e4e4e4);
-	background-image: -ms-linear-gradient(top, #ffffff, #e4e4e4);
-	background-image: linear-gradient(top, #ffffff, #e4e4e4);
+	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
 }
 
@@ -93,12 +84,7 @@ a.cke_combo_button
 .cke_combo_off a.cke_combo_button:focus
 {
 	background: #ccc;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#ccc));
-	background-image: -moz-linear-gradient(top, #f2f2f2, #ccc);
-	background-image: -webkit-linear-gradient(top, #f2f2f2, #ccc);
-	background-image: -o-linear-gradient(top, #f2f2f2, #ccc);
-	background-image: -ms-linear-gradient(top, #f2f2f2, #ccc);
-	background-image: linear-gradient(top, #f2f2f2, #ccc);
+	background-image: linear-gradient(to bottom, #f2f2f2, #ccc);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
 
 	outline: none;
@@ -109,17 +95,10 @@ a.cke_combo_button
 {
 	border: 1px solid #777;
 
-	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
-	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
 
 	background: #b5b5b5;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#aaa), to(#cacaca));
-	background-image: -moz-linear-gradient(top, #aaa, #cacaca);
-	background-image: -webkit-linear-gradient(top, #aaa, #cacaca);
-	background-image: -o-linear-gradient(top, #aaa, #cacaca);
-	background-image: -ms-linear-gradient(top, #aaa, #cacaca);
-	background-image: linear-gradient(top, #aaa, #cacaca);
+	background-image: linear-gradient(to bottom, #aaa, #cacaca);
 	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#aaaaaa', endColorstr='#cacaca');
 }
 
@@ -127,8 +106,6 @@ a.cke_combo_button
 .cke_combo_on a.cke_combo_button:focus,
 .cke_combo_on a.cke_combo_button:active
 {
-	-moz-box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
-	-webkit-box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
 	box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
 }
 

@@ -49,6 +49,7 @@ Other Changes:
   * [#13207](http://dev.ckeditor.com/ticket/13207): Use modal window to display help in toolbar configurator.
 * [#13316](http://dev.ckeditor.com/ticket/13316): Made [`CKEDITOR.env.isCompatible`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-isCompatible) a blacklist rather than a whitelist. More about the change in the [Browser Compatibility](http://docs.ckeditor.com/#!/guide/dev_browsers) guide.
 * [#13398](http://dev.ckeditor.com/ticket/13398): Renamed `CKEDITOR.fileTools.UploadsRepository` to [`CKEDITOR.fileTools.UploadRepository`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadRepository) and changed all related properties.
+* [#13279](http://dev.ckeditor.com/ticket/13279): Reviewed CSS vendor prefixes.
 
 ## CKEditor 4.5 Beta
 

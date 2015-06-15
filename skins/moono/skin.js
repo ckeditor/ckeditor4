@@ -110,12 +110,7 @@ CKEDITOR.skin.chameleon = ( function() {
 	// several places of our template.
 	verticalGradient = ( function() {
 		var template = new CKEDITOR.template( 'background:#{to};' +
-			'background-image:-webkit-gradient(linear,lefttop,leftbottom,from({from}),to({to}));' +
-			'background-image:-moz-linear-gradient(top,{from},{to});' +
-			'background-image:-webkit-linear-gradient(top,{from},{to});' +
-			'background-image:-o-linear-gradient(top,{from},{to});' +
-			'background-image:-ms-linear-gradient(top,{from},{to});' +
-			'background-image:linear-gradient(top,{from},{to});' +
+			'background-image:linear-gradient(to bottom,{from},{to});' +
 			'filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=\'{from}\',endColorstr=\'{to}\');' );
 
 		return function( from, to ) {

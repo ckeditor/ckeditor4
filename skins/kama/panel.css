@@ -55,8 +55,6 @@ panel contents and color panels check menu.css and colorpanel.css.
 
 	overflow: hidden;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
 
@@ -71,8 +69,6 @@ panel contents and color panels check menu.css and colorpanel.css.
 .cke_combopanel
 {
 	border: 1px solid #8f8f73;
-	-moz-border-radius-topleft: 0;
-	-webkit-border-top-left-radius: 0;
 	border-top-left-radius: 0;
 	width: 150px;
     height: 170px;

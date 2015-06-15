@@ -60,8 +60,6 @@ The visual representation of a rich combo widget looks as follows:
 a.cke_combo_button
 {
 	display: inline-block;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	background: url(images/sprites.png) 0 -100px repeat-x;	/* For backwards compatibility. */
 	float: left;
@@ -69,8 +67,7 @@ a.cke_combo_button
 	height: 22px;
 	margin: 0 5px 5px 0;
 
-	background: -moz-linear-gradient(bottom, #fff, #d3d3d3 100px);
-	background: -webkit-gradient(linear, left bottom, left -100, from(#fff), to(#d3d3d3));
+	background: linear-gradient(to top, #fff, #d3d3d3 100px);
 }
 
 /* Different states of the container. */
