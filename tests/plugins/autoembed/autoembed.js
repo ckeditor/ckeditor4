@@ -32,7 +32,7 @@ var nextIdMock;
 bender.test( {
 	setUp: function() {
 		jsonpCallback = correctJsonpCallback;
-		nextIdMock = sinon.stub( CKEDITOR.tools, 'getNextId' ).returns( 'cke_10' );
+		nextIdMock = sinon.stub( CKEDITOR.tools, 'getNextNumber' ).returns( 100 );
 	},
 
 	tearDown: function() {
@@ -44,7 +44,7 @@ bender.test( {
 			pastedText = 'https://foo.bar/g/200/300';
 
 		this.editor.once( 'paste', function( evt ) {
-			assert.isMatching( '<a data-cke-autoembed="cke_10" href="' + pastedText + '">' + pastedText + '<\/a>', evt.data.dataValue );
+			assert.isMatching( '<a data-cke-autoembed="100" href="' + pastedText + '">' + pastedText + '<\/a>', evt.data.dataValue );
 		}, null, null, 900 );
 
 		bot.setData( '<p>This is an embed</p>', function() {
@@ -141,7 +141,7 @@ bender.test( {
 	'test uppercase link is auto embedded': function() {
 		var url = 'https://foo.bar/bom',
 			pastedText = '<A href="' + url + '">' + url + '</A>',
-			expected = '<a data-cke-autoembed="cke_10" href="' + url + '">' + url + '</a>';
+			expected = '<a data-cke-autoembed="100" href="' + url + '">' + url + '</a>';
 
 		assertPasteEvent( this.editor, { dataValue: pastedText }, function( data ) {
 			// Use prepInnerHtml to make sure attr are sorted.
@@ -152,7 +152,7 @@ bender.test( {
 	'test link with attributes is auto embedded': function() {
 		var url = 'https://foo.bar/bom',
 			pastedText = '<a id="kitty" name="colonelMeow" href="' + url + '">' + url + '</a>',
-			expected = '<a data-cke-autoembed="cke_10" href="' + url + '" id="kitty" name="colonelMeow">' + url + '<\/a>';
+			expected = '<a data-cke-autoembed="100" href="' + url + '" id="kitty" name="colonelMeow">' + url + '<\/a>';
 
 		assertPasteEvent( this.editor, { dataValue: pastedText }, function( data ) {
 			// Use prepInnerHtml to make sure attr are sorted.

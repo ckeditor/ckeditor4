@@ -32,7 +32,7 @@
 					link = parsedData.children[ 0 ];
 
 					if ( link.type == CKEDITOR.NODE_ELEMENT && link.getHtml() == link.attributes.href ) {
-						currentId = CKEDITOR.tools.getNextId();
+						currentId = CKEDITOR.tools.getNextNumber();
 						evt.data.dataValue = '<a data-cke-autoembed="' + currentId + '"' + data.substr( 2 );
 					}
 				}
