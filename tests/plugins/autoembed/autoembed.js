@@ -32,19 +32,13 @@ var nextIdMock;
 bender.test( {
 	setUp: function() {
 		jsonpCallback = correctJsonpCallback;
-		nextIdMock = sinon.stub( CKEDITOR.tools, 'getNextNumber' ).returns( 100 );
-	},
-
-	tearDown: function() {
-		nextIdMock.restore();
 	},
 
 	'test double undo and redo': function() {
-		var bot = this.editorBot,
-			pastedText = 'https://foo.bar/g/200/300';
+		var bot = this.editorBot;
 
 		this.editor.once( 'paste', function( evt ) {
-			assert.isMatching( '<a data-cke-autoembed="100" href="' + pastedText + '">' + pastedText + '<\/a>', evt.data.dataValue );
+			assert.isMatching( /<a data\-cke\-autoembed="\d+" href="https:\/\/foo\.bar\/g\/200\/300">https:\/\/foo.bar\/g\/200\/300<\/a>/, evt.data.dataValue );
 		}, null, null, 900 );
 
 		bot.setData( '<p>This is an embed</p>', function() {
@@ -55,31 +49,31 @@ bender.test( {
 			range.collapse( true );
 			this.editor.getSelection().selectRanges( [ range ] );
 
-			this.editor.execCommand( 'paste', pastedText );
+			this.editor.execCommand( 'paste', 'https://foo.bar/g/200/300' );
 
-			var intermediateState = '<p>This is an<a href="' + pastedText + '">' + pastedText + '</a> embed</p>';
+			var intermediateState = '<p>This is an<a href="https://foo.bar/g/200/300">https://foo.bar/g/200/300</a> embed</p>';
 			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
-			assert.areSame( intermediateState, bot.getData() );
+			assert.areSame( intermediateState, bot.getData(), 'Pasted text turned into a link.' );
 
 			wait( function() {
-				var finalState = '<p>This is an</p><div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>embed</p>';
+				var finalState = '<p>This is an</p><div data-oembed-url="https://foo.bar/g/200/300"><img src="https://foo.bar/g/200/300" /></div><p>embed</p>';
 				assert.areSame( finalState, bot.getData() );
 
 				this.editor.execCommand( 'undo' );
 
-				assert.areSame( intermediateState, bot.getData() );
+				assert.areSame( intermediateState, bot.getData(), 'First undo was done.' );
 
 				this.editor.execCommand( 'undo' );
 
-				assert.areSame( '<p>This is an embed</p>', bot.getData() );
+				assert.areSame( '<p>This is an embed</p>', bot.getData(), 'Second undo was done.' );
 
 				this.editor.execCommand( 'redo' );
 
-				assert.areSame( intermediateState, bot.getData() );
+				assert.areSame( intermediateState, bot.getData(), 'First redo was done.' );
 
 				this.editor.execCommand( 'redo' );
 
-				assert.areSame( finalState, bot.getData() );
+				assert.areSame( finalState, bot.getData(), 'Second redo was done.' );
 			}, 200 );
 		} );
 	},
@@ -148,9 +142,8 @@ bender.test( {
 	},
 
 	'test uppercase link is auto embedded': function() {
-		var url = 'https://foo.bar/bom',
-			pastedText = '<A href="' + url + '">' + url + '</A>',
-			expected = '<a data-cke-autoembed="100" href="' + url + '">' + url + '</a>';
+		var pastedText = '<A href="https://foo.bar/bom">https://foo.bar/bom</A>',
+			expected = /<a data\-cke\-autoembed="\d+" href="https:\/\/foo\.bar\/bom">https:\/\/foo\.bar\/bom<\/a>/;
 
 		assertPasteEvent( this.editor, { dataValue: pastedText }, function( data ) {
 			// Use prepInnerHtml to make sure attr are sorted.
@@ -159,9 +152,8 @@ bender.test( {
 	},
 
 	'test link with attributes is auto embedded': function() {
-		var url = 'https://foo.bar/bom',
-			pastedText = '<a id="kitty" name="colonelMeow" href="' + url + '">' + url + '</a>',
-			expected = '<a data-cke-autoembed="100" href="' + url + '" id="kitty" name="colonelMeow">' + url + '<\/a>';
+		var pastedText = '<a id="kitty" name="colonelMeow" href="https://foo.bar/bom">https://foo.bar/bom</a>',
+			expected = /<a data\-cke\-autoembed="\d+" href="https:\/\/foo\.bar\/bom" id="kitty" name="colonelMeow">https:\/\/foo\.bar\/bom<\/a>/;
 
 		assertPasteEvent( this.editor, { dataValue: pastedText }, function( data ) {
 			// Use prepInnerHtml to make sure attr are sorted.
