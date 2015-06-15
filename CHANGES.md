@@ -12,6 +12,7 @@ New Features:
 
 Fixed Issues:
 
+* [#13334](http://dev.ckeditor.com/ticket/13334): Fixed: Error after nesting widgets and playing with undo/redo.
 * [#13118](http://dev.ckeditor.com/ticket/13118): Fixed: The [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) method throws error when called in the source mode.
 * [#13158](http://dev.ckeditor.com/ticket/13158): Fixed: Error after canceling dialog when creating a widget.
 * [#13197](http://dev.ckeditor.com/ticket/13197): Fixed: Linked inline image2's alignment class is not transferred to widget wrapper.
