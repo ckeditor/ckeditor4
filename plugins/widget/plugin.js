@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1256,33 +1256,23 @@
 		 * @returns {CKEDITOR.dom.node} Matched node or null if a node has not been found.
 		 */
 		_findOneNotNested: function( selector ) {
-			var match = null,
-				parents;
-
-			var matchedElements = this.wrapper.find( selector );
+			var matchedElements = this.wrapper.find( selector ),
+				match,
+				closestWrapper;
 
 			for ( var i = 0; i < matchedElements.count(); i++ ) {
 				match = matchedElements.getItem( i );
+				closestWrapper = match.getAscendant( Widget.isDomWidgetWrapper );
 
-				parents = match.getParents( true, this.wrapper );
-				// Don't include wrapper element.
-				parents.pop();
-
-				for ( var j = 0; j < parents.length; j++ ) {
-					// One of parents is a widget wrapper, so this match is already a part of other widget.
-					if ( Widget.isDomWidgetWrapper( parents[ j ] ) ) {
-						match = null;
-						break;
-					}
+				// The closest ascendant-wrapper of this match defines to which widget
+				// this match belongs. If the ascendant is this widget's wrapper
+				// it means that the match is not nested in other widget.
+				if ( this.wrapper.equals( closestWrapper ) ) {
+					return match;
 				}
-
-				// The first match is a good match.
-				// Other matches are probably parts of other widgets instances.
-				if ( match != null )
-					break;
 			}
 
-			return match;
+			return null;
 		},
 
 		/**
