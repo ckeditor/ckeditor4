@@ -27,6 +27,7 @@ Fixed Issues:
 * [#13176](http://dev.ckeditor.com/ticket/13176): [IE8] Fixed: Errors while drag&drop of embed widgets.
 * [#13015](http://dev.ckeditor.com/ticket/13015): Fixed: Dropping image file on [Enhanced Image](http://ckeditor.com/addon/image2) causes page reload.
 * [#13080](http://dev.ckeditor.com/ticket/13080): Fixed: Ugly notification when response has HTML content.
+* [#13011](http://dev.ckeditor.com/ticket/13011): [IE8] Fixed: Anchors are duplicated when drag&drop in specific locations.
 * [#13105](http://dev.ckeditor.com/ticket/13105): Fixed: Various issues related to [`CKEDITOR.tools.htmlEncode()`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-htmlEncode) and [`CKEDITOR.tools.htmlDecode()`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-htmlDecode).
 * [#13128](http://dev.ckeditor.com/ticket/13128): Fixed: Various issues regarding cloning IDs of elements:
   * Fixed the default behavior of [`range.cloneContents()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-cloneContents), [`range.extractContents()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-extractContents) methods which now clone IDs similarly to their native counterparts.
