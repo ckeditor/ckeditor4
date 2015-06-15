@@ -39,7 +39,7 @@ bender.test( {
 		nextIdMock.restore();
 	},
 
-	'test undo': function() {
+	'test double undo and redo': function() {
 		var bot = this.editorBot,
 			pastedText = 'https://foo.bar/g/200/300';
 
@@ -57,8 +57,9 @@ bender.test( {
 
 			this.editor.execCommand( 'paste', pastedText );
 
+			var intermediateState = '<p>This is an<a href="' + pastedText + '">' + pastedText + '</a> embed</p>';
 			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
-			assert.areSame( '<p>This is an<a href="' + pastedText + '">' + pastedText + '</a> embed</p>', bot.getData() );
+			assert.areSame( intermediateState, bot.getData() );
 
 			wait( function() {
 				var finalState = '<p>This is an</p><div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>embed</p>';
@@ -66,7 +67,15 @@ bender.test( {
 
 				this.editor.execCommand( 'undo' );
 
-				assert.areSame( '<p>This is an<a href="' + pastedText + '">' + pastedText + '</a> embed</p>', bot.getData() );
+				assert.areSame( intermediateState, bot.getData() );
+
+				this.editor.execCommand( 'undo' );
+
+				assert.areSame( '<p>This is an embed</p>', bot.getData() );
+
+				this.editor.execCommand( 'redo' );
+
+				assert.areSame( intermediateState, bot.getData() );
 
 				this.editor.execCommand( 'redo' );
 
