@@ -1204,7 +1204,8 @@
 		 * @returns {Boolean} Whether an editable was successfully initialized.
 		 */
 		initEditable: function( editableName, definition ) {
-			var editable = this.wrapper.findOne( definition.selector );
+			// Don't fetch just first element which matched selector but look for a correct one. (#13334)
+			var editable = this._findOneNotNested( definition.selector );
 
 			if ( editable && editable.is( CKEDITOR.dtd.$editable ) ) {
 				editable = new NestedEditable( this.editor, editable, {
@@ -1243,6 +1244,45 @@
 			}
 
 			return false;
+		},
+
+		/**
+		 * Looks inside wrapper element to find a node that
+		 * matches given selector and is not nested in other widget. (#13334)
+		 *
+		 * @since 4.5
+		 * @private
+		 * @param {String} selector Selector to match.
+		 * @returns {CKEDITOR.dom.node} Matched node or null if a node has not been found.
+		 */
+		_findOneNotNested: function( selector ) {
+			var match = null,
+				parents;
+
+			var matchedElements = this.wrapper.find( selector );
+
+			for ( var i = 0; i < matchedElements.count(); i++ ) {
+				match = matchedElements.getItem( i );
+
+				parents = match.getParents( true, this.wrapper );
+				// Don't include wrapper element.
+				parents.pop();
+
+				for ( var j = 0; j < parents.length; j++ ) {
+					// One of parents is a widget wrapper, so this match is already a part of other widget.
+					if ( Widget.isDomWidgetWrapper( parents[ j ] ) ) {
+						match = null;
+						break;
+					}
+				}
+
+				// The first match is a good match.
+				// Other matches are probably parts of other widgets instances.
+				if ( match != null )
+					break;
+			}
+
+			return match;
 		},
 
 		/**
@@ -3757,6 +3797,8 @@
 
 /**
  * An object containing definitions of nested editables (editable name => {@link CKEDITOR.plugins.widget.nestedEditable.definition}).
+ * Note that editables *have to* be defined in the same order as they are in DOM / {@link CKEDITOR.plugins.widget.definition#template template}.
+ * Otherwise errors will occur when nesting widgets inside each other.
  *
  *		editables: {
  *			header: 'h1',

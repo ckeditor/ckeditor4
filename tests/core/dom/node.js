@@ -673,6 +673,21 @@
 
 			assert.areSame( 3, node.getParents().length );
 			assert.areSame( node.getParents()[ 0 ], node.getParents( true )[ 2 ] );
+
+		},
+
+		test_getParents_guard: function() {
+			var guard = newNode( document.getElementById( 'guardParent' ) ),
+				node = newNode( document.getElementById( 'getParentsWithGuard' ) ),
+				wrongParent = newNode( document.getElementById( 'remove' ) );
+
+			assert.areSame( 3, node.getParents( false, guard ).length );
+			// guard element is not a parent of node - all nodes up to root are returned (+ body, html)
+			assert.areSame( 5, node.getParents( false, wrongParent ).length );
+			assert.areSame( node.getParents( false, guard )[ 0 ], guard );
+			assert.areSame( node.getParents( false, guard )[ 0 ], node.getParents( true, guard )[ 2 ] );
+			// guard and base node are the same elements - we should get only that node
+			assert.isTrue( node.getParents( false, node )[ 0 ].equals( node ) );
 		},
 
 		test_getCommonAncestor: function() {

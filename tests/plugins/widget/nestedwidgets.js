@@ -344,6 +344,71 @@
 					editor.execCommand( 'paste', html );
 				} );
 			} );
+		},
+
+		'test findOneNotNested': function() {
+			var editor = this.editors.editor;
+
+			var editorHtml =
+				'<div data-widget="test_findCorrectEditable" id="test_findCorrectEditable">' +
+					'<div>' +
+						'<div data-cke-widget-wrapper="1">' + // Added wrapper so we simulate that nested widget is already initialized.
+							'<div data-widget="test_findCorrectEditable"><div class="col1"></div><div class="col2" id="nestedcol2"></div></div>' +
+						'</div>' +
+					'</div>' +
+					'<div class="col2" id="uppercol2"></div>' +
+				'</div>';
+
+			editor.widgets.add( 'test_findCorrectEditable', {} );
+
+			this.editorBots.editor.setData( editorHtml, function() {
+				var widget = getWidgetById( editor, 'test_findCorrectEditable' );
+				var col1 = widget._findOneNotNested( '.col1' );
+				var col2 = widget._findOneNotNested( '.col2' );
+
+				// .col1 is only in another widget so it should not be found.
+				assert.areSame( null, col1, 'findOneNotNested for selector .col1 returns' );
+
+				// findOneNotNested should find .col2 which is not in another widget.
+				assert.areSame( 'uppercol2', col2.getId(), 'findOneNotNested returned .col2 with id' );
+			} );
+		},
+
+		// #13334
+		'test editables are not matched from among nested widgets': function() {
+			var editor = this.editors.editor;
+
+			editor.widgets.add( 'testwidget', {
+				template: '<div class="testwidget"><div class="col1"></div><div class="col2"></div></div>',
+				editables: {
+					col1: { selector: '.col1' },
+					col2: { selector: '.col2' }
+				},
+				upcast: function( element ) {
+					return element.hasClass( 'testwidget' );
+				}
+			} );
+
+			// Test widget nested inside test widget.
+			var editorHtml =
+			'<div class="testwidget" id="upperwidget">' +
+				'<div class="col1" id="uppercol1">' +
+					'<div class="testwidget" id="nestedwidget"><div class="col1" id="nestedcol1"></div><div class="col2" id="nestedcol2"></div></div>' +
+				'</div>' +
+				'<div class="col2" id="uppercol2"></div>' +
+			'</div>';
+
+			this.editorBots.editor.setData( editorHtml, function() {
+				var widgetUpper = getWidgetById( editor, 'upperwidget' );
+				var widgetNested = getWidgetById( editor, 'nestedwidget' );
+
+				// Check if nested editables belong only to nested widget
+				// and upper edtiables belong only to upper widget.
+				assert.areSame( 'uppercol1', widgetUpper.editables.col1.getId(), 'upper widget has editable .col1 with id' );
+				assert.areSame( 'uppercol2', widgetUpper.editables.col2.getId(), 'upper widget has editable .col2 with id' );
+				assert.areSame( 'nestedcol1', widgetNested.editables.col1.getId(), 'nested widget has editable .col1 with id' );
+				assert.areSame( 'nestedcol2', widgetNested.editables.col2.getId(), 'nested widget has editable .col2 with id' );
+			} );
 		}
 	} );
 } )();
