@@ -363,8 +363,8 @@
 
 			this.editorBots.editor.setData( editorHtml, function() {
 				var widget = getWidgetById( editor, 'test_findCorrectEditable' );
-				var col1 = widget.findCorrectEditable( '.col1' );
-				var col2 = widget.findCorrectEditable( '.col2' );
+				var col1 = widget._findOneNotNested( '.col1' );
+				var col2 = widget._findOneNotNested( '.col2' );
 
 				// .col1 is only in another widget so it should not be found.
 				assert.areSame( null, col1, 'findCorrectEditable for selector .col1 returns' );

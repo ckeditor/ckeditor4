@@ -1205,7 +1205,7 @@
 		 */
 		initEditable: function( editableName, definition ) {
 			// Don't fetch just first element which matched selector but look for a correct one. (#13334)
-			var editable = this.findCorrectEditable( definition.selector );
+			var editable = this._findOneNotNested( definition.selector );
 
 			if ( editable && editable.is( CKEDITOR.dtd.$editable ) ) {
 				editable = new NestedEditable( this.editor, editable, {
@@ -1247,46 +1247,42 @@
 		},
 
 		/**
-		 * Looks inside wrapper element to find a correct element that matches the selector.
-		 * Correct element should not be inside another widget's wrapper because then it is
-		 * already a part of other widget.
-		 * The path from a matched element to the wrapper element of this widget is checked,
-		 * looking of other wrappers. (#13334)
+		 * Looks inside wrapper element to find a node that
+		 * matches given selector and is not nested in other widget. (#13334)
 		 *
 		 * @since 4.5
 		 * @private
 		 * @param {String} selector Selector to match.
-		 * @returns {CKEDITOR.dom.node} Node which matches given selector and is not a part of other widget or
-		 * null if such node has not been found.
+		 * @returns {CKEDITOR.dom.node} Matched node or null if a node has not been found.
 		 */
-		findCorrectEditable: function( selector ) {
-			var editable = null,
+		_findOneNotNested: function( selector ) {
+			var match = null,
 				parents;
 
 			var matchedElements = this.wrapper.find( selector );
 
 			for ( var i = 0; i < matchedElements.count(); i++ ) {
-				editable = matchedElements.getItem( i );
+				match = matchedElements.getItem( i );
 
-				parents = editable.getParents( true, this.wrapper );
+				parents = match.getParents( true, this.wrapper );
 				// Don't include wrapper element.
 				parents.pop();
 
 				for ( var j = 0; j < parents.length; j++ ) {
 					// One of parents is a widget wrapper, so this match is already a part of other widget.
 					if ( Widget.isDomWidgetWrapper( parents[ j ] ) ) {
-						editable = null;
+						match = null;
 						break;
 					}
 				}
 
 				// The first match is a good match.
 				// Other matches are probably parts of other widgets instances.
-				if ( editable != null )
+				if ( match != null )
 					break;
 			}
 
-			return editable;
+			return match;
 		},
 
 		/**
