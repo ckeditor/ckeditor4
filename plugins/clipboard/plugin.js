@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1294,7 +1294,13 @@
 				clipboard.initDragDataTransfer( evt, editor );
 
 				// Save drag range globally for cross editor D&D.
-				clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
+				var dragRange = clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
+
+				// Store number of children, so we can later tell if any text node was split on drop. (#13011)
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+					clipboard.dragStartContainerChildCount = getContainerChildCount( dragRange.startContainer );
+					clipboard.dragEndContainerChildCount = getContainerChildCount( dragRange.endContainer );
+				}
 			}, null, null, 2 );
 
 			// -------------- DRAGEND --------------
@@ -1442,6 +1448,14 @@
 					evt.data.preventDefault();
 				}
 			}
+
+			function getContainerChildCount( container ) {
+				if ( container.type != CKEDITOR.NODE_ELEMENT ) {
+					container = container.getParent();
+				}
+
+				return container.getChildCount();
+			}
 		} );
 	}
 
@@ -1529,23 +1543,60 @@
 		 * @private
 		 * @param {CKEDITOR.dom.range} dragRange The drag range.
 		 * @param {CKEDITOR.dom.range} dropRange The drop range.
+		 * @param {Number} preDragStartContainerChildCount Number of children of drag range start container before drop.
+		 * @param {Number} preDragEndContainerChildCount Number of children of drag range end container before drop.
 		 */
-		fixIESplitNodesAfterDrop: function( dragRange, dropRange ) {
-			if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
-				dropRange.startOffset > 0 &&
-				dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
-				dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
-				var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
-					nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset ),
-					offset = nodeBefore.getLength();
+		fixSplitNodesAfterDrop: function( dragRange, dropRange, preDragStartContainerChildCount, preDragEndContainerChildCount ) {
+			var dropContainer = dropRange.startContainer;
 
-				if ( nodeAfter ) {
-					nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
-					nodeAfter.remove();
+			if (
+				typeof preDragEndContainerChildCount != 'number' ||
+				typeof preDragStartContainerChildCount != 'number'
+			) {
+				return;
+			}
+
+			// We are only concerned about ranges anchored in elements.
+			if ( dropContainer.type != CKEDITOR.NODE_ELEMENT ) {
+				return;
+			}
+
+			if ( handleContainer( dragRange.startContainer, dropContainer, preDragStartContainerChildCount ) ) {
+				return;
+			}
+
+			if ( handleContainer( dragRange.endContainer, dropContainer, preDragEndContainerChildCount ) ) {
+				return;
+			}
+
+			function handleContainer( dragContainer, dropContainer, preChildCount ) {
+				var dragElement = dragContainer;
+				if ( dragElement.type == CKEDITOR.NODE_TEXT ) {
+					dragElement = dragContainer.getParent();
 				}
 
-				dropRange.setStart( nodeBefore, offset );
-				dropRange.collapse( true );
+				if ( dragElement.equals( dropContainer ) && preChildCount != dropContainer.getChildCount() ) {
+					applyFix( dropRange );
+					return true;
+				}
+			}
+
+			function applyFix( dropRange ) {
+				var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
+					nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
+
+				if (
+					nodeBefore && nodeBefore.type == CKEDITOR.NODE_TEXT &&
+					nodeAfter && nodeAfter.type == CKEDITOR.NODE_TEXT
+				) {
+					var offset = nodeBefore.getLength();
+
+					nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
+					nodeAfter.remove();
+
+					dropRange.setStart( nodeBefore, offset );
+					dropRange.collapse( true );
+				}
 			}
 		},
 
@@ -1616,7 +1667,8 @@
 		 * @param {CKEDITOR.editor} editor
 		 */
 		internalDrop: function( dragRange, dropRange, dataTransfer, editor ) {
-			var editable = editor.editable(),
+			var clipboard = CKEDITOR.plugins.clipboard,
+				editable = editor.editable(),
 				dragBookmark, dropBookmark, isDropRangeAffected;
 
 			// Save and lock snapshot so there will be only
@@ -1625,7 +1677,12 @@
 			editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-				this.fixIESplitNodesAfterDrop( dragRange, dropRange );
+				this.fixSplitNodesAfterDrop(
+					dragRange,
+					dropRange,
+					clipboard.dragStartContainerChildCount,
+					clipboard.dragEndContainerChildCount
+				);
 			}
 
 			// Because we manipulate multiple ranges we need to do it carefully,
