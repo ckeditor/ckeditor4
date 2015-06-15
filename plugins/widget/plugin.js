@@ -1253,7 +1253,7 @@
 		 * @since 4.5
 		 * @private
 		 * @param {String} selector Selector to match.
-		 * @returns {CKEDITOR.dom.node} Matched node or null if a node has not been found.
+		 * @returns {CKEDITOR.dom.element} Matched element or `null` if a node has not been found.
 		 */
 		_findOneNotNested: function( selector ) {
 			var matchedElements = this.wrapper.find( selector ),
