@@ -28,7 +28,6 @@ bender.editor = {
 	}
 };
 
-var nextIdMock;
 bender.test( {
 	setUp: function() {
 		jsonpCallback = correctJsonpCallback;
