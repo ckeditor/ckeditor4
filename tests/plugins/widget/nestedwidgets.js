@@ -346,7 +346,7 @@
 			} );
 		},
 
-		'test findCorrectEditable': function() {
+		'test findOneNotNested': function() {
 			var editor = this.editors.editor;
 
 			var editorHtml =
@@ -367,10 +367,10 @@
 				var col2 = widget._findOneNotNested( '.col2' );
 
 				// .col1 is only in another widget so it should not be found.
-				assert.areSame( null, col1, 'findCorrectEditable for selector .col1 returns' );
+				assert.areSame( null, col1, 'findOneNotNested for selector .col1 returns' );
 
-				// findCorrectEditable should find .col2 which is not in another widget.
-				assert.areSame( 'uppercol2', col2.getId(), 'findCorrectEditable returned .col2 with id' );
+				// findOneNotNested should find .col2 which is not in another widget.
+				assert.areSame( 'uppercol2', col2.getId(), 'findOneNotNested returned .col2 with id' );
 			} );
 		},
 
