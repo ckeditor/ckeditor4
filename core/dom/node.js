@@ -515,19 +515,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *		alert( parents[ 0 ].getName() + ',' + parents[ 2 ].getName() ); // 'html,p'
 	 *
 	 * @param {Boolean} [closerFirst=false] Determines the order of returned nodes.
-	 * @param {CKEDITOR.dom.node} [lastParent=null] Guard node. Nodes that are parents of `lastParent` will be ommited.
-	 * If `parent` is `null` or `parent` is not an ancestor of this node all parents will be returned.
 	 * @returns {Array} Returns an array of {@link CKEDITOR.dom.node}.
 	 */
-
-	getParents: function( closerFirst, lastParent ) {
+	getParents: function( closerFirst ) {
 		var node = this;
 		var parents = [];
 
 		do {
 			parents[ closerFirst ? 'push' : 'unshift' ]( node );
 		}
-		while ( !node.equals( lastParent ) && ( node = node.getParent() ) );
+		while ( ( node = node.getParent() ) );
 
 		return parents;
 	},
