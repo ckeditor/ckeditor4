@@ -2389,6 +2389,12 @@
 			dragRange.setEndAfter( sourceWidget.wrapper );
 			evt.data.dragRange = dragRange;
 
+			// [IE8-9] Reset state of the clipboard#fixSplitNodesAfterDrop fix because by setting evt.data.dragRange
+			// (see above) after drop happened we do not need it. That fix is needed only if dragRange was created
+			// before drop (before text node was split).
+			delete CKEDITOR.plugins.clipboard.dragStartContainerChildCount;
+			delete CKEDITOR.plugins.clipboard.dragEndContainerChildCount;
+
 			evt.data.dataTransfer.setData( 'text/html', editor.editable().getHtmlFromRange( dragRange ).getHtml() );
 			editor.widgets.destroy( sourceWidget, true );
 		} );
