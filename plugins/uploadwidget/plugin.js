@@ -95,7 +95,7 @@
 	 *
 	 *				if ( CKEDITOR.fileTools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
 	 *					el = new CKEDITOR.dom.element( 'span' ),
-	 *					loader = editor.uploadsRepository.create( file );
+	 *					loader = editor.uploadRepository.create( file );
 	 *
 	 *					el.setText( '...' );
 	 *
@@ -121,7 +121,7 @@
 	 *
 	 *				if ( CKEDITOR.fileTools.isTypeSupported( file, /text\/pdf/ ) ) {
 	 *					el = new CKEDITOR.dom.element( 'span' ),
-	 *					loader = editor.uploadsRepository.create( file );
+	 *					loader = editor.uploadRepository.create( file );
 	 *
 	 *					el.setText( '...' );
 	 *
@@ -143,7 +143,7 @@
 	 */
 	function addUploadWidget( editor, name, def ) {
 		var fileTools = CKEDITOR.fileTools,
-			uploads = editor.uploadsRepository,
+			uploads = editor.uploadRepository,
 			// Plugins which support all file type has lower priority than plugins which support specific types.
 			priority = def.supportedTypes ? 10 : 20;
 
