@@ -12,7 +12,7 @@
 	<li><input type="text" value="https://open.spotify.com/track/2XsTC2dPbmWREu5RQ1mQC0"></li>
 </ul>
 
-<p>Dat rich editor</p>
+<p>Dat rich editor &ndash; embed</p>
 
 <textarea id="editor1" cols="10" rows="10">
 	<p>Foo bar.</p>
@@ -20,14 +20,30 @@
 	<p>Foo bar.</p>
 </textarea>
 
-<script>
-	( function() {
-		embedTools.delayJsonp();
+<p>Dat rich editor &ndash; embedsemantic</p>
 
-		CKEDITOR.replace( 'editor1', {
-			height: 500,
-			// Make them narrow so images don't take too much space.
-			width: 600
-		} );
-	} )();
+<textarea id="editor2" cols="10" rows="10">
+	<p>Foo bar.</p>
+
+	<p>Foo bar.</p>
+</textarea>
+
+<script>
+	embedTools.delayJsonp();
+
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'embedsemantic',
+		extraPlugins: 'embed',
+		height: 500,
+		// Make them narrow so images don't take too much space.
+		width: 600
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		removePlugins: 'embed',
+		extraPlugins: 'embedsemantic',
+		height: 500,
+		// Make them narrow so images don't take too much space.
+		width: 600
+	} );
 </script>
