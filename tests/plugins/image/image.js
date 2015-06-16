@@ -330,7 +330,7 @@
 		},
 
 		'test insert new image': function() {
-			var htmlWithSelection = '';
+			var htmlWithSelection = '^';
 
 			// jscs:disable maximumLineLength
 			var expectedOutput = chooseExpectedOutput( {
