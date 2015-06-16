@@ -105,7 +105,7 @@
 	// jscs:enable maximumLineLength
 
 	/**
-	 * URL where images should be uploaded.
+	 * The URL where images should be uploaded.
 	 *
 	 * @since 4.5
 	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]
