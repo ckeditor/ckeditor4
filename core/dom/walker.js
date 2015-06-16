@@ -132,12 +132,12 @@
 	}
 
 	/**
-	 * Utility class to "walk" the DOM inside a range boundaries. If the
-	 * range starts or ends in the middle of the text node this node will
+	 * Utility class to "walk" the DOM inside range boundaries. If the
+	 * range starts or ends in the middle of the text node, this node will
 	 * be included as a whole. Outside changes to the range may break the walker.
 	 *
-	 * The walker may return nodes that are not totaly included into the
-	 * range boundaires. Let's take the following range representation,
+	 * The walker may return nodes that are not totally included in the
+	 * range boundaries. Let us take the following range representation,
 	 * where the square brackets indicate the boundaries:
 	 *
 	 *		[<p>Some <b>sample] text</b>
@@ -146,8 +146,8 @@
 	 * returned: `<p>`, `"Some "`, `<b>` and `"sample"`. Going
 	 * backwards instead we have: `"sample"` and `"Some "`. So note that the
 	 * walker always returns nodes when "entering" them, but not when
-	 * "leaving" them. The guard function is instead called both when
-	 * entering and leaving nodes.
+	 * "leaving" them. The {@link #guard} function is instead called both when
+	 * entering and when leaving nodes.
 	 *
 	 * @class
 	 */
@@ -156,26 +156,26 @@
 		 * Creates a walker class instance.
 		 *
 		 * @constructor
-		 * @param {CKEDITOR.dom.range} range The range within which walk.
+		 * @param {CKEDITOR.dom.range} range The range within which to walk.
 		 */
 		$: function( range ) {
 			this.range = range;
 
 			/**
-			 * A function executed for every matched node, to check whether
-			 * it's to be considered into the walk or not. If not provided, all
+			 * A function executed for every matched node to check whether
+			 * it is to be considered in the walk or not. If not provided, all
 			 * matched nodes are considered good.
 			 *
-			 * If the function returns `false` the node is ignored.
+			 * If the function returns `false`, the node is ignored.
 			 *
 			 * @property {Function} evaluator
 			 */
 			// this.evaluator = null;
 
 			/**
-			 * A function executed for every node the walk pass by to check
-			 * whether the walk is to be finished. It's called when both
-			 * entering and exiting nodes, as well as for the matched nodes.
+			 * A function executed for every node the walk passes by to check
+			 * whether the walk is to be finished. It is called both when
+			 * entering and when exiting nodes, as well as for the matched nodes.
 			 *
 			 * If this function returns `false`, the walking ends and no more
 			 * nodes are evaluated.
@@ -191,7 +191,7 @@
 		//		statics :
 		//		{
 		//			/* Creates a CKEDITOR.dom.walker instance to walk inside DOM boundaries set by nodes.
-		//			 * @param {CKEDITOR.dom.node} startNode The node from wich the walk
+		//			 * @param {CKEDITOR.dom.node} startNode The node from which the walk
 		//			 *		will start.
 		//			 * @param {CKEDITOR.dom.node} [endNode] The last node to be considered
 		//			 *		in the walk. No more nodes are retrieved after touching or
@@ -219,16 +219,16 @@
 		//
 		proto: {
 			/**
-			 * Stops walking. No more nodes are retrieved if this function gets called.
+			 * Stops walking. No more nodes are retrieved if this function is called.
 			 */
 			end: function() {
 				this._.end = 1;
 			},
 
 			/**
-			 * Retrieves the next node (at right).
+			 * Retrieves the next node (on the right).
 			 *
-			 * @returns {CKEDITOR.dom.node} The next node or null if no more
+			 * @returns {CKEDITOR.dom.node} The next node or `null` if no more
 			 * nodes are available.
 			 */
 			next: function() {
@@ -236,9 +236,9 @@
 			},
 
 			/**
-			 * Retrieves the previous node (at left).
+			 * Retrieves the previous node (on the left).
 			 *
-			 * @returns {CKEDITOR.dom.node} The previous node or null if no more
+			 * @returns {CKEDITOR.dom.node} The previous node or `null` if no more
 			 * nodes are available.
 			 */
 			previous: function() {
@@ -246,7 +246,7 @@
 			},
 
 			/**
-			 * Check all nodes at right, executing the evaluation function.
+			 * Checks all nodes on the right, executing the evaluation function.
 			 *
 			 * @returns {Boolean} `false` if the evaluator function returned
 			 * `false` for any of the matched nodes. Otherwise `true`.
@@ -256,7 +256,7 @@
 			},
 
 			/**
-			 * Check all nodes at left, executing the evaluation function.
+			 * Check all nodes on the left, executing the evaluation function.
 			 *
 			 * @returns {Boolean} `false` if the evaluator function returned
 			 * `false` for any of the matched nodes. Otherwise `true`.
@@ -269,7 +269,7 @@
 			 * Executes a full walk forward (to the right), until no more nodes
 			 * are available, returning the last valid node.
 			 *
-			 * @returns {CKEDITOR.dom.node} The last node at the right or null
+			 * @returns {CKEDITOR.dom.node} The last node on the right or `null`
 			 * if no valid nodes are available.
 			 */
 			lastForward: function() {
@@ -280,7 +280,7 @@
 			 * Executes a full walk backwards (to the left), until no more nodes
 			 * are available, returning the last valid node.
 			 *
-			 * @returns {CKEDITOR.dom.node} The last node at the left or null
+			 * @returns {CKEDITOR.dom.node} The last node on the left or `null`
 			 * if no valid nodes are available.
 			 */
 			lastBackward: function() {
@@ -288,7 +288,7 @@
 			},
 
 			/**
-			 * Resets walker.
+			 * Resets the walker.
 			 */
 			reset: function() {
 				delete this.current;
@@ -310,11 +310,11 @@
 		outOfFlowPositions = { absolute: 1, fixed: 1 };
 
 	/**
-	 * Checks whether element is displayed as a block.
+	 * Checks whether an element is displayed as a block.
 	 *
 	 * @member CKEDITOR.dom.element
 	 * @param [customNodeNames] Custom list of nodes which will extend
-	 * default {@link CKEDITOR.dtd#$block} list.
+	 * the default {@link CKEDITOR.dtd#$block} list.
 	 * @returns {Boolean}
 	 */
 	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
@@ -352,13 +352,13 @@
 	};
 
 	/**
-	 * Returns a function which checks whether the node is a bookmark node OR bookmark node
-	 * inner contents.
+	 * Returns a function which checks whether the node is a bookmark node or the bookmark node
+	 * inner content.
 	 *
 	 * @static
 	 * @param {Boolean} [contentOnly=false] Whether only test against the text content of
-	 * bookmark node instead of the element itself (default).
-	 * @param {Boolean} [isReject=false] Whether should return `false` for the bookmark
+	 * a bookmark node instead of the element itself (default).
+	 * @param {Boolean} [isReject=false] Whether to return `false` for the bookmark
 	 * node instead of `true` (default).
 	 * @returns {Function}
 	 */
@@ -378,7 +378,7 @@
 	};
 
 	/**
-	 * Returns a function which checks whether the node is a text node containing only whitespaces characters.
+	 * Returns a function which checks whether the node is a text node containing only whitespace characters.
 	 *
 	 * @static
 	 * @param {Boolean} [isReject=false]
@@ -431,7 +431,7 @@
 	};
 
 	/**
-	 * Returns a function which checks whether node's type is equal to passed one.
+	 * Returns a function which checks whether the node type is equal to the passed one.
 	 *
 	 * @static
 	 * @param {Number} type
@@ -445,8 +445,8 @@
 	};
 
 	/**
-	 * Returns a function which checks whether node is a bogus (filler) node from
-	 * contenteditable element's point of view.
+	 * Returns a function which checks whether the node is a bogus (filler) node from
+	 * `contenteditable` element's point of view.
 	 *
 	 * @static
 	 * @param {Boolean} [isReject=false]
@@ -472,12 +472,12 @@
 	};
 
 	/**
-	 * Returns a function which checks whether node is a temporary element
-	 * (element with `data-cke-temp` attribute) or its child.
+	 * Returns a function which checks whether the node is a temporary element
+	 * (element with the `data-cke-temp` attribute) or its child.
 	 *
 	 * @since 4.3
 	 * @static
-	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * @param {Boolean} [isReject=false] Whether to return `false` for the
 	 * temporary element instead of `true` (default).
 	 * @returns {Function}
 	 */
@@ -503,7 +503,7 @@
 		};
 
 	/**
-	 * Returns a function which checks whether node should be ignored in terms of "editability".
+	 * Returns a function which checks whether the node should be ignored in terms of "editability".
 	 *
 	 * This includes:
 	 *
@@ -513,7 +513,7 @@
 	 *
 	 * @since 4.3
 	 * @static
-	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * @param {Boolean} [isReject=false] Whether to return `false` for the
 	 * ignored element instead of `true` (default).
 	 * @returns {Function}
 	 */
@@ -528,11 +528,11 @@
 	var isIgnored = CKEDITOR.dom.walker.ignored();
 
 	/**
-	 * Returns a function which checks whether node is empty.
+	 * Returns a function which checks whether the node is empty.
 	 *
 	 * @since 4.5
 	 * @static
-	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * @param {Boolean} [isReject=false] Whether to return `false` for the
 	 * ignored element instead of `true` (default).
 	 * @returns {Function}
 	 */
@@ -565,7 +565,7 @@
 	}
 
 	/**
-	 * A hash of element names which on browsers which {@link CKEDITOR.env#needsBrFiller do not need `<br>` fillers}
+	 * A hash of element names which in browsers that {@link CKEDITOR.env#needsBrFiller do not need `<br>` fillers}
 	 * can be selection containers despite being empty.
 	 *
 	 * @since 4.5
@@ -603,23 +603,23 @@
 	}
 
 	/**
-	 * Returns a function which checks whether node can be a container or a sibling
-	 * of selection end.
+	 * Returns a function which checks whether the node can be a container or a sibling
+	 * of the selection end.
 	 *
 	 * This includes:
 	 *
 	 * * text nodes (but not whitespaces),
 	 * * inline elements,
-	 * * intersection of {@link CKEDITOR.dtd#$empty} and {@link CKEDITOR.dtd#$block} (currenly
-	 * it's only `<hr>`),
-	 * * non-editable blocks (special case - such blocks cannot be containers nor
+	 * * intersection of {@link CKEDITOR.dtd#$empty} and {@link CKEDITOR.dtd#$block} (currently
+	 * it is only `<hr>`),
+	 * * non-editable blocks (special case &mdash; such blocks cannot be containers nor
 	 * siblings, they need to be selected entirely),
 	 * * empty {@link #validEmptyBlockContainers blocks} which can contain text
 	 * ({@link CKEDITOR.env#needsBrFiller old IEs only}).
 	 *
 	 * @since 4.3
 	 * @static
-	 * @param {Boolean} [isReject=false] Whether should return `false` for the
+	 * @param {Boolean} [isReject=false] Whether to return `false` for the
 	 * ignored element instead of `true` (default).
 	 * @returns {Function}
 	 */
@@ -630,7 +630,7 @@
 	};
 
 	/**
-	 * Checks if there's a filler node at the end of an element, and returns it.
+	 * Checks if there is a filler node at the end of an element, and returns it.
 	 *
 	 * @member CKEDITOR.dom.element
 	 * @returns {CKEDITOR.dom.node/Boolean} Bogus node or `false`.

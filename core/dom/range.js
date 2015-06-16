@@ -2504,7 +2504,7 @@ CKEDITOR.dom.range = function( root ) {
 		 * See also: {@link #moveToElementEditablePosition}.
 		 *
 		 * @since 4.3
-		 * @param {CKEDITOR.dom.element} [element] The starting element. If not specified the current range
+		 * @param {CKEDITOR.dom.element} [element] The starting element. If not specified, the current range
 		 * position will be used.
 		 * @param {Boolean} [isMoveForward] Whether move to the end of editable. Otherwise, look back.
 		 * @returns {Boolean} Whether the range was moved.

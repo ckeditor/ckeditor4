@@ -621,7 +621,7 @@
 			},
 
 			/**
-			 * A base of the {@link CKEDITOR.editor#getSelectedHtml} method.
+			 * The base of the {@link CKEDITOR.editor#getSelectedHtml} method.
 			 *
 			 * @since 4.5
 			 * @method getHtmlFromRange
@@ -656,7 +656,7 @@
 			 * The base of the {@link CKEDITOR.editor#extractSelectedHtml} method.
 			 *
 			 * **Note:** The range is modified so it matches the desired selection after extraction
-			 * although the selection is not made.
+			 * even though the selection is not made.
 			 *
 			 * @since 4.5
 			 * @param {CKEDITOR.dom.range} range

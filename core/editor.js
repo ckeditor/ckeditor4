@@ -1089,8 +1089,8 @@
 
 		/**
 		 * Gets the selected HTML (it is returned as a {@link CKEDITOR.dom.documentFragment document fragment}
-		 * or a string). This method is designed to work as a user would expect the copy functionality to work.
-		 * For instance, if the following selection has been made:
+		 * or a string). This method is designed to work as the user would expect the copy functionality to work.
+		 * For instance, if the following selection was made:
 		 *
 		 *		<p>a<b>b{c}d</b>e</p>
 		 *
@@ -1098,7 +1098,7 @@
 		 *
 		 *		<b>c</b>
 		 *
-		 * As you can see, the information about the bold has been preserved, even though the selection was
+		 * As you can see, the information about the bold formatting was preserved, even though the selection was
 		 * anchored inside the `<b>` element.
 		 *
 		 * See also:
