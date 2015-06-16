@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1540,7 +1540,8 @@
 CKEDITOR.config.image2_captionedClass = 'image';
 
 /**
- * Determine whether dimensions inputs should be automatically filled when image src changes in image2 dialog.
+ * Determines whether dimension inputs should be automatically filled when the image URL changes in the Enhanced Image
+ * plugin dialog window.
  *
  * @since 4.5.0
  * @cfg {Boolean} [image2_prefillDimensions=true]

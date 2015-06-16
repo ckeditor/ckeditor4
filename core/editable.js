@@ -1168,8 +1168,8 @@
 	} );
 
 	/**
-	 * Create, retrieve or detach an editable element of the editor,
-	 * this method should always be used instead of calling directly {@link CKEDITOR.editable}.
+	 * Creates, retrieves or detaches an editable element of the editor.
+	 * This method should always be used instead of calling {@link CKEDITOR.editable} directly.
 	 *
 	 * @method editable
 	 * @member CKEDITOR.editor

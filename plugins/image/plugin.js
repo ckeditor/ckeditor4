@@ -1,10 +1,10 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
- * @fileOverview Image plugin
+ * @fileOverview The Image plugin.
  */
 
 ( function() {
@@ -154,7 +154,7 @@
 } )();
 
 /**
- * Determine whether dimensions inputs should be automatically filled when image src changes in image dialog.
+ * Determines whether dimension inputs should be automatically filled when the image URL changes in the Image plugin dialog window.
  *
  * @since 4.5.0
  * @cfg {Boolean} [image_prefillDimensions=true]
@@ -162,7 +162,7 @@
  */
 
 /**
- * Whether to remove links when emptying the link URL field in the image dialog.
+ * Whether to remove links when emptying the link URL field in the Image dialog window.
  *
  *		config.image_removeLinkByEmptyURL = false;
  *
@@ -172,7 +172,7 @@
 CKEDITOR.config.image_removeLinkByEmptyURL = true;
 
 /**
- * Padding text to set off the image in preview area.
+ * Padding text to set off the image in the preview area.
  *
  *		config.image_previewText = CKEDITOR.tools.repeat( '___ ', 100 );
  *

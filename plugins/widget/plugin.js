@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1479,13 +1479,13 @@
 
 	/**
 	 * Gets the {@link #isDomNestedEditable nested editable}
-	 * (returned as a {@link CKEDITOR.dom.element}, not {@link CKEDITOR.plugins.widget.nestedEditable})
+	 * (returned as a {@link CKEDITOR.dom.element}, not as a {@link CKEDITOR.plugins.widget.nestedEditable})
 	 * closest to the `node` or the `node` if it is a nested editable itself.
 	 *
 	 * @since 4.5.0
 	 * @static
 	 * @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
-	 * @param {CKEDITOR.dom.node} node Start search from this node.
+	 * @param {CKEDITOR.dom.node} node Start the search from this node.
 	 * @returns {CKEDITOR.dom.element/null} Element or `null` if not found.
 	 */
 	Widget.getNestedEditable = function( guard, node ) {
@@ -1524,7 +1524,7 @@
 
 	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#editables nested editable}.
-	 * Note that this function checks only whether it is the right element, not whether
+	 * Note that this function only checks whether it is the right element, not whether
 	 * the passed `node` is an instance of {@link CKEDITOR.plugins.widget.nestedEditable}.
 	 *
 	 * @since 4.5.0

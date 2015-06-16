@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -493,9 +493,9 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  * @event resize
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {Object} data Available since CKEditor 4.5.0.
- * @param {Number} data.outerHeight Entire height area, which the editor covers.
+ * @param {Number} data.outerHeight The height of the entire area that the editor covers.
  * @param {Number} data.contentsHeight Editable area height in pixels.
- * @param {Number} data.outerWidth Entire width area, which the editor covers.
+ * @param {Number} data.outerWidth The width of the entire area that the editor covers.
  */
 
 /**
