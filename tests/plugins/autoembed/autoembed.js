@@ -153,88 +153,42 @@ bender.test( {
 		assertPasteEvent( this.editor, { dataValue: pastedText }, { dataValue: pastedText, type: 'html' } );
 	},
 
-	// 'test undo': function() {
-	// 	var bot = this.editorBot,
-	// 		pastedText = 'https://foo.bar/g/200/382';
+	'test 2 step undo': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			pastedText = 'https://foo.bar/g/200/382',
+			finalData = '<p>foo</p><div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>bar</p>',
+			linkData = '<p>foo<a href="' + pastedText + '">' + pastedText + '</a>bar</p>',
+			initialData = '<p>foobar</p>';
 
-	// 	bot.setData( '', function() {
-	// 		this.editor.execCommand( 'paste', pastedText );
-	// 		assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
+		bot.setData( '', function() {
+			editor.focus();
+			bender.tools.selection.setWithHtml( editor, '<p>foo{}bar</p>' );
+			editor.resetUndo();
 
-	// 		this.editor.execCommand( 'undo' );
+			editor.execCommand( 'paste', pastedText );
 
-	// 		wait( function() {
-	// 			assert.areSame( '', bot.getData() );
-	// 		}, 200 );
-	// 	} );
-	// },
+			wait( function() {
+				assert.areSame( finalData, editor.getData(), 'start' );
 
-	// 'test undo after embed': function() {
-	// 	var bot = this.editorBot,
-	// 		pastedText = 'https://foo.bar/g/200/382',
-	// 		that = this;
+				editor.execCommand( 'undo' );
+				assert.areSame( linkData, editor.getData(), 'after 1st undo' );
 
-	// 	bot.setData( '', function() {
-	// 		this.editor.execCommand( 'paste', pastedText );
-	// 		assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
+				editor.execCommand( 'undo' );
+				assert.areSame( initialData, editor.getData(), 'after 2nd undo' );
 
-	// 		wait( function() {
-	// 			this.editor.execCommand( 'undo' );
+				assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'undo' ).state, 'undo is disabled' );
 
-	// 			// The "cke-auto-embed" attribute should not be present.
-	// 			assert.isInnerHtmlMatching( '<p><a data-cke-saved-href="' + pastedText + '" href="' + pastedText + '">' +
-	// 				pastedText + '[]</a><br /></p>', bender.tools.selection.getWithHtml( that.editor ) );
-	// 		}, 200 );
-	// 	} );
-	// },
+				editor.execCommand( 'redo' );
+				assert.areSame( linkData, editor.getData(), 'after 1st redo' );
 
-	// 'test double undo': function() {
-	// 	var bot = this.editorBot,
-	// 		pastedText = 'https://foo.bar/g/210/382';
+				editor.execCommand( 'redo' );
+				assert.areSame( finalData, editor.getData(), 'after 2nd redo' );
 
-	// 	bot.setData( '<p></p>', function() {
-	// 		this.editor.execCommand( 'paste', pastedText );
-	// 		assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
-
-	// 		wait( function() {
-	// 			assert.areSame( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div>', bot.getData() );
-
-	// 			this.editor.execCommand( 'undo' );
-
-	// 			assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
-
-	// 			this.editor.execCommand( 'undo' );
-
-	// 			assert.areSame( '', bot.getData() );
-	// 		}, 200 );
-	// 	} );
-	// },
-
-	// 'test undo and redo': function() {
-	// 	var bot = this.editorBot,
-	// 		pastedText = 'https://foo.bar/g/400/382',
-	// 		that = this;
-
-	// 	bot.setData( '<p></p>', function() {
-	// 		this.editor.execCommand( 'paste', pastedText );
-	// 		assert.areSame( '<p><a href="' + pastedText + '">' + pastedText + '</a></p>', bot.getData() );
-
-	// 		wait( function() {
-	// 			this.editor.execCommand( 'undo' );
-	// 			assert.isInnerHtmlMatching( '<p>[]<br /></p>', bender.tools.selection.getWithHtml( that.editor ) );
-
-	// 			this.editor.execCommand( 'redo' );
-	// 			assert.isInnerHtmlMatching( [ '<p><a data-cke-saved-href="' + pastedText + '" href="' + pastedText + '">' +
-	// 				pastedText + '[]</a><br /></p>' ], bender.tools.selection.getWithHtml( that.editor ) );
-
-	// 			// Embedding never really happened, so an additional redo step should do nothing.
-	// 			this.editor.execCommand( 'redo' );
-	// 			assert.isInnerHtmlMatching( [ '<p><a data-cke-saved-href="' + pastedText + '" href="' + pastedText + '">' +
-	// 				pastedText + '[]</a><br /></p>' ], bender.tools.selection.getWithHtml( that.editor ) );
-
-	// 		}, 50 ); // User fired undo before the link was embedded.
-	// 	} );
-	// },
+				assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'redo' ).state, 'redo is disabled' );
+			}, 200 );
+		} );
+	},
 
 	'test internal paste is not auto embedded - text URL': function() {
 		var	editor = this.editor,
