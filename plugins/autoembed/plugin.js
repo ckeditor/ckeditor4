@@ -62,7 +62,7 @@
 			return;
 		}
 
-			// TODO Move this to a method in the widget plugin.
+			// TODO Move this to a method in the widget plugin. #13408
 		var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
 			element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 			instance,
