@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -202,7 +202,7 @@
 
 	CKEDITOR.htmlDataProcessor.prototype = {
 		/**
-		 * Processes the input (potentially malformed) HTML to a purified form which
+		 * Processes the (potentially malformed) input HTML to a purified form which
 		 * is suitable for using in the WYSIWYG editable.
 		 *
 		 * This method fires the {@link CKEDITOR.editor#toHtml} event which makes it possible
@@ -215,16 +215,16 @@
 		 * @param {String} data The raw data.
 		 * @param {Object} [options] The options object.
 		 * @param {String} [options.context] The tag name of a context element within which
-		 * the input is to be processed, default to be the editable element.
+		 * the input is to be processed, defaults to the editable element.
 		 * If `null` is passed, then data will be parsed without context (as children of {@link CKEDITOR.htmlParser.fragment}).
 		 * See {@link CKEDITOR.htmlParser.fragment#fromHtml} for more details.
-		 * @param {Boolean} [options.fixForBody=true] Whether to trigger the auto paragraph for non-block contents.
+		 * @param {Boolean} [options.fixForBody=true] Whether to trigger the auto paragraph for non-block content.
 		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#filter main filter},
-		 * passed instance will be used to filter the content.
+		 * the passed instance will be used to filter the content.
 		 * @param {Boolean} [options.dontFilter] Do not filter data with {@link CKEDITOR.filter} (note: transformations
-		 * will be still applied).
-		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#enterMode main enterMode}.
-		 * @param {Boolean} [options.protectedWhitespaces] Indicates that content has been wrapped with `span` elements to preserve
+		 * will still be applied).
+		 * @param {Number} [options.enterMode] When specified, it will be used instead of the {@link CKEDITOR.editor#enterMode main enterMode}.
+		 * @param {Boolean} [options.protectedWhitespaces] Indicates that content was wrapped with `<span>` elements to preserve
 		 * leading and trailing whitespaces. Option used by the {@link CKEDITOR.editor#method-insertHtml} method.
 		 * @returns {String}
 		 */
@@ -265,15 +265,15 @@
 		 * See {@link CKEDITOR.dataProcessor#toDataFormat}.
 		 *
 		 * This method fires the {@link CKEDITOR.editor#toDataFormat} event which makes it possible
-		 * to hook into the process at various steps.
+		 * to hook into the process at various stages.
 		 *
 		 * @param {String} html
 		 * @param {Object} [options] The options object.
-		 * @param {String} [options.context] The tag name of a context element within which
-		 * the input is to be processed, default to be the editable element.
+		 * @param {String} [options.context] The tag name of the context element within which
+		 * the input is to be processed, defaults to the editable element.
 		 * @param {CKEDITOR.filter} [options.filter] When specified, instead of using the {@link CKEDITOR.editor#filter main filter},
-		 * passed instance will be used to apply content transformations to the content.
-		 * @param {Number} [options.enterMode] When specified it will be used instead of the {@link CKEDITOR.editor#enterMode main enterMode}.
+		 * the passed instance will be used to apply content transformations to the content.
+		 * @param {Number} [options.enterMode] When specified, it will be used instead of the {@link CKEDITOR.editor#enterMode main enterMode}.
 		 * @returns {String}
 		 */
 		toDataFormat: function( html, options ) {
