@@ -34,16 +34,17 @@ bender.test( {
 			'https://place<b>kitten</b>.com/g/200/303'
 		];
 
-		var that = this;
-		pastedTexts.forEach( function( pastedText ) {
-			that.editor.once( 'paste', function( evt ) {
+		var pastedText;
+
+		while ( ( pastedText = pastedTexts.pop() ) ) {
+			this.editor.once( 'paste', function( evt ) {
 				evt.cancel();
 
 				assert.areSame( -1, evt.data.dataValue.search( /<a / ), 'text was not auto linked: ' + pastedText );
 			}, null, null, 900 );
 
-			that.editor.execCommand( 'paste', pastedText );
-		} );
+			this.editor.execCommand( 'paste', pastedText );
+		}
 	},
 
 	'test link with text after': function() {
@@ -72,16 +73,17 @@ bender.test( {
 			'http://www.legia.sport.pl/legia/1,139320,18079195.html#MTstream'
 		];
 
-		var that = this;
-		pastedTexts.forEach( function( pastedText ) {
-			that.editor.once( 'paste', function( evt ) {
+		var pastedText;
+
+		while ( ( pastedText = pastedTexts.pop() ) ) {
+			this.editor.once( 'paste', function( evt ) {
 				evt.cancel();
 
 				assert.areSame( '<a href="' + pastedText + '">' + pastedText + '</a>', evt.data.dataValue );
 			}, null, null, 900 );
 
-			that.editor.execCommand( 'paste', pastedText );
-		} );
+			this.editor.execCommand( 'paste', pastedText );
+		}
 	},
 
 	'test various invalid links': function() {
@@ -92,16 +94,17 @@ bender.test( {
 			'http:///a'
 		];
 
-		var that = this;
-		pastedTexts.forEach( function( pastedText ) {
-			that.editor.once( 'paste', function( evt ) {
+		var pastedText;
+
+		while ( ( pastedText = pastedTexts.pop() ) ) {
+			this.editor.once( 'paste', function( evt ) {
 				evt.cancel();
 
 				assert.areSame( pastedText, evt.data.dataValue );
 			}, null, null, 900 );
 
-			that.editor.execCommand( 'paste', pastedText );
-		} );
+			this.editor.execCommand( 'paste', pastedText );
+		}
 	},
 
 	'test pasting multiple links': function() {
