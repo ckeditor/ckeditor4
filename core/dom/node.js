@@ -801,15 +801,16 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	 *		elDiv.isReadOnly(); // -> true
 	 *		elI.isReadOnly(); // -> true
 	 *
-	 * This method works in two modes depending on whether a browser supports the `element.isContentEditable` property and
-	 * value of the `checkOnlyAttributes` param. The `element.isContentEditable` check is the fastest, but it was known
-	 * to malfunction in hidden/detached nodes. Additionally, when processing some detached DOM tree you may want to imitate
+	 * This method works in two modes depending on browser support for the `element.isContentEditable` property and
+	 * the value of the `checkOnlyAttributes` parameter. The `element.isContentEditable` check is faster, but it is known
+	 * to malfunction in hidden or detached nodes. Additionally, when processing some detached DOM tree you may want to imitate
 	 * that this happens inside an editable container (like it would happen inside the {@link CKEDITOR.editable}). To do so,
-	 * you can temporarily attach this tree to an element with `data-cke-editable` attribute and use the `checkOnlyAttributes` mode.
+	 * you can temporarily attach this tree to an element with the `data-cke-editable` attribute and use the
+	 * `checkOnlyAttributes` mode.
 	 *
 	 * @since 3.5
-	 * @param {Boolean} [checkOnlyAttributes=false] If `true` only attributes will be checked, native methods will not
-	 * be used. This parameter needs to be `true` to check hidden or detached elements. (Since 4.5.0)
+	 * @param {Boolean} [checkOnlyAttributes=false] If `true`, only attributes will be checked, native methods will not
+	 * be used. This parameter needs to be `true` to check hidden or detached elements. Introduced in 4.5.0.
 	 * @returns {Boolean}
 	 */
 	isReadOnly: function( checkOnlyAttributes ) {
