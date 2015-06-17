@@ -413,7 +413,7 @@
 
 		'test insert new image': function() {
 			var bot = this.editorBot;
-			var htmlWithSelection = '';
+			var htmlWithSelection = '^';
 
 			testUpdateImage( this.editorBot, htmlWithSelection, function() {
 				var img = bot.editor.editable().findOne( 'img' );
