@@ -3675,8 +3675,8 @@
  */
 
 /**
- * The {@link #upcast} method(s) priority. The upcast with lower priority number will be called before
- * the one with higher number. The default priority is `10`.
+ * The {@link #upcast} method(s) priority. The upcast with a lower priority number will be called before
+ * the one with a higher number. The default priority is `10`.
  *
  * @since 4.5
  * @property {Number} [upcastPriority=10]

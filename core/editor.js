@@ -1618,14 +1618,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired by the {@link #setActiveFilter} method when the {@link #activeFilter} is changed.
+ * Event fired by the {@link #setActiveFilter} method when the {@link #activeFilter} is changed.
  *
  * @since 4.3
  * @event activeFilterChange
  */
 
 /**
- * Fired by the {@link #setActiveEnterMode} method when any of the active Enter modes is changed.
+ * Event fired by the {@link #setActiveEnterMode} method when any of the active Enter modes is changed.
  * See also the {@link #activeEnterMode} and {@link #activeShiftEnterMode} properties.
  *
  * @since 4.3
@@ -1633,7 +1633,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired when a CKEDITOR instance is created, but still before initializing it.
+ * Event fired when a CKEDITOR instance is created, but still before initializing it.
  * To interact with a fully initialized instance, use the
  * {@link CKEDITOR#instanceReady} event instead.
  *
@@ -1643,7 +1643,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired when CKEDITOR instance's components (configuration, languages and plugins) are fully
+ * Event fired when CKEDITOR instance's components (configuration, languages and plugins) are fully
  * loaded and initialized. However, the editor will be fully ready for interaction
  * on {@link CKEDITOR#instanceReady}.
  *
@@ -1653,7 +1653,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired when a CKEDITOR instance is destroyed.
+ * Event fired when a CKEDITOR instance is destroyed.
  *
  * @event instanceDestroyed
  * @member CKEDITOR
@@ -1661,7 +1661,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired when a CKEDITOR instance is created, fully initialized and ready for interaction.
+ * Event fired when a CKEDITOR instance is created, fully initialized and ready for interaction.
  *
  * @event instanceReady
  * @member CKEDITOR
@@ -1669,7 +1669,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired when the language is loaded into the editor instance.
+ * Event fired when the language is loaded into the editor instance.
  *
  * @since 3.6.1
  * @event langLoaded
@@ -1677,14 +1677,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired when all plugins are loaded and initialized into the editor instance.
+ * Event fired when all plugins are loaded and initialized into the editor instance.
  *
  * @event pluginsLoaded
  * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
- * Fired when the styles set is loaded. During the editor initialization
+ * Event fired when the styles set is loaded. During the editor initialization
  * phase the {@link #getStylesSet} method returns only styles that
  * are already loaded, which may not include e.g. styles parsed
  * by the `stylesheetparser` plugin. Thus, to be notified when all
@@ -1697,7 +1697,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired before the command execution when {@link #execCommand} is called.
+ * Event fired before the command execution when {@link #execCommand} is called.
  *
  * @event beforeCommandExec
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1709,7 +1709,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired after the command execution when {@link #execCommand} is called.
+ * Event fired after the command execution when {@link #execCommand} is called.
  *
  * @event afterCommandExec
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1721,7 +1721,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired when the custom configuration file is loaded, before the final
+ * Event fired when the custom configuration file is loaded, before the final
  * configuration initialization.
  *
  * Custom configuration files can be loaded thorugh the
@@ -1733,14 +1733,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired once the editor configuration is ready (loaded and processed).
+ * Event fired once the editor configuration is ready (loaded and processed).
  *
  * @event configLoaded
  * @param {CKEDITOR.editor} editor This editor instance.
  */
 
 /**
- * Fired when this editor instance is destroyed. The editor at this
+ * Event fired when this editor instance is destroyed. The editor at this
  * point is not usable and this event should be used to perform the clean-up
  * in any plugin.
  *
@@ -1799,7 +1799,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired as an indicator of the editor data loading. It may be the result of
+ * Event fired as an indicator of the editor data loading. It may be the result of
  * calling {@link #method-setData} explicitly or an internal
  * editor function, like the editor editing mode switching (move to Source and back).
  *
@@ -1808,7 +1808,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired when the CKEDITOR instance is completely created, fully initialized
+ * Event fired when the CKEDITOR instance is completely created, fully initialized
  * and ready for interaction.
  *
  * @event instanceReady
@@ -1816,7 +1816,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired when editor components (configuration, languages and plugins) are fully
+ * Event fired when editor components (configuration, languages and plugins) are fully
  * loaded and initialized. However, the editor will be fully ready to for interaction
  * on {@link #instanceReady}.
  *
@@ -1825,7 +1825,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired by the {@link #method-insertHtml} method. See the method documentation for more information
+ * Event fired by the {@link #method-insertHtml} method. See the method documentation for more information
  * on how this event can be used.
  *
  * @event insertHtml
@@ -1837,7 +1837,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired by the {@link #method-insertText} method. See the method documentation for more information
+ * Event fired by the {@link #method-insertText} method. See the method documentation for more information
  * on how this event can be used.
  *
  * @event insertText
@@ -1846,7 +1846,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Fired by the {@link #method-insertElement} method. See the method documentation for more information
+ * Event fired by the {@link #method-insertElement} method. See the method documentation for more information
  * on how this event can be used.
  *
  * @event insertElement

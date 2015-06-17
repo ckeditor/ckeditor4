@@ -81,7 +81,7 @@
 		},
 
 		/**
-		 * Finds index of the first element in array for which the `compareFunction` returns `true`.
+		 * Finds the index of the first element in an array for which the `compareFunction` returns `true`.
 		 *
 		 *		CKEDITOR.tools.getIndex( [ 1, 2, 4, 3, 5 ], function( el ) {
 		 *			return el >= 3;

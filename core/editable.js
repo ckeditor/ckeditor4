@@ -264,7 +264,7 @@
 			 * for this purpose.
 			 *
 			 * This method will insert HTML into the current selection or a given range. It also creates an undo snapshot,
-			 * scroll the viewport to the insertion and select range next to the inserted content.
+			 * scrolls the viewport to the insertion and selects the range next to the inserted content.
 			 * If you want to insert HTML without additional operations use {@link #method-insertHtmlIntoRange}.
 			 *
 			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
@@ -302,8 +302,8 @@
 			/**
 			 * Inserts HTML into the position in the editor determined by the range.
 			 *
-			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor select inserted
-			 * HTML. If you want to do it use {@link #method-insertHtml}.
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor selects inserted
+			 * HTML. If you want to do it, use {@link #method-insertHtml}.
 			 *
 			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
@@ -325,12 +325,12 @@
 			 * See the {@link CKEDITOR.editor#method-insertElement} method which is the editor-level API
 			 * for this purpose.
 			 *
-			 * This method will insert element into the current selection or a given range. It also creates an undo
-			 * snapshot, scroll the viewport to the insertion and select range next to the inserted content.
-			 * If you want to insert element without additional operations use {@link #method-insertElementIntoRange}.
+			 * This method will insert the element into the current selection or a given range. It also creates an undo
+			 * snapshot, scrolls the viewport to the insertion and selects the range next to the inserted content.
+			 * If you want to insert an element without additional operations use {@link #method-insertElementIntoRange}.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to insert.
-			 * @param {CKEDITOR.dom.range} [range] If specified the element will be inserted into the range
+			 * @param {CKEDITOR.dom.range} [range] If specified, the element will be inserted into the range
 			 * instead of into the selection.
 			 */
 			insertElement: function( element, range ) {
@@ -384,7 +384,7 @@
 			},
 
 			/**
-			 * Alias to {@link #insertElement}.
+			 * Alias for {@link #insertElement}.
 			 *
 			 * @deprecated
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
@@ -396,12 +396,12 @@
 			/**
 			 * Inserts an element into the position in the editor determined by the range.
 			 *
-			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor select inserted
-			 * element. If you want to do it use the {@link #method-insertElement} method.
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor selects the inserted
+			 * element. If you want to do it, use the {@link #method-insertElement} method.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
-			 * @returns {Boolean} Informs whether insertion was successful.
+			 * @returns {Boolean} Informs whether the insertion was successful.
 			 */
 			insertElementIntoRange: function( element, range ) {
 				var editor = this.editor,
@@ -483,7 +483,7 @@
 			},
 
 			/**
-			 * Change the read-only state on this editable.
+			 * Changes the read-only state of this editable.
 			 *
 			 * @param {Boolean} isReadOnly
 			 */
@@ -492,7 +492,7 @@
 			},
 
 			/**
-			 * Detach this editable object from the DOM (remove classes, listeners, etc.)
+			 * Detaches this editable object from the DOM (removes classes, listeners, etc.)
 			 */
 			detach: function() {
 				// Cleanup the element.
