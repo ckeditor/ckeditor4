@@ -62,9 +62,13 @@
  *	* `url` &ndash; The URL of the requested media, e.g. `https://twitter.com/ckeditor/status/401373919157821441`.
  *	* `callback` &ndash; The name of the globally available callback used for JSONP requests.
  *
+ * For example:
+ *
+ *		config.embed_provider = '//example.com/api/oembed-proxy?resource-url={url}&callback={callback}';
+ *
  * You can read more about content providers in {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl}.
  *
- * @since 4.5.0
+ * @since 4.5
  * @cfg {String} [embed_provider=//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}]
  * @member CKEDITOR.config
  */

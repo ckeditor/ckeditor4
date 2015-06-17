@@ -492,7 +492,7 @@ CKEDITOR.config.startupMode = 'wysiwyg';
  *
  * @event resize
  * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Object} data Available since CKEditor 4.5.0.
+ * @param {Object} data Available since CKEditor 4.5.
  * @param {Number} data.outerHeight The height of the entire area that the editor covers.
  * @param {Number} data.contentsHeight Editable area height in pixels.
  * @param {Number} data.outerWidth The width of the entire area that the editor covers.

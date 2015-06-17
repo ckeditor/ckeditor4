@@ -127,7 +127,7 @@
  *			top: 'someElementId'
  *		};
  *
- *		// (Since 4.5.0)
+ *		// (Since 4.5)
  *		// Place the toolbar inside a DOM element passed by a reference. The
  *		// elements path will remain attached to the editor UI.
  *		var htmlElement = document.getElementById( 'someElementId' );

@@ -64,7 +64,7 @@
 	 *			taskC.done();
 	 *		}, 3000 );
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @class CKEDITOR.plugins.notificationAggregator
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates a notification aggregator instance.
@@ -392,7 +392,7 @@
 	 * and then as the file upload progresses you just call the `update` method with the number of bytes actually
 	 * downloaded.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @class CKEDITOR.plugins.notificationAggregator.task
 	 * @mixins CKEDITOR.event
 	 * @constructor Creates a task instance for notification aggregator.

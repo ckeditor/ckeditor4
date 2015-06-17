@@ -776,7 +776,7 @@
 	 *		// insert a new simplebox widget or edit the one currently focused.
 	 *		editor.execCommand( 'simplebox' );
 	 *
-	 * Note: Since CKEditor 4.5.0 widget's `startupData` can be passed as the command argument:
+	 * Note: Since CKEditor 4.5 widget's `startupData` can be passed as the command argument:
 	 *
 	 *		editor.execCommand( 'simplebox', {
 	 *			startupData: {
@@ -1482,7 +1482,7 @@
 	 * (returned as a {@link CKEDITOR.dom.element}, not as a {@link CKEDITOR.plugins.widget.nestedEditable})
 	 * closest to the `node` or the `node` if it is a nested editable itself.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @static
 	 * @param {CKEDITOR.dom.element} guard Stop ancestor search on this node (usually editor's editable).
 	 * @param {CKEDITOR.dom.node} node Start the search from this node.
@@ -1501,7 +1501,7 @@
 	/**
 	 * Checks whether the `node` is a widget's drag handle element.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @static
 	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
@@ -1513,7 +1513,7 @@
 	/**
 	 * Checks whether the `node` is a container of the widget's drag handle element.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @static
 	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
@@ -1527,7 +1527,7 @@
 	 * Note that this function only checks whether it is the right element, not whether
 	 * the passed `node` is an instance of {@link CKEDITOR.plugins.widget.nestedEditable}.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @static
 	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
@@ -1539,7 +1539,7 @@
 	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#element widget element}.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @static
 	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
@@ -1551,7 +1551,7 @@
 	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#wrapper widget wrapper}.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @static
 	 * @param {CKEDITOR.dom.element} node
 	 * @returns {Boolean}
@@ -1563,7 +1563,7 @@
 	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#element widget element}.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @static
 	 * @param {CKEDITOR.htmlParser.node} node
 	 * @returns {Boolean}
@@ -1575,7 +1575,7 @@
 	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#wrapper widget wrapper}.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @static
 	 * @param {CKEDITOR.htmlParser.element} node
 	 * @returns {Boolean}

@@ -1037,9 +1037,9 @@
 		 * @param {String} html HTML code to be inserted into the editor.
 		 * @param {String} [mode='html'] The mode in which the HTML code will be inserted. One of the following:
 		 *
-		 * * `'html'` &ndash; The content being inserted will completely override the styles at the selected position.
+		 * * `'html'` &ndash; The inserted content  will completely override the styles at the selected position.
 		 * * `'unfiltered_html'` &ndash; Like `'html'` but the content is not filtered with {@link CKEDITOR.filter}.
-		 * * `'text'` &ndash; The content being inserted will inherit the styles applied in
+		 * * `'text'` &ndash; The inserted content will inherit the styles applied in
 		 *    the selected position. This mode should be used when inserting "htmlified" plain text
 		 *    (HTML without inline styles and styling elements like `<b>`, `<strong>`, `<span style="...">`).
 		 *
@@ -1052,14 +1052,14 @@
 		},
 
 		/**
-		 * Insert text content into the currently selected position in the
+		 * Inserts text content into the currently selected position in the
 		 * editor in WYSIWYG mode. The styles of the selected element will be applied to the inserted text.
 		 * Spaces around the text will be left untouched.
 		 *
 		 *		CKEDITOR.instances.editor1.insertText( ' line1 \n\n line2' );
 		 *
 		 * Fires the {@link #event-insertText} and {@link #event-afterInsertHtml} events. The text is inserted
-		 * in {@link #event-insertText} event's listener with a default priority (10) so you can add listeners with
+		 * in the {@link #event-insertText} event's listener with a default priority (10) so you can add listeners with
 		 * lower or higher priorities in order to execute some code before or after the text is inserted.
 		 *
 		 * @since 3.5
@@ -1070,18 +1070,16 @@
 		},
 
 		/**
-		 * Inserts an element into the currently selected position in the
-		 * editor in WYSIWYG mode.
+		 * Inserts an element into the currently selected position in the editor in WYSIWYG mode.
 		 *
 		 *		var element = CKEDITOR.dom.element.createFromHtml( '<img src="hello.png" border="0" title="Hello" />' );
 		 *		CKEDITOR.instances.editor1.insertElement( element );
 		 *
-		 * Fires the {@link #event-insertElement} event. The element is inserted in listener with a default priority (10)
+		 * Fires the {@link #event-insertElement} event. The element is inserted in the listener with a default priority (10),
 		 * so you can add listeners with lower or higher priorities in order to execute some code before or after
 		 * the element is inserted.
 		 *
-		 * @param {CKEDITOR.dom.element} element The element to be inserted
-		 * into the editor.
+		 * @param {CKEDITOR.dom.element} element The element to be inserted into the editor.
 		 */
 		insertElement: function( element ) {
 			this.fire( 'insertElement', element );
@@ -1107,7 +1105,7 @@
 		 * * the {@link CKEDITOR.editable#getHtmlFromRange} method.
 		 *
 		 * @since 4.5
-		 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
+		 * @param {Boolean} [toString] If `true`, then stringified HTML will be returned.
 		 * @returns {CKEDITOR.dom.documentFragment/String}
 		 */
 		getSelectedHtml: function( toString ) {
@@ -1135,7 +1133,7 @@
 		 * * the {@link CKEDITOR.editable#extractHtmlFromRange} method.
 		 *
 		 * @since 4.5
-		 * @param {Boolean} [toString] If `true`, then a stringified HTML will be returned.
+		 * @param {Boolean} [toString] If `true`, then stringified HTML will be returned.
 		 * @param {Boolean} [removeEmptyBlock=false] Default `false` means that the function will keep an empty block (if the
 		 * entire content was removed) or it will create it (if a block element was removed) and set the selection in that block.
 		 * If `true`, the empty block will be removed or not created. In this case the function will not handle the selection.
@@ -1721,7 +1719,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired when the custom configuration file is loaded, before the final
+ * Event fired when a custom configuration file is loaded, before the final
  * configuration initialization.
  *
  * Custom configuration files can be loaded thorugh the
@@ -1771,7 +1769,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired before the {@link #method-getData} call returns allowing additional manipulation.
+ * Event fired before the {@link #method-getData} call returns, allowing for additional manipulation.
  *
  * @event getData
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1780,7 +1778,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired before the {@link #method-setData} call is executed allowing additional manipulation.
+ * Event fired before the {@link #method-setData} call is executed, allowing for additional manipulation.
  *
  * @event setData
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1826,7 +1824,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
 /**
  * Event fired by the {@link #method-insertHtml} method. See the method documentation for more information
- * on how this event can be used.
+ * about how this event can be used.
  *
  * @event insertHtml
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1838,7 +1836,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
 /**
  * Event fired by the {@link #method-insertText} method. See the method documentation for more information
- * on how this event can be used.
+ * about how this event can be used.
  *
  * @event insertText
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1847,7 +1845,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
 /**
  * Event fired by the {@link #method-insertElement} method. See the method documentation for more information
- * on how this event can be used.
+ * about how this event can be used.
  *
  * @event insertElement
  * @param {CKEDITOR.editor} editor This editor instance.
@@ -1855,15 +1853,15 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired after data insertion using {@link #method-insertHtml}, {@link CKEDITOR.editable#insertHtml},
+ * Event fired after data insertion using the {@link #method-insertHtml}, {@link CKEDITOR.editable#insertHtml},
  * or {@link CKEDITOR.editable#insertHtmlIntoRange} methods.
  *
  * @since 4.5
  * @event afterInsertHtml
  * @param data
- * @param {CKEDITOR.dom.range} [data.intoRange] If set the HTML was not inserted into the current selection, but into
+ * @param {CKEDITOR.dom.range} [data.intoRange] If set, the HTML was not inserted into the current selection, but into
  * the specified range. This property is set if the {@link CKEDITOR.editable#insertHtmlIntoRange} method was used,
- * but not if the {@link CKEDITOR.editable#insertHtml} method.
+ * but not if for the {@link CKEDITOR.editable#insertHtml} method.
  */
 
 /**

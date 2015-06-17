@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -277,8 +277,8 @@
 				// Strip presentional markup & unify text markup.
 				// Forced plain text (dialog or forcePAPT).
 				// Note: we do not check dontFilter option in this case, because forcePAPT was implemented
-				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5.0, so
-				// forcePAPT should have priority as it had before 4.5.0.
+				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5, so
+				// forcePAPT should have priority as it had before 4.5.
 				if ( type == 'text' && trueType == 'html' ) {
 					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
 				}
@@ -2407,13 +2407,13 @@
  * (this will be done by the content type sniffer that listens with priority `6`).
  * @param {String} data.dataValue HTML to be pasted.
  * @param {String} data.method Indicates the data transfer method. It could be drag and drop or copy and paste.
- * Possible values: `'drop'`, `'paste'`. Introduced in CKEditor 4.5.0.
+ * Possible values: `'drop'`, `'paste'`. Introduced in CKEditor 4.5.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer Facade for the native dataTransfer object
  * which provides access to various data types and files, and passes some data between linked events
- * (like drag and drop). Introduced in CKEditor 4.5.0.
+ * (like drag and drop). Introduced in CKEditor 4.5.
  * @param {Boolean} [data.dontFilter=false] Whether the {@link CKEDITOR.editor#pasteFilter paste filter} should not
  * be applied to data. This option has no effect when `data.type` equals `'text'` which means that for instance
- * {@link CKEDITOR.config#forcePasteAsPlainText} has a higher priority. Introduced in CKEditor 4.5.0.
+ * {@link CKEDITOR.config#forcePasteAsPlainText} has a higher priority. Introduced in CKEditor 4.5.
  */
 
 /**

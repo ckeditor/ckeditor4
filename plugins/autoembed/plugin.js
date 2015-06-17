@@ -108,7 +108,7 @@
 		 *
 		 * This method uses value of the {@link CKEDITOR.config#autoEmbed_widget} option.
 		 *
-		 * @since 4.5.0
+		 * @since 4.5
 		 * @param {CKEDITOR.editor} editor
 		 * @param {String} url URL to be embedded.
 		 * @returns {CKEDITOR.plugins.widget.definition/null} Definition of the widget to be used to embed the link.
@@ -159,7 +159,7 @@
 	 * **Note:** Plugin names are always lower case, while widget names are not, so widget names do not have to equal plugin names.
 	 * For example, there is the `embedsemantic` plugin and `embedSemantic` widget.
 	 *
-	 * @since 4.5.0
+	 * @since 4.5
 	 * @cfg {String/Function} [autoEmbed_widget='embed,embedSemantic']
 	 * @member CKEDITOR.config
 	 */

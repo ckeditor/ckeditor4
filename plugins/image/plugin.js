@@ -156,7 +156,9 @@
 /**
  * Determines whether dimension inputs should be automatically filled when the image URL changes in the Image plugin dialog window.
  *
- * @since 4.5.0
+ *		config.image_prefillDimensions = false;
+ *
+ * @since 4.5
  * @cfg {Boolean} [image_prefillDimensions=true]
  * @member CKEDITOR.config
  */

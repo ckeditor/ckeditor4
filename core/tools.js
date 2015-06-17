@@ -411,7 +411,7 @@
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&lt;a &quot; b&gt;' ) ); // '<a " b>'
 		 *
-		 * Since CKEditor 4.5.0 this method simply executes {@link #htmlDecode} which covers
+		 * Since CKEditor 4.5 this method simply executes {@link #htmlDecode} which covers
 		 * all necessary entities.
 		 *
 		 * @param {String} text The text to be decoded.
