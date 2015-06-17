@@ -141,11 +141,11 @@
 	 *
 	 * The general behavior:
 	 *
-	 * * If string (widget names separated by commas) is provided, then first of the listed widgets which is register
+	 * * If string (widget names separated by commas) is provided, then first of the listed widgets which is registered
 	 * will be used. For example, if `'foo,bar,bom'` is set and widgets `'bar'` and `'bom'` are registered, then `'bar'`
 	 * will be used.
 	 * * If a callback is specified, then it will be executed with the URL to be embedded and it should return a
-	 * name of the widget to be used. This allows to use different embed widgets for different URLs.
+	 * name of the widget to be used. It allows to use different embed widgets for different URLs.
 	 *
 	 * Example:
 	 *
