@@ -1397,7 +1397,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				y = 0,
 				doc = this.getDocument(),
 				body = doc.getBody(),
-				quirks = CKEDITOR.env.quirks;
+				quirks = doc.$.compatMode == 'BackCompat';
 
 			if ( document.documentElement.getBoundingClientRect ) {
 				var box = this.$.getBoundingClientRect(),
