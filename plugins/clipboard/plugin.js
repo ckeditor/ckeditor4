@@ -373,13 +373,7 @@
 		var clipboard = CKEDITOR.plugins.clipboard,
 			preventBeforePasteEvent = 0,
 			preventPasteEvent = 0,
-			inReadOnly = 0,
-			// Safari doesn't like 'beforepaste' event - it sometimes doesn't
-			// properly handles ctrl+c. Probably some race-condition between events.
-			// Chrome and Firefox works well with both events, so better to use 'paste'
-			// which will handle pasting from e.g. browsers' menu bars.
-			// IE7/8 doesn't like 'paste' event for which it's throwing random errors.
-			mainPasteEvent = CKEDITOR.env.ie ? 'beforepaste' : 'paste';
+			inReadOnly = 0;
 
 		addListeners();
 		addButtonsCommands();
@@ -547,7 +541,7 @@
 			// We'll be catching all pasted content in one line, regardless of whether
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors (e.g. CTRL+V).
-			editable.on( mainPasteEvent, function( evt ) {
+			editable.on( clipboard.mainPasteEvent, function( evt ) {
 				if ( CKEDITOR.env.ie && preventBeforePasteEvent )
 					return;
 
@@ -983,7 +977,7 @@
 			var focusManager = editor.focusManager;
 			focusManager.lock();
 
-			if ( editor.editable().fire( mainPasteEvent ) && !execIECommand( 'paste' ) ) {
+			if ( editor.editable().fire( clipboard.mainPasteEvent ) && !execIECommand( 'paste' ) ) {
 				focusManager.unlock();
 				return false;
 			}
@@ -1492,6 +1486,22 @@
 		 * @property {Boolean}
 		 */
 		isFileApiSupported: !CKEDITOR.env.ie || CKEDITOR.env.version > 9,
+
+
+		/**
+		 * Main native paste event editable should listen to.
+		 *
+		 * **Note:** Safari doesn't like 'beforepaste' event - it sometimes doesn't
+		 * properly handles ctrl+c. Probably some race-condition between events.
+		 * Chrome and Firefox works well with both events, so better to use 'paste'
+		 * which will handle pasting from e.g. browsers' menu bars.
+		 * IE7/8 doesn't like 'paste' event for which it's throwing random errors.
+		 *
+		 * @since 4.5
+		 * @readonly
+		 * @property {String}
+		 */
+		mainPasteEvent: CKEDITOR.env.ie ? 'beforepaste' : 'paste',
 
 		/**
 		 * Returns the element that should be used as the target for the drop event.
