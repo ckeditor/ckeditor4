@@ -721,7 +721,7 @@ bender.test( {
 	},
 
 	'test initPasteDataTransfer binding': function() {
-		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 			assert.ignore();
 		}
 
