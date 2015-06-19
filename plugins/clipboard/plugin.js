@@ -1297,7 +1297,7 @@
 				var dragRange = clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
 
 				// Store number of children, so we can later tell if any text node was split on drop. (#13011)
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 && dragRange ) {
 					clipboard.dragStartContainerChildCount = getContainerChildCount( dragRange.startContainer );
 					clipboard.dragEndContainerChildCount = getContainerChildCount( dragRange.endContainer );
 				}
