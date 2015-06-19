@@ -7,7 +7,7 @@ New Features:
 
 * [#13304](http://dev.ckeditor.com/ticket/13304): Added support for passing DOM elements to [`config.sharedSpaces`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-sharedSpaces). Thanks to [Undergrounder](https://github.com/Undergrounder)!
 * [#13215](http://dev.ckeditor.com/ticket/13215): Added ability to cancel fetching a resource by the Embed plugins.
-* [#13213](http://dev.ckeditor.com/ticket/13213): Added the [`dialog#setState()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog-method-setState) method and used in in the [Embed](http://ckeditor.com/addon/embed) dialog to indicate that a resource is being loaded.
+* [#13213](http://dev.ckeditor.com/ticket/13213): Added the [`dialog#setState()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dialog-method-setState) method and used it in the [Embed](http://ckeditor.com/addon/embed) dialog to indicate that a resource is being loaded.
 * [#13337](http://dev.ckeditor.com/ticket/13337): Added the [`repository.onWidget()`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository-method-onWidget) method &mdash; a convenient way to listen to [widget](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget) events through the [repository](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.repository).
 * [#13214](http://dev.ckeditor.com/ticket/13214): Added support for pasting links that convert into embeddable resources on the fly.
 
@@ -25,7 +25,7 @@ Fixed Issues:
 * [#13280](http://dev.ckeditor.com/ticket/13280): [IE8] Fixed: Undo after inline widget drag&drop throws an error.
 * [#13186](http://dev.ckeditor.com/ticket/13186): Fixed: Content dropped into a nested editable is not filtered by [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_acf).
 * [#13140](http://dev.ckeditor.com/ticket/13140): Fixed: Error thrown when dropping a block widget right after itself.
-* [#13176](http://dev.ckeditor.com/ticket/13176): [IE8] Fixed: Errors while drag&drop of embed widgets.
+* [#13176](http://dev.ckeditor.com/ticket/13176): [IE8] Fixed: Errors on drag&drop of embed widgets.
 * [#13015](http://dev.ckeditor.com/ticket/13015): Fixed: Dropping an image file on [Enhanced Image](http://ckeditor.com/addon/image2) causes a page reload.
 * [#13080](http://dev.ckeditor.com/ticket/13080): Fixed: Ugly notification shown when the response contains HTML content.
 * [#13011](http://dev.ckeditor.com/ticket/13011): [IE8] Fixed: Anchors are duplicated on drag&drop in specific locations.
@@ -33,7 +33,7 @@ Fixed Issues:
 * [#11976](http://dev.ckeditor.com/ticket/11976): [Chrome] Fixed: Copy&paste and drag&drop lists from Microsoft Word.
 * [#13128](http://dev.ckeditor.com/ticket/13128): Fixed: Various issues with cloning element IDs:
   * Fixed the default behavior of [`range.cloneContents()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-cloneContents) and [`range.extractContents()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-extractContents) methods which now clone IDs similarly to their native counterparts.
-  * Added `cloneId` arguments to the above methods, [`range.splitBlock()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-splitBlock) and [`element.breakParent()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-breakParent). Mind the default values and special behavior in the `extracContents()` method!
+  * Added `cloneId` arguments to the above methods, [`range.splitBlock()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-splitBlock) and [`element.breakParent()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-breakParent). Mind the default values and special behavior in the `extractContents()` method!
   * Fixed issues where IDs were lost on copy&paste and drag&drop.
 * Toolbar configurators:
   * [#13185](http://dev.ckeditor.com/ticket/13185): Fixed: Wrong position of the suggestion box if there is not enough space below the caret.
@@ -46,8 +46,8 @@ Other Changes:
 
 * [#13119](http://dev.ckeditor.com/ticket/13119): Improved compatibility of editor skins ([Moono](http://ckeditor.com/addon/moono) and [Kama](http://ckeditor.com/addon/kama)) with external web page style sheets.
 * Toolbar configurators:
-  * [#13147](http://dev.ckeditor.com/ticket/13147): Add buttons to the sticky toolbar.
-  * [#13207](http://dev.ckeditor.com/ticket/13207): Use modal window to display help in the toolbar configurator.
+  * [#13147](http://dev.ckeditor.com/ticket/13147): Added buttons to the sticky toolbar.
+  * [#13207](http://dev.ckeditor.com/ticket/13207): Used modal window to display toolbar configurator help.
 * [#13316](http://dev.ckeditor.com/ticket/13316): Made [`CKEDITOR.env.isCompatible`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-isCompatible) a blacklist rather than a whitelist. More about the change in the [Browser Compatibility](http://docs.ckeditor.com/#!/guide/dev_browsers) guide.
 * [#13398](http://dev.ckeditor.com/ticket/13398): Renamed `CKEDITOR.fileTools.UploadsRepository` to [`CKEDITOR.fileTools.UploadRepository`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadRepository) and changed all related properties.
 * [#13279](http://dev.ckeditor.com/ticket/13279): Reviewed CSS vendor prefixes.
