@@ -14,4 +14,9 @@
 	CKEDITOR.replace( 'notification', {
 		extraPlugins: 'notification'
 	} );
+
+	if( CKEDITOR.env.chrome ) {
+		// Chrome support custom cut and copy. Yuppie!
+		bender.ignore();
+	}
 </script>
