@@ -50,7 +50,7 @@ if ( !CKEDITOR.env ) {
 
 			/**
 			 * Indicates that CKEditor is running in a WebKit-based browser, like Safari,
-			 * or Blink-based browser, like Blink.
+			 * or Blink-based browser, like Chrome.
 			 *
 			 *		if ( CKEDITOR.env.webkit )
 			 *			alert( 'I\'m running in a WebKit browser!' );
@@ -161,7 +161,7 @@ if ( !CKEDITOR.env ) {
 		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.ie );
 
 		/**
-		 * Indicates that CKEditor is running in Blink-based browsers like Chrome.
+		 * Indicates that CKEditor is running in a Blink-based browser like Chrome.
 		 *
 		 *		if ( CKEDITOR.env.chrome )
 		 *			alert( 'I\'m running in Chrome!' );
@@ -279,10 +279,10 @@ if ( !CKEDITOR.env ) {
 		 * set to `false` only in browsers that are known to be incompatible. Before CKEditor 4.5 this
 		 * property was a whitelist of browsers that were known to be compatible with CKEditor.
 		 *
-		 * The reason for this change is the rising fragmentation of the browsers market (especially the mobile segment).
-		 * It became too complicated to check on which new environments CKEditor is going to work.
+		 * The reason for this change is the rising fragmentation of the browser market (especially the mobile segment).
+		 * It became too complicated to check in which new environments CKEditor is going to work.
 		 *
-		 * In order to enable CKEditor 4.4.x and below in unsupported environment see the
+		 * In order to enable CKEditor 4.4.x and below in unsupported environments see the
 		 * [Enabling CKEditor in Unsupported Environments](#!/guide/dev_unsupported_environments) article.
 		 *
 		 *		if ( CKEDITOR.env.isCompatible )

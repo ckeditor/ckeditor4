@@ -663,8 +663,8 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			this._.buttons[ buttons[ i ].id ] = buttons[ i ];
 
 		/**
-		 * Current state of the dialog. Use {@link #setState} method to update it.
-		 * See {@link #event-state} event to know more.
+		 * Current state of the dialog. Use the {@link #setState} method to update it.
+		 * See the {@link #event-state} event to know more.
 		 *
 		 * @readonly
 		 * @property {Number} [state=CKEDITOR.DIALOG_STATE_IDLE]
@@ -1436,7 +1436,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		},
 
 		/**
-		 * Sets dialog {@link #property-state}.
+		 * Sets the dialog {@link #property-state}.
 		 *
 		 * @since 4.5
 		 * @param {Number} state Either {@link CKEDITOR#DIALOG_STATE_IDLE} or {@link CKEDITOR#DIALOG_STATE_BUSY}.
@@ -3276,7 +3276,7 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when a dialog definition is about to be used to create a dialog into
+ * Event fired when a dialog definition is about to be used to create a dialog into
  * an editor instance. This event makes it possible to customize the definition
  * before creating it.
  *
@@ -3292,7 +3292,7 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when a tab is going to be selected in a dialog.
+ * Event fired when a tab is going to be selected in a dialog.
  *
  * @event selectPage
  * @member CKEDITOR.dialog
@@ -3302,7 +3302,7 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when the user tries to dismiss a dialog.
+ * Event fired when the user tries to dismiss a dialog.
  *
  * @event cancel
  * @member CKEDITOR.dialog
@@ -3311,7 +3311,7 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when the user tries to confirm a dialog.
+ * Event fired when the user tries to confirm a dialog.
  *
  * @event ok
  * @member CKEDITOR.dialog
@@ -3320,14 +3320,14 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when a dialog is shown.
+ * Event fired when a dialog is shown.
  *
  * @event show
  * @member CKEDITOR.dialog
  */
 
 /**
- * Fired when a dialog is shown.
+ * Event fired when a dialog is shown.
  *
  * @event dialogShow
  * @member CKEDITOR.editor
@@ -3336,14 +3336,14 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when a dialog is hidden.
+ * Event fired when a dialog is hidden.
  *
  * @event hide
  * @member CKEDITOR.dialog
  */
 
 /**
- * Fired when a dialog is hidden.
+ * Event fired when a dialog is hidden.
  *
  * @event dialogHide
  * @member CKEDITOR.editor
@@ -3352,25 +3352,25 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when a dialog is being resized. The event is fired on
+ * Event fired when a dialog is being resized. The event is fired on
  * both the {@link CKEDITOR.dialog} object and the dialog instance
- * since 3.5.3, previously it's available only in the global object.
+ * since 3.5.3, previously it was only available in the global object.
  *
  * @static
  * @event resize
  * @member CKEDITOR.dialog
  * @param data
  * @param {CKEDITOR.dialog} data.dialog The dialog being resized (if
- * it's fired on the dialog itself, this parameter isn't sent).
+ * it is fired on the dialog itself, this parameter is not sent).
  * @param {String} data.skin The skin name.
  * @param {Number} data.width The new width.
  * @param {Number} data.height The new height.
  */
 
 /**
- * Fired when a dialog is being resized. The event is fired on
+ * Event fired when a dialog is being resized. The event is fired on
  * both the {@link CKEDITOR.dialog} object and the dialog instance
- * since 3.5.3, previously it's available only in the global object.
+ * since 3.5.3, previously it was only available in the global object.
  *
  * @since 3.5
  * @event resize
@@ -3381,7 +3381,7 @@ CKEDITOR.plugins.add( 'dialog', {
  */
 
 /**
- * Fired when a dialog state changes, usually by {@link CKEDITOR.dialog#setState}.
+ * Event fired when the dialog state changes, usually by {@link CKEDITOR.dialog#setState}.
  *
  * @since 4.5
  * @event state

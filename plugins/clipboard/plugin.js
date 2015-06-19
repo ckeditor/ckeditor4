@@ -1543,8 +1543,8 @@
 		 * @private
 		 * @param {CKEDITOR.dom.range} dragRange The drag range.
 		 * @param {CKEDITOR.dom.range} dropRange The drop range.
-		 * @param {Number} preDragStartContainerChildCount Number of children of drag range start container before drop.
-		 * @param {Number} preDragEndContainerChildCount Number of children of drag range end container before drop.
+		 * @param {Number} preDragStartContainerChildCount The number of children of the drag range start container before the drop.
+		 * @param {Number} preDragEndContainerChildCount The number of children of the drag range end container before the drop.
 		 */
 		fixSplitNodesAfterDrop: function( dragRange, dropRange, preDragStartContainerChildCount, preDragEndContainerChildCount ) {
 			var dropContainer = dropRange.startContainer;
@@ -1618,7 +1618,7 @@
 		 * @private
 		 * @param {CKEDITOR.dom.range} dragRange The first range to compare.
 		 * @param {CKEDITOR.dom.range} dropRange The second range to compare.
-		 * @returns {Boolean} True if the first range is before the second range.
+		 * @returns {Boolean} `true` if the first range is before the second range.
 		 */
 		isDropRangeAffectedByDragRange: function( dragRange, dropRange ) {
 			var dropContainer = dropRange.startContainer,
@@ -2355,7 +2355,7 @@
 		 * but it is possible to get the file as `items[0].getAsFile();` (#12961).
 		 *
 		 * @private
-		 * @returns {File} File instance or null if not found.
+		 * @returns {File} File instance or `null` if not found.
 		 */
 		_getImageFromClipboard: function() {
 			var file;
@@ -2545,7 +2545,7 @@
  * keep in the clipboard. In other browsers it defaults to `null`.
  *
  * @since 4.5
- * @cfg {String} [pasteFilter='semantic-content' in Chrome and Safari and null in other browsers]
+ * @cfg {String} [pasteFilter='semantic-content' in Chrome and Safari and `null` in other browsers]
  * @member CKEDITOR.config
  */
 

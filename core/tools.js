@@ -376,7 +376,7 @@
 		},
 
 		/**
-		 * Decodes HTML entities which browsers tend to encode when used in text nodes.
+		 * Decodes HTML entities that browsers tend to encode when used in text nodes.
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ) ); // '<a & b >'
 		 *
@@ -407,7 +407,7 @@
 		},
 
 		/**
-		 * Decodes HTML entities which browsers tend to encode when used in attributes.
+		 * Decodes HTML entities that browsers tend to encode when used in attributes.
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&lt;a &quot; b&gt;' ) ); // '<a " b>'
 		 *

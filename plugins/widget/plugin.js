@@ -544,7 +544,7 @@
 		 * Allows to listen to events on specific types of widgets, even if they are not created yet.
 		 *
 		 * Please note that this method inherits parameters from the {@link CKEDITOR.event#method-on} method with one
-		 * extra parameter at the beginning which is a widget name.
+		 * extra parameter at the beginning which is the widget name.
 		 *
 		 *		editor.widgets.onWidget( 'image', 'action', function( evt ) {
 		 *			// Event `action` occurs on `image` widget.

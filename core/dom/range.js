@@ -149,7 +149,7 @@ CKEDITOR.dom.range = function( root ) {
 		range.collapsed = ( range.startContainer && range.endContainer && range.startContainer.equals( range.endContainer ) && range.startOffset == range.endOffset );
 	}
 
-	// This is a shared function used to delete, extract and clone the range contents.
+	// This is a shared function used to delete, extract and clone the range content.
 	//
 	// The outline of the algorithm:
 	//
@@ -614,7 +614,7 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Makes range collapsed by moving its start point (or end point if `toStart==true`)
+		 * Makes the range collapsed by moving its start point (or end point if `toStart==true`)
 		 * to the second end.
 		 *
 		 * @param {Boolean} toStart Collapse range "to start".
@@ -632,10 +632,10 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * The content nodes of the range are cloned and added to a document fragment, which is returned.
+		 * Clones content nodes of the range and adds them to a document fragment, which is returned.
 		 *
 		 * @param {Boolean} [cloneId=true] Whether to preserve ID attributes in the clone.
-		 * @returns {CKEDITOR.dom.documentFragment} Document fragment containing clone of range's content.
+		 * @returns {CKEDITOR.dom.documentFragment} Document fragment containing a clone of range's content.
 		 */
 		cloneContents: function( cloneId ) {
 			var docFrag = new CKEDITOR.dom.documentFragment( this.document );
@@ -651,7 +651,7 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Deletes the content nodes of the range permanently from the DOM tree.
 		 *
-		 * @param {Boolean} [mergeThen] Merge any splitted elements result in DOM true due to partial selection.
+		 * @param {Boolean} [mergeThen] Merge any split elements result in DOM true due to partial selection.
 		 */
 		deleteContents: function( mergeThen ) {
 			if ( this.collapsed )
@@ -664,9 +664,10 @@ CKEDITOR.dom.range = function( root ) {
 		 * The content nodes of the range are cloned and added to a document fragment,
 		 * meanwhile they are removed permanently from the DOM tree.
 		 *
-		 * **Note:** Setting `cloneId` option to `false` works for **partially** selected elements only.
+		 * **Note:** Setting the `cloneId` parameter to `false` works for **partially** selected elements only.
 		 * If an element with an ID attribute is **fully enclosed** in a range, it will keep the ID attribute
-		 * regardless of `cloneId` option value, because it is not cloned &ndash; it is moved to the returned document fragment.
+		 * regardless of the `cloneId` parameter value, because it is not cloned &mdash; it is moved to the returned
+		 * document fragment.
 		 *
 		 * @param {Boolean} [mergeThen] Merge any split elements result in DOM true due to partial selection.
 		 * @param {Boolean} [cloneId=true] Whether to preserve ID attributes in the extracted content.
