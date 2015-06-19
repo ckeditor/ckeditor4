@@ -157,7 +157,8 @@
 			[ '<p>a{b</p><p>c</p><p>}d</p>',										'<p>b</p><p>c</p><br data-cke-eol="1" />',						'<p>a[]d</p>' ],
 			[ '<p>ab{</p><p>c</p><p>}de</p>',										'<br data-cke-eol="1" /><p>c</p><br data-cke-eol="1" />',		'<p>ab[]de</p>' ],
 			[ '<h1><b>{a</b></h1><p>b}</p>',										'<h1><b>a</b></h1><p>b</p>',									'<h1>[]@!</h1>' ],
-			[ '<h1>{a</h1><p><b>b}</b></p>',										'<h1>a</h1><p><b>b</b></p>',									'<h1>[]@!</h1>' ]
+			[ '<h1>{a</h1><p><b>b}</b></p>',										'<h1>a</h1><p><b>b</b></p>',									'<h1>[]@!</h1>' ],
+			[ '<h1>{abc</h1><p><strong>de</strong>gh}<strong>jl</strong>mn</p>',	'<h1>abc</h1><p><strong>de</strong>gh</p>',						'<h1>[]<strong>jl</strong>mn</h1>' ]
 		],
 
 		'inline': [

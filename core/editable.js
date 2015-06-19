@@ -2614,8 +2614,10 @@
 			optimizeBookmarkNode( endBookmark, 1 );
 
 			var next;
-			while ( ( next = endBookmark.getNext() ) )
+			while ( ( next = endBookmark.getNext() ) ) {
 				next.insertAfter( startBookmark );
+				startBookmark = next;
+			}
 
 			if ( isEmpty( merged ) )
 				merged.remove();
