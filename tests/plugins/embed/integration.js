@@ -1,5 +1,5 @@
 /* bender-tags: widget */
-/* bender-ckeditor-plugins: embed,toolbar */
+/* bender-ckeditor-plugins: embed,toolbar,stylescombo */
 /* bender-include: ../widget/_helpers/tools.js, ../embedbase/_helpers/tools.js */
 /* global embedTools, widgetTestsTools */
 
@@ -10,7 +10,11 @@ bender.editors = {
 		name: 'editor_classic',
 		creator: 'replace',
 		config: {
-			extraAllowedContent: 'div(a,b,c)'
+			extraAllowedContent: 'div(a,b,c)',
+			stylesSet: [
+				{ name: 'Foo media', type: 'widget', widget: 'embed', attributes: { 'class': 'foo' } },
+				{ name: 'Bar media', type: 'widget', widget: 'embed', attributes: { 'class': 'bar' } }
+			]
 		}
 	}
 };
@@ -21,7 +25,7 @@ var classes2Array = widgetTestsTools.classes2Array;
 embedTools.mockJsonp();
 
 var tcs = {
-	'test support for widget classes': function() {
+	'test support for widget classes - from extraAC': function() {
 		var bot = this.editorBots.classic,
 			editor = bot.editor,
 			data = '<div class="a b c" data-oembed-url="http://foo.jpg">' +
@@ -35,6 +39,25 @@ var tcs = {
 
 				assert.areSame( data, bot.getData( 1, 1 ), 'classes transfered from widget.element back to data' );
 			}, 100 );
+		} );
+	},
+
+	'test support for widget classes - from stylesSet': function() {
+		var bot = this.editorBots.classic,
+			editor = bot.editor,
+			data = '<div class="bar foo" data-oembed-url="http://foo.jpg">' +
+					'<img alt="image" src="//foo.jpg" style="max-width:100%;" />' +
+				'</div>';
+
+		assert.isTrue( editor.filter.check( 'div[data-oembed-url](foo)' ), 'class from a stylesSet is registered' );
+		assert.isTrue( editor.filter.check( 'div[data-oembed-url](foo)', false, true ), 'class from a stylesSet is registered - strict check' );
+		assert.isFalse( editor.filter.check( 'div(foo)', false, true ), 'registered rules are precise - data-oembed-url must exist' );
+
+		bot.setData( data, function() {
+			arrayAssert.itemsAreSame( [ 'bar', 'foo' ],
+				classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
+
+			assert.areSame( data, bot.getData( 1, 1 ), 'classes transfered from widget.element back to data' );
 		} );
 	}
 };

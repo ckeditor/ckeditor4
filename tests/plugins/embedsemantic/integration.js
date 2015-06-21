@@ -1,5 +1,5 @@
 /* bender-tags: widget */
-/* bender-ckeditor-plugins: embedsemantic,toolbar,undo,basicstyles */
+/* bender-ckeditor-plugins: embedsemantic,toolbar,undo,basicstyles,stylescombo */
 /* bender-include: ../widget/_helpers/tools.js, ../embedbase/_helpers/tools.js */
 /* global embedTools, widgetTestsTools */
 
@@ -10,7 +10,11 @@ bender.editors = {
 		name: 'editor_classic',
 		creator: 'replace',
 		config: {
-			extraAllowedContent: 'oembed(a,b,c)'
+			extraAllowedContent: 'oembed(a,b,c)',
+			stylesSet: [
+				{ name: 'Foo media', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'foo' } },
+				{ name: 'Bar media', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'bar' } }
+			]
 		}
 	}
 };
@@ -87,7 +91,7 @@ var tcs = {
 		} );
 	},
 
-	'test support for widget classes': function() {
+	'test support for widget classes - from extraAC': function() {
 		var bot = this.editorBots.classic,
 			editor = bot.editor;
 
@@ -97,6 +101,22 @@ var tcs = {
 					classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
 
 				assert.areSame( '<p>x</p><oembed class="a b c">http://widget/classes</oembed><p>x</p>', bot.getData(), 'classes transfered from widget.element back to data' );
+			}, 100 );
+		} );
+	},
+
+	'test support for widget classes - from stylesSet': function() {
+		var bot = this.editorBots.classic,
+			editor = bot.editor;
+
+		assert.isTrue( editor.filter.check( 'oembed(foo)' ), 'class from a stylesSet is registered' );
+
+		bot.setData( '<p>x</p><oembed class="bar foo">http://widget/classes</oembed><p>x</p>', function() {
+			wait( function() {
+				arrayAssert.itemsAreSame( [ 'bar', 'foo' ],
+					classes2Array( obj2Array( editor.widgets.instances )[ 0 ].getClasses() ).sort(), 'classes transfered from data to widget.element' );
+
+				assert.areSame( '<p>x</p><oembed class="bar foo">http://widget/classes</oembed><p>x</p>', bot.getData(), 'classes transfered from widget.element back to data' );
 			}, 100 );
 		} );
 	}
