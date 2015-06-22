@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'pt-br', {
 		checkboxTitle: 'Formatar Caixa de Seleção',
 		radioTitle: 'Formatar Botão de Opção',
 		value: 'Valor',
-		selected: 'Selecionado'
+		selected: 'Selecionado',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Formatar Formulário',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pt-br', {
 		size: 'Tamanho',
 		lines: 'linhas',
 		chkMulti: 'Permitir múltiplas seleções',
+		required: 'Required', // MISSING
 		opText: 'Texto',
 		opValue: 'Valor',
 		btnAdd: 'Adicionar',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pt-br', {
 		value: 'Valor',
 		charWidth: 'Comprimento (em caracteres)',
 		maxChars: 'Número Máximo de Caracteres',
+		required: 'Required', // MISSING
 		type: 'Tipo',
 		typeText: 'Texto',
 		typePass: 'Senha',

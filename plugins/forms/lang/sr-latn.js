@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'sr-latn', {
 		checkboxTitle: 'Osobine polja za potvrdu',
 		radioTitle: 'Osobine radio-dugmeta',
 		value: 'Vrednost',
-		selected: 'Označeno'
+		selected: 'Označeno',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Osobine forme',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sr-latn', {
 		size: 'Veličina',
 		lines: 'linija',
 		chkMulti: 'Dozvoli višestruku selekciju',
+		required: 'Required', // MISSING
 		opText: 'Tekst',
 		opValue: 'Vrednost',
 		btnAdd: 'Dodaj',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sr-latn', {
 		value: 'Vrednost',
 		charWidth: 'Širina (karaktera)',
 		maxChars: 'Maksimalno karaktera',
+		required: 'Required', // MISSING
 		type: 'Tip',
 		typeText: 'Tekst',
 		typePass: 'Lozinka',

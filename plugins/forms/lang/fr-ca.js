@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'fr-ca', {
 		checkboxTitle: 'Propriétés de la case à cocher',
 		radioTitle: 'Propriétés du bouton radio',
 		value: 'Valeur',
-		selected: 'Sélectionné'
+		selected: 'Sélectionné',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Propriétés du formulaire',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fr-ca', {
 		size: 'Taille',
 		lines: 'lignes',
 		chkMulti: 'Permettre les sélections multiples',
+		required: 'Required', // MISSING
 		opText: 'Texte',
 		opValue: 'Valeur',
 		btnAdd: 'Ajouter',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fr-ca', {
 		value: 'Valeur',
 		charWidth: 'Largeur de caractères',
 		maxChars: 'Nombre maximum de caractères',
+		required: 'Required', // MISSING
 		type: 'Type',
 		typeText: 'Texte',
 		typePass: 'Mot de passe',

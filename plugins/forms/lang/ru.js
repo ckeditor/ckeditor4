@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ru', {
 		checkboxTitle: 'Свойства флаговой кнопки',
 		radioTitle: 'Свойства кнопки выбора',
 		value: 'Значение',
-		selected: 'Выбрано'
+		selected: 'Выбрано',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Свойства формы',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ru', {
 		size: 'Размер',
 		lines: 'строк(и)',
 		chkMulti: 'Разрешить выбор нескольких вариантов',
+		required: 'Required', // MISSING
 		opText: 'Текст',
 		opValue: 'Значение',
 		btnAdd: 'Добавить',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ru', {
 		value: 'Значение',
 		charWidth: 'Ширина поля (в символах)',
 		maxChars: 'Макс. количество символов',
+		required: 'Required', // MISSING
 		type: 'Тип содержимого',
 		typeText: 'Текст',
 		typePass: 'Пароль',

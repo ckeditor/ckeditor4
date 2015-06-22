@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'sr', {
 		checkboxTitle: 'Особине поља за потврду',
 		radioTitle: 'Особине радио-дугмета',
 		value: 'Вредност',
-		selected: 'Означено'
+		selected: 'Означено',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Особине форме',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sr', {
 		size: 'Величина',
 		lines: 'линија',
 		chkMulti: 'Дозволи вишеструку селекцију',
+		required: 'Required', // MISSING
 		opText: 'Текст',
 		opValue: 'Вредност',
 		btnAdd: 'Додај',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sr', {
 		value: 'Вредност',
 		charWidth: 'Ширина (карактера)',
 		maxChars: 'Максимално карактера',
+		required: 'Required', // MISSING
 		type: 'Тип',
 		typeText: 'Текст',
 		typePass: 'Лозинка',

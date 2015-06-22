@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ca', {
 		checkboxTitle: 'Propietats de la casella de verificació',
 		radioTitle: 'Propietats del botó d\'opció',
 		value: 'Valor',
-		selected: 'Seleccionat'
+		selected: 'Seleccionat',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Propietats del formulari',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ca', {
 		size: 'Mida',
 		lines: 'Línies',
 		chkMulti: 'Permet múltiples seleccions',
+		required: 'Required', // MISSING
 		opText: 'Text',
 		opValue: 'Valor',
 		btnAdd: 'Afegeix',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ca', {
 		value: 'Valor',
 		charWidth: 'Amplada',
 		maxChars: 'Nombre màxim de caràcters',
+		required: 'Required', // MISSING
 		type: 'Tipus',
 		typeText: 'Text',
 		typePass: 'Contrasenya',

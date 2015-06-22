@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'bn', {
 		checkboxTitle: 'চেক বক্স প্রোপার্টি',
 		radioTitle: 'রেডিও বাটন প্রোপার্টি',
 		value: 'ভ্যালু',
-		selected: 'সিলেক্টেড'
+		selected: 'সিলেক্টেড',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'ফর্ম প্রোপার্টি',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'bn', {
 		size: 'সাইজ',
 		lines: 'লাইন সমূহ',
 		chkMulti: 'একাধিক সিলেকশন এলাউ কর',
+		required: 'Required', // MISSING
 		opText: 'টেক্সট',
 		opValue: 'ভ্যালু',
 		btnAdd: 'যুক্ত',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'bn', {
 		value: 'ভ্যালু',
 		charWidth: 'ক্যারেক্টার প্রশস্ততা',
 		maxChars: 'সর্বাধিক ক্যারেক্টার',
+		required: 'Required', // MISSING
 		type: 'টাইপ',
 		typeText: 'টেক্সট',
 		typePass: 'পাসওয়ার্ড',

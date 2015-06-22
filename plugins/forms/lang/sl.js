@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'sl', {
 		checkboxTitle: 'Lastnosti potrditvenega polja',
 		radioTitle: 'Lastnosti izbirnega polja',
 		value: 'Vrednost',
-		selected: 'Izbrano'
+		selected: 'Izbrano',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Lastnosti obrazca',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sl', {
 		size: 'Velikost',
 		lines: 'vrstic',
 		chkMulti: 'Dovoli izbor večih vrstic',
+		required: 'Required', // MISSING
 		opText: 'Besedilo',
 		opValue: 'Vrednost',
 		btnAdd: 'Dodaj',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sl', {
 		value: 'Vrednost',
 		charWidth: 'Dolžina',
 		maxChars: 'Največje število znakov',
+		required: 'Required', // MISSING
 		type: 'Tip',
 		typeText: 'Besedilo',
 		typePass: 'Geslo',

@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		checkboxTitle: 'Proprietăţi bifă (Checkbox)',
 		radioTitle: 'Proprietăţi buton radio (Radio Button)',
 		value: 'Valoare',
-		selected: 'Selectat'
+		selected: 'Selectat',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Proprietăţi formular (Form)',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		size: 'Mărime',
 		lines: 'linii',
 		chkMulti: 'Permite selecţii multiple',
+		required: 'Required', // MISSING
 		opText: 'Text',
 		opValue: 'Valoare',
 		btnAdd: 'Adaugă',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		value: 'Valoare',
 		charWidth: 'Lărgimea caracterului',
 		maxChars: 'Caractere maxime',
+		required: 'Required', // MISSING
 		type: 'Tip',
 		typeText: 'Text',
 		typePass: 'Parolă',

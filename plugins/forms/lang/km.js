@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'km', {
 		checkboxTitle: 'លក្ខណៈ​ប្រអប់​ធីក',
 		radioTitle: 'លក្ខនៈ​ប៊ូតុង​មូល',
 		value: 'តម្លៃ',
-		selected: 'បាន​ជ្រើស'
+		selected: 'បាន​ជ្រើស',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'លក្ខណៈ​បែបបទ',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'km', {
 		size: 'ទំហំ',
 		lines: 'បន្ទាត់',
 		chkMulti: 'អនុញ្ញាត​ពហុ​ជម្រើស',
+		required: 'Required', // MISSING
 		opText: 'អត្ថបទ',
 		opValue: 'តម្លៃ',
 		btnAdd: 'បន្ថែម',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'km', {
 		value: 'តម្លៃ',
 		charWidth: 'ទទឹង​តួ​អក្សរ',
 		maxChars: 'អក្សរអតិបរិមា',
+		required: 'Required', // MISSING
 		type: 'ប្រភេទ',
 		typeText: 'អត្ថបទ',
 		typePass: 'ពាក្យសម្ងាត់',

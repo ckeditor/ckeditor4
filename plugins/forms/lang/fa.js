@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'fa', {
 		checkboxTitle: 'ویژگی​های خانهٴ گزینه​ای',
 		radioTitle: 'ویژگی​های دکمهٴ رادیویی',
 		value: 'مقدار',
-		selected: 'برگزیده'
+		selected: 'برگزیده',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'ویژگی​های فرم',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fa', {
 		size: 'اندازه',
 		lines: 'خطوط',
 		chkMulti: 'گزینش چندگانه فراهم باشد',
+		required: 'Required', // MISSING
 		opText: 'متن',
 		opValue: 'مقدار',
 		btnAdd: 'افزودن',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fa', {
 		value: 'مقدار',
 		charWidth: 'پهنای نویسه',
 		maxChars: 'بیشینهٴ نویسه​ها',
+		required: 'Required', // MISSING
 		type: 'نوع',
 		typeText: 'متن',
 		typePass: 'گذرواژه',

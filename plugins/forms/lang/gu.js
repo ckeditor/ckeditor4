@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'gu', {
 		checkboxTitle: 'ચેક બોક્સ ગુણ',
 		radioTitle: 'રેડિઓ બટનના ગુણ',
 		value: 'વૅલ્યૂ',
-		selected: 'સિલેક્ટેડ'
+		selected: 'સિલેક્ટેડ',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'ફૉર્મ/પત્રકના ગુણ',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'gu', {
 		size: 'સાઇઝ',
 		lines: 'લીટીઓ',
 		chkMulti: 'એકથી વધારે પસંદ કરી શકો',
+		required: 'Required', // MISSING
 		opText: 'ટેક્સ્ટ',
 		opValue: 'વૅલ્યૂ',
 		btnAdd: 'ઉમેરવું',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'gu', {
 		value: 'વૅલ્યૂ',
 		charWidth: 'કેરેક્ટરની પહોળાઈ',
 		maxChars: 'અધિકતમ કેરેક્ટર',
+		required: 'Required', // MISSING
 		type: 'ટાઇપ',
 		typeText: 'ટેક્સ્ટ',
 		typePass: 'પાસવર્ડ',

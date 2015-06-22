@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'et', {
 		checkboxTitle: 'Märkeruudu omadused',
 		radioTitle: 'Raadionupu omadused',
 		value: 'Väärtus',
-		selected: 'Märgitud'
+		selected: 'Märgitud',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Vormi omadused',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'et', {
 		size: 'Suurus',
 		lines: 'ridu',
 		chkMulti: 'Võimalik mitu valikut',
+		required: 'Required', // MISSING
 		opText: 'Tekst',
 		opValue: 'Väärtus',
 		btnAdd: 'Lisa',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'et', {
 		value: 'Väärtus',
 		charWidth: 'Laius (tähemärkides)',
 		maxChars: 'Maksimaalselt tähemärke',
+		required: 'Required', // MISSING
 		type: 'Liik',
 		typeText: 'Tekst',
 		typePass: 'Parool',

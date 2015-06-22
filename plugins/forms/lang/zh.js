@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'zh', {
 		checkboxTitle: '核取方塊內容',
 		radioTitle: '選項按鈕內容',
 		value: '數值',
-		selected: '已選'
+		selected: '已選',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: '表單內容',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'zh', {
 		size: '大小',
 		lines: '行數',
 		chkMulti: '允許多選',
+		required: 'Required', // MISSING
 		opText: '文字',
 		opValue: '數值',
 		btnAdd: '新增',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'zh', {
 		value: '數值',
 		charWidth: '字元寬度',
 		maxChars: '最大字元數',
+		required: 'Required', // MISSING
 		type: '類型',
 		typeText: '文字',
 		typePass: '密碼',

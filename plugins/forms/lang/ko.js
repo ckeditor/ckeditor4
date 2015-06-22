@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ko', {
 		checkboxTitle: '체크박스 속성',
 		radioTitle: '라디오버튼 속성',
 		value: '값',
-		selected: '선택됨'
+		selected: '선택됨',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: '폼 속성',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ko', {
 		size: '세로크기',
 		lines: '줄',
 		chkMulti: '여러항목 선택 허용',
+		required: 'Required', // MISSING
 		opText: '이름',
 		opValue: '값',
 		btnAdd: '추가',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ko', {
 		value: '값',
 		charWidth: '글자 너비',
 		maxChars: '최대 글자수',
+		required: 'Required', // MISSING
 		type: '종류',
 		typeText: '문자열',
 		typePass: '비밀번호',
