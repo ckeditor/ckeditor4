@@ -2541,8 +2541,8 @@
  * it will also be applied to pasted and dropped data. The paste filter job is to "normalize"
  * external data which often needs to be handled differently than content produced by the editor.
  *
- * This setting defaults to `'semantic-content'` in Chrome and Safari due to messy HTML which these browsers
- * keep in the clipboard. In other browsers it defaults to `null`.
+ * This setting defaults to `'semantic-content'` in Chrome, Opera and Safari (all Blink and Webkit based browsers)
+ * due to messy HTML which these browsers keep in the clipboard. In other browsers it defaults to `null`.
  *
  * @since 4.5
  * @cfg {String} [pasteFilter='semantic-content' in Chrome and Safari and `null` in other browsers]
