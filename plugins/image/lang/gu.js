@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'gu', {
-	alertUrl: 'ચિત્રની URL ટાઇપ કરો',
 	alt: 'ઑલ્ટર્નટ ટેક્સ્ટ',
 	border: 'બોર્ડર',
 	btnUpload: 'આ સર્વરને મોકલવું',

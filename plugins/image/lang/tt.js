@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'tt', {
-	alertUrl: 'Рәсемгә сылталама языгыз',
 	alt: 'Альтернатив текст',
 	border: 'Чик',
 	btnUpload: 'Серверга җибәрү',

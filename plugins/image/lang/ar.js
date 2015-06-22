@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'ar', {
-	alertUrl: 'فضلاً أكتب الموقع الذي توجد عليه هذه الصورة.',
 	alt: 'عنوان الصورة',
 	border: 'سمك الحدود',
 	btnUpload: 'أرسلها للخادم',

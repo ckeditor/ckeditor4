@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'km', {
-	alertUrl: 'សូម​បញ្ចូល URL រូបភាព',
 	alt: 'អត្ថបទជំនួស',
 	border: 'ស៊ុម',
 	btnUpload: 'ផ្ញើ​ទៅ​ម៉ាស៊ីន​បម្រើ',

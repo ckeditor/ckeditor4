@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'ja', {
-	alertUrl: '画像のURLを入力してください',
 	alt: '代替テキスト',
 	border: '枠線の幅',
 	btnUpload: 'サーバーに送信',
