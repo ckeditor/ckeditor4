@@ -109,6 +109,7 @@
 		 * This method uses the value of the {@link CKEDITOR.config#autoEmbed_widget} option.
 		 *
 		 * @since 4.5
+		 * @member CKEDITOR.plugins.autoEmbed
 		 * @param {CKEDITOR.editor} editor
 		 * @param {String} url The URL to be embedded.
 		 * @returns {CKEDITOR.plugins.widget.definition/null} The definition of the widget to be used to embed the link.
