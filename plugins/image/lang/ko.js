@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'ko', {
-	alertUrl: '이미지 URL을 입력하십시요',
 	alt: '이미지 설명',
 	border: '테두리',
 	btnUpload: '서버로 전송',

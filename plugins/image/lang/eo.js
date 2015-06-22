@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'eo', {
-	alertUrl: 'Bonvolu tajpi la retadreson de la bildo',
 	alt: 'Anstataŭiga Teksto',
 	border: 'Bordero',
 	btnUpload: 'Sendu al Servilo',

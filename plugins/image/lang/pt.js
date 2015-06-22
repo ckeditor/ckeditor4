@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'pt', {
-	alertUrl: 'Por favor introduza o URL da imagem',
 	alt: 'Texto Alternativo',
 	border: 'Limite',
 	btnUpload: 'Enviar para o servidor',

@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'hu', {
-	alertUrl: 'Töltse ki a kép webcímét',
 	alt: 'Buborék szöveg',
 	border: 'Keret',
 	btnUpload: 'Küldés a szerverre',
