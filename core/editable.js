@@ -2616,6 +2616,8 @@
 			var next;
 			while ( ( next = endBookmark.getNext() ) ) {
 				next.insertAfter( startBookmark );
+
+				// Update startBookmark after insertion to avoid the reversal of nodes (#13449).
 				startBookmark = next;
 			}
 
