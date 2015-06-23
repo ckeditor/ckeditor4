@@ -43,8 +43,6 @@ The following libraries are included in CKEditor under the MIT license (see Appe
 
 The following libraries are included in CKEditor under the SIL Open Font License, Version 1.1 (see Appendix G):
 
-* ???? Indieflower - Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com).
-* ???? Maven Pro - Copyright (c) 2011, Joe Prince, Vissol Ltd. (http://www.vissol.co.uk/mavenpro/).
 * Font Awesome (included in toolbar configurator) - Copyright (C) 2012 by Dave Gandy.
 
 (Ignore this line: %REMOVE_START%)
