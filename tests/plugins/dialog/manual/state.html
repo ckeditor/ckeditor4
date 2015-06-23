@@ -1,5 +1,9 @@
 <div>
+	<h2>LTR Editor</h2>
 	<textarea cols="80" id="editor1" name="editor1" rows="10">
+	</textarea>
+	<h2>RTL Editor</h2>
+	<textarea cols="80" id="editor2" name="editor1" rows="10">
 	</textarea>
 	<style>
 		.cke_button__state_label {
@@ -11,57 +15,70 @@
 		}
 	</style>
 	<script>
-		CKEDITOR.replace( 'editor1', {
-			on: {
-				pluginsLoaded: function() {
-					CKEDITOR.dialog.add( 'state', function() {
-						return {
-							title: 'Dialog with state indicator',
-							minWidth: 250,
-							minHeight: 50,
-							onLoad: function( evt ) {
-								this.getContentElement( 'info', 'busy' ).on( 'click', function() {
-									this.setState( CKEDITOR.DIALOG_STATE_BUSY );
-								}, this );
+		var configs = [
+			{ id: 'editor1', lang: 'en' },
+			{ id: 'editor2', lang: 'he' }
+		];
 
-								this.getContentElement( 'info', 'idle' ).on( 'click', function() {
-									this.setState( CKEDITOR.DIALOG_STATE_IDLE );
-								}, this );
-							},
-							contents: [
-								{
-									id: 'info',
-									label: 'Info Tab',
-									elements: [
-										{
-											type: 'hbox',
-											children: [
-												{
-													type: 'button',
-													id: 'busy',
-													label: 'Set dialog busy'
-												},
-												{
-													type: 'button',
-													id: 'idle',
-													label: 'Set dialog idle'
-												}
-											]
-										}
-									]
-								}
-							]
-						};
-					} );
+		for (var i = 0; i < configs.length; i++ ) {
+			CKEDITOR.replace( configs[i].id, {
+				language: configs[i].lang,
+				on: {
+					pluginsLoaded: function() {
+						CKEDITOR.dialog.add( 'state', function() {
+							return {
+								title: 'Dialog with state indicator',
+								minWidth: 250,
+								minHeight: 50,
+								onLoad: function( evt ) {
+									this.getContentElement( 'info', 'busy' ).on( 'click', function() {
+										this.setState( CKEDITOR.DIALOG_STATE_BUSY );
+									}, this );
 
-					this.addCommand( 'state', new CKEDITOR.dialogCommand( 'state' ) );
+									this.getContentElement( 'info', 'idle' ).on( 'click', function() {
+										this.setState( CKEDITOR.DIALOG_STATE_IDLE );
+									}, this );
+								},
+								contents: [
+									{
+										id: 'info',
+										label: 'Info Tab',
+										elements: [
+											{
+												type: 'hbox',
+												children: [
+													{
+														type: 'button',
+														id: 'busy',
+														label: 'Set dialog busy'
+													},
+													{
+														type: 'button',
+														id: 'idle',
+														label: 'Set dialog idle'
+													}
+												]
+											}
+										]
+									}
+								]
+							};
+						} );
 
-					this.ui.addButton( 'state', {
-						label: 'Show a dialog with state indicator',
-						command: 'state',
-					} );
+						this.addCommand( 'state', new CKEDITOR.dialogCommand( 'state' ) );
+
+						this.addCommand( 'setRtl', {
+							exec: function( editor ) {
+							}
+						} );
+
+						this.ui.addButton( 'state', {
+							label: 'Show a dialog with state indicator',
+							command: 'state',
+						} );
+					}
 				}
-			}
-		} );
+			} );
+		}
 	</script>
 </div>
