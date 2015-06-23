@@ -7,7 +7,7 @@
 ## Observe dialog state change
 
 1. Click the toolbar button.
-1. Click "Set dialog busy". A **spinning** indicator should appear in the **upper left corner**(**upper _right_ corner** in RTL mode) of the dialog, before the title.
+1. Click "Set dialog busy". A **spinning** indicator should appear in the **upper left corner** (**upper _right_ corner** in RTL mode) of the dialog, before the title.
 1. Click the **OK** button. Nothing should happen. It supposed to be disabled.
 1. Click "Set dialog idle". The spinner should disappear.
 1. Click the **OK** button. The dialog should disappear.
