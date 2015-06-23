@@ -1453,15 +1453,22 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( state == CKEDITOR.DIALOG_STATE_BUSY ) {
 				// Insert the spinner on demand.
 				if ( !this.parts.spinner ) {
-					this.parts.spinner = CKEDITOR.document.createElement( 'div', {
+					var spinnerDesc = {
 						attributes: {
 							'class': 'cke_dialog_spinner'
 						},
-						styles: {
-							'float': 'left',
-							'margin-right': '8px'
-						}
-					} );
+						styles: {}
+					};
+
+					if ( this._.editor.lang.dir == 'rtl' ) {
+						spinnerDesc.styles['float'] = 'right';
+						spinnerDesc.styles['margin-left'] = '8px';
+					} else {
+						spinnerDesc.styles['float'] = 'left';
+						spinnerDesc.styles['margin-right'] = '8px';
+					}
+
+					this.parts.spinner = CKEDITOR.document.createElement( 'div', spinnerDesc );
 
 					this.parts.spinner.setHtml( '&#8987;' );
 					this.parts.spinner.appendTo( this.parts.title, 1 );
