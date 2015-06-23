@@ -51,7 +51,7 @@ Other Changes:
 * [#13316](http://dev.ckeditor.com/ticket/13316): Made [`CKEDITOR.env.isCompatible`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-isCompatible) a blacklist rather than a whitelist. More about the change in the [Browser Compatibility](http://docs.ckeditor.com/#!/guide/dev_browsers) guide.
 * [#13398](http://dev.ckeditor.com/ticket/13398): Renamed `CKEDITOR.fileTools.UploadsRepository` to [`CKEDITOR.fileTools.UploadRepository`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadRepository) and changed all related properties.
 * [#13279](http://dev.ckeditor.com/ticket/13279): Reviewed CSS vendor prefixes.
-* [#13454](http://dev.ckeditor.com/ticket/13454): Removed unused `lang.image.alertUrl` token.
+* [#13454](http://dev.ckeditor.com/ticket/13454): Removed unused `lang.image.alertUrl` token from the [Image](http://ckeditor.com/addon/image) plugin.
 
 ## CKEditor 4.5 Beta
 
