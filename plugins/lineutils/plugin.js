@@ -59,9 +59,17 @@
 			win: editor.window
 		}, def, true );
 
-		this.inline = this.editable.isInline();
-		if ( !this.inline )
+		/*
+		This is necessary for functioning within the context of Habitat iframes,
+		where trying to access the dom outside the iframe is not allowed.
+		*/
+		this.frame = null;
+		try {
 			this.frame = this.win.getFrame();
+		} catch(err) {
+			//console.log('lineutils error=' + err);
+		}
+		this.inline = this.editable.isInline();
 		this.target = this[ this.inline ? 'editable' : 'doc' ];
 	}
 
