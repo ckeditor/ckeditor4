@@ -27,64 +27,7 @@
 			/**
 			 * Event fired when the {@link CKEDITOR.fileTools.fileLoader file loader} should send XHR. If the event is not
 			 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, the default request
-			 * will be sent (a file as a form data with the `'upload'` field).
-			 *
-			 * If you want to change this behavior you can add a custom listener with the default priority and
-			 * {@link CKEDITOR.eventInfo#stop stop} the event which will prevent the default behavior. For example to send
-			 * the data directly (without a form):
-			 *
-			 *		editor.on( 'fileUploadRequest', function( evt ) {
-			 *			var xhr = evt.data.fileLoader.xhr;
-			 *
-			 *			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
-			 *			xhr.setRequestHeader( 'X-File-Name', this.fileName );
-			 *			xhr.setRequestHeader( 'X-File-Size', this.total );
-			 *			xhr.send( this.file );
-			 *
-			 *			// Prevented default behavior.
-			 *			evt.stop();
-			 *		} );
-			 *
-			 *
-			 * You can also add custom request headers or set flags for the default request. This is especially useful for
-			 * enabling Cross-Origin requests. For more information about Cross-Origin Resource Sharing see
-			 * [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS):
-			 *
-			 *		editor.on( 'fileUploadRequest', function( evt ) {
-			 *			var xhr = evt.data.fileLoader.xhr;
-			 *
-			 *			xhr.setRequestHeader( 'Cache-Control', 'no-cache' );
-			 *			xhr.setRequestHeader( 'X-CUSTOM', 'HEADER' );
-			 *			xhr.withCredentials = true;
-			 *		} );
-			 *
-			 * When you listen to the `fileUploadRequest` event with the default priority you will get an XHR object which is opened as
-			 * a `POST` asynchronous request. This happens in a listener with the priority of `5`, so if you want to also overwrite
-			 * the `open` method in a request, you need to listen with a lower priority. For example to send a `PUT` request:
-			 *
-			 *		editor.on( 'fileUploadRequest', function( evt ) {
-			 *			var fileLoader = evt.data.fileLoader,
-			 *				formData = new FormData(),
-			 *				xhr = fileLoader.xhr;
-			 *
-			 *			xhr.open( 'PUT', fileLoader.uploadUrl, true );
-			 *			formData.append( 'upload', fileLoader.file, fileLoader.fileName );
-			 *			fileLoader.xhr.send( formData );
-			 *
-			 *			// Prevented default behavior.
-			 *			evt.stop();
-			 *		}, null, null, 4 ); // Listener with priority 4 will be executed before priority 5.
-			 *
-			 * Finally, you can also tell the {@link CKEDITOR.fileTools.fileLoader file loader} that the request was not sent
-			 * so it will not change its {@link CKEDITOR.fileTools.fileLoader#status status}. To do this, you need to
-			 * {@link CKEDITOR.eventInfo#cancel cancel} the event:
-			 *
-			 *		editor.on( 'fileUploadRequest', function( evt ) {
-			 *			// ...
-			 *
-			 *			// Cancel the event so that the file loader will not change its status.
-			 *			evt.cancel();
-			 *		} );
+			 * will be sent. To learn more see [Uploading Dropped or Pasted Files Guide](#!/guide/dev_file_upload).
 			 *
 			 * @since 4.5
 			 * @event fileUploadRequest
@@ -109,43 +52,8 @@
 			/**
 			 * Event fired when the {CKEDITOR.fileTools.fileLoader file upload} response is received and needs to be parsed.
 			 * If the event is not {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled},
-			 * the default response handler will be used, which expects the response to be JSON data with the following structure:
-			 *
-			 *		{
-			 *			fileName: <String>		// The name of the file on the server.
-			 *			url: <String>			// The URL to the file.
-			 *			uploaded: <Boolean>		// True if uploading finished with success.
-			 *			error: {
-			 *				message: <String>	// Optional message.
-			 *			}
-			 *		}
-			 *
-			 * If you want to handle the response manually, you need to add a listener to this event and call
-			 * {@link CKEDITOR.eventInfo#stop stop} to prevent the default behavior. The listener should
-			 * set the URL to the file on the server and the file name; additionally, it can also set the
-			 * message from the server. If the response is to the error message, and the upload failed, then the event should be
-			 * {@link CKEDITOR.eventInfo#cancel canceled}, so the file loader will change
-			 * {@link CKEDITOR.fileTools.fileLoader#status its status} to `error`.
-			 *
-			 * For example if the response is 'fileUrl|optionalErrorMessage':
-			 *
-			 *		editor.on( 'fileUploadResponse', function( evt ) {
-			 *			// Prevent the default response handler.
-			 *			evt.stop();
-			 *
-			 * 			// Ger XHR and response.
-			 * 			var data = evt.data,
-			 * 				xhr = data.fileLoader.xhr,
-			 * 				response = xhr.responseText.split( '|' );
-			 *
-			 * 			if ( response[ 1 ] ) {
-			 * 				// Error occurred during upload.
-			 * 				data.message = response[ 1 ];
-			 * 				evt.cancel();
-			 * 			} else {
-			 * 				data.url = response[ 0 ];
-			 * 			}
-			 * 		} );
+			 * the default response handler will be used. To learn more see
+			 * [Uploading Dropped or Pasted Files Guide](#!/guide/dev_file_upload).
 			 *
 			 * @since 4.5
 			 * @event fileUploadResponse
