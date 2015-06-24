@@ -64,7 +64,7 @@ var CKBUILDER_CONFIG = {
 		maximize: 0,
 		newpage: 0,
 		pagebreak: 0,
-		pastefromword: 0,
+		pastefromword: 1,
 		pastetext: 0,
 		preview: 0,
 		print: 0,
