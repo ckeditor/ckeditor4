@@ -2345,6 +2345,16 @@
 		return CKEDITOR.tools.trim( wrapperHtml );
 	}
 
+	function widgetDroppingIntoChild( child, widget ) {
+		var node = child;
+		while ( node = node.getParent() ) {
+			if ( node.equals( widget.wrapper ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	function setupDragAndDrop( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
 			lineutils = CKEDITOR.plugins.lineutils;
@@ -2415,6 +2425,10 @@
 							// Allow drop line inside, but never before or after nested editable (#12006).
 							if ( Widget.isDomNestedEditable( el ) )
 								return;
+
+							if ( widgetDroppingIntoChild( el, widgetsRepo._.draggedWidget ) ) {
+								return;
+							}
 
 							// If element is nested editable, make sure widget can be dropped there (#12006).
 							var nestedEditable = Widget.getNestedEditable( editable, el );

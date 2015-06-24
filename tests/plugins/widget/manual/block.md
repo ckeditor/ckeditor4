@@ -13,3 +13,11 @@ Test block widgets features:
  - remove,
  - undo/redo,
  - switch multiple times between source and wysiwyg mode.
+
+Test edge case:
+1. Create a doublecolumn widget containing another doublecolumn widget('empty' icon).
+1. Drag the outer widget into the inner widget.
+
+Expected result:
+
+Nothing should happen.
