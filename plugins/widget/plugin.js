@@ -2334,7 +2334,9 @@
 				'<span [^>]*data-cke-copybin-start="1"[^>]*>.?</span>([\\s\\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?</span>' +
 			'(?:</(?:div|span)>)?' +
 		'(?:</(?:div|span)>)?' +
-		'$'
+		'$',
+		// IE8 prefers uppercase when browsers stick to lowercase HTML (#13460).
+		'i'
 	);
 
 	function pasteReplaceFn( match, wrapperHtml ) {
