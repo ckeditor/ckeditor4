@@ -1455,13 +1455,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				if ( !this.parts.spinner ) {
 					var dir = this.getParentEditor().lang.dir,
 						spinnerDef = {
-						attributes: {
-							'class': 'cke_dialog_spinner'
-						},
-						styles: {
-							'float': dir == 'rtl' ? 'right' : 'left'
-						}
-					};
+							attributes: {
+								'class': 'cke_dialog_spinner'
+							},
+							styles: {
+								'float': dir == 'rtl' ? 'right' : 'left'
+							}
+						};
 
 					spinnerDef.styles[ 'margin-' + ( dir == 'rtl' ? 'left' : 'right' ) ] = '8px';
 
