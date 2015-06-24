@@ -482,6 +482,29 @@
 			} );
 		},
 
+		'test drag and drop - block widget into widget in nested editable': function() {
+			var editor = this.editor,
+				html = '<div data-widget="testwidget4" id="w4">' +
+					'<div class="n1">' +
+						'<div data-widget="testwidget4" id="w4a">' +
+							'<div class="n1">' +
+								'<p>x</p>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>';
+
+			this.editorBot.setData( html, function() {
+				var repo = editor.widgets,
+					finder = repo.finder;
+
+				repo._.draggedWidget = getWidgetById( editor, 'w4' );
+				finder.greedySearch();
+
+				assertRelations( editor, finder, '|<div data-widget="testwidget4" id="w4"><div class="n1"><div data-widget="testwidget4" id="w4a"><div class="n1"><p>x</p></div></div></div></div>|' );
+			} );
+		},
+
 		'test drag and drop - block widget into nested editable (ACF)': function() {
 			var editor = this.editor,
 				html = '<div data-widget="testwidget2">' +
