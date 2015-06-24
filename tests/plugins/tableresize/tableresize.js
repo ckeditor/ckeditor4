@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: stylesheetparser,tableresize,wysiwygarea */
+/* bender-ckeditor-plugins: stylesheetparser,tableresize,wysiwygarea,undo */
 
 'use strict';
 
@@ -97,6 +97,9 @@ bender.editors = {
 	intable: {
 		name: 'intable',
 		creator: 'inline'
+	},
+	undo: {
+		name: 'undo'
 	}
 };
 
@@ -186,5 +189,32 @@ bender.test( {
 		editor.editable().fire( 'mousemove', evt );
 
 		assert.isNull( wrapperTable.getCustomData( '_cke_table_pillars' ) );
+	},
+
+	// #13388.
+	'test undo/redo table resize': function() {
+		var editor = this.editors.undo,
+			doc = editor.document,
+			insideTable = doc.getElementsByTag( 'table' ).getItem( 0 ),
+			changed = 0;
+
+		editor.on( 'change', function() {
+			changed++;
+		} );
+
+		init( insideTable, editor );
+
+		resize( insideTable, function() {
+			resume( function() {
+				editor.execCommand( 'undo' );
+				this.assertIsNotTouched( doc.getElementsByTag( 'table' ).getItem( 0 ), 'insideTable' );
+				editor.execCommand( 'redo' );
+				this.assertIsResized( doc.getElementsByTag( 'table' ).getItem( 0 ), 'insideTable' );
+
+				assert.isTrue( changed >= 3, 'Editor fired change event at least once for each resize/undo/redo' );
+			} );
+		} );
+
+		wait();
 	}
 } );
