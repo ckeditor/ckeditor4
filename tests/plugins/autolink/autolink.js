@@ -47,6 +47,13 @@ bender.test( {
 		}
 	},
 
+	'test link with quotation marks': function() {
+		var pastedText = 'https://foo.bar/?bam="bom"',
+			expected = '<a href="https://foo.bar/?bam=%22bom%22">https://foo.bar/?bam="bom"</a>';
+
+		assertPasteEvent( this.editor, { dataValue: pastedText }, { dataValue: expected, type: 'html' } );
+	},
+
 	'test link with text after': function() {
 		var pastedText = 'https://placekitten.com/g/210/300 nope';
 

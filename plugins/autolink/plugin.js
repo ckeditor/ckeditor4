@@ -22,7 +22,13 @@ CKEDITOR.plugins.add( 'autolink', {
 			}
 
 			// Regex by Imme Emosol.
-			data = data.replace( /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig , '<a href="$&">$&</a>' );
+			var href,
+				validUrl = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig;
+
+			if ( data.match( validUrl ) ) {
+				href = data.replace( /"/g, '%22' );
+				data = data.replace( validUrl , '<a href="' + href + '">$&</a>' );
+			}
 
 			// If link was discovered, change the type to 'html'. This is important e.g. when pasting plain text in Chrome
 			// where real type is correctly recognized.
