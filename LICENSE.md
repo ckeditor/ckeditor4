@@ -37,13 +37,13 @@ done by developers outside of CKSource with their express permission.
 
 The following libraries are included in CKEditor under the MIT license (see Appendix D):
 
-* CKSource Samples Framework (included in samples) - Copyright (c) 2003-2015, CKSource - Frederico Knabben.
+* CKSource Samples Framework (included in the samples) - Copyright (c) 2003-2015, CKSource - Frederico Knabben.
 * PicoModal (included in `samples/js/sf.js`) - Copyright (c) 2012 James Frasca.
-* CodeMirror (included samples) - Copyright (C) 2014 by Marijn Haverbeke <marijnh@gmail.com> and others.
+* CodeMirror (included in the samples) - Copyright (C) 2014 by Marijn Haverbeke <marijnh@gmail.com> and others.
 
 The following libraries are included in CKEditor under the SIL Open Font License, Version 1.1 (see Appendix E):
 
-* Font Awesome (included in toolbar configurator) - Copyright (C) 2012 by Dave Gandy.
+* Font Awesome (included in the toolbar configurator) - Copyright (C) 2012 by Dave Gandy.
 
 The following libraries are included CKEditor under the BSD-3 License (see Appendix F):
 
