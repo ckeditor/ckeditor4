@@ -84,15 +84,34 @@
 			noNotifications: true,
 			callback: function() {
 					// DOM might be invalidated in the meantime, so find the anchor again.
-				var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' ),
-					range = editor.createRange();
+				var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' );
 
 				// Anchor might be removed in the meantime.
 				if ( anchor ) {
-					range.setStartAt( anchor, CKEDITOR.POSITION_BEFORE_START );
-					range.setEndAt( anchor, CKEDITOR.POSITION_AFTER_END );
+					var selection = editor.getSelection(),
+						insertRange = editor.createRange(),
+						range = selection.getRanges()[ 0 ];
 
-					editor.editable().insertElementIntoRange( wrapper, range );
+					insertRange.setStartAt( anchor, CKEDITOR.POSITION_BEFORE_START );
+					insertRange.setEndAt( anchor, CKEDITOR.POSITION_AFTER_END );
+
+					// Check if whole selection or part of it is inside anchor.
+					// If so, mark that selection as invalid. (#13429)
+					if ( anchor.contains( range.startContainer ) || anchor.equals( range.startContainer ) || anchor.equals( range.endContainer ) || anchor.contains( range.endContainer ) ) {
+						range = null;
+					}
+					// If somehow range is set on anchor parent instead of anchor or text node,
+					// The range will be invalid after insertElement (happens on IE8). (#13429)
+					else if ( range.startContainer.equals( anchor.getParent() ) || range.endContainer.equals( anchor.getParent() ) ) {
+						range = null;
+					}
+
+					editor.editable().insertElement( wrapper, insertRange );
+
+					// If the selection was valid, rebuild it after inserting embedded content. (#13429)
+					if ( range != null ) {
+						selection.selectRanges( [ range ] );
+					}
 				}
 
 				notification.hide();

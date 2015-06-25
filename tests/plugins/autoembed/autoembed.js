@@ -375,5 +375,99 @@ bender.test( {
 			editor.execCommand( 'paste', 'https://foo.bar/g/notification/test/1' );
 			wait();
 		} );
+	},
+
+	// #13429.
+	'test selection after auto embedding - empty editor': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			pastedText = 'https://foo.bar/g/200/382';
+
+		bot.setData( '', function() {
+			editor.focus();
+			editor.execCommand( 'paste', pastedText );
+
+			wait( function() {
+				// Check if there is exactly one additional <p> created after the widget.
+				assert.areSame( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>\u00A0</p>', editor.getData() );
+				var p = editor.editable().findOne( 'p' );
+
+				// Check if caret is inside newly created <p>.
+				var range = editor.getSelection().getRanges()[ 0 ];
+				assert.isTrue( range.collapsed, 'selection after paste is not collapsed' );
+				assert.isTrue( range.startContainer.equals( p ), 'selection in wrong element' );
+			}, 200 );
+		} );
+	},
+
+	// #13429.
+	'test selection after auto embedding - inside content': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			pastedText = 'https://foo.bar/g/200/382';
+
+		bot.setData( '<p>foo</p><p>bar</p>', function() {
+			editor.focus();
+
+			// Set caret at the end of the first <p>.
+			var range = editor.createRange();
+			range.setStart( this.editor.editable().findOne( 'p' ).getFirst(), 3 );
+			range.collapse();
+			editor.getSelection().selectRanges( [ range ] );
+
+			editor.execCommand( 'paste', pastedText );
+
+			wait( function() {
+				// Get the second <p>.
+				var p = editor.editable().find( 'p' ).getItem( 1 );
+				var range = editor.getSelection().getRanges()[ 0 ];
+				var container = range.startContainer;
+
+				// Check if caret is inside second <p>.
+				// Different browsers set startContainer differently,
+				// so we check if it is in <p> or in a text node inside that <p>.
+				assert.isTrue( range.collapsed, 'selection after paste is not collapsed' );
+				assert.isTrue( container.equals( p ) || container.type == CKEDITOR.NODE_TEXT && container.getParent().equals( p ), 'selection in wrong element' );
+			}, 200 );
+		} );
+	},
+
+	// #13429.
+	'test selection after auto embedding - content and selection change before insert': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			pastedText = 'https://foo.bar/g/200/382';
+
+		bot.setData( '', function() {
+			editor.focus();
+			editor.execCommand( 'paste', pastedText );
+
+			// After link has been pasted, "type" some text.
+			editor.editable().insertHtmlIntoRange( 'foo', editor.getSelection().getRanges()[ 0 ] );
+
+			// After link has been pasted, make a selection on that text.
+			var range = editor.createRange();
+			var textNode = this.editor.editable().findOne( 'a' ).getNext();
+
+			range.setStart( textNode, 0 );
+			range.setEnd( textNode, 2 );
+			editor.getSelection().selectRanges( [ range ] );
+
+			// We have to refresh the range, because the range we selected in line above
+			// might differ from the range that was set by the browser (IE8).
+			range = editor.getSelection().getRanges()[ 0 ];
+
+			wait( function() {
+				// Check if selection has been maintained.
+				var newRange = editor.getSelection().getRanges()[ 0 ];
+
+				var areSame = range.startContainer.equals( newRange.startContainer ) &&
+						range.endContainer.equals( newRange.endContainer ) &&
+						range.startOffset == newRange.startOffset &&
+						range.endOffset == newRange.endOffset;
+
+				assert.isTrue( areSame, 'selection before paste is same' );
+			}, 200 );
+		} );
 	}
 } );
