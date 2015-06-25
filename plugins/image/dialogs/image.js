@@ -1024,20 +1024,13 @@
 					hidden: true,
 					filebrowser: 'uploadButton',
 					label: editor.lang.image.upload,
-					elements: [ {
-						type: 'file',
-						id: 'upload',
-						label: editor.lang.image.btnUpload,
-						style: 'height:40px',
-						size: 38
-					},
-					{
-						type: 'fileButton',
-						id: 'uploadButton',
-						filebrowser: 'info:txtUrl',
-						label: editor.lang.image.btnUpload,
-						'for': [ 'Upload', 'upload' ]
-					} ]
+                    elements: [
+                    {
+                        type: 'html',
+                        id: 'uploadImageButton',
+                        html: "<div><input type='file' id='fileUploader' class='uploadFile btn btn-primary' accept='image/*'></input></div><div><div class='btn btn-primary disabled' id='sendFile'>Send to Server</div><div class='uploadProgress'></div></div>"
+                    }
+                    ]
 				},
 				{
 					id: 'advanced',
