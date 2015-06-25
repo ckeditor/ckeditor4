@@ -20,11 +20,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 
 			{
 			name: 'Editor Dialog',
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. ' +
-				'For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. ' +
-				'Then move to next tab with TAB OR RIGTH ARROW. ' +
-				'Move to previous tab with SHIFT + TAB or LEFT ARROW. ' +
-				'Press SPACE or ENTER to select the tab page.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. ' +
+				'When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. ' +
+				'With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'
 		},
 
 			{
