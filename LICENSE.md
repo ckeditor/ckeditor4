@@ -37,7 +37,7 @@ done by developers outside of CKSource with their express permission.
 
 The following libraries are included in CKEditor under the MIT license (see Appendix D):
 
-* CKSource Samples Framework (included in the samples) - Copyright (c) 2003-2015, CKSource - Frederico Knabben.
+* CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
 * PicoModal (included in `samples/js/sf.js`) - Copyright (c) 2012 James Frasca.
 * CodeMirror (included in the samples) - Copyright (C) 2014 by Marijn Haverbeke <marijnh@gmail.com> and others.
 
@@ -45,14 +45,14 @@ The following libraries are included in CKEditor under the SIL Open Font License
 
 * Font Awesome (included in the toolbar configurator) - Copyright (C) 2012 by Dave Gandy.
 
-The following libraries are included CKEditor under the BSD-3 License (see Appendix F):
+The following libraries are included in CKEditor under the BSD-3 License (see Appendix F):
 
 * highlight.js (included in the `codesnippet` plugin) - Copyright (c) 2006, Ivan Sagalaev.
 * YUI Library (included in the `uicolor` plugin) - Copyright (c) 2009, Yahoo! Inc.
 
 (Ignore this line: %REMOVE_START%)
 
-The following libraries are included only in development version of CKEditor under the MIT license (see Appendix D):
+The following libraries are included only in the development version of CKEditor under the MIT license (see Appendix D):
 
 * CKBuilder - Copyright (c) 2012-2015, CKSource - Frederico Knabben.
 * CKLangTool - Copyright (c) 2012-2015, CKSource - Frederico Knabben.
@@ -75,11 +75,11 @@ The following libraries are included only in development version of CKEditor und
 * grunt-jsduck - Copyright (c) 2012 Dmitry Pashkevich, contributors.
 * grunt-githooks - Copyright (c) 2013 Romaric Pascal.
 
-The following libraries are included only in development version of CKEditor under the BSD-3 License (see Appendix F):
+The following libraries are included only in the development version of CKEditor under the BSD-3 License (see Appendix F):
 
 * ShellJS - Copyright (c) 2012, Artur Adib <aadib@mozilla.com>.
 
-The following libraries are included only in development version of CKEditor under the Apache License (see Appendix G):
+The following libraries are included only in the development version of CKEditor under the Apache License (see Appendix G):
 
 * Less.js - Copyright (c) 2009-2014 Alexis Sellier & The Core Less Team.
 

@@ -27,7 +27,7 @@
 			/**
 			 * Event fired when the {@link CKEDITOR.fileTools.fileLoader file loader} should send XHR. If the event is not
 			 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, the default request
-			 * will be sent. To learn more see [Uploading Dropped or Pasted Files Guide](#!/guide/dev_file_upload).
+			 * will be sent. To learn more refer to the [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article.
 			 *
 			 * @since 4.5
 			 * @event fileUploadRequest
@@ -52,8 +52,8 @@
 			/**
 			 * Event fired when the {CKEDITOR.fileTools.fileLoader file upload} response is received and needs to be parsed.
 			 * If the event is not {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled},
-			 * the default response handler will be used. To learn more see
-			 * [Uploading Dropped or Pasted Files Guide](#!/guide/dev_file_upload).
+			 * the default response handler will be used. To learn more refer to the
+			 * [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article.
 			 *
 			 * @since 4.5
 			 * @event fileUploadResponse
