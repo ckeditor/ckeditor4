@@ -1421,6 +1421,9 @@
 		 * a widget has been focused by the {@link #method-focus} method or a selection was moved
 		 * out of the widget.
 		 *
+		 * This is a low level method which is not integrated with e.g. the undo manager.
+		 * Use the {@link #focus} method instead.
+		 *
 		 * @param {Boolean} selected Whether to select or deselect this widget.
 		 * @chainable
 		 */
@@ -1434,6 +1437,9 @@
 		 * Changes the widget's select state. This method is executed automatically after
 		 * a widget has been selected by the {@link #method-focus} method or the selection
 		 * was moved out of widget.
+		 *
+		 * This is a low level method which is not integrated with e.g. the undo manager.
+		 * Use the {@link #focus} method instead or simply change a selection.
 		 *
 		 * @param {Boolean} selected Whether to select or deselect this widget.
 		 * @chainable
