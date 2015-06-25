@@ -61,10 +61,10 @@ The following libraries are included only in the development version of CKEditor
 * Tmp - Copyright (c) 2014 KARASZI István.
 * Mkdirp - Copyright 2010 James Halliday (mail@substack.net).
 * Bender.js - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
-* benderjs-coverage - Copyright (c) 2014, CKSource - Frederico Knabben.
-* benderjs-jquery - Copyright (c) 2014, CKSource - Frederico Knabben.
-* benderjs-sinon - Copyright (c) 2014, CKSource - Frederico Knabben.
-* benderjs-yui - Copyright (c) 2014, CKSource - Frederico Knabben.
+* benderjs-coverage - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
+* benderjs-jquery - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
+* benderjs-sinon - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
+* benderjs-yui - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
 * Grunt - Copyright (c) 2015 "Cowboy" Ben Alman.
 * grunt-contrib-imagemin - Copyright (c) 2014 Sindre Sorhus, contributors.
 * grunt-jscs - Copyright (c) 2014 Gustavo Henke, contributors.
