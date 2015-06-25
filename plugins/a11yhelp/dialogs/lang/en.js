@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 			{
 			name: 'Editor Toolbar',
 			legend: 'Press ${toolbarFocus} to navigate to the toolbar. ' +
-				'Move to the next and previous toolbar group with TAB and SHIFT-TAB. ' +
+				'Move to the next and previous toolbar group with TAB and SHIFT+TAB. ' +
 				'Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. ' +
 				'Press SPACE or ENTER to activate the toolbar button.'
 		},
@@ -40,7 +40,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 			{
 			name: 'Editor List Box',
 			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. ' +
-				'Move to previous list item with SHIFT + TAB or UP ARROW. ' +
+				'Move to previous list item with SHIFT+TAB or UP ARROW. ' +
 				'Press SPACE or ENTER to select the list option. ' +
 				'Press ESC to close the list-box.'
 		},
@@ -49,7 +49,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 			name: 'Editor Element Path Bar',
 			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. ' +
 				'Move to next element button with TAB or RIGHT ARROW. ' +
-				'Move to previous button with  SHIFT+TAB or LEFT ARROW. ' +
+				'Move to previous button with SHIFT+TAB or LEFT ARROW. ' +
 				'Press SPACE or ENTER to select the element in editor.'
 		}
 		]
