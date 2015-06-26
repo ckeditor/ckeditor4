@@ -359,6 +359,11 @@
 	// With removeEmptyBlock = true.
 	addTests( {
 		'block': [
+			[
+				'<p>[<span>foo</span>]<span data-cke-bookmark="1">bar</span></p>',
+				'<span>foo</span>',
+				'<p><span data-cke-bookmark="1">bar</span></p>'
+			],
 			[ '<p>a</p>[<p>b</p>]<p>c</p>',											'<p>b</p>',														'<p>a</p><p>c</p>' ],
 			[ '<p>a</p><p>[b]</p><p>c</p>',											'b',															'<p>a</p><p>c</p>' ],
 			[ '<p>a</p>[<p>b</p>]',													'<p>b</p>',														'<p>a</p>' ],
