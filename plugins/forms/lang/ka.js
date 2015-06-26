@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ka', {
 		checkboxTitle: 'მონიშვნის ღილაკის (Checkbox) პარამეტრები',
 		radioTitle: 'ასარჩევი ღილაკის (Radio) პარამეტრები',
 		value: 'ტექსტი',
-		selected: 'არჩეული'
+		selected: 'არჩეული',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'ფორმის პარამეტრები',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ka', {
 		size: 'ზომა',
 		lines: 'ხაზები',
 		chkMulti: 'მრავლობითი არჩევანის საშუალება',
+		required: 'Required', // MISSING
 		opText: 'ტექსტი',
 		opValue: 'მნიშვნელობა',
 		btnAdd: 'დამატება',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ka', {
 		value: 'მნიშვნელობა',
 		charWidth: 'სიმბოლოს ზომა',
 		maxChars: 'ასოების მაქსიმალური ოდენობა',
+		required: 'Required', // MISSING
 		type: 'ტიპი',
 		typeText: 'ტექსტი',
 		typePass: 'პაროლი',

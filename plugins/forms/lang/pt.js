@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'pt', {
 		checkboxTitle: 'Propriedades da Caixa de Verificação',
 		radioTitle: 'Propriedades do Botão de Opção',
 		value: 'Valor',
-		selected: 'Seleccionado'
+		selected: 'Seleccionado',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Propriedades do Formulário',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pt', {
 		size: 'Tamanho',
 		lines: 'linhas',
 		chkMulti: 'Permitir selecções múltiplas',
+		required: 'Required', // MISSING
 		opText: 'Texto',
 		opValue: 'Valor',
 		btnAdd: 'Adicionar',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pt', {
 		value: 'Valor',
 		charWidth: 'Tamanho do caracter',
 		maxChars: 'Nr. Máximo de Caracteres',
+		required: 'Required', // MISSING
 		type: 'Tipo',
 		typeText: 'Texto',
 		typePass: 'Senha',

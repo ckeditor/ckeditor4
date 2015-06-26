@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -20,10 +20,22 @@
 		ltRegex = /</g,
 		quoteRegex = /"/g,
 
-		ampEscRegex = /&amp;/g,
-		gtEscRegex = /&gt;/g,
-		ltEscRegex = /&lt;/g,
-		quoteEscRegex = /&quot;/g;
+		allEscRegex = /&(lt|gt|amp|quot|nbsp|shy|#\d{1,5});/g,
+		namedEntities = {
+			lt: '<',
+			gt: '>',
+			amp: '&',
+			quot: '"',
+			nbsp: '\u00a0',
+			shy: '\u00ad'
+		},
+		allEscDecode = function( match, code ) {
+			if ( code[ 0 ] == '#' ) {
+				return String.fromCharCode( parseInt( code.slice( 1 ), 10 ) );
+			} else {
+				return namedEntities[ code ];
+			}
+		};
 
 	CKEDITOR.on( 'reset', function() {
 		functions = [];
@@ -69,7 +81,7 @@
 		},
 
 		/**
-		 * Finds index of the first element in array for which the `compareFunction` returns `true`.
+		 * Finds the index of the first element in an array for which the `compareFunction` returns `true`.
 		 *
 		 *		CKEDITOR.tools.getIndex( [ 1, 2, 4, 3, 5 ], function( el ) {
 		 *			return el >= 3;
@@ -354,19 +366,32 @@
 		 * @returns {String} The encoded string.
 		 */
 		htmlEncode: function( text ) {
+			// Backwards compatibility - accept also non-string values (casting is done below).
+			// Since 4.4.8 we return empty string for null and undefined because these values make no sense.
+			if ( text === undefined || text === null ) {
+				return '';
+			}
+
 			return String( text ).replace( ampRegex, '&amp;' ).replace( gtRegex, '&gt;' ).replace( ltRegex, '&lt;' );
 		},
 
 		/**
-		 * Decodes HTML entities.
+		 * Decodes HTML entities that browsers tend to encode when used in text nodes.
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ) ); // '<a & b >'
+		 *
+		 * Read more about chosen entities in the [research](http://dev.ckeditor.com/ticket/13105#comment:8).
 		 *
 		 * @param {String} The string to be decoded.
 		 * @returns {String} The decoded string.
 		 */
 		htmlDecode: function( text ) {
-			return text.replace( ampEscRegex, '&' ).replace( gtEscRegex, '>' ).replace( ltEscRegex, '<' );
+			// See:
+			// * http://dev.ckeditor.com/ticket/13105#comment:8 and comment:9,
+			// * http://jsperf.com/wth-is-going-on-with-jsperf JSPerf has some serious problems, but you can observe
+			// that combined regexp tends to be quicker (except on V8). It will also not be prone to fail on '&amp;lt;'
+			// (see http://dev.ckeditor.com/ticket/13105#DXWTF:CKEDITOR.tools.htmlEnDecodeAttr).
+			return text.replace( allEscRegex, allEscDecode );
 		},
 
 		/**
@@ -378,29 +403,30 @@
 		 * @returns {String} The encoded value.
 		 */
 		htmlEncodeAttr: function( text ) {
-			return text.replace( quoteRegex, '&quot;' ).replace( ltRegex, '&lt;' ).replace( gtRegex, '&gt;' );
+			return CKEDITOR.tools.htmlEncode( text ).replace( quoteRegex, '&quot;' );
 		},
 
 		/**
-		 * Replace HTML entities previously encoded by
-		 * {@link #htmlEncodeAttr htmlEncodeAttr} back to their plain character
-		 * representation.
+		 * Decodes HTML entities that browsers tend to encode when used in attributes.
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&lt;a &quot; b&gt;' ) ); // '<a " b>'
+		 *
+		 * Since CKEditor 4.5 this method simply executes {@link #htmlDecode} which covers
+		 * all necessary entities.
 		 *
 		 * @param {String} text The text to be decoded.
 		 * @returns {String} The decoded text.
 		 */
 		htmlDecodeAttr: function( text ) {
-			return text.replace( quoteEscRegex, '"' ).replace( ltEscRegex, '<' ).replace( gtEscRegex, '>' );
+			return CKEDITOR.tools.htmlDecode( text );
 		},
 
 		/**
-		 * Transforms text to the valid HTML: creates paragraphs, replaces tabs with no breaking spaces etc..
+		 * Transforms text to valid HTML: creates paragraphs, replaces tabs with non-breaking spaces etc.
 		 *
 		 * @since 4.5
 		 * @param {String} text Text to transform.
-		 * @param {Number} enterMode Editors {@link CKEDITOR.config#enterMode enter mode}.
+		 * @param {Number} enterMode Editor {@link CKEDITOR.config#enterMode Enter mode}.
 		 * @returns {String} HTML generated from the text.
 		 */
 		transformPlainTextToHtml: function( text, enterMode ) {
@@ -477,8 +503,8 @@
 
 		/**
 		 * Gets a universally unique ID. It returns a random string
-		 * up to ISO/IEC 11578:1996, without dashes, with the "e" prefix to
-		 * make sure that ID does not starts with number.
+		 * compliant with ISO/IEC 11578:1996, without dashes, with the "e" prefix to
+		 * make sure that the ID does not start with a number.
 		 *
 		 * @returns {String} A global unique ID.
 		 */
@@ -518,14 +544,14 @@
 		},
 
 		/**
-		 * Executes a function after specified delay.
+		 * Executes a function after a specified delay.
 		 *
 		 *		CKEDITOR.tools.setTimeout( function() {
 		 *			alert( 'Executed after 2 seconds' );
 		 *		}, 2000 );
 		 *
 		 * @param {Function} func The function to be executed.
-		 * @param {Number} [milliseconds=0] The amount of time (in millisecods) to wait
+		 * @param {Number} [milliseconds=0] The amount of time (in milliseconds) to wait
 		 * to fire the function execution.
 		 * @param {Object} [scope=window] The object to store the function execution scope
 		 * (the `this` object).

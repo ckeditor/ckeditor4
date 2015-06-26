@@ -309,16 +309,23 @@
 						this.linkElement = link;
 						this.linkEditMode = true;
 
+						// If there is an existing link, by default keep it (true).
+						// It will be removed if certain conditions are met and Link tab is enabled. (#13351)
+						this.addLink = true;
+
 						// Look for Image element.
 						var linkChildren = link.getChildren();
 						if ( linkChildren.count() == 1 ) {
-							var childTagName = linkChildren.getItem( 0 ).getName();
-							if ( childTagName == 'img' || childTagName == 'input' ) {
-								this.imageElement = linkChildren.getItem( 0 );
-								if ( this.imageElement.getName() == 'img' )
-									this.imageEditMode = 'img';
-								else if ( this.imageElement.getName() == 'input' )
-									this.imageEditMode = 'input';
+							var childTag = linkChildren.getItem( 0 );
+
+							if ( childTag.type == CKEDITOR.NODE_ELEMENT ) {
+								if ( childTag.is( 'img' ) || childTag.is( 'input' ) ) {
+									this.imageElement = linkChildren.getItem( 0 );
+									if ( this.imageElement.is( 'img' ) )
+										this.imageEditMode = 'img';
+									else if ( this.imageElement.is( 'input' ) )
+										this.imageEditMode = 'input';
+								}
 							}
 						}
 						// Fill out all fields.
@@ -346,8 +353,6 @@
 
 						// Fill out all fields.
 						this.setupContent( IMAGE, this.imageElement );
-					} else {
-						this.imageElement = editor.document.createElement( 'img' );
 					}
 
 					// Refresh LockRatio button
@@ -415,12 +420,21 @@
 					// Insert a new Image.
 					if ( !this.imageEditMode ) {
 						if ( this.addLink ) {
-							//Insert a new Link.
 							if ( !this.linkEditMode ) {
+								// Insert a new link.
 								editor.insertElement( this.linkElement );
 								this.linkElement.append( this.imageElement, false );
-							} else //Link already exists, image not.
-							editor.insertElement( this.imageElement );
+							} else {
+								// We already have a link in editor.
+								if ( this.linkElement.equals( editor.getSelection().getSelectedElement() ) ) {
+									// If the link is selected outside, replace it's content rather than the link itself. ([<a>foo</a>])
+									this.linkElement.setHtml( '' );
+									this.linkElement.append( this.imageElement, false );
+								} else {
+									// Only inside of the link is selected, so replace it with image. (<a>[foo]</a>, <a>[f]oo</a>)
+									editor.insertElement( this.imageElement );
+								}
+							}
 						} else {
 							editor.insertElement( this.imageElement );
 						}
@@ -991,6 +1005,8 @@
 
 									if ( this.getValue() || !editor.config.image_removeLinkByEmptyURL )
 										this.getDialog().addLink = true;
+									else
+										this.getDialog().addLink = false;
 								}
 							}
 						}

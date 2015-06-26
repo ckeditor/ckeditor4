@@ -10,7 +10,7 @@ bender.editor = {
 };
 
 var protectedMailLink = '<a href=\"javascript:void(location.href=\'mailto:\'+String.fromCharCode(106,111,98,64,99,107,115,111,117,114,99,101,46,99,111,109)' +
-	'+\'?subject=Job%20Request&body=I\\\'m%20looking%20for%20the%20AJD%20position.\')\">AJD</a>';
+	'+\'?subject=Job%20Request&amp;body=I\\\'m%20looking%20for%20the%20AJD%20position.\')\">AJD</a>';
 
 bender.test( {
 	'test created protected mail link': function() {

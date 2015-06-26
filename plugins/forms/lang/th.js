@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'th', {
 		checkboxTitle: 'คุณสมบัติของ เช็คบ๊อก',
 		radioTitle: 'คุณสมบัติของ เรดิโอบัตตอน',
 		value: 'ค่าตัวแปร',
-		selected: 'เลือกเป็นค่าเริ่มต้น'
+		selected: 'เลือกเป็นค่าเริ่มต้น',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'คุณสมบัติของ แบบฟอร์ม',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'th', {
 		size: 'ขนาด',
 		lines: 'บรรทัด',
 		chkMulti: 'เลือกหลายค่าได้',
+		required: 'Required', // MISSING
 		opText: 'ข้อความ',
 		opValue: 'ค่าตัวแปร',
 		btnAdd: 'เพิ่ม',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'th', {
 		value: 'ค่าตัวแปร',
 		charWidth: 'ความกว้าง',
 		maxChars: 'จำนวนตัวอักษรสูงสุด',
+		required: 'Required', // MISSING
 		type: 'ชนิด',
 		typeText: 'ข้อความ',
 		typePass: 'รหัสผ่าน',

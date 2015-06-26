@@ -20,7 +20,6 @@ div.ckconsole {
 	z-index: 99999;
 	opacity: 0.8;
 	transition: opacity 0.5s;
-	-webkit-transition: opacity 0.5s;
 }
 
 div.ckconsole_side_left {
@@ -66,7 +65,6 @@ div.ckconsole:hover {
 	background: #EEE;
 	border-top: solid 2px #CCC;
 	transition: background 0.1s;
-	-webkit-transition: background 0.1s;
 }
 .ckconsole .ckconsole_panel_header:before {
 	content: '\25bE\00a0'; /* small down triangle arrow + nbsp */
@@ -110,7 +108,6 @@ div.ckconsole:hover {
 	border-bottom: solid 1px #EEE;
 	background: rgba(0,0,0,0);
 	transition: background 1s;
-	-webkit-transition: background 1s;
 }
 
 .ckconsole .ckconsole_fresh_log_item {

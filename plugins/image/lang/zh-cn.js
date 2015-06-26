@@ -3,7 +3,6 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'zh-cn', {
-	alertUrl: '请输入图像地址',
 	alt: '替换文本',
 	border: '边框大小',
 	btnUpload: '上传到服务器',

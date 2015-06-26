@@ -618,7 +618,7 @@ var testsForMultipleEditor = {
 			assert.isTrue( listener.calledOnce );
 		},
 
-		'test fixIESplittedNodes': function() {
+		'test fix split nodes': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
 				dragRange = editor.createRange(),
@@ -643,7 +643,7 @@ var testsForMultipleEditor = {
 			dropRange.collapse( true );
 
 			// Fix nodes.
-			CKEDITOR.plugins.clipboard.fixIESplitNodesAfterDrop( dragRange, dropRange );
+			CKEDITOR.plugins.clipboard.fixSplitNodesAfterDrop( dragRange, dropRange, 1, 1 );
 
 			// Asserts.
 			assert.areSame( 1, p.getChildCount() );
@@ -651,6 +651,85 @@ var testsForMultipleEditor = {
 			assert.isInnerHtmlMatching( '<p class="p">lorem ipsum^ sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 			dropRange.select();
 			assert.isInnerHtmlMatching( '<p class="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
+		},
+
+		'test fix split nodes 2 (#13011)': function() {
+			// <p id="p"> " f o o " " b a r " <img /> </p>
+			//                     ^         [       ]
+			//                     drop      drag
+
+			var editor = this.editors.framed,
+				bot = this.editorBots[ editor.name ],
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
+				p, img;
+
+			// Create DOM
+			bot.setHtmlWithSelection( '<p id="p"></p>' );
+			p = editor.document.getById( 'p' );
+
+			p.appendText( 'foo' );
+			p.appendText( 'bar' );
+
+			img = new CKEDITOR.dom.element( 'img' );
+			p.append( img );
+
+			dropRange.setStart( p, 1 );
+			dropRange.collapse( true );
+
+			dragRange.setStart( p, 2 );
+			dragRange.setEnd( p, 3 );
+
+			assert.areSame( 3, p.getChildCount() );
+
+			CKEDITOR.plugins.clipboard.fixSplitNodesAfterDrop( dragRange, dropRange, 2, 2 );
+
+			assert.areSame( 2, p.getChildCount() );
+			assert.areSame( 'foobar', p.getChild( 0 ).getText() );
+		},
+
+		'test fix split nodes 3': function() {
+			// In this test nothing should change because drop range is not between two text nodes.
+			// <p> " f o o " <img /> " b a r "  </p>
+			//              ^           { }
+			//              drop        drag
+
+			var editor = this.editors.framed,
+				bot = this.editorBots[ editor.name ],
+				dragRange = editor.createRange(),
+				dropRange = editor.createRange(),
+				p, text2, img;
+
+			// Create DOM
+			bot.setHtmlWithSelection( '<p class="p">foo</p>' );
+			p = editor.editable().findOne( '.p' );
+
+			// Set drag range.
+			dragRange.setStart( p.getChild( 0 ), 11 );
+			dragRange.collapse( true );
+
+			img = new CKEDITOR.dom.element( 'img' );
+			img.insertAfter( p.getChild( 0 ) );
+
+			text2 = new CKEDITOR.dom.text( 'bar' );
+			text2.insertAfter( img );
+
+			// Set drop range.
+			dropRange.setStart( p, 1 );
+			dropRange.collapse( true );
+
+			dragRange.setStart( text2, 1 );
+			dragRange.setEnd( text2, 2 );
+
+			// Fix nodes.
+			CKEDITOR.plugins.clipboard.fixSplitNodesAfterDrop( dragRange, dropRange, 1, 1 );
+
+			// Nothing changes.
+			assert.areSame( 3, p.getChildCount() );
+
+			assert.isTrue( dropRange.collapsed );
+			assert.isTrue( dropRange.startContainer.equals( p ) );
+			assert.areSame( 1, dropRange.startOffset );
 		},
 
 		'test isDropRangeAffectedByDragRange 1': function() {

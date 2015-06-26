@@ -2,6 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, table, undo, indent, justify, clipboard, floatingspace, basicstyles, image2, codesnippet, link, elementspath, blockquote, format, htmlwriter, list, maximize
 
+Add some widgets and nested widgets (use 'empty' icon for that).
 Test block widgets features:
  - create,
  - edit,
@@ -10,4 +11,5 @@ Test block widgets features:
  - cut/copy and paste,
  - editing in nested editable,
  - remove,
- - undo/redo.
+ - undo/redo,
+ - switch multiple times between source and wysiwyg mode.

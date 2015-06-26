@@ -70,9 +70,7 @@
 		var regex = [],
 			entities = {
 				nbsp: '\u00A0', // IE | FF
-				shy: '\u00AD', // IE
-				gt: '\u003E', // IE | FF |   --   | Opera
-				lt: '\u003C' // IE | FF | Safari | Opera
+				shy: '\u00AD' // IE
 			};
 
 		for ( var entity in entities )
@@ -146,7 +144,12 @@
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
 						} else if ( attributesMap[ part ] ) {
-							attribs[attributesMap[part]] = optionPart;
+							// All the input BBCode is encoded at the beginning so <> characters in the textual part
+							// are later correctly preserved in HTML. However... it affects parts that now become
+							// attributes, so we need to revert that. As a matter of fact, the content should not be
+							// encoded at the beginning, but only later when creating text nodes (encoding should be more precise)
+							// but it's too late not for such changes.
+							attribs[ attributesMap[ part ] ] = CKEDITOR.tools.htmlDecode( optionPart );
 						}
 					}
 
@@ -489,10 +492,6 @@
 
 			attribute: function( name, val ) {
 				if ( name == 'option' ) {
-					// Force simply ampersand in attributes.
-					if ( typeof val == 'string' )
-						val = val.replace( /&amp;/g, '&' );
-
 					this.write( '=', val );
 				}
 			},

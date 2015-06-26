@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1532,7 +1532,7 @@
  * A CSS class applied to the `<figure>` element of a captioned image.
  *
  *		// Changes the class to "captionedImage".
- *		CKEDITOR.config.image2_captionedClass = 'captionedImage';
+ *		config.image2_captionedClass = 'captionedImage';
  *
  * @cfg {String} [image2_captionedClass='image']
  * @member CKEDITOR.config
@@ -1540,9 +1540,12 @@
 CKEDITOR.config.image2_captionedClass = 'image';
 
 /**
- * Determine whether dimensions inputs should be automatically filled when image src changes in image2 dialog.
+ * Determines whether dimension inputs should be automatically filled when the image URL changes in the Enhanced Image
+ * plugin dialog window.
  *
- * @since 4.5.0
+ *		config.image2_prefillDimensions = false;
+ *
+ * @since 4.5
  * @cfg {Boolean} [image2_prefillDimensions=true]
  * @member CKEDITOR.config
  */
@@ -1550,7 +1553,9 @@ CKEDITOR.config.image2_captionedClass = 'image';
 /**
  * Disables the image resizer. By default the resizer is enabled.
  *
- * @since 4.5.0
+ *		config.image2_disableResizer = true;
+ *
+ * @since 4.5
  * @cfg {Boolean} [image2_disableResizer=false]
  * @member CKEDITOR.config
  */

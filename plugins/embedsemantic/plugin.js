@@ -25,6 +25,7 @@
 				button: editor.lang.embedbase.button,
 				allowedContent: 'oembed',
 				requiredContent: 'oembed',
+				styleableElements: 'oembed',
 				// Share config with the embed plugin.
 				providerUrl: new CKEDITOR.template(
 					editor.config.embed_provider ||

@@ -264,15 +264,15 @@
 			 * for this purpose.
 			 *
 			 * This method will insert HTML into the current selection or a given range. It also creates an undo snapshot,
-			 * scroll the viewport to the insertion and select range next to the inserted content.
+			 * scrolls the viewport to the insertion and selects the range next to the inserted content.
 			 * If you want to insert HTML without additional operations use {@link #method-insertHtmlIntoRange}.
 			 *
 			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
 			 * @param {String} data The HTML to be inserted.
 			 * @param {String} [mode='html'] See {@link CKEDITOR.editor#method-insertHtml}'s param.
-			 * @param {CKEDITOR.dom.range} [range] If specified the HTML will be inserted into the range
-			 * instead of into the selection. The selection will be placed at the end of insertion (like in the normal case).
+			 * @param {CKEDITOR.dom.range} [range] If specified, the HTML will be inserted into the range
+			 * instead of into the selection. The selection will be placed at the end of the insertion (like in the normal case).
 			 * Introduced in CKEditor 4.5.
 			 */
 			insertHtml: function( data, mode, range ) {
@@ -302,8 +302,8 @@
 			/**
 			 * Inserts HTML into the position in the editor determined by the range.
 			 *
-			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor select inserted
-			 * HTML. If you want to do it use {@link #method-insertHtml}.
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor selects inserted
+			 * HTML. If you want to do it, use {@link #method-insertHtml}.
 			 *
 			 * Fires the {@link CKEDITOR.editor#event-afterInsertHtml} event.
 			 *
@@ -325,12 +325,12 @@
 			 * See the {@link CKEDITOR.editor#method-insertElement} method which is the editor-level API
 			 * for this purpose.
 			 *
-			 * This method will insert element into the current selection or a given range. It also creates an undo
-			 * snapshot, scroll the viewport to the insertion and select range next to the inserted content.
-			 * If you want to insert element without additional operations use {@link #method-insertElementIntoRange}.
+			 * This method will insert the element into the current selection or a given range. It also creates an undo
+			 * snapshot, scrolls the viewport to the insertion and selects the range next to the inserted content.
+			 * If you want to insert an element without additional operations use {@link #method-insertElementIntoRange}.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to insert.
-			 * @param {CKEDITOR.dom.range} [range] If specified the element will be inserted into the range
+			 * @param {CKEDITOR.dom.range} [range] If specified, the element will be inserted into the range
 			 * instead of into the selection.
 			 */
 			insertElement: function( element, range ) {
@@ -384,7 +384,7 @@
 			},
 
 			/**
-			 * Alias to {@link #insertElement}.
+			 * Alias for {@link #insertElement}.
 			 *
 			 * @deprecated
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
@@ -396,12 +396,12 @@
 			/**
 			 * Inserts an element into the position in the editor determined by the range.
 			 *
-			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor select inserted
-			 * element. If you want to do it use the {@link #method-insertElement} method.
+			 * **Note:** This method does not {@link CKEDITOR.editor#saveSnapshot save undo snapshots} nor selects the inserted
+			 * element. If you want to do it, use the {@link #method-insertElement} method.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to be inserted.
 			 * @param {CKEDITOR.dom.range} range The range as a place of insertion.
-			 * @returns {Boolean} Informs whether insertion was successful.
+			 * @returns {Boolean} Informs whether the insertion was successful.
 			 */
 			insertElementIntoRange: function( element, range ) {
 				var editor = this.editor,
@@ -483,7 +483,7 @@
 			},
 
 			/**
-			 * Change the read-only state on this editable.
+			 * Changes the read-only state of this editable.
 			 *
 			 * @param {Boolean} isReadOnly
 			 */
@@ -492,7 +492,7 @@
 			},
 
 			/**
-			 * Detach this editable object from the DOM (remove classes, listeners, etc.)
+			 * Detaches this editable object from the DOM (removes classes, listeners, etc.)
 			 */
 			detach: function() {
 				// Cleanup the element.
@@ -621,7 +621,7 @@
 			},
 
 			/**
-			 * A base of the {@link CKEDITOR.editor#getSelectedHtml} method.
+			 * The base of the {@link CKEDITOR.editor#getSelectedHtml} method.
 			 *
 			 * @since 4.5
 			 * @method getHtmlFromRange
@@ -653,16 +653,16 @@
 			},
 
 			/**
-			 * A base of the {@link CKEDITOR.editor#extractSelectedHtml} method.
+			 * The base of the {@link CKEDITOR.editor#extractSelectedHtml} method.
 			 *
-			 * **Note:** The range is modified so it matches desired selection after extraction.
-			 * But the selection is not made.
+			 * **Note:** The range is modified so it matches the desired selection after extraction
+			 * even though the selection is not made.
 			 *
 			 * @since 4.5
 			 * @param {CKEDITOR.dom.range} range
 			 * @param {Boolean} [removeEmptyBlock=false] See {@link CKEDITOR.editor#extractSelectedHtml}'s parameter.
 			 * Note that the range will not be modified if this parameter is set to `true`.
-			 * @returns {CKEDITOR.dom.documentFragment} The extracted fragment of the editable contents.
+			 * @returns {CKEDITOR.dom.documentFragment} The extracted fragment of the editable content.
 			 */
 			extractHtmlFromRange: function( range, removeEmptyBlock ) {
 				var helpers = extractHtmlFromRangeHelpers,
@@ -1095,6 +1095,10 @@
 				// blocks on BACKSPACE/DEL (#11861,#9998).
 				if ( CKEDITOR.env.webkit ) {
 					this.attachListener( editor, 'key', function( evt ) {
+						if ( editor.readOnly ) {
+							return true;
+						}
+
 						// Use getKey directly in order to ignore modifiers.
 						// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
 						var key = evt.data.domEvent.getKey();
@@ -1164,8 +1168,8 @@
 	} );
 
 	/**
-	 * Create, retrieve or detach an editable element of the editor,
-	 * this method should always be used instead of calling directly {@link CKEDITOR.editable}.
+	 * Creates, retrieves or detaches an editable element of the editor.
+	 * This method should always be used instead of calling {@link CKEDITOR.editable} directly.
 	 *
 	 * @method editable
 	 * @member CKEDITOR.editor
@@ -2610,8 +2614,12 @@
 			optimizeBookmarkNode( endBookmark, 1 );
 
 			var next;
-			while ( ( next = endBookmark.getNext() ) )
+			while ( ( next = endBookmark.getNext() ) ) {
 				next.insertAfter( startBookmark );
+
+				// Update startBookmark after insertion to avoid the reversal of nodes (#13449).
+				startBookmark = next;
+			}
 
 			if ( isEmpty( merged ) )
 				merged.remove();

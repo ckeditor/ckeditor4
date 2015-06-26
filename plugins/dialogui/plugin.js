@@ -426,7 +426,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					this._[ 'default' ] = this._.initValue = elementDefinition.items[ 0 ][ 1 ];
 
 				if ( elementDefinition.validate )
-					this.validate = elementDefinition.valdiate;
+					this.validate = elementDefinition.validate;
 
 				var children = [],
 					me = this;
@@ -1073,7 +1073,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Sets the text direction marker and the `dir` attribute of the input element.
 			 *
-			 * @since 4.5.0
+			 * @since 4.5
 			 * @param {String} dir The text direction. Pass `null` to reset.
 			 */
 			setDirectionMarker: function( dir ) {
@@ -1094,7 +1094,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Gets the value of the text direction marker.
 			 *
-			 * @since 4.5.0
+			 * @since 4.5
 			 * @returns {String} `'ltr'`, `'rtl'` or `null` if the marker is not set.
 			 */
 			getDirectionMarker: function() {

@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'fi', {
 		checkboxTitle: 'Valintaruudun ominaisuudet',
 		radioTitle: 'Radiopainikkeen ominaisuudet',
 		value: 'Arvo',
-		selected: 'Valittu'
+		selected: 'Valittu',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Lomakkeen ominaisuudet',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fi', {
 		size: 'Koko',
 		lines: 'Rivit',
 		chkMulti: 'Salli usea valinta',
+		required: 'Required', // MISSING
 		opText: 'Teksti',
 		opValue: 'Arvo',
 		btnAdd: 'Lisää',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fi', {
 		value: 'Arvo',
 		charWidth: 'Leveys',
 		maxChars: 'Maksimi merkkimäärä',
+		required: 'Required', // MISSING
 		type: 'Tyyppi',
 		typeText: 'Teksti',
 		typePass: 'Salasana',

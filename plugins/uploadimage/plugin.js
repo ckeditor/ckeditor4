@@ -85,7 +85,7 @@
 
 					// We are not uploading images in non-editable blocs and fake objects (#13003).
 					if ( isDataInSrc && isRealObject && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
-						var loader = editor.uploadsRepository.create( img.getAttribute( 'src' ) );
+						var loader = editor.uploadRepository.create( img.getAttribute( 'src' ) );
 						loader.upload( uploadUrl );
 
 						fileTools.markElement( img, 'uploadimage', loader.id );
@@ -105,7 +105,7 @@
 	// jscs:enable maximumLineLength
 
 	/**
-	 * URL where images should be uploaded.
+	 * The URL where images should be uploaded.
 	 *
 	 * @since 4.5
 	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]

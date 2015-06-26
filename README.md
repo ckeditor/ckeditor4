@@ -34,7 +34,7 @@ Additionally, all releases have their respective tags in the following form: 4.4
 
 The `samples/` folder contains some examples that can be used to test your
 installation. Visit [CKEditor SDK](http://sdk.ckeditor.com/) for plenty of samples
-showcasing numerous editor featurs, with source code readily available to view, copy
+showcasing numerous editor features, with source code readily available to view, copy
 and use in your own solution.
 
 ## Code Structure

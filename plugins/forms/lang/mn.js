@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		checkboxTitle: 'Чекбоксны шинж чанар',
 		radioTitle: 'Радио товчны шинж чанар',
 		value: 'Утга',
-		selected: 'Сонгогдсон'
+		selected: 'Сонгогдсон',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Форм шинж чанар',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		size: 'Хэмжээ',
 		lines: 'Мөр',
 		chkMulti: 'Олон зүйл зэрэг сонгохыг зөвшөөрөх',
+		required: 'Required', // MISSING
 		opText: 'Тэкст',
 		opValue: 'Утга',
 		btnAdd: 'Нэмэх',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		value: 'Утга',
 		charWidth: 'Тэмдэгтын өргөн',
 		maxChars: 'Хамгийн их тэмдэгт',
+		required: 'Required', // MISSING
 		type: 'Төрөл',
 		typeText: 'Текст',
 		typePass: 'Нууц үг',

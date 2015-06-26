@@ -718,6 +718,8 @@
 				'<p>X<!--{cke_protected}{C}%3C!%2D%2Dfoo%2D%2D%3E-->Y</p>',								'leave real comment' );
 			t( '<p>X<? echo 1; ?>Y</p>',
 				'<p>X<!--{cke_protected}%3C%3F%20echo%201%3B%20%3F%3E-->Y</p>',							'leave entire PHP code' );
+			t( '<script>alert(1);',									'@',								'strip entire script (no closing)' );
+			t( '<script><iframe src="foo"></iframe>',				'@',								'strip entire script (no closing, iframe inside)' );
 		},
 
 		'test leave protected elements': function() {
@@ -731,6 +733,14 @@
 				'<p>X<!--{cke_protected}{C}%3C!%2D%2Dfoo%2D%2D%3E-->Y</p>',								'leave real comment' );
 			t( '<p>X<? echo 1; ?>Y</p>',
 				'<p>X<!--{cke_protected}%3C%3F%20echo%201%3B%20%3F%3E-->Y</p>',							'leave entire PHP code' );
+		},
+
+		// #13393
+		// The script's body may not be encoded if htmlDP was not used or if the encoding didn't work.
+		'test script removed completely when its body is not encoded': function() {
+			var filter = createFilter( 'p', false );
+
+			filter( '<p>X<script>alert(1);</scr' + 'ipt>X</p>',		'<p>XX</p>',						'strip whole element' );
 		},
 
 		'test strip entire elements which may contain cdata': function() {

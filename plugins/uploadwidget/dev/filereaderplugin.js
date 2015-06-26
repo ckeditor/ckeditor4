@@ -36,7 +36,7 @@
 
 					if ( fileTools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
 						var el = new CKEDITOR.dom.element( 'span' ),
-							loader = editor.uploadsRepository.create( file );
+							loader = editor.uploadRepository.create( file );
 
 						el.setText( '...' );
 

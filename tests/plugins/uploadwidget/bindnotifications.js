@@ -152,7 +152,7 @@ bender.test( {
 
 		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Upload aborted by user.', type: 'info' },
+			{ message: 'Upload aborted by the user.', type: 'info' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification,
 			'First notification: ' );
 	},
@@ -167,7 +167,7 @@ bender.test( {
 
 		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Upload aborted by user.', type: 'info' },
+			{ message: 'Upload aborted by the user.', type: 'info' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification,
 			'First notification: ' );
 	},

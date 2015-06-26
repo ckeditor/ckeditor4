@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -441,7 +441,7 @@
  *
  *		config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
  *
- * **Note:** Since CKEditor 4.5.0 this option does not have a default value, so it must
+ * **Note:** Since CKEditor 4.5 this option does not have a default value, so it must
  * be set in order to enable the MathJax plugin.
  *
  * @since 4.3

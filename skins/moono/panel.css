@@ -54,12 +54,8 @@ panel contents and color panels check menu.css and colorpanel.css.
     border: 1px solid #b6b6b6;
     border-bottom-color: #999;
 
-   	-moz-border-radius: 3px;
-   	-webkit-border-radius: 3px;
    	border-radius: 3px;
 
-    -moz-box-shadow: 0 0 3px rgba(0,0,0,.15);
-    -webkit-box-shadow: 0 0 3px rgba(0,0,0,.15);
     box-shadow: 0 0 3px rgba(0,0,0,.15);
 }
 
@@ -152,8 +148,6 @@ is its visual representation:
 	overflow: hidden;
 	text-overflow: ellipsis;
 
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
     border-radius: 2px;
 }
 
@@ -178,8 +172,6 @@ is its visual representation:
 	border: 1px solid #dedede;
 	background-color: #f2f2f2;
 
-    -moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
-    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
     box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 }
 
@@ -190,8 +182,6 @@ is its visual representation:
 	border-color: #dedede;
 	background-color: #f2f2f2;
 
-    -moz-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
-    -webkit-box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
     box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 }
 
@@ -222,21 +212,12 @@ is its visual representation:
     text-shadow: 0 1px 0 rgba(255,255,255,.75);
     border-bottom: 1px solid #b6b6b6;
 
-    -moz-border-radius: 2px 2px 0 0;
-    -webkit-border-radius: 2px 2px 0 0;
     border-radius: 2px 2px 0 0;
 
-    -moz-box-shadow: 0 1px 0 #fff inset;
-    -webkit-box-shadow: 0 1px 0 #fff inset;
     box-shadow: 0 1px 0 #fff inset;
 
     background: #cfd1cf;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#cfd1cf));
-    background-image: -moz-linear-gradient(top, #f5f5f5, #cfd1cf);
-    background-image: -webkit-linear-gradient(top, #f5f5f5, #cfd1cf);
-    background-image: -o-linear-gradient(top, #f5f5f5, #cfd1cf);
-    background-image: -ms-linear-gradient(top, #f5f5f5, #cfd1cf);
-    background-image: linear-gradient(top, #f5f5f5, #cfd1cf);
+    background-image: linear-gradient(to bottom, #f5f5f5, #cfd1cf);
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#cfd1cf');
 }
 

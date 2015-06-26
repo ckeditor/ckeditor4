@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		checkboxTitle: 'Priodweddau Blwch Ticio',
 		radioTitle: 'Priodweddau Botwm Radio',
 		value: 'Gwerth',
-		selected: 'Dewiswyd'
+		selected: 'Dewiswyd',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Priodweddau Ffurflen',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		size: 'Maint',
 		lines: 'llinellau',
 		chkMulti: 'Caniatàu aml-ddewisiadau',
+		required: 'Required', // MISSING
 		opText: 'Testun',
 		opValue: 'Gwerth',
 		btnAdd: 'Ychwanegu',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		value: 'Gwerth',
 		charWidth: 'Lled Nod',
 		maxChars: 'Uchafswm y Nodau',
+		required: 'Required', // MISSING
 		type: 'Math',
 		typeText: 'Testun',
 		typePass: 'Cyfrinair',

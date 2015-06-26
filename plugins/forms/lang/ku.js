@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ku', {
 		checkboxTitle: 'خاسیەتی چووارگۆشی پشکنین',
 		radioTitle: 'خاسیەتی جێگرەوەی دوگمە',
 		value: 'نرخ',
-		selected: 'هەڵبژاردرا'
+		selected: 'هەڵبژاردرا',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'خاسیەتی داڕشتە',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ku', {
 		size: 'گەورەیی',
 		lines: 'هێڵەکان',
 		chkMulti: 'ڕێدان بەفره هەڵبژارده',
+		required: 'Required', // MISSING
 		opText: 'دەق',
 		opValue: 'نرخ',
 		btnAdd: 'زیادکردن',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ku', {
 		value: 'نرخ',
 		charWidth: 'پانی نووسە',
 		maxChars: 'ئەوپەڕی نووسە',
+		required: 'Required', // MISSING
 		type: 'جۆر',
 		typeText: 'دەق',
 		typePass: 'پێپەڕەوشە',

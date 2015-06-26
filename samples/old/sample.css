@@ -21,8 +21,6 @@ input, textarea, select, option, optgroup, button, td, th
 pre
 {
 	-moz-tab-size: 4;
-	-o-tab-size: 4;
-	-webkit-tab-size: 4;
 	tab-size: 4;
 }
 
@@ -42,9 +40,6 @@ code
 	background: #f3f3f3;
 	border: 1px solid #ddd;
 	padding: 1px 4px;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
 
@@ -63,9 +58,6 @@ abbr
 	margin: 0 0 0 5px;
 	color: #fff;
 	float: right;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
 
@@ -75,8 +67,6 @@ abbr
 	border: 1px solid #DA8028;
 	text-shadow: 0 1px 0 #C97626;
 
-	-moz-box-shadow: 0 2px 3px 0 #FFA54E inset;
-	-webkit-box-shadow: 0 2px 3px 0 #FFA54E inset;
 	box-shadow: 0 2px 3px 0 #FFA54E inset;
 }
 
@@ -87,8 +77,6 @@ abbr
 	text-shadow: 0 1px 0 #048CAD;
 	font-style: italic;
 
-	-moz-box-shadow: 0 2px 3px 0 #50D4FD inset;
-	-webkit-box-shadow: 0 2px 3px 0 #50D4FD inset;
 	box-shadow: 0 2px 3px 0 #50D4FD inset;
 }
 

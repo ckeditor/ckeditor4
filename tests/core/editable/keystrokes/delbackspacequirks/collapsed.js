@@ -59,15 +59,27 @@
 			} );
 		},
 
+		'test backspace on two paragraphs in read-only mode': function() {
+			this.editor.setReadOnly( true );
+
+			try {
+				bf( '<p>Test</p><p>{}Test</p>', '<p>Test</p><p>^Test</p>' ).call( this );
+			} catch ( e ) {
+				throw e;
+			} finally {
+				this.editor.setReadOnly( false );
+			}
+		},
+
 		'test CTRL+backspace works as backspace when merging blocks':		assertKeystroke( BACKSPACE, CKEDITOR.CTRL, 0,	'<p>x</p><p>{}y</p>',	'<p>x^y</p>' ),
 		'test SHIFT+backspace works as backspace when merging blocks':		assertKeystroke( BACKSPACE, CKEDITOR.SHIFT, 0,	'<p>x</p><p>{}y</p>',	'<p>x^y</p>' ),
-		'test CTRL+delete works as delete when merging blocks':			assertKeystroke( DEL, CKEDITOR.CTRL, 0,		'<p>x{}</p><p>y</p>',	'<p>x^y</p>' ),
+		'test CTRL+delete works as delete when merging blocks':				assertKeystroke( DEL, CKEDITOR.CTRL, 0,			'<p>x{}</p><p>y</p>',	'<p>x^y</p>' ),
 		'test SHIFT+delete works as delete when merging blocks':			assertKeystroke( DEL, CKEDITOR.SHIFT, 0,		'<p>x{}</p><p>y</p>',	'<p>x^y</p>' ),
 
 		'test CTRL+backspace is not handled when not merging blocks':		assertKeystroke( BACKSPACE, CKEDITOR.CTRL, 1,	'<p>x{}y</p>',			'<p>x^y</p>' ),
 		'test SHIFT+backspace is not handled when not merging blocks':		assertKeystroke( BACKSPACE, CKEDITOR.SHIFT, 1,	'<p>x{}y</p>',			'<p>x^y</p>' ),
-		'test CTRL+delete is not handled when not merging blocks':			assertKeystroke( DEL, CKEDITOR.CTRL, 1,		'<p>x{}y</p>',			'<p>x^y</p>' ),
-		'test SHIFT+delete is not handled when not merging blocks':		assertKeystroke( DEL, CKEDITOR.SHIFT, 1,		'<p>x{}y</p>',			'<p>x^y</p>' ),
+		'test CTRL+delete is not handled when not merging blocks':			assertKeystroke( DEL, CKEDITOR.CTRL, 1,			'<p>x{}y</p>',			'<p>x^y</p>' ),
+		'test SHIFT+delete is not handled when not merging blocks':			assertKeystroke( DEL, CKEDITOR.SHIFT, 1,		'<p>x{}y</p>',			'<p>x^y</p>' ),
 
 		// --- BACKSPACE ------------------------------------------------------
 

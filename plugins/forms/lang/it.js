@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'it', {
 		checkboxTitle: 'Proprietà checkbox',
 		radioTitle: 'Proprietà radio button',
 		value: 'Valore',
-		selected: 'Selezionato'
+		selected: 'Selezionato',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Proprietà modulo',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'it', {
 		size: 'Dimensione',
 		lines: 'righe',
 		chkMulti: 'Permetti selezione multipla',
+		required: 'Required', // MISSING
 		opText: 'Testo',
 		opValue: 'Valore',
 		btnAdd: 'Aggiungi',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'it', {
 		value: 'Valore',
 		charWidth: 'Larghezza',
 		maxChars: 'Numero massimo di caratteri',
+		required: 'Required', // MISSING
 		type: 'Tipo',
 		typeText: 'Testo',
 		typePass: 'Password',

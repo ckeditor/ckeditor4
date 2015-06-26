@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		checkboxTitle: 'Egenskaper för kryssruta',
 		radioTitle: 'Egenskaper för alternativknapp',
 		value: 'Värde',
-		selected: 'Vald'
+		selected: 'Vald',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Egenskaper för formulär',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		size: 'Storlek',
 		lines: 'Linjer',
 		chkMulti: 'Tillåt flerval',
+		required: 'Required', // MISSING
 		opText: 'Text',
 		opValue: 'Värde',
 		btnAdd: 'Lägg till',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		value: 'Värde',
 		charWidth: 'Teckenbredd',
 		maxChars: 'Max antal tecken',
+		required: 'Required', // MISSING
 		type: 'Typ',
 		typeText: 'Text',
 		typePass: 'Lösenord',
