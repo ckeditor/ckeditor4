@@ -2210,6 +2210,10 @@
 				return;
 			}
 
+			if ( clipboardIdDataType == 'Text' && type == 'Text' ) {
+				this.id = value;
+			}
+
 			try {
 				this.$.setData( type, value );
 			} catch ( e ) {}
