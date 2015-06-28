@@ -1724,11 +1724,6 @@
 		 * @returns {CKEDITOR.dom.range} range at drop position.
 		 */
 		getRangeAtDropPosition: function( dropEvt, editor ) {
-			// If we drop content from the external source we need to call focus on IE.
-			if ( CKEDITOR.env.ie ) {
-				editor.focus();
-			}
-
 			var $evt = dropEvt.data.$,
 				x = $evt.clientX,
 				y = $evt.clientY,
@@ -1759,6 +1754,9 @@
 			}
 			// IE 8 and all IEs if !defaultRange.
 			else if ( document.body.createTextRange ) {
+				// To use this method we need a focus (which may be somewhere else in case of external drop).
+				editor.focus();
+
 				$range = editor.document.getBody().$.createTextRange();
 				try {
 					var sucess = false;
