@@ -7,7 +7,9 @@
 
 Expected behavior:
 ------------------
- * proper drop position,
+ * proper drop position (**IMPORTANT**):
+   * check this carefully,
+   * make sure to try more than once ([#13472](http://dev.ckeditor.com/ticket/13472)),
  * in the internal and cross editor D&D: dragged content should be removed,
  * no content lost (e.g. ids of anchors),
  * paste event should be fired,
