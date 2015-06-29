@@ -2459,16 +2459,16 @@
 /**
  * Facade for the native `drop` event. Fired when the native `drop` event occurs.
  *
- * **Note:** To manipulate dropped data use the {@link CKEDITOR.editor#paste} event.
+ * **Note:** To manipulate dropped data, use the {@link CKEDITOR.editor#paste} event.
  * Use the `drop` event only to control drag and drop operations (e.g. to prevent the ability to drop some content).
  *
  * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
  *
  * See also:
  *
- * * the {@link CKEDITOR.editor#paste} event,
- * * the {@link CKEDITOR.editor#dragstart} and {@link CKEDITOR.editor#dragend} events,
- * * the {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
+ * * The {@link CKEDITOR.editor#paste} event,
+ * * The {@link CKEDITOR.editor#dragstart} and {@link CKEDITOR.editor#dragend} events,
+ * * The {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 4.5
  * @event drop
@@ -2488,17 +2488,17 @@
 /**
  * Facade for the native `dragstart` event. Fired when the native `dragstart` event occurs.
  *
- * This event can be canceled in order to block the drag start operation. It can also be fired to mimic a start of drag and drop
- * operation. For instance, the `widget` plugin uses this option to integrate its custom block widgets drag and drop with
+ * This event can be canceled in order to block the drag start operation. It can also be fired to mimic the start of the drag and drop
+ * operation. For instance, the `widget` plugin uses this option to integrate its custom block widget drag and drop with
  * the entire system.
  *
  * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
  *
  * See also:
  *
- * * the {@link CKEDITOR.editor#paste} event,
- * * the {@link CKEDITOR.editor#drop} and {@link CKEDITOR.editor#dragend} events,
- * * the {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
+ * * The {@link CKEDITOR.editor#paste} event,
+ * * The {@link CKEDITOR.editor#drop} and {@link CKEDITOR.editor#dragend} events,
+ * * The {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 4.5
  * @event dragstart
@@ -2517,9 +2517,9 @@
  *
  * See also:
  *
- * * the {@link CKEDITOR.editor#paste} event,
- * * the {@link CKEDITOR.editor#drop} and {@link CKEDITOR.editor#dragend} events,
- * * the {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
+ * * The {@link CKEDITOR.editor#paste} event,
+ * * The {@link CKEDITOR.editor#drop} and {@link CKEDITOR.editor#dragend} events,
+ * * The {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 4.5
  * @event dragend
