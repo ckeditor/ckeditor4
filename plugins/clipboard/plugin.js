@@ -1724,11 +1724,6 @@
 		 * @returns {CKEDITOR.dom.range} range at drop position.
 		 */
 		getRangeAtDropPosition: function( dropEvt, editor ) {
-			// If we drop content from the external source we need to call focus on IE.
-			if ( CKEDITOR.env.ie ) {
-				editor.focus();
-			}
-
 			var $evt = dropEvt.data.$,
 				x = $evt.clientX,
 				y = $evt.clientY,
@@ -1752,13 +1747,18 @@
 				range.collapse( true );
 			}
 			// IEs 9+.
-			else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8  && defaultRange ) {
+			// We check if editable is focused to make sure that it's an internal DnD. External DnD must use the second
+			// mechanism because of http://dev.ckeditor.com/ticket/13472#comment:6.
+			else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 && defaultRange && editor.editable().hasFocus ) {
 				// On IE 9+ range by default is where we expected it.
 				// defaultRange may be undefined if dragover was canceled (file drop).
 				return defaultRange;
 			}
-			// IE 8 and all IEs if !defaultRange.
+			// IE 8 and all IEs if !defaultRange or external DnD.
 			else if ( document.body.createTextRange ) {
+				// To use this method we need a focus (which may be somewhere else in case of external drop).
+				editor.focus();
+
 				$range = editor.document.getBody().$.createTextRange();
 				try {
 					var sucess = false;
