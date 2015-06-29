@@ -154,7 +154,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var element = this.element,
 					iframe = this._.iframe,
 					// Non IE prefer the event into a window object.
-					focused = CKEDITOR.env.ie ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow ),
+					focused = CKEDITOR.env.ie && CKEDITOR.env.version < 12 ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow ),
 					doc = element.getDocument(),
 					positionedAncestor = this._.parentElement.getPositionedAncestor(),
 					position = offsetParent.getDocumentPosition( doc ),
