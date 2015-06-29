@@ -2388,6 +2388,9 @@
  *
  *		CKEDITOR.config.clipboard_defaultContentType = 'text';
  *
+ * See also the {@link CKEDITOR.editor#paste} event and read more about the integration with clipboard
+ * in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ *
  * @since 4.0
  * @cfg {'html'/'text'} [clipboard_defaultContentType='html']
  * @member CKEDITOR.config
@@ -2396,6 +2399,14 @@
 /**
  * Fired after the user initiated a paste action, but before the data is inserted into the editor.
  * The listeners to this event are able to process the content before its insertion into the document.
+ *
+ * Read more about the integration with clipboard in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ *
+ * See also:
+ *
+ * * the {@link CKEDITOR.config#pasteFilter} option,
+ * * the {@link CKEDITOR.editor#drop} event,
+ * * the {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 3.1
  * @event paste
@@ -2447,10 +2458,17 @@
 
 /**
  * Facade for the native `drop` event. Fired when the native `drop` event occurs.
- * Editor events have a dataTransfer facade instead of the native dataTransfer objects, which allows you
- * to use a custom data type in any browser. This event lets you modify the drag and drop range and
- * cancel the drop event. Use it only for drag and drop operations. To manipulate dropped data use
- * the {@link CKEDITOR.editor#paste paste event}.
+ *
+ * **Note:** To manipulate dropped data use the {@link CKEDITOR.editor#paste} event.
+ * Use the `drop` event only to control drag and drop operations (e.g. to prevent the ability to drop some content).
+ *
+ * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ *
+ * See also:
+ *
+ * * the {@link CKEDITOR.editor#paste} event,
+ * * the {@link CKEDITOR.editor#dragstart} and {@link CKEDITOR.editor#dragend} events,
+ * * the {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 4.5
  * @event drop
@@ -2469,8 +2487,18 @@
 
 /**
  * Facade for the native `dragstart` event. Fired when the native `dragstart` event occurs.
- * Editor events have a dataTransfer facade instead of the native dataTransfer object, which allows you
- * to use a custom data type in any browser. This event lets you cancel the `dragstart` event.
+ *
+ * This event can be canceled in order to block the drag start operation. It can also be fired to mimic a start of drag and drop
+ * operation. For instance, the `widget` plugin uses this option to integrate its custom block widgets drag and drop with
+ * the entire system.
+ *
+ * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ *
+ * See also:
+ *
+ * * the {@link CKEDITOR.editor#paste} event,
+ * * the {@link CKEDITOR.editor#drop} and {@link CKEDITOR.editor#dragend} events,
+ * * the {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 4.5
  * @event dragstart
@@ -2484,9 +2512,14 @@
 
 /**
  * Facade for the native `dragend` event. Fired when the native `dragend` event occurs.
- * Editor events have a dataTransfer facade instead of the native dataTransfer object, which allows you
- * to use a custom data type in any browser. This event lets you cancel the `dragend` event and prevents
- * removing dataTransfer from the global scope.
+ *
+ * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ *
+ * See also:
+ *
+ * * the {@link CKEDITOR.editor#paste} event,
+ * * the {@link CKEDITOR.editor#drop} and {@link CKEDITOR.editor#dragend} events,
+ * * the {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 4.5
  * @event dragend

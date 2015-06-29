@@ -1422,7 +1422,7 @@
 		 * out of the widget.
 		 *
 		 * This is a low-level method which is not integrated with e.g. the undo manager.
-		 * Use the {@link #focus} method instead.
+		 * Use the {@link #method-focus} method instead.
 		 *
 		 * @param {Boolean} selected Whether to select or deselect this widget.
 		 * @chainable
@@ -1439,7 +1439,7 @@
 		 * was moved out of the widget.
 		 *
 		 * This is a low-level method which is not integrated with e.g. the undo manager.
-		 * Use the {@link #focus} method instead or simply change the selection.
+		 * Use the {@link #method-focus} method instead or simply change the selection.
 		 *
 		 * @param {Boolean} selected Whether to select or deselect this widget.
 		 * @chainable
