@@ -246,7 +246,7 @@
 		}
 
 		var content = [
-			'<textarea readonly>',
+			'<textarea class="configCode" readonly>',
 			'CKEDITOR.editorConfig = function( config ) {\n',
 			( cfg.toolbarGroups ? '\tconfig.toolbarGroups = [' + cfg.toolbarGroups + '\n\t];' : '' ),
 			( cfg.removeButtons ? '\n\n' : '' ),
