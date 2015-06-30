@@ -20,7 +20,7 @@
 CKEDITOR.lang[ 'lv' ] = {
 	// ARIA description.
 	editor: 'Bagātinātā teksta redaktors',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Bagātinātā teksta redaktora panelis',
 
 	// Common messages and labels.
 	common: {
@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'lv' ] = {
 		alignTop: 'Augšā',
 		alignMiddle: 'Vertikāli centrēts',
 		alignBottom: 'Apakšā',
-		alignNone: 'None', // MISSING
+		alignNone: 'Nekas',
 		invalidValue	: 'Nekorekta vērtība',
 		invalidHeight: 'Augstumam jābūt skaitlim.',
 		invalidWidth: 'Platumam jābūt skaitlim',

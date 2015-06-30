@@ -3,14 +3,14 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'de', {
-	access: 'Skript Zugang',
+	access: 'Skriptzugriff',
 	accessAlways: 'Immer',
 	accessNever: 'Nie',
 	accessSameDomain: 'Gleiche Domain',
 	alignAbsBottom: 'Abs Unten',
 	alignAbsMiddle: 'Abs Mitte',
-	alignBaseline: 'Baseline',
-	alignTextTop: 'Text Oben',
+	alignBaseline: 'Basislinie',
+	alignTextTop: 'Text oben',
 	bgcolor: 'Hintergrundfarbe',
 	chkFull: 'Vollbildmodus erlauben',
 	chkLoop: 'Endlosschleife',
@@ -26,7 +26,7 @@ CKEDITOR.plugins.setLang( 'flash', 'de', {
 	qualityBest: 'Beste',
 	qualityHigh: 'Hoch',
 	qualityLow: 'Niedrig',
-	qualityMedium: 'Medium',
+	qualityMedium: 'Mittel',
 	scale: 'Skalierung',
 	scaleAll: 'Alles anzeigen',
 	scaleFit: 'Passgenau',
@@ -34,9 +34,9 @@ CKEDITOR.plugins.setLang( 'flash', 'de', {
 	title: 'Flash-Eigenschaften',
 	vSpace: 'Vertikal-Abstand',
 	validateHSpace: 'HSpace muss eine Zahl sein.',
-	validateSrc: 'Bitte geben Sie die Link-URL an',
+	validateSrc: 'URL darf nicht leer sein.',
 	validateVSpace: 'VSpace muss eine Zahl sein.',
-	windowMode: 'Fenster Modus',
+	windowMode: 'Fenstermodus',
 	windowModeOpaque: 'Deckend',
 	windowModeTransparent: 'Transparent',
 	windowModeWindow: 'Fenster'

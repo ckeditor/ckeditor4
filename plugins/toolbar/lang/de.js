@@ -3,13 +3,13 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'de', {
-	toolbarCollapse: 'Symbolleiste einklappen',
-	toolbarExpand: 'Symbolleiste ausklappen',
+	toolbarCollapse: 'Werkzeugleiste einklappen',
+	toolbarExpand: 'Werkzeugleiste ausklappen',
 	toolbarGroups: {
 		document: 'Dokument',
 		clipboard: 'Zwischenablage/Rückgängig',
 		editing: 'Editieren',
-		forms: 'Formularen',
+		forms: 'Formulare',
 		basicstyles: 'Grundstile',
 		paragraph: 'Absatz',
 		links: 'Links',
@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'de', {
 		colors: 'Farben',
 		tools: 'Werkzeuge'
 	},
-	toolbars: 'Editor Symbolleisten'
+	toolbars: 'Editor Werkzeugleisten'
 } );

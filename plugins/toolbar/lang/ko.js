@@ -3,20 +3,20 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'ko', {
-	toolbarCollapse: '툴바 삭제',
-	toolbarExpand: '확장 툴바',
+	toolbarCollapse: '툴바 줄이기',
+	toolbarExpand: '툴바 확장',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: '문서',
+		clipboard: '클립보드/실행 취소',
+		editing: '편집',
+		forms: '폼',
+		basicstyles: '기본 스타일',
+		paragraph: '단락',
+		links: '링크',
+		insert: '삽입',
+		styles: '스타일',
+		colors: '색상',
+		tools: '도구'
 	},
-	toolbars: '편집자용 툴바들'
+	toolbars: '에디터 툴바'
 } );

@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 		items: [
 			{
 			name: '編輯器工具列',
-			legend: '請按「${toolbarFocus}」以瀏覽工具列。\r\n利用「TAB」或「SHIFT+TAB」以便移動到下一個或前一個工具列群組。\r\n利用「→」或「←」以便移動到下一個或前一個工具列按鈕。\r\n請按下「空白鍵」或「ENTER」鍵啟動工具列按鈕。'
+			legend: '請按 ${toolbarFocus} 以導覽到工具列。利用 TAB 或 SHIFT+TAB 以便移動到下一個及前一個工具列群組。利用右方向鍵或左方向鍵以便移動到下一個及上一個工具列按鈕。按下空白鍵或 ENTER 鍵啟用工具列按鈕。'
 		},
 
 			{
 			name: '編輯器對話方塊',
-			legend: '在對話框中，請按 TAB 鍵以便移動到下個欄位，請按 SHIFT + TAB 以便移動到前個欄位；請按 ENTER 以提交對話框資料，或按下 ESC 取消對話框。\r\n若是有多個頁框的對話框，請按 ALT + F10 以移動到頁框列表，並以 TAB 或是 → 方向鍵移動到下個頁框。以 SHIFT + TAB 或是 ← 方向鍵移動到前個頁框。按下 空白鍵 或是 ENTER 以選取頁框。'
+			legend:
+				'在對話框中，按下 TAB 鍵以導覽到下一個對話框元素，按下 SHIFT+TAB 以移動到上一個對話框元素，按下 ENTER 以遞交對話框，按下 ESC 以取消對話框。當對話框有多個分頁時，可以使用 ALT+F10 或是在對話框分頁順序中的一部份按下 TAB 以使用分頁列表。焦點在分頁列表上時，分別使用右方向鍵及左方向鍵移動到下一個及上一個分頁。' 
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 
 			{
 			name: '編輯器清單方塊',
-			legend: '在列表中，請利用 TAB  或  ↓ 方向鍵以移動到下一個項目；或利用 SHIFT + TAB 或 ↑ 方向鍵移動到前一個項目。請按下 空白鍵 或是 ENTER 以選取項目。請按 ESC 關閉列表。'
+			legend: '在清單方塊中，使用 TAB 或下方向鍵移動到下一個列表項目。使用 SHIFT+TAB 或上方向鍵移動到上一個列表項目。按下空白鍵或 ENTER 以選取列表選項。按下 ESC 以關閉清單方塊。'
 		},
 
 			{
 			name: '編輯器元件路徑工具列',
-			legend: '請按「${elementsPathFocus}」以瀏覽元素路徑工具列。\r\n利用「TAB」或「→」以便移動到下一個元素按鈕。\r\n利用「SHIFT+TAB」或「←」以便移動到前一個元素按鈕。\r\n請按下「空白鍵」或「ENTER」鍵選擇編輯器中的元素。'
+			legend: '請按 ${elementsPathFocus} 以瀏覽元素路徑列。利用 TAB 或右方向鍵以便移動到下一個元素按鈕。利用 SHIFT 或左方向鍵以便移動到上一個按鈕。按下空白鍵或 ENTER 鍵來選取在編輯器中的元素。'
 		}
 		]
 	},
@@ -83,57 +84,57 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 	}
 	],
 	backspace: '退格鍵',
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
+	tab: 'Tab',
+	enter: 'Enter',
+	shift: 'Shift',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Esc',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	end: 'End',
+	home: 'Home',
 	leftArrow: '向左箭號',
 	upArrow: '向上鍵號',
 	rightArrow: '向右鍵號',
 	downArrow: '向下鍵號',
 	insert: '插入',
 	'delete': '刪除',
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
-	multiply: 'Multiply', // MISSING
+	leftWindowKey: '左方 Windows 鍵',
+	rightWindowKey: '右方 Windows 鍵',
+	selectKey: '選擇鍵',
+	numpad0: 'Numpad 0',
+	numpad1: 'Numpad 1',
+	numpad2: 'Numpad 2',
+	numpad3: 'Numpad 3',
+	numpad4: 'Numpad 4',
+	numpad5: 'Numpad 5',
+	numpad6: 'Numpad 6',
+	numpad7: 'Numpad 7',
+	numpad8: 'Numpad 8',
+	numpad9: 'Numpad 9',
+	multiply: '乘號',
 	add: '新增',
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
+	subtract: '減號',
+	decimalPoint: '小數點',
+	divide: '除號',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
 	numLock: 'Num Lock',
-	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
+	scrollLock: 'Scroll Lock',
+	semiColon: '分號',
 	equalSign: '等號',
 	comma: '逗號',
 	dash: '虛線',

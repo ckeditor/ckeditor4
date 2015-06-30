@@ -3,23 +3,23 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'de', {
-	armenian: 'Armenisch Nummerierung',
-	bulletedTitle: 'Listen-Eigenschaften',
+	armenian: 'Armenische Nummerierung',
+	bulletedTitle: 'Aufzählungslisteneigenschaften',
 	circle: 'Ring',
 	decimal: 'Dezimal (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Dezimal mit führende  Null (01, 02, 03, etc.)',
+	decimalLeadingZero: 'Dezimal mit führender Null (01, 02, 03, usw.)',
 	disc: 'Kreis',
-	georgian: 'Georgisch Nummerierung (an, ban, gan, etc.)',
-	lowerAlpha: 'Klein alpha (a, b, c, d, e, etc.)',
-	lowerGreek: 'Klein griechisch (alpha, beta, gamma, etc.)',
-	lowerRoman: 'Klein römisch (i, ii, iii, iv, v, etc.)',
+	georgian: 'Georgische Nummerierung (an, ban, gan, usw.)',
+	lowerAlpha: 'Klein Alpha (a, b, c, d, e, usw.)',
+	lowerGreek: 'Klein griechisch (alpha, beta, gamma, usw.)',
+	lowerRoman: 'Klein römisch (i, ii, iii, iv, v, usw.)',
 	none: 'Keine',
-	notset: '<nicht gesetzt>',
-	numberedTitle: 'Nummerierte Listen-Eigenschaften',
+	notset: '<nicht festgelegt>',
+	numberedTitle: 'Nummerierte Listeneigenschaften',
 	square: 'Quadrat',
 	start: 'Start',
 	type: 'Typ',
 	upperAlpha: 'Groß alpha (A, B, C, D, E, etc.)',
-	upperRoman: 'Groß römisch (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List Startnummer muss eine ganze Zahl sein.'
+	upperRoman: 'Groß römisch (I, II, III, IV, V, usw.)',
+	validateStartNumber: 'Listenstartnummer muss eine ganze Zahl sein.'
 } );

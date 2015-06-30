@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 		items: [
 			{
 			name: 'نوار ابزار ویرایشگر',
-			legend: '${toolbarFocus} را برای باز کردن نوار ابزار بفشارید. با کلید Tab و Shif-Tab در مجموعه نوار ابزار بعدی و قبلی حرکت کنید. برای حرکت در کلید نوار ابزار قبلی و بعدی با کلید جهت‌نمای راست و چپ جابجا شوید. کلید Space یا Enter را برای فعال کردن کلید نوار ابزار بفشارید.'
+			legend: '${toolbarFocus} را برای باز کردن نوار ابزار بفشارید. با کلید Tab و Shift+Tab در مجموعه نوار ابزار بعدی و قبلی حرکت کنید. برای حرکت در کلید نوار ابزار قبلی و بعدی با کلید جهت‌نمای راست و چپ جابجا شوید. کلید Space یا Enter را برای فعال کردن کلید نوار ابزار بفشارید.'
 		},
 
 			{
 			name: 'پنجره محاورهای ویرایشگر',
-			legend: 'در داخل یک پنجره محاورهای، کلید Tab را بفشارید تا به پنجرهی بعدی بروید، Shift+Tab برای حرکت به فیلد قبلی، فشردن Enter برای ثبت اطلاعات پنجره، فشردن Esc برای لغو پنجره محاورهای و برای پنجرههایی که چندین برگه دارند، فشردن Alt+F10 جهت رفتن به Tab-List. در نهایت حرکت به برگه بعدی با Tab یا کلید جهتنمای راست. حرکت به برگه قبلی با Shift+Tab یا کلید جهتنمای چپ. فشردن Space یا Enter برای انتخاب یک برگه.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -32,7 +33,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 
 			{
 			name: 'ویرایشگر عنصر نوار راه',
-			legend: 'برای رفتن به مسیر عناصر ${elementsPathFocus} را بفشارید. حرکت به کلید عنصر بعدی با کلید Tab یا  کلید جهت‌نمای راست. برگشت به کلید قبلی با Shift+Tab یا کلید جهت‌نمای چپ. فشردن Space یا Enter برای انتخاب یک عنصر در ویرایشگر.'
+			legend: 'برای رفتن به مسیر عناصر ${elementsPathFocus} را بفشارید. حرکت به کلید عنصر بعدی با کلید Tab یا کلید جهت‌نمای راست. برگشت به کلید قبلی با Shift+Tab یا کلید جهت‌نمای چپ. فشردن Space یا Enter برای انتخاب یک عنصر در ویرایشگر.'
 		}
 		]
 	},
@@ -99,8 +100,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 	upArrow: 'پیکان بالا',
 	rightArrow: 'پیکان راست',
 	downArrow: 'پیکان پایین',
-	insert: 'Insert',
-	'delete': 'Delete',
+	insert: 'ورود',
+	'delete': 'حذف',
 	leftWindowKey: 'کلید چپ ویندوز',
 	rightWindowKey: 'کلید راست ویندوز',
 	selectKey: 'انتخاب کلید',
@@ -115,7 +116,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 	numpad8: 'کلید شماره 8',
 	numpad9: 'کلید شماره 9',
 	multiply: 'ضرب',
-	add: 'Add',
+	add: 'افزودن',
 	subtract: 'تفریق',
 	decimalPoint: 'نقطه‌ی اعشار',
 	divide: 'جدا کردن',

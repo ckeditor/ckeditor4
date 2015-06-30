@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 		items: [
 			{
 			name: 'تووڵامرازی دەستكاریكەر',
-			legend: 'کلیك ${toolbarFocus} بۆ ڕابەری تووڵامراز. بۆ گواستنەوەی پێشوو داهاتووی گرووپی تووڵامرازی داگرتنی کلیلی TAB لەگەڵ‌ SHIFT-TAB. بۆ گواستنەوەی پێشوو داهاتووی دووگمەی تووڵامرازی لەڕێی کلیلی تیری دەستی ڕاست یان کلیلی تیری دەستی چەپ. کلیکی کلیلی SPACE یان ENTER بۆ چالاککردنی دووگمەی تووڵامراز.'
+			legend: 'کلیك ${toolbarFocus} بۆ ڕابەری تووڵامراز. بۆ گواستنەوەی پێشوو داهاتووی گرووپی تووڵامرازی داگرتنی کلیلی TAB لەگەڵ‌ SHIFT+TAB. بۆ گواستنەوەی پێشوو داهاتووی دووگمەی تووڵامرازی لەڕێی کلیلی تیری دەستی ڕاست یان کلیلی تیری دەستی چەپ. کلیکی کلیلی SPACE یان ENTER بۆ چالاککردنی دووگمەی تووڵامراز.'
 		},
 
 			{
 			name: 'دیالۆگی دەستكاریكەر',
-			legend: 'لەهەمانکاتدا کە تۆ لەدیالۆگی, کلیکی کلیلی TAB بۆ ڕابەری خانەی دیالۆگێکی تر, داگرتنی کلیلی SHIFT + TAB بۆ گواستنەوەی بۆ خانەی پێشووتر, کلیكی کلیلی ENTER بۆ ڕازیکردنی دیالۆگەکە, کلیكی کلیلی ESC بۆ هەڵوەشاندنەوەی دیالۆگەکە. بۆ دیالۆگی لەبازدەری (تابی) زیاتر, کلیكی کلیلی ALT + F10 بۆ ڕابەری لیستی بازدەرەکان. بۆ چوونە بازدەری تابی داهاتوو کلیكی کلیلی TAB یان کلیلی تیری دەستی ڕاست. بۆچوونە بازدەری تابی پێشوو داگرتنی کلیلی SHIFT + TAB یان کلیلی تیری دەستی چەپ. کلیی کلیلی SPACE یان ENTER بۆ هه‌ڵبژاردنی بازدەر (تاب).'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,7 +28,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 
 			{
 			name: 'لیستی سنووقی سەرنووسەر',
-			legend: 'لەناو سنوقی لیست, چۆن بۆ هەڵنبژاردەی لیستێکی تر کلیکی کلیلی TAB یان کلیلی تیری ڕوو لەخوار. چوون بۆ هەڵبژاردەی لیستی پێشوو کلیکی کلیلی SHIFT + TAB یان کلیلی تیری ڕوو لەسەرەوه‌. کلیکی کلیلی SPACE یان ENTER بۆ دیاریکردنی ‌هەڵبژاردەی لیست. کلیکی کلیلی ESC بۆ داخستنی سنوقی لیست.'
+			legend: 'لەناو سنوقی لیست, چۆن بۆ هەڵنبژاردەی لیستێکی تر کلیکی کلیلی TAB یان کلیلی تیری ڕوو لەخوار. چوون بۆ هەڵبژاردەی لیستی پێشوو کلیکی کلیلی SHIFT+TAB یان کلیلی تیری ڕوو لەسەرەوه‌. کلیکی کلیلی SPACE یان ENTER بۆ دیاریکردنی ‌هەڵبژاردەی لیست. کلیکی کلیلی ESC بۆ داخستنی سنوقی لیست.'
 		},
 
 			{

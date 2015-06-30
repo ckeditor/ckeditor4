@@ -4,9 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'de', {
-	title: 'Platzhalter Einstellungen',
-	toolbar: 'Platzhalter erstellen',
-	name: 'Platzhalter Name',
+	title: 'Platzhaltereinstellungen',
+	toolbar: 'Platzhalter',
+	name: 'Platzhaltername',
 	invalidName: 'Der Platzhalter darf nicht leer sein und folgende Zeichen nicht enthalten: [, ], <, >',
 	pathName: 'Platzhalter'
 } );

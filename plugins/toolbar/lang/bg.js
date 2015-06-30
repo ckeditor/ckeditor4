@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'bg', {
 	toolbarExpand: 'Разширяване на лентата с инструменти',
 	toolbarGroups: {
 		document: 'Документ',
-		clipboard: 'Clipboard/Undo',
+		clipboard: 'Клипборд/Отмяна',
 		editing: 'Промяна',
 		forms: 'Форми',
 		basicstyles: 'Базови стилове',

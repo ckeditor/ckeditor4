@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'image', 'tt', {
 	border: 'Чик',
 	btnUpload: 'Серверга җибәрү',
 	button2Img: 'Do you want to transform the selected image button on a simple image?', // MISSING
-	hSpace: 'HSpace', // MISSING
+	hSpace: 'Горизонталь ара',
 	img2Button: 'Do you want to transform the selected image on a image button?', // MISSING
 	infoTab: 'Рәсем тасвирламасы',
 	linkTab: 'Сылталама',
@@ -18,8 +18,8 @@ CKEDITOR.plugins.setLang( 'image', 'tt', {
 	titleButton: 'Рәсемле төймə үзлекләре',
 	upload: 'Йөкләү',
 	urlMissing: 'Image source URL is missing.', // MISSING
-	vSpace: 'VSpace', // MISSING
-	validateBorder: 'Чик киңлеге сан булырга тиеш',
-	validateHSpace: 'HSpace must be a whole number.', // MISSING
-	validateVSpace: 'VSpace must be a whole number.' // MISSING
+	vSpace: 'Вертикаль ара',
+	validateBorder: 'Чик киңлеге сан булырга тиеш.',
+	validateHSpace: 'Горизонталь ара бөтен сан булырга тиеш.',
+	validateVSpace: 'Вертикаль ара бөтен сан булырга тиеш.'
 } );

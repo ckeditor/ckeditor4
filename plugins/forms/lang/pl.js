@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pl', {
 		radioTitle: 'Właściwości przycisku opcji (radio)',
 		value: 'Wartość',
 		selected: 'Zaznaczone',
-		required: 'Required' // MISSING
+		required: 'Wymagane'
 	},
 	form: {
 		title: 'Właściwości formularza',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pl', {
 		size: 'Rozmiar',
 		lines: 'wierszy',
 		chkMulti: 'Wielokrotny wybór',
-		required: 'Required', // MISSING
+		required: 'Wymagane',
 		opText: 'Tekst',
 		opValue: 'Wartość',
 		btnAdd: 'Dodaj',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pl', {
 		value: 'Wartość',
 		charWidth: 'Szerokość w znakach',
 		maxChars: 'Szerokość maksymalna',
-		required: 'Required', // MISSING
+		required: 'Wymagane',
 		type: 'Typ',
 		typeText: 'Tekst',
 		typePass: 'Hasło',

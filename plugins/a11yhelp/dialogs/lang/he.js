@@ -17,7 +17,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'he', {
 
 			{
 			name: 'דיאלוגים (חלונות תשאול)',
-			legend: 'בתוך דיאלוג, לחץ טאב (TAB) כדי לנווט לשדה הבא, לחץ שיפט (SHIFT) + טאב (TAB) כדי לנווט לשדה הקודם, לחץ אנטר (ENTER) כדי לשלוח את הדיאלוג, לחץ אסקייפ (ESC) כדי לבטל. בתוך דיאלוגים בעלי מספר טאבים (לשוניות), לחץ אלט (ALT) + F10 כדי לנווט לשורת הטאבים. נווט לטאב הבא עם טאב (TAB) או חץ שמאלי. עבור לטאב הקודם עם שיפט (SHIFT) + טאב (TAB) או חץ שמאלי. לחץ רווח או אנטר (ENTER) כדי להיכנס לטאב.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,7 +28,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'he', {
 
 			{
 			name: 'תפריטים צפים (List boxes)',
-			legend: 'בתוך תפריט צף, עבור לפריט הבא עם טאב (TAB) או חץ למטה. עבור לתפריט הקודם עם שיפט (SHIFT) + טאב (TAB) or חץ עליון. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.'
+			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
 		},
 
 			{

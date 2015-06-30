@@ -8,12 +8,12 @@ CKEDITOR.plugins.setLang( 'forms', 'tt', {
 		text: 'Текст (күләм)',
 		type: 'Төр',
 		typeBtn: 'Төймә',
-		typeSbm: 'Submit', // MISSING
+		typeSbm: 'Җибәрү',
 		typeRst: 'Кире кайтару'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'Checkbox Properties', // MISSING
-		radioTitle: 'Radio Button Properties', // MISSING
+		radioTitle: 'Радио төймə үзлекләре',
 		value: 'Күләм',
 		selected: 'Сайланган',
 		required: 'Required' // MISSING

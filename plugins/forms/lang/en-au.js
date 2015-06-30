@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'en-au', {
 		radioTitle: 'Radio Button Properties',
 		value: 'Value',
 		selected: 'Selected',
-		required: 'Required'
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Form Properties',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'en-au', {
 		size: 'Size',
 		lines: 'lines',
 		chkMulti: 'Allow multiple selections',
-		required: 'Required',
+		required: 'Required', // MISSING
 		opText: 'Text',
 		opValue: 'Value',
 		btnAdd: 'Add',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'en-au', {
 		value: 'Value',
 		charWidth: 'Character Width',
 		maxChars: 'Maximum Characters',
-		required: 'Required',
+		required: 'Required', // MISSING
 		type: 'Type',
 		typeText: 'Text',
 		typePass: 'Password',

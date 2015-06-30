@@ -5,34 +5,35 @@
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 	title: 'Barrierefreiheitinformationen',
-	contents: 'Hilfeinhalt. Um den Dialog zu schliessen die Taste \'ESC\' drücken.',
+	contents: 'Hilfeinhalt. Um den Dialog zu schliessen die Taste ESC drücken.',
 	legend: [
 		{
 		name: 'Allgemein',
 		items: [
 			{
-			name: 'Editor Symbolleiste',
-			legend: 'Drücken Sie ${toolbarFocus} auf der Symbolleiste. Gehen Sie zur nächsten oder vorherigen Symbolleistengruppe mit TAB und SHIFT-TAB. Gehen Sie zur nächsten oder vorherigen Symbolleiste auf die Schaltfläche mit dem RECHTS- oder LINKS-Pfeil. Drücken Sie die Leertaste oder Eingabetaste, um die Schaltfläche in der Symbolleiste aktivieren.'
+			name: 'Editorwerkzeugleiste',
+			legend: 'Drücken Sie ${toolbarFocus} auf der Symbolleiste. Gehen Sie zur nächsten oder vorherigen Symbolleistengruppe mit TAB und SHIFT+TAB. Gehen Sie zur nächsten oder vorherigen Symbolleiste auf die Schaltfläche mit dem RECHTS- oder LINKS-Pfeil. Drücken Sie die Leertaste oder Eingabetaste, um die Schaltfläche in der Symbolleiste aktivieren.'
 		},
 
 			{
-			name: 'Editor Dialog',
-			legend: 'Innerhalb des Dialogs drücken Sie TAB um zum nächsten Dialogfeld zu gelangen, drücken Sie SHIFT-TAG um zum vorherigen Feld zu wechseln, drücken Sie ENTER um den Dialog abzusenden und ESC um den Dialog zu abzubrechen. Um zwischen den Reitern innerhalb eines Dialogs zu wechseln drücken sie ALT-F10. Um zum nächsten Reiter zu gelangen können Sie TAB oder die rechte Pfeiltaste. Zurück gelangt man mit SHIFT-TAB oder der linken Pfeiltaste. Mit der Leertaste oder Enter kann man den Reiter auswählen.'
+			name: 'Editordialog',
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
-			name: 'Editor Kontextmenü',
+			name: 'Editor-Kontextmenü',
 			legend: 'Dürcken Sie ${contextMenu} oder die Anwendungstaste um das Kontextmenü zu öffnen. Man kann die Pfeiltasten zum Wechsel benutzen. Mit der Leertaste oder der Enter-Taste kann man den Menüpunkt aufrufen. Schliessen Sie das Kontextmenü mit der ESC-Taste.'
 		},
 
 			{
-			name: 'Editor Listen',
-			legend: 'Innerhalb einer Listenbox kann man mit der TAB-Taste oder den Pfeilrunter-Taste den nächsten Menüeintrag wählen. Mit der Shift-TAB Tastenkombination oder der Pfeilhoch-Taste gelangt man zum vorherigen Menüpunkt. Mit der Leertaste oder Enter kann man den Menüpunkt auswählen. Drücken Sie ESC zum Verlassen des Menüs.'
+			name: 'Editor-Listenbox',
+			legend: 'Innerhalb einer Listenbox kann man mit der TAB-Taste oder den Pfeilrunter-Taste den nächsten Menüeintrag wählen. Mit der SHIFT+TAB Tastenkombination oder der Pfeilhoch-Taste gelangt man zum vorherigen Menüpunkt. Mit der Leertaste oder Enter kann man den Menüpunkt auswählen. Drücken Sie ESC zum Verlassen des Menüs.'
 		},
 
 			{
-			name: 'Editor Elementpfadleiste',
-			legend: 'Drücken Sie ${elementsPathFocus} um sich durch die Pfadleiste zu bewegen. Um zum nächsten Element zu gelangen drücken Sie TAB oder die Pfeilrechts-Taste. Zum vorherigen Element gelangen Sie mit der SHIFT-TAB oder der Pfeillinks-Taste. Drücken Sie die Leertaste oder Enter um das Element auszuwählen.'
+			name: 'Editor-Elementpfadleiste',
+			legend: 'Drücken Sie ${elementsPathFocus} um sich durch die Pfadleiste zu bewegen. Um zum nächsten Element zu gelangen drücken Sie TAB oder die Pfeilrechts-Taste. Zum vorherigen Element gelangen Sie mit der SHIFT+TAB oder der Pfeillinks-Taste. Drücken Sie die Leertaste oder Enter um das Element auszuwählen.'
 		}
 		]
 	},
@@ -40,31 +41,31 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 		name: 'Befehle',
 		items: [
 			{
-			name: 'Wiederholen Befehl',
+			name: 'Rückgängig-Befehl',
 			legend: 'Drücken Sie ${undo}'
 		},
 			{
-			name: 'Rückgängig Befehl',
+			name: 'Wiederherstellen-Befehl',
 			legend: 'Drücken Sie ${redo}'
 		},
 			{
-			name: 'Fettschrift Befehl',
+			name: 'Fettschrift-Befehl',
 			legend: 'Drücken Sie ${bold}'
 		},
 			{
-			name: 'Italic Befehl',
+			name: 'Kursiv-Befehl',
 			legend: 'Drücken Sie ${italic}'
 		},
 			{
-			name: 'Unterstreichung Befehl',
+			name: 'Unterstreichen-Befehl',
 			legend: 'Drücken Sie ${underline}'
 		},
 			{
-			name: 'Link Befehl',
+			name: 'Link-Befehl',
 			legend: 'Drücken Sie ${link}'
 		},
 			{
-			name: 'Symbolleiste zuammenklappen Befehl',
+			name: 'Werkzeugleiste einklappen-Befehl',
 			legend: 'Drücken Sie ${toolbarCollapse}'
 		},
 			{
@@ -82,7 +83,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 		]
 	}
 	],
-	backspace: 'Rücklöschtaste',
+	backspace: 'Rücktaste',
 	tab: 'Tab',
 	enter: 'Eingabe',
 	shift: 'Umschalt',

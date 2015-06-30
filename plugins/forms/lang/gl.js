@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'gl', {
 		radioTitle: 'Propiedades do botón de opción',
 		value: 'Valor',
 		selected: 'Seleccionado',
-		required: 'Required' // MISSING
+		required: 'Requirido'
 	},
 	form: {
 		title: 'Propiedades do formulario',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'gl', {
 		size: 'Tamaño',
 		lines: 'liñas',
 		chkMulti: 'Permitir múltiplas seleccións',
-		required: 'Required', // MISSING
+		required: 'Requirido',
 		opText: 'Texto',
 		opValue: 'Valor',
 		btnAdd: 'Engadir',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'gl', {
 		value: 'Valor',
 		charWidth: 'Largo do carácter',
 		maxChars: 'Núm. máximo de caracteres',
-		required: 'Required', // MISSING
+		required: 'Requirido',
 		type: 'Tipo',
 		typeText: 'Texto',
 		typePass: 'Contrasinal',

@@ -4,35 +4,36 @@
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
-	title: 'Accessibility Instructions', // MISSING
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	title: '접근성 설명',
+	contents: '도움말. 이 창을 닫으시려면 ESC 를 누르세요.',
 	legend: [
 		{
 		name: '일반',
 		items: [
 			{
 			name: '편집기 툴바',
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			legend: '툴바를 탐색하시려면 ${toolbarFocus} 를 투르세요. 이전/다음 툴바 그룹으로 이동하시려면 TAB 키 또는 SHIFT+TAB 키를 누르세요. 이전/다음 툴바 버튼으로 이동하시려면 오른쪽 화살표 키 또는 왼쪽 화살표 키를 누르세요. 툴바 버튼을 활성화 하려면 SPACE 키 또는 ENTER 키를 누르세요.'
 		},
 
 			{
 			name: '편집기 다이얼로그',
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
 			name: '편집기 환경 메뉴',
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			legend: '${contextMenu} 또는 어플리케이션 키를 누르면 환경-메뉴를 열 수 있습니다. 환경-메뉴에서 TAB 키 또는 아래 화살표 키를 누르면 다음 메뉴 옵션으로 이동할 수 있습니다. 이전 옵션으로 이동은 SHIFT+TAB 키 또는 위 화살표 키를 눌러서 할 수 있습니다. 스페이스 키 또는 ENTER 키를 눌러서 메뉴 옵션을 선택할 수 있습니다. 스페이스 키 또는 ENTER 키 또는 오른쪽 화살표 키를 눌러서 하위 메뉴를 열 수 있습니다. 부모 메뉴 항목으로 돌아가려면 ESC 키 또는 왼쪽 화살표 키를 누릅니다. ESC 키를 눌러서 환경-메뉴를 닫습니다.'
 		},
 
 			{
 			name: '편집기 목록 박스',
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: '리스트-박스 내에서, 목록의 다음 항목으로 이동하려면 TAB 키 또는 아래쪽 화살표 키를 누릅니다. 목록의 이전 항목으로 이동하려면 SHIFT+TAB 키 또는 위쪽 화살표 키를 누릅니다. 스페이스 키 또는 ENTER 키를 누르면 목록의 해당 옵션을 선택합니다. ESC 키를 눌러서 리스트-박스를 닫을 수 있습니다.'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: '편집기 요소 경로 막대',
+			legend: '${elementsPathFocus}를 눌러서 요소 경로 막대를 탐색할 수 있습니다. 다음 요소로 이동하려면 TAB 키 또는 오른쪽 화살표 키를 누릅니다. SHIFT+TAB 키 또는 왼쪽 화살표 키를 누르면 이전 버튼으로 이동할 수 있습니다. 스페이스 키나 ENTER 키를 누르면 편집기의 해당 항목을 선택합니다.'
 		}
 		]
 	},
@@ -40,35 +41,35 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
 		name: '명령',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: ' 명령 실행 취소',
+			legend: '${undo} 누르시오'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: ' 명령 다시 실행',
+			legend: '${redo} 누르시오'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: ' 굵게 명령',
+			legend: '${bold} 누르시오'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: ' 기울임 꼴 명령',
+			legend: '${italic} 누르시오'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: ' 밑줄 명령',
+			legend: '${underline} 누르시오'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: ' 링크 명령',
+			legend: '${link} 누르시오'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			name: ' 툴바 줄이기 명령',
+			legend: '${toolbarCollapse} 누르시오'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
+			name: ' 이전 포커스 공간 접근 명령',
 			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
 		},
 			{
@@ -76,72 +77,72 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
 			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: ' 접근성 도움말',
+			legend: '${a11yHelp} 누르시오'
 		}
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
-	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
-	numLock: 'Num Lock', // MISSING
-	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
-	openBracket: 'Open Bracket', // MISSING
-	backSlash: 'Backslash', // MISSING
-	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	backspace: 'Backspace 키',
+	tab: '탭 키',
+	enter: '엔터 키',
+	shift: '시프트 키',
+	ctrl: '컨트롤 키',
+	alt: '알트 키',
+	pause: '일시정지 키',
+	capslock: '캡스 록 키',
+	escape: '이스케이프 키',
+	pageUp: '페이지 업 키',
+	pageDown: '페이지 다운 키',
+	end: '엔드 키',
+	home: '홈 키',
+	leftArrow: '왼쪽 화살표 키',
+	upArrow: '위쪽 화살표 키',
+	rightArrow: '오른쪽 화살표 키',
+	downArrow: '아래쪽 화살표 키',
+	insert: '인서트 키',
+	'delete': '삭제 키',
+	leftWindowKey: '왼쪽 윈도우 키',
+	rightWindowKey: '오른쪽 윈도우 키',
+	selectKey: '셀렉트 키',
+	numpad0: '숫자 패드 0 키',
+	numpad1: '숫자 패드 1 키',
+	numpad2: '숫자 패드 2 키',
+	numpad3: '숫자 패드 3 키',
+	numpad4: '숫자 패드 4 키',
+	numpad5: '숫자 패드 5 키',
+	numpad6: '숫자 패드 6 키',
+	numpad7: '숫자 패드 7 키',
+	numpad8: '숫자 패드 8 키',
+	numpad9: '숫자 패드 9 키',
+	multiply: '곱셈(*) 키',
+	add: '덧셈(+) 키',
+	subtract: '뺄셈(-) 키',
+	decimalPoint: '온점(.) 키',
+	divide: '나눗셈(/) 키',
+	f1: 'F1 키',
+	f2: 'F2 키',
+	f3: 'F3 키',
+	f4: 'F4 키',
+	f5: 'F5 키',
+	f6: 'F6 키',
+	f7: 'F7 키',
+	f8: 'F8 키',
+	f9: 'F9 키',
+	f10: 'F10 키',
+	f11: 'F11 키',
+	f12: 'F12 키',
+	numLock: 'Num Lock 키',
+	scrollLock: 'Scroll Lock 키',
+	semiColon: '세미콜론(;) 키',
+	equalSign: '등호(=) 키',
+	comma: '쉼표(,) 키',
+	dash: '대시(-) 키',
+	period: '온점(.) 키',
+	forwardSlash: '슬래시(/) 키',
+	graveAccent: '억음 악센트(`) 키',
+	openBracket: '브라켓 열기([) 키',
+	backSlash: '역슬래시(\\\\) 키',
+	closeBracket: '브라켓 닫기(]) 키',
+	singleQuote: '외 따옴표(\') 키'
 } );

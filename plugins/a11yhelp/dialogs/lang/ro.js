@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ro', {
 		items: [
 			{
 			name: 'Editează bara instrumente.',
-			legend: 'Apasă ${toolbarFocus} pentru a naviga prin bara de instrumente. Pentru a te mișca prin grupurile de instrumente folosește tastele TAB și SHIFT-TAB. Pentru a te mișca intre diverse instrumente folosește tastele SĂGEATĂ DREAPTA sau SĂGEATĂ STÂNGA. Apasă butonul SPAȚIU sau ENTER pentru activarea instrumentului.'
+			legend: 'Apasă ${toolbarFocus} pentru a naviga prin bara de instrumente. Pentru a te mișca prin grupurile de instrumente folosește tastele TAB și SHIFT+TAB. Pentru a te mișca intre diverse instrumente folosește tastele SĂGEATĂ DREAPTA sau SĂGEATĂ STÂNGA. Apasă butonul SPAȚIU sau ENTER pentru activarea instrumentului.'
 		},
 
 			{
 			name: 'Dialog editor',
-			legend: 'Într-un dialog, apasă TAB pentru a naviga spre câmpul următor de dialog, apasă SHIFT + TAB pentru a te duce la câmpul anterior, apasă ENTER pentru a trimite dialogul, apasă ESC pentru a anula dialogul. Pentru dialoguri care au mai multe subferestre, apasă ALT + F10 pentr a naviga în lista de subferestre. Treci la subferestrea următoare cu TAB sau SĂGEATĂ DREAPTA. Treci la subfereastra anterioară cu SHIFT + TAB sau SĂGEATĂ STÂNGA. Apasă SPAȚIU sau ENTER pentru a selecta subfereastra.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ro', {
 
 			{
 			name: 'Editor Casetă Listă',
-			legend: 'În interiorul unei liste, treci la următorull element cu TAB sau SĂGEATĂ JOS. Treci la elementul anterior din listă cu SHIFT + TAB sau SĂGEATĂ SUS. Apasă SPAȚIU sau ENTER pentru a selecta opțiunea din listă. Apasă ESC pentru a închide lista.'
+			legend: 'În interiorul unei liste, treci la următorull element cu TAB sau SĂGEATĂ JOS. Treci la elementul anterior din listă cu SHIFT+TAB sau SĂGEATĂ SUS. Apasă SPAȚIU sau ENTER pentru a selecta opțiunea din listă. Apasă ESC pentru a închide lista.'
 		},
 
 			{
 			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
 		}
 		]
 	},

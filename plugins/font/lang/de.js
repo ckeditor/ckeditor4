@@ -6,9 +6,9 @@ CKEDITOR.plugins.setLang( 'font', 'de', {
 	fontSize: {
 		label: 'Größe',
 		voiceLabel: 'Schrifgröße',
-		panelTitle: 'Größe'
+		panelTitle: 'Schriftgröße'
 	},
 	label: 'Schriftart',
-	panelTitle: 'Schriftart',
+	panelTitle: 'Schriftartname',
 	voiceLabel: 'Schriftart'
 } );

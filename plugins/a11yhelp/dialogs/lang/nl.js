@@ -17,7 +17,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 
 			{
 			name: 'Dialoog tekstverwerker',
-			legend: 'In een dialoogvenster, druk op TAB om te navigeren naar het volgende veld. Druk op SHIFT+TAB om naar het vorige veld te navigeren. Druk op ENTER om het dialoogvenster te verzenden. Druk op ESC om het dialoogvenster te sluiten. Voor dialoogvensters met meerdere tabbladen, druk op ALT+F10 om naar de tabset te navigeren. Schakel naar het volgende tabblad met TAB of PIJL RECHTS. Schakel naar het vorige tabblad met SHIFT+TAB of PIJL LINKS. Druk op SPATIE of ENTER om het tabblad te selecteren.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{

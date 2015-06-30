@@ -62,7 +62,7 @@ CKEDITOR.lang[ 'tt' ] = {
 		resize: 'Зурлыкны үзгәртү',
 		generalTab: 'Төп',
 		advancedTab: 'Киңәйтелгән көйләүләр',
-		validateNumberFailed: 'Әлеге кыйммәт сан түгел',
+		validateNumberFailed: 'Әлеге кыйммәт сан түгел.',
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'You have changed some options. Are you sure you want to close the dialog window?', // MISSING
 		options: 'Үзлекләр',
@@ -86,9 +86,9 @@ CKEDITOR.lang[ 'tt' ] = {
 		alignMiddle: 'Уртага',
 		alignBottom: 'Аска',
 		alignNone: 'Һичбер',
-		invalidValue	: 'Дөрес булмаган кыйммәт',
-		invalidHeight: 'Биеклек сан булырга тиеш',
-		invalidWidth: 'Киңлек сан булырга тиеш',
+		invalidValue	: 'Дөрес булмаган кыйммәт.',
+		invalidHeight: 'Биеклек сан булырга тиеш.',
+		invalidWidth: 'Киңлек сан булырга тиеш.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING

@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		radioTitle: 'Egenskaper för alternativknapp',
 		value: 'Värde',
 		selected: 'Vald',
-		required: 'Required' // MISSING
+		required: 'Krävs'
 	},
 	form: {
 		title: 'Egenskaper för formulär',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		size: 'Storlek',
 		lines: 'Linjer',
 		chkMulti: 'Tillåt flerval',
-		required: 'Required', // MISSING
+		required: 'Krävs',
 		opText: 'Text',
 		opValue: 'Värde',
 		btnAdd: 'Lägg till',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		value: 'Värde',
 		charWidth: 'Teckenbredd',
 		maxChars: 'Max antal tecken',
-		required: 'Required', // MISSING
+		required: 'Krävs',
 		type: 'Typ',
 		typeText: 'Text',
 		typePass: 'Lösenord',

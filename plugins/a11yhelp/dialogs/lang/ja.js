@@ -17,7 +17,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ja', {
 
 			{
 			name: '編集ダイアログ',
-			legend: 'ダイヤログ内では、ダイアログの次の選択肢に移動するにはTabを押します。前の選択肢に移動するには、SHIFT+Tabを押します。ダイアログを決定するには、ENTERを押します。ESCでダイアログをキャンセルできます。複数のタブがあるダイアログではタブリストを操作するにはALT+F10を押します。次のタブに移動するにはTabか右カーソル、前のタブに戻るにはSHIFT+Tabか左カーソルです。タブページを決定するにはスペースもしくは、ENTERキーを押してください。'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{

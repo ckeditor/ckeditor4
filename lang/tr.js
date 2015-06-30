@@ -19,7 +19,7 @@
 CKEDITOR.lang[ 'tr' ] = {
 	// ARIA description.
 	editor: 'Zengin Metin Editörü',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Zengin Metin Editör Paneli',
 
 	// Common messages and labels.
 	common: {

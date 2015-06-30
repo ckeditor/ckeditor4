@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 		items: [
 			{
 			name: 'Editor verktygsfält',
-			legend: 'Tryck på ${toolbarFocus} för att navigera till verktygsfältet. Flytta till nästa och föregående verktygsfältsgrupp med TAB och SHIFT-TAB. Flytta till nästa och föregående knapp i verktygsfältet med HÖGERPIL eller VÄNSTERPIL. Tryck Space eller ENTER för att aktivera knappen i verktygsfältet.'
+			legend: 'Tryck på ${toolbarFocus} för att navigera till verktygsfältet. Flytta till nästa och föregående verktygsfältsgrupp med TAB och SHIFT+TAB. Flytta till nästa och föregående knapp i verktygsfältet med HÖGERPIL eller VÄNSTERPIL. Tryck SPACE eller ENTER för att aktivera knappen i verktygsfältet.'
 		},
 
 			{
 			name: 'Dialogeditor',
-			legend: 'Inuti en dialogruta, tryck TAB för att navigera till nästa fält i dialogrutan. Du trycker SKIFT + TAB för att flytta till föregående fält. Tryck ENTER för att skicka. Du avbryter och stänger dialogen med ESC. För dialogrutor som har flera flikar, tryck ALT + F10 navigera till fliklistan. Flytta sedan till nästa flik med HÖGERPIL. Flytta till föregående flik med SHIFT + TAB eller VÄNSTERPIL. Tryck Space eller ENTER för att välja fliken.'
+			legend:
+				'Inuti en dialogruta, tryck TAB för att navigera till nästa fält i dialogrutan, tryck SKIFT+TAB för att flytta till föregående fält, tryck ENTER för att skicka. Du avbryter och stänger dialogen med ESC. För dialogrutor som har flera flikar, tryck ALT+F10 eller TAB för att navigera till fliklistan. med fliklistan vald flytta till nästa och föregående flik med HÖGER- eller VÄNSTERPIL.' 
 		},
 
 			{
@@ -26,13 +27,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 		},
 
 			{
-			name: 'Editor för List Box',
-			legend: 'Inuti en list-box, gå till nästa listobjekt med TAB eller NEDPIL. Flytta till föregående listobjekt med SHIFT + TAB eller UPPIL. Tryck Space eller ENTER för att välja listan alternativet. Tryck ESC för att stänga listan-boxen.'
+			name: 'Editor för list-box',
+			legend: 'Inuti en list-box, gå till nästa listobjekt med TAB eller NEDPIL. Flytta till föregående listobjekt med SHIFT+TAB eller UPPIL. Tryck SPACE eller ENTER för att välja listan alternativet. Tryck ESC för att stänga list-boxen.'
 		},
 
 			{
 			name: 'Editor för elementens sökväg',
-			legend: 'Tryck på $ {elementsPathFocus} för att navigera till verktygsfältet för elementens sökvägar. Flytta till nästa elementknapp med TAB eller HÖGERPIL. Flytta till föregående knapp med SKIFT + TAB eller VÄNSTERPIL. Tryck Space eller ENTER för att välja element i redigeraren.'
+			legend: 'Tryck på ${elementsPathFocus} för att navigera till verktygsfältet för elementens sökvägar. Flytta till nästa elementknapp med TAB eller HÖGERPIL. Flytta till föregående knapp med SKIFT+TAB eller VÄNSTERPIL. Tryck SPACE eller ENTER för att välja element i redigeraren.'
 		}
 		]
 	},
@@ -40,11 +41,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 		name: 'Kommandon',
 		items: [
 			{
-			name: 'Kommandot ångra',
+			name: 'Ångra kommando',
 			legend: 'Tryck på ${undo}'
 		},
 			{
-			name: 'Kommandot gör om',
+			name: 'Gör om kommando',
 			legend: 'Tryck på ${redo}'
 		},
 			{

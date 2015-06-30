@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'image2', 'es', {
 	alt: 'Texto Alternativo',
 	btnUpload: 'Enviar al Servidor',
 	captioned: 'Imagen subtitulada',
-	captionPlaceholder: 'Caption', // MISSING
+	captionPlaceholder: 'Leyenda',
 	infoTab: 'Información de Imagen',
 	lockRatio: 'Proporcional',
 	menu: 'Propiedades de Imagen',

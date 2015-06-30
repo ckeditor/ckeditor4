@@ -17,7 +17,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 
 			{
 			name: 'تەھرىرلىگۈچ سۆزلەشكۈسى',
-			legend: 'سۆزلەشكۈدە TAB كۇنۇپكىسىدا كېيىنكى سۆز بۆلىكىگە يۆتكىلىدۇ، SHIFT + TAB بىرىكمە كۇنۇپكىسىدا ئالدىنقى سۆز بۆلىكىگە يۆتكىلىدۇ، ENTER كۇنۇپكىسىدا سۆزلەشكۈنى تاپشۇرىدۇ، ESC كۇنۇپكىسى سۆزلەشكۈدىن ۋاز كېچىدۇ. كۆپ بەتكۈچلۈك سۆزلەشكۈگە نىسبەتەن، ALT + F10 دا بەتكۈچ تىزىمىغا يۆتكەيدۇ. ئاندىن TAB كۇنۇپكىسى ياكى ئوڭ يا ئوق كۇنۇپكىسى كېيىنكى بەتكۈچكە يۆتكەيدۇ؛ SHIFT + TAB كۇنۇپكىسى ياكى سول يا ئوق كۇنۇپكىسى ئالدىنقى بەتكۈچكە يۆتكەيدۇ. بوشلۇق كۇنۇپكىسى ياكى ENTER كۇنۇپكىسى بەتكۈچنى تاللايدۇ.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 
 			{
 			name: 'تەھرىرلىگۈچ تىزىمى',
-			legend: 'تىزىم قۇتىسىدا، كېيىنكى تىزىم تۈرىگە يۆتكەشتە  TAB ياكى ئاستى يا ئوق كۇنۇپكىسى ئىشلىتىلىدۇ. ئالدىنقى تىزىم تۈرىگە يۆتكەشتە  SHIFT + TAB ياكى ئۈستى يا ئوق كۇنۇپكىسى ئىشلىتىلىدۇ. بوشلۇق ياكى ENTER كۇنۇپكىسىدا تىزىم تۈرىنى تاللايدۇ.ESC كۇنۇپكىسىدا تىزىم قۇتىسىنى يىغىدۇ.'
+			legend: 'تىزىم قۇتىسىدا، كېيىنكى تىزىم تۈرىگە يۆتكەشتە TAB ياكى ئاستى يا ئوق كۇنۇپكىسى ئىشلىتىلىدۇ. ئالدىنقى تىزىم تۈرىگە يۆتكەشتە SHIFT+TAB ياكى ئۈستى يا ئوق كۇنۇپكىسى ئىشلىتىلىدۇ. بوشلۇق ياكى ENTER كۇنۇپكىسىدا تىزىم تۈرىنى تاللايدۇ.ESC كۇنۇپكىسىدا تىزىم قۇتىسىنى يىغىدۇ.'
 		},
 
 			{
 			name: 'تەھرىرلىگۈچ ئېلېمېنت يول بالداق',
-			legend: '${elementsPathFocus} بېسىلسا ئېلېمېنت يول بالداققا يېتەكلەيدۇ، TAB ياكى ئوڭ يا ئوقتا كېيىنكى ئېلېمېنت تاللىنىدۇ،  SHIFT+TAB ياكى سول يا ئوقتا ئالدىنقى ئېلېمېنت تاللىنىدۇ،  بوشلۇق ياكى Enter كۇنۇپكىسىدا تەھرىرلىگۈچتىكى ئېلېمېنت تاللىنىدۇ.'
+			legend: '${elementsPathFocus} بېسىلسا ئېلېمېنت يول بالداققا يېتەكلەيدۇ، TAB ياكى ئوڭ يا ئوقتا كېيىنكى ئېلېمېنت تاللىنىدۇ، SHIFT+TAB ياكى سول يا ئوقتا ئالدىنقى ئېلېمېنت تاللىنىدۇ، بوشلۇق ياكى Enter كۇنۇپكىسىدا تەھرىرلىگۈچتىكى ئېلېمېنت تاللىنىدۇ.'
 		}
 		]
 	},

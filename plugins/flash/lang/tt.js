@@ -17,7 +17,7 @@ CKEDITOR.plugins.setLang( 'flash', 'tt', {
 	chkMenu: 'Enable Flash Menu', // MISSING
 	chkPlay: 'Auto Play', // MISSING
 	flashvars: 'Variables for Flash', // MISSING
-	hSpace: 'HSpace', // MISSING
+	hSpace: 'Горизонталь ара',
 	properties: 'Флеш үзлекләре',
 	propertiesTab: 'Үзлекләр',
 	quality: 'Сыйфат',
@@ -27,15 +27,15 @@ CKEDITOR.plugins.setLang( 'flash', 'tt', {
 	qualityHigh: 'Югары',
 	qualityLow: 'Түбəн',
 	qualityMedium: 'Уртача',
-	scale: 'Scale', // MISSING
+	scale: 'Зурлык',
 	scaleAll: 'Барысын күрсәтү',
 	scaleFit: 'Exact Fit', // MISSING
 	scaleNoBorder: 'Чиксез',
 	title: 'Флеш үзлекләре',
-	vSpace: 'VSpace', // MISSING
-	validateHSpace: 'HSpace must be a number.', // MISSING
-	validateSrc: 'URL must not be empty.', // MISSING
-	validateVSpace: 'VSpace must be a number.', // MISSING
+	vSpace: 'Вертикаль ара',
+	validateHSpace: 'Горизонталь ара  сан булырга тиеш.',
+	validateSrc: 'URL буш булмаска тиеш.',
+	validateVSpace: 'Вертикаль ара  сан булырга тиеш.',
 	windowMode: 'Тəрəзə тәртибе',
 	windowModeOpaque: 'Үтә күренмәле',
 	windowModeTransparent: 'Үтə күренмəле',

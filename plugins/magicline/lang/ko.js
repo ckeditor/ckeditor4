@@ -4,5 +4,5 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'ko', {
-	title: '여기에 그래프 삽입'
+	title: '여기에 단락 삽입'
 } );

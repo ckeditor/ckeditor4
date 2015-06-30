@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'ro', {
 	button: 'Adaugă segment de cod',
-	codeContents: 'Code content', // MISSING
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	codeContents: 'Conținutul codului',
+	emptySnippetError: 'Un segment de cod nu poate fi gol.',
+	language: 'Limba',
+	title: 'Segment de cod',
+	pathName: 'segment de cod'
 } );

@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'list', 'de', {
 	bulletedlist: 'Liste',
-	numberedlist: 'Nummerierte Liste'
+	numberedlist: 'Nummerierte Liste einfügen/entfernen'
 } );

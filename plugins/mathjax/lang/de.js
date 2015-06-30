@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'mathjax', 'de', {
 	button: 'Rechnung',
 	dialogInput: 'Schreiben Sie hier in Tex',
 	docUrl: 'http://en.wikibooks.org/wiki/LaTeX/Mathematics',
-	docLabel: 'Tex Dokumentation',
-	loading: 'lädt...',
+	docLabel: 'TeX-Dokumentation',
+	loading: 'Ladevorgang...',
 	pathName: 'rechnen'
 } );

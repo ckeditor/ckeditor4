@@ -4,6 +4,6 @@
  */
 
 CKEDITOR.plugins.setLang( 'language', 'ar', {
-	button: 'Set language', // MISSING
-	remove: 'Remove language' // MISSING
+	button: 'حدد اللغة',
+	remove: 'حذف اللغة'
 } );

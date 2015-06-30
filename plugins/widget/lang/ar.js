@@ -3,5 +3,5 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.plugins.setLang( 'widget', 'ar', {
-	'move': 'Click and drag to move' // MISSING
+	'move': 'إضغط و إسحب للتحريك'
 } );

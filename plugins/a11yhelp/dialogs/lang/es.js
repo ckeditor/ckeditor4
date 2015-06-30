@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
 		items: [
 			{
 			name: 'Barra de herramientas del editor',
-			legend: 'Presiona ${toolbarFocus} para navegar por la barra de herramientas. Para moverse por los distintos grupos de herramientas usa las teclas TAB y MAY-TAB. Para moverse por las distintas herramientas usa FLECHA DERECHA o FECHA IZQUIERDA. Presiona "espacio" o "intro" para activar la herramienta.'
+			legend: 'Presiona ${toolbarFocus} para navegar por la barra de herramientas. Para moverse por los distintos grupos de herramientas usa las teclas TAB y MAY+TAB. Para moverse por las distintas herramientas usa FLECHA DERECHA o FECHA IZQUIERDA. Presiona "espacio" o "intro" para activar la herramienta.'
 		},
 
 			{
 			name: 'Editor de diálogo',
-			legend: 'Dentro de un cuadro de diálogo, presione la tecla TAB para desplazarse al campo siguiente del cuadro de diálogo, pulse SHIFT + TAB para desplazarse al campo anterior, pulse ENTER para presentar cuadro de diálogo, pulse la tecla ESC para cancelar el diálogo. Para los diálogos que tienen varias páginas, presione ALT + F10 para navegar a la pestaña de la lista. Luego pasar a la siguiente pestaña con TAB o FLECHA DERECHA. Para ir a la ficha anterior con SHIFT + TAB o FLECHA IZQUIERDA. Presione ESPACIO o ENTRAR para seleccionar la página de ficha.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
 
 			{
 			name: 'Lista del Editor',
-			legend: 'Dentro de una lista, te mueves al siguiente elemento de la lista con TAB o FLECHA ABAJO. Te mueves al elemento previo de la lista con SHIFT + TAB o FLECHA ARRIBA. Presiona ESPACIO o ENTER para elegir la opción de la lista. Presiona ESC para cerrar la lista.'
+			legend: 'Dentro de una lista, te mueves al siguiente elemento de la lista con TAB o FLECHA ABAJO. Te mueves al elemento previo de la lista con SHIFT+TAB o FLECHA ARRIBA. Presiona ESPACIO o ENTER para elegir la opción de la lista. Presiona ESC para cerrar la lista.'
 		},
 
 			{
 			name: 'Barra de Ruta del Elemento en el Editor',
-			legend: 'Presiona ${elementsPathFocus} para navegar a los elementos de la barra de ruta. Te mueves al siguiente elemento botón con TAB o FLECHA DERECHA. Te mueves al botón previo con SHIFT + TAB o FLECHA IZQUIERDA. Presiona ESPACIO o ENTER para seleccionar el elemento en el editor.'
+			legend: 'Presiona ${elementsPathFocus} para navegar a los elementos de la barra de ruta. Te mueves al siguiente elemento botón con TAB o FLECHA DERECHA. Te mueves al botón previo con SHIFT+TAB o FLECHA IZQUIERDA. Presiona ESPACIO o ENTER para seleccionar el elemento en el editor.'
 		}
 		]
 	},
@@ -82,66 +83,66 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
+	backspace: 'Retroceso',
+	tab: 'Tabulador',
+	enter: 'Ingresar',
 	shift: 'Mayús.',
 	ctrl: 'Ctrl',
 	alt: 'Alt',
 	pause: 'Pausa',
 	capslock: 'Bloq. Mayús.',
 	escape: 'Escape',
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
-	multiply: 'Multiply', // MISSING
-	add: 'Add', // MISSING
-	subtract: 'Subtract', // MISSING
-	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
-	numLock: 'Num Lock', // MISSING
-	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
-	comma: 'Comma', // MISSING
-	dash: 'Dash', // MISSING
-	period: 'Period', // MISSING
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
+	pageUp: 'Regresar Página',
+	pageDown: 'Avanzar Página',
+	end: 'Fin',
+	home: 'Inicio',
+	leftArrow: 'Flecha Izquierda',
+	upArrow: 'Flecha Arriba',
+	rightArrow: 'Flecha Derecha',
+	downArrow: 'Flecha Abajo',
+	insert: 'Insertar',
+	'delete': 'Suprimir',
+	leftWindowKey: 'Tecla Windows Izquierda',
+	rightWindowKey: 'Tecla Windows Derecha',
+	selectKey: 'Tecla de Selección',
+	numpad0: 'Tecla 0 del teclado numérico',
+	numpad1: 'Tecla 1 del teclado numérico',
+	numpad2: 'Tecla 2 del teclado numérico',
+	numpad3: 'Tecla 3 del teclado numérico',
+	numpad4: 'Tecla 4 del teclado numérico',
+	numpad5: 'Tecla 5 del teclado numérico',
+	numpad6: 'Tecla 6 del teclado numérico',
+	numpad7: 'Tecla 7 del teclado numérico',
+	numpad8: 'Tecla 8 del teclado numérico',
+	numpad9: 'Tecla 9 del teclado numérico',
+	multiply: 'Multiplicar',
+	add: 'Sumar',
+	subtract: 'Restar',
+	decimalPoint: 'Punto Decimal',
+	divide: 'Dividir',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
+	semiColon: 'Punto y coma',
+	equalSign: 'Signo de Igual',
+	comma: 'Coma',
+	dash: 'Guión',
+	period: 'Punto',
+	forwardSlash: 'Diagonal',
+	graveAccent: 'Acento Grave',
 	openBracket: 'Abrir llave',
-	backSlash: 'Backslash', // MISSING
+	backSlash: 'Diagonal Invertida',
 	closeBracket: 'Cerrar llave',
 	singleQuote: 'Comillas simples'
 } );

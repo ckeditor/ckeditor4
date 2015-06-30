@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'nl', {
 		radioTitle: 'Eigenschappen selectievakje',
 		value: 'Waarde',
 		selected: 'Geselecteerd',
-		required: 'Required' // MISSING
+		required: 'Vereist'
 	},
 	form: {
 		title: 'Eigenschappen formulier',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'nl', {
 		size: 'Grootte',
 		lines: 'Regels',
 		chkMulti: 'Gecombineerde selecties toestaan',
-		required: 'Required', // MISSING
+		required: 'Vereist',
 		opText: 'Tekst',
 		opValue: 'Waarde',
 		btnAdd: 'Toevoegen',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'nl', {
 		value: 'Waarde',
 		charWidth: 'Breedte (tekens)',
 		maxChars: 'Maximum aantal tekens',
-		required: 'Required', // MISSING
+		required: 'Vereist',
 		type: 'Soort',
 		typeText: 'Tekst',
 		typePass: 'Wachtwoord',

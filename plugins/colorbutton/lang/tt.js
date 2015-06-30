@@ -47,7 +47,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'tt', {
 		E6E6FA: 'Ала миләүшә',
 		FFF: 'Ак'
 	},
-	more: 'Башка төсләр',
+	more: 'Башка төсләр...',
 	panelTitle: 'Төсләр',
 	textColorTitle: 'Текст төсе'
 } );

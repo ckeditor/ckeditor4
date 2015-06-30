@@ -5,34 +5,35 @@
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 	title: 'Instructions d\'accessibilité',
-	contents: 'Contenu de l\'aide. Pour fermer ce dialogue, appuyez sur la touche Ech (Echappement).',
+	contents: 'Contenu de l\'aide. Pour fermer ce dialogue, appuyez sur la touche ÉCHAP (Echappement).',
 	legend: [
 		{
 		name: 'Général',
 		items: [
 			{
 			name: 'Barre d\'outils de l\'éditeur',
-			legend: 'Appuyer sur ${toolbarFocus} pour accéder à la barre d\'outils. Se déplacer vers les groupes suivant ou précédent de la barre d\'outil avec les touches TAB et SHIFT-TAB. Se déplacer vers les boutons suivant ou précédent de la barre d\'outils avec les touches FLECHE DROITE et FLECHE GAUCHE. Appuyer sur la barre d\'espace ou la touche ENTRER pour activer le bouton de barre d\'outils.'
+			legend: 'Appuyer sur ${toolbarFocus} pour accéder à la barre d\'outils. Se déplacer vers les groupes suivant ou précédent de la barre d\'outil avec les touches MAJ et MAJ+TAB. Se déplacer vers les boutons suivant ou précédent de la barre d\'outils avec les touches FLÈCHE DROITE et FLÈCHE GAUCHE. Appuyer sur la barre d\'espace ou la touche ENTRÉE pour activer le bouton de barre d\'outils.'
 		},
 
 			{
 			name: 'Dialogue de l\'éditeur',
-			legend: 'A l\'intérieur d\'un dialogue, appuyer sur la touche TAB pour naviguer jusqu\'au champ de dalogue suivant, appuyez sur les touches SHIFT + TAB pour revenir au champ précédent, appuyez sur la touche ENTRER pour soumettre le dialogue, appuyer sur la touche ESC pour annuler le dialogue. Pour les dialogues avec plusieurs pages d\'onglets, appuyer sur ALT + F10 pour naviguer jusqu\'à la liste des onglets. Puis se déplacer vers l\'onglet suivant avec la touche TAB ou FLECHE DROITE. Se déplacer vers l\'onglet précédent avec les touches SHIFT + TAB ou FLECHE GAUCHE. Appuyer sur la barre d\'espace ou la touche ENTRER pour sélectionner la page de l\'onglet.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
 			name: 'Menu contextuel de l\'éditeur',
-			legend: 'Appuyer sur ${contextMenu} ou entrer le RACCOURCI CLAVIER pour ouvrir le menu contextuel. Puis se déplacer vers l\'option suivante du menu avec les touches TAB ou FLECHE BAS. Se déplacer vers l\'option précédente avec les touches  SHIFT+TAB ou FLECHE HAUT. appuyer sur la BARRE D\'ESPACE ou la touche ENTREE pour sélectionner l\'option du menu. Oovrir le sous-menu de l\'option courante avec la BARRE D\'ESPACE ou les touches ENTREE ou FLECHE DROITE. Revenir à l\'élément de menu parent avec les touches Ech ou FLECHE GAUCHE. Fermer le menu contextuel avec Ech.'
+			legend: 'Appuyer sur ${contextMenu} ou entrer le RACCOURCI CLAVIER pour ouvrir le menu contextuel. Puis se déplacer vers l\'option suivante du menu avec les touches TAB ou FLÈCHE BAS. Se déplacer vers l\'option précédente avec les touches  MAJ+TAB ou FLÈCHE HAUT. appuyer sur la BARRE D\'ESPACE ou la touche ENTRÉE pour sélectionner l\'option du menu. Oovrir le sous-menu de l\'option courante avec la BARRE D\'ESPACE ou les touches ENTRÉE ou FLÈCHE DROITE. Revenir à l\'élément de menu parent avec les touches ÉCHAP ou FLÈCHE GAUCHE. Fermer le menu contextuel avec ÉCHAP.'
 		},
 
 			{
 			name: 'Zone de liste de l\'éditeur',
-			legend: 'Dans la liste en menu déroulant, se déplacer vers l\'élément suivant de la liste avec les touches TAB ou FLECHE BAS. Se déplacer vers l\'élément précédent de la liste avec les touches MAJ + TAB ou FLECHE HAUT. Appuyer sur la BARRE D\'ESPACE ou sur ENTREE pour sélectionner l\'option dans la liste. Appuyer sur ESC pour fermer le menu déroulant.'
+			legend: 'Dans la liste en menu déroulant, se déplacer vers l\'élément suivant de la liste avec les touches TAB ou FLÈCHE BAS. Se déplacer vers l\'élément précédent de la liste avec les touches MAJ+TAB ou FLÈCHE HAUT. Appuyer sur la BARRE D\'ESPACE ou sur ENTRÉE pour sélectionner l\'option dans la liste. Appuyer sur ÉCHAP pour fermer le menu déroulant.'
 		},
 
 			{
 			name: 'Barre d\'emplacement des éléments de l\'éditeur',
-			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre d\'emplacement des éléments de l\'éditeur. Se déplacer vers le bouton d\'élément suivant avec les touches TAB ou FLECHE DROITE. Se déplacer vers le bouton d\'élément précédent avec les touches MAJ+TAB ou FLECHE GAUCHE. Appuyer sur la BARRE D\'ESPACE ou sur ENTREE pour sélectionner l\'élément dans l\'éditeur.'
+			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre d\'emplacement des éléments de l\'éditeur. Se déplacer vers le bouton d\'élément suivant avec les touches TAB ou FLÈCHE DROITE. Se déplacer vers le bouton d\'élément précédent avec les touches MAJ+TAB ou FLÈCHE GAUCHE. Appuyer sur la BARRE D\'ESPACE ou sur ENTRÉE pour sélectionner l\'élément dans l\'éditeur.'
 		}
 		]
 	},
@@ -90,7 +91,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Verr. Maj.',
-	escape: 'Echap',
+	escape: 'Échap',
 	pageUp: 'Page supérieure',
 	pageDown: 'Page inférieure',
 	end: 'Fin',

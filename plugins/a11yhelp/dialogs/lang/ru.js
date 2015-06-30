@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ru', {
 		items: [
 			{
 			name: 'Панель инструментов',
-			legend: 'Нажмите ${toolbarFocus} для перехода к панели инструментов. Для перемещения между группами панели инструментов используйте TAB и SHIFT-TAB. Для перемещения между кнопками панели иструментов используйте кнопки ВПРАВО или ВЛЕВО. Нажмите ПРОБЕЛ или ENTER для запуска кнопки панели инструментов.'
+			legend: 'Нажмите ${toolbarFocus} для перехода к панели инструментов. Для перемещения между группами панели инструментов используйте TAB и SHIFT+TAB. Для перемещения между кнопками панели иструментов используйте кнопки ВПРАВО или ВЛЕВО. Нажмите ПРОБЕЛ или ENTER для запуска кнопки панели инструментов.'
 		},
 
 			{
 			name: 'Диалоги',
-			legend: 'В диалоговом окне, нажмите клавишу TAB для перехода к следующему диалоговому полю, нажмите клавиши SHIFT + TAB, чтобы перейти к предыдущему полю, нажмите ENTER, чтобы отправить данные, нажмите клавишу ESC, для отмены. Для окон, которые имеют несколько вкладок, нажмите ALT + F10 для перехода к списку вкладок. Переход к следующей вкладке TAB ИЛИ ПРАВУЮ СТРЕЛКУ. Переход к предыдущей вкладке с помощью SHIFT + TAB или ЛЕВАЯ СТРЕЛКА. Нажмите ПРОБЕЛ или ENTER, чтобы выбрать вкладку.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,7 +28,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ru', {
 
 			{
 			name: 'Редактор списка',
-			legend: 'Внутри окна списка, переход к следующему пункту списка - TAB или стрелкой "ВНИЗ". Переход к предыдущему пункту списка - SHIFT + TAB или стрелкой "ВВЕРХ". Нажмите SPACE, или ENTER, чтобы задействовать опцию списка. Нажмите ESC, чтобы закрыть окно списка.'
+			legend: 'Внутри окна списка, переход к следующему пункту списка - TAB или стрелкой "ВНИЗ". Переход к предыдущему пункту списка - SHIFT+TAB или стрелкой "ВВЕРХ". Нажмите SPACE, или ENTER, чтобы задействовать опцию списка. Нажмите ESC, чтобы закрыть окно списка.'
 		},
 
 			{

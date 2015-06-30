@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'nb', {
 	charsetASCII: 'ASCII',
 	charsetCE: 'Sentraleuropeisk',
 	charsetCR: 'Kyrillisk',
-	charsetCT: 'Tradisonell kinesisk(Big5)',
+	charsetCT: 'Tradisonell kinesisk (Big5)',
 	charsetGR: 'Gresk',
 	charsetJP: 'Japansk',
 	charsetKR: 'Koreansk',

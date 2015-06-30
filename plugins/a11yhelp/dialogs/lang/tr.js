@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 		items: [
 			{
 			name: 'Düzenleyici Araç Çubuğu',
-			legend: 'Araç çubuğunda gezinmek için ${toolbarFocus} basın. TAB ve SHIFT-TAB ile önceki ve sonraki araç çubuğu grubuna taşıyın. SAĞ OK veya SOL OK ile önceki ve sonraki bir araç çubuğu düğmesini hareket ettirin. SPACE tuşuna basın veya araç çubuğu düğmesini etkinleştirmek için ENTER tuşna basın.'
+			legend: 'Araç çubuğunda gezinmek için ${toolbarFocus} basın. TAB ve SHIFT+TAB ile önceki ve sonraki araç çubuğu grubuna taşıyın. SAĞ OK veya SOL OK ile önceki ve sonraki bir araç çubuğu düğmesini hareket ettirin. SPACE tuşuna basın veya araç çubuğu düğmesini etkinleştirmek için ENTER tuşna basın.'
 		},
 
 			{
 			name: 'Diyalog Düzenleyici',
-			legend: 'Dialog penceresi içinde, sonraki iletişim alanına gitmek için SEKME tuşuna basın, önceki alana geçmek için SHIFT + TAB tuşuna basın, pencereyi göndermek için ENTER tuşuna basın, dialog penceresini iptal etmek için ESC tuşuna basın. Birden çok sekme sayfaları olan diyalogların, sekme listesine gitmek için ALT + F10 tuşlarına basın. Sonra TAB veya SAĞ OK sonraki sekmeye taşıyın. SHIFT + TAB veya SOL OK ile önceki sekmeye geçin. Sekme sayfayı seçmek için SPACE veya ENTER tuşuna basın.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 
 			{
 			name: 'Liste Kutusu Editörü',
-			legend: 'Liste kutusu içinde, bir sonraki liste öğesine SEKME VEYA AŞAĞI OK ile taşıyın. SHIFT + TAB veya YUKARI önceki liste öğesi taşıyın. Liste seçeneği seçmek için SPACE veya ENTER tuşuna basın. Liste kutusunu kapatmak için ESC tuşuna basın.'
+			legend: 'Liste kutusu içinde, bir sonraki liste öğesine SEKME VEYA AŞAĞI OK ile taşıyın. SHIFT+TAB veya YUKARI önceki liste öğesi taşıyın. Liste seçeneği seçmek için SPACE veya ENTER tuşuna basın. Liste kutusunu kapatmak için ESC tuşuna basın.'
 		},
 
 			{
 			name: 'Element Yol Çubuğu Editörü',
-			legend: 'Elementlerin yol çubuğunda gezinmek için ${ElementsPathFocus} basın. SEKME veya SAĞ OK ile sonraki element düğmesine taşıyın. SHIFT + TAB veya SOL OK önceki düğmeye hareket ettirin. Editör içindeki elementi seçmek için ENTER veya SPACE tuşuna basın.'
+			legend: 'Elementlerin yol çubuğunda gezinmek için ${ElementsPathFocus} basın. SEKME veya SAĞ OK ile sonraki element düğmesine taşıyın. SHIFT+TAB veya SOL OK önceki düğmeye hareket ettirin. Editör içindeki elementi seçmek için ENTER veya SPACE tuşuna basın.'
 		}
 		]
 	},
@@ -82,38 +83,38 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
+	backspace: 'Silme',
+	tab: 'Sekme tuşu',
+	enter: 'Gir tuşu',
+	shift: '"Shift" Kaydırma tuşu',
+	ctrl: '"Ctrl" Kontrol tuşu',
+	alt: '"Alt" Anahtar tuşu',
+	pause: 'Durdurma tuşu',
+	capslock: 'Büyük harf tuşu',
+	escape: 'Vazgeç tuşu',
 	pageUp: 'Sayfa Yukarı',
 	pageDown: 'Sayfa Aşağı',
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
+	end: 'Sona',
+	home: 'En başa',
 	leftArrow: 'Sol ok',
 	upArrow: 'Yukarı ok',
 	rightArrow: 'Sağ ok',
 	downArrow: 'Aşağı ok',
-	insert: 'Insert', // MISSING
+	insert: 'Araya gir',
 	'delete': 'Silme',
 	leftWindowKey: 'Sol windows tuşu',
 	rightWindowKey: 'Sağ windows tuşu',
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
+	selectKey: 'Seçme tuşu',
+	numpad0: 'Nümerik 0',
+	numpad1: 'Nümerik 1',
+	numpad2: 'Nümerik 2',
+	numpad3: 'Nümerik 3',
+	numpad4: 'Nümerik 4',
+	numpad5: 'Nümerik 5',
+	numpad6: 'Nümerik 6',
+	numpad7: 'Nümerik 7',
+	numpad8: 'Nümerik 8',
+	numpad9: 'Nümerik 9',
 	multiply: 'Çarpma',
 	add: 'Toplama',
 	subtract: 'Çıkarma',
@@ -131,17 +132,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 	f10: 'F10',
 	f11: 'F11',
 	f12: 'F12',
-	numLock: 'Num Lock', // MISSING
-	scrollLock: 'Scroll Lock', // MISSING
+	numLock: 'Num Lk',
+	scrollLock: 'Scr Lk',
 	semiColon: 'Noktalı virgül',
 	equalSign: 'Eşittir',
 	comma: 'Virgül',
 	dash: 'Eksi',
 	period: 'Nokta',
-	forwardSlash: 'Forward Slash', // MISSING
-	graveAccent: 'Grave Accent', // MISSING
+	forwardSlash: 'İleri eğik çizgi',
+	graveAccent: 'Üst tırnak',
 	openBracket: 'Parantez aç',
-	backSlash: 'Backslash', // MISSING
+	backSlash: 'Ters eğik çizgi',
 	closeBracket: 'Parantez kapa',
 	singleQuote: 'Tek tırnak'
 } );

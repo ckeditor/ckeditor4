@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'table', 'el', {
 		wordWrap: 'Αναδίπλωση Λέξεων',
 		hAlign: 'Οριζόντια Στοίχιση',
 		vAlign: 'Κάθετη Στοίχιση',
-		alignBaseline: 'Baseline', // MISSING
+		alignBaseline: 'Γραμμή Βάσης',
 		bgColor: 'Χρώμα Φόντου',
 		borderColor: 'Χρώμα Περιγράμματος',
 		data: 'Δεδομένα',

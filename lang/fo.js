@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		alignTop: 'Ovast',
 		alignMiddle: 'Miðja',
 		alignBottom: 'Botnur',
-		alignNone: 'None', // MISSING
+		alignNone: 'Eingin',
 		invalidValue	: 'Invalid value.', // MISSING
 		invalidHeight: 'Hædd má vera eitt tal.',
 		invalidWidth: 'Breidd má vera eitt tal.',

@@ -7,8 +7,8 @@ CKEDITOR.plugins.setLang( 'docprops', 'ro', {
 	bgFixed: 'Fundal neflotant, fix (Non-scrolling Background)',
 	bgImage: 'URL-ul imaginii din fundal (Background Image URL)',
 	charset: 'Encoding setului de caractere',
-	charsetASCII: 'ASCII', // MISSING
-	charsetCE: 'Central European', // MISSING
+	charsetASCII: 'ASCII',
+	charsetCE: 'Europa Centrală',
 	charsetCR: 'Chirilic',
 	charsetCT: 'Chinezesc tradiţional (Big5)',
 	charsetGR: 'Grecesc',
@@ -16,12 +16,12 @@ CKEDITOR.plugins.setLang( 'docprops', 'ro', {
 	charsetKR: 'Corean',
 	charsetOther: 'Alt encoding al setului de caractere',
 	charsetTR: 'Turcesc',
-	charsetUN: 'Unicode (UTF-8)', // MISSING
+	charsetUN: 'Unicode (UTF-8)',
 	charsetWE: 'Vest european',
 	chooseColor: 'Alege',
-	design: 'Design', // MISSING
+	design: 'Proiect',
 	docTitle: 'Titlul paginii',
-	docType: 'Document Type Heading', // MISSING
+	docType: 'Tip de document de antet',
 	docTypeOther: 'Alt Document Type Heading',
 	label: 'Proprietăţile documentului',
 	margin: 'Marginile paginii',
@@ -29,13 +29,13 @@ CKEDITOR.plugins.setLang( 'docprops', 'ro', {
 	marginLeft: 'Stânga',
 	marginRight: 'Dreapta',
 	marginTop: 'Sus',
-	meta: 'Meta Tags', // MISSING
+	meta: 'Tag-uri Meta',
 	metaAuthor: 'Autor',
 	metaCopyright: 'Drepturi de autor',
 	metaDescription: 'Descrierea documentului',
 	metaKeywords: 'Cuvinte cheie după care se va indexa documentul (separate prin virgulă)',
-	other: '<alt>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
+	other: 'Altele...',
+	previewHtml: '<p>Acesta este un <strong>text exemplu</strong>. Folosiți <a href="javascript:void(0)">CKEditor</a>.</p>',
 	title: 'Proprietăţile documentului',
 	txtColor: 'Culoarea textului',
 	xhtmlDec: 'Include declaraţii XHTML'

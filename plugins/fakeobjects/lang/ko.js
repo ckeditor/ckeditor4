@@ -3,9 +3,9 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'ko', {
-	anchor: '책갈피 삽입/변경',
-	flash: 'Flash Animation', // MISSING
-	hiddenfield: '숨김필드',
-	iframe: 'IFrame',
-	unknown: 'Unknown Object' // MISSING
+	anchor: '책갈피',
+	flash: '플래시 애니메이션',
+	hiddenfield: '숨은 입력 칸',
+	iframe: '아이프레임',
+	unknown: '알 수 없는 객체'
 } );

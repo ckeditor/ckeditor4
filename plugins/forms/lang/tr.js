@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'tr', {
 		radioTitle: 'Seçenek Düğmesi Özellikleri',
 		value: 'Değer',
 		selected: 'Seçili',
-		required: 'Required' // MISSING
+		required: 'Zorunlu'
 	},
 	form: {
 		title: 'Form Özellikleri',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'tr', {
 		size: 'Boyut',
 		lines: 'satır',
 		chkMulti: 'Çoklu seçime izin ver',
-		required: 'Required', // MISSING
+		required: 'Zorunlu',
 		opText: 'Metin',
 		opValue: 'Değer',
 		btnAdd: 'Ekle',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'tr', {
 		value: 'Değer',
 		charWidth: 'Karakter Genişliği',
 		maxChars: 'En Fazla Karakter',
-		required: 'Required', // MISSING
+		required: 'Zorunlu',
 		type: 'Tür',
 		typeText: 'Metin',
 		typePass: 'Şifre',

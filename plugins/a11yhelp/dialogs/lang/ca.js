@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
 		items: [
 			{
 			name: 'Editor de barra d\'eines',
-			legend: 'Premi ${toolbarFocus} per desplaçar-se per la barra d\'eines. Vagi en el següent i anterior grup de barra d\'eines amb TAB i SHIFT-TAB. Vagi en el següent i anterior botó de la barra d\'eines amb RIGHT ARROW i LEFT ARROW. Premi SPACE o ENTER per activar el botó de la barra d\'eines.'
+			legend: 'Premi ${toolbarFocus} per desplaçar-se per la barra d\'eines. Vagi en el següent i anterior grup de barra d\'eines amb TAB i SHIFT+TAB. Vagi en el següent i anterior botó de la barra d\'eines amb RIGHT ARROW i LEFT ARROW. Premi SPACE o ENTER per activar el botó de la barra d\'eines.'
 		},
 
 			{
 			name: 'Editor de quadre de diàleg',
-			legend: 'Dins d\'un quadre de diàleg, premi la tecla TAB per desplaçar-se al següent camp del quadre de diàleg, premi SHIFT + TAB per desplaçar-se a l\'anterior camp, premi ENTER per acceptar el quadre de diàleg, premi ESC per cancel·lar el quadre de diàleg. Per els quadres de diàleg que tenen diverses pestanyes, premi ALT + F10 per anar a la llista de pestanyes. Després podrà desplaçar-se a la següent pestanya amb TAB o RIGHT ARROW. Anar a la pestanya anterior amb SHIFT + TAB o LEFT ARROW. Premi SPACE o ENTER per seleccionar la pestanya.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
 
 			{
 			name: 'Editor de caixa de llista',
-			legend: 'Dins d\'un quadre de llista, desplacis al següent element de la llista amb TAB o DOWN ARROW. Desplacis a l\'anterior element de la llista amb SHIFT + TAB o UP ARROW. Premi SPACE o ENTER per seleccionar l\'opció de la llista. Premi ESC per tancar el quadre de llista.'
+			legend: 'Dins d\'un quadre de llista, desplacis al següent element de la llista amb TAB o DOWN ARROW. Desplacis a l\'anterior element de la llista amb SHIFT+TAB o UP ARROW. Premi SPACE o ENTER per seleccionar l\'opció de la llista. Premi ESC per tancar el quadre de llista.'
 		},
 
 			{
 			name: 'Editor de barra de ruta de l\'element',
-			legend: 'Premi ${elementsPathFocus} per anar als elements de la barra de ruta. Desplacis al botó de l\'element següent amb TAB o RIGHT ARROW. Desplacis a l\'anterior botó amb  SHIFT+TAB o LEFT ARROW. Premi SPACE o ENTER per seleccionar l\'element a l\'editor.'
+			legend: 'Premi ${elementsPathFocus} per anar als elements de la barra de ruta. Desplacis al botó de l\'element següent amb TAB o RIGHT ARROW. Desplacis a l\'anterior botó amb SHIFT+TAB o LEFT ARROW. Premi SPACE o ENTER per seleccionar l\'element a l\'editor.'
 		}
 		]
 	},

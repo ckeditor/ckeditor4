@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 		items: [
 			{
 			name: 'Barra degli strumenti Editor',
-			legend: 'Premi ${toolbarFocus} per navigare fino alla barra degli strumenti. Muoviti tra i gruppi della barra degli strumenti con i tasti Tab e Maiusc-Tab. Spostati tra il successivo ed il precedente pulsante della barra degli strumenti usando le frecce direzionali Destra e Sinistra. Premi Spazio o Invio per attivare il pulsante della barra degli strumenti.'
+			legend: 'Premere ${toolbarFocus} per passare alla barra degli strumenti. Usare TAB per spostarsi al gruppo successivo, MAIUSC+TAB per spostarsi a quello precedente. Usare FRECCIA DESTRA per spostarsi al pulsante successivo, FRECCIA SINISTRA per spostarsi a quello precedente. Premere SPAZIO o INVIO per attivare il pulsante della barra degli strumenti.'
 		},
 
 			{
 			name: 'Finestra Editor',
-			legend: 'All\'interno di una finestra di dialogo, premi Tab per navigare fino al campo successivo della finestra di dialogo, premi Maiusc-Tab per tornare al campo precedente, premi Invio per inviare la finestra di dialogo, premi Esc per uscire. Per le finestre che hanno schede multiple, premi Alt+F10 per navigare nella lista delle schede. Quindi spostati alla scheda successiva con il tasto Tab oppure con la Freccia Destra. Torna alla scheda precedente con Maiusc+Tab oppure con la Freccia Sinistra. Premi Spazio o Invio per scegliere la scheda.'
+			legend:
+				'All\'interno di una finestra di dialogo è possibile premere TAB per passare all\'elemento successivo della finestra, MAIUSC+TAB per passare a quello precedente; premere INVIO per inviare i dati della finestra, oppure ESC per annullare l\'operazione. Quando una finestra di dialogo ha più schede, è possibile passare all\'elenco delle schede sia con ALT+F10 che con TAB, in base all\'ordine delle tabulazioni della finestra. Quando l\'elenco delle schede è attivo, premere la FRECCIA DESTRA o la FRECCIA SINISTRA per passare rispettivamente alla scheda successiva o a quella precedente.' 
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 
 			{
 			name: 'Box Lista Editor',
-			legend: 'Dentro un box-lista, muoviti al prossimo elemento della lista con TAB o con la Freccia direzionale giù. Spostati all\'elemento precedente con MAIUSC+TAB oppure con Freccia direzionale sopra. Premi SPAZIO o INVIO per scegliere l\'opzione della lista. Premi ESC per chiudere il box-lista.'
+			legend: 'All\'interno di un elenco di opzioni, per spostarsi all\'elemento successivo premere TAB oppure FRECCIA GIÙ. Per spostarsi all\'elemento precedente usare SHIFT+TAB oppure FRECCIA SU. Premere SPAZIO o INVIO per selezionare l\'elemento della lista. Premere ESC per chiudere l\'elenco di opzioni.'
 		},
 
 			{
 			name: 'Barra percorso elementi editor',
-			legend: 'Premi ${elementsPathFocus} per navigare tra gli elementi della barra percorso. Muoviti al prossimo pulsante di elemento con TAB o la Freccia direzionale destra. Muoviti al pulsante precedente con MAIUSC+TAB o la Freccia Direzionale Sinistra. Premi SPAZIO o INVIO per scegliere l\'elemento nell\'editor.'
+			legend: 'Premere ${elementsPathFocus} per passare agli elementi della barra del percorso. Usare TAB o FRECCIA DESTRA per passare al pulsante successivo. Per passare al pulsante precedente premere MAIUSC+TAB o FRECCIA SINISTRA. Premere SPAZIO o INVIO per selezionare l\'elemento nell\'editor.'
 		}
 		]
 	},

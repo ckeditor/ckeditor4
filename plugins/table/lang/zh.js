@@ -17,8 +17,8 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 		splitVertical: '垂直分割儲存格',
 		title: '儲存格屬性',
 		cellType: '儲存格類型',
-		rowSpan: 'Rows Span', // MISSING
-		colSpan: 'Columns Span', // MISSING
+		rowSpan: '列全長',
+		colSpan: '行全長',
 		wordWrap: '自動斷行',
 		hAlign: '水平對齊',
 		vAlign: '垂直對齊',
@@ -26,46 +26,46 @@ CKEDITOR.plugins.setLang( 'table', 'zh', {
 		bgColor: '背景顏色',
 		borderColor: '框線顏色',
 		data: '資料',
-		header: 'Header', // MISSING
+		header: '頁首',
 		yes: '是',
 		no: '否',
 		invalidWidth: '儲存格寬度必須為數字。',
 		invalidHeight: '儲存格高度必須為數字。',
-		invalidRowSpan: 'Rows span must be a whole number.', // MISSING
-		invalidColSpan: 'Columns span must be a whole number.', // MISSING
+		invalidRowSpan: '列全長必須是整數。',
+		invalidColSpan: '行全長必須是整數。',
 		chooseColor: '選擇'
 	},
-	cellPad: 'Cell padding', // MISSING
-	cellSpace: 'Cell spacing', // MISSING
+	cellPad: '儲存格邊距',
+	cellSpace: '儲存格間距',
 	column: {
 		menu: '行',
-		insertBefore: 'Insert Column Before', // MISSING
-		insertAfter: 'Insert Column After', // MISSING
-		deleteColumn: 'Delete Columns' // MISSING
+		insertBefore: '左方插入行',
+		insertAfter: '右方插入行',
+		deleteColumn: '刪除行'
 	},
 	columns: '行',
-	deleteTable: 'Delete Table', // MISSING
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
+	deleteTable: '刪除表格',
+	headers: '頁首',
+	headersBoth: '同時',
+	headersColumn: '第一行',
 	headersNone: '無',
-	headersRow: 'First Row', // MISSING
+	headersRow: '第一列',
 	invalidBorder: '框線大小必須是整數。',
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
+	invalidCellPadding: '儲存格邊距必須為正數。',
+	invalidCellSpacing: '儲存格間距必須為正數。',
 	invalidCols: '行數須為大於 0 的正整數。',
 	invalidHeight: '表格高度必須為數字。',
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
+	invalidRows: '列數須為大於 0 的正整數。',
 	invalidWidth: '表格寬度必須為數字。',
 	menu: '表格屬性',
 	row: {
 		menu: '列',
-		insertBefore: 'Insert Row Before', // MISSING
-		insertAfter: 'Insert Row After', // MISSING
-		deleteRow: 'Delete Rows' // MISSING
+		insertBefore: '上方插入列',
+		insertAfter: '下方插入列',
+		deleteRow: '刪除列'
 	},
 	rows: '列',
-	summary: 'Summary', // MISSING
+	summary: '總結',
 	title: '表格屬性',
 	toolbar: '表格',
 	widthPc: '百分比',

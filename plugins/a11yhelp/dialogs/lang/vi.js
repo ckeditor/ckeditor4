@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 		items: [
 			{
 			name: 'Thanh công cụ soạn thảo',
-			legend: 'Nhấn ${toolbarFocus} để điều hướng đến thanh công cụ. Nhấn TAB và SHIFT-TAB để chuyển đến nhóm thanh công cụ khác. Nhấn MŨI TÊN PHẢI hoặc MŨI TÊN TRÁI để chuyển sang nút khác trên thanh công cụ. Nhấn PHÍM CÁCH hoặc ENTER để kích hoạt nút trên thanh công cụ.'
+			legend: 'Nhấn ${toolbarFocus} để điều hướng đến thanh công cụ. Nhấn TAB và SHIFT+TAB để chuyển đến nhóm thanh công cụ khác. Nhấn MŨI TÊN PHẢI hoặc MŨI TÊN TRÁI để chuyển sang nút khác trên thanh công cụ. Nhấn PHÍM CÁCH hoặc ENTER để kích hoạt nút trên thanh công cụ.'
 		},
 
 			{
 			name: 'Hộp thoại Biên t',
-			legend: 'Bên trong một hộp thoại, nhấn TAB để chuyển sang trường tiếp theo, nhấn SHIFT + TAB để quay lại trường phía trước, nhấn ENTER để chấp nhận, nhấn ESC để đóng hộp thoại. Đối với các hộp thoại có nhiều tab, nhấn ALT + F10 để chuyển đến danh sách các tab. Sau đó nhấn TAB hoặc MŨI TÊN SANG PHẢI để chuyển sang tab tiếp theo. Nhấn SHIFT + TAB hoặc MŨI TÊN SANG TRÁI để chuyển sang tab trước đó. Nhấn DẤU CÁCH hoặc ENTER để chọn tab.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 
 			{
 			name: 'Hộp danh sách trình biên tập',
-			legend: 'Trong một danh sách chọn, di chuyển đối tượng tiếp theo với phím Tab hoặc phím mũi tên hướng xuống. Di chuyển đến đối tượng trước đó bằng cách nhấn tổ hợp phím Shift+Tab hoặc mũi tên hướng lên. Phím khoảng cách hoặc phím Enter để chọn các tùy chọn trong danh sách. Nhấn phím Esc để đóng lại danh sách chọn.'
+			legend: 'Trong một danh sách chọn, di chuyển đối tượng tiếp theo với phím TAB hoặc phím mũi tên hướng xuống. Di chuyển đến đối tượng trước đó bằng cách nhấn tổ hợp phím SHIFT+TAB hoặc mũi tên hướng lên. Phím khoảng cách hoặc phím ENTER để chọn các tùy chọn trong danh sách. Nhấn phím ESC để đóng lại danh sách chọn.'
 		},
 
 			{
 			name: 'Thanh đường dẫn các đối tượng',
-			legend: 'Nhấn ${elementsPathFocus} để điều hướng các đối tượng trong thanh đường dẫn. Di chuyển đến đối tượng tiếp theo bằng phím Tab hoặc phím mũi tên bên phải. Di chuyển đến đối tượng trước đó bằng tổ hợp phím Shift+Tab hoặc phím mũi tên bên trái. Nhấn phím khoảng cách hoặc Enter để chọn đối tượng trong trình soạn thảo.'
+			legend: 'Nhấn ${elementsPathFocus} để điều hướng các đối tượng trong thanh đường dẫn. Di chuyển đến đối tượng tiếp theo bằng phím TAB hoặc phím mũi tên bên phải. Di chuyển đến đối tượng trước đó bằng tổ hợp phím SHIFT+TAB hoặc phím mũi tên bên trái. Nhấn phím khoảng cách hoặc ENTER để chọn đối tượng trong trình soạn thảo.'
 		}
 		]
 	},

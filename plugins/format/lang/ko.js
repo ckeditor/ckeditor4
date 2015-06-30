@@ -3,16 +3,16 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'ko', {
-	label: '포맷',
-	panelTitle: '포맷',
-	tag_address: 'Address',
+	label: '문단',
+	panelTitle: '문단 형식',
+	tag_address: '글쓴이',
 	tag_div: '기본 (DIV)',
-	tag_h1: 'Heading 1',
-	tag_h2: 'Heading 2',
-	tag_h3: 'Heading 3',
-	tag_h4: 'Heading 4',
-	tag_h5: 'Heading 5',
-	tag_h6: 'Heading 6',
-	tag_p: 'Normal',
-	tag_pre: 'Formatted'
+	tag_h1: '제목 1',
+	tag_h2: '제목 2',
+	tag_h3: '제목 3',
+	tag_h4: '제목 4',
+	tag_h5: '제목 5',
+	tag_h6: '제목 6',
+	tag_p: '본문',
+	tag_pre: '정형 문단'
 } );

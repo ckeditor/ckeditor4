@@ -4,8 +4,8 @@
  */
 
 CKEDITOR.plugins.setLang( 'uicolor', 'de', {
-	title: 'UI Pipette',
+	title: 'UI-Farbpipette',
 	preview: 'Live-Vorschau',
-	config: 'Fügen Sie diese Zeichenfolge in die \'config.js\' Datei.',
+	config: 'Fügen Sie diese Zeichenfolge in die Datei config.js ein.',
 	predefined: 'Vordefinierte Farbsätze'
 } );

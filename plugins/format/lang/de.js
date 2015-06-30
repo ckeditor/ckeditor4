@@ -4,8 +4,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'de', {
 	label: 'Format',
-	panelTitle: 'Format',
-	tag_address: 'Addresse',
+	panelTitle: 'Absatzformat',
+	tag_address: 'Adresse',
 	tag_div: 'Normal (DIV)',
 	tag_h1: 'Überschrift 1',
 	tag_h2: 'Überschrift 2',

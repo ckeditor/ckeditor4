@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'af', {
 		items: [
 			{
 			name: 'Bewerker balk',
-			legend: 'Druk ${toolbarFocus} om op die werkbalk te land. Beweeg na die volgende en voorige wekrbalkgroep met TAB and SHIFT-TAB. Beweeg na die volgende en voorige werkbalkknop met die regter of linker pyl. Druk SPASIE of ENTER om die knop te bevestig.'
+			legend: 'Druk ${toolbarFocus} om op die werkbalk te land. Beweeg na die volgende en voorige wekrbalkgroep met TAB and SHIFT+TAB. Beweeg na die volgende en voorige werkbalkknop met die regter of linker pyl. Druk SPASIE of ENTER om die knop te bevestig.'
 		},
 
 			{
 			name: 'Bewerker dialoog',
-			legend: 'In \'n dialoog, druk TAB vir die volgende dialoog veld, SHIFT + TAB vir die vorige dialoog veld, ENTER om te bevestig enESC om die dialoog af te breek. Vir \'n dialoog met meer as een leisie, druk ALT + F10 om die leisielys te wys. Beweeg dan met TAB of Regter pyl na die volgende leise of SHIFT + TAB of Linker pyl na die voorige leisie. Druk SPACE of ENTER om na die leisie bladsy toe te gaan.'
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'af', {
 
 			{
 			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
 		},
 
 			{
 			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
 		}
 		]
 	},
