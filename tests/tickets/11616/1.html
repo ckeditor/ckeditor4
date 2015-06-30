@@ -1,0 +1,15 @@
+<div id="wrapper" style="display:none;">
+	<textarea id="editor1" cols="10" rows="10">
+		<p>Foo bar.</p>
+		<p>Foo bar.</p>
+	</textarea>
+</div>
+<button id="btn">Toggle</button>
+
+<script>
+	CKEDITOR.replace('editor1');
+
+	document.getElementById('btn').onclick = function() {
+		document.getElementById('wrapper').style.display = 'block';
+	};
+</script>
