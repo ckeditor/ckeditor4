@@ -550,7 +550,13 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	},
 
 	/**
-	 * @todo
+	 * Determines what is the position relation between this and given {@link CKEDITOR.dom.node} in the document.
+	 * This node can be preceding ({@link CKEDITOR.POSITION_PRECEDING}) or following ({@link CKEDITOR.POSITION_FOLLOWING}) given node.
+	 * This node also can contain ({@link CKEDITOR.POSITION_CONTAINS}) or be contained by ({@link CKEDITOR.POSITION_IS_CONTAINED}) the node.
+	 * The function returns bitmask of constants listed above or {@link CKEDITOR.POSITION_IDENTICAL} if given node is same as this node.
+	 *
+	 * @param {CKEDITOR.dom.node} otherNode A node to check relation with.
+	 * @returns {Number} Position relation between this node and given node.
 	 */
 	getPosition: function( otherNode ) {
 		var $ = this.$;
@@ -586,13 +592,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			addressOfOther = otherNode.getAddress(),
 			minLevel = Math.min( addressOfThis.length, addressOfOther.length );
 
-		// Determinate preceed/follow relationship.
-		for ( var i = 0; i <= minLevel - 1; i++ ) {
+		// Determinate preceding/following relationship.
+		for ( var i = 0; i < minLevel; i++ ) {
 			if ( addressOfThis[ i ] != addressOfOther[ i ] ) {
-				if ( i < minLevel )
-					return addressOfThis[ i ] < addressOfOther[ i ] ? CKEDITOR.POSITION_PRECEDING : CKEDITOR.POSITION_FOLLOWING;
-
-				break;
+				return addressOfThis[ i ] < addressOfOther[ i ] ? CKEDITOR.POSITION_PRECEDING : CKEDITOR.POSITION_FOLLOWING;
 			}
 		}
 
