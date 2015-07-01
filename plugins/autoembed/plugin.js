@@ -18,22 +18,14 @@
 				}
 
 				var data = evt.data.dataValue,
-					parsedData,
-					link;
+					regexp = /^<a[^>]+href="([^"]+)"[^>]*>([^<]+)<\/a>$/i;
+
+				var match = data.match( regexp );
 
 				// Expecting exactly one <a> tag spanning the whole pasted content.
-				if ( data.match( /^<a [^<]+<\/a>$/i ) ) {
-					parsedData = CKEDITOR.htmlParser.fragment.fromHtml( data );
-
-					// Embed only links with a single text node with a href attr which equals its text.
-					if ( parsedData.children.length != 1 )
-						return;
-
-					link = parsedData.children[ 0 ];
-
-					if ( link.type == CKEDITOR.NODE_ELEMENT && link.getHtml() == link.attributes.href ) {
-						evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + data.substr( 2 );
-					}
+				// The tag has to have same href as content.
+				if ( match != null && match[ 1 ] == match[ 2 ] ) {
+					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + data.substr( 2 );
 				}
 
 			}, null, null, 20 ); // Execute after autolink.

@@ -117,6 +117,23 @@ bender.test( {
 		} );
 	},
 
+	// #13420.
+	'test link with encodable characters': function() {
+		var bot = this.editorBot;
+
+		var pastedText = 'https://foo.bar/g/200/300?a=b&amp;c=d';
+		var expected = '<div data-oembed-url="https://foo.bar/g/200/300?a=b&amp;c=d"><img src="https://foo.bar/g/200/300?a=b&amp;c=d" /></div>';
+
+		bot.setData( '', function() {
+			bot.editor.focus();
+			this.editor.execCommand( 'paste', pastedText );
+
+			wait( function() {
+				assert.areSame( expected, bot.getData( 1 ), 'Link with special characters is embedded.' );
+			}, 200 );
+		} );
+	},
+
 	'test uppercase link is auto embedded': function() {
 		var pastedText = '<A href="https://foo.bar/bom">https://foo.bar/bom</A>',
 			expected = /^<a data-cke-autoembed="\d+" href="https:\/\/foo.bar\/bom">https:\/\/foo.bar\/bom<\/a>$/;
