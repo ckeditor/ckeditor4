@@ -466,7 +466,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
-
+		// #13468
 		'test drop custom type from external source': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
 				evt = {};
