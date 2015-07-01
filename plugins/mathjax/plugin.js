@@ -301,6 +301,7 @@
 				if (CKEDITOR.config.mathJaxTeXConfig) {
 					TeXConfig = JSON.stringify(CKEDITOR.config.mathJaxTeXConfig);
 				} else {
+					// Until clients specify this value in the widget
 					TeXConfig = '{ extensions: ["cancel.js", "enclose.js"] }';
 				}
 
