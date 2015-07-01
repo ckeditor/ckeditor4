@@ -466,6 +466,43 @@ var testsForMultipleEditor = {
 			} );
 		},
 
+
+		'test drop custom type from external source': function( editor ) {
+			var bot = bender.editorBots[ editor.name ],
+				evt = {};
+
+			evt.data = bender.tools.mockDropEvent();
+
+			bot.setHtmlWithSelection( '<p class="p">Lorem ipsum sit amet.</p>' );
+			editor.resetUndo();
+
+			CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+
+			var dataTransfer = evt.data.dataTransfer;
+			dataTransfer.setData( 'text', 'dolor' );
+			dataTransfer.setData( 'foo', 'bar' );
+
+			drop( editor, evt.data, {
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 6,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_EXTERNAL,
+				expectedText: 'dolor',
+				expectedHtml: '',
+				expectedDataType: 'text',
+				expectedDataValue: 'dolor'
+			}, function( evt ) {
+				assert.areSame( 'bar', evt.data.dataTransfer.getData( 'foo' ) );
+			}, function() {
+				assert.areSame( '<p class="p">Lorem dolor^ipsum sit amet.</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+
+				editor.execCommand( 'undo' );
+
+				assert.areSame( '<p class="p">Lorem ipsum sit amet.</p>', editor.getData(), 'after undo' );
+
+				assert.isNull( CKEDITOR.plugins.clipboard.dragData, 'dragData should be reset' );
+			} );
+		},
+
 		'test cross editor drop': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent(),
