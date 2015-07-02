@@ -29,7 +29,7 @@
 			if ( !uploadUrl ) {
 				window.console && window.console.log(
 					'Error: Upload URL for the Upload Image feature was not defined. ' +
-					'For more information visit: http://docs.ckeditor.com/#!/guide/dev_file_upload'
+					'For more information see: http://docs.ckeditor.com/#!/guide/dev_file_upload'
 				);
 				return;
 			}

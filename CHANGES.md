@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#13486](http://dev.ckeditor.com/ticket/13486): Fixed: [Upload Image](http://ckeditor.com/addon/uploadimage) should log an error, not throw an error when upload URL is not set.
+* [#13486](http://dev.ckeditor.com/ticket/13486): Fixed: The [Upload Image](http://ckeditor.com/addon/uploadimage) plugin should log an error, not throw an error when upload URL is not set.
 
 ## CKEditor 4.5
 

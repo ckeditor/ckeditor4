@@ -718,7 +718,7 @@
 		 *
 		 * @param {Object} config The configuration file.
 		 * @param {String} [type] Upload file type.
-		 * @returns {String/null} Upload URL or `null` if none of the config options was defined.
+		 * @returns {String/null} Upload URL or `null` if none of the configuration options were defined.
 		 */
 		getUploadUrl: function( config, type ) {
 			var capitalize = CKEDITOR.tools.capitalize;
