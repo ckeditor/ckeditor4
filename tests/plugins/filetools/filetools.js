@@ -94,12 +94,9 @@
 		},
 
 		'test getUploadUrl - throw error if no matching config': function() {
-			try {
-				getUploadUrl( {} );
-				assert.fail( 'getUploadUrl should throw error if no matching configuration option was found.' );
-			} catch ( err ) {
-				assert.areSame( 'Upload URL is not defined.', err );
-			}
+			var uploadUrl = getUploadUrl( {} );
+
+			assert.isNull( uploadUrl, 'null returned when none of upload URLs is defined' );
 		},
 
 		'test isTypeSupported 1': function() {

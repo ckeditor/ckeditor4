@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.1
 
+Fixed Issues:
+
+* [#13486](http://dev.ckeditor.com/ticket/13486): Fixed: Upload image should log an error, not throw an error when upload URL is not set.
+
 ## CKEditor 4.5
 
 New Features:

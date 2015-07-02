@@ -26,6 +26,14 @@
 			var fileTools = CKEDITOR.fileTools,
 				uploadUrl = fileTools.getUploadUrl( editor.config, 'image' );
 
+			if ( !uploadUrl ) {
+				window.console && window.console.log(
+					'Error: Upload URL for the Upload Image feature was not defined. ' +
+					'For more information visit: http://docs.ckeditor.com/#!/guide/dev_file_upload'
+				);
+				return;
+			}
+
 			// Handle images which are available in the dataTransfer.
 			fileTools.addUploadWidget( editor, 'uploadimage', {
 				supportedTypes: /image\/(jpeg|png|gif)/,
