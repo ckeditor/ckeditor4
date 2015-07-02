@@ -2496,6 +2496,12 @@
 					// Block widgets are handled by Lineutils.
 					if ( widget.inline && target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) {
 						mouseDownOnDragHandler = 1;
+
+						// When drag handler is pressed we have to clear current selection if it wasn't already on this widget.
+						// Otherwise, the selection may be in a fillingChar, which prevents dragging a widget. (#13284, see comment 8 and 9.)
+						if ( widgetsRepo.focused != widget )
+							editor.getSelection().removeAllRanges();
+
 						return;
 					}
 
