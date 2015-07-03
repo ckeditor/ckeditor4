@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.2
 
+Fixed Issues:
+
+* [#13434](http://dev.ckeditor.com/ticket/13434): Dialog state indicator broken in Right–To–Left environments.
+
 ## CKEditor 4.5.1
 
 Fixed Issues:
