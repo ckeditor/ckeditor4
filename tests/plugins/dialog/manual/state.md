@@ -1,8 +1,6 @@
-@bender-tags: dialog
+@bender-tags: dialog, 13434
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, dialog
-
-
 
 ## Observe dialog state change
 
@@ -12,8 +10,8 @@
 1. Click "Set dialog idle". The spinner should disappear.
 1. Click the **OK** button. The dialog should disappear.
 1. Re–open the dialog. Click each of the buttons multiple times. There should be no errors in console. Nothing extra should happen except of
- * the spinner appearing and disappearing
- * **OK** button being locked and unlocked
+	* the spinner appearing and disappearing
+	* **OK** button being locked and unlocked
 
 ## Dialog state reset on hide
 
@@ -23,6 +21,6 @@
 1. Re–open the dialog.
 1. The dialog should be idle (**OK** button **enabled**, no spinner).
 
-##Notes
+## Notes
 
-- Expect the "Ok" and "Cancel" buttons and their tooltips in RTL mode to be in Hebrew.
+* Expect the "Ok" and "Cancel" buttons and their tooltips in RTL mode to be in Hebrew.
