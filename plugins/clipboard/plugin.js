@@ -1298,13 +1298,8 @@
 
 				// Store number of children, so we can later tell if any text node was split on drop. (#13011, #13447)
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-					if ( dragRange ) {
-						clipboard.dragStartContainerChildCount = getContainerChildCount( dragRange.startContainer );
-						clipboard.dragEndContainerChildCount = getContainerChildCount( dragRange.endContainer );
-					} else {
-						delete clipboard.dragStartContainerChildCount;
-						delete clipboard.dragEndContainerChildCount;
-					}
+					clipboard.dragStartContainerChildCount = dragRange ? getContainerChildCount( dragRange.startContainer ) : null;
+					clipboard.dragEndContainerChildCount = dragRange ? getContainerChildCount( dragRange.endContainer ) : null;
 				}
 			}, null, null, 2 );
 
