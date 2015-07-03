@@ -1453,15 +1453,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( state == CKEDITOR.DIALOG_STATE_BUSY ) {
 				// Insert the spinner on demand.
 				if ( !this.parts.spinner ) {
-					this.parts.spinner = CKEDITOR.document.createElement( 'div', {
-						attributes: {
-							'class': 'cke_dialog_spinner'
-						},
-						styles: {
-							'float': 'left',
-							'margin-right': '8px'
-						}
-					} );
+					var dir = this.getParentEditor().lang.dir,
+						spinnerDef = {
+							attributes: {
+								'class': 'cke_dialog_spinner'
+							},
+							styles: {
+								'float': dir == 'rtl' ? 'right' : 'left'
+							}
+						};
+
+					spinnerDef.styles[ 'margin-' + ( dir == 'rtl' ? 'left' : 'right' ) ] = '8px';
+
+					this.parts.spinner = CKEDITOR.document.createElement( 'div', spinnerDef );
 
 					this.parts.spinner.setHtml( '&#8987;' );
 					this.parts.spinner.appendTo( this.parts.title, 1 );
