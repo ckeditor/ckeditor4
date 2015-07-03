@@ -1294,12 +1294,12 @@
 				clipboard.initDragDataTransfer( evt, editor );
 
 				// Save drag range globally for cross editor D&D.
-				if ( clipboard.dragRange = editor.getSelection().getRanges()[ 0 ] ) {
-					// Store number of children, so we can later tell if any text node was split on drop. (#13011, #13447)
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-						clipboard.dragStartContainerChildCount = getContainerChildCount( clipboard.dragRange.startContainer );
-						clipboard.dragEndContainerChildCount = getContainerChildCount( clipboard.dragRange.endContainer );
-					}
+				var dragRange = clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
+
+				// Store number of children, so we can later tell if any text node was split on drop. (#13011, #13447)
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+					clipboard.dragStartContainerChildCount = dragRange ? getContainerChildCount( dragRange.startContainer ) : null;
+					clipboard.dragEndContainerChildCount = dragRange ? getContainerChildCount( dragRange.endContainer ) : null;
 				}
 			}, null, null, 2 );
 
