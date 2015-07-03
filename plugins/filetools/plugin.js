@@ -43,9 +43,10 @@
 
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader,
+					fieldName = evt.data.fieldName || 'upload',
 					formData = new FormData();
 
-				formData.append( 'upload', fileLoader.file, fileLoader.fileName );
+				formData.append( fieldName, fileLoader.file, fileLoader.fileName );
 				fileLoader.xhr.send( formData );
 			}, null, null, 999 );
 
@@ -404,8 +405,9 @@
 		 * * `uploaded`.
 		 *
 		 * @param {String} url The upload URL.
+		 * @param {String} [fieldName=upload] The name of the field whose data is contained in value.
 		 */
-		loadAndUpload: function( url ) {
+		loadAndUpload: function( url, fieldName ) {
 			var loader = this;
 
 			this.once( 'loaded', function( evt ) {
@@ -418,7 +420,7 @@
 				}, null, null, 0 );
 
 				// Start uploading.
-				loader.upload( url );
+				loader.upload( url, fieldName );
 			}, null, null, 0 );
 
 			this.load();
@@ -479,8 +481,9 @@
 		 * * `uploaded`.
 		 *
 		 * @param {String} url The upload URL.
+		 * @param {String} [fieldName=upload] The name of the field whose data is contained in value.
 		 */
-		upload: function( url ) {
+		upload: function( url, fieldName ) {
 			if ( !url ) {
 				this.message = this.lang.filetools.noUrlError;
 				this.changeStatus( 'error' );
@@ -490,7 +493,7 @@
 				this.xhr = new XMLHttpRequest();
 				this.attachRequestListeners();
 
-				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this } ) ) {
+				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this, fieldName: fieldName } ) ) {
 					this.changeStatus( 'uploading' );
 				}
 			}
