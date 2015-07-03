@@ -11,6 +11,7 @@ bender.editors = {
 		creator: 'replace',
 		config: {
 			extraAllowedContent: 'div(a,b,c)',
+			removePlugins: 'div',
 			stylesSet: [
 				{ name: 'Foo media', type: 'widget', widget: 'embed', attributes: { 'class': 'foo' } },
 				{ name: 'Bar media', type: 'widget', widget: 'embed', attributes: { 'class': 'bar' } }
