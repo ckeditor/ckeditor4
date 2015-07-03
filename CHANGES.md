@@ -5,7 +5,8 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#13434](http://dev.ckeditor.com/ticket/13434): Dialog state indicator broken in Right–To–Left environments.
+* [#13434](http://dev.ckeditor.com/ticket/13434): Fixed: Dialog state indicator broken in Right–To–Left environments.
+* [#13434](http://dev.ckeditor.com/ticket/13434): [IE8-9] Fixed: One drag&drop operation may affect following ones.
 
 ## CKEditor 4.5.1
 
