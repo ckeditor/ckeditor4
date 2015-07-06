@@ -449,7 +449,7 @@
 
 				try {
 					// Testing if widget is selected is meaningful only if it is not selected at the beginning. (#13129)
-					assert.isNull( editor.widgets.focused , 'widget was not focused on mousedown' );
+					assert.isNull( editor.widgets.focused, 'widget not focused before mousedown' );
 
 					img.fire( 'mousedown' );
 
@@ -459,7 +459,7 @@
 
 					editor.document.fire( 'mouseup' );
 
-					assert.areSame( widget, editor.widgets.focused, 'widget was not focused on mouseup' );
+					assert.areSame( widget, editor.widgets.focused, 'widget focused after mouseup' );
 
 					bender.tools.resumeAfter( editor, 'afterPaste', function() {
 						assert.isTrue( pasteCounter.calledOnce, 'paste called once' );
@@ -470,7 +470,7 @@
 
 						// Check if widget is still selected after undo. (#13129)
 						editor.execCommand( 'undo' );
-						assert.areSame( getWidgetById( editor, 'w1' ), editor.widgets.focused, 'widget was focused after undo' );
+						assert.areSame( getWidgetById( editor, 'w1' ), editor.widgets.focused, 'widget focused after undo' );
 					} );
 
 					wait();
