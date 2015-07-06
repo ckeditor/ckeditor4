@@ -1500,8 +1500,8 @@
 		 * Main native paste event editable should listen to.
 		 *
 		 * **Note:** Safari doesn't like 'beforepaste' event - it sometimes doesn't
-		 * properly handles ctrl+c. Probably some race-condition between events.
-		 * Chrome and Firefox works well with both events, so better to use 'paste'
+		 * handle ctrl+c properly. Probably some race-condition between events.
+		 * Chrome and Firefox work well with both events, so it's better to use 'paste'
 		 * which will handle pasting from e.g. browsers' menu bars.
 		 * IE7/8 doesn't like 'paste' event for which it's throwing random errors.
 		 *
