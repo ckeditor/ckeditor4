@@ -448,6 +448,9 @@
 				editor.focus();
 
 				try {
+					// Testing if widget is selected is meaningful only if it is not selected at the beginning. (#13129)
+					assert.isNull( editor.widgets.focused, 'widget not focused before mousedown' );
+
 					img.fire( 'mousedown' );
 
 					// Create dummy line and pretend it's visible to cheat drop listener
@@ -456,12 +459,18 @@
 
 					editor.document.fire( 'mouseup' );
 
+					assert.areSame( widget, editor.widgets.focused, 'widget focused after mouseup' );
+
 					bender.tools.resumeAfter( editor, 'afterPaste', function() {
 						assert.isTrue( pasteCounter.calledOnce, 'paste called once' );
 						assert.isTrue( dragstartCounter.calledOnce, 'dragstart called once' );
 						assert.isTrue( dragendCounter.calledOnce, 'dragend called once' );
 						assert.isTrue( dropCounter.calledOnce, 'drop called once' );
 						assert.areSame( '<div data-widget="testwidget" id="w1">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
+
+						// Check if widget is still selected after undo. (#13129)
+						editor.execCommand( 'undo' );
+						assert.areSame( getWidgetById( editor, 'w1' ), editor.widgets.focused, 'widget focused after undo' );
 					} );
 
 					wait();
