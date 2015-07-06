@@ -1,4 +1,4 @@
-<div id="wrapper" style="display:none;">
+<div id="wrapper">
 	<textarea id="editor1" cols="10" rows="10">
 		<p>Foo bar.</p>
 		<p>Foo bar.</p>
@@ -7,9 +7,12 @@
 <button id="btn">Toggle</button>
 
 <script>
-	CKEDITOR.replace('editor1');
+	CKEDITOR.replace( 'editor1' );
 
-	document.getElementById('btn').onclick = function() {
-		document.getElementById('wrapper').style.display = 'block';
+	var isHidden = false;
+	document.getElementById( 'btn' ).onclick = function() {
+		var style = isHidden ? 'block' : 'none';
+		document.getElementById( 'wrapper' ).style.display = style;
+		isHidden = !isHidden;
 	};
 </script>

@@ -1,0 +1,13 @@
+<div id="wrapper">
+	<textarea id="editor1" cols="10" rows="10">
+		&lt;p&gt;Lorem ipsum.&lt;/p&gt;
+	</textarea>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+
+	for ( var i = 1; i <= 10; i++ ) {
+		CKEDITOR.instances.editor1.setData( '<p>Lorem ipsum ' + i + ' </p>' );
+	}
+</script>
