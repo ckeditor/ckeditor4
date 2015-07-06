@@ -79,12 +79,6 @@
 
 		instance.loadContent( href, {
 			callback: function() {
-
-				// Widget might be not valid anymore.
-				if ( !editor.widgets.instances[ instance.id ] ) {
-					return;
-				}
-
 					// DOM might be invalidated in the meantime, so find the anchor again.
 				var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' ),
 					range = editor.createRange();
@@ -100,7 +94,7 @@
 				finalizeCreation();
 			},
 
-			error: finalizeCreation
+			errorCallback: finalizeCreation
 		} );
 
 		function finalizeCreation() {
