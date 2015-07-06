@@ -2210,6 +2210,8 @@
 				return;
 			}
 
+			// If we use the text type to bind the ID, then if someone tries to set the text, we must also
+			// update ID accordingly. #13468.
 			if ( clipboardIdDataType == 'Text' && type == 'Text' ) {
 				this.id = value;
 			}
