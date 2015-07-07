@@ -1,4 +1,4 @@
-/* bender-tags: widgetcore */
+/* bender-tags: widgetcore, 13460 */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
 
@@ -691,8 +691,7 @@
 
 						assert.isTrue( !!widget, 'widget was pasted' );
 						assert.areSame( '<p id="p1">AB<span data-widget="test2" id="w1">A</span></p>', editor.getData() );
-						assert.isTrue( !!editor.getSelection().isFake, 'widget is selected' );
-						assert.areSame( widget.wrapper, editor.getSelection().getSelectedElement(), 'widget is selected - element' );
+						assert.areSame( widget, editor.widgets.focused, 'widget is selected' );
 					} );
 				} );
 
