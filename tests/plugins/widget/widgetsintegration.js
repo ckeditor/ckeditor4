@@ -1,4 +1,4 @@
-/* bender-tags: widgetcore */
+/* bender-tags: widgetcore, 13460 */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
 
@@ -664,6 +664,46 @@
 				// Ensure async.
 				wait( function() {
 					editor.execCommand( 'paste', '<span data-cke-copybin-start="1" foo="1">\u200b</span>' + html + '<span data-cke-copybin-end="1">\u200b</span>' );
+				} );
+			} );
+		},
+
+		// #13460
+		'test pasting a widget with lots of extra markup and mixed HTML case': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p id="p1">A<span data-widget="test2" id="w1">A</span>B</p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					html = widget.wrapper.getOuterHtml();
+
+				editor.widgets.del( widget );
+
+				editor.focus();
+
+				var range = editor.createRange();
+				range.setStartAt( editor.document.getById( 'p1' ), CKEDITOR.POSITION_BEFORE_END );
+				range.collapse( true );
+				range.select();
+
+				editor.once( 'afterPaste', function() {
+					resume( function() {
+						var widget = getWidgetById( editor, 'w1' );
+
+						assert.isTrue( !!widget, 'widget was pasted' );
+						assert.areSame( '<p id="p1">AB<span data-widget="test2" id="w1">A</span></p>', editor.getData() );
+						assert.areSame( widget, editor.widgets.focused, 'widget is selected' );
+					} );
+				} );
+
+				// Ensure async.
+				wait( function() {
+					editor.execCommand( 'paste',
+						'<SPAN style="POSITION: absolute; WIDTH: 1px; HEIGHT: 1px; OVERFLOW: hidden; LEFT: -5000px">' +
+							'<SPAN data-cke-copybin-start="1" foo="1">\u200b</SPAN>' +
+								html +
+							'<SPAN data-cke-copybin-end="1">\u200b</SPAN>' +
+						'</SPAN>'
+					);
 				} );
 			} );
 		},
