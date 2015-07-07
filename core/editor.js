@@ -1474,11 +1474,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *		// Also if no `title` attribute exists, nothing new will be added.
  *		config.title = false;
  *
+ * See also:
+ *
+ * * CKEDITOR.editor#name
+ * * CKEDITOR.editor#title
+ *
  * @since 4.2
  * @cfg {String/Boolean} [title=based on editor.name]
  * @member CKEDITOR.config
- * @see CKEDITOR.editor.name
- * @see CKEDITOR.editor.title
  */
 
 /**
