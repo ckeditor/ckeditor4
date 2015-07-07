@@ -473,5 +473,34 @@ bender.test( {
 
 			wait();
 		} );
+	},
+
+	'test if embedding is cancelled when widget is no longer valid': function() {
+		var bot = this.editorBots.inline,
+			editor = bot.editor,
+			successCallbackSpy = sinon.spy(),
+			errorCallbackSpy = sinon.spy();
+
+		bot.setData( dataWithWidget, function() {
+			var widget = getWidgetById( editor, 'w1' ),
+				task;
+
+			widget.on( 'sendRequest', function( evt ) {
+				task = evt.data.task;
+			} );
+
+			editor.widgets.destroy( widget );
+			widget.loadContent( '//canceling/handleresponse', {
+				callback: successCallbackSpy,
+				errorCallback: errorCallbackSpy
+			} );
+
+			wait( function() {
+				assert.isTrue( task.isDone() );
+				assert.isFalse( successCallbackSpy.called );
+				assert.isFalse( errorCallbackSpy.called );
+			}, 200 );
+		} );
+
 	}
 } );
