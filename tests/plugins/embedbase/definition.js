@@ -489,11 +489,12 @@ bender.test( {
 				task = evt.data.task;
 			} );
 
-			editor.widgets.destroy( widget );
 			widget.loadContent( '//canceling/handleresponse', {
 				callback: successCallbackSpy,
 				errorCallback: errorCallbackSpy
 			} );
+
+			editor.widgets.destroy( widget );
 
 			wait( function() {
 				assert.isTrue( task.isDone() );
