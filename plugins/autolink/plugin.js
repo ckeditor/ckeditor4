@@ -3,41 +3,40 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-'use strict';
+( function() {
+	'use strict';
 
-CKEDITOR.plugins.add( 'autolink', {
-	requires: 'clipboard',
+	// Regex by Imme Emosol.
+	var validUrlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig,
+		doubleQuoteRegex = /"/g;
 
-	init: function( editor ) {
-		editor.on( 'paste', function( evt ) {
-			var data = evt.data.dataValue;
+	CKEDITOR.plugins.add( 'autolink', {
+		requires: 'clipboard',
 
-			if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-				return;
-			}
+		init: function( editor ) {
+			editor.on( 'paste', function( evt ) {
+				var data = evt.data.dataValue;
 
-			// If we found "<" it means that most likely there's some tag and we don't want to touch it.
-			if ( data.indexOf( '<' ) > -1 ) {
-				return;
-			}
+				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+					return;
+				}
 
-			// Regex by Imme Emosol.
-			var href,
-				validUrl = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig;
+				// If we found "<" it means that most likely there's some tag and we don't want to touch it.
+				if ( data.indexOf( '<' ) > -1 ) {
+					return;
+				}
 
-			if ( data.match( validUrl ) ) {
 				// #13419
-				href = data.replace( /"/g, '%22' );
-				data = data.replace( validUrl , '<a href="' + href + '">$&</a>' );
-			}
+				data = data.replace( validUrlRegex , '<a href="' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
 
-			// If link was discovered, change the type to 'html'. This is important e.g. when pasting plain text in Chrome
-			// where real type is correctly recognized.
-			if ( data != evt.data.dataValue ) {
-				evt.data.type = 'html';
-			}
+				// If link was discovered, change the type to 'html'. This is important e.g. when pasting plain text in Chrome
+				// where real type is correctly recognized.
+				if ( data != evt.data.dataValue ) {
+					evt.data.type = 'html';
+				}
 
-			evt.data.dataValue = data;
-		} );
-	}
-} );
+				evt.data.dataValue = data;
+			} );
+		}
+	} );
+} )();
