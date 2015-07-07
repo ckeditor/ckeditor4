@@ -26,6 +26,7 @@ CKEDITOR.plugins.add( 'autolink', {
 				validUrl = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig;
 
 			if ( data.match( validUrl ) ) {
+				// #13419
 				href = data.replace( /"/g, '%22' );
 				data = data.replace( validUrl , '<a href="' + href + '">$&</a>' );
 			}
