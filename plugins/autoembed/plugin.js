@@ -94,7 +94,9 @@
 				finalizeCreation();
 			},
 
-			errorCallback: finalizeCreation
+			errorCallback: function() {
+				editor.widgets.destroy( instance );
+			}
 		} );
 
 		function finalizeCreation() {
