@@ -11,6 +11,7 @@ Fixed Issues:
 * [#13468](http://dev.ckeditor.com/ticket/13468): [IE] Fixed: Binding drag&drop `dataTransfer` does not work if `text` data was set in the meantime.
 * [#13419](http://dev.ckeditor.com/ticket/13419): Fixed: [Auto Link](http://ckeditor.com/addon/autolink) plugin does not encode double quotes in URLs.
 * [#13460](http://dev.ckeditor.com/ticket/13460): [IE8] Fixed: Copying inline widgets is broken when the Advanced Content Filter is disabled.
+* [#13495](http://dev.ckeditor.com/ticket/13495): [Firefox,IE] Fixed: Text is not word-wrapped in the Paste dialog.
 
 ## CKEditor 4.5.1
 
