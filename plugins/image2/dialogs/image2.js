@@ -20,7 +20,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		lang = editor.lang.image2,
 		commonLang = editor.lang.common,
 
-		lockResetStyle = 'margin-top:18px;width:40px;height:20px;',
+		lockResetStyle = 'margin-top:18px;width:40px;height:20px;padding:0;',
 		lockResetHtml = new CKEDITOR.template(
 			'<div>' +
 				'<a href="javascript:void(0)" tabindex="-1" title="' + lang.lockRatio + '" class="cke_btn_locked" id="{lockButtonId}" role="checkbox">' +
@@ -54,17 +54,17 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		// Global variable referring to this dialog's image pre-loader.
 		preLoader,
 
-		// Global variables holding the original size of the image.
-		domWidth, domHeight,
+		// Global variables holding the original size and padding of the image.
+		domWidth, domHeight, domPadding = {top: 0, bottom: 0, left: 0, right: 0},
 
 		// Global variables related to image pre-loading.
-		preLoadedWidth, preLoadedHeight, srcChanged,
+		preLoadedWidth, preLoadedHeight, preLoadedPadding = {top: 0, bottom: 0, left: 0, right: 0}, srcChanged,
 
 		// Global variables related to size locking.
 		lockRatio, userDefinedLock,
 
 		// Global variables referring to dialog fields and elements.
-		lockButton, resetButton, widthField, heightField,
+		lockButton, resetButton, widthField, heightField, paddingField = {top: 0, bottom: 0, left: 0, right: 0},
 
 		natural;
 
@@ -136,7 +136,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		// Remember that src is different than default.
 		if ( value !== widget.data.src ) {
 			// Update dimensions of the image once it's preloaded.
-			preLoader( value, function( image, width, height ) {
+			preLoader( value, function( image, width, height, paddingTop, paddingBottom, paddingLeft, paddingRight ) {
 				// Re-enable width and height fields.
 				toggleDimensions( true );
 
@@ -150,11 +150,23 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				// Fill height field with the height of the new image.
 				heightField.setValue( editor.config.image2_prefillDimensions === false ? 0 : height );
 
+                // Fill padding field with the top, bottom, left, right of the new image.
+                paddingField.top.setValue( paddingTop );
+                paddingField.bottom.setValue( paddingBottom );
+                paddingField.left.setValue( paddingLeft );
+                paddingField.right.setValue( paddingRight );
+
 				// Cache the new width.
 				preLoadedWidth = width;
 
 				// Cache the new height.
 				preLoadedHeight = height;
+
+                // Cache the new padding.
+                preLoadedPadding.top = paddingTop;
+                preLoadedPadding.bottom = paddingBottom;
+                preLoadedPadding.left = paddingLeft;
+                preLoadedPadding.right = paddingRight;
 
 				// Check for new lock value if image exist.
 				toggleLockRatio( helpers.checkHasNaturalRatio( image ) );
@@ -175,6 +187,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 			// Restore height field with cached height.
 			heightField.setValue( domHeight );
+
+            // Restore padding field with cached padding.
+            paddingField.setValue( domPadding );
 
 			// Src equals default one back again.
 			srcChanged = false;
@@ -276,6 +291,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				if ( srcChanged ) {
 					widthField.setValue( preLoadedWidth );
 					heightField.setValue( preLoadedHeight );
+                    paddingField.setValue( preLoadedPadding );
 				}
 
 				// If the old image remains, reset button should revert
@@ -283,6 +299,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				else {
 					widthField.setValue( domWidth );
 					heightField.setValue( domHeight );
+                    paddingField.setValue( preLoadedPadding );
 				}
 
 				evt.data && evt.data.preventDefault();
@@ -404,6 +421,12 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 			// Get the natural height of the image.
 			preLoadedHeight = domHeight = natural.height;
+
+            // Get the natural padding top of the image.
+            preLoadedPadding.top = domPadding.top = natural.paddingTop;
+            preLoadedPadding.bottom = domPadding.bottom = natural.paddingBottom;
+            preLoadedPadding.left = domPadding.left = natural.paddingLeft;
+            preLoadedPadding.right = domPadding.right = natural.paddingRight;
 		},
 		contents: [
 			{
@@ -510,6 +533,72 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 							}
 						]
 					},
+                    {
+                        type: 'hbox',
+                        widths: [ '25%', '25%', '25%', '25%' ],
+                        children: [
+                            {
+                                type: 'text',
+                                width: '85px',
+                                id: 'paddingTop',
+                                label: 'Padding Top',
+                                onLoad: function () {
+                                    paddingField.top = this;
+                                },
+                                setup: function ( widget ) {
+                                    this.setValue( widget.data.paddingTop );
+                                },
+                                commit: function ( widget ) {
+                                    widget.setData( 'paddingTop', this.getValue () );
+                                }
+                            },
+                            {
+                                type: 'text',
+                                width: '85px',
+                                id: 'paddingBottom',
+                                label: 'Padding Bottom',
+                                onLoad: function () {
+                                    paddingField.bottom = this;
+                                },
+                                setup: function ( widget ) {
+                                    this.setValue( widget.data.paddingBottom );
+                                },
+                                commit: function ( widget ) {
+                                    widget.setData( 'paddingBottom', this.getValue () );
+                                }
+                            },
+                            {
+                                type: 'text',
+                                width: '85px',
+                                id: 'paddingLeft',
+                                label: 'Padding Left',
+                                onLoad: function () {
+                                    paddingField.left = this;
+                                },
+                                setup: function ( widget ) {
+                                    this.setValue( widget.data.paddingLeft );
+                                },
+                                commit: function ( widget ) {
+                                    widget.setData( 'paddingLeft', this.getValue () );
+                                }
+                            },
+                            {
+                                type: 'text',
+                                width: '85px',
+                                id: 'paddingRight',
+                                label: 'Padding Right',
+                                onLoad: function () {
+                                    paddingField.right = this;
+                                },
+                                setup: function ( widget ) {
+                                    this.setValue( widget.data.paddingRight );
+                                },
+                                commit: function ( widget ) {
+                                    widget.setData( 'paddingRight', this.getValue () );
+                                }
+                            }
+                        ]
+                    },
 					{
 						id: 'hasCaption',
 						type: 'checkbox',

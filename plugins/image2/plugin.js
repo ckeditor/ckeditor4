@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -351,8 +351,10 @@
 
 				// Set dimensions of the image according to gathered data.
 				// Do it only when the attributes are allowed (#11004).
-				if ( editor.filter.checkFeature( features.dimension ) )
+				if ( editor.filter.checkFeature( features.dimension ) ) {
 					setDimensions( this );
+                    setPadding(this);
+                }
 
 				// Cache current data.
 				this.oldData = CKEDITOR.tools.extend( {}, this.data );
@@ -367,6 +369,10 @@
 						alt: image.getAttribute( 'alt' ) || '',
 						width: image.getAttribute( 'width' ) || '',
 						height: image.getAttribute( 'height' ) || '',
+                        paddingTop: image.$.style.getPropertyValue( 'padding-top' ) || 0,
+                        paddingBottom: image.$.style.getPropertyValue( 'padding-bottom' ) || 0,
+                        paddingLeft: image.$.style.getPropertyValue( 'padding-left' ) || 0,
+                        paddingRight: image.$.style.getPropertyValue( 'padding-right' ) || 0,
 
 						// Lock ratio is on by default (#10833).
 						lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
@@ -757,7 +763,11 @@
 			if ( image.$.naturalWidth ) {
 				dimensions = {
 					width: image.$.naturalWidth,
-					height: image.$.naturalHeight
+					height: image.$.naturalHeight,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 0,
+                    paddingRight: 0
 				};
 			} else {
 				var img = new Image();
@@ -765,7 +775,11 @@
 
 				dimensions = {
 					width: img.width,
-					height: img.height
+					height: img.height,
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 0,
+                    paddingRight: 0
 				};
 			}
 
@@ -1047,6 +1061,35 @@
 				image.removeAttribute( d );
 		}
 	}
+
+    // Sets Padding of the widget image according to current widget data.
+    //
+    // @param {CKEDITOR.plugins.widget} widget
+    function setPadding ( widget ) {
+        var data = widget.data,
+            image = widget.parts.image;
+
+        if ( data.paddingTop ) {
+            image.$.style.paddingTop = data.paddingTop + "px";
+        } else {
+            image.$.style.paddingTop = 0;
+        }
+        if ( data.paddingBottom ) {
+            image.$.style.paddingBottom = data.paddingBottom + "px";
+        } else {
+            image.$.style.paddingBottom = 0;
+        }
+        if ( data.paddingLeft ) {
+            image.$.style.paddingLeft = data.paddingLeft + "px";
+        } else {
+            image.$.style.paddingLeft = 0;
+        }
+        if ( data.paddingRight ) {
+            image.$.style.paddingRight = data.paddingRight + "px";
+        } else {
+            image.$.style.paddingRight = 0;
+        }
+    }
 
 	// Defines all features related to drag-driven image resizing.
 	//
