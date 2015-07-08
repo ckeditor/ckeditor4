@@ -9,7 +9,7 @@
 
 'use strict';
 
-CKEDITOR.dialog.add('image2', function (editor) {
+CKEDITOR.dialog.add( 'image2', function( editor ) {
 
     // RegExp: 123, 123px, empty string ""
     var regexGetSizeOrEmpty = /(^\s*(\d+)(px)?\s*$)|^$/i,
@@ -20,7 +20,7 @@ CKEDITOR.dialog.add('image2', function (editor) {
         lang = editor.lang.image2,
         commonLang = editor.lang.common,
 
-        lockResetStyle = 'margin-top:18px;width:40px;height:20px;padding-top:0;padding-bottom:0;padding-left:0;padding-right:0;',
+        lockResetStyle = 'margin-top:18px;width:40px;height:20px;padding:0;',
         lockResetHtml = new CKEDITOR.template(
                 '<div>' +
                 '<a href="javascript:void(0)" tabindex="-1" title="' + lang.lockRatio + '" class="cke_btn_locked" id="{lockButtonId}" role="checkbox">' +
@@ -31,10 +31,10 @@ CKEDITOR.dialog.add('image2', function (editor) {
                 '<a href="javascript:void(0)" tabindex="-1" title="' + lang.resetSize + '" class="cke_btn_reset" id="{resetButtonId}" role="button">' +
                 '<span class="cke_label">' + lang.resetSize + '</span>' +
                 '</a>' +
-                '</div>').output({
+                '</div>' ).output( {
                 lockButtonId: lockButtonId,
                 resetButtonId: resetButtonId
-            }),
+            } ),
 
         helpers = CKEDITOR.plugins.image2,
 
@@ -71,11 +71,11 @@ CKEDITOR.dialog.add('image2', function (editor) {
     // Validates dimension. Allowed values are:
     // "123px", "123", "" (empty string)
     function validateDimension() {
-        var match = this.getValue().match(regexGetSizeOrEmpty),
-            isValid = !!( match && parseInt(match[ 1 ], 10) !== 0 );
+        var match = this.getValue().match( regexGetSizeOrEmpty ),
+            isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
 
-        if (!isValid)
-            alert(commonLang[ 'invalid' + CKEDITOR.tools.capitalize(this.id) ]); // jshint ignore:line
+        if ( !isValid )
+            alert( commonLang[ 'invalid' + CKEDITOR.tools.capitalize( this.id ) ] ); // jshint ignore:line
 
         return isValid;
     }
@@ -85,43 +85,43 @@ CKEDITOR.dialog.add('image2', function (editor) {
     //
     // @returns {Function}
     function createPreLoader() {
-        var image = doc.createElement('img'),
+        var image = doc.createElement( 'img' ),
             listeners = [];
 
-        function addListener(event, callback) {
-            listeners.push(image.once(event, function (evt) {
+        function addListener( event, callback ) {
+            listeners.push( image.once( event, function( evt ) {
                 removeListeners();
-                callback(evt);
-            }));
+                callback( evt );
+            } ) );
         }
 
         function removeListeners() {
             var l;
 
-            while (( l = listeners.pop() ))
+            while ( ( l = listeners.pop() ) )
                 l.removeListener();
         }
 
         // @param {String} src.
         // @param {Function} callback.
-        return function (src, callback, scope) {
-            addListener('load', function () {
+        return function( src, callback, scope ) {
+            addListener( 'load', function() {
                 // Don't use image.$.(width|height) since it's buggy in IE9-10 (#11159)
-                var dimensions = getNatural(image);
+                var dimensions = getNatural( image );
 
-                callback.call(scope, image, dimensions.width, dimensions.height, dimensions.paddingTop, dimensions.paddingBottom, dimensions.paddingLeft, dimensions.paddingRight);
-            });
+                callback.call( scope, image, dimensions.width, dimensions.height );
+            } );
 
-            addListener('error', function () {
-                callback(null);
-            });
+            addListener( 'error', function() {
+                callback( null );
+            } );
 
-            addListener('abort', function () {
-                callback(null);
-            });
+            addListener( 'abort', function() {
+                callback( null );
+            } );
 
-            image.setAttribute('src',
-                    ( config.baseHref || '' ) + src + '?' + Math.random().toString(16).substring(2));
+            image.setAttribute( 'src',
+                    ( config.baseHref || '' ) + src + '?' + Math.random().toString( 16 ).substring( 2 ) );
         };
     }
 
@@ -131,30 +131,30 @@ CKEDITOR.dialog.add('image2', function (editor) {
     function onChangeSrc() {
         var value = this.getValue();
 
-        toggleDimensions(false);
+        toggleDimensions( false );
 
         // Remember that src is different than default.
-        if (value !== widget.data.src) {
+        if ( value !== widget.data.src ) {
             // Update dimensions of the image once it's preloaded.
-            preLoader(value, function (image, width, height, paddingTop, paddingBottom, paddingLeft, paddingRight) {
+            preLoader( value, function ( image, width, height, paddingTop, paddingBottom, paddingLeft, paddingRight ) {
                 // Re-enable width and height fields.
-                toggleDimensions(true);
+                toggleDimensions( true );
 
                 // There was problem loading the image. Unlock ratio.
-                if (!image)
-                    return toggleLockRatio(false);
+                if ( !image )
+                    return toggleLockRatio( false );
 
                 // Fill width field with the width of the new image.
-                widthField.setValue(width);
+                widthField.setValue( width );
 
                 // Fill height field with the height of the new image.
-                heightField.setValue(height);
+                heightField.setValue( height );
 
                 // Fill padding field with the top, bottom, left, right of the new image.
-                paddingField.top.setValue(paddingTop);
-                paddingField.bottom.setValue(paddingBottom);
-                paddingField.left.setValue(paddingLeft);
-                paddingField.right.setValue(paddingRight);
+                paddingField.top.setValue( paddingTop );
+                paddingField.bottom.setValue( paddingBottom );
+                paddingField.left.setValue( paddingLeft );
+                paddingField.right.setValue( paddingRight );
 
                 // Cache the new width.
                 preLoadedWidth = width;
@@ -169,8 +169,8 @@ CKEDITOR.dialog.add('image2', function (editor) {
                 preLoadedPadding.right = paddingRight;
 
                 // Check for new lock value if image exist.
-                toggleLockRatio(helpers.checkHasNaturalRatio(image));
-            });
+                toggleLockRatio( helpers.checkHasNaturalRatio( image ) );
+            } );
 
             srcChanged = true;
         }
@@ -178,18 +178,18 @@ CKEDITOR.dialog.add('image2', function (editor) {
         // Value is the same as in widget data but is was
         // modified back in time. Roll back dimensions when restoring
         // default src.
-        else if (srcChanged) {
+        else if ( srcChanged ) {
             // Re-enable width and height fields.
-            toggleDimensions(true);
+            toggleDimensions( true );
 
             // Restore width field with cached width.
-            widthField.setValue(domWidth);
+            widthField.setValue( domWidth );
 
             // Restore height field with cached height.
-            heightField.setValue(domHeight);
+            heightField.setValue( domHeight );
 
             // Restore padding field with cached padding.
-            paddingField.setValue(domPadding);
+            paddingField.setValue( domPadding );
 
             // Src equals default one back again.
             srcChanged = false;
@@ -199,27 +199,27 @@ CKEDITOR.dialog.add('image2', function (editor) {
         // been modified.
         else {
             // Re-enable width and height fields.
-            toggleDimensions(true);
+            toggleDimensions( true );
         }
     }
 
     function onChangeDimension() {
         // If ratio is un-locked, then we don't care what's next.
-        if (!lockRatio)
+        if ( !lockRatio )
             return;
 
         var value = this.getValue();
 
         // No reason to auto-scale or unlock if the field is empty.
-        if (!value)
+        if ( !value )
             return;
 
         // If the value of the field is invalid (e.g. with %), unlock ratio.
-        if (!value.match(regexGetSizeOrEmpty))
-            toggleLockRatio(false);
+        if ( !value.match( regexGetSizeOrEmpty ) )
+            toggleLockRatio( false );
 
         // No automatic re-scale when dimension is '0'.
-        if (value === '0')
+        if ( value === '0' )
             return;
 
         var isWidth = this.id == 'width',
@@ -229,16 +229,16 @@ CKEDITOR.dialog.add('image2', function (editor) {
             height = domHeight || preLoadedHeight;
 
         // If changing width, then auto-scale height.
-        if (isWidth)
-            value = Math.round(height * ( value / width ));
+        if ( isWidth )
+            value = Math.round( height * ( value / width ) );
 
         // If changing height, then auto-scale width.
         else
-            value = Math.round(width * ( value / height ));
+            value = Math.round( width * ( value / height ) );
 
         // If the value is a number, apply it to the other field.
-        if (!isNaN(value))
-            ( isWidth ? heightField : widthField ).setValue(value);
+        if ( !isNaN( value ) )
+            ( isWidth ? heightField : widthField ).setValue( value );
     }
 
     // Set-up function for lock and reset buttons:
@@ -249,75 +249,75 @@ CKEDITOR.dialog.add('image2', function (editor) {
     function onLoadLockReset() {
         var dialog = this.getDialog();
 
-        function setupMouseClasses(el) {
-            el.on('mouseover', function () {
-                this.addClass('cke_btn_over');
-            }, el);
+        function setupMouseClasses( el ) {
+            el.on( 'mouseover', function() {
+                this.addClass( 'cke_btn_over' );
+            }, el );
 
-            el.on('mouseout', function () {
-                this.removeClass('cke_btn_over');
-            }, el);
+            el.on( 'mouseout', function() {
+                this.removeClass( 'cke_btn_over' );
+            }, el );
         }
 
         // Create references to lock and reset buttons for this dialog instance.
-        lockButton = doc.getById(lockButtonId);
-        resetButton = doc.getById(resetButtonId);
+        lockButton = doc.getById( lockButtonId );
+        resetButton = doc.getById( resetButtonId );
 
         // Activate (Un)LockRatio button
-        if (lockButton) {
+        if ( lockButton ) {
             // Consider that there's an additional focusable field
             // in the dialog when the "browse" button is visible.
-            dialog.addFocusable(lockButton, 4 + hasFileBrowser);
+            dialog.addFocusable( lockButton, 4 + hasFileBrowser );
 
-            lockButton.on('click', function (evt) {
+            lockButton.on( 'click', function( evt ) {
                 toggleLockRatio();
                 evt.data && evt.data.preventDefault();
-            }, this.getDialog());
+            }, this.getDialog() );
 
-            setupMouseClasses(lockButton);
+            setupMouseClasses( lockButton );
         }
 
         // Activate the reset size button.
-        if (resetButton) {
+        if ( resetButton ) {
             // Consider that there's an additional focusable field
             // in the dialog when the "browse" button is visible.
-            dialog.addFocusable(resetButton, 5 + hasFileBrowser);
+            dialog.addFocusable( resetButton, 5 + hasFileBrowser );
 
             // Fills width and height fields with the original dimensions of the
             // image (stored in widget#data since widget#init).
-            resetButton.on('click', function (evt) {
+            resetButton.on( 'click', function( evt ) {
                 // If there's a new image loaded, reset button should revert
                 // cached dimensions of pre-loaded DOM element.
-                if (srcChanged) {
-                    widthField.setValue(preLoadedWidth);
-                    heightField.setValue(preLoadedHeight);
-                    paddingField.setValue(preLoadedPadding);
+                if ( srcChanged ) {
+                    widthField.setValue( preLoadedWidth );
+                    heightField.setValue( preLoadedHeight );
+                    paddingField.setValue( preLoadedPadding );
                 }
 
                 // If the old image remains, reset button should revert
                 // dimensions as loaded when the dialog was first shown.
                 else {
-                    widthField.setValue(domWidth);
-                    heightField.setValue(domHeight);
-                    paddingField.setValue(preLoadedPadding);
+                    widthField.setValue( domWidth );
+                    heightField.setValue( domHeight );
+                    paddingField.setValue( preLoadedPadding );
                 }
 
                 evt.data && evt.data.preventDefault();
-            }, this);
+            }, this );
 
-            setupMouseClasses(resetButton);
+            setupMouseClasses( resetButton );
         }
     }
 
-    function toggleLockRatio(enable) {
+    function toggleLockRatio( enable ) {
         // No locking if there's no radio (i.e. due to ACF).
-        if (!lockButton)
+        if ( !lockButton )
             return;
 
-        if (typeof enable == 'boolean') {
+        if ( typeof enable == 'boolean' ) {
             // If user explicitly wants to decide whether
             // to lock or not, don't do anything.
-            if (userDefinedLock)
+            if ( userDefinedLock )
                 return;
 
             lockRatio = enable;
@@ -333,25 +333,25 @@ CKEDITOR.dialog.add('image2', function (editor) {
 
             // Automatically adjust height to width to match
             // the original ratio (based on dom- dimensions).
-            if (lockRatio && width) {
+            if ( lockRatio && width ) {
                 height = domHeight / domWidth * width;
 
-                if (!isNaN(height))
-                    heightField.setValue(Math.round(height));
+                if ( !isNaN( height ) )
+                    heightField.setValue( Math.round( height ) );
             }
         }
 
-        lockButton[ lockRatio ? 'removeClass' : 'addClass' ]('cke_btn_unlocked');
-        lockButton.setAttribute('aria-checked', lockRatio);
+        lockButton[ lockRatio ? 'removeClass' : 'addClass' ]( 'cke_btn_unlocked' );
+        lockButton.setAttribute( 'aria-checked', lockRatio );
 
         // Ratio button hc presentation - WHITE SQUARE / BLACK SQUARE
-        if (CKEDITOR.env.hc) {
-            var icon = lockButton.getChild(0);
-            icon.setHtml(lockRatio ? CKEDITOR.env.ie ? '\u25A0' : '\u25A3' : CKEDITOR.env.ie ? '\u25A1' : '\u25A2');
+        if ( CKEDITOR.env.hc ) {
+            var icon = lockButton.getChild( 0 );
+            icon.setHtml( lockRatio ? CKEDITOR.env.ie ? '\u25A0' : '\u25A3' : CKEDITOR.env.ie ? '\u25A1' : '\u25A2' );
         }
     }
 
-    function toggleDimensions(enable) {
+    function toggleDimensions( enable ) {
         var method = enable ? 'enable' : 'disable';
 
         widthField[ method ]();
@@ -366,20 +366,20 @@ CKEDITOR.dialog.add('image2', function (editor) {
                 label: commonLang.url,
                 onKeyup: onChangeSrc,
                 onChange: onChangeSrc,
-                setup: function (widget) {
-                    this.setValue(widget.data.src);
+                setup: function( widget ) {
+                    this.setValue( widget.data.src );
                 },
-                commit: function (widget) {
-                    widget.setData('src', this.getValue());
+                commit: function( widget ) {
+                    widget.setData( 'src', this.getValue() );
                 },
-                validate: CKEDITOR.dialog.validate.notEmpty(lang.urlMissing)
+                validate: CKEDITOR.dialog.validate.notEmpty( lang.urlMissing )
             }
         ];
 
     // Render the "Browse" button on demand to avoid an "empty" (hidden child)
     // space in dialog layout that distorts the UI.
-    if (hasFileBrowser) {
-        srcBoxChildren.push({
+    if ( hasFileBrowser ) {
+        srcBoxChildren.push( {
             type: 'button',
             id: 'browse',
             // v-align with the 'txtUrl' field.
@@ -389,21 +389,21 @@ CKEDITOR.dialog.add('image2', function (editor) {
             label: editor.lang.common.browseServer,
             hidden: true,
             filebrowser: 'info:src'
-        });
+        } );
     }
 
     return {
         title: lang.title,
         minWidth: 250,
         minHeight: 100,
-        onLoad: function () {
+        onLoad: function() {
             // Create a "global" reference to the document for this dialog instance.
             doc = this._.element.getDocument();
 
             // Create a pre-loader used for determining dimensions of new images.
             preLoader = createPreLoader();
         },
-        onShow: function () {
+        onShow: function() {
             // Create a "global" reference to edited widget.
             widget = this.widget;
 
@@ -414,7 +414,7 @@ CKEDITOR.dialog.add('image2', function (editor) {
             srcChanged = userDefinedLock = lockRatio = false;
 
             // Natural dimensions of the image.
-            natural = getNatural(image);
+            natural = getNatural( image );
 
             // Get the natural width of the image.
             preLoadedWidth = domWidth = natural.width;
@@ -448,11 +448,11 @@ CKEDITOR.dialog.add('image2', function (editor) {
                         id: 'alt',
                         type: 'text',
                         label: lang.alt,
-                        setup: function (widget) {
-                            this.setValue(widget.data.alt);
+                        setup: function( widget ) {
+                            this.setValue( widget.data.alt );
                         },
-                        commit: function (widget) {
-                            widget.setData('alt', this.getValue());
+                        commit: function( widget ) {
+                            widget.setData( 'alt', this.getValue() );
                         }
                     },
                     {
@@ -467,14 +467,14 @@ CKEDITOR.dialog.add('image2', function (editor) {
                                 label: commonLang.width,
                                 validate: validateDimension,
                                 onKeyUp: onChangeDimension,
-                                onLoad: function () {
+                                onLoad: function() {
                                     widthField = this;
                                 },
-                                setup: function (widget) {
-                                    this.setValue(widget.data.width);
+                                setup: function( widget ) {
+                                    this.setValue( widget.data.width );
                                 },
-                                commit: function (widget) {
-                                    widget.setData('width', this.getValue());
+                                commit: function( widget ) {
+                                    widget.setData( 'width', this.getValue() );
                                 }
                             },
                             {
@@ -484,14 +484,14 @@ CKEDITOR.dialog.add('image2', function (editor) {
                                 label: commonLang.height,
                                 validate: validateDimension,
                                 onKeyUp: onChangeDimension,
-                                onLoad: function () {
+                                onLoad: function() {
                                     heightField = this;
                                 },
-                                setup: function (widget) {
-                                    this.setValue(widget.data.height);
+                                setup: function( widget ) {
+                                    this.setValue( widget.data.height );
                                 },
-                                commit: function (widget) {
-                                    widget.setData('height', this.getValue());
+                                commit: function( widget ) {
+                                    widget.setData( 'height', this.getValue() );
                                 }
                             },
                             {
@@ -499,11 +499,11 @@ CKEDITOR.dialog.add('image2', function (editor) {
                                 type: 'html',
                                 style: lockResetStyle,
                                 onLoad: onLoadLockReset,
-                                setup: function (widget) {
-                                    toggleLockRatio(widget.data.lock);
+                                setup: function( widget ) {
+                                    toggleLockRatio( widget.data.lock );
                                 },
-                                commit: function (widget) {
-                                    widget.setData('lock', lockRatio);
+                                commit: function( widget ) {
+                                    widget.setData( 'lock', lockRatio );
                                 },
                                 html: lockResetHtml
                             }
@@ -524,11 +524,11 @@ CKEDITOR.dialog.add('image2', function (editor) {
                                     [ commonLang.alignRight, 'right' ]
                                 ],
                                 label: commonLang.align,
-                                setup: function (widget) {
-                                    this.setValue(widget.data.align);
+                                setup: function( widget ) {
+                                    this.setValue( widget.data.align );
                                 },
-                                commit: function (widget) {
-                                    widget.setData('align', this.getValue());
+                                commit: function( widget ) {
+                                    widget.setData( 'align', this.getValue() );
                                 }
                             }
                         ]
@@ -545,11 +545,11 @@ CKEDITOR.dialog.add('image2', function (editor) {
                                 onLoad: function () {
                                     paddingField.top = this;
                                 },
-                                setup: function (widget) {
-                                    this.setValue(widget.data.paddingTop);
+                                setup: function ( widget ) {
+                                    this.setValue( widget.data.paddingTop );
                                 },
-                                commit: function (widget) {
-                                    widget.setData('paddingTop', this.getValue());
+                                commit: function ( widget ) {
+                                    widget.setData( 'paddingTop', this.getValue () );
                                 }
                             },
                             {
@@ -560,11 +560,11 @@ CKEDITOR.dialog.add('image2', function (editor) {
                                 onLoad: function () {
                                     paddingField.bottom = this;
                                 },
-                                setup: function (widget) {
-                                    this.setValue(widget.data.paddingBottom);
+                                setup: function ( widget ) {
+                                    this.setValue( widget.data.paddingBottom );
                                 },
-                                commit: function (widget) {
-                                    widget.setData('paddingBottom', this.getValue());
+                                commit: function ( widget ) {
+                                    widget.setData( 'paddingBottom', this.getValue () );
                                 }
                             },
                             {
@@ -575,11 +575,11 @@ CKEDITOR.dialog.add('image2', function (editor) {
                                 onLoad: function () {
                                     paddingField.left = this;
                                 },
-                                setup: function (widget) {
-                                    this.setValue(widget.data.paddingLeft);
+                                setup: function ( widget ) {
+                                    this.setValue( widget.data.paddingLeft );
                                 },
-                                commit: function (widget) {
-                                    widget.setData('paddingLeft', this.getValue());
+                                commit: function ( widget ) {
+                                    widget.setData( 'paddingLeft', this.getValue () );
                                 }
                             },
                             {
@@ -590,11 +590,11 @@ CKEDITOR.dialog.add('image2', function (editor) {
                                 onLoad: function () {
                                     paddingField.right = this;
                                 },
-                                setup: function (widget) {
-                                    this.setValue(widget.data.paddingRight);
+                                setup: function ( widget ) {
+                                    this.setValue( widget.data.paddingRight );
                                 },
-                                commit: function (widget) {
-                                    widget.setData('paddingRight', this.getValue());
+                                commit: function ( widget ) {
+                                    widget.setData( 'paddingRight', this.getValue () );
                                 }
                             }
                         ]
@@ -604,11 +604,11 @@ CKEDITOR.dialog.add('image2', function (editor) {
                         type: 'checkbox',
                         label: lang.captioned,
                         requiredContent: features.caption.requiredContent,
-                        setup: function (widget) {
-                            this.setValue(widget.data.hasCaption);
+                        setup: function( widget ) {
+                            this.setValue( widget.data.hasCaption );
                         },
-                        commit: function (widget) {
-                            widget.setData('hasCaption', this.getValue());
+                        commit: function( widget ) {
+                            widget.setData( 'hasCaption', this.getValue() );
                         }
                     }
                 ]
@@ -636,4 +636,4 @@ CKEDITOR.dialog.add('image2', function (editor) {
             }
         ]
     };
-});
+} );
