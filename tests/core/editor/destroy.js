@@ -25,5 +25,16 @@ bender.test(
 			} );
 
 		} );
+	},
+
+	// #13385.
+	'test getSnapshot returns empty string after editor destroyed': function() {
+		bender.editorBot.create( {}, function( bot ) {
+			this.wait( function() {
+				var editor = bot.editor;
+				editor.destroy();
+				assert.areSame( '', editor.getSnapshot() );
+			}, 0 );
+		} );
 	}
 } );

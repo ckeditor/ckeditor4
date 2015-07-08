@@ -904,15 +904,26 @@
 		 *
 		 *		alert( editor.getSnapshot() );
 		 *
-		 * @see CKEDITOR.editor#getData
+		 * See also:
+		 *
+		 * * {@link CKEDITOR.editor#getData}.
+		 *
+		 * @returns {String} Editor "raw data".
 		 */
 		getSnapshot: function() {
 			var data = this.fire( 'getSnapshot' );
 
 			if ( typeof data != 'string' ) {
 				var element = this.element;
-				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
+
+				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 					data = element.is( 'textarea' ) ? element.getValue() : element.getHtml();
+				}
+				else {
+					// If we don't have a proper element, set data to an empty string,
+					// as this method is expected to return a string. (#13385)
+					data = '';
+				}
 			}
 
 			return data;
