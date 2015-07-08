@@ -124,7 +124,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						var dialog = this.getDialog();
 						var htmlToLoad = '<html dir="' + editor.config.contentsLangDirection + '"' +
 							' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
-							'<head><style>body{margin:3px;height:95%}</style></head><body>' +
+							'<head><style>body{margin:3px;height:95%;word-break:break-all;}</style></head><body>' +
 							'<script id="cke_actscrpt" type="text/javascript">' +
 							'window.parent.CKEDITOR.tools.callFunction(' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ',this);' +
 							'</script></body>' +
