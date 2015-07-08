@@ -904,7 +904,10 @@
 		 *
 		 *		alert( editor.getSnapshot() );
 		 *
-		 * @see CKEDITOR.editor#getData
+		 * See also:
+		 *
+		 * * {@link CKEDITOR.editor#getData}.
+		 *
 		 * @returns {String} Editor "raw data".
 		 */
 		getSnapshot: function() {
