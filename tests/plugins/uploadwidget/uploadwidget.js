@@ -63,7 +63,8 @@
 			widgets: {
 				add: function() {}
 			},
-			lang: {}
+			lang: {},
+			config: {}
 		};
 
 		editor.uploadRepository = new CKEDITOR.fileTools.uploadRepository( editor );

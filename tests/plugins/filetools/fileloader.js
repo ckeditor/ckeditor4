@@ -10,7 +10,14 @@
 		pngBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
 		testFile, lastFormData,
 		listeners = [],
-		editorMock = {};
+		editorMock = {
+			config: {}
+		},
+		editorMockDefaultFileName = {
+			config: {
+				fileTools_defaultFileName: 'default-file-name'
+			}
+		};
 
 	function createFileReaderMock( scenario ) {
 		var isAborted = false;
@@ -200,7 +207,7 @@
 		},
 
 		'test constructor string, no name': function() {
-			var loader = new FileLoader( {}, pngBase64 );
+			var loader = new FileLoader( editorMock, pngBase64 );
 
 			assert.areSame( 'image.png', loader.fileName );
 			assert.areSame( pngBase64, loader.data );
@@ -211,8 +218,20 @@
 			assert.areSame( 'created', loader.status );
 		},
 
+		'test constructor string, no name, default file name provided': function() {
+			var loader = new FileLoader( editorMockDefaultFileName, pngBase64 );
+
+			assert.areSame( editorMockDefaultFileName.config.fileTools_defaultFileName + '.png', loader.fileName );
+			assert.areSame( pngBase64, loader.data );
+			assert.isObject( loader.file );
+			assert.areSame( 82, loader.total );
+			assert.areSame( 82, loader.loaded );
+			assert.areSame( 0, loader.uploaded );
+			assert.areSame( 'created', loader.status );
+		},
+
 		'test constructor string, filename': function() {
-			var loader = new FileLoader( {}, pngBase64, 'foo' );
+			var loader = new FileLoader( editorMock, pngBase64, 'foo' );
 
 			assert.areSame( 'foo', loader.fileName );
 			assert.areSame( pngBase64, loader.data );
@@ -224,7 +243,7 @@
 		},
 
 		'test constructor file, no name': function() {
-			var loader = new FileLoader( {}, testFile );
+			var loader = new FileLoader( editorMock, testFile );
 
 			assert.areSame( 'name.png', loader.fileName );
 			assert.isNull( loader.data );
@@ -236,7 +255,7 @@
 		},
 
 		'test constructor file, filename': function() {
-			var loader = new FileLoader( {}, testFile, 'bar' );
+			var loader = new FileLoader( editorMock, testFile, 'bar' );
 
 			assert.areSame( 'bar', loader.fileName );
 			assert.isNull( loader.data );
@@ -251,9 +270,24 @@
 			var testFileWithoutName = bender.tools.getTestPngFile();
 			testFileWithoutName.name = undefined;
 
-			var loader = new FileLoader( {}, testFileWithoutName );
+			var loader = new FileLoader( editorMock, testFileWithoutName );
 
 			assert.areSame( 'image.png', loader.fileName );
+			assert.isNull( loader.data );
+			assert.isObject( loader.file );
+			assert.areSame( 82, loader.total );
+			assert.areSame( 0, loader.loaded );
+			assert.areSame( 0, loader.uploaded );
+			assert.areSame( 'created', loader.status );
+		},
+
+		'test constructor file, no filename in file, default file name provided': function() {
+			var testFileWithoutName = bender.tools.getTestPngFile();
+			testFileWithoutName.name = undefined;
+
+			var loader = new FileLoader( editorMockDefaultFileName, testFileWithoutName );
+
+			assert.areSame( editorMockDefaultFileName.config.fileTools_defaultFileName + '.png', loader.fileName );
 			assert.isNull( loader.data );
 			assert.isObject( loader.file );
 			assert.areSame( 82, loader.total );
