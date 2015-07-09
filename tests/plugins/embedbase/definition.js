@@ -475,7 +475,7 @@ bender.test( {
 		} );
 	},
 
-	'test if embedding is cancelled when widget is no longer valid': function() {
+	'test if embedding is canceled when widget is no longer valid': function() {
 		var bot = this.editorBots.inline,
 			editor = bot.editor,
 			successCallbackSpy = sinon.spy(),
@@ -484,6 +484,19 @@ bender.test( {
 		bot.setData( dataWithWidget, function() {
 			var widget = getWidgetById( editor, 'w1' ),
 				task;
+
+			jsonpCallback = function( urlTemplate, urlParams, callback ) {
+				resume( function() {
+					callback( {
+						type: 'rich',
+						html: '<p>url:' + urlParams.url + '</p>'
+					} );
+
+					assert.isTrue( task.isDone() );
+					assert.isFalse( successCallbackSpy.called );
+					assert.isFalse( errorCallbackSpy.called );
+				} );
+			};
 
 			widget.on( 'sendRequest', function( evt ) {
 				task = evt.data.task;
@@ -496,11 +509,7 @@ bender.test( {
 
 			editor.widgets.destroy( widget );
 
-			wait( function() {
-				assert.isTrue( task.isDone() );
-				assert.isFalse( successCallbackSpy.called );
-				assert.isFalse( errorCallbackSpy.called );
-			}, 200 );
+			wait();
 		} );
 
 	}

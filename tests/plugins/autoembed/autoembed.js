@@ -59,7 +59,9 @@ bender.test( {
 	},
 
 	'test embedding when request failed': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBot,
+			instanceDestroyed = false;
+
 		jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
 			errorCallback();
 		};
@@ -67,6 +69,11 @@ bender.test( {
 		bot.setData( '', function() {
 			bot.editor.focus();
 			this.editor.execCommand( 'paste', 'https://foo.bar/g/200/302' );
+
+			// Check if errorCallback was called - it should destroy widget instance.
+			this.editor.widgets.once( 'instanceDestroyed', function( ) {
+				instanceDestroyed = true;
+			} );
 
 			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
 			assert.areSame(
@@ -81,6 +88,8 @@ bender.test( {
 					bot.getData( 1 ),
 					'link was not auto embedded'
 				);
+
+				assert.isTrue( instanceDestroyed );
 			}, 200 );
 		} );
 	},
@@ -321,17 +330,17 @@ bender.test( {
 
 		editor.once( 'afterPaste', function() {
 			editor.execCommand( 'undo' );
+
 		}, null, null, 900 );
 
 		bot.setData( '', function() {
 			editor.focus();
 			editor.resetUndo();
-
 			editor.execCommand( 'paste', pastedText );
 
 			wait( function() {
-				assert.areSame( finalizeCreationStub.called, false, 'finalize creation was not called' );
 				CKEDITOR.plugins.widget.repository.prototype.finalizeCreation.restore();
+				assert.areSame( finalizeCreationStub.called, false, 'finalize creation was not called' );
 			}, 200 );
 		} );
 	}

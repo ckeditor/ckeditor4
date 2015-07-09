@@ -95,7 +95,7 @@
 			},
 
 			errorCallback: function() {
-				editor.widgets.destroy( instance );
+				editor.widgets.destroy( instance, true );
 			}
 		} );
 
