@@ -17,6 +17,15 @@ function correctJsonpCallback( urlTemplate, urlParams, callback ) {
 
 var jsonpCallback;
 
+function testIsEmbedded( pastedText ) {
+	var expectedRegExp = /data-cke-autoembed="\d+"/;
+
+	assertPasteEvent( this.editor, { dataValue: pastedText }, function( data ) {
+		// Use prepInnerHtml to make sure attr are sorted.
+		assert.isMatching( expectedRegExp, bender.tools.html.prepareInnerHtmlForComparison( data.dataValue ) );
+	} );
+}
+
 embedTools.mockJsonp( function() {
 	jsonpCallback.apply( this, arguments );
 } );
@@ -119,19 +128,45 @@ bender.test( {
 
 	// #13420.
 	'test link with encodable characters': function() {
-		var bot = this.editorBot;
+		var links = [
+			// Mind that links differ in a part g/200/3xx so it is easier and faster
+			// to check which link failed the test.
 
-		var pastedText = 'https://foo.bar/g/200/300?a=b&amp;c=d';
-		var expected = '<div data-oembed-url="https://foo.bar/g/200/300?a=b&amp;c=d"><img src="https://foo.bar/g/200/300?a=b&amp;c=d" /></div>';
+			// Pasting a link alone:
+			// No encoding:
+			'https://foo.bar/g/200/301?foo="æåãĂĄ"',
 
-		bot.setData( '', function() {
-			bot.editor.focus();
-			this.editor.execCommand( 'paste', pastedText );
+			// Partially encoded:
+			'https://foo.bar/g/200/302?foo=%22%20æåãĂĄ%22',
 
-			wait( function() {
-				assert.areSame( expected, bot.getData( 1 ), 'Link with special characters is embedded.' );
-			}, 200 );
-		} );
+			// Fully encoded:
+			'https://foo.bar/g/200/303?foo=%22%20%C3%A6%C3%A5%C3%A3%C4%82%C4%84%22',
+
+			// Encoded twice:
+			'https://foo.bar/g/200/304?foo=%2522%2520%25C3%25A6%25C3%25A5%25C3%25A3%25C4%2582%25C4%2584%2522',
+
+			// &amp; not encoded:
+			'https://foo.bar/g/200/305?foo="æåãĂĄ"&bar=bar',
+
+			// &amp; encoded:
+			'https://foo.bar/g/200/306?foo="æåãĂĄ"&amp;bar=bar',
+
+			// Pasting <a> element:
+			// &amp;:
+			'<a href="https://foo.bar/g/200/307?foo=%20æåãĂĄ%20&amp;bar=bar">https://foo.bar/g/200/307?foo=%20æåãĂĄ%20&amp;bar=bar</a>',
+
+			// Quote sign:
+			'<a href="https://foo.bar/g/200/310?foo=&quot;æåãĂĄ&quot;">https://foo.bar/g/200/310?foo=&quot;æåãĂĄ&quot;</a>',
+			'<a href="https://foo.bar/g/200/310?foo=%22æåãĂĄ%22">https://foo.bar/g/200/310?foo="æåãĂĄ"</a>',
+			'<a href="https://foo.bar/g/200/311?foo=%22æåãĂĄ%22">https://foo.bar/g/200/311?foo=%22æåãĂĄ%22</a>',
+
+			// Mixed encoding:
+			'<a href="https://foo.bar/g/200/312?foo=%22%20%C3%A6%C3%A5%C3%A3%C4%82%C4%84%22">https://foo.bar/g/200/312?foo=%22%20æåãĂĄ%22</a>'
+		];
+
+		for ( var i = 0; i < links.length; i++ ) {
+			testIsEmbedded.call( this, links[i] );
+		}
 	},
 
 	'test uppercase link is auto embedded': function() {

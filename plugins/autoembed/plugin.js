@@ -24,7 +24,7 @@
 
 				// Expecting exactly one <a> tag spanning the whole pasted content.
 				// The tag has to have same href as content.
-				if ( match != null && match[ 1 ] == match[ 2 ] ) {
+				if ( match != null && decodeURI( match[ 1 ] ) == decodeURI( match[ 2 ] ) ) {
 					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + data.substr( 2 );
 				}
 
