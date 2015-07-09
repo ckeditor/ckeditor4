@@ -239,9 +239,12 @@
 	 * string encoded with Base64.
 	 * @param {String} [fileName] The file name. If not set and the second parameter is a file, then its name will be used.
 	 * If not set and the second parameter is a Base64 data string, then the file name will be created based on
-	 * the MIME type by replacing '/' with '.', for example for `image/png` the file name will be `image.png`.
+	 * {@link CKEDITOR.config#fileTools_defaultFileName}.
 	 */
 	function FileLoader( editor, fileOrData, fileName ) {
+		var mimeParts,
+			defaultFileName = editor.config.fileTools_defaultFileName;
+
 		this.editor = editor;
 		this.lang = editor.lang;
 
@@ -263,8 +266,13 @@
 		} else if ( this.file.name ) {
 			this.fileName = this.file.name;
 		} else {
-			// If file has no name create a name based on the mime type.
-			this.fileName = this.file.type.replace( '/', '.' );
+			mimeParts = this.file.type.split( '/' );
+
+			if ( defaultFileName ) {
+				mimeParts[ 0 ] = defaultFileName;
+			}
+
+			this.fileName = mimeParts.join( '.' );
 		}
 
 		this.uploaded = 0;
@@ -306,8 +314,7 @@
 	 */
 
 	/**
-	 * The name of the file. If there is no file name, it is created from the MIME type.
-	 * For example for the `image/png` MIME type, the file name will be `image.png`.
+	 * The name of the file. If there is no file name, it is created using {@link CKEDITOR.config#fileTools_defaultFileName}.
 	 *
 	 * @readonly
 	 * @property {String} fileName
@@ -759,5 +766,20 @@
  *
  * @since 4.5
  * @cfg {String} [uploadUrl='']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Default file name (without extension) that will be used for files created from Base64 data string.
+ * This name will be combined with MIME type to create full file name with extension.
+ *
+ * If `fileTools_defaultFileName` will be set to `default-name` and data's MIME type will be `image/png`
+ * the resulting file name will be `default-name.png`.
+ *
+ * If `fileTools_defaultFileName` is not set then the file name will be created using only its MIME type.
+ * For example for `image/png` the file name will be `image.png`.
+ *
+ * @since 4.5.2
+ * @cfg {String} [fileTools_defaultFileName='']
  * @member CKEDITOR.config
  */
