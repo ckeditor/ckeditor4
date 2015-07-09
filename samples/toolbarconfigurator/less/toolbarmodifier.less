@@ -108,7 +108,7 @@
 
 .toolbarModifier :focus,
 .toolbar button:focus,
-.configContainer > textarea:focus {
+.configContainer textarea.configCode:focus {
 	outline: none;
 }
 
@@ -406,14 +406,14 @@ div.toolbarModifier {
 }
 
 .toolbarModifier-hints,
-.configContainer > textarea,
+.configContainer textarea.configCode,
 .CodeMirror {
 	.border-radius( 3px );
 	border: 1px solid #ccc;
 	.font-size( .813 );
 }
 
-.configContainer > textarea,
+.configContainer textarea.configCode,
 .CodeMirror pre,
 .CodeMirror-linenumber {
 	.font-size( .813 );
@@ -426,7 +426,7 @@ div.toolbarModifier {
 	margin: 0;
 }
 
-.configContainer > textarea {
+.configContainer textarea.configCode {
 	.box-sizing( border-box );
 	color: @sample-text-color;
 	padding: 10px;

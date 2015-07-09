@@ -13,6 +13,7 @@ Fixed Issues:
 * [#13460](http://dev.ckeditor.com/ticket/13460): [IE8] Fixed: Copying inline widgets is broken when the Advanced Content Filter is disabled.
 * [#13495](http://dev.ckeditor.com/ticket/13495): [Firefox,IE] Fixed: Text is not word-wrapped in the Paste dialog.
 * [#13385](http://dev.ckeditor.com/ticket/13385): Fixed: [`editor.getSnapshot()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSnapshot) may return a non-string value.
+* [#13422](http://dev.ckeditor.com/ticket/13422): Fixed: A monospaced font should be used in the `<textarea>` holding editor's config in the Toolbar Configurator.
 
 ## CKEditor 4.5.1
 
