@@ -6,7 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#13434](http://dev.ckeditor.com/ticket/13434): Fixed: Dialog state indicator broken in Right–To–Left environments.
-* [#13434](http://dev.ckeditor.com/ticket/13434): [IE8-9] Fixed: One drag&drop operation may affect following ones.
+* [#13451](http://dev.ckeditor.com/ticket/13451): [IE8-9] Fixed: One drag&drop operation may affect following ones.
 * [#13129](http://dev.ckeditor.com/ticket/13129) Fixed: Block widget blurred after drop followed by undo.
 * [#13468](http://dev.ckeditor.com/ticket/13468): [IE] Fixed: Binding drag&drop `dataTransfer` does not work if `text` data was set in the meantime.
 * [#13419](http://dev.ckeditor.com/ticket/13419): Fixed: [Auto Link](http://ckeditor.com/addon/autolink) plugin does not encode double quotes in URLs.
