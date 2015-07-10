@@ -744,7 +744,12 @@
 					var path = range.startPath();
 
 					// <p><b>^</b></p> is empty block.
-					if ( range.checkStartOfBlock() && range.checkEndOfBlock() && path.block && !range.root.equals( path.block ) ) {
+					// First condition looks for bookmarks. Using getElementsByTagName to retain compatibility with IE quirks mode.
+					if ( !path.block.$.getElementsByTagName( 'span' ).length &&
+						range.checkStartOfBlock() &&
+						range.checkEndOfBlock() &&
+						path.block &&
+						!range.root.equals( path.block ) ) {
 						range.moveToPosition( path.block, CKEDITOR.POSITION_BEFORE_START );
 						path.block.remove();
 					}
