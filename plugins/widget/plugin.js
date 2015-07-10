@@ -2345,16 +2345,6 @@
 		return CKEDITOR.tools.trim( wrapperHtml );
 	}
 
-	function widgetDroppingIntoChild( child, widget ) {
-		var node = child;
-		while ( node = node.getParent() ) {
-			if ( node.equals( widget.wrapper ) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	function setupDragAndDrop( widgetsRepo ) {
 		var editor = widgetsRepo.editor,
 			lineutils = CKEDITOR.plugins.lineutils;
@@ -2426,7 +2416,8 @@
 							if ( Widget.isDomNestedEditable( el ) )
 								return;
 
-							if ( widgetDroppingIntoChild( el, widgetsRepo._.draggedWidget ) ) {
+							// Do not allow droping inside the widget being dragged (#13397).
+							if ( widgetsRepo._.draggedWidget.wrapper.contains( el ) ) {
 								return;
 							}
 
