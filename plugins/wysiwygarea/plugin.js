@@ -78,23 +78,6 @@
 				// Execute onLoad manually for all non IE||Gecko browsers.
 				!useOnloadEvent && onLoad();
 
-				if ( CKEDITOR.env.webkit ) {
-					// Webkit: iframe size doesn't auto fit well. (#7360)
-					var onResize = function() {
-						// Hide the iframe to get real size of the holder. (#8941)
-						contentSpace.setStyle( 'width', '100%' );
-
-						iframe.hide();
-						iframe.setSize( 'width', contentSpace.getSize( 'width' ) );
-						contentSpace.removeStyle( 'width' );
-						iframe.show();
-					};
-
-					iframe.setCustomData( 'onResize', onResize );
-
-					CKEDITOR.document.getWindow().on( 'resize', onResize );
-				}
-
 				editor.fire( 'ariaWidget', iframe );
 
 				function onLoad( evt ) {
