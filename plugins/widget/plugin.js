@@ -2416,6 +2416,11 @@
 							if ( Widget.isDomNestedEditable( el ) )
 								return;
 
+							// Do not allow droping inside the widget being dragged (#13397).
+							if ( widgetsRepo._.draggedWidget.wrapper.contains( el ) ) {
+								return;
+							}
+
 							// If element is nested editable, make sure widget can be dropped there (#12006).
 							var nestedEditable = Widget.getNestedEditable( editable, el );
 							if ( nestedEditable ) {
