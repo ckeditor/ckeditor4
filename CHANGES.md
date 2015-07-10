@@ -14,6 +14,7 @@ Fixed Issues:
 * [#13495](http://dev.ckeditor.com/ticket/13495): [Firefox,IE] Fixed: Text is not word-wrapped in the Paste dialog.
 * [#13385](http://dev.ckeditor.com/ticket/13385): Fixed: [`editor.getSnapshot()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSnapshot) may return a non-string value.
 * [#13422](http://dev.ckeditor.com/ticket/13422): Fixed: A monospaced font should be used in the `<textarea>` holding editor's config in the Toolbar Configurator.
+* [#11616](http://dev.ckeditor.com/ticket/11616): [Chrome] Fixed: Resizing the editor while it's not displayed breaks the editable. Fixed also [#9160](http://dev.ckeditor.com/ticket/9160) and [#9715](http://dev.ckeditor.com/ticket/9715).
 
 ## CKEditor 4.5.1
 
