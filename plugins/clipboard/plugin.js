@@ -1736,25 +1736,46 @@
 			// We call isDropRangeAffectedByDragRange to test the order of ranges.
 			isDropRangeAffected = this.isDropRangeAffectedByDragRange( dragRange, dropRange );
 			if ( !isDropRangeAffected ) {
-				dragBookmark = dragRange.createBookmark( 1 );
+				dragBookmark = dragRange.createBookmark( false );
 			}
-			dropBookmark = dropRange.clone().createBookmark( 1 );
+			dropBookmark = dropRange.clone().createBookmark( false );
 			if ( isDropRangeAffected ) {
-				dragBookmark = dragRange.createBookmark( 1 );
+				dragBookmark = dragRange.createBookmark( false );
 			}
 
-			// No we can safely delete content for the drag range...
-			dragRange = editor.createRange();
-			dragRange.moveToBookmark( dragBookmark );
-			editable.extractHtmlFromRange( dragRange, 1 );
+			// Check if drop range is inside range.
+			// This is an edge case when we drop something on editable's margin/padding.
+			// That space is not treated as a part of the range we drag, so it is possible to drop there.
+			// When we drop, browser tries to find closest drop position and it finds it inside drag range. (#13453)
+			var startNode = dragBookmark.startNode,
+				endNode = dragBookmark.endNode,
+				dropNode = dropBookmark.startNode;
 
-			// ...and paste content into the drop position.
-			dropRange = editor.createRange();
-			dropRange.moveToBookmark( dropBookmark );
+			if ( startNode.getPosition( dropNode ) == CKEDITOR.POSITION_PRECEDING && endNode.getPosition( dropNode ) == CKEDITOR.POSITION_FOLLOWING ) {
+				// When we normally drag and drop, the selection is changed to dropRange,
+				// so here we simulate the same behavior.
+				editor.getSelection().selectRanges( [ dropRange ] );
 
-			// We do not select drop range, because of may be in the place we can not set the selection
-			// (e.g. between blocks, in case of block widget D&D). We put range to the paste event instead.
-			firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop', range: dropRange }, 1 );
+				// Remove bookmark spans.
+				startNode.remove();
+				endNode.remove();
+				dropNode.remove();
+			}
+			else {
+				// Drop range is outside drag range.
+				// No we can safely delete content for the drag range...
+				dragRange = editor.createRange();
+				dragRange.moveToBookmark( dragBookmark );
+				editable.extractHtmlFromRange( dragRange, 1 );
+
+				// ...and paste content into the drop position.
+				dropRange = editor.createRange();
+				dropRange.moveToBookmark( dropBookmark );
+
+				// We do not select drop range, because of may be in the place we can not set the selection
+				// (e.g. between blocks, in case of block widget D&D). We put range to the paste event instead.
+				firePasteEvents( editor, { dataTransfer: dataTransfer, method: 'drop', range: dropRange }, 1 );
+			}
 
 			editor.fire( 'unlockSnapshot' );
 		},
