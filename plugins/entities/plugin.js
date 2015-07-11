@@ -9,11 +9,11 @@
 	// A very simple hashing function, borrowed from here:
 	// http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 	var hashCode = function(str) {
-		var hash = 0;
+		var hash = 0, chr;
 		if (str.length == 0) return hash;
 		for (i = 0; i < str.length; i++) {
-			char = str.charCodeAt(i);
-			hash = ((hash<<5)-hash)+char;
+			chr = str.charCodeAt(i);
+			hash = ((hash<<5)-hash)+chr;
 			hash = hash & hash; // Convert to 32bit integer
 		}
 		return hash;
