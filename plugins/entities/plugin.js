@@ -4,6 +4,22 @@
  */
 
 ( function() {
+	var liquidRegex = /((?:\{\{[^'"\}]*(?:['"].*['"])?[^'"\}]*\}\})|(?:\{%[^'"\}]*(?:['"].*['"])?[^'"\}]*%\}))/g;
+
+	// A very simple hashing function, borrowed from here:
+	// http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+	var hashCode = function(str) {
+		var hash = 0;
+		if (str.length == 0) return hash;
+		for (i = 0; i < str.length; i++) {
+			char = str.charCodeAt(i);
+			hash = ((hash<<5)-hash)+char;
+			hash = hash & hash; // Convert to 32bit integer
+		}
+		return hash;
+	}
+
+
 	// Basic HTML entities.
 	var htmlbase = 'nbsp,gt,lt,amp';
 
@@ -149,7 +165,32 @@
 
 				htmlFilter.addRules( {
 					text: function( text ) {
-						return text.replace( baseEntitiesRegex, getChar ).replace( entitiesRegex, getEntity );
+						var liquidMap = {};
+
+						// These chars seem to always come in already encoded.
+						// We need to revert them back to their original characters to make
+						// sure they are preserved inside liquid tags.
+						text = text.replace( /&gt;/g, ">" ).
+							replace( /&lt;/g, "<" ).
+							replace( /&amp;/g, "&" );
+
+						// Swap out liquid tags/variables and replace them with a simple
+						// hash of their contents
+						text = text.replace(liquidRegex, function( match ) {
+							hash = "@@" + hashCode( match ) + "@@";
+							liquidMap[hash] = match;
+							return hash;
+						});
+
+						text = text.replace( baseEntitiesRegex, getChar ).replace( entitiesRegex, getEntity );
+
+						// Swap liquid tags/variables back in
+						for (var hash in liquidMap) {
+							var tag = liquidMap[hash];
+							text = text.replace( hash, tag );
+						}
+
+						return text;
 					}
 				}, {
 					applyToAll: true,

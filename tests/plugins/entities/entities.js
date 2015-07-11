@@ -69,5 +69,27 @@ bender.test( {
 		bot.setData( inputHtml, function() {
 			assert.areEqual( expectedHtml, editor.getData() );
 		} );
+	},
+
+	'test encoding skipped inside liquid variables': function() {
+		var inputHtml = '{{ email | default: "<" | foo: "&" }}',
+			expectedHtml = '{{ email | default: "<" | foo: "&" }}',
+			editor = this.editor,
+			bot = this.editorBot;
+
+		bot.setData( inputHtml, function() {
+			assert.areEqual( expectedHtml, editor.getData() );
+		} );
+	},
+
+	'test encoding skipped inside liquid tags': function() {
+		var inputHtml = '{% if email == "<" && email > 4 %} & > < {% endif %}',
+			expectedHtml = '{% if email == "<" && email > 4 %} &amp; &gt; &lt; {% endif %}',
+			editor = this.editor,
+			bot = this.editorBot;
+
+		bot.setData( inputHtml, function() {
+			assert.areEqual( expectedHtml, editor.getData() );
+		} );
 	}
 } );
