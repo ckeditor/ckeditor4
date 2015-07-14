@@ -1499,11 +1499,11 @@
 		/**
 		 * Main native paste event editable should listen to.
 		 *
-		 * **Note:** Safari doesn't like 'beforepaste' event - it sometimes doesn't
-		 * handle ctrl+c properly. Probably some race-condition between events.
-		 * Chrome and Firefox work well with both events, so it's better to use 'paste'
+		 * **Note:** Safari does not like the {@link CKEDITOR.editor#beforePaste} event &mdash; it sometimes does not
+		 * handle <kbd>Ctrl+C</kbd> properly. This is probably caused by some race condition between events.
+		 * Chrome and Firefox work well with both events, so it is better to use {@link CKEDITOR.editor#paste}
 		 * which will handle pasting from e.g. browsers' menu bars.
-		 * IE7/8 doesn't like 'paste' event for which it's throwing random errors.
+		 * IE7/8 does not like the {@link CKEDITOR.editor#paste} event for which it is throwing random errors.
 		 *
 		 * @since 4.5
 		 * @readonly

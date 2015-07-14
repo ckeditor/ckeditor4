@@ -7,16 +7,16 @@ Fixed Issues:
 
 * [#13434](http://dev.ckeditor.com/ticket/13434): Fixed: Dialog state indicator broken in Right–To–Left environments.
 * [#13451](http://dev.ckeditor.com/ticket/13451): [IE8-9] Fixed: One drag&drop operation may affect following ones.
-* [#13129](http://dev.ckeditor.com/ticket/13129) Fixed: Block widget blurred after drop followed by undo.
+* [#13129](http://dev.ckeditor.com/ticket/13129) Fixed: Block widget blurred after a drop followed by an undo.
 * [#13468](http://dev.ckeditor.com/ticket/13468): [IE] Fixed: Binding drag&drop `dataTransfer` does not work if `text` data was set in the meantime.
 * [#13419](http://dev.ckeditor.com/ticket/13419): Fixed: [Auto Link](http://ckeditor.com/addon/autolink) plugin does not encode double quotes in URLs.
-* [#13460](http://dev.ckeditor.com/ticket/13460): [IE8] Fixed: Copying inline widgets is broken when the Advanced Content Filter is disabled.
-* [#13495](http://dev.ckeditor.com/ticket/13495): [Firefox,IE] Fixed: Text is not word-wrapped in the Paste dialog.
+* [#13460](http://dev.ckeditor.com/ticket/13460): [IE8] Fixed: Copying inline widgets is broken when [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_acf) is disabled.
+* [#13495](http://dev.ckeditor.com/ticket/13495): [Firefox,IE] Fixed: Text is not word-wrapped in the Paste dialog window.
 * [#13385](http://dev.ckeditor.com/ticket/13385): Fixed: [`editor.getSnapshot()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSnapshot) may return a non-string value.
-* [#13422](http://dev.ckeditor.com/ticket/13422): Fixed: A monospaced font should be used in the `<textarea>` holding editor's config in the Toolbar Configurator.
-* [#11616](http://dev.ckeditor.com/ticket/11616): [Chrome] Fixed: Resizing the editor while it's not displayed breaks the editable. Fixed also [#9160](http://dev.ckeditor.com/ticket/9160) and [#9715](http://dev.ckeditor.com/ticket/9715).
+* [#13422](http://dev.ckeditor.com/ticket/13422): Fixed: A monospaced font should be used in the `<textarea>` element storing editor configuration in the toolbar configurator.
+* [#11616](http://dev.ckeditor.com/ticket/11616): [Chrome] Fixed: Resizing the editor while it is not displayed breaks the editable. Fixed also [#9160](http://dev.ckeditor.com/ticket/9160) and [#9715](http://dev.ckeditor.com/ticket/9715).
 * [#13397](http://dev.ckeditor.com/ticket/13397): Fixed: Drag&drop a widget inside its nested widget crashes the editor.
-* [#13420](http://dev.ckeditor.com/ticket/13420): Fixed: [Auto Media Embed](http://ckeditor.com/addon/autoembed) plugin ignores encoded characters in URL parameters.
+* [#13420](http://dev.ckeditor.com/ticket/13420): Fixed: The [Auto Embed](http://ckeditor.com/addon/autoembed) plugin ignores encoded characters in URL parameters.
 
 ## CKEditor 4.5.1
 
