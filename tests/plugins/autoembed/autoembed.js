@@ -1,10 +1,12 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: embed,autoembed,enterkey,undo,link */
-/* bender-include: ../embedbase/_helpers/tools.js, ../clipboard/_helpers/pasting.js */
+/* bender-include: ../embedbase/_helpers/tools.js, ../clipboard/_helpers/pasting.js, ../widget/_helpers/tools.js */
 
-/* global embedTools, assertPasteEvent */
+/* global embedTools, assertPasteEvent, widgetTestsTools */
 
 'use strict';
+
+var obj2Array = widgetTestsTools.obj2Array;
 
 function correctJsonpCallback( urlTemplate, urlParams, callback ) {
 	callback( {
@@ -265,5 +267,42 @@ bender.test( {
 		}, null, null, 900 );
 
 		this.editor.execCommand( 'paste', pastedText );
+	},
+
+	// #13532
+	'test re–embeddable url': function() {
+		var bot = this.editorBot;
+
+		jsonpCallback = function( urlTemplate, urlParams, callback ) {
+			resume( function() {
+				// Make the URL a nice widget.
+				callback( {
+					type: 'rich',
+					html: '<p>url:' + urlParams.url + '</p>'
+				} );
+
+				// Undo embedding. There's no widget, the link is in the content instead.
+				bot.editor.execCommand( 'undo' );
+
+				// Will be pasting something after the link. Prepare a nice range.
+				var range = bot.editor.createRange();
+				range.moveToPosition( bot.editor.editable().findOne( 'a' ), CKEDITOR.POSITION_AFTER_END );
+				range.select();
+
+				// Just paste anything to check if the embeddable link, which used to
+				// be a widget before 'undo' was called is re–embedded. It shouldn't be.
+				bot.editor.execCommand( 'paste', '<strong>y</strong>' );
+
+				wait( function() {
+					assert.areEqual( 0, obj2Array( bot.editor.widgets.instances ).length, 'Link should not be re–embedded.' );
+				}, 200 );
+			} );
+		};
+
+		bot.setData( '', function() {
+			// Paste any embeddable URL.
+			this.editor.execCommand( 'paste', '<a href="x">x</a>' );
+			wait();
+		} );
 	}
 } );
