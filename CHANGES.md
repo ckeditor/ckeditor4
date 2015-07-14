@@ -16,6 +16,7 @@ Fixed Issues:
 * [#13422](http://dev.ckeditor.com/ticket/13422): Fixed: A monospaced font should be used in the `<textarea>` holding editor's config in the Toolbar Configurator.
 * [#11616](http://dev.ckeditor.com/ticket/11616): [Chrome] Fixed: Resizing the editor while it's not displayed breaks the editable. Fixed also [#9160](http://dev.ckeditor.com/ticket/9160) and [#9715](http://dev.ckeditor.com/ticket/9715).
 * [#13397](http://dev.ckeditor.com/ticket/13397): Fixed: Drag&drop a widget inside its nested widget crashes the editor.
+* [#13420](http://dev.ckeditor.com/ticket/13420): Fixed: [Auto Media Embed](http://ckeditor.com/addon/autoembed) plugin ignores encoded characters in URL parameters.
 
 ## CKEditor 4.5.1
 

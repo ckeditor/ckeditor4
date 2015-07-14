@@ -117,6 +117,54 @@ bender.test( {
 		} );
 	},
 
+	// #13420.
+	'test link with encodable characters': function() {
+		var links = [
+			// Mind that links differ in a part g/200/3xx so it is easier and faster
+			// to check which link failed the test.
+
+			// Pasting a link alone:
+			// No encoding:
+			'https://foo.bar/g/200/301?foo="æåãĂĄ"',
+
+			// Partially encoded:
+			'https://foo.bar/g/200/302?foo=%22%20æåãĂĄ%22',
+
+			// Fully encoded:
+			'https://foo.bar/g/200/303?foo=%22%20%C3%A6%C3%A5%C3%A3%C4%82%C4%84%22',
+
+			// Encoded twice:
+			'https://foo.bar/g/200/304?foo=%2522%2520%25C3%25A6%25C3%25A5%25C3%25A3%25C4%2582%25C4%2584%2522',
+
+			// &amp; not encoded:
+			'https://foo.bar/g/200/305?foo="æåãĂĄ"&bar=bar',
+
+			// &amp; encoded:
+			'https://foo.bar/g/200/306?foo="æåãĂĄ"&amp;bar=bar',
+
+			// Pasting <a> element:
+			// &amp;:
+			'<a href="https://foo.bar/g/200/307?foo=%20æåãĂĄ%20&amp;bar=bar">https://foo.bar/g/200/307?foo=%20æåãĂĄ%20&amp;bar=bar</a>',
+
+			// Quote sign:
+			'<a href="https://foo.bar/g/200/310?foo=&quot;æåãĂĄ&quot;">https://foo.bar/g/200/310?foo=&quot;æåãĂĄ&quot;</a>',
+			'<a href="https://foo.bar/g/200/310?foo=%22æåãĂĄ%22">https://foo.bar/g/200/310?foo="æåãĂĄ"</a>',
+			'<a href="https://foo.bar/g/200/311?foo=%22æåãĂĄ%22">https://foo.bar/g/200/311?foo=%22æåãĂĄ%22</a>',
+
+			// Mixed encoding:
+			'<a href="https://foo.bar/g/200/312?foo=%22%20%C3%A6%C3%A5%C3%A3%C4%82%C4%84%22">https://foo.bar/g/200/312?foo=%22%20æåãĂĄ%22</a>'
+		];
+
+		var autoEmbedRegExp = /data-cke-autoembed="\d+"/;
+
+		for ( var i = links.length; i--; ) {
+			assertPasteEvent( this.editor, { dataValue: links[ i ] }, function( data ) {
+				// Use prepareInnerHtmlForComparison to make sure attributes are sorted.
+				assert.isMatching( autoEmbedRegExp, bender.tools.html.prepareInnerHtmlForComparison( data.dataValue ) );
+			} );
+		}
+	},
+
 	'test uppercase link is auto embedded': function() {
 		var pastedText = '<A href="https://foo.bar/bom">https://foo.bar/bom</A>',
 			expected = /^<a data-cke-autoembed="\d+" href="https:\/\/foo.bar\/bom">https:\/\/foo.bar\/bom<\/a>$/;

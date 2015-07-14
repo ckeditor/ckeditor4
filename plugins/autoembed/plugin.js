@@ -6,6 +6,8 @@
 'use strict';
 
 ( function() {
+	var validLinkRegExp = /^<a[^>]+href="([^"]+)"[^>]*>([^<]+)<\/a>$/i;
+
 	CKEDITOR.plugins.add( 'autoembed', {
 		requires: 'autolink,undo',
 
@@ -17,25 +19,13 @@
 					return;
 				}
 
-				var data = evt.data.dataValue,
-					parsedData,
-					link;
+				var match = evt.data.dataValue.match( validLinkRegExp );
 
 				// Expecting exactly one <a> tag spanning the whole pasted content.
-				if ( data.match( /^<a [^<]+<\/a>$/i ) ) {
-					parsedData = CKEDITOR.htmlParser.fragment.fromHtml( data );
-
-					// Embed only links with a single text node with a href attr which equals its text.
-					if ( parsedData.children.length != 1 )
-						return;
-
-					link = parsedData.children[ 0 ];
-
-					if ( link.type == CKEDITOR.NODE_ELEMENT && link.getHtml() == link.attributes.href ) {
-						evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + data.substr( 2 );
-					}
+				// The tag has to have same href as content.
+				if ( match != null && decodeURI( match[ 1 ] ) == decodeURI( match[ 2 ] ) ) {
+					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + evt.data.dataValue.substr( 2 );
 				}
-
 			}, null, null, 20 ); // Execute after autolink.
 
 			editor.on( 'afterPaste', function() {
