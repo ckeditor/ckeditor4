@@ -12,7 +12,8 @@
 		requires: 'autolink,undo',
 
 		init: function( editor ) {
-			var currentId = 1;
+			var currentId = 1,
+				embedCandidatePasted;
 
 			editor.on( 'paste', function( evt ) {
 				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
@@ -21,15 +22,20 @@
 
 				var match = evt.data.dataValue.match( validLinkRegExp );
 
+				embedCandidatePasted = match != null && decodeURI( match[ 1 ] ) == decodeURI( match[ 2 ] );
+
 				// Expecting exactly one <a> tag spanning the whole pasted content.
 				// The tag has to have same href as content.
-				if ( match != null && decodeURI( match[ 1 ] ) == decodeURI( match[ 2 ] ) ) {
+				if ( embedCandidatePasted ) {
 					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + evt.data.dataValue.substr( 2 );
 				}
 			}, null, null, 20 ); // Execute after autolink.
 
 			editor.on( 'afterPaste', function() {
-				autoEmbedLink( editor, currentId );
+				// #13532
+				if ( embedCandidatePasted ) {
+					autoEmbedLink( editor, currentId );
+				}
 			} );
 		}
 	} );
