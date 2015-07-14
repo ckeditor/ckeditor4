@@ -17,15 +17,6 @@ function correctJsonpCallback( urlTemplate, urlParams, callback ) {
 
 var jsonpCallback;
 
-function testIsEmbedded( pastedText ) {
-	var expectedRegExp = /data-cke-autoembed="\d+"/;
-
-	assertPasteEvent( this.editor, { dataValue: pastedText }, function( data ) {
-		// Use prepInnerHtml to make sure attr are sorted.
-		assert.isMatching( expectedRegExp, bender.tools.html.prepareInnerHtmlForComparison( data.dataValue ) );
-	} );
-}
-
 embedTools.mockJsonp( function() {
 	jsonpCallback.apply( this, arguments );
 } );
@@ -164,8 +155,13 @@ bender.test( {
 			'<a href="https://foo.bar/g/200/312?foo=%22%20%C3%A6%C3%A5%C3%A3%C4%82%C4%84%22">https://foo.bar/g/200/312?foo=%22%20æåãĂĄ%22</a>'
 		];
 
-		for ( var i = 0; i < links.length; i++ ) {
-			testIsEmbedded.call( this, links[i] );
+		var autoEmbedRegExp = /data-cke-autoembed="\d+"/;
+
+		for ( var i = links.length; i--; ) {
+			assertPasteEvent( this.editor, { dataValue: links[ i ] }, function( data ) {
+				// Use prepareInnerHtmlForComparison to make sure attributes are sorted.
+				assert.isMatching( autoEmbedRegExp, bender.tools.html.prepareInnerHtmlForComparison( data.dataValue ) );
+			} );
 		}
 	},
 
