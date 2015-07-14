@@ -18,21 +18,22 @@
 	to hurt them&lt;br/&gt;
 	back&lt;br/&gt;
 </textarea>
-
+<input onclick="manualPlayground.showWarning();" type="button" value="Show warning notification" />
 <script>
+	var editors = [
 	CKEDITOR.replace( 'editor1', {
 		imageUploadUrl: 'http://sub.ckeditor.dev/',
 		extraPlugins: 'elementspath'
-	} );
+	} ),
 
 	CKEDITOR.inline( 'editor2', {
 		imageUploadUrl: 'http://sub.ckeditor.dev/'
-	} );
+	} ),
 
 	CKEDITOR.replace( 'editor3', {
 		imageUploadUrl: 'http://sub.ckeditor.dev/',
 		extraPlugins: 'divarea'
-	} );
+	} ) ];
 
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 		document.getElementById( 'ignore' ).style.display = 'block';
