@@ -6,6 +6,8 @@
 'use strict';
 
 ( function() {
+	var validLinkRegExp = /^<a[^>]+href="([^"]+)"[^>]*>([^<]+)<\/a>$/i;
+
 	CKEDITOR.plugins.add( 'autoembed', {
 		requires: 'autolink,undo',
 
@@ -17,17 +19,13 @@
 					return;
 				}
 
-				var data = evt.data.dataValue,
-					regexp = /^<a[^>]+href="([^"]+)"[^>]*>([^<]+)<\/a>$/i;
-
-				var match = data.match( regexp );
+				var match = evt.data.dataValue.match( validLinkRegExp );
 
 				// Expecting exactly one <a> tag spanning the whole pasted content.
 				// The tag has to have same href as content.
 				if ( match != null && decodeURI( match[ 1 ] ) == decodeURI( match[ 2 ] ) ) {
-					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + data.substr( 2 );
+					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + evt.data.dataValue.substr( 2 );
 				}
-
 			}, null, null, 20 ); // Execute after autolink.
 
 			editor.on( 'afterPaste', function() {
