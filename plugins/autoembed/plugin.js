@@ -17,7 +17,7 @@
 
 			editor.on( 'paste', function( evt ) {
 				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-					return;
+					return embedCandidatePasted = 0;
 				}
 
 				var match = evt.data.dataValue.match( validLinkRegExp );
@@ -32,7 +32,10 @@
 			}, null, null, 20 ); // Execute after autolink.
 
 			editor.on( 'afterPaste', function() {
-				// #13532
+				// If one pasted an embeddable link and then undone the action, the link in the content holds the
+				// data-cke-autoembed attribute and may be embedded on *any* successive paste.
+				// This check ensures that autoEmbedLink is called only if afterPaste is fired *right after*
+				// embeddable link got into the content. (#13532)
 				if ( embedCandidatePasted ) {
 					autoEmbedLink( editor, currentId );
 				}
