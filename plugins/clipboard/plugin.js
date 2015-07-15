@@ -542,7 +542,7 @@
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors (e.g. CTRL+V).
 			editable.on( clipboard.mainPasteEvent, function( evt ) {
-				if ( CKEDITOR.env.ie && preventBeforePasteEvent )
+				if ( clipboard.mainPasteEvent == 'beforepaste' && preventBeforePasteEvent )
 					return;
 
 				// If you've just asked yourself why preventPasteEventNow() is not here, but
@@ -591,25 +591,28 @@
 			//		special flag, other than preventPasteEvent. But we still would have to
 			//		have preventPasteEvent for the second event fired by execIECommand.
 			//		Code would be longer and not cleaner.
-			CKEDITOR.env.ie && editable.on( 'paste', function( evt ) {
-				if ( preventPasteEvent )
-					return;
-				// Cancel next 'paste' event fired by execIECommand( 'paste' )
-				// at the end of this callback.
-				preventPasteEventNow();
+			if ( clipboard.mainPasteEvent == 'beforepaste' ) {
+				editable.on( 'paste', function( evt ) {
+					if ( preventPasteEvent )
+						return;
+					// Cancel next 'paste' event fired by execIECommand( 'paste' )
+					// at the end of this callback.
+					preventPasteEventNow();
 
-				// Prevent native paste.
-				evt.data.preventDefault();
+					// Prevent native paste.
+					evt.data.preventDefault();
 
-				pasteDataFromClipboard( evt );
+					pasteDataFromClipboard( evt );
 
-				// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
-				if ( !execIECommand( 'paste' ) )
-					editor.openDialog( 'paste' );
-			} );
+					// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
+					if ( !execIECommand( 'paste' ) )
+						editor.openDialog( 'paste' );
+				} );
+			}
 
-			// [IE] Dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
-			if ( CKEDITOR.env.ie ) {
+			// If mainPasteEvent is 'beforePaste' (IE<=11),
+			// dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
+			if ( clipboard.mainPasteEvent == 'beforepaste' ) {
 				editable.on( 'contextmenu', preventBeforePasteEventNow, null, null, 0 );
 
 				editable.on( 'beforepaste', function( evt ) {
@@ -959,7 +962,7 @@
 		// return false.
 		function getClipboardDataDirectly() {
 			// On non-IE it is not possible to get data directly.
-			if ( !CKEDITOR.env.ie ) {
+			if ( clipboard.mainPasteEvent != 'beforepaste' ) {
 				// beforePaste should be fired when dialog open so it can be canceled.
 				editor.fire( 'beforePaste', { type: 'auto', method: 'paste' } );
 				return false;
@@ -1003,7 +1006,8 @@
 					preventPasteEventNow();
 
 					// Simulate 'beforepaste' event for all none-IEs.
-					!CKEDITOR.env.ie && editable.fire( 'beforepaste' );
+					if ( clipboard.mainPasteEvent != 'beforepaste' )
+						editable.fire( 'beforepaste' );
 
 					return;
 
@@ -1509,7 +1513,7 @@
 		 * @readonly
 		 * @property {String}
 		 */
-		mainPasteEvent: CKEDITOR.env.ie ? 'beforepaste' : 'paste',
+		mainPasteEvent: ( CKEDITOR.env.ie  && CKEDITOR.env.version <= 11 ) ? 'beforepaste' : 'paste',
 
 		/**
 		 * Returns the element that should be used as the target for the drop event.
