@@ -17,7 +17,8 @@
 
 			editor.on( 'paste', function( evt ) {
 				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
-					return embedCandidatePasted = 0;
+					embedCandidatePasted = 0;
+					return;
 				}
 
 				var match = evt.data.dataValue.match( validLinkRegExp );
