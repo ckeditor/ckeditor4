@@ -492,9 +492,9 @@ bender.test( {
 						html: '<p>url:' + urlParams.url + '</p>'
 					} );
 
-					assert.isTrue( task.isDone() );
-					assert.isFalse( successCallbackSpy.called );
-					assert.isFalse( errorCallbackSpy.called );
+					assert.isTrue( task.isDone(), 'The task is done.' );
+					assert.isFalse( successCallbackSpy.called, 'Success callback was not called.' );
+					assert.isFalse( errorCallbackSpy.called, 'Error callback was not called.' );
 				} );
 			};
 

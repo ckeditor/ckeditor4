@@ -60,10 +60,15 @@ bender.test( {
 
 	'test embedding when request failed': function() {
 		var bot = this.editorBot,
-			instanceDestroyed = false;
+			instanceDestroyedSpy = sinon.spy();
 
 		jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
-			errorCallback();
+			resume( function() {
+				errorCallback();
+
+				assert.areSame( '<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>', bot.getData( 1 ), 'link was not auto embedded' );
+				assert.isTrue( instanceDestroyedSpy.called, 'Widget instance destroyed.' );
+			} );
 		};
 
 		bot.setData( '', function() {
@@ -71,26 +76,12 @@ bender.test( {
 			this.editor.execCommand( 'paste', 'https://foo.bar/g/200/302' );
 
 			// Check if errorCallback was called - it should destroy widget instance.
-			this.editor.widgets.once( 'instanceDestroyed', function( ) {
-				instanceDestroyed = true;
-			} );
+			this.editor.widgets.once( 'instanceDestroyed', instanceDestroyedSpy );
 
 			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
-			assert.areSame(
-				'<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>',
-				bot.getData( 1 ),
-				'link was pasted correctly'
-			);
+			assert.areSame( '<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>', bot.getData( 1 ), 'link was pasted correctly' );
 
-			wait( function() {
-				assert.areSame(
-					'<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>',
-					bot.getData( 1 ),
-					'link was not auto embedded'
-				);
-
-				assert.isTrue( instanceDestroyed );
-			}, 200 );
+			wait();
 		} );
 	},
 
@@ -326,7 +317,7 @@ bender.test( {
 		var bot = this.editorBot,
 			editor = bot.editor,
 			pastedText = 'https://foo.bar/g/200/382',
-			finalizeCreationStub = sinon.stub( CKEDITOR.plugins.widget.repository.prototype, 'finalizeCreation' );
+			finalizeCreationSpy = sinon.spy( CKEDITOR.plugins.widget.repository.prototype, 'finalizeCreation' );
 
 		editor.once( 'afterPaste', function() {
 			editor.execCommand( 'undo' );
@@ -340,7 +331,7 @@ bender.test( {
 
 			wait( function() {
 				CKEDITOR.plugins.widget.repository.prototype.finalizeCreation.restore();
-				assert.areSame( finalizeCreationStub.called, false, 'finalize creation was not called' );
+				assert.areSame( finalizeCreationSpy.called, false, 'finalize creation was not called' );
 			}, 200 );
 		} );
 	}
