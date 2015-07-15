@@ -271,7 +271,8 @@ bender.test( {
 
 	// #13532
 	'test re–embeddable url': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBot,
+			editor = bot.editor;
 
 		jsonpCallback = function( urlTemplate, urlParams, callback ) {
 			resume( function() {
@@ -282,19 +283,25 @@ bender.test( {
 				} );
 
 				// Undo embedding. There's no widget, the link is in the content instead.
-				bot.editor.execCommand( 'undo' );
+				editor.execCommand( 'undo' );
 
 				// Will be pasting something after the link. Prepare a nice range.
-				var range = bot.editor.createRange();
-				range.moveToPosition( bot.editor.editable().findOne( 'a' ), CKEDITOR.POSITION_AFTER_END );
+				var range = editor.createRange();
+				range.moveToPosition( editor.editable().findOne( 'a' ), CKEDITOR.POSITION_AFTER_END );
 				range.select();
 
-				// Just paste anything to check if the embeddable link, which used to
+				// Make sure transfer type for the next paste is CKEDITOR.DATA_TRANSFER_INTERNAL to
+				// avoid processing of pasted data.
+				editor.once( 'paste', function( evt ) {
+					evt.data.dataTransfer.sourceEditor = editor;
+				}, null, null, 1 );
+
+				// Paste anything to check if the embeddable link, which used to
 				// be a widget before 'undo' was called is re–embedded. It shouldn't be.
-				bot.editor.execCommand( 'paste', '<strong>y</strong>' );
+				editor.execCommand( 'paste', 'y' );
 
 				wait( function() {
-					assert.areEqual( 0, obj2Array( bot.editor.widgets.instances ).length, 'Link should not be re–embedded.' );
+					assert.areEqual( 0, obj2Array( editor.widgets.instances ).length, 'Link should not be re–embedded.' );
 				}, 200 );
 			} );
 		};
