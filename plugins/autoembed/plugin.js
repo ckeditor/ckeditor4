@@ -12,24 +12,34 @@
 		requires: 'autolink,undo',
 
 		init: function( editor ) {
-			var currentId = 1;
+			var currentId = 1,
+				embedCandidatePasted;
 
 			editor.on( 'paste', function( evt ) {
 				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+					embedCandidatePasted = 0;
 					return;
 				}
 
 				var match = evt.data.dataValue.match( validLinkRegExp );
 
+				embedCandidatePasted = match != null && decodeURI( match[ 1 ] ) == decodeURI( match[ 2 ] );
+
 				// Expecting exactly one <a> tag spanning the whole pasted content.
 				// The tag has to have same href as content.
-				if ( match != null && decodeURI( match[ 1 ] ) == decodeURI( match[ 2 ] ) ) {
+				if ( embedCandidatePasted ) {
 					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + evt.data.dataValue.substr( 2 );
 				}
 			}, null, null, 20 ); // Execute after autolink.
 
 			editor.on( 'afterPaste', function() {
-				autoEmbedLink( editor, currentId );
+				// If one pasted an embeddable link and then undone the action, the link in the content holds the
+				// data-cke-autoembed attribute and may be embedded on *any* successive paste.
+				// This check ensures that autoEmbedLink is called only if afterPaste is fired *right after*
+				// embeddable link got into the content. (#13532)
+				if ( embedCandidatePasted ) {
+					autoEmbedLink( editor, currentId );
+				}
 			} );
 		}
 	} );
