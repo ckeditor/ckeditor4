@@ -1513,7 +1513,7 @@
 		 * @readonly
 		 * @property {String}
 		 */
-		mainPasteEvent: ( CKEDITOR.env.ie  && CKEDITOR.env.version <= 11 ) ? 'beforepaste' : 'paste',
+		mainPasteEvent: ( CKEDITOR.env.ie  && CKEDITOR.env.version < 12 ) ? 'beforepaste' : 'paste',
 
 		/**
 		 * Returns the element that should be used as the target for the drop event.
