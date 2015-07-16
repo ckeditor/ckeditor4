@@ -962,7 +962,7 @@
 		// return false.
 		function getClipboardDataDirectly() {
 			// On non-IE it is not possible to get data directly.
-			if ( clipboard.mainPasteEvent != 'beforepaste' ) {
+			if ( clipboard.mainPasteEvent == 'paste' ) {
 				// beforePaste should be fired when dialog open so it can be canceled.
 				editor.fire( 'beforePaste', { type: 'auto', method: 'paste' } );
 				return false;
@@ -1006,7 +1006,7 @@
 					preventPasteEventNow();
 
 					// Simulate 'beforepaste' event for all none-IEs.
-					if ( clipboard.mainPasteEvent != 'beforepaste' )
+					if ( clipboard.mainPasteEvent == 'paste' )
 						editable.fire( 'beforepaste' );
 
 					return;
