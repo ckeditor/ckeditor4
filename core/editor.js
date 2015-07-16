@@ -906,7 +906,7 @@
 		 *
 		 * See also:
 		 *
-		 * * {@link CKEDITOR.editor#getData}.
+		 * * {@link CKEDITOR.editor#method-getData}.
 		 *
 		 * @returns {String} Editor "raw data".
 		 */
