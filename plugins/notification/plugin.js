@@ -12,7 +12,7 @@
 
 CKEDITOR.plugins.add( 'notification', {
 	lang: 'en', // %REMOVE_LINE_CORE%
-	requires: 'toolbar',
+	requires: 'toolbar,clipboard',
 
 	init: function( editor ) {
 		editor._.notificationArea = new Area( editor );
@@ -125,6 +125,9 @@ function Notification( editor, options ) {
 	}
 
 	this.element = this._createElement();
+
+	// Don't allow dragging on notification (#13184).
+	CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( this.element );
 }
 
 /**

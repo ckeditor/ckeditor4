@@ -1252,6 +1252,11 @@
 		return data;
 	}
 
+	function preventDefaultSetDropEffectToNone( evt ) {
+		evt.data.preventDefault();
+		evt.data.$.dataTransfer.dropEffect = 'none';
+	}
+
 	function initDragDrop( editor ) {
 		var clipboard = CKEDITOR.plugins.clipboard;
 
@@ -1263,14 +1268,9 @@
 
 			// -------------- DRAGOVER TOP & BOTTOM --------------
 
-			function preventDefaultSetDropEffectToNone( evt ) {
-				evt.data.preventDefault();
-				evt.data.$.dataTransfer.dropEffect = 'none';
-			}
-
 			// Not allowing dragging on toolbar and bottom (#12613).
-			top && top.on( 'dragover', preventDefaultSetDropEffectToNone );
-			bottom && bottom.on( 'dragover', preventDefaultSetDropEffectToNone );
+			clipboard.preventDefaultDropOnElement( top );
+			clipboard.preventDefaultDropOnElement( bottom );
 
 			// -------------- DRAGSTART --------------
 			// Listed on dragstart to mark internal and cross-editor drag & drop
@@ -1995,6 +1995,16 @@
 			} else {
 				return new this.dataTransfer( null, sourceEditor );
 			}
+		},
+
+		/**
+		* Prevents dropping on the specified element.
+		*
+		* @since 4.5
+		* @param {CKEDITOR.dom.element} element The element on which dropping should be disabled.
+		*/
+		preventDefaultDropOnElement: function( element ) {
+			element && element.on( 'dragover', preventDefaultSetDropEffectToNone );
 		}
 	};
 
