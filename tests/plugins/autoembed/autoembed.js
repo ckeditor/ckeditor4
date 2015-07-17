@@ -311,5 +311,28 @@ bender.test( {
 			this.editor.execCommand( 'paste', '<a href="x">x</a>' );
 			wait();
 		} );
+	},
+
+	'test when user press undo before embedding process finishes': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			pastedText = 'https://foo.bar/g/200/382',
+			finalizeCreationStub = sinon.stub( CKEDITOR.plugins.widget.repository.prototype, 'finalizeCreation' );
+
+		editor.once( 'afterPaste', function() {
+			editor.execCommand( 'undo' );
+		}, null, null, 900 );
+
+		bot.setData( '', function() {
+			editor.focus();
+			editor.resetUndo();
+
+			editor.execCommand( 'paste', pastedText );
+
+			wait( function() {
+				assert.areSame( finalizeCreationStub.called, false, 'finalize creation was not called' );
+				CKEDITOR.plugins.widget.repository.prototype.finalizeCreation.restore();
+			}, 200 );
+		} );
 	}
 } );
