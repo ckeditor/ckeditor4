@@ -337,7 +337,17 @@
 						var attributes = child.attributes,
 							listItemChildren = child.children,
 							count = listItemChildren.length,
+							first = listItemChildren[ 0 ],
 							last = listItemChildren[ count - 1 ];
+
+						// Converts <li><p style="_MSO_LIST_STYLES_">{...}</p></li> -> <li style="_MSO_LIST_STYLES_">{...}</li>.
+						// The above format is what we got when pasting from Word 2010 to IE11 and possibly some others.
+						// Existence of extra <p> tag that can be later recognized as list item (see #getRules.return.elements.p)
+						// creates incorrect and problematic structures similar to <cke:li><cke:li>{...}</cke:li></cke:li>. (#11376)
+						if ( first.attributes.style.indexOf( 'mso-list' ) > -1 ) {
+							child.attributes.style = first.attributes.style;
+							first.replaceWithChildren();
+						}
 
 						// Move out nested list.
 						if ( last.name in CKEDITOR.dtd.$list ) {
