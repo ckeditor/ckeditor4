@@ -1102,6 +1102,30 @@ var testsForMultipleEditor = {
 			dropTarget.fire( 'drop', evt );
 
 			assert.isFalse( dropSpy.called );
+		},
+
+		'test drop on non droppable': function() {
+			var editor = this.editors.divarea,
+				bot = this.editorBots[ editor.name ],
+				spy = sinon.spy(),
+				data = {
+					preventDefault: spy,
+					$: {
+						dataTransfer: {}
+					}
+				};
+
+			bot.setHtmlWithSelection( '<div><p>foo</p></div>' );
+			editor.resetUndo();
+
+			var element = editor.editable().findOne( 'p' )
+
+			CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( element );
+
+			element.fire( 'dragover', data );
+
+			assert.isTrue( spy.called );
+			assert.areEqual( data.$.dataTransfer.dropEffect, 'none' );
 		}
 	};
 
