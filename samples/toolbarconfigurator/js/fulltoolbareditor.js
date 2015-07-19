@@ -324,6 +324,8 @@ window.ToolbarConfigurator = {};
 
 		$button.addClass( 'button-a' );
 
+		$button.setAttribute( 'type', 'button' );
+
 		if ( typeof cssClasses == 'string' ) {
 			cssClasses = cssClasses.split( ' ' );
 
