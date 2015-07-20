@@ -2,40 +2,42 @@
 	File uploading is not supported on Internet Explorer 9 and below.
 </div>
 
-<textarea id="editor1">
-	The true&lt;br/&gt;
-	mark of maturity&lt;br/&gt;
-	is when&lt;br/&gt;
-	somebody hurts&lt;br/&gt;
-</textarea>
-<div id="editor2" contenteditable="true" >
-	you and you try<br/>
-	to understand<br/>
-	their situation<br/>
-</div>
-<textarea id="editor3">
-	instead of trying&lt;br/&gt;
-	to hurt them&lt;br/&gt;
-	back&lt;br/&gt;
-</textarea>
-<input onclick="manualPlayground.showWarning();" type="button" value="Show warning notification" />
+<h2>Classic instance</h2>
+<textarea id="editor1">x</textarea>
+
+<h2>Inline instance</h2>
+<div id="editor2" contenteditable="true" >y</div>
+
+<h2>Div Editing Area</h2>
+<textarea id="editor3">z</textarea>
+
+<hr/>
+<input onclick="showNotifications();" type="button" value="Show notification" />
+
 <script>
 	var editors = [
-	CKEDITOR.replace( 'editor1', {
-		imageUploadUrl: 'http://sub.ckeditor.dev/',
-		extraPlugins: 'elementspath'
-	} ),
+		CKEDITOR.replace( 'editor1', {
+			imageUploadUrl: 'http://sub.ckeditor.dev/',
+			extraPlugins: 'elementspath'
+		} ),
 
-	CKEDITOR.inline( 'editor2', {
-		imageUploadUrl: 'http://sub.ckeditor.dev/'
-	} ),
+		CKEDITOR.inline( 'editor2', {
+			imageUploadUrl: 'http://sub.ckeditor.dev/'
+		} ),
 
-	CKEDITOR.replace( 'editor3', {
-		imageUploadUrl: 'http://sub.ckeditor.dev/',
-		extraPlugins: 'divarea'
-	} ) ];
+		CKEDITOR.replace( 'editor3', {
+			imageUploadUrl: 'http://sub.ckeditor.dev/',
+			extraPlugins: 'divarea'
+		} )
+	];
 
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 		document.getElementById( 'ignore' ).style.display = 'block';
+	}
+
+	function showNotifications() {
+		for ( var i = editors.length; i--; ) {
+			editors[ i ].showNotification( 'Drag an image here.', 'warning' );
+		}
 	}
 </script>
