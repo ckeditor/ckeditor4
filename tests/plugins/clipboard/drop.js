@@ -1104,7 +1104,7 @@ var testsForMultipleEditor = {
 			assert.isFalse( dropSpy.called );
 		},
 
-		'test drop on non droppable': function() {
+		'test preventDefaultDropOnElement': function() {
 			var editor = this.editors.divarea,
 				bot = this.editorBots[ editor.name ],
 				spy = sinon.spy(),
@@ -1118,14 +1118,14 @@ var testsForMultipleEditor = {
 			bot.setHtmlWithSelection( '<div><p>foo</p></div>' );
 			editor.resetUndo();
 
-			var element = editor.editable().findOne( 'p' )
+			var element = editor.editable().findOne( 'p' );
 
 			CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( element );
 
 			element.fire( 'dragover', data );
 
-			assert.isTrue( spy.called );
-			assert.areEqual( data.$.dataTransfer.dropEffect, 'none' );
+			assert.isTrue( spy.called, 'preventDefault called.' );
+			assert.areEqual( 'none', data.$.dataTransfer.dropEffect, 'dropEffect reset to \'none\'' );
 		}
 	};
 
