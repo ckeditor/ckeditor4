@@ -4,7 +4,7 @@
  */
 
 ( function() {
-	var liquidRegex = /((?:\{\{[^'"\}]*(?:['"].*['"])?[^'"\}]*\}\})|(?:\{%[^'"\}]*(?:['"].*['"])?[^'"\}]*%\}))/g;
+	var liquidRegex = /((?:\{\{[^'"\}]*(?:['"][^\}]*['"])?[^'"\}]*\}\})|(?:\{%[^'"\}]*(?:['"][^\}]*['"])?[^'"\}]*%\}))/g;
 
 	// A very simple hashing function, borrowed from here:
 	// http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
