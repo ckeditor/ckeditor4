@@ -17,6 +17,7 @@ Fixed Issues:
 * [#11616](http://dev.ckeditor.com/ticket/11616): [Chrome] Fixed: Resizing the editor while it is not displayed breaks the editable. Fixed also [#9160](http://dev.ckeditor.com/ticket/9160) and [#9715](http://dev.ckeditor.com/ticket/9715).
 * [#13397](http://dev.ckeditor.com/ticket/13397): Fixed: Drag&drop a widget inside its nested widget crashes the editor.
 * [#13420](http://dev.ckeditor.com/ticket/13420): Fixed: The [Auto Embed](http://ckeditor.com/addon/autoembed) plugin ignores encoded characters in URL parameters.
+* [#13184](http://dev.ckeditor.com/ticket/13184): Fixed: Web page reloaded after drop on editor UI.
 
 ## CKEditor 4.5.1
 
