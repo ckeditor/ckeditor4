@@ -59,29 +59,29 @@ bender.test( {
 	},
 
 	'test embedding when request failed': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBot,
+			instanceDestroyedSpy = sinon.spy();
+
 		jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
-			errorCallback();
+			resume( function() {
+				errorCallback();
+
+				assert.areSame( '<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>', bot.getData( 1 ), 'link was not auto embedded' );
+				assert.isTrue( instanceDestroyedSpy.called, 'Widget instance destroyed.' );
+			} );
 		};
 
 		bot.setData( '', function() {
 			bot.editor.focus();
 			this.editor.execCommand( 'paste', 'https://foo.bar/g/200/302' );
 
-			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
-			assert.areSame(
-				'<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>',
-				bot.getData( 1 ),
-				'link was pasted correctly'
-			);
+			// Check if errorCallback was called - it should destroy widget instance.
+			this.editor.widgets.once( 'instanceDestroyed', instanceDestroyedSpy );
 
-			wait( function() {
-				assert.areSame(
-					'<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>',
-					bot.getData( 1 ),
-					'link was not auto embedded'
-				);
-			}, 200 );
+			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
+			assert.areSame( '<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>', bot.getData( 1 ), 'link was pasted correctly' );
+
+			wait();
 		} );
 	},
 
@@ -310,6 +310,29 @@ bender.test( {
 			// Paste any embeddable URL.
 			this.editor.execCommand( 'paste', '<a href="x">x</a>' );
 			wait();
+		} );
+	},
+
+	'test when user press undo before embedding process finishes': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			pastedText = 'https://foo.bar/g/200/382',
+			finalizeCreationSpy = sinon.spy( CKEDITOR.plugins.widget.repository.prototype, 'finalizeCreation' );
+
+		editor.once( 'afterPaste', function() {
+			editor.execCommand( 'undo' );
+
+		}, null, null, 900 );
+
+		bot.setData( '', function() {
+			editor.focus();
+			editor.resetUndo();
+			editor.execCommand( 'paste', pastedText );
+
+			wait( function() {
+				CKEDITOR.plugins.widget.repository.prototype.finalizeCreation.restore();
+				assert.areSame( finalizeCreationSpy.called, false, 'finalize creation was not called' );
+			}, 200 );
 		} );
 	}
 } );

@@ -215,6 +215,21 @@
 				function finishLoading( response ) {
 					request.response = response;
 
+					// Check if widget is still valid.
+					if ( !that.editor.widgets.instances[ that.id ] ) {
+						// %REMOVE_START%
+						window.console && console.log && console.log( // jshint ignore:line
+							'[CKEDITOR.plugins.embedBase.baseDefinition.loadContent] Widget no longer belongs to current editor\'s widgets list.'
+						);
+						// %REMOVE_END%
+
+						if ( request.task ) {
+							request.task.done();
+						}
+
+						return;
+					}
+
 					if ( that._handleResponse( request ) ) {
 						that._cacheResponse( url, response );
 						if ( opts.callback ) {

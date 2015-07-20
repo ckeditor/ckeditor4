@@ -1,0 +1,17 @@
+<p>Test URLs</p>
+
+<ul>
+	<li><input type="text" value="https://placekitten.com/g/200/300"></li>
+	<li><input type="text" value="https://twitter.com/reinmarpl/status/573118615274315776"></li>
+</ul>
+
+<textarea id="editor1" cols="10" rows="10"></textarea>
+
+<script>
+	embedTools.delayJsonp();
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'embed',
+		height: 500,
+		width: 600
+	} );
+</script>
