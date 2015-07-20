@@ -1998,11 +1998,11 @@
 		},
 
 		/**
-		* Prevents dropping on the specified element.
-		*
-		* @since 4.5
-		* @param {CKEDITOR.dom.element} element The element on which dropping should be disabled.
-		*/
+		 * Prevents dropping on the specified element.
+		 *
+		 * @since 4.5
+		 * @param {CKEDITOR.dom.element} element The element on which dropping should be disabled.
+		 */
 		preventDefaultDropOnElement: function( element ) {
 			element && element.on( 'dragover', preventDefaultSetDropEffectToNone );
 		}
