@@ -3,10 +3,14 @@
 @bender-ckeditor-plugins: wysiwygarea, image2, uploadimage, toolbar, floatingspace
 @bender-include: _helpers/xhr.js
 
-1. Drag and drop some image into not allowed elements (toolbar, bottom).
+1. Drag an image from the hard drive and drop it on disallowed UI elements:
+ * toolbar (both static and floating),
+ * bottom space,
+ * dialog,
+ * notification (use button to display).
 
-**Expected result:** There should be visible an no drop cursor on that elements (expect IE).
+**Expected:**
+ * **Page shouldn't be reloaded!**
+ * The `no–drop` cursor is visible (except IE)
 
-**Unexpected result:** Page shouldn't be reloaded.
-
-**Note:** This test use upload mock which will show you *Lena* instead of the real uploaded image.
+**Note:** This test uses upload mock, which means it shows a dummy image.

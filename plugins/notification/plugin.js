@@ -125,6 +125,9 @@ function Notification( editor, options ) {
 	}
 
 	this.element = this._createElement();
+
+	// Don't allow dragging on notification (#13184).
+	editor.plugins.clipboard && CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( this.element );
 }
 
 /**
