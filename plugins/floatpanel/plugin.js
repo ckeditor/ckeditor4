@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -153,8 +153,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				var element = this.element,
 					iframe = this._.iframe,
-					// Non IE prefer the event into a window object - except for Edge.
-					focused = CKEDITOR.env.ie && CKEDITOR.env.version < 12 ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow ),
+					// Edge prefers iframe's window to the iframe, just like the rest of the browsers (#13143).
+					focused = CKEDITOR.env.ie && !CKEDITOR.env.edge ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow ),
 					doc = element.getDocument(),
 					positionedAncestor = this._.parentElement.getPositionedAncestor(),
 					position = offsetParent.getDocumentPosition( doc ),
