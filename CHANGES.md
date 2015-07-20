@@ -19,6 +19,7 @@ Fixed Issues:
 * [#13420](http://dev.ckeditor.com/ticket/13420): Fixed: The [Auto Embed](http://ckeditor.com/addon/autoembed) plugin ignores encoded characters in URL parameters.
 * [#13184](http://dev.ckeditor.com/ticket/13184): Fixed: Web page reloaded after drop on editor UI.
 * [#13410](http://dev.ckeditor.com/ticket/13410): Fixed: Error thrown in the [Auto Embed](http://ckeditor.com/addon/autoembed) plugin when undoing right after pasting a link.
+* [#13143](http://dev.ckeditor.com/ticket/13143): [Edge] Fixed: Focus lost while opening the panel.
 
 ## CKEditor 4.5.1
 
