@@ -27,9 +27,13 @@
 				// With IE, the custom domain has to be taken care at first,
 				// for other browers, the 'src' attribute should be left empty to
 				// trigger iframe's 'load' event.
-				src = CKEDITOR.env.air ? 'javascript:void(0)' : CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( src ) + '}())' // jshint ignore:line
-					:
-					'';
+				if ( CKEDITOR.env.air ) {
+					src = 'javascript:void(0)'; // jshint ignore:line
+				} else if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					src = 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'; // jshint ignore:line
+				} else {
+					src = '';
+				}
 
 				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>' );
 				iframe.setStyles( { width: '100%', height: '100%' } );
@@ -41,7 +45,7 @@
 
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
-				var useOnloadEvent = CKEDITOR.env.ie || CKEDITOR.env.gecko;
+				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
