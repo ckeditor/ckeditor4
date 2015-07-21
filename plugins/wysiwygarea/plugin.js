@@ -152,7 +152,7 @@
 		this.setup();
 		this.fixInitialSelection();
 
-		if ( CKEDITOR.env.ie ) {
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 			doc.getDocumentElement().addClass( doc.$.compatMode );
 
 			// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
@@ -171,6 +171,33 @@
 							range.select();
 						}
 					}, 0 );
+				}
+			} );
+		}
+
+		if ( CKEDITOR.env.edge && editor.config.enterMode != CKEDITOR.ENTER_DIV ) {
+
+			var lockRetain = false;
+
+			this.attachListener( this, 'keydown', function() {
+				var body = doc.getBody(),
+					retained = body.getElementsByTag( 'div' );
+
+				if ( !lockRetain ) {
+					for ( var i = 0; i < retained.count(); i++ ) {
+						retained.getItem( i ).setCustomData( 'retain', true );
+					}
+					lockRetain = true;
+				}
+			}, null, null, 1 );
+
+			this.attachListener( this, 'keyup', function() {
+				var divs = doc.getElementsByTag( 'div' );
+				if ( lockRetain ) {
+					if ( divs.count() == 1 && !divs.getItem( 0 ).getCustomData( 'retain' ) ) {
+						divs.getItem( 0 ).remove( 1 );
+					}
+					lockRetain = false;
 				}
 			} );
 		}
