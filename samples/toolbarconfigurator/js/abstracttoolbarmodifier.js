@@ -558,13 +558,9 @@ if ( !Object.keys ) {
 	 * @static
 	 */
 	AbstractToolbarModifier.extendPluginsConfig = function( config ) {
-		var extraPlugins = config.extraPlugins,
-			removePlugins = config.removePlugins;
+		var extraPlugins = config.extraPlugins;
 
 		// Enable the special, lightweight area to replace wysiwygarea.
 		config.extraPlugins = ( extraPlugins ? extraPlugins + ',' : '' ) + 'toolbarconfiguratorarea';
-		// Disable plugins which do not affect toolbar buttons, to make the editor more lightweight.
-		config.removePlugins = ( removePlugins ? removePlugins + ',' : '' ) +
-			'autogrow,dialogadvtab,elementspath,enterkey,floatingspace,htmlwriter,magicline,resize,sharedspace,tab,wysiwygarea';
 	};
 } )();
