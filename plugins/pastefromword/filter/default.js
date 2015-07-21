@@ -344,7 +344,7 @@
 						// The above format is what we got when pasting from Word 2010 to IE11 and possibly some others.
 						// Existence of extra <p> tag that can be later recognized as list item (see #getRules.return.elements.p)
 						// creates incorrect and problematic structures similar to <cke:li><cke:li>{...}</cke:li></cke:li>. (#11376)
-						if ( first.attributes.style.indexOf( 'mso-list' ) > -1 ) {
+						if ( first.attributes && first.attributes.style && first.attributes.style.indexOf( 'mso-list' ) > -1 ) {
 							child.attributes.style = first.attributes.style;
 							first.replaceWithChildren();
 						}
