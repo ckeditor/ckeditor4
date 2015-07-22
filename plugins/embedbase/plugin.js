@@ -186,6 +186,7 @@
 				var that = this,
 					cachedResponse = this._getCachedResponse( url ),
 					request = {
+						noNotifications: opts.noNotifications,
 						url: url,
 						callback: finishLoading,
 						errorCallback: function( msg ) {
@@ -379,7 +380,9 @@
 				if ( request.task ) {
 					request.task.cancel();
 
-					editor.showNotification( this.getErrorMessage( messageTypeOrMessage, request.url ), 'warning' );
+					if ( !request.noNotifications ) {
+						editor.showNotification( this.getErrorMessage( messageTypeOrMessage, request.url ), 'warning' );
+					}
 				}
 			},
 
