@@ -27,6 +27,7 @@
 				// With IE, the custom domain has to be taken care at first,
 				// for other browers, the 'src' attribute should be left empty to
 				// trigger iframe's 'load' event.
+				// Microsoft Edge throws "Permission Denied" if treated like an IE (#13441).
 				if ( CKEDITOR.env.air ) {
 					src = 'javascript:void(0)'; // jshint ignore:line
 				} else if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
