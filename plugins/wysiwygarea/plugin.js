@@ -152,36 +152,13 @@
 		this.setup();
 		this.fixInitialSelection();
 
-		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
-			doc.getDocumentElement().addClass( doc.$.compatMode );
-
-			// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
-			editor.config.enterMode != CKEDITOR.ENTER_P && this.attachListener( doc, 'selectionchange', function() {
-				var body = doc.getBody(),
-					sel = editor.getSelection(),
-					range = sel && sel.getRanges()[ 0 ];
-
-				if ( range && body.getHtml().match( /^<p>(?:&nbsp;|<br>)<\/p>$/i ) && range.startContainer.equals( body ) ) {
-					// Avoid the ambiguity from a real user cursor position.
-					setTimeout( function() {
-						range = editor.getSelection().getRanges()[ 0 ];
-						if ( !range.startContainer.equals( 'body' ) ) {
-							body.getFirst().remove( 1 );
-							range.moveToElementEditEnd( body );
-							range.select();
-						}
-					}, 0 );
-				}
-			} );
-		}
-
-		if ( CKEDITOR.env.edge && editor.config.enterMode != CKEDITOR.ENTER_DIV ) {
-
+		var editable = this;
+		function removeSuperfluousElement( tagName ) {
 			var lockRetain = false;
 
-			this.attachListener( this, 'keydown', function() {
+			editable.attachListener( editable, 'keydown', function() {
 				var body = doc.getBody(),
-					retained = body.getElementsByTag( 'div' );
+					retained = body.getElementsByTag( tagName );
 
 				if ( !lockRetain ) {
 					for ( var i = 0; i < retained.count(); i++ ) {
@@ -191,15 +168,23 @@
 				}
 			}, null, null, 1 );
 
-			this.attachListener( this, 'keyup', function() {
-				var divs = doc.getElementsByTag( 'div' );
+			editable.attachListener( editable, 'keyup', function() {
+				var elements = doc.getElementsByTag( tagName );
 				if ( lockRetain ) {
-					if ( divs.count() == 1 && !divs.getItem( 0 ).getCustomData( 'retain' ) ) {
-						divs.getItem( 0 ).remove( 1 );
+					if ( elements.count() == 1 && !elements.getItem( 0 ).getCustomData( 'retain' ) ) {
+						elements.getItem( 0 ).remove( 1 );
 					}
 					lockRetain = false;
 				}
 			} );
+		}
+
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.config.enterMode != CKEDITOR.ENTER_P ) {
+			removeSuperfluousElement( 'p' );
+		}
+
+		if ( CKEDITOR.env.edge && editor.config.enterMode != CKEDITOR.ENTER_DIV ) {
+			removeSuperfluousElement( 'div' );
 		}
 
 		// Fix problem with cursor not appearing in Webkit and IE11+ when clicking below the body (#10945, #10906).

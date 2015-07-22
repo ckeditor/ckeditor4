@@ -28,17 +28,20 @@
 
 			editor.setData( '', function() {
 				resume( function() {
-					this.clock = sinon.useFakeTimers();
 
-					bender.tools.setHtmlWithSelection( editor, '<p><br></p>' );
-					// This event is fired after hitting backspace. At this point the browser already inserted the element.
-					editor.document.fire( 'selectionchange' );
+					bender.tools.setHtmlWithSelection( editor, '^' );
 
-					this.clock.tick( 10 );
+					editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+						keyCode: 8,
+						ctrlKey: false,
+						shiftKey: false
+					} ) );
+
+					bender.tools.setHtmlWithSelection( editor, '<p>^</p>' );
+
+					editor.editable().fire( 'keyup' );
 
 					assert.isInnerHtmlMatching( '^', bender.tools.getHtmlWithSelection( editor ) );
-
-					this.clock.restore();
 				} );
 			} );
 			wait();
