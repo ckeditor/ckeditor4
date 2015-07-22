@@ -10,7 +10,7 @@
 
 	CKEDITOR.plugins.add( 'autoembed', {
 		requires: 'autolink,undo',
-
+		lang: 'en', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var currentId = 1,
 				embedCandidatePasted;
@@ -45,7 +45,9 @@
 	} );
 
 	function autoEmbedLink( editor, id ) {
-		var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' );
+		var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' ),
+			lang = editor.lang.autoembed,
+			notification;
 
 		if ( !anchor || !anchor.data( 'cke-saved-href' ) ) {
 			return;
@@ -77,7 +79,9 @@
 			return;
 		}
 
+		notification = editor.showNotification( lang.embeddingInProgress, 'info' );
 		instance.loadContent( href, {
+			noNotifications: true,
 			callback: function() {
 					// DOM might be invalidated in the meantime, so find the anchor again.
 				var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' ),
@@ -91,11 +95,14 @@
 					editor.editable().insertElementIntoRange( wrapper, range );
 				}
 
+				notification.hide();
 				finalizeCreation();
 			},
 
 			errorCallback: function() {
+				notification.hide();
 				editor.widgets.destroy( instance, true );
+				editor.showNotification( lang.embeddingFailed, 'info' );
 			}
 		} );
 
