@@ -22,6 +22,7 @@ Fixed Issues:
 * [#13143](http://dev.ckeditor.com/ticket/13143): [Edge] Fixed: Focus lost while opening the panel.
 * [#13494](http://dev.ckeditor.com/ticket/13494): Fixed: Error thrown in toolbar configurator if plugin requirements are unsatisfied.
 * [#11376](http://dev.ckeditor.com/ticket/11376): [IE11] Fixed: Loss of text when pasting bullet lists from Microsoft Word.
+* [#13387](http://dev.ckeditor.com/ticket/13387): [Edge] Fixed: "Permission denied" error thrown while loading the editor with developer tools open.
 
 ## CKEditor 4.5.1
 
