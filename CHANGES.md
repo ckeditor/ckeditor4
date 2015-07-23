@@ -24,6 +24,7 @@ Fixed Issues:
 * [#11376](http://dev.ckeditor.com/ticket/11376): [IE11] Fixed: Loss of text when pasting bullet lists from Microsoft Word.
 * [#13387](http://dev.ckeditor.com/ticket/13387): [Edge] Fixed: "Permission denied" error thrown while loading the editor with developer tools open.
 * [#13409](http://dev.ckeditor.com/ticket/13409): Fixed: List elements incorrectly merged when pressing *Backspace* or *Delete*.
+* [#13441](http://dev.ckeditor.com/ticket/13441): [Edge] Fixed: [Clipboard](http://ckeditor.com/addon/clipboard) plugin breaks the state of [Undo](http://ckeditor.com/addon/undo) commands after paste.
 
 ## CKEditor 4.5.1
 

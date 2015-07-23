@@ -542,8 +542,9 @@
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors (e.g. CTRL+V).
 			editable.on( clipboard.mainPasteEvent, function( evt ) {
-				if ( CKEDITOR.env.ie && preventBeforePasteEvent )
+				if ( clipboard.mainPasteEvent == 'beforepaste' && preventBeforePasteEvent ) {
 					return;
+				}
 
 				// If you've just asked yourself why preventPasteEventNow() is not here, but
 				// in listener for CTRL+V and exec method of 'paste' command
@@ -591,25 +592,29 @@
 			//		special flag, other than preventPasteEvent. But we still would have to
 			//		have preventPasteEvent for the second event fired by execIECommand.
 			//		Code would be longer and not cleaner.
-			CKEDITOR.env.ie && editable.on( 'paste', function( evt ) {
-				if ( preventPasteEvent )
-					return;
-				// Cancel next 'paste' event fired by execIECommand( 'paste' )
-				// at the end of this callback.
-				preventPasteEventNow();
+			if ( clipboard.mainPasteEvent == 'beforepaste' ) {
+				editable.on( 'paste', function( evt ) {
+					if ( preventPasteEvent ) {
+						return;
+					}
 
-				// Prevent native paste.
-				evt.data.preventDefault();
+					// Cancel next 'paste' event fired by execIECommand( 'paste' )
+					// at the end of this callback.
+					preventPasteEventNow();
 
-				pasteDataFromClipboard( evt );
+					// Prevent native paste.
+					evt.data.preventDefault();
 
-				// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
-				if ( !execIECommand( 'paste' ) )
-					editor.openDialog( 'paste' );
-			} );
+					pasteDataFromClipboard( evt );
 
-			// [IE] Dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
-			if ( CKEDITOR.env.ie ) {
+					// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
+					if ( !execIECommand( 'paste' ) ) {
+						editor.openDialog( 'paste' );
+					}
+				} );
+
+				// If mainPasteEvent is 'beforePaste' (IE before Edge),
+				// dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
 				editable.on( 'contextmenu', preventBeforePasteEventNow, null, null, 0 );
 
 				editable.on( 'beforepaste', function( evt ) {
@@ -617,7 +622,6 @@
 					if ( evt.data && !evt.data.$.ctrlKey && !evt.data.$.shiftKey )
 						preventBeforePasteEventNow();
 				}, null, null, 0 );
-
 			}
 
 			editable.on( 'beforecut', function() {
@@ -950,16 +954,14 @@
 		}
 
 		// Try to get content directly on IE from clipboard, without native event
-		// being fired before. In other words - synthetically get clipboard data
-		// if it's possible.
+		// being fired before. In other words - synthetically get clipboard data, if it's possible.
 		// mainPasteEvent will be fired, so if forced native paste:
 		// * worked, getClipboardDataByPastebin will grab it,
 		// * didn't work, dataValue and dataTransfer will be empty and editor#paste won't be fired.
-		// On browsers other then IE it is not possible to get data directly so function will
-		// return false.
+		// Clipboard data can be accessed directly only on IEs older than Edge.
+		// On other browsers we should fire beforePaste event and return false.
 		function getClipboardDataDirectly() {
-			// On non-IE it is not possible to get data directly.
-			if ( !CKEDITOR.env.ie ) {
+			if ( clipboard.mainPasteEvent == 'paste' ) {
 				// beforePaste should be fired when dialog open so it can be canceled.
 				editor.fire( 'beforePaste', { type: 'auto', method: 'paste' } );
 				return false;
@@ -1002,8 +1004,10 @@
 					// by 'beforepaste'.
 					preventPasteEventNow();
 
-					// Simulate 'beforepaste' event for all none-IEs.
-					!CKEDITOR.env.ie && editable.fire( 'beforepaste' );
+					// Simulate 'beforepaste' event for all browsers using 'paste' as main event.
+					if ( clipboard.mainPasteEvent == 'paste' ) {
+						editable.fire( 'beforepaste' );
+					}
 
 					return;
 
@@ -1501,7 +1505,7 @@
 		 *
 		 * **Note:** Safari does not like the {@link CKEDITOR.editor#beforePaste} event &mdash; it sometimes does not
 		 * handle <kbd>Ctrl+C</kbd> properly. This is probably caused by some race condition between events.
-		 * Chrome and Firefox work well with both events, so it is better to use {@link CKEDITOR.editor#paste}
+		 * Chrome, Firefox and Edge work well with both events, so it is better to use {@link CKEDITOR.editor#paste}
 		 * which will handle pasting from e.g. browsers' menu bars.
 		 * IE7/8 does not like the {@link CKEDITOR.editor#paste} event for which it is throwing random errors.
 		 *
@@ -1509,7 +1513,7 @@
 		 * @readonly
 		 * @property {String}
 		 */
-		mainPasteEvent: CKEDITOR.env.ie ? 'beforepaste' : 'paste',
+		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
 
 		/**
 		 * Returns the element that should be used as the target for the drop event.
