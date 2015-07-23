@@ -542,8 +542,9 @@
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors (e.g. CTRL+V).
 			editable.on( clipboard.mainPasteEvent, function( evt ) {
-				if ( clipboard.mainPasteEvent == 'beforepaste' && preventBeforePasteEvent )
+				if ( clipboard.mainPasteEvent == 'beforepaste' && preventBeforePasteEvent ) {
 					return;
+				}
 
 				// If you've just asked yourself why preventPasteEventNow() is not here, but
 				// in listener for CTRL+V and exec method of 'paste' command
@@ -593,8 +594,10 @@
 			//		Code would be longer and not cleaner.
 			if ( clipboard.mainPasteEvent == 'beforepaste' ) {
 				editable.on( 'paste', function( evt ) {
-					if ( preventPasteEvent )
+					if ( preventPasteEvent ) {
 						return;
+					}
+
 					// Cancel next 'paste' event fired by execIECommand( 'paste' )
 					// at the end of this callback.
 					preventPasteEventNow();
@@ -605,8 +608,9 @@
 					pasteDataFromClipboard( evt );
 
 					// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
-					if ( !execIECommand( 'paste' ) )
+					if ( !execIECommand( 'paste' ) ) {
 						editor.openDialog( 'paste' );
+					}
 				} );
 
 				// If mainPasteEvent is 'beforePaste' (IE before Edge),
@@ -1001,8 +1005,9 @@
 					preventPasteEventNow();
 
 					// Simulate 'beforepaste' event for all browsers using 'paste' as main event.
-					if ( clipboard.mainPasteEvent == 'paste' )
+					if ( clipboard.mainPasteEvent == 'paste' ) {
 						editable.fire( 'beforepaste' );
+					}
 
 					return;
 
