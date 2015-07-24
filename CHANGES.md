@@ -25,6 +25,8 @@ Fixed Issues:
 * [#13387](http://dev.ckeditor.com/ticket/13387): [Edge] Fixed: "Permission denied" error thrown while loading the editor with developer tools open.
 * [#13409](http://dev.ckeditor.com/ticket/13409): Fixed: List elements incorrectly merged when pressing *Backspace* or *Delete*.
 * [#13441](http://dev.ckeditor.com/ticket/13441): [Edge] Fixed: [Clipboard](http://ckeditor.com/addon/clipboard) plugin breaks the state of [Undo](http://ckeditor.com/addon/undo) commands after paste.
+* [#13554](http://dev.ckeditor.com/ticket/13554): [Edge] Fixed: Paste dialog's iframe does not receive focus on show.
+* [#13574](http://dev.ckeditor.com/ticket/13574): [Edge] Fixed: Permission denied thrown while opening editor dialogs.
 
 Other Changes:
 

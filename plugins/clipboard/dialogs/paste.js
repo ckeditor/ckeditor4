@@ -133,7 +133,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						var src =
 							CKEDITOR.env.air ?
 								'javascript:void(0)' : // jshint ignore:line
-							CKEDITOR.env.ie ?
+							( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ?
 								'javascript:void((function(){' + encodeURIComponent( // jshint ignore:line
 									'document.open();' +
 									'(' + CKEDITOR.tools.fixDomain + ')();' +
@@ -170,7 +170,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						// IE need a redirect on focus to make
 						// the cursor blinking inside iframe. (#5461)
-						if ( CKEDITOR.env.ie ) {
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 							var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute" role="presentation"></span>' );
 							focusGrabber.on( 'focus', function() {
 								// Since fixDomain is called in src attribute,
