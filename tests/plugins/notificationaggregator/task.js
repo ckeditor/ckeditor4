@@ -167,8 +167,6 @@
 			instance.on( 'done', doneEventSpy );
 			instance.update( 300 );
 			instance.update( 300 );
-			instance.removeListener( 'done', doneEventSpy );
-
 
 			assert.isTrue( doneEventSpy.calledOnce, 'Done event should be fired once.' );
 		},
@@ -180,8 +178,6 @@
 			instance.on( 'canceled', cancelEventSpy );
 			instance.cancel();
 			instance.cancel();
-			instance.removeListener( 'canceled', cancelEventSpy );
-
 
 			assert.isTrue( cancelEventSpy.calledOnce, 'Cancel event should be fired once.' );
 		},
@@ -195,9 +191,6 @@
 			instance.on( 'done', doneEventSpy );
 			instance.update( 300 );
 			instance.cancel();
-			instance.removeListener( 'canceled', cancelEventSpy );
-			instance.removeListener( 'done', doneEventSpy );
-
 
 			assert.isTrue( doneEventSpy.calledOnce, 'Done event should be fired once.' );
 			assert.isFalse( cancelEventSpy.called, 'Cancel event should not be fired.' );
@@ -212,9 +205,6 @@
 			instance.on( 'done', doneEventSpy );
 			instance.cancel();
 			instance.update( 300 );
-			instance.removeListener( 'canceled', cancelEventSpy );
-			instance.removeListener( 'done', doneEventSpy );
-
 
 			assert.isTrue( cancelEventSpy.calledOnce, 'Cancel event should be fired once.' );
 			assert.isFalse( doneEventSpy.called, 'Done event should not be fired.' );
