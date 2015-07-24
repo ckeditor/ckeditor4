@@ -414,6 +414,13 @@
 		 * @property {Number}
 		 */
 		this._doneWeight = 0;
+
+		/**
+		 * Indicates when task is canceled.
+		 * @private
+		 * @property {Boolean}
+		 */
+		this._isCanceled = false;
 	}
 
 	Task.prototype = {
@@ -430,9 +437,9 @@
 		 * @param {Number} weight Number indicating how much of the total task {@link #_weight} is done.
 		 */
 		update: function( weight ) {
-			// If task is already done there is no need to update it, and we don't expect
+			// If task is already done or canceled there is no need to update it, and we don't expect
 			// progress to be reversed.
-			if ( this.isDone() ) {
+			if ( this.isDone() || this.isCanceled() ) {
 				return;
 			}
 
@@ -455,6 +462,14 @@
 		 * Cancels the task (the task will be removed from the aggregator).
 		 */
 		cancel: function() {
+			// If task is already done or canceled.
+			if ( this.isDone() || this.isCanceled() ) {
+				return;
+			}
+
+			// Mark task as canceled.
+			this._isCanceled = true;
+
 			// We'll fire cancel event it's up to aggregator to listen for this event,
 			// and remove the task.
 			this.fire( 'canceled' );
@@ -467,6 +482,15 @@
 		 */
 		isDone: function() {
 			return this._weight === this._doneWeight;
+		},
+
+		/**
+		 * Checks if the task is canceled.
+		 *
+		 * @returns {Boolean}
+		 */
+		isCanceled: function() {
+			return this._isCanceled;
 		}
 	};
 
