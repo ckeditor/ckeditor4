@@ -349,10 +349,6 @@
 			 * was canceled or the default listener could not convert oEmbed response into embeddable HTML.
 			 */
 			_handleResponse: function( request ) {
-				if ( request.task ) {
-					request.task.done();
-				}
-
 				var evtData = {
 					url: request.url,
 					html: '',
@@ -360,6 +356,10 @@
 				};
 
 				if ( this.fire( 'handleResponse', evtData ) !== false ) {
+					if ( request.task ) {
+						request.task.done();
+					}
+
 					this._setContent( request.url, evtData.html );
 					return true;
 				} else {
