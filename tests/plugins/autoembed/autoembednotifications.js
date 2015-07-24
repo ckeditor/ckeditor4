@@ -24,7 +24,6 @@ bender.test( {
 			showNotificationSpy = sinon.spy( editor, 'showNotification' );
 
 		jsonpCallback = function( urlTemplate, urlParams, callback ) {
-
 			resume( function() {
 				callback( {
 					'url': decodeURIComponent( urlParams.url ),
@@ -53,7 +52,6 @@ bender.test( {
 			showNotificationSpy = sinon.spy( editor, 'showNotification' );
 
 		jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
-
 			resume( function() {
 				errorCallback();
 
