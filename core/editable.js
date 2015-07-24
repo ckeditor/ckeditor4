@@ -741,15 +741,28 @@
 
 				// Remove empty block, duh!
 				if ( removeEmptyBlock ) {
-					var path = range.startPath();
+					var path = range.startPath(),
+						// We use getElementsByTag() instead of find() to retain compatibility with IE quirks mode.
+						potentialBookmarks = path.block && path.block.getElementsByTag( 'span' ),
+						containsBookmarks = false;
+
+					if ( potentialBookmarks ) {
+						for ( var i = 0; i < potentialBookmarks.count(); i++ ) {
+							if ( potentialBookmarks.getItem( i ).data( 'cke-bookmark' ) ) {
+								containsBookmarks = true;
+								break;
+							}
+						}
+					}
 
 					// <p><b>^</b></p> is empty block.
-					// First condition looks for bookmarks. Using getElementsByTagName to retain compatibility with IE quirks mode.
-					if ( !path.block.$.getElementsByTagName( 'span' ).length &&
+					if (
 						range.checkStartOfBlock() &&
 						range.checkEndOfBlock() &&
 						path.block &&
-						!range.root.equals( path.block ) ) {
+						!range.root.equals( path.block ) &&
+						// Do not remove a block with bookmarks. (#13465)
+						!containsBookmarks ) {
 						range.moveToPosition( path.block, CKEDITOR.POSITION_BEFORE_START );
 						path.block.remove();
 					}

@@ -377,7 +377,9 @@
 				'<p><span data-cke-bookmark="1">&nbsp;</span></p>'
 			],
 			// #13465
-			[ '<p>a</p><p><span class="foo">{b}</span></p><p>c</p>',				'<span class="foo">b</span>',									'<p>a</p><p>c</p>' ]
+			[ '<p>a</p><p><span class="foo">{b}</span></p><p>c</p>',				'<span class="foo">b</span>',									'<p>a</p><p>c</p>' ],
+			// #13465
+			[ '<p>a</p><p><b>{b}</b><span class="foo"></span></p><p>c</p>',			'<b>b</b>',														'<p>a</p><p>c</p>' ]
 		]
 	}, 'inline', 1 );
 
