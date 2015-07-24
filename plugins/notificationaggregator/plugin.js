@@ -416,7 +416,8 @@
 		this._doneWeight = 0;
 
 		/**
-		 * Indicates when task is canceled.
+		 * Indicates when the task is canceled.
+		 *
 		 * @private
 		 * @property {Boolean}
 		 */
