@@ -26,6 +26,10 @@ Fixed Issues:
 * [#13409](http://dev.ckeditor.com/ticket/13409): Fixed: List elements incorrectly merged when pressing *Backspace* or *Delete*.
 * [#13441](http://dev.ckeditor.com/ticket/13441): [Edge] Fixed: [Clipboard](http://ckeditor.com/addon/clipboard) plugin breaks the state of [Undo](http://ckeditor.com/addon/undo) commands after paste.
 
+Other Changes:
+
+* [#13421](http://dev.ckeditor.com/ticket/13421): UX improvements to notifications in [Auto Embed](http://ckeditor.com/addon/autoembed) plugin.
+
 ## CKEditor 4.5.1
 
 Fixed Issues:
