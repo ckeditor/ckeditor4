@@ -1827,7 +1827,7 @@ CKEDITOR.STYLE_OBJECT = 3;
  *
  *		var boldStyle = new CKEDITOR.style( { element: 'strong' } );
  *		// Register the "bold" command, which applies the bold style.
- *		editor.addCommand( 'bold', new CKEDITOR.dialogCommand( boldStyle ) );
+ *		editor.addCommand( 'bold', new CKEDITOR.styleCommand( boldStyle ) );
  *
  * @class
  * @constructor Creates a styleCommand class instance.

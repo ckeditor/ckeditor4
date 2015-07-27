@@ -177,8 +177,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			title = body.getChild( 0 ),
 			close = body.getChild( 1 );
 
+		// Don't allow dragging on dialog (#13184).
+		editor.plugins.clipboard && CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( body );
+
 		// IFrame shim for dialog that masks activeX in IE. (#7619)
-		if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks ) {
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks && !CKEDITOR.env.edge ) {
 			var src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();(' + CKEDITOR.tools.fixDomain + ')();document.close();' ) + '}())', // jshint ignore:line
 				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
 					' frameBorder="0"' +
@@ -1453,15 +1456,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			if ( state == CKEDITOR.DIALOG_STATE_BUSY ) {
 				// Insert the spinner on demand.
 				if ( !this.parts.spinner ) {
-					this.parts.spinner = CKEDITOR.document.createElement( 'div', {
-						attributes: {
-							'class': 'cke_dialog_spinner'
-						},
-						styles: {
-							'float': 'left',
-							'margin-right': '8px'
-						}
-					} );
+					var dir = this.getParentEditor().lang.dir,
+						spinnerDef = {
+							attributes: {
+								'class': 'cke_dialog_spinner'
+							},
+							styles: {
+								'float': dir == 'rtl' ? 'right' : 'left'
+							}
+						};
+
+					spinnerDef.styles[ 'margin-' + ( dir == 'rtl' ? 'left' : 'right' ) ] = '8px';
+
+					this.parts.spinner = CKEDITOR.document.createElement( 'div', spinnerDef );
 
 					this.parts.spinner.setHtml( '&#8987;' );
 					this.parts.spinner.appendTo( this.parts.title, 1 );

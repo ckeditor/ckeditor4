@@ -1,4 +1,4 @@
-@bender-tags: selection, focus
+@bender-tags: selection, focus, tc, 4.4.6, 12630, 12337
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, floatingspace, undo
 

@@ -124,7 +124,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						var dialog = this.getDialog();
 						var htmlToLoad = '<html dir="' + editor.config.contentsLangDirection + '"' +
 							' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
-							'<head><style>body{margin:3px;height:95%}</style></head><body>' +
+							'<head><style>body{margin:3px;height:95%;word-break:break-all;}</style></head><body>' +
 							'<script id="cke_actscrpt" type="text/javascript">' +
 							'window.parent.CKEDITOR.tools.callFunction(' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ',this);' +
 							'</script></body>' +
@@ -133,7 +133,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						var src =
 							CKEDITOR.env.air ?
 								'javascript:void(0)' : // jshint ignore:line
-							CKEDITOR.env.ie ?
+							( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ?
 								'javascript:void((function(){' + encodeURIComponent( // jshint ignore:line
 									'document.open();' +
 									'(' + CKEDITOR.tools.fixDomain + ')();' +
@@ -170,7 +170,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						// IE need a redirect on focus to make
 						// the cursor blinking inside iframe. (#5461)
-						if ( CKEDITOR.env.ie ) {
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 							var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute" role="presentation"></span>' );
 							focusGrabber.on( 'focus', function() {
 								// Since fixDomain is called in src attribute,

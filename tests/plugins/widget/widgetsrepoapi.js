@@ -1109,6 +1109,41 @@
 			} );
 		},
 
+		'test widgets.checkWidgets - do not remove widgets before finalize creation': function() {
+			var editor = this.editor,
+				editorBot = this.editorBot;
+
+			editor.widgets.add( 'testCheckWidgets1', {
+				template: '<b>X</b>',
+				init: function() {
+					this.on( 'edit', function( evt ) {
+						var id = this.id;
+
+						// Prevent automatic insertion, so code won't explode later.
+						evt.cancel();
+						assert.areSame( '<p>foo</p>', editor.getData() );
+
+						editor.widgets.checkWidgets();
+
+						// Widget should not be removed before finalizeCreation call.
+						assert.areSame( this, editor.widgets.instances[ id ], 'widget was not removed from repository' );
+
+						// Call finalizeCreation and check if widget will be removed from repository when
+						// no representation in DOM will be found.
+						editor.widgets.finalizeCreation( this.wrapper.getParent( true ) );
+						this.wrapper.remove();
+						editor.widgets.checkWidgets();
+						objectAssert.ownsNoKeys( editor.widgets.instances, 'widget was removed from repository' );
+					} );
+				}
+			} );
+
+			editorBot.setData( '', function() {
+				editorBot.setHtmlWithSelection( '<p>foo^</p>' );
+				editor.execCommand( 'testCheckWidgets1' );
+			} );
+		},
+
 		'test widgets.checkWidgets does not initialize widgets in temporary elements': function() {
 			var editor = this.editor,
 				editorBot = this.editorBot;

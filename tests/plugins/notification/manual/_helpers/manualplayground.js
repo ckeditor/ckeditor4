@@ -48,22 +48,17 @@ var manualPlayground = {
 				notification.update( scenario.shift() );
 			}
 		}, 300 );
-
-		editor.focus();
 	},
 
 	showWarning: function() {
 		editor.showNotification( 'Vitae risus eget ante <a href="http://test/">mau</a> convallis.', 'warning' );
-		editor.focus();
 	},
 
 	showSuccess: function() {
 		editor.showNotification( 'Success!', 'success' );
-		editor.focus();
 	},
 
 	showInfo: function() {
 		editor.showNotification( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae risus eget ante mae convallis.', 'info' );
-		editor.focus();
 	}
 };

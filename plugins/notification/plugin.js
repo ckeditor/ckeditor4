@@ -103,6 +103,8 @@ CKEDITOR.plugins.add( 'notification', {
  * All of the notification actions: ({@link #show}, {@link #update} and {@link #hide}) fire cancelable events
  * on the related {@link CKEDITOR.editor} instance so you can integrate editor notifications with your website notifications.
  *
+ * Refer to the [Notifications](http://docs.ckeditor.com/#!/guide/dev_notifications) article for more information about this feature.
+ *
  * @since 4.5
  * @class CKEDITOR.plugins.notification
  * @constructor Create a notification object. Call {@link #show} to show the created notification.
@@ -125,6 +127,9 @@ function Notification( editor, options ) {
 	}
 
 	this.element = this._createElement();
+
+	// Don't allow dragging on notification (#13184).
+	editor.plugins.clipboard && CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( this.element );
 }
 
 /**
@@ -859,6 +864,9 @@ CKEDITOR.plugins.notification = Notification;
  * {@link CKEDITOR.plugins.notification#type type} should close automatically.
  * `0` means that notifications will not close automatically.
  * Note that `warning` and `progress` notifications will never close automatically.
+ *
+ * Refer to the [Notifications](http://docs.ckeditor.com/#!/guide/dev_notifications) article
+ * for more information about this feature.
  *
  * @since 4.5
  * @cfg {Number} [notification_duration=5000]
