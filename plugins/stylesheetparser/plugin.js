@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -32,6 +32,7 @@
 			var selector = aSelectors[ i ];
 
 			if ( validSelectors.test( selector ) && !skipSelectors.test( selector ) ) {
+                                    
 				// If we still don't know about this one, add it
 				if ( CKEDITOR.tools.indexOf( aClasses, selector ) == -1 )
 					aClasses.push( selector );
@@ -69,18 +70,28 @@
 
 		var aClasses = parseClasses( aRules, skipSelectors, validSelectors );
 
-		// Add each style to our "Styles" collection.
-		for ( i = 0; i < aClasses.length; i++ ) {
-			var oElement = aClasses[ i ].split( '.' ),
-				element = oElement[ 0 ].toLowerCase(),
-				sClassName = oElement[ 1 ];
+		// Add each style to our "Styles" collection.      
+      for ( i = 0; i < aClasses.length; i++ ) {
+         // Stylesheet parser should accept CSS classes without elements (sample: .table_darkgrey) - IcemanX 2015.07.22 - en.cescon.de (http://dev.ckeditor.com/ticket/9922)
+          var oElement = aClasses[ i ].split( '.' ),
+              element, sClassName, name;
 
-			styles.push( {
-				name: element + '.' + sClassName,
-				element: element,
-				attributes: { 'class': sClassName }
-			} );
-		}
+          if ( !oElement.length ) {
+              element = '',
+              sClassName = oElement;     
+              name = element + '.' + sClassName;
+          } else {
+              element = oElement[ 0 ].toLowerCase(),                      
+              sClassName = oElement[ 1 ];      
+              name = (element?element:'') + '.' + sClassName;
+          }
+
+          styles.push({
+              name: name,
+              element: !element.length ? 'span' : element,
+              attributes: { 'class': sClassName }
+          });
+      }
 
 		return styles;
 	}
@@ -92,7 +103,13 @@
 			editor.filter.disable();
 
 			var cachedDefinitions;
-
+        
+         
+ 	      if(typeof timer_delay_parse_styles != 'undefined')
+            window.clearTimeout( timer_delay_parse_styles );
+         
+         timer_delay_parse_styles = null;
+         
 			editor.once( 'stylesSet', function( evt ) {
 				// Cancel event and fire it again when styles are ready.
 				evt.cancel();
@@ -100,23 +117,27 @@
 				// Overwrite editor#getStylesSet asap (contentDom is the first moment
 				// when editor.document is ready), but before stylescombo reads styles set (priority 5).
 				editor.once( 'contentDom', function() {
-					editor.getStylesSet( function( definitions ) {
-						// Rules that must be skipped
-						var skipSelectors = editor.config.stylesheetParser_skipSelectors || ( /(^body\.|^\.)/i ),
-							// Rules that are valid
-							validSelectors = editor.config.stylesheetParser_validSelectors || ( /\w+\.\w+/ );
+               // Use a delay before parsing the stylesheet to avoid errors with Firefox 4 and Safari. #7784 	
+               timer_delay_parse_styles = window.setTimeout( function() { // Patch stylesheet parser error if file not on cache - IcemanX 2015.07.22 - en.cescon.de (http://dev.ckeditor.com/ticket/8832)
+                  editor.getStylesSet( function( definitions ) {
+                     // Rules that must be skipped
+                     var skipSelectors = editor.config.stylesheetParser_skipSelectors || ( /^body\./i ), // Stylesheet parser should accept CSS classes without elements (sample: .table_darkgrey) - IcemanX 2015.07.22 - en.cescon.de (http://dev.ckeditor.com/ticket/9922)
+                        // Rules that are valid
+                        validSelectors = editor.config.stylesheetParser_validSelectors || ( /\.\w+/ ); // Stylesheet parser should accept CSS classes without elements (sample: .table_darkgrey) - IcemanX 2015.07.22 - en.cescon.de (http://dev.ckeditor.com/ticket/9922)
 
-						cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) );
+                     cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) );
+                                         
 
-						editor.getStylesSet = function( callback ) {
-							if ( cachedDefinitions )
-								return callback( cachedDefinitions );
-						};
+                     editor.getStylesSet = function( callback ) {
+                        if ( cachedDefinitions )
+                           return callback( cachedDefinitions );
+                     };
 
-						editor.fire( 'stylesSet', { styles: cachedDefinitions } );
-					} );
+                     editor.fire( 'stylesSet', { styles: cachedDefinitions } );                     
+                  } );
+               }, 1500);
 				} );
-			}, null, null, 1 );
+			}, null, null, 1 );         
 		}
 	} );
 } )();
