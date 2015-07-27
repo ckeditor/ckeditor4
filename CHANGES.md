@@ -28,6 +28,7 @@ Fixed Issues:
 * [#13441](http://dev.ckeditor.com/ticket/13441): [Edge] Fixed: [Clipboard](http://ckeditor.com/addon/clipboard) plugin breaks the state of [Undo](http://ckeditor.com/addon/undo) commands after paste.
 * [#13554](http://dev.ckeditor.com/ticket/13554): [Edge] Fixed: Paste dialog's iframe does not receive focus on show.
 * [#13574](http://dev.ckeditor.com/ticket/13574): [Edge] Fixed: Permission denied thrown while opening editor dialogs.
+* [#13440](http://dev.ckeditor.com/ticket/13440): [Edge] Fixed: Unable to paste a widget.
 
 Other Changes:
 
