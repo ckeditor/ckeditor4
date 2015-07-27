@@ -741,19 +741,7 @@
 
 				// Remove empty block, duh!
 				if ( removeEmptyBlock ) {
-					var path = range.startPath(),
-						// We use getElementsByTag() instead of find() to retain compatibility with IE quirks mode.
-						potentialBookmarks = path.block && path.block.getElementsByTag( 'span' ),
-						containsBookmarks = false;
-
-					if ( potentialBookmarks ) {
-						for ( var i = 0; i < potentialBookmarks.count(); i++ ) {
-							if ( potentialBookmarks.getItem( i ).data( 'cke-bookmark' ) ) {
-								containsBookmarks = true;
-								break;
-							}
-						}
-					}
+					var path = range.startPath();
 
 					// <p><b>^</b></p> is empty block.
 					if (
@@ -762,7 +750,7 @@
 						path.block &&
 						!range.root.equals( path.block ) &&
 						// Do not remove a block with bookmarks. (#13465)
-						!containsBookmarks ) {
+						!hasBookmarks( path.block ) ) {
 						range.moveToPosition( path.block, CKEDITOR.POSITION_BEFORE_START );
 						path.block.remove();
 					}
@@ -1421,6 +1409,23 @@
 			if ( !( other && ( src.equals( other ) || src.contains( other ) ) ) )
 				fn.call( this, evt );
 		};
+	}
+
+	function hasBookmarks( node ) {
+		// We use getElementsByTag() instead of find() to retain compatibility with IE quirks mode.
+		var potentialBookmarks = node && node.getElementsByTag( 'span' ),
+			containsBookmarks = false;
+
+		if ( potentialBookmarks ) {
+			for ( var i = 0; i < potentialBookmarks.count(); i++ ) {
+				if ( potentialBookmarks.getItem( i ).data( 'cke-bookmark' ) ) {
+					containsBookmarks = true;
+					break;
+				}
+			}
+		}
+
+		return containsBookmarks;
 	}
 
 	// Check if the entire table/list contents is selected.
