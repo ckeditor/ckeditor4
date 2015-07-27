@@ -153,37 +153,11 @@
 		this.fixInitialSelection();
 
 		var editable = this;
-		function removeSuperfluousElement( tagName ) {
-			var lockRetain = false;
 
-			editable.attachListener( editable, 'keydown', function() {
-				var body = doc.getBody(),
-					retained = body.getElementsByTag( tagName );
-
-				if ( !lockRetain ) {
-					for ( var i = 0; i < retained.count(); i++ ) {
-						retained.getItem( i ).setCustomData( 'retain', true );
-					}
-					lockRetain = true;
-				}
-			}, null, null, 1 );
-
-			editable.attachListener( editable, 'keyup', function() {
-				var elements = doc.getElementsByTag( tagName );
-				if ( lockRetain ) {
-					if ( elements.count() == 1 && !elements.getItem( 0 ).getCustomData( 'retain' ) ) {
-						elements.getItem( 0 ).remove( 1 );
-					}
-					lockRetain = false;
-				}
-			} );
-		}
-
-		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.config.enterMode != CKEDITOR.ENTER_P ) {
+		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body. (#6966, #13142)
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_P ) {
 			removeSuperfluousElement( 'p' );
-		}
-
-		if ( CKEDITOR.env.edge && editor.config.enterMode != CKEDITOR.ENTER_DIV ) {
+		} else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV ) {
 			removeSuperfluousElement( 'div' );
 		}
 
@@ -288,6 +262,32 @@
 				editor.fire( 'dataReady' );
 			}, 0 );
 		}, 0, this );
+
+		function removeSuperfluousElement( tagName ) {
+			var lockRetain = false;
+
+			editable.attachListener( editable, 'keydown', function() {
+				var body = doc.getBody(),
+					retained = body.getElementsByTag( tagName );
+
+				if ( !lockRetain ) {
+					for ( var i = 0; i < retained.count(); i++ ) {
+						retained.getItem( i ).setCustomData( 'retain', true );
+					}
+					lockRetain = true;
+				}
+			}, null, null, 1 );
+
+			editable.attachListener( editable, 'keyup', function() {
+				var elements = doc.getElementsByTag( tagName );
+				if ( lockRetain ) {
+					if ( elements.count() == 1 && !elements.getItem( 0 ).getCustomData( 'retain' ) ) {
+						elements.getItem( 0 ).remove( 1 );
+					}
+					lockRetain = false;
+				}
+			} );
+		}
 	}
 
 	var framedWysiwyg = CKEDITOR.tools.createClass( {
