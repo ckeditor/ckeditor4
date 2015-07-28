@@ -1045,7 +1045,7 @@
 
 				// Gecko/Webkit need some help when selecting control type elements. (#3448)
 				// We apply same behavior for IE Edge. (#13386)
-				if ( !( CKEDITOR.env.ie && CKEDITOR.env.version < 12 ) ) {
+				if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
 					this.attachListener( this, 'mousedown', function( ev ) {
 						var control = ev.data.getTarget();
 						// #11727. Note: htmlDP assures that input/textarea/select have contenteditable=false
@@ -1061,10 +1061,9 @@
 					} );
 				}
 
-				// For some reason, after click event is done, IE Edge loses focus on the selected element.
-				// Even native selection has type "None", even though the image is tinted blue (looks like selected). (#13386)
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version > 11 ) {
-					this.attachListener( this, 'click', function( ev ) {
+				// For some reason, after click event is done, IE Edge loses focus on the selected element. (#13386)
+				if ( CKEDITOR.env.edge ) {
+					this.attachListener( this, 'mouseup', function( ev ) {
 						var selectedElement = ev.data.getTarget();
 						if ( selectedElement && selectedElement.is( 'img' ) ) {
 							setTimeout( function() {
