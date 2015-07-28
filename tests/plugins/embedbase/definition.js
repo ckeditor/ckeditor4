@@ -458,7 +458,7 @@ bender.test( {
 						assert.areSame( 'foo', widget.data.url, 'widget\'s url has not been changed' );
 						assert.areSame( dataWithWidget, editor.getData() );
 
-						assert.isTrue( task.isDone(), 'task is done' );
+						assert.isTrue( task.isCanceled(), 'task is canceled' );
 
 						assert.isTrue( handleResponseSpy.calledOnce, '_handleResponse was called once' );
 						assert.isFalse( handleResponseSpy.returnValues[ 0 ], '_handleResponse returned false' );
