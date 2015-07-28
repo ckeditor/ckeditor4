@@ -1411,21 +1411,21 @@
 		};
 	}
 
-	function hasBookmarks( node ) {
+	function hasBookmarks( element ) {
 		// We use getElementsByTag() instead of find() to retain compatibility with IE quirks mode.
-		var potentialBookmarks = node && node.getElementsByTag( 'span' ),
-			containsBookmarks = false;
+		var potentialBookmarks = element.getElementsByTag( 'span' ),
+			i = 0,
+			child;
 
 		if ( potentialBookmarks ) {
-			for ( var i = 0; i < potentialBookmarks.count(); i++ ) {
-				if ( potentialBookmarks.getItem( i ).data( 'cke-bookmark' ) ) {
-					containsBookmarks = true;
-					break;
+			while ( ( child = potentialBookmarks.getItem( i++ ) ) ) {
+				if ( !isNotBookmark( child ) ) {
+					return true;
 				}
 			}
 		}
 
-		return containsBookmarks;
+		return false;
 	}
 
 	// Check if the entire table/list contents is selected.
