@@ -367,6 +367,18 @@
 			assert.areSame( playground, range.startContainer, 'range.startContainer' );
 			assert.areSame( 1, range.startOffset, 'range.startOffset' );
 			assert.isTrue( range.collapsed, 'range.collapsed' );
+		},
+
+		// #13568.
+		'test extractContents - bogus br': function() {
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( 'bogus' ), 0 ); // <p>
+			range.setEnd( doc.getById( 'bogus' ).getFirst(), 1 ); // <br /> in <p>
+
+			var docFrag = range.extractContents();
+
+			// See: execContentsAction in range.js.
+			assert.isInnerHtmlMatching( '<p>Foo bar</p>', docFrag.getHtml(), 'Extracted HTML' );
 		}
 	};
 
