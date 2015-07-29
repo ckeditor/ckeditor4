@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.5.0, tc
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter, link, uploadimage, image2
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter, link, uploadimage, image2, pastefromword
 @bender-include: ../../uploadwidget/manual/_helpers/xhr.js
 
 ## Scenarios:
