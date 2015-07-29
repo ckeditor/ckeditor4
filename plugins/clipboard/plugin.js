@@ -2060,8 +2060,8 @@
 
 		this._ = {
 			metaRegExp: /^<meta.*?>/,
-			bodyRegExp: /<body([\s\S]*?)>([\s\S]*)<\/body>/,
-			fragmentRegExp: /<!--(Start|End)Fragment-->/g,
+			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/,
+			fragmentRegExp: /<!--(?:Start|End)Fragment-->/g,
 
 			data: {},
 			files: [],
@@ -2219,8 +2219,8 @@
 
 				// Keep only contents of the <body> element
 				result = this._.bodyRegExp.exec( data );
-				if ( result && result.length > 2 ) {
-					data = result[ 2 ];
+				if ( result && result.length ) {
+					data = result[ 1 ];
 
 					// Remove also comments.
 					data = data.replace( this._.fragmentRegExp, '' );
