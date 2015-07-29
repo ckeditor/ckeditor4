@@ -29,6 +29,7 @@ Fixed Issues:
 * [#13554](http://dev.ckeditor.com/ticket/13554): [Edge] Fixed: Paste dialog's iframe does not receive focus on show.
 * [#13574](http://dev.ckeditor.com/ticket/13574): [Edge] Fixed: Permission denied thrown while opening editor dialogs.
 * [#13440](http://dev.ckeditor.com/ticket/13440): [Edge] Fixed: Unable to paste a widget.
+* [#13566](http://dev.ckeditor.com/ticket/13566): Fixed: Suppressed notifications in [Media Embed Base](http://ckeditor.com/addon/embedbase) plugin.
 
 Other Changes:
 

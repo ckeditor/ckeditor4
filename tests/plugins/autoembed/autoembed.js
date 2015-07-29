@@ -334,5 +334,46 @@ bender.test( {
 				assert.areSame( finalizeCreationSpy.called, false, 'finalize creation was not called' );
 			}, 200 );
 		} );
+	},
+
+	'check if notifications are showed after unsuccessful embedding': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			firstRequest = true,
+			notificationShowSpy = sinon.spy( CKEDITOR.plugins.notification.prototype, 'show' );
+
+		// JSONP callback for embed request.
+		jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
+
+			// First request will return error - so two notifications should be showed.
+			// First informing about embedding process, second about embedding error.
+			if ( firstRequest ) {
+				errorCallback();
+				firstRequest = false;
+				editor.execCommand( 'paste', 'https://foo.bar/g/notification/test/2' );
+			} else {
+				resume( function() {
+
+					// Second request returns success - one notification should be showed.
+					callback( {
+						'url': decodeURIComponent( urlParams.url ),
+						'type': 'rich',
+						'version': '1.0',
+						'html': '<img src="' + decodeURIComponent( urlParams.url ) + '">'
+					} );
+
+					notificationShowSpy.restore();
+
+					// Check if notification was showed three times.
+					assert.isTrue( notificationShowSpy.calledThrice, 'Notification should be showed three times.' );
+				} );
+			}
+		};
+
+		bot.setData( '', function() {
+			editor.focus();
+			editor.execCommand( 'paste', 'https://foo.bar/g/notification/test/1' );
+			wait();
+		} );
 	}
 } );
