@@ -1243,7 +1243,7 @@
 		},
 
 		'paste with HTML in clipboardData': function() {
-			if ( !CKEDITOR.plugins.clipboard.isHtmlInExternalDataTransfer ) {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				assert.ignore();
 			}
 
@@ -1270,7 +1270,7 @@
 		},
 
 		'paste with HTML in clipboardData - cancel on before paste': function() {
-			if ( !CKEDITOR.plugins.clipboard.isHtmlInExternalDataTransfer ) {
+			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				assert.ignore();
 			}
 
