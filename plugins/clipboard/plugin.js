@@ -1526,7 +1526,7 @@
 
 			// Because of a Firefox bug HTML data are not available in some cases (e.g. paste from Word), in such cases we
 			// need to use the pastebin (#13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
-			if ( CKEDITOR.env.gecko && dataTransfer.getData( 'text/html' ) ) {
+			if ( CKEDITOR.env.gecko && ( dataTransfer.getData( 'text/html' ) || dataTransfer.getFilesCount() ) ) {
 				return true;
 			}
 
