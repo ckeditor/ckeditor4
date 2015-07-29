@@ -1040,7 +1040,7 @@
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
 			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
-			if ( beforePasteNotCanceled && clipboard.clipboardApiCanBeUsed( eventData.dataTransfer, editor ) ) {
+			if ( beforePasteNotCanceled && clipboard.canClipboardApiBeUsed( eventData.dataTransfer, editor ) ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
@@ -1504,31 +1504,36 @@
 		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
 
 		/**
-		 * Return true if reliable data are available in Clipboard API.
+		 * Returns `true` if we can expect that the browser provides data through the Clipboard API.
+		 * If not, CKEditor will use the paste bin. Read more in
+		 * the [Clipboard Integration](http://docs.ckeditor.com/#!/guide/dev_clipboard-section-clipboard-api) guide.
 		 *
 		 * @since 4.5.2
+		 * @returns {Boolean}
 		 */
-		clipboardApiCanBeUsed: function( dataTransfer, editor ) {
-			// If data transfer is different then external it means that it is custom cut/copy/paste support handling
-			// and data data are put manually on the data transfer.
+		canClipboardApiBeUsed: function( dataTransfer, editor ) {
+			// If it's an internal or cross-editor data transfer, then it means that custom cut/copy/paste support works
+			// and that the data were put manually on the data transfer so we can be sure that it's available.
 			if ( dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_EXTERNAL ) {
 				return true;
 			}
 
-			// On Chrome we can trust Clipboard API, the exception is Chrome on Android (and in the desktop mode), where
+			// In Chrome we can trust Clipboard API, with the exception of Chrome on Android (in both - mobile and desktop modes), where
 			// clipboard API is not available so we need to check it (#13187).
 			if ( CKEDITOR.env.chrome && !dataTransfer.isEmpty() ) {
 				return true;
 			}
 
-			// Because of Firefox bug HTML data are not available in some cases (e.g. paste from work), in such cases we
-			// need to use paste bin (#13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
+			// Because of a Firefox bug HTML data are not available in some cases (e.g. paste from Word), in such cases we
+			// need to use the pastebin (#13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
 			if ( CKEDITOR.env.gecko && dataTransfer.getData( 'text/html' ) ) {
 				return true;
 			}
 
-			// On Safari and IE HTML data are not available thought Clipboard API.
-			// It is safer to use paste bin in unknown cases.
+			// In Safari and IE HTML data is not available though the Clipboard API.
+			// In Edge things are a bit messy at the moment -
+			// https://connect.microsoft.com/IE/feedback/details/1572456/edge-clipboard-api-text-html-content-messed-up-in-event-clipboarddata
+			// It is safer to use the paste bin in unknown cases.
 			return false;
 		},
 
