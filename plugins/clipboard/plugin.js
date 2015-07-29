@@ -1504,8 +1504,8 @@
 		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
 
 		/**
-		 * Returns `true` if we can expect that the browser provides data through the Clipboard API.
-		 * If not, CKEditor will use the paste bin. Read more in
+		 * Returns `true` if we can expect that the browser provides HTML data through the Clipboard API.
+		 * If not, then it returns `false` and as a result CKEditor will use the paste bin. Read more in
 		 * the [Clipboard Integration](http://docs.ckeditor.com/#!/guide/dev_clipboard-section-clipboard-api) guide.
 		 *
 		 * @since 4.5.2
