@@ -1040,7 +1040,7 @@
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
 			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
-			if ( beforePasteNotCanceled && clipboard.canClipboardApiBeUsed( eventData.dataTransfer, editor ) ) {
+			if ( beforePasteNotCanceled && clipboard.canClipboardApiBeTrusted( eventData.dataTransfer, editor ) ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
@@ -1511,7 +1511,7 @@
 		 * @since 4.5.2
 		 * @returns {Boolean}
 		 */
-		canClipboardApiBeUsed: function( dataTransfer, editor ) {
+		canClipboardApiBeTrusted: function( dataTransfer, editor ) {
 			// If it's an internal or cross-editor data transfer, then it means that custom cut/copy/paste support works
 			// and that the data were put manually on the data transfer so we can be sure that it's available.
 			if ( dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_EXTERNAL ) {
