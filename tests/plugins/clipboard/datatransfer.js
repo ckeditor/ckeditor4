@@ -287,7 +287,7 @@ bender.test( {
 		var nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'text/html',
 			'<html>' +
-			'<body>' +
+			'<body foo="bar" bar=foo bom=\'bim\'>' +
 			'<!--StartFragment-->foo<b>bom</b>x' +
 			'bar<!--EndFragment-->' +
 			'</body>' +
