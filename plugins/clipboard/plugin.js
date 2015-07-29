@@ -2059,8 +2059,9 @@
 		}
 
 		this._ = {
-			chromeLinuxRegExp: /^<meta.*?>/,
-			chromeWindowsRegExp: /<!--StartFragment-->([\s\S]*)<!--EndFragment-->/,
+			metaRegExp: /^<meta.*?>/,
+			bodyRegExp: /<body([\s\S]*?)>([\s\S]*)<\/body>/,
+			fragmentRegExp: /<!--(Start|End)Fragment-->/g,
 
 			data: {},
 			files: [],
@@ -2207,15 +2208,19 @@
 				data = '';
 			}
 
-			// Chrome add <meta http-equiv="content-type" content="text/html; charset=utf-8">
-			// at the begging of the HTML data on Linux and surround by <html><body><!--StartFragment-->
-			// and <!--EndFragment--></body></html> on Windows. This code remove these tags.
+			// Browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8">
+			// at the begging of the HTML data on Linux and surround it with <html><body><!--StartFragment-->
+			// and <!--EndFragment--></body></html> on Windows and Mac. This code removes these tags.
+			// For pasting tables (e.g. paste from MS Excel) <table> tag is outside the fragment, but inside the <body>
+			// <body><table><!--StartFragment--><tr>... so we take the content of the <body>, not fragment,
+			// to have proper HTML (#13583).
 			if ( type == 'text/html' && CKEDITOR.env.chrome ) {
-				data = data.replace( this._.chromeLinuxRegExp, '' );
+				data = data.replace( this._.metaRegExp, '' );
 
-				result = this._.chromeWindowsRegExp.exec( data );
-				if ( result && result.length > 1 ) {
-					data = result[ 1 ];
+				result = this._.bodyRegExp.exec( data );
+				if ( result && result.length > 2 ) {
+					data = result[ 2 ];
+					data = data.replace( this._.fragmentRegExp, '' );
 				}
 			}
 			// Firefox on Linux put files paths as a text/plain data if there are files

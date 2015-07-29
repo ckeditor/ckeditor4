@@ -286,16 +286,42 @@ bender.test( {
 
 		var nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'text/html',
-			'<html>\n' +
-			'<body>\n' +
-			'<!--StartFragment-->foo<b>bom</b>x\n' +
-			'bar<!--EndFragment-->\n' +
-			'</body>\n' +
-			'</html>\n' );
+			'<html>' +
+			'<body>' +
+			'<!--StartFragment-->foo<b>bom</b>x' +
+			'bar<!--EndFragment-->' +
+			'</body>' +
+			'</html>' );
 
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
-		assert.areSame( 'foo<b>bom</b>x\nbar', dataTransfer.getData( 'text/html' ) );
+		assert.areSame( 'foo<b>bom</b>xbar', dataTransfer.getData( 'text/html' ) );
+	},
+
+	'test getData Chrome fix for tables': function() {
+		if ( !CKEDITOR.env.chrome ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer();
+		nativeData.setData( 'text/html',
+			'<html>' +
+			'<body>' +
+			'<table>' +
+			'<!--StartFragment-->' +
+			'<tr><td>foo</td><td>bar</td></tr>' +
+			'<!--EndFragment-->' +
+			'</table>' +
+			'</body>' +
+			'</html>' );
+
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame(
+			'<table>' +
+			'<tr><td>foo</td><td>bar</td></tr>' +
+			'</table>',
+			dataTransfer.getData( 'text/html' ) );
 	},
 
 	'test getData Firefox fix': function() {
