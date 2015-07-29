@@ -2208,19 +2208,21 @@
 				data = '';
 			}
 
-			// Browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8">
-			// at the begging of the HTML data (Linux or Chrome to Firefox on Mac)
-			// or surround it with <html><body><!--StartFragment--> and <!--EndFragment--></body></html>
-			// (Chrome on Windows and Chrome and Firefox on Mac). This code removes these tags.
-			// For pasting tables (e.g. paste from MS Excel) <table> tag is outside the fragment, but inside the <body>
-			// <body><table><!--StartFragment--><tr>... so we take the content of the <body>, not fragment,
-			// to have proper HTML (#13583).
+			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
+			// or surround it with <html><head>...</head><body>(some content)<!--StartFragment--> and <!--EndFragment-->(some content)</body></html>
+			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
+			// some significant content may be placed outside Start/EndFragment comments so it's kept.
+			//
+			// See #13583 for more details.
 			if ( type == 'text/html' ) {
 				data = data.replace( this._.metaRegExp, '' );
 
+				// Keep only contents of the <body> element
 				result = this._.bodyRegExp.exec( data );
 				if ( result && result.length > 2 ) {
 					data = result[ 2 ];
+
+					// Remove also comments.
 					data = data.replace( this._.fragmentRegExp, '' );
 				}
 			}
