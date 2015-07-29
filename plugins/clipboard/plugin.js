@@ -1028,8 +1028,7 @@
 					type: 'auto',
 					method: 'paste',
 					dataTransfer: clipboard.initPasteDataTransfer( evt )
-				},
-				external = eventData.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL;
+				};
 
 			eventData.dataTransfer.cacheData();
 
@@ -1041,7 +1040,7 @@
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
 			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
-			if ( beforePasteNotCanceled && ( clipboard.isHtmlInExternalDataTransfer || !external ) && !eventData.dataTransfer.isEmpty() ) {
+			if ( beforePasteNotCanceled && clipboard.clipboardApiCanBeUsed( eventData.dataTransfer, editor ) ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
@@ -1489,17 +1488,6 @@
 		 */
 		isFileApiSupported: !CKEDITOR.env.ie || CKEDITOR.env.version > 9,
 
-
-		/**
-		 * True if external data transfer contains HTML data.
-		 *
-		 * @since 4.5
-		 * @readonly
-		 * @property {Boolean}
-		 */
-		isHtmlInExternalDataTransfer: !CKEDITOR.env.ie && !CKEDITOR.env.safari,
-
-
 		/**
 		 * Main native paste event editable should listen to.
 		 *
@@ -1514,6 +1502,35 @@
 		 * @property {String}
 		 */
 		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
+
+		/**
+		 * Return true if reliable data are available in Clipboard API.
+		 *
+		 * @since 4.5.2
+		 */
+		clipboardApiCanBeUsed: function( dataTransfer, editor ) {
+			// If data transfer is different then external it means that it is custom cut/copy/paste support handling
+			// and data data are put manually on the data transfer.
+			if ( dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_EXTERNAL ) {
+				return true;
+			}
+
+			// On Chrome we can trust Clipboard API, the exception is Chrome on Android (and in the desktop mode), where
+			// clipboard API is not available so we need to check it (#13187).
+			if ( CKEDITOR.env.chrome && !dataTransfer.isEmpty() ) {
+				return true;
+			}
+
+			// Because of Firefox bug HTML data are not available in some cases (e.g. paste from work), in such cases we
+			// need to use paste bin (#13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
+			if ( CKEDITOR.env.gecko && dataTransfer.getData( 'text/html' ) ) {
+				return true;
+			}
+
+			// On Safari and IE HTML data are not available thought Clipboard API.
+			// It is safer to use paste bin in unknown cases.
+			return false;
+		},
 
 		/**
 		 * Returns the element that should be used as the target for the drop event.
