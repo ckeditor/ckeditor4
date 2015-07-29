@@ -1456,7 +1456,7 @@
 			assert.isTrue( canClipboardApiBeUsed( dataTransfer, editor ), 'Clipboard API should be used for internal operations.' );
 		},
 
-		'test canClipboardApiBeUsed in chrome': function() {
+		'test canClipboardApiBeUsed in Chrome': function() {
 			if ( !CKEDITOR.env.chrome ) {
 				assert.ignore();
 			}
@@ -1473,7 +1473,7 @@
 			assert.isTrue( canClipboardApiBeUsed( dataTransfer ), 'Clipboard API should be used in Chrome.' );
 		},
 
-		'test canClipboardApiBeUsed in Android chrome (no dataTransfer support)': function() {
+		'test canClipboardApiBeUsed in Android Chrome (no dataTransfer support)': function() {
 			if ( !CKEDITOR.env.chrome ) {
 				assert.ignore();
 			}
@@ -1520,7 +1520,7 @@
 			assert.isTrue( canClipboardApiBeUsed( dataTransfer ), 'Clipboard API should be used in Firefox with files.' );
 		},
 
-		'test canClipboardApiBeUsed in Firefox without files and html': function() {
+		'test canClipboardApiBeUsed in Firefox without files and HTML': function() {
 			if ( !CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}
