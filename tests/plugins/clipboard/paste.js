@@ -1445,6 +1445,110 @@
 			}, 0 );
 		},
 
+		'test canClipboardApiBeUsed internal': function() {
+			var canClipboardApiBeUsed = CKEDITOR.plugins.clipboard.canClipboardApiBeUsed;
+
+			var editor = this.editor,
+				nativeData = bender.tools.mockNativeDataTransfer(),
+				evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt, editor );
+
+			assert.isTrue( canClipboardApiBeUsed( dataTransfer, editor ), 'Clipboard API should be used for internal operations.' );
+		},
+
+		'test canClipboardApiBeUsed in chrome': function() {
+			if ( !CKEDITOR.env.chrome ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeUsed = CKEDITOR.plugins.clipboard.canClipboardApiBeUsed;
+
+			var nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.setData( 'text/html', '<b>foo</b>' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeUsed( dataTransfer ), 'Clipboard API should be used in Chrome.' );
+		},
+
+		'test canClipboardApiBeUsed in Android chrome (no dataTransfer support)': function() {
+			if ( !CKEDITOR.env.chrome ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeUsed = CKEDITOR.plugins.clipboard.canClipboardApiBeUsed;
+
+			var dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer(); // no native data transfer
+
+			assert.isFalse( canClipboardApiBeUsed( dataTransfer ),
+				'Clipboard API should NOT be used for in Android Chrome.' );
+		},
+
+		'test canClipboardApiBeUsed in Firefox with HTML': function() {
+			if ( !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeUsed = CKEDITOR.plugins.clipboard.canClipboardApiBeUsed;
+
+			var nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.setData( 'text/html', '<b>foo</b>' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeUsed( dataTransfer ), 'Clipboard API should be used in Firefox with HTML.' );
+		},
+
+		'test canClipboardApiBeUsed in Firefox with files': function() {
+			if ( !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeUsed = CKEDITOR.plugins.clipboard.canClipboardApiBeUsed;
+
+			var nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.files.push( 'foo' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeUsed( dataTransfer ), 'Clipboard API should be used in Firefox with files.' );
+		},
+
+		'test canClipboardApiBeUsed in Firefox without files and html': function() {
+			if ( !CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeUsed = CKEDITOR.plugins.clipboard.canClipboardApiBeUsed;
+
+			var nativeData = bender.tools.mockNativeDataTransfer(),
+				evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isFalse( canClipboardApiBeUsed( dataTransfer ),
+				'Clipboard API should not be used in Firefox without html and files.' );
+		},
+
+		'test canClipboardApiBeUsed on other browser': function() {
+			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeUsed = CKEDITOR.plugins.clipboard.canClipboardApiBeUsed;
+
+			var nativeData = bender.tools.mockNativeDataTransfer(),
+				evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isFalse( canClipboardApiBeUsed( dataTransfer ), 'Clipboard API should not be used in other browsers.' );
+		},
+
 		'#131 - trailing spaces': function() {
 			assertPasteEvent(
 				this.editor,
