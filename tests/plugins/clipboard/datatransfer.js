@@ -266,8 +266,8 @@ bender.test( {
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
 	},
 
-	'test getData Chrome Linux fix': function() {
-		if ( !CKEDITOR.env.chrome ) {
+	'test getData meta filter': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			assert.ignore();
 		}
 
@@ -279,8 +279,8 @@ bender.test( {
 		assert.areSame( 'foo<b>bom</b>x\nbar', dataTransfer.getData( 'text/html' ) );
 	},
 
-	'test getData Chrome Windows fix': function() {
-		if ( !CKEDITOR.env.chrome ) {
+	'test getData body filter': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			assert.ignore();
 		}
 
@@ -298,8 +298,8 @@ bender.test( {
 		assert.areSame( 'foo<b>bom</b>xbar', dataTransfer.getData( 'text/html' ) );
 	},
 
-	'test getData Chrome fix for tables': function() {
-		if ( !CKEDITOR.env.chrome ) {
+	'test getData body filter for tables': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			assert.ignore();
 		}
 
