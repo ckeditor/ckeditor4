@@ -1132,6 +1132,13 @@
 						// no representation in DOM will be found.
 						editor.widgets.finalizeCreation( this.wrapper.getParent( true ) );
 						this.wrapper.remove();
+
+						// We must do something with the selection, because code outside this test
+						// do not expect the wrapper to vanish, what invalidates ranges, what causes errors on IEs (if e.g. the undo plugin is loaded).
+						var range = editor.createRange();
+						range.moveToPosition( editor.editable().findOne( 'p' ), CKEDITOR.POSITION_AFTER_START );
+						editor.getSelection().selectRanges( [ range ] );
+
 						editor.widgets.checkWidgets();
 						objectAssert.ownsNoKeys( editor.widgets.instances, 'widget was removed from repository' );
 					} );

@@ -174,7 +174,7 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 * Sets a data slot value for this object. These values are shared by all
 	 * instances pointing to that same DOM object.
 	 *
-	 * **Note:** The created data slot is only guarantied to be available on this unique dom node,
+	 * **Note:** The created data slot is only guarantied to be available on this unique DOM node,
 	 * thus any wish to continue access it from other element clones (either created by
 	 * clone node or from `innerHtml`) will fail, for such usage, please use
 	 * {@link CKEDITOR.dom.element#setAttribute} instead.
