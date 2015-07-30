@@ -2059,8 +2059,9 @@
 		}
 
 		this._ = {
-			chromeLinuxRegExp: /^<meta.*?>/,
-			chromeWindowsRegExp: /<!--StartFragment-->([\s\S]*)<!--EndFragment-->/,
+			metaRegExp: /^<meta.*?>/,
+			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/,
+			fragmentRegExp: /<!--(?:Start|End)Fragment-->/g,
 
 			data: {},
 			files: [],
@@ -2207,15 +2208,22 @@
 				data = '';
 			}
 
-			// Chrome add <meta http-equiv="content-type" content="text/html; charset=utf-8">
-			// at the begging of the HTML data on Linux and surround by <html><body><!--StartFragment-->
-			// and <!--EndFragment--></body></html> on Windows. This code remove these tags.
-			if ( type == 'text/html' && CKEDITOR.env.chrome ) {
-				data = data.replace( this._.chromeLinuxRegExp, '' );
+			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
+			// or surround it with <html><head>...</head><body>(some content)<!--StartFragment--> and <!--EndFragment-->(some content)</body></html>
+			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
+			// some significant content may be placed outside Start/EndFragment comments so it's kept.
+			//
+			// See #13583 for more details.
+			if ( type == 'text/html' ) {
+				data = data.replace( this._.metaRegExp, '' );
 
-				result = this._.chromeWindowsRegExp.exec( data );
-				if ( result && result.length > 1 ) {
+				// Keep only contents of the <body> element
+				result = this._.bodyRegExp.exec( data );
+				if ( result && result.length ) {
 					data = result[ 1 ];
+
+					// Remove also comments.
+					data = data.replace( this._.fragmentRegExp, '' );
 				}
 			}
 			// Firefox on Linux put files paths as a text/plain data if there are files
