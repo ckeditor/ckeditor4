@@ -442,33 +442,16 @@
 	 * @param {CKEDITOR.fileTools.fileLoader} loader The file loader instance.
 	 */
 	function bindNotifications( editor, loader ) {
-		var aggregator = editor._.uploadWidgetNotificaionAggregator;
-
-		// Create one notification agregator for all types of upload widgets for the editor.
-		if ( !aggregator || aggregator.isFinished() ) {
-			aggregator = editor._.uploadWidgetNotificaionAggregator = new CKEDITOR.plugins.notificationAggregator(
-				editor, editor.lang.uploadwidget.uploadMany, editor.lang.uploadwidget.uploadOne );
-
-			aggregator.once( 'finished', function() {
-				var tasks = aggregator.getTaskCount();
-
-				if ( tasks === 0 ) {
-					aggregator.notification.hide();
-				} else {
-					aggregator.notification.update( {
-						message: tasks == 1 ?
-							editor.lang.uploadwidget.doneOne :
-							editor.lang.uploadwidget.doneMany.replace( '%1', tasks ),
-						type: 'success',
-						important: 1
-					} );
-				}
-			} );
-		}
-
-		var task = aggregator.createTask( { weight: loader.total } );
+		var aggregator,
+			task = null;
 
 		loader.on( 'update', function() {
+
+			if ( !task && loader.uploadTotal ) {
+				createAggregator();
+				task = aggregator.createTask( { weight: loader.uploadTotal } );
+			}
+
 			if ( task && loader.status == 'uploading' ) {
 				task.update( loader.uploaded );
 			}
@@ -487,6 +470,32 @@
 			task && task.cancel();
 			editor.showNotification( editor.lang.uploadwidget.abort, 'info' );
 		} );
+
+		function createAggregator() {
+			aggregator = editor._.uploadWidgetNotificaionAggregator;
+
+			// Create one notification aggregator for all types of upload widgets for the editor.
+			if ( !aggregator || aggregator.isFinished() ) {
+				aggregator = editor._.uploadWidgetNotificaionAggregator = new CKEDITOR.plugins.notificationAggregator(
+					editor, editor.lang.uploadwidget.uploadMany, editor.lang.uploadwidget.uploadOne );
+
+				aggregator.once( 'finished', function() {
+					var tasks = aggregator.getTaskCount();
+
+					if ( tasks === 0 ) {
+						aggregator.notification.hide();
+					} else {
+						aggregator.notification.update( {
+							message: tasks == 1 ?
+								editor.lang.uploadwidget.doneOne :
+								editor.lang.uploadwidget.doneMany.replace( '%1', tasks ),
+							type: 'success',
+							important: 1
+						} );
+					}
+				} );
+			}
+		}
 	}
 
 	// Two plugins extend this object.

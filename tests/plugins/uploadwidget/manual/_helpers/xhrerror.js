@@ -27,12 +27,14 @@ window.XMLHttpRequest = function() {
 	return {
 		open: function() {},
 
+		upload: {},
+
 		send: function( formData ) {
 			// Total file size.
 			var total = formData.getTotal(),
 				loaded = 0,
 				step = Math.round( total / 10 ),
-				onprogress = this.onprogress,
+				onprogress = this.upload.onprogress,
 				onerror = this.onerror,
 				interval;
 
@@ -43,7 +45,7 @@ window.XMLHttpRequest = function() {
 
 				// If less then 50% of file is loaded call onprogress.
 				if ( loaded < step * 5 ) {
-					onprogress( { loaded: loaded } );
+					onprogress( { loaded: loaded, total: total, lengthComputable: true } );
 				}
 				// If 50% of file is loaded call onerror and stop loading.
 				else {

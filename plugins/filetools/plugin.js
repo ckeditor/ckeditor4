@@ -276,6 +276,7 @@
 		}
 
 		this.uploaded = 0;
+		this.uploadTotal = null;
 
 		this.status = 'created';
 
@@ -341,6 +342,14 @@
 	 *
 	 * @readonly
 	 * @property {Number} total
+	 */
+
+	/**
+	 * The total size of upload data in bytes. This value might differ from {@link #total} because it indicates total
+	 * size of the request payload and not only the file size itself. It has null value until upload size is known.
+	 *
+	 * @readonly
+	 * @property {Number} uploadTotal
 	 */
 
 	/**
@@ -519,21 +528,65 @@
 			};
 
 			xhr.onabort = function() {
+				// Prevent changing status twice, when XHR.upload.onabort is called before.
+				if ( loader.status == 'abort' ) {
+					return;
+				}
+
 				loader.changeStatus( 'abort' );
 			};
 
 			xhr.onerror = function() {
+				// Prevent changing status twice, when XHR.upload.onerror is called before.
+				if ( loader.status == 'error' ) {
+					return;
+				}
+
 				loader.message = loader.lang.filetools.networkError;
 				loader.changeStatus( 'error' );
 			};
 
-			xhr.onprogress = function( evt ) {
-				loader.uploaded = evt.loaded;
+
+			if ( xhr.upload ) {
+				xhr.upload.onprogress = function( evt ) {
+					if ( evt.lengthComputable ) {
+
+						// Set uploadTotal with correct data.
+						if ( !loader.uploadTotal ) {
+							loader.uploadTotal = evt.total;
+						}
+						loader.uploaded = evt.loaded;
+						loader.update();
+					}
+				};
+
+				xhr.upload.onerror = function() {
+					// Prevent changing status twice, when XHR.onerror is called before.
+					if ( loader.status == 'error' ) {
+						return;
+					}
+
+					loader.message = loader.lang.filetools.networkError;
+					loader.changeStatus( 'error' );
+				};
+
+				xhr.upload.onabort = function() {
+					// Prevent changing status twice, when XHR.onabort is called before.
+					if ( loader.status == 'abort' ) {
+						return;
+					}
+
+					loader.changeStatus( 'abort' );
+				};
+
+			} else {
+				// If xhr.upload is not supported - fire update event anyway and set uploadTotal to file size.
+				loader.uploadTotal = loader.total;
 				loader.update();
-			};
+			}
 
 			xhr.onload = function() {
-				loader.uploaded = loader.total;
+				loader.uploaded = loader.uploadTotal;
 
 				if ( xhr.status < 200 || xhr.status > 299 ) {
 					loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
