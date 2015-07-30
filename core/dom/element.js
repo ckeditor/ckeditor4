@@ -78,7 +78,7 @@ CKEDITOR.dom.element.createFromHtml = function( html, ownerDocument ) {
 };
 
 /**
- * Sets a {@link CKEDITOR.dom.element.setCustomData custom data} on an element in a way that it is later
+ * Sets a {@link CKEDITOR.dom.element#setCustomData custom data} on an element in a way that it is later
  * possible to {@link #clearAllMarkers clear all data} set on all elements sharing the same database.
  *
  * This mechanism is very useful when processing some portion of DOM. All markers can later be removed
