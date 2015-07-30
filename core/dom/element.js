@@ -78,8 +78,29 @@ CKEDITOR.dom.element.createFromHtml = function( html, ownerDocument ) {
 };
 
 /**
+ * Sets a {@link CKEDITOR.dom.element.setCustomData custom data} on an element in a way that it is later
+ * possible to {@link #clearAllMarkers clear all data} set on all elements sharing the same database.
+ *
+ * This mechanism is very useful when processing some portion of DOM. All markers can later be removed
+ * by calling the {@link #clearAllMarkers} method, hence markers will not leak to second pass of this algorithm.
+ *
+ *		var database = {};
+ *		CKEDITOR.dom.element.setMarker( database, element1, 'foo', 'bar' );
+ *		CKEDITOR.dom.element.setMarker( database, element2, 'oof', [ 1, 2, 3 ] );
+ *
+ *		element1.getCustomData( 'foo' ); // 'bar'
+ *		element2.getCustomData( 'oof' ); // [ 1, 2, 3 ]
+ *
+ *		CKEDITOR.dom.element.clearAllMarkers( database );
+ *
+ *		element1.getCustomData( 'foo' ); // null
+ *
  * @static
- * @todo
+ * @param {Object} database
+ * @param {CKEDITOR.dom.element} element
+ * @param {String} name
+ * @param {Object} value
+ * @returns {CKEDITOR.dom.element} The element.
  */
 CKEDITOR.dom.element.setMarker = function( database, element, name, value ) {
 	var id = element.getCustomData( 'list_marker_id' ) || ( element.setCustomData( 'list_marker_id', CKEDITOR.tools.getNextNumber() ).getCustomData( 'list_marker_id' ) ),
@@ -91,8 +112,10 @@ CKEDITOR.dom.element.setMarker = function( database, element, name, value ) {
 };
 
 /**
+ * Removes all markers added using this database. See the {@link #setMarker} method for more information.
+ *
+ * @param {Object} database
  * @static
- * @todo
  */
 CKEDITOR.dom.element.clearAllMarkers = function( database ) {
 	for ( var i in database )
@@ -100,8 +123,23 @@ CKEDITOR.dom.element.clearAllMarkers = function( database ) {
 };
 
 /**
+ * Removes all markers added to this element and removes it from the database if
+ * `removeFromDatabase` was passed. See the {@link #setMarker} method for more information.
+ *
+ *		var database = {};
+ *		CKEDITOR.dom.element.setMarker( database, element1, 'foo', 'bar' );
+ *		CKEDITOR.dom.element.setMarker( database, element2, 'oof', [ 1, 2, 3 ] );
+ *
+ *		element1.getCustomData( 'foo' ); // 'bar'
+ *		element2.getCustomData( 'oof' ); // [ 1, 2, 3 ]
+ *
+ *		CKEDITOR.dom.element.clearMarkers( database, element1, true );
+ *
+ *		element1.getCustomData( 'foo' ); // null
+ *		element2.getCustomData( 'oof' ); // [ 1, 2, 3 ]
+ *
+ * @param {Object} database
  * @static
- * @todo
  */
 CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatabase ) {
 	var names = element.getCustomData( 'list_marker_names' ),
