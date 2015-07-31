@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -50,7 +50,7 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	return {
 
 		/**
-		 * Get the private `_` object which is bound to the native
+		 * Gets the private `_` object which is bound to the native
 		 * DOM object using {@link #getCustomData}.
 		 *
 		 *		var elementA = new CKEDITOR.dom.element( nativeElement );
@@ -174,9 +174,9 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	 * Sets a data slot value for this object. These values are shared by all
 	 * instances pointing to that same DOM object.
 	 *
-	 * **Note:** The created data slot is only guarantied to be available on this unique DOM node,
-	 * thus any wish to continue access it from other element clones (either created by
-	 * clone node or from `innerHtml`) will fail, for such usage, please use
+	 * **Note:** The created data slot is only guaranteed to be available on this unique DOM node,
+	 * thus any wish to continue access to it from other element clones (either created by
+	 * clone node or from `innerHtml`) will fail. For such usage please use
 	 * {@link CKEDITOR.dom.element#setAttribute} instead.
 	 *
 	 * **Note**: This method does not work on text nodes prior to Internet Explorer 9.
@@ -216,7 +216,7 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	};
 
 	/**
-	 * Removes the value in data slot under given `key`.
+	 * Removes the value in the data slot under the given `key`.
 	 *
 	 * @param {String} key
 	 * @returns {Object} Removed value or `null` if not found.
@@ -236,7 +236,7 @@ CKEDITOR.dom.domObject.prototype = ( function() {
 	};
 
 	/**
-	 * Removes any data stored on this object.
+	 * Removes any data stored in this object.
 	 * To avoid memory leaks we must assure that there are no
 	 * references left after the object is no longer needed.
 	 */
