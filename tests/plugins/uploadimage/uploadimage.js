@@ -241,6 +241,18 @@
 			wait();
 		},
 
+		'test supportedTypes bmp': function() {
+			var editor = this.editors.classic;
+
+			resumeAfter( editor, 'paste', function() {
+				assertUploadingWidgets( editor, LOADING_IMG );
+			} );
+
+			pasteFiles( editor, [ { name: 'test.bmp', type: 'image/bmp' } ] );
+
+			wait();
+		},
+
 		'test not supportedTypes tiff': function() {
 			var bot = this.editorBots.classic,
 				editor = this.editors.classic;
