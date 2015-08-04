@@ -102,6 +102,16 @@
 						startNode = bookmark.startNode,
 						endNode = bookmark.endNode ? bookmark.endNode : bookmark.startNode;
 
+					// When url is pasted, IE8 sets the caret after <a> element instead of inside it.
+					// So, if user hasn't changed selection, bookmark is inserted right after <a>.
+					// Then, after pasting embedded content, bookmark is still in DOM but it is
+					// inside the original element. After selection recreation it would end up before widget:
+					// <p>A <a /><bm /></p><p>B</p>  -->  <p>A <bm /></p><widget /><p>B</p>  -->  <p>A ^</p><widget /><p>B</p>
+					// We have to fix this IE8 behavior so it is the same as on other browsers.
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && !bookmark.endNode && anchor.getNext().equals( startNode ) ) {
+						anchor.append( startNode );
+					}
+
 					insertRange.setStartBefore( anchor );
 					insertRange.setEndAfter( anchor );
 
