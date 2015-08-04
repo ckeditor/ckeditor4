@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt-br', {
 			{
 			name: 'Diálogo do Editor',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Dentro de um diálogo, pressione TAB para navegar para o próximo elemento. Pressione SHIFT+TAB para mover para o elemento anterior. Pressione ENTER ara enviar o diálogo. pressione ESC para cancelar o diálogo. Quando um diálogo tem múltiplas abas, a lista de abas pode ser acessada com ALT+F10 ou TAB, como parte da ordem de tabulação do diálogo. Com a lista de abas em foco, mova para a próxima aba e para a aba anterior com a SETA DIREITA ou SETA ESQUERDA, respectivamente.' 
 		},
 
 			{

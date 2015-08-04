@@ -12,13 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 		items: [
 			{
 			name: '编辑器工具栏',
-			legend: '按 ${toolbarFocus} 导航到工具栏，使用 TAB 键和 SHIFT+TAB 组合键移动到上一个和下一个工具栏组。使用左右箭头键移动到上一个和下一个工具栏按钮。按空格键或回车键以选中工具栏按钮。'
+			legend: '按 ${toolbarFocus} 切换到工具栏，使用 TAB 键和 SHIFT+TAB 组合键移动到上一个和下一个工具栏组。使用左右箭头键移动到上一个或下一个工具栏按钮。按空格键或回车键以选中工具栏按钮。'
 		},
 
 			{
 			name: '编辑器对话框',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'在对话框内，按 TAB 键移动到下一个字段，按 SHIFT + TAB 组合键移动到上一个字段，按 ENTER 键提交对话框，按 ESC 键取消对话框。对于有多选项卡的对话框，可以按 ALT + F10 直接切换到或者按 TAB 键逐步移到选项卡列表，当焦点移到选项卡列表时可以用左右箭头键来移动到前后的选项卡。' 
 		},
 
 			{

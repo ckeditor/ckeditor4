@@ -9,5 +9,5 @@ CKEDITOR.plugins.setLang( 'filetools', 'da', {
 	httpError403: 'Der skete en HTTP fejl under uploadingen (403: Forbidden).',
 	httpError: 'Der skete en HTTP fejl under uploadingen (error status: %1).',
 	noUrlError: 'Upload URL er ikke defineret.',
-	responseError: 'Incorrect server response.' // MISSING
+	responseError: 'Ikke korrekt server svar.'
 } );

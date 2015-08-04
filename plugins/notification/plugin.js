@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -11,7 +11,7 @@
 'use strict';
 
 CKEDITOR.plugins.add( 'notification', {
-	lang: 'en', // %REMOVE_LINE_CORE%
+	lang: 'cs,da,de,en,eo,fr,gl,it,ko,nb,nl,pl,pt-br,ru,sv,tr,zh,zh-cn', // %REMOVE_LINE_CORE%
 	requires: 'toolbar',
 
 	init: function( editor ) {

@@ -7,16 +7,16 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
 	toolbarExpand: 'Visa verktygsfält',
 	toolbarGroups: {
 		document: 'Dokument',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		clipboard: 'Urklipp/ångra',
+		editing: 'Redigering',
+		forms: 'Formulär',
+		basicstyles: 'Basstilar',
+		paragraph: 'Paragraf',
+		links: 'Länkar',
+		insert: 'Infoga',
+		styles: 'Stilar',
+		colors: 'Färger',
+		tools: 'Verktyg'
 	},
 	toolbars: 'Redigera verktygsfält'
 } );
