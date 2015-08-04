@@ -90,28 +90,34 @@
 				if ( anchor ) {
 					var selection = editor.getSelection(),
 						insertRange = editor.createRange(),
-						range = selection.getRanges()[ 0 ];
+						editable = editor.editable();
 
-					insertRange.setStartAt( anchor, CKEDITOR.POSITION_BEFORE_START );
-					insertRange.setEndAt( anchor, CKEDITOR.POSITION_AFTER_END );
+					// Save and lock snapshot so we don't make not needed undo steps in
+					// editable.insertElement() below, which would include bookmarks. (#13429)
+					editor.fire( 'saveSnapshot' );
+					editor.fire( 'lockSnapshot', { dontUpdate: true } );
 
-					// Check if whole selection or part of it is inside anchor.
-					// If so, mark that selection as invalid. (#13429)
-					if ( anchor.contains( range.startContainer ) || anchor.equals( range.startContainer ) || anchor.equals( range.endContainer ) || anchor.contains( range.endContainer ) ) {
-						range = null;
+					// Bookmark current selection. (#13429)
+					var bookmark = selection.createBookmarks( false )[ 0 ],
+						startNode = bookmark.startNode,
+						endNode = bookmark.endNode ? bookmark.endNode : bookmark.startNode;
+
+					insertRange.setStartBefore( anchor );
+					insertRange.setEndAfter( anchor );
+
+					editable.insertElement( wrapper, insertRange );
+
+					// If both bookmarks are still in DOM, it means that selection was not inside
+					// an anchor that got substituted. We can safely recreate that selection. (#13429)
+					if ( editable.contains( startNode ) && editable.contains( endNode ) ) {
+						selection.selectBookmarks( [ bookmark ] );
+					} else {
+						// If one of bookmarks is not in DOM, clean up leftovers.
+						startNode.remove();
+						endNode.remove();
 					}
-					// If somehow range is set on anchor parent instead of anchor or text node,
-					// The range will be invalid after insertElement (happens on IE8). (#13429)
-					else if ( range.startContainer.equals( anchor.getParent() ) || range.endContainer.equals( anchor.getParent() ) ) {
-						range = null;
-					}
 
-					editor.editable().insertElement( wrapper, insertRange );
-
-					// If the selection was valid, rebuild it after inserting embedded content. (#13429)
-					if ( range != null ) {
-						selection.selectRanges( [ range ] );
-					}
+					editor.fire( 'unlockSnapshot' );
 				}
 
 				notification.hide();
