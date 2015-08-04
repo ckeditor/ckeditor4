@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#13609](http://dev.ckeditor.com/ticket/13609): [Edge] Fixed: The browser crashes when switching to the source mode. Thanks to [Andrew Williams and Mark Smeed](http://webxsolution.com/)!
 * [PR#201](https://github.com/ckeditor/ckeditor-dev/pull/201): Fixed: Buttons in the toolbar configurator cause form submission. Thanks to [colemanw](https://github.com/colemanw)!
 * [#13422](http://dev.ckeditor.com/ticket/13422): Fixed: A monospaced font should be used in the `<textarea>` element storing editor configuration in the toolbar configurator.
 * [#13494](http://dev.ckeditor.com/ticket/13494): Fixed: Error thrown in the toolbar configurator if plugin requirements are not met.
@@ -32,7 +33,6 @@ Fixed Issues:
 * [#13441](http://dev.ckeditor.com/ticket/13441): [Edge] Fixed: The [Clipboard](http://ckeditor.com/addon/clipboard) plugin breaks the state of [Undo](http://ckeditor.com/addon/undo) commands after a paste.
 * [#13554](http://dev.ckeditor.com/ticket/13554): [Edge] Fixed: Paste dialog's iframe does not receive focus on show.
 * [#13440](http://dev.ckeditor.com/ticket/13440): [Edge] Fixed: Unable to paste a widget.
-* [#13609](http://dev.ckeditor.com/ticket/13609): [Edge] Fixed: The browser crashes when switching to the source mode. Thanks to [Andrew Williams and Mark Smeed](http://webxsolution.com/)!
 
 Other Changes:
 
