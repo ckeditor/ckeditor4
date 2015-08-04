@@ -394,8 +394,8 @@ bender.test( {
 
 				// Check if caret is inside newly created <p>.
 				var range = editor.getSelection().getRanges()[ 0 ];
-				assert.isTrue( range.collapsed, 'selection after paste is not collapsed' );
-				assert.isTrue( range.startContainer.equals( p ), 'selection in wrong element' );
+				assert.isTrue( range.collapsed, 'selection after paste is collapsed' );
+				assert.isTrue( range.startContainer.equals( p ), 'selection inside correct p element' );
 			}, 200 );
 		} );
 	},
@@ -426,8 +426,8 @@ bender.test( {
 				// Check if caret is inside second <p>.
 				// Different browsers set startContainer differently,
 				// so we check if it is in <p> or in a text node inside that <p>.
-				assert.isTrue( range.collapsed, 'selection after paste is not collapsed' );
-				assert.isTrue( container.equals( p ) || container.type == CKEDITOR.NODE_TEXT && container.getParent().equals( p ), 'selection in wrong element' );
+				assert.isTrue( range.collapsed, 'selection after paste is collapsed' );
+				assert.isTrue( container.equals( p ) || container.type == CKEDITOR.NODE_TEXT && container.getParent().equals( p ), 'selection inside correct p element' );
 			}, 200 );
 		} );
 	},
@@ -436,6 +436,7 @@ bender.test( {
 	'test selection after auto embedding - content and selection change before insert': function() {
 		var bot = this.editorBot,
 			editor = bot.editor,
+			editable = editor.editable(),
 			pastedText = 'https://foo.bar/g/200/382';
 
 		bot.setData( '', function() {
@@ -443,30 +444,28 @@ bender.test( {
 			editor.execCommand( 'paste', pastedText );
 
 			// After link has been pasted, "type" some text.
-			editor.editable().insertHtmlIntoRange( 'foo', editor.getSelection().getRanges()[ 0 ] );
+			var textNode = new CKEDITOR.dom.text( 'foo' );
+			var pastedAnchor = editable.findOne( 'a' );
+			textNode.insertAfter( pastedAnchor );
 
 			// After link has been pasted, make a selection on that text.
 			var range = editor.createRange();
-			var textNode = this.editor.editable().findOne( 'a' ).getNext();
-
-			range.setStart( textNode, 0 );
-			range.setEnd( textNode, 2 );
-			editor.getSelection().selectRanges( [ range ] );
-
-			// We have to refresh the range, because the range we selected in line above
-			// might differ from the range that was set by the browser (IE8).
-			range = editor.getSelection().getRanges()[ 0 ];
+			range.setStartBefore( textNode );
+			range.setEndAfter( textNode );
+			range.select();
 
 			wait( function() {
-				// Check if selection has been maintained.
-				var newRange = editor.getSelection().getRanges()[ 0 ];
+				// Check if selection has been maintained. We are unable to check it by
+				// checking text nodes and offsets as text nodes might be broken
+				// after inserting bookmarks and other operations on DOM.
+				// Instead, we just check if selected text is still "foo".
 
-				var areSame = range.startContainer.equals( newRange.startContainer ) &&
-						range.endContainer.equals( newRange.endContainer ) &&
-						range.startOffset == newRange.startOffset &&
-						range.endOffset == newRange.endOffset;
+				// We remove ZWS character that shows up in DOM after embedded content insertion if
+				// whole contents of a text node was selected ("foo" in our case). This character
+				// is normally removed after any action in editor is taken (like mouse click or key down).
+				var selectedHtml = editor.getSelection().getSelectedText().replace( '\u200b', '' );
 
-				assert.isTrue( areSame, 'selection before paste is same' );
+				assert.areSame( 'foo', selectedHtml, 'same text is selected after embed insertion' );
 			}, 200 );
 		} );
 	}
