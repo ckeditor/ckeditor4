@@ -1,10 +1,12 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: embed,autoembed,enterkey,undo,link */
-/* bender-include: ../embedbase/_helpers/tools.js, ../clipboard/_helpers/pasting.js */
+/* bender-include: ../embedbase/_helpers/tools.js, ../clipboard/_helpers/pasting.js, ../widget/_helpers/tools.js */
 
-/* global embedTools, assertPasteEvent */
+/* global embedTools, assertPasteEvent, widgetTestsTools */
 
 'use strict';
+
+var obj2Array = widgetTestsTools.obj2Array;
 
 function correctJsonpCallback( urlTemplate, urlParams, callback ) {
 	callback( {
@@ -57,29 +59,29 @@ bender.test( {
 	},
 
 	'test embedding when request failed': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBot,
+			instanceDestroyedSpy = sinon.spy();
+
 		jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
-			errorCallback();
+			resume( function() {
+				errorCallback();
+
+				assert.areSame( '<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>', bot.getData( 1 ), 'link was not auto embedded' );
+				assert.isTrue( instanceDestroyedSpy.called, 'Widget instance destroyed.' );
+			} );
 		};
 
 		bot.setData( '', function() {
 			bot.editor.focus();
 			this.editor.execCommand( 'paste', 'https://foo.bar/g/200/302' );
 
-			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
-			assert.areSame(
-				'<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>',
-				bot.getData( 1 ),
-				'link was pasted correctly'
-			);
+			// Check if errorCallback was called - it should destroy widget instance.
+			this.editor.widgets.once( 'instanceDestroyed', instanceDestroyedSpy );
 
-			wait( function() {
-				assert.areSame(
-					'<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>',
-					bot.getData( 1 ),
-					'link was not auto embedded'
-				);
-			}, 200 );
+			// Note: afterPaste is fired asynchronously, but we can test editor data immediately.
+			assert.areSame( '<p><a href="https://foo.bar/g/200/302">https://foo.bar/g/200/302</a></p>', bot.getData( 1 ), 'link was pasted correctly' );
+
+			wait();
 		} );
 	},
 
@@ -115,6 +117,54 @@ bender.test( {
 				);
 			}, 200 );
 		} );
+	},
+
+	// #13420.
+	'test link with encodable characters': function() {
+		var links = [
+			// Mind that links differ in a part g/200/3xx so it is easier and faster
+			// to check which link failed the test.
+
+			// Pasting a link alone:
+			// No encoding:
+			'https://foo.bar/g/200/301?foo="æåãĂĄ"',
+
+			// Partially encoded:
+			'https://foo.bar/g/200/302?foo=%22%20æåãĂĄ%22',
+
+			// Fully encoded:
+			'https://foo.bar/g/200/303?foo=%22%20%C3%A6%C3%A5%C3%A3%C4%82%C4%84%22',
+
+			// Encoded twice:
+			'https://foo.bar/g/200/304?foo=%2522%2520%25C3%25A6%25C3%25A5%25C3%25A3%25C4%2582%25C4%2584%2522',
+
+			// &amp; not encoded:
+			'https://foo.bar/g/200/305?foo="æåãĂĄ"&bar=bar',
+
+			// &amp; encoded:
+			'https://foo.bar/g/200/306?foo="æåãĂĄ"&amp;bar=bar',
+
+			// Pasting <a> element:
+			// &amp;:
+			'<a href="https://foo.bar/g/200/307?foo=%20æåãĂĄ%20&amp;bar=bar">https://foo.bar/g/200/307?foo=%20æåãĂĄ%20&amp;bar=bar</a>',
+
+			// Quote sign:
+			'<a href="https://foo.bar/g/200/310?foo=&quot;æåãĂĄ&quot;">https://foo.bar/g/200/310?foo=&quot;æåãĂĄ&quot;</a>',
+			'<a href="https://foo.bar/g/200/310?foo=%22æåãĂĄ%22">https://foo.bar/g/200/310?foo="æåãĂĄ"</a>',
+			'<a href="https://foo.bar/g/200/311?foo=%22æåãĂĄ%22">https://foo.bar/g/200/311?foo=%22æåãĂĄ%22</a>',
+
+			// Mixed encoding:
+			'<a href="https://foo.bar/g/200/312?foo=%22%20%C3%A6%C3%A5%C3%A3%C4%82%C4%84%22">https://foo.bar/g/200/312?foo=%22%20æåãĂĄ%22</a>'
+		];
+
+		var autoEmbedRegExp = /data-cke-autoembed="\d+"/;
+
+		for ( var i = links.length; i--; ) {
+			assertPasteEvent( this.editor, { dataValue: links[ i ] }, function( data ) {
+				// Use prepareInnerHtmlForComparison to make sure attributes are sorted.
+				assert.isMatching( autoEmbedRegExp, bender.tools.html.prepareInnerHtmlForComparison( data.dataValue ) );
+			} );
+		}
 	},
 
 	'test uppercase link is auto embedded': function() {
@@ -217,5 +267,113 @@ bender.test( {
 		}, null, null, 900 );
 
 		this.editor.execCommand( 'paste', pastedText );
+	},
+
+	// #13532
+	'test re–embeddable url': function() {
+		var bot = this.editorBot,
+			editor = bot.editor;
+
+		jsonpCallback = function( urlTemplate, urlParams, callback ) {
+			resume( function() {
+				// Make the URL a nice widget.
+				callback( {
+					type: 'rich',
+					html: '<p>url:' + urlParams.url + '</p>'
+				} );
+
+				// Undo embedding. There's no widget, the link is in the content instead.
+				editor.execCommand( 'undo' );
+
+				// Will be pasting something after the link. Prepare a nice range.
+				var range = editor.createRange();
+				range.moveToPosition( editor.editable().findOne( 'a' ), CKEDITOR.POSITION_AFTER_END );
+				range.select();
+
+				// Make sure transfer type for the next paste is CKEDITOR.DATA_TRANSFER_INTERNAL to
+				// avoid processing of pasted data.
+				editor.once( 'paste', function( evt ) {
+					evt.data.dataTransfer.sourceEditor = editor;
+				}, null, null, 1 );
+
+				// Paste anything to check if the embeddable link, which used to
+				// be a widget before 'undo' was called is re–embedded. It shouldn't be.
+				editor.execCommand( 'paste', 'y' );
+
+				wait( function() {
+					assert.areEqual( 0, obj2Array( editor.widgets.instances ).length, 'Link should not be re–embedded.' );
+				}, 200 );
+			} );
+		};
+
+		bot.setData( '', function() {
+			// Paste any embeddable URL.
+			this.editor.execCommand( 'paste', '<a href="x">x</a>' );
+			wait();
+		} );
+	},
+
+	'test when user press undo before embedding process finishes': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			pastedText = 'https://foo.bar/g/200/382',
+			finalizeCreationSpy = sinon.spy( CKEDITOR.plugins.widget.repository.prototype, 'finalizeCreation' );
+
+		editor.once( 'afterPaste', function() {
+			editor.execCommand( 'undo' );
+
+		}, null, null, 900 );
+
+		bot.setData( '', function() {
+			editor.focus();
+			editor.resetUndo();
+			editor.execCommand( 'paste', pastedText );
+
+			wait( function() {
+				CKEDITOR.plugins.widget.repository.prototype.finalizeCreation.restore();
+				assert.areSame( finalizeCreationSpy.called, false, 'finalize creation was not called' );
+			}, 200 );
+		} );
+	},
+
+	'check if notifications are showed after unsuccessful embedding': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			firstRequest = true,
+			notificationShowSpy = sinon.spy( CKEDITOR.plugins.notification.prototype, 'show' );
+
+		// JSONP callback for embed request.
+		jsonpCallback = function( urlTemplate, urlParams, callback, errorCallback ) {
+
+			// First request will return error - so two notifications should be showed.
+			// First informing about embedding process, second about embedding error.
+			if ( firstRequest ) {
+				errorCallback();
+				firstRequest = false;
+				editor.execCommand( 'paste', 'https://foo.bar/g/notification/test/2' );
+			} else {
+				resume( function() {
+
+					// Second request returns success - one notification should be showed.
+					callback( {
+						'url': decodeURIComponent( urlParams.url ),
+						'type': 'rich',
+						'version': '1.0',
+						'html': '<img src="' + decodeURIComponent( urlParams.url ) + '">'
+					} );
+
+					notificationShowSpy.restore();
+
+					// Check if notification was showed three times.
+					assert.isTrue( notificationShowSpy.calledThrice, 'Notification should be showed three times.' );
+				} );
+			}
+		};
+
+		bot.setData( '', function() {
+			editor.focus();
+			editor.execCommand( 'paste', 'https://foo.bar/g/notification/test/1' );
+			wait();
+		} );
 	}
 } );

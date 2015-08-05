@@ -97,6 +97,13 @@
 
 		// #7946 TODO: Add editor doc quirks mode tests.
 		'test enter key key scrolls document': function() {
+			// On iPads, behavior of scrollTop, scrollHeight and clientHeight is a bit unexpected.
+			// <html> and <iframe> are resized even though they shouldn't, sudden changes of scrollHeight
+			// from higher value to ~clientHeight, even though more elements are being added, etc. (#13439)
+			if ( CKEDITOR.env.iOS ) {
+				assert.ignore();
+			}
+
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
 

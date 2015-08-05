@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -14,7 +14,7 @@
 
 	CKEDITOR.plugins.add( 'widget', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,ca,cs,cy,da,de,el,en,en-gb,eo,es,fa,fi,fr,gl,he,hr,hu,it,ja,km,ko,ku,nb,nl,no,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,ca,cs,cy,da,de,el,en,en-gb,eo,es,fa,fi,fr,gl,he,hr,hu,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		requires: 'lineutils,clipboard',
 		onLoad: function() {
@@ -1989,7 +1989,8 @@
 
 		// Remove widgets which have no corresponding elements in DOM.
 		for ( i in instances ) {
-			if ( !editable.contains( instances[ i ].wrapper ) )
+			// #13410 Remove widgets that are ready. This prevents from destroying widgets that are during loading process.
+			if ( instances[ i ].isReady() && !editable.contains( instances[ i ].wrapper ) )
 				this.destroy( instances[ i ], true );
 		}
 
@@ -2334,7 +2335,9 @@
 				'<span [^>]*data-cke-copybin-start="1"[^>]*>.?</span>([\\s\\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?</span>' +
 			'(?:</(?:div|span)>)?' +
 		'(?:</(?:div|span)>)?' +
-		'$'
+		'$',
+		// IE8 prefers uppercase when browsers stick to lowercase HTML (#13460).
+		'i'
 	);
 
 	function pasteReplaceFn( match, wrapperHtml ) {
@@ -2413,6 +2416,11 @@
 							// Allow drop line inside, but never before or after nested editable (#12006).
 							if ( Widget.isDomNestedEditable( el ) )
 								return;
+
+							// Do not allow droping inside the widget being dragged (#13397).
+							if ( widgetsRepo._.draggedWidget.wrapper.contains( el ) ) {
+								return;
+							}
 
 							// If element is nested editable, make sure widget can be dropped there (#12006).
 							var nestedEditable = Widget.getNestedEditable( editable, el );
@@ -3233,12 +3241,6 @@
 			// Focus widget (it could lost focus after mousedown+mouseup)
 			// and save this state as the one where we want to be taken back when undoing.
 			this.focus();
-
-			// Reset the fake selection, which will be invalidated by insertElementIntoRange.
-			// This avoids a situation when getSelection() still returns a fake selection made
-			// on widget which in the meantime has been moved to other place. That could cause
-			// an error thrown e.g. by saveSnapshot or stateUpdater.
-			editor.getSelection().reset();
 
 			// Drag range will be set in the drop listener.
 			editor.fire( 'drop', {

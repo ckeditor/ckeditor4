@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -373,13 +373,7 @@
 		var clipboard = CKEDITOR.plugins.clipboard,
 			preventBeforePasteEvent = 0,
 			preventPasteEvent = 0,
-			inReadOnly = 0,
-			// Safari doesn't like 'beforepaste' event - it sometimes doesn't
-			// properly handles ctrl+c. Probably some race-condition between events.
-			// Chrome and Firefox works well with both events, so better to use 'paste'
-			// which will handle pasting from e.g. browsers' menu bars.
-			// IE7/8 doesn't like 'paste' event for which it's throwing random errors.
-			mainPasteEvent = CKEDITOR.env.ie ? 'beforepaste' : 'paste';
+			inReadOnly = 0;
 
 		addListeners();
 		addButtonsCommands();
@@ -547,9 +541,10 @@
 			// We'll be catching all pasted content in one line, regardless of whether
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors (e.g. CTRL+V).
-			editable.on( mainPasteEvent, function( evt ) {
-				if ( CKEDITOR.env.ie && preventBeforePasteEvent )
+			editable.on( clipboard.mainPasteEvent, function( evt ) {
+				if ( clipboard.mainPasteEvent == 'beforepaste' && preventBeforePasteEvent ) {
 					return;
+				}
 
 				// If you've just asked yourself why preventPasteEventNow() is not here, but
 				// in listener for CTRL+V and exec method of 'paste' command
@@ -597,25 +592,29 @@
 			//		special flag, other than preventPasteEvent. But we still would have to
 			//		have preventPasteEvent for the second event fired by execIECommand.
 			//		Code would be longer and not cleaner.
-			CKEDITOR.env.ie && editable.on( 'paste', function( evt ) {
-				if ( preventPasteEvent )
-					return;
-				// Cancel next 'paste' event fired by execIECommand( 'paste' )
-				// at the end of this callback.
-				preventPasteEventNow();
+			if ( clipboard.mainPasteEvent == 'beforepaste' ) {
+				editable.on( 'paste', function( evt ) {
+					if ( preventPasteEvent ) {
+						return;
+					}
 
-				// Prevent native paste.
-				evt.data.preventDefault();
+					// Cancel next 'paste' event fired by execIECommand( 'paste' )
+					// at the end of this callback.
+					preventPasteEventNow();
 
-				pasteDataFromClipboard( evt );
+					// Prevent native paste.
+					evt.data.preventDefault();
 
-				// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
-				if ( !execIECommand( 'paste' ) )
-					editor.openDialog( 'paste' );
-			} );
+					pasteDataFromClipboard( evt );
 
-			// [IE] Dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
-			if ( CKEDITOR.env.ie ) {
+					// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
+					if ( !execIECommand( 'paste' ) ) {
+						editor.openDialog( 'paste' );
+					}
+				} );
+
+				// If mainPasteEvent is 'beforePaste' (IE before Edge),
+				// dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
 				editable.on( 'contextmenu', preventBeforePasteEventNow, null, null, 0 );
 
 				editable.on( 'beforepaste', function( evt ) {
@@ -623,7 +622,6 @@
 					if ( evt.data && !evt.data.$.ctrlKey && !evt.data.$.shiftKey )
 						preventBeforePasteEventNow();
 				}, null, null, 0 );
-
 			}
 
 			editable.on( 'beforecut', function() {
@@ -956,16 +954,14 @@
 		}
 
 		// Try to get content directly on IE from clipboard, without native event
-		// being fired before. In other words - synthetically get clipboard data
-		// if it's possible.
+		// being fired before. In other words - synthetically get clipboard data, if it's possible.
 		// mainPasteEvent will be fired, so if forced native paste:
 		// * worked, getClipboardDataByPastebin will grab it,
 		// * didn't work, dataValue and dataTransfer will be empty and editor#paste won't be fired.
-		// On browsers other then IE it is not possible to get data directly so function will
-		// return false.
+		// Clipboard data can be accessed directly only on IEs older than Edge.
+		// On other browsers we should fire beforePaste event and return false.
 		function getClipboardDataDirectly() {
-			// On non-IE it is not possible to get data directly.
-			if ( !CKEDITOR.env.ie ) {
+			if ( clipboard.mainPasteEvent == 'paste' ) {
 				// beforePaste should be fired when dialog open so it can be canceled.
 				editor.fire( 'beforePaste', { type: 'auto', method: 'paste' } );
 				return false;
@@ -983,7 +979,7 @@
 			var focusManager = editor.focusManager;
 			focusManager.lock();
 
-			if ( editor.editable().fire( mainPasteEvent ) && !execIECommand( 'paste' ) ) {
+			if ( editor.editable().fire( clipboard.mainPasteEvent ) && !execIECommand( 'paste' ) ) {
 				focusManager.unlock();
 				return false;
 			}
@@ -1008,8 +1004,10 @@
 					// by 'beforepaste'.
 					preventPasteEventNow();
 
-					// Simulate 'beforepaste' event for all none-IEs.
-					!CKEDITOR.env.ie && editable.fire( 'beforepaste' );
+					// Simulate 'beforepaste' event for all browsers using 'paste' as main event.
+					if ( clipboard.mainPasteEvent == 'paste' ) {
+						editable.fire( 'beforepaste' );
+					}
 
 					return;
 
@@ -1030,10 +1028,7 @@
 					type: 'auto',
 					method: 'paste',
 					dataTransfer: clipboard.initPasteDataTransfer( evt )
-				},
-				// True if data transfer contains HTML data.
-				htmlInExternalDataTransfer = !CKEDITOR.env.ie && !CKEDITOR.env.safari,
-				external = eventData.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL;
+				};
 
 			eventData.dataTransfer.cacheData();
 
@@ -1045,7 +1040,7 @@
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
 			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
-			if ( beforePasteNotCanceled && ( htmlInExternalDataTransfer || !external ) && !eventData.dataTransfer.isEmpty() ) {
+			if ( beforePasteNotCanceled && clipboard.canClipboardApiBeTrusted( eventData.dataTransfer, editor ) ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
@@ -1260,6 +1255,11 @@
 		return data;
 	}
 
+	function preventDefaultSetDropEffectToNone( evt ) {
+		evt.data.preventDefault();
+		evt.data.$.dataTransfer.dropEffect = 'none';
+	}
+
 	function initDragDrop( editor ) {
 		var clipboard = CKEDITOR.plugins.clipboard;
 
@@ -1271,14 +1271,9 @@
 
 			// -------------- DRAGOVER TOP & BOTTOM --------------
 
-			function preventDefaultSetDropEffectToNone( evt ) {
-				evt.data.preventDefault();
-				evt.data.$.dataTransfer.dropEffect = 'none';
-			}
-
 			// Not allowing dragging on toolbar and bottom (#12613).
-			top && top.on( 'dragover', preventDefaultSetDropEffectToNone );
-			bottom && bottom.on( 'dragover', preventDefaultSetDropEffectToNone );
+			clipboard.preventDefaultDropOnElement( top );
+			clipboard.preventDefaultDropOnElement( bottom );
 
 			// -------------- DRAGSTART --------------
 			// Listed on dragstart to mark internal and cross-editor drag & drop
@@ -1294,12 +1289,12 @@
 				clipboard.initDragDataTransfer( evt, editor );
 
 				// Save drag range globally for cross editor D&D.
-				if ( clipboard.dragRange = editor.getSelection().getRanges()[ 0 ] ) {
-					// Store number of children, so we can later tell if any text node was split on drop. (#13011, #13447)
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-						clipboard.dragStartContainerChildCount = getContainerChildCount( clipboard.dragRange.startContainer );
-						clipboard.dragEndContainerChildCount = getContainerChildCount( clipboard.dragRange.endContainer );
-					}
+				var dragRange = clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
+
+				// Store number of children, so we can later tell if any text node was split on drop. (#13011, #13447)
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+					clipboard.dragStartContainerChildCount = dragRange ? getContainerChildCount( dragRange.startContainer ) : null;
+					clipboard.dragEndContainerChildCount = dragRange ? getContainerChildCount( dragRange.endContainer ) : null;
 				}
 			}, null, null, 2 );
 
@@ -1492,6 +1487,55 @@
 		 * @property {Boolean}
 		 */
 		isFileApiSupported: !CKEDITOR.env.ie || CKEDITOR.env.version > 9,
+
+		/**
+		 * Main native paste event editable should listen to.
+		 *
+		 * **Note:** Safari does not like the {@link CKEDITOR.editor#beforePaste} event &mdash; it sometimes does not
+		 * handle <kbd>Ctrl+C</kbd> properly. This is probably caused by some race condition between events.
+		 * Chrome, Firefox and Edge work well with both events, so it is better to use {@link CKEDITOR.editor#paste}
+		 * which will handle pasting from e.g. browsers' menu bars.
+		 * IE7/8 does not like the {@link CKEDITOR.editor#paste} event for which it is throwing random errors.
+		 *
+		 * @since 4.5
+		 * @readonly
+		 * @property {String}
+		 */
+		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
+
+		/**
+		 * Returns `true` if it is expected that a browser provides HTML data through the Clipboard API.
+		 * If not, this method returns `false` and as a result CKEditor will use the paste bin. Read more in
+		 * the [Clipboard Integration](http://docs.ckeditor.com/#!/guide/dev_clipboard-section-clipboard-api) guide.
+		 *
+		 * @since 4.5.2
+		 * @returns {Boolean}
+		 */
+		canClipboardApiBeTrusted: function( dataTransfer, editor ) {
+			// If it's an internal or cross-editor data transfer, then it means that custom cut/copy/paste support works
+			// and that the data were put manually on the data transfer so we can be sure that it's available.
+			if ( dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_EXTERNAL ) {
+				return true;
+			}
+
+			// In Chrome we can trust Clipboard API, with the exception of Chrome on Android (in both - mobile and desktop modes), where
+			// clipboard API is not available so we need to check it (#13187).
+			if ( CKEDITOR.env.chrome && !dataTransfer.isEmpty() ) {
+				return true;
+			}
+
+			// Because of a Firefox bug HTML data are not available in some cases (e.g. paste from Word), in such cases we
+			// need to use the pastebin (#13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
+			if ( CKEDITOR.env.gecko && ( dataTransfer.getData( 'text/html' ) || dataTransfer.getFilesCount() ) ) {
+				return true;
+			}
+
+			// In Safari and IE HTML data is not available though the Clipboard API.
+			// In Edge things are a bit messy at the moment -
+			// https://connect.microsoft.com/IE/feedback/details/1572456/edge-clipboard-api-text-html-content-messed-up-in-event-clipboarddata
+			// It is safer to use the paste bin in unknown cases.
+			return false;
+		},
 
 		/**
 		 * Returns the element that should be used as the target for the drop event.
@@ -1977,6 +2021,16 @@
 			} else {
 				return new this.dataTransfer( null, sourceEditor );
 			}
+		},
+
+		/**
+		 * Prevents dropping on the specified element.
+		 *
+		 * @since 4.5
+		 * @param {CKEDITOR.dom.element} element The element on which dropping should be disabled.
+		 */
+		preventDefaultDropOnElement: function( element ) {
+			element && element.on( 'dragover', preventDefaultSetDropEffectToNone );
 		}
 	};
 
@@ -2005,8 +2059,9 @@
 		}
 
 		this._ = {
-			chromeLinuxRegExp: /^<meta.*?>/,
-			chromeWindowsRegExp: /<!--StartFragment-->([\s\S]*)<!--EndFragment-->/,
+			metaRegExp: /^<meta.*?>/,
+			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/,
+			fragmentRegExp: /<!--(?:Start|End)Fragment-->/g,
 
 			data: {},
 			files: [],
@@ -2153,15 +2208,22 @@
 				data = '';
 			}
 
-			// Chrome add <meta http-equiv="content-type" content="text/html; charset=utf-8">
-			// at the begging of the HTML data on Linux and surround by <html><body><!--StartFragment-->
-			// and <!--EndFragment--></body></html> on Windows. This code remove these tags.
-			if ( type == 'text/html' && CKEDITOR.env.chrome ) {
-				data = data.replace( this._.chromeLinuxRegExp, '' );
+			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
+			// or surround it with <html><head>...</head><body>(some content)<!--StartFragment--> and <!--EndFragment-->(some content)</body></html>
+			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
+			// some significant content may be placed outside Start/EndFragment comments so it's kept.
+			//
+			// See #13583 for more details.
+			if ( type == 'text/html' ) {
+				data = data.replace( this._.metaRegExp, '' );
 
-				result = this._.chromeWindowsRegExp.exec( data );
-				if ( result && result.length > 1 ) {
+				// Keep only contents of the <body> element
+				result = this._.bodyRegExp.exec( data );
+				if ( result && result.length ) {
 					data = result[ 1 ];
+
+					// Remove also comments.
+					data = data.replace( this._.fragmentRegExp, '' );
 				}
 			}
 			// Firefox on Linux put files paths as a text/plain data if there are files
@@ -2190,6 +2252,12 @@
 			// to set data of unsupported type on IE.
 			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && type != 'URL' && type != 'Text' ) {
 				return;
+			}
+
+			// If we use the text type to bind the ID, then if someone tries to set the text, we must also
+			// update ID accordingly. #13468.
+			if ( clipboardIdDataType == 'Text' && type == 'Text' ) {
+				this.id = value;
 			}
 
 			try {

@@ -458,7 +458,7 @@ bender.test( {
 						assert.areSame( 'foo', widget.data.url, 'widget\'s url has not been changed' );
 						assert.areSame( dataWithWidget, editor.getData() );
 
-						assert.isTrue( task.isDone(), 'task is done' );
+						assert.isTrue( task.isCanceled(), 'task is canceled' );
 
 						assert.isTrue( handleResponseSpy.calledOnce, '_handleResponse was called once' );
 						assert.isFalse( handleResponseSpy.returnValues[ 0 ], '_handleResponse returned false' );
@@ -473,5 +473,44 @@ bender.test( {
 
 			wait();
 		} );
+	},
+
+	'test if embedding is canceled when widget is no longer valid': function() {
+		var bot = this.editorBots.inline,
+			editor = bot.editor,
+			successCallbackSpy = sinon.spy(),
+			errorCallbackSpy = sinon.spy();
+
+		bot.setData( dataWithWidget, function() {
+			var widget = getWidgetById( editor, 'w1' ),
+				task;
+
+			jsonpCallback = function( urlTemplate, urlParams, callback ) {
+				resume( function() {
+					callback( {
+						type: 'rich',
+						html: '<p>url:' + urlParams.url + '</p>'
+					} );
+
+					assert.isTrue( task.isDone(), 'The task is done.' );
+					assert.isFalse( successCallbackSpy.called, 'Success callback was not called.' );
+					assert.isFalse( errorCallbackSpy.called, 'Error callback was not called.' );
+				} );
+			};
+
+			widget.on( 'sendRequest', function( evt ) {
+				task = evt.data.task;
+			} );
+
+			widget.loadContent( '//canceling/handleresponse', {
+				callback: successCallbackSpy,
+				errorCallback: errorCallbackSpy
+			} );
+
+			editor.widgets.destroy( widget );
+
+			wait();
+		} );
+
 	}
 } );

@@ -12,13 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 		items: [
 			{
 			name: 'Editor værktøjslinje',
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT+TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			legend: 'Tryk ${toolbarFocus} for at navigere til værktøjslinjen. Flyt til næste eller forrige værktøjsline gruppe ved hjælp af TAB eller SHIFT+TAB. Flyt til næste eller forrige værktøjslinje knap med venstre- eller højre piltast. Tryk på SPACE eller ENTER for at aktivere værktøjslinje knappen.'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
+			name: 'Editor dialogboks',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Inde i en dialogboks kan du, trykke på TAB for at navigere til næste element, trykke på SHIFT+TAB for at navigere til forrige element, trykke på ENTER for at afsende eller trykke på ESC for at lukke dialogboksen.\r\nNår en dialogboks har flere faner, fanelisten kan tilgås med ALT+F10 eller med TAB. Hvis fanelisten er i fokus kan du skifte til næste eller forrige tab, med højre- og venstre piltast.' 
 		},
 
 			{

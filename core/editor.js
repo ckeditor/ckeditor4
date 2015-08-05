@@ -904,15 +904,26 @@
 		 *
 		 *		alert( editor.getSnapshot() );
 		 *
-		 * @see CKEDITOR.editor#getData
+		 * See also:
+		 *
+		 * * {@link CKEDITOR.editor#method-getData}.
+		 *
+		 * @returns {String} Editor "raw data".
 		 */
 		getSnapshot: function() {
 			var data = this.fire( 'getSnapshot' );
 
 			if ( typeof data != 'string' ) {
 				var element = this.element;
-				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
+
+				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 					data = element.is( 'textarea' ) ? element.getValue() : element.getHtml();
+				}
+				else {
+					// If we don't have a proper element, set data to an empty string,
+					// as this method is expected to return a string. (#13385)
+					data = '';
+				}
 			}
 
 			return data;
@@ -1474,11 +1485,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *		// Also if no `title` attribute exists, nothing new will be added.
  *		config.title = false;
  *
+ * See also:
+ *
+ * * CKEDITOR.editor#name
+ * * CKEDITOR.editor#title
+ *
  * @since 4.2
  * @cfg {String/Boolean} [title=based on editor.name]
  * @member CKEDITOR.config
- * @see CKEDITOR.editor.name
- * @see CKEDITOR.editor.title
  */
 
 /**

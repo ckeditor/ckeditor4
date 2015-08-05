@@ -56,7 +56,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		advisoryTitle: 'Vegleiðandi heiti',
 		cssStyle: 'Typografi',
 		ok: 'Góðkent',
-		cancel: 'Avlýst',
+		cancel: 'Avlýs',
 		close: 'Lat aftur',
 		preview: 'Frumsýn',
 		resize: 'Drag fyri at broyta stødd',

@@ -158,6 +158,56 @@
 
 			assert.areSame( 1, instance.fire.callCount, 'instance.fire call count' );
 			sinon.assert.calledWithExactly( instance.fire, 'canceled' );
+		},
+
+		'test task cannot be finished twice': function() {
+			var instance = new Task( 300 ),
+				doneEventSpy = sinon.spy();
+
+			instance.on( 'done', doneEventSpy );
+			instance.update( 300 );
+			instance.update( 300 );
+
+			assert.isTrue( doneEventSpy.calledOnce, 'Done event should be fired once.' );
+		},
+
+		'test task cannot be cancelled twice': function() {
+			var instance = new Task( 300 ),
+				cancelEventSpy = sinon.spy();
+
+			instance.on( 'canceled', cancelEventSpy );
+			instance.cancel();
+			instance.cancel();
+
+			assert.isTrue( cancelEventSpy.calledOnce, 'Cancel event should be fired once.' );
+		},
+
+		'test task cannot be cancelled after being finished': function() {
+			var instance = new Task( 300 ),
+				doneEventSpy = sinon.spy(),
+				cancelEventSpy = sinon.spy();
+
+			instance.on( 'canceled', cancelEventSpy );
+			instance.on( 'done', doneEventSpy );
+			instance.update( 300 );
+			instance.cancel();
+
+			assert.isTrue( doneEventSpy.calledOnce, 'Done event should be fired once.' );
+			assert.isFalse( cancelEventSpy.called, 'Cancel event should not be fired.' );
+		},
+
+		'test task cannot be finished after being cancelled': function() {
+			var instance = new Task( 300 ),
+				doneEventSpy = sinon.spy(),
+				cancelEventSpy = sinon.spy();
+
+			instance.on( 'canceled', cancelEventSpy );
+			instance.on( 'done', doneEventSpy );
+			instance.cancel();
+			instance.update( 300 );
+
+			assert.isTrue( cancelEventSpy.calledOnce, 'Cancel event should be fired once.' );
+			assert.isFalse( doneEventSpy.called, 'Done event should not be fired.' );
 		}
 	} );
 

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -7,7 +7,7 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'embedbase', {
-		lang: 'en', // %REMOVE_LINE_CORE%
+		lang: 'cs,da,de,en,eo,fr,gl,it,ko,nb,nl,pl,pt-br,ru,sv,tr,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,notificationaggregator',
 
 		onLoad: function() {
@@ -186,6 +186,7 @@
 				var that = this,
 					cachedResponse = this._getCachedResponse( url ),
 					request = {
+						noNotifications: opts.noNotifications,
 						url: url,
 						callback: finishLoading,
 						errorCallback: function( msg ) {
@@ -214,6 +215,21 @@
 
 				function finishLoading( response ) {
 					request.response = response;
+
+					// Check if widget is still valid.
+					if ( !that.editor.widgets.instances[ that.id ] ) {
+						// %REMOVE_START%
+						window.console && console.log && console.log( // jshint ignore:line
+							'[CKEDITOR.plugins.embedBase.baseDefinition.loadContent] Widget no longer belongs to current editor\'s widgets list.'
+						);
+						// %REMOVE_END%
+
+						if ( request.task ) {
+							request.task.done();
+						}
+
+						return;
+					}
 
 					if ( that._handleResponse( request ) ) {
 						that._cacheResponse( url, response );
@@ -333,10 +349,6 @@
 			 * was canceled or the default listener could not convert oEmbed response into embeddable HTML.
 			 */
 			_handleResponse: function( request ) {
-				if ( request.task ) {
-					request.task.done();
-				}
-
 				var evtData = {
 					url: request.url,
 					html: '',
@@ -344,6 +356,10 @@
 				};
 
 				if ( this.fire( 'handleResponse', evtData ) !== false ) {
+					if ( request.task ) {
+						request.task.done();
+					}
+
 					this._setContent( request.url, evtData.html );
 					return true;
 				} else {
@@ -364,7 +380,9 @@
 				if ( request.task ) {
 					request.task.cancel();
 
-					editor.showNotification( this.getErrorMessage( messageTypeOrMessage, request.url ), 'warning' );
+					if ( !request.noNotifications ) {
+						editor.showNotification( this.getErrorMessage( messageTypeOrMessage, request.url ), 'warning' );
+					}
 				}
 			},
 

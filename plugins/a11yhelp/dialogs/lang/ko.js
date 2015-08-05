@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
 			{
 			name: '편집기 다이얼로그',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'TAB 키를 누르면 다음 대화상자로 이동하고, SHIFT+TAB 키를 누르면 이전 대화상자로 이동합니다. 대화상자를 제출하려면 ENTER 키를 누르고, ESC 키를 누르면 대화상자를 취소합니다. 대화상자에 탭이 여러개 있을 때, ALT+F10 키 또는 TAB 키를 누르면 순서에 따라 탭 목록에 도달할 수 있습니다. 탭 목록에 초점이 맞을 때, 오른쪽과 왼쪽 화살표 키를 이용하면 각각 다음과 이전 탭으로 이동할 수 있습니다.' 
 		},
 
 			{
@@ -70,11 +70,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
 		},
 			{
 			name: ' 이전 포커스 공간 접근 명령',
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			legend: '탈자 기호(^) 이전에 ${accessPreviousSpace} 를 누르면, 접근 불가능하면서 가장 가까운 포커스 영역에 접근합니다. 예를 들면, 두 인접한 HR 요소가 있습니다. 키 조합을 반복해서 멀리있는 포커스 영역들에 도달할 수 있습니다.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: '다음 포커스 공간 접근 명령',
+			legend: '탈자 기호(^) 다음에 ${accessNextSpace} 를 누르면, 접근 불가능하면서 가장 가까운 포커스 영역에 접근합니다. 예를 들면, 두 인접한 HR 요소가 있습니다. 키 조합을 반복해서 멀리있는 포커스 영역들에 도달할 수 있습니다. '
 		},
 			{
 			name: ' 접근성 도움말',

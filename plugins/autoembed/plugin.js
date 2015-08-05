@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -6,46 +6,48 @@
 'use strict';
 
 ( function() {
+	var validLinkRegExp = /^<a[^>]+href="([^"]+)"[^>]*>([^<]+)<\/a>$/i;
+
 	CKEDITOR.plugins.add( 'autoembed', {
 		requires: 'autolink,undo',
-
+		lang: 'cs,en,it,nb,pl,zh', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var currentId = 1;
+			var currentId = 1,
+				embedCandidatePasted;
 
 			editor.on( 'paste', function( evt ) {
 				if ( evt.data.dataTransfer.getTransferType( editor ) == CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+					embedCandidatePasted = 0;
 					return;
 				}
 
-				var data = evt.data.dataValue,
-					parsedData,
-					link;
+				var match = evt.data.dataValue.match( validLinkRegExp );
+
+				embedCandidatePasted = match != null && decodeURI( match[ 1 ] ) == decodeURI( match[ 2 ] );
 
 				// Expecting exactly one <a> tag spanning the whole pasted content.
-				if ( data.match( /^<a [^<]+<\/a>$/i ) ) {
-					parsedData = CKEDITOR.htmlParser.fragment.fromHtml( data );
-
-					// Embed only links with a single text node with a href attr which equals its text.
-					if ( parsedData.children.length != 1 )
-						return;
-
-					link = parsedData.children[ 0 ];
-
-					if ( link.type == CKEDITOR.NODE_ELEMENT && link.getHtml() == link.attributes.href ) {
-						evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + data.substr( 2 );
-					}
+				// The tag has to have same href as content.
+				if ( embedCandidatePasted ) {
+					evt.data.dataValue = '<a data-cke-autoembed="' + ( ++currentId ) + '"' + evt.data.dataValue.substr( 2 );
 				}
-
 			}, null, null, 20 ); // Execute after autolink.
 
 			editor.on( 'afterPaste', function() {
-				autoEmbedLink( editor, currentId );
+				// If one pasted an embeddable link and then undone the action, the link in the content holds the
+				// data-cke-autoembed attribute and may be embedded on *any* successive paste.
+				// This check ensures that autoEmbedLink is called only if afterPaste is fired *right after*
+				// embeddable link got into the content. (#13532)
+				if ( embedCandidatePasted ) {
+					autoEmbedLink( editor, currentId );
+				}
 			} );
 		}
 	} );
 
 	function autoEmbedLink( editor, id ) {
-		var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' );
+		var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' ),
+			lang = editor.lang.autoembed,
+			notification;
 
 		if ( !anchor || !anchor.data( 'cke-saved-href' ) ) {
 			return;
@@ -77,7 +79,9 @@
 			return;
 		}
 
+		notification = editor.showNotification( lang.embeddingInProgress, 'info' );
 		instance.loadContent( href, {
+			noNotifications: true,
 			callback: function() {
 					// DOM might be invalidated in the meantime, so find the anchor again.
 				var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' ),
@@ -91,10 +95,15 @@
 					editor.editable().insertElementIntoRange( wrapper, range );
 				}
 
+				notification.hide();
 				finalizeCreation();
 			},
 
-			error: finalizeCreation
+			errorCallback: function() {
+				notification.hide();
+				editor.widgets.destroy( instance, true );
+				editor.showNotification( lang.embeddingFailed, 'info' );
+			}
 		} );
 
 		function finalizeCreation() {

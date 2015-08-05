@@ -49,6 +49,11 @@
 		},
 
 		'test full BASEPATH': function() {
+			if ( CKEDITOR.env.iOS ) {
+				// Tests using `secondDomainName` will not work on iOS where we can not set hosts.
+				assert.ignore();
+			}
+
 			var iframe = CKEDITOR.document.getById( 'iframe-full' ),
 				doc = iframe.getFrameDocument();
 
@@ -138,6 +143,11 @@
 		},
 
 		'test protocol relative BASEPATH': function() {
+			if ( CKEDITOR.env.iOS ) {
+				// Tests using `secondDomainName` will not work on iOS where we can not set hosts.
+				assert.ignore();
+			}
+
 			var iframe = CKEDITOR.document.getById( 'iframe-protocol-relative' ),
 				doc = iframe.getFrameDocument();
 

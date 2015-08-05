@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -679,6 +679,9 @@ CKEDITOR.config.toolbarLocation = 'top';
  *
  * If set to `null`, the toolbar will be generated automatically using all available buttons
  * and {@link #toolbarGroups} as a toolbar groups layout.
+ *
+ * In CKEditor 4.5+ you can generate your toolbar customization code by using the [visual
+ * toolbar configurator](http://docs.ckeditor.com/#!/guide/dev_toolbar).
  *
  *		// Defines a toolbar with only one strip containing the "Source" button, a
  *		// separator, and the "Bold" and "Italic" buttons.

@@ -40,7 +40,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	popupLeft: 'Position från vänster',
 	popupLocationBar: 'Adressfält',
 	popupMenuBar: 'Menyfält',
-	popupResizable: 'Resizable',
+	popupResizable: 'Resizable', // MISSING
 	popupScrollBars: 'Scrolllista',
 	popupStatusBar: 'Statusfält',
 	popupToolbar: 'Verktygsfält',

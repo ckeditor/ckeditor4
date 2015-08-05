@@ -953,11 +953,12 @@
 		 * These data will be set to the clipboardData on non-IE browsers.
 		 */
 		emulatePaste: function( editor, html, data ) {
-			var editable = editor.editable(),
+			var clipboard = CKEDITOR.plugins.clipboard,
+				editable = editor.editable(),
 				doc = editable.getDocument(),
 				evt = this.mockPasteEvent();
 
-			if ( !CKEDITOR.env.ie ) {
+			if ( clipboard.isCustomCopyCutSupported ) {
 				// Fire paste event with HTML in the dataTransfer object on non-IE.
 				if ( !data ) {
 					data = {};
@@ -975,7 +976,7 @@
 				// use pastebin and insert given HTML into the current selection.
 				// IE>=11 doesn't support neither msieRange#pasteHtml nor inserhtml command,
 				// so for simplicity on all IEs use custom way.
-				editable.fire( 'beforepaste', evt );
+				editable.fire( clipboard.mainPasteEvent, evt );
 
 				var frag = new CKEDITOR.dom.element( 'div', doc );
 				frag.setHtml( html );
