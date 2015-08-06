@@ -1066,9 +1066,7 @@
 					this.attachListener( this, 'mouseup', function( ev ) {
 						var selectedElement = ev.data.getTarget();
 						if ( selectedElement && selectedElement.is( 'img' ) ) {
-							setTimeout( function() {
-								editor.getSelection().selectElement( selectedElement );
-							}, 1 );
+							editor.getSelection().selectElement( selectedElement );
 						}
 					} );
 				}
