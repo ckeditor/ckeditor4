@@ -232,7 +232,6 @@
 					// Cells resizing is asynchronous-y, so we have to use syncing
 					// to save snapshot only after all cells are resized. (#13388)
 					if ( ++cellsSaved == cellsCount ) {
-						editor.fire( 'unlockSnapshot' );
 						editor.fire( 'saveSnapshot' );
 					}
 				}, 0, this, [
@@ -248,7 +247,7 @@
 			cancel( evt );
 
 			// Save editor's state before we do any magic with cells. (#13388)
-			editor.fire( 'lockSnapshot', { dontUpdate: true } );
+			editor.fire( 'saveSnapshot' );
 			resizeStart();
 
 			document.on( 'mouseup', onMouseUp, this );
