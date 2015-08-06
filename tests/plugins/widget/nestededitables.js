@@ -304,25 +304,21 @@
 				}
 			} );
 
-			this.editorBot.setData( '<div data-widget="autoparagraphtest" id="w1"><div id="foo"></div></div>', function() {
+			this.editorBot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
 					editable = widget.editables.foo,
-					testData = 'test data',
 					range;
-
-				// Set initial data.
-				editable.setData( testData );
 
 				// Move focus to the editable and place selection at the end of its contents.
 				// This should fire 'selectionChange' event and execute editable.fixDom() method.
 				editable.focus();
 				range = editor.createRange();
-				range.moveToPosition( editable.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+				range.moveToPosition( editable, CKEDITOR.POSITION_BEFORE_END );
 				range.select();
 
 				// Since allowedContent is 'br' auto paragraphing should not be performed.
 				assert.areEqual( CKEDITOR.ENTER_BR, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_BR.' );
-				assert.areEqual( testData, editable.getData(), 'Test data should not be changed.' );
+				assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
 			} );
 		},
 
@@ -349,14 +345,10 @@
 			}, function( bot ) {
 				var editor = bot.editor;
 
-				bot.setData( '<div data-widget="autoparagraphtest" id="w1"><div id="foo"></div></div>', function() {
+				bot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
 					var widget = getWidgetById( editor, 'w1' ),
 						editable = widget.editables.foo,
-						testData = 'test data',
 						range;
-
-					// Set initial data.
-					editable.setData( testData );
 
 					// Move focus to the editable and place selection at the end of its contents.
 					// This should fire 'selectionChange' event and execute editable.fixDom() method.
@@ -367,7 +359,7 @@
 
 					// Since allowedContent is 'br' auto paragraphing should not be performed.
 					assert.areEqual( CKEDITOR.ENTER_BR, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_BR.' );
-					assert.areEqual( testData, editable.getData(), 'Test data should not be changed.' );
+					assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
 				} );
 			} );
 		},
@@ -395,14 +387,10 @@
 			}, function( bot ) {
 				var editor = bot.editor;
 
-				bot.setData( '<div data-widget="autoparagraphtest" id="w1"><div id="foo"></div></div>', function() {
+				bot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
 					var widget = getWidgetById( editor, 'w1' ),
 						editable = widget.editables.foo,
-						testData = 'test data',
 						range;
-
-					// Set initial data.
-					editable.setData( testData );
 
 					// Move focus to the editable and place selection at the end of its contents.
 					// This should fire 'selectionChange' event and execute editable.fixDom() method.
@@ -413,7 +401,7 @@
 
 					// Since allowedContent is 'br' auto paragraphing should not be performed.
 					assert.areEqual( CKEDITOR.ENTER_P, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_P.' );
-					assert.areEqual( testData, editable.getData(), 'Test data should not be changed.' );
+					assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
 				} );
 			} );
 		},
