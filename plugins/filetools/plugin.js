@@ -239,7 +239,7 @@
 	 * string encoded with Base64.
 	 * @param {String} [fileName] The file name. If not set and the second parameter is a file, then its name will be used.
 	 * If not set and the second parameter is a Base64 data string, then the file name will be created based on
-	 * {@link CKEDITOR.config#fileTools_defaultFileName}.
+	 * the {@link CKEDITOR.config#fileTools_defaultFileName} option.
 	 */
 	function FileLoader( editor, fileOrData, fileName ) {
 		var mimeParts,
@@ -314,7 +314,8 @@
 	 */
 
 	/**
-	 * The name of the file. If there is no file name, it is created using {@link CKEDITOR.config#fileTools_defaultFileName}.
+	 * The name of the file. If there is no file name, it is created by using the
+	 * {@link CKEDITOR.config#fileTools_defaultFileName} option.
 	 *
 	 * @readonly
 	 * @property {String} fileName
@@ -770,8 +771,9 @@
  */
 
 /**
- * Default file name (without extension) that will be used for files created from Base64 data string.
- * This name will be combined with MIME type to create full file name with extension.
+ * Default file name (without extension) that will be used for files created from a Base64 data string
+ * (for example for files pasted into the editor).
+ * This name will be combined with MIME type to create full file name with the extension.
  *
  * If `fileTools_defaultFileName` will be set to `default-name` and data's MIME type will be `image/png`
  * the resulting file name will be `default-name.png`.
@@ -779,7 +781,7 @@
  * If `fileTools_defaultFileName` is not set then the file name will be created using only its MIME type.
  * For example for `image/png` the file name will be `image.png`.
  *
- * @since 4.5.2
+ * @since 4.5.3
  * @cfg {String} [fileTools_defaultFileName='']
  * @member CKEDITOR.config
  */
