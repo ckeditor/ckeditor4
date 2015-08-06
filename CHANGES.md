@@ -7,6 +7,10 @@ New Features:
 
 * [#13501](http://dev.ckeditor.com/ticket/13501): Added [`config.fileTools_defaultFileName`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fileTools_defaultFileName) option to allow setting default filename for paste uploads.
 
+Fixed Issues:
+
+* [#13386](http://dev.ckeditor.com/ticket/13386): [Edge] Fixed: Issues with selecting and editing images.
+
 ## CKEditor 4.5.2
 
 Fixed Issues:
