@@ -987,6 +987,12 @@
 					// Remove full paths from links to anchors.
 					a: function( element ) {
 						var attrs = element.attributes;
+
+						if ( attrs.name && attrs.name.match( /ole_link\d+/i ) ) {
+							delete element.name;
+							return;
+						}
+
 						if ( attrs.href && attrs.href.match( /^file:\/\/\/[\S]+#/i ) )
 							attrs.href = attrs.href.replace( /^file:\/\/\/[^#]+/i, '' );
 					},
