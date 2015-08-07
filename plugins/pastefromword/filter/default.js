@@ -365,7 +365,9 @@
 
 						plugin.filters.stylesFilter( [
 							[ 'tab-stops', null, function( val ) {
-								var margin = val.split( ' ' )[ 1 ].match( cssLengthRelativeUnit );
+								// val = [left|center|right|decimal] <value><unit> Source: W3C, WD-tabs-970117.
+								// In some cases the first word is missing - hence the square brackets.
+								var margin = val.match( /0$|\d*\.?\d+\w+/ );
 								margin && ( previousListItemMargin = CKEDITOR.tools.convertToPx( margin[ 0 ] ) );
 							} ],
 							( level == 1 ? [ 'mso-list', null, function( val ) {
