@@ -812,7 +812,8 @@
 						// that doesn't include "mso-list:Ignore" on list bullets,
 						// note it's not perfect as not all list style (e.g. "heading list") is shipped
 						// with this pattern. (#6662)
-						if ( ( /MsoListParagraph/i ).exec( element.attributes[ 'class' ] ) || element.getStyle( 'mso-list' ) ) {
+						if ( ( /MsoListParagraph/i ).exec( element.attributes[ 'class' ] ) ||
+							( element.getStyle( 'mso-list' ) && !element.getStyle( 'mso-list').match(/none|skip/) ) ) {
 							var bulletText = element.firstChild( function( node ) {
 								return node.type == CKEDITOR.NODE_TEXT && !containsNothingButSpaces( node.parent );
 							} );
