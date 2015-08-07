@@ -10,7 +10,7 @@
 
 	var htmlEncode = CKEDITOR.tools.htmlEncode,
 		htmlDecode = CKEDITOR.tools.htmlDecode;
-	
+
 	bender.test( {
 		assertNormalizedCssText: function( expected, elementId, msg ) {
 			assert.areSame( expected, CKEDITOR.tools.normalizeCssText(

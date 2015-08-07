@@ -1,4 +1,5 @@
 {
+	"es3": true,
 	"requireCurlyBraces": [
 		"switch", "try", "catch"
 	],
@@ -40,8 +41,9 @@
 	"disallowMixedSpacesAndTabs": true,
 	"disallowTrailingWhitespace": true,
 	"maximumLineLength": 200,
-	"requireDotNotation": true,
-	"requireDotNotation": true,
+	"requireDotNotation": {
+		"allExcept": [ "keywords" ]
+	},
 	"disallowYodaConditions": true,
 	"disallowNewlineBeforeBlockStatements": true,
 	"validateLineBreaks": "LF",
@@ -49,5 +51,8 @@
 		"mark": "'",
 		"escape": true
 	},
-	"validateIndentation": "\t"
+	"validateIndentation": {
+		"value": "\t",
+		"allExcept": [ "comments" ]
+	}
 }
