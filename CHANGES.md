@@ -12,6 +12,10 @@ Fixed Issues:
 * [#13386](http://dev.ckeditor.com/ticket/13386): [Edge] Fixed: Issues with selecting and editing images.
 * [#13568](http://dev.ckeditor.com/ticket/13568): Fixed: Method [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) returns invalid results for entire content selection.
 
+Other Changes:
+
+* [#13637](https://dev.ckeditor.com/ticket/13637): Several icons were refactored.
+
 ## CKEditor 4.5.2
 
 Fixed Issues:
