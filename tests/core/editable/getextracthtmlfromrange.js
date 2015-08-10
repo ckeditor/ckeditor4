@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,range */
+/* bender-tags: editor,unit,range,13465 */
 
 ( function() {
 	'use strict';
@@ -369,7 +369,17 @@
 			[ '<p>a</p><p>[<b>b</b>]</p><p>c</p>',									'<b>b</b>',														'<p>a</p><p>c</p>' ],
 			[ '<p>a</p><p><b>[b]</b></p><p>c</p>',									'<b>b</b>',														'<p>a</p><p>c</p>' ],
 			[ '<p>a[b]c</p>',														'b',															'<p>ac</p>' ],
-			[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',		'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',	'' ]
+			[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',		'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',	'' ],
+			// #13465
+			[
+				'<p>[<span>foo</span>]<span data-cke-bookmark="1">&nbsp;</span></p>',
+				'<span>foo</span>',
+				'<p><span data-cke-bookmark="1">&nbsp;</span></p>'
+			],
+			// #13465
+			[ '<p>a</p><p><span class="foo">{b}</span></p><p>c</p>',				'<span class="foo">b</span>',									'<p>a</p><p>c</p>' ],
+			// #13465
+			[ '<p>a</p><p><b>{b}</b><span class="foo"></span></p><p>c</p>',			'<b>b</b>',														'<p>a</p><p>c</p>' ]
 		]
 	}, 'inline', 1 );
 

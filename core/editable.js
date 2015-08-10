@@ -744,7 +744,13 @@
 					var path = range.startPath();
 
 					// <p><b>^</b></p> is empty block.
-					if ( range.checkStartOfBlock() && range.checkEndOfBlock() && path.block && !range.root.equals( path.block ) ) {
+					if (
+						range.checkStartOfBlock() &&
+						range.checkEndOfBlock() &&
+						path.block &&
+						!range.root.equals( path.block ) &&
+						// Do not remove a block with bookmarks. (#13465)
+						!hasBookmarks( path.block ) ) {
 						range.moveToPosition( path.block, CKEDITOR.POSITION_BEFORE_START );
 						path.block.remove();
 					}
@@ -1403,6 +1409,23 @@
 			if ( !( other && ( src.equals( other ) || src.contains( other ) ) ) )
 				fn.call( this, evt );
 		};
+	}
+
+	function hasBookmarks( element ) {
+		// We use getElementsByTag() instead of find() to retain compatibility with IE quirks mode.
+		var potentialBookmarks = element.getElementsByTag( 'span' ),
+			i = 0,
+			child;
+
+		if ( potentialBookmarks ) {
+			while ( ( child = potentialBookmarks.getItem( i++ ) ) ) {
+				if ( !isNotBookmark( child ) ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	// Check if the entire table/list contents is selected.
