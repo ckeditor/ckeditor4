@@ -78,6 +78,7 @@ The following libraries are included only in the development version of CKEditor
 * grunt-contrib-concat - Copyright (c) 2014 "Cowboy" Ben Alman, contributors.
 * grunt-jsduck - Copyright (c) 2012 Dmitry Pashkevich, contributors.
 * grunt-githooks - Copyright (c) 2013 Romaric Pascal.
+* jQuery Form Plugin (used in jquery adapter test) - Copyright (c) 2012 M. Alsup
 
 The following libraries are included only in the development version of CKEditor under the BSD-3 License (see Appendix F):
 
