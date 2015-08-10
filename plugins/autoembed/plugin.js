@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -92,15 +92,18 @@
 						insertRange = editor.createRange(),
 						editable = editor.editable();
 
-					// Save and lock snapshot so we don't make not needed undo steps in
-					// editable.insertElement() below, which would include bookmarks. (#13429)
+					// Save the changes in editor contents that happened *after* the link was pasted
+					// but before it gets embedded (i.e. user pasted and typed).
 					editor.fire( 'saveSnapshot' );
+
+					// Lock snapshot so we don't make unnecessary undo steps in
+					// editable.insertElement() below, which would include bookmarks. (#13429)
 					editor.fire( 'lockSnapshot', { dontUpdate: true } );
 
 					// Bookmark current selection. (#13429)
 					var bookmark = selection.createBookmarks( false )[ 0 ],
 						startNode = bookmark.startNode,
-						endNode = bookmark.endNode ? bookmark.endNode : bookmark.startNode;
+						endNode = bookmark.endNode || startNode;
 
 					// When url is pasted, IE8 sets the caret after <a> element instead of inside it.
 					// So, if user hasn't changed selection, bookmark is inserted right after <a>.
@@ -108,7 +111,7 @@
 					// inside the original element. After selection recreation it would end up before widget:
 					// <p>A <a /><bm /></p><p>B</p>  -->  <p>A <bm /></p><widget /><p>B</p>  -->  <p>A ^</p><widget /><p>B</p>
 					// We have to fix this IE8 behavior so it is the same as on other browsers.
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && !bookmark.endNode && anchor.getNext().equals( startNode ) ) {
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && !bookmark.endNode && startNode.equals( anchor.getNext() ) ) {
 						anchor.append( startNode );
 					}
 
@@ -123,8 +126,8 @@
 						selection.selectBookmarks( [ bookmark ] );
 					} else {
 						// If one of bookmarks is not in DOM, clean up leftovers.
-						startNode.remove();
-						endNode.remove();
+						startNode && startNode.remove();
+						endNode && endNode.remove();
 					}
 
 					editor.fire( 'unlockSnapshot' );
