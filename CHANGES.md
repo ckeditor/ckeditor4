@@ -10,6 +10,10 @@ New Features:
 
 Fixed Issues:
 
+* [#13590](http://dev.ckeditor.com/ticket/13590): Fixed: Various issues related to the Paste From Word feature. Fixed also:
+  * [#11215](http://dev.ckeditor.com/ticket/11215),
+  * [#8780](http://dev.ckeditor.com/ticket/8780),
+  * [#12762](http://dev.ckeditor.com/ticket/12762).
 * [#13386](http://dev.ckeditor.com/ticket/13386): [Edge] Fixed: Issues with selecting and editing images.
 * [#13568](http://dev.ckeditor.com/ticket/13568): Fixed: Method [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) returns invalid results for entire content selection.
 * [#13453](http://dev.ckeditor.com/ticket/13453): Fixed: Drag&drop of a whole content of the editor throws an error.
