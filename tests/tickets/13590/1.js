@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard,pastefromword, 11215 */
+/* bender-tags: clipboard,pastefromword,11215,8780,9685,12740,13616 */
 /* bender-ckeditor-plugins: clipboard,pastefromword,format,ajax,basicstyles */
 /* bender-include: ../../plugins/clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */
@@ -39,7 +39,7 @@
 			bender.tools.testExternalInputOutput( '_assets/tc1_word_viewer_' + engineName + '.html', testWordFilter( this.editor ) );
 		},
 
-		// #8780
+		// #8780, #9685
 		'test tc2 - Word Viewer': function() {
 			if ( !engineName )
 				assert.ignore();
@@ -71,7 +71,7 @@
 			bender.tools.testExternalInputOutput( '_assets/tc5_word_viewer_' + engineName + '.html', testWordFilter( this.editor ) );
 		},
 
-		// #12740 - "word file causing the error message"
+		// #13616
 		'test tc6 - Word Viewer': function() {
 			if ( !engineName )
 				assert.ignore();
