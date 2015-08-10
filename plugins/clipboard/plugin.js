@@ -1749,9 +1749,14 @@
 			// When we drop, browser tries to find closest drop position and it finds it inside drag range. (#13453)
 			var startNode = dragBookmark.startNode,
 				endNode = dragBookmark.endNode,
-				dropNode = dropBookmark.startNode;
+				dropNode = dropBookmark.startNode,
+				dropInsideDragRange =
+					// Must check endNode because dragRange could be collapsed in some edge cases (simulated DnD).
+					endNode &&
+					startNode.getPosition( dropNode ) == CKEDITOR.POSITION_PRECEDING &&
+					endNode.getPosition( dropNode ) == CKEDITOR.POSITION_FOLLOWING;
 
-			if ( startNode.getPosition( dropNode ) == CKEDITOR.POSITION_PRECEDING && endNode.getPosition( dropNode ) == CKEDITOR.POSITION_FOLLOWING ) {
+			if ( dropInsideDragRange ) {
 				// When we normally drag and drop, the selection is changed to dropRange,
 				// so here we simulate the same behavior.
 				editor.getSelection().selectRanges( [ dropRange ] );
