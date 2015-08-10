@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.5.0, 4.5.2, tc
+@bender-tags: 4.5.0, 4.5.2, 4.5.3, tc
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter, link
 
  * test internal D&amp;D in the editor,
