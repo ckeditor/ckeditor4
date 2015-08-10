@@ -157,7 +157,6 @@
 		}
 	}
 
-	var cssLengthRelativeUnit = /^([.\d]*)+(em|ex|px|gd|rem|vw|vh|vm|ch|mm|cm|in|pt|pc|deg|rad|ms|s|hz|khz){1}?/i;
 	var emptyMarginRegex = /^(?:\b0[^\s]*\s*){1,4}$/; // e.g. 0px 0pt 0px
 	var romanLiternalPattern = '^m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})$',
 		lowerRomanLiteralRegex = new RegExp( romanLiternalPattern ),
@@ -367,7 +366,7 @@
 							[ 'tab-stops', null, function( val ) {
 								// val = [left|center|right|decimal] <value><unit> Source: W3C, WD-tabs-970117.
 								// In some cases the first word is missing - hence the square brackets.
-								var margin = val.match( /0$|\d*\.?\d+\w+/ );
+								var margin = val.match( /0$|\d+\.?\d*\w+/ );
 								margin && ( previousListItemMargin = CKEDITOR.tools.convertToPx( margin[ 0 ] ) );
 							} ],
 							( level == 1 ? [ 'mso-list', null, function( val ) {
@@ -815,7 +814,7 @@
 						// note it's not perfect as not all list style (e.g. "heading list") is shipped
 						// with this pattern. (#6662)
 						if ( ( /MsoListParagraph/i ).exec( element.attributes[ 'class' ] ) ||
-							( element.getStyle( 'mso-list' ) && !element.getStyle( 'mso-list').match(/none|skip/) ) ) {
+							( element.getStyle( 'mso-list' ) && !element.getStyle( 'mso-list' ).match( /^(none|skip)$/i ) ) ) {
 							var bulletText = element.firstChild( function( node ) {
 								return node.type == CKEDITOR.NODE_TEXT && !containsNothingButSpaces( node.parent );
 							} );
