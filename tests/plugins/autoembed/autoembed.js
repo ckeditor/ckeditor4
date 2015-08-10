@@ -389,12 +389,13 @@ bender.test( {
 
 			wait( function() {
 				// Check if there is exactly one additional <p> created after the widget.
-				assert.areSame( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>\u00A0</p>', editor.getData() );
+				assert.areSame( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>\u00A0</p>', editor.getData(), 'right editor data after paste' );
 				var p = editor.editable().findOne( 'p' );
 
 				// Check if caret is inside newly created <p>.
 				var range = editor.getSelection().getRanges()[ 0 ];
 				assert.isTrue( range.collapsed, 'selection after paste is collapsed' );
+				assert.areSame( 0, range.startOffset, 'selection at the beginning of the paragraph' );
 				assert.isTrue( range.startContainer.equals( p ), 'selection inside correct p element' );
 			}, 200 );
 		} );
@@ -411,8 +412,9 @@ bender.test( {
 
 			// Set caret at the end of the first <p>.
 			var range = editor.createRange();
-			range.setStart( this.editor.editable().findOne( 'p' ).getFirst(), 3 );
+			range.setStart( this.editor.editable().find( 'p' ).getItem( 0 ).getFirst(), 3 );
 			range.collapse();
+			// '<p>foo^</p><p>bar</p>'
 			editor.getSelection().selectRanges( [ range ] );
 
 			editor.execCommand( 'paste', pastedText );
@@ -427,7 +429,9 @@ bender.test( {
 				// Different browsers set startContainer differently,
 				// so we check if it is in <p> or in a text node inside that <p>.
 				assert.isTrue( range.collapsed, 'selection after paste is collapsed' );
-				assert.isTrue( container.equals( p ) || container.type == CKEDITOR.NODE_TEXT && container.getParent().equals( p ), 'selection inside correct p element' );
+				assert.areSame( 0, range.startOffset, 'selection anchored at the beginning of the paragraph' );
+				assert.isTrue( !!new CKEDITOR.dom.elementPath( container ).contains( p ), 'selection inside correct p element' );
+				assert.isInnerHtmlMatching( 'bar@', ( container.type == CKEDITOR.NODE_TEXT ? container.getParent() : container ).getHtml(), 'selection inside correct p element' );
 			}, 200 );
 		} );
 	},
@@ -443,29 +447,21 @@ bender.test( {
 			editor.focus();
 			editor.execCommand( 'paste', pastedText );
 
-			// After link has been pasted, "type" some text.
-			var textNode = new CKEDITOR.dom.text( 'foo' );
 			var pastedAnchor = editable.findOne( 'a' );
-			textNode.insertAfter( pastedAnchor );
 
-			// After link has been pasted, make a selection on that text.
+			// After link has been pasted, "type" some text...
+			var text = new CKEDITOR.dom.text( 'foo' );
+			text.insertAfter( pastedAnchor );
+
+			// ..and make a selection on that text.
+			// "fo^o"
 			var range = editor.createRange();
-			range.setStartBefore( textNode );
-			range.setEndAfter( textNode );
+			range.setStart( text, 2 );
 			range.select();
 
 			wait( function() {
-				// Check if selection has been maintained. We are unable to check it by
-				// checking text nodes and offsets as text nodes might be broken
-				// after inserting bookmarks and other operations on DOM.
-				// Instead, we just check if selected text is still "foo".
-
-				// We remove ZWS character that shows up in DOM after embedded content insertion if
-				// whole contents of a text node was selected ("foo" in our case). This character
-				// is normally removed after any action in editor is taken (like mouse click or key down).
-				var selectedHtml = editor.getSelection().getSelectedText().replace( '\u200b', '' );
-
-				assert.areSame( 'foo', selectedHtml, 'same text is selected after embed insertion' );
+				assert.areSame( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>foo</p>', editor.getData(), 'right editor data after paste' );
+				assert.isMatching( /fo(\[\]|{})o/, bender.tools.selection.getWithHtml( editor ), 'selection anchored at the right position' );
 			}, 200 );
 		} );
 	}
