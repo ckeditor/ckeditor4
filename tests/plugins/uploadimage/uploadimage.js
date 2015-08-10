@@ -206,51 +206,63 @@
 		},
 
 		'test supportedTypes png': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.png', type: 'image/png' } ] );
+
+				wait();
 			} );
-
-			pasteFiles( editor, [ { name: 'test.png', type: 'image/png' } ] );
-
-			wait();
 		},
 
 		'test supportedTypes jpg': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.jpg', type: 'image/jpeg' } ] );
+
+				wait();
 			} );
-
-			pasteFiles( editor, [ { name: 'test.jpg', type: 'image/jpeg' } ] );
-
-			wait();
 		},
 
 		'test supportedTypes gif': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.gif', type: 'image/gif' } ] );
+
+				wait();
 			} );
-
-			pasteFiles( editor, [ { name: 'test.gif', type: 'image/gif' } ] );
-
-			wait();
 		},
 
 		'test supportedTypes bmp': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.bmp', type: 'image/bmp' } ] );
+
+				wait();
 			} );
-
-			pasteFiles( editor, [ { name: 'test.bmp', type: 'image/bmp' } ] );
-
-			wait();
 		},
 
 		'test not supportedTypes tiff': function() {
