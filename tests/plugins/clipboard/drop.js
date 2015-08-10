@@ -1,4 +1,4 @@
-/* bender-tags: clipboard, 13468, 13015, 13140, 12806, 13011 */
+/* bender-tags: clipboard, 13468, 13015, 13140, 12806, 13011, 13453 */
 /* bender-ckeditor-plugins: toolbar,clipboard,undo */
 /* bender-include: _helpers/pasting.js */
 
@@ -353,6 +353,25 @@ var testsForMultipleEditor = {
 				editor.execCommand( 'undo' );
 
 				assert.isInnerHtmlMatching( '<p class="p" style="margin-left:20px">Lorem ipsum dolor sit amet.@</p>', editor.getData(), htmlMatchOpts, 'after undo' );
+			} );
+		},
+
+		// #13453
+		'test drop inside drag range aborts': function( editor ) {
+			var bot = bender.editorBots[ editor.name ],
+				evt = bender.tools.mockDropEvent();
+
+			bot.setHtmlWithSelection( '<p class="p">[Lorem <b>ipsum</b> dolor sit] amet.</p>' );
+			editor.resetUndo();
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				dropContainer: editor.editable().findOne( 'b' ).getChild( 0 ),
+				dropOffset: 0,
+				expectedPasteEventCount: 0
+			}, null, function() {
+				assert.isInnerHtmlMatching( '<p class="p">Lorem <b>^ipsum</b> dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 			} );
 		},
 
