@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 New Features:
 
 * [#13501](http://dev.ckeditor.com/ticket/13501): Added [`config.fileTools_defaultFileName`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fileTools_defaultFileName) option to allow setting default filename for paste uploads.
+* [#13603](http://dev.ckeditor.com/ticket/13603): Added support for uploading dropped BMP images.
 
 Fixed Issues:
 
