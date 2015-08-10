@@ -1,0 +1,44 @@
+<div id="editor">
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		extraPlugins: 'autoparagraphtest'
+	} );
+	var editor = CKEDITOR.instances.editor;
+
+	CKEDITOR.plugins.add( 'autoparagraphtest', {
+		requires: 'widget',
+		init: function( editor ) {
+			editor.widgets.add( 'autoparagraphtest', {
+				button: 'Create autoparagraph test',
+				pathName: 'test-widget',
+
+				template:
+					'<div class="autoparagraphtest">' +
+						'<div class="content"></div>' +
+					'</div>',
+
+				editables: {
+					content: {
+						selector: '.content',
+						allowedContent: 'br'
+					}
+				},
+
+				allowedContent: 'div(!autoparagraphtest); div(!content)',
+				requiredContent: 'div(autoparagraphtest)',
+
+				upcast: function( element ) {
+					return element.name == 'div' && element.hasClass( 'autoparagraphtest' );
+				}
+			} );
+		}
+	} );
+
+	editor.once( 'pluginsLoaded', function( evt ) {
+		editor.setData( '<p>foo</p><div class="autoparagraphtest"><div class="content">Edit me...</div></div> ' );
+	} );
+
+
+</script>
