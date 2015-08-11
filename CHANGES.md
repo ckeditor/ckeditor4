@@ -22,6 +22,7 @@ Fixed Issues:
 Other Changes:
 
 * [#13637](https://dev.ckeditor.com/ticket/13637): Several icons were refactored.
+* Updated Bender.js to 0.3.0 and introduced the ability to run tests via HTTPs ([#13265](https://dev.ckeditor.com/ticket/13265)).
 
 ## CKEditor 4.5.2
 
