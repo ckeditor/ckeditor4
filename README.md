@@ -1,5 +1,7 @@
 # CKEditor 4 - The best browser-based WYSIWYG editor
 
+[![devDependency Status](https://david-dm.org/ckeditor/ckeditor-dev/dev-status.svg)](https://david-dm.org/ckeditor/ckeditor-dev#info=devDependencies)
+
 This repository contains the development version of CKEditor.
 
 **Attention:** The code in this repository should be used locally and for
