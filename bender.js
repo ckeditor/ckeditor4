@@ -15,11 +15,9 @@ var config = {
 
 	framework: 'yui',
 
-	/*secure: true,*/
-
-	privateKey: 'tests/ssl/key.pem',
-
-	certificate: 'tests/ssl/cert.pem',
+	// secure: true,
+	privateKey: 'tests/_benderjs/ssl/key.pem',
+	certificate: 'tests/_benderjs/ssl/cert.pem',
 
 	plugins: [
 		'benderjs-yui',
