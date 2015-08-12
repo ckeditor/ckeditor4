@@ -20,6 +20,7 @@ Fixed Issues:
 * [#13465](http://dev.ckeditor.com/ticket/13465): Fixed: Error is thrown and widget is lost when drag&drop if it is the only content of the editor.
 * [#13414](http://dev.ckeditor.com/ticket/13414): Fixed: Content auto paragraphing in a nested editable despite editor configuration.
 * [#13429](http://dev.ckeditor.com/ticket/13429): Fixed: Wrong selection after content insertion by [Auto Embed](http://ckeditor.com/addon/autoembed) plugin.
+* [#13388](http://dev.ckeditor.com/ticket/13388): Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) integration with [Undo](http://ckeditor.com/addon/undo) is broken.
 
 Other Changes:
 
