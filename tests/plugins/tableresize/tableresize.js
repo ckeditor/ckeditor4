@@ -199,7 +199,7 @@ bender.test( {
 
 		init( insideTable, editor );
 
-		insideTable.find( 'td' ).getItem( 0 ).$.innerHTML = 'foo';
+		insideTable.findOne( 'td' ).setHtml( 'foo' );
 
 		resize( insideTable, function() {
 			resume( function() {
@@ -207,16 +207,15 @@ bender.test( {
 
 				// Step 1: undo table resizing.
 				editor.execCommand( 'undo' );
-				table = doc.getElementsByTag( 'table' ).getItem( 0 );
+				table = doc.findOne( 'table' );
 				this.assertIsNotTouched( table, 'insideTable' );
 				// Contents of table cell should remain not undone.
-				assert.isInnerHtmlMatching( 'foo@', table.find( 'td' ).getItem( 0 ).$.innerHTML );
+				assert.isInnerHtmlMatching( 'foo@', table.findOne( 'td' ).getHtml() );
 
 				// Step 2: undo text insert.
 				editor.execCommand( 'undo' );
-				table = doc.getElementsByTag( 'table' ).getItem( 0 );
 				// Bogus elements may be present.
-				assert.isInnerHtmlMatching( '@', table.find( 'td' ).getItem( 0 ).$.innerHTML );
+				assert.isInnerHtmlMatching( '@', doc.findOne( 'td' ).getHtml() );
 
 				// Get back to the "final" state with redo commands.
 				// Redo text insert.
@@ -225,7 +224,7 @@ bender.test( {
 				editor.execCommand( 'redo' );
 
 				// Table should be resized.
-				this.assertIsResized( doc.getElementsByTag( 'table' ).getItem( 0 ), 'insideTable' );
+				this.assertIsResized( doc.findOne( 'table' ), 'insideTable' );
 			} );
 		} );
 
