@@ -19,6 +19,7 @@ Fixed Issues:
 * [#13453](http://dev.ckeditor.com/ticket/13453): Fixed: Drag&drop of a whole content of the editor throws an error.
 * [#13465](http://dev.ckeditor.com/ticket/13465): Fixed: Error is thrown and widget is lost when drag&drop if it is the only content of the editor.
 * [#13414](http://dev.ckeditor.com/ticket/13414): Fixed: Content auto paragraphing in a nested editable despite editor configuration.
+* [#13429](http://dev.ckeditor.com/ticket/13429): Fixed: Wrong selection after content insertion by [Auto Embed](http://ckeditor.com/addon/autoembed) plugin.
 
 Other Changes:
 
