@@ -18,6 +18,7 @@ Fixed Issues:
 * [#13568](http://dev.ckeditor.com/ticket/13568): Fixed: Method [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) returns invalid results for entire content selection.
 * [#13453](http://dev.ckeditor.com/ticket/13453): Fixed: Drag&drop of a whole content of the editor throws an error.
 * [#13465](http://dev.ckeditor.com/ticket/13465): Fixed: Error is thrown and widget is lost when drag&drop if it is the only content of the editor.
+* [#13414](http://dev.ckeditor.com/ticket/13414): Fixed: Content auto paragraphing in a nested editable despite editor configuration.
 
 Other Changes:
 
