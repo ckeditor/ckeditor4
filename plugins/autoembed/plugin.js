@@ -57,10 +57,7 @@
 			widgetDef = CKEDITOR.plugins.autoEmbed.getWidgetDefinition( editor, href );
 
 		if ( !widgetDef ) {
-			window.console && window.console.log(
-				'[CKEDITOR.plugins.autoEmbed] Incorrect config.autoEmbed_widget value. ' +
-				'No widget definition found.'
-			);
+			CKEDITOR.warn( 'autoembed-no-widget-def' );
 			return;
 		}
 

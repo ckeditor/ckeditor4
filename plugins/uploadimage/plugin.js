@@ -27,10 +27,7 @@
 				uploadUrl = fileTools.getUploadUrl( editor.config, 'image' );
 
 			if ( !uploadUrl ) {
-				window.console && window.console.log(
-					'Error: Upload URL for the Upload Image feature was not defined. ' +
-					'For more information see: http://docs.ckeditor.com/#!/guide/dev_file_upload'
-				);
+				CKEDITOR.error( 'uploadimage-config' );
 				return;
 			}
 

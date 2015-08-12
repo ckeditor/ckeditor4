@@ -17,11 +17,10 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
-			var cls = editor.config.mathJaxClass || 'math-tex',
-				docsUrl = 'http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-mathJaxLib';
+			var cls = editor.config.mathJaxClass || 'math-tex';
 
-			if ( !editor.config.mathJaxLib && ( window.console && window.console.log ) ) {
-				window.console.log( 'Error: config.mathJaxLib property is not set. For more information visit: ', docsUrl );
+			if ( !editor.config.mathJaxLib ) {
+				CKEDITOR.error( 'mathjax-no-config' );
 			}
 
 			editor.widgets.add( 'mathjax', {
