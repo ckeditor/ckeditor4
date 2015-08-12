@@ -462,7 +462,7 @@ bender.test( {
 
 			wait( function() {
 				assert.areSame( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>foo</p>', editor.getData(), 'right editor data after paste' );
-				assert.isMatching( /({|\[)\u200b?foo(}|])/, bender.tools.selection.getWithHtml( editor ), 'selection anchored at the right position' );
+				assert.isMatching( /[{\[]\u200b?foo[}\]]/, bender.tools.selection.getWithHtml( editor ), 'selection anchored at the right position' );
 			}, 200 );
 		} );
 	}
