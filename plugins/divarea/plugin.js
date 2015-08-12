@@ -28,8 +28,6 @@ CKEDITOR.plugins.add( 'divarea', {
 						this.remove();
 					};
 				} );
-			
-			editor.container.enableContextMenu();
 
 			editor.setData( editor.getData( 1 ), callback );
 			editor.fire( 'contentDom' );

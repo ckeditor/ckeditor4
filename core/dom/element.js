@@ -1846,14 +1846,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Disables browser's context menu in this element.
 		 */
 		disableContextMenu: function() {
-			this.on( 'contextmenu', disableContextMenuListener );
-		},
-		
-		/**
-		 * Re-enabled browser's context menu in this element after disableContextMenu() has been called
-		 */
-		enableContextMenu: function() {
-			this.removeListener( 'contextmenu', disableContextMenuListener );
+			this.on( 'contextmenu', function( event ) {
+				// Cancel the browser context menu.
+				if ( !event.data.getTarget().hasClass( 'cke_enable_context_menu' ) )
+					event.data.preventDefault();
+			} );
 		},
 
 		/**
@@ -2034,12 +2031,6 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			if ( !hadId )
 				element.removeAttribute( 'id' );
 		};
-	}
-	
-	function disableContextMenuListener( event ) {
-		// Cancel the browser context menu.
-		if ( !event.data.getTarget().hasClass( 'cke_enable_context_menu' ) )
-			event.data.preventDefault();
 	}
 
 	function getContextualizedSelector( element, selector ) {
