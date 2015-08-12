@@ -266,6 +266,10 @@
 		function removeSuperfluousElement( tagName ) {
 			var lockRetain = false;
 
+			// Superfluous elements appear after keydown
+			// and before keyup, so the procedure is as follows:
+			// 1. On first keydown mark all elements with
+			// a specified tag name as non-superfluous.
 			editable.attachListener( editable, 'keydown', function() {
 				var body = doc.getBody(),
 					retained = body.getElementsByTag( tagName );
@@ -278,6 +282,8 @@
 				}
 			}, null, null, 1 );
 
+			// 2. On keyup remove all elements that were not marked
+			// as non-superfluous (which means they must have had appeared in the meantime).
 			editable.attachListener( editable, 'keyup', function() {
 				var elements = doc.getElementsByTag( tagName );
 				if ( lockRetain ) {
