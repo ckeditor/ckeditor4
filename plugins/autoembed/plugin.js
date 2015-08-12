@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -126,8 +126,8 @@
 						selection.selectBookmarks( [ bookmark ] );
 					} else {
 						// If one of bookmarks is not in DOM, clean up leftovers.
-						startNode && startNode.remove();
-						endNode && endNode.remove();
+						startNode.remove();
+						endNode.remove();
 					}
 
 					editor.fire( 'unlockSnapshot' );
