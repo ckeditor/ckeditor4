@@ -1848,7 +1848,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		disableContextMenu: function() {
 			this.on( 'contextmenu', function( event ) {
 				// Cancel the browser context menu.
-				if ( !event.data.getTarget().hasClass( 'cke_enable_context_menu' ) )
+				if ( !event.data.getTarget().getAscendant( function(node){ return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_enable_context_menu' ); }, true ) )
 					event.data.preventDefault();
 			} );
 		},
