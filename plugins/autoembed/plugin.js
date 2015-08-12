@@ -84,15 +84,53 @@
 			noNotifications: true,
 			callback: function() {
 					// DOM might be invalidated in the meantime, so find the anchor again.
-				var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' ),
-					range = editor.createRange();
+				var anchor = editor.editable().findOne( 'a[data-cke-autoembed="' + id + '"]' );
 
 				// Anchor might be removed in the meantime.
 				if ( anchor ) {
-					range.setStartAt( anchor, CKEDITOR.POSITION_BEFORE_START );
-					range.setEndAt( anchor, CKEDITOR.POSITION_AFTER_END );
+					var selection = editor.getSelection(),
+						insertRange = editor.createRange(),
+						editable = editor.editable();
 
-					editor.editable().insertElementIntoRange( wrapper, range );
+					// Save the changes in editor contents that happened *after* the link was pasted
+					// but before it gets embedded (i.e. user pasted and typed).
+					editor.fire( 'saveSnapshot' );
+
+					// Lock snapshot so we don't make unnecessary undo steps in
+					// editable.insertElement() below, which would include bookmarks. (#13429)
+					editor.fire( 'lockSnapshot', { dontUpdate: true } );
+
+					// Bookmark current selection. (#13429)
+					var bookmark = selection.createBookmarks( false )[ 0 ],
+						startNode = bookmark.startNode,
+						endNode = bookmark.endNode || startNode;
+
+					// When url is pasted, IE8 sets the caret after <a> element instead of inside it.
+					// So, if user hasn't changed selection, bookmark is inserted right after <a>.
+					// Then, after pasting embedded content, bookmark is still in DOM but it is
+					// inside the original element. After selection recreation it would end up before widget:
+					// <p>A <a /><bm /></p><p>B</p>  -->  <p>A <bm /></p><widget /><p>B</p>  -->  <p>A ^</p><widget /><p>B</p>
+					// We have to fix this IE8 behavior so it is the same as on other browsers.
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 && !bookmark.endNode && startNode.equals( anchor.getNext() ) ) {
+						anchor.append( startNode );
+					}
+
+					insertRange.setStartBefore( anchor );
+					insertRange.setEndAfter( anchor );
+
+					editable.insertElement( wrapper, insertRange );
+
+					// If both bookmarks are still in DOM, it means that selection was not inside
+					// an anchor that got substituted. We can safely recreate that selection. (#13429)
+					if ( editable.contains( startNode ) && editable.contains( endNode ) ) {
+						selection.selectBookmarks( [ bookmark ] );
+					} else {
+						// If one of bookmarks is not in DOM, clean up leftovers.
+						startNode.remove();
+						endNode.remove();
+					}
+
+					editor.fire( 'unlockSnapshot' );
 				}
 
 				notification.hide();
