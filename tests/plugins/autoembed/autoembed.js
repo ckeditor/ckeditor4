@@ -389,7 +389,7 @@ bender.test( {
 
 			wait( function() {
 				// Check if there is exactly one additional <p> created after the widget.
-				assert.areSame( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>\u00A0</p>', editor.getData(), 'right editor data after paste' );
+				assert.isInnerHtmlMatching( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>&nbsp;</p>', editor.getData(), 'right editor data after paste' );
 				var p = editor.editable().findOne( 'p' );
 
 				// Check if caret is inside newly created <p>.
