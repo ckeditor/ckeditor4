@@ -371,7 +371,9 @@ var testsForMultipleEditor = {
 				dropOffset: 0,
 				expectedPasteEventCount: 0
 			}, null, function() {
-				assert.isInnerHtmlMatching( '<p class="p">Lorem <b>^ipsum</b> dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+				assert.isInnerHtmlMatching( '<p class="p">Lorem ' +
+					( ( CKEDITOR.env.safari ) ? '^<b>' : '<b>^' ) +
+					'ipsum</b> dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 			} );
 		},
 
