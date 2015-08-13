@@ -371,9 +371,10 @@ var testsForMultipleEditor = {
 				dropOffset: 0,
 				expectedPasteEventCount: 0
 			}, null, function() {
-				assert.isInnerHtmlMatching( '<p class="p">Lorem ' +
-					( ( CKEDITOR.env.safari ) ? '^<b>' : '<b>^' ) +
-					'ipsum</b> dolor sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+				assert.isInnerHtmlMatching( [
+						'<p class="p">Lorem ^<b>ipsum</b> dolor sit amet.@</p>',
+						'<p class="p">Lorem <b>^ipsum</b> dolor sit amet.@</p>'
+					], getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 			} );
 		},
 
@@ -396,10 +397,10 @@ var testsForMultipleEditor = {
 				expectedDataType: 'html',
 				expectedDataValue: '<a href="foo">ipsum</a>'
 			}, null, function() {
-				assert.isInnerHtmlMatching(
-					'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">' +
-					'ipsum' + ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? '</a>^' : '^</a>' ) + ' amet.@</p>',
-					getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+				assert.isInnerHtmlMatching( [
+						'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">ipsum</a>^ amet.@</p>',
+						'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">ipsum^</a> amet.@</p>'
+					], getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 			} );
 		},
 
