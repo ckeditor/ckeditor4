@@ -398,6 +398,10 @@
  *
  *		config.filebrowserUploadUrl = '/uploader/upload.php';
  *
+ * **Note:** this is a configuration for a [File Browser](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader\)).
+ * To configure [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) use {@link CKEDITOR.config#uploadUrl}
+ * configuration option.
+ *
  * @since 3.0
  * @cfg {String} [filebrowserUploadUrl='' (empty string = disabled)]
  * @member CKEDITOR.config
@@ -435,6 +439,10 @@
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserUploadUrl}.
  *
  *		config.filebrowserImageUploadUrl = '/uploader/upload.php?type=Images';
+ *
+ * **Note:** this is a configuration for a [File Browser](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader\)).
+ * To configure [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) use {@link CKEDITOR.config#uploadUrl}
+ * or {@link CKEDITOR.config#imageUploadUrl} configuration option.
  *
  * @since 3.0
  * @cfg {String} [filebrowserImageUploadUrl='' (empty string = disabled)]
