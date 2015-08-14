@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -773,12 +773,12 @@
 /**
  * Default file name (without extension) that will be used for files created from a Base64 data string
  * (for example for files pasted into the editor).
- * This name will be combined with MIME type to create full file name with the extension.
+ * This name will be combined with the MIME type to create the full file name with the extension.
  *
- * If `fileTools_defaultFileName` will be set to `default-name` and data's MIME type will be `image/png`
+ * If `fileTools_defaultFileName` is set to `default-name` and data's MIME type is `image/png`,
  * the resulting file name will be `default-name.png`.
  *
- * If `fileTools_defaultFileName` is not set then the file name will be created using only its MIME type.
+ * If `fileTools_defaultFileName` is not set, the file name will be created using only its MIME type.
  * For example for `image/png` the file name will be `image.png`.
  *
  * @since 4.5.3

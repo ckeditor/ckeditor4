@@ -550,10 +550,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 	},
 
 	/**
-	 * Determines what is the position relation between this and given {@link CKEDITOR.dom.node} in the document.
-	 * This node can be preceding ({@link CKEDITOR.POSITION_PRECEDING}) or following ({@link CKEDITOR.POSITION_FOLLOWING}) given node.
-	 * This node also can contain ({@link CKEDITOR.POSITION_CONTAINS}) or be contained by ({@link CKEDITOR.POSITION_IS_CONTAINED}) the node.
-	 * The function returns bitmask of constants listed above or {@link CKEDITOR.POSITION_IDENTICAL} if given node is same as this node.
+	 * Determines the position relation between this node and the given {@link CKEDITOR.dom.node} in the document.
+	 * This node can be preceding ({@link CKEDITOR.POSITION_PRECEDING}) or following ({@link CKEDITOR.POSITION_FOLLOWING})
+	 * the given node. This node can also contain ({@link CKEDITOR.POSITION_CONTAINS}) or be contained by
+	 * ({@link CKEDITOR.POSITION_IS_CONTAINED}) the given node. The function returns a bitmask of constants
+	 * listed above or {@link CKEDITOR.POSITION_IDENTICAL} if the given node is the same as this node.
 	 *
 	 * @param {CKEDITOR.dom.node} otherNode A node to check relation with.
 	 * @returns {Number} Position relation between this node and given node.

@@ -5,27 +5,27 @@ CKEditor 4 Changelog
 
 New Features:
 
-* [#13501](http://dev.ckeditor.com/ticket/13501): Added [`config.fileTools_defaultFileName`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fileTools_defaultFileName) option to allow setting default filename for paste uploads.
+* [#13501](http://dev.ckeditor.com/ticket/13501): Added the [`config.fileTools_defaultFileName`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fileTools_defaultFileName) option to allow setting a default filen ame for paste uploads.
 * [#13603](http://dev.ckeditor.com/ticket/13603): Added support for uploading dropped BMP images.
 
 Fixed Issues:
 
-* [#13590](http://dev.ckeditor.com/ticket/13590): Fixed: Various issues related to the Paste From Word feature. Fixed also:
+* [#13590](http://dev.ckeditor.com/ticket/13590): Fixed: Various issues related to the [Paste from Word](http://ckeditor.com/addon/pastefromword) feature. Fixes also:
   * [#11215](http://dev.ckeditor.com/ticket/11215),
   * [#8780](http://dev.ckeditor.com/ticket/8780),
   * [#12762](http://dev.ckeditor.com/ticket/12762).
 * [#13386](http://dev.ckeditor.com/ticket/13386): [Edge] Fixed: Issues with selecting and editing images.
-* [#13568](http://dev.ckeditor.com/ticket/13568): Fixed: Method [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) returns invalid results for entire content selection.
-* [#13453](http://dev.ckeditor.com/ticket/13453): Fixed: Drag&drop of a whole content of the editor throws an error.
-* [#13465](http://dev.ckeditor.com/ticket/13465): Fixed: Error is thrown and widget is lost when drag&drop if it is the only content of the editor.
+* [#13568](http://dev.ckeditor.com/ticket/13568): Fixed: The [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) method returns invalid results for entire content selection.
+* [#13453](http://dev.ckeditor.com/ticket/13453): Fixed: Drag&drop of entire editor content throws an error.
+* [#13465](http://dev.ckeditor.com/ticket/13465): Fixed: Error is thrown and the widget is lost on drag&drop if it is the only content of the editor.
 * [#13414](http://dev.ckeditor.com/ticket/13414): Fixed: Content auto paragraphing in a nested editable despite editor configuration.
-* [#13429](http://dev.ckeditor.com/ticket/13429): Fixed: Wrong selection after content insertion by [Auto Embed](http://ckeditor.com/addon/autoembed) plugin.
+* [#13429](http://dev.ckeditor.com/ticket/13429): Fixed: Incorrect selection after content insertion by the [Auto Embed](http://ckeditor.com/addon/autoembed) plugin.
 * [#13388](http://dev.ckeditor.com/ticket/13388): Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) integration with [Undo](http://ckeditor.com/addon/undo) is broken.
 
 Other Changes:
 
 * [#13637](https://dev.ckeditor.com/ticket/13637): Several icons were refactored.
-* Updated Bender.js to 0.3.0 and introduced the ability to run tests via HTTPs ([#13265](https://dev.ckeditor.com/ticket/13265)).
+* Updated [Bender.js](https://github.com/benderjs/benderjs) to 0.3.0 and introduced the ability to run tests via HTTPs ([#13265](https://dev.ckeditor.com/ticket/13265)).
 
 ## CKEditor 4.5.2
 
