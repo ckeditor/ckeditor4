@@ -97,6 +97,6 @@ bender.test( {
 			assert.areSame( '<p>foo</p><oembed>http://foo.bar/100</oembed><p>bar</p>', editor.getData(), 'embedsemantic was used' );
 			assert.isTrue( mock.calledOnce, 'getWidgetDefinition was called once' );
 			assert.areSame( 'http://foo.bar/100', mock.args[ 0 ][ 1 ], 'getWidgetDefinition was called with the URL being embedded' );
-		}, 200 );
+		}, 400 );
 	}
 } );
