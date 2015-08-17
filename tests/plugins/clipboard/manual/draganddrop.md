@@ -39,4 +39,4 @@ Drop scenarios:
 
 **Note:** internal D&amp;D is the most complex operation because editor have to handle two ranges at the same time.
 
-**Note:** that block widget D&amp;D works only internally in one editor.
+**Note:** that widget (both block and inline) D&amp;D works only internally in one editor.
