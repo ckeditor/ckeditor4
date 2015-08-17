@@ -2372,10 +2372,17 @@
 		editor.on( 'drop', function( evt ) {
 			var dataTransfer = evt.data.dataTransfer,
 				id = dataTransfer.getData( 'cke/widget-id' ),
+				transferType = dataTransfer.getTransferType( editor ),
 				dragRange = editor.createRange(),
 				sourceWidget;
 
-			if ( id === '' || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+			// Disable cross-editor drag & drop for widgets - #13599.
+			if ( id !== '' && transferType === CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
+				evt.cancel();
+				return;
+			}
+
+			if ( id === '' || transferType != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 				return;
 			}
 
