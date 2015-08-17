@@ -1,5 +1,5 @@
 /* bender-tags: clipboard,pastefromword,11215,8780,9685,12740,13616 */
-/* bender-ckeditor-plugins: clipboard,pastefromword,format,ajax,basicstyles,font */
+/* bender-ckeditor-plugins: clipboard,pastefromword,format,ajax,basicstyles,font,colorbutton */
 /* bender-include: ../../plugins/clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */
 
