@@ -10,7 +10,7 @@
 
 	CKEDITOR.plugins.add( 'autoembed', {
 		requires: 'autolink,undo',
-		lang: 'cs,en,it,nb,pl,zh', // %REMOVE_LINE_CORE%
+		lang: 'cs,de,en,it,ku,nb,pl,pt-br,tr,zh', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var currentId = 1,
 				embedCandidatePasted;

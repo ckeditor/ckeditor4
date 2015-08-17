@@ -7,7 +7,7 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'embedbase', {
-		lang: 'cs,da,de,en,eo,fr,gl,it,ko,nb,nl,pl,pt-br,ru,sv,tr,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'cs,da,de,en,eo,fr,gl,it,ko,ku,nb,nl,pl,pt-br,ru,sv,tr,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,notificationaggregator',
 
 		onLoad: function() {
