@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Fixed Issues:
 
 * [#13142](http://dev.ckeditor.com/ticket/13142): [Edge] Fixed: CTRL+A, backspace results in an empty div.
+* [#13599](http://dev.ckeditor.com/ticket/13599): Fixed: Cross-editor D&amp;D of inline widget ends up in error/artifacts.
 
 ## CKEditor 4.5.3
 
