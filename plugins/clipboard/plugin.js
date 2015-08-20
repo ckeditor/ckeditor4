@@ -1287,7 +1287,9 @@
 			// Create a dataTransfer object and save it globally.
 			editable.attachListener( editor, 'dragstart', function( evt ) {
 				clipboard.initDragDataTransfer( evt, editor );
+			}, null, null, 2 );
 
+			editable.attachListener( editor, 'dragstart', function() {
 				// Save drag range globally for cross editor D&D.
 				var dragRange = clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
 
@@ -1296,7 +1298,7 @@
 					clipboard.dragStartContainerChildCount = dragRange ? getContainerChildCount( dragRange.startContainer ) : null;
 					clipboard.dragEndContainerChildCount = dragRange ? getContainerChildCount( dragRange.endContainer ) : null;
 				}
-			}, null, null, 2 );
+			}, null, null, 100 );
 
 			// -------------- DRAGEND --------------
 			// Clean up on dragend.

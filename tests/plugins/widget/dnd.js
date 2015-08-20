@@ -303,6 +303,40 @@
 			} );
 		},
 
+		'test drop - cross-editor drop': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p class="x">foo</p><p><b>x<span data-widget="testwidget" id="w1">foo</span>x</b></p>', function() {
+				var evt = { data: bender.tools.mockDropEvent() },
+					range = editor.createRange(),
+					dropCalled = false,
+					dropNotCancelled = false;
+
+				CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+				evt.data.dataTransfer.setData( 'cke/widget-id', getWidgetById( editor, 'w1' ).id );
+
+				// Not really a cross-editor drop. We're just making it appear so.
+				evt.data.dataTransfer.sourceEditor = {};
+
+				range.setStart( editor.document.findOne( '.x' ).getFirst(), 1 );
+				range.collapse( true );
+				evt.data.testRange = range;
+
+				editor.once( 'drop', function() {
+					dropCalled = true;
+				}, null, null, 1 );
+
+				editor.once( 'drop', function() {
+					dropNotCancelled = true;
+				}, null, null, 999 );
+
+				drop( editor, evt.data, range );
+
+				assert.areSame( true, dropCalled, 'the drop event should have been called' );
+				assert.areSame( false, dropNotCancelled, 'the drop event should have been cancelled' );
+			} );
+		},
+
 		'test drop - wrong widget id': function() {
 			var editor = this.editor;
 
