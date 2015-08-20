@@ -3,7 +3,9 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.4
 
+Fixed Issues:
 
+* [#13142](http://dev.ckeditor.com/ticket/13142): [Edge] Fixed: CTRL+A, backspace results in an empty div.
 
 ## CKEditor 4.5.3
 
