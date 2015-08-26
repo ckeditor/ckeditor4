@@ -13,6 +13,7 @@
  *		} );
  *
  * @class
+ * @extends CKEDITOR.commandDefinition
  * @mixins CKEDITOR.event
  * @constructor Creates a command class instance.
  * @param {CKEDITOR.editor} editor The editor instance this command will be
@@ -34,6 +35,9 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	 * Executes the command.
 	 *
 	 *		command.exec(); // The command gets executed.
+	 *
+	 * **Note:** You should use the {@link CKEDITOR.editor#execCommand} method instead of calling
+	 * `command.exec()` directly.
 	 *
 	 * @param {Object} [data] Any data to pass to the command. Depends on the
 	 * command implementation and requirements.
