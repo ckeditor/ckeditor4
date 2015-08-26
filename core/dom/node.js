@@ -83,11 +83,58 @@ CKEDITOR.NODE_COMMENT = 8;
  */
 CKEDITOR.NODE_DOCUMENT_FRAGMENT = 11;
 
+/**
+ * Indicates that positions of both nodes are identical (this is the same node). See {@link CKEDITOR.dom.node#getPosition}.
+ *
+ * @readonly
+ * @property {Number} [=0]
+ * @member CKEDITOR
+ */
 CKEDITOR.POSITION_IDENTICAL = 0;
+
+/**
+ * Indicates that nodes are in different (detached) trees. See {@link CKEDITOR.dom.node#getPosition}.
+ *
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
+ */
 CKEDITOR.POSITION_DISCONNECTED = 1;
+
+/**
+ * Indicates that the context node follows the other node. See {@link CKEDITOR.dom.node#getPosition}.
+ *
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
+ */
 CKEDITOR.POSITION_FOLLOWING = 2;
+
+/**
+ * Indicates that the context node precedes the other node. See {@link CKEDITOR.dom.node#getPosition}.
+ *
+ * @readonly
+ * @property {Number} [=4]
+ * @member CKEDITOR
+ */
 CKEDITOR.POSITION_PRECEDING = 4;
+
+/**
+ * Indicates that the context node is a descendant of the other node. See {@link CKEDITOR.dom.node#getPosition}.
+ *
+ * @readonly
+ * @property {Number} [=8]
+ * @member CKEDITOR
+ */
 CKEDITOR.POSITION_IS_CONTAINED = 8;
+
+/**
+ * Indicates that the context node contains the other node. See {@link CKEDITOR.dom.node#getPosition}.
+ *
+ * @readonly
+ * @property {Number} [=16]
+ * @member CKEDITOR
+ */
 CKEDITOR.POSITION_CONTAINS = 16;
 
 CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
@@ -551,10 +598,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 	/**
 	 * Determines the position relation between this node and the given {@link CKEDITOR.dom.node} in the document.
-	 * This node can be preceding ({@link CKEDITOR.POSITION_PRECEDING}) or following ({@link CKEDITOR.POSITION_FOLLOWING})
-	 * the given node. This node can also contain ({@link CKEDITOR.POSITION_CONTAINS}) or be contained by
-	 * ({@link CKEDITOR.POSITION_IS_CONTAINED}) the given node. The function returns a bitmask of constants
-	 * listed above or {@link CKEDITOR.POSITION_IDENTICAL} if the given node is the same as this node.
+	 * This node can be preceding ({@link CKEDITOR#POSITION_PRECEDING}) or following ({@link CKEDITOR#POSITION_FOLLOWING})
+	 * the given node. This node can also contain ({@link CKEDITOR#POSITION_CONTAINS}) or be contained by
+	 * ({@link CKEDITOR#POSITION_IS_CONTAINED}) the given node. The function returns a bitmask of constants
+	 * listed above or {@link CKEDITOR#POSITION_IDENTICAL} if the given node is the same as this node.
 	 *
 	 * @param {CKEDITOR.dom.node} otherNode A node to check relation with.
 	 * @returns {Number} Position relation between this node and given node.
