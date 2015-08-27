@@ -345,8 +345,17 @@
 	 */
 
 	/**
-	 * The total size of upload data in bytes. This value might differ from {@link #total} because it indicates total
-	 * size of the request payload and not only the file size itself. It has null value until upload size is known.
+	 * The total size of upload data in bytes.
+	 * If `xhr.upload` object is present this value will indicate total size of the request payload, not only the file
+	 * size itself. If `xhr.upload` object is not available and real upload size cannot be obtained - this value will
+	 * be equal to {@link #total}. It has null value until upload size is known.
+	 *
+	 * 		loader.on( 'update', function() {
+	 * 			// Wait till uploadTotal is present.
+	 * 			if ( loader.uploadTotal ) {
+	 * 				console.log( 'uploadTotal: ' + loader.uploadTotal );
+	 * 			}
+	 * 		});
 	 *
 	 * @readonly
 	 * @property {Number} uploadTotal
@@ -527,30 +536,14 @@
 				xhr.abort();
 			};
 
-			xhr.onabort = function() {
-				// Prevent changing status twice, when XHR.upload.onabort is called before.
-				if ( loader.status == 'abort' ) {
-					return;
-				}
+			xhr.onerror = onError;
+			xhr.onabort = onAbort;
 
-				loader.changeStatus( 'abort' );
-			};
-
-			xhr.onerror = function() {
-				// Prevent changing status twice, when XHR.upload.onerror is called before.
-				if ( loader.status == 'error' ) {
-					return;
-				}
-
-				loader.message = loader.lang.filetools.networkError;
-				loader.changeStatus( 'error' );
-			};
-
-
+			// #13533 - When xhr.upload is present attach onprogress, onerror and onabort functions to get actual upload
+			// information.
 			if ( xhr.upload ) {
 				xhr.upload.onprogress = function( evt ) {
 					if ( evt.lengthComputable ) {
-
 						// Set uploadTotal with correct data.
 						if ( !loader.uploadTotal ) {
 							loader.uploadTotal = evt.total;
@@ -560,32 +553,25 @@
 					}
 				};
 
-				xhr.upload.onerror = function() {
-					// Prevent changing status twice, when XHR.onerror is called before.
-					if ( loader.status == 'error' ) {
-						return;
-					}
-
-					loader.message = loader.lang.filetools.networkError;
-					loader.changeStatus( 'error' );
-				};
-
-				xhr.upload.onabort = function() {
-					// Prevent changing status twice, when XHR.onabort is called before.
-					if ( loader.status == 'abort' ) {
-						return;
-					}
-
-					loader.changeStatus( 'abort' );
-				};
+				xhr.upload.onerror = onError;
+				xhr.upload.onabort = onAbort;
 
 			} else {
-				// If xhr.upload is not supported - fire update event anyway and set uploadTotal to file size.
+				// #13533 - If xhr.upload is not supported - fire update event anyway and set uploadTotal to file size.
 				loader.uploadTotal = loader.total;
 				loader.update();
 			}
 
 			xhr.onload = function() {
+				// #13433 - Call update at the end of the upload. When xhr.upload object is not supported there will be
+				// no update events fired during the whole process.
+				loader.update();
+
+				// #13433 - Check if loader was not aborted during last update.
+				if ( loader.status == 'abort' ) {
+					return;
+				}
+
 				loader.uploaded = loader.uploadTotal;
 
 				if ( xhr.status < 200 || xhr.status > 299 ) {
@@ -616,6 +602,24 @@
 					}
 				}
 			};
+
+			function onError() {
+				// Prevent changing status twice, when HHR.error and XHR.upload.onerror could be called together.
+				if ( loader.status == 'error' ) {
+					return;
+				}
+
+				loader.message = loader.lang.filetools.networkError;
+				loader.changeStatus( 'error' );
+			}
+
+			function onAbort() {
+				// Prevent changing status twice, when HHR.onabort and XHR.upload.onabort could be called together.
+				if ( loader.status == 'abort' ) {
+					return;
+				}
+				loader.changeStatus( 'abort' );
+			}
 		},
 
 		/**

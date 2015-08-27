@@ -446,7 +446,7 @@
 			task = null;
 
 		loader.on( 'update', function() {
-
+			// Value of uploadTotal is known after upload start. Task will be created when uploadTotal is present.
 			if ( !task && loader.uploadTotal ) {
 				createAggregator();
 				task = aggregator.createTask( { weight: loader.uploadTotal } );
