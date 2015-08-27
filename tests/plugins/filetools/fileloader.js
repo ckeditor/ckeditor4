@@ -336,6 +336,7 @@
 					'uploading[uploading,name.png,0/82/82/null,-,data:image/png;base64,-]',
 					'update[uploading,name.png,0/82/82/null,-,data:image/png;base64,-]',
 					'update[uploading,name.png,41/82/82/100,-,data:image/png;base64,-]',
+					'update[uploading,name.png,41/82/82/100,-,data:image/png;base64,-]',
 					'uploaded[uploaded,name2.png,100/82/82/100,-,data:image/png;base64,http://url/name2.png]',
 					'update[uploaded,name2.png,100/82/82/100,-,data:image/png;base64,http://url/name2.png]' ] );
 			}, 3 );
@@ -359,6 +360,7 @@
 				observer.assert( [
 					'uploading[uploading,na me.png,0/82/82/null,-,data:image/png;base64,-]',
 					'update[uploading,na me.png,0/82/82/null,-,data:image/png;base64,-]',
+					'update[uploading,na me.png,41/82/82/100,-,data:image/png;base64,-]',
 					'update[uploading,na me.png,41/82/82/100,-,data:image/png;base64,-]',
 					'uploaded[uploaded,na me2.png,100/82/82/100,-,data:image/png;base64,http://url/na me2.png]',
 					'update[uploaded,na me2.png,100/82/82/100,-,data:image/png;base64,http://url/na me2.png]' ] );
@@ -385,6 +387,7 @@
 					'update[loading,name.png,0/41/82/null,-,-,-]',
 					'uploading[uploading,name.png,0/82/82/null,-,result,-]',
 					'update[uploading,name.png,0/82/82/null,-,result,-]',
+					'update[uploading,name.png,41/82/82/100,-,result,-]',
 					'update[uploading,name.png,41/82/82/100,-,result,-]',
 					'uploaded[uploaded,name2.png,100/82/82/100,-,result,http://url/name2.png]',
 					'update[uploaded,name2.png,100/82/82/100,-,result,http://url/name2.png]' ] );
@@ -549,6 +552,7 @@
 					'uploading[uploading,name.png,0/82/82/null,-,result,-]',
 					'update[uploading,name.png,0/82/82/null,-,result,-]',
 					'update[uploading,name.png,41/82/82/100,-,result,-]',
+					'update[uploading,name.png,41/82/82/100,-,result,-]',
 					'uploaded[uploaded,name2.png,100/82/82/100,-,result,http://url/name2.png]',
 					'update[uploaded,name2.png,100/82/82/100,-,result,http://url/name2.png]' ] );
 			} );
@@ -692,6 +696,7 @@
 					'uploading[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
+					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'error[error,name.png,100/0/82/100,responseError,-,-]',
 					'update[error,name.png,100/0/82/100,responseError,-,-]' ] );
 			} );
@@ -721,6 +726,7 @@
 				observer.assert( [
 					'uploading[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
+					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'error[error,name.png,100/0/82/100,errorFromServer,-,-]',
 					'update[error,name.png,100/0/82/100,errorFromServer,-,-]' ] );
@@ -752,6 +758,7 @@
 					'uploading[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
+					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'uploaded[uploaded,name2.png,100/0/82/100,messageFromServer,-,http://url/name2.png]',
 					'update[uploaded,name2.png,100/0/82/100,messageFromServer,-,http://url/name2.png]' ] );
 			} );
@@ -773,6 +780,7 @@
 				observer.assert( [
 					'uploading[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
+					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'error[error,name.png,100/0/82/100,httpError404,-,-]',
 					'update[error,name.png,100/0/82/100,httpError404,-,-]' ] );
@@ -796,6 +804,7 @@
 					'uploading[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
+					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'error[error,name.png,100/0/82/100,httpError 404,-,-]',
 					'update[error,name.png,100/0/82/100,httpError 404,-,-]' ] );
 			} );
@@ -815,6 +824,7 @@
 				observer.assert( [
 					'uploading[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
+					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'uploaded[uploaded,name2.png,100/0/82/100,-,-,http://url/name2.png]',
 					'update[uploaded,name2.png,100/0/82/100,-,-,http://url/name2.png]' ] );
@@ -841,6 +851,7 @@
 						'update[created,name.png,0/0/82/null,-,-,-]',
 						'uploading[uploading,name.png,0/0/82/null,-,-,-]',
 						'update[uploading,name.png,0/0/82/null,-,-,-]',
+						'update[uploading,name.png,41/0/82/100,-,-,-]',
 						'update[uploading,name.png,41/0/82/100,-,-,-]',
 						'update[uploading,name.png,41/0/82/100,-,-,-]',
 						'uploaded[uploaded,name2.png,100/0/82/100,-,-,http://url/name2.png]',
@@ -893,6 +904,7 @@
 					'uploading[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
+					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'uploaded[uploaded,customName.png,100/0/82/100,customMessage,-,customUrl]',
 					'update[uploaded,customName.png,100/0/82/100,customMessage,-,customUrl]' ] );
 			} );
@@ -936,6 +948,7 @@
 				observer.assert( [
 					'uploading[uploading,name.png,0/0/82/null,-,-,-]',
 					'update[uploading,name.png,0/0/82/null,-,-,-]',
+					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'update[uploading,name.png,41/0/82/100,-,-,-]',
 					'error[error,name.png,100/0/82/100,-,-,-]',
 					'update[error,name.png,100/0/82/100,-,-,-]' ] );
