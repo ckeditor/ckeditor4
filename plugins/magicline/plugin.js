@@ -494,8 +494,6 @@
 					return limit;
 				else
 					return null;
-
-				return trigger;
 			} else {
 				return null;
 			}
