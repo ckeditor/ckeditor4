@@ -9,6 +9,10 @@ Fixed Issues:
 * [#13599](http://dev.ckeditor.com/ticket/13599): Fixed: Cross-editor D&amp;D of inline widget ends up in error/artifacts.
 * [#13640](http://dev.ckeditor.com/ticket/13640): [IE] Fixed: Dropping a widget outside body is not handled correctly.
 
+Other Changes:
+
+* [#11725](http://dev.ckeditor.com/ticket/11725): Marked [`CKEDITOR.env.mobile`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-mobile) as deprecated. The reason is that it is not anymore clear what "mobile" means.
+
 ## CKEditor 4.5.3
 
 New Features:

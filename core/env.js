@@ -104,6 +104,7 @@ if ( !CKEDITOR.env ) {
 			 *		if ( CKEDITOR.env.mobile )
 			 *			alert( 'I\'m running with CKEditor today!' );
 			 *
+			 * @deprecated
 			 * @property {Boolean}
 			 */
 			mobile: ( agent.indexOf( 'mobile' ) > -1 ),
