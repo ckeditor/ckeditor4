@@ -357,7 +357,7 @@ var testsForMultipleEditor = {
 		},
 
 		// #13453
-		'test drop inside drag range aborts': function( editor ) {
+		'test drop inside drag range has no effect': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
 
@@ -369,12 +369,14 @@ var testsForMultipleEditor = {
 			drop( editor, evt, {
 				dropContainer: editor.editable().findOne( 'b' ).getChild( 0 ),
 				dropOffset: 0,
-				expectedPasteEventCount: 0
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedPasteEventCount: 1,
+				expectedText: 'Lorem ipsum dolor sit',
+				expectedHtml: 'Lorem <b>ipsum</b> dolor sit',
+				expectedDataType: 'html',
+				expectedDataValue: 'Lorem <b>ipsum</b> dolor sit'
 			}, null, function() {
-				assert.isInnerHtmlMatching( [
-						'<p class="p">Lorem ^<b>ipsum</b> dolor sit amet.@</p>',
-						'<p class="p">Lorem <b>^ipsum</b> dolor sit amet.@</p>'
-					], getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+				assert.isInnerHtmlMatching( '<p class="p">Lorem <b>ipsum</b> dolor sit^ amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 			} );
 		},
 
