@@ -839,65 +839,20 @@
 		}
 	} );
 
-	CKEDITOR.on( 'instanceReady', function( evt ) {
-		var editor = evt.editor,
-			fillingCharBefore,
-			selectionBookmark;
+	// On WebKit only, we need a special "filling" char on some situations
+	// (#1272). Here we set the events that should invalidate that char.
+	if ( CKEDITOR.env.webkit ) {
+		CKEDITOR.on( 'instanceReady', function( evt ) {
+			var editor = evt.editor;
 
-		// On WebKit only, we need a special "filling" char on some situations
-		// (#1272). Here we set the events that should invalidate that char.
-		if ( CKEDITOR.env.webkit ) {
 			editor.on( 'selectionChange', function() {
 				checkFillingChar( editor.editable() );
 			}, null, null, -1 );
 			editor.on( 'beforeSetMode', function() {
 				removeFillingChar( editor.editable() );
 			}, null, null, -1 );
-
-			editor.on( 'beforeUndoImage', beforeData );
-			editor.on( 'afterUndoImage', afterData );
-			editor.on( 'beforeGetData', beforeData, null, null, 0 );
-			editor.on( 'getData', afterData );
-		}
-
-		function beforeData() {
-			var editable = editor.editable();
-			if ( !editable )
-				return;
-
-			var fillingChar = getFillingChar( editable );
-
-			if ( fillingChar ) {
-				// If the selection's focus or anchor is located in the filling char's text node,
-				// we need to restore the selection in afterData, because it will be lost
-				// when setting text. Selection's direction must be preserved.
-				// (#7437, #12489, #12491 comment:3)
-				var sel = editor.document.$.getSelection();
-				if ( sel.type != 'None' && ( sel.anchorNode == fillingChar.$ || sel.focusNode == fillingChar.$ ) )
-					selectionBookmark = createNativeSelectionBookmark( sel );
-
-				fillingCharBefore = fillingChar.getText();
-				fillingChar.setText( replaceFillingChar( fillingCharBefore ) );
-			}
-		}
-
-		function afterData() {
-			var editable = editor.editable();
-			if ( !editable )
-				return;
-
-			var fillingChar = getFillingChar( editable );
-
-			if ( fillingChar ) {
-				fillingChar.setText( fillingCharBefore );
-
-				if ( selectionBookmark ) {
-					moveNativeSelectionToBookmark( editor.document.$, selectionBookmark );
-					selectionBookmark = null;
-				}
-			}
-		}
-	} );
+		} );
+	}
 
 	/**
 	 * Check the selection change in editor and potentially fires
