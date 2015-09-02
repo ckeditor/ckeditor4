@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#9856](http://dev.ckeditor.com/ticket/9856): Fixed: Cannot use the native context menu together with the [Div Editing Area](http://ckeditor.com/addon/divarea) plugin.
 * [#13142](http://dev.ckeditor.com/ticket/13142): [Edge] Fixed: CTRL+A, backspace results in an empty div.
 * [#13599](http://dev.ckeditor.com/ticket/13599): Fixed: Cross-editor D&amp;D of inline widget ends up in error/artifacts.
 * [#13640](http://dev.ckeditor.com/ticket/13640): [IE] Fixed: Dropping a widget outside body is not handled correctly.
