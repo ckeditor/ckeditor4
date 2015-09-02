@@ -1,6 +1,12 @@
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, divarea
+@bender-ui: collapsed
+@bender-tags: 4.5.4, tc
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, divarea, clipboard
 
-Test whether right-click works with divarea. Check:
+Test whether right-click opens correct context menu in the two editors.
 
-* Right clicking within the editor brings up the browser's default menu
-* Right clicking on the editor chrome does not bring up any menu
+Note:
+
+* Right clicking within the editor should bring:
+  * native context menu in the first editor,
+  * custom context menu in the second editor.
+* Right clicking on the editor chrome should not bring any context menu.

@@ -1034,6 +1034,54 @@ bender.test( appendDomObjectTests(
 
 			el.forEach( recorder.fn, CKEDITOR.NODE_ELEMENT, true );
 			assert.areSame( 'p,i,div,h1,h2,b', recorder.tokens.join( ',' ) );
+		},
+
+		'test disableContextMenu - element with cke_enable_context_menu class': function() {
+			var target = doc.getById( 'disableContextMenu_1' ),
+				preventDefaultCalled = 0;
+
+			target.disableContextMenu();
+
+			target.fire( 'contextmenu', new CKEDITOR.dom.event( {
+				target: target.$,
+				preventDefault: function() {
+					++preventDefaultCalled;
+				}
+			} ) );
+
+			assert.areSame( 0, preventDefaultCalled, 'preventDefault was not called' );
+		},
+
+		'test disableContextMenu - ancestor with cke_enable_context_menu class': function() {
+			var target = doc.getById( 'disableContextMenu_2' ),
+				preventDefaultCalled = 0;
+
+			target.disableContextMenu();
+
+			target.fire( 'contextmenu', new CKEDITOR.dom.event( {
+				target: target.$,
+				preventDefault: function() {
+					++preventDefaultCalled;
+				}
+			} ) );
+
+			assert.areSame( 0, preventDefaultCalled, 'preventDefault was not called' );
+		},
+
+		'test disableContextMenu': function() {
+			var target = doc.getById( 'disableContextMenu_3' ),
+				preventDefaultCalled = 0;
+
+			target.disableContextMenu();
+
+			target.fire( 'contextmenu', new CKEDITOR.dom.event( {
+				target: target.$,
+				preventDefault: function() {
+					++preventDefaultCalled;
+				}
+			} ) );
+
+			assert.areSame( 1, preventDefaultCalled, 'preventDefault was called' );
 		}
 	}
 ) );
