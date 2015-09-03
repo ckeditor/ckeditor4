@@ -96,6 +96,7 @@
 			var loader = editor.uploadRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
+			loader.uploadTotal = 10;
 			loader.changeStatus( 'uploading' );
 
 			assertUploadingWidgets( editor, LOADED_IMG );
@@ -123,6 +124,7 @@
 			var loader = editor.uploadRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
+			loader.uploadTotal = 10;
 			loader.changeStatus( 'uploading' );
 
 			var area = editor._.notificationArea;
