@@ -14,6 +14,7 @@ Fixed Issues:
 * [#13599](http://dev.ckeditor.com/ticket/13599): Fixed: Cross-editor D&amp;D of inline widget ends up in error/artifacts.
 * [#13640](http://dev.ckeditor.com/ticket/13640): [IE] Fixed: Dropping a widget outside body is not handled correctly.
 * [#13533](http://dev.ckeditor.com/ticket/13533): Fixed: No progress during upload.
+* [#13680](http://dev.ckeditor.com/ticket/13680): Fixed: The parser should allow `<h1-6>` to be a child of the `<summary>` element.
 
 Other Changes:
 
