@@ -7,7 +7,7 @@
 		"benderjs": "^0.3.0",
 		"benderjs-jquery": "^0.3.0",
 		"benderjs-sinon": "^0.2.1",
-		"benderjs-yui": "^0.3.0",
+		"benderjs-yui": "^0.3.2",
 		"grunt": "^0",
 		"grunt-contrib-imagemin": "^0",
 		"grunt-jscs": "^2.0.0",
