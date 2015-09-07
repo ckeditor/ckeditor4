@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit,dom */
-/* global appendDomObjectTests, YUI */
+/* global appendDomObjectTests */
 
 var getInnerHtml = bender.tools.getInnerHtml,
 	getOuterHtml = function( element ) {
@@ -577,21 +577,15 @@ bender.test( appendDomObjectTests(
 
 
 		test_getDocumentPosition: function() {
-			// Assign the page location of the element.
-			YUI().use( 'dom-screen', 'node', function( Y ) {
-				resume( function() {
-					Y.one( '#DocPositionTarget' ).setXY( [ 350, 450 ] );
-					var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
-						x = Math.round( pos.x ),
-						y = Math.round( pos.y ),
-						accOffset = 1;
+			var pos = CKEDITOR.document.getById( 'DocPositionTarget' ).getDocumentPosition(),
+				x = Math.round( pos.x ),
+				y = Math.round( pos.y ),
+				delta = 1,
+				expectedX = 280,
+				expectedY = 95;
 
-					assert.isNumberInRange( x, 350 - accOffset, 350 + accOffset, 'Position coordinates:x(350) relative to document doesn\'t match ' + x + ' with offset ' + accOffset + '.' );
-					assert.isNumberInRange( y, 450 - accOffset, 450 + accOffset, 'Position coordinates:y(450) relative to document doesn\'t match ' + y + 'with offset ' + accOffset + '.' );
-				} );
-			} );
-
-			wait();
+			assert.isNumberInRange( x, expectedX - delta, expectedX + delta, 'Position relative to document doesn\'t match ' + x + ' with offset ' + delta + '.' );
+			assert.isNumberInRange( y, expectedY - delta, expectedY + delta, 'Position relative to document doesn\'t match ' + y + 'with offset ' + delta + '.' );
 		},
 
 		'test getDocumentPosition with document scrolled': function() {
