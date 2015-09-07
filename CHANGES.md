@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.4
 
+New Features:
+
+* [#13632](http://dev.ckeditor.com/ticket/13632): Introduce error logging mechanism.
+
 Fixed Issues:
 
 * [#9856](http://dev.ckeditor.com/ticket/9856): Fixed: Cannot use the native context menu together with the [Div Editing Area](http://ckeditor.com/addon/divarea) plugin. Thanks to [Mark Wade](https://github.com/mark-wade)!
