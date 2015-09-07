@@ -6,7 +6,8 @@
 
 	var error, warn, _log, _error, _warn,
 		consoleEnabled = !!window.console,
-		ignore = !consoleEnabled;
+		ignore = !consoleEnabled,
+		errorPrefix = '[CKEDITOR] ';
 
 	// Binds function to provided object and wraps it with new function.
 	// @param {Function} fn Function to be wrapped.
@@ -93,7 +94,6 @@
 
 			warnStub.restore();
 			CKEDITOR.removeListener( 'log', logEventSpy );
-
 		},
 
 		'log event and output from CKEDITOR.warn() when verbosity = VERBOSITY_WARN': function() {
@@ -118,11 +118,10 @@
 			// - first to show errorCode and data passed to CKEDITOR.warn function,
 			// - second call is to show link to the documentation providing more information about errorCode.
 			assert.isTrue( warnStub.calledTwice, 'Console.warn function should be called twice.' );
-			assert.isTrue( warnStub.firstCall.calledWith( errorCode, additionalData ), 'Console.warn should be called with errorCode and additionalData.' );
+			assert.isTrue( warnStub.firstCall.calledWith( errorPrefix + errorCode, additionalData ), 'Console.warn should be called with errorCode and additionalData.' );
 
 			warnStub.restore();
 			CKEDITOR.removeListener( 'log', logEventSpy );
-
 		},
 
 		'log event and output from CKEDITOR.warn() when verbosity = VERBOSITY_WARN | VERBOSITY_ERROR': function() {
@@ -147,11 +146,10 @@
 			// - first to show errorCode and data passed to CKEDITOR.warn function,
 			// - second call is to show link to the documentation providing more information about errorCode.
 			assert.isTrue( warnStub.calledTwice, 'Console.warn function should be called twice.' );
-			assert.isTrue( warnStub.firstCall.calledWith( errorCode, additionalData ), 'Console.warn should be called with errorCode and additionalData.' );
+			assert.isTrue( warnStub.firstCall.calledWith( errorPrefix + errorCode, additionalData ), 'Console.warn should be called with errorCode and additionalData.' );
 
 			warnStub.restore();
 			CKEDITOR.removeListener( 'log', logEventSpy );
-
 		},
 
 		'no log event and output after CKEDITOR.error() when verbosity = 0': function() {
@@ -161,7 +159,6 @@
 			CKEDITOR.on( 'log', logEventSpy );
 			CKEDITOR.verbosity = 0;
 			CKEDITOR.error( 'error' );
-
 
 			// Log event should not be fired.
 			assert.isFalse( logEventSpy.called, 'Log event should not be fired.' );
@@ -196,7 +193,7 @@
 			// - first to show errorCode and data passed to CKEDITOR.error function,
 			// - second call is to show link to the documentation providing more information about errorCode.
 			assert.isTrue( errorStub.calledTwice, 'Console.error function should be called twice.' );
-			assert.isTrue( errorStub.firstCall.calledWith( errorCode, additionalData ), 'Console.error should be called with errorCode and additionalData.' );
+			assert.isTrue( errorStub.firstCall.calledWith( errorPrefix + errorCode, additionalData ), 'Console.error should be called with errorCode and additionalData.' );
 
 			errorStub.restore();
 			CKEDITOR.removeListener( 'log', logEventSpy );
@@ -225,7 +222,7 @@
 			// - first to show errorCode and data passed to CKEDITOR.error function,
 			// - second call is to show link to the documentation providing more information about errorCode.
 			assert.isTrue( errorStub.calledTwice, 'Console.error function should be called twice.' );
-			assert.isTrue( errorStub.firstCall.calledWith( errorCode, additionalData ), 'Console.error should be called with errorCode and additionalData.' );
+			assert.isTrue( errorStub.firstCall.calledWith( errorPrefix + errorCode, additionalData ), 'Console.error should be called with errorCode and additionalData.' );
 
 			errorStub.restore();
 			CKEDITOR.removeListener( 'log', logEventSpy );

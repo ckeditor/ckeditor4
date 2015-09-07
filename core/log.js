@@ -112,14 +112,15 @@ CKEDITOR.on( 'log', function( evt ) {
 
 	var type = console[ evt.data.type ] ? evt.data.type : 'log',
 		errorCode = evt.data.errorCode,
-		additionalData = evt.data.additionalData;
+		additionalData = evt.data.additionalData,
+		prefix = '[CKEDITOR] ';
 
 	if ( additionalData ) {
-		console[ type ]( errorCode, additionalData );
+		console[ type ]( prefix + errorCode, additionalData );
 	} else {
-		console[ type ]( errorCode );
+		console[ type ]( prefix + errorCode );
 	}
 
 	// TODO: Add proper info and documentation url.
-	console[ type ]( 'For more information go to http://docs.ckeditor.com/' );
+	console[ type ]( prefix + 'For more information go to http://docs.ckeditor.com/' );
 }, null, null, 999 );
