@@ -1,6 +1,5 @@
 <head>
 	<script src="../_helpers/domobject.js"></script>
-	<script src="../_assets/yui-3.17.1-dom-screen-node-core.min.js"></script>
 	<script id="tabIndexScriptDef" type="text/javascript"></script>
 	<style type="text/css" media="screen">
 		#test-computed {
@@ -9,38 +8,25 @@
 			padding:10px;
 			z-index: 2;
 		}
-		.scroll
-		{
-			overflow: visible;
-		}
 		.block1
 		{
-			width: 100%;
-			height: 100px;
+			position: absolute;
+			left: 100px;
+			top: 50px;
 			background-color: blue;
-			text-align: center;
 		}
 		.block2
 		{
-			margin: auto;
-			width: 200px;
-			height: 200px;
-			background-color: green;
-			position : relative;
-		}
-		.block3
-		{
 			position: absolute;
-			float:right;
-			width: 300px;
-			height: 300px;
-			background-color: black;
+			left: 200px;
+			top: -30px;
+			background-color: green;
 		}
 		.block4
 		{
 			position: absolute;
-			left: 50px;
-			right: 50px;
+			left: -20px;
+			top: 75px;
 			width: 400px;
 			height: 400px;
 			background-color: pink;
@@ -86,7 +72,7 @@ B</div>
 	<input id="checkboxWithAttrs" type="checkbox" class="foo" name="foo" value="bar" checked>
 	<input id="checkboxWithoutAttrs" type="checkbox">
 
-	<div class="block1 scroll" id="block1"><div class="block2 scroll" id="block2"><div class="block3 scroll" id="block3"><div class="block4 scroll" id="block4"><div id="DocPositionTarget">target</div></div></div></div></div>
+	<div class="block1 scroll" id="block1"><div class="block2 scroll" id="block2"><div class="block3 scroll" id="block3"><div class="block4 scroll" id="block4"><div id="DocPositionTarget" style="left: 200px; top: 400px">target</div></div></div></div></div>
 	<span id="invisible1" class="invisible1">This is an invisible element</span>
 	<span id="invisible2" class="invisible2">This is another invisible element</span>
 	<div id="domObjectTest1"></div>
