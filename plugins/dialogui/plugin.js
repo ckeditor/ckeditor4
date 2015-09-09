@@ -1290,7 +1290,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			eventProcessors: {
 				onChange: function( dialog, func ) {
-					if ( !CKEDITOR.env.ie )
+					if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version > 8 ) )
 						return commonEventProcessors.onChange.apply( this, arguments );
 					else {
 						dialog.on( 'load', function() {
