@@ -19,7 +19,23 @@ var config = {
 	privateKey: 'tests/_benderjs/ssl/key.pem',
 	certificate: 'tests/_benderjs/ssl/cert.pem',
 
+	coverage: {
+		paths: [
+			'adapters/**/*',
+			'core/**/*',
+			'dev/**/*',
+			'lang/**/*',
+			'plugins/**/*',
+			'samples/**/*',
+			'*.js'
+		],
+		options: {
+			checkTrackerVar: true
+		}
+	},
+
 	plugins: [
+		'benderjs-coverage',
 		'benderjs-yui',
 		'benderjs-sinon',
 		'benderjs-jquery',
