@@ -352,6 +352,11 @@ bender.test( {
 	},
 
 	'test initial selection after set data in autoparagraphing inline editor': function() {
+		// #13154
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+			assert.ignore();
+		}
+
 		doc.getById( 'input1' ).focus();
 
 		var editor = this.editors.editorInline;
