@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard */
+/* bender-tags: editor,unit,clipboard,13690 */
 /* bender-ckeditor-plugins: toolbar,clipboard */
 /* bender-include: _helpers/pasting.js */
 
@@ -296,6 +296,25 @@ bender.test( {
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		assert.areSame( 'foo<b>bom</b>xbar', dataTransfer.getData( 'text/html' ) );
+	},
+
+	'test getData body filter uppercase tags': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer();
+		nativeData.setData( 'text/html',
+			'<HTML>' +
+			'<BODY foo="bar" bar=foo bom=\'bim\'>' +
+			'<!--StartFragment-->foo<B>bom</B>x' +
+			'bar<!--EndFragment-->' +
+			'</BODY>' +
+			'</HTML>' );
+
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame( 'foo<B>bom</B>xbar', dataTransfer.getData( 'text/html' ) );
 	},
 
 	'test getData body filter for tables': function() {
