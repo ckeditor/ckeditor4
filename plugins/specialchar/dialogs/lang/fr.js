@@ -11,6 +11,8 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
 	rdquo: 'Guillemet double fermant',
 	ndash: 'Tiret haut',
 	mdash: 'Tiret cadratin',
+	'8209': 'Tiret insécable',
+	nbsp: 'Espace insécable',
 	iexcl: 'Point d\'exclamation inversé',
 	cent: 'Symbole Cent',
 	pound: 'Symbole Livre Sterling',
