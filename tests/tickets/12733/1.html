@@ -3,16 +3,15 @@
 </div>
 
 <script>
-	CKEDITOR.replace('editor1');
-	
+	CKEDITOR.replace( 'editor1' );
+
 	CKEDITOR.on( 'dialogDefinition', function( ev ) {
 		var dialogName = ev.data.name,
-			dialogDefinition = ev.data.definition,
-			editor = ev.editor;
-			
-		if ( dialogName == 'image' ) {			
+			dialogDefinition = ev.data.definition;
+
+		if ( dialogName == 'image' ) {
 			// Get a reference to the "Image Info" tab.
-			var infoTab = dialogDefinition.getContents( 'info' );					
+			var infoTab = dialogDefinition.getContents( 'info' );
 			infoTab.add( {
 				type: 'radio',
 				id: 'customId',
@@ -21,14 +20,14 @@
 				className: 'radioClass',
 				required: false,
 				items: [
-					['Test0', 'Test0', 'Test0'],
-					['Test1', 'Test1', 'Test1'],
-					['Test2', 'Test2', 'Test2']
-				],				
-				onChange: function( event ){
-					console.log('changed');
+					[ 'Test0', 'Test0', 'Test0' ],
+					[ 'Test1', 'Test1', 'Test1' ],
+					[ 'Test2', 'Test2', 'Test2' ]
+				],
+				onChange: function() {
+					console.log( 'changed' );
 				}
-			});
+			} );
 		}
-	});
+	} );
 </script>
