@@ -11,6 +11,8 @@ CKEDITOR.plugins.setLang( 'specialchar', 'en', {
 	rdquo: 'Right double quotation mark',
 	ndash: 'En dash',
 	mdash: 'Em dash',
+	'8209': 'No-break hyphen',
+	nbsp: 'No-break space',
 	iexcl: 'Inverted exclamation mark',
 	cent: 'Cent sign',
 	pound: 'Pound sign',
