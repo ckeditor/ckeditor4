@@ -218,7 +218,7 @@
 
 					// Check if widget is still valid.
 					if ( !that.editor.widgets.instances[ that.id ] ) {
-						CKEDITOR.warn( 'embedbase-widget-not-valid' );
+						CKEDITOR.warn( 'embedbase-widget-invalid' );
 
 						if ( request.task ) {
 							request.task.done();
