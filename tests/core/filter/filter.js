@@ -619,10 +619,17 @@
 			filter( '<p>X<a name="x">A</a>X</p>',					'<p>X<a name="x">A</a>X</p>' );
 			filter( '<p>X<a name="x"><img src="x" /></a>X</p>',		'<p>X<a name="x"></a>X</p>' );
 			filter( '<p>X<a href="x" name="x">A</a>X</p>',			'<p>X<a name="x">A</a>X</p>' );
-			// Empty <a> element isn't correct unless it is an anchor (has non-empty name attrbiute).
+			// Empty <a> element isn't correct unless it is an anchor (has non-empty name or id attrbiute).
 			// This behaviour conforms to the htmlDP's htmlFilter.
 			filter( '<p>X<a href="x" name=""></a>X</p>',			'<p>XX</p>' );
 			filter( '<p>X<a name="x" href="x"><img /></a>X</p>',	'<p>X<a name="x"></a>X</p>' );
+
+			filter = createFilter( 'p; a[!id]' );
+			filter( '<p>X<a name="x"></a>X</p>',					'<p>XX</p>' );
+			filter( '<p>X<a id=""></a>X</p>',						'<p>XX</p>' );
+			filter( '<p>X<a id="x"></a>X</p>',						'<p>X<a id="x"></a>X</p>' );
+			filter( '<p>X<a id="x" name="x"></a>X</p>',				'<p>X<a id="x"></a>X</p>' );
+			filter( '<p>X<a id="x" name="x">foo</a>X</p>',			'<p>X<a id="x">foo</a>X</p>' );
 
 			filter = createFilter( 'p; a[!href]' );
 
