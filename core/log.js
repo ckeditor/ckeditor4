@@ -121,6 +121,5 @@ CKEDITOR.on( 'log', function( evt ) {
 		console[ type ]( prefix + errorCode );
 	}
 
-	// TODO: Add proper info and documentation url.
-	console[ type ]( prefix + 'For more information go to http://docs.ckeditor.com/' );
+	console[ type ]( prefix + 'For more information go to http://docs.ckeditor.com/#!/guide/dev_errors-section-' + errorCode );
 }, null, null, 999 );
