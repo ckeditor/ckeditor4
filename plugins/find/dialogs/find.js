@@ -370,14 +370,12 @@
 							return KMP_MATCHED;
 						}
 						return KMP_ADVANCED;
-					} else if ( !this._.state )
+					} else if ( !this._.state ) {
 						return KMP_NOMATCH;
-					else {
+					} else {
 						this._.state = this._.overlap[this._.state];
 					}
 				}
-
-				return null;
 			},
 
 			reset: function() {

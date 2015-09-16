@@ -78,6 +78,15 @@ bender.test( {
 		assert.isNull( selectedHtml, 'There should be no error but null should be returns if selection contains no ranges' );
 	},
 
+	// #13568.
+	'test getSelectedHtml with possible bogus br': function() {
+		var editor = this.editors.editor,
+			filler = CKEDITOR.env.needsBrFiller ? '<br />' : '';
+		bender.tools.selection.setWithHtml( editor, '[<p>Foo bar' + filler + '</p>]' );
+
+		assert.isInnerHtmlMatching( [ '<p>Foo bar@</p>', 'Foo bar' ], editor.getSelectedHtml( true ) );
+	},
+
 	'test extractSelectedHtml': function() {
 		var editor = this.editors.editor;
 		bender.tools.selection.setWithHtml( editor, '<p>fo{ob}ar</p>' );

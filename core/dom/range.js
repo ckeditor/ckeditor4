@@ -310,13 +310,6 @@ CKEDITOR.dom.range = function( root ) {
 			// The second step is to handle full selection of the content between the left branch and the right branch.
 
 			while ( nextSibling ) {
-				// TODO this case and the below are exactly the same because endNode is part of endParents.
-				// The start and end nodes are on the same level. Handle this case fully here, because it's simple.
-				if ( nextSibling.equals( endNode ) ) {
-					lastConnectedLevel = level;
-					break;
-				}
-
 				// We can't clone entire endParent just like we can't clone entire startParent -
 				// - they are not fully selected with the range. Partial endParent selection
 				// will be cloned in the next loop.
@@ -374,10 +367,18 @@ CKEDITOR.dom.range = function( root ) {
 				}
 
 				levelParent = nextLevelParent;
+			} else if ( doClone ) {
+				// If this is "shared" node and we are in cloning mode we have to update levelParent to
+				// reflect that we visited the node (even though we didn't process it).
+				// If we don't do that, in next iterations nodes will be appended to wrong parent.
+				//
+				// We can just take first child because the algorithm guarantees
+				// that this will be the only child on this level. (#13568)
+				levelParent = levelParent.getChild( 0 );
 			}
 		}
 
-		// Detete or Extract.
+		// Delete or Extract.
 		// We need to update the range and if mergeThen was passed do it.
 		if ( !isClone ) {
 			mergeAndUpdate();

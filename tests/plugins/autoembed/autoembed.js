@@ -54,7 +54,7 @@ bender.test( {
 
 			wait( function() {
 				assert.areSame( '<p>This is an</p><div data-oembed-url="https://foo.bar/g/200/300"><img src="https://foo.bar/g/200/300" /></div><p>embed</p>', bot.getData() );
-			}, 200 );
+			}, 400 );
 		} );
 	},
 
@@ -115,7 +115,7 @@ bender.test( {
 					bot.getData( 1 ),
 					'the first part of the link was auto embedded'
 				);
-			}, 200 );
+			}, 700 );
 		} );
 	},
 
@@ -233,7 +233,7 @@ bender.test( {
 				assert.areSame( finalData, editor.getData(), 'after 2nd redo' );
 
 				assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'redo' ).state, 'redo is disabled' );
-			}, 200 );
+			}, 1507 );
 		} );
 	},
 
@@ -302,7 +302,7 @@ bender.test( {
 
 				wait( function() {
 					assert.areEqual( 0, obj2Array( editor.widgets.instances ).length, 'Link should not be re–embedded.' );
-				}, 200 );
+				}, 400 );
 			} );
 		};
 
@@ -332,7 +332,7 @@ bender.test( {
 			wait( function() {
 				CKEDITOR.plugins.widget.repository.prototype.finalizeCreation.restore();
 				assert.areSame( finalizeCreationSpy.called, false, 'finalize creation was not called' );
-			}, 200 );
+			}, 400 );
 		} );
 	},
 
@@ -374,6 +374,96 @@ bender.test( {
 			editor.focus();
 			editor.execCommand( 'paste', 'https://foo.bar/g/notification/test/1' );
 			wait();
+		} );
+	},
+
+	// #13429.
+	'test selection after auto embedding - empty editor': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			pastedText = 'https://foo.bar/g/200/382';
+
+		bot.setData( '', function() {
+			editor.focus();
+			editor.execCommand( 'paste', pastedText );
+
+			wait( function() {
+				// Check if there is exactly one additional <p> created after the widget.
+				assert.isInnerHtmlMatching( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>&nbsp;</p>', editor.getData(), 'right editor data after paste' );
+				var p = editor.editable().findOne( 'p' );
+
+				// Check if caret is inside newly created <p>.
+				var range = editor.getSelection().getRanges()[ 0 ];
+				assert.isTrue( range.collapsed, 'selection after paste is collapsed' );
+				assert.areSame( 0, range.startOffset, 'selection at the beginning of the paragraph' );
+				assert.isTrue( range.startContainer.equals( p ), 'selection inside correct p element' );
+			}, 400 );
+		} );
+	},
+
+	// #13429.
+	'test selection after auto embedding - inside content': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			pastedText = 'https://foo.bar/g/200/382';
+
+		bot.setData( '<p>foo</p><p>bar</p>', function() {
+			editor.focus();
+
+			// Set caret at the end of the first <p>.
+			var range = editor.createRange();
+			range.setStart( this.editor.editable().find( 'p' ).getItem( 0 ).getFirst(), 3 );
+			range.collapse();
+			// '<p>foo^</p><p>bar</p>'
+			editor.getSelection().selectRanges( [ range ] );
+
+			editor.execCommand( 'paste', pastedText );
+
+			wait( function() {
+				// Get the second <p>.
+				var p = editor.editable().find( 'p' ).getItem( 1 );
+				var range = editor.getSelection().getRanges()[ 0 ];
+				var container = range.startContainer;
+
+				// Check if caret is inside second <p>.
+				// Different browsers set startContainer differently,
+				// so we check if it is in <p> or in a text node inside that <p>.
+				assert.isTrue( range.collapsed, 'selection after paste is collapsed' );
+				assert.areSame( 0, range.startOffset, 'selection anchored at the beginning of the paragraph' );
+				assert.isTrue( !!new CKEDITOR.dom.elementPath( container ).contains( p ), 'selection inside correct p element' );
+				assert.isInnerHtmlMatching( 'bar@', ( container.type == CKEDITOR.NODE_TEXT ? container.getParent() : container ).getHtml(), 'selection inside correct p element' );
+			}, 400 );
+		} );
+	},
+
+	// #13429.
+	'test selection after auto embedding - content and selection change before insert': function() {
+		var bot = this.editorBot,
+			editor = bot.editor,
+			editable = editor.editable(),
+			pastedText = 'https://foo.bar/g/200/382';
+
+		bot.setData( '', function() {
+			editor.focus();
+			editor.execCommand( 'paste', pastedText );
+
+			var pastedAnchor = editable.findOne( 'a' );
+
+			// After link has been pasted, "type" some text...
+			var text = new CKEDITOR.dom.text( 'foo' );
+			text.insertAfter( pastedAnchor );
+
+			// ..and make a selection on that text.
+			// "[foo]"
+			var range = editor.createRange();
+			range.setStartBefore( text );
+			range.setEndAfter( text );
+			range.select();
+
+			wait( function() {
+				assert.areSame( '<div data-oembed-url="' + pastedText + '"><img src="' + pastedText + '" /></div><p>foo</p>', editor.getData(), 'right editor data after paste' );
+				assert.isMatching( /[{\[]\u200b?foo[}\]]/, bender.tools.selection.getWithHtml( editor ), 'selection anchored at the right position' );
+			}, 400 );
 		} );
 	}
 } );

@@ -310,6 +310,12 @@
 				parser.parse( html );
 				assert.areSame( expectedTags, tags.join( ',' ), 'tags - ' + msg );
 			}
+		},
+
+		// #13680
+		'test header elements in summary tag': function() {
+			assert.areSame( '<summary><h2>Summary</h2></summary>',
+				htmlParse( '<summary><h2>Summary</h2></summary>' ) );
 		}
 	} );
 

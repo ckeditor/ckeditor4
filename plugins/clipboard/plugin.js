@@ -1287,7 +1287,9 @@
 			// Create a dataTransfer object and save it globally.
 			editable.attachListener( editor, 'dragstart', function( evt ) {
 				clipboard.initDragDataTransfer( evt, editor );
+			}, null, null, 2 );
 
+			editable.attachListener( editor, 'dragstart', function() {
 				// Save drag range globally for cross editor D&D.
 				var dragRange = clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
 
@@ -1296,7 +1298,7 @@
 					clipboard.dragStartContainerChildCount = dragRange ? getContainerChildCount( dragRange.startContainer ) : null;
 					clipboard.dragEndContainerChildCount = dragRange ? getContainerChildCount( dragRange.endContainer ) : null;
 				}
-			}, null, null, 2 );
+			}, null, null, 100 );
 
 			// -------------- DRAGEND --------------
 			// Clean up on dragend.
@@ -1736,11 +1738,31 @@
 			// We call isDropRangeAffectedByDragRange to test the order of ranges.
 			isDropRangeAffected = this.isDropRangeAffectedByDragRange( dragRange, dropRange );
 			if ( !isDropRangeAffected ) {
-				dragBookmark = dragRange.createBookmark( 1 );
+				dragBookmark = dragRange.createBookmark( false );
 			}
-			dropBookmark = dropRange.clone().createBookmark( 1 );
+			dropBookmark = dropRange.clone().createBookmark( false );
 			if ( isDropRangeAffected ) {
-				dragBookmark = dragRange.createBookmark( 1 );
+				dragBookmark = dragRange.createBookmark( false );
+			}
+
+			// Check if drop range is inside range.
+			// This is an edge case when we drop something on editable's margin/padding.
+			// That space is not treated as a part of the range we drag, so it is possible to drop there.
+			// When we drop, browser tries to find closest drop position and it finds it inside drag range. (#13453)
+			var startNode = dragBookmark.startNode,
+				endNode = dragBookmark.endNode,
+				dropNode = dropBookmark.startNode,
+				dropInsideDragRange =
+					// Must check endNode because dragRange could be collapsed in some edge cases (simulated DnD).
+					endNode &&
+					( startNode.getPosition( dropNode ) & CKEDITOR.POSITION_PRECEDING ) &&
+					( endNode.getPosition( dropNode ) & CKEDITOR.POSITION_FOLLOWING );
+
+			// If the drop range happens to be inside drag range change it's position to the beginning of the drag range.
+			if ( dropInsideDragRange ) {
+				// We only change position of bookmark span that is connected with dropBookmark.
+				// dropRange will be overwritten and set to the dropBookmark later.
+				dropNode.insertBefore( startNode );
 			}
 
 			// No we can safely delete content for the drag range...

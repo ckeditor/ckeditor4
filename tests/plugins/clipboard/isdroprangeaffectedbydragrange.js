@@ -37,12 +37,9 @@
 
 	var tcs = {};
 
-	/*
-	 * This is a generic function.
-	 * http://stackoverflow.com/questions/4313841/javascript-how-can-i-insert-a-string-at-a-specific-index
-	 */
-	function splice( elem, idx, rem, s ) {
-		return elem.slice( 0, idx ) + s + elem.slice( idx + Math.abs( rem ) );
+	// Inserts "insertion" at index "idx" in "str".
+	function splice( str, idx, insertion ) {
+		return str.slice( 0, idx ) + insertion + str.slice( idx );
 	}
 
 	/*
@@ -181,8 +178,8 @@
 
 		var testName = element.getOuterHtml ? element.getOuterHtml() : element.getText() + ': ';
 
-		var dragStart = splice( dragRange.startContainer.getText(), dragRange.startOffset, 0, '[' );
-		var dragEnd = splice( dragRange.endContainer.getText(), dragRange.endOffset, 0, ']' );
+		var dragStart = splice( dragRange.startContainer.getText(), dragRange.startOffset, '[' );
+		var dragEnd = splice( dragRange.endContainer.getText(), dragRange.endOffset, ']' );
 
 		testName = testName + ' ' + dragStart + ' ';
 		testName = testName + ' ' + dragEnd + ' ';
@@ -198,7 +195,7 @@
 			var next = dropRange.startContainer.getChild( dropRange.startOffset );
 			drop = drop + ( next ? next.getText() : '' );
 		} else {
-			drop = 'text' + splice( dropRange.startContainer.getText(), dropRange.startOffset, 0, '^' );
+			drop = 'text' + splice( dropRange.startContainer.getText(), dropRange.startOffset, '^' );
 		}
 
 		return suiteName + ' - ' + testName + ' ' + drop + ' ';

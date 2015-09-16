@@ -60,7 +60,9 @@ bender.test( {
 		bindNotifications( editor, loader );
 
 		loader.fire( 'uploading' );
-
+		loader.uploadTotal = 4;
+		loader.uploaded = 1;
+		loader.fire( 'update' );
 		loader.fire( 'uploaded' );
 
 		assert.areSame( 1, notificationShowStub.callCount );
@@ -81,6 +83,7 @@ bender.test( {
 
 		loader.status = 'uploading';
 		loader.uploaded = 1;
+		loader.uploadTotal = 4;
 		loader.fire( 'update' );
 
 		assert.areSame( 1, notificationShowStub.callCount, 'show' );
@@ -114,7 +117,13 @@ bender.test( {
 
 		bindNotifications( editor, loader );
 
+
+
 		loader.fire( 'uploading' );
+		loader.uploaded = 1;
+		loader.uploadTotal = 4;
+		loader.fire( 'update' );
+		loader.fire( 'upload' );
 
 		loader.message = 'foo';
 		loader.fire( 'error' );
@@ -134,7 +143,7 @@ bender.test( {
 		loader.message = 'foo';
 		loader.fire( 'error' );
 
-		assert.areSame( 2, notificationShowStub.callCount );
+		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
 			{ message: 'foo', type: 'warning' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification );
@@ -147,6 +156,9 @@ bender.test( {
 		bindNotifications( editor, loader );
 
 		loader.fire( 'uploading' );
+		loader.uploaded = 1;
+		loader.uploadTotal = 4;
+		loader.fire( 'update' );
 
 		loader.fire( 'abort' );
 
@@ -165,7 +177,7 @@ bender.test( {
 
 		loader.fire( 'abort' );
 
-		assert.areSame( 2, notificationShowStub.callCount );
+		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
 			{ message: 'Upload aborted by the user.', type: 'info' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification,
@@ -188,24 +200,27 @@ bender.test( {
 
 		loader1.total = 10;
 		loader1.status = 'uploading';
-		loader1.uploaded = 1;
+		loader1.uploaded = 0;
+		loader1.uploadTotal = 10;
 		loader1.fire( 'update' );
 
 		loader2.total = 10;
 		loader2.status = 'uploading';
-		loader2.uploaded = 1;
+		loader2.uploaded = 0;
+		loader2.uploadTotal = 10;
 		loader2.fire( 'update' );
 
 		loader3.total = 10;
 		loader3.status = 'uploading';
-		loader3.uploaded = 1;
+		loader3.uploaded = 0;
+		loader3.uploadTotal = 10;
 		loader3.fire( 'update' );
 
 		loader1.fire( 'uploaded' );
 
 		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading files, 1 of 3 done (34%)...', type: 'progress' },
+			{ message: 'Uploading files, 1 of 3 done (33%)...', type: 'progress' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification );
 
 		loader2.fire( 'uploaded' );
@@ -239,24 +254,27 @@ bender.test( {
 
 		loader1.total = 10;
 		loader1.status = 'uploading';
-		loader1.uploaded = 1;
+		loader1.uploaded = 0;
+		loader1.uploadTotal = 10;
 		loader1.fire( 'update' );
 
 		loader2.total = 10;
 		loader2.status = 'uploading';
-		loader2.uploaded = 1;
+		loader2.uploaded = 0;
+		loader2.uploadTotal = 10;
 		loader2.fire( 'update' );
 
 		loader3.total = 10;
 		loader3.status = 'uploading';
-		loader3.uploaded = 1;
+		loader3.uploaded = 0;
+		loader3.uploadTotal = 10;
 		loader3.fire( 'update' );
 
 		loader1.fire( 'uploaded' );
 
 		assert.areSame( 1, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading files, 1 of 3 done (34%)...', type: 'progress' },
+			{ message: 'Uploading files, 1 of 3 done (33%)...', type: 'progress' },
 			notificationShowStub.lastCall.args[ 0 ].data.notification );
 
 		loader2.message = 'foo';
@@ -264,7 +282,7 @@ bender.test( {
 
 		assert.areSame( 2, notificationShowStub.callCount );
 		this.assertNotification(
-			{ message: 'Uploading files, 1 of 2 done (51%)...', type: 'progress' },
+			{ message: 'Uploading files, 1 of 2 done (50%)...', type: 'progress' },
 			notificationShowStub.firstCall.args[ 0 ].data.notification );
 		this.assertNotification(
 			{ message: 'foo', type: 'warning' },

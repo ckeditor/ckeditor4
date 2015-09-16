@@ -1846,11 +1846,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Disables browser's context menu in this element.
 		 */
 		disableContextMenu: function() {
-			this.on( 'contextmenu', function( event ) {
+			this.on( 'contextmenu', function( evt ) {
 				// Cancel the browser context menu.
-				if ( !event.data.getTarget().hasClass( 'cke_enable_context_menu' ) )
-					event.data.preventDefault();
+				if ( !evt.data.getTarget().getAscendant( enablesContextMenu, true ) )
+					evt.data.preventDefault();
 			} );
+
+			function enablesContextMenu( node ) {
+				return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_enable_context_menu' );
+			}
 		},
 
 		/**

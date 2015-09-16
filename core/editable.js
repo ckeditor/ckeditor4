@@ -744,7 +744,13 @@
 					var path = range.startPath();
 
 					// <p><b>^</b></p> is empty block.
-					if ( range.checkStartOfBlock() && range.checkEndOfBlock() && path.block && !range.root.equals( path.block ) ) {
+					if (
+						range.checkStartOfBlock() &&
+						range.checkEndOfBlock() &&
+						path.block &&
+						!range.root.equals( path.block ) &&
+						// Do not remove a block with bookmarks. (#13465)
+						!hasBookmarks( path.block ) ) {
 						range.moveToPosition( path.block, CKEDITOR.POSITION_BEFORE_START );
 						path.block.remove();
 					}
@@ -1044,7 +1050,8 @@
 				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
 
 				// Gecko/Webkit need some help when selecting control type elements. (#3448)
-				if ( !CKEDITOR.env.ie ) {
+				// We apply same behavior for IE Edge. (#13386)
+				if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
 					this.attachListener( this, 'mousedown', function( ev ) {
 						var control = ev.data.getTarget();
 						// #11727. Note: htmlDP assures that input/textarea/select have contenteditable=false
@@ -1056,6 +1063,16 @@
 							// Prevent focus from stealing from the editable. (#9515)
 							if ( control.is( 'input', 'textarea', 'select' ) )
 								ev.data.preventDefault();
+						}
+					} );
+				}
+
+				// For some reason, after click event is done, IE Edge loses focus on the selected element. (#13386)
+				if ( CKEDITOR.env.edge ) {
+					this.attachListener( this, 'mouseup', function( ev ) {
+						var selectedElement = ev.data.getTarget();
+						if ( selectedElement && selectedElement.is( 'img' ) ) {
+							editor.getSelection().selectElement( selectedElement );
 						}
 					} );
 				}
@@ -1394,6 +1411,23 @@
 		};
 	}
 
+	function hasBookmarks( element ) {
+		// We use getElementsByTag() instead of find() to retain compatibility with IE quirks mode.
+		var potentialBookmarks = element.getElementsByTag( 'span' ),
+			i = 0,
+			child;
+
+		if ( potentialBookmarks ) {
+			while ( ( child = potentialBookmarks.getItem( i++ ) ) ) {
+				if ( !isNotBookmark( child ) ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	// Check if the entire table/list contents is selected.
 	function getSelectedTableList( sel ) {
 		var selected,
@@ -1476,7 +1510,10 @@
 		// Check whether pathBlock equals pathBlockLimit to support nested editable (#12162).
 		return editor.config.autoParagraph !== false &&
 			editor.activeEnterMode != CKEDITOR.ENTER_BR &&
-			( editor.editable().equals( pathBlockLimit ) && !pathBlock ) || ( pathBlock && pathBlock.getAttribute( 'contenteditable' ) == 'true' );
+			(
+				( editor.editable().equals( pathBlockLimit ) && !pathBlock ) ||
+				( pathBlock && pathBlock.getAttribute( 'contenteditable' ) == 'true' )
+			);
 	}
 
 	function autoParagraphTag( editor ) {

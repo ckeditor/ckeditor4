@@ -30,12 +30,14 @@ window.XMLHttpRequest = function() {
 	return {
 		open: function() {},
 
+		upload: {},
+
 		send: function( formData ) {
 			var total = formData.getTotal(),
 				loaded = 0,
 				step = Math.round( total / 10 ),
 				xhr = this,
-				onprogress = this.onprogress,
+				onprogress = this.upload.onprogress,
 				onload = this.onload;
 
 			// Wait 400 ms for every step.
@@ -48,7 +50,7 @@ window.XMLHttpRequest = function() {
 
 				// If file is not loaded call onprogress.
 				if ( loaded < total ) {
-					onprogress( { loaded: loaded } );
+					onprogress( { loaded: loaded, total: total, lengthComputable: true } );
 				}
 				// If file is loaded call onload.
 				else {

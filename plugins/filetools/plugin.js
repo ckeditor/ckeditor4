@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'filetools', {
-		lang: 'cs,da,de,en,eo,fr,gl,it,ko,nb,nl,pl,pt-br,ru,sv,tr,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'cs,da,de,en,eo,fr,gl,it,ko,ku,nb,nl,pl,pt-br,ru,sv,tr,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		beforeInit: function( editor ) {
 			/**
@@ -239,9 +239,12 @@
 	 * string encoded with Base64.
 	 * @param {String} [fileName] The file name. If not set and the second parameter is a file, then its name will be used.
 	 * If not set and the second parameter is a Base64 data string, then the file name will be created based on
-	 * the MIME type by replacing '/' with '.', for example for `image/png` the file name will be `image.png`.
+	 * the {@link CKEDITOR.config#fileTools_defaultFileName} option.
 	 */
 	function FileLoader( editor, fileOrData, fileName ) {
+		var mimeParts,
+			defaultFileName = editor.config.fileTools_defaultFileName;
+
 		this.editor = editor;
 		this.lang = editor.lang;
 
@@ -263,11 +266,17 @@
 		} else if ( this.file.name ) {
 			this.fileName = this.file.name;
 		} else {
-			// If file has no name create a name based on the mime type.
-			this.fileName = this.file.type.replace( '/', '.' );
+			mimeParts = this.file.type.split( '/' );
+
+			if ( defaultFileName ) {
+				mimeParts[ 0 ] = defaultFileName;
+			}
+
+			this.fileName = mimeParts.join( '.' );
 		}
 
 		this.uploaded = 0;
+		this.uploadTotal = null;
 
 		this.status = 'created';
 
@@ -306,8 +315,8 @@
 	 */
 
 	/**
-	 * The name of the file. If there is no file name, it is created from the MIME type.
-	 * For example for the `image/png` MIME type, the file name will be `image.png`.
+	 * The name of the file. If there is no file name, it is created by using the
+	 * {@link CKEDITOR.config#fileTools_defaultFileName} option.
 	 *
 	 * @readonly
 	 * @property {String} fileName
@@ -333,6 +342,23 @@
 	 *
 	 * @readonly
 	 * @property {Number} total
+	 */
+
+	/**
+	 * The total size of upload data in bytes.
+	 * If `xhr.upload` object is present this value will indicate total size of the request payload, not only the file
+	 * size itself. If `xhr.upload` object is not available and real upload size cannot be obtained - this value will
+	 * be equal to {@link #total}. It has null value until upload size is known.
+	 *
+	 * 		loader.on( 'update', function() {
+	 * 			// Wait till uploadTotal is present.
+	 * 			if ( loader.uploadTotal ) {
+	 * 				console.log( 'uploadTotal: ' + loader.uploadTotal );
+	 * 			}
+	 * 		});
+	 *
+	 * @readonly
+	 * @property {Number} uploadTotal
 	 */
 
 	/**
@@ -510,22 +536,43 @@
 				xhr.abort();
 			};
 
-			xhr.onabort = function() {
-				loader.changeStatus( 'abort' );
-			};
+			xhr.onerror = onError;
+			xhr.onabort = onAbort;
 
-			xhr.onerror = function() {
-				loader.message = loader.lang.filetools.networkError;
-				loader.changeStatus( 'error' );
-			};
+			// #13533 - When xhr.upload is present attach onprogress, onerror and onabort functions to get actual upload
+			// information.
+			if ( xhr.upload ) {
+				xhr.upload.onprogress = function( evt ) {
+					if ( evt.lengthComputable ) {
+						// Set uploadTotal with correct data.
+						if ( !loader.uploadTotal ) {
+							loader.uploadTotal = evt.total;
+						}
+						loader.uploaded = evt.loaded;
+						loader.update();
+					}
+				};
 
-			xhr.onprogress = function( evt ) {
-				loader.uploaded = evt.loaded;
+				xhr.upload.onerror = onError;
+				xhr.upload.onabort = onAbort;
+
+			} else {
+				// #13533 - If xhr.upload is not supported - fire update event anyway and set uploadTotal to file size.
+				loader.uploadTotal = loader.total;
 				loader.update();
-			};
+			}
 
 			xhr.onload = function() {
-				loader.uploaded = loader.total;
+				// #13433 - Call update at the end of the upload. When xhr.upload object is not supported there will be
+				// no update events fired during the whole process.
+				loader.update();
+
+				// #13433 - Check if loader was not aborted during last update.
+				if ( loader.status == 'abort' ) {
+					return;
+				}
+
+				loader.uploaded = loader.uploadTotal;
 
 				if ( xhr.status < 200 || xhr.status > 299 ) {
 					loader.message = loader.lang.filetools[ 'httpError' + xhr.status ];
@@ -555,6 +602,24 @@
 					}
 				}
 			};
+
+			function onError() {
+				// Prevent changing status twice, when HHR.error and XHR.upload.onerror could be called together.
+				if ( loader.status == 'error' ) {
+					return;
+				}
+
+				loader.message = loader.lang.filetools.networkError;
+				loader.changeStatus( 'error' );
+			}
+
+			function onAbort() {
+				// Prevent changing status twice, when HHR.onabort and XHR.upload.onabort could be called together.
+				if ( loader.status == 'abort' ) {
+					return;
+				}
+				loader.changeStatus( 'abort' );
+			}
 		},
 
 		/**
@@ -759,5 +824,21 @@
  *
  * @since 4.5
  * @cfg {String} [uploadUrl='']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Default file name (without extension) that will be used for files created from a Base64 data string
+ * (for example for files pasted into the editor).
+ * This name will be combined with the MIME type to create the full file name with the extension.
+ *
+ * If `fileTools_defaultFileName` is set to `default-name` and data's MIME type is `image/png`,
+ * the resulting file name will be `default-name.png`.
+ *
+ * If `fileTools_defaultFileName` is not set, the file name will be created using only its MIME type.
+ * For example for `image/png` the file name will be `image.png`.
+ *
+ * @since 4.5.3
+ * @cfg {String} [fileTools_defaultFileName='']
  * @member CKEDITOR.config
  */

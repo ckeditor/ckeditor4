@@ -1,5 +1,7 @@
 # CKEditor 4 - The best browser-based WYSIWYG editor
 
+[![devDependency Status](https://david-dm.org/ckeditor/ckeditor-dev/dev-status.svg)](https://david-dm.org/ckeditor/ckeditor-dev#info=devDependencies)
+
 This repository contains the development version of CKEditor.
 
 **Attention:** The code in this repository should be used locally and for
@@ -70,6 +72,6 @@ Please use the [CKEditor Developer Center](https://dev.ckeditor.com/) to report 
 
 ## License
 
-Licensed under the GPL, LGPL and MPL licenses, at your choice.
+Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 
-For full details about the license please check the LICENSE.md file.
+For licensing, see LICENSE.md or [http://ckeditor.com/license](http://ckeditor.com/license)

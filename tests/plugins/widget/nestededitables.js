@@ -291,6 +291,121 @@
 			} );
 		},
 
+		'test nestedEditable auto paragraphing (limited by widgetDef.allowedContent)': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'autoparagraphtest', {
+				allowedContent: 'div',
+				editables: {
+					foo: {
+						selector: '#foo',
+						allowedContent: 'br'
+					}
+				}
+			} );
+
+			this.editorBot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					editable = widget.editables.foo,
+					range;
+
+				// Move focus to the editable and place selection at the end of its contents.
+				// This should fire 'selectionChange' event and execute editable.fixDom() method.
+				editable.focus();
+				range = editor.createRange();
+				range.moveToPosition( editable, CKEDITOR.POSITION_BEFORE_END );
+				range.select();
+
+				// Since allowedContent is 'br' auto paragraphing should not be performed.
+				assert.areEqual( CKEDITOR.ENTER_BR, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_BR.' );
+				assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
+			} );
+		},
+
+		'test nestedEditable auto paragraphing (limited by config.enterMode)': function() {
+			bender.editorBot.create( {
+				name: 'testautoparagraphingconfigentermode',
+				creator: 'inline',
+				config: {
+					enterMode: CKEDITOR.ENTER_BR,
+					on: {
+						pluginsLoaded: function( evt ) {
+							evt.editor.widgets.add( 'autoparagraphtest', {
+								editables: {
+									foo: {
+										selector: '#foo'
+									}
+								}
+							} );
+
+							evt.editor.filter.allow( 'div[data-widget,id]' );
+						}
+					}
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				bot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
+					var widget = getWidgetById( editor, 'w1' ),
+						editable = widget.editables.foo,
+						range;
+
+					// Move focus to the editable and place selection at the end of its contents.
+					// This should fire 'selectionChange' event and execute editable.fixDom() method.
+					editable.focus();
+					range = editor.createRange();
+					range.moveToPosition( editable.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+					range.select();
+
+					// Since allowedContent is 'br' auto paragraphing should not be performed.
+					assert.areEqual( CKEDITOR.ENTER_BR, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_BR.' );
+					assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
+				} );
+			} );
+		},
+
+		'test nestedEditable auto paragraphing (limited by config.autoParagraph)': function() {
+			bender.editorBot.create( {
+				name: 'testautoparagraphingconfigautoparagraph',
+				creator: 'inline',
+				config: {
+					autoParagraph: false,
+					on: {
+						pluginsLoaded: function( evt ) {
+							evt.editor.widgets.add( 'autoparagraphtest', {
+								editables: {
+									foo: {
+										selector: '#foo'
+									}
+								}
+							} );
+
+							evt.editor.filter.allow( 'div[data-widget,id]' );
+						}
+					}
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				bot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
+					var widget = getWidgetById( editor, 'w1' ),
+						editable = widget.editables.foo,
+						range;
+
+					// Move focus to the editable and place selection at the end of its contents.
+					// This should fire 'selectionChange' event and execute editable.fixDom() method.
+					editable.focus();
+					range = editor.createRange();
+					range.moveToPosition( editable.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+					range.select();
+
+					// Since allowedContent is 'br' auto paragraphing should not be performed.
+					assert.areEqual( CKEDITOR.ENTER_P, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_P.' );
+					assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
+				} );
+			} );
+		},
+
 		'test nestedEditable.setData - data processor integration': function() {
 			var editor = this.editor,
 				data = '<p>Foo</p><div data-widget="testsetdata1" id="w1"><p>A</p><p id="foo">B</p></div>';

@@ -1,4 +1,4 @@
-/* bender-tags: clipboard, 13468, 13015, 13140, 12806, 13011 */
+/* bender-tags: clipboard, 13468, 13015, 13140, 12806, 13011, 13453 */
 /* bender-ckeditor-plugins: toolbar,clipboard,undo */
 /* bender-include: _helpers/pasting.js */
 
@@ -356,6 +356,30 @@ var testsForMultipleEditor = {
 			} );
 		},
 
+		// #13453
+		'test drop inside drag range has no effect': function( editor ) {
+			var bot = bender.editorBots[ editor.name ],
+				evt = bender.tools.mockDropEvent();
+
+			bot.setHtmlWithSelection( '<p class="p">[Lorem <b>ipsum</b> dolor sit] amet.</p>' );
+			editor.resetUndo();
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				dropContainer: editor.editable().findOne( 'b' ).getChild( 0 ),
+				dropOffset: 0,
+				expectedTransferType: CKEDITOR.DATA_TRANSFER_INTERNAL,
+				expectedPasteEventCount: 1,
+				expectedText: 'Lorem ipsum dolor sit',
+				expectedHtml: 'Lorem <b>ipsum</b> dolor sit',
+				expectedDataType: 'html',
+				expectedDataValue: 'Lorem <b>ipsum</b> dolor sit'
+			}, null, function() {
+				assert.isInnerHtmlMatching( '<p class="p">Lorem <b>ipsum</b> dolor sit^ amet.@</p>', getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+			} );
+		},
+
 		// Integration test (#12806).
 		'test drop part of the link': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
@@ -375,10 +399,10 @@ var testsForMultipleEditor = {
 				expectedDataType: 'html',
 				expectedDataValue: '<a href="foo">ipsum</a>'
 			}, null, function() {
-				assert.isInnerHtmlMatching(
-					'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">' +
-					'ipsum' + ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ? '</a>^' : '^</a>' ) + ' amet.@</p>',
-					getWithHtml( editor ), htmlMatchOpts, 'after drop' );
+				assert.isInnerHtmlMatching( [
+						'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">ipsum</a>^ amet.@</p>',
+						'<p class="p" style="margin-left:20px"><a href="foo">Lorem dolor</a> sit<a data-cke-saved-href="foo" href="foo">ipsum^</a> amet.@</p>'
+					], getWithHtml( editor ), htmlMatchOpts, 'after drop' );
 			} );
 		},
 

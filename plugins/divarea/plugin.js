@@ -14,7 +14,9 @@ CKEDITOR.plugins.add( 'divarea', {
 		// Do that in the afterInit function, so it'll eventually overwrite
 		// the mode defined by the wysiwygarea plugin.
 		editor.addMode( 'wysiwyg', function( callback ) {
-			var editingBlock = CKEDITOR.dom.element.createFromHtml( '<div class="cke_wysiwyg_div cke_reset" hidefocus="true"></div>' );
+			var editingBlock = CKEDITOR.dom.element.createFromHtml(
+					'<div class="cke_wysiwyg_div cke_reset cke_enable_context_menu" hidefocus="true"></div>'
+				);
 
 			var contentSpace = editor.ui.space( 'contents' );
 			contentSpace.append( editingBlock );

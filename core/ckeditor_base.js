@@ -191,7 +191,7 @@ if ( !window.CKEDITOR ) {
 			 * @todo
 			 */
 			domReady: ( function() {
-				// Based on the original jQuery code.
+				// Based on the original jQuery code (available under the MIT license, see LICENSE.md).
 
 				var callbacks = [];
 

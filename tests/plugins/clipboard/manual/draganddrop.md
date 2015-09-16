@@ -1,6 +1,6 @@
 @bender-ui: collapsed
-@bender-tags: 4.5.0, 4.5.2, tc
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter, link
+@bender-tags: 4.5.0, 4.5.2, 4.5.3, tc
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter, link, placeholder
 
  * test internal D&amp;D in the editor,
  * dropping content from an external source (helpers, MS Word),
@@ -39,4 +39,4 @@ Drop scenarios:
 
 **Note:** internal D&amp;D is the most complex operation because editor have to handle two ranges at the same time.
 
-**Note:** that block widget D&amp;D works only internally in one editor.
+**Note:** that widget (both block and inline) D&amp;D works only internally in one editor.
