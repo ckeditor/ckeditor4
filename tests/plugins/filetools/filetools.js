@@ -170,7 +170,7 @@
 		},
 
 		'test fileUploadResponse event': function() {
-			var log = window.console && sinon.stub( window.console, 'log' );
+			var log = sinon.stub( CKEDITOR, 'warn' );
 
 			var message = 'Not a JSON';
 			var error = 'Error.';
@@ -192,10 +192,10 @@
 
 			this.editor.fire( 'fileUploadResponse', data );
 
-			log && log.restore();
+			log.restore();
 
 			assert.areEqual( data.message, error );
-			assert.isTrue( log ? log.calledWith( message ) : true );
+			assert.areEqual( message, log.firstCall.args[ 1 ].responseText, 'responseText should match' );
 		}
 	} );
 } )();
