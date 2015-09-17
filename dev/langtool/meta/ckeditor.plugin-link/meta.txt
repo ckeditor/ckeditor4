@@ -15,6 +15,7 @@ anchorId = Label for the By Element Id field for selecting an anchor in the Link
 anchorName = Label for the By Anchor Name field for selecting an anchor in the Link dialog window.
 charset = Label for the Linked Resource Charset field of the Link dialog window.
 cssClasses = Label for the Stylesheet Classes field of the Link dialog window.
+download = Label for Force Download checkbox located in Advanced tab of the Link dialog window.
 emailAddress = Label for the E-Mail Address field of the Link dialog window for e-mail link type.
 emailBody = Label for the Message Body field of the Link dialog window for e-mail link type.
 emailSubject = Label for the Message Subject field of the Link dialog window for e-mail link type.

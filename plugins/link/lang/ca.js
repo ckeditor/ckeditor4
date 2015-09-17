@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ca', {
 	anchorName: 'Per nom d\'àncora',
 	charset: 'Conjunt de caràcters font enllaçat',
 	cssClasses: 'Classes del full d\'estil',
+	download: 'Force Download', // MISSING
 	emailAddress: 'Adreça de correu electrònic',
 	emailBody: 'Cos del missatge',
 	emailSubject: 'Assumpte del missatge',

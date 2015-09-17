@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	anchorName: 'Eftir akkerisnafni',
 	charset: 'Táknróf',
 	cssClasses: 'Stílsniðsflokkur',
+	download: 'Force Download', // MISSING
 	emailAddress: 'Netfang',
 	emailBody: 'Meginmál',
 	emailSubject: 'Efni',

@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.6.0
 
+New Features:
+
+* [#12077](https://dev.ckeditor.com/ticket/12077): Add support for HTML5 "download" attribute in link (a) elements. Thanks to [sbusse](https://github.com/sbusse)!
+
 ## CKEditor 4.5.4
 
 New Features:
