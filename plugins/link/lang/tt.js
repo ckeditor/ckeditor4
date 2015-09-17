@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	anchorName: 'Якорь исеме буенча',
 	charset: 'Linked Resource Charset', // MISSING
 	cssClasses: 'Стильләр класслары',
+	download: 'Force Download', // MISSING
 	emailAddress: 'Электрон почта адресы',
 	emailBody: 'Хат эчтәлеге',
 	emailSubject: 'Хат темасы',

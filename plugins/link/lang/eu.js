@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	anchorName: 'Aingura izenagatik',
 	charset: 'Estekatutako Karaktere Multzoa',
 	cssClasses: 'Estilo-orriko Klaseak',
+	download: 'Force Download', // MISSING
 	emailAddress: 'ePosta Helbidea',
 	emailBody: 'Mezuaren Gorputza',
 	emailSubject: 'Mezuaren Gaia',

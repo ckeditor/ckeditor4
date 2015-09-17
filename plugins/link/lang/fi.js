@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'fi', {
 	anchorName: 'Ankkurin nimen mukaan',
 	charset: 'Linkitetty kirjaimisto',
 	cssClasses: 'Tyyliluokat',
+	download: 'Force Download', // MISSING
 	emailAddress: 'Sähköpostiosoite',
 	emailBody: 'Viesti',
 	emailSubject: 'Aihe',

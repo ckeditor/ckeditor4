@@ -783,6 +783,7 @@
 						children: [ {
 							type: 'checkbox',
 							id: 'download',
+							requiredContent: 'a[download]',
 							label: linkLang.download,
 							setup: function( data ) {
 								if ( data.download !== undefined )
