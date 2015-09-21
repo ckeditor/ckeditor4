@@ -545,9 +545,7 @@
 
 				if ( requires && ( match = requires.match( removeRegex ) ) ) {
 					while ( ( name = match.pop() ) ) {
-						CKEDITOR.tools.setTimeout( function( name, pluginName ) {
-							throw new Error( 'Plugin "' + name.replace( ',', '' ) + '" cannot be removed from the plugins list, because it\'s required by "' + pluginName + '" plugin.' );
-						}, 0, null, [ name, pluginName ] );
+						CKEDITOR.error( 'editor-plugin-required', { plugin: name.replace( ',', '' ), requiredBy: pluginName } );
 					}
 				}
 

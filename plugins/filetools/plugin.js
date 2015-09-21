@@ -88,7 +88,7 @@
 				} catch ( err ) {
 					// Response parsing error.
 					data.message = fileLoader.lang.filetools.responseError;
-					window.console && window.console.log( xhr.responseText );
+					CKEDITOR.warn( 'filetools-response-error', { responseText: xhr.responseText } );
 
 					evt.cancel();
 				}
