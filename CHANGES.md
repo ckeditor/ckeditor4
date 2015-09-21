@@ -18,6 +18,7 @@ Fixed Issues:
 * [#13533](http://dev.ckeditor.com/ticket/13533): Fixed: No progress during upload.
 * [#13680](http://dev.ckeditor.com/ticket/13680): Fixed: The parser should allow `<h1-6>` to be a child of the `<summary>` element.
 * [#11724](http://dev.ckeditor.com/ticket/11724): [Touch devices] Fixed: Drop-downs often hide right after opening them.
+* [#13690](http://dev.ckeditor.com/ticket/13690): Fixed: Copying content from IE to Chrome adding extra paragraph.
 
 Other Changes:
 
