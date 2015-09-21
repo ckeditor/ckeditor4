@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 New Features:
 
 * [#13632](http://dev.ckeditor.com/ticket/13632): Introduce error logging mechanism.
+* [#13730](http://dev.ckeditor.com/ticket/13730): Switch to the new error logging mechanism.
 
 Fixed Issues:
 
