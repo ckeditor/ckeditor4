@@ -138,41 +138,39 @@
 		return false;
 	}
 
-	function createFillingChar( element ) {
-		removeFillingChar( element, false );
+	function createFillingCharSequenceNode( editable ) {
+		removeFillingCharSequenceNode( editable, false );
 
-		var fillingChar = element.getDocument().createText( '\u200B' );
-		element.setCustomData( 'cke-fillingChar', fillingChar );
+		var fillingChar = editable.getDocument().createText( editable.editor._.fillingCharSequence );
+		editable.setCustomData( 'cke-fillingChar', fillingChar );
 
 		return fillingChar;
 	}
 
-	function getFillingChar( element ) {
-		return element.getCustomData( 'cke-fillingChar' );
-	}
-
 	// Checks if a filling char has been used, eventualy removing it (#1272).
-	function checkFillingChar( element ) {
-		var fillingChar = getFillingChar( element );
+	function checkFillingCharSequenceNodeReady( editable ) {
+		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
+
 		if ( fillingChar ) {
 			// Use this flag to avoid removing the filling char right after
 			// creating it.
-			if ( fillingChar.getCustomData( 'ready' ) )
-				removeFillingChar( element );
-			else
+			if ( fillingChar.getCustomData( 'ready' ) ) {
+				removeFillingCharSequenceNode( editable );
+			} else {
 				fillingChar.setCustomData( 'ready', 1 );
+			}
 		}
 	}
 
-	function removeFillingChar( element, keepSelection ) {
-		var fillingChar = element && element.removeCustomData( 'cke-fillingChar' );
-		if ( fillingChar ) {
+	function removeFillingCharSequenceNode( editable, keepSelection ) {
+		var fillingChar = editable && editable.removeCustomData( 'cke-fillingChar' );
 
+		if ( fillingChar ) {
 			// Text selection position might get mangled by
 			// subsequent dom modification, save it now for restoring. (#8617)
 			if ( keepSelection !== false ) {
 				var bm,
-					sel = element.getDocument().getSelection().getNative(),
+					sel = editable.getDocument().getSelection().getNative(),
 					// Be error proof.
 					range = sel && sel.type != 'None' && sel.getRangeAt( 0 );
 
@@ -182,6 +180,7 @@
 					// Anticipate the offset change brought by the removed char.
 					var startAffected = sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0,
 						endAffected = sel.focusNode == fillingChar.$ && sel.focusOffset > 0;
+
 					startAffected && bm[ 0 ].offset--;
 					endAffected && bm[ 1 ].offset--;
 				}
@@ -190,20 +189,26 @@
 			// We can't simply remove the filling node because the user
 			// will actually enlarge it when typing, so we just remove the
 			// invisible char from it.
-			fillingChar.setText( replaceFillingChar( fillingChar.getText() ) );
+			fillingChar.setText( removeFillingCharSequenceString( editable.editor, fillingChar.getText(), 1 ) );
 
 			// Restore the bookmark preserving selection's direction.
 			if ( bm ) {
-				moveNativeSelectionToBookmark( element.getDocument().$, bm );
+				moveNativeSelectionToBookmark( editable.getDocument().$, bm );
 			}
 		}
 	}
 
-	function replaceFillingChar( html ) {
-		return html.replace( /\u200B( )?/g, function( match ) {
-			// #10291 if filling char is followed by a space replace it with nbsp.
-			return match[ 1 ] ? '\xa0' : '';
-		} );
+	function removeFillingCharSequenceString( editor, str, nbspAware ) {
+		if ( nbspAware ) {
+			var fillingCharSequenceRegExp = new RegExp( editor._.fillingCharSequence + '()?', 'g' );
+
+			return str.replace( fillingCharSequenceRegExp, function( match ) {
+				// #10291 if filling char is followed by a space replace it with nbsp.
+				return match[ 1 ] ? '\xa0' : '';
+			} );
+		} else {
+			return str.replace( editor._.fillingCharSequence, '' );
+		}
 	}
 
 	function createNativeSelectionBookmark( sel ) {
@@ -724,7 +729,7 @@
 						case 8: // BACKSPACE
 						case 45: // INS
 						case 46: // DEl
-							removeFillingChar( editable );
+							removeFillingCharSequenceNode( editable );
 					}
 
 				}, null, null, -1 );
@@ -846,11 +851,11 @@
 			var editor = evt.editor;
 
 			editor.on( 'selectionChange', function() {
-				checkFillingChar( editor.editable() );
+				checkFillingCharSequenceNodeReady( editor.editable() );
 			}, null, null, -1 );
 
 			editor.on( 'beforeSetMode', function() {
-				removeFillingChar( editor.editable() );
+				removeFillingCharSequenceNode( editor.editable() );
 			}, null, null, -1 );
 
 			// By default config.fillingCharSequence is string of 7 ZWSPs.
@@ -860,16 +865,12 @@
 			editor._.fillingCharSequence = typeof fillingCharSequence == 'string' ? fillingCharSequence : CKEDITOR.tools.repeat( '\u200b', fillingCharSequence || 7 );
 
 			editor.on( 'getSnapshot', function( evt ) {
-				evt.data = removeFillingCharSequenceFromString( evt.data );
+				evt.data = removeFillingCharSequenceString( editor, evt.data );
 			}, editor, null, 20 );
 
 			editor.on( 'getData', function( evt ) {
-				evt.data.dataValue = removeFillingCharSequenceFromString( evt.data.dataValue );
+				evt.data.dataValue = removeFillingCharSequenceString( editor, evt.data.dataValue );
 			} );
-
-			function removeFillingCharSequenceFromString( str ) {
-				return str.replace( editor._.fillingCharSequence, '' );
-			}
 		} );
 	}
 
@@ -1873,7 +1874,7 @@
 					if ( range.collapsed && CKEDITOR.env.webkit && rangeRequiresFix( range ) ) {
 						// Append a zero-width space so WebKit will not try to
 						// move the selection by itself (#1272).
-						var fillingChar = createFillingChar( this.root );
+						var fillingChar = createFillingCharSequenceNode( this.root );
 						range.insertNode( fillingChar );
 
 						next = fillingChar.getNext();
@@ -1882,7 +1883,7 @@
 						// having something before it, it'll not blink.
 						// Let's remove it in this case.
 						if ( next && !fillingChar.getPrevious() && next.type == CKEDITOR.NODE_ELEMENT && next.getName() == 'br' ) {
-							removeFillingChar( this.root );
+							removeFillingCharSequenceNode( this.root );
 							range.moveToPosition( next, CKEDITOR.POSITION_BEFORE_START );
 						} else {
 							range.moveToPosition( fillingChar, CKEDITOR.POSITION_AFTER_END );
