@@ -602,9 +602,11 @@
 				}
 			},
 
-			// Remove empty link but not empty anchor. (#3829)
+			// Remove empty link but not empty anchor. (#3829, #13516)
 			a: function( element ) {
-				if ( !( element.children.length || element.attributes.name || element.attributes[ 'data-cke-saved-name' ] ) )
+				var attrs = element.attributes;
+
+				if ( !( element.children.length || attrs.name || attrs.id || element.attributes[ 'data-cke-saved-name' ] ) )
 					return false;
 			}
 		}

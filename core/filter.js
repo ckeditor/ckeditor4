@@ -1689,7 +1689,7 @@
 		switch ( element.name ) {
 			case 'a':
 				// Code borrowed from htmlDataProcessor, so ACF does the same clean up.
-				if ( !( element.children.length || element.attributes.name ) )
+				if ( !( element.children.length || element.attributes.name || element.attributes.id ) )
 					return false;
 				break;
 			case 'img':
