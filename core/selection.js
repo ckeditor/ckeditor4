@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -848,9 +848,28 @@
 			editor.on( 'selectionChange', function() {
 				checkFillingChar( editor.editable() );
 			}, null, null, -1 );
+
 			editor.on( 'beforeSetMode', function() {
 				removeFillingChar( editor.editable() );
 			}, null, null, -1 );
+
+			// By default config.fillingCharSequence is string of 7 ZWSPs.
+			var fillingCharSequence = editor.config.fillingCharSequence || 7;
+
+			// Expand configuration into a string, if specified a number.
+			editor._.fillingCharSequence = typeof fillingCharSequence == 'string' ? fillingCharSequence : CKEDITOR.tools.repeat( '\u200b', fillingCharSequence || 7 );
+
+			editor.on( 'getSnapshot', function( evt ) {
+				evt.data = removeFillingCharSequenceFromString( evt.data );
+			}, editor, null, 20 );
+
+			editor.on( 'getData', function( evt ) {
+				evt.data.dataValue = removeFillingCharSequenceFromString( evt.data.dataValue );
+			} );
+
+			function removeFillingCharSequenceFromString( str ) {
+				return str.replace( editor._.fillingCharSequence, '' );
+			}
 		} );
 	}
 
@@ -2135,4 +2154,14 @@
  *
  * @readonly
  * @property {Boolean} isFake
+ */
+
+/**
+ * The sequence used in Webkits to create a Filling Char. By default it is
+ * a string of 7 ZWSP (U+200B).
+ *
+ * It can be either the number of ZWSP to use or a custom string sequence.
+ *
+ * @cfg {Number/String} [fillingCharSequence=7]
+ * @member CKEDITOR.config
  */
