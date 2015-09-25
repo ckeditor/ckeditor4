@@ -200,10 +200,10 @@
 
 	function removeFillingCharSequenceString( editor, str, nbspAware ) {
 		if ( nbspAware ) {
-			var fillingCharSequenceRegExp = new RegExp( editor._.fillingCharSequence + '()?', 'g' );
+			var fillingCharSequenceRegExp = new RegExp( editor._.fillingCharSequence + '( )?', 'g' );
 
 			return str.replace( fillingCharSequenceRegExp, function( match ) {
-				// #10291 if filling char is followed by a space replace it with nbsp.
+				// #10291 if filling char is followed by a space replace it with NBSP.
 				return match[ 1 ] ? '\xa0' : '';
 			} );
 		} else {
