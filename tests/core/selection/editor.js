@@ -546,7 +546,7 @@ bender.test( {
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abc' );
-		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
+		editor.document.$.getSelection().setPosition( fillingChar.$, fillingChar.$.nodeValue.length ); // FCabc^
 
 		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
 
@@ -608,12 +608,12 @@ bender.test( {
 		fillingChar.setText( fillingChar.getText() + 'abc' );
 		range = editor.document.$.createRange();
 		// ZWSabc]
-		range.setStart( fillingChar.$, 4 );
+		range.setStart( fillingChar.$, fillingChar.$.nodeValue.length );
 		var nativeSel = editor.document.$.getSelection();
 		nativeSel.removeAllRanges();
 		nativeSel.addRange( range );
 		// ZWSa[bc
-		nativeSel.extend( fillingChar.$, 2 );
+		nativeSel.extend( fillingChar.$, fillingChar.$.nodeValue.length - 2 );
 
 		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
 
