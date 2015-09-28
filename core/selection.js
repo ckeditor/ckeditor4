@@ -870,7 +870,9 @@
 			editor._.fillingCharSequence = typeof fillingCharSequence == 'string' ? fillingCharSequence : CKEDITOR.tools.repeat( '\u200b', fillingCharSequence || 7 );
 
 			editor.on( 'getSnapshot', function( evt ) {
-				evt.data = removeFillingCharSequenceString( editor, evt.data );
+				if ( evt.data ) {
+					evt.data = removeFillingCharSequenceString( editor, evt.data );
+				}
 			}, editor, null, 20 );
 
 			editor.on( 'getData', function( evt ) {
