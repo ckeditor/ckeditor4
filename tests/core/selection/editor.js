@@ -53,7 +53,7 @@ bender.test( {
 		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
 		assert.isTrue( !!fillingChar, 'Filling char exists - ' + msg );
 		assert.areSame( parent, fillingChar.getParent(), 'Filling char parent - ' + msg );
-		assert.areSame( contents, fillingChar.getText(), 'Filling char contents - ' + msg );
+		assert.areSame( editable.editor._.fillingCharSequence + contents, fillingChar.getText(), 'Filling char contents - ' + msg );
 
 		return fillingChar;
 	},
@@ -393,7 +393,8 @@ bender.test( {
 				plugins: 'undo,sourcearea'
 			}
 		}, function( bot ) {
-			var editor = bot.editor;
+			var editor = bot.editor,
+				fillingCharSequence = editor._.fillingCharSequence;
 
 			editor.setMode( 'source', function() {
 				editor.setData( '<p id="p">foo<em>bar</em></p>' );
@@ -405,7 +406,7 @@ bender.test( {
 						range.setStart( editor.document.getById( 'p' ), 1 );
 						editor.getSelection().selectRanges( [ range ] );
 
-						assert.isMatching( /^<p id="p">foo\u200b<em>bar<\/em><\/p>$/, editor.editable().getHtml(), 'Filling char was inserted' );
+						assert.isMatching( '^<p id="p">foo' + fillingCharSequence + '<em>bar<\/em><\/p>$', editor.editable().getHtml(), 'Filling char was inserted' );
 
 						// Fire event imitating left arrow, what will trigger
 						// removeFillingChar() on Webkit.
@@ -420,7 +421,7 @@ bender.test( {
 						range.setStart( editor.document.getById( 'p' ), 1 );
 						editor.getSelection().selectRanges( [ range ] );
 
-						assert.isMatching( /^<p id="p">foo\u200b<em>bar<\/em><\/p>$/, editor.editable().getHtml(), 'Filling char was inserted 2' );
+						assert.isMatching( '^<p id="p">foo' + fillingCharSequence + '<em>bar<\/em><\/p>$', editor.editable().getHtml(), 'Filling char was inserted 2' );
 
 						editor.dataProcessor = {
 							toHtml: function( html ) {
@@ -440,7 +441,7 @@ bender.test( {
 						range.setStart( editor.document.getById( 'p' ), 1 );
 						editor.getSelection().selectRanges( [ range ] );
 
-						assert.isMatching( /^<p id="p">foo\u200b<em>bar<\/em><\/p>$/, editor.editable().getHtml(), 'Filling char was inserted 2' );
+						assert.isMatching( '^<p id="p">foo' + fillingCharSequence + '<em>bar<\/em><\/p>$', editor.editable().getHtml(), 'Filling char was inserted 2' );
 
 						assert.isMatching( /^<p id="p">foo<em>bar<\/em><\/p>$/, new CKEDITOR.plugins.undo.Image( editor ).contents, 'Filling char was removed on beforeUndoImage' );
 					} );
@@ -462,13 +463,13 @@ bender.test( {
 		this.setSelectionInEmptyInlineElement( editor );
 
 		var uEl = editable.findOne( 'u' ),
-			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after set selection' );
+			fillingChar = this.assertFillingChar( editable, uEl, '', 'after set selection' );
 
 		editor.fire( 'beforeUndoImage' );
 		this.assertFillingChar( editable, uEl, '', 'after beforeUndoImage' );
 
 		editor.fire( 'afterUndoImage' );
-		fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after afterUndoImage' );
+		fillingChar = this.assertFillingChar( editable, uEl, '', 'after afterUndoImage' );
 
 		range = editor.getSelection().getRanges()[ 0 ];
 		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
@@ -487,20 +488,20 @@ bender.test( {
 		this.setSelectionInEmptyInlineElement( editor );
 
 		var uEl = editable.findOne( 'u' ),
-			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after set selection' );
+			fillingChar = this.assertFillingChar( editable, uEl, '', 'after set selection' );
 
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abcd' );
 		editor.document.$.getSelection().setPosition( fillingChar.$, 3 ); // ZWSab^cd
 
-		this.assertFillingChar( editable, uEl, '\u200babcd', 'after type' );
+		this.assertFillingChar( editable, uEl, 'abcd', 'after type' );
 
 		editor.fire( 'beforeUndoImage' );
 		this.assertFillingChar( editable, uEl, 'abcd', 'after beforeUndoImage' );
 
 		editor.fire( 'afterUndoImage' );
-		fillingChar = this.assertFillingChar( editable, uEl, '\u200babcd', 'after afterUndoImage' );
+		fillingChar = this.assertFillingChar( editable, uEl, 'abcd', 'after afterUndoImage' );
 
 		range = editor.getSelection().getRanges()[ 0 ];
 		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
@@ -519,14 +520,14 @@ bender.test( {
 		this.setSelectionInEmptyInlineElement( editor );
 
 		var uEl = editable.findOne( 'u' ),
-			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after setting selection' );
+			fillingChar = this.assertFillingChar( editable, uEl, '', 'after setting selection' );
 
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abc' );
 		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
 
-		this.assertFillingChar( editable, uEl, '\u200babc', 'after typing' );
+		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
 
 		// Mock LEFT arrow.
 		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
@@ -550,14 +551,14 @@ bender.test( {
 		this.setSelectionInEmptyInlineElement( editor );
 
 		var uEl = editable.findOne( 'u' ),
-			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after setting selection' );
+			fillingChar = this.assertFillingChar( editable, uEl, '', 'after setting selection' );
 
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abc' );
 		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
 
-		this.assertFillingChar( editable, uEl, '\u200babc', 'after typing' );
+		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
 
 		// Select all contents.
 		range.selectNodeContents( editable.findOne( 'p' ) );
@@ -579,7 +580,7 @@ bender.test( {
 		this.setSelectionInEmptyInlineElement( editor );
 
 		var uEl = editable.findOne( 'u' ),
-			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after setting selection' );
+			fillingChar = this.assertFillingChar( editable, uEl, '', 'after setting selection' );
 
 		// Happens when typing and making selection from right to left...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
@@ -593,7 +594,7 @@ bender.test( {
 		// ZWSa[bc
 		nativeSel.extend( fillingChar.$, 2 );
 
-		this.assertFillingChar( editable, uEl, '\u200babc', 'after typing' );
+		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
 
 		// Mock LEFT arrow.
 		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
@@ -619,7 +620,7 @@ bender.test( {
 		this.setSelectionInEmptyInlineElement( editor );
 
 		var uEl = editable.findOne( 'u' ),
-			fillingChar = this.assertFillingChar( editable, uEl, '\u200b', 'after set selection' );
+			fillingChar = this.assertFillingChar( editable, uEl, '', 'after set selection' );
 
 		// Happens when typing and making selection from right to left...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
@@ -633,13 +634,13 @@ bender.test( {
 		// ZWSa[bc
 		nativeSel.extend( fillingChar.$, 2 );
 
-		this.assertFillingChar( editable, uEl, '\u200babc', 'after type' );
+		this.assertFillingChar( editable, uEl, 'abc', 'after type' );
 
 		editor.fire( 'beforeUndoImage' );
 		this.assertFillingChar( editable, uEl, 'abc', 'after beforeUndoImage' );
 
 		editor.fire( 'afterUndoImage' );
-		this.assertFillingChar( editable, uEl, '\u200babc', 'after afterUndoImage' );
+		this.assertFillingChar( editable, uEl, 'abc', 'after afterUndoImage' );
 
 		nativeSel = editor.document.$.getSelection();
 		assert.areSame( 4, nativeSel.anchorOffset, 'sel.anchorOffset' );
