@@ -180,12 +180,12 @@
 					var bm = createNativeSelectionBookmark( sel );
 
 					// Correct start offset anticipating the removal of FC.
-					if ( sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0 ) {
+					if ( sel.anchorNode == fillingChar.$ && sel.anchorOffset > fillingCharSeqLength ) {
 						bm[ 0 ].offset -= fillingCharSeqLength;
 					}
 
 					// Correct end offset anticipating the removal of FC.
-					if ( sel.focusNode == fillingChar.$ && sel.focusOffset > 0 ) {
+					if ( sel.focusNode == fillingChar.$ && sel.focusOffset > fillingCharSeqLength ) {
 						bm[ 1 ].offset -= fillingCharSeqLength;
 					}
 				}
