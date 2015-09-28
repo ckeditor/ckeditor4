@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -94,6 +94,23 @@ CKEDITOR.lang[ 'mk' ] = {
 		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>', // MISSING
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'BACKSPACE', // MISSING
+			13: 'ENTER', // MISSING
+			16: 'SHIFT', // MISSING
+			17: 'CTRL', // MISSING
+			18: 'ALT', // MISSING
+			32: 'SPACE', // MISSING
+			35: 'END', // MISSING
+			36: 'HOME', // MISSING
+			46: 'DELETE', // MISSING
+			224: 'COMMAND' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

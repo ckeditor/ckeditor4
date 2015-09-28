@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'th' ] = {
 		alignMiddle: 'กึ่งกลางแนวตั้ง',
 		alignBottom: 'ชิดด้านล่าง',
 		alignNone: 'None', // MISSING
-		invalidValue	: 'ค่าไม่ถูกต้อง',
+		invalidValue: 'ค่าไม่ถูกต้อง',
 		invalidHeight: 'ความสูงต้องเป็นตัวเลข',
 		invalidWidth: 'ความกว้างต้องเป็นตัวเลข',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'th' ] = {
 		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>', // MISSING
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'BACKSPACE', // MISSING
+			13: 'ENTER', // MISSING
+			16: 'SHIFT', // MISSING
+			17: 'CTRL', // MISSING
+			18: 'ALT', // MISSING
+			32: 'SPACE', // MISSING
+			35: 'END', // MISSING
+			36: 'HOME', // MISSING
+			46: 'DELETE', // MISSING
+			224: 'COMMAND' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

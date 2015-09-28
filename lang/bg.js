@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'bg' ] = {
 		alignMiddle: 'По средата',
 		alignBottom: 'Долу',
 		alignNone: 'Без подравняване',
-		invalidValue	: 'Невалидна стойност.',
+		invalidValue: 'Невалидна стойност.',
 		invalidHeight: 'Височината трябва да е число.',
 		invalidWidth: 'Ширина требе да е число.',
 		invalidCssLength: 'Стойността на полето "%1" трябва да бъде положително число с или без валидна CSS измервателна единица (px, %, in, cm, mm, em, ex, pt, или pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'bg' ] = {
 		cssLengthTooltip: 'Въведете числена стойност в пиксели или друга валидна CSS единица (px, %, in, cm, mm, em, ex, pt, или pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, недостъпно</span>'
+		unavailable: '%1<span class="cke_accessibility">, недостъпно</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'BACKSPACE', // MISSING
+			13: 'ENTER', // MISSING
+			16: 'SHIFT', // MISSING
+			17: 'CTRL', // MISSING
+			18: 'ALT', // MISSING
+			32: 'SPACE', // MISSING
+			35: 'END', // MISSING
+			36: 'HOME', // MISSING
+			46: 'DELETE', // MISSING
+			224: 'COMMAND' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

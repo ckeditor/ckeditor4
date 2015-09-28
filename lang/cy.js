@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		alignMiddle: 'Canol',
 		alignBottom: 'Gwaelod',
 		alignNone: 'None', // MISSING
-		invalidValue	: 'Gwerth annilys.',
+		invalidValue: 'Gwerth annilys.',
 		invalidHeight: 'Mae\'n rhaid i\'r uchder fod yn rhif.',
 		invalidWidth: 'Mae\'n rhaid i\'r lled fod yn rhif.',
 		invalidCssLength: 'Mae\'n rhaid i\'r gwerth ar gyfer maes "%1" fod yn rhif positif gyda neu heb uned fesuriad CSS dilys (px, %, in, cm, mm, em, ex, pt, neu pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'cy' ] = {
 		cssLengthTooltip: 'Rhowch rif am werth mewn picsel neu rhif gydag uned CSS dilys (px, %, in, cm, mm, em, pt neu pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, ddim ar gael</span>'
+		unavailable: '%1<span class="cke_accessibility">, ddim ar gael</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'BACKSPACE', // MISSING
+			13: 'ENTER', // MISSING
+			16: 'SHIFT', // MISSING
+			17: 'CTRL', // MISSING
+			18: 'ALT', // MISSING
+			32: 'SPACE', // MISSING
+			35: 'END', // MISSING
+			36: 'HOME', // MISSING
+			46: 'DELETE', // MISSING
+			224: 'COMMAND' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

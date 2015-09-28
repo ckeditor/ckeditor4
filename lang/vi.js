@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		alignMiddle: 'Giữa',
 		alignBottom: 'Dưới',
 		alignNone: 'Không',
-		invalidValue	: 'Giá trị không hợp lệ.',
+		invalidValue: 'Giá trị không hợp lệ.',
 		invalidHeight: 'Chiều cao phải là số nguyên.',
 		invalidWidth: 'Chiều rộng phải là số nguyên.',
 		invalidCssLength: 'Giá trị quy định cho trường "%1" phải là một số dương có hoặc không có một đơn vị đo CSS hợp lệ (px, %, in, cm, mm, em, ex, pt, hoặc pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'vi' ] = {
 		cssLengthTooltip: 'Nhập một giá trị theo pixel hoặc một số với một đơn vị CSS hợp lệ (px, %, in, cm, mm, em, ex, pt, hoặc pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, không có</span>'
+		unavailable: '%1<span class="cke_accessibility">, không có</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'BACKSPACE', // MISSING
+			13: 'ENTER', // MISSING
+			16: 'SHIFT', // MISSING
+			17: 'CTRL', // MISSING
+			18: 'ALT', // MISSING
+			32: 'SPACE', // MISSING
+			35: 'END', // MISSING
+			36: 'HOME', // MISSING
+			46: 'DELETE', // MISSING
+			224: 'COMMAND' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		alignMiddle: 'વચ્ચે',
 		alignBottom: 'નીચે',
 		alignNone: 'None', // MISSING
-		invalidValue	: 'Invalid value.', // MISSING
+		invalidValue: 'Invalid value.', // MISSING
 		invalidHeight: 'ઉંચાઈ એક આંકડો હોવો જોઈએ.',
 		invalidWidth: 'પોહળ ઈ એક આંકડો હોવો જોઈએ.',
 		invalidCssLength: '"%1" ની વેલ્યુ એક પોસીટીવ આંકડો હોવો જોઈએ અથવા CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc) વગર.',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'gu' ] = {
 		cssLengthTooltip: 'પિક્ષ્લ્ નો આંકડો CSS unit (px, %, in, cm, mm, em, ex, pt, or pc) માં નાખો.',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, નથી મળતું</span>'
+		unavailable: '%1<span class="cke_accessibility">, નથી મળતું</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'BACKSPACE', // MISSING
+			13: 'ENTER', // MISSING
+			16: 'SHIFT', // MISSING
+			17: 'CTRL', // MISSING
+			18: 'ALT', // MISSING
+			32: 'SPACE', // MISSING
+			35: 'END', // MISSING
+			36: 'HOME', // MISSING
+			46: 'DELETE', // MISSING
+			224: 'COMMAND' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

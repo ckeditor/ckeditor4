@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'id' ] = {
 		alignMiddle: 'Tengah',
 		alignBottom: 'Bawah',
 		alignNone: 'None', // MISSING
-		invalidValue	: 'Nilai tidak sah.',
+		invalidValue: 'Nilai tidak sah.',
 		invalidHeight: 'Tinggi harus sebuah angka.',
 		invalidWidth: 'Lebar harus sebuah angka.',
 		invalidCssLength: 'Nilai untuk "%1" harus sebuah angkat positif dengan atau tanpa pengukuran unit CSS yang sah (px, %, in, cm, mm, em, ex, pt, or pc).',
@@ -94,6 +94,23 @@ CKEDITOR.lang[ 'id' ] = {
 		cssLengthTooltip: 'Masukkan sebuah angka untuk sebuah nilai dalam pixel atau sebuah angka dengan unit CSS yang sah (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, tidak tersedia</span>'
+		unavailable: '%1<span class="cke_accessibility">, tidak tersedia</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'BACKSPACE', // MISSING
+			13: 'ENTER', // MISSING
+			16: 'SHIFT', // MISSING
+			17: 'CTRL', // MISSING
+			18: 'ALT', // MISSING
+			32: 'SPACE', // MISSING
+			35: 'END', // MISSING
+			36: 'HOME', // MISSING
+			46: 'DELETE', // MISSING
+			224: 'COMMAND' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };
