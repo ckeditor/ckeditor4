@@ -666,6 +666,7 @@
 				type: type,
 				canUndo: type == 'cut', // We can't undo copy to clipboard.
 				startDisabled: true,
+				fakeKeystroke: type == 'cut' ? CKEDITOR.CTRL + 88 /*X*/ :  CKEDITOR.CTRL + 67 /*C*/,
 				exec: function() {
 					// Attempts to execute the Cut and Copy operations.
 					function tryToCutCopy( type ) {
@@ -700,7 +701,7 @@
 				// Snapshots are done manually by editable.insertXXX methods.
 				canUndo: false,
 				async: true,
-
+				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
 				exec: function( editor, data ) {
 					var cmd = this,
 						fire = function( data, withBeforePaste ) {
