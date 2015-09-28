@@ -169,20 +169,25 @@
 			// Text selection position might get mangled by
 			// subsequent dom modification, save it now for restoring. (#8617)
 			if ( keepSelection !== false ) {
-				var bm,
-					sel = editable.getDocument().getSelection().getNative(),
+				var sel = editable.getDocument().getSelection().getNative(),
 					// Be error proof.
-					range = sel && sel.type != 'None' && sel.getRangeAt( 0 );
+					range = sel && sel.type != 'None' && sel.getRangeAt( 0 ),
+					fillingCharSeqLength = editable.editor._.fillingCharSequence.length;
 
-				if ( fillingChar.getLength() > 1 && range && range.intersectsNode( fillingChar.$ ) ) {
-					bm = createNativeSelectionBookmark( sel );
+				// If there's some text other than the sequence in the FC text node and the range
+				// intersects with that node...
+				if ( fillingChar.getLength() > fillingCharSeqLength && range && range.intersectsNode( fillingChar.$ ) ) {
+					var bm = createNativeSelectionBookmark( sel );
 
-					// Anticipate the offset change brought by the removed char.
-					var startAffected = sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0,
-						endAffected = sel.focusNode == fillingChar.$ && sel.focusOffset > 0;
+					// Correct start offset anticipating the removal of FC.
+					if ( sel.anchorNode == fillingChar.$ && sel.anchorOffset > 0 ) {
+						bm[ 0 ].offset -= fillingCharSeqLength;
+					}
 
-					startAffected && bm[ 0 ].offset--;
-					endAffected && bm[ 1 ].offset--;
+					// Correct end offset anticipating the removal of FC.
+					if ( sel.focusNode == fillingChar.$ && sel.focusOffset > 0 ) {
+						bm[ 1 ].offset -= fillingCharSeqLength;
+					}
 				}
 			}
 
@@ -202,9 +207,9 @@
 		if ( nbspAware ) {
 			var fillingCharSequenceRegExp = new RegExp( editor._.fillingCharSequence + '( )?', 'g' );
 
-			return str.replace( fillingCharSequenceRegExp, function( match ) {
+			return str.replace( fillingCharSequenceRegExp, function( m, p ) {
 				// #10291 if filling char is followed by a space replace it with NBSP.
-				return match[ 1 ] ? '\xa0' : '';
+				return p ? '\xa0' : '';
 			} );
 		} else {
 			return str.replace( editor._.fillingCharSequence, '' );
