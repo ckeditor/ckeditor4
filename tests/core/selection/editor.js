@@ -18,7 +18,8 @@ bender.editors = {
 		config: {
 			autoParagraph: false,
 			fillEmptyBlocks: false,
-			allowedContent: true
+			allowedContent: true,
+			plugins: 'undo'
 		}
 	},
 	editorInline: {
@@ -379,6 +380,25 @@ bender.test( {
 		} );
 
 		wait();
+	},
+
+	'test remove filling character from snapshots and data': function() {
+		if ( !CKEDITOR.env.webkit )
+			assert.ignore();
+
+		var editor = this.editors.editor,
+			bot = this.editorBots.editor;
+
+		bot.setData( '<p>foo</p>', function() {
+			var fillingCharSequence = editor._.fillingCharSequence,
+				fc = new CKEDITOR.dom.text( fillingCharSequence );
+
+			fc.appendTo( editor.document.findOne( 'p' ), 1 );
+
+			assert.areSame( '<p>' + fillingCharSequence + 'foo</p>', editor.editable().getHtml(), 'FC in DOM.' );
+			assert.areSame( '<p>foo</p>', new CKEDITOR.plugins.undo.Image( editor ).contents, 'No FC in snapshots.' );
+			assert.areSame( '<p>foo</p>', editor.getData(), 'No FC in data.' );
+		} );
 	},
 
 	// #10315
