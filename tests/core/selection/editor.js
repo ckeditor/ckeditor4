@@ -472,7 +472,7 @@ bender.test( {
 		} );
 	},
 
-	'test filling char is removed and restored when taking snapshot': function() {
+	'test filling char remains untouched when taking snapshot': function() {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
 
@@ -493,12 +493,12 @@ bender.test( {
 
 		range = editor.getSelection().getRanges()[ 0 ];
 		range.optimize();
-		assert.areSame( fillingChar.getParent(), range.startContainer, 'Selection was restored - container' );
-		assert.areSame( 1, range.startOffset, 'Selection was restored - offset after ZWS' );
+		assert.areSame( fillingChar.getParent(), range.startContainer, 'Selection remains - container' );
+		assert.areSame( 1, range.startOffset, 'Selection remains - offset after FC' );
 	},
 
 	// #12489
-	'test filling char is removed and restored when taking snapshot if selection is not right after the filling char': function() {
+	'test filling char remains when taking snapshot if selection is not right after the filling char': function() {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
 
@@ -515,7 +515,7 @@ bender.test( {
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abcd' );
-		editor.document.$.getSelection().setPosition( fillingChar.$, fillingChar.$.nodeValue.length - 2 ); // ZWSab^cd
+		editor.document.$.getSelection().setPosition( fillingChar.$, fillingChar.$.nodeValue.length - 2 ); // FCab^cd
 
 		this.assertFillingChar( editable, uEl, 'abcd', 'after type' );
 
@@ -526,8 +526,8 @@ bender.test( {
 		fillingChar = this.assertFillingChar( editable, uEl, 'abcd', 'after afterUndoImage' );
 
 		range = editor.getSelection().getRanges()[ 0 ];
-		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
-		assert.areSame( fillingCharSequenceLength + 2, range.startOffset, 'Selection was restored - offset in ZWSab^cd' );
+		assert.areSame( fillingChar, range.startContainer, 'Selection remains - container' );
+		assert.areSame( fillingCharSequenceLength + 2, range.startOffset, 'Selection remains - offset in FCab^cd' );
 	},
 
 	// #8617
@@ -578,7 +578,7 @@ bender.test( {
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abc' );
-		editor.document.$.getSelection().setPosition( fillingChar.$, fillingChar.$.nodeValue.length ); // ZWSabc^
+		editor.document.$.getSelection().setPosition( fillingChar.$, fillingChar.$.nodeValue.length ); // FCabc^
 
 		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
 
@@ -608,12 +608,12 @@ bender.test( {
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abc' );
 		range = editor.document.$.createRange();
-		// ZWSabc]
+		// FCabc]
 		range.setStart( fillingChar.$, fillingChar.$.nodeValue.length );
 		var nativeSel = editor.document.$.getSelection();
 		nativeSel.removeAllRanges();
 		nativeSel.addRange( range );
-		// ZWSa[bc
+		// FCa[bc
 		nativeSel.extend( fillingChar.$, fillingChar.$.nodeValue.length - 2 );
 
 		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
@@ -649,12 +649,12 @@ bender.test( {
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abc' );
 		range = editor.document.$.createRange();
-		// ZWSabc]
+		// FCabc]
 		range.setStart( fillingChar.$, fillingChar.$.nodeValue.length );
 		var nativeSel = editor.document.$.getSelection();
 		nativeSel.removeAllRanges();
 		nativeSel.addRange( range );
-		// ZWSa[bc
+		// FCa[bc
 		nativeSel.extend( fillingChar.$, fillingChar.$.nodeValue.length - 2 );
 
 		this.assertFillingChar( editable, uEl, 'abc', 'after type' );
