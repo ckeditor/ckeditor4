@@ -504,7 +504,8 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
-			range = editor.createRange();
+			range = editor.createRange(),
+			fillingCharSequenceLength = editor._.fillingCharSequence.length;
 
 		this.setSelectionInEmptyInlineElement( editor );
 
@@ -514,7 +515,7 @@ bender.test( {
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abcd' );
-		editor.document.$.getSelection().setPosition( fillingChar.$, 3 ); // ZWSab^cd
+		editor.document.$.getSelection().setPosition( fillingChar.$, fillingChar.$.nodeValue.length - 2 ); // ZWSab^cd
 
 		this.assertFillingChar( editable, uEl, 'abcd', 'after type' );
 
@@ -526,7 +527,7 @@ bender.test( {
 
 		range = editor.getSelection().getRanges()[ 0 ];
 		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
-		assert.areSame( 3, range.startOffset, 'Selection was restored - offset in ZWSab^cd' );
+		assert.areSame( fillingCharSequenceLength + 2, range.startOffset, 'Selection was restored - offset in ZWSab^cd' );
 	},
 
 	// #8617
@@ -577,7 +578,7 @@ bender.test( {
 		// Happens when typing and navigating...
 		// Setting selection using native API to avoid losing the filling char on selection.setRanges().
 		fillingChar.setText( fillingChar.getText() + 'abc' );
-		editor.document.$.getSelection().setPosition( fillingChar.$, 4 ); // ZWSabc^
+		editor.document.$.getSelection().setPosition( fillingChar.$, fillingChar.$.nodeValue.length ); // ZWSabc^
 
 		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
 
@@ -636,7 +637,8 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
-			range = editor.createRange();
+			range = editor.createRange(),
+			fillingCharSequenceLength = editor._.fillingCharSequence.length;
 
 		this.setSelectionInEmptyInlineElement( editor );
 
@@ -648,12 +650,12 @@ bender.test( {
 		fillingChar.setText( fillingChar.getText() + 'abc' );
 		range = editor.document.$.createRange();
 		// ZWSabc]
-		range.setStart( fillingChar.$, 4 );
+		range.setStart( fillingChar.$, fillingChar.$.nodeValue.length );
 		var nativeSel = editor.document.$.getSelection();
 		nativeSel.removeAllRanges();
 		nativeSel.addRange( range );
 		// ZWSa[bc
-		nativeSel.extend( fillingChar.$, 2 );
+		nativeSel.extend( fillingChar.$, fillingChar.$.nodeValue.length - 2 );
 
 		this.assertFillingChar( editable, uEl, 'abc', 'after type' );
 
@@ -664,8 +666,8 @@ bender.test( {
 		this.assertFillingChar( editable, uEl, 'abc', 'after afterUndoImage' );
 
 		nativeSel = editor.document.$.getSelection();
-		assert.areSame( 4, nativeSel.anchorOffset, 'sel.anchorOffset' );
-		assert.areSame( 2, nativeSel.focusOffset, 'sel.focusOffset' );
+		assert.areSame( fillingCharSequenceLength + 3, nativeSel.anchorOffset, 'sel.anchorOffset' );
+		assert.areSame( fillingCharSequenceLength + 1, nativeSel.focusOffset, 'sel.focusOffset' );
 	},
 
 	'test selection in source mode': function() {
