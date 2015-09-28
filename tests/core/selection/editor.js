@@ -478,7 +478,7 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
-			range = editor.createRange();
+			range;
 
 		this.setSelectionInEmptyInlineElement( editor );
 
@@ -492,7 +492,8 @@ bender.test( {
 		fillingChar = this.assertFillingChar( editable, uEl, '', 'after afterUndoImage' );
 
 		range = editor.getSelection().getRanges()[ 0 ];
-		assert.areSame( fillingChar, range.startContainer, 'Selection was restored - container' );
+		range.optimize();
+		assert.areSame( fillingChar.getParent(), range.startContainer, 'Selection was restored - container' );
 		assert.areSame( 1, range.startOffset, 'Selection was restored - offset after ZWS' );
 	},
 
