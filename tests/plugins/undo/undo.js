@@ -1,6 +1,9 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: undo,enterkey,horizontalrule,image,iframe,flash,basicstyles,toolbar,sourcearea */
 
+var fillingCharSequence = CKEDITOR.dom.selection.prototype.FILLING_CHAR_SEQUENCE,
+	fillingCharSequenceLength = fillingCharSequence.length;
+
 function isActive( command ) {
 	return command.state === CKEDITOR.TRISTATE_OFF;
 }
@@ -450,11 +453,10 @@ bender.test( {
 		var editor = this.editor,
 			editable = editor.editable(),
 			undo = editor.getCommand( 'undo' ),
-			fillingCharSequenceLength = editor._.fillingCharSequence.length,
 			range;
 
 		// Set testing content with selection.
-		editable.setHtml( '<p id="p1">' + editor._.fillingCharSequence + 'abc<em>def</em></p>' );
+		editable.setHtml( '<p id="p1">' + fillingCharSequence + 'abc<em>def</em></p>' );
 		editor.focus();
 
 		// Selection: <p>FCSa[bc<em>de]f</em></p>

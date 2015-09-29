@@ -141,7 +141,7 @@
 	function createFillingCharSequenceNode( editable ) {
 		removeFillingCharSequenceNode( editable, false );
 
-		var fillingChar = editable.getDocument().createText( editable.editor._.fillingCharSequence );
+		var fillingChar = editable.getDocument().createText( fillingCharSequence );
 		editable.setCustomData( 'cke-fillingChar', fillingChar );
 
 		return fillingChar;
@@ -172,7 +172,7 @@
 				var sel = editable.getDocument().getSelection().getNative(),
 					// Be error proof.
 					range = sel && sel.type != 'None' && sel.getRangeAt( 0 ),
-					fillingCharSeqLength = editable.editor._.fillingCharSequence.length;
+					fillingCharSeqLength = fillingCharSequence.length;
 
 				// If there's some text other than the sequence in the FC text node and the range
 				// intersects with that node...
@@ -194,7 +194,7 @@
 			// We can't simply remove the filling node because the user
 			// will actually enlarge it when typing, so we just remove the
 			// invisible char from it.
-			fillingChar.setText( removeFillingCharSequenceString( editable.editor, fillingChar.getText(), 1 ) );
+			fillingChar.setText( removeFillingCharSequenceString( fillingChar.getText(), 1 ) );
 
 			// Restore the bookmark preserving selection's direction.
 			if ( bm ) {
@@ -203,16 +203,14 @@
 		}
 	}
 
-	function removeFillingCharSequenceString( editor, str, nbspAware ) {
+	function removeFillingCharSequenceString( str, nbspAware ) {
 		if ( nbspAware ) {
-			var fillingCharSequenceRegExp = new RegExp( editor._.fillingCharSequence + '( )?', 'g' );
-
 			return str.replace( fillingCharSequenceRegExp, function( m, p ) {
 				// #10291 if filling char is followed by a space replace it with NBSP.
 				return p ? '\xa0' : '';
 			} );
 		} else {
-			return str.replace( editor._.fillingCharSequence, '' );
+			return str.replace( fillingCharSequence, '' );
 		}
 	}
 
@@ -863,20 +861,14 @@
 				removeFillingCharSequenceNode( editor.editable() );
 			}, null, null, -1 );
 
-			// By default config.fillingCharSequence is string of 7 ZWSPs.
-			var fillingCharSequence = editor.config.fillingCharSequence || 7;
-
-			// Expand configuration into a string, if specified a number.
-			editor._.fillingCharSequence = typeof fillingCharSequence == 'string' ? fillingCharSequence : CKEDITOR.tools.repeat( '\u200b', fillingCharSequence || 7 );
-
 			editor.on( 'getSnapshot', function( evt ) {
 				if ( evt.data ) {
-					evt.data = removeFillingCharSequenceString( editor, evt.data );
+					evt.data = removeFillingCharSequenceString( evt.data );
 				}
 			}, editor, null, 20 );
 
 			editor.on( 'getData', function( evt ) {
-				evt.data.dataValue = removeFillingCharSequenceString( editor, evt.data.dataValue );
+				evt.data.dataValue = removeFillingCharSequenceString( evt.data.dataValue );
 			} );
 		} );
 	}
@@ -1141,7 +1133,20 @@
 	var styleObjectElements = { img: 1, hr: 1, li: 1, table: 1, tr: 1, td: 1, th: 1, embed: 1, object: 1, ol: 1, ul: 1,
 			a: 1, input: 1, form: 1, select: 1, textarea: 1, button: 1, fieldset: 1, thead: 1, tfoot: 1 };
 
+	var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
+		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' );
+
 	CKEDITOR.dom.selection.prototype = {
+		/**
+		 * The sequence used in Webkits to create a Filling Char. By default it is
+		 * a string of 7 ZWSP (U+200B).
+		 *
+		 * @since 4.5.5
+		 * @readonly
+		 * @property {String}
+		 */
+		FILLING_CHAR_SEQUENCE: fillingCharSequence,
+
 		/**
 		 * Gets the native selection object from the browser.
 		 *
@@ -2162,14 +2167,4 @@
  *
  * @readonly
  * @property {Boolean} isFake
- */
-
-/**
- * The sequence used in Webkits to create a Filling Char. By default it is
- * a string of 7 ZWSP (U+200B).
- *
- * It can be either the number of ZWSP to use or a custom string sequence.
- *
- * @cfg {Number/String} [fillingCharSequence=7]
- * @member CKEDITOR.config
  */

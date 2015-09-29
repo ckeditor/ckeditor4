@@ -3,6 +3,9 @@
 
 'use strict';
 
+var fillingCharSequence = CKEDITOR.dom.selection.prototype.FILLING_CHAR_SEQUENCE,
+	fillingCharSequenceLength = fillingCharSequence.length;
+
 function noSelectionOnBlur( editor ) {
 	return editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE || CKEDITOR.env.ie;
 }
@@ -54,7 +57,7 @@ bender.test( {
 		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
 		assert.isTrue( !!fillingChar, 'Filling char exists - ' + msg );
 		assert.areSame( parent, fillingChar.getParent(), 'Filling char parent - ' + msg );
-		assert.areSame( editable.editor._.fillingCharSequence + contents, fillingChar.getText(), 'Filling char contents - ' + msg );
+		assert.areSame( fillingCharSequence + contents, fillingChar.getText(), 'Filling char contents - ' + msg );
 
 		return fillingChar;
 	},
@@ -390,8 +393,7 @@ bender.test( {
 			bot = this.editorBots.editor;
 
 		bot.setData( '<p>foo</p>', function() {
-			var fillingCharSequence = editor._.fillingCharSequence,
-				fc = new CKEDITOR.dom.text( fillingCharSequence );
+			var fc = new CKEDITOR.dom.text( fillingCharSequence );
 
 			fc.appendTo( editor.document.findOne( 'p' ), 1 );
 
@@ -413,8 +415,7 @@ bender.test( {
 				plugins: 'undo,sourcearea'
 			}
 		}, function( bot ) {
-			var editor = bot.editor,
-				fillingCharSequence = editor._.fillingCharSequence;
+			var editor = bot.editor;
 
 			editor.setMode( 'source', function() {
 				editor.setData( '<p id="p">foo<em>bar</em></p>' );
@@ -504,8 +505,7 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
-			range = editor.createRange(),
-			fillingCharSequenceLength = editor._.fillingCharSequence.length;
+			range = editor.createRange();
 
 		this.setSelectionInEmptyInlineElement( editor );
 
@@ -637,8 +637,7 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			editable = editor.editable(),
-			range = editor.createRange(),
-			fillingCharSequenceLength = editor._.fillingCharSequence.length;
+			range = editor.createRange();
 
 		this.setSelectionInEmptyInlineElement( editor );
 
