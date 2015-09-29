@@ -446,6 +446,51 @@ bender.test( {
 		assert.isFalse( isActive( redo ), msg + 'redoable' );
 	},
 
+	'test selection is restored despite filling char': function() {
+		var editor = this.editor,
+			editable = editor.editable(),
+			undo = editor.getCommand( 'undo' ),
+			fillingCharSequenceLength = editor._.fillingCharSequence.length,
+			range;
+
+		// Set testing content with selection.
+		editable.setHtml( '<p id="p1">' + editor._.fillingCharSequence + 'abc<em>def</em></p>' );
+		editor.focus();
+
+		// Selection: <p>FCSa[bc<em>de]f</em></p>
+		range = editor.createRange();
+		range.setStart( editor.document.getById( 'p1' ).getFirst(), fillingCharSequenceLength + 1 );
+		range.setEnd( editor.document.getById( 'p1' ).getLast().getFirst(), 2 );
+		range.select();
+
+		// Record testing content and the selection.
+		editor.resetUndo();
+
+		// Set some other content and record a snapshot.
+		editable.setHtml( '<p>foo</p>' );
+		editor.fire( 'saveSnapshot' );
+
+		// Check if undo is available.
+		assert.isTrue( isActive( undo ), 'Undo enabled.' );
+		assert.areSame( 2, editor.undoManager.snapshots.length, 'Number of snapshots recorded.' );
+		assert.areSame( '<p id="p1">abc<em>def</em></p>', editor.undoManager.snapshots[ 0 ].contents, 'Snapshot does not contain FCSeq.' );
+
+		// Go back to the testing content.
+		editor.execCommand( 'undo' );
+
+		// Check if testing content has been correctly restored.
+		assert.areSame( '<p id="p1">abc<em>def</em></p>', editable.getHtml(), 'Snapshot restored without FCSeq.' );
+
+		// Check if testing selection has been correctly reverted.
+		range = editor.getSelection().getRanges()[ 0 ];
+
+		assert.isTrue( range.startContainer.equals( editor.document.getById( 'p1' ).getFirst() ), 'Range starts in the right text node.' );
+		assert.isTrue( range.endContainer.equals( editor.document.getById( 'p1' ).findOne( 'em' ).getFirst() ), 'Range ends in the right text node.' );
+
+		assert.areSame( 1, range.startOffset, 'Start offset does not include FCSeq.' );
+		assert.areSame( 2, range.endOffset, 'End offset does not include FCSeq.' );
+	},
+
 	'test lock&unlock after selection change': function() {
 		var editor = this.editor,
 			editable = editor.editable(),
