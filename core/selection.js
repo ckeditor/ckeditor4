@@ -1136,7 +1136,9 @@
 	var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
 		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' );
 
-	CKEDITOR.dom.selection.prototype = {
+	CKEDITOR.tools.extend( CKEDITOR.dom.selection, {
+		_removeFillingCharSequenceString: removeFillingCharSequenceString,
+
 		/**
 		 * The sequence used in Webkits to create a Filling Char. By default it is
 		 * a string of 7 ZWSP (U+200B).
@@ -1145,8 +1147,10 @@
 		 * @readonly
 		 * @property {String}
 		 */
-		FILLING_CHAR_SEQUENCE: fillingCharSequence,
+		FILLING_CHAR_SEQUENCE: fillingCharSequence
+	} );
 
+	CKEDITOR.dom.selection.prototype = {
 		/**
 		 * Gets the native selection object from the browser.
 		 *

@@ -3,7 +3,7 @@
 
 'use strict';
 
-var fillingCharSequence = CKEDITOR.dom.selection.prototype.FILLING_CHAR_SEQUENCE,
+var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
 	fillingCharSequenceLength = fillingCharSequence.length;
 
 function noSelectionOnBlur( editor ) {

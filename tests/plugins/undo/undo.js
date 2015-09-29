@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: undo,enterkey,horizontalrule,image,iframe,flash,basicstyles,toolbar,sourcearea */
 
-var fillingCharSequence = CKEDITOR.dom.selection.prototype.FILLING_CHAR_SEQUENCE,
+var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
 	fillingCharSequenceLength = fillingCharSequence.length;
 
 function isActive( command ) {
