@@ -2,7 +2,10 @@
 
 'use strict';
 
-var doc = CKEDITOR.document;
+var doc = CKEDITOR.document,
+	FCS = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
+	FCSLength = FCS.length,
+	removeFillingCharSequenceString = CKEDITOR.dom.selection._removeFillingCharSequenceString;
 
 function createPlayground( html ) {
 	var playground = doc.createElement( 'div' );
@@ -11,6 +14,9 @@ function createPlayground( html ) {
 	// Replace dots with elements and then remove all of them leaving
 	// split text nodes.
 	html = html.replace( /\./g, '<i class="split"></i>' );
+
+	// Replace % with Filling Character Sequence.
+	html = html.replace( /%/g, FCS );
 
 	// Creating empty elements...
 	html = html.replace( /\((\w+)\)/g, function( match, $0 ) {
@@ -101,8 +107,9 @@ function createBookmark2TC( tc, normalize ) {
 
 		var bm = range.createBookmark2( normalize );
 
-		if ( normalize )
-			playground.setHtml( playground.getHtml() );
+		if ( normalize ) {
+			playground.setHtml( removeFillingCharSequenceString( playground.getHtml() ) );
+		}
 
 		var range2 = new CKEDITOR.dom.range( playground );
 		range2.moveToBookmark( bm );
@@ -163,7 +170,7 @@ function findNode( container, query ) {
 	walker = new CKEDITOR.dom.walker( range );
 
 	while ( ( node = walker.next() ) ) {
-		if ( textQuery && node.type == CKEDITOR.NODE_TEXT && node.getText() == textQuery ) {
+		if ( textQuery && node.type == CKEDITOR.NODE_TEXT && removeFillingCharSequenceString( node.getText() ) == textQuery ) {
 			return node;
 		} else if ( !textQuery && node.type == CKEDITOR.NODE_ELEMENT && node.is( query ) ) {
 			return node;
@@ -333,6 +340,12 @@ addBookmark2TCs( tcs, {
 
 		'#10301 1': [ '<p>a.b<i>c</i>d.e</p>', { sc: '#e', so: 0, ec: '#e', eo: 1 }, { sc: '#de', so: 1, ec: '#de', eo: 2 } ],
 		'#10301 2': [ '<p>a.b<i>c</i>d.e</p>', { sc: 'p', so: 4, ec: 'p', eo: 5 }, { sc: '#de', so: 1, ec: 'p', eo: 3 } ]
+	},
+
+	'filling character sequence': {
+		'abcdef 1': [ '<p>abc</p><p><b>%def</b></p>', { sc: '#abc', so: 1, ec: '#def', eo: FCSLength + 2 }, { sc: '#abc', so: 1, ec: '#def', eo: 2 } ],
+		'abcdef 2': [ '%abc<b>def</b>', { sc: '#abc', so: FCSLength + 1, ec: '#def', eo: 1 }, { sc: '#abc', so: 1, ec: '#def', eo: 1 } ],
+		'abcdef 3': [ '<b>a</b>%<b>c</b>d<i>e</i>', { sc: 'root', so: 2, ec: '#e', eo: 1 }, { sc: 'root', so: 1, ec: '#e', eo: 1 } ]
 	}
 } );
 
