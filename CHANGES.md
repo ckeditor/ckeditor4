@@ -25,6 +25,7 @@ Fixed Issues:
 Other Changes:
 
 * [#11725](http://dev.ckeditor.com/ticket/11725): Marked [`CKEDITOR.env.mobile`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-mobile) as deprecated. The reason is that it is not anymore clear what "mobile" means.
+* [#13737](http://dev.ckeditor.com/ticket/13737): Upgraded Bender.js to 0.4.1.
 
 ## CKEditor 4.5.3
 

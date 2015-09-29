@@ -157,6 +157,11 @@
 		},
 
 		'test apply font size over another font size (deeply nested collapsed selection)': function() {
+			// #12690
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+
 			var bot = this.editorBot,
 				editor = bot.editor;
 

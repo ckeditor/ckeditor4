@@ -21,6 +21,10 @@
 		df = t.df,
 		bf = t.bf;
 
+	function ignoreIt() {
+		assert.ignore();
+	}
+
 	bender.test( {
 		setUp: function() {
 			if ( !CKEDITOR.env.webkit )
@@ -84,11 +88,13 @@
 		// --- BACKSPACE ------------------------------------------------------
 
 		'test backspace #1':				b( '<p>x</p><p>[]y</p>',											'<p>x^y</p>' ),
-		'test backspace #2':				b( '<p>x</p><p><strong>[]y</strong></p>',							[
+		'test backspace #2': CKEDITOR.env.safari ? ignoreIt :
+											b( '<p>x</p><p><strong>[]y</strong></p>',							[
 																													'<p>x<strong>^y</strong></p>',
 																													'<p>x^<strong>y</strong></p>' // For WebKit (#13709).
 																												] ),
-		'test backspace #3':				b( '<p>x</p><p><a href="z">[]y</a></p>',							[
+		'test backspace #3': CKEDITOR.env.safari ? ignoreIt :
+											b( '<p>x</p><p><a href="z">[]y</a></p>',							[
 																													'<p>x<a href="z">^y</a></p>',
 																													'<p>x^<a href="z">y</a></p>' // For WebKit (#13709).
 																												] ),
@@ -97,7 +103,9 @@
 		'test backspace #6':				b( '<p>x</p><h1>[]y</h1>',											'<p>x^y</p>' ),
 		'test backspace #7':				b( '<p>x</p><p>[]f<strong>o</strong>o</p>',							'<p>x^f<strong>o</strong>o</p>' ),
 		'test backspace #8':				b( '<div><p>x</p></div><blockquote><p>[]y</p></blockquote>',		'<div><p>x^y</p></div>' ),
-		'test backspace #9':				b( '<div><p><strong>f<em>oo</em></strong></p></div><blockquote><p><u>{}y</u></p></blockquote>',
+
+		'test backspace #9': CKEDITOR.env.safari ? ignoreIt :
+											b( '<div><p><strong>f<em>oo</em></strong></p></div><blockquote><p><u>{}y</u></p></blockquote>',
 																												[
 																													'<div><p><strong>f<em>oo</em></strong><u>^y</u></p></div>',
 																													'<div><p><strong>f<em>oo^</em></strong><u>y</u></p></div>' // For WebKit (#13709).
@@ -114,11 +122,14 @@
 
 		// Merge inline elements after keystroke.
 		'test backspace, merge #1':		b( '<p><em>x</em></p><p><em>[]y</em></p>',							'<p><em>x^y</em></p>' ),
-		'test backspace, merge #2':		b( '<p><em id="x">x</em></p><p><em id="y">[]y</em></p>',			[
+
+		'test backspace, merge #2': CKEDITOR.env.safari ? ignoreIt :
+										b( '<p><em id="x">x</em></p><p><em id="y">[]y</em></p>',			[
 																												'<p><em id="x">x</em><em id="y">^y</em></p>',
 																												'<p><em id="x">x^</em><em id="y">y</em></p>' // For WebKit (#13709).
 																											] ),
-		'test backspace, merge #3':		b( '<p><a href="x">x</a></p><p><a href="y">[]y</a></p>',			[
+		'test backspace, merge #3': CKEDITOR.env.safari ? ignoreIt :
+										b( '<p><a href="x">x</a></p><p><a href="y">[]y</a></p>',			[
 																												'<p><a href="x">x</a><a href="y">^y</a></p>',
 																												'<p><a href="x">x^</a><a href="y">y</a></p>' // For WebKit (#13709).
 																											] ),
@@ -126,7 +137,9 @@
 		'test backspace, merge #5':		b( '<p id="foo">x</p><p id="bar">[]y</p>',							'<p id="foo">x^y</p>' ),
 		'test backspace, merge #6':		b( '<p data-foo="x">x</p><p data-foo="y">[]y</p>',					'<p data-foo="x">x^y</p>' ),
 		'test backspace, merge #7':		b( '<p style="color:red">x</p><p style="color:blue">[]y</p>',		'<p style="color:red">x^y</p>' ),
-		'test backspace, merge #8':		b( '<p><em style="color:red">x</em></p><p><em style="color:blue">[]y</em></p>',
+
+		'test backspace, merge #8': CKEDITOR.env.safari ? ignoreIt :
+										b( '<p><em style="color:red">x</em></p><p><em style="color:blue">[]y</em></p>',
 																											[
 																												'<p><em style="color:red">x</em><em style="color:blue">^y</em></p>',
 																												'<p><em style="color:red">x^</em><em style="color:blue">y</em></p>' // For WebKit (#13709).
