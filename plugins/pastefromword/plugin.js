@@ -69,7 +69,7 @@
 					mswordHtml = data.dataValue;
 
 				// MS-WORD format sniffing.
-				if ( mswordHtml && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
+				if ( mswordHtml && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument|<o:\w+>)/ ).test( mswordHtml ) ) ) {
 					// Do not apply paste filter to data filtered by the Word filter (#13093).
 					data.dontFilter = true;
 
