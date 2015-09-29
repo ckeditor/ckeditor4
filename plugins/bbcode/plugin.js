@@ -26,9 +26,9 @@
 		}
 	} );
 
-	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol', s: 'span' },
-		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', code: 'code', li: '*' },
-		tagnameMap = { strong: 'b', em: 'i', u: 'u', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
+	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', s: 's', color: 'span', size: 'span', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
+		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', s: 's', code: 'code', li: '*' },
+		tagnameMap = { strong: 'b', em: 'i', u: 'u', s: 's', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
 		stylesMap = { color: 'color', size: 'font-size' },
 		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
 
@@ -153,9 +153,9 @@
 						}
 					}
 
-					// Three special handling - image, email and strikethrough, protect them
+					// Two special handling - image and email, protect them
 					// as "span" with an attribute marker.
-					if ( part == 'email' || part == 'img' || part == 's' )
+					if ( part == 'email' || part == 'img' )
 						attribs.bbcode = part;
 
 					this.onTagOpen( tagName, attribs, CKEDITOR.dtd.$empty[ tagName ] );
@@ -609,8 +609,6 @@
 							} else if ( bbcode == 'email' ) {
 								element.name = 'a';
 								element.attributes.href = 'mailto:' + element.children[ 0 ].value;
-							} else if ( bbcode == 's' ) {
-								element.attributes.style = 'text-decoration: line-through';
 							}
 
 							delete element.attributes.bbcode;
