@@ -31,6 +31,7 @@ bender.test( {
 		this.assertToBBCode( '[b]foo[/b]', '<strong>foo</strong>' );
 		this.assertToBBCode( '[i]foo[/i]', '<em>foo</em>' );
 		this.assertToBBCode( '[u]foo[/u]', '<u>foo</u>' );
+		this.assertToBBCode( '[s]foo[/s]', '<s>foo</s>' );
 		this.assertToBBCode( '[url]http://example.org[/url]', '<a href="http://example.org">http://example.org</a>' );
 		this.assertToBBCode( '[url=http://example.com]example[/url]', '<a href="http://example.com">example</a>' );
 		this.assertToBBCode( '[img]http://a.cksource.com/c/1/inc/img/demo-little-red.jpg[/img]',
@@ -59,6 +60,7 @@ bender.test( {
 		this.assertToHtml( '<strong>foo</strong>', '[b]foo[/b]' );
 		this.assertToHtml( '<em>foo</em>', '[i]foo[/i]' );
 		this.assertToHtml( '<u>foo</u>', '[u]foo[/u]' );
+		this.assertToHtml( '<s>foo</s>', '[s]foo[/s]' );
 
 		this.assertToHtml( '<a href="http://example.org">http://example.org</a>', '[url]http://example.org[/url]' );
 		this.assertToHtml( '<a href="http://example.com">example</a>', '[url=http://example.com]example[/url]' );
