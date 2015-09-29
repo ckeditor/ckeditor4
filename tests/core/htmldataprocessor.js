@@ -72,7 +72,8 @@
 		name: 'test_editor',
 		config: {
 			enterMode: CKEDITOR.ENTER_BR,
-			allowedContent: true
+			allowedContent: true,
+			removePlugins: 'link'
 		}
 	};
 
