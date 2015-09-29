@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+﻿/* bender-tags: editor,unit */
 
 ( function() {
 	'use strict';
@@ -11,6 +11,7 @@
 	var htmlEncode = CKEDITOR.tools.htmlEncode,
 		htmlDecode = CKEDITOR.tools.htmlDecode;
 
+	bender.editor = true;
 	bender.test( {
 		assertNormalizedCssText: function( expected, elementId, msg ) {
 			assert.areSame( expected, CKEDITOR.tools.normalizeCssText(
@@ -664,6 +665,31 @@
 
 			// Check if next token will be the same.
 			assert.areEqual( token, CKEDITOR.tools.getCsrfToken(), 'getCsrfToken returns token from cookie' );
+		},
+
+		'test keystrokeToString': function() {
+			var toString = CKEDITOR.tools.keystrokeToString,
+				lang = this.editor.lang.common.keyboard,
+				tests = [
+					// [ Keystroke, display string, display string on Mac, ARIA string, ARIA string on Mac ]
+					[ CKEDITOR.CTRL + 65 /*A*/, 'CTRL+A', '⌘+A', 'CTRL+A', 'COMMAND+A' ],
+					[ CKEDITOR.ALT + 66 /*B*/, 'ALT+B', '⌥+B', 'ALT+B', 'ALT+B' ],
+					[ CKEDITOR.SHIFT + 67 /*C*/, 'SHIFT+C', '⇧+C', 'SHIFT+C', 'SHIFT+C' ],
+					[ CKEDITOR.CTRL + CKEDITOR.ALT + 68 /*D*/, 'CTRL+ALT+D', '⌘+⌥+D', 'CTRL+ALT+D', 'COMMAND+ALT+D' ],
+					[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 69 /*E*/, 'CTRL+SHIFT+E', '⌘+⇧+E', 'CTRL+SHIFT+E', 'COMMAND+SHIFT+E' ],
+					[ CKEDITOR.ALT + CKEDITOR.SHIFT + 70 /*F*/, 'ALT+SHIFT+F', '⌥+⇧+F', 'ALT+SHIFT+F', 'ALT+SHIFT+F' ],
+					[ CKEDITOR.CTRL + CKEDITOR.ALT + CKEDITOR.SHIFT + 71 /*G*/, 'CTRL+ALT+SHIFT+G', '⌘+⌥+⇧+G', 'CTRL+ALT+SHIFT+G', 'COMMAND+ALT+SHIFT+G' ],
+					[ CKEDITOR.CTRL + 32 /*SPACE*/, 'CTRL+SPACE', '⌘+SPACE', 'CTRL+SPACE', 'COMMAND+SPACE' ],
+					[ CKEDITOR.ALT + 13 /*ENTER*/, 'ALT+ENTER', '⌥+ENTER', 'ALT+ENTER', 'ALT+ENTER' ]
+				],
+				test,
+				expIndex = CKEDITOR.env.mac ? 2 : 1;
+
+			for ( var i = 0, l = tests.length; i < l; i++ ) {
+				test = tests[ i ];
+				assert.areEqual( test[ expIndex ], toString( lang, test[ 0 ] ).display, 'Keystroke display string representation is invalid.' );
+				assert.areEqual( test[ expIndex + 2 ], toString( lang, test[ 0 ] ).aria, 'Keystroke ARIA string representation is invalid.' );
+			}
 		}
 	} );
 } )();
