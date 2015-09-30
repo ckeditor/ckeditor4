@@ -2,18 +2,23 @@
 
 ( function( CKEDITOR ) {
 	var tools = CKEDITOR.tools;
+	var invalidTags = [
+		'o:p',
+		'xml',
+		'script',
+		'meta',
+		'link'
+	];
 
 	CKEDITOR.cleanWord = function( mswordHtml ) {
 
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
 
 		var filter = new CKEDITOR.htmlParser.filter( {
+			// Each element is processed through the '^' function, then
+			// any matching pattern and finally through the '$' function.
 			elements: {
-				'$': function( element ) {
-
-					if ( removeThisElement( element ) ) {
-						return;
-					}
+				'^': function( element ) {
 
 					normalizeStyles( element );
 
@@ -23,6 +28,12 @@
 
 					deleteEmptyAttributes( element );
 				}
+			},
+			elementNames: [
+				[ new RegExp( invalidTags.join( '|' ) ), '' ] // Remove invalid tags.
+			],
+			comment: function() {
+
 			}
 		} );
 
@@ -33,19 +44,6 @@
 
 		return writer.getHtml();
 	};
-
-	function removeThisElement( element ) {
-		var invalidTags = [
-			'o:p'
-		];
-
-		if ( tools.indexOf( invalidTags, element.name ) !== -1 ) {
-			delete element.name;
-			return true;
-		}
-
-		return false;
-	}
 
 	function normalizeStyles( element ) {
 		var styles = tools.parseCssText( element.attributes.style );
