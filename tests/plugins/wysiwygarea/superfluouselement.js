@@ -36,7 +36,7 @@ bender.test( {
 
 				bender.tools.setHtmlWithSelection( editor, '<p>^</p>' );
 
-				editor.editable().fire( 'keyup' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 				assert.isInnerHtmlMatching( '^', bender.tools.getHtmlWithSelection( editor ) );
 			} );
@@ -62,7 +62,7 @@ bender.test( {
 
 				bender.tools.setHtmlWithSelection( editor, '<div>k^</div>' );
 
-				editor.editable().fire( 'keyup' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 				assert.isInnerHtmlMatching( 'k^', bender.tools.getHtmlWithSelection( editor ) );
 			} );
@@ -87,7 +87,7 @@ bender.test( {
 					shiftKey: false
 				} ) );
 
-				editor.editable().fire( 'keyup' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 				assert.isInnerHtmlMatching( '<div>^&nbsp;</div>', bender.tools.getHtmlWithSelection( editor ) );
 			} );
@@ -133,11 +133,11 @@ bender.test( {
 					shiftKey: false
 				} ) );
 
-				editor.editable().fire( 'keyup' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-				editor.editable().fire( 'keyup' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-				editor.editable().fire( 'keyup' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 				assert.isInnerHtmlMatching( 'k^', bender.tools.getHtmlWithSelection( editor ) );
 			} );
@@ -168,9 +168,9 @@ bender.test( {
 					shiftKey: false
 				} ) );
 
-				editor.editable().fire( 'keyup' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
-				editor.editable().fire( 'keyup' );
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
 
 				assert.isInnerHtmlMatching( '<div>^&nbsp;</div>', bender.tools.getHtmlWithSelection( editor ) );
 			} );
