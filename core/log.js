@@ -114,13 +114,14 @@ CKEDITOR.on( 'log', function( evt ) {
 	var type = console[ evt.data.type ] ? evt.data.type : 'log',
 		errorCode = evt.data.errorCode,
 		additionalData = evt.data.additionalData,
-		prefix = '[CKEDITOR] ';
+		prefix = '[CKEDITOR] ',
+		errorCodeLabel = 'Error: ';
 
 	if ( additionalData ) {
-		console[ type ]( prefix + errorCode, additionalData );
+		console[ type ]( prefix + errorCodeLabel + errorCode + '.', additionalData );
 	} else {
-		console[ type ]( prefix + errorCode );
+		console[ type ]( prefix + errorCodeLabel + errorCode + '.' );
 	}
 
-	console[ type ]( prefix + 'For more information go to http://docs.ckeditor.com/#!/guide/dev_errors-section-' + errorCode );
+	console[ type ]( prefix + 'For more information about this error go to http://docs.ckeditor.com/#!/guide/dev_errors-section-' + errorCode );
 }, null, null, 999 );
