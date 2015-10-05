@@ -1138,6 +1138,7 @@
 
 	CKEDITOR.tools.extend( CKEDITOR.dom.selection, {
 		_removeFillingCharSequenceString: removeFillingCharSequenceString,
+		_createFillingCharSequenceNode: createFillingCharSequenceNode,
 
 		/**
 		 * The sequence used in Webkits to create a Filling Char. By default it is
