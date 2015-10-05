@@ -3,18 +3,18 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'eu', {
-	alt: 'Ordezko Testua',
-	btnUpload: 'Zerbitzarira bidalia',
-	captioned: 'Captioned image', // MISSING
-	captionPlaceholder: 'Caption', // MISSING
-	infoTab: 'Irudi informazioa',
-	lockRatio: 'Erlazioa Blokeatu',
-	menu: 'Irudi Ezaugarriak',
-	pathName: 'image', // MISSING
-	pathNameCaption: 'caption', // MISSING
-	resetSize: 'Tamaina Berrezarri',
-	resizer: 'Click and drag to resize', // MISSING
-	title: 'Irudi Ezaugarriak',
-	uploadTab: 'Gora kargatu',
-	urlMissing: 'Irudiaren iturburu URL-a falta da.'
+	alt: 'Ordezko testua',
+	btnUpload: 'Bidali zerbitzarira',
+	captioned: 'Argazki oina',
+	captionPlaceholder: 'Argazki oina',
+	infoTab: 'Irudiaren informazioa',
+	lockRatio: 'Blokeatu erlazioa',
+	menu: 'Irudiaren propietateak',
+	pathName: 'Irudia',
+	pathNameCaption: 'Argazki oina',
+	resetSize: 'Berrezarri tamaina',
+	resizer: 'Klikatu eta arrastatu tamainaz aldatzeko',
+	title: 'Irudiaren propietateak',
+	uploadTab: 'Kargatu',
+	urlMissing: 'Irudiaren iturburuaren URLa falta da.'
 } );

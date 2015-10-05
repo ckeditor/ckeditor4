@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'ug', {
 	button: 'كود پارچىسى قىستۇرۇش',
-	codeContents: 'Code content', // MISSING
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	codeContents: 'كود مەزمۇنى',
+	emptySnippetError: 'كود پارچىسى بوش قالمايدۇ',
+	language: 'تىل',
+	title: 'كود پارچىسى',
+	pathName: 'كود پارچىسى'
 } );
