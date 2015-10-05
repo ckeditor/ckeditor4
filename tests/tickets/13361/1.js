@@ -1,4 +1,4 @@
-/* bender-tags: tc, skin, button, 13361, unit */
+/* bender-tags: skin, button, 13361 */
 /* bender-ckeditor-plugins: button, toolbar */
 
 ( function() {
@@ -40,8 +40,10 @@
 				saveBtnEl = CKEDITOR.document.getById( saveBtn._.id ),
 				saveBtnIcon = saveBtnEl.$.firstChild;
 
-			// Strict comparision doesn't make sense as old IEs return URI in other format; yet all browsers set elem.style.backgroundImage only if string is syntactically correct.
-			assert.areNotSame( '', saveBtnIcon.style.backgroundImage, 'check if custom_save button has correctly defined background-image' );
+			// Strict comparision doesn't make sense as old IEs return URI in other format;
+			// yet all browsers set elem.style.backgroundImage only if string is syntactically correct.
+			assert.areNotSame( '', saveBtnIcon.style.backgroundImage,
+				'check if custom_save button has correctly defined background-image' );
 		},
 
 		'test icon with closing parenthesis': function() {
@@ -49,7 +51,8 @@
 				undoBtnEl = CKEDITOR.document.getById( undoBtn._.id ),
 				undoBtnIcon = undoBtnEl.$.firstChild;
 
-			assert.areNotSame( '', undoBtnIcon.style.backgroundImage, 'check if custom_undo button has correctly defined background-image' );
+			assert.areNotSame( '', undoBtnIcon.style.backgroundImage,
+				'check if custom_undo button has correctly defined background-image' );
 		},
 
 		'test icon with apostrophe': function() {
@@ -57,7 +60,8 @@
 				pasteBtnEl = CKEDITOR.document.getById( pasteBtn._.id ),
 				pasteBtnIcon = pasteBtnEl.$.firstChild;
 
-			assert.areNotSame( '', pasteBtnIcon.style.backgroundImage, 'check if custom_paste button has correctly defined background-image' );
+			assert.areNotSame( '', pasteBtnIcon.style.backgroundImage,
+				'check if custom_paste button has correctly defined background-image' );
 		}
 	} );
 } )();

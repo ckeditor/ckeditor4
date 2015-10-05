@@ -125,7 +125,7 @@
 			offset = overrideOffset || ( icon && icon.offset );
 			bgsize = overrideBgsize || ( icon && icon.bgsize ) || '16px';
 
-			// #13361 - if we use apostrophes in background-image, we must escape apostrophes in path (just to be sure).
+			// If we use apostrophes in background-image, we must escape apostrophes in path (just to be sure). (#13361)
 			if ( path )
 				path = path.replace( /'/g, '\\\'' );
 
