@@ -5,7 +5,9 @@
 var doc = CKEDITOR.document,
 	FCS = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
 	FCSLength = FCS.length,
-	removeFillingCharSequenceString = CKEDITOR.dom.selection._removeFillingCharSequenceString;
+
+	removeFillingCharSequenceString = CKEDITOR.dom.selection._removeFillingCharSequenceString,
+	createFillingCharSequenceNode = CKEDITOR.dom.selection._createFillingCharSequenceNode;
 
 function createPlayground( html ) {
 	var playground = doc.createElement( 'div' );
@@ -15,8 +17,9 @@ function createPlayground( html ) {
 	// split text nodes.
 	html = html.replace( /\./g, '<i class="split"></i>' );
 
-	// Replace % with Filling Character Sequence.
-	html = html.replace( /%/g, FCS );
+	// Replace % with Filling Character Sequence dummy element.
+	// Dummy will, in turn, be converted into a real FCSeq text node.
+	html = html.replace( /%/g, '<b class="fcseq"></b>' );
 
 	// Creating empty elements...
 	html = html.replace( /\((\w+)\)/g, function( match, $0 ) {
@@ -50,6 +53,22 @@ function createPlayground( html ) {
 
 	for ( i = 0; i < split.count(); i++ ) {
 		split.getItem( i ).remove();
+	}
+
+	// Find the FCSeq dummy element and replace it with a real FCSeq.
+	var fillingCharDummy = playground.findOne( '.fcseq' );
+
+	if ( fillingCharDummy ) {
+		var fillingChar = createFillingCharSequenceNode( playground ),
+			fillingCharFollowing;
+
+		fillingChar.replace( fillingCharDummy );
+
+		// Merge the following text node with Filling Char Sequence text node, if such exist.
+		if ( ( fillingCharFollowing = fillingChar.getNext() ) && fillingCharFollowing.type == CKEDITOR.NODE_TEXT ) {
+			fillingChar.setText( fillingChar.getText() + fillingCharFollowing.getText() );
+			fillingCharFollowing.remove();
+		}
 	}
 
 	return playground;
