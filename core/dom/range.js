@@ -896,7 +896,13 @@ CKEDITOR.dom.range = function( root ) {
 						if ( fillingCharAddress.slice( 0, address.length ).join( '' ) == address.join( '' ) ) {
 							// So when x == a, y == b and z == c, if the FCSeq precedes the offset, decrement the offset.
 							if ( fillingCharAddress[ fillingCharAddressLength - 1 ] < bookmark[ startOrEnd + 'Offset' ] ) {
-								--bookmark[ startOrEnd + 'Offset' ];
+
+								// The offset does not need update if FCSeq contains user text or is followd by a text node.
+								// In such cases, the FCSeq node will not simply vanish.
+								var fillingCharFollowing = data.fillingChar.getNext();
+								if ( isFillingCharEmpty( data.fillingChar ) && fillingCharFollowing && fillingCharFollowing.type != CKEDITOR.NODE_TEXT ) {
+									--bookmark[ startOrEnd + 'Offset' ];
+								}
 							}
 						}
 					}
