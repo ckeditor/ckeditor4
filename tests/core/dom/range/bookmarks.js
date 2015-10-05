@@ -65,7 +65,8 @@ function createPlayground( html ) {
 		fillingChar.replace( fillingCharDummy );
 
 		// Merge the following text node with Filling Char Sequence text node, if such exist.
-		if ( ( fillingCharFollowing = fillingChar.getNext() ) && fillingCharFollowing.type == CKEDITOR.NODE_TEXT ) {
+		// Note: Don't merge with empty text nodes because they have a special purpose in tests.
+		if ( ( fillingCharFollowing = fillingChar.getNext() ) && fillingCharFollowing.type == CKEDITOR.NODE_TEXT && fillingCharFollowing.getText() ) {
 			fillingChar.setText( fillingChar.getText() + fillingCharFollowing.getText() );
 			fillingCharFollowing.remove();
 		}
@@ -367,7 +368,12 @@ addBookmark2TCs( tcs, {
 		'abcdef 2a': [ '%<b>def</b>', { sc: 'root', so: 1, ec: '#def', eo: 1 }, { sc: 'root', so: 0, ec: '#def', eo: 1 } ],
 		'abcdef 3': [ '<b>a</b>%<b>c</b>d<i>e</i>', { sc: 'root', so: 2, ec: '#e', eo: 1 }, { sc: 'root', so: 1, ec: '#e', eo: 1 } ],
 		'abcdef 4': [ '<b>%<i>abc</i></b>', { sc: 'b', so: 1, ec: 'b', eo: 2 }, { sc: 'b', so: 0, ec: 'b', eo: 1 } ],
-		'abcdef 5': [ '<b>%(foo)abc<i>def</i></b>', { sc: 'b', so: 2, ec: 'b', eo: 4 }, { sc: 'b', so: 0, ec: 'b', eo: 2 } ]
+		'abcdef 5': [ '<b>%(foo)abc<i>def</i></b>', { sc: 'b', so: 2, ec: 'b', eo: 4 }, { sc: '#abc', so: 0, ec: 'b', eo: 2 } ],
+		'abcdef 5b': [ '<b>%abc<i>def</i></b>', { sc: 'b', so: 1, ec: 'b', eo: 2 }, { sc: 'b', so: 1, ec: 'b', eo: 2 } ],
+		'abcdef 5c': [ '<b>%abc<i>def</i></b>', { sc: 'b', so: 1 }, { sc: 'b', so: 1 } ],
+		'abcdef 5d': [ '<b>%(foo)abc<i>def</i></b>', { sc: 'b', so: 2 }, { sc: '#abc', so: 0 } ]
+		// 'abcdef 6': [ '<b>%(foo)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
+		// 'abcdef 7': [ '<b>(foo)<i>def</i></b>', { sc: 'b', so: 1, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
 	}
 } );
 
