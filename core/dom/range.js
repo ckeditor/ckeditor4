@@ -809,7 +809,7 @@ CKEDITOR.dom.range = function( root ) {
 				return sum;
 			}
 
-			function normalize( limit ) {
+			function normalizeTextNodes( limit ) {
 				var container = limit.container,
 					offset = limit.offset;
 
@@ -870,6 +870,70 @@ CKEDITOR.dom.range = function( root ) {
 				limit.offset = offset;
 			}
 
+			function isFillingCharEmpty( fillingChar ) {
+				return fillingChar.getText().length == CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.length;
+			}
+
+			function fixBookmarkForFillingCharSequenceRemoval( data, startOrEnd, containerAndOffset ) {
+				var fillingCharAddress = data.fillingChar.getAddress( 1 ),
+					fillingCharAddressLength = fillingCharAddress.length,
+					bookmark = data.bookmark,
+					address = bookmark[ startOrEnd ],
+					container = containerAndOffset.container;
+
+				if ( container.equals( data.fillingChar ) ) {
+					bookmark[ startOrEnd + 'Offset' ] -= CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.length;
+				} else {
+					// Check if the FCSeq node **could** be a child of the last element in address (given the length of the address).
+					// If so, it means that FCSeq **may** influence the **offset**, if removed from DOM.
+					//
+					// { address: [ x, y, z ], fillingCharAddress: [ a, b, c, d ] } -> FCS **may** influence the **offset**.
+					// { address: [ x, y, z ], fillingCharAddress: [ a, b, c ] } -> FCS **cannot** influence the **offset**.
+					if ( address.length == fillingCharAddressLength - 1 ) {
+						// Compare the addresses to make sure FCSeq's parent is the last element in address.
+						//
+						// { address: [ x, y, z ], fillingCharAddress: [ a, b, c, d ] } -> Check [ x, y, z ] == [ a, b, c ]
+						if ( fillingCharAddress.slice( 0, address.length ).join( '' ) == address.join( '' ) ) {
+							// So when x == a, y == b and z == c, if the FCSeq precedes the offset, decrement the offset.
+							if ( fillingCharAddress[ fillingCharAddressLength - 1 ] < bookmark[ startOrEnd + 'Offset' ] ) {
+								--bookmark[ startOrEnd + 'Offset' ];
+							}
+						}
+					}
+
+					// Check if FCSeq node is shallower in DOM than the address to be fixed. If so, it means that
+					// FCSeq **may** influence the **address**, if removed from DOM.
+					//
+					// { address: [ x, y, z ], fillingCharAddress: [ a, b ] } -> FCS **may** influence the **address**.
+					// { address: [ x, y, z ], fillingCharAddress: [ a, b, c ] } -> FCS **may** influence the **address**.
+					// { address: [ x, y, z ], fillingCharAddress: [ a, b, d, e ] } -> FCS **cannot** influence the **address**.
+					else if ( isFillingCharEmpty( data.fillingChar ) && address.length >= fillingCharAddressLength ) {
+						// Check if the last index of FCSeq's address is lower than the index of the address
+						// to be fixed (at the same depth level). If so, when FCSeq is removed, the the index
+						// in the address, which is supposed to be fixed must be decremented.
+						//
+						// address:            [ x, y, z ] -> y
+						// fillingCharAddress: [ a, b ] -> b
+						if ( address[ fillingCharAddressLength - 1 ] > fillingCharAddress[ fillingCharAddressLength - 1 ] ) {
+							// When y > b, decrement y in the bookmark address.
+							--address[ fillingCharAddressLength - 1 ];
+						}
+					}
+				}
+			}
+
+			function normalizeFCSeq( data ) {
+				data.fillingChar = data.root.getCustomData( 'cke-fillingChar' );
+
+				if ( data.fillingChar ) {
+					fixBookmarkForFillingCharSequenceRemoval( data, 'start', data.bmStart );
+
+					if ( !data.bookmark.collapsed ) {
+						fixBookmarkForFillingCharSequenceRemoval( data, 'end', data.bmEnd );
+					}
+				}
+			}
+
 			return function( normalized ) {
 				var collapsed = this.collapsed,
 					bmStart = {
@@ -882,13 +946,13 @@ CKEDITOR.dom.range = function( root ) {
 					};
 
 				if ( normalized ) {
-					normalize( bmStart );
+					normalizeTextNodes( bmStart );
 
 					if ( !collapsed )
-						normalize( bmEnd );
+						normalizeTextNodes( bmEnd );
 				}
 
-				return {
+				var bookmark = {
 					start: bmStart.container.getAddress( normalized ),
 					end: collapsed ? null : bmEnd.container.getAddress( normalized ),
 					startOffset: bmStart.offset,
@@ -897,6 +961,17 @@ CKEDITOR.dom.range = function( root ) {
 					collapsed: collapsed,
 					is2: true // It's a createBookmark2 bookmark.
 				};
+
+				if ( normalized ) {
+					normalizeFCSeq( {
+						root: this.root,
+						bookmark: bookmark,
+						bmStart: bmStart,
+						bmEnd: bmEnd
+					} );
+				}
+
+				return bookmark;
 			};
 		} )(),
 
