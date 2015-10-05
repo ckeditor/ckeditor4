@@ -11,22 +11,22 @@ New Features:
 Fixed Issues:
 
 * [#9856](http://dev.ckeditor.com/ticket/9856): Fixed: Cannot use the native context menu together with the [Div Editing Area](http://ckeditor.com/addon/divarea) plugin. Thanks to [Mark Wade](https://github.com/mark-wade)!
-* [#12733](http://dev.ckeditor.com/ticket/12733): Fixed: Radio button onChange doesn't work in IE9+. Thanks to [Iliya Kostadinov](https://github.com/iliyakostadinov)!
-* [#13142](http://dev.ckeditor.com/ticket/13142): [Edge] Fixed: CTRL+A, backspace results in an empty div.
-* [#13599](http://dev.ckeditor.com/ticket/13599): Fixed: Cross-editor D&amp;D of inline widget ends up in error/artifacts.
-* [#13640](http://dev.ckeditor.com/ticket/13640): [IE] Fixed: Dropping a widget outside body is not handled correctly.
+* [#12733](http://dev.ckeditor.com/ticket/12733): [IE9+] Fixed: Radio button `onChange` does not work. Thanks to [Iliya Kostadinov](https://github.com/iliyakostadinov)!
+* [#13142](http://dev.ckeditor.com/ticket/13142): [Edge] Fixed: *Ctrl+A* and then *Backspace* result in an empty `<div>` element.
+* [#13599](http://dev.ckeditor.com/ticket/13599): Fixed: Cross-editor drag and drop of an inline widget results in error/artifacts.
+* [#13640](http://dev.ckeditor.com/ticket/13640): [IE] Fixed: Dropping a widget outside the `<body>` element is not handled correctly.
 * [#13533](http://dev.ckeditor.com/ticket/13533): Fixed: No progress during upload.
-* [#13680](http://dev.ckeditor.com/ticket/13680): Fixed: The parser should allow `<h1-6>` to be a child of the `<summary>` element.
+* [#13680](http://dev.ckeditor.com/ticket/13680): Fixed: The parser should allow the `<h1-6>` element to be a child of the `<summary>` element.
 * [#11724](http://dev.ckeditor.com/ticket/11724): [Touch devices] Fixed: Drop-downs often hide right after opening them.
-* [#13690](http://dev.ckeditor.com/ticket/13690): Fixed: Copying content from IE to Chrome adding extra paragraph.
-* [#13284](http://dev.ckeditor.com/ticket/13284): Fixed: Cannot drag and drop a widget if a text caret is placed just after widget instance.
-* [#13516](http://dev.ckeditor.com/ticket/13516): Fixed: CKEditor removes empty html5 anchors without name attribute.
-* [#13765](http://dev.ckeditor.com/ticket/13765): [Safari 9] Fixed: Problems with rendering samples in Safari 9.
+* [#13690](http://dev.ckeditor.com/ticket/13690): Fixed: Copying content from IE to Chrome adds an extra paragraph.
+* [#13284](http://dev.ckeditor.com/ticket/13284): Fixed: Cannot drag and drop a widget if the text caret is placed just after the widget instance.
+* [#13516](http://dev.ckeditor.com/ticket/13516): Fixed: CKEditor removes empty HTML5 anchors without the `name` attribute.
+* [#13765](http://dev.ckeditor.com/ticket/13765): [Safari 9] Fixed: Problems with rendering samples.
 
 Other Changes:
 
-* [#11725](http://dev.ckeditor.com/ticket/11725): Marked [`CKEDITOR.env.mobile`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-mobile) as deprecated. The reason is that it is not anymore clear what "mobile" means.
-* [#13737](http://dev.ckeditor.com/ticket/13737): Upgraded Bender.js to 0.4.1.
+* [#11725](http://dev.ckeditor.com/ticket/11725): Marked [`CKEDITOR.env.mobile`](http://docs.ckeditor.com/#!/api/CKEDITOR.env-property-mobile) as deprecated. The reason is that it is no longer clear what "mobile" means.
+* [#13737](http://dev.ckeditor.com/ticket/13737): Upgraded [Bender.js](https://github.com/benderjs/benderjs) to 0.4.1.
 
 ## CKEditor 4.5.3
 

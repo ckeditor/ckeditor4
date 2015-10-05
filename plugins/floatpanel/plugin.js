@@ -31,7 +31,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 	/**
 	 * Represents a floating panel UI element.
 	 *
-	 * It's reused by rich combos, color combos, menus, etc.
+	 * It is reused by rich combos, color combos, menus, etc.
 	 * and it renders its content using {@link CKEDITOR.ui.panel}.
 	 *
 	 * @class
@@ -119,7 +119,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			/**
-			 * Shows panel block.
+			 * Shows the panel block.
 			 *
 			 * @param {String} name
 			 * @param {CKEDITOR.dom.element} offsetParent Positioned parent.
@@ -426,7 +426,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			/**
-			 * Reposition panel with same parameters that was used in last {@link #showBlock} call.
+			 * Repositions the panel with the same parameters that were used in the last {@link #showBlock} call.
 			 *
 			 * @since 4.5.4
 			 */
@@ -440,7 +440,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			/**
-			 * Restores last focused element or simply focus panel window.
+			 * Restores the last focused element or simply focuses the panel window.
 			 */
 			focus: function() {
 				// Webkit requires to blur any previous focused page element, in
@@ -466,7 +466,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			/**
-			 * Hides panel.
+			 * Hides the panel.
 			 *
 			 * @todo
 			 */
@@ -509,7 +509,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			/**
-			 * Shows specified panel as a child of one block of this one.
+			 * Shows the specified panel as a child of one block of this one.
 			 *
 			 * @param {CKEDITOR.ui.floatPanel} panel
 			 * @param {String} blockName
