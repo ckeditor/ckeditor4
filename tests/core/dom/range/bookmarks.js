@@ -364,7 +364,10 @@ addBookmark2TCs( tcs, {
 	'filling character sequence': {
 		'abcdef 1': [ '<p>abc</p><p><b>%def</b></p>', { sc: '#abc', so: 1, ec: '#def', eo: FCSLength + 2 }, { sc: '#abc', so: 1, ec: '#def', eo: 2 } ],
 		'abcdef 2': [ '%abc<b>def</b>', { sc: '#abc', so: FCSLength + 1, ec: '#def', eo: 1 }, { sc: '#abc', so: 1, ec: '#def', eo: 1 } ],
-		'abcdef 3': [ '<b>a</b>%<b>c</b>d<i>e</i>', { sc: 'root', so: 2, ec: '#e', eo: 1 }, { sc: 'root', so: 1, ec: '#e', eo: 1 } ]
+		'abcdef 2a': [ '%<b>def</b>', { sc: 'root', so: 1, ec: '#def', eo: 1 }, { sc: 'root', so: 0, ec: '#def', eo: 1 } ],
+		'abcdef 3': [ '<b>a</b>%<b>c</b>d<i>e</i>', { sc: 'root', so: 2, ec: '#e', eo: 1 }, { sc: 'root', so: 1, ec: '#e', eo: 1 } ],
+		'abcdef 4': [ '<b>%<i>abc</i></b>', { sc: 'b', so: 1, ec: 'b', eo: 2 }, { sc: 'b', so: 0, ec: 'b', eo: 1 } ],
+		'abcdef 5': [ '<b>%(foo)abc<i>def</i></b>', { sc: 'b', so: 2, ec: 'b', eo: 4 }, { sc: 'b', so: 0, ec: 'b', eo: 2 } ]
 	}
 } );
 
