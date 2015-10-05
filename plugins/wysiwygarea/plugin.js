@@ -503,25 +503,27 @@
 			detach: function() {
 				var editor = this.editor,
 					doc = editor.document,
-					iframe = editor.window.getFrame();
+					iframe = editor.window.getFrame(),
+					onResize;
 
 				framedWysiwyg.baseProto.detach.call( this );
 
 				// Memory leak proof.
 				this.clearCustomData();
 				doc.getDocumentElement().clearCustomData();
-				if ( iframe )
-					iframe.clearCustomData();
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
 
 				if ( iframe ) {
-					var onResize = iframe.removeCustomData( 'onResize' );
+					iframe.clearCustomData();
+					onResize = iframe.removeCustomData( 'onResize' );
 					onResize && onResize.removeListener();
 
 					// IE BUG: When destroying editor DOM with the selection remains inside
 					// editing area would break IE7/8's selection system, we have to put the editing
 					// iframe offline first. (#3812 and #5441)
 					iframe.remove();
+				} else {
+					CKEDITOR.warn( 'editor-destroy-iframe' );
 				}
 			}
 		}
