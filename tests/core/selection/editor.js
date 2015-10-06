@@ -443,18 +443,7 @@ bender.test( {
 						editor.getSelection().selectRanges( [ range ] );
 
 						assert.isMatching( '^<p id="p">foo' + fillingCharSequence + '<em>bar<\/em><\/p>$', editor.editable().getHtml(), 'Filling char was inserted 2' );
-
-						editor.dataProcessor = {
-							toHtml: function( html ) {
-								return html;
-							},
-							toDataFormat: function( html ) {
-								return html;
-							}
-						};
-
 						assert.isMatching( /^<p id="p">foo<em>bar<\/em><\/p>$/, editor.getData(), 'Filling char was removed on getData' );
-
 
 						// TC3 - on undo image
 						// <p>foo^<em>...
