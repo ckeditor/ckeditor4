@@ -2,7 +2,8 @@
 /* bender-ckeditor-plugins: undo,enterkey,horizontalrule,image,iframe,flash,basicstyles,toolbar,sourcearea */
 
 var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
-	fillingCharSequenceLength = fillingCharSequence.length;
+	fillingCharSequenceLength = fillingCharSequence.length,
+	createFillingCharSequenceNode = CKEDITOR.dom.selection._createFillingCharSequenceNode;
 
 function isActive( command ) {
 	return command.state === CKEDITOR.TRISTATE_OFF;
@@ -456,8 +457,12 @@ bender.test( {
 			range;
 
 		// Set testing content with selection.
-		editable.setHtml( '<p id="p1">' + fillingCharSequence + 'abc<em>def</em></p>' );
+		editable.setHtml( '<p id="p1"><i class="fcs"></i><em>def</em></p>' );
 		editor.focus();
+
+		var fillingChar = createFillingCharSequenceNode( editable );
+		fillingChar.setText( fillingChar.getText() + 'abc' );
+		fillingChar.replace( editable.findOne( '.fcs' ) );
 
 		// Selection: <p>FCSa[bc<em>de]f</em></p>
 		range = editor.createRange();
