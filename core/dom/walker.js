@@ -388,9 +388,9 @@
 		return function( node ) {
 			var isWhitespace;
 			if ( node && node.type == CKEDITOR.NODE_TEXT ) {
-				// whitespace, as well as the text cursor filler node we used in Webkit. (#9384)
+				// Whitespace, as well as the Filling Char Sequence text node used in Webkit. (#9384)
 				isWhitespace = !CKEDITOR.tools.trim( node.getText() ) ||
-					CKEDITOR.env.webkit && node.getText() == '\u200b';
+					CKEDITOR.env.webkit && node.getText() == CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
 			}
 
 			return !!( isReject ^ isWhitespace );
