@@ -371,7 +371,11 @@ addBookmark2TCs( tcs, {
 		'abcdef 5': [ '<b>%(foo)abc<i>def</i></b>', { sc: 'b', so: 2, ec: 'b', eo: 4 }, { sc: '#abc', so: 0, ec: 'b', eo: 2 } ],
 		'abcdef 5b': [ '<b>%abc<i>def</i></b>', { sc: 'b', so: 1, ec: 'b', eo: 2 }, { sc: 'b', so: 1, ec: 'b', eo: 2 } ],
 		'abcdef 5c': [ '<b>%abc<i>def</i></b>', { sc: 'b', so: 1 }, { sc: 'b', so: 1 } ],
-		'abcdef 5d': [ '<b>%(foo)abc<i>def</i></b>', { sc: 'b', so: 2 }, { sc: '#abc', so: 0 } ]
+		'abcdef 5d': [ '<b>%(foo)abc<i>def</i></b>', { sc: 'b', so: 2 }, { sc: '#abc', so: 0 } ],
+		'abcdef 5e': [ '<b>%</b>', { sc: 'b', so: 1 }, { sc: 'b', so: 0 } ],
+		'abcdef 5f': [ '<b>%</b>', { sc: 'b', so: 0 }, { sc: 'b', so: 0 } ],
+		'abcdef 5g': [ '<b>%</b>', { sc: 'b', so: 0, ec: 'b', eo: 1 }, { sc: 'b', so: 0, ec: 'b', eo: 0 } ],
+		'abcdef 5h': [ '<b>%</b>', { sc: 'b', so: 1, ec: 'root', eo: 1 }, { sc: 'b', so: 0, ec: 'root', eo: 1 } ]
 		// 'abcdef 6': [ '<b>%(foo)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
 		// 'abcdef 7': [ '<b>(foo)<i>def</i></b>', { sc: 'b', so: 1, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
 	}
