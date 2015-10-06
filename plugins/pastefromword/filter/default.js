@@ -110,16 +110,15 @@
 		var symbol;
 
 		element.forEach( function( element ) {
-			if ( !symbol && !element.value.match(/^&nbsp;/) ) {
+			if ( !symbol && !element.value.match( /^&nbsp;/ ) ) {
 				symbol = element.value;
-				//element.value = symbol.replace(/^.*?(&nbsp;)/, '$1');
 			}
 		}, CKEDITOR.NODE_TEXT );
 
 		element.attributes[ 'cke-symbol' ] = symbol.replace( /&nbsp;.*$/, '' );
 	}
 
-	function removeListSymbol( element ) {
+	function removeListSymbol( element ) { // ...from the element's text content.
 		var symbol = element.attributes[ 'cke-symbol' ];
 
 		element.forEach( function( element ) {
@@ -130,18 +129,49 @@
 		}, CKEDITOR.NODE_TEXT );
 	}
 
-	function createListWithSymbol( element ) {
-		var symbol;
+	function setSymbol( list, symbol ) {
+		if ( list.name == 'ol' ) {
+			if ( list.attributes.type ) return;
 
-		if ( symbol = ( element.attributes[ 'cke-symbol' ].match( /([\daiIA])\./ ) || [] )[ 1 ] ) {
-			return new CKEDITOR.htmlParser.element( 'ol', {
-				type: symbol
-			} );
+			switch ( symbol ) {
+				case 'a.':
+				case 'b.':
+					list.attributes.type = 'a';
+					break;
+				case 'A.':
+				case 'B.':
+					list.attributes.type = 'A';
+					break;
+				case 'i.':
+				case 'ii.':
+					list.attributes.type = 'i';
+					break;
+				case 'I.':
+				case 'II.':
+					list.attributes.type = 'I';
+					break;
+			}
+		} else {
+			var style = tools.parseCssText( list.attributes.style );
+			var symbolMap = {
+				/* '·': 'disc', // This is the default level one symbol. Omitted for clarity. */
+				'o': 'circle',
+				'§': 'square' // In Word this is a square.
+			};
+
+			if ( style[ 'list-style-type' ] || !symbolMap[ symbol ] ) return;
+
+			style[ 'list-style-type' ] = symbolMap[ symbol ];
+
+			list.attributes.style = CKEDITOR.tools.writeCssText( style );
 		}
+	}
 
-		return new CKEDITOR.htmlParser.element( 'ul', {
-			style: 'list-style-type: ' + symbol
-		} );
+	function createList( element ) {
+		if ( ( element.attributes[ 'cke-symbol' ].match( /([\daiIA])\./ ) || [] )[ 1 ] ) {
+			return new CKEDITOR.htmlParser.element( 'ol' );
+		}
+		return new CKEDITOR.htmlParser.element( 'ul' );
 	}
 
 	function createLists( root ) {
@@ -165,7 +195,7 @@
 		}
 
 		// Chop data into continuous lists.
-		var lists = [ [ listElements[0] ] ];
+		var lists = [ [ listElements[ 0 ] ] ];
 		var lastList = lists[ 0 ];
 
 		for ( i = 1; i < listElements.length; i++ ) {
@@ -180,12 +210,13 @@
 			lastList.push( element );
 		}
 
+		// Create nested list structures.
 		for ( i = 0; i < lists.length; i++ ) {
 			var list = lists[ i ];
-			var containerStack = [ createListWithSymbol( list[ 0 ] ) ];
+			var containerStack = [ createList( list[ 0 ] ) ];
 			var innermostContainer = containerStack[ 0 ];
 
-			innermostContainer.insertBefore( list[0] );
+			innermostContainer.insertBefore( list[ 0 ] );
 
 			for ( var j = 0; j < list.length; j++ ) {
 				element = list[ j ];
@@ -193,26 +224,52 @@
 				level = element.attributes[ 'cke-list-level' ];
 
 				while ( level > containerStack.length ) {
-					// Create a list nested in a list item
-					var container = new CKEDITOR.htmlParser.element( 'li', {
-						style: 'list-style-type:none'
-					} );
-					var content = createListWithSymbol( element );
-					container.add( content );
+					var content = createList( element );
 
-					innermostContainer.add( container );
+					var children = innermostContainer.children;
+					if ( children.length > 0 ) {
+						children[ children.length - 1 ].add( content );
+					} else {
+						var container = new CKEDITOR.htmlParser.element( 'li', {
+							style: 'list-style-type:none'
+						} );
+						container.add( content );
+						innermostContainer.add( container );
+					}
 
 					containerStack.push( content );
 					innermostContainer = content;
+
+					if ( level == containerStack.length ) {
+						setSymbol( content, element.attributes[ 'cke-symbol' ] );
+					}
 				}
 
 				while ( level < containerStack.length ) {
 					containerStack.pop();
 					innermostContainer = containerStack[ containerStack.length - 1 ];
+
+					if ( level == containerStack.length ) {
+						setSymbol( innermostContainer, element.attributes[ 'cke-symbol' ] );
+					}
 				}
 
 				element.remove();
 				innermostContainer.add( element );
+			}
+		}
+
+		// Final cleanup
+		var tempAttributes = [
+			'cke-list-level',
+			'cke-symbol'
+		];
+
+		for ( i = 0; i < listElements.length; i++ ) {
+			element = listElements[ i ];
+
+			for ( j = 0; j < tempAttributes.length; j++ ) {
+				delete element.attributes[ tempAttributes[ j ] ];
 			}
 		}
 	}
