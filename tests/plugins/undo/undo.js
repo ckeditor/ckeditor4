@@ -456,9 +456,10 @@ bender.test( {
 			undo = editor.getCommand( 'undo' ),
 			range;
 
+		editor.focus();
+
 		// Set testing content with selection.
 		editable.setHtml( '<p id="p1"><i class="fcs"></i><em>def</em></p>' );
-		editor.focus();
 
 		var fillingChar = createFillingCharSequenceNode( editable );
 		fillingChar.setText( fillingChar.getText() + 'abc' );
@@ -480,13 +481,13 @@ bender.test( {
 		// Check if undo is available.
 		assert.isTrue( isActive( undo ), 'Undo enabled.' );
 		assert.areSame( 2, editor.undoManager.snapshots.length, 'Number of snapshots recorded.' );
-		assert.areSame( '<p id="p1">abc<em>def</em></p>', editor.undoManager.snapshots[ 0 ].contents, 'Snapshot does not contain FCSeq.' );
+		assert.isInnerHtmlMatching( '<p id="p1">abc<em>def</em>@</p>', editor.undoManager.snapshots[ 0 ].contents, 'Snapshot does not contain FCSeq.' );
 
 		// Go back to the testing content.
 		editor.execCommand( 'undo' );
 
 		// Check if testing content has been correctly restored.
-		assert.areSame( '<p id="p1">abc<em>def</em></p>', editable.getHtml(), 'Snapshot restored without FCSeq.' );
+		assert.isInnerHtmlMatching( '<p id="p1">abc<em>def</em>@</p>', editable.getHtml(), 'Snapshot restored without FCSeq.' );
 
 		// Check if testing selection has been correctly reverted.
 		range = editor.getSelection().getRanges()[ 0 ];
@@ -577,6 +578,11 @@ bender.test( {
 		var editor = this.editor,
 			editable = editor.editable();
 
+		// Focus the editor to insert the Filling Char Sequence during this test
+		// and make assertions more reliable. Otherwise, if ran separately, this test
+		// would not stress FCSeq system.
+		editor.focus();
+
 		editable.setHtml( '<p>foo</p>' );
 		editor.resetUndo();
 
@@ -606,6 +612,11 @@ bender.test( {
 	'test lock with dontUpdate cannot be overriden by normal lock': function() {
 		var editor = this.editor,
 			editable = editor.editable();
+
+		// Focus the editor to insert the Filling Char Sequence during this test
+		// and make assertions more reliable. Otherwise, if ran separately, this test
+		// would not stress FCSeq system.
+		editor.focus();
 
 		editable.setHtml( '<p>foo</p>' );
 		editor.resetUndo();
