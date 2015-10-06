@@ -861,15 +861,23 @@
 				removeFillingCharSequenceNode( editor.editable() );
 			}, null, null, -1 );
 
+			// Filter Undo snapshot's HTML to get rid of Filling Char Sequence.
+			// Note: CKEDITOR.dom.range.createBookmark2() normalizes snapshot's
+			// bookmarks to anticipate the removal of FCSeq from the snapshot's HTML.
 			editor.on( 'getSnapshot', function( evt ) {
 				if ( evt.data ) {
 					evt.data = removeFillingCharSequenceString( evt.data );
 				}
 			}, editor, null, 20 );
 
-			editor.on( 'getData', function( evt ) {
+			// Filter data to get rid of Filling Char Sequence. Filter on #toDataFormat
+			// instead of #getData because once removed, FCSeq may leave an empty element,
+			// which should be pruned by the dataProcessor.
+			// Note: Used low priority to filter when dataProcessor works on strings,
+			// not pseudo–DOM.
+			editor.on( 'toDataFormat', function( evt ) {
 				evt.data.dataValue = removeFillingCharSequenceString( evt.data.dataValue );
-			} );
+			}, null, null, 0 );
 		} );
 	}
 
