@@ -870,37 +870,46 @@ CKEDITOR.dom.range = function( root ) {
 				limit.offset = offset;
 			}
 
-			function isFillingCharEmpty( fillingChar ) {
+			function isFCSEmpty( fillingChar ) {
 				return fillingChar.getText().length == CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.length;
 			}
 
 			function fixBookmarkForFillingCharSequenceRemoval( data, startOrEnd, containerAndOffset ) {
-				var fillingCharAddress = data.fillingChar.getAddress( 1 ),
+				var fillingChar = data.fillingChar,
+					fillingCharAddress = data.fillingChar.getAddress( 1 ),
 					fillingCharAddressLength = fillingCharAddress.length,
 					bookmark = data.bookmark,
 					address = bookmark[ startOrEnd ],
 					container = containerAndOffset.container;
 
-				if ( container.equals( data.fillingChar ) ) {
+				if ( container.equals( fillingChar ) ) {
 					bookmark[ startOrEnd + 'Offset' ] -= CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.length;
 				} else {
-					// Check if the FCSeq node **could** be a child of the last element in address (given the length of the address).
+					// Check if the FCSeq node **could** be a child of the container (given the length of the address).
 					// If so, it means that FCSeq **may** influence the **offset**, if removed from DOM.
 					//
 					// { address: [ x, y, z ], fillingCharAddress: [ a, b, c, d ] } -> FCS **may** influence the **offset**.
 					// { address: [ x, y, z ], fillingCharAddress: [ a, b, c ] } -> FCS **cannot** influence the **offset**.
 					if ( address.length == fillingCharAddressLength - 1 ) {
-						// Compare the addresses to make sure FCSeq's parent is the last element in address.
+						// Compare the addresses to make sure FCSeq's parent is the container (last index in address).
 						//
 						// { address: [ x, y, z ], fillingCharAddress: [ a, b, c, d ] } -> Check [ x, y, z ] == [ a, b, c ]
 						if ( fillingCharAddress.slice( 0, address.length ).join( '' ) == address.join( '' ) ) {
 							// So when x == a, y == b and z == c, if the FCSeq precedes the offset, decrement the offset.
 							if ( fillingCharAddress[ fillingCharAddressLength - 1 ] < bookmark[ startOrEnd + 'Offset' ] ) {
+								var next = fillingChar.getNext();
 
-								// The offset does not need update if FCSeq contains user text or is followd by a text node.
-								// In such cases, the FCSeq node will not simply vanish.
-								var fillingCharFollowing = data.fillingChar.getNext();
-								if ( isFillingCharEmpty( data.fillingChar ) && fillingCharFollowing && fillingCharFollowing.type != CKEDITOR.NODE_TEXT ) {
+								// The offset needs to be updated if:
+								//  * FCSeq contains **no** user text AND
+								//  	a) FCSeq is **not** followed by a text node OR
+								//  	b) FCSeq is the last child.
+								// In such cases, the FCSeq node would simply vanish because there's no user
+								// content AND nothing to merge into (see tests for a legend :D):
+								//
+								// <parent>%foo<el></parent> -> % will merge into "foo"
+								// <parent>%<el></parent> -> % will vanish
+								// <parent>%</parent> -> % will vanish
+								if ( isFCSEmpty( fillingChar ) && ( !next || ( next && next.type != CKEDITOR.NODE_TEXT ) ) ) {
 									--bookmark[ startOrEnd + 'Offset' ];
 								}
 							}
@@ -913,7 +922,7 @@ CKEDITOR.dom.range = function( root ) {
 					// { address: [ x, y, z ], fillingCharAddress: [ a, b ] } -> FCS **may** influence the **address**.
 					// { address: [ x, y, z ], fillingCharAddress: [ a, b, c ] } -> FCS **may** influence the **address**.
 					// { address: [ x, y, z ], fillingCharAddress: [ a, b, d, e ] } -> FCS **cannot** influence the **address**.
-					else if ( isFillingCharEmpty( data.fillingChar ) && address.length >= fillingCharAddressLength ) {
+					else if ( isFCSEmpty( fillingChar ) && address.length >= fillingCharAddressLength ) {
 						// Check if the last index of FCSeq's address is lower than the index of the address
 						// to be fixed (at the same depth level). If so, when FCSeq is removed, the the index
 						// in the address, which is supposed to be fixed must be decremented.
@@ -954,8 +963,9 @@ CKEDITOR.dom.range = function( root ) {
 				if ( normalized ) {
 					normalizeTextNodes( bmStart );
 
-					if ( !collapsed )
+					if ( !collapsed ) {
 						normalizeTextNodes( bmEnd );
+					}
 				}
 
 				var bookmark = {
