@@ -43,6 +43,9 @@
 				},
 				'class': function( classes ) {
 					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
+				},
+				'align': function() {
+					return false;
 				}
 			},
 			comment: function() {
@@ -86,12 +89,23 @@
 	}
 
 	function normalizedStyles( element ) {
+		var resetStyles = [
+			'background:white',
+			'line-height:normal',
+			'color:black'
+		];
+		var resetValues = [
+			'0in'
+		];
 		var styles = tools.parseCssText( element.attributes.style );
 
 		var keys = tools.objectKeys( styles );
 
 		for ( var i = keys.length - 1; i >= 0; i-- ) {
-			if ( keys[ i ].match( /^(mso\-|margin\-left|text\-indent)/ ) ) {
+			if ( keys[ i ].match( /^(mso\-|margin\-left|text\-indent)/ ) ||
+				tools.indexOf( resetValues, styles[ keys[ i ] ] ) !== -1 ||
+				tools.indexOf( resetStyles, keys[ i ] + ':' + styles[ keys[ i ] ] ) !== -1
+			) {
 				delete styles[ keys[ i ] ];
 			}
 		}
