@@ -1,0 +1,15 @@
+<body>
+<div id="editor" contenteditable="true">
+	<p>Font Styles</p>
+</div>
+
+<script>
+	( function() {
+		'use strict';
+
+		CKEDITOR.inline( 'editor', {
+			toolbar: [ [ 'Font', 'FontSize', 'Format', 'Styles' ] ]
+		} );
+	} )();
+</script>
+</body>
