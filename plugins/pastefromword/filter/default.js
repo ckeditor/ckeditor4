@@ -1,5 +1,3 @@
-
-
 /* globals CKEDITOR, CKEDITOR_MOCK */
 
 ( function( CKEDITOR ) {
@@ -11,11 +9,6 @@
 		'meta',
 		'link'
 	];
-
-	// Dummy element used for fail-safe children access.
-	var noop = {
-		children: []
-	};
 
 	CKEDITOR.cleanWord = function( mswordHtml ) {
 
@@ -68,9 +61,10 @@
 		/*jshint -W024 */
 		if ( tools.checkIfAnyArrayItemMatches( ( element.attributes.class || '' ).split( ' ' ), /MsoListParagraph/ ) ||
 			// Flat, ordered lists are represented by paragraphs
-			// that start with a symbol and a series of non-breaking spaces.
+			// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
+			// where the middle parentheses contain the symbol.
 			( ( element
-				.children[0] || noop )
+				.children[0] || {} )
 				.value || '' )
 				.match( /^(&nbsp;)*.*?\.&nbsp;(&nbsp;){2,666}/ )
 		) {
@@ -89,6 +83,7 @@
 	}
 
 	function normalizedStyles( element ) {
+		// Some styles and style values are redundant, so delete them.
 		var resetStyles = [
 			'background:white',
 			'line-height:normal',
@@ -97,11 +92,12 @@
 		var resetValues = [
 			'0in'
 		];
+
 		var styles = tools.parseCssText( element.attributes.style );
 
 		var keys = tools.objectKeys( styles );
 
-		for ( var i = keys.length - 1; i >= 0; i-- ) {
+		for ( var i = 0; i < keys.length; i++ ) {
 			if ( keys[ i ].match( /^(mso\-|margin\-left|text\-indent)/ ) ||
 				tools.indexOf( resetValues, styles[ keys[ i ] ] ) !== -1 ||
 				tools.indexOf( resetStyles, keys[ i ] + ':' + styles[ keys[ i ] ] ) !== -1
@@ -189,11 +185,12 @@
 	}
 
 	function createLists( root ) {
+		var element, level, i, j;
 		var listElements = [];
 
 		// Select and clean up list elements.
-		for ( var i = 0; i < root.children.length; i++ ) {
-			var element = root.children[ i ];
+		for ( i = 0; i < root.children.length; i++ ) {
+			element = root.children[ i ];
 
 			if ( element.name == 'cke:li' ) {
 				element.name = 'li';
@@ -215,7 +212,7 @@
 		for ( i = 1; i < listElements.length; i++ ) {
 			element = listElements[ i ];
 			var previous = listElements[ i - 1 ];
-			var level = element.attributes[ 'cke-list-level' ];
+			level = element.attributes[ 'cke-list-level' ];
 
 			if ( element.previous !== previous ) {
 				lists.push( lastList = [] );
@@ -232,7 +229,7 @@
 
 			innermostContainer.insertBefore( list[ 0 ] );
 
-			for ( var j = 0; j < list.length; j++ ) {
+			for ( j = 0; j < list.length; j++ ) {
 				element = list[ j ];
 
 				level = element.attributes[ 'cke-list-level' ];
