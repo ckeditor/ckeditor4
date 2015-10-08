@@ -180,8 +180,10 @@
 
 		// Return the editor instance immediately to enable early stage event registrations.
 		CKEDITOR.tools.setTimeout( function() {
-			if( this.status !== 'destroyed' ) {
+			if ( this.status !== 'destroyed' ) {
 				initConfig( this, instanceConfig );
+			} else {
+				CKEDITOR.warn( 'editor-incorrect-destroy' );
 			}
 		}, 0, this );
 	}
@@ -763,10 +765,11 @@
 
 			this.editable( null );
 
-			if( this.filter ) {
+			if ( this.filter ) {
 				this.filter.destroy();
 				delete this.filter;
 			}
+
 			delete this.activeFilter;
 
 			this.status = 'destroyed';
