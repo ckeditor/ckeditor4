@@ -3,7 +3,7 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.5
 
-
+* [#13790](https://dev.ckeditor.com/ticket/13790): Fixed: Allow for the iframe having been removed already. Thanks to [Stefan Rijnhart ](https://github.com/StefanRijnhart)!
 
 ## CKEditor 4.5.4
 
