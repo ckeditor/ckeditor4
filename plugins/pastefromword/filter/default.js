@@ -27,6 +27,9 @@
 			elements: {
 				'p': function( element ) {
 					if ( thisIsAListItem( element ) ) convertToFakeListItem( element );
+				},
+				'font': function( element ) {
+					element.name = 'span';
 				}
 			},
 			attributes: {
@@ -38,6 +41,17 @@
 					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
 				},
 				'align': function() {
+					return false;
+				},
+				'color': function( color, element ) {
+					setStyle( element, 'color', color );
+					return false;
+				},
+				'face': function( face, element ) {
+					setStyle( element, 'font-family', face );
+					return false;
+				},
+				'size': function() {
 					return false;
 				}
 			},
@@ -80,6 +94,18 @@
 			return false;
 		}
 		return value;
+	}
+
+	function setStyle( element, key, value, dontOverwrite ) {
+		var styles = tools.parseCssText( element.attributes.style );
+
+		if ( dontOverwrite && styles[ key ] ) {
+			return;
+		}
+
+		styles[ key ] = value;
+
+		element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 	}
 
 	function normalizedStyles( element ) {
