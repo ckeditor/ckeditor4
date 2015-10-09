@@ -88,7 +88,7 @@
 								assert.ignore();
 							}
 
-							if ( specialCaseOutput ) {
+							if ( specialCaseOutput !== null ) {
 								testWordFilter( that.editor )( input, specialCaseOutput );
 							} else {
 								assert.isNotNull( output, '"expected.html" missing.' );
