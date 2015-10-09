@@ -41,18 +41,22 @@ bender.test(
 	'test destroy editor before it is fully initialized': function() {
 		var name = 'test_editor',
 			element,
-			editor;
-
-
-		this.editor.destroy();
+			editor,
+			warnStub = sinon.stub( CKEDITOR, 'warn' );
 
 		element = CKEDITOR.document.getById( name );
-
+		this.editor.destroy();
 
 		editor = CKEDITOR.replace( element );
-		assert.isMatching( editor.status, 'unloaded', 'The editor is not initialized' );
 		editor.destroy();
 
-		assert.isTrue( true, 'The editor can be destroyed before being fully initialized' );
+		// initConfig is called asynchronously.
+		wait( function() {
+			warnStub.restore();
+			assert.isTrue( warnStub.calledOnce, 'CKEDITOR.warn should be called once.' );
+			assert.areEqual( 'editor-incorrect-destroy', warnStub.firstCall.args[ 0 ],
+				'CKEDITOR.warn error code should be "editor-incorrect-destroy".' );
+		}, 0 );
+
 	}
 } );
