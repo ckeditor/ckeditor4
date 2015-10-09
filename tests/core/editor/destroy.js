@@ -36,5 +36,27 @@ bender.test(
 				assert.areSame( '', editor.getSnapshot() );
 			}, 0 );
 		} );
+	},
+
+	'test destroy editor before it is fully initialized': function() {
+		var name = 'test_editor',
+			element,
+			editor,
+			warnStub = sinon.stub( CKEDITOR, 'warn' );
+
+		element = CKEDITOR.document.getById( name );
+		this.editor.destroy();
+
+		editor = CKEDITOR.replace( element );
+		editor.destroy();
+
+		// initConfig is called asynchronously.
+		wait( function() {
+			warnStub.restore();
+			assert.isTrue( warnStub.calledOnce, 'CKEDITOR.warn should be called once.' );
+			assert.areEqual( 'editor-incorrect-destroy', warnStub.firstCall.args[ 0 ],
+				'CKEDITOR.warn error code should be "editor-incorrect-destroy".' );
+		}, 0 );
+
 	}
 } );
