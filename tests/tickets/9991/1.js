@@ -71,17 +71,16 @@
 		testData = {};
 
 	for ( var i = 0; i < keys.length; i++ ) {
-
 		for ( var j = 0; j < wordVersions.length; j++ ) {
 			for ( var k = 0; k < browsers.length; k++ ) {
-				testData[ [ 'test', keys[ i ], wordVersions[ j ], browsers[ k ] ].join(' ') ] = ( function( fixtureName, wordVersion, browser ) {
+				testData[ [ 'test', keys[ i ], wordVersions[ j ], browsers[ k ] ].join( ' ' ) ] = ( function( fixtureName, wordVersion, browser ) {
 					return function() {
 						var input,
 							output,
 							specialCaseOutput,
 							inputPath = [ '_fixtures', fixtureName, wordVersion, browser ].join( '/' ) + '.html',
-							outputPath = [ '_fixtures', fixtureName, '/expected.html' ].join( '/'),
-							specialCasePath = [ '_fixtures', fixtureName, 'special_cases', wordVersion + '_' + browser ].join( '/' ) + '.html',
+							outputPath = [ '_fixtures', fixtureName, '/expected.html' ].join( '/' ),
+							specialCasePath = [ '_fixtures', fixtureName, wordVersion, 'expected_' + browser ].join( '/' ) + '.html',
 							that = this;
 
 						var	test = function() {
