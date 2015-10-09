@@ -34,18 +34,39 @@
 			 * @member CKEDITOR.editor
 			 * @param data
 			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader File loader instance.
+			 * @param {Object} data.formData Object containing all data to be sent to the server.
 			 */
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader;
 
 				fileLoader.xhr.open( 'POST', fileLoader.uploadUrl, true );
+
+				// Adding file to event's data by default - allows overwriting it by user's event listeners. (#13518)
+				evt.data.formData.upload = fileLoader.file;
 			}, null, null, 5 );
 
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader,
-					formData = new FormData();
+					formData = new FormData(),
+					dataToUpload = evt.data.formData;
 
-				formData.append( 'upload', fileLoader.file, fileLoader.fileName );
+				if ( typeof dataToUpload !== 'object' )
+					dataToUpload = { upload: fileLoader.file };
+
+				for ( var name in dataToUpload ) {
+					if ( !Object.prototype.hasOwnProperty.call( dataToUpload, name ) )
+						continue;
+
+					var value = dataToUpload[name];
+
+					// Treating file being uploaded in a special way (adding filename from fileLoader).
+					// Everything else is passed to FormData instance without change.
+					if ( value === fileLoader.file )
+						formData.append( name, value, fileLoader.fileName );
+					else
+						formData.append( name, value );
+				}
+
 				fileLoader.xhr.send( formData );
 			}, null, null, 999 );
 
@@ -529,7 +550,7 @@
 				this.xhr = new XMLHttpRequest();
 				this.attachRequestListeners();
 
-				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this } ) ) {
+				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this, formData: {} } ) ) {
 					this.changeStatus( 'uploading' );
 				}
 			}
