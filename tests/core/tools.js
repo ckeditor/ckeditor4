@@ -672,15 +672,15 @@
 				lang = this.editor.lang.common.keyboard,
 				tests = [
 					// [ Keystroke, display string, display string on Mac, ARIA string, ARIA string on Mac ]
-					[ CKEDITOR.CTRL + 65 /*A*/, 'CTRL+A', '⌘+A', 'CTRL+A', 'COMMAND+A' ],
-					[ CKEDITOR.ALT + 66 /*B*/, 'ALT+B', '⌥+B', 'ALT+B', 'ALT+B' ],
-					[ CKEDITOR.SHIFT + 67 /*C*/, 'SHIFT+C', '⇧+C', 'SHIFT+C', 'SHIFT+C' ],
-					[ CKEDITOR.CTRL + CKEDITOR.ALT + 68 /*D*/, 'CTRL+ALT+D', '⌘+⌥+D', 'CTRL+ALT+D', 'COMMAND+ALT+D' ],
-					[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 69 /*E*/, 'CTRL+SHIFT+E', '⌘+⇧+E', 'CTRL+SHIFT+E', 'COMMAND+SHIFT+E' ],
-					[ CKEDITOR.ALT + CKEDITOR.SHIFT + 70 /*F*/, 'ALT+SHIFT+F', '⌥+⇧+F', 'ALT+SHIFT+F', 'ALT+SHIFT+F' ],
-					[ CKEDITOR.CTRL + CKEDITOR.ALT + CKEDITOR.SHIFT + 71 /*G*/, 'CTRL+ALT+SHIFT+G', '⌘+⌥+⇧+G', 'CTRL+ALT+SHIFT+G', 'COMMAND+ALT+SHIFT+G' ],
-					[ CKEDITOR.CTRL + 32 /*SPACE*/, 'CTRL+SPACE', '⌘+SPACE', 'CTRL+SPACE', 'COMMAND+SPACE' ],
-					[ CKEDITOR.ALT + 13 /*ENTER*/, 'ALT+ENTER', '⌥+ENTER', 'ALT+ENTER', 'ALT+ENTER' ]
+					[ CKEDITOR.CTRL + 65 /*A*/, 'Ctrl+A', '⌘+A', 'Ctrl+A', 'Command+A' ],
+					[ CKEDITOR.ALT + 66 /*B*/, 'Alt+B', '⌥+B', 'Alt+B', 'Alt+B' ],
+					[ CKEDITOR.SHIFT + 67 /*C*/, 'Shift+C', '⇧+C', 'Shift+C', 'Shift+C' ],
+					[ CKEDITOR.CTRL + CKEDITOR.ALT + 68 /*D*/, 'Ctrl+Alt+D', '⌘+⌥+D', 'Ctrl+Alt+D', 'Command+Alt+D' ],
+					[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 69 /*E*/, 'Ctrl+Shift+E', '⌘+⇧+E', 'Ctrl+Shift+E', 'Command+Shift+E' ],
+					[ CKEDITOR.ALT + CKEDITOR.SHIFT + 70 /*F*/, 'Alt+Shift+F', '⌥+⇧+F', 'Alt+Shift+F', 'Alt+Shift+F' ],
+					[ CKEDITOR.CTRL + CKEDITOR.ALT + CKEDITOR.SHIFT + 71 /*G*/, 'Ctrl+Alt+Shift+G', '⌘+⌥+⇧+G', 'Ctrl+Alt+Shift+G', 'Command+Alt+Shift+G' ],
+					[ CKEDITOR.CTRL + 32 /*SPACE*/, 'Ctrl+Space', '⌘+Space', 'Ctrl+Space', 'Command+Space' ],
+					[ CKEDITOR.ALT + 13 /*ENTER*/, 'Alt+Enter', '⌥+Enter', 'Alt+Enter', 'Alt+Enter' ]
 				],
 				test,
 				expIndex = CKEDITOR.env.mac ? 2 : 1;
