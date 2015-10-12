@@ -45,7 +45,7 @@
 
 			//Change element from textarea to div
 			element = CKEDITOR.dom.element.createFromHtml(
-				'<div contenteditable="' + !!editor.readOnly + '" class="cke_textarea_inline">' +
+				'<div contenteditable="true" readonly="' + !!editor.readOnly + '" class="cke_textarea_inline">' +
 					textarea.getValue() +
 				'</div>',
 				CKEDITOR.document );

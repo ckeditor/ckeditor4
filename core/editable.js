@@ -488,7 +488,7 @@
 			 * @param {Boolean} isReadOnly
 			 */
 			setReadOnly: function( isReadOnly ) {
-				this.setAttribute( 'contenteditable', !isReadOnly );
+				this.setAttribute( 'readonly', isReadOnly );
 			},
 
 			/**
