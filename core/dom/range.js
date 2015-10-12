@@ -2398,21 +2398,22 @@ CKEDITOR.dom.range = function( root ) {
 		 * @returns {Boolean}
 		 */
 		checkReadOnly: ( function() {
-			function checkNodesEditable( node, anotherEnd ) {
+			function areNodesReadOnly( node, anotherEnd ) {
 				while ( node ) {
 					if ( node.type == CKEDITOR.NODE_ELEMENT ) {
-						if ( node.getAttribute( 'contentEditable' ) == 'false' && !node.data( 'cke-editable' ) )
-							return 0;
+						if ( node.getAttribute( 'readonly' ) == 'true' ||
+							( node.getAttribute( 'contentEditable' ) == 'false' && !node.data( 'cke-editable' ) ) )
+							return true;
 
 						// Range enclosed entirely in an editable element.
-						else if ( node.is( 'html' ) || node.getAttribute( 'contentEditable' ) == 'true' && ( node.contains( anotherEnd ) || node.equals( anotherEnd ) ) )
+						else if ( node.is( 'html' ) || node.getAttribute( 'contentEditable' ) == 'true' && ( node.contains( anotherEnd ) || node.equals( anotherEnd ) ) ){
 							break;
+						}
 
 					}
 					node = node.getParent();
 				}
-
-				return 1;
+				return false;
 			}
 
 			return function() {
@@ -2420,7 +2421,7 @@ CKEDITOR.dom.range = function( root ) {
 					endNode = this.endContainer;
 
 				// Check if elements path at both boundaries are editable.
-				return !( checkNodesEditable( startNode, endNode ) && checkNodesEditable( endNode, startNode ) );
+				return areNodesReadOnly( startNode, endNode ) || areNodesReadOnly( endNode, startNode );
 			};
 		} )(),
 

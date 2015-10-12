@@ -228,6 +228,12 @@
 			assert.isFalse( range.checkReadOnly() );
 		},
 
+		'test checkReadOnly handles readonly=true': function() {
+			var source = '<strong> some [sample</strong> text]',
+				range = bender.tools.setHtmlWithRange( doc.getById( 'readonly_playground' ), source )[ 0 ];
+			assert.isTrue( range.checkReadOnly() );
+		},
+
 		'test removeEmptyBlocksAtEnd - at the beginning': function() {
 			var source = '<div><div><p>[</p></div>te]xt</div>',
 				playground = doc.getById( 'editable_playground' ),
