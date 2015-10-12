@@ -4,7 +4,7 @@
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"benderjs-coverage": "^0.2.1",
-		"benderjs": "^0.3.0",
+		"benderjs": "^0.4.1",
 		"benderjs-jquery": "^0.3.0",
 		"benderjs-sinon": "^0.2.1",
 		"benderjs-yui": "^0.3.2",
@@ -19,7 +19,7 @@
 		"grunt-githooks": "^0.3.1",
 		"less": "^2.5.0",
 		"shelljs": "^0",
-		"cksource-samples-framework": "^1"
+		"cksource-samples-framework": "^1.0.1"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"

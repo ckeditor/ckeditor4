@@ -47,7 +47,7 @@
 		btnTpl = CKEDITOR.addTemplate( 'button', template );
 
 	CKEDITOR.plugins.add( 'button', {
-		lang: 'af,ar,bg,ca,cs,da,de,el,en,en-gb,eo,es,fa,fi,fr,gl,he,hu,it,ja,km,ko,ku,lt,nb,nl,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,ca,cs,da,de,el,en,en-gb,eo,es,fa,fi,fr,gl,he,hu,it,ja,km,ko,ku,lt,nb,nl,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		beforeInit: function( editor ) {
 			editor.ui.addHandler( CKEDITOR.UI_BUTTON, CKEDITOR.ui.button.handler );
 		}

@@ -87,6 +87,10 @@
 		},
 
 		test_loadXml_sync: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) {
+				assert.ignore();
+			}
+
 			var data = CKEDITOR.ajax.loadXml( '../../_assets/sample.xml' );
 			assert.isInstanceOf( CKEDITOR.xml, data );
 			assert.isNotNull( data.selectSingleNode( '//list/item' ), 'The loaded data doesn\'t match (null)' );
@@ -99,6 +103,10 @@
 		},
 
 		test_loadXml_async: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 ) {
+				assert.ignore();
+			}
+
 			var callback = function( data ) {
 				resume( function() {
 					assert.isInstanceOf( CKEDITOR.xml, data );

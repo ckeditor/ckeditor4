@@ -1669,11 +1669,9 @@
 
 					removeHiddenSelectionContainer( editor );
 				}
-				// jshint ignore:start
-				else { // %REMOVE_LINE%
-					window.console && console.log( '[CKEDITOR.dom.selection.reset] Wrong selection instance resets fake selection.' ); // %REMOVE_LINE%
-				} // %REMOVE_LINE%
-				// jshint ignore:end
+				else {
+					CKEDITOR.warn( 'selection-fake-reset' );
+				}
 			}
 
 			this.rev = nextRev++;
@@ -2066,9 +2064,7 @@
 			if ( bookmarks.isFake ) {
 				node = ranges[ 0 ].getEnclosedNode();
 				if ( !node || node.type != CKEDITOR.NODE_ELEMENT ) {
-					// %REMOVE_START%
-					window.console && console.log( '[CKEDITOR.dom.selection.selectBookmarks] Selection is no longer fake.' ); // jshint ignore:line
-					// %REMOVE_END%
+					CKEDITOR.warn( 'selection-not-fake' );
 					bookmarks.isFake = 0;
 				}
 			}

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'filetools', {
-		lang: 'cs,da,de,en,eo,fr,gl,it,ko,ku,nb,nl,pl,pt-br,ru,sv,tr,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'cs,da,de,en,eo,fr,gl,it,ko,ku,nb,nl,pl,pt-br,ru,sv,tr,ug,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		beforeInit: function( editor ) {
 			/**
@@ -88,7 +88,7 @@
 				} catch ( err ) {
 					// Response parsing error.
 					data.message = fileLoader.lang.filetools.responseError;
-					window.console && window.console.log( xhr.responseText );
+					CKEDITOR.warn( 'filetools-response-error', { responseText: xhr.responseText } );
 
 					evt.cancel();
 				}
@@ -346,9 +346,9 @@
 
 	/**
 	 * The total size of upload data in bytes.
-	 * If `xhr.upload` object is present this value will indicate total size of the request payload, not only the file
-	 * size itself. If `xhr.upload` object is not available and real upload size cannot be obtained - this value will
-	 * be equal to {@link #total}. It has null value until upload size is known.
+	 * If the `xhr.upload` object is present, this value will indicate the total size of the request payload, not only the file
+	 * size itself. If the `xhr.upload` object is not available and the real upload size cannot be obtained, this value will
+	 * be equal to {@link #total}. It has a `null` value until the upload size is known.
 	 *
 	 * 		loader.on( 'update', function() {
 	 * 			// Wait till uploadTotal is present.

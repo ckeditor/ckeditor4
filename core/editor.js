@@ -180,7 +180,11 @@
 
 		// Return the editor instance immediately to enable early stage event registrations.
 		CKEDITOR.tools.setTimeout( function() {
-			initConfig( this, instanceConfig );
+			if ( this.status !== 'destroyed' ) {
+				initConfig( this, instanceConfig );
+			} else {
+				CKEDITOR.warn( 'editor-incorrect-destroy' );
+			}
 		}, 0, this );
 	}
 
@@ -545,9 +549,7 @@
 
 				if ( requires && ( match = requires.match( removeRegex ) ) ) {
 					while ( ( name = match.pop() ) ) {
-						CKEDITOR.tools.setTimeout( function( name, pluginName ) {
-							throw new Error( 'Plugin "' + name.replace( ',', '' ) + '" cannot be removed from the plugins list, because it\'s required by "' + pluginName + '" plugin.' );
-						}, 0, null, [ name, pluginName ] );
+						CKEDITOR.error( 'editor-plugin-required', { plugin: name.replace( ',', '' ), requiredBy: pluginName } );
 					}
 				}
 
@@ -763,8 +765,11 @@
 
 			this.editable( null );
 
-			this.filter.destroy();
-			delete this.filter;
+			if ( this.filter ) {
+				this.filter.destroy();
+				delete this.filter;
+			}
+
 			delete this.activeFilter;
 
 			this.status = 'destroyed';

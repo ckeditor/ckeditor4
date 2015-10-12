@@ -192,6 +192,10 @@
 		},
 
 		test_clone_Window: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				assert.ignore();
+			}
+
 			var obj = {
 				window: window
 			};

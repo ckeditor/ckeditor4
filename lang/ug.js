@@ -19,7 +19,7 @@
 CKEDITOR.lang[ 'ug' ] = {
 	// ARIA description.
 	editor: 'تەھرىرلىگۈچ',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'مول تېكست تەھرىرلىگۈچ تاختىسى',
 
 	// Common messages and labels.
 	common: {
@@ -84,7 +84,7 @@ CKEDITOR.lang[ 'ug' ] = {
 		alignTop: 'ئۈستى',
 		alignMiddle: 'ئوتتۇرا',
 		alignBottom: 'ئاستى',
-		alignNone: 'None', // MISSING
+		alignNone: 'يوق',
 		invalidValue	: 'ئىناۋەتسىز قىممەت.',
 		invalidHeight: 'ئېگىزلىك چوقۇم رەقەم پىچىمىدا بولۇشى زۆرۈر',
 		invalidWidth: 'كەڭلىك چوقۇم رەقەم پىچىمىدا بولۇشى زۆرۈر',

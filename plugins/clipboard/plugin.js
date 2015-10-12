@@ -2081,8 +2081,8 @@
 		}
 
 		this._ = {
-			metaRegExp: /^<meta.*?>/,
-			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/,
+			metaRegExp: /^<meta.*?>/i,
+			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/i,
 			fragmentRegExp: /<!--(?:Start|End)Fragment-->/g,
 
 			data: {},

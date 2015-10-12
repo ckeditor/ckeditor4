@@ -71,7 +71,7 @@ CKEDITOR.resourceManager.prototype = {
 	 */
 	add: function( name, definition ) {
 		if ( this.registered[ name ] )
-			throw '[CKEDITOR.resourceManager.add] The resource name "' + name + '" is already registered.';
+			throw new Error( '[CKEDITOR.resourceManager.add] The resource name "' + name + '" is already registered.' );
 
 		var resource = this.registered[ name ] = definition || {};
 		resource.name = name;
@@ -208,8 +208,8 @@ CKEDITOR.resourceManager.prototype = {
 
 		CKEDITOR.scriptLoader.load( urls, function( completed, failed ) {
 			if ( failed.length ) {
-				throw '[CKEDITOR.resourceManager.load] Resource name "' + urlsNames[ failed[ 0 ] ].join( ',' ) +
-					'" was not found at "' + failed[ 0 ] + '".';
+				throw new Error( '[CKEDITOR.resourceManager.load] Resource name "' + urlsNames[ failed[ 0 ] ].join( ',' ) +
+					'" was not found at "' + failed[ 0 ] + '".' );
 			}
 
 			for ( var i = 0; i < completed.length; i++ ) {

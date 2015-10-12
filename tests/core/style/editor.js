@@ -103,12 +103,22 @@ bender.test( {
 	},
 
 	'test apply inline style on non-editable inline element - at non-editable inline boundary': function() {
+		// #11242
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			assert.ignore();
+		}
+
 		var style = new CKEDITOR.style( { element: 'b', includeReadonly: true } );
 
 		this.assertApplyStyle( '<p>a[<i @c=f>a</i>x<u @c=f>a</u>]b</p>', '<p>a<b>[<i @c=f>a</i>x<u @c=f>a</u>]</b>b</p>', style );
 	},
 
 	'test remove inline style from non-editable inline element - at non-editable inline boundary': function() {
+		// #11242
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+			assert.ignore();
+		}
+
 		var style = new CKEDITOR.style( { element: 'b', includeReadonly: true } );
 
 		this.assertRemoveStyle( '<p>a<b>[<i @c=f>a</i>x<u @c=f>a</u>]</b>b</p>', '<p>a[<i @c=f>a</i>x<u @c=f>a</u>]b</p>', style );
