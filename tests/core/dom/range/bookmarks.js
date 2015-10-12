@@ -18,7 +18,7 @@ function createPlayground( html ) {
 	html = html.replace( /\./g, '<i class="split"></i>' );
 
 	// Replace % with Filling Character Sequence dummy element.
-	// Dummy will, in turn, be converted into a real FCSeq text node.
+	// Dummy will, in turn, be converted into a real FCSeq text node (#13816).
 	html = html.replace( /%/g, '<b class="fcseq"></b>' );
 
 	// Creating empty elements...
@@ -55,7 +55,7 @@ function createPlayground( html ) {
 		split.getItem( i ).remove();
 	}
 
-	// Find the FCSeq dummy element and replace it with a real FCSeq.
+	// Find the FCSeq dummy element and replace it with a real FCSeq (#13816).
 	var fillingCharDummy = playground.findOne( '.fcseq' );
 
 	if ( fillingCharDummy ) {
@@ -362,6 +362,7 @@ addBookmark2TCs( tcs, {
 		'#10301 2': [ '<p>a.b<i>c</i>d.e</p>', { sc: 'p', so: 4, ec: 'p', eo: 5 }, { sc: '#de', so: 1, ec: 'p', eo: 3 } ]
 	},
 
+	// #13816
 	'filling character sequence': {
 		'abcdef 1': [ '<p>abc</p><p><b>%def</b></p>', { sc: '#abc', so: 1, ec: '#def', eo: FCSLength + 2 }, { sc: '#abc', so: 1, ec: '#def', eo: 2 } ],
 		'abcdef 2': [ '%abc<b>def</b>', { sc: '#abc', so: FCSLength + 1, ec: '#def', eo: 1 }, { sc: '#abc', so: 1, ec: '#def', eo: 1 } ],

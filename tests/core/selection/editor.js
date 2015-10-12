@@ -385,6 +385,7 @@ bender.test( {
 		wait();
 	},
 
+	// #13816
 	'test remove filling character from snapshots and data': function() {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();

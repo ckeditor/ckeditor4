@@ -203,6 +203,7 @@
 		}
 	}
 
+	// #13816
 	function removeFillingCharSequenceString( str, nbspAware ) {
 		if ( nbspAware ) {
 			return str.replace( fillingCharSequenceRegExp, function( m, p ) {
@@ -863,7 +864,7 @@
 
 			// Filter Undo snapshot's HTML to get rid of Filling Char Sequence.
 			// Note: CKEDITOR.dom.range.createBookmark2() normalizes snapshot's
-			// bookmarks to anticipate the removal of FCSeq from the snapshot's HTML.
+			// bookmarks to anticipate the removal of FCSeq from the snapshot's HTML (#13816).
 			editor.on( 'getSnapshot', function( evt ) {
 				if ( evt.data ) {
 					evt.data = removeFillingCharSequenceString( evt.data );
@@ -872,7 +873,7 @@
 
 			// Filter data to get rid of Filling Char Sequence. Filter on #toDataFormat
 			// instead of #getData because once removed, FCSeq may leave an empty element,
-			// which should be pruned by the dataProcessor.
+			// which should be pruned by the dataProcessor (#13816).
 			// Note: Used low priority to filter when dataProcessor works on strings,
 			// not pseudo–DOM.
 			editor.on( 'toDataFormat', function( evt ) {
@@ -1141,6 +1142,7 @@
 	var styleObjectElements = { img: 1, hr: 1, li: 1, table: 1, tr: 1, td: 1, th: 1, embed: 1, object: 1, ol: 1, ul: 1,
 			a: 1, input: 1, form: 1, select: 1, textarea: 1, button: 1, fieldset: 1, thead: 1, tfoot: 1 };
 
+	// #13816
 	var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
 		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' );
 

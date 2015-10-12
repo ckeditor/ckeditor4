@@ -450,6 +450,7 @@ bender.test( {
 		assert.isFalse( isActive( redo ), msg + 'redoable' );
 	},
 
+	// #13816
 	'test selection is restored despite filling char': function() {
 		var editor = this.editor,
 			editable = editor.editable(),

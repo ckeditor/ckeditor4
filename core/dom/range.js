@@ -874,6 +874,7 @@ CKEDITOR.dom.range = function( root ) {
 				return fillingChar.getText().length == CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.length;
 			}
 
+			// #13816
 			function fixBookmarkForFillingCharSequenceRemoval( data, startOrEnd, containerAndOffset ) {
 				var fillingChar = data.fillingChar,
 					fillingCharAddress = data.fillingChar.getAddress( 1 ),
@@ -937,6 +938,7 @@ CKEDITOR.dom.range = function( root ) {
 				}
 			}
 
+			// #13816
 			function normalizeFCSeq( data ) {
 				data.fillingChar = data.root.getCustomData( 'cke-fillingChar' );
 
@@ -978,6 +980,7 @@ CKEDITOR.dom.range = function( root ) {
 					is2: true // It's a createBookmark2 bookmark.
 				};
 
+				// #13816
 				if ( normalized ) {
 					normalizeFCSeq( {
 						root: this.root,
