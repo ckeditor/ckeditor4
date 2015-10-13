@@ -422,24 +422,18 @@
 			wait();
 		},
 
-		'test if incorrect value for evt.data.formData fallbacks to default (#13518)': function() {
-			var loader = new FileLoader( editorMock, pngBase64, name );
-
-			attachListener( editorMock, 'fileUploadRequest', function( evt ) {
-				evt.data.formData = 'oops';
-			} );
+		'test upload with additional request parameters provided (#13518)': function() {
+			var loader = new FileLoader( editorMock, pngBase64, 'name.png' );
 
 			createXMLHttpRequestMock( [ 'load' ] );
 
 			resumeAfter( loader, 'uploaded', function() {
-				assert.isTrue( lastFormData.has( 'upload' ) );
-				assert.isInstanceOf( Blob, lastFormData.get( 'upload' ) );
+				assert.areSame( 'test', lastFormData.get( 'test' ) );
 			}, 3 );
 
-			loader.upload( 'http:\/\/url\/' );
+			loader.upload( 'http:\/\/url\/', { test: 'test' } );
 
 			wait();
-
 		},
 
 		'test if name of file is correctly attached (#13518)': function() {
@@ -975,7 +969,7 @@
 			wait();
 		},
 
-		'test additional data passed to xhr via fileUploadRequest (#13518)': function() {
+		'test additional data passed to xhr via fileUploadRequest listener (#13518)': function() {
 			var loader = new FileLoader( editorMock, testFile ),
 				file = new File( [], 'a' );
 

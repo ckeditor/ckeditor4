@@ -42,32 +42,27 @@
 				fileLoader.xhr.open( 'POST', fileLoader.uploadUrl, true );
 
 				// Adding file to event's data by default - allows overwriting it by user's event listeners. (#13518)
-				evt.data.formData.upload = fileLoader.file;
+				evt.data.formData.upload = { file: fileLoader.file, name: fileLoader.fileName };
 			}, null, null, 5 );
 
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader,
-					formData = new FormData(),
+					$formData = new FormData(),
 					dataToUpload = evt.data.formData;
 
-				if ( typeof dataToUpload !== 'object' )
-					dataToUpload = { upload: fileLoader.file };
-
 				for ( var name in dataToUpload ) {
-					if ( !Object.prototype.hasOwnProperty.call( dataToUpload, name ) )
-						continue;
+					var value = dataToUpload[ name ];
 
-					var value = dataToUpload[name];
-
-					// Treating file being uploaded in a special way (adding filename from fileLoader).
-					// Everything else is passed to FormData instance without change.
-					if ( value === fileLoader.file )
-						formData.append( name, value, fileLoader.fileName );
-					else
-						formData.append( name, value );
+					// Treating files in special way
+					if ( typeof value === 'object' && value.file ) {
+						$formData.append( name, value.file, value.name );
+					}
+					else {
+						$formData.append( name, value );
+					}
 				}
 
-				fileLoader.xhr.send( formData );
+				fileLoader.xhr.send( $formData );
 			}, null, null, 999 );
 
 			/**
@@ -464,8 +459,10 @@
 		 * * `uploaded`.
 		 *
 		 * @param {String} url The upload URL.
+		 * @param {Object} [additionalRequestParameters] Additional parameters that would be passed into
+	 	 * {@link CKEDITOR.editor#fileUploadRequest} event.
 		 */
-		loadAndUpload: function( url ) {
+		loadAndUpload: function( url, additionalRequestParameters ) {
 			var loader = this;
 
 			this.once( 'loaded', function( evt ) {
@@ -478,7 +475,7 @@
 				}, null, null, 0 );
 
 				// Start uploading.
-				loader.upload( url );
+				loader.upload( url, additionalRequestParameters );
 			}, null, null, 0 );
 
 			this.load();
@@ -539,8 +536,12 @@
 		 * * `uploaded`.
 		 *
 		 * @param {String} url The upload URL.
+		 * @param {Object} [additionalRequestParameters] Additional data that would be passed into
+	 	 * {@link CKEDITOR.editor#fileUploadRequest} event.
 		 */
-		upload: function( url ) {
+		upload: function( url, additionalRequestParameters ) {
+			var formData = additionalRequestParameters || {};
+
 			if ( !url ) {
 				this.message = this.lang.filetools.noUrlError;
 				this.changeStatus( 'error' );
@@ -550,7 +551,7 @@
 				this.xhr = new XMLHttpRequest();
 				this.attachRequestListeners();
 
-				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this, formData: {} } ) ) {
+				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this, formData: formData } ) ) {
 					this.changeStatus( 'uploading' );
 				}
 			}
