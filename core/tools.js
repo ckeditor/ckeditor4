@@ -1028,10 +1028,9 @@
 			styleText.replace( /&quot;/g, '"' ).replace( /\s*([^:;\s]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
 				if ( normalize ) {
 					name = name.toLowerCase();
-					// Normalize font-family property, ignore quotes and being case insensitive. (#7322)
-					// http://www.w3.org/TR/css3-fonts/#font-family-the-font-family-property
+					// Drop extra whitespacing from font-family.
 					if ( name == 'font-family' )
-						value = value.toLowerCase().replace( /["']/g, '' ).replace( /\s*,\s*/g, ',' );
+						value = value.replace( /\s*,\s*/g, ',' );
 					value = CKEDITOR.tools.trim( value );
 				}
 

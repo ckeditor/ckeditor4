@@ -11,6 +11,12 @@
 	var htmlEncode = CKEDITOR.tools.htmlEncode,
 		htmlDecode = CKEDITOR.tools.htmlDecode;
 
+	function assertNormalizeCssText( expected, input, message ) {
+		return function() {
+			assert.areSame( expected, CKEDITOR.tools.normalizeCssText( input ), message );
+		};
+	}
+
 	bender.test( {
 		assertNormalizedCssText: function( expected, elementId, msg ) {
 			assert.areSame( expected, CKEDITOR.tools.normalizeCssText(
@@ -298,7 +304,7 @@
 			this.assertNormalizedCssText(
 				'color:red;font-size:10px;width:10.5em;', 'style1', 'order, lowercase and white spaces' );
 
-			this.assertNormalizedCssText( 'color:red;font-family:arial black,helvetica,georgia;', 'style2', 'font names' );
+			this.assertNormalizedCssText( 'color:red;font-family:\'Arial Black\',helvetica,"Georgia";', 'style2', 'font names' );
 		},
 
 		testNormalizeCssText2: function() {
@@ -331,6 +337,25 @@
 			assert.areSame( 'color:red;float:left;margin:0.5em;width:10px;',
 				n( 'color: red; width: 10px; margin: 0.5em; float: left', true ), 'various' );
 		},
+
+		// (#10750)
+		testNormalizeCssTextFonts1: assertNormalizeCssText( 'font-family:"crazy font";', 'font-family: "crazy font";',
+			'quoted font name' ),
+		testNormalizeCssTextFonts2: assertNormalizeCssText( 'font-family:\'crazy font\';', 'font-family: \'crazy font\';',
+			'single-quoted font name' ),
+		testNormalizeCssTextFonts3: assertNormalizeCssText( 'font-family:serif;', 'font-family: serif;',
+			'generic-family name is not escaped' ),
+		testNormalizeCssTextFonts4: assertNormalizeCssText( 'font-family:"foo",serif;', 'font-family: "foo", serif;',
+			'family-name and generic-family mix' ),
+		testNormalizeCssTextFonts5: assertNormalizeCssText( 'font-family:"FFo baR";', 'font-family: "FFo baR";',
+			'letter casing sensivity' ),
+		// It's also possible to use font named as any generic-family member as long as it's enclosed within quotes.
+		testNormalizeCssTextFonts6: assertNormalizeCssText( 'font-family:"serif";', 'font-family:"serif";',
+			'accept generic-family token as family-name' ),
+		testNormalizeCssTextFonts7: assertNormalizeCssText( 'font-family:my-cool-font;', 'font-family:my-cool-font;',
+			'unquoted family name with hyphen' ),
+		testNormalizeCssTextFonts8: assertNormalizeCssText( 'font-family:"Space    font";', 'font-family:"Space    font";',
+			'font name with multiple spaces' ),
 
 		testConvertRgbToHex: function() {
 			var c = CKEDITOR.tools.convertRgbToHex;
