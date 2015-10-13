@@ -18,11 +18,6 @@
 	}
 
 	bender.test( {
-		assertNormalizedCssText: function( expected, elementId, msg ) {
-			assert.areSame( expected, CKEDITOR.tools.normalizeCssText(
-				CKEDITOR.document.getById( elementId ).getAttribute( 'style' ) ), msg );
-		},
-
 		test_extend: function() {
 			function fakeFn() {}
 
@@ -300,12 +295,7 @@
 			assert.isTrue( c instanceof A && c instanceof B && c instanceof C, 'check instanceof both A & B & C' );
 		},
 
-		testNormalizeCssText: function() {
-			this.assertNormalizedCssText(
-				'color:red;font-size:10px;width:10.5em;', 'style1', 'order, lowercase and white spaces' );
-
-			this.assertNormalizedCssText( 'color:red;font-family:\'Arial Black\',helvetica,"Georgia";', 'style2', 'font names' );
-		},
+		testNormalizeCssText: assertNormalizeCssText( 'color:red;font-size:10px;width:10.5em;', ' width: 10.5em ; COLOR : red; font-size:10px  ; ', 'order, lowercase and white spaces' ),
 
 		testNormalizeCssText2: function() {
 			var n = CKEDITOR.tools.normalizeCssText;
@@ -337,6 +327,8 @@
 			assert.areSame( 'color:red;float:left;margin:0.5em;width:10px;',
 				n( 'color: red; width: 10px; margin: 0.5em; float: left', true ), 'various' );
 		},
+
+		testQuoteEntity: assertNormalizeCssText( 'font-family:"foo";', 'font-family: &quot;foo&quot;;', '' ),
 
 		// (#10750)
 		testNormalizeCssTextFonts1: assertNormalizeCssText( 'font-family:"crazy font";', 'font-family: "crazy font";',
