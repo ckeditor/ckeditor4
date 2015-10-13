@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -169,7 +169,7 @@
 							loader = uploads.create( file );
 
 						if ( el ) {
-							loader[ loadMethod ]( def.uploadUrl );
+							loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
 
 							CKEDITOR.fileTools.markElement( el, name, loader.id );
 
@@ -339,6 +339,12 @@
 			 * {@link CKEDITOR.fileTools#getUploadUrl}.
 			 *
 			 * @property {String} [uploadUrl]
+			 */
+
+			/**
+			 * Object containing additional data that should be based into function defined by {@link #loadMethod}.
+			 *
+			 * @property {Object} [additionalRequestParameters]
 			 */
 
 			/**
