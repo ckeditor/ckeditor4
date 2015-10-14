@@ -768,6 +768,27 @@
 			wait();
 		},
 
+		'test response with custom fields (#13519)': function() {
+			var loader = new FileLoader( editorMock, testFile ),
+				response = {
+					fileName: 'name2.png',
+					uploaded: 1,
+					url: 'http:\/\/url\/name2.png',
+					test: 'test'
+				};
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ],
+				{ responseText: JSON.stringify( response ) } );
+
+			resumeAfter( loader, 'uploaded', function() {
+				objectAssert.areEqual( response, loader.response );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
 		'test error 404 with message': function() {
 			editorMock.lang = { filetools: { httpError404: 'httpError404' } };
 
@@ -861,6 +882,31 @@
 			} );
 
 			loader.update();
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test additional data in fileUploadResponse (#13519)': function() {
+			var data,
+				loader = new FileLoader( editorMock, testFile );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ],
+				{ responseText: '{' +
+					'"fileName":"name2.png",' +
+					'"uploaded":1,' +
+					'"url":"http:\/\/url\/name2.png",' +
+					'"test":"test"' +
+				'}' } );
+
+			attachListener( editorMock, 'fileUploadResponse', function( evt ) {
+				data = evt.data;
+			} );
+
+			resumeAfter( editorMock, 'fileUploadResponse', function() {
+				assert.areSame( 'test', data.test );
+			} );
+
 			loader.upload( 'http:\/\/url\/' );
 
 			wait();

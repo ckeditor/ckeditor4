@@ -82,8 +82,9 @@
 					if ( !response.uploaded ) {
 						evt.cancel();
 					} else {
-						data.fileName = response.fileName;
-						data.url = response.url;
+						for ( var x in response ) {
+							data[x] = response[x];
+						}
 					}
 				} catch ( err ) {
 					// Response parsing error.
@@ -278,6 +279,8 @@
 		this.uploaded = 0;
 		this.uploadTotal = null;
 
+		this.response = null;
+
 		this.status = 'created';
 
 		this.abort = function() {
@@ -342,6 +345,13 @@
 	 *
 	 * @readonly
 	 * @property {Number} total
+	 */
+
+	/**
+	 * The response from the server.
+	 *
+	 * @readonly
+	 * @property {Object} response
 	 */
 
 	/**
@@ -594,6 +604,11 @@
 							loader[ key ] = data[ key ];
 						}
 					}
+
+					// The whole response is also hold for use by uploadwidgets (#13519).
+					loader.response = data;
+					// But without reference to the loader itself.
+					delete loader.response.fileLoader;
 
 					if ( success === false ) {
 						loader.changeStatus( 'error' );
