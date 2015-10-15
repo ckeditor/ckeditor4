@@ -18,12 +18,11 @@
 
 	function testWordFilter( editor ) {
 		return function( input, output ) {
-			assertPasteEvent( editor, { dataValue: input },
-				function( data ) {
-					var compat = bender.tools.compatHtml;
+			assertPasteEvent( editor, { dataValue: input }, function( data ) {
+				var compat = bender.tools.compatHtml;
 
-					assert.areSame( compat( output ).toLowerCase(), compat( data.dataValue ).toLowerCase() );
-				}, null, true );
+				assert.areSame( compat( output ).toLowerCase(), compat( data.dataValue ).toLowerCase() );
+			}, null, true );
 		};
 	}
 
