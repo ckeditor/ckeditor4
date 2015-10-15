@@ -244,7 +244,7 @@
 								toolbarName = row.name && ( editor.lang.toolbar.toolbarGroups[ row.name ] || row.name );
 
 								// Output the toolbar opener.
-								output.push( '<span id="', toolbarId, '" class="cke_toolbar"', ( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
+								output.push('<span id="', toolbarId, '" class="cke_toolbar"', (toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : ''), ' role="toolbar" name="' + row.name + '">');
 
 								// If a toolbar name is available, send the voice label.
 								toolbarName && output.push( '<span id="', toolbarId, '_label" class="cke_voice_label">', toolbarName, '</span>' );

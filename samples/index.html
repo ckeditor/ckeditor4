@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
 Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
@@ -61,6 +61,17 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 					<h1>Hello world!</h1>
 					<p>I'm an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
 				</div>
+                <input type="button" value="Show/hide the Smileys toolbar row" onclick="javascript: onClickSmileysButton()" />
+                <script type='text/javascript'>
+                    function onClickSmileysButton() {
+                        var rowSmiles = document.getElementsByName('Smileys')[0];
+                        if(rowSmiles.style.display == "none"){
+                            rowSmiles.style.display = "block";
+                        }else{
+                            rowSmiles.style.display = "none";
+                        }
+                    }
+                </script>
 			</div>
 		</div>
 	</div>
@@ -122,7 +133,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 </footer>
 <script>
 	initSample();
-</script>
+                </script>
 
 </body>
 </html>

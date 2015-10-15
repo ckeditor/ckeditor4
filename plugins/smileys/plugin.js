@@ -6,9 +6,11 @@
 CKEDITOR.plugins.add('smileys', {
 	init: function( editor ) {
 	    var config = CKEDITOR.instances.editor.config;
-	    var images = config.smiley_imagesGif;
+	    //var images = config.smiley_imagesGif;//use this line if you want use gif images as smiley
+	    var images = config.smiley_images;
 	    for (i = 0; i < images.length; i++) {
-	        editor.ui.addButton(images[i].match(/^(.*).gif/)[1]
+	        //editor.ui.addButton(images[i].match(/^(.*).gif/)[1]//use this line if you want use gif images as smiley
+	        editor.ui.addButton(images[i].match(/^(.*).png/)[1]
                 , {
                     label: editor.lang.smiley[CKEDITOR.config.smiley_descriptions[i]],
 	                click: function () { insertSmile(this); },
@@ -50,10 +52,13 @@ function insertSmile(button) {
  *
  * @cfg
  * @member CKEDITOR.config
+ * Uncomment this if you want use gif images as smiley
  */
+/*
 CKEDITOR.config.smiley_imagesGif = [
 	'regular_smile.gif', 'sad_smile.gif', 'wink_smile.gif', 'teeth_smile.gif', 'confused_smile.gif', 'tongue_smile.gif',
 	'embarrassed_smile.gif', 'omg_smile.gif', 'whatchutalkingabout_smile.gif', 'angry_smile.gif', 'angel_smile.gif', 'shades_smile.gif',
 	'devil_smile.gif', 'cry_smile.gif', 'lightbulb.gif', 'thumbs_down.gif', 'thumbs_up.gif', 'heart.gif',
 	'broken_heart.gif', 'kiss.gif', 'envelope.gif'
 ];
+*/
