@@ -33,8 +33,8 @@
 	function testWordFilter( editor ) {
 		return function( input, output ) {
 			assertPasteEvent( editor, { dataValue: input },
-				function( data, msg ) {
-					assert.areSame( compat( output ).toLowerCase(), compat( data.dataValue ).toLowerCase(), msg );
+				function( data ) {
+					assert.areSame( compat( output ).toLowerCase(), compat( data.dataValue ).toLowerCase() );
 				}, null, true );
 		};
 	}
