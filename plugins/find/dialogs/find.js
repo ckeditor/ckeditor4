@@ -561,7 +561,7 @@
 								dialog.getValueOf( 'find', 'txtFindWordChk' ),
 								dialog.getValueOf( 'find', 'txtFindCyclic' )
 							) ) {
-								alert( lang.notFoundMsg ); // jshint ignore:line
+								this._.dialog._.editor.showAlert( lang.notFoundMsg );
 							}
 						}
 					} ]
@@ -626,7 +626,7 @@
 								dialog.getValueOf( 'replace', 'txtReplaceWordChk' ),
 								dialog.getValueOf( 'replace', 'txtReplaceCyclic' )
 							) ) {
-								alert( lang.notFoundMsg ); // jshint ignore:line
+								this._.dialog._.editor.showAlert( lang.notFoundMsg ); // jshint ignore:line
 							}
 						}
 					} ]
@@ -674,10 +674,11 @@
 							}
 
 							if ( finder.replaceCounter ) {
-								alert( lang.replaceSuccessMsg.replace( /%1/, finder.replaceCounter ) ); // jshint ignore:line
+								var msg = lang.replaceSuccessMsg.replace( /%1/, finder.replaceCounter);
+								this._.dialog._.editor.showAlert( msg ); // jshint ignore:line
 								editor.fire( 'saveSnapshot' );
 							} else {
-								alert( lang.notFoundMsg ); // jshint ignore:line
+								this._.dialog._.editor.showAlert( lang.notFoundMsg ); // jshint ignore:line
 							}
 						}
 					} ]

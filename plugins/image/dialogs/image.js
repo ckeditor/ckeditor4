@@ -101,6 +101,57 @@
 				incommit = 0;
 			}
 
+			// add or update the image element
+			function configureImageElement() {
+					// Create a new link.
+					if ( !this.linkEditMode )
+						this.linkElement = editor.document.createElement( 'a' );
+
+					// Set attributes.
+					this.commitContent( IMAGE, this.imageElement );
+					this.commitContent( LINK, this.linkElement );
+
+					// Remove empty style attribute.
+					if ( !this.imageElement.getAttribute( 'style' ) )
+						this.imageElement.removeAttribute( 'style' );
+
+					// Insert a new Image.
+					if ( !this.imageEditMode ) {
+						if ( this.addLink ) {
+							if ( !this.linkEditMode ) {
+								// Insert a new link.
+								editor.insertElement( this.linkElement );
+								this.linkElement.append( this.imageElement, false );
+							} else {
+								// We already have a link in editor.
+								if ( this.linkElement.equals( editor.getSelection().getSelectedElement() ) ) {
+									// If the link is selected outside, replace it's content rather than the link itself. ([<a>foo</a>])
+									this.linkElement.setHtml( '' );
+									this.linkElement.append( this.imageElement, false );
+								} else {
+									// Only inside of the link is selected, so replace it with image. (<a>[foo]</a>, <a>[f]oo</a>)
+									editor.insertElement( this.imageElement );
+								}
+							}
+						} else {
+							editor.insertElement( this.imageElement );
+						}
+					}
+					// Image already exists.
+					else {
+						// Add a new link element.
+						if ( !this.linkEditMode && this.addLink ) {
+							editor.insertElement( this.linkElement );
+							this.imageElement.appendTo( this.linkElement );
+						}
+						// Remove Link, Image exists.
+						else if ( this.linkEditMode && !this.addLink ) {
+							editor.getSelection().selectElement( this.linkElement );
+							editor.insertElement( this.imageElement );
+						}
+					}
+			}
+
 			var switchLockRatio = function( dialog, value ) {
 					if ( !dialog.getContentElement( 'info', 'ratioLock' ) )
 						return null;
@@ -365,29 +416,98 @@
 					}
 				},
 				onOk: function() {
+					var confirmFired = false;
 					// Edit existing Image.
 					if ( this.imageEditMode ) {
 						var imgTagName = this.imageEditMode;
 
 						// Image dialog and Input element.
-						if ( dialogType == 'image' && imgTagName == 'input' && confirm( editor.lang.image.button2Img ) ) { // jshint ignore:line
-							// Replace INPUT-> IMG
-							imgTagName = 'img';
-							this.imageElement = editor.document.createElement( 'img' );
-							this.imageElement.setAttribute( 'alt', '' );
-							editor.insertElement( this.imageElement );
+						if ( dialogType == 'image' && imgTagName == 'input') {
+							confirmFired = true;
+							var thisDialog = this;
+							var res = editor.showConfirm( editor.lang.image.button2Img, function( retVal ) {
+														if ( retVal === true ) {
+															// Replace INPUT-> IMG															
+															imgTagName = 'img';
+															thisDialog.imageElement = editor.document.createElement( 'img' );
+															thisDialog.imageElement.setAttribute( 'alt', '' );
+															editor.insertElement( thisDialog.imageElement );
+
+															thisDialog.configureImageElement();
+															thisDialog.hide();
+														}
+														else {
+															// Restore the original element before all commits.
+															thisDialog.imageElement = thisDialog.cleanImageElement;
+															delete thisDialog.cleanImageElement;
+
+															thisDialog.configureImageElement();
+															thisDialog.hide();
+														}
+													})
+							if (editor.showConfirm.length == 1) {	// regular confirm dialog is activated
+								if (res) {
+									// Replace INPUT-> IMG					
+									imgTagName = 'img';
+									thisDialog.imageElement = editor.document.createElement( 'img' );
+									thisDialog.imageElement.setAttribute( 'alt', '' );
+									editor.insertElement( thisDialog.imageElement );
+								}
+								else {
+									// Restore the original element before all commits.
+									thisDialog.imageElement = thisDialog.cleanImageElement;
+									delete thisDialog.cleanImageElement;
+								}
+							}													
 						}
+						
 						// ImageButton dialog and Image element.
-						else if ( dialogType != 'image' && imgTagName == 'img' && confirm( editor.lang.image.img2Button ) ) { // jshint ignore:line
-							// Replace IMG -> INPUT
-							imgTagName = 'input';
-							this.imageElement = editor.document.createElement( 'input' );
-							this.imageElement.setAttributes( {
-								type: 'image',
-								alt: ''
-							} );
-							editor.insertElement( this.imageElement );
-						} else {
+						else if ( dialogType != 'image' && imgTagName == 'img' ) {
+							confirmFired = true;
+							var thisDialog = this;						
+							var res = editor.showConfirm( editor.lang.image.img2Button, function( retVal ) {
+														if ( retVal === true ) {
+															// Replace IMG -> INPUT
+															imgTagName = 'input';
+															thisDialog.imageElement = editor.document.createElement( 'input' );
+															thisDialog.imageElement.setAttributes( {
+																type: 'image',
+																alt: ''
+															} );
+															editor.insertElement( thisDialog.imageElement );
+
+															thisDialog.configureImageElement();
+															thisDialog.hide();
+														}
+														else {
+															// Restore the original element before all commits.
+															thisDialog.imageElement = thisDialog.cleanImageElement;
+															delete thisDialog.cleanImageElement;
+
+															thisDialog.configureImageElement();
+															thisDialog.hide();
+														}
+													})
+							if (editor.showConfirm.length == 1) {	// regular confirm dialog is activated
+								if (res) {
+									// Replace IMG -> INPUT
+									imgTagName = 'input';
+									thisDialog.imageElement = editor.document.createElement( 'input' );
+									thisDialog.imageElement.setAttributes( {
+										type: 'image',
+										alt: ''
+									} );
+									editor.insertElement( thisDialog.imageElement );
+								}
+								else {
+									// Restore the original element before all commits.
+									thisDialog.imageElement = thisDialog.cleanImageElement;
+									delete thisDialog.cleanImageElement;
+								}
+							}
+						}
+
+						else {
 							// Restore the original element before all commits.
 							this.imageElement = this.cleanImageElement;
 							delete this.cleanImageElement;
@@ -404,54 +524,12 @@
 						}
 						this.imageElement.setAttribute( 'alt', '' );
 					}
+					
+					if (confirmFired && editor.showConfirm.length > 1)	//customMsg plugin is active
+						return false;	// dont close the dialog before user action in custom confirm dialog
+					else
+						this.configureImageElement();
 
-					// Create a new link.
-					if ( !this.linkEditMode )
-						this.linkElement = editor.document.createElement( 'a' );
-
-					// Set attributes.
-					this.commitContent( IMAGE, this.imageElement );
-					this.commitContent( LINK, this.linkElement );
-
-					// Remove empty style attribute.
-					if ( !this.imageElement.getAttribute( 'style' ) )
-						this.imageElement.removeAttribute( 'style' );
-
-					// Insert a new Image.
-					if ( !this.imageEditMode ) {
-						if ( this.addLink ) {
-							if ( !this.linkEditMode ) {
-								// Insert a new link.
-								editor.insertElement( this.linkElement );
-								this.linkElement.append( this.imageElement, false );
-							} else {
-								// We already have a link in editor.
-								if ( this.linkElement.equals( editor.getSelection().getSelectedElement() ) ) {
-									// If the link is selected outside, replace it's content rather than the link itself. ([<a>foo</a>])
-									this.linkElement.setHtml( '' );
-									this.linkElement.append( this.imageElement, false );
-								} else {
-									// Only inside of the link is selected, so replace it with image. (<a>[foo]</a>, <a>[f]oo</a>)
-									editor.insertElement( this.imageElement );
-								}
-							}
-						} else {
-							editor.insertElement( this.imageElement );
-						}
-					}
-					// Image already exists.
-					else {
-						// Add a new link element.
-						if ( !this.linkEditMode && this.addLink ) {
-							editor.insertElement( this.linkElement );
-							this.imageElement.appendTo( this.linkElement );
-						}
-						// Remove Link, Image exists.
-						else if ( this.linkEditMode && !this.addLink ) {
-							editor.getSelection().selectElement( this.linkElement );
-							editor.insertElement( this.imageElement );
-						}
-					}
 				},
 				onLoad: function() {
 					if ( dialogType != 'image' )
@@ -464,6 +542,7 @@
 					}
 
 					this.commitContent = commitContent;
+					this.configureImageElement = configureImageElement;
 				},
 				onHide: function() {
 					if ( this.preview )
@@ -619,7 +698,14 @@
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
 												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
-												alert( editor.lang.common.invalidWidth ); // jshint ignore:line
+											{
+												var field = this;
+												this._.dialog._.editor.showAlert( editor.lang.common.invalidWidth, function( retVal ) {
+															if ( retVal === true ) {
+																field.select();
+															}
+													})
+											}
 											return isValid;
 										},
 										setup: setupDimension,
@@ -660,7 +746,14 @@
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
 												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
-												alert( editor.lang.common.invalidHeight ); // jshint ignore:line
+											{
+												var field = this;
+												this._.dialog._.editor.showAlert( editor.lang.common.invalidHeight, function( retVal ) {
+															if ( retVal === true ) {
+																field.select();
+															}
+													})
+											}
 											return isValid;
 										},
 										setup: setupDimension,

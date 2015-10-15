@@ -37,7 +37,13 @@
 				pass = !!( CKEDITOR.dialog.validate.integer()( value ) && value > 0 );
 
 			if ( !pass ) {
-				alert( msg ); // jshint ignore:line
+				var editor = this._.dialog._.editor,
+					field = this;
+				editor.showAlert( msg, function( retVal ) {
+									if ( retVal === true ) {
+										field.select();
+									}
+					})
 				this.select();
 			}
 

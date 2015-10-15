@@ -125,9 +125,19 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				this.focus();
 		}
 
-		msg && alert( msg ); // jshint ignore:line
+		var editor = this._.dialog._.editor;
+		var field = this;
+		msg && (editor.showAlert( msg, function(retVal) {
+							if (retVal === true) {
+								field.fire( 'validated', { valid: isValid, msg: msg } );
+								field.select();
+							}
+			}))
 
-		this.fire( 'validated', { valid: isValid, msg: msg } );
+		if (msg) 
+			editor.showAlert.length == 1 && this.fire( 'validated', { valid: isValid, msg: msg } );
+		else
+			this.fire( 'validated', { valid: isValid, msg: msg } )
 	}
 
 	function resetField() {
@@ -389,10 +399,18 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		}, this, null, 0 );
 
 		this.on( 'cancel', function( evt ) {
+			var confirmFired = false;
 			iterContents( function( item ) {
 				if ( item.isChanged() ) {
-					if ( !editor.config.dialog_noConfirmCancel && !confirm( editor.lang.common.confirmCancel ) ) // jshint ignore:line
-						evt.data.hide = false;
+					
+					if ( !editor.config.dialog_noConfirmCancel ) {
+						var res = editor.showConfirm( editor.lang.common.confirmCancel , function( retVal ) {
+														if ( retVal == true )
+															me.hide();
+													})
+						if ( !( editor.showConfirm.length == 1 && res == true ) )
+							evt.data.hide = false;
+					}
 					return true;
 				}
 			} );

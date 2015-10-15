@@ -1397,6 +1397,40 @@
 		 */
 		showNotification: function( message ) {
 			alert( message ); // jshint ignore:line
+		},
+		
+		/**
+		 * Shows a custom alert dialog to the user.
+		 *
+		 * If the CustomMsg plugin is not enabled, this function shows
+		 * a normal alert with the given `message`.
+		 *
+		 * If the CustomMsg plugin is enabled, this method creates and shows a custom alert dialog
+		 *
+		 * See {@link CKEDITOR.plugins.customMsg}.
+		 *
+		 * @param {String} message The message displayed in the alert dialog.
+		 * @returns {CKEDITOR.plugins.customMsg} Created and shown alert dialog. 
+		 */
+ 		showAlert: function( message ) {
+			alert( message ); // jshint ignore:line
+		},
+		
+		/**
+		 * Shows a custom confirm dialog to the user.
+		 *
+		 * If the CustomMsg plugin is not enabled, this function shows
+		 * a normal confirm msg with the given `message`.
+		 *
+		 * If the CustomMsg plugin is enabled, this method creates and shows a custom confirm dialog
+		 *
+		 * See {@link CKEDITOR.plugins.customMsg}.
+		 *
+		 * @param {String} message The message displayed in the confirm dialog.
+		 * @returns {CKEDITOR.plugins.customMsg} Created and shown confirm dialog. 
+		 */
+		showConfirm: function( message ) {
+			return res = confirm( message ); // jshint ignore:line
 		}
 	} );
 } )();

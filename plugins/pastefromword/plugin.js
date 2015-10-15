@@ -68,29 +68,50 @@
 				var data = evt.data,
 					mswordHtml = data.dataValue;
 
-				// MS-WORD format sniffing.
-				if ( mswordHtml && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
-					// Do not apply paste filter to data filtered by the Word filter (#13093).
-					data.dontFilter = true;
+				if ( !(/<!--ckeCustomMsg-->/).test(mswordHtml) ) {
+					// MS-WORD format sniffing.
+					if ( mswordHtml && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument)/ ).test( mswordHtml ) ) ) {
+						// Do not apply paste filter to data filtered by the Word filter (#13093).
+						data.dontFilter = true;
+	
+						// If filter rules aren't loaded then cancel 'paste' event,
+						// load them and when they'll get loaded fire new paste event
+						// for which data will be filtered in second execution of
+						// this listener.
+						var isLazyLoad = loadFilterRules( editor, path, function() {
+							var confirmFired = false;
+							// Event continuation with the original data.
+							if ( isLazyLoad )
+								editor.fire( 'paste', data );
 
-					// If filter rules aren't loaded then cancel 'paste' event,
-					// load them and when they'll get loaded fire new paste event
-					// for which data will be filtered in second execution of
-					// this listener.
-					var isLazyLoad = loadFilterRules( editor, path, function() {
-						// Event continuation with the original data.
-						if ( isLazyLoad )
-							editor.fire( 'paste', data );
-						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) // jshint ignore:line
-							data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
+							else if ( !editor.config.pasteFromWordPromptCleanup || forceFromWord )
+								data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
+							else {
+								confirmFired = true;
+								var res = editor.showConfirm( editor.lang.pastefromword.confirmCleanup, function( retVal ) {
+															if ( retVal === true )
+																data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
+															else 
+																data.dataValue = mswordHtml + "<!--ckeCustomMsg-->";
+	
+															editor.fire( 'paste', data );
+															})
+							}
+							if ( confirmFired ) {
+								if ( editor.showConfirm.length > 1 )
+									evt.cancel();
+								else if (res)
+									data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
+							}
 
-						// Reset forceFromWord.
-						forceFromWord = 0;
-					} );
-
-					// The cleanup rules are to be loaded, we should just cancel
-					// this event.
-					isLazyLoad && evt.cancel();
+							// Reset forceFromWord.						
+							forceFromWord = 0;
+						} );
+	
+						// The cleanup rules are to be loaded, we should just cancel
+						// this event.
+						isLazyLoad && evt.cancel();
+					}
 				}
 			}, null, null, 3 );
 		}

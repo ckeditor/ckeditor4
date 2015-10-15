@@ -1,0 +1,75 @@
+#overlay {
+	display: none;
+	position: fixed;	
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.4);		
+	text-align: center;
+	padding: 0px;
+}
+#alertDialog, #confirmDialog {
+	display: none;
+	background-color: #ffffff;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);    /* Older Gecko browser */
+	-ms-transform: translate(-50%, -50%);     /* IE9+ */
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	border: 1px #777 solid;
+}
+
+.cke_customMsg_content {
+	text-align: center;
+	padding: 5px 20px 13px 20px;
+	font-size: 12px;
+	color:	#000000;
+	height: 80px;
+	overflow: auto;	
+}
+
+.cke_customMsg_button
+{
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+
+	padding: 4px 0;
+	margin: 0;
+
+	text-align: center;
+	color: #333;
+	vertical-align: middle;
+	cursor: pointer;
+
+	border: 1px solid #b6b6b6;
+	border-bottom-color: #999;
+	border-radius: 3px;
+	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
+
+	background: #e4e4e4;
+	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
+}
+
+.cke_cutomMsg_button_ok
+{
+	color: #fff;
+	text-shadow: 0 -1px 0 #55830c;
+	border-color: #62a60a #62a60a #4d9200;
+
+	background: #69b10b;
+	background-image: linear-gradient(to bottom, #9ad717, #69b10b);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#9ad717', endColorstr='#69b10b');
+}
+
+.cke_customMsg_button_cancel
+{
+	border-width: 2px;
+	padding: 3px 0;
+}

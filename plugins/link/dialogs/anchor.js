@@ -94,7 +94,12 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 				required: true,
 				validate: function() {
 					if ( !this.getValue() ) {
-						alert( editor.lang.link.anchor.errorName ); // jshint ignore:line
+						var field = this;
+						this._.dialog._.editor.showAlert( editor.lang.link.anchor.errorName, function( retVal ) {
+											if ( retVal === true ) {
+												field.select();
+											}
+							})
 						return false;
 					}
 					return true;

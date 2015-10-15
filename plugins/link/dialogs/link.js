@@ -199,7 +199,12 @@
 									return true;
 
 								if ( !editor.config.linkJavaScriptLinksAllowed && ( /javascript\:/ ).test( this.getValue() ) ) {
-									alert( commonLang.invalidValue ); // jshint ignore:line
+									var field = this;
+									this._.dialog._.editor.showAlert( commonLang.invalidValue, function( retVal ) {
+														if ( retVal === true ) {
+															field.select();
+														}
+										})
 									return false;
 								}
 

@@ -75,8 +75,15 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 			isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
 
 		if ( !isValid )
-			alert( commonLang[ 'invalid' + CKEDITOR.tools.capitalize( this.id ) ] ); // jshint ignore:line
-
+		{
+			var msg = commonLang[ 'invalid' + CKEDITOR.tools.capitalize( this.id ) ];
+			var field = this;
+			this._.dialog._.editor.showAlert( msg, function( retVal ) {
+						if ( retVal === true ) {
+							field.select();
+						}
+				})
+		}
 		return isValid;
 	}
 
