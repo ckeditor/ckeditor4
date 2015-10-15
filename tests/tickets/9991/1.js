@@ -50,7 +50,7 @@
 		wordVersions = [
 			'word2013'
 		],
-	// To test only particular word versions set the key value to an array in the form: [ 'word2007', 'word2013' ].
+		// To test only particular word versions set the key value to an array in the form: [ 'word2007', 'word2013' ].
 		tests = {
 			'Bold': true,
 			//'Colors': true,
