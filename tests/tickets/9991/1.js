@@ -16,14 +16,12 @@
 		}
 	};
 
-	var loadFixture = bender.tools.testExternalInput;
-
-	var compat = bender.tools.compatHtml;
-
 	function testWordFilter( editor ) {
 		return function( input, output ) {
 			assertPasteEvent( editor, { dataValue: input },
 				function( data ) {
+					var compat = bender.tools.compatHtml;
+
 					assert.areSame( compat( output ).toLowerCase(), compat( data.dataValue ).toLowerCase() );
 				}, null, true );
 		};
@@ -58,6 +56,7 @@
 			'Unordered_list': true,
 			'Unordered_list_multiple': true
 		},
+		loadFixture = bender.tools.testExternalInput,
 		keys = CKEDITOR.tools.objectKeys( tests ),
 		testData = {};
 
