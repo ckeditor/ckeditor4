@@ -16,17 +16,7 @@
 		}
 	};
 
-	function loadFixture( url, fn ) {
-		assert.isObject( CKEDITOR.ajax, 'Ajax plugin is required' );
-
-		CKEDITOR.ajax.load( url, function( data ) {
-			resume( function() {
-				fn( data );
-			} );
-		} );
-
-		wait();
-	}
+	var loadFixture = bender.tools.testExternalInput;
 
 	var compat = bender.tools.compatHtml;
 
