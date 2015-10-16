@@ -781,7 +781,7 @@
 				{ responseText: JSON.stringify( response ) } );
 
 			resumeAfter( loader, 'uploaded', function() {
-				objectAssert.areEqual( response, loader.response );
+				objectAssert.areEqual( response, loader.responseData );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );

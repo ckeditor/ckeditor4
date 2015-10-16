@@ -58,7 +58,7 @@
 			 * @since 4.5
 			 * @event fileUploadResponse
 			 * @member CKEDITOR.editor
-			 * @param data
+			 * @param data All data will be passed to the {@link CKEDITOR.fileTools.fileLoader#responseData}.
 			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader A file loader instance.
 			 * @param {String} data.message The message from the server. Needs to be set in the listener &mdash; see the example above.
 			 * @param {String} data.fileName The file name on server. Needs to be set in the listener &mdash; see the example above.
@@ -279,7 +279,7 @@
 		this.uploaded = 0;
 		this.uploadTotal = null;
 
-		this.response = null;
+		this.responseData = null;
 
 		this.status = 'created';
 
@@ -348,10 +348,13 @@
 	 */
 
 	/**
-	 * The response from the server.
+	 * All data received in the response from the server. If server return addition data they will be available
+	 * in this property.
+	 *
+	 * It contains all data set in the {@link CKEDITOR.editor#fileUploadResponse} event listener.
 	 *
 	 * @readonly
-	 * @property {Object} response
+	 * @property {Object} responseData
 	 */
 
 	/**
@@ -606,9 +609,9 @@
 					}
 
 					// The whole response is also hold for use by uploadwidgets (#13519).
-					loader.response = data;
+					loader.responseData = data;
 					// But without reference to the loader itself.
-					delete loader.response.fileLoader;
+					delete loader.responseData.fileLoader;
 
 					if ( success === false ) {
 						loader.changeStatus( 'error' );
