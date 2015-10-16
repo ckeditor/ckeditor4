@@ -645,7 +645,7 @@
 				isInline = isWidgetInline( widgetDef, element.getName() );
 
 				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
-				wrapper.setAttributes( getWrapperAttributes( isInline ) );
+				wrapper.setAttributes( getWrapperAttributes( isInline, widgetName ) );
 
 				wrapper.data( 'cke-display-name', widgetDef.pathName ? widgetDef.pathName : element.getName() );
 
@@ -671,7 +671,7 @@
 
 				isInline = isWidgetInline( widgetDef, element.name );
 
-				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline ) );
+				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline, widgetName ) );
 
 				wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName ? widgetDef.pathName : element.name;
 
@@ -2199,7 +2199,7 @@
 		return false;
 	}
 
-	function getWrapperAttributes( inlineWidget ) {
+	function getWrapperAttributes( inlineWidget, name ) {
 		return {
 			// tabindex="-1" means that it can receive focus by code.
 			tabindex: -1,
@@ -2208,7 +2208,8 @@
 			'data-cke-filter': 'off',
 			// Class cke_widget_new marks widgets which haven't been initialized yet.
 			'class': 'cke_widget_wrapper cke_widget_new cke_widget_' +
-				( inlineWidget ? 'inline' : 'block' )
+				( inlineWidget ? 'inline' : 'block' ) +
+				( name ? ' cke_widget_' + name : '' )
 		};
 	}
 
