@@ -107,10 +107,6 @@ bender.test(
 	'test remove format selection in nested editable': function() {
 		var bot = this.editorBot;
 
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
-			assert.ignore();
-		}
-
 		bender.tools.selection.setWithHtml( this.editor, '<h1><em>fo{o</em></h1>' +
 			'<div contenteditable="false">' +
 				'<div contenteditable="true">' +
