@@ -82,8 +82,8 @@
 					if ( !response.uploaded ) {
 						evt.cancel();
 					} else {
-						for ( var x in response ) {
-							data[ x ] = response[ x ];
+						for ( var i in response ) {
+							data[ i ] = response[ i ];
 						}
 					}
 				} catch ( err ) {
