@@ -83,7 +83,7 @@
 						evt.cancel();
 					} else {
 						for ( var x in response ) {
-							data[x] = response[x];
+							data[ x ] = response[ x ];
 						}
 					}
 				} catch ( err ) {
