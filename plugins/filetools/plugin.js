@@ -58,7 +58,7 @@
 			 * @since 4.5
 			 * @event fileUploadResponse
 			 * @member CKEDITOR.editor
-			 * @param data
+			 * @param data All data will be passed to the {@link CKEDITOR.fileTools.fileLoader#responseData}.
 			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader A file loader instance.
 			 * @param {String} data.message The message from the server. Needs to be set in the listener &mdash; see the example above.
 			 * @param {String} data.fileName The file name on server. Needs to be set in the listener &mdash; see the example above.
@@ -82,8 +82,9 @@
 					if ( !response.uploaded ) {
 						evt.cancel();
 					} else {
-						data.fileName = response.fileName;
-						data.url = response.url;
+						for ( var i in response ) {
+							data[ i ] = response[ i ];
+						}
 					}
 				} catch ( err ) {
 					// Response parsing error.
@@ -278,6 +279,8 @@
 		this.uploaded = 0;
 		this.uploadTotal = null;
 
+		this.responseData = null;
+
 		this.status = 'created';
 
 		this.abort = function() {
@@ -342,6 +345,16 @@
 	 *
 	 * @readonly
 	 * @property {Number} total
+	 */
+
+	/**
+	 * All data received in the response from the server. If server return addition data they will be available
+	 * in this property.
+	 *
+	 * It contains all data set in the {@link CKEDITOR.editor#fileUploadResponse} event listener.
+	 *
+	 * @readonly
+	 * @property {Object} responseData
 	 */
 
 	/**
@@ -594,6 +607,11 @@
 							loader[ key ] = data[ key ];
 						}
 					}
+
+					// The whole response is also hold for use by uploadwidgets (#13519).
+					loader.responseData = data;
+					// But without reference to the loader itself.
+					delete loader.responseData.fileLoader;
 
 					if ( success === false ) {
 						loader.changeStatus( 'error' );
