@@ -774,7 +774,7 @@
 					fileName: 'name2.png',
 					uploaded: 1,
 					url: 'http:\/\/url\/name2.png',
-					test: 'test'
+					foo: 'bar'
 				};
 
 			createXMLHttpRequestMock( [ 'progress', 'load' ],
@@ -896,7 +896,7 @@
 					'"fileName":"name2.png",' +
 					'"uploaded":1,' +
 					'"url":"http:\/\/url\/name2.png",' +
-					'"test":"test"' +
+					'"foo":"bar"' +
 				'}' } );
 
 			attachListener( editorMock, 'fileUploadResponse', function( evt ) {
@@ -904,7 +904,7 @@
 			} );
 
 			resumeAfter( editorMock, 'fileUploadResponse', function() {
-				assert.areSame( 'test', data.test );
+				assert.areSame( 'bar', data.foo );
 			} );
 
 			loader.upload( 'http:\/\/url\/' );
