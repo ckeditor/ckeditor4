@@ -3,7 +3,9 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+
 ( function() {
+
 	CKEDITOR.on( 'dialogDefinition', function( ev ) {
 		var tab,
 			name = ev.data.name,
@@ -48,23 +50,6 @@
 		}
 		return styleText;
 	}
-
-	// Maintain the map of smiley-to-description.
-	// jscs:disable maximumLineLength
-	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
-	// jscs:enable maximumLineLength
-		smileyReverseMap = {},
-		smileyRegExp = [];
-
-	// Build regexp for the list of smiley text.
-	for ( var i in smileyMap ) {
-		smileyReverseMap[ smileyMap[ i ] ] = i;
-		smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
-			return '\\' + match;
-		} ) );
-	}
-
-	smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
 
 	var decodeHtml = ( function() {
 		var regex = [],
@@ -183,7 +168,7 @@
 	 * @param {String} source The HTML to be parsed, filling the fragment.
 	 * @returns {CKEDITOR.htmlParser.fragment} The fragment created.
 	 */
-	CKEDITOR.htmlParser.fragment.fromBBCode = function( source ) {
+	CKEDITOR.htmlParser.fragment.fromBBCode = function( source, smileyConfig ) {
 		var parser = new CKEDITOR.BBCodeParser(),
 			fragment = new CKEDITOR.htmlParser.fragment(),
 			pendingInline = [],
@@ -382,10 +367,12 @@
 					else if ( piece.length ) {
 						var lastIndex = 0;
 
-						// Create smiley from text emotion.
-						piece.replace( smileyRegExp, function( match, index ) {
+						// Create smiley from BBcode representation.
+						piece.replace( smileyConfig.regExp, function( ) {
+							var match = arguments[0];
+							var index = arguments[arguments.length-2];
 							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, index ) ), currentNode );
-							addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyReverseMap[ match ] } ), currentNode );
+							addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyConfig.reverseMap[ match ] } ), currentNode );
 							lastIndex = index + match.length;
 						} );
 
@@ -576,8 +563,28 @@
 		init: function( editor ) {
 			var config = editor.config;
 
+			// Maintain the map of smiley-to-description.
+			var smileyConfig = {
+				map:  {},
+				reverseMap: {},
+				regExp: []
+			};
+			for ( var i in editor.config.bbode_smiley_map ) {
+				var smileyRepresentations = editor.config.bbode_smiley_map[i];
+				for ( var j in smileyRepresentations ) {
+					if (j == 0) {
+						smileyConfig.map[ i ] = smileyRepresentations[ j ];
+					}
+					smileyConfig.reverseMap[ smileyRepresentations[ j ] ] = i;
+					smileyConfig.regExp.push( smileyRepresentations[ j ].replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&", function( match ) {
+						return '\\' + match;
+					} ) );
+				}
+			}
+			smileyConfig.regExp = new RegExp( '('+smileyConfig.regExp.join( ')|(' )+')', 'g' );
+
 			function BBCodeToHtml( code ) {
-				var fragment = CKEDITOR.htmlParser.fragment.fromBBCode( code ),
+				var fragment = CKEDITOR.htmlParser.fragment.fromBBCode( code, smileyConfig ),
 					writer = new CKEDITOR.htmlParser.basicWriter();
 
 				fragment.writeHtml( writer, bbcodeFilter );
@@ -718,7 +725,7 @@
 								alt = attributes.alt;
 
 							if ( src && src.indexOf( editor.config.smiley_path ) != -1 && alt )
-								return new CKEDITOR.htmlParser.text( smileyMap[ alt ] );
+								return new CKEDITOR.htmlParser.text( smileyConfig.map[ alt ] );
 							else
 								element.children = [ new CKEDITOR.htmlParser.text( src ) ];
 						}
@@ -789,3 +796,62 @@
 	} );
 
 } )();
+
+/**
+ * Maps how each of the smileys defined in the {@link CKEDITOR.config#smiley_descriptions} setting
+ * can be represented in BBcode. Each value of the {@link CKEDITOR.config#smiley_descriptions} setting
+ * must be a property of this object, whose value is an array containing one or more BBcode-representations.
+ * The first element of this array will be used as the standard-representation,
+ * which will be used, when a smiley is inserted via the editor.
+ *
+ *		// Default settings.
+ *		 config.bbode_smiley_map = {
+ *			'smiley': 		[':)', ':-)'],
+ *			'sad': 			[':(', ':-('],
+ *			'wink': 		[';)', ';-)'],
+ *			'laugh': 		[':D', ':-D'],
+ *			'frown': 		[':/', ':-/'],
+ *			'cheeky': 		[':P', ':-P'],
+ *			'blush': 		[':*)', ':-*)'],
+ *			'surprise': 	[':o', ':-o'],
+ *			'indecision': 	[':|', ':-)'],
+ *			'angry': 		['&gt;:(', '&gt;:-('],
+ *			'angel': 		['o:)', 'o:-)'],
+ *			'cool': 		['8)', '8-)'],
+ *			'devil': 		['&gt;:)', '&gt;:-)'],
+ *			'crying': 		[';(', ';-('],
+ *			'enlightened':	[':light:'],
+ *			'no': 			[':no:'],
+ *			'yes': 			[':yes:'],
+ *			'heart': 		['&gt;3'],
+ *			'broken heart':	['&gt;/3'],
+ *			'kiss': 		[':*', ':-*'],
+ *			'mail': 		[':mail:'],
+ *		};
+ *
+ * @cfg
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.bbode_smiley_map = {
+	'smiley': 		[':)', ':-)'],
+	'sad': 			[':(', ':-('],
+	'wink': 		[';)', ';-)'],
+	'laugh': 		[':D', ':-D'],
+	'frown': 		[':/', ':-/'],
+	'cheeky': 		[':P', ':-P'],
+	'blush': 		[':*)', ':-*)'],
+	'surprise': 	[':o', ':-o'],
+	'indecision': 	[':|', ':-)'],
+	'angry': 		['&gt;:(', '&gt;:-('],
+	'angel': 		['o:)', 'o:-)'],
+	'cool': 		['8)', '8-)'],
+	'devil': 		['&gt;:)', '&gt;:-)'],
+	'crying': 		[';(', ';-('],
+	'enlightened':	[':light:'],
+	'no': 			[':no:'],
+	'yes': 			[':yes:'],
+	'heart': 		['&gt;3'],
+	'broken heart':	['&gt;/3'],
+	'kiss': 		[':*', ':-*'],
+	'mail': 		[':mail:'],
+};

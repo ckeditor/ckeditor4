@@ -82,16 +82,36 @@ CKEDITOR.replace( 'editor1', {
 						[ 'NumberedList', 'BulletedList', '-', 'Blockquote' ],
 						[ 'Maximize' ]
 					],
-					// Strip CKEditor smileys to those commonly used in BBCode.
-					smiley_images: [
-						'regular_smile.png', 'sad_smile.png', 'wink_smile.png', 'teeth_smile.png', 'tongue_smile.png',
-						'embarrassed_smile.png', 'omg_smile.png', 'whatchutalkingabout_smile.png', 'angel_smile.png',
-						'shades_smile.png', 'cry_smile.png', 'kiss.png'
-					],
-					smiley_descriptions: [
-						'smiley', 'sad', 'wink', 'laugh', 'cheeky', 'blush', 'surprise',
-						'indecision', 'angel', 'cool', 'crying', 'kiss'
-					]
+
+					// Map the smileys defined via the setting config.smiley_descriptions
+					// to their BBcode-representations.
+					// Each smiley defined in config.smiley_descriptions must also be
+					// configured here.
+					// The first stated BBcode-representation will be used as the standard,
+					// which will be used, when a smiley is inserted via the editor.
+					bbode_smiley_map = {
+						'smiley': 		[':)', ':-)'],
+						'sad': 			[':(', ':-('],
+						'wink': 		[';)', ';-)'],
+						'laugh': 		[':D', ':-D'],
+						'frown': 		[':/', ':-/'],
+						'cheeky': 		[':P', ':-P'],
+						'blush': 		[':*)', ':-*)'],
+						'surprise': 	[':o', ':-o'],
+						'indecision': 	[':|', ':-)'],
+						'angry': 		['&gt;:(', '&gt;:-('],
+						'angel': 		['o:)', 'o:-)'],
+						'cool': 		['8)', '8-)'],
+						'devil': 		['&gt;:)', '&gt;:-)'],
+						'crying': 		[';(', ';-('],
+						'enlightened':	[':light:'],
+						'no': 			[':no:'],
+						'yes': 			[':yes:'],
+						'heart': 		['&gt;3'],
+						'broken heart':	['&gt;/3'],
+						'kiss': 		[':*', ':-*'],
+						'mail': 		[':mail:'],
+					},
 				});
 
 			</script>
