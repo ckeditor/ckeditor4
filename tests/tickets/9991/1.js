@@ -16,11 +16,11 @@
 		}
 	};
 
-	function testWordFilter( editor ) {
+	function assertWordFilter( editor ) {
 		return function( input, output ) {
 			assertPasteEvent( editor, { dataValue: input }, function( data ) {
 				var compat = bender.tools.compatHtml;
-
+				// Old IE versions paste the HTML tags in uppercase.
 				assert.areSame( compat( output ).toLowerCase(), compat( data.dataValue ).toLowerCase() );
 			}, null, true );
 		};
@@ -88,11 +88,11 @@
 						}
 
 						if ( specialCaseOutput !== null ) {
-							testWordFilter( that.editor )( input, specialCaseOutput );
+							assertWordFilter( that.editor )( input, specialCaseOutput );
 						} else {
 							assert.isNotNull( output, '"expected.html" missing.' );
 
-							testWordFilter( that.editor )( input, output );
+							assertWordFilter( that.editor )( input, output );
 						}
 					} );
 				} );
