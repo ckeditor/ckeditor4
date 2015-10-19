@@ -7,6 +7,7 @@ New Features:
 
 * [#12077](https://dev.ckeditor.com/ticket/12077): Add support for HTML5 "download" attribute in link (a) elements. Thanks to [sbusse](https://github.com/sbusse)!
 * [#13519](http://dev.ckeditor.com/ticket/13519): (http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) response is now more flexible.
+* [#13828](http://dev.ckeditor.com/ticket/13828): Adding a class to widget element will also add a prefixed class to it's wrapper.
 
 ## CKEditor 4.5.5
 
