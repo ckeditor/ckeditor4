@@ -982,6 +982,9 @@
 		 * the {@link #applyStyle} method and should be overriden by widgets
 		 * which should handle classes differently (e.g. add them to other elements).
 		 *
+		 * Since 4.6.0 this method also adds a corresponding class prefixed with {@link #WRAPPER_CLASS_PREFIX}
+		 * to the widget wrapper element.
+		 *
 		 * **Note**: This method should not be used directly. Use the {@link #setData} method to
 		 * set the `classes` property. Read more in the {@link #setData} documentation.
 		 *
@@ -992,6 +995,7 @@
 		 */
 		addClass: function( className ) {
 			this.element.addClass( className );
+			this.wrapper.addClass( Widget.WRAPPER_CLASS_PREFIX + className );
 		},
 
 		/**
@@ -1332,6 +1336,7 @@
 		 */
 		removeClass: function( className ) {
 			this.element.removeClass( className );
+			this.wrapper.removeClass( Widget.WRAPPER_CLASS_PREFIX + className );
 		},
 
 		/**
@@ -1589,6 +1594,17 @@
 	Widget.isParserWidgetWrapper = function( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && !!node.attributes[ 'data-cke-widget-wrapper' ];
 	};
+
+	/**
+	 * Prefix added to wrapper classes. Each class added to the widget element by {@link #addClass}
+	 * will be also added to the wrapper prefixed with it.
+	 *
+	 * @since 4.6.0
+	 * @static
+	 * @readonly
+	 * @property {String} [='cke_widget_wrapper_']
+	 */
+	Widget.WRAPPER_CLASS_PREFIX = 'cke_widget_wrapper_';
 
 	/**
 	 * An event fired when a widget is ready (fully initialized). This event is fired after:

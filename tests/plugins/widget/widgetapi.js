@@ -25,9 +25,16 @@
 		getAttrData = widgetTestsTools.getAttributeData,
 		getWidgetById = widgetTestsTools.getWidgetById,
 		obj2Array = widgetTestsTools.obj2Array,
-		classes2Array = widgetTestsTools.classes2Array;
+		classes2Array = widgetTestsTools.classes2Array,
+		prefix;
 
 	bender.test( {
+
+		setUp: function() {
+			// Class prefix for widget wrapper classes (#13828).
+			prefix = CKEDITOR.plugins.widget.WRAPPER_CLASS_PREFIX;
+		},
+
 		'test initialization - init method and data event': function() {
 			var editor = this.editor,
 				order = [],
@@ -341,12 +348,15 @@
 			} );
 
 			this.editorBot.setData( '<p data-widget="testclassesloading1" id="w1" class="foo bar">foo</p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
+				var widget = getWidgetById( editor, 'w1' ),
+					wrapper = widget.wrapper;
 
 				assert.areSame( 1, onDataFired, 'data event fired once' );
 				assert.areSame( 'bar,foo', getClasses( widget ).join( ',' ), 'widget.data.classes is loaded' );
 				assert.isTrue( widget.hasClass( 'foo' ) );
 				assert.isTrue( widget.hasClass( 'bar' ) );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'Prefixed class should be applied on wrapper.' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'Prefixed class should be applied on wrapper.' );
 			} );
 		},
 
@@ -367,13 +377,16 @@
 			} );
 
 			this.editorBot.setData( '<p data-widget="testclassesloading2" data-cke-widget-data="' + data2Attr( { classes: { foo: 1, bar: 1 } } ) + '" id="w1">foo</p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
+				var widget = getWidgetById( editor, 'w1' ),
+					wrapper = widget.wrapper;
 
 				assert.areSame( 1, onDataFired, 'data event fired once' );
 				assert.areSame( 2, addClassCalled, 'addClass was used to add classes' );
 				assert.areSame( 'bar,foo', getClasses( widget ).join( ',' ), 'widget.data.classes is loaded' );
 				assert.isTrue( widget.hasClass( 'foo' ) );
 				assert.isTrue( widget.hasClass( 'bar' ) );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'Prefixed class should be applied on wrapper.' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'Prefixed class should be applied on wrapper.' );
 			} );
 		},
 
@@ -384,18 +397,24 @@
 
 			this.editorBot.setData( '<p data-widget="testaddremoveclass1" id="w1">foo</p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
-					element = widget.element;
+					element = widget.element,
+					wrapper = widget.wrapper;
 
 				widget.addClass( 'foo' );
 				assert.isTrue( element.hasClass( 'foo' ), 'element has class foo' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'wrapper has class ' + prefix + 'foo' );
 
 				widget.addClass( 'bar' );
 				assert.isTrue( element.hasClass( 'bar' ), 'element has class bar' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'wrapper has class ' + prefix + 'bar' );
 				assert.isTrue( element.hasClass( 'foo' ), 'element still has class foo' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'wrapper has class ' + prefix + 'foo' );
 
 				widget.removeClass( 'foo' );
 				assert.isFalse( element.hasClass( 'foo' ), 'element does not have class foo' );
+				assert.isFalse( wrapper.hasClass( prefix + 'foo' ), 'wrapper does not have class ' + prefix + 'foo' );
 				assert.isTrue( element.hasClass( 'bar' ), 'element still has class bar' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'wrapper does not have class ' + prefix + 'bar' );
 			} );
 		},
 
@@ -442,24 +461,30 @@
 			editor.widgets.add( widgetName, {} );
 
 			this.editorBot.setData( '<p data-widget="testapplyremovestyle1" id="w1">foo</p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
-
-				var style1 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } ),
+				var widget = getWidgetById( editor, 'w1' ),
+					wrapper = widget.wrapper,
+					style1 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } ),
 					style2 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'bar' } } );
 
 				widget.applyStyle( style1 );
 				assert.isTrue( widget.hasClass( 'foo' ), 'style 1 has been applied' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'style 1 has been applied to the wrapper too' );
 
 				widget.applyStyle( style2 );
 				assert.isTrue( widget.hasClass( 'foo' ), 'style 1 is still applied' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'style 1 is still applied to the wrapper' );
 				assert.isTrue( widget.hasClass( 'bar' ), 'style 2 has been applied' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'style 2 has been applied to the wrapper too' );
 
 				widget.removeStyle( style1 );
 				assert.isFalse( widget.hasClass( 'foo' ), 'style 1 has been removed' );
+				assert.isFalse( wrapper.hasClass( prefix + 'foo' ), 'style 1 has been removed from the wrapper' );
 				assert.isTrue( widget.hasClass( 'bar' ), 'style 2 is sitll applied' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'style 2 is still applied to the wrapper' );
 
 				widget.removeStyle( style2 );
 				assert.isFalse( widget.hasClass( 'bar' ), 'style 2 has been removed' );
+				assert.isFalse( wrapper.hasClass( prefix + 'bar' ), 'style 2 has been removed from the wrapper' );
 			} );
 		},
 
@@ -470,21 +495,27 @@
 			editor.widgets.add( widgetName, {} );
 
 			this.editorBot.setData( '<p data-widget="testapplyremovestyle2" id="w1">foo</p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
+				var widget = getWidgetById( editor, 'w1' ),
+					wrapper = widget.wrapper;
 
 				var style = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo bar' } } );
 
 				widget.applyStyle( style );
 				assert.isTrue( widget.hasClass( 'foo' ), '1st class has been applied' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), '1st class has been applied to the wrapper' );
 				assert.isTrue( widget.hasClass( 'bar' ), '2nd class has been applied' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), '2nd class has been applied to the wrapper' );
 
 				widget.addClass( 'bom' );
-
 				widget.removeStyle( style );
-				assert.isFalse( widget.hasClass( 'foo' ), '1st class has been removed' );
-				assert.isFalse( widget.hasClass( 'bar' ), '2nd class has been removed' );
 
-				assert.isTrue( widget.hasClass( 'bom' ), 'unrelated class has been left' );
+				assert.isFalse( widget.hasClass( 'foo' ), '1st class has been removed' );
+				assert.isFalse( wrapper.hasClass( prefix + 'foo' ), '1st class has been removed from the wrapper' );
+				assert.isFalse( widget.hasClass( 'bar' ), '2nd class has been removed' );
+				assert.isFalse( wrapper.hasClass( prefix + 'bar' ), '2nd class has been removed from the wrapper' );
+
+				assert.isTrue( widget.hasClass( 'bom' ), 'unrelated class remains untouched' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bom' ), 'unrelated class remains untouched on the wrapper' );
 			} );
 		},
 
@@ -589,28 +620,37 @@
 			editor.widgets.add( widgetName, {} );
 
 			this.editorBot.setData( '<p data-widget="testsetdataclasses1" id="w1">foo</p>', function() {
-				var widget = getWidgetById( editor, 'w1' );
+				var widget = getWidgetById( editor, 'w1' ),
+					wrapper = widget.wrapper;
 
 				widget.setData( 'classes', { foo: 1, bar: 1 } );
 
 				assert.isTrue( widget.hasClass( 'foo' ), '1 - foo' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'wrapper: 1 - ' + prefix + 'foo' );
 				assert.isTrue( widget.hasClass( 'bar' ), '1 - bar' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'wrapper: 1 - ' + prefix + 'foo' );
 
 				widget.setData( 'classes', { foo: 1, bom: 1 } );
 
 				assert.isTrue( widget.hasClass( 'foo' ), '2 - foo' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'wrapper: 2 - ' + prefix + 'foo' );
 				assert.isTrue( widget.hasClass( 'bom' ), '2 - bom' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bom' ), 'wrapper: 2 - ' + prefix + 'bom' );
 				assert.isFalse( widget.hasClass( 'bar' ), '2 - bar' );
+				assert.isFalse( wrapper.hasClass( prefix + 'bar' ), 'wrapper: 2 - ' + prefix + 'bar' );
 
 				widget.setData( 'classes', {} );
 
 				assert.isFalse( widget.hasClass( 'foo' ), '3 - foo' );
+				assert.isFalse( wrapper.hasClass( prefix + 'foo' ), 'wrapper: 3 - ' + prefix + 'foo' );
 				assert.isFalse( widget.hasClass( 'bom' ), '3 - bom' );
+				assert.isFalse( wrapper.hasClass( prefix + 'bom' ), 'wrapper: 3 - ' + prefix + 'bom' );
 
 				widget.setData( 'classes', { foo: 1 } );
 				widget.setData( 'classes', null );
 
 				assert.isFalse( widget.hasClass( 'foo' ), '4 - foo' );
+				assert.isFalse( wrapper.hasClass( prefix + 'foo' ), 'wrapper: 4 - ' + prefix + 'foo' );
 			} );
 		},
 
