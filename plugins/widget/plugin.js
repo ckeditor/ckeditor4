@@ -981,7 +981,8 @@
 		 * Adds a class to the widget element. This method is used by
 		 * the {@link #applyStyle} method and should be overriden by widgets
 		 * which should handle classes differently (e.g. add them to other elements).
-		 * Since 4.6.0 this method also adds corresponding class prefixed with {@link #WRAPPER_CLASS_PREFIX}
+		 *
+		 * Since 4.6.0 this method also adds a corresponding class prefixed with {@link #WRAPPER_CLASS_PREFIX}
 		 * to the widget wrapper element.
 		 *
 		 * **Note**: This method should not be used directly. Use the {@link #setData} method to
@@ -1324,8 +1325,6 @@
 		 * Removes a class from the widget element. This method is used by
 		 * the {@link #removeStyle} method and should be overriden by widgets
 		 * which should handle classes differently (e.g. on other elements).
-		 * Since 4.6.0 this method also removes corresponding class prefixed with {@link #WRAPPER_CLASS_PREFIX}
-		 * from the widget wrapper element.
 		 *
 		 * **Note**: This method should not be used directly. Use the {@link #setData} method to
 		 * set the `classes` property. Read more in the {@link #setData} documentation.
@@ -1598,12 +1597,12 @@
 
 	/**
 	 * Prefix added to wrapper classes. Each class added to the widget element by {@link #addClass}
-	 * will be also added to the wrapper element with `cke_widget_wrapper_` prefix.
+	 * will be also added to the wrapper prefixed with it.
 	 *
 	 * @since 4.6.0
 	 * @static
 	 * @readonly
-	 * @type {String}
+	 * @property {String} [='cke_widget_wrapper_']
 	 */
 	Widget.WRAPPER_CLASS_PREFIX = 'cke_widget_wrapper_';
 
