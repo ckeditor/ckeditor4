@@ -356,7 +356,7 @@
 				assert.isTrue( widget.hasClass( 'foo' ) );
 				assert.isTrue( widget.hasClass( 'bar' ) );
 				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'Prefixed class should be applied on wrapper.' );
-				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'Prefixed class should be applied on wrapper.'  );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'Prefixed class should be applied on wrapper.' );
 			} );
 		},
 
@@ -386,7 +386,7 @@
 				assert.isTrue( widget.hasClass( 'foo' ) );
 				assert.isTrue( widget.hasClass( 'bar' ) );
 				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'Prefixed class should be applied on wrapper.' );
-				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'Prefixed class should be applied on wrapper.'  );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'Prefixed class should be applied on wrapper.' );
 			} );
 		},
 
@@ -465,31 +465,29 @@
 
 			this.editorBot.setData( '<p data-widget="testapplyremovestyle1" id="w1">foo</p>', function() {
 				var widget = getWidgetById( editor, 'w1' ),
-					wrapper = widget.wrapper;
-
-
-				var style1 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } ),
+					wrapper = widget.wrapper,
+					style1 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'foo' } } ),
 					style2 = st( { type: 'widget', widget: widgetName, attributes: { 'class': 'bar' } } );
 
 				widget.applyStyle( style1 );
 				assert.isTrue( widget.hasClass( 'foo' ), 'style 1 has been applied' );
-				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'style 1 should be applied to the wrapper too' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'style 1 has been applied to the wrapper too' );
 
 				widget.applyStyle( style2 );
 				assert.isTrue( widget.hasClass( 'foo' ), 'style 1 is still applied' );
-				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'style 1 should be still applied to the wrapper' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'style 1 is still applied to the wrapper' );
 				assert.isTrue( widget.hasClass( 'bar' ), 'style 2 has been applied' );
-				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'style 2 should be applied to the wrapper too' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'style 2 has been applied to the wrapper too' );
 
 				widget.removeStyle( style1 );
 				assert.isFalse( widget.hasClass( 'foo' ), 'style 1 has been removed' );
-				assert.isFalse( wrapper.hasClass( prefix + 'foo' ), 'style 1 should be removed from the wrapper' );
+				assert.isFalse( wrapper.hasClass( prefix + 'foo' ), 'style 1 has been removed from the wrapper' );
 				assert.isTrue( widget.hasClass( 'bar' ), 'style 2 is sitll applied' );
-				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'style 2 should be still applied to the wrapper' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), 'style 2 is still applied to the wrapper' );
 
 				widget.removeStyle( style2 );
 				assert.isFalse( widget.hasClass( 'bar' ), 'style 2 has been removed' );
-				assert.isFalse( wrapper.hasClass( prefix + 'bar' ), 'style 2 should be removed from the wrapper' );
+				assert.isFalse( wrapper.hasClass( prefix + 'bar' ), 'style 2 has been removed from the wrapper' );
 			} );
 		},
 
@@ -507,20 +505,20 @@
 
 				widget.applyStyle( style );
 				assert.isTrue( widget.hasClass( 'foo' ), '1st class has been applied' );
-				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), '1st class should be applied to the wrapper' );
+				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), '1st class has been applied to the wrapper' );
 				assert.isTrue( widget.hasClass( 'bar' ), '2nd class has been applied' );
-				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), '2nd class should be applied to the wrapper' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bar' ), '2nd class has been applied to the wrapper' );
 
 				widget.addClass( 'bom' );
-
 				widget.removeStyle( style );
-				assert.isFalse( widget.hasClass( 'foo' ), '1st class has been removed' );
-				assert.isFalse( wrapper.hasClass( prefix + 'foo' ), '1st class should be removed from the wrapper' );
-				assert.isFalse( widget.hasClass( 'bar' ), '2nd class has been removed' );
-				assert.isFalse( wrapper.hasClass( prefix + 'bar' ), '2nd class should be removed from the wrapper' );
 
-				assert.isTrue( widget.hasClass( 'bom' ), 'unrelated class has been left' );
-				assert.isTrue( wrapper.hasClass( prefix + 'bom' ), 'unrelated class should be applied to the wrapper' );
+				assert.isFalse( widget.hasClass( 'foo' ), '1st class has been removed' );
+				assert.isFalse( wrapper.hasClass( prefix + 'foo' ), '1st class has been removed from the wrapper' );
+				assert.isFalse( widget.hasClass( 'bar' ), '2nd class has been removed' );
+				assert.isFalse( wrapper.hasClass( prefix + 'bar' ), '2nd class has been removed from the wrapper' );
+
+				assert.isTrue( widget.hasClass( 'bom' ), 'unrelated class remains untouched' );
+				assert.isTrue( wrapper.hasClass( prefix + 'bom' ), 'unrelated class remains untouched on the wrapper' );
 			} );
 		},
 
