@@ -424,13 +424,10 @@
 			editor.widgets.add( 'testhasclass1', {} );
 
 			this.editorBot.setData( '<p data-widget="testhasclass1" id="w1" class="foo bar">foo</p>', function() {
-				var widget = getWidgetById( editor, 'w1' ),
-					wrapper = widget.wrapper;
+				var widget = getWidgetById( editor, 'w1' );
 
 				assert.isTrue( widget.hasClass( 'foo' ), 'widget has class foo' );
-				assert.isTrue( wrapper.hasClass( prefix + 'foo' ), 'wrapper has class ' + prefix + 'foo' );
 				assert.isFalse( widget.hasClass( 'bom' ), 'widget does not have class bom' );
-				assert.isFalse( wrapper.hasClass( prefix + 'bom' ), 'wrapper does not have class ' + prefix + 'bom' );
 			} );
 		},
 
