@@ -16,6 +16,10 @@
 
 		var filter = new CKEDITOR.htmlParser.filter( {
 			root: function( element ) {
+				// filterChildren() tells the filter to work only
+				// on the element's current children.
+				// This way one can modify the DOM without triggering
+				// the filter for each new element.
 				element.filterChildren( filter );
 				createLists( element );
 			},
@@ -30,6 +34,73 @@
 				},
 				'font': function( element ) {
 					element.name = 'span';
+
+					// Either map the attribute name to a style, or supply a function that does it.
+					var attributeStyleMap = {
+						align: 'align',
+						color: 'color',
+						face: 'font-family',
+						size: function( value ) {
+							var sizes = [
+								'x-small',
+								'small',
+								'medium',
+								'large',
+								'x-large',
+								'xx-large'
+							];
+							setStyle( element, 'font-size', sizes[ +value - 1 ] );
+						}
+					};
+
+					for ( var attribute in attributeStyleMap ) {
+						if ( element.attributes[ attribute ] ) {
+							if ( typeof attributeStyleMap[ attribute ] === 'function' ) {
+								attributeStyleMap[ attribute ]( element.attributes[ attribute ] );
+							} else {
+								setStyle( element, attributeStyleMap[ attribute ], element.attributes[ attribute ] );
+							}
+							delete element.attributes[ attribute ];
+						}
+					}
+				},
+				'span': function( element ) {
+					element.filterChildren( filter );
+
+					var children = [];
+
+					// Store element's children somewhere else.
+					for ( var i = 0; i < element.children.length; i++ ) {
+						children.push( element.children[ i ] );
+						element.children[ i ].remove();
+					}
+
+					// Create a stack of spans with each containing one style.
+					var styles = tools.parseCssText( element.attributes.style),
+						innermostElement = element;
+
+					var keys = tools.objectKeys( styles );
+					for ( var i = 1; i < keys.length; i++ ) {
+						var newElement = new CKEDITOR.htmlParser.element( 'span' );
+
+						newElement.attributes.style = keys[ i ] + ':' + styles[ keys[ i ] ];
+						newElement.attributes.style = normalizedStyles( newElement );
+
+						if ( !newElement.attributes.style ) {
+							continue; // No style after normalization - don't add span to stack.
+						}
+
+						innermostElement.add( newElement );
+						innermostElement = newElement;
+
+						delete styles[ keys[ i ] ];
+					}
+					element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+
+					// Add the stored children to the innermost span.
+					for ( var i = 0; i < children.length; i++ ) {
+						innermostElement.add( children[ i ] );
+					}
 				}
 			},
 			attributes: {
@@ -39,20 +110,6 @@
 				},
 				'class': function( classes ) {
 					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
-				},
-				'align': function() {
-					return false;
-				},
-				'color': function( color, element ) {
-					setStyle( element, 'color', color );
-					return false;
-				},
-				'face': function( face, element ) {
-					setStyle( element, 'font-family', face );
-					return false;
-				},
-				'size': function() {
-					return false;
 				}
 			},
 			comment: function() {
@@ -113,7 +170,8 @@
 		var resetStyles = [
 			'background:white',
 			'line-height:normal',
-			'color:black'
+			'color:black',
+			'font-size:medium'
 		];
 		var resetValues = [
 			'0in'
