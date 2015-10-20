@@ -229,6 +229,7 @@
 
 			assert.areSame( 'span', wrapper.getName(), 'inline wrapper name' );
 			assert.areSame( el, wrapper.getFirst(), 'inline wrapper first child' );
+			assert.isTrue( wrapper.hasClass( 'cke_widget_test' ), 'wrapper has css class based on widget name' );
 			assert.isMatching(
 				new RegExp( '^<p>foo<span ' + widgetWrapperAttributes + '><em data-cke-widget-keep-attr="1" data-widget="test">foo</em></span>bar(<br />)?</p>$' ),
 				fixHtml( editor.editable().getHtml() )
@@ -248,6 +249,7 @@
 
 			assert.areSame( 'div', wrapper.getName(), 'block wrapper name' );
 			assert.areSame( el, wrapper.getFirst(), 'block wrapper first child' );
+			assert.isTrue( wrapper.hasClass( 'cke_widget_test' ), 'wrapper has css class based on widget name' );
 			assert.isMatching(
 				new RegExp( '^<p>foo(<br />)?</p><div ' + widgetWrapperAttributes + '><div data-cke-widget-keep-attr="1" data-widget="test">foo</div></div><p>bar(<br />)?</p>$' ),
 				fixHtml( editor.editable().getHtml() ), 'HTML after 1st wrapElement()'
