@@ -152,23 +152,6 @@
 			} );
 		},
 
-		'test upload with additional request parameters (integration test) (#13518)': function() {
-			var editor = mockEditorForPaste(),
-				additionalRequestParameters = { test: 'test' };
-
-			resumeAfter( editor, 'paste', function() {
-				assert.areSame( additionalRequestParameters, lastAdditionalRequestParameters );
-			} );
-
-			addTestUploadWidget( editor, 'testAdditionalRequestParameters', {
-				additionalRequestParameters: additionalRequestParameters
-			} );
-
-			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
-
-			wait();
-		},
-
 		'test markElement': function() {
 			var element = new CKEDITOR.dom.element( 'p' );
 			CKEDITOR.fileTools.markElement( element, 'widgetName', 1 );
