@@ -31,6 +31,8 @@
 			elements: {
 				'p': function( element ) {
 					if ( thisIsAListItem( element ) ) convertToFakeListItem( element );
+
+					createStyleStack( element, filter );
 				},
 				'font': function( element ) {
 					element.name = 'span';
@@ -65,42 +67,15 @@
 					}
 				},
 				'span': function( element ) {
-					element.filterChildren( filter );
 
-					var children = [];
+					element.attributes.style = normalizedStyles( element );
 
-					// Store element's children somewhere else.
-					for ( var i = 0; i < element.children.length; i++ ) {
-						children.push( element.children[ i ] );
-						element.children[ i ].remove();
+					if ( !element.attributes.style ) {
+						element.replaceWithChildren();
+						return;
 					}
 
-					// Create a stack of spans with each containing one style.
-					var styles = tools.parseCssText( element.attributes.style),
-						innermostElement = element;
-
-					var keys = tools.objectKeys( styles );
-					for ( var i = 1; i < keys.length; i++ ) {
-						var newElement = new CKEDITOR.htmlParser.element( 'span' );
-
-						newElement.attributes.style = keys[ i ] + ':' + styles[ keys[ i ] ];
-						newElement.attributes.style = normalizedStyles( newElement );
-
-						if ( !newElement.attributes.style ) {
-							continue; // No style after normalization - don't add span to stack.
-						}
-
-						innermostElement.add( newElement );
-						innermostElement = newElement;
-
-						delete styles[ keys[ i ] ];
-					}
-					element.attributes.style = CKEDITOR.tools.writeCssText( styles );
-
-					// Add the stored children to the innermost span.
-					for ( var i = 0; i < children.length; i++ ) {
-						innermostElement.add( children[ i ] );
-					}
+					createStyleStack( element, filter );
 				}
 			},
 			attributes: {
@@ -134,9 +109,8 @@
 			// Flat, ordered lists are represented by paragraphs
 			// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
 			// where the middle parentheses contain the symbol.
-			( ( element
-				.children[0] || {} )
-				.value || '' )
+			element
+				.getHtml()
 				.match( /^(&nbsp;)*.*?\.&nbsp;(&nbsp;){2,666}/ )
 		) {
 			return true;
@@ -171,7 +145,12 @@
 			'background:white',
 			'line-height:normal',
 			'color:black',
-			'font-size:medium'
+			'color:#000000',
+			'color:rgb(0, 0, 0)',
+			'font-size:medium',
+			'font-style:normal',
+			'font-weight:normal',
+			'direction:ltr'
 		];
 		var resetValues = [
 			'0in'
@@ -197,7 +176,8 @@
 		// Converting to a normal list item would implicitly wrap the element around an <ul>.
 		element.name = 'cke:li';
 
-		element.attributes[ 'cke-list-level' ] = +( element.attributes.style || 'level1' ).match( /level(\d+)/ )[1];
+		element.attributes[ 'cke-list-level' ] =  +( ( element.attributes.style || '' )
+			.match( /level(\d+)/ ) || [ '', 1 ] )[ 1 ];
 
 		// The symbol is the first text node descendant
 		// of the element that doesn't start with an &nbsp;
@@ -368,4 +348,44 @@
 			}
 		}
 	}
+
+	function createStyleStack( element, filter ) {
+
+		element.filterChildren( filter );
+
+		var children = [];
+
+		// Store element's children somewhere else.
+		for ( var i = 0; i < element.children.length; i++ ) {
+			children.push( element.children[ i ] );
+			element.children[ i ].remove();
+		}
+
+		// Create a stack of spans with each containing one style.
+		var styles = tools.parseCssText( element.attributes.style),
+			innermostElement = element;
+
+		var keys = tools.objectKeys( styles );
+		for ( var i = 1; i < keys.length; i++ ) {
+
+			// Don't stack block styles.
+			//if ( keys[ i ].match( /margin/ ) ) {
+			//	continue;
+			//}
+
+			var newElement = new CKEDITOR.htmlParser.element( 'span' );
+
+			newElement.attributes.style = keys[ i ] + ':' + styles[ keys[ i ] ];
+			newElement.attributes.style = newElement;
+
+			delete styles[ keys[ i ] ];
+		}
+		element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+
+		// Add the stored children to the innermost span.
+		for ( var i = 0; i < children.length; i++ ) {
+			innermostElement.add( children[ i ] );
+		}
+	}
+
 } )( typeof CKEDITOR_MOCK !== 'undefined' ? CKEDITOR_MOCK : CKEDITOR ); // Testability, yeah!
