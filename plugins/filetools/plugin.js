@@ -28,13 +28,28 @@
 			 * Event fired when the {@link CKEDITOR.fileTools.fileLoader file loader} should send XHR. If the event is not
 			 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, the default request
 			 * will be sent. To learn more refer to the [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article.
+			 * There is also possibility of passing additional data to the request via `requestData` parameter. That data will be passed
+			 * to all requests made by {CKEDITOR.fileTools.fileLoader}. If you need to add data only to requests made by specific
+			 * upload widget, you should use {@link CKEDITOR.fileTools.uploadWidgetDefinition#additionalRequestParameters}.
+			 * If you want to pass some data, just listen to `fileUploadRequest` event and add data as a property of `requestData`:
+			 *
+			 *		editor.on( 'fileUploadRequest', function( evt ) {
+			 *			evt.requestData.foo = 'bar';
+			 *		} );
+			 *
+			 * You can also pass additional files to the request, adding to `requestData` object with 2 keys: `name` - name of file
+			 * and `file` - the file itself (as `Blob` or `File` instance):
+			 *
+			 *		editor.on( 'fileUploadRequest', function( evt ) {
+			 *			evt.requestData.otherFile = { name: 'file', file: myBlob };
+			 *		} );
 			 *
 			 * @since 4.5
 			 * @event fileUploadRequest
 			 * @member CKEDITOR.editor
 			 * @param data
 			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader File loader instance.
-			 * @param {Object} data.formData Object containing all data to be sent to the server.
+			 * @param {Object} data.requestData Object containing all data to be sent to the server.
 			 */
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader;
@@ -42,16 +57,16 @@
 				fileLoader.xhr.open( 'POST', fileLoader.uploadUrl, true );
 
 				// Adding file to event's data by default - allows overwriting it by user's event listeners. (#13518)
-				evt.data.formData.upload = { file: fileLoader.file, name: fileLoader.fileName };
+				evt.data.requestData.upload = { file: fileLoader.file, name: fileLoader.fileName };
 			}, null, null, 5 );
 
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader,
 					$formData = new FormData(),
-					dataToUpload = evt.data.formData;
+					requestData = evt.data.requestData;
 
-				for ( var name in dataToUpload ) {
-					var value = dataToUpload[ name ];
+				for ( var name in requestData ) {
+					var value = requestData[ name ];
 
 					// Treating files in special way
 					if ( typeof value === 'object' && value.file ) {
@@ -540,7 +555,7 @@
 	 	 * {@link CKEDITOR.editor#fileUploadRequest} event.
 		 */
 		upload: function( url, additionalRequestParameters ) {
-			var formData = additionalRequestParameters || {};
+			var requestData = additionalRequestParameters || {};
 
 			if ( !url ) {
 				this.message = this.lang.filetools.noUrlError;
@@ -551,7 +566,7 @@
 				this.xhr = new XMLHttpRequest();
 				this.attachRequestListeners();
 
-				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this, formData: formData } ) ) {
+				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this, requestData: requestData } ) ) {
 					this.changeStatus( 'uploading' );
 				}
 			}
