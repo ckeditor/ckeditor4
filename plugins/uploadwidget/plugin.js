@@ -84,6 +84,28 @@
 	 *			}
 	 *		} );
 	 *
+	 * If you need to pass additional data to the request, you can do this using
+	 * {@link CKEDITOR.fileTools.uploadWidgetDefinition#additionalRequestParameters additionalRequestParameters} property.
+	 * That data is then passed to the upload method, defined by {@link CKEDITOR.fileTools.uploadWidgetDefinition#loadMethod},
+	 * and to {@link CKEDITOR.editor#fileUploadRequest} event (as part of `requestData` property).
+	 * Syntax of that parameter is compatible with {@link CKEDITOR.editor#fileUploadRequest} `requestData` property.
+	 *
+	 *		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadFile', {
+	 *			additionalRequestParameters: {
+	 *				foo: 'bar'
+	 *			},
+	 *
+	 *			fileToElement: function( file ) {
+	 *				var el = new CKEDITOR.dom.element( 'span' );
+	 *				el.setText( '...' );
+	 *				return el;
+	 *			},
+	 *
+	 *			onUploaded: function( upload ) {
+	 *				this.replaceWith( '<a href="' + upload.url + '" target="_blank">' + upload.fileName + '</a>' );
+	 *			}
+	 *		} );
+	 *
 	 * If you need custom `paste` handling you need to mark the pasted element to be changed into an upload widget
 	 * using {@link CKEDITOR.fileTools#markElement markElement}. For example, instead of the `fileToElement` helper from the
 	 * example above, a `paste` listener can be created manually:
