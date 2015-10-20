@@ -676,7 +676,6 @@
 				isInline = isWidgetInline( widgetDef, element.name );
 
 				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline, widgetName ) );
-
 				wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName ? widgetDef.pathName : element.name;
 
 				var parent = element.parent,
