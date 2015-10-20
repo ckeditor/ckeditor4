@@ -400,11 +400,11 @@
 			var loader = new FileLoader( editorMock, pngBase64, 'name.png' );
 
 			attachListener( editorMock, 'fileUploadRequest', function( evt ) {
-				var formData = evt.data.formData;
+				var requestData = evt.data.requestData;
 
-				formData.myFile = formData.upload;
+				requestData.myFile = requestData.upload;
 
-				delete formData.upload;
+				delete requestData.upload;
 			} );
 
 			createXMLHttpRequestMock( [ 'load' ] );
@@ -974,10 +974,10 @@
 				file = new File( [], 'a' );
 
 			attachListener( editorMock, 'fileUploadRequest', function( evt ) {
-				var formData = evt.data.formData;
+				var requestData = evt.data.requestData;
 
-				formData.customField = 'test';
-				formData.customFile = file;
+				requestData.customField = 'test';
+				requestData.customFile = file;
 			} );
 
 			createXMLHttpRequestMock( [ 'load' ] );
