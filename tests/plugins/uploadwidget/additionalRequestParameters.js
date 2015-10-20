@@ -112,6 +112,8 @@
 			if ( typeof MSBlobBuilder === 'function' )
 				createFileMock();
 
+			File = window.File;
+
 			// FormData in IE & Chrome 47- supports only adding data, not getting it, so mocking (polyfilling?) is required.
 			// Note that mocking is needed only for tests, as CKEditor.fileTools uses only append method
 			if ( !FormData.prototype.get || !FormData.prototype.has )
