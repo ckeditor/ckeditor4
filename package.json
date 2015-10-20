@@ -6,7 +6,7 @@
 		"benderjs-coverage": "^0.2.1",
 		"benderjs": "^0.4.1",
 		"benderjs-jquery": "^0.3.0",
-		"benderjs-sinon": "^0.2.1",
+		"benderjs-sinon": "^0.3.1",
 		"benderjs-yui": "^0.3.2",
 		"grunt": "^0",
 		"grunt-contrib-imagemin": "^0",
