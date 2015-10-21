@@ -1,5 +1,9 @@
 <body>
-<div id="editor" contenteditable="true">
+<div id="classic">
+	<p>Font Styles</p>
+</div>
+
+<div id="inline" contenteditable="true">
 	<p>Font Styles</p>
 </div>
 
@@ -7,9 +11,13 @@
 	( function() {
 		'use strict';
 
-		CKEDITOR.inline( 'editor', {
+		var editorConfig = {
 			toolbar: [ [ 'Font', 'FontSize', 'Format', 'Styles' ] ]
-		} );
+		};
+
+		CKEDITOR.replace( 'classic', editorConfig );
+
+		CKEDITOR.inline( 'inline', editorConfig );
 	} )();
 </script>
 </body>
