@@ -154,6 +154,11 @@
 
 		var editable = this;
 
+		// Without it IE8 has problem with removing selection in nested editable. (#13785)
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			doc.getDocumentElement().addClass( doc.$.compatMode );
+		}
+
 		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body. (#6966, #13142)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_P ) {
 			removeSuperfluousElement( 'p' );
