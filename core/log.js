@@ -115,7 +115,7 @@ CKEDITOR.on( 'log', function( evt ) {
 		errorCode = evt.data.errorCode,
 		additionalData = evt.data.additionalData,
 		prefix = '[CKEDITOR] ',
-		errorCodeLabel = 'Error: ';
+		errorCodeLabel = 'Error code: ';
 
 	if ( additionalData ) {
 		console[ type ]( prefix + errorCodeLabel + errorCode + '.', additionalData );

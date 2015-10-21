@@ -8,7 +8,7 @@
 		consoleEnabled = !!window.console,
 		ignore = !consoleEnabled,
 		errorPrefix = '[CKEDITOR] ',
-		errorCodeLabel = 'Error: ';
+		errorCodeLabel = 'Error code: ';
 
 	// Binds function to provided object and wraps it with new function.
 	// @param {Function} fn Function to be wrapped.
