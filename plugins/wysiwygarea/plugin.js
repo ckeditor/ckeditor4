@@ -154,7 +154,7 @@
 
 		var editable = this;
 
-		// Without it IE 8 has problem with removing selection in nested editable. (#13785)
+		// Without it IE8 has problem with removing selection in nested editable. (#13785)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 			doc.getDocumentElement().addClass( doc.$.compatMode );
 		}
