@@ -527,7 +527,6 @@
 				// #13850 - On IE, iframe is returned even after remove() method is called on it.
 				// Checking if parent is present fixes this issue.
 				if ( iframe && iframe.getParent() ) {
-
 					iframe.clearCustomData();
 					onResize = iframe.removeCustomData( 'onResize' );
 					onResize && onResize.removeListener();
