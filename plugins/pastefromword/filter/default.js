@@ -388,4 +388,49 @@
 		}
 	}
 
+	// Moves the element's styles lower in the DOM hierarchy.
+	// Returns true on success.
+	function pushStylesLower( element ) {
+		if ( !element.attributes.style ||
+			element.children.length === 0 ) {
+			return false;
+		}
+
+		var retainedStyles = {
+			'list-style-type': true
+		};
+
+		var styles = tools.parseCssText( element.attributes.style );
+
+		for ( var style in styles ) {
+			if ( style in retainedStyles ) {
+				continue;
+			}
+
+			for ( var i = 0; i < element.children.length; i++ ) {
+				var child = element.children[ i ];
+
+				if ( child.type !== CKEDITOR.NODE_ELEMENT ) {
+					continue;
+				}
+
+				setStyle( child, style, styles[ style ] );
+			}
+			delete styles[ style ];
+		}
+
+		element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+
+		return true;
+	}
+
+	var exportedFunctions = {
+		createStyleStack: createStyleStack,
+		pushStylesLower: pushStylesLower
+	};
+
+	for ( var exported in exportedFunctions ) {
+		CKEDITOR.cleanWord[ exported ] = exportedFunctions[ exported ];
+	}
+
 } )( typeof CKEDITOR_MOCK !== 'undefined' ? CKEDITOR_MOCK : CKEDITOR ); // Testability, yeah!
