@@ -235,14 +235,19 @@
 		} else {
 			var style = tools.parseCssText( list.attributes.style );
 			var symbolMap = {
-				/* '·': 'disc', // This is the default level one symbol. Omitted for clarity. */
+				'·': 'disc',
 				'o': 'circle',
 				'§': 'square' // In Word this is a square.
 			};
 
-			if ( style[ 'list-style-type' ] || !symbolMap[ symbol ] ) return;
+			if ( !style[ 'list-style-type' ] && symbolMap[ symbol ] ) {
+				style[ 'list-style-type' ] = symbolMap[ symbol ];
+			}
 
-			style[ 'list-style-type' ] = symbolMap[ symbol ];
+			// 'disc' is the default style for level 1 lists - remove redundancy.
+			if ( list.attributes[ 'cke-list-level' ] === 1 && style[ 'list-style-type' ] === 'disc' ) {
+				delete style[ 'list-style-type' ];
+			}
 
 			list.attributes.style = CKEDITOR.tools.writeCssText( style );
 		}
