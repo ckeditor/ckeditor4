@@ -34,6 +34,12 @@
 
 					createStyleStack( element, filter );
 				},
+				'li': function( element ) {
+					pushStylesLower( element );
+				},
+				'ol': function( element ) {
+					pushStylesLower( element );
+				},
 				'font': function( element ) {
 					element.name = 'span';
 
