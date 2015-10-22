@@ -168,7 +168,8 @@ bender.test( {
 			'^', 'table 3' );
 	},
 
-	'test caret position after pressing BACKSPACE between blocks in Firefox (#13798)': function() {
+	// ##13798
+	'test caret position after pressing BACKSPACE between blocks in Firefox': function() {
 		if ( !CKEDITOR.env.gecko )
 			assert.ignore();
 
