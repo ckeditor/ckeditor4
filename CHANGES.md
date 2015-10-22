@@ -10,6 +10,10 @@ Fixed Issues:
 * [#13361](http://dev.ckeditor.com/ticket/13361): Fixed: Images fail when site path includes parentheses because background-image path needs single-quotes around URL value.
 * [#13798](http://dev.ckeditor.com/ticket/13798): Fixed: Changing paragraph format causes cursor to move on Firefox 41.
 
+Other Changes:
+
+* [#13859](http://dev.ckeditor.com/ticket/13859): TCs created with `benter.tools.createTestsForEditors` will also receive editor bot as a second parameter.
+
 ## CKEditor 4.5.4
 
 New Features:
