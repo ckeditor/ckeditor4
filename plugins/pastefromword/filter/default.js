@@ -200,14 +200,17 @@
 	}
 
 	function removeListSymbol( element ) { // ...from the element's text content.
-		var symbol = element.attributes[ 'cke-symbol' ];
+		var removed,
+			symbol = element.attributes[ 'cke-symbol' ];
 
 		element.forEach( function( element ) {
 			if ( element.value.match( symbol ) ) {
+				removed = element.parent;
 				element.value = element.value.replace( symbol, '' );
-				symbol = '';
 			}
 		}, CKEDITOR.NODE_TEXT );
+
+		removed && removed.remove();
 	}
 
 	function setSymbol( list, symbol ) {
