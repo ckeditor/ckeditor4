@@ -1,7 +1,6 @@
 /* bender-tags: 13771, config, font, format, stylescombo */
 /* bender-ckeditor-plugins: font, format, stylescombo, toolbar */
 
-
 ( function() {
 	'use strict';
 
@@ -19,42 +18,40 @@
 		}
 	};
 
-	bender.test( {
-		'check if font combo loads proper stylesheet': function() {
-			checkCombo( 'Font' );
+	var tests = {
+		'test if font combo loads proper stylesheet': function( editor ) {
+			bender.editorBots[ editor.name ].combo( 'Font', function( combo ) {
+				assert.isTrue( searchForStylesheet( combo ), 'stylesheet is present in combo\'s iframe' );
+			} );
 		},
 
-		'check if font size combo loads proper stylesheet': function() {
-			checkCombo( 'FontSize' );
+		'test if font size combo loads proper stylesheet': function( editor ) {
+			bender.editorBots[ editor.name ].combo( 'FontSize', function( combo ) {
+				assert.isTrue( searchForStylesheet( combo ), 'stylesheet is present in combo\'s iframe' );
+			} );
 		},
 
-		'check if format combo loads proper stylesheet': function() {
-			checkCombo( 'Format' );
+		'test if format combo loads proper stylesheet': function( editor ) {
+			bender.editorBots[ editor.name ].combo( 'Format', function( combo ) {
+				assert.isTrue( searchForStylesheet( combo ), 'stylesheet is present in combo\'s iframe' );
+			} );
 		},
 
-		'check if styles combo loads proper stylesheet': function() {
-			checkCombo( 'Styles' );
+		'test if styles combo loads proper stylesheet': function( editor ) {
+			bender.editorBots[ editor.name ].combo( 'Styles', function( combo ) {
+				assert.isTrue( searchForStylesheet( combo ), 'stylesheet is present in combo\'s iframe' );
+			} );
 		}
-	} );
+	};
+
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	bender.test( tests );
 
 	function searchForStylesheet( combo ) {
 		var frameDoc = combo._.panel.element.getFirst().getFrameDocument();
 
 		// Look for any stylesheet link elems that end with desired CSS file.
 		return Boolean( frameDoc.findOne( 'link[rel="stylesheet"][href$="contents.css"]' ) );
-	}
-
-	function checkCombo( name ) {
-		var bots = bender.editorBots,
-			message = 'check if stylesheet is present in ' + name + ' combo\'s iframe';
-
-		// Checks combo with given name in all editorBots available.
-		for ( var bot in bots ) {
-			bots[ bot ].combo( name, function( combo ) {
-				var isPresent = searchForStylesheet( combo );
-
-				assert.isTrue( isPresent, message );
-			} );
-		}
 	}
 } )();
