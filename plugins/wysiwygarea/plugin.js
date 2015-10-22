@@ -508,8 +508,14 @@
 			detach: function() {
 				var editor = this.editor,
 					doc = editor.document,
-					iframe = editor.window.getFrame(),
+					iframe,
 					onResize;
+
+				// #13850, #13790 - trying to access window's frameElement property on Edge throws an exception
+				// in situation when frame was already removed from DOM.
+				try {
+					iframe =  editor.window.getFrame();
+				} catch ( e ) {}
 
 				framedWysiwyg.baseProto.detach.call( this );
 
