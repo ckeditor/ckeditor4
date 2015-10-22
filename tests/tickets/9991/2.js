@@ -22,7 +22,7 @@
 		filterMock = new CKEDITOR.htmlParser.filter();
 
 	bender.test( {
-		'test create style stack': function () {
+		'test create style stack': function() {
 			var element = new CKEDITOR.htmlParser.element( 'p' );
 			element.attributes.style = 'font-family: "Calibri"; font-size: 36pt; color: yellow';
 			element.add( new CKEDITOR.htmlParser.text( 'test' ) );
