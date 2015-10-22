@@ -37,7 +37,7 @@
 				'font': function( element ) {
 					element.name = 'span';
 
-					// Either map the attribute name to a style, or supply a function that does it.
+					// Either map the attribute name to a style, or supply a function that does all the work.
 					var attributeStyleMap = {
 						align: 'align',
 						color: 'color',
