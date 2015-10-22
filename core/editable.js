@@ -1108,9 +1108,9 @@
 					} );
 				}
 
-				// Prevent Webkit/Blink from going rogue when joining
-				// blocks on BACKSPACE/DEL (#11861,#9998).
-				if ( CKEDITOR.env.webkit ) {
+				// Prevent Webkit/Blink/Gecko from going rogue when joining
+				// blocks on BACKSPACE/DEL (#13798,#11861,#9998).
+				if ( CKEDITOR.env.webkit || CKEDITOR.env.gecko ) {
 					this.attachListener( editor, 'key', function( evt ) {
 						if ( editor.readOnly ) {
 							return true;

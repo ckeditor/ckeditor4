@@ -166,5 +166,13 @@ bender.test( {
 		// No content in a parent list.
 		this.assertKeystroke( DEL, 0, '<ul><li><table><tbody><tr><td>[foo]</td></tr></tbody></table></li></ul>',
 			'^', 'table 3' );
+	},
+
+	// ##13798
+	'test caret position after pressing BACKSPACE between blocks in Firefox': function() {
+		if ( !CKEDITOR.env.gecko )
+			assert.ignore();
+
+		this.assertKeystroke( BACKSPACE, 0, '<h1>Head</h1><p>^ing</p>', '<h1>Head^ing</h1>', 'blocks are correctly joined' );
 	}
 } );
