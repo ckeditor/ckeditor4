@@ -349,41 +349,47 @@
 		}
 	}
 
+	// Surround the element's children with a stack of spans,
+	// each one having one style originally belonging to the element.
 	function createStyleStack( element, filter ) {
+		var i,
+			children = [];
 
 		element.filterChildren( filter );
 
-		var children = [];
-
 		// Store element's children somewhere else.
-		for ( var i = 0; i < element.children.length; i++ ) {
+		for ( i = 0; i < element.children.length; i++ ) {
 			children.push( element.children[ i ] );
 			element.children[ i ].remove();
 		}
 
 		// Create a stack of spans with each containing one style.
-		var styles = tools.parseCssText( element.attributes.style),
+		var styles = tools.parseCssText( normalizedStyles( element ) ),
 			innermostElement = element;
 
 		var keys = tools.objectKeys( styles );
-		for ( var i = 1; i < keys.length; i++ ) {
+		for ( i = 1; i < keys.length; i++ ) {
 
 			// Don't stack block styles.
-			//if ( keys[ i ].match( /margin/ ) ) {
-			//	continue;
-			//}
+			if ( keys[ i ].match( /margin/ ) ) {
+				continue;
+			}
 
 			var newElement = new CKEDITOR.htmlParser.element( 'span' );
 
 			newElement.attributes.style = keys[ i ] + ':' + styles[ keys[ i ] ];
-			newElement.attributes.style = newElement;
+
+			innermostElement.add( newElement );
+			innermostElement = newElement;
+
 
 			delete styles[ keys[ i ] ];
 		}
+
 		element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 
 		// Add the stored children to the innermost span.
-		for ( var i = 0; i < children.length; i++ ) {
+		for ( i = 0; i < children.length; i++ ) {
 			innermostElement.add( children[ i ] );
 		}
 	}
