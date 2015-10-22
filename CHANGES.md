@@ -9,6 +9,7 @@ Fixed Issues:
 * [#13803](https://dev.ckeditor.com/ticket/13803): Fixed: Allow the editor to be destroyed before being fully initialized. Thanks to [Cyril Fluck](https://github.com/cyril-sf)!
 * [#13361](http://dev.ckeditor.com/ticket/13361): Fixed: Images fail when site path includes parentheses because background-image path needs single-quotes around URL value.
 * [#13798](http://dev.ckeditor.com/ticket/13798): Fixed: Changing paragraph format causes cursor to move on Firefox 41.
+* [#13771](http://dev.ckeditor.com/ticket/13771): Fixed: Now `contents.css` style will be used even if [IFrame Editing Area](http://ckeditor.com/addon/wysiwygarea) plugin is missing.
 
 Other Changes:
 
