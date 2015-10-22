@@ -19,26 +19,26 @@
 	};
 
 	var tests = {
-		'test if font combo loads proper stylesheet': function( editor ) {
-			bender.editorBots[ editor.name ].combo( 'Font', function( combo ) {
+		'test if font combo loads proper stylesheet': function( editor, bot ) {
+			bot.combo( 'Font', function( combo ) {
 				assert.isTrue( searchForStylesheet( combo ), 'stylesheet is present in combo\'s iframe' );
 			} );
 		},
 
-		'test if font size combo loads proper stylesheet': function( editor ) {
-			bender.editorBots[ editor.name ].combo( 'FontSize', function( combo ) {
+		'test if font size combo loads proper stylesheet': function( editor, bot ) {
+			bot.combo( 'FontSize', function( combo ) {
 				assert.isTrue( searchForStylesheet( combo ), 'stylesheet is present in combo\'s iframe' );
 			} );
 		},
 
-		'test if format combo loads proper stylesheet': function( editor ) {
-			bender.editorBots[ editor.name ].combo( 'Format', function( combo ) {
+		'test if format combo loads proper stylesheet': function( editor, bot ) {
+			bot.combo( 'Format', function( combo ) {
 				assert.isTrue( searchForStylesheet( combo ), 'stylesheet is present in combo\'s iframe' );
 			} );
 		},
 
-		'test if styles combo loads proper stylesheet': function( editor ) {
-			bender.editorBots[ editor.name ].combo( 'Styles', function( combo ) {
+		'test if styles combo loads proper stylesheet': function( editor, bot ) {
+			bot.combo( 'Styles', function( combo ) {
 				assert.isTrue( searchForStylesheet( combo ), 'stylesheet is present in combo\'s iframe' );
 			} );
 		}
