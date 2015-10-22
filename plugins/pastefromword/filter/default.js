@@ -70,7 +70,8 @@
 
 					element.attributes.style = normalizedStyles( element );
 
-					if ( !element.attributes.style ) {
+					if ( !element.attributes.style ||
+						element.getHtml().match( /^(\s|&nbsp;)+$/ ) ) {
 						element.replaceWithChildren();
 						return;
 					}
