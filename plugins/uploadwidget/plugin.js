@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -81,6 +81,28 @@
 	 *
 	 *			onLoaded: function( loader ) {
 	 *				this.replaceWith( atob( loader.data.split( ',' )[ 1 ] ) );
+	 *			}
+	 *		} );
+	 *
+	 * If you need to pass additional data to the request, you can do this using
+	 * {@link CKEDITOR.fileTools.uploadWidgetDefinition#additionalRequestParameters additionalRequestParameters} property.
+	 * That data is then passed to the upload method, defined by {@link CKEDITOR.fileTools.uploadWidgetDefinition#loadMethod},
+	 * and to {@link CKEDITOR.editor#fileUploadRequest} event (as part of `requestData` property).
+	 * Syntax of that parameter is compatible with {@link CKEDITOR.editor#fileUploadRequest} `requestData` property.
+	 *
+	 *		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadFile', {
+	 *			additionalRequestParameters: {
+	 *				foo: 'bar'
+	 *			},
+	 *
+	 *			fileToElement: function( file ) {
+	 *				var el = new CKEDITOR.dom.element( 'span' );
+	 *				el.setText( '...' );
+	 *				return el;
+	 *			},
+	 *
+	 *			onUploaded: function( upload ) {
+	 *				this.replaceWith( '<a href="' + upload.url + '" target="_blank">' + upload.fileName + '</a>' );
 	 *			}
 	 *		} );
 	 *
@@ -169,7 +191,7 @@
 							loader = uploads.create( file );
 
 						if ( el ) {
-							loader[ loadMethod ]( def.uploadUrl );
+							loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
 
 							CKEDITOR.fileTools.markElement( el, name, loader.id );
 
@@ -195,9 +217,9 @@
 		 * should not be overwritten.
 		 *
 		 * Also, the upload widget definition defines a few properties ({@link #fileToElement}, {@link #supportedTypes},
-		 * {@link #loadMethod loadMethod} and {@link #uploadUrl}) used in the {@link CKEDITOR.editor#paste} listener
-		 * which is registered by {@link CKEDITOR.fileTools#addUploadWidget} if the upload widget definition contains
-		 * the {@link #fileToElement} callback.
+		 * {@link #loadMethod loadMethod}, {@link #uploadUrl} and {@link #additionalRequestParameters}) used in the
+		 * {@link CKEDITOR.editor#paste} listener which is registered by {@link CKEDITOR.fileTools#addUploadWidget}
+		 * if the upload widget definition contains the {@link #fileToElement} callback.
 		 *
 		 * @abstract
 		 * @class CKEDITOR.fileTools.uploadWidgetDefinition
@@ -339,6 +361,12 @@
 			 * {@link CKEDITOR.fileTools#getUploadUrl}.
 			 *
 			 * @property {String} [uploadUrl]
+			 */
+
+			/**
+			 * Object containing additional data that should be based into function defined by {@link #loadMethod}.
+			 *
+			 * @property {Object} [additionalRequestParameters]
 			 */
 
 			/**
