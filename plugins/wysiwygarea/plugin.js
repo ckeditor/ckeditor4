@@ -511,8 +511,8 @@
 					iframe,
 					onResize;
 
-				// #13850, #13790 - trying to access window's frameElement property on Edge throws an exception
-				// in situation when frame was already removed from DOM.
+				// Trying to access window's frameElement property on Edge throws an exception
+				// when frame was already removed from DOM. (#13850, #13790)
 				try {
 					iframe =  editor.window.getFrame();
 				} catch ( e ) {}
@@ -524,8 +524,8 @@
 				doc.getDocumentElement().clearCustomData();
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
 
-				// #13850 - On IE, iframe is returned even after remove() method is called on it.
-				// Checking if parent is present fixes this issue.
+				// On IE, iframe is returned even after remove() method is called on it.
+				// Checking if parent is present fixes this issue. (#13850)
 				if ( iframe && iframe.getParent() ) {
 					iframe.clearCustomData();
 					onResize = iframe.removeCustomData( 'onResize' );
