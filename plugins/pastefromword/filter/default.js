@@ -213,9 +213,13 @@
 		removed && removed.remove();
 	}
 
-	function setSymbol( list, symbol ) {
+	function setSymbol( list, symbol, level ) {
+		level = level || 1;
+
+		var style = tools.parseCssText( list.attributes.style );
+
 		if ( list.name == 'ol' ) {
-			if ( list.attributes.type ) return;
+			if ( list.attributes.type || style[ 'list-style-type' ] ) return;
 
 			switch ( symbol ) {
 				case 'a.':
@@ -236,7 +240,6 @@
 					break;
 			}
 		} else {
-			var style = tools.parseCssText( list.attributes.style );
 			var symbolMap = {
 				'·': 'disc',
 				'o': 'circle',
@@ -247,14 +250,21 @@
 				style[ 'list-style-type' ] = symbolMap[ symbol ];
 			}
 
-			// 'disc' is the default style for level 1 lists - remove redundancy.
-			if ( list.attributes[ 'cke-list-level' ] === 1 && style[ 'list-style-type' ] === 'disc' ) {
-				delete style[ 'list-style-type' ];
-			}
-
-			list.attributes.style = CKEDITOR.tools.writeCssText( style );
 		}
+
+		setSymbol.removeRedundancies( style, level );
+
+		( list.attributes.style = CKEDITOR.tools.writeCssText( style ) ) || delete list.attributes.style;
 	}
+
+	// Expose this function since it's useful in other places.
+	setSymbol.removeRedundancies = function( style, level ) {
+		// 'disc' and 'decimal' are the default styles for level 1 lists - remove redundancy.
+		if ( level === 1 &&
+			( style[ 'list-style-type' ] === 'disc' || style[ 'list-style-type' ] === 'decimal' ) ) {
+			delete style[ 'list-style-type' ];
+		}
+	};
 
 	function createList( element ) {
 		if ( ( element.attributes[ 'cke-symbol' ].match( /([\daiIA])\./ ) || [] )[ 1 ] ) {
