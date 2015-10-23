@@ -28,23 +28,30 @@
 			element.add( new CKEDITOR.htmlParser.text( 'test' ) );
 			element.parent = parentMock;
 
-
 			// Pasting used only to load the filter script.
 			assertPasteEvent( this.editor, { dataValue: '<w:WordDocument></w:WordDocument>' }, function() {
 				CKEDITOR.cleanWord.createStyleStack( element, filterMock );
 				assert.areSame( '<span style="font-size:36pt"><span style="color:yellow">test</span></span>', element.getHtml() );
 			}, null, true );
 		},
+		'test create style stack multiple children': function() {
+			var edgeCase = '<span style="font-family:Courier;font-size:14px" ><span style="font-weight:bold">Some </span>Text</span>',
+				fragment = CKEDITOR.htmlParser.fragment.fromHtml( edgeCase ),
+				element = fragment.children[ 0 ];
+
+			// The filter script was loaded in the previous test.
+			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
+			assert.areSame( '<span style="font-family:Courier"><span style="font-size:14px"><span style="font-weight:bold">Some </span>Text</span></span>', element.getOuterHtml() );
+		},
 		'test push styles lower': function() {
 			var ol = new CKEDITOR.htmlParser.element( 'ol' ),
 				li = new CKEDITOR.htmlParser.element( 'li' );
 
-			ol.attributes.style = 'list-style-type: lower-alpha;f ont-family: "Calibri"; font-size: 36pt; color: yellow';
+			ol.attributes.style = 'list-style-type: lower-alpha;font-family: "Calibri"; font-size: 36pt; color: yellow';
 			ol.add( li );
 
-			// The filter script was loaded in the previous test.
 			CKEDITOR.cleanWord.pushStylesLower( ol );
-			assert.areSame( '<ol style="list-style-type:lower-alpha"><li style="ont-family:&quot;Calibri&quot;; font-size:36pt; color:yellow"></li></ol>', ol.getOuterHtml() );
+			assert.areSame( '<ol style="list-style-type:lower-alpha"><li style="font-family:&quot;Calibri&quot;; font-size:36pt; color:yellow"></li></ol>', ol.getOuterHtml() );
 		},
 		'test set symbol ul 1': function() {
 			var elements = [
@@ -53,12 +60,11 @@
 			];
 
 			for ( var i = 0; i < elements.length; i++ ) {
-				elements[ i ].attributes[ 'cke-list-level' ] = i + 1;
-				CKEDITOR.cleanWord.setSymbol( elements[ i ], '·' );
+				CKEDITOR.cleanWord.setSymbol( elements[ i ], '·', i + 1 );
 			}
 
-			assert.areSame( '<ul cke-list-level="1" style=""></ul>', elements[0].getOuterHtml() );
-			assert.areSame( '<ul cke-list-level="2" style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
+			assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
+			assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
 		},
 		'test set symbol ul 2': function() {
 			var elements = [
@@ -66,19 +72,33 @@
 				new CKEDITOR.htmlParser.element( 'ul' )
 			];
 
-			elements[ 0 ].attributes[ 'cke-list-level' ] = 1;
-			elements[ 1 ].attributes[ 'cke-list-level' ] = 2;
-
 			// Explicit style declarations have priority over setSymbol().
 			elements[ 0 ].attributes.style = 'list-style-type: disc';
 			elements[ 1 ].attributes.style = 'list-style-type: disc';
 
-			CKEDITOR.cleanWord.setSymbol( elements[ 0 ], 'o' );
-			CKEDITOR.cleanWord.setSymbol( elements[ 1 ], 'o' );
+			CKEDITOR.cleanWord.setSymbol( elements[ 0 ], 'o', 1 );
+			CKEDITOR.cleanWord.setSymbol( elements[ 1 ], 'o', 2 );
 
+			assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
+			assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
+		},
+		'test remove list symbol 1': function() {
+			var html = '<cke:li cke-list-level="1" cke-symbol="1.">1.       This</cke:li>',
+				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
+				element = fragment.children[ 0 ];
 
-			assert.areSame( '<ul cke-list-level="1" style=""></ul>', elements[0].getOuterHtml() );
-			assert.areSame( '<ul cke-list-level="2" style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
+			CKEDITOR.cleanWord.removeListSymbol( element );
+
+			assert.areSame( '<cke:li cke-list-level="1" cke-symbol="1."> This</cke:li>', element.getOuterHtml() );
+		},
+		'test remove list symbol 2': function() {
+			var html = '<cke:li cke-list-level="1" cke-symbol="1."><span style="font-family:Calibri">1.       This</span></cke:li>',
+				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
+				element = fragment.children[ 0 ];
+
+			CKEDITOR.cleanWord.removeListSymbol( element );
+
+			assert.areSame( '<cke:li cke-list-level="1" cke-symbol="1."><span style="font-family:Calibri"> This</span></cke:li>', element.getOuterHtml() );
 		}
 	} );
 } )();
