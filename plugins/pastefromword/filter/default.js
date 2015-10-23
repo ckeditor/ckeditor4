@@ -216,10 +216,14 @@
 		var removed,
 			symbol = element.attributes[ 'cke-symbol' ];
 
-		element.forEach( function( element ) {
-			if ( element.value.match( symbol ) ) {
-				removed = element.parent;
-				element.value = element.value.replace( symbol, '' );
+		element.forEach( function( node ) {
+			if ( !removed && node.value.match( symbol ) ) {
+
+				node.value = node.value.replace( symbol, '' );
+
+				if ( node.value.match( /^(\s|&nbsp;)*$/ ) ) {
+					removed = node.parent !== element ? node.parent : null;
+				}
 			}
 		}, CKEDITOR.NODE_TEXT );
 
