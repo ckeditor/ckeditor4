@@ -382,7 +382,7 @@ var widgetTestsTools = ( function() {
 			'data-cke-widget-wrapper="1" ' +
 			'tabindex="-1"',
 		widgetWrapperAttributes:
-			'class="cke_widget_wrapper cke_widget_new cke_widget_(?:inline|block) cke_widget_test(?:inline|block)?" ' +
+			'class="cke_widget_wrapper cke_widget_new cke_widget_(?:inline|block) cke_widget_test(?:1|2|inline|block)?" ' +
 			'contenteditable="false" ' +
 			'(?:data-cke-display-name="[a-z0-9]+" )?' +
 			'(?:data-cke-expando="[0-9]+" )?' +
