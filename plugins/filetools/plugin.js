@@ -28,21 +28,6 @@
 			 * Event fired when the {@link CKEDITOR.fileTools.fileLoader file loader} should send XHR. If the event is not
 			 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, the default request
 			 * will be sent. To learn more refer to the [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article.
-			 * There is also possibility of passing additional data to the request via `requestData` parameter. That data will be passed
-			 * to all requests made by {CKEDITOR.fileTools.fileLoader}. If you need to add data only to requests made by specific
-			 * upload widget, you should use {@link CKEDITOR.fileTools.uploadWidgetDefinition#additionalRequestParameters}.
-			 * If you want to pass some data, just listen to `fileUploadRequest` event and add data as a property of `requestData`:
-			 *
-			 *		editor.on( 'fileUploadRequest', function( evt ) {
-			 *			evt.requestData.foo = 'bar';
-			 *		} );
-			 *
-			 * You can also pass additional files to the request, adding to `requestData` object with 2 keys: `name` - name of file
-			 * and `file` - the file itself (as `Blob` or `File` instance):
-			 *
-			 *		editor.on( 'fileUploadRequest', function( evt ) {
-			 *			evt.requestData.otherFile = { name: 'file', file: myBlob };
-			 *		} );
 			 *
 			 * @since 4.5
 			 * @event fileUploadRequest
