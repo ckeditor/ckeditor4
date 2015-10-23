@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+﻿/* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: link,toolbar */
 
 ( function() {
@@ -482,6 +482,30 @@
 			assert.isFalse( showDisplayTextForElement( doc.findOne( 'input#blurTarget' ), this.editor ), 'Input element' );
 			assert.isTrue( showDisplayTextForElement( doc.findOne( 'span' ), this.editor ), 'Span element' );
 			assert.isTrue( showDisplayTextForElement( null, this.editor ), 'Null value' );
+		},
+
+		// #13062
+		'test unlink when cursor is right before the link': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '<p><a href="http://cksource.com">^Link</a></p>' );
+
+			editor.ui.get( 'Unlink' ).click( editor );
+
+			assert.areSame( '<p>^Link</p>', bot.htmlWithSelection() );
+		},
+
+		// #13062
+		'test unlink when cursor is right after the link': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '<p><a href="http://cksource.com">Link^</a></p>' );
+
+			editor.ui.get( 'Unlink' ).click( editor );
+
+			assert.areSame( '<p>Link^</p>', bot.htmlWithSelection() );
 		}
 	} );
 } )();
