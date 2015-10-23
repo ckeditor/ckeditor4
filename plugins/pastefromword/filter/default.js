@@ -34,11 +34,24 @@
 
 					createStyleStack( element, filter );
 				},
+				'ul': function( element ) {
+					var style = tools.parseCssText( element.attributes.style );
+
+					setSymbol.removeRedundancies( style, element.getAscendant( 'ul' ) ? 2 : 1 );
+
+					element.attributes.style = CKEDITOR.tools.writeCssText( style );
+				},
 				'li': function( element ) {
 					pushStylesLower( element );
 				},
 				'ol': function( element ) {
 					pushStylesLower( element );
+
+					var style = tools.parseCssText( element.attributes.style );
+
+					setSymbol.removeRedundancies( style, element.getAscendant( 'ol' ) ? 2 : 1 );
+
+					element.attributes.style = CKEDITOR.tools.writeCssText( style );
 				},
 				'font': function( element ) {
 					element.name = 'span';
