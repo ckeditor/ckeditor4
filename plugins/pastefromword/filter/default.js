@@ -170,7 +170,9 @@
 			'font-size:medium',
 			'font-style:normal',
 			'font-weight:normal',
-			'direction:ltr'
+			'direction:ltr',
+			'p:margin-top:1em',
+			'p:margin-bottom:1em'
 		];
 		var resetValues = [
 			'0in'
@@ -183,7 +185,8 @@
 		for ( var i = 0; i < keys.length; i++ ) {
 			if ( keys[ i ].match( /^(mso\-|margin\-left|text\-indent)/ ) ||
 				tools.indexOf( resetValues, styles[ keys[ i ] ] ) !== -1 ||
-				tools.indexOf( resetStyles, keys[ i ] + ':' + styles[ keys[ i ] ] ) !== -1
+				tools.indexOf( resetStyles, keys[ i ] + ':' + styles[ keys[ i ] ] ) !== -1 ||
+				tools.indexOf( resetStyles, element.name + ':' + keys[ i ] + ':' + styles[ keys[ i ] ] ) !== -1
 			) {
 				delete styles[ keys[ i ] ];
 			}
