@@ -448,7 +448,8 @@
 	var exportedFunctions = {
 		createStyleStack: createStyleStack,
 		pushStylesLower: pushStylesLower,
-		setSymbol: setSymbol
+		setSymbol: setSymbol,
+		removeListSymbol: removeListSymbol
 	};
 
 	for ( var exported in exportedFunctions ) {
