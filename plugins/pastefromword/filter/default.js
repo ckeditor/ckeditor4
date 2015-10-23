@@ -373,8 +373,8 @@
 		element.filterChildren( filter );
 
 		// Store element's children somewhere else.
-		for ( i = 0; i < element.children.length; i++ ) {
-			children.push( element.children[ i ] );
+		for ( i = element.children.length - 1; i >= 0; i-- ) {
+			children.unshift( element.children[ i ] );
 			element.children[ i ].remove();
 		}
 
