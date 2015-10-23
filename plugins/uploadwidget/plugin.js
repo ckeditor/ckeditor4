@@ -217,9 +217,9 @@
 		 * should not be overwritten.
 		 *
 		 * Also, the upload widget definition defines a few properties ({@link #fileToElement}, {@link #supportedTypes},
-		 * {@link #loadMethod loadMethod} and {@link #uploadUrl}) used in the {@link CKEDITOR.editor#paste} listener
-		 * which is registered by {@link CKEDITOR.fileTools#addUploadWidget} if the upload widget definition contains
-		 * the {@link #fileToElement} callback.
+		 * {@link #loadMethod loadMethod}, {@link #uploadUrl} and {@link #additionalRequestParameters}) used in the
+		 * {@link CKEDITOR.editor#paste} listener which is registered by {@link CKEDITOR.fileTools#addUploadWidget}
+		 * if the upload widget definition contains the {@link #fileToElement} callback.
 		 *
 		 * @abstract
 		 * @class CKEDITOR.fileTools.uploadWidgetDefinition
