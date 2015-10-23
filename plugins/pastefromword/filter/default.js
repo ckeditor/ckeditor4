@@ -428,6 +428,8 @@
 				continue;
 			}
 
+			var pushed = false;
+
 			for ( var i = 0; i < element.children.length; i++ ) {
 				var child = element.children[ i ];
 
@@ -435,9 +437,14 @@
 					continue;
 				}
 
+				pushed = true;
+
 				setStyle( child, style, styles[ style ] );
 			}
-			delete styles[ style ];
+
+			if ( pushed ) {
+				delete styles[ style ];
+			}
 		}
 
 		element.attributes.style = CKEDITOR.tools.writeCssText( styles );
