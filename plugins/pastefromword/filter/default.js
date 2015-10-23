@@ -386,7 +386,7 @@
 		for ( i = 1; i < keys.length; i++ ) {
 
 			// Don't stack block styles.
-			if ( keys[ i ].match( /margin/ ) ) {
+			if ( keys[ i ].match( /margin|text\-align/ ) ) {
 				continue;
 			}
 
