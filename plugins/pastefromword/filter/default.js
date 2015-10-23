@@ -105,6 +105,9 @@
 				},
 				'class': function( classes ) {
 					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
+				},
+				'align': function() {
+					return false;
 				}
 			},
 			comment: function() {
