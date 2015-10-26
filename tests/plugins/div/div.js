@@ -34,6 +34,20 @@
 			} );
 		},
 
+		// #13585
+		'test create div from selection from 2 adjacent divs': function() {
+			var bot = this.editorBot;
+
+			bender.tools.testInputOut( 'create-divs', function( source, output ) {
+				bot.setHtmlWithSelection( source );
+
+				bot.dialog( 'creatediv', function( dialog ) {
+					dialog.getButton( 'ok' ).click();
+					assert.areEqual( bender.tools.compatHtml( output ), bot.getData( 1 ) );
+				} );
+			} );
+		},
+
 		'test edit div': function() {
 			var bot = this.editorBot;
 
