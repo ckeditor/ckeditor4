@@ -135,8 +135,14 @@
 
 				// Calculate the common parent node of all contained elements.
 				ancestor = currentNode.getParent();
-				for ( j = 1; j < blockGroups[ i ].length; j++ )
+				for ( j = 1; j < blockGroups[ i ].length; j++ ) {
 					ancestor = ancestor.getCommonAncestor( blockGroups[ i ][ j ] );
+				}
+
+				// If there is no ancestor, mark editable as one (#13585).
+				if ( !ancestor ) {
+					ancestor = editor.editable();
+				}
 
 				divElement = new CKEDITOR.dom.element( 'div', editor.document );
 
@@ -144,8 +150,10 @@
 				for ( j = 0; j < blockGroups[ i ].length; j++ ) {
 					currentNode = blockGroups[ i ][ j ];
 
-					while ( !currentNode.getParent().equals( ancestor ) )
+					// Check if the currentNode has a parent before attempting to operate on it (#13585).
+					while ( currentNode.getParent() && !currentNode.getParent().equals( ancestor ) ) {
 						currentNode = currentNode.getParent();
+					}
 
 					// This could introduce some duplicated elements in array.
 					blockGroups[ i ][ j ] = currentNode;
