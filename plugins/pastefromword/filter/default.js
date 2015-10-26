@@ -432,6 +432,8 @@
 			element.children[ i ].remove();
 		}
 
+		sortStyles( element );
+
 		// Create a stack of spans with each containing one style.
 		var styles = tools.parseCssText( normalizedStyles( element ) ),
 			innermostElement = element;
@@ -461,6 +463,39 @@
 		for ( i = 0; i < children.length; i++ ) {
 			innermostElement.add( children[ i ] );
 		}
+	}
+
+	function sortStyles( element ) {
+		var orderedStyles = [
+			'font-size:48.0pt',
+			'background:yellow'
+		];
+
+		var style = tools.parseCssText( element.attributes.style );
+
+		var keys = tools.objectKeys( style );
+
+		// For styles in orderedStyles[] enforce the same order as in orderedStyles[].
+		keys.sort( function( a, b ) {
+			var aIndex = tools.indexOf( orderedStyles, a );
+			var bIndex = tools.indexOf( orderedStyles, a );
+
+			if ( aIndex !== -1 && bIndex !== -1 ) {
+				return bIndex - aIndex;
+			} else {
+				if ( a > b ) return -1;
+				if ( a < b ) return 1;
+				return 0;
+			}
+		} );
+
+		var sortedStyles = {};
+
+		for ( var i = 0; i < keys.length; i++ ) {
+			sortedStyles[ keys[ i ] ] = style[ keys[ i ] ];
+		}
+
+		element.attributes.style = CKEDITOR.tools.writeCssText( sortedStyles );
 	}
 
 	// Moves the element's styles lower in the DOM hierarchy.
