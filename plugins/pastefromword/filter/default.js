@@ -96,6 +96,13 @@
 					}
 
 					createStyleStack( element, filter );
+				},
+				'td': function( element ) {
+					setStyle( element, 'width', element.attributes.width + 'px' );
+
+					delete element.attributes.width;
+
+					pushStylesLower( element );
 				}
 			},
 			attributes: {
@@ -107,6 +114,18 @@
 					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
 				},
 				'align': function() {
+					return false;
+				},
+				'cellspacing': function() {
+					return false;
+				},
+				'cellpadding': function() {
+					return false;
+				},
+				'border': function() {
+					return false;
+				},
+				'valign': function() {
 					return false;
 				}
 			},
@@ -166,6 +185,8 @@
 		// Some styles and style values are redundant, so delete them.
 		var resetStyles = [
 			'background:white',
+			'background-color:transparent',
+			'border-image:none',
 			'line-height:normal',
 			'color:black',
 			'color:#000000',
@@ -419,7 +440,7 @@
 		for ( i = 1; i < keys.length; i++ ) {
 
 			// Don't stack block styles.
-			if ( keys[ i ].match( /margin|text\-align/ ) ) {
+			if ( keys[ i ].match( /margin|text\-align|width/ ) ) {
 				continue;
 			}
 
@@ -450,14 +471,19 @@
 			return false;
 		}
 
+		// Entries ending with a dash match styles that start with
+		// the entry name, e.g. 'border-' matches 'border-style', 'border-color' etc.
 		var retainedStyles = {
-			'list-style-type': true
+			'list-style-type': true,
+			'width': true,
+			'border': true,
+			'border-': true
 		};
 
 		var styles = tools.parseCssText( element.attributes.style );
 
 		for ( var style in styles ) {
-			if ( style in retainedStyles ) {
+			if ( style in retainedStyles || retainedStyles [ style.replace( /\-.*$/, '-' ) ] ) {
 				continue;
 			}
 
