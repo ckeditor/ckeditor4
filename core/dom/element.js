@@ -154,9 +154,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 };
 
 ( function() {
-	var testElement = document.createElement( 'span' ),
-		supportsClassLists = !!testElement.classList,
-		rclass = /[\n\t\r]/g;
+	var testElement = document.createElement( 'span' );
+	var rclass = /[\n\t\r]/g;
+	function supportsClassList ( element ) {
+		if (element){
+			!!element.classList
+		}else{
+			!!testElement.classList
+		}
+	}
 
 	function hasClass( classNames, className ) {
 		// Source: jQuery.
@@ -187,12 +193,12 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @method addClass
 		 * @param {String} className The name of the class to be added.
 		 */
-		addClass: supportsClassLists ?
-			function( className ) {
+		addClass: function( className ){
+			if ( supportsClassLists(this.$) ){
 				this.$.classList.add( className );
 
 				return this;
-			} : function( className ) {
+			} else {
 				var c = this.$.className;
 				if ( c ) {
 					if ( !hasClass( c, className ) )
@@ -201,7 +207,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				this.$.className = c || className;
 
 				return this;
-			},
+			}
+		},
 
 		/**
 		 * Removes a CSS class name from the elements classes. Other classes
@@ -217,8 +224,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @method removeClass
 		 * @param {String} className The name of the class to remove.
 		 */
-		removeClass: supportsClassLists ?
-			function( className ) {
+		removeClass: function( className ){
+			if ( supportsClassLists(this.$) ){
 				var $ = this.$;
 				$.classList.remove( className );
 
@@ -226,7 +233,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					$.removeAttribute( 'class' );
 
 				return this;
-			} : function( className ) {
+			} else {
 				var c = this.getAttribute( 'class' );
 				if ( c && hasClass( c, className ) ) {
 					c = c
@@ -240,8 +247,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				}
 
 				return this;
-			},
-
+			}
+		},
 		/**
 		 * Checks if element has class name.
 		 *
