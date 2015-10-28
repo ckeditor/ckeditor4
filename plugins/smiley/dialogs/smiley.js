@@ -141,7 +141,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
 			// IE BUG: Below is a workaround to an IE image loading bug to ensure the image sizes are correct.
 			( CKEDITOR.env.ie ? ' onload="this.setAttribute(\'width\', 2); this.removeAttribute(\'width\');" ' : '' ), '>' +
-			'<span id="' + smileyLabelId + '" class="cke_voice_label">' + config.smiley_descriptions[ i ] + '</span>' +
+			'<span id="' + smileyLabelId + '" class="cke_voice_label">' + simleyLabel + '</span>' +
 			'</a>', '</td>'
 		);
 
