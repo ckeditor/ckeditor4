@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.5
 
+New Features:
+
+* [PR#222](https://github.com/ckeditor/ckeditor-dev/pull/222): Simle's icon labels can now be translated. Thanks to [anhr](https://github.com/anhr)!
+
 Fixed Issues:
 
 * [#13790](https://dev.ckeditor.com/ticket/13790): Fixed: Allow for the iframe having been removed already. Thanks to [Stefan Rijnhart](https://github.com/StefanRijnhart)!
