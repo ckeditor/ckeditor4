@@ -134,8 +134,8 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			'<td class="cke_dark_background cke_centered" style="vertical-align: middle;" role="presentation">' +
 			'<a href="javascript:void(0)" role="option"', ' aria-posinset="' + ( i + 1 ) + '"', ' aria-setsize="' + size + '"', ' aria-labelledby="' + smileyLabelId + '"',
 			' class="cke_smile cke_hand" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', onKeydown, ', event, this );">',
-			'<img class="cke_hand" title="', lang[config.smiley_descriptions[i]], '"' +
-			' cke_src="', CKEDITOR.tools.htmlEncode(config.smiley_path + images[i]), '" alt="', lang[config.smiley_descriptions[i]], '"',
+			'<img class="cke_hand" title="', lang[ config.smiley_descriptions[ i ] ], '"' +
+			' cke_src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '" alt="', lang[ config.smiley_descriptions[ i ] ], '"',
 			' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
 			// IE BUG: Below is a workaround to an IE image loading bug to ensure the image sizes are correct.
 			( CKEDITOR.env.ie ? ' onload="this.setAttribute(\'width\', 2); this.removeAttribute(\'width\');" ' : '' ), '>' +
