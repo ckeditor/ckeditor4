@@ -63,11 +63,15 @@
 		},
 
 		// Test white-spaces inside inline elements are well preserved, while
-		// white-spaces before block-level elements are trimmed. (#4656)
-		test_trim_whitespaces: function() {
-			assert.areSame( '<div>some <strong>bold</strong> text<p>paragraph</p></div>',
-				htmlParse( '<div>some <strong>bold</strong> text <p>\nparagraph</p></div>' ),
-				'White-spaces don\'t match.' );
+		// white-spaces before block-level elements are trimmed. (#4656, #13802)
+		// Ref: http://www.htmlhelp.com/reference/html40/inline.html
+		test_trim_whitespaces_for_strong: function() {
+			var inlineElements = ['a', 'b', 'abbr', 'code', 'em', 'i', 'label', 'select', 'small', 'span', 'strong', 'sub', 'sup', 'button'];
+			inlineElements.forEach(function(nodeName){
+				assert.areSame( '<div>some <'+nodeName+'>bold</'+nodeName+'> text<p>paragraph</p></div>',
+					htmlParse( '<div>some <'+nodeName+'>bold</'+nodeName+'> text <p>\nparagraph</p></div>' ),
+					'White-spaces don\'t match: '+nodeName+'.' );
+			});
 		},
 
 		// Attributes may have the < or > character. (#7513)
