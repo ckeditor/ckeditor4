@@ -436,25 +436,27 @@
 
 		// Create a stack of spans with each containing one style.
 		var styles = tools.parseCssText( normalizedStyles( element ) ),
-			innermostElement = element;
+			innermostElement = element,
+			topmost = true;
 
-		var keys = tools.objectKeys( styles );
-		for ( i = 1; i < keys.length; i++ ) {
+		for ( var style in styles ) {
+			if ( style.match( /margin|text\-align|width/ ) ) {
+				continue;
+			}
 
-			// Don't stack block styles.
-			if ( keys[ i ].match( /margin|text\-align|width/ ) ) {
+			if ( topmost ) {
+				topmost = false;
 				continue;
 			}
 
 			var newElement = new CKEDITOR.htmlParser.element( 'span' );
 
-			newElement.attributes.style = keys[ i ] + ':' + styles[ keys[ i ] ];
+			newElement.attributes.style = style + ':' + styles[ style ];
 
 			innermostElement.add( newElement );
 			innermostElement = newElement;
 
-
-			delete styles[ keys[ i ] ];
+			delete styles[ style ];
 		}
 
 		element.attributes.style = CKEDITOR.tools.writeCssText( styles );
