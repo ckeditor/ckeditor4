@@ -31,7 +31,7 @@
 			// Pasting used only to load the filter script.
 			assertPasteEvent( this.editor, { dataValue: '<w:WordDocument></w:WordDocument>' }, function() {
 				CKEDITOR.cleanWord.createStyleStack( element, filterMock );
-				assert.areSame( '<span style="font-size:36pt"><span style="color:yellow">test</span></span>', element.getHtml() );
+				assert.areSame( '<span style="font-family:&quot;Calibri&quot;"><span style="color:yellow">test</span></span>', element.getHtml() );
 			}, null, true );
 		},
 		'test create style stack multiple children': function() {
@@ -41,7 +41,15 @@
 
 			// The filter script was loaded in the previous test.
 			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
-			assert.areSame( '<span style="font-family:Courier"><span style="font-size:14px"><span style="font-weight:bold">Some </span>Text</span></span>', element.getOuterHtml() );
+			assert.areSame( '<span style="font-size:14px"><span style="font-family:Courier"><span style="font-weight:bold">Some </span>Text</span></span>', element.getOuterHtml() );
+		},
+		'test create style stack omit block styles': function() {
+			var edgeCase = '<p style="font-size: 16pt;font-family: Arial;margin-bottom:0pt;">Test</p>',
+				fragment = CKEDITOR.htmlParser.fragment.fromHtml( edgeCase ),
+				element = fragment.children[ 0 ];
+
+			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
+			assert.areSame( '<p style="margin-bottom:0pt; font-size:16pt"><span style="font-family:Arial">Test</span></p>', element.getOuterHtml() );
 		},
 		'test push styles lower': function() {
 			var ol = new CKEDITOR.htmlParser.element( 'ol' ),
