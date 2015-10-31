@@ -154,6 +154,11 @@
 
 		var editable = this;
 
+		// Without it IE8 has problem with removing selection in nested editable. (#13785)
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+			doc.getDocumentElement().addClass( doc.$.compatMode );
+		}
+
 		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body. (#6966, #13142)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_P ) {
 			removeSuperfluousElement( 'p' );
@@ -503,8 +508,14 @@
 			detach: function() {
 				var editor = this.editor,
 					doc = editor.document,
-					iframe = editor.window.getFrame(),
+					iframe,
 					onResize;
+
+				// Trying to access window's frameElement property on Edge throws an exception
+				// when frame was already removed from DOM. (#13850, #13790)
+				try {
+					iframe =  editor.window.getFrame();
+				} catch ( e ) {}
 
 				framedWysiwyg.baseProto.detach.call( this );
 
@@ -513,7 +524,9 @@
 				doc.getDocumentElement().clearCustomData();
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
 
-				if ( iframe ) {
+				// On IE, iframe is returned even after remove() method is called on it.
+				// Checking if parent is present fixes this issue. (#13850)
+				if ( iframe && iframe.getParent() ) {
 					iframe.clearCustomData();
 					onResize = iframe.removeCustomData( 'onResize' );
 					onResize && onResize.removeListener();
@@ -647,24 +660,6 @@ CKEDITOR.config.disableNativeTableHandles = true;
  * @member CKEDITOR.config
  */
 CKEDITOR.config.disableNativeSpellChecker = true;
-
-/**
- * The CSS file(s) to be used to apply style to editor content. It should
- * reflect the CSS used in the target pages where the content is to be
- * displayed.
- *
- * **Note:** This configuration value is ignored by [inline editor](#!/guide/dev_inline)
- * as it uses the styles that come directly from the page that CKEditor is
- * rendered on. It is also ignored in the {@link #fullPage full page mode} in
- * which developer has a full control over the HTML.
- *
- *		config.contentsCss = '/css/mysitestyles.css';
- *		config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
- *
- * @cfg {String/Array} [contentsCss=CKEDITOR.getUrl( 'contents.css' )]
- * @member CKEDITOR.config
- */
-CKEDITOR.config.contentsCss = CKEDITOR.getUrl( 'contents.css' );
 
 /**
  * Language code of  the writing language which is used to author the editor

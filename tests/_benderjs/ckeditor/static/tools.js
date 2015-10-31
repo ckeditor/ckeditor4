@@ -1041,7 +1041,7 @@
 
 					outputTests[ specificTestName ] = ( function( testName, editorName ) {
 						return function() {
-							inputTests[ testName ]( bender.editors[ editorName ] );
+							inputTests[ testName ]( bender.editors[ editorName ], bender.editorBots [ editorName ] );
 						};
 					} )( testName, editorName );
 				}

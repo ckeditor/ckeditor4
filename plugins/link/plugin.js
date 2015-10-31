@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -435,9 +435,12 @@
 			if ( ( javascriptMatch = href.match( javascriptProtocolRegex ) ) ) {
 				if ( emailProtection == 'encode' ) {
 					href = href.replace( encodedEmailLinkRegex, function( match, protectedAddress, rest ) {
+						// Without it 'undefined' is appended to e-mails without subject and body (#9192).
+						rest = rest || '';
+
 						return 'mailto:' +
 							String.fromCharCode.apply( String, protectedAddress.split( ',' ) ) +
-							( rest && unescapeSingleQuote( rest ) );
+							unescapeSingleQuote( rest );
 					} );
 				}
 				// Protected email link as function call.

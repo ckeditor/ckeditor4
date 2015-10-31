@@ -3,11 +3,23 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.5
 
+New Features:
+
+* [PR#222](https://github.com/ckeditor/ckeditor-dev/pull/222): Simle's icon labels can now be translated. Thanks to [anhr](https://github.com/anhr)!
+
 Fixed Issues:
 
 * [#13790](https://dev.ckeditor.com/ticket/13790): Fixed: Allow for the iframe having been removed already. Thanks to [Stefan Rijnhart](https://github.com/StefanRijnhart)!
 * [#13803](https://dev.ckeditor.com/ticket/13803): Fixed: Allow the editor to be destroyed before being fully initialized. Thanks to [Cyril Fluck](https://github.com/cyril-sf)!
 * [#13361](http://dev.ckeditor.com/ticket/13361): Fixed: Images fail when site path includes parentheses because background-image path needs single-quotes around URL value.
+* [#13798](http://dev.ckeditor.com/ticket/13798): Fixed: Changing paragraph format causes cursor to move on Firefox 41.
+* [#13771](http://dev.ckeditor.com/ticket/13771): Fixed: Now `contents.css` style will be used even if [IFrame Editing Area](http://ckeditor.com/addon/wysiwygarea) plugin is missing.
+* [#13782](http://dev.ckeditor.com/ticket/13782): Fixed: Clearer log messages.
+* [#9192](http://dev.ckeditor.com/ticket/9192): Fixed: Mail will no longer get tailing "undefined" string if subject and email body are empty and [`config.emailProtection`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-emailProtection) is set to  `encode`;.
+
+Other Changes:
+
+* [#13859](http://dev.ckeditor.com/ticket/13859): TCs created with `benter.tools.createTestsForEditors` will also receive editor bot as a second parameter.
 
 ## CKEditor 4.5.4
 
