@@ -67,7 +67,6 @@ CKEDITOR.editorConfig = function( config ) {
 		'undo,' +
 		'wysiwygarea';
 	// %REMOVE_END%
-	config.startupFocus = true;
 };
 
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%
