@@ -9,6 +9,7 @@ New Features:
 
 Fixed Issues:
 
+* [#13887](https://dev.ckeditor.com/ticket/13887): Fixed: Link target now supports wider ASCII character range. Thanks to [SamZiemer](https://github.com/SamZiemer)!
 * [#13790](https://dev.ckeditor.com/ticket/13790): Fixed: Allow for the iframe having been removed already. Thanks to [Stefan Rijnhart](https://github.com/StefanRijnhart)!
 * [#13803](https://dev.ckeditor.com/ticket/13803): Fixed: Allow the editor to be destroyed before being fully initialized. Thanks to [Cyril Fluck](https://github.com/cyril-sf)!
 * [#13361](http://dev.ckeditor.com/ticket/13361): Fixed: Images fail when site path includes parentheses because background-image path needs single-quotes around URL value.
