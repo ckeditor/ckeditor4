@@ -24,14 +24,17 @@
 	bender.test( {
 		'test create style stack': function() {
 			var element = new CKEDITOR.htmlParser.element( 'p' );
-			element.attributes.style = 'font-family: "Calibri"; font-size: 36pt; color: yellow';
+			element.attributes.style = 'font-family: "Calibri"; font-size: 36pt; color: yellow; background: lime';
 			element.add( new CKEDITOR.htmlParser.text( 'test' ) );
 			element.parent = parentMock;
 
 			// Pasting used only to load the filter script.
 			assertPasteEvent( this.editor, { dataValue: '<w:WordDocument></w:WordDocument>' }, function() {
 				CKEDITOR.cleanWord.createStyleStack( element, filterMock );
-				assert.areSame( '<span style="font-family:&quot;Calibri&quot;"><span style="color:yellow">test</span></span>', element.getHtml() );
+				assert.areSame(
+					'<p style="color:yellow"><span style="font-family:&quot;Calibri&quot;"><span style="font-size:36pt"><span style="background:lime">test</span></span></span></p>',
+					element.getOuterHtml()
+				);
 			}, null, true );
 		},
 		'test create style stack multiple children': function() {
@@ -41,15 +44,16 @@
 
 			// The filter script was loaded in the previous test.
 			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
-			assert.areSame( '<span style="font-size:14px"><span style="font-family:Courier"><span style="font-weight:bold">Some </span>Text</span></span>', element.getOuterHtml() );
+			assert.areSame( '<span style="font-family:Courier"><span style="font-size:14px"><span style="font-weight:bold">Some </span>Text</span></span>', element.getOuterHtml() );
 		},
+		// Margin-bottom is a block style, so it should not be stacked.
 		'test create style stack omit block styles': function() {
 			var edgeCase = '<p style="font-size: 16pt;font-family: Arial;margin-bottom:0pt;">Test</p>',
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( edgeCase ),
 				element = fragment.children[ 0 ];
 
 			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
-			assert.areSame( '<p style="margin-bottom:0pt; font-size:16pt"><span style="font-family:Arial">Test</span></p>', element.getOuterHtml() );
+			assert.areSame( '<p style="font-family:Arial; margin-bottom:0pt"><span style="font-size:16pt">Test</span></p>', element.getOuterHtml() );
 		},
 		'test push styles lower': function() {
 			var ol = new CKEDITOR.htmlParser.element( 'ol' ),
@@ -107,6 +111,16 @@
 			CKEDITOR.cleanWord.removeListSymbol( element );
 
 			assert.areSame( '<cke:li cke-list-level="1" cke-symbol="1."><span style="font-family:Calibri"> This</span></cke:li>', element.getOuterHtml() );
+		},
+		// This test may break depending on the browser due to different sorting algorithms used.
+		'test sort styles': function() {
+			var html = '<p style="font-size:48pt; background:yellow; font-family:Courier">Test</p>',
+				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
+				element = fragment.children[ 0 ];
+
+			CKEDITOR.cleanWord.sortStyles( element );
+
+			assert.areSame( '<p style="font-size:48pt; background:yellow; font-family:Courier">Test</p>', element.getOuterHtml() );
 		}
 	} );
 } )();
