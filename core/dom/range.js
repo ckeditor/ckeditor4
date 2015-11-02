@@ -895,7 +895,7 @@ CKEDITOR.dom.range = function( root ) {
 						// Compare the addresses to make sure FCSeq's parent is the container (last index in address).
 						//
 						// { address: [ x, y, z ], fillingCharAddress: [ a, b, c, d ] } -> Check [ x, y, z ] == [ a, b, c ]
-						if ( fillingCharAddress.slice( 0, address.length ).join( '' ) == address.join( '' ) ) {
+						if ( fillingCharAddress.slice( 0, address.length ).join() == address.join() ) {
 							// So when x == a, y == b and z == c, if the FCSeq precedes the offset, decrement the offset.
 							if ( fillingCharAddress[ fillingCharAddressLength - 1 ] < bookmark[ startOrEnd + 'Offset' ] ) {
 								var next = fillingChar.getNext();
