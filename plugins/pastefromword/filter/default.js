@@ -45,6 +45,12 @@
 					pushStylesLower( element );
 				},
 				'ol': function( element ) {
+					// Fix edge-case where when a list skips a level in IE11, the <ol> element
+					// is implicitly surrounded by a <li>.
+					if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
+						setStyle( element.parent, 'list-style-type', 'none' );
+					}
+
 					pushStylesLower( element );
 
 					var style = tools.parseCssText( element.attributes.style );
