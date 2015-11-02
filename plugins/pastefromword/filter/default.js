@@ -467,10 +467,11 @@
 		}
 	}
 
+	// Some styles need to be stacked in a particular order to work properly.
 	function sortStyles( element ) {
 		var orderedStyles = [
-			'font-size:48.0pt',
-			'background:yellow'
+			'font-size',
+			'background'
 		];
 
 		var style = tools.parseCssText( element.attributes.style );
@@ -480,13 +481,13 @@
 		// For styles in orderedStyles[] enforce the same order as in orderedStyles[].
 		keys.sort( function( a, b ) {
 			var aIndex = tools.indexOf( orderedStyles, a );
-			var bIndex = tools.indexOf( orderedStyles, a );
+			var bIndex = tools.indexOf( orderedStyles, b );
 
 			if ( aIndex !== -1 && bIndex !== -1 ) {
-				return bIndex - aIndex;
+				return aIndex - bIndex;
 			} else {
-				if ( a > b ) return -1;
-				if ( a < b ) return 1;
+				if ( a > b ) return 1;
+				if ( a < b ) return -1;
 				return 0;
 			}
 		} );
@@ -552,7 +553,8 @@
 		createStyleStack: createStyleStack,
 		pushStylesLower: pushStylesLower,
 		setSymbol: setSymbol,
-		removeListSymbol: removeListSymbol
+		removeListSymbol: removeListSymbol,
+		sortStyles: sortStyles
 	};
 
 	for ( var exported in exportedFunctions ) {
