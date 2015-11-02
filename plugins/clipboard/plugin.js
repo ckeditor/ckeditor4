@@ -46,7 +46,7 @@
 //		* !canceled && execCommand 'paste'
 //		* !success && fire 'pasteDialog' on editor
 // -- Paste from native context menu & menubar
-//		(Fx & Webkits are handled in 'paste' default listner.
+//		(Fx & Webkits are handled in 'paste' default listener.
 //		Opera cannot be handled at all because it doesn't fire any events
 //		Special treatment is needed for IE, for which is this part of doc)
 //		* listen 'onpaste'
@@ -62,7 +62,7 @@
 // -- Possible dataValue types: auto, text, html.
 // -- Possible dataValue contents:
 //		* text (possible \n\r)
-//		* htmlified text (text + br,div,p - no presentional markup & attrs - depends on browser)
+//		* htmlified text (text + br,div,p - no presentational markup & attrs - depends on browser)
 //		* html
 // -- Possible flags:
 //		* htmlified - if true then content is a HTML even if no markup inside. This flag is set
@@ -73,7 +73,7 @@
 //		* content: html ->				filter, set type: html
 // -- Type: text:
 //		* content: htmlified text ->	filter, unify text markup
-//		* content: html ->				filter, strip presentional markup, unify text markup
+//		* content: html ->				filter, strip presentational markup, unify text markup
 // -- Type: html:
 //		* content: htmlified text ->	filter, unify text markup
 //		* content: html ->				filter
@@ -274,7 +274,7 @@
 					data = htmlifiedTextHtmlification( editor.config, data );
 				}
 
-				// Strip presentional markup & unify text markup.
+				// Strip presentational markup & unify text markup.
 				// Forced plain text (dialog or forcePAPT).
 				// Note: we do not check dontFilter option in this case, because forcePAPT was implemented
 				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5, so
@@ -719,7 +719,7 @@
 			preventPasteEvent = 1;
 			// For safety reason we should wait longer than 0/1ms.
 			// We don't know how long execution of quite complex getClipboardData will take
-			// and in for example 'paste' listner execCommand() (which fires 'paste') is called
+			// and in for example 'paste' listener execCommand() (which fires 'paste') is called
 			// after getClipboardData finishes.
 			// Luckily, it's impossible to immediately fire another 'paste' event we want to handle,
 			// because we only handle there native context menu and menu bar.
