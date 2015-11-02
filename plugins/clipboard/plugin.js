@@ -11,16 +11,16 @@
 //
 // COPY & PASTE EXECUTION FLOWS:
 // -- CTRL+C
-// 		* if ( isCustomCopyCutSupported )
-// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
+//		* if ( isCustomCopyCutSupported )
+//			* dataTransfer.setData( 'text/html', getSelectedHtml )
 //		* else
 //			* browser's default behavior
 // -- CTRL+X
 //		* listen onKey (onkeydown)
 //		* fire 'saveSnapshot' on editor
-// 		* if ( isCustomCopyCutSupported )
-// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
-// 			* extractSelectedHtml // remove selected contents
+//		* if ( isCustomCopyCutSupported )
+//			* dataTransfer.setData( 'text/html', getSelectedHtml )
+//			* extractSelectedHtml // remove selected contents
 //		* else
 //			* browser's default behavior
 //		* deferred second 'saveSnapshot' event
@@ -79,7 +79,7 @@
 //		* content: html ->				filter
 //
 // -- Phases:
-// 		* if dataValue is empty copy data from dataTransfer to dataValue (priority 1)
+//		* if dataValue is empty copy data from dataTransfer to dataValue (priority 1)
 //		* filtering (priorities 3-5) - e.g. pastefromword filters
 //		* content type sniffing (priority 6)
 //		* markup transformations for text (priority 6)
