@@ -341,6 +341,8 @@ addBookmark2TCs( tcs, {
 		'wxyz offset 3': [ '<i>w</i>xy.z', { sc: 'root', so: 3 }, { sc: 'root', so: 2 } ],
 
 		'br offset 0': [ '<br />', { sc: 'root', so: 0 }, { sc: 'root', so: 0 } ]
+
+		// 'abcdef 1': [ '<b>(foo)<i>def</i></b>', { sc: 'b', so: 1, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ]
 	},
 
 	'element selection': {
@@ -377,8 +379,7 @@ addBookmark2TCs( tcs, {
 		'abcdef 5f': [ '<b>%</b>', { sc: 'b', so: 0 }, { sc: 'b', so: 0 } ],
 		'abcdef 5g': [ '<b>%</b>', { sc: 'b', so: 0, ec: 'b', eo: 1 }, { sc: 'b', so: 0, ec: 'b', eo: 0 } ],
 		'abcdef 5h': [ '<b>%</b>', { sc: 'b', so: 1, ec: 'root', eo: 1 }, { sc: 'b', so: 0, ec: 'root', eo: 1 } ]
-		// 'abcdef 6': [ '<b>%(foo)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
-		// 'abcdef 7': [ '<b>(foo)<i>def</i></b>', { sc: 'b', so: 1, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
+		// 'abcdef 6': [ '<b>%(foo)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ]
 	}
 } );
 
