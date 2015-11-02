@@ -820,10 +820,10 @@ CKEDITOR.dom.range = function( root ) {
 					offset = container.getLength();
 				}
 
-				// Now, if limit is anchored in element and has at least two nodes before it,
+				// Now, if limit is anchored in element and has at least one node before it,
 				// it may happen that some of them will be merged. Normalize the offset
 				// by setting it to normalized index of its preceding node.
-				if ( container.type == CKEDITOR.NODE_ELEMENT && offset > 1 )
+				if ( container.type == CKEDITOR.NODE_ELEMENT && offset > 0 )
 					offset = container.getChild( offset - 1 ).getIndex( true ) + 1;
 
 				// The last step - fix the offset inside text node by adding

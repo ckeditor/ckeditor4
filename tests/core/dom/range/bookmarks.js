@@ -340,9 +340,12 @@ addBookmark2TCs( tcs, {
 		'wxyz offset 2': [ '<i>w</i>xy.z', { sc: 'root', so: 2 }, { sc: '#xyz', so: 2 } ],
 		'wxyz offset 3': [ '<i>w</i>xy.z', { sc: 'root', so: 3 }, { sc: 'root', so: 2 } ],
 
-		'br offset 0': [ '<br />', { sc: 'root', so: 0 }, { sc: 'root', so: 0 } ]
+		'br offset 0': [ '<br />', { sc: 'root', so: 0 }, { sc: 'root', so: 0 } ],
 
-		// 'abcdef 1': [ '<b>(foo)<i>def</i></b>', { sc: 'b', so: 1, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ]
+		// <b>(foo)[<i>d]ef</i></b>
+		'abcdef 1': [ '<b>(foo)<i>def</i></b>', { sc: 'b', so: 1, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
+		// <b>(foo)(bar)[<i>d]ef</i></b>
+		'abcdef 2': [ '<b>(foo)(bar)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ]
 	},
 
 	'element selection': {
