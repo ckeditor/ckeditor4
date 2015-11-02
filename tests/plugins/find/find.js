@@ -60,5 +60,25 @@ bender.test( {
 
 			assert.areSame( '<p>bar&nbsp;bar</p><p>barbaz</p>', bot.getData( false, true ) );
 		} );
+	},
+
+	// #12848
+	'test find in read-only mode in Blink browsers': function() {
+		if ( !CKEDITOR.env.chrome ) {
+			assert.ignore();
+		}
+
+		var bot = this.editorBot;
+
+		this.editor.setReadOnly( true );
+		bot.setData( '<p>example text</p>', function() {
+			bot.dialog( 'find', function( dialog ) {
+				dialog.setValueOf( 'find', 'txtFindFind', 'example' );
+				dialog.getContentElement( 'find', 'btnFind' ).click();
+
+				assert.areSame( '<p><span title="highlight">example</span> text</p>', bot.getData( true ) );
+				dialog.getButton( 'cancel' ).click();
+			} );
+		} );
 	}
 } );
