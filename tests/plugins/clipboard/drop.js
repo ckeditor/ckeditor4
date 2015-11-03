@@ -90,23 +90,26 @@ function drop( editor, evt, config, onDrop, onFinish ) {
 
 	finishListener = function() {
 		resume( function() {
-			// Drop event asserts
-			assert.areSame( 1, values.dropEventCounter, 'There should be always one drop.' );
-			assert.isTrue( values.dropInstanceOfDataTransfer, 'On drop: dropEvt.data.dataTransfer should be instance of dataTransfer.' );
-			if ( config.expectedText && isCustomDataTypesSupported ) {
-				assert.areSame( config.expectedText, values.dropDataText, 'On drop: text data should match.' );
-			}
-			if ( config.expectedHtml ) {
-				// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
-				assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + values.dropDataHtml + 'x', 'On drop: HTML data should match.' );
-			}
-			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start container should match.' );
-			assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start offset should match.' );
+			if ( !config.expectedDropPrevented ) {
+				// Drop event asserts
+				assert.areSame( 1, values.dropEventCounter, 'There should be always one drop.' );
 
-			assert.isTrue( values.dropNativeEventMatch, 'On drop: native event should match.' );
-			// Check that it's the mocked drop target created by the mockDropEvent().
-			assert.areSame( CKEDITOR.NODE_TEXT, values.dropTarget.type, 'On drop: drop target node type should match.' );
-			assert.areSame( 'targetMock', values.dropTarget.getText(), 'On drop: drop target should match.' );
+				assert.isTrue( values.dropInstanceOfDataTransfer, 'On drop: dropEvt.data.dataTransfer should be instance of dataTransfer.' );
+				if ( config.expectedText && isCustomDataTypesSupported ) {
+					assert.areSame( config.expectedText, values.dropDataText, 'On drop: text data should match.' );
+				}
+				if ( config.expectedHtml ) {
+					// isInnerHtmlMatching remove space from the end of strings we compare, adding 'x' fix this problem.
+					assert.isInnerHtmlMatching( 'x' + config.expectedHtml + 'x', 'x' + values.dropDataHtml + 'x', 'On drop: HTML data should match.' );
+				}
+				assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start container should match.' );
+				assert.isTrue( values.dropRangeStartContainerMatch, 'On drop: drop range start offset should match.' );
+
+				assert.isTrue( values.dropNativeEventMatch, 'On drop: native event should match.' );
+				// Check that it's the mocked drop target created by the mockDropEvent().
+				assert.areSame( CKEDITOR.NODE_TEXT, values.dropTarget.type, 'On drop: drop target node type should match.' );
+				assert.areSame( 'targetMock', values.dropTarget.getText(), 'On drop: drop target should match.' );
+			}
 
 			// Paste event asserts
 			assert.areSame( expectedBeforePasteEventCount, values.beforePasteEventCounter, 'Before paste event should be called ' + expectedBeforePasteEventCount + ' time(s).' );
@@ -627,6 +630,30 @@ var testsForMultipleEditor = {
 				expectedPasteEventCount: 0
 			}, function() {
 				return false;
+			}, function() {
+				assert.areSame( '<p class="p">^foo</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
+			} );
+		},
+
+		// #13879
+		'test prevent drop': function( editor, bot ) {
+			var evt = bender.tools.mockDropEvent();
+
+			// Simulate calling evt.data.preventDefault.
+			evt.$.defaultPrevented = true;
+
+			bot.setHtmlWithSelection( '<p class="p">^foo</p>' );
+			editor.resetUndo();
+
+			drag( editor, evt );
+
+			drop( editor, evt, {
+				dropContainer: editor.editable().findOne( '.p' ).getChild( 0 ),
+				dropOffset: 0,
+				expectedPasteEventCount: 0,
+				expectedDropPrevented: true
+			}, function() {
+				return true;
 			}, function() {
 				assert.areSame( '<p class="p">^foo</p>', bender.tools.getHtmlWithSelection( editor ), 'after drop' );
 			} );
