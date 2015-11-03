@@ -76,6 +76,8 @@ bender.test( {
 				dialog.setValueOf( 'find', 'txtFindFind', 'example' );
 				dialog.getContentElement( 'find', 'btnFind' ).click();
 
+				bot.editor.setReadOnly( false );
+
 				assert.areSame( '<p><span title="highlight">example</span> text</p>', bot.getData( true ) );
 				dialog.getButton( 'cancel' ).click();
 			} );
