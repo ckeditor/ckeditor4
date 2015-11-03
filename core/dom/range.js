@@ -898,19 +898,11 @@ CKEDITOR.dom.range = function( root ) {
 						if ( fillingCharAddress.slice( 0, address.length ).join() == address.join() ) {
 							// So when x == a, y == b and z == c, if the FCSeq precedes the offset, decrement the offset.
 							if ( fillingCharAddress[ fillingCharAddressLength - 1 ] < bookmark[ startOrEnd + 'Offset' ] ) {
-								var next = fillingChar.getNext();
+								// If the filling char does **not** have a non-empty text node sibling which will be kept
+								// after normalization (to which all other text nodes will be merged), fix the index.
+								var has = hasSurroundingText( fillingChar );
 
-								// The offset needs to be updated if:
-								//  * FCSeq contains **no** user text AND
-								//  	a) FCSeq is **not** followed by a text node OR
-								//  	b) FCSeq is the last child.
-								// In such cases, the FCSeq node would simply vanish because there's no user
-								// content AND nothing to merge into (see tests for a legend :D):
-								//
-								// <parent>%foo<el></parent> -> % will merge into "foo"
-								// <parent>%<el></parent> -> % will vanish
-								// <parent>%</parent> -> % will vanish
-								if ( isFCSEmpty( fillingChar ) && ( !next || ( next && next.type != CKEDITOR.NODE_TEXT ) ) ) {
+								if ( isFCSEmpty( fillingChar ) && !has ) {
 									--bookmark[ startOrEnd + 'Offset' ];
 								}
 							}
@@ -947,6 +939,25 @@ CKEDITOR.dom.range = function( root ) {
 
 					if ( !data.bookmark.collapsed ) {
 						fixBookmarkForFillingCharSequenceRemoval( data, 'end', data.bmEnd );
+					}
+				}
+			}
+
+			// Checks if a node has a non-empty sibling text node.
+			//
+			// <node><empty-text><empty-text><text><el> - OK
+			// <node><empty-text><el><text> - NOK (there's an element between the needl and the non-empty text)
+			function hasSurroundingText( node ) {
+				return check( node, 'getNext' ) || check( node, 'getPrevious' ) || false;
+
+				function check( start, dir ) {
+					var next = node[ dir ]();
+
+					while ( next && next.type == CKEDITOR.NODE_TEXT ) {
+						if ( next.getText() ) {
+							return true;
+						}
+						next = next[ dir ]();
 					}
 				}
 			}
