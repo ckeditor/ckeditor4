@@ -9,23 +9,28 @@ bender.editors = {
 			readOnly: true
 		}
 	},
+	classic_editable: {},
 	inline: {
 		creator: 'inline',
 		config: {
 			readOnly: true
 		}
+	},
+	inline_editable: {
+		creator: 'inline'
 	}
 };
 
 var tests = {
 	'test if cut is prevented in read-only editor': function( editor, bot ) {
-		var content = '<p>[Some] text</p>';
+		var content = '<p>[Some] text</p>',
+			expected = editor.readOnly ? content : '<p>^ text</p>';
 
 		bot.setHtmlWithSelection( content );
 
 		editor.editable().fire( 'cut', new CKEDITOR.dom.event( {} ) );
 
-		assert.areSame( content, bot.htmlWithSelection() );
+		assert.areSame( expected, bot.htmlWithSelection() );
 	}
 };
 
