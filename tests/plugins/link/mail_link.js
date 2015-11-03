@@ -9,8 +9,7 @@ bender.editor = {
 	}
 };
 
-var mailLinkWithCapitalLetters = '<a href="mailto:job@cksource.com?Subject=Test%20subject&amp;Body=Test%20body">AJD</a>',
-	protectedMailLink = '<a href=\"javascript:void(location.href=\'mailto:\'+String.fromCharCode(106,111,98,64,99,107,115,111,117,114,99,101,46,99,111,109)' +
+var protectedMailLink = '<a href=\"javascript:void(location.href=\'mailto:\'+String.fromCharCode(106,111,98,64,99,107,115,111,117,114,99,101,46,99,111,109)' +
 	'+\'?subject=Job%20Request&amp;body=I\\\'m%20looking%20for%20the%20AJD%20position.\')\">AJD</a>',
 	protectedMailLinkWithoutParams = '<a href=\"javascript:void(location.href=\'mailto:\'+' +
 	'String.fromCharCode(106,111,98,64,99,107,115,111,117,114,99,101,46,99,111,109))">AJD</a>';
@@ -82,7 +81,7 @@ bender.test( {
 	'test read from mail link with Subject and Body parameters provided': function() {
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '[' + mailLinkWithCapitalLetters + ']' );
+		bot.setHtmlWithSelection( '[<a href="mailto:job@cksource.com?Subject=Test%20subject&amp;Body=Test%20body">AJD</a>]' );
 
 		bot.dialog( 'link', function( dialog ) {
 			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
