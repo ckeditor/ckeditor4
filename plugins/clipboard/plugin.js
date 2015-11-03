@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1340,6 +1340,11 @@
 			// -------------- DROP --------------
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
+				// Do nothing if event was already prevented. (#13879)
+				if ( evt.data.$.defaultPrevented ) {
+					return;
+				}
+
 				// Cancel native drop.
 				evt.data.preventDefault();
 
@@ -1364,7 +1369,7 @@
 
 				// Fire drop.
 				fireDragEvent( evt, dragRange, dropRange  );
-			} );
+			}, null, null, 9999 );
 
 			// Create dataTransfer or get it, if it was created before.
 			editable.attachListener( editor, 'drop', clipboard.initDragDataTransfer, clipboard, null, 1 );
