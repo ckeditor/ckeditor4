@@ -22,6 +22,14 @@ bender.editors = {
 };
 
 var tests = {
+	setUp: function() {
+		this.initPasteSpy = sinon.spy( CKEDITOR.plugins.clipboard, 'initPasteDataTransfer' );
+	},
+
+	tearDown: function() {
+		this.initPasteSpy.restore();
+	},
+
 	'test if cut is prevented in read-only editor': function( editor, bot ) {
 		var content = '<p>[Some] text</p>',
 			expected = editor.readOnly ? content : '<p>^ text</p>';
@@ -31,6 +39,7 @@ var tests = {
 		editor.editable().fire( 'cut', new CKEDITOR.dom.event( {} ) );
 
 		assert.areSame( expected, bot.htmlWithSelection() );
+		assert.areSame( !editor.readOnly, CKEDITOR.plugins.clipboard.initPasteDataTransfer.called );
 	}
 };
 
