@@ -373,7 +373,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		// The idea is - all empty text nodes will be virtually merged into their adjacent text nodes.
 		// If an empty text node does not have an adjacent non-empty text node we can return -1 straight away,
 		// because it and all its sibling text nodes will be merged into an empty text node and then totally ignored.
-		if ( normalized && current.nodeType == CKEDITOR.NODE_TEXT && !current.nodeValue ) {
+		if ( normalized && current.nodeType == CKEDITOR.NODE_TEXT && isEmpty( current ) ) {
 			var adjacent = getAdjacentNonEmptyTextNode( current ) || getAdjacentNonEmptyTextNode( current, true );
 
 			if ( !adjacent )
@@ -382,7 +382,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 		do {
 			// Bypass blank node and adjacent text nodes.
-			if ( normalized && current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || !current.nodeValue ) )
+			if ( normalized && current != this.$ && current.nodeType == CKEDITOR.NODE_TEXT && ( isNormalizing || isEmpty( current ) ) )
 				continue;
 
 			index++;
@@ -401,7 +401,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 
 			// If found a non-empty text node, then return it.
 			// If not, then continue search.
-			return sibling.nodeValue ? sibling : getAdjacentNonEmptyTextNode( sibling, lookForward );
+			return isEmpty( sibling ) ? getAdjacentNonEmptyTextNode( sibling, lookForward ) : sibling;
+		}
+
+		// Checks whether a text node is empty or is FCSeq string (which will be totally removed when normalizing).
+		function isEmpty( textNode ) {
+			return !textNode.nodeValue || textNode.nodeValue == CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
 		}
 	},
 

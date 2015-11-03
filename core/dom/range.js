@@ -804,7 +804,7 @@ CKEDITOR.dom.range = function( root ) {
 				var sum = 0;
 
 				while ( ( node = node.getPrevious() ) && node.type == CKEDITOR.NODE_TEXT )
-					sum += node.getLength();
+					sum += node.getText().replace( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, '' ).length;
 
 				return sum;
 			}
@@ -822,9 +822,11 @@ CKEDITOR.dom.range = function( root ) {
 
 				// Now, if limit is anchored in element and has at least one node before it,
 				// it may happen that some of them will be merged. Normalize the offset
-				// by setting it to normalized index of its preceding node.
-				if ( container.type == CKEDITOR.NODE_ELEMENT && offset > 0 )
-					offset = container.getChild( offset - 1 ).getIndex( true ) + 1;
+				// by setting it to normalized index of its preceding, safe node.
+				// (safe == one for which getIndex(true) does not return -1, so one which won't disappear).
+				if ( container.type == CKEDITOR.NODE_ELEMENT && offset > 0 ) {
+					offset = getPrecedingSafeNodeIndex( container, offset ) + 1;
+				}
 
 				// The last step - fix the offset inside text node by adding
 				// lengths of preceding text nodes which will be merged with container.
@@ -870,96 +872,46 @@ CKEDITOR.dom.range = function( root ) {
 				limit.offset = offset;
 			}
 
-			function isFCSEmpty( fillingChar ) {
-				return fillingChar.getText().length == CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.length;
+			function normalizeFCSeq( limit, root ) {
+				var fcseq = root.getCustomData( 'cke-fillingChar' );
+
+				if ( !fcseq ) {
+					return;
+				}
+
+				var container = limit.container;
+
+				if ( fcseq.equals( container ) ) {
+					limit.offset -= CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.length;
+
+					// == 0		handles case when limit was at the end of FCS.
+					//  < 0		handles all cases where limit was somewhere in the middle or at the beginning.
+					//  > 0		(the "else" case) means cases where there are some more characters in the FCS node (FCSabc^def).
+					if ( limit.offset <= 0 ) {
+						limit.offset = container.getIndex();
+						limit.container = container.getParent();
+					}
+					return;
+				}
+
+				// And here goes the funny part - all other cases are handled inside node.getAddress() and getIndex() thanks to
+				// node.getIndex() being aware of FCS (handling it as an empty node).
 			}
 
-			// #13816
-			function fixBookmarkForFillingCharSequenceRemoval( data, startOrEnd, containerAndOffset ) {
-				var fillingChar = data.fillingChar,
-					fillingCharAddress = data.fillingChar.getAddress( 1 ),
-					fillingCharAddressLength = fillingCharAddress.length,
-					bookmark = data.bookmark,
-					address = bookmark[ startOrEnd ],
-					container = containerAndOffset.container;
+			// Finds a normalized index of a safe node preceding this one.
+			// Safe == one that will not disappear, so one for which getIndex( true ) does not return -1.
+			// Return -1 if there's no safe preceding node.
+			function getPrecedingSafeNodeIndex( container, offset ) {
+				var index;
 
-				if ( container.equals( fillingChar ) ) {
-					bookmark[ startOrEnd + 'Offset' ] -= CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.length;
-				} else {
-					// Check if the FCSeq node **could** be a child of the container (given the length of the address).
-					// If so, it means that FCSeq **may** influence the **offset**, if removed from DOM.
-					//
-					// { address: [ x, y, z ], fillingCharAddress: [ a, b, c, d ] } -> FCS **may** influence the **offset**.
-					// { address: [ x, y, z ], fillingCharAddress: [ a, b, c ] } -> FCS **cannot** influence the **offset**.
-					if ( address.length == fillingCharAddressLength - 1 ) {
-						// Compare the addresses to make sure FCSeq's parent is the container (last index in address).
-						//
-						// { address: [ x, y, z ], fillingCharAddress: [ a, b, c, d ] } -> Check [ x, y, z ] == [ a, b, c ]
-						if ( fillingCharAddress.slice( 0, address.length ).join() == address.join() ) {
-							// So when x == a, y == b and z == c, if the FCSeq precedes the offset, decrement the offset.
-							if ( fillingCharAddress[ fillingCharAddressLength - 1 ] < bookmark[ startOrEnd + 'Offset' ] ) {
-								// If the filling char does **not** have a non-empty text node sibling which will be kept
-								// after normalization (to which all other text nodes will be merged), fix the index.
-								var has = hasSurroundingText( fillingChar );
+				while ( offset-- ) {
+					index = container.getChild( offset ).getIndex( true );
 
-								if ( isFCSEmpty( fillingChar ) && !has ) {
-									--bookmark[ startOrEnd + 'Offset' ];
-								}
-							}
-						}
-					}
-
-					// Check if FCSeq node is shallower in DOM than the address to be fixed. If so, it means that
-					// FCSeq **may** influence the **address**, if removed from DOM.
-					//
-					// { address: [ x, y, z ], fillingCharAddress: [ a, b ] } -> FCS **may** influence the **address**.
-					// { address: [ x, y, z ], fillingCharAddress: [ a, b, c ] } -> FCS **may** influence the **address**.
-					// { address: [ x, y, z ], fillingCharAddress: [ a, b, d, e ] } -> FCS **cannot** influence the **address**.
-					else if ( isFCSEmpty( fillingChar ) && address.length >= fillingCharAddressLength ) {
-						// Check if the last index of FCSeq's address is lower than the index of the address
-						// to be fixed (at the same depth level). If so, when FCSeq is removed, the the index
-						// in the address, which is supposed to be fixed must be decremented.
-						//
-						// address:            [ x, y, z ] -> y
-						// fillingCharAddress: [ a, b ] -> b
-						if ( address[ fillingCharAddressLength - 1 ] > fillingCharAddress[ fillingCharAddressLength - 1 ] ) {
-							// When y > b, decrement y in the bookmark address.
-							--address[ fillingCharAddressLength - 1 ];
-						}
-					}
+					if ( index >= 0 )
+						return index;
 				}
-			}
 
-			// #13816
-			function normalizeFCSeq( data ) {
-				data.fillingChar = data.root.getCustomData( 'cke-fillingChar' );
-
-				if ( data.fillingChar ) {
-					fixBookmarkForFillingCharSequenceRemoval( data, 'start', data.bmStart );
-
-					if ( !data.bookmark.collapsed ) {
-						fixBookmarkForFillingCharSequenceRemoval( data, 'end', data.bmEnd );
-					}
-				}
-			}
-
-			// Checks if a node has a non-empty sibling text node.
-			//
-			// <node><empty-text><empty-text><text><el> - OK
-			// <node><empty-text><el><text> - NOK (there's an element between the needl and the non-empty text)
-			function hasSurroundingText( node ) {
-				return check( node, 'getNext' ) || check( node, 'getPrevious' ) || false;
-
-				function check( start, dir ) {
-					var next = node[ dir ]();
-
-					while ( next && next.type == CKEDITOR.NODE_TEXT ) {
-						if ( next.getText() ) {
-							return true;
-						}
-						next = next[ dir ]();
-					}
-				}
+				return -1;
 			}
 
 			return function( normalized ) {
@@ -975,9 +927,11 @@ CKEDITOR.dom.range = function( root ) {
 
 				if ( normalized ) {
 					normalizeTextNodes( bmStart );
+					normalizeFCSeq( bmStart, this.root );
 
 					if ( !collapsed ) {
 						normalizeTextNodes( bmEnd );
+						normalizeFCSeq( bmEnd, this.root );
 					}
 				}
 
@@ -990,16 +944,6 @@ CKEDITOR.dom.range = function( root ) {
 					collapsed: collapsed,
 					is2: true // It's a createBookmark2 bookmark.
 				};
-
-				// #13816
-				if ( normalized ) {
-					normalizeFCSeq( {
-						root: this.root,
-						bookmark: bookmark,
-						bmStart: bmStart,
-						bmEnd: bmEnd
-					} );
-				}
 
 				return bookmark;
 			};
