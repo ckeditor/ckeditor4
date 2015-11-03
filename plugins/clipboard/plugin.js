@@ -461,7 +461,12 @@
 				// 'paste' evt by itself.
 				evt.cancel();
 				dialogCommited = true;
-				callback( { type: dataType, dataValue: evt.data, method: 'paste' } );
+				callback( {
+					type: dataType,
+					dataValue: evt.data.dataValue,
+					dataTransfer: evt.data.dataTransfer,
+					method: 'paste'
+				} );
 			}
 
 			function onDialogOpen() {

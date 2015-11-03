@@ -4,7 +4,9 @@
  */
 
 CKEDITOR.dialog.add( 'paste', function( editor ) {
-	var lang = editor.lang.clipboard;
+	var lang = editor.lang.clipboard,
+		lastDataTransfer,
+		clipboard = CKEDITOR.plugins.clipboard;
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
@@ -14,6 +16,22 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		script && script.remove();
 
 		body.setAttribute( 'contenteditable', true );
+
+		// Forward dataTransfer (#13883).
+		body.on( clipboard.mainPasteEvent, function( evt ) {
+			var dataTransfer = clipboard.initPasteDataTransfer( evt );
+
+			if ( !lastDataTransfer ) {
+				lastDataTransfer = dataTransfer;
+			} else
+			// For two paste with the same dataTransfer we can use that dataTransfer (two internal pastes are
+			// considered as an internal paste).
+			if ( dataTransfer != lastDataTransfer ) {
+				// If there were two paste with different DataTransfer objects create a new, empty, data transfer
+				// and use it (one internal and one external paste are considered as external paste).
+				lastDataTransfer = clipboard.initPasteDataTransfer();
+			}
+		} );
 
 		// IE before version 8 will leave cursor blinking inside the document after
 		// editor blurred unless we clean up the selection. (#4716)
@@ -57,9 +75,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		if ( evt.data )
 			editor.fire( 'paste', {
 				type: 'auto',
-				dataValue: evt.data,
+				dataValue: evt.data.dataValue,
 				method: 'paste',
-				dataTransfer: CKEDITOR.plugins.clipboard.initPasteDataTransfer()
+				dataTransfer: evt.data.dataTransfer || clipboard.initPasteDataTransfer()
 			} );
 	}, null, null, 1000 );
 
@@ -150,6 +168,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 							' aria-describedby="' + dialog.getContentElement( 'general', 'pasteMsg' ).domId + '"' +
 							'></iframe>' );
 
+						// Reset last data transfer.
+						lastDataTransfer = null;
+
 						iframe.on( 'load', function( e ) {
 							e.removeListener();
 
@@ -210,7 +231,11 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						// Opera needs some time to think about what has happened and what it should do now.
 						setTimeout( function() {
-							editor.fire( 'pasteDialogCommit', html );
+							editor.fire( 'pasteDialogCommit', {
+								dataValue: html,
+								// Avoid error if there was no paste so lastDataTransfer is null.
+								dataTransfer: lastDataTransfer || clipboard.initPasteDataTransfer()
+							} );
 						}, 0 );
 					}
 				}
