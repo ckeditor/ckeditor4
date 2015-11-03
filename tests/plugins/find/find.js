@@ -63,11 +63,7 @@ bender.test( {
 	},
 
 	// #12848
-	'test find in read-only mode in Blink browsers': function() {
-		if ( !CKEDITOR.env.chrome ) {
-			assert.ignore();
-		}
-
+	'test find in read-only mode': function() {
 		var bot = this.editorBot;
 
 		this.editor.setReadOnly( true );
