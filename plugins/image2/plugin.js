@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -410,7 +410,7 @@
 
 				// Update data.link object with attributes if the link has been discovered.
 				if ( editor.plugins.link && this.parts.link ) {
-					data.link = CKEDITOR.plugins.link.parseLinkAttributes( editor, this.parts.link );
+					data.link = helpers.getLinkAttributesParser()( editor, this.parts.link );
 
 					// Get rid of cke_widget_* classes in data. Otherwise
 					// they might appear in link dialog.
@@ -612,7 +612,7 @@
 								newEl = wrapInLink( img, shift.newData.link );
 
 							// Set and remove all attributes associated with this state.
-							var attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, newValue );
+							var attributes = CKEDITOR.plugins.image2.getLinkAttributesGetter()( editor, newValue );
 
 							if ( !CKEDITOR.tools.isEmpty( attributes.set ) )
 								( newEl || link ).setAttributes( attributes.set );
@@ -770,6 +770,20 @@
 			}
 
 			return dimensions;
+		},
+
+		// Returns Link Plugin attributes getter (#13885).
+		// @returns {Function}
+		// @since 4.5.5
+		getLinkAttributesGetter: function() {
+			return CKEDITOR.plugins.link.getLinkAttributes;
+		},
+
+		// Returns Link Plugin attributes parser (#13885).
+		// @returns {Function}
+		// @since 4.5.5
+		getLinkAttributesParser: function() {
+			return CKEDITOR.plugins.link.parseLinkAttributes;
 		}
 	};
 
