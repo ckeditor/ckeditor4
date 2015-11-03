@@ -30,7 +30,7 @@ var tests = {
 		this.initPasteSpy.restore();
 	},
 
-	'test if cut is prevented in read-only editor': function( editor, bot ) {
+	'test if cut is prevented depending on read-only mode': function( editor, bot ) {
 		var content = '<p>[Some] text</p>',
 			expected = editor.readOnly ? content : '<p>^ text</p>';
 
@@ -39,7 +39,15 @@ var tests = {
 		editor.editable().fire( 'cut', new CKEDITOR.dom.event( {} ) );
 
 		assert.areSame( expected, bot.htmlWithSelection() );
-		assert.areSame( !editor.readOnly, CKEDITOR.plugins.clipboard.initPasteDataTransfer.called );
+		assert.areSame( !editor.readOnly, CKEDITOR.plugins.clipboard.initPasteDataTransfer.called, 'initPasteDataTransfer call' );
+	},
+
+	'test copy depending on read-only mode': function( editor, bot ) {
+		bot.setHtmlWithSelection( '<p>[Some] text</p>' );
+
+		editor.editable().fire( 'copy', new CKEDITOR.dom.event( {} ) );
+
+		assert.areSame( true, CKEDITOR.plugins.clipboard.initPasteDataTransfer.called, 'initPasteDataTransfer call' );
 	}
 };
 
