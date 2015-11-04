@@ -23,6 +23,11 @@ bender.editors = {
 
 var tests = {
 	setUp: function() {
+		// The native handling of copy/cut doesn't have such problems.
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+			assert.ignore();
+		}
+
 		this.initPasteSpy = sinon.spy( CKEDITOR.plugins.clipboard, 'initPasteDataTransfer' );
 	},
 
