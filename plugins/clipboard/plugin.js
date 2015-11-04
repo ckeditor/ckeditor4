@@ -525,7 +525,10 @@
 
 			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				var initOnCopyCut = function( evt ) {
-					clipboard.initPasteDataTransfer( evt, editor );
+					// If user tries to cut in read-only editor, we must prevent default action. (#13872)
+					if ( !editor.readOnly || evt.name != 'cut' ) {
+						clipboard.initPasteDataTransfer( evt, editor );
+					}
 					evt.data.preventDefault();
 				};
 
@@ -534,7 +537,10 @@
 
 				// Delete content with the low priority so one can overwrite cut data.
 				editable.on( 'cut', function() {
-					editor.extractSelectedHtml();
+					// If user tries to cut in read-only editor, we must prevent default action. (#13872)
+					if ( !editor.readOnly ) {
+						editor.extractSelectedHtml();
+					}
 				}, null, null, 999 );
 			}
 
