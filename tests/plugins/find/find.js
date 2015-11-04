@@ -66,8 +66,9 @@ bender.test( {
 	'test find in read-only mode': function() {
 		var bot = this.editorBot;
 
-		this.editor.setReadOnly( true );
 		bot.setData( '<p>example text</p>', function() {
+			bot.editor.setReadOnly( true );
+
 			bot.dialog( 'find', function( dialog ) {
 				dialog.setValueOf( 'find', 'txtFindFind', 'example' );
 				dialog.getContentElement( 'find', 'btnFind' ).click();
