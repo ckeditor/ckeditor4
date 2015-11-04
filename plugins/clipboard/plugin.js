@@ -526,7 +526,7 @@
 			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				var initOnCopyCut = function( evt ) {
 					// If user tries to cut in read-only editor, we must prevent default action. (#13872)
-					if ( evt.type != 'cut' || ( evt.type == 'cut' && !editor.readOnly ) ) {
+					if ( !editor.readOnly || evt.name != 'cut' ) {
 						clipboard.initPasteDataTransfer( evt, editor );
 					}
 					evt.data.preventDefault();
