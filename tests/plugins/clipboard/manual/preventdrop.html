@@ -8,7 +8,7 @@
 	</style>
 </head>
 <div>
-	<h2>Helpers (<a href="javascript:hideshow('helpers');">hide/show</a>)</h2>
+	<h2>Helpers</h2>
 	<div id="helpers">
 		<textarea style="width:49%; height:50px; float: left;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In commodo vulputate tempor. Sed <b>at</b> elit.</textarea>
 		<div style="width:49%; height:50px; float: right;">
@@ -18,7 +18,7 @@
 	</div>
 </div>
 <div>
-	<h2>Editor (<a href="javascript:hideshow('editor');">hide/show</a>)</h2>
+	<h2>Editor</h2>
 	<div id="editor">
 		<p>I'm working!</p>
 	</div>
@@ -33,13 +33,4 @@
 			}
 		}
 	} );
-
-	function hideshow( id ) {
-		var element = CKEDITOR.document.getById( id );
-
-		if( element.getStyle( 'display' ) == 'none' )
-			element.show();
-		else
-			element.hide();
-	}
 </script>
