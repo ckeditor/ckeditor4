@@ -10,7 +10,7 @@
 
 **Expected:**
 * Text shouldn't be removed from editor.
-* Text selected in the editor shouldn't be pasted into the textarea
+* Text selected in the editor shouldn't be pasted into the textarea.
 
 ----
 
@@ -20,4 +20,4 @@
 
 **Expected:**
 * Text shouldn't be removed from editor.
-* Text selected in the editor shouldn't be pasted into the textarea
+* Text selected in the editor shouldn't be pasted into the textarea.
