@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -506,10 +506,13 @@
 		function getSearchRange( isDefault ) {
 			var searchRange,
 				sel = editor.getSelection(),
+				range = sel.getRanges()[ 0 ],
 				editable = editor.editable();
 
-			if ( sel && !isDefault ) {
-				searchRange = sel.getRanges()[ 0 ].clone();
+			// Blink browsers return empty array of ranges when editor is in read-only mode
+			// and it hasn't got focus, so instead of selection, we check for range itself. (#12848)
+			if ( range && !isDefault ) {
+				searchRange = range.clone();
 				searchRange.collapse( true );
 			} else {
 				searchRange = editor.createRange();

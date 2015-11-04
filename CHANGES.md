@@ -12,6 +12,7 @@ Fixed Issues:
 * [#13887](https://dev.ckeditor.com/ticket/13887): Fixed: Link target now supports wider ASCII character range. Thanks to [SamZiemer](https://github.com/SamZiemer)!
 * [#13790](https://dev.ckeditor.com/ticket/13790): Fixed: Allow for the iframe having been removed already. Thanks to [Stefan Rijnhart](https://github.com/StefanRijnhart)!
 * [#13803](https://dev.ckeditor.com/ticket/13803): Fixed: Allow the editor to be destroyed before being fully initialized. Thanks to [Cyril Fluck](https://github.com/cyril-sf)!
+* [#12848](http://dev.ckeditor.com/ticket/12848): Fixed: Opening find dialog in [read-only](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode will no longer throw an exception.
 * [#12189](http://dev.ckeditor.com/ticket/12189): Fixed: Link plugin dialog does not display subject of email links if subject parameter is not lowercase.
 * [#13361](http://dev.ckeditor.com/ticket/13361): Fixed: Images fail when site path includes parentheses because background-image path needs single-quotes around URL value.
 * [#13798](http://dev.ckeditor.com/ticket/13798): Fixed: Changing paragraph format causes cursor to move on Firefox 41.
