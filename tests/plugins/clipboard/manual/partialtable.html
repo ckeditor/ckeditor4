@@ -1,0 +1,35 @@
+<div id="editor1">
+	<table>
+		<tr>
+			<td>11</td>
+			<td>22</td>
+			<td>33</td>
+		</tr>
+		<tr>
+			<td>44</td>
+			<td>55</td>
+			<td>66</td>
+		</tr>
+	</table>
+	<p>Paste stuff: </p>
+	<p></p>
+</div>
+<div id="editor2">
+	<table>
+		<tr>
+			<td>11</td>
+			<td>22</td>
+			<td>33</td>
+		</tr>
+		<tr>
+			<td>44</td>
+			<td>55</td>
+			<td>66</td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	var editor1 = CKEDITOR.replace( 'editor1' );
+	var editor2 = CKEDITOR.inline( 'editor2' );
+</script>
