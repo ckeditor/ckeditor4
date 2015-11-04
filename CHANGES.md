@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
-* [PR#222](https://github.com/ckeditor/ckeditor-dev/pull/222): Simle's icon labels can now be translated. Thanks to [anhr](https://github.com/anhr)!
+* [PR#222](https://github.com/ckeditor/ckeditor-dev/pull/222): [Smiley dialog](http://ckeditor.com/addon/smiley) icon labels can now be translated. Thanks to [Andrej Y. Hristoliubov](https://github.com/anhr)!
 
 Fixed Issues:
 
