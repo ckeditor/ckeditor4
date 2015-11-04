@@ -75,6 +75,28 @@ bender.test( {
 			dialog.fire( 'ok' );
 			dialog.hide();
 		} );
+	},
+
+	// #12189
+	'test read from mail link with Subject and Body parameters provided': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<a href="mailto:job@cksource.com?Subject=Test%20subject&amp;Body=Test%20body">AJD</a>]' );
+
+		bot.dialog( 'link', function( dialog ) {
+			var linkTypeField = dialog.getContentElement( 'info', 'linkType' ),
+				addressField = dialog.getContentElement( 'info', 'emailAddress' ),
+				subjectField = dialog.getContentElement( 'info', 'emailSubject' ),
+				bodyField = dialog.getContentElement( 'info', 'emailBody' );
+
+			assert.areEqual( 'email', linkTypeField.getValue() );
+			assert.areEqual( 'job@cksource.com', addressField.getValue() );
+			assert.areEqual( 'Test subject', subjectField.getValue() );
+			assert.areEqual( 'Test body', bodyField.getValue() );
+
+			dialog.fire( 'ok' );
+			dialog.hide();
+		} );
 	}
 } );
 

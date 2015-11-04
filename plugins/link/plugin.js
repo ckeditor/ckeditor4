@@ -203,8 +203,8 @@
 	// Loads the parameters in a selected link to the link dialog fields.
 	var javascriptProtocolRegex = /^javascript:/,
 		emailRegex = /^mailto:([^?]+)(?:\?(.+))?$/,
-		emailSubjectRegex = /subject=([^;?:@&=$,\/]*)/,
-		emailBodyRegex = /body=([^;?:@&=$,\/]*)/,
+		emailSubjectRegex = /subject=([^;?:@&=$,\/]*)/i,
+		emailBodyRegex = /body=([^;?:@&=$,\/]*)/i,
 		anchorRegex = /^#(.*)$/,
 		urlRegex = /^((?:http|https|ftp|news):\/\/)?(.*)$/,
 		selectableTargets = /^(_(?:self|top|parent|blank))$/,
