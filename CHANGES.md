@@ -12,6 +12,7 @@ Fixed Issues:
 * [#13887](https://dev.ckeditor.com/ticket/13887): Fixed: Link target now supports wider ASCII character range. Thanks to [SamZiemer](https://github.com/SamZiemer)!
 * [#13790](https://dev.ckeditor.com/ticket/13790): Fixed: Allow for the iframe having been removed already. Thanks to [Stefan Rijnhart](https://github.com/StefanRijnhart)!
 * [#13803](https://dev.ckeditor.com/ticket/13803): Fixed: Allow the editor to be destroyed before being fully initialized. Thanks to [Cyril Fluck](https://github.com/cyril-sf)!
+* [#13883](http://dev.ckeditor.com/ticket/13883): Fixed: Copying table using context menu strips off styles.
 * [#13872](http://dev.ckeditor.com/ticket/13872): Fixed: Cut is no longer possible in [read-only](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode.
 * [#13879](http://dev.ckeditor.com/ticket/13879): Fixed: Preventing [`editor.drop`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-drop) event.
 * [#12848](http://dev.ckeditor.com/ticket/12848): Fixed: Opening find dialog in [read-only](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode will no longer throw an exception.
