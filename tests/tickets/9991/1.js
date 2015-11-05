@@ -29,12 +29,13 @@
 	var browsers = [
 			'chrome',
 			'firefox',
-			//'ie8',
+			'ie8',
 			//'ie9',
 			//'ie10',
 			'ie11'
 		],
 		wordVersions = [
+			'word2007',
 			'word2013'
 		],
 		// To test only particular word versions set the key value to an array in the form: [ 'word2007', 'word2013' ].

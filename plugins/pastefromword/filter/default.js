@@ -24,6 +24,7 @@
 				createLists( element );
 			},
 			elementNames: [
+				[ ( /^\?xml:namespace$/ ), '' ],
 				[ new RegExp( invalidTags.join( '|' ) ), '' ] // Remove invalid tags.
 			],
 			// Each element is processed through the '^' function, then
@@ -42,6 +43,8 @@
 					element.attributes.style = CKEDITOR.tools.writeCssText( style );
 				},
 				'li': function( element ) {
+					element.attributes.style = normalizedStyles( element );
+
 					pushStylesLower( element );
 				},
 				'ol': function( element ) {
@@ -92,6 +95,7 @@
 					}
 				},
 				'span': function( element ) {
+					element.filterChildren( filter );
 
 					element.attributes.style = normalizedStyles( element );
 
@@ -190,38 +194,64 @@
 	function normalizedStyles( element ) {
 		// Some styles and style values are redundant, so delete them.
 		var resetStyles = [
-			'background:white',
-			'background-color:transparent',
-			'border-image:none',
-			'line-height:normal',
-			'color:black',
-			'color:#000000',
-			'color:rgb(0, 0, 0)',
-			'font-size:medium',
-			'font-style:normal',
-			'font-weight:normal',
-			'direction:ltr',
-			'p:margin-top:1em',
-			'p:margin-bottom:1em'
-		];
-		var resetValues = [
-			'0in'
-		];
+				'background:white',
+				'background-color:transparent',
+				'border-image:none',
+				'line-height:normal',
+				'color:black',
+				'color:#000000',
+				'color:rgb(0, 0, 0)',
+				'font-size:medium',
+				'font-style:normal',
+				'font-weight:normal',
+				'direction:ltr',
+				'p:margin-top:1em',
+				'p:margin-bottom:1em',
+				'0in',
+				'mso-',
+				'margin-left',
+				'text-indent'
+			],
+			matchStyle = function() {
+				var keys = [];
+				for ( var i = 0; i < arguments.length; i++ ) {
+					if ( arguments[ i ] ) {
+						keys.push( arguments[ i ] );
+					}
+				}
+				return tools.indexOf( resetStyles, keys.join( ':' ) ) !== -1;
+			};
 
 		var styles = tools.parseCssText( element.attributes.style );
+
+		// Various transformations specific to some elements (e.g. list items).
+		switch ( element.name ) {
+			case 'cke:li':
+				// IE8 tries to emulate list indentation with a combination of
+				// text-indent and left margin. Normalize this. Note that IE8 styles are uppercase.
+				styles[ 'TEXT-INDENT' ] &&
+				styles.MARGIN &&
+				( styles.MARGIN = styles.MARGIN.replace( /(([\w\.]+ ){3,3})[\d\.]+(\w+$)/, '$10$3' ) );
+				break;
+		}
 
 		var keys = tools.objectKeys( styles );
 
 		for ( var i = 0; i < keys.length; i++ ) {
-			if ( keys[ i ].match( /^(mso\-|margin\-left|text\-indent)/ ) ||
-				tools.indexOf( resetValues, styles[ keys[ i ] ] ) !== -1 ||
-				tools.indexOf( resetStyles, keys[ i ] + ':' + styles[ keys[ i ] ] ) !== -1 ||
-				tools.indexOf( resetStyles, element.name + ':' + keys[ i ] + ':' + styles[ keys[ i ] ] ) !== -1
+			var styleName = keys[ i ].toLowerCase(),
+				styleValue = styles[ keys[ i ] ];
+
+			if ( matchStyle( null, styleName, styleValue ) ||
+				matchStyle( null, styleName.replace( /\-.*$/, '-' ) ) ||
+				matchStyle( null, styleName ) ||
+				matchStyle( element.name, styleName, styleValue ) ||
+				matchStyle( element.name, styleName.replace( /\-.*$/, '-' ) ) ||
+				matchStyle( element.name, styleName ) ||
+				matchStyle( styleValue )
 			) {
 				delete styles[ keys[ i ] ];
 			}
 		}
-
 		return CKEDITOR.tools.writeCssText( styles );
 	}
 
@@ -446,7 +476,7 @@
 			topmost = true;
 
 		for ( var style in styles ) {
-			if ( style.match( /margin|text\-align|width/ ) ) {
+			if ( style.match( /margin|text\-align|width/i ) ) {
 				continue;
 			}
 
@@ -486,8 +516,8 @@
 
 		// For styles in orderedStyles[] enforce the same order as in orderedStyles[].
 		keys.sort( function( a, b ) {
-			var aIndex = tools.indexOf( orderedStyles, a );
-			var bIndex = tools.indexOf( orderedStyles, b );
+			var aIndex = tools.indexOf( orderedStyles, a.toLowerCase() );
+			var bIndex = tools.indexOf( orderedStyles, b.toLowerCase() );
 
 			if ( aIndex !== -1 && bIndex !== -1 ) {
 				return aIndex - bIndex;
@@ -527,7 +557,7 @@
 		var styles = tools.parseCssText( element.attributes.style );
 
 		for ( var style in styles ) {
-			if ( style in retainedStyles || retainedStyles [ style.replace( /\-.*$/, '-' ) ] ) {
+			if ( style.toLowerCase() in retainedStyles || retainedStyles [ style.toLowerCase().replace( /\-.*$/, '-' ) ] ) {
 				continue;
 			}
 
@@ -560,7 +590,8 @@
 		pushStylesLower: pushStylesLower,
 		setSymbol: setSymbol,
 		removeListSymbol: removeListSymbol,
-		sortStyles: sortStyles
+		sortStyles: sortStyles,
+		normalizedStyles: normalizedStyles
 	};
 
 	for ( var exported in exportedFunctions ) {
