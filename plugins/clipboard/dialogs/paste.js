@@ -5,8 +5,8 @@
 
 CKEDITOR.dialog.add( 'paste', function( editor ) {
 	var lang = editor.lang.clipboard,
-		lastDataTransfer,
-		clipboard = CKEDITOR.plugins.clipboard;
+		clipboard = CKEDITOR.plugins.clipboard,
+		lastDataTransfer;
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
