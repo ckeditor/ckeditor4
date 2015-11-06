@@ -417,7 +417,7 @@
 
 		/**
 		 * Parses attributes of the link element and returns an object representing
-		 * the current state (data) of the link. This data format is a plain Object accepted
+		 * the current state (data) of the link. This data format is a plain object accepted
 		 * e.g. by the Link dialog window and {@link #getLinkAttributes}.
 		 *
 		 * **Note:** Data model format produced by the parser must be compatible with the Link
