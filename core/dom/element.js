@@ -154,15 +154,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 };
 
 ( function() {
-	var supportsClassLists = ( function() {
-			try {
-				// Note IE11 won't have Element.prototype.classList property.
-				return String( Element.prototype.classList || HTMLElement.prototype.classList ).match( /\[Native code\]/gi ) != null;
-			} catch ( e ) {
-				// Most browser will throw TypeError: Illegal invocation.
-				return e instanceof TypeError;
-			}
-		} )(),
+	var elementsClassList = document.createElement( '_' ).classList,
+		supportsClassLists = typeof elementsClassList !== 'undefined' && String( elementsClassList.add ).match( /\[Native code\]/gi ) !== null,
 		rclass = /[\n\t\r]/g;
 
 	function hasClass( classNames, className ) {
