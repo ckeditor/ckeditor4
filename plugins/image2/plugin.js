@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -410,7 +410,7 @@
 
 				// Update data.link object with attributes if the link has been discovered.
 				if ( editor.plugins.link && this.parts.link ) {
-					data.link = CKEDITOR.plugins.link.parseLinkAttributes( editor, this.parts.link );
+					data.link = helpers.getLinkAttributesParser()( editor, this.parts.link );
 
 					// Get rid of cke_widget_* classes in data. Otherwise
 					// they might appear in link dialog.
@@ -492,6 +492,12 @@
 		};
 	}
 
+	/**
+	 * Set of Image2 plugin helpers.
+	 *
+	 * @class
+	 * @singleton
+	 */
 	CKEDITOR.plugins.image2 = {
 		stateShifter: function( editor ) {
 			// Tag name used for centering non-captioned widgets.
@@ -612,7 +618,7 @@
 								newEl = wrapInLink( img, shift.newData.link );
 
 							// Set and remove all attributes associated with this state.
-							var attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, newValue );
+							var attributes = CKEDITOR.plugins.image2.getLinkAttributesGetter()( editor, newValue );
 
 							if ( !CKEDITOR.tools.isEmpty( attributes.set ) )
 								( newEl || link ).setAttributes( attributes.set );
@@ -730,10 +736,13 @@
 			};
 		},
 
-		// Checks whether current ratio of the image match the natural one.
-		// by comparing dimensions.
-		// @param {CKEDITOR.dom.element} image
-		// @returns {Boolean}
+		/**
+		 * Checks whether current ratio of the image match the natural one.
+		 * by comparing dimensions.
+		 *
+		 * @param {CKEDITOR.dom.element} image
+		 * @returns {Boolean}
+		 */
 		checkHasNaturalRatio: function( image ) {
 			var $ = image.$,
 				natural = this.getNatural( image );
@@ -746,11 +755,14 @@
 				Math.round( $.clientHeight / natural.height * natural.width ) == $.clientWidth;
 		},
 
-		// Returns natural dimensions of the image. For modern browsers
-		// it uses natural(Width|Height) for old ones (IE8), creates
-		// a new image and reads dimensions.
-		// @param {CKEDITOR.dom.element} image
-		// @returns {Object}
+		/**
+		 * Returns natural dimensions of the image. For modern browsers
+		 * it uses natural(Width|Height) for old ones (IE8), creates
+		 * a new image and reads dimensions.
+		 *
+		 * @param {CKEDITOR.dom.element} image
+		 * @returns {Object}
+		 */
 		getNatural: function( image ) {
 			var dimensions;
 
@@ -770,6 +782,51 @@
 			}
 
 			return dimensions;
+		},
+
+		/**
+		 * Returns an attributes getter function. Default getter comes from the Link Plugin
+		 * and is documented by {@link CKEDITOR.plugins.link#getLinkAttributes}.
+		 *
+		 * **Note:** It is possible to override this method and use a custom getter e.g.
+		 * in the absence of the Link Plugin.
+		 *
+		 * **Note:** If a custom getter is used, a data model format it produces
+		 * must be compatible with {@link CKEDITOR.plugins.link#getLinkAttributes}.
+		 *
+		 * **Note:** A custom getter must understand data model format produced by
+		 * {@link #getLinkAttributesParser} to work correctly.
+		 *
+		 * @returns {Function} A function that gets (composes) link attributes.
+		 * @since 4.5.5
+		 */
+		getLinkAttributesGetter: function() {
+			// #13885
+			return CKEDITOR.plugins.link.getLinkAttributes;
+		},
+
+		/**
+		 * Returns an attributes parser function. Default parser comes from the Link Plugin
+		 * and is documented by {@link CKEDITOR.plugins.link#parseLinkAttributes}.
+		 *
+		 * **Note:** It is possible to override this method and use a custom parser e.g.
+		 * in the absence of the Link Plugin.
+		 *
+		 * **Note:** If a custom parser is used, a data model format produced by the parser
+		 * must be compatible with {@link #getLinkAttributesGetter}.
+		 *
+		 * **Note:** If a custom parser is used, it should be compatible with
+		 * {@link CKEDITOR.plugins.link#parseLinkAttributes} data model format. Otherwise
+		 * Link Plugin dialog may not be populated correctly with parsed data. However
+		 * as long as Image2 is **not** used with Link Plugin dialog, any custom data model
+		 * will work, being stored as an internal property of Image2 widget's data only.
+		 *
+		 * @returns {Function} A function that parses attributes.
+		 * @since 4.5.5
+		 */
+		getLinkAttributesParser: function() {
+			// #13885
+			return CKEDITOR.plugins.link.parseLinkAttributes;
 		}
 	};
 

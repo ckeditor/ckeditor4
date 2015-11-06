@@ -417,8 +417,11 @@
 
 		/**
 		 * Parses attributes of the link element and returns an object representing
-		 * the current state (data) of the link. This data format is accepted e.g. by
-		 * the Link dialog window and {@link #getLinkAttributes}.
+		 * the current state (data) of the link. This data format is a plain object accepted
+		 * e.g. by the Link dialog window and {@link #getLinkAttributes}.
+		 *
+		 * **Note:** Data model format produced by the parser must be compatible with the Link
+		 * Plugin dialog because it is passed directly to {@link CKEDITOR.dialog#setupContent}.
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.editor} editor
@@ -546,9 +549,9 @@
 		},
 
 		/**
-		 * Converts link data into an object which consists of attributes to be set
-		 * (with their values) and an array of attributes to be removed. This method
-		 * can be used to synthesise or to update any link element with the given data.
+		 * Converts link data produced by {@link #parseLinkAttributes} into an object which consists
+		 * of attributes to be set (with their values) and an array of attributes to be removed.
+		 * This method can be used to compose or to update any link element with the given data.
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.editor} editor
