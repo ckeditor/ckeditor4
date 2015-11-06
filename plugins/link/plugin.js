@@ -92,7 +92,7 @@
 			CKEDITOR.dialog.add( 'anchor', this.path + 'dialogs/anchor.js' );
 
 			editor.on( 'doubleclick', function( evt ) {
-				var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || evt.data.element;
+				var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || getLinkFromElement( evt.data.element );
 
 				if ( !element.isReadOnly() ) {
 					if ( element.is( 'a' ) ) {
@@ -286,6 +286,25 @@
 		}
 
 		return compiledProtectionFunction;
+	}
+
+	// If the link has descendants and the last part of it is also a part of a word partially
+	// unlinked, clicked element may be a descendant of the link, not the link itself. (#11956)
+	function getLinkFromElement( element ) {
+		if ( element.is( 'a' ) ) {
+			return element;
+		}
+
+		var parent, i = 0,
+		parents = element.getParents( 1 );
+
+		while ( parent = parents[ i++ ] ) {
+			if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.is( 'a' ) ) {
+				return parent;
+			}
+		}
+
+		return element;
 	}
 
 	/**
