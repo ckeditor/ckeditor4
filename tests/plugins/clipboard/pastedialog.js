@@ -42,7 +42,7 @@
 				evt.removeListener();
 
 				tc.resume( function() {
-					assert.areEqual( 'abc<b>def</b>', evt.data.toLowerCase() );
+					assert.areEqual( 'abc<b>def</b>', evt.data.dataValue.toLowerCase() );
 				} );
 			} );
 
