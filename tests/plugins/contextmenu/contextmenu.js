@@ -68,6 +68,9 @@
 						nestedEditable = doc.getById( 'b' ),
 						preventDefaultCalled = 0;
 
+					// #13910
+					editor.focus();
+
 					editable.fire( 'contextmenu', new CKEDITOR.dom.event( {
 						target: nonEditable.$,
 						preventDefault: function() {
