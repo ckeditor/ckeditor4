@@ -1148,8 +1148,8 @@
 
 					range.moveToPosition( e2.findOne( '.p2' ), CKEDITOR.POSITION_AFTER_START );
 					testDelKey( editor,	'del',	range,	false,	'e2 - ^bar' );
-					// This case is handled on Webkits because of #9998.
-					if ( !CKEDITOR.env.webkit )
+					// This case is handled on Webkits and Gecko because of #9998, #13798.
+					if ( CKEDITOR.env.ie )
 						testDelKey( editor,	'bspc',	range,	false,	'e2 - ^bar' );
 
 					range.moveToPosition( e2.findOne( '.p2' ), CKEDITOR.POSITION_BEFORE_END );
