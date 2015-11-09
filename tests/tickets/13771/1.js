@@ -52,6 +52,6 @@
 		var frameDoc = combo._.panel.element.getFirst().getFrameDocument();
 
 		// Look for any stylesheet link elems that end with desired CSS file.
-		return Boolean( frameDoc.findOne( 'link[rel="stylesheet"][href$="contents.css"]' ) );
+		return Boolean( frameDoc.findOne( 'link[rel="stylesheet"][href*="contents.css"]' ) );
 	}
 } )();
