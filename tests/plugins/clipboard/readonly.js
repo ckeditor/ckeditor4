@@ -36,8 +36,8 @@ var tests = {
 	},
 
 	'test if cut is prevented depending on read-only mode': function( editor, bot ) {
-		var content = '<p>[Some] text</p>',
-			expected = editor.readOnly ? content : '<p>^ text</p>';
+		var content = '<p>[Some t]ext</p>',
+			expected = editor.readOnly ? content : '<p>^ext</p>';
 
 		bot.setHtmlWithSelection( content );
 
