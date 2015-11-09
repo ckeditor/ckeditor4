@@ -421,7 +421,7 @@
 		 * e.g. by the Link dialog window and {@link #getLinkAttributes}.
 		 *
 		 * **Note:** Data model format produced by the parser must be compatible with the Link
-		 * Plugin dialog because it is passed directly to {@link CKEDITOR.dialog#setupContent}.
+		 * plugin dialog because it is passed directly to {@link CKEDITOR.dialog#setupContent}.
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.editor} editor

@@ -493,7 +493,7 @@
 	}
 
 	/**
-	 * Set of Image2 plugin helpers.
+	 * A set of Enhanced Image (image2) plugin helpers.
 	 *
 	 * @class
 	 * @singleton
@@ -737,7 +737,7 @@
 		},
 
 		/**
-		 * Checks whether current ratio of the image match the natural one.
+		 * Checks whether the current image ratio matches the natural one
 		 * by comparing dimensions.
 		 *
 		 * @param {CKEDITOR.dom.element} image
@@ -757,8 +757,8 @@
 
 		/**
 		 * Returns natural dimensions of the image. For modern browsers
-		 * it uses natural(Width|Height) for old ones (IE8), creates
-		 * a new image and reads dimensions.
+		 * it uses natural(Width|Height). For old ones (IE8) it creates
+		 * a new image and reads the dimensions.
 		 *
 		 * @param {CKEDITOR.dom.element} image
 		 * @returns {Object}
@@ -785,16 +785,16 @@
 		},
 
 		/**
-		 * Returns an attributes getter function. Default getter comes from the Link Plugin
+		 * Returns an attribute getter function. Default getter comes from the Link plugin
 		 * and is documented by {@link CKEDITOR.plugins.link#getLinkAttributes}.
 		 *
 		 * **Note:** It is possible to override this method and use a custom getter e.g.
-		 * in the absence of the Link Plugin.
+		 * in the absence of the Link plugin.
 		 *
 		 * **Note:** If a custom getter is used, a data model format it produces
 		 * must be compatible with {@link CKEDITOR.plugins.link#getLinkAttributes}.
 		 *
-		 * **Note:** A custom getter must understand data model format produced by
+		 * **Note:** A custom getter must understand the data model format produced by
 		 * {@link #getLinkAttributesParser} to work correctly.
 		 *
 		 * @returns {Function} A function that gets (composes) link attributes.
@@ -806,20 +806,20 @@
 		},
 
 		/**
-		 * Returns an attributes parser function. Default parser comes from the Link Plugin
+		 * Returns an attribute parser function. Default parser comes from the Link plugin
 		 * and is documented by {@link CKEDITOR.plugins.link#parseLinkAttributes}.
 		 *
 		 * **Note:** It is possible to override this method and use a custom parser e.g.
-		 * in the absence of the Link Plugin.
+		 * in the absence of the Link plugin.
 		 *
 		 * **Note:** If a custom parser is used, a data model format produced by the parser
 		 * must be compatible with {@link #getLinkAttributesGetter}.
 		 *
-		 * **Note:** If a custom parser is used, it should be compatible with
-		 * {@link CKEDITOR.plugins.link#parseLinkAttributes} data model format. Otherwise
-		 * Link Plugin dialog may not be populated correctly with parsed data. However
-		 * as long as Image2 is **not** used with Link Plugin dialog, any custom data model
-		 * will work, being stored as an internal property of Image2 widget's data only.
+		 * **Note:** If a custom parser is used, it should be compatible with the
+		 * {@link CKEDITOR.plugins.link#parseLinkAttributes} data model format. Otherwise the
+		 * Link plugin dialog may not be populated correctly with parsed data. However
+		 * as long as Enhanced Image is **not** used with the Link plugin dialog, any custom data model
+		 * will work, being stored as an internal property of Enhanced Image widget's data only.
 		 *
 		 * @returns {Function} A function that parses attributes.
 		 * @since 4.5.5
@@ -1588,6 +1588,9 @@
 /**
  * A CSS class applied to the `<figure>` element of a captioned image.
  *
+ * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
+ * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
+ *
  *		// Changes the class to "captionedImage".
  *		config.image2_captionedClass = 'captionedImage';
  *
@@ -1600,6 +1603,9 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * Determines whether dimension inputs should be automatically filled when the image URL changes in the Enhanced Image
  * plugin dialog window.
  *
+ * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
+ * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
+ *
  *		config.image2_prefillDimensions = false;
  *
  * @since 4.5
@@ -1609,6 +1615,9 @@ CKEDITOR.config.image2_captionedClass = 'image';
 
 /**
  * Disables the image resizer. By default the resizer is enabled.
+ *
+ * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
+ * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
  *
  *		config.image2_disableResizer = true;
  *
@@ -1666,6 +1675,9 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *		.align-center > figure {
  *			display: inline-block;
  *		}
+ *
+ * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
+ * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
  *
  * @since 4.4
  * @cfg {String[]} [image2_alignClasses=null]
