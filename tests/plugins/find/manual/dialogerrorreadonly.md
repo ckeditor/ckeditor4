@@ -2,10 +2,6 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: find, wysiwygarea, toolbar
 
-##ONLY IN BLINK ##
-
-----
-
 1. Open console.
 2. Make sure that the editor **IS NOT** focused.
 3. Open "Find" dialog.
