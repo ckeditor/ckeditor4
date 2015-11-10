@@ -130,7 +130,12 @@
 			} );
 
 			editor.execCommand( dialogName );
-			tc.wait( 1000 );
+
+			// Note: 1000ms isn't quite enough, i.e. in some slow browsers like MS Edge to run
+			// some heavy tests. I causes "wait() called but resume() never called"
+			// sort of errors because it takes longer to fire `dialogShow` than 1000ms,
+			// especially in build version of CKEditor (#13920).
+			tc.wait( 2000 );
 		},
 
 		getData: function( fixHtml, compatHtml ) {
