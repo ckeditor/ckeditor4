@@ -24,6 +24,7 @@ Fixed Issues:
 * [#13798](http://dev.ckeditor.com/ticket/13798): [Firefox] Fixed: Changing paragraph format causes the cursor to move.
 * [#13771](http://dev.ckeditor.com/ticket/13771): Fixed: The `contents.css` style is not used if the [IFrame Editing Area](http://ckeditor.com/addon/wysiwygarea) plugin is missing.
 * [#13782](http://dev.ckeditor.com/ticket/13782): Fixed: Unclear log messages.
+* [#13919](http://dev.ckeditor.com/ticket/13919): [Edge] Fixed: Browser window crashes while accessing `isContentEditable` property of an `<input>` DOM element.
 
 Other Changes:
 
