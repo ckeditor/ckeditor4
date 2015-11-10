@@ -254,20 +254,19 @@
 			assert.isFalse( el.getChild( [ 0, 0 ] ).isReadOnly( 1 ) );
 		},
 
-		'test isReadOnly - isContentEditable access': function() {
-			// Edge tends to break on isContentEditable prop accessing in certian elements (#13609, #13919).
-			// If this test causes refreshes / crashes the browser, then some new element is causing this issue.
+		// #13609, #13919
+		'test isReadOnly - isContentEditable property access': function() {
+			// Edge tends to break when accessing isContentEditable property in certain elements.
+			// If this test causes refreshes/crashes the web page, then some new element is causing this issue.
 			var blacklistedElems = {
 					applet: 1 // applet displays a popup about Java at IE11.
 				},
-				curElem,
 				elemName;
 
 			// Test every element in DTD.
 			for ( elemName in CKEDITOR.dtd ) {
-				if ( elemName.charAt( 0 ) !== '$' && !( elemName in blacklistedElems ) ) {
-					curElem = new CKEDITOR.dom.element( elemName );
-					curElem.isReadOnly();
+				if ( elemName[ 0 ] !== '$' && !( elemName in blacklistedElems ) ) {
+					new CKEDITOR.dom.element( elemName ).isReadOnly();
 				}
 			}
 
