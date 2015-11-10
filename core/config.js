@@ -73,6 +73,9 @@ CKEDITOR.config = {
 	 * CKEditor will recursively load custom configuration files defined inside
 	 * other custom configuration files.
 	 *
+	 * Read more about setting CKEditor configuration in the
+	 * [documentation](#!/guide/dev_configuration).
+	 *
 	 *		// Load a specific configuration file.
 	 *		CKEDITOR.replace( 'myfield', { customConfig: '/myconfig.js' } );
 	 *

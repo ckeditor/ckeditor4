@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -181,16 +181,16 @@
 
 	/**
 	 * Specifies the widget to use to automatically embed a link. The default value
-	 * of this option defines that either the [Embed](ckeditor.com/addon/embed) or
-	 * [Semantic Embed](ckeditor.com/addon/embedsemantic) widgets will be used, depending on which is enabled.
+	 * of this option defines that either the [Media Embed](ckeditor.com/addon/embed) or
+	 * [Semantic Media Embed](ckeditor.com/addon/embedsemantic) widgets will be used, depending on which is enabled.
 	 *
 	 * The general behavior:
 	 *
 	 * * If a string (widget names separated by commas) is provided, then the first of the listed widgets which is registered
-	 * will be used. For example, if `'foo,bar,bom'` is set and widgets `'bar'` and `'bom'` are registered, then `'bar'`
-	 * will be used.
+	 *   will be used. For example, if `'foo,bar,bom'` is set and widgets `'bar'` and `'bom'` are registered, then `'bar'`
+	 *   will be used.
 	 * * If a callback is specified, then it will be executed with the URL to be embedded and it should return the
-	 * name of the widget to be used. It allows to use different embed widgets for different URLs.
+	 *   name of the widget to be used. It allows to use different embed widgets for different URLs.
 	 *
 	 * Example:
 	 *
@@ -203,6 +203,9 @@
 	 *
 	 * **Note:** Plugin names are always lower case, while widget names are not, so widget names do not have to equal plugin names.
 	 * For example, there is the `embedsemantic` plugin and the `embedSemantic` widget.
+	 *
+	 * Read more in the [documentation](#!/guide/dev_media_embed-section-automatic-embedding-on-paste)
+	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/mediaembed.html).
 	 *
 	 * @since 4.5
 	 * @cfg {String/Function} [autoEmbed_widget='embed,embedSemantic']

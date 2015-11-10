@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -376,11 +376,12 @@
 } )();
 
 /**
- * The location of an external file browser that should be launched when the **Browse Server**
+ * The location of an external file manager that should be launched when the **Browse Server**
  * button is pressed. If configured, the **Browse Server** button will appear in the
  * **Link**, **Image**, and **Flash** dialog windows.
  *
- * See the [File Browser/Uploader](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader\)) documentation.
+ * Read more in the [documentation](#!/guide/dev_file_browse_upload)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserBrowseUrl = '/browser/browse.php';
  *
@@ -394,12 +395,13 @@
  * If set, the **Upload** tab will appear in the **Link**, **Image**,
  * and **Flash** dialog windows.
  *
- * See the [File Browser/Uploader](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader\)) documentation.
+ * Read more in the [documentation](#!/guide/dev_file_browse_upload)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserUploadUrl = '/uploader/upload.php';
  *
- * **Note:** this is a configuration for a [File Browser](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader\)).
- * To configure [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) use {@link CKEDITOR.config#uploadUrl}
+ * **Note:** This is a configuration setting for a [file browser/uploader](#!/guide/dev_file_browse_upload).
+ * To configure [uploading dropped or pasted files](#!/guide/dev_file_upload) use the {@link CKEDITOR.config#uploadUrl}
  * configuration option.
  *
  * @since 3.0
@@ -408,10 +410,13 @@
  */
 
 /**
- * The location of an external file browser that should be launched when the **Browse Server**
+ * The location of an external file manager that should be launched when the **Browse Server**
  * button is pressed in the **Image** dialog window.
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserBrowseUrl}.
+ *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserImageBrowseUrl = '/browser/browse.php?type=Images';
  *
@@ -426,6 +431,9 @@
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserBrowseUrl}.
  *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ *
  *		config.filebrowserFlashBrowseUrl = '/browser/browse.php?type=Flash';
  *
  * @since 3.0
@@ -438,10 +446,13 @@
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserUploadUrl}.
  *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ *
  *		config.filebrowserImageUploadUrl = '/uploader/upload.php?type=Images';
  *
- * **Note:** this is a configuration for a [File Browser](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader\)).
- * To configure [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) use {@link CKEDITOR.config#uploadUrl}
+ * **Note:** This is a configuration setting for a [file browser/uploader](#!/guide/dev_file_browse_upload).
+ * To configure [uploading dropped or pasted files](#!/guide/dev_file_upload) use the {@link CKEDITOR.config#uploadUrl}
  * or {@link CKEDITOR.config#imageUploadUrl} configuration option.
  *
  * @since 3.0
@@ -454,6 +465,9 @@
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserUploadUrl}.
  *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ *
  *		config.filebrowserFlashUploadUrl = '/uploader/upload.php?type=Flash';
  *
  * @since 3.0
@@ -462,10 +476,13 @@
  */
 
 /**
- * The location of an external file browser that should be launched when the **Browse Server**
+ * The location of an external file manager that should be launched when the **Browse Server**
  * button is pressed in the **Link** tab of the **Image** dialog window.
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserBrowseUrl}.
+ *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserImageBrowseLinkUrl = '/browser/browse.php';
  *
@@ -475,7 +492,7 @@
  */
 
 /**
- * The features to use in the file browser popup window.
+ * The features to use in the file manager popup window.
  *
  *		config.filebrowserWindowFeatures = 'resizable=yes,scrollbars=no';
  *
@@ -485,8 +502,11 @@
  */
 
 /**
- * The width of the file browser popup window. It can be a number denoting a value in
+ * The width of the file manager popup window. It can be a number denoting a value in
  * pixels or a percent string.
+ *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-file-manager-window-size)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserWindowWidth = 750;
  *
@@ -497,8 +517,11 @@
  */
 
 /**
- * The height of the file browser popup window. It can be a number denoting a value in
+ * The height of the file manager popup window. It can be a number denoting a value in
  * pixels or a percent string.
+ *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-file-manager-window-size)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserWindowHeight = 580;
  *

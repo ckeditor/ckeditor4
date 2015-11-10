@@ -1451,6 +1451,9 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * If `true`, makes the editor start in read-only state. Otherwise, it will check
  * if the linked `<textarea>` element has the `disabled` attribute.
  *
+ * Read more in the [documentation](#!/guide/dev_readonly)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/readonly.html).
+ *
  *		config.readOnly = true;
  *
  * @since 3.6
@@ -1460,7 +1463,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Sets whether an editable element should have focus when the editor is loading for the first time.
+ * Whether an editable element should have focus when the editor is loading for the first time.
  *
  *		config.startupFocus = true;
  *
@@ -1470,8 +1473,9 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
  /**
  * Customizes the {@link CKEDITOR.editor#title human-readable title} of this editor. This title is displayed in
- * tooltips and impacts various accessibility aspects, e.g. it is commonly used by screen readers
- * for distinguishing editor instances and for navigation. Accepted values are a string or `false`.
+ * tooltips and impacts various [accessibility aspects](#!/guide/dev_a11y-section-announcing-the-editor-on-the-page),
+ * e.g. it is commonly used by screen readers for distinguishing editor instances and for navigation.
+ * Accepted values are a string or `false`.
  *
  * **Note:** When `config.title` is set globally, the same value will be applied to all editor instances
  * loaded with this config. This may adversely affect accessibility as screen reader users will be unable

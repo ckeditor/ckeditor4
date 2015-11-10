@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 	// Make sure the base class (CKEDITOR.menu) is loaded before it (#3318).
 	onLoad: function() {
 		/**
-		 * Class replacing the non-configurable native context menu with configurable CKEditor's equivalent.
+		 * Class replacing the non-configurable native context menu with a configurable CKEditor's equivalent.
 		 *
 		 * @class
 		 * @extends CKEDITOR.menu
@@ -40,11 +40,11 @@ CKEDITOR.plugins.add( 'contextmenu', {
 
 			proto: {
 				/**
-				 * Starts watching on native context menu triggers (option key, right click) on given element.
+				 * Starts watching on native context menu triggers (<kbd>Option</kbd> key, right click) on the given element.
 				 *
 				 * @param {CKEDITOR.dom.element} element
-				 * @param {Boolean} [nativeContextMenuOnCtrl] Whether to open native context menu if
-				 * *Ctrl* key is hold on opening the context menu. See {@link CKEDITOR.config#browserContextMenuOnCtrl}.
+				 * @param {Boolean} [nativeContextMenuOnCtrl] Whether to open native context menu if the
+				 * <kbd>Ctrl</kbd> key is held on opening the context menu. See {@link CKEDITOR.config#browserContextMenuOnCtrl}.
 				 */
 				addTarget: function( element, nativeContextMenuOnCtrl ) {
 					element.on( 'contextmenu', function( event ) {
@@ -103,7 +103,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				},
 
 				/**
-				 * Opens context menu in given location. See the {@link CKEDITOR.menu#show} method.
+				 * Opens the context menu in the given location. See the {@link CKEDITOR.menu#show} method.
 				 *
 				 * @param {CKEDITOR.dom.element} offsetParent
 				 * @param {Number} [corner]
@@ -147,9 +147,9 @@ CKEDITOR.plugins.add( 'contextmenu', {
 } );
 
 /**
- * Whether to show the browser native context menu when the *Ctrl* or
- * *Meta* (Mac) key is pressed on opening the context menu with the
- * right mouse button click or the *Menu* key.
+ * Whether to show the browser native context menu when the <kbd>Ctrl</kbd> or
+ * <kbd>Meta</kbd> (Mac) key is pressed on opening the context menu with the
+ * right mouse button click or the <kbd>Menu</kbd> key.
  *
  *		config.browserContextMenuOnCtrl = false;
  *

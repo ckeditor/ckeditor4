@@ -1,10 +1,10 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
- * @fileOverview [Language](http://ckeditor.com/addon/language) plugin.
+ * @fileOverview The [Language](http://ckeditor.com/addon/language) plugin.
  */
 
 'use strict';
@@ -158,6 +158,8 @@
  * * _languageLabel_: The label to show for this language in the list.
  * * _textDirection_: (optional) One of the following values: `rtl` or `ltr`,
  * 	indicating the reading direction of the language. Defaults to `ltr`.
+ *
+ * See the [SDK sample](http://sdk.ckeditor.com/samples/language.html).
  *
  *		config.language_list = [ 'he:Hebrew:rtl', 'pt:Portuguese', 'de:German' ];
  *

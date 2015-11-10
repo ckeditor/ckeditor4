@@ -1,10 +1,10 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
- * @fileOverview [Mathematical Formulas](http://ckeditor.com/addon/mathjax) plugin.
+ * @fileOverview The [Mathematical Formulas](http://ckeditor.com/addon/mathjax) plugin that allows you to create and modify mathematical equations written in TeX directly in CKEditor..
  */
 
 'use strict';
@@ -438,6 +438,9 @@
  *
  * Please note that this must be a full or absolute path.
  *
+ * Read more in the [documentation](#!/guide/dev_mathjax)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/mathjax.html).
+ *
  *		config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
  *
  * **Note:** Since CKEditor 4.5 this option does not have a default value, so it must
@@ -460,6 +463,9 @@
  * The code below will be recognized as a Mathematical Formulas widget.
  *
  *		<span class="my-math">\( \sqrt{4} = 2 \)</span>
+ *
+ * Read more in the [documentation](#!/guide/dev_mathjax)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/mathjax.html).
  *
  * @cfg {String} [mathJaxClass='math-tex']
  * @member CKEDITOR.config

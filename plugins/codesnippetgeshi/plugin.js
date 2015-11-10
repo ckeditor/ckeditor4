@@ -181,10 +181,10 @@
 /**
  * Sets GeSHi URL which, once queried with Ajax, will return highlighted code.
  *
- *		config.codeSnippetGeshi_url = 'http:\/\/example.com\/geshi\/colorize.php';
- *
  * Check the [Code Snippet GeSHi documentation](#!/guide/dev_codesnippetgeshi) for
  * more information.
+ *
+ *		config.codeSnippetGeshi_url = 'http:\/\/example.com\/geshi\/colorize.php';
  *
  * @cfg {String} [codeSnippetGeshi_url=null]
  * @member CKEDITOR.config

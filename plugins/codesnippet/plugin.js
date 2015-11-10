@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -430,6 +430,9 @@
  * highlighter (the default is [highlight.js](http://highlightjs.org)).
  * See {@link CKEDITOR.plugins.codesnippet.highlighter} to read more.
  *
+ * Read more in the [documentation](#!/guide/dev_codesnippet)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/codesnippet.html).
+ *
  * @since 4.4
  * @cfg {String} [codeSnippet_codeClass='hljs']
  * @member CKEDITOR.config
@@ -443,14 +446,14 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * **Note**: If using a custom highlighter library (the default is [highlight.js](http://highlightjs.org)),
  * you may need to refer to external documentation to set `config.codeSnippet_languages` properly.
  *
+ * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-supported-languages)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/codesnippet.html).
+ *
  *		// Restricts languages to JavaScript and PHP.
  *		config.codeSnippet_languages = {
  *			javascript: 'JavaScript',
  *			php: 'PHP'
  *		};
- *
- * More information on how to change the list of languages list is available
- * in the [Code Snippet documentation](#!/guide/dev_codesnippet-section-changing-languages-list).
  *
  * @since 4.4
  * @cfg {Object} [codeSnippet_languages=null]
@@ -463,11 +466,11 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * **Note**: This will only work with the default highlighter
  * ([highlight.js](http://highlightjs.org/static/test.html)).
  *
+ * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-highlighter-theme)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/codesnippet.html).
+ *
  *		// Changes the theme to "pojoaque".
  *		config.codeSnippet_theme = 'pojoaque';
- *
- * More information on how to change the highlighter theme is available
- * in the [Code Snippet documentation](#!/guide/dev_codesnippet-section-changing-highlighter-theme).
  *
  * @since 4.4
  * @cfg {String} [codeSnippet_theme='default']
