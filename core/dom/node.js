@@ -869,8 +869,8 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		if ( this.type != CKEDITOR.NODE_ELEMENT )
 			element = this.getParent();
 
-		// Prevent Edge crash. #13609.
-		if ( CKEDITOR.env.edge && element && element.is( 'textarea' ) ) {
+		// Prevent Edge crash (#13609, #13919).
+		if ( CKEDITOR.env.edge && element && element.is( 'textarea', 'input' ) ) {
 			checkOnlyAttributes = true;
 		}
 
