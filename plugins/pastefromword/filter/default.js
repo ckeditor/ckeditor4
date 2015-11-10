@@ -25,11 +25,36 @@
 			},
 			elementNames: [
 				[ ( /^\?xml:namespace$/ ), '' ],
+				[ /^v:shapetype/, '' ],
 				[ new RegExp( invalidTags.join( '|' ) ), '' ] // Remove invalid tags.
 			],
 			// Each element is processed through the '^' function, then
 			// any matching pattern and finally through the '$' function.
 			elements: {
+				'a': function( element ) {
+					// Redundant anchor created by IE8.
+					if ( element.attributes.name && element.attributes.name == '_GoBack' ) {
+						delete element.name;
+						return;
+					}
+				},
+				'img': function( element ) {
+					var attributeStyleMap = {
+						width: function( value ) {
+							setStyle( element, 'width', value + 'px' );
+						},
+						height: function( value ) {
+							setStyle( element, 'height', value + 'px' );
+						}
+					};
+
+					mapStyles( element, attributeStyleMap );
+
+					if ( element.attributes.src && element.attributes.src.match( /^file:\/\// ) &&
+						element.attributes.alt && element.attributes.alt.match( /^https?:\/\// ) ) {
+						element.attributes.src = element.attributes.alt;
+					}
+				},
 				'p': function( element ) {
 					if ( thisIsAListItem( element ) ) convertToFakeListItem( element );
 
@@ -83,16 +108,7 @@
 						}
 					};
 
-					for ( var attribute in attributeStyleMap ) {
-						if ( element.attributes[ attribute ] ) {
-							if ( typeof attributeStyleMap[ attribute ] === 'function' ) {
-								attributeStyleMap[ attribute ]( element.attributes[ attribute ] );
-							} else {
-								setStyle( element, attributeStyleMap[ attribute ], element.attributes[ attribute ] );
-							}
-							delete element.attributes[ attribute ];
-						}
-					}
+					mapStyles( element, attributeStyleMap );
 				},
 				'span': function( element ) {
 					element.filterChildren( filter );
@@ -113,6 +129,20 @@
 					delete element.attributes.width;
 
 					pushStylesLower( element );
+				},
+				'v:imagedata': function( element ) {
+					delete element.name;
+				},
+				// This is how IE8 presents images.
+				'v:shape': function( element ) {
+					var src = element.children[0].attributes.src;
+
+					element.filterChildren( filter );
+
+					element.name = 'img';
+					element.attributes.src = element.attributes.src || src;
+
+					delete element.attributes.type;
 				}
 			},
 			attributes: {
@@ -136,6 +166,12 @@
 					return false;
 				},
 				'valign': function() {
+					return false;
+				},
+				'v:shapes': function() {
+					return false;
+				},
+				'o:spid': function() {
 					return false;
 				}
 			},
@@ -191,6 +227,20 @@
 		element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 	}
 
+	// Map attributes to styles.
+	function mapStyles( element, attributeStyleMap ) {
+		for ( var attribute in attributeStyleMap ) {
+			if ( element.attributes[ attribute ] ) {
+				if ( typeof attributeStyleMap[ attribute ] === 'function' ) {
+					attributeStyleMap[ attribute ]( element.attributes[ attribute ] );
+				} else {
+					setStyle( element, attributeStyleMap[ attribute ], element.attributes[ attribute ] );
+				}
+				delete element.attributes[ attribute ];
+			}
+		}
+	}
+
 	function normalizedStyles( element ) {
 		// Some styles and style values are redundant, so delete them.
 		var resetStyles = [
@@ -210,7 +260,8 @@
 				'0in',
 				'mso-',
 				'margin-left',
-				'text-indent'
+				'text-indent',
+				'visibility:visible'
 			],
 			matchStyle = function() {
 				var keys = [];
