@@ -84,7 +84,7 @@ CKEDITOR.config.smiley_images = [
 CKEDITOR.config.smiley_descriptions = [
 	'smiley', 'sad', 'wink', 'laugh', 'frown', 'cheeky', 'blush', 'surprise',
 	'indecision', 'angry', 'angel', 'cool', 'devil', 'crying', 'enlightened', 'no',
-	'yes', 'heart', 'broken_heart', 'kiss', 'mail'
+	'yes', 'heart', 'broken heart', 'kiss', 'mail'
 ];
 
 /**
