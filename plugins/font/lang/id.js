@@ -5,10 +5,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'font', 'id', {
 	fontSize: {
 		label: 'Ukuran',
-		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Font Size' // MISSING
+		voiceLabel: 'Ukuran Huruf',
+		panelTitle: 'Ukuran Huruf'
 	},
-	label: 'Font', // MISSING
+	label: 'Huruf',
 	panelTitle: 'Font Name', // MISSING
-	voiceLabel: 'Font' // MISSING
+	voiceLabel: 'Huruf'
 } );

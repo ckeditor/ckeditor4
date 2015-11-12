@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -10,7 +10,7 @@
 
 	CKEDITOR.plugins.add( 'autoembed', {
 		requires: 'autolink,undo',
-		lang: 'cs,de,en,it,ko,ku,nb,pl,pt-br,ru,tr,ug,zh', // %REMOVE_LINE_CORE%
+		lang: 'cs,de,en,eo,eu,fr,it,ko,ku,nb,pl,pt-br,ru,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var currentId = 1,
 				embedCandidatePasted;

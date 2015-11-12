@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'uk', {
 		radioTitle: 'Властивості кнопки вибору',
 		value: 'Значення',
 		selected: 'Обрана',
-		required: 'Required' // MISSING
+		required: 'Обов’язкове поле'
 	},
 	form: {
 		title: 'Властивості форми',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'uk', {
 		size: 'Кількість',
 		lines: 'видимих позицій у списку',
 		chkMulti: 'Список з мультивибором',
-		required: 'Required', // MISSING
+		required: 'Обов’язкове поле',
 		opText: 'Текст',
 		opValue: 'Значення',
 		btnAdd: 'Добавити',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'uk', {
 		value: 'Значення',
 		charWidth: 'Ширина',
 		maxChars: 'Макс. к-ть символів',
-		required: 'Required', // MISSING
+		required: 'Обов’язкове поле',
 		type: 'Тип',
 		typeText: 'Текст',
 		typePass: 'Пароль',

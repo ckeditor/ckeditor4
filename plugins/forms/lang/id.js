@@ -4,19 +4,19 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'id', {
 	button: {
-		title: 'Button Properties', // MISSING
+		title: 'Properti Tombol',
 		text: 'Teks (Nilai)',
 		type: 'Tipe',
 		typeBtn: 'Tombol',
 		typeSbm: 'Menyerahkan',
-		typeRst: 'Reset' // MISSING
+		typeRst: 'Atur Ulang'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'Checkbox Properties', // MISSING
 		radioTitle: 'Radio Button Properties', // MISSING
 		value: 'Nilai',
 		selected: 'Terpilih',
-		required: 'Required' // MISSING
+		required: 'Wajib'
 	},
 	form: {
 		title: 'Form Properties', // MISSING
@@ -38,14 +38,14 @@ CKEDITOR.plugins.setLang( 'forms', 'id', {
 		size: 'Ukuran',
 		lines: 'garis',
 		chkMulti: 'Izinkan pemilihan ganda',
-		required: 'Required', // MISSING
+		required: 'Wajib',
 		opText: 'Teks',
 		opValue: 'Nilai',
 		btnAdd: 'Tambah',
 		btnModify: 'Modifikasi',
 		btnUp: 'Atas',
 		btnDown: 'Bawah',
-		btnSetValue: 'Set as selected value', // MISSING
+		btnSetValue: 'Atur sebagai nilai yang dipilih',
 		btnDelete: 'Hapus'
 	},
 	textarea: {
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'id', {
 		value: 'Nilai',
 		charWidth: 'Character Width', // MISSING
 		maxChars: 'Maximum Characters', // MISSING
-		required: 'Required', // MISSING
+		required: 'Wajib',
 		type: 'Tipe',
 		typeText: 'Teks',
 		typePass: 'Kata kunci',

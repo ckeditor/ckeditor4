@@ -4,15 +4,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'eu', {
 	find: 'Bilatu',
-	findOptions: 'Find Options',
-	findWhat: 'Zer bilatu:',
+	findOptions: 'Bilaketaren aukerak',
+	findWhat: 'Bilatu hau:',
 	matchCase: 'Maiuskula/minuskula',
 	matchCyclic: 'Bilaketa ziklikoa',
-	matchWord: 'Esaldi osoa bilatu',
-	notFoundMsg: 'Idatzitako testua ez da topatu.',
+	matchWord: 'Bilatu hitz osoa',
+	notFoundMsg: 'Ez da aurkitu zehazturiko testua.',
 	replace: 'Ordezkatu',
-	replaceAll: 'Ordeztu Guztiak',
-	replaceSuccessMsg: 'Zenbat aldiz ordeztua: %1',
-	replaceWith: 'Zerekin ordeztu:',
-	title: 'Bilatu eta Ordeztu'
+	replaceAll: 'Ordezkatu guztiak',
+	replaceSuccessMsg: '%1 aldiz ordezkatua.',
+	replaceWith: 'Ordezkatu honekin:',
+	title: 'Bilatu eta ordezkatu'
 } );

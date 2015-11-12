@@ -4,9 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'eu', {
-	title: 'Leku-marka Aukerak',
-	toolbar: 'Leku-marka sortu',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	title: 'Leku-marka propietateak',
+	toolbar: 'Leku-marka',
+	name: 'Leku-markaren izena',
+	invalidName: 'Leku-markak ezin du hutsik egon eta ezin ditu karaktere hauek eduki: [, ], <, >',
+	pathName: 'leku-marka'
 } );

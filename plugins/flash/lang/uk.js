@@ -34,7 +34,7 @@ CKEDITOR.plugins.setLang( 'flash', 'uk', {
 	title: 'Властивості Flash',
 	vSpace: 'Верт. відступ',
 	validateHSpace: 'Гориз. відступ повинен бути цілим числом.',
-	validateSrc: 'Будь ласка, вкажіть URL посилання',
+	validateSrc: 'URL посилання не може бути порожнім.',
 	validateVSpace: 'Верт. відступ повинен бути цілим числом.',
 	windowMode: 'Віконний режим',
 	windowModeOpaque: 'Непрозорість',

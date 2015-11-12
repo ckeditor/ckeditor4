@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'uk', {
 			{
 			name: 'Діалог Редактора',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Усередині діалогу, натисніть TAB щоб перейти до наступного елементу діалогу, натисніть SHIFT+TAB щоб перейти до попереднього елемента діалогу, натисніть ENTER щоб відправити діалог, натисніть ESC щоб скасувати діалог. Коли діалогове вікно має декілька вкладок, отримати доступ до панелі вкладок як частині діалогу можна натисканням або поєднання ALT+F10 або TAB, при цьому активні елементи діалогу будуть перебиратися з урахуванням порядку табуляції. При активній панелі вкладок, перехід до наступної або попередньої вкладці здійснюється натисканням стрілки "ВПРАВО" або стрілки "ВЛЕВО" відповідно.' 
 		},
 
 			{
@@ -28,7 +28,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'uk', {
 
 			{
 			name: 'Скринька Списків Редактора',
-			legend: 'Всередині списку переходимо до наступного пункту списку клавішею TAB або СТРІЛКА ВНИЗ. Перейти до попереднього елемента списку можна SHIFT+TAB або СТРІЛКА ВГОРУ. Натисніть ПРОПУСК або ENTER, щоб вибрати параметр списку. Натисніть клавішу ESC, щоб закрити список.'
+			legend: 'Усередині списку, перехід до наступного пункту списку виконується клавішею TAB або СТРІЛКА ВНИЗ. Перехід до попереднього елемента списку клавішею SHIFT+TAB або СТРІЛКА ВГОРУ. Натисніть ПРОПУСК або ENTER, щоб вибрати параметр списку. Натисніть клавішу ESC, щоб закрити список.'
 		},
 
 			{

@@ -3,13 +3,13 @@ Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'embedbase', 'eo', {
-	pathName: 'Aŭdvidea objekto',
-	title: 'Media Embed', // MISSING
-	button: 'Insert Media Embed', // MISSING
-	unsupportedUrlGiven: 'The specified URL is not supported.', // MISSING
-	unsupportedUrl: 'The URL {url} is not supported by Media Embed.', // MISSING
-	fetchingFailedGiven: 'Failed to fetch content for the given URL.', // MISSING
-	fetchingFailed: 'Failed to fetch content for {url}.', // MISSING
-	fetchingOne: 'Fetching oEmbed response...', // MISSING
-	fetchingMany: 'Fetching oEmbed responses, {current} of {max} done...' // MISSING
+	pathName: 'Datumportila objekto',
+	title: 'Enkorpigo de datumportilo',
+	button: 'Enmetu enkorpigitan datumportilon.',
+	unsupportedUrlGiven: 'la indikita URL ne estas subtenata.',
+	unsupportedUrl: 'La URL {url} ne estas subtenata de enkorpigo de datumportilo.',
+	fetchingFailedGiven: 'Rekuperi enhavon por la indikitan URL malsukcesis.',
+	fetchingFailed: 'Rekuperi enhavon por  {url} malsukcesis.',
+	fetchingOne: 'La respondo de la enkorpigita objekto estas serĉata ...',
+	fetchingMany: 'La respondoj de la enkorpigita objekto estas serĉataj, {current} el {max} faritaj...'
 } );

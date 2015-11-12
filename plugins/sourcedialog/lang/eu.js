@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.setLang( 'sourcedialog', 'eu', {
-	toolbar: 'HTML Iturburua',
-	title: 'HTML Iturburua'
+	toolbar: 'Iturburua',
+	title: 'Iturburua'
 } );

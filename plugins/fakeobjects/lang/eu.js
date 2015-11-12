@@ -4,8 +4,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'eu', {
 	anchor: 'Aingura',
-	flash: 'Flash Animazioa',
-	hiddenfield: 'Ezkutuko Eremua',
-	iframe: 'IFrame',
+	flash: 'Flash animazioa',
+	hiddenfield: 'Ezkutuko eremua',
+	iframe: 'IFrame-a',
 	unknown: 'Objektu ezezaguna'
 } );

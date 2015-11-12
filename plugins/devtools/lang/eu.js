@@ -4,9 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'devtools', 'eu', {
-	title: 'Elementuaren Informazioa',
-	dialogName: 'Elkarrizketa leihoaren izena',
+	title: 'Elementuaren informazioa',
+	dialogName: 'Elkarrizketa-koadroaren izena',
 	tabName: 'Fitxaren izena',
-	elementId: 'Elementuaren ID-a',
+	elementId: 'Elementuaren IDa',
 	elementType: 'Elementu mota'
 } );
