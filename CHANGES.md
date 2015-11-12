@@ -3,10 +3,6 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.5
 
-New Features:
-
-* [PR#222](https://github.com/ckeditor/ckeditor-dev/pull/222): [Smiley](http://ckeditor.com/addon/smiley) dialog icon labels can now be translated. Thanks to [Andrej Y. Hristoliubov](https://github.com/anhr)!
-
 Fixed Issues:
 
 * [#13887](https://dev.ckeditor.com/ticket/13887): Fixed: [Link](http://ckeditor.com/addon/link) plugin alters the `target` attribute value. Thanks to [SamZiemer](https://github.com/SamZiemer)!
