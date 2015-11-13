@@ -150,9 +150,17 @@
 			if ( this._.locked )
 				return;
 
+			var selection = this._.editor.getSelection();
+
 			function doBlur() {
 				if ( this.hasFocus ) {
 					this.hasFocus = false;
+
+					// Blink browsers leave selection in `[contenteditable=true]`
+					// when it's blurred and it's neccessary to remove it manually. (#13446)
+					if ( CKEDITOR.env.chrome && selection.getNative() ) {
+						window.getSelection().removeAllRanges();
+					}
 
 					var ct = this._.editor.container;
 					ct && ct.removeClass( 'cke_focus' );
