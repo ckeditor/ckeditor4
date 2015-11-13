@@ -91,6 +91,35 @@ bender.test( {
 		} );
 
 		wait();
+	},
+
+	// #13446
+	'test blur clean up selection': function() {
+		if ( !CKEDITOR.env.chrome ) {
+			assert.ignore();
+		}
+
+		var el = CKEDITOR.document.createElement( 'div' );
+		CKEDITOR.document.getBody().append( el );
+		el.setAttribute( 'contenteditable', true );
+
+		var editor = CKEDITOR.inline( el );
+
+		editor.on( 'instanceReady', function() {
+			resume( function() {
+				editor.on( 'blur', function() {
+					resume( function() {
+						assert.areSame( 'None', editor.getSelection().getNative().type );
+					} );
+				} );
+
+				CKEDITOR.document.getById( 'focusable' ).focus();
+				wait();
+			} );
+		} );
+
+		el.focus();
+		wait();
 	}
 
 } );
