@@ -1,6 +1,8 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.5.6
+
 ## CKEditor 4.5.5
 
 Fixed Issues:
