@@ -116,10 +116,15 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 						}
 					} else {
 						var value = this.getValue();
-						if ( value )
+						// Blink/Webkit needs to change checked property, not attribute. (#12465)
+						element.$.checked = value;
+
+						if ( value ) {
 							element.setAttribute( 'checked', 'checked' );
-						else
+						}
+						else {
 							element.removeAttribute( 'checked' );
+						}
 					}
 				}
 			},

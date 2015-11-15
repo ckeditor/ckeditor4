@@ -2,6 +2,7 @@
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+
 CKEDITOR.dialog.add( 'radio', function( editor ) {
 	return {
 		title: editor.lang.forms.checkboxAndRadio.radioTitle,
@@ -87,7 +88,11 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 					var element = data.element;
 
 					if ( !CKEDITOR.env.ie ) {
-						if ( this.getValue() )
+						var value = this.getValue();
+						// Blink/Webkit needs to change checked property, not attribute. (#12465)
+						element.$.checked = value;
+
+						if ( value )
 							element.setAttribute( 'checked', 'checked' );
 						else
 							element.removeAttribute( 'checked' );
