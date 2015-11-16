@@ -135,7 +135,7 @@
 				},
 				// This is how IE8 presents images.
 				'v:shape': function( element ) {
-					var src = element.children[0].attributes.src;
+					var src = element.children[ 0 ].attributes.src;
 
 					element.filterChildren( filter );
 
@@ -153,27 +153,13 @@
 				'class': function( classes ) {
 					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
 				},
-				'align': function() {
-					return false;
-				},
-				'cellspacing': function() {
-					return false;
-				},
-				'cellpadding': function() {
-					return false;
-				},
-				'border': function() {
-					return false;
-				},
-				'valign': function() {
-					return false;
-				},
-				'v:shapes': function() {
-					return false;
-				},
-				'o:spid': function() {
-					return false;
-				}
+				'align': remove,
+				'cellspacing': remove,
+				'cellpadding': remove,
+				'border': remove,
+				'valign': remove,
+				'v:shapes': remove,
+				'o:spid': remove
 			},
 			comment: function() {
 				return false;
@@ -213,6 +199,11 @@
 			return false;
 		}
 		return value;
+	}
+
+	// Used when filtering attributes - returning false deletes the attribute.
+	function remove() {
+		return false;
 	}
 
 	function setStyle( element, key, value, dontOverwrite ) {
