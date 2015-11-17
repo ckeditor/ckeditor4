@@ -19,6 +19,8 @@
 		gtRegex = />/g,
 		ltRegex = /</g,
 		quoteRegex = /"/g,
+		TOKEN_COOKIE_NAME = 'ckCsrfToken',
+		TOKEN_LENGTH = 40,
 
 		allEscRegex = /&(lt|gt|amp|quot|nbsp|shy|#\d{1,5});/g,
 		namedEntities = {
@@ -1295,8 +1297,90 @@
 		 * @since 4.4
 		 * @readonly
 		 */
-		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw=='
+		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==',
+
+
+		/**
+		 * Returns the value of the cookie with given name.
+		 *
+		 * @since 4.5.6
+		 * @param {String} name
+		 * @returns {String}
+		 */
+		getCookie: function( name ) {
+			name = name.toLowerCase();
+			var parts = document.cookie.split( ';' );
+
+			for ( var i = 0; i < parts.length; i++ ) {
+				var pair = parts[ i ].split( '=' );
+				var key = decodeURIComponent( CKEDITOR.tools.trim( pair[ 0 ] ).toLowerCase() );
+				var value = pair.length > 1 ? pair[ 1 ] : '';
+
+				if ( key === name ) {
+					return decodeURIComponent( value );
+				}
+			}
+
+			return '';
+		},
+
+		/**
+		 * Sets the value of the cookie with given name.
+		 *
+		 * @since 4.5.6
+		 * @param {String} name
+		 * @param {String} value
+		 */
+		setCookie: function( name, value ) {
+			document.cookie = encodeURIComponent( name ) + '=' + encodeURIComponent( value ) + ';path=/';
+		},
+
+		/**
+		 * Returns the CSRF token value.
+		 *
+		 * @since 4.5.6
+		 * @returns {String}
+		 */
+		getToken: function() {
+			var token = CKEDITOR.tools.getCookie( TOKEN_COOKIE_NAME );
+
+			if ( token.length != TOKEN_LENGTH ) {
+				token = generateToken( TOKEN_LENGTH );
+				CKEDITOR.tools.setCookie( TOKEN_COOKIE_NAME, token );
+			}
+
+			return token;
+		}
 	};
+
+
+	/**
+	 * Generates CSRF token with given length.
+	 *
+	 * @param {Number} length
+	 * @returns {string}
+	 */
+	function generateToken( length ) {
+		var charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
+		var randValues = [];
+		var result = '';
+
+		if ( window.crypto && window.crypto.getRandomValues ) {
+			randValues = new Uint8Array( length );
+			window.crypto.getRandomValues( randValues );
+		} else {
+			for ( var i = 0; i < length; i++ ) {
+				randValues.push( Math.floor( Math.random() * 256 ) );
+			}
+		}
+
+		for ( var j = 0; j < randValues.length; j++ ) {
+			var character = charset.charAt( randValues[ j ] % charset.length );
+			result += Math.random() > 0.5 ? character.toUpperCase() : character;
+		}
+
+		return result;
+	}
 } )();
 
 // PACKAGER_RENAME( CKEDITOR.tools )
