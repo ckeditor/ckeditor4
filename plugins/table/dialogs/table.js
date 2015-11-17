@@ -5,7 +5,7 @@
 
 ( function() {
 	var defaultToPixel = CKEDITOR.tools.cssLength;
-
+   var i = 0;
 	var commitValue = function( data ) {
 			var id = this.id;
 			if ( !data.info )
@@ -43,6 +43,56 @@
 
 			return pass;
 		};
+	}
+
+	function tableTbodyChk( table ) {
+		//issue 10682 fix - check if a tbody row exists and create it if it doesn't
+		var theadrowcnt = 0;
+		var tfootrowcnt = 0;
+		if ( table.getElementsByTag('thead').$[0] ) {
+			theadrowcnt = table.getElementsByTag( 'thead' ).$[0].getElementsByTagName( 'tr' ).length;
+		}
+		var tbodyrowcnt = table.getElementsByTag( 'tbody' ).$[0].getElementsByTagName( 'tr' ).length;
+		if ( table.getElementsByTag( 'tfoot' ).$[0] ) {
+			tfootrowcnt = table.getElementsByTag( 'tfoot' ).$[0].getElementsByTagName( 'tr' ).length;
+		}
+		var tbodyRef = '';
+		var tbodyRow = '';
+		var temphead = '';
+		var tmpRow = '';
+		var newCell = '';
+		var newCellData = '';
+		if ( tbodyrowcnt === 0 ) {
+			if ( theadrowcnt !== 0 ) {
+				//insert tbody row below
+				tbodyRef = table.getElementsByTag( 'tbody' ).$[0];
+				tbodyRow = tbodyRef.insertRow();
+
+				temphead = table.getElementsByTag( 'thead' ).getItem( 0 );
+				tmpRow = temphead.getElementsByTag( 'tr' ).getItem( 0 );
+				newCell = "", newCellData = "";
+				for ( i = 0; i < tmpRow.getChildCount(); i++ ) {
+					newCell = tbodyRow.insertCell(i);
+					newCellData = document.createElement( 'br' );
+					newCell.appendChild(newCellData);
+				}
+			} else {
+				if ( tfootrowcnt !== 0 ) {
+					//insert tbody row above
+					tbodyRef = table.getElementsByTag( 'tbody' ).$[0];
+					tbodyRow = tbodyRef.insertRow();
+
+					temphead = table.getElementsByTag( 'tfoot' ).getItem( 0 );
+					tmpRow = temphead.getElementsByTag( 'tr' ).getItem( 0 );
+					newCell = "", newCellData = "";
+					for ( i = 0; i < tmpRow.getChildCount(); i++ ) {
+						newCell = tbodyRow.insertCell(i);
+						newCellData = document.createElement( 'br' );
+						newCell.appendChild(newCellData);
+					}
+				}
+			}
+		}
 	}
 
 	function tableDialog( editor, command ) {
@@ -156,10 +206,15 @@
 
 					// Should we make a <thead>?
 					var headers = info.selHeaders;
+					//issue 10682 fix - verify tbody has a row
+					var footers = info.selFooters;
+					tableTbodyChk(table);
+					var theRow = "";
+
 					if ( !table.$.tHead && ( headers == 'row' || headers == 'both' ) ) {
 						var thead = new CKEDITOR.dom.element( table.$.createTHead() );
 						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
-						var theRow = tbody.getElementsByTag( 'tr' ).getItem( 0 );
+						theRow = tbody.getElementsByTag( 'tr' ).getItem( 0 );
 
 						// Change TD to TH:
 						for ( i = 0; i < theRow.getChildCount(); i++ ) {
@@ -172,7 +227,15 @@
 						}
 						thead.append( theRow.remove() );
 					}
-
+					//issue 10682 fix - make a tfoot section?
+					if ( !table.$.tFoot && footers == 'row') {
+						var tfoot = new CKEDITOR.dom.element( table.$.createTFoot() );
+						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
+						theRow = tbody.getElementsByTag( 'tr' ).getItem( 0 );
+						tfoot.append( theRow.remove() );
+					}
+					//if no longer a header row
+					var newCell = '';
 					if ( table.$.tHead !== null && !( headers == 'row' || headers == 'both' ) ) {
 						// Move the row out of the THead and put it in the TBody:
 						thead = new CKEDITOR.dom.element( table.$.tHead );
@@ -182,7 +245,7 @@
 						while ( thead.getChildCount() > 0 ) {
 							theRow = thead.getFirst();
 							for ( i = 0; i < theRow.getChildCount(); i++ ) {
-								var newCell = theRow.getChild( i );
+								newCell = theRow.getChild( i );
 								if ( newCell.type == CKEDITOR.NODE_ELEMENT ) {
 									newCell.renameNode( 'td' );
 									newCell.removeAttribute( 'scope' );
@@ -192,6 +255,28 @@
 						}
 						thead.remove();
 					}
+					//issue 10682 fix - if no longer a footer row
+					if ( table.$.tFoot !== null && footers !== 'row' ) {
+						// Move the row out of the TFoot and put it in the TBody:
+						tfoot = new CKEDITOR.dom.element( table.$.tFoot );
+						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
+
+						var previousLastRow = tbody.getLast();
+						while ( tfoot.getChildCount() > 0 ) {
+							theRow = tfoot.getLast();
+							for ( i = 0; i < theRow.getChildCount(); i++ ) {
+								newCell = theRow.getChild( i );
+								if ( newCell.type == CKEDITOR.NODE_ELEMENT ) {
+									newCell.renameNode( 'td' );
+									newCell.removeAttribute( 'scope' );
+								}
+							}
+							theRow.insertAfter( previousLastRow );
+						}
+						tfoot.remove();
+					}
+					//issue 10682 fix - verify tbody row exists
+					tableTbodyChk(table);
 
 					// Should we make all first cells in a row TH?
 					if ( !this.hasColumnHeaders && ( headers == 'col' || headers == 'both' ) ) {
@@ -206,7 +291,8 @@
 					if ( ( this.hasColumnHeaders ) && !( headers == 'col' || headers == 'both' ) ) {
 						for ( i = 0; i < table.$.rows.length; i++ ) {
 							row = new CKEDITOR.dom.element( table.$.rows[ i ] );
-							if ( row.getParent().getName() == 'tbody' ) {
+							//issue 106082 fix - check for tfoot as well
+							if ( row.getParent().getName() == 'tbody' || row.getParent().getName() == 'tfoot') {
 								newCell = new CKEDITOR.dom.element( row.$.cells[ 0 ] );
 								newCell.renameNode( 'td' );
 								newCell.removeAttribute( 'scope' );
@@ -309,12 +395,43 @@
 										break;
 									}
 								}
-
+								//issue 10682 fix - verify thead section has a row before setting row/both
+								var theadrowcnt = 0;
+								if (selectedTable.getElementsByTag('thead').$[0]) {
+									theadrowcnt = selectedTable.getElementsByTag('thead').$[0].getElementsByTagName('tr').length;
+								}
 								// Check if the table contains <thead>.
-								if ( ( selectedTable.$.tHead !== null ) )
+								if ( ( selectedTable.$.tHead !== null ) && theadrowcnt > 0 ) {
 									this.setValue( dialog.hasColumnHeaders ? 'both' : 'row' );
-								else
+								} else {
 									this.setValue( dialog.hasColumnHeaders ? 'col' : '' );
+								}
+							},
+							commit: commitValue
+						},
+						//issue 10682 fix - comment this section out to not have a footer on tables
+						{
+							type: 'select',
+							id: 'selFooters',
+							requiredContent: 'td',
+							'default': '',
+							label: editor.lang.table.footers,
+							items: [
+								[ editor.lang.table.footersNone, '' ],
+								[ editor.lang.table.footersRow, 'row' ]
+							],
+							setup: function( selectedTable ) {
+								//verify tfoot section has a row before setting row
+								var tfootrowcnt = 0;
+								if (selectedTable.getElementsByTag('tfoot').$[0]) {
+									tfootrowcnt = selectedTable.getElementsByTag('tfoot').$[0].getElementsByTagName('tr').length;
+								}
+								// Check if the table contains <tfoot>.
+								if ( ( selectedTable.$.tFoot !== null ) && tfootrowcnt > 0 ) {
+									this.setValue( 'row' );
+								} else {
+									this.setValue( '' );
+								}
 							},
 							commit: commitValue
 						},
