@@ -46,6 +46,10 @@
 					formData = new FormData();
 
 				formData.append( 'upload', fileLoader.file, fileLoader.fileName );
+
+				// Append token preventing CSRF attacks.
+				formData.append( 'ckCsrfToken', CKEDITOR.tools.getToken() );
+
 				fileLoader.xhr.send( formData );
 			}, null, null, 999 );
 

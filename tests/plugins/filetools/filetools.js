@@ -196,6 +196,30 @@
 
 			assert.areEqual( data.message, error );
 			assert.areEqual( message, log.firstCall.args[ 1 ].responseText, 'responseText should match' );
+		},
+
+		'test CSRF token appending': function() {
+			var appendSpy = sinon.spy( FormData.prototype, 'append' );
+
+			var fileLoaderMock = {
+				fileLoader: {
+					xhr: {
+						open: function() {},
+						send: function() {
+							resume( function() {
+								assert.isTrue( appendSpy.called, 'FormData.append should be called' );
+								assert.areEqual( 'ckCsrfToken', appendSpy.lastCall.args[ 0 ], 'token should be appended' );
+								assert.areEqual( CKEDITOR.tools.getToken(), appendSpy.lastCall.args[ 1 ],  'token should match' );
+
+							} );
+						}
+					}
+				}
+			};
+
+
+			this.editor.fire( 'fileUploadRequest',  fileLoaderMock );
+			wait();
 		}
 	} );
 } )();
