@@ -5,7 +5,7 @@
 
 ( function() {
 	var defaultToPixel = CKEDITOR.tools.cssLength;
-   var i = 0;
+	var i = 0;
 	var commitValue = function( data ) {
 			var id = this.id;
 			if ( !data.info )
@@ -49,7 +49,7 @@
 		//issue 10682 fix - check if a tbody row exists and create it if it doesn't
 		var theadrowcnt = 0;
 		var tfootrowcnt = 0;
-		if ( table.getElementsByTag('thead').$[0] ) {
+		if ( table.getElementsByTag( 'thead' ).$[0] ) {
 			theadrowcnt = table.getElementsByTag( 'thead' ).$[0].getElementsByTagName( 'tr' ).length;
 		}
 		var tbodyrowcnt = table.getElementsByTag( 'tbody' ).$[0].getElementsByTagName( 'tr' ).length;
@@ -70,11 +70,11 @@
 
 				temphead = table.getElementsByTag( 'thead' ).getItem( 0 );
 				tmpRow = temphead.getElementsByTag( 'tr' ).getItem( 0 );
-				newCell = "", newCellData = "";
+				newCell = '', newCellData = '';
 				for ( i = 0; i < tmpRow.getChildCount(); i++ ) {
-					newCell = tbodyRow.insertCell(i);
+					newCell = tbodyRow.insertCell( i );
 					newCellData = document.createElement( 'br' );
-					newCell.appendChild(newCellData);
+					newCell.appendChild( newCellData );
 				}
 			} else {
 				if ( tfootrowcnt !== 0 ) {
@@ -84,11 +84,11 @@
 
 					temphead = table.getElementsByTag( 'tfoot' ).getItem( 0 );
 					tmpRow = temphead.getElementsByTag( 'tr' ).getItem( 0 );
-					newCell = "", newCellData = "";
+					newCell = '', newCellData = '';
 					for ( i = 0; i < tmpRow.getChildCount(); i++ ) {
-						newCell = tbodyRow.insertCell(i);
+						newCell = tbodyRow.insertCell( i );
 						newCellData = document.createElement( 'br' );
-						newCell.appendChild(newCellData);
+						newCell.appendChild( newCellData );
 					}
 				}
 			}
@@ -208,8 +208,8 @@
 					var headers = info.selHeaders;
 					//issue 10682 fix - verify tbody has a row
 					var footers = info.selFooters;
-					tableTbodyChk(table);
-					var theRow = "";
+					tableTbodyChk( table );
+					var theRow = '';
 
 					if ( !table.$.tHead && ( headers == 'row' || headers == 'both' ) ) {
 						var thead = new CKEDITOR.dom.element( table.$.createTHead() );
@@ -228,7 +228,7 @@
 						thead.append( theRow.remove() );
 					}
 					//issue 10682 fix - make a tfoot section?
-					if ( !table.$.tFoot && footers == 'row') {
+					if ( !table.$.tFoot && footers == 'row' ) {
 						var tfoot = new CKEDITOR.dom.element( table.$.createTFoot() );
 						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
 						theRow = tbody.getElementsByTag( 'tr' ).getItem( 0 );
@@ -276,7 +276,7 @@
 						tfoot.remove();
 					}
 					//issue 10682 fix - verify tbody row exists
-					tableTbodyChk(table);
+					tableTbodyChk( table );
 
 					// Should we make all first cells in a row TH?
 					if ( !this.hasColumnHeaders && ( headers == 'col' || headers == 'both' ) ) {
@@ -292,7 +292,7 @@
 						for ( i = 0; i < table.$.rows.length; i++ ) {
 							row = new CKEDITOR.dom.element( table.$.rows[ i ] );
 							//issue 106082 fix - check for tfoot as well
-							if ( row.getParent().getName() == 'tbody' || row.getParent().getName() == 'tfoot') {
+							if ( row.getParent().getName() == 'tbody' || row.getParent().getName() == 'tfoot' ) {
 								newCell = new CKEDITOR.dom.element( row.$.cells[ 0 ] );
 								newCell.renameNode( 'td' );
 								newCell.removeAttribute( 'scope' );
@@ -397,8 +397,8 @@
 								}
 								//issue 10682 fix - verify thead section has a row before setting row/both
 								var theadrowcnt = 0;
-								if (selectedTable.getElementsByTag('thead').$[0]) {
-									theadrowcnt = selectedTable.getElementsByTag('thead').$[0].getElementsByTagName('tr').length;
+								if ( selectedTable.getElementsByTag( 'thead' ).$[0] ) {
+									theadrowcnt = selectedTable.getElementsByTag( 'thead' ).$[0].getElementsByTagName( 'tr' ).length;
 								}
 								// Check if the table contains <thead>.
 								if ( ( selectedTable.$.tHead !== null ) && theadrowcnt > 0 ) {
@@ -423,8 +423,8 @@
 							setup: function( selectedTable ) {
 								//verify tfoot section has a row before setting row
 								var tfootrowcnt = 0;
-								if (selectedTable.getElementsByTag('tfoot').$[0]) {
-									tfootrowcnt = selectedTable.getElementsByTag('tfoot').$[0].getElementsByTagName('tr').length;
+								if ( selectedTable.getElementsByTag( 'tfoot' ).$[0] ) {
+									tfootrowcnt = selectedTable.getElementsByTag( 'tfoot' ).$[0].getElementsByTagName( 'tr' ).length;
 								}
 								// Check if the table contains <tfoot>.
 								if ( ( selectedTable.$.tFoot !== null ) && tfootrowcnt > 0 ) {
