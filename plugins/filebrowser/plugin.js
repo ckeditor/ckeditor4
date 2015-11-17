@@ -168,6 +168,32 @@
 		editor.popup( url, width, height, editor.config.filebrowserWindowFeatures || editor.config.fileBrowserWindowFeatures );
 	}
 
+	// Appends token preventing CSRF attacks to the form of provided file input.
+	//
+	// @param {CKEDITOR.dom.element} fileInput
+	function appendToken( fileInput ) {
+		var TOKEN_INPUT_NAME = 'ckCsrfToken';
+		var tokenElement;
+		var form = fileInput.getAscendant( 'form', false );
+
+		if ( form ) {
+			// Check if token input element already exists.
+			tokenElement = form.findOne( 'input[name="' + TOKEN_INPUT_NAME + '"]' );
+
+			// Create new if needed.
+			if ( !tokenElement ) {
+				tokenElement = new CKEDITOR.dom.element( 'input' );
+				form.append( tokenElement );
+			}
+
+			tokenElement.setAttributes( {
+				name: TOKEN_INPUT_NAME,
+				type: 'hidden',
+				value: CKEDITOR.tools.getToken()
+			} );
+		}
+	}
+
 	// The onlick function assigned to the 'Upload' button. Makes the final
 	// decision whether form is really submitted and updates target field when
 	// file is uploaded.
@@ -271,7 +297,16 @@
 						if ( onClick && onClick.call( sender, evt ) === false )
 							return false;
 
-						return uploadFile.call( sender, evt );
+						if ( uploadFile.call( sender, evt ) ) {
+							var fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement();
+
+							// Append token preventing CSRF attacks.
+							appendToken( fileInput );
+							return true;
+						}
+
+
+						return false;
 					};
 
 					element.filebrowser.url = url;
