@@ -236,8 +236,14 @@
 
 			var lang = editor.lang.bidi;
 
-			addButtonCommand( 'BidiLtr', lang.ltr, 'bidiltr', bidiCommand( 'ltr' ), 10 );
-			addButtonCommand( 'BidiRtl', lang.rtl, 'bidirtl', bidiCommand( 'rtl' ), 20 );
+			if (editor.lang.dir=="rtl") {
+				// reversed "order" of toolbar icons when editor language is RTL so would look the right way
+				addButtonCommand( 'BidiRtl', lang.rtl, 'bidirtl', bidiCommand( 'rtl' ), 10 );
+				addButtonCommand( 'BidiLtr', lang.ltr, 'bidiltr', bidiCommand( 'ltr' ), 20 );
+			} else {
+				addButtonCommand( 'BidiRtl', lang.rtl, 'bidirtl', bidiCommand( 'rtl' ), 20 );
+				addButtonCommand( 'BidiLtr', lang.ltr, 'bidiltr', bidiCommand( 'ltr' ), 10 );
+			}
 
 			editor.on( 'contentDom', function() {
 				editor.document.on( 'dirChanged', function( evt ) {
