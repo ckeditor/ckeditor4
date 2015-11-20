@@ -16,7 +16,7 @@
 			},
 
 			'test dom.element#addClass': function() {
-				if ( browserSupportsClassList ) {
+				if ( !( 'Element' in window ) || browserSupportsClassList ) {
 					assert.ignore();
 				}
 
@@ -25,7 +25,7 @@
 			},
 
 			'test dom.element#removeClass': function() {
-				if ( browserSupportsClassList ) {
+				if ( !( 'Element' in window ) || browserSupportsClassList ) {
 					assert.ignore();
 				}
 
