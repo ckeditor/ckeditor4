@@ -2645,7 +2645,7 @@
  * `style` and `class`) will be kept.
  * * `'h1 h2 p div'` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
  * * `null` &ndash; Content will not be filtered by the paste filter (but it still may be filtered
- * by [Advanvced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
+ * by [Advanced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
  * disable the paste filter in Chrome and Safari, where this option defaults to `'semantic-content'`.
  *
  * Example:
