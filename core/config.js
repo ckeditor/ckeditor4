@@ -101,7 +101,7 @@ CKEDITOR.config = {
 	 * configuration setting is used.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_uilanguage) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/uilanguages.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/uilanguages.html).
 	 *
 	 *		// Load the German interface.
 	 *		config.language = 'de';
@@ -115,7 +115,7 @@ CKEDITOR.config = {
 	 * setting is left empty and it is not possible to localize the editor to the user language.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_uilanguage) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/uilanguages.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/uilanguages.html).
 	 *
 	 *		config.defaultLanguage = 'it';
 	 *
@@ -158,7 +158,7 @@ CKEDITOR.config = {
 	 * its semantic value and correctness. The editor is optimized for this setting.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_enterkey) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
 	 *
 	 *		// Not recommended.
 	 *		config.enterMode = CKEDITOR.ENTER_BR;
@@ -175,7 +175,7 @@ CKEDITOR.config = {
 	 * instead of a `<div>`.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_enterkey) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
 	 *
 	 *		// Not recommended.
 	 *		config.forceEnterMode = true;
@@ -196,7 +196,7 @@ CKEDITOR.config = {
 	 * * {@link CKEDITOR#ENTER_DIV} (3) &ndash; New `<div>` blocks are created.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_enterkey) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/enterkey.html).
 	 *
 	 * Example:
 	 *
@@ -257,7 +257,7 @@ CKEDITOR.config = {
 	 * `<body>` content only if this setting is disabled.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_fullpage) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/fullpage.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/fullpage.html).
 	 *
 	 *		config.fullPage = true;
 	 *
@@ -269,12 +269,12 @@ CKEDITOR.config = {
 	/**
 	 * The height of the editing area that includes the editor content. This configuration
 	 * option accepts an integer (to denote a value in pixels) or any CSS-defined length unit
-	 * except percent (`%`) values  which are not supported.
+	 * except percent (`%`) values which are not supported.
 	 *
 	 * **Note:** This configuration option is ignored by [inline editor](#!/guide/dev_inline).
 	 *
 	 * Read more in the [documentation](#!/guide/dev_size) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/size.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/size.html).
 	 *
 	 *		config.height = 500;		// 500 pixels.
 	 *		config.height = '25em';		// CSS length.
@@ -295,10 +295,10 @@ CKEDITOR.config = {
 	 * which the developer has full control over the page HTML code.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_styles) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
 	 *
 	 *		config.contentsCss = '/css/mysitestyles.css';
-	 *		config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
+	 *		config.contentsCss = [ '/css/mysitestyles.css', '/css/anotherfile.css' ];
 	 *
 	 * @cfg {String/Array} [contentsCss=CKEDITOR.getUrl( 'contents.css' )]
 	 */
@@ -360,7 +360,7 @@ CKEDITOR.config = {
 	 * The editor `tabindex` value.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_tabindex) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/tabindex.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/tabindex.html).
 	 *
 	 *		config.tabIndex = 1;
 	 *
@@ -379,7 +379,7 @@ CKEDITOR.config = {
 	 * **Note:** This configuration option is ignored by [inline editor](#!/guide/dev_inline).
 	 *
 	 * Read more in the [documentation](#!/guide/dev_size) and see the
- 	 * [SDK sample](http://sdk.ckeditor.com/samples/size.html).
+	 * [SDK sample](http://sdk.ckeditor.com/samples/size.html).
 	 *
 	 *		config.width = 850;		// 850 pixels wide.
 	 *		config.width = '75%';	// CSS unit.
