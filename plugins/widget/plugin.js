@@ -1853,7 +1853,7 @@
 				// Otherwise...
 				// ... use insert method is was defined.
 				else if ( widgetDef.insert )
-					widgetDef.insert();
+					widgetDef.insert( editor );
 				// ... or create a brand-new widget from template.
 				else if ( widgetDef.template ) {
 					var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
