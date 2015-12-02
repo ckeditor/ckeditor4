@@ -114,6 +114,9 @@
  */
 
 ( function() {
+	// Default input element name for CSRF protection token.
+	var TOKEN_INPUT_NAME = 'ckCsrfToken';
+
 	// Adds (additional) arguments to given url.
 	//
 	// @param {String}
@@ -172,25 +175,25 @@
 	//
 	// @param {CKEDITOR.dom.element} fileInput
 	function appendToken( fileInput ) {
-		var TOKEN_INPUT_NAME = 'ckCsrfToken';
 		var tokenElement;
-		var form = fileInput.getAscendant( 'form', false );
+		var form = new CKEDITOR.dom.element( fileInput.$.form );
 
 		if ( form ) {
 			// Check if token input element already exists.
-			tokenElement = form.findOne( 'input[name="' + TOKEN_INPUT_NAME + '"]' );
+			tokenElement = form.$.elements[ TOKEN_INPUT_NAME ];
 
 			// Create new if needed.
 			if ( !tokenElement ) {
 				tokenElement = new CKEDITOR.dom.element( 'input' );
+				tokenElement.setAttributes( {
+					name: TOKEN_INPUT_NAME,
+					type: 'hidden'
+				} );
+
 				form.append( tokenElement );
 			}
 
-			tokenElement.setAttributes( {
-				name: TOKEN_INPUT_NAME,
-				type: 'hidden',
-				value: CKEDITOR.tools.getToken()
-			} );
+			tokenElement.setAttribute( 'value', CKEDITOR.tools.getToken() );
 		}
 	}
 

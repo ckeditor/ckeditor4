@@ -203,20 +203,21 @@
 
 			var fileLoaderMock = {
 				fileLoader: {
+					file: Blob ? new Blob() : '',
+					fileName: 'fileName',
 					xhr: {
 						open: function() {},
 						send: function() {
 							resume( function() {
-								assert.isTrue( appendSpy.called, 'FormData.append should be called' );
-								assert.areEqual( 'ckCsrfToken', appendSpy.lastCall.args[ 0 ], 'token should be appended' );
-								assert.areEqual( CKEDITOR.tools.getToken(), appendSpy.lastCall.args[ 1 ],  'token should match' );
-
+								assert.isTrue(
+									appendSpy.lastCall.calledWithExactly( 'ckCsrfToken', CKEDITOR.tools.getToken() ),
+									'FormData.append called with proper arguments'
+								);
 							} );
 						}
 					}
 				}
 			};
-
 
 			this.editor.fire( 'fileUploadRequest',  fileLoaderMock );
 			wait();

@@ -19,6 +19,7 @@
 		gtRegex = />/g,
 		ltRegex = /</g,
 		quoteRegex = /"/g,
+		tokenCharset = 'abcdefghijklmnopqrstuvwxyz0123456789',
 		TOKEN_COOKIE_NAME = 'ckCsrfToken',
 		TOKEN_LENGTH = 40,
 
@@ -1301,7 +1302,7 @@
 
 
 		/**
-		 * Returns the value of the cookie with given name.
+		 * Returns the value of the cookie with given name or `null` if cookie is not found.
 		 *
 		 * @since 4.5.6
 		 * @param {String} name
@@ -1310,18 +1311,18 @@
 		getCookie: function( name ) {
 			name = name.toLowerCase();
 			var parts = document.cookie.split( ';' );
+			var pair, key;
 
 			for ( var i = 0; i < parts.length; i++ ) {
-				var pair = parts[ i ].split( '=' );
-				var key = decodeURIComponent( CKEDITOR.tools.trim( pair[ 0 ] ).toLowerCase() );
-				var value = pair.length > 1 ? pair[ 1 ] : '';
+				pair = parts[ i ].split( '=' );
+				key = decodeURIComponent( CKEDITOR.tools.trim( pair[ 0 ] ).toLowerCase() );
 
 				if ( key === name ) {
-					return decodeURIComponent( value );
+					return decodeURIComponent( pair.length > 1 ? pair[ 1 ] : '' );
 				}
 			}
 
-			return '';
+			return null;
 		},
 
 		/**
@@ -1344,7 +1345,7 @@
 		getToken: function() {
 			var token = CKEDITOR.tools.getCookie( TOKEN_COOKIE_NAME );
 
-			if ( token.length != TOKEN_LENGTH ) {
+			if ( !token || token.length != TOKEN_LENGTH ) {
 				token = generateToken( TOKEN_LENGTH );
 				CKEDITOR.tools.setCookie( TOKEN_COOKIE_NAME, token );
 			}
@@ -1357,11 +1358,11 @@
 	/**
 	 * Generates CSRF token with given length.
 	 *
+	 * @since 4.5.6
 	 * @param {Number} length
 	 * @returns {string}
 	 */
 	function generateToken( length ) {
-		var charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
 		var randValues = [];
 		var result = '';
 
@@ -1375,7 +1376,7 @@
 		}
 
 		for ( var j = 0; j < randValues.length; j++ ) {
-			var character = charset.charAt( randValues[ j ] % charset.length );
+			var character = tokenCharset.charAt( randValues[ j ] % tokenCharset.length );
 			result += Math.random() > 0.5 ? character.toUpperCase() : character;
 		}
 
