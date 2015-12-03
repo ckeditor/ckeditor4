@@ -636,17 +636,17 @@
 			assert.areSame( CKEDITOR.tools.getCookie( name ), value, 'getCookie returns proper cookie' );
 		},
 
-		'test getToken': function() {
-			var token = CKEDITOR.tools.getToken();
+		'test getCsrfToken': function() {
+			var token = CKEDITOR.tools.getCsrfToken();
 
 			// Check if token is saved in cookie.
-			assert.isMatching( 'ckCsrfToken=' + token, document.cookie, 'getToken sets proper cookie' );
+			assert.isMatching( 'ckCsrfToken=' + token, document.cookie, 'getCsrfToken sets proper cookie' );
 
 			// Check token length.
 			assert.areEqual( token.length, 40, 'token has proper length' );
 
 			// Check if next token will be the same.
-			assert.areEqual( token, CKEDITOR.tools.getToken(), 'getToken returns token from cookie' );
+			assert.areEqual( token, CKEDITOR.tools.getCsrfToken(), 'getCsrfToken returns token from cookie' );
 		}
 	} );
 } )();

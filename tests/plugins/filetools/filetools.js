@@ -210,7 +210,7 @@
 						send: function() {
 							resume( function() {
 								assert.isTrue(
-									appendSpy.lastCall.calledWithExactly( 'ckCsrfToken', CKEDITOR.tools.getToken() ),
+									appendSpy.lastCall.calledWithExactly( 'ckCsrfToken', CKEDITOR.tools.getCsrfToken() ),
 									'FormData.append called with proper arguments'
 								);
 							} );

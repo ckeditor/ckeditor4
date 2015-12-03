@@ -196,7 +196,7 @@
 				tokenElement = new CKEDITOR.dom.element( tokenElement );
 			}
 
-			tokenElement.setAttribute( 'value', CKEDITOR.tools.getToken() );
+			tokenElement.setAttribute( 'value', CKEDITOR.tools.getCsrfToken() );
 		}
 	}
 

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -48,7 +48,7 @@
 				formData.append( 'upload', fileLoader.file, fileLoader.fileName );
 
 				// Append token preventing CSRF attacks.
-				formData.append( 'ckCsrfToken', CKEDITOR.tools.getToken() );
+				formData.append( 'ckCsrfToken', CKEDITOR.tools.getCsrfToken() );
 
 				fileLoader.xhr.send( formData );
 			}, null, null, 999 );

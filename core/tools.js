@@ -1337,12 +1337,14 @@
 		},
 
 		/**
-		 * Returns the CSRF token value.
+		 * Returns the CSRF token value. The value is a hash stored in `document.cookie`
+		 * under the `ckCsrfToken` key. The CSRF token can be used to secure the communication
+		 * between the web browser and the server, i.e. for file uploads feature in the editor.
 		 *
 		 * @since 4.5.6
 		 * @returns {String}
 		 */
-		getToken: function() {
+		getCsrfToken: function() {
 			var token = CKEDITOR.tools.getCookie( TOKEN_COOKIE_NAME );
 
 			if ( !token || token.length != TOKEN_LENGTH ) {
