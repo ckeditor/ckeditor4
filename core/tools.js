@@ -1354,14 +1354,11 @@
 		}
 	};
 
-
-	/**
-	 * Generates CSRF token with given length.
-	 *
-	 * @since 4.5.6
-	 * @param {Number} length
-	 * @returns {string}
-	 */
+	// Generates CSRF token with given length.
+	//
+	// @since 4.5.6
+	// @param {Number} length
+	// @returns {string}
 	function generateToken( length ) {
 		var randValues = [];
 		var result = '';

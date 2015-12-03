@@ -173,6 +173,7 @@
 
 	// Appends token preventing CSRF attacks to the form of provided file input.
 	//
+	// @since 4.5.6
 	// @param {CKEDITOR.dom.element} fileInput
 	function appendToken( fileInput ) {
 		var tokenElement;
@@ -191,6 +192,8 @@
 				} );
 
 				form.append( tokenElement );
+			} else {
+				tokenElement = new CKEDITOR.dom.element( tokenElement );
 			}
 
 			tokenElement.setAttribute( 'value', CKEDITOR.tools.getToken() );
