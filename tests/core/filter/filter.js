@@ -68,13 +68,6 @@
 				extraAllowedContent: 'script noscript',
 				protectedSource: [ ( /<\?[\s\S]*?\?>/g ) ]
 			}
-		},
-		themed_links: {
-			name: 'test_editor_themed_links',
-			config: {
-				plugins: 'toolbar,link',
-				allowedContent: 'a[href,hreflang,styles]' //{ attributes: 'href,hreflang', styles: false, classes: false }
-			}
 		}
 	};
 
