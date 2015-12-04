@@ -159,6 +159,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 			replaceVariables( styleDefinition.styles, variablesValues );
 		}
 
+		// Remove emtpy styles (same as there is no styles attr given) - #13886.
+		if ( CKEDITOR.tools.isEmpty( styleDefinition.styles ) ) {
+			delete styleDefinition.styles;
+		}
+
 		var element = this.element = styleDefinition.element ?
 			(
 				typeof styleDefinition.element == 'string' ?
