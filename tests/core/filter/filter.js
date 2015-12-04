@@ -68,6 +68,13 @@
 				extraAllowedContent: 'script noscript',
 				protectedSource: [ ( /<\?[\s\S]*?\?>/g ) ]
 			}
+		},
+		themed_links: {
+			name: 'test_editor_themed_links',
+			config: {
+				plugins: 'toolbar,link',
+				allowedContent: 'a[href,hreflang,styles]' //{ attributes: 'href,hreflang', styles: false, classes: false }
+			}
 		}
 	};
 
@@ -860,6 +867,15 @@
 			filter( '<bar><foo>bar</foo></bar>',					'<bar>bar</bar>' );
 			// #12683
 			filter( '<bar><h1>bar</h1></bar>',						'<p>bar</p>' );
+		},
+
+		// #13886
+		'test filter styles validation with none or empty styles': function() {
+			var filter = new CKEDITOR.filter( 'a {color}' );
+
+			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a' } ) ) );
+			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a', styles: {} } ) ) );
+			assert.isTrue( filter.check( new CKEDITOR.style( { element: 'a', styles: { color: 'red' } } ) ) );
 		}
 	} );
 } )();
