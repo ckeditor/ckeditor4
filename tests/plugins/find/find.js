@@ -79,5 +79,72 @@ bender.test( {
 				dialog.getButton( 'cancel' ).click();
 			} );
 		} );
+	},
+
+	// #11697
+	'test find and replace with pattern change - replace text after selection': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>example text <strong>example</strong> text</p>' );
+		bot.dialog( 'replace', function( dialog ) {
+			dialog.setValueOf( 'replace', 'txtFindReplace', 'example' );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+			dialog.setValueOf( 'replace', 'txtFindReplace', 'ext example' );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+
+			assert.areSame( '<p>example t<span title="highlight">ext </span><strong><span title="highlight">example</span></strong> text</p>',
+				bot.getData( true ), 'Text after previous selection was correctly highlighted.' );
+
+			dialog.setValueOf( 'replace', 'txtReplace', 'example2' );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+			assert.areSame( '<p>example t<span title="highlight">example2</span> text</p>', bot.getData( true ),
+				'Highlighted text was correctly replaced.' );
+
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
+	// #11697
+	'test find and replace with pattern change - replace text before selection': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>Apollo 11 was the spaceflight that...</p>' );
+		bot.dialog( 'replace', function( dialog ) {
+			dialog.setValueOf( 'replace', 'txtFindReplace', 'was the' );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+			dialog.setValueOf( 'replace', 'txtFindReplace', 'Apollo 11 was the space' );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+
+			assert.areSame( '<p><span title="highlight">apollo 11 was the space</span>flight that...</p>',
+				bot.getData( true ), 'Text before previous selection was correctly highlighted.' );
+
+			dialog.setValueOf( 'replace', 'txtReplace', 'A ' );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+			assert.areSame( '<p><span title="highlight">a </span>flight that...</p>', bot.getData( true ),
+				'Highlighted text was correctly replaced.' );
+
+			dialog.getButton( 'cancel' ).click();
+		} );
+	},
+
+	// #11697
+	'test find and replace with options change': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '<p>example text</p>' );
+		bot.dialog( 'replace', function( dialog ) {
+			dialog.setValueOf( 'replace', 'txtFindReplace', 'EXAMPLE' );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+			dialog.setValueOf( 'replace', 'txtReplaceCaseChk', true );
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+
+			assert.areSame( '<p>example text</p>', bot.getData( true ), 'Text was not replace with case sensitive find.' );
+
+			dialog.getContentElement( 'replace', 'btnFindReplace' ).click();
+
+			assert.areSame( '<p>example text</p>', bot.getData( true ), 'Text was not replace with case sensitive find.' );
+
+			dialog.getButton( 'cancel' ).click();
+		} );
 	}
 } );
