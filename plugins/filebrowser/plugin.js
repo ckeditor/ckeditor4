@@ -114,6 +114,9 @@
  */
 
 ( function() {
+	// Default input element name for CSRF protection token.
+	var TOKEN_INPUT_NAME = 'ckCsrfToken';
+
 	// Adds (additional) arguments to given url.
 	//
 	// @param {String}
@@ -166,6 +169,35 @@
 		var url = addQueryString( this.filebrowser.url, params );
 		// TODO: V4: Remove backward compatibility (#8163).
 		editor.popup( url, width, height, editor.config.filebrowserWindowFeatures || editor.config.fileBrowserWindowFeatures );
+	}
+
+	// Appends token preventing CSRF attacks to the form of provided file input.
+	//
+	// @since 4.5.6
+	// @param {CKEDITOR.dom.element} fileInput
+	function appendToken( fileInput ) {
+		var tokenElement;
+		var form = new CKEDITOR.dom.element( fileInput.$.form );
+
+		if ( form ) {
+			// Check if token input element already exists.
+			tokenElement = form.$.elements[ TOKEN_INPUT_NAME ];
+
+			// Create new if needed.
+			if ( !tokenElement ) {
+				tokenElement = new CKEDITOR.dom.element( 'input' );
+				tokenElement.setAttributes( {
+					name: TOKEN_INPUT_NAME,
+					type: 'hidden'
+				} );
+
+				form.append( tokenElement );
+			} else {
+				tokenElement = new CKEDITOR.dom.element( tokenElement );
+			}
+
+			tokenElement.setAttribute( 'value', CKEDITOR.tools.getCsrfToken() );
+		}
 	}
 
 	// The onlick function assigned to the 'Upload' button. Makes the final
@@ -271,7 +303,16 @@
 						if ( onClick && onClick.call( sender, evt ) === false )
 							return false;
 
-						return uploadFile.call( sender, evt );
+						if ( uploadFile.call( sender, evt ) ) {
+							var fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement();
+
+							// Append token preventing CSRF attacks.
+							appendToken( fileInput );
+							return true;
+						}
+
+
+						return false;
 					};
 
 					element.filebrowser.url = url;

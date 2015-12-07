@@ -19,6 +19,9 @@
 		gtRegex = />/g,
 		ltRegex = /</g,
 		quoteRegex = /"/g,
+		tokenCharset = 'abcdefghijklmnopqrstuvwxyz0123456789',
+		TOKEN_COOKIE_NAME = 'ckCsrfToken',
+		TOKEN_LENGTH = 40,
 
 		allEscRegex = /&(lt|gt|amp|quot|nbsp|shy|#\d{1,5});/g,
 		namedEntities = {
@@ -1295,8 +1298,89 @@
 		 * @since 4.4
 		 * @readonly
 		 */
-		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw=='
+		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==',
+
+
+		/**
+		 * Returns the value of the cookie with given name or `null` if cookie is not found.
+		 *
+		 * @since 4.5.6
+		 * @param {String} name
+		 * @returns {String}
+		 */
+		getCookie: function( name ) {
+			name = name.toLowerCase();
+			var parts = document.cookie.split( ';' );
+			var pair, key;
+
+			for ( var i = 0; i < parts.length; i++ ) {
+				pair = parts[ i ].split( '=' );
+				key = decodeURIComponent( CKEDITOR.tools.trim( pair[ 0 ] ).toLowerCase() );
+
+				if ( key === name ) {
+					return decodeURIComponent( pair.length > 1 ? pair[ 1 ] : '' );
+				}
+			}
+
+			return null;
+		},
+
+		/**
+		 * Sets the value of the cookie with given name.
+		 *
+		 * @since 4.5.6
+		 * @param {String} name
+		 * @param {String} value
+		 */
+		setCookie: function( name, value ) {
+			document.cookie = encodeURIComponent( name ) + '=' + encodeURIComponent( value ) + ';path=/';
+		},
+
+		/**
+		 * Returns the CSRF token value. The value is a hash stored in `document.cookie`
+		 * under the `ckCsrfToken` key. The CSRF token can be used to secure the communication
+		 * between the web browser and the server, i.e. for file uploads feature in the editor.
+		 *
+		 * @since 4.5.6
+		 * @returns {String}
+		 */
+		getCsrfToken: function() {
+			var token = CKEDITOR.tools.getCookie( TOKEN_COOKIE_NAME );
+
+			if ( !token || token.length != TOKEN_LENGTH ) {
+				token = generateToken( TOKEN_LENGTH );
+				CKEDITOR.tools.setCookie( TOKEN_COOKIE_NAME, token );
+			}
+
+			return token;
+		}
 	};
+
+	// Generates CSRF token with given length.
+	//
+	// @since 4.5.6
+	// @param {Number} length
+	// @returns {string}
+	function generateToken( length ) {
+		var randValues = [];
+		var result = '';
+
+		if ( window.crypto && window.crypto.getRandomValues ) {
+			randValues = new Uint8Array( length );
+			window.crypto.getRandomValues( randValues );
+		} else {
+			for ( var i = 0; i < length; i++ ) {
+				randValues.push( Math.floor( Math.random() * 256 ) );
+			}
+		}
+
+		for ( var j = 0; j < randValues.length; j++ ) {
+			var character = tokenCharset.charAt( randValues[ j ] % tokenCharset.length );
+			result += Math.random() > 0.5 ? character.toUpperCase() : character;
+		}
+
+		return result;
+	}
 } )();
 
 // PACKAGER_RENAME( CKEDITOR.tools )
