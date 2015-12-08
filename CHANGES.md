@@ -3,6 +3,13 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.6
 
+New Features:
+
+* Introduced the [`CKEDITOR.tools.getCookie()`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-getCookie) and [`CKEDITOR.tools.setCookie()`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-setCookie) methods for accessing cookies.
+* Introduced the [`CKEDITOR.tools.getCsrfToken()`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-getCsrfToken) method. The CSRF token is now automatically sent by the [File Browser](http://ckeditor.com/addon/filebrowser) and [File Tools](http://ckeditor.com/addon/filetools) plugins during file uploads. The server-side upload handlers may check it and use it to additionally secure the communication.
+
+Other Changes:
+
 * Updated [SCAYT](http://ckeditor.com/addon/scayt) (Spell Check As You Type):
 	- New features:
 		- CKEditor [Language](http://ckeditor.com/addon/language) plugin support.
