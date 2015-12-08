@@ -1302,7 +1302,7 @@
 
 
 		/**
-		 * Returns the value of the cookie with given name or `null` if cookie is not found.
+		 * Returns the value of the cookie with a given name or `null` if the cookie is not found.
 		 *
 		 * @since 4.5.6
 		 * @param {String} name
@@ -1326,7 +1326,7 @@
 		},
 
 		/**
-		 * Sets the value of the cookie with given name.
+		 * Sets the value of the cookie with a given name.
 		 *
 		 * @since 4.5.6
 		 * @param {String} name
@@ -1339,7 +1339,7 @@
 		/**
 		 * Returns the CSRF token value. The value is a hash stored in `document.cookie`
 		 * under the `ckCsrfToken` key. The CSRF token can be used to secure the communication
-		 * between the web browser and the server, i.e. for file uploads feature in the editor.
+		 * between the web browser and the server, i.e. for the file upload feature in the editor.
 		 *
 		 * @since 4.5.6
 		 * @returns {String}
@@ -1356,7 +1356,7 @@
 		}
 	};
 
-	// Generates CSRF token with given length.
+	// Generates a CSRF token with a given length.
 	//
 	// @since 4.5.6
 	// @param {Number} length
