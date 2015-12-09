@@ -110,7 +110,7 @@ span[lang]
 	font-style: italic;
 }
 
-figure
+figuregit 
 {
 	text-align: center;
 	border: solid 1px #ccc;
@@ -138,4 +138,12 @@ p
 {
 	margin-top: 0;
 	margin-bottom: 0;
+}
+.cke_editable p span::selection {
+  background: #ffb7b7;
+  color:black;
+}
+.cke_editable p span::-moz-selection {
+  background: #ffb7b7; 
+  color:black;
 }
