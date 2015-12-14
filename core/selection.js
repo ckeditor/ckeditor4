@@ -41,8 +41,10 @@
 
 		var currentPath = this.elementPath();
 		if ( !currentPath.compare( this._.selectionPreviousPath ) ) {
+			// Handle case when dialog inserts new element but parent block and path (so also focus context) does not change. (#13362)
+			var sameBlockParent = this._.selectionPreviousPath && this._.selectionPreviousPath.blockLimit.equals( currentPath.blockLimit );
 			// Cache the active element, which we'll eventually lose on Webkit.
-			if ( CKEDITOR.env.webkit )
+			if ( CKEDITOR.env.webkit && !sameBlockParent )
 				this._.previousActive = this.document.getActive();
 
 			this._.selectionPreviousPath = currentPath;
