@@ -230,14 +230,17 @@
 		return null;
 	}
 
-	function getCellColIndex( cell, isStart ) {
+	function getCellColIndex( cell ) {
 		var row = cell.getParent(),
 			rowCells = row.$.cells;
 
 		var colIndex = 0;
 		for ( var i = 0; i < rowCells.length; i++ ) {
 			var mapCell = rowCells[ i ];
-			colIndex += isStart ? 1 : mapCell.colSpan;
+
+			// Not always adding colSpan results in wrong position
+			// of newly inserted column. (#13729)
+			colIndex += mapCell.colSpan;
 			if ( mapCell == cell.$ )
 				break;
 		}
@@ -248,7 +251,7 @@
 	function getColumnsIndices( cells, isStart ) {
 		var retval = isStart ? Infinity : 0;
 		for ( var i = 0; i < cells.length; i++ ) {
-			var colIndex = getCellColIndex( cells[ i ], isStart );
+			var colIndex = getCellColIndex( cells[ i ] );
 			if ( isStart ? colIndex < retval : colIndex > retval )
 				retval = colIndex;
 		}
