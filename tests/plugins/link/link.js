@@ -409,6 +409,10 @@
 			// Do not let dialog to show – it is not necessary.
 			editor.once( 'doubleclick', function( evt ) {
 				evt.cancel();
+
+				resume( function() {
+					assert.areSame( editor.document.findOne( 'a' ), evt.data.link, 'Link selected' );
+				} );
 			}, null, null, 100 );
 
 			bot.setData( '<p>a<a href="http://bar"><span style="background:#f00;">b</span></a>c</p>', function() {
@@ -416,9 +420,7 @@
 					element: editor.document.findOne( 'span' )
 				} );
 
-				// Assert selected text only because, depending on the browser,
-				// selection is <a>[b]</a> or [<a>b</a>].
-				assert.areSame( 'b', editor.getSelection().getSelectedText(), 'Link selected' );
+				wait();
 			} );
 		},
 
