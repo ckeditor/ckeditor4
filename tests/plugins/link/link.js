@@ -413,7 +413,7 @@
 				resume( function() {
 					assert.areSame( editor.document.findOne( 'a' ), evt.data.link, 'Link selected' );
 				} );
-			}, null, null, 100 );
+			} );
 
 			bot.setData( '<p>a<a href="http://bar"><span style="background:#f00;">b</span></a>c</p>', function() {
 				editor.fire( 'doubleclick', {
