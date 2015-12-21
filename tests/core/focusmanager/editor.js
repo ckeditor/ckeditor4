@@ -94,7 +94,7 @@ bender.test( {
 	},
 
 	// #13446
-	'test blur clean up selection': function() {
+	'test cleaning up selection on blur (inline editor)': function() {
 		if ( !CKEDITOR.env.chrome ) {
 			assert.ignore();
 		}
@@ -120,6 +120,24 @@ bender.test( {
 
 		el.focus();
 		wait();
+	},
+
+	// #13446
+	'test preserving selection on blur (classic editor)': function() {
+		if ( !CKEDITOR.env.chrome ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		editor.focus();
+
+		bender.tools.focus( CKEDITOR.document.getById( 'focusable' ), function() {
+			// Chrome doesn't reset selection after blurring [contenteditable=true],
+			// however is not troublesome for classic editor (because the focus is moved
+			// outside the whole editor's window), so it should be left untouched there.
+			assert.areSame( 'Caret', editor.getSelection().getNative().type );
+		} );
 	}
 
 } );
