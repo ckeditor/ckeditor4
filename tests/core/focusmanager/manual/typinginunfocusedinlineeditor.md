@@ -1,4 +1,4 @@
-@bender-tags: tc, editor, focus, 13446, 4.5.6
+@bender-tags: tc, editor, focus, 13446, 4.5.7
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, floatingspace, basicstyles
 
