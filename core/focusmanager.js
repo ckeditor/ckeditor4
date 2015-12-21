@@ -150,16 +150,16 @@
 			if ( this._.locked )
 				return;
 
-			var selection = this._.editor.getSelection();
-
 			function doBlur() {
+				var editor = this._.editor;
+
 				if ( this.hasFocus ) {
 					this.hasFocus = false;
 
 					// Blink browsers leave selection in `[contenteditable=true]`
-					// when it's blurred and it's neccessary to remove it manually. (#13446)
-					if ( CKEDITOR.env.chrome && selection.getNative() ) {
-						window.getSelection().removeAllRanges();
+					// when it's blurred and it's neccessary to remove it manually for inline editor. (#13446)
+					if ( CKEDITOR.env.chrome && editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
+						editor.window.$.getSelection().removeAllRanges();
 					}
 
 					var ct = this._.editor.container;
