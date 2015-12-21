@@ -96,7 +96,7 @@
 				// unlinked, clicked element may be a descendant of the link, not the link itself. (#11956)
 				var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || evt.data.element.getAscendant( 'a', 1 );
 
-				if ( !element.isReadOnly() ) {
+				if ( element && !element.isReadOnly() ) {
 					if ( element.is( 'a' ) ) {
 						evt.data.dialog = ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) ? 'anchor' : 'link';
 
