@@ -222,6 +222,17 @@
 						table.removeAttribute( 'style' );
 				}
 
+				// Ensure caption is the first child in table. (#12707)
+				var captionElement = table.getElementsByTag( 'caption' );
+				if ( captionElement.count() > 0 ) {
+					captionElement = captionElement.getItem( 0 );
+
+					if ( !captionElement.equals( table.getChild( 0 ) ) ) {
+						table.$.removeChild( captionElement.$ );
+						captionElement.insertBefore( table.getFirst() );
+					}
+				}
+
 				// Insert the table element if we're creating one.
 				if ( !this._.selectedElement ) {
 					editor.insertElement( table );
