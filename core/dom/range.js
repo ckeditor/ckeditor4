@@ -935,7 +935,7 @@ CKEDITOR.dom.range = function( root ) {
 					}
 				}
 
-				var bookmark = {
+				return {
 					start: bmStart.container.getAddress( normalized ),
 					end: collapsed ? null : bmEnd.container.getAddress( normalized ),
 					startOffset: bmStart.offset,
@@ -944,8 +944,6 @@ CKEDITOR.dom.range = function( root ) {
 					collapsed: collapsed,
 					is2: true // It's a createBookmark2 bookmark.
 				};
-
-				return bookmark;
 			};
 		} )(),
 
