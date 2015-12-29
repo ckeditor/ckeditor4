@@ -452,6 +452,12 @@ bender.test( {
 
 	// #13816
 	'test selection is restored despite filling char': function() {
+		// This TC fails on IE8 because it uses old IE selection implementation, which uses original (intrusive)
+		// bookmark implementation and it messes up the TC.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
+			assert.ignore();
+		}
+
 		var editor = this.editor,
 			editable = editor.editable(),
 			undo = editor.getCommand( 'undo' ),
@@ -496,6 +502,7 @@ bender.test( {
 		assert.isTrue( range.startContainer.equals( editor.document.getById( 'p1' ).getFirst() ), 'Range starts in the right text node.' );
 		assert.isTrue( range.endContainer.equals( editor.document.getById( 'p1' ).findOne( 'em' ).getFirst() ), 'Range ends in the right text node.' );
 
+		// Selection remains as: <p>a[bc<em>de]f</em></p>
 		assert.areSame( 1, range.startOffset, 'Start offset does not include FCSeq.' );
 		assert.areSame( 2, range.endOffset, 'End offset does not include FCSeq.' );
 	},
