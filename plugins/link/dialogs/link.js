@@ -811,7 +811,8 @@
 				}
 
 				var data = plugin.parseLinkAttributes( editor, element );
-				data.text = element.getText();
+				if (element)
+					data.text = element.getText();
 
 				// Record down the selected element in the dialog.
 				this._.selectedElement = element;
