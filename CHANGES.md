@@ -90,7 +90,7 @@ Other Changes:
 
 New Features:
 
-* [#13501](http://dev.ckeditor.com/ticket/13501): Added the [`config.fileTools_defaultFileName`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fileTools_defaultFileName) option to allow setting a default filen ame for paste uploads.
+* [#13501](http://dev.ckeditor.com/ticket/13501): Added the [`config.fileTools_defaultFileName`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fileTools_defaultFileName) option to allow setting a default file name for paste uploads.
 * [#13603](http://dev.ckeditor.com/ticket/13603): Added support for uploading dropped BMP images.
 
 Fixed Issues:
