@@ -804,12 +804,12 @@ CKEDITOR.dom.range = function( root ) {
 				var sum = 0;
 
 				while ( ( node = node.getPrevious() ) && node.type == CKEDITOR.NODE_TEXT )
-					sum += node.getLength();
+					sum += node.getText().replace( CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE, '' ).length;
 
 				return sum;
 			}
 
-			function normalize( limit ) {
+			function normalizeTextNodes( limit ) {
 				var container = limit.container,
 					offset = limit.offset;
 
@@ -820,11 +820,13 @@ CKEDITOR.dom.range = function( root ) {
 					offset = container.getLength();
 				}
 
-				// Now, if limit is anchored in element and has at least two nodes before it,
+				// Now, if limit is anchored in element and has at least one node before it,
 				// it may happen that some of them will be merged. Normalize the offset
-				// by setting it to normalized index of its preceding node.
-				if ( container.type == CKEDITOR.NODE_ELEMENT && offset > 1 )
-					offset = container.getChild( offset - 1 ).getIndex( true ) + 1;
+				// by setting it to normalized index of its preceding, safe node.
+				// (safe == one for which getIndex(true) does not return -1, so one which won't disappear).
+				if ( container.type == CKEDITOR.NODE_ELEMENT && offset > 0 ) {
+					offset = getPrecedingSafeNodeIndex( container, offset ) + 1;
+				}
 
 				// The last step - fix the offset inside text node by adding
 				// lengths of preceding text nodes which will be merged with container.
@@ -870,6 +872,48 @@ CKEDITOR.dom.range = function( root ) {
 				limit.offset = offset;
 			}
 
+			function normalizeFCSeq( limit, root ) {
+				var fcseq = root.getCustomData( 'cke-fillingChar' );
+
+				if ( !fcseq ) {
+					return;
+				}
+
+				var container = limit.container;
+
+				if ( fcseq.equals( container ) ) {
+					limit.offset -= CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE.length;
+
+					// == 0		handles case when limit was at the end of FCS.
+					//  < 0		handles all cases where limit was somewhere in the middle or at the beginning.
+					//  > 0		(the "else" case) means cases where there are some more characters in the FCS node (FCSabc^def).
+					if ( limit.offset <= 0 ) {
+						limit.offset = container.getIndex();
+						limit.container = container.getParent();
+					}
+					return;
+				}
+
+				// And here goes the funny part - all other cases are handled inside node.getAddress() and getIndex() thanks to
+				// node.getIndex() being aware of FCS (handling it as an empty node).
+			}
+
+			// Finds a normalized index of a safe node preceding this one.
+			// Safe == one that will not disappear, so one for which getIndex( true ) does not return -1.
+			// Return -1 if there's no safe preceding node.
+			function getPrecedingSafeNodeIndex( container, offset ) {
+				var index;
+
+				while ( offset-- ) {
+					index = container.getChild( offset ).getIndex( true );
+
+					if ( index >= 0 )
+						return index;
+				}
+
+				return -1;
+			}
+
 			return function( normalized ) {
 				var collapsed = this.collapsed,
 					bmStart = {
@@ -882,10 +926,13 @@ CKEDITOR.dom.range = function( root ) {
 					};
 
 				if ( normalized ) {
-					normalize( bmStart );
+					normalizeTextNodes( bmStart );
+					normalizeFCSeq( bmStart, this.root );
 
-					if ( !collapsed )
-						normalize( bmEnd );
+					if ( !collapsed ) {
+						normalizeTextNodes( bmEnd );
+						normalizeFCSeq( bmEnd, this.root );
+					}
 				}
 
 				return {
