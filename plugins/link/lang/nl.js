@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'nl', {
 	targetFrameName: 'Naam doelframe',
 	targetPopup: '<popupvenster>',
 	targetPopupName: 'Naam popupvenster',
+	text: 'Text', // MISSING
 	title: 'Link',
 	toAnchor: 'Interne link in pagina',
 	toEmail: 'E-mail',

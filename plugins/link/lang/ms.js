@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ms', {
 	targetFrameName: 'Nama Bingkai Sasaran',
 	targetPopup: '<tetingkap popup>',
 	targetPopupName: 'Nama Tetingkap Popup',
+	text: 'Text', // MISSING
 	title: 'Sambungan',
 	toAnchor: 'Pautan dalam muka surat ini',
 	toEmail: 'E-Mail',

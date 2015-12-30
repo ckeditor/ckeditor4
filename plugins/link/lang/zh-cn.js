@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh-cn', {
 	targetFrameName: '目标框架名称',
 	targetPopup: '<弹出窗口>',
 	targetPopupName: '弹出窗口名称',
+	text: 'Text', // MISSING
 	title: '超链接',
 	toAnchor: '页内锚点链接',
 	toEmail: '电子邮件',

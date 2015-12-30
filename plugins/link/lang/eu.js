@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	targetFrameName: 'Helburuko markoaren izena',
 	targetPopup: '<laster-leihoa>',
 	targetPopupName: 'Laster-leihoaren izena',
+	text: 'Text', // MISSING
 	title: 'Esteka',
 	toAnchor: 'Estekatu testuko aingurara',
 	toEmail: 'E-posta',

@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	targetFrameName: 'Emri i Kornizës së Synuar',
 	targetPopup: '<popup window>',
 	targetPopupName: 'Emri i Dritares së Dialogut',
+	text: 'Text', // MISSING
 	title: 'Nyja',
 	toAnchor: 'Lidhu me spirancën në tekst',
 	toEmail: 'Posta Elektronike',

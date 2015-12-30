@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'lv', {
 	targetFrameName: 'Mērķa ietvara nosaukums',
 	targetPopup: '<uznirstošā logā>',
 	targetPopupName: 'Uznirstošā loga nosaukums',
+	text: 'Text', // MISSING
 	title: 'Hipersaite',
 	toAnchor: 'Iezīme šajā lapā',
 	toEmail: 'E-pasts',

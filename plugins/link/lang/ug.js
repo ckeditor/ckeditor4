@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	targetFrameName: 'نىشان كاندۇك ئاتى',
 	targetPopup: '‹قاڭقىش كۆزنەك›',
 	targetPopupName: 'قاڭقىش كۆزنەك ئاتى',
+	text: 'Text', // MISSING
 	title: 'ئۇلانما',
 	toAnchor: 'بەت ئىچىدىكى لەڭگەرلىك نۇقتا ئۇلانمىسى',
 	toEmail: 'ئېلخەت',

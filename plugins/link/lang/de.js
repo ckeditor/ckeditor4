@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'de', {
 	targetFrameName: 'Ziel-Fenster-Name',
 	targetPopup: '<Pop-up Fenster>',
 	targetPopupName: 'Pop-up Fenster-Name',
+	text: 'Text', // MISSING
 	title: 'Link',
 	toAnchor: 'Anker in dieser Seite',
 	toEmail: 'E-Mail',

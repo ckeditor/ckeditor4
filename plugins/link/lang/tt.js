@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	targetFrameName: 'Target Frame Name', // MISSING
 	targetPopup: '<popup window>',
 	targetPopupName: 'Попап тәрәзәсе исеме',
+	text: 'Text', // MISSING
 	title: 'Сылталама',
 	toAnchor: 'Якорьне текст белән бәйләү',
 	toEmail: 'Электрон почта',

@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	targetFrameName: 'Nome do marco de destino',
 	targetPopup: '<xanela emerxente>',
 	targetPopupName: 'Nome da xanela emerxente',
+	text: 'Text', // MISSING
 	title: 'Ligazón',
 	toAnchor: 'Ligar coa ancoraxe no testo',
 	toEmail: 'Correo',

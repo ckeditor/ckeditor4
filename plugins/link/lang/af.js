@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'af', {
 	targetFrameName: 'Naam van doelraam',
 	targetPopup: '<opspringvenster>',
 	targetPopupName: 'Naam van opspringvenster',
+	text: 'Text', // MISSING
 	title: 'Skakel',
 	toAnchor: 'Anker in bladsy',
 	toEmail: 'E-pos',

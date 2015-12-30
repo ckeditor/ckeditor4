@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ru', {
 	targetFrameName: 'Имя целевого фрейма',
 	targetPopup: '<всплывающее окно>',
 	targetPopupName: 'Имя всплывающего окна',
+	text: 'Text', // MISSING
 	title: 'Ссылка',
 	toAnchor: 'Ссылка на якорь в тексте',
 	toEmail: 'Email',

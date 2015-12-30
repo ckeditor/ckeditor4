@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'fa', {
 	targetFrameName: 'نام فریم مقصد',
 	targetPopup: '<پنجرهٴ پاپاپ>',
 	targetPopupName: 'نام پنجرهٴ پاپاپ',
+	text: 'Text', // MISSING
 	title: 'پیوند',
 	toAnchor: 'لنگر در همین صفحه',
 	toEmail: 'پست الکترونیکی',

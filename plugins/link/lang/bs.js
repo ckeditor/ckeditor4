@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'bs', {
 	targetFrameName: 'Target Frame Name', // MISSING
 	targetPopup: '<popup prozor>',
 	targetPopupName: 'Naziv popup prozora',
+	text: 'Text', // MISSING
 	title: 'Link',
 	toAnchor: 'Sidro na ovoj stranici',
 	toEmail: 'E-Mail',

@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ku', {
 	targetFrameName: 'ناوی ئامانجی چووارچێوە',
 	targetPopup: '<پەنجەرەی سەرهەڵدەر>',
 	targetPopupName: 'ناوی پەنجەرەی سەرهەڵدەر',
+	text: 'Text', // MISSING
 	title: 'بەستەر',
 	toAnchor: 'بەستەر بۆ لەنگەر له دەق',
 	toEmail: 'ئیمەیل',

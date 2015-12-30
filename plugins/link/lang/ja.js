@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	targetFrameName: 'ターゲットのフレーム名',
 	targetPopup: '<ポップアップウィンドウ>',
 	targetPopupName: 'ポップアップウィンドウ名',
+	text: 'Text', // MISSING
 	title: 'ハイパーリンク',
 	toAnchor: 'ページ内のアンカー',
 	toEmail: 'E-Mail',

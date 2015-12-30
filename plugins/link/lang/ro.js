@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 	targetFrameName: 'Numele frameului ţintă',
 	targetPopup: '<fereastra popup>',
 	targetPopupName: 'Numele ferestrei popup',
+	text: 'Text', // MISSING
 	title: 'Link (Legătură web)',
 	toAnchor: 'Ancoră în această pagină',
 	toEmail: 'E-Mail',

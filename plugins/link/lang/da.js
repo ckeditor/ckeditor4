@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'da', {
 	targetFrameName: 'Destinationsvinduets navn',
 	targetPopup: '<popup vindue>',
 	targetPopupName: 'Popupvinduets navn',
+	text: 'Text', // MISSING
 	title: 'Egenskaber for hyperlink',
 	toAnchor: 'Bogmærke på denne side',
 	toEmail: 'E-mail',

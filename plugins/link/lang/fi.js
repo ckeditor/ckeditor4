@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'fi', {
 	targetFrameName: 'Kohdekehyksen nimi',
 	targetPopup: '<popup ikkuna>',
 	targetPopupName: 'Popup ikkunan nimi',
+	text: 'Text', // MISSING
 	title: 'Linkki',
 	toAnchor: 'Ankkuri tässä sivussa',
 	toEmail: 'Sähköposti',

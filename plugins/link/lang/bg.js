@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	targetFrameName: 'Име на целевият прозорец',
 	targetPopup: '<изкачащ прозорец>',
 	targetPopupName: 'Име на изкачащ прозорец',
+	text: 'Text', // MISSING
 	title: 'Връзка',
 	toAnchor: 'Връзка към котва в текста',
 	toEmail: 'E-mail',

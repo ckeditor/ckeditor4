@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'sr', {
 	targetFrameName: 'Назив одредишног фрејма',
 	targetPopup: '<искачући прозор>',
 	targetPopupName: 'Назив искачућег прозора',
+	text: 'Text', // MISSING
 	title: 'Линк',
 	toAnchor: 'Сидро на овој страници',
 	toEmail: 'Eлектронска пошта',

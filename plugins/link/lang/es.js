@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'es', {
 	targetFrameName: 'Nombre del Marco Destino',
 	targetPopup: '<ventana emergente>',
 	targetPopupName: 'Nombre de Ventana Emergente',
+	text: 'Text', // MISSING
 	title: 'Vínculo',
 	toAnchor: 'Referencia en esta página',
 	toEmail: 'E-Mail',

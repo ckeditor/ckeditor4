@@ -116,6 +116,22 @@
 				label: linkLang.info,
 				title: linkLang.info,
 				elements: [ {
+					type: 'text',
+					id: 'text',
+					label: linkLang.text,
+					required: true,
+					setup: function( data ) {
+						if ( data.text )
+							this.setValue( data.text );
+					},
+					commit: function( data ) {
+						if ( !data.text )
+							data.text = '';
+
+						data.text = this.getValue();
+					}
+				},
+				{
 					id: 'linkType',
 					type: 'select',
 					label: linkLang.type,
@@ -795,6 +811,7 @@
 				}
 
 				var data = plugin.parseLinkAttributes( editor, element );
+				data.text = element.getText();
 
 				// Record down the selected element in the dialog.
 				this._.selectedElement = element;
@@ -839,6 +856,7 @@
 
 					element.setAttributes( attributes.set );
 					element.removeAttributes( attributes.removed );
+					element.setText( data.text );
 
 					// Update text view when user changes protocol (#4612).
 					if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {

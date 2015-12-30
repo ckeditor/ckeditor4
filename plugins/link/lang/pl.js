@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'pl', {
 	targetFrameName: 'Nazwa ramki docelowej',
 	targetPopup: '<wyskakujące okno>',
 	targetPopupName: 'Nazwa wyskakującego okna',
+	text: 'Text', // MISSING
 	title: 'Odnośnik',
 	toAnchor: 'Odnośnik wewnątrz strony (kotwica)',
 	toEmail: 'Adres e-mail',

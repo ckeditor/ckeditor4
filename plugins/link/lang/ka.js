@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ka', {
 	targetFrameName: 'Frame-ის სახელი',
 	targetPopup: '<popup ფანჯარა>',
 	targetPopupName: 'Popup ფანჯრის სახელი',
+	text: 'Text', // MISSING
 	title: 'ბმული',
 	toAnchor: 'ბმული ტექსტში ღუზაზე',
 	toEmail: 'ელფოსტა',

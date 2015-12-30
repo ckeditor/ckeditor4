@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	targetFrameName: 'ឈ្មោះ​ស៊ុម​ជា​គោល​ដៅ',
 	targetPopup: '<វីនដូ​ផុស​ឡើង>',
 	targetPopupName: 'ឈ្មោះ​វីនដូត​ផុស​ឡើង',
+	text: 'Text', // MISSING
 	title: 'តំណ',
 	toAnchor: 'ត​ភ្ជាប់​ទៅ​យុថ្កា​ក្នុង​អត្ថបទ',
 	toEmail: 'អ៊ីមែល',
