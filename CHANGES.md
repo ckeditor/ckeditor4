@@ -7,8 +7,7 @@ CKEditor 4 Changelog
 	* [#12727](http://dev.ckeditor.com/ticket/12727): IndexSizeError on using plugins "Div Editing Area" and "Content Templates",
 	* [#13377](http://dev.ckeditor.com/ticket/13377): Widget plugin issue (typing Korean),
 	* [#13389](http://dev.ckeditor.com/ticket/13389): [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) fails, when cursor is next to a `hr` tag,
-	* [#13513](http://dev.ckeditor.com/ticket/13513): Divarea and [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) throw error when image is only data in editor,
-	* [#13801](http://dev.ckeditor.com/ticket/13801): Japanese Multi-Byte Character doesn't work after Clicking Bold or any other CKE operation.
+	* [#13513](http://dev.ckeditor.com/ticket/13513): Divarea and [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) throw error when image is only data in editor.
 
 ## CKEditor 4.5.6
 
