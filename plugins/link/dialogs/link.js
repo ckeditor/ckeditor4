@@ -813,6 +813,8 @@
 				var data = plugin.parseLinkAttributes( editor, element );
 				if (element)
 					data.text = element.getText();
+				else
+					data.text = editor.getSelection().getSelectedText();
 
 				// Record down the selected element in the dialog.
 				this._.selectedElement = element;
@@ -845,6 +847,14 @@
 						element: 'a',
 						attributes: attributes.set
 					} );
+
+					// Replace the text in the editor with the text from the dialog.
+					if ( data.text ) {
+						var dialogText = new CKEDITOR.dom.text( data.text, editor.document );
+						range.deleteContents();
+						range.insertNode( dialogText );
+						range.select();
+					}
 
 					style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
 					style.applyToRange( range, editor );
