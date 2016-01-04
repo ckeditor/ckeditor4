@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'colordialog', 'eu', {
 	clear: 'Garbitu',
 	highlight: 'Nabarmendu',
-	options: 'Kolore Aukerak',
-	selected: 'Hautatutako Kolorea',
-	title: 'Kolorea Hautatu'
+	options: 'Kolore aukerak',
+	selected: 'Hautatutako kolorea',
+	title: 'Hautatu kolorea'
 } );

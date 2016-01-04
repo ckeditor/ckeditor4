@@ -1,4 +1,4 @@
-CKEditor 4 Changelog
+﻿CKEditor 4 Changelog
 ====================
 
 ## CKEditor 4.6.0
@@ -10,10 +10,63 @@ New Features:
 * [#13518](http://dev.ckeditor.com/ticket/13518): (http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) request is now more flexible and [additionalRequestParameters](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property was introduced.
 * [#13828](http://dev.ckeditor.com/ticket/13828): Adding a class to widget element will also add a prefixed class to it's wrapper.
 
+## CKEditor 4.5.7
+
+* [#13816](http://dev.ckeditor.com/ticket/13816): Introduced a new strategy for Filling Character handling to avoid changes in DOM. This fixes following issues:
+	* [#12727](http://dev.ckeditor.com/ticket/12727): IndexSizeError on using plugins "Div Editing Area" and "Content Templates",
+	* [#13377](http://dev.ckeditor.com/ticket/13377): Widget plugin issue (typing Korean),
+	* [#13389](http://dev.ckeditor.com/ticket/13389): [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) fails, when cursor is next to a `hr` tag,
+	* [#13513](http://dev.ckeditor.com/ticket/13513): Divarea and [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) throw error when image is only data in editor.
+
+## CKEditor 4.5.6
+
+New Features:
+
+* Introduced the [`CKEDITOR.tools.getCookie()`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-getCookie) and [`CKEDITOR.tools.setCookie()`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-setCookie) methods for accessing cookies.
+* Introduced the [`CKEDITOR.tools.getCsrfToken()`](http://docs.ckeditor.com/#!/api/CKEDITOR.tools-method-getCsrfToken) method. The CSRF token is now automatically sent by the [File Browser](http://ckeditor.com/addon/filebrowser) and [File Tools](http://ckeditor.com/addon/filetools) plugins during file uploads. The server-side upload handlers may check it and use it to additionally secure the communication.
+
+Other Changes:
+
+* Updated [SCAYT](http://ckeditor.com/addon/scayt) (Spell Check As You Type):
+	- New features:
+		- CKEditor [Language](http://ckeditor.com/addon/language) plugin support.
+		- CKEditor [Placeholder](http://ckeditor.com/addon/placeholder) plugin support.
+		- [Drag&Drop](http://sdk.ckeditor.com/samples/fileupload.html) support.
+		- **Experimental** [GRAYT](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-grayt_autoStartup) (Grammar As You Type) functionality.
+	- Fixed issues:
+		* [#98](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/98): SCAYT affects dialog double-click. Fixed in SCAYT core.
+		* [#102](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/102): SCAYT core performance enhancements.
+		* [#104](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/104): SCAYT's spans leak into the clipboard and after pasting.
+		* [#105](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/105): A JavaScript error fired in case of multiple instances of CKEditor on one page.
+		* [#107](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/107): SCAYT should not check non-editable parts of content.
+		* [#108](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/108): Latest SCAYT copies the ID of the editor element to the iframe.
+		* SCAYT stops working when CKEditor [Undo plugin](http://ckeditor.com/addon/undo) not enabled.
+		* Issue with pasting SCAYT markup in CKEditor.
+		* SCAYT stops working after pressing the *Cancel* button in the WSC dialog.
+
 ## CKEditor 4.5.5
 
-* [#13790](https://dev.ckeditor.com/ticket/13790): Fixed: Allow for the iframe having been removed already. Thanks to [Stefan Rijnhart](https://github.com/StefanRijnhart)!
-* [#13803](https://dev.ckeditor.com/ticket/13803): Fixed: Allow the editor to be destroyed before being fully initialized. Thanks to [Cyril Fluck](https://github.com/cyril-sf)!
+Fixed Issues:
+
+* [#13887](https://dev.ckeditor.com/ticket/13887): Fixed: [Link](http://ckeditor.com/addon/link) plugin alters the `target` attribute value. Thanks to [SamZiemer](https://github.com/SamZiemer)!
+* [#12189](http://dev.ckeditor.com/ticket/12189): Fixed: The [Link](http://ckeditor.com/addon/link) plugin dialog does not display the subject of email links if the subject parameter is not lowercase.
+* [#9192](http://dev.ckeditor.com/ticket/9192): Fixed: An `undefined` string is appended to an email address added with the [Link](http://ckeditor.com/addon/link) plugin if subject and email body are empty and [`config.emailProtection`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-emailProtection) is set to `encode`.
+* [#13790](https://dev.ckeditor.com/ticket/13790): Fixed: It is not possible to destroy the editor `<iframe>` after the editor was detached from DOM. Thanks to [Stefan Rijnhart](https://github.com/StefanRijnhart)!
+* [#13803](https://dev.ckeditor.com/ticket/13803): Fixed: The editor cannot be destroyed before being fully initialized. Thanks to [Cyril Fluck](https://github.com/cyril-sf)!
+* [#13867](http://dev.ckeditor.com/ticket/13867): Fixed: CKEditor does not work when the `classList` polyfill is used.
+* [#13885](http://dev.ckeditor.com/ticket/13885): Fixed: [Enhanced Image](http://ckeditor.com/addon/image2) requires the [Link](http://ckeditor.com/addon/link) plugin to link an image.
+* [#13883](http://dev.ckeditor.com/ticket/13883): Fixed: Copying a table using the context menu strips off styles.
+* [#13872](http://dev.ckeditor.com/ticket/13872): Fixed: Cutting is possible in the [read-only](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode.
+* [#12848](http://dev.ckeditor.com/ticket/12848): [Blink] Fixed: Opening the [Find and Replace](http://ckeditor.com/addon/find) dialog window in the [read-only](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode throws an exception.
+* [#13879](http://dev.ckeditor.com/ticket/13879): Fixed: It is not possible to prevent the [`editor.drop`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-drop) event.
+* [#13361](http://dev.ckeditor.com/ticket/13361): Fixed: Skin images fail when the site path includes parentheses because the `background-image` path needs single quotes around the URL value.
+* [#13771](http://dev.ckeditor.com/ticket/13771): Fixed: The `contents.css` style is not used if the [IFrame Editing Area](http://ckeditor.com/addon/wysiwygarea) plugin is missing.
+* [#13782](http://dev.ckeditor.com/ticket/13782): Fixed: Unclear log messages.
+* [#13919](http://dev.ckeditor.com/ticket/13919): [Edge] Fixed: Browser window crashes when accessing the `isContentEditable` property of an `<input>` DOM element.
+
+Other Changes:
+
+* [#13859](http://dev.ckeditor.com/ticket/13859): Test cases created with `bender.tools.createTestsForEditors` will also receive editor bot as a second parameter.
 
 ## CKEditor 4.5.4
 
@@ -46,7 +99,7 @@ Other Changes:
 
 New Features:
 
-* [#13501](http://dev.ckeditor.com/ticket/13501): Added the [`config.fileTools_defaultFileName`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fileTools_defaultFileName) option to allow setting a default filen ame for paste uploads.
+* [#13501](http://dev.ckeditor.com/ticket/13501): Added the [`config.fileTools_defaultFileName`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-fileTools_defaultFileName) option to allow setting a default file name for paste uploads.
 * [#13603](http://dev.ckeditor.com/ticket/13603): Added support for uploading dropped BMP images.
 
 Fixed Issues:

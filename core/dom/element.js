@@ -154,8 +154,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 };
 
 ( function() {
-	var testElement = document.createElement( 'span' ),
-		supportsClassLists = !!testElement.classList,
+	var elementsClassList = document.createElement( '_' ).classList,
+		supportsClassLists = typeof elementsClassList !== 'undefined' && String( elementsClassList.add ).match( /\[Native code\]/gi ) !== null,
 		rclass = /[\n\t\r]/g;
 
 	function hasClass( classNames, className ) {

@@ -83,7 +83,10 @@
  *
  *		config.embed_provider = '//example.com/api/oembed-proxy?resource-url={url}&callback={callback}';
  *
- * You can read more about content providers in {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl}.
+ * Read more in the [documentation](#!/guide/dev_media_embed)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/mediaembed.html).
+ *
+ * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
  *
  * @since 4.5
  * @cfg {String} [embed_provider=//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}]

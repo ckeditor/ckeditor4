@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -125,8 +125,12 @@
 			offset = overrideOffset || ( icon && icon.offset );
 			bgsize = overrideBgsize || ( icon && icon.bgsize ) || '16px';
 
+			// If we use apostrophes in background-image, we must escape apostrophes in path (just to be sure). (#13361)
+			if ( path )
+				path = path.replace( /'/g, '\\\'' );
+
 			return path &&
-				( 'background-image:url(' + CKEDITOR.getUrl( path ) + ');background-position:0 ' + offset + 'px;background-size:' + bgsize + ';' );
+				( 'background-image:url(\'' + CKEDITOR.getUrl( path ) + '\');background-position:0 ' + offset + 'px;background-size:' + bgsize + ';' );
 		}
 	};
 

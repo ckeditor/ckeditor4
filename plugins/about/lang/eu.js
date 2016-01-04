@@ -4,9 +4,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'eu', {
 	copy: 'Copyright &copy; $1. Eskubide guztiak erreserbaturik.',
-	dlgTitle: 'CKEditor(r)i buruz',
-	help: '$1 aztertu laguntza jasotzeko.',
+	dlgTitle: 'CKEditor-i buruz',
+	help: 'Begiratu $1 laguntzarako.',
 	moreInfo: 'Lizentziari buruzko informazioa gure webgunean:',
-	title: 'CKEditor(r)i buruz',
-	userGuide: 'CKEditor User\'s Guide'
+	title: 'CKEditor-i buruz',
+	userGuide: 'CKEditor-en erabiltzaile-gida'
 } );

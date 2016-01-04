@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview [Language](http://ckeditor.com/addon/language) plugin.
+ * @fileOverview The [Language](http://ckeditor.com/addon/language) plugin.
  */
 
 'use strict';
@@ -16,7 +16,7 @@
 
 	CKEDITOR.plugins.add( 'language', {
 		requires: 'menubutton',
-		lang: 'ar,bg,ca,cs,cy,da,de,el,en,en-gb,eo,es,fa,fi,fo,fr,gl,he,hr,hu,it,ja,km,ko,ku,nb,nl,no,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ar,bg,ca,cs,cy,da,de,el,en,en-gb,eo,es,eu,fa,fi,fo,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,nb,nl,no,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		icons: 'language', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 
@@ -158,6 +158,8 @@
  * * _languageLabel_: The label to show for this language in the list.
  * * _textDirection_: (optional) One of the following values: `rtl` or `ltr`,
  * 	indicating the reading direction of the language. Defaults to `ltr`.
+ *
+ * See the [SDK sample](http://sdk.ckeditor.com/samples/language.html).
  *
  *		config.language_list = [ 'he:Hebrew:rtl', 'pt:Portuguese', 'de:German' ];
  *

@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pagebreak', 'eu', {
 	alt: 'Orrialde-jauzia',
-	toolbar: 'Txertatu Orrialde-jauzia Inprimatzean'
+	toolbar: 'Txertatu orrialde-jauzia inprimatzean'
 } );

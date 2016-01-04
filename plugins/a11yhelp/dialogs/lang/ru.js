@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ru', {
 			{
 			name: 'Диалоги',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Внутри диалога, нажмите TAB чтобы перейти к следующему элементу диалога, нажмите SHIFT+TAB чтобы перейти к предыдущему элементу диалога, нажмите ENTER чтобы отправить диалог, нажмите ESC чтобы отменить диалог. Когда диалоговое окно имеет несколько вкладок, получить доступ к панели вкладок как части диалога можно нажатием или сочетания ALT+F10 или TAB, при этом активные элементы диалога будут перебираться с учетом порядка табуляции. При активной панели вкладок, переход к следующей или предыдущей вкладке осуществляется нажатием стрелки "ВПРАВО" или стрелки "ВЛЕВО" соответственно.' 
 		},
 
 			{

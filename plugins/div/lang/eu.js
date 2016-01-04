@@ -4,16 +4,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'eu', {
 	IdInputLabel: 'Id',
-	advisoryTitleInputLabel: 'Izenburua',
-	cssClassInputLabel: 'Estilo-orriko Klaseak',
-	edit: 'Div-a editatu',
-	inlineStyleInputLabel: 'Inline Estiloa',
-	langDirLTRLabel: 'Ezkerretik Eskuinera (LTR)',
-	langDirLabel: 'Hizkuntzaren Norabidea',
-	langDirRTLLabel: 'Eskumatik Ezkerrera (RTL)',
-	languageCodeInputLabel: 'Hizkuntza Kodea',
-	remove: 'Div-a Kendu',
+	advisoryTitleInputLabel: 'Aholkatutako izenburua',
+	cssClassInputLabel: 'Estilo-orriko klaseak',
+	edit: 'Editatu Div-a',
+	inlineStyleInputLabel: 'Lineako estiloa',
+	langDirLTRLabel: 'Ezkerretik eskuinera (LTR)',
+	langDirLabel: 'Hizkuntzaren norabidea',
+	langDirRTLLabel: 'Eskuinetik ezkerrera (RTL)',
+	languageCodeInputLabel: 'Hizkuntzaren kodea',
+	remove: 'Kendu Div-a',
 	styleSelectLabel: 'Estiloa',
-	title: 'Div Edukiontzia Sortu',
-	toolbar: 'Div Edukiontzia Sortu'
+	title: 'Sortu Div edukiontzia',
+	toolbar: 'Sortu Div edukiontzia'
 } );

@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'justify', 'eu', {
 	block: 'Justifikatu',
-	center: 'Lerrokatu Erdian',
-	left: 'Lerrokatu Ezkerrean',
-	right: 'Lerrokatu Eskuman'
+	center: 'Erdian',
+	left: 'Lerrokatu ezkerrean',
+	right: 'Lerrokatu eskuinean'
 } );

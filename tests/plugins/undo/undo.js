@@ -1,6 +1,10 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: undo,enterkey,horizontalrule,image,iframe,flash,basicstyles,toolbar,sourcearea */
 
+var fillingCharSequence = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
+	fillingCharSequenceLength = fillingCharSequence.length,
+	createFillingCharSequenceNode = CKEDITOR.dom.selection._createFillingCharSequenceNode;
+
 function isActive( command ) {
 	return command.state === CKEDITOR.TRISTATE_OFF;
 }
@@ -446,6 +450,63 @@ bender.test( {
 		assert.isFalse( isActive( redo ), msg + 'redoable' );
 	},
 
+	// #13816
+	'test selection is restored despite filling char': function() {
+		// This TC fails on IE8 because it uses old IE selection implementation, which uses original (intrusive)
+		// bookmark implementation and it messes up the TC.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor,
+			editable = editor.editable(),
+			undo = editor.getCommand( 'undo' ),
+			range;
+
+		editor.focus();
+
+		// Set testing content with selection.
+		editable.setHtml( '<p id="p1"><i class="fcs"></i><em>def</em></p>' );
+
+		var fillingChar = createFillingCharSequenceNode( editable );
+		fillingChar.setText( fillingChar.getText() + 'abc' );
+		fillingChar.replace( editable.findOne( '.fcs' ) );
+
+		// Selection: <p>FCSa[bc<em>de]f</em></p>
+		range = editor.createRange();
+		range.setStart( editor.document.getById( 'p1' ).getFirst(), fillingCharSequenceLength + 1 );
+		range.setEnd( editor.document.getById( 'p1' ).getLast().getFirst(), 2 );
+		range.select();
+
+		// Record testing content and the selection.
+		editor.resetUndo();
+
+		// Set some other content and record a snapshot.
+		editable.setHtml( '<p>foo</p>' );
+		editor.fire( 'saveSnapshot' );
+
+		// Check if undo is available.
+		assert.isTrue( isActive( undo ), 'Undo enabled.' );
+		assert.areSame( 2, editor.undoManager.snapshots.length, 'Number of snapshots recorded.' );
+		assert.isInnerHtmlMatching( '<p id="p1">abc<em>def</em>@</p>', editor.undoManager.snapshots[ 0 ].contents, 'Snapshot does not contain FCSeq.' );
+
+		// Go back to the testing content.
+		editor.execCommand( 'undo' );
+
+		// Check if testing content has been correctly restored.
+		assert.isInnerHtmlMatching( '<p id="p1">abc<em>def</em>@</p>', editable.getHtml(), 'Snapshot restored without FCSeq.' );
+
+		// Check if testing selection has been correctly reverted.
+		range = editor.getSelection().getRanges()[ 0 ];
+
+		assert.isTrue( range.startContainer.equals( editor.document.getById( 'p1' ).getFirst() ), 'Range starts in the right text node.' );
+		assert.isTrue( range.endContainer.equals( editor.document.getById( 'p1' ).findOne( 'em' ).getFirst() ), 'Range ends in the right text node.' );
+
+		// Selection remains as: <p>a[bc<em>de]f</em></p>
+		assert.areSame( 1, range.startOffset, 'Start offset does not include FCSeq.' );
+		assert.areSame( 2, range.endOffset, 'End offset does not include FCSeq.' );
+	},
+
 	'test lock&unlock after selection change': function() {
 		var editor = this.editor,
 			editable = editor.editable(),
@@ -525,6 +586,11 @@ bender.test( {
 		var editor = this.editor,
 			editable = editor.editable();
 
+		// Focus the editor to insert the Filling Char Sequence during this test
+		// and make assertions more reliable. Otherwise, if ran separately, this test
+		// would not stress FCSeq system.
+		editor.focus();
+
 		editable.setHtml( '<p>foo</p>' );
 		editor.resetUndo();
 
@@ -554,6 +620,11 @@ bender.test( {
 	'test lock with dontUpdate cannot be overriden by normal lock': function() {
 		var editor = this.editor,
 			editable = editor.editable();
+
+		// Focus the editor to insert the Filling Char Sequence during this test
+		// and make assertions more reliable. Otherwise, if ran separately, this test
+		// would not stress FCSeq system.
+		editor.focus();
 
 		editable.setHtml( '<p>foo</p>' );
 		editor.resetUndo();

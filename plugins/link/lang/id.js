@@ -20,21 +20,21 @@ CKEDITOR.plugins.setLang( 'link', 'id', {
 	charset: 'Linked Resource Charset', // MISSING
 	cssClasses: 'Kelas Stylesheet',
 	download: 'Force Download', // MISSING
-	emailAddress: 'E-Mail Address', // MISSING
+	emailAddress: 'Alamat E-mail',
 	emailBody: 'Message Body', // MISSING
-	emailSubject: 'Message Subject', // MISSING
+	emailSubject: 'Judul Pesan',
 	id: 'Id',
 	info: 'Link Info', // MISSING
 	langCode: 'Kode Bahasa',
 	langDir: 'Arah Bahasa',
 	langDirLTR: 'Kiri ke Kanan (LTR)',
 	langDirRTL: 'Kanan ke Kiri (RTL)',
-	menu: 'Edit Link', // MISSING
+	menu: 'Sunting Tautan',
 	name: 'Nama',
 	noAnchors: '(No anchors available in the document)', // MISSING
-	noEmail: 'Please type the e-mail address', // MISSING
-	noUrl: 'Please type the link URL', // MISSING
-	other: '<other>', // MISSING
+	noEmail: 'Silahkan ketikkan alamat e-mail',
+	noUrl: 'Silahkan ketik URL tautan',
+	other: '<lainnya>',
 	popupDependent: 'Dependent (Netscape)', // MISSING
 	popupFeatures: 'Popup Window Features', // MISSING
 	popupFullScreen: 'Full Screen (IE)', // MISSING
@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'link', 'id', {
 	popupStatusBar: 'Status Bar', // MISSING
 	popupToolbar: 'Toolbar', // MISSING
 	popupTop: 'Top Position', // MISSING
-	rel: 'Relationship', // MISSING
+	rel: 'Hubungan',
 	selectAnchor: 'Select an Anchor', // MISSING
 	styles: 'Gaya',
 	tabIndex: 'Tab Index', // MISSING

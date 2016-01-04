@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'image2', 'id', {
 	menu: 'Image Properties', // MISSING
 	pathName: 'image', // MISSING
 	pathNameCaption: 'caption', // MISSING
-	resetSize: 'Reset Size', // MISSING
+	resetSize: 'Atur Ulang Ukuran',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Image Properties', // MISSING
 	uploadTab: 'Unggah',

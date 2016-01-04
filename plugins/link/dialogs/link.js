@@ -464,7 +464,7 @@
 							if ( !data.target )
 								data.target = {};
 
-							data.target.name = this.getValue().replace( /\W/gi, '' );
+							data.target.name = this.getValue().replace( /([^\x00-\x7F]|\s)/gi, '' );
 						}
 					} ]
 				},

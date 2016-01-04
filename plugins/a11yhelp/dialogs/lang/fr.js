@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 			{
 			name: 'Dialogue de l\'éditeur',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Dans un dialogue, appuyer sur TAB pour aller à l\'élément suivant du dialogue, appuyer sur MAJ+TAB pour aller à l\'élément précédent du dialogue, appuyer sur ECHAP pour annuler le dialogue. Quand un dialogue a de multiples onglets, on peut accéder à la liste des onglets avec ALT+F10 ou avec TAB. Dans la liste des onglets, se déplacer vers le suivant ou le précédent avec les FLECHES DROITE et GAUCHE respectivement.' 
 		},
 
 			{

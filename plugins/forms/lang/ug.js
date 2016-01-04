@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ug', {
 		radioTitle: 'تاق تاللاش توپچا خاسلىقى',
 		value: 'تاللىغان قىممەت',
 		selected: 'تاللانغان',
-		required: 'Required' // MISSING
+		required: 'زۆرۈر'
 	},
 	form: {
 		title: 'جەدۋەل خاسلىقى',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ug', {
 		size: 'ئېگىزلىكى',
 		lines: 'قۇر',
 		chkMulti: 'كۆپ تاللاشچان',
-		required: 'Required', // MISSING
+		required: 'زۆرۈر',
 		opText: 'تاللانما تېكىستى',
 		opValue: 'تاللانما قىممىتى',
 		btnAdd: 'قوش',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ug', {
 		value: 'دەسلەپكى قىممىتى',
 		charWidth: 'ھەرپ كەڭلىكى',
 		maxChars: 'ئەڭ كۆپ ھەرپ سانى',
-		required: 'Required', // MISSING
+		required: 'زۆرۈر',
 		type: 'تىپى',
 		typeText: 'تېكىست',
 		typePass: 'ئىم',

@@ -4,68 +4,68 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'eu', {
 	button: {
-		title: 'Botoiaren Ezaugarriak',
-		text: 'Testua (Balorea)',
+		title: 'Botoiaren ezaugarriak',
+		text: 'Testua (balioa)',
 		type: 'Mota',
 		typeBtn: 'Botoia',
 		typeSbm: 'Bidali',
-		typeRst: 'Garbitu'
+		typeRst: 'Berrezarri'
 	},
 	checkboxAndRadio: {
-		checkboxTitle: 'Kontrol-laukiko Ezaugarriak',
-		radioTitle: 'Aukera-botoiaren Ezaugarriak',
-		value: 'Balorea',
+		checkboxTitle: 'Kontrol-laukiaren propietateak',
+		radioTitle: 'Aukera-botoiaren propietateak',
+		value: 'Balioa',
 		selected: 'Hautatuta',
-		required: 'Required' // MISSING
+		required: 'Beharrezkoa'
 	},
 	form: {
-		title: 'Formularioaren Ezaugarriak',
-		menu: 'Formularioaren Ezaugarriak',
+		title: 'Formularioaren propietateak',
+		menu: 'Formularioaren propietateak',
 		action: 'Ekintza',
 		method: 'Metodoa',
 		encoding: 'Kodeketa'
 	},
 	hidden: {
-		title: 'Ezkutuko Eremuaren Ezaugarriak',
+		title: 'Ezkutuko eremuaren propietateak',
 		name: 'Izena',
-		value: 'Balorea'
+		value: 'Balioa'
 	},
 	select: {
-		title: 'Hautespen Eremuaren Ezaugarriak',
-		selectInfo: 'Informazioa',
-		opAvail: 'Aukera Eskuragarriak',
-		value: 'Balorea',
+		title: 'Hautespen eremuaren propietateak',
+		selectInfo: 'Hautatu informazioa',
+		opAvail: 'Erabilgarri dauden aukerak',
+		value: 'Balioa',
 		size: 'Tamaina',
-		lines: 'lerro kopurura',
-		chkMulti: 'Hautaketa anitzak baimendu',
-		required: 'Required', // MISSING
+		lines: 'lerro kopurua',
+		chkMulti: 'baimendu hautapen anitzak',
+		required: 'Beharrezkoa',
 		opText: 'Testua',
-		opValue: 'Balorea',
+		opValue: 'Balioa',
 		btnAdd: 'Gehitu',
 		btnModify: 'Aldatu',
 		btnUp: 'Gora',
 		btnDown: 'Behera',
-		btnSetValue: 'Aukeratutako balorea ezarri',
+		btnSetValue: 'Ezarri hautatutako balio bezala',
 		btnDelete: 'Ezabatu'
 	},
 	textarea: {
-		title: 'Testu-arearen Ezaugarriak',
+		title: 'Testu-arearen propietateak',
 		cols: 'Zutabeak',
-		rows: 'Lerroak'
+		rows: 'Errenkadak'
 	},
 	textfield: {
-		title: 'Testu Eremuaren Ezaugarriak',
+		title: 'Testu-eremuaren propietateak',
 		name: 'Izena',
-		value: 'Balorea',
-		charWidth: 'Zabalera',
-		maxChars: 'Zenbat karaktere gehienez',
-		required: 'Required', // MISSING
+		value: 'Balioa',
+		charWidth: 'Karaktere-zabalera',
+		maxChars: 'Gehienezko karaktereak',
+		required: 'Beharrezkoa',
 		type: 'Mota',
 		typeText: 'Testua',
 		typePass: 'Pasahitza',
 		typeEmail: 'E-posta',
 		typeSearch: 'Bilatu',
-		typeTel: 'Telefono Zenbakia',
-		typeUrl: 'URL'
+		typeTel: 'Telefono zenbakia',
+		typeUrl: 'URLa'
 	}
 } );

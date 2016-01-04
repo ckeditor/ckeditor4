@@ -666,6 +666,9 @@ CKEDITOR.UI_SEPARATOR = 'separator';
  * (`iframe`-based) editor. In case of [inline](#!/guide/dev_inline) editor the toolbar
  * position is set dynamically depending on the position of the editable element on the screen.
  *
+ * Read more in the [documentation](#!/guide/dev_toolbarlocation)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/toolbarlocation.html).
+ *
  *		config.toolbarLocation = 'bottom';
  *
  * @cfg

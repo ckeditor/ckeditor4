@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -114,6 +114,9 @@ CKEDITOR.plugins.add( 'resize', {
  * The minimum editor width, in pixels, when resizing the editor interface by using the resize handle.
  * Note: It falls back to editor's actual width if it is smaller than the default value.
  *
+ * Read more in the [documentation](#!/guide/dev_resize)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
+ *
  *		config.resize_minWidth = 500;
  *
  * @cfg {Number} [resize_minWidth=750]
@@ -124,6 +127,9 @@ CKEDITOR.plugins.add( 'resize', {
  * The minimum editor height, in pixels, when resizing the editor interface by using the resize handle.
  * Note: It falls back to editor's actual height if it is smaller than the default value.
  *
+ * Read more in the [documentation](#!/guide/dev_resize)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
+ *
  *		config.resize_minHeight = 600;
  *
  * @cfg {Number} [resize_minHeight=250]
@@ -132,6 +138,9 @@ CKEDITOR.plugins.add( 'resize', {
 
 /**
  * The maximum editor width, in pixels, when resizing the editor interface by using the resize handle.
+ *
+ * Read more in the [documentation](#!/guide/dev_resize)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
  *
  *		config.resize_maxWidth = 750;
  *
@@ -142,6 +151,9 @@ CKEDITOR.plugins.add( 'resize', {
 /**
  * The maximum editor height, in pixels, when resizing the editor interface by using the resize handle.
  *
+ * Read more in the [documentation](#!/guide/dev_resize)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
+ *
  *		config.resize_maxHeight = 600;
  *
  * @cfg {Number} [resize_maxHeight=3000]
@@ -150,6 +162,9 @@ CKEDITOR.plugins.add( 'resize', {
 
 /**
  * Whether to enable the resizing feature. If this feature is disabled, the resize handle will not be visible.
+ *
+ * Read more in the [documentation](#!/guide/dev_resize)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
  *
  *		config.resize_enabled = false;
  *
@@ -160,6 +175,9 @@ CKEDITOR.plugins.add( 'resize', {
 /**
  * The dimensions for which the editor resizing is enabled. Possible values
  * are `both`, `vertical`, and `horizontal`.
+ *
+ * Read more in the [documentation](#!/guide/dev_resize)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
  *
  *		config.resize_dir = 'both';
  *

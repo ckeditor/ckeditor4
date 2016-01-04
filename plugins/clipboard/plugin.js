@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -11,16 +11,16 @@
 //
 // COPY & PASTE EXECUTION FLOWS:
 // -- CTRL+C
-// 		* if ( isCustomCopyCutSupported )
-// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
+//		* if ( isCustomCopyCutSupported )
+//			* dataTransfer.setData( 'text/html', getSelectedHtml )
 //		* else
 //			* browser's default behavior
 // -- CTRL+X
 //		* listen onKey (onkeydown)
 //		* fire 'saveSnapshot' on editor
-// 		* if ( isCustomCopyCutSupported )
-// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
-// 			* extractSelectedHtml // remove selected contents
+//		* if ( isCustomCopyCutSupported )
+//			* dataTransfer.setData( 'text/html', getSelectedHtml )
+//			* extractSelectedHtml // remove selected contents
 //		* else
 //			* browser's default behavior
 //		* deferred second 'saveSnapshot' event
@@ -46,7 +46,7 @@
 //		* !canceled && execCommand 'paste'
 //		* !success && fire 'pasteDialog' on editor
 // -- Paste from native context menu & menubar
-//		(Fx & Webkits are handled in 'paste' default listner.
+//		(Fx & Webkits are handled in 'paste' default listener.
 //		Opera cannot be handled at all because it doesn't fire any events
 //		Special treatment is needed for IE, for which is this part of doc)
 //		* listen 'onpaste'
@@ -62,7 +62,7 @@
 // -- Possible dataValue types: auto, text, html.
 // -- Possible dataValue contents:
 //		* text (possible \n\r)
-//		* htmlified text (text + br,div,p - no presentional markup & attrs - depends on browser)
+//		* htmlified text (text + br,div,p - no presentational markup & attrs - depends on browser)
 //		* html
 // -- Possible flags:
 //		* htmlified - if true then content is a HTML even if no markup inside. This flag is set
@@ -73,13 +73,13 @@
 //		* content: html ->				filter, set type: html
 // -- Type: text:
 //		* content: htmlified text ->	filter, unify text markup
-//		* content: html ->				filter, strip presentional markup, unify text markup
+//		* content: html ->				filter, strip presentational markup, unify text markup
 // -- Type: html:
 //		* content: htmlified text ->	filter, unify text markup
 //		* content: html ->				filter
 //
 // -- Phases:
-// 		* if dataValue is empty copy data from dataTransfer to dataValue (priority 1)
+//		* if dataValue is empty copy data from dataTransfer to dataValue (priority 1)
 //		* filtering (priorities 3-5) - e.g. pastefromword filters
 //		* content type sniffing (priority 6)
 //		* markup transformations for text (priority 6)
@@ -274,7 +274,7 @@
 					data = htmlifiedTextHtmlification( editor.config, data );
 				}
 
-				// Strip presentional markup & unify text markup.
+				// Strip presentational markup & unify text markup.
 				// Forced plain text (dialog or forcePAPT).
 				// Note: we do not check dontFilter option in this case, because forcePAPT was implemented
 				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5, so
@@ -461,7 +461,12 @@
 				// 'paste' evt by itself.
 				evt.cancel();
 				dialogCommited = true;
-				callback( { type: dataType, dataValue: evt.data, method: 'paste' } );
+				callback( {
+					type: dataType,
+					dataValue: evt.data.dataValue,
+					dataTransfer: evt.data.dataTransfer,
+					method: 'paste'
+				} );
 			}
 
 			function onDialogOpen() {
@@ -525,7 +530,10 @@
 
 			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				var initOnCopyCut = function( evt ) {
-					clipboard.initPasteDataTransfer( evt, editor );
+					// If user tries to cut in read-only editor, we must prevent default action. (#13872)
+					if ( !editor.readOnly || evt.name != 'cut' ) {
+						clipboard.initPasteDataTransfer( evt, editor );
+					}
 					evt.data.preventDefault();
 				};
 
@@ -534,7 +542,10 @@
 
 				// Delete content with the low priority so one can overwrite cut data.
 				editable.on( 'cut', function() {
-					editor.extractSelectedHtml();
+					// If user tries to cut in read-only editor, we must prevent default action. (#13872)
+					if ( !editor.readOnly ) {
+						editor.extractSelectedHtml();
+					}
 				}, null, null, 999 );
 			}
 
@@ -719,7 +730,7 @@
 			preventPasteEvent = 1;
 			// For safety reason we should wait longer than 0/1ms.
 			// We don't know how long execution of quite complex getClipboardData will take
-			// and in for example 'paste' listner execCommand() (which fires 'paste') is called
+			// and in for example 'paste' listener execCommand() (which fires 'paste') is called
 			// after getClipboardData finishes.
 			// Luckily, it's impossible to immediately fire another 'paste' event we want to handle,
 			// because we only handle there native context menu and menu bar.
@@ -1340,6 +1351,11 @@
 			// -------------- DROP --------------
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
+				// Do nothing if event was already prevented. (#13879)
+				if ( evt.data.$.defaultPrevented ) {
+					return;
+				}
+
 				// Cancel native drop.
 				evt.data.preventDefault();
 
@@ -1364,7 +1380,7 @@
 
 				// Fire drop.
 				fireDragEvent( evt, dragRange, dropRange  );
-			} );
+			}, null, null, 9999 );
 
 			// Create dataTransfer or get it, if it was created before.
 			editable.attachListener( editor, 'drop', clipboard.initDragDataTransfer, clipboard, null, 1 );
@@ -2629,7 +2645,7 @@
  * `style` and `class`) will be kept.
  * * `'h1 h2 p div'` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
  * * `null` &ndash; Content will not be filtered by the paste filter (but it still may be filtered
- * by [Advanvced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
+ * by [Advanced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
  * disable the paste filter in Chrome and Safari, where this option defaults to `'semantic-content'`.
  *
  * Example:

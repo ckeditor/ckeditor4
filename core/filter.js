@@ -2218,6 +2218,9 @@
  * useful when you want to "trim down" the content allowed by default by
  * editor features. To do that, use the {@link #disallowedContent} option.
  *
+ * Read more in the [documentation](#!/guide/dev_acf)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/acf.html).
+ *
  * @since 4.1
  * @cfg {CKEDITOR.filter.allowedContentRules/Boolean} [allowedContent=null]
  * @member CKEDITOR.config
@@ -2246,7 +2249,9 @@
  *			}
  *		} );
  *
- * See {@link CKEDITOR.config#allowedContent} for more details.
+ * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-and-allow-additional-tags%2Fproperties)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/acf.html).
+ * See also {@link CKEDITOR.config#allowedContent} for more details.
  *
  * @since 4.1
  * @cfg {Object/String} extraAllowedContent
@@ -2257,6 +2262,8 @@
  * Disallowed content rules. They have precedence over {@link #allowedContent allowed content rules}.
  * Read more in the [Disallowed Content guide](#!/guide/dev_disallowed_content).
  *
+ * Read more in the [documentation](#!/guide/dev_acf-section-automatic-mode-but-disallow-certain-tags%2Fproperties)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/acf.html).
  * See also {@link CKEDITOR.config#allowedContent} and {@link CKEDITOR.config#extraAllowedContent}.
  *
  * @since 4.4

@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'eu', {
 	bold: 'Lodia',
 	italic: 'Etzana',
 	strike: 'Marratua',
-	subscript: 'Azpi-indize',
-	superscript: 'Goi-indize',
+	subscript: 'Azpi-indizea',
+	superscript: 'Goi-indizea',
 	underline: 'Azpimarratu'
 } );
