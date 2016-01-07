@@ -654,6 +654,17 @@
 		return editor.blockless ? CKEDITOR.ENTER_BR : enterMode;
 	}
 
+	// Create DocumentFragment from specified ranges. For now it handles only tables in Firefox
+	// and returns DocumentFragment from the 1. range for other cases. (#13884)
+	function createDocumentFragmentFromRanges( ranges, editable ) {
+		// The check is performed on native node name, because our text nodes don't have getName method.
+		if ( ranges.length > 0 && ranges[ 0 ].startContainer.$.nodeName.toLowerCase() == 'tr' ) {
+			ranges[ 0 ].setEndAt( ranges[ ranges.length - 1 ].endContainer, CKEDITOR.POSITION_BEFORE_END );
+		}
+
+		return editable.getHtmlFromRange( ranges[ 0 ] );
+	}
+
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 		/**
 		 * Adds a command definition to the editor instance. Commands added with
@@ -1133,7 +1144,7 @@
 				return null;
 			}
 
-			var docFragment = editable.getHtmlFromRange( ranges[ 0 ] );
+			var docFragment = createDocumentFragmentFromRanges( ranges, editable );
 
 			return toString ? docFragment.getHtml() : docFragment;
 		},
