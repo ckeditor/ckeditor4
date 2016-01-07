@@ -495,15 +495,15 @@
 		// Create a stack of spans with each containing one style.
 		var styles = tools.parseCssText( normalizedStyles( element ) ),
 			innermostElement = element,
-			topmost = true;
+			styleTopmost = element.name === 'span'; // Ensure that the root element retains at least one style.
 
 		for ( var style in styles ) {
 			if ( style.match( /margin|text\-align|width/i ) ) {
 				continue;
 			}
 
-			if ( topmost ) {
-				topmost = false;
+			if ( styleTopmost ) {
+				styleTopmost = false;
 				continue;
 			}
 
@@ -517,7 +517,11 @@
 			delete styles[ style ];
 		}
 
-		element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+		if ( JSON.stringify( styles ) !== '{}' ) {
+			element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+		} else {
+			delete element.attributes.style;
+		}
 
 		// Add the stored children to the innermost span.
 		for ( i = 0; i < children.length; i++ ) {

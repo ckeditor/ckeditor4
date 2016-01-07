@@ -32,7 +32,7 @@
 			assertPasteEvent( this.editor, { dataValue: '<w:WordDocument></w:WordDocument>' }, function() {
 				CKEDITOR.cleanWord.createStyleStack( element, filterMock );
 				assert.areSame(
-					'<p style="color:yellow"><span style="font-family:&quot;Calibri&quot;"><span style="font-size:36pt"><span style="background:lime">test</span></span></span></p>',
+					'<p><span style="color:yellow"><span style="font-family:&quot;Calibri&quot;"><span style="font-size:36pt"><span style="background:lime">test</span></span></span></span></p>',
 					element.getOuterHtml()
 				);
 			}, null, true );
@@ -53,7 +53,7 @@
 				element = fragment.children[ 0 ];
 
 			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
-			assert.areSame( '<p style="font-family:Arial; margin-bottom:0pt"><span style="font-size:16pt">Test</span></p>', element.getOuterHtml() );
+			assert.areSame( '<p style="margin-bottom:0pt"><span style="font-family:Arial"><span style="font-size:16pt">Test</span></span></p>', element.getOuterHtml() );
 		},
 		'test push styles lower': function() {
 			var ol = new CKEDITOR.htmlParser.element( 'ol' ),
