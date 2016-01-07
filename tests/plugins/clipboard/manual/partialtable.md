@@ -1,6 +1,6 @@
-@bender-tags: clipboard, tc, 4.5.5, 13884
+@bender-tags: clipboard, tc, 4.5.7, 13884
 @bender-ui: collapsed
-@bender-ckeditor-plugins: clipboard, wysiwygarea, toolbar, sourcearea, floatingspace, elementspath, table, undo
+@bender-ckeditor-plugins: clipboard, wysiwygarea, toolbar, sourcearea, sourcedialog, floatingspace, elementspath, table
 
 ## Partial table copy:
 

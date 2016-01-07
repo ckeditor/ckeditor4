@@ -161,7 +161,7 @@ bender.test( {
 
 		sel.selectRanges( ranges );
 
-		assert.isInnerHtmlMatching( '<table><tr><td>11@</td><td>22</td></tr></table>', editor.getSelectedHtml( true ) );
+		assert.isInnerHtmlMatching( '<table><tbody><tr><td>11@</td><td>22</td></tr></tbody></table>', editor.getSelectedHtml( true ) );
 	},
 
 	'test extractSelectedHtml with removeEmptyBlock': function() {
