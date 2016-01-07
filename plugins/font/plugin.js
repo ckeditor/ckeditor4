@@ -188,6 +188,44 @@
 		init: function( editor ) {
 			var config = editor.config;
 
+			editor.filter.addFeature( {
+				allowedContent: 'span[style]{*}',
+				contentTransformations: [
+					[
+						{
+							element: 'font',
+							left: function( element ) {
+								return !!element.attributes.size ||
+									!!element.attributes.align ||
+									!!element.attributes.face;
+							},
+							right: function( element ) {
+								var sizes = [
+									'', // Non-existent size "0"
+									'x-small',
+									'small',
+									'medium',
+									'large',
+									'x-large',
+									'xx-large'
+								];
+
+								element.name = 'span';
+
+								element.attributes.size && ( element.styles[ 'font-size' ] = sizes[ element.attributes.size ] );
+								delete element.attributes.size;
+
+								element.attributes.align && ( element.styles.align = element.attributes.align );
+								delete element.attributes.align;
+
+								element.attributes.face && ( element.styles[ 'font-family' ] = element.attributes.face );
+								delete element.attributes.face;
+							}
+						}
+					]
+				]
+			} );
+
 			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30 );
 			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40 );
 		}

@@ -24,6 +24,27 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			addButton( 'BGColor', 'back', lang.bgColorTitle, 20 );
 		}
 
+		editor.filter.addFeature( {
+			allowedContent: 'span[style]{*}',
+			contentTransformations: [
+				[
+					{
+						element: 'font',
+						check: 'span{color}',
+						left: function( element ) {
+							return !!element.attributes.color;
+						},
+						right: function( element ) {
+							element.name = 'span';
+
+							element.attributes.color && ( element.styles.color = element.attributes.color );
+							delete element.attributes.color;
+						}
+					}
+				]
+			]
+		} );
+
 		function addButton( name, type, title, order ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';

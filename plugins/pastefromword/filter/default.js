@@ -60,6 +60,9 @@
 
 					createStyleStack( element, filter );
 				},
+				'font': function( element ) {
+					createAttributeStack( element, filter );
+				},
 				'ul': function( element ) {
 					var style = tools.parseCssText( element.attributes.style );
 
@@ -86,29 +89,6 @@
 					setSymbol.removeRedundancies( style, element.getAscendant( 'ol' ) ? 2 : 1 );
 
 					element.attributes.style = CKEDITOR.tools.writeCssText( style );
-				},
-				'font': function( element ) {
-					element.name = 'span';
-
-					// Either map the attribute name to a style, or supply a function that does all the work.
-					var attributeStyleMap = {
-						align: 'align',
-						color: 'color',
-						face: 'font-family',
-						size: function( value ) {
-							var sizes = [
-								'x-small',
-								'small',
-								'medium',
-								'large',
-								'x-large',
-								'xx-large'
-							];
-							setStyle( element, 'font-size', sizes[ +value - 1 ] );
-						}
-					};
-
-					mapStyles( element, attributeStyleMap );
 				},
 				'span': function( element ) {
 					element.filterChildren( filter );
@@ -545,6 +525,47 @@
 		}
 	}
 
+	// Same as createStyleStack, but instead of styles - stack attributes.
+	function createAttributeStack( element, filter ) {
+		var i,
+			children = [];
+
+		element.filterChildren( filter );
+
+		// Store element's children somewhere else.
+		for ( i = element.children.length - 1; i >= 0; i-- ) {
+			children.unshift( element.children[ i ] );
+			element.children[ i ].remove();
+		}
+
+		// Create a stack of spans with each containing one style.
+		var attributes = element.attributes,
+			innermostElement = element,
+			topmost = true;
+
+		for ( var attribute in attributes ) {
+
+			if ( topmost ) {
+				topmost = false;
+				continue;
+			}
+
+			var newElement = new CKEDITOR.htmlParser.element( element.name );
+
+			newElement.attributes[ attribute ] = attributes[ attribute ];
+
+			innermostElement.add( newElement );
+			innermostElement = newElement;
+
+			delete attributes[ attribute ];
+		}
+
+		// Add the stored children to the innermost span.
+		for ( i = 0; i < children.length; i++ ) {
+			innermostElement.add( children[ i ] );
+		}
+	}
+
 	// Some styles need to be stacked in a particular order to work properly.
 	function sortStyles( element ) {
 		var orderedStyles = [
@@ -628,6 +649,7 @@
 	}
 
 	var exportedFunctions = {
+		createAttributeStack: createAttributeStack,
 		createStyleStack: createStyleStack,
 		pushStylesLower: pushStylesLower,
 		setSymbol: setSymbol,

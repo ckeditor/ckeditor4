@@ -121,6 +121,15 @@
 			CKEDITOR.cleanWord.sortStyles( element );
 
 			assert.areSame( '<p style="font-size:48pt; background:yellow; font-family:Courier">Test</p>', element.getOuterHtml() );
+		},
+		'test stack attributes': function() {
+			var html = '<font face="Arial" color="#faebd7" size="4">There is <em>content</em> here</font>',
+				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
+				element = fragment.children[ 0 ];
+
+			CKEDITOR.cleanWord.createAttributeStack( element, filterMock );
+
+			assert.areSame( '<font face="Arial"><font color="#faebd7"><font size="4">There is <em>content</em> here</font></font></font>', element.getOuterHtml() );
 		}
 	} );
 } )();
