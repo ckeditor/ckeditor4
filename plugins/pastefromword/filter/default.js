@@ -103,10 +103,42 @@
 
 					createStyleStack( element, filter );
 				},
-				'td': function( element ) {
-					setStyle( element, 'width', element.attributes.width + 'px' );
+				'table': function( element ) {
+					element._tdBorders = {};
+					element.filterChildren( filter );
 
-					delete element.attributes.width;
+					var borderStyle, occurences = 0;
+					for ( var border in element._tdBorders ) {
+						if ( element._tdBorders[ border ] > occurences ) {
+							occurences = element._tdBorders[ border ];
+							borderStyle = border;
+						}
+					}
+
+					setStyle( element, 'border', borderStyle );
+
+				},
+				'td': function( element ) {
+
+					var tdBorders =  element.getAscendant( 'table' )._tdBorders,
+						borderStyles = [ 'border', 'border-top', 'border-right', 'border-bottom', 'border-left' ];
+
+					var styles = tools.parseCssText( element.attributes.style );
+
+					for ( var style in styles ) {
+						var temp = styles[ style ];
+						delete styles[ style ];
+						styles[ style.toLowerCase() ] = temp;
+					}
+
+					// Count all border styles that occur in the table.
+					for ( var i = 0; i < borderStyles.length; i++ ) {
+						if ( styles[ borderStyles[ i ] ] ) {
+							var key = styles[ borderStyles[ i ] ];
+							tdBorders[ key ] = tdBorders[ key ] ? tdBorders[ key ] + 1 : 1;
+						}
+					}
+
 
 					pushStylesLower( element );
 				},

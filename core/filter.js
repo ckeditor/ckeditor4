@@ -2124,6 +2124,47 @@
 		},
 
 		/**
+		 * Converts the shorthand form of the `border` style to seperate styles.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 */
+		splitBorderShorthand: function( element ) {
+			if ( !element.styles.border ) {
+				return;
+			}
+
+			var widths = element.styles.border.match( /([\.\d]+\w+)/g );
+			switch ( widths.length ) {
+				case 1:
+					element.styles[ 'border-width' ] = widths[0];
+					break;
+				case 2:
+					mapStyles( [ 0, 1, 0, 1 ] );
+					break;
+				case 3:
+					mapStyles( [ 0, 1, 2, 1 ] );
+					break;
+				case 4:
+					mapStyles( [ 0, 1, 2, 3 ] );
+					break;
+			}
+
+			element.styles[ 'border-style' ] = element.styles[ 'border-style' ] ||
+				element.styles.border.match( /(none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset|initial|inherit)/ )[ 0 ];
+			if ( !element.styles[ 'border-style' ] )
+				delete element.styles[ 'border-style' ];
+
+			delete element.styles.border;
+
+			function mapStyles( map ) {
+				element.styles['border-top-width'] = widths[ map[0] ];
+				element.styles['border-right-width'] = widths[ map[1] ];
+				element.styles['border-bottom-width'] = widths[ map[2] ];
+				element.styles['border-left-width'] = widths[ map[3] ];
+			}
+		},
+
+		/**
 		 * Checks whether an element matches a given {@link CKEDITOR.style}.
 		 * The element can be a "superset" of a style, e.g. it may have
 		 * more classes, but needs to have at least those defined in the style.
