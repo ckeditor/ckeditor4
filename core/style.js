@@ -38,6 +38,26 @@ CKEDITOR.STYLE_INLINE = 2;
  */
 CKEDITOR.STYLE_OBJECT = 3;
 
+/**
+ * Hindu-Arabic Numeral style type.
+ * 0 1 2 3 4 5 6 7 8 9
+ *
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
+ */
+CKEDITOR.NUMERAL_STYLE_HINDU_ARABIC = 1;
+
+/**
+ * Western Arabic-Indic Numeral style type.
+ * ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩
+ *
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
+ */
+CKEDITOR.NUMERAL_STYLE_ARABIC_INDIC = 2;
+
 ( function() {
 	var blockElements = {
 			address: 1, div: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, p: 1,
@@ -1001,8 +1021,29 @@ CKEDITOR.STYLE_OBJECT = 3;
 					styleNode = null;
 
 				if ( styleNode ) {
-					// Move the contents of the range to the style element.
-					styleRange.extractContents().appendTo( styleNode );
+					if ( this._name.indexOf( 'Numeral' ) >= 0 ) {
+							var i, textContent, convertedText, numericStyle;
+							if ( styleNode.getAttribute( 'numeralType' ) == 'Hindu Arabic' ) {
+								numericStyle = CKEDITOR.NUMERAL_STYLE_HINDU_ARABIC;
+							}
+							else {
+								numericStyle = CKEDITOR.NUMERAL_STYLE_ARABIC_INDIC;
+							}
+							// extract the range content
+							var extracted = styleRange.extractContents();
+							// search digits within the content and replace them with the selected numeral style
+							for ( i = 0; i< extracted.getChildren().$.length; i++ ) {
+								textContent = extracted.getChildren().$[i].textContent;
+								convertedText = ConvertDigits( textContent, numericStyle );
+								extracted.getChildren().$[i].textContent = convertedText;
+							}
+							// append the converted content to the style element
+							extracted.appendTo( styleNode );
+					}
+					else {
+						// Move the contents of the range to the style element.
+						styleRange.extractContents().appendTo( styleNode );
+					}
 
 					// Insert it into the range position (it is collapsed after
 					// extractContents.
@@ -1819,6 +1860,26 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		selection.selectRanges( ranges );
 		doc.removeCustomData( 'doc_processing_style' );
+	}
+	
+	function ConvertDigits( string, numeralType ) {
+		var arr, regExp;
+		if ( numeralType == CKEDITOR.NUMERAL_STYLE_HINDU_ARABIC ) {
+			arr = ['\u0030','\u0031','\u0032','\u0033','\u0034','\u0035','\u0036','\u0037','\u0038','\u0039'];
+			regExp = /[٠-٩]/g;
+		}
+		else {
+			arr = ['\u0660','\u0661','\u0662','\u0663','\u0664','\u0665','\u0666','\u0667','\u0668','\u0669'];
+			regExp = /[0-9]/g;
+		}
+
+		var convertedText = string.replace( regExp, function(n){
+				if ( n.charCodeAt(0) >= 0x0660 ) {
+					n = String.fromCharCode(n.charCodeAt(0) - 0x0660 + 48);
+				}
+				return arr[n];
+			});
+		return convertedText;
 	}
 } )();
 

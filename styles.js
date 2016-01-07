@@ -76,6 +76,9 @@ CKEDITOR.stylesSet.add( 'default', [
 
 	{ name: 'Language: RTL',	element: 'span', attributes: { 'dir': 'rtl' } },
 	{ name: 'Language: LTR',	element: 'span', attributes: { 'dir': 'ltr' } },
+	
+	{ name: 'Numeral: 123',		element: 'span', attributes: { 'numeralType': 'Hindu Arabic' } },
+	{ name: 'Numeral: ١٢٣',		element: 'span', attributes: { 'numeralType': 'Arabic Indic' } },	
 
 	/* Object Styles */
 
