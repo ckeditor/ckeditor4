@@ -1,5 +1,5 @@
 /* bender-tags: clipboard,pastefromword */
-/* bender-ckeditor-plugins: pastefromword,ajax */
+/* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,font,link,toolbar,colorbutton,image,list,liststyle,sourcearea,format,justify,table,tableresize,tabletools */
 /* bender-include: ../../plugins/clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */
 
@@ -8,11 +8,7 @@
 
 	bender.editor = {
 		config: {
-			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
-			pasteFilter: null,
-			pasteFromWordRemoveFontStyles: false,
-			pasteFromWordRemoveStyles: false,
-			allowedContent: true
+			allowedContent: 'b; i; p[style]{margin};'
 		}
 	};
 
@@ -21,7 +17,7 @@
 			assertPasteEvent( editor, { dataValue: input }, function( data ) {
 				var compat = bender.tools.compatHtml;
 				// Old IE versions paste the HTML tags in uppercase.
-				assert.areSame( compat( output ).toLowerCase(), compat( data.dataValue ).toLowerCase() );
+				assert.areSame( compat( output ).toLowerCase(), compat( editor.dataProcessor.toHtml( data.dataValue ) ).toLowerCase() );
 			}, null, true );
 		};
 	}
@@ -76,27 +72,32 @@
 		return function() {
 			var inputPath = [ '_fixtures', fixtureName, wordVersion, browser ].join( '/' ) + '.html',
 				outputPath = [ '_fixtures', fixtureName, '/expected.html' ].join( '/' ),
-				specialCasePath = [ '_fixtures', fixtureName, wordVersion, 'expected_' + browser ].join( '/' ) + '.html',
-				that = this;
+				specialCasePath = [ '_fixtures', fixtureName, wordVersion, 'expected_' + browser ].join( '/' ) + '.html';
 
-			loadFixture( inputPath, function( input ) {
+			bender.editorBot.create( {
+				name: [ fixtureName, wordVersion, browser ].join( ' ' )
+			}, function( bot ) {
+				bot.editor.filter.allow( '*[style]{margin,margin-*,line-height};' );
 
-				loadFixture( outputPath, function( output ) {
+				loadFixture( inputPath, function( input ) {
 
-					loadFixture( specialCasePath, function( specialCaseOutput ) {
+					loadFixture( outputPath, function( output ) {
 
-						// null means file not found - skipping test.
-						if ( input === null ) {
-							assert.ignore();
-						}
+						loadFixture( specialCasePath, function( specialCaseOutput ) {
 
-						if ( specialCaseOutput !== null ) {
-							assertWordFilter( that.editor )( input, specialCaseOutput );
-						} else {
-							assert.isNotNull( output, '"expected.html" missing.' );
+							// null means file not found - skipping test.
+							if ( input === null ) {
+								assert.ignore();
+							}
 
-							assertWordFilter( that.editor )( input, output );
-						}
+							if ( specialCaseOutput !== null ) {
+								assertWordFilter( bot.editor )( input, specialCaseOutput );
+							} else {
+								assert.isNotNull( output, '"expected.html" missing.' );
+
+								assertWordFilter( bot.editor )( input, output );
+							}
+						} );
 					} );
 				} );
 			} );
