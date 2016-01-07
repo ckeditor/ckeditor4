@@ -9,6 +9,8 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 	'use strict';
 
 	var lang = editor.lang.embedbase;
+	var urlLabel = lang.url ? lang.url : editor.lang.common.url;
+	var description = lang.description ? lang.description : '';
 
 	return {
 		title: lang.title,
@@ -75,9 +77,14 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 
 				elements: [
 					{
+						type: 'html',
+						id: 'description',
+						html: description
+					},
+					{
 						type: 'text',
 						id: 'url',
-						label: editor.lang.common.url,
+						label: urlLabel,
 
 						setup: function( widget ) {
 							this.setValue( widget.data.url );
