@@ -60,6 +60,11 @@
 
 					createStyleStack( element, filter );
 				},
+				'pre': function( element ) {
+					if ( thisIsAListItem( element ) ) convertToFakeListItem( element );
+
+					createStyleStack( element, filter );
+				},
 				'font': function( element ) {
 					createAttributeStack( element, filter );
 				},
@@ -192,6 +197,8 @@
 	function thisIsAListItem( element ) {
 		/*jshint -W024 */
 		if ( tools.checkIfAnyArrayItemMatches( ( element.attributes.class || '' ).split( ' ' ), /MsoListParagraph/ ) ||
+			//
+			element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ ) ||
 			// Flat, ordered lists are represented by paragraphs
 			// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
 			// where the middle parentheses contain the symbol.
@@ -355,24 +362,21 @@
 		if ( list.name == 'ol' ) {
 			if ( list.attributes.type || style[ 'list-style-type' ] ) return;
 
-			switch ( symbol ) {
-				case 'a.':
-				case 'b.':
-					list.attributes.type = 'a';
+			var typeMap = {
+				'[ivx]': 'lower-roman',
+				'[IVX]': 'upper-roman',
+				'[a-z]': 'lower-alpha',
+				'[A-Z]': 'upper-alpha',
+				'\d': 'decimal'
+			};
+
+			for ( var type in typeMap ) {
+				if ( symbol.match( new RegExp( type ) ) ) {
+					style[ 'list-style-type' ] = typeMap[ type ];
 					break;
-				case 'A.':
-				case 'B.':
-					list.attributes.type = 'A';
-					break;
-				case 'i.':
-				case 'ii.':
-					list.attributes.type = 'i';
-					break;
-				case 'I.':
-				case 'II.':
-					list.attributes.type = 'I';
-					break;
+				}
 			}
+
 		} else {
 			var symbolMap = {
 				'·': 'disc',
