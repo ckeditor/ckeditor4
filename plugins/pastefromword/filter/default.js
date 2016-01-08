@@ -12,6 +12,8 @@
 
 	CKEDITOR.cleanWord = function( mswordHtml ) {
 
+		mswordHtml = mswordHtml.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
+
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
 
 		var filter = new CKEDITOR.htmlParser.filter( {
