@@ -8,7 +8,8 @@
 	bender.editor = {
 		config: {
 			pasteFromWordRemoveStyles: 1,
-			pasteFromWordRemoveFontStyles: 1
+			pasteFromWordRemoveFontStyles: 1,
+			pasteFromWordCleanupFile: 'plugins/pastefromword/filter/legacy.js'
 		}
 	};
 

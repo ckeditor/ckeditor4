@@ -10,7 +10,8 @@
 			pasteFromWordRemoveStyles: false,
 			pasteFromWordRemoveFontStyles: false,
 			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
-			pasteFilter: null
+			pasteFilter: null,
+			pasteFromWordCleanupFile: 'plugins/pastefromword/filter/legacy.js'
 		}
 	};
 
