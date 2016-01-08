@@ -2133,7 +2133,7 @@
 				return;
 			}
 
-			var widths = element.styles.border.match( /([\.\d]+\w+)/g );
+			var widths = element.styles.border.match( /([\.\d]+\w+)/g ) || [ '0px' ];
 			switch ( widths.length ) {
 				case 1:
 					element.styles[ 'border-width' ] = widths[0];
