@@ -2165,6 +2165,42 @@
 		},
 
 		/**
+		 * Converts the shorthand form of the `margin` style to seperate styles.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 */
+		splitMarginShorthand: function( element ) {
+			if ( !element.styles.margin ) {
+				return;
+			}
+
+			var widths = element.styles.margin.match( /([\.\d]+\w+)/g ) || [ '0px' ];
+			switch ( widths.length ) {
+				case 1:
+					element.styles.margin = widths[0];
+					break;
+				case 2:
+					mapStyles( [ 0, 1, 0, 1 ] );
+					break;
+				case 3:
+					mapStyles( [ 0, 1, 2, 1 ] );
+					break;
+				case 4:
+					mapStyles( [ 0, 1, 2, 3 ] );
+					break;
+			}
+
+			delete element.styles.margin;
+
+			function mapStyles( map ) {
+				element.styles['margin-top'] = widths[ map[0] ];
+				element.styles['margin-right'] = widths[ map[1] ];
+				element.styles['margin-bottom'] = widths[ map[2] ];
+				element.styles['margin-left'] = widths[ map[3] ];
+			}
+		},
+
+		/**
 		 * Checks whether an element matches a given {@link CKEDITOR.style}.
 		 * The element can be a "superset" of a style, e.g. it may have
 		 * more classes, but needs to have at least those defined in the style.
