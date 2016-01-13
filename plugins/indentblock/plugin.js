@@ -39,6 +39,20 @@
 					}
 				};
 
+				this.contentTransformations = [
+					[ 'div: splitMarginShorthand' ],
+					[ 'h1: splitMarginShorthand' ],
+					[ 'h2: splitMarginShorthand' ],
+					[ 'h3: splitMarginShorthand' ],
+					[ 'h4: splitMarginShorthand' ],
+					[ 'h5: splitMarginShorthand' ],
+					[ 'h6: splitMarginShorthand' ],
+					[ 'ol: splitMarginShorthand' ],
+					[ 'p: splitMarginShorthand' ],
+					[ 'pre: splitMarginShorthand' ],
+					[ 'ul: splitMarginShorthand' ]
+				];
+
 				if ( this.enterBr )
 					this.allowedContent.div = true;
 
