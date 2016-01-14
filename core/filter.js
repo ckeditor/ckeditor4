@@ -2150,7 +2150,7 @@
 			}
 
 			element.styles[ 'border-style' ] = element.styles[ 'border-style' ] ||
-				element.styles.border.match( /(none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset|initial|inherit)/ )[ 0 ];
+				( element.styles.border.match( /(none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset|initial|inherit)/ ) || [] )[ 0 ];
 			if ( !element.styles[ 'border-style' ] )
 				delete element.styles[ 'border-style' ];
 
