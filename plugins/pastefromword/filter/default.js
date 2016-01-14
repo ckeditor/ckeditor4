@@ -343,7 +343,7 @@
 			symbol = element.attributes[ 'cke-symbol' ];
 
 		element.forEach( function( node ) {
-			if ( !removed && node.value.match( symbol ) ) {
+			if ( !removed && node.value.match( symbol.replace( ')', '\\)' ) ) ) {
 
 				node.value = node.value.replace( symbol, '' );
 
@@ -407,7 +407,7 @@
 	};
 
 	function createList( element ) {
-		if ( ( element.attributes[ 'cke-symbol' ].match( /([\daiIA])\./ ) || [] )[ 1 ] ) {
+		if ( ( element.attributes[ 'cke-symbol' ].match( /([\daiIA])[\.\)]/ ) || [] )[ 1 ] ) {
 			return new CKEDITOR.htmlParser.element( 'ol' );
 		}
 		return new CKEDITOR.htmlParser.element( 'ul' );
