@@ -286,7 +286,6 @@
 				'p:margin-bottom:1em',
 				'0in',
 				'mso-',
-				'margin-left',
 				'text-indent',
 				'visibility:visible'
 			],
