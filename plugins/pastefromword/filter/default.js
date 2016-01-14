@@ -12,6 +12,7 @@
 
 	CKEDITOR.cleanWord = function( mswordHtml ) {
 
+		// Sometimes Word malforms the comments.
 		mswordHtml = mswordHtml.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
 
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
@@ -58,7 +59,9 @@
 					}
 				},
 				'p': function( element ) {
-					if ( thisIsAListItem( element ) ) convertToFakeListItem( element );
+					if ( thisIsAListItem( element ) ) {
+						convertToFakeListItem( element );
+					}
 
 					createStyleStack( element, filter );
 				},
@@ -213,8 +216,8 @@
 
 	function thisIsAListItem( element ) {
 		/*jshint -W024 */
-		if ( tools.checkIfAnyArrayItemMatches( ( element.attributes.class || '' ).split( ' ' ), /MsoListParagraph/ ) ||
-			//
+		if ( ( ( element.attributes.style && element.attributes.style.match( /mso\-list/ ) ) &&
+			tools.checkIfAnyArrayItemMatches( ( element.attributes.class || '' ).split( ' ' ), /MsoListParagraph/ ) ) ||
 			element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ ) ||
 			// Flat, ordered lists are represented by paragraphs
 			// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
