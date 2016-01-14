@@ -149,12 +149,27 @@
 
 					pushStylesLower( element );
 				},
-				'v:imagedata': function( element ) {
-					delete element.name;
-				},
+				'v:imagedata': remove,
 				// This is how IE8 presents images.
 				'v:shape': function( element ) {
-					var src = element.children[ 0 ].attributes.src;
+					// In chrome a <v:shape> element may be followed by an <img> element with the same content.
+					var duplicate = false;
+					element.parent.getFirst( function( child ) {
+						if ( child.name == 'img' &&
+							child.attributes &&
+							child.attributes[ 'v:shapes' ] == element.attributes.id ) {
+							duplicate = true;
+						}
+					} );
+
+					if ( duplicate ) return false;
+
+					var src = '';
+					element.forEach( function( child ) {
+						if ( child.attributes && child.attributes.src ) {
+							src = child.attributes.src;
+						}
+					}, CKEDITOR.NODE_ELEMENT, true );
 
 					element.filterChildren( filter );
 
