@@ -3,11 +3,11 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.7
 
-* [#13816](http://dev.ckeditor.com/ticket/13816): Introduced a new strategy for Filling Character handling to avoid changes in DOM. This fixes following issues:
-	* [#12727](http://dev.ckeditor.com/ticket/12727): IndexSizeError on using plugins "Div Editing Area" and "Content Templates",
-	* [#13377](http://dev.ckeditor.com/ticket/13377): Widget plugin issue (typing Korean),
-	* [#13389](http://dev.ckeditor.com/ticket/13389): [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) fails, when cursor is next to a `hr` tag,
-	* [#13513](http://dev.ckeditor.com/ticket/13513): Divarea and [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) throw error when image is only data in editor.
+* [#13816](http://dev.ckeditor.com/ticket/13816): Introduced a new strategy for Filling Character handling to avoid changes in DOM. This fixes the following issues:
+	* [#12727](http://dev.ckeditor.com/ticket/12727): [Blink] `IndexSizeError` when using the [Div Editing Area](http://ckeditor.com/addon/divarea) and [Content Templates](http://ckeditor.com/addon/templates) plugins.
+	* [#13377](http://dev.ckeditor.com/ticket/13377): [Widget](http://ckeditor.com/addon/widget) plugin issue when typing in Korean.
+	* [#13389](http://dev.ckeditor.com/ticket/13389): [Blink] [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) fails when the cursor is next to an `<hr>` tag.
+	* [#13513](http://dev.ckeditor.com/ticket/13513): [Blink, WebKit] [Div Editing Area](http://ckeditor.com/addon/divarea) and [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) throw an error when an image is the only data in the editor.
 
 ## CKEditor 4.5.6
 
