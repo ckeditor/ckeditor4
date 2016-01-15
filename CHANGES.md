@@ -1,14 +1,14 @@
-﻿CKEditor 4 Changelog
+CKEditor 4 Changelog
 ====================
 
 ## CKEditor 4.6.0
 
 New Features:
 
-* [#12077](https://dev.ckeditor.com/ticket/12077): Add support for HTML5 "download" attribute in link (a) elements. Thanks to [sbusse](https://github.com/sbusse)!
-* [#13519](http://dev.ckeditor.com/ticket/13519): (http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) response is now more flexible.
-* [#13518](http://dev.ckeditor.com/ticket/13518): (http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) request is now more flexible and [additionalRequestParameters](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property was introduced.
-* [#13828](http://dev.ckeditor.com/ticket/13828): Adding a class to widget element will also add a prefixed class to it's wrapper.
+* [#12077](https://dev.ckeditor.com/ticket/12077): Added support for the HTML5 `download` attribute in link (`<a>`) elements. Thanks to [sbusse](https://github.com/sbusse)!
+* [#13519](http://dev.ckeditor.com/ticket/13519): The [file tools](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) response is now more flexible.
+* [#13518](http://dev.ckeditor.com/ticket/13518): The [file tools](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) request is now more flexible and the [`additionalRequestParameters`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property was introduced.
+* [#13828](http://dev.ckeditor.com/ticket/13828): Adding a class to the [widget](http://ckeditor.com/addon/widget) element will also add a prefixed class to its wrapper.
 
 ## CKEditor 4.5.7
 

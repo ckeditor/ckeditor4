@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -27,7 +27,7 @@
 			/**
 			 * Event fired when the {@link CKEDITOR.fileTools.fileLoader file loader} should send XHR. If the event is not
 			 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, the default request
-			 * will be sent. To learn more refer to the [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article.
+			 * will be sent. Refer to the [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article for more information.
 			 *
 			 * @since 4.5
 			 * @event fileUploadRequest
@@ -70,13 +70,13 @@
 			/**
 			 * Event fired when the {CKEDITOR.fileTools.fileLoader file upload} response is received and needs to be parsed.
 			 * If the event is not {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled},
-			 * the default response handler will be used. To learn more refer to the
-			 * [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article.
+			 * the default response handler will be used. Refer to the
+			 * [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article for more information.
 			 *
 			 * @since 4.5
 			 * @event fileUploadResponse
 			 * @member CKEDITOR.editor
-			 * @param data All data will be passed to the {@link CKEDITOR.fileTools.fileLoader#responseData}.
+			 * @param data All data will be passed to {@link CKEDITOR.fileTools.fileLoader#responseData}.
 			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader A file loader instance.
 			 * @param {String} data.message The message from the server. Needs to be set in the listener &mdash; see the example above.
 			 * @param {String} data.fileName The file name on server. Needs to be set in the listener &mdash; see the example above.
@@ -268,7 +268,7 @@
 		this.lang = editor.lang;
 
 		if ( typeof fileOrData === 'string' ) {
-			// Data are already loaded from disc.
+			// Data is already loaded from disc.
 			this.data = fileOrData;
 			this.file = dataToFile( this.data );
 			this.total = this.file.size;
@@ -366,7 +366,7 @@
 	 */
 
 	/**
-	 * All data received in the response from the server. If server return addition data they will be available
+	 * All data received in the response from the server. If the server returns addition data, it will be available
 	 * in this property.
 	 *
 	 * It contains all data set in the {@link CKEDITOR.editor#fileUploadResponse} event listener.
@@ -461,8 +461,8 @@
 		 * * `uploaded`.
 		 *
 		 * @param {String} url The upload URL.
-		 * @param {Object} [additionalRequestParameters] Additional parameters that would be passed into
-	 	 * {@link CKEDITOR.editor#fileUploadRequest} event.
+		 * @param {Object} [additionalRequestParameters] Additional parameters that would be passed to
+	 	 * the {@link CKEDITOR.editor#fileUploadRequest} event.
 		 */
 		loadAndUpload: function( url, additionalRequestParameters ) {
 			var loader = this;
@@ -538,8 +538,8 @@
 		 * * `uploaded`.
 		 *
 		 * @param {String} url The upload URL.
-		 * @param {Object} [additionalRequestParameters] Additional data that would be passed into
-	 	 * {@link CKEDITOR.editor#fileUploadRequest} event.
+		 * @param {Object} [additionalRequestParameters] Additional data that would be passed to
+	 	 * the {@link CKEDITOR.editor#fileUploadRequest} event.
 		 */
 		upload: function( url, additionalRequestParameters ) {
 			var requestData = additionalRequestParameters || {};

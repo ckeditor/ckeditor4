@@ -84,11 +84,11 @@
 	 *			}
 	 *		} );
 	 *
-	 * If you need to pass additional data to the request, you can do this using
+	 * If you need to pass additional data to the request, you can do this using the
 	 * {@link CKEDITOR.fileTools.uploadWidgetDefinition#additionalRequestParameters additionalRequestParameters} property.
-	 * That data is then passed to the upload method, defined by {@link CKEDITOR.fileTools.uploadWidgetDefinition#loadMethod},
-	 * and to {@link CKEDITOR.editor#fileUploadRequest} event (as part of `requestData` property).
-	 * Syntax of that parameter is compatible with {@link CKEDITOR.editor#fileUploadRequest} `requestData` property.
+	 * That data is then passed to the upload method defined by {@link CKEDITOR.fileTools.uploadWidgetDefinition#loadMethod},
+	 * and to the {@link CKEDITOR.editor#fileUploadRequest} event (as part of the `requestData` property).
+	 * The syntax of that parameter is compatible with the {@link CKEDITOR.editor#fileUploadRequest} `requestData` property.
 	 *
 	 *		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadFile', {
 	 *			additionalRequestParameters: {
@@ -106,7 +106,7 @@
 	 *			}
 	 *		} );
 	 *
-	 * If you need custom `paste` handling you need to mark the pasted element to be changed into an upload widget
+	 * If you need custom `paste` handling, you need to mark the pasted element to be changed into an upload widget
 	 * using {@link CKEDITOR.fileTools#markElement markElement}. For example, instead of the `fileToElement` helper from the
 	 * example above, a `paste` listener can be created manually:
 	 *
@@ -364,7 +364,7 @@
 			 */
 
 			/**
-			 * Object containing additional data that should be based into function defined by {@link #loadMethod}.
+			 * An object containing additional data that should be passed to the function defined by {@link #loadMethod}.
 			 *
 			 * @property {Object} [additionalRequestParameters]
 			 */
@@ -372,11 +372,11 @@
 			/**
 			 * The type of loading operation that should be executed as a result of pasting a file. Possible options are:
 			 *
-			 * * 'loadAndUpload' &ndash; Default behavior, the {@link CKEDITOR.fileTools.fileLoader#loadAndUpload} method will be
+			 * * `'loadAndUpload'` &ndash; Default behavior. The {@link CKEDITOR.fileTools.fileLoader#loadAndUpload} method will be
 			 * executed, the file will be loaded first and uploaded immediately after loading is done.
-			 * * 'load' &ndash; The {@link CKEDITOR.fileTools.fileLoader#load} method will be executed. This loading type should
+			 * * `'load'` &ndash; The {@link CKEDITOR.fileTools.fileLoader#load} method will be executed. This loading type should
 			 * be used if you only want to load file data without uploading it.
-			 * * 'upload' &ndash; The {@link CKEDITOR.fileTools.fileLoader#upload} method will be executed, the file will be uploaded
+			 * * `'upload'` &ndash; The {@link CKEDITOR.fileTools.fileLoader#upload} method will be executed, the file will be uploaded
 			 * without loading it to memory. This loading type should be used if you want to upload a big file,
 			 * otherwise you can get an "out of memory" error.
 			 *

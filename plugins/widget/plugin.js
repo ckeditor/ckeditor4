@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -979,7 +979,7 @@
 	Widget.prototype = {
 		/**
 		 * Adds a class to the widget element. This method is used by
-		 * the {@link #applyStyle} method and should be overriden by widgets
+		 * the {@link #applyStyle} method and should be overridden by widgets
 		 * which should handle classes differently (e.g. add them to other elements).
 		 *
 		 * Since 4.6.0 this method also adds a corresponding class prefixed with {@link #WRAPPER_CLASS_PREFIX}
@@ -1596,8 +1596,8 @@
 	};
 
 	/**
-	 * Prefix added to wrapper classes. Each class added to the widget element by {@link #addClass}
-	 * will be also added to the wrapper prefixed with it.
+	 * Prefix added to wrapper classes. Each class added to the widget element by the {@link #addClass}
+	 * method will also be added to the wrapper prefixed with it.
 	 *
 	 * @since 4.6.0
 	 * @static
