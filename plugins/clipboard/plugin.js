@@ -132,10 +132,10 @@
 			} else if ( editor.config.pasteFilter ) {
 				filterType = editor.config.pasteFilter;
 			}
-			// On Webkit the pasteFilter defaults 'semantic-content' because pasted data is so terrible
-			// that it must be always filtered.
+			// On Webkit the pasteFilter defaults to 'webkit-default-filter' because pasted data is so terrible
+			// that it must be always filtered. (#13877)
 			else if ( CKEDITOR.env.webkit && !( 'pasteFilter' in editor.config ) ) {
-				filterType = 'semantic-content';
+				filterType = 'webkit-default-filter';
 			}
 
 			editor.pasteFilter = filtersFactory.get( filterType );
@@ -1190,16 +1190,31 @@
 	function filtersFactoryFactory() {
 		var filters = {};
 
-		function setUpTags() {
+		// GDocs generates many spans and divs, therefore `all` parameter is used
+		// to create default filter in Webkit/Blink. (#13877)
+		function setUpTags( all ) {
 			var tags = {};
 
 			for ( var tag in CKEDITOR.dtd ) {
-				if ( tag.charAt( 0 ) != '$' && tag != 'div' && tag != 'span' ) {
+				if ( tag.charAt( 0 ) != '$' && ( all || tag != 'div' && tag != 'span' ) ) {
 					tags[ tag ] = 1;
 				}
 			}
 
 			return tags;
+		}
+
+		// Checks if content is pasted from Google Docs.
+		// Google Docs wraps everything in element with [id^=docs-internal-guid-],
+		// so that function just checks if such element exists. (#13877)
+		function isPastedFromGDocs( element ) {
+			if ( element.attributes.id && element.attributes.id.match( /^docs\-internal\-guid\-/ ) ) {
+				return true;
+			} else if ( element.parent && element.parent.name ) {
+				return isPastedFromGDocs( element.parent );
+			}
+
+			return false;
 		}
 
 		function createSemanticContentFilter() {
@@ -1211,6 +1226,25 @@
 					attributes: true,
 					styles: false,
 					classes: false
+				}
+			} );
+
+			return filter;
+		}
+
+		function createWebkitDefaultFilter() {
+			var filter = createSemanticContentFilter();
+
+			// Preserves formatting while pasting from Google Docs in Webkit/Blink
+			// with default paste filter. (#13877)
+			filter.allow( {
+				$2: {
+					elements: setUpTags( true ),
+					attributes: true,
+					styles: true,
+					match: function( element ) {
+						return isPastedFromGDocs( element );
+					}
 				}
 			} );
 
@@ -1234,6 +1268,11 @@
 					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( 'br' ) );
 				} else if ( type == 'semantic-content' ) {
 					return filters.semanticContent || ( filters.semanticContent = createSemanticContentFilter() );
+				} else if ( type == 'webkit-default-filter' ) {
+					// Webkit based browsers need semantic filter, because they produce terrible HTML without it.
+					// However original `'semantic-content'` filer is too strict and prevents pasting styled contents
+					// from many sources (e.g. Google Docs). Therefore that type extends original `'semantic-content'` filter. (#13877)
+					return filters.webkitDefaultFilter || ( filters.webkitDefaultFilter = createWebkitDefaultFilter() );
 				} else if ( type ) {
 					// Create filter based on rules (string or object).
 					return new CKEDITOR.filter( type );
@@ -2643,10 +2682,12 @@
  * * `'plain-text'` &ndash; Content will be pasted as a plain text.
  * * `'semantic-content'` &ndash; Known tags (except `div`, `span`) with all attributes (except
  * `style` and `class`) will be kept.
+ * * `'webkit-default-filter'` &ndash; Default filter in Chrome and Safari. It is based on `'semantic-content'
+ * filter, extended to allow some more content, e.g. pasted from Google Docs.
  * * `'h1 h2 p div'` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
  * * `null` &ndash; Content will not be filtered by the paste filter (but it still may be filtered
  * by [Advanced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
- * disable the paste filter in Chrome and Safari, where this option defaults to `'semantic-content'`.
+ * disable the default paste filter in Chrome and Safari, where this option defaults to `'webkit-default-filter'`.
  *
  * Example:
  *
@@ -2684,7 +2725,7 @@
  * due to messy HTML which these browsers keep in the clipboard. In other browsers it defaults to `null`.
  *
  * @since 4.5
- * @cfg {String} [pasteFilter='semantic-content' in Chrome and Safari and `null` in other browsers]
+ * @cfg {String} [pasteFilter='webkit-default-fiter' in Chrome and Safari and `null` in other browsers]
  * @member CKEDITOR.config
  */
 
