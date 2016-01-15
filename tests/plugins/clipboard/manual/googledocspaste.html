@@ -1,0 +1,13 @@
+<div id="editor1">
+	<p>Paste here:</p>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.webkit ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true
+	} );
+</script>
