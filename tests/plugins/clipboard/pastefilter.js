@@ -85,7 +85,11 @@
 	var contents = {
 		listWithSpan: '<ul><li>he<span>fkdjfkdj</span>llo</li><li>moto</li></ul>',
 		various: '<div><h1>Header 1</h1><h3>Header <span>3</span></h3><p>Heeey</p></div>',
-		classyAndStylish: '<h1 id="foo" class="ugly" style="background-color: red;">I am so classy and stylish :)</h1>'
+		classyAndStylish: '<h1 id="foo" class="ugly" style="background-color: red;">I am so classy and stylish :)</h1>',
+		// (#13877)
+		// jscs:disable maximumLineLength
+		gDocs: '<b id="docs-internal-guid-5265aef0-447d-fdd2-aa00-4924bd743dce" style="font-weight:normal;"><span style="font-size:14.666666666666666px;font-family:Arial;color:#000000;background-color:transparent;font-weight:400;font-style:italic;font-variant:normal;text-decoration:underline;vertical-align:baseline;white-space:pre-wrap;">word</span></b>'
+		//jscs:enable maximumLineLength
 	};
 
 	var tests = {};
@@ -279,6 +283,15 @@
 		'<div>x<span>y</span>z</div>',
 		'<p>xyz</p>'
 	);
+
+	// (#13877)
+	if ( CKEDITOR.env.webkit ) {
+		createTest(
+			'test default filter preserving Google Docs formatting', 'editorNoConfiguration',
+			contents.gDocs,
+			contents.gDocs
+		);
+	}
 
 	bender.test( tests );
 }() );
