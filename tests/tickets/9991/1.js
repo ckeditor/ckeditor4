@@ -1,5 +1,5 @@
 /* bender-tags: clipboard,pastefromword */
-/* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,font,link,toolbar,colorbutton,image,list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock */
+/* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,font,link,toolbar,colorbutton,image,list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
 /* bender-include: ../../plugins/clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */
 
@@ -36,23 +36,23 @@
 		],
 		// To test only particular word versions set the key value to an array in the form: [ 'word2007', 'word2013' ].
 		tests = {
-			//'Bold': true,
-			//'Colors': true,
-			//'Fonts': true,
-			//'Image': true,
-			//'Italic': true,
-			//'Link': true,
-			//'Only_paragraphs': true,
-			//'Ordered_list': true,
-			//'Ordered_list_multiple': true,
-			//'Ordered_list_multiple_edgy': true,
-			//'Paragraphs_with_headers': true,
-			//'Simple_table': true,
-			//'Spacing': true,
-			//'Text_alignment': true,
-			//'Underline': true,
-			//'Unordered_list': true,
-			//'Unordered_list_multiple': true
+			'Bold': true,
+			'Colors': true,
+			'Fonts': true,
+			'Image': true,
+			'Italic': true,
+			'Link': true,
+			'Only_paragraphs': true,
+			'Ordered_list': true,
+			'Ordered_list_multiple': true,
+			'Ordered_list_multiple_edgy': true,
+			'Paragraphs_with_headers': true,
+			'Simple_table': true,
+			'Spacing': true,
+			'Text_alignment': true,
+			'Underline': true,
+			'Unordered_list': true,
+			'Unordered_list_multiple': true
 		},
 		ticketTests = {
 			'13021testdoc': [ 'word2013' ],
@@ -61,10 +61,10 @@
 			'6286Sample_6286': [ 'word2013' ],
 			'6362Numbering': [ 'word2013' ],
 			'6449Sample': [ 'word2013' ],
-			'6493Questions_and_answers': [ 'word2013' ]
-			//'6533test_doc': [ 'word2013' ],
-			//'6570ordered_list': [ 'word2013' ],
-			//'6594': [ 'word2013' ],
+			//'6493Questions_and_answers': [ 'word2013' ], // Really edgy case.
+			'6533test_doc': [ 'word2013' ],
+			'6570ordered_list': [ 'word2013' ],
+			'6594': [ 'word2013' ]
 			//'6608': [ 'word2013' ],
 			//'6639nested_list_with_empty_lines': [ 'word2013' ],
 			//'6658CKEditor_Word_tabs_between_list_items_Sample': [ 'word2013' ],
@@ -116,7 +116,10 @@
 				specialCasePath = [ tickets ? '_fixtures/Tickets' : '_fixtures', fixtureName, wordVersion, 'expected_' + browser ].join( '/' ) + '.html';
 
 			bender.editorBot.create( {
-				name: [ fixtureName, wordVersion, browser ].join( ' ' )
+				name: [ fixtureName, wordVersion, browser ].join( ' ' ),
+				config: {
+					//pasteFromWordCleanupFile: 'plugins/pastefromword/filter/legacy.js'
+				}
 			}, function( bot ) {
 				//bot.editor.filter.allow( 'p[style]{margin,margin-*,line-height};' );
 
