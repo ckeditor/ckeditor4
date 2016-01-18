@@ -190,7 +190,6 @@
 				'class': function( classes ) {
 					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
 				},
-				'align': remove,
 				'cellspacing': remove,
 				'cellpadding': remove,
 				'border': remove,
