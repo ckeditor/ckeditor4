@@ -1,4 +1,4 @@
-﻿"Moono" Skin
+"Moono" Skin
 ====================
 
 This skin has been chosen for the **default skin** of CKEditor 4.x, elected from the CKEditor
@@ -44,6 +44,6 @@ Other parts:
 License
 -------
 
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 
 For licensing, see LICENSE.md or [http://ckeditor.com/license](http://ckeditor.com/license)
