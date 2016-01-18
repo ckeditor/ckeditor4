@@ -386,7 +386,7 @@
 				'[IVX]': 'upper-roman',
 				'[a-z]': 'lower-alpha',
 				'[A-Z]': 'upper-alpha',
-				'\d': 'decimal'
+				'\\d': 'decimal'
 			};
 
 			for ( var type in typeMap ) {
@@ -396,6 +396,7 @@
 				}
 			}
 
+			list.attributes[ 'cke-list-style-type' ] = style[ 'list-style-type' ];
 		} else {
 			var symbolMap = {
 				'·': 'disc',
@@ -422,6 +423,53 @@
 			delete style[ 'list-style-type' ];
 		}
 	};
+
+	function setListStart( list  ) {
+		var symbols = [],
+			offset = 0;
+
+		for ( var i = 0; i < list.children.length; i++ ) {
+			symbols.push( list.children[ i ].attributes[ 'cke-symbol' ] || '' );
+		}
+
+		// When a list starts with a sublist, use the next element as a start indicator.
+		if ( !symbols[ 0 ] ) {
+			offset++;
+		}
+
+		// Attribute set in setSymbol()
+		switch ( list.attributes[ 'cke-list-style-type' ] ) {
+			case 'lower-roman':
+			case 'upper-roman':
+				list.attributes.start = toArabic( symbols[ offset ] ) - offset;
+				break;
+			case 'lower-alpha':
+			case 'upper-alpha':
+				list.attributes.start = ( symbols[ offset ] ).toLowerCase().charCodeAt( 0 ) - 96 - offset ;
+				break;
+			case 'decimal':
+				list.attributes.start = ( ( parseInt( symbols[ offset ], 10 ) - offset ) || 1 );
+				break;
+		}
+
+		if ( list.attributes.start == '1' ) {
+			delete list.attributes.start;
+		}
+
+		delete list.attributes[ 'cke-list-style-type' ];
+
+		// Source: http://stackoverflow.com/a/17534350/3698944
+		function toArabic( symbol ) {
+			if ( !symbol.match( /[ivxl]/ ) ) return 0;
+			if ( symbol.match( /^l/i ) ) return 50 + toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^lx/i ) ) return 40 + toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^x/i ) ) return 10 + toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^ix/i ) ) return 9 + toArabic( symbol.slice( 2 ) );
+			if ( symbol.match( /^v/i ) ) return 5 + toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^iv/i ) ) return 4 + toArabic( symbol.slice( 2 ) );
+			if ( symbol.match( /^i/i ) ) return 1 + toArabic( symbol.slice( 1 ) );
+		}
+	}
 
 	function createList( element ) {
 		if ( ( element.attributes[ 'cke-symbol' ].match( /([\daiIA])[\.\)]/ ) || [] )[ 1 ] ) {
@@ -469,9 +517,10 @@
 
 		// Create nested list structures.
 		for ( i = 0; i < lists.length; i++ ) {
-			var list = lists[ i ];
-			var containerStack = [ createList( list[ 0 ] ) ];
-			var innermostContainer = containerStack[ 0 ];
+			var list = lists[ i ],
+				containerStack = [ createList( list[ 0 ] ) ],
+				innermostContainer = containerStack[ 0 ],
+				allContainers = [ containerStack[ 0 ] ];
 
 			innermostContainer.insertBefore( list[ 0 ] );
 
@@ -495,6 +544,7 @@
 					}
 
 					containerStack.push( content );
+					allContainers.push( content );
 					innermostContainer = content;
 
 					if ( level == containerStack.length ) {
@@ -511,8 +561,16 @@
 					}
 				}
 
+				// For future reference this is where the list elements are actually put into the lists.
 				element.remove();
 				innermostContainer.add( element );
+			}
+
+			setSymbol( containerStack[ 0 ], containerStack[ 0 ].children[ 0 ].attributes[ 'cke-symbol' ] );
+
+			// This can be done only after all the list elements are where they should be.
+			for ( j = 0; j < allContainers.length; j++ ) {
+				setListStart( allContainers[ j ] );
 			}
 		}
 
@@ -714,7 +772,8 @@
 		setSymbol: setSymbol,
 		removeListSymbol: removeListSymbol,
 		sortStyles: sortStyles,
-		normalizedStyles: normalizedStyles
+		normalizedStyles: normalizedStyles,
+		setListStart: setListStart
 	};
 
 	for ( var exported in exportedFunctions ) {
