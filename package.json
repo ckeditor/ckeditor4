@@ -22,7 +22,7 @@
 		"cksource-samples-framework": "^1.0.1"
 	},
 	"scripts": {
-		"test": "bender run -l && bender run"
+		"test": "bender run"
 	},
 	"author": "CKSource (http://cksource.com/)",
 	"license": "For licensing, see LICENSE.md or http://ckeditor.com/license.",
