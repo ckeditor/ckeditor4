@@ -17,7 +17,7 @@
 CKEDITOR.DIALOG_RESIZE_NONE = 0;
 
 /**
- * Only allow horizontal resizing for this dialog, disable vertical resizing.
+ * Only allow horizontal resizing for this dialog, disable vertical resizingz.
  *
  * @readonly
  * @property {Number} [=1]
