@@ -16,6 +16,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 		lockButtonId = CKEDITOR.tools.getNextId(),
 		resetButtonId = CKEDITOR.tools.getNextId(),
+		previewImageId = CKEDITOR.tools.getNextId(),
 
 		lang = editor.lang.image2,
 		commonLang = editor.lang.common,
@@ -158,6 +159,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 				// Check for new lock value if image exist.
 				toggleLockRatio( helpers.checkHasNaturalRatio( image ) );
+				
+				// Show the image in the dialog as preview
+				updatePreviewImage( image.$.src );
 			} );
 
 			srcChanged = true;
@@ -175,6 +179,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 			// Restore height field with cached height.
 			heightField.setValue( domHeight );
+			
+			// Restore the preview image in the dialog
+			updatePreviewImage( widget.data.src );
 
 			// Src equals default one back again.
 			srcChanged = false;
@@ -340,6 +347,11 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		widthField[ method ]();
 		heightField[ method ]();
 	}
+	
+	function updatePreviewImage(src) {
+		var preview = CKEDITOR.document.getById( previewImageId );
+		preview.setAttribute( 'src', src );
+	}
 
 	var hasFileBrowser = !!( config.filebrowserImageBrowseUrl || config.filebrowserBrowseUrl ),
 		srcBoxChildren = [
@@ -411,116 +423,154 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 				label: lang.infoTab,
 				elements: [
 					{
-						type: 'vbox',
-						padding: 0,
+						type: 'hbox',
+						widths: [ '49%', '49%' ],
 						children: [
 							{
 								type: 'hbox',
 								widths: [ '100%' ],
-								children: srcBoxChildren
-							}
-						]
-					},
-					{
-						id: 'alt',
-						type: 'text',
-						label: lang.alt,
-						setup: function( widget ) {
-							this.setValue( widget.data.alt );
-						},
-						commit: function( widget ) {
-							widget.setData( 'alt', this.getValue() );
-						}
-					},
-					{
-						type: 'hbox',
-						widths: [ '25%', '25%', '50%' ],
-						requiredContent: features.dimension.requiredContent,
-						children: [
-							{
-								type: 'text',
-								width: '45px',
-								id: 'width',
-								label: commonLang.width,
-								validate: validateDimension,
-								onKeyUp: onChangeDimension,
-								onLoad: function() {
-									widthField = this;
-								},
-								setup: function( widget ) {
-									this.setValue( widget.data.width );
-								},
-								commit: function( widget ) {
-									widget.setData( 'width', this.getValue() );
-								}
+								children: [
+									{
+										type: 'vbox',
+										children: [
+										    {
+												type: 'vbox',
+												padding: 0,
+												children: [
+													{
+														type: 'hbox',
+														widths: [ '100%' ],
+														children: srcBoxChildren
+													}
+												]
+											},
+											{
+												id: 'alt',
+												type: 'text',
+												label: lang.alt,
+												setup: function( widget ) {
+													this.setValue( widget.data.alt );
+												},
+												commit: function( widget ) {
+													widget.setData( 'alt', this.getValue() );
+												}
+											},
+											{
+												type: 'hbox',
+												widths: [ '25%', '25%', '50%' ],
+												requiredContent: features.dimension.requiredContent,
+												children: [
+													{
+														type: 'text',
+														width: '45px',
+														id: 'width',
+														label: commonLang.width,
+														validate: validateDimension,
+														onKeyUp: onChangeDimension,
+														onLoad: function() {
+															widthField = this;
+														},
+														setup: function( widget ) {
+															this.setValue( widget.data.width );
+														},
+														commit: function( widget ) {
+															widget.setData( 'width', this.getValue() );
+														}
+													},
+													{
+														type: 'text',
+														id: 'height',
+														width: '45px',
+														label: commonLang.height,
+														validate: validateDimension,
+														onKeyUp: onChangeDimension,
+														onLoad: function() {
+															heightField = this;
+														},
+														setup: function( widget ) {
+															this.setValue( widget.data.height );
+														},
+														commit: function( widget ) {
+															widget.setData( 'height', this.getValue() );
+														}
+													},
+													{
+														id: 'lock',
+														type: 'html',
+														style: lockResetStyle,
+														onLoad: onLoadLockReset,
+														setup: function( widget ) {
+															toggleLockRatio( widget.data.lock );
+														},
+														commit: function( widget ) {
+															widget.setData( 'lock', lockRatio );
+														},
+														html: lockResetHtml
+													}
+												]
+											},
+											{
+												type: 'hbox',
+												id: 'alignment',
+												requiredContent: features.align.requiredContent,
+												children: [
+													{
+														id: 'align',
+														type: 'radio',
+														items: [
+															[ commonLang.alignNone, 'none' ],
+															[ commonLang.alignLeft, 'left' ],
+															[ commonLang.alignCenter, 'center' ],
+															[ commonLang.alignRight, 'right' ]
+														],
+														label: commonLang.align,
+														setup: function( widget ) {
+															this.setValue( widget.data.align );
+														},
+														commit: function( widget ) {
+															widget.setData( 'align', this.getValue() );
+														}
+													}
+												]
+											},
+											{
+												id: 'hasCaption',
+												type: 'checkbox',
+												label: lang.captioned,
+												requiredContent: features.caption.requiredContent,
+												setup: function( widget ) {
+													this.setValue( widget.data.hasCaption );
+												},
+												commit: function( widget ) {
+													widget.setData( 'hasCaption', this.getValue() );
+												}
+											}
+										]
+									}
+								]
 							},
 							{
-								type: 'text',
-								id: 'height',
-								width: '45px',
-								label: commonLang.height,
-								validate: validateDimension,
-								onKeyUp: onChangeDimension,
-								onLoad: function() {
-									heightField = this;
-								},
-								setup: function( widget ) {
-									this.setValue( widget.data.height );
-								},
-								commit: function( widget ) {
-									widget.setData( 'height', this.getValue() );
-								}
-							},
-							{
-								id: 'lock',
-								type: 'html',
-								style: lockResetStyle,
-								onLoad: onLoadLockReset,
-								setup: function( widget ) {
-									toggleLockRatio( widget.data.lock );
-								},
-								commit: function( widget ) {
-									widget.setData( 'lock', lockRatio );
-								},
-								html: lockResetHtml
+								type: 'hbox',
+								widths: [ '100%' ],
+								children: [
+									{
+										type: 'vbox',
+										children: [
+										    {
+										    	id: 'preview',
+										    	type: 'html',
+												html: '<div style="padding-left: 2%;width: 340px;"><label class="cke_dialog_ui_labeled_label" style="display: block;">' + commonLang.preview + '</label>'+
+														'<img id="' + previewImageId + '" style="max-height: 200px;max-width: 100%;">'+
+													  '</div>',
+												setup: function( widget ) {
+													this.getInputElement().$.lastChild.setAttribute( 'src', widget.data.src );
+												}
+										    }	
+										]
+									}
+								]
 							}
 						]
-					},
-					{
-						type: 'hbox',
-						id: 'alignment',
-						requiredContent: features.align.requiredContent,
-						children: [
-							{
-								id: 'align',
-								type: 'radio',
-								items: [
-									[ commonLang.alignNone, 'none' ],
-									[ commonLang.alignLeft, 'left' ],
-									[ commonLang.alignCenter, 'center' ],
-									[ commonLang.alignRight, 'right' ]
-								],
-								label: commonLang.align,
-								setup: function( widget ) {
-									this.setValue( widget.data.align );
-								},
-								commit: function( widget ) {
-									widget.setData( 'align', this.getValue() );
-								}
-							}
-						]
-					},
-					{
-						id: 'hasCaption',
-						type: 'checkbox',
-						label: lang.captioned,
-						requiredContent: features.caption.requiredContent,
-						setup: function( widget ) {
-							this.setValue( widget.data.hasCaption );
-						},
-						commit: function( widget ) {
-							widget.setData( 'hasCaption', this.getValue() );
-						}
 					}
 				]
 			},
