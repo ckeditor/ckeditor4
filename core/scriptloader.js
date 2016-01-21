@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -121,7 +121,7 @@ CKEDITOR.scriptLoader = ( function() {
 					if ( callback ) {
 
 						// The onload or onerror event does not fire in IE8.
-						if ( CKEDITOR.env.ie8Compat ) {
+						if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 
 							script.$.onreadystatechange = function() {
 								if ( script.$.readyState == 'loaded' || script.$.readyState == 'complete' ) {
