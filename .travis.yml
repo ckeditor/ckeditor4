@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "4.0.0"
+before_install:
+  - "npm install -g benderjs-cli"
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - bender init
