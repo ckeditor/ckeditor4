@@ -157,9 +157,11 @@
 					// Should we make a <thead>?
 					var headers = info.selHeaders;
 					if ( !table.$.tHead && ( headers == 'row' || headers == 'both' ) ) {
-						var thead = new CKEDITOR.dom.element( table.$.createTHead() );
+						var thead = new CKEDITOR.dom.element( 'thead' );
 						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
 						var theRow = tbody.getElementsByTag( 'tr' ).getItem( 0 );
+
+						thead.insertBefore( tbody );
 
 						// Change TD to TH:
 						for ( i = 0; i < theRow.getChildCount(); i++ ) {
@@ -220,17 +222,6 @@
 
 					if ( !table.getAttribute( 'style' ) )
 						table.removeAttribute( 'style' );
-				}
-
-				// Ensure caption is the first child in table. (#12707)
-				var captionElement = table.getElementsByTag( 'caption' );
-				if ( captionElement.count() > 0 ) {
-					captionElement = captionElement.getItem( 0 );
-
-					if ( !captionElement.equals( table.getChild( 0 ) ) ) {
-						table.$.removeChild( captionElement.$ );
-						captionElement.insertBefore( table.getFirst() );
-					}
 				}
 
 				// Insert the table element if we're creating one.
