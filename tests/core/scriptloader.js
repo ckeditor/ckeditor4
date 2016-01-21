@@ -25,6 +25,38 @@ var tests = {
 		this.wait();
 	},
 
+	'test load event handling': function() {
+		var tc = this;
+
+		function callback( success ) {
+			tc.resume( function( ) {
+				assert.isTrue( success );
+			} );
+		}
+
+		CKEDITOR.scriptLoader.load( '../_assets/sample.js', callback );
+
+		this.wait();
+	},
+
+	'test error event handling': function() {
+		if ( CKEDITOR.env.ie8Compat ) {
+			assert.ignore();
+		}
+
+		var tc = this;
+
+		function callback( success ) {
+			tc.resume( function( ) {
+				assert.isFalse( success );
+			} );
+		}
+
+		CKEDITOR.scriptLoader.load( '../_assets/non-existing-sample.js', callback );
+
+		this.wait();
+	},
+
 	'test queue': function() {
 		var tc = this;
 
