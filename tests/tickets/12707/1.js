@@ -21,7 +21,7 @@
 			} );
 		},
 
-		'test caption index in table with row headers': function() {
+		'test caption index in table with headers row': function() {
 			var bot = this.editorBot;
 
 			bot.dialog( 'tableProperties', function( dialog ) {
@@ -35,7 +35,7 @@
 			} );
 		},
 
-		'test caption index in table with col headers': function() {
+		'test caption index in table with headers col': function() {
 			var bot = this.editorBot;
 
 			bot.dialog( 'tableProperties', function( dialog ) {
