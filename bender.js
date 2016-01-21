@@ -14,7 +14,9 @@ var config = {
 	},
 
 	framework: 'yui',
+
   startBrowser: 'firefox',
+
 	// secure: true,
 	privateKey: 'tests/_benderjs/ssl/key.pem',
 	certificate: 'tests/_benderjs/ssl/cert.pem',
