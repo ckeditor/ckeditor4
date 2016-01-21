@@ -509,10 +509,7 @@
 									captionElement.setHtml( '' );
 								} else {
 									captionElement = new CKEDITOR.dom.element( 'caption', editor.document );
-									if ( table.getChildCount() )
-										captionElement.insertBefore( table.getFirst() );
-									else
-										captionElement.appendTo( table );
+									table.append( captionElement, true );
 								}
 								captionElement.append( new CKEDITOR.dom.text( caption, editor.document ) );
 							} else if ( captionElement.count() > 0 ) {
