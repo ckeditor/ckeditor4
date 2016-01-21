@@ -157,11 +157,14 @@
 					// Should we make a <thead>?
 					var headers = info.selHeaders;
 					if ( !table.$.tHead && ( headers == 'row' || headers == 'both' ) ) {
-						var thead = new CKEDITOR.dom.element( 'thead' );
+						var thead = table.findOne( 'thead' );
 						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
 						var theRow = tbody.getElementsByTag( 'tr' ).getItem( 0 );
 
-						thead.insertBefore( tbody );
+						if ( !thead ) {
+							thead = new CKEDITOR.dom.element( 'thead' );
+							thead.insertBefore( tbody );
+						}
 
 						// Change TD to TH:
 						for ( i = 0; i < theRow.getChildCount(); i++ ) {
