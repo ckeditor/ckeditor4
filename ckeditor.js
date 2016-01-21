@@ -20,7 +20,7 @@ else {
 	CKEDITOR._autoLoad = 'ckeditor';
 
 	// Include the loader script.
-	if ( document.body && ( !document.readyState || document.readyState == 'complete' ) ) {
+	if ( document.body && ( !document.readyState || document.readyState == 'interactive' || document.readyState == 'complete' ) ) {
 		var script = document.createElement( 'script' );
 		script.type = 'text/javascript';
 		script.src = CKEDITOR.getUrl( 'core/loader.js' );
