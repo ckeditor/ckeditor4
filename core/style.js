@@ -1671,8 +1671,16 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Assign all defined attributes.
 		if ( attributes ) {
-			for ( var att in attributes )
-				el.setAttribute( att, attributes[ att ] );
+			for ( var att in attributes ) {
+				if(att === 'class' && el.getAttribute('class')) {
+					var previousValues = el.getAttribute('class').trim();
+					var valuesToAdd = attributes[ att ].trim().split(' ');
+					var classes = previousValues.split(' ').concat(valuesToAdd).join(' ');
+					el.setAttribute( att, classes );
+				} else {
+					el.setAttribute( att, attributes[ att ] );
+				}
+			}
 		}
 
 		// Assign all defined styles.
