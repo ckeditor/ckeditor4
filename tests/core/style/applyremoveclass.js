@@ -53,7 +53,27 @@
 
 			assert.areSame( '<p class="foo bar">[hello world</p><p class="bar">foo bar]</p>', output, 'test multiple classes multiple blocks' );
 
+		},
+
+		'test remove class for single block': function() {
+			var editor = this.editor;
+			var style = new CKEDITOR.style({
+				element: 'p',
+				attributes: {
+					'class': 'foo'
+				}
+			});
+
+			bender.tools.selection.setWithHtml(editor, '<p class="foo bar">{hello world}</p>');
+
+			editor.removeStyle(style);
+
+			var output = this.editorBot.htmlWithSelection(playground);
+
+			assert.areSame( '<p class="bar">[hello world]</p>', output, 'test remove class from block with multiple classes' );
+
 		}
+
 	} );
 
 	bender.test( tcs );
