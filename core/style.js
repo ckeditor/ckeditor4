@@ -416,7 +416,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 						var elementAttr = element.getAttribute( attName ) || '';
 
 						// Special treatment for 'style' attribute is required.
-						if ( attName == 'style' ? compareCssText( attribs[ attName ], elementAttr ) : attribs[ attName ] == elementAttr ) {
+						if ( (attName == 'class' || attName == 'style') ? compareCssText( attribs[ attName ], elementAttr ) : attribs[ attName ] == elementAttr ) {
 							if ( !fullMatch )
 								return true;
 						} else if ( fullMatch ) {
