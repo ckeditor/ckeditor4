@@ -36,9 +36,16 @@
 			elements: {
 				'a': function( element ) {
 					// Redundant anchor created by IE8.
-					if ( element.attributes.name && element.attributes.name == '_GoBack' ) {
-						delete element.name;
-						return;
+					if ( element.attributes.name ) {
+						if ( element.attributes.name == '_GoBack' ) {
+							delete element.name;
+							return;
+						}
+
+						// Garbage links that go nowhere.
+						if ( element.attributes.name.match( /^OLE_LINK\d+$/ ) ) {
+							delete element.name;
+						}
 					}
 				},
 				'img': function( element ) {
@@ -59,6 +66,8 @@
 					}
 				},
 				'p': function( element ) {
+					element.filterChildren( filter );
+
 					if ( thisIsAListItem( element ) ) {
 						convertToFakeListItem( element );
 					}
@@ -106,7 +115,10 @@
 					element.attributes.style = normalizedStyles( element );
 
 					if ( !element.attributes.style ||
+						// Remove garbage bookmarks that disrupt the content structure.
+						element.attributes.style.match( /^mso\-bookmark:OLE_LINK\d+$/ ) ||
 						element.getHtml().match( /^(\s|&nbsp;)+$/ ) ) {
+						element.filterChildren( filter );
 						element.replaceWithChildren();
 						return;
 					}
@@ -223,7 +235,7 @@
 			// where the middle parentheses contain the symbol.
 			element
 				.getHtml()
-				.match( /^(&nbsp;)*.*?\.&nbsp;(&nbsp;){2,666}/ )
+				.match( /^( )*.*?[\.\)] ( ){2,666}/ )
 		) {
 			return true;
 		}
@@ -335,23 +347,29 @@
 	}
 
 	function convertToFakeListItem( element ) {
+		// The symbol is the first text node descendant
+		// of the element that doesn't start with a whitespace character;
+		var symbol;
+
+		element.forEach( function( element ) {
+
+			if ( !symbol && !element.value.match( /^ / ) ) {
+				symbol = element.value;
+			}
+		}, CKEDITOR.NODE_TEXT );
+
+		// Without a symbol this isn't really a list item.
+		if ( typeof symbol == 'undefined' ) {
+			return;
+		}
+
+		element.attributes[ 'cke-symbol' ] = symbol.replace( / .*$/, '' );
+
 		// Converting to a normal list item would implicitly wrap the element around an <ul>.
 		element.name = 'cke:li';
 
 		element.attributes[ 'cke-list-level' ] =  +( ( element.attributes.style || '' )
 			.match( /level(\d+)/ ) || [ '', 1 ] )[ 1 ];
-
-		// The symbol is the first text node descendant
-		// of the element that doesn't start with an &nbsp;
-		var symbol;
-
-		element.forEach( function( element ) {
-			if ( !symbol && !element.value.match( /^&nbsp;/ ) ) {
-				symbol = element.value;
-			}
-		}, CKEDITOR.NODE_TEXT );
-
-		element.attributes[ 'cke-symbol' ] = symbol.replace( /&nbsp;.*$/, '' );
 	}
 
 	function removeListSymbol( element ) { // ...from the element's text content.
@@ -471,12 +489,12 @@
 
 		// Taking into account cases like "1.1.2." etc. - get the last element.
 		function getSubsectionSymbol( symbol ) {
-			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ "placeholder", 1 ] )[ 1 ];
+			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', 1 ] )[ 1 ];
 		}
 	}
 
 	function createList( element ) {
-		if ( ( element.attributes[ 'cke-symbol' ].match( /([\daiIA])[\.\)]/ ) || [] )[ 1 ] ) {
+		if ( ( element.attributes[ 'cke-symbol' ].match( /([\daiIA]).?/ ) || [] )[ 1 ] ) {
 			return new CKEDITOR.htmlParser.element( 'ol' );
 		}
 		return new CKEDITOR.htmlParser.element( 'ul' );
