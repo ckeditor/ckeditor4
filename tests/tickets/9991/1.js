@@ -64,22 +64,22 @@
 			//'6493Questions_and_answers': [ 'word2013' ], // Really edgy case.
 			'6533test_doc': [ 'word2013' ],
 			'6570ordered_list': [ 'word2013' ],
-			'6594': [ 'word2013' ]
-			//'6608': [ 'word2013' ],
-			//'6639nested_list_with_empty_lines': [ 'word2013' ],
-			//'6658CKEditor_Word_tabs_between_list_items_Sample': [ 'word2013' ],
-			//'6662': [ 'word2013' ],
-			//'6662bullets': [ 'word2013' ],
-			//'6711Text_Boxes': [ 'word2013' ],
-			//'6751': [ 'word2013' ],
-			//'6751disappearing_spaces_example2': [ 'word2013' ],
-			//'7131': [ 'word2013' ],
-			//'7131TC_7131_2': [ 'word2013' ],
+			'6594': [ 'word2013' ],
+			'6608': [ 'word2013' ],
+			'6639nested_list_with_empty_lines': [ 'word2013' ],
+			'6658CKEditor_Word_tabs_between_list_items_Sample': [ 'word2013' ],
+			'6662': [ 'word2013' ],
+			//'6662bullets': [ 'word2013' ], // Wierdness
+			//'6711Text_Boxes': [ 'word2013' ], // Okay, wow.
+			'6751': [ 'word2013' ],
+			'6751disappearing_spaces_example2': [ 'word2013' ],
+			//'7131': [ 'word2013' ], // Really?
+			'7131TC_7131_2': [ 'word2013' ],
 			//'7262preformatted_list': [ 'word2013' ],
 			//'7269Test_with_footnote': [ 'word2013' ],
-			//'7371BugReport_Example': [ 'word2013' ],
+			'7371BugReport_Example': [ 'word2013' ]
 			//'7581Numbering': [ 'word2013' ],
-			//'7581stupidList': [ 'word2013' ],
+			//'7581stupidList': [ 'word2013' ]
 			//'7918Numbering': [ 'word2013' ],
 			//'7950Sample_word_doc': [ 'word2013' ]
 		},
