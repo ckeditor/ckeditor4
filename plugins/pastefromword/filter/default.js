@@ -444,10 +444,10 @@
 				break;
 			case 'lower-alpha':
 			case 'upper-alpha':
-				list.attributes.start = ( symbols[ offset ] ).toLowerCase().charCodeAt( 0 ) - 96 - offset ;
+				list.attributes.start = ( symbols[ offset ] ).toLowerCase().charCodeAt( 0 ) - 96 - offset;
 				break;
 			case 'decimal':
-				list.attributes.start = ( ( parseInt( symbols[ offset ], 10 ) - offset ) || 1 );
+				list.attributes.start = ( parseInt( getSubsectionSymbol( symbols[ offset ] ) , 10 ) - offset ) || 1;
 				break;
 		}
 
@@ -467,6 +467,11 @@
 			if ( symbol.match( /^v/i ) ) return 5 + toArabic( symbol.slice( 1 ) );
 			if ( symbol.match( /^iv/i ) ) return 4 + toArabic( symbol.slice( 2 ) );
 			if ( symbol.match( /^i/i ) ) return 1 + toArabic( symbol.slice( 1 ) );
+		}
+
+		// Taking into account cases like "1.1.2." etc. - get the last element.
+		function getSubsectionSymbol( symbol ) {
+			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ "placeholder", 1 ] )[ 1 ];
 		}
 	}
 
