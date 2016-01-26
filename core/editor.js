@@ -657,12 +657,40 @@
 	// Create DocumentFragment from specified ranges. For now it handles only tables in Firefox
 	// and returns DocumentFragment from the 1. range for other cases. (#13884)
 	function createDocumentFragmentFromRanges( ranges, editable ) {
-		// The check is performed on native node name, because our text nodes don't have getName method.
-		if ( ranges.length > 0 && ranges[ 0 ].startContainer.$.nodeName.toLowerCase() == 'tr' ) {
-			ranges[ 0 ].setEndAt( ranges[ ranges.length - 1 ].endContainer, CKEDITOR.POSITION_BEFORE_END );
+		var docFragment = new CKEDITOR.dom.documentFragment(),
+			tableClone, currentRow, currentRowClone;
+
+		for ( var i = 0; i < ranges.length; i++ ) {
+			var range = ranges[ i ],
+				container = range.startContainer;
+
+			if ( container.getName && container.getName() == 'tr' ) {
+				if ( !tableClone ) {
+					tableClone = container.getAscendant( 'table' ).clone();
+					tableClone.append( container.getAscendant( 'tbody' ).clone() );
+					docFragment.append( tableClone );
+					tableClone = tableClone.findOne( 'tbody' );
+				}
+
+				if ( !( currentRow && currentRow.$ === container.$ ) ) {
+					currentRow = container;
+					currentRowClone = container.clone();
+					tableClone.append( currentRowClone );
+				}
+
+				currentRowClone.append( range.cloneContents() );
+			} else {
+				// If there was something else copied with table,
+				// append it to DocumentFragment.
+				docFragment.append( range.cloneContents() );
+			}
 		}
 
-		return editable.getHtmlFromRange( ranges[ 0 ] );
+		if ( !tableClone ) {
+			return editable.getHtmlFromRange( ranges[ 0 ] );
+		}
+
+		return docFragment;
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
