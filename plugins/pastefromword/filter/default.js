@@ -381,7 +381,7 @@
 
 				node.value = node.value.replace( symbol, '' );
 
-				if ( node.value.match( /^(\s|&nbsp;)*$/ ) ) {
+				if ( node.parent.getHtml().match( /^(\s|&nbsp;)*$/ ) ) {
 					removed = node.parent !== element ? node.parent : null;
 				}
 			}
@@ -505,9 +505,7 @@
 		var listElements = [];
 
 		// Select and clean up list elements.
-		for ( i = 0; i < root.children.length; i++ ) {
-			element = root.children[ i ];
-
+		root.forEach( function( element ) {
 			if ( element.name == 'cke:li' ) {
 				element.name = 'li';
 
@@ -515,7 +513,7 @@
 
 				listElements.push( element );
 			}
-		}
+		}, CKEDITOR.NODE_ELEMENT, false );
 
 		if ( listElements.length === 0 ) {
 			return;
