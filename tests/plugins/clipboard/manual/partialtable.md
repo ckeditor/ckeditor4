@@ -25,18 +25,16 @@ Table with three cells and one row is created (pasted).
 Pasted table has 2 rows with 2 cells in each row resulting with following HTML:
 
 ```
-&lt;table border=&quot;1&quot;&gt;
-    &lt;tbody&gt;
-	&lt;tr&gt;
-		&lt;td&gt;11&lt;/td&gt;
-		&lt;td&gt;22&lt;/td&gt;
-		&lt;td&gt;33&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;44&lt;/td&gt;
-		&lt;td&gt;55&lt;/td&gt;
-		&lt;td&gt;66&lt;/td&gt;
-	&lt;/tr&gt;
-    &lt;/tbody&gt;
-&lt;/table&gt;
+<table border="1">
+    <tbody>
+	<tr>
+		<td>11</td>
+		<td>22</td>
+	</tr>
+	<tr>
+		<td>44</td>
+		<td>55</td>
+	</tr>
+    </tbody>
+</table>
 ```
