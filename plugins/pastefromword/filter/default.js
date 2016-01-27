@@ -161,8 +161,9 @@
 						}
 					}
 
-
-					pushStylesLower( element );
+					pushStylesLower( element, {
+						'background': true
+					} );
 				},
 				'v:imagedata': remove,
 				// This is how IE8 presents images.
