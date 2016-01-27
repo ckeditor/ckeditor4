@@ -10,6 +10,24 @@
 		return new CKEDITOR.style( { element: element.getName() } );
 	}
 
+	function getSelectedWordOffset( range ) {
+		var node = range.startContainer,
+			regex = /\b\w+\b/ig,
+			contents = node.getText(),
+			match;
+
+		while( ( match = regex.exec( contents ) ) != null ) {
+			if ( match.index + match[ 0 ].length >= range.startOffset ) {
+				return {
+					start: match.index,
+					end: match.index + match[ 0 ].length
+				}
+			}
+		}
+
+		return null;
+	}
+
 	var commandDefinition = {
 		startDisabled: true,
 		contextSensitive: true,
@@ -23,6 +41,20 @@
 
 				if ( !range ) {
 					return;
+				}
+
+				if ( range.collapsed ) {
+					var newRange = editor.createRange(),
+						word = getSelectedWordOffset( range );
+
+					if ( !word ) {
+						return;
+					}
+
+					newRange.setStart( range.startContainer, word.start );
+					newRange.setEnd( range.startContainer, word.end );
+
+					newRange.select();
 				}
 
 				style.apply( editor );
