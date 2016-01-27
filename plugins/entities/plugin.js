@@ -187,7 +187,7 @@
 						// Swap liquid tags/variables back in
 						for (var hash in liquidMap) {
 							var tag = liquidMap[hash];
-							text = text.replace( hash, tag );
+							text = text.replace( new RegExp(hash, 'g'), tag );
 						}
 
 						return text;
