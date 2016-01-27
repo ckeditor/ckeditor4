@@ -1071,22 +1071,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 				//
 				// 2. Otherwise if it's collapsed on element boundaries, moving the selection
 				//  outside the styles instead of removing the whole tag,
-				//  also make sure other inner styles were well preserverd.(#3309)
+				//  also make sure other inner styles were well preserved.(#3309)
 				//
 				// 3. Force removing the element even if it's an boundary element when alwaysRemoveElement is true.
-				// Without it, the links won't be unlinked if the cursors is placed right before/after it. (#13062)
+				// Without it, the links won't be unlinked if the cursor is placed right before/after it. (#13062)
 				if ( element == startPath.block || element == startPath.blockLimit ) {
-					if ( alwaysRemoveElement ) {
-						removeFromInsideElement.call( this, element );
-					}
-
 					break;
 				}
 
 				if ( this.checkElementRemovable( element ) ) {
 					var isStart;
 
-					if ( range.collapsed && ( range.checkBoundaryOfElement( element, CKEDITOR.END ) || ( isStart = range.checkBoundaryOfElement( element, CKEDITOR.START ) ) ) ) {
+					if ( !alwaysRemoveElement && range.collapsed && ( range.checkBoundaryOfElement( element, CKEDITOR.END ) || ( isStart = range.checkBoundaryOfElement( element, CKEDITOR.START ) ) ) ) {
 						boundaryElement = element;
 						boundaryElement.match = isStart ? 'start' : 'end';
 					} else {
@@ -1095,10 +1091,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 						// no difference that they're separate entities in the DOM tree. So, merge
 						// them before removal.
 						element.mergeSiblings();
-						if ( element.is( this.element ) )
+						if ( element.is( this.element ) ) {
 							removeFromElement.call( this, element );
-						else
+						} else {
 							removeOverrides( element, getOverrides( this )[ element.getName() ] );
+						}
 					}
 				}
 			}
@@ -1106,8 +1103,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// Re-create the style tree after/before the boundary element,
 			// the replication start from bookmark start node to define the
 			// new range.
-			// Also checked if boundaryElement is not detached from DOM by forced remove. (#13062)
-			if ( boundaryElement && boundaryElement.getParent() ) {
+			if ( boundaryElement ) {
 				var clonedElement = startNode;
 				for ( i = 0; ; i++ ) {
 					var newElement = startPath.elements[ i ];
