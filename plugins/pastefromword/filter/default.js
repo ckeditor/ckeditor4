@@ -227,8 +227,10 @@
 
 	function thisIsAListItem( element ) {
 		/*jshint -W024 */
-		if ( ( ( element.attributes.style && element.attributes.style.match( /mso\-list/ ) ) &&
-			tools.checkIfAnyArrayItemMatches( ( element.attributes.class || '' ).split( ' ' ), /MsoListParagraph/ ) ) ||
+		// Normally a style of the sort that looks like "mso-list: l0 level1 lfo1"
+		// indicates a list element, but the same style may appear in a <p> that's within a <li>.
+		if ( ( ( element.attributes.style && element.attributes.style.match( /mso\-list:\s?l\d/ ) ) &&
+			element.parent.name !== 'li' ) ||
 			element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ ) ||
 			// Flat, ordered lists are represented by paragraphs
 			// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
