@@ -741,11 +741,13 @@
 
 	// Moves the element's styles lower in the DOM hierarchy.
 	// Returns true on success.
-	function pushStylesLower( element ) {
+	function pushStylesLower( element, exceptions ) {
 		if ( !element.attributes.style ||
 			element.children.length === 0 ) {
 			return false;
 		}
+
+		exceptions = exceptions || {};
 
 		// Entries ending with a dash match styles that start with
 		// the entry name, e.g. 'border-' matches 'border-style', 'border-color' etc.
@@ -759,7 +761,9 @@
 		var styles = tools.parseCssText( element.attributes.style );
 
 		for ( var style in styles ) {
-			if ( style.toLowerCase() in retainedStyles || retainedStyles [ style.toLowerCase().replace( /\-.*$/, '-' ) ] ) {
+			if ( style.toLowerCase() in retainedStyles ||
+				retainedStyles [ style.toLowerCase().replace( /\-.*$/, '-' ) ] ||
+				style.toLowerCase() in exceptions ) {
 				continue;
 			}
 
