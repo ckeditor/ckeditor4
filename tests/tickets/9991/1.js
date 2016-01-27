@@ -79,7 +79,7 @@
 			'7269Test_with_footnote': [ 'word2013' ],
 			'7371BugReport_Example': [ 'word2013' ],
 			//'7581Numbering': [ 'word2013' ],
-			//'7581stupidList': [ 'word2013' ]
+			//'7581stupidList': [ 'word2013' ],
 			//'7918Numbering': [ 'word2013' ],
 			//'7950Sample_word_doc': [ 'word2013' ],
 			'9685testResumeTest': [ 'word2013' ],
