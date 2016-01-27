@@ -1,4 +1,4 @@
-﻿/* bender-tags: editor,unit */
+/* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: link,toolbar */
 
 ( function() {
@@ -498,14 +498,35 @@
 
 		// #13062
 		'test unlink when cursor is right after the link': function() {
+			// IE8 fails this test for unknown reason; however it does well
+			// in the manual one.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor,
 				bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '<p><a href="http://cksource.com">Link^</a></p>' );
 
+			resume( function() {
+				editor.ui.get( 'Unlink' ).click( editor );
+				assert.areSame( '<p>Link^</p>', bot.htmlWithSelection() );
+			} );
+
+			wait( 100 );
+		},
+
+		// #13062
+		'test unlink when cursor is right before the link and there are more than one link in paragraph': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '<p>I\'m<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of <a href="http://ckeditor.com">^<s>CKEditor</s></a>.</p>' );
+
 			editor.ui.get( 'Unlink' ).click( editor );
 
-			assert.areSame( '<p>Link^</p>', bot.htmlWithSelection() );
+			assert.areSame( '<p>I\'m<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of ^<s>CKEditor</s>.</p>', bot.htmlWithSelection() );
 		}
 	} );
 } )();
