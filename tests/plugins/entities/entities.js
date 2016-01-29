@@ -82,6 +82,17 @@ bender.test( {
 		} );
 	},
 
+	'test encoding multiple liquid variables': function() {
+		var inputHtml = '{{ subscriber.name }} foo {{ subscriber.name }}',
+			expectedHtml = '{{ subscriber.name }} foo {{ subscriber.name }}',
+			editor = this.editor,
+			bot = this.editorBot;
+
+		bot.setData( inputHtml, function() {
+			assert.areEqual( expectedHtml, editor.getData() );
+		} );
+	},
+
 	'test encoding skipped inside liquid tags': function() {
 		var inputHtml = '{% if email == "<" && email > 4 %} & > < {% endif %}',
 			expectedHtml = '{% if email == "<" && email > 4 %} &amp; &gt; &lt; {% endif %}',
