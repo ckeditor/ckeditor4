@@ -658,7 +658,9 @@
 	// and returns DocumentFragment from the 1. range for other cases. (#13884)
 	function createDocumentFragmentFromRanges( ranges, editable ) {
 		var docFragment = new CKEDITOR.dom.documentFragment(),
-			tableClone, currentRow, currentRowClone;
+			tableClone,
+			currentRow,
+			currentRowClone;
 
 		for ( var i = 0; i < ranges.length; i++ ) {
 			var range = ranges[ i ],
@@ -672,7 +674,7 @@
 					tableClone = tableClone.findOne( 'tbody' );
 				}
 
-				if ( !( currentRow && currentRow.$ === container.$ ) ) {
+				if ( !( currentRow && currentRow.equals( container ) ) ) {
 					currentRow = container;
 					currentRowClone = container.clone();
 					tableClone.append( currentRowClone );
