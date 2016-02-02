@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	targetFrameName: 'اسم الإطار المستهدف',
 	targetPopup: '<نافذة منبثقة>',
 	targetPopupName: 'اسم النافذة المنبثقة',
+	text: 'النص',
 	title: 'رابط',
 	toAnchor: 'مكان في هذا المستند',
 	toEmail: 'بريد إلكتروني',

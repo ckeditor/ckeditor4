@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'he', {
 	targetFrameName: 'שם מסגרת היעד',
 	targetPopup: '<חלון קופץ>',
 	targetPopupName: 'שם החלון הקופץ',
+	text: 'Text', // MISSING
 	title: 'קישור',
 	toAnchor: 'עוגן בעמוד זה',
 	toEmail: 'דוא"ל',

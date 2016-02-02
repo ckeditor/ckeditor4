@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'et', {
 	targetFrameName: 'Sihtmärk raami nimi',
 	targetPopup: '<hüpikaken>',
 	targetPopupName: 'Hüpikakna nimi',
+	text: 'Text', // MISSING
 	title: 'Link',
 	toAnchor: 'Ankur sellel lehel',
 	toEmail: 'E-post',

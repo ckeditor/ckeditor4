@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 	targetFrameName: 'Очих фремын нэр',
 	targetPopup: '<popup цонх>',
 	targetPopupName: 'Popup цонхны нэр',
+	text: 'Text', // MISSING
 	title: 'Холбоос',
 	toAnchor: 'Энэ бичвэр дэх зангуу руу очих холбоос',
 	toEmail: 'Э-захиа',

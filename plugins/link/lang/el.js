@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	targetFrameName: 'Όνομα Πλαισίου Προορισμού',
 	targetPopup: '<αναδυόμενο παράθυρο>',
 	targetPopupName: 'Όνομα Αναδυόμενου Παραθύρου',
+	text: 'Text', // MISSING
 	title: 'Σύνδεσμος',
 	toAnchor: 'Άγκυρα σε αυτήν τη σελίδα',
 	toEmail: 'E-Mail',

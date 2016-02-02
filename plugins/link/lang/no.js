@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'no', {
 	targetFrameName: 'Målramme',
 	targetPopup: '<popup-vindu>',
 	targetPopupName: 'Navn på popup-vindu',
+	text: 'Text', // MISSING
 	title: 'Lenke',
 	toAnchor: 'Lenke til anker i teksten',
 	toEmail: 'E-post',

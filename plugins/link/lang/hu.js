@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	targetFrameName: 'Keret neve',
 	targetPopup: '<felugró ablakban>',
 	targetPopupName: 'Felugró ablak neve',
+	text: 'Text', // MISSING
 	title: 'Hivatkozás tulajdonságai',
 	toAnchor: 'Horgony az oldalon',
 	toEmail: 'E-Mail',

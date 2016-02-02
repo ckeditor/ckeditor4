@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'lt', {
 	targetFrameName: 'Paskirties kadro vardas',
 	targetPopup: '<išskleidžiamas langas>',
 	targetPopupName: 'Paskirties lango vardas',
+	text: 'Text', // MISSING
 	title: 'Nuoroda',
 	toAnchor: 'Žymė šiame puslapyje',
 	toEmail: 'El.paštas',

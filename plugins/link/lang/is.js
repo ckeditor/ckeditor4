@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'is', {
 	targetFrameName: 'Nafn markglugga',
 	targetPopup: '<sprettigluggi>',
 	targetPopupName: 'Nafn sprettiglugga',
+	text: 'Text', // MISSING
 	title: 'Stikla',
 	toAnchor: 'Bókamerki á þessari síðu',
 	toEmail: 'Netfang',

@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	targetFrameName: '타겟 프레임 이름',
 	targetPopup: '<팝업 창>',
 	targetPopupName: '팝업 창 이름',
+	text: 'Text', // MISSING
 	title: '링크',
 	toAnchor: '책갈피',
 	toEmail: '이메일',

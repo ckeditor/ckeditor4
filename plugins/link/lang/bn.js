@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'bn', {
 	targetFrameName: 'টার্গেট ফ্রেমের নাম',
 	targetPopup: '<পপআপ উইন্ডো>',
 	targetPopupName: 'পপআপ উইন্ডোর নাম',
+	text: 'Text', // MISSING
 	title: 'লিংক',
 	toAnchor: 'এই পেজে নোঙর কর',
 	toEmail: 'ইমেইল',

@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	targetFrameName: 'Nomo de CelKadro',
 	targetPopup: '<ŝprucfenestro>',
 	targetPopupName: 'Nomo de Ŝprucfenestro',
+	text: 'Text', // MISSING
 	title: 'Ligilo',
 	toAnchor: 'Ankri en tiu ĉi paĝo',
 	toEmail: 'Retpoŝto',

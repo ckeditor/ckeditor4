@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	targetFrameName: 'Hedef Çerçeve Adı',
 	targetPopup: '<yeni açılan pencere>',
 	targetPopupName: 'Yeni Açılan Pencere Adı',
+	text: 'Text', // MISSING
 	title: 'Link',
 	toAnchor: 'Bu sayfada çapa',
 	toEmail: 'E-Posta',

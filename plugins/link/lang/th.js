@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'th', {
 	targetFrameName: 'ชื่อทาร์เก็ตเฟรม',
 	targetPopup: '<เปิดหน้าจอเล็ก (Pop-up)>',
 	targetPopupName: 'ระบุชื่อหน้าจอเล็ก (Pop-up)',
+	text: 'Text', // MISSING
 	title: 'ลิงค์เชื่อมโยงเว็บ อีเมล์ รูปภาพ หรือไฟล์อื่นๆ',
 	toAnchor: 'จุดเชื่อมโยง (Anchor)',
 	toEmail: 'ส่งอีเมล์ (E-Mail)',

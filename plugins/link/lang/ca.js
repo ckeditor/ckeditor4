@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'ca', {
 	targetFrameName: 'Nom del marc de destí',
 	targetPopup: '<finestra emergent>',
 	targetPopupName: 'Nom finestra popup',
+	text: 'Text', // MISSING
 	title: 'Enllaç',
 	toAnchor: 'Àncora en aquesta pàgina',
 	toEmail: 'Correu electrònic',

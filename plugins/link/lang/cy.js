@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'cy', {
 	targetFrameName: 'Enw Ffrâm y Targed',
 	targetPopup: '<ffenestr bop>',
 	targetPopupName: 'Enw Ffenestr Bop',
+	text: 'Text', // MISSING
 	title: 'Dolen',
 	toAnchor: 'Dolen at angor yn y testun',
 	toEmail: 'E-bost',

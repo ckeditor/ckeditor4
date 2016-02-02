@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'pt', {
 	targetFrameName: 'Nome do Frame Destino',
 	targetPopup: '<janela de popup>',
 	targetPopupName: 'Nome da Janela de Popup',
+	text: 'Text', // MISSING
 	title: 'Hiperligação',
 	toAnchor: 'Referência a esta página',
 	toEmail: 'Email',

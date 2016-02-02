@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'fo', {
 	targetFrameName: 'Vís navn vindeygans',
 	targetPopup: '<popup vindeyga>',
 	targetPopupName: 'Popup vindeygans navn',
+	text: 'Text', // MISSING
 	title: 'Tilknýti',
 	toAnchor: 'Tilknýti til marknastein í tekstinum',
 	toEmail: 'Teldupostur',

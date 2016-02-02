@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 	targetFrameName: 'Tên khung đích',
 	targetPopup: '<cửa sổ popup>',
 	targetPopupName: 'Tên cửa sổ Popup',
+	text: 'Text', // MISSING
 	title: 'Liên kết',
 	toAnchor: 'Neo trong trang này',
 	toEmail: 'Thư điện tử',

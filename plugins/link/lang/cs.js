@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'cs', {
 	targetFrameName: 'Název cílového rámu',
 	targetPopup: '<vyskakovací okno>',
 	targetPopupName: 'Název vyskakovacího okna',
+	text: 'Text', // MISSING
 	title: 'Odkaz',
 	toAnchor: 'Kotva v této stránce',
 	toEmail: 'E-mail',

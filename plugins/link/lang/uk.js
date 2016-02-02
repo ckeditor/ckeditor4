@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'uk', {
 	targetFrameName: 'Ім\'я цільового фрейму',
 	targetPopup: '<випливаюче вікно>',
 	targetPopupName: 'Ім\'я випливаючого вікна',
+	text: 'Text', // MISSING
 	title: 'Посилання',
 	toAnchor: 'Якір на цю сторінку',
 	toEmail: 'Ел. пошта',

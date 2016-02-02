@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 	targetFrameName: '目標框架名稱',
 	targetPopup: '<快顯視窗>',
 	targetPopupName: '快顯視窗名稱',
+	text: 'Text', // MISSING
 	title: '連結',
 	toAnchor: '文字中的錨點連結',
 	toEmail: '電子郵件',

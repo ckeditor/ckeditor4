@@ -54,6 +54,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	targetFrameName: 'टार्गेट फ़्रेम का नाम',
 	targetPopup: '<पॉप-अप विन्डो>',
 	targetPopupName: 'पॉप-अप विन्डो का नाम',
+	text: 'Text', // MISSING
 	title: 'लिंक',
 	toAnchor: 'इस पेज का ऐंकर',
 	toEmail: 'ई-मेल',
