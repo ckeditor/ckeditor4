@@ -128,7 +128,7 @@ bender.test( {
 
 	// #13884.
 	'test getSelectedHtml with multiple ranges': function() {
-		if ( CKEDITOR.env.ie ) {
+		if ( !CKEDITOR.env.gecko ) {
 			assert.ignore();
 		}
 
