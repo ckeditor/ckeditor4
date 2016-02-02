@@ -4,7 +4,9 @@
 ( function() {
 	'use strict';
 
-	var error, warn, _console,
+	var error,
+		warn,
+		_console,
 		consoleEnabled = !!window.console,
 		ignore = !consoleEnabled,
 		errorPrefix = '[CKEDITOR] ',
