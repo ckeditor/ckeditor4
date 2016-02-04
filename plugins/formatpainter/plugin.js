@@ -29,12 +29,11 @@
 	}
 
 	var commandDefinition = {
-		startDisabled: true,
-		contextSensitive: true,
 		exec: function( editor ) {
-			var style = convertElementToStyle( editor.elementPath().lastElement );
+			var style = convertElementToStyle( editor.elementPath().lastElement ),
+				cmd = this;
 
-			this.setState( CKEDITOR.TRISTATE_ON );
+			cmd.setState( CKEDITOR.TRISTATE_ON );
 
 			editor.editable().once( 'click', function( evt ) {
 				var range = editor.getSelection().getRanges()[ 0 ];
@@ -58,15 +57,8 @@
 				}
 
 				style.apply( editor );
+				cmd.setState( CKEDITOR.TRISTATE_OFF );
 			} );
-		},
-
-		refresh: function( editor, path ) {
-			var element = path.lastElement;
-			if (  element && element.getName() !== 'p' && element.getName() !== 'body' )
-				this.setState( CKEDITOR.TRISTATE_OFF );
-			else
-				this.setState( CKEDITOR.TRISTATE_DISABLED );
 		}
 	};
 
