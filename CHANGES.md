@@ -3,6 +3,12 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.7
 
+New Features:
+
+* [#14327](http://dev.ckeditor.com/ticket/14327): Added Swiss German localization.
+
+Other Changes:
+
 * [#13816](http://dev.ckeditor.com/ticket/13816): Introduced a new strategy for Filling Character handling to avoid changes in DOM. This fixes the following issues:
 	* [#12727](http://dev.ckeditor.com/ticket/12727): [Blink] `IndexSizeError` when using the [Div Editing Area](http://ckeditor.com/addon/divarea) and [Content Templates](http://ckeditor.com/addon/templates) plugins.
 	* [#13377](http://dev.ckeditor.com/ticket/13377): [Widget](http://ckeditor.com/addon/widget) plugin issue when typing in Korean.
