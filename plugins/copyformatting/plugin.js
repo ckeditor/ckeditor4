@@ -62,17 +62,17 @@
 		}
 	};
 
-	CKEDITOR.plugins.add( 'formatpainter', {
+	CKEDITOR.plugins.add( 'copyformatting', {
 		requires: 'contextmenu',
 		lang: 'en',
-		icons: 'formatpainter',
+		icons: 'copyformatting',
 		hidpi: true,
 		init: function( editor ) {
-			var command = editor.addCommand( 'formatPainter', commandDefinition );
+			var command = editor.addCommand( 'copyFormatting', commandDefinition );
 
-			editor.ui.addButton( 'formatPainter', {
-				label: editor.lang.formatpainter.label,
-				command: 'formatPainter',
+			editor.ui.addButton( 'copyFormatting', {
+				label: editor.lang.copyformatting.label,
+				command: 'copyFormatting',
 				toolbar: 'basicstyles,90'
 			} );
 		}
