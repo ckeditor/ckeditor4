@@ -1,0 +1,418 @@
+* {
+    font-size: 13px;
+}
+body {
+    background: #000;
+    color: #aaa;
+}
+fieldset td {
+    white-space: nowrap;
+}
+#folders {
+    margin: 5px 5px 0 5px;
+}
+#files {
+    margin-right: 5px;
+}
+
+
+/* SHARED DECLARATIONS */
+
+#toolbar a:hover,
+#toolbar a.hover,
+span.current,
+span.regular:hover,
+span.context,
+#clipboard div:hover,
+div.file:hover,
+#files div.selected,
+#files div.selected:hover,
+tr.selected > td,
+tr.selected:hover > td,
+#menu .list div a:hover,
+#toolbar a.selected {
+    color: #fff;
+    text-shadow:
+        1px 0 rgba(0,0,0,.2),
+        -1px 0 rgba(0,0,0,.2),
+        0 -1px rgba(0,0,0,.2),
+        0 1px rgba(0,0,0,.2),
+        1px 1px rgba(0,0,0,.2),
+        -1px -1px rgba(0,0,0,.2),
+        1px -1px rgba(0,0,0,.2),
+        -1px 1px rgba(0,0,0,.2);
+}
+#files div {
+    text-shadow:
+        1px 0 rgba(0,0,0,.2),
+        -1px 0 rgba(0,0,0,.2),
+        0 -1px rgba(0,0,0,.2),
+        0 1px rgba(0,0,0,.2),
+        1px 1px rgba(0,0,0,.2),
+        -1px -1px rgba(0,0,0,.2),
+        1px -1px rgba(0,0,0,.2),
+        -1px 1px rgba(0,0,0,.2);
+}
+
+#files,
+#folders,
+#toolbar a.selected {
+    color: #aaa;
+    border: 1px solid #425064;
+    border-radius: 4px;
+    background: #202d3e;
+    box-shadow: inset 0 0 3px #000, inset 0 0 6px #000, 0 0 3px #425064, 0 0 2px #425064;
+}
+
+/* TOOLBAR */
+#toolbar {
+    padding: 5px 0;
+}
+#toolbar a {
+    color: #949494;
+    margin-right: 5px;
+    border: 1px solid transparent;
+    outline: none;
+    display: block;
+    float: left;
+    border-radius: 4px;
+    transition: .3s;
+    padding:0;
+}
+#toolbar a > span {
+    padding: 6px 10px 6px 26px;
+    diaplay: block;
+    float:left;
+    background: no-repeat 6px center;
+}
+#toolbar a:hover,
+#toolbar a.hover {
+    color: #fff;
+    border-color: #184977;
+    background: #4685b3;
+    background: -webkit-linear-gradient(top, #4685b3, #184977);
+    background: -moz-linear-gradient(top, #4685b3, #184977);
+    background: -ms-linear-gradient(top, #4685b3, #184977);
+    background: -o-linear-gradient(top, #4685b3, #184977);
+    background: linear-gradient(to bottom, #4685b3, #184977);
+    box-shadow: inset 0 0 3px #88b9da;
+    transition: .3s;
+}
+#toolbar a[href="kcact:upload"] span {
+    background-image: url(img/icons/upload.png);
+}
+#toolbar a[href="kcact:refresh"] span {
+    background-image: url(img/icons/refresh.png);
+}
+#toolbar a[href="kcact:settings"] span {
+    background-image: url(img/icons/settings.png);
+}
+#toolbar a[href="kcact:about"] span {
+    background-image: url(img/icons/about.png);
+}
+#toolbar a[href="kcact:maximize"] span {
+    background-image: url(img/icons/maximize.png);
+}
+
+
+/* SETTINGS BAR */
+
+#settings label {
+    cursor: pointer;
+}
+#settings fieldset {
+    margin-right:5px;
+    margin-bottom: 6px;
+    margin-top:-5px;
+    padding:6px;
+}
+
+
+/* FOLDERS */
+
+div.folder {
+    padding-top: 2px;
+    margin-top: 5px;
+    white-space: nowrap;
+}
+div.folder a {
+    text-decoration: none;
+    cursor: default;
+    outline: none;
+    color: #aaa;
+}
+span.folder {
+    padding: 2px 3px 2px 23px;
+    outline: none;
+    background: no-repeat 3px center;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid transparent;
+}
+span.brace {
+    width: 16px;
+    height: 16px;
+    outline: none;
+}
+span.current {
+    transition: .3s;
+    background-image: url(img/tree/folder.png);
+    background-color: #306999;
+    border-color: #306999;
+    box-shadow: inset 0 0 7px #8FD6EA, inset 0 0 3px #8FD6EA, 0 0 2px #000, 0 0 1px #000;
+}
+span.regular {
+    transition: .3s;
+    background-image: url(img/tree/folder.png);
+    background-color: transparent;
+}
+span.regular:hover, span.context, #clipboard div:hover {
+    transition: .3s;
+    background-color: #333;
+    border-color: #777;
+    box-shadow: inset 0 0 7px #777, inset 0 0 3px #777, 0 0 2px #000, 0 0 1px #000;
+}
+span.opened {
+    background-image: url(img/tree/minus.png);
+}
+span.closed {
+    background-image: url(img/tree/plus.png);
+}
+span.denied {
+    background-image: url(img/tree/denied.png);
+}
+
+
+/* FILES */
+
+div.file {
+    padding: 4px;
+    margin: 3px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+div.file:hover {
+    box-shadow: inset 0 0 7px #555, inset 0 0 3px #555, 0 0 3px #000, 0 0 6px #000;
+    background: #000;
+    background: -webkit-linear-gradient(top, #111, #555);
+    background: -moz-linear-gradient(top, #111, #555);
+    background: -ms-linear-gradient(top, #111, #555);
+    background: -o-linear-gradient(top, #111, #555);
+    background: linear-gradient(to bottom, #111, #555);
+    border-color: #555;
+}
+div.file .name {
+    margin-top: 4px;
+    font-weight: bold;
+    height: 16px;
+    overflow: hidden;
+    padding-bottom:2px;
+}
+div.file .time {
+    font-size: 10px;
+}
+div.file .size {
+    font-size: 10px;
+}
+#files div.selected,
+#files div.selected:hover {
+    border-color: #4685b3;
+    background: #4685b3;
+    background: -webkit-linear-gradient(top, #4685b3, #184977);
+    background: -moz-linear-gradient(top, #4685b3, #184977);
+    background: -ms-linear-gradient(top, #4685b3, #184977);
+    background: -o-linear-gradient(top, #4685b3, #184977);
+    background: linear-gradient(to bottom, #4685b3, #184977);
+    box-shadow: inset 0 0 7px #4e9ed4, inset 0 0 3px #4e9ed4, 0 0 3px #000, 0 0 6px #000;
+}
+tr.file > td {
+    padding: 3px 4px;
+}
+tr.file:hover > td {
+    background-color: #000;
+    transition: none;
+}
+tr.selected > td,
+tr.selected:hover > td {
+    transition: .3s;
+    background-color: #2d5277;
+}
+tr.file td.name {
+    background-position: 2px center;
+    padding-left: 22px;
+}
+a.denied {
+    color: #666;
+    opacity: 0.5;
+    filter: alpha(opacity:50);
+    cursor: default;
+}
+a.denied:hover {
+    background-color: #e4e3e2;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+/* FILE MENU */
+
+#menu .ui-menu a span {
+    background: left center no-repeat;
+    padding-left: 20px;
+    white-space: nowrap;
+}
+#menu a[href="kcact:refresh"] span {
+    background-image: url(img/icons/refresh.png);
+}
+#menu a[href="kcact:mkdir"] span {
+    background-image: url(img/icons/folder-new.png);
+}
+#menu a[href="kcact:mvdir"] span, #menu a[href="kcact:mv"] span {
+    background-image: url(img/icons/rename.png);
+}
+#menu a[href="kcact:rmdir"] span, #menu a[href="kcact:rm"] span, #menu a[href="kcact:rmcbd"] span {
+    background-image: url(img/icons/delete.png);
+}
+#menu a[href="kcact:clpbrdadd"] span {
+    background-image: url(img/icons/clipboard-add.png);
+}
+#menu a[href="kcact:pick"] span, #menu a[href="kcact:pick_thumb"] span {
+    background-image: url(img/icons/select.png);
+}
+#menu a[href="kcact:download"] span {
+    background-image: url(img/icons/download.png);
+}
+#menu a[href="kcact:view"] span {
+    background-image: url(img/icons/view.png);
+}
+#menu a[href="kcact:cpcbd"] span {
+    background-image: url(img/icons/copy.png);
+}
+#menu a[href="kcact:mvcbd"] span {
+    background-image: url(img/icons/move.png);
+}
+#menu a[href="kcact:clrcbd"] span {
+    background-image: url(img/icons/clipboard-clear.png);
+}
+
+/* CLIPBOARD */
+
+#clipboard {
+    margin-left:-3px;
+    padding: 2px;
+}
+#clipboard div {
+    background: url(img/icons/clipboard.png) no-repeat center center;
+    border: 1px solid transparent;
+    padding: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+#clipboard.selected div, #clipboard.selected div:hover {
+    background-color: #306999;
+    border-color: #306999;
+    box-shadow: inset 0 0 7px #8FD6EA, inset 0 0 3px #8FD6EA;
+}
+#menu .list a, #menu .list a.ui-state-focus {
+    margin: -1px 0 0 -1px;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    background: none;
+    border-radius: 0;
+    text-shadow: none;
+    box-shadow: none;
+}
+#menu .list a.first, #menu .list a.first.ui-state-focus {
+    border-radius: 4px 4px 0 0;
+}
+#menu .list a:hover {
+    border-color: #4685b3;
+    background: #4685b3;
+    background: -webkit-linear-gradient(top, #184977, #4685b3);
+    background: -moz-linear-gradient(top, #184977, #4685b3);
+    background: -ms-linear-gradient(top, #184977, #4685b3);
+    background: -o-linear-gradient(top, #184977, #4685b3);
+    background: linear-gradient(to bottom, #184977, #4685b3);
+    box-shadow: inset 0 0 7px #4e9ed4, inset 0 0 3px #4e9ed4;
+}
+#menu .list {
+    overflow:hidden;
+    max-height: 1px;
+    margin-bottom: -1px;
+    padding-bottom:1px;
+}
+#menu li.div-files {
+    margin: 0 0 1px 0;
+}
+
+/* ABOUT DIALOG */
+
+.about {
+    text-align: center;
+}
+.about div.head {
+    font-weight: bold;
+    font-size: 12px;
+    padding: 3px 0 8px 0;
+}
+.about div.head a {
+    background: url(img/kcf_logo.png) no-repeat left center;
+    padding: 0 0 0 27px;
+    font-size: 17px;
+    outline: none;
+}
+
+.about a {
+    text-decoration: none;
+    color: #3665b4;
+}
+
+.about a:hover {
+    text-decoration: underline;
+}
+#checkver {
+    margin: 5px 0 10px 0;
+}
+#loading, #checkver > span.loading {
+    background: url(img/loading.gif);
+    border: 1px solid #425064;
+    box-shadow: inset 0 0 3px #000, inset 0 0 6px #000, 0 0 3px #425064, 0 0 2px #425064;
+    padding: 6px 10px;
+    border-radius: 4px;
+    color: #aaa;
+}
+#checkver a {
+    font-weight: normal;
+    padding: 3px 3px 3px 20px;
+    background: url(img/icons/download.png) no-repeat left center;
+}
+
+/* IMAGE VIEWER */
+
+.ui-dialog-content.kcfImageViewer {
+    background: #000;
+    cursor: pointer;
+}
+.kcfImageViewer .img {
+    background: url(img/bg_transparent.png);
+}
+
+/* MISC */
+
+#loading {
+    margin-right: 5px;
+}
+#loadingDirs {
+    padding: 5px 0 1px 24px;
+}
+#files.drag {
+    background: #ddebf8;
+}
+#resizer {
+    background: #fff;
+}
+
+/* FIX FIELDSET BORDER RADIUS BUG ON IE */
+body.msie fieldset,
+body.trident.rv fieldset {
+    border-radius: 0;
+}

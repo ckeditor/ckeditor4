@@ -1,0 +1,10 @@
+body.mobile {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+body.firefox #files > div {
+    overflow: auto;
+    margin-bottom: 5px;
+}

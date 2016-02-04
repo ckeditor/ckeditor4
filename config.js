@@ -8,6 +8,16 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	// %REMOVE_START%
+
+
+	config.filebrowserBrowseUrl = 'ckeditor-dev/kcfinder/browse.php?opener=ckeditor&type=files';
+   config.filebrowserImageBrowseUrl = 'ckeditor-dev/kcfinder/browse.php?opener=ckeditor&type=images';
+   config.filebrowserFlashBrowseUrl = 'ckeditor-dev/kcfinder/browse.php?opener=ckeditor&type=flash';
+   config.filebrowserUploadUrl = 'ckeditor-dev/kcfinder/upload.php?opener=ckeditor&type=files';
+   config.filebrowserImageUploadUrl = 'ckeditor-dev/kcfinder/upload.php?opener=ckeditor&type=images';
+   config.filebrowserFlashUploadUrl = 'ckeditor-dev/kcfinder/upload.php?opener=ckeditor&type=flash';
+
+
 	config.plugins =
 		'about,' +
 		'a11yhelp,' +
