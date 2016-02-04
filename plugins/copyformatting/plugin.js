@@ -28,36 +28,63 @@
 		return null;
 	}
 
+	function applyFormat( style, editor ) {
+		var range = editor.getSelection().getRanges()[ 0 ];
+
+		if ( !range ) {
+			return;
+		}
+
+		if ( range.collapsed ) {
+			var newRange = editor.createRange(),
+				word = getSelectedWordOffset( range );
+
+			if ( !word ) {
+				return;
+			}
+
+			newRange.setStart( range.startContainer, word.start );
+			newRange.setEnd( range.startContainer, word.end );
+			newRange.select();
+		}
+
+		style.apply( editor );
+	}
+
 	var commandDefinition = {
 		exec: function( editor ) {
 			var style = convertElementToStyle( editor.elementPath().lastElement ),
-				cmd = this;
+				cmd = this,
+				handler = function() {
+					applyFormat( style, editor );
+
+					cleanUp();
+				},
+				cleanUp = function() {
+					editor.removeMenuItem( 'applyStyle' );
+					editor.editable().removeListener( 'click', handler );
+					cmd.setState( CKEDITOR.TRISTATE_OFF );
+				};
+
+			if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
+				return cleanUp();
+			}
 
 			cmd.setState( CKEDITOR.TRISTATE_ON );
 
-			editor.editable().once( 'click', function( evt ) {
-				var range = editor.getSelection().getRanges()[ 0 ];
+			editor.contextMenu.addListener( function() {
+				return {
+					applyStyle : CKEDITOR.TRISTATE_ON
+				};
+			} );
 
-				if ( !range ) {
-					return;
-				}
+			editor.editable().on( 'click', handler );
 
-				if ( range.collapsed ) {
-					var newRange = editor.createRange(),
-						word = getSelectedWordOffset( range );
-
-					if ( !word ) {
-						return;
-					}
-
-					newRange.setStart( range.startContainer, word.start );
-					newRange.setEnd( range.startContainer, word.end );
-
-					newRange.select();
-				}
-
-				style.apply( editor );
-				cmd.setState( CKEDITOR.TRISTATE_OFF );
+			editor.addMenuItem( 'applyStyle', {
+				label : editor.lang.copyformatting.menuLabel,
+				onClick : handler,
+				group : 'basicstyles',
+				order : 1
 			} );
 		}
 	};
@@ -75,6 +102,8 @@
 				command: 'copyFormatting',
 				toolbar: 'basicstyles,90'
 			} );
+
+			editor.addMenuGroup( 'basicstyles' );
 		}
 	} );
 } )();
