@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'justify', 'mk', {
 	block: 'Justify', // MISSING
-	center: 'Center', // MISSING
+	center: 'Во средина',
 	left: 'Align Left', // MISSING
 	right: 'Align Right' // MISSING
 } );

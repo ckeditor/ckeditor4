@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'sk', {
 	label: 'Formát',
-	panelTitle: 'Formát',
+	panelTitle: 'Odsek',
 	tag_address: 'Adresa',
 	tag_div: 'Normálny (DIV)',
 	tag_h1: 'Nadpis 1',

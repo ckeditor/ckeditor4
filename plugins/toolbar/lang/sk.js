@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sk', {
 		editing: 'Upravovanie',
 		forms: 'Formuláre',
 		basicstyles: 'Základné štýly',
-		paragraph: 'Odstavec',
+		paragraph: 'Odsek',
 		links: 'Odkazy',
 		insert: 'Vložiť',
 		styles: 'Štýly',

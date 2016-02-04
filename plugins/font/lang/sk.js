@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'font', 'sk', {
 		voiceLabel: 'Veľkosť písma',
 		panelTitle: 'Veľkosť písma'
 	},
-	label: 'Font',
-	panelTitle: 'Názov fontu',
-	voiceLabel: 'Font'
+	label: 'Písmo',
+	panelTitle: 'Názov písma',
+	voiceLabel: 'Písmo'
 } );

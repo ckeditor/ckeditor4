@@ -17,6 +17,7 @@ var CKEDITOR_LANGS = ( function() {
 		cy: 'Welsh',
 		da: 'Danish',
 		de: 'German',
+		'de-ch': 'German (Switzerland)',
 		el: 'Greek',
 		en: 'English',
 		'en-au': 'English (Australia)',

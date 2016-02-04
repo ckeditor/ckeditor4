@@ -6,6 +6,6 @@
 CKEDITOR.plugins.setLang( 'uicolor', 'sk', {
 	title: 'UI výber farby',
 	preview: 'Živý náhľad',
-	config: 'Vložte tento reťazec do vášho config.js súboru',
+	config: 'Vložte tento reťazec do svojho súboru config.js',
 	predefined: 'Preddefinované sady farieb'
 } );

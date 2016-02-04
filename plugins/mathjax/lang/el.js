@@ -8,6 +8,6 @@ CKEDITOR.plugins.setLang( 'mathjax', 'el', {
 	dialogInput: 'Γράψτε κώδικα TeX εδώ',
 	docUrl: 'http://en.wikibooks.org/wiki/LaTeX/Mathematics',
 	docLabel: 'Τεκμηρίωση TeX',
-	loading: 'γίνεται φόρτωση...',
+	loading: 'γίνεται φόρτωση…',
 	pathName: 'μαθηματικά'
 } );

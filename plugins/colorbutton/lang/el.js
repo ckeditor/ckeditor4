@@ -47,7 +47,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'el', {
 		E6E6FA: 'Ελαφρός Ιώδες',
 		FFF: 'Λευκό'
 	},
-	more: 'Περισσότερα Χρώματα...',
+	more: 'Περισσότερα Χρώματα…',
 	panelTitle: 'Χρώματα',
 	textColorTitle: 'Χρώμα Κειμένου'
 } );

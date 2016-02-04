@@ -31,7 +31,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		browseServer: 'Explorer le serveur',
 		url: 'URL',
 		protocol: 'Protocole',
-		upload: 'Envoyer',
+		upload: 'Télécharger',
 		uploadSubmit: 'Envoyer sur le serveur',
 		image: 'Image',
 		flash: 'Flash',
