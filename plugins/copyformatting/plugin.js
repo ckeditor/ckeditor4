@@ -5,7 +5,7 @@
 
 ( function() {
 	'use strict';
-
+	var style;
 	function convertElementToStyle( element ) {
 		return new CKEDITOR.style( { element: element.getName() } );
 	}
@@ -53,39 +53,28 @@
 
 	var commandDefinition = {
 		exec: function( editor ) {
-			var style = convertElementToStyle( editor.elementPath().lastElement ),
-				cmd = this,
-				handler = function() {
-					applyFormat( style, editor );
-
-					cleanUp();
-				},
-				cleanUp = function() {
-					editor.removeMenuItem( 'applyStyle' );
-					editor.editable().removeListener( 'click', handler );
-					cmd.setState( CKEDITOR.TRISTATE_OFF );
-				};
+			var	cmd = this;
 
 			if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
-				return cleanUp();
+				return cmd.setState( CKEDITOR.TRISTATE_OFF );
 			}
 
+			cmd.style = convertElementToStyle( editor.elementPath().lastElement );
 			cmd.setState( CKEDITOR.TRISTATE_ON );
+		}
+	},
 
-			editor.contextMenu.addListener( function() {
-				return {
-					applyStyle : CKEDITOR.TRISTATE_ON
-				};
-			} );
+	applyCommandDefinition = {
+		exec: function( editor ) {
+			var cmd = editor.getCommand( 'copyFormatting' );
 
-			editor.editable().on( 'click', handler );
+			if ( cmd.state === CKEDITOR.TRISTATE_OFF ) {
+				return;
+			}
 
-			editor.addMenuItem( 'applyStyle', {
-				label : editor.lang.copyformatting.menuLabel,
-				onClick : handler,
-				group : 'basicstyles',
-				order : 1
-			} );
+			applyFormat( cmd.style, editor );
+
+			cmd.setState( CKEDITOR.TRISTATE_OFF );
 		}
 	};
 
@@ -95,7 +84,8 @@
 		icons: 'copyformatting',
 		hidpi: true,
 		init: function( editor ) {
-			var command = editor.addCommand( 'copyFormatting', commandDefinition );
+			editor.addCommand( 'copyFormatting', commandDefinition );
+			editor.addCommand( 'applyFormatting', applyCommandDefinition );
 
 			editor.ui.addButton( 'copyFormatting', {
 				label: editor.lang.copyformatting.label,
@@ -104,6 +94,26 @@
 			} );
 
 			editor.addMenuGroup( 'basicstyles' );
+
+			editor.addMenuItem( 'applyStyle', {
+				label : editor.lang.copyformatting.menuLabel,
+				command: 'applyFormatting',
+				group : 'basicstyles',
+				order : 1
+			} );
+
+			editor.contextMenu.addListener( function() {
+				return editor.getCommand( 'copyFormatting').state === CKEDITOR.TRISTATE_ON ? {
+					applyStyle : CKEDITOR.TRISTATE_ON
+				} : null;
+			} );
+
+			editor.on( 'instanceReady', function() {
+				editor.editable().on( 'click', function( evt ) {
+					var editor = evt.editor || evt.sender.editor;
+					editor.execCommand( 'applyFormatting' );
+				} );
+			} );
 		}
 	} );
 } )();
