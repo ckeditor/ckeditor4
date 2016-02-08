@@ -52,7 +52,7 @@
 				required = 'a[href]';
 
 			if ( CKEDITOR.dialog.isTabEnabled( editor, 'link', 'advanced' ) )
-				allowed = allowed.replace( ']', ',accesskey,charset,dir,id,lang,name,rel,tabindex,title,type]{*}(*)' );
+				allowed = allowed.replace( ']', ',accesskey,charset,dir,id,lang,name,rel,tabindex,title,type,download]{*}(*)' );
 			if ( CKEDITOR.dialog.isTabEnabled( editor, 'link', 'target' ) )
 				allowed = allowed.replace( ']', ',target,onclick]' );
 
@@ -527,6 +527,11 @@
 					};
 				}
 
+				var download = element.getAttribute( 'download' );
+				if ( download !== null ) {
+					retval.download = true;
+				}
+
 				var advanced = {};
 
 				for ( var a in advAttrNames ) {
@@ -666,6 +671,11 @@
 				}
 			}
 
+			// Force download attribute.
+			if ( data.download ) {
+				set.download = '';
+			}
+
 			// Advanced attributes.
 			if ( data.advanced ) {
 				for ( var a in advAttrNames ) {
@@ -687,7 +697,8 @@
 				target: 1,
 				onclick: 1,
 				'data-cke-pa-onclick': 1,
-				'data-cke-saved-name': 1
+				'data-cke-saved-name': 1,
+				'download': 1
 			};
 
 			if ( data.advanced )

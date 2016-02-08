@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'id', {
 	anchorName: 'By Anchor Name', // MISSING
 	charset: 'Linked Resource Charset', // MISSING
 	cssClasses: 'Kelas Stylesheet',
+	download: 'Force Download', // MISSING
 	emailAddress: 'Alamat E-mail',
 	emailBody: 'Message Body', // MISSING
 	emailSubject: 'Judul Pesan',

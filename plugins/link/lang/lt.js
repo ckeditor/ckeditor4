@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'lt', {
 	anchorName: 'Pagal žymės vardą',
 	charset: 'Susietų išteklių simbolių lentelė',
 	cssClasses: 'Stilių lentelės klasės',
+	download: 'Force Download', // MISSING
 	emailAddress: 'El.pašto adresas',
 	emailBody: 'Žinutės turinys',
 	emailSubject: 'Žinutės tema',
