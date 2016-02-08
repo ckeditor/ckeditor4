@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -78,6 +78,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 						type: 'text',
 						id: 'url',
 						label: editor.lang.common.url,
+						required: true,
 
 						setup: function( widget ) {
 							this.setValue( widget.data.url );

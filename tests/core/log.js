@@ -4,7 +4,9 @@
 ( function() {
 	'use strict';
 
-	var error, warn, _log, _error, _warn,
+	var error,
+		warn,
+		_console,
 		consoleEnabled = !!window.console,
 		ignore = !consoleEnabled,
 		errorPrefix = '[CKEDITOR] ',
@@ -49,26 +51,25 @@
 		},
 
 		setUp: function() {
-			// In ie <= 9 console methods log(), warn() and error() are pseudo-functions that do not have
+			// In IE <= 9 console methods log(), warn() and error() are pseudo-functions that do not have
 			// call/apply methods. This leads to situation when spy methods cannot work properly.
 			// Because of that each function should be wrapped before use.
+			// The console object should be also stubbed because newer sinon version cannot work on that object in
+			// IE <= 9 (#13917).
 			if ( consoleEnabled && CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
-				_log = console.log;
-				_error = console.error;
-				_warn = console.warn;
-
-				console.log = wrap( _log, console );
-				console.error = wrap( _error, console );
-				console.warn = wrap( _warn, console );
+				_console = window.console;
+				window.console = {
+					log: wrap( _console.log, _console ),
+					warn: wrap( _console[ warn ], _console ),
+					error: wrap( _console[ error ], _console )
+				};
 			}
 		},
 
 		tearDown: function() {
 			// Cleaning wrapping made in setUp function for ie <= 9.
 			if ( consoleEnabled && CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
-				console.log = _log;
-				console.error = _error;
-				console.warn = _warn;
+				window.console = _console;
 			}
 		},
 
@@ -76,7 +77,6 @@
 			assert.isFunction( CKEDITOR.error, 'CKEDTIOR.error function should be defined.' );
 			assert.isFunction( CKEDITOR.warn, 'CKEDTIOR.warn function should be defined.' );
 		},
-
 
 		'no log event and output after CKEDITOR.warn() when verbosity = 0': function() {
 			var warnStub = sinon.stub( console, warn ),

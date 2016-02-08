@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'el', {
@@ -47,7 +47,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'el', {
 		E6E6FA: 'Ελαφρός Ιώδες',
 		FFF: 'Λευκό'
 	},
-	more: 'Περισσότερα Χρώματα...',
+	more: 'Περισσότερα Χρώματα…',
 	panelTitle: 'Χρώματα',
 	textColorTitle: 'Χρώμα Κειμένου'
 } );

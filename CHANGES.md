@@ -10,13 +10,27 @@ New Features:
 * [#13518](http://dev.ckeditor.com/ticket/13518): The [file tools](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) request is now more flexible and the [`additionalRequestParameters`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property was introduced.
 * [#13828](http://dev.ckeditor.com/ticket/13828): Adding a class to the [widget](http://ckeditor.com/addon/widget) element will also add a prefixed class to its wrapper.
 
+## CKEditor 4.5.8
+
+Other Changes:
+
+* [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: Table elements order to meet HTML specification.
+
 ## CKEditor 4.5.7
 
-* [#13816](http://dev.ckeditor.com/ticket/13816): Introduced a new strategy for Filling Character handling to avoid changes in DOM. This fixes following issues:
-	* [#12727](http://dev.ckeditor.com/ticket/12727): IndexSizeError on using plugins "Div Editing Area" and "Content Templates",
-	* [#13377](http://dev.ckeditor.com/ticket/13377): Widget plugin issue (typing Korean),
-	* [#13389](http://dev.ckeditor.com/ticket/13389): [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) fails, when cursor is next to a `hr` tag,
-	* [#13513](http://dev.ckeditor.com/ticket/13513): Divarea and [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) throw error when image is only data in editor.
+New Features:
+
+* [#14327](http://dev.ckeditor.com/ticket/14327): Added Swiss German localization.
+
+Other Changes:
+
+* [#13816](http://dev.ckeditor.com/ticket/13816): Introduced a new strategy for Filling Character handling to avoid changes in DOM. This fixes the following issues:
+	* [#12727](http://dev.ckeditor.com/ticket/12727): [Blink] `IndexSizeError` when using the [Div Editing Area](http://ckeditor.com/addon/divarea) and [Content Templates](http://ckeditor.com/addon/templates) plugins.
+	* [#13377](http://dev.ckeditor.com/ticket/13377): [Widget](http://ckeditor.com/addon/widget) plugin issue when typing in Korean.
+	* [#13389](http://dev.ckeditor.com/ticket/13389): [Blink] [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) fails when the cursor is next to an `<hr>` tag.
+	* [#13513](http://dev.ckeditor.com/ticket/13513): [Blink, WebKit] [Div Editing Area](http://ckeditor.com/addon/divarea) and [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) throw an error when an image is the only data in the editor.
+* [#13884](http://dev.ckeditor.com/ticket/13884): Fixed: Copy/paste table in Firefox results in just first cell being pasted.
+* [#14234](http://dev.ckeditor.com/ticket/14234): Fixed: URL input field is not marked as required in the [Embed](http://ckeditor.com/addon/embed) dialog.
 
 ## CKEditor 4.5.6
 

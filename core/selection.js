@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -1151,10 +1151,10 @@
 		_createFillingCharSequenceNode: createFillingCharSequenceNode,
 
 		/**
-		 * The sequence used in Webkits to create a Filling Char. By default it is
-		 * a string of 7 ZWSP (U+200B).
+		 * The sequence used in a WebKit-based browser to create a Filling Character. By default it is
+		 * a string of 7 zero-width space characters (U+200B).
 		 *
-		 * @since 4.5.5
+		 * @since 4.5.7
 		 * @readonly
 		 * @property {String}
 		 */

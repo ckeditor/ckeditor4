@@ -1,17 +1,17 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'mk', {
 	title: 'Инструкции за пристапност',
-	contents: 'Содржина на делот за помош. За да го затворите овој дијалот притиснете ESC.',
+	contents: 'Содржина на делот за помош. За да го затворите овој дијалог притиснете ESC.',
 	legend: [
 		{
 		name: 'Општо',
 		items: [
 			{
-			name: 'Мени за едиторот',
+			name: 'Мени за уредувачот',
 			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT+TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
 		},
 
@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'mk', {
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
+			name: 'Контекст-мени на уредувачот',
 			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
 		},
 
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'mk', {
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'Наредби',
 		items: [
 			{
 			name: ' Undo command', // MISSING
@@ -83,55 +83,55 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'mk', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
-	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
-	pause: 'Pause', // MISSING
-	capslock: 'Caps Lock', // MISSING
-	escape: 'Escape', // MISSING
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
-	leftArrow: 'Left Arrow', // MISSING
-	upArrow: 'Up Arrow', // MISSING
-	rightArrow: 'Right Arrow', // MISSING
-	downArrow: 'Down Arrow', // MISSING
-	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
-	numpad0: 'Numpad 0', // MISSING
-	numpad1: 'Numpad 1', // MISSING
-	numpad2: 'Numpad 2', // MISSING
-	numpad3: 'Numpad 3', // MISSING
-	numpad4: 'Numpad 4', // MISSING
-	numpad5: 'Numpad 5', // MISSING
-	numpad6: 'Numpad 6', // MISSING
-	numpad7: 'Numpad 7', // MISSING
-	numpad8: 'Numpad 8', // MISSING
-	numpad9: 'Numpad 9', // MISSING
+	backspace: 'Backspace',
+	tab: 'Tab',
+	enter: 'Enter',
+	shift: 'Shift',
+	ctrl: 'Ctrl',
+	alt: 'Alt',
+	pause: 'Пауза',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Up',
+	end: 'End',
+	home: 'Home',
+	leftArrow: 'Стрелка лево',
+	upArrow: 'Стрелка горе',
+	rightArrow: 'Стрелка десно',
+	downArrow: 'Стрелка доле',
+	insert: 'Insert',
+	'delete': 'Delete',
+	leftWindowKey: 'Лево Windows копче',
+	rightWindowKey: 'Десно Windows копче',
+	selectKey: 'Select копче',
+	numpad0: 'Нум. таст. 0',
+	numpad1: 'Нум. таст. 1',
+	numpad2: 'Нум. таст. 2',
+	numpad3: 'Нум. таст. 3',
+	numpad4: 'Нум. таст. 4',
+	numpad5: 'Нум. таст. 5',
+	numpad6: 'Нум. таст. 6',
+	numpad7: 'Нум. таст. 7',
+	numpad8: 'Нум. таст. 8',
+	numpad9: 'Нум. таст. 9',
 	multiply: 'Multiply', // MISSING
 	add: 'Add', // MISSING
 	subtract: 'Subtract', // MISSING
 	decimalPoint: 'Decimal Point', // MISSING
 	divide: 'Divide', // MISSING
-	f1: 'F1', // MISSING
-	f2: 'F2', // MISSING
-	f3: 'F3', // MISSING
-	f4: 'F4', // MISSING
-	f5: 'F5', // MISSING
-	f6: 'F6', // MISSING
-	f7: 'F7', // MISSING
-	f8: 'F8', // MISSING
-	f9: 'F9', // MISSING
-	f10: 'F10', // MISSING
-	f11: 'F11', // MISSING
-	f12: 'F12', // MISSING
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
 	numLock: 'Num Lock', // MISSING
 	scrollLock: 'Scroll Lock', // MISSING
 	semiColon: 'Semicolon', // MISSING

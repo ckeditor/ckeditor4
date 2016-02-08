@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -25,36 +25,36 @@ CKEDITOR.lang[ 'mk' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'Притисни ALT 0 за помош',
 
-		browseServer: 'Browse Server', // MISSING
-		url: 'URL', // MISSING
-		protocol: 'Protocol', // MISSING
-		upload: 'Upload', // MISSING
-		uploadSubmit: 'Send it to the Server', // MISSING
-		image: 'Image', // MISSING
+		browseServer: 'Пребарај низ серверот',
+		url: 'URL',
+		protocol: 'Протокол',
+		upload: 'Прикачи',
+		uploadSubmit: 'Прикачи на сервер',
+		image: 'Слика',
 		flash: 'Flash', // MISSING
 		form: 'Form', // MISSING
 		checkbox: 'Checkbox', // MISSING
 		radio: 'Radio Button', // MISSING
-		textField: 'Text Field', // MISSING
-		textarea: 'Textarea', // MISSING
-		hiddenField: 'Hidden Field', // MISSING
+		textField: 'Поле за текст',
+		textarea: 'Големо поле за текст',
+		hiddenField: 'Скриено поле',
 		button: 'Button',
 		select: 'Selection Field', // MISSING
-		imageButton: 'Image Button', // MISSING
+		imageButton: 'Копче-слика',
 		notSet: '<not set>',
-		id: 'Id', // MISSING
+		id: 'Id',
 		name: 'Name',
-		langDir: 'Language Direction', // MISSING
-		langDirLtr: 'Left to Right (LTR)', // MISSING
-		langDirRtl: 'Right to Left (RTL)', // MISSING
-		langCode: 'Language Code', // MISSING
+		langDir: 'Насока на јазик',
+		langDirLtr: 'Лево кон десно',
+		langDirRtl: 'Десно кон лево',
+		langCode: 'Код на јазик',
 		longDescr: 'Long Description URL', // MISSING
 		cssClass: 'Stylesheet Classes', // MISSING
 		advisoryTitle: 'Advisory Title', // MISSING
-		cssStyle: 'Style', // MISSING
-		ok: 'OK', // MISSING
+		cssStyle: 'Стил',
+		ok: 'OK',
 		cancel: 'Cancel', // MISSING
 		close: 'Close', // MISSING
 		preview: 'Preview', // MISSING
@@ -64,30 +64,30 @@ CKEDITOR.lang[ 'mk' ] = {
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'You have changed some options. Are you sure you want to close the dialog window?', // MISSING
-		options: 'Options', // MISSING
+		options: 'Опции',
 		target: 'Target', // MISSING
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Left to Right (LTR)', // MISSING
-		langDirRTL: 'Right to Left (RTL)', // MISSING
-		styles: 'Style', // MISSING
+		targetNew: 'Нов прозорец (_blank)',
+		targetTop: 'Најгорниот прозорец (_top)',
+		targetSelf: 'Истиот прозорец (_self)',
+		targetParent: 'Прозорец-родител (_parent)',
+		langDirLTR: 'Лево кон десно',
+		langDirRTL: 'Десно кон лево',
+		styles: 'Стил',
 		cssClasses: 'Stylesheet Classes', // MISSING
-		width: 'Width', // MISSING
-		height: 'Height', // MISSING
+		width: 'Широчина',
+		height: 'Височина',
 		align: 'Alignment', // MISSING
-		alignLeft: 'Left', // MISSING
-		alignRight: 'Right', // MISSING
-		alignCenter: 'Center', // MISSING
+		alignLeft: 'Лево',
+		alignRight: 'Десно',
+		alignCenter: 'Во средина',
 		alignJustify: 'Justify', // MISSING
-		alignTop: 'Top', // MISSING
-		alignMiddle: 'Middle', // MISSING
-		alignBottom: 'Bottom', // MISSING
-		alignNone: 'None', // MISSING
-		invalidValue	: 'Invalid value.', // MISSING
-		invalidHeight: 'Height must be a number.', // MISSING
-		invalidWidth: 'Width must be a number.', // MISSING
+		alignTop: 'Горе',
+		alignMiddle: 'Средина',
+		alignBottom: 'Доле',
+		alignNone: 'Никое',
+		invalidValue	: 'Невалидна вредност',
+		invalidHeight: 'Височината мора да биде број.',
+		invalidWidth: 'Широчината мора да биде број.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
