@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.8
 
+Other Changes:
+
+* [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: Table elements order to meet HTML specification.
+
 ## CKEditor 4.5.7
 
 New Features:
