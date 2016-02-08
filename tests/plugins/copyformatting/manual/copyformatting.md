@@ -2,24 +2,15 @@
 @bender-tags: tc, copyformatting
 @bender-ckeditor-plugins: copyformatting, contextmenu, toolbar, wysiwygarea, floatingspace
 
-**Collapsed selection**
+**Procedure**
 
-1. Place cursor inside "Apollo 11" text.
+1. Place cursor inside styled part of text.
 2. Click "Copy Formatting" button in the toolbar.
-3. Click inside "spaceflight" word.
-4. Repeat the procedure, but instead of clicking press "Context menu" key and choose "Apply style".
+3. Click inside or select with mouse other, unstyled part of text.
+4. Repeat the procedure, but instead of clicking/selecting with mouse, move cursor inside such text or select with keyboard and then press "Context menu" key and choose "Apply style".
 
-**Expected:** "spaceflight" becomes bold and underlined.
+**Things to check**
 
----
-
-**Selection**
-
-1. Select "was the" text.
-2. Click "Copy Formatting" button in the toolbar.
-3. Select "landed" word with mouse.
-4. Repeat the procedure, but instead of selecting with mouse, select text with keyboard and then press "Context menu" key and choose "Apply style".
-
-**Expected:** "landed" becomes strikedthrough.
-
-
+* Styles are copied correctly while using only mouse or keyboard.
+* Copying can be cancelled by clicking "Copy Formatting" button.
+* All text styles should be copied (text decoration, style, weight, color, background color).
