@@ -5,9 +5,33 @@
 
 ( function() {
 	'use strict';
-	var style;
+
 	function convertElementToStyle( element ) {
-		return new CKEDITOR.style( { element: element.getName() } );
+		var attributes = {},
+			styles = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) );
+
+		// Create attributes dictionary
+		var attrDefs = element.$.attributes;
+		for ( var i = 0; i < attrDefs.length; i++ ) {
+			attributes[ attrDefs[ i ].name ] = attrDefs[ i ].value;
+		}
+
+		return new CKEDITOR.style( {
+			element: element.getName(),
+			type: CKEDITOR.STYLE_INLINE,
+			attributes: attributes,
+			styles: styles
+		} );
+	}
+
+	function extractStylesFromElement( element ) {
+		var styles = [ convertElementToStyle( element ) ];
+
+		while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT ) {
+			styles.push( convertElementToStyle( element ) );
+		}
+
+		return styles;
 	}
 
 	function getSelectedWordOffset( range ) {
@@ -28,7 +52,7 @@
 		return null;
 	}
 
-	function applyFormat( style, editor ) {
+	function applyFormat( styles, editor ) {
 		var range = editor.getSelection().getRanges()[ 0 ];
 
 		if ( !range ) {
@@ -48,7 +72,9 @@
 			newRange.select();
 		}
 
-		style.apply( editor );
+		for ( var i = 0; i < styles.length; i++) {
+			styles[ i ].apply( editor );
+		}
 	}
 
 	var commandDefinition = {
@@ -59,7 +85,7 @@
 				return cmd.setState( CKEDITOR.TRISTATE_OFF );
 			}
 
-			cmd.style = convertElementToStyle( editor.elementPath().lastElement );
+			cmd.styles = extractStylesFromElement( editor.elementPath().lastElement );
 			cmd.setState( CKEDITOR.TRISTATE_ON );
 		}
 	},
@@ -72,7 +98,7 @@
 				return;
 			}
 
-			applyFormat( cmd.style, editor );
+			applyFormat( cmd.styles, editor );
 
 			cmd.setState( CKEDITOR.TRISTATE_OFF );
 		}
