@@ -116,10 +116,10 @@
 			editor.ui.addButton( 'copyFormatting', {
 				label: editor.lang.copyformatting.label,
 				command: 'copyFormatting',
-				toolbar: 'basicstyles,90'
+				toolbar: 'styles,90'
 			} );
 
-			editor.addMenuGroup( 'basicstyles' );
+			editor.addMenuGroup( 'styles' );
 
 			editor.addMenuItem( 'applyStyle', {
 				label : editor.lang.copyformatting.menuLabel,
