@@ -57,7 +57,7 @@ echo "Starting CKBuilder..."
 
 JAVA_ARGS=${ARGS// -t / } # Remove -t from args.
 
-VERSION="4.5.7 DEV"
+VERSION="4.5.8 DEV"
 REVISION=$(git rev-parse --verify --short HEAD)
 SEMVER_REGEX="^([0-9]+)\.([0-9]+)\.([0-9]+)(\-[0-9A-Za-z-]+)?(\+[0-9A-Za-z-]+)?$"
 
