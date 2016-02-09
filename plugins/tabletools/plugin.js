@@ -666,7 +666,7 @@
 					[ {
 						element: 'td',
 						left: function( element ) {
-							return element.styles.background && element.styles.background.match( /^(#[a-fA-F0-9]{3,6}|rgb\([\d, ]+\))$/ );
+							return element.styles.background && element.styles.background.match( /^(#[a-fA-F0-9]{3,6}|rgb\([\d, ]+\)|\w+)$/ );
 						},
 						right: function( element ) {
 							element.styles[ 'background-color' ] = element.styles.background;
