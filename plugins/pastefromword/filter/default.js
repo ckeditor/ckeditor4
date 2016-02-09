@@ -1,14 +1,15 @@
 /* globals CKEDITOR, CKEDITOR_MOCK */
 
 ( function( CKEDITOR ) {
-	var tools = CKEDITOR.tools;
-	var invalidTags = [
+	var tools = CKEDITOR.tools,
+		invalidTags = [
 		'o:p',
 		'xml',
 		'script',
 		'meta',
 		'link'
-	];
+		],
+		links = {};
 
 	CKEDITOR.cleanWord = function( mswordHtml ) {
 
@@ -45,8 +46,21 @@
 						// Garbage links that go nowhere.
 						if ( element.attributes.name.match( /^OLE_LINK\d+$/ ) ) {
 							delete element.name;
+							return;
 						}
 					}
+
+					if ( element.attributes.href && element.attributes.href.match( /#.+$/ ) ) {
+						var name = element.attributes.href.match( /#(.+)$/ )[ 1 ];
+						links[ name ] = element;
+					}
+
+					if ( element.attributes.name &&  links[ element.attributes.name ] ) {
+						var link = links[ element.attributes.name ];
+						link.attributes.href = link.attributes.href.replace( /.*#(.*)$/, '#$1' );
+					}
+
+				},
 				},
 				'img': function( element ) {
 					var attributeStyleMap = {

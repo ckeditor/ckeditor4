@@ -59,19 +59,7 @@
 			// Add the link and unlink buttons.
 			editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link', {
 				allowedContent: allowed,
-				requiredContent: required,
-				contentTransformations: [
-					[ {
-						element: 'a',
-						left: function( element ) {
-							// Most likely a footnote ref.
-							return element.attributes.href && element.attributes.href.match( /^file:\/\/.*#/ );
-						},
-						right: function( element ) {
-							element.attributes.href = element.attributes.href.replace( /.*#(.*)/, '#$1' );
-						}
-					} ]
-				]
+				requiredContent: required
 			} ) );
 			editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor', {
 				allowedContent: 'a[!name,id]',
