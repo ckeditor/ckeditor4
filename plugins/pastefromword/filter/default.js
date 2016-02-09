@@ -651,7 +651,7 @@
 			styleTopmost = element.name === 'span'; // Ensure that the root element retains at least one style.
 
 		for ( var style in styles ) {
-			if ( style.match( /margin|text\-align|width/i ) ) {
+			if ( style.match( /margin|text\-align|width|border|padding/i ) ) {
 				continue;
 			}
 
