@@ -1217,6 +1217,32 @@
 			return false;
 		}
 
+		// Process data from Google Docs:
+		// * turns `*[id^=docs-internal-guid-]` into `span`;
+		// * turns `span(text-decoration=underline)` into `u`;
+		// * turns `span(font-style=italic)` into `em`
+		// * turns `span(font-style=italic)(text-decoration=underline)` into `u > em`. (#13877)
+		function processDataFromGDocs( element ) {
+			var styles = element.attributes.style && CKEDITOR.tools.parseCssText( element.attributes.style );
+
+			if ( element.attributes.id && element.attributes.id.match( /^docs\-internal\-guid\-/ ) ) {
+				return element.name = 'span';
+			}
+
+			if ( !styles ) {
+				return;
+			}
+
+			if ( styles[ 'font-style' ] == 'italic' && styles[ 'text-decoration' ] == 'underline' ) {
+				element.name = 'em';
+				element.wrapWith( new CKEDITOR.htmlParser.element( 'u' ) );
+			} else if ( styles[ 'text-decoration' ] == 'underline' ) {
+				element.name = 'u';
+			} else if ( styles[ 'font-style' ] == 'italic' ) {
+				element.name = 'em';
+			}
+		}
+
 		function createSemanticContentFilter() {
 			var filter = new CKEDITOR.filter();
 
@@ -1247,6 +1273,8 @@
 					}
 				}
 			} );
+
+			filter.addElementCallback( processDataFromGDocs );
 
 			return filter;
 		}
