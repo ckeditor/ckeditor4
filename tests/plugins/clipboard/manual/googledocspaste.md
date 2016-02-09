@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.5.7,  tc, 13877
-@bender-ckeditor-plugins: clipboard, toolbar, wysiwygarea
+@bender-ckeditor-plugins: clipboard, basicstyles, toolbar, wysiwygarea
 
 ### ONLY IN WEBKIT/BLINK ###
 
