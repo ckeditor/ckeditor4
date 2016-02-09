@@ -86,6 +86,18 @@
 
 					if ( thisIsAListItem( element ) ) {
 						convertToFakeListItem( element );
+					} else {
+						// In IE list level information is stored in <p> elements inside <li> elements.
+						var container = element.getAscendant( function( element ) {
+								return element.name == 'ul' || element.name == 'ol';
+							} ),
+							style = tools.parseCssText( element.attributes.style );
+						if ( container &&
+							!container.attributes[ 'cke-list-level' ] &&
+							style[ 'mso-list' ] &&
+							style[ 'mso-list' ].match( /level/ ) ) {
+							container.attributes[ 'cke-list-level' ] = style[ 'mso-list' ].match( /level(\d+)/ )[1];
+						}
 					}
 
 					createStyleStack( element, filter );
@@ -99,9 +111,11 @@
 					createAttributeStack( element, filter );
 				},
 				'ul': function( element ) {
+					element.filterChildren( filter );
+
 					var style = tools.parseCssText( element.attributes.style );
 
-					setSymbol.removeRedundancies( style, element.getAscendant( 'ul' ) ? 2 : 1 );
+					setSymbol.removeRedundancies( style, parseInt( element.attributes[ 'cke-list-level' ], 10 ) );
 
 					element.attributes.style = CKEDITOR.tools.writeCssText( style );
 				},
@@ -117,11 +131,17 @@
 						setStyle( element.parent, 'list-style-type', 'none' );
 					}
 
+					if ( element.attributes.start == '1' ) {
+						delete element.attributes.start;
+					}
+
 					pushStylesLower( element );
+
+					element.filterChildren( filter );
 
 					var style = tools.parseCssText( element.attributes.style );
 
-					setSymbol.removeRedundancies( style, element.getAscendant( 'ol' ) ? 2 : 1 );
+					setSymbol.removeRedundancies( style, parseInt( element.attributes[ 'cke-list-level' ], 10 ) );
 
 					element.attributes.style = CKEDITOR.tools.writeCssText( style );
 				},
@@ -398,7 +418,7 @@
 			symbol = element.attributes[ 'cke-symbol' ];
 
 		element.forEach( function( node ) {
-			if ( !removed && node.value.match( symbol.replace( ')', '\\)' ) ) ) {
+			if ( !removed && node.value.match( symbol.replace( ')', '\\)' ).replace( '(', '' ) ) ) {
 
 				node.value = node.value.replace( symbol, '' );
 
@@ -455,14 +475,13 @@
 
 	// Expose this function since it's useful in other places.
 	setSymbol.removeRedundancies = function( style, level ) {
-		// 'disc' and 'decimal' are the default styles for level 1 lists - remove redundancy.
-		if ( level === 1 &&
-			( style[ 'list-style-type' ] === 'disc' || style[ 'list-style-type' ] === 'decimal' ) ) {
+		// 'disc' and 'decimal' are the default styles in some cases - remove redundancy.
+		if ( ( level === 1 && style[ 'list-style-type' ] === 'disc' ) || style[ 'list-style-type' ] === 'decimal' ) {
 			delete style[ 'list-style-type' ];
 		}
 	};
 
-	function setListStart( list  ) {
+	function setListStart( list ) {
 		var symbols = [],
 			offset = 0;
 
@@ -589,7 +608,7 @@
 					innermostContainer = content;
 
 					if ( level == containerStack.length ) {
-						setSymbol( content, element.attributes[ 'cke-symbol' ] );
+						setSymbol( content, element.attributes[ 'cke-symbol' ], level );
 					}
 				}
 
@@ -598,7 +617,7 @@
 					innermostContainer = containerStack[ containerStack.length - 1 ];
 
 					if ( level == containerStack.length ) {
-						setSymbol( innermostContainer, element.attributes[ 'cke-symbol' ] );
+						setSymbol( innermostContainer, element.attributes[ 'cke-symbol' ], level );
 					}
 				}
 
@@ -607,7 +626,19 @@
 				innermostContainer.add( element );
 			}
 
-			setSymbol( containerStack[ 0 ], containerStack[ 0 ].children[ 0 ].attributes[ 'cke-symbol' ] );
+			// Try to set the symbol for the root (level 1) list.
+			var level1Symbol;
+			if ( containerStack[ 0 ].children.length ) {
+				level1Symbol = containerStack[ 0 ].children[ 0 ].attributes[ 'cke-symbol' ];
+
+				if ( !level1Symbol && containerStack[ 0 ].children.length > 1 ) {
+					level1Symbol = containerStack[ 0 ].children[ 1 ].attributes[ 'cke-symbol' ];
+				}
+
+				if ( level1Symbol ) {
+					setSymbol( containerStack[ 0 ], level1Symbol );
+				}
+			}
 
 			// This can be done only after all the list elements are where they should be.
 			for ( j = 0; j < allContainers.length; j++ ) {
