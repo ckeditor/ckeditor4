@@ -311,6 +311,7 @@
 				'color:black',
 				'color:#000000',
 				'color:rgb(0, 0, 0)',
+				'color:windowtext',
 				'font-size:medium',
 				'font-style:normal',
 				'font-weight:normal',
