@@ -5,13 +5,13 @@ CKEditor 4 Changelog
 
 Other Changes:
 
-* [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: Table elements order to meet HTML specification.
+* [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: The order of table elements does not meet the HTML specification.
 
 ## CKEditor 4.5.7
 
 New Features:
 
-* [#14327](http://dev.ckeditor.com/ticket/14327): Added Swiss German localization.
+* [#14327](http://dev.ckeditor.com/ticket/14327): Added Swiss German localization. Thanks to [Miro Grenda](https://twitter.com/mirogrenda)!
 
 Other Changes:
 
@@ -20,8 +20,8 @@ Other Changes:
 	* [#13377](http://dev.ckeditor.com/ticket/13377): [Widget](http://ckeditor.com/addon/widget) plugin issue when typing in Korean.
 	* [#13389](http://dev.ckeditor.com/ticket/13389): [Blink] [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) fails when the cursor is next to an `<hr>` tag.
 	* [#13513](http://dev.ckeditor.com/ticket/13513): [Blink, WebKit] [Div Editing Area](http://ckeditor.com/addon/divarea) and [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) throw an error when an image is the only data in the editor.
-* [#13884](http://dev.ckeditor.com/ticket/13884): Fixed: Copy/paste table in Firefox results in just first cell being pasted.
-* [#14234](http://dev.ckeditor.com/ticket/14234): Fixed: URL input field is not marked as required in the [Embed](http://ckeditor.com/addon/embed) dialog.
+* [#13884](http://dev.ckeditor.com/ticket/13884): [Firefox] Fixed: Copying and pasting a table results in just the first cell being pasted.
+* [#14234](http://dev.ckeditor.com/ticket/14234): Fixed: URL input field is not marked as required in the [Media Embed](http://ckeditor.com/addon/embed) dialog.
 
 ## CKEditor 4.5.6
 
