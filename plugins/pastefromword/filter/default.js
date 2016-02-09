@@ -61,6 +61,8 @@
 					}
 
 				},
+				'div': function( element ) {
+					createStyleStack( element, filter );
 				},
 				'img': function( element ) {
 					var attributeStyleMap = {
@@ -318,7 +320,8 @@
 				'0in',
 				'mso-',
 				'text-indent',
-				'visibility:visible'
+				'visibility:visible',
+				'div:border:none' // This one stays because #6241
 			],
 			matchStyle = function() {
 				var keys = [];
@@ -723,6 +726,8 @@
 	// Some styles need to be stacked in a particular order to work properly.
 	function sortStyles( element ) {
 		var orderedStyles = [
+			'border',
+			'border-bottom',
 			'font-size',
 			'background'
 		];
