@@ -8,7 +8,13 @@
 
 	function convertElementToStyle( element ) {
 		var attributes = {},
-			styles = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) );
+			styles = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) ),
+			// From which elements styles shouldn't be copied.
+			elementsToExclude = [ 'p', 'div', 'body', 'html' ];
+
+		if ( CKEDITOR.tools.indexOf( elementsToExclude, element.getName() ) !== -1 ) {
+			return;
+		}
 
 		// Create attributes dictionary
 		var attrDefs = element.$.attributes;
@@ -28,23 +34,88 @@
 		var styles = [ convertElementToStyle( element ) ];
 
 		while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT ) {
-			styles.push( convertElementToStyle( element ) );
+			var style = convertElementToStyle( element );
+			style && styles.push(  style );
 		}
 
 		return styles;
 	}
 
+	// Get offsets and elements for selected word.
+	// It handles also cases like lu<span style="color: #f00;">n</span>ar.
 	function getSelectedWordOffset( range ) {
-		var node = range.startContainer,
-			regex = /\b\w+\b/ig,
-			contents = node.getText(),
-			match;
+		var regex = /\b\w+\b/ig,
+			contents, match,
+			node, startNode, endNode,
+			startOffset, endOffset;
+
+		node = startNode = endNode = range.startContainer;
+
+		// Get the word beggining/ending from previous/next node with content (skipping empty nodes and bookmarks)
+		function getSiblingNodeOffset( isPrev ) {
+			var getSibling = isPrev ? 'getPrevious' : 'getNext',
+				currentNode = node,
+				regex = /\b/g,
+				contents, match;
+
+				do {
+					currentNode = currentNode[ getSibling ]();
+
+					// If there is no sibling, text is probably inside element, so get it.
+					if ( !currentNode ) {
+						currentNode = node.getParent();
+					}
+				} while ( currentNode && currentNode.getStyle &&
+					( currentNode.getStyle( 'display' ) == 'none' || !currentNode.getText() ) );
+
+				// If the node is element, get its HTML and strip all tags and then search for
+				// word boundaries. In node.getText tags are replaced by spaces, which breaks
+				// getting the right offset.
+				contents = currentNode.type == CKEDITOR.NODE_ELEMENT ?
+							currentNode.getHtml().replace( /<.*>/g, '' ) : currentNode.getText();
+
+				// If we search for next node, skip the first match (boundary at the start of word)
+				if ( !isPrev ) {
+					regex.lastIndex = 1;
+				}
+				match = regex.exec( contents );
+
+				return {
+					node: currentNode,
+					offset: isPrev ? regex.lastIndex : ( match ? match.index : contents.length )
+				};
+		}
+
+		contents = node.getText();
 
 		while( ( match = regex.exec( contents ) ) != null ) {
 			if ( match.index + match[ 0 ].length >= range.startOffset ) {
+				var start = match.index,
+					end = match.index + match[ 0 ].length;
+
+				startOffset = match.index;
+				endOffset = match.index + match[ 0 ].length;
+				// The word probably begins in previous node.
+				if ( match.index == 0 ) {
+					var startInfo = getSiblingNodeOffset( true );
+
+					startNode = startInfo.node;
+					startOffset = startInfo.offset;
+				}
+
+				// The word probably ends in next node
+				if ( match.index + match[ 0 ].length == range.endOffset ) {
+					var endInfo = getSiblingNodeOffset();
+
+					endNode = endInfo.node;
+					endOffset = endInfo.offset;
+				}
+
 				return {
-					start: match.index,
-					end: match.index + match[ 0 ].length
+					startNode: startNode,
+					startOffset: startOffset,
+					endNode: endNode,
+					endOffset: endOffset
 				}
 			}
 		}
@@ -53,7 +124,8 @@
 	}
 
 	function applyFormat( styles, editor ) {
-		var range = editor.getSelection().getRanges()[ 0 ];
+		var range = editor.getSelection().getRanges()[ 0 ],
+			bkms = editor.getSelection().createBookmarks();
 
 		if ( !range ) {
 			return;
@@ -67,14 +139,16 @@
 				return;
 			}
 
-			newRange.setStart( range.startContainer, word.start );
-			newRange.setEnd( range.startContainer, word.end );
+			newRange.setStart( word.startNode, word.startOffset );
+			newRange.setEnd( word.endNode, word.endOffset );
 			newRange.select();
 		}
 
 		for ( var i = 0; i < styles.length; i++) {
 			styles[ i ].apply( editor );
 		}
+
+		editor.getSelection().selectBookmarks( bkms );
 	}
 
 	var commandDefinition = {
