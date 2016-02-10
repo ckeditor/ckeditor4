@@ -58,45 +58,42 @@
 				regex = /\b/g,
 				contents, match;
 
-				do {
-					currentNode = currentNode[ getSibling ]();
+			do {
+				currentNode = currentNode[ getSibling ]();
 
-					// If there is no sibling, text is probably inside element, so get it.
-					if ( !currentNode ) {
-						currentNode = node.getParent();
-					}
-				} while ( currentNode && currentNode.getStyle &&
-					( currentNode.getStyle( 'display' ) == 'none' || !currentNode.getText() ) );
-
-				// If the node is element, get its HTML and strip all tags and then search for
-				// word boundaries. In node.getText tags are replaced by spaces, which breaks
-				// getting the right offset.
-				contents = currentNode.type == CKEDITOR.NODE_ELEMENT ?
-							currentNode.getHtml().replace( /<.*>/g, '' ) : currentNode.getText();
-
-				// If we search for next node, skip the first match (boundary at the start of word)
-				if ( !isPrev ) {
-					regex.lastIndex = 1;
+				// If there is no sibling, text is probably inside element, so get it.
+				if ( !currentNode ) {
+					currentNode = node.getParent();
 				}
-				match = regex.exec( contents );
+			} while ( currentNode && currentNode.getStyle &&
+				( currentNode.getStyle( 'display' ) == 'none' || !currentNode.getText() ) );
 
-				return {
-					node: currentNode,
-					offset: isPrev ? regex.lastIndex : ( match ? match.index : contents.length )
-				};
+			// If the node is element, get its HTML and strip all tags and then search for
+			// word boundaries. In node.getText tags are replaced by spaces, which breaks
+			// getting the right offset.
+			contents = currentNode.type == CKEDITOR.NODE_ELEMENT ?
+						currentNode.getHtml().replace( /<.*>/g, '' ) : currentNode.getText();
+
+			// If we search for next node, skip the first match (boundary at the start of word)
+			if ( !isPrev ) {
+				regex.lastIndex = 1;
+			}
+			match = regex.exec( contents );
+
+			return {
+				node: currentNode,
+				offset: isPrev ? regex.lastIndex : ( match ? match.index : contents.length )
+			};
 		}
 
 		contents = node.getText();
 
-		while( ( match = regex.exec( contents ) ) != null ) {
+		while ( ( match = regex.exec( contents ) ) != null ) {
 			if ( match.index + match[ 0 ].length >= range.startOffset ) {
-				var start = match.index,
-					end = match.index + match[ 0 ].length;
-
 				startOffset = match.index;
 				endOffset = match.index + match[ 0 ].length;
 				// The word probably begins in previous node.
-				if ( match.index == 0 ) {
+				if ( match.index === 0 ) {
 					var startInfo = getSiblingNodeOffset( true );
 
 					startNode = startInfo.node;
@@ -116,7 +113,7 @@
 					startOffset: startOffset,
 					endNode: endNode,
 					endOffset: endOffset
-				}
+				};
 			}
 		}
 
@@ -144,7 +141,7 @@
 			newRange.select();
 		}
 
-		for ( var i = 0; i < styles.length; i++) {
+		for ( var i = 0; i < styles.length; i++ ) {
 			styles[ i ].apply( editor );
 		}
 
@@ -196,15 +193,15 @@
 			editor.addMenuGroup( 'styles' );
 
 			editor.addMenuItem( 'applyStyle', {
-				label : editor.lang.copyformatting.menuLabel,
+				label: editor.lang.copyformatting.menuLabel,
 				command: 'applyFormatting',
-				group : 'basicstyles',
-				order : 1
+				group: 'basicstyles',
+				order: 1
 			} );
 
 			editor.contextMenu.addListener( function() {
-				return editor.getCommand( 'copyFormatting').state === CKEDITOR.TRISTATE_ON ? {
-					applyStyle : CKEDITOR.TRISTATE_ON
+				return editor.getCommand( 'copyFormatting' ).state === CKEDITOR.TRISTATE_ON ? {
+					applyStyle: CKEDITOR.TRISTATE_ON
 				} : null;
 			} );
 
