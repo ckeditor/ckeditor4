@@ -155,9 +155,12 @@
 						// Remove garbage bookmarks that disrupt the content structure.
 						element.attributes.style.match( /^mso\-bookmark:OLE_LINK\d+$/ ) ||
 						element.getHtml().match( /^(\s|&nbsp;)+$/ ) ) {
-						element.filterChildren( filter );
-						element.replaceWithChildren();
-						return;
+
+						// replaceWithChildren doesn't work in filters.
+						for ( var i = element.children.length - 1; i >= 0; i-- ) {
+							element.children[ i].insertAfter( element );
+						}
+						return false;
 					}
 
 					createStyleStack( element, filter );
