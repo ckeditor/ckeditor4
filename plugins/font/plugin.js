@@ -56,7 +56,8 @@
 								'medium',
 								'large',
 								'x-large',
-								'xx-large'
+								'xx-large',
+								'48px' // Closest value to what size="7" might mean.
 							];
 
 							element.name = 'span';
