@@ -130,6 +130,41 @@
 			CKEDITOR.cleanWord.createAttributeStack( element, filterMock );
 
 			assert.areSame( '<font face="Arial"><font color="#faebd7"><font size="4">There is <em>content</em> here</font></font></font>', element.getOuterHtml() );
+		},
+		'test supportFields comment': function() {
+			/*jshint nonbsp:false */
+			var html = '<!--[if supportFields]><span lang=DE><span style=\'mso-element:' +
+			'field-begin\'></span><span style=\'mso-spacerun:yes\'> </span>TOC \\o' +
+			'&quot;1-3&quot; \\h \\z \\u <span style=\'mso-element:field-separator\'></span></span><![endif]-->',
+				inComment = 0;
+			/*jshint nonbsp:true */
+
+			var fragment = CKEDITOR.htmlParser.fragment.fromHtml( html );
+
+			var filter = new CKEDITOR.htmlParser.filter( {
+				comment: function( element ) {
+					if ( element == '[if supportFields]' ) {
+						inComment++;
+					}
+					if ( element == '[endif]' ) {
+						inComment = inComment > 0 ? inComment - 1 : 0;
+					}
+					return false;
+				},
+				text: function( content ) {
+					if ( inComment ) {
+						return '';
+					}
+					return content.replace( /&nbsp;/g, ' ' );
+				}
+			} );
+
+			var writer = new CKEDITOR.htmlParser.basicWriter();
+
+			filter.applyTo( fragment );
+			fragment.writeHtml( writer );
+
+			assert.areSame( CKEDITOR.cleanWord( html ), writer.getHtml() );
 		}
 	} );
 } )();
