@@ -61,9 +61,12 @@
 
 			Solutions:
 			PFW001, PFW003: Join lists with similar mso-list styles.
+
+			TODOs:
+			1. 'v:shape' filter function needs to take into account, that the element's parent
+			may be the document fragment.
 		*/
 		ticketTests = {
-			'13021testdoc': [ 'word2013' ],
 			'5808Word_test': [ 'word2013' ],
 			'6241Sample_word_doc': [ 'word2013' ],
 			'6286Sample_6286': [ 'word2013' ],
@@ -107,7 +110,7 @@
 			'8780ckeditor_tablebug_document': [ 'word2013' ],
 			'8734list_test2': [ 'word2013' ],
 			'8734list_test': [ 'word2013' ],
-			//'11054CKEditor-Bug': [ 'word2013' ], // "Wont fix"
+			//'11054CKEditor-Bug': [ 'word2013' ], // "Won't fix"
 			'11005Test_WordDoc': [ 'word2013' ],
 			'10784line_missing': [ 'word2013' ], // IE11 consistently generates this weird output.
 			//'10783list-break2': [ 'word2013' ], // PFW001 - Extreme case.
@@ -116,7 +119,36 @@
 			'10643sample1': [ 'word2013' ],
 			'10285test': [ 'word2013' ],
 			'10053doubles': [ 'word2013' ],
-			'10011CMSPasteTest-1': [ 'word2013' ]
+			'10011CMSPasteTest-1': [ 'word2013' ],
+			'11136bugged_file': [ 'word2013' ],
+			'11215sample_error_word': [ 'word2013' ],
+			//'11218sample': [ 'word2013' ], // Did not paste whole
+			'11294NotesFormatting': [ 'word2013' ],
+			'11376bullets_v1': [ 'word2013' ],
+			'11477Table_in_word': [ 'word2013' ],
+			'11529Table_OO': [ 'word2013' ], // Will break when individual <td> borders are introduced.
+			//'11683CKEditor_Source': [ 'word2013' ], // Error in IE8, also not supported.
+			'11683pasteData': [ 'word2013' ],
+			'11699PasteExample-1': [ 'word2013' ],
+			'11950Test_Table': [ 'word2013' ], // Paste from Excel!
+			//'11987sample1': [ 'word2013' ], // "Won't fix"
+			'12385number_list': [ 'word2013' ],
+			'12406Doc1': [ 'word2013' ], // Really large file.
+			'12406Document1_(3)': [ 'word2013' ],
+			'12740CKEditor_-_Internal_Error_on_Paste_as_CTRL-V(1)': [ 'word2013' ],
+			'12740WSGCN-3550_Test_document_minimal': [ 'word2013' ],
+			//'12821ELL_Forum_Invitation': [ 'word2013' ], // PFW001
+			////'13021testdoc': [ 'word2013' ],
+			'13174Testdocument': [ 'word2013' ],
+			'13174Testdocument2': [ 'word2013' ], // Not fully supported(and will break), but contains a significant edge case (compound "<!-- [if...]")
+			//'13174Testdocument3': [ 'word2013' ], // Not supported
+			'13339Internal_Error_on_Paste_as_CTRL-V': [ 'word2013' ],
+			'13590ckeditor-numberlist': [ 'word2013' ],
+			//'13616': [ 'word2013'], // PFW002
+			//'13634example': [ 'word2013' ], // This can be fixed with PFW001
+			//'13651ckeditor_report_bug': [ 'word2013' ], // Mother of tickets (o_o)>u-u
+			'13810test': [ 'word2013' ]
+			//'14257test2': [ 'word2013' ] // Not closed.
 		},
 		loadFixture = bender.tools.testExternalInput,
 		keys = CKEDITOR.tools.objectKeys( tests ),
