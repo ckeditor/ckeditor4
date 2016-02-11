@@ -898,10 +898,20 @@
 								previous.is( 'li' ) )
 							) {
 								if ( !previous.is( 'li' ) ) {
+									var newPrevious;
 									walker.range.selectNodeContents( previous );
 									walker.reset();
 									walker.evaluator = isTextBlock;
-									previous = walker.previous();
+
+									newPrevious = walker.previous();
+									if (newPrevious) {
+										previous = newPrevious;
+									}
+									else {
+										var listItem = editor.document.createElement( 'li' );
+										listItem.appendTo( previous );
+										previous = listItem;
+									}
 								}
 
 								joinWith = previous;
