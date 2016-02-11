@@ -112,6 +112,11 @@
 					createAttributeStack( element, filter );
 				},
 				'ul': function( element ) {
+					// Edge case from 11683 - an unusual way to create a level 2 list.
+					if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
+						setStyle( element.parent, 'list-style-type', 'none' );
+					}
+
 					element.filterChildren( filter );
 
 					var style = tools.parseCssText( element.attributes.style );
