@@ -9,7 +9,8 @@
 		'meta',
 		'link'
 		],
-		links = {};
+		links = {},
+		inComment = 0;
 
 	CKEDITOR.cleanWord = function( mswordHtml ) {
 
@@ -246,10 +247,19 @@
 				'v:shapes': remove,
 				'o:spid': remove
 			},
-			comment: function() {
+			comment: function( element ) {
+				if ( element.match( /\[if.* supportFields.*\]/ ) ) {
+					inComment++;
+				}
+				if ( element == '[endif]' ) {
+					inComment = inComment > 0 ? inComment - 1 : 0;
+				}
 				return false;
 			},
 			text: function( content ) {
+				if ( inComment ) {
+					return '';
+				}
 				return content.replace( /&nbsp;/g, ' ' );
 			}
 		} );
