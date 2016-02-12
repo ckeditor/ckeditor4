@@ -8,9 +8,11 @@
 
 <script>
 	CKEDITOR.replace( 'editor1', {
-		allowedContent: true
+		allowedContent: true,
+		extraPlugins: 'sourcearea'
 	} );
 	CKEDITOR.inline( 'editor2', {
-		allowedContent: true
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
 	} );
 </script>
