@@ -47,7 +47,9 @@
 
 		while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT ) {
 			var style = convertElementToStyle( element );
-			style && styles.push(  style );
+			if ( style ) {
+				styles.push( style );
+			}
 		}
 
 		return styles;
@@ -104,6 +106,7 @@
 			if ( match.index + match[ 0 ].length >= range.startOffset ) {
 				startOffset = match.index;
 				endOffset = match.index + match[ 0 ].length;
+
 				// The word probably begins in previous node.
 				if ( match.index === 0 ) {
 					var startInfo = getSiblingNodeOffset( true );
