@@ -901,7 +901,6 @@
 									walker.range.selectNodeContents( previous );
 									walker.reset();
 									walker.evaluator = isTextBlock;
-
 									previous = walker.previous();
 
 									// this can be null if the walker started inside a list with no child list items
