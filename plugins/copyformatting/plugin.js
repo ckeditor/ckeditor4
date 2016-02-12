@@ -184,10 +184,10 @@
 			editor.addCommand( 'copyFormatting', commandDefinition );
 			editor.addCommand( 'applyFormatting', applyCommandDefinition );
 
-			editor.ui.addButton( 'copyFormatting', {
+			editor.ui.addButton( 'CopyFormatting', {
 				label: editor.lang.copyformatting.label,
 				command: 'copyFormatting',
-				toolbar: 'styles,90'
+				toolbar: 'cleanup,0'
 			} );
 
 			editor.addMenuGroup( 'styles' );
