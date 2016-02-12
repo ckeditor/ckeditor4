@@ -15,3 +15,4 @@
 * Copying can be cancelled by clicking "Copy Formatting" button.
 * All text styles should be copied (text decoration, style, weight, color, background color).
 * All attributes should be copied.
+* Context menu is not available in inline editor.
