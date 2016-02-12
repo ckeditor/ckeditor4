@@ -195,7 +195,7 @@
 			editor.addMenuItem( 'applyStyle', {
 				label: editor.lang.copyformatting.menuLabel,
 				command: 'applyFormatting',
-				group: 'basicstyles',
+				group: 'styles',
 				order: 1
 			} );
 
