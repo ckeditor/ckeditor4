@@ -164,29 +164,38 @@
 	}
 
 	var commandDefinition = {
-		exec: function( editor ) {
-			var	cmd = this;
+		exec: function( editor, data ) {
+			var	cmd = this,
+				isFromKeystroke = data ? data.from == 'keystrokeHandler' : false;
 
-			if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
+			if ( !isFromKeystroke && cmd.state === CKEDITOR.TRISTATE_ON ) {
+				cmd.styles = null;
 				return cmd.setState( CKEDITOR.TRISTATE_OFF );
 			}
 
 			cmd.styles = extractStylesFromElement( editor.elementPath().lastElement );
-			cmd.setState( CKEDITOR.TRISTATE_ON );
+
+			if ( !isFromKeystroke ) {
+				cmd.setState( CKEDITOR.TRISTATE_ON );
+			}
 		}
 	},
 
 	applyCommandDefinition = {
-		exec: function( editor ) {
-			var cmd = editor.getCommand( 'copyFormatting' );
+		exec: function( editor, data ) {
+			var cmd = editor.getCommand( 'copyFormatting' ),
+				isFromKeystroke = data ? data.from == 'keystrokeHandler' : false;
 
-			if ( cmd.state === CKEDITOR.TRISTATE_OFF ) {
+			if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON || !cmd.styles ) {
 				return;
 			}
 
 			applyFormat( cmd.styles, editor );
 
-			cmd.setState( CKEDITOR.TRISTATE_OFF );
+			if ( !isFromKeystroke ) {
+				cmd.styles = null;
+				cmd.setState( CKEDITOR.TRISTATE_OFF );
+			}
 		}
 	};
 
@@ -226,6 +235,11 @@
 					editor.execCommand( 'applyFormatting' );
 				} );
 			} );
+
+			editor.setKeystroke( [
+				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 67, 'copyFormatting' ],
+				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, 'applyFormatting' ]
+			] );
 		}
 	} );
 } )();
