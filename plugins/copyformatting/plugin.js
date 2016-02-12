@@ -6,6 +6,22 @@
 ( function() {
 	'use strict';
 
+	// Create attributes dictionary
+	function getAttributes( element, exclude ) {
+		var attributes = {},
+			attrDefs = element.$.attributes;
+
+		exclude = CKEDITOR.tools.isArray( exclude ) ? exclude : [];
+
+		for ( var i = 0; i < attrDefs.length; i++ ) {
+			if ( CKEDITOR.tools.indexOf( exclude, attrDefs[ i ].name ) === -1 ) {
+				attributes[ attrDefs[ i ].name ] = attrDefs[ i ].value;
+			}
+		}
+
+		return attributes;
+	}
+
 	function convertElementToStyle( element ) {
 		var attributes = {},
 			styles = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) ),
@@ -16,11 +32,7 @@
 			return;
 		}
 
-		// Create attributes dictionary
-		var attrDefs = element.$.attributes;
-		for ( var i = 0; i < attrDefs.length; i++ ) {
-			attributes[ attrDefs[ i ].name ] = attrDefs[ i ].value;
-		}
+		attributes = getAttributes( element, [ 'style' ] );
 
 		return new CKEDITOR.style( {
 			element: element.getName(),
