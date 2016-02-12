@@ -23,20 +23,22 @@
 				toolbar: 'cleanup,0'
 			} );
 
-			editor.addMenuGroup( 'styles' );
+			if ( editor.config.copyFormattingContextMenu ) {
+				editor.addMenuGroup( 'styles' );
 
-			editor.addMenuItem( 'applyStyle', {
-				label: editor.lang.copyformatting.menuLabel,
-				command: 'applyFormatting',
-				group: 'styles',
-				order: 1
-			} );
+				editor.addMenuItem( 'applyStyle', {
+					label: editor.lang.copyformatting.menuLabel,
+					command: 'applyFormatting',
+					group: 'styles',
+					order: 1
+				} );
 
-			editor.contextMenu.addListener( function() {
-				return editor.getCommand( 'copyFormatting' ).state === CKEDITOR.TRISTATE_ON ? {
-					applyStyle: CKEDITOR.TRISTATE_ON
-				} : null;
-			} );
+				editor.contextMenu.addListener( function() {
+					return editor.getCommand( 'copyFormatting' ).state === CKEDITOR.TRISTATE_ON ? {
+						applyStyle: CKEDITOR.TRISTATE_ON
+					} : null;
+				} );
+			}
 
 			editor.on( 'contentDom', function() {
 				editor.editable().attachListener( editor.editable(), 'click', function( evt ) {
@@ -286,4 +288,12 @@
 			editor.getSelection().selectBookmarks( bkms );
 		}
 	};
+
+	/**
+	 * Indicates if context menu item for applying format should be displayed.
+	 *
+	 * @cfg
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormattingContextMenu = true;
 } )();
