@@ -898,17 +898,17 @@
 								previous.is( 'li' ) )
 							) {
 								if ( !previous.is( 'li' ) ) {
-									var newPrevious;
 									walker.range.selectNodeContents( previous );
 									walker.reset();
 									walker.evaluator = isTextBlock;
 
-									newPrevious = walker.previous();
-									if (newPrevious) {
-										previous = newPrevious;
-									}
-									else {
+									previous = walker.previous();
+
+									// this can be null if the walker started inside a list with no child list items
+									// we know we are in a list, so just add an item
+									if (previous === null) {
 										var listItem = editor.document.createElement( 'li' );
+										previous = walker.range.startContainer;
 										listItem.appendTo( previous );
 										previous = listItem;
 									}
