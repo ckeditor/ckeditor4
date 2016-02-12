@@ -205,8 +205,8 @@
 				} : null;
 			} );
 
-			editor.on( 'instanceReady', function() {
-				editor.editable().on( 'click', function( evt ) {
+			editor.on( 'contentDom', function() {
+				editor.editable().attachListener( editor.editable(), 'click', function( evt ) {
 					var editor = evt.editor || evt.sender.editor;
 					editor.execCommand( 'applyFormatting' );
 				} );
