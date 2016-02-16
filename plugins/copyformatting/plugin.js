@@ -158,7 +158,7 @@
 				if ( style ) {
 					styles.push( style );
 				}
-			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT )
+			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT );
 
 			return styles;
 		},

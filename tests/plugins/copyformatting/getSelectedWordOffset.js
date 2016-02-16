@@ -29,7 +29,7 @@
 			range.setEnd( word.endNode, word.endOffset );
 			range.select();
 
-			assert.areSame( 'this', range.extractContents().getHtml() )
+			assert.areSame( 'this', range.extractContents().getHtml() );
 		},
 
 		'test getSelectedWordOffset (word inside element)': function() {
@@ -45,7 +45,7 @@
 			range.setEnd( word.endNode, word.endOffset );
 			range.select();
 
-			assert.areSame( 'this', range.extractContents().getHtml() )
+			assert.areSame( 'this', range.extractContents().getHtml() );
 		},
 
 		'test getSelectedWordOffset (word splitted between element and text node)': function() {
@@ -61,7 +61,7 @@
 			range.setEnd( word.endNode, word.endOffset );
 			range.select();
 
-			assert.areSame( '<span style="font-weight: bold;">th</span>is', range.extractContents().getHtml() )
+			assert.areSame( '<span style="font-weight: bold;">th</span>is', range.extractContents().getHtml() );
 		},
 
 		'test getSelectedWordOffset (word splitted between elements)': function() {
@@ -77,7 +77,7 @@
 			range.setEnd( word.endNode, word.endOffset );
 			range.select();
 
-			assert.areSame( 'this', range.extractContents().getHtml() )
+			assert.areSame( 'this', range.extractContents().getHtml() );
 		}
 	} );
 }() );

@@ -7,15 +7,15 @@
 
 	// Based on http://yuilibrary.com/yui/docs/api/files/test_js_ObjectAssert.js.html#l12.
 	objectAssert.areDeepEqual = function( expected, actual, message ) {
-		var expectedKeys = YUITest.Object.keys(expected),
-			actualKeys = YUITest.Object.keys(actual),
+		var expectedKeys = YUITest.Object.keys( expected ),
+			actualKeys = YUITest.Object.keys( actual ),
 			areEqual = YUITest.ObjectAssert.areEqual;
 
 		YUITest.Assert._increment();
 
 		// First check keys array length.
 		if ( expectedKeys.length != actualKeys.length ) {
-			YUITest.Assert.fail( YUITest.Assert._formatMessage(message,
+			YUITest.Assert.fail( YUITest.Assert._formatMessage( message,
 				'Object should have ' + expectedKeys.length + ' keys but has ' + actualKeys.length ) );
 		}
 
