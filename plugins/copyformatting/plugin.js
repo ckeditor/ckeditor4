@@ -125,7 +125,7 @@
 		 */
 		_convertElementToStyle: function( element ) {
 			var attributes = {},
-				styles = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) ),
+				styles = CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( element.getAttribute( 'style' ), true ) ),
 				// From which elements styles shouldn't be copied.
 				elementsToExclude = [ 'p', 'div', 'body', 'html' ];
 
