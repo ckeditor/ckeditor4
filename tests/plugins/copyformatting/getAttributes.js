@@ -1,75 +1,46 @@
 /* bender-tags: editor, dom */
 /* bender-ckeditor-plugins: wysiwygarea, toolbar, copyformatting */
+/* bender-include: _helpers/tools.js */
 ( function() {
 	'use strict';
-
-	var plugin;
 
 	bender.editor = true;
 
 	bender.test( {
-		setUp: function() {
-			plugin = CKEDITOR.plugins.copyformatting;
-		},
-
 		'test element with no attributes': function() {
-			var element = new CKEDITOR.dom.element( document.getElementsByTagName( 'b' )[ 0 ] ),
-				attributes = plugin._getAttributes( element );
-
-			assert.isObject( attributes );
-			objectAssert.areEqual( {}, attributes );
+			testAttributes( 'b', {} );
 		},
 
 		'test element with 2 attributes': function() {
-			var element = new CKEDITOR.dom.element( document.getElementsByTagName( 'p' )[ 0 ] ),
-				attributes = plugin._getAttributes( element );
-
-			assert.isObject( attributes );
-			objectAssert.areEqual( {
+			testAttributes( 'p', {
 				id: 'simple-id',
 				'data-attr': 'bogus'
-			}, attributes );
+			} );
 		},
 
 		'test element with duplicated attribute': function() {
-			var element = new CKEDITOR.dom.element( document.getElementsByTagName( 'span' )[ 0 ] ),
-				attributes = plugin._getAttributes( element );
-
-			assert.isObject( attributes );
-			objectAssert.areEqual( {
+			testAttributes( 'span', {
 				'bogus-attr': 1
-			}, attributes );
+			} );
 		},
 
 		'test unicode in attributes': function() {
-			var element = new CKEDITOR.dom.element( document.getElementsByTagName( 'em' )[ 0 ] ),
-				attributes = plugin._getAttributes( element );
-
-			assert.isObject( attributes );
-			objectAssert.areEqual( {
+			testAttributes( 'em', {
 				'data-unicode': '☃'
-			}, attributes );
+			} );
 		},
 
 		'test exclude': function() {
-			var element = new CKEDITOR.dom.element( document.getElementsByTagName( 'p' )[ 0 ] ),
-				attributes = plugin._getAttributes( element, [ 'id' ] );
-
-			assert.isObject( attributes );
-			objectAssert.areEqual( {
+			testAttributes( 'p', {
 				'data-attr': 'bogus'
-			}, attributes );
+			}, [ 'id' ] );
 		},
 
 		'test exclude (wrong format)': function() {
-			var element = new CKEDITOR.dom.element( document.getElementsByTagName( 'p' )[ 0 ] ),
-				attributes = plugin._getAttributes( element, 'id' );
-
-			assert.isObject( attributes );
-			objectAssert.areEqual( {
-				'id': 'simple-id',
+			testAttributes( 'p', {
+				id: 'simple-id',
 				'data-attr': 'bogus'
-			}, attributes );
+			}, 'id' );
 		}
 	} );
 }() );
