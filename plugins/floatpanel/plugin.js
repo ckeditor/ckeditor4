@@ -271,12 +271,12 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 						if ( block.autoSize ) {
 							var panelDoc = block.element.getDocument();
-							var width = ( CKEDITOR.env.webkit ? block.element : panelDoc.getBody() ).$.scrollWidth;
-
+							var width = ( (CKEDITOR.env.webkit || CKEDITOR.env.edge) ? block.element : panelDoc.getBody() ).$.scrollWidth;
+							
 							// Account for extra height needed due to IE quirks box model bug:
 							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
 							// (#3426)
-							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && width > 0 )
+							if ( !CKEDITOR.env.edge && CKEDITOR.env.ie && CKEDITOR.env.quirks && width > 0 )
 								width += ( target.$.offsetWidth || 0 ) - ( target.$.clientWidth || 0 ) + 3;
 
 							// Add some extra pixels to improve the appearance.
