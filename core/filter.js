@@ -2164,6 +2164,30 @@
 			}
 		},
 
+		listTypeToStyle: function( element ) {
+			if ( element.attributes.type ) {
+				switch ( element.attributes.type ) {
+					case 'a':
+						element.styles[ 'list-style-type' ] = 'lower-alpha';
+						break;
+					case 'A':
+						element.styles[ 'list-style-type' ] = 'upper-alpha';
+						break;
+					case 'i':
+						element.styles[ 'list-style-type' ] = 'lower-roman';
+						break;
+					case 'I':
+						element.styles[ 'list-style-type' ] = 'upper-roman';
+						break;
+					case '1':
+						element.styles[ 'list-style-type' ] = 'decimal';
+						break;
+					default:
+						element.styles[ 'list-style-type' ] = element.attributes.type;
+				}
+			}
+		},
+
 		/**
 		 * Converts the shorthand form of the `margin` style to seperate styles.
 		 *
