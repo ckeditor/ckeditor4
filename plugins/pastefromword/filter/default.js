@@ -560,6 +560,8 @@
 			if ( symbol.match( /^v/i ) ) return 5 + toArabic( symbol.slice( 1 ) );
 			if ( symbol.match( /^iv/i ) ) return 4 + toArabic( symbol.slice( 2 ) );
 			if ( symbol.match( /^i/i ) ) return 1 + toArabic( symbol.slice( 1 ) );
+			// Ignore other characters.
+			return toArabic( symbol.slice( 1 ) );
 		}
 
 		// Taking into account cases like "1.1.2." etc. - get the last element.
