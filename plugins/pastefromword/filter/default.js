@@ -802,6 +802,7 @@
 			'border',
 			'border-bottom',
 			'font-size',
+			'color',
 			'background'
 		];
 
