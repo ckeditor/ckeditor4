@@ -537,7 +537,7 @@
 				break;
 			case 'lower-alpha':
 			case 'upper-alpha':
-				list.attributes.start = ( symbols[ offset ] ).toLowerCase().charCodeAt( 0 ) - 96 - offset;
+				list.attributes.start = ( symbols[ offset ] ).replace( /\W/g, '' ).toLowerCase().charCodeAt( 0 ) - 96 - offset;
 				break;
 			case 'decimal':
 				list.attributes.start = ( parseInt( getSubsectionSymbol( symbols[ offset ] ) , 10 ) - offset ) || 1;
