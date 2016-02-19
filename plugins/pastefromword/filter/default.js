@@ -539,7 +539,7 @@
 
 		// Source: http://stackoverflow.com/a/17534350/3698944
 		function toArabic( symbol ) {
-			if ( !symbol.match( /[ivxl]/ ) ) return 0;
+			if ( !symbol.match( /[ivxl]/i ) ) return 0;
 			if ( symbol.match( /^l/i ) ) return 50 + toArabic( symbol.slice( 1 ) );
 			if ( symbol.match( /^lx/i ) ) return 40 + toArabic( symbol.slice( 1 ) );
 			if ( symbol.match( /^x/i ) ) return 10 + toArabic( symbol.slice( 1 ) );
