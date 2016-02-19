@@ -108,6 +108,11 @@
 
 					createStyleStack( element, filter );
 				},
+				'h1': function( element ) {
+					if ( thisIsAListItem( element ) ) convertToFakeListItem( element );
+
+					createStyleStack( element, filter );
+				},
 				'font': function( element ) {
 					createAttributeStack( element, filter );
 				},
