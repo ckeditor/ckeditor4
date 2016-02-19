@@ -1,5 +1,8 @@
 /* bender-tags: clipboard,pastefromword */
-/* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,font,link,toolbar,colorbutton,image,list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
+/* jshint ignore:start */
+/* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image */
+/* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
+/* jshint ignore:end */
 /* bender-include: ../../plugins/clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */
 
@@ -147,8 +150,84 @@
 			//'13616': [ 'word2013'], // PFW002
 			//'13634example': [ 'word2013' ], // This can be fixed with PFW001
 			//'13651ckeditor_report_bug': [ 'word2013' ], // Mother of tickets (o_o)>u-u
-			'13810test': [ 'word2013' ]
+			'13810test': [ 'word2013' ],
 			//'14257test2': [ 'word2013' ] // Not closed.
+			'6973This_is_a_line_of_text.2': [ 'word2013' ],
+			'11237borderBug': [ 'word2013' ],
+			'3959Test_doc_without_date': [ 'word2013' ],
+			'7797fonts': [ 'word2013' ],
+			'4427test-document': [ 'word2013' ],
+			'7494Numbers_&_Bulltes_lists': [ 'word2013' ],
+			//'7843Multi_level_Numbered_list': [ 'word2013' ], // PFW002.
+			'6973CKEditor_pasting_issue': [ 'word2013' ],
+			//'7610Multi_level_Numbered_list': [ 'word2013' ], // PFW002. Probably the same file as in 7843.
+			'4894CustomStyleTest': [ 'word2013' ], //
+			//'6973TestNegativeHeadingIndent': [ 'word2013' ], // PFW001, PFW002
+			'5743bulletlist': [ 'word2013' ],
+			//'7807BL_13_individual_map_template_with_mouseover_def': [ 'word2013' ], Not closed.
+			//'9441AGUIRRE,_Algunas_cuestiones_sobre_el_seguro_ambiental2_editor': [ 'word2013' ], // Circular dependencies in anchors.
+			'8437WORD_ABC': [ 'word2013' ],
+			//'7484IndentedParagraphs2': [ 'word2013' ], // text-indent? Not closed.
+			//'7954list_with_Roman_Numerals_&_Start_Value_5': [ 'word2013' ], Not closed, but no bug.
+			//'8665Tartalom': [ 'word2013' ], Later
+			'4883_Test': [ 'word2013' ],
+			'7857pasting_RTL_lists_from_word_defect': [ 'word2013' ],
+			'3828TestList': [ 'word2013' ],
+			//'2507fcktest': [ 'word2013' ], // Not closed.
+			//'7482IndentedNumberedList': [ 'word2013' ], // Not closed.
+			//'7209test': [ 'word2013' ], // Not closed.
+			//'7662Multilevel_lists': [ 'word2013' ],
+			//'3336test': [ 'word2013' ],
+			'5399This_is_a_line_of_text': [ 'word2013' ],
+			'7696empty_table': [ 'word2013' ],
+			'445Spanish_5-2-07': [ 'word2013' ],
+			//'7982lists': [ 'word2013' ], // Not closed.
+			'3959Test_doc_with_date': [ 'word2013' ], // Will break when individual <td> borders are introduced.
+			//'8009CKEditor-comment-test-2011-06-08': [ 'word2013' ], // Not closed.
+			//'7646testcase': [ 'word2013' ], // Not closed - in review for the past 2 years. :D
+			//'8231listTest': [ 'word2013' ], // Not closed.
+			'7593Numbere_&_Bullet_list_with_list_styles_applied': [ 'word2013' ],
+			'5750bulletlist': [ 'word2013' ],
+			//'4895ListFontSizeTests': [ 'word2013' ], // To be resolved.
+			//'8186text_box': [ 'word2013' ], // Not closed.
+			'6956CKEditor_pasting_issue': [ 'word2013' ], // PFW001
+			'5300Sample': [ 'word2013' ],
+			//'7872lists': [ 'word2013' ], // To be resolved.
+			//'7839Multi_level_Numbered_list': [ 'word2013' ], // Same file as 7843
+			//'7209test2': [ 'word2013' ], // To be resolved.
+			//'7646testcase_V1.0': [ 'word2013' ], // Not closed.
+			'7584Numbered_list_with_diff_start_value': [ 'word2013' ], // IE11 drops some list data.
+			//'7484IndentedParagraphs1': [ 'word2013' ], // Not closed.
+			'7661Multilevel_lists': [ 'word2013' ],
+			'7480BulletedList': [ 'word2013' ],
+			'6086test': [ 'word2013' ],
+			//'3744BigWikiArticle': [ 'word2013' ], // More a stress test than a real test.
+			'9274CKEditor_formating_issue': [ 'word2013' ],
+			'6330bullets': [ 'word2013' ],
+			'1707bug_fckeditor': [ 'word2013' ],
+			'10485sample_test_doc': [ 'word2013' ],
+			'3039blog_test_2003_(2)': [ 'word2013' ],
+			//'6956screenshots': [ 'word2013' ], // Only screenshot.
+			//'3336FCK': [ 'word2013' ], // Not closed.
+			//'8390test1': [ 'word2013' ], // Won't fix.
+			//'8266test': [ 'word2013' ], // Not closed.
+			//'5134Sample': [ 'word2013' ],
+			//'8983wordtest_align': [ 'word2013' ], // Not closed.
+			//'9475list2003': [ 'word2013' ], // To be resolved.
+			'8501FromWord': [ 'word2013' ], // IE8 drops some formatting data.
+			'7521simple_table': [ 'word2013' ],
+			'7620AlphabeticNumberingLists': [ 'word2013' ],
+			'9456text-with-bullet-list-example': [ 'word2013' ],
+			//'1457list-test': [ 'word2013' ], // To be resolved.
+			//'11985sample1': [ 'word2013' ], // Won't fix.
+			//'218shrev-gibberish-test': [ 'word2013' ], // Won't fix.
+			'6751TextToPaste': [ 'word2013' ],
+			//'7982lists_and_desc': [ 'word2013' ], // Duplicate of 7982lists, also not closed.
+			'6595': [ 'word2013' ],
+			//'6789test': [ 'word2013' ], // Not closed.
+			'6570ordered_list_97': [ 'word2013' ],
+			//'12784test': [ 'word2013' ], // Not closed.
+			'682tester': [ 'word2013' ]
 		},
 		loadFixture = bender.tools.testExternalInput,
 		keys = CKEDITOR.tools.objectKeys( tests ),
