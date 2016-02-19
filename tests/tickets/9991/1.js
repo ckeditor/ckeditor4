@@ -75,7 +75,7 @@
 			'6286Sample_6286': [ 'word2013' ],
 			'6362Numbering': [ 'word2013' ],
 			'6449Sample': [ 'word2013' ],
-			//'6493Questions_and_answers': [ 'word2013' ], // PFW001
+			'6493Questions_and_answers': [ 'word2013' ], // PFW001
 			'6533test_doc': [ 'word2013' ],
 			'6570ordered_list': [ 'word2013' ], // Somewhat related to PFW001.
 			'6594': [ 'word2013' ],
@@ -102,8 +102,8 @@
 			'9475List2010': [ 'word2013' ],
 			'9456Stuff_to_get': [ 'word2013' ],
 			//'9456list_paste_from_msword': [ 'word2013' ], // Not supported
-			//'9426CK_Sample_word_document': [ 'word2013' ], // PFW001
-			//'9424CK_Sample_word_document': [ 'word2013' ], // PFW001
+			//'9426CK_Sample_word_document': [ 'word2013' ], // "lists" made by tabs.
+			//'9424CK_Sample_word_document': [ 'word2013' ], // "lists" made by tabs.
 			'9422for_cke': [ 'word2013' ],
 			'9340test_ckeditor': [ 'word2013' ],
 			'9331ckBugWord1': [ 'word2013' ],
@@ -116,7 +116,7 @@
 			//'11054CKEditor-Bug': [ 'word2013' ], // "Won't fix"
 			'11005Test_WordDoc': [ 'word2013' ],
 			'10784line_missing': [ 'word2013' ], // IE11 consistently generates this weird output.
-			//'10783list-break2': [ 'word2013' ], // PFW001 - Extreme case.
+			//'10783list-break2': [ 'word2013' ], // Wrong list levels.
 			'10780word_margin_bug': [ 'word2013' ],
 			'10672Lists_Test': [ 'word2013' ],
 			'10643sample1': [ 'word2013' ],
@@ -140,7 +140,7 @@
 			'12406Document1_(3)': [ 'word2013' ],
 			'12740CKEditor_-_Internal_Error_on_Paste_as_CTRL-V(1)': [ 'word2013' ],
 			'12740WSGCN-3550_Test_document_minimal': [ 'word2013' ],
-			//'12821ELL_Forum_Invitation': [ 'word2013' ], // PFW001
+			'12821ELL_Forum_Invitation': [ 'word2013' ], // PFW001
 			////'13021testdoc': [ 'word2013' ],
 			'13174Testdocument': [ 'word2013' ],
 			'13174Testdocument2': [ 'word2013' ], // Not fully supported(and will break), but contains a significant edge case (compound "<!-- [if...]")
@@ -148,7 +148,7 @@
 			'13339Internal_Error_on_Paste_as_CTRL-V': [ 'word2013' ],
 			'13590ckeditor-numberlist': [ 'word2013' ],
 			//'13616': [ 'word2013'], // PFW002
-			//'13634example': [ 'word2013' ], // This can be fixed with PFW001
+			//'13634example': [ 'word2013' ], // Not closed.
 			//'13651ckeditor_report_bug': [ 'word2013' ], // Mother of tickets (o_o)>u-u
 			'13810test': [ 'word2013' ],
 			//'14257test2': [ 'word2013' ] // Not closed.
@@ -162,7 +162,7 @@
 			'6973CKEditor_pasting_issue': [ 'word2013' ],
 			//'7610Multi_level_Numbered_list': [ 'word2013' ], // PFW002. Probably the same file as in 7843.
 			'4894CustomStyleTest': [ 'word2013' ], //
-			//'6973TestNegativeHeadingIndent': [ 'word2013' ], // PFW001, PFW002
+			'6973TestNegativeHeadingIndent': [ 'word2013' ], // PFW001, PFW002
 			'5743bulletlist': [ 'word2013' ],
 			//'7807BL_13_individual_map_template_with_mouseover_def': [ 'word2013' ], Not closed.
 			//'9441AGUIRRE,_Algunas_cuestiones_sobre_el_seguro_ambiental2_editor': [ 'word2013' ], // Circular dependencies in anchors.
