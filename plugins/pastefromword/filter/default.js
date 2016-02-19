@@ -191,8 +191,21 @@
 				},
 				'td': function( element ) {
 
-					var tdBorders =  element.getAscendant( 'table' )._tdBorders,
-						borderStyles = [ 'border', 'border-top', 'border-right', 'border-bottom', 'border-left' ];
+					var ascendant = element.getAscendant( 'table' ),
+						tdBorders =  ascendant._tdBorders,
+						borderStyles = [ 'border', 'border-top', 'border-right', 'border-bottom', 'border-left' ],
+						ascendantStyle = tools.parseCssText( ascendant.attributes.style );
+
+					// Sometimes the background is set for the whole table - move it to individual cells.
+					var background = ascendantStyle.background || ascendantStyle.BACKGROUND;
+					if ( background ) {
+						setStyle( element, 'background', background, true );
+					}
+
+					var backgroundColor = ascendantStyle[ 'background-color' ] || ascendantStyle[ 'BACKGROUND-COLOR' ];
+					if ( backgroundColor ) {
+						setStyle( element, 'background-color', backgroundColor, true );
+					}
 
 					var styles = tools.parseCssText( element.attributes.style );
 
