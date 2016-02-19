@@ -117,6 +117,8 @@
 						setStyle( element.parent, 'list-style-type', 'none' );
 					}
 
+					setListDir( element );
+
 					element.filterChildren( filter );
 
 					var style = tools.parseCssText( element.attributes.style );
@@ -142,6 +144,8 @@
 					}
 
 					pushStylesLower( element );
+
+					setListDir( element );
 
 					element.filterChildren( filter );
 
@@ -548,6 +552,25 @@
 		// Taking into account cases like "1.1.2." etc. - get the last element.
 		function getSubsectionSymbol( symbol ) {
 			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', 1 ] )[ 1 ];
+		}
+	}
+
+	function setListDir( list ) {
+		var dirs = { ltr: 0, rtl: 0 };
+
+		list.forEach( function( child ) {
+			if ( child.name == 'li' ) {
+				var dir = child.attributes.dir || child.attributes.DIR || '';
+				if ( dir.toLowerCase() == 'rtl' ) {
+					dirs.rtl++;
+				} else {
+					dirs.ltr++;
+				}
+			}
+		}, CKEDITOR.ELEMENT_NODE );
+
+		if ( dirs.rtl > dirs.ltr ) {
+			list.attributes.dir = 'rtl';
 		}
 	}
 
