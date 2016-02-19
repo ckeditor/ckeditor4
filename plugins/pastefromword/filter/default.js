@@ -595,7 +595,8 @@
 	}
 
 	function createList( element ) {
-		if ( ( element.attributes[ 'cke-symbol' ].match( /([\daiIA]).?/ ) || [] )[ 1 ] ) {
+		// "o" symbolizes a circle in unordered lists.
+		if ( ( element.attributes[ 'cke-symbol' ].match( /([\da-np-zA-NP-Z]).?/ ) || [] )[ 1 ] ) {
 			return new CKEDITOR.htmlParser.element( 'ol' );
 		}
 		return new CKEDITOR.htmlParser.element( 'ul' );
