@@ -820,34 +820,39 @@
 	// Some styles need to be stacked in a particular order to work properly.
 	function sortStyles( element ) {
 		var orderedStyles = [
-			'border',
-			'border-bottom',
-			'font-size',
-			'color',
-			'background'
-		];
+				'border',
+				'border-bottom',
+				'font-size',
+				'background'
+			],
+			style = tools.parseCssText( element.attributes.style ),
+			keys = tools.objectKeys( style ),
+			sortedKeys = [],
+			nonSortedKeys = [];
 
-		var style = tools.parseCssText( element.attributes.style );
-
-		var keys = tools.objectKeys( style );
+		// Divide styles into sorted and non-sorted, because Array.prototype.sort()
+		// requires a transitive relation.
+		for ( var i = 0; i < keys.length; i++ ) {
+			if ( tools.indexOf( orderedStyles, keys[ i ].toLowerCase() ) !== -1 ) {
+				sortedKeys.push( keys[ i ] );
+			} else {
+				nonSortedKeys.push( keys[ i ] );
+			}
+		}
 
 		// For styles in orderedStyles[] enforce the same order as in orderedStyles[].
-		keys.sort( function( a, b ) {
+		sortedKeys.sort( function( a, b ) {
 			var aIndex = tools.indexOf( orderedStyles, a.toLowerCase() );
 			var bIndex = tools.indexOf( orderedStyles, b.toLowerCase() );
 
-			if ( aIndex !== -1 && bIndex !== -1 ) {
-				return aIndex - bIndex;
-			} else {
-				if ( a > b ) return 1;
-				if ( a < b ) return -1;
-				return 0;
-			}
+			return aIndex - bIndex;
 		} );
+
+		keys = [].concat( sortedKeys, nonSortedKeys );
 
 		var sortedStyles = {};
 
-		for ( var i = 0; i < keys.length; i++ ) {
+		for ( i = 0; i < keys.length; i++ ) {
 			sortedStyles[ keys[ i ] ] = style[ keys[ i ] ];
 		}
 
