@@ -64,6 +64,7 @@ function testApplyingFormat( editor, htmlWithSelection, expectedContent, styles 
 
 	range = editor.getSelection().getRanges()[ 0 ];
 	range.shrink( CKEDITOR.SHRINK_TEXT );
+
 	for ( i = applied = 0; i < styles.length; i++ ) {
 		if ( styles[ i ].checkActive( range.startPath(), editor ) ) {
 			++applied;
