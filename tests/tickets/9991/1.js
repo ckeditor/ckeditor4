@@ -39,23 +39,23 @@
 		],
 		// To test only particular word versions set the key value to an array in the form: [ 'word2007', 'word2013' ].
 		tests = {
-			'Bold': true,
-			'Colors': true,
-			'Fonts': true,
-			'Image': true,
-			'Italic': true,
-			'Link': true,
-			'Only_paragraphs': true,
-			'Ordered_list': true,
-			'Ordered_list_multiple': true,
-			'Ordered_list_multiple_edgy': true,
-			'Paragraphs_with_headers': true,
-			'Simple_table': true,
-			'Spacing': true,
-			'Text_alignment': true,
-			'Underline': true,
-			'Unordered_list': true,
-			'Unordered_list_multiple': true
+			//'Bold': true,
+			//'Colors': true,
+			//'Fonts': true,
+			//'Image': true,
+			//'Italic': true,
+			//'Link': true,
+			//'Only_paragraphs': true,
+			//'Ordered_list': true,
+			//'Ordered_list_multiple': true,
+			//'Ordered_list_multiple_edgy': true,
+			//'Paragraphs_with_headers': true,
+			//'Simple_table': true,
+			//'Spacing': true,
+			//'Text_alignment': true,
+			//'Underline': true,
+			//'Unordered_list': true,
+			//'Unordered_list_multiple': true
 		},
 		/** Some tickets are commented out because of the following known issues:
 			PFW001. Multi-paragraph lists are not recognized.
@@ -75,9 +75,9 @@
 			'6286Sample_6286': [ 'word2013' ],
 			'6362Numbering': [ 'word2013' ],
 			'6449Sample': [ 'word2013' ],
-			'6493Questions_and_answers': [ 'word2013' ], // PFW001
+			'6493Questions_and_answers': [ 'word2013' ],
 			'6533test_doc': [ 'word2013' ],
-			'6570ordered_list': [ 'word2013' ], // Somewhat related to PFW001.
+			'6570ordered_list': [ 'word2013' ],
 			'6594': [ 'word2013' ],
 			'6608': [ 'word2013' ],
 			'6639nested_list_with_empty_lines': [ 'word2013' ],
@@ -158,13 +158,13 @@
 			'7797fonts': [ 'word2013' ],
 			'4427test-document': [ 'word2013' ],
 			'7494Numbers_&_Bulltes_lists': [ 'word2013' ],
-			//'7843Multi_level_Numbered_list': [ 'word2013' ], // PFW002.
+			'7843Multi_level_Numbered_list': [ 'word2013' ], // PFW002.
 			'6973CKEditor_pasting_issue': [ 'word2013' ],
 			//'7610Multi_level_Numbered_list': [ 'word2013' ], // PFW002. Probably the same file as in 7843.
 			'4894CustomStyleTest': [ 'word2013' ], //
-			'6973TestNegativeHeadingIndent': [ 'word2013' ], // PFW001, PFW002
+			'6973TestNegativeHeadingIndent': [ 'word2013' ], // PFW002
 			'5743bulletlist': [ 'word2013' ],
-			//'7807BL_13_individual_map_template_with_mouseover_def': [ 'word2013' ], Not closed.
+			//'7807BL_13_individual_map_template_with_mouseover_def': [ 'word2013' ], // Not closed.
 			//'9441AGUIRRE,_Algunas_cuestiones_sobre_el_seguro_ambiental2_editor': [ 'word2013' ], // Circular dependencies in anchors.
 			'8437WORD_ABC': [ 'word2013' ],
 			//'7484IndentedParagraphs2': [ 'word2013' ], // text-indent? Not closed.
