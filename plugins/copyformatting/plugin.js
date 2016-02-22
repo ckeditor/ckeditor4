@@ -183,38 +183,99 @@
 
 			node = startNode = endNode = range.startContainer;
 
+			// Get node contents without tags.
+			function getNodeContents( node ) {
+				var html;
+
+				// If the node is element, get its HTML and strip all tags and bookmarks
+				// and then search for  word boundaries. In node.getText tags are
+				// replaced by spaces, which breaks getting the right offset.
+				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
+					html = node.getHtml().replace( /<span.*?>&nbsp;<\/span>/g, '' );
+					return html.replace( /<.*?>/g, '' );
+				}
+
+				return node.getText();
+			}
+
 			// Get the word beggining/ending from previous/next node with content (skipping empty nodes and bookmarks)
-			function getSiblingNodeOffset( isPrev ) {
+			function getSiblingNodeOffset( startNode, isPrev ) {
 				var getSibling = isPrev ? 'getPrevious' : 'getNext',
-					currentNode = node,
-					regex = /\b/g,
-					contents, match;
+					currentNode = startNode,
+					regex = /\s/g,
+					boundaryElements = [ 'p', 'li', 'div', 'body' ],
+					isBoundary = false,
+					sibling, contents, match, offset;
 
 				do {
-					currentNode = currentNode[ getSibling ]();
+					sibling = currentNode[ getSibling ]();
 
-					// If there is no sibling, text is probably inside element, so get it.
-					if ( !currentNode ) {
-						currentNode = node.getParent();
+					// If there is no sibling, text is probably inside element, so get it
+					// and then fetch its sibling.
+					while ( !sibling && currentNode.getParent() ) {
+						if ( CKEDITOR.tools.indexOf( boundaryElements, currentNode.getParent().getName() ) !== -1 ) {
+							isBoundary = true;
+							break;
+						}
+
+						currentNode = currentNode.getParent();
+						sibling = currentNode[ getSibling ]();
 					}
+
+					currentNode = sibling;
 				} while ( currentNode && currentNode.getStyle &&
 					( currentNode.getStyle( 'display' ) == 'none' || !currentNode.getText() ) );
-
-				// If the node is element, get its HTML and strip all tags and then search for
-				// word boundaries. In node.getText tags are replaced by spaces, which breaks
-				// getting the right offset.
-				contents = currentNode.type == CKEDITOR.NODE_ELEMENT ?
-							currentNode.getHtml().replace( /<.*>/g, '' ) : currentNode.getText();
-
-				// If we search for next node, skip the first match (boundary at the start of word)
-				if ( !isPrev ) {
-					regex.lastIndex = 1;
+				if ( !currentNode ) {
+					currentNode = startNode;
 				}
-				match = regex.exec( contents );
+				contents = getNodeContents( currentNode );
+
+				while ( ( match = regex.exec( contents ) ) != null ) {
+					offset = match.index;
+					if ( !isPrev ) {
+						break;
+					}
+				}
+
+				// There is no space in fetched node and it's not a boundary node,
+				// so we must fetch one more node.
+				if ( typeof offset !== 'number' && !isBoundary ) {
+					return getSiblingNodeOffset( currentNode, isPrev );
+				}
+
+				// A little bit of math:
+				// * if we are searching for the beginning of the word and the word
+				// is located on the boundary of block element, set offset to 0.
+				// * if we are searching for the ending of the word and the word
+				// is located on the boundary of block element, set offset to
+				// the last occurence of non-word character or node's length.
+				// * if we are searching for the beginning of the word, we must move the offset
+				// one character to the right (the space is located just before the word).
+				// * we must also ensure that the space is not located at the boundary of the node,
+				// otherwise we must return next node with appropiate offset.
+				if ( isBoundary ) {
+					if ( isPrev ) {
+						offset = 0;
+					} else {
+						var contents = getNodeContents( currentNode ),
+							regex = /\.([\b]*$)/,
+							match = regex.exec( contents );
+
+						offset = match ? match.index : contents.length;
+					}
+				} else if ( isPrev ) {
+					offset += 1;
+
+					if ( offset > contents.length - 1 ) {
+						currentNode = currentNode.getNext();
+						offset = 0;
+					}
+				}
+
 
 				return {
 					node: currentNode,
-					offset: isPrev ? regex.lastIndex : ( match ? match.index : contents.length )
+					offset: offset
 				};
 			}
 
@@ -227,7 +288,7 @@
 
 					// The word probably begins in previous node.
 					if ( match.index === 0 ) {
-						var startInfo = getSiblingNodeOffset( true );
+						var startInfo = getSiblingNodeOffset( node, true );
 
 						startNode = startInfo.node;
 						startOffset = startInfo.offset;
@@ -235,7 +296,7 @@
 
 					// The word probably ends in next node
 					if ( match.index + match[ 0 ].length == range.endOffset ) {
-						var endInfo = getSiblingNodeOffset();
+						var endInfo = getSiblingNodeOffset( node );
 
 						endNode = endInfo.node;
 						endOffset = endInfo.offset;
