@@ -1,6 +1,6 @@
-/* globals CKEDITOR, CKEDITOR_MOCK */
+/* globals CKEDITOR */
 
-( function( CKEDITOR ) {
+( function() {
 	var tools = CKEDITOR.tools,
 		invalidTags = [
 		'o:p',
@@ -921,4 +921,4 @@
 		CKEDITOR.cleanWord[ exported ] = exportedFunctions[ exported ];
 	}
 
-} )( typeof CKEDITOR_MOCK !== 'undefined' ? CKEDITOR_MOCK : CKEDITOR ); // Testability, yeah!
+} )();
