@@ -16,7 +16,7 @@
 			config: {
 				allowedContent: true
 			}
-		},
+		}
 	};
 
 	var tests = {

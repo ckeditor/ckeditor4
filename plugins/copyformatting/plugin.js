@@ -225,13 +225,16 @@
 					currentNode = sibling;
 				} while ( currentNode && currentNode.getStyle &&
 					( currentNode.getStyle( 'display' ) == 'none' || !currentNode.getText() ) );
+
 				if ( !currentNode ) {
 					currentNode = startNode;
 				}
+
 				contents = getNodeContents( currentNode );
 
 				while ( ( match = regex.exec( contents ) ) != null ) {
 					offset = match.index;
+
 					if ( !isPrev ) {
 						break;
 					}
@@ -257,9 +260,8 @@
 					if ( isPrev ) {
 						offset = 0;
 					} else {
-						var contents = getNodeContents( currentNode ),
-							regex = /\.([\b]*$)/,
-							match = regex.exec( contents );
+						regex = /\.([\b]*$)/;
+						match = regex.exec( contents );
 
 						offset = match ? match.index : contents.length;
 					}
@@ -295,7 +297,7 @@
 					}
 
 					// The word probably ends in next node
-					if ( match.index + match[ 0 ].length == range.endOffset ) {
+					if ( endOffset == range.endOffset ) {
 						var endInfo = getSiblingNodeOffset( node );
 
 						endNode = endInfo.node;

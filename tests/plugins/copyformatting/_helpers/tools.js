@@ -1,3 +1,5 @@
+/* exported testAttributes, testGettingWordOffset, testApplyingFormat, testConvertingStyles */
+
 'use strict';
 
 // Based on http://yuilibrary.com/yui/docs/api/files/test_js_ObjectAssert.js.html#l12.

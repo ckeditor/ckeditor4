@@ -1,6 +1,8 @@
 /* bender-tags: copyformatting */
 /* bender-ckeditor-plugins: wysiwygarea, toolbar, copyformatting */
 /* bender-include: _helpers/tools.js */
+/* global testConvertingStyles */
+
 ( function() {
 	'use strict';
 

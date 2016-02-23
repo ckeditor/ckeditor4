@@ -1,6 +1,8 @@
 /* bender-tags: editor, dom */
 /* bender-ckeditor-plugins: wysiwygarea, toolbar, copyformatting */
 /* bender-include: _helpers/tools.js */
+/* global testAttributes */
+
 ( function() {
 	'use strict';
 
