@@ -748,20 +748,7 @@
 			}
 
 			// Chop data into continuous lists.
-			var lists = [ [ listElements[ 0 ] ] ];
-			var lastList = lists[ 0 ];
-
-			for ( i = 1; i < listElements.length; i++ ) {
-				element = listElements[ i ];
-				var previous = listElements[ i - 1 ];
-				level = element.attributes[ 'cke-list-level' ];
-
-				if ( element.previous !== previous ) {
-					lists.push( lastList = [] );
-				}
-
-				lastList.push( element );
-			}
+			var lists = List.groupLists( listElements );
 
 			// Create nested list structures.
 			for ( i = 0; i < lists.length; i++ ) {
@@ -847,6 +834,26 @@
 					delete element.attributes[ tempAttributes[ j ] ];
 				}
 			}
+		},
+
+		groupLists: function( listElements ) {
+			// Chop data into continuous lists.
+			var i, element, level,
+				lists = [ [ listElements[ 0 ] ] ],
+				lastList = lists[ 0 ];
+
+			for ( i = 1; i < listElements.length; i++ ) {
+				element = listElements[ i ];
+				var previous = listElements[ i - 1 ];
+				level = element.attributes[ 'cke-list-level' ];
+
+				if ( element.previous !== previous ) {
+					lists.push( lastList = [] );
+				}
+
+				lastList.push( element );
+			}
+			return lists;
 		}
 	};
 	List = CKEDITOR.plugins.pastefromword.lists;
