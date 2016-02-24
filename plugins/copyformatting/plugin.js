@@ -30,8 +30,8 @@
 			} );
 
 			editor.setKeystroke( [
-				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 67, 'copyFormatting' ],
-				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, 'applyFormatting' ]
+				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 67, 'copyFormatting' ], // Ctrl + Shift + C
+				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, 'applyFormatting' ] // Ctrl + Shift + v
 			] );
 		}
 	} );
