@@ -11,7 +11,19 @@
 		icons: 'copyformatting',
 		hidpi: true,
 		init: function( editor ) {
-			var plugin = CKEDITOR.plugins.copyformatting;
+			var plugin = CKEDITOR.plugins.copyformatting,
+				additionalCss = [
+					'.cke_copyformatting_active',
+					'{',
+					'cursor: ',
+					'url(',
+					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-16x16.png' ),
+					'), ',
+					'auto;',
+					'}'
+				].join( '' );
+
+			CKEDITOR.addCss( additionalCss );
 
 			editor.addCommand( 'copyFormatting', plugin.commands.copyFormatting );
 			editor.addCommand( 'applyFormatting', plugin.commands.applyFormatting );
@@ -45,6 +57,7 @@
 
 					if ( !isFromKeystroke && cmd.state === CKEDITOR.TRISTATE_ON ) {
 						cmd.styles = null;
+						editor.editable().removeClass( 'cke_copyformatting_active' );
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
@@ -52,6 +65,7 @@
 
 					if ( !isFromKeystroke ) {
 						cmd.setState( CKEDITOR.TRISTATE_ON );
+						editor.editable().addClass( 'cke_copyformatting_active' );
 					}
 				}
 			},
@@ -69,6 +83,7 @@
 
 					if ( !isFromKeystroke ) {
 						cmd.styles = null;
+						editor.editable().removeClass( 'cke_copyformatting_active' );
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 				}
