@@ -585,6 +585,22 @@
 				.match( /level(\d+)/ ) || [ '', 1 ] )[ 1 ];
 		},
 
+		convertToRealListItems: function( root ) {
+			var listElements = [];
+			// Select and clean up list elements.
+			root.forEach( function( element ) {
+				if ( element.name == 'cke:li' ) {
+					element.name = 'li';
+
+					List.removeListSymbol( element );
+
+					listElements.push( element );
+				}
+			}, CKEDITOR.NODE_ELEMENT, false );
+
+			return listElements;
+		},
+
 		removeListSymbol: function( element ) { // ...from the element's text content.
 			var removed,
 				symbol = element.attributes[ 'cke-symbol' ];
@@ -727,19 +743,8 @@
 		},
 
 		createLists: function( root ) {
-			var element, level, i, j;
-			var listElements = [];
-
-			// Select and clean up list elements.
-			root.forEach( function( element ) {
-				if ( element.name == 'cke:li' ) {
-					element.name = 'li';
-
-					List.removeListSymbol( element );
-
-					listElements.push( element );
-				}
-			}, CKEDITOR.NODE_ELEMENT, false );
+			var element, level, i, j,
+				listElements = List.convertToRealListItems( root );
 
 			if ( listElements.length === 0 ) {
 				return;
