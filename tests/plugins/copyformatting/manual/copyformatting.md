@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, copyformatting
-@bender-ckeditor-plugins: copyformatting, contextmenu, toolbar, wysiwygarea, floatingspace
+@bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace
 
 **Procedure**
 

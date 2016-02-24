@@ -7,7 +7,6 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'copyformatting', {
-		requires: 'contextmenu',
 		lang: 'en',
 		icons: 'copyformatting',
 		hidpi: true,
@@ -22,23 +21,6 @@
 				command: 'copyFormatting',
 				toolbar: 'cleanup,0'
 			} );
-
-			if ( editor.config.copyFormattingContextMenu ) {
-				editor.addMenuGroup( 'styles' );
-
-				editor.addMenuItem( 'applyStyle', {
-					label: editor.lang.copyformatting.menuLabel,
-					command: 'applyFormatting',
-					group: 'styles',
-					order: 1
-				} );
-
-				editor.contextMenu.addListener( function() {
-					return editor.getCommand( 'copyFormatting' ).state === CKEDITOR.TRISTATE_ON ? {
-						applyStyle: CKEDITOR.TRISTATE_ON
-					} : null;
-				} );
-			}
 
 			editor.on( 'contentDom', function() {
 				editor.editable().attachListener( editor.editable(), 'mouseup', function( evt ) {
@@ -351,12 +333,4 @@
 			editor.getSelection().selectBookmarks( bkms );
 		}
 	};
-
-	/**
-	 * Indicates if context menu item for applying format should be displayed.
-	 *
-	 * @cfg
-	 * @member CKEDITOR.config
-	 */
-	CKEDITOR.config.copyFormattingContextMenu = true;
 } )();
