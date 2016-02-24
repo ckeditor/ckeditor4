@@ -333,23 +333,13 @@
 		},
 
 		normalizedStyles: function( element ) {
+
 			// Some styles and style values are redundant, so delete them.
 			var resetStyles = [
-					'background:white',
 					'background-color:transparent',
 					'border-image:none',
-					'line-height:normal',
-					'color:black',
-					'color:#000000',
-					'color:rgb(0, 0, 0)',
 					'color:windowtext',
-					'font-size:medium',
-					'font-style:normal',
-					'font-weight:normal',
 					'direction:ltr',
-					'p:margin-top:1em',
-					'p:margin-bottom:1em',
-					'0in',
 					'mso-',
 					'text-indent',
 					'visibility:visible',
