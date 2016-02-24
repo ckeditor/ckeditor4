@@ -6,6 +6,34 @@
 ( function() {
 	'use strict';
 
+	function generateCursorCss( sizes ) {
+		var css = [ 'cursor: ' ];
+
+		// Generate styles for non-Webkit browsers.
+		if ( !CKEDITOR.env.webkit ) {
+			css.push( 'url(',
+				CKEDITOR.env.hidpi ?
+					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 1 ] + 'x' + sizes[ 1 ] + '.png' ) :
+					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 0 ] + 'x' + sizes[ 0 ] + '.png' ),
+				'), auto;' );
+		} else {
+			// Generate imageset for Webkit browsers.
+			css.push( '-webkit-image-set(' );
+			for ( var i = 0; i < sizes.length; i++ ) {
+				css.push( 'url(',
+					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ i ] + 'x' + sizes[ i ] + '.png' ),
+					') ' + ( sizes[ i ] / sizes[ 0 ] ) + 'x ' );
+
+				if ( i < sizes.length - 1 ) {
+					css.push( ', ' );
+				}
+			}
+			css.push( '), auto;' );
+		}
+
+		return css.join( '' );
+	}
+
 	CKEDITOR.plugins.add( 'copyformatting', {
 		lang: 'en',
 		icons: 'copyformatting',
@@ -15,28 +43,7 @@
 				additionalCss = [
 					'.cke_copyformatting_active',
 					'{',
-					'cursor: ',
-					'url(',
-					CKEDITOR.env.hidpi ? CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-32x32.png' ) :
-						CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-16x16.png' ),
-					'), auto;',
-					'cursor: -webkit-image-set(',
-						'url(',
-							CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-16x16.png' ),
-						') 1x, ',
-						'url(',
-							CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-32x32.png' ),
-						') 2x, ',
-						'url(',
-							CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-64x64.png' ),
-						') 4x, ',
-						'url(',
-							CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-128x128.png' ),
-						') 8x, ',
-						'url(',
-							CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-256x256.png' ),
-						') 16x, ',
-					'), auto;',
+					generateCursorCss( [ 16, 32, 64, 128, 256 ] ),
 					'}'
 				].join( '' );
 
