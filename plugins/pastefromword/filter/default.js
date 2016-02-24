@@ -268,7 +268,7 @@
 			attributes: {
 				'style': function( styles, element ) {
 					// Returning false deletes the attribute.
-					return falseIfEmpty( Style.normalizedStyles( element ) );
+					return Style.normalizedStyles( element ) || false;
 				},
 				'class': function( classes ) {
 					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
@@ -357,15 +357,12 @@
 
 			var styles = tools.parseCssText( element.attributes.style );
 
-			// Various transformations specific to some elements (e.g. list items).
-			switch ( element.name ) {
-				case 'cke:li':
-					// IE8 tries to emulate list indentation with a combination of
-					// text-indent and left margin. Normalize this. Note that IE8 styles are uppercase.
-					styles[ 'TEXT-INDENT' ] &&
-					styles.MARGIN &&
-					( styles.MARGIN = styles.MARGIN.replace( /(([\w\.]+ ){3,3})[\d\.]+(\w+$)/, '$10$3' ) );
-					break;
+			if ( element.name == 'cke:li' ) {
+				// IE8 tries to emulate list indentation with a combination of
+				// text-indent and left margin. Normalize this. Note that IE8 styles are uppercase.
+				styles[ 'TEXT-INDENT' ] &&
+				styles.MARGIN &&
+				( styles.MARGIN = styles.MARGIN.replace( /(([\w\.]+ ){3,3})[\d\.]+(\w+$)/, '$10$3' ) );
 			}
 
 			var keys = tools.objectKeys( styles );
