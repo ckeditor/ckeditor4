@@ -87,14 +87,14 @@ function testConvertingStyles( elementHtml, expectedStyles ) {
 	objectAssert.areDeepEqual( expectedStyles, style._.definition );
 }
 
-function assertCopyFormattingState( editor, expectedStyles, isFromKeystroke ) {
+function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' );
 
-	if ( !isFromKeystroke ) {
+	if ( !additionalData || additionalData.sticky ) {
 		assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state, 'Button is active' );
 		assert.isTrue( editor.editable().hasClass( 'cke_copyformatting_active' ),
 			'Editable area has class indicating that Copy Formatting is active' );
-	} else {
+	} else if ( additionalData.from == 'keystrokeHandler' ) {
 		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active (keystroke)' );
 		assert.isFalse( editor.editable().hasClass( 'cke_copyformatting_active' ),
 			'Editable area does not have class indicating that Copy Formatting is active' );
@@ -110,21 +110,28 @@ function assertCopyFormattingState( editor, expectedStyles, isFromKeystroke ) {
 	}
 }
 
-function assertApplyFormattingState( editor, expectedStyles, styledElement, isFromKeystroke ) {
+function assertApplyFormattingState( editor, expectedStyles, styledElement, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
 		path = new CKEDITOR.dom.elementPath( styledElement, editor.editable() );
 
-	assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active' );
-
-	if ( !isFromKeystroke ) {
+	if ( !additionalData ) {
+		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active' );
 		assert.isNull( cmd.styles, 'Styles are removed from store' );
+		assert.isFalse( editor.editable().hasClass( 'cke_copyformatting_active' ),
+			'Editable area does not have class indicating that Copy Formatting is active' );
 
-	} else {
+	} else if ( additionalData.from === 'keystrokeHandler' ) {
+		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active' );
 		assert.isArray( cmd.styles, 'Styles are not removed from store' );
-	}
+		assert.isFalse( editor.editable().hasClass( 'cke_copyformatting_active' ),
+			'Editable area does not have class indicating that Copy Formatting is active' );
 
-	assert.isFalse( editor.editable().hasClass( 'cke_copyformatting_active' ),
-		'Editable area does not have class indicating that Copy Formatting is active' );
+	} else if ( additionalData.sticky ) {
+		assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state, 'Button is active' );
+		assert.isArray( cmd.styles, 'Styles are not removed from store' );
+		assert.isTrue( editor.editable().hasClass( 'cke_copyformatting_active' ),
+			'Editable area does not have class indicating that Copy Formatting is active' );
+	}
 
 	for ( var i = 0; i < expectedStyles.length; i++ ) {
 		assert.isTrue( expectedStyles[ i ].checkActive( path, editor ), 'Style #' + i + ' is correctly applied' );
@@ -133,14 +140,13 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, isFr
 
 function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, rangeInfo, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
-		isFromKeystroke = additionalData && additionalData.from === 'keystrokeHandler',
 		styles, element, range;
 
 	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
 
 	editor.execCommand( 'copyFormatting', additionalData );
 
-	assertCopyFormattingState( editor, expectedStyles, isFromKeystroke );
+	assertCopyFormattingState( editor, expectedStyles, additionalData );
 
 	styles = cmd.styles;
 
@@ -158,5 +164,12 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, rang
 
 	editor.execCommand( 'applyFormatting', additionalData );
 
-	assertApplyFormattingState( editor, styles, element, isFromKeystroke );
+	assertApplyFormattingState( editor, styles, element, additionalData );
+
+	// Reset command to inital state.
+	if ( cmd.state === CKEDITOR.TRISTATE_ON || cmd.styles ) {
+		cmd.styles = null;
+		cmd.sticky = false;
+		cmd.setState( CKEDITOR.TRISTATE_OFF );
+	}
 }

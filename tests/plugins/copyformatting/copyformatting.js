@@ -77,6 +77,34 @@
 			}, {
 				from: 'keystrokeHandler'
 			} );
+		},
+
+		'test cancelling Copy Formatting command': function( editor ) {
+			var cmd = editor.getCommand( 'copyFormatting' );
+			bender.tools.selection.setWithHtml( editor, '<p><s>Co{}py that format</s>.</p>' );
+
+			// Simulating two clicks on button.
+			editor.execCommand( 'copyFormatting' );
+			editor.execCommand( 'copyFormatting' );
+
+			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
+			assert.isNull( cmd.styles );
+		},
+
+		'test sticky Copy Formatting': function( editor ) {
+			testCopyFormattingFlow( editor, '<p><s>Copy t{}hat format</s> to <b>this element</b></p>', [ {
+				element: 's',
+				attributes: {},
+				styles: {},
+				type: CKEDITOR.STYLE_INLINE
+			} ], {
+				elementName: 'b',
+				startOffset: 1,
+				endOffset: 1,
+				collapsed: true
+			}, {
+				sticky: true
+			} );
 		}
 	};
 
