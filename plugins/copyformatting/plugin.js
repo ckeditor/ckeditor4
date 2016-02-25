@@ -59,9 +59,15 @@
 			} );
 
 			editor.on( 'contentDom', function() {
+				var copyFormattingButtonEl = CKEDITOR.document.getById( editor.ui.get( 'CopyFormatting' )._.id );
+
 				editor.editable().attachListener( editor.editable(), 'mouseup', function( evt ) {
 					var editor = evt.editor || evt.sender.editor;
 					editor.execCommand( 'applyFormatting' );
+				} );
+
+				editor.editable().attachListener( copyFormattingButtonEl, 'dblclick', function() {
+					editor.execCommand( 'copyFormatting', { sticky: true } );
 				} );
 			} );
 
@@ -77,10 +83,12 @@
 			copyFormatting: {
 				exec: function( editor, data ) {
 					var	cmd = this,
-						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false;
+						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
+						isSticky = data ? data.sticky : false;
 
 					if ( !isFromKeystroke && cmd.state === CKEDITOR.TRISTATE_ON ) {
 						cmd.styles = null;
+						cmd.sticky = false;
 						editor.editable().removeClass( 'cke_copyformatting_active' );
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
@@ -91,6 +99,8 @@
 						cmd.setState( CKEDITOR.TRISTATE_ON );
 						editor.editable().addClass( 'cke_copyformatting_active' );
 					}
+
+					cmd.sticky = isSticky;
 				}
 			},
 
@@ -105,7 +115,7 @@
 
 					CKEDITOR.plugins.copyformatting._applyFormat( cmd.styles, editor );
 
-					if ( !isFromKeystroke ) {
+					if ( !( cmd.sticky || isFromKeystroke ) ) {
 						cmd.styles = null;
 						editor.editable().removeClass( 'cke_copyformatting_active' );
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
