@@ -1,4 +1,6 @@
-/* exported testAttributes, testGettingWordOffset, testApplyingFormat, testConvertingStyles */
+/* exported testAttributes, testGettingWordOffset, testApplyingFormat, testConvertingStyles, assertCopyFormattingState,
+	assertApplyFormattingState, testCopyFormattingFlow
+ */
 
 'use strict';
 
@@ -83,4 +85,78 @@ function testConvertingStyles( elementHtml, expectedStyles ) {
 		style = CKEDITOR.plugins.copyformatting._convertElementToStyle( element );
 
 	objectAssert.areDeepEqual( expectedStyles, style._.definition );
+}
+
+function assertCopyFormattingState( editor, expectedStyles, isFromKeystroke ) {
+	var cmd = editor.getCommand( 'copyFormatting' );
+
+	if ( !isFromKeystroke ) {
+		assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state, 'Button is active' );
+		assert.isTrue( editor.editable().hasClass( 'cke_copyformatting_active' ),
+			'Editable area has class indicating that Copy Formatting is active' );
+	} else {
+		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active (keystroke)' );
+		assert.isFalse( editor.editable().hasClass( 'cke_copyformatting_active' ),
+			'Editable area does not have class indicating that Copy Formatting is active' );
+	}
+
+	assert.isArray( cmd.styles, 'Styles are stored in the array' );
+	assert.areSame( 1, cmd.styles.length, 'There are correct amount of styles' );
+
+	for ( var i = 0; i < expectedStyles.length; i++ ) {
+		assert.isInstanceOf( CKEDITOR.style, cmd.styles[ i ], 'Style #' + i + ' is an instanceof CKEDITOR.style' );
+		objectAssert.areDeepEqual( expectedStyles[ i ], cmd.styles[ i ]._.definition, 'Style # ' + i +
+			' has correct definition' );
+	}
+}
+
+function assertApplyFormattingState( editor, expectedStyles, styledElement, isFromKeystroke ) {
+	var cmd = editor.getCommand( 'copyFormatting' ),
+		path = new CKEDITOR.dom.elementPath( styledElement, editor.editable() );
+
+	assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active' );
+
+	if ( !isFromKeystroke ) {
+		assert.isNull( cmd.styles, 'Styles are removed from store' );
+
+	} else {
+		assert.isArray( cmd.styles, 'Styles are not removed from store' );
+	}
+
+	assert.isFalse( editor.editable().hasClass( 'cke_copyformatting_active' ),
+		'Editable area does not have class indicating that Copy Formatting is active' );
+
+	for ( var i = 0; i < expectedStyles.length; i++ ) {
+		assert.isTrue( expectedStyles[ i ].checkActive( path, editor ), 'Style #' + i + ' is correctly applied' );
+	}
+}
+
+function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, rangeInfo, additionalData ) {
+	var cmd = editor.getCommand( 'copyFormatting' ),
+		isFromKeystroke = additionalData && additionalData.from === 'keystrokeHandler',
+		styles, element, range;
+
+	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
+
+	editor.execCommand( 'copyFormatting', additionalData );
+
+	assertCopyFormattingState( editor, expectedStyles, isFromKeystroke );
+
+	styles = cmd.styles;
+
+	// Select text node inside element (as the text is selected when element is clicked).
+	element = editor.editable().findOne( rangeInfo.elementName ).getChild( 0 );
+	range = editor.createRange();
+	range.setStart( element, rangeInfo.startOffset );
+	range.setEnd( element, rangeInfo.endOffset );
+
+	if ( rangeInfo.collapsed ) {
+		range.collapse();
+	}
+
+	range.select();
+
+	editor.execCommand( 'applyFormatting', additionalData );
+
+	assertApplyFormattingState( editor, styles, element, isFromKeystroke );
 }

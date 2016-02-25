@@ -11,8 +11,9 @@
 
 **Things to check**
 
-* Styles are copied correctly while using only mouse or keyboard.
-* Copying can be cancelled by clicking "Copy Formatting" button.
+* Styles are copied correctly.
 * All text styles should be copied (text decoration, style, weight, color, background color).
 * All attributes should be copied.
 * Style copied with `Ctrl + Shift + C` could be pasted multiple times by pressing `Ctrl + Shift + V`.
+* The cursor is not changed.
+
