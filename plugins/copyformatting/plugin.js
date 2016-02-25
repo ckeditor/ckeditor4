@@ -9,14 +9,31 @@
 	function generateCursorCss( sizes ) {
 		var css = [ 'cursor: ' ];
 
+		function getCoords( multiplier, isSize ) {
+			multiplier = isSize ? multiplier / 16 : multiplier;
+
+			var coordX = 12 * multiplier,
+				coordY = 1 * multiplier;
+
+			return [ coordX, ' ', coordY ].join( '' );
+		}
+
 		// Generate styles for non-Webkit browsers.
 		if ( !CKEDITOR.env.webkit ) {
 			css.push( 'url(',
 				CKEDITOR.env.hidpi ?
 					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 1 ] + 'x' + sizes[ 1 ] + '.png' ) :
 					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 0 ] + 'x' + sizes[ 0 ] + '.png' ),
-				'), auto;' );
+				') ',
+				getCoords( CKEDITOR.env.hidpi ? sizes[ 1 ] : sizes[ 0 ], true ),
+				', auto;' );
 		} else {
+			var pixelRatio = 1;
+
+			if ( CKEDITOR.document.getWindow().$.devicePixelRatio ) {
+				pixelRatio = CKEDITOR.document.getWindow().$.devicePixelRatio;
+			}
+
 			// Generate imageset for Webkit browsers.
 			css.push( '-webkit-image-set(' );
 			for ( var i = 0; i < sizes.length; i++ ) {
@@ -28,7 +45,7 @@
 					css.push( ', ' );
 				}
 			}
-			css.push( '), auto;' );
+			css.push( ') ', getCoords( CKEDITOR.document.getWindow().$.devicePixelRatio ), ',auto;' );
 		}
 
 		return css.join( '' );
@@ -41,7 +58,7 @@
 		init: function( editor ) {
 			var plugin = CKEDITOR.plugins.copyformatting,
 				additionalCss = [
-					'.cke_copyformatting_active',
+					'.cke_copyformatting_active, .cke_copyformatting_active a',
 					'{',
 					generateCursorCss( [ 16, 32, 64, 128, 256 ] ),
 					'}'
