@@ -39,23 +39,23 @@
 		],
 		// To test only particular word versions set the key value to an array in the form: [ 'word2007', 'word2013' ].
 		tests = {
-			//'Bold': true,
-			//'Colors': true,
-			//'Fonts': true,
-			//'Image': true,
-			//'Italic': true,
-			//'Link': true,
-			//'Only_paragraphs': true,
-			//'Ordered_list': true,
-			//'Ordered_list_multiple': true,
-			//'Ordered_list_multiple_edgy': true,
-			//'Paragraphs_with_headers': true,
-			//'Simple_table': true,
-			//'Spacing': true,
-			//'Text_alignment': true,
-			//'Underline': true,
-			//'Unordered_list': true,
-			//'Unordered_list_multiple': true
+			'Bold': true,
+			'Colors': true,
+			'Fonts': true,
+			'Image': true,
+			'Italic': true,
+			'Link': true,
+			'Only_paragraphs': true,
+			'Ordered_list': true,
+			'Ordered_list_multiple': true,
+			'Ordered_list_multiple_edgy': true,
+			'Paragraphs_with_headers': true,
+			'Simple_table': true,
+			'Spacing': true,
+			'Text_alignment': true,
+			'Underline': true,
+			'Unordered_list': true,
+			'Unordered_list_multiple': true
 		},
 		/** TODOs:
 			1. 'v:shape' filter function needs to take into account, that the element's parent
@@ -79,7 +79,7 @@
 			//'6711Text_Boxes': [ 'word2013' ], // Okay, wow.
 			'6751': [ 'word2013' ],
 			'6751disappearing_spaces_example2': [ 'word2013' ],
-			//'7131': [ 'word2013' ], // PFW003
+			//'7131': [ 'word2013' ],
 			'7131TC_7131_2': [ 'word2013' ],
 			'7262preformatted_list': [ 'word2013' ],
 			//'7269Test_with_footnote': [ 'word2013' ], // Circular dependencies in anchors.
@@ -99,7 +99,7 @@
 			'9422for_cke': [ 'word2013' ],
 			'9340test_ckeditor': [ 'word2013' ],
 			'9331ckBugWord1': [ 'word2013' ],
-			'9330Sample_Anchor_Document': [ 'word2013' ], //
+			'9330Sample_Anchor_Document': [ 'word2013' ],
 			//'9322Sample_Document2': [ 'word2013' ], // Not closed - new feature
 			'9144test': [ 'word2013' ],
 			'8780ckeditor_tablebug_document': [ 'word2013' ],
@@ -132,7 +132,7 @@
 			'12406Document1_(3)': [ 'word2013' ],
 			'12740CKEditor_-_Internal_Error_on_Paste_as_CTRL-V(1)': [ 'word2013' ],
 			'12740WSGCN-3550_Test_document_minimal': [ 'word2013' ],
-			'12821ELL_Forum_Invitation': [ 'word2013' ], // PFW001
+			'12821ELL_Forum_Invitation': [ 'word2013' ],
 			////'13021testdoc': [ 'word2013' ],
 			'13174Testdocument': [ 'word2013' ],
 			'13174Testdocument2': [ 'word2013' ], // Not fully supported(and will break), but contains a significant edge case (compound "<!-- [if...]")
@@ -161,14 +161,14 @@
 			'8437WORD_ABC': [ 'word2013' ],
 			//'7484IndentedParagraphs2': [ 'word2013' ], // text-indent? Not closed.
 			//'7954list_with_Roman_Numerals_&_Start_Value_5': [ 'word2013' ], Not closed, but no bug.
-			//'8665Tartalom': [ 'word2013' ], Later
+			//'8665Tartalom': [ 'word2013' ], // Later
 			'4883_Test': [ 'word2013' ],
 			'7857pasting_RTL_lists_from_word_defect': [ 'word2013' ],
 			'3828TestList': [ 'word2013' ],
 			//'2507fcktest': [ 'word2013' ], // Not closed.
 			//'7482IndentedNumberedList': [ 'word2013' ], // Not closed.
 			//'7209test': [ 'word2013' ], // Not closed.
-			//'7662Multilevel_lists': [ 'word2013' ],
+			//'7662Multilevel_lists': [ 'word2013' ], // Not closed.
 			//'3336test': [ 'word2013' ],
 			'5399This_is_a_line_of_text': [ 'word2013' ],
 			'7696empty_table': [ 'word2013' ],
@@ -180,9 +180,9 @@
 			//'8231listTest': [ 'word2013' ], // Not closed.
 			'7593Numbere_&_Bullet_list_with_list_styles_applied': [ 'word2013' ],
 			'5750bulletlist': [ 'word2013' ],
-			//'4895ListFontSizeTests': [ 'word2013' ], // To be resolved.
+			'4895ListFontSizeTests': [ 'word2013' ],
 			//'8186text_box': [ 'word2013' ], // Not closed.
-			'6956CKEditor_pasting_issue': [ 'word2013' ], // PFW001
+			'6956CKEditor_pasting_issue': [ 'word2013' ],
 			'5300Sample': [ 'word2013' ],
 			//'7872lists': [ 'word2013' ], // To be resolved.
 			//'7839Multi_level_Numbered_list': [ 'word2013' ], // Same file as 7843
