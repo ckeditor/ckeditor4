@@ -120,15 +120,16 @@
 					createAttributeStack( element, filter );
 				},
 				'ul': function( element ) {
+					// Edge case from 11683 - an unusual way to create a level 2 list.
+					if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
+						Style.setStyle( element.parent, 'list-style-type', 'none' );
+					}
+
 					if ( List.dissolvable( element ) ) {
 						List.dissolveList( element );
 						return false;
 					}
 
-					// Edge case from 11683 - an unusual way to create a level 2 list.
-					if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
-						Style.setStyle( element.parent, 'list-style-type', 'none' );
-					}
 
 					List.setListDir( element );
 
@@ -546,6 +547,7 @@
 			// indicates a list element, but the same style may appear in a <p> that's within a <li>.
 			if ( ( ( element.attributes.style && element.attributes.style.match( /mso\-list:\s?l\d/ ) ) &&
 				element.parent.name !== 'li' ) ||
+				element.attributes[ 'cke-symbol' ] || // <li> element turned to <p> element by List.dissolveList.
 				element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ ) ||
 					// Flat, ordered lists are represented by paragraphs
 					// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
@@ -883,7 +885,7 @@
 									symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + i ) + '.';
 									break;
 								case 'i.':
-									symbol =  toRoman( start + i ) + '.';
+									symbol = toRoman( start + i ) + '.';
 									break;
 								case 'I.':
 									symbol = toRoman( start + i ).toUpperCase() + '.';
