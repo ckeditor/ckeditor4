@@ -1,7 +1,7 @@
 /* globals CKEDITOR */
 
 ( function() {
-	var List, Style,
+	var List, Style, filter,
 		tools = CKEDITOR.tools,
 		invalidTags = [
 			'o:p',
@@ -22,7 +22,7 @@
 
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
 
-		var filter = new CKEDITOR.htmlParser.filter( {
+		filter = new CKEDITOR.htmlParser.filter( {
 			root: function( element ) {
 				// filterChildren() tells the filter to work only
 				// on the element's current children.
@@ -120,6 +120,11 @@
 					createAttributeStack( element, filter );
 				},
 				'ul': function( element ) {
+					if ( List.dissolvable( element ) ) {
+						List.dissolveList( element );
+						return false;
+					}
+
 					// Edge case from 11683 - an unusual way to create a level 2 list.
 					if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
 						Style.setStyle( element.parent, 'list-style-type', 'none' );
@@ -131,7 +136,7 @@
 
 					var style = tools.parseCssText( element.attributes.style );
 
-					List.setSymbol.removeRedundancies( style, parseInt( element.attributes[ 'cke-list-level' ], 10 ) );
+					List.setListSymbol.removeRedundancies( style, parseInt( element.attributes[ 'cke-list-level' ], 10 ) );
 
 					element.attributes.style = CKEDITOR.tools.writeCssText( style );
 				},
@@ -159,7 +164,7 @@
 
 					var style = tools.parseCssText( element.attributes.style );
 
-					List.setSymbol.removeRedundancies( style, parseInt( element.attributes[ 'cke-list-level' ], 10 ) );
+					List.setListSymbol.removeRedundancies( style, parseInt( element.attributes[ 'cke-list-level' ], 10 ) );
 
 					element.attributes.style = CKEDITOR.tools.writeCssText( style );
 				},
@@ -175,7 +180,7 @@
 
 						// replaceWithChildren doesn't work in filters.
 						for ( var i = element.children.length - 1; i >= 0; i-- ) {
-							element.children[ i].insertAfter( element );
+							element.children[ i ].insertAfter( element );
 						}
 						return false;
 					}
@@ -557,28 +562,33 @@
 		},
 
 		convertToFakeListItem: function( element ) {
-			// The symbol is the first text node descendant
-			// of the element that doesn't start with a whitespace character;
-			var symbol;
 
-			element.forEach( function( element ) {
+			if ( !element.attributes[ 'cke-symbol' ] ) {
+				// The symbol is the first text node descendant
+				// of the element that doesn't start with a whitespace character;
+				var symbol;
 
-				if ( !symbol && !element.value.match( /^ / ) ) {
-					symbol = element.value;
+				element.forEach( function( element ) {
+
+					if ( !symbol && !element.value.match( /^ / ) ) {
+						symbol = element.value;
+					}
+				}, CKEDITOR.NODE_TEXT );
+
+				// Without a symbol this isn't really a list item.
+				if ( typeof symbol == 'undefined' ) {
+					return;
 				}
-			}, CKEDITOR.NODE_TEXT );
 
-			// Without a symbol this isn't really a list item.
-			if ( typeof symbol == 'undefined' ) {
-				return;
+				element.attributes[ 'cke-symbol' ] = symbol.replace( / .*$/, '' );
+
+				List.removeSymbolText( element );
 			}
-
-			element.attributes['cke-symbol'] = symbol.replace( / .*$/, '' );
 
 			// Converting to a normal list item would implicitly wrap the element around an <ul>.
 			element.name = 'cke:li';
 
-			element.attributes['cke-list-level'] = +( ( element.attributes.style || '' )
+			element.attributes[ 'cke-list-level' ] = +( ( element.attributes.style || '' )
 				.match( /level(\d+)/ ) || [ '', 1 ] )[ 1 ];
 		},
 
@@ -589,7 +599,7 @@
 				if ( element.name == 'cke:li' ) {
 					element.name = 'li';
 
-					List.removeListSymbol( element );
+					//List.removeSymbolText( element );
 
 					listElements.push( element );
 				}
@@ -598,7 +608,7 @@
 			return listElements;
 		},
 
-		removeListSymbol: function( element ) { // ...from the element's text content.
+		removeSymbolText: function( element ) { // ...from a list element.
 			var removed,
 				symbol = element.attributes[ 'cke-symbol' ];
 
@@ -616,7 +626,7 @@
 			removed && removed.remove();
 		},
 
-		setSymbol: function( list, symbol, level ) {
+		setListSymbol: function( list, symbol, level ) {
 			level = level || 1;
 
 			var style = tools.parseCssText( list.attributes.style );
@@ -653,7 +663,7 @@
 
 			}
 
-			List.setSymbol.removeRedundancies( style, level );
+			List.setListSymbol.removeRedundancies( style, level );
 
 			( list.attributes.style = CKEDITOR.tools.writeCssText( style ) ) || delete list.attributes.style;
 		},
@@ -671,7 +681,7 @@
 				offset++;
 			}
 
-			// Attribute set in setSymbol()
+			// Attribute set in setListSymbol()
 			switch ( list.attributes[ 'cke-list-style-type' ] ) {
 				case 'lower-roman':
 				case 'upper-roman':
@@ -783,7 +793,7 @@
 						innermostContainer = content;
 
 						if ( level == containerStack.length ) {
-							List.setSymbol( content, element.attributes[ 'cke-symbol' ], level );
+							List.setListSymbol( content, element.attributes[ 'cke-symbol' ], level );
 						}
 					}
 
@@ -792,7 +802,7 @@
 						innermostContainer = containerStack[ containerStack.length - 1 ];
 
 						if ( level == containerStack.length ) {
-							List.setSymbol( innermostContainer, element.attributes[ 'cke-symbol' ], level );
+							List.setListSymbol( innermostContainer, element.attributes[ 'cke-symbol' ], level );
 						}
 					}
 
@@ -811,7 +821,7 @@
 					}
 
 					if ( level1Symbol ) {
-						List.setSymbol( containerStack[ 0 ], level1Symbol );
+						List.setListSymbol( containerStack[ 0 ], level1Symbol );
 					}
 				}
 
@@ -834,6 +844,85 @@
 					delete element.attributes[ tempAttributes[ j ] ];
 				}
 			}
+		},
+
+		dissolveList: function( element ) {
+			var children = [];
+
+			element.forEach( function( child ) {
+				if ( child.name == 'li' &&
+					child.attributes.style &&
+					child.attributes.style.match( /mso-list:/i ) ) {
+					child.name = 'p';
+
+					children.push( child );
+				}
+
+				if ( child.name == 'ul' || child.name == 'ol' ) {
+					for ( var i = 0; i < child.children.length; i++ ) {
+						if ( child.children[ i ].name == 'li' ) {
+							var symbol,
+								start = parseInt( child.attributes.start, 10 ) || 1;
+							switch ( child.attributes.type ) {
+								case 'disc':
+									symbol = '·';
+									break;
+								case 'circle':
+									symbol = 'o';
+									break;
+								case 'square':
+									symbol = '§';
+									break;
+								case '1.':
+									symbol = start + '.';
+									break;
+								case 'a.':
+									symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + i ) + '.';
+									break;
+								case 'A.':
+									symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + i ) + '.';
+									break;
+								case 'i.':
+									symbol =  toRoman( start + i ) + '.';
+									break;
+								case 'I.':
+									symbol = toRoman( start + i ).toUpperCase() + '.';
+									break;
+							}
+
+							child.children[ i ].attributes[ 'cke-symbol' ] = symbol;
+						}
+					}
+
+					delete child.name;
+				}
+			}, CKEDITOR.NODE_ELEMENT, false );
+
+			for ( var i = children.length - 1; i >= 0; i-- ) {
+
+				children[ i ].insertAfter( element );
+			}
+
+			function toRoman( number ) {
+				if ( number >= 50 ) return 'l' + toRoman( number - 50 );
+				if ( number >= 40 ) return 'xl' + toRoman( number - 40 );
+				if ( number >= 10 ) return 'x' + toRoman( number - 10 );
+				if ( number == 9 ) return 'ix';
+				if ( number >= 5 ) return 'v' + toRoman( number - 5 );
+				if ( number == 4 ) return 'iv';
+				if ( number >= 1 ) return 'i' + toRoman( number - 1 );
+				return '';
+			}
+		},
+
+		dissolvable: function( element ) {
+			for ( var i = 0; i < element.children.length; i++ ) {
+				var child = element.children[ i ];
+				if ( child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
+					return true;
+				}
+			}
+			return false;
 		},
 
 		groupLists: function( listElements ) {
@@ -859,13 +948,12 @@
 	List = CKEDITOR.plugins.pastefromword.lists;
 
 	// Expose this function since it's useful in other places.
-	List.setSymbol.removeRedundancies = function( style, level ) {
+	List.setListSymbol.removeRedundancies = function( style, level ) {
 		// 'disc' and 'decimal' are the default styles in some cases - remove redundancy.
 		if ( ( level === 1 && style[ 'list-style-type' ] === 'disc' ) || style[ 'list-style-type' ] === 'decimal' ) {
 			delete style[ 'list-style-type' ];
 		}
 	};
-
 
 	function falseIfEmpty( value ) {
 		if ( value === '' ) {
@@ -924,8 +1012,8 @@
 		createAttributeStack: createAttributeStack,
 		createStyleStack: Style.createStyleStack,
 		pushStylesLower: Style.pushStylesLower,
-		setSymbol: List.setSymbol,
-		removeListSymbol: List.removeListSymbol,
+		setListSymbol: List.setListSymbol,
+		removeSymbolText: List.removeSymbolText,
 		sortStyles: Style.sortStyles,
 		normalizedStyles: Style.normalizedStyles,
 		setListStart: List.setListStart
