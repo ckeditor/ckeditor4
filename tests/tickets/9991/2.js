@@ -32,7 +32,7 @@
 			assertPasteEvent( this.editor, { dataValue: '<w:WordDocument></w:WordDocument>' }, function() {
 				CKEDITOR.cleanWord.createStyleStack( element, filterMock );
 				assert.areSame(
-					'<p><span style="color:yellow"><span style="font-family:&quot;Calibri&quot;"><span style="font-size:36pt"><span style="background:lime">test</span></span></span></span></p>',
+					'<p><span style="font-size:36pt"><span style="background:lime"><span style="font-family:&quot;Calibri&quot;"><span style="color:yellow">test</span></span></span></span></p>',
 					element.getOuterHtml()
 				);
 			}, null, true );
@@ -44,7 +44,7 @@
 
 			// The filter script was loaded in the previous test.
 			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
-			assert.areSame( '<span style="font-family:Courier"><span style="font-size:14px"><span style="font-weight:bold">Some </span>Text</span></span>', element.getOuterHtml() );
+			assert.areSame( '<span style="font-size:14px"><span style="font-family:Courier"><span style="font-weight:bold">Some </span>Text</span></span>', element.getOuterHtml() );
 		},
 		// Margin-bottom is a block style, so it should not be stacked.
 		'test create style stack omit block styles': function() {
@@ -53,7 +53,7 @@
 				element = fragment.children[ 0 ];
 
 			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
-			assert.areSame( '<p style="margin-bottom:0pt"><span style="font-family:Arial"><span style="font-size:16pt">Test</span></span></p>', element.getOuterHtml() );
+			assert.areSame( '<p style="margin-bottom:0pt"><span style="font-size:16pt"><span style="font-family:Arial">Test</span></span></p>', element.getOuterHtml() );
 		},
 		'test push styles lower': function() {
 			var ol = new CKEDITOR.htmlParser.element( 'ol' ),
@@ -72,7 +72,7 @@
 			];
 
 			for ( var i = 0; i < elements.length; i++ ) {
-				CKEDITOR.cleanWord.setSymbol( elements[ i ], '·', i + 1 );
+				CKEDITOR.cleanWord.setListSymbol( elements[ i ], '·', i + 1 );
 			}
 
 			assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
@@ -84,12 +84,12 @@
 				new CKEDITOR.htmlParser.element( 'ul' )
 			];
 
-			// Explicit style declarations have priority over setSymbol().
+			// Explicit style declarations have priority over setListSymbol().
 			elements[ 0 ].attributes.style = 'list-style-type: disc';
 			elements[ 1 ].attributes.style = 'list-style-type: disc';
 
-			CKEDITOR.cleanWord.setSymbol( elements[ 0 ], 'o', 1 );
-			CKEDITOR.cleanWord.setSymbol( elements[ 1 ], 'o', 2 );
+			CKEDITOR.cleanWord.setListSymbol( elements[ 0 ], 'o', 1 );
+			CKEDITOR.cleanWord.setListSymbol( elements[ 1 ], 'o', 2 );
 
 			assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
 			assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
@@ -99,7 +99,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
 				element = fragment.children[ 0 ];
 
-			CKEDITOR.cleanWord.removeListSymbol( element );
+			CKEDITOR.cleanWord.removeSymbolText( element );
 
 			assert.areSame( '<cke:li cke-list-level="1" cke-symbol="1."> This</cke:li>', element.getOuterHtml() );
 		},
@@ -108,7 +108,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
 				element = fragment.children[ 0 ];
 
-			CKEDITOR.cleanWord.removeListSymbol( element );
+			CKEDITOR.cleanWord.removeSymbolText( element );
 
 			assert.areSame( '<cke:li cke-list-level="1" cke-symbol="1."><span style="font-family:Calibri"> This</span></cke:li>', element.getOuterHtml() );
 		},
@@ -165,6 +165,44 @@
 			fragment.writeHtml( writer );
 
 			assert.areSame( CKEDITOR.cleanWord( html ), writer.getHtml() );
+		},
+		'test dissolving lists': function() {
+			var html = '<p class="MsoNormal"><span style="color:red">The list below does not copy + paste correctly:<o:p></o:p></span></p>' +
+						'<p class="MsoNormal" style="margin-left:.25in"><span lang="EN-GB" style="font-size: 8.0pt;mso-ansi-language:EN-GB"><o:p>&nbsp;</o:p></span></p>' +
+						'<p class="MsoNormal" style="margin-left:.25in"><span lang="EN-GB" style="font-size: 8.0pt;mso-ansi-language:EN-GB"><o:p>&nbsp;</o:p></span></p>' +
+						'<p class="MsoNormal" style="margin-left:.5in;text-indent:-.25in;mso-list:l1 level1 lfo1;' +
+						'tab-stops:list .5in"><!--[if !supportLists]--><span lang="EN-GB" style="font-size:' +
+						'8.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Courier New&quot;;' +
+						'mso-ansi-language:EN-GB"><span style="mso-list:Ignore">o<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;' +
+						'</span></span></span><!--[endif]--><span lang="EN-GB" style="font-size:8.0pt;' +
+						'mso-ansi-language:EN-GB">This line is size 8, TNR<o:p></o:p></span></p>' +
+						'<ul style="margin-top:0in" type="circle">' +
+						' <li class="MsoNormal" style="mso-list:l1 level1 lfo1;tab-stops:list .5in"><span lang="EN-GB" style="font-size:10.0pt;font-family:&quot;Georgia&quot;,serif;mso-ansi-language:' +
+						'     EN-GB">This one is size 10, <st1:country-region w:st="on"><st1:place w:st="on">Georgia</st1:place></st1:country-region><o:p></o:p></span></li>' +
+						' <ul style="margin-top:0in" type="circle">' +
+						'  <li class="MsoNormal" style="mso-list:l1 level2 lfo1;tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-ansi-language:' +
+						'      EN-GB">This one is size 10, Courier new<o:p></o:p></span></li>' +
+						'  <li class="MsoNormal" style="mso-list:l1 level2 lfo1;tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt;font-family:&quot;Verdana&quot;,sans-serif;' +
+						'      mso-ansi-language:EN-GB">This one is size 10<o:p></o:p></span></li>' +
+						' </ul>' +
+						'</ul>' +
+						'<p class="MsoNormal"><span style="color:green"><o:p>&nbsp;</o:p></span></p>';
+
+			assert.areSame( '<p><span style="color:red">The list below does not copy + paste correctly:</span></p>' +
+				'<p style="margin-left:.25in"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
+				'<p style="margin-left:.25in"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
+				'<ul style="list-style-type:circle">' +
+				'<li style="margin-left:.5in"><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:8.0pt"></span>' +
+				'<span lang="EN-GB" style="font-size:8.0pt">This line is size 8, TNR</span></span></li>' +
+				'<li><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:10.0pt">' +
+				'<span style="font-family:&quot;Georgia&quot;,serif">This one is size 10, <st1:country-region w:st="on"><st1:place w:st="on">Georgia</st1:place></st1:country-region>' +
+				'</span></span></span>' +
+				'<ul style="list-style-type:circle"><li><span style="tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt">' +
+				'<span style="font-family:&quot;Courier New&quot;">This one is size 10, Courier new</span></span></span></li>' +
+				'<li><span style="tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt">' +
+				'<span style="font-family:&quot;Verdana&quot;,sans-serif">This one is size 10</span></span></span></li></ul></li></ul>' +
+				'<p><span style="color:green"></span></p>',
+				CKEDITOR.cleanWord( html ) );
 		}
 	} );
 } )();
