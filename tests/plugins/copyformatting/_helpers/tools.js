@@ -101,7 +101,7 @@ function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 	}
 
 	assert.isArray( cmd.styles, 'Styles are stored in the array' );
-	assert.areSame( 1, cmd.styles.length, 'There are correct amount of styles' );
+	assert.areSame( expectedStyles.length, cmd.styles.length, 'There are correct amount of styles' );
 
 	for ( var i = 0; i < expectedStyles.length; i++ ) {
 		assert.isInstanceOf( CKEDITOR.style, cmd.styles[ i ], 'Style #' + i + ' is an instanceof CKEDITOR.style' );
@@ -133,8 +133,14 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, addi
 			'Editable area does not have class indicating that Copy Formatting is active' );
 	}
 
-	for ( var i = 0; i < expectedStyles.length; i++ ) {
-		assert.isTrue( expectedStyles[ i ].checkActive( path, editor ), 'Style #' + i + ' is correctly applied' );
+	// If we test removing formatting, we should check if there is no styles left on the element.
+	if ( expectedStyles.length > 0 ) {
+		for ( var i = 0; i < expectedStyles.length; i++ ) {
+			assert.isTrue( expectedStyles[ i ].checkActive( path, editor ), 'Style #' + i + ' is correctly applied' );
+		}
+	} else {
+		assert.areSame( 0, CKEDITOR.plugins.copyformatting._extractStylesFromElement( styledElement ).length,
+			'There are no styles applied to element' );
 	}
 }
 
@@ -153,8 +159,13 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, rang
 	// Select text node inside element (as the text is selected when element is clicked).
 	element = editor.editable().findOne( rangeInfo.elementName ).getChild( 0 );
 	range = editor.createRange();
-	range.setStart( element, rangeInfo.startOffset );
-	range.setEnd( element, rangeInfo.endOffset );
+
+	if ( rangeInfo.element ) {
+		range.selectNodeContents( element );
+	} else {
+		range.setStart( element, rangeInfo.startOffset );
+		range.setEnd( element, rangeInfo.endOffset );
+	}
 
 	if ( rangeInfo.collapsed ) {
 		range.collapse();

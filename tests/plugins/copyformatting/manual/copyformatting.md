@@ -16,6 +16,7 @@
 * All text styles should be copied (text decoration, style, weight, color, background color).
 * All attributes should be copied.
 * The cursor is changed when the style is copied and restored when the style is applied.
+* If the styles are copied from unstyled element, the formatting is removed from target element.
 
 **Things to check in sticky mode**
 

@@ -79,6 +79,22 @@
 			} );
 		},
 
+		'test removing formatting on collapsed selection': function( editor ) {
+			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], {
+				elementName: 'b',
+				startOffset: 2,
+				endOffset: 2,
+				collapsed: true
+			} );
+		},
+
+		'test removing formatting on uncollapsed selection': function( editor ) {
+			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], {
+				elementName: 'b',
+				element: true
+			} );
+		},
+
 		'test cancelling Copy Formatting command': function( editor ) {
 			var cmd = editor.getCommand( 'copyFormatting' );
 			bender.tools.selection.setWithHtml( editor, '<p><s>Co{}py that format</s>.</p>' );

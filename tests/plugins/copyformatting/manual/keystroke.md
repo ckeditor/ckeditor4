@@ -16,4 +16,5 @@
 * All attributes should be copied.
 * Style copied with `Ctrl + Shift + C` could be pasted multiple times by pressing `Ctrl + Shift + V`.
 * The cursor is not changed.
+* If the styles are copied from unstyled element, the formatting is removed from target element.
 
