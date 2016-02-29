@@ -55,6 +55,7 @@
 		lang: 'en',
 		icons: 'copyformatting',
 		hidpi: true,
+
 		init: function( editor ) {
 			var plugin = CKEDITOR.plugins.copyformatting,
 				additionalCss = [
@@ -202,11 +203,36 @@
 			var styles = [];
 
 			do {
+				// Skip all non-elements and bookmarks.
+				if ( element.type !== CKEDITOR.NODE_ELEMENT || element.hasAttribute( 'data-cke-bookmark' ) ) {
+					continue;
+				}
+
 				var style = CKEDITOR.plugins.copyformatting._convertElementToStyle( element );
+
 				if ( style ) {
 					styles.push( style );
 				}
 			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT );
+
+			return styles;
+		},
+
+		/**
+		 * Extract styles from given range.
+		 *
+		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
+		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
+		 * @private
+		 */
+		_extractStylesFromRange: function( range ) {
+			var styles = [],
+				walker = new CKEDITOR.dom.walker( range ),
+				currentNode;
+
+			while ( ( currentNode = walker.next() ) ) {
+				styles = styles.concat( CKEDITOR.plugins.copyformatting._extractStylesFromElement( currentNode ) );
+			}
 
 			return styles;
 		},
@@ -373,7 +399,9 @@
 		 */
 		_applyFormat: function( styles, editor ) {
 			var range = editor.getSelection().getRanges()[ 0 ],
-				bkms = editor.getSelection().createBookmarks();
+				bkms = editor.getSelection().createBookmarks(),
+				action = styles.length > 0 ? 'apply' : 'remove',
+				plugin = CKEDITOR.plugins.copyformatting;
 
 			if ( !range ) {
 				return;
@@ -381,7 +409,7 @@
 
 			if ( range.collapsed ) {
 				var newRange = editor.createRange(),
-					word = CKEDITOR.plugins.copyformatting._getSelectedWordOffset( range );
+					word = plugin._getSelectedWordOffset( range );
 
 				if ( !word ) {
 					return;
@@ -392,8 +420,13 @@
 				newRange.select();
 			}
 
+			// If styles array is empty, then remove all existing styles.
+			if ( styles.length === 0 ) {
+				styles = plugin._extractStylesFromRange( newRange || range );
+			}
+
 			for ( var i = 0; i < styles.length; i++ ) {
-				styles[ i ].apply( editor );
+				styles[ i ][ action ]( editor );
 			}
 
 			editor.getSelection().selectBookmarks( bkms );
