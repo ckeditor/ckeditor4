@@ -77,16 +77,19 @@
 			} );
 
 			editor.on( 'contentDom', function() {
-				var copyFormattingButton =  editor.ui.get( 'CopyFormatting' );
+				var editable = editor.editable(),
+					copyFormattingButton =  editor.ui.get( 'CopyFormatting' ),
+					copyFormattingButtonEl;
 
-				editor.editable().attachListener( editor.editable(), 'mouseup', function( evt ) {
+				editable.attachListener( editable, 'mouseup', function( evt ) {
 					var editor = evt.editor || evt.sender.editor;
 					editor.execCommand( 'applyFormatting' );
 				} );
 
 				if ( copyFormattingButton ) {
-					var copyFormattingButtonEl = CKEDITOR.document.getById( copyFormattingButton._.id );
-					editor.editable().attachListener( copyFormattingButtonEl, 'dblclick', function() {
+					copyFormattingButtonEl = CKEDITOR.document.getById( copyFormattingButton._.id );
+
+					editable.attachListener( copyFormattingButtonEl, 'dblclick', function() {
 						editor.execCommand( 'copyFormatting', { sticky: true } );
 					} );
 				}
