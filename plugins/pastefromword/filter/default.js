@@ -552,7 +552,7 @@
 			// indicates a list element, but the same style may appear in a <p> that's within a <li>.
 			if ( ( ( element.attributes.style && element.attributes.style.match( /mso\-list:\s?l\d/ ) ) &&
 				element.parent.name !== 'li' ) ||
-				element.attributes[ 'cke-symbol' ] || // <li> element turned to <p> element by List.dissolveList.
+				element.attributes[ 'cke-dissolved' ] ||
 				element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ ) ||
 					// Flat, ordered lists are represented by paragraphs
 					// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
@@ -569,8 +569,10 @@
 		},
 
 		convertToFakeListItem: function( element ) {
+			element.attributes[ 'cke-list-level' ] = element.attributes[ 'cke-list-level' ] ||
+				+( ( element.attributes.style || '' ).match( /level(\d+)/ ) || [ '', 1 ] )[ 1 ];
 
-			if ( !element.attributes[ 'cke-symbol' ] ) {
+			if ( !element.attributes[ 'cke-dissolved' ] ) {
 				// The symbol is the first text node descendant
 				// of the element that doesn't start with a whitespace character;
 				var symbol;
@@ -594,9 +596,6 @@
 
 			// Converting to a normal list item would implicitly wrap the element around an <ul>.
 			element.name = 'cke:li';
-
-			element.attributes[ 'cke-list-level' ] = +( ( element.attributes.style || '' )
-				.match( /level(\d+)/ ) || [ '', 1 ] )[ 1 ];
 		},
 
 		convertToRealListItems: function( root ) {
@@ -861,6 +860,8 @@
 					child.attributes.style &&
 					child.attributes.style.match( /mso-list:/i ) ) {
 					child.name = 'p';
+
+					child.attributes[ 'cke-dissolved' ] = true;
 
 					children.push( child );
 				}
