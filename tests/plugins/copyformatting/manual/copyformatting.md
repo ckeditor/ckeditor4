@@ -23,5 +23,5 @@
 * Styles can be applied to many elements.
 * The sticky mode can be switched off by clicking "Copy Formatting" button.
 * The button's state is not changed after applying styles.
-* The curso is restored only after clicking the button.
+* The cursor is restored only after clicking the button.
 
