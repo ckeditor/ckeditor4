@@ -6,6 +6,19 @@
 ( function() {
 	'use strict';
 
+	// Detects if the left mouse button was pressed:
+	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
+	// * In IE 8- we use event.button with IE's propertiary values.
+	function detectLeftMouseButton( evt ) {
+		var domEvent = evt.data.$;
+
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			return domEvent.button === 1;
+		}
+
+		return domEvent.button === 0;
+	}
+
 	function generateCursorCss( sizes ) {
 		var css = [ 'cursor: ' ];
 
@@ -83,7 +96,10 @@
 
 				editable.attachListener( editable, 'mouseup', function( evt ) {
 					var editor = evt.editor || evt.sender.editor;
-					editor.execCommand( 'applyFormatting' );
+
+					if ( detectLeftMouseButton( evt ) ) {
+						editor.execCommand( 'applyFormatting' );
+					}
 				} );
 
 				if ( copyFormattingButton ) {
