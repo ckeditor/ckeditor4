@@ -875,19 +875,19 @@
 								case 'square':
 									symbol = '§';
 									break;
-								case '1.':
+								case '1':
 									symbol = start + '.';
 									break;
-								case 'a.':
+								case 'a':
 									symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + i ) + '.';
 									break;
-								case 'A.':
+								case 'A':
 									symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + i ) + '.';
 									break;
-								case 'i.':
+								case 'i':
 									symbol = toRoman( start + i ) + '.';
 									break;
-								case 'I.':
+								case 'I':
 									symbol = toRoman( start + i ).toUpperCase() + '.';
 									break;
 							}
