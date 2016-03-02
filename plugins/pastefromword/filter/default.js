@@ -371,9 +371,11 @@
 			if ( element.name == 'cke:li' ) {
 				// IE8 tries to emulate list indentation with a combination of
 				// text-indent and left margin. Normalize this. Note that IE8 styles are uppercase.
-				styles[ 'TEXT-INDENT' ] &&
-				styles.MARGIN &&
-				( styles.MARGIN = styles.MARGIN.replace( /(([\w\.]+ ){3,3})[\d\.]+(\w+$)/, '$10$3' ) );
+				if ( styles[ 'TEXT-INDENT' ] && styles.MARGIN ) {
+					element.attributes[ 'cke-indentation' ] = List.getElementIndentation( element );
+					styles.MARGIN = styles.MARGIN.replace( /(([\w\.]+ ){3,3})[\d\.]+(\w+$)/, '$10$3' );
+				}
+
 			}
 
 			var keys = tools.objectKeys( styles );
@@ -935,22 +937,133 @@
 
 		groupLists: function( listElements ) {
 			// Chop data into continuous lists.
-			var i, element, level,
+			var i, element,
 				lists = [ [ listElements[ 0 ] ] ],
 				lastList = lists[ 0 ];
+
+			listElements[ 0 ].attributes[ 'cke-indentation' ] = listElements[ 0 ].attributes[ 'cke-indentation' ] || List.getElementIndentation( listElements[ 0 ] );
 
 			for ( i = 1; i < listElements.length; i++ ) {
 				element = listElements[ i ];
 				var previous = listElements[ i - 1 ];
-				level = element.attributes[ 'cke-list-level' ];
 
 				if ( element.previous !== previous ) {
+
+					List.correctListLevels( lastList );
+
 					lists.push( lastList = [] );
 				}
+				element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || List.getElementIndentation( element );
 
 				lastList.push( element );
 			}
+
+			List.correctListLevels( lastList );
+
 			return lists;
+		},
+
+		getElementIndentation: function( element ) {
+			var style = tools.parseCssText( element.attributes.style );
+
+			if ( style.margin || style.MARGIN ) {
+				style.margin = style.margin || style.MARGIN;
+				var fakeElement = {
+					styles: {
+						margin: style.margin
+					}
+				};
+				CKEDITOR.filter.transformationsTools.splitMarginShorthand( fakeElement );
+				style[ 'margin-left' ] = fakeElement.styles[ 'margin-left' ];
+			}
+
+			return parseInt( tools.convertToPx( style[ 'margin-left' ] || '0px' ), 10 );
+		},
+
+		correctListLevels: function( list ) {
+			var i, j, leftAttrs, rightAttrs, error,
+				indentations = {};
+
+			for ( i = 0; i < list.length; i++ ) {
+				if ( list[ i ].attributes[ 'cke-dissolved' ] ) {
+					continue;
+				}
+
+				indentations[ list[ i ].attributes[ 'cke-indentation' ] ] = true;
+			}
+
+			indentations = tools.objectKeys( indentations );
+
+			for ( i = 0; i < indentations.length; i++ ) {
+				indentations[ i ] = parseInt( indentations[ i ], 10 );
+			}
+
+			indentations.sort( function( a, b ) {
+				return a - b;
+			} );
+
+			var levelDifference;
+			if ( indentations.length == 1 ) {
+				// If there is only one indentation assume the indent width is default - 0.5in.
+				var indentation = indentations[ 0 ];
+				delete indentations[ 0 ];
+				indentations[ Math.floor( indentation / 48 - 0.5 ) ] = indentation;
+				levelDifference = 48;
+			} else {
+				var differences = {};
+
+				for ( i = 1; i < indentations.length; i++ ) {
+					var key = indentations[ i ] - indentations[ i - 1 ];
+					differences[ key ] = differences[ key ] ? differences[ key ] + 1 : 1;
+				}
+
+				differences = tools.objectKeys( differences );
+
+				for ( i = 0; i < differences.length; i++ ) {
+					differences[ i ] = parseInt( differences[ i ], 10 );
+				}
+
+				differences.sort( function( a, b ) {
+					return a - b;
+				} );
+
+				levelDifference = differences[ 0 ];
+			}
+
+
+
+			pairComparison:
+			for ( i = 0; i < list.length; i++ ) {
+				for ( j = 0; j < list.length; j++ ) {
+					leftAttrs = list[ i ].attributes;
+					rightAttrs = list[ j ].attributes;
+
+					var levelDiff = parseInt( leftAttrs[ 'cke-list-level' ], 10 ) - parseInt( rightAttrs[ 'cke-list-level' ], 10 );
+					var indentDiff = parseInt( leftAttrs[ 'cke-indentation' ], 10 ) - parseInt( rightAttrs[ 'cke-indentation' ], 10 );
+
+					if ( Math.abs( indentDiff - levelDiff * levelDifference ) > levelDifference / 2 ) {
+						error = true;
+						break pairComparison;
+					}
+
+					//if ( parseInt( leftAttrs[ 'cke-list-level' ] ) >= parseInt( rightAttrs[ 'cke-list-level' ] ) &&
+					//	parseInt( leftAttrs[ 'cke-indentation' ] ) < parseInt( rightAttrs[ 'cke-indentation' ] ) ) {
+					//	error = true;
+					//	break pairComparison;
+					//}
+				}
+			}
+
+			if ( !error ) {
+				return;
+			}
+
+			for ( i = 0; i < list.length; i++ ) {
+				if ( list[ i ].attributes[ 'cke-dissolved' ] ) {
+					continue;
+				}
+				list[ i].attributes[ 'cke-list-level' ] = tools.indexOf( indentations, parseInt( list[ i ].attributes[ 'cke-indentation' ], 10 ) ) + 1;
+			}
 		}
 	};
 	List = CKEDITOR.plugins.pastefromword.lists;
