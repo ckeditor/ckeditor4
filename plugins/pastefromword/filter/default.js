@@ -926,6 +926,24 @@
 		},
 
 		dissolvable: function( element ) {
+			// Detecting instances of multilevel one element lists.
+			var listCount = 0,
+				elementCount = 0,
+				lastList;
+			element.forEach( function( child ) {
+				if ( child.name == 'li' ) {
+					elementCount++;
+				}
+				if ( child.name == 'ul' || child.name == 'ol' ) {
+					listCount++;
+					lastList = child;
+				}
+			} );
+
+			if ( elementCount == listCount && lastList ) {
+				element = lastList;
+			}
+
 			for ( var i = 0; i < element.children.length; i++ ) {
 				var child = element.children[ i ];
 				if ( child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
