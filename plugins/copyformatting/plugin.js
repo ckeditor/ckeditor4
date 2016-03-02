@@ -421,9 +421,9 @@
 		 */
 		_applyFormat: function( styles, editor ) {
 			var range = editor.getSelection().getRanges()[ 0 ],
-				bkms = editor.getSelection().createBookmarks(),
 				action = styles.length > 0 ? 'apply' : 'remove',
-				plugin = CKEDITOR.plugins.copyformatting;
+				plugin = CKEDITOR.plugins.copyformatting,
+				bkms;
 
 			if ( !range ) {
 				return;
@@ -431,9 +431,13 @@
 
 			if ( range.collapsed ) {
 				var newRange = editor.createRange(),
-					word = plugin._getSelectedWordOffset( range );
+					word;
 
-				if ( !word ) {
+				// Create bookmarks only if range is collapsed – otherwise
+				// it will break walker used in _extractStylesFromRange.
+				bkms = editor.getSelection().createBookmarks();
+
+				if ( !( word = plugin._getSelectedWordOffset( range ) ) ) {
 					return;
 				}
 
@@ -451,7 +455,9 @@
 				styles[ i ][ action ]( editor );
 			}
 
-			editor.getSelection().selectBookmarks( bkms );
+			if ( bkms ) {
+				editor.getSelection().selectBookmarks( bkms );
+			}
 		}
 	};
 } )();
