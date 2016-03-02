@@ -153,6 +153,11 @@
 						Style.setStyle( element.parent, 'list-style-type', 'none' );
 					}
 
+					if ( List.dissolvable( element ) ) {
+						List.dissolveList( element );
+						return false;
+					}
+
 					if ( element.attributes.start == '1' ) {
 						delete element.attributes.start;
 					}
