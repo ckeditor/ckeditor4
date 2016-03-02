@@ -79,7 +79,7 @@
 			//'6711Text_Boxes': [ 'word2013' ], // Okay, wow.
 			'6751': [ 'word2013' ],
 			'6751disappearing_spaces_example2': [ 'word2013' ],
-			//'7131': [ 'word2013' ],
+			'7131': [ 'word2013' ], // Will break. Input from IE11 requires attention.
 			'7131TC_7131_2': [ 'word2013' ],
 			'7262preformatted_list': [ 'word2013' ],
 			//'7269Test_with_footnote': [ 'word2013' ], // Circular dependencies in anchors.
@@ -108,7 +108,7 @@
 			//'11054CKEditor-Bug': [ 'word2013' ], // "Won't fix"
 			'11005Test_WordDoc': [ 'word2013' ],
 			'10784line_missing': [ 'word2013' ], // IE11 consistently generates this weird output.
-			//'10783list-break2': [ 'word2013' ], // Wrong list levels.
+			'10783list-break2': [ 'word2013' ], // Wrong list levels.
 			'10780word_margin_bug': [ 'word2013' ],
 			'10672Lists_Test': [ 'word2013' ],
 			'10643sample1': [ 'word2013' ],
@@ -133,15 +133,15 @@
 			'12740CKEditor_-_Internal_Error_on_Paste_as_CTRL-V(1)': [ 'word2013' ],
 			'12740WSGCN-3550_Test_document_minimal': [ 'word2013' ],
 			'12821ELL_Forum_Invitation': [ 'word2013' ],
-			////'13021testdoc': [ 'word2013' ],
+			'13021testdoc': [ 'word2013' ],
 			'13174Testdocument': [ 'word2013' ],
 			'13174Testdocument2': [ 'word2013' ], // Not fully supported(and will break), but contains a significant edge case (compound "<!-- [if...]")
 			//'13174Testdocument3': [ 'word2013' ], // Not supported
 			'13339Internal_Error_on_Paste_as_CTRL-V': [ 'word2013' ],
 			'13590ckeditor-numberlist': [ 'word2013' ],
-			//'13616': [ 'word2013'], // PFW002
+			'13616': [ 'word2013'],
 			//'13634example': [ 'word2013' ], // Not closed.
-			//'13651ckeditor_report_bug': [ 'word2013' ], // Mother of tickets (o_o)>u-u
+			//'13651ckeditor_report_bug': [ 'word2013' ], // Mother of tickets (o_o)>u-u - not closed.
 			'13810test': [ 'word2013' ],
 			//'14257test2': [ 'word2013' ] // Not closed.
 			'6973This_is_a_line_of_text.2': [ 'word2013' ],
@@ -150,18 +150,18 @@
 			'7797fonts': [ 'word2013' ],
 			'4427test-document': [ 'word2013' ],
 			'7494Numbers_&_Bulltes_lists': [ 'word2013' ],
-			'7843Multi_level_Numbered_list': [ 'word2013' ], // PFW002.
+			'7843Multi_level_Numbered_list': [ 'word2013' ],
 			'6973CKEditor_pasting_issue': [ 'word2013' ],
-			//'7610Multi_level_Numbered_list': [ 'word2013' ], // PFW002. Probably the same file as in 7843.
+			'7610Multi_level_Numbered_list': [ 'word2013' ], // Probably the same file as in 7843.
 			'4894CustomStyleTest': [ 'word2013' ], //
-			'6973TestNegativeHeadingIndent': [ 'word2013' ], // PFW002
+			'6973TestNegativeHeadingIndent': [ 'word2013' ],
 			'5743bulletlist': [ 'word2013' ],
 			//'7807BL_13_individual_map_template_with_mouseover_def': [ 'word2013' ], // Not closed.
 			//'9441AGUIRRE,_Algunas_cuestiones_sobre_el_seguro_ambiental2_editor': [ 'word2013' ], // Circular dependencies in anchors.
 			'8437WORD_ABC': [ 'word2013' ],
 			//'7484IndentedParagraphs2': [ 'word2013' ], // text-indent? Not closed.
 			//'7954list_with_Roman_Numerals_&_Start_Value_5': [ 'word2013' ], Not closed, but no bug.
-			//'8665Tartalom': [ 'word2013' ], // Later
+			'8665Tartalom': [ 'word2013' ],
 			'4883_Test': [ 'word2013' ],
 			'7857pasting_RTL_lists_from_word_defect': [ 'word2013' ],
 			'3828TestList': [ 'word2013' ],
@@ -169,7 +169,7 @@
 			//'7482IndentedNumberedList': [ 'word2013' ], // Not closed.
 			//'7209test': [ 'word2013' ], // Not closed.
 			//'7662Multilevel_lists': [ 'word2013' ], // Not closed.
-			//'3336test': [ 'word2013' ],
+			//'3336test': [ 'word2013' ], // Not closed.
 			'5399This_is_a_line_of_text': [ 'word2013' ],
 			'7696empty_table': [ 'word2013' ],
 			'445Spanish_5-2-07': [ 'word2013' ],
@@ -184,9 +184,9 @@
 			//'8186text_box': [ 'word2013' ], // Not closed.
 			'6956CKEditor_pasting_issue': [ 'word2013' ],
 			'5300Sample': [ 'word2013' ],
-			//'7872lists': [ 'word2013' ], // To be resolved.
+			'7872lists': [ 'word2013' ], // IE11 creates distorted lists.
 			//'7839Multi_level_Numbered_list': [ 'word2013' ], // Same file as 7843
-			//'7209test2': [ 'word2013' ], // To be resolved.
+			'7209test2': [ 'word2013' ], // In IE11 no indication, that the second list is multi-level.
 			//'7646testcase_V1.0': [ 'word2013' ], // Not closed.
 			'7584Numbered_list_with_diff_start_value': [ 'word2013' ], // IE11 drops some list data.
 			//'7484IndentedParagraphs1': [ 'word2013' ], // Not closed.
@@ -203,14 +203,14 @@
 			//'3336FCK': [ 'word2013' ], // Not closed.
 			//'8390test1': [ 'word2013' ], // Won't fix.
 			//'8266test': [ 'word2013' ], // Not closed.
-			//'5134Sample': [ 'word2013' ],
+			'5134Sample': [ 'word2013' ],
 			//'8983wordtest_align': [ 'word2013' ], // Not closed.
-			//'9475list2003': [ 'word2013' ], // To be resolved.
+			'9475list2003': [ 'word2013' ],
 			'8501FromWord': [ 'word2013' ], // IE8 drops some formatting data.
 			'7521simple_table': [ 'word2013' ],
 			'7620AlphabeticNumberingLists': [ 'word2013' ],
 			'9456text-with-bullet-list-example': [ 'word2013' ],
-			//'1457list-test': [ 'word2013' ], // To be resolved.
+			'1457list-test': [ 'word2013' ], // IE11 puts <font> tags between list elements.
 			//'11985sample1': [ 'word2013' ], // Won't fix.
 			//'218shrev-gibberish-test': [ 'word2013' ], // Won't fix.
 			'6751TextToPaste': [ 'word2013' ],
@@ -260,6 +260,7 @@
 					//pasteFromWordCleanupFile: 'plugins/pastefromword/filter/legacy.js'
 				}
 			}, function( bot ) {
+
 				//bot.editor.filter.allow( 'p[style]{margin,margin-*,line-height};' );
 
 				loadFixture( inputPath + deCasher, function( input ) {
