@@ -139,7 +139,7 @@
 			//'13174Testdocument3': [ 'word2013' ], // Not supported
 			'13339Internal_Error_on_Paste_as_CTRL-V': [ 'word2013' ],
 			'13590ckeditor-numberlist': [ 'word2013' ],
-			'13616': [ 'word2013'],
+			'13616': [ 'word2013' ],
 			//'13634example': [ 'word2013' ], // Not closed.
 			//'13651ckeditor_report_bug': [ 'word2013' ], // Mother of tickets (o_o)>u-u - not closed.
 			'13810test': [ 'word2013' ],
