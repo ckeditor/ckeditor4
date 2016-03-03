@@ -201,6 +201,15 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					// guarantee they will be firing in all situations. (#3068, #3222 )
 					CKEDITOR.event.useCapture = true;
 
+					//
+					// MP: Awful IE11 workaround. We were getting false spurious blur
+					// events immediately after a combobox was shown causing it to hide
+					// immediately. This workaround provides less-than-perfect behavior
+					// because click-off doesn't work as expected but it's "good enough".
+					//
+					// See https://jira.performancematters.com/browse/UF-4657
+					//
+					if (!(CKEDITOR.env.ie && CKEDITOR.env.version == 11))
 					focused.on( 'blur', function( ev ) {
 						// As we are using capture to register the listener,
 						// the blur event may get fired even when focusing
