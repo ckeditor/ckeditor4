@@ -999,7 +999,7 @@
 		},
 
 		correctListLevels: function( list ) {
-			var i, j, leftAttrs, rightAttrs, error,
+			var i, j, leftAttrs, rightAttrs, needsCorrection,
 				indentations = {};
 
 			for ( i = 0; i < list.length; i++ ) {
@@ -1027,6 +1027,7 @@
 				delete indentations[ 0 ];
 				indentations[ Math.floor( indentation / 48 - 0.5 ) ] = indentation;
 				levelDifference = 48;
+				needsCorrection = true;
 			} else {
 				var differences = {};
 
@@ -1060,7 +1061,7 @@
 					var indentDiff = parseInt( leftAttrs[ 'cke-indentation' ], 10 ) - parseInt( rightAttrs[ 'cke-indentation' ], 10 );
 
 					if ( Math.abs( indentDiff - levelDiff * levelDifference ) > levelDifference / 2 ) {
-						error = true;
+						needsCorrection = true;
 						break pairComparison;
 					}
 
@@ -1072,7 +1073,7 @@
 				}
 			}
 
-			if ( !error ) {
+			if ( !needsCorrection ) {
 				return;
 			}
 
