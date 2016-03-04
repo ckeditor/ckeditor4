@@ -36,6 +36,44 @@
 			} );
 
 			wait();
+		},
+
+		'test disableAutomatic=false option': function() {
+			bender.editorBot.create( {
+				name: 'editor1',
+				config: {
+					colorButton_disableAutomatic: false
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					txtColorBtn = editor.ui.get( 'TextColor' ),
+					bgColorBtn = editor.ui.get( 'BGColor' );
+
+				txtColorBtn.click( editor );
+				assert.areEqual( 1, txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.find( '.cke_colorauto' ).count(), 'Automatic button should be visible.' );
+
+				bgColorBtn.click( editor );
+				assert.areEqual( 1, bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( '.cke_colorauto' ).count(), 'Automatic button should be visible.' );
+			} );
+		},
+
+		'test disableAutomatic=true option': function() {
+			bender.editorBot.create( {
+				name: 'editor2',
+				config: {
+					colorButton_disableAutomatic: true
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					txtColorBtn = editor.ui.get( 'TextColor' ),
+					bgColorBtn = editor.ui.get( 'BGColor' );
+
+				txtColorBtn.click( editor );
+				assert.areEqual( 0, txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.find( '.cke_colorauto' ).count(), 'Automatic button should not be visible.' );
+
+				bgColorBtn.click( editor );
+				assert.areEqual( 0, bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( '.cke_colorauto' ).count(), 'Automatic button should not be visible.' );
+			} );
 		}
 	} );
 } )();
