@@ -26,7 +26,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function addButton( name, type, title, order ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
-				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
+				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
+			disableAutomatic = config.colorButton_disableAutomatic;;
 
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
@@ -91,7 +92,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					if ( !color || color == 'transparent' )
 						color = '#ffffff';
 
-					this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+					if ( !disableAutomatic ) {
+						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+					}
 
 					return color;
 				}
@@ -105,7 +108,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
 				// screen readers doesn't play nice with table, based layouts (#12097).
-				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
+				total = colors.length + ( moreColorsEnabled ? 2 : 1 ),
+				disableAutomatic = config.colorButton_disableAutomatic;
 
 			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
 				var applyColorStyle = arguments.callee;
@@ -153,22 +157,27 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				editor.fire( 'saveSnapshot' );
 			} );
 
-			// Render the "Automatic" button.
-			output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
-				' title="', lang.auto, '"' +
-				' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
-				' href="javascript:void(\'', lang.auto, '\')"' +
-				' role="option" aria-posinset="1" aria-setsize="', total, '">' +
-				'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
-					'<tr>' +
-						'<td>' +
-							'<span class="cke_colorbox" id="', colorBoxId, '"></span>' +
-						'</td>' +
-						'<td colspan=7 align=center>', lang.auto, '</td>' +
-					'</tr>' +
-				'</table>' +
-				'</a>' +
-				'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
+			if ( disableAutomatic ) {
+				output.push( '<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
+
+			} else {
+				// Render the "Automatic" button.
+				output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
+					' title="', lang.auto, '"' +
+					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
+					' href="javascript:void(\'', lang.auto, '\')"' +
+					' role="option" aria-posinset="1" aria-setsize="', total, '">' +
+						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
+							'<tr>' +
+								'<td>' +
+									'<span class="cke_colorbox" id="', colorBoxId, '"></span>' +
+								'</td>' +
+								'<td colspan=7 align=center>', lang.auto, '</td>' +
+							'</tr>' +
+						'</table>' +
+					'</a>' +
+					'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
+			}
 
 			// Render the color boxes.
 			for ( var i = 0; i < colors.length; i++ ) {
@@ -299,3 +308,15 @@ CKEDITOR.config.colorButton_backStyle = {
 	element: 'span',
 	styles: { 'background-color': '#(color)' }
 };
+
+/**
+ * Whether the **Automatic** button in the color selectors should be disabled (and not visible).
+ *
+ * Read more in the [documentation](#!/guide/dev_colorbutton)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
+ *
+ *		config.colorButton_disableAutomatic = true;
+ *
+ * @cfg {Boolean} [colorButton_disableAutomatic=false]
+ * @member CKEDITOR.config
+ */
