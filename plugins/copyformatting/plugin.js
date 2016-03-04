@@ -437,15 +437,14 @@
 		/**
 		 * Apply given styles to currently selected content in the editor.
 		 *
-		 * @param {CKEDITOR.styles[]} styles Array of styles to be applied.
+		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
 		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @private
 		 */
-		_applyFormat: function( styles, editor ) {
+		_applyFormat: function( newStyles, editor ) {
 			var range = editor.getSelection().getRanges()[ 0 ],
-				action = styles.length > 0 ? 'apply' : 'remove',
 				plugin = CKEDITOR.plugins.copyformatting,
-				bkms;
+				oldStyles, bkms;
 
 			if ( !range ) {
 				return;
@@ -468,13 +467,16 @@
 				newRange.select();
 			}
 
-			// If styles array is empty, then remove all existing styles.
-			if ( styles.length === 0 ) {
-				styles = plugin._extractStylesFromRange( newRange || range );
+			// Before applying new styles, remove all existing styles.
+			oldStyles = plugin._extractStylesFromRange( newRange || range );
+
+			for ( var i = 0; i < oldStyles.length; i++ ) {
+				oldStyles[ i ].remove( editor );
 			}
 
-			for ( var i = 0; i < styles.length; i++ ) {
-				styles[ i ][ action ]( editor );
+			// Now apply new styles.
+			for ( var i = 0; i < newStyles.length; i++ ) {
+				newStyles[ i ].apply( editor );
 			}
 
 			if ( bkms ) {
