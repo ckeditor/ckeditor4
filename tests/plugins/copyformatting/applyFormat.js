@@ -43,6 +43,15 @@
 
 		'test applyFormat with multiple styles': function() {
 			testApplyingFormat( this.editor, '<p>Apply format her{}e</p>', 'here', styles );
+		},
+
+		'test applyFormat on already styled element': function() {
+			testApplyingFormat( this.editor, '<p>Apply format <em>her{}e</em></p>', 'here', styles, [
+				new CKEDITOR.style( {
+					element: 'em',
+					type: CKEDITOR.STYLE_INLINE
+				} )
+			] );
 		}
 	} );
 }() );

@@ -15,6 +15,7 @@
 * Copying can be cancelled by clicking "Copy Formatting" button.
 * All text styles should be copied (text decoration, style, weight, color, background color).
 * All attributes should be copied.
+* Newly applied styles should overwrite existing styles.
 * The cursor is changed when the style is copied and restored when the style is applied.
 * If the styles are copied from unstyled element, the formatting is removed from target element.
 

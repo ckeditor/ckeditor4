@@ -21,14 +21,22 @@
 		}
 	};
 
-	var tests = {
+	var stylesToRemove = [
+		new CKEDITOR.style( {
+			element: 'b',
+			attributes: {},
+			styles: {},
+			type: CKEDITOR.STYLE_INLINE
+		} )
+	 ],
+	tests = {
 		'test applying style on collapsed selection': function( editor ) {
 			testCopyFormattingFlow( editor, '<p><s>Copy t{}hat format</s> to <b>this element</b></p>', [ {
 				element: 's',
 				attributes: {},
 				styles: {},
 				type: CKEDITOR.STYLE_INLINE
-			} ], {
+			} ], stylesToRemove, {
 				elementName: 'b',
 				startOffset: 1,
 				endOffset: 1,
@@ -42,7 +50,7 @@
 				attributes: {},
 				styles: {},
 				type: CKEDITOR.STYLE_INLINE
-			} ], {
+			} ], stylesToRemove, {
 				elementName: 'b',
 				startOffset: 0,
 				endOffset: 6
@@ -56,7 +64,7 @@
 				attributes: {},
 				styles: {},
 				type: CKEDITOR.STYLE_INLINE
-			} ], {
+			} ], stylesToRemove, {
 				elementName: 'b',
 				startOffset: 0,
 				endOffset: 6
@@ -69,7 +77,7 @@
 				attributes: {},
 				styles: {},
 				type: CKEDITOR.STYLE_INLINE
-			} ], {
+			} ], stylesToRemove, {
 				elementName: 'b',
 				startOffset: 1,
 				endOffset: 1,
@@ -80,7 +88,7 @@
 		},
 
 		'test removing formatting on collapsed selection': function( editor ) {
-			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], {
+			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], stylesToRemove, {
 				elementName: 'b',
 				startOffset: 2,
 				endOffset: 2,
@@ -89,7 +97,7 @@
 		},
 
 		'test removing formatting on uncollapsed selection': function( editor ) {
-			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], {
+			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], stylesToRemove, {
 				elementName: 'b',
 				element: true
 			} );
@@ -113,7 +121,7 @@
 				attributes: {},
 				styles: {},
 				type: CKEDITOR.STYLE_INLINE
-			} ], {
+			} ], stylesToRemove, {
 				elementName: 'b',
 				startOffset: 1,
 				endOffset: 1,

@@ -60,24 +60,44 @@ function testGettingWordOffset( editor, htmlWithSelection, expected ) {
 	assert.areSame( expected, contents );
 }
 
-function testApplyingFormat( editor, htmlWithSelection, expectedContent, styles ) {
-	var range, applied, i;
+/**
+ * @param {CKEDITOR.editor} editor Editor's instance.
+ * @param {String} htmlWithSelection HTML with selection that will be put into editor.
+ * @param {String} expectedContent Expected content of styled element.
+ * @param {CKEDTITOR.style[]} newStyles Array of styles to be applied.
+ * @param {CKEDITOR.style[]} oldStyles Array of styles to be removed.
+ */
+function testApplyingFormat( editor, htmlWithSelection, expectedContent, newStyles, oldStyles ) {
+	var range, applied, removed, i;
+
+	oldStyles = CKEDITOR.tools.isArray( oldStyles ) ? oldStyles : [];
 
 	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
-	CKEDITOR.plugins.copyformatting._applyFormat( styles, editor );
+	CKEDITOR.plugins.copyformatting._applyFormat( newStyles, editor );
 
 	range = editor.getSelection().getRanges()[ 0 ];
 	range.shrink( CKEDITOR.SHRINK_TEXT );
 
-	for ( i = applied = 0; i < styles.length; i++ ) {
-		if ( styles[ i ].checkActive( range.startPath(), editor ) ) {
+	// Check if all old styles were removed.
+	for ( i = removed = 0; i < oldStyles.length; i++ ) {
+		if ( !oldStyles[ i ].checkActive( range.startPath(), editor ) ) {
+			++removed;
+		}
+	}
+
+	assert.areSame( oldStyles.length, removed, 'Old styles were removed correctly.' );
+
+	// Now check if all new styles were applied.
+	for ( i = applied = 0; i < newStyles.length; i++ ) {
+		if ( newStyles[ i ].checkActive( range.startPath(), editor ) ) {
 			++applied;
 		}
 	}
 
-	assert.areSame( styles.length, applied );
+	assert.areSame( newStyles.length, applied, 'New styles were applied correctly.' );
+
 	// Content is now placed inside the element of the first applied style.
-	assert.areSame( expectedContent, editor.editable().findOne( styles[ 0 ].element ).getHtml() );
+	assert.areSame( expectedContent, editor.editable().findOne( newStyles[ 0 ].element ).getHtml() );
 }
 
 function testConvertingStyles( elementHtml, expectedStyles ) {
@@ -146,9 +166,17 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, addi
 	}
 }
 
-function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, rangeInfo, additionalData ) {
+/**
+ * @param {CKEDITOR.editor} editor Editor's instance.
+ * @param {String} htmlWithSelection HTML with selection that will be put into the editor.
+ * @param {Object[]} expectedStyles Array of definitions of styles that will be applied.
+ * @param {CKEDITOR.style[]} removedStyles Array of styles that should be removed.
+ * @param {Object} rangeInfo Object with information about range that should be created for the test.
+ * @param {Object} additionaldata Additional data to be passed to plugin's commands.
+ */
+function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, removedStyles, rangeInfo, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
-		styles, element, range;
+		styles, i, removed, element, range;
 
 	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
 
@@ -178,6 +206,15 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, rang
 	editor.execCommand( 'applyFormatting', additionalData );
 
 	assertApplyFormattingState( editor, styles, element, additionalData );
+
+	// Check if styles that should be removed are really removed.
+	for ( i = removed = 0; i < removedStyles.length; i++ ) {
+		if ( !removedStyles[ i ].checkActive( range.startPath(), editor ) ) {
+			++removed;
+		}
+	}
+
+	assert.areSame( removedStyles.length, removed, 'All preexisting styles are removed correctly' );
 
 	// Reset command to inital state.
 	if ( cmd.state === CKEDITOR.TRISTATE_ON || cmd.styles ) {
