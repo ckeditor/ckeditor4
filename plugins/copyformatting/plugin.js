@@ -19,68 +19,51 @@
 		return domEvent.button === 0;
 	}
 
-	function generateCursorCss( sizes ) {
-		var css = [ 'cursor: ' ];
-
-		function getCoords( multiplier, isSize ) {
-			multiplier = isSize ? multiplier / 16 : multiplier;
-
-			var coordX = 12 * multiplier,
-				coordY = 1 * multiplier;
-
-			return [ coordX, ' ', coordY ].join( '' );
-		}
-
-		// Generate styles for non-Webkit browsers.
-		if ( !CKEDITOR.env.webkit ) {
-			css.push( 'url(',
-				CKEDITOR.env.hidpi ?
-					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 1 ] + 'x' + sizes[ 1 ] + '.png' ) :
-					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 0 ] + 'x' + sizes[ 0 ] + '.png' ),
-				') ',
-				getCoords( CKEDITOR.env.hidpi ? sizes[ 1 ] : sizes[ 0 ], true ),
-				', auto;' );
-		} else {
-			var pixelRatio = 1;
-
-			if ( CKEDITOR.document.getWindow().$.devicePixelRatio ) {
-				pixelRatio = CKEDITOR.document.getWindow().$.devicePixelRatio;
-			}
-
-			// Generate imageset for Webkit browsers.
-			css.push( '-webkit-image-set(' );
-			for ( var i = 0; i < sizes.length; i++ ) {
-				css.push( 'url(',
-					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ i ] + 'x' + sizes[ i ] + '.png' ),
-					') ' + ( sizes[ i ] / sizes[ 0 ] ) + 'x ' );
-
-				if ( i < sizes.length - 1 ) {
-					css.push( ', ' );
-				}
-			}
-			css.push( ') ', getCoords( CKEDITOR.document.getWindow().$.devicePixelRatio ), ',auto;' );
-		}
-
-		return css.join( '' );
-	}
-
 	CKEDITOR.plugins.add( 'copyformatting', {
 		lang: 'en',
 		icons: 'copyformatting',
 		hidpi: true,
 
-		init: function( editor ) {
-			var plugin = CKEDITOR.plugins.copyformatting,
-				additionalCss = 'html.cke_copyformatting_active' +
-					'{' +
-					'min-height: 100%;' +
-					'}' +
-					'.cke_copyformatting_active, .cke_copyformatting_active .cke_editable, .cke_copyformatting_active a' +
-					'{' +
-					generateCursorCss( [ 16, 32, 64, 128, 256 ] ) +
-					'}';
+		onLoad: function() {
+			// There isn't cursor in CUR format for IE/Edge as that browser
+			// doesn't support custom cursor in [contenteditable] area.
+			// Ticket for this issue:
+			// https://connect.microsoft.com/IE/feedback/details/1070215/cant-change-cursor-in-contenteditable-using-css
+			var additionalCss = 'html.cke_copyformatting_active' +
+				'{' +
+				'min-height: 100%;' +
+				'}' +
+				'.cke_copyformatting_active.cke_copyformatting_active,' +
+				'.cke_copyformatting_active.cke_copyformatting_active .cke_editable,'+
+				'.cke_copyformatting_active.cke_copyformatting_active a' +
+				'{' +
+				'cursor: url(' +
+				CKEDITOR.getUrl( this.path + 'cursors/cursor.svg' ) +
+				') 12 1, auto;' +
+				'}',
+
+				additionalPageCss = '.cke_copyformatting_disabled,' +
+				'.cke_copyformatting_disabled a, .cke_copyformatting_disabled .cke_editable' +
+				'{' +
+				'cursor: url(' +
+				( !CKEDITOR.env.ie ?
+					CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled.svg' ) +
+					') 12 1, auto;' :
+
+					( CKEDITOR.env.hidpi ?
+						CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled-32x32.cur' ) :
+						CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled-16x16.cur' ) ) +
+					'), auto'
+				) +
+				'}',
+				styleElement = CKEDITOR.dom.element.createFromHtml( '<style data-cke-temp="1">' + additionalPageCss + '</style>' );
 
 			CKEDITOR.addCss( additionalCss );
+			CKEDITOR.document.getHead().append( styleElement );
+		},
+
+		init: function( editor ) {
+			var plugin = CKEDITOR.plugins.copyformatting;
 
 			editor.addCommand( 'copyFormatting', plugin.commands.copyFormatting );
 			editor.addCommand( 'applyFormatting', plugin.commands.applyFormatting );
@@ -101,6 +84,14 @@
 
 					if ( detectLeftMouseButton( evt ) ) {
 						editor.execCommand( 'applyFormatting' );
+						evt.stop();
+					}
+				} );
+
+				editable.attachListener( CKEDITOR.document, 'mouseup', function( evt ) {
+					if ( detectLeftMouseButton( evt ) &&
+						editor.getCommand( 'copyFormatting' ).state === CKEDITOR.TRISTATE_ON ) {
+						editor.execCommand( 'copyFormatting' );
 					}
 				} );
 
@@ -133,7 +124,10 @@
 					if ( !isFromKeystroke && cmd.state === CKEDITOR.TRISTATE_ON ) {
 						cmd.styles = null;
 						cmd.sticky = false;
+
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
+						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
+
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
@@ -141,7 +135,9 @@
 
 					if ( !isFromKeystroke ) {
 						cmd.setState( CKEDITOR.TRISTATE_ON );
+
 						cursorContainer.addClass( 'cke_copyformatting_active' );
+						CKEDITOR.document.getDocumentElement().addClass( 'cke_copyformatting_disabled' );
 					}
 
 					cmd.sticky = isSticky;
@@ -162,7 +158,10 @@
 
 					if ( !( cmd.sticky || isFromKeystroke ) ) {
 						cmd.styles = null;
+
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
+						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
+
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 				}
@@ -268,7 +267,6 @@
 		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
-		 * @todo Styles in the array returned by this method might be duplicated; it should be cleaned later on.
 		 */
 		_extractStylesFromRange: function( range ) {
 			var styles = [],
@@ -438,25 +436,23 @@
 		/**
 		 * Apply given styles to currently selected content in the editor.
 		 *
-		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
+		 * @param {CKEDITOR.styles[]} styles Array of styles to be applied.
 		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @private
 		 */
-		_applyFormat: function( newStyles, editor ) {
+		_applyFormat: function( styles, editor ) {
 			var range = editor.getSelection().getRanges()[ 0 ],
+				action = styles.length > 0 ? 'apply' : 'remove',
 				plugin = CKEDITOR.plugins.copyformatting,
-				newRange,
-				oldStyles,
-				bkms,
-				word,
-				i;
+				bkms;
 
 			if ( !range ) {
 				return;
 			}
 
 			if ( range.collapsed ) {
-				newRange = editor.createRange();
+				var newRange = editor.createRange(),
+					word;
 
 				// Create bookmarks only if range is collapsed – otherwise
 				// it will break walker used in _extractStylesFromRange.
@@ -471,16 +467,13 @@
 				newRange.select();
 			}
 
-			// Before applying new styles, remove all existing styles.
-			oldStyles = plugin._extractStylesFromRange( newRange || range );
-
-			for ( i = 0; i < oldStyles.length; i++ ) {
-				oldStyles[ i ].remove( editor );
+			// If styles array is empty, then remove all existing styles.
+			if ( styles.length === 0 ) {
+				styles = plugin._extractStylesFromRange( newRange || range );
 			}
 
-			// Now apply new styles.
-			for ( i = 0; i < newStyles.length; i++ ) {
-				newStyles[ i ].apply( editor );
+			for ( var i = 0; i < styles.length; i++ ) {
+				styles[ i ][ action ]( editor );
 			}
 
 			if ( bkms ) {
