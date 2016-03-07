@@ -88,15 +88,17 @@ function testConvertingStyles( elementHtml, expectedStyles ) {
 }
 
 function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
-	var cmd = editor.getCommand( 'copyFormatting' );
+	var cmd = editor.getCommand( 'copyFormatting' ),
+		areaWithCursor = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
+			editor.editable().getParent();
 
 	if ( !additionalData || additionalData.sticky ) {
 		assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state, 'Button is active' );
-		assert.isTrue( editor.editable().hasClass( 'cke_copyformatting_active' ),
+		assert.isTrue( areaWithCursor.hasClass( 'cke_copyformatting_active' ),
 			'Editable area has class indicating that Copy Formatting is active' );
 	} else if ( additionalData.from == 'keystrokeHandler' ) {
 		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active (keystroke)' );
-		assert.isFalse( editor.editable().hasClass( 'cke_copyformatting_active' ),
+		assert.isFalse( areaWithCursor.hasClass( 'cke_copyformatting_active' ),
 			'Editable area does not have class indicating that Copy Formatting is active' );
 	}
 
@@ -112,24 +114,26 @@ function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 
 function assertApplyFormattingState( editor, expectedStyles, styledElement, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
-		path = new CKEDITOR.dom.elementPath( styledElement, editor.editable() );
+		path = new CKEDITOR.dom.elementPath( styledElement, editor.editable() ),
+		areaWithCursor = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
+			editor.editable().getParent();
 
 	if ( !additionalData ) {
 		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active' );
 		assert.isNull( cmd.styles, 'Styles are removed from store' );
-		assert.isFalse( editor.editable().hasClass( 'cke_copyformatting_active' ),
+		assert.isFalse( areaWithCursor.hasClass( 'cke_copyformatting_active' ),
 			'Editable area does not have class indicating that Copy Formatting is active' );
 
 	} else if ( additionalData.from === 'keystrokeHandler' ) {
 		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active' );
 		assert.isArray( cmd.styles, 'Styles are not removed from store' );
-		assert.isFalse( editor.editable().hasClass( 'cke_copyformatting_active' ),
+		assert.isFalse( areaWithCursor.hasClass( 'cke_copyformatting_active' ),
 			'Editable area does not have class indicating that Copy Formatting is active' );
 
 	} else if ( additionalData.sticky ) {
 		assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state, 'Button is active' );
 		assert.isArray( cmd.styles, 'Styles are not removed from store' );
-		assert.isTrue( editor.editable().hasClass( 'cke_copyformatting_active' ),
+		assert.isTrue( areaWithCursor.hasClass( 'cke_copyformatting_active' ),
 			'Editable area does not have class indicating that Copy Formatting is active' );
 	}
 
