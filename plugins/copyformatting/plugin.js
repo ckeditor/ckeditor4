@@ -20,7 +20,8 @@
 	}
 
 	function generateCursorCss( sizes ) {
-		var css = [ 'cursor: ' ];
+		var css = [ 'cursor: ' ],
+			cursorsDir = 'plugins/copyformatting/cursors/';
 
 		function getCoords( multiplier, isSize ) {
 			multiplier = isSize ? multiplier / 16 : multiplier;
@@ -32,33 +33,18 @@
 		}
 
 		// Generate styles for non-Webkit browsers.
-		if ( !CKEDITOR.env.webkit ) {
+		if ( !CKEDITOR.env.ie ) {
 			css.push( 'url(',
-				CKEDITOR.env.hidpi ?
-					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 1 ] + 'x' + sizes[ 1 ] + '.png' ) :
-					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 0 ] + 'x' + sizes[ 0 ] + '.png' ),
+				CKEDITOR.getUrl( cursorsDir + 'cursor.svg' ),
 				') ',
-				getCoords( CKEDITOR.env.hidpi ? sizes[ 1 ] : sizes[ 0 ], true ),
+				getCoords( 1 ),
 				', auto;' );
 		} else {
-			var pixelRatio = 1;
-
-			if ( CKEDITOR.document.getWindow().$.devicePixelRatio ) {
-				pixelRatio = CKEDITOR.document.getWindow().$.devicePixelRatio;
-			}
-
-			// Generate imageset for Webkit browsers.
-			css.push( '-webkit-image-set(' );
-			for ( var i = 0; i < sizes.length; i++ ) {
-				css.push( 'url(',
-					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ i ] + 'x' + sizes[ i ] + '.png' ),
-					') ' + ( sizes[ i ] / sizes[ 0 ] ) + 'x ' );
-
-				if ( i < sizes.length - 1 ) {
-					css.push( ', ' );
-				}
-			}
-			css.push( ') ', getCoords( CKEDITOR.document.getWindow().$.devicePixelRatio ), ',auto;' );
+			css.push( 'url(',
+				CKEDITOR.env.hidpi ?
+					CKEDITOR.getUrl( cursorsDir + '/cursor-' + sizes[ 0 ] + 'x' + sizes[ 0 ] + '.cur' ) :
+					CKEDITOR.getUrl( cursorsDir + '/cursor-' + sizes[ 1 ] + 'x' + sizes[ 1 ] + '.cur' ),
+				'), auto;' );
 		}
 
 		return css.join( '' );
