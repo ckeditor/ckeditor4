@@ -324,7 +324,11 @@
 				return;
 			}
 
-			styles[ key ] = value;
+			if ( value === '' ) {
+				delete styles[ key ];
+			} else {
+				styles[ key ] = value;
+			}
 
 			element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 		},
