@@ -19,30 +19,70 @@
 		return domEvent.button === 0;
 	}
 
+	function generateCursorCss( sizes ) {
+		var css = [ 'cursor: ' ];
+
+		function getCoords( multiplier, isSize ) {
+			multiplier = isSize ? multiplier / 16 : multiplier;
+
+			var coordX = 12 * multiplier,
+				coordY = 1 * multiplier;
+
+			return [ coordX, ' ', coordY ].join( '' );
+		}
+
+		// Generate styles for non-Webkit browsers.
+		if ( !CKEDITOR.env.webkit ) {
+			css.push( 'url(',
+				CKEDITOR.env.hidpi ?
+					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 1 ] + 'x' + sizes[ 1 ] + '.png' ) :
+					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ 0 ] + 'x' + sizes[ 0 ] + '.png' ),
+				') ',
+				getCoords( CKEDITOR.env.hidpi ? sizes[ 1 ] : sizes[ 0 ], true ),
+				', auto;' );
+		} else {
+			var pixelRatio = 1;
+
+			if ( CKEDITOR.document.getWindow().$.devicePixelRatio ) {
+				pixelRatio = CKEDITOR.document.getWindow().$.devicePixelRatio;
+			}
+
+			// Generate imageset for Webkit browsers.
+			css.push( '-webkit-image-set(' );
+			for ( var i = 0; i < sizes.length; i++ ) {
+				css.push( 'url(',
+					CKEDITOR.getUrl( 'plugins/copyformatting/cursors/cursor-' + sizes[ i ] + 'x' + sizes[ i ] + '.png' ),
+					') ' + ( sizes[ i ] / sizes[ 0 ] ) + 'x ' );
+
+				if ( i < sizes.length - 1 ) {
+					css.push( ', ' );
+				}
+			}
+			css.push( ') ', getCoords( CKEDITOR.document.getWindow().$.devicePixelRatio ), ',auto;' );
+		}
+
+		return css.join( '' );
+	}
+
 	CKEDITOR.plugins.add( 'copyformatting', {
 		lang: 'en',
 		icons: 'copyformatting',
 		hidpi: true,
 
-		onLoad: function() {
-			// There isn't cursor in CUR format for IE/Edge as that browser
-			// doesn't support custom cursor in [contenteditable] area.
-			// Ticket for this issue:
-			// https://connect.microsoft.com/IE/feedback/details/1070215/cant-change-cursor-in-contenteditable-using-css
-			var additionalCss = [
-					'.cke_copyformatting_active, .cke_copyformatting_active a',
+		init: function( editor ) {
+			var plugin = CKEDITOR.plugins.copyformatting,
+				additionalCss = [
+					'html.cke_copyformatting_active',
 					'{',
-					'cursor: url(',
-					CKEDITOR.getUrl( this.path + 'cursors/cursor.svg' ),
-					') 12 1, auto;',
+					'min-height: 100%;',
+					'}',
+					'.cke_copyformatting_active, .cke_copyformatting_active .cke_editable, .cke_copyformatting_active a',
+					'{',
+					generateCursorCss( [ 16, 32, 64, 128, 256 ] ),
 					'}'
 				].join( '' );
 
 			CKEDITOR.addCss( additionalCss );
-		},
-
-		init: function( editor ) {
-			var plugin = CKEDITOR.plugins.copyformatting;
 
 			editor.addCommand( 'copyFormatting', plugin.commands.copyFormatting );
 			editor.addCommand( 'applyFormatting', plugin.commands.applyFormatting );
@@ -88,12 +128,16 @@
 				exec: function( editor, data ) {
 					var	cmd = this,
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
-						isSticky = data ? data.sticky : false;
+						isSticky = data ? data.sticky : false,
+						// If editor is in inline mode, add cursor to directly to the editable area.
+						// Otherwise add it to the frame's documentElement.
+						cursorContainer = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
+			editor.editable().getParent();
 
 					if ( !isFromKeystroke && cmd.state === CKEDITOR.TRISTATE_ON ) {
 						cmd.styles = null;
 						cmd.sticky = false;
-						editor.editable().removeClass( 'cke_copyformatting_active' );
+						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
@@ -101,7 +145,7 @@
 
 					if ( !isFromKeystroke ) {
 						cmd.setState( CKEDITOR.TRISTATE_ON );
-						editor.editable().addClass( 'cke_copyformatting_active' );
+						cursorContainer.addClass( 'cke_copyformatting_active' );
 					}
 
 					cmd.sticky = isSticky;
@@ -111,7 +155,11 @@
 			applyFormatting: {
 				exec: function( editor, data ) {
 					var cmd = editor.getCommand( 'copyFormatting' ),
-						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false;
+						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
+						// If editor is in inline mode, remove cursor directly from the editable area.
+						// Otherwise remove it from the frame's documentElement.
+						cursorContainer = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
+							editor.editable().getParent();
 
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON || !cmd.styles ) {
 						return;
@@ -121,7 +169,7 @@
 
 					if ( !( cmd.sticky || isFromKeystroke ) ) {
 						cmd.styles = null;
-						editor.editable().removeClass( 'cke_copyformatting_active' );
+						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 				}
