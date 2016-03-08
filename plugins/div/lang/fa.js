@@ -5,9 +5,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'div', 'fa', {
 	IdInputLabel: 'شناسه',
 	advisoryTitleInputLabel: 'عنوان مشاوره',
-	cssClassInputLabel: 'کلاس​های شیوه​نامه',
+	cssClassInputLabel: 'کلاس‌های شیوه‌نامه',
 	edit: 'ویرایش Div',
-	inlineStyleInputLabel: 'سبک درون​خطی(Inline Style)',
+	inlineStyleInputLabel: 'سبک درون‌خطی(Inline Style)',
 	langDirLTRLabel: 'چپ به راست (LTR)',
 	langDirLabel: 'جهت نوشتاری زبان',
 	langDirRTLLabel: 'راست به چپ (RTL)',

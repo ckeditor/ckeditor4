@@ -9,12 +9,12 @@ CKEDITOR.plugins.setLang( 'image2', 'fa', {
 	captionPlaceholder: 'عنوان',
 	infoTab: 'اطلاعات تصویر',
 	lockRatio: 'قفل کردن نسبت',
-	menu: 'ویژگی​های تصویر',
+	menu: 'ویژگی‌های تصویر',
 	pathName: 'تصویر',
 	pathNameCaption: 'عنوان',
 	resetSize: 'بازنشانی اندازه',
 	resizer: 'کلیک و کشیدن برای تغییر اندازه',
-	title: 'ویژگی​های تصویر',
+	title: 'ویژگی‌های تصویر',
 	uploadTab: 'بالاگذاری',
 	urlMissing: 'آدرس URL اصلی تصویر یافت نشد.'
 } );

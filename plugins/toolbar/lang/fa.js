@@ -9,7 +9,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'fa', {
 		document: 'سند',
 		clipboard: 'حافظه موقت/برگشت',
 		editing: 'در حال ویرایش',
-		forms: 'فرم​ها',
+		forms: 'فرم‌ها',
 		basicstyles: 'سبک‌های پایه',
 		paragraph: 'بند',
 		links: 'پیوندها',
