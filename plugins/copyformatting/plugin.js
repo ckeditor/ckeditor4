@@ -19,26 +19,15 @@
 		return domEvent.button === 0;
 	}
 
-	function generateCursorCss( sizes ) {
+	function generateCursorCss( sizes, pluginDir ) {
 		var css = [ 'cursor: ' ],
-			cursorsDir = 'plugins/copyformatting/cursors/';
+			cursorsDir = pluginDir + 'cursors/';
 
-		function getCoords( multiplier, isSize ) {
-			multiplier = isSize ? multiplier / 16 : multiplier;
-
-			var coordX = 12 * multiplier,
-				coordY = 1 * multiplier;
-
-			return [ coordX, ' ', coordY ].join( '' );
-		}
-
-		// Generate styles for non-Webkit browsers.
+		// All non-IE browsers support SVG cursor, IE needs CUR file.
 		if ( !CKEDITOR.env.ie ) {
 			css.push( 'url(',
 				CKEDITOR.getUrl( cursorsDir + 'cursor.svg' ),
-				') ',
-				getCoords( 1 ),
-				', auto;' );
+				') 12 1, auto;' );
 		} else {
 			css.push( 'url(',
 				CKEDITOR.env.hidpi ?
@@ -60,7 +49,7 @@
 				additionalCss = [
 					'.cke_copyformatting_active, .cke_copyformatting_active a',
 					'{',
-					generateCursorCss( [ 16, 32, 64, 128, 256 ] ),
+					generateCursorCss( [ 16, 32, 64, 128, 256 ], this.path ),
 					'}'
 				].join( '' );
 
