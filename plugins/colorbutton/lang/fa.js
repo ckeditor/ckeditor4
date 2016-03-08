@@ -4,18 +4,18 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'fa', {
 	auto: 'خودکار',
-	bgColorTitle: 'رنگ پس​زمینه',
+	bgColorTitle: 'رنگ پس‌زمینه',
 	colors: {
 		'000': 'سیاه',
 		'800000': 'خرمایی',
-		'8B4513': 'قهوه​ای شکلاتی',
+		'8B4513': 'قهوه‌ای شکلاتی',
 		'2F4F4F': 'ارغوانی مایل به خاکستری',
 		'008080': 'آبی مایل به خاکستری',
 		'000080': 'آبی سیر',
 		'4B0082': 'نیلی',
 		'696969': 'خاکستری تیره',
 		B22222: 'آتش آجری',
-		A52A2A: 'قهوه​ای',
+		A52A2A: 'قهوه‌ای',
 		DAA520: 'میله​ی طلایی',
 		'006400': 'سبز تیره',
 		'40E0D0': 'فیروزه​ای',
@@ -34,12 +34,12 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'fa', {
 		FFA500: 'نارنجی',
 		FFFF00: 'زرد',
 		'00FF00': 'فسفری',
-		AFEEEE: 'فیروزه​ای رنگ پریده',
+		AFEEEE: 'فیروزه‌ای رنگ پریده',
 		ADD8E6: 'آبی کمرنگ',
 		DDA0DD: 'آلویی',
 		D3D3D3: 'خاکستری روشن',
 		FFF0F5: 'بنفش کمرنگ',
-		FAEBD7: 'عتیقه سفید',
+		FAEBD7: 'سفید عتیقه',
 		FFFFE0: 'زرد روشن',
 		F0FFF0: 'عسلی',
 		F0FFFF: 'لاجوردی',
@@ -47,7 +47,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'fa', {
 		E6E6FA: 'بنفش کمرنگ',
 		FFF: 'سفید'
 	},
-	more: 'رنگ​های بیشتر...',
-	panelTitle: 'رنگها',
+	more: 'رنگ‌های بیشتر...',
+	panelTitle: 'رنگ‌ها',
 	textColorTitle: 'رنگ متن'
 } );
