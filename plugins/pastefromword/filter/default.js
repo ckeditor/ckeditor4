@@ -1059,15 +1059,16 @@
 				}
 			}
 
-			if ( !needsCorrection ) {
-				return;
-			}
-
-			for ( i = 0; i < list.length; i++ ) {
-				if ( list[ i ].attributes[ 'cke-dissolved' ] ) {
-					continue;
+			// Corrects list levels if they don't match their indentations.
+			if ( needsCorrection ) {
+				for ( i = 0; i < list.length; i++ ) {
+					if ( list[ i ].attributes[ 'cke-dissolved' ] ) {
+						continue;
+					}
+					list[ i ].attributes[ 'cke-list-level' ] = tools.indexOf( indentations, parseInt( list[ i ].attributes[ 'cke-indentation' ], 10 ) ) + 1;
 				}
-				list[ i].attributes[ 'cke-list-level' ] = tools.indexOf( indentations, parseInt( list[ i ].attributes[ 'cke-indentation' ], 10 ) ) + 1;
+			}
+		},
 
 		// Source: http://stackoverflow.com/a/17534350/3698944
 		toArabic: function( symbol ) {
