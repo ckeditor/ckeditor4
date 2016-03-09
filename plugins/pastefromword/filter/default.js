@@ -927,13 +927,15 @@
 						}
 					}
 
-					delete child.name;
+					deletedLists.push( child );
 				}
 			}, CKEDITOR.NODE_ELEMENT, false );
 
-			for ( var i = children.length - 1; i >= 0; i-- ) {
-
+			for ( i = children.length - 1; i >= 0; i-- ) {
 				children[ i ].insertAfter( element );
+			}
+			for ( i = deletedLists.length - 1; i >= 0; i-- ) {
+				delete deletedLists[ i ].name;
 			}
 
 			function toRoman( number ) {
