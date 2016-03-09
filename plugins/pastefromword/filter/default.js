@@ -793,7 +793,7 @@
 					level1Symbol = containerStack[ 0 ].children[ 0 ].attributes[ 'cke-symbol' ];
 
 					if ( !level1Symbol && containerStack[ 0 ].children.length > 1 ) {
-						level1Symbol = containerStack[0].children[1].attributes['cke-symbol'];
+						level1Symbol = containerStack[0].children[1].attributes[ 'cke-symbol' ];
 					}
 
 					if ( level1Symbol ) {
