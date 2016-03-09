@@ -8,7 +8,8 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	var $el = CKEDITOR.dom.element,
 		$doc = CKEDITOR.document,
 		lang = editor.lang.colordialog,
-		focusedColorCls = 'cke_colordialog_focusedcolor';
+		focusedColorCls = 'cke_colordialog_focusedcolor',
+		selectedColorCls = 'cke_colordialog_selectedcolor';
 
 	// Reference the dialog.
 	var dialog;
@@ -23,8 +24,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	function clearSelected() {
 		$doc.getById( selHiColorId ).removeStyle( 'background-color' );
 		dialog.getContentElement( 'picker', 'selectedColor' ).setValue( '' );
-		selected && selected.removeAttribute( 'aria-selected' );
-		selected = null;
+		removeSelected();
 	}
 
 	function updateSelected( evt ) {
@@ -32,9 +32,21 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 			color;
 
 		if ( target.getName() == 'td' && ( color = target.getChild( 0 ).getHtml() ) ) {
+			removeSelected();
+
 			selected = target;
 			selected.setAttribute( 'aria-selected', true );
+			selected.addClass( selectedColorCls );
 			dialog.getContentElement( 'picker', 'selectedColor' ).setValue( color );
+		}
+	}
+
+	function removeSelected() {
+		if ( selected ) {
+			selected.removeClass( selectedColorCls );
+			// Attribute aria-selected should also be removed when selection changes.
+			selected.removeAttribute( 'aria-selected' );
+			selected = null;
 		}
 	}
 
@@ -122,7 +134,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				}
 				domEvt.preventDefault();
 				break;
-				// DOWN-ARROW
+			// DOWN-ARROW
 			case 40:
 				// relative is TR
 				if ( ( relative = element.getParent().getNext() ) ) {
@@ -134,15 +146,15 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				domEvt.preventDefault();
 				break;
 
-				// SPACE
-				// ENTER
+			// SPACE
+			// ENTER
 			case 32:
 			case 13:
 				updateSelected( evt );
 				domEvt.preventDefault();
 				break;
 
-				// RIGHT-ARROW
+			// RIGHT-ARROW
 			case rtl ? 37 : 39:
 				// relative is TD
 				if ( ( nodeToMove = element.getNext() ) ) {
@@ -161,7 +173,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 				}
 				break;
 
-				// LEFT-ARROW
+			// LEFT-ARROW
 			case rtl ? 39 : 37:
 				// relative is TD
 				if ( ( nodeToMove = element.getPrevious() ) ) {
@@ -290,41 +302,41 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 						( focused || this.getElement().getElementsByTag( 'td' ).getItem( 0 ) ).focus();
 					}
 				},
-				spacer,
-				{
-					type: 'vbox',
-					padding: 0,
-					widths: [ '70%', '5%', '25%' ],
-					children: [ {
-						type: 'html',
-						html: '<span>' + lang.highlight + '</span>' +
+					spacer,
+					{
+						type: 'vbox',
+						padding: 0,
+						widths: [ '70%', '5%', '25%' ],
+						children: [ {
+							type: 'html',
+							html: '<span>' + lang.highlight + '</span>' +
 							'<div id="' + hicolorId + '" style="border: 1px solid; height: 74px; width: 74px;"></div>' +
 							'<div id="' + hicolorTextId + '">&nbsp;</div><span>' + lang.selected + '</span>' +
 							'<div id="' + selHiColorId + '" style="border: 1px solid; height: 20px; width: 74px;"></div>'
-					},
-					{
-						type: 'text',
-						label: lang.selected,
-						labelStyle: 'display:none',
-						id: 'selectedColor',
-						style: 'width: 76px;margin-top:4px',
-						onChange: function() {
-							// Try to update color preview with new value. If fails, then set it no none.
-							try {
-								$doc.getById( selHiColorId ).setStyle( 'background-color', this.getValue() );
-							} catch ( e ) {
-								clearSelected();
-							}
-						}
-					},
-					spacer,
-					{
-						type: 'button',
-						id: 'clear',
-						label: lang.clear,
-						onClick: clearSelected
+						},
+							{
+								type: 'text',
+								label: lang.selected,
+								labelStyle: 'display:none',
+								id: 'selectedColor',
+								style: 'width: 76px;margin-top:4px',
+								onChange: function() {
+									// Try to update color preview with new value. If fails, then set it no none.
+									try {
+										$doc.getById( selHiColorId ).setStyle( 'background-color', this.getValue() );
+									} catch ( e ) {
+										clearSelected();
+									}
+								}
+							},
+							spacer,
+							{
+								type: 'button',
+								id: 'clear',
+								label: lang.clear,
+								onClick: clearSelected
+							} ]
 					} ]
-				} ]
 			} ]
 		} ]
 	};
