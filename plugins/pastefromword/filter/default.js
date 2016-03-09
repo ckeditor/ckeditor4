@@ -945,26 +945,72 @@
 				lists = [ [ listElements[ 0 ] ] ],
 				lastList = lists[ 0 ];
 
-			listElements[ 0 ].attributes[ 'cke-indentation' ] = listElements[ 0 ].attributes[ 'cke-indentation' ] || List.getElementIndentation( listElements[ 0 ] );
+			element = listElements[ 0 ];
+			element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || List.getElementIndentation( element );
 
 			for ( i = 1; i < listElements.length; i++ ) {
 				element = listElements[ i ];
 				var previous = listElements[ i - 1 ];
 
+				element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || List.getElementIndentation( element );
+
 				if ( element.previous !== previous ) {
-
 					List.correctListLevels( lastList );
-
+					List.chopDiscontinousLists( lastList, lists );
 					lists.push( lastList = [] );
 				}
-				element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || List.getElementIndentation( element );
 
 				lastList.push( element );
 			}
 
 			List.correctListLevels( lastList );
 
+			List.chopDiscontinousLists( lastList, lists );
+
 			return lists;
+		},
+
+		// Sometimes lists can only be separated after level correction.
+		chopDiscontinousLists: function( list, lists ) {
+			var levelSymbols = {};
+			var choppedLists = [ [] ];
+
+			for ( var i = 0; i < list.length; i++ ) {
+				var lastSymbol = levelSymbols[ list[ i ].attributes[ 'cke-list-level' ] ],
+					currentSymbol, forceType;
+
+				if ( lastSymbol ) {
+					// An "h" before an "i".
+					forceType = lastSymbol.type.match( /alpha/ ) && lastSymbol.index == 7 ? 'alpha' : forceType;
+					// An "n" before an "o".
+					forceType = list[ i ].attributes[ 'cke-symbol' ] == 'o' && lastSymbol.index == 14 ? 'alpha' : forceType;
+
+					currentSymbol = List.getSymbolInfo( list[ i ].attributes[ 'cke-symbol' ], forceType );
+
+					var lastIndex = lastSymbol.index,
+						currentIndex = currentSymbol.index;
+
+					if ( lastSymbol.type != currentSymbol.type ||
+						( lastIndex >= 0 && currentIndex >= 0 && lastIndex + 1 != currentIndex ) ||
+						( lastIndex < 0 && currentIndex < 0 && lastIndex !== currentIndex ) ) {
+						choppedLists.push( [] );
+					}
+				} else {
+					currentSymbol = List.getSymbolInfo( list[ i ].attributes[ 'cke-symbol' ] );
+				}
+
+				// Reset all higher levels
+				for ( var j = parseInt( list[ i ].attributes[ 'cke-list-level' ], 10 ) + 1; j < 20; j++ ) {
+					if ( levelSymbols[ j ] ) {
+						delete levelSymbols[ j ];
+					}
+				}
+
+				levelSymbols[ list[ i ].attributes[ 'cke-list-level' ] ] = currentSymbol;
+				choppedLists[ choppedLists.length - 1 ].push( list[ i ] );
+			}
+
+			[].splice.apply( lists, [].concat( [ tools.indexOf( lists, list ), 1 ], choppedLists ) );
 		},
 
 		getElementIndentation: function( element ) {
@@ -1036,7 +1082,6 @@
 			}
 
 
-
 			pairComparison:
 			for ( i = 0; i < list.length; i++ ) {
 				for ( j = 0; j < list.length; j++ ) {
@@ -1087,7 +1132,50 @@
 		indentationToLevel: function( indentation ) {
 			return Math.max( Math.floor( indentation / 48 + 0.5 ), 1 );
 		},
+
+		// One-indexed
+		getSymbolInfo: function( symbol, type ) {
+			var symbolCase = symbol.toUpperCase() == symbol ? 'upper-' : 'lower-',
+				symbolMap = {
+				'·': [ 'disc', -1 ],
+				'o': [ 'circle', -2 ],
+				'§': [ 'square', -3 ]
+			};
+
+			if ( symbol.match( /[·o§]/ ) || ( type && type.match( /(disc|circle|square)/ ) ) ) {
+				return {
+					index: symbolMap[ symbol ][ 1 ],
+					type: symbolMap[ symbol ][ 0 ]
+				};
 			}
+
+			if ( symbol.match( /\d/ ) ) {
+				return {
+					index: symbol ? parseInt( List.getSubsectionSymbol( symbol ) , 10 ) : 0,
+					type: 'decimal'
+				};
+			}
+
+			symbol = symbol.replace( /\W/g, '' ).toLowerCase();
+
+			if ( ( !type && symbol.match( /[ivxl]+/i ) ) || ( type && type != 'alpha' ) || type == 'roman' ) {
+				return {
+					index: List.toArabic( symbol ),
+					type: symbolCase + 'roman'
+				};
+			}
+
+			if ( symbol.match( /[a-z]/i ) ) {
+				return {
+					index: symbol.charCodeAt( 0 ) - 97,
+					type: symbolCase + 'alpha'
+				};
+			}
+
+			return {
+				index: -1,
+				type: 'disc'
+			};
 		}
 	};
 	List = CKEDITOR.plugins.pastefromword.lists;
