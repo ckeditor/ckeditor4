@@ -24,10 +24,6 @@
 
 		filter = new CKEDITOR.htmlParser.filter( {
 			root: function( element ) {
-				// filterChildren() tells the filter to work only
-				// on the element's current children.
-				// This way one can modify the DOM without triggering
-				// the filter for each new element.
 				element.filterChildren( filter );
 				List.createLists( element );
 			},
@@ -36,8 +32,6 @@
 				[ /^v:shapetype/, '' ],
 				[ new RegExp( invalidTags.join( '|' ) ), '' ] // Remove invalid tags.
 			],
-			// Each element is processed through the '^' function, then
-			// any matching pattern and finally through the '$' function.
 			elements: {
 				'a': function( element ) {
 					// Redundant anchor created by IE8.
