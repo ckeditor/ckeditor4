@@ -182,7 +182,7 @@
 			// If editor is in inline mode, remove cursor directly from the editable area.
 			// Otherwise remove it from the frame's documentElement.
 			if ( editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ) {
-				return editor.editable()
+				return editor.editable();
 			}
 
 			return editor.editable().getParent();
