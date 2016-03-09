@@ -127,12 +127,10 @@
 			copyFormatting: {
 				exec: function( editor, data ) {
 					var	cmd = this,
+						plugin = CKEDITOR.plugins.copyformatting,
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
 						isSticky = data ? data.sticky : false,
-						// If editor is in inline mode, add cursor to directly to the editable area.
-						// Otherwise add it to the frame's documentElement.
-						cursorContainer = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
-			editor.editable().getParent();
+						cursorContainer = plugin._getCursorContainer( editor );
 
 					if ( !isFromKeystroke && cmd.state === CKEDITOR.TRISTATE_ON ) {
 						cmd.styles = null;
@@ -141,7 +139,7 @@
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					cmd.styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor.elementPath().lastElement );
+					cmd.styles = plugin._extractStylesFromElement( editor.elementPath().lastElement );
 
 					if ( !isFromKeystroke ) {
 						cmd.setState( CKEDITOR.TRISTATE_ON );
@@ -156,10 +154,7 @@
 				exec: function( editor, data ) {
 					var cmd = editor.getCommand( 'copyFormatting' ),
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
-						// If editor is in inline mode, remove cursor directly from the editable area.
-						// Otherwise remove it from the frame's documentElement.
-						cursorContainer = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
-							editor.editable().getParent();
+						cursorContainer = CKEDITOR.plugins.copyformatting._getCursorContainer( editor );
 
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON || !cmd.styles ) {
 						return;
@@ -174,6 +169,23 @@
 					}
 				}
 			}
+		},
+
+		/**
+		 * Determines if the cursor should be applied to the editable or its parent.
+		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
+		 * @return {CKEDITOR.dom.element}
+		 * @private
+		 */
+		_getCursorContainer: function( editor ) {
+			// If editor is in inline mode, remove cursor directly from the editable area.
+			// Otherwise remove it from the frame's documentElement.
+			if ( editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ) {
+				return editor.editable()
+			}
+
+			return editor.editable().getParent();
 		},
 
 		/**
