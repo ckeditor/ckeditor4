@@ -31,8 +31,8 @@
 		} else {
 			css.push( 'url(',
 				CKEDITOR.env.hidpi ?
-					CKEDITOR.getUrl( cursorsDir + '/cursor-' + sizes[ 0 ] + 'x' + sizes[ 0 ] + '.cur' ) :
-					CKEDITOR.getUrl( cursorsDir + '/cursor-' + sizes[ 1 ] + 'x' + sizes[ 1 ] + '.cur' ),
+					CKEDITOR.getUrl( cursorsDir + 'cursor-' + sizes[ 1 ] + 'x' + sizes[ 1 ] + '.cur' ) :
+					CKEDITOR.getUrl( cursorsDir + 'cursor-' + sizes[ 0 ] + 'x' + sizes[ 0 ] + '.cur' ),
 				'), auto;' );
 		}
 
