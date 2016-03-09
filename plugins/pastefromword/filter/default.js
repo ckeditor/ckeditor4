@@ -881,8 +881,15 @@
 					for ( var i = 0; i < child.children.length; i++ ) {
 						if ( child.children[ i ].name == 'li' ) {
 							var symbol,
+								type = child.attributes.type,
 								start = parseInt( child.attributes.start, 10 ) || 1;
-							switch ( child.attributes.type ) {
+
+							if ( !type ) {
+								var style = tools.parseCssText( child.attributes.style );
+								type = style[ 'list-style-type' ];
+							}
+
+							switch ( type ) {
 								case 'disc':
 									symbol = '·';
 									break;
@@ -893,20 +900,27 @@
 									symbol = '§';
 									break;
 								case '1':
-									symbol = start + '.';
+								case 'decimal':
+									symbol = ( start + i ) + '.';
 									break;
 								case 'a':
+								case 'lower-alpha':
 									symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + i ) + '.';
 									break;
 								case 'A':
-									symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + i ) + '.';
+								case 'upper-alpha':
+									symbol = String.fromCharCode( 'A'.charCodeAt( 0 ) + start - 1 + i ) + '.';
 									break;
 								case 'i':
+								case 'lower-roman':
 									symbol = toRoman( start + i ) + '.';
 									break;
 								case 'I':
+								case 'upper-roman':
 									symbol = toRoman( start + i ).toUpperCase() + '.';
 									break;
+								default:
+									symbol = child.name == 'ul' ? '·' : ( start + i ) + '.';
 							}
 
 							child.children[ i ].attributes[ 'cke-symbol' ] = symbol;
