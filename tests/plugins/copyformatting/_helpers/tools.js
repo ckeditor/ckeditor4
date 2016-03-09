@@ -89,8 +89,7 @@ function testConvertingStyles( elementHtml, expectedStyles ) {
 
 function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
-		areaWithCursor = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
-			editor.editable().getParent();
+		areaWithCursor = CKEDITOR.plugins.copyformatting._getCursorContainer( editor );
 
 	if ( !additionalData || additionalData.sticky ) {
 		assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state, 'Button is active' );
@@ -115,8 +114,7 @@ function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 function assertApplyFormattingState( editor, expectedStyles, styledElement, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
 		path = new CKEDITOR.dom.elementPath( styledElement, editor.editable() ),
-		areaWithCursor = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
-			editor.editable().getParent();
+		areaWithCursor = CKEDITOR.plugins.copyformatting._getCursorContainer( editor );
 
 	if ( !additionalData ) {
 		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active' );
