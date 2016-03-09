@@ -56,10 +56,17 @@
 					'), auto'
 				) +
 				'}',
-				styleElement = CKEDITOR.dom.element.createFromHtml( '<style data-cke-temp="1">' + additionalPageCss + '</style>' );
+				styleElement = CKEDITOR.document.$.createElement( 'style' );
+
+			styleElement.type = 'text/css';
+			if ( styleElement.styleSheet ) {
+				styleElement.styleSheet.cssText = additionalPageCss;
+			} else {
+				styleElement.innerHTML = additionalPageCss;
+			}
 
 			CKEDITOR.addCss( additionalCss );
-			CKEDITOR.document.getHead().append( styleElement );
+			CKEDITOR.document.getHead().append( new CKEDITOR.dom.element( styleElement ) );
 		},
 
 		init: function( editor ) {
