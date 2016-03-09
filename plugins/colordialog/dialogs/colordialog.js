@@ -302,41 +302,41 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 						( focused || this.getElement().getElementsByTag( 'td' ).getItem( 0 ) ).focus();
 					}
 				},
-					spacer,
-					{
-						type: 'vbox',
-						padding: 0,
-						widths: [ '70%', '5%', '25%' ],
-						children: [ {
-							type: 'html',
-							html: '<span>' + lang.highlight + '</span>' +
+				spacer,
+				{
+					type: 'vbox',
+					padding: 0,
+					widths: [ '70%', '5%', '25%' ],
+					children: [ {
+						type: 'html',
+						html: '<span>' + lang.highlight + '</span>' +
 							'<div id="' + hicolorId + '" style="border: 1px solid; height: 74px; width: 74px;"></div>' +
 							'<div id="' + hicolorTextId + '">&nbsp;</div><span>' + lang.selected + '</span>' +
 							'<div id="' + selHiColorId + '" style="border: 1px solid; height: 20px; width: 74px;"></div>'
-						},
-							{
-								type: 'text',
-								label: lang.selected,
-								labelStyle: 'display:none',
-								id: 'selectedColor',
-								style: 'width: 76px;margin-top:4px',
-								onChange: function() {
-									// Try to update color preview with new value. If fails, then set it no none.
-									try {
-										$doc.getById( selHiColorId ).setStyle( 'background-color', this.getValue() );
-									} catch ( e ) {
-										clearSelected();
-									}
-								}
-							},
-							spacer,
-							{
-								type: 'button',
-								id: 'clear',
-								label: lang.clear,
-								onClick: clearSelected
-							} ]
+					},
+					{
+						type: 'text',
+						label: lang.selected,
+						labelStyle: 'display:none',
+						id: 'selectedColor',
+						style: 'width: 76px;margin-top:4px',
+						onChange: function() {
+							// Try to update color preview with new value. If fails, then set it no none.
+							try {
+								$doc.getById( selHiColorId ).setStyle( 'background-color', this.getValue() );
+							} catch ( e ) {
+								clearSelected();
+							}
+						}
+					},
+					spacer,
+					{
+						type: 'button',
+						id: 'clear',
+						label: lang.clear,
+						onClick: clearSelected
 					} ]
+				} ]
 			} ]
 		} ]
 	};
