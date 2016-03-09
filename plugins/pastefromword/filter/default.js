@@ -702,14 +702,14 @@
 			switch ( list.attributes[ 'cke-list-style-type' ] ) {
 				case 'lower-roman':
 				case 'upper-roman':
-					list.attributes.start = toArabic( symbols[ offset ] ) - offset;
+					list.attributes.start = List.toArabic( symbols[ offset ] ) - offset;
 					break;
 				case 'lower-alpha':
 				case 'upper-alpha':
 					list.attributes.start = ( symbols[offset] ).replace( /\W/g, '' ).toLowerCase().charCodeAt( 0 ) - 96 - offset;
 					break;
 				case 'decimal':
-					list.attributes.start = ( parseInt( getSubsectionSymbol( symbols[ offset ] ), 10 ) - offset ) || 1;
+					list.attributes.start = ( parseInt( List.getSubsectionSymbol( symbols[ offset ] ), 10 ) - offset ) || 1;
 					break;
 			}
 
@@ -718,25 +718,11 @@
 			}
 
 			delete list.attributes[ 'cke-list-style-type' ];
+		},
 
-			// Source: http://stackoverflow.com/a/17534350/3698944
-			function toArabic( symbol ) {
-				if ( !symbol.match( /[ivxl]/i ) ) return 0;
-				if ( symbol.match( /^l/i ) ) return 50 + toArabic( symbol.slice( 1 ) );
-				if ( symbol.match( /^lx/i ) ) return 40 + toArabic( symbol.slice( 1 ) );
-				if ( symbol.match( /^x/i ) ) return 10 + toArabic( symbol.slice( 1 ) );
-				if ( symbol.match( /^ix/i ) ) return 9 + toArabic( symbol.slice( 2 ) );
-				if ( symbol.match( /^v/i ) ) return 5 + toArabic( symbol.slice( 1 ) );
-				if ( symbol.match( /^iv/i ) ) return 4 + toArabic( symbol.slice( 2 ) );
-				if ( symbol.match( /^i/i ) ) return 1 + toArabic( symbol.slice( 1 ) );
-				// Ignore other characters.
-				return toArabic( symbol.slice( 1 ) );
-			}
-
-			// Taking into account cases like "1.1.2." etc. - get the last element.
-			function getSubsectionSymbol( symbol ) {
-				return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', 1 ] )[ 1 ];
-			}
+		// Taking into account cases like "1.1.2." etc. - get the last element.
+		getSubsectionSymbol: function( symbol ) {
+			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', 1 ] )[ 1 ];
 		},
 
 		setListDir: function( list ) {
@@ -1107,6 +1093,24 @@
 					continue;
 				}
 				list[ i].attributes[ 'cke-list-level' ] = tools.indexOf( indentations, parseInt( list[ i ].attributes[ 'cke-indentation' ], 10 ) ) + 1;
+
+		// Source: http://stackoverflow.com/a/17534350/3698944
+		toArabic: function( symbol ) {
+			if ( !symbol.match( /[ivxl]/i ) ) return 0;
+			if ( symbol.match( /^l/i ) ) return 50 + List.toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^lx/i ) ) return 40 + List.toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^x/i ) ) return 10 + List.toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^ix/i ) ) return 9 + List.toArabic( symbol.slice( 2 ) );
+			if ( symbol.match( /^v/i ) ) return 5 + List.toArabic( symbol.slice( 1 ) );
+			if ( symbol.match( /^iv/i ) ) return 4 + List.toArabic( symbol.slice( 2 ) );
+			if ( symbol.match( /^i/i ) ) return 1 + List.toArabic( symbol.slice( 1 ) );
+			// Ignore other characters.
+			return List.toArabic( symbol.slice( 1 ) );
+		},
+
+		indentationToLevel: function( indentation ) {
+			return Math.max( Math.floor( indentation / 48 + 0.5 ), 1 );
+		},
 			}
 		}
 	};
