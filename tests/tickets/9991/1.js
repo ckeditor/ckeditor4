@@ -80,6 +80,7 @@
 			'6751': [ 'word2013' ],
 			'6751disappearing_spaces_example2': [ 'word2013' ],
 			'7131': [ 'word2013' ], // Will break. Input from IE11 requires attention.
+			'7131customNumbering': [ 'word2013' ],
 			'7131TC_7131_2': [ 'word2013' ],
 			'7262preformatted_list': [ 'word2013' ],
 			//'7269Test_with_footnote': [ 'word2013' ], // Circular dependencies in anchors.
@@ -94,8 +95,8 @@
 			'9475List2010': [ 'word2013' ],
 			'9456Stuff_to_get': [ 'word2013' ],
 			//'9456list_paste_from_msword': [ 'word2013' ], // Not supported
-			//'9426CK_Sample_word_document': [ 'word2013' ], // "lists" made by tabs.
-			//'9424CK_Sample_word_document': [ 'word2013' ], // "lists" made by tabs.
+			'9426CK_Sample_word_document': [ 'word2013' ], // "lists" made by tabs.
+			//'9424CK_Sample_word_document': [ 'word2013' ], // Same file as in 9426.
 			'9422for_cke': [ 'word2013' ],
 			'9340test_ckeditor': [ 'word2013' ],
 			'9331ckBugWord1': [ 'word2013' ],
