@@ -44,9 +44,8 @@
 		icons: 'copyformatting',
 		hidpi: true,
 
-		init: function( editor ) {
-			var plugin = CKEDITOR.plugins.copyformatting,
-				additionalCss = [
+		onLoad: function() {
+			var additionalCss = [
 					'.cke_copyformatting_active, .cke_copyformatting_active a',
 					'{',
 					generateCursorCss( [ 16, 32, 64, 128, 256 ], this.path ),
@@ -54,6 +53,10 @@
 				].join( '' );
 
 			CKEDITOR.addCss( additionalCss );
+		},
+
+		init: function( editor ) {
+			var plugin = CKEDITOR.plugins.copyformatting;
 
 			editor.addCommand( 'copyFormatting', plugin.commands.copyFormatting );
 			editor.addCommand( 'applyFormatting', plugin.commands.applyFormatting );
