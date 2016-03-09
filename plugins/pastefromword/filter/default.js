@@ -88,6 +88,10 @@
 				'p': function( element ) {
 					element.filterChildren( filter );
 
+					if ( element.attributes.style && element.attributes.style.match( /display:\s*none/i ) ) {
+						return false;
+					}
+
 					if ( List.thisIsAListItem( element ) ) {
 						List.convertToFakeListItem( element );
 					} else {
