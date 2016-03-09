@@ -108,6 +108,10 @@
 					editable.attachListener( copyFormattingButtonEl, 'dblclick', function() {
 						editor.execCommand( 'copyFormatting', { sticky: true } );
 					} );
+
+					editable.attachListener( copyFormattingButtonEl, 'mouseup', function( evt ) {
+						evt.data.stopPropagation();
+					} );
 				}
 			} );
 
