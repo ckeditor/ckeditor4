@@ -990,6 +990,7 @@
 
 			for ( i = 0; i < list.length; i++ ) {
 				if ( list[ i ].attributes[ 'cke-dissolved' ] ) {
+					needsCorrection = true;
 					continue;
 				}
 
@@ -1011,9 +1012,8 @@
 				// If there is only one indentation assume the indent width is default - 0.5in.
 				var indentation = indentations[ 0 ];
 				delete indentations[ 0 ];
-				indentations[ Math.floor( indentation / 48 - 0.5 ) ] = indentation;
+				indentations[ List.indentationToLevel( indentation ) - 1 ] = indentation;
 				levelDifference = 48;
-				needsCorrection = true;
 			} else {
 				var differences = {};
 
