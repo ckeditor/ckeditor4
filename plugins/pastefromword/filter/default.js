@@ -819,17 +819,37 @@
 		},
 
 		dissolveList: function( element ) {
-			var children = [];
+			var i, children = [],
+				deletedLists = [];
 
 			element.forEach( function( child ) {
-				if ( child.name == 'li' &&
-					child.attributes.style &&
-					child.attributes.style.match( /mso-list:/i ) ) {
-					child.name = 'p';
+				if ( child.name == 'li' ) {
+					var childChild = child.children[ 0 ];
+					if ( childChild && childChild.name && childChild.attributes.style && childChild.attributes.style.match( /mso-list:/i ) ) {
+						Style.pushStylesLower( child, { 'list-style-type': true, 'display': true } );
 
-					child.attributes[ 'cke-dissolved' ] = true;
+						var childStyle = tools.parseCssText( childChild.attributes.style, true );
 
-					children.push( child );
+						Style.setStyle( child, 'mso-list', childStyle[ 'mso-list' ], true );
+						Style.setStyle( childChild, 'mso-list', '' );
+
+						// If this style has a value it's usually "none". This marks such list elements for deletion.
+						if ( childStyle.display || childStyle.DISPLAY ) {
+							if ( childStyle.display ) {
+								Style.setStyle( child, 'display', childStyle.display, true );
+							} else {
+								Style.setStyle( child, 'display', childStyle.DISPLAY, true );
+							}
+						}
+					}
+
+					if ( child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
+						child.name = 'p';
+
+						child.attributes[ 'cke-dissolved' ] = true;
+
+						children.push( child );
+					}
 				}
 
 				if ( child.name == 'ul' || child.name == 'ol' ) {
