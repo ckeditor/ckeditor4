@@ -130,21 +130,8 @@
 						Style.setStyle( element.parent, 'list-style-type', 'none' );
 					}
 
-					if ( List.dissolvable( element ) ) {
-						List.dissolveList( element );
-						return false;
-					}
-
-
-					List.setListDir( element );
-
-					element.filterChildren( filter );
-
-					var style = tools.parseCssText( element.attributes.style );
-
-					List.setListSymbol.removeRedundancies( style, parseInt( element.attributes[ 'cke-list-level' ], 10 ) );
-
-					element.attributes.style = CKEDITOR.tools.writeCssText( style );
+					List.dissolveList( element );
+					return false;
 				},
 				'li': function( element ) {
 					element.attributes.style = Style.normalizedStyles( element );
@@ -158,26 +145,8 @@
 						Style.setStyle( element.parent, 'list-style-type', 'none' );
 					}
 
-					if ( List.dissolvable( element ) ) {
-						List.dissolveList( element );
-						return false;
-					}
-
-					if ( element.attributes.start == '1' ) {
-						delete element.attributes.start;
-					}
-
-					Style.pushStylesLower( element );
-
-					List.setListDir( element );
-
-					element.filterChildren( filter );
-
-					var style = tools.parseCssText( element.attributes.style );
-
-					List.setListSymbol.removeRedundancies( style, parseInt( element.attributes[ 'cke-list-level' ], 10 ) );
-
-					element.attributes.style = CKEDITOR.tools.writeCssText( style );
+					List.dissolveList( element );
+					return false;
 				},
 				'span': function( element ) {
 					element.filterChildren( filter );
@@ -934,34 +903,6 @@
 				if ( number >= 1 ) return 'i' + toRoman( number - 1 );
 				return '';
 			}
-		},
-
-		dissolvable: function( element ) {
-			// Detecting instances of multilevel one element lists.
-			var listCount = 0,
-				elementCount = 0,
-				lastList;
-			element.forEach( function( child ) {
-				if ( child.name == 'li' ) {
-					elementCount++;
-				}
-				if ( child.name == 'ul' || child.name == 'ol' ) {
-					listCount++;
-					lastList = child;
-				}
-			} );
-
-			if ( elementCount == listCount && lastList ) {
-				element = lastList;
-			}
-
-			for ( var i = 0; i < element.children.length; i++ ) {
-				var child = element.children[ i ];
-				if ( child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
-					return true;
-				}
-			}
-			return false;
 		},
 
 		groupLists: function( listElements ) {
