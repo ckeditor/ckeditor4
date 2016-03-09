@@ -739,7 +739,17 @@
 			// Create nested list structures.
 			for ( i = 0; i < lists.length; i++ ) {
 				var list = lists[ i ],
-					containerStack = [ List.createList( list[ 0 ] ) ],
+					firstLevel1Element = list[ 0 ];
+
+				// To determine the type of the top-level list a level 1 element is needed.
+				for ( j = 0; j < list.length; j++ ) {
+					if ( list[ j ].attributes[ 'cke-list-level' ] == 1 ) {
+						firstLevel1Element = list[ j ];
+						break;
+					}
+				}
+
+				var	containerStack = [ List.createList( firstLevel1Element ) ],
 					innermostContainer = containerStack[ 0 ],
 					allContainers = [ containerStack[ 0 ] ];
 
