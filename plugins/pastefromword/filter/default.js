@@ -117,6 +117,11 @@
 					Style.createStyleStack( element, filter );
 				},
 				'font': function( element ) {
+					if ( element.getHtml().match( /^\s*$/ ) ) {
+						new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
+						return false;
+					}
+
 					createAttributeStack( element, filter );
 				},
 				'ul': function( element ) {
