@@ -172,7 +172,7 @@
 		},
 
 		/**
-		 * Determines if the cursor should be applied to the editable or its parent.
+		 * Return a container element where the mouse cursor should be overriden.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @return {CKEDITOR.dom.element}
