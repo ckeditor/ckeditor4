@@ -121,6 +121,13 @@
 			}, {
 				sticky: true
 			} );
+		},
+
+		'test that _getCursorContainer returns correct element': function( editor ) {
+			var correctContainer = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
+				editor.editable().getParent();
+
+			assert.areSame( correctContainer, CKEDITOR.plugins.copyformatting._getCursorContainer( editor ) );
 		}
 	};
 
