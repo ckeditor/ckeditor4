@@ -71,16 +71,14 @@
 
 		init: function( editor ) {
 			var plugin = CKEDITOR.plugins.copyformatting,
-				additionalCss = [
-					'html.cke_copyformatting_active',
-					'{',
-					'min-height: 100%;',
-					'}',
-					'.cke_copyformatting_active, .cke_copyformatting_active .cke_editable, .cke_copyformatting_active a',
-					'{',
-					generateCursorCss( [ 16, 32, 64, 128, 256 ] ),
-					'}'
-				].join( '' );
+				additionalCss = 'html.cke_copyformatting_active' +
+					'{' +
+					'min-height: 100%;' +
+					'}' +
+					'.cke_copyformatting_active, .cke_copyformatting_active .cke_editable, .cke_copyformatting_active a' +
+					'{' +
+					generateCursorCss( [ 16, 32, 64, 128, 256 ] ) +
+					'}';
 
 			CKEDITOR.addCss( additionalCss );
 
