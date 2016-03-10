@@ -19,36 +19,22 @@
 		return domEvent.button === 0;
 	}
 
-	function generateCursorCss( sizes, pluginDir ) {
-		var css = [ 'cursor: ' ],
-			cursorsDir = pluginDir + 'cursors/';
-
-		// All non-IE browsers support SVG cursor, IE needs CUR file.
-		if ( !CKEDITOR.env.ie ) {
-			css.push( 'url(',
-				CKEDITOR.getUrl( cursorsDir + 'cursor.svg' ),
-				') 12 1, auto;' );
-		} else {
-			css.push( 'url(',
-				CKEDITOR.env.hidpi ?
-					CKEDITOR.getUrl( cursorsDir + 'cursor-' + sizes[ 1 ] + 'x' + sizes[ 1 ] + '.cur' ) :
-					CKEDITOR.getUrl( cursorsDir + 'cursor-' + sizes[ 0 ] + 'x' + sizes[ 0 ] + '.cur' ),
-				'), auto;' );
-		}
-
-		return css.join( '' );
-	}
-
 	CKEDITOR.plugins.add( 'copyformatting', {
 		lang: 'en',
 		icons: 'copyformatting',
 		hidpi: true,
 
 		onLoad: function() {
+			// There isn't cursor in CUR format for IE/Edge as that browser
+			// doesn't support custom cursor in [contenteditable] area.
+			// Ticket for this issue:
+			// https://connect.microsoft.com/IE/feedback/details/1070215/cant-change-cursor-in-contenteditable-using-css
 			var additionalCss = [
 					'.cke_copyformatting_active, .cke_copyformatting_active a',
 					'{',
-					generateCursorCss( [ 16, 32, 64, 128, 256 ], this.path ),
+					'cursor: url(',
+					CKEDITOR.getUrl( this.path + 'cursors/cursor.svg' ),
+					') 12 1, auto;',
 					'}'
 				].join( '' );
 
