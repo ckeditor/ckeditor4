@@ -81,7 +81,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		return isValid;
 	}
 
-	// Creates a function that pre-loads images. The callback function passes
+	// Creates a function that preupdatePreview-loads images. The callback function passes
 	// [image, width, height] or null if loading failed.
 	//
 	// @returns {Function}
@@ -133,6 +133,9 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		var value = this.getValue();
 
 		toggleDimensions( false );
+		
+		// Show the image in the dialog as preview
+		updatePreviewImage( value );
 
 		// Remember that src is different than default.
 		if ( value !== widget.data.src ) {
@@ -159,9 +162,6 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 				// Check for new lock value if image exist.
 				toggleLockRatio( helpers.checkHasNaturalRatio( image ) );
-				
-				// Show the image in the dialog as preview
-				updatePreviewImage( image.$.src );
 			} );
 
 			srcChanged = true;
@@ -179,9 +179,6 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 
 			// Restore height field with cached height.
 			heightField.setValue( domHeight );
-			
-			// Restore the preview image in the dialog
-			updatePreviewImage( widget.data.src );
 
 			// Src equals default one back again.
 			srcChanged = false;
