@@ -175,11 +175,15 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, addi
  * @param {Object[]} expectedStyles Array of definitions of styles that will be applied.
  * @param {CKEDITOR.style[]} removedStyles Array of styles that should be removed.
  * @param {Object} rangeInfo Object with information about range that should be created for the test.
- * @param {Object} additionaldata Additional data to be passed to plugin's commands.
+ * @param {Object} additionalData Additional data to be passed to plugin's commands.
  */
 function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, removedStyles, rangeInfo, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
-		styles, i, removed, element, range;
+		styles,
+		i,
+		removed,
+		element,
+		range;
 
 	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
 
