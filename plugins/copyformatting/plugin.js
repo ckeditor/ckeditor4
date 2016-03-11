@@ -444,15 +444,18 @@
 		_applyFormat: function( newStyles, editor ) {
 			var range = editor.getSelection().getRanges()[ 0 ],
 				plugin = CKEDITOR.plugins.copyformatting,
-				oldStyles, bkms;
+				newRange,
+				oldStyles,
+				bkms,
+				word,
+				i;
 
 			if ( !range ) {
 				return;
 			}
 
 			if ( range.collapsed ) {
-				var newRange = editor.createRange(),
-					word;
+				newRange = editor.createRange();
 
 				// Create bookmarks only if range is collapsed – otherwise
 				// it will break walker used in _extractStylesFromRange.
@@ -470,12 +473,12 @@
 			// Before applying new styles, remove all existing styles.
 			oldStyles = plugin._extractStylesFromRange( newRange || range );
 
-			for ( var i = 0; i < oldStyles.length; i++ ) {
+			for ( i = 0; i < oldStyles.length; i++ ) {
 				oldStyles[ i ].remove( editor );
 			}
 
 			// Now apply new styles.
-			for ( var i = 0; i < newStyles.length; i++ ) {
+			for ( i = 0; i < newStyles.length; i++ ) {
 				newStyles[ i ].apply( editor );
 			}
 
