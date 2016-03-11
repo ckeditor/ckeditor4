@@ -554,7 +554,7 @@
 	}
 
 	/**
-	 * Creates a {CKEDITOR.dom.iterator} instance for this range.
+	 * Creates a {@link CKEDITOR.dom.iterator} instance for this range.
 	 *
 	 * @member CKEDITOR.dom.range
 	 * @returns {CKEDITOR.dom.iterator}
