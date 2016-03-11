@@ -268,6 +268,7 @@
 		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
+		 * @todo Styles in the array returned by this method might be duplicated; it should be cleaned later on.
 		 */
 		_extractStylesFromRange: function( range ) {
 			var styles = [],
