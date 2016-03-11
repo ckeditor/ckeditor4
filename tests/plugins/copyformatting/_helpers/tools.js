@@ -124,6 +124,8 @@ function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active (keystroke)' );
 		assert.isFalse( areaWithCursor.hasClass( 'cke_copyformatting_active' ),
 			'Editable area does not have class indicating that Copy Formatting is active' );
+		assert.isFalse( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_disabled' ),
+			'The page does not have class indicating that Copy Formatting is active' );
 	}
 
 	assert.isArray( cmd.styles, 'Styles are stored in the array' );
