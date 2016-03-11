@@ -68,7 +68,10 @@ function testGettingWordOffset( editor, htmlWithSelection, expected ) {
  * @param {CKEDITOR.style[]} oldStyles Array of styles to be removed.
  */
 function testApplyingFormat( editor, htmlWithSelection, expectedContent, newStyles, oldStyles ) {
-	var range, applied, removed, i;
+	var applied = 0,
+		removed = 0,
+		range,
+		i;
 
 	oldStyles = CKEDITOR.tools.isArray( oldStyles ) ? oldStyles : [];
 
@@ -79,7 +82,7 @@ function testApplyingFormat( editor, htmlWithSelection, expectedContent, newStyl
 	range.shrink( CKEDITOR.SHRINK_TEXT );
 
 	// Check if all old styles were removed.
-	for ( i = removed = 0; i < oldStyles.length; i++ ) {
+	for ( i = 0; i < oldStyles.length; i++ ) {
 		if ( !oldStyles[ i ].checkActive( range.startPath(), editor ) ) {
 			++removed;
 		}
@@ -88,7 +91,7 @@ function testApplyingFormat( editor, htmlWithSelection, expectedContent, newStyl
 	assert.areSame( oldStyles.length, removed, 'Old styles were removed correctly.' );
 
 	// Now check if all new styles were applied.
-	for ( i = applied = 0; i < newStyles.length; i++ ) {
+	for ( i = 0; i < newStyles.length; i++ ) {
 		if ( newStyles[ i ].checkActive( range.startPath(), editor ) ) {
 			++applied;
 		}
