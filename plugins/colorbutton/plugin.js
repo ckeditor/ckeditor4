@@ -221,7 +221,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 } );
 
 /**
- * Whether to enable the **More Colors*** button in the color selectors.
+ * Whether to enable the **More Colors** button in the color selectors.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
  * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
