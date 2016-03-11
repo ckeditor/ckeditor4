@@ -2087,7 +2087,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	}
 
 	function getContextualizedSelector( element, selector ) {
-		return '#' + element.$.id + ' ' + selector.split( /,\s*/ ).join( ', #' + element.$.id + ' ' );
+		return '#' + CSS.escape( element.$.id ) + ' ' + selector.split( /,\s*/ ).join( ', #' + CSS.escape( element.$.id ) + ' ' );
 	}
 
 	var sides = {
