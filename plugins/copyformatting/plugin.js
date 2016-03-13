@@ -30,32 +30,35 @@
 			// Ticket for this issue:
 			// https://connect.microsoft.com/IE/feedback/details/1070215/cant-change-cursor-in-contenteditable-using-css
 			var additionalCss = 'html.cke_copyformatting_active' +
-				'{' +
-				'min-height: 100%;' +
-				'}' +
-				'.cke_copyformatting_active.cke_copyformatting_active,' +
-				'.cke_copyformatting_active.cke_copyformatting_active .cke_editable,'+
-				'.cke_copyformatting_active.cke_copyformatting_active a' +
-				'{' +
-				'cursor: url(' +
-				CKEDITOR.getUrl( this.path + 'cursors/cursor.svg' ) +
-				') 12 1, auto;' +
-				'}',
+					'{' +
+					'min-height: 100%;' +
+					'}' +
+					'.cke_copyformatting_active.cke_copyformatting_active,' +
+					'.cke_copyformatting_active.cke_copyformatting_active .cke_editable,' +
+					'.cke_copyformatting_active.cke_copyformatting_active a' +
+					'{' +
+					'cursor: url(' +
+					CKEDITOR.getUrl( this.path + 'cursors/cursor.svg' ) +
+					') 12 1, auto;' +
+					'}',
 
 				additionalPageCss = '.cke_copyformatting_disabled,' +
-				'.cke_copyformatting_disabled a, .cke_copyformatting_disabled .cke_editable' +
-				'{' +
-				'cursor: url(' +
-				( !CKEDITOR.env.ie ?
-					CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled.svg' ) +
-					') 12 1, auto;' :
+					'.cke_copyformatting_disabled a, .cke_copyformatting_disabled .cke_editable' +
+					'{' +
+					'cursor: url(' +
+					( !CKEDITOR.env.ie ?
+						CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled.svg' ) +
+						') 12 1, auto;' :
 
-					( CKEDITOR.env.hidpi ?
-						CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled-32x32.cur' ) :
-						CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled-16x16.cur' ) ) +
-					'), auto'
-				) +
-				'}',
+						( CKEDITOR.env.hidpi ?
+							CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled-32x32.cur' ) :
+							CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled-16x16.cur' ) ) +
+						'), auto'
+					) +
+					'}' +
+					'.cke_screen_reader_only{' +
+					'position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;' +
+					'}',
 				styleElement = CKEDITOR.document.$.createElement( 'style' );
 
 			styleElement.type = 'text/css';
@@ -151,6 +154,8 @@
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
 
+						CKEDITOR.plugins.copyformatting._putSrMessage( editor, 'Formatting canceled' );
+
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
@@ -164,6 +169,8 @@
 					}
 
 					cmd.sticky = isSticky;
+
+					CKEDITOR.plugins.copyformatting._putSrMessage( editor, 'Formatting copied' );
 				}
 			},
 
@@ -187,8 +194,35 @@
 
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
+
+					CKEDITOR.plugins.copyformatting._putSrMessage( editor, 'Formatting applied' );
 				}
 			}
+		},
+
+		/**
+		 * Puts a message solely for screen readers, meant to provide status updates and so on.
+		 *
+		 * @param {CKEDITOR.editor} editor
+		 * @param {string} msg Message to be conveyed.
+		 */
+		_putSrMessage: function( editor, msg ) {
+			/**
+			 * We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
+			 * `aria-live` which has dirrectly `position: absolute` assigned.
+			 *
+			 * The trick was simply to put position absolute, and all the hiding CSS into a wrapper, while content
+			 * with `aria-live` attribute inside.
+			 */
+			var tpl = new CKEDITOR.template( '<div class="cke_screen_reader_only cke_copyformatting_notification" style="{hideStyles}">' +
+						'<div aria-live="polite">{msg}</div>' +
+					'</div>' ),
+				tplVars = {
+					msg: msg,
+					hideStyles: 'position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;'
+				};
+
+			CKEDITOR.document.getBody().appendHtml( tpl.output( tplVars ) );
 		},
 
 		/**
