@@ -26,8 +26,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function addButton( name, type, title, order ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
-				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
-			disableAutomatic = config.colorButton_disableAutomatic;;
+				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
 
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
@@ -92,7 +91,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					if ( !color || color == 'transparent' )
 						color = '#ffffff';
 
-					if ( !disableAutomatic ) {
+					if ( config.colorButton_enableAutomatic !== false ) {
 						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
 					}
 
@@ -108,8 +107,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
 				// screen readers doesn't play nice with table, based layouts (#12097).
-				total = colors.length + ( moreColorsEnabled ? 2 : 1 ),
-				disableAutomatic = config.colorButton_disableAutomatic;
+				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
 				var applyColorStyle = arguments.callee;
@@ -157,10 +155,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				editor.fire( 'saveSnapshot' );
 			} );
 
-			if ( disableAutomatic ) {
-				output.push( '<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
-
-			} else {
+			if ( config.colorButton_enableAutomatic !== false ) {
 				// Render the "Automatic" button.
 				output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
 					' title="', lang.auto, '"' +
@@ -175,9 +170,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 								'<td colspan=7 align=center>', lang.auto, '</td>' +
 							'</tr>' +
 						'</table>' +
-					'</a>' +
-					'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
+					'</a>' );
 			}
+			output.push( '<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
 
 			// Render the color boxes.
 			for ( var i = 0; i < colors.length; i++ ) {
@@ -310,13 +305,13 @@ CKEDITOR.config.colorButton_backStyle = {
 };
 
 /**
- * Whether the **Automatic** button in the color selectors should be disabled (and not visible).
+ * Whether to enable the **Automatic** button in the color selectors.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
  * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
  *
- *		config.colorButton_disableAutomatic = true;
+ *		config.colorButton_enableAutomatic = false;
  *
- * @cfg {Boolean} [colorButton_disableAutomatic=false]
+ * @cfg {Boolean} [colorButton_enableAutomatic=true]
  * @member CKEDITOR.config
  */
