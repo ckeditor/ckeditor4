@@ -358,6 +358,11 @@
 					currentNode = startNode;
 				}
 
+				// If the node is an element, get its text child.
+				while ( currentNode.type !== CKEDITOR.NODE_TEXT ) {
+					currentNode = currentNode.getChild( 0 );
+				}
+
 				contents = getNodeContents( currentNode );
 
 				while ( ( match = regex.exec( contents ) ) != null ) {
@@ -388,7 +393,7 @@
 					if ( isPrev ) {
 						offset = 0;
 					} else {
-						regex = /\.([\b]*$)/;
+						regex = /([\.\b]*$)/;
 						match = regex.exec( contents );
 
 						offset = match ? match.index : contents.length;
@@ -402,14 +407,13 @@
 					}
 				}
 
-
 				return {
 					node: currentNode,
 					offset: offset
 				};
 			}
 
-			contents = node.getText();
+			contents = getNodeContents( node );
 
 			while ( ( match = regex.exec( contents ) ) != null ) {
 				if ( match.index + match[ 0 ].length >= range.startOffset ) {
@@ -424,8 +428,8 @@
 						startOffset = startInfo.offset;
 					}
 
-					// The word probably ends in next node
-					if ( endOffset == range.endOffset ) {
+					// The word probably ends in next node.
+					if ( endOffset >= contents.length ) {
 						var endInfo = getSiblingNodeOffset( node );
 
 						endNode = endInfo.node;
