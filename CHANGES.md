@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Other Changes:
 
+* [#13756](http://dev.ckeditor.com/ticket/13756): Fixed: Context menus are cut-off in Microsoft Edge.
 * [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: The order of table elements does not meet the HTML specification.
 
 ## CKEditor 4.5.7
