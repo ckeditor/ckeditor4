@@ -119,6 +119,18 @@
 				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 67, 'copyFormatting' ], // Ctrl + Shift + C
 				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, 'applyFormatting' ] // Ctrl + Shift + v
 			] );
+
+			editor.on( 'key', function( evt ) {
+				var cmd = editor.getCommand( 'copyFormatting' );
+
+				if ( evt.data.domEvent.getKeystroke() === 27 ) {
+					if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
+						editor.execCommand( 'copyFormatting' );
+					} else if ( cmd.styles ) {
+						cmd.styles = null;
+					}
+				}
+			} );
 		}
 	} );
 
