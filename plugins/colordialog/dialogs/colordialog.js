@@ -8,8 +8,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	var $el = CKEDITOR.dom.element,
 		$doc = CKEDITOR.document,
 		lang = editor.lang.colordialog,
-		focusedColorCls = 'cke_colordialog_focusedcolor',
-		selectedColorCls = 'cke_colordialog_selectedcolor';
+		selectedColorCls = 'cke_colordialog_selected';
 
 	// Reference the dialog.
 	var dialog;
@@ -78,7 +77,6 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 
 			// Apply outline style to show focus.
 			if ( isFocus ) {
-				target.addClass( focusedColorCls );
 				target.setStyle( 'border-color', whiteOrBlack( color ) );
 				target.setStyle( 'border-style', 'dotted' );
 			}
@@ -92,7 +90,6 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		var color = focused.getChild( 0 ).getHtml();
 		focused.setStyle( 'border-color', color );
 		focused.setStyle( 'border-style', 'solid' );
-		focused.removeClass( focusedColorCls );
 		$doc.getById( hicolorId ).removeStyle( 'background-color' );
 		$doc.getById( hicolorTextId ).setHtml( '&nbsp;' );
 		focused = null;
@@ -107,7 +104,6 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 			var color = target.getChild( 0 ).getHtml();
 			target.setStyle( 'border-color', color );
 			target.setStyle( 'border-style', 'solid' );
-			target.removeClass( focusedColorCls );
 		}
 
 		if ( !( focused || hovered ) ) {
