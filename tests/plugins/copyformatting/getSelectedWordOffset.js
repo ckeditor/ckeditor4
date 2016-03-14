@@ -47,6 +47,15 @@
 				'this' );
 			testGettingWordOffset( this.editor, '<p>Get <span style="font-weight: bold;">th</span><b>{}is</b> word</p>',
 				'this' );
+		},
+
+		'test getSelectedWordOffset (word splitted between element, text node, element)': function() {
+			testGettingWordOffset( this.editor, '<p><span style="color: #0000FF;">bar{}</span>foo<span style="color: #0000FF;">baz</span></p>',
+				'barfoobaz' );
+			testGettingWordOffset( this.editor, '<p><span style="color: #0000FF;">bar</span>f{}oo<span style="color: #0000FF;">baz</span></p>',
+				'barfoobaz' );
+			testGettingWordOffset( this.editor, '<p><span style="color: #0000FF;">bar</span>foo<span style="color: #0000FF;">{}baz</span></p>',
+				'barfoobaz' );
 		}
 	} );
 }() );
