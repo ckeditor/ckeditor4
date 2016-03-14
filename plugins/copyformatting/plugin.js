@@ -215,14 +215,19 @@
 			 * The trick was simply to put position absolute, and all the hiding CSS into a wrapper, while content
 			 * with `aria-live` attribute inside.
 			 */
-			var tpl = new CKEDITOR.template( '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
-						'<div aria-live="polite">{msg}</div>' +
-					'</div>' ),
-				tplVars = {
-					msg: msg
-				};
+			var tpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
+						'<div aria-live="polite"></div>' +
+					'</div>',
+				docBody = CKEDITOR.document.getBody(),
+				container = docBody.findOne( '.cke_copyformatting_notification div[aria-live]' );
 
-			CKEDITOR.document.getBody().appendHtml( tpl.output( tplVars ) );
+			if ( !container ) {
+				container = docBody.append( CKEDITOR.dom.element.createFromHtml( tpl ) ).findOne( 'div[aria-live]' );
+			}
+
+			//CKEDITOR.document.getBody().appendHtml( tpl.output( tplVars ) );
+			//wrapper.setHtml( '<div aria-live="polite">{msg}</div>' );
+			container.setText( msg );
 		},
 
 		/**
