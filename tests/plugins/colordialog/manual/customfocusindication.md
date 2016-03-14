@@ -1,6 +1,6 @@
 @bender-tags: tc, colordialog, 8679
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, link, colorbutton, colordialog
+@bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog
 
 Make sure the dev console is open during testing so any possible errors or warnings can be noticed.
 
