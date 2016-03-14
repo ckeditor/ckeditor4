@@ -154,7 +154,7 @@
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
 
-						CKEDITOR.plugins.copyformatting._putSrMessage( editor, 'Formatting canceled' );
+						plugin._putSrMessage( editor, 'Formatting canceled' );
 
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
@@ -170,7 +170,7 @@
 
 					cmd.sticky = isSticky;
 
-					CKEDITOR.plugins.copyformatting._putSrMessage( editor, 'Formatting copied' );
+					plugin._putSrMessage( editor, 'Formatting copied' );
 				}
 			},
 
@@ -178,13 +178,14 @@
 				exec: function( editor, data ) {
 					var cmd = editor.getCommand( 'copyFormatting' ),
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
-						cursorContainer = CKEDITOR.plugins.copyformatting._getCursorContainer( editor );
+						plugin = CKEDITOR.plugins.copyformatting,
+						cursorContainer = plugin._getCursorContainer( editor );
 
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON || !cmd.styles ) {
 						return;
 					}
 
-					CKEDITOR.plugins.copyformatting._applyFormat( cmd.styles, editor );
+					plugin._applyFormat( cmd.styles, editor );
 
 					if ( !( cmd.sticky || isFromKeystroke ) ) {
 						cmd.styles = null;
@@ -195,7 +196,7 @@
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					CKEDITOR.plugins.copyformatting._putSrMessage( editor, 'Formatting applied' );
+					plugin._putSrMessage( editor, 'Formatting applied' );
 				}
 			}
 		},
@@ -214,12 +215,11 @@
 			 * The trick was simply to put position absolute, and all the hiding CSS into a wrapper, while content
 			 * with `aria-live` attribute inside.
 			 */
-			var tpl = new CKEDITOR.template( '<div class="cke_screen_reader_only cke_copyformatting_notification" style="{hideStyles}">' +
+			var tpl = new CKEDITOR.template( '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
 						'<div aria-live="polite">{msg}</div>' +
 					'</div>' ),
 				tplVars = {
-					msg: msg,
-					hideStyles: 'position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;'
+					msg: msg
 				};
 
 			CKEDITOR.document.getBody().appendHtml( tpl.output( tplVars ) );
