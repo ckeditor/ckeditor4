@@ -123,7 +123,7 @@
 			editor.on( 'key', function( evt ) {
 				var cmd = editor.getCommand( 'copyFormatting' );
 
-				if ( evt.data.domEvent.getKeystroke() === 27 ) {
+				if ( evt.data.domEvent.getKeystroke() === 27 ) { // ESC
 					if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
 						editor.execCommand( 'copyFormatting' );
 					} else if ( cmd.styles ) {
