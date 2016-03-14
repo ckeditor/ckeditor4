@@ -307,9 +307,6 @@ CKEDITOR.config.colorButton_backStyle = {
 /**
  * Whether to enable the **Automatic** button in the color selectors.
  *
- * Read more in the [documentation](#!/guide/dev_colorbutton)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
- *
  *		config.colorButton_enableAutomatic = false;
  *
  * @cfg {Boolean} [colorButton_enableAutomatic=true]
