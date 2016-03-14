@@ -115,6 +115,50 @@
 			assert.isNull( cmd.styles );
 		},
 
+		'test cancelling Copy Formatting command (Escape)': function( editor ) {
+			var cmd = editor.getCommand( 'copyFormatting' );
+			bender.tools.selection.setWithHtml( editor, '<p><s>Co{}py that format</s>.</p>' );
+
+			editor.execCommand( 'copyFormatting' );
+
+			editor.fire( 'key', {
+				domEvent: {
+						getKey: function() {
+							return 27;
+						},
+
+						getKeystroke: function() {
+							return 27;
+						}
+					}
+			} );
+
+			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
+			assert.isNull( cmd.styles );
+		},
+
+		'test cancelling Copy Formatting command from keystroke (Escape)': function( editor ) {
+			var cmd = editor.getCommand( 'copyFormatting' );
+			bender.tools.selection.setWithHtml( editor, '<p><s>Co{}py that format</s>.</p>' );
+
+			editor.execCommand( 'copyFormatting', { from: 'keystrokeHandler' } );
+
+			editor.fire( 'key', {
+				domEvent: {
+						getKey: function() {
+							return 27;
+						},
+
+						getKeystroke: function() {
+							return 27;
+						}
+					}
+			} );
+
+			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
+			assert.isNull( cmd.styles );
+		},
+
 		'test sticky Copy Formatting': function( editor ) {
 			testCopyFormattingFlow( editor, '<p><s>Copy t{}hat format</s> to <b>this element</b></p>', [ {
 				element: 's',

@@ -12,6 +12,7 @@
 
 * Styles are copied correctly while using only mouse.
 * Copying can be cancelled by clicking "Copy Formatting" button.
+* Copying can be cancelled by pressing `Escape` key.
 * All text styles should be copied (text decoration, style, weight, color, background color).
 * All attributes should be copied.
 * Newly applied styles should overwrite existing styles.

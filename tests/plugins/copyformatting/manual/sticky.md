@@ -13,7 +13,8 @@
 
 * Styles are copied correctly while using only mouse.
 * Styles can be applied to many elements.
-* The sticky mode can be switched off only by clicking "Copy Formatting" button.
+* The sticky mode can be switched off by clicking "Copy Formatting" button.
+* The sticky mode can be switched off by pressing `Escape` key.
 * The button's state is not changed after applying styles.
 * The cursor for the page is changed and the default one is restored only after clicking the "Copy Formatting" button.
 * The default cursor for editable is restored only after clicking the "Copy Formatting" button.
