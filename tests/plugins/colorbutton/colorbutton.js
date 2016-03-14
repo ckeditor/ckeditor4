@@ -38,11 +38,11 @@
 			wait();
 		},
 
-		'test disableAutomatic=false option': function() {
+		'test enableAutomatic=true option': function() {
 			bender.editorBot.create( {
 				name: 'editor1',
 				config: {
-					colorButton_disableAutomatic: false
+					colorButton_enableAutomatic: true
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
@@ -57,11 +57,11 @@
 			} );
 		},
 
-		'test disableAutomatic=true option': function() {
+		'test enableAutomatic=false option': function() {
 			bender.editorBot.create( {
 				name: 'editor2',
 				config: {
-					colorButton_disableAutomatic: true
+					colorButton_enableAutomatic: false
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
