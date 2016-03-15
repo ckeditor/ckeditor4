@@ -12,11 +12,7 @@
 .cke_colordialog_colorcell.cke_colordialog_focused_light,
 .cke_colordialog_colorcell.cke_colordialog_focused_dark {
 	padding: 0; /* Shrink cell to allow 1px border indicating focus. */
-	border: 1px dotted transparent;
-}
-
-.cke_colordialog_colorcell.cke_colordialog_focused_light {
-	border-color: #000;
+	border: 1px dotted #000;
 }
 
 .cke_colordialog_colorcell.cke_colordialog_focused_dark {
