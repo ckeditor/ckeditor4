@@ -144,6 +144,7 @@
 						editor.execCommand( 'copyFormatting' );
 					} else if ( cmd.styles ) {
 						cmd.styles = null;
+						plugin._putScreenReaderMessage( editor, 'canceled' );
 					}
 				}
 			} );
