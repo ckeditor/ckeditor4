@@ -80,14 +80,14 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 			if ( isFocus ) {
 				target.addClass( isLightColor( color ) ? focusedColorLightCls : focusedColorDarkCls );
 			}
-			setHighlightPreview( color );
+			setHighlight( color );
 		}
 	}
 
 	function clearHighlight() {
 		focused.removeClass( focusedColorLightCls );
 		focused.removeClass( focusedColorDarkCls );
-		setHighlightPreview( false );
+		setHighlight( false );
 		focused = null;
 	}
 
@@ -102,11 +102,11 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		}
 
 		if ( !( focused || hovered ) ) {
-			setHighlightPreview( false );
+			setHighlight( false );
 		}
 	}
 
-	function setHighlightPreview( color ) {
+	function setHighlight( color ) {
 		if ( color ) {
 			$doc.getById( hicolorId ).setStyle( 'background-color', color );
 			$doc.getById( hicolorTextId ).setHtml( color );
