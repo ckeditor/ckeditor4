@@ -61,6 +61,13 @@
 					'}',
 				styleElement = CKEDITOR.document.$.createElement( 'style' ),
 
+				/**
+				 * We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
+				 * `aria-live` which has dirrectly `position: absolute` assigned.
+				 *
+				 * The trick was simply to put position absolute, and all the hiding CSS into a wrapper, while content
+				 * with `aria-live` attribute inside.
+				 */
 				notificationTpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
 						'<div aria-live="polite"></div>' +
 					'</div>';
@@ -534,13 +541,6 @@
 		 * @private
 		 */
 		_putScreenReaderMessage: function( editor, msg ) {
-			/**
-			 * We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
-			 * `aria-live` which has dirrectly `position: absolute` assigned.
-			 *
-			 * The trick was simply to put position absolute, and all the hiding CSS into a wrapper, while content
-			 * with `aria-live` attribute inside.
-			*/
 			var container = CKEDITOR.document.getBody().findOne( '.cke_copyformatting_notification div[aria-live]' );
 
 			container.setText( editor.lang.copyformatting.notification[ msg ] );
