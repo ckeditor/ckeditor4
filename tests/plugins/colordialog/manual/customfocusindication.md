@@ -18,5 +18,6 @@
 ### Editor 2:
 
 Same steps as for Editor 1 with following exception:
+* Dialog is bigger, colors are shown as circles.
 * Focused color is marked with solid red border instead white dotted.
 * Selected color is indicated with solid blue border.

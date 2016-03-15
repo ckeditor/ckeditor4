@@ -195,8 +195,8 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	}
 
 	function createColorTable() {
-		table = CKEDITOR.dom.element.createFromHtml( '<table tabIndex="-1" aria-label="' + lang.options + '"' +
-			' role="grid" style="border-collapse:separate;" cellspacing="0">' +
+		table = CKEDITOR.dom.element.createFromHtml( '<table tabIndex="-1" class="cke_colordialog_table"' +
+			' aria-label="' + lang.options + '" role="grid" style="border-collapse:separate;" cellspacing="0">' +
 			'<caption class="cke_voice_label">' + lang.options + '</caption>' +
 			'<tbody role="presentation"></tbody></table>' );
 
