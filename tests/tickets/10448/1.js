@@ -1,4 +1,4 @@
-/* bender-tags: 10488 */
+/* bender-tags: 10448 */
 /* bender-ckeditor-plugins: toolbar, bidi, wysiwygarea */
 
 ( function() {
