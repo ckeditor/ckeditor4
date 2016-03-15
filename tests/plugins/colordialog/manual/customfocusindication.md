@@ -20,10 +20,12 @@ Make sure the dev console is open during testing so any possible errors or warni
 1. Click *Text Color* button, then *More Colors*.
 	* Dialog with color picker opens.
 1. Focus few different color cells inside color grid using keyboard and mouse.
-	* Focus is indicated by 2px solid red border and is visible only on currently focused cell. Highlight
-	preview changes to currently focused color.
+	* Focus is indicated by 2px solid red border and is visible only on currently focused cell.  When border is added
+	 there should not be any jumping/movement or size changes of table cells. Highlight preview changes to currently
+	 focused color.
 1. Select few different color cells using keyboard (space) and mouse.
-	* Selection is indicated 2px solid blue border. Selection preview changes to currently selected color.
+	* Selection is indicated 2px solid blue border.  When border is added there should not be any jumping/movement
+	or size changes of table cells. Selection preview changes to currently selected color.
 1. Use *Clear* button inside the dialog to clear currently selected color.
 	* Border indicating selected color is removed and selection preview is cleared.
 1. Perform steps 1 - 4 using *Background Color* button.

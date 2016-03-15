@@ -1,11 +1,22 @@
 <style type="text/css">
-	.cke_editor_editor2_dialog .ColorCell:focus {
-		border: 2px solid red !important;
+	/* Padding works as border placeholder/replacement to keep the constant size of table cell. So to work with 2px wide
+		borders padding should be set to 2px as below. Width and height should be set accordingly to padding value where
+		width: 14px and height: 16px is full cell size. */
+	.cke_editor_editor2_dialog .cke_colordialog_colorcell {
+		width: 10px;
+		height: 12px;
+		padding: 2px;
 	}
 
-	.cke_editor_editor2_dialog .cke_colordialog_selected,
-	.cke_editor_editor2_dialog .cke_colordialog_selected:focus {
-		border: 2px solid blue !important;
+	.cke_editor_editor2_dialog .cke_colordialog_colorcell.cke_colordialog_focused_light,
+	.cke_editor_editor2_dialog .cke_colordialog_colorcell.cke_colordialog_focused_dark {
+		border: 2px solid red;
+		padding: 0;
+	}
+
+	.cke_editor_editor2_dialog .cke_colordialog_colorcell.cke_colordialog_selected {
+		border: 2px solid blue;
+		padding: 0;
 	}
 
 </style>
