@@ -50,7 +50,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		}
 	}
 
-	// Basing black-white decision off of luma scheme using the Rec. 709 version. Used to assign light/dark css class to cell.
+	// Basing black-white decision off of luma scheme using the Rec. 709 version.
 	function isLightColor( color ) {
 		color = color.replace( /^#/, '' );
 		for ( var i = 0, rgb = []; i <= 2; i++ )
@@ -76,7 +76,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 
 			isFocus ? focused = target : hovered = target;
 
-			// Apply css class to show focus.
+			// Apply CSS class to show focus.
 			if ( isFocus ) {
 				target.addClass( isLightColor( color ) ? focusedColorLightCls : focusedColorDarkCls );
 			}
