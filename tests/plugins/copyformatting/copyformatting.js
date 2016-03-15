@@ -137,6 +137,7 @@
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
 			assert.isNull( cmd.styles );
+			assertScreenReaderNotification( editor, 'canceled' );
 		},
 
 		'test cancelling Copy Formatting command from keystroke (Escape)': function( editor ) {
@@ -159,6 +160,7 @@
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
 			assert.isNull( cmd.styles );
+			assertScreenReaderNotification( editor, 'canceled' );
 		},
 
 		'test sticky Copy Formatting': function( editor ) {
