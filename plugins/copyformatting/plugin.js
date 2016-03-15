@@ -46,15 +46,8 @@
 					'.cke_copyformatting_disabled a, .cke_copyformatting_disabled .cke_editable' +
 					'{' +
 					'cursor: url(' +
-					( !CKEDITOR.env.ie ?
-						CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled.svg' ) +
-						') 12 1, auto;' :
-
-						( CKEDITOR.env.hidpi ?
-							CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled-32x32.cur' ) :
-							CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled-16x16.cur' ) ) +
-						'), auto'
-					) +
+					CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled.svg' ) +
+					') 12 1, auto;' +
 					'}' +
 					'.cke_screen_reader_only{' +
 					'position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;' +
