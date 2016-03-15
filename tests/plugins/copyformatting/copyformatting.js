@@ -1,7 +1,7 @@
 /* bender-tags: copyformatting */
 /* bender-ckeditor-plugins: wysiwygarea, toolbar, copyformatting */
 /* bender-include: _helpers/tools.js*/
-/* global testCopyFormattingFlow */
+/* global testCopyFormattingFlow, assertScreenReaderNotification */
 
 ( function() {
 	'use strict';
@@ -28,7 +28,7 @@
 			styles: {},
 			type: CKEDITOR.STYLE_INLINE
 		} )
-	 ],
+	],
 	tests = {
 		'test applying style on collapsed selection': function( editor ) {
 			testCopyFormattingFlow( editor, '<p><s>Copy t{}hat format</s> to <b>this element</b></p>', [ {
@@ -109,7 +109,9 @@
 
 			// Simulating two clicks on button.
 			editor.execCommand( 'copyFormatting' );
+			assertScreenReaderNotification( editor, 'copied' );
 			editor.execCommand( 'copyFormatting' );
+			assertScreenReaderNotification( editor, 'cancelled' );
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
 			assert.isNull( cmd.styles );
@@ -180,6 +182,28 @@
 				editor.editable().getParent();
 
 			assert.areSame( correctContainer, CKEDITOR.plugins.copyformatting._getCursorContainer( editor ) );
+		},
+
+		'test failed message for keystroke': function( editor ) {
+			editor.execCommand( 'applyFormatting', { from: 'keystrokeHandler' } );
+
+			assertScreenReaderNotification( editor, 'failed' );
+		},
+
+		'test notifications': function( editor ) {
+			var notify = CKEDITOR.plugins.copyformatting._putScreenReaderMessage;
+
+			notify( editor, 'copied' );
+			assertScreenReaderNotification( editor, 'copied' );
+
+			notify( editor, 'applied' );
+			assertScreenReaderNotification( editor, 'applied' );
+
+			notify( editor, 'cancelled' );
+			assertScreenReaderNotification( editor, 'cancelled' );
+
+			notify( editor, 'failed' );
+			assertScreenReaderNotification( editor, 'failed' );
 		}
 	};
 

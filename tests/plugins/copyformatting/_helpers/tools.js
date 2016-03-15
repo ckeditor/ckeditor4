@@ -1,4 +1,4 @@
-/* exported testAttributes, testGettingWordOffset, testApplyingFormat, testConvertingStyles, assertCopyFormattingState,
+/* exported testAttributes, testGettingWordOffset, testApplyingFormat, testConvertingStyles, assertScreenReaderNotification, assertCopyFormattingState,
 	assertApplyFormattingState, testCopyFormattingFlow
  */
 
@@ -110,6 +110,14 @@ function testConvertingStyles( elementHtml, expectedStyles ) {
 	objectAssert.areDeepEqual( expectedStyles, style._.definition );
 }
 
+function assertScreenReaderNotification( editor, msg ) {
+	var container = CKEDITOR.document.getBody().find( '.cke_copyformatting_notification div[aria-live]' );
+
+	assert.areSame( 1, container.count(), 'There are only one container for displaying notifications' );
+	assert.areSame( editor.lang.copyformatting.notification[ msg ], container.getItem( 0 ).getText(),
+		'The correct notification for the screen reader is displayed' );
+}
+
 function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
 		areaWithCursor = CKEDITOR.plugins.copyformatting._getCursorContainer( editor );
@@ -200,6 +208,7 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 	editor.execCommand( 'copyFormatting', additionalData );
 
 	assertCopyFormattingState( editor, expectedStyles, additionalData );
+	assertScreenReaderNotification( editor, 'copied' );
 
 	styles = cmd.styles;
 
@@ -223,6 +232,7 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 	editor.execCommand( 'applyFormatting', additionalData );
 
 	assertApplyFormattingState( editor, styles, element, additionalData );
+	assertScreenReaderNotification( editor, 'applied' );
 
 	// Check if styles that should be removed are really removed.
 	for ( i = removed = 0; i < removedStyles.length; i++ ) {
@@ -234,9 +244,10 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 	assert.areSame( removedStyles.length, removed, 'All preexisting styles are removed correctly' );
 
 	// Reset command to inital state.
-	if ( cmd.state === CKEDITOR.TRISTATE_ON || cmd.styles ) {
+	if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
+		editor.execCommand( 'copyFormatting' );
+	}
+	if ( cmd.styles ) {
 		cmd.styles = null;
-		cmd.sticky = false;
-		cmd.setState( CKEDITOR.TRISTATE_OFF );
 	}
 }
