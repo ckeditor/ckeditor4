@@ -25,34 +25,8 @@
 		hidpi: true,
 
 		onLoad: function() {
-			// There isn't cursor in CUR format for IE/Edge as that browser
-			// doesn't support custom cursor in [contenteditable] area.
-			// Ticket for this issue:
-			// https://connect.microsoft.com/IE/feedback/details/1070215/cant-change-cursor-in-contenteditable-using-css
-			var additionalCss = 'html.cke_copyformatting_active' +
-					'{' +
-					'min-height: 100%;' +
-					'}' +
-					'.cke_copyformatting_active.cke_copyformatting_active,' +
-					'.cke_copyformatting_active.cke_copyformatting_active .cke_editable,' +
-					'.cke_copyformatting_active.cke_copyformatting_active a' +
-					'{' +
-					'cursor: url(' +
-					CKEDITOR.getUrl( this.path + 'cursors/cursor.svg' ) +
-					') 12 1, auto;' +
-					'}',
 
-				additionalPageCss = '.cke_copyformatting_disabled,' +
-					'.cke_copyformatting_disabled a, .cke_copyformatting_disabled .cke_editable' +
-					'{' +
-					'cursor: url(' +
-					CKEDITOR.getUrl( this.path + 'cursors/cursor-disabled.svg' ) +
-					') 12 1, auto;' +
-					'}' +
-					'.cke_screen_reader_only{' +
-					'position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;' +
-					'}',
-				styleElement = CKEDITOR.document.$.createElement( 'style' ),
+			var linkElement = new CKEDITOR.dom.element( 'link' ),
 
 				/**
 				 * We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
@@ -65,21 +39,22 @@
 						'<div aria-live="polite"></div>' +
 					'</div>';
 
-			styleElement.type = 'text/css';
-			if ( styleElement.styleSheet ) {
-				styleElement.styleSheet.cssText = additionalPageCss;
-			} else {
-				styleElement.innerHTML = additionalPageCss;
-			}
+			linkElement.setAttribute( 'type', 'text/css' );
+			linkElement.setAttribute( 'rel', 'stylesheet' );
+			linkElement.setAttribute( 'href', this.path + 'styles/copyformatting.css' );
 
-			CKEDITOR.addCss( additionalCss );
-			CKEDITOR.document.getHead().append( new CKEDITOR.dom.element( styleElement ) );
+			CKEDITOR.document.getHead().append( linkElement );
 
 			CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( notificationTpl ) );
 		},
 
 		init: function( editor ) {
 			var plugin = CKEDITOR.plugins.copyformatting;
+
+			// Add copyformatting stylesheet.
+			if ( editor.addContentsCss ) {
+				editor.addContentsCss( this.path + 'styles/copyformatting.css' );
+			}
 
 			editor.addCommand( 'copyFormatting', plugin.commands.copyFormatting );
 			editor.addCommand( 'applyFormatting', plugin.commands.applyFormatting );
