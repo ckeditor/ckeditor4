@@ -267,7 +267,7 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 
 	createColorTable();
 
-	// Load css.
+	// Load CSS.
 	CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( CKEDITOR.plugins.get( 'colordialog' ).path + 'dialogs/colordialog.css' ) );
 
 	return {
