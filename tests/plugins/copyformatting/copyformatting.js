@@ -111,7 +111,7 @@
 			editor.execCommand( 'copyFormatting' );
 			assertScreenReaderNotification( editor, 'copied' );
 			editor.execCommand( 'copyFormatting' );
-			assertScreenReaderNotification( editor, 'cancelled' );
+			assertScreenReaderNotification( editor, 'canceled' );
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
 			assert.isNull( cmd.styles );
@@ -199,8 +199,8 @@
 			notify( editor, 'applied' );
 			assertScreenReaderNotification( editor, 'applied' );
 
-			notify( editor, 'cancelled' );
-			assertScreenReaderNotification( editor, 'cancelled' );
+			notify( editor, 'canceled' );
+			assertScreenReaderNotification( editor, 'canceled' );
 
 			notify( editor, 'failed' );
 			assertScreenReaderNotification( editor, 'failed' );
