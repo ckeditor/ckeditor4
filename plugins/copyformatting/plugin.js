@@ -59,7 +59,11 @@
 					'.cke_screen_reader_only{' +
 					'position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;' +
 					'}',
-				styleElement = CKEDITOR.document.$.createElement( 'style' );
+				styleElement = CKEDITOR.document.$.createElement( 'style' ),
+
+				notificationTpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
+						'<div aria-live="polite"></div>' +
+					'</div>';
 
 			styleElement.type = 'text/css';
 			if ( styleElement.styleSheet ) {
@@ -70,6 +74,8 @@
 
 			CKEDITOR.addCss( additionalCss );
 			CKEDITOR.document.getHead().append( new CKEDITOR.dom.element( styleElement ) );
+
+			CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( notificationTpl ) );
 		},
 
 		init: function( editor ) {
@@ -154,7 +160,7 @@
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
 
-						plugin._putScreenReaderMessage( editor, 'Formatting canceled' );
+						plugin._putScreenReaderMessage( editor, 'cancelled' );
 
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
@@ -170,7 +176,7 @@
 
 					cmd.sticky = isSticky;
 
-					plugin._putScreenReaderMessage( editor, 'Formatting copied' );
+					plugin._putScreenReaderMessage( editor, 'copied' );
 				}
 			},
 
@@ -181,8 +187,10 @@
 						plugin = CKEDITOR.plugins.copyformatting,
 						cursorContainer = plugin._getCursorContainer( editor );
 
-					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON || !cmd.styles ) {
+					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON ) {
 						return;
+					} else if ( isFromKeystroke && !cmd.styles ) {
+						return plugin._putScreenReaderMessage( editor, 'failed' );
 					}
 
 					plugin._applyFormat( cmd.styles, editor );
@@ -196,7 +204,7 @@
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					plugin._putScreenReaderMessage( editor, 'Formatting applied' );
+					plugin._putScreenReaderMessage( editor, 'applied' );
 				}
 			}
 		},
@@ -522,7 +530,7 @@
 		 * Puts a message solely for screen readers, meant to provide status updates and so on.
 		 *
 		 * @param {CKEDITOR.editor} editor
-		 * @param {string} msg Message to be conveyed.
+		 * @param {string} msg Name of the message in the lang file.
 		 * @private
 		 */
 		_putScreenReaderMessage: function( editor, msg ) {
@@ -532,18 +540,10 @@
 			 *
 			 * The trick was simply to put position absolute, and all the hiding CSS into a wrapper, while content
 			 * with `aria-live` attribute inside.
-			 */
-			var tpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
-						'<div aria-live="polite"></div>' +
-					'</div>',
-				docBody = CKEDITOR.document.getBody(),
-				container = docBody.findOne( '.cke_copyformatting_notification div[aria-live]' );
+			*/
+			var container = CKEDITOR.document.getBody().findOne( '.cke_copyformatting_notification div[aria-live]' );
 
-			if ( !container ) {
-				container = docBody.append( CKEDITOR.dom.element.createFromHtml( tpl ) ).findOne( 'div[aria-live]' );
-			}
-
-			container.setText( msg );
+			container.setText( editor.lang.copyformatting.notification[ msg ] );
 		}
 	};
 } )();
