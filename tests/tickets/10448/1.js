@@ -16,11 +16,13 @@
 				editor = this.editor,
 				editable = editor.editable(),
 				editableSize = editable.getSize( 'width' ),
-				paragraphSize = editable.findOne( 'p' ).getSize( 'width' );
+				paragraphSize;
 
-			editor.setData( html );
+			this.editorBot.setData( html, function() {
+				paragraphSize = editable.findOne( 'p' ).$.scrollWidth;
 
-			assert.isTrue( editableSize >= paragraphSize );
+				assert.isTrue( editableSize >= paragraphSize );
+			} );
 		}
 	} );
 } )();
