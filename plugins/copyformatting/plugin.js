@@ -160,7 +160,7 @@
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
 
-						plugin._putScreenReaderMessage( editor, 'cancelled' );
+						plugin._putScreenReaderMessage( editor, 'canceled' );
 
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}

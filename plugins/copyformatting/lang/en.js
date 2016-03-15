@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'copyformatting', 'en', {
 	notification: {
 		copied: 'Formatting copied',
 		applied: 'Formatting applied',
-		cancelled: 'Formatting cancelled',
+		canceled: 'Formatting canceled',
 		failed: 'Formatting failed - no formatting copied'
 	}
 } );
