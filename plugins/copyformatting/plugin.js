@@ -110,6 +110,18 @@
 
 			// Events handler.
 			editor.on( 'extractStylesFromElement', function( evt ) {
+				if ( !evt.data.oldStyles && CKEDITOR.tools.indexOf( [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ],
+					evt.data.element.getName() ) === -1 ) {
+					evt.data.computedStyles = [
+						'font-size',
+						'font-weight',
+						'font-style',
+						'text-decoration'
+					];
+				}
+			}, null, null, 0 );
+
+			editor.on( 'extractStylesFromElement', function( evt ) {
 				var element = evt.data.element;
 
 				if ( CKEDITOR.tools.indexOf( [ 'body', 'html' ], element.getName() ) !== -1 ) {
@@ -118,7 +130,7 @@
 
 				evt.data.styleDef = CKEDITOR.plugins.copyformatting._convertElementToStyleDef( element,
 					evt.data.computedStyles );
-			}, null, null, 0 );
+			} );
 
 			// Change element to span in case of headings, paragraphs and divs.
 			editor.on( 'extractStylesFromElement', function( evt ) {
@@ -168,12 +180,7 @@
 					}
 
 					cmd.styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor,
-						editor.elementPath().lastElement, [
-							'font-size',
-							'font-weight',
-							'font-style',
-							'text-decoration'
-						] );
+						editor.elementPath().lastElement );
 
 					cmd.setState( CKEDITOR.TRISTATE_ON );
 
@@ -294,13 +301,14 @@
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.element} element Element which styles should be extracted.
-		 * @param {Array} computedStyles Computed styles to be extracted.
+		 * @param {Object} eventData Additional data to be passed into `extractStylesFromElement` event.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 */
-		_extractStylesFromElement: function( editor, element, computedStyles ) {
-			var styles = [],
-				eventData;
+		_extractStylesFromElement: function( editor, element, eventData ) {
+			var styles = [];
+
+			eventData = eventData || {};
 
 			do {
 				// Skip all non-elements and bookmarks.
@@ -308,10 +316,7 @@
 					continue;
 				}
 
-				eventData = {
-					element: element,
-					computedStyles: computedStyles
-				};
+				eventData.element = element;
 
 				if ( editor.fire( 'extractStylesFromElement', eventData ) && eventData.styleDef ) {
 					styles.push( new CKEDITOR.style( eventData.styleDef ) );
@@ -326,19 +331,19 @@
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
-		 * @param {Array} computedStyles Computed styles to be extracted.
+		 * @param {Object} eventData Additional event data to be passed to `extractStylesFromElement` event.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 * @todo Styles in the array returned by this method might be duplicated; it should be cleaned later on.
 		 */
-		_extractStylesFromRange: function( editor, range, computedStyles ) {
+		_extractStylesFromRange: function( editor, range, eventData ) {
 			var styles = [],
 				walker = new CKEDITOR.dom.walker( range ),
 				currentNode;
 
 			while ( ( currentNode = walker.next() ) ) {
 				styles = styles.concat(
-					CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor, currentNode, computedStyles ) );
+					CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor, currentNode, eventData ) );
 			}
 
 			return styles;
@@ -541,7 +546,7 @@
 				range.select();
 			}
 
-			oldStyles = plugin._extractStylesFromRange( editor, newRange || range, [] );
+			oldStyles = plugin._extractStylesFromRange( editor, newRange || range, { oldStyles: true } );
 
 			editor.fire( 'beforeApplyFormatting', { oldStyles: oldStyles, range: newRange || range } );
 
