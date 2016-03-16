@@ -136,9 +136,6 @@
 				if ( evt.data.domEvent.getKeystroke() === 27 ) { // ESC
 					if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
 						editor.execCommand( 'copyFormatting' );
-					} else if ( cmd.styles ) {
-						cmd.styles = null;
-						plugin._putScreenReaderMessage( editor, 'canceled' );
 					}
 				}
 			} );
@@ -152,10 +149,10 @@
 					var	cmd = this,
 						plugin = CKEDITOR.plugins.copyformatting,
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
-						isSticky = data ? data.sticky : false,
+						isSticky = data ? ( data.sticky || isFromKeystroke ) : false,
 						cursorContainer = plugin._getCursorContainer( editor );
 
-					if ( !isFromKeystroke && cmd.state === CKEDITOR.TRISTATE_ON ) {
+					if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
 						cmd.styles = null;
 						cmd.sticky = false;
 
@@ -169,9 +166,9 @@
 
 					cmd.styles = plugin._extractStylesFromElement( editor.elementPath().lastElement );
 
-					if ( !isFromKeystroke ) {
-						cmd.setState( CKEDITOR.TRISTATE_ON );
+					cmd.setState( CKEDITOR.TRISTATE_ON );
 
+					if ( !isFromKeystroke ) {
 						cursorContainer.addClass( 'cke_copyformatting_active' );
 
 						if ( editor.config.copyFormatting_outerCursor ) {
@@ -200,7 +197,7 @@
 
 					plugin._applyFormat( cmd.styles, editor );
 
-					if ( !( cmd.sticky || isFromKeystroke ) ) {
+					if ( !cmd.sticky ) {
 						cmd.styles = null;
 
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
