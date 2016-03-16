@@ -13,6 +13,6 @@
 
 Sticky mode is not switched off after applying styles.
 
-**Actual:**
+**Unexpected:**
 
 Sticky mode is switched off after applying styles.
