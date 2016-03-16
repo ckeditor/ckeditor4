@@ -100,7 +100,7 @@
 
 					if ( detectLeftMouseButton( evt ) ) {
 						editor.execCommand( 'applyFormatting' );
-						evt.stop();
+						evt.data.stopPropagation();
 					}
 				} );
 
