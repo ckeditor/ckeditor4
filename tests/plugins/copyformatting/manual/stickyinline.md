@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, copyformatting
-@bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace
+@bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace, basicstyles
 
 **Procedure:**
 
@@ -11,8 +11,10 @@
 
 **Expected:**
 
-Sticky mode is not switched off after applying styles.
+* Sticky mode is not switched off after applying styles.
+* Other toolbar buttons have correct state.
 
 **Unexpected:**
 
-Sticky mode is switched off after applying styles.
+* Sticky mode is switched off after applying styles.
+* Other toolbar buttons have incorrect state.
