@@ -134,8 +134,7 @@
 					return;
 				}
 
-				evt.data.styleDef = plugin._convertElementToStyleDef( element,
-					evt.data.computedStyles );
+				evt.data.styleDef = plugin._convertElementToStyleDef( element, evt.data.computedStyles );
 			} );
 
 			// Change element to span in case of headings, paragraphs and divs.
@@ -143,8 +142,7 @@
 			editor.on( 'extractStylesFromElement', function( evt ) {
 				var element = evt.data.element;
 
-				if ( evt.data.oldStyles ||
-					indexOf( plugin.inlineBoundary, element.getName() ) === -1 ) {
+				if ( evt.data.oldStyles || indexOf( plugin.inlineBoundary, element.getName() ) === -1 ) {
 					return;
 				}
 
@@ -156,7 +154,7 @@
 				var styleDef = evt.data.styleDef,
 					isEmpty = CKEDITOR.tools.isEmpty;
 
-				if (	styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
+				if ( styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
 					evt.cancel();
 				}
 			} );
