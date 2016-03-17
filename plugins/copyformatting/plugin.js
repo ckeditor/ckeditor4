@@ -196,8 +196,7 @@
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					cmd.styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor,
-						editor.elementPath().lastElement );
+					cmd.styles = plugin._extractStylesFromElement( editor, editor.elementPath().lastElement );
 
 					cmd.setState( CKEDITOR.TRISTATE_ON );
 
