@@ -19,6 +19,8 @@
 		return domEvent.button === 0;
 	}
 
+	var indexOf = CKEDITOR.tools.indexOf;
+
 	CKEDITOR.plugins.add( 'copyformatting', {
 		lang: 'en',
 		icons: 'copyformatting',
@@ -110,9 +112,10 @@
 
 			// Adding desired computed styles.
 			editor.on( 'extractStylesFromElement', function( evt ) {
-				if ( !evt.data.oldStyles && CKEDITOR.tools.indexOf( [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ],
-					evt.data.element.getName() ) === -1 ) {
-					evt.data.computedStyles = [
+				var evtData = evt.data;
+
+				if ( !evtData.oldStyles && indexOf( plugin.inlineBoundary, evtData.element.getName() ) === -1 ) {
+					evtData.computedStyles = [
 						'font-size',
 						'font-weight',
 						'font-style',
@@ -126,7 +129,7 @@
 				var element = evt.data.element;
 
 				// Stop at body and html in classic editors or at .cke_editable element in inline ones.
-				if ( CKEDITOR.tools.indexOf( [ 'body', 'html' ], element.getName() ) !== -1 ||
+				if ( indexOf( [ 'body', 'html' ], element.getName() ) !== -1 ||
 					element.hasClass( 'cke_editable' ) ) {
 					return;
 				}
@@ -141,7 +144,7 @@
 				var element = evt.data.element;
 
 				if ( evt.data.oldStyles ||
-					CKEDITOR.tools.indexOf( [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ], element.getName() ) === -1 ) {
+					indexOf( plugin.inlineBoundary, element.getName() ) === -1 ) {
 					return;
 				}
 
@@ -175,6 +178,11 @@
 	} );
 
 	CKEDITOR.plugins.copyformatting = {
+		/**
+		 * Array of tag names that should limit inline styles extraction.
+		 */
+		inlineBoundary: [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ],
+
 		commands: {
 			copyFormatting: {
 				exec: function( editor, data ) {
@@ -275,7 +283,7 @@
 			exclude = CKEDITOR.tools.isArray( exclude ) ? exclude : [];
 
 			for ( var i = 0; i < attrDefs.length; i++ ) {
-				if ( CKEDITOR.tools.indexOf( exclude, attrDefs[ i ].name ) === -1 ) {
+				if ( indexOf( exclude, attrDefs[ i ].name ) === -1 ) {
 					attributes[ attrDefs[ i ].name ] = attrDefs[ i ].value;
 				}
 			}
@@ -422,7 +430,7 @@
 					// If there is no sibling, text is probably inside element, so get it
 					// and then fetch its sibling.
 					while ( !sibling && currentNode.getParent() ) {
-						if ( CKEDITOR.tools.indexOf( boundaryElements, currentNode.getParent().getName() ) !== -1 ) {
+						if ( indexOf( boundaryElements, currentNode.getParent().getName() ) !== -1 ) {
 							isBoundary = true;
 							break;
 						}
