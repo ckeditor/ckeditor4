@@ -1359,21 +1359,24 @@
 		 * Returns escaped CSS selector. CSS.escape() is used if defined, leading digit is escaped otherwise.
 		 *
 		 * @since 4.5.8
-		 * @param {String} selector
-         * @returns {String} escaped selector
-         */
+		 * @param {String} selector Selector to escape.
+		 * @returns {String} Escaped selector.
+		 */
 		escapeCss: function( selector ) {
-			//invalid input
-			if ( typeof selector === 'undefined' || selector === null || selector.length === 0 )
+			// Invalid input.
+			if ( typeof selector === 'undefined' || selector === null || selector.length === 0 ) {
 				return '';
+			}
 
-			//CSS.escape() can be used
-			if ( typeof CSS !== 'undefined' && typeof CSS.escape !== 'undefined' )
+			// CSS.escape() can be used.
+			if ( typeof CSS !== 'undefined' && typeof CSS.escape !== 'undefined' ) {
 				return CSS.escape( selector );
+			}
 
-			//simple leading digit escape
-			if ( !isNaN( parseInt( selector.charAt( 0 ), 10 ) ) )
+			// Simple leading digit escape.
+			if ( !isNaN( parseInt( selector.charAt( 0 ), 10 ) ) ) {
 				return '\\3' + selector.charAt( 0 ) + ' ' + selector.substring( 1, selector.length );
+			}
 
 			return selector;
 		}

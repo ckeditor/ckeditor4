@@ -405,7 +405,7 @@
 			'</figure>'
 	} );
 
-	// --  numeric widget ID  -------------------------------------------------
+	// -- numeric widget ID  -------------------------------------------------
 
 	tools.addTests( tcs, {
 		name: 'widget_numeric_id',
@@ -417,7 +417,7 @@
 		assertWidgets: function( editor ) {
 			var figcaption = editor.document.getById( '100' );
 			assert.isNotUndefined( figcaption, 'Figcaption with id 100 should exists' );
-			assert.isNotNull( figcaption, 'Figcaption with id 100 shoul be non null element' );
+			assert.isNotNull( figcaption, 'Figcaption with id 100 should be non null element' );
 
 			assertWidgetData( {
 				align: 'none',
