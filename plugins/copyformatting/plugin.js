@@ -108,7 +108,7 @@
 				}
 			} );
 
-			// Events handler.
+			// Adding desired computed styles.
 			editor.on( 'extractStylesFromElement', function( evt ) {
 				if ( !evt.data.oldStyles && CKEDITOR.tools.indexOf( [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ],
 					evt.data.element.getName() ) === -1 ) {
@@ -121,10 +121,13 @@
 				}
 			}, null, null, 0 );
 
+			// Fetch the styles from element.
 			editor.on( 'extractStylesFromElement', function( evt ) {
 				var element = evt.data.element;
 
-				if ( CKEDITOR.tools.indexOf( [ 'body', 'html' ], element.getName() ) !== -1 ) {
+				// Stop at body and html in classic editors or at .cke_editable element in inline ones.
+				if ( CKEDITOR.tools.indexOf( [ 'body', 'html' ], element.getName() ) !== -1 ||
+					element.hasClass( 'cke_editable' ) ) {
 					return;
 				}
 
@@ -133,22 +136,36 @@
 			} );
 
 			// Change element to span in case of headings, paragraphs and divs.
+			// Do not do that for fetching old styles.
 			editor.on( 'extractStylesFromElement', function( evt ) {
 				var element = evt.data.element;
 
-				if ( CKEDITOR.tools.indexOf( [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ], element.getName() ) === -1 ) {
+				if ( evt.data.oldStyles ||
+					CKEDITOR.tools.indexOf( [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ], element.getName() ) === -1 ) {
 					return;
 				}
 
 				evt.data.styleDef.element = 'span';
 			} );
 
+			// Remove empty styles.
+			editor.on( 'extractStylesFromElement', function( evt ) {
+				var styleDef = evt.data.styleDef,
+					isEmpty = CKEDITOR.tools.isEmpty;
+
+				if (	styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
+					evt.cancel();
+				}
+			} );
+
+			// Remove old styles from element.
 			editor.on( 'beforeApplyFormatting', function( evt ) {
 				for ( var i = 0; i < evt.data.oldStyles.length; i++ ) {
 					evt.data.oldStyles[ i ].remove( evt.editor );
 				}
 			}, null, null, 999 );
 
+			// Apply new styles.
 			editor.on( 'applyFormatting', function( evt ) {
 				for ( var i = 0; i < evt.data.styles.length; i++ ) {
 					evt.data.styles[ i ].apply( evt.editor );
