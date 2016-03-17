@@ -134,7 +134,7 @@
 					return;
 				}
 
-				evt.data.styleDef = CKEDITOR.plugins.copyformatting._convertElementToStyleDef( element,
+				evt.data.styleDef = plugin._convertElementToStyleDef( element,
 					evt.data.computedStyles );
 			} );
 
