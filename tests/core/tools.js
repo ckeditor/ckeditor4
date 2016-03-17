@@ -653,19 +653,19 @@
 			var selector;
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			//check undefined selector
+			// Check undefined selector.
 			assert.areSame( escapedSelector, '', 'invalid selector - undefined' );
 
 			selector = null;
 			escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			//check null selector
+			// Check null selector.
 			assert.areSame( escapedSelector, '', 'invalid selector - null' );
 
 			selector = '';
 			escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			//check empty selector
+			// Check empty selector.
 			assert.areSame( escapedSelector, '', 'invalid selector - empty' );
 		},
 
@@ -673,13 +673,13 @@
 			var selector = '100';
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			//check starts-with-number selector
+			// Check starts-with-number selector.
 			assert.areSame( escapedSelector, '\\31 00', 'starts-with-number selector' );
 
 			selector = '0';
 			escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			//check only-one-number selector
+			// Check only-one-number selector.
 			assert.areSame( escapedSelector, '\\30 ', 'only-one-number selector' );
 		},
 
@@ -687,8 +687,8 @@
 			var selector = 'aaa';
 			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
 
-			//check standard selector
-			assert.areSame( escapedSelector, 'aaa', 'starts with number selector' );
+			// Check standard selector.
+			assert.areSame( escapedSelector, 'aaa', 'standard selector' );
 		}
 	} );
 } )();
