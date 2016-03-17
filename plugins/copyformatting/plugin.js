@@ -106,7 +106,8 @@
 				editable.attachListener( CKEDITOR.document, 'mouseup', function( evt ) {
 					var cmd = editor.getCommand( 'copyFormatting' );
 
-					if ( detectLeftMouseButton( evt ) && cmd.state === CKEDITOR.TRISTATE_ON && !cmd.sticky ) {
+					if ( detectLeftMouseButton( evt ) && cmd.state === CKEDITOR.TRISTATE_ON &&
+						!editable.contains( evt.data.getTarget() ) ) {
 						editor.execCommand( 'copyFormatting' );
 					}
 				} );
