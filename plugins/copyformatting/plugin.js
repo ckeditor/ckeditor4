@@ -100,13 +100,13 @@
 
 					if ( detectLeftMouseButton( evt ) ) {
 						editor.execCommand( 'applyFormatting' );
-						evt.data.stopPropagation();
 					}
 				} );
 
 				editable.attachListener( CKEDITOR.document, 'mouseup', function( evt ) {
-					if ( detectLeftMouseButton( evt ) &&
-						editor.getCommand( 'copyFormatting' ).state === CKEDITOR.TRISTATE_ON ) {
+					var cmd = editor.getCommand( 'copyFormatting' );
+
+					if ( detectLeftMouseButton( evt ) && cmd.state === CKEDITOR.TRISTATE_ON && !cmd.sticky ) {
 						editor.execCommand( 'copyFormatting' );
 					}
 				} );
