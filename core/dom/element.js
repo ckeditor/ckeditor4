@@ -2087,7 +2087,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	}
 
 	function getContextualizedSelector( element, selector ) {
-		return '#' + CKEDITOR.tools.escapeCss( element.$.id ) + ' ' + selector.split( /,\s*/ ).join( ', #' + CKEDITOR.tools.escapeCss( element.$.id ) + ' ' );
+		return '#' + CKEDITOR.tools.escapeCss( element.$.id ) + ' ' +
+			selector.split( /,\s*/ ).join( ', #' + CKEDITOR.tools.escapeCss( element.$.id ) + ' ' );
 	}
 
 	var sides = {
