@@ -186,6 +186,16 @@
 			assert.areSame( correctContainer, CKEDITOR.plugins.copyformatting._getCursorContainer( editor ) );
 		},
 
+		'test disabling "disabled" cursor': function( editor ) {
+			editor.config.cf_disabledCursor = false;
+			editor.execCommand( 'copyFormatting' );
+
+			assert.isFalse( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_disabled' ) );
+
+			editor.config.cf_disabledCursor = true;
+			editor.execCommand( 'copyFormatting' );
+		},
+
 		'test failed message for keystroke': function( editor ) {
 			editor.execCommand( 'applyFormatting', { from: 'keystrokeHandler' } );
 
