@@ -1385,12 +1385,12 @@
 		 */
 		escapeCss: function( selector ) {
 			// Invalid input.
-			if ( typeof selector === 'undefined' || selector === null || selector.length === 0 ) {
+			if ( !selector ) {
 				return '';
 			}
 
 			// CSS.escape() can be used.
-			if ( typeof CSS !== 'undefined' && typeof CSS.escape !== 'undefined' ) {
+			if ( window.CSS && CSS.escape ) {
 				return CSS.escape( selector );
 			}
 
