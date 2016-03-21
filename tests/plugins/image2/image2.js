@@ -405,46 +405,6 @@
 			'</figure>'
 	} );
 
-	// -- numeric widget ID  -------------------------------------------------
-
-	tools.addTests( tcs, {
-		name: 'widget_numeric_id',
-		widgetName: 'image',
-		extraPlugins: 'image2',
-		extraAllowedContent: 'figcaption[id]',
-		editorConfig: alignClassesEditorConfig,
-		initialInstancesNumber: 1,
-		assertWidgets: function( editor ) {
-			var figcaption = editor.document.getById( '100' );
-			assert.isNotUndefined( figcaption, 'Figcaption with id 100 should exists' );
-			assert.isNotNull( figcaption, 'Figcaption with id 100 should be non null element' );
-
-			assertWidgetData( {
-				align: 'none',
-				src: '_assets/foo.png',
-				alt: 'foo',
-				width: '',
-				height: '',
-				hasCaption: true,
-				figcaption: figcaption
-			}, 'caption1' );
-		},
-		newData: newDialogData( {
-			align: 'none',
-			src: '_assets/bar.png',
-			alt: 'bar',
-			width: '200',
-			height: '250',
-			hasCaption: true
-		} ),
-		newWidgetPattern:
-		'<figure class="image">' +
-			'<img alt="bar" height="250" src="_assets/bar.png" width="200" />' +
-			'<figcaption>Caption</figcaption>' +
-		'</figure>'
-
-	} );
-
 	bender.test( tcs );
 
 	function assertWidgetData( data, caption ) {
