@@ -45,6 +45,15 @@
 			} );
 		},
 
+		'test extract style from span with [id] attribute': function() {
+			testConvertingStyles( '<span id="test-id" style="' + styleAttr + '">Test</span>', {
+				element: 'span',
+				attributes: {},
+				styles: CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( styleAttr, true ) ),
+				type: CKEDITOR.STYLE_INLINE
+			} );
+		},
+
 		'test extract styles from nested elements': function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<strong class="important" ' +
 					'title="Neil Armstrong"><span style="' + styleAttr + '"><s>Neil Armstrong</s></span></strong>' ),
