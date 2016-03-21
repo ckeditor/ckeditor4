@@ -268,7 +268,7 @@
 				return;
 			}
 
-			attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'style' ] );
+			attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style' ] );
 
 			return new CKEDITOR.style( {
 				element: element.getName(),
