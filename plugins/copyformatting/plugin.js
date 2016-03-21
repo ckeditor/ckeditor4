@@ -173,7 +173,10 @@
 						cmd.setState( CKEDITOR.TRISTATE_ON );
 
 						cursorContainer.addClass( 'cke_copyformatting_active' );
-						CKEDITOR.document.getDocumentElement().addClass( 'cke_copyformatting_disabled' );
+
+						if ( editor.config.cf_disabledCursor ) {
+							CKEDITOR.document.getDocumentElement().addClass( 'cke_copyformatting_disabled' );
+						}
 					}
 
 					cmd.sticky = isSticky;
@@ -541,4 +544,15 @@
 			container.setText( editor.lang.copyformatting.notification[ msg ] );
 		}
 	};
+
+	/**
+	 * Define if the "disabled" cursor should be attached to the whole page
+	 * when the "Copy Formatting" is active.
+	 *
+	 *		config.cf_disabledCursor = false;
+	 *
+	 * @cfg
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.cf_disabledCursor = true;
 } )();
