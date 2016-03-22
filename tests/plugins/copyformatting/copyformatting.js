@@ -187,12 +187,12 @@
 		},
 
 		'test disabling "disabled" cursor': function( editor ) {
-			editor.config.cf_disabledCursor = false;
+			editor.config.copyFormatting_outerCursor = false;
 			editor.execCommand( 'copyFormatting' );
 
 			assert.isFalse( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_disabled' ) );
 
-			editor.config.cf_disabledCursor = true;
+			editor.config.copyFormatting_outerCursor = true;
 			editor.execCommand( 'copyFormatting' );
 		},
 
