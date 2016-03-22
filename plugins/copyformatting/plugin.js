@@ -117,20 +117,6 @@
 				}
 			} );
 
-			// Adding desired computed styles.
-			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
-				var evtData = evt.data;
-
-				if ( !evtData.oldStyles && indexOf( plugin.inlineBoundary, evtData.element.getName() ) === -1 ) {
-					evtData.computedStyles = [
-						'font-size',
-						'font-weight',
-						'font-style',
-						'text-decoration'
-					];
-				}
-			}, null, null, 0 );
-
 			// Fetch the styles from element.
 			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
 				var element = evt.data.element;
@@ -141,7 +127,7 @@
 					return;
 				}
 
-				evt.data.styleDef = plugin._convertElementToStyleDef( element, evt.data.computedStyles );
+				evt.data.styleDef = plugin._convertElementToStyleDef( element );
 			} );
 
 			// Change element to span in case of headings, paragraphs and divs.
@@ -303,20 +289,13 @@
 		 * Converts given element into style definition.
 		 *
 		 * @param {CKEDITOR.dom.element} element Element to be converted.
-		 * @param {Array} computedStyles Computed styles to be extracted.
 		 * @returns {Object} Style definition created from the element.
 		 * @private
 		 */
-		_convertElementToStyleDef: function( element, computedStyles ) {
+		_convertElementToStyleDef: function( element ) {
 			var tools = CKEDITOR.tools,
 				attributes = {},
-				styles = tools.parseCssText( tools.normalizeCssText( element.getAttribute( 'style' ), true ) ),
-				i;
-
-			computedStyles = computedStyles || [];
-			for ( i = 0; i < computedStyles.length; i++ ) {
-				styles[ computedStyles[ i ] ] = element.getComputedStyle( computedStyles[ i ] );
-			}
+				styles = tools.parseCssText( tools.normalizeCssText( element.getAttribute( 'style' ), true ) );
 
 			attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style' ] );
 
