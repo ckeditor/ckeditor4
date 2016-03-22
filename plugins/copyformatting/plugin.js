@@ -174,7 +174,7 @@
 
 						cursorContainer.addClass( 'cke_copyformatting_active' );
 
-						if ( editor.config.cf_disabledCursor ) {
+						if ( editor.config.copyFormatting_outerCursor ) {
 							CKEDITOR.document.getDocumentElement().addClass( 'cke_copyformatting_disabled' );
 						}
 					}
@@ -549,10 +549,10 @@
 	 * Define if the "disabled" cursor should be attached to the whole page
 	 * when the "Copy Formatting" is active.
 	 *
-	 *		config.cf_disabledCursor = false;
+	 *		config.copyFormatting_outerCursor = false;
 	 *
-	 * @cfg
+	 * @cfg [copyFormatting_outerCursor=true]
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.cf_disabledCursor = true;
+	CKEDITOR.config.copyFormatting_outerCursor = true;
 } )();
