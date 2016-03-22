@@ -7,7 +7,7 @@
 ( function() {
 	'use strict';
 
-	var styleAttr = 'text-decoration: underline;font-weight: bold;color: #f00;',
+	var styleAttr = 'text-decoration: underline;color: #f00;',
 		tests;
 
 
