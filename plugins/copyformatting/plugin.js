@@ -118,7 +118,7 @@
 			} );
 
 			// Adding desired computed styles.
-			editor.copyFormatting.on( 'extractStylesFromElement', function( evt ) {
+			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
 				var evtData = evt.data;
 
 				if ( !evtData.oldStyles && indexOf( plugin.inlineBoundary, evtData.element.getName() ) === -1 ) {
@@ -132,7 +132,7 @@
 			}, null, null, 0 );
 
 			// Fetch the styles from element.
-			editor.copyFormatting.on( 'extractStylesFromElement', function( evt ) {
+			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
 				var element = evt.data.element;
 
 				// Stop at body and html in classic editors or at .cke_editable element in inline ones.
@@ -146,7 +146,7 @@
 
 			// Change element to span in case of headings, paragraphs and divs.
 			// Do not do that for fetching old styles.
-			editor.copyFormatting.on( 'extractStylesFromElement', function( evt ) {
+			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
 				var element = evt.data.element;
 
 				if ( evt.data.oldStyles || indexOf( plugin.inlineBoundary, element.getName() ) === -1 ) {
@@ -157,7 +157,7 @@
 			} );
 
 			// Remove empty styles.
-			editor.copyFormatting.on( 'extractStylesFromElement', function( evt ) {
+			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
 				var styleDef = evt.data.styleDef,
 					isEmpty = CKEDITOR.tools.isEmpty;
 
@@ -350,7 +350,7 @@
 
 				eventData.element = element;
 
-				if ( editor.copyFormatting.fire( 'extractStylesFromElement', eventData, editor ) &&
+				if ( editor.copyFormatting.fire( 'extractFormatting', eventData, editor ) &&
 					eventData.styleDef ) {
 					styles.push( new CKEDITOR.style( eventData.styleDef ) );
 				}
