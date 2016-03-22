@@ -150,7 +150,7 @@
 				if ( styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
 					evt.cancel();
 				}
-			} );
+			}, null, null, 999 );
 
 			// Remove old styles from element.
 			editor.copyFormatting.on( 'beforeApplyFormatting', function( evt ) {
