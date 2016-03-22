@@ -222,9 +222,9 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 
 	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
 
-	copyFormatting.on( 'extractFormatting', countExtractStylesFromElementEvents );
+	copyFormatting.on( 'extractFormatting', countExtractStylesFromElementEvents, null, null, 1000 );
 	editor.execCommand( 'copyFormatting', additionalData );
-	copyFormatting.removeListener( 'extractFormatting', countExtractStylesFromElementEvents );
+	copyFormatting.removeListener( 'extractFormatting', countExtractStylesFromElementEvents, null, null, 1000 );
 
 	assertCopyFormattingState( editor, expectedStyles, additionalData );
 	assertScreenReaderNotification( editor, 'copied' );
