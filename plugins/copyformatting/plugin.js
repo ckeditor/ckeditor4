@@ -124,7 +124,7 @@
 				// Stop at body and html in classic editors or at .cke_editable element in inline ones.
 				if ( indexOf( [ 'body', 'html' ], element.getName() ) !== -1 ||
 					element.hasClass( 'cke_editable' ) ) {
-					return;
+					return evt.cancel();
 				}
 
 				evt.data.styleDef = plugin._convertElementToStyleDef( element );
