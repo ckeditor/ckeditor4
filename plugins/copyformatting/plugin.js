@@ -25,9 +25,7 @@
 		hidpi: true,
 
 		onLoad: function() {
-
 			var doc = CKEDITOR.document,
-
 				/**
 				 * We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
 				 * `aria-live` which has dirrectly `position: absolute` assigned.
@@ -40,7 +38,6 @@
 					'</div>';
 
 			doc.appendStyleSheet( this.path + 'styles/copyformatting.css' );
-
 			doc.getBody().append( CKEDITOR.dom.element.createFromHtml( notificationTpl ) );
 		},
 
