@@ -221,7 +221,8 @@
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
 						plugin = CKEDITOR.plugins.copyformatting,
 						copyFormatting = editor.copyFormatting,
-						cursorContainer = plugin._getCursorContainer( editor );
+						cursorContainer = plugin._getCursorContainer( editor ),
+						isApplied;
 
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON ) {
 						return;
@@ -229,7 +230,7 @@
 						return plugin._putScreenReaderMessage( editor, 'failed' );
 					}
 
-					plugin._applyFormat( editor, copyFormatting.styles );
+					isApplied = plugin._applyFormat( editor, copyFormatting.styles );
 
 					if ( !copyFormatting.sticky ) {
 						copyFormatting.styles = null;
@@ -240,7 +241,7 @@
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					plugin._putScreenReaderMessage( editor, 'applied' );
+					plugin._putScreenReaderMessage( editor, isApplied ? 'applied' : 'canceled' );
 				}
 			}
 		},
@@ -560,16 +561,22 @@
 
 			oldStyles = plugin._extractStylesFromRange( editor, newRange || range, { oldStyles: true } );
 
-			editor.copyFormatting.fire( 'beforeApplyFormatting', { oldStyles: oldStyles, range: newRange || range },
-				editor );
+			if ( !editor.copyFormatting.fire( 'beforeApplyFormatting', { oldStyles: oldStyles, range: newRange || range },
+				editor ) ) {
+				return false;
+			}
 
 			// Now apply new styles.
-			editor.copyFormatting.fire( 'applyFormatting', { styles: newStyles, range: newRange || range },
-				editor );
+			if ( !editor.copyFormatting.fire( 'applyFormatting', { styles: newStyles, range: newRange || range },
+				editor ) ) {
+				return false;
+			}
 
 			if ( bkms ) {
 				editor.getSelection().selectBookmarks( bkms );
 			}
+
+			return true;
 		},
 
 		/**
