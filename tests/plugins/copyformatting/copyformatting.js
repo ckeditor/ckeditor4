@@ -220,5 +220,13 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	tests.init = function() {
+		function switchOffComputedStyles( evt ) {
+			evt.data.computedStyles = [];
+		}
+
+		this.editors.classic.on( 'extractStylesFromElement', switchOffComputedStyles, null, null, 5 );
+		this.editors.inline.on( 'extractStylesFromElement', switchOffComputedStyles, null, null, 5 );
+	};
 	bender.test( tests );
 }() );

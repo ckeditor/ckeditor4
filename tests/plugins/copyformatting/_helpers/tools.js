@@ -76,7 +76,7 @@ function testApplyingFormat( editor, htmlWithSelection, expectedContent, newStyl
 	oldStyles = CKEDITOR.tools.isArray( oldStyles ) ? oldStyles : [];
 
 	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
-	CKEDITOR.plugins.copyformatting._applyFormat( newStyles, editor );
+	CKEDITOR.plugins.copyformatting._applyFormat( editor, newStyles );
 
 	range = editor.getSelection().getRanges()[ 0 ];
 	range.shrink( CKEDITOR.SHRINK_TEXT );
@@ -103,11 +103,11 @@ function testApplyingFormat( editor, htmlWithSelection, expectedContent, newStyl
 	assert.areSame( expectedContent, editor.editable().findOne( newStyles[ 0 ].element ).getHtml() );
 }
 
-function testConvertingStyles( elementHtml, expectedStyles ) {
+function testConvertingStyles( elementHtml, expectedStyle ) {
 	var element = CKEDITOR.dom.element.createFromHtml( elementHtml ),
-		style = CKEDITOR.plugins.copyformatting._convertElementToStyle( element );
+		style = CKEDITOR.plugins.copyformatting._convertElementToStyleDef( element );
 
-	objectAssert.areDeepEqual( expectedStyles, style._.definition );
+	objectAssert.areDeepEqual( expectedStyle, style );
 }
 
 function assertScreenReaderNotification( editor, msg ) {
@@ -182,7 +182,7 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, addi
 			assert.isTrue( expectedStyles[ i ].checkActive( path, editor ), 'Style #' + i + ' is correctly applied' );
 		}
 	} else {
-		assert.areSame( 0, CKEDITOR.plugins.copyformatting._extractStylesFromElement( styledElement ).length,
+		assert.areSame( 0, CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor, styledElement ).length,
 			'There are no styles applied to element' );
 	}
 }
@@ -197,20 +197,39 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, addi
  */
 function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, removedStyles, rangeInfo, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
+		events = {
+			extractStylesFromElement: 0,
+			extractOldStyles: 0
+		},
 		styles,
 		i,
 		removed,
 		element,
 		range;
 
+	function countExtractStylesFromElementEvents() {
+		++events.extractStylesFromElement;
+	}
+
+	function countExtractOldStyles( evt ) {
+		if ( evt.data.oldStyles ) {
+			++events.extractOldStyles;
+		}
+	}
+
 	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
 
+	editor.on( 'extractStylesFromElement', countExtractStylesFromElementEvents );
 	editor.execCommand( 'copyFormatting', additionalData );
+	editor.removeListener( 'extractStylesFromElement', countExtractStylesFromElementEvents );
 
 	assertCopyFormattingState( editor, expectedStyles, additionalData );
 	assertScreenReaderNotification( editor, 'copied' );
 
 	styles = cmd.styles;
+
+	assert.areSame( cmd.styles.length, events.extractStylesFromElement,
+		'For every extracted styles, a proper event was fired.' );
 
 	// Select text node inside element (as the text is selected when element is clicked).
 	element = editor.editable().findOne( rangeInfo.elementName ).getChild( 0 );
@@ -229,7 +248,22 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 
 	range.select();
 
+	editor.on( 'extractStylesFromElement', countExtractOldStyles );
 	editor.execCommand( 'applyFormatting', additionalData );
+	editor.removeListener( 'extractStylesFromElement', countExtractOldStyles );
+
+	// At the moment, fetching preexisting styles returns many duplicates.
+	// Therefore strict match will always fail.
+	assert.isTrue( removedStyles.length <= events.extractOldStyles,
+		'For every removed style a proper event was fired.' );
+
+	editor.once( 'beforeApplyFormatting', function( evt ) {
+		assert.isArray( evt.data.oldStyles, 'Old styles are passed to the beforeApplyFormatting event.' );
+	} );
+
+	editor.once( 'applyFormatting', function( evt ) {
+		assert.isArray( evt.data.styles, 'New styles are passed to the applyFormatting event.' );
+	} );
 
 	assertApplyFormattingState( editor, styles, element, additionalData );
 	assertScreenReaderNotification( editor, 'applied' );
