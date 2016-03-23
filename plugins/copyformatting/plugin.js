@@ -26,7 +26,7 @@
 
 		onLoad: function() {
 
-			var linkElement = new CKEDITOR.dom.element( 'link' ),
+			var doc = CKEDITOR.document,
 
 				/**
 				 * We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
@@ -39,13 +39,9 @@
 						'<div aria-live="polite"></div>' +
 					'</div>';
 
-			linkElement.setAttribute( 'type', 'text/css' );
-			linkElement.setAttribute( 'rel', 'stylesheet' );
-			linkElement.setAttribute( 'href', this.path + 'styles/copyformatting.css' );
+			doc.appendStyleSheet( this.path + 'styles/copyformatting.css' );
 
-			CKEDITOR.document.getHead().append( linkElement );
-
-			CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( notificationTpl ) );
+			doc.getBody().append( CKEDITOR.dom.element.createFromHtml( notificationTpl ) );
 		},
 
 		init: function( editor ) {
