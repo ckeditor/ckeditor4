@@ -270,7 +270,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 					// The "panelShow" event is fired assinchronously, after the
 					// onShow method call.
 					editor.once( 'panelShow', function() {
+						list.hide();
 						list.focus( !list.multiSelect && me.getValue() );
+						list.show();
 					} );
 				};
 
