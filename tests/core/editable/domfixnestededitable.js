@@ -38,7 +38,6 @@
 				sel = editor.getSelection(),
 				range = editor.createRange();
 
-			nestedEditable.focus();
 			range.setStart( nestedEditable, 0 );
 			range.setEnd( nestedEditable, 0 );
 			sel.selectRanges( [ range ] );
