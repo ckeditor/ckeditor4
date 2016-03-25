@@ -10,10 +10,8 @@
 		requires: 'copyformatting',
 
 		init: function( editor ) {
-			var copyFormatting = editor.copyFormatting;
-
 			// Adding desired computed styles.
-			copyFormatting.on( 'extractFormatting', function( evt ) {
+			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
 				var evtData = evt.data,
 					element = evtData.element,
 					styles = evtData.styleDef.styles,
