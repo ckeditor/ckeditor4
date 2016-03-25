@@ -56,6 +56,20 @@
 				'barfoobaz' );
 			testGettingWordOffset( this.editor, '<p><span style="color: #0000FF;">bar</span>foo<span style="color: #0000FF;">{}baz</span></p>',
 				'barfoobaz' );
+		},
+
+		'test getSelectedWordOffset (comment nodes)': function() {
+			testGettingWordOffset( this.editor, '<p><!--comment-->w{}ord</p>', 'word' );
+			testGettingWordOffset( this.editor, '<p>w{}o<!--comment-->rd</p>', 'word' );
+			testGettingWordOffset( this.editor, '<p><!--comment-->w{}ord<!--comment--></p>', 'word' );
+			testGettingWordOffset( this.editor, '<p><!--comment--><span>w{}ord</span></p>', 'word' );
+			testGettingWordOffset( this.editor, '<p><span>w{}ord</span><!--comment--></p>', 'word' );
+			testGettingWordOffset( this.editor, '<p><span style="color: #0000FF;">w</span><!--comment-->{}ord</p>',
+				'word' );
+			testGettingWordOffset( this.editor, '<p><span style="color: #0000FF;">w{}</span><!--comment-->ord</p>',
+				'word' );
+			testGettingWordOffset( this.editor, '<p><span style="color: #0000FF;">w</span>o{}r<!--comment-->d</p>',
+				'word' );
 		}
 	} );
 }() );
