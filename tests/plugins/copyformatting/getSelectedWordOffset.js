@@ -70,6 +70,7 @@
 				'word' );
 			testGettingWordOffset( this.editor, '<p><span style="color: #0000FF;">w</span>o{}r<!--comment-->d</p>',
 				'word' );
+			testGettingWordOffset( this.editor, '<p>w{}o<!--comment--> <!--comment2-->rd</p>', 'wo' );
 		}
 	} );
 }() );
