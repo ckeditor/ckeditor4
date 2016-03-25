@@ -311,6 +311,16 @@
 
 			node = startNode = endNode = range.startContainer;
 
+			// Get sibling node, skipping the comments.
+			function getSibling( node, isPrev ) {
+				var func = isPrev ? 'getPrevious' : 'getNext';
+
+				return node[ func ]( function( sibling ) {
+					// We must skip all comments.
+					return sibling.type !== CKEDITOR.NODE_COMMENT;
+				} );
+			}
+
 			// Get node contents without tags.
 			function getNodeContents( node ) {
 				var html;
@@ -328,15 +338,14 @@
 
 			// Get the word beggining/ending from previous/next node with content (skipping empty nodes and bookmarks)
 			function getSiblingNodeOffset( startNode, isPrev ) {
-				var getSibling = isPrev ? 'getPrevious' : 'getNext',
-					currentNode = startNode,
+				var currentNode = startNode,
 					regex = /\s/g,
 					boundaryElements = [ 'p', 'li', 'div', 'body' ],
 					isBoundary = false,
 					sibling, contents, match, offset;
 
 				do {
-					sibling = currentNode[ getSibling ]();
+					sibling = getSibling( currentNode, isPrev );
 
 					// If there is no sibling, text is probably inside element, so get it
 					// and then fetch its sibling.
@@ -347,7 +356,7 @@
 						}
 
 						currentNode = currentNode.getParent();
-						sibling = currentNode[ getSibling ]();
+						sibling = getSibling( currentNode, isPrev );
 					}
 
 					currentNode = sibling;
