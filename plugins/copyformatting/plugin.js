@@ -313,9 +313,7 @@
 
 			// Get sibling node, skipping the comments.
 			function getSibling( node, isPrev ) {
-				var func = isPrev ? 'getPrevious' : 'getNext';
-
-				return node[ func ]( function( sibling ) {
+				return node[ isPrev ? 'getPrevious' : 'getNext' ]( function( sibling ) {
 					// We must skip all comments.
 					return sibling.type !== CKEDITOR.NODE_COMMENT;
 				} );
