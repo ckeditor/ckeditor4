@@ -15,8 +15,8 @@
 			// Adding desired computed styles.
 			copyFormatting.on( 'extractFormatting', function( evt ) {
 				var evtData = evt.data,
-					element = evt.data.element,
-					styles = evt.data.styleDef.styles,
+					element = evtData.element,
+					styles = evtData.styleDef.styles,
 					computedStyles = editor.config.copyFormatting_computedStyles || [],
 					i;
 
