@@ -537,7 +537,6 @@
 			var range = editor.getSelection().getRanges()[ 0 ],
 				plugin = CKEDITOR.plugins.copyformatting,
 				oldStyles,
-				newRange,
 				word,
 				bkms;
 
@@ -560,15 +559,15 @@
 				range.select();
 			}
 
-			oldStyles = plugin._extractStylesFromRange( editor, newRange || range, { oldStyles: true } );
+			oldStyles = plugin._extractStylesFromRange( editor, range, { oldStyles: true } );
 
-			if ( !editor.copyFormatting.fire( 'beforeApplyFormatting', { oldStyles: oldStyles, range: newRange || range },
+			if ( !editor.copyFormatting.fire( 'beforeApplyFormatting', { oldStyles: oldStyles, range: range },
 				editor ) ) {
 				return false;
 			}
 
 			// Now apply new styles.
-			if ( !editor.copyFormatting.fire( 'applyFormatting', { styles: newStyles, range: newRange || range },
+			if ( !editor.copyFormatting.fire( 'applyFormatting', { styles: newStyles, range: range },
 				editor ) ) {
 				return false;
 			}
