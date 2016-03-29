@@ -52,6 +52,7 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.copyFormatting_computedStyles = [
+		'color',
 		'font-size',
 		'font-weight',
 		'font-style',
