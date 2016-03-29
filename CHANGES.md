@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 Other Changes:
 
 * [#12440](http://dev.ckeditor.com/ticket/12440): Added the [`config.colorButton_enableAutomatic`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_enableAutomatic) option to allow hiding the "Automatic" option in the color picker.
+* [#10448](http://dev.ckeditor.com/ticket/10448): Fixed: [Bidi] Lack of scrollbar in the RTL text direction.
 * [#13756](http://dev.ckeditor.com/ticket/13756): Fixed: Context menus are cut-off in Microsoft Edge.
 * [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: The order of table elements does not meet the HTML specification.
 
