@@ -530,6 +530,7 @@
 		 *
 		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
+		 * @returns {Boolean}
 		 * @private
 		 */
 		_applyFormat: function( editor, newStyles ) {
