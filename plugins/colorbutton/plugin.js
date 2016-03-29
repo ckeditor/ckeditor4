@@ -91,7 +91,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					if ( !color || color == 'transparent' )
 						color = '#ffffff';
 
-					this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+					if ( config.colorButton_enableAutomatic !== false ) {
+						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+					}
 
 					return color;
 				}
@@ -153,22 +155,24 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				editor.fire( 'saveSnapshot' );
 			} );
 
-			// Render the "Automatic" button.
-			output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
-				' title="', lang.auto, '"' +
-				' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
-				' href="javascript:void(\'', lang.auto, '\')"' +
-				' role="option" aria-posinset="1" aria-setsize="', total, '">' +
-				'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
-					'<tr>' +
-						'<td>' +
-							'<span class="cke_colorbox" id="', colorBoxId, '"></span>' +
-						'</td>' +
-						'<td colspan=7 align=center>', lang.auto, '</td>' +
-					'</tr>' +
-				'</table>' +
-				'</a>' +
-				'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
+			if ( config.colorButton_enableAutomatic !== false ) {
+				// Render the "Automatic" button.
+				output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
+					' title="', lang.auto, '"' +
+					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
+					' href="javascript:void(\'', lang.auto, '\')"' +
+					' role="option" aria-posinset="1" aria-setsize="', total, '">' +
+						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
+							'<tr>' +
+								'<td>' +
+									'<span class="cke_colorbox" id="', colorBoxId, '"></span>' +
+								'</td>' +
+								'<td colspan=7 align=center>', lang.auto, '</td>' +
+							'</tr>' +
+						'</table>' +
+					'</a>' );
+			}
+			output.push( '<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
 
 			// Render the color boxes.
 			for ( var i = 0; i < colors.length; i++ ) {
@@ -299,3 +303,12 @@ CKEDITOR.config.colorButton_backStyle = {
 	element: 'span',
 	styles: { 'background-color': '#(color)' }
 };
+
+/**
+ * Whether to enable the **Automatic** button in the color selectors.
+ *
+ *		config.colorButton_enableAutomatic = false;
+ *
+ * @cfg {Boolean} [colorButton_enableAutomatic=true]
+ * @member CKEDITOR.config
+ */
