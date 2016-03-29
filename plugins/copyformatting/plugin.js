@@ -408,9 +408,8 @@
 				} else if ( isPrev ) {
 					offset += 1;
 
-					if ( offset > contents.length - 1 ) {
-						currentNode = currentNode.getNext();
-						offset = 0;
+					if ( offset > contents.length ) {
+						return getSiblingNodeOffset( currentNode );
 					}
 				}
 
