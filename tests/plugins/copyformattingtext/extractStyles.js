@@ -7,9 +7,8 @@
 ( function() {
 	'use strict';
 
-	var styleAttr = 'text-decoration: underline;color: #f00;',
+	var styleAttr = 'text-decoration: underline;font-style: italic;',
 		tests;
-
 
 	bender.editors = {
 		classic: {
@@ -53,7 +52,7 @@
 			testExtractingFormatting( editor, bot, '<span style="' + styleAttr + '">Test</span>', {
 				element: 'span',
 				attributes: {},
-				styles: CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( styleAttr, true ) ),
+				styles: CKEDITOR.tools.parseCssText( styleAttr, true, true ),
 				type: CKEDITOR.STYLE_INLINE
 			} );
 		},
@@ -62,7 +61,7 @@
 			testExtractingFormatting( editor, bot, '<span style="' + styleAttr + '">Test</span>', {
 				element: 'span',
 				attributes: {},
-				styles: CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( styleAttr, true ) ),
+				styles: CKEDITOR.tools.parseCssText( styleAttr, true, true ),
 				type: CKEDITOR.STYLE_INLINE
 			}, null, { oldStyles: true } );
 		},
@@ -77,6 +76,15 @@
 				'background-color',
 				'position'
 			] );
+		},
+
+		'test extract styles (without computed styles)': function( editor, bot ) {
+			testExtractingFormatting( editor, bot, '<span style="' + styleAttr + '">Test</span>', {
+				element: 'span',
+				attributes: {},
+				styles: CKEDITOR.tools.parseCssText( styleAttr, true, true ),
+				type: CKEDITOR.STYLE_INLINE
+			}, false );
 		}
 
 	};
