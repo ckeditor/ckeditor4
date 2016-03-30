@@ -28,13 +28,10 @@
 
 		onLoad: function() {
 			var doc = CKEDITOR.document,
-				/**
-				 * We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
-				 * `aria-live` which has dirrectly `position: absolute` assigned.
-				 *
-				 * The trick was simply to put position absolute, and all the hiding CSS into a wrapper, while content
-				 * with `aria-live` attribute inside.
-				 */
+				// We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
+				// `aria-live` which has dirrectly `position: absolute` assigned.
+				// The trick was simply to put position absolute, and all the hiding CSS into a wrapper,
+				// while content with `aria-live` attribute inside.
 				notificationTpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
 						'<div aria-live="polite"></div>' +
 					'</div>';
@@ -51,9 +48,36 @@
 				editor.addContentsCss( this.path + 'styles/copyformatting.css' );
 			}
 
+			/**
+			 * Object indicating the current state of Copy Formatting plugin
+			 * in the specified editor.
+			 *
+			 * @singleton
+			 * @member CKEDITOR.editor
+			 */
 			editor.copyFormatting = {
+				/**
+				 * Currently copied styles.
+				 *
+				 * @member CKEDITOR.editor.copyFormatting
+				 * @property {CKEDITOR.style[]/null}
+				 */
 				styles: null,
+
+				/**
+				 * Indicates if the Copy Formatting plugin is in sticky mode.
+				 *
+				 * @member CKEDITOR.editor.copyFormatting
+				 * @property {Boolean}
+				 */
 				sticky: false,
+
+				/**
+				 * Reference to the editor.
+				 *
+				 * @member CKEDITOR.editor.copyFormatting
+				 * @property {CKEDITOR.editor}
+				 */
 				editor: editor
 			};
 			CKEDITOR.event.implementOn( editor.copyFormatting );
@@ -168,9 +192,15 @@
 		}
 	} );
 
+	/**
+	 * @singleton
+	 * @class CKEDITOR.plugins.copyformatting
+	 */
 	CKEDITOR.plugins.copyformatting = {
 		/**
 		 * Array of tag names that should limit inline styles extraction.
+		 *
+		 * @property {Array}
 		 */
 		inlineBoundary: [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ],
 
@@ -295,10 +325,8 @@
 		 */
 		_convertElementToStyleDef: function( element ) {
 			var tools = CKEDITOR.tools,
-				attributes = {},
+				attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style' ] ),
 				styles = tools.parseCssText( tools.normalizeCssText( element.getAttribute( 'style' ), true ) );
-
-			attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style' ] );
 
 			return {
 				element: element.getName(),
@@ -603,4 +631,78 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.copyFormatting_outerCursor = true;
+
+	/**
+	 * Fired when the styles are being extracted from the element.
+	 * This event listener job is to extract only needed styles and modify them easily.
+	 *
+	 *		editor.copyFormatting.on( 'extractFormatting', function( evt ) {
+	 *			evt.data.styleDef.attributes.class = 'important';
+	 *		} );
+	 *
+	 * This event can albo be canceled to indicate that styles from current element should not
+	 * be extracted.
+	 *
+	 *		editor.copyFormatting.on( 'extractFormatting', function( evt ) {
+	 *			if ( evt.data.element === 'div' ) {
+	 *				evt.cancel();
+	 *			}
+	 *		} );
+	 *
+	 * This event has 3 default listeners. Two of them have a default priority of `10` and the third one
+	 * has a priority of `999`.
+	 * The first listener extracts all styles from element (from all attributes except `id` and from
+	 * element's name) and put them as an object into `evt.data.styleDef`.
+	 * The second listener change the name of `{@link CKEDITOR.plugins.copyformatting#inlineBoundary}` elements
+	 * to `span` to allow applying their styles as an inline style.
+	 * The last listener removes all empty styles (with only the element's name specified).
+	 *
+	 * @event extractFormatting
+	 * @member CKEDITOR.editor.copyFormatting
+	 * @param {Object} data
+	 * @param {CKEDITOR.dom.element} data.element The element which styles should be fetched.
+	 * @param {Object} data.styleDef Styles extracted from element.
+	 * @param {Boolean} [data.oldStyles] If it is specified, it indicates that the styles fetching is initiated
+	 * via `{@link #beforeApplyFormatting}` event.
+	 */
+
+	/**
+	 * Fired just before the copied styles are applied to the current selection position.
+	 * This event listener job is to prepare the selection contents for applying new styles (e.g. by fetching
+	 * existing styles and removing them).
+	 *
+	 *		editor.copyFormatting.on( 'beforeApplyFormatting', function( evt ) {
+	 *			for ( var i = 0; i < evt.data.oldStyles.length; i++ ) {
+	 *				evt.data.oldStyles[ i ].remove( evt.editor );
+	 *			}
+	 *		}, null, null, 999 );
+	 *
+	 * This event has one listener with priority of `999` that removes all styles currently applied to the
+	 * current selection.
+	 *
+	 * @event beforeApplyFormatting
+	 * @member CKEDITOR.editor.copyFormatting
+	 * @param {Object} data
+	 * @param {CKEDITOR.dom.range} range Range from the current selection.
+	 * @param {CKEDITOR.style[]} oldStyles Styles fetched from the current selection.
+	 */
+
+	/**
+	 * Fired when the copied styles are applied to the current selection position.
+	 * This event listener job is to apply the new styles
+	 *
+	 *		editor.copyFormatting.on( 'applyFormatting', function( evt ) {
+	 *			for ( var i = 0; i < evt.data.styles.length; i++ ) {
+	 *				evt.data.styles[ i ].apply( evt.editor );
+	 *			}
+	 *		}, null, null, 999 );
+	 *
+	 * This event has one listener with priority of `999` that applies all newstyles to the current selection.
+	 *
+	 * @event applyFormatting
+	 * @member CKEDITOR.editor.copyFormatting
+	 * @param {Object} data
+	 * @param {CKEDITOR.dom.range} range Range from the current selection.
+	 * @param {CKEDITOR.style[]} styles Styles to be applied.
+	 */
 } )();
