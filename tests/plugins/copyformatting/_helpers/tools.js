@@ -120,7 +120,8 @@ function assertScreenReaderNotification( editor, msg ) {
 
 function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
-		areaWithCursor = CKEDITOR.plugins.copyformatting._getCursorContainer( editor );
+		areaWithCursor = CKEDITOR.plugins.copyformatting._getCursorContainer( editor ),
+		copyFormatting = editor.copyFormatting;
 
 	assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state, 'Button is active' );
 
@@ -136,12 +137,12 @@ function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 			'The page does not have class indicating that Copy Formatting is active' );
 	}
 
-	assert.isArray( cmd.styles, 'Styles are stored in the array' );
-	assert.areSame( expectedStyles.length, cmd.styles.length, 'There are correct amount of styles' );
+	assert.isArray( copyFormatting.styles, 'Styles are stored in the array' );
+	assert.areSame( expectedStyles.length, copyFormatting.styles.length, 'There are correct amount of styles' );
 
 	for ( var i = 0; i < expectedStyles.length; i++ ) {
-		assert.isInstanceOf( CKEDITOR.style, cmd.styles[ i ], 'Style #' + i + ' is an instanceof CKEDITOR.style' );
-		objectAssert.areDeepEqual( expectedStyles[ i ], cmd.styles[ i ]._.definition, 'Style # ' + i +
+		assert.isInstanceOf( CKEDITOR.style, copyFormatting.styles[ i ], 'Style #' + i + ' is an instanceof CKEDITOR.style' );
+		objectAssert.areDeepEqual( expectedStyles[ i ], copyFormatting.styles[ i ]._.definition, 'Style # ' + i +
 			' has correct definition' );
 	}
 }
@@ -149,11 +150,12 @@ function assertCopyFormattingState( editor, expectedStyles, additionalData ) {
 function assertApplyFormattingState( editor, expectedStyles, styledElement, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
 		path = new CKEDITOR.dom.elementPath( styledElement, editor.editable() ),
-		areaWithCursor = CKEDITOR.plugins.copyformatting._getCursorContainer( editor );
+		areaWithCursor = CKEDITOR.plugins.copyformatting._getCursorContainer( editor ),
+		copyFormatting = editor.copyFormatting;
 
 	if ( !additionalData ) {
 		assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state, 'Button is not active' );
-		assert.isNull( cmd.styles, 'Styles are removed from store' );
+		assert.isNull( copyFormatting.styles, 'Styles are removed from store' );
 		assert.isFalse( areaWithCursor.hasClass( 'cke_copyformatting_active' ),
 			'Editable area does not have class indicating that Copy Formatting is active' );
 		assert.isFalse( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_disabled' ),
@@ -161,7 +163,7 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, addi
 
 	} else if ( additionalData.from === 'keystrokeHandler' ) {
 		assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state, 'Button is active' );
-		assert.isArray( cmd.styles, 'Styles are not removed from store' );
+		assert.isArray( copyFormatting.styles, 'Styles are not removed from store' );
 		assert.isFalse( areaWithCursor.hasClass( 'cke_copyformatting_active' ),
 			'Editable area does not have class indicating that Copy Formatting is active' );
 		assert.isFalse( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_disabled' ),
@@ -169,7 +171,7 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, addi
 
 	} else if ( additionalData.sticky ) {
 		assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state, 'Button is active' );
-		assert.isArray( cmd.styles, 'Styles are not removed from store' );
+		assert.isArray( copyFormatting.styles, 'Styles are not removed from store' );
 		assert.isTrue( areaWithCursor.hasClass( 'cke_copyformatting_active' ),
 			'Editable area does not have class indicating that Copy Formatting is active' );
 		assert.isTrue( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_disabled' ),
@@ -197,6 +199,7 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, addi
  */
 function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, removedStyles, rangeInfo, additionalData ) {
 	var cmd = editor.getCommand( 'copyFormatting' ),
+		copyFormatting = editor.copyFormatting,
 		events = {
 			extractStylesFromElement: 0,
 			extractOldStyles: 0
@@ -219,16 +222,16 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 
 	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
 
-	editor.on( 'extractStylesFromElement', countExtractStylesFromElementEvents );
+	copyFormatting.on( 'extractFormatting', countExtractStylesFromElementEvents );
 	editor.execCommand( 'copyFormatting', additionalData );
-	editor.removeListener( 'extractStylesFromElement', countExtractStylesFromElementEvents );
+	copyFormatting.removeListener( 'extractFormatting', countExtractStylesFromElementEvents );
 
 	assertCopyFormattingState( editor, expectedStyles, additionalData );
 	assertScreenReaderNotification( editor, 'copied' );
 
-	styles = cmd.styles;
+	styles = copyFormatting.styles;
 
-	assert.areSame( cmd.styles.length, events.extractStylesFromElement,
+	assert.areSame( copyFormatting.styles.length, events.extractStylesFromElement,
 		'For every extracted styles, a proper event was fired.' );
 
 	// Select text node inside element (as the text is selected when element is clicked).
@@ -248,20 +251,20 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 
 	range.select();
 
-	editor.on( 'extractStylesFromElement', countExtractOldStyles );
+	copyFormatting.on( 'extractFormatting', countExtractOldStyles );
 	editor.execCommand( 'applyFormatting', additionalData );
-	editor.removeListener( 'extractStylesFromElement', countExtractOldStyles );
+	copyFormatting.removeListener( 'extractFormatting', countExtractOldStyles );
 
 	// At the moment, fetching preexisting styles returns many duplicates.
 	// Therefore strict match will always fail.
 	assert.isTrue( removedStyles.length <= events.extractOldStyles,
 		'For every removed style a proper event was fired.' );
 
-	editor.once( 'beforeApplyFormatting', function( evt ) {
+	copyFormatting.once( 'beforeApplyFormatting', function( evt ) {
 		assert.isArray( evt.data.oldStyles, 'Old styles are passed to the beforeApplyFormatting event.' );
 	} );
 
-	editor.once( 'applyFormatting', function( evt ) {
+	copyFormatting.once( 'applyFormatting', function( evt ) {
 		assert.isArray( evt.data.styles, 'New styles are passed to the applyFormatting event.' );
 	} );
 
@@ -281,7 +284,7 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 	if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
 		editor.execCommand( 'copyFormatting' );
 	}
-	if ( cmd.styles ) {
-		cmd.styles = null;
+	if ( copyFormatting.styles ) {
+		copyFormatting.styles = null;
 	}
 }

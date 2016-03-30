@@ -114,7 +114,7 @@
 			assertScreenReaderNotification( editor, 'canceled' );
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
-			assert.isNull( cmd.styles );
+			assert.isNull( editor.copyFormatting.styles );
 		},
 
 		'test cancelling Copy Formatting command (Escape)': function( editor ) {
@@ -136,7 +136,7 @@
 			} );
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
-			assert.isNull( cmd.styles );
+			assert.isNull( editor.copyFormatting.styles );
 			assertScreenReaderNotification( editor, 'canceled' );
 		},
 
@@ -159,7 +159,7 @@
 			} );
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
-			assert.isNull( cmd.styles );
+			assert.isNull( editor.copyFormatting.styles );
 			assertScreenReaderNotification( editor, 'canceled' );
 		},
 
