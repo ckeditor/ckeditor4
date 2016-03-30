@@ -3,12 +3,15 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.8
 
-Other Changes:
+New Features:
 
-* [#12440](http://dev.ckeditor.com/ticket/12440): Added the [`config.colorButton_enableAutomatic`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_enableAutomatic) option to allow hiding the "Automatic" option in the color picker.
-* [#10448](http://dev.ckeditor.com/ticket/10448): Fixed: [Bidi] Lack of scrollbar in the RTL text direction.
-* [#13756](http://dev.ckeditor.com/ticket/13756): Fixed: Context menus are cut-off in Microsoft Edge.
-* [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: The order of table elements does not meet the HTML specification.
+* [#12440](http://dev.ckeditor.com/ticket/12440): Added the [`config.colorButton_enableAutomatic`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_enableAutomatic) option to allow hiding the "Automatic" option in the [color picker](http://ckeditor.com/addon/colorbutton).
+
+Fixed Issues:
+
+* [#10448](http://dev.ckeditor.com/ticket/10448): Fixed: Lack of scrollbar in the [right-to-left text direction](http://ckeditor.com/addon/bidi).
+* [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: The order of table elements does not comply with the HTML specification.
+* [#13756](http://dev.ckeditor.com/ticket/13756): [Edge] Fixed: Context menus are cut-off.
 
 ## CKEditor 4.5.7
 
@@ -16,7 +19,7 @@ New Features:
 
 * [#14327](http://dev.ckeditor.com/ticket/14327): Added Swiss German localization. Thanks to [Miro Grenda](https://twitter.com/mirogrenda)!
 
-Other Changes:
+Fixed Issues:
 
 * [#13816](http://dev.ckeditor.com/ticket/13816): Introduced a new strategy for Filling Character handling to avoid changes in DOM. This fixes the following issues:
 	* [#12727](http://dev.ckeditor.com/ticket/12727): [Blink] `IndexSizeError` when using the [Div Editing Area](http://ckeditor.com/addon/divarea) and [Content Templates](http://ckeditor.com/addon/templates) plugins.
