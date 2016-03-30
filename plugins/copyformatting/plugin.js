@@ -326,7 +326,7 @@
 		_convertElementToStyleDef: function( element ) {
 			var tools = CKEDITOR.tools,
 				attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style' ] ),
-				styles = tools.parseCssText( tools.normalizeCssText( element.getAttribute( 'style' ), true ) );
+				styles = tools.parseCssText( element.getAttribute( 'style' ), true, true );
 
 			return {
 				element: element.getName(),
