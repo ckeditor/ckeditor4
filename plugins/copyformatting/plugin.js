@@ -51,6 +51,13 @@
 				editor.addContentsCss( this.path + 'styles/copyformatting.css' );
 			}
 
+			editor.copyFormatting = {
+				styles: null,
+				sticky: false,
+				editor: editor
+			};
+			CKEDITOR.event.implementOn( editor.copyFormatting );
+
 			editor.addCommand( 'copyFormatting', plugin.commands.copyFormatting );
 			editor.addCommand( 'applyFormatting', plugin.commands.applyFormatting );
 
@@ -111,7 +118,7 @@
 			} );
 
 			// Adding desired computed styles.
-			editor.on( 'extractStylesFromElement', function( evt ) {
+			editor.copyFormatting.on( 'extractStylesFromElement', function( evt ) {
 				var evtData = evt.data;
 
 				if ( !evtData.oldStyles && indexOf( plugin.inlineBoundary, evtData.element.getName() ) === -1 ) {
@@ -125,7 +132,7 @@
 			}, null, null, 0 );
 
 			// Fetch the styles from element.
-			editor.on( 'extractStylesFromElement', function( evt ) {
+			editor.copyFormatting.on( 'extractStylesFromElement', function( evt ) {
 				var element = evt.data.element;
 
 				// Stop at body and html in classic editors or at .cke_editable element in inline ones.
@@ -139,7 +146,7 @@
 
 			// Change element to span in case of headings, paragraphs and divs.
 			// Do not do that for fetching old styles.
-			editor.on( 'extractStylesFromElement', function( evt ) {
+			editor.copyFormatting.on( 'extractStylesFromElement', function( evt ) {
 				var element = evt.data.element;
 
 				if ( evt.data.oldStyles || indexOf( plugin.inlineBoundary, element.getName() ) === -1 ) {
@@ -150,7 +157,7 @@
 			} );
 
 			// Remove empty styles.
-			editor.on( 'extractStylesFromElement', function( evt ) {
+			editor.copyFormatting.on( 'extractStylesFromElement', function( evt ) {
 				var styleDef = evt.data.styleDef,
 					isEmpty = CKEDITOR.tools.isEmpty;
 
@@ -160,14 +167,14 @@
 			} );
 
 			// Remove old styles from element.
-			editor.on( 'beforeApplyFormatting', function( evt ) {
+			editor.copyFormatting.on( 'beforeApplyFormatting', function( evt ) {
 				for ( var i = 0; i < evt.data.oldStyles.length; i++ ) {
 					evt.data.oldStyles[ i ].remove( evt.editor );
 				}
 			}, null, null, 999 );
 
 			// Apply new styles.
-			editor.on( 'applyFormatting', function( evt ) {
+			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
 				for ( var i = 0; i < evt.data.styles.length; i++ ) {
 					evt.data.styles[ i ].apply( evt.editor );
 				}
@@ -186,13 +193,14 @@
 				exec: function( editor, data ) {
 					var	cmd = this,
 						plugin = CKEDITOR.plugins.copyformatting,
+						copyFormatting = editor.copyFormatting,
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
 						isSticky = data ? ( data.sticky || isFromKeystroke ) : false,
 						cursorContainer = plugin._getCursorContainer( editor );
 
 					if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
-						cmd.styles = null;
-						cmd.sticky = false;
+						copyFormatting.styles = null;
+						copyFormatting.sticky = false;
 
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
@@ -202,7 +210,8 @@
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					cmd.styles = plugin._extractStylesFromElement( editor, editor.elementPath().lastElement );
+					copyFormatting.styles = plugin._extractStylesFromElement( editor,
+						editor.elementPath().lastElement );
 
 					cmd.setState( CKEDITOR.TRISTATE_ON );
 
@@ -214,7 +223,7 @@
 						}
 					}
 
-					cmd.sticky = isSticky;
+					copyFormatting.sticky = isSticky;
 
 					plugin._putScreenReaderMessage( editor, 'copied' );
 				}
@@ -225,18 +234,19 @@
 					var cmd = editor.getCommand( 'copyFormatting' ),
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
 						plugin = CKEDITOR.plugins.copyformatting,
+						copyFormatting = editor.copyFormatting,
 						cursorContainer = plugin._getCursorContainer( editor );
 
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON ) {
 						return;
-					} else if ( isFromKeystroke && !cmd.styles ) {
+					} else if ( isFromKeystroke && !copyFormatting.styles ) {
 						return plugin._putScreenReaderMessage( editor, 'failed' );
 					}
 
-					plugin._applyFormat( editor, cmd.styles );
+					plugin._applyFormat( editor, copyFormatting.styles );
 
-					if ( !cmd.sticky ) {
-						cmd.styles = null;
+					if ( !copyFormatting.sticky ) {
+						copyFormatting.styles = null;
 
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
@@ -340,7 +350,8 @@
 
 				eventData.element = element;
 
-				if ( editor.fire( 'extractStylesFromElement', eventData ) && eventData.styleDef ) {
+				if ( editor.copyFormatting.fire( 'extractStylesFromElement', eventData, editor ) &&
+					eventData.styleDef ) {
 					styles.push( new CKEDITOR.style( eventData.styleDef ) );
 				}
 			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT );
@@ -570,10 +581,12 @@
 
 			oldStyles = plugin._extractStylesFromRange( editor, newRange || range, { oldStyles: true } );
 
-			editor.fire( 'beforeApplyFormatting', { oldStyles: oldStyles, range: newRange || range } );
+			editor.copyFormatting.fire( 'beforeApplyFormatting', { oldStyles: oldStyles, range: newRange || range },
+				editor );
 
 			// Now apply new styles.
-			editor.fire( 'applyFormatting', { styles: newStyles, range: newRange || range } );
+			editor.copyFormatting.fire( 'applyFormatting', { styles: newStyles, range: newRange || range },
+				editor );
 
 			if ( bkms ) {
 				editor.getSelection().selectBookmarks( bkms );
