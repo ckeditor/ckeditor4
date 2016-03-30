@@ -2,8 +2,6 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, floatingspace
 
-Make sure the dev console is open during testing so any possible errors or warnings can be noticed.
-
 ### Scenario 1:
 
 1. Click *Text Color* button in Editor 1.
