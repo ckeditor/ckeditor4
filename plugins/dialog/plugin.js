@@ -1459,7 +1459,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					var dir = this.getParentEditor().lang.dir,
 						spinnerDef = {
 							attributes: {
-								'class': 'cke_dialog_spinner'
+								'class': 'cke_dialog_spinner',
+								'aria-live': 'polite',
+								'role': 'presentation'
 							},
 							styles: {
 								'float': dir == 'rtl' ? 'right' : 'left'
@@ -1470,7 +1472,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 					this.parts.spinner = CKEDITOR.document.createElement( 'div', spinnerDef );
 
-					this.parts.spinner.setHtml( '&#8987;' );
+					this.parts.spinner.setHtml( editor.lang.common.loading? CKEDITOR.tools.htmlEncode(editor.lang.common.loading) :'&#8987;');
 					this.parts.spinner.appendTo( this.parts.title, 1 );
 				}
 
