@@ -1444,7 +1444,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		 * @since 4.5
 		 * @param {Number} state Either {@link CKEDITOR#DIALOG_STATE_IDLE} or {@link CKEDITOR#DIALOG_STATE_BUSY}.
 		 */
-		setState: function( state ) {
+		setState: function( state, position ) {
 			var oldState = this.state;
 
 			if ( oldState == state ) {
@@ -1471,7 +1471,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					this.parts.spinner = CKEDITOR.document.createElement( 'div', spinnerDef );
 
 					this.parts.spinner.setHtml( '&#8987;' );
-					this.parts.spinner.appendTo( this.parts.title, 1 );
+					this.parts.spinner.appendTo( (position? position : this.parts.title), 1 );
 				}
 
 				// Finally, show the spinner.
