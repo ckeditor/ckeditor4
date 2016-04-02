@@ -54,6 +54,17 @@
 			} );
 		},
 
+		'test extract style from link': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' ),
+				style = CKEDITOR.plugins.copyformatting._convertElementToStyle( element );
+
+			assert.areSame( 'span', style.element );
+			assert.isTrue( style._.definition.link );
+
+			assert.isNotUndefined( style._.definition.styles.color );
+			assert.isNotUndefined( style._.definition.styles[ 'text-decoration' ] );
+		},
+
 		'test extract styles from nested elements': function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<strong class="important" ' +
 					'title="Neil Armstrong"><span style="' + styleAttr + '"><s>Neil Armstrong</s></span></strong>' ),
