@@ -227,23 +227,38 @@
 		 * @private
 		 */
 		_convertElementToStyle: function( element ) {
-			var attributes = {},
+			var attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style', 'href', 'data-cke-saved-href' ] ),
 				styles = CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( element.getAttribute( 'style' ), true ) ),
 				// From which elements styles shouldn't be copied.
-				elementsToExclude = [ 'p', 'div', 'body', 'html' ];
+				elementsToExclude = [ 'p', 'div', 'body', 'html' ],
+				styleDef;
 
 			if ( CKEDITOR.tools.indexOf( elementsToExclude, element.getName() ) !== -1 ) {
 				return;
 			}
 
-			attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style' ] );
-
-			return new CKEDITOR.style( {
+			styleDef = {
 				element: element.getName(),
 				type: CKEDITOR.STYLE_INLINE,
 				attributes: attributes,
 				styles: styles
-			} );
+			};
+
+			if ( element.getName() === 'a' ) {
+				styleDef.link = true;
+
+				styleDef.element = 'span';
+
+				if ( !styleDef.styles.color ) {
+					styleDef.styles.color = element.getComputedStyle( 'color' );
+				}
+
+				if ( !styleDef.styles[ 'text-decoration' ] ) {
+					styleDef.styles[ 'text-decoration' ] = element.getComputedStyle( 'text-decoration' );
+				}
+			}
+
+			return new CKEDITOR.style( styleDef );
 		},
 
 		/**
@@ -278,6 +293,7 @@
 		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
+		 * @todo Styles in the array returned by this method might be duplicated; it should be cleaned later on.
 		 */
 		_extractStylesFromRange: function( range ) {
 			var styles = [],
@@ -457,23 +473,31 @@
 		/**
 		 * Apply given styles to currently selected content in the editor.
 		 *
-		 * @param {CKEDITOR.styles[]} styles Array of styles to be applied.
+		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
 		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @private
 		 */
-		_applyFormat: function( styles, editor ) {
+		_applyFormat: function( newStyles, editor ) {
 			var range = editor.getSelection().getRanges()[ 0 ],
-				action = styles.length > 0 ? 'apply' : 'remove',
 				plugin = CKEDITOR.plugins.copyformatting,
-				bkms;
+				linkReset = {
+					color: 'inherit',
+					'text-decoration': 'inherit'
+				},
+				linkInRange = false,
+				oldStyles,
+				bkms,
+				word,
+				walker,
+				currentNode,
+				i;
 
 			if ( !range ) {
 				return;
 			}
 
 			if ( range.collapsed ) {
-				var newRange = editor.createRange(),
-					word;
+
 
 				// Create bookmarks only if range is collapsed – otherwise
 				// it will break walker used in _extractStylesFromRange.
@@ -483,22 +507,60 @@
 					return;
 				}
 
-				newRange.setStart( word.startNode, word.startOffset );
-				newRange.setEnd( word.endNode, word.endOffset );
-				newRange.select();
+				range = editor.createRange();
+				range.setStart( word.startNode, word.startOffset );
+				range.setEnd( word.endNode, word.endOffset );
+				range.select();
 			}
 
-			// If styles array is empty, then remove all existing styles.
-			if ( styles.length === 0 ) {
-				styles = plugin._extractStylesFromRange( newRange || range );
+			// Before applying new styles, remove all existing styles.
+			oldStyles = plugin._extractStylesFromRange( range );
+
+			for ( i = 0; i < oldStyles.length; i++ ) {
+				if ( !oldStyles[ i ]._.definition.link ) {
+					oldStyles[ i ].remove( editor );
+				} else {
+					linkInRange = true;
+				}
 			}
 
-			for ( var i = 0; i < styles.length; i++ ) {
-				styles[ i ][ action ]( editor );
+			// If there is no new styles and there is link in the range,
+			// we must create span with default styles.
+			if ( linkInRange && newStyles.length === 0 ) {
+				newStyles.push( new CKEDITOR.style( {
+					element: 'span',
+					styles: {
+						color: editor.editable().findOne( 'p' ).getComputedStyle( 'color' ),
+						'text-decoration': editor.editable().findOne( 'p' ).getComputedStyle( 'text-decoration' )
+					},
+					type: CKEDITOR.STYLE_INLINE
+				} ) );
+			}
+
+			// Now apply new styles.
+			for ( i = 0; i < newStyles.length; i++ ) {
+				newStyles[ i ].apply( editor );
 			}
 
 			if ( bkms ) {
 				editor.getSelection().selectBookmarks( bkms );
+			}
+
+			if ( linkInRange && range.getEnclosedNode() ) {
+				currentNode = range.getEnclosedNode().getAscendant( 'a', true ) ||
+					range.getEnclosedNode().getElementsByTag( 'a' ).getItem( 0 );
+
+				currentNode.setStyles( linkReset );
+			} else if ( linkInRange ) {
+				walker = new CKEDITOR.dom.walker( range );
+
+				while ( ( currentNode = walker.next() ) ) {
+					currentNode = currentNode.getAscendant( 'a', true );
+
+					if ( currentNode ) {
+						currentNode.setStyles( linkReset );
+					}
+				}
 			}
 		},
 
