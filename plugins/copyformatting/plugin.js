@@ -244,20 +244,6 @@
 				styles: styles
 			};
 
-			if ( element.getName() === 'a' ) {
-				styleDef.link = true;
-
-				styleDef.element = 'span';
-
-				if ( !styleDef.styles.color ) {
-					styleDef.styles.color = element.getComputedStyle( 'color' );
-				}
-
-				if ( !styleDef.styles[ 'text-decoration' ] ) {
-					styleDef.styles[ 'text-decoration' ] = element.getComputedStyle( 'text-decoration' );
-				}
-			}
-
 			return new CKEDITOR.style( styleDef );
 		},
 
@@ -517,11 +503,7 @@
 			oldStyles = plugin._extractStylesFromRange( range );
 
 			for ( i = 0; i < oldStyles.length; i++ ) {
-				if ( !oldStyles[ i ]._.definition.link ) {
-					oldStyles[ i ].remove( editor );
-				} else {
-					linkInRange = true;
-				}
+				oldStyles[ i ].remove( editor );
 			}
 
 			// If there is no new styles and there is link in the range,
