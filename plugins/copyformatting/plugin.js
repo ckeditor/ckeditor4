@@ -230,7 +230,7 @@
 			var attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style', 'href', 'data-cke-saved-href' ] ),
 				styles = CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( element.getAttribute( 'style' ), true ) ),
 				// From which elements styles shouldn't be copied.
-				elementsToExclude = [ 'p', 'div', 'body', 'html' ];
+				elementsToExclude = [ 'p', 'div', 'body', 'html', 'a' ];
 
 			if ( CKEDITOR.tools.indexOf( elementsToExclude, element.getName() ) !== -1 ) {
 				return;
@@ -473,8 +473,6 @@
 			}
 
 			if ( range.collapsed ) {
-
-
 				// Create bookmarks only if range is collapsed – otherwise
 				// it will break walker used in _extractStylesFromRange.
 				bkms = editor.getSelection().createBookmarks();

@@ -58,11 +58,7 @@
 			var element = CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' ),
 				style = CKEDITOR.plugins.copyformatting._convertElementToStyle( element );
 
-			assert.areSame( 'span', style.element );
-			assert.isTrue( style._.definition.link );
-
-			assert.isNotUndefined( style._.definition.styles.color );
-			assert.isNotUndefined( style._.definition.styles[ 'text-decoration' ] );
+			assert.isUndefined( style, 'Return value' );
 		},
 
 		'test extract styles from nested elements': function() {
