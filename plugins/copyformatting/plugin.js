@@ -230,21 +230,18 @@
 			var attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style', 'href', 'data-cke-saved-href' ] ),
 				styles = CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( element.getAttribute( 'style' ), true ) ),
 				// From which elements styles shouldn't be copied.
-				elementsToExclude = [ 'p', 'div', 'body', 'html' ],
-				styleDef;
+				elementsToExclude = [ 'p', 'div', 'body', 'html' ];
 
 			if ( CKEDITOR.tools.indexOf( elementsToExclude, element.getName() ) !== -1 ) {
 				return;
 			}
 
-			styleDef = {
+			return new CKEDITOR.style( {
 				element: element.getName(),
 				type: CKEDITOR.STYLE_INLINE,
 				attributes: attributes,
 				styles: styles
-			};
-
-			return new CKEDITOR.style( styleDef );
+			} );
 		},
 
 		/**
@@ -466,16 +463,9 @@
 		_applyFormat: function( newStyles, editor ) {
 			var range = editor.getSelection().getRanges()[ 0 ],
 				plugin = CKEDITOR.plugins.copyformatting,
-				linkReset = {
-					color: 'inherit',
-					'text-decoration': 'inherit'
-				},
-				linkInRange = false,
 				oldStyles,
 				bkms,
 				word,
-				walker,
-				currentNode,
 				i;
 
 			if ( !range ) {
@@ -506,19 +496,6 @@
 				oldStyles[ i ].remove( editor );
 			}
 
-			// If there is no new styles and there is link in the range,
-			// we must create span with default styles.
-			if ( linkInRange && newStyles.length === 0 ) {
-				newStyles.push( new CKEDITOR.style( {
-					element: 'span',
-					styles: {
-						color: editor.editable().findOne( 'p' ).getComputedStyle( 'color' ),
-						'text-decoration': editor.editable().findOne( 'p' ).getComputedStyle( 'text-decoration' )
-					},
-					type: CKEDITOR.STYLE_INLINE
-				} ) );
-			}
-
 			// Now apply new styles.
 			for ( i = 0; i < newStyles.length; i++ ) {
 				newStyles[ i ].apply( editor );
@@ -526,23 +503,6 @@
 
 			if ( bkms ) {
 				editor.getSelection().selectBookmarks( bkms );
-			}
-
-			if ( linkInRange && range.getEnclosedNode() ) {
-				currentNode = range.getEnclosedNode().getAscendant( 'a', true ) ||
-					range.getEnclosedNode().getElementsByTag( 'a' ).getItem( 0 );
-
-				currentNode.setStyles( linkReset );
-			} else if ( linkInRange ) {
-				walker = new CKEDITOR.dom.walker( range );
-
-				while ( ( currentNode = walker.next() ) ) {
-					currentNode = currentNode.getAscendant( 'a', true );
-
-					if ( currentNode ) {
-						currentNode.setStyles( linkReset );
-					}
-				}
 			}
 		},
 
