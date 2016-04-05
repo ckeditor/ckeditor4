@@ -11,8 +11,10 @@ window.FormData = function() {
 	var total, filename;
 	return {
 		append: function( name, file, filename ) {
-			total = file.size;
-			filename = filename;
+			if ( arguments.length == 3 ) {
+				total = file.size;
+				filename = filename;
+			}
 		},
 		getTotal: function() {
 			return total;
