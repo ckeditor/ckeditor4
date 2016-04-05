@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -13,6 +13,7 @@
  *		} );
  *
  * @class
+ * @extends CKEDITOR.commandDefinition
  * @mixins CKEDITOR.event
  * @constructor Creates a command class instance.
  * @param {CKEDITOR.editor} editor The editor instance this command will be
@@ -34,6 +35,9 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	 * Executes the command.
 	 *
 	 *		command.exec(); // The command gets executed.
+	 *
+	 * **Note:** You should use the {@link CKEDITOR.editor#execCommand} method instead of calling
+	 * `command.exec()` directly.
 	 *
 	 * @param {Object} [data] Any data to pass to the command. Depends on the
 	 * command implementation and requirements.

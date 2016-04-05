@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widgetcore */
+/* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget,elementspath */
 /* bender-include: ../elementspath/_helpers/tools.js */
 /* global elementspathTestsTools */

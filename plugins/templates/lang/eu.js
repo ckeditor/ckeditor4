@@ -1,12 +1,12 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'templates', 'eu', {
 	button: 'Txantiloiak',
-	emptyListMsg: '(Ez dago definitutako txantiloirik)',
-	insertOption: 'Ordeztu oraingo edukiak',
-	options: 'Txantiloi Aukerak',
-	selectPromptMsg: 'Mesedez txantiloia aukeratu editorean kargatzeko<br>(orain dauden edukiak galduko dira):',
-	title: 'Eduki Txantiloiak'
+	emptyListMsg: '(Ez dago txantiloirik definituta)',
+	insertOption: 'Ordeztu uneko edukiak',
+	options: 'Txantiloi aukerak',
+	selectPromptMsg: 'Mesedez hautatu txantiloia editorean irekitzeko',
+	title: 'Eduki txantiloiak'
 } );

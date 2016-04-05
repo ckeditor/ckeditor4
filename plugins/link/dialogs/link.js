@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -110,7 +110,7 @@
 		return {
 			title: linkLang.title,
 			minWidth: 350,
-			minHeight: 230,
+			minHeight: 240,
 			contents: [ {
 				id: 'info',
 				label: linkLang.info,
@@ -464,7 +464,7 @@
 							if ( !data.target )
 								data.target = {};
 
-							data.target.name = this.getValue().replace( /\W/gi, '' );
+							data.target.name = this.getValue().replace( /([^\x00-\x7F]|\s)/gi, '' );
 						}
 					} ]
 				},
@@ -775,6 +775,25 @@
 							validate: CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
 							setup: setupAdvParams,
 							commit: commitAdvParams
+						} ]
+					},
+					{
+						type: 'hbox',
+						widths: [ '45%', '55%' ],
+						children: [ {
+							type: 'checkbox',
+							id: 'download',
+							requiredContent: 'a[download]',
+							label: linkLang.download,
+							setup: function( data ) {
+								if ( data.download !== undefined )
+									this.setValue( 'checked', 'checked' );
+							},
+							commit: function( data ) {
+								if ( this.getValue() ) {
+									data.download = this.getValue();
+								}
+							}
 						} ]
 					} ]
 				} ]

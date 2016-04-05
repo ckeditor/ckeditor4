@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'pt-br', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'pt-br', {
 		checkboxTitle: 'Formatar Caixa de Seleção',
 		radioTitle: 'Formatar Botão de Opção',
 		value: 'Valor',
-		selected: 'Selecionado'
+		selected: 'Selecionado',
+		required: 'Obrigatório'
 	},
 	form: {
 		title: 'Formatar Formulário',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pt-br', {
 		size: 'Tamanho',
 		lines: 'linhas',
 		chkMulti: 'Permitir múltiplas seleções',
+		required: 'Obrigatório',
 		opText: 'Texto',
 		opValue: 'Valor',
 		btnAdd: 'Adicionar',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pt-br', {
 		value: 'Valor',
 		charWidth: 'Comprimento (em caracteres)',
 		maxChars: 'Número Máximo de Caracteres',
+		required: 'Obrigatório',
 		type: 'Tipo',
 		typeText: 'Texto',
 		typePass: 'Senha',

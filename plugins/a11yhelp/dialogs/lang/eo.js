@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eo', {
 		items: [
 			{
 			name: 'Ilbreto de la redaktilo',
-			legend: 'Premu ${toolbarFocus} por atingi la ilbreton. Moviĝu al la sekva aŭ antaŭa grupoj de la ilbreto per la klavoj TABA kaj MAJUSKLIGA-TABA. Moviĝu al la sekva aŭ antaŭa butonoj de la ilbreto per la klavoj SAGO DEKSTREN kaj SAGO MALDEKSTREN. Premu la SPACETklavon aŭ la ENENklavon por aktivigi la ilbretbutonon.'
+			legend: 'Premu ${toolbarFocus} por atingi la ilbreton. Moviĝu al la sekva aŭ antaŭa grupoj de la ilbreto per la klavoj TABA kaj MAJUSKLIGA+TABA. Moviĝu al la sekva aŭ antaŭa butonoj de la ilbreto per la klavoj SAGO DEKSTREN kaj SAGO MALDEKSTREN. Premu la SPACETklavon aŭ la ENENklavon por aktivigi la ilbretbutonon.'
 		},
 
 			{
 			name: 'Redaktildialogo',
-			legend: 'En dialogo, premu la TABAN klavon por navigi al la sekva dialogkampo, premu la MAJUSKLIGAN + TABAN klavojn por reveni al la antaŭa kampo, premu la ENENklavon por sendi la dialogon, premu la ESKAPAN klavon por nuligi la dialogon. Por dialogoj kun pluraj retpaĝoj sub langetoj, premu ALT + F10 por navigi al la langetlisto. Poste moviĝu al la sekva langeto per la klavo TABA aŭ SAGO DEKSTREN. Moviĝu al la antaŭa langeto per la klavoj MAJUSKLIGA + TABA aŭ  SAGO MALDEKSTREN. Premu la SPACETklavon aŭ la ENENklavon por selekti la langetretpaĝon.'
+			legend:
+				'En dialogo, premu la TABAN klavon por navigi al la sekva dialogelemento, premu la MAJUSKLIGAN+TABAN klavon por iri al la antaŭa dialogelemento, premu la ENEN klavon por sendi la dialogon, premu la ESKAPAN klavon por nuligi la dialogon. Kiam dialogo havas multajn langetojn, eblas atingi la langetliston aŭ per ALT+F10 aŭ per la TABA klavo kiel parton de la dialoga taba ordo. En langetlisto, moviĝu al la sekva kaj antaŭa langeto per la klavoj SAGO DEKSTREN KAJ MALDEKSTREN respektive.' 
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eo', {
 
 			{
 			name: 'Fallisto de la redaktilo',
-			legend: 'En fallisto, moviĝu al la sekva listelemento per la klavoj TABA aŭ SAGO SUBEN. Moviĝu al la antaŭa listelemento per la klavoj MAJUSKLIGA + TABA aŭ SAGO SUPREN. Premu la SPACETklavon aŭ ENENklavon por selekti la opcion en la listo. Premu la ESKAPAN klavon por fermi la falmenuon.'
+			legend: 'En fallisto, moviĝu al la sekva listelemento per la klavoj TABA aŭ SAGO SUBEN. Moviĝu al la antaŭa listelemento per la klavoj MAJUSKLIGA+TABA aŭ SAGO SUPREN. Premu la SPACETklavon aŭ ENENklavon por selekti la opcion en la listo. Premu la ESKAPAN klavon por fermi la falmenuon.'
 		},
 
 			{
 			name: 'Breto indikanta la vojon al la redaktilelementoj',
-			legend: 'Premu ${elementsPathFocus} por navigi al la breto indikanta la vojon al la redaktilelementoj. Moviĝu al la butono de la sekva elemento per la klavoj TABA aŭ SAGO DEKSTREN. Moviĝu al la butono de la antaŭa elemento per la klavoj MAJUSKLIGA + TABA aŭ SAGO MALDEKSTREN. Premu la SPACETklavon aŭ ENENklavon por selekti la elementon en la redaktilo.'
+			legend: 'Premu ${elementsPathFocus} por navigi al la breto indikanta la vojon al la redaktilelementoj. Moviĝu al la butono de la sekva elemento per la klavoj TABA aŭ SAGO DEKSTREN. Moviĝu al la butono de la antaŭa elemento per la klavoj MAJUSKLIGA+TABA aŭ SAGO MALDEKSTREN. Premu la SPACETklavon aŭ ENENklavon por selekti la elementon en la redaktilo.'
 		}
 		]
 	},

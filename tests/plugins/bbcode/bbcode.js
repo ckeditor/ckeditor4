@@ -65,7 +65,19 @@ bender.test( {
 
 	// #8995
 	'test escape HTML entities in bbcode': function() {
-		var html = '<a href="foo&amp;bar">foo&lt;bar&gt;</a>', bbcode = '[url=foo&bar]foo<bar>[/url]';
+		var html = '<a href="foo&amp;bar">&amp;foo&lt;bar&gt;</a>', bbcode = '[url=foo&bar]&foo<bar>[/url]';
+		this.assertToHtml( html, bbcode );
+		this.assertToBBCode( bbcode, html );
+	},
+
+	'test escape HTML entities in bbcode - double encoding': function() {
+		var html = '<a href="foo&amp;amp;bar&amp;amp;lt;">foo&amp;lt;bar&amp;gt;bom&amp;amp;lt;</a>', bbcode = '[url=foo&amp;bar&amp;lt;]foo&lt;bar&gt;bom&amp;lt;[/url]';
+		this.assertToHtml( html, bbcode );
+		this.assertToBBCode( bbcode, html );
+	},
+
+	'test escape HTML entities in bbcode - ampresands in the text': function() {
+		var html = '&amp; &amp;amp; &amp;amp;amp;', bbcode = '& &amp; &amp;amp;';
 		this.assertToHtml( html, bbcode );
 		this.assertToBBCode( bbcode, html );
 	},

@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'bg', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'bg', {
 		checkboxTitle: 'Checkbox Properties',
 		radioTitle: 'Настройки на радиобутон',
 		value: 'Стойност',
-		selected: 'Избрано'
+		selected: 'Избрано',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Настройки на формата',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'bg', {
 		size: 'Размер',
 		lines: 'линии',
 		chkMulti: 'Allow multiple selections',
+		required: 'Required', // MISSING
 		opText: 'Текст',
 		opValue: 'Стойност',
 		btnAdd: 'Добави',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'bg', {
 		value: 'Стойност',
 		charWidth: 'Ширина на знаците',
 		maxChars: 'Макс. знаци',
+		required: 'Required', // MISSING
 		type: 'Тип',
 		typeText: 'Текст',
 		typePass: 'Парола',

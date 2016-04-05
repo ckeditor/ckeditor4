@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'ro', {
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 	anchorName: 'după numele ancorei',
 	charset: 'Setul de caractere al resursei legate',
 	cssClasses: 'Clasele cu stilul paginii (CSS)',
+	download: 'Force Download', // MISSING
 	emailAddress: 'Adresă de e-mail',
 	emailBody: 'Opțiuni Meniu Contextual',
 	emailSubject: 'Subiectul mesajului',

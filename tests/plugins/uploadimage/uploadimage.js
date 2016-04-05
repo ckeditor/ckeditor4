@@ -76,8 +76,8 @@
 			loadAndUploadCount = 0;
 
 			for ( editorName in this.editors ) {
-				// Clear uploads repository.
-				this.editors[ editorName ].uploadsRepository.loaders = [];
+				// Clear upload repository.
+				this.editors[ editorName ].uploadRepository.loaders = [];
 			}
 
 			if ( CKEDITOR.fileTools.bindNotifications.reset ) {
@@ -93,9 +93,10 @@
 			assertUploadingWidgets( editor, LOADING_IMG );
 			assert.areSame( '', editor.getData(), 'getData on loading.' );
 
-			var loader = editor.uploadsRepository.loaders[ 0 ];
+			var loader = editor.uploadRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
+			loader.uploadTotal = 10;
 			loader.changeStatus( 'uploading' );
 
 			assertUploadingWidgets( editor, LOADED_IMG );
@@ -120,9 +121,10 @@
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
 
-			var loader = editor.uploadsRepository.loaders[ 0 ];
+			var loader = editor.uploadRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
+			loader.uploadTotal = 10;
 			loader.changeStatus( 'uploading' );
 
 			var area = editor._.notificationArea;
@@ -150,7 +152,7 @@
 			assertUploadingWidgets( editor, LOADING_IMG );
 			assert.areSame( '', editor.getData(), 'getData on loading.' );
 
-			var loader = editor.uploadsRepository.loaders[ 0 ];
+			var loader = editor.uploadRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
 			loader.changeStatus( 'uploading' );
@@ -182,7 +184,7 @@
 				assertUploadingWidgets( editor, LOADED_IMG );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on loading.' );
 
-				var loader = editor.uploadsRepository.loaders[ 0 ];
+				var loader = editor.uploadRepository.loaders[ 0 ];
 
 				loader.data = bender.tools.pngBase64;
 				loader.changeStatus( 'uploading' );
@@ -206,39 +208,63 @@
 		},
 
 		'test supportedTypes png': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.png', type: 'image/png' } ] );
+
+				wait();
 			} );
-
-			pasteFiles( editor, [ { name: 'test.png', type: 'image/png' } ] );
-
-			wait();
 		},
 
 		'test supportedTypes jpg': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.jpg', type: 'image/jpeg' } ] );
+
+				wait();
 			} );
-
-			pasteFiles( editor, [ { name: 'test.jpg', type: 'image/jpeg' } ] );
-
-			wait();
 		},
 
 		'test supportedTypes gif': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.gif', type: 'image/gif' } ] );
+
+				wait();
 			} );
+		},
 
-			pasteFiles( editor, [ { name: 'test.gif', type: 'image/gif' } ] );
+		'test supportedTypes bmp': function() {
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			wait();
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.bmp', type: 'image/bmp' } ] );
+
+				wait();
+			} );
 		},
 
 		'test not supportedTypes tiff': function() {
@@ -341,7 +367,7 @@
 
 		'test paste image already marked': function() {
 			var editor = this.editors.classic,
-				uploads = editor.uploadsRepository;
+				uploads = editor.uploadRepository;
 
 			resumeAfter( editor, 'paste', function( evt ) {
 				var img = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue );
@@ -475,7 +501,7 @@
 
 		'test prevent upload fake elements (#13003)': function() {
 			var editor = this.editors.inline,
-				createspy = sinon.spy( editor.uploadsRepository, 'create' );
+				createspy = sinon.spy( editor.uploadRepository, 'create' );
 
 			editor.fire( 'paste', {
 				dataValue: '<img src="data:image/gif;base64,aw==" alt="nothing" data-cke-realelement="some" />'

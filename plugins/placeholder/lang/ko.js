@@ -1,12 +1,12 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'ko', {
-	title: '플레이스홀도 속성',
-	toolbar: '플레이스홀더 생성',
-	name: 'Placeholder Name', // MISSING
-	invalidName: 'The placeholder can not be empty and can not contain any of following characters: [, ], <, >', // MISSING
-	pathName: 'placeholder' // MISSING
+	title: '플레이스홀더 속성',
+	toolbar: '플레이스홀더',
+	name: '플레이스홀더 이름',
+	invalidName: '플레이스홀더는 빈칸이거나 다음 문자열을 포함할 수 없습니다: [, ], <, >',
+	pathName: '플레이스홀더'
 } );

@@ -7,6 +7,8 @@ Test inline widgets features:
  - edit,
  - select,
  - drag and drop,
- - copy and paste,
+ - cut/copy and paste,
+ - editing in nested editable,
  - remove,
- - undo/redo.
+ - undo/redo,
+ - switch multiple times between source and wysiwyg mode.

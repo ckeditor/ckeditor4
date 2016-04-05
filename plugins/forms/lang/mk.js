@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'mk', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'mk', {
 		checkboxTitle: 'Checkbox Properties',
 		radioTitle: 'Radio Button Properties',
 		value: 'Value',
-		selected: 'Selected'
+		selected: 'Selected',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Form Properties',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'mk', {
 		size: 'Size',
 		lines: 'lines',
 		chkMulti: 'Allow multiple selections',
+		required: 'Required', // MISSING
 		opText: 'Text',
 		opValue: 'Value',
 		btnAdd: 'Add',
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'mk', {
 		value: 'Value',
 		charWidth: 'Character Width',
 		maxChars: 'Maximum Characters',
+		required: 'Required', // MISSING
 		type: 'Type',
 		typeText: 'Text',
 		typePass: 'Password',
 		typeEmail: 'Email', // MISSING
 		typeSearch: 'Search', // MISSING
 		typeTel: 'Telephone Number', // MISSING
-		typeUrl: 'URL' // MISSING
+		typeUrl: 'URL'
 	}
 } );

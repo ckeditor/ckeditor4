@@ -1,10 +1,9 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'hu', {
-	alertUrl: 'Töltse ki a kép webcímét',
-	alt: 'Buborék szöveg',
+	alt: 'Alternatív szöveg',
 	border: 'Keret',
 	btnUpload: 'Küldés a szerverre',
 	button2Img: 'A kiválasztott képgombból sima képet szeretne csinálni?',

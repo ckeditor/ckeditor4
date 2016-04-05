@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -1827,7 +1827,7 @@ CKEDITOR.STYLE_OBJECT = 3;
  *
  *		var boldStyle = new CKEDITOR.style( { element: 'strong' } );
  *		// Register the "bold" command, which applies the bold style.
- *		editor.addCommand( 'bold', new CKEDITOR.dialogCommand( boldStyle ) );
+ *		editor.addCommand( 'bold', new CKEDITOR.styleCommand( boldStyle ) );
  *
  * @class
  * @constructor Creates a styleCommand class instance.
@@ -2054,23 +2054,26 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * CKEditor root folder (what ensures backward compatibility with CKEditor 4.0).
  *
  * Otherwise, this setting has the `name:url` syntax, making it
- * possible to set the URL from which loading the styles file.
+ * possible to set the URL from which the styles file will be loaded.
  * Note that the `name` has to be equal to the name used in
- * {@link CKEDITOR.stylesSet#add} while registering styles set.
+ * {@link CKEDITOR.stylesSet#add} while registering the styles set.
  *
  * **Note**: Since 4.1 it is possible to set `stylesSet` to `false`
  * to prevent loading any styles set.
  *
- *		// Do not load any file. Styles set is empty.
+ * Read more in the [documentation](#!/guide/dev_styles)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
+ *
+ *		// Do not load any file. The styles set is empty.
  *		config.stylesSet = false;
  *
- *		// Load the 'mystyles' styles set from styles.js file.
+ *		// Load the 'mystyles' styles set from the styles.js file.
  *		config.stylesSet = 'mystyles';
  *
  *		// Load the 'mystyles' styles set from a relative URL.
  *		config.stylesSet = 'mystyles:/editorstyles/styles.js';
  *
- *		// Load from a full URL.
+ *		// Load the 'mystyles' styles set from a full URL.
  *		config.stylesSet = 'mystyles:http://www.example.com/editorstyles/styles.js';
  *
  *		// Load from a list of definitions.

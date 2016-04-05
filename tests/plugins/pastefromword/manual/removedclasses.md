@@ -1,3 +1,4 @@
+@bender-tags: tc
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, pastefromword, sourcearea, elementspath
 

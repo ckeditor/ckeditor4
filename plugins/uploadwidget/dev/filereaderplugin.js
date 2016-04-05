@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 'use strict';
@@ -36,7 +36,7 @@
 
 					if ( fileTools.isTypeSupported( file, /text\/(plain|html)/ ) ) {
 						var el = new CKEDITOR.dom.element( 'span' ),
-							loader = editor.uploadsRepository.create( file );
+							loader = editor.uploadRepository.create( file );
 
 						el.setText( '...' );
 

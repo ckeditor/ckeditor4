@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'no', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'no', {
 		checkboxTitle: 'Egenskaper for avmerkingsboks',
 		radioTitle: 'Egenskaper for alternativknapp',
 		value: 'Verdi',
-		selected: 'Valgt'
+		selected: 'Valgt',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Egenskaper for skjema',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'no', {
 		size: 'Størrelse',
 		lines: 'Linjer',
 		chkMulti: 'Tillat flervalg',
+		required: 'Required', // MISSING
 		opText: 'Tekst',
 		opValue: 'Verdi',
 		btnAdd: 'Legg til',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'no', {
 		value: 'Verdi',
 		charWidth: 'Tegnbredde',
 		maxChars: 'Maks antall tegn',
+		required: 'Required', // MISSING
 		type: 'Type',
 		typeText: 'Tekst',
 		typePass: 'Passord',

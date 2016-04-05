@@ -271,23 +271,15 @@ bender.test( {
 
 		var sel = this.editor.getSelection(),
 			bookmarks = sel.createBookmarks2(),
-			selectRangesSpy = sinon.spy( sel, 'selectRanges' );
-
-		if ( window.console ) {
-			// Override to avoid logging the CKE's warning about selection not being fake any more,
-			// so the console stays clean when the test passes.
-			var consoleLogSpy = sinon.stub( window.console, 'log' );
-		}
+			selectRangesSpy = sinon.spy( sel, 'selectRanges' ),
+			warnStub = sinon.stub( CKEDITOR, 'warn' );
 
 		bookmarks.isFake = 1;
 		sel.selectBookmarks( bookmarks );
+		warnStub.restore();
 
 		assert.isTrue( selectRangesSpy.calledOnce );
 		assert.isFalse( !!sel.isFake, 'isFake is reset' );
-
-		if ( consoleLogSpy ) {
-			consoleLogSpy.restore();
-		}
 	},
 
 	'Fake-selection bookmark (serializable)': function() {

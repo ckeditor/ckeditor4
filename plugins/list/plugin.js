@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -811,7 +811,7 @@
 
 	CKEDITOR.plugins.add( 'list', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'bulletedlist,bulletedlist-rtl,numberedlist,numberedlist-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -945,7 +945,6 @@
 						}
 
 					} else {
-
 						var next, nextLine;
 
 						li = path.contains( 'li' );
@@ -977,11 +976,78 @@
 								isAtEnd = 2;
 							}
 
-
 							if ( isAtEnd && next ) {
 								// Put cursor range there.
 								nextLine = range.clone();
 								nextLine.moveToElementEditStart( next );
+
+								// #13409
+								// For the following case and similar
+								//
+								// <ul>
+								// 	<li>
+								// 		<p><a href="#one"><em>x^</em></a></p>
+								// 		<ul>
+								// 			<li><span>y</span></li>
+								// 		</ul>
+								// 	</li>
+								// </ul>
+								if ( isAtEnd == 1 ) {
+									// Move the cursor to <em> if attached to "x" text node.
+									cursor.optimize();
+
+									// Abort if the range is attached directly in <li>, like
+									//
+									// <ul>
+									// 	<li>
+									// 		x^
+									// 		<ul>
+									// 			<li><span>y</span></li>
+									// 		</ul>
+									// 	</li>
+									// </ul>
+									if ( !cursor.startContainer.equals( li ) ) {
+										var node = cursor.startContainer,
+											farthestInlineAscendant;
+
+										// Find <a>, which is farthest from <em> but still inline element.
+										while ( node.is( CKEDITOR.dtd.$inline ) ) {
+											farthestInlineAscendant = node;
+											node = node.getParent();
+										}
+
+										// Move the range so it does not contain inline elements.
+										// It prevents <span> from being included in <em>.
+										//
+										// <ul>
+										// 	<li>
+										// 		<p><a href="#one"><em>x</em></a>^</p>
+										// 		<ul>
+										// 			<li><span>y</span></li>
+										// 		</ul>
+										// 	</li>
+										// </ul>
+										//
+										// so instead of
+										//
+										// <ul>
+										// 	<li>
+										// 		<p><a href="#one"><em>x^<span>y</span></em></a></p>
+										// 	</li>
+										// </ul>
+										//
+										// pressing DELETE produces
+										//
+										// <ul>
+										// 	<li>
+										// 		<p><a href="#one"><em>x</em></a>^<span>y</span></p>
+										// 	</li>
+										// </ul>
+										if ( farthestInlineAscendant ) {
+											cursor.moveToPosition( farthestInlineAscendant, CKEDITOR.POSITION_AFTER_END );
+										}
+									}
+								}
 
 								// Moving `cursor` and `next line` only when at the end literally (#12729).
 								if ( isAtEnd == 2 ) {

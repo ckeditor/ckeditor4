@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'el', {
@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'table', 'el', {
 		wordWrap: 'Αναδίπλωση Λέξεων',
 		hAlign: 'Οριζόντια Στοίχιση',
 		vAlign: 'Κάθετη Στοίχιση',
-		alignBaseline: 'Baseline', // MISSING
+		alignBaseline: 'Γραμμή Βάσης',
 		bgColor: 'Χρώμα Φόντου',
 		borderColor: 'Χρώμα Περιγράμματος',
 		data: 'Δεδομένα',

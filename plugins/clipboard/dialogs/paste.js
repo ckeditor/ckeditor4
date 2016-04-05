@@ -1,10 +1,12 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'paste', function( editor ) {
-	var lang = editor.lang.clipboard;
+	var lang = editor.lang.clipboard,
+		clipboard = CKEDITOR.plugins.clipboard,
+		lastDataTransfer;
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
@@ -14,6 +16,22 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		script && script.remove();
 
 		body.setAttribute( 'contenteditable', true );
+
+		// Forward dataTransfer (#13883).
+		body.on( clipboard.mainPasteEvent, function( evt ) {
+			var dataTransfer = clipboard.initPasteDataTransfer( evt );
+
+			if ( !lastDataTransfer ) {
+				lastDataTransfer = dataTransfer;
+			} else
+			// For two paste with the same dataTransfer we can use that dataTransfer (two internal pastes are
+			// considered as an internal paste).
+			if ( dataTransfer != lastDataTransfer ) {
+				// If there were two paste with different DataTransfer objects create a new, empty, data transfer
+				// and use it (one internal and one external paste are considered as external paste).
+				lastDataTransfer = clipboard.initPasteDataTransfer();
+			}
+		} );
 
 		// IE before version 8 will leave cursor blinking inside the document after
 		// editor blurred unless we clean up the selection. (#4716)
@@ -57,9 +75,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 		if ( evt.data )
 			editor.fire( 'paste', {
 				type: 'auto',
-				dataValue: evt.data,
+				dataValue: evt.data.dataValue,
 				method: 'paste',
-				dataTransfer: CKEDITOR.plugins.clipboard.initPasteDataTransfer()
+				dataTransfer: evt.data.dataTransfer || clipboard.initPasteDataTransfer()
 			} );
 	}, null, null, 1000 );
 
@@ -124,7 +142,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						var dialog = this.getDialog();
 						var htmlToLoad = '<html dir="' + editor.config.contentsLangDirection + '"' +
 							' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
-							'<head><style>body{margin:3px;height:95%}</style></head><body>' +
+							'<head><style>body{margin:3px;height:95%;word-break:break-all;}</style></head><body>' +
 							'<script id="cke_actscrpt" type="text/javascript">' +
 							'window.parent.CKEDITOR.tools.callFunction(' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ',this);' +
 							'</script></body>' +
@@ -133,7 +151,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 						var src =
 							CKEDITOR.env.air ?
 								'javascript:void(0)' : // jshint ignore:line
-							CKEDITOR.env.ie ?
+							( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ?
 								'javascript:void((function(){' + encodeURIComponent( // jshint ignore:line
 									'document.open();' +
 									'(' + CKEDITOR.tools.fixDomain + ')();' +
@@ -149,6 +167,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 							' aria-label="' + lang.pasteArea + '"' +
 							' aria-describedby="' + dialog.getContentElement( 'general', 'pasteMsg' ).domId + '"' +
 							'></iframe>' );
+
+						// Reset last data transfer.
+						lastDataTransfer = null;
 
 						iframe.on( 'load', function( e ) {
 							e.removeListener();
@@ -170,7 +191,7 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						// IE need a redirect on focus to make
 						// the cursor blinking inside iframe. (#5461)
-						if ( CKEDITOR.env.ie ) {
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 							var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute" role="presentation"></span>' );
 							focusGrabber.on( 'focus', function() {
 								// Since fixDomain is called in src attribute,
@@ -210,7 +231,11 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						// Opera needs some time to think about what has happened and what it should do now.
 						setTimeout( function() {
-							editor.fire( 'pasteDialogCommit', html );
+							editor.fire( 'pasteDialogCommit', {
+								dataValue: html,
+								// Avoid error if there was no paste so lastDataTransfer is null.
+								dataTransfer: lastDataTransfer || clipboard.initPasteDataTransfer()
+							} );
 						}, 0 );
 					}
 				}

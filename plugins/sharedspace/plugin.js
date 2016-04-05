@@ -114,6 +114,9 @@
  * instances. In that case only the blocks relevant to the active editor instance
  * will be displayed.
  *
+ * Read more in the [documentation](#!/guide/dev_sharedspace)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/sharedspace.html).
+ *
  *		// Place the toolbar inside the element with an ID of "someElementId" and the
  *		// elements path into the element with an  ID of "anotherId".
  *		config.sharedSpaces = {
@@ -127,7 +130,7 @@
  *			top: 'someElementId'
  *		};
  *
- *		// (Since 4.5.0)
+ *		// (Since 4.5)
  *		// Place the toolbar inside a DOM element passed by a reference. The
  *		// elements path will remain attached to the editor UI.
  *		var htmlElement = document.getElementById( 'someElementId' );

@@ -1,14 +1,14 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'font', 'id', {
 	fontSize: {
 		label: 'Ukuran',
-		voiceLabel: 'Font Size', // MISSING
-		panelTitle: 'Font Size' // MISSING
+		voiceLabel: 'Ukuran Huruf',
+		panelTitle: 'Ukuran Huruf'
 	},
-	label: 'Font', // MISSING
+	label: 'Huruf',
 	panelTitle: 'Font Name', // MISSING
-	voiceLabel: 'Font' // MISSING
+	voiceLabel: 'Huruf'
 } );

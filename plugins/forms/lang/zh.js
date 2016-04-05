@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'zh', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'zh', {
 		checkboxTitle: '核取方塊內容',
 		radioTitle: '選項按鈕內容',
 		value: '數值',
-		selected: '已選'
+		selected: '已選',
+		required: '必填'
 	},
 	form: {
 		title: '表單內容',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'zh', {
 		size: '大小',
 		lines: '行數',
 		chkMulti: '允許多選',
+		required: '必填',
 		opText: '文字',
 		opValue: '數值',
 		btnAdd: '新增',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'zh', {
 		value: '數值',
 		charWidth: '字元寬度',
 		maxChars: '最大字元數',
+		required: '必填',
 		type: '類型',
 		typeText: '文字',
 		typePass: '密碼',

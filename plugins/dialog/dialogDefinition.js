@@ -1,6 +1,6 @@
 // jscs:disable disallowMixedSpacesAndTabs
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -1027,6 +1027,6 @@
  *
  * This marker allows for restoring the same text direction upon the next dialog opening.
  *
- * @since 4.5.0
+ * @since 4.5
  * @property {Boolean} bidi
  */

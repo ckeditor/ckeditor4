@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -194,7 +194,7 @@ CKEDITOR.dtd = ( function() {
 		strong: P,
 		style: T,
 		sub: P,
-		summary: P,
+		summary: X( { h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1 }, P ),
 		sup: P,
 		table: { caption: 1, colgroup: 1, thead: 1, tfoot: 1, tbody: 1, tr: 1 },
 		tbody: { tr: 1 },

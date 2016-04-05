@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -426,7 +426,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					this._[ 'default' ] = this._.initValue = elementDefinition.items[ 0 ][ 1 ];
 
 				if ( elementDefinition.validate )
-					this.validate = elementDefinition.valdiate;
+					this.validate = elementDefinition.validate;
 
 				var children = [],
 					me = this;
@@ -1073,7 +1073,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Sets the text direction marker and the `dir` attribute of the input element.
 			 *
-			 * @since 4.5.0
+			 * @since 4.5
 			 * @param {String} dir The text direction. Pass `null` to reset.
 			 */
 			setDirectionMarker: function( dir ) {
@@ -1094,7 +1094,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			/**
 			 * Gets the value of the text direction marker.
 			 *
-			 * @since 4.5.0
+			 * @since 4.5
 			 * @returns {String} `'ltr'`, `'rtl'` or `null` if the marker is not set.
 			 */
 			getDirectionMarker: function() {
@@ -1290,7 +1290,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			eventProcessors: {
 				onChange: function( dialog, func ) {
-					if ( !CKEDITOR.env.ie )
+					if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version > 8 ) )
 						return commonEventProcessors.onChange.apply( this, arguments );
 					else {
 						dialog.on( 'load', function() {

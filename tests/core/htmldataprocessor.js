@@ -72,7 +72,8 @@
 		name: 'test_editor',
 		config: {
 			enterMode: CKEDITOR.ENTER_BR,
-			allowedContent: true
+			allowedContent: true,
+			removePlugins: 'link'
 		}
 	};
 
@@ -124,6 +125,7 @@
 		setUp: function() {
 			// Force result data un-formatted.
 			this.editor.dataProcessor.writer._.rules = {};
+			this.editor.dataProcessor.writer.sortAttributes = true;
 			this.editor.focus();
 		},
 
@@ -391,17 +393,47 @@
 			assert.areSame( html , dataProcessor.toDataFormat( protectedHtml ) );
 		},
 
-		/**
-		 * Test empty value attributes.
-		 */
-		test_ticket_3884: function() {
-			var editor = this.editor,
-				dataProcessor = editor.dataProcessor;
-			dataProcessor.writer = new CKEDITOR.htmlParser.basicWriter();
-			dataProcessor.writer.sortAttributes = true;
+		'test link with empty href': function() {
+			var dataProcessor = this.editor.dataProcessor;
 
 			assert.areSame( '<p><a href="" name="">emptylink</a></p>',
 				dataProcessor.toDataFormat( dataProcessor.toHtml( '<p><a href="" name="">emptylink</a></p>' ) ) );
+		},
+
+		'test empty link': function() {
+			var dataProcessor = this.editor.dataProcessor;
+
+			assert.areSame( '<p>xx</p>', dataProcessor.toDataFormat( '<p>x<a href="foo"></a>x</p>' ), 'toDF' );
+
+			assert.areSame( '<p>xx</p>', dataProcessor.toHtml( '<p>x<a href="foo"></a>x</p>' ), 'toHtml' );
+		},
+
+		'test empty anchor with name': function() {
+			var dataProcessor = this.editor.dataProcessor;
+
+			assert.areSame( '<p>x<a name="foo"></a>x</p>',
+				dataProcessor.toDataFormat( '<p>x<a data-cke-saved-name="foo" name="foo"></a>x</p>' ), 'toDF' );
+
+			assert.areSame( '<p>x<a data-cke-saved-name="foo" name="foo"></a>x</p>',
+				dataProcessor.toHtml( '<p>x<a name="foo"></a>x</p>' ), 'toHtml' );
+		},
+
+		'test empty anchor with id': function() {
+			var dataProcessor = this.editor.dataProcessor;
+
+			assert.areSame( '<p>x<a id="foo"></a>x</p>', dataProcessor.toDataFormat( '<p>x<a id="foo"></a>x</p>' ), 'toDF' );
+
+			assert.areSame( '<p>x<a id="foo"></a>x</p>', dataProcessor.toHtml( '<p>x<a id="foo"></a>x</p>' ), 'toHtml' );
+		},
+
+		'test empty anchor with name and id': function() {
+			var dataProcessor = this.editor.dataProcessor;
+
+			assert.areSame( '<p>x<a id="bar" name="foo"></a>x</p>',
+				dataProcessor.toDataFormat( '<p>x<a data-cke-saved-name="foo" id="bar" name="foo"></a>x</p>' ), 'toDF' );
+
+			assert.areSame( '<p>x<a data-cke-saved-name="foo" id="bar" name="foo"></a>x</p>',
+				bender.tools.fixHtml( dataProcessor.toHtml( '<p>x<a id="bar" name="foo"></a>x</p>' ) ), 'toHtml' );
 		},
 
 		test_innerHtmlComments_ticket_3801: function() {
@@ -736,6 +768,22 @@
 
 			assert.areSame( '<p><a data-cke-saved-href="#" data-href="x" href="#" src-foo="y">a</a></p>',
 				bender.tools.fixHtml( dataP.toHtml( '<p><a data-href="x" href="#" src-foo="y">a</a></p>' ) ) );
+		},
+
+		// #13393
+		'test process malformed script': function() {
+			var dataP = this.editor.dataProcessor;
+
+			// What we check is that unclosed <script> tag will be protected.
+			assert.areSame( '<p>x</p><!--{cke_protected}%3Cscript%3E%3Ciframe%20src%3D%22foo%22%3E%3C%2Fiframe%3E-->',
+				dataP.toHtml( '<p>x</p><script><iframe src="foo"></iframe>' ) );
+			assert.areSame( '<p>x</p><!--{cke_protected}%3Cscript%3Ealert(1)%3B%3Cp%3Efoo%3C%2Fp%3E%3Cp%3Ebar%3C%2Fp%3E-->',
+				dataP.toHtml( '<p>x</p><script>alert(1);<p>foo</p><p>bar</p>' ) );
+			// Just to be sure that we don't swallow too much.
+			assert.areSame(
+				'<p>x</p><!--{cke_protected}%3Cscript%3Ealert(1)%3B%3C%2Fscript%3E-->' +
+				'<p>foo</p><!--{cke_protected}%3Cscript%3Ealert(2)%3B%3C%2Fscript%3E--><p>bar</p>',
+				dataP.toHtml( '<p>x</p><script>alert(1);</scr' + 'ipt><p>foo</p><script>alert(2);</scr' + 'ipt><p>bar</p>' ) );
 		},
 
 		'test toHtml event': function() {

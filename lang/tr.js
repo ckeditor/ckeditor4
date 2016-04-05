@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -19,7 +19,7 @@
 CKEDITOR.lang[ 'tr' ] = {
 	// ARIA description.
 	editor: 'Zengin Metin Editörü',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Zengin Metin Editör Paneli',
 
 	// Common messages and labels.
 	common: {

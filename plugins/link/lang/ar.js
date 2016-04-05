@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'ar', {
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	anchorName: 'حسب إسم الإشارة المرجعية',
 	charset: 'ترميز المادة المطلوبة',
 	cssClasses: 'فئات التنسيق',
+	download: 'Force Download', // MISSING
 	emailAddress: 'البريد الإلكتروني',
 	emailBody: 'محتوى الرسالة',
 	emailSubject: 'موضوع الرسالة',

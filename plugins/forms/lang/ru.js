@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ru', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ru', {
 		checkboxTitle: 'Свойства флаговой кнопки',
 		radioTitle: 'Свойства кнопки выбора',
 		value: 'Значение',
-		selected: 'Выбрано'
+		selected: 'Выбрано',
+		required: 'Обязательное поле'
 	},
 	form: {
 		title: 'Свойства формы',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ru', {
 		size: 'Размер',
 		lines: 'строк(и)',
 		chkMulti: 'Разрешить выбор нескольких вариантов',
+		required: 'Обязательное поле',
 		opText: 'Текст',
 		opValue: 'Значение',
 		btnAdd: 'Добавить',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ru', {
 		value: 'Значение',
 		charWidth: 'Ширина поля (в символах)',
 		maxChars: 'Макс. количество символов',
+		required: 'Обязательное поле',
 		type: 'Тип содержимого',
 		typeText: 'Текст',
 		typePass: 'Пароль',

@@ -198,7 +198,23 @@
 				},
 				null, true
 			);
+		},
+
+		// #11376 - test pasting a list with a Word 2010 / IE11 output.
+		'test paste list on Word 2010 + IE': function() {
+			if ( !CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
+			var editor = this.editors.inline;
+
+			assertPasteEvent( editor,
+				{ dataValue: CKEDITOR.document.getById( 'pastedHtmlList2' ).getValue() },
+				function( data ) {
+					assert.isInnerHtmlMatching( '<ul><li><strong>hello</strong></li><li><strong>world</strong></li><li><strong>abc</strong></li></ul>', data.dataValue );
+				},
+				null, true
+			);
 		}
 	} );
-
 } )();

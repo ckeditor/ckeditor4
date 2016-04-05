@@ -1,19 +1,18 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
  * DocumentFragment is a "lightweight" or "minimal" Document object. It is
  * commonly used to extract a portion of a document's tree or to create a new
- * fragment of a document. Various operations may take DocumentFragment objects
- * as arguments and results in all the child nodes of the DocumentFragment being
+ * fragment of a document. Various operations may take document fragment objects
+ * as arguments and result in all the child nodes of the document fragment being
  * moved to the child list of this node.
  *
  * @class
  * @constructor Creates a document fragment class instance.
- * @param {Object} nodeOrDoc
- * @todo example and param doc
+ * @param {CKEDITOR.dom.document/DocumentFragment} [nodeOrDoc=CKEDITOR.document]
  */
 CKEDITOR.dom.documentFragment = function( nodeOrDoc ) {
 	nodeOrDoc = nodeOrDoc || CKEDITOR.document;
@@ -34,7 +33,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 	type: CKEDITOR.NODE_DOCUMENT_FRAGMENT,
 
 	/**
-	 * Inserts document fragment's contents after specified node.
+	 * Inserts the document fragment content after the specified node.
 	 *
 	 * @param {CKEDITOR.dom.node} node
 	 */
@@ -44,10 +43,10 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 	},
 
 	/**
-	 * Gets HTML of this DocumentFragment's children.
+	 * Gets HTML of this document fragment's children.
 	 *
 	 * @since 4.5
-	 * @returns {String} The HTML of this DocumentFragment's children.
+	 * @returns {String} The HTML of this document fragment's children.
 	 */
 	getHtml: function() {
 		var container = new CKEDITOR.dom.element( 'div' );

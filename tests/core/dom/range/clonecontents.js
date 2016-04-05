@@ -514,6 +514,18 @@
 			assert.areSame( root.findOne( 'div' ), range.endContainer, 'range.startContainer' );
 			assert.areSame( 0, range.startOffset, 'range.startOffset' );
 			assert.areSame( 1, range.endOffset, 'range.startOffset' );
+		},
+
+		// #13568.
+		'test cloneContents - bogus br': function() {
+			var range = new CKEDITOR.dom.range( doc );
+			range.setStart( doc.getById( 'bogus' ), 0 ); // <p>
+			range.setEnd( doc.getById( 'bogus' ).getFirst(), 1 ); // <br /> in <p>
+
+			var docFrag = range.cloneContents();
+
+			// See: execContentsAction in range.js.
+			assert.isInnerHtmlMatching( '<p>Foo bar</p>', docFrag.getHtml(), 'Cloned HTML' );
 		}
 	} );
 } )();

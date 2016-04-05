@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'sq', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'sq', {
 		checkboxTitle: 'Rekuizitat e Kutizë Përzgjedhëse',
 		radioTitle: 'Rekuizitat e Pullës',
 		value: 'Vlera',
-		selected: 'Përzgjedhur'
+		selected: 'Përzgjedhur',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Rekuizitat e Formës',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sq', {
 		size: 'Madhësia',
 		lines: 'rreshtat',
 		chkMulti: 'Lejo përzgjidhje të shumëfishta',
+		required: 'Required', // MISSING
 		opText: 'Teksti',
 		opValue: 'Vlera',
 		btnAdd: 'Vendos',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sq', {
 		value: 'Vlera',
 		charWidth: 'Gjerësia e Karakterit',
 		maxChars: 'Numri maksimal i karaktereve',
+		required: 'Required', // MISSING
 		type: 'LLoji',
 		typeText: 'Teksti',
 		typePass: 'Fjalëkalimi',

@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: stylesheetparser,tableresize,wysiwygarea */
+/* bender-ckeditor-plugins: stylesheetparser,tableresize,wysiwygarea,undo */
 
 'use strict';
 
@@ -97,6 +97,9 @@ bender.editors = {
 	intable: {
 		name: 'intable',
 		creator: 'inline'
+	},
+	undo: {
+		name: 'undo'
 	}
 };
 
@@ -186,5 +189,45 @@ bender.test( {
 		editor.editable().fire( 'mousemove', evt );
 
 		assert.isNull( wrapperTable.getCustomData( '_cke_table_pillars' ) );
+	},
+
+	// #13388.
+	'test undo/redo table resize': function() {
+		var editor = this.editors.undo,
+			doc = editor.document,
+			insideTable = doc.getElementsByTag( 'table' ).getItem( 0 );
+
+		init( insideTable, editor );
+
+		insideTable.findOne( 'td' ).setHtml( 'foo' );
+
+		resize( insideTable, function() {
+			resume( function() {
+				var table;
+
+				// Step 1: undo table resizing.
+				editor.execCommand( 'undo' );
+				table = doc.findOne( 'table' );
+				this.assertIsNotTouched( table, 'insideTable' );
+				// Contents of table cell should remain not undone.
+				assert.isInnerHtmlMatching( 'foo@', table.findOne( 'td' ).getHtml() );
+
+				// Step 2: undo text insert.
+				editor.execCommand( 'undo' );
+				// Bogus elements may be present.
+				assert.isInnerHtmlMatching( '@', doc.findOne( 'td' ).getHtml() );
+
+				// Get back to the "final" state with redo commands.
+				// Redo text insert.
+				editor.execCommand( 'redo' );
+				// Redo table resize.
+				editor.execCommand( 'redo' );
+
+				// Table should be resized.
+				this.assertIsResized( doc.findOne( 'table' ), 'insideTable' );
+			} );
+		} );
+
+		wait();
 	}
 } );

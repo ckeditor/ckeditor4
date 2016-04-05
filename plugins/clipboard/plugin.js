@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -11,16 +11,16 @@
 //
 // COPY & PASTE EXECUTION FLOWS:
 // -- CTRL+C
-// 		* if ( isCustomCopyCutSupported )
-// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
+//		* if ( isCustomCopyCutSupported )
+//			* dataTransfer.setData( 'text/html', getSelectedHtml )
 //		* else
 //			* browser's default behavior
 // -- CTRL+X
 //		* listen onKey (onkeydown)
 //		* fire 'saveSnapshot' on editor
-// 		* if ( isCustomCopyCutSupported )
-// 			* dataTransfer.setData( 'text/html', getSelectedHtml )
-// 			* extractSelectedHtml // remove selected contents
+//		* if ( isCustomCopyCutSupported )
+//			* dataTransfer.setData( 'text/html', getSelectedHtml )
+//			* extractSelectedHtml // remove selected contents
 //		* else
 //			* browser's default behavior
 //		* deferred second 'saveSnapshot' event
@@ -46,7 +46,7 @@
 //		* !canceled && execCommand 'paste'
 //		* !success && fire 'pasteDialog' on editor
 // -- Paste from native context menu & menubar
-//		(Fx & Webkits are handled in 'paste' default listner.
+//		(Fx & Webkits are handled in 'paste' default listener.
 //		Opera cannot be handled at all because it doesn't fire any events
 //		Special treatment is needed for IE, for which is this part of doc)
 //		* listen 'onpaste'
@@ -62,7 +62,7 @@
 // -- Possible dataValue types: auto, text, html.
 // -- Possible dataValue contents:
 //		* text (possible \n\r)
-//		* htmlified text (text + br,div,p - no presentional markup & attrs - depends on browser)
+//		* htmlified text (text + br,div,p - no presentational markup & attrs - depends on browser)
 //		* html
 // -- Possible flags:
 //		* htmlified - if true then content is a HTML even if no markup inside. This flag is set
@@ -73,13 +73,13 @@
 //		* content: html ->				filter, set type: html
 // -- Type: text:
 //		* content: htmlified text ->	filter, unify text markup
-//		* content: html ->				filter, strip presentional markup, unify text markup
+//		* content: html ->				filter, strip presentational markup, unify text markup
 // -- Type: html:
 //		* content: htmlified text ->	filter, unify text markup
 //		* content: html ->				filter
 //
 // -- Phases:
-// 		* if dataValue is empty copy data from dataTransfer to dataValue (priority 1)
+//		* if dataValue is empty copy data from dataTransfer to dataValue (priority 1)
 //		* filtering (priorities 3-5) - e.g. pastefromword filters
 //		* content type sniffing (priority 6)
 //		* markup transformations for text (priority 6)
@@ -119,7 +119,7 @@
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: 'dialog',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -274,11 +274,11 @@
 					data = htmlifiedTextHtmlification( editor.config, data );
 				}
 
-				// Strip presentional markup & unify text markup.
+				// Strip presentational markup & unify text markup.
 				// Forced plain text (dialog or forcePAPT).
 				// Note: we do not check dontFilter option in this case, because forcePAPT was implemented
-				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5.0, so
-				// forcePAPT should have priority as it had before 4.5.0.
+				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5, so
+				// forcePAPT should have priority as it had before 4.5.
 				if ( type == 'text' && trueType == 'html' ) {
 					data = filterContent( editor, data, filtersFactory.get( 'plain-text' ) );
 				}
@@ -313,7 +313,7 @@
 				if ( data.dataValue ) {
 					editor.insertHtml( data.dataValue, data.type, data.range );
 
-					// Deffer 'afterPaste' so all other listeners for 'paste' will be fired first.
+					// Defer 'afterPaste' so all other listeners for 'paste' will be fired first.
 					// Fire afterPaste only if paste inserted some HTML.
 					setTimeout( function() {
 						editor.fire( 'afterPaste' );
@@ -373,19 +373,13 @@
 		var clipboard = CKEDITOR.plugins.clipboard,
 			preventBeforePasteEvent = 0,
 			preventPasteEvent = 0,
-			inReadOnly = 0,
-			// Safari doesn't like 'beforepaste' event - it sometimes doesn't
-			// properly handles ctrl+c. Probably some race-condition between events.
-			// Chrome and Firefox works well with both events, so better to use 'paste'
-			// which will handle pasting from e.g. browsers' menu bars.
-			// IE7/8 doesn't like 'paste' event for which it's throwing random errors.
-			mainPasteEvent = CKEDITOR.env.ie ? 'beforepaste' : 'paste';
+			inReadOnly = 0;
 
 		addListeners();
 		addButtonsCommands();
 
 		/**
-		 * Gets clipboard data by directly accessing the clipboard (IE only) or opening paste dialog.
+		 * Gets clipboard data by directly accessing the clipboard (IE only) or opening the paste dialog window.
 		 *
 		 *		editor.getClipboardData( { title: 'Get my data' }, function( data ) {
 		 *			if ( data )
@@ -394,9 +388,9 @@
 		 *
 		 * @member CKEDITOR.editor
 		 * @param {Object} options
-		 * @param {String} [options.title] Title of paste dialog.
-		 * @param {Function} callback Function that will be executed with `data.type` and `data.dataValue`
-		 * or `null` if none of the capturing method succeeded.
+		 * @param {String} [options.title] The title of the paste dialog window.
+		 * @param {Function} callback A function that will be executed with `data.type` and `data.dataValue`
+		 * or `null` if none of the capturing methods succeeded.
 		 */
 		editor.getClipboardData = function( options, callback ) {
 			var beforePasteNotCanceled = false,
@@ -467,7 +461,12 @@
 				// 'paste' evt by itself.
 				evt.cancel();
 				dialogCommited = true;
-				callback( { type: dataType, dataValue: evt.data, method: 'paste' } );
+				callback( {
+					type: dataType,
+					dataValue: evt.data.dataValue,
+					dataTransfer: evt.data.dataTransfer,
+					method: 'paste'
+				} );
 			}
 
 			function onDialogOpen() {
@@ -531,7 +530,10 @@
 
 			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				var initOnCopyCut = function( evt ) {
-					clipboard.initPasteDataTransfer( evt, editor );
+					// If user tries to cut in read-only editor, we must prevent default action. (#13872)
+					if ( !editor.readOnly || evt.name != 'cut' ) {
+						clipboard.initPasteDataTransfer( evt, editor );
+					}
 					evt.data.preventDefault();
 				};
 
@@ -540,16 +542,20 @@
 
 				// Delete content with the low priority so one can overwrite cut data.
 				editable.on( 'cut', function() {
-					editor.extractSelectedHtml();
+					// If user tries to cut in read-only editor, we must prevent default action. (#13872)
+					if ( !editor.readOnly ) {
+						editor.extractSelectedHtml();
+					}
 				}, null, null, 999 );
 			}
 
 			// We'll be catching all pasted content in one line, regardless of whether
 			// it's introduced by a document command execution (e.g. toolbar buttons) or
 			// user paste behaviors (e.g. CTRL+V).
-			editable.on( mainPasteEvent, function( evt ) {
-				if ( CKEDITOR.env.ie && preventBeforePasteEvent )
+			editable.on( clipboard.mainPasteEvent, function( evt ) {
+				if ( clipboard.mainPasteEvent == 'beforepaste' && preventBeforePasteEvent ) {
 					return;
+				}
 
 				// If you've just asked yourself why preventPasteEventNow() is not here, but
 				// in listener for CTRL+V and exec method of 'paste' command
@@ -597,25 +603,29 @@
 			//		special flag, other than preventPasteEvent. But we still would have to
 			//		have preventPasteEvent for the second event fired by execIECommand.
 			//		Code would be longer and not cleaner.
-			CKEDITOR.env.ie && editable.on( 'paste', function( evt ) {
-				if ( preventPasteEvent )
-					return;
-				// Cancel next 'paste' event fired by execIECommand( 'paste' )
-				// at the end of this callback.
-				preventPasteEventNow();
+			if ( clipboard.mainPasteEvent == 'beforepaste' ) {
+				editable.on( 'paste', function( evt ) {
+					if ( preventPasteEvent ) {
+						return;
+					}
 
-				// Prevent native paste.
-				evt.data.preventDefault();
+					// Cancel next 'paste' event fired by execIECommand( 'paste' )
+					// at the end of this callback.
+					preventPasteEventNow();
 
-				pasteDataFromClipboard( evt );
+					// Prevent native paste.
+					evt.data.preventDefault();
 
-				// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
-				if ( !execIECommand( 'paste' ) )
-					editor.openDialog( 'paste' );
-			} );
+					pasteDataFromClipboard( evt );
 
-			// [IE] Dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
-			if ( CKEDITOR.env.ie ) {
+					// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
+					if ( !execIECommand( 'paste' ) ) {
+						editor.openDialog( 'paste' );
+					}
+				} );
+
+				// If mainPasteEvent is 'beforePaste' (IE before Edge),
+				// dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
 				editable.on( 'contextmenu', preventBeforePasteEventNow, null, null, 0 );
 
 				editable.on( 'beforepaste', function( evt ) {
@@ -623,7 +633,6 @@
 					if ( evt.data && !evt.data.$.ctrlKey && !evt.data.$.shiftKey )
 						preventBeforePasteEventNow();
 				}, null, null, 0 );
-
 			}
 
 			editable.on( 'beforecut', function() {
@@ -721,7 +730,7 @@
 			preventPasteEvent = 1;
 			// For safety reason we should wait longer than 0/1ms.
 			// We don't know how long execution of quite complex getClipboardData will take
-			// and in for example 'paste' listner execCommand() (which fires 'paste') is called
+			// and in for example 'paste' listener execCommand() (which fires 'paste') is called
 			// after getClipboardData finishes.
 			// Luckily, it's impossible to immediately fire another 'paste' event we want to handle,
 			// because we only handle there native context menu and menu bar.
@@ -956,16 +965,14 @@
 		}
 
 		// Try to get content directly on IE from clipboard, without native event
-		// being fired before. In other words - synthetically get clipboard data
-		// if it's possible.
+		// being fired before. In other words - synthetically get clipboard data, if it's possible.
 		// mainPasteEvent will be fired, so if forced native paste:
 		// * worked, getClipboardDataByPastebin will grab it,
 		// * didn't work, dataValue and dataTransfer will be empty and editor#paste won't be fired.
-		// On browsers other then IE it is not possible to get data directly so function will
-		// return false.
+		// Clipboard data can be accessed directly only on IEs older than Edge.
+		// On other browsers we should fire beforePaste event and return false.
 		function getClipboardDataDirectly() {
-			// On non-IE it is not possible to get data directly.
-			if ( !CKEDITOR.env.ie ) {
+			if ( clipboard.mainPasteEvent == 'paste' ) {
 				// beforePaste should be fired when dialog open so it can be canceled.
 				editor.fire( 'beforePaste', { type: 'auto', method: 'paste' } );
 				return false;
@@ -983,7 +990,7 @@
 			var focusManager = editor.focusManager;
 			focusManager.lock();
 
-			if ( editor.editable().fire( mainPasteEvent ) && !execIECommand( 'paste' ) ) {
+			if ( editor.editable().fire( clipboard.mainPasteEvent ) && !execIECommand( 'paste' ) ) {
 				focusManager.unlock();
 				return false;
 			}
@@ -1008,8 +1015,10 @@
 					// by 'beforepaste'.
 					preventPasteEventNow();
 
-					// Simulate 'beforepaste' event for all none-IEs.
-					!CKEDITOR.env.ie && editable.fire( 'beforepaste' );
+					// Simulate 'beforepaste' event for all browsers using 'paste' as main event.
+					if ( clipboard.mainPasteEvent == 'paste' ) {
+						editable.fire( 'beforepaste' );
+					}
 
 					return;
 
@@ -1030,10 +1039,7 @@
 					type: 'auto',
 					method: 'paste',
 					dataTransfer: clipboard.initPasteDataTransfer( evt )
-				},
-				// True if data transfer contains HTML data.
-				htmlInExternalDataTransfer = !CKEDITOR.env.ie && !CKEDITOR.env.safari,
-				external = eventData.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL;
+				};
 
 			eventData.dataTransfer.cacheData();
 
@@ -1045,7 +1051,7 @@
 			var beforePasteNotCanceled = editor.fire( 'beforePaste', eventData ) !== false;
 
 			// Do not use paste bin if the browser let us get HTML or files from dataTranfer.
-			if ( beforePasteNotCanceled && ( htmlInExternalDataTransfer || !external ) && !eventData.dataTransfer.isEmpty() ) {
+			if ( beforePasteNotCanceled && clipboard.canClipboardApiBeTrusted( eventData.dataTransfer, editor ) ) {
 				evt.data.preventDefault();
 				setTimeout( function() {
 					firePasteEvents( editor, eventData );
@@ -1260,6 +1266,11 @@
 		return data;
 	}
 
+	function preventDefaultSetDropEffectToNone( evt ) {
+		evt.data.preventDefault();
+		evt.data.$.dataTransfer.dropEffect = 'none';
+	}
+
 	function initDragDrop( editor ) {
 		var clipboard = CKEDITOR.plugins.clipboard;
 
@@ -1271,14 +1282,9 @@
 
 			// -------------- DRAGOVER TOP & BOTTOM --------------
 
-			function preventDefaultSetDropEffectToNone( evt ) {
-				evt.data.preventDefault();
-				evt.data.$.dataTransfer.dropEffect = 'none';
-			}
-
 			// Not allowing dragging on toolbar and bottom (#12613).
-			top && top.on( 'dragover', preventDefaultSetDropEffectToNone );
-			bottom && bottom.on( 'dragover', preventDefaultSetDropEffectToNone );
+			clipboard.preventDefaultDropOnElement( top );
+			clipboard.preventDefaultDropOnElement( bottom );
 
 			// -------------- DRAGSTART --------------
 			// Listed on dragstart to mark internal and cross-editor drag & drop
@@ -1292,10 +1298,18 @@
 			// Create a dataTransfer object and save it globally.
 			editable.attachListener( editor, 'dragstart', function( evt ) {
 				clipboard.initDragDataTransfer( evt, editor );
-
-				// Save drag range globally for cross editor D&D.
-				clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
 			}, null, null, 2 );
+
+			editable.attachListener( editor, 'dragstart', function() {
+				// Save drag range globally for cross editor D&D.
+				var dragRange = clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
+
+				// Store number of children, so we can later tell if any text node was split on drop. (#13011, #13447)
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+					clipboard.dragStartContainerChildCount = dragRange ? getContainerChildCount( dragRange.startContainer ) : null;
+					clipboard.dragEndContainerChildCount = dragRange ? getContainerChildCount( dragRange.endContainer ) : null;
+				}
+			}, null, null, 100 );
 
 			// -------------- DRAGEND --------------
 			// Clean up on dragend.
@@ -1337,6 +1351,11 @@
 			// -------------- DROP --------------
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
+				// Do nothing if event was already prevented. (#13879)
+				if ( evt.data.$.defaultPrevented ) {
+					return;
+				}
+
 				// Cancel native drop.
 				evt.data.preventDefault();
 
@@ -1361,7 +1380,7 @@
 
 				// Fire drop.
 				fireDragEvent( evt, dragRange, dropRange  );
-			} );
+			}, null, null, 9999 );
 
 			// Create dataTransfer or get it, if it was created before.
 			editable.attachListener( editor, 'drop', clipboard.initDragDataTransfer, clipboard, null, 1 );
@@ -1442,6 +1461,14 @@
 					evt.data.preventDefault();
 				}
 			}
+
+			function getContainerChildCount( container ) {
+				if ( container.type != CKEDITOR.NODE_ELEMENT ) {
+					container = container.getParent();
+				}
+
+				return container.getChildCount();
+			}
 		} );
 	}
 
@@ -1451,9 +1478,9 @@
 	 */
 	CKEDITOR.plugins.clipboard = {
 		/**
-		 * True if the environment allows to set data on copy or cut manually. This value is false on IE, because it shows
-		 * security dialog when the script try to set clipboard data and on iOS, because custom data are not saved to the
-		 * clipboard there.
+		 * True if the environment allows to set data on copy or cut manually. This value is false in IE, because this browser
+		 * shows the security dialog window when the script tries to set clipboard data and on iOS, because custom data is
+		 * not saved to clipboard there.
 		 *
 		 * @since 4.5
 		 * @readonly
@@ -1480,11 +1507,60 @@
 		isFileApiSupported: !CKEDITOR.env.ie || CKEDITOR.env.version > 9,
 
 		/**
-		 * Returns the element should be used as target for the drop event.
+		 * Main native paste event editable should listen to.
+		 *
+		 * **Note:** Safari does not like the {@link CKEDITOR.editor#beforePaste} event &mdash; it sometimes does not
+		 * handle <kbd>Ctrl+C</kbd> properly. This is probably caused by some race condition between events.
+		 * Chrome, Firefox and Edge work well with both events, so it is better to use {@link CKEDITOR.editor#paste}
+		 * which will handle pasting from e.g. browsers' menu bars.
+		 * IE7/8 does not like the {@link CKEDITOR.editor#paste} event for which it is throwing random errors.
+		 *
+		 * @since 4.5
+		 * @readonly
+		 * @property {String}
+		 */
+		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
+
+		/**
+		 * Returns `true` if it is expected that a browser provides HTML data through the Clipboard API.
+		 * If not, this method returns `false` and as a result CKEditor will use the paste bin. Read more in
+		 * the [Clipboard Integration](http://docs.ckeditor.com/#!/guide/dev_clipboard-section-clipboard-api) guide.
+		 *
+		 * @since 4.5.2
+		 * @returns {Boolean}
+		 */
+		canClipboardApiBeTrusted: function( dataTransfer, editor ) {
+			// If it's an internal or cross-editor data transfer, then it means that custom cut/copy/paste support works
+			// and that the data were put manually on the data transfer so we can be sure that it's available.
+			if ( dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_EXTERNAL ) {
+				return true;
+			}
+
+			// In Chrome we can trust Clipboard API, with the exception of Chrome on Android (in both - mobile and desktop modes), where
+			// clipboard API is not available so we need to check it (#13187).
+			if ( CKEDITOR.env.chrome && !dataTransfer.isEmpty() ) {
+				return true;
+			}
+
+			// Because of a Firefox bug HTML data are not available in some cases (e.g. paste from Word), in such cases we
+			// need to use the pastebin (#13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
+			if ( CKEDITOR.env.gecko && ( dataTransfer.getData( 'text/html' ) || dataTransfer.getFilesCount() ) ) {
+				return true;
+			}
+
+			// In Safari and IE HTML data is not available though the Clipboard API.
+			// In Edge things are a bit messy at the moment -
+			// https://connect.microsoft.com/IE/feedback/details/1572456/edge-clipboard-api-text-html-content-messed-up-in-event-clipboarddata
+			// It is safer to use the paste bin in unknown cases.
+			return false;
+		},
+
+		/**
+		 * Returns the element that should be used as the target for the drop event.
 		 *
 		 * @since 4.5
 		 * @param {CKEDITOR.editor} editor The editor instance.
-		 * @returns {CKEDITOR.dom.domObject} the element should be used as target for the drop event.
+		 * @returns {CKEDITOR.dom.domObject} the element that should be used as the target for the drop event.
 		 */
 		getDropTarget: function( editor ) {
 			var editable = editor.editable();
@@ -1499,12 +1575,12 @@
 		},
 
 		/**
-		 * IE 8 & 9 split text node on drop so the first node contains
-		 * text before drop position and the second contains rest. If we
-		 * drag the content from the same node we will be not able to get
-		 * it (range became invalid), so we need to join them back.
+		 * IE 8 & 9 split text node on drop so the first node contains the
+		 * text before the drop position and the second contains the rest. If you
+		 * drag the content from the same node you will be not be able to get
+		 * it (the range becomes invalid), so you need to join them back.
 		 *
-		 * Notify that first node on IE 8 & 9 is the original node object
+		 * Note that the first node in IE 8 & 9 is the original node object
 		 * but with shortened content.
 		 *
 		 *		Before:
@@ -1529,36 +1605,73 @@
 		 * @private
 		 * @param {CKEDITOR.dom.range} dragRange The drag range.
 		 * @param {CKEDITOR.dom.range} dropRange The drop range.
+		 * @param {Number} preDragStartContainerChildCount The number of children of the drag range start container before the drop.
+		 * @param {Number} preDragEndContainerChildCount The number of children of the drag range end container before the drop.
 		 */
-		fixIESplitNodesAfterDrop: function( dragRange, dropRange ) {
-			if ( dropRange.startContainer.type == CKEDITOR.NODE_ELEMENT &&
-				dropRange.startOffset > 0 &&
-				dropRange.startContainer.getChildCount() > dropRange.startOffset - 1 &&
-				dropRange.startContainer.getChild( dropRange.startOffset - 1 ).equals( dragRange.startContainer ) ) {
-				var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
-					nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset ),
-					offset = nodeBefore.getLength();
+		fixSplitNodesAfterDrop: function( dragRange, dropRange, preDragStartContainerChildCount, preDragEndContainerChildCount ) {
+			var dropContainer = dropRange.startContainer;
 
-				if ( nodeAfter ) {
-					nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
-					nodeAfter.remove();
+			if (
+				typeof preDragEndContainerChildCount != 'number' ||
+				typeof preDragStartContainerChildCount != 'number'
+			) {
+				return;
+			}
+
+			// We are only concerned about ranges anchored in elements.
+			if ( dropContainer.type != CKEDITOR.NODE_ELEMENT ) {
+				return;
+			}
+
+			if ( handleContainer( dragRange.startContainer, dropContainer, preDragStartContainerChildCount ) ) {
+				return;
+			}
+
+			if ( handleContainer( dragRange.endContainer, dropContainer, preDragEndContainerChildCount ) ) {
+				return;
+			}
+
+			function handleContainer( dragContainer, dropContainer, preChildCount ) {
+				var dragElement = dragContainer;
+				if ( dragElement.type == CKEDITOR.NODE_TEXT ) {
+					dragElement = dragContainer.getParent();
 				}
 
-				dropRange.setStart( nodeBefore, offset );
-				dropRange.collapse( true );
+				if ( dragElement.equals( dropContainer ) && preChildCount != dropContainer.getChildCount() ) {
+					applyFix( dropRange );
+					return true;
+				}
+			}
+
+			function applyFix( dropRange ) {
+				var nodeBefore = dropRange.startContainer.getChild( dropRange.startOffset - 1 ),
+					nodeAfter = dropRange.startContainer.getChild( dropRange.startOffset );
+
+				if (
+					nodeBefore && nodeBefore.type == CKEDITOR.NODE_TEXT &&
+					nodeAfter && nodeAfter.type == CKEDITOR.NODE_TEXT
+				) {
+					var offset = nodeBefore.getLength();
+
+					nodeBefore.setText( nodeBefore.getText() + nodeAfter.getText() );
+					nodeAfter.remove();
+
+					dropRange.setStart( nodeBefore, offset );
+					dropRange.collapse( true );
+				}
 			}
 		},
 
 		/**
-		 * Checkes whether turning drag range into bookmarks will invalidate the drop range.
-		 * This usually happens when drop range shares the container with drag range and is located
-		 * after the drag range, but there are countless edge cases.
+		 * Checks whether turning the drag range into bookmarks will invalidate the drop range.
+		 * This usually happens when the drop range shares the container with the drag range and is
+		 * located after the drag range, but there are countless edge cases.
 		 *
 		 * This function is stricly related to {@link #internalDrop} which toggles
 		 * order in which it creates bookmarks for both ranges based on a value returned
-		 * by this method. In some cases this method returns a value which does not necessarily
-		 * is true in terms of what it was meant to check, but it is convenient, because
-		 * we know how it is interpretted in {@link #internalDrop}, so the correct
+		 * by this method. In some cases this method returns a value which is not necessarily
+		 * true in terms of what it was meant to check, but it is convenient, because
+		 * we know how it is interpreted in {@link #internalDrop}, so the correct
 		 * behavior of the entire algorithm is assured.
 		 *
 		 * **Note:** This function is in the public scope for tests usage only.
@@ -1567,7 +1680,7 @@
 		 * @private
 		 * @param {CKEDITOR.dom.range} dragRange The first range to compare.
 		 * @param {CKEDITOR.dom.range} dropRange The second range to compare.
-		 * @returns {Boolean} True if the first range in before the second range.
+		 * @returns {Boolean} `true` if the first range is before the second range.
 		 */
 		isDropRangeAffectedByDragRange: function( dragRange, dropRange ) {
 			var dropContainer = dropRange.startContainer,
@@ -1604,7 +1717,7 @@
 		},
 
 		/**
-		 * Internal drag and drop (drag and drop in the same editor).
+		 * Internal drag and drop (drag and drop in the same editor instance).
 		 *
 		 * **Note:** This function is in the public scope for tests usage only.
 		 *
@@ -1616,7 +1729,8 @@
 		 * @param {CKEDITOR.editor} editor
 		 */
 		internalDrop: function( dragRange, dropRange, dataTransfer, editor ) {
-			var editable = editor.editable(),
+			var clipboard = CKEDITOR.plugins.clipboard,
+				editable = editor.editable(),
 				dragBookmark, dropBookmark, isDropRangeAffected;
 
 			// Save and lock snapshot so there will be only
@@ -1625,7 +1739,12 @@
 			editor.fire( 'lockSnapshot', { dontUpdate: 1 } );
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
-				this.fixIESplitNodesAfterDrop( dragRange, dropRange );
+				this.fixSplitNodesAfterDrop(
+					dragRange,
+					dropRange,
+					clipboard.dragStartContainerChildCount,
+					clipboard.dragEndContainerChildCount
+				);
 			}
 
 			// Because we manipulate multiple ranges we need to do it carefully,
@@ -1635,11 +1754,31 @@
 			// We call isDropRangeAffectedByDragRange to test the order of ranges.
 			isDropRangeAffected = this.isDropRangeAffectedByDragRange( dragRange, dropRange );
 			if ( !isDropRangeAffected ) {
-				dragBookmark = dragRange.createBookmark( 1 );
+				dragBookmark = dragRange.createBookmark( false );
 			}
-			dropBookmark = dropRange.clone().createBookmark( 1 );
+			dropBookmark = dropRange.clone().createBookmark( false );
 			if ( isDropRangeAffected ) {
-				dragBookmark = dragRange.createBookmark( 1 );
+				dragBookmark = dragRange.createBookmark( false );
+			}
+
+			// Check if drop range is inside range.
+			// This is an edge case when we drop something on editable's margin/padding.
+			// That space is not treated as a part of the range we drag, so it is possible to drop there.
+			// When we drop, browser tries to find closest drop position and it finds it inside drag range. (#13453)
+			var startNode = dragBookmark.startNode,
+				endNode = dragBookmark.endNode,
+				dropNode = dropBookmark.startNode,
+				dropInsideDragRange =
+					// Must check endNode because dragRange could be collapsed in some edge cases (simulated DnD).
+					endNode &&
+					( startNode.getPosition( dropNode ) & CKEDITOR.POSITION_PRECEDING ) &&
+					( endNode.getPosition( dropNode ) & CKEDITOR.POSITION_FOLLOWING );
+
+			// If the drop range happens to be inside drag range change it's position to the beginning of the drag range.
+			if ( dropInsideDragRange ) {
+				// We only change position of bookmark span that is connected with dropBookmark.
+				// dropRange will be overwritten and set to the dropBookmark later.
+				dropNode.insertBefore( startNode );
 			}
 
 			// No we can safely delete content for the drag range...
@@ -1659,7 +1798,7 @@
 		},
 
 		/**
-		 * Get range from the `drop` event.
+		 * Gets the range from the `drop` event.
 		 *
 		 * @since 4.5
 		 * @param {Object} domEvent A native DOM drop event object.
@@ -1667,11 +1806,6 @@
 		 * @returns {CKEDITOR.dom.range} range at drop position.
 		 */
 		getRangeAtDropPosition: function( dropEvt, editor ) {
-			// If we drop content from the external source we need to call focus on IE.
-			if ( CKEDITOR.env.ie ) {
-				editor.focus();
-			}
-
 			var $evt = dropEvt.data.$,
 				x = $evt.clientX,
 				y = $evt.clientY,
@@ -1695,13 +1829,18 @@
 				range.collapse( true );
 			}
 			// IEs 9+.
-			else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8  && defaultRange ) {
+			// We check if editable is focused to make sure that it's an internal DnD. External DnD must use the second
+			// mechanism because of http://dev.ckeditor.com/ticket/13472#comment:6.
+			else if ( CKEDITOR.env.ie && CKEDITOR.env.version > 8 && defaultRange && editor.editable().hasFocus ) {
 				// On IE 9+ range by default is where we expected it.
 				// defaultRange may be undefined if dragover was canceled (file drop).
 				return defaultRange;
 			}
-			// IE 8 and all IEs if !defaultRange.
+			// IE 8 and all IEs if !defaultRange or external DnD.
 			else if ( document.body.createTextRange ) {
+				// To use this method we need a focus (which may be somewhere else in case of external drop).
+				editor.focus();
+
 				$range = editor.document.getBody().$.createTextRange();
 				try {
 					var sucess = false;
@@ -1809,7 +1948,7 @@
 		},
 
 		/**
-		 * This function tries to link the `evt.data.dataTransfer` property of {@link CKEDITOR.editor#dragstart},
+		 * This function tries to link the `evt.data.dataTransfer` property of the {@link CKEDITOR.editor#dragstart},
 		 * {@link CKEDITOR.editor#dragend} and {@link CKEDITOR.editor#drop} events to a single
 		 * {@link CKEDITOR.plugins.clipboard.dataTransfer} object.
 		 *
@@ -1820,12 +1959,12 @@
 		 * artificially (to represent a non-native drag and drop) or whether they were caused by the native drag and drop.
 		 *
 		 * If the native event is not available, then it will create a new {@link CKEDITOR.plugins.clipboard.dataTransfer}
-		 * instance (if it does not exist already) and will link it to this and all following events object until
-		 * {@link #resetDragDataTransfer} method is called. It means that all three drag and drop events must be fired
-		 * in order to assure that the data transfer is bound correctly.
+		 * instance (if it does not exist already) and will link it to this and all following event objects until
+		 * the {@link #resetDragDataTransfer} method is called. It means that all three drag and drop events must be fired
+		 * in order to ensure that the data transfer is bound correctly.
 		 *
 		 * If the native event is available, then the {@link CKEDITOR.plugins.clipboard.dataTransfer} is identified
-		 * by its id and a new instance is assigned to the `evt.data.dataTransfer` only if the id changed or
+		 * by its ID and a new instance is assigned to the `evt.data.dataTransfer` only if the ID changed or
 		 * the {@link #resetDragDataTransfer} method was called.
 		 *
 		 * @since 4.5
@@ -1872,11 +2011,11 @@
 		},
 
 		/**
-		 * Global object keeping the data transfer of the current drag and drop operation.
-		 * Do not use it directly, use `{@link #initDragDataTransfer}` and `{@link #resetDragDataTransfer}`.
+		 * Global object storing the data transfer of the current drag and drop operation.
+		 * Do not use it directly, use {@link #initDragDataTransfer} and {@link #resetDragDataTransfer}.
 		 *
-		 * Note: This object is global (meaning that it is not related to a single editor) in order to
-		 * handle drag and drop from one editor to another.
+		 * Note: This object is global (meaning that it is not related to a single editor instance)
+		 * in order to handle drag and drop from one editor into another.
 		 *
 		 * @since 4.5
 		 * @private
@@ -1884,7 +2023,7 @@
 		 */
 
 		/**
-		 * Range object to save drag range and remove the contents of it after drop.
+		 * Range object to save the drag range and remove its content after the drop.
 		 *
 		 * @since 4.5
 		 * @private
@@ -1892,16 +2031,16 @@
 		 */
 
 		/**
-		 * Initialize and link dataTransfer objects based on the paste event. If data
-		 * transfer object was already initialized on this event then function will
-		 * return that object. On IE it is not possible to link copy/cut and paste event
-		 * so the method returns always a new object. The same if there is no paste event
+		 * Initializes and links data transfer objects based on the paste event. If the data
+		 * transfer object was already initialized on this event, the function will
+		 * return that object. In IE it is not possible to link copy/cut and paste events
+		 * so the method always returns a new object. The same happens if there is no paste event
 		 * passed to the method.
 		 *
 		 * @since 4.5
 		 * @param {CKEDITOR.dom.event} [evt] A paste event object.
 		 * @param {CKEDITOR.editor} [sourceEditor] The source editor instance.
-		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer object
+		 * @returns {CKEDITOR.plugins.clipboard.dataTransfer} The data transfer object.
 		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( !this.isCustomCopyCutSupported ) {
@@ -1920,6 +2059,16 @@
 			} else {
 				return new this.dataTransfer( null, sourceEditor );
 			}
+		},
+
+		/**
+		 * Prevents dropping on the specified element.
+		 *
+		 * @since 4.5
+		 * @param {CKEDITOR.dom.element} element The element on which dropping should be disabled.
+		 */
+		preventDefaultDropOnElement: function( element ) {
+			element && element.on( 'dragover', preventDefaultSetDropEffectToNone );
 		}
 	};
 
@@ -1939,8 +2088,8 @@
 	 * @class CKEDITOR.plugins.clipboard.dataTransfer
 	 * @constructor Creates a class instance.
 	 * @param {Object} [nativeDataTransfer] A native data transfer object.
-	 * @param {CKEDITOR.editor} [editor] The source editor instance. If editor is defined then dataValue will
-	 * be created based on the editor contents and type will be 'html'.
+	 * @param {CKEDITOR.editor} [editor] The source editor instance. If the editor is defined, dataValue will
+	 * be created based on the editor content and the type will be 'html'.
 	 */
 	CKEDITOR.plugins.clipboard.dataTransfer = function( nativeDataTransfer, editor ) {
 		if ( nativeDataTransfer ) {
@@ -1948,8 +2097,9 @@
 		}
 
 		this._ = {
-			chromeLinuxRegExp: /^<meta.*?>/,
-			chromeWindowsRegExp: /<!--StartFragment-->([\s\S]*)<!--EndFragment-->/,
+			metaRegExp: /^<meta.*?>/i,
+			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/i,
+			fragmentRegExp: /<!--(?:Start|End)Fragment-->/g,
 
 			data: {},
 			files: [],
@@ -2007,7 +2157,7 @@
 
 		/**
 		 * Data transfer ID used to bind all dataTransfer
-		 * object based on the same event (ex. in drag and drop events).
+		 * objects based on the same event (e.g. in drag and drop events).
 		 *
 		 * @readonly
 		 * @property {String} id
@@ -2021,8 +2171,8 @@
 		 */
 
 		/**
-		 * Source editor, the editor where drag starts.
-		 * Might be undefined if drag starts outside the editor (ex. dropping files to the editor).
+		 * Source editor &mdash; the editor where the drag starts.
+		 * Might be undefined if the drag starts outside the editor (e.g. when dropping files to the editor).
 		 *
 		 * @readonly
 		 * @property {CKEDITOR.editor} sourceEditor
@@ -2037,7 +2187,7 @@
 	};
 
 	/**
-	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the same
+	 * Data transfer operation (drag and drop or copy and paste) started and ended in the same
 	 * editor instance.
 	 *
 	 * @since 4.5
@@ -2048,8 +2198,8 @@
 	CKEDITOR.DATA_TRANSFER_INTERNAL = 1;
 
 	/**
-	 * Data transfer operation (drag and drop or copy and pasted) started and ended in the
-	 * instance of CKEditor but in two different editors.
+	 * Data transfer operation (drag and drop or copy and paste) started in one editor
+	 * instance and ended in another.
 	 *
 	 * @since 4.5
 	 * @readonly
@@ -2059,8 +2209,8 @@
 	CKEDITOR.DATA_TRANSFER_CROSS_EDITORS = 2;
 
 	/**
-	 * Data transfer operation (drag and drop or copy and pasted) started not in the CKEditor.
-	 * The source of the data may be textarea, HTML, another application, etc..
+	 * Data transfer operation (drag and drop or copy and paste) started outside of the editor.
+	 * The source of the data may be a textarea, HTML, another application, etc.
 	 *
 	 * @since 4.5
 	 * @readonly
@@ -2074,7 +2224,7 @@
 		 * Facade for the native `getData` method.
 		 *
 		 * @param {String} type The type of data to retrieve.
-		 * @returns {String} type Stored data for the given type or an empty string if data for that type does not exist.
+		 * @returns {String} type Stored data for the given type or an empty string if the data for that type does not exist.
 		 */
 		getData: function( type ) {
 			function isEmpty( data ) {
@@ -2096,15 +2246,22 @@
 				data = '';
 			}
 
-			// Chrome add <meta http-equiv="content-type" content="text/html; charset=utf-8">
-			// at the begging of the HTML data on Linux and surround by <html><body><!--StartFragment-->
-			// and <!--EndFragment--></body></html> on Windows. This code remove these tags.
-			if ( type == 'text/html' && CKEDITOR.env.chrome ) {
-				data = data.replace( this._.chromeLinuxRegExp, '' );
+			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
+			// or surround it with <html><head>...</head><body>(some content)<!--StartFragment--> and <!--EndFragment-->(some content)</body></html>
+			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
+			// some significant content may be placed outside Start/EndFragment comments so it's kept.
+			//
+			// See #13583 for more details.
+			if ( type == 'text/html' ) {
+				data = data.replace( this._.metaRegExp, '' );
 
-				result = this._.chromeWindowsRegExp.exec( data );
-				if ( result && result.length > 1 ) {
+				// Keep only contents of the <body> element
+				result = this._.bodyRegExp.exec( data );
+				if ( result && result.length ) {
 					data = result[ 1 ];
+
+					// Remove also comments.
+					data = data.replace( this._.fragmentRegExp, '' );
 				}
 			}
 			// Firefox on Linux put files paths as a text/plain data if there are files
@@ -2135,13 +2292,19 @@
 				return;
 			}
 
+			// If we use the text type to bind the ID, then if someone tries to set the text, we must also
+			// update ID accordingly. #13468.
+			if ( clipboardIdDataType == 'Text' && type == 'Text' ) {
+				this.id = value;
+			}
+
 			try {
 				this.$.setData( type, value );
 			} catch ( e ) {}
 		},
 
 		/**
-		 * Gets data transfer type.
+		 * Gets the data transfer type.
 		 *
 		 * @param {CKEDITOR.editor} targetEditor The drop/paste target editor instance.
 		 * @returns {Number} Possible values: {@link CKEDITOR#DATA_TRANSFER_INTERNAL},
@@ -2158,12 +2321,11 @@
 		},
 
 		/**
-		 * Copies a data from the native data transfer to a private cache.
-		 * This function is needed because the data from native the data transfer
-		 * is available only by the event. It is not possible to get the data from after a timeout
-		 * but the `clipboard` plugin fires the {@link CKEDITOR.editor#paste} event asynchronously.
-		 * Therefore, this method is executed so the data can be retrieved at any point of the
-		 * pasting process.
+		 * Copies the data from the native data transfer to a private cache.
+		 * This function is needed because the data from the native data transfer
+		 * is available only synchronously to the event listener. It is not possible
+		 * to get the data asynchronously, after a timeout, and the {@link CKEDITOR.editor#paste}
+		 * event is fired asynchronously &mdash; hence the need for caching the data.
 		 */
 		cacheData: function() {
 			if ( !this.$ ) {
@@ -2212,9 +2374,9 @@
 		},
 
 		/**
-		 * Get count of files in dataTransfer object.
+		 * Gets the number of files in the dataTransfer object.
 		 *
-		 * @returns {Number} Count of files.
+		 * @returns {Number} The number of files.
 		 */
 		getFilesCount: function() {
 			if ( this._.files.length ) {
@@ -2229,7 +2391,7 @@
 		},
 
 		/**
-		 * Get file of given index.
+		 * Gets the file at the index given.
 		 *
 		 * @param {Number} i Index.
 		 * @returns {File} File instance.
@@ -2243,12 +2405,12 @@
 				return this.$.files[ i ];
 			}
 
-			// File or null if file was not founded.
+			// File or null if the file was not found.
 			return i === 0 ? this._getImageFromClipboard() : undefined;
 		},
 
 		/**
-		 * Checks if data transfer contains any data.
+		 * Checks if the data transfer contains any data.
 		 *
 		 * @returns {Boolean} `true` if the object contains no data.
 		 */
@@ -2295,11 +2457,11 @@
 		},
 
 		/**
-		 * When the contents of the clipboard is pasted on Chrome the clipboard date object has empty `files` property,
-		 * but it is possible to get file as items[0].getAsFile(); (#12961).
+		 * When the content of the clipboard is pasted in Chrome, the clipboard data object has an empty `files` property,
+		 * but it is possible to get the file as `items[0].getAsFile();` (#12961).
 		 *
 		 * @private
-		 * @returns {File} File instance or null if not found.
+		 * @returns {File} File instance or `null` if not found.
 		 */
 		_getImageFromClipboard: function() {
 			var file;
@@ -2322,15 +2484,18 @@
 } )();
 
 /**
- * The default content type is used when pasted data cannot be clearly recognized as HTML or text.
+ * The default content type that is used when pasted data cannot be clearly recognized as HTML or text.
  *
- * For example: `'foo'` may come from a plain text editor or a website. It isn't possible to recognize content
- * type in this case, so default will be used. However, it's clear that `'<b>example</b> text'` is an HTML
- * and its origin is webpage, email or other rich text editor.
+ * For example: `'foo'` may come from a plain text editor or a website. It is not possible to recognize the content
+ * type in this case, so the default type will be used. At the same time it is clear that `'<b>example</b> text'` is
+ * HTML and its origin is a web page, email or another rich text editor.
  *
- * **Note:** If content type is text, then styles of context of paste are preserved.
+ * **Note:** If content type is text, then styles of the paste context are preserved.
  *
  *		CKEDITOR.config.clipboard_defaultContentType = 'text';
+ *
+ * See also the {@link CKEDITOR.editor#paste} event and read more about the integration with clipboard
+ * in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
  *
  * @since 4.0
  * @cfg {'html'/'text'} [clipboard_defaultContentType='html']
@@ -2338,27 +2503,34 @@
  */
 
 /**
- * Fired when a clipboard operation is about to be taken into the editor.
- * Listeners can manipulate the data to be pasted before having it effectively
- * inserted into the document.
+ * Fired after the user initiated a paste action, but before the data is inserted into the editor.
+ * The listeners to this event are able to process the content before its insertion into the document.
+ *
+ * Read more about the integration with clipboard in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ *
+ * See also:
+ *
+ * * the {@link CKEDITOR.config#pasteFilter} option,
+ * * the {@link CKEDITOR.editor#drop} event,
+ * * the {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 3.1
  * @event paste
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
- * @param {String} data.type Type of data in `data.dataValue`. Usually `'html'` or `'text'`, but for listeners
- * with priority less than `6` it may be also `'auto'`, what means that content type hasn't been recognised yet
- * (this will be done by content type sniffer that listens with priority `6`).
+ * @param {String} data.type The type of data in `data.dataValue`. Usually `'html'` or `'text'`, but for listeners
+ * with a priority smaller than `6` it may also be `'auto'` which means that the content type has not been recognised yet
+ * (this will be done by the content type sniffer that listens with priority `6`).
  * @param {String} data.dataValue HTML to be pasted.
- * @param {String} data.method Indicates the method of the data transfer. It could be drag and drop or copy and paste.
- * Possible values: `'drop'`, `'paste'`. Introduced in CKEditor 4.5.0.
+ * @param {String} data.method Indicates the data transfer method. It could be drag and drop or copy and paste.
+ * Possible values: `'drop'`, `'paste'`. Introduced in CKEditor 4.5.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer Facade for the native dataTransfer object
- * which provide access to the various data types, files and pass some date between linked events
- * (like drag and drop). Introduced in CKEditor 4.5.0.
+ * which provides access to various data types and files, and passes some data between linked events
+ * (like drag and drop). Introduced in CKEditor 4.5.
  * @param {Boolean} [data.dontFilter=false] Whether the {@link CKEDITOR.editor#pasteFilter paste filter} should not
- * be applied to data. This option has no effect when `data.type` equals `'text'`, what means that for instance
- * {@link CKEDITOR.config#forcePasteAsPlainText} has a higher priority. Introduced in CKEditor 4.5.0.
+ * be applied to data. This option has no effect when `data.type` equals `'text'` which means that for instance
+ * {@link CKEDITOR.config#forcePasteAsPlainText} has a higher priority. Introduced in CKEditor 4.5.
  */
 
 /**
@@ -2373,15 +2545,15 @@
  */
 
  /**
- * Fired after the {@link #paste} event if content was modified. Note the if paste
- * event do not insert any data `afterPaste` event will not be fired.
+ * Fired after the {@link #paste} event if content was modified. Note that if the paste
+ * event does not insert any data, the `afterPaste` event will not be fired.
  *
  * @event afterPaste
  * @member CKEDITOR.editor
  */
 
 /**
- * Internal event to open the Paste dialog.
+ * Internal event to open the Paste dialog window.
  *
  * @private
  * @event pasteDialog
@@ -2391,11 +2563,18 @@
  */
 
 /**
- * Facade for native `drop` event. Fired when native `drop` event occur.
- * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
- * to use custom data type on any browser. This event let you modify drag and drop range and
- * cancel drop event. Use it only form drag and drop operations. To manipulate dropped data use
- * {@link CKEDITOR.editor#paste paste event}.
+ * Facade for the native `drop` event. Fired when the native `drop` event occurs.
+ *
+ * **Note:** To manipulate dropped data, use the {@link CKEDITOR.editor#paste} event.
+ * Use the `drop` event only to control drag and drop operations (e.g. to prevent the ability to drop some content).
+ *
+ * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ *
+ * See also:
+ *
+ * * The {@link CKEDITOR.editor#paste} event,
+ * * The {@link CKEDITOR.editor#dragstart} and {@link CKEDITOR.editor#dragend} events,
+ * * The {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 4.5
  * @event drop
@@ -2405,17 +2584,27 @@
  * @param {Object} data.$ Native drop event.
  * @param {CKEDITOR.dom.node} data.target Drop target.
  * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer DataTransfer facade.
- * @param {CKEDITOR.dom.range} data.dragRange Drag range, let you manipulate with drag range.
- * Note that dragged html is saved as `text/html` data on `dragstart` so if you change drag range
- * on drop dropped html will not change. You need to change it manually using
+ * @param {CKEDITOR.dom.range} data.dragRange Drag range, lets you manipulate the drag range.
+ * Note that dragged HTML is saved as `text/html` data on `dragstart` so if you change the drag range
+ * on drop, dropped HTML will not change. You need to change it manually using
  * {@link CKEDITOR.plugins.clipboard.dataTransfer#setData dataTransfer.setData}.
- * @param {CKEDITOR.dom.range} data.dropRange Drop range, let you manipulate with drop range.
+ * @param {CKEDITOR.dom.range} data.dropRange Drop range, lets you manipulate the drop range.
  */
 
 /**
- * Facade for native `dragstart` event. Fired when native `dragstart` event occur.
- * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
- * to use custom data type on any browser. This event let you cancel `dragstart`.
+ * Facade for the native `dragstart` event. Fired when the native `dragstart` event occurs.
+ *
+ * This event can be canceled in order to block the drag start operation. It can also be fired to mimic the start of the drag and drop
+ * operation. For instance, the `widget` plugin uses this option to integrate its custom block widget drag and drop with
+ * the entire system.
+ *
+ * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ *
+ * See also:
+ *
+ * * The {@link CKEDITOR.editor#paste} event,
+ * * The {@link CKEDITOR.editor#drop} and {@link CKEDITOR.editor#dragend} events,
+ * * The {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 4.5
  * @event dragstart
@@ -2428,10 +2617,15 @@
  */
 
 /**
- * Facade for native `dragend` event. Fired when native `dragend` event occur.
- * Editors event have dataTransfer facade instead of native dataTransfers object what allows you
- * to use custom data type on any browser. This event let you cancel `dragend` event and prevent
- * removing dataTransfer for the global scope.
+ * Facade for the native `dragend` event. Fired when the native `dragend` event occurs.
+ *
+ * Read more about integration with drag and drop in the [Clipboard Deep Dive guide](#!/guide/dev_clipboard).
+ *
+ * See also:
+ *
+ * * The {@link CKEDITOR.editor#paste} event,
+ * * The {@link CKEDITOR.editor#drop} and {@link CKEDITOR.editor#dragend} events,
+ * * The {@link CKEDITOR.plugins.clipboard.dataTransfer} class.
  *
  * @since 4.5
  * @event dragend
@@ -2444,15 +2638,15 @@
  */
 
 /**
- * Defines filter which is applied to external data pasted or dropped into editor. Possible values are:
+ * Defines a filter which is applied to external data pasted or dropped into the editor. Possible values are:
  *
  * * `'plain-text'` &ndash; Content will be pasted as a plain text.
  * * `'semantic-content'` &ndash; Known tags (except `div`, `span`) with all attributes (except
  * `style` and `class`) will be kept.
  * * `'h1 h2 p div'` &ndash; Custom rules compatible with {@link CKEDITOR.filter}.
  * * `null` &ndash; Content will not be filtered by the paste filter (but it still may be filtered
- * by the [Advanvced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
- * disable the paste filter on Chrome and Safari, on which the option defaults to `'semantic-content'`.
+ * by [Advanced Content Filter](#!/guide/dev_advanced_content_filter)). This value can be used to
+ * disable the paste filter in Chrome and Safari, where this option defaults to `'semantic-content'`.
  *
  * Example:
  *
@@ -2462,8 +2656,8 @@
  *
  *		config.pasteFilter = 'h1 h2 p ul ol li; img[!src, alt]; a[!href]';
  *
- * Based on this config option, a proper {@link CKEDITOR.filter} instance will be defined and assigned to the editor
- * as a {@link CKEDITOR.editor#pasteFilter}. You can tweak paste filter's settings on the fly on this object
+ * Based on this configuration option, a proper {@link CKEDITOR.filter} instance will be defined and assigned to the editor
+ * as a {@link CKEDITOR.editor#pasteFilter}. You can tweak the paste filter settings on the fly on this object
  * as well as delete or replace it.
  *
  *		var editor = CKEDITOR.replace( 'editor', {
@@ -2476,30 +2670,30 @@
  *			editor.pasteFilter.disallow( 'table' );
  *		} );
  *
- * Note that the paste filter is applied only to an **external** data. There are three data sources:
+ * Note that the paste filter is applied only to **external** data. There are three data sources:
  *
  * * copied and pasted in the same editor (internal),
  * * copied from one editor and pasted into another (cross-editor),
  * * coming from all other sources like websites, MS Word, etc. (external).
  *
- * If the {@link CKEDITOR.config#allowedContent Advanced Content Filter} is not disabled, then
- * it will be also applied to the pasted and dropped data. The paste filter's job is to "normalize"
- * external data which often need to be handled differently than content produced by the editor.
+ * If {@link CKEDITOR.config#allowedContent Advanced Content Filter} is not disabled, then
+ * it will also be applied to pasted and dropped data. The paste filter job is to "normalize"
+ * external data which often needs to be handled differently than content produced by the editor.
  *
- * This setting defaults `'semantic-content'` on Chrome and Safari due to messy HTML which these browsers
- * keep in the clipboard. On other browsers its defaults `null`.
+ * This setting defaults to `'semantic-content'` in Chrome, Opera and Safari (all Blink and Webkit based browsers)
+ * due to messy HTML which these browsers keep in the clipboard. In other browsers it defaults to `null`.
  *
  * @since 4.5
- * @cfg {String} [pasteFilter='semantic-content' on Chrome and Safari and null on other browsers]
+ * @cfg {String} [pasteFilter='semantic-content' in Chrome and Safari and `null` in other browsers]
  * @member CKEDITOR.config
  */
 
 /**
- * {@link CKEDITOR.filter Content filter} which is used when external data is pasted or dropped into editor or there
- * is forced paste as a plain text.
+ * {@link CKEDITOR.filter Content filter} which is used when external data is pasted or dropped into the editor
+ * or a forced paste as plain text occurs.
  *
  * This object might be used on the fly to define rules for pasted external content.
- * This object is available and used if {@link CKEDITOR.plugins.clipboard clipboard} plugin is enabled and
+ * This object is available and used if the {@link CKEDITOR.plugins.clipboard clipboard} plugin is enabled and
  * {@link CKEDITOR.config#pasteFilter} or {@link CKEDITOR.config#forcePasteAsPlainText} was defined.
  *
  * To enable the filter:
@@ -2512,15 +2706,15 @@
  *
  *		editor.pasteFilter = new CKEDITOR.filter( 'p h1 h2; a[!href]' );
  *
- * Note that the paste filter is applied only to an **external** data. There are three data sources:
+ * Note that the paste filter is only applied to **external** data. There are three data sources:
  *
  * * copied and pasted in the same editor (internal),
  * * copied from one editor and pasted into another (cross-editor),
  * * coming from all other sources like websites, MS Word, etc. (external).
  *
- * If the {@link CKEDITOR.config#allowedContent Allowed Content Filter} is not disabled, then
- * it will be also applied to the pasted and dropped data. The paste filter's job is to "normalize"
- * external data which often need to be handled differently than content produced by the editor.
+ * If {@link CKEDITOR.config#allowedContent Advanced Content Filter} is not disabled, then
+ * it will also be applied to pasted and dropped data. The paste filter job is to "normalize"
+ * external data which often needs to be handled differently than content produced by the editor.
  *
  * @since 4.5
  * @readonly

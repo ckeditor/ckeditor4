@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'tt', {
@@ -8,14 +8,15 @@ CKEDITOR.plugins.setLang( 'forms', 'tt', {
 		text: 'Текст (күләм)',
 		type: 'Төр',
 		typeBtn: 'Төймә',
-		typeSbm: 'Submit', // MISSING
+		typeSbm: 'Җибәрү',
 		typeRst: 'Кире кайтару'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'Checkbox Properties', // MISSING
-		radioTitle: 'Radio Button Properties', // MISSING
+		radioTitle: 'Радио төймə үзлекләре',
 		value: 'Күләм',
-		selected: 'Сайланган'
+		selected: 'Сайланган',
+		required: 'Мәҗбүри'
 	},
 	form: {
 		title: 'Форма үзлекләре',
@@ -31,12 +32,13 @@ CKEDITOR.plugins.setLang( 'forms', 'tt', {
 	},
 	select: {
 		title: 'Selection Field Properties', // MISSING
-		selectInfo: 'Select Info', // MISSING
+		selectInfo: 'Информацияне сайлау',
 		opAvail: 'Мөмкин булган көйләүләр',
 		value: 'Күләм',
 		size: 'Зурлык',
 		lines: 'юллар',
 		chkMulti: 'Allow multiple selections', // MISSING
+		required: 'Мәҗбүри',
 		opText: 'Текст',
 		opValue: 'Күләм',
 		btnAdd: 'Кушу',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'tt', {
 		value: 'Күләм',
 		charWidth: 'Символлар киңлеге',
 		maxChars: 'Maximum Characters', // MISSING
+		required: 'Мәҗбүри',
 		type: 'Төр',
 		typeText: 'Текст',
 		typePass: 'Сер сүз',

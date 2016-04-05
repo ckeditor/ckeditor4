@@ -1,26 +1,25 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'de', {
-	alertUrl: 'Bitte geben Sie die Bild-URL an',
 	alt: 'Alternativer Text',
 	border: 'Rahmen',
 	btnUpload: 'Zum Server senden',
-	button2Img: 'Möchten Sie den gewählten Bild-Button in ein einfaches Bild umwandeln?',
+	button2Img: 'Möchten Sie die ausgewählte Bildschaltfläche in ein einfaches Bild umwandeln?',
 	hSpace: 'Horizontal-Abstand',
-	img2Button: 'Möchten Sie das gewählten Bild in einen Bild-Button umwandeln?',
-	infoTab: 'Bild-Info',
+	img2Button: 'Möchten Sie das ausgewählte Bild in eine Bildschaltfläche umwandeln?',
+	infoTab: 'Bildinfo',
 	linkTab: 'Link',
 	lockRatio: 'Größenverhältnis beibehalten',
-	menu: 'Bild-Eigenschaften',
+	menu: 'Bildeigenschaften',
 	resetSize: 'Größe zurücksetzen',
-	title: 'Bild-Eigenschaften',
-	titleButton: 'Bildbutton-Eigenschaften',
+	title: 'Bildeigenschaften',
+	titleButton: 'Bildschaltflächeneigenschaften',
 	upload: 'Hochladen',
-	urlMissing: 'Imagequelle URL fehlt.',
+	urlMissing: 'Bildquellen-URL fehlt.',
 	vSpace: 'Vertikal-Abstand',
-	validateBorder: 'Rahmen muß eine ganze Zahl sein.',
-	validateHSpace: 'Horizontal-Abstand muß eine ganze Zahl sein.',
-	validateVSpace: 'Vertikal-Abstand muß eine ganze Zahl sein.'
+	validateBorder: 'Rahmen muss eine ganze Zahl sein.',
+	validateHSpace: 'Horizontal-Abstand muss eine ganze Zahl sein.',
+	validateVSpace: 'Vertikal-Abstand muss eine ganze Zahl sein.'
 } );

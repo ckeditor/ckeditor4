@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'km', {
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'km', {
 	anchorName: 'តាម​ឈ្មោះ​យុថ្កា',
 	charset: 'លេខកូតអក្សររបស់ឈ្នាប់',
 	cssClasses: 'Stylesheet Classes',
+	download: 'Force Download', // MISSING
 	emailAddress: 'អាសយដ្ឋាន​អ៊ីមែល',
 	emailBody: 'តួ​អត្ថបទ',
 	emailSubject: 'ប្រធានបទ​សារ',

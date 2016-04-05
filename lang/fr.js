@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -31,7 +31,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		browseServer: 'Explorer le serveur',
 		url: 'URL',
 		protocol: 'Protocole',
-		upload: 'Envoyer',
+		upload: 'Télécharger',
 		uploadSubmit: 'Envoyer sur le serveur',
 		image: 'Image',
 		flash: 'Flash',

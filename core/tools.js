@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -19,11 +19,26 @@
 		gtRegex = />/g,
 		ltRegex = /</g,
 		quoteRegex = /"/g,
+		tokenCharset = 'abcdefghijklmnopqrstuvwxyz0123456789',
+		TOKEN_COOKIE_NAME = 'ckCsrfToken',
+		TOKEN_LENGTH = 40,
 
-		ampEscRegex = /&amp;/g,
-		gtEscRegex = /&gt;/g,
-		ltEscRegex = /&lt;/g,
-		quoteEscRegex = /&quot;/g;
+		allEscRegex = /&(lt|gt|amp|quot|nbsp|shy|#\d{1,5});/g,
+		namedEntities = {
+			lt: '<',
+			gt: '>',
+			amp: '&',
+			quot: '"',
+			nbsp: '\u00a0',
+			shy: '\u00ad'
+		},
+		allEscDecode = function( match, code ) {
+			if ( code[ 0 ] == '#' ) {
+				return String.fromCharCode( parseInt( code.slice( 1 ), 10 ) );
+			} else {
+				return namedEntities[ code ];
+			}
+		};
 
 	CKEDITOR.on( 'reset', function() {
 		functions = [];
@@ -69,7 +84,7 @@
 		},
 
 		/**
-		 * Finds index of the first element in array for which the `compareFunction` returns `true`.
+		 * Finds the index of the first element in an array for which the `compareFunction` returns `true`.
 		 *
 		 *		CKEDITOR.tools.getIndex( [ 1, 2, 4, 3, 5 ], function( el ) {
 		 *			return el >= 3;
@@ -354,19 +369,32 @@
 		 * @returns {String} The encoded string.
 		 */
 		htmlEncode: function( text ) {
+			// Backwards compatibility - accept also non-string values (casting is done below).
+			// Since 4.4.8 we return empty string for null and undefined because these values make no sense.
+			if ( text === undefined || text === null ) {
+				return '';
+			}
+
 			return String( text ).replace( ampRegex, '&amp;' ).replace( gtRegex, '&gt;' ).replace( ltRegex, '&lt;' );
 		},
 
 		/**
-		 * Decodes HTML entities.
+		 * Decodes HTML entities that browsers tend to encode when used in text nodes.
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecode( '&lt;a &amp; b &gt;' ) ); // '<a & b >'
+		 *
+		 * Read more about chosen entities in the [research](http://dev.ckeditor.com/ticket/13105#comment:8).
 		 *
 		 * @param {String} The string to be decoded.
 		 * @returns {String} The decoded string.
 		 */
 		htmlDecode: function( text ) {
-			return text.replace( ampEscRegex, '&' ).replace( gtEscRegex, '>' ).replace( ltEscRegex, '<' );
+			// See:
+			// * http://dev.ckeditor.com/ticket/13105#comment:8 and comment:9,
+			// * http://jsperf.com/wth-is-going-on-with-jsperf JSPerf has some serious problems, but you can observe
+			// that combined regexp tends to be quicker (except on V8). It will also not be prone to fail on '&amp;lt;'
+			// (see http://dev.ckeditor.com/ticket/13105#DXWTF:CKEDITOR.tools.htmlEnDecodeAttr).
+			return text.replace( allEscRegex, allEscDecode );
 		},
 
 		/**
@@ -378,29 +406,30 @@
 		 * @returns {String} The encoded value.
 		 */
 		htmlEncodeAttr: function( text ) {
-			return text.replace( quoteRegex, '&quot;' ).replace( ltRegex, '&lt;' ).replace( gtRegex, '&gt;' );
+			return CKEDITOR.tools.htmlEncode( text ).replace( quoteRegex, '&quot;' );
 		},
 
 		/**
-		 * Replace HTML entities previously encoded by
-		 * {@link #htmlEncodeAttr htmlEncodeAttr} back to their plain character
-		 * representation.
+		 * Decodes HTML entities that browsers tend to encode when used in attributes.
 		 *
 		 *		alert( CKEDITOR.tools.htmlDecodeAttr( '&lt;a &quot; b&gt;' ) ); // '<a " b>'
+		 *
+		 * Since CKEditor 4.5 this method simply executes {@link #htmlDecode} which covers
+		 * all necessary entities.
 		 *
 		 * @param {String} text The text to be decoded.
 		 * @returns {String} The decoded text.
 		 */
 		htmlDecodeAttr: function( text ) {
-			return text.replace( quoteEscRegex, '"' ).replace( ltEscRegex, '<' ).replace( gtEscRegex, '>' );
+			return CKEDITOR.tools.htmlDecode( text );
 		},
 
 		/**
-		 * Transforms text to the valid HTML: creates paragraphs, replaces tabs with no breaking spaces etc..
+		 * Transforms text to valid HTML: creates paragraphs, replaces tabs with non-breaking spaces etc.
 		 *
 		 * @since 4.5
 		 * @param {String} text Text to transform.
-		 * @param {Number} enterMode Editors {@link CKEDITOR.config#enterMode enter mode}.
+		 * @param {Number} enterMode Editor {@link CKEDITOR.config#enterMode Enter mode}.
 		 * @returns {String} HTML generated from the text.
 		 */
 		transformPlainTextToHtml: function( text, enterMode ) {
@@ -477,8 +506,8 @@
 
 		/**
 		 * Gets a universally unique ID. It returns a random string
-		 * up to ISO/IEC 11578:1996, without dashes, with the "e" prefix to
-		 * make sure that ID does not starts with number.
+		 * compliant with ISO/IEC 11578:1996, without dashes, with the "e" prefix to
+		 * make sure that the ID does not start with a number.
 		 *
 		 * @returns {String} A global unique ID.
 		 */
@@ -518,14 +547,14 @@
 		},
 
 		/**
-		 * Executes a function after specified delay.
+		 * Executes a function after a specified delay.
 		 *
 		 *		CKEDITOR.tools.setTimeout( function() {
 		 *			alert( 'Executed after 2 seconds' );
 		 *		}, 2000 );
 		 *
 		 * @param {Function} func The function to be executed.
-		 * @param {Number} [milliseconds=0] The amount of time (in millisecods) to wait
+		 * @param {Number} [milliseconds=0] The amount of time (in milliseconds) to wait
 		 * to fire the function execution.
 		 * @param {Object} [scope=window] The object to store the function execution scope
 		 * (the `this` object).
@@ -1269,8 +1298,89 @@
 		 * @since 4.4
 		 * @readonly
 		 */
-		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw=='
+		transparentImageData: 'data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==',
+
+
+		/**
+		 * Returns the value of the cookie with a given name or `null` if the cookie is not found.
+		 *
+		 * @since 4.5.6
+		 * @param {String} name
+		 * @returns {String}
+		 */
+		getCookie: function( name ) {
+			name = name.toLowerCase();
+			var parts = document.cookie.split( ';' );
+			var pair, key;
+
+			for ( var i = 0; i < parts.length; i++ ) {
+				pair = parts[ i ].split( '=' );
+				key = decodeURIComponent( CKEDITOR.tools.trim( pair[ 0 ] ).toLowerCase() );
+
+				if ( key === name ) {
+					return decodeURIComponent( pair.length > 1 ? pair[ 1 ] : '' );
+				}
+			}
+
+			return null;
+		},
+
+		/**
+		 * Sets the value of the cookie with a given name.
+		 *
+		 * @since 4.5.6
+		 * @param {String} name
+		 * @param {String} value
+		 */
+		setCookie: function( name, value ) {
+			document.cookie = encodeURIComponent( name ) + '=' + encodeURIComponent( value ) + ';path=/';
+		},
+
+		/**
+		 * Returns the CSRF token value. The value is a hash stored in `document.cookie`
+		 * under the `ckCsrfToken` key. The CSRF token can be used to secure the communication
+		 * between the web browser and the server, i.e. for the file upload feature in the editor.
+		 *
+		 * @since 4.5.6
+		 * @returns {String}
+		 */
+		getCsrfToken: function() {
+			var token = CKEDITOR.tools.getCookie( TOKEN_COOKIE_NAME );
+
+			if ( !token || token.length != TOKEN_LENGTH ) {
+				token = generateToken( TOKEN_LENGTH );
+				CKEDITOR.tools.setCookie( TOKEN_COOKIE_NAME, token );
+			}
+
+			return token;
+		}
 	};
+
+	// Generates a CSRF token with a given length.
+	//
+	// @since 4.5.6
+	// @param {Number} length
+	// @returns {string}
+	function generateToken( length ) {
+		var randValues = [];
+		var result = '';
+
+		if ( window.crypto && window.crypto.getRandomValues ) {
+			randValues = new Uint8Array( length );
+			window.crypto.getRandomValues( randValues );
+		} else {
+			for ( var i = 0; i < length; i++ ) {
+				randValues.push( Math.floor( Math.random() * 256 ) );
+			}
+		}
+
+		for ( var j = 0; j < randValues.length; j++ ) {
+			var character = tokenCharset.charAt( randValues[ j ] % tokenCharset.length );
+			result += Math.random() > 0.5 ? character.toUpperCase() : character;
+		}
+
+		return result;
+	}
 } )();
 
 // PACKAGER_RENAME( CKEDITOR.tools )

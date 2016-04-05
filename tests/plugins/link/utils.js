@@ -70,12 +70,14 @@
 				'data-cke-pa-onclick',
 				'data-cke-saved-name',
 				'onclick',
-				'target'
+				'target',
+				'download'
 			] );
 		},
 
 		'test link attributes - complex': function() {
-			var html = '<a accesskey="b" charset="i" class="h" dir="rtl" href="http://x" id="a" lang="d" name="c" rel="j" style="margin-right: 0px;" tabindex="e" target="a" title="f" type="g">foo</a>';
+			var html = '<a accesskey="b" charset="i" class="h" dir="rtl" href="http://x" id="a" lang="d" name="c" ' +
+				'rel="j" style="margin-right: 0px;" tabindex="e" target="a" title="f" type="g" download="">foo</a>';
 
 			assertLink( this.editorBot, html,
 				{
@@ -88,6 +90,7 @@
 						type: 'frame',
 						name: 'a'
 					},
+					download: true,
 					advanced: {
 						advId: 'a',
 						advLangDir: 'rtl',
@@ -105,6 +108,7 @@
 				}, {
 					'data-cke-saved-href': 'http://x',
 					target: 'a',
+					download: '',
 					id: 'a',
 					dir: 'rtl',
 					accessKey: 'b',
@@ -127,7 +131,7 @@
 		},
 
 		'test link attributes - complex (partial)': function() {
-			var html = '<a accesskey="b" charset="i" class="h" dir="rtl" href="http://x" id="a" name="c" rel="j" style="margin-right: 0px;" target="a" title="f" type="g">foo</a>';
+			var html = '<a accesskey="b" charset="i" class="h" dir="rtl" href="http://x" id="a" name="c" rel="j" style="margin-right: 0px;" target="a" title="f" type="g" download="">foo</a>';
 
 			assertLink( this.editorBot, html,
 				{
@@ -140,6 +144,7 @@
 						type: 'frame',
 						name: 'a'
 					},
+					download: true,
 					advanced: {
 						advId: 'a',
 						advLangDir: 'rtl',
@@ -155,6 +160,7 @@
 				}, {
 					'data-cke-saved-href': 'http://x',
 					target: 'a',
+					download: '',
 					id: 'a',
 					dir: 'rtl',
 					accessKey: 'b',
@@ -195,7 +201,8 @@
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
 					'onclick',
-					'target'
+					'target',
+					'download'
 				] );
 		},
 
@@ -217,7 +224,8 @@
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
 					'onclick',
-					'target'
+					'target',
+					'download'
 				] );
 		},
 
@@ -239,7 +247,8 @@
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
 					'onclick',
-					'target'
+					'target',
+					'download'
 				] );
 		},
 
@@ -279,7 +288,8 @@
 				[
 					'data-cke-saved-name',
 					'onclick',
-					'target'
+					'target',
+					'download'
 				] );
 		},
 
@@ -305,7 +315,8 @@
 				[
 					'data-cke-pa-onclick',
 					'data-cke-saved-name',
-					'onclick'
+					'onclick',
+					'download'
 				] );
 		}
 	} );

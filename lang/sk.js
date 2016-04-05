@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -26,9 +26,9 @@ CKEDITOR.lang[ 'sk' ] = {
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Stlačte ALT 0 pre nápovedu',
+		editorHelp: 'Stlačením ALT 0 spustiť pomocníka',
 
-		browseServer: 'Prechádzať server',
+		browseServer: 'Prehliadať server',
 		url: 'URL',
 		protocol: 'Protokol',
 		upload: 'Odoslať',
@@ -36,7 +36,7 @@ CKEDITOR.lang[ 'sk' ] = {
 		image: 'Obrázok',
 		flash: 'Flash',
 		form: 'Formulár',
-		checkbox: 'Zaškrtávacie políčko',
+		checkbox: 'Zaškrtávacie pole',
 		radio: 'Prepínač',
 		textField: 'Textové pole',
 		textarea: 'Textová oblasť',
@@ -62,7 +62,7 @@ CKEDITOR.lang[ 'sk' ] = {
 		resize: 'Zmeniť veľkosť',
 		generalTab: 'Hlavné',
 		advancedTab: 'Rozšírené',
-		validateNumberFailed: 'Hodnota nieje číslo.',
+		validateNumberFailed: 'Hodnota nie je číslo.',
 		confirmNewPage: 'Prajete si načítat novú stránku? Všetky neuložené zmeny budú stratené. ',
 		confirmCancel: 'Niektore možnosti boli zmenené. Naozaj chcete zavrieť okno?',
 		options: 'Možnosti',
