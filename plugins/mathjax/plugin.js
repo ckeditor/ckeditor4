@@ -441,7 +441,7 @@
  * Read more in the [documentation](#!/guide/dev_mathjax)
  * and see the [SDK sample](http://sdk.ckeditor.com/samples/mathjax.html).
  *
- *		config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML';
+ *		config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS_HTML';
  *
  * **Note:** Since CKEditor 4.5 this option does not have a default value, so it must
  * be set in order to enable the MathJax plugin.
