@@ -19,6 +19,8 @@
 		ATTRTYPE_PARAM = 2,
 		ATTRTYPE_EMBED = 4;
 
+	var config = {};
+
 	var attributesMap = {
 		id: [ {
 			type: ATTRTYPE_OBJECT, name: 'id'
@@ -95,6 +97,12 @@
 	names = [ 'play', 'loop', 'menu' ];
 	for ( i = 0; i < names.length; i++ )
 		attributesMap[ names[ i ] ][ 0 ][ 'default' ] = attributesMap[ names[ i ] ][ 1 ][ 'default' ] = true;
+
+	function isFlv(src) {
+		var flashFilenameRegex = /\.flv(?:$|\?)/i;
+
+		return flashFilenameRegex.test(src);
+	}
 
 	function loadValue( objectNode, embedNode, paramMap ) {
 		var attributes = attributesMap[ this.id ];
@@ -199,8 +207,11 @@
 					value = this.getValue();
 					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] )
 						embedNode.removeAttribute( attrDef.name );
-					else {
-						embedNode.setAttribute( attrDef.name, value );
+					else if (attrDef.name === 'src' && isFlv(value)) {
+						embedNode.setAttribute(attrDef.name, config.flash_flvPlayer);
+						embedNode.setAttribute('flashvars', 'file=' + value + '&link=' + value);
+					} else {
+					    embedNode.setAttribute( attrDef.name, value );
 					}
 			}
 		}
@@ -209,6 +220,8 @@
 	CKEDITOR.dialog.add( 'flash', function( editor ) {
 		var makeObjectTag = !editor.config.flashEmbedTagOnly,
 			makeEmbedTag = editor.config.flashAddEmbedTag || editor.config.flashEmbedTagOnly;
+
+		config = editor.config;
 
 		var previewPreloader,
 			previewAreaHtml = '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.common.preview ) + '<br>' +
@@ -340,8 +353,25 @@
 									updatePreview = function( src ) {
 										// Query the preloader to figure out the url impacted by based href.
 										previewPreloader.setAttribute( 'src', src );
-										dialog.preview.setHtml( '<embed height="100%" width="100%" src="' + CKEDITOR.tools.htmlEncode( previewPreloader.getAttribute( 'src' ) ) +
-											'" type="application/x-shockwave-flash"></embed>' );
+
+										var embed = document.createElement('embed');
+										embed.setAttribute('allowfullscreen', 'true');
+										embed.setAttribute('type', 'application/x-shockwave-flash');
+										embed.setAttribute('quality', 'high');
+										embed.setAttribute('height', '100%');
+										embed.setAttribute('width', '100%');
+
+										if (isFlv(src)) {
+											embed.setAttribute(
+												'flashvars',
+												CKEDITOR.tools.htmlEncode('file=' + src + '&link=' + src + '&height=100%&width=100%')
+											);
+											embed.setAttribute('src', CKEDITOR.tools.htmlEncode(config.flash_flvPlayer));
+										} else {
+											embed.setAttribute('src', CKEDITOR.tools.htmlEncode(previewPreloader.getAttribute('src')));
+										}
+
+										dialog.preview.setHtml(embed.outerHTML);
 									};
 								// Preview element
 								dialog.preview = dialog.getContentElement( 'info', 'preview' ).getElement().getChild( 3 );
