@@ -11,7 +11,6 @@ CKEDITOR.editorConfig = function( config ) {
 	config.plugins =
 		'about,' +
 		'a11yhelp,' +
-		'balloonpanel,' +
 		'basicstyles,' +
 		'bidi,' +
 		'blockquote,' +
