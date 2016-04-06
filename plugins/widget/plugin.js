@@ -2791,10 +2791,15 @@
 					// contenteditable="true" attribute) (#11372).
 					editables = toBeDowncasted[ toBeDowncasted.length - 1 ].editables;
 					editableType = attrs[ 'data-cke-widget-editable' ];
-					if ( !(editableType in editables) ) {
-						editables[ editableType ] = [];
+
+					if ( attrs[ 'data-cke-editable-index' ] ) {
+						if ( !(editableType in editables) ) {
+							editables[ editableType ] = [];
+						}
+						editables[ editableType ][ attrs[ 'data-cke-editable-index' ] ] = element;
+					} else {
+						editables[ editableType ] = element;
 					}
-					editables[ editableType ][ attrs[ 'data-cke-editable-index' ] ] = element;
 
 					// Don't check children - there won't be next wrapper or nested editable which we
 					// should process in this session.
@@ -2811,7 +2816,7 @@
 				return;
 
 			var toBeDowncasted = downcastingSessions[ evt.data.downcastingSessionId ],
-				toBe, widget, widgetElement, retElement, editableElement, editableType, editables;
+				toBe, widget, widgetElement, retElement, editableElement, e;
 
 			while ( ( toBe = toBeDowncasted.shift() ) ) {
 				widget = toBe.widget;
@@ -2819,14 +2824,18 @@
 				retElement = widget._.downcastFn && widget._.downcastFn.call( widget, widgetElement );
 
 				// Replace nested editables' content with their output data.
-				for ( editableType in toBe.editables ) {
-					if (toBe.editables.hasOwnProperty( editableType )) {
-						editables = toBe.editables[ editableType ];
-						for ( var i = 0; i < editables.length; i++) {
-							editableElement = editables[i];
+				for ( e in toBe.editables ) {
+					editableElement = toBe.editables[ e ];
+
+					if ( CKEDITOR.tools.isArray( editableElement ) ) {
+						for ( var i = 0; i < editableElement.length; i++) {
+							editableElement = editableElement[i];
 							delete editableElement.attributes.contenteditable;
-							editableElement.setHtml( widget.editables[ editableType ][ i ].getData() );
+							editableElement.setHtml( widget.editables[ e ][ i ].getData() );
 						}
+					} else {
+						delete editableElement.attributes.contenteditable;
+						editableElement.setHtml( widget.editables[ e ].getData() );
 					}
 				}
 
