@@ -1873,6 +1873,7 @@
 	//
 	// TRANSFORMATIONS --------------------------------------------------------
 	//
+	var transformationsTools;
 
 	// Apply given transformations group to the element.
 	function applyTransformationsGroup( filter, element, group ) {
@@ -2021,7 +2022,7 @@
 	 * @class CKEDITOR.filter.transformationsTools
 	 * @singleton
 	 */
-	var transformationsTools = CKEDITOR.filter.transformationsTools = {
+	transformationsTools = CKEDITOR.filter.transformationsTools = {
 		/**
 		 * Converts `width` and `height` attributes to styles.
 		 *
