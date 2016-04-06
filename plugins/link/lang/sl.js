@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'sl', {
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'sl', {
 	anchorName: 'Po imenu zaznamka',
 	charset: 'Kodna tabela povezanega vira',
 	cssClasses: 'Razred stilne predloge',
+	download: 'Force Download', // MISSING
 	emailAddress: 'Elektronski naslov',
 	emailBody: 'Vsebina sporočila',
 	emailSubject: 'Predmet sporočila',

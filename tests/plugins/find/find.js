@@ -60,5 +60,24 @@ bender.test( {
 
 			assert.areSame( '<p>bar&nbsp;bar</p><p>barbaz</p>', bot.getData( false, true ) );
 		} );
+	},
+
+	// #12848
+	'test find in read-only mode': function() {
+		var bot = this.editorBot;
+
+		bot.setData( '<p>example text</p>', function() {
+			bot.editor.setReadOnly( true );
+
+			bot.dialog( 'find', function( dialog ) {
+				dialog.setValueOf( 'find', 'txtFindFind', 'example' );
+				dialog.getContentElement( 'find', 'btnFind' ).click();
+
+				bot.editor.setReadOnly( false );
+
+				assert.areSame( '<p><span title="highlight">example</span> text</p>', bot.getData( true ) );
+				dialog.getButton( 'cancel' ).click();
+			} );
+		} );
 	}
 } );

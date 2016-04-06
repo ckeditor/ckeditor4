@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'sk', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'sk', {
 		checkboxTitle: 'Vlastnosti zaškrtávacieho políčka',
 		radioTitle: 'Vlastnosti prepínača (radio button)',
 		value: 'Hodnota',
-		selected: 'Vybrané (selected)'
+		selected: 'Vybrané (selected)',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Vlastnosti formulára',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sk', {
 		size: 'Veľkosť',
 		lines: 'riadkov',
 		chkMulti: 'Povoliť viacnásobný výber',
+		required: 'Required', // MISSING
 		opText: 'Text',
 		opValue: 'Hodnota',
 		btnAdd: 'Pridať',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sk', {
 		value: 'Hodnota',
 		charWidth: 'Šírka poľa (podľa znakov)',
 		maxChars: 'Maximálny počet znakov',
+		required: 'Required', // MISSING
 		type: 'Typ',
 		typeText: 'Text',
 		typePass: 'Heslo',

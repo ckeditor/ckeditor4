@@ -619,10 +619,17 @@
 			filter( '<p>X<a name="x">A</a>X</p>',					'<p>X<a name="x">A</a>X</p>' );
 			filter( '<p>X<a name="x"><img src="x" /></a>X</p>',		'<p>X<a name="x"></a>X</p>' );
 			filter( '<p>X<a href="x" name="x">A</a>X</p>',			'<p>X<a name="x">A</a>X</p>' );
-			// Empty <a> element isn't correct unless it is an anchor (has non-empty name attrbiute).
+			// Empty <a> element isn't correct unless it is an anchor (has non-empty name or id attrbiute).
 			// This behaviour conforms to the htmlDP's htmlFilter.
 			filter( '<p>X<a href="x" name=""></a>X</p>',			'<p>XX</p>' );
 			filter( '<p>X<a name="x" href="x"><img /></a>X</p>',	'<p>X<a name="x"></a>X</p>' );
+
+			filter = createFilter( 'p; a[!id]' );
+			filter( '<p>X<a name="x"></a>X</p>',					'<p>XX</p>' );
+			filter( '<p>X<a id=""></a>X</p>',						'<p>XX</p>' );
+			filter( '<p>X<a id="x"></a>X</p>',						'<p>X<a id="x"></a>X</p>' );
+			filter( '<p>X<a id="x" name="x"></a>X</p>',				'<p>X<a id="x"></a>X</p>' );
+			filter( '<p>X<a id="x" name="x">foo</a>X</p>',			'<p>X<a id="x">foo</a>X</p>' );
 
 			filter = createFilter( 'p; a[!href]' );
 
@@ -718,6 +725,8 @@
 				'<p>X<!--{cke_protected}{C}%3C!%2D%2Dfoo%2D%2D%3E-->Y</p>',								'leave real comment' );
 			t( '<p>X<? echo 1; ?>Y</p>',
 				'<p>X<!--{cke_protected}%3C%3F%20echo%201%3B%20%3F%3E-->Y</p>',							'leave entire PHP code' );
+			t( '<script>alert(1);',									'@',								'strip entire script (no closing)' );
+			t( '<script><iframe src="foo"></iframe>',				'@',								'strip entire script (no closing, iframe inside)' );
 		},
 
 		'test leave protected elements': function() {
@@ -731,6 +740,14 @@
 				'<p>X<!--{cke_protected}{C}%3C!%2D%2Dfoo%2D%2D%3E-->Y</p>',								'leave real comment' );
 			t( '<p>X<? echo 1; ?>Y</p>',
 				'<p>X<!--{cke_protected}%3C%3F%20echo%201%3B%20%3F%3E-->Y</p>',							'leave entire PHP code' );
+		},
+
+		// #13393
+		// The script's body may not be encoded if htmlDP was not used or if the encoding didn't work.
+		'test script removed completely when its body is not encoded': function() {
+			var filter = createFilter( 'p', false );
+
+			filter( '<p>X<script>alert(1);</scr' + 'ipt>X</p>',		'<p>XX</p>',						'strip whole element' );
 		},
 
 		'test strip entire elements which may contain cdata': function() {

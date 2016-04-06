@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'de', {
@@ -7,14 +7,14 @@ CKEDITOR.plugins.setLang( 'image2', 'de', {
 	btnUpload: 'Zum Server senden',
 	captioned: 'Bild mit Überschrift',
 	captionPlaceholder: 'Überschrift',
-	infoTab: 'Bild-Info',
+	infoTab: 'Bildinfo',
 	lockRatio: 'Größenverhältnis beibehalten',
-	menu: 'Bild-Eigenschaften',
+	menu: 'Bildeigenschaften',
 	pathName: 'Bild',
 	pathNameCaption: 'Überschrift',
 	resetSize: 'Größe zurücksetzen',
-	resizer: 'Zum vergrößern anwählen und ziehen',
+	resizer: 'Zum Vergrößern auswählen und ziehen',
 	title: 'Bild-Eigenschaften',
 	uploadTab: 'Hochladen',
-	urlMissing: 'Imagequelle URL fehlt.'
+	urlMissing: 'Bildquellen-URL fehlt.'
 } );

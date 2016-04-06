@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'sk', {
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'sk', {
 	anchorName: 'Podľa mena kotvy',
 	charset: 'Priradená znaková sada',
 	cssClasses: 'Triedy štýlu',
+	download: 'Force Download', // MISSING
 	emailAddress: 'E-Mailová adresa',
 	emailBody: 'Telo správy',
 	emailSubject: 'Predmet správy',

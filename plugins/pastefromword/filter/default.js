@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -157,7 +157,6 @@
 		}
 	}
 
-	var cssLengthRelativeUnit = /^([.\d]*)+(em|ex|px|gd|rem|vw|vh|vm|ch|mm|cm|in|pt|pc|deg|rad|ms|s|hz|khz){1}?/i;
 	var emptyMarginRegex = /^(?:\b0[^\s]*\s*){1,4}$/; // e.g. 0px 0pt 0px
 	var romanLiternalPattern = '^m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})$',
 		lowerRomanLiteralRegex = new RegExp( romanLiternalPattern ),
@@ -337,7 +336,17 @@
 						var attributes = child.attributes,
 							listItemChildren = child.children,
 							count = listItemChildren.length,
+							first = listItemChildren[ 0 ],
 							last = listItemChildren[ count - 1 ];
+
+						// Converts <li><p style="_MSO_LIST_STYLES_">{...}</p></li> -> <li style="_MSO_LIST_STYLES_">{...}</li>.
+						// The above format is what we got when pasting from Word 2010 to IE11 and possibly some others.
+						// Existence of extra <p> tag that can be later recognized as list item (see #getRules.return.elements.p)
+						// creates incorrect and problematic structures similar to <cke:li><cke:li>{...}</cke:li></cke:li>. (#11376)
+						if ( first.attributes && first.attributes.style && first.attributes.style.indexOf( 'mso-list' ) > -1 ) {
+							child.attributes.style = first.attributes.style;
+							first.replaceWithChildren();
+						}
 
 						// Move out nested list.
 						if ( last.name in CKEDITOR.dtd.$list ) {
@@ -355,7 +364,9 @@
 
 						plugin.filters.stylesFilter( [
 							[ 'tab-stops', null, function( val ) {
-								var margin = val.split( ' ' )[ 1 ].match( cssLengthRelativeUnit );
+								// val = [left|center|right|decimal] <value><unit> Source: W3C, WD-tabs-970117.
+								// In some cases the first word is missing - hence the square brackets.
+								var margin = val.match( /0$|\d+\.?\d*\w+/ );
 								margin && ( previousListItemMargin = CKEDITOR.tools.convertToPx( margin[ 0 ] ) );
 							} ],
 							( level == 1 ? [ 'mso-list', null, function( val ) {
@@ -802,7 +813,8 @@
 						// that doesn't include "mso-list:Ignore" on list bullets,
 						// note it's not perfect as not all list style (e.g. "heading list") is shipped
 						// with this pattern. (#6662)
-						if ( ( /MsoListParagraph/i ).exec( element.attributes[ 'class' ] ) || element.getStyle( 'mso-list' ) ) {
+						if ( ( /MsoListParagraph/i ).exec( element.attributes[ 'class' ] ) ||
+							( element.getStyle( 'mso-list' ) && !element.getStyle( 'mso-list' ).match( /^(none|skip)$/i ) ) ) {
 							var bulletText = element.firstChild( function( node ) {
 								return node.type == CKEDITOR.NODE_TEXT && !containsNothingButSpaces( node.parent );
 							} );
@@ -974,6 +986,12 @@
 					// Remove full paths from links to anchors.
 					a: function( element ) {
 						var attrs = element.attributes;
+
+						if ( attrs.name && attrs.name.match( /ole_link\d+/i ) ) {
+							delete element.name;
+							return;
+						}
+
 						if ( attrs.href && attrs.href.match( /^file:\/\/\/[\S]+#/i ) )
 							attrs.href = attrs.href.replace( /^file:\/\/\/[^#]+/i, '' );
 					},

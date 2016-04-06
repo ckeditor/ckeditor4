@@ -8,7 +8,7 @@
 
 #### Expected result:
 
-**Chrome:** Selected text should be copied into clipboard and pasted into editor. Notifications should be opened for copy and paste.
+**Chrome, Edge, Opera:** Selected text should be copied into clipboard and pasted into editor. Notifications should be opened for copy and paste.
 
 **IE:** A security alert may be displayed &ndash; confirm it. After confirming it everything should be the same as in Chrome.
 
@@ -29,6 +29,6 @@ The same as above.
 
 #### Expected result:
 
-**IE:** A security alert may be displayed &ndash; confirm it. After confirming the content should be pasted.
+**IE (not Edge):** A security alert may be displayed &ndash; confirm it. After confirming the content should be pasted.
 
 **Other browsers:** The paste dialog should be displyed.

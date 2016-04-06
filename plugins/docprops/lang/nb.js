@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'nb', {
@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'nb', {
 	charsetASCII: 'ASCII',
 	charsetCE: 'Sentraleuropeisk',
 	charsetCR: 'Kyrillisk',
-	charsetCT: 'Tradisonell kinesisk(Big5)',
+	charsetCT: 'Tradisonell kinesisk (Big5)',
 	charsetGR: 'Gresk',
 	charsetJP: 'Japansk',
 	charsetKR: 'Koreansk',

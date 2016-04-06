@@ -1,7 +1,7 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'removeformat', 'ko', {
-	toolbar: '포맷 지우기'
+	toolbar: '형식 지우기'
 } );

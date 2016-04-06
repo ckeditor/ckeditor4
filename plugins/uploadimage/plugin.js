@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -26,9 +26,14 @@
 			var fileTools = CKEDITOR.fileTools,
 				uploadUrl = fileTools.getUploadUrl( editor.config, 'image' );
 
+			if ( !uploadUrl ) {
+				CKEDITOR.error( 'uploadimage-config' );
+				return;
+			}
+
 			// Handle images which are available in the dataTransfer.
 			fileTools.addUploadWidget( editor, 'uploadimage', {
-				supportedTypes: /image\/(jpeg|png|gif)/,
+				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
 				uploadUrl: uploadUrl,
 
@@ -85,7 +90,7 @@
 
 					// We are not uploading images in non-editable blocs and fake objects (#13003).
 					if ( isDataInSrc && isRealObject && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
-						var loader = editor.uploadsRepository.create( img.getAttribute( 'src' ) );
+						var loader = editor.uploadRepository.create( img.getAttribute( 'src' ) );
 						loader.upload( uploadUrl );
 
 						fileTools.markElement( img, 'uploadimage', loader.id );
@@ -105,7 +110,7 @@
 	// jscs:enable maximumLineLength
 
 	/**
-	 * URL where images should be uploaded.
+	 * The URL where images should be uploaded.
 	 *
 	 * @since 4.5
 	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]

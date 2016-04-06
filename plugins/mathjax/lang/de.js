@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'mathjax', 'de', {
@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'mathjax', 'de', {
 	button: 'Rechnung',
 	dialogInput: 'Schreiben Sie hier in Tex',
 	docUrl: 'http://en.wikibooks.org/wiki/LaTeX/Mathematics',
-	docLabel: 'Tex Dokumentation',
-	loading: 'lädt...',
+	docLabel: 'TeX-Dokumentation',
+	loading: 'Ladevorgang...',
 	pathName: 'rechnen'
 } );

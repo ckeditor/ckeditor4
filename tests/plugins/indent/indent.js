@@ -703,6 +703,11 @@
 		},
 
 		'test indent next to inline non-editable': function() {
+			// #11242
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				assert.ignore();
+			}
+
 			var t1 = createIndentOutdentTester( this.editors.enterP, '<p><span contenteditable="false">xxx</span>^</p>' );
 
 			t1.s( 2, 0 );

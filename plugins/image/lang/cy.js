@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'cy', {
-	alertUrl: 'Rhowch URL y ddelwedd',
 	alt: 'Testun Amgen',
 	border: 'Ymyl',
 	btnUpload: 'Anfon i\'r Gweinydd',

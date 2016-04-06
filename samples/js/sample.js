@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -24,7 +24,7 @@ var initSample = ( function() {
 		if ( isBBCodeBuiltIn ) {
 			editorElement.setHtml(
 				'Hello world!\n\n' +
-				'I\'m the instance of [url=http://ckeditor.com]CKEditor[/url].'
+				'I\'m an instance of [url=http://ckeditor.com]CKEditor[/url].'
 			);
 		}
 

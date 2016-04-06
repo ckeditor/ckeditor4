@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -267,7 +267,7 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 
 /**
  * Intructs the editor to add a number of spaces (`&nbsp;`) to the text when
- * hitting the *TAB* key. If set to zero, the *TAB* key will be used to move the
+ * hitting the <kbd>Tab</kbd> key. If set to zero, the <kbd>Tab</kbd> key will be used to move the
  * cursor focus to the next element in the page, out of the editor focus.
  *
  *		config.tabSpaces = 4;
@@ -277,14 +277,14 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
  */
 
 /**
- * Allow context-sensitive tab key behaviors, including the following scenarios:
+ * Allow context-sensitive <kbd>Tab</kbd> key behaviors, including the following scenarios:
  *
  * When selection is anchored inside **table cells**:
  *
- * * If *TAB* is pressed, select the contents of the "next" cell. If in the last
+ * * If <kbd>Tab</kbd> is pressed, select the content of the "next" cell. If in the last
  *     cell in the table, add a new row to it and focus its first cell.
- * * If *SHIFT+TAB* is pressed, select the contents of the "previous" cell.
- *     Do nothing when it's in the first cell.
+ * * If <kbd>Shift+Tab</kbd> is pressed, select the content of the "previous" cell.
+ *     Do nothing when it is in the first cell.
  *
  * Example:
  *
@@ -294,7 +294,7 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
  * @member CKEDITOR.config
  */
 
-// If the TAB key is not supposed to be enabled for navigation, the following
+// If the <kbd>Tab</kbd> key is not supposed to be enabled for navigation, the following
 // settings could be used alternatively:
 // config.keystrokes.push(
 //	[ CKEDITOR.ALT + 38 /*Arrow Up*/, 'selectPreviousCell' ],

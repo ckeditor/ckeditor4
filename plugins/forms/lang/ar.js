@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ar', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ar', {
 		checkboxTitle: 'خصائص خانة الإختيار',
 		radioTitle: 'خصائص زر الخيار',
 		value: 'القيمة',
-		selected: 'محدد'
+		selected: 'محدد',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'خصائص النموذج',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ar', {
 		size: 'الحجم',
 		lines: 'الأسطر',
 		chkMulti: 'السماح بتحديدات متعددة',
+		required: 'Required', // MISSING
 		opText: 'النص',
 		opValue: 'القيمة',
 		btnAdd: 'إضافة',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ar', {
 		value: 'القيمة',
 		charWidth: 'عرض السمات',
 		maxChars: 'اقصى عدد للسمات',
+		required: 'Required', // MISSING
 		type: 'نوع المحتوى',
 		typeText: 'نص',
 		typePass: 'كلمة مرور',

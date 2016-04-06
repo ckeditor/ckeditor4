@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -114,6 +114,9 @@
  */
 
 ( function() {
+	// Default input element name for CSRF protection token.
+	var TOKEN_INPUT_NAME = 'ckCsrfToken';
+
 	// Adds (additional) arguments to given url.
 	//
 	// @param {String}
@@ -166,6 +169,35 @@
 		var url = addQueryString( this.filebrowser.url, params );
 		// TODO: V4: Remove backward compatibility (#8163).
 		editor.popup( url, width, height, editor.config.filebrowserWindowFeatures || editor.config.fileBrowserWindowFeatures );
+	}
+
+	// Appends token preventing CSRF attacks to the form of provided file input.
+	//
+	// @since 4.5.6
+	// @param {CKEDITOR.dom.element} fileInput
+	function appendToken( fileInput ) {
+		var tokenElement;
+		var form = new CKEDITOR.dom.element( fileInput.$.form );
+
+		if ( form ) {
+			// Check if token input element already exists.
+			tokenElement = form.$.elements[ TOKEN_INPUT_NAME ];
+
+			// Create new if needed.
+			if ( !tokenElement ) {
+				tokenElement = new CKEDITOR.dom.element( 'input' );
+				tokenElement.setAttributes( {
+					name: TOKEN_INPUT_NAME,
+					type: 'hidden'
+				} );
+
+				form.append( tokenElement );
+			} else {
+				tokenElement = new CKEDITOR.dom.element( tokenElement );
+			}
+
+			tokenElement.setAttribute( 'value', CKEDITOR.tools.getCsrfToken() );
+		}
 	}
 
 	// The onlick function assigned to the 'Upload' button. Makes the final
@@ -271,7 +303,16 @@
 						if ( onClick && onClick.call( sender, evt ) === false )
 							return false;
 
-						return uploadFile.call( sender, evt );
+						if ( uploadFile.call( sender, evt ) ) {
+							var fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement();
+
+							// Append token preventing CSRF attacks.
+							appendToken( fileInput );
+							return true;
+						}
+
+
+						return false;
 					};
 
 					element.filebrowser.url = url;
@@ -376,11 +417,12 @@
 } )();
 
 /**
- * The location of an external file browser that should be launched when the **Browse Server**
+ * The location of an external file manager that should be launched when the **Browse Server**
  * button is pressed. If configured, the **Browse Server** button will appear in the
  * **Link**, **Image**, and **Flash** dialog windows.
  *
- * See the [File Browser/Uploader](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader\)) documentation.
+ * Read more in the [documentation](#!/guide/dev_file_browse_upload)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserBrowseUrl = '/browser/browse.php';
  *
@@ -394,9 +436,14 @@
  * If set, the **Upload** tab will appear in the **Link**, **Image**,
  * and **Flash** dialog windows.
  *
- * See the [File Browser/Uploader](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_(Uploader\)) documentation.
+ * Read more in the [documentation](#!/guide/dev_file_browse_upload)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserUploadUrl = '/uploader/upload.php';
+ *
+ * **Note:** This is a configuration setting for a [file browser/uploader](#!/guide/dev_file_browse_upload).
+ * To configure [uploading dropped or pasted files](#!/guide/dev_file_upload) use the {@link CKEDITOR.config#uploadUrl}
+ * configuration option.
  *
  * @since 3.0
  * @cfg {String} [filebrowserUploadUrl='' (empty string = disabled)]
@@ -404,10 +451,13 @@
  */
 
 /**
- * The location of an external file browser that should be launched when the **Browse Server**
+ * The location of an external file manager that should be launched when the **Browse Server**
  * button is pressed in the **Image** dialog window.
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserBrowseUrl}.
+ *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserImageBrowseUrl = '/browser/browse.php?type=Images';
  *
@@ -422,6 +472,9 @@
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserBrowseUrl}.
  *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ *
  *		config.filebrowserFlashBrowseUrl = '/browser/browse.php?type=Flash';
  *
  * @since 3.0
@@ -434,7 +487,14 @@
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserUploadUrl}.
  *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ *
  *		config.filebrowserImageUploadUrl = '/uploader/upload.php?type=Images';
+ *
+ * **Note:** This is a configuration setting for a [file browser/uploader](#!/guide/dev_file_browse_upload).
+ * To configure [uploading dropped or pasted files](#!/guide/dev_file_upload) use the {@link CKEDITOR.config#uploadUrl}
+ * or {@link CKEDITOR.config#imageUploadUrl} configuration option.
  *
  * @since 3.0
  * @cfg {String} [filebrowserImageUploadUrl='' (empty string = disabled)]
@@ -446,6 +506,9 @@
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserUploadUrl}.
  *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ *
  *		config.filebrowserFlashUploadUrl = '/uploader/upload.php?type=Flash';
  *
  * @since 3.0
@@ -454,10 +517,13 @@
  */
 
 /**
- * The location of an external file browser that should be launched when the **Browse Server**
+ * The location of an external file manager that should be launched when the **Browse Server**
  * button is pressed in the **Link** tab of the **Image** dialog window.
  *
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserBrowseUrl}.
+ *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserImageBrowseLinkUrl = '/browser/browse.php';
  *
@@ -467,7 +533,7 @@
  */
 
 /**
- * The features to use in the file browser popup window.
+ * The features to use in the file manager popup window.
  *
  *		config.filebrowserWindowFeatures = 'resizable=yes,scrollbars=no';
  *
@@ -477,8 +543,11 @@
  */
 
 /**
- * The width of the file browser popup window. It can be a number denoting a value in
+ * The width of the file manager popup window. It can be a number denoting a value in
  * pixels or a percent string.
+ *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-file-manager-window-size)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserWindowWidth = 750;
  *
@@ -489,8 +558,11 @@
  */
 
 /**
- * The height of the file browser popup window. It can be a number denoting a value in
+ * The height of the file manager popup window. It can be a number denoting a value in
  * pixels or a percent string.
+ *
+ * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-file-manager-window-size)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserWindowHeight = 580;
  *

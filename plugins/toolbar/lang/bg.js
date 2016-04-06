@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'bg', {
@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'bg', {
 	toolbarExpand: 'Разширяване на лентата с инструменти',
 	toolbarGroups: {
 		document: 'Документ',
-		clipboard: 'Clipboard/Undo',
+		clipboard: 'Клипборд/Отмяна',
 		editing: 'Промяна',
 		forms: 'Форми',
 		basicstyles: 'Базови стилове',

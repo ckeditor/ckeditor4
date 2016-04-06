@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -191,7 +191,7 @@ if ( !window.CKEDITOR ) {
 			 * @todo
 			 */
 			domReady: ( function() {
-				// Based on the original jQuery code.
+				// Based on the original jQuery code (available under the MIT license, see LICENSE.md).
 
 				var callbacks = [];
 

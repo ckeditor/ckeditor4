@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -25,6 +25,23 @@
 					editor.config.embed_provider ||
 					'//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
 				),
+
+				// The filter element callback actually allows all divs with data-oembed-url,
+				// so registering styles to the filter is virtually unnecessary because
+				// classes won't be filtered out. However, registering them will make filter.check() work
+				// which may be important in some cases.
+				styleToAllowedContentRules: function( style ) {
+					// Retrieve classes defined in the style.
+					var classes = style.getClassesArray();
+
+					return {
+						div: {
+							propertiesOnly: true,
+							classes: classes,
+							attributes: '!data-oembed-url'
+						}
+					};
+				},
 
 				upcast: function( el, data ) {
 					if ( el.name == 'div' && el.attributes[ 'data-oembed-url' ] ) {
@@ -62,9 +79,16 @@
  *	* `url` &ndash; The URL of the requested media, e.g. `https://twitter.com/ckeditor/status/401373919157821441`.
  *	* `callback` &ndash; The name of the globally available callback used for JSONP requests.
  *
- * You can read more about content providers in {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl}.
+ * For example:
  *
- * @since 4.5.0
+ *		config.embed_provider = '//example.com/api/oembed-proxy?resource-url={url}&callback={callback}';
+ *
+ * Read more in the [documentation](#!/guide/dev_media_embed)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/mediaembed.html).
+ *
+ * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
+ *
+ * @since 4.5
  * @cfg {String} [embed_provider=//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}]
  * @member CKEDITOR.config
  */

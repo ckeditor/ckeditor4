@@ -310,6 +310,44 @@
 				parser.parse( html );
 				assert.areSame( expectedTags, tags.join( ',' ), 'tags - ' + msg );
 			}
+		},
+
+		// #13680
+		'test header elements in summary tag': function() {
+			assert.areSame( '<summary><h2>Summary</h2></summary>',
+				htmlParse( '<summary><h2>Summary</h2></summary>' ) );
+		},
+
+		'test link': function() {
+			assert.areSame( '<a href="foo">bar</a>', htmlParse( '<a href="foo">bar</a>' ) );
+		},
+
+		'test empty link': function() {
+			assert.areSame( '', htmlParse( '<a href="foo"></a>' ) );
+		},
+
+		'test anchor with name': function() {
+			assert.areSame( '<a name="foo">bar</a>', htmlParse( '<a name="foo">bar</a>' ) );
+		},
+
+		'test anchor with id': function() {
+			assert.areSame( '<a id="foo">bar</a>', htmlParse( '<a id="foo">bar</a>' ) );
+		},
+
+		'test anchor with name and id': function() {
+			assert.areSame( '<a id="foo" name="bom">bar</a>', htmlParse( '<a id="foo" name="bom">bar</a>' ) );
+		},
+
+		'test empty anchor with name': function() {
+			assert.areSame( '<a name="foo"></a>', htmlParse( '<a name="foo"></a>' ) );
+		},
+
+		'test empty anchor with id': function() {
+			assert.areSame( '<a id="foo"></a>', htmlParse( '<a id="foo"></a>' ) );
+		},
+
+		'test empty anchor with name and id': function() {
+			assert.areSame( '<a id="foo" name="bom"></a>', htmlParse( '<a id="foo" name="bom"></a>' ) );
 		}
 	} );
 

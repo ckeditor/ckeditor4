@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widgetcore */
+/* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget,undo,basicstyles,clipboard,dialog */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
@@ -288,6 +288,121 @@
 
 				editable = appendEditable( widget, 'e3', 'div', { allowedContent: 'p' } );
 				assertEnterModes( CKEDITOR.ENTER_P, CKEDITOR.ENTER_P, editable, 'e3' );
+			} );
+		},
+
+		'test nestedEditable auto paragraphing (limited by widgetDef.allowedContent)': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'autoparagraphtest', {
+				allowedContent: 'div',
+				editables: {
+					foo: {
+						selector: '#foo',
+						allowedContent: 'br'
+					}
+				}
+			} );
+
+			this.editorBot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					editable = widget.editables.foo,
+					range;
+
+				// Move focus to the editable and place selection at the end of its contents.
+				// This should fire 'selectionChange' event and execute editable.fixDom() method.
+				editable.focus();
+				range = editor.createRange();
+				range.moveToPosition( editable, CKEDITOR.POSITION_BEFORE_END );
+				range.select();
+
+				// Since allowedContent is 'br' auto paragraphing should not be performed.
+				assert.areEqual( CKEDITOR.ENTER_BR, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_BR.' );
+				assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
+			} );
+		},
+
+		'test nestedEditable auto paragraphing (limited by config.enterMode)': function() {
+			bender.editorBot.create( {
+				name: 'testautoparagraphingconfigentermode',
+				creator: 'inline',
+				config: {
+					enterMode: CKEDITOR.ENTER_BR,
+					on: {
+						pluginsLoaded: function( evt ) {
+							evt.editor.widgets.add( 'autoparagraphtest', {
+								editables: {
+									foo: {
+										selector: '#foo'
+									}
+								}
+							} );
+
+							evt.editor.filter.allow( 'div[data-widget,id]' );
+						}
+					}
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				bot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
+					var widget = getWidgetById( editor, 'w1' ),
+						editable = widget.editables.foo,
+						range;
+
+					// Move focus to the editable and place selection at the end of its contents.
+					// This should fire 'selectionChange' event and execute editable.fixDom() method.
+					editable.focus();
+					range = editor.createRange();
+					range.moveToPosition( editable.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+					range.select();
+
+					// Since allowedContent is 'br' auto paragraphing should not be performed.
+					assert.areEqual( CKEDITOR.ENTER_BR, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_BR.' );
+					assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
+				} );
+			} );
+		},
+
+		'test nestedEditable auto paragraphing (limited by config.autoParagraph)': function() {
+			bender.editorBot.create( {
+				name: 'testautoparagraphingconfigautoparagraph',
+				creator: 'inline',
+				config: {
+					autoParagraph: false,
+					on: {
+						pluginsLoaded: function( evt ) {
+							evt.editor.widgets.add( 'autoparagraphtest', {
+								editables: {
+									foo: {
+										selector: '#foo'
+									}
+								}
+							} );
+
+							evt.editor.filter.allow( 'div[data-widget,id]' );
+						}
+					}
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				bot.setData( '<p>x</p><div data-widget="autoparagraphtest" id="w1"><div id="foo">foo</div></div>', function() {
+					var widget = getWidgetById( editor, 'w1' ),
+						editable = widget.editables.foo,
+						range;
+
+					// Move focus to the editable and place selection at the end of its contents.
+					// This should fire 'selectionChange' event and execute editable.fixDom() method.
+					editable.focus();
+					range = editor.createRange();
+					range.moveToPosition( editable.getFirst(), CKEDITOR.POSITION_BEFORE_END );
+					range.select();
+
+					// Since allowedContent is 'br' auto paragraphing should not be performed.
+					assert.areEqual( CKEDITOR.ENTER_P, editable.enterMode, 'Enter mode should be CKEDTIOR.ENTER_P.' );
+					assert.areEqual( 'foo', editable.getData(), 'Test data should not be changed.' );
+				} );
 			} );
 		},
 
@@ -1033,8 +1148,8 @@
 
 					range.moveToPosition( e2.findOne( '.p2' ), CKEDITOR.POSITION_AFTER_START );
 					testDelKey( editor,	'del',	range,	false,	'e2 - ^bar' );
-					// This case is handled on Webkits because of #9998.
-					if ( !CKEDITOR.env.webkit )
+					// This case is handled on Webkits and Gecko because of #11861, #13798.
+					if ( CKEDITOR.env.ie )
 						testDelKey( editor,	'bspc',	range,	false,	'e2 - ^bar' );
 
 					range.moveToPosition( e2.findOne( '.p2' ), CKEDITOR.POSITION_BEFORE_END );
@@ -1115,6 +1230,11 @@
 		},
 
 		'test pasting widget which was copied (d&d) when its nested editable was focused': function() {
+			// #11055
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				assert.ignore();
+			}
+
 			var editor = this.editor,
 				bot = this.editorBot;
 
@@ -1286,6 +1406,11 @@
 		},
 
 		'test selection in nested editable is preserved after opening and closing dialog - inline editor': function() {
+			// #11399
+			if ( CKEDITOR.env.gecko ) {
+				assert.ignore();
+			}
+
 			bender.editorBot.create( {
 				name: 'testselection2',
 				creator: 'inline',

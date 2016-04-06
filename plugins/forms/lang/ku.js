@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ku', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ku', {
 		checkboxTitle: 'خاسیەتی چووارگۆشی پشکنین',
 		radioTitle: 'خاسیەتی جێگرەوەی دوگمە',
 		value: 'نرخ',
-		selected: 'هەڵبژاردرا'
+		selected: 'هەڵبژاردرا',
+		required: 'پێویستە'
 	},
 	form: {
 		title: 'خاسیەتی داڕشتە',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ku', {
 		size: 'گەورەیی',
 		lines: 'هێڵەکان',
 		chkMulti: 'ڕێدان بەفره هەڵبژارده',
+		required: 'پێویستە',
 		opText: 'دەق',
 		opValue: 'نرخ',
 		btnAdd: 'زیادکردن',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ku', {
 		value: 'نرخ',
 		charWidth: 'پانی نووسە',
 		maxChars: 'ئەوپەڕی نووسە',
+		required: 'پێویستە',
 		type: 'جۆر',
 		typeText: 'دەق',
 		typePass: 'پێپەڕەوشە',

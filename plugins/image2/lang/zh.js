@@ -1,12 +1,12 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'zh', {
 	alt: '替代文字',
 	btnUpload: '傳送至伺服器',
 	captioned: '已加標題之圖片',
-	captionPlaceholder: 'Caption', // MISSING
+	captionPlaceholder: '標題',
 	infoTab: '影像資訊',
 	lockRatio: '固定比例',
 	menu: '影像屬性',

@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'nl', {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'nl', {
 		checkboxTitle: 'Eigenschappen aanvinkvakje',
 		radioTitle: 'Eigenschappen selectievakje',
 		value: 'Waarde',
-		selected: 'Geselecteerd'
+		selected: 'Geselecteerd',
+		required: 'Vereist'
 	},
 	form: {
 		title: 'Eigenschappen formulier',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'nl', {
 		size: 'Grootte',
 		lines: 'Regels',
 		chkMulti: 'Gecombineerde selecties toestaan',
+		required: 'Vereist',
 		opText: 'Tekst',
 		opValue: 'Waarde',
 		btnAdd: 'Toevoegen',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'nl', {
 		value: 'Waarde',
 		charWidth: 'Breedte (tekens)',
 		maxChars: 'Maximum aantal tekens',
+		required: 'Vereist',
 		type: 'Soort',
 		typeText: 'Tekst',
 		typePass: 'Wachtwoord',

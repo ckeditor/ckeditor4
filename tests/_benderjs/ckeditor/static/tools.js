@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2015, CKSource - Frederico Knabben. All rights reserved.
- * Licensed under the terms of the MIT License (see LICENSE.md).
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 ( function( bender ) {
@@ -953,11 +953,12 @@
 		 * These data will be set to the clipboardData on non-IE browsers.
 		 */
 		emulatePaste: function( editor, html, data ) {
-			var editable = editor.editable(),
+			var clipboard = CKEDITOR.plugins.clipboard,
+				editable = editor.editable(),
 				doc = editable.getDocument(),
 				evt = this.mockPasteEvent();
 
-			if ( !CKEDITOR.env.ie ) {
+			if ( clipboard.isCustomCopyCutSupported ) {
 				// Fire paste event with HTML in the dataTransfer object on non-IE.
 				if ( !data ) {
 					data = {};
@@ -975,7 +976,7 @@
 				// use pastebin and insert given HTML into the current selection.
 				// IE>=11 doesn't support neither msieRange#pasteHtml nor inserhtml command,
 				// so for simplicity on all IEs use custom way.
-				editable.fire( 'beforepaste', evt );
+				editable.fire( clipboard.mainPasteEvent, evt );
 
 				var frag = new CKEDITOR.dom.element( 'div', doc );
 				frag.setHtml( html );
@@ -996,8 +997,7 @@
 		 * @returns {String}
 		 */
 		escapeRegExp: function( str ) {
-			// http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
-			return str.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&' );
+			return str.replace( /[\-[\]\/{}()*+?.\\^$|]/g, '\\$&' );
 		},
 
 		/**
@@ -1041,7 +1041,7 @@
 
 					outputTests[ specificTestName ] = ( function( testName, editorName ) {
 						return function() {
-							inputTests[ testName ]( bender.editors[ editorName ] );
+							inputTests[ testName ]( bender.editors[ editorName ], bender.editorBots [ editorName ] );
 						};
 					} )( testName, editorName );
 				}

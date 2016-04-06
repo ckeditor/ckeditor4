@@ -1,7 +1,7 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.plugins.setLang( 'widget', 'de', {
-	'move': 'Zum verschieben anwählen und ziehen'
+	'move': 'Zum Verschieben anwählen und ziehen'
 } );

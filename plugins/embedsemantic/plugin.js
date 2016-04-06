@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -25,6 +25,7 @@
 				button: editor.lang.embedbase.button,
 				allowedContent: 'oembed',
 				requiredContent: 'oembed',
+				styleableElements: 'oembed',
 				// Share config with the embed plugin.
 				providerUrl: new CKEDITOR.template(
 					editor.config.embed_provider ||

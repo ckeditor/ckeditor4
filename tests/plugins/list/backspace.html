@@ -347,6 +347,81 @@
 		<li><a href="#one"><span>one</span></a>^<a href="#two">two</a>@</li>
 	</ul>
 </textarea>
+<!-- #13409 -->
+<textarea id="join_list17_del">
+	<ul>
+		<li>
+			<a href="#one">x^</a>
+			<ul>
+				<li><span>y</span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li><a href="#one">x</a>^<span>y</span>@</li>
+	</ul>
+</textarea>
+<!-- #13409 -->
+<textarea id="join_list18_del">
+	<ul>
+		<li>
+			<a href="#one"><strong>x^</strong></a>
+			<ul>
+				<li><span><em>y</em></span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li><a href="#one"><strong>x</strong></a>^<span><em>y</em></span>@</li>
+	</ul>
+</textarea>
+<!-- #13409 -->
+<textarea id="join_list19_del">
+	<ul>
+		<li>
+			<p><a href="#one"><strong>x^</strong></a></p>
+			<ul>
+				<li><span><em>y</em></span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li><p><a href="#one"><strong>x</strong></a>^<span><em>y</em></span>@</p></li>
+	</ul>
+</textarea>
+<!-- #13409 -->
+<textarea id="join_list20_del">
+	<ul>
+		<li>
+			x^
+			<ul>
+				<li><span><em>y</em></span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li>x^<span><em>y</em></span>@@</li>
+	</ul>
+</textarea>
+<!-- #13409 -->
+<textarea id="join_list21_del">
+	<ul>
+		<li>
+			<blockquote>x^</blockquote>
+			<ul>
+				<li><span><em>y</em></span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li><blockquote>x^<span><em>y</em></span></blockquote></li>
+	</ul>
+</textarea>
 
 <textarea id="outdent_list">
 	<ol>

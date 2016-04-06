@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard */
+/* bender-tags: editor,unit,clipboard,13690 */
 /* bender-ckeditor-plugins: toolbar,clipboard */
 /* bender-include: _helpers/pasting.js */
 
@@ -266,8 +266,8 @@ bender.test( {
 		assert.areSame( '', dataTransfer.getData( 'cke/undefined' ), 'undefined' );
 	},
 
-	'test getData Chrome Linux fix': function() {
-		if ( !CKEDITOR.env.chrome ) {
+	'test getData meta filter': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			assert.ignore();
 		}
 
@@ -279,23 +279,68 @@ bender.test( {
 		assert.areSame( 'foo<b>bom</b>x\nbar', dataTransfer.getData( 'text/html' ) );
 	},
 
-	'test getData Chrome Windows fix': function() {
-		if ( !CKEDITOR.env.chrome ) {
+	'test getData body filter': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			assert.ignore();
 		}
 
 		var nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'text/html',
-			'<html>\n' +
-			'<body>\n' +
-			'<!--StartFragment-->foo<b>bom</b>x\n' +
-			'bar<!--EndFragment-->\n' +
-			'</body>\n' +
-			'</html>\n' );
+			'<html>' +
+			'<body foo="bar" bar=foo bom=\'bim\'>' +
+			'<!--StartFragment-->foo<b>bom</b>x' +
+			'bar<!--EndFragment-->' +
+			'</body>' +
+			'</html>' );
 
 		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
-		assert.areSame( 'foo<b>bom</b>x\nbar', dataTransfer.getData( 'text/html' ) );
+		assert.areSame( 'foo<b>bom</b>xbar', dataTransfer.getData( 'text/html' ) );
+	},
+
+	'test getData body filter uppercase tags': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer();
+		nativeData.setData( 'text/html',
+			'<HTML>' +
+			'<BODY foo="bar" bar=foo bom=\'bim\'>' +
+			'<!--StartFragment-->foo<B>bom</B>x' +
+			'bar<!--EndFragment-->' +
+			'</BODY>' +
+			'</HTML>' );
+
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame( 'foo<B>bom</B>xbar', dataTransfer.getData( 'text/html' ) );
+	},
+
+	'test getData body filter for tables': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer();
+		nativeData.setData( 'text/html',
+			'<html>' +
+			'<body>' +
+			'<table>' +
+			'<!--StartFragment-->' +
+			'<tr><td>foo</td><td>bar</td></tr>' +
+			'<!--EndFragment-->' +
+			'</table>' +
+			'</body>' +
+			'</html>' );
+
+		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame(
+			'<table>' +
+			'<tr><td>foo</td><td>bar</td></tr>' +
+			'</table>',
+			dataTransfer.getData( 'text/html' ) );
 	},
 
 	'test getData Firefox fix': function() {
@@ -721,7 +766,7 @@ bender.test( {
 	},
 
 	'test initPasteDataTransfer binding': function() {
-		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 			assert.ignore();
 		}
 
