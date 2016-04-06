@@ -1066,8 +1066,15 @@
 			this.fire( 'destroy' );
 
 			if ( this.editables ) {
-				for ( var name in this.editables )
-					this.destroyEditable( name, offline );
+				for ( var name in this.editables ) {
+					var editable = this.editables[name];
+
+					if ( CKEDITOR.tools.isArray( editable ) ) {
+						this.destroyMultiEditable( name, offline, editable );
+					} else {
+						this.destroyEditable( name, offline );
+					}
+				}
 			}
 
 			if ( !offline ) {
@@ -1086,30 +1093,51 @@
 		 *
 		 * @param {String} editableName Nested editable name.
 		 * @param {Boolean} [offline] See {@link #method-destroy} method.
+		 * @param {Object} [editable]
 		 */
-		destroyEditable: function( editableName, offline ) {
-			var editables = this.editables[ editableName ];
-			if (editables) {
-				for (var editable, i = 0; i < editables.length; i++) {
-					editable = editables[i];
-					editable.removeListener('focus', onEditableFocus);
-					editable.removeListener('blur', onEditableBlur);
-					this.editor.focusManager.remove(editable);
+		destroyEditable: function( editableName, offline, editable ) {
+			editable = editable || this.editables[ editableName ];
 
-					if (!offline) {
-						this.repository.destroyAll(false, editable);
-						editable.removeClass('cke_widget_editable');
-						editable.removeClass('cke_widget_editable_focused');
-						editable.removeAttributes(['contenteditable', 'data-cke-widget-editable', 'data-cke-widget-editable-id', 'data-cke-enter-mode']);
-					}
+			editable.removeListener( 'focus', onEditableFocus );
+			editable.removeListener( 'blur', onEditableBlur );
+			this.editor.focusManager.remove( editable );
+
+			if ( !offline ) {
+				this.repository.destroyAll( false, editable );
+				editable.removeClass( 'cke_widget_editable' );
+				editable.removeClass( 'cke_widget_editable_focused' );
+				editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable', 'data-cke-editable-index', 'data-cke-enter-mode' ] );
+			}
+
+			delete this.editables[ editableName ];
+		},
+
+		/**
+		 * Loop trough multiple editableNodes and destroys it.
+		 *
+		 * @param {String} editableName Nested editable name.
+		 * @param {Boolean} [offline] See {@link #method-destroy} method.
+		 * @param {Array} editables Editables objects.
+		 */
+		destroyMultiEditable: function ( editableName, offline, editables ) {
+			if ( editables ) {
+				for ( var i = 0; i < editables.length; i++ ) {
+					this.destroyEditable( editableName, offline, editables[i]);
 				}
-
-				delete this.editables[editableName];
 			}
 		},
 
-		getEditableId: function (editable) {
-			return editable.getAttribute('data-cke-widget-editable-id');
+		/**
+		 * Get editable element.
+		 *
+		 * @param {CKEDITOR.dom.element} editableElement.
+		 * @returns {CKEDITOR.plugins.widget.nestedEditable}.
+		 */
+		getEditable: function ( editableElement ) {
+			var editableName = editableElement.data( 'cke-widget-editable' ),
+					editable = this.editables[ editableName ];
+
+			return CKEDITOR.tools.isArray( editable ) ? editable[editableElement.data( 'cke-editable-index' )] : editable;
 		},
 
 		/**
@@ -1215,55 +1243,69 @@
 		 * @param {CKEDITOR.plugins.widget.nestedEditable.definition} definition The definition of the nested editable.
 		 * @returns {Boolean} Whether an editable was successfully initialized.
 		 */
-		initEditable: function( editableName, definition ) {
-			var editableNodes = this.wrapper.find( definition.selector ),
-				editables = [],
-				editable, editableId;
+		initEditable: function( editableName, definition, editable, editableIndex ) {
+			// Don't fetch just first element which matched selector but look for a correct one. (#13334)
+			editable = editable || this._findOneNotNested( definition.selector );
 
-			for ( var i = 0; i < editableNodes.count(); i++ ) {
-				editable = editableNodes.getItem(i);
-				if ( editable && editable.is( CKEDITOR.dtd.$editable ) ) {
-					editable = new NestedEditable( this.editor, editable, {
-						filter: createEditableFilter.call( this.repository, this.name, editableName, definition )
-					} );
-					editableId = editables.push(editable) - 1;
+			if ( editable && editable.is( CKEDITOR.dtd.$editable ) ) {
+				editable = new NestedEditable( this.editor, editable, {
+					filter: createEditableFilter.call( this.repository, this.name, editableName, definition )
+				} );
 
-					editable.setAttributes( {
-						contenteditable: 'true',
-						'data-cke-widget-editable': editableName,
-						'data-cke-widget-editable-id': editableId,
-						'data-cke-enter-mode': editable.enterMode
-					} );
+				editable.setAttributes( {
+					contenteditable: 'true',
+					'data-cke-widget-editable': editableName,
+					'data-cke-enter-mode': editable.enterMode
+				} );
 
-					if ( editable.filter )
-						editable.data( 'cke-filter', editable.filter.id );
+				if ( editable.filter )
+					editable.data( 'cke-filter', editable.filter.id );
 
-					editable.addClass( 'cke_widget_editable' );
-					// This class may be left when d&ding widget which
-					// had focused editable. Clean this class here, not in
-					// cleanUpWidgetElement for performance and code size reasons.
-					editable.removeClass( 'cke_widget_editable_focused' );
-
-					if ( definition.pathName )
-						editable.data('cke-display-name', definition.pathName);
-
-					this.editor.focusManager.add(editable);
-					editable.on( 'focus', onEditableFocus, this );
-					CKEDITOR.env.ie && editable.on('blur', onEditableBlur, this);
-
-					// Finally, process editable's data. This data wasn't processed when loading
-					// editor's data, becuase they need to be processed separately, with its own filters and settings.
-					editable._.initialSetData = true;
-					editable.setData( editable.getHtml() );
-
+				if (definition.multi) {
+					editable.data( 'cke-editable-index', editableIndex );
+					this.editables[ editableName ].push( editable );
+				} else {
+					this.editables[ editableName ] = editable;
 				}
-			}
-			if (editables.length > 0) {
-				this.editables[editableName] = editables;
+
+				editable.addClass( 'cke_widget_editable' );
+				// This class may be left when d&ding widget which
+				// had focused editable. Clean this class here, not in
+				// cleanUpWidgetElement for performance and code size reasons.
+				editable.removeClass( 'cke_widget_editable_focused' );
+
+				if ( definition.pathName )
+					editable.data( 'cke-display-name', definition.pathName );
+
+				this.editor.focusManager.add( editable );
+				editable.on( 'focus', onEditableFocus, this );
+				CKEDITOR.env.ie && editable.on( 'blur', onEditableBlur, this );
+
+				// Finally, process editable's data. This data wasn't processed when loading
+				// editor's data, becuase they need to be processed separately, with its own filters and settings.
+				editable._.initialSetData = true;
+				editable.setData( editable.getHtml() );
+
 				return true;
 			}
 
 			return false;
+		},
+
+		/**
+		 * Loop trough multiple editableNodes and initializes it.
+		 *
+		 * @param {String} editableName The nested editable name.
+		 * @param {CKEDITOR.plugins.widget.nestedEditable.definition} definition The definition of the nested editable.
+		 */
+		initMultiEditables: function ( editableName, definition ) {
+			var editableNodes = this.wrapper.find( definition.selector );
+
+			this.editables[ editableName ] = [];
+
+			for ( var i = 0; i < editableNodes.count(); i++ ) {
+				this.initEditable(editableName, definition, editableNodes.getItem(i), i);
+			}
 		},
 
 		/**
@@ -2321,9 +2363,7 @@
 		editor.fire( 'lockSnapshot' );
 
 		if ( editableElement ) {
-			var editableName = editableElement.data( 'cke-widget-editable' ),
-				editableId = editableElement.data( 'cke-widget-editable-id'),
-				editableInstance = widget.editables[ editableName ][ editableId ];
+			var editableInstance = widget.getEditable( editableElement );
 
 			widgetsRepo.widgetHoldingFocusedEditable = widget;
 			widget.focusedEditable = editableInstance;
@@ -2745,7 +2785,7 @@
 					if ( !(editableType in editables) ) {
 						editables[ editableType ] = [];
 					}
-					editables[ editableType ][ attrs[ 'data-cke-widget-editable-id' ] ] = element;
+					editables[ editableType ][ attrs[ 'data-cke-editable-index' ] ] = element;
 
 					// Don't check children - there won't be next wrapper or nested editable which we
 					// should process in this session.
@@ -3327,7 +3367,12 @@
 
 		for ( editableName in definedEditables ) {
 			editableDef = definedEditables[ editableName ];
-			widget.initEditable( editableName, typeof editableDef == 'string' ? { selector: editableDef } : editableDef );
+
+			if ( editableDef.multi ) {
+				widget.initMultiEditables( editableName, editableDef );
+			} else {
+				widget.initEditable( editableName, typeof editableDef == 'string' ? { selector: editableDef } : editableDef );	
+			}
 		}
 	}
 
