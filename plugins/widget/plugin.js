@@ -1070,7 +1070,7 @@
 					var editable = this.editables[name];
 
 					if ( CKEDITOR.tools.isArray( editable ) ) {
-						this.destroyMultiEditable( name, offline, editable );
+						this.destroyMultiEditable( name, offline );
 					} else {
 						this.destroyEditable( name, offline );
 					}
@@ -1117,9 +1117,10 @@
 		 *
 		 * @param {String} editableName Nested editable name.
 		 * @param {Boolean} [offline] See {@link #method-destroy} method.
-		 * @param {Array} editables Editables objects.
 		 */
-		destroyMultiEditable: function ( editableName, offline, editables ) {
+		destroyMultiEditable: function ( editableName, offline ) {
+			var editables = this.editables[ editableName ];
+
 			if ( editables ) {
 				for ( var i = 0; i < editables.length; i++ ) {
 					this.destroyEditable( editableName, offline, editables[i]);
@@ -1138,6 +1139,10 @@
 					editable = this.editables[ editableName ];
 
 			return CKEDITOR.tools.isArray( editable ) ? editable[editableElement.data( 'cke-editable-index' )] : editable;
+		},
+
+		getEditableIndex: function ( editable ) {
+			return editable.getAttribute( 'data-cke-widget-editable-index' );
 		},
 
 		/**
@@ -1297,15 +1302,19 @@
 		 *
 		 * @param {String} editableName The nested editable name.
 		 * @param {CKEDITOR.plugins.widget.nestedEditable.definition} definition The definition of the nested editable.
+		 * @returns {Boolean} Whether an editable was successfully initialized.
 		 */
 		initMultiEditables: function ( editableName, definition ) {
-			var editableNodes = this.wrapper.find( definition.selector );
+			var editableNodes = this.wrapper.find( definition.selector ),
+					count = editableNodes.count();
 
 			this.editables[ editableName ] = [];
 
-			for ( var i = 0; i < editableNodes.count(); i++ ) {
+			for ( var i = 0; i < count; i++ ) {
 				this.initEditable(editableName, definition, editableNodes.getItem(i), i);
 			}
+
+			return this.editables[ editableName ].length === count;
 		},
 
 		/**
