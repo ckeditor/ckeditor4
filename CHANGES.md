@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#13886](http://dev.ckeditor.com/ticket/13886): Fixed: Invalid handling of [`CKEDITOR.style`](http://docs.ckeditor.com/#!/api/CKEDITOR.style) instance with `styles` property by [`CKEDITOR.filter`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter).
 * [#14535](http://dev.ckeditor.com/ticket/14535): Fixed: CSS syntax corrections. Thanks to [mdjdenormandie](https://github.com/mdjdenormandie)!
 
 ## CKEditor 4.5.8
