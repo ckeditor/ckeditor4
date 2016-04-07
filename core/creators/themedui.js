@@ -79,7 +79,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 	 *		// Replace all <textarea class="myClassName"> elements in the page.
 	 *		CKEDITOR.replaceAll( 'myClassName' );
 	 *
-	 *		// Selectively replace <textarea> elements, based on custom evaluation functions.
+	 *		// Selectively replace <textarea> elements, based on a custom evaluation function.
 	 *		CKEDITOR.replaceAll( function( textarea, config ) {
 	 *			// A function that needs to be evaluated for the <textarea>
 	 *			// to be replaced. It must explicitly return "false" to ignore a
