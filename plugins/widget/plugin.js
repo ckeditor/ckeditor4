@@ -2825,17 +2825,19 @@
 
 				// Replace nested editables' content with their output data.
 				for ( e in toBe.editables ) {
-					editableElement = toBe.editables[ e ];
+					if (toBe.editables.hasOwnProperty( e )) {
+						editableElement = toBe.editables[ e ];
 
-					if ( CKEDITOR.tools.isArray( editableElement ) ) {
-						for ( var i = 0; i < editableElement.length; i++) {
-							editableElement = editableElement[i];
+						if ( CKEDITOR.tools.isArray( editableElement ) ) {
+							for ( var i = 0; i < editableElement.length; i++) {
+								editableElement = editableElement[i];
+								delete editableElement.attributes.contenteditable;
+								editableElement.setHtml( widget.editables[ e ][ i ].getData() );
+							}
+						} else {
 							delete editableElement.attributes.contenteditable;
-							editableElement.setHtml( widget.editables[ e ][ i ].getData() );
+							editableElement.setHtml( widget.editables[ e ].getData() );
 						}
-					} else {
-						delete editableElement.attributes.contenteditable;
-						editableElement.setHtml( widget.editables[ e ].getData() );
 					}
 				}
 
