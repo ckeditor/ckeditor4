@@ -6,7 +6,7 @@
 Test if photo uploading works properly:
 
 * Dropped image should be replaced by a temporary `upload widget` and by the final image (`image` plugin) when upload is done.
-* `jpg`, `png` and `gif` files should be supported.
+* `jpg`, `png`, `gif` and `bmp` files should be supported.
 * Undo and redo during and after upload should work fine.
 * It should be possible to format text and copy image during upload.
 * If image is removed during upload, the process should be aborted.

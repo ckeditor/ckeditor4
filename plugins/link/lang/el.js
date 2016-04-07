@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'el', {
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	anchorName: 'Βάσει του Ονόματος Άγκυρας',
 	charset: 'Κωδικοποίηση Χαρακτήρων Προσαρτημένης Πηγής',
 	cssClasses: 'Κλάσεις Φύλλων Στυλ',
+	download: 'Force Download', // MISSING
 	emailAddress: 'Διεύθυνση E-mail',
 	emailBody: 'Κείμενο Μηνύματος',
 	emailSubject: 'Θέμα Μηνύματος',

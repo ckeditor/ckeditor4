@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -27,9 +27,14 @@
 				// With IE, the custom domain has to be taken care at first,
 				// for other browers, the 'src' attribute should be left empty to
 				// trigger iframe's 'load' event.
-				src = CKEDITOR.env.air ? 'javascript:void(0)' : CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( src ) + '}())' // jshint ignore:line
-					:
-					'';
+				// Microsoft Edge throws "Permission Denied" if treated like an IE (#13441).
+				if ( CKEDITOR.env.air ) {
+					src = 'javascript:void(0)'; // jshint ignore:line
+				} else if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+					src = 'javascript:void(function(){' + encodeURIComponent( src ) + '}())'; // jshint ignore:line
+				} else {
+					src = '';
+				}
 
 				var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe src="' + src + '" frameBorder="0"></iframe>' );
 				iframe.setStyles( { width: '100%', height: '100%' } );
@@ -41,7 +46,7 @@
 
 				// Asynchronous iframe loading is only required in IE>8 and Gecko (other reasons probably).
 				// Do not use it on WebKit as it'll break the browser-back navigation.
-				var useOnloadEvent = CKEDITOR.env.ie || CKEDITOR.env.gecko;
+				var useOnloadEvent = ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) || CKEDITOR.env.gecko;
 				if ( useOnloadEvent )
 					iframe.on( 'load', onLoad );
 
@@ -77,23 +82,6 @@
 
 				// Execute onLoad manually for all non IE||Gecko browsers.
 				!useOnloadEvent && onLoad();
-
-				if ( CKEDITOR.env.webkit ) {
-					// Webkit: iframe size doesn't auto fit well. (#7360)
-					var onResize = function() {
-						// Hide the iframe to get real size of the holder. (#8941)
-						contentSpace.setStyle( 'width', '100%' );
-
-						iframe.hide();
-						iframe.setSize( 'width', contentSpace.getSize( 'width' ) );
-						contentSpace.removeStyle( 'width' );
-						iframe.show();
-					};
-
-					iframe.setCustomData( 'onResize', onResize );
-
-					CKEDITOR.document.getWindow().on( 'resize', onResize );
-				}
 
 				editor.fire( 'ariaWidget', iframe );
 
@@ -164,27 +152,18 @@
 		this.setup();
 		this.fixInitialSelection();
 
-		if ( CKEDITOR.env.ie ) {
+		var editable = this;
+
+		// Without it IE8 has problem with removing selection in nested editable. (#13785)
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 			doc.getDocumentElement().addClass( doc.$.compatMode );
+		}
 
-			// Prevent IE from leaving new paragraph after deleting all contents in body. (#6966)
-			editor.config.enterMode != CKEDITOR.ENTER_P && this.attachListener( doc, 'selectionchange', function() {
-				var body = doc.getBody(),
-					sel = editor.getSelection(),
-					range = sel && sel.getRanges()[ 0 ];
-
-				if ( range && body.getHtml().match( /^<p>(?:&nbsp;|<br>)<\/p>$/i ) && range.startContainer.equals( body ) ) {
-					// Avoid the ambiguity from a real user cursor position.
-					setTimeout( function() {
-						range = editor.getSelection().getRanges()[ 0 ];
-						if ( !range.startContainer.equals( 'body' ) ) {
-							body.getFirst().remove( 1 );
-							range.moveToElementEditEnd( body );
-							range.select();
-						}
-					}, 0 );
-				}
-			} );
+		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body. (#6966, #13142)
+		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_P ) {
+			removeSuperfluousElement( 'p' );
+		} else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV ) {
+			removeSuperfluousElement( 'div' );
 		}
 
 		// Fix problem with cursor not appearing in Webkit and IE11+ when clicking below the body (#10945, #10906).
@@ -288,6 +267,38 @@
 				editor.fire( 'dataReady' );
 			}, 0 );
 		}, 0, this );
+
+		function removeSuperfluousElement( tagName ) {
+			var lockRetain = false;
+
+			// Superfluous elements appear after keydown
+			// and before keyup, so the procedure is as follows:
+			// 1. On first keydown mark all elements with
+			// a specified tag name as non-superfluous.
+			editable.attachListener( editable, 'keydown', function() {
+				var body = doc.getBody(),
+					retained = body.getElementsByTag( tagName );
+
+				if ( !lockRetain ) {
+					for ( var i = 0; i < retained.count(); i++ ) {
+						retained.getItem( i ).setCustomData( 'retain', true );
+					}
+					lockRetain = true;
+				}
+			}, null, null, 1 );
+
+			// 2. On keyup remove all elements that were not marked
+			// as non-superfluous (which means they must have had appeared in the meantime).
+			editable.attachListener( editable, 'keyup', function() {
+				var elements = doc.getElementsByTag( tagName );
+				if ( lockRetain ) {
+					if ( elements.count() == 1 && !elements.getItem( 0 ).getCustomData( 'retain' ) ) {
+						elements.getItem( 0 ).remove( 1 );
+					}
+					lockRetain = false;
+				}
+			} );
+		}
 	}
 
 	var framedWysiwyg = CKEDITOR.tools.createClass( {
@@ -497,23 +508,36 @@
 			detach: function() {
 				var editor = this.editor,
 					doc = editor.document,
-					iframe = editor.window.getFrame();
+					iframe,
+					onResize;
+
+				// Trying to access window's frameElement property on Edge throws an exception
+				// when frame was already removed from DOM. (#13850, #13790)
+				try {
+					iframe =  editor.window.getFrame();
+				} catch ( e ) {}
 
 				framedWysiwyg.baseProto.detach.call( this );
 
 				// Memory leak proof.
 				this.clearCustomData();
 				doc.getDocumentElement().clearCustomData();
-				iframe.clearCustomData();
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
 
-				var onResize = iframe.removeCustomData( 'onResize' );
-				onResize && onResize.removeListener();
+				// On IE, iframe is returned even after remove() method is called on it.
+				// Checking if parent is present fixes this issue. (#13850)
+				if ( iframe && iframe.getParent() ) {
+					iframe.clearCustomData();
+					onResize = iframe.removeCustomData( 'onResize' );
+					onResize && onResize.removeListener();
 
-				// IE BUG: When destroying editor DOM with the selection remains inside
-				// editing area would break IE7/8's selection system, we have to put the editing
-				// iframe offline first. (#3812 and #5441)
-				iframe.remove();
+					// IE BUG: When destroying editor DOM with the selection remains inside
+					// editing area would break IE7/8's selection system, we have to put the editing
+					// iframe offline first. (#3812 and #5441)
+					iframe.remove();
+				} else {
+					CKEDITOR.warn( 'editor-destroy-iframe' );
+				}
 			}
 		}
 	} );
@@ -636,24 +660,6 @@ CKEDITOR.config.disableNativeTableHandles = true;
  * @member CKEDITOR.config
  */
 CKEDITOR.config.disableNativeSpellChecker = true;
-
-/**
- * The CSS file(s) to be used to apply style to editor content. It should
- * reflect the CSS used in the target pages where the content is to be
- * displayed.
- *
- * **Note:** This configuration value is ignored by [inline editor](#!/guide/dev_inline)
- * as it uses the styles that come directly from the page that CKEditor is
- * rendered on. It is also ignored in the {@link #fullPage full page mode} in
- * which developer has a full control over the HTML.
- *
- *		config.contentsCss = '/css/mysitestyles.css';
- *		config.contentsCss = ['/css/mysitestyles.css', '/css/anotherfile.css'];
- *
- * @cfg {String/Array} [contentsCss=CKEDITOR.getUrl( 'contents.css' )]
- * @member CKEDITOR.config
- */
-CKEDITOR.config.contentsCss = CKEDITOR.getUrl( 'contents.css' );
 
 /**
  * Language code of  the writing language which is used to author the editor

@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'mk', {
@@ -25,10 +25,10 @@ CKEDITOR.plugins.setLang( 'docprops', 'mk', {
 	docTypeOther: 'Other Document Type Heading', // MISSING
 	label: 'Document Properties', // MISSING
 	margin: 'Page Margins', // MISSING
-	marginBottom: 'Bottom', // MISSING
-	marginLeft: 'Left', // MISSING
-	marginRight: 'Right', // MISSING
-	marginTop: 'Top', // MISSING
+	marginBottom: 'Доле',
+	marginLeft: 'Лево',
+	marginRight: 'Десно',
+	marginTop: 'Горе',
 	meta: 'Meta Tags', // MISSING
 	metaAuthor: 'Author', // MISSING
 	metaCopyright: 'Copyright', // MISSING

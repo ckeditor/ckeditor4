@@ -54,6 +54,21 @@
 
 			assert.areSame( '<p>bc</p>', bender.tools.compatHtml( sourceHtml, false, false, false, false, false, true ) );
 			assert.areSame( sourceHtml, bender.tools.compatHtml( sourceHtml ) );
+		},
+
+		'test escapeRegExp': function() {
+			var characters = '-[]/{}()*+?.\\^$|',
+				expected = '\\' + characters.split( '' ).join( '\\' ),
+				escaped = bender.tools.escapeRegExp( characters );
+
+			assert.areSame( expected, escaped, 'all characters were escaped' );
+		},
+
+		'test escapeRegExp - escape only special characters': function() {
+			var characters = 'a%#@b c',
+				escaped = bender.tools.escapeRegExp( characters );
+
+			assert.areSame( characters, escaped, 'all characters were left untouched' );
 		}
 	} );
 } )();

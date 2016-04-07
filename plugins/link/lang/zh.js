@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'zh', {
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 	anchorName: '依錨點名稱',
 	charset: '連結資源的字元集',
 	cssClasses: '樣式表類別',
+	download: 'Force Download', // MISSING
 	emailAddress: '電子郵件地址',
 	emailBody: '郵件本文',
 	emailSubject: '郵件主旨',

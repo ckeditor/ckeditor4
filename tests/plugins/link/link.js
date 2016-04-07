@@ -229,6 +229,57 @@
 				// selection is <a>[b]</a> or [<a>b</a>].
 				assert.areSame( 'b', editor.getSelection().getSelectedText(), 'Link selected' );
 			} );
+		},
+
+		// #13887
+		'test link target special chars': function() {
+			var bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">[foo]</a>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				var funnyTargetValue = 'foo-b!ar^$`*(';
+
+				dialog.setValueOf( 'target', 'linkTargetType', 'frame' );
+				dialog.setValueOf( 'target', 'linkTargetName', funnyTargetValue );
+
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<a href="http://ckeditor.com" target="' + funnyTargetValue + '">foo</a>', bot.getData( true ) );
+			} );
+		},
+
+		'test link target keywords': function() {
+			var bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">[foo]</a>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.setValueOf( 'target', 'linkTargetType', 'frame' );
+				dialog.setValueOf( 'target', 'linkTargetName', '_self' );
+
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<a href="http://ckeditor.com" target="_self">foo</a>', bot.getData( true ) );
+			} );
+		},
+
+		// #5278
+		'test link target with space': function() {
+			var bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">[foo]</a>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				var funnyTargetValue = ' foo bar';
+
+				dialog.setValueOf( 'target', 'linkTargetType', 'frame' );
+				dialog.setValueOf( 'target', 'linkTargetName', funnyTargetValue );
+
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<a href="http://ckeditor.com" target="foobar">foo</a>', bot.getData( true ) );
+			} );
 		}
 	} );
 } )();

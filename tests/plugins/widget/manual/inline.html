@@ -95,13 +95,13 @@
 
 	CKEDITOR.replace( 'editor1', {
 		height: 400,
-		mathJaxLib: '../../mathjax/' + bender.config.mathJaxLibPath,
+		mathJaxLib: bender.config.mathJaxLibPath,
 		extraPlugins: 'doublecolumn',
 		allowedContent: true
 	} );
 
 	CKEDITOR.inline( 'editor2', {
-		mathJaxLib: '../../mathjax/' + bender.config.mathJaxLibPath,
+		mathJaxLib: bender.config.mathJaxLibPath,
 		extraPlugins: 'doublecolumn',
 		allowedContent: true
 	} );

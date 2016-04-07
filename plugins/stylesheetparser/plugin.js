@@ -1,10 +1,10 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
- * @fileOverview stylesheetParser plugin.
+ * @fileOverview The [Stylesheet Parser](http://ckeditor.com/addon/stylesheetparser) plugin.
  */
 
 ( function() {
@@ -128,6 +128,9 @@
  * the regular expression will be ignored and will not be available
  * in the Styles drop-down list.
  *
+ * Read more in the [documentation](#!/guide/dev_styles-section-the-stylesheet-parser-plugin)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
+ *
  *		// Ignore rules for body and caption elements, classes starting with "high", and any class defined for no specific element.
  *		config.stylesheetParser_skipSelectors = /(^body\.|^caption\.|\.high|^\.)/i;
  *
@@ -141,6 +144,9 @@
  * A regular expression that defines which CSS rules will be used
  * by the Stylesheet Parser plugin. A CSS rule matching the regular
  * expression will be available in the Styles drop-down list.
+ *
+ * Read more in the [documentation](#!/guide/dev_styles-section-the-stylesheet-parser-plugin)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
  *
  *		// Only add rules for p and span elements.
  *		config.stylesheetParser_validSelectors = /\^(p|span)\.\w+/;

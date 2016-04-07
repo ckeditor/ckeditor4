@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -9,7 +9,7 @@
 	CKEDITOR.plugins.add( 'link', {
 		requires: 'dialog,fakeobjects',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'anchor,anchor-rtl,link,unlink', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -52,7 +52,7 @@
 				required = 'a[href]';
 
 			if ( CKEDITOR.dialog.isTabEnabled( editor, 'link', 'advanced' ) )
-				allowed = allowed.replace( ']', ',accesskey,charset,dir,id,lang,name,rel,tabindex,title,type]{*}(*)' );
+				allowed = allowed.replace( ']', ',accesskey,charset,dir,id,lang,name,rel,tabindex,title,type,download]{*}(*)' );
 			if ( CKEDITOR.dialog.isTabEnabled( editor, 'link', 'target' ) )
 				allowed = allowed.replace( ']', ',target,onclick]' );
 
@@ -203,8 +203,8 @@
 	// Loads the parameters in a selected link to the link dialog fields.
 	var javascriptProtocolRegex = /^javascript:/,
 		emailRegex = /^mailto:([^?]+)(?:\?(.+))?$/,
-		emailSubjectRegex = /subject=([^;?:@&=$,\/]*)/,
-		emailBodyRegex = /body=([^;?:@&=$,\/]*)/,
+		emailSubjectRegex = /subject=([^;?:@&=$,\/]*)/i,
+		emailBodyRegex = /body=([^;?:@&=$,\/]*)/i,
 		anchorRegex = /^#(.*)$/,
 		urlRegex = /^((?:http|https|ftp|news):\/\/)?(.*)$/,
 		selectableTargets = /^(_(?:self|top|parent|blank))$/,
@@ -417,8 +417,11 @@
 
 		/**
 		 * Parses attributes of the link element and returns an object representing
-		 * the current state (data) of the link. This data format is accepted e.g. by
-		 * the Link dialog window and {@link #getLinkAttributes}.
+		 * the current state (data) of the link. This data format is a plain object accepted
+		 * e.g. by the Link dialog window and {@link #getLinkAttributes}.
+		 *
+		 * **Note:** Data model format produced by the parser must be compatible with the Link
+		 * plugin dialog because it is passed directly to {@link CKEDITOR.dialog#setupContent}.
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.editor} editor
@@ -435,9 +438,12 @@
 			if ( ( javascriptMatch = href.match( javascriptProtocolRegex ) ) ) {
 				if ( emailProtection == 'encode' ) {
 					href = href.replace( encodedEmailLinkRegex, function( match, protectedAddress, rest ) {
+						// Without it 'undefined' is appended to e-mails without subject and body (#9192).
+						rest = rest || '';
+
 						return 'mailto:' +
 							String.fromCharCode.apply( String, protectedAddress.split( ',' ) ) +
-							( rest && unescapeSingleQuote( rest ) );
+							unescapeSingleQuote( rest );
 					} );
 				}
 				// Protected email link as function call.
@@ -521,6 +527,11 @@
 					};
 				}
 
+				var download = element.getAttribute( 'download' );
+				if ( download !== null ) {
+					retval.download = true;
+				}
+
 				var advanced = {};
 
 				for ( var a in advAttrNames ) {
@@ -543,9 +554,9 @@
 		},
 
 		/**
-		 * Converts link data into an object which consists of attributes to be set
-		 * (with their values) and an array of attributes to be removed. This method
-		 * can be used to synthesise or to update any link element with the given data.
+		 * Converts link data produced by {@link #parseLinkAttributes} into an object which consists
+		 * of attributes to be set (with their values) and an array of attributes to be removed.
+		 * This method can be used to compose or to update any link element with the given data.
 		 *
 		 * @since 4.4
 		 * @param {CKEDITOR.editor} editor
@@ -660,6 +671,11 @@
 				}
 			}
 
+			// Force download attribute.
+			if ( data.download ) {
+				set.download = '';
+			}
+
 			// Advanced attributes.
 			if ( data.advanced ) {
 				for ( var a in advAttrNames ) {
@@ -681,7 +697,8 @@
 				target: 1,
 				onclick: 1,
 				'data-cke-pa-onclick': 1,
-				'data-cke-saved-name': 1
+				'data-cke-saved-name': 1,
+				'download': 1
 			};
 
 			if ( data.advanced )

@@ -96,6 +96,7 @@
 			var loader = editor.uploadRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
+			loader.uploadTotal = 10;
 			loader.changeStatus( 'uploading' );
 
 			assertUploadingWidgets( editor, LOADED_IMG );
@@ -123,6 +124,7 @@
 			var loader = editor.uploadRepository.loaders[ 0 ];
 
 			loader.data = bender.tools.pngBase64;
+			loader.uploadTotal = 10;
 			loader.changeStatus( 'uploading' );
 
 			var area = editor._.notificationArea;
@@ -206,39 +208,63 @@
 		},
 
 		'test supportedTypes png': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.png', type: 'image/png' } ] );
+
+				wait();
 			} );
-
-			pasteFiles( editor, [ { name: 'test.png', type: 'image/png' } ] );
-
-			wait();
 		},
 
 		'test supportedTypes jpg': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.jpg', type: 'image/jpeg' } ] );
+
+				wait();
 			} );
-
-			pasteFiles( editor, [ { name: 'test.jpg', type: 'image/jpeg' } ] );
-
-			wait();
 		},
 
 		'test supportedTypes gif': function() {
-			var editor = this.editors.classic;
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			resumeAfter( editor, 'paste', function() {
-				assertUploadingWidgets( editor, LOADING_IMG );
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.gif', type: 'image/gif' } ] );
+
+				wait();
 			} );
+		},
 
-			pasteFiles( editor, [ { name: 'test.gif', type: 'image/gif' } ] );
+		'test supportedTypes bmp': function() {
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
 
-			wait();
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assertUploadingWidgets( editor, LOADING_IMG );
+				} );
+
+				pasteFiles( editor, [ { name: 'test.bmp', type: 'image/bmp' } ] );
+
+				wait();
+			} );
 		},
 
 		'test not supportedTypes tiff': function() {

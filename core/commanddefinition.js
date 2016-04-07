@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -75,8 +75,9 @@
  *			editorFocus: false // The command doesn't require focusing the editing document.
  *		} );
  *
+ * See also {@link CKEDITOR.command#editorFocus}.
+ *
  * @property {Boolean} [editorFocus=true]
- * @see CKEDITOR.command#editorFocus
  */
 
 
@@ -134,6 +135,14 @@
  *			modes: { wysiwyg:1 } // Command is available in wysiwyg mode only.
  *		} );
  *
+ * See also {@link CKEDITOR.command#modes}.
+ *
  * @property {Object} [modes={ wysiwyg:1 }]
- * @see CKEDITOR.command#modes
+ */
+
+/**
+ * Whether the command should be enabled in the {@link CKEDITOR.editor#setReadOnly read-only mode}.
+ *
+ * @since 4.0
+ * @property {Boolean} [readOnly=false]
  */

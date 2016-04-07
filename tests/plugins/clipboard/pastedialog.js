@@ -42,7 +42,7 @@
 				evt.removeListener();
 
 				tc.resume( function() {
-					assert.areEqual( 'abc<b>def</b>', evt.data.toLowerCase() );
+					assert.areEqual( 'abc<b>def</b>', evt.data.dataValue.toLowerCase() );
 				} );
 			} );
 
@@ -150,17 +150,18 @@
 		},
 
 		'test paste event structure': function() {
-			var editor = this.editor;
+			var editor = this.editor,
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer();
 
 			editor.once( 'paste', function( evt ) {
 				evt.cancel();
 
 				assert.areSame( 'foo', evt.data.dataValue, 'dataValue' );
 				assert.areSame( 'paste', evt.data.method, 'method' );
-				assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, evt.data.dataTransfer, 'dataTransfer' );
+				assert.areSame( dataTransfer, evt.data.dataTransfer, 'dataTransfer' );
 			} );
 
-			editor.fire( 'pasteDialogCommit', 'foo' );
+			editor.fire( 'pasteDialogCommit', { dataValue: 'foo', dataTransfer: dataTransfer } );
 		}
 	} );
 } )();

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -104,6 +104,7 @@ if ( !CKEDITOR.env ) {
 			 *		if ( CKEDITOR.env.mobile )
 			 *			alert( 'I\'m running with CKEditor today!' );
 			 *
+			 * @deprecated
 			 * @property {Boolean}
 			 */
 			mobile: ( agent.indexOf( 'mobile' ) > -1 ),

@@ -2,7 +2,12 @@
 
 'use strict';
 
-var doc = CKEDITOR.document;
+var doc = CKEDITOR.document,
+	FCS = CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE,
+	FCSLength = FCS.length,
+
+	removeFillingCharSequenceString = CKEDITOR.dom.selection._removeFillingCharSequenceString,
+	createFillingCharSequenceNode = CKEDITOR.dom.selection._createFillingCharSequenceNode;
 
 function createPlayground( html ) {
 	var playground = doc.createElement( 'div' );
@@ -11,6 +16,10 @@ function createPlayground( html ) {
 	// Replace dots with elements and then remove all of them leaving
 	// split text nodes.
 	html = html.replace( /\./g, '<i class="split"></i>' );
+
+	// Replace % with Filling Character Sequence dummy element.
+	// Dummy will, in turn, be converted into a real FCSeq text node (#13816).
+	html = html.replace( /%/g, '<b class="fcseq"></b>' );
 
 	// Creating empty elements...
 	html = html.replace( /\((\w+)\)/g, function( match, $0 ) {
@@ -44,6 +53,23 @@ function createPlayground( html ) {
 
 	for ( i = 0; i < split.count(); i++ ) {
 		split.getItem( i ).remove();
+	}
+
+	// Find the FCSeq dummy element and replace it with a real FCSeq (#13816).
+	var fillingCharDummy = playground.findOne( '.fcseq' );
+
+	if ( fillingCharDummy ) {
+		var fillingChar = createFillingCharSequenceNode( playground ),
+			fillingCharFollowing;
+
+		fillingChar.replace( fillingCharDummy );
+
+		// Merge the following text node with Filling Char Sequence text node, if such exist.
+		// Note: Don't merge with empty text nodes because they have a special purpose in tests.
+		if ( ( fillingCharFollowing = fillingChar.getNext() ) && fillingCharFollowing.type == CKEDITOR.NODE_TEXT && fillingCharFollowing.getText() ) {
+			fillingChar.setText( fillingChar.getText() + fillingCharFollowing.getText() );
+			fillingCharFollowing.remove();
+		}
 	}
 
 	return playground;
@@ -101,8 +127,9 @@ function createBookmark2TC( tc, normalize ) {
 
 		var bm = range.createBookmark2( normalize );
 
-		if ( normalize )
-			playground.setHtml( playground.getHtml() );
+		if ( normalize ) {
+			playground.setHtml( removeFillingCharSequenceString( playground.getHtml() ) );
+		}
 
 		var range2 = new CKEDITOR.dom.range( playground );
 		range2.moveToBookmark( bm );
@@ -149,7 +176,8 @@ function findNode( container, query ) {
 	if ( query == 'root' )
 		return container;
 
-	var textQuery = query.indexOf( '#' ) === 0 ? query.slice( 1 ) : false,
+	var fcseqQuery = query == '%',
+		textQuery = query.indexOf( '#' ) === 0 ? query.slice( 1 ) : false,
 		emptyTextQuery = query.match( /^\(\w+\)$/g ),
 		range = new CKEDITOR.dom.range( container ),
 		node,
@@ -163,7 +191,9 @@ function findNode( container, query ) {
 	walker = new CKEDITOR.dom.walker( range );
 
 	while ( ( node = walker.next() ) ) {
-		if ( textQuery && node.type == CKEDITOR.NODE_TEXT && node.getText() == textQuery ) {
+		if ( fcseqQuery && node.getText() == CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE ) {
+			return node;
+		} else if ( textQuery && node.type == CKEDITOR.NODE_TEXT && removeFillingCharSequenceString( node.getText() ) == textQuery ) {
 			return node;
 		} else if ( !textQuery && node.type == CKEDITOR.NODE_ELEMENT && node.is( query ) ) {
 			return node;
@@ -313,7 +343,14 @@ addBookmark2TCs( tcs, {
 		'wxyz offset 2': [ '<i>w</i>xy.z', { sc: 'root', so: 2 }, { sc: '#xyz', so: 2 } ],
 		'wxyz offset 3': [ '<i>w</i>xy.z', { sc: 'root', so: 3 }, { sc: 'root', so: 2 } ],
 
-		'br offset 0': [ '<br />', { sc: 'root', so: 0 }, { sc: 'root', so: 0 } ]
+		'br offset 0': [ '<br />', { sc: 'root', so: 0 }, { sc: 'root', so: 0 } ],
+
+		// <b>(foo)[<i>d]ef</i></b>
+		'abcdef 1': [ '<b>(foo)<i>def</i></b>', { sc: 'b', so: 1, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
+		// <b>(foo)(bar)[<i>d]ef</i></b>
+		'abcdef 2': [ '<b>(foo)(bar)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
+
+		'<i>a</i>(foo)<u>b</u>': [ '<i>a</i>(foo)<u>b</u>', { sc: 'root', so: 2 }, { sc: 'root', so: 1 } ]
 	},
 
 	'element selection': {
@@ -333,6 +370,30 @@ addBookmark2TCs( tcs, {
 
 		'#10301 1': [ '<p>a.b<i>c</i>d.e</p>', { sc: '#e', so: 0, ec: '#e', eo: 1 }, { sc: '#de', so: 1, ec: '#de', eo: 2 } ],
 		'#10301 2': [ '<p>a.b<i>c</i>d.e</p>', { sc: 'p', so: 4, ec: 'p', eo: 5 }, { sc: '#de', so: 1, ec: 'p', eo: 3 } ]
+	},
+
+	// #13816
+	'filling character sequence': {
+		'tc 1': [ '<p>abc</p><p><b>%def</b></p>', { sc: '#abc', so: 1, ec: '#def', eo: FCSLength + 2 }, { sc: '#abc', so: 1, ec: '#def', eo: 2 } ],
+		'tc 2': [ '%abc<b>def</b>', { sc: '#abc', so: FCSLength + 1, ec: '#def', eo: 1 }, { sc: '#abc', so: 1, ec: '#def', eo: 1 } ],
+		'tc 2b': [ '%<b>def</b>', { sc: 'root', so: 1, ec: '#def', eo: 1 }, { sc: 'root', so: 0, ec: '#def', eo: 1 } ],
+		'tc 2c': [ '%<b>def</b>', { sc: '%', so: FCSLength }, { sc: 'root', so: 0 } ],
+		'tc 2d': [ '%<b>def</b>', { sc: '%', so: 0 }, { sc: 'root', so: 0 } ],
+		'tc 3': [ '<b>a</b>%<b>c</b>d<i>e</i>', { sc: 'root', so: 2, ec: '#e', eo: 1 }, { sc: 'root', so: 1, ec: '#e', eo: 1 } ],
+		'tc 4': [ '<b>%<i>abc</i></b>', { sc: 'b', so: 1, ec: 'b', eo: 2 }, { sc: 'b', so: 0, ec: 'b', eo: 1 } ],
+		'tc 5': [ '<b>%(foo)abc<i>def</i></b>', { sc: 'b', so: 2, ec: 'b', eo: 4 }, { sc: 'b', so: 0, ec: 'b', eo: 2 } ],
+		'tc 5b': [ '<b>%abc<i>def</i></b>', { sc: 'b', so: 1, ec: 'b', eo: 2 }, { sc: 'b', so: 1, ec: 'b', eo: 2 } ],
+		'tc 5c': [ '<b>%abc<i>def</i></b>', { sc: 'b', so: 1 }, { sc: 'b', so: 1 } ],
+		'tc 5d': [ '<b>%(foo)abc<i>def</i></b>', { sc: 'b', so: 2 }, { sc: 'b', so: 0 } ],
+		'tc 5e': [ '<b>%</b>', { sc: 'b', so: 1 }, { sc: 'b', so: 0 } ],
+		'tc 5f': [ '<b>%</b>', { sc: 'b', so: 0 }, { sc: 'b', so: 0 } ],
+		'tc 5g': [ '<b>%</b>', { sc: 'b', so: 0, ec: 'b', eo: 1 }, { sc: 'b', so: 0, ec: 'b', eo: 0 } ],
+		'tc 5h': [ '<b>%</b>', { sc: 'b', so: 1, ec: 'root', eo: 1 }, { sc: 'b', so: 0, ec: 'root', eo: 1 } ],
+		'tc 6': [ '<b>%(foo)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
+		'tc 6b': [ '<b>%(foo)(bar)<i>def</i></b>', { sc: 'b', so: 2, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
+		'tc 6c': [ '<b>%(foo)(bar)<i>def</i></b>', { sc: '(bar)', so: 0, ec: '#def', eo: 1 }, { sc: 'b', so: 0, ec: '#def', eo: 1 } ],
+		// between foo and bar.
+		'tc 6d': [ '<b>abc%(foo)(bar)cba<i>def</i></b>', { sc: 'b', so: 3, ec: '#def', eo: 1 }, { sc: '#abccba', so: 3, ec: '#def', eo: 1 } ]
 	}
 } );
 

@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -31,7 +31,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 	/**
 	 * Represents a floating panel UI element.
 	 *
-	 * It's reused by rich combos, color combos, menus, etc.
+	 * It is reused by rich combos, color combos, menus, etc.
 	 * and it renders its content using {@link CKEDITOR.ui.panel}.
 	 *
 	 * @class
@@ -75,17 +75,18 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				document: doc,
 				iframe: iframe,
 				children: [],
-				dir: editor.lang.dir
+				dir: editor.lang.dir,
+				showBlockParams: null
 			};
 
 			editor.on( 'mode', hide );
 			editor.on( 'resize', hide );
 
-			// Window resize doesn't cause hide on blur. (#9800)
-			// [iOS] Poping up keyboard triggers window resize
-			// which leads to undesired panel hides.
-			if ( !CKEDITOR.env.iOS )
-				doc.getWindow().on( 'resize', hide );
+			// When resize of the window is triggered floatpanel should be repositioned according to new dimensions.
+			// #11724. Fixes issue with undesired panel hiding on Android and iOS.
+			doc.getWindow().on( 'resize', function() {
+				this.reposition();
+			}, this );
 
 			// We need a wrapper because events implementation doesn't allow to attach
 			// one listener more than once for the same event on the same object.
@@ -118,7 +119,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			/**
-			 * Shows panel block.
+			 * Shows the panel block.
 			 *
 			 * @param {String} name
 			 * @param {CKEDITOR.dom.element} offsetParent Positioned parent.
@@ -144,6 +145,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				var panel = this._.panel,
 					block = panel.showBlock( name );
 
+				this._.showBlockParams = [].slice.call( arguments );
 				this.allowBlur( false );
 
 				// Record from where the focus is when open panel.
@@ -153,8 +155,8 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				var element = this.element,
 					iframe = this._.iframe,
-					// Non IE prefer the event into a window object.
-					focused = CKEDITOR.env.ie ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow ),
+					// Edge prefers iframe's window to the iframe, just like the rest of the browsers (#13143).
+					focused = CKEDITOR.env.ie && !CKEDITOR.env.edge ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow ),
 					doc = element.getDocument(),
 					positionedAncestor = this._.parentElement.getPositionedAncestor(),
 					position = offsetParent.getDocumentPosition( doc ),
@@ -424,7 +426,21 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			/**
-			 * Restores last focused element or simply focus panel window.
+			 * Repositions the panel with the same parameters that were used in the last {@link #showBlock} call.
+			 *
+			 * @since 4.5.4
+			 */
+			reposition: function() {
+				var blockParams = this._.showBlockParams;
+
+				if ( this.visible && this._.showBlockParams ) {
+					this.hide();
+					this.showBlock.apply( this, blockParams );
+				}
+			},
+
+			/**
+			 * Restores the last focused element or simply focuses the panel window.
 			 */
 			focus: function() {
 				// Webkit requires to blur any previous focused page element, in
@@ -450,7 +466,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			/**
-			 * Hides panel.
+			 * Hides the panel.
 			 *
 			 * @todo
 			 */
@@ -474,6 +490,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					}
 
 					delete this._.lastFocused;
+					this._.showBlockParams = null;
 
 					this._.editor.fire( 'panelHide', this );
 				}
@@ -492,7 +509,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			},
 
 			/**
-			 * Shows specified panel as a child of one block of this one.
+			 * Shows the specified panel as a child of one block of this one.
 			 *
 			 * @param {CKEDITOR.ui.floatPanel} panel
 			 * @param {String} blockName

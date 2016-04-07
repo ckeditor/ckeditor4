@@ -1,0 +1,6 @@
+
+<!-- To reproduce this issue we need to put an editor in another iframe. Why is that? Bender automatically puts ckeditor.js file
+before any configurable js file. By doing so it triggers initialization logic, e.g.
+https://github.com/ckeditor/ckeditor-dev/blob/48311f85728398dd4b616b240292cffed6ec9d15/core/dom/element.js#L158. -->
+
+<iframe src="_helpers/include.html" style="width:100%;height:800px"></iframe>

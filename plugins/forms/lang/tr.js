@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'tr', {
@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'tr', {
 		radioTitle: 'Seçenek Düğmesi Özellikleri',
 		value: 'Değer',
 		selected: 'Seçili',
-		required: 'Required' // MISSING
+		required: 'Zorunlu'
 	},
 	form: {
 		title: 'Form Özellikleri',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'tr', {
 		size: 'Boyut',
 		lines: 'satır',
 		chkMulti: 'Çoklu seçime izin ver',
-		required: 'Required', // MISSING
+		required: 'Zorunlu',
 		opText: 'Metin',
 		opValue: 'Değer',
 		btnAdd: 'Ekle',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'tr', {
 		value: 'Değer',
 		charWidth: 'Karakter Genişliği',
 		maxChars: 'En Fazla Karakter',
-		required: 'Required', // MISSING
+		required: 'Zorunlu',
 		type: 'Tür',
 		typeText: 'Metin',
 		typePass: 'Şifre',

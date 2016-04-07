@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -14,70 +14,70 @@
 
 	CKEDITOR.plugins.add( 'widget', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,ca,cs,cy,da,de,el,en,en-gb,eo,es,fa,fi,fr,gl,he,hr,hu,it,ja,km,ko,ku,nb,nl,no,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,ca,cs,cy,da,de,de-ch,el,en,en-gb,eo,es,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		requires: 'lineutils,clipboard',
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
-					'position:relative;' +
-					'outline:none' +
+				'position:relative;' +
+				'outline:none' +
 				'}' +
 				'.cke_widget_inline{' +
-					'display:inline-block' +
+				'display:inline-block' +
 				'}' +
 				'.cke_widget_wrapper:hover>.cke_widget_element{' +
-					'outline:2px solid yellow;' +
-					'cursor:default' +
+				'outline:2px solid yellow;' +
+				'cursor:default' +
 				'}' +
 				'.cke_widget_wrapper:hover .cke_widget_editable{' +
-					'outline:2px solid yellow' +
+				'outline:2px solid yellow' +
 				'}' +
 				'.cke_widget_wrapper.cke_widget_focused>.cke_widget_element,' +
 				// We need higher specificity than hover style.
 				'.cke_widget_wrapper .cke_widget_editable.cke_widget_editable_focused{' +
-					'outline:2px solid #ace' +
+				'outline:2px solid #ace' +
 				'}' +
 				'.cke_widget_editable{' +
-					'cursor:text' +
+				'cursor:text' +
 				'}' +
 				'.cke_widget_drag_handler_container{' +
-					'position:absolute;' +
-					'width:' + DRAG_HANDLER_SIZE + 'px;' +
-					'height:0;' +
-					// Initially drag handler should not be visible, until its position will be
-					// calculated (#11177).
-					// We need to hide unpositined handlers, so they don't extend
-					// widget's outline far to the left (#12024).
-					'display:none;' +
-					'opacity:0.75;' +
-					'transition:height 0s 0.2s;' + // Delay hiding drag handler.
-					// Prevent drag handler from being misplaced (#11198).
-					'line-height:0' +
+				'position:absolute;' +
+				'width:' + DRAG_HANDLER_SIZE + 'px;' +
+				'height:0;' +
+				// Initially drag handler should not be visible, until its position will be
+				// calculated (#11177).
+				// We need to hide unpositined handlers, so they don't extend
+				// widget's outline far to the left (#12024).
+				'display:none;' +
+				'opacity:0.75;' +
+				'transition:height 0s 0.2s;' + // Delay hiding drag handler.
+				// Prevent drag handler from being misplaced (#11198).
+				'line-height:0' +
 				'}' +
 				'.cke_widget_wrapper:hover>.cke_widget_drag_handler_container{' +
-					'height:' + DRAG_HANDLER_SIZE + 'px;' +
-					'transition:none' +
+				'height:' + DRAG_HANDLER_SIZE + 'px;' +
+				'transition:none' +
 				'}' +
 				'.cke_widget_drag_handler_container:hover{' +
-					'opacity:1' +
+				'opacity:1' +
 				'}' +
 				'img.cke_widget_drag_handler{' +
-					'cursor:move;' +
-					'width:' + DRAG_HANDLER_SIZE + 'px;' +
-					'height:' + DRAG_HANDLER_SIZE + 'px;' +
-					'display:inline-block' +
+				'cursor:move;' +
+				'width:' + DRAG_HANDLER_SIZE + 'px;' +
+				'height:' + DRAG_HANDLER_SIZE + 'px;' +
+				'display:inline-block' +
 				'}' +
 				'.cke_widget_mask{' +
-					'position:absolute;' +
-					'top:0;' +
-					'left:0;' +
-					'width:100%;' +
-					'height:100%;' +
-					'display:block' +
+				'position:absolute;' +
+				'top:0;' +
+				'left:0;' +
+				'width:100%;' +
+				'height:100%;' +
+				'display:block' +
 				'}' +
 				'.cke_editable.cke_widget_dragging, .cke_editable.cke_widget_dragging *{' +
-					'cursor:move !important' +
+				'cursor:move !important' +
 				'}'
 			);
 		},
@@ -979,8 +979,11 @@
 	Widget.prototype = {
 		/**
 		 * Adds a class to the widget element. This method is used by
-		 * the {@link #applyStyle} method and should be overriden by widgets
+		 * the {@link #applyStyle} method and should be overridden by widgets
 		 * which should handle classes differently (e.g. add them to other elements).
+		 *
+		 * Since 4.6.0 this method also adds a corresponding class prefixed with {@link #WRAPPER_CLASS_PREFIX}
+		 * to the widget wrapper element.
 		 *
 		 * **Note**: This method should not be used directly. Use the {@link #setData} method to
 		 * set the `classes` property. Read more in the {@link #setData} documentation.
@@ -992,6 +995,7 @@
 		 */
 		addClass: function( className ) {
 			this.element.addClass( className );
+			this.wrapper.addClass( Widget.WRAPPER_CLASS_PREFIX + className );
 		},
 
 		/**
@@ -1062,8 +1066,15 @@
 			this.fire( 'destroy' );
 
 			if ( this.editables ) {
-				for ( var name in this.editables )
-					this.destroyEditable( name, offline );
+				for ( var name in this.editables ) {
+					var editable = this.editables[name];
+
+					if ( CKEDITOR.tools.isArray( editable ) ) {
+						this.destroyMultiEditable( name, offline );
+					} else {
+						this.destroyEditable( name, offline );
+					}
+				}
 			}
 
 			if ( !offline ) {
@@ -1082,9 +1093,10 @@
 		 *
 		 * @param {String} editableName Nested editable name.
 		 * @param {Boolean} [offline] See {@link #method-destroy} method.
+		 * @param {Object} [editable]
 		 */
-		destroyEditable: function( editableName, offline ) {
-			var editable = this.editables[ editableName ];
+		destroyEditable: function( editableName, offline, editable ) {
+			editable = editable || this.editables[ editableName ];
 
 			editable.removeListener( 'focus', onEditableFocus );
 			editable.removeListener( 'blur', onEditableBlur );
@@ -1094,10 +1106,43 @@
 				this.repository.destroyAll( false, editable );
 				editable.removeClass( 'cke_widget_editable' );
 				editable.removeClass( 'cke_widget_editable_focused' );
-				editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable', 'data-cke-enter-mode' ] );
+				editable.removeAttributes( [ 'contenteditable', 'data-cke-widget-editable', 'data-cke-editable-index', 'data-cke-enter-mode' ] );
 			}
 
 			delete this.editables[ editableName ];
+		},
+
+		/**
+		 * Loop trough multiple editableNodes and destroys it.
+		 *
+		 * @param {String} editableName Nested editable name.
+		 * @param {Boolean} [offline] See {@link #method-destroy} method.
+		 */
+		destroyMultiEditable: function ( editableName, offline ) {
+			var editables = this.editables[ editableName ];
+
+			if ( editables ) {
+				for ( var i = 0; i < editables.length; i++ ) {
+					this.destroyEditable( editableName, offline, editables[i]);
+				}
+			}
+		},
+
+		/**
+		 * Get editable element.
+		 *
+		 * @param {CKEDITOR.dom.element} editableElement.
+		 * @returns {CKEDITOR.plugins.widget.nestedEditable}.
+		 */
+		getEditable: function ( editableElement ) {
+			var editableName = editableElement.data( 'cke-widget-editable' ),
+				editable = this.editables[ editableName ];
+
+			return CKEDITOR.tools.isArray( editable ) ? editable[editableElement.data( 'cke-editable-index' )] : editable;
+		},
+
+		getEditableIndex: function ( editable ) {
+			return editable.getAttribute( 'data-cke-widget-editable-index' );
 		},
 
 		/**
@@ -1203,58 +1248,73 @@
 		 * @param {CKEDITOR.plugins.widget.nestedEditable.definition} definition The definition of the nested editable.
 		 * @returns {Boolean} Whether an editable was successfully initialized.
 		 */
-		initEditable: function( editableName, definition ) {
-			var editableNodes = this.wrapper.find( definition.selector ),
-				editables = [],
-				editable, editableId;
+		initEditable: function( editableName, definition, editable, editableIndex ) {
+			// Don't fetch just first element which matched selector but look for a correct one. (#13334)
+			editable = editable || this._findOneNotNested( definition.selector );
 
-			for ( var i = 0; i < editableNodes.count(); i++ ) {
-				editable = editableNodes.getItem(i);
-				if ( this._isNested( editable ) ) {
-					continue;
+			if ( editable && editable.is( CKEDITOR.dtd.$editable ) ) {
+				editable = new NestedEditable( this.editor, editable, {
+					filter: createEditableFilter.call( this.repository, this.name, editableName, definition )
+				} );
+
+				editable.setAttributes( {
+					contenteditable: 'true',
+					'data-cke-widget-editable': editableName,
+					'data-cke-enter-mode': editable.enterMode
+				} );
+
+				if ( editable.filter )
+					editable.data( 'cke-filter', editable.filter.id );
+
+				if (definition.multi) {
+					editable.data( 'cke-editable-index', editableIndex );
+					this.editables[ editableName ].push( editable );
+				} else {
+					this.editables[ editableName ] = editable;
 				}
-				if ( editable && editable.is( CKEDITOR.dtd.$editable) ) {
-					editable = new NestedEditable( this.editor, editable, {
-						filter: createEditableFilter.call( this.repository, this.name, editableName, definition )
-					} );
-					editableId = editables.push(editable) - 1;
 
-					editable.setAttributes( {
-						contenteditable: 'true',
-						'data-cke-widget-editable': editableName,
-						'data-cke-widget-editable-id': editableId,
-						'data-cke-enter-mode': editable.enterMode
-					} );
+				editable.addClass( 'cke_widget_editable' );
+				// This class may be left when d&ding widget which
+				// had focused editable. Clean this class here, not in
+				// cleanUpWidgetElement for performance and code size reasons.
+				editable.removeClass( 'cke_widget_editable_focused' );
 
-					if ( editable.filter )
-						editable.data( 'cke-filter', editable.filter.id );
+				if ( definition.pathName )
+					editable.data( 'cke-display-name', definition.pathName );
 
-					editable.addClass( 'cke_widget_editable' );
-					// This class may be left when d&ding widget which
-					// had focused editable. Clean this class here, not in
-					// cleanUpWidgetElement for performance and code size reasons.
-					editable.removeClass( 'cke_widget_editable_focused' );
+				this.editor.focusManager.add( editable );
+				editable.on( 'focus', onEditableFocus, this );
+				CKEDITOR.env.ie && editable.on( 'blur', onEditableBlur, this );
 
-					if ( definition.pathName )
-						editable.data('cke-display-name', definition.pathName);
+				// Finally, process editable's data. This data wasn't processed when loading
+				// editor's data, becuase they need to be processed separately, with its own filters and settings.
+				editable._.initialSetData = true;
+				editable.setData( editable.getHtml() );
 
-					this.editor.focusManager.add(editable);
-					editable.on( 'focus', onEditableFocus, this );
-					CKEDITOR.env.ie && editable.on('blur', onEditableBlur, this);
-
-					// Finally, process editable's data. This data wasn't processed when loading
-					// editor's data, becuase they need to be processed separately, with its own filters and settings.
-					editable._.initialSetData = true;
-					editable.setData( editable.getHtml() );
-
-				}
-			}
-			if (editables.length > 0) {
-				this.editables[editableName] = editables;
 				return true;
 			}
 
 			return false;
+		},
+
+		/**
+		 * Loop trough multiple editableNodes and initializes it.
+		 *
+		 * @param {String} editableName The nested editable name.
+		 * @param {CKEDITOR.plugins.widget.nestedEditable.definition} definition The definition of the nested editable.
+		 * @returns {Boolean} Whether an editable was successfully initialized.
+		 */
+		initMultiEditables: function ( editableName, definition ) {
+			var editableNodes = this.wrapper.find( definition.selector ),
+				count = editableNodes.count();
+
+			this.editables[ editableName ] = [];
+
+			for ( var i = 0; i < count; i++ ) {
+				this.initEditable(editableName, definition, editableNodes.getItem(i), i);
+			}
+
+			return this.editables[ editableName ].length === count;
 		},
 
 		/**
@@ -1263,16 +1323,27 @@
 		 *
 		 * @since 4.5
 		 * @private
-		 * @param {CKEDITOR.dom.element} element Element to check.
-		 * @returns {boolean} true if an element is nested or false if not
+		 * @param {String} selector Selector to match.
+		 * @returns {CKEDITOR.dom.element} Matched element or `null` if a node has not been found.
 		 */
-		_isNested: function( element ) {
-			var closestWrapper = element.getAscendant( Widget.isDomWidgetWrapper );
+		_findOneNotNested: function( selector ) {
+			var matchedElements = this.wrapper.find( selector ),
+				match,
+				closestWrapper;
 
-			// The closest ascendant-wrapper of this match defines to which widget
-			// this match belongs. If the ascendant is this widget's wrapper
-			// it means that the match is not nested in other widget.
-			return this.wrapper.equals( closestWrapper );
+			for ( var i = 0; i < matchedElements.count(); i++ ) {
+				match = matchedElements.getItem( i );
+				closestWrapper = match.getAscendant( Widget.isDomWidgetWrapper );
+
+				// The closest ascendant-wrapper of this match defines to which widget
+				// this match belongs. If the ascendant is this widget's wrapper
+				// it means that the match is not nested in other widget.
+				if ( this.wrapper.equals( closestWrapper ) ) {
+					return match;
+				}
+			}
+
+			return null;
 		},
 
 		/**
@@ -1332,6 +1403,7 @@
 		 */
 		removeClass: function( className ) {
 			this.element.removeClass( className );
+			this.wrapper.removeClass( Widget.WRAPPER_CLASS_PREFIX + className );
 		},
 
 		/**
@@ -1422,7 +1494,7 @@
 		 * out of the widget.
 		 *
 		 * This is a low-level method which is not integrated with e.g. the undo manager.
-		 * Use the {@link #focus} method instead.
+		 * Use the {@link #method-focus} method instead.
 		 *
 		 * @param {Boolean} selected Whether to select or deselect this widget.
 		 * @chainable
@@ -1439,7 +1511,7 @@
 		 * was moved out of the widget.
 		 *
 		 * This is a low-level method which is not integrated with e.g. the undo manager.
-		 * Use the {@link #focus} method instead or simply change the selection.
+		 * Use the {@link #method-focus} method instead or simply change the selection.
 		 *
 		 * @param {Boolean} selected Whether to select or deselect this widget.
 		 * @chainable
@@ -1589,6 +1661,17 @@
 	Widget.isParserWidgetWrapper = function( node ) {
 		return node.type == CKEDITOR.NODE_ELEMENT && !!node.attributes[ 'data-cke-widget-wrapper' ];
 	};
+
+	/**
+	 * Prefix added to wrapper classes. Each class added to the widget element by the {@link #addClass}
+	 * method will also be added to the wrapper prefixed with it.
+	 *
+	 * @since 4.6.0
+	 * @static
+	 * @readonly
+	 * @property {String} [='cke_widget_wrapper_']
+	 */
+	Widget.WRAPPER_CLASS_PREFIX = 'cke_widget_wrapper_';
 
 	/**
 	 * An event fired when a widget is ready (fully initialized). This event is fired after:
@@ -1989,7 +2072,8 @@
 
 		// Remove widgets which have no corresponding elements in DOM.
 		for ( i in instances ) {
-			if ( !editable.contains( instances[ i ].wrapper ) )
+			// #13410 Remove widgets that are ready. This prevents from destroying widgets that are during loading process.
+			if ( instances[ i ].isReady() && !editable.contains( instances[ i ].wrapper ) )
 				this.destroy( instances[ i ], true );
 		}
 
@@ -2191,7 +2275,7 @@
 			'data-cke-filter': 'off',
 			// Class cke_widget_new marks widgets which haven't been initialized yet.
 			'class': 'cke_widget_wrapper cke_widget_new cke_widget_' +
-				( inlineWidget ? 'inline' : 'block' )
+			( inlineWidget ? 'inline' : 'block' )
 		};
 	}
 
@@ -2277,8 +2361,9 @@
 
 			// Block del or backspace if at editable's boundary.
 			return !( ranges.length == 1 && range.collapsed &&
-				range.checkBoundaryOfElement( focusedEditable, CKEDITOR[ keyCode == 8 ? 'START' : 'END' ] ) );
+			range.checkBoundaryOfElement( focusedEditable, CKEDITOR[ keyCode == 8 ? 'START' : 'END' ] ) );
 		}
+		widget.fire( 'editableKey', { keyCode: keyCode, editable: focusedEditable });
 	}
 
 	function setFocusedEditable( widgetsRepo, widget, editableElement, offline ) {
@@ -2287,8 +2372,7 @@
 		editor.fire( 'lockSnapshot' );
 
 		if ( editableElement ) {
-			var editableName = editableElement.data( 'cke-widget-editable' ),
-				editableInstance = widget.editables[ editableName ];
+			var editableInstance = widget.getEditable( editableElement );
 
 			widgetsRepo.widgetHoldingFocusedEditable = widget;
 			widget.focusedEditable = editableInstance;
@@ -2330,11 +2414,13 @@
 	var pasteReplaceRegex = new RegExp(
 		'^' +
 		'(?:<(?:div|span)(?: data-cke-temp="1")?(?: id="cke_copybin")?(?: data-cke-temp="1")?>)?' +
-			'(?:<(?:div|span)(?: style="[^"]+")?>)?' +
-				'<span [^>]*data-cke-copybin-start="1"[^>]*>.?</span>([\\s\\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?</span>' +
-			'(?:</(?:div|span)>)?' +
+		'(?:<(?:div|span)(?: style="[^"]+")?>)?' +
+		'<span [^>]*data-cke-copybin-start="1"[^>]*>.?</span>([\\s\\S]+)<span [^>]*data-cke-copybin-end="1"[^>]*>.?</span>' +
 		'(?:</(?:div|span)>)?' +
-		'$'
+		'(?:</(?:div|span)>)?' +
+		'$',
+		// IE8 prefers uppercase when browsers stick to lowercase HTML (#13460).
+		'i'
 	);
 
 	function pasteReplaceFn( match, wrapperHtml ) {
@@ -2369,10 +2455,17 @@
 		editor.on( 'drop', function( evt ) {
 			var dataTransfer = evt.data.dataTransfer,
 				id = dataTransfer.getData( 'cke/widget-id' ),
+				transferType = dataTransfer.getTransferType( editor ),
 				dragRange = editor.createRange(),
 				sourceWidget;
 
-			if ( id === '' || dataTransfer.getTransferType( editor ) != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
+			// Disable cross-editor drag & drop for widgets - #13599.
+			if ( id !== '' && transferType === CKEDITOR.DATA_TRANSFER_CROSS_EDITORS ) {
+				evt.cancel();
+				return;
+			}
+
+			if ( id === '' || transferType != CKEDITOR.DATA_TRANSFER_INTERNAL ) {
 				return;
 			}
 
@@ -2413,6 +2506,11 @@
 							// Allow drop line inside, but never before or after nested editable (#12006).
 							if ( Widget.isDomNestedEditable( el ) )
 								return;
+
+							// Do not allow droping inside the widget being dragged (#13397).
+							if ( widgetsRepo._.draggedWidget.wrapper.contains( el ) ) {
+								return;
+							}
 
 							// If element is nested editable, make sure widget can be dropped there (#12006).
 							var nestedEditable = Widget.getNestedEditable( editable, el );
@@ -2481,6 +2579,12 @@
 					// Block widgets are handled by Lineutils.
 					if ( widget.inline && target.type == CKEDITOR.NODE_ELEMENT && target.hasAttribute( 'data-cke-widget-drag-handler' ) ) {
 						mouseDownOnDragHandler = 1;
+
+						// When drag handler is pressed we have to clear current selection if it wasn't already on this widget.
+						// Otherwise, the selection may be in a fillingChar, which prevents dragging a widget. (#13284, see comment 8 and 9.)
+						if ( widgetsRepo.focused != widget )
+							editor.getSelection().removeAllRanges();
+
 						return;
 					}
 
@@ -2658,7 +2762,7 @@
 
 			evt.data.dataValue.forEach( function( element ) {
 				var attrs = element.attributes,
-					widget, widgetElement;
+					widget, widgetElement, editables, editableType;
 
 				// Wrapper.
 				// Perform first part of downcasting (cleanup) and cache widgets,
@@ -2685,7 +2789,17 @@
 					// Nested editables are downcasted in the successive toDataFormat to create an opportunity
 					// for dataFilter's "excludeNestedEditable" option to do its job (that option relies on
 					// contenteditable="true" attribute) (#11372).
-					toBeDowncasted[ toBeDowncasted.length - 1 ].editables[ attrs[ 'data-cke-widget-editable' ] ] = element;
+					editables = toBeDowncasted[ toBeDowncasted.length - 1 ].editables;
+					editableType = attrs[ 'data-cke-widget-editable' ];
+
+					if ( attrs[ 'data-cke-editable-index' ] ) {
+						if ( !(editableType in editables) ) {
+							editables[ editableType ] = [];
+						}
+						editables[ editableType ][ attrs[ 'data-cke-editable-index' ] ] = element;
+					} else {
+						editables[ editableType ] = element;
+					}
 
 					// Don't check children - there won't be next wrapper or nested editable which we
 					// should process in this session.
@@ -2711,10 +2825,20 @@
 
 				// Replace nested editables' content with their output data.
 				for ( e in toBe.editables ) {
-					editableElement = toBe.editables[ e ];
+					if (toBe.editables.hasOwnProperty( e )) {
+						editableElement = toBe.editables[ e ];
 
-					delete editableElement.attributes.contenteditable;
-					editableElement.setHtml( widget.editables[ e ].getData() );
+						if ( CKEDITOR.tools.isArray( editableElement ) ) {
+							for ( var i = 0; i < editableElement.length; i++) {
+								editableElement = editableElement[i];
+								delete editableElement.attributes.contenteditable;
+								editableElement.setHtml( widget.editables[ e ][ i ].getData() );
+							}
+						} else {
+							delete editableElement.attributes.contenteditable;
+							editableElement.setHtml( widget.editables[ e ].getData() );
+						}
+					}
 				}
 
 				// Returned element always defaults to widgetElement.
@@ -2946,12 +3070,12 @@
 		if ( doc.getById( 'cke_copybin' ) )
 			return;
 
-			// [IE] Use span for copybin and its container to avoid bug with expanding editable height by
-			// absolutely positioned element.
+		// [IE] Use span for copybin and its container to avoid bug with expanding editable height by
+		// absolutely positioned element.
 		var copybinName = ( editor.blockless || CKEDITOR.env.ie ) ? 'span' : 'div',
 			copybin = doc.createElement( copybinName ),
 			copybinContainer = doc.createElement( copybinName ),
-			// IE8 always jumps to the end of document.
+		// IE8 always jumps to the end of document.
 			needsScrollHack = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
 		copybinContainer.setAttributes( {
@@ -3096,7 +3220,7 @@
 			return;
 
 		var editor = widget.editor,
-			// Use getLast to find wrapper's direct descendant (#12022).
+		// Use getLast to find wrapper's direct descendant (#12022).
 			container = widget.wrapper.getLast( Widget.isDomDragHandlerContainer ),
 			img;
 
@@ -3234,12 +3358,6 @@
 			// and save this state as the one where we want to be taken back when undoing.
 			this.focus();
 
-			// Reset the fake selection, which will be invalidated by insertElementIntoRange.
-			// This avoids a situation when getSelection() still returns a fake selection made
-			// on widget which in the meantime has been moved to other place. That could cause
-			// an error thrown e.g. by saveSnapshot or stateUpdater.
-			editor.getSelection().reset();
-
 			// Drag range will be set in the drop listener.
 			editor.fire( 'drop', {
 				dropRange: dropRange,
@@ -3269,7 +3387,12 @@
 
 		for ( editableName in definedEditables ) {
 			editableDef = definedEditables[ editableName ];
-			widget.initEditable( editableName, typeof editableDef == 'string' ? { selector: editableDef } : editableDef );
+
+			if ( editableDef.multi ) {
+				widget.initMultiEditables( editableName, editableDef );
+			} else {
+				widget.initEditable( editableName, typeof editableDef == 'string' ? { selector: editableDef } : editableDef );
+			}
 		}
 	}
 

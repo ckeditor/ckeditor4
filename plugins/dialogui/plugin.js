@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -1290,7 +1290,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 			 */
 			eventProcessors: {
 				onChange: function( dialog, func ) {
-					if ( !CKEDITOR.env.ie )
+					if ( !CKEDITOR.env.ie || ( CKEDITOR.env.version > 8 ) )
 						return commonEventProcessors.onChange.apply( this, arguments );
 					else {
 						dialog.on( 'load', function() {

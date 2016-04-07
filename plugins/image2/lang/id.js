@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'id', {
@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'image2', 'id', {
 	menu: 'Image Properties', // MISSING
 	pathName: 'image', // MISSING
 	pathNameCaption: 'caption', // MISSING
-	resetSize: 'Reset Size', // MISSING
+	resetSize: 'Atur Ulang Ukuran',
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Image Properties', // MISSING
 	uploadTab: 'Unggah',

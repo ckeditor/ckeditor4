@@ -272,4 +272,18 @@
 		<a href="mailto:a?subject=b&amp;body=c"><img alt="x" id="x" src="_assets/foo.png" /></a>
 	</p>
 </textarea>
+
+<!-- Custom Link Plugin helpers -->
+
+<textarea id="custom-link-getter">
+	<p>y</p>
+	<p>
+		<a href="http://x" target="f"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+	=>
+	<p>y</p>
+	<p>
+		<a href="custom-href" data-custom="custom"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+</textarea>
 </body>

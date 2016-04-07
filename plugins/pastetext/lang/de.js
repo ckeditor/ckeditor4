@@ -1,8 +1,8 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'de', {
-	button: 'Als Text einfügen',
-	title: 'Als Text einfügen'
+	button: 'Als Klartext einfügen',
+	title: 'Als Klartext einfügen'
 } );

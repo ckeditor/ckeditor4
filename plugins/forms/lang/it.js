@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'it', {
@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'it', {
 		radioTitle: 'Proprietà radio button',
 		value: 'Valore',
 		selected: 'Selezionato',
-		required: 'Required' // MISSING
+		required: 'Richiesto'
 	},
 	form: {
 		title: 'Proprietà modulo',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'it', {
 		size: 'Dimensione',
 		lines: 'righe',
 		chkMulti: 'Permetti selezione multipla',
-		required: 'Required', // MISSING
+		required: 'Richiesto',
 		opText: 'Testo',
 		opValue: 'Valore',
 		btnAdd: 'Aggiungi',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'it', {
 		value: 'Valore',
 		charWidth: 'Larghezza',
 		maxChars: 'Numero massimo di caratteri',
-		required: 'Required', // MISSING
+		required: 'Richiesto',
 		type: 'Tipo',
 		typeText: 'Testo',
 		typePass: 'Password',

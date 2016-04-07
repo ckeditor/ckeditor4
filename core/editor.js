@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -180,7 +180,11 @@
 
 		// Return the editor instance immediately to enable early stage event registrations.
 		CKEDITOR.tools.setTimeout( function() {
-			initConfig( this, instanceConfig );
+			if ( this.status !== 'destroyed' ) {
+				initConfig( this, instanceConfig );
+			} else {
+				CKEDITOR.warn( 'editor-incorrect-destroy' );
+			}
 		}, 0, this );
 	}
 
@@ -545,9 +549,7 @@
 
 				if ( requires && ( match = requires.match( removeRegex ) ) ) {
 					while ( ( name = match.pop() ) ) {
-						CKEDITOR.tools.setTimeout( function( name, pluginName ) {
-							throw new Error( 'Plugin "' + name.replace( ',', '' ) + '" cannot be removed from the plugins list, because it\'s required by "' + pluginName + '" plugin.' );
-						}, 0, null, [ name, pluginName ] );
+						CKEDITOR.error( 'editor-plugin-required', { plugin: name.replace( ',', '' ), requiredBy: pluginName } );
 					}
 				}
 
@@ -650,6 +652,47 @@
 	// Always returns ENTER_BR in case of blockless editor.
 	function validateEnterMode( editor, enterMode ) {
 		return editor.blockless ? CKEDITOR.ENTER_BR : enterMode;
+	}
+
+	// Create DocumentFragment from specified ranges. For now it handles only tables in Firefox
+	// and returns DocumentFragment from the 1. range for other cases. (#13884)
+	function createDocumentFragmentFromRanges( ranges, editable ) {
+		var docFragment = new CKEDITOR.dom.documentFragment(),
+			tableClone,
+			currentRow,
+			currentRowClone;
+
+		for ( var i = 0; i < ranges.length; i++ ) {
+			var range = ranges[ i ],
+				container = range.startContainer;
+
+			if ( container.getName && container.getName() == 'tr' ) {
+				if ( !tableClone ) {
+					tableClone = container.getAscendant( 'table' ).clone();
+					tableClone.append( container.getAscendant( 'tbody' ).clone() );
+					docFragment.append( tableClone );
+					tableClone = tableClone.findOne( 'tbody' );
+				}
+
+				if ( !( currentRow && currentRow.equals( container ) ) ) {
+					currentRow = container;
+					currentRowClone = container.clone();
+					tableClone.append( currentRowClone );
+				}
+
+				currentRowClone.append( range.cloneContents() );
+			} else {
+				// If there was something else copied with table,
+				// append it to DocumentFragment.
+				docFragment.append( range.cloneContents() );
+			}
+		}
+
+		if ( !tableClone ) {
+			return editable.getHtmlFromRange( ranges[ 0 ] );
+		}
+
+		return docFragment;
 	}
 
 	CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
@@ -763,8 +806,11 @@
 
 			this.editable( null );
 
-			this.filter.destroy();
-			delete this.filter;
+			if ( this.filter ) {
+				this.filter.destroy();
+				delete this.filter;
+			}
+
 			delete this.activeFilter;
 
 			this.status = 'destroyed';
@@ -904,15 +950,26 @@
 		 *
 		 *		alert( editor.getSnapshot() );
 		 *
-		 * @see CKEDITOR.editor#getData
+		 * See also:
+		 *
+		 * * {@link CKEDITOR.editor#method-getData}.
+		 *
+		 * @returns {String} Editor "raw data".
 		 */
 		getSnapshot: function() {
 			var data = this.fire( 'getSnapshot' );
 
 			if ( typeof data != 'string' ) {
 				var element = this.element;
-				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE )
+
+				if ( element && this.elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
 					data = element.is( 'textarea' ) ? element.getValue() : element.getHtml();
+				}
+				else {
+					// If we don't have a proper element, set data to an empty string,
+					// as this method is expected to return a string. (#13385)
+					data = '';
+				}
 			}
 
 			return data;
@@ -1117,7 +1174,7 @@
 				return null;
 			}
 
-			var docFragment = editable.getHtmlFromRange( ranges[ 0 ] );
+			var docFragment = createDocumentFragmentFromRanges( ranges, editable );
 
 			return toString ? docFragment.getHtml() : docFragment;
 		},
@@ -1435,6 +1492,9 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * If `true`, makes the editor start in read-only state. Otherwise, it will check
  * if the linked `<textarea>` element has the `disabled` attribute.
  *
+ * Read more in the [documentation](#!/guide/dev_readonly)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/readonly.html).
+ *
  *		config.readOnly = true;
  *
  * @since 3.6
@@ -1444,7 +1504,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Sets whether an editable element should have focus when the editor is loading for the first time.
+ * Whether an editable element should have focus when the editor is loading for the first time.
  *
  *		config.startupFocus = true;
  *
@@ -1454,8 +1514,9 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 
  /**
  * Customizes the {@link CKEDITOR.editor#title human-readable title} of this editor. This title is displayed in
- * tooltips and impacts various accessibility aspects, e.g. it is commonly used by screen readers
- * for distinguishing editor instances and for navigation. Accepted values are a string or `false`.
+ * tooltips and impacts various [accessibility aspects](#!/guide/dev_a11y-section-announcing-the-editor-on-the-page),
+ * e.g. it is commonly used by screen readers for distinguishing editor instances and for navigation.
+ * Accepted values are a string or `false`.
  *
  * **Note:** When `config.title` is set globally, the same value will be applied to all editor instances
  * loaded with this config. This may adversely affect accessibility as screen reader users will be unable
@@ -1474,11 +1535,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  *		// Also if no `title` attribute exists, nothing new will be added.
  *		config.title = false;
  *
+ * See also:
+ *
+ * * CKEDITOR.editor#name
+ * * CKEDITOR.editor#title
+ *
  * @since 4.2
  * @cfg {String/Boolean} [title=based on editor.name]
  * @member CKEDITOR.config
- * @see CKEDITOR.editor.name
- * @see CKEDITOR.editor.title
  */
 
 /**

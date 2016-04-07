@@ -1,5 +1,5 @@
-﻿/*
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'hi', {
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	anchorName: 'ऐंकर नाम से',
 	charset: 'लिंक रिसोर्स करॅक्टर सॅट',
 	cssClasses: 'स्टाइल-शीट क्लास',
+	download: 'Force Download', // MISSING
 	emailAddress: 'ई-मेल पता',
 	emailBody: 'संदेश',
 	emailSubject: 'संदेश विषय',

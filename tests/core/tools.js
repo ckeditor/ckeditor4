@@ -10,7 +10,7 @@
 
 	var htmlEncode = CKEDITOR.tools.htmlEncode,
 		htmlDecode = CKEDITOR.tools.htmlDecode;
-	
+
 	bender.test( {
 		assertNormalizedCssText: function( expected, elementId, msg ) {
 			assert.areSame( expected, CKEDITOR.tools.normalizeCssText(
@@ -192,6 +192,10 @@
 		},
 
 		test_clone_Window: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				assert.ignore();
+			}
+
 			var obj = {
 				window: window
 			};
@@ -614,6 +618,35 @@
 			assert.isString( uuid, 'UUID should be a string.' );
 			assert.isMatching( /[a-z]/, uuid[ 0 ], 'First character of UUID should be z letter.' );
 			assert.areSame( 33, uuid.length, 'UUID.length' );
+		},
+
+		'test setCookie': function() {
+			var name = 'test-cookie-name',
+				value = 'test-value' + Math.random();
+
+			CKEDITOR.tools.setCookie( name, value );
+			assert.isMatching( name + '=' + value, document.cookie, 'cookie is set correctly' );
+		},
+
+		'test getCookie': function() {
+			var name = 'test2-cookie-name',
+				value = 'test-value' + Math.random();
+
+			document.cookie = encodeURIComponent( name ) + '=' + encodeURIComponent( value ) + ';path=/';
+			assert.areSame( CKEDITOR.tools.getCookie( name ), value, 'getCookie returns proper cookie' );
+		},
+
+		'test getCsrfToken': function() {
+			var token = CKEDITOR.tools.getCsrfToken();
+
+			// Check if token is saved in cookie.
+			assert.isMatching( 'ckCsrfToken=' + token, document.cookie, 'getCsrfToken sets proper cookie' );
+
+			// Check token length.
+			assert.areEqual( token.length, 40, 'token has proper length' );
+
+			// Check if next token will be the same.
+			assert.areEqual( token, CKEDITOR.tools.getCsrfToken(), 'getCsrfToken returns token from cookie' );
 		}
 	} );
 } )();

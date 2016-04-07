@@ -248,7 +248,6 @@ module.exports = function( grunt ) {
 		} catch ( e ) {
 			return false;
 		}
-		return false;
 	}
 
 	function addPluginDirToGitExclude( pluginDir ) {

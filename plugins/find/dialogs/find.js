@@ -1,5 +1,5 @@
-﻿/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -370,14 +370,12 @@
 							return KMP_MATCHED;
 						}
 						return KMP_ADVANCED;
-					} else if ( !this._.state )
+					} else if ( !this._.state ) {
 						return KMP_NOMATCH;
-					else {
+					} else {
 						this._.state = this._.overlap[this._.state];
 					}
 				}
-
-				return null;
 			},
 
 			reset: function() {
@@ -508,10 +506,13 @@
 		function getSearchRange( isDefault ) {
 			var searchRange,
 				sel = editor.getSelection(),
+				range = sel.getRanges()[ 0 ],
 				editable = editor.editable();
 
-			if ( sel && !isDefault ) {
-				searchRange = sel.getRanges()[ 0 ].clone();
+			// Blink browsers return empty array of ranges when editor is in read-only mode
+			// and it hasn't got focus, so instead of selection, we check for range itself. (#12848)
+			if ( range && !isDefault ) {
+				searchRange = range.clone();
 				searchRange.collapse( true );
 			} else {
 				searchRange = editor.createRange();

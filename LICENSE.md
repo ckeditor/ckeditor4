@@ -2,7 +2,7 @@ Software License Agreement
 ==========================
 
 CKEditor - The text editor for Internet - http://ckeditor.com
-Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 
 Licensed under the terms of any of the following licenses at your
 choice:
@@ -37,9 +37,13 @@ done by developers outside of CKSource with their express permission.
 
 The following libraries are included in CKEditor under the MIT license (see Appendix D):
 
-* CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
+* CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2016, CKSource - Frederico Knabben.
 * PicoModal (included in `samples/js/sf.js`) - Copyright (c) 2012 James Frasca.
 * CodeMirror (included in the samples) - Copyright (C) 2014 by Marijn Haverbeke <marijnh@gmail.com> and others.
+
+Parts of code taken from the following libraries are included in CKEditor under the MIT license (see Appendix D):
+
+* jQuery (inspired the domReady function, ckeditor_base.js) - Copyright (c) 2011 John Resig, http://jquery.com/
 
 The following libraries are included in CKEditor under the SIL Open Font License, Version 1.1 (see Appendix E):
 
@@ -54,17 +58,17 @@ The following libraries are included in CKEditor under the BSD-3 License (see Ap
 
 The following libraries are included only in the development version of CKEditor under the MIT license (see Appendix D):
 
-* CKBuilder - Copyright (c) 2012-2015, CKSource - Frederico Knabben.
-* CKLangTool - Copyright (c) 2012-2015, CKSource - Frederico Knabben.
+* CKBuilder - Copyright (c) 2012-2016, CKSource - Frederico Knabben.
+* CKLangTool - Copyright (c) 2012-2016, CKSource - Frederico Knabben.
 * Optimist - Copyright 2010 James Halliday (mail@substack.net).
 * Q - Copyright 2009–2014 Kristopher Michael Kowal.
 * Tmp - Copyright (c) 2014 KARASZI István.
 * Mkdirp - Copyright 2010 James Halliday (mail@substack.net).
-* Bender.js - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
-* benderjs-coverage - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
-* benderjs-jquery - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
-* benderjs-sinon - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
-* benderjs-yui - Copyright (c) 2014-2015, CKSource - Frederico Knabben.
+* Bender.js - Copyright (c) 2014-2016, CKSource - Frederico Knabben.
+* benderjs-coverage - Copyright (c) 2014-2016, CKSource - Frederico Knabben.
+* benderjs-jquery - Copyright (c) 2014-2016, CKSource - Frederico Knabben.
+* benderjs-sinon - Copyright (c) 2014-2016, CKSource - Frederico Knabben.
+* benderjs-yui - Copyright (c) 2014-2016, CKSource - Frederico Knabben.
 * Grunt - Copyright (c) 2015 "Cowboy" Ben Alman.
 * grunt-contrib-imagemin - Copyright (c) 2014 Sindre Sorhus, contributors.
 * grunt-jscs - Copyright (c) 2014 Gustavo Henke, contributors.
@@ -74,6 +78,7 @@ The following libraries are included only in the development version of CKEditor
 * grunt-contrib-concat - Copyright (c) 2014 "Cowboy" Ben Alman, contributors.
 * grunt-jsduck - Copyright (c) 2012 Dmitry Pashkevich, contributors.
 * grunt-githooks - Copyright (c) 2013 Romaric Pascal.
+* jQuery Form Plugin (used in jquery adapter test) - Copyright (c) 2012 M. Alsup
 
 The following libraries are included only in the development version of CKEditor under the BSD-3 License (see Appendix F):
 

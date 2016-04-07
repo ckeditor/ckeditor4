@@ -1,0 +1,23 @@
+<p>Test URLs</p>
+
+<ul>
+	<li><input type="text" value="https://twitter.com/reinmarpl/status/573118615274315776"></li>
+	<li><input type="text" value="http://i.imgur.com/Z3ilPBI.jpg"></li>
+</ul>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Paste the URL here: ^</p>
+	<p>Copy and paste me once undone!</p>
+</textarea>
+
+<script>
+	embedTools.delayJsonp();
+
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'embedsemantic',
+		extraPlugins: 'embed',
+		height: 500,
+		// Make them narrow so images don't take too much space.
+		width: 600
+	} );
+</script>

@@ -6,7 +6,7 @@
 'use strict';
 
 ( function() {
-	var fileTools, resumeAfter, lastUploadUrl,
+	var fileTools, resumeAfter, lastUploadUrl, lastAdditionalRequestParameters,
 		loadAndUploadCount, loadCount, uploadCount,
 		htmlMatchingOpts = {
 			compareSelection: true,
@@ -63,7 +63,8 @@
 			widgets: {
 				add: function() {}
 			},
-			lang: {}
+			lang: {},
+			config: {}
 		};
 
 		editor.uploadRepository = new CKEDITOR.fileTools.uploadRepository( editor );
@@ -95,18 +96,20 @@
 			fileTools = CKEDITOR.fileTools;
 			resumeAfter = bender.tools.resumeAfter;
 
-			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function( url ) {
+			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function( url, additionalRequestParameters ) {
 				loadAndUploadCount++;
 				lastUploadUrl = url;
+				lastAdditionalRequestParameters = additionalRequestParameters;
 			};
 
 			CKEDITOR.fileTools.fileLoader.prototype.load = function() {
 				loadCount++;
 			};
 
-			CKEDITOR.fileTools.fileLoader.prototype.upload = function( url ) {
+			CKEDITOR.fileTools.fileLoader.prototype.upload = function( url, additionalRequestParameters ) {
 				uploadCount++;
 				lastUploadUrl = url;
+				lastAdditionalRequestParameters = additionalRequestParameters;
 			};
 
 			loadAndUploadCount = 0;
