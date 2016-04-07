@@ -1248,22 +1248,20 @@
 			styles = styleDef.styles,
 			attrs = styleDef.attributes || {};
 
-		if ( styles ) {
+		if ( styles && !CKEDITOR.tools.isEmpty( styles ) ) {
 			styles = copy( styles );
 			attrs.style = CKEDITOR.tools.writeCssText( styles, true );
 		} else {
 			styles = {};
 		}
 
-		var el = {
+		return {
 			name: styleDef.element,
 			attributes: attrs,
 			classes: attrs[ 'class' ] ? attrs[ 'class' ].split( /\s+/ ) : [],
 			styles: styles,
 			children: []
 		};
-
-		return el;
 	}
 
 	// Mock hash based on string.
@@ -1873,6 +1871,7 @@
 	//
 	// TRANSFORMATIONS --------------------------------------------------------
 	//
+	var transformationsTools;
 
 	// Apply given transformations group to the element.
 	function applyTransformationsGroup( filter, element, group ) {
@@ -2021,7 +2020,7 @@
 	 * @class CKEDITOR.filter.transformationsTools
 	 * @singleton
 	 */
-	var transformationsTools = CKEDITOR.filter.transformationsTools = {
+	transformationsTools = CKEDITOR.filter.transformationsTools = {
 		/**
 		 * Converts `width` and `height` attributes to styles.
 		 *
