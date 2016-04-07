@@ -246,6 +246,11 @@
 
 			// Deactivate all listeners on panel hide.
 			this.on( 'hide', this.deactivateShowListeners, this );
+
+			this.parts.close.on( 'click', function( evt ) {
+				this.hide();
+				evt.data.preventDefault();
+			}, this );
 		},
 
 		/**
