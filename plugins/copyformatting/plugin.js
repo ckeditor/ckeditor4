@@ -52,7 +52,7 @@
 			 * Object indicating the current state of Copy Formatting plugin
 			 * in the specified editor.
 			 *
-			 * @singleton
+			 * @mixins CKEDITOR.event
 			 * @member CKEDITOR.editor
 			 */
 			editor.copyFormatting = {
