@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.6.0, balloonpanel
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, notification, floatingspace, balloonpanel
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, notification, floatingspace, balloonpanel, sourcearea, list
 
 
 1. Click on the "Attach panel" button.
