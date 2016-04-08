@@ -1,10 +1,83 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 ( function() {
 	'use strict';
+
+	/**
+	 * JSONP communication.
+	 *
+	 * @private
+	 * @singleton
+	 * @class CKEDITOR.plugins.embedBase._jsonp
+	 */
+	var Jsonp = {
+		/**
+		 * Creates a `<script>` element and attaches it to the document `<body>`.
+		 *
+		 * @private
+		 */
+		_attachScript: function( url, errorCallback ) {
+			// ATM we cannot use CKE scriptloader here, because it will make sure that script
+			// with given URL is added only once.
+			var script = new CKEDITOR.dom.element( 'script' );
+			script.setAttribute( 'src', url );
+			script.on( 'error', errorCallback );
+
+			CKEDITOR.document.getBody().append( script );
+
+			return script;
+		},
+
+		/**
+		 * Sends a request using the JSONP technique.
+		 *
+		 * @param {CKEDITOR.template} urlTemplate The template of the URL to be requested. All properties
+		 * passed in `urlParams` can be used, plus a `{callback}`, which represent a JSONP callback, must be defined.
+		 * @param {Object} urlParams Parameters to be passed to the `urlTemplate`.
+		 * @param {Function} callback
+		 * @param {Function} [errorCallback]
+		 * @returns {Object} The request object with a `cancel()` method.
+		 */
+		sendRequest: function( urlTemplate, urlParams, callback, errorCallback ) {
+			var request = {};
+			urlParams = urlParams || {};
+
+			var callbackKey = CKEDITOR.tools.getNextNumber(),
+				scriptElement;
+
+			urlParams.callback = 'CKEDITOR._.jsonpCallbacks[' + callbackKey + ']';
+
+			CKEDITOR._.jsonpCallbacks[ callbackKey ] = function( response ) {
+				// On IEs scripts are sometimes loaded synchronously. It is bad for two reasons:
+				// * nature of sendRequest() is unstable,
+				// * scriptElement does not exist yet.
+				setTimeout( function() {
+					cleanUp();
+					callback( response );
+				} );
+			};
+
+			scriptElement = this._attachScript( urlTemplate.output( urlParams ), function() {
+				cleanUp();
+				errorCallback && errorCallback();
+			} );
+
+			request.cancel = cleanUp;
+
+			function cleanUp() {
+				if ( scriptElement ) {
+					scriptElement.remove();
+					delete CKEDITOR._.jsonpCallbacks[ callbackKey ];
+					scriptElement = null;
+				}
+			}
+
+			return request;
+		}
+	};
 
 	CKEDITOR.plugins.add( 'embedbase', {
 		lang: 'cs,da,de,de-ch,en,eo,eu,fr,gl,id,it,ko,ku,nb,nl,pl,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
@@ -520,79 +593,6 @@
 		 * that must be set if this event is canceled to indicate an unsupported oEmbed response.
 		 */
 	}
-
-	/**
-	 * JSONP communication.
-	 *
-	 * @private
-	 * @singleton
-	 * @class CKEDITOR.plugins.embedBase._jsonp
-	 */
-	var Jsonp = {
-		/**
-		 * Creates a `<script>` element and attaches it to the document `<body>`.
-		 *
-		 * @private
-		 */
-		_attachScript: function( url, errorCallback ) {
-			// ATM we cannot use CKE scriptloader here, because it will make sure that script
-			// with given URL is added only once.
-			var script = new CKEDITOR.dom.element( 'script' );
-			script.setAttribute( 'src', url );
-			script.on( 'error', errorCallback );
-
-			CKEDITOR.document.getBody().append( script );
-
-			return script;
-		},
-
-		/**
-		 * Sends a request using the JSONP technique.
-		 *
-		 * @param {CKEDITOR.template} urlTemplate The template of the URL to be requested. All properties
-		 * passed in `urlParams` can be used, plus a `{callback}`, which represent a JSONP callback, must be defined.
-		 * @param {Object} urlParams Parameters to be passed to the `urlTemplate`.
-		 * @param {Function} callback
-		 * @param {Function} [errorCallback]
-		 * @returns {Object} The request object with a `cancel()` method.
-		 */
-		sendRequest: function( urlTemplate, urlParams, callback, errorCallback ) {
-			var request = {};
-			urlParams = urlParams || {};
-
-			var callbackKey = CKEDITOR.tools.getNextNumber(),
-				scriptElement;
-
-			urlParams.callback = 'CKEDITOR._.jsonpCallbacks[' + callbackKey + ']';
-
-			CKEDITOR._.jsonpCallbacks[ callbackKey ] = function( response ) {
-				// On IEs scripts are sometimes loaded synchronously. It is bad for two reasons:
-				// * nature of sendRequest() is unstable,
-				// * scriptElement does not exist yet.
-				setTimeout( function() {
-					cleanUp();
-					callback( response );
-				} );
-			};
-
-			scriptElement = this._attachScript( urlTemplate.output( urlParams ), function() {
-				cleanUp();
-				errorCallback && errorCallback();
-			} );
-
-			request.cancel = cleanUp;
-
-			function cleanUp() {
-				if ( scriptElement ) {
-					scriptElement.remove();
-					delete CKEDITOR._.jsonpCallbacks[ callbackKey ];
-					scriptElement = null;
-				}
-			}
-
-			return request;
-		}
-	};
 
 	/**
 	 * Class representing the request object. It is created by the {@link CKEDITOR.plugins.embedBase.baseDefinition#loadContent}
