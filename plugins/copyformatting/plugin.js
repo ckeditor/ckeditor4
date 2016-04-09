@@ -219,7 +219,7 @@
 					}
 
 					copyFormatting.styles = plugin._extractStylesFromElement( editor,
-						editor.elementPath().lastElement, undefined, boundaryIntoSpan );
+						editor.elementPath().lastElement, boundaryIntoSpan );
 
 					cmd.setState( CKEDITOR.TRISTATE_ON );
 
@@ -333,17 +333,15 @@
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.element} element Element which styles should be extracted.
-		 * @param {Object} eventData Additional data to be passed into `extractStylesFromElement` event.
 		 * @param {Function} [tmpPostProcess] Method to postprocess style definition extracted each element.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 */
-		_extractStylesFromElement: function( editor, element, eventData, tmpPostProcess ) {
+		_extractStylesFromElement: function( editor, element, tmpPostProcess ) {
 			var isEmpty = CKEDITOR.tools.isEmpty,
+				eventData = {},
 				styles = [],
 				styleDef;
-
-			eventData = eventData || {};
 
 			do {
 				// Skip all non-elements and bookmarks.
@@ -377,19 +375,18 @@
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
-		 * @param {Object} eventData Additional event data to be passed to `extractStylesFromElement` event.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 * @todo Styles in the array returned by this method might be duplicated; it should be cleaned later on.
 		 */
-		_extractStylesFromRange: function( editor, range, eventData ) {
+		_extractStylesFromRange: function( editor, range ) {
 			var styles = [],
 				walker = new CKEDITOR.dom.walker( range ),
 				currentNode;
 
 			while ( ( currentNode = walker.next() ) ) {
 				styles = styles.concat(
-					CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor, currentNode, eventData ) );
+					CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor, currentNode ) );
 			}
 
 			return styles;

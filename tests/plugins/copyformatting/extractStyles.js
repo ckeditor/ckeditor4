@@ -64,8 +64,7 @@
 		'test extract styles from nested elements': function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<strong class="important" ' +
 					'title="Neil Armstrong"><span style="' + styleAttr + '"><s>Neil Armstrong</s></span></strong>' ),
-				styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( this.editor, element.findOne( 's' ),
-					{ oldStyles: true } );
+				styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( this.editor, element.findOne( 's' ) );
 
 			assert.isArray( styles );
 			assert.areSame( 3, styles.length );
