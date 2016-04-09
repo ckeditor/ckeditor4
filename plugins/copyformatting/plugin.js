@@ -154,34 +154,19 @@
 				evt.data.styleDef = plugin._convertElementToStyleDef( element );
 			} );
 
-			// Change element to span in case of headings, paragraphs and divs.
-			// Do not do that for fetching old styles.
-			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
-				var element = evt.data.element;
-
-				if ( evt.data.oldStyles || indexOf( plugin.inlineBoundary, element.getName() ) === -1 ) {
+			// Remove old styles from element.
+			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
+				if ( evt.data.preventFormatStripping ) {
 					return;
 				}
 
-				evt.data.styleDef.element = 'span';
-			} );
+				var oldStyles = plugin._extractStylesFromRange( editor, evt.data.range ),
+					i;
 
-			// Remove empty styles.
-			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
-				var styleDef = evt.data.styleDef,
-					isEmpty = CKEDITOR.tools.isEmpty;
-
-				if ( styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
-					evt.cancel();
+				for ( i = 0; i < oldStyles.length; i++ ) {
+					oldStyles[ i ].remove( evt.editor );
 				}
-			}, null, null, 999 );
-
-			// Remove old styles from element.
-			editor.copyFormatting.on( 'beforeApplyFormatting', function( evt ) {
-				for ( var i = 0; i < evt.data.oldStyles.length; i++ ) {
-					evt.data.oldStyles[ i ].remove( evt.editor );
-				}
-			}, null, null, 999 );
+			}, null, null, 9 );
 
 			// Apply new styles.
 			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
@@ -226,8 +211,15 @@
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
+					function boundaryIntoSpan( styleDef ) {
+						// Change element's name to span in case of inline boundary elements.
+						if ( indexOf( plugin.inlineBoundary, styleDef.element ) !== -1 ) {
+							styleDef.element = 'span';
+						}
+					}
+
 					copyFormatting.styles = plugin._extractStylesFromElement( editor,
-						editor.elementPath().lastElement );
+						editor.elementPath().lastElement, undefined, boundaryIntoSpan );
 
 					cmd.setState( CKEDITOR.TRISTATE_ON );
 
@@ -342,11 +334,14 @@
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.element} element Element which styles should be extracted.
 		 * @param {Object} eventData Additional data to be passed into `extractStylesFromElement` event.
+		 * @param {Function} [tmpPostProcess] Method to postprocess style definition extracted each element.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 */
-		_extractStylesFromElement: function( editor, element, eventData ) {
-			var styles = [];
+		_extractStylesFromElement: function( editor, element, eventData, tmpPostProcess ) {
+			var isEmpty = CKEDITOR.tools.isEmpty,
+				styles = [],
+				styleDef;
 
 			eventData = eventData || {};
 
@@ -358,9 +353,19 @@
 
 				eventData.element = element;
 
-				if ( editor.copyFormatting.fire( 'extractFormatting', eventData, editor ) &&
-					eventData.styleDef ) {
-					styles.push( new CKEDITOR.style( eventData.styleDef ) );
+				if ( editor.copyFormatting.fire( 'extractFormatting', eventData, editor ) && eventData.styleDef ) {
+					styleDef = eventData.styleDef;
+
+					if ( tmpPostProcess ) {
+						tmpPostProcess( styleDef );
+					}
+
+					// We don't want to pick empty spans.
+					if ( styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
+						continue;
+					}
+
+					styles.push( new CKEDITOR.style( styleDef ) );
 				}
 			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT );
 
@@ -564,9 +569,9 @@
 		_applyFormat: function( editor, newStyles ) {
 			var range = editor.getSelection().getRanges()[ 0 ],
 				plugin = CKEDITOR.plugins.copyformatting,
-				oldStyles,
 				word,
-				bkms;
+				bkms,
+				applyEvtData;
 
 			if ( !range ) {
 				return;
@@ -587,16 +592,10 @@
 				range.select();
 			}
 
-			oldStyles = plugin._extractStylesFromRange( editor, range, { oldStyles: true } );
-
-			if ( !editor.copyFormatting.fire( 'beforeApplyFormatting', { oldStyles: oldStyles, range: range },
-				editor ) ) {
-				return false;
-			}
+			applyEvtData = { styles: newStyles, range: range, preventFormatStripping: false };
 
 			// Now apply new styles.
-			if ( !editor.copyFormatting.fire( 'applyFormatting', { styles: newStyles, range: range },
-				editor ) ) {
+			if ( !editor.copyFormatting.fire( 'applyFormatting', applyEvtData, editor ) ) {
 				return false;
 			}
 
@@ -662,29 +661,6 @@
 	 * @param {Object} data
 	 * @param {CKEDITOR.dom.element} data.element The element which styles should be fetched.
 	 * @param {Object} data.styleDef Styles extracted from element.
-	 * @param {Boolean} [data.oldStyles] If it is specified, it indicates that the styles fetching is initiated
-	 * via `{@link #beforeApplyFormatting}` event.
-	 */
-
-	/**
-	 * Fired just before the copied styles are applied to the current selection position.
-	 * This event listener job is to prepare the selection contents for applying new styles (e.g. by fetching
-	 * existing styles and removing them).
-	 *
-	 *		editor.copyFormatting.on( 'beforeApplyFormatting', function( evt ) {
-	 *			for ( var i = 0; i < evt.data.oldStyles.length; i++ ) {
-	 *				evt.data.oldStyles[ i ].remove( evt.editor );
-	 *			}
-	 *		}, null, null, 999 );
-	 *
-	 * This event has one listener with priority of `999` that removes all styles currently applied to the
-	 * current selection.
-	 *
-	 * @event beforeApplyFormatting
-	 * @member CKEDITOR.editor.copyFormatting
-	 * @param {Object} data
-	 * @param {CKEDITOR.dom.range} range Range from the current selection.
-	 * @param {CKEDITOR.style[]} oldStyles Styles fetched from the current selection.
 	 */
 
 	/**
@@ -704,5 +680,7 @@
 	 * @param {Object} data
 	 * @param {CKEDITOR.dom.range} range Range from the current selection.
 	 * @param {CKEDITOR.style[]} styles Styles to be applied.
+	 * @param {Boolean} [data.preventFormatStripping=false] If set to true, will prevent strippiing styles from
+	 * Copy Formatting destination range.
 	 */
 } )();
