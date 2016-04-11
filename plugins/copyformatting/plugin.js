@@ -146,8 +146,7 @@
 				var element = evt.data.element;
 
 				// Stop at body and html in classic editors or at .cke_editable element in inline ones.
-				if ( indexOf( [ 'body', 'html' ], element.getName() ) !== -1 ||
-					element.hasClass( 'cke_editable' ) ) {
+				if ( element.contains( editor.editable() ) || element.equals( editor.editable() ) ) {
 					return evt.cancel();
 				}
 
