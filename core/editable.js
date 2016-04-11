@@ -905,12 +905,16 @@
 				// Create the content stylesheet for this document.
 				var styles = CKEDITOR.getCss();
 				if ( styles ) {
-					var head = doc.getHead();
-					if ( !head.getCustomData( 'stylesheet' ) ) {
+					var head = doc.getHead(),
+						stylesElement = head.getCustomData( 'stylesheet' );
+
+					if ( !stylesElement ) {
 						var sheet = doc.appendStyleText( styles );
 						sheet = new CKEDITOR.dom.element( sheet.ownerNode || sheet.owningElement );
 						head.setCustomData( 'stylesheet', sheet );
 						sheet.data( 'cke-temp', 1 );
+					} else if ( styles != stylesElement.getText() ) {
+						CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? stylesElement.$.styleSheet.cssText = styles : stylesElement.setText( styles );
 					}
 				}
 
