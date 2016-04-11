@@ -179,12 +179,13 @@ function assertApplyFormattingState( editor, expectedStyles, styledElement, addi
 	}
 
 	// If we test removing formatting, we should check if there is no styles left on the element.
+	// Actually the plugin would return styles from paragraph, so "no styles" means "styles only from paragraph".
 	if ( expectedStyles.length > 0 ) {
 		for ( var i = 0; i < expectedStyles.length; i++ ) {
 			assert.isTrue( expectedStyles[ i ].checkActive( path, editor ), 'Style #' + i + ' is correctly applied' );
 		}
 	} else {
-		assert.areSame( 0, CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor, styledElement ).length,
+		assert.areSame( 1, CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor, styledElement ).length,
 			'There are no styles applied to element' );
 	}
 }
@@ -201,8 +202,7 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 	var cmd = editor.getCommand( 'copyFormatting' ),
 		copyFormatting = editor.copyFormatting,
 		events = {
-			extractStylesFromElement: 0,
-			extractOldStyles: 0
+			extractFormatting: 0
 		},
 		styles,
 		i,
@@ -210,29 +210,25 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 		element,
 		range;
 
-	function countExtractStylesFromElementEvents() {
-		++events.extractStylesFromElement;
-	}
-
-	function countExtractOldStyles( evt ) {
-		if ( evt.data.oldStyles ) {
-			++events.extractOldStyles;
-		}
+	function countExtractFormatting() {
+		++events.extractFormatting;
 	}
 
 	bender.tools.selection.setWithHtml( editor, htmlWithSelection );
 
-	copyFormatting.on( 'extractFormatting', countExtractStylesFromElementEvents, null, null, 1000 );
+	copyFormatting.on( 'extractFormatting', countExtractFormatting, null, null, 1000 );
 	editor.execCommand( 'copyFormatting', additionalData );
-	copyFormatting.removeListener( 'extractFormatting', countExtractStylesFromElementEvents, null, null, 1000 );
+	copyFormatting.removeListener( 'extractFormatting', countExtractFormatting, null, null, 1000 );
 
 	assertCopyFormattingState( editor, expectedStyles, additionalData );
 	assertScreenReaderNotification( editor, 'copied' );
 
 	styles = copyFormatting.styles;
 
-	assert.areSame( copyFormatting.styles.length, events.extractStylesFromElement,
+	assert.areSame( copyFormatting.styles.length + 1, events.extractFormatting,
 		'For every extracted styles, a proper event was fired.' );
+
+	events.extractFormatting = 0;
 
 	// Select text node inside element (as the text is selected when element is clicked).
 	element = editor.editable().findOne( rangeInfo.elementName ).getChild( 0 );
@@ -251,18 +247,14 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 
 	range.select();
 
-	copyFormatting.on( 'extractFormatting', countExtractOldStyles );
+	copyFormatting.on( 'extractFormatting', countExtractFormatting );
 	editor.execCommand( 'applyFormatting', additionalData );
-	copyFormatting.removeListener( 'extractFormatting', countExtractOldStyles );
+	copyFormatting.removeListener( 'extractFormatting', countExtractFormatting );
 
 	// At the moment, fetching preexisting styles returns many duplicates.
 	// Therefore strict match will always fail.
-	assert.isTrue( removedStyles.length <= events.extractOldStyles,
+	assert.isTrue( removedStyles.length <= events.extractFormatting,
 		'For every removed style a proper event was fired.' );
-
-	copyFormatting.once( 'beforeApplyFormatting', function( evt ) {
-		assert.isArray( evt.data.oldStyles, 'Old styles are passed to the beforeApplyFormatting event.' );
-	} );
 
 	copyFormatting.once( 'applyFormatting', function( evt ) {
 		assert.isArray( evt.data.styles, 'New styles are passed to the applyFormatting event.' );

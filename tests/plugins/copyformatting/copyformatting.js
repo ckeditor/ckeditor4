@@ -163,33 +163,6 @@
 			assertScreenReaderNotification( editor, 'canceled' );
 		},
 
-		'test cancelling Copy Formatting command by cancelling beforeApplyFormatting event': function( editor ) {
-			var cmd = editor.getCommand( 'copyFormatting' ),
-				copyFormatting = editor.copyFormatting,
-				applyFormattingCount = 0;
-			bender.tools.selection.setWithHtml( editor, '<p><s>Co{}py that format</s>.</p>' );
-
-			copyFormatting.once( 'beforeApplyFormatting', function( evt ) {
-				evt.cancel();
-			} );
-			copyFormatting.once( 'applyFormatting', function() {
-				++applyFormattingCount;
-			} );
-
-			editor.execCommand( 'copyFormatting' );
-
-			assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state );
-			assert.isArray( copyFormatting.styles );
-			assertScreenReaderNotification( editor, 'copied' );
-
-			editor.execCommand( 'applyFormatting' );
-
-			assert.areSame( 0, applyFormattingCount );
-			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
-			assert.isNull( copyFormatting.styles );
-			assertScreenReaderNotification( editor, 'canceled' );
-		},
-
 		'test cancelling Copy Formatting command by cancelling applyFormatting event': function( editor ) {
 			var cmd = editor.getCommand( 'copyFormatting' ),
 				copyFormatting = editor.copyFormatting,
