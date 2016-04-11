@@ -645,13 +645,9 @@
 	 *			}
 	 *		} );
 	 *
-	 * This event has 3 default listeners. Two of them have a default priority of `10` and the third one
-	 * has a priority of `999`.
-	 * The first listener extracts all styles from element (from all attributes except `id` and from
+	 * This event has a default listener with a default priority of `10`.
+	 * It extracts all styles from element (from all attributes except `id` and from
 	 * element's name) and put them as an object into `evt.data.styleDef`.
-	 * The second listener change the name of `{@link CKEDITOR.plugins.copyformatting#inlineBoundary}` elements
-	 * to `span` to allow applying their styles as an inline style.
-	 * The last listener removes all empty styles (with only the element's name specified).
 	 *
 	 * @event extractFormatting
 	 * @member CKEDITOR.editor.copyFormatting
@@ -670,14 +666,17 @@
 	 *			}
 	 *		}, null, null, 999 );
 	 *
-	 * This event has one listener with priority of `999` that applies all newstyles to the current selection.
+	 * This event has two listeners: the first one with default priority of  `10`
+	 * and the second one with the priority of `999`.
+	 * The first one removes all preexisting styles from Copy Formatting destination.
+	 * The second one applies all new styles to the current selection.
 	 *
 	 * @event applyFormatting
 	 * @member CKEDITOR.editor.copyFormatting
 	 * @param {Object} data
 	 * @param {CKEDITOR.dom.range} range Range from the current selection.
 	 * @param {CKEDITOR.style[]} styles Styles to be applied.
-	 * @param {Boolean} [data.preventFormatStripping=false] If set to true, will prevent strippiing styles from
+	 * @param {Boolean} [data.preventFormatStripping=false] If set to true, will prevent stripping styles from
 	 * Copy Formatting destination range.
 	 */
 } )();
