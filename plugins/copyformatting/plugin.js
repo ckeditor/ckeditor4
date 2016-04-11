@@ -166,7 +166,7 @@
 				for ( i = 0; i < oldStyles.length; i++ ) {
 					oldStyles[ i ].remove( evt.editor );
 				}
-			}, null, null, 9 );
+			} );
 
 			// Apply new styles.
 			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
