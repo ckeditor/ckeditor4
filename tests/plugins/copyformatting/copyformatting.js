@@ -206,6 +206,34 @@
 			} );
 		},
 
+		'test preserving styles at Copy Formatting destination': function( editor ) {
+			var cmd = editor.getCommand( 'copyFormatting' ),
+				copyFormatting = editor.copyFormatting,
+				range;
+
+			bender.tools.selection.setWithHtml( editor, '<p><s>Co{py tha}t format</s>.</p>' );
+
+			copyFormatting.once( 'applyFormatting', function( evt ) {
+				evt.data.preventFormatStripping = true;
+			}, null, null, 8 );
+
+			editor.execCommand( 'copyFormatting' );
+
+			assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state );
+			assert.isArray( copyFormatting.styles );
+			assertScreenReaderNotification( editor, 'copied' );
+
+			editor.execCommand( 'applyFormatting' );
+
+			range = editor.getSelection().getRanges()[ 0 ];
+
+			assert.isTrue( CKEDITOR.plugins.copyformatting._extractStylesFromRange( editor, range ).length >= 2,
+				'Styles are preserved' );
+			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
+			assert.isNull( copyFormatting.styles );
+			assertScreenReaderNotification( editor, 'applied' );
+		},
+
 		'test that _getCursorContainer returns correct element': function( editor ) {
 			var correctContainer = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editor.editable() :
 				editor.editable().getParent();
