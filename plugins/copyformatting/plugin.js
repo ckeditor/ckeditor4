@@ -571,7 +571,7 @@
 		 *
 		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
-		 * @returns {Boolean}
+		 * @returns {Boolean} `false` if styles could not be applied, `true` otherwise.
 		 * @private
 		 */
 		_applyFormat: function( editor, newStyles ) {
@@ -582,7 +582,7 @@
 				applyEvtData;
 
 			if ( !range ) {
-				return;
+				return false;
 			}
 
 			if ( range.collapsed ) {
