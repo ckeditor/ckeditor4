@@ -210,15 +210,8 @@
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					function boundaryIntoSpan( styleDef ) {
-						// Change element's name to span in case of inline boundary elements.
-						if ( indexOf( plugin.inlineBoundary, styleDef.element ) !== -1 ) {
-							styleDef.element = 'span';
-						}
-					}
-
 					copyFormatting.styles = plugin._extractStylesFromElement( editor,
-						editor.elementPath().lastElement, boundaryIntoSpan );
+						editor.elementPath().lastElement );
 
 					cmd.setState( CKEDITOR.TRISTATE_ON );
 
@@ -332,15 +325,12 @@
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.element} element Element which styles should be extracted.
-		 * @param {Function} [tmpPostProcess] Method to postprocess style definition extracted each element.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 */
-		_extractStylesFromElement: function( editor, element, tmpPostProcess ) {
-			var isEmpty = CKEDITOR.tools.isEmpty,
-				eventData = {},
-				styles = [],
-				styleDef;
+		_extractStylesFromElement: function( editor, element ) {
+			var eventData = {},
+				styles = [];
 
 			do {
 				// Skip all non-elements and bookmarks.
@@ -351,18 +341,7 @@
 				eventData.element = element;
 
 				if ( editor.copyFormatting.fire( 'extractFormatting', eventData, editor ) && eventData.styleDef ) {
-					styleDef = eventData.styleDef;
-
-					if ( tmpPostProcess ) {
-						tmpPostProcess( styleDef );
-					}
-
-					// We don't want to pick empty spans.
-					if ( styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
-						continue;
-					}
-
-					styles.push( new CKEDITOR.style( styleDef ) );
+					styles.push( new CKEDITOR.style( eventData.styleDef ) );
 				}
 			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT );
 
@@ -555,6 +534,39 @@
 		},
 
 		/**
+		 * Filter styles before applying.
+		 *
+		 * @param {CKEDITOR.styles[]} styles Array of styles to be filtered.
+		 * @return {CKEDITOR.styles[]} Filtered styles.
+		 * @private
+		 */
+		_filterStyles: function( styles ) {
+			var isEmpty = CKEDITOR.tools.isEmpty,
+				filteredStyles = [],
+				styleDef,
+				i;
+
+			for ( i = 0; i < styles.length; i++ ) {
+				styleDef = styles[ i ]._.definition;
+
+				// Change element's name to span in case of inline boundary elements.
+				if ( CKEDITOR.tools.indexOf( CKEDITOR.plugins.copyformatting.inlineBoundary,
+					styleDef.element ) !== -1 ) {
+					styleDef.element = styles[ i ].element = 'span';
+				}
+
+				// We don't want to pick empty spans.
+				if ( styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
+					continue;
+				}
+
+				filteredStyles.push( styles[ i ] );
+			}
+
+			return filteredStyles;
+		},
+
+		/**
 		 * Apply given styles to currently selected content in the editor.
 		 *
 		 * @param {CKEDITOR.editor} editor The editor instance.
@@ -587,6 +599,7 @@
 				range.setEnd( word.endNode, word.endOffset );
 				range.select();
 			}
+			newStyles = plugin._filterStyles( newStyles );
 
 			applyEvtData = { styles: newStyles, range: range, preventFormatStripping: false };
 
