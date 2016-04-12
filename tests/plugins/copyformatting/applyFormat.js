@@ -52,6 +52,28 @@
 					type: CKEDITOR.STYLE_INLINE
 				} )
 			] );
+		},
+
+		'test filter styles': function() {
+			var styles = [
+					new CKEDITOR.style( {
+						element: 'span',
+						type: CKEDITOR.STYLE_INLINE
+					} ),
+
+					new CKEDITOR.style( {
+						element: 'h1',
+						styles: {
+							color: '#f00'
+						},
+						type: CKEDITOR.STYLE_INLINE
+					} )
+				],
+				filteredStyles = CKEDITOR.plugins.copyformatting._filterStyles( styles );
+
+			assert.areSame( 1, filteredStyles.length );
+			assert.areSame( 'span', filteredStyles[ 0 ].element );
+			assert.areSame( '#f00', filteredStyles[ 0 ]._.definition.styles.color );
 		}
 	} );
 }() );
