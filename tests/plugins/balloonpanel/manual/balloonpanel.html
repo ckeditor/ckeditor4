@@ -18,32 +18,14 @@
 <script>
 	CKEDITOR.disableAutoInline = true;
 
-	CKEDITOR.stylesSet.add( 'test', [ {
-		name: 'Balloon',
-		element: 'span',
-		attributes: { 'class': 'balloon' },
-		styles: {
-			'background': 'pink',
-			'outline': '4px solid red'
-		}
-	} ] );
-
 	var panel1, panel2;
-
-	function onclick( panel ) {
-		return function() {
-			panel.attach( this );
-			console.log( 'Balloon panel shown' );
-		}
-	}
 
 	CKEDITOR.replace( 'editor1', {
 		extraPlugins: 'balloonpanel',
-		height: 500,
+		height: 300,
 		width: 600,
-		stylesSet: 'test',
 		on: {
-			instanceReady: function( evt ) {
+			instanceReady: function() {
 				panel1 = new CKEDITOR.ui.balloonPanel( this, {
 					width: 'auto',
 					height: 200,
@@ -51,28 +33,35 @@
 				} );
 
 				panel1.setTitle( 'Title' );
-			},
-			panelHide: function( evt ) {
-				setTimeout( function() {
-					var balloons = evt.editor.editable().find( 'span[class="balloon"]' ),
-						balloon, i = 0;
 
-					while ( ( balloon = balloons.getItem( i++ ) ) ) {
-						balloon.removeAllListeners();
-						balloon.on( 'click', onclick( panel1 ) );
-					}
+				var strongs = this.editable().find( 'strong' ),
+					i = 0,
+					strong;
+
+				panel1.on( 'attach', function( evt ) {
+					console.log( 'Panel attached!' );
+
+					panel1.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + strong.getName() + ' ("' + strong.getText() + '")</p>' );
 				} );
+
+				while ( ( strong = strongs.getItem( i++ ) ) ) {
+					strong.setStyle( 'background', 'pink' );
+					strong.setStyle( 'outline', '4px solid red' );
+					strong.on( 'click', function() {
+						strong = this;
+						panel1.attach( this );
+					} );
+				}
 			}
 		}
 	} );
 
 	CKEDITOR.inline( 'editor2', {
 		extraPlugins: 'balloonpanel',
-		height: 500,
+		height: 300,
 		width: 600,
-		stylesSet: 'test',
 		on: {
-			instanceReady: function( evt ) {
+			instanceReady: function() {
 				panel2 = new CKEDITOR.ui.balloonPanel( this, {
 					width: 'auto',
 					height: 200,
@@ -80,17 +69,25 @@
 				} );
 
 				panel2.setTitle( 'Title' );
-			},
-			panelHide: function( evt ) {
-				setTimeout( function() {
-					var balloons = evt.editor.editable().find( 'span[class="balloon"]' ),
-						balloon, i = 0;
 
-					while ( ( balloon = balloons.getItem( i++ ) ) ) {
-						balloon.removeAllListeners();
-						balloon.on( 'click', onclick( panel2 ) );
-					}
+				var strongs = this.editable().find( 'strong' ),
+					i = 0,
+					strong;
+
+				panel2.on( 'attach', function( evt ) {
+					console.log( 'Panel attached!' );
+
+					panel2.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + strong.getName() + ' ("' + strong.getText() + '")</p>' );
 				} );
+
+				while ( ( strong = strongs.getItem( i++ ) ) ) {
+					strong.setStyle( 'background', 'pink' );
+					strong.setStyle( 'outline', '4px solid red' );
+					strong.on( 'click', function() {
+						strong = this;
+						panel2.attach( this );
+					} );
+				}
 			}
 		}
 	} );
