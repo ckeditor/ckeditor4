@@ -93,7 +93,7 @@
 
 			editor.on( 'contentDom', function() {
 				var editable = editor.editable(),
-					copyFormattingButton =  editor.ui.get( 'CopyFormatting' ),
+					copyFormattingButton = editor.ui.get( 'CopyFormatting' ),
 					copyFormattingButtonEl;
 
 				editable.attachListener( editable, 'mouseup', function( evt ) {
@@ -403,7 +403,7 @@
 				var html;
 
 				// If the node is element, get its HTML and strip all tags and bookmarks
-				// and then search for  word boundaries. In node.getText tags are
+				// and then search for word boundaries. In node.getText tags are
 				// replaced by spaces, which breaks getting the right offset.
 				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 					html = node.getHtml().replace( /<span.*?>&nbsp;<\/span>/g, '' );
@@ -642,7 +642,7 @@
 
 	/**
 	 * Fired when the styles are being extracted from the element.
-	 * This event listener job is to extract only needed styles and modify them easily.
+	 * This event listener job is to extract only needed styles and modify them if needed.
 	 *
 	 *		editor.copyFormatting.on( 'extractFormatting', function( evt ) {
 	 *			evt.data.styleDef.attributes.class = 'important';
@@ -665,12 +665,12 @@
 	 * @member CKEDITOR.editor.copyFormatting
 	 * @param {Object} data
 	 * @param {CKEDITOR.dom.element} data.element The element which styles should be fetched.
-	 * @param {Object} data.styleDef Styles extracted from element.
+	 * @param {Object} data.styleDef Style's definition extracted from the element.
 	 */
 
 	/**
 	 * Fired when the copied styles are applied to the current selection position.
-	 * This event listener job is to apply the new styles
+	 * This event listener job is to apply new styles.
 	 *
 	 *		editor.copyFormatting.on( 'applyFormatting', function( evt ) {
 	 *			for ( var i = 0; i < evt.data.styles.length; i++ ) {
@@ -678,15 +678,15 @@
 	 *			}
 	 *		}, null, null, 999 );
 	 *
-	 * This event has two listeners: the first one with default priority of  `10`
-	 * and the second one with the priority of `999`.
+	 * By default this event has two listeners: the first one with default priority of `10`
+	 * and the second with the priority of `999`.
 	 * The first one removes all preexisting styles from Copy Formatting destination.
 	 * The second one applies all new styles to the current selection.
 	 *
 	 * @event applyFormatting
 	 * @member CKEDITOR.editor.copyFormatting
 	 * @param {Object} data
-	 * @param {CKEDITOR.dom.range} range Range from the current selection.
+	 * @param {CKEDITOR.dom.range} range Range from the current selection where styling should be applied.
 	 * @param {CKEDITOR.style[]} styles Styles to be applied.
 	 * @param {Boolean} [data.preventFormatStripping=false] If set to true, will prevent stripping styles from
 	 * Copy Formatting destination range.
