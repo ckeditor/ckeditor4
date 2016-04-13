@@ -56,7 +56,7 @@
 
 		'test extract style from link': function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' ),
-				style = CKEDITOR.plugins.copyformatting._convertElementToStyle( element );
+				style = CKEDITOR.plugins.copyformatting._convertElementToStyleDef( element );
 
 			assert.isUndefined( style, 'Return value' );
 		},
