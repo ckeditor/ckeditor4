@@ -107,6 +107,41 @@
 					}
 				}
 			} );
+
+			// Events handler.
+			editor.on( 'extractStylesFromElement', function( evt ) {
+				var element = evt.data.element;
+
+				if ( CKEDITOR.tools.indexOf( [ 'body', 'html' ], element.getName() ) !== -1 ) {
+					return;
+				}
+
+				evt.data.styleDef = CKEDITOR.plugins.copyformatting._convertElementToStyleDef( element,
+					evt.data.computedStyles );
+			}, null, null, 0 );
+
+			// Change element to span in case of headings, paragraphs and divs.
+			editor.on( 'extractStylesFromElement', function( evt ) {
+				var element = evt.data.element;
+
+				if ( CKEDITOR.tools.indexOf( [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ], element.getName() ) === -1 ) {
+					return;
+				}
+
+				evt.data.styleDef.element = 'span';
+			} );
+
+			editor.on( 'beforeApplyFormatting', function( evt ) {
+				for ( var i = 0; i < evt.data.oldStyles.length; i++ ) {
+					evt.data.oldStyles[ i ].remove( evt.editor );
+				}
+			}, null, null, 999 );
+
+			editor.on( 'applyFormatting', function( evt ) {
+				for ( var i = 0; i < evt.data.styles.length; i++ ) {
+					evt.data.styles[ i ].apply( evt.editor );
+				}
+			}, null, null, 999 );
 		}
 	} );
 
@@ -132,7 +167,13 @@
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					cmd.styles = plugin._extractStylesFromElement( editor.elementPath().lastElement );
+					cmd.styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor,
+						editor.elementPath().lastElement, [
+							'font-size',
+							'font-weight',
+							'font-style',
+							'text-decoration'
+						] );
 
 					cmd.setState( CKEDITOR.TRISTATE_ON );
 
@@ -163,7 +204,7 @@
 						return plugin._putScreenReaderMessage( editor, 'failed' );
 					}
 
-					plugin._applyFormat( cmd.styles, editor );
+					plugin._applyFormat( editor, cmd.styles );
 
 					if ( !cmd.sticky ) {
 						cmd.styles = null;
@@ -220,39 +261,46 @@
 		},
 
 		/**
-		 * Converts given element into `{@link CKEDITOR.style}` instance.
+		 * Converts given element into style definition.
 		 *
 		 * @param {CKEDITOR.dom.element} element Element to be converted.
-		 * @returns {CKEDITOR.style} Style created from the element.
+		 * @param {Array} computedStyles Computed styles to be extracted.
+		 * @returns {Object} Style definition created from the element.
 		 * @private
 		 */
-		_convertElementToStyle: function( element ) {
-			var attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style', 'href', 'data-cke-saved-href' ] ),
-				styles = CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( element.getAttribute( 'style' ), true ) ),
-				// From which elements styles shouldn't be copied.
-				elementsToExclude = [ 'p', 'div', 'body', 'html', 'a' ];
+		_convertElementToStyleDef: function( element, computedStyles ) {
+			var tools = CKEDITOR.tools,
+				attributes = {},
+				styles = tools.parseCssText( tools.normalizeCssText( element.getAttribute( 'style' ), true ) ),
+				i;
 
-			if ( CKEDITOR.tools.indexOf( elementsToExclude, element.getName() ) !== -1 ) {
-				return;
+			computedStyles = computedStyles || [];
+			for ( i = 0; i < computedStyles.length; i++ ) {
+				styles[ computedStyles[ i ] ] = element.getComputedStyle( computedStyles[ i ] );
 			}
 
-			return new CKEDITOR.style( {
+			attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style' ] );
+
+			return {
 				element: element.getName(),
 				type: CKEDITOR.STYLE_INLINE,
 				attributes: attributes,
 				styles: styles
-			} );
+			};
 		},
 
 		/**
 		 * Extract styles from given element and its ancestors.
 		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.element} element Element which styles should be extracted.
+		 * @param {Array} computedStyles Computed styles to be extracted.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 */
-		_extractStylesFromElement: function( element ) {
-			var styles = [];
+		_extractStylesFromElement: function( editor, element, computedStyles ) {
+			var styles = [],
+				eventData;
 
 			do {
 				// Skip all non-elements and bookmarks.
@@ -260,10 +308,13 @@
 					continue;
 				}
 
-				var style = CKEDITOR.plugins.copyformatting._convertElementToStyle( element );
+				eventData = {
+					element: element,
+					computedStyles: computedStyles
+				};
 
-				if ( style ) {
-					styles.push( style );
+				if ( editor.fire( 'extractStylesFromElement', eventData ) && eventData.styleDef ) {
+					styles.push( new CKEDITOR.style( eventData.styleDef ) );
 				}
 			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT );
 
@@ -273,18 +324,21 @@
 		/**
 		 * Extract styles from given range.
 		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
+		 * @param {Array} computedStyles Computed styles to be extracted.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 * @todo Styles in the array returned by this method might be duplicated; it should be cleaned later on.
 		 */
-		_extractStylesFromRange: function( range ) {
+		_extractStylesFromRange: function( editor, range, computedStyles ) {
 			var styles = [],
 				walker = new CKEDITOR.dom.walker( range ),
 				currentNode;
 
 			while ( ( currentNode = walker.next() ) ) {
-				styles = styles.concat( CKEDITOR.plugins.copyformatting._extractStylesFromElement( currentNode ) );
+				styles = styles.concat(
+					CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor, currentNode, computedStyles ) );
 			}
 
 			return styles;
@@ -456,17 +510,17 @@
 		/**
 		 * Apply given styles to currently selected content in the editor.
 		 *
-		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
 		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
 		 * @private
 		 */
-		_applyFormat: function( newStyles, editor ) {
+		_applyFormat: function( editor, newStyles ) {
 			var range = editor.getSelection().getRanges()[ 0 ],
 				plugin = CKEDITOR.plugins.copyformatting,
 				oldStyles,
-				bkms,
+				newRange,
 				word,
-				i;
+				bkms;
 
 			if ( !range ) {
 				return;
@@ -487,17 +541,12 @@
 				range.select();
 			}
 
-			// Before applying new styles, remove all existing styles.
-			oldStyles = plugin._extractStylesFromRange( range );
+			oldStyles = plugin._extractStylesFromRange( editor, newRange || range, [] );
 
-			for ( i = 0; i < oldStyles.length; i++ ) {
-				oldStyles[ i ].remove( editor );
-			}
+			editor.fire( 'beforeApplyFormatting', { oldStyles: oldStyles, range: newRange || range } );
 
 			// Now apply new styles.
-			for ( i = 0; i < newStyles.length; i++ ) {
-				newStyles[ i ].apply( editor );
-			}
+			editor.fire( 'applyFormatting', { styles: newStyles, range: newRange || range } );
 
 			if ( bkms ) {
 				editor.getSelection().selectBookmarks( bkms );
