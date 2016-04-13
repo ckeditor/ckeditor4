@@ -1,0 +1,38 @@
+<div id="editor1" contenteditable="true">
+	<ol start="3">
+		<li><span style="color: #f00;"><s><u>Element 1</u></s></span></li>
+		<li>Element 2</li>
+	</ol>
+
+	<ul>
+		<li><span style="color: #f00;"><s><u>Element 1</u></s></span></li>
+		<li>Element 2</li>
+	</ul>
+
+	<p>Simple paragraph</p>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<ol start="3">
+		<li><span style="color: #f00;"><s><u>Element 1</u></s></span></li>
+		<li>Element 2</li>
+	</ol>
+
+	<ul>
+		<li><span style="color: #f00;"><s><u>Element 1</u></s></span></li>
+		<li>Element 2</li>
+	</ul>
+
+	<p>Simple paragraph</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>
