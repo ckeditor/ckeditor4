@@ -169,8 +169,19 @@
 
 			// Apply new styles.
 			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
-				for ( var i = 0; i < evt.data.styles.length; i++ ) {
-					evt.data.styles[ i ].apply( evt.editor );
+				var plugin = CKEDITOR.plugins.copyformatting,
+					context = plugin._determineContext( evt.data.range ),
+					style,
+					i;
+
+				for ( i = 0; i < evt.data.styles.length; i++ ) {
+					style = evt.data.styles[ i ];
+
+					if ( context === 0 ) {
+						plugin._applyStyleToTextContext( evt.data.range, style );
+					} else {
+						plugin._applyStyleToListContext( evt.data.range, style );
+					}
 				}
 			}, null, null, 999 );
 		}
@@ -568,6 +579,82 @@
 			}
 
 			return filteredStyles;
+		},
+
+		/**
+		 * Determines context of the given selection. It can return:
+		 * * `0` for text
+		 * * `1` for lists
+		 *
+		 * @param {CKEDITOR.dom.range} range Range from which context
+		 * should be determined.
+		 * @returns {Number}
+		 * @private
+		 */
+		_determineContext: function( range ) {
+			var walker = new CKEDITOR.dom.walker( range ),
+				currentNode;
+
+			while ( ( currentNode = walker.next() ) ) {
+				if ( currentNode.getAscendant( 'ul', true ) || currentNode.getAscendant( 'ol', true ) ) {
+					return 1;
+				}
+			}
+
+			return 0;
+		},
+
+		/**
+		 * Apply style inside plain text context.
+		 *
+		 * @param {CKEDITOR.dom.range} range Range in which style
+		 * should be applied.
+		 * @param {CKEDITOR.style} style Style to be applied.
+		 * @private
+		 */
+		_applyStyleToTextContext: function( range, style ) {
+			if ( style.element === 'ol' || style.element === 'ul' ) {
+				return;
+			}
+
+			if ( style.element === 'li' ) {
+				style.element = style._.definition.element = 'span';
+			}
+
+			style.applyToRange( range );
+		},
+
+		/**
+		 * Apply list's style inside list context.
+		 *
+		 * @param {CKEDITOR.dom.range} range Range in which style
+		 * should be applied.
+		 * @param {CKEDITOR.style} style Style to be applied.
+		 * @private
+		 */
+		_applyStyleToListContext: function( range, style ) {
+			var walker = new CKEDITOR.dom.walker( range ),
+				currentNode;
+
+			if ( style.element === 'ol' || style.element === 'ul' ) {
+				while ( currentNode = walker.next() ) {
+					currentNode = currentNode.getAscendant( 'ul', true ) || currentNode.getAscendant( 'ol', true );
+
+					if ( currentNode ) {
+						if ( currentNode.getName() !== style.element ) {
+							currentNode.renameNode( style.element );
+						}
+
+						return style.applyToObject( currentNode );
+					}
+				}
+			}
+
+			if ( style.element === 'li' ) {
+				style.element = style._.definition.element = 'span';
+			}
+
+			style.applyToRange( range );
 		},
 
 		/**
