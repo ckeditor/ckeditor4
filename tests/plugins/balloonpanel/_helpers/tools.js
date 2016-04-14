@@ -26,10 +26,6 @@ var balloonTestsTools = {
 	},
 
 	assertMoveTo: function( moveMethod, expectedX, expectedY, maxX, maxY ) {
-		if ( !( moveMethod instanceof sinon.spy ) ) {
-			throw new Error( 'balloon.move is not an spy instance' );
-		}
-
 		var actualX = moveMethod.args[ 0 ][ 1 ],
 			actualY = moveMethod.args[ 0 ][ 0 ];
 
