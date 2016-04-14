@@ -170,18 +170,12 @@
 			// Apply new styles.
 			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
 				var plugin = CKEDITOR.plugins.copyformatting,
-					context = plugin._determineContext( evt.data.range ),
-					style,
-					i;
+					context = plugin._determineContext( evt.data.range );
 
-				for ( i = 0; i < evt.data.styles.length; i++ ) {
-					style = evt.data.styles[ i ];
-
-					if ( context === 0 ) {
-						plugin._applyStyleToTextContext( evt.data.range, style );
-					} else {
-						plugin._applyStyleToListContext( evt.data.range, style );
-					}
+				if ( context === 0 ) {
+					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
+				} else {
+					plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
 				}
 			}, null, null, 999 );
 		}
@@ -605,56 +599,68 @@
 		},
 
 		/**
-		 * Apply style inside plain text context.
+		 * Apply styles inside plain text context.
 		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.range} range Range in which style
 		 * should be applied.
-		 * @param {CKEDITOR.style} style Style to be applied.
+		 * @param {CKEDITOR.style[]} styles Styles to be applied.
 		 * @private
 		 */
-		_applyStyleToTextContext: function( range, style ) {
-			if ( style.element === 'ol' || style.element === 'ul' ) {
-				return;
-			}
+		_applyStylesToTextContext: function( editor, range, styles ) {
+			var style,
+				i;
 
-			if ( style.element === 'li' ) {
-				style.element = style._.definition.element = 'span';
-			}
+			for ( i = 0; i < styles.length; i++ ) {
+				style = styles[ i ];
 
-			style.applyToRange( range );
+				if ( style.element === 'ol' || style.element === 'ul' ) {
+					continue;
+				}
+
+				if ( style.element === 'li' ) {
+					style.element = style._.definition.element = 'span';
+				}
+
+				style.apply( editor );
+			}
 		},
 
 		/**
 		 * Apply list's style inside list context.
 		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.range} range Range in which style
 		 * should be applied.
-		 * @param {CKEDITOR.style} style Style to be applied.
+		 * @param {CKEDITOR.style[]} styles Style to be applied.
 		 * @private
 		 */
-		_applyStyleToListContext: function( range, style ) {
+		_applyStylesToListContext: function( editor, range, styles ) {
 			var walker = new CKEDITOR.dom.walker( range ),
-				currentNode;
+				currentNode,
+				style,
+				i;
 
-			if ( style.element === 'ol' || style.element === 'ul' ) {
-				while ( currentNode = walker.next() ) {
-					currentNode = currentNode.getAscendant( 'ul', true ) || currentNode.getAscendant( 'ol', true );
+			for ( i = 0; i < styles.length; i++ ) {
+				style = styles[ i ];
 
-					if ( currentNode ) {
-						if ( currentNode.getName() !== style.element ) {
-							currentNode.renameNode( style.element );
+				if ( style.element === 'ol' || style.element === 'ul' ) {
+					while ( currentNode = walker.next() ) {
+						currentNode = currentNode.getAscendant( 'ul', true ) || currentNode.getAscendant( 'ol', true );
+
+						if ( currentNode ) {
+							if ( currentNode.getName() !== style.element ) {
+								currentNode.renameNode( style.element );
+							}
+
+							style.applyToObject( currentNode );
+							break;
 						}
-
-						return style.applyToObject( currentNode );
 					}
+				} else {
+					CKEDITOR.plugins.copyformatting._applyStylesToTextContext( editor, range, [ style ] );
 				}
 			}
-
-			if ( style.element === 'li' ) {
-				style.element = style._.definition.element = 'span';
-			}
-
-			style.applyToRange( range );
 		},
 
 		/**
