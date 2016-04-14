@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.6.0, balloonpanel
-@bender-ckeditor-plugins: wysiwygarea,toolbar,undo,basicstyles,notification,floatingspace,balloonpanel,sourcearea,list
+@bender-ckeditor-plugins: wysiwygarea,toolbar,undo,basicstyles,notification,floatingspace,balloonpanel,sourcearea,list,link
 
 Play with the balloonpanel plugin.
 
