@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -11,7 +11,7 @@
 CKEDITOR.plugins.add( 'colorbutton', {
 	requires: 'panelbutton,floatpanel',
 	// jscs:disable maximumLineLength
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	// jscs:enable maximumLineLength
 	icons: 'bgcolor,textcolor', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
@@ -91,7 +91,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					if ( !color || color == 'transparent' )
 						color = '#ffffff';
 
-					this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+					if ( config.colorButton_enableAutomatic !== false ) {
+						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+					}
 
 					return color;
 				}
@@ -153,22 +155,24 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				editor.fire( 'saveSnapshot' );
 			} );
 
-			// Render the "Automatic" button.
-			output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
-				' title="', lang.auto, '"' +
-				' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
-				' href="javascript:void(\'', lang.auto, '\')"' +
-				' role="option" aria-posinset="1" aria-setsize="', total, '">' +
-				'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
-					'<tr>' +
-						'<td>' +
-							'<span class="cke_colorbox" id="', colorBoxId, '"></span>' +
-						'</td>' +
-						'<td colspan=7 align=center>', lang.auto, '</td>' +
-					'</tr>' +
-				'</table>' +
-				'</a>' +
-				'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
+			if ( config.colorButton_enableAutomatic !== false ) {
+				// Render the "Automatic" button.
+				output.push( '<a class="cke_colorauto" _cke_focus=1 hidefocus=true' +
+					' title="', lang.auto, '"' +
+					' onclick="CKEDITOR.tools.callFunction(', clickFn, ',null,\'', type, '\');return false;"' +
+					' href="javascript:void(\'', lang.auto, '\')"' +
+					' role="option" aria-posinset="1" aria-setsize="', total, '">' +
+						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
+							'<tr>' +
+								'<td>' +
+									'<span class="cke_colorbox" id="', colorBoxId, '"></span>' +
+								'</td>' +
+								'<td colspan=7 align=center>', lang.auto, '</td>' +
+							'</tr>' +
+						'</table>' +
+					'</a>' );
+			}
+			output.push( '<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' );
 
 			// Render the color boxes.
 			for ( var i = 0; i < colors.length; i++ ) {
@@ -221,7 +225,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 } );
 
 /**
- * Whether to enable the **More Colors*** button in the color selectors.
+ * Whether to enable the **More Colors** button in the color selectors.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
  * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
@@ -299,3 +303,15 @@ CKEDITOR.config.colorButton_backStyle = {
 	element: 'span',
 	styles: { 'background-color': '#(color)' }
 };
+
+/**
+ * Whether to enable the **Automatic** button in the color selectors.
+ *
+ * Read more in the [documentation](#!/guide/dev_colorbutton)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
+ *
+ *		config.colorButton_enableAutomatic = false;
+ *
+ * @cfg {Boolean} [colorButton_enableAutomatic=true]
+ * @member CKEDITOR.config
+ */

@@ -3,16 +3,16 @@ Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'mk', {
-	find: 'Find',
-	findOptions: 'Find Options',
-	findWhat: 'Find what:',
-	matchCase: 'Match case',
-	matchCyclic: 'Match cyclic',
-	matchWord: 'Match whole word',
-	notFoundMsg: 'The specified text was not found.',
-	replace: 'Replace',
-	replaceAll: 'Replace All',
-	replaceSuccessMsg: '%1 occurrence(s) replaced.',
-	replaceWith: 'Replace with:',
-	title: 'Find and Replace'
+	find: 'Пронајди',
+	findOptions: 'Опции за пронаоѓање',
+	findWhat: 'Што барате:',
+	matchCase: 'Се совпаѓа голема/мала буква,',
+	matchCyclic: 'Пребарај циклично',
+	matchWord: 'Се совпаѓа цел збор',
+	notFoundMsg: 'Внесениот текст не беше пронајден.',
+	replace: 'Замени',
+	replaceAll: 'Замени ги сите',
+	replaceSuccessMsg: '%1 случај/и беа заменети.',
+	replaceWith: 'Замени со:',
+	title: 'Пронајди и замени'
 } );

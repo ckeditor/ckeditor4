@@ -22,12 +22,12 @@ CKEDITOR.plugins.setLang( 'link', 'mk', {
 	emailAddress: 'E-Mail Address', // MISSING
 	emailBody: 'Message Body', // MISSING
 	emailSubject: 'Message Subject', // MISSING
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'Link Info', // MISSING
-	langCode: 'Language Code', // MISSING
-	langDir: 'Language Direction', // MISSING
-	langDirLTR: 'Left to Right (LTR)', // MISSING
-	langDirRTL: 'Right to Left (RTL)', // MISSING
+	langCode: 'Код на јазик',
+	langDir: 'Насока на јазик',
+	langDirLTR: 'Лево кон десно',
+	langDirRTL: 'Десно кон лево',
 	menu: 'Edit Link', // MISSING
 	name: 'Name',
 	noAnchors: '(No anchors available in the document)', // MISSING
@@ -47,19 +47,19 @@ CKEDITOR.plugins.setLang( 'link', 'mk', {
 	popupTop: 'Top Position', // MISSING
 	rel: 'Relationship', // MISSING
 	selectAnchor: 'Select an Anchor', // MISSING
-	styles: 'Style', // MISSING
+	styles: 'Стил',
 	tabIndex: 'Tab Index', // MISSING
 	target: 'Target', // MISSING
 	targetFrame: '<frame>', // MISSING
 	targetFrameName: 'Target Frame Name', // MISSING
 	targetPopup: '<popup window>', // MISSING
 	targetPopupName: 'Popup Window Name', // MISSING
-	title: 'Link', // MISSING
+	title: 'Врска',
 	toAnchor: 'Link to anchor in the text', // MISSING
 	toEmail: 'E-mail', // MISSING
-	toUrl: 'URL', // MISSING
-	toolbar: 'Link', // MISSING
+	toUrl: 'URL',
+	toolbar: 'Врска',
 	type: 'Link Type', // MISSING
 	unlink: 'Unlink', // MISSING
-	upload: 'Upload' // MISSING
+	upload: 'Прикачи'
 } );

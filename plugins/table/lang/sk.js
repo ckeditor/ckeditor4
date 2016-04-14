@@ -3,7 +3,7 @@ Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'sk', {
-	border: 'Šírka rámu (border)',
+	border: 'Šírka orámovania',
 	caption: 'Popis',
 	cell: {
 		menu: 'Bunka',
@@ -19,12 +19,12 @@ CKEDITOR.plugins.setLang( 'table', 'sk', {
 		cellType: 'Typ bunky',
 		rowSpan: 'Rozsah riadkov',
 		colSpan: 'Rozsah stĺpcov',
-		wordWrap: 'Zalomovanie riadkov',
+		wordWrap: 'Zalamovanie riadkov',
 		hAlign: 'Horizontálne zarovnanie',
 		vAlign: 'Vertikálne zarovnanie',
 		alignBaseline: 'Základná čiara (baseline)',
 		bgColor: 'Farba pozadia',
-		borderColor: 'Farba rámu',
+		borderColor: 'Farba orámovania',
 		data: 'Dáta',
 		header: 'Hlavička',
 		yes: 'Áno',
@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'table', 'sk', {
 	headersColumn: 'Prvý stĺpec',
 	headersNone: 'Žiadne',
 	headersRow: 'Prvý riadok',
-	invalidBorder: 'Širka rámu musí byť číslo.',
+	invalidBorder: 'Šírka orámovania musí byť číslo.',
 	invalidCellPadding: 'Odsadenie v bunkách (cell padding) musí byť kladné číslo.',
 	invalidCellSpacing: 'Medzera mädzi bunkami (cell spacing) musí byť kladné číslo.',
 	invalidCols: 'Počet stĺpcov musí byť číslo väčšie ako 0.',

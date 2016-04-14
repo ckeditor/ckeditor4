@@ -4,10 +4,10 @@
  */
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'sk', {
-	button: 'Vložte kód Snippet-u',
+	button: 'Vložte ukážku programového kódu',
 	codeContents: 'Obsah kódu',
-	emptySnippetError: 'Snippet kódu nesmie byť prázdny.',
+	emptySnippetError: 'Ukážka kódu nesmie byť prázdna.',
 	language: 'Jazyk',
-	title: 'Snippet kódu',
-	pathName: 'snippet kódu'
+	title: 'Ukážka programového kódu',
+	pathName: 'ukážka programového kódu'
 } );

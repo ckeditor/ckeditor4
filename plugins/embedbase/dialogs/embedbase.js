@@ -78,6 +78,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 						type: 'text',
 						id: 'url',
 						label: editor.lang.common.url,
+						required: true,
 
 						setup: function( widget ) {
 							this.setValue( widget.data.url );

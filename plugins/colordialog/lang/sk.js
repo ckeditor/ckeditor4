@@ -7,5 +7,5 @@ CKEDITOR.plugins.setLang( 'colordialog', 'sk', {
 	highlight: 'Zvýrazniť',
 	options: 'Možnosti farby',
 	selected: 'Vybraná farba',
-	title: 'Vyberte farbu'
+	title: 'Vybrať farbu'
 } );
