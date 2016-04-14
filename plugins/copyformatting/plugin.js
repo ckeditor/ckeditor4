@@ -664,6 +664,9 @@
 					if ( ( currentNode = range.startContainer.getAscendant( 'ul', true ) ||
 						range.startContainer.getAscendant( 'ol', true ) ) ) {
 						applyToList( currentNode, style );
+					} else if ( ( currentNode = range.endContainer.getAscendant( 'ul', true ) ||
+						range.endContainer.getAscendant( 'ol', true ) ) ) {
+						applyToList( currentNode, style );
 					} else {
 						while ( currentNode = walker.next() ) {
 							currentNode = currentNode.getAscendant( 'ul', true ) ||
@@ -677,7 +680,8 @@
 					}
 				} else if ( style.element === 'li' ) {
 					// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
-					if ( ( currentNode = range.startContainer.getAscendant( 'li', true ) ) ) {
+					if ( ( currentNode = range.startContainer.getAscendant( 'li', true ) ||
+						range.endContainer.getAscendant( 'li', true ) ) ) {
 						style.applyToObject( currentNode );
 					}
 
