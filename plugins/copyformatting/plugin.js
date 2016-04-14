@@ -675,6 +675,19 @@
 							}
 						}
 					}
+				} else if ( style.element === 'li' ) {
+					// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
+					if ( ( currentNode = range.startContainer.getAscendant( 'li', true ) ) ) {
+						style.applyToObject( currentNode );
+					}
+
+					while ( currentNode = walker.next() ) {
+						currentNode = currentNode.getAscendant( 'li', true );
+
+						if ( currentNode ) {
+							style.applyToObject( currentNode );
+						}
+					}
 				} else {
 					CKEDITOR.plugins.copyformatting._applyStylesToTextContext( editor, range, [ style ] );
 				}
