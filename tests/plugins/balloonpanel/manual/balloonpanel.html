@@ -19,30 +19,23 @@
 	CKEDITOR.disableAutoInline = true;
 
 	function instanceReadyListener( evt ) {
-		var panel = new CKEDITOR.ui.balloonPanel( this, {
-			width: 'auto',
-			height: 200,
-			content: 'Editor test'
-		} );
-
-		panel.setTitle( 'Title' );
-
 		var strongs = this.editable().find( 'strong' ),
+			panel = new CKEDITOR.ui.balloonPanel( this, {
+				width: 'auto',
+				height: 200,
+				content: 'Editor test'
+			} ),
 			i = 0,
 			strong;
 
-		panel.on( 'attach', function( evt ) {
-			console.log( 'Panel attached!' );
-
-			panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + strong.getName() + ' ("' + strong.getText() + '")</p>' );
-		} );
+		panel.setTitle( 'Title' );
 
 		while ( ( strong = strongs.getItem( i++ ) ) ) {
 			strong.setStyle( 'background', 'pink' );
 			strong.setStyle( 'outline', '4px solid red' );
 			strong.on( 'click', function() {
-				strong = this;
 				panel.attach( this );
+				panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + ' ("' + this.getText() + '")</p>' );
 			} );
 		}
 	}
