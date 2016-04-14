@@ -163,7 +163,9 @@
 					i;
 
 				for ( i = 0; i < oldStyles.length; i++ ) {
-					oldStyles[ i ].remove( evt.editor );
+					if ( CKEDITOR.tools.indexOf( [ 'ul', 'ol', 'li' ], oldStyles[ i ].element ) === -1 ) {
+						oldStyles[ i ].remove( evt.editor );
+					}
 				}
 			} );
 
@@ -589,6 +591,11 @@
 			var walker = new CKEDITOR.dom.walker( range ),
 				currentNode;
 
+			// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
+			if ( range.startContainer.getAscendant( 'ul', true ) || range.startContainer.getAscendant( 'ol', true ) ) {
+				return 1;
+			}
+
 			while ( ( currentNode = walker.next() ) ) {
 				if ( currentNode.getAscendant( 'ul', true ) || currentNode.getAscendant( 'ol', true ) ) {
 					return 1;
@@ -641,20 +648,31 @@
 				style,
 				i;
 
+			function applyToList( list, style ) {
+				if ( list.getName() !== style.element ) {
+					list.renameNode( style.element );
+				}
+
+				style.applyToObject( list );
+			}
+
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
 
 				if ( style.element === 'ol' || style.element === 'ul' ) {
-					while ( currentNode = walker.next() ) {
-						currentNode = currentNode.getAscendant( 'ul', true ) || currentNode.getAscendant( 'ol', true );
+					// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
+					if ( ( currentNode = range.startContainer.getAscendant( 'ul', true ) ||
+						range.startContainer.getAscendant( 'ol', true ) ) ) {
+						applyToList( currentNode, style );
+					} else {
+						while ( currentNode = walker.next() ) {
+							currentNode = currentNode.getAscendant( 'ul', true ) ||
+								currentNode.getAscendant( 'ol', true );
 
-						if ( currentNode ) {
-							if ( currentNode.getName() !== style.element ) {
-								currentNode.renameNode( style.element );
+							if ( currentNode ) {
+								applyToList( currentNode, style );
+								break;
 							}
-
-							style.applyToObject( currentNode );
-							break;
 						}
 					}
 				} else {
