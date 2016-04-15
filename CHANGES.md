@@ -7,9 +7,12 @@ New Features:
 
 * [#14449](http://dev.ckeditor.com/ticket/14449): Introduced the [Balloon Panel](http://ckeditor.com/addon/balloonpanel) plugin.
 * [#12077](https://dev.ckeditor.com/ticket/12077): Added support for the HTML5 `download` attribute in link (`<a>`) elements. Thanks to [sbusse](https://github.com/sbusse)!
-* [#13519](http://dev.ckeditor.com/ticket/13519): The [file tools](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) response is now more flexible.
-* [#13518](http://dev.ckeditor.com/ticket/13518): The [file tools](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) request is now more flexible and the [`additionalRequestParameters`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property was introduced.
-* [#13828](http://dev.ckeditor.com/ticket/13828): Adding a class to the [widget](http://ckeditor.com/addon/widget) element will also add a prefixed class to its wrapper.
+* [#13518](http://dev.ckeditor.com/ticket/13518): Introduced [`additionalRequestParameters`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property.
+
+Fixed Issues:
+
+* [#13828](http://dev.ckeditor.com/ticket/13828): Fixed: Widget classes should be added to wrapper rather than widget element.
+* [#13519](http://dev.ckeditor.com/ticket/13519): Response should be more flexible.
 
 ## CKEditor 4.5.9
 
