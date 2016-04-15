@@ -3,11 +3,17 @@
 'use strict';
 
 function testExtractingFormatting( editor, bot, elementHtml, expectedStyle, computedStyles, additionalData ) {
-	var oldComputed = editor.config.copyFormatting_computedStyles;
+	var isList = !!elementHtml.match( /^<(ul|ol|li)/g ),
+		oldComputed = isList ? editor.config.copyFormatting_listsComputedStyles :
+			editor.config.copyFormatting_computedStyles;
 
 	computedStyles = computedStyles || oldComputed;
 
-	editor.config.copyFormatting_computedStyles = computedStyles;
+	if ( isList ) {
+		editor.config.copyFormatting_listsComputedStyles = computedStyles;
+	} else {
+		editor.config.copyFormatting_computedStyles = computedStyles;
+	}
 
 	bot.setData( elementHtml, function() {
 		var eventData = additionalData || {};
@@ -29,11 +35,15 @@ function testExtractingFormatting( editor, bot, elementHtml, expectedStyle, comp
 					assert.areSame( expectedStyle.styles[ inlineStyle ], style.styles[ inlineStyle ] );
 				}
 
-				if ( additionalData && !additionalData.oldStyles ) {
+				if ( additionalData ) {
 					objectAssert.ownsKeys( computedStyles, style.styles );
 				}
 
-				editor.config.copyFormatting_computedStyles = oldComputed;
+				if ( isList ) {
+					editor.config.copyFormatting_listsComputedStyles = oldComputed;
+				} else {
+					editor.config.copyFormatting_computedStyles = oldComputed;
+				}
 			} );
 		}, null, null, 1000 );
 

@@ -85,6 +85,33 @@
 				styles: CKEDITOR.tools.parseCssText( styleAttr, true, true ),
 				type: CKEDITOR.STYLE_INLINE
 			}, false );
+		},
+
+		'test extract styles from list item': function( editor, bot ) {
+			testExtractingFormatting( editor, bot, '<li>strikethrough</li>', {
+				element: 'li',
+				attributes: {},
+				styles: {},
+				type: CKEDITOR.STYLE_INLINE
+			}, editor.config.copyformatting_listsComputedStyles );
+		},
+
+		'test extract styles from ul element': function( editor, bot ) {
+			testExtractingFormatting( editor, bot, '<ul><li></li></ul>', {
+				element: 'ul',
+				attributes: {},
+				styles: {},
+				type: CKEDITOR.STYLE_INLINE
+			} );
+		},
+
+		'test extract styles from ol element': function( editor, bot ) {
+			testExtractingFormatting( editor, bot, '<ol><li></li></ol>', {
+				element: 'ol',
+				attributes: {},
+				styles: {},
+				type: CKEDITOR.STYLE_INLINE
+			} );
 		}
 
 	};
