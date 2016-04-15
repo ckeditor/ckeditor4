@@ -150,7 +150,7 @@ a.cke_balloon_close_button:hover {
 
 	.cke_balloon_triangle_inner.cke_balloon_triangle_top
 	{
-		border-color: #f5f5f5 transparent;
+		border-color: #fff transparent;
 		border-width: 0 20px 20px;
 		top: 1px;
 	}
