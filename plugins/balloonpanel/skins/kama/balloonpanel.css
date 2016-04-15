@@ -47,7 +47,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 /* The close button at the top of the panel. */
 a.cke_balloon_close_button
 {
-	background-image: url(images/sprites.png);
+	background-image: url(../../../../skins/kama/images/sprites.png);
 	background-repeat: no-repeat;
 	background-position: 0 -1022px;
 	position: absolute;
