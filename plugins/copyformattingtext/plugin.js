@@ -15,13 +15,21 @@
 				var evtData = evt.data,
 					element = evtData.element,
 					styles = evtData.styleDef.styles,
-					computedStyles = editor.config.copyFormatting_computedStyles || [],
+					computedStyles,
 					i;
 
-				if ( !evtData.oldStyles ) {
-					for ( i = 0; i < computedStyles.length; i++ ) {
-						styles[ computedStyles[ i ] ] = element.getComputedStyle( computedStyles[ i ] );
-					}
+				if ( CKEDITOR.tools.indexOf( [ 'ul', 'ol', 'li' ], element.getName() ) ) {
+					computedStyles = editor.config.copyFormatting_listsComputedStyles;
+				} else {
+					computedStyles = editor.config.copyFormatting_computedStyles;
+				}
+
+				if ( !CKEDITOR.tools.isArray( computedStyles ) ) {
+					return;
+				}
+
+				for ( i = 0; i < computedStyles.length; i++ ) {
+					styles[ computedStyles[ i ] ] = element.getComputedStyle( computedStyles[ i ] );
 				}
 			}, null, null, 20 );
 		}
@@ -53,6 +61,43 @@
 	 */
 	CKEDITOR.config.copyFormatting_computedStyles = [
 		'color',
+		'font-size',
+		'font-weight',
+		'font-style',
+		'text-decoration'
+	];
+
+	/**
+	 * Define which computed styles should be copied by the
+	 * "Copy Formatting" feature from list elements and items.
+	 *
+	 *		config.copyFormatting_listsComputedStyles = [
+	 *			'color',
+	 *			'background',
+	 *			'font-size',
+	 *			'font-weight',
+	 *			'font-style',
+	 *			'text-decoration'
+	 *		];
+	 *
+	 * If you want to disable copying computed styles from list
+	 * elements and items, pass empty array to this variable:
+	 *
+	 *		config.copyFormatting_listsComputedStyles = [];
+	 *
+	 * @cfg [copyFormatting_listsComputedStyles=[
+	 *		'color',
+	 *		'background',
+	 *		'font-size',
+	 *		'font-weight',
+	 *		'font-style',
+	 *		'text-decoration'
+	 *	]]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_listsComputedStyles = [
+		'color',
+		'background',
 		'font-size',
 		'font-weight',
 		'font-style',
