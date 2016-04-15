@@ -162,6 +162,22 @@
 			} );
 		},
 
+		'test edit link text': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">http://ckeditor.com</a>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				//I expect at this point that it would be as though I selected the link and clicked the link icon, is that correct?
+				//but when debugging it looks as though I am trying to create a new link, not edit the existing link.
+				dialog.setValueOf( 'info', 'linkDisplayText', 'testing 1, 2, 3' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<a href="http://cksource.com">testing 1, 2, 3</a>', bot.getData( true ) );
+				assert.areSame( 'testing 1, 2, 3', editor.getSelection().getSelectedText(), 'content of a link was selected' );
+			} );
+		},
+
 		'test link passes filter': function() {
 			this.editorBot.assertInputOutput(
 				'<p><a href="http://ckeditor.com">text</a></p>',
