@@ -24,6 +24,28 @@
 			},
 			type: CKEDITOR.STYLE_INLINE
 		} )
+	],
+	listStyles = [
+		new CKEDITOR.style( {
+			element: 'b',
+			type: CKEDITOR.STYLE_INLINE
+		} ),
+
+		new CKEDITOR.style( {
+			element: 'li',
+			styles: {
+				'text-decoration': 'underline'
+			},
+			type: CKEDITOR.STYLE_INLINE
+		} ),
+
+		new CKEDITOR.style( {
+			element: 'ol',
+			attributes: {
+				start: 3
+			},
+			type: CKEDITOR.STYLE_INLINE
+		} )
 	];
 
 	bender.editor = {
@@ -52,6 +74,68 @@
 					type: CKEDITOR.STYLE_INLINE
 				} )
 			] );
+		},
+
+		'test applyFormat on plain text with list styles': function() {
+			var expectedStyles = listStyles.slice( 0, 2 );
+
+			expectedStyles[ 1 ].element = expectedStyles[ 1 ]._.definition.element = 'span';
+
+			testApplyingFormat( this.editor, '<p>Apply format h{}ere</p>', 'here', listStyles, [], expectedStyles );
+
+			listStyles[ 1 ].element = listStyles[ 1 ]._.definition.element = 'li';
+		},
+
+		'test applyFormat on list context with list styles': function() {
+			var expectedStyles = listStyles.slice();
+			expectedStyles.splice( 1, 1 );
+
+			testApplyingFormat( this.editor, '<ul><li>Apply format h{}ere</li></ul>', 'here', listStyles, [],
+				expectedStyles );
+
+			// We must check styles for `li` element separately as our `CKEDITOR.style.checkActive`
+			// is apparently not working with it due to `li` being a block.
+			assert.isTrue( this.editor.editable().findOne( 'li' ).getStyle( 'text-decoration' ) === 'underline' );
+		},
+
+		'test applyFormat on mixed context with list styles': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				expectedStyles = listStyles,
+				applied = 0,
+				elementPath,
+				i;
+
+			bender.tools.selection.setWithHtml( editor, '<p>Apply for{mat</p><ul><li>Maybe h}ere</li></ul>' );
+
+			CKEDITOR.plugins.copyformatting._applyFormat( editor, expectedStyles );
+
+			// Now check if all new styles were applied to the listitem.
+			elementPath = new CKEDITOR.dom.elementPath( editable.findOne( 'li' ).findOne( 'b' ), editable );
+
+			for ( i = 0; i < expectedStyles.length; i++ ) {
+				if ( expectedStyles[ i ].checkActive( elementPath, editor ) ) {
+					++applied;
+				}
+			}
+
+			assert.areSame( 2, applied, 'New styles were applied correctly.' );
+
+			// We must check styles for `li` element separately as our `CKEDITOR.style.checkActive`
+			// is apparently not working with it due to `li` being a block.
+			assert.isTrue( editable.findOne( 'li' ).getStyle( 'text-decoration' ) === 'underline' );
+
+			// Now check if all new styles were applied to the paragraph.
+			applied = 0;
+			elementPath = new CKEDITOR.dom.elementPath( editable.findOne( 'p' ).findOne( 'b' ), editable );
+
+			for ( i = 0; i < expectedStyles.length; i++ ) {
+				if ( expectedStyles[ i ].checkActive( elementPath, editor ) ) {
+					++applied;
+				}
+			}
+
+			assert.areSame( 1, applied, 'New styles were applied correctly.' );
 		},
 
 		'test filter styles': function() {
