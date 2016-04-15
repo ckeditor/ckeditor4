@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -464,11 +464,12 @@
 				isReplace = 1;
 
 				// Successiveness of current replace/find.
-				var result = 0;
+				var result = 0,
+					matchOptionsChanged = this.hasMatchOptionsChanged( pattern, matchCase, matchWord );
 
-				// 1. Perform the replace when there's already a match here.
+				// 1. Perform the replace when there's already a match here and match options hasn't change since previous find.
 				// 2. Otherwise perform the find but don't replace it immediately.
-				if ( this.matchRange && this.matchRange.isMatched() && !this.matchRange._.isReplaced && !this.matchRange.isReadOnly() ) {
+				if ( this.matchRange && this.matchRange.isMatched() && !this.matchRange._.isReplaced && !this.matchRange.isReadOnly() && !matchOptionsChanged ) {
 					// Turn off highlight for a while when saving snapshots.
 					this.matchRange.removeHighlight();
 					var domRange = this.matchRange.toDomRange();
@@ -492,12 +493,28 @@
 					this.replaceCounter++;
 					result = 1;
 				} else {
+					// Reset match range so new search starts from primary cursor position (not an end of selection). (#11697)
+					if ( matchOptionsChanged && this.matchRange ) {
+						this.matchRange.clearMatched();
+						this.matchRange.removeHighlight();
+						this.matchRange = null;
+					}
 					result = this.find( pattern, matchCase, matchWord, matchCyclic, !isReplaceAll );
 				}
 
 				isReplace = 0;
 
 				return result;
+			},
+
+			// Check if pattern or match options changed since last find. (#11697)
+			matchOptions: null,
+			hasMatchOptionsChanged: function( pattern, matchCase, matchWord ) {
+				var matchOptions = [ pattern, matchCase, matchWord ].join( '.' ),
+					changed = this.matchOptions && this.matchOptions != matchOptions;
+
+				this.matchOptions = matchOptions;
+				return changed;
 			}
 		};
 

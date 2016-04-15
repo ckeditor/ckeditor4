@@ -157,7 +157,7 @@
 					// Should we make a <thead>?
 					var headers = info.selHeaders;
 					if ( !table.$.tHead && ( headers == 'row' || headers == 'both' ) ) {
-						var thead = table.findOne( 'thead' );
+						var thead = table.getElementsByTag( 'thead' ).getItem( 0 );
 						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
 						var theRow = tbody.getElementsByTag( 'tr' ).getItem( 0 );
 
