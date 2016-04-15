@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#14449](http://dev.ckeditor.com/ticket/14449): Introduced the [Balloon Panel](http://ckeditor.com/addon/balloonpanel) plugin.
 * [#12077](https://dev.ckeditor.com/ticket/12077): Added support for the HTML5 `download` attribute in link (`<a>`) elements. Thanks to [sbusse](https://github.com/sbusse)!
 * [#13519](http://dev.ckeditor.com/ticket/13519): The [file tools](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) response is now more flexible.
 * [#13518](http://dev.ckeditor.com/ticket/13518): The [file tools](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) request is now more flexible and the [`additionalRequestParameters`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property was introduced.
