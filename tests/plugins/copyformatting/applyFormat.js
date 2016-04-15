@@ -158,6 +158,31 @@
 			assert.areSame( 1, filteredStyles.length );
 			assert.areSame( 'span', filteredStyles[ 0 ].element );
 			assert.areSame( '#f00', filteredStyles[ 0 ]._.definition.styles.color );
+		},
+
+		'test determining context': function() {
+			var editor = this.editor;
+
+			function determineContext() {
+				var range = editor.getSelection().getRanges()[ 0 ];
+
+				return CKEDITOR.plugins.copyformatting._determineContext( range );
+			}
+
+			bender.tools.selection.setWithHtml( editor, '<p>Paragra{}ph</p><ul><li>And a list</li></ul>' );
+			assert.areSame( 0, determineContext() );
+
+			bender.tools.selection.setWithHtml( editor, '<p>Paragraph</p><ul><li>And a l{}ist</li></ul>' );
+			assert.areSame( 1, determineContext() );
+
+			bender.tools.selection.setWithHtml( editor, '<p>Paragrap{h</p><ul><li>And a l}ist</li></ul>' );
+			assert.areSame( 1, determineContext() );
+
+			bender.tools.selection.setWithHtml( editor, '<ul><li>L{ist</li></ul><p>And a par}agraph</p>' );
+			assert.areSame( 1, determineContext() );
+
+			bender.tools.selection.setWithHtml( editor, '<ul><li>Fiz{z</li><li>Boo}m</li></ul>' );
+			assert.areSame( 1, determineContext() );
 		}
 	} );
 }() );
