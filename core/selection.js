@@ -366,9 +366,19 @@
 			var next = range[ keystroke < 38 ? 'getPreviousEditableNode' : 'getNextEditableNode' ]();
 
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
-				editor.getSelection().fake( next );
-				evt.data.preventDefault();
-				evt.cancel();
+				/* 
+					CoEdit changed start
+				*/
+				if("true" != next.getAttribute("ce-locked") && (evt.data.$.keyCode == 8|| evt.data.$.keyCode == 46)){
+					editor.getSelection().fake( next );
+					evt.data.preventDefault();
+					evt.cancel();
+				}else{
+					console.log("CoEdit:internal hacking 1")
+				}
+				/*
+					CoEdit changed end
+				*/
 			}
 		};
 	}

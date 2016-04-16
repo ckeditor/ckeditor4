@@ -12,7 +12,14 @@
 			<p>para3</p>
 		</div>
 		<script>
-			var __ck__coedit__ = CKEDITOR.replace('editor',{});
+			var __ck__coedit__ = CKEDITOR.replace('editor',{
+				extraPlugins:"coedit",
+				coedit_config:{
+					userId: "_test_user_id_",
+					docId: "_test_doc_id_"
+				},
+				extraAllowedContent:"*[ce-*,id,contenteditable]"
+			});
 		</script>
 	</body>
 </html>

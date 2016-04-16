@@ -52,8 +52,46 @@ CKEDITOR.keystrokeHandler = function( editor ) {
 
 			if ( !cancel ) {
 				if ( command ) {
-					var data = { from: 'keystrokeHandler' };
-					cancel = ( editor.execCommand( command, data ) !== false );
+					/*
+						CoEdit changed start
+					 */
+					 //debugger;
+					var rge = editor.document.$.getSelection().getRangeAt(0);
+
+					var aRootNode = rge.startContainer;
+					var bRootNode = rge.endContainer;
+					var doc = editor.document.$;
+					while(aRootNode.parentNode!=doc.body){
+						aRootNode = aRootNode.parentNode;
+					}
+
+					while(bRootNode.parentNode!=doc.body){
+						bRootNode = bRootNode.parentNode;
+					}
+					var hasLockedNode = false;
+					var chkNode = aRootNode;
+					if(aRootNode && aRootNode.getAttribute("ce-locked") == "true" ){
+						hasLockedNode = true;
+					}
+					if(bRootNode && bRootNode.getAttribute("ce-locked") == "true" ){
+						hasLockedNode = true;
+					}
+					while(chkNode != bRootNode){
+						if(chkNode && chkNode.getAttribute("ce-locked") == "true" ){
+							hasLockedNode = true;
+						}
+						chkNode = chkNode.nextSibling;
+					}
+
+					if((command == "enter" || command == "shiftEnter") && hasLockedNode){
+						console.log("CoEdit: internal hacking 3")
+					}else{
+						var data = { from: 'keystrokeHandler' };
+						cancel = ( editor.execCommand( command, data ) !== false );
+					}
+					/*
+						CoEdit changed end
+					*/
 				}
 
 				if ( !cancel )
