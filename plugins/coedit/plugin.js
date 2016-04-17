@@ -1,5 +1,4 @@
 CKEDITOR.plugins.add( 'coedit', {
-	allowedContent:"*[ce-*,id,contenteditable,onkeydown]",
     init: function( editor ) {
 
 
@@ -227,7 +226,6 @@ CKEDITOR.plugins.add( 'coedit', {
 					}
 				}
 			}else{
-				//debugger;
 				//包含选择区域
 				var hasLockedNode = false;
 				var chkNode = aRootNode;
@@ -251,3 +249,9 @@ CKEDITOR.plugins.add( 'coedit', {
 		})
 	}	
 });
+/*
+1. 段落编辑完成事件
+2. 段落失去光标事件
+3. 待checklist的模板
+4. 嵌套列表的编号
+*/
