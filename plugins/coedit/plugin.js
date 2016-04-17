@@ -1,7 +1,6 @@
 CKEDITOR.plugins.add( 'coedit', {
     init: function( editor ) {
 
-
     	window.__coedit__plugin__ = this;
     	console.log("coedit init");
 
@@ -22,21 +21,63 @@ CKEDITOR.plugins.add( 'coedit', {
 
     	editor.on("instanceReady",function(){
 			editor.on("change",function(){
-				console.log("changing");
-				that._buildData();
+				that._filterChange.call(that);
 			});
+			editor.on("elementsPathUpdate",function(){
+				editor.fire("ce-focusChange");
+			})
 			that.document = editor.document.$;
 			that._buildData();
+			that.oldData = that.data;
 			that._enableLock();
     	});
+
+    	editor.on("ce-change",this._handelBigChange);
+    	editor.on("ce-focusChange",function(){
+    		console.log("coEdit focusChange");
+    	})
     },
 
+    _handelBigChange:function(){
+    	console.log("coEdit big change");
+    },
+
+    _filterChange: function(){
+    	console.log("changing");
+		
+		this._buildData();
+
+		var focusParaId = this.getFocusParaId();
+		var diff = this.diff(this.data,this.oldData);
+		//console.log(focusParaId);
+		//console.log(diff);
+
+		if(diff.add.length > 0 || diff.del.length > 0 || diff.chg.length > 1 || (diff.chg.length == 1 && diff.chg[0].paraId != focusParaId)){
+			this.editor.fire("ce-change");
+			this.oldData = this.data;
+		}
+
+    },
+
+    getFocusParaId:function(){
+    	var sel = this.document.getSelection();
+    	var body = this.document.body;
+    	var rootNode = null;
+    	if(sel.isCollapsed){
+    		var rootNode = sel.anchorNode;
+    		while(rootNode.parentNode != body){
+    			rootNode = rootNode.parentNode;
+    		}
+    		return rootNode.getAttribute("ce-para-id");
+    	}
+    	return false;
+    },
 
     _getRdId: function(){
 		var arr = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 		var res = "";
 		for(var i=0;i<8;i++){
-			res += arr[Math.floor(Math.random()*arr.length)]
+			res += arr[Math.floor(Math.random()*arr.length)];
 		}
 		return res.toUpperCase();
 	},
@@ -104,7 +145,6 @@ CKEDITOR.plugins.add( 'coedit', {
 			paraData = data[paraData.nextParaId];
 			s += paraData.content;
 		}
-		console.log(s)
 		return s;
 	},
 
@@ -113,12 +153,16 @@ CKEDITOR.plugins.add( 'coedit', {
 	},
 	
 	diff: function(newData,oldData){
-		var arr = this.saving
-		if(arr.length<2){
-			console.log("需要save两次之后调用diff")
-		}
-		var n = newData || arr[arr.length-1];
-		var o = oldData || arr[arr.length-2];
+		// var arr = this.saving
+		// if(arr.length<2){
+		// 	console.log("需要save两次之后调用diff")
+		// }
+		// var n = newData || arr[arr.length-1];
+		// var o = oldData || arr[arr.length-2];
+
+		var n = newData;
+		var o = oldData;
+
 		var diff = {
 			chg:[],
 			del:[],
@@ -149,7 +193,7 @@ CKEDITOR.plugins.add( 'coedit', {
 			}
 		}
 
-		console.log(diff);
+		//console.log(diff);
 		return diff;
 	},
 
@@ -189,7 +233,7 @@ CKEDITOR.plugins.add( 'coedit', {
 		var doc = this.document;
 		doc.body.addEventListener("keydown",function(evt){
 			var sel = doc.getSelection();
-			console.log(sel);
+			//console.log(sel);
 			var rge = sel.getRangeAt(0);
 			var aNode = rge.startContainer;
 			var bNode = rge.endContainer;
