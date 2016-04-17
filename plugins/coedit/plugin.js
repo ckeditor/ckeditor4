@@ -1,10 +1,11 @@
 CKEDITOR.plugins.add( 'coedit', {
 	allowedContent:"*[ce-*,id,contenteditable,onkeydown]",
     init: function( editor ) {
+
+
     	window.__coedit__plugin__ = this;
     	console.log("coedit init");
 
-    	editor.coEdit = this;
 
     	var ceConfig = editor.config.coedit_config;
     	this.editor = editor;
@@ -12,7 +13,14 @@ CKEDITOR.plugins.add( 'coedit', {
     	this.userId = ceConfig.userId;
     	this.saving = [];
 
+
     	var that = this;
+    	editor.coEdit = that;
+
+    	editor.addFeature({
+			allowedContent: '*[ce-*,id,contenteditable]'
+		});
+
     	editor.on("instanceReady",function(){
 			this.on("change",function(){
 				console.log("changing");
