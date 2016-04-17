@@ -22,7 +22,7 @@ CKEDITOR.plugins.add( 'coedit', {
 		});
 
     	editor.on("instanceReady",function(){
-			this.on("change",function(){
+			editor.on("change",function(){
 				console.log("changing");
 				that._buildData();
 			});
@@ -171,6 +171,17 @@ CKEDITOR.plugins.add( 'coedit', {
 			node.style.backgroundColor="#e4e4e4"
 			node.setAttribute("ce-locked",true);
 			node.setAttribute("contenteditable",false);
+		}
+
+	},
+
+	unlock: function(paraId){
+		var doc = this.document;
+		var node = doc.getElementById("ce_para_"+paraId);
+		if(node && node.nodeType == 1){
+			node.style.backgroundColor="#ffffff"
+			node.setAttribute("ce-locked",false);
+			node.setAttribute("contenteditable",true);
 		}
 
 	},
