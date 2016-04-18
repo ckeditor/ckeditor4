@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -91,8 +91,8 @@
 		} );
 
 		function onClick( elementIndex ) {
-			var selection,
-				element = elementsPath.list[ elementIndex ];
+			var element = elementsPath.list[ elementIndex ],
+				selection;
 
 			if ( element.equals( editor.editable() ) || element.getAttribute( 'contenteditable' ) == 'true' ) {
 				var range = editor.createRange();
