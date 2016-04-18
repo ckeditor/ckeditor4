@@ -104,6 +104,7 @@
 				selection.selectElement( element );
 			}
 
+			// Explicitly fire selectionChange when clicking on an element path button. (#13548)
 			editor.fire( 'selectionChange', { selection: selection, path: new CKEDITOR.dom.elementPath( element ) } );
 
 			// It is important to focus() *after* the above selection
