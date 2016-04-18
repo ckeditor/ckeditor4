@@ -160,6 +160,56 @@
 			} );
 		},
 
+		'test #initMultiEditables and #destroyMultiEditable': function() {
+			var editor = this.editor;
+
+			editor.widgets.add( 'testmethods5' );
+
+			this.editorBot.setData('<div data-widget="testmethods5" id="w1"><h1>header</h1><h1>header</h1></div>', function() {
+				var widget = getWidgetById( editor, 'w1' );
+
+				assert.isTrue( widget.initMultiEditables( 'headers', { selector: 'h1', allowedContent: 'h1', multi: true } ), 'return value' );
+
+				var eHeaders = widget.editables.headers;
+
+				arrayAssert.containsItems( editor.document.getElementsByTag('h1'), eHeaders, 'editables was added' );
+
+				for ( var i = 0; i < eHeaders.length; i++ ) {
+					var header = eHeaders[ i ],
+							removedListeners = [];
+
+					assert.areSame( 'true', header.getAttribute( 'contenteditable' ), 'has contenteditable attr' );
+					assert.areSame( 'headers', header.getAttribute( 'data-cke-widget-editable' ), 'has data-cke-widget-editable attribute' );
+					assert.areSame( i, +header.getAttribute( 'data-cke-editable-index' ), 'has data-cke-editable-index attribute' );
+					assert.areSame( String( CKEDITOR.ENTER_BR ), header.getAttribute( 'data-cke-enter-mode' ), 'has data-cke-enter-mode attribute' );
+					assert.isNumber( parseInt( header.getAttribute( 'data-cke-filter' ), 10 ), 'has data-cke-filter attribute' );
+					assert.isInstanceOf( CKEDITOR.filter, header.filter, 'editable.filter is instance of CKEDITOR.filter' );
+					assert.areSame( header.filter, CKEDITOR.filter.instances[ header.getAttribute( 'data-cke-filter' ) ],
+					'data-cke-filter points to an existing filter instance' );
+					assert.isTrue( header.hasClass( 'cke_widget_editable' ), 'has cke_widget_editable class' );
+
+					header.removeListener = function( evtName ) {
+						removedListeners.push( evtName );
+					};
+				}
+
+				widget.destroyMultiEditable('headers');
+				assert.isFalse( !!widget.editables.headers, 'editable was removed' );
+
+				for ( var i = 0; i < eHeaders.length; i++ ) {
+					var header = eHeaders[ i ];
+
+					assert.areNotSame( 'true', header.getAttribute( 'contenteditable' ), 'does not have contenteditable attr' );
+					assert.isFalse( header.hasAttribute( 'data-cke-widget-editable' ), 'does not have data-cke-widget-editable attribute' );
+					assert.isFalse( header.hasAttribute( 'data-cke-enter-mode' ), 'does not have data-cke-enter-mode attribute' );
+					assert.isFalse( header.hasClass( 'cke_widget_editable' ), 'does not have cke_widget_editable class' );
+
+					// Focus manager also uses removeListener, so events are doubled.
+					assert.areSame( 'blur,blur,blur,blur,focus,focus,focus,focus', removedListeners.sort().join( ',' ), 'listeners were removed' );
+				}
+			} );
+		},
+
 		'test initEditable ignores not allowed editable elements': function() {
 			var editor = this.editor;
 
