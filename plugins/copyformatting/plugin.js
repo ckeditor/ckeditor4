@@ -592,12 +592,13 @@
 				currentNode;
 
 			// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
-			if ( range.startContainer.getAscendant( 'ul', true ) || range.startContainer.getAscendant( 'ol', true ) ) {
+			if ( range.startContainer.getAscendant( { ul: 1, ol: 1 }, true ) ||
+				range.endContainer.getAscendant( { ul: 1, ol: 1 }, true ) ) {
 				return 1;
 			}
 
 			while ( ( currentNode = walker.next() ) ) {
-				if ( currentNode.getAscendant( 'ul', true ) || currentNode.getAscendant( 'ol', true ) ) {
+				if ( currentNode.getAscendant( { ul: 1, ol: 1 }, true ) ) {
 					return 1;
 				}
 			}
@@ -643,9 +644,7 @@
 		 * @private
 		 */
 		_applyStylesToListContext: function( editor, range, styles ) {
-			var walker = new CKEDITOR.dom.walker( range ),
-				currentNode,
-				style,
+			var style,
 				i;
 
 			function applyToList( list, style ) {
@@ -656,42 +655,44 @@
 				style.applyToObject( list );
 			}
 
+			function getNodeAndApplyCmd( range, query, cmd, stopOnFirst ) {
+				var walker = new CKEDITOR.dom.walker( range ),
+					currentNode;
+
+				// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
+				if ( ( currentNode = range.startContainer.getAscendant( query, true ) ||
+					range.endContainer.getAscendant( query, true ) ) ) {
+					cmd( currentNode );
+
+					if ( stopOnFirst ) {
+						return;
+					}
+				}
+
+				while ( currentNode = walker.next() ) {
+					currentNode = currentNode.getAscendant( query, true );
+
+					if ( currentNode ) {
+						cmd( currentNode );
+
+						if ( stopOnFirst ) {
+							return;
+						}
+					}
+				}
+			}
+
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
 
 				if ( style.element === 'ol' || style.element === 'ul' ) {
-					// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
-					if ( ( currentNode = range.startContainer.getAscendant( 'ul', true ) ||
-						range.startContainer.getAscendant( 'ol', true ) ) ) {
+					getNodeAndApplyCmd( range, { ul: 1, ol: 1 }, function( currentNode ) {
 						applyToList( currentNode, style );
-					} else if ( ( currentNode = range.endContainer.getAscendant( 'ul', true ) ||
-						range.endContainer.getAscendant( 'ol', true ) ) ) {
-						applyToList( currentNode, style );
-					} else {
-						while ( currentNode = walker.next() ) {
-							currentNode = currentNode.getAscendant( 'ul', true ) ||
-								currentNode.getAscendant( 'ol', true );
-
-							if ( currentNode ) {
-								applyToList( currentNode, style );
-								break;
-							}
-						}
-					}
+					}, true );
 				} else if ( style.element === 'li' ) {
-					// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
-					if ( ( currentNode = range.startContainer.getAscendant( 'li', true ) ||
-						range.endContainer.getAscendant( 'li', true ) ) ) {
+					getNodeAndApplyCmd( range, 'li', function( currentNode ) {
 						style.applyToObject( currentNode );
-					}
-
-					while ( currentNode = walker.next() ) {
-						currentNode = currentNode.getAscendant( 'li', true );
-
-						if ( currentNode ) {
-							style.applyToObject( currentNode );
-						}
-					}
+					} );
 				} else {
 					CKEDITOR.plugins.copyformatting._applyStylesToTextContext( editor, range, [ style ] );
 				}
