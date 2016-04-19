@@ -170,19 +170,19 @@
 			}
 
 			bender.tools.selection.setWithHtml( editor, '<p>Paragra{}ph</p><ul><li>And a list</li></ul>' );
-			assert.areSame( 0, determineContext() );
+			assert.areSame( 0, determineContext(), 'Caret in text before list item' );
 
 			bender.tools.selection.setWithHtml( editor, '<p>Paragraph</p><ul><li>And a l{}ist</li></ul>' );
-			assert.areSame( 1, determineContext() );
+			assert.areSame( 1, determineContext(), 'Caret in first list item' );
 
 			bender.tools.selection.setWithHtml( editor, '<p>Paragrap{h</p><ul><li>And a l}ist</li></ul>' );
-			assert.areSame( 1, determineContext() );
+			assert.areSame( 1, determineContext(), 'Selection started in text, ended inside of a list item' );
 
 			bender.tools.selection.setWithHtml( editor, '<ul><li>L{ist</li></ul><p>And a par}agraph</p>' );
-			assert.areSame( 1, determineContext() );
+			assert.areSame( 1, determineContext(), 'Selection started in list item, ended inside of a text' );
 
 			bender.tools.selection.setWithHtml( editor, '<ul><li>Fiz{z</li><li>Boo}m</li></ul>' );
-			assert.areSame( 1, determineContext() );
+			assert.areSame( 1, determineContext(), 'Selection within two list items' );
 		}
 	} );
 }() );
