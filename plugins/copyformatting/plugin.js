@@ -594,12 +594,11 @@
 		},
 
 		/**
-		 * Determines context of the given selection. It can return:
-		 * * `0` for text
-		 * * `1` for lists
+		 * Determines context of the given selection. It returns a number based on `CONTEXT_*` constants:
+		 * * {@link #CONTEXT_TEXT} for text
+		 * * {@link #CONTEXT_LIST} for lists
 		 *
-		 * @param {CKEDITOR.dom.range} range Range from which context
-		 * should be determined.
+		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
 		 * @returns {Number}
 		 * @private
 		 */
