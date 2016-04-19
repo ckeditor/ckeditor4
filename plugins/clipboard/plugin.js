@@ -903,7 +903,7 @@
 			// Transparency is not enough since positioned non-editing host always shows
 			// resize handler, pull it off the screen instead.
 			else {
-				pastebin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-1000px' );
+				pastebin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-10000px' );
 			}
 
 			editor.on( 'selectionChange', cancel, null, null, 0 );
