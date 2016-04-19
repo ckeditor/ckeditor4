@@ -174,7 +174,7 @@
 				var plugin = CKEDITOR.plugins.copyformatting,
 					context = plugin._determineContext( evt.data.range );
 
-				if ( context === 0 ) {
+				if ( context === plugin.CONTEXT_TEXT ) {
 					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
 				} else {
 					plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
@@ -188,6 +188,22 @@
 	 * @class CKEDITOR.plugins.copyformatting
 	 */
 	CKEDITOR.plugins.copyformatting = {
+		/**
+		 * Constant used for inline text formatting context.
+		 *
+		 * @readonly
+		 * @property {Number} [=0]
+		 */
+		CONTEXT_TEXT: 0,
+
+		/**
+		 * Constant used for list formatting context.
+		 *
+		 * @readonly
+		 * @property {Number} [=1]
+		 */
+		CONTEXT_LIST: 1,
+
 		/**
 		 * Array of tag names that should limit inline styles extraction.
 		 *
@@ -594,16 +610,16 @@
 			// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
 			if ( range.startContainer.getAscendant( { ul: 1, ol: 1 }, true ) ||
 				range.endContainer.getAscendant( { ul: 1, ol: 1 }, true ) ) {
-				return 1;
+				return this.CONTEXT_LIST;
 			}
 
 			while ( ( currentNode = walker.next() ) ) {
 				if ( currentNode.getAscendant( { ul: 1, ol: 1 }, true ) ) {
-					return 1;
+					return this.CONTEXT_LIST;
 				}
 			}
 
-			return 0;
+			return this.CONTEXT_TEXT;
 		},
 
 		/**
