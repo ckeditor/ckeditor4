@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, copyformatting
-@bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace, elementspath
+@bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace, elementspath, list, indentlist, liststyle, undo
 
 **Procedure**
 
@@ -12,4 +12,3 @@ Play with lists.
 * Styles from listitem (background color) is applied only to listitems.
 * Type of list is changed according to the type of list from which styles were copied.
 * The list is not splitted into two after applying styles.
-
