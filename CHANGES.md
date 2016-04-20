@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#8679](http://dev.ckeditor.com/ticket/8679): Fixed: Better focus indication and ability to style selected color in the color picker dialog.
 * [#14312](http://dev.ckeditor.com/ticket/14312): Fixed: [IE] Artifact is visible after pasting of any text.
 * [#11697](http://dev.ckeditor.com/ticket/11697): Fixed: It is possible to replace content with wrong letter case.
 * [#13886](http://dev.ckeditor.com/ticket/13886): Fixed: Invalid handling of [`CKEDITOR.style`](http://docs.ckeditor.com/#!/api/CKEDITOR.style) instance with `styles` property by [`CKEDITOR.filter`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter).
