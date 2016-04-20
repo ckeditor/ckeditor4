@@ -174,10 +174,10 @@
 				var plugin = CKEDITOR.plugins.copyformatting,
 					context = plugin._determineContext( evt.data.range );
 
-				if ( context === plugin.CONTEXT_TEXT ) {
-					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
-				} else {
+				if ( context === plugin.CONTEXT_LIST ) {
 					plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
+				} else {
+					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
 				}
 			}, null, null, 999 );
 		}
