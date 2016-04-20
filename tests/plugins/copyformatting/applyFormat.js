@@ -86,6 +86,21 @@
 			listStyles[ 1 ].element = listStyles[ 1 ]._.definition.element = 'li';
 		},
 
+		'test applyFormat on plain text with list styles and specific listitems attributes': function() {
+			var expectedStyles = listStyles.slice( 0, 2 );
+
+			expectedStyles[ 1 ].element = expectedStyles[ 1 ]._.definition.element = 'span';
+			listStyles[ 1 ]._.definition.attributes = {
+				value: 4,
+				type: 'a'
+			};
+
+			testApplyingFormat( this.editor, '<p>Apply format h{}ere</p>', 'here', listStyles, [], expectedStyles );
+
+			listStyles[ 1 ].element = listStyles[ 1 ]._.definition.element = 'li';
+			delete listStyles[ 1 ]._.definition.attributes;
+		},
+
 		'test applyFormat on list context with list styles': function() {
 			var expectedStyles = listStyles.slice();
 			expectedStyles.splice( 1, 1 );
