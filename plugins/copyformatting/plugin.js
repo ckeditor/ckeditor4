@@ -218,6 +218,14 @@
 		 */
 		excludedAttributes: [ 'id', 'style', 'href', 'data-cke-saved-href' ],
 
+		/**
+		 * Array of attributes to be excluded while transforming `li` styles
+		 * into `span` styles (e.g. when applying that styles to text context).
+		 *
+		 * @property {Array}
+		 */
+		excludedAttributesFromInlineTransform: [ 'value', 'type' ],
+
 		commands: {
 			copyFormatting: {
 				exec: function( editor, data ) {
@@ -638,8 +646,10 @@
 		 * @private
 		 */
 		_applyStylesToTextContext: function( editor, range, styles ) {
-			var style,
-				i;
+			var attrsToExclude = CKEDITOR.plugins.copyformatting.excludedAttributesFromInlineTransform,
+				style,
+				i,
+				j;
 
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
@@ -650,6 +660,12 @@
 
 				if ( style.element === 'li' ) {
 					style.element = style._.definition.element = 'span';
+
+					for ( j = 0; j < attrsToExclude.length; j++ ) {
+						if ( style._.definition.attributes[ attrsToExclude[ j ] ] ) {
+							delete style._.definition.attributes[ attrsToExclude[ j ] ];
+						}
+					}
 				}
 
 				style.apply( editor );
