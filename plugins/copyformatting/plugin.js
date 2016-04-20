@@ -625,8 +625,7 @@
 		 * Apply styles inside plain text context.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @param {CKEDITOR.dom.range} range Range in which style
-		 * should be applied.
+		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
 		 * @param {CKEDITOR.style[]} styles Styles to be applied.
 		 * @private
 		 */
@@ -653,8 +652,7 @@
 		 * Apply list's style inside list context.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @param {CKEDITOR.dom.range} range Range in which style
-		 * should be applied.
+		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
 		 * @param {CKEDITOR.style[]} styles Style to be applied.
 		 * @private
 		 */
