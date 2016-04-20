@@ -211,6 +211,13 @@
 		 */
 		inlineBoundary: [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ],
 
+		/**
+		 * Array of attributes that should be excluded from extracted styles.
+		 *
+		 * @property {Array}
+		 */
+		excludedAttributes: [ 'id', 'style', 'href', 'data-cke-saved-href' ],
+
 		commands: {
 			copyFormatting: {
 				exec: function( editor, data ) {
@@ -332,7 +339,8 @@
 		 */
 		_convertElementToStyleDef: function( element ) {
 			var tools = CKEDITOR.tools,
-				attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style' ] ),
+				attributes = CKEDITOR.plugins.copyformatting._getAttributes( element,
+					CKEDITOR.plugins.copyformatting.excludedAttributes ),
 				styles = tools.parseCssText( element.getAttribute( 'style' ), true, true );
 
 			if ( element.getName() === 'a' ) {
