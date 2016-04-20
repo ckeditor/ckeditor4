@@ -54,6 +54,16 @@
 			} );
 		},
 
+		'test excluding attributes': function() {
+			testConvertingStyles( '<span href="http://ckeditor.com" data-cke-saved-href="http://ckeditor.com" ' +
+				'style="' + styleAttr + '">Test</span>', {
+				element: 'span',
+				attributes: {},
+				styles: CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( styleAttr, true ) ),
+				type: CKEDITOR.STYLE_INLINE
+			} );
+		},
+
 		'test extract style from link': function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' ),
 				style = CKEDITOR.plugins.copyformatting._convertElementToStyleDef( element );
