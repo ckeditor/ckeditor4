@@ -846,6 +846,16 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'test2', element.getAttribute( 'title' ) );
 		},
 
+		test_removeAttributes_without_parameters: function() {
+			var element = doc.getById( 'removeAttributes_2' );
+
+			element.removeAttributes();
+
+			assert.isFalse( element.hasAttribute( 'id' ) );
+			assert.isFalse( element.hasAttribute( 'class' ) );
+			assert.isFalse( element.hasAttribute( 'title' ) );
+		},
+
 		test_removeStyle: function() {
 			var element = doc.getById( 'removeStyle' );
 
