@@ -271,6 +271,19 @@
 
 			notify( editor, 'failed' );
 			assertScreenReaderNotification( editor, 'failed' );
+		},
+
+		'test removing formatting from element in range': function( editor ) {
+			var plugin = CKEDITOR.plugins.copyformatting,
+				range;
+
+			bender.tools.selection.setWithHtml( editor,
+				'<p class="cls" style="text-decoration: underline;">Te{st}</p>' );
+			range = editor.getSelection().getRanges()[ 0 ];
+
+			plugin._removeStylesFromElementInRange( range, 'p' );
+
+			objectAssert.areDeepEqual( {}, plugin._getAttributes( editor.editable().findOne( 'p' ) ) );
 		}
 	};
 
