@@ -165,6 +165,8 @@
 				for ( i = 0; i < oldStyles.length; i++ ) {
 					if ( CKEDITOR.tools.indexOf( [ 'ul', 'ol', 'li' ], oldStyles[ i ].element ) === -1 ) {
 						oldStyles[ i ].remove( evt.editor );
+					} else {
+						plugin._removeStylesFromElementInRange( evt.data.range, oldStyles[ i ].element );
 					}
 				}
 			} );
@@ -411,6 +413,29 @@
 			}
 
 			return styles;
+		},
+
+		/**
+		 * Removes all styles from the element in given range without
+		 * removing the element itself.
+		 *
+		 * @param {CKEDITOR.dom.range} range Range in which the element
+		 * should be found
+		 * @param {String} element Element's tag name.
+		 */
+		_removeStylesFromElementInRange: function( range, element ) {
+			var walker = new CKEDITOR.dom.walker( range ),
+				currentNode,
+				attributes;
+
+			while ( ( currentNode = walker.next() ) ) {
+				currentNode = currentNode.getAscendant( element, true );
+
+				if ( currentNode ) {
+					attributes = CKEDITOR.plugins.copyformatting._getAttributes( currentNode );
+					currentNode.removeAttributes( attributes );
+				}
+			}
 		},
 
 		/**
