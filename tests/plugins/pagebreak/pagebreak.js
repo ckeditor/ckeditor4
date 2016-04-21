@@ -44,7 +44,11 @@
 
 				var element = elements.getItem( 0 );
 
-				assert.areSame( 'always', element.getStyle( 'page-break-after' ), prefix + 'Pagebreak holds page-break-after style' );
+				if ( CKEDITOR.env.chrome ) {
+					assert.areSame( 'page', element.getStyle( 'break-after' ), prefix + 'Pagebreak holds page-break-after style' );
+				} else {
+					assert.areSame( 'always', element.getStyle( 'page-break-after' ), prefix + 'Pagebreak holds page-break-after style' );
+				}
 				assert.isTrue( element.hasClass( 'cke_pagebreak' ), prefix + 'Pagebreak holds cke_pagebreak class' );
 				assert.isNotUndefined( element.data( 'cke-pagebreak' ), prefix + 'Pagebreak is marked with an attribute' );
 			}
