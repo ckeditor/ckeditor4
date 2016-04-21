@@ -611,6 +611,28 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		} )(),
 
 		/**
+		 * Get values of all element's attributes.
+		 *
+		 * @param {Array} exclude Names of attributes to be excluded from dictionary.
+		 * @return {Object} Object containing all element's attributes with their values.
+		 */
+		getAttributes: function( exclude ) {
+			var attributes = {},
+				attrDefs = this.$.attributes,
+				i;
+
+			exclude = CKEDITOR.tools.isArray( exclude ) ? exclude : [];
+
+			for ( i = 0; i < attrDefs.length; i++ ) {
+				if ( CKEDITOR.tools.indexOf( exclude, attrDefs[ i ].name ) === -1 ) {
+					attributes[ attrDefs[ i ].name ] = attrDefs[ i ].value;
+				}
+			}
+
+			return attributes;
+		},
+
+		/**
 		 * Gets the nodes list containing all children of this element.
 		 *
 		 * @returns {CKEDITOR.dom.nodeList}
