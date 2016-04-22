@@ -732,11 +732,11 @@
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
 
-				if ( style.element === 'ol' || style.element === 'ul' ) {
+				if ( indexOf( [ 'table', 'thead', 'tbody', 'ul', 'ol' ], style.element ) !== -1 ) {
 					continue;
 				}
 
-				if ( style.element === 'li' ) {
+				if ( indexOf( [ 'li', 'td', 'th', 'tr' ], style.element ) !== -1 ) {
 					style.element = style._.definition.element = 'span';
 
 					for ( j = 0; j < attrsToExclude.length; j++ ) {
