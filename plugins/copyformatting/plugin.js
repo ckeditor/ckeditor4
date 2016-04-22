@@ -160,10 +160,11 @@
 				}
 
 				var oldStyles = plugin._extractStylesFromRange( editor, evt.data.range ),
+					preservedElements = [ 'ul', 'ol', 'li', 'td', 'th', 'tr', 'thead', 'tbody', 'table' ],
 					i;
 
 				for ( i = 0; i < oldStyles.length; i++ ) {
-					if ( CKEDITOR.tools.indexOf( [ 'ul', 'ol', 'li' ], oldStyles[ i ].element ) === -1 ) {
+					if ( indexOf( preservedElements, oldStyles[ i ].element ) === -1 ) {
 						oldStyles[ i ].remove( evt.editor );
 					} else {
 						plugin._removeStylesFromElementInRange( evt.data.range, oldStyles[ i ].element );
