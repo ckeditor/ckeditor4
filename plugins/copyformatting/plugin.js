@@ -207,6 +207,14 @@
 		CONTEXT_LIST: 1,
 
 		/**
+		 * Constant used for table formatting context.
+		 *
+		 * @readonly
+		 * @property {Number} [=2]
+		 */
+		CONTEXT_TABLE: 2,
+
+		/**
 		 * Array of tag names that should limit inline styles extraction.
 		 *
 		 * @property {Array}
@@ -650,22 +658,30 @@
 		 * @private
 		 */
 		_determineContext: function( range ) {
-			var walker = new CKEDITOR.dom.walker( range ),
-				currentNode;
+			function detect( query ) {
+				var walker = new CKEDITOR.dom.walker( range ),
+					currentNode;
 
-			// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
-			if ( range.startContainer.getAscendant( { ul: 1, ol: 1 }, true ) ||
-				range.endContainer.getAscendant( { ul: 1, ol: 1 }, true ) ) {
-				return this.CONTEXT_LIST;
-			}
+				// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
+				if ( range.startContainer.getAscendant( query, true ) ||
+					range.endContainer.getAscendant( query, true ) ) {
+					return true;
+				}
 
-			while ( ( currentNode = walker.next() ) ) {
-				if ( currentNode.getAscendant( { ul: 1, ol: 1 }, true ) ) {
-					return this.CONTEXT_LIST;
+				while ( ( currentNode = walker.next() ) ) {
+					if ( currentNode.getAscendant( query, true ) ) {
+						return true;
+					}
 				}
 			}
 
-			return this.CONTEXT_TEXT;
+			if ( detect( { ul: 1, ol: 1 } ) ) {
+				return this.CONTEXT_LIST;
+			} else if ( detect( 'table' ) ) {
+				return this.CONTEXT_TABLE;
+			} else {
+				return this.CONTEXT_TEXT;
+			}
 		},
 
 		/**
