@@ -19,6 +19,34 @@
 		return domEvent.button === 0;
 	}
 
+	// Searches for given node in given query. It also checks ancestors of elements in the range.
+	function getNodeAndApplyCmd( range, query, cmd, stopOnFirst ) {
+		var walker = new CKEDITOR.dom.walker( range ),
+			currentNode;
+
+		// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
+		if ( ( currentNode = range.startContainer.getAscendant( query, true ) ||
+			range.endContainer.getAscendant( query, true ) ) ) {
+			cmd( currentNode );
+
+			if ( stopOnFirst ) {
+				return;
+			}
+		}
+
+		while ( currentNode = walker.next() ) {
+			currentNode = currentNode.getAscendant( query, true );
+
+			if ( currentNode ) {
+				cmd( currentNode );
+
+				if ( stopOnFirst ) {
+					return;
+				}
+			}
+		}
+	}
+
 	var indexOf = CKEDITOR.tools.indexOf;
 
 	CKEDITOR.plugins.add( 'copyformatting', {
@@ -179,6 +207,8 @@
 
 				if ( context === plugin.CONTEXT_LIST ) {
 					plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
+				} else if ( context === plugin.CONTEXT_TABLE ) {
+					plugin._applyStylesToTableContext( evt.editor, evt.data.range, evt.data.styles );
 				} else {
 					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
 				}
@@ -724,7 +754,7 @@
 		 * Apply list's style inside list context.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
+		 * @param {CKEDITOR.dom.range} range The range in which styles should be applied.
 		 * @param {CKEDITOR.style[]} styles Style to be applied.
 		 * @private
 		 */
@@ -738,33 +768,6 @@
 				}
 
 				style.applyToObject( list );
-			}
-
-			function getNodeAndApplyCmd( range, query, cmd, stopOnFirst ) {
-				var walker = new CKEDITOR.dom.walker( range ),
-					currentNode;
-
-				// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
-				if ( ( currentNode = range.startContainer.getAscendant( query, true ) ||
-					range.endContainer.getAscendant( query, true ) ) ) {
-					cmd( currentNode );
-
-					if ( stopOnFirst ) {
-						return;
-					}
-				}
-
-				while ( currentNode = walker.next() ) {
-					currentNode = currentNode.getAscendant( query, true );
-
-					if ( currentNode ) {
-						cmd( currentNode );
-
-						if ( stopOnFirst ) {
-							return;
-						}
-					}
-				}
 			}
 
 			for ( i = 0; i < styles.length; i++ ) {
@@ -783,6 +786,46 @@
 				}
 			}
 		},
+
+		/**
+		 * Apply table's style inside table context.
+		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
+		 * @param {CKEDITOR.dom.range} range The range in which styles should be applied.
+		 * @param {CKEDITOR.style[]} styles Style to be applied.
+		 * @private
+		 */
+		_applyStylesToTableContext: function( editor, range, styles ) {
+			var style,
+				i;
+
+			function applyToTableCell( cell, style ) {
+				if ( cell.getName() !== style.element ) {
+					style = style.getDefinition();
+					style.element = cell.getName();
+					style = new CKEDITOR.style( style );
+				}
+
+				style.applyToObject( cell );
+			}
+
+			for ( i = 0; i < styles.length; i++ ) {
+				style = styles[ i ];
+
+				if ( indexOf( [ 'table', 'thead', 'tbody', 'tr' ], style.element ) !== -1 ) {
+					getNodeAndApplyCmd( range, style.element, function( currentNode ) {
+						style.applyToObject( currentNode );
+					} );
+				} else if ( indexOf( [ 'td', 'th' ], style.element ) !== -1 ) {
+					getNodeAndApplyCmd( range, { td: 1, th: 1 }, function( currentNode ) {
+						applyToTableCell( currentNode, style );
+					} );
+				} else {
+					CKEDITOR.plugins.copyformatting._applyStylesToTextContext( editor, range, [ style ] );
+				}
+			}
+		},
+
 
 		/**
 		 * Apply given styles to currently selected content in the editor.
