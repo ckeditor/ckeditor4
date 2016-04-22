@@ -180,7 +180,8 @@
 		'test determining context': function() {
 			var editor = this.editor,
 				textConstant = CKEDITOR.plugins.copyformatting.CONTEXT_TEXT,
-				listConstant = CKEDITOR.plugins.copyformatting.CONTEXT_LIST;
+				listConstant = CKEDITOR.plugins.copyformatting.CONTEXT_LIST,
+				tableConstant = CKEDITOR.plugins.copyformatting.CONTEXT_TABLE;
 
 			function determineContext() {
 				var range = editor.getSelection().getRanges()[ 0 ];
@@ -202,6 +203,24 @@
 
 			bender.tools.selection.setWithHtml( editor, '<ul><li>Fiz{z</li><li>Boo}m</li></ul>' );
 			assert.areSame( listConstant, determineContext(), 'Selection within two list items' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>Parag{}raph</p><table><tr><td>Cell 1</td></tr></table>' );
+			assert.areSame( textConstant, determineContext(), 'Caret in text before table' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>Paragraph</p><table><tr><td>Ce{}ll 1</td></tr></table>' );
+			assert.areSame( tableConstant, determineContext(), 'Caret in first table cell' );
+
+			bender.tools.selection.setWithHtml( editor, '<p>Parag{raph</p><table><tr><td>Ce}ll 1</td></tr></table>' );
+			assert.areSame( tableConstant, determineContext(), 'Selection started in text, ended inside of a table cell' );
+
+			bender.tools.selection.setWithHtml( editor, '<table><tr><td>Ce{ll 1</td></tr></table><p>Parag}raph</p>' );
+			assert.areSame( tableConstant, determineContext(), 'Selection started in table cell, ended inside of a text' );
+
+			bender.tools.selection.setWithHtml( editor, '<table><tr><td>Cell 1</td><td>Cell 2</td></tr></table>' );
+			assert.areSame( tableConstant, determineContext(), 'Selection within two cells' );
+
+			bender.tools.selection.setWithHtml( editor, '<table><tr><td>Ce{ll 1</td></tr><tr><td>Ce}ll 2</td></tr></table>' );
+			assert.areSame( tableConstant, determineContext(), 'Selection within two rows' );
 		}
 	} );
 }() );
