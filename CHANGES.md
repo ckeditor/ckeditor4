@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#14602](http://dev.ckeditor.com/ticket/14602): Fixed: [dom.element.removeAttribute()](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeAttribute) method does not remove all attributes if no parameter is given.
 * [#8679](http://dev.ckeditor.com/ticket/8679): Fixed: Better focus indication and ability to style selected color in the color picker dialog.
 * [#14312](http://dev.ckeditor.com/ticket/14312): Fixed: [IE] Artifact is visible after pasting of any text.
 * [#11697](http://dev.ckeditor.com/ticket/11697): Fixed: It is possible to replace content with wrong letter case.
