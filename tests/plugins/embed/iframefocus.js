@@ -21,14 +21,20 @@ bender.test( {
 		var bot = this.editorBot,
 			editor = bot.editor;
 
+		editor.widgets.once( 'instanceCreated', function( evt ) {
+			evt.data.once( 'handleResponse', function() {
+				resume( function() {
+					assert.areSame( '-1', editor.editable().findOne( 'iframe' ).getAttribute( 'tabindex' ) );
+				} );
+			} );
+		} );
+
 		bot.setData( '', function() {
 			bot.dialog( 'embed', function( dialog ) {
 				dialog.setValueOf( 'info', 'url', 'http://video' );
 				dialog.getButton( 'ok' ).click();
 
-				wait( function() {
-					assert.areSame( '-1', editor.editable().findOne( 'iframe' ).getAttribute( 'tabindex' ) );
-				}, 101 );
+				wait();
 			} );
 		} );
 	}
