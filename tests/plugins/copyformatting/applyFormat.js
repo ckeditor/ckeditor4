@@ -59,7 +59,7 @@
 		new CKEDITOR.style( {
 			element: 'td',
 			styles: {
-				'color': CKEDITOR.tools.normalizeCssText( '#f00', true )
+				'text-decoration': 'underline'
 			},
 			attributes: {},
 			type: CKEDITOR.STYLE_INLINE
@@ -218,7 +218,7 @@
 
 			// We must check styles for `td` element separately as our `CKEDITOR.style.checkActive`
 			// is apparently not working with it due to `li` being a block.
-			assert.isTrue( !!this.editor.editable().findOne( 'td' ).getStyle( 'color' ) );
+			assert.isTrue( this.editor.editable().findOne( 'td' ).getStyle( 'text-decoration' ) === 'underline' );
 		},
 
 		'test applyFormat on table context with table styles (within thead)': function() {
@@ -230,9 +230,9 @@
 			testApplyingFormat( this.editor, '<table><thead><tr><th>Apply format h{}ere</th></tr></thead>', 'here',
 				tableStyles, [], expectedStyles );
 
-			// We must check styles for `td` element separately as our `CKEDITOR.style.checkActive`
+			// We must check styles for `th` element separately as our `CKEDITOR.style.checkActive`
 			// is apparently not working with it due to `li` being a block.
-			assert.isTrue( !!this.editor.editable().findOne( 'th' ).getStyle( 'color' ) );
+			assert.isTrue( this.editor.editable().findOne( 'th' ).getStyle( 'text-decoration' ) === 'underline' );
 		},
 
 		'test applyFormat on mixed context with table styles': function() {
@@ -260,7 +260,7 @@
 
 			// We must check styles for `td` element separately as our `CKEDITOR.style.checkActive`
 			// is apparently not working with it due to `li` being a block.
-			assert.isTrue( !!editable.findOne( 'td' ).getStyle( 'color' ) );
+			assert.isTrue( editable.findOne( 'td' ).getStyle( 'text-decoration' ) === 'underline' );
 
 			// Now check if all new styles were applied to the paragraph.
 			applied = 0;
