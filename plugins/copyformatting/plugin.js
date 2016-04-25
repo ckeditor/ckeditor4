@@ -812,12 +812,16 @@
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
 
-				if ( indexOf( [ 'table', 'thead', 'tbody', 'tr' ], style.element ) !== -1 ) {
+				if ( indexOf( [ 'table', 'tr' ], style.element ) !== -1 ) {
 					getNodeAndApplyCmd( range, style.element, function( currentNode ) {
 						style.applyToObject( currentNode );
 					} );
 				} else if ( indexOf( [ 'td', 'th' ], style.element ) !== -1 ) {
 					getNodeAndApplyCmd( range, { td: 1, th: 1 }, function( currentNode ) {
+						applyToTableCell( currentNode, style );
+					} );
+				} else if ( indexOf( [ 'thead', 'tbody' ], style.element ) !== -1 ) {
+					getNodeAndApplyCmd( range, { thead: 1, tbody: 1 }, function( currentNode ) {
 						applyToTableCell( currentNode, style );
 					} );
 				} else {
