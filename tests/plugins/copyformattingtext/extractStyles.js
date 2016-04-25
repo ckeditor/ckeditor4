@@ -112,6 +112,15 @@
 				styles: {},
 				type: CKEDITOR.STYLE_INLINE
 			} );
+		},
+
+		'test extract styles from td element': function( editor, bot ) {
+			testExtractingFormatting( editor, bot, '<table><tr><td></td></tr></table>', {
+				element: 'td',
+				attributes: {},
+				styles: {},
+				type: CKEDITOR.STYLE_INLINE
+			}, editor.config.copyformatting_tableComputedStyles );
 		}
 
 	};
