@@ -25,6 +25,7 @@
 			type: CKEDITOR.STYLE_INLINE
 		} )
 	],
+
 	listStyles = [
 		new CKEDITOR.style( {
 			element: 'b',
@@ -44,6 +45,45 @@
 			element: 'ol',
 			attributes: {
 				start: 3
+			},
+			type: CKEDITOR.STYLE_INLINE
+		} )
+	],
+
+	tableStyles = [
+		new CKEDITOR.style( {
+			element: 'b',
+			type: CKEDITOR.STYLE_INLINE
+		} ),
+
+		new CKEDITOR.style( {
+			element: 'td',
+			styles: {
+				'color': '#f00'
+			},
+			type: CKEDITOR.STYLE_INLINE
+		} ),
+
+		new CKEDITOR.style( {
+			element: 'tr',
+			styles: {
+				'background-color': '#ff0'
+			},
+			type: CKEDITOR.STYLE_INLINE
+		} ),
+
+		new CKEDITOR.style( {
+			element: 'tbody',
+			attributes: {
+				'class': 'body'
+			},
+			type: CKEDITOR.STYLE_INLINE
+		} ),
+
+		new CKEDITOR.style( {
+			element: 'table',
+			attributes: {
+				border: 3
 			},
 			type: CKEDITOR.STYLE_INLINE
 		} )
@@ -141,6 +181,84 @@
 			// We must check styles for `li` element separately as our `CKEDITOR.style.checkActive`
 			// is apparently not working with it due to `li` being a block.
 			assert.isTrue( editable.findOne( 'li' ).getStyle( 'text-decoration' ) === 'underline' );
+
+			// Now check if all new styles were applied to the paragraph.
+			applied = 0;
+			elementPath = new CKEDITOR.dom.elementPath( editable.findOne( 'p' ).findOne( 'b' ), editable );
+
+			for ( i = 0; i < expectedStyles.length; i++ ) {
+				if ( expectedStyles[ i ].checkActive( elementPath, editor ) ) {
+					++applied;
+				}
+			}
+
+			assert.areSame( 1, applied, 'New styles were applied correctly.' );
+		},
+
+		'test applyFormat on plain text with table styles': function() {
+			var expectedStyles = tableStyles.slice( 0, 3 );
+
+			expectedStyles[ 1 ].element = expectedStyles[ 1 ]._.definition.element = 'span';
+			expectedStyles[ 2 ].element = expectedStyles[ 2 ]._.definition.element = 'span';
+
+			testApplyingFormat( this.editor, '<p>Apply format h{}ere</p>', 'here', tableStyles, [], expectedStyles );
+
+			tableStyles[ 1 ].element = tableStyles[ 1 ]._.definition.element = 'td';
+			tableStyles[ 2 ].element = tableStyles[ 2 ]._.definition.element = 'tr';
+		},
+
+		'test applyFormat on table context with table styles': function() {
+			var expectedStyles = tableStyles.slice();
+			expectedStyles.splice( 1, 1 );
+
+			testApplyingFormat( this.editor, '<table><tr><td>Apply format h{}ere</td></tr>', 'here', tableStyles,
+				[], expectedStyles );
+
+			// We must check styles for `td` element separately as our `CKEDITOR.style.checkActive`
+			// is apparently not working with it due to `li` being a block.
+			assert.isTrue( !!this.editor.editable().findOne( 'td' ).getStyle( 'color' ) );
+		},
+
+		'test applyFormat on table context with table styles (within thead)': function() {
+			var expectedStyles = tableStyles.slice();
+
+			expectedStyles[ 1 ].element = expectedStyles[ 1 ]._.definition.element = 'th';
+			expectedStyles[ 3 ].element = expectedStyles[ 3 ]._.definition.element = 'thead';
+
+			testApplyingFormat( this.editor, '<table><thead><tr><th>Apply format h{}ere</th></tr></thead>', 'here',
+				tableStyles, [], expectedStyles );
+
+			// We must check styles for `td` element separately as our `CKEDITOR.style.checkActive`
+			// is apparently not working with it due to `li` being a block.
+			assert.isTrue( !!this.editor.editable().findOne( 'td' ).getStyle( 'color' ) );
+		},
+
+		'test applyFormat on mixed context with table styles': function() {
+			var editor = this.editor,
+				editable = editor.editable(),
+				expectedStyles = tableStyles,
+				applied = 0,
+				elementPath,
+				i;
+
+			bender.tools.selection.setWithHtml( editor, '<p>Apply for{mat</p><table><tr><td>Maybe h}ere</td></tr></table>' );
+
+			CKEDITOR.plugins.copyformatting._applyFormat( editor, expectedStyles );
+
+			// Now check if all new styles were applied to the table .
+			elementPath = new CKEDITOR.dom.elementPath( editable.findOne( 'td' ).findOne( 'b' ), editable );
+
+			for ( i = 0; i < expectedStyles.length; i++ ) {
+				if ( expectedStyles[ i ].checkActive( elementPath, editor ) ) {
+					++applied;
+				}
+			}
+
+			assert.areSame( 4, applied, 'New styles were applied correctly.' );
+
+			// We must check styles for `td` element separately as our `CKEDITOR.style.checkActive`
+			// is apparently not working with it due to `li` being a block.
+			assert.isTrue( !!editable.findOne( 'td' ).getStyle( 'color' ) );
 
 			// Now check if all new styles were applied to the paragraph.
 			applied = 0;
