@@ -461,17 +461,29 @@
 		 * @param {CKEDITOR.dom.range} range Range in which the element
 		 * should be found
 		 * @param {String} element Element's tag name.
+		 * @private
 		 */
 		_removeStylesFromElementInRange: function( range, element ) {
-			var walker = new CKEDITOR.dom.walker( range ),
+			var getAttributes = CKEDITOR.plugins.copyformatting._getAttributes,
+				walker = new CKEDITOR.dom.walker( range ),
 				currentNode,
 				attributes;
+
+			if ( currentNode = range.startContainer.getAscendant( element, true ) ) {
+				attributes = getAttributes( currentNode );
+				currentNode.removeAttributes( attributes );
+			}
+
+			if ( currentNode = range.endContainer.getAscendant( element, true ) ) {
+				attributes = getAttributes( currentNode );
+				currentNode.removeAttributes( attributes );
+			}
 
 			while ( ( currentNode = walker.next() ) ) {
 				currentNode = currentNode.getAscendant( element, true );
 
 				if ( currentNode ) {
-					attributes = CKEDITOR.plugins.copyformatting._getAttributes( currentNode );
+					attributes = getAttributes( currentNode );
 					currentNode.removeAttributes( attributes );
 				}
 			}
