@@ -59,7 +59,7 @@
 		new CKEDITOR.style( {
 			element: 'td',
 			styles: {
-				'color': '#f00'
+				'color': CKEDITOR.tools.normalizeCssText( '#f00', true )
 			},
 			attributes: {},
 			type: CKEDITOR.STYLE_INLINE
@@ -68,7 +68,7 @@
 		new CKEDITOR.style( {
 			element: 'tr',
 			styles: {
-				'background-color': '#ff0'
+				'background-color': CKEDITOR.tools.normalizeCssText( '#f00', true )
 			},
 			attributes: {},
 			type: CKEDITOR.STYLE_INLINE
@@ -336,7 +336,7 @@
 			bender.tools.selection.setWithHtml( editor, '<table><tr><td>Ce{ll 1</td></tr></table><p>Parag}raph</p>' );
 			assert.areSame( tableConstant, determineContext(), 'Selection started in table cell, ended inside of a text' );
 
-			bender.tools.selection.setWithHtml( editor, '<table><tr><td>Cell 1</td><td>Cell 2</td></tr></table>' );
+			bender.tools.selection.setWithHtml( editor, '<table><tr><td>Ce{ll 1</td><td>Cel}l 2</td></tr></table>' );
 			assert.areSame( tableConstant, determineContext(), 'Selection within two cells' );
 
 			bender.tools.selection.setWithHtml( editor, '<table><tr><td>Ce{ll 1</td></tr><tr><td>Ce}ll 2</td></tr></table>' );
