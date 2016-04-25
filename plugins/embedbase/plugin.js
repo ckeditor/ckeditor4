@@ -467,7 +467,7 @@
 					return '<img src="' + CKEDITOR.tools.htmlEncodeAttr( response.url ) + '" ' +
 						'alt="' + CKEDITOR.tools.htmlEncodeAttr( response.title || '' ) + '" style="max-width:100%;height:auto" />';
 				} else if ( response.type == 'video' || response.type == 'rich' ) {
-					// Embedded <iframe>s are added to page's focus list. Adding negative `[tabindex]`
+					// Embedded iframes are added to page's focus list. Adding negative tabindex attribute
 					// removes their ability to be focused by user. (#14538)
 					response.html = response.html.replace( /<iframe/g, '<iframe tabindex="-1"' );
 
