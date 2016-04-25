@@ -36,6 +36,7 @@
 			styles: {
 				'text-decoration': 'underline'
 			},
+			attributes: {},
 			type: CKEDITOR.STYLE_INLINE
 		} ),
 
@@ -46,7 +47,8 @@
 			},
 			type: CKEDITOR.STYLE_INLINE
 		} )
-	];
+	],
+	clone = CKEDITOR.tools.clone;
 
 	bender.editor = {
 		config: {
@@ -77,7 +79,7 @@
 		},
 
 		'test applyFormat on plain text with list styles': function() {
-			var expectedStyles = listStyles.slice( 0, 2 );
+			var expectedStyles = clone( listStyles ).slice( 0, 2 );
 
 			expectedStyles[ 1 ].element = expectedStyles[ 1 ]._.definition.element = 'span';
 
@@ -87,7 +89,7 @@
 		},
 
 		'test applyFormat on plain text with list styles and specific listitems attributes': function() {
-			var expectedStyles = listStyles.slice( 0, 2 );
+			var expectedStyles = clone( listStyles ).slice( 0, 2 );
 
 			expectedStyles[ 1 ].element = expectedStyles[ 1 ]._.definition.element = 'span';
 			listStyles[ 1 ]._.definition.attributes = {
@@ -98,11 +100,11 @@
 			testApplyingFormat( this.editor, '<p>Apply format h{}ere</p>', 'here', listStyles, [], expectedStyles );
 
 			listStyles[ 1 ].element = listStyles[ 1 ]._.definition.element = 'li';
-			delete listStyles[ 1 ]._.definition.attributes;
+			listStyles[ 1 ]._.definition.attributes = {};
 		},
 
 		'test applyFormat on list context with list styles': function() {
-			var expectedStyles = listStyles.slice();
+			var expectedStyles = clone( listStyles );
 			expectedStyles.splice( 1, 1 );
 
 			testApplyingFormat( this.editor, '<ul><li>Apply format h{}ere</li></ul>', 'here', listStyles, [],
@@ -116,7 +118,7 @@
 		'test applyFormat on mixed context with list styles': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				expectedStyles = listStyles,
+				expectedStyles = clone( listStyles ),
 				applied = 0,
 				elementPath,
 				i;
