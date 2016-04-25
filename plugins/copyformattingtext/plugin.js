@@ -15,11 +15,14 @@
 				var evtData = evt.data,
 					element = evtData.element,
 					styles = evtData.styleDef.styles,
+					indexOf = CKEDITOR.tools.indexOf,
 					computedStyles,
 					i;
 
-				if ( CKEDITOR.tools.indexOf( [ 'ul', 'ol', 'li' ], element.getName() ) ) {
+				if ( indexOf( [ 'ul', 'ol', 'li' ], element.getName() ) !== -1 ) {
 					computedStyles = editor.config.copyFormatting_listsComputedStyles;
+				} else if ( indexOf( [ 'table', 'thead', 'tbody', 'tr', 'th', 'td' ], element.getName() ) !== -1 ) {
+					computedStyles = editor.config.copyFormatting_tableComputedStyles;
 				} else {
 					computedStyles = editor.config.copyFormatting_computedStyles;
 				}
@@ -96,6 +99,43 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.copyFormatting_listsComputedStyles = [
+		'color',
+		'background',
+		'font-size',
+		'font-weight',
+		'font-style',
+		'text-decoration'
+	];
+
+	/**
+	 * Define which computed styles should be copied by the
+	 * "Copy Formatting" feature from table elements.
+	 *
+	 *		config.copyFormatting_tableComputedStyles = [
+	 *			'color',
+	 *			'background',
+	 *			'font-size',
+	 *			'font-weight',
+	 *			'font-style',
+	 *			'text-decoration'
+	 *		];
+	 *
+	 * If you want to disable copying computed styles from table
+	 * elements, pass empty array to this variable:
+	 *
+	 *		config.copyFormatting_tableComputedStyles = [];
+	 *
+	 * @cfg [copyFormatting_tableComputedStyles=[
+	 *		'color',
+	 *		'background',
+	 *		'font-size',
+	 *		'font-weight',
+	 *		'font-style',
+	 *		'text-decoration'
+	 *	]]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_tableComputedStyles = [
 		'color',
 		'background',
 		'font-size',
