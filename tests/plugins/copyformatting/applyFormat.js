@@ -61,6 +61,7 @@
 			styles: {
 				'color': '#f00'
 			},
+			attributes: {},
 			type: CKEDITOR.STYLE_INLINE
 		} ),
 
@@ -69,6 +70,7 @@
 			styles: {
 				'background-color': '#ff0'
 			},
+			attributes: {},
 			type: CKEDITOR.STYLE_INLINE
 		} ),
 
@@ -196,7 +198,7 @@
 		},
 
 		'test applyFormat on plain text with table styles': function() {
-			var expectedStyles = tableStyles.slice( 0, 3 );
+			var expectedStyles = clone( tableStyles ).slice( 0, 3 );
 
 			expectedStyles[ 1 ].element = expectedStyles[ 1 ]._.definition.element = 'span';
 			expectedStyles[ 2 ].element = expectedStyles[ 2 ]._.definition.element = 'span';
@@ -208,7 +210,7 @@
 		},
 
 		'test applyFormat on table context with table styles': function() {
-			var expectedStyles = tableStyles.slice();
+			var expectedStyles = clone( tableStyles );
 			expectedStyles.splice( 1, 1 );
 
 			testApplyingFormat( this.editor, '<table><tr><td>Apply format h{}ere</td></tr>', 'here', tableStyles,
@@ -220,23 +222,23 @@
 		},
 
 		'test applyFormat on table context with table styles (within thead)': function() {
-			var expectedStyles = tableStyles.slice();
+			var expectedStyles = clone( tableStyles );
+			expectedStyles.splice( 1, 1 );
 
-			expectedStyles[ 1 ].element = expectedStyles[ 1 ]._.definition.element = 'th';
-			expectedStyles[ 3 ].element = expectedStyles[ 3 ]._.definition.element = 'thead';
+			expectedStyles[ 2 ].element = expectedStyles[ 2 ]._.definition.element = 'thead';
 
 			testApplyingFormat( this.editor, '<table><thead><tr><th>Apply format h{}ere</th></tr></thead>', 'here',
 				tableStyles, [], expectedStyles );
 
 			// We must check styles for `td` element separately as our `CKEDITOR.style.checkActive`
 			// is apparently not working with it due to `li` being a block.
-			assert.isTrue( !!this.editor.editable().findOne( 'td' ).getStyle( 'color' ) );
+			assert.isTrue( !!this.editor.editable().findOne( 'th' ).getStyle( 'color' ) );
 		},
 
 		'test applyFormat on mixed context with table styles': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
-				expectedStyles = tableStyles,
+				expectedStyles = clone( tableStyles ),
 				applied = 0,
 				elementPath,
 				i;
