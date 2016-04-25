@@ -1,6 +1,6 @@
 @bender-tags: embed, 14538, tc, 4.5.9
 @bender-ui: collapsed
-@bender-ckeditor-plugins: embed
+@bender-ckeditor-plugins: embed,wysiwygarea,sourcearea,htmlwriter,entities,toolbar,elementspath,undo,clipboard,format,basicstyles,image2
 
 **Procedure:**
 
