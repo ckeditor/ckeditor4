@@ -275,6 +275,40 @@
 			assert.areSame( 1, applied, 'New styles were applied correctly.' );
 		},
 
+		'test removing formatting from list while applying plain-text styles': function() {
+			var editor = this.editor,
+				content = '<ol start="5">' +
+						'<li style="text-decoration: underline;">' +
+							'Fo[]o<br>' +
+						'</li>' +
+					'</ol>';
+
+			bender.tools.selection.setWithHtml( editor, content );
+
+			CKEDITOR.plugins.copyformatting._applyFormat( editor, [] );
+
+			assert.areSame( content, bender.tools.selection.getWithHtml( editor ) );
+		},
+
+		'test removing formatting from table while applying plain-text styles': function() {
+			var editor = this.editor,
+				content = '<table border="1">' +
+						'<tbody style="font-weight: bold;">' +
+							'<tr style="text-decoration: underline;">' +
+								'<td style="background: green;">' +
+									'Fo[]o<br>' +
+								'</td>' +
+							'</tr>' +
+						'</tbody>' +
+					'</table>';
+
+			bender.tools.setHtmlWithSelection( editor, content );
+
+			CKEDITOR.plugins.copyformatting._applyFormat( editor, [] );
+
+			assert.areSame( content, bender.tools.selection.getWithHtml( editor ) );
+		},
+
 		'test filter styles': function() {
 			var styles = [
 					new CKEDITOR.style( {
