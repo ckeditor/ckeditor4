@@ -464,27 +464,25 @@
 		 * @private
 		 */
 		_removeStylesFromElementInRange: function( range, element ) {
-			var getAttributes = CKEDITOR.plugins.copyformatting._getAttributes,
+			var removeAllAttributes = function( elem ) {
+					elem.removeAttributes( CKEDITOR.plugins.copyformatting._getAttributes( elem ) );
+				},
 				walker = new CKEDITOR.dom.walker( range ),
-				currentNode,
-				attributes;
+				currentNode;
 
 			if ( currentNode = range.startContainer.getAscendant( element, true ) ) {
-				attributes = getAttributes( currentNode );
-				currentNode.removeAttributes( attributes );
+				removeAllAttributes( currentNode );
 			}
 
 			if ( currentNode = range.endContainer.getAscendant( element, true ) ) {
-				attributes = getAttributes( currentNode );
-				currentNode.removeAttributes( attributes );
+				removeAllAttributes( currentNode );
 			}
 
 			while ( ( currentNode = walker.next() ) ) {
 				currentNode = currentNode.getAscendant( element, true );
 
 				if ( currentNode ) {
-					attributes = getAttributes( currentNode );
-					currentNode.removeAttributes( attributes );
+					removeAllAttributes( currentNode );
 				}
 			}
 		},
