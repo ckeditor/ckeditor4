@@ -1,4 +1,4 @@
-/* exported testAttributes, testGettingWordOffset, testApplyingFormat, testConvertingStyles, assertScreenReaderNotification, assertCopyFormattingState,
+/* exported testGettingWordOffset, testApplyingFormat, testConvertingStyles, assertScreenReaderNotification, assertCopyFormattingState,
 	assertApplyFormattingState, testCopyFormattingFlow
  */
 
@@ -31,16 +31,6 @@ YUITest.ObjectAssert.areDeepEqual = function( expected, actual, message ) {
 		}
 	}
 };
-
-function testAttributes( element, expected, exclude ) {
-	var attributes;
-
-	element = new CKEDITOR.dom.element( document.getElementsByTagName( element )[ 0 ] );
-	attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, exclude );
-
-	assert.isObject( attributes );
-	objectAssert.areEqual( expected, attributes );
-}
 
 function testGettingWordOffset( editor, htmlWithSelection, expected ) {
 	var word, range, contents;

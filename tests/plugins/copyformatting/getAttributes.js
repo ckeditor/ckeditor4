@@ -1,12 +1,21 @@
-/* bender-tags: editor, dom */
+/* bender-tags: editor, copyformatting */
 /* bender-ckeditor-plugins: wysiwygarea, toolbar, copyformatting */
 /* bender-include: _helpers/tools.js */
-/* global testAttributes */
 
 ( function() {
 	'use strict';
 
 	bender.editor = true;
+
+	function testAttributes( element, expected, exclude ) {
+		var attributes;
+
+		element = new CKEDITOR.dom.element( document.getElementsByTagName( element )[ 0 ] );
+		attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, exclude );
+
+		assert.isObject( attributes );
+		objectAssert.areEqual( expected, attributes );
+	}
 
 	bender.test( {
 		'test element with no attributes': function() {
