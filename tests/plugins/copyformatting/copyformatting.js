@@ -95,9 +95,11 @@
 					'</table>' +
 					'<p><s>fo[]oo</s></p>',
 				expectedContent = '<table border="1">' +
-						'<tr>' +
-							'<td style="background: green"><s>a[]aa</s></td>' +
-						'</tr>' +
+						'<tbody>' +
+							'<tr>' +
+								'<td style="background: green"><s>a[]aa</s></td>' +
+							'</tr>' +
+						'</tbody>' +
 					'</table>' +
 					'<p><s>fooo</s></p>';
 
