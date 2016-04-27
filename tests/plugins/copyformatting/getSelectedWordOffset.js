@@ -76,6 +76,11 @@
 		'test getSelectedWordOffset (space at the end of element)': function() {
 			testGettingWordOffset( this.editor, '<p><span>Get </span>th{}is word</p>', 'this' );
 			testGettingWordOffset( this.editor, '<p><span><span>Get </span></span>th{}is word</p>', 'this' );
+		},
+
+		'test getSelectedWordOffset (with <br>)': function() {
+			testGettingWordOffset( this.editor, '<p>Get<br>th{}is word</p>', 'this' );
+			testGettingWordOffset( this.editor, '<p>Ge th{}is<br>word</p>', 'this' );
 		}
 	} );
 }() );
