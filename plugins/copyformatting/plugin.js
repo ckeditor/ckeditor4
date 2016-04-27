@@ -6,6 +6,8 @@
 ( function() {
 	'use strict';
 
+	var indexOf = CKEDITOR.tools.indexOf;
+
 	// Detects if the left mouse button was pressed:
 	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
 	// * In IE 8- we use event.button with IE's propertiary values.
@@ -47,7 +49,12 @@
 		}
 	}
 
-	var indexOf = CKEDITOR.tools.indexOf;
+	// Checks if there is style for specified element in the given array.
+	function checkForStyle( element, styles ) {
+		return indexOf( styles, function( style ) {
+			return style.element === element;
+		} ) !== -1;
+	}
 
 	CKEDITOR.plugins.add( 'copyformatting', {
 		lang: 'en',
@@ -189,13 +196,16 @@
 
 				var oldStyles = plugin._extractStylesFromRange( editor, evt.data.range ),
 					preservedElements = plugin.preservedElements,
+					oldStyle,
 					i;
 
 				for ( i = 0; i < oldStyles.length; i++ ) {
-					if ( indexOf( preservedElements, oldStyles[ i ].element ) === -1 ) {
+					oldStyle = oldStyles[ i ];
+
+					if ( indexOf( preservedElements, oldStyle.element ) === -1 ) {
 						oldStyles[ i ].remove( evt.editor );
-					} else {
-						plugin._removeStylesFromElementInRange( evt.data.range, oldStyles[ i ].element );
+					} else if ( checkForStyle( oldStyle.element, evt.data.styles ) ) {
+						plugin._removeStylesFromElementInRange( evt.data.range, oldStyle.element );
 					}
 				}
 			} );
