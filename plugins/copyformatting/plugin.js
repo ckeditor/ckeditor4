@@ -188,7 +188,7 @@
 				}
 
 				var oldStyles = plugin._extractStylesFromRange( editor, evt.data.range ),
-					preservedElements = [ 'ul', 'ol', 'li', 'td', 'th', 'tr', 'thead', 'tbody', 'table' ],
+					preservedElements = plugin.preservedElements,
 					i;
 
 				for ( i = 0; i < oldStyles.length; i++ ) {
@@ -266,6 +266,15 @@
 		 * @property {Array}
 		 */
 		excludedAttributesFromInlineTransform: [ 'value', 'type' ],
+
+		/**
+		 * Array of elements which should not be deleted when deleting old styles
+		 * from current selection. Instead the styles are stripped of the elements,
+		 * preserving themselves.
+		 *
+		 * @property {Array}
+		 */
+		preservedElements: [ 'ul', 'ol', 'li', 'td', 'th', 'tr', 'thead', 'tbody', 'table' ],
 
 		commands: {
 			copyFormatting: {
