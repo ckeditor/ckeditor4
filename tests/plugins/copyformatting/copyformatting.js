@@ -90,18 +90,18 @@
 		'test applying text style to table': function( editor ) {
 			var inputContent = '<table border="1">' +
 						'<tr>' +
-							'<td style="background: green">aaa</td>' +
+							'<td style="background: green">aaa<br></td>' +
 						'</tr>' +
 					'</table>' +
-					'<p><s>fo[]oo</s></p>',
+					'<p><s>fo[]oo</s><br></p>',
 				expectedContent = '<table border="1">' +
 						'<tbody>' +
 							'<tr>' +
-								'<td style="background: green"><s>a[]aa</s></td>' +
+								'<td style="background: green"><s>a[]aa</s><br></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +
-					'<p><s>fooo</s></p>';
+					'<p><s>fooo</s><br></p>';
 
 			bender.tools.selection.setWithHtml( editor, inputContent );
 
