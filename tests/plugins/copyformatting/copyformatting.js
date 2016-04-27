@@ -87,6 +87,37 @@
 			} );
 		},
 
+		'test applying text style to table': function( editor ) {
+			var inputContent = '<table border="1">' +
+						'<tr>' +
+							'<td style="background: green">aaa</td>' +
+						'</tr>' +
+					'</table>' +
+					'<p><s>fo[]oo</s></p>',
+				expectedContent = '<table border="1">' +
+						'<tr>' +
+							'<td style="background: green"><s>a[]aa</s></td>' +
+						'</tr>' +
+					'</table>' +
+					'<p><s>fooo</s></p>';
+
+			bender.tools.selection.setWithHtml( editor, inputContent );
+
+			editor.execCommand( 'copyFormatting' );
+
+			// Move the selection to <td>a[]aa</td>.
+			var rng = editor.createRange(),
+				cellTextNode = editor.editable().findOne( 'td' ).getFirst();
+			rng.setStart( cellTextNode, 1 );
+			rng.setEnd( cellTextNode, 1 );
+			editor.getSelection().selectRanges( [ rng ] );
+
+			editor.execCommand( 'applyFormatting' );
+
+			assert.areSame( expectedContent, bender.tools.selection.getWithHtml( editor ) );
+		},
+
+
 		'test removing formatting on collapsed selection': function( editor ) {
 			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], stylesToRemove, {
 				elementName: 'b',
