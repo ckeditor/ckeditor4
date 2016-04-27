@@ -543,7 +543,7 @@
 			function getSiblingNodeOffset( startNode, isPrev ) {
 				var currentNode = startNode,
 					regex = /\s/g,
-					boundaryElements = [ 'p', 'br', 'li', 'div', 'body' ],
+					boundaryElements = [ 'p', 'br', 'li', 'td', 'div', 'body' ],
 					isBoundary = false,
 					sibling, contents, match, offset;
 
