@@ -704,8 +704,7 @@
 					currentNode;
 
 				// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
-				if ( range.startContainer.getAscendant( query, true ) ||
-					range.endContainer.getAscendant( query, true ) ) {
+				if ( range.startContainer.getAscendant( query, true ) || range.endContainer.getAscendant( query, true ) ) {
 					return true;
 				}
 
