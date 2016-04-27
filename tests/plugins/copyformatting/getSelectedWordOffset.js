@@ -56,6 +56,8 @@
 				'barfoobaz' );
 			testGettingWordOffset( this.editor, '<p><span style="color: #0000FF;">bar</span>foo<span style="color: #0000FF;">{}baz</span></p>',
 				'barfoobaz' );
+			// Table's td elements should break enlarging.
+			testGettingWordOffset( this.editor, '<table><tr><td>aa bb</td><td>c{}c dd</td></tr></table>', 'cc' );
 		},
 
 		'test getSelectedWordOffset (comment nodes)': function() {
