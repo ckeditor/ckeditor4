@@ -485,12 +485,18 @@
 			function getSiblingNodeOffset( startNode, isPrev ) {
 				var currentNode = startNode,
 					regex = /\s/g,
-					boundaryElements = [ 'p', 'li', 'div', 'body' ],
+					boundaryElements = [ 'p', 'br', 'li', 'div', 'body' ],
 					isBoundary = false,
 					sibling, contents, match, offset;
 
 				do {
 					sibling = getSibling( currentNode, isPrev );
+
+					// Check if the fetched element is not a boundary.
+					if ( sibling && sibling.getName && indexOf( boundaryElements, sibling.getName() ) !== -1 ) {
+						isBoundary = true;
+						break;
+					}
 
 					// If there is no sibling, text is probably inside element, so get it
 					// and then fetch its sibling.
