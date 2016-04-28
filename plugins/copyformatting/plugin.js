@@ -195,14 +195,13 @@
 				}
 
 				var oldStyles = plugin._extractStylesFromRange( editor, evt.data.range ),
-					preservedElements = plugin.preservedElements,
 					oldStyle,
 					i;
 
 				for ( i = 0; i < oldStyles.length; i++ ) {
 					oldStyle = oldStyles[ i ];
 
-					if ( indexOf( preservedElements, oldStyle.element ) === -1 ) {
+					if ( indexOf( plugin.preservedElements, oldStyle.element ) === -1 ) {
 						oldStyles[ i ].remove( evt.editor );
 					} else if ( checkForStyle( oldStyle.element, evt.data.styles ) ) {
 						plugin._removeStylesFromElementInRange( evt.data.range, oldStyle.element );
