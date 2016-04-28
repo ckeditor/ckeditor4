@@ -215,9 +215,8 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass( {
 			if ( rules && rules.breakAfterClose ) {
 				this.lineBreak();
 				this._.needsSpace = rules.needsSpace;
+				this._.afterCloser = 1;
 			}
-
-			this._.afterCloser = 1;
 		},
 
 		/**
