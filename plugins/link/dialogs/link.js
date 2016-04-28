@@ -126,7 +126,8 @@
 
 						var editLink = this._.dialog.getSelectedElement();
 
-						if ( editLink ) {
+						if ( editLink && editLink.isEditable() ) {
+
 							var innerHtml = editLink.getHtml(),
 								innerText = editLink.getText();
 
