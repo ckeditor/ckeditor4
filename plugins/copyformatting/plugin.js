@@ -113,9 +113,21 @@
 				 * @member CKEDITOR.editor.copyFormatting
 				 * @property {CKEDITOR.editor}
 				 */
-				editor: editor
+				editor: editor,
+
+				/**
+				 * Filter used by current's Copy Formatting instance.
+				 *
+				 * @member CKEDITOR.editor.copyFormatting
+				 * @property {CKEDITOR.filter}
+				 */
+				filter: new CKEDITOR.filter( editor.config.copyFormatting_allowRules )
 			};
 			CKEDITOR.event.implementOn( editor.copyFormatting );
+
+			if ( editor.config.copyFormatting_disallowRules ) {
+				editor.copyFormatting.filter.disallow( editor.config.copyFormatting_disallowRules );
+			}
 
 			editor.addCommand( 'copyFormatting', plugin.commands.copyFormatting );
 			editor.addCommand( 'applyFormatting', plugin.commands.applyFormatting );
@@ -178,14 +190,28 @@
 
 			// Fetch the styles from element.
 			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
-				var element = evt.data.element;
+				var element = evt.data.element,
+					style,
+					styleClone;
 
 				// Stop at body and html in classic editors or at .cke_editable element in inline ones.
 				if ( element.contains( editor.editable() ) || element.equals( editor.editable() ) ) {
 					return evt.cancel();
 				}
 
-				evt.data.styleDef = plugin._convertElementToStyleDef( element );
+				style = plugin._convertElementToStyleDef( element );
+
+				// Workaround for #13886.
+				styleClone = CKEDITOR.tools.clone( style );
+				if ( styleClone && CKEDITOR.tools.isEmpty( styleClone.styles ) ) {
+					delete styleClone.styles;
+				}
+
+				if ( !editor.copyFormatting.filter.check( new CKEDITOR.style( styleClone ), true, true ) ) {
+					return evt.cancel();
+				}
+
+				evt.data.styleDef = style;
 			} );
 
 			// Remove old styles from element.
@@ -932,6 +958,29 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.copyFormatting_outerCursor = true;
+
+	/**
+	 * Defines rules for the elements from which styles should be fetched.
+	 *
+	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allow only spans
+	 *
+	 * @cfg [copyFormatting_allowRules='b; s; u; strong; span; p; div; table; thead; tbody; ' +
+	 *	'tr; td; th; ol; ul; li; (*)[*]{*}']
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_allowRules = 'b s u i em strong span p div table thead tbody ' +
+		'tr td th ol ul li(*)[*]{*}';
+
+	/**
+	 * Defines rules for the elements from which fetching styles is explicitly forbidden (eg. widgets).
+	 *
+	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallow spans with important class.
+	 *
+	 * @cfg [copyFormatting_disallowRules=]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_disallowRules = '*[data-cke-widget*, data-widget*,data-cke-realelement]' +
+		'(cke_widget*)';
 
 	/**
 	 * Fired when the styles are being extracted from the element.
