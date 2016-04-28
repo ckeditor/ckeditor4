@@ -275,6 +275,43 @@
 			assert.areSame( 1, applied, 'New styles were applied correctly.' );
 		},
 
+		'test applyFormat on skipped elements': function() {
+			var editor = this.editor,
+				input = [
+					'[<img src="http://xxx">]',
+					'[<iframe src="http://xxx"></iframe>]',
+					'[<input type="text">]',
+					'[<textarea>Test</textarea>]',
+					'[<button>Test</button>]',
+					'[<span data-cke-realelement="">Test</span>]',
+					'[<span data-cke-widget-id="0">Test</span>]'
+				],
+				elements = [
+					'img',
+					'iframe',
+					'input',
+					'textarea',
+					'button',
+					'span',
+					'span'
+				],
+				i;
+
+			// In IE and Edge test with iframe is failing.
+			if ( CKEDITOR.env.ie ) {
+				input.splice( 1, 1 );
+				elements.splice( 1, 1 );
+			}
+
+			for ( i = 0; i < input.length; i++ ) {
+				bender.tools.selection.setWithHtml( editor, input[ i ] );
+
+				CKEDITOR.plugins.copyformatting._applyFormat( editor, styles.slice( 0, 2 ) );
+
+				assert.areSame( 1, editor.editable().find( elements[ i ] ).count() );
+			}
+		},
+
 		'test removing formatting from list while applying plain-text styles': function() {
 			var editor = this.editor,
 				content = '<ol start="5">' +
@@ -307,6 +344,29 @@
 			CKEDITOR.plugins.copyformatting._applyFormat( editor, [] );
 
 			assert.areSame( content, bender.tools.selection.getWithHtml( editor ) );
+		},
+
+		'test removing formatting from skipped elements': function() {
+			var editor = this.editor,
+				content = [
+					'[<img src="http://xxx">]<br>',
+					'[<iframe src="http://xxx"></iframe>]<br>',
+					'[<input type="text">]<br>',
+					'[<textarea>Test</textarea>]<br>',
+					'[<button>Test</button>]<br>',
+					'[<span data-cke-realelement="">Test</span>]<br>',
+					'[<span data-cke-widget-id="0">Test</span>]<br>'
+				],
+				i;
+
+			for ( i = 0; i < content.length; i++ ) {
+				bender.tools.selection.setWithHtml( editor, content[ i ] );
+
+				CKEDITOR.plugins.copyformatting._applyFormat( editor, [] );
+
+				assert.areSame( content[ i ], bender.tools.selection.getWithHtml( editor ) );
+			}
+
 		},
 
 		'test filter styles': function() {

@@ -71,6 +71,26 @@
 			assert.isUndefined( style, 'Return value' );
 		},
 
+		'test extract style from skipped elements': function() {
+			var elements = [
+					CKEDITOR.dom.element.createFromHtml( '<img src="http://xxx">' ),
+					CKEDITOR.dom.element.createFromHtml( '<iframe src="http://xxx">' ),
+					CKEDITOR.dom.element.createFromHtml( '<input type="text">' ),
+					CKEDITOR.dom.element.createFromHtml( '<textarea>Test</textarea>' ),
+					CKEDITOR.dom.element.createFromHtml( '<button>Test</button>' ),
+					CKEDITOR.dom.element.createFromHtml( '<span data-cke-realelement>Test</span>' ),
+					CKEDITOR.dom.element.createFromHtml( '<span data-cke-widget-id="0">Test</span>' )
+				],
+				style,
+				i;
+
+			for ( i = 0; i < elements.length; i++ ) {
+				style = CKEDITOR.plugins.copyformatting._extractStylesFromElement( this.editor, elements[ i ] );
+
+				objectAssert.areDeepEqual( [], style, 'Return value' );
+			}
+		},
+
 		'test extract styles from nested elements': function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<strong class="important" ' +
 					'title="Neil Armstrong"><span style="' + styleAttr + '"><s>Neil Armstrong</s></span></strong>' ),
