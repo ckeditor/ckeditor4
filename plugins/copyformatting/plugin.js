@@ -711,6 +711,7 @@
 		 * Determines context of the given selection. It returns a number based on `CONTEXT_*` constants:
 		 * * {@link #CONTEXT_TEXT} for text
 		 * * {@link #CONTEXT_LIST} for lists
+		 * * {@link #CONTEXT_TABLE} for tables
 		 *
 		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
 		 * @returns {Number}
