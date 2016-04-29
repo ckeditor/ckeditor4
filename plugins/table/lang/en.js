@@ -19,7 +19,6 @@ CKEDITOR.plugins.setLang( 'table', 'en', {
 	borderstyleOutset:"outset",
 	borderstyleInitial:"initial",
 	borderstyleInherit:"inherit",
-	align:"Alignment",
 	caption: 'Caption',
 	cell: {
 		menu: 'Cell',
