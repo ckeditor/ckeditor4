@@ -370,7 +370,7 @@
 		},
 
 		'test filter styles': function() {
-			var styles = [
+			var filterStyles = [
 					new CKEDITOR.style( {
 						element: 'span',
 						type: CKEDITOR.STYLE_INLINE
@@ -384,7 +384,7 @@
 						type: CKEDITOR.STYLE_INLINE
 					} )
 				],
-				filteredStyles = CKEDITOR.plugins.copyformatting._filterStyles( styles );
+				filteredStyles = CKEDITOR.plugins.copyformatting._filterStyles( filterStyles );
 
 			assert.areSame( 1, filteredStyles.length );
 			assert.areSame( 'span', filteredStyles[ 0 ].element );
