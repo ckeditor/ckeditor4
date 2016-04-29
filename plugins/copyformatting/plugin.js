@@ -992,8 +992,7 @@
 	 * @cfg [copyFormatting_disallowRules=]
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.copyFormatting_disallowRules = '*[data-cke-widget*, data-widget*,data-cke-realelement]' +
-		'(cke_widget*)';
+	CKEDITOR.config.copyFormatting_disallowRules = '*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)';
 
 	/**
 	 * Fired when the styles are being extracted from the element.
