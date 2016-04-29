@@ -1,17 +1,17 @@
 <textarea id='create-table'>
-<table style="width: 500px;" border="1" cellpadding="1" cellspacing="1">
+<table style="border-collapse:collapse;margin-left:auto;margin-right:auto;width:500px;">
 	<tbody>
 	<tr>
-		<td>^&amp;nbsp;</td>
-		<td>&amp;nbsp;</td>
+		<td style="border-color:rgb(204, 204, 204);border-style:solid;border-width:1px;padding:4px;">^&amp;nbsp;</td>
+		<td style="border-color:rgb(204, 204, 204);border-style:solid;border-width:1px;padding:4px;">&amp;nbsp;</td>
 	</tr>
 	<tr>
-		<td>&amp;nbsp;</td>
-		<td>&amp;nbsp;</td>
+		<td style="border-color:rgb(204, 204, 204);border-style:solid;border-width:1px;padding:4px;">&amp;nbsp;</td>
+		<td style="border-color:rgb(204, 204, 204);border-style:solid;border-width:1px;padding:4px;">&amp;nbsp;</td>
 	</tr>
 	<tr>
-		<td>&amp;nbsp;</td>
-		<td>&amp;nbsp;</td>
+		<td style="border-color:rgb(204, 204, 204);border-style:solid;border-width:1px;padding:4px;">&amp;nbsp;</td>
+		<td style="border-color:rgb(204, 204, 204);border-style:solid;border-width:1px;padding:4px;">&amp;nbsp;</td>
 	</tr>
 	</tbody>
 </table>
@@ -37,44 +37,44 @@
 	</tbody>
 </table>
 =>
-<table style="width:200px" border="1" cellpadding="1" cellspacing="1" summary="Summary">
+<table style="border-collapse:collapse;border-spacing:1px;width:200px;" summary="Summary">
 	<caption>Caption</caption>
 	<thead>
 	<tr>
-		<th scope="col">foo</th>
-		<th scope="col">bar</th>
+		<th scope="col" style="border-style:solid;border-width:1px;padding:1px;">foo</th>
+		<th scope="col" style="border-style:solid;border-width:1px;padding:1px;">bar</th>
 	</tr>
 	</thead>
 	<tbody>
 	<tr>
-		<td>foo</td>
-		<td>bar</td>
+		<td style="border-style:solid;border-width:1px;padding:1px;">foo</td>
+		<td style="border-style:solid;border-width:1px;padding:1px;">bar</td>
 	</tr>
 	</tbody>
 </table>
 </textarea>
 <textarea id='read-table'>
-<table>
+<table style="border-collapse:collapse;border-width:1px;">
 	<caption>caption</caption>
 	<thead>
 		<tr>
-			<th scope="col">
+			<th scope="col" style="border-style:solid;border-width:1px;padding:4px;">
 				foo</th>
-			<th scope="col">
+			<th scope="col" style="border-style:solid;border-width:1px;padding:4px;">
 				bar</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td>
+			<td style="border-style:solid;border-width:1px;padding:4px;">
 				[foo]</td>
-			<td>
+			<td style="border-style:solid;border-width:1px;padding:4px;">
 				bar</td>
 		</tr>
 		<tr>
-			<td>
+			<td style="border-style:solid;border-width:1px;padding:4px;">
 				baz</td>
-			<td>
+			<td style="border-style:solid;border-width:1px;padding:4px;">
 				quz</td>
 		</tr>
 	</tbody>

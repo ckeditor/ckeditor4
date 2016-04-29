@@ -1,5 +1,5 @@
-/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+﻿/**
+ * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -37,7 +37,7 @@
 				pass = !!( CKEDITOR.dialog.validate.integer()( value ) && value > 0 );
 
 			if ( !pass ) {
-				alert( msg ); // jshint ignore:line
+				alert( msg );
 				this.select();
 			}
 
@@ -65,7 +65,7 @@
 				var styles = dialog.getContentElement( 'advanced', 'advStyles' );
 
 				if ( styles ) {
-					styles.on( 'change', function() {
+					styles.on( 'change', function( evt ) {
 						// Synchronize width value.
 						var width = this.getStyle( 'width', '' ),
 							txtWidth = dialog.getContentElement( 'info', 'txtWidth' );
@@ -129,6 +129,7 @@
 					bms = this._.selectedElement && selection.createBookmarks();
 
 				var table = this._.selectedElement || makeElement( 'table' ),
+					me = this,
 					data = {};
 
 				this.commitContent( data, table );
@@ -157,14 +158,9 @@
 					// Should we make a <thead>?
 					var headers = info.selHeaders;
 					if ( !table.$.tHead && ( headers == 'row' || headers == 'both' ) ) {
-						var thead = table.getElementsByTag( 'thead' ).getItem( 0 );
+						var thead = new CKEDITOR.dom.element( table.$.createTHead() );
 						tbody = table.getElementsByTag( 'tbody' ).getItem( 0 );
 						var theRow = tbody.getElementsByTag( 'tr' ).getItem( 0 );
-
-						if ( !thead ) {
-							thead = new CKEDITOR.dom.element( 'thead' );
-							thead.insertBefore( tbody );
-						}
 
 						// Change TD to TH:
 						for ( i = 0; i < theRow.getChildCount(); i++ ) {
@@ -223,10 +219,77 @@
 					info.txtHeight ? table.setStyle( 'height', info.txtHeight ) : table.removeStyle( 'height' );
 					info.txtWidth ? table.setStyle( 'width', info.txtWidth ) : table.removeStyle( 'width' );
 
-					if ( !table.getAttribute( 'style' ) )
-						table.removeAttribute( 'style' );
-				}
+					// Set the border and padding on each cell.
+					if(info.txtBorder || table.getAttribute('border')) {
+						table.setStyle( 'border-collapse', 'collapse' );
+					}
+					else {
+						table.removeStyle( 'border-collapse' );
+					}
 
+					for ( row = 0; row < table.$.rows.length; row++ ) {
+						for (index = 0, len = table.$.rows[ row ].cells.length; index < len; ++index) {
+							newCell = new CKEDITOR.dom.element( table.$.rows[ row ].cells[ index ] );
+							if(info.txtBorder){
+								newCell.setStyle('border-width', info.txtBorder+'px');
+							}
+							else if(table.getAttribute('border')) {
+								newCell.setStyle('border-width', table.getAttribute('border')+'px');
+							}
+							else{
+								newCell.removeStyle('border-width');
+							}
+
+							if(info.txtCellPad > 0){
+								newCell.setStyle('padding', info.txtCellPad+'px');
+							}
+							else{
+								newCell.removeStyle('padding');
+							}
+							
+							if(info.txtBorderColor){
+								newCell.setStyle('border-color', info.txtBorderColor);
+							}
+							else{
+								newCell.removeStyle('border-color');
+							}
+							
+							if(info.cmbBorderStyle){
+								newCell.setStyle('border-style', info.cmbBorderStyle);
+							}
+							else{
+								newCell.removeStyle('border-style');
+							}
+						}
+					}
+
+					// Set table alignment
+					if(info.cmbAlign) {
+						if(info.cmbAlign == 'left') {
+							table.setStyle('float','left');
+						}
+						else if(info.cmbAlign == 'right') {
+							table.setStyle('float','right');
+						}
+						else if(info.cmbAlign == 'center') {
+							table.removeStyle('float');
+							table.setStyle('margin-left','auto');
+							table.setStyle('margin-right','auto');
+						}
+					}
+					else {
+						table.removeStyle('float');
+						table.removeStyle('margin-left');
+						table.removeStyle('margin-right');
+					}
+
+					if ( !table.getAttribute( 'style' ) ) {
+						table.removeAttribute( 'style' );
+					}
+				}
+				
+				table.removeAttribute( 'border' );
+		        table.removeAttribute('cellPadding');
 				// Insert the table element if we're creating one.
 				if ( !this._.selectedElement ) {
 					editor.insertElement( table );
@@ -241,24 +304,26 @@
 				}
 				// Properly restore the selection, (#4822) but don't break
 				// because of this, e.g. updated table caption.
-				else {
+				else
 					try {
-						selection.selectBookmarks( bms );
-					} catch ( er ) {
-					}
-				}
+					selection.selectBookmarks( bms );
+				} catch ( er ) {}
 			},
-			contents: [ {
+			contents: [
+				{
 				id: 'info',
 				label: editor.lang.table.title,
-				elements: [ {
+				elements: [
+					{
 					type: 'hbox',
 					widths: [ null, null ],
 					styles: [ 'vertical-align:top' ],
-					children: [ {
+					children: [
+						{
 						type: 'vbox',
 						padding: 0,
-						children: [ {
+						children: [
+							{
 							type: 'text',
 							id: 'txtRows',
 							'default': 3,
@@ -271,7 +336,7 @@
 							},
 							commit: commitValue
 						},
-						{
+							{
 							type: 'text',
 							id: 'txtCols',
 							'default': 2,
@@ -284,11 +349,11 @@
 							},
 							commit: commitValue
 						},
-						{
+							{
 							type: 'html',
 							html: '&nbsp;'
 						},
-						{
+							{
 							type: 'select',
 							id: 'selHeaders',
 							requiredContent: 'th',
@@ -299,7 +364,7 @@
 								[ editor.lang.table.headersRow, 'row' ],
 								[ editor.lang.table.headersColumn, 'col' ],
 								[ editor.lang.table.headersBoth, 'both' ]
-							],
+								],
 							setup: function( selectedTable ) {
 								// Fill in the headers field.
 								var dialog = this.getDialog();
@@ -323,7 +388,7 @@
 							},
 							commit: commitValue
 						},
-						{
+							{
 							type: 'text',
 							id: 'txtBorder',
 							requiredContent: 'table[border]',
@@ -331,47 +396,104 @@
 							'default': editor.filter.check( 'table[border]' ) ? 1 : 0,
 							label: editor.lang.table.border,
 							controlStyle: 'width:3em',
-							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidBorder ),
+							validate: CKEDITOR.dialog.validate[ 'number' ]( editor.lang.table.invalidBorder ),
 							setup: function( selectedTable ) {
-								this.setValue( selectedTable.getAttribute( 'border' ) || '' );
+								if(selectedTable.getStyle('border-collapse')){
+									var firstCell = new CKEDITOR.dom.element( selectedTable.$.rows[ 0 ].cells[ 0 ] );
+									this.setValue(firstCell.getStyle('border-width').replace('px', ''));
+								}
+								else{
+									this.setValue('');
+								}
 							},
-							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
-									selectedTable.setAttribute( 'border', this.getValue() );
-								else
-									selectedTable.removeAttribute( 'border' );
-							}
+							commit: commitValue
 						},
-						{
+							{
+							id: 'cmbBorderStyle',
+							type: 'select',
+							requiredContent: 'table{border-style}',
+							'default': 'solid',
+							label: editor.lang.table.borderstyle,
+							items: [
+								[ editor.lang.table.notSet, '' ],
+								[ editor.lang.table.borderstyleNone, 'none' ],
+								[ editor.lang.table.borderstyleSolid, 'solid' ],
+								[ editor.lang.table.borderstyleDotted, 'dotted' ],
+								[ editor.lang.table.borderstyleDashed, 'dashed' ],
+								[ editor.lang.table.borderstyleHidden, 'hidden' ],
+								[ editor.lang.table.borderstyleDouble, 'double' ],
+								[ editor.lang.table.borderstyleGroove, 'groove' ],
+								[ editor.lang.table.borderstyleRidge, 'ridge' ],
+								[ editor.lang.table.borderstyleInset, 'inset' ],
+								[ editor.lang.table.borderstyleOutset, 'outset' ],
+								[ editor.lang.table.borderstyleInitial, 'initial' ],
+								[ editor.lang.table.borderstyleInherit, 'inherit' ]
+								],
+							setup: function( selectedTable ) {
+								if(selectedTable.getStyle('border-collapse')){
+									var firstCell = new CKEDITOR.dom.element( selectedTable.$.rows[ 0 ].cells[ 0 ] );
+									this.setValue(firstCell.getStyle('border-style'));
+								}
+							},
+							commit: commitValue
+						},
+							{
+							type: 'text',
+							id: 'txtBorderColor',
+							requiredContent: 'table',
+							controlStyle: 'width:6em',
+							'default': '#cccccc',
+							label: editor.lang.table.tablebordercolor,
+							setup: function( selectedTable ) {
+								if(selectedTable.getStyle('border-collapse')){
+									var firstCell = new CKEDITOR.dom.element( selectedTable.$.rows[ 0 ].cells[ 0 ] );
+									this.setValue(firstCell.getStyle('border-color'));
+								}
+								else{
+								  this.setValue(''); 
+								}
+							},
+							commit: commitValue
+						},
+							{
 							id: 'cmbAlign',
 							type: 'select',
 							requiredContent: 'table[align]',
-							'default': '',
+							'default': 'center',
 							label: editor.lang.common.align,
 							items: [
 								[ editor.lang.common.notSet, '' ],
 								[ editor.lang.common.alignLeft, 'left' ],
 								[ editor.lang.common.alignCenter, 'center' ],
 								[ editor.lang.common.alignRight, 'right' ]
-							],
+								],
 							setup: function( selectedTable ) {
-								this.setValue( selectedTable.getAttribute( 'align' ) || '' );
+								if(selectedTable.getStyle('float')){
+								  this.setValue(selectedTable.getStyle('float'));
+								}
+								else if(selectedTable.getStyle('margin-left')){
+								  this.setValue('center');
+								}
+								else if(selectedTable.getAttribute('align')){
+								  this.setValue(selectedTable.getAttribute('align'));
+								}
+								else{
+								  this.setValue('');
+								}
 							},
-							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
-									selectedTable.setAttribute( 'align', this.getValue() );
-								else
-									selectedTable.removeAttribute( 'align' );
-							}
-						} ]
+							commit: commitValue
+						}
+						]
 					},
-					{
+						{
 						type: 'vbox',
 						padding: 0,
-						children: [ {
+						children: [
+							{
 							type: 'hbox',
 							widths: [ '5em' ],
-							children: [ {
+							children: [
+								{
 								type: 'text',
 								id: 'txtWidth',
 								requiredContent: 'table{width}',
@@ -391,12 +513,14 @@
 									this.setValue( val );
 								},
 								commit: commitValue
-							} ]
+							}
+							]
 						},
-						{
+							{
 							type: 'hbox',
 							widths: [ '5em' ],
-							children: [ {
+							children: [
+								{
 								type: 'text',
 								id: 'txtHeight',
 								requiredContent: 'table{height}',
@@ -416,59 +540,103 @@
 									val && this.setValue( val );
 								},
 								commit: commitValue
-							} ]
+							}
+							]
 						},
-						{
+							{
 							type: 'html',
 							html: '&nbsp;'
 						},
-						{
+							{
 							type: 'text',
 							id: 'txtCellSpace',
 							requiredContent: 'table[cellspacing]',
 							controlStyle: 'width:3em',
 							label: editor.lang.table.cellSpace,
-							'default': editor.filter.check( 'table[cellspacing]' ) ? 1 : 0,
+							'default': editor.filter.check( 'table[cellspacing]' ) ? 0 : 0,
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellSpacing ),
 							setup: function( selectedTable ) {
-								this.setValue( selectedTable.getAttribute( 'cellSpacing' ) || '' );
+								if(selectedTable.getStyle('border-spacing')){
+								  this.setValue(selectedTable.getStyle('border-spacing').replace('px','')); 
+								}
+								else if(selectedTable.getAttribute('cellspacing')){
+								  this.setValue(selectedTable.getAttribute('cellspacing'));
+								}
+								else{
+								  this.setValue('');  
+								}
 							},
 							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
-									selectedTable.setAttribute( 'cellSpacing', this.getValue() );
-								else
-									selectedTable.removeAttribute( 'cellSpacing' );
+								if(this.getValue()){
+								  if(this.getValue()>0){
+								    selectedTable.setStyle('border-collapse', 'separate');
+								  }
+								  else{
+								    selectedTable.setStyle('border-collapse', 'collapse');
+								  }
+								  selectedTable.setStyle('border-spacing', this.getValue()+'px');
+								}
+								else{
+								  selectedTable.setStyle('border-collapse', 'collapse');
+								  selectedTable.removeStyle('border-spacing');
+								}
+								selectedTable.removeAttribute('cellSpacing');
 							}
 						},
-						{
+							{
 							type: 'text',
 							id: 'txtCellPad',
 							requiredContent: 'table[cellpadding]',
 							controlStyle: 'width:3em',
 							label: editor.lang.table.cellPad,
-							'default': editor.filter.check( 'table[cellpadding]' ) ? 1 : 0,
+							'default': editor.filter.check( 'table[cellpadding]' ) ? 4 : 0,
 							validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellPadding ),
 							setup: function( selectedTable ) {
-								this.setValue( selectedTable.getAttribute( 'cellPadding' ) || '' );
+								if(selectedTable.getAttribute('cellpadding')){
+									this.setValue(selectedTable.getAttribute('cellpadding'));
+								}
+								else if(selectedTable.getElementsByTag('tbody').getItem(0)){
+									var cellpadding=0;
+									var tbody = selectedTable.getElementsByTag('tbody').getItem(0);
+									var theRow = tbody.getElementsByTag('tr').getItem(0);
+									var td = theRow.getChild(0);
+									if(td.getStyle('padding')){
+										this.setValue(td.getStyle('padding').replace('px','')); 
+									}
+									else{
+										if(selectedTable.getElementsByTag('thead').getItem(0)){
+											var thead = selectedTable.getElementsByTag('thead').getItem(0);
+											var thead = tbody.getElementsByTag('tr').getItem(0);
+											var th = theRow.getChild(0);
+											if(th.getStyle('padding')){
+												this.setValue(th.getStyle('padding').replace('px','')); 
+											}
+											else{
+												this.setValue('');
+											}
+										}
+										else{
+											this.setValue('');
+										}
+									}
+								}
 							},
-							commit: function( data, selectedTable ) {
-								if ( this.getValue() )
-									selectedTable.setAttribute( 'cellPadding', this.getValue() );
-								else
-									selectedTable.removeAttribute( 'cellPadding' );
-							}
-						} ]
-					} ]
+							commit: commitValue
+						}
+						]
+					}
+					]
 				},
-				{
+					{
 					type: 'html',
 					align: 'right',
 					html: ''
 				},
-				{
+					{
 					type: 'vbox',
 					padding: 0,
-					children: [ {
+					children: [
+						{
 						type: 'text',
 						id: 'txtCaption',
 						requiredContent: 'caption',
@@ -503,7 +671,10 @@
 									captionElement.setHtml( '' );
 								} else {
 									captionElement = new CKEDITOR.dom.element( 'caption', editor.document );
-									table.append( captionElement, true );
+									if ( table.getChildCount() )
+										captionElement.insertBefore( table.getFirst() );
+									else
+										captionElement.appendTo( table );
 								}
 								captionElement.append( new CKEDITOR.dom.text( caption, editor.document ) );
 							} else if ( captionElement.count() > 0 ) {
@@ -512,10 +683,9 @@
 							}
 						}
 					},
-					{
+						{
 						type: 'text',
 						id: 'txtSummary',
-						bidi: true,
 						requiredContent: 'table[summary]',
 						label: editor.lang.table.summary,
 						setup: function( selectedTable ) {
@@ -527,11 +697,14 @@
 							else
 								selectedTable.removeAttribute( 'summary' );
 						}
-					} ]
-				} ]
+					}
+					]
+				}
+				]
 			},
-			dialogadvtab && dialogadvtab.createAdvancedTab( editor, null, 'table' )
-		] };
+				dialogadvtab && dialogadvtab.createAdvancedTab( editor, null, 'table' )
+				]
+		};
 	}
 
 	CKEDITOR.dialog.add( 'table', function( editor ) {

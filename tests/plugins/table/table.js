@@ -63,6 +63,8 @@
 				bot.dialog( 'tableProperties', function( dialog ) {
 					assert.areSame( '3', dialog.getValueOf( 'info', 'txtRows' ) );
 					assert.areSame( '2', dialog.getValueOf( 'info', 'txtCols' ) );
+					assert.areSame( '4', dialog.getValueOf( 'info', 'txtCellPad' ) );
+					assert.areSame( '1', dialog.getValueOf( 'info', 'txtBorder' ) );
 					assert.areSame( '', dialog.getValueOf( 'info', 'txtWidth' ) );
 					assert.areSame( 'row', dialog.getValueOf( 'info', 'selHeaders' ) );
 					assert.areSame( 'caption', dialog.getValueOf( 'info', 'txtCaption' ) );
