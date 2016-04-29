@@ -90,14 +90,14 @@
 		'test applying text style to table': function( editor ) {
 			var inputContent = '<table border="1">' +
 						'<tr>' +
-							'<td style="background: green">aaa<br></td>' +
+							'<td style="background: green;">aaa<br></td>' +
 						'</tr>' +
 					'</table>' +
 					'<p><s>fo[]oo</s><br></p>',
 				expectedContent = '<table border="1">' +
 						'<tbody>' +
 							'<tr>' +
-								'<td style="background: green"><s>a[]aa</s><br></td>' +
+								'<td style="background: green;"><s>a[]aa</s><br></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +
