@@ -123,6 +123,11 @@
 				 */
 				filter: new CKEDITOR.filter( editor.config.copyFormatting_allowRules )
 			};
+
+			if ( editor.config.copyFormatting_allowRules === true ) {
+				editor.copyFormatting.filter.disabled = true;
+			}
+
 			CKEDITOR.event.implementOn( editor.copyFormatting );
 
 			if ( editor.config.copyFormatting_disallowRules ) {
