@@ -965,9 +965,14 @@
 	CKEDITOR.config.copyFormatting_outerCursor = true;
 
 	/**
-	 * Defines rules for the elements from which styles should be fetched.
+	 * Defines rules for the elements from which styles should be fetched. If set to `true` will entirely disable
+	 * skip filtering.
+	 *
+	 * This property is using ACF syntax, you can learn more about it in
+	 * [Content Filtering Guide](http://docs.ckeditor.com/#!/guide/dev_acf).
 	 *
 	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allow only spans
+	 *		config.copyFormatting_allowRules = true; // Disables filtering
 	 *
 	 * @cfg [copyFormatting_allowRules='b; s; u; strong; span; p; div; table; thead; tbody; ' +
 	 *	'tr; td; th; ol; ul; li; (*)[*]{*}']
@@ -978,6 +983,9 @@
 
 	/**
 	 * Defines rules for the elements from which fetching styles is explicitly forbidden (eg. widgets).
+	 *
+	 * This property is using ACF syntax, you can learn more about it in
+	 * [Content Filtering Guide](http://docs.ckeditor.com/#!/guide/dev_acf).
 	 *
 	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallow spans with important class.
 	 *
