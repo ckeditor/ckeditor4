@@ -308,7 +308,7 @@
 
 				CKEDITOR.plugins.copyformatting._applyFormat( editor, styles.slice( 0, 2 ) );
 
-				assert.areSame( 1, editor.editable().find( elements[ i ] ).count() );
+				assert.areSame( 1, editor.editable().find( elements[ i ] ).count(), elements[ i ] + ' element count' );
 			}
 		},
 
