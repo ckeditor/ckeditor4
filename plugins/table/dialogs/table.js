@@ -306,7 +306,7 @@
 				// because of this, e.g. updated table caption.
 				else {
 					try {
-					selection.selectBookmarks( bms );
+						selection.selectBookmarks( bms );
 					} catch ( er ) {
 					}
 				}
@@ -457,7 +457,7 @@
 							id: 'cmbAlign',
 							type: 'select',
 							requiredContent: 'table[align]',
-							'default': 'center',
+							'default': '',
 							label: editor.lang.common.align,
 							items: [
 								[ editor.lang.common.notSet, '' ],
