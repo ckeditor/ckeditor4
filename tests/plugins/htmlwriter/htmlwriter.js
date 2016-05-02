@@ -36,9 +36,7 @@ bender.test( {
 				var afterFormat = bot.getData(false, false);
 
 				// Trigger getData a second time to reveal bug.
-				assert.areSame(
-					afterFormat,
-					bot.getData(false, false));
+				assert.areSame( afterFormat, bot.getData(false, false) );
 			} );
 		} );
 	}
