@@ -118,14 +118,16 @@
 						plugin = CKEDITOR.plugins.copyformatting,
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
 						isSticky = data ? ( data.sticky || isFromKeystroke ) : false,
-						cursorContainer = plugin._getCursorContainer( editor );
+						cursorContainer = plugin._getCursorContainer( editor ),
+						documentElement = CKEDITOR.document.getDocumentElement();
 
 					if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
 						cmd.styles = null;
 						cmd.sticky = false;
 
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
-						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
+						documentElement.removeClass( 'cke_copyformatting_disabled' );
+						documentElement.removeClass( 'cke_copyformatting_tableresize_cursor' );
 
 						plugin._putScreenReaderMessage( editor, 'canceled' );
 
@@ -138,9 +140,10 @@
 
 					if ( !isFromKeystroke ) {
 						cursorContainer.addClass( 'cke_copyformatting_active' );
+						documentElement.addClass( 'cke_copyformatting_tableresize_cursor' );
 
 						if ( editor.config.copyFormatting_outerCursor ) {
-							CKEDITOR.document.getDocumentElement().addClass( 'cke_copyformatting_disabled' );
+							documentElement.addClass( 'cke_copyformatting_disabled' );
 						}
 					}
 
@@ -155,7 +158,8 @@
 					var cmd = editor.getCommand( 'copyFormatting' ),
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
 						plugin = CKEDITOR.plugins.copyformatting,
-						cursorContainer = plugin._getCursorContainer( editor );
+						cursorContainer = plugin._getCursorContainer( editor ),
+						documentElement = CKEDITOR.document.getDocumentElement();
 
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON ) {
 						return;
@@ -169,7 +173,8 @@
 						cmd.styles = null;
 
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
-						CKEDITOR.document.getDocumentElement().removeClass( 'cke_copyformatting_disabled' );
+						documentElement.removeClass( 'cke_copyformatting_disabled' );
+						documentElement.removeClass( 'cke_copyformatting_tableresize_cursor' );
 
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}

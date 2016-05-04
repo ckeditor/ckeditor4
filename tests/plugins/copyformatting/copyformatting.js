@@ -216,6 +216,16 @@
 
 			notify( editor, 'failed' );
 			assertScreenReaderNotification( editor, 'failed' );
+		},
+
+		'test toggling `.cke_copyformatting_tableresize_cursor` class to the document': function( editor ) {
+			editor.execCommand( 'copyFormatting' );
+
+			assert.isTrue( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_tableresize_cursor' ) );
+
+			editor.execCommand( 'copyFormatting' );
+
+			assert.isFalse( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_tableresize_cursor' ) );
 		}
 	};
 
