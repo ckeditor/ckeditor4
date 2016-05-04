@@ -15,8 +15,15 @@ html.cke_copyformatting_active {
 .cke_copyformatting_active,
 .cke_copyformatting_active.cke_editable,
 .cke_copyformatting_active .cke_editable,
-.cke_copyformatting_active a {
+.cke_copyformatting_active a,
+.cke_copyformatting_active table {
 	cursor: url(../cursors/cursor.svg) 12 1, auto;
+}
+
+/* Fix for overriding cursor by tableresize plugin. */
+.cke_copyformatting_active [data-cke-temp],
+.cke_copyformatting_tableresize_cursor [data-cke-temp] {
+	cursor: url(../cursors/cursor.svg) 12 1, auto !important;
 }
 
 .cke_screen_reader_only {
