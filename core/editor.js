@@ -591,6 +591,10 @@
 
 			// Load all plugin specific language files in a row.
 			CKEDITOR.scriptLoader.load( languageFiles, function() {
+				//Ensure the editor has not been destroyed in the mean time
+				if (editor.status === 'destroyed') {
+					return;
+				}
 				// Initialize all plugins that have the "beforeInit" and "init" methods defined.
 				var methods = [ 'beforeInit', 'init', 'afterInit' ];
 				for ( var m = 0; m < methods.length; m++ ) {
