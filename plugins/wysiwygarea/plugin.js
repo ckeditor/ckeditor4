@@ -124,6 +124,10 @@
 			doc = win.document,
 			body = doc.body;
 
+		//If the editor has been destroyed we should quit.
+		if (!editor) {
+			return;
+		}
 		// Remove helper scripts from the DOM.
 		var script = doc.getElementById( 'cke_actscrpt' );
 		script && script.parentNode.removeChild( script );
