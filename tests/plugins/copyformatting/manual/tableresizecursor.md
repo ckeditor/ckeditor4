@@ -6,6 +6,7 @@
 
 1. Double click "Copy Formatting" icon.
 2. Hover one of the table's column's border.
+3. Move cursor to the paragraph after the table.
 
 
 **Expected:**
@@ -14,4 +15,4 @@
 
 **Unexpected:**
 
-"Resize" cursor is displayed.
+"Resize" or "Text" cursor is displayed.
