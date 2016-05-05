@@ -488,6 +488,11 @@
 				if ( editor.copyFormatting.fire( 'extractFormatting', eventData, editor ) && eventData.styleDef ) {
 					styles.push( new CKEDITOR.style( eventData.styleDef ) );
 				}
+
+				// Break on list root.
+				if ( element.getName && indexOf( [ 'ul', 'ol' ], element.getName() ) !== -1 ) {
+					break;
+				}
 			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT );
 
 			return styles;
