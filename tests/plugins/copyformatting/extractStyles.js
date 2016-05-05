@@ -64,13 +64,6 @@
 			} );
 		},
 
-		'test extract style from link': function() {
-			var element = CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' ),
-				style = CKEDITOR.plugins.copyformatting._convertElementToStyleDef( element );
-
-			assert.isUndefined( style, 'Return value' );
-		},
-
 		'test extract style from skipped elements': function() {
 			var elements = [
 					CKEDITOR.dom.element.createFromHtml( '<img src="http://xxx">' ),
@@ -79,7 +72,8 @@
 					CKEDITOR.dom.element.createFromHtml( '<textarea>Test</textarea>' ),
 					CKEDITOR.dom.element.createFromHtml( '<button>Test</button>' ),
 					CKEDITOR.dom.element.createFromHtml( '<span data-cke-realelement>Test</span>' ),
-					CKEDITOR.dom.element.createFromHtml( '<span data-cke-widget-id="0">Test</span>' )
+					CKEDITOR.dom.element.createFromHtml( '<span data-cke-widget-id="0">Test</span>' ),
+					CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' )
 				],
 				style,
 				i;
