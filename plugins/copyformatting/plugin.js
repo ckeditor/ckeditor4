@@ -441,10 +441,6 @@
 					CKEDITOR.plugins.copyformatting.excludedAttributes ),
 				styles = tools.parseCssText( element.getAttribute( 'style' ), true, true );
 
-			if ( element.getName() === 'a' ) {
-				return;
-			}
-
 			return {
 				element: element.getName(),
 				type: CKEDITOR.STYLE_INLINE,
