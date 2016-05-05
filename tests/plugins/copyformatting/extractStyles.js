@@ -117,6 +117,28 @@
 				styles: {},
 				type: CKEDITOR.STYLE_INLINE
 			}, styles[ 2 ]._.definition );
+		},
+
+		'test extract styles from nested lists': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<ol><li><ul><li>Test</li></ul></li></ol>' ),
+				styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( this.editor, element.findOne( 'ul' ).findOne( 'li' ) );
+
+			assert.isArray( styles );
+			assert.areSame( 2, styles.length );
+
+			objectAssert.areDeepEqual( {
+				element: 'li',
+				attributes: {},
+				styles: {},
+				type: CKEDITOR.STYLE_INLINE
+			}, styles[ 0 ]._.definition );
+
+			objectAssert.areDeepEqual( {
+				element: 'ul',
+				attributes: {},
+				styles: {},
+				type: CKEDITOR.STYLE_INLINE
+			}, styles[ 1 ]._.definition );
 		}
 	} );
 }() );
