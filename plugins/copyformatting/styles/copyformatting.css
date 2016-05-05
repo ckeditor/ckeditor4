@@ -20,9 +20,10 @@ html.cke_copyformatting_active {
 	cursor: url(../cursors/cursor.svg) 12 1, auto;
 }
 
-/* Fix for overriding cursor by tableresize plugin. */
-.cke_copyformatting_active [data-cke-temp],
-.cke_copyformatting_tableresize_cursor [data-cke-temp] {
+/* Fix for overriding cursor by tableresize plugin. Used !important rule, because tableresize plugin creates a div which
+ changes the cursor using inlined styles. */
+.cke_copyformatting_active div[data-cke-temp],
+.cke_copyformatting_tableresize_cursor div[data-cke-temp] {
 	cursor: url(../cursors/cursor.svg) 12 1, auto !important;
 }
 
