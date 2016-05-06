@@ -1013,6 +1013,29 @@
 	CKEDITOR.config.copyFormatting_disallowRules = '*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)';
 
 	/**
+	 *
+	 * Defines which contexts should be enabled in Copy Formatting plugin. The allowed contexts can be ones of the
+	 * Copy Formatting ones: `{@link CKEDITOR.plugins.copyformatting.CONTEXT_TEXT}`, `{@link CKEDITOR.plugins.copyformatting.CONTEXT_LIST}`
+	 * or `{@link CKEDITOR.plugins.copyformatting.CONTEXT_TABLE}`.
+	 *
+	 *
+	 *		// If someone wants to enable only plain text context.
+	 *		config.copyFormatting_allowedContexts = [ CKEDITOR.plugins.copyformatting.CONTEXT_TEXT ];
+	 *
+	 * @cfg [copyFormatting_allowedContexts=[
+	 *	CKEDITOR.plugins.copyformatting.CONTEXT_TEXT,
+	 *	CKEDITOR.plugins.copyformatting.CONTEXT_LIST,
+	 *	CKEDITOR.plugins.copyformatting.CONTEXT_TABLE
+	 * ]]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_allowedContexts = [
+		CKEDITOR.plugins.copyformatting.CONTEXT_TEXT,
+		CKEDITOR.plugins.copyformatting.CONTEXT_LIST,
+		CKEDITOR.plugins.copyformatting.CONTEXT_TABLE
+	];
+
+	/**
 	 * Fired when the styles are being extracted from the element.
 	 * This event listener job is to extract only needed styles and modify them if needed.
 	 *
