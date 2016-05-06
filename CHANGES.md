@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#14620](https://dev.ckeditor.com/ticket/14620): Fixed: Setting both the `min-height` style for the `<body>` element and the `height` style for the `<html>` element breaks [Auto Grow](http://ckeditor.com/addon/autogrow) plugin.
 * [#14538](http://dev.ckeditor.com/ticket/14538): Fixed: Keyboard focus goes into embedded iframe element.
 * [#14602](http://dev.ckeditor.com/ticket/14602): Fixed: [dom.element.removeAttribute()](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeAttribute) method does not remove all attributes if no parameter is given.
 * [#8679](http://dev.ckeditor.com/ticket/8679): Fixed: Better focus indication and ability to style selected color in the color picker dialog.
