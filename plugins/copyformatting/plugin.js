@@ -300,6 +300,22 @@
 		excludedAttributes: [ 'id', 'style', 'href', 'data-cke-saved-href' ],
 
 		/**
+		 * Array of elements that will be transformed into inline styles while
+		 * applying formatting to the plain text context.
+		 *
+		 * @property {Array}
+		 */
+		elementsForInlineTransform: [ 'li', 'td', 'th', 'tr' ],
+
+		/**
+		 * Array of elements that will be excluded from transformation while
+		 * applying formatting to the plain text context.
+		 *
+		 * @property {Array}
+		 */
+		excludedElementsFromInlineTransform: [ 'table', 'thead', 'tbody', 'ul', 'ol' ],
+
+		/**
 		 * Array of attributes to be excluded while transforming `li` styles
 		 * into `span` styles (e.g. when applying that styles to text context).
 		 *
@@ -784,7 +800,8 @@
 		 * @private
 		 */
 		_applyStylesToTextContext: function( editor, range, styles ) {
-			var attrsToExclude = CKEDITOR.plugins.copyformatting.excludedAttributesFromInlineTransform,
+			var plugin = CKEDITOR.plugins.copyformatting,
+				attrsToExclude = plugin.excludedAttributesFromInlineTransform,
 				style,
 				i,
 				j;
@@ -792,11 +809,11 @@
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
 
-				if ( indexOf( [ 'table', 'thead', 'tbody', 'ul', 'ol' ], style.element ) !== -1 ) {
+				if ( indexOf( plugin.excludedElementsFromInlineTransform, style.element ) !== -1 ) {
 					continue;
 				}
 
-				if ( indexOf( [ 'li', 'td', 'th', 'tr' ], style.element ) !== -1 ) {
+				if ( indexOf( plugin.elementsForInlineTransform, style.element ) !== -1 ) {
 					style.element = style._.definition.element = 'span';
 
 					for ( j = 0; j < attrsToExclude.length; j++ ) {
