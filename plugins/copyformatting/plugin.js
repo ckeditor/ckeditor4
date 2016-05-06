@@ -264,14 +264,10 @@
 				var plugin = CKEDITOR.plugins.copyformatting,
 					context = plugin._determineContext( evt.data.range );
 
-				if ( context === plugin.CONTEXT_LIST ) {
-					if ( editor.copyFormatting._isContextAllowed( plugin.CONTEXT_LIST ) ) {
-						plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
-					}
-				} else if ( context === plugin.CONTEXT_TABLE ) {
-					if ( editor.copyFormatting._isContextAllowed( plugin.CONTEXT_TABLE ) ) {
-						plugin._applyStylesToTableContext( evt.editor, evt.data.range, evt.data.styles );
-					}
+				if ( context === plugin.CONTEXT_LIST && editor.copyFormatting._isContextAllowed( plugin.CONTEXT_LIST ) ) {
+					plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
+				} else if ( context === plugin.CONTEXT_TABLE && editor.copyFormatting._isContextAllowed( plugin.CONTEXT_TABLE ) ) {
+					plugin._applyStylesToTableContext( evt.editor, evt.data.range, evt.data.styles );
 				} else if ( editor.copyFormatting._isContextAllowed( plugin.CONTEXT_TEXT ) ) {
 					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
 				}

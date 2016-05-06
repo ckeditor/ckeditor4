@@ -79,7 +79,7 @@
 		'test context - text only': function() {
 			// Text only
 			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT ];
-			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], styles );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
 		},
@@ -88,31 +88,23 @@
 			// List only
 			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
-			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
-			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
-		},
-
-		'test context - table only': function() {
-			// Table only
-			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TABLE ];
-			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
-			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
 		},
 
 		'test context - text and list only': function() {
 			// Text and list only
 			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST ];
-			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
-			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
-			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], styles );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], styles );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], styles );
 		},
 
 		'test context - text and table only': function() {
 			// Text and table only
 			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_TABLE ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
-			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], styles );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
 		},
 
@@ -120,16 +112,16 @@
 			// List and table only
 			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
-			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
-			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
 		},
 
 		'test context - all contexts': function() {
 			// All contexts
 			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
-			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
-			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
-			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], styles );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], styles );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], styles );
 		}
 	} );
 }() );
