@@ -1015,8 +1015,7 @@
 	 *	'tr; td; th; ol; ul; li; (*)[*]{*}']
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.copyFormatting_allowRules = 'b s u i em strong span p div table thead tbody ' +
-		'tr td th ol ul li(*)[*]{*}';
+	CKEDITOR.config.copyFormatting_allowRules = 'b s u i em strong span p div td th ol ul li(*)[*]{*}';
 
 	/**
 	 * Defines rules for the elements from which fetching styles is explicitly forbidden (eg. widgets).
