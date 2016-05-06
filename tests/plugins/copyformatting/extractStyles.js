@@ -73,7 +73,8 @@
 					CKEDITOR.dom.element.createFromHtml( '<button>Test</button>' ),
 					CKEDITOR.dom.element.createFromHtml( '<span data-cke-realelement>Test</span>' ),
 					CKEDITOR.dom.element.createFromHtml( '<span data-cke-widget-id="0">Test</span>' ),
-					CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' )
+					CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' ),
+					CKEDITOR.dom.element.createFromHtml( '<table></table>' )
 				],
 				style,
 				i;
