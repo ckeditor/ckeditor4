@@ -36,59 +36,67 @@
 	bender.test( {
 		setUp: function() {
 			copyFormattingNamespace = CKEDITOR.plugins.copyformatting;
+			this.editorConfig = this.editor.config;
+
+			// Store initial copyFormatting_allowedContexts value, so that it could be automatically restored in tearDown.
+			this.initialAllowedContexts = this.editorConfig.copyFormatting_allowedContexts;
 		},
 
-		'test enabling/disabled contexts - text only': function() {
+		tearDown: function() {
+			this.editorConfig.copyFormatting_allowedContexts = this.initialAllowedContexts;
+		},
+
+		'test context - text only': function() {
 			// Text only
-			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT ];
+			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
 		},
 
-		'test enabling/disabled contexts - list only': function() {
+		'test context - list only': function() {
 			// List only
-			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST ];
+			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
 		},
 
-		'test enabling/disabled contexts - table only': function() {
+		'test context - table only': function() {
 			// Table only
-			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TABLE ];
+			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TABLE ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
 		},
 
-		'test enabling/disabled contexts - text and list only': function() {
+		'test context - text and list only': function() {
 			// Text and list only
-			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST ];
+			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
 		},
 
-		'test enabling/disabled contexts - text and table only': function() {
+		'test context - text and table only': function() {
 			// Text and table only
-			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_TABLE ];
+			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_TABLE ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
 		},
 
-		'test enabling/disabled contexts - list and table only': function() {
+		'test context - list and table only': function() {
 			// List and table only
-			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
+			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
 		},
 
-		'test enabling/disabled contexts - all contexts': function() {
+		'test context - all contexts': function() {
 			// All contexts
-			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
+			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
