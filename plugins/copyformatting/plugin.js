@@ -83,10 +83,6 @@
 				editor.addContentsCss( this.path + 'styles/copyformatting.css' );
 			}
 
-			if ( !CKEDITOR.tools.isArray( editor.config.copyFormatting_allowedContexts ) ) {
-				editor.config.copyFormatting_allowedContexts = [];
-			}
-
 			/**
 			 * Object indicating the current state of Copy Formatting plugin
 			 * in the specified editor.
@@ -1046,18 +1042,13 @@
 	 *		// If one wants to enable only plain text context.
 	 *		config.copyFormatting_allowedContexts = [ CKEDITOR.plugins.copyformatting.CONTEXT_TEXT ];
 	 *
-	 * @cfg [copyFormatting_allowedContexts=[
-	 *	CKEDITOR.plugins.copyformatting.CONTEXT_TEXT,
-	 *	CKEDITOR.plugins.copyformatting.CONTEXT_LIST,
-	 *	CKEDITOR.plugins.copyformatting.CONTEXT_TABLE
-	 * ]]
+	 *		// If set to true, will enable all contexts.
+	 *		config.copyFormatting_allowedContexts = true;
+	 *
+	 * @cfg {Boolean/Number[]} [copyFormatting_allowedContexts=true]
 	 * @member CKEDITOR.config
 	 */
-	CKEDITOR.config.copyFormatting_allowedContexts = [
-		CKEDITOR.plugins.copyformatting.CONTEXT_TEXT,
-		CKEDITOR.plugins.copyformatting.CONTEXT_LIST,
-		CKEDITOR.plugins.copyformatting.CONTEXT_TABLE
-	];
+	CKEDITOR.config.copyFormatting_allowedContexts = true;
 
 	/**
 	 * Fired when the styles are being extracted from the element.
