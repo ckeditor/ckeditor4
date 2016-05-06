@@ -198,15 +198,9 @@
 		},
 
 		'test applyFormat on plain text with table styles': function() {
-			var expectedStyles = clone( tableStyles ).slice( 0, 3 );
-
-			expectedStyles[ 1 ].element = expectedStyles[ 1 ]._.definition.element = 'span';
-			expectedStyles[ 2 ].element = expectedStyles[ 2 ]._.definition.element = 'span';
+			var expectedStyles = clone( tableStyles ).slice( 0, 1 );
 
 			testApplyingFormat( this.editor, '<p>Apply format h{}ere</p>', 'here', tableStyles, [], expectedStyles );
-
-			tableStyles[ 1 ].element = tableStyles[ 1 ]._.definition.element = 'td';
-			tableStyles[ 2 ].element = tableStyles[ 2 ]._.definition.element = 'tr';
 		},
 
 		'test applyFormat on table context with table styles': function() {
