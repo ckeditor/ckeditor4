@@ -244,12 +244,11 @@
 				}
 
 				var oldStyles = plugin._extractStylesFromRange( editor, evt.data.range ),
-					allowedContexts = evt.editor.config.copyFormatting_allowedContexts,
 					context = plugin._determineContext( evt.data.range ),
 					oldStyle,
 					i;
 
-				if ( indexOf( allowedContexts, context ) === -1 ) {
+				if ( !editor.copyFormatting._isContextAllowed( context ) ) {
 					return;
 				}
 
@@ -267,18 +266,17 @@
 			// Apply new styles.
 			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
 				var plugin = CKEDITOR.plugins.copyformatting,
-					allowedContexts = evt.editor.config.copyFormatting_allowedContexts,
 					context = plugin._determineContext( evt.data.range );
 
 				if ( context === plugin.CONTEXT_LIST ) {
-					if ( indexOf( allowedContexts, plugin.CONTEXT_LIST ) !== -1 ) {
+					if ( editor.copyFormatting._isContextAllowed( plugin.CONTEXT_LIST ) ) {
 						plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
 					}
 				} else if ( context === plugin.CONTEXT_TABLE ) {
-					if ( indexOf( allowedContexts, plugin.CONTEXT_TABLE ) !== -1 ) {
+					if ( editor.copyFormatting._isContextAllowed( plugin.CONTEXT_TABLE ) ) {
 						plugin._applyStylesToTableContext( evt.editor, evt.data.range, evt.data.styles );
 					}
-				} else if ( indexOf( allowedContexts, plugin.CONTEXT_TEXT ) !== -1 ) {
+				} else if ( editor.copyFormatting._isContextAllowed( plugin.CONTEXT_TEXT ) ) {
 					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
 				}
 			}, null, null, 999 );
