@@ -83,6 +83,10 @@
 				editor.addContentsCss( this.path + 'styles/copyformatting.css' );
 			}
 
+			if ( !CKEDITOR.tools.isArray( editor.config.copyFormatting_allowedContexts ) ) {
+				editor.config.copyFormatting_allowedContexts = [];
+			}
+
 			/**
 			 * Object indicating the current state of Copy Formatting plugin
 			 * in the specified editor.
@@ -243,13 +247,18 @@
 			// Apply new styles.
 			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
 				var plugin = CKEDITOR.plugins.copyformatting,
+					allowedContexts = evt.editor.config.copyFormatting_allowedContexts,
 					context = plugin._determineContext( evt.data.range );
 
 				if ( context === plugin.CONTEXT_LIST ) {
-					plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
+					if ( indexOf( allowedContexts, plugin.CONTEXT_LIST ) !== -1 ) {
+						plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
+					}
 				} else if ( context === plugin.CONTEXT_TABLE ) {
-					plugin._applyStylesToTableContext( evt.editor, evt.data.range, evt.data.styles );
-				} else {
+					if ( indexOf( allowedContexts, plugin.CONTEXT_TABLE ) !== -1 ) {
+						plugin._applyStylesToTableContext( evt.editor, evt.data.range, evt.data.styles );
+					}
+				} else if ( indexOf( allowedContexts, plugin.CONTEXT_TEXT ) !== -1 ) {
 					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
 				}
 			}, null, null, 999 );
