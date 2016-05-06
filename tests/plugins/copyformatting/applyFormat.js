@@ -90,7 +90,8 @@
 			type: CKEDITOR.STYLE_INLINE
 		} )
 	],
-	clone = CKEDITOR.tools.clone;
+	clone = CKEDITOR.tools.clone,
+	copyFormattingNamespace;
 
 	bender.editor = {
 		config: {
@@ -99,6 +100,10 @@
 	};
 
 	bender.test( {
+		setUp: function() {
+			copyFormattingNamespace = CKEDITOR.plugins.copyformatting;
+		},
+
 		'test applyFormat with collapsed selection': function() {
 			testApplyingFormat( this.editor, '<p>Apply format h{}ere</p>', 'here', [ styles[ 0 ] ] );
 		},
@@ -431,51 +436,60 @@
 			assert.areSame( tableConstant, determineContext(), 'Selection within two rows' );
 		},
 
-		'test enabling/disabled contexts': function() {
-			var editor = this.editor,
-				plugin = CKEDITOR.plugins.copyformatting;
-
+		'test enabling/disabled contexts - text only': function() {
 			// Text only
-			editor.config.copyFormatting_allowedContexts = [ plugin.CONTEXT_TEXT ];
-			testApplyingFormat( editor, '<p>Apply format her{}e</p>', 'here', styles );
-			testApplyingFormat( editor, '<ul><li>Apply format her{}e</li></ul>', 'here', styles, [], [] );
-			testApplyingFormat( editor, '<table><tr><td>Apply format her{}e</td></tr></table>', 'here', styles, [], [] );
+			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT ];
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
+		},
 
+		'test enabling/disabled contexts - list only': function() {
 			// List only
-			editor.config.copyFormatting_allowedContexts = [ plugin.CONTEXT_LIST ];
-			testApplyingFormat( editor, '<p>Apply format her{}e</p>', 'here', styles, [], [] );
-			testApplyingFormat( editor, '<ul><li>Apply format her{}e</li></ul>', 'here', styles );
-			testApplyingFormat( editor, '<table><tr><td>Apply format her{}e</td></tr></table>', 'here', styles, [], [] );
+			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST ];
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
+		},
 
+		'test enabling/disabled contexts - table only': function() {
 			// Table only
-			editor.config.copyFormatting_allowedContexts = [ plugin.CONTEXT_TABLE ];
-			testApplyingFormat( editor, '<p>Apply format her{}e</p>', 'here', styles, [], [] );
-			testApplyingFormat( editor, '<ul><li>Apply format her{}e</li></ul>', 'here', styles, [], [] );
-			testApplyingFormat( editor, '<table><tr><td>Apply format her{}e</td></tr></table>', 'here', styles );
+			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TABLE ];
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
+		},
 
+		'test enabling/disabled contexts - text and list only': function() {
 			// Text and list only
-			editor.config.copyFormatting_allowedContexts = [ plugin.CONTEXT_TEXT, plugin.CONTEXT_LIST ];
-			testApplyingFormat( editor, '<p>Apply format her{}e</p>', 'here', styles );
-			testApplyingFormat( editor, '<ul><li>Apply format her{}e</li></ul>', 'here', styles );
-			testApplyingFormat( editor, '<table><tr><td>Apply format her{}e</td></tr></table>', 'here', styles, [], [] );
+			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST ];
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
+		},
 
+		'test enabling/disabled contexts - text and table only': function() {
 			// Text and table only
-			editor.config.copyFormatting_allowedContexts = [ plugin.CONTEXT_TEXT, plugin.CONTEXT_TABLE ];
-			testApplyingFormat( editor, '<p>Apply format her{}e</p>', 'here', styles );
-			testApplyingFormat( editor, '<ul><li>Apply format her{}e</li></ul>', 'here', styles, [], [] );
-			testApplyingFormat( editor, '<table><tr><td>Apply format her{}e</td></tr></table>', 'here', styles );
+			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_TABLE ];
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
+		},
 
+		'test enabling/disabled contexts - list and table only': function() {
 			// List and table only
-			editor.config.copyFormatting_allowedContexts = [ plugin.CONTEXT_LIST, plugin.CONTEXT_TABLE ];
-			testApplyingFormat( editor, '<p>Apply format her{}e</p>', 'here', styles, [], [] );
-			testApplyingFormat( editor, '<ul><li>Apply format her{}e</li></ul>', 'here', styles );
-			testApplyingFormat( editor, '<table><tr><td>Apply format her{}e</td></tr></table>', 'here', styles );
+			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
+		},
 
+		'test enabling/disabled contexts - all contexts': function() {
 			// All contexts
-			editor.config.copyFormatting_allowedContexts = [ plugin.CONTEXT_TEXT, plugin.CONTEXT_LIST, plugin.CONTEXT_TABLE ];
-			testApplyingFormat( editor, '<p>Apply format her{}e</p>', 'here', styles );
-			testApplyingFormat( editor, '<ul><li>Apply format her{}e</li></ul>', 'here', styles );
-			testApplyingFormat( editor, '<table><tr><td>Apply format her{}e</td></tr></table>', 'here', styles );
+			this.editor.config.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
+			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
+			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles );
+			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
 		}
 	} );
 }() );
