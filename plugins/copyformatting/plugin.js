@@ -305,7 +305,7 @@
 		 *
 		 * @property {Array}
 		 */
-		elementsForInlineTransform: [ 'li', 'td', 'th', 'tr' ],
+		elementsForInlineTransform: [ 'li' ],
 
 		/**
 		 * Array of elements that will be excluded from transformation while
