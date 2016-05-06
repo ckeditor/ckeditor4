@@ -46,6 +46,36 @@
 			this.editorConfig.copyFormatting_allowedContexts = this.initialAllowedContexts;
 		},
 
+		'test editor.copyFormatting._isContextAllowed': function() {
+			var instance = this.editor.copyFormatting;
+
+			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TEXT ), 'CONTEXT_TEXT' );
+			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_LIST ), 'CONTEXT_LIST' );
+			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TABLE ), 'CONTEXT_TABLE' );
+
+			// Now enable only text and lists.
+			this.editorConfig.copyFormatting_allowedContexts = [
+					copyFormattingNamespace.CONTEXT_TEXT,
+					copyFormattingNamespace.CONTEXT_LIST
+				];
+
+			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TEXT ), 'CONTEXT_TEXT with disabled tables' );
+			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_LIST ), 'CONTEXT_List with disabled tables' );
+			assert.isFalse( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TABLE ), 'CONTEXT_TABLE with disabled tables' );
+
+			// Allow all by setting copyFormatting_allowedContexts to true.
+			this.editorConfig.copyFormatting_allowedContexts = true;
+
+			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TEXT ), 'CONTEXT_TEXT allow all' );
+			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TABLE ), 'CONTEXT_TABLE allow all' );
+
+			// Ensure that wrong variable type won't break the thing.
+			this.editorConfig.copyFormatting_allowedContexts = 100;
+
+			assert.isFalse( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TEXT ), 'CONTEXT_TEXT wrong val' );
+			assert.isFalse( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TABLE ), 'CONTEXT_TABLE wrong val' );
+		},
+
 		'test context - text only': function() {
 			// Text only
 			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT ];

@@ -125,7 +125,21 @@
 				 * @member CKEDITOR.editor.copyFormatting
 				 * @property {CKEDITOR.filter}
 				 */
-				filter: new CKEDITOR.filter( editor.config.copyFormatting_allowRules )
+				filter: new CKEDITOR.filter( editor.config.copyFormatting_allowRules ),
+
+				/**
+				 * Checks if given context can be applied.
+				 *
+				 * @param {Number} testedContext Context constant based on `CONTEXT_*` properties in {@link CKEDITOR.plugins.copyformatting}
+				 * namespace.
+				 * @returns {Boolean} `true` if given context can be used in given Copy Formatting instance.
+				 * @private
+				 */
+				_isContextAllowed: function( testedContext ) {
+					var configValue = this.editor.config.copyFormatting_allowedContexts;
+
+					return configValue === true || indexOf( configValue, testedContext ) !== -1;
+				}
 			};
 
 			if ( editor.config.copyFormatting_allowRules === true ) {
