@@ -93,7 +93,9 @@ function testApplyingFormat( editor, htmlWithSelection, expectedContent, newStyl
 	assert.areSame( expectedStyles.length, applied, 'New styles were applied correctly.' );
 
 	// Content is now placed inside the element of the first applied style.
-	assert.areSame( expectedContent, editor.editable().findOne( newStyles[ 0 ].element ).getHtml() );
+	if ( editor.editable().findOne( newStyles[ 0 ].element ) ) {
+		assert.areSame( expectedContent, editor.editable().findOne( newStyles[ 0 ].element ).getHtml() );
+	}
 }
 
 function testConvertingStyles( elementHtml, expectedStyle ) {
