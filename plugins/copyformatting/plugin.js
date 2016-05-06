@@ -230,8 +230,14 @@
 				}
 
 				var oldStyles = plugin._extractStylesFromRange( editor, evt.data.range ),
+					allowedContexts = evt.editor.config.copyFormatting_allowedContexts,
+					context = plugin._determineContext( evt.data.range ),
 					oldStyle,
 					i;
+
+				if ( indexOf( allowedContexts, context ) === -1 ) {
+					return;
+				}
 
 				for ( i = 0; i < oldStyles.length; i++ ) {
 					oldStyle = oldStyles[ i ];
