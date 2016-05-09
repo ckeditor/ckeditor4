@@ -87,39 +87,6 @@
 			} );
 		},
 
-		'test applying text style to table': function( editor ) {
-			var inputContent = '<table border="1">' +
-						'<tr>' +
-							'<td style="background: green;">aaa<br></td>' +
-						'</tr>' +
-					'</table>' +
-					'<p><s>fo[]oo</s><br></p>',
-				expectedContent = '<table border="1">' +
-						'<tbody>' +
-							'<tr>' +
-								'<td style="background: green;"><s>a[]aa</s><br></td>' +
-							'</tr>' +
-						'</tbody>' +
-					'</table>' +
-					'<p><s>fooo</s><br></p>';
-
-			bender.tools.selection.setWithHtml( editor, inputContent );
-
-			editor.execCommand( 'copyFormatting' );
-
-			// Move the selection to <td>a[]aa</td>.
-			var rng = editor.createRange(),
-				cellTextNode = editor.editable().findOne( 'td' ).getFirst();
-			rng.setStart( cellTextNode, 1 );
-			rng.setEnd( cellTextNode, 1 );
-			editor.getSelection().selectRanges( [ rng ] );
-
-			editor.execCommand( 'applyFormatting' );
-
-			assert.areSame( expectedContent, bender.tools.selection.getWithHtml( editor ) );
-		},
-
-
 		'test removing formatting on collapsed selection': function( editor ) {
 			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], stylesToRemove, {
 				elementName: 'b',
@@ -147,7 +114,7 @@
 			assertScreenReaderNotification( editor, 'canceled' );
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
-			assert.isNull( editor.copyFormatting.styles );
+			assert.isNull( cmd.styles );
 		},
 
 		'test cancelling Copy Formatting command (Escape)': function( editor ) {
@@ -169,7 +136,7 @@
 			} );
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
-			assert.isNull( editor.copyFormatting.styles );
+			assert.isNull( cmd.styles );
 			assertScreenReaderNotification( editor, 'canceled' );
 		},
 
@@ -192,34 +159,7 @@
 			} );
 
 			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
-			assert.isNull( editor.copyFormatting.styles );
-			assertScreenReaderNotification( editor, 'canceled' );
-		},
-
-		'test cancelling Copy Formatting command by cancelling applyFormatting event': function( editor ) {
-			var cmd = editor.getCommand( 'copyFormatting' ),
-				copyFormatting = editor.copyFormatting,
-				applyFormattingCount = 0;
-			bender.tools.selection.setWithHtml( editor, '<p><s>Co{}py that format</s>.</p>' );
-
-			copyFormatting.once( 'applyFormatting', function( evt ) {
-				evt.cancel();
-			} );
-			copyFormatting.once( 'applyFormatting', function() {
-				++applyFormattingCount;
-			}, null, null, 998 );
-
-			editor.execCommand( 'copyFormatting' );
-
-			assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state );
-			assert.isArray( copyFormatting.styles );
-			assertScreenReaderNotification( editor, 'copied' );
-
-			editor.execCommand( 'applyFormatting' );
-
-			assert.areSame( 0, applyFormattingCount );
-			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
-			assert.isNull( copyFormatting.styles );
+			assert.isNull( cmd.styles );
 			assertScreenReaderNotification( editor, 'canceled' );
 		},
 
@@ -237,34 +177,6 @@
 			}, {
 				sticky: true
 			} );
-		},
-
-		'test preserving styles at Copy Formatting destination': function( editor ) {
-			var cmd = editor.getCommand( 'copyFormatting' ),
-				copyFormatting = editor.copyFormatting,
-				range;
-
-			bender.tools.selection.setWithHtml( editor, '<p><s>Co{py tha}t format</s>.</p>' );
-
-			copyFormatting.once( 'applyFormatting', function( evt ) {
-				evt.data.preventFormatStripping = true;
-			}, null, null, 8 );
-
-			editor.execCommand( 'copyFormatting' );
-
-			assert.areSame( CKEDITOR.TRISTATE_ON, cmd.state );
-			assert.isArray( copyFormatting.styles );
-			assertScreenReaderNotification( editor, 'copied' );
-
-			editor.execCommand( 'applyFormatting' );
-
-			range = editor.getSelection().getRanges()[ 0 ];
-
-			assert.isTrue( CKEDITOR.plugins.copyformatting._extractStylesFromRange( editor, range ).length >= 2,
-				'Styles are preserved' );
-			assert.areSame( CKEDITOR.TRISTATE_OFF, cmd.state );
-			assert.isNull( copyFormatting.styles );
-			assertScreenReaderNotification( editor, 'applied' );
 		},
 
 		'test that _getCursorContainer returns correct element': function( editor ) {
@@ -304,33 +216,9 @@
 
 			notify( editor, 'failed' );
 			assertScreenReaderNotification( editor, 'failed' );
-		},
-
-		'test removing formatting from element in range': function( editor ) {
-			var plugin = CKEDITOR.plugins.copyformatting,
-				range;
-
-			bender.tools.selection.setWithHtml( editor,
-				'<p class="cls" style="text-decoration: underline;">Te{st}</p>' );
-			range = editor.getSelection().getRanges()[ 0 ];
-
-			plugin._removeStylesFromElementInRange( range, 'p' );
-
-			objectAssert.areDeepEqual( {}, plugin._getAttributes( editor.editable().findOne( 'p' ) ) );
-		},
-
-		'test toggling `.cke_copyformatting_tableresize_cursor` class to the document': function( editor ) {
-			editor.execCommand( 'copyFormatting' );
-
-			assert.isTrue( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_tableresize_cursor' ) );
-
-			editor.execCommand( 'copyFormatting' );
-
-			assert.isFalse( CKEDITOR.document.getDocumentElement().hasClass( 'cke_copyformatting_tableresize_cursor' ) );
 		}
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
-
 	bender.test( tests );
 }() );
