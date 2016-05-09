@@ -126,8 +126,7 @@
 				/**
 				 * Checks if given context can be applied.
 				 *
-				 * @param {Number} testedContext Context constant based on `CONTEXT_*` properties in {@link CKEDITOR.plugins.copyformatting}
-				 * namespace.
+				 * @param {String} testedContext Context name.
 				 * @returns {Boolean} `true` if given context can be used in given Copy Formatting instance.
 				 * @private
 				 */
@@ -751,13 +750,13 @@
 		},
 
 		/**
-		 * Determines context of the given selection. It returns a number based on `CONTEXT_*` constants:
-		 * * {@link #CONTEXT_TEXT} for text
-		 * * {@link #CONTEXT_LIST} for lists
-		 * * {@link #CONTEXT_TABLE} for tables
+		 * Determines context of the given selection. It returns a string:
+		 * * `'text'` for text
+		 * * `'list'` for lists
+		 * * `'table'` for tables
 		 *
 		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
-		 * @returns {Number}
+		 * @returns {String}
 		 * @private
 		 */
 		_determineContext: function( range ) {
@@ -1007,16 +1006,18 @@
 	CKEDITOR.config.copyFormatting_disallowRules = '*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)';
 
 	/**
-	 * Defines which contexts should be enabled in Copy Formatting plugin. See `{@link CKEDITOR.plugins.copyformatting}` for
-	 * a list of `CONTEXT_*` constants.
+	 * Defines which contexts should be enabled in Copy Formatting plugin. Available contexts are:
+	 * * `'text' – plain text context
+	 * * `'list'` – list context
+	 * * `'table'` – table context
 	 *
 	 *		// If one wants to enable only plain text context.
-	 *		config.copyFormatting_allowedContexts = [ CKEDITOR.plugins.copyformatting.CONTEXT_TEXT ];
+	 *		config.copyFormatting_allowedContexts = [ 'text' ];
 	 *
 	 *		// If set to true, will enable all contexts.
 	 *		config.copyFormatting_allowedContexts = true;
 	 *
-	 * @cfg {Boolean/Number[]} [copyFormatting_allowedContexts=true]
+	 * @cfg {Boolean/String[]} [copyFormatting_allowedContexts=true]
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.copyFormatting_allowedContexts = true;
