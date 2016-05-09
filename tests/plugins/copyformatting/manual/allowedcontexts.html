@@ -297,7 +297,7 @@
 			on: {
 				loaded: function( evt ) {
 					evt.editor.config.copyFormatting_allowedContexts = [
-						CKEDITOR.plugins.copyformatting.CONTEXT_TEXT
+						'text'
 					];
 				}
 			}
@@ -309,8 +309,8 @@
 			on: {
 				loaded: function( evt ) {
 					evt.editor.config.copyFormatting_allowedContexts = [
-						CKEDITOR.plugins.copyformatting.CONTEXT_TEXT,
-						CKEDITOR.plugins.copyformatting.CONTEXT_LIST
+						'text',
+						'list'
 					];
 				}
 			}
@@ -322,8 +322,8 @@
 			on: {
 				loaded: function( evt ) {
 					evt.editor.config.copyFormatting_allowedContexts = [
-						CKEDITOR.plugins.copyformatting.CONTEXT_TEXT,
-						CKEDITOR.plugins.copyformatting.CONTEXT_TABLE
+						'text',
+						'table'
 					];
 				}
 			}
@@ -335,8 +335,8 @@
 			on: {
 				loaded: function( evt ) {
 					evt.editor.config.copyFormatting_allowedContexts = [
-						CKEDITOR.plugins.copyformatting.CONTEXT_LIST,
-						CKEDITOR.plugins.copyformatting.CONTEXT_TABLE
+						'list',
+						'table'
 					];
 				}
 			}
