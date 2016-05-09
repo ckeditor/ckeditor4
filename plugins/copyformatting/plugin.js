@@ -264,11 +264,11 @@
 				var plugin = CKEDITOR.plugins.copyformatting,
 					context = plugin._determineContext( evt.data.range );
 
-				if ( context === plugin.CONTEXT_LIST && editor.copyFormatting._isContextAllowed( plugin.CONTEXT_LIST ) ) {
+				if ( context === 'list' && editor.copyFormatting._isContextAllowed( 'list' ) ) {
 					plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
-				} else if ( context === plugin.CONTEXT_TABLE && editor.copyFormatting._isContextAllowed( plugin.CONTEXT_TABLE ) ) {
+				} else if ( context === 'table' && editor.copyFormatting._isContextAllowed( 'table' ) ) {
 					plugin._applyStylesToTableContext( evt.editor, evt.data.range, evt.data.styles );
-				} else if ( editor.copyFormatting._isContextAllowed( plugin.CONTEXT_TEXT ) ) {
+				} else if ( editor.copyFormatting._isContextAllowed( 'text' ) ) {
 					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
 				}
 			}, null, null, 999 );
@@ -280,30 +280,6 @@
 	 * @class CKEDITOR.plugins.copyformatting
 	 */
 	CKEDITOR.plugins.copyformatting = {
-		/**
-		 * Constant used for inline text formatting context.
-		 *
-		 * @readonly
-		 * @property {Number} [=0]
-		 */
-		CONTEXT_TEXT: 0,
-
-		/**
-		 * Constant used for list formatting context.
-		 *
-		 * @readonly
-		 * @property {Number} [=1]
-		 */
-		CONTEXT_LIST: 1,
-
-		/**
-		 * Constant used for table formatting context.
-		 *
-		 * @readonly
-		 * @property {Number} [=2]
-		 */
-		CONTEXT_TABLE: 2,
-
 		/**
 		 * Array of tag names that should limit inline styles extraction.
 		 *
@@ -802,11 +778,11 @@
 			}
 
 			if ( detect( { ul: 1, ol: 1 } ) ) {
-				return this.CONTEXT_LIST;
+				return 'list';
 			} else if ( detect( 'table' ) ) {
-				return this.CONTEXT_TABLE;
+				return 'table';
 			} else {
-				return this.CONTEXT_TEXT;
+				return 'text';
 			}
 		},
 
