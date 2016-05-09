@@ -49,36 +49,36 @@
 		'test editor.copyFormatting._isContextAllowed': function() {
 			var instance = this.editor.copyFormatting;
 
-			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TEXT ), 'CONTEXT_TEXT' );
-			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_LIST ), 'CONTEXT_LIST' );
-			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TABLE ), 'CONTEXT_TABLE' );
+			assert.isTrue( instance._isContextAllowed( 'text' ), 'text' );
+			assert.isTrue( instance._isContextAllowed( 'list' ), 'list' );
+			assert.isTrue( instance._isContextAllowed( 'table' ), 'table' );
 
 			// Now enable only text and lists.
 			this.editorConfig.copyFormatting_allowedContexts = [
-					copyFormattingNamespace.CONTEXT_TEXT,
-					copyFormattingNamespace.CONTEXT_LIST
+					'text',
+					'list'
 				];
 
-			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TEXT ), 'CONTEXT_TEXT with disabled tables' );
-			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_LIST ), 'CONTEXT_List with disabled tables' );
-			assert.isFalse( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TABLE ), 'CONTEXT_TABLE with disabled tables' );
+			assert.isTrue( instance._isContextAllowed( 'text' ), 'text with disabled tables' );
+			assert.isTrue( instance._isContextAllowed( 'list' ), 'list with disabled tables' );
+			assert.isFalse( instance._isContextAllowed( 'table' ), 'table with disabled tables' );
 
 			// Allow all by setting copyFormatting_allowedContexts to true.
 			this.editorConfig.copyFormatting_allowedContexts = true;
 
-			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TEXT ), 'CONTEXT_TEXT allow all' );
-			assert.isTrue( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TABLE ), 'CONTEXT_TABLE allow all' );
+			assert.isTrue( instance._isContextAllowed( 'text' ), 'text allow all' );
+			assert.isTrue( instance._isContextAllowed( 'table' ), 'table allow all' );
 
 			// Ensure that wrong variable type won't break the thing.
 			this.editorConfig.copyFormatting_allowedContexts = 100;
 
-			assert.isFalse( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TEXT ), 'CONTEXT_TEXT wrong val' );
-			assert.isFalse( instance._isContextAllowed( copyFormattingNamespace.CONTEXT_TABLE ), 'CONTEXT_TABLE wrong val' );
+			assert.isFalse( instance._isContextAllowed( 'text' ), 'text wrong val' );
+			assert.isFalse( instance._isContextAllowed( 'table' ), 'table wrong val' );
 		},
 
 		'test context - text only': function() {
 			// Text only
-			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT ];
+			this.editorConfig.copyFormatting_allowedContexts = [ 'text' ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], styles );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
@@ -86,7 +86,7 @@
 
 		'test context - list only': function() {
 			// List only
-			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST ];
+			this.editorConfig.copyFormatting_allowedContexts = [ 'list' ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
@@ -94,7 +94,7 @@
 
 		'test context - text and list only': function() {
 			// Text and list only
-			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST ];
+			this.editorConfig.copyFormatting_allowedContexts = [ 'text', 'list' ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], styles );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], styles );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], styles );
@@ -102,7 +102,7 @@
 
 		'test context - text and table only': function() {
 			// Text and table only
-			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_TABLE ];
+			this.editorConfig.copyFormatting_allowedContexts = [ 'text', 'table' ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], styles );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles );
@@ -110,7 +110,7 @@
 
 		'test context - list and table only': function() {
 			// List and table only
-			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
+			this.editorConfig.copyFormatting_allowedContexts = [ 'list' ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], [] );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], [] );
@@ -118,7 +118,7 @@
 
 		'test context - all contexts': function() {
 			// All contexts
-			this.editorConfig.copyFormatting_allowedContexts = [ copyFormattingNamespace.CONTEXT_TEXT, copyFormattingNamespace.CONTEXT_LIST, copyFormattingNamespace.CONTEXT_TABLE ];
+			this.editorConfig.copyFormatting_allowedContexts = [ 'text', 'list', 'table' ];
 			testApplyingFormat( this.editor, '<p>Apply her{}e</p>', 'here', styles, [], styles );
 			testApplyingFormat( this.editor, '<ul><li>Apply her{}e</li></ul>', 'here', styles, [], styles );
 			testApplyingFormat( this.editor, '<table><tr><td>Apply her{}e</td></tr></table>', 'here', styles, [], styles );

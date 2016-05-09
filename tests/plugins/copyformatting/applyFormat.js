@@ -387,9 +387,9 @@
 
 		'test determining context': function() {
 			var editor = this.editor,
-				textConstant = CKEDITOR.plugins.copyformatting.CONTEXT_TEXT,
-				listConstant = CKEDITOR.plugins.copyformatting.CONTEXT_LIST,
-				tableConstant = CKEDITOR.plugins.copyformatting.CONTEXT_TABLE;
+				textConstant = 'text',
+				listConstant = 'list',
+				tableConstant = 'table';
 
 			function determineContext() {
 				var range = editor.getSelection().getRanges()[ 0 ];
