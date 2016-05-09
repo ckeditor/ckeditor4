@@ -124,7 +124,8 @@
 				filter: new CKEDITOR.filter( editor.config.copyFormatting_allowRules ),
 
 				/**
-				 * Checks if given context can be applied.
+				 * Checks if given context can be applied. For list of possible context values see
+				 * `{@link CKEDITOR.config.copyFormatting_allowedContexts}`.
 				 *
 				 * @param {String} testedContext Context name.
 				 * @returns {Boolean} `true` if given context can be used in given Copy Formatting instance.
@@ -750,10 +751,8 @@
 		},
 
 		/**
-		 * Determines context of the given selection. It returns a string:
-		 * * `'text'` for text
-		 * * `'list'` for lists
-		 * * `'table'` for tables
+		 * Determines context of the given selection. For list of possible context values see
+		 * `{@link CKEDITOR.config.copyFormatting_allowedContexts}`.
 		 *
 		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
 		 * @returns {String}
