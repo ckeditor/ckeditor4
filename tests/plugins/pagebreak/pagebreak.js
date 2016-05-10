@@ -44,6 +44,7 @@
 
 				var element = elements.getItem( 0 );
 
+				// #14605
 				if ( CKEDITOR.env.chrome ) {
 					assert.areSame( 'page', element.getStyle( 'break-after' ), prefix + 'Pagebreak holds page-break-after style' );
 				} else {
