@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#10685](http://dev.ckeditor.com/ticket/10685): Fixed: Unreadable toolbar icons after update to new version. Fixed with `6c9189f4` in `ckeditor-dev` and `6c9189f4` in `ckeditor-presets`.
 * [#14573](https://dev.ckeditor.com/ticket/14573): Fixed: Missing [Widget](http://ckeditor.com/addon/widget) drag handler CSS when there are multiple editor instances.
 * [#14620](https://dev.ckeditor.com/ticket/14620): Fixed: Setting both the `min-height` style for the `<body>` element and the `height` style for the `<html>` element breaks [Auto Grow](http://ckeditor.com/addon/autogrow) plugin.
 * [#14538](http://dev.ckeditor.com/ticket/14538): Fixed: Keyboard focus goes into embedded iframe element.
