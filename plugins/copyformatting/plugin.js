@@ -239,14 +239,18 @@
 					return;
 				}
 
-				var oldStyles = plugin._extractStylesFromRange( editor, evt.data.range ),
-					context = plugin._determineContext( evt.data.range ),
+				var range = evt.data.range,
+					oldStyles = plugin._extractStylesFromRange( editor, range ),
+					context = plugin._determineContext( range ),
 					oldStyle,
+					bkm,
 					i;
 
 				if ( !editor.copyFormatting._isContextAllowed( context ) ) {
 					return;
 				}
+
+				bkm = range.createBookmark();
 
 				for ( i = 0; i < oldStyles.length; i++ ) {
 					oldStyle = oldStyles[ i ];
@@ -254,9 +258,11 @@
 					if ( indexOf( plugin.preservedElements, oldStyle.element ) === -1 ) {
 						oldStyles[ i ].remove( evt.editor );
 					} else if ( checkForStyle( oldStyle.element, evt.data.styles ) ) {
-						plugin._removeStylesFromElementInRange( evt.data.range, oldStyle.element );
+						plugin._removeStylesFromElementInRange( range, oldStyle.element );
 					}
 				}
+
+				range.moveToBookmark( bkm );
 			} );
 
 			// Apply new styles.
@@ -842,6 +848,7 @@
 		 */
 		_applyStylesToListContext: function( editor, range, styles ) {
 			var style,
+				bkm,
 				i;
 
 			function applyToList( list, style ) {
@@ -855,6 +862,8 @@
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
 
+				bkm = range.createBookmark();
+
 				if ( style.element === 'ol' || style.element === 'ul' ) {
 					getNodeAndApplyCmd( range, { ul: 1, ol: 1 }, function( currentNode ) {
 						applyToList( currentNode, style );
@@ -866,6 +875,8 @@
 				} else {
 					CKEDITOR.plugins.copyformatting._applyStylesToTextContext( editor, range, [ style ] );
 				}
+
+				range.moveToBookmark( bkm );
 			}
 		},
 
