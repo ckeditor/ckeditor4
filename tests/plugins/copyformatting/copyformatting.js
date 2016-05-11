@@ -119,6 +119,81 @@
 			assert.areSame( expectedContent, bender.tools.selection.getWithHtml( editor ) );
 		},
 
+		'test changing list type': function( editor ) {
+			var inputContent = '<ol dir="ltr">' +
+				'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">apple</span></span></span>' +
+					'<ol>' +
+						'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">boy</span></span></span>' +
+							'<ol>' +
+								'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">cat</span></span></span>' +
+									'<ol>' +
+										'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><b style="text-decoration: none;">dog</b></span></span><br></li>' +
+									'</ol>' +
+								'</li>' +
+							'</ol>' +
+						'</li>' +
+					'</ol>' +
+				'</li>' +
+			'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">elephant</span></span></span></li>' +
+		'</ol>' +
+		'<ul dir="ltr">' +
+			'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">green</span></span></span>' +
+				'<ul>' +
+					'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">blue</span></span></span>' +
+						'<ul>' +
+							'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">br[]own</span></span></span><br></li>' +
+						'</ul>' +
+					'</li>' +
+				'</ul>' +
+			'</li>' +
+			'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">violet</span></span></span></li>' +
+		'</ul>',
+				expectedContent = '<ol dir="ltr">' +
+				'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">apple</span></span></span>' +
+					'<ol>' +
+						'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">boy</span></span></span>' +
+							'<ol>' +
+								'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">cat</span></span></span>' +
+									'<ul>' +
+										'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">d[]og</span></span></span><br></li>' +
+									'</ul>' +
+								'</li>' +
+							'</ol>' +
+						'</li>' +
+					'</ol>' +
+				'</li>' +
+			'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">elephant</span></span></span></li>' +
+		'</ol>' +
+		'<ul dir="ltr">' +
+			'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">green</span></span></span>' +
+				'<ul>' +
+					'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">blue</span></span></span>' +
+						'<ul>' +
+							'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">brown</span></span></span><br></li>' +
+						'</ul>' +
+					'</li>' +
+				'</ul>' +
+			'</li>' +
+			'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">violet</span></span></span></li>' +
+		'</ul>';
+
+			bender.tools.selection.setWithHtml( editor, inputContent );
+
+			editor.execCommand( 'copyFormatting' );
+
+			// Move the selection to <b> inside 1. list.
+			var rng = editor.createRange(),
+				listTextNode = editor.editable().findOne( 'b' ).getFirst();
+
+			rng.setStart( listTextNode, 1 );
+			rng.setEnd( listTextNode, 1 );
+			editor.getSelection().selectRanges( [ rng ] );
+
+			editor.execCommand( 'applyFormatting' );
+
+			assert.areSame( expectedContent, bender.tools.selection.getWithHtml( editor ) );
+		},
+
 
 		'test removing formatting on collapsed selection': function( editor ) {
 			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], stylesToRemove, {
