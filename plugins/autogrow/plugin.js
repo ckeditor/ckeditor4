@@ -96,7 +96,7 @@
 			var body = CKEDITOR.env.quirks ? scrollable : scrollable.findOne( 'body' );
 			if ( body ) {
 				body.setStyle( 'height', 'auto' );
-				body.setStyle( 'min-height', 'auto' );
+				body.setStyle( 'min-height', CKEDITOR.env.safari ? '0%' : 'auto' ); // Safari does not support 'min-height: auto'.
 			}
 
 			marker = CKEDITOR.dom.element.createFromHtml(
