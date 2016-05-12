@@ -3,7 +3,7 @@ Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'bn', {
-	armenian: 'Armenian numbering',
+	armenian: 'আর্মেনিয়ান সংখ্যাক্রমে বিন্যাস',
 	bulletedTitle: 'Bulleted List Properties',
 	circle: 'Circle',
 	decimal: 'Decimal (1, 2, 3, etc.)',

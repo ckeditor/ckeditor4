@@ -3,7 +3,7 @@ Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'bn', {
-	border: 'বর্ডার সাইজ',
+	border: 'বর্ডারের সাইজ',
 	caption: 'শীর্ষক',
 	cell: {
 		menu: 'সেল',
@@ -23,7 +23,7 @@ CKEDITOR.plugins.setLang( 'table', 'bn', {
 		hAlign: 'Horizontal Alignment',
 		vAlign: 'Vertical Alignment',
 		alignBaseline: 'Baseline',
-		bgColor: 'Background Color',
+		bgColor: 'পৃষ্ঠতলের রং',
 		borderColor: 'Border Color',
 		data: 'Data',
 		header: 'Header',
