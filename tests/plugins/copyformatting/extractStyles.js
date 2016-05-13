@@ -121,7 +121,7 @@
 
 		'test extract styles from nested lists': function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<ol><li><ul><li>Test</li></ul></li></ol>' ),
-				styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( this.editor, element.findOne( 'ul' ).findOne( 'li' ) );
+				styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( this.editor, element.findOne( 'ul li' ) );
 
 			assert.isArray( styles );
 			assert.areSame( 2, styles.length );
