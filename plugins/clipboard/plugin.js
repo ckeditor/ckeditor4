@@ -1204,17 +1204,14 @@
 			return tags;
 		}
 
-		// Checks if content is pasted from Google Docs.
-		// Google Docs wraps everything in element with [id^=docs-internal-guid-],
-		// so that function just checks if such element exists. (#13877)
+		// Checks if content is pasted from Google Docs. Google Docs wraps everything in element
+		// with [id^=docs-internal-guid-], so that function just checks if such element exists. (#13877)
 		function isPastedFromGDocs( element ) {
 			if ( element.attributes.id && element.attributes.id.match( /^docs\-internal\-guid\-/ ) ) {
 				return true;
-			} else if ( element.parent && element.parent.name ) {
-				return isPastedFromGDocs( element.parent );
 			}
 
-			return false;
+			return element.parent && element.parent.name ? isPastedFromGDocs( element.parent ) : false;
 		}
 
 		// Process data from Google Docs:
