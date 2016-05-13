@@ -121,60 +121,60 @@
 
 		'test changing list type': function( editor ) {
 			var inputContent = '<ol dir="ltr">' +
-				'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">apple</span></span></span>' +
+				'<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif;"><span style="font-size:26px;"><span style="text-decoration:none;">apple</span></span></span>' +
 					'<ol>' +
-						'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">boy</span></span></span>' +
+						'<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif;"><span style="font-size:26px;"><span style="text-decoration:none;">boy</span></span></span>' +
 							'<ol>' +
-								'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">cat</span></span></span>' +
+								'<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif;"><span style="font-size:26px;"><span style="text-decoration:none;">cat</span></span></span>' +
 									'<ol>' +
-										'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><b style="text-decoration: none;">dog</b></span></span><br></li>' +
+										'<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif;"><span style="font-size:26px;"><b style="text-decoration:none;">dog</b></span></span><br></li>' +
 									'</ol>' +
 								'</li>' +
 							'</ol>' +
 						'</li>' +
 					'</ol>' +
 				'</li>' +
-			'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">elephant</span></span></span></li>' +
+			'<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif;"><span style="font-size:26px;"><span style="text-decoration:none;">elephant</span></span></span></li>' +
 		'</ol>' +
 		'<ul dir="ltr">' +
-			'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">green</span></span></span>' +
+			'<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="text-decoration:none;">green</span></span></span>' +
 				'<ul>' +
-					'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">blue</span></span></span>' +
+					'<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="text-decoration:none;">blue</span></span></span>' +
 						'<ul>' +
-							'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">br[]own</span></span></span><br></li>' +
+							'<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="text-decoration:none;">br[]own</span></span></span><br></li>' +
 						'</ul>' +
 					'</li>' +
 				'</ul>' +
 			'</li>' +
-			'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">violet</span></span></span></li>' +
+			'<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="text-decoration:none;">violet</span></span></span></li>' +
 		'</ul>',
 				expectedContent = '<ol dir="ltr">' +
-				'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">apple</span></span></span>' +
+				'<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif;"><span style="font-size:26px;"><span style="text-decoration:none;">apple</span></span></span>' +
 					'<ol>' +
-						'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">boy</span></span></span>' +
+						'<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif;"><span style="font-size:26px;"><span style="text-decoration:none;">boy</span></span></span>' +
 							'<ol>' +
-								'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">cat</span></span></span>' +
+								'<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif;"><span style="font-size:26px;"><span style="text-decoration:none;">cat</span></span></span>' +
 									'<ul>' +
-										'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">d[]og</span></span></span><br></li>' +
+										'<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="text-decoration:none;">d[]og</span></span></span><br></li>' +
 									'</ul>' +
 								'</li>' +
 							'</ol>' +
 						'</li>' +
 					'</ol>' +
 				'</li>' +
-			'<li><span style="font-family: Trebuchet MS, Helvetica, sans-serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">elephant</span></span></span></li>' +
+			'<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif;"><span style="font-size:26px;"><span style="text-decoration:none;">elephant</span></span></span></li>' +
 		'</ol>' +
 		'<ul dir="ltr">' +
-			'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">green</span></span></span>' +
+			'<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="text-decoration:none;">green</span></span></span>' +
 				'<ul>' +
-					'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">blue</span></span></span>' +
+					'<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="text-decoration:none;">blue</span></span></span>' +
 						'<ul>' +
-							'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">brown</span></span></span><br></li>' +
+							'<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="text-decoration:none;">brown</span></span></span><br></li>' +
 						'</ul>' +
 					'</li>' +
 				'</ul>' +
 			'</li>' +
-			'<li><span style="font-family: georgia,serif;"><span style="font-size: 26px;"><span style="text-decoration: none;">violet</span></span></span></li>' +
+			'<li><span style="font-family:georgia,serif;"><span style="font-size:26px;"><span style="text-decoration:none;">violet</span></span></span></li>' +
 		'</ul>';
 
 			bender.tools.selection.setWithHtml( editor, inputContent );
@@ -191,7 +191,8 @@
 
 			editor.execCommand( 'applyFormatting' );
 
-			assert.areSame( expectedContent, bender.tools.selection.getWithHtml( editor ) );
+			assert.areSame( bender.tools.fixHtml( expectedContent ),
+				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 
