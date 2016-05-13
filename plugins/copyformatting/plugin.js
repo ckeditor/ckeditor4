@@ -327,6 +327,13 @@
 		 */
 		preservedElements: [ 'ul', 'ol', 'li', 'td', 'th', 'tr', 'thead', 'tbody', 'table' ],
 
+		/**
+		 * Array of elements on which extracting formatting should be stopped.
+		 *
+		 * @property {Array}
+		 */
+		breakOnElements: [ 'ul', 'ol' ],
+
 		commands: {
 			copyFormatting: {
 				exec: function( editor, data ) {
@@ -490,7 +497,7 @@
 				}
 
 				// Break on list root.
-				if ( element.getName && indexOf( [ 'ul', 'ol' ], element.getName() ) !== -1 ) {
+				if ( element.getName && indexOf( CKEDITOR.plugins.copyformatting.breakOnElements, element.getName() ) !== -1 ) {
 					break;
 				}
 			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT );
