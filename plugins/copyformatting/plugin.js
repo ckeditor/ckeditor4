@@ -332,7 +332,7 @@
 		 *
 		 * @property {Array}
 		 */
-		breakOnElements: [ 'ul', 'ol' ],
+		breakOnElements: [ 'ul', 'ol', 'table' ],
 
 		commands: {
 			copyFormatting: {
