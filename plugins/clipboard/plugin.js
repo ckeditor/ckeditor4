@@ -702,7 +702,8 @@
 				async: true,
 
 				exec: function( editor, data ) {
-					var fire = function( data, withBeforePaste ) {
+					var cmd = this,
+						fire = function( data, withBeforePaste ) {
 							data &&	firePasteEvents( editor, data, !!withBeforePaste );
 
 							editor.fire( 'afterCommandExec', {
@@ -710,8 +711,7 @@
 								command: cmd,
 								returnValue: !!data
 							} );
-						},
-						cmd = this;
+						};
 
 					// Check data precisely - don't open dialog on empty string.
 					if ( typeof data == 'string' )
