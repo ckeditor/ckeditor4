@@ -250,6 +250,9 @@
 					return;
 				}
 
+				// The bookmark is used to prevent the weird behavior of lists (e.g. not converting list type
+				// while applying styles from bullet list to the numbered one). Restoring the selection to its
+				// initial state after every change seems to do the trick.
 				bkm = range.createBookmark();
 
 				for ( i = 0; i < oldStyles.length; i++ ) {
@@ -862,6 +865,9 @@
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
 
+				// The bookmark is used to prevent the weird behavior of lists (e.g. not converting list type
+				// while applying styles from bullet list to the numbered one). Restoring the selection to its
+				// initial state after every change seems to do the trick.
 				bkm = range.createBookmark();
 
 				if ( style.element === 'ol' || style.element === 'ul' ) {
