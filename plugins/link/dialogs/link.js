@@ -121,30 +121,9 @@
 					label: linkLang.displayText,
 					required: true,
 					setup: function() {
-
 						this.enable();
 
-						var editLink = this._.dialog.getSelectedElement();
-
-						if ( editLink && editLink.isEditable() ) {
-
-							var innerHtml = editLink.getHtml(),
-								innerText = editLink.getText();
-
-							if ( innerHtml == innerText ) {
-								this.setValue( innerText );
-								return;
-							}
-						}
-
-						// Collapsed selection indicate we're creating a new link.
-						if ( editor.getSelection().getRanges()[ 0 ].collapsed ) {
-							return;
-						}
-
-						this.setValue( linkLang.linkTextFromSelection );
-						this.disable();
-
+						this.setValue( editor.getSelection().getSelectedText() );
 					},
 					commit: function( data ) {
 						data.linkText = this.isEnabled() ? this.getValue() : '';
@@ -843,16 +822,23 @@
 				this.commitContent( data );
 
 				var selection = editor.getSelection(),
-					attributes = plugin.getLinkAttributes( editor, data );
+					attributes = plugin.getLinkAttributes( editor, data ),
+					selectedText = ( selection.getSelectedText() || '' ).replace( /\n/g, '' );
 
 				if ( !this._.selectedElement ) {
-					var range = selection.getRanges()[ 0 ];
+					var range = selection.getRanges()[ 0 ],
+						text;
 
 					// Use link URL as text with a collapsed cursor.
 					if ( range.collapsed ) {
 						// Short mailto link text view (#5736).
-						var text = new CKEDITOR.dom.text( data.linkText || ( data.type == 'email' ?
+						text = new CKEDITOR.dom.text( data.linkText || ( data.type == 'email' ?
 							data.email.address : attributes.set[ 'data-cke-saved-href' ] ), editor.document );
+						range.insertNode( text );
+						range.selectNodeContents( text );
+					} else if ( selectedText !== data.linkText ) {
+						text = new CKEDITOR.dom.text( data.linkText, editor.document );
+						range.deleteContents( true );
 						range.insertNode( text );
 						range.selectNodeContents( text );
 					}

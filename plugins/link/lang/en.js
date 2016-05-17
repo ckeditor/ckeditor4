@@ -29,7 +29,6 @@ CKEDITOR.plugins.setLang( 'link', 'en', {
 	langDir: 'Language Direction',
 	langDirLTR: 'Left to Right (LTR)',
 	langDirRTL: 'Right to Left (RTL)',
-	linkTextFromSelection: '<< Selection in Document >>',
 	menu: 'Edit Link',
 	name: 'Name',
 	noAnchors: '(No anchors available in the document)',
