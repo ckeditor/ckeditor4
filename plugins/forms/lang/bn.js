@@ -4,16 +4,16 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'bn', {
 	button: {
-		title: 'বাটন প্রোপার্টি',
+		title: 'বাটন সম্বন্ধীয়',
 		text: 'টেক্সট (ভ্যালু)',
 		type: 'প্রকার',
-		typeBtn: 'Button',
+		typeBtn: 'বাটন',
 		typeSbm: 'Submit',
 		typeRst: 'Reset'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'চেক বক্স প্রোপার্টি',
-		radioTitle: 'রেডিও বাটন প্রোপার্টি',
+		radioTitle: 'রেডিও বাটন সম্বন্ধীয়',
 		value: 'ভ্যালু',
 		selected: 'সিলেক্টেড',
 		required: 'Required' // MISSING

@@ -35,7 +35,7 @@
 		 * Sends a request using the JSONP technique.
 		 *
 		 * @param {CKEDITOR.template} urlTemplate The template of the URL to be requested. All properties
-		 * passed in `urlParams` can be used, plus a `{callback}`, which represent a JSONP callback, must be defined.
+		 * passed in `urlParams` can be used, plus a `{callback}`, which represents a JSONP callback, must be defined.
 		 * @param {Object} urlParams Parameters to be passed to the `urlTemplate`.
 		 * @param {Function} callback
 		 * @param {Function} [errorCallback]
