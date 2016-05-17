@@ -175,20 +175,6 @@
 			} );
 		},
 
-		'test edit link text disabled': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
-
-			bot.setHtmlWithSelection( '[testing <a href="http://ckeditor.com">http://ckeditor.com</a>].' );
-
-			bot.dialog( 'link', function( dialog ) {
-				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), editor.lang.link.linkTextFromSelection );
-				dialog.setValueOf( 'info', 'url', 'http://example.com' );
-				dialog.getButton( 'ok' ).click();
-				assert.areSame( '<a href="http://example.com">testing </a><a href="http://ckeditor.com">http://ckeditor.com</a>.', bot.getData( true ) );
-			} );
-		},
-
 		'test link passes filter': function() {
 			this.editorBot.assertInputOutput(
 				'<p><a href="http://ckeditor.com">text</a></p>',
