@@ -54,17 +54,41 @@
 			} );
 		},
 
-		'test extract style from link': function() {
-			var element = CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' ),
-				style = CKEDITOR.plugins.copyformatting._convertElementToStyle( element );
+		'test excluding attributes': function() {
+			testConvertingStyles( '<span href="http://ckeditor.com" data-cke-saved-href="http://ckeditor.com" ' +
+				'style="' + styleAttr + '">Test</span>', {
+				element: 'span',
+				attributes: {},
+				styles: CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( styleAttr, true ) ),
+				type: CKEDITOR.STYLE_INLINE
+			} );
+		},
 
-			assert.isUndefined( style, 'Return value' );
+		'test extract style from skipped elements': function() {
+			var elements = [
+					CKEDITOR.dom.element.createFromHtml( '<img src="http://xxx">' ),
+					CKEDITOR.dom.element.createFromHtml( '<iframe src="http://xxx">' ),
+					CKEDITOR.dom.element.createFromHtml( '<input type="text">' ),
+					CKEDITOR.dom.element.createFromHtml( '<textarea>Test</textarea>' ),
+					CKEDITOR.dom.element.createFromHtml( '<button>Test</button>' ),
+					CKEDITOR.dom.element.createFromHtml( '<span data-cke-realelement>Test</span>' ),
+					CKEDITOR.dom.element.createFromHtml( '<span data-cke-widget-id="0">Test</span>' ),
+					CKEDITOR.dom.element.createFromHtml( '<a href="http://cksource.com">Test</a>' )
+				],
+				style,
+				i;
+
+			for ( i = 0; i < elements.length; i++ ) {
+				style = CKEDITOR.plugins.copyformatting._extractStylesFromElement( this.editor, elements[ i ] );
+
+				objectAssert.areDeepEqual( [], style, 'Return value' );
+			}
 		},
 
 		'test extract styles from nested elements': function() {
 			var element = CKEDITOR.dom.element.createFromHtml( '<strong class="important" ' +
 					'title="Neil Armstrong"><span style="' + styleAttr + '"><s>Neil Armstrong</s></span></strong>' ),
-				styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( element.findOne( 's' ) );
+				styles = CKEDITOR.plugins.copyformatting._extractStylesFromElement( this.editor, element.findOne( 's' ) );
 
 			assert.isArray( styles );
 			assert.areSame( 3, styles.length );

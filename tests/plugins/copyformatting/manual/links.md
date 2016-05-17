@@ -4,13 +4,20 @@
 
 **Procedure**
 
-1. Place cursor inside `th^is` in the first paragraph.
+1. Place cursor inside `he^re`.
 2. Click "Copy Formatting" button.
-3. Select `{here}`.
-4. Repeat the procedure for the second and third paragraph.
+3. Click on `Co^py` to place the formatting.
 
 **Expected:**
 
-* Styles are correctly copied from the "this" word to the "here" word.
-* First and third paragraphs: the link remains undeleted.
-* Second paragraph: a new link is not created.
+Link or any formatting is not being applied.
+
+## TC2
+
+1. Place cursor inside `Co^py`.
+2. Click "Copy Formatting" button.
+3. Click on `he^re` to place the formatting.
+
+**Expected:**
+
+Link should not be removed.

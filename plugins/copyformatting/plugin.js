@@ -6,6 +6,8 @@
 ( function() {
 	'use strict';
 
+	var indexOf = CKEDITOR.tools.indexOf;
+
 	// Detects if the left mouse button was pressed:
 	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
 	// * In IE 8- we use event.button with IE's propertiary values.
@@ -19,6 +21,41 @@
 		return domEvent.button === 0;
 	}
 
+	// Searches for given node in given query. It also checks ancestors of elements in the range.
+	function getNodeAndApplyCmd( range, query, cmd, stopOnFirst ) {
+		var walker = new CKEDITOR.dom.walker( range ),
+			currentNode;
+
+		// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
+		if ( ( currentNode = range.startContainer.getAscendant( query, true ) ||
+			range.endContainer.getAscendant( query, true ) ) ) {
+			cmd( currentNode );
+
+			if ( stopOnFirst ) {
+				return;
+			}
+		}
+
+		while ( currentNode = walker.next() ) {
+			currentNode = currentNode.getAscendant( query, true );
+
+			if ( currentNode ) {
+				cmd( currentNode );
+
+				if ( stopOnFirst ) {
+					return;
+				}
+			}
+		}
+	}
+
+	// Checks if there is style for specified element in the given array.
+	function checkForStyle( element, styles ) {
+		return indexOf( styles, function( style ) {
+			return style.element === element;
+		} ) !== -1;
+	}
+
 	CKEDITOR.plugins.add( 'copyformatting', {
 		lang: 'en',
 		icons: 'copyformatting',
@@ -26,13 +63,10 @@
 
 		onLoad: function() {
 			var doc = CKEDITOR.document,
-				/**
-				 * We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
-				 * `aria-live` which has dirrectly `position: absolute` assigned.
-				 *
-				 * The trick was simply to put position absolute, and all the hiding CSS into a wrapper, while content
-				 * with `aria-live` attribute inside.
-				 */
+				// We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
+				// `aria-live` which has dirrectly `position: absolute` assigned.
+				// The trick was simply to put position absolute, and all the hiding CSS into a wrapper,
+				// while content with `aria-live` attribute inside.
 				notificationTpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
 						'<div aria-live="polite"></div>' +
 					'</div>';
@@ -49,6 +83,71 @@
 				editor.addContentsCss( this.path + 'styles/copyformatting.css' );
 			}
 
+			/**
+			 * Object indicating the current state of Copy Formatting plugin
+			 * in the specified editor.
+			 *
+			 * @mixins CKEDITOR.event
+			 * @member CKEDITOR.editor
+			 */
+			editor.copyFormatting = {
+				/**
+				 * Currently copied styles.
+				 *
+				 * @member CKEDITOR.editor.copyFormatting
+				 * @property {CKEDITOR.style[]/null}
+				 */
+				styles: null,
+
+				/**
+				 * Indicates if the Copy Formatting plugin is in sticky mode.
+				 *
+				 * @member CKEDITOR.editor.copyFormatting
+				 * @property {Boolean}
+				 */
+				sticky: false,
+
+				/**
+				 * Reference to the editor.
+				 *
+				 * @member CKEDITOR.editor.copyFormatting
+				 * @property {CKEDITOR.editor}
+				 */
+				editor: editor,
+
+				/**
+				 * Filter used by current's Copy Formatting instance.
+				 *
+				 * @member CKEDITOR.editor.copyFormatting
+				 * @property {CKEDITOR.filter}
+				 */
+				filter: new CKEDITOR.filter( editor.config.copyFormatting_allowRules ),
+
+				/**
+				 * Checks if given context can be applied.
+				 *
+				 * @param {Number} testedContext Context constant based on `CONTEXT_*` properties in {@link CKEDITOR.plugins.copyformatting}
+				 * namespace.
+				 * @returns {Boolean} `true` if given context can be used in given Copy Formatting instance.
+				 * @private
+				 */
+				_isContextAllowed: function( testedContext ) {
+					var configValue = this.editor.config.copyFormatting_allowedContexts;
+
+					return configValue === true || indexOf( configValue, testedContext ) !== -1;
+				}
+			};
+
+			if ( editor.config.copyFormatting_allowRules === true ) {
+				editor.copyFormatting.filter.disabled = true;
+			}
+
+			CKEDITOR.event.implementOn( editor.copyFormatting );
+
+			if ( editor.config.copyFormatting_disallowRules ) {
+				editor.copyFormatting.filter.disallow( editor.config.copyFormatting_disallowRules );
+			}
+
 			editor.addCommand( 'copyFormatting', plugin.commands.copyFormatting );
 			editor.addCommand( 'applyFormatting', plugin.commands.applyFormatting );
 
@@ -60,7 +159,7 @@
 
 			editor.on( 'contentDom', function() {
 				var editable = editor.editable(),
-					copyFormattingButton =  editor.ui.get( 'CopyFormatting' ),
+					copyFormattingButton = editor.ui.get( 'CopyFormatting' ),
 					copyFormattingButtonEl;
 
 				editable.attachListener( editable, 'mouseup', function( evt ) {
@@ -107,23 +206,165 @@
 					}
 				}
 			} );
+
+			// Fetch the styles from element.
+			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
+				var element = evt.data.element,
+					style,
+					styleClone;
+
+				// Stop at body and html in classic editors or at .cke_editable element in inline ones.
+				if ( element.contains( editor.editable() ) || element.equals( editor.editable() ) ) {
+					return evt.cancel();
+				}
+
+				style = plugin._convertElementToStyleDef( element );
+
+				// Workaround for #13886.
+				styleClone = CKEDITOR.tools.clone( style );
+				if ( styleClone && CKEDITOR.tools.isEmpty( styleClone.styles ) ) {
+					delete styleClone.styles;
+				}
+
+				if ( !editor.copyFormatting.filter.check( new CKEDITOR.style( styleClone ), true, true ) ) {
+					return evt.cancel();
+				}
+
+				evt.data.styleDef = style;
+			} );
+
+			// Remove old styles from element.
+			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
+				if ( evt.data.preventFormatStripping ) {
+					return;
+				}
+
+				var oldStyles = plugin._extractStylesFromRange( editor, evt.data.range ),
+					context = plugin._determineContext( evt.data.range ),
+					oldStyle,
+					i;
+
+				if ( !editor.copyFormatting._isContextAllowed( context ) ) {
+					return;
+				}
+
+				for ( i = 0; i < oldStyles.length; i++ ) {
+					oldStyle = oldStyles[ i ];
+
+					if ( indexOf( plugin.preservedElements, oldStyle.element ) === -1 ) {
+						oldStyles[ i ].remove( evt.editor );
+					} else if ( checkForStyle( oldStyle.element, evt.data.styles ) ) {
+						plugin._removeStylesFromElementInRange( evt.data.range, oldStyle.element );
+					}
+				}
+			} );
+
+			// Apply new styles.
+			editor.copyFormatting.on( 'applyFormatting', function( evt ) {
+				var plugin = CKEDITOR.plugins.copyformatting,
+					context = plugin._determineContext( evt.data.range );
+
+				if ( context === plugin.CONTEXT_LIST && editor.copyFormatting._isContextAllowed( plugin.CONTEXT_LIST ) ) {
+					plugin._applyStylesToListContext( evt.editor, evt.data.range, evt.data.styles );
+				} else if ( context === plugin.CONTEXT_TABLE && editor.copyFormatting._isContextAllowed( plugin.CONTEXT_TABLE ) ) {
+					plugin._applyStylesToTableContext( evt.editor, evt.data.range, evt.data.styles );
+				} else if ( editor.copyFormatting._isContextAllowed( plugin.CONTEXT_TEXT ) ) {
+					plugin._applyStylesToTextContext( evt.editor, evt.data.range, evt.data.styles );
+				}
+			}, null, null, 999 );
 		}
 	} );
 
+	/**
+	 * @singleton
+	 * @class CKEDITOR.plugins.copyformatting
+	 */
 	CKEDITOR.plugins.copyformatting = {
+		/**
+		 * Constant used for inline text formatting context.
+		 *
+		 * @readonly
+		 * @property {Number} [=0]
+		 */
+		CONTEXT_TEXT: 0,
+
+		/**
+		 * Constant used for list formatting context.
+		 *
+		 * @readonly
+		 * @property {Number} [=1]
+		 */
+		CONTEXT_LIST: 1,
+
+		/**
+		 * Constant used for table formatting context.
+		 *
+		 * @readonly
+		 * @property {Number} [=2]
+		 */
+		CONTEXT_TABLE: 2,
+
+		/**
+		 * Array of tag names that should limit inline styles extraction.
+		 *
+		 * @property {Array}
+		 */
+		inlineBoundary: [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ],
+
+		/**
+		 * Array of attributes that should be excluded from extracted styles.
+		 *
+		 * @property {Array}
+		 */
+		excludedAttributes: [ 'id', 'style', 'href', 'data-cke-saved-href' ],
+
+		/**
+		 * Array of elements that will be transformed into inline styles while
+		 * applying formatting to the plain text context.
+		 *
+		 * @property {Array}
+		 */
+		elementsForInlineTransform: [ 'li' ],
+
+		/**
+		 * Array of elements that will be excluded from transformation while
+		 * applying formatting to the plain text context.
+		 *
+		 * @property {Array}
+		 */
+		excludedElementsFromInlineTransform: [ 'table', 'thead', 'tbody', 'ul', 'ol' ],
+
+		/**
+		 * Array of attributes to be excluded while transforming `li` styles
+		 * into `span` styles (e.g. when applying that styles to text context).
+		 *
+		 * @property {Array}
+		 */
+		excludedAttributesFromInlineTransform: [ 'value', 'type' ],
+
+		/**
+		 * Array of elements which should not be deleted when deleting old styles
+		 * from current selection. Instead the styles are stripped of the elements,
+		 * preserving themselves.
+		 *
+		 * @property {Array}
+		 */
+		preservedElements: [ 'ul', 'ol', 'li', 'td', 'th', 'tr', 'thead', 'tbody', 'table' ],
+
 		commands: {
 			copyFormatting: {
 				exec: function( editor, data ) {
 					var	cmd = this,
 						plugin = CKEDITOR.plugins.copyformatting,
+						copyFormatting = editor.copyFormatting,
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
 						isSticky = data ? ( data.sticky || isFromKeystroke ) : false,
 						cursorContainer = plugin._getCursorContainer( editor ),
 						documentElement = CKEDITOR.document.getDocumentElement();
 
 					if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
-						cmd.styles = null;
-						cmd.sticky = false;
+						copyFormatting.styles = null;
+						copyFormatting.sticky = false;
 
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						documentElement.removeClass( 'cke_copyformatting_disabled' );
@@ -134,7 +375,8 @@
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					cmd.styles = plugin._extractStylesFromElement( editor.elementPath().lastElement );
+					copyFormatting.styles = plugin._extractStylesFromElement( editor,
+						editor.elementPath().lastElement );
 
 					cmd.setState( CKEDITOR.TRISTATE_ON );
 
@@ -147,7 +389,7 @@
 						}
 					}
 
-					cmd.sticky = isSticky;
+					copyFormatting.sticky = isSticky;
 
 					plugin._putScreenReaderMessage( editor, 'copied' );
 				}
@@ -158,19 +400,21 @@
 					var cmd = editor.getCommand( 'copyFormatting' ),
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
 						plugin = CKEDITOR.plugins.copyformatting,
+						copyFormatting = editor.copyFormatting,
 						cursorContainer = plugin._getCursorContainer( editor ),
-						documentElement = CKEDITOR.document.getDocumentElement();
+						documentElement = CKEDITOR.document.getDocumentElement(),
+						isApplied;
 
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON ) {
 						return;
-					} else if ( isFromKeystroke && !cmd.styles ) {
+					} else if ( isFromKeystroke && !copyFormatting.styles ) {
 						return plugin._putScreenReaderMessage( editor, 'failed' );
 					}
 
-					plugin._applyFormat( cmd.styles, editor );
+					isApplied = plugin._applyFormat( editor, copyFormatting.styles );
 
-					if ( !cmd.sticky ) {
-						cmd.styles = null;
+					if ( !copyFormatting.sticky ) {
+						copyFormatting.styles = null;
 
 						cursorContainer.removeClass( 'cke_copyformatting_active' );
 						documentElement.removeClass( 'cke_copyformatting_disabled' );
@@ -179,7 +423,7 @@
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
 
-					plugin._putScreenReaderMessage( editor, 'applied' );
+					plugin._putScreenReaderMessage( editor, isApplied ? 'applied' : 'canceled' );
 				}
 			}
 		},
@@ -216,7 +460,7 @@
 			exclude = CKEDITOR.tools.isArray( exclude ) ? exclude : [];
 
 			for ( var i = 0; i < attrDefs.length; i++ ) {
-				if ( CKEDITOR.tools.indexOf( exclude, attrDefs[ i ].name ) === -1 ) {
+				if ( indexOf( exclude, attrDefs[ i ].name ) === -1 ) {
 					attributes[ attrDefs[ i ].name ] = attrDefs[ i ].value;
 				}
 			}
@@ -225,39 +469,37 @@
 		},
 
 		/**
-		 * Converts given element into `{@link CKEDITOR.style}` instance.
+		 * Converts given element into style definition.
 		 *
 		 * @param {CKEDITOR.dom.element} element Element to be converted.
-		 * @returns {CKEDITOR.style} Style created from the element.
+		 * @returns {Object} Style definition created from the element.
 		 * @private
 		 */
-		_convertElementToStyle: function( element ) {
-			var attributes = CKEDITOR.plugins.copyformatting._getAttributes( element, [ 'id', 'style', 'href', 'data-cke-saved-href' ] ),
-				styles = CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( element.getAttribute( 'style' ), true ) ),
-				// From which elements styles shouldn't be copied.
-				elementsToExclude = [ 'p', 'div', 'body', 'html', 'a' ];
+		_convertElementToStyleDef: function( element ) {
+			var tools = CKEDITOR.tools,
+				attributes = CKEDITOR.plugins.copyformatting._getAttributes( element,
+					CKEDITOR.plugins.copyformatting.excludedAttributes ),
+				styles = tools.parseCssText( element.getAttribute( 'style' ), true, true );
 
-			if ( CKEDITOR.tools.indexOf( elementsToExclude, element.getName() ) !== -1 ) {
-				return;
-			}
-
-			return new CKEDITOR.style( {
+			return {
 				element: element.getName(),
 				type: CKEDITOR.STYLE_INLINE,
 				attributes: attributes,
 				styles: styles
-			} );
+			};
 		},
 
 		/**
 		 * Extract styles from given element and its ancestors.
 		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.element} element Element which styles should be extracted.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 */
-		_extractStylesFromElement: function( element ) {
-			var styles = [];
+		_extractStylesFromElement: function( editor, element ) {
+			var eventData = {},
+				styles = [];
 
 			do {
 				// Skip all non-elements and bookmarks.
@@ -265,10 +507,10 @@
 					continue;
 				}
 
-				var style = CKEDITOR.plugins.copyformatting._convertElementToStyle( element );
+				eventData.element = element;
 
-				if ( style ) {
-					styles.push( style );
+				if ( editor.copyFormatting.fire( 'extractFormatting', eventData, editor ) && eventData.styleDef ) {
+					styles.push( new CKEDITOR.style( eventData.styleDef ) );
 				}
 			} while ( ( element = element.getParent() ) && element.type === CKEDITOR.NODE_ELEMENT );
 
@@ -278,21 +520,56 @@
 		/**
 		 * Extract styles from given range.
 		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
 		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
 		 * @private
 		 * @todo Styles in the array returned by this method might be duplicated; it should be cleaned later on.
 		 */
-		_extractStylesFromRange: function( range ) {
+		_extractStylesFromRange: function( editor, range ) {
 			var styles = [],
 				walker = new CKEDITOR.dom.walker( range ),
 				currentNode;
 
 			while ( ( currentNode = walker.next() ) ) {
-				styles = styles.concat( CKEDITOR.plugins.copyformatting._extractStylesFromElement( currentNode ) );
+				styles = styles.concat(
+					CKEDITOR.plugins.copyformatting._extractStylesFromElement( editor, currentNode ) );
 			}
 
 			return styles;
+		},
+
+		/**
+		 * Removes all styles from the element in given range without
+		 * removing the element itself.
+		 *
+		 * @param {CKEDITOR.dom.range} range Range in which the element
+		 * should be found
+		 * @param {String} element Element's tag name.
+		 * @private
+		 */
+		_removeStylesFromElementInRange: function( range, element ) {
+			var removeAllAttributes = function( elem ) {
+					elem.removeAttributes( CKEDITOR.plugins.copyformatting._getAttributes( elem ) );
+				},
+				walker = new CKEDITOR.dom.walker( range ),
+				currentNode;
+
+			if ( currentNode = range.startContainer.getAscendant( element, true ) ) {
+				removeAllAttributes( currentNode );
+			}
+
+			if ( currentNode = range.endContainer.getAscendant( element, true ) ) {
+				removeAllAttributes( currentNode );
+			}
+
+			while ( ( currentNode = walker.next() ) ) {
+				currentNode = currentNode.getAscendant( element, true );
+
+				if ( currentNode ) {
+					removeAllAttributes( currentNode );
+				}
+			}
 		},
 
 		/**
@@ -328,7 +605,7 @@
 				var html;
 
 				// If the node is element, get its HTML and strip all tags and bookmarks
-				// and then search for  word boundaries. In node.getText tags are
+				// and then search for word boundaries. In node.getText tags are
 				// replaced by spaces, which breaks getting the right offset.
 				if ( node.type == CKEDITOR.NODE_ELEMENT ) {
 					html = node.getHtml().replace( /<span.*?>&nbsp;<\/span>/g, '' );
@@ -342,17 +619,23 @@
 			function getSiblingNodeOffset( startNode, isPrev ) {
 				var currentNode = startNode,
 					regex = /\s/g,
-					boundaryElements = [ 'p', 'li', 'div', 'body' ],
+					boundaryElements = [ 'p', 'br', 'li', 'td', 'div', 'caption', 'body' ],
 					isBoundary = false,
 					sibling, contents, match, offset;
 
 				do {
 					sibling = getSibling( currentNode, isPrev );
 
+					// Check if the fetched element is not a boundary.
+					if ( sibling && sibling.getName && indexOf( boundaryElements, sibling.getName() ) !== -1 ) {
+						isBoundary = true;
+						break;
+					}
+
 					// If there is no sibling, text is probably inside element, so get it
 					// and then fetch its sibling.
 					while ( !sibling && currentNode.getParent() ) {
-						if ( CKEDITOR.tools.indexOf( boundaryElements, currentNode.getParent().getName() ) !== -1 ) {
+						if ( indexOf( boundaryElements, currentNode.getParent().getName() ) !== -1 ) {
 							isBoundary = true;
 							break;
 						}
@@ -459,22 +742,208 @@
 		},
 
 		/**
-		 * Apply given styles to currently selected content in the editor.
+		 * Filter styles before applying.
 		 *
-		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
-		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {CKEDITOR.styles[]} styles Array of styles to be filtered.
+		 * @return {CKEDITOR.styles[]} Filtered styles.
 		 * @private
 		 */
-		_applyFormat: function( newStyles, editor ) {
-			var range = editor.getSelection().getRanges()[ 0 ],
-				plugin = CKEDITOR.plugins.copyformatting,
-				oldStyles,
-				bkms,
-				word,
+		_filterStyles: function( styles ) {
+			var isEmpty = CKEDITOR.tools.isEmpty,
+				filteredStyles = [],
+				styleDef,
 				i;
 
+			for ( i = 0; i < styles.length; i++ ) {
+				styleDef = styles[ i ]._.definition;
+
+				// Change element's name to span in case of inline boundary elements.
+				if ( CKEDITOR.tools.indexOf( CKEDITOR.plugins.copyformatting.inlineBoundary,
+					styleDef.element ) !== -1 ) {
+					styleDef.element = styles[ i ].element = 'span';
+				}
+
+				// We don't want to pick empty spans.
+				if ( styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
+					continue;
+				}
+
+				filteredStyles.push( styles[ i ] );
+			}
+
+			return filteredStyles;
+		},
+
+		/**
+		 * Determines context of the given selection. It returns a number based on `CONTEXT_*` constants:
+		 * * {@link #CONTEXT_TEXT} for text
+		 * * {@link #CONTEXT_LIST} for lists
+		 * * {@link #CONTEXT_TABLE} for tables
+		 *
+		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
+		 * @returns {Number}
+		 * @private
+		 */
+		_determineContext: function( range ) {
+			function detect( query ) {
+				var walker = new CKEDITOR.dom.walker( range ),
+					currentNode;
+
+				// Walker sometimes does not include all nodes (e.g. if the range is in the middle of text node).
+				if ( range.startContainer.getAscendant( query, true ) || range.endContainer.getAscendant( query, true ) ) {
+					return true;
+				}
+
+				while ( ( currentNode = walker.next() ) ) {
+					if ( currentNode.getAscendant( query, true ) ) {
+						return true;
+					}
+				}
+			}
+
+			if ( detect( { ul: 1, ol: 1 } ) ) {
+				return this.CONTEXT_LIST;
+			} else if ( detect( 'table' ) ) {
+				return this.CONTEXT_TABLE;
+			} else {
+				return this.CONTEXT_TEXT;
+			}
+		},
+
+		/**
+		 * Apply styles inside plain text context.
+		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
+		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
+		 * @param {CKEDITOR.style[]} styles Styles to be applied.
+		 * @private
+		 */
+		_applyStylesToTextContext: function( editor, range, styles ) {
+			var plugin = CKEDITOR.plugins.copyformatting,
+				attrsToExclude = plugin.excludedAttributesFromInlineTransform,
+				style,
+				i,
+				j;
+
+			for ( i = 0; i < styles.length; i++ ) {
+				style = styles[ i ];
+
+				if ( indexOf( plugin.excludedElementsFromInlineTransform, style.element ) !== -1 ) {
+					continue;
+				}
+
+				if ( indexOf( plugin.elementsForInlineTransform, style.element ) !== -1 ) {
+					style.element = style._.definition.element = 'span';
+
+					for ( j = 0; j < attrsToExclude.length; j++ ) {
+						if ( style._.definition.attributes[ attrsToExclude[ j ] ] ) {
+							delete style._.definition.attributes[ attrsToExclude[ j ] ];
+						}
+					}
+				}
+
+				style.apply( editor );
+			}
+		},
+
+		/**
+		 * Apply list's style inside list context.
+		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
+		 * @param {CKEDITOR.dom.range} range The range in which styles should be applied.
+		 * @param {CKEDITOR.style[]} styles Style to be applied.
+		 * @private
+		 */
+		_applyStylesToListContext: function( editor, range, styles ) {
+			var style,
+				i;
+
+			function applyToList( list, style ) {
+				if ( list.getName() !== style.element ) {
+					list.renameNode( style.element );
+				}
+
+				style.applyToObject( list );
+			}
+
+			for ( i = 0; i < styles.length; i++ ) {
+				style = styles[ i ];
+
+				if ( style.element === 'ol' || style.element === 'ul' ) {
+					getNodeAndApplyCmd( range, { ul: 1, ol: 1 }, function( currentNode ) {
+						applyToList( currentNode, style );
+					}, true );
+				} else if ( style.element === 'li' ) {
+					getNodeAndApplyCmd( range, 'li', function( currentNode ) {
+						style.applyToObject( currentNode );
+					} );
+				} else {
+					CKEDITOR.plugins.copyformatting._applyStylesToTextContext( editor, range, [ style ] );
+				}
+			}
+		},
+
+		/**
+		 * Apply table's style inside table context.
+		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
+		 * @param {CKEDITOR.dom.range} range The range in which styles should be applied.
+		 * @param {CKEDITOR.style[]} styles Style to be applied.
+		 * @private
+		 */
+		_applyStylesToTableContext: function( editor, range, styles ) {
+			var style,
+				i;
+
+			function applyToTableCell( cell, style ) {
+				if ( cell.getName() !== style.element ) {
+					style = style.getDefinition();
+					style.element = cell.getName();
+					style = new CKEDITOR.style( style );
+				}
+
+				style.applyToObject( cell );
+			}
+
+			for ( i = 0; i < styles.length; i++ ) {
+				style = styles[ i ];
+
+				if ( indexOf( [ 'table', 'tr' ], style.element ) !== -1 ) {
+					getNodeAndApplyCmd( range, style.element, function( currentNode ) {
+						style.applyToObject( currentNode );
+					} );
+				} else if ( indexOf( [ 'td', 'th' ], style.element ) !== -1 ) {
+					getNodeAndApplyCmd( range, { td: 1, th: 1 }, function( currentNode ) {
+						applyToTableCell( currentNode, style );
+					} );
+				} else if ( indexOf( [ 'thead', 'tbody' ], style.element ) !== -1 ) {
+					getNodeAndApplyCmd( range, { thead: 1, tbody: 1 }, function( currentNode ) {
+						applyToTableCell( currentNode, style );
+					} );
+				} else {
+					CKEDITOR.plugins.copyformatting._applyStylesToTextContext( editor, range, [ style ] );
+				}
+			}
+		},
+
+
+		/**
+		 * Apply given styles to currently selected content in the editor.
+		 *
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
+		 * @returns {Boolean} `false` if styles could not be applied, `true` otherwise.
+		 * @private
+		 */
+		_applyFormat: function( editor, newStyles ) {
+			var range = editor.getSelection().getRanges()[ 0 ],
+				plugin = CKEDITOR.plugins.copyformatting,
+				word,
+				bkms,
+				applyEvtData;
+
 			if ( !range ) {
-				return;
+				return false;
 			}
 
 			if ( range.collapsed ) {
@@ -491,22 +960,20 @@
 				range.setEnd( word.endNode, word.endOffset );
 				range.select();
 			}
+			newStyles = plugin._filterStyles( newStyles );
 
-			// Before applying new styles, remove all existing styles.
-			oldStyles = plugin._extractStylesFromRange( range );
-
-			for ( i = 0; i < oldStyles.length; i++ ) {
-				oldStyles[ i ].remove( editor );
-			}
+			applyEvtData = { styles: newStyles, range: range, preventFormatStripping: false };
 
 			// Now apply new styles.
-			for ( i = 0; i < newStyles.length; i++ ) {
-				newStyles[ i ].apply( editor );
+			if ( !editor.copyFormatting.fire( 'applyFormatting', applyEvtData, editor ) ) {
+				return false;
 			}
 
 			if ( bkms ) {
 				editor.getSelection().selectBookmarks( bkms );
 			}
+
+			return true;
 		},
 
 		/**
@@ -533,4 +1000,101 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.copyFormatting_outerCursor = true;
+
+	/**
+	 * Defines rules for the elements from which styles should be fetched. If set to `true` will entirely disable
+	 * skip filtering.
+	 *
+	 * This property is using ACF syntax, you can learn more about it in
+	 * [Content Filtering Guide](http://docs.ckeditor.com/#!/guide/dev_acf).
+	 *
+	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allow only spans
+	 *		config.copyFormatting_allowRules = true; // Disables filtering
+	 *
+	 * @cfg [copyFormatting_allowRules='b; s; u; strong; span; p; div; table; thead; tbody; ' +
+	 *	'tr; td; th; ol; ul; li; (*)[*]{*}']
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_allowRules = 'b s u i em strong span p div table thead tbody ' +
+		'tr td th ol ul li(*)[*]{*}';
+
+	/**
+	 * Defines rules for the elements from which fetching styles is explicitly forbidden (eg. widgets).
+	 *
+	 * This property is using ACF syntax, you can learn more about it in
+	 * [Content Filtering Guide](http://docs.ckeditor.com/#!/guide/dev_acf).
+	 *
+	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallow spans with important class.
+	 *
+	 * @cfg [copyFormatting_disallowRules=]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_disallowRules = '*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)';
+
+	/**
+	 * Defines which contexts should be enabled in Copy Formatting plugin. See `{@link CKEDITOR.plugins.copyformatting}` for
+	 * a list of `CONTEXT_*` constants.
+	 *
+	 *		// If one wants to enable only plain text context.
+	 *		config.copyFormatting_allowedContexts = [ CKEDITOR.plugins.copyformatting.CONTEXT_TEXT ];
+	 *
+	 *		// If set to true, will enable all contexts.
+	 *		config.copyFormatting_allowedContexts = true;
+	 *
+	 * @cfg {Boolean/Number[]} [copyFormatting_allowedContexts=true]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_allowedContexts = true;
+
+	/**
+	 * Fired when the styles are being extracted from the element.
+	 * This event listener job is to extract only needed styles and modify them if needed.
+	 *
+	 *		editor.copyFormatting.on( 'extractFormatting', function( evt ) {
+	 *			evt.data.styleDef.attributes.class = 'important';
+	 *		} );
+	 *
+	 * This event can albo be canceled to indicate that styles from current element should not
+	 * be extracted.
+	 *
+	 *		editor.copyFormatting.on( 'extractFormatting', function( evt ) {
+	 *			if ( evt.data.element === 'div' ) {
+	 *				evt.cancel();
+	 *			}
+	 *		} );
+	 *
+	 * This event has a default listener with a default priority of `10`.
+	 * It extracts all styles from element (from all attributes except `id` and from
+	 * element's name) and put them as an object into `evt.data.styleDef`.
+	 *
+	 * @event extractFormatting
+	 * @member CKEDITOR.editor.copyFormatting
+	 * @param {Object} data
+	 * @param {CKEDITOR.dom.element} data.element The element which styles should be fetched.
+	 * @param {Object} data.styleDef Style's definition extracted from the element.
+	 */
+
+	/**
+	 * Fired when the copied styles are applied to the current selection position.
+	 * This event listener job is to apply new styles.
+	 *
+	 *		editor.copyFormatting.on( 'applyFormatting', function( evt ) {
+	 *			for ( var i = 0; i < evt.data.styles.length; i++ ) {
+	 *				evt.data.styles[ i ].apply( evt.editor );
+	 *			}
+	 *		}, null, null, 999 );
+	 *
+	 * By default this event has two listeners: the first one with default priority of `10`
+	 * and the second with the priority of `999`.
+	 * The first one removes all preexisting styles from Copy Formatting destination.
+	 * The second one applies all new styles to the current selection.
+	 *
+	 * @event applyFormatting
+	 * @member CKEDITOR.editor.copyFormatting
+	 * @param {Object} data
+	 * @param {CKEDITOR.dom.range} range Range from the current selection where styling should be applied.
+	 * @param {CKEDITOR.style[]} styles Styles to be applied.
+	 * @param {Boolean} [data.preventFormatStripping=false] If set to true, will prevent stripping styles from
+	 * Copy Formatting destination range.
+	 */
 } )();
