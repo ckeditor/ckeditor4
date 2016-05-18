@@ -257,22 +257,22 @@
 					return;
 				}
 
-				// The bookmark is used to prevent the weird behavior of lists (e.g. not converting list type
-				// while applying styles from bullet list to the numbered one). Restoring the selection to its
-				// initial state after every change seems to do the trick.
-				bkm = range.createBookmark();
-
 				for ( i = 0; i < oldStyles.length; i++ ) {
 					oldStyle = oldStyles[ i ];
+
+					// The bookmark is used to prevent the weird behavior of lists (e.g. not converting list type
+					// while applying styles from bullet list to the numbered one). Restoring the selection to its
+					// initial state after every change seems to do the trick.
+					bkm = range.createBookmark();
 
 					if ( indexOf( plugin.preservedElements, oldStyle.element ) === -1 ) {
 						oldStyles[ i ].remove( evt.editor );
 					} else if ( checkForStyle( oldStyle.element, evt.data.styles ) ) {
 						plugin._removeStylesFromElementInRange( range, oldStyle.element );
 					}
-				}
 
-				range.moveToBookmark( bkm );
+					range.moveToBookmark( bkm );
+				}
 			} );
 
 			// Apply new styles.
