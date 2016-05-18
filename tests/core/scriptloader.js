@@ -40,7 +40,7 @@ var tests = {
 	},
 
 	'test error event handling': function() {
-		if ( CKEDITOR.env.ie8Compat ) {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 			assert.ignore();
 		}
 
