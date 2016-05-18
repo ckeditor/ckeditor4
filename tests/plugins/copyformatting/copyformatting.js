@@ -141,6 +141,30 @@
 				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
+		'test aplying styles to mixed list context': function( editor ) {
+			var inputContent = CKEDITOR.document.findOne( '#list_remove_source .input' ).getHtml(),
+				expectedContent = CKEDITOR.document.findOne( '#list_remove_source .expected' ).getHtml();
+
+			bender.tools.selection.setWithHtml( editor, inputContent );
+
+			editor.execCommand( 'copyFormatting' );
+
+			// Move the selection to the end of <p> and inside <li>.
+			var rng = editor.createRange(),
+				parTextNode = editor.editable().findOne( 'p' ).getFirst(),
+				listTextNode = editor.editable().findOne( 'li' ).getFirst();
+
+			rng.setStart( parTextNode, 59 );
+			rng.setEnd( listTextNode, 2 );
+			editor.getSelection().selectRanges( [ rng ] );
+
+			editor.execCommand( 'applyFormatting' );
+
+			assert.areSame( bender.tools.fixHtml( expectedContent ),
+				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+		},
+
+
 		'test preserving inline styles of nested lists': function( editor ) {
 			var inputContent = CKEDITOR.document.findOne( '#nested_lists_styles .input' ).getHtml(),
 				expectedContent = CKEDITOR.document.findOne( '#nested_lists_styles .expected' ).getHtml();
