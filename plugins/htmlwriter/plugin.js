@@ -289,6 +289,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass( {
 			this._.indentation = '';
 			this._.afterCloser = 0;
 			this._.inPre = 0;
+			this._.needsSpace = 0;
 		},
 
 		/**
