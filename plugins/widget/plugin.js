@@ -641,8 +641,8 @@
 				// If attribute isn't already set (e.g. for pasted widget), set it.
 				if ( !element.hasAttribute( 'data-cke-widget-keep-attr' ) )
 					element.data( 'cke-widget-keep-attr', element.data( 'widget' ) ? 1 : 0 );
-				if ( widgetName )
-					element.data( 'widget', widgetName );
+
+				element.data( 'widget', widgetName );
 
 				isInline = isWidgetInline( widgetDef, element.getName() );
 
