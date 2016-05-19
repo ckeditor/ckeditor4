@@ -616,29 +616,33 @@
 			function getSiblingNodeOffset( startNode, isPrev ) {
 				var currentNode = startNode,
 					regex = /\s/g,
-					boundaryElements = [ 'p', 'br', 'li', 'td', 'div', 'caption', 'body' ],
+					boundaryElements = [ 'p', 'br', 'ol', 'ul', 'li', 'td', 'div', 'caption', 'body' ],
 					isBoundary = false,
+					isParent = false,
 					sibling, contents, match, offset;
 
 				do {
 					sibling = getSibling( currentNode, isPrev );
 
+					// If there is no sibling, text is probably inside element, so get it
+					// and then fetch its sibling.
+					while ( !sibling && currentNode.getParent() ) {
+						currentNode = currentNode.getParent();
+
+						// Check if the parent is a boundary.
+						if ( indexOf( boundaryElements, currentNode.getName() ) !== -1 ) {
+							isBoundary = true;
+							isParent = true;
+							break;
+						}
+
+						sibling = getSibling( currentNode, isPrev );
+					}
+
 					// Check if the fetched element is not a boundary.
 					if ( sibling && sibling.getName && indexOf( boundaryElements, sibling.getName() ) !== -1 ) {
 						isBoundary = true;
 						break;
-					}
-
-					// If there is no sibling, text is probably inside element, so get it
-					// and then fetch its sibling.
-					while ( !sibling && currentNode.getParent() ) {
-						if ( indexOf( boundaryElements, currentNode.getParent().getName() ) !== -1 ) {
-							isBoundary = true;
-							break;
-						}
-
-						currentNode = currentNode.getParent();
-						sibling = getSibling( currentNode, isPrev );
 					}
 
 					currentNode = sibling;
@@ -650,8 +654,14 @@
 				}
 
 				// If the node is an element, get its text child.
+				// In case of searching for the next node and reaching boundary (which is not parent),
+				// we must get the *last* text child.
 				while ( currentNode.type !== CKEDITOR.NODE_TEXT ) {
-					currentNode = currentNode.getChild( 0 );
+					if ( isBoundary && !isPrev && !isParent ) {
+						currentNode = currentNode.getChild( currentNode.getChildCount() - 1 );
+					} else {
+						currentNode = currentNode.getChild( 0 );
+					}
 				}
 
 				contents = getNodeContents( currentNode );
