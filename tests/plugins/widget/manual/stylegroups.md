@@ -1,6 +1,6 @@
 @bender-tags: widget, tc, 4.6.0, 13818
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, stylescombo, image2
+@bender-ckeditor-plugins: wysiwygarea, toolbar, stylescombo, image2, sourcearea
 
 ### Test widget style groups
 Styles from the same group cannot be applied together. Each style can belong to couple different groups.
