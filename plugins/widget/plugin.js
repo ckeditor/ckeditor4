@@ -3541,7 +3541,7 @@
 			},
 
 			/**
-			 * Removes all styles that belongs to the same group as this style. This method will neither add nor remove
+			 * Removes all styles that belong to the same group as this style. This method will neither add nor remove
 			 * current style.
 			 * Returns true if any style was removed, otherwise returns false.
 			 *
@@ -3565,7 +3565,7 @@
 					for ( var i = 0, l = this.group.length; i < l; i++ ) {
 						stylesFromSameGroup = styleGroups[ this.widget ][ this.group[ i ] ];
 						// Iterate over each style from group.
-						for ( var j = 0, k = stylesFromSameGroup.length; j < k; j++ ) {
+						for ( var j = 0; j < stylesFromSameGroup.length; j++ ) {
 							if ( stylesFromSameGroup[ j ] !== this && stylesFromSameGroup[ j ].checkActive( path, editor ) ) {
 								editor.widgets.focused.removeStyle( stylesFromSameGroup[ j ] );
 								removed = true;
