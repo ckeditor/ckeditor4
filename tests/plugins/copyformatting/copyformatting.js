@@ -141,6 +141,27 @@
 				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
+		'test preserving inline styles of nested lists': function( editor ) {
+			var inputContent = CKEDITOR.document.findOne( '#nested_lists_styles .input' ).getHtml(),
+				expectedContent = CKEDITOR.document.findOne( '#nested_lists_styles .expected' ).getHtml();
+
+			bender.tools.selection.setWithHtml( editor, inputContent );
+
+			editor.execCommand( 'copyFormatting' );
+
+			// Move the selection to <span> inside 1. list.
+			var rng = editor.createRange(),
+				listTextNode = editor.editable().findOne( 'span' ).getFirst();
+
+			rng.setStart( listTextNode, 1 );
+			rng.setEnd( listTextNode, 1 );
+			editor.getSelection().selectRanges( [ rng ] );
+
+			editor.execCommand( 'applyFormatting' );
+
+			assert.areSame( bender.tools.fixHtml( expectedContent ),
+				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+		},
 
 		'test removing formatting on collapsed selection': function( editor ) {
 			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], stylesToRemove, {

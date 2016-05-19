@@ -84,6 +84,10 @@
 		'test getSelectedWordOffset (with <br>)': function() {
 			testGettingWordOffset( this.editor, '<p>Get<br>th{}is word</p>', 'this' );
 			testGettingWordOffset( this.editor, '<p>Ge th{}is<br>word</p>', 'this' );
+		},
+
+		'test getSelectedWordOffset (nested lists)': function() {
+			testGettingWordOffset( this.editor, '<ol><li><span style="text-decoration: underline;">Te{}st</span><ol><li><b>dog</b></li></ol>', 'Test' );
 		}
 	} );
 }() );
