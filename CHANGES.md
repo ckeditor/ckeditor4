@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 New Features:
 
+* [#13829](http://dev.ckeditor.com/ticket/13829): Fixed: No class in [Widget](http://ckeditor.com/addon/widget) wrapper that would identify the widget type.
 * [#14449](http://dev.ckeditor.com/ticket/14449): Introduced the [Balloon Panel](http://ckeditor.com/addon/balloonpanel) plugin.
 * [#12077](https://dev.ckeditor.com/ticket/12077): Added support for the HTML5 `download` attribute in link (`<a>`) elements. Thanks to [sbusse](https://github.com/sbusse)!
 * [#13518](http://dev.ckeditor.com/ticket/13518): Introduced [`additionalRequestParameters`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property.
