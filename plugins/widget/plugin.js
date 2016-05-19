@@ -627,7 +627,9 @@
 				isInline;
 
 			if ( element instanceof CKEDITOR.dom.element ) {
-				widgetDef = this.registered[ widgetName || element.data( 'widget' ) ];
+				widgetName = widgetName || element.data( 'widget' );
+				widgetDef = this.registered[ widgetName ];
+
 				if ( !widgetDef )
 					return null;
 
@@ -639,13 +641,13 @@
 				// If attribute isn't already set (e.g. for pasted widget), set it.
 				if ( !element.hasAttribute( 'data-cke-widget-keep-attr' ) )
 					element.data( 'cke-widget-keep-attr', element.data( 'widget' ) ? 1 : 0 );
-				if ( widgetName )
-					element.data( 'widget', widgetName );
+
+				element.data( 'widget', widgetName );
 
 				isInline = isWidgetInline( widgetDef, element.getName() );
 
 				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
-				wrapper.setAttributes( getWrapperAttributes( isInline ) );
+				wrapper.setAttributes( getWrapperAttributes( isInline, widgetName ) );
 
 				wrapper.data( 'cke-display-name', widgetDef.pathName ? widgetDef.pathName : element.getName() );
 
@@ -655,7 +657,9 @@
 				element.appendTo( wrapper );
 			}
 			else if ( element instanceof CKEDITOR.htmlParser.element ) {
-				widgetDef = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
+				widgetName = widgetName || element.attributes[ 'data-widget' ];
+				widgetDef = this.registered[ widgetName ];
+
 				if ( !widgetDef )
 					return null;
 
@@ -671,8 +675,7 @@
 
 				isInline = isWidgetInline( widgetDef, element.name );
 
-				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline ) );
-
+				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline, widgetName ) );
 				wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName ? widgetDef.pathName : element.name;
 
 				var parent = element.parent,
@@ -2199,7 +2202,7 @@
 		return false;
 	}
 
-	function getWrapperAttributes( inlineWidget ) {
+	function getWrapperAttributes( inlineWidget, name ) {
 		return {
 			// tabindex="-1" means that it can receive focus by code.
 			tabindex: -1,
@@ -2208,7 +2211,8 @@
 			'data-cke-filter': 'off',
 			// Class cke_widget_new marks widgets which haven't been initialized yet.
 			'class': 'cke_widget_wrapper cke_widget_new cke_widget_' +
-				( inlineWidget ? 'inline' : 'block' )
+				( inlineWidget ? 'inline' : 'block' ) +
+				( name ? ' cke_widget_' + name : '' )
 		};
 	}
 
