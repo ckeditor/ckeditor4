@@ -209,6 +209,34 @@
 				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
+		'test changing list type (nested lists)': function( editor ) {
+			var inputContent = CKEDITOR.document.findOne( '#list_type_nested .input' ).getHtml(),
+				expectedContent = CKEDITOR.document.findOne( '#list_type_nested .expected' ).getHtml();
+
+			bender.tools.selection.setWithHtml( editor, inputContent );
+
+			editor.execCommand( 'copyFormatting' );
+
+			// Move the selection to the whole list.
+			var rng = editor.createRange(),
+				listTextNode = editor.editable().findOne( 'li' ).getFirst(),
+				nestedListTextNode = editor.editable().findOne( '[start="7"] li' ).getFirst();
+
+			rng.setStart( listTextNode, 1 );
+			rng.setEnd( nestedListTextNode, 1 );
+			editor.getSelection().selectRanges( [ rng ] );
+
+			editor.execCommand( 'applyFormatting' );
+
+			// Old IEs are using element's selection, not text selection.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+				expectedContent = expectedContent.replace( '{', '[' ).replace( '}', ']' );
+			}
+
+			assert.areSame( bender.tools.fixHtml( expectedContent ),
+				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+		},
+
 		'test removing formatting on collapsed selection': function( editor ) {
 			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], stylesToRemove, {
 				elementName: 'b',

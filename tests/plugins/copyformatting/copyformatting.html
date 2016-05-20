@@ -98,3 +98,35 @@
 		</ol>
 	</div>
 </div>
+
+<div id="list_type_nested">
+	<div class="input">
+		<ol dir="ltr" start="5" style="list-style-type: upper-alpha;">
+			<li>Start Value 5 &amp; Upper Alpha
+			<ol start="3" style="list-style-type: upper-roman;">
+				<li>Start Value 3 &amp; Upper Roman
+				<ol start="7" style="list-style-type: lower-alpha;">
+					<li>Start Value 7 &amp; low[]er Alpha<br></li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+			<li>Top list again</li>
+		</ol>
+	</div>
+
+	<div class="expected">
+		<ol start="7" style="list-style-type: lower-alpha;">
+			<li>S{tart Value 5 &amp; Upper Alpha
+			<ol start="3" style="list-style-type: upper-roman;">
+				<li>Start Value 3 &amp; Upper Roman
+				<ol start="7" style="list-style-type: lower-alpha;">
+					<li>S}tart Value 7 &amp; lower Alpha<br></li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+			<li>Top list again</li>
+		</ol>
+	</div>
+</div>
