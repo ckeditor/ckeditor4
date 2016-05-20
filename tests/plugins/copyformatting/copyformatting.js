@@ -163,6 +163,28 @@
 				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
+		'test removing inline styles while changing list type': function( editor ) {
+			var inputContent = CKEDITOR.document.findOne( '#list_type_styles .input' ).getHtml(),
+				expectedContent = CKEDITOR.document.findOne( '#list_type_styles .expected' ).getHtml();
+
+			bender.tools.selection.setWithHtml( editor, inputContent );
+
+			editor.execCommand( 'copyFormatting' );
+
+			// Move the selection to <li> inside <ul>.
+			var rng = editor.createRange(),
+				listTextNode = editor.editable().findOne( 'ul li' ).getFirst();
+
+			rng.setStart( listTextNode, 1 );
+			rng.setEnd( listTextNode, 1 );
+			editor.getSelection().selectRanges( [ rng ] );
+
+			editor.execCommand( 'applyFormatting' );
+
+			assert.areSame( bender.tools.fixHtml( expectedContent ),
+				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+		},
+
 		'test removing formatting on collapsed selection': function( editor ) {
 			testCopyFormattingFlow( editor, '<p>Copy t{}hat format to <b>this element</b></p>', [], stylesToRemove, {
 				elementName: 'b',
