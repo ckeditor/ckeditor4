@@ -51,8 +51,13 @@
 
 	// Checks if there is style for specified element in the given array.
 	function checkForStyle( element, styles ) {
+		var stylesAlternatives = {
+			ul: 'ol',
+			ol: 'ul'
+		};
+
 		return indexOf( styles, function( style ) {
-			return style.element === element;
+			return style.element === element || style.element === stylesAlternatives[ element ];
 		} ) !== -1;
 	}
 
