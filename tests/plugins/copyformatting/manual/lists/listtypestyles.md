@@ -10,7 +10,7 @@
 
 * Inline styles are applied correctly.
 * List's type changed.
-* List's styles are removed.
+* List's styles (custom marker) are removed.
 
 ### Unexpected
 
