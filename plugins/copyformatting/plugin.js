@@ -51,6 +51,7 @@
 
 	// Checks if there is style for specified element in the given array.
 	function checkForStyle( element, styles ) {
+		// Some elements are treated interchangeably, e.g. lists.
 		var stylesAlternatives = {
 			ul: 'ol',
 			ol: 'ul'
