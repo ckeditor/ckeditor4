@@ -168,9 +168,7 @@
 					copyFormattingButton = editor.ui.get( 'CopyFormatting' ),
 					copyFormattingButtonEl;
 
-				editable.attachListener( editable, 'mouseup', function( evt ) {
-					var editor = evt.editor || evt.sender.editor;
-
+				editable.attachListener( editor.document, 'mouseup', function( evt ) {
 					if ( detectLeftMouseButton( evt ) ) {
 						editor.execCommand( 'applyFormatting' );
 					}
