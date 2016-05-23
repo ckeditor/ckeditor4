@@ -553,17 +553,13 @@
 		 * @private
 		 */
 		_removeStylesFromElementInRange: function( range, element ) {
-			var stopOnFirst = false,
-				removeAllAttributes = function( elem ) {
+			var removeAllAttributes = function( elem ) {
 					elem.removeAttributes( CKEDITOR.plugins.copyformatting._getAttributes( elem ) );
 				},
+				// In case of lists, we want to remove styling only from the outer list.
+				stopOnFirst = element === 'ol' || element === 'ul',
 				walker = new CKEDITOR.dom.walker( range ),
 				currentNode;
-
-			// In case of lists, we want to remove styling only from the outer list.
-			if ( element === 'ol' || element === 'ul' ) {
-				stopOnFirst = true;
-			}
 
 			if ( currentNode = range.startContainer.getAscendant( element, true ) ) {
 				removeAllAttributes( currentNode );
