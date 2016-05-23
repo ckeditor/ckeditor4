@@ -981,6 +981,23 @@
 		},
 
 		/**
+		 * Normalizes hexadecimal notation so that color string is always 6 characters long.
+		 *
+		 * @param {String} styleText The style data (or just a string containing HEX colors) to be converted.
+		 * @returns {String} The style data with HEX colors normalized.
+         */
+		normalizeHex: function( styleText ) {
+			return styleText.replace( /#([0-9a-f]{3})($|;|\s+)/gi, function( match, hexColor, separator ) {
+				var normalizedHexColor = hexColor;
+				if ( hexColor.length == 3 ) {
+					var parts = hexColor.split( '' );
+					normalizedHexColor =  [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
+				}
+				return '#' + normalizedHexColor + separator;
+			} );
+		},
+
+		/**
 		 * Turns inline style text properties into one hash.
 		 *
 		 * @param {String} styleText The style data to be parsed.
@@ -996,8 +1013,12 @@
 				// Injects the style in a temporary span object, so the browser parses it,
 				// retrieving its final format.
 				var temp = new CKEDITOR.dom.element( 'span' );
-				temp.setAttribute( 'style', styleText );
-				styleText = CKEDITOR.tools.convertRgbToHex( temp.getAttribute( 'style' ) || '' );
+				styleText = temp.setAttribute( 'style', styleText ).getAttribute( 'style' ) || '';
+			}
+
+			// Normalize colors.
+			if ( styleText ) {
+				styleText = CKEDITOR.tools.normalizeHex( CKEDITOR.tools.convertRgbToHex( styleText ) );
 			}
 
 			// IE will leave a single semicolon when failed to parse the style text. (#3891)
