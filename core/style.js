@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -1798,7 +1798,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		if ( typeof source == 'string' )
 			source = CKEDITOR.tools.parseCssText( source );
 		if ( typeof target == 'string' )
-			target = CKEDITOR.tools.parseCssText( target, true );
+			target = CKEDITOR.tools.parseCssText( target, true, true );
 
 		for ( var name in source ) {
 			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) )
