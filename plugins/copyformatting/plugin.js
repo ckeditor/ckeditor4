@@ -557,7 +557,7 @@
 					elem.removeAttributes( CKEDITOR.plugins.copyformatting._getAttributes( elem ) );
 				},
 				// In case of lists, we want to remove styling only from the outer list.
-				stopOnFirst = element === 'ol' || element === 'ul',
+				stopOnFirst = indexOf( [ 'ol', 'ul', 'table' ], element ) !== -1,
 				walker = new CKEDITOR.dom.walker( range ),
 				currentNode;
 
