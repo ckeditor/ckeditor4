@@ -168,7 +168,8 @@
 					copyFormattingButton = editor.ui.get( 'CopyFormatting' ),
 					copyFormattingButtonEl;
 
-				editable.attachListener( editor.document, 'mouseup', function( evt ) {
+				editable.attachListener( editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editable : editor.document,
+					'mouseup', function( evt ) {
 					if ( detectLeftMouseButton( evt ) ) {
 						editor.execCommand( 'applyFormatting' );
 					}
