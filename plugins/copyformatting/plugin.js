@@ -561,22 +561,6 @@
 				walker = new CKEDITOR.dom.walker( range ),
 				currentNode;
 
-			if ( currentNode = range.startContainer.getAscendant( element, true ) ) {
-				removeAllAttributes( currentNode );
-
-				if ( stopOnFirst ) {
-					return;
-				}
-			}
-
-			if ( currentNode = range.endContainer.getAscendant( element, true ) ) {
-				removeAllAttributes( currentNode );
-
-				if ( stopOnFirst ) {
-					return;
-				}
-			}
-
 			while ( ( currentNode = walker.next() ) ) {
 				currentNode = currentNode.getAscendant( element, true );
 
