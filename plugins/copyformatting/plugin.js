@@ -165,11 +165,13 @@
 
 			editor.on( 'contentDom', function() {
 				var editable = editor.editable(),
+					// Host element for apply formatting clock. In case of classic element it needs to be entire
+					// document, otherwise clicking in body margins would not trigger the event (#168).
+					mouseupHost = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editable : editor.document,
 					copyFormattingButton = editor.ui.get( 'CopyFormatting' ),
 					copyFormattingButtonEl;
 
-				editable.attachListener( editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editable : editor.document,
-					'mouseup', function( evt ) {
+				editable.attachListener( mouseupHost, 'mouseup', function( evt ) {
 					if ( detectLeftMouseButton( evt ) ) {
 						editor.execCommand( 'applyFormatting' );
 					}
