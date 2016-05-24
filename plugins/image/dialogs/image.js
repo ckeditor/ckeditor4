@@ -964,7 +964,7 @@
 								style: 'width:95%;',
 								html: '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.common.preview ) + '<br>' +
 									'<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>' +
-									'<div class="ImagePreviewBox"><table><tr><td>' +
+									'<div class="ImagePreviewBox"><table><tr><td style="text-align:left;direction:ltr">' +
 										'<a href="javascript:void(0)" target="_blank" onclick="return false;" id="' + previewLinkId + '">' +
 										'<img id="' + previewImageId + '" alt="" /></a>' +
 									// jscs:disable maximumLineLength
