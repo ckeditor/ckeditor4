@@ -347,6 +347,23 @@
 			assert.areSame( 'color:#010203; border-color:#ffff00;', c( 'color:rgb(1,2,3); border-color:rgb(255,255,0);' ), 'multiple' );
 		},
 
+		// #14252
+		testNormalizeHex: function() {
+			var c = CKEDITOR.tools.normalizeHex;
+
+			assert.areSame( '', c( '' ), 'empty' );
+
+			assert.areSame( '#000000', c( '#000000' ), 'Long hex' );
+			assert.areSame( '#000000', c( '#000' ), 'Short hex' );
+
+			assert.areSame( '#ffff00', c( '#ffff00' ), 'Long, lower-case hex' );
+			assert.areSame( '#ffff00', c( '#FFFF00' ), 'Long, upper-case hex' );
+			assert.areSame( '#ffff00', c( '#ff0' ), 'Short, lower-case hex' );
+			assert.areSame( '#ffff00', c( '#FF0' ), 'Short, upper-case hex' );
+			assert.areSame( '#ffff00', c( '#FfFf00' ), 'Long, mixed-case hex' );
+			assert.areSame( '#ffff00', c( '#Ff0' ), 'Short, mixed-case hex' );
+		},
+
 		testCssLength: function() {
 			var cssLength = CKEDITOR.tools.cssLength;
 
