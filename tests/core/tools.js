@@ -225,11 +225,11 @@
 //		},
 
 		test_callFunction: function() {
-			var func = CKEDITOR.tools.addFunction( function( argA ) {
+			var argARef  = 'http://ckeditor.com/index.html#myanchor',
+			func = CKEDITOR.tools.addFunction( function( argA ) {
 				assert.areSame( argA, argARef );
 			} );
 
-			var argARef  = 'http://ckeditor.com/index.html#myanchor';
 			CKEDITOR.tools.callFunction( func, argARef );
 		},
 
