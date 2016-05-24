@@ -4,10 +4,6 @@
 
 	'use strict';
 
-	var newElement = function( element, ownerDocument ) {
-		return new CKEDITOR.dom.element( element, ownerDocument );
-	};
-
 	bender.test( {
 
 		// #14252
@@ -19,12 +15,12 @@
 				stylesYellowUpper = new CKEDITOR.style( { element: 'span', styles: { color: '#FFFF00' } } ),
 				stylesYellowUpperShort = new CKEDITOR.style( { element: 'span', styles: { color: '#FF0' } } );
 
-			assert.isTrue( styleItalic.checkElementMatch( newElement( document.getElementById( 'italictitle' ) ), true ), 'Italic Title styles match.' );
-			assert.isTrue( styleSubtitle.checkElementMatch( newElement( document.getElementById( 'subtitle' ) ), true ), 'Subtitle styles match.' );
-			assert.isTrue( styleSpecialContainer.checkElementMatch( newElement( document.getElementById( 'specialcontainer' ) ), true ), 'Special Container styles match.' );
-			assert.isTrue( stylesYellow.checkElementMatch( newElement( document.getElementById( 'yellow' ) ), true ), 'Yellow styles match (short).' );
-			assert.isTrue( stylesYellowUpper.checkElementMatch( newElement( document.getElementById( 'yellow' ) ), true ), 'Yellow styles match (long, upper-case).' );
-			assert.isTrue( stylesYellowUpperShort.checkElementMatch( newElement( document.getElementById( 'yellow' ) ), true ), 'Yellow styles match (short, upper-case).' );
+			assert.isTrue( styleItalic.checkElementMatch( CKEDITOR.document.getById( 'italictitle' ), true ), 'Italic Title styles match.' );
+			assert.isTrue( styleSubtitle.checkElementMatch( CKEDITOR.document.getById( 'subtitle' ), true ), 'Subtitle styles match.' );
+			assert.isTrue( styleSpecialContainer.checkElementMatch( CKEDITOR.document.getById( 'specialcontainer' ), true ), 'Special Container styles match.' );
+			assert.isTrue( stylesYellow.checkElementMatch( CKEDITOR.document.getById( 'yellow' ), true ), 'Yellow styles match (short).' );
+			assert.isTrue( stylesYellowUpper.checkElementMatch( CKEDITOR.document.getById( 'yellow' ), true ), 'Yellow styles match (long, upper-case).' );
+			assert.isTrue( stylesYellowUpperShort.checkElementMatch( CKEDITOR.document.getById( 'yellow' ), true ), 'Yellow styles match (short, upper-case).' );
 		}
 	} );
 } )();
