@@ -981,17 +981,17 @@
 		},
 
 		/**
-		 * Normalizes hexadecimal notation so that color string is always 6 characters long.
+		 * Normalizes hexadecimal notation so that color string is always 6 characters long and lowercased.
 		 *
 		 * @param {String} styleText The style data (or just a string containing HEX colors) to be converted.
 		 * @returns {String} The style data with HEX colors normalized.
 		 */
 		normalizeHex: function( styleText ) {
-			return styleText.replace( /#([0-9a-f]{3})($|;|\s+)/gi, function( match, hexColor, separator ) {
-				var normalizedHexColor = hexColor;
-				if ( hexColor.length == 3 ) {
-					var parts = hexColor.split( '' );
-					normalizedHexColor =  [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
+			return styleText.replace( /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi, function( match, hexColor, hexColorPart, separator ) {
+				var normalizedHexColor = hexColor.toLowerCase();
+				if ( normalizedHexColor.length == 3 ) {
+					var parts = normalizedHexColor.split( '' );
+					normalizedHexColor = [ parts[ 0 ], parts[ 0 ], parts[ 1 ], parts[ 1 ], parts[ 2 ], parts[ 2 ] ].join( '' );
 				}
 				return '#' + normalizedHexColor + separator;
 			} );
