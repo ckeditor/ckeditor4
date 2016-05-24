@@ -43,6 +43,8 @@ bender.test( {
 		CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function( url ) {
 			loadAndUploadCount++;
 			lastUploadUrl = url;
+
+			this.responseData = {};
 		};
 
 		CKEDITOR.fileTools.fileLoader.prototype.load = function() {};
@@ -50,6 +52,8 @@ bender.test( {
 		CKEDITOR.fileTools.fileLoader.prototype.upload = function( url ) {
 			uploadCount++;
 			lastUploadUrl = url;
+
+			this.responseData = {};
 		};
 	},
 
