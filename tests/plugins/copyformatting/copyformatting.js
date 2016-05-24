@@ -152,7 +152,7 @@
 			// Move the selection to the end of <p> and inside <li>.
 			var rng = editor.createRange(),
 				parTextNode = editor.editable().findOne( 'p' ).getFirst(),
-				listTextNode = editor.editable().findOne( 'li' ).getFirst();
+				listTextNode = editor.editable().findOne( 'li span' ).getFirst();
 
 			rng.setStart( parTextNode, 59 );
 			rng.setEnd( listTextNode, 2 );
