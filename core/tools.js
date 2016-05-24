@@ -985,7 +985,7 @@
 		 *
 		 * @param {String} styleText The style data (or just a string containing HEX colors) to be converted.
 		 * @returns {String} The style data with HEX colors normalized.
-         */
+		 */
 		normalizeHex: function( styleText ) {
 			return styleText.replace( /#([0-9a-f]{3})($|;|\s+)/gi, function( match, hexColor, separator ) {
 				var normalizedHexColor = hexColor;
