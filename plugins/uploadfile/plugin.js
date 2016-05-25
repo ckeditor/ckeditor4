@@ -17,10 +17,7 @@
 				uploadUrl = fileTools.getUploadUrl( editor.config );
 
 			if ( !uploadUrl ) {
-				window.console && window.console.log(
-					'Error: Upload URL for the Upload File feature was not defined. ' +
-					'For more information see: http://docs.ckeditor.com/#!/guide/dev_file_upload'
-				);
+				CKEDITOR.error( 'uploadfile-config' );
 				return;
 			}
 
