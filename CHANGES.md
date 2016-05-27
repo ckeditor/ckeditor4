@@ -7,7 +7,7 @@ Fixed Issues:
 
 * [#14252](http://dev.ckeditor.com/ticket/14252): Fixed: Styles dropdown doesn't always reflect the current style of the text line in Internet Explorer.
 * [#13929](http://dev.ckeditor.com/ticket/13929): Fixed: Errors in console on IE11 with compatibility mode in manual test for [#13867](http://dev.ckeditor.com/ticket/13867).
-* [#14275](http://dev.ckeditor.com/ticket/14275): Fixed: `onerror` and `onload` not used in browsers it could have been when loading scripts dynamically.
+* [#14275](http://dev.ckeditor.com/ticket/14275): [IE9+] Fixed: `onerror` and `onload` not used in browsers it could have been when loading scripts dynamically.
 * [#14590](http://dev.ckeditor.com/ticket/14590): Fixed: Additional line break appearing after inline elements when switching modes. Thanks to [dpidcock](https://github.com/dpidcock)!
 
 ## CKEditor 4.5.9
