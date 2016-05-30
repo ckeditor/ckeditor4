@@ -216,7 +216,8 @@
 							} );
 						}
 					}
-				}
+				},
+				requestData: {}
 			};
 
 			this.editor.fire( 'fileUploadRequest',  fileLoaderMock );
