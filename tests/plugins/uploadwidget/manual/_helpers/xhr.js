@@ -8,19 +8,19 @@
 // Mock the real XMLHttpRequest so the upload test may work locally.
 
 window.FormData = function() {
-	var total, filename;
+	var total, uploadedFilename;
 	return {
 		append: function( name, file, filename ) {
 			if ( arguments.length == 3 ) {
 				total = file.size;
-				filename = filename;
+				uploadedFilename = filename;
 			}
 		},
 		getTotal: function() {
 			return total;
 		},
 		getFileName: function() {
-			return filename;
+			return uploadedFilename;
 		}
 	};
 };
