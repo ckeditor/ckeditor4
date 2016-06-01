@@ -1,0 +1,37 @@
+<div id="editor1">
+	<p><span style="background-color: rgb(255,255,0);">Text with background</span></p>
+</div>
+
+<script>
+if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
+	bender.ignore();
+}
+
+CKEDITOR.replace( 'editor1', {
+	allowedContent: true,
+	toolbar: [
+		[ 'TestCmd' ]
+	],
+	on: {
+		pluginsLoaded: function( evt ) {
+			evt.editor.ui.addButton( 'TestCmd', {
+				label: 'Remove style',
+				command: 'testCmd'
+			} );
+
+			evt.editor.addCommand( 'testCmd', {
+				exec: function( editor, data) {
+					var style = new CKEDITOR.style( {
+						element: 'span',
+						styles: {
+							'background-color': '#ff0'
+						},
+						type: CKEDITOR.STYLE_INLINE
+					} );
+
+					style.remove( editor );
+				}
+			} )
+		}
+	}
+} );</script>
