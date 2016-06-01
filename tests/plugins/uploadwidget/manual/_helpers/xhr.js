@@ -11,7 +11,7 @@ window.FormData = function() {
 	var total, uploadedFilename;
 	return {
 		append: function( name, file, filename ) {
-			if ( name !== 'ckCsrfToken' ) {
+			if ( name == 'upload' ) {
 				total = file.size;
 				uploadedFilename = filename;
 			}
