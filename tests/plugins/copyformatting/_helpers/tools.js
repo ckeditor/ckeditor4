@@ -1,5 +1,5 @@
 /* exported testGettingWordOffset, testApplyingFormat, testConvertingStyles, assertScreenReaderNotification, assertCopyFormattingState,
-	assertApplyFormattingState, testCopyFormattingFlow
+	assertApplyFormattingState, testCopyFormattingFlow, fixHtml
  */
 
 'use strict';
@@ -31,6 +31,17 @@ YUITest.ObjectAssert.areDeepEqual = function( expected, actual, message ) {
 		}
 	}
 };
+
+// Safari uses text selection and all other browsers use element selection. Therefore we must normalize it.
+function fixHtml( html ) {
+	if ( CKEDITOR.env.webkit && ! CKEDITOR.env.chrome ) {
+		html = html.replace( /\{/g, '[' ).replace( /\}/g, ']' );
+	}
+
+	html = html.replace( /[^\u0001-\u0255]/g, '' )
+
+	return bender.tools.fixHtml( html );
+}
 
 function testGettingWordOffset( editor, htmlWithSelection, expected ) {
 	var word, range, contents;
