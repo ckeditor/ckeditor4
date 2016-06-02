@@ -266,7 +266,13 @@
 					bkm = range.createBookmark();
 
 					if ( indexOf( plugin.preservedElements, oldStyle.element ) === -1 ) {
-						oldStyles[ i ].remove( evt.editor );
+						// In Safari we must remove styles exactly from the initial range.
+						// Otherwise Safari is removing too much.
+						if ( CKEDITOR.env.webkit && !CKEDITOR.env.chrome ) {
+							oldStyles[ i ].removeFromRange( evt.data.range, evt.editor );
+						} else {
+							oldStyles[ i ].remove( evt.editor );
+						}
 					} else if ( checkForStyle( oldStyle.element, evt.data.styles ) ) {
 						plugin._removeStylesFromElementInRange( range, oldStyle.element );
 					}
