@@ -277,6 +277,7 @@
 
 			this.rect.visible = false;
 			this.parts.panel.hide();
+			this.blur();
 
 			this.fire( 'hide' );
 		},
