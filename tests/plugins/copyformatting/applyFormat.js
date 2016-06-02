@@ -1,7 +1,7 @@
 /* bender-tags: copyformatting */
 /* bender-ckeditor-plugins: wysiwygarea, toolbar, copyformatting */
 /* bender-include: _helpers/tools.js */
-/* global testApplyingFormat */
+/* global testApplyingFormat, fixHtml */
 
 ( function() {
 	'use strict';
@@ -318,7 +318,7 @@
 
 			CKEDITOR.plugins.copyformatting._applyFormat( editor, [] );
 
-			assert.areSame( content, bender.tools.selection.getWithHtml( editor ) );
+			assert.areSame( fixHtml( content ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 		'test removing formatting from table while applying plain-text styles': function() {
@@ -337,7 +337,7 @@
 
 			CKEDITOR.plugins.copyformatting._applyFormat( editor, [] );
 
-			assert.areSame( content, bender.tools.selection.getWithHtml( editor ) );
+			assert.areSame( fixHtml( content ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 		'test removing formatting from skipped elements': function() {
@@ -347,9 +347,11 @@
 					'[<iframe src="http://xxx"></iframe>]<br>',
 					'[<input type="text">]<br>',
 					'[<textarea>Test</textarea>]<br>',
-					'[<button>Test</button>]<br>',
-					'[<span data-cke-realelement="">Test</span>]<br>',
-					'[<span data-cke-widget-id="0">Test</span>]<br>'
+					CKEDITOR.env.webkit && !CKEDITOR.env.chrome ? '<button>[Test]</button><br>' : '[<button>Test</button>]<br>',
+					CKEDITOR.env.webkit && !CKEDITOR.env.chrome ? '<span data-cke-realelement="">[Test]</span><br>' :
+						'[<span data-cke-realelement="">Test</span>]<br>',
+					CKEDITOR.env.webkit && !CKEDITOR.env.chrome ? '<span data-cke-widget-id="0">[Test]</span><br>' :
+						'[<span data-cke-widget-id="0">Test</span>]<br>'
 				],
 				i;
 
@@ -358,7 +360,7 @@
 
 				CKEDITOR.plugins.copyformatting._applyFormat( editor, [] );
 
-				assert.areSame( content[ i ], bender.tools.selection.getWithHtml( editor ) );
+				assert.areSame( fixHtml( content[ i ] ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 			}
 
 		},

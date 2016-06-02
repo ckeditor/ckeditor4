@@ -1,7 +1,7 @@
 /* bender-tags: copyformatting */
 /* bender-ckeditor-plugins: wysiwygarea, toolbar, copyformatting */
 /* bender-include: _helpers/tools.js*/
-/* global testCopyFormattingFlow, assertScreenReaderNotification */
+/* global testCopyFormattingFlow, assertScreenReaderNotification, fixHtml */
 
 ( function() {
 	'use strict';
@@ -116,7 +116,7 @@
 
 			editor.execCommand( 'applyFormatting' );
 
-			assert.areSame( expectedContent, bender.tools.selection.getWithHtml( editor ) );
+			assert.areSame( fixHtml( expectedContent ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 		'test changing list type': function( editor ) {
@@ -137,8 +137,8 @@
 
 			editor.execCommand( 'applyFormatting' );
 
-			assert.areSame( bender.tools.fixHtml( expectedContent ),
-				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+			assert.areSame( fixHtml( expectedContent ),
+				fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 		'test aplying styles to mixed list context': function( editor ) {
@@ -160,8 +160,8 @@
 
 			editor.execCommand( 'applyFormatting' );
 
-			assert.areSame( bender.tools.fixHtml( expectedContent ),
-				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+			assert.areSame( fixHtml( expectedContent ),
+				fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 
@@ -183,8 +183,8 @@
 
 			editor.execCommand( 'applyFormatting' );
 
-			assert.areSame( bender.tools.fixHtml( expectedContent ),
-				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+			assert.areSame( fixHtml( expectedContent ),
+				fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 		'test removing inline styles while changing list type': function( editor ) {
@@ -205,8 +205,8 @@
 
 			editor.execCommand( 'applyFormatting' );
 
-			assert.areSame( bender.tools.fixHtml( expectedContent ),
-				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+			assert.areSame( fixHtml( expectedContent ),
+				fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 		'test changing list type (nested lists)': function( editor ) {
@@ -233,8 +233,8 @@
 				expectedContent = expectedContent.replace( '{', '[' ).replace( '}', ']' );
 			}
 
-			assert.areSame( bender.tools.fixHtml( expectedContent ),
-				bender.tools.fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+			assert.areSame( fixHtml( expectedContent ),
+				fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 		'test removing formatting on collapsed selection': function( editor ) {

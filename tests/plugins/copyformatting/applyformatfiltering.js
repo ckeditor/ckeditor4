@@ -1,5 +1,7 @@
 /* bender-tags: copyformatting */
 /* bender-ckeditor-plugins: wysiwygarea, toolbar, copyformatting */
+/* bender-include: _helpers/tools.js */
+/* global fixHtml */
 
 ( function() {
 	'use strict';
@@ -24,7 +26,8 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>[<img src="http://foo">]<br></p>' );
 			CKEDITOR.plugins.copyformatting._applyFormat( editor, [] );
-			assert.areSame( '<p>[]<br></p>', bender.tools.selection.getWithHtml( editor ) );
+
+			assert.areSame( fixHtml( '<p>[]<br></p>' ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
 		'test removing formatting from everything': function() {
@@ -32,7 +35,7 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>[<img src="http://foo"><strong>aa</strong>]<br></p>' );
 			CKEDITOR.plugins.copyformatting._applyFormat( editor, [] );
-			assert.areSame( '<p>[aa]<br></p>', bender.tools.selection.getWithHtml( editor ) );
+			assert.areSame( fixHtml( '<p>[aa]<br></p>' ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		}
 	} );
 }() );
