@@ -832,6 +832,12 @@
 				i,
 				j;
 
+			// We must select initial range in WebKit. Otherwise WebKit has problems with applying styles:
+			// it collapses selection.
+			if ( CKEDITOR.env.webkit && !CKEDITOR.env.chrome ) {
+				editor.getSelection().selectRanges( [ range ] );
+			}
+
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
 
