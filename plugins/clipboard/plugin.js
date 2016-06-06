@@ -1238,6 +1238,10 @@
 				element.wrapWith( new CKEDITOR.htmlParser.element( 'em' ) );
 			}
 
+			if ( styles[ 'font-weight' ] == 'bold' || styles[ 'font-weight' ] > 400 ) {
+				element.wrapWith( new CKEDITOR.htmlParser.element( 'strong' ) );
+			}
+
 			// Remove all styles from element. Otherwise CKEditor could replace it with semantic element
 			// (e.g. `<span style="font-style: italic">` will be changed to `<em>`).
 			element.attributes.style = '';
