@@ -1230,14 +1230,17 @@
 				return;
 			}
 
-			if ( styles[ 'font-style' ] == 'italic' && styles[ 'text-decoration' ] == 'underline' ) {
-				element.name = 'em';
+			if ( styles[ 'text-decoration' ] == 'underline' ) {
 				element.wrapWith( new CKEDITOR.htmlParser.element( 'u' ) );
-			} else if ( styles[ 'text-decoration' ] == 'underline' ) {
-				element.name = 'u';
-			} else if ( styles[ 'font-style' ] == 'italic' ) {
-				element.name = 'em';
 			}
+
+			if ( styles[ 'font-style' ] == 'italic' ) {
+				element.wrapWith( new CKEDITOR.htmlParser.element( 'em' ) );
+			}
+
+			// Remove all styles from element. Otherwise CKEditor could replace it with semantic element
+			// (e.g. `<span style="font-style: italic">` will be changed to `<em>`).
+			element.attributes.style = '';
 		}
 
 		function createSemanticContentFilter() {
