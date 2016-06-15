@@ -24,11 +24,14 @@ The visual representation of a rich combo widget looks as follows:
 +-----------------------------------------------------------------------------------+
 */
 
+
 /* The box that hold the entire combo widget */
 .cke_combo
 {
 	display: inline-block;
 	float: left;
+	position: relative;
+	margin-bottom: 6px;
 }
 
 .cke_rtl .cke_combo
@@ -38,87 +41,95 @@ The visual representation of a rich combo widget looks as follows:
 
 .cke_hc .cke_combo
 {
-	margin-top: -2px;
+	margin-top: 1px;
+	margin-bottom: 10px;
 }
 
-/* The label of the combo widget. It is invisible by default, yet
-   it's important for semantics and accessibility. */
-.cke_combo_label
+
+/* Combo separators. */
+/* Separators after every combo. */
+.cke_combo:after
 {
-	display: none;
-	float: left;
-	line-height: 26px;
-	vertical-align: top;
-	margin-right: 5px;
+	content: "";
+	position: absolute;
+	height: 18px;
+	width: 0;
+	border-right: 1px solid #bcbcbc;
+	margin-top: 5px;
+	top: 0;
+	right: 0;
 }
 
-.cke_rtl .cke_combo_label
+.cke_rtl .cke_combo:after
 {
-	float: right;
-	margin-left: 5px;
-	margin-right: 0;
+	border-right: 0;
+	border-left: 1px solid #bcbcbc;
+	right: auto;
+	left: 0;
 }
 
+.cke_hc .cke_combo:after
+{
+	border-color: #000;
+}
+
+
+/* Combo button. */
 /* The container for combo text and arrow. */
 a.cke_combo_button
 {
 	cursor: default;
 	display: inline-block;
 	float: left;
-	margin: 0 6px 5px 0;
-
-	border: 1px solid #a6a6a6;
-	border-bottom-color: #979797;
-
-	border-radius: 3px;
-
-	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-
-	background: #e4e4e4;
-	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
+	margin: 0;
+	padding: 1px;
 }
 
-/* Different states of the container. */
-.cke_combo_off a.cke_combo_button:hover,
-.cke_combo_off a.cke_combo_button:focus
-{
-	background: #ccc;
-	background-image: linear-gradient(to bottom, #f2f2f2, #ccc);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
-
-	outline: none;
-}
-
-.cke_combo_off a.cke_combo_button:active,
-.cke_combo_on a.cke_combo_button
-{
-	border: 1px solid #777;
-
-	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 5px rgba(0,0,0,.6) inset;
-
-	background: #b5b5b5;
-	background-image: linear-gradient(to bottom, #aaa, #cacaca);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#aaaaaa', endColorstr='#cacaca');
-}
-
-.cke_combo_on a.cke_combo_button:hover,
-.cke_combo_on a.cke_combo_button:focus,
-.cke_combo_on a.cke_combo_button:active
-{
-	box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
-}
-
-.cke_rtl .cke_combo_button
+.cke_rtl a.cke_combo_button
 {
 	float: right;
-	margin-left: 5px;
-	margin-right: 0;
 }
 
 .cke_hc a.cke_combo_button
 {
-	padding: 3px;
+	padding: 4px;
+}
+
+
+/* Combo states. */
+.cke_combo_on a.cke_combo_button,
+.cke_combo_off a.cke_combo_button:hover,
+.cke_combo_off a.cke_combo_button:focus,
+.cke_combo_off a.cke_combo_button:active
+{
+	background: #e5e5e5;
+	border: 1px solid #bcbcbc;
+	/* Move combo so borders cover separators. Adjust padding to borders. */
+	padding: 0 0 0 1px;
+	margin-left: -1px;
+}
+
+.cke_combo_off a.cke_combo_button:focus {
+	outline: none;
+}
+
+
+
+.cke_combo_on a.cke_combo_button,
+.cke_combo_off a.cke_combo_button:active
+{
+	background: #fff;
+}
+
+.cke_rtl .cke_combo_on a.cke_combo_button,
+.cke_rtl .cke_combo_off a.cke_combo_button:hover,
+.cke_rtl .cke_combo_off a.cke_combo_button:focus,
+.cke_rtl .cke_combo_off a.cke_combo_button:active
+{
+	/* Move combo so borders cover separators. Adjust padding to borders. */
+	padding: 0 1px 0 0;
+	margin-left: 0;
+	margin-right: -1px;
 }
 
 .cke_hc .cke_combo_on a.cke_combo_button,
@@ -126,10 +137,134 @@ a.cke_combo_button
 .cke_hc .cke_combo_off a.cke_combo_button:focus,
 .cke_hc .cke_combo_off a.cke_combo_button:active
 {
-	border-width: 3px;
-	padding: 1px;
+	border: 3px solid #000;
+	padding: 1px 1px 1px 2px;
 }
 
+.cke_hc.cke_rtl .cke_combo_on a.cke_combo_button,
+.cke_hc.cke_rtl .cke_combo_off a.cke_combo_button:hover,
+.cke_hc.cke_rtl .cke_combo_off a.cke_combo_button:focus,
+.cke_hc.cke_rtl .cke_combo_off a.cke_combo_button:active
+{
+	padding: 1px 2px 1px 1px;
+}
+
+
+/* First combo in a group. */
+.cke_toolbar_start + .cke_combo_on a.cke_combo_button,
+.cke_toolbar_start + .cke_combo_off a.cke_combo_button:hover,
+.cke_toolbar_start + .cke_combo_off a.cke_combo_button:focus,
+.cke_toolbar_start + .cke_combo_off a.cke_combo_button:active
+{
+	/* Move first combo so borders cover separators. Adjust padding to borders. */
+	padding: 0 0 0 3px;
+	margin-left: -3px;
+}
+
+.cke_rtl .cke_toolbar_start + .cke_combo_on a.cke_combo_button,
+.cke_rtl .cke_toolbar_start + .cke_combo_off a.cke_combo_button:hover,
+.cke_rtl .cke_toolbar_start + .cke_combo_off a.cke_combo_button:focus,
+.cke_rtl .cke_toolbar_start + .cke_combo_off a.cke_combo_button:active
+{
+	/* Move first combo so borders cover separators. Adjust padding to borders. */
+	padding: 0 3px 0 0;
+	margin-left: 0;
+	margin-right: -3px;
+}
+
+.cke_hc .cke_toolbar > .cke_toolbar_start + .cke_combo_on a.cke_combo_button,
+.cke_hc .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:hover,
+.cke_hc .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:focus,
+.cke_hc .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:active
+{
+	/* Move first combo so borders cover separators. Adjust padding to borders. */
+	padding: 1px 1px 1px 7px;
+	margin-left: -6px;
+}
+
+.cke_hc.cke_rtl .cke_toolbar > .cke_toolbar_start + .cke_combo_on a.cke_combo_button,
+.cke_hc.cke_rtl .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:hover,
+.cke_hc.cke_rtl .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:focus,
+.cke_hc.cke_rtl .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:active
+{
+	/* Move first combo so borders cover separators. Adjust padding to borders. */
+	padding: 1px 7px 1px 1px;
+	margin-left: 0;
+	margin-right: -6px;
+}
+
+
+/* First combo in a toolbar. */
+.cke_toolbox .cke_toolbar:first-child > .cke_toolbar_start + .cke_combo_on a.cke_combo_button,
+.cke_toolbox .cke_toolbar:first-child > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:hover,
+.cke_toolbox .cke_toolbar:first-child > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:focus,
+.cke_toolbox .cke_toolbar:first-child > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:active,
+/* First combo in a group in a row. */
+.cke_toolbar_break + .cke_toolbar > .cke_toolbar_start + .cke_combo_on a.cke_combo_button,
+.cke_toolbar_break + .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:hover,
+.cke_toolbar_break + .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:focus,
+.cke_toolbar_break + .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:active
+{
+	/* If first combo in a row do not use negative margin so it is aligned with other rows on hover. */
+	padding: 0;
+	margin: 0;
+}
+
+.cke_hc .cke_toolbox .cke_toolbar:first-child > .cke_toolbar_start + .cke_combo_on a.cke_combo_button,
+.cke_hc .cke_toolbox .cke_toolbar:first-child > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:hover,
+.cke_hc .cke_toolbox .cke_toolbar:first-child > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:focus,
+.cke_hc .cke_toolbox .cke_toolbar:first-child > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:active,
+.cke_hc .cke_toolbar_break + .cke_toolbar > .cke_toolbar_start + .cke_combo_on a.cke_combo_button,
+.cke_hc .cke_toolbar_break + .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:hover,
+.cke_hc .cke_toolbar_break + .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:focus,
+.cke_hc .cke_toolbar_break + .cke_toolbar > .cke_toolbar_start + .cke_combo_off a.cke_combo_button:active
+{
+	/* If first combo in a row do not use negative margin so it is aligned with other rows on hover. */
+	padding: 1px;
+	margin: 0;
+}
+
+
+/* Add Margin after last combo to keep next .cke_toolgroup same distance as in every other case. */
+.cke_toolbar .cke_combo + .cke_toolbar_end,
+.cke_toolbar .cke_combo + .cke_toolgroup
+{
+	margin-right: 0;
+	margin-left: 2px;
+}
+
+.cke_rtl .cke_toolbar .cke_combo + .cke_toolbar_end,
+.cke_rtl .cke_toolbar .cke_combo + .cke_toolgroup
+{
+	margin-left: 0;
+	margin-right: 2px;
+}
+
+.cke_hc .cke_toolbar .cke_combo + .cke_toolbar_end,
+.cke_hc .cke_toolbar .cke_combo + .cke_toolgroup
+{
+	margin-left: 5px;
+}
+
+.cke_hc.cke_rtl .cke_toolbar .cke_combo + .cke_toolbar_end,
+.cke_hc.cke_rtl .cke_toolbar .cke_combo + .cke_toolgroup
+{
+	margin-left: 0;
+	margin-right: 5px;
+}
+
+
+/* No separator after last combo in a row. */
+.cke_toolbar.cke_toolbar_last .cke_combo:nth-last-child(-n + 2):after
+{
+	content: none;
+	border: none;
+	width: 0;
+	height: 0;
+}
+
+
+/* Combo inner elements. */
 /* The label that shows the current value of the rich combo.
    By default, it holds the name of the property.
    See: .cke_combo_inlinelabel */
@@ -141,8 +276,7 @@ a.cke_combo_button
 	overflow: hidden;
 	float: left;
 	cursor: default;
-	color: #474747;
-	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	color: #484848;
     width: 60px;
 }
 
@@ -169,7 +303,7 @@ a.cke_combo_button
 	font-size: 0;
 	height: 19px;
 	line-height: 17px;
-	margin: 1px 7px 1px;
+	margin: 1px 10px 1px;
 	width: 5px;
 }
 
@@ -191,7 +325,7 @@ a.cke_combo_button
 	font-size: 0;
 	border-left: 3px solid transparent;
 	border-right: 3px solid transparent;
-	border-top: 3px solid #474747;
+	border-top: 3px solid #484848;
 }
 
 .cke_hc .cke_combo_arrow
@@ -200,6 +334,24 @@ a.cke_combo_button
 	width: auto;
 	border: 0;
 	margin-top: 3px;
+}
+
+/* The label of the combo widget. It is invisible by default, yet
+   it's important for semantics and accessibility. */
+.cke_combo_label
+{
+	display: none;
+	float: left;
+	line-height: 26px;
+	vertical-align: top;
+	margin-right: 5px;
+}
+
+.cke_rtl .cke_combo_label
+{
+	float: right;
+	margin-left: 5px;
+	margin-right: 0;
 }
 
 /* Disabled combo button styles. */

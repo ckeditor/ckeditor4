@@ -12,7 +12,7 @@ CKEDITOR.addTemplates( 'default', {
 	// The templates definitions.
 	templates: [ {
 		title: 'Image and Title',
-		image: 'template1.gif',
+		image: 'template1.png',
 		description: 'One main image with a title and text that surround the image.',
 		html: '<h3>' +
 			// Use src=" " so image is not filtered out by the editor as incorrect (src is required).
@@ -25,7 +25,7 @@ CKEDITOR.addTemplates( 'default', {
 	},
 	{
 		title: 'Strange Template',
-		image: 'template2.gif',
+		image: 'template2.png',
 		description: 'A template that defines two colums, each one with a title, and some text.',
 		html: '<table cellspacing="0" cellpadding="0" style="width:100%" border="0">' +
 			'<tr>' +
@@ -53,7 +53,7 @@ CKEDITOR.addTemplates( 'default', {
 	},
 	{
 		title: 'Text and Table',
-		image: 'template3.gif',
+		image: 'template3.png',
 		description: 'A title with some text and a table.',
 		html: '<div style="width: 80%">' +
 			'<h3>' +

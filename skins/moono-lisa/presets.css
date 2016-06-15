@@ -10,16 +10,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	display: inline;
 }
 
-/* "Font Size" combo width */
-.cke_combo__fontsize .cke_combo_text
-{
-	width: 30px;
-}
-
 /* "Font Size" panel size */
 .cke_combopanel__fontsize
 {
-	width: 120px;
+	width: 135px;
 }
 
 /* Editable regions */

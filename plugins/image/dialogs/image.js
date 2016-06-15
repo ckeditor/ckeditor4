@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -270,7 +270,7 @@
 
 			return {
 				title: editor.lang.image[ dialogType == 'image' ? 'title' : 'titleButton' ],
-				minWidth: 420,
+				minWidth: editor.config.skin == 'moono-lisa' ? 500 : 420,
 				minHeight: 360,
 				onShow: function() {
 					this.imageElement = false;
@@ -490,6 +490,7 @@
 							type: 'hbox',
 							widths: [ '280px', '110px' ],
 							align: 'right',
+							className: 'cke_dialog_image_url',
 							children: [ {
 								id: 'txtUrl',
 								type: 'text',
@@ -692,6 +693,7 @@
 								{
 									id: 'ratioLock',
 									type: 'html',
+									className: 'cke_dialog_image_ratiolock',
 									style: 'margin-top:30px;width:40px;height:40px;',
 									onLoad: function() {
 										// Activate Reset button
@@ -1014,6 +1016,7 @@
 					{
 						type: 'button',
 						id: 'browse',
+						className: 'cke_dialog_image_browse',
 						filebrowser: {
 							action: 'Browse',
 							target: 'Link:txtUrl',

@@ -25,7 +25,8 @@ This file contains styles to used by all versions of Internet Explorer only.
 {
 	padding-left: 2px;
 }
-.cke_rtl div.cke_dialog_ui_input_text {
+.cke_rtl div.cke_dialog_ui_input_text
+{
 	padding-right: 1px;
 }
 

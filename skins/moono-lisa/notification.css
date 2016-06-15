@@ -56,11 +56,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	margin: 10px;
 	width: 300px;
 	color: white;
-	border-radius: 3px;
 	text-align: center;
 	opacity: 0.95;
 	filter: alpha(opacity = 95);
-	box-shadow: 2px 2px 3px 0px rgba(50, 50, 50, 0.3);
 
 	-webkit-animation: fadeIn 0.7s;
 	animation: fadeIn 0.7s;

@@ -45,8 +45,13 @@ Special outer level classes used in this file:
 	.cke_rtl: Available when the editor UI is on RTL.
 */
 
-/* .cke_menuitem is the element that holds the entire structure of each of the
-   menu items. */
+/* The .cke_menuitem is the element that holds the entire structure of each of the menu items. */
+.cke_menuitem span
+{
+	/* Avoid the text selection cursor inside menu items. */
+	cursor: default;
+}
+
 
 .cke_menubutton
 {
@@ -55,23 +60,24 @@ Special outer level classes used in this file:
 	display: block;
 }
 
-.cke_menuitem span
+.cke_hc .cke_menubutton
 {
-	/* Avoid the text selection cursor inside menu items. */
-	cursor: default;
+	padding: 2px;
 }
+
 
 .cke_menubutton:hover,
 .cke_menubutton:focus,
 .cke_menubutton:active
 {
-	background-color: #D3D3D3;
+	background-color: #e9e9e9;
 	display: block;
+	outline: 1px dotted;
 }
 
-.cke_hc .cke_menubutton
+.cke_menubutton:hover
 {
-	padding: 2px;
+	outline: none;
 }
 
 .cke_hc .cke_menubutton:hover,
@@ -82,23 +88,33 @@ Special outer level classes used in this file:
 	padding: 0;
 }
 
-.cke_menubutton_inner {
+.cke_menubutton_disabled:hover,
+.cke_menubutton_disabled:focus,
+.cke_menubutton_disabled:active
+{
+	/* Do not change background color for disabled items. */
+	background-color: transparent;
+	outline: none;
+}
+
+
+.cke_menubutton_inner
+{
 	display: table-row;
 }
 
 .cke_menubutton_icon,
 .cke_menubutton_label,
-.cke_menuarrow {
+.cke_menuarrow
+{
 	display: table-cell;
 }
 
 /* The menu item icon. */
 .cke_menubutton_icon
 {
-	background-color: #D7D8D7;
-	opacity: 0.70; /* Safari, Opera and Mozilla */
-	filter: alpha(opacity=70); /* IE */
-	padding: 4px;
+	background-color: #f8f8f8;
+	padding: 6px 4px;
 }
 
 .cke_hc .cke_menubutton_icon
@@ -112,17 +128,32 @@ Special outer level classes used in this file:
 .cke_menubutton:focus .cke_menubutton_icon,
 .cke_menubutton:active .cke_menubutton_icon
 {
-	background-color: #D0D2D0;
+	background-color: #e9e9e9;
 }
 
 .cke_menubutton_disabled:hover .cke_menubutton_icon,
 .cke_menubutton_disabled:focus .cke_menubutton_icon,
 .cke_menubutton_disabled:active .cke_menubutton_icon
 {
-	/* The icon will get opacity as well when hovered. */
-	opacity: 0.3;
-	filter: alpha(opacity=30);
+	/* Do not change background color for disabled items. */
+	background-color: #f8f8f8;
+	outline: none;
 }
+
+
+.cke_menuitem .cke_menubutton_on
+{
+	background-color: #e9e9e9;
+	border: 1px solid #dedede;
+	outline: none;
+}
+
+.cke_menubutton_on .cke_menubutton_icon
+{
+	padding-right: 3px;
+	background-color: #e9e9e9;
+}
+
 
 /* The textual part of each menu item. */
 .cke_menubutton_label
@@ -140,46 +171,24 @@ Special outer level classes used in this file:
 	filter: alpha(opacity=30);
 }
 
-.cke_menubutton_on
-{
-	border: 1px solid #dedede;
-	background-color: #f2f2f2;
-
-	box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
-}
-
-.cke_menubutton_on .cke_menubutton_icon
-{
-	padding-right: 3px;
-}
-
-.cke_menubutton:hover,
-.cke_menubutton:focus,
-.cke_menubutton:active
-{
-	background-color: #EFF0EF;
-}
-
 .cke_panel_frame .cke_menubutton_label
 {
 	display: none;
 }
 
+
 /* The separator used to separate menu item groups. */
 .cke_menuseparator
 {
-	background-color: #D3D3D3;
+	background-color: #d1d1d1;
 	height: 1px;
-	filter: alpha(opacity=70); /* IE */
-	opacity: 0.70; /* Safari, Opera and Mozilla */
 }
+
 
 /* The small arrow shown for item with sub-menus. */
 .cke_menuarrow
 {
-	background-image: url(images/arrow.png);
-	background-position: 0 10px;
-	background-repeat: no-repeat;
+	background: transparent url(images/arrow.png) no-repeat 0 10px;
 	padding: 0 5px;
 }
 
@@ -187,6 +196,11 @@ Special outer level classes used in this file:
 {
 	background-position: 5px -13px;
 	background-repeat: no-repeat;
+}
+
+.cke_hc .cke_menuarrow
+{
+	background-image: none;
 }
 
 .cke_menuarrow span

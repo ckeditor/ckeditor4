@@ -40,6 +40,7 @@ This file also defines styles for panel lists (used by combos). For menu-like
 panel contents and color panels check menu.css and colorpanel.css.
 */
 
+
 /* The box that holds an IFRAME. It's inserted into a host document and positioned
    absolutely by the application. It floats above the host document/editor. */
 .cke_panel
@@ -51,12 +52,7 @@ panel contents and color panels check menu.css and colorpanel.css.
    	overflow: hidden;
 
 	background-color: #fff;
-    border: 1px solid #b6b6b6;
-    border-bottom-color: #999;
-
-   	border-radius: 3px;
-
-    box-shadow: 0 0 3px rgba(0,0,0,.15);
+    border: 1px solid #d1d1d1;
 }
 
 /* This class represents panels which are used as context menus. */
@@ -91,6 +87,12 @@ panel contents and color panels check menu.css and colorpanel.css.
 	overflow-x: hidden;
 }
 
+/* Remove focus outline. The .cke_panel_block gets focused after combo without any active item is selected. */
+.cke_panel_block:focus
+{
+	outline: none;
+}
+
 /*
 Here we start the definition of panel lists (e.g. combo panels). The following
 is its visual representation:
@@ -123,9 +125,9 @@ is its visual representation:
 /* The list of panel items. */
 .cke_panel_list
 {
-	list-style-type: none;
-	margin: 3px;
+	margin: 0;
 	padding: 0;
+	list-style-type: none;
 	white-space: nowrap;
 }
 
@@ -133,56 +135,19 @@ is its visual representation:
 .cke_panel_listItem
 {
 	margin: 0;
-    padding-bottom: 1px;
+	padding: 0;
 }
 
 /* The child of .cke_panel_listItem. These elements contain spans which are
    to display a real name of the property which is visible for an end-user. */
 .cke_panel_listItem a
 {
-	padding: 3px 4px;
+	padding: 6px 7px;
 	display: block;
-	border: 1px solid #fff;
 	color: inherit !important;
 	text-decoration: none;
 	overflow: hidden;
 	text-overflow: ellipsis;
-
-    border-radius: 2px;
-}
-
-/* IE6 */
-* html .cke_panel_listItem a
-{
-	width : 100%;
-
-	/* IE is not able to inherit the color, so we must force it to black */
-	color: #000;
-}
-
-/* IE7 */
-*:first-child+html .cke_panel_listItem a
-{
-	/* IE is not able to inherit the color, so we must force it to black */
-	color: #000;
-}
-
-.cke_panel_listItem.cke_selected a
-{
-	border: 1px solid #dedede;
-	background-color: #f2f2f2;
-
-    box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
-}
-
-.cke_panel_listItem a:hover,
-.cke_panel_listItem a:focus,
-.cke_panel_listItem a:active
-{
-	border-color: #dedede;
-	background-color: #f2f2f2;
-
-    box-shadow: 0 0 2px rgba(0,0,0,.1) inset;
 }
 
 .cke_hc .cke_panel_listItem a
@@ -190,35 +155,26 @@ is its visual representation:
 	border-style: none;
 }
 
+.cke_panel_listItem.cke_selected a,
+.cke_panel_listItem a:hover,
+.cke_panel_listItem a:focus,
+.cke_panel_listItem a:active
+{
+	background-color: #e9e9e9;
+}
+
+/* Redefine focus outline so it is the same for all browsers. */
+.cke_panel_listItem a:focus
+{
+	outline: 1px dotted #000;
+}
+
 .cke_hc .cke_panel_listItem a:hover,
 .cke_hc .cke_panel_listItem a:focus,
 .cke_hc .cke_panel_listItem a:active
 {
 	border: 2px solid;
-	padding: 1px 2px;
-}
-
-/* The title of the entire panel which is visible on top of the list. */
-.cke_panel_grouptitle
-{
-	cursor: default;
-	font-size: 11px;
-	font-weight: bold;
-	white-space: nowrap;
-	margin: 0;
-	padding: 4px 6px;
-
-    color: #474747;
-    text-shadow: 0 1px 0 rgba(255,255,255,.75);
-    border-bottom: 1px solid #b6b6b6;
-
-    border-radius: 2px 2px 0 0;
-
-    box-shadow: 0 1px 0 #fff inset;
-
-    background: #cfd1cf;
-    background-image: linear-gradient(to bottom, #f5f5f5, #cfd1cf);
-    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#cfd1cf');
+	padding: 4px 5px;
 }
 
 /* The following styles set defaults of the elements used by the Paragraph
@@ -234,4 +190,19 @@ is its visual representation:
 {
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+
+/* The title of the entire panel which is visible on top of the list. */
+.cke_panel_grouptitle
+{
+	cursor: default;
+	font-size: 11px;
+	font-weight: bold;
+	white-space: nowrap;
+	margin: 0;
+	padding: 6px 6px 7px 6px;
+
+	color: #484848;
+	border-bottom: 1px solid #d1d1d1;
+	background: #f8f8f8;
 }

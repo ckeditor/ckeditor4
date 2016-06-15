@@ -2108,7 +2108,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	function showCover( editor ) {
 		var win = CKEDITOR.document.getWindow();
 		var config = editor.config,
-			backgroundColorStyle = config.dialog_backgroundCoverColor || 'white',
+			backgroundColorStyle = config.dialog_backgroundCoverColor || ( config.skin == 'moono-lisa' ? 'black' : 'white' ),
 			backgroundCoverOpacity = config.dialog_backgroundCoverOpacity,
 			baseFloatZIndex = config.baseFloatZIndex,
 			coverKey = CKEDITOR.tools.genKey( backgroundColorStyle, backgroundCoverOpacity, baseFloatZIndex ),

@@ -19,6 +19,7 @@ The following is a visual representation of its main elements:
 +----------------------------------------------------------------------------+
 */
 
+
 /* The box that holds the entire elements path. */
 .cke_path
 {
@@ -40,8 +41,7 @@ span.cke_path_empty
 	text-decoration: none;
 	outline: 0;
 	border: 0;
-	color: #4c4c4c;
-	text-shadow: 0 1px 0 #fff;
+	color: #484848;
 	font-weight: bold;
 	font-size: 11px;
 }
@@ -58,13 +58,7 @@ a.cke_path_item:hover,
 a.cke_path_item:focus,
 a.cke_path_item:active
 {
-	background-color: #bfbfbf;
-	color: #333;
-	text-shadow: 0 1px 0 rgba(255,255,255,.5);
-
-	border-radius: 2px;
-
-	box-shadow: 0 0 4px rgba(0,0,0,.5) inset, 0 1px 0 rgba(255,255,255,.5);
+	background-color: #e5e5e5;
 }
 
 .cke_hc a.cke_path_item:hover,
