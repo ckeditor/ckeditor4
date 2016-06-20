@@ -368,13 +368,31 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			range.setEndAfter( parent );
 
 			// Extract it.
-			var docFrag = range.extractContents( false, cloneId || false );
+			var docFrag = range.extractContents( false, cloneId || false ),
+				tmpElement = new CKEDITOR.dom.element( 'div' ),
+				current;
+
+			// In case of Internet Explorer, we must check if there is no background-color
+			// added to the element. In such case, we have to overwrite it to prevent "switching it off"
+			// by a browser (#14667).
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+				while ( current = docFrag.getFirst() ) {
+					if ( current.$.style.backgroundColor ) {
+						current.$.style.backgroundColor = current.$.style.backgroundColor;
+					}
+
+					tmpElement.append( current );
+				}
+			} else {
+				tmpElement.append( docFrag );
+			}
 
 			// Move the element outside the broken element.
 			range.insertNode( this.remove() );
 
 			// Re-insert the extracted piece after the element.
-			docFrag.insertAfterNode( this );
+			tmpElement.insertAfter( this );
+			tmpElement.remove( true );
 		},
 
 		/**
