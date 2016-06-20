@@ -199,10 +199,13 @@
 				}
 			} );
 
-			editor.setKeystroke( [
-				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 67, 'copyFormatting' ], // Ctrl + Shift + C
-				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, 'applyFormatting' ] // Ctrl + Shift + v
-			] );
+			// Set customizable keystrokes (#195).
+			if ( editor.config.copyFormatting_keystrokeCopy ) {
+				editor.setKeystroke( editor.config.copyFormatting_keystrokeCopy, 'copyFormatting' );
+			}
+			if ( editor.config.copyFormatting_keystrokePaste ) {
+				editor.setKeystroke( editor.config.copyFormatting_keystrokePaste, 'applyFormatting' );
+			}
 
 			editor.on( 'key', function( evt ) {
 				var cmd = editor.getCommand( 'copyFormatting' );
@@ -1073,6 +1076,26 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.copyFormatting_allowedContexts = true;
+
+	/**
+	 * Defines keystroke for copying styles.
+	 *
+	 *		config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 67 // Ctrl+Shift+C
+	 *
+	 * @cfg {Number} [copyFormatting_keystrokeCopy=CKEDITOR.CTRL + CKEDITOR.SHIFT + 67]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 67;
+
+	/**
+	 * Defines keystroke for applying styles.
+	 *
+	 *		config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86 // Ctrl+Shift+V
+	 *
+	 * @cfg {Number} [copyFormatting_keystrokePaste=CKEDITOR.CTRL + CKEDITOR.SHIFT + 86]
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86;
 
 	/**
 	 * Fired when the styles are being extracted from the element.
