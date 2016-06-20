@@ -1080,7 +1080,7 @@
 	/**
 	 * Defines keystroke for copying styles.
 	 *
-	 *		config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 67 // Ctrl+Shift+C
+	 *		config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 67; // Ctrl+Shift+C
 	 *
 	 * @cfg {Number} [copyFormatting_keystrokeCopy=CKEDITOR.CTRL + CKEDITOR.SHIFT + 67]
 	 * @member CKEDITOR.config
@@ -1090,7 +1090,7 @@
 	/**
 	 * Defines keystroke for applying styles.
 	 *
-	 *		config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86 // Ctrl+Shift+V
+	 *		config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86; // Ctrl+Shift+V
 	 *
 	 * @cfg {Number} [copyFormatting_keystrokePaste=CKEDITOR.CTRL + CKEDITOR.SHIFT + 86]
 	 * @member CKEDITOR.config
