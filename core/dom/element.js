@@ -378,6 +378,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 				while ( current = docFrag.getFirst() ) {
 					if ( current.$.style.backgroundColor ) {
+						// This is a necessary hack to make sure that IE will track backgroundColor CSS property, see
+						// http://dev.ckeditor.com/ticket/14667#comment:8 for more details.
 						current.$.style.backgroundColor = current.$.style.backgroundColor;
 					}
 
