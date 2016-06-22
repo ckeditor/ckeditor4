@@ -225,11 +225,11 @@
 //		},
 
 		test_callFunction: function() {
-			var func = CKEDITOR.tools.addFunction( function( argA ) {
+			var argARef  = 'http://ckeditor.com/index.html#myanchor',
+			func = CKEDITOR.tools.addFunction( function( argA ) {
 				assert.areSame( argA, argARef );
 			} );
 
-			var argARef  = 'http://ckeditor.com/index.html#myanchor';
 			CKEDITOR.tools.callFunction( func, argARef );
 		},
 
@@ -345,6 +345,23 @@
 			assert.areSame( '#010203', c( 'rgb(  1,2 , 3 )' ), 'case 4' );
 
 			assert.areSame( 'color:#010203; border-color:#ffff00;', c( 'color:rgb(1,2,3); border-color:rgb(255,255,0);' ), 'multiple' );
+		},
+
+		// #14252
+		testNormalizeHex: function() {
+			var c = CKEDITOR.tools.normalizeHex;
+
+			assert.areSame( '', c( '' ), 'empty' );
+
+			assert.areSame( '#000000', c( '#000000' ), 'Long hex' );
+			assert.areSame( '#000000', c( '#000' ), 'Short hex' );
+
+			assert.areSame( '#ffff00', c( '#ffff00' ), 'Long, lower-case hex' );
+			assert.areSame( '#ffff00', c( '#FFFF00' ), 'Long, upper-case hex' );
+			assert.areSame( '#ffff00', c( '#ff0' ), 'Short, lower-case hex' );
+			assert.areSame( '#ffff00', c( '#FF0' ), 'Short, upper-case hex' );
+			assert.areSame( '#ffff00', c( '#FfFf00' ), 'Long, mixed-case hex' );
+			assert.areSame( '#ffff00', c( '#Ff0' ), 'Short, mixed-case hex' );
 		},
 
 		testCssLength: function() {

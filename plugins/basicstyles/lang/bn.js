@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'basicstyles', 'bn', {
 	bold: 'বোল্ড',
-	italic: 'ইটালিক',
+	italic: 'বাঁকা',
 	strike: 'স্ট্রাইক থ্রু',
 	subscript: 'অধোলেখ',
 	superscript: 'অভিলেখ',

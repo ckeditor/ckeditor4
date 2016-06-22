@@ -1,6 +1,10 @@
 ( function() {
 	'use strict';
 
+	if ( !( 'Element' in window ) ) {
+		return;
+	}
+
 	var sinonStub = window.parent.sinon.stub;
 
 	window.classListStub = {

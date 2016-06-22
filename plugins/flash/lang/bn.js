@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'flash', 'bn', {
 	alignAbsMiddle: 'Abs উপর',
 	alignBaseline: 'মূল রেখা',
 	alignTextTop: 'টেক্সট উপর',
-	bgcolor: 'বেকগ্রাউন্ড রং',
+	bgcolor: 'পৃষ্ঠতলের রং',
 	chkFull: 'Allow Fullscreen', // MISSING
 	chkLoop: 'লূপ',
 	chkMenu: 'ফ্ল্যাশ মেনু এনাবল কর',

@@ -15,7 +15,7 @@ CKEDITOR.plugins.setLang( 'image', 'bn', {
 	menu: 'ছবির প্রোপার্টি',
 	resetSize: 'সাইজ পূর্বাবস্থায় ফিরিয়ে দাও',
 	title: 'ছবির প্রোপার্টি',
-	titleButton: 'ছবি বাটন প্রোপার্টি',
+	titleButton: 'ছবির বাটন সম্বন্ধীয়',
 	upload: 'আপলোড',
 	urlMissing: 'Image source URL is missing.', // MISSING
 	vSpace: 'ভার্টিকেল স্পেস',

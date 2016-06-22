@@ -702,7 +702,8 @@
 				async: true,
 
 				exec: function( editor, data ) {
-					var fire = function( data, withBeforePaste ) {
+					var cmd = this,
+						fire = function( data, withBeforePaste ) {
 							data &&	firePasteEvents( editor, data, !!withBeforePaste );
 
 							editor.fire( 'afterCommandExec', {
@@ -710,8 +711,7 @@
 								command: cmd,
 								returnValue: !!data
 							} );
-						},
-						cmd = this;
+						};
 
 					// Check data precisely - don't open dialog on empty string.
 					if ( typeof data == 'string' )
@@ -903,7 +903,7 @@
 			// Transparency is not enough since positioned non-editing host always shows
 			// resize handler, pull it off the screen instead.
 			else {
-				pastebin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-1000px' );
+				pastebin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-10000px' );
 			}
 
 			editor.on( 'selectionChange', cancel, null, null, 0 );

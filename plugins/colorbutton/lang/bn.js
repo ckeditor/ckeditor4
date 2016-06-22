@@ -3,8 +3,8 @@ Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'bn', {
-	auto: 'অটোমেটিক',
-	bgColorTitle: 'বেকগ্রাউন্ড রং',
+	auto: 'স্বয়ংক্রিয়ভাবে',
+	bgColorTitle: 'পৃষ্ঠতলের রং',
 	colors: {
 		'000': 'Black',
 		'800000': 'Maroon',
