@@ -368,13 +368,36 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			range.setEndAfter( parent );
 
 			// Extract it.
-			var docFrag = range.extractContents( false, cloneId || false );
+			var docFrag = range.extractContents( false, cloneId || false ),
+				tmpElement,
+				current;
 
 			// Move the element outside the broken element.
 			range.insertNode( this.remove() );
 
-			// Re-insert the extracted piece after the element.
-			docFrag.insertAfterNode( this );
+			// In case of Internet Explorer, we must check if there is no background-color
+			// added to the element. In such case, we have to overwrite it to prevent "switching it off"
+			// by a browser (#14667).
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+				tmpElement = new CKEDITOR.dom.element( 'div' );
+
+				while ( current = docFrag.getFirst() ) {
+					if ( current.$.style.backgroundColor ) {
+						// This is a necessary hack to make sure that IE will track backgroundColor CSS property, see
+						// http://dev.ckeditor.com/ticket/14667#comment:8 for more details.
+						current.$.style.backgroundColor = current.$.style.backgroundColor;
+					}
+
+					tmpElement.append( current );
+				}
+
+				// Re-insert the extracted piece after the element.
+				tmpElement.insertAfter( this );
+				tmpElement.remove( true );
+			} else {
+				// Re-insert the extracted piece after the element.
+				docFrag.insertAfterNode( this );
+			}
 		},
 
 		/**

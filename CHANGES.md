@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#14667](http://dev.ckeditor.com/ticket/14667): [IE] Fixed: Removing background color from selected text removes background color from the whole paragraph.
 * [#14252](http://dev.ckeditor.com/ticket/14252): Fixed: Styles dropdown doesn't always reflect the current style of the text line in Internet Explorer.
 * [#13929](http://dev.ckeditor.com/ticket/13929): Fixed: Errors in console on IE11 with compatibility mode in manual test for [#13867](http://dev.ckeditor.com/ticket/13867).
 * [#14275](http://dev.ckeditor.com/ticket/14275): [IE9+] Fixed: `onerror` and `onload` not used in browsers it could have been when loading scripts dynamically.
