@@ -1,13 +1,13 @@
 @bender-tags: style, tc, 4.5.10, 14667
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, removeformat, toolbar
+@bender-ckeditor-plugins: wysiwygarea, removeformat, toolbar, colorbutton
 
 **Only in IE9+**
 
 **Procedure:**
 
 1. Select "with".
-1. Click empty button in the toolbar.
+1. Click "Remove Format" button in the toolbar.
 
 **Expected:**
 
