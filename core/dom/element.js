@@ -372,6 +372,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				tmpElement,
 				current;
 
+			// Move the element outside the broken element.
+			range.insertNode( this.remove() );
+
 			// In case of Internet Explorer, we must check if there is no background-color
 			// added to the element. In such case, we have to overwrite it to prevent "switching it off"
 			// by a browser (#14667).
@@ -387,16 +390,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 
 					tmpElement.append( current );
 				}
-				// Move the element outside the broken element.
-				range.insertNode( this.remove() );
 
 				// Re-insert the extracted piece after the element.
 				tmpElement.insertAfter( this );
 				tmpElement.remove( true );
 			} else {
-				// Move the element outside the broken element.
-				range.insertNode( this.remove() );
-
 				// Re-insert the extracted piece after the element.
 				docFrag.insertAfterNode( this );
 			}
