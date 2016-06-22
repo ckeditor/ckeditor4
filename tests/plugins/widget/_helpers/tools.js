@@ -396,6 +396,7 @@ var widgetTestsTools = ( function() {
 					'data-cke-widget-drag-handler="1" ' +
 					'(?:draggable="true" )?' +
 					'height="\\d+" ' +
+					'role="presentation" ' +
 					'src="[^"]+" ' +
 					'title="[^"]+" ' +
 					'width="\\d+" ' +

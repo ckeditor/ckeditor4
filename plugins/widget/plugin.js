@@ -3139,7 +3139,8 @@
 				src: CKEDITOR.tools.transparentImageData,
 				width: DRAG_HANDLER_SIZE,
 				title: editor.lang.widget.move,
-				height: DRAG_HANDLER_SIZE
+				height: DRAG_HANDLER_SIZE,
+				role: 'presentation'
 			} );
 			widget.inline && img.setAttribute( 'draggable', 'true' );
 
