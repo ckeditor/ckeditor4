@@ -1960,6 +1960,11 @@
 		fake: function( element, ariaLabel ) {
 			var editor = this.root.editor;
 
+			// Attempt to retreive aria-label if possible (#14539).
+			if ( ariaLabel === undefined && element.hasAttribute( 'aria-label' ) ) {
+				ariaLabel = element.getAttribute( 'aria-label' );
+			}
+
 			// Cleanup after previous selection - e.g. remove hidden sel container.
 			this.reset();
 

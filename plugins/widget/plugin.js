@@ -3112,6 +3112,29 @@
 		} );
 	}
 
+	// Add a listener to data event that will set/change widget's label (#14539).
+	function setupA11yListener( widget ) {
+		// Note, the function gets executed in a context of widget instance.
+		function getLabelDefault() {
+			return this.editor.lang.widget.label.replace( /%1/, this.pathName || this.element.getName() );
+		}
+
+		// Setting a listener on data is enough, there's no need to perform it on widget initialization, as
+		// setupWidgetData fires this event anyway.
+		widget.on( 'data', function() {
+			// In some cases widget might get destroyed in an earlier data listener. For instance, image2 plugin, does
+			// so when changing its internal state.
+			if ( !widget.wrapper ) {
+				return;
+			}
+
+			var label = this.getLabel ? this.getLabel() : getLabelDefault.call( this );
+
+			widget.wrapper.setAttribute( 'role', 'region' );
+			widget.wrapper.setAttribute( 'aria-label', label );
+		}, null, null, 9999 );
+	}
+
 	function setupDragHandler( widget ) {
 		if ( !widget.draggable )
 			return;
@@ -3332,6 +3355,7 @@
 		setupMask( widget );
 		setupDragHandler( widget );
 		setupDataClassesListener( widget );
+		setupA11yListener( widget );
 
 		// #11145: [IE8] Non-editable content of widget is draggable.
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
