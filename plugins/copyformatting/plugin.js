@@ -317,7 +317,7 @@
 		 *
 		 * @property {Array}
 		 */
-		excludedAttributes: [ 'id', 'style', 'href', 'data-cke-saved-href' ],
+		excludedAttributes: [ 'id', 'style', 'href', 'data-cke-saved-href', 'dir' ],
 
 		/**
 		 * Array of elements that will be transformed into inline styles while
