@@ -3854,6 +3854,16 @@
  */
 
 /**
+ * The function used to obtain accessibility label for the widget. It might be used to make
+ * widgets label as precise as possible, since it has access to a widget instance.
+ *
+ * If not specified, the default implementation will use {@link #pathName} or main {@link #element}
+ * tag name.
+ *
+ * @property {Function} getLabel
+ */
+
+/**
  * Widget name displayed in elements path.
  *
  * @property {String} pathName
