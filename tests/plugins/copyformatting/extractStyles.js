@@ -56,7 +56,7 @@
 
 		'test excluding attributes': function() {
 			testConvertingStyles( '<span href="http://ckeditor.com" data-cke-saved-href="http://ckeditor.com" ' +
-				'style="' + styleAttr + '">Test</span>', {
+				'style="' + styleAttr + '" dir="ltr">Test</span>', {
 				element: 'span',
 				attributes: {},
 				styles: CKEDITOR.tools.parseCssText( CKEDITOR.tools.normalizeCssText( styleAttr, true ) ),
