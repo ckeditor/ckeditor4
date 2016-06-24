@@ -1131,10 +1131,10 @@
 		getSymbolInfo: function( symbol, type ) {
 			var symbolCase = symbol.toUpperCase() == symbol ? 'upper-' : 'lower-',
 				symbolMap = {
-				'·': [ 'disc', -1 ],
-				'o': [ 'circle', -2 ],
-				'§': [ 'square', -3 ]
-			};
+					'·': [ 'disc', -1 ],
+					'o': [ 'circle', -2 ],
+					'§': [ 'square', -3 ]
+				};
 
 			if ( symbol.match( /[·o§]/ ) || ( type && type.match( /(disc|circle|square)/ ) ) ) {
 				return {
