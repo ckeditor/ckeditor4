@@ -49,6 +49,10 @@
 
 				data: function() {
 					this.element.setText( '[[' + this.data.name + ']]' );
+				},
+
+				getLabel: function() {
+					return this.editor.lang.widget.label.replace( /%1/, this.data.name + ' ' + this.pathName );
 				}
 			} );
 
