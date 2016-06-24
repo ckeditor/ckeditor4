@@ -1,0 +1,51 @@
+
+<div id="editor">
+	<p>Element without classes: <strong>This is inner text</strong></p>
+	<p>Element with 2 classes: <strong class="test1 test2">This is inner text</strong></p>
+	<p>This widget doesn't implement path: <em>foo</em></p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		extraPlugins: 'test',
+		extraAllowedContent: 'em'
+	} );
+
+	CKEDITOR.plugins.add( 'test', {
+		requires: 'widget',
+		init: function( editor ) {
+			editor.widgets.add( 'test', {
+				allowedContent: 'strong(*)',
+				template: '<strong>This is inner text</strong>',
+				inline: true,
+				pathName: 'Fancy widget',
+				button: 'Create Fancy widget',
+
+				getLabel: function() {
+					var classes = CKEDITOR.tools.objectKeys( this.getClasses() ) || [],
+						ret = this.pathName;
+
+					if ( classes && classes.length ) {
+						ret += ( ' with ' + classes.length + ' classes: ' + classes.join( ', ' ) );
+					}
+
+					return ret;
+				},
+
+				upcast: function( element ) {
+					return element.name == 'strong';
+				}
+			} );
+
+			editor.widgets.add( 'test-default-label', {
+				template: '<em>Widget with default label, inner text</em>',
+				inline: true,
+
+				upcast: function( element ) {
+					return element.name == 'em';
+				}
+			} );
+		}
+	} );
+
+</script>
