@@ -31,6 +31,7 @@ CKEDITOR.plugins.add( 'table', {
 		function createDef( def ) {
 			return CKEDITOR.tools.extend( def || {}, {
 				contextSensitive: 1,
+				startDisabled: 1,
 				refresh: function( editor, path ) {
 					this.setState( path.contains( 'table', 1 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 				}
