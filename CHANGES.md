@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#14701](http://dev.ckeditor.com/ticket/14701): Fixed: More precise labels for image and placeholder widgets.
 * [#14539](https://dev.ckeditor.com/ticket/14539): Fixed: JAWS reads "selected Blank" instead of "selected <widget name>" when selecting widget.
 * [#14667](http://dev.ckeditor.com/ticket/14667): [IE] Fixed: Removing background color from selected text removes background color from the whole paragraph.
 * [#14252](http://dev.ckeditor.com/ticket/14252): Fixed: Styles dropdown doesn't always reflect the current style of the text line in Internet Explorer.
