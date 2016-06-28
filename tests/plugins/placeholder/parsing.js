@@ -129,6 +129,23 @@
 				},
 				nameCreated: 'placeholder'
 			} );
+		},
+
+		// #14701
+		'test label': function() {
+			assertWidget( {
+				html: '<p>[[just example]]</p>',
+				bot: this.editorBot,
+				widgetOffset: 0,
+				count: 1,
+				assertCreated: function( widget ) {
+					var expectedLabel = widget.editor.lang.widget.label.replace( /%1/, 'just example' + ' ' + widget.pathName );
+
+					assert.areSame( expectedLabel, widget.getLabel(), 'getLabel() return value' );
+					assert.areSame( expectedLabel, widget.wrapper.getAttribute( 'aria-label' ), 'widget aria-label value' );
+				},
+				nameCreated: 'placeholder'
+			} );
 		}
 	} );
 } )();
