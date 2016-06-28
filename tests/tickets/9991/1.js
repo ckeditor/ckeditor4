@@ -41,6 +41,7 @@
 		tests = {
 			'Bold': true,
 			'Colors': true,
+			'Custom_list_markers': true,
 			'Fonts': true,
 			'Image': true,
 			'Italic': true,
