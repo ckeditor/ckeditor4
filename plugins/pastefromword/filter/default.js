@@ -551,16 +551,23 @@
 				+( ( element.attributes.style || '' ).match( /level(\d+)/ ) || [ '', 1 ] )[ 1 ];
 
 			if ( !element.attributes[ 'cke-dissolved' ] ) {
-				// The symbol is the first text node descendant
+				// The symbol is usually the first text node descendant
 				// of the element that doesn't start with a whitespace character;
 				var symbol;
 
 				element.forEach( function( element ) {
+					// Sometimes there are custom markers represented as images.
+					// They can be recognized by the distinctive alt attribute value.
+					if ( !symbol && element.name == 'img' && element.attributes.alt == '*' ) {
+						symbol = '·';
+						// Remove the "symbol" now, since it's the best opportunity to do so.
+						element.remove();
+					}
 
-					if ( !symbol && !element.value.match( /^ / ) ) {
+					if ( !symbol && element.value && !element.value.match( /^ / ) ) {
 						symbol = element.value;
 					}
-				}, CKEDITOR.NODE_TEXT );
+				} );
 
 				// Without a symbol this isn't really a list item.
 				if ( typeof symbol == 'undefined' ) {
