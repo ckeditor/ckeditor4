@@ -141,8 +141,8 @@
 				assertCreated: function( widget ) {
 					var expectedLabel = widget.editor.lang.widget.label.replace( /%1/, 'just example' + ' ' + widget.pathName );
 
-					assert.areSame( widget.getLabel(), expectedLabel );
-					assert.areSame( widget.wrapper.getAttribute( 'aria-label' ), expectedLabel );
+					assert.areSame( expectedLabel, widget.getLabel(), 'getLabel() return value' );
+					assert.areSame( expectedLabel, widget.wrapper.getAttribute( 'aria-label' ), 'widget aria-label value' );
 				},
 				nameCreated: 'placeholder'
 			} );

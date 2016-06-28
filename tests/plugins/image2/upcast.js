@@ -127,8 +127,8 @@
 					expectedLabel = editor.lang.widget.label.replace( /%1/,
 						( widget.wrapper.findOne( 'img' ).getAttribute( 'alt' ) || '' ) + ' ' + widget.pathName );
 
-				assert.areSame( widget.getLabel(), expectedLabel );
-				assert.areSame( widget.wrapper.getAttribute( 'aria-label' ), expectedLabel );
+				assert.areSame( expectedLabel, widget.getLabel(), 'getLabel() return value' );
+				assert.areSame( expectedLabel, widget.wrapper.getAttribute( 'aria-label' ), 'widget aria-label value' );
 			} );
 		}
 	} );
