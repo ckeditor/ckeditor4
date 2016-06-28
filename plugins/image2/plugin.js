@@ -491,7 +491,7 @@
 			downcast: downcastWidgetElement( editor ),
 
 			getLabel: function() {
-				var label = ( this.wrapper.findOne( 'img' ).getAttribute( 'alt' ) || '' ) + ' ' + this.pathName;
+				var label = ( this.data.alt || '' ) + ' ' + this.pathName;
 
 				return this.editor.lang.widget.label.replace( /%1/, label );
 			}
