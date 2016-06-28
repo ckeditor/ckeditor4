@@ -1136,7 +1136,7 @@
 					'§': [ 'square', -3 ]
 				};
 
-			if ( symbol.match( /[·o§]/ ) || ( type && type.match( /(disc|circle|square)/ ) ) ) {
+			if ( symbol in symbolMap || ( type && type.match( /(disc|circle|square)/ ) ) ) {
 				return {
 					index: symbolMap[ symbol ][ 1 ],
 					type: symbolMap[ symbol ][ 0 ]
