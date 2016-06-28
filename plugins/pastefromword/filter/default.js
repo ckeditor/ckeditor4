@@ -563,11 +563,13 @@
 						// Remove the "symbol" now, since it's the best opportunity to do so.
 						element.remove();
 					}
+				}, CKEDITOR.NODE_ELEMENT );
 
-					if ( !symbol && element.value && !element.value.match( /^ / ) ) {
+				element.forEach( function( element ) {
+					if ( !symbol && !element.value.match( /^ / ) ) {
 						symbol = element.value;
 					}
-				} );
+				}, CKEDITOR.NODE_TEXT );
 
 				// Without a symbol this isn't really a list item.
 				if ( typeof symbol == 'undefined' ) {
