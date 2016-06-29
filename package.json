@@ -18,7 +18,7 @@
 		"grunt-jsduck": "^1.0.1",
 		"grunt-githooks": "^0.5.0",
 		"less": "^2.5.0",
-		"shelljs": "^0",
+		"shelljs": "~0.6",
 		"cksource-samples-framework": "^1.0.1"
 	},
 	"scripts": {
