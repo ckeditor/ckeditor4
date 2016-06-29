@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, copyformatting, 195
+@bender-tags: tc, copyformatting
 @bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace, basicstyles, elementspath, undo
 
 **Procedure for the first editor**

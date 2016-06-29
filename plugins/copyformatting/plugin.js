@@ -166,7 +166,7 @@
 			editor.on( 'contentDom', function() {
 				var editable = editor.editable(),
 					// Host element for apply formatting clock. In case of classic element it needs to be entire
-					// document, otherwise clicking in body margins would not trigger the event (#168).
+					// document, otherwise clicking in body margins would not trigger the event.
 					mouseupHost = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editable : editor.document,
 					copyFormattingButton = editor.ui.get( 'CopyFormatting' ),
 					copyFormattingButtonEl;
@@ -199,7 +199,7 @@
 				}
 			} );
 
-			// Set customizable keystrokes (#195).
+			// Set customizable keystrokes.
 			if ( editor.config.copyFormatting_keystrokeCopy ) {
 				editor.setKeystroke( editor.config.copyFormatting_keystrokeCopy, 'copyFormatting' );
 			}
