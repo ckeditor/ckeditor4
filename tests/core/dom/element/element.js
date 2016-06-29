@@ -10,6 +10,17 @@ var getInnerHtml = bender.tools.getInnerHtml,
 		return new CKEDITOR.dom.element( element, ownerDocument );
 	};
 
+function testAttributes( element, expected, exclude ) {
+	var container = CKEDITOR.document.getById( 'getAttributes' ),
+		attributes;
+
+	element = container.findOne( element );
+	attributes = element.getAttributes( exclude );
+
+	assert.isObject( attributes );
+	objectAssert.areEqual( expected, attributes );
+}
+
 bender.test( appendDomObjectTests(
 	function( id ) {
 		return new CKEDITOR.dom.element( document.getElementById( id ) );
@@ -478,6 +489,48 @@ bender.test( appendDomObjectTests(
 			assert.isFalse( element.hasAttributes(), 'hasAttributes should be false' );
 		},*/
 
+		test_getAttributes_no_attributes: function() {
+			testAttributes( 'b', {} );
+		},
+
+		test_getAttributes_1_attribute: function() {
+			testAttributes( 'i', {
+				id: 'getAttributes_1'
+			} );
+		},
+
+		test_getAttributes_2_attributes: function() {
+			testAttributes( 'p', {
+				id: 'getAttributes_2',
+				'data-attr': 'bogus'
+			} );
+		},
+
+		test_getAttributes_duplicated_attribute: function() {
+			testAttributes( 'span', {
+				'bogus-attr': 1
+			} );
+		},
+
+		test_getAttributes_unicode: function() {
+			testAttributes( 'em', {
+				'data-unicode': '☃'
+			} );
+		},
+
+		test_getAttributes_exclude: function() {
+			testAttributes( 'p', {
+				'data-attr': 'bogus'
+			}, [ 'id' ] );
+		},
+
+		test_getAttributes_exclude_wrong_format: function() {
+			testAttributes( 'p', {
+				id: 'getAttributes_2',
+				'data-attr': 'bogus'
+			}, 'id' );
+		},
+
 		test_getTabIndex1: function() {
 			var element = newElement( document.getElementById( 'tabIndex10' ) );
 			assert.areSame( 10, element.getTabIndex() );
@@ -791,6 +844,16 @@ bender.test( appendDomObjectTests(
 			assert.isFalse( element.hasAttribute( 'id' ) );
 			assert.isFalse( element.hasAttribute( 'class' ) );
 			assert.areEqual( 'test2', element.getAttribute( 'title' ) );
+		},
+
+		test_removeAttributes_without_parameters: function() {
+			var element = doc.getById( 'removeAttributes_2' );
+
+			element.removeAttributes();
+
+			assert.isFalse( element.hasAttribute( 'id' ) );
+			assert.isFalse( element.hasAttribute( 'class' ) );
+			assert.isFalse( element.hasAttribute( 'title' ) );
 		},
 
 		test_removeStyle: function() {

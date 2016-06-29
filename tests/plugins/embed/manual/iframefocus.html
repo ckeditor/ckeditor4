@@ -1,0 +1,26 @@
+<head>
+	<style>
+	button:focus {
+		border: 3px #f00 solid;
+	}
+	</style>
+</head>
+<p>Test URLs</p>
+
+<ul>
+	<li>https://vimeo.com/86541796</li>
+	<li>https://www.youtube.com/watch?v=cakkDjbBKmg</li>
+</ul>
+
+<p>Dat rich editor</p>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Foo bar</p>
+	<p>Foo bar.</p>
+</textarea>
+
+<p><button>Focus indicator</button></p>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+</script>

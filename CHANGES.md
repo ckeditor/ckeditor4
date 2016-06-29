@@ -17,12 +17,30 @@ Fixed Issues:
 * [#13828](http://dev.ckeditor.com/ticket/13828): Fixed: Widget classes should be added to wrapper rather than widget element.
 * [#13519](http://dev.ckeditor.com/ticket/13519): Response should be more flexible.
 
+## CKEditor 4.5.10
+
+Fixed Issues:
+
+* [#14701](http://dev.ckeditor.com/ticket/14701): Fixed: More precise labels for image and placeholder widgets.
+* [#14539](https://dev.ckeditor.com/ticket/14539): Fixed: JAWS reads "selected Blank" instead of "selected <widget name>" when selecting widget.
+* [#14667](http://dev.ckeditor.com/ticket/14667): [IE] Fixed: Removing background color from selected text removes background color from the whole paragraph.
+* [#14252](http://dev.ckeditor.com/ticket/14252): Fixed: Styles dropdown doesn't always reflect the current style of the text line in Internet Explorer.
+* [#13929](http://dev.ckeditor.com/ticket/13929): Fixed: Errors in console on IE11 with compatibility mode in manual test for [#13867](http://dev.ckeditor.com/ticket/13867).
+* [#14275](http://dev.ckeditor.com/ticket/14275): [IE9+] Fixed: `onerror` and `onload` not used in browsers it could have been when loading scripts dynamically.
+* [#14590](http://dev.ckeditor.com/ticket/14590): Fixed: Additional line break appearing after inline elements when switching modes. Thanks to [dpidcock](https://github.com/dpidcock)!
+
 ## CKEditor 4.5.9
 
 Fixed Issues:
 
-* [#11697](http://dev.ckeditor.com/ticket/11697): Fixed: It is possible to replace content with wrong letter case.
-* [#13886](http://dev.ckeditor.com/ticket/13886): Fixed: Invalid handling of [`CKEDITOR.style`](http://docs.ckeditor.com/#!/api/CKEDITOR.style) instance with `styles` property by [`CKEDITOR.filter`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter).
+* [#10685](http://dev.ckeditor.com/ticket/10685): Fixed: Unreadable toolbar icons after updating to the new editor version. Fixed with [6876179](https://github.com/ckeditor/ckeditor-dev/commit/6876179db4ee97e786b07b8fd72e6b4120732185) in [ckeditor-dev](https://github.com/ckeditor/ckeditor-dev) and [6c9189f4](https://github.com/ckeditor/ckeditor-presets/commit/6c9189f46392d2c126854fe8889b820b8c76d291) in [ckeditor-presets](https://github.com/ckeditor/ckeditor-presets).
+* [#14573](https://dev.ckeditor.com/ticket/14573): Fixed: Missing [Widget](http://ckeditor.com/addon/widget) drag handler CSS when there are multiple editor instances.
+* [#14620](https://dev.ckeditor.com/ticket/14620): Fixed: Setting both the `min-height` style for the `<body>` element and the `height` style for the `<html>` element breaks the [Auto Grow](http://ckeditor.com/addon/autogrow) plugin.
+* [#14538](http://dev.ckeditor.com/ticket/14538): Fixed: Keyboard focus goes into an embedded `<iframe>` element.
+* [#14602](http://dev.ckeditor.com/ticket/14602): Fixed: The [`dom.element.removeAttribute()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeAttribute) method does not remove all attributes if no parameter is given.
+* [#8679](http://dev.ckeditor.com/ticket/8679): Fixed: Better focus indication and ability to style the selected color in the [color picker dialog](http://ckeditor.com/addon/colordialog).
+* [#11697](http://dev.ckeditor.com/ticket/11697): Fixed: Content is replaced ignoring the letter case setting in the [Find and Replace](http://ckeditor.com/addon/find) dialog window.
+* [#13886](http://dev.ckeditor.com/ticket/13886): Fixed: Invalid handling of the [`CKEDITOR.style`](http://docs.ckeditor.com/#!/api/CKEDITOR.style) instance with the `styles` property by [`CKEDITOR.filter`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter).
 * [#14535](http://dev.ckeditor.com/ticket/14535): Fixed: CSS syntax corrections. Thanks to [mdjdenormandie](https://github.com/mdjdenormandie)!
 
 ## CKEditor 4.5.8

@@ -3,5 +3,6 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.plugins.setLang( 'widget', 'ug', {
-	'move': 'يۆتكەشتە چېكىپ سۆرەڭ'
+	'move': 'يۆتكەشتە چېكىپ سۆرەڭ',
+	'label': '%1 widget' // MISSING
 } );

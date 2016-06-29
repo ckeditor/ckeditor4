@@ -4,6 +4,9 @@
  */
 
 ( function() {
+	var isNotWhitespace, isNotBookmark, isEmpty, isBogus, emptyParagraphRegexp,
+		insert, fixTableAfterContentsDeletion, getHtmlFromRangeHelpers, extractHtmlFromRangeHelpers;
+
 	/**
 	 * Editable class which provides all editing related activities by
 	 * the `contenteditable` element, dynamically get attached to editor instance.
@@ -902,12 +905,16 @@
 				// Create the content stylesheet for this document.
 				var styles = CKEDITOR.getCss();
 				if ( styles ) {
-					var head = doc.getHead();
-					if ( !head.getCustomData( 'stylesheet' ) ) {
+					var head = doc.getHead(),
+						stylesElement = head.getCustomData( 'stylesheet' );
+
+					if ( !stylesElement ) {
 						var sheet = doc.appendStyleText( styles );
 						sheet = new CKEDITOR.dom.element( sheet.ownerNode || sheet.owningElement );
 						head.setCustomData( 'stylesheet', sheet );
 						sheet.data( 'cke-temp', 1 );
+					} else if ( styles != stylesElement.getText() ) {
+						CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? stylesElement.$.styleSheet.cssText = styles : stylesElement.setText( styles );
 					}
 				}
 
@@ -1291,12 +1298,12 @@
 	//
 	//
 
-	var isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
-		isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
-		isEmpty = CKEDITOR.dom.walker.empty(),
-		isBogus = CKEDITOR.dom.walker.bogus(),
-		// Matching an empty paragraph at the end of document.
-		emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
+	isNotWhitespace = CKEDITOR.dom.walker.whitespaces( true ),
+	isNotBookmark = CKEDITOR.dom.walker.bookmark( false, true ),
+	isEmpty = CKEDITOR.dom.walker.empty(),
+	isBogus = CKEDITOR.dom.walker.bogus(),
+	// Matching an empty paragraph at the end of document.
+	emptyParagraphRegexp = /(^|<body\b[^>]*>)\s*<(p|div|address|h\d|center|pre)[^>]*>\s*(?:<br[^>]*>|&nbsp;|\u00A0|&#160;)?\s*(:?<\/\2>)?\s*(?=$|<\/body>)/gi;
 
 	// Auto-fixing block-less content by wrapping paragraph (#3190), prevent
 	// non-exitable-block by padding extra br.(#3189)
@@ -1523,7 +1530,7 @@
 	//
 	// Functions related to insertXXX methods
 	//
-	var insert = ( function() {
+	insert = ( function() {
 		'use strict';
 
 		var DTD = CKEDITOR.dtd;
@@ -2232,7 +2239,7 @@
 	// 1. Fixes a range which is a result of deleteContents() and is placed in an intermediate element (see dtd.$intermediate),
 	// inside a table. A goal is to find a closest <td> or <th> element and when this fails, recreate the structure of the table.
 	// 2. Fixes empty cells by appending bogus <br>s or deleting empty text nodes in IE<=8 case.
-	var fixTableAfterContentsDeletion = ( function() {
+	fixTableAfterContentsDeletion = ( function() {
 		// Creates an element walker which can only "go deeper". It won't
 		// move out from any element. Therefore it can be used to find <td>x</td> in cases like:
 		// <table><tbody><tr><td>x</td></tr></tbody>^<tfoot>...
@@ -2473,7 +2480,7 @@
 	//
 	// Helpers for editable.getHtmlFromRange.
 	//
-	var getHtmlFromRangeHelpers = {
+	getHtmlFromRangeHelpers = {
 		eol: {
 			detect: function( that, editable ) {
 				var range = that.range,
@@ -2638,7 +2645,7 @@
 	//
 	// Helpers for editable.extractHtmlFromRange.
 	//
-	var extractHtmlFromRangeHelpers = ( function() {
+	extractHtmlFromRangeHelpers = ( function() {
 		function optimizeBookmarkNode( node, toStart ) {
 			var parent = node.getParent();
 
