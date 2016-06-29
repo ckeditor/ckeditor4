@@ -72,6 +72,14 @@
 						}
 					};
 
+					if ( element.parent ) {
+						var attrs = element.parent.attributes,
+							style = attrs.style || attrs.STYLE;
+						if ( style && style.match( /mso\-list:\s?Ignore/ ) ) {
+							element.attributes[ 'cke-ignored' ] = true;
+						}
+					}
+
 					Style.mapStyles( element, attributeStyleMap );
 
 					if ( element.attributes.src && element.attributes.src.match( /^file:\/\// ) &&
@@ -558,7 +566,9 @@
 				element.forEach( function( element ) {
 					// Sometimes there are custom markers represented as images.
 					// They can be recognized by the distinctive alt attribute value.
-					if ( !symbol && element.name == 'img' && element.attributes.alt == '*' ) {
+					if ( !symbol && element.name == 'img' &&
+						element.attributes[ 'cke-ignored' ] &&
+						element.attributes.alt == '*' ) {
 						symbol = '·';
 						// Remove the "symbol" now, since it's the best opportunity to do so.
 						element.remove();
