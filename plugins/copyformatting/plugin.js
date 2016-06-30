@@ -220,8 +220,7 @@
 			// Fetch the styles from element.
 			editor.copyFormatting.on( 'extractFormatting', function( evt ) {
 				var element = evt.data.element,
-					style,
-					styleClone;
+					style;
 
 				// Stop at body and html in classic editors or at .cke_editable element in inline ones.
 				if ( element.contains( editor.editable() ) || element.equals( editor.editable() ) ) {
@@ -230,13 +229,7 @@
 
 				style = plugin._convertElementToStyleDef( element );
 
-				// Workaround for #13886.
-				styleClone = CKEDITOR.tools.clone( style );
-				if ( styleClone && CKEDITOR.tools.isEmpty( styleClone.styles ) ) {
-					delete styleClone.styles;
-				}
-
-				if ( !editor.copyFormatting.filter.check( new CKEDITOR.style( styleClone ), true, true ) ) {
+				if ( !editor.copyFormatting.filter.check( new CKEDITOR.style( style ), true, true ) ) {
 					return evt.cancel();
 				}
 
