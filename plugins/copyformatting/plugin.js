@@ -459,29 +459,6 @@
 		},
 
 		/**
-		 * Creates attributes dictionary for given element.
-		 *
-		 * @param {CKEDITOR.dom.element} element Element which attributes should be fetched.
-		 * @param {Array} exclude Names of attributes to be excluded from dictionary.
-		 * @param {Object} Object containing all element's attributes with their values.
-		 * @private
-		 */
-		_getAttributes: function( element, exclude ) {
-			var attributes = {},
-				attrDefs = element.$.attributes;
-
-			exclude = CKEDITOR.tools.isArray( exclude ) ? exclude : [];
-
-			for ( var i = 0; i < attrDefs.length; i++ ) {
-				if ( indexOf( exclude, attrDefs[ i ].name ) === -1 ) {
-					attributes[ attrDefs[ i ].name ] = attrDefs[ i ].value;
-				}
-			}
-
-			return attributes;
-		},
-
-		/**
 		 * Converts given element into style definition that could be used to create instance of {@link CKEDITOR.style}.
 		 *
 		 * Note that all definitions has `type` property set to {@link CKEDITOR.STYLE_INLINE}
@@ -492,8 +469,7 @@
 		 */
 		_convertElementToStyleDef: function( element ) {
 			var tools = CKEDITOR.tools,
-				attributes = CKEDITOR.plugins.copyformatting._getAttributes( element,
-					CKEDITOR.plugins.copyformatting.excludedAttributes ),
+				attributes = element.getAttributes( CKEDITOR.plugins.copyformatting.excludedAttributes ),
 				styles = tools.parseCssText( element.getAttribute( 'style' ), true, true );
 
 			return {
@@ -581,7 +557,7 @@
 				currentNode = currentNode.getAscendant( element, true );
 
 				if ( currentNode ) {
-					currentNode.removeAttributes( CKEDITOR.plugins.copyformatting._getAttributes( currentNode ) );
+					currentNode.removeAttributes( currentNode.getAttributes() );
 
 					if ( stopOnFirst ) {
 						return;
