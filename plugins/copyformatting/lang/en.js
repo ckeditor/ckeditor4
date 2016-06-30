@@ -4,7 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'copyformatting', 'en', {
 	label: 'Copy Formatting',
-	menuLabel: 'Apply style',
 	notification: {
 		copied: 'Formatting copied',
 		applied: 'Formatting applied',
