@@ -331,23 +331,43 @@
 		testQuoteEntity: assertNormalizeCssText( 'font-family:"foo";', 'font-family: &quot;foo&quot;;', '' ),
 
 		// (#10750)
-		testNormalizeCssTextFonts1: assertNormalizeCssText( 'font-family:"crazy font";', 'font-family: "crazy font";',
+		'test Normalize double quote': assertNormalizeCssText( 'font-family:"crazy font";', 'font-family: "crazy font";',
 			'quoted font name' ),
-		testNormalizeCssTextFonts2: assertNormalizeCssText( 'font-family:\'crazy font\';', 'font-family: \'crazy font\';',
+		'test Normalize single quote': assertNormalizeCssText( 'font-family:\'crazy font\';', 'font-family: \'crazy font\';',
 			'single-quoted font name' ),
-		testNormalizeCssTextFonts3: assertNormalizeCssText( 'font-family:serif;', 'font-family: serif;',
+
+		'test Normalize generic family name serif': assertNormalizeCssText( 'font-family:serif;', 'font-family: serif;',
 			'generic-family name is not escaped' ),
-		testNormalizeCssTextFonts4: assertNormalizeCssText( 'font-family:"foo",serif;', 'font-family: "foo", serif;',
+		'test Normalize generic family name sans-serif': assertNormalizeCssText( 'font-family:sans-serif;', 'font-family: sans-serif;',
+			'generic-family name is not escaped' ),
+		'test Normalize generic family name cursive': assertNormalizeCssText( 'font-family:cursive;', 'font-family: cursive;',
+			'generic-family name is not escaped' ),
+		'test Normalize generic family name fantasy': assertNormalizeCssText( 'font-family:fantasy;', 'font-family: fantasy;',
+			'generic-family name is not escaped' ),
+		'test Normalize generic family name monospace': assertNormalizeCssText( 'font-family:monospace;', 'font-family: monospace;',
+			'generic-family name is not escaped' ),
+
+		'test Normalize generic and non-generic mix': assertNormalizeCssText( 'font-family:"foo",serif;', 'font-family: "foo", serif;',
 			'family-name and generic-family mix' ),
-		testNormalizeCssTextFonts5: assertNormalizeCssText( 'font-family:"FFo baR";', 'font-family: "FFo baR";',
+		'test Normalize letter casing sensitivity': assertNormalizeCssText( 'font-family:"FFo baR";', 'font-family: "FFo baR";',
 			'letter casing sensivity' ),
 		// It's also possible to use font named as any generic-family member as long as it's enclosed within quotes.
-		testNormalizeCssTextFonts6: assertNormalizeCssText( 'font-family:"serif";', 'font-family:"serif";',
+		'test Normalize generic-family token as family-name': assertNormalizeCssText( 'font-family:"serif";', 'font-family:"serif";',
 			'accept generic-family token as family-name' ),
-		testNormalizeCssTextFonts7: assertNormalizeCssText( 'font-family:my-cool-font;', 'font-family:my-cool-font;',
+		'test Normalize unquoted family name with hyphen': assertNormalizeCssText( 'font-family:my-cool-font;', 'font-family:my-cool-font;',
 			'unquoted family name with hyphen' ),
-		testNormalizeCssTextFonts8: assertNormalizeCssText( 'font-family:"Space    font";', 'font-family:"Space    font";',
+		'test Normalize font name with multiple spaces': assertNormalizeCssText( 'font-family:"Space    font";', 'font-family:"Space    font";',
 			'font name with multiple spaces' ),
+
+		'test Normalize family name with quotes': assertNormalizeCssText( 'font-family:"\'Sarcasm\'";', 'font-family:"\'Sarcasm\'";',
+			'family name with quotes' ),
+		'test Normalize family name with special characters': assertNormalizeCssText( 'font-family:"\'This is   -!$   custom Font\'";', 'font-family:"\'This is   -!$   custom Font\'";',
+			'family name with special characters' ),
+
+		// If there's a syntax error in the style - just leave it like that.
+		'test Normalize syntax error': assertNormalizeCssText( 'font-family:"crazy font",;', 'font-family:"crazy font",;',
+			'style syntax error' ),
+
 
 		testConvertRgbToHex: function() {
 			var c = CKEDITOR.tools.convertRgbToHex;
