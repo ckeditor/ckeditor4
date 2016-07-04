@@ -606,7 +606,7 @@
 			function getSiblingNodeOffset( startNode, isPrev ) {
 				var currentNode = startNode,
 					regex = /\s/g,
-					boundaryElements = [ 'p', 'br', 'ol', 'ul', 'li', 'td', 'div', 'caption', 'body' ],
+					boundaryElements = [ 'p', 'br', 'ol', 'ul', 'li', 'td', 'th', 'div', 'caption', 'body' ],
 					isBoundary = false,
 					isParent = false,
 					sibling, contents, match, offset;
