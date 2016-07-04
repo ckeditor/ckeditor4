@@ -1795,6 +1795,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// @param {Object/String} source
 	// @param {Object/String} target
 	function compareCssText( source, target ) {
+		var stripQuotes = function( string ) {
+			return string.replace( /["']/g, '' );
+		};
+
 		if ( typeof source == 'string' )
 			source = CKEDITOR.tools.parseCssText( source );
 		if ( typeof target == 'string' )
@@ -1805,7 +1809,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				return false;
 			}
 
-			if ( !( ( target[ name ] == source[ name ] ||
+			if ( !( ( stripQuotes( target[ name ] ) == stripQuotes( source[ name ] ) ||
 				source[ name ] == 'inherit' ||
 				target[ name ] == 'inherit' ) ) ) {
 				return false;
