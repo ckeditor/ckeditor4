@@ -32,9 +32,9 @@ YUITest.ObjectAssert.areDeepEqual = function( expected, actual, message ) {
 	}
 };
 
-// Safari uses text selection and all other browsers use element selection. Therefore we must normalize it.
+// Safari and IE8 use text selection and all other browsers use element selection. Therefore we must normalize it.
 function fixHtml( html ) {
-	if ( CKEDITOR.env.webkit && !CKEDITOR.env.chrome ) {
+	if ( ( CKEDITOR.env.webkit && !CKEDITOR.env.chrome ) || ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) ) {
 		html = html.replace( /\{/g, '[' ).replace( /\}/g, ']' );
 	}
 
@@ -214,7 +214,6 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 			extractFormatting: 0
 		},
 		styles,
-		i,
 		removed,
 		element,
 		range;
@@ -257,6 +256,38 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 	range.select();
 
 	copyFormatting.on( 'extractFormatting', countExtractFormatting );
+
+	copyFormatting.once( 'applyFormatting', function( evt ) {
+		assert.isArray( evt.data.styles, 'New styles are passed to the applyFormatting event.' );
+	} );
+
+	copyFormatting.once( 'applyFormatting', function() {
+		var path = range.startPath(),
+			i,
+			element;
+
+		// IE8 could leave removed style as the element without any content. In such case, we should remove that element
+		// before checking if the style is actually removed.
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+			for ( i = 0; i < path.elements.length; i++ ) {
+				element = path.elements[ i ];
+
+				if ( element.isEmptyInlineRemoveable() ) {
+					element.remove();
+				}
+			}
+		}
+
+		// Check if styles that should be removed are really removed.
+		for ( i = removed = 0; i < removedStyles.length; i++ ) {
+			if ( !removedStyles[ i ].checkActive( path, editor ) ) {
+				++removed;
+			}
+		}
+
+		assert.areSame( removedStyles.length, removed, 'All preexisting styles are removed correctly' );
+	}, null, null, 100001 );
+
 	editor.execCommand( 'applyFormatting', additionalData );
 	copyFormatting.removeListener( 'extractFormatting', countExtractFormatting );
 
@@ -265,21 +296,8 @@ function testCopyFormattingFlow( editor, htmlWithSelection, expectedStyles, remo
 	assert.isTrue( removedStyles.length <= events.extractFormatting,
 		'For every removed style a proper event was fired.' );
 
-	copyFormatting.once( 'applyFormatting', function( evt ) {
-		assert.isArray( evt.data.styles, 'New styles are passed to the applyFormatting event.' );
-	} );
-
 	assertApplyFormattingState( editor, styles, element, additionalData );
 	assertScreenReaderNotification( editor, 'applied' );
-
-	// Check if styles that should be removed are really removed.
-	for ( i = removed = 0; i < removedStyles.length; i++ ) {
-		if ( !removedStyles[ i ].checkActive( range.startPath(), editor ) ) {
-			++removed;
-		}
-	}
-
-	assert.areSame( removedStyles.length, removed, 'All preexisting styles are removed correctly' );
 
 	// Reset command to inital state.
 	if ( cmd.state === CKEDITOR.TRISTATE_ON ) {

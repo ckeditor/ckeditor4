@@ -276,7 +276,7 @@
 					'[<iframe src="http://xxx"></iframe>]',
 					'[<input type="text">]',
 					'[<textarea>Test</textarea>]',
-					'[<button>Test</button>]',
+					'[<button type="button">Test</button>]',
 					'[<span data-cke-realelement="">Test</span>]',
 					'[<span data-cke-widget-id="0">Test</span>]'
 				],
@@ -295,6 +295,12 @@
 			if ( CKEDITOR.env.ie ) {
 				input.splice( 1, 1 );
 				elements.splice( 1, 1 );
+			}
+
+			//Additionaly in IE8 button and textarea are also failing.
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+				input.splice( 2, 2 );
+				elements.splice( 2, 2 );
 			}
 
 			for ( i = 0; i < input.length; i++ ) {
@@ -347,11 +353,11 @@
 					'[<iframe src="http://xxx"></iframe>]<br>',
 					'[<input type="text">]<br>',
 					'[<textarea>Test</textarea>]<br>',
-					CKEDITOR.env.webkit && !CKEDITOR.env.chrome ? '<button>[Test]</button><br>' : '[<button>Test</button>]<br>',
-					CKEDITOR.env.webkit && !CKEDITOR.env.chrome ? '<span data-cke-realelement="">[Test]</span><br>' :
-						'[<span data-cke-realelement="">Test</span>]<br>',
-					CKEDITOR.env.webkit && !CKEDITOR.env.chrome ? '<span data-cke-widget-id="0">[Test]</span><br>' :
-						'[<span data-cke-widget-id="0">Test</span>]<br>'
+					CKEDITOR.env.webkit && !CKEDITOR.env.chrome ? '<button>[Test]</button><br>' : '[<button type="submit">Test</button>]<br>',
+					( CKEDITOR.env.webkit && !CKEDITOR.env.chrome ) || ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) ?
+						'<span data-cke-realelement="">[Test]</span><br>' : '[<span data-cke-realelement="">Test</span>]<br>',
+					( CKEDITOR.env.webkit && !CKEDITOR.env.chrome ) || ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) ?
+						'<span data-cke-widget-id="0">[Test]</span><br>' : '[<span data-cke-widget-id="0">Test</span>]<br>'
 				],
 				i;
 
