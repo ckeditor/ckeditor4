@@ -1801,8 +1801,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 			target = CKEDITOR.tools.parseCssText( target, true );
 
 		for ( var name in source ) {
-			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) )
+			if ( !( name in target ) ) {
 				return false;
+			}
+
+			if ( !( ( target[ name ] == source[ name ] ||
+				source[ name ] == 'inherit' ||
+				target[ name ] == 'inherit' ) ) ) {
+				return false;
+			}
 		}
 		return true;
 	}
