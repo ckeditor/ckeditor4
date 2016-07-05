@@ -664,6 +664,48 @@
 
 			// Check if next token will be the same.
 			assert.areEqual( token, CKEDITOR.tools.getCsrfToken(), 'getCsrfToken returns token from cookie' );
+		},
+
+		'test escapeCss - invalid selector': function() {
+			var selector;
+			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			// Check undefined selector.
+			assert.areSame( escapedSelector, '', 'invalid selector - undefined' );
+
+			selector = null;
+			escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			// Check null selector.
+			assert.areSame( escapedSelector, '', 'invalid selector - null' );
+
+			selector = '';
+			escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			// Check empty selector.
+			assert.areSame( escapedSelector, '', 'invalid selector - empty' );
+		},
+
+		'test escapeCss - starts-with-number selector': function() {
+			var selector = '100';
+			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			// Check starts-with-number selector.
+			assert.areSame( escapedSelector, '\\31 00', 'starts-with-number selector' );
+
+			selector = '0';
+			escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			// Check only-one-number selector.
+			assert.areSame( escapedSelector, '\\30 ', 'only-one-number selector' );
+		},
+
+		'test escapeCss - standard selector': function() {
+			var selector = 'aaa';
+			var escapedSelector = CKEDITOR.tools.escapeCss( selector );
+
+			// Check standard selector.
+			assert.areSame( escapedSelector, 'aaa', 'standard selector' );
 		}
 	} );
 } )();
