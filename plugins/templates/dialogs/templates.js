@@ -51,10 +51,16 @@
 			item.getFirst().setHtml( html );
 
 			item.on( 'click', function() {
+				hookTemplate( template );
 				insertTemplate( template.html );
 			} );
 
 			return item;
+		}
+
+		// Add an event that provides the whole template with all of its properties.
+		function hookTemplate( template ) {
+			editor.fire('clickTemplate', { templateData: template });
 		}
 
 		// Insert the specified template content into editor.
