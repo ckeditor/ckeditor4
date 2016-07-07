@@ -1506,6 +1506,27 @@
 
 				assert.areSame( '<p><i>foo</i></p><div data-widget="testacfstyles1"><p class="foo">X</p><p class="bar"><i>X</i></p></div><p><i>foo</i></p>', editor.getData() );
 			} );
+		},
+
+		// Nested editable with preexisting numeric id. (#14451)
+		'test nested editable with preexisting numeric id': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			editor.widgets.add( 'testpreexistingnumericid', {
+				editables: {
+					foo: {
+						selector: 'p',
+						allowedContent: true
+					}
+				}
+			} );
+
+			bot.setData( '<p>foo</p><div data-widget="testpreexistingnumericid"><p id="123">X</p></div><p>foo</p>',
+				function() {
+				// If that code is being executed, it means that everything is OK.
+				assert.pass( 'Editables with numeric ids are handled correctly.' );
+			} );
 		}
 	} );
 } )();
