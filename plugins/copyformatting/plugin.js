@@ -1039,7 +1039,7 @@
 	 *
 	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallow spans with important class.
 	 *
-	 * @cfg [copyFormatting_disallowRules=]
+	 * @cfg [copyFormatting_disallowRules='*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)']
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.copyFormatting_disallowRules = '*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)';
