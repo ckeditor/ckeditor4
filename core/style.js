@@ -1794,6 +1794,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// is treated as a wildcard which will match any value.
 	// @param {Object/String} source
 	// @param {Object/String} target
+	// @returns {Boolean}
 	function compareCssText( source, target ) {
 		var stripQuotes = function( string ) {
 			return string.replace( /["']/g, '' );
