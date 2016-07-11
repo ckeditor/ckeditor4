@@ -1796,12 +1796,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// @param {Object/String} target
 	// @returns {Boolean}
 	function compareCssText( source, target ) {
-		var stripQuotes = function( string ) {
-				return string.replace( /["']/g, '' );
-			},
-			pass = function( string ) {
-				return string;
-			};
+		function filter( string, propertyName ) {
+			// In case of font-families we'll skip quotes. (#10750)
+			return propertyName.toLowerCase() == 'font-family' ? string.replace( /["']/g, '' ) : '';
+		}
 
 		if ( typeof source == 'string' )
 			source = CKEDITOR.tools.parseCssText( source );
@@ -1813,9 +1811,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 				return false;
 			}
 
-			var filter = name.toLowerCase() == 'font-family' ? stripQuotes : pass;
-
-			if ( !( filter( target[ name ] ) == filter( source[ name ] ) ||
+			if ( !( filter( target[ name ], name ) == filter( source[ name ], name ) ||
 				source[ name ] == 'inherit' ||
 				target[ name ] == 'inherit' ) ) {
 				return false;
