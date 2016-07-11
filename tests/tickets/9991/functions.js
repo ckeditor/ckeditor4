@@ -134,7 +134,7 @@
 		'test supportFields comment': function() {
 			/*jshint nonbsp:false */
 			var html = '<!--[if supportFields]><span lang=DE><span style=\'mso-element:' +
-			'field-begin\'></span><span style=\'mso-spacerun:yes\'> </span>TOC \\o' +
+			'field-begin\'></span><span style=\'mso-spacerun:yes\'> </span>TOC \\o' +
 			'&quot;1-3&quot; \\h \\z \\u <span style=\'mso-element:field-separator\'></span></span><![endif]-->',
 				inComment = 0;
 			/*jshint nonbsp:true */
