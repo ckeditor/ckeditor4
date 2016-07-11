@@ -1797,8 +1797,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// @returns {Boolean}
 	function compareCssText( source, target ) {
 		var stripQuotes = function( string ) {
-			return string.replace( /["']/g, '' );
-		};
+				return string.replace( /["']/g, '' );
+			},
+			pass = function( string ) {
+				return string;
+			};
 
 		if ( typeof source == 'string' )
 			source = CKEDITOR.tools.parseCssText( source );
@@ -1810,9 +1813,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 				return false;
 			}
 
-			if ( !( ( stripQuotes( target[ name ] ) == stripQuotes( source[ name ] ) ||
+			var filter = name.toLowerCase() == 'font-family' ? stripQuotes : pass;
+
+			if ( !( filter( target[ name ] ) == filter( source[ name ] ) ||
 				source[ name ] == 'inherit' ||
-				target[ name ] == 'inherit' ) ) ) {
+				target[ name ] == 'inherit' ) ) {
 				return false;
 			}
 		}
