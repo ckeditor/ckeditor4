@@ -1379,7 +1379,7 @@
 		/**
 		 * Returns escaped CSS selector. CSS.escape() is used if defined, leading digit is escaped otherwise.
 		 *
-		 * @since 4.5.8
+		 * @since 4.5.10
 		 * @param {String} selector Selector to escape.
 		 * @returns {String} Escaped selector.
 		 */
