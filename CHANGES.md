@@ -5,6 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
+* [#14413](http://dev.ckeditor.com/ticket/14413): Fixed: Autogrow plugin with `autoGrow_onStartup` option set to `true` does not work properly for not visible editor.
 * [#14451](http://dev.ckeditor.com/ticket/14451): Fixed: Numeric element id not escaped properly. Thanks to Jakub Chalupa!
 * [#14701](http://dev.ckeditor.com/ticket/14701): Fixed: More precise labels for image and placeholder widgets.
 * [#14539](https://dev.ckeditor.com/ticket/14539): Fixed: JAWS reads "selected Blank" instead of "selected <widget name>" when selecting widget.
