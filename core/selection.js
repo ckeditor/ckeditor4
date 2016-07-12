@@ -1955,7 +1955,7 @@
 		 * displayed to the user.
 		 *
 		 * @param {CKEDITOR.dom.element} element The element to be "selected".
-		 * @param {String} [ariaLabel] String to be used for screen reader to describe the selection.
+		 * @param {String} [ariaLabel] A string to be used by the screen reader to describe the selection.
 		 */
 		fake: function( element, ariaLabel ) {
 			var editor = this.root.editor;

@@ -5,16 +5,16 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#10750](http://dev.ckeditor.com/ticket/10750): Fixed: The editor don't unquote the font-family style property.
-* [#14413](http://dev.ckeditor.com/ticket/14413): Fixed: Autogrow plugin with `autoGrow_onStartup` option set to `true` does not work properly for not visible editor.
-* [#14451](http://dev.ckeditor.com/ticket/14451): Fixed: Numeric element id not escaped properly. Thanks to Jakub Chalupa!
-* [#14701](http://dev.ckeditor.com/ticket/14701): Fixed: More precise labels for image and placeholder widgets.
-* [#14539](https://dev.ckeditor.com/ticket/14539): Fixed: JAWS reads "selected Blank" instead of "selected <widget name>" when selecting widget.
-* [#14667](http://dev.ckeditor.com/ticket/14667): [IE] Fixed: Removing background color from selected text removes background color from the whole paragraph.
-* [#14252](http://dev.ckeditor.com/ticket/14252): Fixed: Styles dropdown doesn't always reflect the current style of the text line in Internet Explorer.
-* [#13929](http://dev.ckeditor.com/ticket/13929): Fixed: Errors in console on IE11 with compatibility mode in manual test for [#13867](http://dev.ckeditor.com/ticket/13867).
-* [#14275](http://dev.ckeditor.com/ticket/14275): [IE9+] Fixed: `onerror` and `onload` not used in browsers it could have been when loading scripts dynamically.
+* [#10750](http://dev.ckeditor.com/ticket/10750): Fixed: The editor does not unquote the `font-family` style property.
+* [#14413](http://dev.ckeditor.com/ticket/14413): Fixed: The [Auto Grow](http://ckeditor.com/addon/autogrow) plugin with the [`config.autoGrow_onStartup`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-autoGrow_onStartup) option set to `true` does not work properly for an editor that is not visible.
+* [#14451](http://dev.ckeditor.com/ticket/14451): Fixed: Numeric element ID not escaped properly. Thanks to [Jakub Chalupa](https://github.com/chaluja7)!
 * [#14590](http://dev.ckeditor.com/ticket/14590): Fixed: Additional line break appearing after inline elements when switching modes. Thanks to [dpidcock](https://github.com/dpidcock)!
+* [#14539](https://dev.ckeditor.com/ticket/14539): Fixed: JAWS reads "selected Blank" instead of "selected <widget name>" when selecting a widget.
+* [#14701](http://dev.ckeditor.com/ticket/14701): Fixed: More precise labels for [Enhanced Image](http://ckeditor.com/addon/image2) and [Placeholder](http://ckeditor.com/addon/placeholder) widgets.
+* [#14667](http://dev.ckeditor.com/ticket/14667): [IE] Fixed: Removing background color from selected text removes background color from the whole paragraph.
+* [#14252](http://dev.ckeditor.com/ticket/14252): [IE] Fixed: Styles drop-down list does not always reflect the current style of the text line.
+* [#14275](http://dev.ckeditor.com/ticket/14275): [IE9+] Fixed: `onerror` and `onload` events are not used in browsers it could have been used when loading scripts dynamically.
+
 
 ## CKEditor 4.5.9
 
