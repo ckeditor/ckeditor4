@@ -21,6 +21,12 @@
 			assert.isTrue( stylesYellow.checkElementMatch( CKEDITOR.document.getById( 'yellow' ), true ), 'Yellow styles match (short).' );
 			assert.isTrue( stylesYellowUpper.checkElementMatch( CKEDITOR.document.getById( 'yellow' ), true ), 'Yellow styles match (long, upper-case).' );
 			assert.isTrue( stylesYellowUpperShort.checkElementMatch( CKEDITOR.document.getById( 'yellow' ), true ), 'Yellow styles match (short, upper-case).' );
+		},
+		'test styles font-family ignore quotes': function() {
+			var styleFontMatch = new CKEDITOR.style( { element: 'span', attributes: { 'style': 'font-family:Univers LT Std;' } } ),
+				styleFontNoMatch = new CKEDITOR.style( { element: 'span', attributes: { 'style': 'font-family:Verdana;' } } );
+			assert.isTrue( styleFontMatch.checkElementMatch( CKEDITOR.document.getById( 'font' ), true ), 'Font styles match.' );
+			assert.isFalse( styleFontNoMatch.checkElementMatch( CKEDITOR.document.getById( 'font' ), true ), 'Font styles match.' );
 		}
 	} );
 } )();
