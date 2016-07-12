@@ -1798,7 +1798,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	function compareCssText( source, target ) {
 		function filter( string, propertyName ) {
 			// In case of font-families we'll skip quotes. (#10750)
-			return propertyName.toLowerCase() == 'font-family' ? string.replace( /["']/g, '' ) : '';
+			return propertyName.toLowerCase() == 'font-family' ? string.replace( /["']/g, '' ) : string;
 		}
 
 		if ( typeof source == 'string' )
