@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'sl', {
 	button: 'Vstavi odsek kode',
-	codeContents: 'Koda vsebina',
-	emptySnippetError: 'Odrezek kode ne more biti prazen.',
+	codeContents: 'Vsebina kode',
+	emptySnippetError: 'Odsek kode ne more biti prazen.',
 	language: 'Jezik',
-	title: 'Odrezek kode',
-	pathName: 'odrezek kode'
+	title: 'Odsek kode',
+	pathName: 'odsek kode'
 } );

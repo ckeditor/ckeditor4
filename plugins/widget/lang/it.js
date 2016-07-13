@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'it', {
 	'move': 'Fare clic e trascinare per spostare',
-	'label': '%1 widget' // MISSING
+	'label': 'Widget %1'
 } );

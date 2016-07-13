@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'about', 'pt', {
 	help: 'Doar $1 para ajudar.',
 	moreInfo: 'Para informação sobre licenciamento visite o nosso sítio web:',
 	title: 'Sobre o CKEditor',
-	userGuide: 'CKEditor - Guia do Utilizador'
+	userGuide: 'CKEditor - Guia do utilizador'
 } );

@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'it', {
 	Atilde: 'Lettera maiuscola latina A con tilde',
 	Auml: 'Lettera maiuscola latina A con dieresi',
 	Aring: 'Lettera maiuscola latina A con anello sopra',
-	AElig: 'Lettera maiuscola latina AE',
+	AElig: 'Lettera maiuscola latina Æ',
 	Ccedil: 'Lettera maiuscola latina C con cediglia',
 	Egrave: 'Lettera maiuscola latina E con accento grave',
 	Eacute: 'Lettera maiuscola latina E con accento acuto',

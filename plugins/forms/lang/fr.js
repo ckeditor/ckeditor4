@@ -5,15 +5,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'forms', 'fr', {
 	button: {
 		title: 'Propriétés du bouton',
-		text: 'Texte (Value)',
+		text: 'Texte',
 		type: 'Type',
 		typeBtn: 'Bouton',
-		typeSbm: 'Validation (submit)',
+		typeSbm: 'Validation',
 		typeRst: 'Remise à zéro'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'Propriétés de la case à cocher',
-		radioTitle: 'Propriétés du bouton Radio',
+		radioTitle: 'Propriétés du bouton radio',
 		value: 'Valeur',
 		selected: 'Sélectionné',
 		required: 'Requis'
@@ -26,7 +26,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fr', {
 		encoding: 'Encodage'
 	},
 	hidden: {
-		title: 'Propriétés du champ caché',
+		title: 'Propriétés du champ invisible',
 		name: 'Nom',
 		value: 'Valeur'
 	},
@@ -36,7 +36,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fr', {
 		opAvail: 'Options disponibles',
 		value: 'Valeur',
 		size: 'Taille',
-		lines: 'Lignes',
+		lines: 'lignes',
 		chkMulti: 'Permettre les sélections multiples',
 		required: 'Requis',
 		opText: 'Texte',
@@ -57,13 +57,13 @@ CKEDITOR.plugins.setLang( 'forms', 'fr', {
 		title: 'Propriétés du champ texte',
 		name: 'Nom',
 		value: 'Valeur',
-		charWidth: 'Taille des caractères',
+		charWidth: 'Largeur des caractères',
 		maxChars: 'Nombre maximum de caractères',
 		required: 'Requis',
 		type: 'Type',
 		typeText: 'Texte',
 		typePass: 'Mot de passe',
-		typeEmail: 'E-mail',
+		typeEmail: 'Courriel',
 		typeSearch: 'Rechercher',
 		typeTel: 'Numéro de téléphone',
 		typeUrl: 'URL'

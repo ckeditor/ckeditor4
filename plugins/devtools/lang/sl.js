@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'devtools', 'sl', {
 	dialogName: 'Ime pogovornega okna',
 	tabName: 'Ime zavihka',
 	elementId: 'ID elementa',
-	elementType: 'Tip elementa'
+	elementType: 'Vrsta elementa'
 } );

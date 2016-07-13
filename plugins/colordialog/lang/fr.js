@@ -4,8 +4,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colordialog', 'fr', {
 	clear: 'Effacer',
-	highlight: 'Détails',
-	options: 'Option des couleurs',
+	highlight: 'Pointée',
+	options: 'Options de couleur',
 	selected: 'Couleur choisie',
-	title: 'Choisir une couleur'
+	title: 'Sélectionner une couleur'
 } );

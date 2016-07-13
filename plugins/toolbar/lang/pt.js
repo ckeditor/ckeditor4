@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'pt', {
 		clipboard: 'Área de transferência/Anular',
 		editing: 'Edição',
 		forms: 'Formulários',
-		basicstyles: 'Estilos Básicos',
+		basicstyles: 'Estilos básicos',
 		paragraph: 'Parágrafo',
 		links: 'Hiperligações',
 		insert: 'Inserir',
@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'pt', {
 		colors: 'Cores',
 		tools: 'Ferramentas'
 	},
-	toolbars: 'Editor de Barras de Ferramentas'
+	toolbars: 'Editor de barras de ferramentas'
 } );

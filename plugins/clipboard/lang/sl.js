@@ -8,8 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sl', {
 	cut: 'Izreži',
 	cutError: 'Varnostne nastavitve brskalnika ne dopuščajo samodejnega izrezovanja. Uporabite kombinacijo tipk na tipkovnici (Ctrl/Cmd+X).',
 	paste: 'Prilepi',
-	pasteArea: 'Prilepi Prostor',
-	pasteMsg: 'Prosim prilepite v sleči okvir s pomočjo tipkovnice (<STRONG>Ctrl/Cmd+V</STRONG>) in pritisnite <STRONG>V redu</STRONG>.',
+	pasteArea: 'Prilepi območje',
+	pasteMsg: 'Prosimo, prilepite v sleči okvir s pomočjo tipkovnice (<strong>Ctrl/Cmd+V</strong>) in pritisnite V redu.',
 	securityMsg: 'Zaradi varnostnih nastavitev vašega brskalnika urejevalnik ne more neposredno dostopati do odložišča. Vsebino odložišča ponovno prilepite v to okno.',
 	title: 'Prilepi'
 } );

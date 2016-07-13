@@ -4,9 +4,9 @@
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'sl', {
-	title: 'Lastnosti Ograde',
-	toolbar: 'Ustvari Ogrado',
-	name: 'Placeholder Ime',
-	invalidName: 'Placeholder ne more biti prazen in ne sme vsebovati katerega od naslednjih znakov: [, ], <, >',
-	pathName: 'placeholder'
+	title: 'Lastnosti ograde',
+	toolbar: 'Ograda',
+	name: 'Ime ograde',
+	invalidName: 'Ograda ne more biti prazna in ne sme vsebovati katerega od naslednjih znakov: [, ], <, >',
+	pathName: 'ograda'
 } );

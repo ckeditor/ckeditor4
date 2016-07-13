@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		radioTitle: 'Thuộc tính nút chọn',
 		value: 'Giá trị',
 		selected: 'Được chọn',
-		required: 'Required' // MISSING
+		required: 'Bắt buộc'
 	},
 	form: {
 		title: 'Thuộc tính biểu mẫu',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		size: 'Kích cỡ',
 		lines: 'dòng',
 		chkMulti: 'Cho phép chọn nhiều',
-		required: 'Required', // MISSING
+		required: 'Bắt buộc',
 		opText: 'Văn bản',
 		opValue: 'Giá trị',
 		btnAdd: 'Thêm',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'vi', {
 		value: 'Giá trị',
 		charWidth: 'Độ rộng của ký tự',
 		maxChars: 'Số ký tự tối đa',
-		required: 'Required', // MISSING
+		required: 'Bắt buộc',
 		type: 'Kiểu',
 		typeText: 'Ký tự',
 		typePass: 'Mật khẩu',
