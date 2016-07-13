@@ -5,7 +5,7 @@ CKEditor 4 Changelog
 
 Fixed Issues:
 
-* [#10750](http://dev.ckeditor.com/ticket/10750): Fixed: The editor does not unquote the `font-family` style property.
+* [#10750](http://dev.ckeditor.com/ticket/10750): Fixed: The editor does not escape the `font-style` family property correctly, removing quotes and whitespace from font names.
 * [#14413](http://dev.ckeditor.com/ticket/14413): Fixed: The [Auto Grow](http://ckeditor.com/addon/autogrow) plugin with the [`config.autoGrow_onStartup`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-autoGrow_onStartup) option set to `true` does not work properly for an editor that is not visible.
 * [#14451](http://dev.ckeditor.com/ticket/14451): Fixed: Numeric element ID not escaped properly. Thanks to [Jakub Chalupa](https://github.com/chaluja7)!
 * [#14590](http://dev.ckeditor.com/ticket/14590): Fixed: Additional line break appearing after inline elements when switching modes. Thanks to [dpidcock](https://github.com/dpidcock)!
