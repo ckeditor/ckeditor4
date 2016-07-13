@@ -17,7 +17,6 @@ Fixed Issues:
 * [#14252](http://dev.ckeditor.com/ticket/14252): [IE] Fixed: Styles drop-down list does not always reflect the current style of the text line.
 * [#14275](http://dev.ckeditor.com/ticket/14275): [IE9+] Fixed: `onerror` and `onload` events are not used in browsers it could have been used when loading scripts dynamically.
 
-
 ## CKEditor 4.5.9
 
 Fixed Issues:
