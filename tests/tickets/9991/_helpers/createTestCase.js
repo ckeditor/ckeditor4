@@ -17,11 +17,13 @@ function createTestCase( fixtureName, wordVersion, browser, tickets ) {
 			var load = function( path ) {
 				assert.isObject( CKEDITOR.ajax, 'Ajax plugin is required' );
 
-				return Q.defer( function( resolve ) {
-					CKEDITOR.ajax.load( path, function( data ) {
-						resolve( data );
-					} );
-				} ).promise;
+				var deferred = Q.defer();
+
+				CKEDITOR.ajax.load( path, function( data ) {
+					deferred.resolve( data );
+				} );
+
+				return deferred.promise;
 			};
 
 			Q.all( [
@@ -31,18 +33,33 @@ function createTestCase( fixtureName, wordVersion, browser, tickets ) {
 			] ).done( function( values ) {
 				// null means file not found - skipping test.
 				if ( values[ 0 ] === null ) {
-					bot.editor.destroy();
-					assert.ignore();
+					resume( function() {
+						bot.editor.destroy();
+						assert.ignore();
+					} );
+					return;
 				}
 
 				if ( values[ 2 ] !== null ) {
-					assertWordFilter( bot.editor )( values[ 0 ], values[ 2 ] );
+					assertWordFilter( bot.editor )( values[ 0 ], values[ 2 ] )
+						.then( function( values ) {
+							resume( function() {
+								assert.areSame( values[ 0 ], values[ 1 ] );
+							} );
+						} );
 				} else {
 					assert.isNotNull( values[ 1 ], '"expected.html" missing.' );
 
-					assertWordFilter( bot.editor )( values[ 0 ], values[ 1 ] );
+					assertWordFilter( bot.editor )( values[ 0 ], values[ 1 ] )
+						.then( function( values ) {
+							resume( function() {
+								assert.areSame( values[ 0 ], values[ 1 ] );
+							} );
+						} );
 				}
 			} );
+
+			wait();
 		} );
 	};
 }
