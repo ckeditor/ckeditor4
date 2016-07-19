@@ -9,12 +9,7 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {
-		config: {
-			allowedContent: 'b; i; p[style]{margin}; em; span{*}; img[*]{*}; p{*}; strong',
-			disallowedContent: 'style;p{margin-bottom,margin-top}'
-		}
-	};
+	bender.editor = {};
 
 	var browsers = [
 			'chrome',
