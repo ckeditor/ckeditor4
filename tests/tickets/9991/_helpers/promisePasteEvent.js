@@ -17,6 +17,7 @@ function promisePasteEvent( editor, eventData ) {
 	}
 
 	editor.once( 'paste', onPaste, null, null, priority );
+	// WARNING: this code is synchronously called and it resolves the promise.
 	editor.fire( 'paste', eventData );
 
 	function onPaste( evt ) {

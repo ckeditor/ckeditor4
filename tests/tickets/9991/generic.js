@@ -11,7 +11,8 @@
 
 	bender.editor = {
 		config: {
-			allowedContent: 'b; i; p[style]{margin};'
+			allowedContent: 'b; i; p[style]{margin}; em; span{*}; img[*]{*}; p{*}; strong',
+			disallowedContent: 'style;p{margin-bottom,margin-top}'
 		}
 	};
 
