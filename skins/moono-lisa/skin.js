@@ -31,7 +31,7 @@ For this skin, the following tasks are achieved in this file:
 // used on config.skin to tell the editor to use the skin.
 //
 // This is the only mandatory property to be defined in this file.
-CKEDITOR.skin.name = 'moono';
+CKEDITOR.skin.name = 'moono-lisa';
 
 // 2. Register browser specific skin files
 // -----------------------------------------
@@ -54,8 +54,8 @@ CKEDITOR.skin.name = 'moono';
 //
 // The available browser specific files must be set separately for editor.css
 // and dialog.css.
-CKEDITOR.skin.ua_editor = 'ie,iequirks,ie7,ie8,gecko';
-CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8';
+CKEDITOR.skin.ua_editor = 'ie,iequirks,ie8,gecko';
+CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie8';
 
 // 3. Define the "Chameleon" feature
 // -----------------------------------
@@ -106,50 +106,41 @@ CKEDITOR.skin.chameleon = ( function() {
 		};
 	} )(),
 
-	// Use this function just to avoid having to repeat all these rules on
-	// several places of our template.
-	verticalGradient = ( function() {
-		var template = new CKEDITOR.template( 'background:#{to};' +
-			'background-image:linear-gradient(to bottom,{from},{to});' +
-			'filter:progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr=\'{from}\',endColorstr=\'{to}\');' );
-
-		return function( from, to ) {
-			return template.output( { from: from, to: to } );
-		};
-	} )(),
-
 	// Style templates for various user interface parts:
 	// 	* Default editor template.
 	// 	* Default panel template.
 	templates = {
 		editor: new CKEDITOR.template(
-			'{id}.cke_chrome [border-color:{defaultBorder};] ' +
+			'{id}.cke_chrome [' +
+					'border-color:{defaultBorder};' +
+				'] ' +
 			'{id} .cke_top [ ' +
-					'{defaultGradient}' +
+					'background-color:{defaultBackground};' +
 					'border-bottom-color:{defaultBorder};' +
 				'] ' +
 			'{id} .cke_bottom [' +
-					'{defaultGradient}' +
+					'background-color:{defaultBackground};' +
 					'border-top-color:{defaultBorder};' +
 				'] ' +
-			'{id} .cke_resizer [border-right-color:{ckeResizer}] ' +
+			'{id} .cke_resizer [' +
+					'border-right-color:{ckeResizer}' +
+				'] ' +
 
 			// Dialogs.
 			'{id} .cke_dialog_title [' +
-					'{defaultGradient}' +
+					'background-color:{defaultBackground};' +
 					'border-bottom-color:{defaultBorder};' +
 				'] ' +
 			'{id} .cke_dialog_footer [' +
-					'{defaultGradient}' +
+					'background-color:{defaultBackground};' +
 					'outline-color:{defaultBorder};' +
-					'border-top-color:{defaultBorder};' +	// IE7 doesn't use outline.
 				'] ' +
 			'{id} .cke_dialog_tab [' +
-					'{lightGradient}' +
+					'background-color:{dialogTab};' +
 					'border-color:{defaultBorder};' +
 				'] ' +
 			'{id} .cke_dialog_tab:hover [' +
-					'{mediumGradient}' +
+					'background-color:{lightBackground};' +
 				'] ' +
 			'{id} .cke_dialog_contents [' +
 					'border-top-color:{defaultBorder};' +
@@ -164,38 +155,43 @@ CKEDITOR.skin.chameleon = ( function() {
 				'] ' +
 
 			// Toolbars, buttons.
-			'{id} .cke_toolgroup [' +
-					'{lightGradient}' +
-					'border-color:{defaultBorder};' +
-				'] ' +
-			'{id} a.cke_button_off:hover, {id} a.cke_button_off:focus, {id} a.cke_button_off:active [' +
-					'{mediumGradient}' +
+			'{id} a.cke_button_off:hover,' +
+			'{id} a.cke_button_off:focus,' +
+			'{id} a.cke_button_off:active [' +
+					'background-color:{darkBackground};' +
+					'border-color:{toolbarElementsBorder};' +
 				'] ' +
 			'{id} .cke_button_on [' +
-					'{ckeButtonOn}' +
+					'background-color:{ckeButtonOn};' +
+					'border-color:{toolbarElementsBorder};' +
 				'] ' +
-			'{id} .cke_toolbar_separator [' +
-					'background-color: {ckeToolbarSeparator};' +
+			'{id} .cke_toolbar_separator,' +
+			'{id} .cke_toolgroup a.cke_button:last-child:after,' +
+			'{id} .cke_toolgroup a.cke_button.cke_button_disabled:hover:last-child:after [' +
+					'background-color: {toolbarElementsBorder};' +
+					'border-color: {toolbarElementsBorder};' +
 				'] ' +
 
 			// Combo buttons.
-			'{id} .cke_combo_button [' +
-					'border-color:{defaultBorder};' +
-					'{lightGradient}' +
+			'{id} a.cke_combo_button:hover,' +
+			'{id} a.cke_combo_button:focus,' +
+			'{id} .cke_combo_on a.cke_combo_button [' +
+					'border-color:{toolbarElementsBorder};' +
+					'background-color:{darkBackground};' +
 				'] ' +
-			'{id} a.cke_combo_button:hover, {id} a.cke_combo_button:focus, {id} .cke_combo_on a.cke_combo_button [' +
-					'border-color:{defaultBorder};' +
-					'{mediumGradient}' +
+			'{id} .cke_combo:after [' +
+					'border-color:{toolbarElementsBorder};' +
 				'] ' +
 
 			// Elementspath.
 			'{id} .cke_path_item [' +
 					'color:{elementsPathColor};' +
 				'] ' +
-			'{id} a.cke_path_item:hover, {id} a.cke_path_item:focus, {id} a.cke_path_item:active [' +
-					'background-color:{elementsPathBg};' +
+			'{id} a.cke_path_item:hover,' +
+			'{id} a.cke_path_item:focus,' +
+			'{id} a.cke_path_item:active [' +
+					'background-color:{darkBackground};' +
 				'] ' +
-
 			'{id}.cke_panel [' +
 				'border-color:{defaultBorder};' +
 			'] '
@@ -203,7 +199,7 @@ CKEDITOR.skin.chameleon = ( function() {
 		panel: new CKEDITOR.template(
 			// Panel drop-downs.
 			'.cke_panel_grouptitle [' +
-					'{lightGradient}' +
+					'background-color:{lightBackground};' +
 					'border-color:{defaultBorder};' +
 				'] ' +
 
@@ -211,18 +207,34 @@ CKEDITOR.skin.chameleon = ( function() {
 			'.cke_menubutton_icon [' +
 					'background-color:{menubuttonIcon};' +
 				'] ' +
-			'.cke_menubutton:hover .cke_menubutton_icon, .cke_menubutton:focus .cke_menubutton_icon, .cke_menubutton:active .cke_menubutton_icon [' +
+			'.cke_menubutton:hover,' +
+			'.cke_menubutton:focus,' +
+			'.cke_menubutton:active [' +
+					'background-color:{menubuttonHover};' +
+				'] ' +
+			'.cke_menubutton:hover .cke_menubutton_icon, ' +
+			'.cke_menubutton:focus .cke_menubutton_icon, ' +
+			'.cke_menubutton:active .cke_menubutton_icon [' +
 					'background-color:{menubuttonIconHover};' +
+				'] ' +
+			'.cke_menubutton_disabled:hover .cke_menubutton_icon,' +
+			'.cke_menubutton_disabled:focus .cke_menubutton_icon,' +
+			'.cke_menubutton_disabled:active .cke_menubutton_icon [' +
+					'background-color:{menubuttonIcon};' +
 				'] ' +
 			'.cke_menuseparator [' +
 					'background-color:{menubuttonIcon};' +
 				'] ' +
 
 			// Color boxes.
-			'a:hover.cke_colorbox, a:focus.cke_colorbox, a:active.cke_colorbox [' +
+			'a:hover.cke_colorbox, ' +
+			'a:active.cke_colorbox [' +
 					'border-color:{defaultBorder};' +
 				'] ' +
-			'a:hover.cke_colorauto, a:hover.cke_colormore, a:focus.cke_colorauto, a:focus.cke_colormore, a:active.cke_colorauto, a:active.cke_colormore [' +
+			'a:hover.cke_colorauto, ' +
+			'a:hover.cke_colormore, ' +
+			'a:active.cke_colorauto, ' +
+			'a:active.cke_colormore [' +
 					'background-color:{ckeColorauto};' +
 					'border-color:{defaultBorder};' +
 				'] '
@@ -231,6 +243,7 @@ CKEDITOR.skin.chameleon = ( function() {
 
 	return function( editor, part ) {
 		var uiColor = editor.uiColor,
+			baseColor = colorBrightness( uiColor, 0.4 ),
 			// The following are CSS styles used in templates.
 			// Styles are generated according to current editor.uiColor.
 			templateStyles = {
@@ -243,24 +256,24 @@ CKEDITOR.skin.chameleon = ( function() {
 				id: '.' + editor.id,
 
 				// These styles are used by various UI elements.
-				defaultBorder: colorBrightness( uiColor, -0.1 ),
-				defaultGradient: verticalGradient( colorBrightness( uiColor, 0.9 ), uiColor ),
-				lightGradient: verticalGradient( colorBrightness( uiColor, 1 ), colorBrightness( uiColor, 0.7 ) ),
-				mediumGradient: verticalGradient( colorBrightness( uiColor, 0.8 ), colorBrightness( uiColor, 0.5 ) ),
+				defaultBorder: colorBrightness( baseColor, -0.2 ),
+				toolbarElementsBorder: colorBrightness( baseColor, -0.25 ),
+				defaultBackground: baseColor,
+				lightBackground: colorBrightness( baseColor, 0.8 ),
+				darkBackground: colorBrightness( baseColor, -0.15 ),
 
 				// These are for specific UI elements.
-				ckeButtonOn: verticalGradient( colorBrightness( uiColor, 0.6 ), colorBrightness( uiColor, 0.7 ) ),
-				ckeResizer: colorBrightness( uiColor, -0.4 ),
-				ckeToolbarSeparator: colorBrightness( uiColor, 0.5 ),
-				ckeColorauto: colorBrightness( uiColor, 0.8 ),
-				dialogBody: colorBrightness( uiColor, 0.7 ),
-				// Use gradient instead of simple hex to avoid further filter resetting in IE.
-				dialogTabSelected: verticalGradient( '#FFFFFF', '#FFFFFF' ),
+				ckeButtonOn: colorBrightness( baseColor, 0.4 ),
+				ckeResizer: colorBrightness( baseColor, -0.4 ),
+				ckeColorauto: colorBrightness( baseColor, 0.8 ),
+				dialogBody: colorBrightness( baseColor, 0.7 ),
+				dialogTab: colorBrightness( baseColor, 0.65 ),
+				dialogTabSelected: '#FFF',
 				dialogTabSelectedBorder: '#FFF',
-				elementsPathColor: colorBrightness( uiColor, -0.6 ),
-				elementsPathBg: uiColor,
-				menubuttonIcon: colorBrightness( uiColor, 0.5 ),
-				menubuttonIconHover: colorBrightness( uiColor, 0.3 )
+				elementsPathColor: colorBrightness( baseColor, -0.6 ),
+				menubuttonHover: colorBrightness( baseColor, 0.1 ),
+				menubuttonIcon: colorBrightness( baseColor, 0.5 ),
+				menubuttonIconHover: colorBrightness( baseColor, 0.3 )
 			};
 
 		return templates[ part ]
@@ -276,7 +289,7 @@ CKEDITOR.skin.chameleon = ( function() {
 // ----------------------------------------------------------
 // (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Icons)
 //
-// Note: As "moono" is the default CKEditor skin, it provides no custom icons,
+// Note: As "moono-lisa" is the default CKEditor skin, it provides no custom icons,
 // thus this code is commented out.
 //
 // This code is here just to make the skin work fully when using its "source"
