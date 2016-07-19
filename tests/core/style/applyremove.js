@@ -513,6 +513,30 @@
 			assert.areSame( 'abc def ghi', getInnerHtml( playground ) );
 		},
 
+		// #14667
+		'test removing background color in IE': function() {
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
+				assert.ignore();
+			}
+
+			var ct = playground,
+				style = new CKEDITOR.style( {
+					element: 'span',
+					styles: {
+						'background-color': '#ff0'
+					},
+					type: CKEDITOR.STYLE_INLINE
+				} ),
+				range;
+
+			range = bender.tools.setHtmlWithRange( ct, '<p><span style="background-color: rgb(255, 255, 0);">Text [with] background</span></p>' )[ 0 ];
+			style.removeFromRange( range );
+
+			// Internet Explorer 8 return color without the spaces.
+			assert.areSame( fixHtml( '<p><span style="background-color: rgb(255, 255, 0);">Text </span>with<span style="background-color: rgb(255, 255, 0);"> background</span></p>' ),
+				fixHtml( getInnerHtml( ct ).replace( /rgb\(255,255,0\)/g, 'rgb(255, 255, 0)' ) ) );
+		},
+
 		'test filler is preserved when applying block style': function() {
 			if ( !CKEDITOR.env.needsBrFiller )
 				assert.ignore();

@@ -3,5 +3,6 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.plugins.setLang( 'widget', 'fa', {
-	'move': 'کلیک و کشیدن برای جابجایی'
+	'move': 'کلیک و کشیدن برای جابجایی',
+	'label': '%1 widget' // MISSING
 } );

@@ -3,23 +3,23 @@ Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'fr', {
-	alt: 'Texte de remplacement',
+	alt: 'Texte alternatif',
 	border: 'Bordure',
 	btnUpload: 'Envoyer sur le serveur',
-	button2Img: 'Voulez-vous transformer le bouton image sélectionné en simple image?',
+	button2Img: 'Voulez-vous transformer le bouton avec image sélectionné en simple image ?',
 	hSpace: 'Espacement horizontal',
-	img2Button: 'Voulez-vous transformer l\'image en bouton image?',
+	img2Button: 'Voulez-vous transformer l\'image sélectionnée en bouton avec image ?',
 	infoTab: 'Informations sur l\'image',
 	linkTab: 'Lien',
 	lockRatio: 'Conserver les proportions',
 	menu: 'Propriétés de l\'image',
-	resetSize: 'Taille d\'origine',
+	resetSize: 'Réinitialiser la taille',
 	title: 'Propriétés de l\'image',
-	titleButton: 'Propriétés du bouton image',
-	upload: 'Envoyer',
-	urlMissing: 'L\'adresse source de l\'image est manquante.',
+	titleButton: 'Propriétés du bouton avec image',
+	upload: 'Téléverser',
+	urlMissing: 'L\'URL source de l\'image est manquante.',
 	vSpace: 'Espacement vertical',
-	validateBorder: 'Bordure doit être un entier.',
-	validateHSpace: 'HSpace doit être un entier.',
-	validateVSpace: 'VSpace doit être un entier.'
+	validateBorder: 'La bordure doit être un nombre entier.',
+	validateHSpace: 'L\'espacement horizontal doit être un nombre entier.',
+	validateVSpace: 'L\'espacement vertical doit être un nombre entier.'
 } );

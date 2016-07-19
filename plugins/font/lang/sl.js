@@ -5,10 +5,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'font', 'sl', {
 	fontSize: {
 		label: 'Velikost',
-		voiceLabel: 'Velikost',
-		panelTitle: 'Velikost'
+		voiceLabel: 'Velikost pisave',
+		panelTitle: 'Velikost pisave'
 	},
 	label: 'Pisava',
-	panelTitle: 'Pisava',
+	panelTitle: 'Ime pisave',
 	voiceLabel: 'Pisava'
 } );

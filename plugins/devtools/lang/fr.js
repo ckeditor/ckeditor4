@@ -4,8 +4,8 @@
  */
 
 CKEDITOR.plugins.setLang( 'devtools', 'fr', {
-	title: 'Information sur l\'élément',
-	dialogName: 'Nom de la fenêtre de dialogue',
+	title: 'Informations sur l\'élément',
+	dialogName: 'Nom de la boîte de dialogue',
 	tabName: 'Nom de l\'onglet',
 	elementId: 'ID de l\'élément',
 	elementType: 'Type de l\'élément'

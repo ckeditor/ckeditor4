@@ -3,5 +3,6 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.plugins.setLang( 'widget', 'nl', {
-	'move': 'Klik en sleep om te verplaatsen'
+	'move': 'Klik en sleep om te verplaatsen',
+	'label': '%1 widget' // MISSING
 } );

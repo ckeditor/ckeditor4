@@ -4,61 +4,61 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'pt', {
 	button: {
-		title: 'Propriedades do Botão',
-		text: 'Texto (Valor)',
+		title: 'Propriedades do botão',
+		text: 'Texto (valor)',
 		type: 'Tipo',
 		typeBtn: 'Botão',
-		typeSbm: 'Submit',
-		typeRst: 'Reset'
+		typeSbm: 'Enviar',
+		typeRst: 'Repor'
 	},
 	checkboxAndRadio: {
-		checkboxTitle: 'Propriedades da Caixa de Verificação',
-		radioTitle: 'Propriedades do Botão de Opção',
+		checkboxTitle: 'Propriedades da caixa de verificação',
+		radioTitle: 'Propriedades do botão de rádio',
 		value: 'Valor',
-		selected: 'Seleccionado',
-		required: 'Required' // MISSING
+		selected: 'Selecionado',
+		required: 'Obrigatório'
 	},
 	form: {
-		title: 'Propriedades do Formulário',
-		menu: 'Propriedades do Formulário',
-		action: 'Acção',
+		title: 'Propriedades do formulário',
+		menu: 'Propriedades do formulário',
+		action: 'Ação',
 		method: 'Método',
-		encoding: 'Encoding'
+		encoding: 'Codificação'
 	},
 	hidden: {
-		title: 'Propriedades do Campo Escondido',
+		title: 'Propriedades do campo oculto',
 		name: 'Nome',
 		value: 'Valor'
 	},
 	select: {
-		title: 'Propriedades da Caixa de Combinação',
+		title: 'Propriedades da caixa de seleção',
 		selectInfo: 'Informação',
-		opAvail: 'Opções Possíveis',
+		opAvail: 'Opções disponíveis',
 		value: 'Valor',
 		size: 'Tamanho',
 		lines: 'linhas',
-		chkMulti: 'Permitir selecções múltiplas',
-		required: 'Required', // MISSING
+		chkMulti: 'Permitir seleções múltiplas',
+		required: 'Obrigatório',
 		opText: 'Texto',
 		opValue: 'Valor',
 		btnAdd: 'Adicionar',
 		btnModify: 'Modificar',
-		btnUp: 'Para cima',
-		btnDown: 'Para baixo',
-		btnSetValue: 'Definir um valor por defeito',
+		btnUp: 'Subir',
+		btnDown: 'Descer',
+		btnSetValue: 'Definir como valor selecionado',
 		btnDelete: 'Apagar'
 	},
 	textarea: {
-		title: 'Propriedades da Área de Texto',
+		title: 'Propriedades da área de texto',
 		cols: 'Colunas',
 		rows: 'Linhas'
 	},
 	textfield: {
-		title: 'Propriedades do Campo de Texto',
+		title: 'Propriedades do campo de texto',
 		name: 'Nome',
 		value: 'Valor',
 		charWidth: 'Tamanho do caracter',
-		maxChars: 'Nr. Máximo de Caracteres',
+		maxChars: 'Máximo de caracteres',
 		required: 'Required', // MISSING
 		type: 'Tipo',
 		typeText: 'Texto',

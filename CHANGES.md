@@ -10,27 +10,62 @@ New Features:
 * [#13518](http://dev.ckeditor.com/ticket/13518): The [file tools](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools) request is now more flexible and the [`additionalRequestParameters`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property was introduced.
 * [#13828](http://dev.ckeditor.com/ticket/13828): Adding a class to the [widget](http://ckeditor.com/addon/widget) element will also add a prefixed class to its wrapper.
 
+## CKEditor 4.5.10
+
+Fixed Issues:
+
+* [#10750](http://dev.ckeditor.com/ticket/10750): Fixed: The editor does not escape the `font-style` family property correctly, removing quotes and whitespace from font names.
+* [#14413](http://dev.ckeditor.com/ticket/14413): Fixed: The [Auto Grow](http://ckeditor.com/addon/autogrow) plugin with the [`config.autoGrow_onStartup`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-autoGrow_onStartup) option set to `true` does not work properly for an editor that is not visible.
+* [#14451](http://dev.ckeditor.com/ticket/14451): Fixed: Numeric element ID not escaped properly. Thanks to [Jakub Chalupa](https://github.com/chaluja7)!
+* [#14590](http://dev.ckeditor.com/ticket/14590): Fixed: Additional line break appearing after inline elements when switching modes. Thanks to [dpidcock](https://github.com/dpidcock)!
+* [#14539](https://dev.ckeditor.com/ticket/14539): Fixed: JAWS reads "selected Blank" instead of "selected <widget name>" when selecting a widget.
+* [#14701](http://dev.ckeditor.com/ticket/14701): Fixed: More precise labels for [Enhanced Image](http://ckeditor.com/addon/image2) and [Placeholder](http://ckeditor.com/addon/placeholder) widgets.
+* [#14667](http://dev.ckeditor.com/ticket/14667): [IE] Fixed: Removing background color from selected text removes background color from the whole paragraph.
+* [#14252](http://dev.ckeditor.com/ticket/14252): [IE] Fixed: Styles drop-down list does not always reflect the current style of the text line.
+* [#14275](http://dev.ckeditor.com/ticket/14275): [IE9+] Fixed: `onerror` and `onload` events are not used in browsers it could have been used when loading scripts dynamically.
+
+## CKEditor 4.5.9
+
+Fixed Issues:
+
+* [#10685](http://dev.ckeditor.com/ticket/10685): Fixed: Unreadable toolbar icons after updating to the new editor version. Fixed with [6876179](https://github.com/ckeditor/ckeditor-dev/commit/6876179db4ee97e786b07b8fd72e6b4120732185) in [ckeditor-dev](https://github.com/ckeditor/ckeditor-dev) and [6c9189f4](https://github.com/ckeditor/ckeditor-presets/commit/6c9189f46392d2c126854fe8889b820b8c76d291) in [ckeditor-presets](https://github.com/ckeditor/ckeditor-presets).
+* [#14573](https://dev.ckeditor.com/ticket/14573): Fixed: Missing [Widget](http://ckeditor.com/addon/widget) drag handler CSS when there are multiple editor instances.
+* [#14620](https://dev.ckeditor.com/ticket/14620): Fixed: Setting both the `min-height` style for the `<body>` element and the `height` style for the `<html>` element breaks the [Auto Grow](http://ckeditor.com/addon/autogrow) plugin.
+* [#14538](http://dev.ckeditor.com/ticket/14538): Fixed: Keyboard focus goes into an embedded `<iframe>` element.
+* [#14602](http://dev.ckeditor.com/ticket/14602): Fixed: The [`dom.element.removeAttribute()`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-removeAttribute) method does not remove all attributes if no parameter is given.
+* [#8679](http://dev.ckeditor.com/ticket/8679): Fixed: Better focus indication and ability to style the selected color in the [color picker dialog](http://ckeditor.com/addon/colordialog).
+* [#11697](http://dev.ckeditor.com/ticket/11697): Fixed: Content is replaced ignoring the letter case setting in the [Find and Replace](http://ckeditor.com/addon/find) dialog window.
+* [#13886](http://dev.ckeditor.com/ticket/13886): Fixed: Invalid handling of the [`CKEDITOR.style`](http://docs.ckeditor.com/#!/api/CKEDITOR.style) instance with the `styles` property by [`CKEDITOR.filter`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter).
+* [#14535](http://dev.ckeditor.com/ticket/14535): Fixed: CSS syntax corrections. Thanks to [mdjdenormandie](https://github.com/mdjdenormandie)!
+* [#14312](http://dev.ckeditor.com/ticket/14312): [IE] Fixed: Artifact is visible after pasting any text.
+
 ## CKEditor 4.5.8
 
-Other Changes:
+New Features:
 
-* [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: Table elements order to meet HTML specification.
+* [#12440](http://dev.ckeditor.com/ticket/12440): Added the [`config.colorButton_enableAutomatic`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_enableAutomatic) option to allow hiding the "Automatic" option in the [color picker](http://ckeditor.com/addon/colorbutton).
+
+Fixed Issues:
+
+* [#10448](http://dev.ckeditor.com/ticket/10448): Fixed: Lack of scrollbar in the [right-to-left text direction](http://ckeditor.com/addon/bidi).
+* [#12707](http://dev.ckeditor.com/ticket/12707): Fixed: The order of table elements does not comply with the HTML specification.
+* [#13756](http://dev.ckeditor.com/ticket/13756): [Edge] Fixed: Context menus are cut-off.
 
 ## CKEditor 4.5.7
 
 New Features:
 
-* [#14327](http://dev.ckeditor.com/ticket/14327): Added Swiss German localization.
+* [#14327](http://dev.ckeditor.com/ticket/14327): Added Swiss German localization. Thanks to [Miro Grenda](https://twitter.com/mirogrenda)!
 
-Other Changes:
+Fixed Issues:
 
 * [#13816](http://dev.ckeditor.com/ticket/13816): Introduced a new strategy for Filling Character handling to avoid changes in DOM. This fixes the following issues:
 	* [#12727](http://dev.ckeditor.com/ticket/12727): [Blink] `IndexSizeError` when using the [Div Editing Area](http://ckeditor.com/addon/divarea) and [Content Templates](http://ckeditor.com/addon/templates) plugins.
 	* [#13377](http://dev.ckeditor.com/ticket/13377): [Widget](http://ckeditor.com/addon/widget) plugin issue when typing in Korean.
 	* [#13389](http://dev.ckeditor.com/ticket/13389): [Blink] [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) fails when the cursor is next to an `<hr>` tag.
 	* [#13513](http://dev.ckeditor.com/ticket/13513): [Blink, WebKit] [Div Editing Area](http://ckeditor.com/addon/divarea) and [`editor.getData()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData) throw an error when an image is the only data in the editor.
-* [#13884](http://dev.ckeditor.com/ticket/13884): Fixed: Copy/paste table in Firefox results in just first cell being pasted.
-* [#14234](http://dev.ckeditor.com/ticket/14234): Fixed: URL input field is not marked as required in the [Embed](http://ckeditor.com/addon/embed) dialog.
+* [#13884](http://dev.ckeditor.com/ticket/13884): [Firefox] Fixed: Copying and pasting a table results in just the first cell being pasted.
+* [#14234](http://dev.ckeditor.com/ticket/14234): Fixed: URL input field is not marked as required in the [Media Embed](http://ckeditor.com/addon/embed) dialog.
 
 ## CKEditor 4.5.6
 

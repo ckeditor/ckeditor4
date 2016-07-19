@@ -234,10 +234,11 @@
 	}
 
 	// Creates cke_hidden_sel container and puts real selection there.
-	function hideSelection( editor ) {
-		var style = CKEDITOR.env.ie ? 'display:none' : 'position:fixed;top:0;left:-1000px',
+	function hideSelection( editor, ariaLabel ) {
+		var content = ariaLabel || '&nbsp;',
+			style = CKEDITOR.env.ie ? 'display:none' : 'position:fixed;top:0;left:-1000px',
 			hiddenEl = CKEDITOR.dom.element.createFromHtml(
-				'<div data-cke-hidden-sel="1" data-cke-temp="1" style="' + style + '">&nbsp;</div>',
+				'<div data-cke-hidden-sel="1" data-cke-temp="1" style="' + style + '">' + content + '</div>',
 				editor.document );
 
 		editor.fire( 'lockSnapshot' );
@@ -1954,14 +1955,20 @@
 		 * displayed to the user.
 		 *
 		 * @param {CKEDITOR.dom.element} element The element to be "selected".
+		 * @param {String} [ariaLabel] A string to be used by the screen reader to describe the selection.
 		 */
-		fake: function( element ) {
+		fake: function( element, ariaLabel ) {
 			var editor = this.root.editor;
+
+			// Attempt to retreive aria-label if possible (#14539).
+			if ( ariaLabel === undefined && element.hasAttribute( 'aria-label' ) ) {
+				ariaLabel = element.getAttribute( 'aria-label' );
+			}
 
 			// Cleanup after previous selection - e.g. remove hidden sel container.
 			this.reset();
 
-			hideSelection( editor );
+			hideSelection( editor, ariaLabel );
 
 			// Set this value after executing hiseSelection, because it may
 			// cause reset() which overwrites cache.

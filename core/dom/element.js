@@ -368,13 +368,36 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			range.setEndAfter( parent );
 
 			// Extract it.
-			var docFrag = range.extractContents( false, cloneId || false );
+			var docFrag = range.extractContents( false, cloneId || false ),
+				tmpElement,
+				current;
 
 			// Move the element outside the broken element.
 			range.insertNode( this.remove() );
 
-			// Re-insert the extracted piece after the element.
-			docFrag.insertAfterNode( this );
+			// In case of Internet Explorer, we must check if there is no background-color
+			// added to the element. In such case, we have to overwrite it to prevent "switching it off"
+			// by a browser (#14667).
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+				tmpElement = new CKEDITOR.dom.element( 'div' );
+
+				while ( current = docFrag.getFirst() ) {
+					if ( current.$.style.backgroundColor ) {
+						// This is a necessary hack to make sure that IE will track backgroundColor CSS property, see
+						// http://dev.ckeditor.com/ticket/14667#comment:8 for more details.
+						current.$.style.backgroundColor = current.$.style.backgroundColor;
+					}
+
+					tmpElement.append( current );
+				}
+
+				// Re-insert the extracted piece after the element.
+				tmpElement.insertAfter( this );
+				tmpElement.remove( true );
+			} else {
+				// Re-insert the extracted piece after the element.
+				docFrag.insertAfterNode( this );
+			}
 		},
 
 		/**
@@ -609,6 +632,28 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				return standard;
 			}
 		} )(),
+
+		/**
+		 * Gets the values of all element attributes.
+		 *
+		 * @param {Array} exclude The names of attributes to be excluded from the returned object.
+		 * @return {Object} An object containing all element attributes with their values.
+		 */
+		getAttributes: function( exclude ) {
+			var attributes = {},
+				attrDefs = this.$.attributes,
+				i;
+
+			exclude = CKEDITOR.tools.isArray( exclude ) ? exclude : [];
+
+			for ( i = 0; i < attrDefs.length; i++ ) {
+				if ( CKEDITOR.tools.indexOf( exclude, attrDefs[ i ].name ) === -1 ) {
+					attributes[ attrDefs[ i ].name ] = attrDefs[ i ].value;
+				}
+			}
+
+			return attributes;
+		},
 
 		/**
 		 * Gets the nodes list containing all children of this element.
@@ -1292,11 +1337,15 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		removeAttributes: function( attributes ) {
 			if ( CKEDITOR.tools.isArray( attributes ) ) {
-				for ( var i = 0; i < attributes.length; i++ )
+				for ( var i = 0; i < attributes.length; i++ ) {
 					this.removeAttribute( attributes[ i ] );
+				}
 			} else {
-				for ( var attr in attributes )
+				attributes = attributes || this.getAttributes();
+
+				for ( var attr in attributes ) {
 					attributes.hasOwnProperty( attr ) && this.removeAttribute( attr );
+				}
 			}
 		},
 
@@ -1442,7 +1491,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				body = doc.getBody(),
 				quirks = doc.$.compatMode == 'BackCompat';
 
-			if ( document.documentElement.getBoundingClientRect ) {
+			if ( document.documentElement.getBoundingClientRect &&
+				( CKEDITOR.env.ie ? CKEDITOR.env.version !== 8 : true ) ) {
 				var box = this.$.getBoundingClientRect(),
 					$doc = doc.$,
 					$docElem = $doc.documentElement;
@@ -2038,7 +2088,8 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	}
 
 	function getContextualizedSelector( element, selector ) {
-		return '#' + element.$.id + ' ' + selector.split( /,\s*/ ).join( ', #' + element.$.id + ' ' );
+		var id = CKEDITOR.tools.escapeCss( element.$.id );
+		return '#' + id + ' ' + selector.split( /,\s*/ ).join( ', #' + id + ' ' );
 	}
 
 	var sides = {

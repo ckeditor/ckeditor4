@@ -7,6 +7,6 @@ CKEDITOR.plugins.setLang( 'basicstyles', 'pt', {
 	italic: 'Itálico',
 	strike: 'Rasurado',
 	subscript: 'Superior à linha',
-	superscript: 'Inferior à Linha',
+	superscript: 'Superior à linha',
 	underline: 'Sublinhado'
 } );

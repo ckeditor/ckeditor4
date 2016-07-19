@@ -4,14 +4,14 @@
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'sl', {
-	title: 'Navodila Dostopnosti',
-	contents: 'Vsebina Pomoči. Če želite zapreti to pogovorno okno pritisnite ESC.',
+	title: 'Navodila za dostopnost',
+	contents: 'Vsebina pomoči. Če želite zapreti pogovorno okno, pritisnite ESC.',
 	legend: [
 		{
 		name: 'Splošno',
 		items: [
 			{
-			name: 'Urejevalna Orodna Vrstica',
+			name: 'Orodna vrstica urejevalnika',
 			legend: 'Pritisnite ${toolbarFocus} za pomik v orodno vrstico. Z TAB in SHIFT+TAB se pomikate na naslednjo in prejšnjo skupino orodne vrstice. Z DESNO PUŠČICO ali LEVO PUŠČICO se pomikate na naslednji in prejšnji gumb orodne vrstice. Pritisnite SPACE ali ENTER, da aktivirate gumb orodne vrstice.'
 		},
 
@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sl', {
 		},
 
 			{
-			name: 'Urejevalni Kontekstni Meni',
+			name: 'Kontekstni meni urejevalnika',
 			legend: 'Pritisnite ${contextMenu} ali APPLICATION KEY, da odprete kontekstni meni. Nato se premaknite na naslednjo možnost menija s tipko TAB ali PUŠČICA DOL. Premakniti se na prejšnjo možnost z SHIFT + TAB ali PUŠČICA GOR. Pritisnite SPACE ali ENTER za izbiro možnosti menija. Odprite podmeni trenutne možnosti menija s tipko SPACE ali ENTER ali DESNA PUŠČICA. Vrnite se na matični element menija s tipko ESC ali LEVA PUŠČICA. Zaprite kontekstni meni z ESC.'
 		},
 
@@ -77,7 +77,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sl', {
 			legend: 'Pritisnite ${accessNextSpace} za dostop do najbližjega nedosegljivega osredotočenega prostora po strešici, npr.: dva sosednja HR elementa. Ponovite kombinacijo tipk, da dosežete oddaljene osredotočene prostore.'
 		},
 			{
-			name: 'Pomoč Dostopnosti',
+			name: 'Pomoč dostopnosti',
 			legend: 'Pritisnite ${a11yHelp}'
 		}
 		]
@@ -96,14 +96,14 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sl', {
 	pageDown: 'Page Down',
 	end: 'End',
 	home: 'Home',
-	leftArrow: 'Levo puščica',
-	upArrow: 'Gor puščica',
-	rightArrow: 'Desno puščica',
-	downArrow: 'Dol puščica',
+	leftArrow: 'Puščica levo',
+	upArrow: 'Puščica gor',
+	rightArrow: 'Puščica desno',
+	downArrow: 'Puščica dol',
 	insert: 'Insert',
 	'delete': 'Delete',
-	leftWindowKey: 'Leva Windows tipka',
-	rightWindowKey: 'Desna Windows tipka',
+	leftWindowKey: 'Leva tipka Windows',
+	rightWindowKey: 'Desna tipka Windows',
 	selectKey: 'Select tipka',
 	numpad0: 'Numpad 0',
 	numpad1: 'Numpad 1',
@@ -135,7 +135,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sl', {
 	numLock: 'Num Lock',
 	scrollLock: 'Scroll Lock',
 	semiColon: 'Podpičje',
-	equalSign: 'enačaj',
+	equalSign: 'Enačaj',
 	comma: 'Vejica',
 	dash: 'Vezaj',
 	period: 'Pika',
@@ -143,6 +143,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sl', {
 	graveAccent: 'Krativec',
 	openBracket: 'Oklepaj',
 	backSlash: 'Leva poševnica',
-	closeBracket: 'Oklepaj',
+	closeBracket: 'Zaklepaj',
 	singleQuote: 'Opuščaj'
 } );

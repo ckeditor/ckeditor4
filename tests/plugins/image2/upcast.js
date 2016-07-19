@@ -111,6 +111,25 @@
 				assert.areSame( 1, instances.length, 'A single widget has been initialized' );
 				assert.areSame( 'none', widget.data.align, 'Centering with DIV not possible if has siblings' );
 			} );
+		},
+
+		// #14701
+		'test upcast: setting proper label': function() {
+			assertUpcast( {
+				name: 'enterP',
+				data: '<div style="text-align:center">' +
+					'sibling' +
+					'<img id="w1" src="_assets/foo.png" alt="foo" />' +
+				'</div>'
+			}, function( editor ) {
+				var instances = obj2Array( editor.widgets.instances ),
+					widget = instances[ 0 ],
+					expectedLabel = editor.lang.widget.label.replace( /%1/,
+						'foo ' + widget.pathName );
+
+				assert.areSame( expectedLabel, widget.getLabel(), 'getLabel() return value' );
+				assert.areSame( expectedLabel, widget.wrapper.getAttribute( 'aria-label' ), 'widget aria-label value' );
+			} );
 		}
 	} );
 } )();

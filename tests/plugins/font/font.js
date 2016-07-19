@@ -12,8 +12,8 @@
 	var htmlMatchingOpts = {
 			fixStyles: true
 		},
-		ffArial = 'font-family:arial,helvetica,sans-serif',
-		ffCS = 'font-family:comic sans ms,cursive';
+		ffArial = 'font-family:Arial,Helvetica,sans-serif',
+		ffCS = 'font-family:Comic Sans MS,cursive';
 
 	bender.test( {
 		'test apply font size (collapsed selection)': function() {
