@@ -9,11 +9,7 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {
-		config: {
-			allowedContent: 'b; i; p[style]{margin};'
-		}
-	};
+	bender.editor = {};
 
 	var browsers = [
 			'chrome',
