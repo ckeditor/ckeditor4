@@ -9,7 +9,11 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {};
+	bender.editor = {
+		config: {
+			language: 'en'
+		}
+	};
 
 	var browsers = [
 			'chrome',
