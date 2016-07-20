@@ -3854,17 +3854,17 @@
  */
 
 /**
- * The function used to obtain accessibility label for the widget. It might be used to make
- * widgets label as precise as possible, since it has access to a widget instance.
+ * The function used to obtain an accessibility label for the widget. It might be used to make
+ * the widget labels as precise as possible, since it has access to the widget instance.
  *
- * If not specified, the default implementation will use {@link #pathName} or main {@link #element}
+ * If not specified, the default implementation will use the {@link #pathName} or the main {@link #element}
  * tag name.
  *
  * @property {Function} getLabel
  */
 
 /**
- * Widget name displayed in elements path.
+ * The widget name displayed in the elements path.
  *
  * @property {String} pathName
  */

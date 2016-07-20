@@ -82,7 +82,10 @@
 		editor.on( 'contentDom', refreshCache );
 
 		refreshCache();
-		editor.config.autoGrow_onStartup && editor.execCommand( 'autogrow' );
+
+		if ( editor.config.autoGrow_onStartup && editor.editable().isVisible() ) {
+			editor.execCommand( 'autogrow' );
+		}
 
 		function refreshCache() {
 			doc = editor.document;

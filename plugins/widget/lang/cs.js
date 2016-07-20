@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'cs', {
 	'move': 'Klepněte a táhněte pro přesunutí',
-	'label': '%1 widget' // MISSING
+	'label': 'Ovládací prvek %1'
 } );

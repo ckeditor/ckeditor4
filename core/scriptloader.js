@@ -119,9 +119,8 @@ CKEDITOR.scriptLoader = ( function() {
 					} );
 
 					if ( callback ) {
-
 						// The onload or onerror event does not fire in IE8.
-						if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+						if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
 
 							script.$.onreadystatechange = function() {
 								if ( script.$.readyState == 'loaded' || script.$.readyState == 'complete' ) {

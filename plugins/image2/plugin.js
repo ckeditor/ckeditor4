@@ -488,7 +488,13 @@
 			} )(),
 
 			upcast: upcastWidgetElement( editor ),
-			downcast: downcastWidgetElement( editor )
+			downcast: downcastWidgetElement( editor ),
+
+			getLabel: function() {
+				var label = ( this.data.alt || '' ) + ' ' + this.pathName;
+
+				return this.editor.lang.widget.label.replace( /%1/, label );
+			}
 		};
 	}
 

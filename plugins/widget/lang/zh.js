@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'zh', {
 	'move': '拖曳以移動',
-	'label': '%1 widget' // MISSING
+	'label': '%1 小工具'
 } );
