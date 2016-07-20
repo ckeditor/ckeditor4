@@ -1,0 +1,25 @@
+<div id="editor1">
+	<p>Text1</p>
+	<table border="1">
+        <tbody>
+            <tr><td>11</td><td>12</td></tr>
+            <tr><td>21</td><td>22</td></tr>
+        </tbody>
+    </table>
+	<p>Text2</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1',{
+		on: {
+			pluginsLoaded: function( evt ) {
+				var ed = evt.editor;
+				ed.ui.addButton( 'tableDelete', {
+					label: ed.lang.table.deleteTable,
+                    icon: 'tests/tickets/279/tabledelete.png',
+                    command: 'tableDelete'
+				} );
+			}
+		}
+    } );
+</script>
