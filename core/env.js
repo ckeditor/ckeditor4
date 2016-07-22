@@ -159,7 +159,7 @@ if ( !CKEDITOR.env ) {
 		 *
 		 * @property {Boolean}
 		 */
-		env.gecko = ( navigator.product == 'Gecko' && !env.webkit && !env.ie );
+		env.gecko = ( !env.webkit && !env.ie && agent.match('gecko') && !agent.match('goanna') );
 
 		/**
 		 * Indicates that CKEditor is running in a Blink-based browser like Chrome.
