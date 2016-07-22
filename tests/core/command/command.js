@@ -264,7 +264,7 @@ bender.test( {
 			cmd = editor.getCommand( 'copy' );
 
 		var bot = this.editorBot;
-		bot.setHtmlWithSelection( '<p><strong>^</strong></p>' );
+		bot.setHtmlWithSelection( '<p><strong>test^</strong></p>' );
 
 		editor.once( 'selectionChange', function() {
 			resume( function() {
