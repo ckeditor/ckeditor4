@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit,widget */
-/* bender-ckeditor-plugins: image2,justify,toolbar */
+/* bender-ckeditor-plugins: image2,justify,toolbar,link */
 /* global widgetTestsTools, image2TestsTools */
 
 ( function() {
@@ -55,6 +55,17 @@
 				config: {
 					allowedContent: 'img[src,alt,width,height]{float};figure(image){float};figcaption;div p{text-align}'
 				},
+				fields: {
+					src: true,
+					alt: true,
+					align: true,
+					width: true,
+					height: true,
+					hasCaption: true
+				}
+			},
+			link_target_allowed: {
+				name: 'link_target_allowed',
 				fields: {
 					src: true,
 					alt: true,
@@ -245,6 +256,17 @@
 				},
 				'<figure class="image" style="float:right;"><img alt="c" height="4" id="x" src="_assets/bar.png" width="3" /><figcaption>caption</figcaption></figure>'
 			);
+		},
+
+		'test allow caption link target': function() {
+			var bot = this.editorBots.link_target_allowed,
+				content = '<figure><img alt="" src="_assets/bar.png" /><figcaption>' +
+					'<a href="http://google.com" target="_blank">caption</a>' +
+					'</figcaption></figure>';
+
+			bot.setData( content, function() {
+				bender.assert.isInnerHtmlMatching( content, bot.getData() );
+			} );
 		},
 
 		'test justify plugin integration when (alignment disallowed)': function() {
