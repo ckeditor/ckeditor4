@@ -414,7 +414,20 @@ CKEDITOR.config = {
 		CKEDITOR.CTRL + 66, // Ctrl+B
 		CKEDITOR.CTRL + 73, // Ctrl+I
 		CKEDITOR.CTRL + 85 // Ctrl+U
-	]
+	],
+
+	/**
+	 * Indicates if table improvements features (overwriting native table selection,
+	 * introducing multiple ranges for table cells and handling pasting of multiple ranges
+	 * containg table cells) are enabled.
+	 *
+	 *		// Disabling table improvements.
+	 *		config.tableImprovements = false
+	 *
+	 * @since 4.5.10
+	 * @cfg {Boolean} [tableImprovements=true]
+	 */
+	tableImprovements: true
 };
 
 /**
