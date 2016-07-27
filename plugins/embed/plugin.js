@@ -21,10 +21,7 @@
 				button: editor.lang.embedbase.button,
 				allowedContent: 'div[!data-oembed-url]',
 				requiredContent: 'div[data-oembed-url]',
-				providerUrl: new CKEDITOR.template(
-					editor.config.embed_provider ||
-					'//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
-				),
+				providerUrl: new CKEDITOR.template( editor.config.embed_provider || '' ),
 
 				// The filter element callback actually allows all divs with data-oembed-url,
 				// so registering styles to the filter is virtually unnecessary because
