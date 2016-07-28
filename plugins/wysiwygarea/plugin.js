@@ -314,6 +314,8 @@
 					if ( !fullPage )
 						headExtra += CKEDITOR.tools.buildStyleHtml( editor.config.contentsCss );
 
+					headExtra += ' <meta name="pinterest" content="nopin"> ';
+
 					var baseTag = config.baseHref ? '<base href="' + config.baseHref + '" data-cke-temp="1" />' : '';
 
 					if ( fullPage ) {
