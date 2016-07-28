@@ -1,0 +1,11 @@
+@bender-ui: collapsed
+@bender-tags: tc, 18
+@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, basicstyles, sourcearea, elementspath, autogrow
+
+Have fun with visual table selection!
+
+**Things to check:**
+
+* Selecting one cell should not activate visual selection.
+* New selection should dismiss the previous one.
+* The visual selection should behave in the same way as the native one in Firefox.
