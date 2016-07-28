@@ -56,6 +56,19 @@ CKEDITOR.plugins.add( 'table', {
 			} );
 		}
 
+		// Detects if the left mouse button was pressed:
+		// * In all browsers and IE 9+ we use event.button property with standard compliant values.
+		// * In IE 8- we use event.button with IE's propertiary values.
+		function detectLeftMouseButton( evt ) {
+			var domEvent = evt.data.$;
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				return domEvent.button === 1;
+			}
+
+			return domEvent.button === 0;
+		}
+
 		function clearCellSelection( reset ) {
 			var selectedCells = editor.editable().find( '.' + selectedClass ),
 				i;
@@ -142,7 +155,7 @@ CKEDITOR.plugins.add( 'table', {
 				cells,
 				i;
 
-			if ( evt.name === 'mousedown' ) {
+			if ( evt.name === 'mousedown' && detectLeftMouseButton( evt ) ) {
 				selection = {
 					first: cell,
 					dirty: false
@@ -151,7 +164,7 @@ CKEDITOR.plugins.add( 'table', {
 				return;
 			}
 
-			if ( !selection ) {
+			if ( !selection || !detectLeftMouseButton( evt ) ) {
 				return;
 			}
 
@@ -186,7 +199,7 @@ CKEDITOR.plugins.add( 'table', {
 		function selectionMouseHandler( evt ) {
 			var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
 
-			if ( evt.name === 'mousedown' ) {
+			if ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !cell ) ) {
 				clearCellSelection( true );
 			}
 
