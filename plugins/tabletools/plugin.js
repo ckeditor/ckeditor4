@@ -4,7 +4,9 @@
  */
 
 ( function() {
-	var cellNodeRegex = /^(?:td|th)$/;
+	var cellNodeRegex = /^(?:td|th)$/,
+		selectedClass = 'cke_table-faked-selection',
+		selection;
 
 	function getSelectedCells( selection ) {
 		var ranges = selection.getRanges();
@@ -641,6 +643,159 @@
 		return newCell;
 	}
 
+	// Detects if the left mouse button was pressed:
+	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
+	// * In IE 8- we use event.button with IE's propertiary values.
+	function detectLeftMouseButton( evt ) {
+		var domEvent = evt.data.$;
+
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+			return domEvent.button === 1;
+		}
+
+		return domEvent.button === 0;
+	}
+
+	function clearCellSelection( editor, reset ) {
+		var selectedCells = editor.editable().find( '.' + selectedClass ),
+			i;
+
+		for ( i = 0; i < selectedCells.count(); i++ ) {
+			selectedCells.getItem( i ).removeClass( selectedClass );
+		}
+
+		if ( reset ) {
+			selection = null;
+		}
+	}
+
+	function getRowIndex( row ) {
+		var table = row.getAscendant( 'table' ),
+			container = row.getParent().is( 'tfoot' ) ? table.getChildCount() : row.getParent().getIndex(),
+			index = row.getIndex(),
+			i;
+
+		for ( i = 0; i < container; i++ ) {
+			if ( table.getChild( i ).is( 'tfoot' ) ) {
+				continue;
+			}
+
+			index += table.getChild( i ).getChildCount();
+		}
+
+		return index;
+	}
+
+	function getCellsBetween( first, last ) {
+		var map = CKEDITOR.tools.buildTableMap( first.getAscendant( 'table' ) ),
+			startRow = getRowIndex( first.getParent() ),
+			endRow = getRowIndex( last.getParent() ),
+			cells = [],
+			start,
+			end,
+			i,
+			j;
+
+		// First fetch start and end offset.
+		if ( startRow > endRow ) {
+			i = startRow;
+			startRow = endRow;
+			endRow = i;
+
+			i = first;
+			first = last;
+			last = i;
+		}
+
+		for ( i = 0; i < map[ startRow ].length; i++ ) {
+			if ( first.$ === map[ startRow ][ i ] ) {
+				start = i;
+				break;
+			}
+		}
+
+		for ( i = 0; i < map[ endRow ].length; i++ ) {
+			if ( last.$ === map[ endRow ][ i ] ) {
+				end = i;
+				break;
+			}
+		}
+
+		if ( start > end ) {
+			i = start;
+			start = end;
+			end = i;
+		}
+
+		for ( i = startRow; i <= endRow; i++ ) {
+			for ( j = start; j <= end; j++ ) {
+				cells.push( new CKEDITOR.dom.element( map[ i ][ j ] ) );
+			}
+		}
+
+		return cells;
+	}
+
+	function selectCells( cell, evt ) {
+		var editor = evt.editor || evt.sender.editor,
+			ranges = [],
+			range,
+			cells,
+			i;
+
+		if ( evt.name === 'mousedown' && detectLeftMouseButton( evt ) ) {
+			selection = {
+				first: cell,
+				dirty: false
+			};
+
+			return;
+		}
+
+		if ( !selection || !detectLeftMouseButton( evt ) ) {
+			return;
+		}
+
+		// The selection is inside one cell, so we should allow native selection,
+		// but only in case if no other cell between mousedown and mouseup
+		// was selected.
+		if ( !selection.dirty && selection.first.equals( cell ) ) {
+			return clearCellSelection( editor, evt.name === 'mouseup' );
+		}
+
+		clearCellSelection( editor );
+		selection.dirty = true;
+		cells = getCellsBetween( selection.first, cell );
+
+		editor.getSelection().removeAllRanges();
+
+		for ( i = 0; i < cells.length; i++ ) {
+			cells[ i ].addClass( selectedClass );
+
+			range = editor.createRange();
+			range.setStartBefore( cells[ i ] );
+			range.setEndAfter( cells[ i ] );
+
+			ranges.push( range );
+		}
+
+		if ( evt.name === 'mouseup' ) {
+			selection = null;
+		}
+	}
+
+	function selectionMouseHandler( evt ) {
+		var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
+
+		if ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !cell ) ) {
+			clearCellSelection( evt.editor || evt.sender.editor, true );
+		}
+
+		if ( cell ) {
+			selectCells( cell, evt );
+		}
+	}
+
 	CKEDITOR.plugins.tabletools = {
 		requires: 'table,dialog,contextmenu',
 		init: function( editor ) {
@@ -1001,6 +1156,20 @@
 					}
 
 					return null;
+				} );
+			}
+
+			// Allow overwriting the native table selection with our custom one.
+			if ( editor.config.tableImprovements ) {
+				// Add styles for fake visual selection.
+				CKEDITOR.addCss( '.' + selectedClass + ' { background: navy; color: #fff; }' );
+
+				editor.on( 'contentDom', function() {
+					var editable = editor.editable();
+
+					editable.attachListener( editable, 'mousedown', selectionMouseHandler );
+					editable.attachListener( editable, 'mousemove', selectionMouseHandler );
+					editable.attachListener( editable, 'mouseup', selectionMouseHandler );
 				} );
 			}
 		},
