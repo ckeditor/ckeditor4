@@ -87,5 +87,6 @@
  *
  * @since 4.5
  * @cfg {String} [embed_provider=//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}]
+ * ** Since 4.6 **: embed_provider defaults to an empty string. Users are advised to provide their own embed provider url.
  * @member CKEDITOR.config
  */
