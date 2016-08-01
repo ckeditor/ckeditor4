@@ -270,7 +270,7 @@
 
 			return {
 				title: editor.lang.image[ dialogType == 'image' ? 'title' : 'titleButton' ],
-				minWidth: editor.config.skin == 'moono-lisa' ? 500 : 420,
+				minWidth: ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 500 : 420,
 				minHeight: 360,
 				onShow: function() {
 					this.imageElement = false;

@@ -109,7 +109,7 @@
 
 		return {
 			title: linkLang.title,
-			minWidth: editor.config.skin == 'moono-lisa' ? 450 : 350,
+			minWidth: ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 450 : 350,
 			minHeight: 240,
 			contents: [ {
 				id: 'info',
