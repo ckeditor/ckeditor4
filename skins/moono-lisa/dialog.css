@@ -539,6 +539,11 @@ select.cke_dialog_ui_input_select:focus
 	border: 2px solid #139ff7;
 }
 
+input.cke_dialog_ui_input_text:focus
+{
+	padding-left: 5px;
+}
+
 textarea.cke_dialog_ui_input_textarea:focus
 {
 	padding: 3px 5px;
