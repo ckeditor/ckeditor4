@@ -72,6 +72,9 @@
 						active.focus();
 						return;
 					}
+
+					// [Webkit] Save scrollTop value so it can be used when restoring locked selection. (#14659)
+					this.editor._.previousScrollTop = this.$.scrollTop;
 				}
 
 				// [IE] Use instead "setActive" method to focus the editable if it belongs to
