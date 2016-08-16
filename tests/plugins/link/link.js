@@ -175,6 +175,38 @@
 			} );
 		},
 
+		'test changing inner text': function() {
+			// Once the innertext (display text) is changed, any markup within the selection should be removed, and it should add
+			// an anchor element with innertext at the beginning of initial selection.
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setHtmlWithSelection( '[testing <a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].' );
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'testing http://ckeditor.com' );
+				dialog.setValueOf( 'info', 'linkDisplayText', 'foobar' );
+				dialog.setValueOf( 'info', 'url', 'http://example.dev' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<a href="http://example.dev">foobar</a>.', bot.getData( true ) );
+			} );
+		},
+
+		'test changing inner text multiline': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setHtmlWithSelection( '<p>a[a</p><p>bb</p><p>c]c</p>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'abbc' );
+				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
+				dialog.setValueOf( 'info', 'url', 'http://bar' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<p>a<a href="http://bar">foo</a></p><p>c</p>', bot.getData( true ) );
+			} );
+		},
+
 		'test link passes filter': function() {
 			this.editorBot.assertInputOutput(
 				'<p><a href="http://ckeditor.com">text</a></p>',
