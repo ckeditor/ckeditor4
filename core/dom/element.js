@@ -335,6 +335,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				var bogus = this.getDocument().createElement( 'br' );
 
 				CKEDITOR.env.gecko && bogus.setAttribute( 'type', '_moz' );
+				bogus.setAttribute( 'data-cke-bogus', 'true' );
 
 				this.append( bogus );
 			}
