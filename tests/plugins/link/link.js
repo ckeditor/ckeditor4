@@ -192,6 +192,21 @@
 			} );
 		},
 
+		'test link with a nested strong without text change': function() {
+			// If no innertext was changed, the nested elements should not get removed.
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setHtmlWithSelection( '[<a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].' );
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'http://ckeditor.com' );
+				dialog.setValueOf( 'info', 'url', 'http://example.dev' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<a href="http://example.dev">http://ckeditor.<strong>com</strong></a>.', bot.getData( true ) );
+			} );
+		},
+
 		'test changing inner text multiline': function() {
 			var bot = this.editorBot,
 				editor = this.editor;
