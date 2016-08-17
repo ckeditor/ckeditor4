@@ -72,9 +72,6 @@
 						active.focus();
 						return;
 					}
-
-					// [Webkit] Save scrollTop value so it can be used when restoring locked selection. (#14659)
-					this.editor._.previousScrollTop = this.$.scrollTop;
 				}
 
 				// [IE] Use instead "setActive" method to focus the editable if it belongs to
@@ -867,6 +864,13 @@
 				this.on( 'focus', function() {
 					this.hasFocus = true;
 				}, null, null, -1 );
+
+				// [WebKit] Save scrollTop value so it can be used when restoring locked selection. (#14659)
+				if ( CKEDITOR.env.webkit ) {
+					this.on( 'scroll', function() {
+						editor._.previousScrollTop = editor.editable().$.scrollTop;
+					}, null, null, -1 );
+				}
 
 				// Register to focus manager.
 				editor.focusManager.add( this );

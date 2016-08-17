@@ -550,7 +550,6 @@
 						editable.$.scrollTop = editor._.previousScrollTop;
 					}
 				}
-				editor._.previousScrollTop = null;
 
 				editor.unlockSelection( restoreSel );
 				restoreSel = 0;
