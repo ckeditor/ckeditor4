@@ -2044,7 +2044,8 @@
 		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( !this.isCustomCopyCutSupported ) {
-				return new this.dataTransfer( null, sourceEditor );
+				// Edge does not support custom copy/cut, but it have some useful data in the clipboardData (#13755).
+				return new this.dataTransfer( ( CKEDITOR.env.edge && evt && evt.data.$ && evt.data.$.clipboardData ) || null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
 
@@ -2361,8 +2362,11 @@
 			if ( ( this.$ && this.$.files ) || file ) {
 				this._.files = [];
 
-				for ( i = 0; i < this.$.files.length; i++ ) {
-					this._.files.push( this.$.files[ i ] );
+				// Edge have empty files property with no length (#13755).
+				if ( this.$.files && this.$.files.length ) {
+					for ( i = 0; i < this.$.files.length; i++ ) {
+						this._.files.push( this.$.files[ i ] );
+					}
 				}
 
 				// Don't include $.items if both $.files and $.items contains files, because,
