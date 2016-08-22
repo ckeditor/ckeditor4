@@ -221,6 +221,41 @@
 
 			this.editor.fire( 'fileUploadRequest',  fileLoaderMock );
 			wait();
+		},
+
+		'test ensure onAbort is called (#13812)': function() {
+			var file;
+
+			// Fire this to fail the test if loader.abort() is never called.
+			var timeout = setTimeout( function() {
+				resume( function() {
+					assert.isTrue( false );
+				} );
+			}, 700 );
+
+			// Some browsers (e.g. IE) expose the old BlobBuilder API and throw an exception when trying to create a Blob directly.
+			if ( window.MSBlobBuilder ) {
+				var blobBuilder = new window.MSBlobBuilder();
+				blobBuilder.append( new Uint8Array( 8 ) );
+				file = blobBuilder.getBlob( 'text/plain' );
+			} else {
+				file  = new Blob( new Uint8Array( 8 ), { type: 'text/plain' } );
+			}
+
+			var loader = this.editor.uploadRepository.create( file );
+
+			loader.on( 'update', function() {
+				if ( loader.status == 'abort' ) {
+					resume( function() {
+						clearTimeout( timeout );
+						assert.isTrue( true );
+					} );
+				}
+			} );
+			loader.upload( '/foo/upload' );
+			loader.abort();
+
+			wait();
 		}
 	} );
 } )();
