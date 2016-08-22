@@ -23,7 +23,7 @@
 		for ( i = 0; i < ranges.length; i++ ) {
 			node = ranges[ i ].getEnclosedNode();
 
-			if( !node || !node.hasClass || !node.hasClass( 'cke_table-faked-selection' ) ) {
+			if ( !node || !node.hasClass || !node.hasClass( 'cke_table-faked-selection' ) ) {
 				return false;
 			}
 		}
