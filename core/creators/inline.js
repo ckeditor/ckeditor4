@@ -117,7 +117,7 @@
 	 * the `contenteditable` attribute set to `true`.
 	 *
 	 */
-	CKEDITOR.inlineAll = function() {
+	CKEDITOR.inlineAll = function(config) {
 		var el, data;
 
 		for ( var name in CKEDITOR.dtd.$editable ) {
@@ -132,7 +132,7 @@
 
 					data = {
 						element: el,
-						config: {}
+						config: config || {}
 					};
 
 					if ( CKEDITOR.fire( 'inline', data ) !== false )
