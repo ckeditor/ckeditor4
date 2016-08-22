@@ -3,6 +3,10 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.11
 
+New Features:
+
+* [#14747](http://dev.ckeditor.com/ticket/14747): The enhanced image caption does not support the link target attribute.
+
 Fixed Issues:
 
 * [#13755](http://dev.ckeditor.com/ticket/13755): [Edge] Fixed: Pasting images in Edge does not work.
