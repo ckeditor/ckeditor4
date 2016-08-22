@@ -274,5 +274,23 @@ bender.test( {
 		editor._.elementsPath.onClick( 0 );
 
 		wait();
+	},
+
+	// #13548
+	'test cut command not disabled after clicking on elements path': function() {
+		var editor = this.editor,
+			cmd = editor.getCommand( 'cut' );
+
+		var bot = this.editorBot;
+		bot.setHtmlWithSelection( '<p><strong>test^</strong></p>' );
+
+		editor.once( 'selectionChange', function() {
+			resume( function() {
+				assert.areNotSame( cmd.state, CKEDITOR.TRISTATE_DISABLED );
+			} );
+		} );
+		editor._.elementsPath.onClick( 0 );
+
+		wait();
 	}
 } );
