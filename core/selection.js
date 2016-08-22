@@ -2185,10 +2185,11 @@
 				}
 			}
 
-			if ( bookmarks.isFake )
+			if ( bookmarks.isFake && !isFakeTableSelection( ranges ) ) {
 				this.fake( node );
-			else
+			} else {
 				this.selectRanges( ranges );
+			}
 
 			return this;
 		},
