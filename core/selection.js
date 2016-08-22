@@ -10,6 +10,72 @@
 		fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
 		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' );
 
+	// #### table selection : START
+
+	function isFakeTableSelection( ranges ) {
+		var node,
+			i;
+
+		if ( ranges.length < 2 ) {
+			return false;
+		}
+
+		for ( i = 0; i < ranges.length; i++ ) {
+			node = ranges[ i ].getEnclosedNode();
+
+			if( !node || !node.hasClass || !node.hasClass( 'cke_table-faked-selection' ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	// After performing fake table selection, the real selection is limited
+	// to the first selected cell. Therefore to check if the real selection
+	// matches the fake selection, we check if the table cell from fake selection's
+	// first range and real selection's range are the same.
+	function isRealTableSelection( ranges, fakeRanges ) {
+		if ( ranges.length > 1 || !isFakeTableSelection( fakeRanges ) || !ranges[ 0 ].getEnclosedNode() ||
+			!ranges[ 0 ].getEnclosedNode().equals( fakeRanges[ 0 ].getEnclosedNode() ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	function performTableSelection( ranges ) {
+		var editor = this.root.editor,
+			realSelection = editor.getSelection( 1 ),
+			cache;
+
+		// Cleanup after previous selection - e.g. remove hidden sel container.
+		this.reset();
+
+		realSelection.selectRanges( [ ranges[ 0 ] ] );
+
+		cache = this._.cache;
+
+		// Caches given ranges.
+		cache.ranges = new CKEDITOR.dom.rangeList( ranges );
+		cache.type = CKEDITOR.SELECTION_TEXT;
+		cache.selectedElement = ranges[ 0 ].getEnclosedNode();
+
+		// Properties that will not be available when isFake.
+		cache.selectedText = cache.nativeSel = null;
+
+		this.isFake = 1;
+		this.rev = nextRev++;
+
+		// Save this selection, so it can be returned by editor.getSelection().
+		editor._.fakeSelection = this;
+
+		// Fire selectionchange, just like a normal selection.
+		this.root.fire( 'selectionchange' );
+	}
+
+	// #### table selection : END
+
 	// #### checkSelectionChange : START
 
 	// The selection change check basically saves the element parent tree of
@@ -23,9 +89,9 @@
 		if ( sel ) {
 			realSel = this.getSelection( 1 );
 
-			// If real (not locked/stored) selection was moved from hidden container,
-			// then the fake-selection must be invalidated.
-			if ( !realSel || !realSel.isHidden() ) {
+			// If real (not locked/stored) selection was moved from hidden container
+			// or is not a table one, then the fake-selection must be invalidated.
+			if ( !realSel || ( !realSel.isHidden() && !isRealTableSelection( realSel.getRanges(), sel.getRanges() ) ) ) {
 				// Remove the cache from fake-selection references in use elsewhere.
 				sel.reset();
 
@@ -1775,6 +1841,12 @@
 
 			if ( receiver ) {
 				this.fake( receiver );
+				return;
+			}
+
+			// Handle special case - fake multiple selection of table cells.
+			if ( isFakeTableSelection( ranges ) ) {
+				performTableSelection.call( this, ranges );
 				return;
 			}
 

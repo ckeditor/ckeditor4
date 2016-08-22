@@ -764,10 +764,9 @@
 		}
 
 		clearCellSelection( editor );
+
 		selection.dirty = true;
 		cells = getCellsBetween( selection.first, cell );
-
-		editor.getSelection().removeAllRanges();
 
 		for ( i = 0; i < cells.length; i++ ) {
 			cells[ i ].addClass( selectedClass );
@@ -778,6 +777,8 @@
 
 			ranges.push( range );
 		}
+
+		editor.getSelection().selectRanges( ranges );
 
 		if ( evt.name === 'mouseup' ) {
 			selection = null;
