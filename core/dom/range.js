@@ -1201,7 +1201,8 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Expands the range so that partial units are completely contained.
 		 *
-		 * @param unit {Number} The unit type to expand with.
+		 * @param {Number} unit The unit type to expand with. Use one of following values: {@link CKEDITOR#ENLARGE_BLOCK_CONTENTS},
+		 * {@link CKEDITOR#ENLARGE_ELEMENT}, {@link CKEDITOR#ENLARGE_INLINE}, {@link CKEDITOR#ENLARGE_LIST_ITEM_CONTENTS}.
 		 * @param {Boolean} [excludeBrs=false] Whether include line-breaks when expanding.
 		 */
 		enlarge: function( unit, excludeBrs ) {
