@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 // jscs:disable maximumLineLength
-/* bender-ckeditor-plugins: basicstyles,bidi,blockquote,button,clipboard,colorbutton,dialog,div,docprops,find,flash,font,format,forms,horizontalrule,iframe,iframedialog,image,indent,justify,link,list,listblock,maximize,newpage,pagebreak,pastefromword,pastetext,placeholder,preview,print,removeformat,save,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,table,templates,toolbar,uicolor,undo */
+/* bender-ckeditor-plugins: basicstyles,bidi,blockquote,button,clipboard,colorbutton,dialog,div,docprops,elementspath,find,flash,font,format,forms,horizontalrule,iframe,iframedialog,image,indent,justify,link,list,listblock,maximize,newpage,pagebreak,pastefromword,pastetext,placeholder,preview,print,removeformat,save,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,table,templates,toolbar,uicolor,undo */
 // jscs:enable maximumLineLength
 
 // This list of commands are to be maintained whenever new commands are added.
@@ -256,5 +256,51 @@ bender.test( {
 
 		assert.isFalse( cmd.checkAllowed(), 'is not allowed - cache' );
 		assert.isTrue( cmd.checkAllowed( true ), 'is allowed - no cache' );
+	},
+
+	// #13548
+	'test copy command not disabled after clicking on elements path': function() {
+		if ( !CKEDITOR.env.ie ) {
+			assert.ignore();
+			return;
+		}
+
+		var editor = this.editor,
+			cmd = editor.getCommand( 'copy' );
+
+		var bot = this.editorBot;
+		bot.setHtmlWithSelection( '<p><strong>test^</strong></p>' );
+
+		editor.once( 'selectionChange', function() {
+			resume( function() {
+				assert.areNotSame( cmd.state, CKEDITOR.TRISTATE_DISABLED );
+			} );
+		} );
+		editor._.elementsPath.onClick( 0 );
+
+		wait();
+	},
+
+	// #13548
+	'test cut command not disabled after clicking on elements path': function() {
+		if ( !CKEDITOR.env.ie ) {
+			assert.ignore();
+			return;
+		}
+
+		var editor = this.editor,
+			cmd = editor.getCommand( 'cut' );
+
+		var bot = this.editorBot;
+		bot.setHtmlWithSelection( '<p><strong>test^</strong></p>' );
+
+		editor.once( 'selectionChange', function() {
+			resume( function() {
+				assert.areNotSame( cmd.state, CKEDITOR.TRISTATE_DISABLED );
+			} );
+		} );
+		editor._.elementsPath.onClick( 0 );
+
+		wait();
 	}
 } );

@@ -10,6 +10,7 @@ New Features:
 Fixed Issues:
 
 * [#13755](http://dev.ckeditor.com/ticket/13755): [Edge] Fixed: Pasting images in Edge does not work.
+* [#13548](http://dev.ckeditor.com/ticket/13548): [Internet Explorer] Fixed: Clicking on element's path disables cut/copy icons.
 
 ## CKEditor 4.5.10
 

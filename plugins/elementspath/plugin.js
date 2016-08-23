@@ -91,13 +91,22 @@
 		} );
 
 		function onClick( elementIndex ) {
-			var element = elementsPath.list[ elementIndex ];
+			var element = elementsPath.list[ elementIndex ],
+				selection;
+
 			if ( element.equals( editor.editable() ) || element.getAttribute( 'contenteditable' ) == 'true' ) {
 				var range = editor.createRange();
 				range.selectNodeContents( element );
-				range.select();
+
+				selection = range.select();
 			} else {
-				editor.getSelection().selectElement( element );
+				selection = editor.getSelection();
+				selection.selectElement( element );
+			}
+
+			// Explicitly fire selectionChange when clicking on an element path button. (#13548)
+			if ( CKEDITOR.env.ie ) {
+				editor.fire( 'selectionChange', { selection: selection, path: new CKEDITOR.dom.elementPath( element ) } );
 			}
 
 			// It is important to focus() *after* the above selection
