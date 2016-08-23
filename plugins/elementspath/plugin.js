@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -105,7 +105,9 @@
 			}
 
 			// Explicitly fire selectionChange when clicking on an element path button. (#13548)
-			editor.fire( 'selectionChange', { selection: selection, path: new CKEDITOR.dom.elementPath( element ) } );
+			if ( CKEDITOR.env.ie ) {
+				editor.fire( 'selectionChange', { selection: selection, path: new CKEDITOR.dom.elementPath( element ) } );
+			}
 
 			// It is important to focus() *after* the above selection
 			// manipulation, otherwise Firefox will have troubles. #10119
