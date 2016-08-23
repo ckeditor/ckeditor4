@@ -260,6 +260,11 @@ bender.test( {
 
 	// #13548
 	'test copy command not disabled after clicking on elements path': function() {
+		if ( !CKEDITOR.env.ie ) {
+			assert.ignore();
+			return;
+		}
+
 		var editor = this.editor,
 			cmd = editor.getCommand( 'copy' );
 
@@ -278,6 +283,11 @@ bender.test( {
 
 	// #13548
 	'test cut command not disabled after clicking on elements path': function() {
+		if ( !CKEDITOR.env.ie ) {
+			assert.ignore();
+			return;
+		}
+
 		var editor = this.editor,
 			cmd = editor.getCommand( 'cut' );
 
