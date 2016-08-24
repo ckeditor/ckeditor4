@@ -74,10 +74,10 @@
 					}
 				}
 
-				// [IE] Use instead "setActive" method to focus the editable if it belongs to
-				// the host page document, to avoid bringing an unexpected scroll.
+				// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
+				// to avoid bringing an unexpected scroll. Edge (starting from 14.14393) does not support setActive.
 				try {
-					this.$[ CKEDITOR.env.ie && this.getDocument().equals( CKEDITOR.document ) ? 'setActive' : 'focus' ]();
+					this.$[ CKEDITOR.env.ie && !CKEDITOR.env.edge && this.getDocument().equals( CKEDITOR.document ) ? 'setActive' : 'focus' ]();
 				} catch ( e ) {
 					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.
 					if ( !CKEDITOR.env.ie )
