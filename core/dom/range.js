@@ -2806,7 +2806,7 @@ CKEDITOR.dom.range = function( root ) {
 				i,
 				initialMatches;
 
-			if ( ancestor ) {
+			if ( ancestor && ancestor.find ) {
 				initialMatches = ancestor.find( query );
 
 				for ( i = 0; i < initialMatches.count(); i++ ) {
