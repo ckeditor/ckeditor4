@@ -538,6 +538,7 @@
 
 			loader.abort = function() {
 				xhr.abort();
+				onAbort();
 			};
 
 			xhr.onerror = onError;
