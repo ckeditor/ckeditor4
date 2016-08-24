@@ -827,8 +827,7 @@
 				this.commitContent( data );
 
 				var selection = editor.getSelection(),
-					attributes = plugin.getLinkAttributes( editor, data ),
-					selectedText = ( selection.getSelectedText() || '' ).replace( /\n/g, '' );
+					attributes = plugin.getLinkAttributes( editor, data );
 
 				if ( !this._.selectedElement ) {
 					var range = selection.getRanges()[ 0 ],
