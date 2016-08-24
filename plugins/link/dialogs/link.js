@@ -125,7 +125,7 @@
 						this.enable();
 
 						// Keep inner text so that it can be compared in commit function.
-						initialLinkText = editor.getSelection().getSelectedText();
+						initialLinkText = editor.getSelection().getSelectedText() || '';
 						this.setValue( initialLinkText );
 					},
 					commit: function( data ) {
