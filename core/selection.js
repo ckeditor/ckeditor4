@@ -540,8 +540,16 @@
 				// On Webkit we use DOMFocusIn which is fired more often than focus - e.g. when moving from main editable
 				// to nested editable (or the opposite). Unlock selection all, but restore only when it was locked
 				// for the same active element, what will e.g. mean restoring after displaying dialog.
-				if ( restoreSel && CKEDITOR.env.webkit )
+				if ( restoreSel && CKEDITOR.env.webkit ) {
 					restoreSel = editor._.previousActive && editor._.previousActive.equals( doc.getActive() );
+
+					// On Webkit when editor uses divarea, native focus causes editable viewport to scroll
+					// to the top (when there is no active selection inside while focusing) so the scroll
+					// position should be restored after focusing back editable area. (#14659)
+					if ( restoreSel && editor._.previousScrollTop != null && editor._.previousScrollTop != editable.$.scrollTop ) {
+						editable.$.scrollTop = editor._.previousScrollTop;
+					}
+				}
 
 				editor.unlockSelection( restoreSel );
 				restoreSel = 0;
