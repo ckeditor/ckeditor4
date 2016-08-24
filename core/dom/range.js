@@ -2784,6 +2784,52 @@ CKEDITOR.dom.range = function( root ) {
 			}
 			// %REMOVE_END%
 			this.endContainer = endContainer;
+		},
+
+		/**
+		 * Looks for elements matching `query` selector within a range.
+		 * 
+		 * @since 4.5.11
+		 * @private
+		 * @param {String} query
+		 * @param {Boolean} [includeNonEditables=false] Wheteher or not elements with `contenteditable` set to `false` should
+		 * be included.
+		 * @returns {CKEDITOR.dom.element[]}
+		 */
+		_find: function( query, includeNonEditables ) {
+			var ancestor = this.getCommonAncestor(),
+				boundaries = this.getBoundaryNodes(),
+				// Contrary to CKEDITOR.dom.element#find we're returning array, that's because NodeList is immutable, and we need
+				// to do some filtering in returned list.
+				ret = [],
+				curItem,
+				i,
+				initialMatches;
+
+			if ( ancestor ) {
+				initialMatches = ancestor.find( query );
+
+				for ( i = 0; i < initialMatches.count(); i++ ) {
+					curItem = initialMatches.getItem( i );
+
+					// Using isReadOnly() method to filterout non editables. It checks isContentEditable including all browser quirks.
+					if ( !includeNonEditables && curItem.isReadOnly() ) {
+						continue;
+					}
+
+					// It's not enough to get elements from common ancestor, because it migth contain too many matches.
+					// We need to ensure that returned items are between boundary points.
+					if (
+						( curItem.getPosition( boundaries.startNode ) & CKEDITOR.POSITION_FOLLOWING )
+							&&
+						( ( curItem.getPosition( boundaries.endNode ) & ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IS_CONTAINED ) ) ) ) {
+						
+						ret.push( curItem );
+					}
+				}
+			}
+
+			return ret;
 		}
 	};
 
