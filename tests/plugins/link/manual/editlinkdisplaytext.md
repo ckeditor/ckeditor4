@@ -17,9 +17,9 @@
 The source should be `<p>foo <a href="http://example.com">baz</a>.</p>`
 
 1. Click Source button again to show wysiwyg editor.
-1. Select everything in the editor.
+1. Select all the content in the editor.
 1. Click the link icon to open link dialog.
-	* The Display text input should be disabled and contain `<< Selection in Document >>`
+	* The Display text input should contain `foo baz.` value.
 	* The URL text input should be empty.
 1. Change URL text input to `ckeditor.com`
 1. Click OK.
