@@ -194,6 +194,108 @@
 			assert.areSame( ranges.length, selection.getRanges().length, 'All ranges selected' );
 
 			clearTableSelection( editor.editable() );
+		},
+
+		'Fake-selection bookmark (serializable)': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				ranges,
+				table,
+				bookmarks;
+
+			bender.tools.setHtmlWithSelection( editor, '<p id="foo">Foo</p>' +
+				CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 3 ] );
+			selection.selectRanges( ranges );
+
+
+			// Bookmark it.
+			bookmarks = selection.createBookmarks( true );
+
+			// Move the selection somewhere else.
+			selection.selectElement( editor.document.getById( 'foo' ) );
+
+			// Replace the table with its clone.
+			table = editor.editable().findOne( 'table' );
+			table.clone( true, true ).replace( table );
+
+			selection.selectBookmarks( bookmarks );
+
+			assert.isTrue( !!selection.isFake, 'isFake is set' );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 3 ] );
+
+			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+				'getSelectedElement() must return the first selected table cell' );
+			assert.areSame( ranges.length, selection.getRanges().length, 'All ranges selected' );
+
+			clearTableSelection( editor.editable() );
+		},
+
+		'Fake-selection bookmark 2': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				ranges,
+				bookmarks;
+
+			bender.tools.setHtmlWithSelection( editor, '<p id="foo">Foo</p>' +
+				CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 3 ] );
+			selection.selectRanges( ranges );
+
+			// Bookmark it.
+			bookmarks = selection.createBookmarks2();
+
+			// Move the selection somewhere else.
+			selection.selectElement( editor.document.getById( 'foo' ) );
+
+			selection.selectBookmarks( bookmarks );
+
+			assert.isTrue( !!selection.isFake, 'isFake is set' );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 3 ] );
+
+			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+				'getSelectedElement() must return the first selected table cell' );
+			assert.areSame( ranges.length, selection.getRanges().length, 'All ranges selected' );
+
+			clearTableSelection( editor.editable() );
+		},
+
+		'Fake-selection bookmark 2 (normalized)': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				ranges,
+				bookmarks;
+
+			bender.tools.setHtmlWithSelection( editor, '<p id="foo">Foo</p>' +
+				CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 3 ] );
+			selection.selectRanges( ranges );
+
+			// Bookmark it.
+			bookmarks = selection.createBookmarks2( true );
+
+			// Move the selection somewhere else.
+			selection.selectElement( editor.document.getById( 'foo' ) );
+
+			// Replace the editor DOM.
+			editor.editable().setHtml( editor.editable().getHtml() );
+
+			selection.selectBookmarks( bookmarks );
+
+			assert.isTrue( !!selection.isFake, 'isFake is set' );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 3 ] );
+
+			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+				'getSelectedElement() must return the first selected table cell' );
+			assert.areSame( ranges.length, selection.getRanges().length, 'All ranges selected' );
+
+			clearTableSelection( editor.editable() );
 		}
 	} );
 }() );
