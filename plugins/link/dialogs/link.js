@@ -7,7 +7,8 @@
 
 ( function() {
 	CKEDITOR.dialog.add( 'link', function( editor ) {
-		var plugin = CKEDITOR.plugins.link;
+		var plugin = CKEDITOR.plugins.link,
+			initialLinkText;
 
 		// Handles the event when the "Target" selection box is changed.
 		var targetChanged = function() {
@@ -123,7 +124,9 @@
 					setup: function() {
 						this.enable();
 
-						this.setValue( editor.getSelection().getSelectedText() );
+						// Keep inner text so that it can be compared in commit function.
+						initialLinkText = editor.getSelection().getSelectedText();
+						this.setValue( initialLinkText );
 					},
 					commit: function( data ) {
 						data.linkText = this.isEnabled() ? this.getValue() : '';
@@ -836,10 +839,16 @@
 							data.email.address : attributes.set[ 'data-cke-saved-href' ] ), editor.document );
 						range.insertNode( text );
 						range.selectNodeContents( text );
-					} else if ( selectedText !== data.linkText ) {
+					} else if ( initialLinkText !== data.linkText ) {
 						text = new CKEDITOR.dom.text( data.linkText, editor.document );
+
+						var bm = range.createBookmark();
+
 						range.deleteContents( true );
-						range.insertNode( text );
+						text.insertBefore( bm.startNode );
+						// Use moveToBookmark to remove bookmark spans.
+						range.moveToBookmark( bm );
+
 						range.selectNodeContents( text );
 					}
 
@@ -869,7 +878,7 @@
 
 						// We changed the content, so need to select it again.
 						selection.selectElement( element );
-					} else if ( data.linkText ) {
+					} else if ( data.linkText && initialLinkText != data.linkText ) {
 						element.setHtml( data.linkText );
 					}
 

@@ -207,6 +207,20 @@
 			} );
 		},
 
+		'test link with a nested strong with text change': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setHtmlWithSelection( '[<a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
+				dialog.setValueOf( 'info', 'url', 'http://example.dev' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<a href="http://example.dev">foo</a>.', bot.getData( true ) );
+			} );
+		},
+
 		'test changing inner text multiline': function() {
 			var bot = this.editorBot,
 				editor = this.editor;
@@ -218,7 +232,22 @@
 				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
 				dialog.setValueOf( 'info', 'url', 'http://bar' );
 				dialog.getButton( 'ok' ).click();
-				assert.areSame( '<p>a<a href="http://bar">foo</a></p><p>c</p>', bot.getData( true ) );
+				assert.areSame( '<p>a<a href="http://bar">foo</a>c</p>', bot.getData( true ) );
+			} );
+		},
+
+		'test changing inner text block containing': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setHtmlWithSelection( '<p>a[a</p><p>bb]</p><p>cc</p>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'abb' );
+				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
+				dialog.setValueOf( 'info', 'url', 'http://bar' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<p>a<a href="http://bar">foo</a></p><p>cc</p>', bot.getData( true ) );
 			} );
 		},
 
