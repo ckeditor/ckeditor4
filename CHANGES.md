@@ -5,14 +5,14 @@ CKEditor 4 Changelog
 
 New Features:
 
-* [#14747](http://dev.ckeditor.com/ticket/14747): The enhanced image caption does not support the link target attribute.
+* [#14747](http://dev.ckeditor.com/ticket/14747): The [Enhanced Image](http://ckeditor.com/addon/image2) caption does not support the link `target` attribute.
 
 Fixed Issues:
 
-* [#13755](http://dev.ckeditor.com/ticket/13755): [Edge] Fixed: Pasting images in Edge does not work.
-* [#13548](http://dev.ckeditor.com/ticket/13548): [Internet Explorer] Fixed: Clicking on element's path disables cut/copy icons.
+* [#13755](http://dev.ckeditor.com/ticket/13755): [Edge] Fixed: Pasting images does not work.
+* [#13548](http://dev.ckeditor.com/ticket/13548): [IE] Fixed: Clicking the [elements path](http://ckeditor.com/addon/elementspath) disables Cut and Copy icons.
 * [#13812](http://dev.ckeditor.com/ticket/13812): Fixed: When aborting file upload the placeholder for image is left.
-* [#14659](http://dev.ckeditor.com/ticket/14659): Fixed: Editor's content scrolled to the top after closing the dialog.
+* [#14659](http://dev.ckeditor.com/ticket/14659): [Blink] Fixed: Content scrolled to the top after closing the dialog in a [`<div>`-based editor](http://ckeditor.com/addon/divarea).
 
 ## CKEditor 4.5.10
 
