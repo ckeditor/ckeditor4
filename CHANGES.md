@@ -12,6 +12,7 @@ Fixed Issues:
 * [#13755](http://dev.ckeditor.com/ticket/13755): [Edge] Fixed: Pasting images in Edge does not work.
 * [#13548](http://dev.ckeditor.com/ticket/13548): [Internet Explorer] Fixed: Clicking on element's path disables cut/copy icons.
 * [#13812](http://dev.ckeditor.com/ticket/13812): Fixed: When aborting file upload the placeholder for image is left.
+* [#14659](http://dev.ckeditor.com/ticket/14659): Fixed: Editor's content scrolled to the top after closing the dialog.
 
 ## CKEditor 4.5.10
 
