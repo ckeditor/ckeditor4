@@ -827,7 +827,9 @@
 				this.commitContent( data );
 
 				var selection = editor.getSelection(),
-					attributes = plugin.getLinkAttributes( editor, data );
+					attributes = plugin.getLinkAttributes( editor, data ),
+					bm,
+					nestedLinks;
 
 				if ( !this._.selectedElement ) {
 					var range = selection.getRanges()[ 0 ],
@@ -843,7 +845,7 @@
 					} else if ( initialLinkText !== data.linkText ) {
 						text = new CKEDITOR.dom.text( data.linkText, editor.document );
 
-						var bm = range.createBookmark();
+						bm = range.createBookmark();
 
 						range.deleteContents( true );
 						text.insertBefore( bm.startNode );
@@ -851,6 +853,13 @@
 						range.moveToBookmark( bm );
 
 						range.selectNodeContents( text );
+					}
+
+					// Editable links nested within current range should be removed, so that the link is applied to whole selection.
+					nestedLinks = range._find( 'a' );
+
+					for	( var i = 0; i < nestedLinks.length; i++ ) {
+						nestedLinks[ i ].remove( true );
 					}
 
 					// Apply style.

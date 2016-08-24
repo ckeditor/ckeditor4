@@ -205,6 +205,19 @@
 			} );
 		},
 
+		'test link with a nested anchors without text change': function() {
+			// Even though display text was not changed we have to remove nested, editable anchor elements.
+			var bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '[<i>foo </i><a href="aaa">bbb</a> <span contenteditable="false"><a href="aaa">ccc</a></span>]' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.setValueOf( 'info', 'url', 'newlink' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<a href="http://newlink"><i>foo </i>bbb <span contenteditable="false"><a href="aaa">ccc</a></span></a>', bot.getData( true ) );
+			} );
+		},
+
 		'test link with a nested strong with text change': function() {
 			var bot = this.editorBot;
 
