@@ -178,8 +178,7 @@
 		'test changing inner text': function() {
 			// Once the innertext (display text) is changed, any markup within the selection should be removed, and it should add
 			// an anchor element with innertext at the beginning of initial selection.
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '[testing <a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].' );
 
@@ -194,8 +193,7 @@
 
 		'test link with a nested strong without text change': function() {
 			// If no innertext was changed, the nested elements should not get removed.
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '[<a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].' );
 
@@ -208,8 +206,7 @@
 		},
 
 		'test link with a nested strong with text change': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '[<a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].' );
 
@@ -222,8 +219,7 @@
 		},
 
 		'test changing inner text multiline': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '<p>a[a</p><p>bb</p><p>c]c</p>' );
 
@@ -237,8 +233,7 @@
 		},
 
 		'test multiline selection without changing display text': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBot;
 
 			// When using getSelectedText() on multiline selection, it will contain new line chars. Text inputs used in dialog, can't contain
 			// new lines, so if our initial pattern would use text with new lines, those would always differ. 
@@ -253,8 +248,7 @@
 		},
 
 		'test changing inner text block containing': function() {
-			var bot = this.editorBot,
-				editor = this.editor;
+			var bot = this.editorBot;
 
 			bot.setHtmlWithSelection( '<p>a[a</p><p>bb]</p><p>cc</p>' );
 
