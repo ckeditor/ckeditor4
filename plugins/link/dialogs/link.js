@@ -124,9 +124,11 @@
 					setup: function() {
 						this.enable();
 
-						// Keep inner text so that it can be compared in commit function.
-						initialLinkText = editor.getSelection().getSelectedText() || '';
-						this.setValue( initialLinkText );
+						this.setValue( editor.getSelection().getSelectedText() );
+
+						// Keep inner text so that it can be compared in commit function. By obtaining value from getData()
+						// we get value stripped from new line chars which is important when comparing the value later on.
+						initialLinkText = this.getValue();
 					},
 					commit: function( data ) {
 						data.linkText = this.isEnabled() ? this.getValue() : '';

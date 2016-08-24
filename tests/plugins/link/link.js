@@ -236,6 +236,22 @@
 			} );
 		},
 
+		'test multiline selection without changing display text': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			// When using getSelectedText() on multiline selection, it will contain new line chars. Text inputs used in dialog, can't contain
+			// new lines, so if our initial pattern would use text with new lines, those would always differ. 
+
+			bot.setHtmlWithSelection( '<p>fo[o</p><h2>b]ar</h2>' );
+			bot.dialog( 'link', function( dialog ) {
+				dialog.setValueOf( 'info', 'url', 'aaa' );
+				dialog.getButton( 'ok' ).click();
+
+				assert.areSame( '<p>fo<a href="http://aaa">o</a></p><h2><a href="http://aaa">b</a>ar</h2>', bot.getData( true ) );
+			} );
+		},
+
 		'test changing inner text block containing': function() {
 			var bot = this.editorBot,
 				editor = this.editor;
