@@ -10,6 +10,7 @@
 	* The Display Text input is not disabled.
 1. Change Display Text input to "baz".
 1. Click OK.
+	* The link should get selected, like so `foo [baz].`
 1. Click Source button.
 
 **Expected:**

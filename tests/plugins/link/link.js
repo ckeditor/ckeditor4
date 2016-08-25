@@ -171,7 +171,7 @@
 				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'http://ckeditor.com' );
 				dialog.setValueOf( 'info', 'linkDisplayText', 'testing 1, 2, 3' );
 				dialog.getButton( 'ok' ).click();
-				assert.areSame( '<a href="http://ckeditor.com">testing 1, 2, 3</a>', bot.getData( true ) );
+				assert.areSame( '[<a href="http://ckeditor.com">testing 1, 2, 3</a>]', bender.tools.getHtmlWithSelection( bot.editor ) );
 			} );
 		},
 

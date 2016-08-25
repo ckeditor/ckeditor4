@@ -875,7 +875,8 @@
 					// We're only editing an existing link, so just overwrite the attributes.
 					var element = this._.selectedElement,
 						href = element.data( 'cke-saved-href' ),
-						textView = element.getHtml();
+						textView = element.getHtml(),
+						newText;
 
 					element.setAttributes( attributes.set );
 					element.removeAttributes( attributes.removed );
@@ -883,13 +884,16 @@
 					// Update text view when user changes protocol (#4612).
 					if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
 						// Short mailto link text view (#5736).
-						element.setHtml( data.type == 'email' ?
-							data.email.address : attributes.set[ 'data-cke-saved-href' ] );
+						newText = data.type == 'email' ? data.email.address : attributes.set[ 'data-cke-saved-href' ];
+					} else if ( data.linkText && initialLinkText != data.linkText ) {
+						// Display text has been changed.
+						newText = data.linkText;
+					}
 
+					if ( newText ) {
+						element.setHtml( newText );
 						// We changed the content, so need to select it again.
 						selection.selectElement( element );
-					} else if ( data.linkText && initialLinkText != data.linkText ) {
-						element.setHtml( data.linkText );
 					}
 
 					delete this._.selectedElement;
