@@ -120,7 +120,6 @@
 					type: 'text',
 					id: 'linkDisplayText',
 					label: linkLang.displayText,
-					required: true,
 					setup: function() {
 						this.enable();
 
