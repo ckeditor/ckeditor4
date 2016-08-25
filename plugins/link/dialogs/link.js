@@ -881,13 +881,13 @@
 					element.setAttributes( attributes.set );
 					element.removeAttributes( attributes.removed );
 
-					// Update text view when user changes protocol (#4612).
-					if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
-						// Short mailto link text view (#5736).
-						newText = data.type == 'email' ? data.email.address : attributes.set[ 'data-cke-saved-href' ];
-					} else if ( data.linkText && initialLinkText != data.linkText ) {
+					if ( data.linkText && initialLinkText != data.linkText ) {
 						// Display text has been changed.
 						newText = data.linkText;
+					} else if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
+						// Update text view when user changes protocol (#4612).
+						// Short mailto link text view (#5736).
+						newText = data.type == 'email' ? data.email.address : attributes.set[ 'data-cke-saved-href' ];
 					}
 
 					if ( newText ) {

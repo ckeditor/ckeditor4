@@ -205,6 +205,19 @@
 			} );
 		},
 
+		'test changing inner text of link with same href and inner text': function() {
+			var bot = this.editorBot;
+
+			// Note it's crucial to include data-cke-saved-href attribute to reproduce this issue.
+			bot.setHtmlWithSelection( '<p>aa [<a href="http://foobar" data-cke-saved-href="http://foobar">http://foobar</a>] bb</p>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<p>aa <a href="http://foobar">foo</a> bb</p>', bot.getData( true ) );
+			} );
+		},
+
 		'test link with a nested anchors without text change': function() {
 			// Even though display text was not changed we have to remove nested, editable anchor elements.
 			var bot = this.editorBot;
