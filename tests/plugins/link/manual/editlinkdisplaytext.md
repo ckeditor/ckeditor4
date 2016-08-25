@@ -27,4 +27,4 @@ The source should be `<p>foo <a href="http://example.com">baz</a>.</p>`
 1. Click the Source button.
 
 **Expected:**
-* The source should be `<a href="http://ckeditor.com">foo </a><a href="http://example.com">baz</a>.`
+* The source should be `<p><a href="http://ckeditor.com">foo baz.</a></p>`
