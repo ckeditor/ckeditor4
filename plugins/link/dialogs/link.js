@@ -890,7 +890,7 @@
 					}
 
 					if ( newText ) {
-						element.setHtml( newText );
+						element.setText( newText );
 						// We changed the content, so need to select it again.
 						selection.selectElement( element );
 					}

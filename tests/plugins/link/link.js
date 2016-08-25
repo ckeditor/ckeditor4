@@ -191,6 +191,18 @@
 			} );
 		},
 
+		'test XSS protection': function() {
+			var bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">a^aa</a>' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.setValueOf( 'info', 'linkDisplayText', '<img src="" onerror="alert( 1 );">' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<a href="http://ckeditor.com">&lt;img src="" onerror="alert( 1 );"&gt;</a>', bot.getData( true ) );
+			} );
+		},
+
 		'test link with a nested strong without text change': function() {
 			// If no innertext was changed, the nested elements should not get removed.
 			var bot = this.editorBot;
