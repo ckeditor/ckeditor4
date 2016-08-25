@@ -1429,7 +1429,7 @@
 
 				def.onShow = function() {
 					var widget = getFocusedWidget( editor ),
-						displayTextField = this.getContentElement( 'info', 'linkDisplayText' ).getElement();
+						displayTextField = this.getContentElement( 'info', 'linkDisplayText' ).getElement().getParent().getParent();
 
 					// Widget cannot be enclosed in a link, i.e.
 					//		<a>foo<inline widget/>bar</a>
