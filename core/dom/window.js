@@ -47,6 +47,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype, {
 	 * properties containing the size.
 	 */
 	getViewPaneSize: function() {
+
+		if ( !( this.$ ) ) {
+			// May occur if editor is destroyed
+			return { width: 0, height: 0 };
+		}
+
 		var doc = this.$.document,
 			stdMode = doc.compatMode == 'CSS1Compat';
 		return {
@@ -68,6 +74,11 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype, {
 	 */
 	getScrollPosition: function() {
 		var $ = this.$;
+
+		if ( !$ ) {
+			// May occur if editor is destroyed
+			return { x: 0, y: 0 };
+		}
 
 		if ( 'pageXOffset' in $ ) {
 			return {

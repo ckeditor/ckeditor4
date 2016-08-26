@@ -325,6 +325,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		element = CKEDITOR.dom.element.get( element );
 
+		if ( !element ) {
+			return null;
+		}
+
 		// Avoid multiple inline editor instances on the same element.
 		if ( element.getEditor() )
 			throw 'The editor instance "' + element.getEditor().name + '" is already attached to the provided element.';
