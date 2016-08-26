@@ -800,16 +800,27 @@
 			onShow: function() {
 				var editor = this.getParentEditor(),
 					selection = editor.getSelection(),
+					selectedElement = selection.getSelectedElement(),
+					displayTextField = this.getContentElement( 'info', 'linkDisplayText' ).getElement().getParent().getParent(),
 					element = null;
 
 				// Fill in all the relevant fields if there's already one link selected.
 				if ( ( element = plugin.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) ) {
 					// Don't change selection if some element is already selected.
 					// For example - don't destroy fake selection.
-					if ( !selection.getSelectedElement() )
+					if ( !selectedElement ) {
 						selection.selectElement( element );
+						selectedElement = element;
+					}
 				} else {
 					element = null;
+				}
+
+				// Here we'll decide whether or not we want to show Display Text field.
+				if ( CKEDITOR.plugins.link.showDisplayTextForElement( selectedElement ) ) {
+					displayTextField.show();
+				} else {
+					displayTextField.hide();
 				}
 
 				var data = plugin.parseLinkAttributes( editor, element );

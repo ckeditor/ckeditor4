@@ -432,6 +432,15 @@
 
 				assert.areSame( '<a href="http://ckeditor.com" target="foobar">foo</a>', bot.getData( true ) );
 			} );
+		},
+
+		'test CKEDITOR.link.showDisplayTextForElement': function(){
+			var doc = CKEDITOR.document,
+				showDisplayTextForElement = CKEDITOR.plugins.link.showDisplayTextForElement;
+			
+			assert.isFalse( showDisplayTextForElement( doc.findOne( 'input#blurTarget' ), this.editor ), 'Input element' );
+			assert.isTrue( showDisplayTextForElement( doc.findOne( 'span' ), this.editor ), 'Span element' );
+			assert.isTrue( showDisplayTextForElement( null, this.editor ), 'Null value' );
 		}
 	} );
 } )();
