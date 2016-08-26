@@ -9,7 +9,7 @@ New Features:
 
 Fixed Issues:
 
-* [#13662](http://dev.ckeditor.com/ticket/13662): [Safari] Fixed: Active element not cached when losing focus and it's inside an editable element.
+* [#13362](http://dev.ckeditor.com/ticket/13362): [Safari] Fixed: Active element not cached when losing focus and it's inside an editable element.
 * [#13755](http://dev.ckeditor.com/ticket/13755): [Edge] Fixed: Pasting images does not work.
 * [#13548](http://dev.ckeditor.com/ticket/13548): [IE] Fixed: Clicking the [elements path](http://ckeditor.com/addon/elementspath) disables Cut and Copy icons.
 * [#13812](http://dev.ckeditor.com/ticket/13812): Fixed: When aborting file upload the placeholder for image is left.
