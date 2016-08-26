@@ -852,7 +852,6 @@
 						editor.editable().extractHtmlFromRange( range );
 						
 						range.insertNode( text );
-						range.selectNodeContents( text );
 					}
 
 					// Editable links nested within current range should be removed, so that the link is applied to whole selection.
