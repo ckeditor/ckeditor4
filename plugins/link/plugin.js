@@ -725,6 +725,11 @@
 				textarea: 1
 			};
 
+			// Widget duck typing, we don't want to show display text for widgets.
+			if ( editor.widgets && editor.widgets.focused ) {
+				return false;
+			}
+
 			return !element || !element.getName || !element.is( undesiredElements );
 		}
 	};
