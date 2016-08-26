@@ -43,6 +43,47 @@
 	}
 
 	bender.test( {
+		'Check if selection is in table': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				table,
+				ranges;
+
+			bender.tools.setHtmlWithSelection( editor, '<p id="foo">Foo</p>' +
+				CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+			table = editor.editable().findOne( 'table' );
+
+			// Real table selection (one cell).
+			selection.selectElement( table.findOne( 'td' ) );
+			assert.isTrue( selection.isInTable() );
+
+			// Real table selection (one row).
+			selection.selectElement( table.findOne( 'tr' ) );
+			assert.isTrue( selection.isInTable() );
+
+			// Real table selection (tbody).
+			selection.selectElement( table.findOne( 'tbody' ) );
+			assert.isTrue( selection.isInTable() );
+
+			// Real table selection (table).
+			selection.selectElement( table );
+			assert.isTrue( selection.isInTable() );
+
+			// Fake table selection.
+			ranges = getRangesForCells( editor, table, [ 0, 3 ] );
+			selection.selectRanges( ranges );
+			assert.isTrue( selection.isInTable() );
+			clearTableSelection( editor.editable() );
+
+			// Selecting only text node in table.
+			selection.selectElement( table.findOne( 'td' ).getChild( 0 ) );
+			assert.isFalse( selection.isInTable() );
+
+			// Selecting paragraph.
+			selection.selectElement( editor.document.getById( 'foo' ) );
+			assert.isFalse( selection.isInTable() );
+		},
+
 		'Make fake table selection': function() {
 			var editor = this.editor,
 				selection = editor.getSelection(),
