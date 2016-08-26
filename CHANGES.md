@@ -14,6 +14,7 @@ Fixed Issues:
 * [#13548](http://dev.ckeditor.com/ticket/13548): [IE] Fixed: Clicking the [elements path](http://ckeditor.com/addon/elementspath) disables Cut and Copy icons.
 * [#13812](http://dev.ckeditor.com/ticket/13812): Fixed: When aborting file upload the placeholder for image is left.
 * [#14659](http://dev.ckeditor.com/ticket/14659): [Blink] Fixed: Content scrolled to the top after closing the dialog in a [`<div>`-based editor](http://ckeditor.com/addon/divarea).
+* [#14825](http://dev.ckeditor.com/ticket/14825): [Edge] Fixed: Focusing editor causes unwanted scrolling due to dropped support of `setActive` method.
 
 ## CKEditor 4.5.10
 
