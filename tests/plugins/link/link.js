@@ -162,6 +162,33 @@
 			} );
 		},
 
+		'test edit link text': function() {
+			var bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '[<a href="http://ckeditor.com">http://ckeditor.com</a>]' );
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'http://ckeditor.com' );
+				dialog.setValueOf( 'info', 'linkDisplayText', 'testing 1, 2, 3' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<a href="http://ckeditor.com">testing 1, 2, 3</a>', bot.getData( true ) );
+			} );
+		},
+
+		'test edit link text disabled': function() {
+			var bot = this.editorBot,
+				editor = this.editor;
+
+			bot.setHtmlWithSelection( '[testing <a href="http://ckeditor.com">http://ckeditor.com</a>].' );
+
+			bot.dialog( 'link', function( dialog ) {
+				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), editor.lang.link.linkTextFromSelection );
+				dialog.setValueOf( 'info', 'url', 'http://example.com' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<a href="http://example.com">testing </a><a href="http://ckeditor.com">http://ckeditor.com</a>.', bot.getData( true ) );
+			} );
+		},
+
 		'test link passes filter': function() {
 			this.editorBot.assertInputOutput(
 				'<p><a href="http://ckeditor.com">text</a></p>',
