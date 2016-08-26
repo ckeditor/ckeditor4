@@ -84,7 +84,11 @@
 				// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
 				// to avoid bringing an unexpected scroll.
 				try {
-					this.$[ CKEDITOR.env.ie && !CKEDITOR.env.edge && this.getDocument().equals( CKEDITOR.document ) ? 'setActive' : 'focus' ]();
+					if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
+						this.$.setActive();
+					} else {
+						this.$.focus();
+					}
 				} catch ( e ) {
 					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.
 					if ( !CKEDITOR.env.ie )
