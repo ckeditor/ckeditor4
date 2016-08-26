@@ -817,7 +817,7 @@
 				}
 
 				// Here we'll decide whether or not we want to show Display Text field.
-				if ( CKEDITOR.plugins.link.showDisplayTextForElement( selectedElement ) ) {
+				if ( plugin.showDisplayTextForElement( selectedElement, editor ) ) {
 					displayTextField.show();
 				} else {
 					displayTextField.hide();
