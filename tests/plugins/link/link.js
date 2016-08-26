@@ -180,14 +180,14 @@
 			// an anchor element with innertext at the beginning of initial selection.
 			var bot = this.editorBot;
 
-			bot.setHtmlWithSelection( '[testing <a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].' );
+			bot.setHtmlWithSelection( '<p>[testing <a href="http://ckeditor.com">http://ckeditor.<strong>com</strong></a>].</p>' );
 
 			bot.dialog( 'link', function( dialog ) {
 				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'testing http://ckeditor.com' );
 				dialog.setValueOf( 'info', 'linkDisplayText', 'foobar' );
 				dialog.setValueOf( 'info', 'url', 'http://example.dev' );
 				dialog.getButton( 'ok' ).click();
-				assert.areSame( '<a href="http://example.dev">foobar</a>.', bot.getData( true ) );
+				assert.areSame( '<p><a href="http://example.dev">foobar</a>.</p>', bot.getData( true ) );
 			} );
 		},
 
@@ -200,6 +200,21 @@
 				dialog.setValueOf( 'info', 'linkDisplayText', '<img src="" onerror="alert( 1 );">' );
 				dialog.getButton( 'ok' ).click();
 				assert.areSame( '<a href="http://ckeditor.com">&lt;img src="" onerror="alert( 1 );"&gt;</a>', bot.getData( true ) );
+			} );
+		},
+
+		'test overriding whole block': function() {
+			// If we have whole block selected, we need to make sure that by overriding the selection with new anchor it
+			// will be wrapped with a block instead of be put directly into editable (body).
+			var bot = this.editorBot;
+
+			bot.setHtmlWithSelection( '[<p>aaa</p>]' );
+
+			bot.dialog( 'link', function( dialog ) {
+				dialog.setValueOf( 'info', 'linkDisplayText', 'bbb' );
+				dialog.setValueOf( 'info', 'url', 'http://ckeditor.com' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( '<p><a href="http://ckeditor.com">bbb</a></p>', bot.getData( true ) );
 			} );
 		},
 

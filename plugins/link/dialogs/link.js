@@ -844,13 +844,14 @@
 					} else if ( initialLinkText !== data.linkText ) {
 						text = new CKEDITOR.dom.text( data.linkText, editor.document );
 
-						bm = range.createBookmark();
+						// Shrink range to preserve block element.
+						range.shrink( CKEDITOR.SHRINK_TEXT );
 
-						range.deleteContents( true );
-						text.insertBefore( bm.startNode );
-						// Use moveToBookmark to remove bookmark spans.
-						range.moveToBookmark( bm );
-
+						// Use extractHtmlFromRange to remove markup within the selection. Also this method is a little
+						// smarter than range#deleteContents as it plays better e.g. with table cells.
+						editor.editable().extractHtmlFromRange( range );
+						
+						range.insertNode( text );
 						range.selectNodeContents( text );
 					}
 
