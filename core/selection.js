@@ -2126,6 +2126,32 @@
 		},
 
 		/**
+		 * Checks if the selection contains HTML element inside a table.
+		 * Returns `false` for text selection inside a table (e.g. it will return false
+		 * for text selected in one cell).
+		 *
+		 *		editor.getSelection().isInTable();
+		 *
+		 * @since
+		 * @returns {Boolean}
+		 */
+		isInTable: function() {
+			var ranges = this.getRanges(),
+				node,
+				i;
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				node = ranges[ i ].getEnclosedNode();
+
+				if ( !node || node.type !== CKEDITOR.NODE_ELEMENT || !node.getAscendant( 'table', true ) ) {
+					return false;
+				}
+			}
+
+			return true;
+		},
+
+		/**
 		 * Creates a bookmark for each range of this selection (from {@link #getRanges})
 		 * by calling the {@link CKEDITOR.dom.range#createBookmark} method,
 		 * with extra care taken to avoid interference among those ranges. The arguments
