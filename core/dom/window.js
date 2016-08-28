@@ -100,7 +100,12 @@ CKEDITOR.tools.extend( CKEDITOR.dom.window.prototype, {
 	 * @returns {CKEDITOR.dom.element} The frame element or `null` if not in a frame context.
 	 */
 	getFrame: function() {
-		var iframe = this.$.frameElement;
-		return iframe ? new CKEDITOR.dom.element.get( iframe ) : null;
+		if ( this.$ ) {
+			var iframe = this.$.frameElement;
+			return iframe ? new CKEDITOR.dom.element.get( iframe ) : null;
+		} else {
+			// Editor may have been destroyed
+			return null;
+		}
 	}
 } );
