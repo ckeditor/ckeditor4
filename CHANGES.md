@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 New Features:
 
 * [#14747](http://dev.ckeditor.com/ticket/14747): The [Enhanced Image](http://ckeditor.com/addon/image2) caption does not support the link `target` attribute.
+* [#7154](http://dev.ckeditor.com/ticket/7154): Added support for a "Display Text" field to the [Link](http://ckeditor.com/addon/link) dialog. Thanks to [Ryan Guill](https://github.com/ryanguill)!
 
 Fixed Issues:
 
