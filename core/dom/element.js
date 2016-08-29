@@ -1634,6 +1634,12 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		scrollIntoParent: function( parent, alignToTop, hscroll ) {
 			!parent && ( parent = this.getWindow() );
 
+			// [WebKit] Reset stored scrollTop value to not break scrollIntoView() method flow.
+			// Scrolling breaks when range.select() is used right after element.scrollIntoView(). (#14659)
+			if ( CKEDITOR.currentInstance && CKEDITOR.currentInstance._ ) {
+				CKEDITOR.currentInstance._.previousScrollTop = null;
+			}
+
 			var doc = parent.getDocument();
 			var isQuirks = doc.$.compatMode == 'BackCompat';
 
