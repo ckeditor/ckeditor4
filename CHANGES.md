@@ -5,17 +5,17 @@ CKEditor 4 Changelog
 
 New Features:
 
-* [#14747](http://dev.ckeditor.com/ticket/14747): The [Enhanced Image](http://ckeditor.com/addon/image2) caption does not support the link `target` attribute.
-* [#7154](http://dev.ckeditor.com/ticket/7154): Added support for a "Display Text" field to the [Link](http://ckeditor.com/addon/link) dialog. Thanks to [Ryan Guill](https://github.com/ryanguill)!
+* [#14747](http://dev.ckeditor.com/ticket/14747): The [Enhanced Image](http://ckeditor.com/addon/image2) caption now supports the link `target` attribute.
+* [#7154](http://dev.ckeditor.com/ticket/7154): Added support for the "Display Text" field to the [Link](http://ckeditor.com/addon/link) dialog. Thanks to [Ryan Guill](https://github.com/ryanguill)!
 
 Fixed Issues:
 
-* [#13362](http://dev.ckeditor.com/ticket/13362): [Safari] Fixed: Active element not cached when losing focus and it's inside an editable element.
+* [#13362](http://dev.ckeditor.com/ticket/13362): [Blink, WebKit] Fixed: Active widget element is not cached when it is losing focus and it is inside an editable element.
 * [#13755](http://dev.ckeditor.com/ticket/13755): [Edge] Fixed: Pasting images does not work.
 * [#13548](http://dev.ckeditor.com/ticket/13548): [IE] Fixed: Clicking the [elements path](http://ckeditor.com/addon/elementspath) disables Cut and Copy icons.
 * [#13812](http://dev.ckeditor.com/ticket/13812): Fixed: When aborting file upload the placeholder for image is left.
 * [#14659](http://dev.ckeditor.com/ticket/14659): [Blink] Fixed: Content scrolled to the top after closing the dialog in a [`<div>`-based editor](http://ckeditor.com/addon/divarea).
-* [#14825](http://dev.ckeditor.com/ticket/14825): [Edge] Fixed: Focusing editor causes unwanted scrolling due to dropped support of `setActive` method.
+* [#14825](http://dev.ckeditor.com/ticket/14825): [Edge] Fixed: Focusing the editor causes unwanted scrolling due to dropped support for the `setActive` method.
 
 ## CKEditor 4.5.10
 

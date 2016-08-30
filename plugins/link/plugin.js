@@ -705,10 +705,10 @@
 
 		
 		/**
-		 * Determines whether given element should have a "Display Text" field in a link dialog.
+		 * Determines whether an element should have a "Display Text" field in the Link dialog.
 		 *
 		 * @since 4.5.11 
-		 * @param {CKEDITOR.dom.element/null} element Selected element, `null` if none selected, or a ranged selection
+		 * @param {CKEDITOR.dom.element/null} element Selected element, `null` if none selected or if a ranged selection
 		 * is made.
 		 * @param {CKEDITOR.editor} editor The editor instance for which the check is performed.
 		 * @returns {Boolean}

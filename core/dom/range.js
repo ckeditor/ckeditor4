@@ -2787,12 +2787,12 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Looks for elements matching `query` selector within a range.
+		 * Looks for elements matching the `query` selector within a range.
 		 * 
 		 * @since 4.5.11
 		 * @private
 		 * @param {String} query
-		 * @param {Boolean} [includeNonEditables=false] Wheteher or not elements with `contenteditable` set to `false` should
+		 * @param {Boolean} [includeNonEditables=false] Whether elements with `contenteditable` set to `false` should
 		 * be included.
 		 * @returns {CKEDITOR.dom.element[]}
 		 */
