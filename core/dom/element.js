@@ -1679,7 +1679,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			// [WebKit] Fire beforeScroll event to notify editor
 			// that scrolling will occur and was triggered by API usage. (#14659)
 			if ( CKEDITOR.env.webkit ) {
-				parent.fire( 'beforeScroll' );
+				var editor = this.getEditor( false );
+
+				if ( editor ) {
+					editor._.previousScrollTop = null;
+				}
 			}
 
 			var win = parent.getWindow();
