@@ -1961,17 +1961,32 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 *		CKEDITOR.replace( element );
 		 *		alert( element.getEditor().name ); // 'editor1'
 		 *
+		 * By default this method considers only original DOM elements upon which the editor
+		 * was created. Setting `optimized` parameter to `false` will consider editor editable
+		 * and its children.
+		 *
+		 * @param {Boolean} [optimized=true] If set to `true` it will scan every editor editable.
 		 * @returns {CKEDITOR.editor} An editor instance or null if nothing has been found.
 		 */
-		getEditor: function() {
+		getEditor: function( optimized ) {
 			var instances = CKEDITOR.instances,
-				name, instance;
+				name, instance, editable;
+
+			optimized = optimized || optimized === undefined;
 
 			for ( name in instances ) {
 				instance = instances[ name ];
 
 				if ( instance.element.equals( this ) && instance.elementMode != CKEDITOR.ELEMENT_MODE_APPENDTO )
 					return instance;
+
+				if ( !optimized ) {
+					editable = instance.editable();
+
+					if ( editable.equals( this ) || editable.contains( this ) ) {
+						return instance;
+					}
+				}
 			}
 
 			return null;
