@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'uk', {
 	anchorName: 'За ім\'ям елементу',
 	charset: 'Кодування',
 	cssClasses: 'Клас CSS',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Адреса ел. пошти',
 	emailBody: 'Тіло повідомлення',
 	emailSubject: 'Тема листа',

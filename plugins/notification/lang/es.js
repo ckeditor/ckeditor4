@@ -2,6 +2,6 @@
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-CKEDITOR.plugins.setLang( 'notification', 'fr', {
-	closed: 'Notification fermée.'
+CKEDITOR.plugins.setLang( 'notification', 'es', {
+	closed: 'Notificación cerrada.'
 } );

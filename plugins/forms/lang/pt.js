@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'pt', {
 		value: 'Valor',
 		charWidth: 'Tamanho do caracter',
 		maxChars: 'Máximo de caracteres',
-		required: 'Required', // MISSING
+		required: 'Obrigatório',
 		type: 'Tipo',
 		typeText: 'Texto',
 		typePass: 'Senha',

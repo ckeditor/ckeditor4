@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	anchorName: 'アンカー名',
 	charset: 'リンク先のcharset',
 	cssClasses: 'スタイルシートクラス',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-Mail アドレス',
 	emailBody: '本文',
 	emailSubject: '件名',

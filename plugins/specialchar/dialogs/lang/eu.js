@@ -13,13 +13,13 @@ CKEDITOR.plugins.setLang( 'specialchar', 'eu', {
 	mdash: 'Em dash', // MISSING
 	iexcl: 'Inverted exclamation mark', // MISSING
 	cent: 'Cent sign', // MISSING
-	pound: 'Pound sign', // MISSING
+	pound: 'Libera zeinua',
 	curren: 'Currency sign', // MISSING
-	yen: 'Yen sign', // MISSING
+	yen: 'Yen zeinua',
 	brvbar: 'Broken bar', // MISSING
 	sect: 'Section sign', // MISSING
-	uml: 'Diaeresis', // MISSING
-	copy: 'Copyright sign', // MISSING
+	uml: 'Dieresia',
+	copy: 'Copyright zeinua',
 	ordf: 'Feminine ordinal indicator', // MISSING
 	laquo: 'Left-pointing double angle quotation mark', // MISSING
 	not: 'Ez zeinua',
@@ -63,7 +63,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'eu', {
 	Ocirc: 'Latin capital letter O with circumflex', // MISSING
 	Otilde: 'Latin capital letter O with tilde', // MISSING
 	Ouml: 'Latin capital letter O with diaeresis', // MISSING
-	times: 'Multiplication sign', // MISSING
+	times: 'Bider zeinua',
 	Oslash: 'Latin capital letter O with stroke', // MISSING
 	Ugrave: 'Latin capital letter U with grave accent', // MISSING
 	Uacute: 'Latin capital letter U with acute accent', // MISSING
@@ -116,7 +116,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'eu', {
 	hellip: 'Horizontal ellipsis', // MISSING
 	trade: 'Trade mark sign', // MISSING
 	'9658': 'Black right-pointing pointer', // MISSING
-	bull: 'Bullet', // MISSING
+	bull: 'Buleta',
 	rarr: 'Rightwards arrow', // MISSING
 	rArr: 'Rightwards double arrow', // MISSING
 	hArr: 'Left right double arrow', // MISSING

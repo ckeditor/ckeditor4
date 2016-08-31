@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 	anchorName: 'Theo tên điểm neo',
 	charset: 'Bảng mã của tài nguyên được liên kết đến',
 	cssClasses: 'Lớp Stylesheet',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Thư điện tử',
 	emailBody: 'Nội dung thông điệp',
 	emailSubject: 'Tiêu đề thông điệp',

@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'mn', {
 	anchorName: 'Зангуугийн нэрээр',
 	charset: 'Тэмдэгт оноох нөөцөд холбогдсон',
 	cssClasses: 'Stylesheet классууд',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Э-шуудангийн хаяг',
 	emailBody: 'Зурвасны их бие',
 	emailSubject: 'Зурвасны гарчиг',

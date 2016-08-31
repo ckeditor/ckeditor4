@@ -119,7 +119,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt', {
 	add: 'Adicionar',
 	subtract: 'Subtrair',
 	decimalPoint: 'Decimal Point', // MISSING
-	divide: 'Divide', // MISSING
+	divide: 'Separar',
 	f1: 'F1',
 	f2: 'F2',
 	f3: 'F3',

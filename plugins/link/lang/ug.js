@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	anchorName: 'لەڭگەرلىك نۇقتا ئاتى بويىچە',
 	charset: 'ھەرپ كودلىنىشى',
 	cssClasses: 'ئۇسلۇب خىلى ئاتى',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ئادرېس',
 	emailBody: 'مەزمۇن',
 	emailSubject: 'ماۋزۇ',

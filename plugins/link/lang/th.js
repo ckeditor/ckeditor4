@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'th', {
 	anchorName: 'ชื่อ',
 	charset: 'ลิงค์เชื่อมโยงไปยังชุดตัวอักษร',
 	cssClasses: 'คลาสของไฟล์กำหนดลักษณะการแสดงผล',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'อีเมล์ (E-Mail)',
 	emailBody: 'ข้อความ',
 	emailSubject: 'หัวเรื่อง',

@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'bn', {
 	anchorName: 'নোঙরের নাম দিয়ে',
 	charset: 'লিংক রিসোর্স ক্যারেক্টর সেট',
 	cssClasses: 'স্টাইল-শীট ক্লাস',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ইমেইল ঠিকানা',
 	emailBody: 'মেসেজের দেহ',
 	emailSubject: 'মেসেজের বিষয়',

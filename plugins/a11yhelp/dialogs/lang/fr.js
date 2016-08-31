@@ -12,28 +12,28 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 		items: [
 			{
 			name: 'Barre d\'outils de l\'éditeur',
-			legend: 'Appuyer sur ${toolbarFocus} pour accéder à la barre d\'outils. Se déplacer vers les groupes suivant ou précédent de la barre d\'outil avec les touches MAJ et MAJ+TAB. Se déplacer vers les boutons suivant ou précédent de la barre d\'outils avec les touches FLÈCHE DROITE et FLÈCHE GAUCHE. Appuyer sur la barre d\'espace ou la touche ENTRÉE pour activer le bouton de barre d\'outils.'
+			legend: 'Appuyer sur ${toolbarFocus} pour accéder à la barre d\'outils. Se déplacer vers le groupe suivant ou précédent de la barre d\'outils avec les touches Tab et Maj+Tab. Se déplacer vers le bouton suivant ou précédent de la barre d\'outils avec les touches Flèche droite et Flèche gauche. Appuyer sur la barre d\'espace ou la touche Entrée pour activer le bouton de barre d\'outils.'
 		},
 
 			{
 			name: 'Fenêtre de l\'éditeur',
 			legend:
-				'Dans une boîte de dialogue, appuyer sur Tab pour passer à l\'élément suivant, appuyer sur Maj+Tab pour passer à l\'élément précédent, appuyer sur Entrée pour valider, appuyer sur Échap pour annuler. Quand une boîte de dialogue possède des onglets, la liste peut être atteinte avec Alt+F10 ou avec Tab. Dans la liste des onglets, se déplacer vers le suivant et le précédent avec les flèches Droite et Gauche respectivement.' 
+				'Dans une boîte de dialogue, appuyer sur Tab pour passer à l\'élément suivant, appuyer sur Maj+Tab pour passer à l\'élément précédent, appuyer sur Entrée pour valider, appuyer sur Échap pour annuler. Quand une boîte de dialogue possède des onglets, la liste peut être atteinte avec Alt+F10 ou avec Tab. Dans la liste des onglets, se déplacer vers le suivant et le précédent avec les touches Flèche droite et Flèche gauche respectivement.' 
 		},
 
 			{
 			name: 'Menu contextuel de l\'éditeur',
-			legend: 'Appuyer sur ${contextMenu} ou sur la touche Menu pour ouvrir le menu contextuel. Se déplacer ensuite vers l\'option suivante du menu avec la touche Tab ou la flèche Bas. Se déplacer vers l\'option précédente avec le raccourci Maj+Tab ou la flèche Haut. appuyer sur la Barre d\'espace ou la touche Entrée pour sélectionner l\'option du menu. Appuyer sur la Barre d\'espace, la touche Entrée ou la flèche Droite pour ouvrir le sous-menu de l\'option sélectionnée. Revenir à l\'élément de menu parent avec la touche Échap ou la flèche Gauche. Fermer le menu contextuel avec Échap.'
+			legend: 'Appuyer sur ${contextMenu} ou sur la touche Menu pour ouvrir le menu contextuel. Se déplacer ensuite vers l\'option suivante du menu avec les touches Tab ou Flèche bas. Se déplacer vers l\'option précédente avec les touches Maj+Tab ou Flèche haut. Appuyer sur la barre d\'espace ou la touche Entrée pour sélectionner l\'option du menu. Appuyer sur la barre d\'espace, la touche Entrée ou Flèche droite pour ouvrir le sous-menu de l\'option sélectionnée. Revenir à l\'élément de menu parent avec la touche Échap ou Flèche gauche. Fermer le menu contextuel avec Échap.'
 		},
 
 			{
 			name: 'Zone de liste de l\'éditeur',
-			legend: 'Dans la liste en menu déroulant, se déplacer vers l\'élément suivant de la liste avec la touche Tab ou la flèche Bas. Se déplacer vers l\'élément précédent de la liste avec le raccourci Maj+Tab ou la flèche Haut. Appuyer sur la Barre d\'espace ou sur Entrée pour sélectionner l\'option dans la liste. Appuyer sur Échap pour fermer le menu déroulant.'
+			legend: 'Dans une liste en menu déroulant, se déplacer vers l\'élément suivant de la liste avec les touches Tab ou Flèche bas. Se déplacer vers l\'élément précédent de la liste avec les touches Maj+Tab ou Flèche haut. Appuyer sur la barre d\'espace ou sur Entrée pour sélectionner l\'option dans la liste. Appuyer sur Échap pour fermer le menu déroulant.'
 		},
 
 			{
 			name: 'Barre du chemin d\'éléments de l\'éditeur',
-			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre du fil d\'Ariane des éléments. Se déplacer vers le bouton d\'élément suivant avec la touche Tab ou la flèche Droite. Se déplacer vers le bouton d\'élément précédent avec le raccourci Maj+Tab ou la flèche Gauche. Appuyer sur la Barre d\'espace ou sur Entrée pour sélectionner l\'élément dans l\'éditeur.'
+			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre du fil d\'Ariane des éléments. Se déplacer vers le bouton de l\'élément suivant avec les touches Tab ou Flèche droite. Se déplacer vers le bouton précédent avec les touches Maj+Tab ou Flèche gauche. Appuyer sur la barre d\'espace ou sur Entrée pour sélectionner l\'élément dans l\'éditeur.'
 		}
 		]
 	},

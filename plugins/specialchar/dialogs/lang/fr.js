@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
-	euro: 'Symbole Euro',
+	euro: 'Symbole euro',
 	lsquo: 'Guillemet simple ouvrant',
 	rsquo: 'Guillemet simple fermant',
 	ldquo: 'Guillemet double ouvrant',
@@ -12,10 +12,10 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
 	ndash: 'Tiret demi-cadratin',
 	mdash: 'Tiret cadratin',
 	iexcl: 'Point d\'exclamation inversé',
-	cent: 'Symbole Cent',
+	cent: 'Symbole cent',
 	pound: 'Symbole Livre sterling',
 	curren: 'Symbole monétaire',
-	yen: 'Symbole Yen',
+	yen: 'Symbole yen',
 	brvbar: 'Barre verticale scindée',
 	sect: 'Signe de section',
 	uml: 'Tréma',

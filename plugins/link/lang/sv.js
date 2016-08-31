@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'sv', {
 	anchorName: 'Efter ankarnamn',
 	charset: 'Teckenuppställning',
 	cssClasses: 'Stilmall',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-postadress',
 	emailBody: 'Innehåll',
 	emailSubject: 'Ämne',

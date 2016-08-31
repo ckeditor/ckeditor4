@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ms', {
 	anchorName: 'dengan menggunakan nama pautan',
 	charset: 'Linked Resource Charset',
 	cssClasses: 'Kelas-kelas Stylesheet',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Alamat E-Mail',
 	emailBody: 'Isi Kandungan Mesej',
 	emailSubject: 'Subjek Mesej',

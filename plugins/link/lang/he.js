@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'he', {
 	anchorName: 'עפ"י שם העוגן',
 	charset: 'קידוד המשאב המקושר',
 	cssClasses: 'גיליונות עיצוב קבוצות',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'כתובת הדוא"ל',
 	emailBody: 'גוף ההודעה',
 	emailSubject: 'נושא ההודעה',

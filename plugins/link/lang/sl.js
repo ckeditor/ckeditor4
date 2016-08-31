@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'sl', {
 	anchorName: 'Po imenu sidra',
 	charset: 'Nabor znakov povezanega vira',
 	cssClasses: 'Razredi slogovne predloge',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-poštni naslov',
 	emailBody: 'Telo sporočila',
 	emailSubject: 'Zadeva sporočila',

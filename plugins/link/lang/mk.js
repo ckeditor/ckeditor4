@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'mk', {
 	anchorName: 'By Anchor Name', // MISSING
 	charset: 'Linked Resource Charset', // MISSING
 	cssClasses: 'Stylesheet Classes', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-Mail Address', // MISSING
 	emailBody: 'Message Body', // MISSING
 	emailSubject: 'Message Subject', // MISSING

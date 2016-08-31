@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'nl', {
 	anchorName: 'Op naam interne link',
 	charset: 'Karakterset van gelinkte bron',
 	cssClasses: 'Stylesheet-klassen',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-mailadres',
 	emailBody: 'Inhoud bericht',
 	emailSubject: 'Onderwerp bericht',

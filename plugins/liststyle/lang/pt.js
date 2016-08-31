@@ -21,5 +21,5 @@ CKEDITOR.plugins.setLang( 'liststyle', 'pt', {
 	type: 'Tipo',
 	upperAlpha: 'Maiúsculas (A, B, C, D, E, etc.)',
 	upperRoman: 'Romanos em maiúscula (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List start number must be a whole number.'
+	validateStartNumber: 'A lista tem iniciar por um número inteiro'
 } );

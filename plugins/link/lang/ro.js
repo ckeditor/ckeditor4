@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 	anchorName: 'după numele ancorei',
 	charset: 'Setul de caractere al resursei legate',
 	cssClasses: 'Clasele cu stilul paginii (CSS)',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Adresă de e-mail',
 	emailBody: 'Opțiuni Meniu Contextual',
 	emailSubject: 'Subiectul mesajului',

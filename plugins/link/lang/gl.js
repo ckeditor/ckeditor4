@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'gl', {
 	anchorName: 'Polo nome da ancoraxe',
 	charset: 'Codificación do recurso ligado',
 	cssClasses: 'Clases da folla de estilos',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Enderezo de correo',
 	emailBody: 'Corpo da mensaxe',
 	emailSubject: 'Asunto da mensaxe',

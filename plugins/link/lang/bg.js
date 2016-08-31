@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	anchorName: 'По име на котва',
 	charset: 'Тип на свързания ресурс',
 	cssClasses: 'Класове за CSS',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-mail aдрес',
 	emailBody: 'Съдържание',
 	emailSubject: 'Тема',

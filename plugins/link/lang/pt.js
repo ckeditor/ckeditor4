@@ -13,12 +13,13 @@ CKEDITOR.plugins.setLang( 'link', 'pt', {
 		title: 'Propriedades da âncora',
 		name: 'Nome da âncora',
 		errorName: 'Por favor, introduza o nome da âncora',
-		remove: 'Remove Anchor'
+		remove: 'Remover âncora'
 	},
 	anchorId: 'Por ID do elemento',
 	anchorName: 'Por Nome de Referência',
 	charset: 'Fonte de caracteres vinculado',
 	cssClasses: 'Classes de Estilo',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Endereço de email',
 	emailBody: 'Corpo da mensagem',
 	emailSubject: 'Título de mensagem',

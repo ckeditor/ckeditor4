@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ku', {
 	anchorName: 'بەپێی ناوی لەنگەر',
 	charset: 'بەستەری سەرچاوەی نووسە',
 	cssClasses: 'شێوازی چینی پەڕه',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ناونیشانی ئیمەیل',
 	emailBody: 'ناوەڕۆکی نامە',
 	emailSubject: 'بابەتی نامە',

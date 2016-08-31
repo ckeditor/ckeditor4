@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	anchorName: 'Aingura-izenaren arabera',
 	charset: 'Estekatutako baliabide karaktere-jokoa',
 	cssClasses: 'Estilo-orriko klaseak',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-posta helbidea',
 	emailBody: 'Mezuaren gorputza',
 	emailSubject: 'Mezuaren gaia',

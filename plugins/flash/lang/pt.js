@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'flash', 'pt', {
 	alignAbsMiddle: 'Abs centro',
 	alignBaseline: 'Linha de base',
 	alignTextTop: 'Topo do texto',
-	bgcolor: 'Cor de Fundo',
+	bgcolor: 'Cor de fundo',
 	chkFull: 'Permitir Ecrã inteiro',
 	chkLoop: 'Cíclico',
 	chkMenu: 'Permitir menu do Flash',

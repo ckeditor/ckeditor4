@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'et', {
 	anchorName: 'Ankru nime järgi',
 	charset: 'Lingitud ressursi märgistik',
 	cssClasses: 'Stiilistiku klassid',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-posti aadress',
 	emailBody: 'Sõnumi tekst',
 	emailSubject: 'Sõnumi teema',

@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	anchorName: 'ऐंकर नाम से',
 	charset: 'लिंक रिसोर्स करॅक्टर सॅट',
 	cssClasses: 'स्टाइल-शीट क्लास',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ई-मेल पता',
 	emailBody: 'संदेश',
 	emailSubject: 'संदेश विषय',

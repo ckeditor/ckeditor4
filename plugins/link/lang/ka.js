@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ka', {
 	anchorName: 'ღუზის სახელით',
 	charset: 'კოდირება',
 	cssClasses: 'CSS კლასი',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ელფოსტის მისამართები',
 	emailBody: 'წერილის ტექსტი',
 	emailSubject: 'წერილის სათაური',

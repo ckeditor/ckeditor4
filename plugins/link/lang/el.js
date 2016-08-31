@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'el', {
 	anchorName: 'Βάσει του Ονόματος Άγκυρας',
 	charset: 'Κωδικοποίηση Χαρακτήρων Προσαρτημένης Πηγής',
 	cssClasses: 'Κλάσεις Φύλλων Στυλ',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Διεύθυνση E-mail',
 	emailBody: 'Κείμενο Μηνύματος',
 	emailSubject: 'Θέμα Μηνύματος',

@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'fo', {
 	anchorName: 'Eftir navni á marknasteini',
 	charset: 'Atknýtt teknsett',
 	cssClasses: 'Typografi klassar',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Teldupost-adressa',
 	emailBody: 'Breyðtekstur',
 	emailSubject: 'Evni',

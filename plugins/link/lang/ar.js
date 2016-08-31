@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'ar', {
 	anchorName: 'حسب إسم الإشارة المرجعية',
 	charset: 'ترميز المادة المطلوبة',
 	cssClasses: 'فئات التنسيق',
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'البريد الإلكتروني',
 	emailBody: 'محتوى الرسالة',
 	emailSubject: 'موضوع الرسالة',

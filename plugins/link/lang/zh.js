@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'zh', {
 	anchorName: '依錨點名稱',
 	charset: '連結資源的字元集',
 	cssClasses: '樣式表類別',
+	displayText: 'Display Text', // MISSING
 	emailAddress: '電子郵件地址',
 	emailBody: '郵件本文',
 	emailSubject: '郵件主旨',

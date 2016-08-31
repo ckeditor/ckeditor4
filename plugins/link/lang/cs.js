@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'cs', {
 	anchorName: 'Podle jména kotvy',
 	charset: 'Přiřazená znaková sada',
 	cssClasses: 'Třída stylu',
+	displayText: 'Zobrazit text',
 	emailAddress: 'E-mailová adresa',
 	emailBody: 'Tělo zprávy',
 	emailSubject: 'Předmět zprávy',
