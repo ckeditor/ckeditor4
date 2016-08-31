@@ -1,4 +1,3 @@
-<p style="color:#F00;text-align:center;">This test should be run only in WebKit browsers.</p>
 
 <h3>Editor1:</h3>
 <textarea cols="80" id="editor1" name="editor1" rows="10">
@@ -13,9 +12,13 @@
 </textarea>
 
 <script>
+	if ( !CKEDITOR.env.webkit ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor1', {
 		extraPlugins: 'divarea'
-	});
+	} );
 
 	CKEDITOR.replace( 'editor2' );
 </script>

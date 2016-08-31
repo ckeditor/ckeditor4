@@ -7,6 +7,10 @@
 <button id="focusBtn">Focus</button>
 
 <script>
+	if ( !CKEDITOR.env.webkit ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor' );
 
 	document.querySelector( '#focusBtn' ).addEventListener( 'click', function() {
@@ -16,8 +20,8 @@
 		element.scrollIntoView( true );
 
 		var selection = editorInstance.getSelection();
-		var range = selection.getRanges()[0];
-		if( range ) {
+		var range = selection.getRanges()[ 0 ];
+		if ( range ) {
 			range.moveToElementEditablePosition( element );
 			range.select();
 		}
