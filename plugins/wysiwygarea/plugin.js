@@ -296,7 +296,8 @@
 			editable.attachListener( editable, 'keyup', function() {
 				var elements = doc.getElementsByTag( tagName );
 				if ( lockRetain ) {
-					if ( elements.count() == 1 && !elements.getItem( 0 ).getCustomData( 'retain' ) ) {
+					if ( elements.count() == 1 && !elements.getItem( 0 ).getCustomData( 'retain' ) &&
+						!elements.getItem( 0 ).hasAttribute( 'data-cke-temp' ) ) {
 						elements.getItem( 0 ).remove( 1 );
 					}
 					lockRetain = false;
