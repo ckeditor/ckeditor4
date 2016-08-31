@@ -109,7 +109,12 @@ bender.test( {
 	'Reset fake-selection': function() {
 		var editor = this.editor;
 
-		bender.tools.setHtmlWithSelection( editor, '<p>[foo <span id="bar">bar</span>]</p>' );
+		// Edge behaves very weird if there's element selection inside paragraph in this test.
+		if ( !CKEDITOR.env.edge || CKEDITOR.env.version < 14 ) {
+			bender.tools.setHtmlWithSelection( editor, '<p>[foo <span id="bar">bar</span>]</p>' );
+		} else {
+			bender.tools.setHtmlWithSelection( editor, '<p>{foo <span id="bar">bar</span>}</p>' );
+		}
 
 		var span = editor.document.getById( 'bar' ),
 			sel = editor.getSelection();
