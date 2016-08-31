@@ -1634,12 +1634,6 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		scrollIntoParent: function( parent, alignToTop, hscroll ) {
 			!parent && ( parent = this.getWindow() );
 
-			// [WebKit] Reset stored scrollTop value to not break scrollIntoView() method flow.
-			// Scrolling breaks when range.select() is used right after element.scrollIntoView(). (#14659)
-			if ( CKEDITOR.currentInstance && CKEDITOR.currentInstance._ ) {
-				CKEDITOR.currentInstance._.previousScrollTop = null;
-			}
-
 			var doc = parent.getDocument();
 			var isQuirks = doc.$.compatMode == 'BackCompat';
 
@@ -1680,6 +1674,12 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			// calculated margin size.
 			function margin( element, side ) {
 				return parseInt( element.getComputedStyle( 'margin-' + side ) || 0, 10 ) || 0;
+			}
+
+			// [WebKit] Fire beforeScroll event to notify editor
+			// that scrolling will occur and was triggered by API usage. (#14659)
+			if ( CKEDITOR.env.webkit ) {
+				parent.fire( 'beforeScroll' );
 			}
 
 			var win = parent.getWindow();

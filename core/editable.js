@@ -876,8 +876,15 @@
 					this.hasFocus = true;
 				}, null, null, -1 );
 
-				// [WebKit] Save scrollTop value so it can be used when restoring locked selection. (#14659)
 				if ( CKEDITOR.env.webkit ) {
+					// [WebKit] Reset stored scrollTop value to not break scrollIntoView() method flow.
+					// Scrolling breaks when range.select() is used right after element.scrollIntoView(). (#14659)
+					this.on( 'beforeScroll', function( evt ) {
+						editor._.previousScrollTop = null;
+						evt.cancel();
+					} );
+
+					// [WebKit] Save scrollTop value so it can be used when restoring locked selection. (#14659)
 					this.on( 'scroll', function() {
 						editor._.previousScrollTop = editor.editable().$.scrollTop;
 					}, null, null, -1 );
