@@ -176,6 +176,56 @@ bender.test( {
 			} );
 		} );
 		wait();
-	}
+	},
 
+	// #14831
+	'Test not removing [data-cke-temp] <div> when typing': function() {
+		if ( !CKEDITOR.env.edge || CKEDITOR.env.version < 14 ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		editor.setData( '', function() {
+			resume( function() {
+				bender.tools.setHtmlWithSelection( editor, '^' );
+
+				// Expected behaviour:
+				// keydown <- mark divs for retention, disable marking
+				// keydown <- do nothing
+				// ...
+				// keyup <- remove not marked divs, enable marking
+				// keyup <- do nothing
+				// ...
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+					keyCode: 75,
+					ctrlKey: false,
+					shiftKey: false
+				} ) );
+
+				bender.tools.setHtmlWithSelection( editor, '<div data-cke-temp>k^</div>' );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+					keyCode: 76,
+					ctrlKey: false,
+					shiftKey: false
+				} ) );
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+					keyCode: 77,
+					ctrlKey: false,
+					shiftKey: false
+				} ) );
+
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				assert.isInnerHtmlMatching( '<div>k^</div>', bender.tools.getHtmlWithSelection( editor ) );
+			} );
+		} );
+		wait();
+	}
 } );
