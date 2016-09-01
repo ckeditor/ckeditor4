@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, placeholder, basicstyles, toolbar, floatingspace
 
-###ONLY IN EDGE 14+###
+### ONLY IN EDGE 14+
 
 1. Click the placeholder widget.
 2. Press `Ctrl+B` to bold it.
