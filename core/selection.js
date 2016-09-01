@@ -4,6 +4,12 @@
  */
 
 ( function() {
+	var isMSSelection = typeof window.getSelection != 'function',
+		nextRev = 1,
+		// #13816
+		fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
+		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' );
+
 	// #### checkSelectionChange : START
 
 	// The selection change check basically saves the element parent tree of
@@ -238,7 +244,7 @@
 	// Creates cke_hidden_sel container and puts real selection there.
 	function hideSelection( editor, ariaLabel ) {
 		var content = ariaLabel || '&nbsp;',
-			style = CKEDITOR.env.ie ? 'display:none' : 'position:fixed;top:0;left:-1000px',
+			style = CKEDITOR.env.ie && CKEDITOR.env.version < 14 ? 'display:none' : 'position:fixed;top:0;left:-1000px',
 			hiddenEl = CKEDITOR.dom.element.createFromHtml(
 				'<div data-cke-hidden-sel="1" data-cke-temp="1" style="' + style + '">' + content + '</div>',
 				editor.document );
@@ -621,6 +627,9 @@
 				// the normal behavior on old IEs. (#1659, #7932)
 				if ( doc.$.compatMode != 'BackCompat' ) {
 					if ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) {
+						var textRng,
+							startRng;
+
 						html.on( 'mousedown', function( evt ) {
 							evt = evt.data;
 
@@ -663,11 +672,11 @@
 									evt.$.y < html.$.clientHeight &&
 									evt.$.x < html.$.clientWidth ) {
 								// Start to build the text range.
-								var textRng = body.$.createTextRange();
+								textRng = body.$.createTextRange();
 								moveRangeToPoint( textRng, evt.$.clientX, evt.$.clientY );
 
 								// Records the dragging start of the above text range.
-								var startRng = textRng.duplicate();
+								startRng = textRng.duplicate();
 
 								html.on( 'mousemove', onHover );
 								outerDoc.on( 'mouseup', onSelectEnd );
@@ -1050,9 +1059,6 @@
 	 */
 	CKEDITOR.SELECTION_ELEMENT = 3;
 
-	var isMSSelection = typeof window.getSelection != 'function',
-		nextRev = 1;
-
 	/**
 	 * Manipulates the selection within a DOM element. If the current browser selection
 	 * spans outside of the element, an empty selection object is returned.
@@ -1152,10 +1158,6 @@
 
 	var styleObjectElements = { img: 1, hr: 1, li: 1, table: 1, tr: 1, td: 1, th: 1, embed: 1, object: 1, ol: 1, ul: 1,
 			a: 1, input: 1, form: 1, select: 1, textarea: 1, button: 1, fieldset: 1, thead: 1, tfoot: 1 };
-
-	// #13816
-	var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
-		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' );
 
 	CKEDITOR.tools.extend( CKEDITOR.dom.selection, {
 		_removeFillingCharSequenceString: removeFillingCharSequenceString,

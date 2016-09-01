@@ -9,6 +9,8 @@
  */
 
 ( function() {
+	var framedWysiwyg;
+
 	CKEDITOR.plugins.add( 'wysiwygarea', {
 		init: function( editor ) {
 			if ( editor.config.fullPage ) {
@@ -289,10 +291,13 @@
 
 			// 2. On keyup remove all elements that were not marked
 			// as non-superfluous (which means they must have had appeared in the meantime).
+			// Also we should preserve all temporary elements inserted by editor – otherwise we'd likely
+			// leak fake selection's content into editable due to removing hidden selection container (#14831).
 			editable.attachListener( editable, 'keyup', function() {
 				var elements = doc.getElementsByTag( tagName );
 				if ( lockRetain ) {
-					if ( elements.count() == 1 && !elements.getItem( 0 ).getCustomData( 'retain' ) ) {
+					if ( elements.count() == 1 && !elements.getItem( 0 ).getCustomData( 'retain' ) &&
+						!elements.getItem( 0 ).hasAttribute( 'data-cke-temp' ) ) {
 						elements.getItem( 0 ).remove( 1 );
 					}
 					lockRetain = false;
@@ -301,7 +306,7 @@
 		}
 	}
 
-	var framedWysiwyg = CKEDITOR.tools.createClass( {
+	framedWysiwyg = CKEDITOR.tools.createClass( {
 		$: function() {
 			this.base.apply( this, arguments );
 
