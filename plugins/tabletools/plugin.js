@@ -643,6 +643,8 @@
 		return newCell;
 	}
 
+	// ### Table improvements
+
 	// Detects if the left mouse button was pressed:
 	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
 	// * In IE 8- we use event.button with IE's propertiary values.
