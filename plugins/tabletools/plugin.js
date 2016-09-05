@@ -5,8 +5,8 @@
 
 ( function() {
 	var cellNodeRegex = /^(?:td|th)$/,
-		selectedClass = 'cke_table-faked-selection',
-		selection;
+		fakeSelectedClass = 'cke_table-faked-selection',
+		fakeSelection;
 
 	function getSelectedCells( selection ) {
 		var ranges = selection.getRanges();
@@ -658,16 +658,16 @@
 		return domEvent.button === 0;
 	}
 
-	function clearCellSelection( editor, reset ) {
-		var selectedCells = editor.editable().find( '.' + selectedClass ),
+	function clearFakeCellSelection( editor, reset ) {
+		var selectedCells = editor.editable().find( '.' + fakeSelectedClass ),
 			i;
 
 		for ( i = 0; i < selectedCells.count(); i++ ) {
-			selectedCells.getItem( i ).removeClass( selectedClass );
+			selectedCells.getItem( i ).removeClass( fakeSelectedClass );
 		}
 
 		if ( reset ) {
-			selection = null;
+			fakeSelection = null;
 		}
 	}
 
@@ -738,7 +738,7 @@
 		return cells;
 	}
 
-	function selectCells( cell, evt ) {
+	function fakeSelectCells( cell, evt ) {
 		var editor = evt.editor || evt.sender.editor,
 			ranges = [],
 			range,
@@ -746,7 +746,7 @@
 			i;
 
 		if ( evt.name === 'mousedown' && detectLeftMouseButton( evt ) ) {
-			selection = {
+			fakeSelection = {
 				first: cell,
 				dirty: false
 			};
@@ -754,24 +754,24 @@
 			return;
 		}
 
-		if ( !selection || !detectLeftMouseButton( evt ) ) {
+		if ( !fakeSelection || !detectLeftMouseButton( evt ) ) {
 			return;
 		}
 
 		// The selection is inside one cell, so we should allow native selection,
 		// but only in case if no other cell between mousedown and mouseup
 		// was selected.
-		if ( !selection.dirty && selection.first.equals( cell ) ) {
-			return clearCellSelection( editor, evt.name === 'mouseup' );
+		if ( !fakeSelection.dirty && fakeSelection.first.equals( cell ) ) {
+			return clearFakeCellSelection( editor, evt.name === 'mouseup' );
 		}
 
-		clearCellSelection( editor );
+		clearFakeCellSelection( editor );
 
-		selection.dirty = true;
-		cells = getCellsBetween( selection.first, cell );
+		fakeSelection.dirty = true;
+		cells = getCellsBetween( fakeSelection.first, cell );
 
 		for ( i = 0; i < cells.length; i++ ) {
-			cells[ i ].addClass( selectedClass );
+			cells[ i ].addClass( fakeSelectedClass );
 
 			range = editor.createRange();
 			range.setStartBefore( cells[ i ] );
@@ -783,19 +783,19 @@
 		editor.getSelection().selectRanges( ranges );
 
 		if ( evt.name === 'mouseup' ) {
-			selection = null;
+			fakeSelection = null;
 		}
 	}
 
-	function selectionMouseHandler( evt ) {
+	function fakeSelectionMouseHandler( evt ) {
 		var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
 
 		if ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !cell ) ) {
-			clearCellSelection( evt.editor || evt.sender.editor, true );
+			clearFakeCellSelection( evt.editor || evt.sender.editor, true );
 		}
 
 		if ( cell ) {
-			selectCells( cell, evt );
+			fakeSelectCells( cell, evt );
 		}
 	}
 
@@ -1165,14 +1165,14 @@
 			// Allow overwriting the native table selection with our custom one.
 			if ( editor.config.tableImprovements ) {
 				// Add styles for fake visual selection.
-				CKEDITOR.addCss( '.' + selectedClass + ' { background: navy; color: #fff; }' );
+				CKEDITOR.addCss( '.' + fakeSelectedClass + ' { background: navy; color: #fff; }' );
 
 				editor.on( 'contentDom', function() {
 					var editable = editor.editable();
 
-					editable.attachListener( editable, 'mousedown', selectionMouseHandler );
-					editable.attachListener( editable, 'mousemove', selectionMouseHandler );
-					editable.attachListener( editable, 'mouseup', selectionMouseHandler );
+					editable.attachListener( editable, 'mousedown', fakeSelectionMouseHandler );
+					editable.attachListener( editable, 'mousemove', fakeSelectionMouseHandler );
+					editable.attachListener( editable, 'mouseup', fakeSelectionMouseHandler );
 				} );
 			}
 		},
