@@ -45,7 +45,6 @@
 			results = range._find( 'strong' );
 
 			assert.isArray( results, 'Return object type' );
-			console.log( results );
 			assert.areSame( 2, results.length, 'Result count' );
 			assert.areSame( 'strong1', results[ 0 ].getId(), 'Id of a first matched element' );
 			assert.areSame( 'strong2', results[ 1 ].getId(), 'Id of a second matched element' );
