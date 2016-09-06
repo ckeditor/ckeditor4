@@ -166,7 +166,7 @@
 			var bot = this.editorBot,
 				expected = '[<a href="http://ckeditor.com">testing 1, 2, 3</a>]';
 
-			if ( CKEDITOR.env.safari ) {
+			if ( CKEDITOR.env.safari || ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) ) {
 				expected = '<a href="http://ckeditor.com">[testing 1, 2, 3]</a>';
 			}
 
