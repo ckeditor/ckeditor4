@@ -163,7 +163,12 @@
 		},
 
 		'test edit link text': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBot,
+				expected = '[<a href="http://ckeditor.com">testing 1, 2, 3</a>]';
+
+			if ( CKEDITOR.env.safari ) {
+				expected = '<a href="http://ckeditor.com">[testing 1, 2, 3]</a>';
+			}
 
 			bot.setHtmlWithSelection( '[<a href="http://ckeditor.com">http://ckeditor.com</a>]' );
 
@@ -171,7 +176,7 @@
 				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'http://ckeditor.com' );
 				dialog.setValueOf( 'info', 'linkDisplayText', 'testing 1, 2, 3' );
 				dialog.getButton( 'ok' ).click();
-				assert.areSame( '[<a href="http://ckeditor.com">testing 1, 2, 3</a>]', bender.tools.getHtmlWithSelection( bot.editor ) );
+				assert.areSame( expected, bender.tools.getHtmlWithSelection( bot.editor ) );
 			} );
 		},
 
@@ -289,7 +294,7 @@
 			var bot = this.editorBot;
 
 			// When using getSelectedText() on multiline selection, it will contain new line chars. Text inputs used in dialog, can't contain
-			// new lines, so if our initial pattern would use text with new lines, those would always differ. 
+			// new lines, so if our initial pattern would use text with new lines, those would always differ.
 
 			bot.setHtmlWithSelection( '<p>fo[o</p><h2>b]ar</h2>' );
 			bot.dialog( 'link', function( dialog ) {
@@ -437,7 +442,7 @@
 		'test CKEDITOR.link.showDisplayTextForElement': function(){
 			var doc = CKEDITOR.document,
 				showDisplayTextForElement = CKEDITOR.plugins.link.showDisplayTextForElement;
-			
+
 			assert.isFalse( showDisplayTextForElement( doc.findOne( 'input#blurTarget' ), this.editor ), 'Input element' );
 			assert.isTrue( showDisplayTextForElement( doc.findOne( 'span' ), this.editor ), 'Span element' );
 			assert.isTrue( showDisplayTextForElement( null, this.editor ), 'Null value' );
