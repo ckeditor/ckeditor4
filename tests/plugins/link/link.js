@@ -197,14 +197,20 @@
 		},
 
 		'test XSS protection': function() {
-			var bot = this.editorBot;
+			var bot = this.editorBot,
+				expected = '<a href="http://ckeditor.com">&lt;img src="" onerror="alert( 1 );"&gt;</a>';
+
+			if ( this.editor.plugins.entities ) {
+				// If entities plugin is present (e.g. built version) also quotes will be encoded.
+				expected = '<a href="http://ckeditor.com">&lt;img src=&quot;&quot; onerror=&quot;alert( 1 );&quot;&gt;</a>';
+			}
 
 			bot.setHtmlWithSelection( '<a href="http://ckeditor.com">a^aa</a>' );
 
 			bot.dialog( 'link', function( dialog ) {
 				dialog.setValueOf( 'info', 'linkDisplayText', '<img src="" onerror="alert( 1 );">' );
 				dialog.getButton( 'ok' ).click();
-				assert.areSame( '<a href="http://ckeditor.com">&lt;img src="" onerror="alert( 1 );"&gt;</a>', bot.getData( true ) );
+				assert.areSame( expected, bot.getData( true ) );
 			} );
 		},
 
@@ -254,12 +260,12 @@
 			// Even though display text was not changed we have to remove nested, editable anchor elements.
 			var bot = this.editorBot;
 
-			bot.setHtmlWithSelection( '[<i>foo </i><a href="aaa">bbb</a> <span contenteditable="false"><a href="aaa">ccc</a></span>]' );
+			bot.setHtmlWithSelection( '[<em>foo </em><a href="aaa">bbb</a> <span contenteditable="false"><a href="aaa">ccc</a></span>]' );
 
 			bot.dialog( 'link', function( dialog ) {
 				dialog.setValueOf( 'info', 'url', 'newlink' );
 				dialog.getButton( 'ok' ).click();
-				assert.areSame( '<a href="http://newlink"><i>foo </i>bbb <span contenteditable="false"><a href="aaa">ccc</a></span></a>', bot.getData( true ) );
+				assert.areSame( '<a href="http://newlink"><em>foo </em>bbb <span contenteditable="false"><a href="aaa">ccc</a></span></a>', bot.getData( true ) );
 			} );
 		},
 
