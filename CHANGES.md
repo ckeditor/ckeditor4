@@ -3,6 +3,14 @@ CKEditor 4 Changelog
 
 ## CKEditor 4.5.11
 
+**Security Updates:**
+
+* [Severity: minor] Fixed the target="_blank" vulnerability reported by James Gaskell.
+
+	Issue summary: If a victim had access to a spoofed version of ckeditor.com via HTTP (e.g. due to DNS spoofing, using a hacked public network or mailicious hotspot), then when using a link to the ckeditor.com website it was possible for the attacker to change the current URL of the opening page, even if the opening page was protected with SSL.
+
+  An upgrade is recommended.
+
 New Features:
 
 * [#14747](http://dev.ckeditor.com/ticket/14747): The [Enhanced Image](http://ckeditor.com/addon/image2) caption now supports the link `target` attribute.
