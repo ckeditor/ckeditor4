@@ -8,22 +8,19 @@
 		nextRev = 1,
 		// #13816
 		fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
-		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' );
+		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' ),
+		isSelectingTable;
 
 	// #### table selection : START
 
-	function isFakeTableSelection( ranges ) {
+	function isTableSelection( ranges ) {
 		var node,
 			i;
-
-		if ( ranges.length < 2 ) {
-			return false;
-		}
 
 		for ( i = 0; i < ranges.length; i++ ) {
 			node = ranges[ i ].getEnclosedNode();
 
-			if ( !node || !node.hasClass || !node.hasClass( 'cke_table-faked-selection' ) ) {
+			if ( !node || node.type !== CKEDITOR.NODE_ELEMENT || !node.getAscendant( 'table', true ) ) {
 				return false;
 			}
 		}
@@ -36,7 +33,7 @@
 	// matches the fake selection, we check if the table cell from fake selection's
 	// first range and real selection's range are the same.
 	function isRealTableSelection( ranges, fakeRanges ) {
-		if ( ranges.length > 1 || !isFakeTableSelection( fakeRanges ) || !ranges[ 0 ].getEnclosedNode() ||
+		if ( !isTableSelection( ranges ) || !isTableSelection( fakeRanges ) || !ranges[ 0 ].getEnclosedNode() ||
 			!ranges[ 0 ].getEnclosedNode().equals( fakeRanges[ 0 ].getEnclosedNode() ) ) {
 			return false;
 		}
@@ -44,7 +41,7 @@
 		return true;
 	}
 
-	function performTableSelection( ranges ) {
+	function performFakeTableSelection( ranges ) {
 		var editor = this.root.editor,
 			realSelection = editor.getSelection( 1 ),
 			cache;
@@ -52,6 +49,16 @@
 		// Cleanup after previous selection - e.g. remove hidden sel container.
 		this.reset();
 
+		// Indicate that the table is being fake-selected to prevent infinite loop
+		// inside `selectRanges`.
+		isSelectingTable = true;
+
+		// Cancel selectionchange for the real selection.
+		realSelection.root.once( 'selectionchange', function( evt ) {
+			evt.cancel();
+		}, null, null, 0 );
+
+		// Move real selection to the first selected range.
 		realSelection.selectRanges( [ ranges[ 0 ] ] );
 
 		cache = this._.cache;
@@ -69,6 +76,8 @@
 
 		// Save this selection, so it can be returned by editor.getSelection().
 		editor._.fakeSelection = this;
+
+		isSelectingTable = false;
 
 		// Fire selectionchange, just like a normal selection.
 		this.root.fire( 'selectionchange' );
@@ -1844,9 +1853,9 @@
 				return;
 			}
 
-			// Handle special case - fake multiple selection of table cells.
-			if ( isFakeTableSelection( ranges ) ) {
-				performTableSelection.call( this, ranges );
+			// Handle special case - fake selection of table cells.
+			if ( isTableSelection( ranges ) && !isSelectingTable ) {
+				performFakeTableSelection.call( this, ranges );
 				return;
 			}
 
@@ -2136,19 +2145,7 @@
 		 * @returns {Boolean}
 		 */
 		isInTable: function() {
-			var ranges = this.getRanges(),
-				node,
-				i;
-
-			for ( i = 0; i < ranges.length; i++ ) {
-				node = ranges[ i ].getEnclosedNode();
-
-				if ( !node || node.type !== CKEDITOR.NODE_ELEMENT || !node.getAscendant( 'table', true ) ) {
-					return false;
-				}
-			}
-
-			return true;
+			return isTableSelection( this.getRanges() );
 		},
 
 		/**
@@ -2211,7 +2208,7 @@
 				}
 			}
 
-			if ( bookmarks.isFake && !isFakeTableSelection( ranges ) ) {
+			if ( bookmarks.isFake && !isTableSelection( ranges ) ) {
 				this.fake( node );
 			} else {
 				this.selectRanges( ranges );
