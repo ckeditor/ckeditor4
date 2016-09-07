@@ -738,12 +738,25 @@
 		return cells;
 	}
 
-	function fakeSelectCells( cell, evt ) {
-		var editor = evt.editor || evt.sender.editor,
-			ranges = [],
+	function fakeSelectCells( editor, cells ) {
+		var ranges = [],
 			range,
-			cells,
 			i;
+
+		for ( i = 0; i < cells.length; i++ ) {
+			range = editor.createRange();
+			range.setStartBefore( cells[ i ] );
+			range.setEndAfter( cells[ i ] );
+
+			ranges.push( range );
+		}
+
+		editor.getSelection().selectRanges( ranges );
+	}
+
+	function fakeSelectCellsByMouse( cell, evt ) {
+		var editor = evt.editor || evt.sender.editor,
+			cells;
 
 		if ( evt.name === 'mousedown' && detectLeftMouseButton( evt ) ) {
 			fakeSelection = {
@@ -765,25 +778,36 @@
 			return clearFakeCellSelection( editor, evt.name === 'mouseup' );
 		}
 
-		clearFakeCellSelection( editor );
-
 		fakeSelection.dirty = true;
 		cells = getCellsBetween( fakeSelection.first, cell );
 
-		for ( i = 0; i < cells.length; i++ ) {
-			cells[ i ].addClass( fakeSelectedClass );
-
-			range = editor.createRange();
-			range.setStartBefore( cells[ i ] );
-			range.setEndAfter( cells[ i ] );
-
-			ranges.push( range );
-		}
-
-		editor.getSelection().selectRanges( ranges );
+		fakeSelectCells( editor, cells );
 
 		if ( evt.name === 'mouseup' ) {
 			fakeSelection = null;
+		}
+	}
+
+	function fakeSelectionChangeHandler( evt ) {
+		var editor = evt.editor || evt.sender.editor,
+			selection = editor && editor.getSelection(),
+			cells,
+			i;
+
+		if ( !selection ) {
+			return;
+		}
+
+		clearFakeCellSelection( editor );
+
+		if ( !selection.isInTable() || !selection.isFake ) {
+			return;
+		}
+
+		cells = getSelectedCells( selection );
+
+		for ( i = 0; i < cells.length; i++ ) {
+			cells[ i ].addClass( fakeSelectedClass );
 		}
 	}
 
@@ -795,7 +819,7 @@
 		}
 
 		if ( cell ) {
-			fakeSelectCells( cell, evt );
+			fakeSelectCellsByMouse( cell, evt );
 		}
 	}
 
@@ -1173,6 +1197,7 @@
 					editable.attachListener( editable, 'mousedown', fakeSelectionMouseHandler );
 					editable.attachListener( editable, 'mousemove', fakeSelectionMouseHandler );
 					editable.attachListener( editable, 'mouseup', fakeSelectionMouseHandler );
+					editable.attachListener( editable, 'selectionchange', fakeSelectionChangeHandler );
 				} );
 			}
 		},
