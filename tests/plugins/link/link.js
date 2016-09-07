@@ -257,6 +257,12 @@
 		},
 
 		'test link with a nested anchors without text change': function() {
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+				// #14848
+				assert.ignore();
+			}
+
 			// Even though display text was not changed we have to remove nested, editable anchor elements.
 			var bot = this.editorBot;
 
