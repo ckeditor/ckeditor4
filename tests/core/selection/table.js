@@ -354,6 +354,63 @@
 				'getSelectedText should return text from all selected cells.' );
 
 			clearTableSelection( editor.editable() );
+		},
+
+		'Table fake selection does not create undo snapshots': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				ranges;
+
+			bender.tools.setHtmlWithSelection( editor, '<p id="foo">Foo</p>' +
+				CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 1 ] );
+
+			editor.resetUndo();
+			selection.selectRanges( ranges );
+
+			editor.fire( 'saveSnapshot' );
+			assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'undo' ).state, 'Not undoable after making fake selection' );
+
+			// Make a normal selection.
+			editor.getSelection().selectElement( editor.document.getById( 'foo' ) );
+			editor.fire( 'saveSnapshot' );
+			assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'undo' ).state, 'Not undoable after removing fake selection' );
+
+			clearTableSelection( editor.editable() );
+		},
+
+		'Table fake selection undo': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				ranges;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0 ] );
+
+			editor.resetUndo();
+			selection.selectRanges( ranges );
+
+			// Execute bold, adding a undo step to the editor.
+			editor.execCommand( 'bold' );
+
+			assert.areSame( CKEDITOR.TRISTATE_OFF, editor.getCommand( 'undo' ).state, 'Undoable after bold' );
+
+			// Undo bold, which must restore the fake-selection.
+			editor.execCommand( 'undo' );
+
+			// Retrieve the selection again.
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0 ] );
+			selection = editor.getSelection();
+
+			assert.isTrue( !!selection.isFake, 'isFake is set' );
+			assert.isTrue( selection.isInTable(), 'isInTable is true' );
+			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+				'Selected element equals to the first selected cell' );
+
+			editor.fire( 'saveSnapshot' );
+			assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'undo' ).state, 'Not undoable after undo' );
 		}
 	} );
 }() );
