@@ -41,6 +41,63 @@
 		return true;
 	}
 
+	function getSelectedCells( ranges ) {
+		var cells = [],
+			node,
+			i;
+
+		function getCellsFromElement( element ) {
+			var cells = element.find( 'td, th' ),
+				cellsArray = [],
+				i;
+
+			for ( i = 0; i < cells.count(); i++ ) {
+				cellsArray.push( cells.getItem( i ) );
+			}
+
+			return cellsArray;
+		}
+
+		for ( i = 0; i < ranges.length; i++ ) {
+			node = ranges[ i ].getEnclosedNode();
+
+			if ( node.is( { td: 1, th: 1 } ) ) {
+				cells.push( node );
+			} else {
+				cells.concat( getCellsFromElement( node ) );
+			}
+		}
+
+		return cells;
+	}
+
+	// Cells in the same row are separated by tab and the rows are separated by new line, e.g.
+	// Cell 1.1	Cell 1.2
+	// Cell 2.1	Cell 2.2
+	function getTextFromSelectedCells( ranges ) {
+		var cells = getSelectedCells( ranges ),
+			txt = '',
+			currentRow = [],
+			lastRow,
+			i;
+
+		for ( i = 0; i < cells.length; i++ ) {
+			if ( lastRow && !lastRow.equals( cells[ i ].getAscendant( 'tr' ) ) ) {
+				txt += currentRow.join( '\t' ) + '\n';
+				lastRow = cells[ i ].getAscendant( 'tr' );
+				currentRow = [];
+			} else if ( i === 0 ) {
+				lastRow = cells[ i ].getAscendant( 'tr' );
+			}
+
+			currentRow.push( cells[ i ].getText() );
+		}
+
+		txt += currentRow.join( '\t' );
+
+		return txt;
+	}
+
 	function performFakeTableSelection( ranges ) {
 		var editor = this.root.editor,
 			realSelection = editor.getSelection( 1 ),
@@ -68,8 +125,12 @@
 		cache.type = CKEDITOR.SELECTION_TEXT;
 		cache.selectedElement = ranges[ 0 ].getEnclosedNode();
 
+		// `selectedText` should contain text from all selected data ("plain text table")
+		// to be compatible with Firefox's implementation.
+		cache.selectedText = getTextFromSelectedCells( ranges );
+
 		// Properties that will not be available when isFake.
-		cache.selectedText = cache.nativeSel = null;
+		cache.nativeSel = null;
 
 		this.isFake = 1;
 		this.rev = nextRev++;
