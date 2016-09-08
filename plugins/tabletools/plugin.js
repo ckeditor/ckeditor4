@@ -662,9 +662,13 @@
 		var selectedCells = editor.editable().find( '.' + fakeSelectedClass ),
 			i;
 
+		editor.fire( 'lockSnapshot' );
+
 		for ( i = 0; i < selectedCells.count(); i++ ) {
 			selectedCells.getItem( i ).removeClass( fakeSelectedClass );
 		}
+
+		editor.fire( 'unlockSnapshot' );
 
 		if ( reset ) {
 			fakeSelection = null;
@@ -806,9 +810,13 @@
 
 		cells = getSelectedCells( selection );
 
+		editor.fire( 'lockSnapshot' );
+
 		for ( i = 0; i < cells.length; i++ ) {
 			cells[ i ].addClass( fakeSelectedClass );
 		}
+
+		editor.fire( 'unlockSnapshot' );
 	}
 
 	function fakeSelectionMouseHandler( evt ) {
