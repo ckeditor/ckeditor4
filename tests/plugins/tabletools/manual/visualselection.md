@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, 18
-@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, basicstyles, sourcearea, elementspath, autogrow
+@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, basicstyles, sourcearea, elementspath, undo, autogrow
 
 Have fun with visual table selection!
 
@@ -11,6 +11,7 @@ Have fun with visual table selection!
 * New selection should dismiss the previous one.
 * The visual selection should behave in the same way as the native one in Firefox.
 * Real selection is not visible.
+* Visual selection does not create any undo/redo step.
 
 **Known problems:**
 
