@@ -98,6 +98,7 @@
 			selection.selectRanges( ranges );
 
 			assert.isTrue( !!selection.isFake, 'isFake is set' );
+			assert.isTrue( selection.isInTable(), 'isInTable is true' );
 			assert.isTrue( selection.rev > initialRev, 'Next rev' );
 			assert.areSame( ranges.length, selection.getRanges().length, 'Multiple ranges are selected' );
 			assert.isNull( selection.getNative(), 'getNative() should be null' );
@@ -411,6 +412,8 @@
 
 			editor.fire( 'saveSnapshot' );
 			assert.areSame( CKEDITOR.TRISTATE_DISABLED, editor.getCommand( 'undo' ).state, 'Not undoable after undo' );
+
+			clearTableSelection( editor.editable() );
 		}
 	} );
 }() );
