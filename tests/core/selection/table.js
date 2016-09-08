@@ -101,7 +101,7 @@
 			assert.isTrue( selection.rev > initialRev, 'Next rev' );
 			assert.areSame( ranges.length, selection.getRanges().length, 'Multiple ranges are selected' );
 			assert.isNull( selection.getNative(), 'getNative() should be null' );
-			assert.isNull( selection.getSelectedText(), 'getSelectedText() should be null' );
+			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
 
 			assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
 			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
@@ -335,6 +335,23 @@
 			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
 				'getSelectedElement() must return the first selected table cell' );
 			assert.areSame( ranges.length, selection.getRanges().length, 'All ranges selected' );
+
+			clearTableSelection( editor.editable() );
+		},
+
+		'Get text from fake table selection': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				ranges;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 1, 2, 3, 4, 5 ] );
+
+			selection.selectRanges( ranges );
+
+			assert.areSame( 'Cell 1.1\tCell 1.2\tCell 1.3\nCell 2.1\tCell 2.2\tCell 2.3', selection.getSelectedText(),
+				'getSelectedText should return text from all selected cells.' );
 
 			clearTableSelection( editor.editable() );
 		}
