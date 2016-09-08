@@ -6,6 +6,7 @@ Have fun with visual table selection!
 
 **Things to check:**
 
-* Selecting one cell should not activate visual selection.
+* Selecting one cell by mouse should not activate visual selection.
+* Clicking on elements path should also trigger a visual selection.
 * New selection should dismiss the previous one.
 * The visual selection should behave in the same way as the native one in Firefox.
