@@ -1189,7 +1189,8 @@
 			// Allow overwriting the native table selection with our custom one.
 			if ( editor.config.tableImprovements ) {
 				// Add styles for fake visual selection.
-				CKEDITOR.addCss( '.' + fakeSelectedClass + ' { background: navy; color: #fff; }' );
+				CKEDITOR.addCss( '.' + fakeSelectedClass + ' { background: navy; color: #fff; }' +
+					'.' + fakeSelectedClass + '::selection { background: transparent; }' );
 
 				editor.on( 'contentDom', function() {
 					var editable = editor.editable();
