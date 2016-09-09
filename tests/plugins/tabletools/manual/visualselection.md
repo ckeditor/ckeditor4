@@ -12,7 +12,6 @@ Have fun with visual table selection!
 * The visual selection should behave in the same way as the native one in Firefox.
 * Real selection is not visible.
 * Visual selection does not create any undo/redo step.
-* The last editor does not have visual selection active.
 
 **Known problems:**
 
