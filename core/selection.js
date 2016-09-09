@@ -144,6 +144,79 @@
 		this.root.fire( 'selectionchange' );
 	}
 
+	// Handle left, right, delete and backspace keystrokes inside table fake selection.
+	function getTableOnKeyDownListener( editor ) {
+		var keystrokes = {
+			37: 1, // Left Arrow
+			39: 1, // Right Arrow
+			8: 1, // Backspace
+			46: 1 // Delete
+		};
+
+		return function( evt ) {
+			var keystroke = evt.data.getKeystroke(),
+				selection,
+				ranges,
+				range,
+				i;
+
+			// Handle only left/right/del/bspace keys.
+			if ( !keystrokes[ keystroke ] ) {
+				return;
+			}
+
+			selection = editor.getSelection();
+			ranges = selection.getRanges();
+
+			if ( !selection || !selection.isInTable() || !selection.isFake ) {
+				return;
+			}
+
+			evt.data.preventDefault();
+			evt.cancel();
+
+			if ( keystroke === 37 || keystroke === 39 ) {
+				range = ranges[ keystroke === 37 ? 0 : ( ranges.length - 1 ) ];
+
+				range.moveToElementEditablePosition( range.getEnclosedNode(), keystroke === 39 );
+				selection.selectRanges( [ range ] );
+			} else {
+				for ( i = 0; i < ranges.length; i++ ) {
+					ranges[ i ].getEnclosedNode().setHtml( '' );
+				}
+
+				editor.fire( 'saveSnapshot' );
+
+				range = ranges[ 0 ];
+				range.moveToElementEditablePosition( range.getEnclosedNode() );
+				selection.selectRanges( [ range ] );
+			}
+		};
+	}
+
+	function getTableOnKeyPressListener( editor ) {
+		return function() {
+			var selection = editor.getSelection(),
+				ranges,
+				range,
+				i;
+
+			if ( !selection || !selection.isInTable() || !selection.isFake ) {
+				return;
+			}
+
+			ranges = selection.getRanges();
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				ranges[ i ].getEnclosedNode().setHtml( '' );
+			}
+
+			range = ranges[ 0 ];
+			range.moveToElementEditablePosition( range.getEnclosedNode() );
+			selection.selectRanges( [ range ] );
+		};
+	}
+
 	// #### table selection : END
 
 	// #### checkSelectionChange : START
@@ -908,6 +981,11 @@
 
 			// Automatically select non-editable element when navigating into
 			// it by left/right or backspace/del keys.
+			if ( editor.config.tableImprovements ) {
+				editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
+				editable.attachListener( editable, 'keypress', getTableOnKeyPressListener( editor ), null, null, -1 );
+			}
+
 			editable.attachListener( editable, 'keydown', getOnKeyDownListener( editor ), null, null, -1 );
 
 			function moveRangeToPoint( range, x, y ) {
