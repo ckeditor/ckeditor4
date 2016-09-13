@@ -8,8 +8,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	position: absolute;
 	z-index: 10000;
 
-	background: #eee;
-	border: 1px solid #aaa;
+	background: #fff;
+	border: 2px solid #aaa;
 	outline: none;
 }
 
@@ -22,7 +22,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	color: #484848;
 
 	padding: 12px 30px 12px 12px; /* Let's the title and close don't overlap each other - padding-right. */
-	background: #eee;
+	background: #f8f8f8;
 }
 
 /* The close button at the top of the panel. */
@@ -115,7 +115,7 @@ a.cke_balloon_close_button:active
 .cke_balloon_triangle_outer.cke_balloon_triangle_bottom,
 .cke_balloon_triangle_outer.cke_balloon_triangle_top
 {
-	border-color: #888 transparent;
+	border-color: #999 transparent;
 }
 
 .cke_balloon_triangle_inner.cke_balloon_triangle_bottom,
@@ -133,9 +133,9 @@ a.cke_balloon_close_button:active
 
 .cke_balloon_triangle_inner.cke_balloon_triangle_bottom
 {
-	border-color: #eee transparent;
+	border-color: #fff transparent;
 	border-width: 20px 20px 0;
-	top: -21px;
+	top: -22px;
 }
 
 /* side: [ top ] */
@@ -147,22 +147,22 @@ a.cke_balloon_close_button:active
 
 .cke_balloon_triangle_inner.cke_balloon_triangle_top
 {
-	border-color: #eee transparent;
+	border-color: #f8f8f8 transparent;
 	border-width: 0 20px 20px;
-	top: 1px;
+	top: 2px;
 }
 
 /* side: [ left, right ] */
 .cke_balloon_triangle_outer.cke_balloon_triangle_left,
 .cke_balloon_triangle_outer.cke_balloon_triangle_right
 {
-	border-color: transparent #888;
+	border-color: transparent #999;
 }
 
 .cke_balloon_triangle_inner.cke_balloon_triangle_left,
 .cke_balloon_triangle_inner.cke_balloon_triangle_right
 {
-	border-color: transparent #eee;
+	border-color: transparent #fff;
 	top: -20px;
 }
 
@@ -175,9 +175,9 @@ a.cke_balloon_close_button:active
 
 .cke_balloon_triangle_inner.cke_balloon_triangle_left
 {
-	border-color: transparent #eee;
+	border-color: transparent #fff;
 	border-width: 20px 20px 20px 0;
-	left: 1px;
+	left: 2px;
 }
 
 /* side: [ right ] */
@@ -190,7 +190,7 @@ a.cke_balloon_close_button:active
 .cke_balloon_triangle_inner.cke_balloon_triangle_right
 {
 	border-width: 20px 0 20px 20px;
-	right: 1px;
+	right: 2px;
 }
 
 
