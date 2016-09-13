@@ -669,6 +669,11 @@ a.cke_dialog_ui_button_ok:hover
 	border-color: #53AA78;
 }
 
+a.cke_dialog_ui_button_ok:focus
+{
+	box-shadow: inset 0 0 0 2px #FFF;
+}
+
 a.cke_dialog_ui_button_ok:focus,
 a.cke_dialog_ui_button_ok:active
 {
