@@ -32,8 +32,26 @@
 	// to the first selected cell. Therefore to check if the real selection
 	// matches the fake selection, we check if the table cell from fake selection's
 	// first range and real selection's range are the same.
+	// Also if the selection is collapsed, we should check if it's placed inside one of
+	// the fake selection's cells. Such selection occurs after right mouse click.
 	function isRealTableSelection( ranges, fakeRanges ) {
-		if ( !isTableSelection( ranges ) || !isTableSelection( fakeRanges ) || !ranges[ 0 ].getEnclosedNode() ||
+		var cell,
+			i;
+
+		if ( ranges.length === 1 && ranges[ 0 ].collapsed ) {
+			cell = ranges[ 0 ].startContainer.getAscendant( { td: 1, th: 1 } );
+
+			if ( !cell ) {
+				return false;
+			}
+
+			for ( i = 0; i <= fakeRanges.length; i++ ) {
+				// Sometimes, during right mouse click, the fake range is gone.
+				if ( fakeRanges[ i ] && cell.equals( fakeRanges[ i ].getEnclosedNode() ) ) {
+					return true;
+				}
+			}
+		} else if ( !isTableSelection( ranges ) || !isTableSelection( fakeRanges ) || !ranges[ 0 ].getEnclosedNode() ||
 			!ranges[ 0 ].getEnclosedNode().equals( fakeRanges[ 0 ].getEnclosedNode() ) ) {
 			return false;
 		}
