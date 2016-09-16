@@ -492,6 +492,41 @@
 			clearTableSelection( editor.editable() );
 		},
 
+		'Navigating up inside table fake selection': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				prevented = false,
+				ranges,
+				range;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+
+			selection.selectRanges( ranges );
+
+			// Up arrow.
+			editor.editable().fire( 'keydown', getKeyEvent( 38, function() {
+				prevented = true;
+			} ) );
+
+			assert.isTrue( prevented, 'Default keydown was prevented' );
+
+			assert.isFalse( !!selection.isFake, 'isFake is not set' );
+			assert.isFalse( selection.isInTable(), 'isInTable is false' );
+			assert.areSame( 1, selection.getRanges().length, 'Only one range is selected' );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+			range = selection.getRanges()[ 0 ];
+
+			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
+			assert.isTrue( range.startContainer.equals( ranges[ 0 ].getEnclosedNode() ),
+				'Selection is in the first cell' );
+			assert.areSame( 0, range.startOffset, 'Range is collapsed to the start' );
+
+			clearTableSelection( editor.editable() );
+		},
+
 		'Navigating right inside table fake selection': function() {
 			var editor = this.editor,
 				selection = editor.getSelection(),
@@ -507,6 +542,41 @@
 
 			// Right arrow.
 			editor.editable().fire( 'keydown', getKeyEvent( 39, function() {
+				prevented = true;
+			} ) );
+
+			assert.isTrue( prevented, 'Default keydown was prevented' );
+
+			assert.isFalse( !!selection.isFake, 'isFake is not set' );
+			assert.isFalse( selection.isInTable(), 'isInTable is false' );
+			assert.areSame( 1, selection.getRanges().length, 'Only one range is selected' );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+			range = selection.getRanges()[ 0 ];
+
+			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
+			assert.isTrue( range.startContainer.equals( ranges[ 1 ].getEnclosedNode() ),
+				'Selection is in the last cell' );
+			assert.isTrue( range.startOffset > 0, 'Range is collapsed to the end' );
+
+			clearTableSelection( editor.editable() );
+		},
+
+		'Navigating down inside table fake selection': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				prevented = false,
+				ranges,
+				range;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+
+			selection.selectRanges( ranges );
+
+			// Down arrow.
+			editor.editable().fire( 'keydown', getKeyEvent( 40, function() {
 				prevented = true;
 			} ) );
 
