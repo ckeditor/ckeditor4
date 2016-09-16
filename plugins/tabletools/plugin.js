@@ -551,7 +551,7 @@
 			// The selection resets automatically, but the visual selection
 			// must be deleted manually.
 			if ( editor && editor.config.tableImprovements ) {
-				clearFakeCellSelection( editor );
+				clearFakeCellSelection( editor, true );
 			}
 
 			return firstCell;
@@ -696,6 +696,7 @@
 
 		if ( reset ) {
 			fakeSelection = null;
+			editor.getSelection().reset();
 		}
 	}
 
@@ -990,6 +991,10 @@
 				exec: function( editor ) {
 					var selection = editor.getSelection();
 					deleteCells( selection );
+
+					if ( editor.config.tableImprovements ) {
+						clearFakeCellSelection( editor, true );
+					}
 				}
 			} ) );
 
