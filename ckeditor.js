@@ -42,7 +42,7 @@ else {
  *
  *		CKEDITOR.skinName = 'myskin,/customstuff/myskin/';
  *
- * @cfg {String} [skinName='moono']
+ * @cfg {String} [skinName='moono-lisa']
  * @member CKEDITOR
  */
-CKEDITOR.skinName = 'moono';
+CKEDITOR.skinName = 'moono-lisa';

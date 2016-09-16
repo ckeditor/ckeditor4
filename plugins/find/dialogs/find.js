@@ -588,6 +588,7 @@
 				},
 				{
 					type: 'fieldset',
+					className: 'cke_dialog_find_fieldset',
 					label: CKEDITOR.tools.htmlEncode( lang.findOptions ),
 					style: 'margin-top:29px',
 					children: [ {

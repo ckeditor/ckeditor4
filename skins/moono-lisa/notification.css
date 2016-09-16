@@ -1,0 +1,166 @@
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+
+/**
+ * Progress notification structure:
+ *
+ * +---div.cke_notification cke_notification_info--------------------------+
+ * |                                                                       |
+ * | +---div.cke_notification_progress-----------------------------------+ |
+ * | |                                                                   | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * | +---p.cke_notification_message--------------------------------------+ |
+ * | | Foo                                                               | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * | +---a.cke_notification_close----------------------------------------+ |
+ * | | +---span.cke_label----------------------------------------------+ | |
+ * | | | X                                                             | | |
+ * | | +---------------------------------------------------------------+ | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * +-----------------------------------------------------------------------+
+ *
+ *
+ * Warning notification structure:
+ *
+ * +---div.cke_notification cke_notification_warning-----------------------+
+ * |                                                                       |
+ * | +---p.cke_notification_message--------------------------------------+ |
+ * | | Foo                                                               | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * | +---a.cke_notification_close----------------------------------------+ |
+ * | | +---span.cke_label----------------------------------------------+ | |
+ * | | | X                                                             | | |
+ * | | +---------------------------------------------------------------+ | |
+ * | +-------------------------------------------------------------------+ |
+ * |                                                                       |
+ * +-----------------------------------------------------------------------+
+ *
+ * Success and info notifications have the same structure as warning, but use
+ * `cke_notification_success` and `cke_notification_info` instead of `cke_notification_warning`.
+ */
+.cke_notifications_area
+{
+	/* Prevent notification margin capture clicking. */
+	pointer-events: none;
+}
+.cke_notification
+{
+	pointer-events: auto;
+	position: relative;
+	margin: 10px;
+	width: 300px;
+	color: white;
+	text-align: center;
+	opacity: 0.95;
+	filter: alpha(opacity = 95);
+
+	-webkit-animation: fadeIn 0.7s;
+	animation: fadeIn 0.7s;
+}
+
+.cke_notification_message a
+{
+	color: #12306F;
+}
+
+@-webkit-keyframes fadeIn
+{
+	from { opacity: 0.4; }
+	to { opacity: 0.95; }
+}
+
+@keyframes fadeIn
+{
+	from { opacity: 0.4; }
+	to { opacity: 0.95; }
+}
+
+.cke_notification_success
+{
+	background: #72B572;
+	border: 1px solid #63A563;
+}
+
+.cke_notification_warning
+{
+	background: #C83939;
+	border: 1px solid #902B2B;
+}
+
+.cke_notification_info
+{
+	background: #2E9AD0;
+	border: 1px solid #0F74A8;
+}
+
+.cke_notification_info span.cke_notification_progress
+{
+	background-color: #0F74A8;
+	display: block;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	overflow: hidden;
+	position: absolute;
+	z-index: 1;
+}
+
+.cke_notification_message
+{
+	position: relative;
+	margin: 4px 23px 3px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 18px;
+	z-index: 4;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.cke_notification_close
+{
+	background-image: url(images/close.png);
+	background-repeat: no-repeat;
+	background-position: 50%;
+	position: absolute;
+	cursor: pointer;
+	text-align: center;
+	height: 20px;
+	width: 20px;
+	top: 1px;
+	right: 1px;
+	padding: 0;
+	margin: 0;
+	z-index: 5;
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+}
+
+.cke_notification_close:hover
+{
+	opacity: 1;
+	filter: alpha(opacity = 100);
+}
+
+.cke_notification_close span
+{
+	display: none;
+}
+
+.cke_notification_warning a.cke_notification_close
+{
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.cke_notification_warning a.cke_notification_close:hover
+{
+	opacity: 1;
+	filter: alpha(opacity = 100);
+}

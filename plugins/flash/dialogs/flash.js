@@ -327,6 +327,7 @@
 						type: 'hbox',
 						widths: [ '280px', '110px' ],
 						align: 'right',
+						className: 'cke_dialog_flash_url',
 						children: [ {
 							id: 'src',
 							type: 'text',
