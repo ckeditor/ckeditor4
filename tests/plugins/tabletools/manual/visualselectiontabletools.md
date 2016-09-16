@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, 18
-@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, sourcearea, autogrow
+@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, sourcearea, undo, autogrow
 
 **Procedure:**
 
@@ -8,6 +8,7 @@
 2. Click the right mouse button.
 3. Select one of the options from the context menu.
 4. Repeat the same operation in the second table.
+5. Check if undo is working correctly.
 5. Repeat the whole process for all tabletools features.
 
 **Expected result:**
