@@ -651,6 +651,125 @@
 			}
 
 			clearTableSelection( editor.editable() );
+		},
+
+		'Simulating opening context menu in the same table': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				realSelection,
+				ranges,
+				range;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+
+			selection.selectRanges( ranges );
+
+			// Stub reset method to prevent overwriting fake selection on selectRanges.
+			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
+
+			// We must restore this method before any other selectionchange listeners
+			// to be sure that selectionchange works as intended.
+			editor.editable().once( 'selectionchange', function() {
+				CKEDITOR.dom.selection.prototype.reset.restore();
+			}, null, null, -2 );
+
+			realSelection = editor.getSelection( 1 );
+			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] ) [ 0 ];
+
+			range.collapse();
+			realSelection.selectRanges( [ range ] );
+
+			assert.isTrue( !!selection.isFake, 'isFake is set' );
+			assert.isTrue( selection.isInTable(), 'isInTable is true' );
+			assert.areSame( ranges.length, selection.getRanges().length, 'Multiple ranges are selected' );
+			assert.isNull( selection.getNative(), 'getNative() should be null' );
+			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
+
+			assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
+			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+				'Selected element equals to the first selected cell' );
+
+			clearTableSelection( editor.editable() );
+		},
+
+		'Simulating opening context menu in the different table': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				realSelection,
+				ranges,
+				range;
+
+			bender.tools.setHtmlWithSelection( editor,
+				CKEDITOR.tools.repeat( CKEDITOR.document.getById( 'simpleTable' ).getHtml(), 2 ) );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+
+			selection.selectRanges( ranges );
+
+			// Stub reset method to prevent overwriting fake selection on selectRanges.
+			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
+
+			// We must restore this method before any other selectionchange listeners
+			// to be sure that selectionchange works as intended.
+			editor.editable().once( 'selectionchange', function() {
+				CKEDITOR.dom.selection.prototype.reset.restore();
+			}, null, null, -2 );
+
+			realSelection = editor.getSelection( 1 );
+			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] ) [ 0 ];
+
+			range.collapse();
+			realSelection.selectRanges( [ range ] );
+
+			assert.isFalse( !!selection.isFake, 'isFake is noy set' );
+			assert.isFalse( selection.isInTable(), 'isInTable is false' );
+			assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
+			assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
+
+			assert.isTrue( !!selection.getRanges()[ 0 ].collapsed, 'Selection is collapsed' );
+
+			clearTableSelection( editor.editable() );
+		},
+
+		'Simulating opening context menu in the paragraph': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				realSelection,
+				ranges,
+				range;
+
+			bender.tools.setHtmlWithSelection( editor, '<p>Foo</p>' + CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+
+			selection.selectRanges( ranges );
+
+			// Stub reset method to prevent overwriting fake selection on selectRanges.
+			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
+
+			// We must restore this method before any other selectionchange listeners
+			// to be sure that selectionchange works as intended.
+			editor.editable().once( 'selectionchange', function() {
+				CKEDITOR.dom.selection.prototype.reset.restore();
+			}, null, null, -2 );
+
+			realSelection = editor.getSelection( 1 );
+			range = editor.createRange();
+
+			range.selectNodeContents( editor.editable().findOne( 'p' ) );
+			range.collapse();
+			realSelection.selectRanges( [ range ] );
+
+			assert.isFalse( !!selection.isFake, 'isFake is not set' );
+			assert.isFalse( selection.isInTable(), 'isInTable is false' );
+			assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
+			assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
+
+			assert.isTrue( !!selection.getRanges()[ 0 ].collapsed, 'Selection is collapsed' );
+
+			clearTableSelection( editor.editable() );
 		}
 	} );
 }() );
