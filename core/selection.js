@@ -35,12 +35,14 @@
 	// Also if the selection is collapsed, we should check if it's placed inside the table
 	// in which the fake selection is. Such selection occurs after right mouse click.
 	function isRealTableSelection( ranges, fakeRanges ) {
-		var table;
+		var table,
+			fakeTable;
 
 		if ( ranges.length === 1 && ranges[ 0 ].collapsed ) {
 			table = ranges[ 0 ].startContainer.getAscendant( 'table' );
+			fakeTable = fakeRanges[ 0 ].getEnclosedNode() && fakeRanges[ 0 ].getEnclosedNode().getAscendant( 'table' );
 
-			if ( !table || !table.equals( fakeRanges[ 0 ].getEnclosedNode().getAscendant( 'table' ) ) ) {
+			if ( !table || !fakeTable || !table.equals( fakeTable ) ) {
 				return false;
 			}
 		} else if ( !isTableSelection( ranges ) || !isTableSelection( fakeRanges ) || !ranges[ 0 ].getEnclosedNode() ||
