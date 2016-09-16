@@ -97,7 +97,7 @@
 		return null;
 	}
 
-	function insertRow( selection, insertBefore ) {
+	function insertRow( editor, selection, insertBefore ) {
 		var cells = getSelectedCells( selection ),
 			firstCell = cells[ 0 ],
 			table = firstCell.getAscendant( 'table' ),
@@ -134,6 +134,11 @@
 		}
 
 		insertBefore ? newRow.insertBefore( row ) : newRow.insertAfter( row );
+
+		// Restore original fake selection.
+		if ( editor && editor.config.tableImprovements ) {
+			fakeSelectCells( editor, cells );
+		}
 	}
 
 	function deleteRows( selectionOrRow ) {
@@ -225,13 +230,14 @@
 		return retval;
 	}
 
-	function insertColumn( selection, insertBefore ) {
+	function insertColumn( editor, selection, insertBefore ) {
 		var cells = getSelectedCells( selection ),
 			firstCell = cells[ 0 ],
 			table = firstCell.getAscendant( 'table' ),
 			startCol = getColumnsIndices( cells, 1 ),
 			lastCol = getColumnsIndices( cells ),
-			colIndex = insertBefore ? startCol : lastCol;
+			colIndex = insertBefore ? startCol : lastCol,
+			originalCell;
 
 		var map = CKEDITOR.tools.buildTableMap( table ),
 			cloneCol = [],
@@ -255,14 +261,20 @@
 				cell = cloneCol[ i ];
 				cell.colSpan += 1;
 			} else {
-				cell = new CKEDITOR.dom.element( cloneCol[ i ] ).clone();
+				originalCell = new CKEDITOR.dom.element( cloneCol[ i ] );
+				cell = originalCell.clone();
 				cell.removeAttribute( 'colSpan' );
 				cell.appendBogus();
-				cell[ insertBefore ? 'insertBefore' : 'insertAfter' ].call( cell, new CKEDITOR.dom.element( cloneCol[ i ] ) );
+				cell[ insertBefore ? 'insertBefore' : 'insertAfter' ].call( cell, originalCell );
 				cell = cell.$;
 			}
 
 			i += cell.rowSpan - 1;
+		}
+
+		// Restore original fake selection.
+		if ( editor && editor.config.tableImprovements ) {
+			fakeSelectCells( editor, cells );
 		}
 	}
 
@@ -322,9 +334,10 @@
 		return cursorPosition;
 	}
 
-	function insertCell( selection, insertBefore ) {
-		var startElement = selection.getStartElement();
-		var cell = startElement.getAscendant( 'td', 1 ) || startElement.getAscendant( 'th', 1 );
+	function insertCell( editor, selection, insertBefore ) {
+		var startElement = selection.getStartElement(),
+			cell = startElement.getAscendant( 'td', 1 ) || startElement.getAscendant( 'th', 1 ),
+			cells = getSelectedCells( selection );
 
 		if ( !cell )
 			return;
@@ -337,6 +350,11 @@
 			newCell.insertBefore( cell );
 		else
 			newCell.insertAfter( cell );
+
+		// Restore original fake selection.
+		if ( editor && editor.config.tableImprovements ) {
+			fakeSelectCells( editor, cells );
+		}
 	}
 
 	function deleteCells( selectionOrCell ) {
@@ -416,7 +434,7 @@
 		return oCol;
 	}
 
-	function mergeCells( selection, mergeDirection, isDetect ) {
+	function mergeCells( editor, selection, mergeDirection, isDetect ) {
 		var cells = getSelectedCells( selection );
 
 		// Invalid merge request if:
@@ -528,6 +546,12 @@
 					count++;
 					continue;
 				}
+			}
+
+			// The selection resets automatically, but the visual selection
+			// must be deleted manually.
+			if ( editor && editor.config.tableImprovements ) {
+				clearFakeCellSelection( editor );
 			}
 
 			return firstCell;
@@ -920,7 +944,7 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
-					insertRow( selection, true );
+					insertRow( editor, selection, true );
 				}
 			} ) );
 
@@ -928,7 +952,7 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
-					insertRow( selection );
+					insertRow( editor, selection );
 				}
 			} ) );
 
@@ -945,7 +969,7 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
-					insertColumn( selection, true );
+					insertColumn( editor, selection, true );
 				}
 			} ) );
 
@@ -953,7 +977,7 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
-					insertColumn( selection );
+					insertColumn( editor, selection );
 				}
 			} ) );
 
@@ -969,7 +993,7 @@
 				allowedContent: 'td[colspan,rowspan]',
 				requiredContent: 'td[colspan,rowspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor.getSelection() ), true );
+					placeCursorInCell( mergeCells( editor, editor.getSelection() ), true );
 				}
 			} ) );
 
@@ -977,7 +1001,7 @@
 				allowedContent: 'td[colspan]',
 				requiredContent: 'td[colspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor.getSelection(), 'right' ), true );
+					placeCursorInCell( mergeCells( editor, editor.getSelection(), 'right' ), true );
 				}
 			} ) );
 
@@ -985,7 +1009,7 @@
 				allowedContent: 'td[rowspan]',
 				requiredContent: 'td[rowspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor.getSelection(), 'down' ), true );
+					placeCursorInCell( mergeCells( editor, editor.getSelection(), 'down' ), true );
 				}
 			} ) );
 
@@ -1009,7 +1033,7 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
-					insertCell( selection, true );
+					insertCell( editor, selection, true );
 				}
 			} ) );
 
@@ -1017,7 +1041,7 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
-					insertCell( selection );
+					insertCell( editor, selection );
 				}
 			} ) );
 
@@ -1035,9 +1059,9 @@
 								tablecell_insertBefore: CKEDITOR.TRISTATE_OFF,
 								tablecell_insertAfter: CKEDITOR.TRISTATE_OFF,
 								tablecell_delete: CKEDITOR.TRISTATE_OFF,
-								tablecell_merge: mergeCells( selection, null, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-								tablecell_merge_right: mergeCells( selection, 'right', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-								tablecell_merge_down: mergeCells( selection, 'down', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge: mergeCells( editor, selection, null, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge_right: mergeCells( editor, selection, 'right', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge_down: mergeCells( editor, selection, 'down', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
 								tablecell_split_vertical: verticalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
 								tablecell_split_horizontal: horizontalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
 								tablecell_properties: cells.length > 0 ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
