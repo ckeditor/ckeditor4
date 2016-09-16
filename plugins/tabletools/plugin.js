@@ -844,10 +844,14 @@
 	}
 
 	function fakeSelectionMouseHandler( evt ) {
-		var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
+		var editor = evt.editor || evt.sender.editor,
+			cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
 
-		if ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !cell ) ) {
-			clearFakeCellSelection( evt.editor || evt.sender.editor, true );
+		// 1. User clicks outside the table.
+		// 2. User opens context menu not in the selected table.
+		if ( ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !cell ) ) ||
+			( evt.name === 'mouseup' && !editor.getSelection().isInTable() ) ) {
+			clearFakeCellSelection( editor, true );
 		}
 
 		if ( cell ) {
