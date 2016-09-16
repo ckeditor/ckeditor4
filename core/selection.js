@@ -154,11 +154,13 @@
 		this.root.fire( 'selectionchange' );
 	}
 
-	// Handle left, right, delete and backspace keystrokes inside table fake selection.
+	// Handle left, up, right, down, delete and backspace keystrokes inside table fake selection.
 	function getTableOnKeyDownListener( editor ) {
 		var keystrokes = {
 			37: 1, // Left Arrow
-			39: 1, // Right Arrow
+			38: 1, // Up Arrow
+			39: 1, // Right Arrow,
+			40: 1, // Down Arrow
 			8: 1, // Backspace
 			46: 1 // Delete
 		};
@@ -166,6 +168,7 @@
 		return function( evt ) {
 			var keystroke = evt.data.getKeystroke(),
 				selection,
+				toStart = keystroke === 37 || keystroke == 38,
 				ranges,
 				range,
 				i;
@@ -185,10 +188,10 @@
 			evt.data.preventDefault();
 			evt.cancel();
 
-			if ( keystroke === 37 || keystroke === 39 ) {
-				range = ranges[ keystroke === 37 ? 0 : ( ranges.length - 1 ) ];
+			if ( keystroke > 8 && keystroke < 46 ) {
+				range = ranges[ toStart ? 0 : ( ranges.length - 1 ) ];
 
-				range.moveToElementEditablePosition( range.getEnclosedNode(), keystroke === 39 );
+				range.moveToElementEditablePosition( range.getEnclosedNode(), !toStart );
 				selection.selectRanges( [ range ] );
 			} else {
 				for ( i = 0; i < ranges.length; i++ ) {
