@@ -16,6 +16,7 @@ New Features:
 Fixed Issues:
 
 * [#14672](http://dev.ckeditor.com/ticket/14672): Fixed: Balloonpanel not blurred on close.
+* [#14763](http://dev.ckeditor.com/ticket/14763): Fixed: Balloonpanel plugin moono-lisa skin adjustments.
 * [#13828](http://dev.ckeditor.com/ticket/13828): Fixed: Widget classes should be added to wrapper rather than widget element.
 * [#13519](http://dev.ckeditor.com/ticket/13519): Response should be more flexible.
 
