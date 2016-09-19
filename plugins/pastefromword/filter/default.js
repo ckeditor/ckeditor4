@@ -976,7 +976,7 @@
 				lastList.push( element );
 			}
 
-			List.correctListLevels( lastList );
+			//List.correctListLevels( lastList );
 
 			List.chopDiscontinousLists( lastList, lists );
 
