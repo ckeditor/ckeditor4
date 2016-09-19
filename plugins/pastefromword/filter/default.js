@@ -646,7 +646,7 @@
 				};
 
 				for ( var type in typeMap ) {
-					if ( symbol.match( new RegExp( type ) ) ) {
+					if ( List.getSubsectionSymbol( symbol ).match( new RegExp( type ) ) ) {
 						style[ 'list-style-type' ] = typeMap[ type ];
 						break;
 					}
@@ -688,11 +688,11 @@
 			switch ( list.attributes[ 'cke-list-style-type' ] ) {
 				case 'lower-roman':
 				case 'upper-roman':
-					list.attributes.start = List.toArabic( symbols[ offset ] ) - offset;
+					list.attributes.start = List.toArabic( List.getSubsectionSymbol( symbols[ offset ] ) ) - offset;
 					break;
 				case 'lower-alpha':
 				case 'upper-alpha':
-					list.attributes.start = ( symbols[offset] ).replace( /\W/g, '' ).toLowerCase().charCodeAt( 0 ) - 96 - offset;
+					list.attributes.start = List.getSubsectionSymbol( symbols[ offset ] ).replace( /\W/g, '' ).toLowerCase().charCodeAt( 0 ) - 96 - offset;
 					break;
 				case 'decimal':
 					list.attributes.start = ( parseInt( List.getSubsectionSymbol( symbols[ offset ] ), 10 ) - offset ) || 1;
