@@ -5,6 +5,7 @@
 
 ( function() {
 	var cellNodeRegex = /^(?:td|th)$/,
+		isArray = CKEDITOR.tools.isArray,
 		fakeSelectedClass = 'cke_table-faked-selection',
 		fakeSelection;
 
@@ -97,8 +98,8 @@
 		return null;
 	}
 
-	function insertRow( editor, selection, insertBefore ) {
-		var cells = getSelectedCells( selection ),
+	function insertRow( selectionOrCells, insertBefore ) {
+		var cells = isArray( selectionOrCells ) ? selectionOrCells : getSelectedCells( selectionOrCells ),
 			firstCell = cells[ 0 ],
 			table = firstCell.getAscendant( 'table' ),
 			doc = firstCell.getDocument(),
@@ -134,11 +135,6 @@
 		}
 
 		insertBefore ? newRow.insertBefore( row ) : newRow.insertAfter( row );
-
-		// Restore original fake selection.
-		if ( editor && editor.config.tableImprovements ) {
-			fakeSelectCells( editor, cells );
-		}
 	}
 
 	function deleteRows( selectionOrRow ) {
@@ -230,8 +226,8 @@
 		return retval;
 	}
 
-	function insertColumn( editor, selection, insertBefore ) {
-		var cells = getSelectedCells( selection ),
+	function insertColumn( selectionOrCells, insertBefore ) {
+		var cells = isArray( selectionOrCells ) ? selectionOrCells : getSelectedCells( selectionOrCells ),
 			firstCell = cells[ 0 ],
 			table = firstCell.getAscendant( 'table' ),
 			startCol = getColumnsIndices( cells, 1 ),
@@ -270,11 +266,6 @@
 			}
 
 			i += cell.rowSpan - 1;
-		}
-
-		// Restore original fake selection.
-		if ( editor && editor.config.tableImprovements ) {
-			fakeSelectCells( editor, cells );
 		}
 	}
 
@@ -334,10 +325,9 @@
 		return cursorPosition;
 	}
 
-	function insertCell( editor, selection, insertBefore ) {
+	function insertCell( selection, insertBefore ) {
 		var startElement = selection.getStartElement(),
-			cell = startElement.getAscendant( 'td', 1 ) || startElement.getAscendant( 'th', 1 ),
-			cells = getSelectedCells( selection );
+			cell = startElement.getAscendant( 'td', 1 ) || startElement.getAscendant( 'th', 1 );
 
 		if ( !cell )
 			return;
@@ -350,11 +340,6 @@
 			newCell.insertBefore( cell );
 		else
 			newCell.insertAfter( cell );
-
-		// Restore original fake selection.
-		if ( editor && editor.config.tableImprovements ) {
-			fakeSelectCells( editor, cells );
-		}
 	}
 
 	function deleteCells( selectionOrCell ) {
@@ -434,7 +419,7 @@
 		return oCol;
 	}
 
-	function mergeCells( editor, selection, mergeDirection, isDetect ) {
+	function mergeCells( selection, mergeDirection, isDetect ) {
 		var cells = getSelectedCells( selection );
 
 		// Invalid merge request if:
@@ -546,12 +531,6 @@
 					count++;
 					continue;
 				}
-			}
-
-			// The selection resets automatically, but the visual selection
-			// must be deleted manually.
-			if ( editor && editor.config.tableImprovements ) {
-				clearFakeCellSelection( editor, true );
 			}
 
 			return firstCell;
@@ -948,16 +927,30 @@
 			addCmd( 'rowInsertBefore', createDef( {
 				requiredContent: 'table',
 				exec: function( editor ) {
-					var selection = editor.getSelection();
-					insertRow( editor, selection, true );
+					var selection = editor.getSelection(),
+						cells = getSelectedCells( selection );
+
+					insertRow( cells, true );
+
+					// Restore original fake selection.
+					if ( editor.config.tableImprovements ) {
+						fakeSelectCells( editor, cells );
+					}
 				}
 			} ) );
 
 			addCmd( 'rowInsertAfter', createDef( {
 				requiredContent: 'table',
 				exec: function( editor ) {
-					var selection = editor.getSelection();
-					insertRow( editor, selection );
+					var selection = editor.getSelection(),
+						cells = getSelectedCells( selection );
+
+					insertRow( cells );
+
+					// Restore original fake selection.
+					if ( editor.config.tableImprovements ) {
+						fakeSelectCells( editor, cells );
+					}
 				}
 			} ) );
 
@@ -973,16 +966,30 @@
 			addCmd( 'columnInsertBefore', createDef( {
 				requiredContent: 'table',
 				exec: function( editor ) {
-					var selection = editor.getSelection();
-					insertColumn( editor, selection, true );
+					var selection = editor.getSelection(),
+						cells = getSelectedCells( selection );
+
+					insertColumn( cells, true );
+
+					// Restore original fake selection.
+					if ( editor.config.tableImprovements ) {
+						fakeSelectCells( editor, cells );
+					}
 				}
 			} ) );
 
 			addCmd( 'columnInsertAfter', createDef( {
 				requiredContent: 'table',
 				exec: function( editor ) {
-					var selection = editor.getSelection();
-					insertColumn( editor, selection );
+					var selection = editor.getSelection(),
+						cells = getSelectedCells( selection );
+
+					insertColumn( cells );
+
+					// Restore original fake selection.
+					if ( editor.config.tableImprovements ) {
+						fakeSelectCells( editor, cells );
+					}
 				}
 			} ) );
 
@@ -990,8 +997,10 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
+
 					deleteCells( selection );
 
+					// Restore original fake selection.
 					if ( editor.config.tableImprovements ) {
 						clearFakeCellSelection( editor, true );
 					}
@@ -1002,7 +1011,13 @@
 				allowedContent: 'td[colspan,rowspan]',
 				requiredContent: 'td[colspan,rowspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor, editor.getSelection() ), true );
+					placeCursorInCell( mergeCells( editor.getSelection() ), true );
+
+					// The selection resets automatically, but the visual selection
+					// must be deleted manually.
+					if ( editor && editor.config.tableImprovements ) {
+						clearFakeCellSelection( editor, true );
+					}
 				}
 			} ) );
 
@@ -1010,7 +1025,13 @@
 				allowedContent: 'td[colspan]',
 				requiredContent: 'td[colspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor, editor.getSelection(), 'right' ), true );
+					placeCursorInCell( mergeCells( editor.getSelection(), 'right' ), true );
+
+					// The selection resets automatically, but the visual selection
+					// must be deleted manually.
+					if ( editor && editor.config.tableImprovements ) {
+						clearFakeCellSelection( editor, true );
+					}
 				}
 			} ) );
 
@@ -1018,7 +1039,13 @@
 				allowedContent: 'td[rowspan]',
 				requiredContent: 'td[rowspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor, editor.getSelection(), 'down' ), true );
+					placeCursorInCell( mergeCells( editor.getSelection(), 'down' ), true );
+
+					// The selection resets automatically, but the visual selection
+					// must be deleted manually.
+					if ( editor && editor.config.tableImprovements ) {
+						clearFakeCellSelection( editor, true );
+					}
 				}
 			} ) );
 
@@ -1041,16 +1068,30 @@
 			addCmd( 'cellInsertBefore', createDef( {
 				requiredContent: 'table',
 				exec: function( editor ) {
-					var selection = editor.getSelection();
-					insertCell( editor, selection, true );
+					var selection = editor.getSelection(),
+						cells = getSelectedCells( selection );
+
+					insertCell( selection, true );
+
+					// Restore original fake selection.
+					if ( editor.config.tableImprovements ) {
+						fakeSelectCells( editor, cells );
+					}
 				}
 			} ) );
 
 			addCmd( 'cellInsertAfter', createDef( {
 				requiredContent: 'table',
 				exec: function( editor ) {
-					var selection = editor.getSelection();
-					insertCell( editor, selection );
+					var selection = editor.getSelection(),
+						cells = getSelectedCells( selection );
+
+					insertCell( selection );
+
+					// Restore original fake selection.
+					if ( editor.config.tableImprovements ) {
+						fakeSelectCells( editor, cells );
+					}
 				}
 			} ) );
 
@@ -1068,9 +1109,9 @@
 								tablecell_insertBefore: CKEDITOR.TRISTATE_OFF,
 								tablecell_insertAfter: CKEDITOR.TRISTATE_OFF,
 								tablecell_delete: CKEDITOR.TRISTATE_OFF,
-								tablecell_merge: mergeCells( editor, selection, null, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-								tablecell_merge_right: mergeCells( editor, selection, 'right', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
-								tablecell_merge_down: mergeCells( editor, selection, 'down', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge: mergeCells( selection, null, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge_right: mergeCells( selection, 'right', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
+								tablecell_merge_down: mergeCells( selection, 'down', true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
 								tablecell_split_vertical: verticalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
 								tablecell_split_horizontal: horizontalSplitCell( selection, true ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED,
 								tablecell_properties: cells.length > 0 ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED
