@@ -137,10 +137,6 @@
 						}
 
 						if ( stylesMap[ part ] ) {
-							// Font size represents percentage.
-							if ( part == 'size' )
-								optionPart += '%';
-
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
 						} else if ( attributesMap[ part ] ) {
@@ -660,11 +656,7 @@
 								tagName = 'color';
 								value = CKEDITOR.tools.convertRgbToHex( value );
 							} else if ( ( value = style[ 'font-size' ] ) ) {
-								var percentValue = value.match( /(\d+)%$/ );
-								if ( percentValue ) {
-									value = percentValue[ 1 ];
-									tagName = 'size';
-								}
+								tagName = 'size';
 							}
 						} else if ( tagName == 'ol' || tagName == 'ul' ) {
 							if ( ( value = style[ 'list-style-type' ] ) ) {
