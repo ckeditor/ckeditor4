@@ -71,7 +71,7 @@
  *
  *		config.templates_files = [
  *			'/editor_templates/site_default.js',
- *			'http://www.example.com/user_templates.js
+ *			'http://www.example.com/user_templates.js'
  *		];
  *
  * @cfg
