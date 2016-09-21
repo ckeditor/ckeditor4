@@ -8,9 +8,8 @@
  */
 
 ( function() {
-	function getAlignment( element, useComputedState ) {
+	function getAlignment( editor, element, useComputedState ) {
 		useComputedState = useComputedState === undefined || useComputedState;
-
 		var align;
 		if ( useComputedState )
 			align = element.getComputedStyle( 'text-align' );
@@ -30,6 +29,10 @@
 		!align && useComputedState && ( align = element.getComputedStyle( 'direction' ) == 'rtl' ? 'right' : 'left' );
 
 		return align;
+	}
+
+	function alignmentIsSupported(widget, value) {
+		return !widget.features || !widget.features.align || widget.features.align[value];
 	}
 
 	function justifyCommand( editor, name, value ) {
@@ -126,9 +129,74 @@
 	}
 
 	justifyCommand.prototype = {
+		doAlignBlock: function(editor, block, useComputedState) {
+			block.removeAttribute( 'align' );
+			block.removeStyle( 'text-align' );
+
+			// Remove any of the alignment classes from the className.
+			var className = this.cssClassName && ( block.$.className = CKEDITOR.tools.ltrim( block.$.className.replace( this.cssClassRegex, '' ) ) );
+
+			var apply = ( this.state == CKEDITOR.TRISTATE_OFF ) && ( !useComputedState || ( getAlignment( editor, block, true ) != this.value ) );
+
+			if ( this.cssClassName ) {
+				// Append the desired class name.
+				if ( apply )
+					block.addClass( this.cssClassName );
+				else if ( !className )
+					block.removeAttribute( 'class' );
+			} else if ( apply ) {
+				block.setStyle( 'text-align', this.value );
+			}
+		},
+
+		doAlignRange: function(editor, range) {
+			var enterMode = editor.config.enterMode,
+				walker = new CKEDITOR.dom.walker(range),
+				useComputedState = editor.config.useComputedState,
+				block = walker.next();
+
+			useComputedState = useComputedState === undefined || useComputedState;
+			if (CKEDITOR.plugins.widget && block) {
+				if (CKEDITOR.plugins.widget.isDomWidgetWrapper(block)) {
+					var style = getComputedStyle(block.$, null).getPropertyValue('display');
+					if (style !== 'block' && style !== 'table') {
+						block = block.getParent();
+					}
+				}
+				if (block.type === CKEDITOR.NODE_TEXT) {
+					block = block.getParent();
+				}
+				do {
+					if (CKEDITOR.plugins.widget.isDomWidgetWrapper(block)) {
+						var widget = editor.widgets.getByElement(block, true);
+						if (!alignmentIsSupported(widget, this.value)) {
+							continue;
+						}
+						if (widget.setAlignment && !widget.setAlignment(editor, this)) {
+							range.setStartAfter(block.getLast());
+							walker = new CKEDITOR.dom.walker( range );
+							continue;
+						}
+					}
+					if (block.isReadOnly() || block.type != CKEDITOR.NODE_ELEMENT) {
+						continue;
+					}
+					this.doAlignBlock(editor, block, useComputedState)
+				} while ((block = walker.next()));
+			} else {
+				var iterator = range.createIterator();
+				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
+
+				while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
+					if ( block.isReadOnly() )
+						continue;
+					this.doAlignBlock(editor, block, useComputedState);
+				}
+			}
+		},
+
 		exec: function( editor ) {
-			var selection = editor.getSelection(),
-				enterMode = editor.config.enterMode;
+			var selection = editor.getSelection();
 
 			if ( !selection )
 				return;
@@ -136,39 +204,11 @@
 			var bookmarks = selection.createBookmarks(),
 				ranges = selection.getRanges();
 
-			var cssClassName = this.cssClassName,
-				iterator, block;
-
-			var useComputedState = editor.config.useComputedState;
-			useComputedState = useComputedState === undefined || useComputedState;
+			var range;
 
 			for ( var i = ranges.length - 1; i >= 0; i-- ) {
-				iterator = ranges[ i ].createIterator();
-				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
-
-				while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
-					if ( block.isReadOnly() )
-						continue;
-
-					block.removeAttribute( 'align' );
-					block.removeStyle( 'text-align' );
-
-					// Remove any of the alignment classes from the className.
-					var className = cssClassName && ( block.$.className = CKEDITOR.tools.ltrim( block.$.className.replace( this.cssClassRegex, '' ) ) );
-
-					var apply = ( this.state == CKEDITOR.TRISTATE_OFF ) && ( !useComputedState || ( getAlignment( block, true ) != this.value ) );
-
-					if ( cssClassName ) {
-						// Append the desired class name.
-						if ( apply )
-							block.addClass( cssClassName );
-						else if ( !className )
-							block.removeAttribute( 'class' );
-					} else if ( apply ) {
-						block.setStyle( 'text-align', this.value );
-					}
-				}
-
+				range = ranges[i];
+				this.doAlignRange(editor, range);
 			}
 
 			editor.focus();
@@ -178,8 +218,22 @@
 
 		refresh: function( editor, path ) {
 			var firstBlock = path.block || path.blockLimit;
+			var current;
+			var widget = editor.widgets ? editor.widgets.focused : false;
+			if (widget) {
+				if (!alignmentIsSupported(widget, this.value)) {
+					this.setState(CKEDITOR.TRISTATE_DISABLED);
+					return;
+				}
+				if (widget.getAlignment) {
+					current = widget.getAlignment(editor);
+				}
+			}
+			if (current === undefined) {
+				firstBlock.getName() != 'body' && (current = getAlignment( editor, firstBlock, this.editor.config.useComputedState ));
+			}
 
-			this.setState( firstBlock.getName() != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			this.setState( current == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 		}
 	};
 
