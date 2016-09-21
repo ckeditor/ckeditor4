@@ -968,7 +968,7 @@
 				element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || List.getElementIndentation( element );
 
 				if ( element.previous !== previous ) {
-					List.correctListLevels( lastList );
+					//List.correctListLevels( lastList );
 					List.chopDiscontinousLists( lastList, lists );
 					lists.push( lastList = [] );
 				}
