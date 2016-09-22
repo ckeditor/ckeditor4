@@ -102,7 +102,7 @@
 					continue;
 				}
 
-				if ( CKEDITOR.plugins.widget.isDomWidgetWrapper( node ) ) {
+				if ( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidgetWrapper( node ) ) {
 					var widget = editor.widgets.getByElement( node, true );
 					var alignment = getAlignment( editor, node, useComputedState );
 					var command = editor.getCommand( 'justify' + ( alignment === 'justify' ? 'block' : alignment ) );
