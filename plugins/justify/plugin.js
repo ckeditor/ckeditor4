@@ -157,7 +157,7 @@
 			}
 			if ( CKEDITOR.plugins.widget.isDomWidgetWrapper( block ) ) {
 				var style = getComputedStyle( block.$, null ).getPropertyValue( 'display' );
-				if ( style !== 'block' && style !== 'table' ) { //If display is not block-like, don't try to align this element
+				if ( style !== 'block' && style !== 'table' && block.getParent().getName() !== 'body' ) { //If display is not block-like, don't try to align this element
 					block = block.getParent();
 				}
 			}
