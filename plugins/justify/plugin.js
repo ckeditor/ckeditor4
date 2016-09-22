@@ -9,7 +9,7 @@
 
 ( function() {
 	function getAlignment( editor, element, useComputedState ) {
-		useComputedState = useComputedState === undefined || useComputedState;
+		useComputedState = useComputedState === undefined ? ( editor.config.useComputedState || true ) : useComputedState;
 		var align;
 		if ( useComputedState )
 			align = element.getComputedStyle( 'text-align' );
@@ -31,7 +31,7 @@
 		return align;
 	}
 
-	function alignmentIsSupported(widget, value) {
+	function alignmentIsSupported( widget, value ) {
 		return !widget.features || !widget.features.align || widget.features.align[value];
 	}
 
@@ -90,6 +90,7 @@
 		range.setEndAfter( e.data.node );
 
 		var walker = new CKEDITOR.dom.walker( range ),
+			useComputedState = editor.config.useComputedState || true,
 			node;
 
 		while ( ( node = walker.next() ) ) {
@@ -101,9 +102,24 @@
 					continue;
 				}
 
+				if ( CKEDITOR.plugins.widget.isDomWidgetWrapper( node ) ) {
+					var widget = editor.widgets.getByElement( node, true );
+					var alignment = getAlignment( editor, node, useComputedState );
+					var command = editor.getCommand( 'justify' + ( alignment === 'justify' ? 'block' : alignment ) );
+					if ( !alignmentIsSupported( widget, command.value ) ) {
+						continue;
+					}
+					if ( widget.setAlignment && !widget.setAlignment( editor, command ) ) {
+						range.setStartAfter( node.getLast() );
+						walker = new CKEDITOR.dom.walker( range );
+						continue;
+					}
+				}
+
 				// Switch the alignment.
 				var classes = editor.config.justifyClasses;
 				if ( classes ) {
+
 					// The left align class.
 					if ( node.hasClass( classes[ 0 ] ) ) {
 						node.removeClass( classes[ 0 ] );
@@ -128,8 +144,45 @@
 		}
 	}
 
+	function makeWidgetDoAlignRange( command ) {
+		return function( editor, range ) {
+			var walker = new CKEDITOR.dom.walker( range ),
+				useComputedState = editor.config.useComputedState,
+				block = walker.next() || editor.elementPath().lastElement;
+
+			useComputedState = useComputedState === undefined || useComputedState;
+
+			if ( block.type === CKEDITOR.NODE_TEXT ) {
+				block = block.getParent();
+			}
+			if ( CKEDITOR.plugins.widget.isDomWidgetWrapper( block ) ) {
+				var style = getComputedStyle( block.$, null ).getPropertyValue( 'display' );
+				if ( style !== 'block' && style !== 'table' ) { //If display is not block-like, don't try to align this element
+					block = block.getParent();
+				}
+			}
+			do {
+				if ( CKEDITOR.plugins.widget.isDomWidgetWrapper( block ) ) {
+					var widget = editor.widgets.getByElement( block, true );
+					if ( !alignmentIsSupported( widget, command.value ) ) {
+						continue;
+					}
+					if ( widget.setAlignment && !widget.setAlignment( editor, command ) ) {
+						range.setStartAfter( block.getLast() );
+						walker = new CKEDITOR.dom.walker( range );
+						continue;
+					}
+				}
+				if ( block.isReadOnly() || block.type != CKEDITOR.NODE_ELEMENT ) {
+					continue;
+				}
+				command.doAlignBlock( editor, block, useComputedState );
+			} while ( ( block = walker.next() ) );
+		};
+	}
+
 	justifyCommand.prototype = {
-		doAlignBlock: function(editor, block, useComputedState) {
+		doAlignBlock: function( editor, block, useComputedState ) {
 			block.removeAttribute( 'align' );
 			block.removeStyle( 'text-align' );
 
@@ -149,49 +202,23 @@
 			}
 		},
 
-		doAlignRange: function(editor, range) {
+		doAlignRange: function( editor, range ) {
+			if ( CKEDITOR.plugins.widget ) {
+				this.doAlignRange = makeWidgetDoAlignRange( this );
+				this.doAlignRange( editor, range );
+				return;
+			}
 			var enterMode = editor.config.enterMode,
-				walker = new CKEDITOR.dom.walker(range),
 				useComputedState = editor.config.useComputedState,
-				block = walker.next();
+				iterator = range.createIterator(),
+				block;
 
 			useComputedState = useComputedState === undefined || useComputedState;
-			if (CKEDITOR.plugins.widget && block) {
-				if (CKEDITOR.plugins.widget.isDomWidgetWrapper(block)) {
-					var style = getComputedStyle(block.$, null).getPropertyValue('display');
-					if (style !== 'block' && style !== 'table') {
-						block = block.getParent();
-					}
-				}
-				if (block.type === CKEDITOR.NODE_TEXT) {
-					block = block.getParent();
-				}
-				do {
-					if (CKEDITOR.plugins.widget.isDomWidgetWrapper(block)) {
-						var widget = editor.widgets.getByElement(block, true);
-						if (!alignmentIsSupported(widget, this.value)) {
-							continue;
-						}
-						if (widget.setAlignment && !widget.setAlignment(editor, this)) {
-							range.setStartAfter(block.getLast());
-							walker = new CKEDITOR.dom.walker( range );
-							continue;
-						}
-					}
-					if (block.isReadOnly() || block.type != CKEDITOR.NODE_ELEMENT) {
-						continue;
-					}
-					this.doAlignBlock(editor, block, useComputedState)
-				} while ((block = walker.next()));
-			} else {
-				var iterator = range.createIterator();
-				iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
+			iterator.enlargeBr = enterMode != CKEDITOR.ENTER_BR;
 
-				while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
-					if ( block.isReadOnly() )
-						continue;
-					this.doAlignBlock(editor, block, useComputedState);
-				}
+			while ( ( block = iterator.getNextParagraph( enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ) ) {
+				if ( !block.isReadOnly() )
+					this.doAlignBlock( editor, block, useComputedState );
 			}
 		},
 
@@ -208,7 +235,7 @@
 
 			for ( var i = ranges.length - 1; i >= 0; i-- ) {
 				range = ranges[i];
-				this.doAlignRange(editor, range);
+				this.doAlignRange( editor, range );
 			}
 
 			editor.focus();
@@ -220,17 +247,17 @@
 			var firstBlock = path.block || path.blockLimit;
 			var current;
 			var widget = editor.widgets ? editor.widgets.focused : false;
-			if (widget) {
-				if (!alignmentIsSupported(widget, this.value)) {
-					this.setState(CKEDITOR.TRISTATE_DISABLED);
+			if ( widget ) {
+				if ( !alignmentIsSupported( widget, this.value ) ) {
+					this.setState( CKEDITOR.TRISTATE_DISABLED );
 					return;
 				}
-				if (widget.getAlignment) {
-					current = widget.getAlignment(editor);
+				if ( widget.getAlignment ) {
+					current = widget.getAlignment( editor, this );
 				}
 			}
-			if (current === undefined) {
-				firstBlock.getName() != 'body' && (current = getAlignment( editor, firstBlock, this.editor.config.useComputedState ));
+			if ( current === undefined ) {
+				firstBlock.getName() != 'body' && ( current = getAlignment( editor, firstBlock, editor.config.useComputedState ) );
 			}
 
 			this.setState( current == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
