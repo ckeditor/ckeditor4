@@ -210,13 +210,14 @@
 	}
 
 	function getTableOnKeyPressListener( editor ) {
-		return function() {
+		return function( evt ) {
 			var selection = editor.getSelection(),
 				ranges,
 				range,
 				i;
 
-			if ( !selection || !selection.isInTable() || !selection.isFake ) {
+			// We must check if the event really did not produce any character as it's fired for all keys in Gecko.
+			if ( !selection || !selection.isInTable() || !selection.isFake || !evt.data.$.charCode || evt.data.$.ctrlKey ) {
 				return;
 			}
 
