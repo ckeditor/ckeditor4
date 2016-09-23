@@ -7,8 +7,18 @@
  * @fileOverview Justify commands.
  */
 
+var ALIGNMENTS = [ 'left', 'center', 'right', 'justify' ];
 ( function() {
 	function getAlignment( editor, element, useComputedState ) {
+		if ( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidgetWrapper( element ) ) {
+			element = editor.widgets.getByElement( element, true );
+		}
+		for ( var i = 0; i < ALIGNMENTS.length; i++ ) {
+			var cls = editor.config[ALIGNMENTS[i] + 'Class'];
+			if ( cls && element.hasClass( cls ) )
+				return ALIGNMENTS[i];
+		}
+
 		useComputedState = useComputedState === undefined ? ( editor.config.useComputedState || true ) : useComputedState;
 		var align;
 		if ( useComputedState )
@@ -157,6 +167,7 @@
 				}
 				if ( CKEDITOR.plugins.widget.isDomWidgetWrapper( block ) ) {
 					var widget = editor.widgets.getByElement( block, true );
+					var element = widget.element;
 					if ( alignmentIsSupported( widget, command.value ) ) { //If the widget doesn't support this alignment, skip the widget
 						if ( widget.setAlignment ) {
 							if ( widget.setAlignment( editor, command ) ) { //If the widget's align method returns true, recurse into the widget's children
@@ -181,6 +192,18 @@
 								block = block.getParent();
 								if ( block.getName() !== 'body' ) {
 									command.doAlignBlock( editor, block, useComputedState );
+								}
+							} else {
+								for ( var i = 0; i < ALIGNMENTS.length; i++ ) {
+									if ( editor.config[ALIGNMENTS[i] + 'Class'] ) {
+										element.removeClass( editor.config[ALIGNMENTS[i] + 'Class'] );
+									}
+								}
+								var cls = editor.config[command.value + 'Class'];
+								if ( cls ) {
+									element.addClass( cls );
+								} else {
+									command.doAlignBlock( editor, element, useComputedState );
 								}
 							}
 							range.setStartAfter( widget.element );
