@@ -295,6 +295,8 @@ var ALIGNMENTS = [ 'left', 'center', 'right', 'justify' ];
 				}
 				if ( widget.getAlignment ) {
 					current = widget.getAlignment( editor, this );
+				} else {
+					current = getAlignment( editor, widget.element, editor.config.useComputedState );
 				}
 			}
 			if ( current === undefined ) {
