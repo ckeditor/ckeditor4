@@ -151,32 +151,48 @@
 				block = walker.next() || editor.elementPath().lastElement;
 
 			useComputedState = useComputedState === undefined || useComputedState;
-
-			if ( block.type === CKEDITOR.NODE_TEXT ) {
-				block = block.getParent();
-			}
-			if ( CKEDITOR.plugins.widget.isDomWidgetWrapper( block ) ) {
-				var style = getComputedStyle( block.$, null ).getPropertyValue( 'display' );
-				if ( style !== 'block' && style !== 'table' && block.getParent().getName() !== 'body' ) { //If display is not block-like, don't try to align this element
+			do {
+				if ( block.type === CKEDITOR.NODE_TEXT ) {
 					block = block.getParent();
 				}
-			}
-			do {
 				if ( CKEDITOR.plugins.widget.isDomWidgetWrapper( block ) ) {
 					var widget = editor.widgets.getByElement( block, true );
-					if ( !alignmentIsSupported( widget, command.value ) ) {
+					if ( alignmentIsSupported( widget, command.value ) ) { //If the widget doesn't support this alignment, skip the widget
+						if ( widget.setAlignment ) {
+							if ( widget.setAlignment( editor, command ) ) { //If the widget's align method returns true, recurse into the widget's children
+								range.setStartAfter( widget.element );
+							} else {
+								range.setStartAfter( block.getLast() );
+							}
+							var style = getComputedStyle( widget.element.$ );
+							if ( widget.inline ) {
+								if ( style.getPropertyValue( 'display' ) === 'block' ||
+										style.getPropertyValue( 'display' ) === 'table' ||
+										style.getPropertyValue( 'float' ) !== 'none' ) {
+									block.addClass( 'cke_widget_block' );
+									block.removeClass( 'cke_widget_inline' );
+								} else {
+									block.addClass( 'cke_widget_inline' );
+									block.removeClass( 'cke_widget_block' );
+								}
+							}
+						} else if ( widget.inline ) {
+							block = block.getParent();
+							if ( block.getName() !== 'body' ) {
+								command.doAlignBlock( editor, block, useComputedState );
+							}
+							range.setStartAfter( widget.element );
+						}
+					} else {
+						range.setStartAfter( widget.element );
+					}
+					walker = new CKEDITOR.dom.walker( range );
+				} else {
+					if ( block.isReadOnly() || block.type != CKEDITOR.NODE_ELEMENT ) {
 						continue;
 					}
-					if ( widget.setAlignment && !widget.setAlignment( editor, command ) ) {
-						range.setStartAfter( block.getLast() );
-						walker = new CKEDITOR.dom.walker( range );
-						continue;
-					}
+					command.doAlignBlock( editor, block, useComputedState );
 				}
-				if ( block.isReadOnly() || block.type != CKEDITOR.NODE_ELEMENT ) {
-					continue;
-				}
-				command.doAlignBlock( editor, block, useComputedState );
 			} while ( ( block = walker.next() ) );
 		};
 	}
