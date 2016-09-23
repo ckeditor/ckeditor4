@@ -188,17 +188,18 @@ var ALIGNMENTS = [ 'left', 'center', 'right', 'justify' ];
 								}
 							}
 						} else {
+							element.removeAttribute( 'align' );
+							for ( var i = 0; i < ALIGNMENTS.length; i++ ) {
+								if ( editor.config[ALIGNMENTS[i] + 'Class'] ) {
+									element.removeClass( editor.config[ALIGNMENTS[i] + 'Class'] );
+								}
+							}
 							if ( widget.inline ) {
 								block = block.getParent();
 								if ( block.getName() !== 'body' ) {
 									command.doAlignBlock( editor, block, useComputedState );
 								}
 							} else {
-								for ( var i = 0; i < ALIGNMENTS.length; i++ ) {
-									if ( editor.config[ALIGNMENTS[i] + 'Class'] ) {
-										element.removeClass( editor.config[ALIGNMENTS[i] + 'Class'] );
-									}
-								}
 								var cls = editor.config[command.value + 'Class'];
 								if ( cls ) {
 									element.addClass( cls );
