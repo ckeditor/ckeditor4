@@ -176,10 +176,12 @@
 									block.removeClass( 'cke_widget_block' );
 								}
 							}
-						} else if ( widget.inline ) {
-							block = block.getParent();
-							if ( block.getName() !== 'body' ) {
-								command.doAlignBlock( editor, block, useComputedState );
+						} else {
+							if ( widget.inline ) {
+								block = block.getParent();
+								if ( block.getName() !== 'body' ) {
+									command.doAlignBlock( editor, block, useComputedState );
+								}
 							}
 							range.setStartAfter( widget.element );
 						}
