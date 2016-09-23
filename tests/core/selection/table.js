@@ -14,7 +14,7 @@
 	var selectedClass = 'cke_table-faked-selection';
 
 	function getKeyEvent( keyCode, preventDefaultCallback ) {
-		var evt = new CKEDITOR.dom.event( { keyCode: keyCode } );
+		var evt = new CKEDITOR.dom.event( typeof keyCode === 'object' ? keyCode : { keyCode: keyCode, charCode: keyCode } );
 		evt.preventDefault = function() {
 			preventDefaultCallback && preventDefaultCallback();
 		};
@@ -717,6 +717,74 @@
 			for ( i = 0; i < ranges.length; i++ ) {
 				if ( bender.tools.compatHtml( ranges[ i ].getEnclosedNode().getHtml(), 0, 0, 1 ).length > 0 ) {
 					assert.fail( 'Content was not overwritten' );
+				}
+			}
+
+			clearTableSelection( editor.editable() );
+		},
+
+		'Not overwriting content in table fake selection via keypress when no character is produced': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				prevented = false,
+				ranges,
+				i;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+
+			selection.selectRanges( ranges );
+
+			// Random keypress.
+			editor.editable().fire( 'keypress', getKeyEvent( { keyCode: 113, charCode: 0 }, function() {
+				prevented = true;
+			} ) );
+
+			assert.isFalse( prevented, 'Default keypress was not prevented' );
+
+			assert.isTrue( !!selection.isFake, 'isFake is set' );
+			assert.isTrue( selection.isInTable(), 'isInTable is true' );
+			assert.areSame( 2, selection.getRanges().length, 'All ranges are selected' );
+
+			// Check if the content is actually ovewritten.
+			for ( i = 0; i < ranges.length; i++ ) {
+				if ( bender.tools.compatHtml( ranges[ i ].getEnclosedNode().getHtml(), 0, 0, 1 ).length === 0 ) {
+					assert.fail( 'Content was overwritten' );
+				}
+			}
+
+			clearTableSelection( editor.editable() );
+		},
+
+		'Not overwriting content in table fake selection via keypress when Ctrl is pressed': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				prevented = false,
+				ranges,
+				i;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+
+			selection.selectRanges( ranges );
+
+			// Random keypress.
+			editor.editable().fire( 'keypress', getKeyEvent( { keyCode: 65, charCode: 65, ctrlKey: true }, function() {
+				prevented = true;
+			} ) );
+
+			assert.isFalse( prevented, 'Default keypress was not prevented' );
+
+			assert.isTrue( !!selection.isFake, 'isFake is set' );
+			assert.isTrue( selection.isInTable(), 'isInTable is true' );
+			assert.areSame( 2, selection.getRanges().length, 'All ranges are selected' );
+
+			// Check if the content is actually ovewritten.
+			for ( i = 0; i < ranges.length; i++ ) {
+				if ( bender.tools.compatHtml( ranges[ i ].getEnclosedNode().getHtml(), 0, 0, 1 ).length === 0 ) {
+					assert.fail( 'Content was overwritten' );
 				}
 			}
 
