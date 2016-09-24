@@ -341,6 +341,16 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		heightField[ method ]();
 	}
 
+	function validateHVSpace() {
+		var match = this.getValue().match( regexGetSizeOrEmpty ),
+			isValid = !!( match && parseInt( match[ 1 ], 10 ) !== 0 );
+
+		if ( !isValid )
+			alert( 'Invalid measurement for margin' );
+
+		return isValid;
+	}
+
 	var hasFileBrowser = !!( config.filebrowserImageBrowseUrl || config.filebrowserBrowseUrl ),
 		srcBoxChildren = [
 			{
@@ -483,6 +493,44 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 									widget.setData( 'lock', lockRatio );
 								},
 								html: lockResetHtml
+							}
+						]
+					},
+					{
+						type: 'hbox',
+						widths: [ '25%', '25%', '50%' ],
+						requiredContent: features.dimension.requiredContent,
+						children: [
+							{
+								type: 'text',
+								width: '45px',
+								id: 'hspace',
+								label: 'HSpace',
+								validate: validateHVSpace,
+								setup: function( widget ) {
+									this.setValue( widget.data.hspace || '' );
+								},
+								commit: function( widget ) {
+									widget.setData( 'hspace', this.getValue() );
+								}
+							},
+							{
+								type: 'text',
+								id: 'vspace',
+								width: '45px',
+								label: 'VSpace',
+								validate: validateHVSpace,
+								setup: function( widget ) {
+									this.setValue( widget.data.vspace || '' );
+								},
+								commit: function( widget ) {
+									widget.setData( 'vspace', this.getValue() );
+								}
+							},
+							{
+								type: 'hbox',
+								widths: [ '100%' ],
+								children: []
 							}
 						]
 					},

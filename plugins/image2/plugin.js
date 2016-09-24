@@ -354,6 +354,8 @@
 				if ( editor.filter.checkFeature( features.dimension ) )
 					setDimensions( this );
 
+				setHVSpace( this );
+
 				// Cache current data.
 				this.oldData = CKEDITOR.tools.extend( {}, this.data );
 			},
@@ -367,6 +369,8 @@
 						alt: image.getAttribute( 'alt' ) || '',
 						width: image.getAttribute( 'width' ) || '',
 						height: image.getAttribute( 'height' ) || '',
+						hspace: image.$.style.marginLeft || '',
+						vspace: image.$.style.marginTop || ''
 
 						// Lock ratio is on by default (#10833).
 						lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
@@ -1109,6 +1113,25 @@
 			else
 				image.removeAttribute( d );
 		}
+	}
+
+	// Sets hspace and vspace
+	//
+	// @param {CKEDITOR.plugins.widget} widget
+	function setHVSpace( widget ) {
+
+		var vspace = widget.data.vspace || '';
+		var hspace = widget.data.hspace || '';
+		if (vspace) {
+			vspace = parseInt(vspace) + 'px';
+		}
+		if (hspace) {
+			hspace = parseInt(hspace) + 'px';
+		}
+		widget.parts.image.$.style.marginTop = vspace;
+		widget.parts.image.$.style.marginBottom = vspace;
+		widget.parts.image.$.style.marginLeft = hspace;
+		widget.parts.image.$.style.marginRight = hspace;
 	}
 
 	// Defines all features related to drag-driven image resizing.
