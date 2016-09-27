@@ -1697,3 +1697,13 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * @cfg {String[]} [image2_alignClasses=null]
  * @member CKEDITOR.config
  */
+
+/**
+ * Determines whether alternative text is required.
+ *
+ *		config.image2_altRequired = false;
+ *
+ * @since 4.6.0
+ * @cfg {Boolean} [image2_altRequired=false]
+ * @member CKEDITOR.config
+ */
