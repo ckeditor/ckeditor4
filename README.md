@@ -1,6 +1,18 @@
 CKEditor 4 - The best browser-based WYSIWYG editor
 ==================================================
 
+## TAO Fork considerations
+
+### Build
+
+```sh
+cd dev/builder
+./build.sh
+sudo php oneFile.php
+```
+
+The release is located under `release/ckeditor-reduced`. The complete folder can be copied into `tao/views/js/lib/ckeditor`
+
 ## Development Code
 
 This repository contains the development version of CKEditor.
