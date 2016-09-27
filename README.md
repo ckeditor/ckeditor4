@@ -3,6 +3,30 @@ CKEditor 4 - The best browser-based WYSIWYG editor
 
 ## TAO Fork considerations
 
+### Version
+
+Change the version  before buidling into `dev/builder/build.sh` and modify the `VERSION` bash variable.
+Keep the CK versioning and append the TAO build version.
+
+For example :
+
+```sh
+VERSION="4.4.7 DEV"
+```
+
+Becomes
+
+```sh
+VERSION="4.4.7 TAO-1"
+```
+
+Then
+
+```sh
+VERSION="4.4.7 TAO-2"
+```
+
+
 ### Build
 
 ```sh
@@ -12,6 +36,10 @@ sudo php oneFile.php
 ```
 
 The release is located under `release/ckeditor-reduced`. The complete folder can be copied into `tao/views/js/lib/ckeditor`
+
+
+
+
 
 ## Development Code
 
