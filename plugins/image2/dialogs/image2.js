@@ -41,6 +41,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		// Editor instance configuration.
 		config = editor.config,
 
+		hasFileBrowser = !!( config.filebrowserImageBrowseUrl || config.filebrowserBrowseUrl ),
+
 		// Content restrictions defined by the widget which
 		// impact on dialog structure and presence of fields.
 		features = editor.widgets.registered.image.features,
@@ -341,8 +343,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		heightField[ method ]();
 	}
 
-	var hasFileBrowser = !!( config.filebrowserImageBrowseUrl || config.filebrowserBrowseUrl ),
-		srcBoxChildren = [
+	var srcBoxChildren = [
 			{
 				id: 'src',
 				type: 'text',
