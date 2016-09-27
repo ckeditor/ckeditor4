@@ -15,10 +15,11 @@ $plugins = array(
     'taoqtimaths',
     'taoqtimedia',
     'taounderline',
+    'taohighlight',
     'taoqtiinclude'
 );
 
 $one = new OneFileCompiler($dir.'release/ckeditor/', $dir.'release/ckeditor-reduced/', 'en');
 $one->compile($plugins);
 $res = $one->getOutputResources($plugins);
-print_r(json_encode($res)); 
+print_r(json_encode($res));
