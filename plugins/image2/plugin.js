@@ -1440,7 +1440,7 @@
 						displayTextField.hide();
 					} else {
 						// Make sure that display text is visible, as it might be hidden by image2 integration
-						// before. 
+						// before.
 						displayTextField.show();
 						onShow.apply( this, arguments );
 					}
