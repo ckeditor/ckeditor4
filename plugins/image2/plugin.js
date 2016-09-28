@@ -1440,7 +1440,7 @@
 						displayTextField.hide();
 					} else {
 						// Make sure that display text is visible, as it might be hidden by image2 integration
-						// before. 
+						// before.
 						displayTextField.show();
 						onShow.apply( this, arguments );
 					}
@@ -1695,5 +1695,15 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  * @since 4.4
  * @cfg {String[]} [image2_alignClasses=null]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Determines whether alternative text is required.
+ *
+ *		config.image2_altRequired = false;
+ *
+ * @since 4.6.0
+ * @cfg {Boolean} [image2_altRequired=false]
  * @member CKEDITOR.config
  */

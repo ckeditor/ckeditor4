@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'nl', {
 	resizer: 'Klik en sleep om te herschalen',
 	title: 'Afbeeldingseigenschappen',
 	uploadTab: 'Uploaden',
-	urlMissing: 'De URL naar de afbeelding ontbreekt.'
+	urlMissing: 'De URL naar de afbeelding ontbreekt.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

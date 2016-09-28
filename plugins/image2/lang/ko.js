@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ko', {
 	resizer: '크기를 조절하려면 클릭 후 드래그 하세요',
 	title: '이미지 속성',
 	uploadTab: '업로드',
-	urlMissing: '이미지 원본 주소(URL)가 없습니다.'
+	urlMissing: '이미지 원본 주소(URL)가 없습니다.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

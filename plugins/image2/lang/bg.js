@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'bg', {
 	resizer: 'Кликни и влачи, за да преоразмериш',
 	title: 'Настройки на изображението',
 	uploadTab: 'Качване',
-	urlMissing: 'URL адреса на изображението липсва.'
+	urlMissing: 'URL адреса на изображението липсва.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

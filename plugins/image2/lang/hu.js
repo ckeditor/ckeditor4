@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'hu', {
 	resizer: 'Kattints és húzz az átméretezéshez',
 	title: 'Kép tulajdonságai',
 	uploadTab: 'Feltöltés',
-	urlMissing: 'Hiányzik a kép URL-je'
+	urlMissing: 'Hiányzik a kép URL-je',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

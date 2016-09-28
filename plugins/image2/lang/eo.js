@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'eo', {
 	resizer: 'Kliki kaj treni por ŝanĝi la grandon',
 	title: 'Atributoj de Bildo',
 	uploadTab: 'Alŝuti',
-	urlMissing: 'La fontretadreso de la bildo mankas.'
+	urlMissing: 'La fontretadreso de la bildo mankas.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

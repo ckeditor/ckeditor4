@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'si', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'රුපයේ ',
 	uploadTab: 'උඩුගතකිරීම',
-	urlMissing: 'රුප මුලාශ්‍ර URL නැත.'
+	urlMissing: 'රුප මුලාශ්‍ර URL නැත.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

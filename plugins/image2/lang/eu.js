@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'eu', {
 	resizer: 'Klikatu eta arrastatu tamainaz aldatzeko',
 	title: 'Irudiaren propietateak',
 	uploadTab: 'Kargatu',
-	urlMissing: 'Irudiaren iturburuaren URLa falta da.'
+	urlMissing: 'Irudiaren iturburuaren URLa falta da.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

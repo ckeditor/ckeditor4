@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'sk', {
 	resizer: 'Kliknite a potiahnite pre zmenu veľkosti',
 	title: 'Vlastnosti obrázka',
 	uploadTab: 'Nahrať',
-	urlMissing: 'Chýba URL zdroja obrázka.'
+	urlMissing: 'Chýba URL zdroja obrázka.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'sr', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Особине слика',
 	uploadTab: 'Пошаљи',
-	urlMissing: 'Недостаје УРЛ слике.'
+	urlMissing: 'Недостаје УРЛ слике.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

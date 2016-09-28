@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ru', {
 	resizer: 'Нажмите и растяните',
 	title: 'Свойства изображения',
 	uploadTab: 'Загрузка файла',
-	urlMissing: 'Не указана ссылка на изображение.'
+	urlMissing: 'Не указана ссылка на изображение.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'lv', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Attēla īpašības',
 	uploadTab: 'Augšupielādēt',
-	urlMissing: 'Trūkst attēla atrašanās adrese.'
+	urlMissing: 'Trūkst attēla atrašanās adrese.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );
