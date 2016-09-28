@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'et', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Pildi omadused',
 	uploadTab: 'Lae üles',
-	urlMissing: 'Pildi lähte-URL on puudu.'
+	urlMissing: 'Pildi lähte-URL on puudu.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

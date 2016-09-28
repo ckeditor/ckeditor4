@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'hi', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'तस्वीर प्रॉपर्टीज़',
 	uploadTab: 'अपलोड',
-	urlMissing: 'Image source URL is missing.' // MISSING
+	urlMissing: 'Image source URL is missing.', // MISSING
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

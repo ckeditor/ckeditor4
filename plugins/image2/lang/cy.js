@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'cy', {
 	resizer: 'Clicio a llusgo i ail-meintio',
 	title: 'Priodweddau Delwedd',
 	uploadTab: 'Lanlwytho',
-	urlMissing: 'URL gwreiddiol y ddelwedd ar goll.'
+	urlMissing: 'URL gwreiddiol y ddelwedd ar goll.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ja', {
 	resizer: 'ドラッグしてリサイズ',
 	title: '画像のプロパティ',
 	uploadTab: 'アップロード',
-	urlMissing: '画像のURLを入力してください。'
+	urlMissing: '画像のURLを入力してください。',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'gu', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'ચિત્રના ગુણ',
 	uploadTab: 'અપલોડ',
-	urlMissing: 'ઈમેજની મૂળ URL છે નહી.'
+	urlMissing: 'ઈમેજની મૂળ URL છે નહી.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

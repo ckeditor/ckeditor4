@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'tt', {
 	resizer: 'Күчереп куер өчен басып шудырыгыз',
 	title: 'Рәсем үзлекләре',
 	uploadTab: 'Йөкләү',
-	urlMissing: 'Image source URL is missing.' // MISSING
+	urlMissing: 'Image source URL is missing.', // MISSING
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

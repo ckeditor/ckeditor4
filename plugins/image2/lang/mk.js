@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'mk', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Својства на сликата',
 	uploadTab: 'Прикачи',
-	urlMissing: 'Недостасува URL-то на сликата.'
+	urlMissing: 'Недостасува URL-то на сликата.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

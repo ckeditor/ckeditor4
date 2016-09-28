@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'no', {
 	resizer: 'Klikk og dra for å endre størrelse',
 	title: 'Bildeegenskaper',
 	uploadTab: 'Last opp',
-	urlMissing: 'Bildets adresse mangler.'
+	urlMissing: 'Bildets adresse mangler.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

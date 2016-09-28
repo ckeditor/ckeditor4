@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ro', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Proprietăţile imaginii',
 	uploadTab: 'Încarcă',
-	urlMissing: 'Sursa URL a imaginii lipsește.'
+	urlMissing: 'Sursa URL a imaginii lipsește.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

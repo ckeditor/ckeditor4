@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'zh-cn', {
 	resizer: '点击并拖拽以改变尺寸',
 	title: '图像属性',
 	uploadTab: '上传',
-	urlMissing: '缺少图像源文件地址'
+	urlMissing: '缺少图像源文件地址',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

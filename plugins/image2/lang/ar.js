@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ar', {
 	resizer: 'انقر ثم اسحب للتحجيم',
 	title: 'خصائص الصورة',
 	uploadTab: 'رفع',
-	urlMissing: 'عنوان مصدر الصورة مفقود'
+	urlMissing: 'عنوان مصدر الصورة مفقود',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );
