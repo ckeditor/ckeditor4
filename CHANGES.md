@@ -13,7 +13,7 @@ New Features:
 * [#14449](http://dev.ckeditor.com/ticket/14449): Introduced the [Balloon Panel](http://ckeditor.com/addon/balloonpanel) plugin.
 * [#12077](https://dev.ckeditor.com/ticket/12077): Added support for the HTML5 `download` attribute in link (`<a>`) elements. Thanks to [sbusse](https://github.com/sbusse)!
 * [#13518](http://dev.ckeditor.com/ticket/13518): Introduced [`additionalRequestParameters`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property.
-* [#14889](http://dev.ckeditor.com/ticket/14889): Added the [`config.image2_altRequired`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_altRequired) option to allow making alternative text a mandatory field.
+* [#14889](http://dev.ckeditor.com/ticket/14889): Added the [`config.image2_altRequired`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_altRequired) option to allow making alternative text a mandatory field. Thanks to [Andrey Fedoseev](https://github.com/andreyfedoseev)!
 
 Fixed Issues:
 
