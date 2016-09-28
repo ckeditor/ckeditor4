@@ -37,8 +37,7 @@ sudo php oneFile.php
 
 The release is located under `release/ckeditor-reduced`. The complete folder can be copied into `tao/views/js/lib/ckeditor`
 
-
-
+The built versions checksums aren't identical because the source code contains timestamps generated at build time.
 
 
 ## Development Code
