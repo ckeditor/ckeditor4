@@ -1324,6 +1324,32 @@
 		},
 
 		/**
+		 * Returns keystroke that is assigned to specified {@link CKEDITOR.command}. If there is no keystroke assigned - returns null.
+		 *
+		 * @since 4.6.0
+		 * @param {CKEDITOR.command} command
+		 * @returns {Number} Keystroke assigned to provided command or null if there is no keystroke.
+		 */
+		getCommandKeystroke: function( command ) {
+			var commandName = command.name,
+				keystrokes = this.keystrokeHandler.keystrokes,
+				key;
+
+			// Some commands have a fake keystroke - for example CUT/COPY/PASTE commands are handled natively.
+			if ( command.fakeKeystroke ) {
+				return command.fakeKeystroke;
+			}
+
+			for ( key in keystrokes ) {
+				if ( keystrokes.hasOwnProperty( key ) && keystrokes[ key ] == commandName ) {
+					return key;
+				}
+			}
+
+			return null;
+		},
+
+		/**
 		 * Shorthand for {@link CKEDITOR.filter#addFeature}.
 		 *
 		 * @since 4.1

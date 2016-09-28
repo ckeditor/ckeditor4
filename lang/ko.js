@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		alignMiddle: '중간',
 		alignBottom: '아래',
 		alignNone: '기본',
-		invalidValue	: '잘못된 값.',
+		invalidValue: '잘못된 값.',
 		invalidHeight: '높이는 숫자여야 합니다.',
 		invalidWidth: '넓이는 숫자여야 합니다.',
 		invalidCssLength: '"%1" 값은 유효한 CSS 측정 단위(px, %, in, cm, mm, em, ex, pt, or pc)를 포함하거나 포함하지 않은 양수 여야 합니다.',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'ko' ] = {
 		cssLengthTooltip: '픽셀 단위의 숫자만 입력하시거나 유효한 CSS 단위(px, %, in, cm, mm, em, ex, pt, or pc)와 함께 숫자를 입력해주세요.',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, 사용불가</span>'
+		unavailable: '%1<span class="cke_accessibility">, 사용불가</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

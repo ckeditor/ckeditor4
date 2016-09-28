@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'si' ] = {
 		alignMiddle: 'මැද',
 		alignBottom: 'පහල',
 		alignNone: 'None', // MISSING
-		invalidValue	: 'වැරදී වටිනාකමකි',
+		invalidValue: 'වැරදී වටිනාකමකි',
 		invalidHeight: 'උස අංකයක් විය යුතුය',
 		invalidWidth: 'පළල අංකයක් විය යුතුය',
 		invalidCssLength: 'වටිනාකමක් නිරූපණය කිරීම "%1" ප්‍රදේශය ධන සංක්‍යාත්මක වටිනාකමක් හෝ  නිවරදි නොවන  CSS මිනුම් එකක(px, %, in, cm, mm, em, ex, pt, pc)',
@@ -94,6 +94,23 @@ CKEDITOR.lang[ 'si' ] = {
 		cssLengthTooltip: 'සංක්‍යා ඇතුලත් කිරීමේදී වටිනාකම තිත් ප්‍රමාණය නිවරදි CSS  ඒකක(තිත්, %, අඟල්,සෙමි, mm, em, ex, pt, pc)',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span පන්තිය="ළඟා වියහැකි ද බලන්න">, නොමැතිනම්</span>'
+		unavailable: '%1<span පන්තිය="ළඟා වියහැකි ද බලන්න">, නොමැතිනම්</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

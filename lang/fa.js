@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		alignMiddle: 'میانه',
 		alignBottom: 'پائین',
 		alignNone: 'هیچ',
-		invalidValue	: 'مقدار نامعتبر.',
+		invalidValue: 'مقدار نامعتبر.',
 		invalidHeight: 'ارتفاع باید یک عدد باشد.',
 		invalidWidth: 'عرض باید یک عدد باشد.',
 		invalidCssLength: 'عدد تعیین شده برای فیلد "%1" باید یک عدد مثبت با یا بدون یک واحد اندازه گیری CSS معتبر باشد (px, %, in, cm, mm, em, ex, pt, or pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'fa' ] = {
 		cssLengthTooltip: 'یک عدد برای یک مقدار بر حسب پیکسل و یا یک عدد با یک واحد CSS معتبر وارد کنید (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">، غیر قابل دسترس</span>'
+		unavailable: '%1<span class="cke_accessibility">، غیر قابل دسترس</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

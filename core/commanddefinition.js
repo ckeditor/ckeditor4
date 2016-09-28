@@ -146,3 +146,13 @@
  * @since 4.0
  * @property {Boolean} [readOnly=false]
  */
+
+/**
+ * Property should be set when command has no keystroke assigned by {@link CKEDITOR.editor#setKeystroke}, but
+ * keystroke is still supported. For example: `cut`, `copy` and `paste` commands are handled that way.
+ * This property is used when displaying keystroke information in tooltips and context menus. It is used by
+ * {@link CKEDITOR.editor#getCommandKeystroke}.
+ *
+ * @since 4.6.0
+ * @property {Number} fakeKeystroke
+ */

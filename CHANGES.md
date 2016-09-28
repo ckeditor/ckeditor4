@@ -6,6 +6,7 @@ CKEditor 4 Changelog
 New Features:
 
 * [#14569](http://dev.ckeditor.com/ticket/14569): Added new CKEditor skin.
+* [#10015](http://dev.ckeditor.com/ticket/10015): Make keyboard controls more discoverable.
 * [#12541](http://dev.ckeditor.com/ticket/12541): Added the [Upload File](http://ckeditor.com/addon/uploadfile) plugin.
 * [#13794](http://dev.ckeditor.com/ticket/13794): [Upload Image](http://ckeditor.com/addon/uploadimage) Use `uploaded.width/height` if set.
 * [#13829](http://dev.ckeditor.com/ticket/13829): Fixed: No class in [Widget](http://ckeditor.com/addon/widget) wrapper that would identify the widget type.

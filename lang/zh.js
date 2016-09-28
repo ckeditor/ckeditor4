@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		alignMiddle: '中間對齊',
 		alignBottom: '底端',
 		alignNone: '無',
-		invalidValue	: '無效值。',
+		invalidValue: '無效值。',
 		invalidHeight: '高度必須為數字。',
 		invalidWidth: '寬度必須為數字。',
 		invalidCssLength: '「%1」的值應為正數，並可包含有效的 CSS 單位 (px, %, in, cm, mm, em, ex, pt, 或 pc)。',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'zh' ] = {
 		cssLengthTooltip: '請輸入數值，單位是像素或有效的 CSS 單位 (px, %, in, cm, mm, em, ex, pt, 或 pc)。',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">，無法使用</span>'
+		unavailable: '%1<span class="cke_accessibility">，無法使用</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };
