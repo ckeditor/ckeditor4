@@ -20,13 +20,12 @@
 		spies: [],
 
 		tearDown: function() {
-			var currentDialog = CKEDITOR.dialog.getCurrent();
+			var currentDialog = CKEDITOR.dialog.getCurrent(),
+				spy;
 
 			if ( currentDialog ) {
 				currentDialog.hide();
 			}
-
-			var spy;
 
 			while ( spy = this.spies.pop() ) {
 				spy.restore();
@@ -59,7 +58,7 @@
 					dialog.setValueOf( 'info', 'src', '_assets/foo.png' );
 					dialog.getButton( 'ok' ).click();
 					assert.isTrue( spy.calledOnce );
-					assert.areEqual( spy.args[0][0], bot.editor.lang.image2.altMissing, 'Should have proper alert message.' );
+					assert.areEqual( spy.args[0][0], bot.editor.lang.image2.altMissing, 'Should have proper alert message' );
 
 					assert.areEqual( '', bot.editor.getData(), 'Content should not be set' );
 					assert.areNotEqual( null, CKEDITOR.dialog.getCurrent(), 'Dialog should be not be closed' );
