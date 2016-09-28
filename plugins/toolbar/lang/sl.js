@@ -3,20 +3,20 @@ Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sl', {
-	toolbarCollapse: 'Skrči Orodno Vrstico',
-	toolbarExpand: 'Razširi Orodno Vrstico',
+	toolbarCollapse: 'Skrči orodno vrstico',
+	toolbarExpand: 'Razširi orodno vrstico',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: 'Dokument',
+		clipboard: 'Odložišče/Razveljavi',
+		editing: 'Urejanje',
+		forms: 'Obrazci',
+		basicstyles: 'Osnovni slogi',
+		paragraph: 'Odstavek',
+		links: 'Povezave',
+		insert: 'Vstavi',
+		styles: 'Slogi',
+		colors: 'Barve',
+		tools: 'Orodja'
 	},
-	toolbars: 'Urejevalnik orodne vrstice'
+	toolbars: 'Orodne vrstice urejevalnika'
 } );

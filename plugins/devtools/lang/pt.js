@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'devtools', 'pt', {
 	dialogName: 'Nome da janela de diálogo',
 	tabName: 'Nome do separador',
 	elementId: 'ID do elemento',
-	elementType: 'Tipo de Elemento'
+	elementType: 'Tipo de elemento'
 } );

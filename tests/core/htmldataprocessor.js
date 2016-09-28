@@ -14,6 +14,10 @@
 		return CKEDITOR.document.getById( id ).getValue().replace( /\r/gi, '' );
 	}
 
+	function fixHtml( html ) {
+		return bender.tools.compatHtml( html, true, true, true, true );
+	}
+
 	// Use inline editor for this test to ensure that testXss function will be always accessible,
 	// regardless on how test is ran and in which place (htmlDP or editable) it is executed.
 	function addXssTC( tcs, name, input, output ) {
@@ -415,7 +419,7 @@
 				dataProcessor.toDataFormat( '<p>x<a data-cke-saved-name="foo" name="foo"></a>x</p>' ), 'toDF' );
 
 			assert.areSame( '<p>x<a data-cke-saved-name="foo" name="foo"></a>x</p>',
-				dataProcessor.toHtml( '<p>x<a name="foo"></a>x</p>' ), 'toHtml' );
+				fixHtml( dataProcessor.toHtml( '<p>x<a name="foo"></a>x</p>' ) ), 'toHtml' );
 		},
 
 		'test empty anchor with id': function() {

@@ -5,35 +5,35 @@
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 	title: 'Instructions d\'accessibilité',
-	contents: 'Contenu de l\'aide. Pour fermer ce dialogue, appuyez sur la touche ÉCHAP (Echappement).',
+	contents: 'Contenu de l\'aide. Pour fermer cette fenêtre, appuyez sur la touche Échap.',
 	legend: [
 		{
 		name: 'Général',
 		items: [
 			{
 			name: 'Barre d\'outils de l\'éditeur',
-			legend: 'Appuyer sur ${toolbarFocus} pour accéder à la barre d\'outils. Se déplacer vers les groupes suivant ou précédent de la barre d\'outil avec les touches MAJ et MAJ+TAB. Se déplacer vers les boutons suivant ou précédent de la barre d\'outils avec les touches FLÈCHE DROITE et FLÈCHE GAUCHE. Appuyer sur la barre d\'espace ou la touche ENTRÉE pour activer le bouton de barre d\'outils.'
+			legend: 'Appuyer sur ${toolbarFocus} pour accéder à la barre d\'outils. Se déplacer vers le groupe suivant ou précédent de la barre d\'outils avec les touches Tab et Maj+Tab. Se déplacer vers le bouton suivant ou précédent de la barre d\'outils avec les touches Flèche droite et Flèche gauche. Appuyer sur la barre d\'espace ou la touche Entrée pour activer le bouton de barre d\'outils.'
 		},
 
 			{
-			name: 'Dialogue de l\'éditeur',
+			name: 'Fenêtre de l\'éditeur',
 			legend:
-				'Dans un dialogue, appuyer sur TAB pour aller à l\'élément suivant du dialogue, appuyer sur MAJ+TAB pour aller à l\'élément précédent du dialogue, appuyer sur ECHAP pour annuler le dialogue. Quand un dialogue a de multiples onglets, on peut accéder à la liste des onglets avec ALT+F10 ou avec TAB. Dans la liste des onglets, se déplacer vers le suivant ou le précédent avec les FLECHES DROITE et GAUCHE respectivement.' 
+				'Dans une boîte de dialogue, appuyer sur Tab pour passer à l\'élément suivant, appuyer sur Maj+Tab pour passer à l\'élément précédent, appuyer sur Entrée pour valider, appuyer sur Échap pour annuler. Quand une boîte de dialogue possède des onglets, la liste peut être atteinte avec Alt+F10 ou avec Tab. Dans la liste des onglets, se déplacer vers le suivant et le précédent avec les touches Flèche droite et Flèche gauche respectivement.' 
 		},
 
 			{
 			name: 'Menu contextuel de l\'éditeur',
-			legend: 'Appuyer sur ${contextMenu} ou entrer le RACCOURCI CLAVIER pour ouvrir le menu contextuel. Puis se déplacer vers l\'option suivante du menu avec les touches TAB ou FLÈCHE BAS. Se déplacer vers l\'option précédente avec les touches  MAJ+TAB ou FLÈCHE HAUT. appuyer sur la BARRE D\'ESPACE ou la touche ENTRÉE pour sélectionner l\'option du menu. Oovrir le sous-menu de l\'option courante avec la BARRE D\'ESPACE ou les touches ENTRÉE ou FLÈCHE DROITE. Revenir à l\'élément de menu parent avec les touches ÉCHAP ou FLÈCHE GAUCHE. Fermer le menu contextuel avec ÉCHAP.'
+			legend: 'Appuyer sur ${contextMenu} ou sur la touche Menu pour ouvrir le menu contextuel. Se déplacer ensuite vers l\'option suivante du menu avec les touches Tab ou Flèche bas. Se déplacer vers l\'option précédente avec les touches Maj+Tab ou Flèche haut. Appuyer sur la barre d\'espace ou la touche Entrée pour sélectionner l\'option du menu. Appuyer sur la barre d\'espace, la touche Entrée ou Flèche droite pour ouvrir le sous-menu de l\'option sélectionnée. Revenir à l\'élément de menu parent avec la touche Échap ou Flèche gauche. Fermer le menu contextuel avec Échap.'
 		},
 
 			{
 			name: 'Zone de liste de l\'éditeur',
-			legend: 'Dans la liste en menu déroulant, se déplacer vers l\'élément suivant de la liste avec les touches TAB ou FLÈCHE BAS. Se déplacer vers l\'élément précédent de la liste avec les touches MAJ+TAB ou FLÈCHE HAUT. Appuyer sur la BARRE D\'ESPACE ou sur ENTRÉE pour sélectionner l\'option dans la liste. Appuyer sur ÉCHAP pour fermer le menu déroulant.'
+			legend: 'Dans une liste en menu déroulant, se déplacer vers l\'élément suivant de la liste avec les touches Tab ou Flèche bas. Se déplacer vers l\'élément précédent de la liste avec les touches Maj+Tab ou Flèche haut. Appuyer sur la barre d\'espace ou sur Entrée pour sélectionner l\'option dans la liste. Appuyer sur Échap pour fermer le menu déroulant.'
 		},
 
 			{
-			name: 'Barre d\'emplacement des éléments de l\'éditeur',
-			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre d\'emplacement des éléments de l\'éditeur. Se déplacer vers le bouton d\'élément suivant avec les touches TAB ou FLÈCHE DROITE. Se déplacer vers le bouton d\'élément précédent avec les touches MAJ+TAB ou FLÈCHE GAUCHE. Appuyer sur la BARRE D\'ESPACE ou sur ENTRÉE pour sélectionner l\'élément dans l\'éditeur.'
+			name: 'Barre du chemin d\'éléments de l\'éditeur',
+			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre du fil d\'Ariane des éléments. Se déplacer vers le bouton de l\'élément suivant avec les touches Tab ou Flèche droite. Se déplacer vers le bouton précédent avec les touches Maj+Tab ou Flèche gauche. Appuyer sur la barre d\'espace ou sur Entrée pour sélectionner l\'élément dans l\'éditeur.'
 		}
 		]
 	},
@@ -45,7 +45,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 			legend: 'Appuyer sur ${undo}'
 		},
 			{
-			name: 'Refaire la commande',
+			name: 'Commande restaurer',
 			legend: 'Appuyer sur ${redo}'
 		},
 			{
@@ -69,15 +69,15 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 			legend: 'Appuyer sur ${toolbarCollapse}'
 		},
 			{
-			name: 'Accéder à la précédente commande d\'espace de mise au point',
-			legend: 'Appuyez sur ${accessPreviousSpace} pour accéder à l\'espace hors d\'atteinte le plus proche avant le caret, par exemple: deux éléments HR adjacents. Répétez la combinaison de touches pour atteindre les espaces de mise au point distants.'
+			name: 'Commande d\'accès à l\'élément sélectionnable précédent',
+			legend: 'Appuyer sur ${accessNextSpace} pour accéder à l\'élément sélectionnable inatteignable le plus proche avant le curseur, par exemple : deux lignes horizontales adjacentes. Répéter la combinaison de touches pour atteindre les éléments sélectionnables précédents.'
 		},
 			{
-			name: 'Accès à la prochaine commande de l\'espace de mise au point',
-			legend: 'Appuyez sur ${accessNextSpace} pour accéder au plus proche espace de mise au point hors d\'atteinte après le caret, par exemple: deux éléments HR adjacents. répétez la combinaison de touches pour atteindre les espace de mise au point distants.'
+			name: 'Commande d\'accès à l\'élément sélectionnable suivant',
+			legend: 'Appuyer sur ${accessNextSpace} pour accéder à l\'élément sélectionnable inatteignable le plus proche après le curseur, par exemple : deux lignes horizontales adjacentes. Répéter la combinaison de touches pour atteindre les éléments sélectionnables suivants.'
 		},
 			{
-			name: ' Aide Accessibilité',
+			name: ' Aide sur l\'accessibilité',
 			legend: 'Appuyer sur ${a11yHelp}'
 		}
 		]
@@ -93,31 +93,31 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 	capslock: 'Verr. Maj.',
 	escape: 'Échap',
 	pageUp: 'Page supérieure',
-	pageDown: 'Page inférieure',
+	pageDown: 'Page suivante',
 	end: 'Fin',
-	home: 'Retour',
+	home: 'Origine',
 	leftArrow: 'Flèche gauche',
-	upArrow: 'Flèche haute',
+	upArrow: 'Flèche haut',
 	rightArrow: 'Flèche droite',
 	downArrow: 'Flèche basse',
-	insert: 'Insertion',
+	insert: 'Inser',
 	'delete': 'Supprimer',
 	leftWindowKey: 'Touche Windows gauche',
 	rightWindowKey: 'Touche Windows droite',
-	selectKey: 'Touche menu',
-	numpad0: 'Pavé numérique 0',
-	numpad1: 'Pavé numérique 1',
-	numpad2: 'Pavé numérique 2',
-	numpad3: 'Pavé numérique 3',
-	numpad4: 'Pavé numérique 4',
-	numpad5: 'Pavé numérique 5',
-	numpad6: 'Pavé numérique 6',
-	numpad7: 'Pavé numérique 7',
+	selectKey: 'Touche Sélectionner',
+	numpad0: '0 du pavé numérique',
+	numpad1: '1 du pavé numérique',
+	numpad2: '2 du pavé numérique',
+	numpad3: '3 du pavé numérique',
+	numpad4: '4 du pavé numérique',
+	numpad5: '5 du pavé numérique',
+	numpad6: '6 du pavé numérique',
+	numpad7: '7 du pavé numérique',
 	numpad8: 'Pavé numérique 8',
-	numpad9: 'Pavé numérique 9',
+	numpad9: '9 du pavé numérique',
 	multiply: 'Multiplier',
-	add: 'Addition',
-	subtract: 'Soustraire',
+	add: 'Plus',
+	subtract: 'Moins',
 	decimalPoint: 'Point décimal',
 	divide: 'Diviser',
 	f1: 'F1',
@@ -132,9 +132,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 	f10: 'F10',
 	f11: 'F11',
 	f12: 'F12',
-	numLock: 'Verrouillage numérique',
-	scrollLock: 'Arrêt défilement',
-	semiColon: 'Point virgule',
+	numLock: 'Verr. Num.',
+	scrollLock: 'Arrêt défil.',
+	semiColon: 'Point-virgule',
 	equalSign: 'Signe égal',
 	comma: 'Virgule',
 	dash: 'Tiret',

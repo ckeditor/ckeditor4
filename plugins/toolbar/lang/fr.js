@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'fr', {
 	toolbarGroups: {
 		document: 'Document',
 		clipboard: 'Presse-papier/Défaire',
-		editing: 'Editer',
+		editing: 'Édition',
 		forms: 'Formulaires',
 		basicstyles: 'Styles de base',
 		paragraph: 'Paragraphe',
@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'fr', {
 		colors: 'Couleurs',
 		tools: 'Outils'
 	},
-	toolbars: 'Barre d\'outils de l\'éditeur'
+	toolbars: 'Barres d\'outils de l\'éditeur'
 } );

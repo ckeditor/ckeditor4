@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'sl', {
 	label: 'Oblika',
-	panelTitle: 'Oblika',
+	panelTitle: 'Oblika odstavka',
 	tag_address: 'Napis',
 	tag_div: 'Navaden (DIV)',
 	tag_h1: 'Naslov 1',

@@ -286,7 +286,7 @@
 			editables: {
 				caption: {
 					selector: 'figcaption',
-					allowedContent: 'br em strong sub sup u s; a[!href]'
+					allowedContent: 'br em strong sub sup u s; a[!href,target]'
 				}
 			},
 
@@ -1428,14 +1428,22 @@
 					onOk = def.onOk;
 
 				def.onShow = function() {
-					var widget = getFocusedWidget( editor );
+					var widget = getFocusedWidget( editor ),
+						displayTextField = this.getContentElement( 'info', 'linkDisplayText' ).getElement().getParent().getParent();
 
 					// Widget cannot be enclosed in a link, i.e.
 					//		<a>foo<inline widget/>bar</a>
-					if ( widget && ( widget.inline ? !widget.wrapper.getAscendant( 'a' ) : 1 ) )
+					if ( widget && ( widget.inline ? !widget.wrapper.getAscendant( 'a' ) : 1 ) ) {
 						this.setupContent( widget.data.link || {} );
-					else
+
+						// Hide the display text in case of linking image2 widget.
+						displayTextField.hide();
+					} else {
+						// Make sure that display text is visible, as it might be hidden by image2 integration
+						// before. 
+						displayTextField.show();
 						onShow.apply( this, arguments );
+					}
 				};
 
 				// Set widget data if linking the widget using

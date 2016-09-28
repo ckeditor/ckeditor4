@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'devtools', {
 		var lang = editor.lang.devtools,
 			link = '<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.' +
 			( element ? ( element.type == 'text' ? 'textInput' : element.type ) : 'content' ) +
-			'" target="_blank">' + ( element ? element.type : 'content' ) + '</a>',
+			'" target="_blank" rel="noopener noreferrer">' + ( element ? element.type : 'content' ) + '</a>',
 			str = '<h2>' + lang.title + '</h2>' +
 			'<ul>' +
 			'<li><strong>' + lang.dialogName + '</strong> : ' + dialog.getName() + '</li>' +

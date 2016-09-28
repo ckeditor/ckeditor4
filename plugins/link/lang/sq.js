@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -20,6 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'sq', {
 	charset: 'Seti i Karaktereve të Burimeve të Nëdlidhura',
 	cssClasses: 'Klasa stili CSS',
 	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Posta Elektronike',
 	emailBody: 'Trupi i Porosisë',
 	emailSubject: 'Titulli i Porosisë',

@@ -1201,7 +1201,8 @@ CKEDITOR.dom.range = function( root ) {
 		/**
 		 * Expands the range so that partial units are completely contained.
 		 *
-		 * @param unit {Number} The unit type to expand with.
+		 * @param {Number} unit The unit type to expand with. Use one of following values: {@link CKEDITOR#ENLARGE_BLOCK_CONTENTS},
+		 * {@link CKEDITOR#ENLARGE_ELEMENT}, {@link CKEDITOR#ENLARGE_INLINE}, {@link CKEDITOR#ENLARGE_LIST_ITEM_CONTENTS}.
 		 * @param {Boolean} [excludeBrs=false] Whether include line-breaks when expanding.
 		 */
 		enlarge: function( unit, excludeBrs ) {
@@ -2783,6 +2784,53 @@ CKEDITOR.dom.range = function( root ) {
 			}
 			// %REMOVE_END%
 			this.endContainer = endContainer;
+		},
+
+		/**
+		 * Looks for elements matching the `query` selector within a range.
+		 * 
+		 * @since 4.5.11
+		 * @private
+		 * @param {String} query
+		 * @param {Boolean} [includeNonEditables=false] Whether elements with `contenteditable` set to `false` should
+		 * be included.
+		 * @returns {CKEDITOR.dom.element[]}
+		 */
+		_find: function( query, includeNonEditables ) {
+			var ancestor = this.getCommonAncestor(),
+				boundaries = this.getBoundaryNodes(),
+				// Contrary to CKEDITOR.dom.element#find we're returning array, that's because NodeList is immutable, and we need
+				// to do some filtering in returned list.
+				ret = [],
+				curItem,
+				i,
+				initialMatches,
+				isStartGood,
+				isEndGood;
+
+			if ( ancestor && ancestor.find ) {
+				initialMatches = ancestor.find( query );
+
+				for ( i = 0; i < initialMatches.count(); i++ ) {
+					curItem = initialMatches.getItem( i );
+
+					// Using isReadOnly() method to filterout non editables. It checks isContentEditable including all browser quirks.
+					if ( !includeNonEditables && curItem.isReadOnly() ) {
+						continue;
+					}
+
+					// It's not enough to get elements from common ancestor, because it migth contain too many matches.
+					// We need to ensure that returned items are between boundary points.
+					isStartGood = ( curItem.getPosition( boundaries.startNode ) & CKEDITOR.POSITION_FOLLOWING ) || boundaries.startNode.equals( curItem );
+					isEndGood = ( curItem.getPosition( boundaries.endNode ) & ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IS_CONTAINED ) );
+
+					if ( isStartGood && isEndGood ) {
+						ret.push( curItem );
+					}
+				}
+			}
+
+			return ret;
 		}
 	};
 

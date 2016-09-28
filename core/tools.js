@@ -981,10 +981,10 @@
 		},
 
 		/**
-		 * Normalizes hexadecimal notation so that color string is always 6 characters long and lowercased.
+		 * Normalizes hexadecimal notation so that the color string is always 6 characters long and lowercase.
 		 *
-		 * @param {String} styleText The style data (or just a string containing HEX colors) to be converted.
-		 * @returns {String} The style data with HEX colors normalized.
+		 * @param {String} styleText The style data (or just a string containing hex colors) to be converted.
+		 * @returns {String} The style data with hex colors normalized.
 		 */
 		normalizeHex: function( styleText ) {
 			return styleText.replace( /#(([0-9a-f]{3}){1,2})($|;|\s+)/gi, function( match, hexColor, hexColorPart, separator ) {
@@ -1028,10 +1028,9 @@
 			styleText.replace( /&quot;/g, '"' ).replace( /\s*([^:;\s]+)\s*:\s*([^;]+)\s*(?=;|$)/g, function( match, name, value ) {
 				if ( normalize ) {
 					name = name.toLowerCase();
-					// Normalize font-family property, ignore quotes and being case insensitive. (#7322)
-					// http://www.w3.org/TR/css3-fonts/#font-family-the-font-family-property
+					// Drop extra whitespacing from font-family.
 					if ( name == 'font-family' )
-						value = value.toLowerCase().replace( /["']/g, '' ).replace( /\s*,\s*/g, ',' );
+						value = value.replace( /\s*,\s*/g, ',' );
 					value = CKEDITOR.tools.trim( value );
 				}
 
@@ -1435,6 +1434,32 @@
 			}
 
 			return token;
+		},
+
+		/**
+		 * Returns an escaped CSS selector. `CSS.escape()` is used if defined, leading digit is escaped otherwise.
+		 *
+		 * @since 4.5.10
+		 * @param {String} selector A CSS selector to escape.
+		 * @returns {String} An escaped selector.
+		 */
+		escapeCss: function( selector ) {
+			// Invalid input.
+			if ( !selector ) {
+				return '';
+			}
+
+			// CSS.escape() can be used.
+			if ( window.CSS && CSS.escape ) {
+				return CSS.escape( selector );
+			}
+
+			// Simple leading digit escape.
+			if ( !isNaN( parseInt( selector.charAt( 0 ), 10 ) ) ) {
+				return '\\3' + selector.charAt( 0 ) + ' ' + selector.substring( 1, selector.length );
+			}
+
+			return selector;
 		}
 	};
 

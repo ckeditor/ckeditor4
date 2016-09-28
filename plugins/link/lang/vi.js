@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -20,6 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 	charset: 'Bảng mã của tài nguyên được liên kết đến',
 	cssClasses: 'Lớp Stylesheet',
 	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Thư điện tử',
 	emailBody: 'Nội dung thông điệp',
 	emailSubject: 'Tiêu đề thông điệp',

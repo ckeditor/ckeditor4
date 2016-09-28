@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -20,6 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	charset: '링크된 자료 문자열 인코딩',
 	cssClasses: '스타일시트 클래스',
 	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: '이메일 주소',
 	emailBody: '메시지 내용',
 	emailSubject: '메시지 제목',

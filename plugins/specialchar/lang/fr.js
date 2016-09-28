@@ -4,6 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
 	options: 'Options des caractères spéciaux',
-	title: 'Sélectionnez un caractère',
+	title: 'Sélectionner un caractère',
 	toolbar: 'Insérer un caractère spécial'
 } );

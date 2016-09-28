@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'sl', {
 	border: 'Velikost obrobe',
-	caption: 'Naslov',
+	caption: 'Napis',
 	cell: {
 		menu: 'Celica',
 		insertBefore: 'Vstavi celico pred',
@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'table', 'sl', {
 		deleteCell: 'Izbriši celice',
 		merge: 'Združi celice',
 		mergeRight: 'Združi desno',
-		mergeDown: 'Druži navzdol',
+		mergeDown: 'Združi navzdol',
 		splitHorizontal: 'Razdeli celico vodoravno',
 		splitVertical: 'Razdeli celico navpično',
 		title: 'Lastnosti celice',
@@ -35,7 +35,7 @@ CKEDITOR.plugins.setLang( 'table', 'sl', {
 		invalidColSpan: 'Razpon stolpcev mora biti celo število.',
 		chooseColor: 'Izberi'
 	},
-	cellPad: 'Polnilo med celicami',
+	cellPad: 'Odmik znotraj celic',
 	cellSpace: 'Razmik med celicami',
 	column: {
 		menu: 'Stolpec',
@@ -51,8 +51,8 @@ CKEDITOR.plugins.setLang( 'table', 'sl', {
 	headersNone: 'Brez',
 	headersRow: 'Prva vrstica',
 	invalidBorder: 'Širina obrobe mora biti število.',
-	invalidCellPadding: 'Zamik celic mora biti število',
-	invalidCellSpacing: 'Razmik med celicami mora biti število.',
+	invalidCellPadding: 'Odmik znotraj celic mora biti pozitivno število.',
+	invalidCellSpacing: 'Razmik med celicami mora biti pozitivno število.',
 	invalidCols: 'Število stolpcev mora biti večje od 0.',
 	invalidHeight: 'Višina tabele mora biti število.',
 	invalidRows: 'Število vrstic mora biti večje od 0.',
@@ -68,7 +68,7 @@ CKEDITOR.plugins.setLang( 'table', 'sl', {
 	summary: 'Povzetek',
 	title: 'Lastnosti tabele',
 	toolbar: 'Tabela',
-	widthPc: 'procentov',
+	widthPc: 'odstotkov',
 	widthPx: 'pik',
 	widthUnit: 'enota širine'
 } );

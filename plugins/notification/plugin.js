@@ -11,7 +11,7 @@
 'use strict';
 
 CKEDITOR.plugins.add( 'notification', {
-	lang: 'cs,da,de,de-ch,en,eo,eu,fr,gl,id,it,ko,ku,nb,nl,pl,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'cs,da,de,de-ch,en,eo,es,eu,fr,gl,id,it,km,ko,ku,nb,nl,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 	requires: 'toolbar',
 
 	init: function( editor ) {

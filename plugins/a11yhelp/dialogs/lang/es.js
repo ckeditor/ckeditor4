@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
 			{
 			name: 'Editor de diálogo',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Dentro del diálogo, presione TAB para navegar a los siguientes elementos de diálogo, presione SHIFT+TAB para moverse a los anteriores elementos de diálogo, presione ENTER para enviar el diálogo, presiona ESC para cancelar el diálogo. Cuando el diálogo tiene multiples pestañas, la lista de pestañas puede ser abarcada con ALT + F10 or con TAB como parte del orden de pestañas del diálogo. ECon la pestaña enfocada, puede moverse a la siguiente o anterior pestaña con las FLECHAS IZQUIRDA y DERECHA respectivamente.' 
 		},
 
 			{

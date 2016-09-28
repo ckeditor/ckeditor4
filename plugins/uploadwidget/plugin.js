@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'uploadwidget', {
-		lang: 'cs,da,de,de-ch,el,en,eo,eu,fr,gl,hu,id,it,ko,ku,nb,nl,pl,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'cs,da,de,de-ch,el,en,eo,es,eu,fr,gl,hu,id,it,km,ko,ku,nb,nl,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,clipboard,filetools,notificationaggregator',
 
 		init: function( editor ) {

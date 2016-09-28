@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -20,6 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'nl', {
 	charset: 'Karakterset van gelinkte bron',
 	cssClasses: 'Stylesheet-klassen',
 	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-mailadres',
 	emailBody: 'Inhoud bericht',
 	emailSubject: 'Onderwerp bericht',

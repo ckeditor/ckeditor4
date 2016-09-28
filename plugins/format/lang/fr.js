@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'format', 'fr', {
 	label: 'Format',
 	panelTitle: 'Format de paragraphe',
 	tag_address: 'Adresse',
-	tag_div: 'Normal (DIV)',
+	tag_div: 'Division',
 	tag_h1: 'Titre 1',
 	tag_h2: 'Titre 2',
 	tag_h3: 'Titre 3',
@@ -14,5 +14,5 @@ CKEDITOR.plugins.setLang( 'format', 'fr', {
 	tag_h5: 'Titre 5',
 	tag_h6: 'Titre 6',
 	tag_p: 'Normal',
-	tag_pre: 'Formaté'
+	tag_pre: 'Préformaté'
 } );

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -20,6 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'ku', {
 	charset: 'بەستەری سەرچاوەی نووسە',
 	cssClasses: 'شێوازی چینی پەڕه',
 	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ناونیشانی ئیمەیل',
 	emailBody: 'ناوەڕۆکی نامە',
 	emailSubject: 'بابەتی نامە',
