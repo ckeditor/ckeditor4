@@ -128,10 +128,6 @@ bender.test( {
 
 	// #13884.
 	'test getSelectedHtml with multiple ranges': function() {
-		if ( !CKEDITOR.env.gecko ) {
-			assert.ignore();
-		}
-
 		var editor = this.editors.editor,
 			input = '<p>' +
 					'<table>' +
@@ -170,10 +166,6 @@ bender.test( {
 
 	// #13884.
 	'test getSelectedHtml with partial table selection': function() {
-		if ( !CKEDITOR.env.gecko ) {
-			assert.ignore();
-		}
-
 		var editor = this.editors.editor,
 			input = '<p>' +
 					'<table>' +
