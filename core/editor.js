@@ -1198,17 +1198,20 @@
 		 */
 		extractSelectedHtml: function( toString, removeEmptyBlock ) {
 			var editable = this.editable(),
-				ranges = this.getSelection().getRanges();
+				ranges = this.getSelection().getRanges(),
+				docFragment = new CKEDITOR.dom.documentFragment(),
+				i;
 
 			if ( !editable || ranges.length === 0 ) {
 				return null;
 			}
 
-			var range = ranges[ 0 ],
-				docFragment = editable.extractHtmlFromRange( range, removeEmptyBlock );
+			for ( i = 0; i < ranges.length; i++ ) {
+				docFragment.append( editable.extractHtmlFromRange( ranges[ i ], removeEmptyBlock ) );
+			}
 
 			if ( !removeEmptyBlock ) {
-				this.getSelection().selectRanges( [ range ] );
+				this.getSelection().selectRanges( [ ranges[ 0 ] ] );
 			}
 
 			return toString ? docFragment.getHtml() : docFragment;
