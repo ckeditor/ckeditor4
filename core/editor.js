@@ -654,7 +654,7 @@
 		return editor.blockless ? CKEDITOR.ENTER_BR : enterMode;
 	}
 
-	// Create DocumentFragment from specified ranges. For now it handles only tables in Firefox
+	// Create DocumentFragment from specified ranges. For now it handles only tables
 	// and returns DocumentFragment from the 1. range for other cases. (#13884)
 	function createDocumentFragmentFromRanges( ranges, editable ) {
 		var docFragment = new CKEDITOR.dom.documentFragment(),
@@ -669,9 +669,9 @@
 			if ( container.getName && container.getName() == 'tr' ) {
 				if ( !tableClone ) {
 					tableClone = container.getAscendant( 'table' ).clone();
-					tableClone.append( container.getAscendant( 'tbody' ).clone() );
+					tableClone.append( container.getAscendant( { thead: 1, tbody: 1, tfoot: 1 } ).clone() );
 					docFragment.append( tableClone );
-					tableClone = tableClone.findOne( 'tbody' );
+					tableClone = tableClone.findOne( 'thead, tbody, tfoot' );
 				}
 
 				if ( !( currentRow && currentRow.equals( container ) ) ) {
