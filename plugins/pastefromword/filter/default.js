@@ -532,6 +532,10 @@
 	Style = CKEDITOR.plugins.pastefromword.styles;
 
 	CKEDITOR.plugins.pastefromword.lists = {
+		/**
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @returns {Boolean}
+		 */
 		thisIsAListItem: function( element ) {
 			/*jshint -W024 */
 			// Normally a style of the sort that looks like "mso-list: l0 level1 lfo1"
@@ -554,6 +558,9 @@
 			/*jshint +W024 */
 		},
 
+		/**
+		 * @param {CKEDITOR.htmlParser.element} element
+		 */
 		convertToFakeListItem: function( element ) {
 			element.attributes[ 'cke-list-level' ] = element.attributes[ 'cke-list-level' ] ||
 				+( ( element.attributes.style || '' ).match( /level(\d+)/ ) || [ '', 1 ] )[ 1 ];
@@ -983,7 +990,12 @@
 			return lists;
 		},
 
-		// Sometimes lists can only be separated after level correction.
+		/**
+		 * Sometimes lists can only be separated after level correction.
+		 *
+		 * @param {CKEDITOR.htmlParser.element[]} list An array containing list items.
+		 * @param {CKEDITOR.htmlParser.element[]} lists
+		 */
 		chopDiscontinousLists: function( list, lists ) {
 			var levelSymbols = {};
 			var choppedLists = [ [] ];
