@@ -753,8 +753,13 @@
 				return;
 			}
 
+
 			// Chop data into continuous lists.
 			var lists = List.groupLists( listElements );
+
+			//console.log( listElements );
+			//console.log( lists );
+			//debugger;
 
 			// Create nested list structures.
 			for ( i = 0; i < lists.length; i++ ) {
