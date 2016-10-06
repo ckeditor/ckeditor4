@@ -25,8 +25,11 @@
 			},
 
 			tearDown: function() {
+				var curStub;
+
 				for ( var i = this.stubs.length - 1; i >= 0; i-- ) {
-					this.stubs[ i ].restore();
+					curStub = this.stubs.pop(); 
+					curStub.restore();
 				}
 			},
 
