@@ -4,18 +4,18 @@
 	'use strict';
 
 	window.decodeArray = function( toDecode ) {
-			if ( Array.isArray( toDecode ) ) {
-				return window.easyDebug( toDecode );
-			} else if ( toDecode.getOuterHtml ) {
-				return toDecode.getOuterHtml();
-			} else {
-				return toDecode + '';
-			}
-		};
+		if ( Array.isArray( toDecode ) ) {
+			return window.easyDebug( toDecode );
+		} else if ( toDecode.getOuterHtml ) {
+			return toDecode.getOuterHtml();
+		} else {
+			return toDecode + '';
+		}
+	};
 
 	window.easyDebug = function( arr ) {
-			return arr.map( window.decodeArray );
-		};
+		return arr.map( window.decodeArray );
+	};
 
 	var tests = {
 			setUp: function() {
