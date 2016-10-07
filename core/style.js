@@ -152,6 +152,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 			delete attrs.style;
 		}
 
+		if ( attrs && attrs[ 'class' ] ) {
+			attrs[ 'class' ] = attrs[ 'class' ].split( ' ' ).sort().join( ' ' );
+		}
+
 		if ( variablesValues ) {
 			styleDefinition = CKEDITOR.tools.clone( styleDefinition );
 
