@@ -108,6 +108,7 @@
 
 			test( true, st( { element: 'p', attributes: { 'class': 'cl1' } } ) );
 			test( true, st( { element: 'a', attributes: { 'class': 'cl1 cl2' } } ) );
+			test( true, st( { element: 'a', attributes: { 'class': 'cl2 cl1' } } ) );
 			test( true, st( { element: 'p' } ) );
 
 			test( false, st( { element: 'p', styles: { height: '10px' } } ) );
