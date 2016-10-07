@@ -294,6 +294,22 @@ bender.test( {
 		} );
 	},
 
+	'test editor#removeStyle with multiple classes': function() {
+		bender.editorBot.create( {
+				name: 'editor_multiple_classes',
+				config: {
+					stylesSet: [
+						{ name: 'Marker', element: 'span', attributes: { 'class': 'b-test a-test' } }
+					]
+				}
+			},
+			function( bot ) {
+				bot.setHtmlWithSelection( '<p><span class="a-test b-test">[foobar]</span></p>' );
+				bot.editor.removeStyle( new CKEDITOR.style( { element: 'span', attributes: { 'class': 'b-test a-test' } } ) );
+				assert.areEqual( '<p>foobar</p>', bot.editor.getData(), 'Invalid editor#getData() result for style with multiple classes' );
+			} );
+	},
+
 	'test editor#removeStyle, editor#applyStyle not changing styles _.enterMode value': function() {
 		// We need to make sure that editor#removeStyle() will not revert original
 		// enterMode value after it has done its job.
