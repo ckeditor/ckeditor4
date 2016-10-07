@@ -113,7 +113,7 @@
 			if ( name ) {
 				name = name.toLowerCase();
 				// If we're in RTL, try to get the RTL version of the icon.
-				if ( rtl )
+				if ( rtl && !( name === 'about' && CKEDITOR.lang.he ) )
 					icon = this.icons[ name + '-rtl' ];
 
 				// If not in LTR or no RTL version available, get the generic one.

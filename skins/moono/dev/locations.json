@@ -129,6 +129,7 @@
 	],
 	"10": [
 		"plugins/about/icons/about.png",
+		"plugins/about/icons/about-rtl.png",
 		"plugins/uicolor/icons/uicolor.png",
 		"plugins/placeholder/icons/placeholder.png",
 		"plugins/language/icons/language.png",
