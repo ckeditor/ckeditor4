@@ -533,6 +533,8 @@
 
 	CKEDITOR.plugins.pastefromword.lists = {
 		/**
+		 * CHecks if given element is list item-alike.
+		 * 
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
 		 */
@@ -559,6 +561,8 @@
 		},
 
 		/**
+		 * Converts element to an element with `cke:li` tag name.
+		 * 
 		 * @param {CKEDITOR.htmlParser.element} element
 		 */
 		convertToFakeListItem: function( element ) {
@@ -602,6 +606,12 @@
 			element.name = 'cke:li';
 		},
 
+		/**
+		 * Converts any fake list items containerd within `root` into a real `li` elements.
+		 * 
+		 * @param {CKEDITOR.htmlParser.element} root
+		 * @returns {CKEDITOR.htmlParser.element[]} An array of converted elements.
+		 */
 		convertToRealListItems: function( root ) {
 			var listElements = [];
 			// Select and clean up list elements.
@@ -996,18 +1006,24 @@
 		},
 
 		/**
-		 * Sometimes lists can only be separated after level correction.
+		 * Converts a single, flat list items array into an array with a hierarchy of items.
+		 * 
+		 * @todo: Describe what `lists` parameter is for. By the looks of it it's supposed to be array which is used
+		 * to return the value.
 		 *
 		 * @param {CKEDITOR.htmlParser.element[]} list An array containing list items.
 		 * @param {CKEDITOR.htmlParser.element[]} lists
 		 */
 		chopDiscontinousLists: function( list, lists ) {
 			var levelSymbols = {};
-			var choppedLists = [ [] ];
+			var choppedLists = [ [] ],
+				lastListInfo;
 
 			for ( var i = 0; i < list.length; i++ ) {
 				var lastSymbol = levelSymbols[ list[ i ].attributes[ 'cke-list-level' ] ],
-					currentSymbol, forceType;
+					currentListInfo = this.getListItemInfo( list[ i ] ),
+					currentSymbol,
+					forceType;
 
 				if ( lastSymbol ) {
 					// An "h" before an "i".
@@ -1016,13 +1032,19 @@
 					forceType = list[ i ].attributes[ 'cke-symbol' ] == 'o' && lastSymbol.index == 14 ? 'alpha' : forceType;
 
 					currentSymbol = List.getSymbolInfo( list[ i ].attributes[ 'cke-symbol' ], forceType );
+					currentListInfo = this.getListItemInfo( list[ i ] );
 
 					var lastIndex = lastSymbol.index,
 						currentIndex = currentSymbol.index;
 
-					if ( lastSymbol.type != currentSymbol.type ||
-						( lastIndex >= 0 && currentIndex >= 0 && lastIndex + 1 != currentIndex ) ||
-						( lastIndex < 0 && currentIndex < 0 && lastIndex !== currentIndex ) ) {
+					// Based on current and last index we'll decide if we want to chop list.
+					if (
+						// If the last list was a different list type then chop it!
+						lastSymbol.type != currentSymbol.type ||
+						// If level changed:
+						( lastListInfo && currentListInfo.level != lastListInfo.level ) ||
+						// If those are logically different lists:
+						( lastListInfo && currentListInfo.id != lastListInfo.id ) ) {
 						choppedLists.push( [] );
 					}
 				} else {
@@ -1038,6 +1060,8 @@
 
 				levelSymbols[ list[ i ].attributes[ 'cke-list-level' ] ] = currentSymbol;
 				choppedLists[ choppedLists.length - 1 ].push( list[ i ] );
+
+				lastListInfo = currentListInfo;
 			}
 
 			[].splice.apply( lists, [].concat( [ tools.indexOf( lists, list ), 1 ], choppedLists ) );
@@ -1163,7 +1187,15 @@
 			return Math.max( Math.floor( indentation / 48 + 0.5 ), 1 );
 		},
 
-		// One-indexed
+		/**
+		 * Returns an object describing given `symbol`. 
+		 * 
+		 * @param {String} symbol
+		 * @param {String} type
+		 * @returns {Object} ret
+		 * @returns {Number} ret.index Identified numbering value
+		 * @returns {String} ret.type One of `decimal`, `disc`, `circle`, `square`, `roman`, `alpha`.
+		 */
 		getSymbolInfo: function( symbol, type ) {
 			var symbolCase = symbol.toUpperCase() == symbol ? 'upper-' : 'lower-',
 				symbolMap = {
@@ -1206,6 +1238,37 @@
 				index: -1,
 				type: 'disc'
 			};
+		},
+
+		/**
+		 * Returns Word generated information about given list item, mainly by parsing `mso-list`
+		 * CSS property.
+		 * 
+		 * Note: by list items we mean also paragraphs with `mso-list` because we know that Word serves
+		 * list items as a paragraph.
+		 * 
+		 * @param {CKEDITOR.htmlParser.element} list
+		 * @returns ret
+		 * @returns {String} ret.id List id, ordinarly it's a decimal string.
+		 * @returns {String} ret.level List nesting level, `0` means it's outter most list. Ordinarly it's
+		 * a decimal string.
+		 */
+		getListItemInfo: function( list ) {
+			var propValue = tools.parseCssText( list.attributes.style )[ 'mso-list' ],
+				ret = {
+					id: '0',
+					level: '1'
+				};
+
+			if ( propValue ) {
+				// Add one whitespace so it's easier to match values assuming that all of these are separated with \s.
+				propValue += ' ';
+
+				ret.level = propValue.match( /level(.+?)\s+/ )[ 1 ];
+				ret.id = propValue.match( /l(\d+?)\s+/ )[ 1 ];
+			}
+
+			return ret;
 		}
 	};
 	List = CKEDITOR.plugins.pastefromword.lists;
