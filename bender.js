@@ -39,7 +39,8 @@ var config = {
 		'benderjs-yui',
 		'benderjs-sinon',
 		'benderjs-jquery',
-		'tests/_benderjs/ckeditor'
+		'tests/_benderjs/ckeditor',
+		'benderjs-yui-beautified'
 	],
 
 	tests: {
@@ -100,6 +101,12 @@ var config = {
 				'!**/_*/**'
 			]
 		}
+	},
+
+	'yui-beautified': {
+		'indent_with_tabs': true,
+		// All tags should be reformatted.
+		'unformatted': 'none'
 	}
 };
 
