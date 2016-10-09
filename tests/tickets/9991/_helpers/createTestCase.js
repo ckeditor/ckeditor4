@@ -36,7 +36,7 @@ function createTestCase( fixtureName, wordVersion, browser, tickets ) {
 				assertWordFilter( editor )( values[ 0 ], values[ 2 ] )
 					.then( function( values ) {
 						resume( function() {
-							assert.areSame( values[ 0 ], values[ 1 ] );
+							assert.beautified.html( values[ 0 ], values[ 1 ] );
 						} );
 					} );
 			} else {
@@ -45,7 +45,7 @@ function createTestCase( fixtureName, wordVersion, browser, tickets ) {
 				assertWordFilter( editor )( values[ 0 ], values[ 1 ] )
 					.then( function( values ) {
 						resume( function() {
-							assert.areSame( values[ 0 ], values[ 1 ] );
+							assert.beautified.html( values[ 0 ], values[ 1 ] );
 						} );
 					} );
 			}
