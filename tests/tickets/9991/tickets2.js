@@ -43,7 +43,6 @@
 			'5300Sample': [ 'word2013' ],
 			'5399This_is_a_line_of_text': [ 'word2013' ],
 			'5743bulletlist': [ 'word2013' ],
-			'5750bulletlist': [ 'word2013' ],
 			'5808Word_test': [ 'word2013' ],
 			'6086test': [ 'word2013' ],
 			'6241Sample_word_doc': [ 'word2013' ],
