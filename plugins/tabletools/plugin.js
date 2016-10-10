@@ -1297,7 +1297,8 @@
 			}
 		},
 
-		getSelectedCells: getSelectedCells
+		getSelectedCells: getSelectedCells,
+		getCellsBetween: getCellsBetween
 
 	};
 	CKEDITOR.plugins.add( 'tabletools', CKEDITOR.plugins.tabletools );
