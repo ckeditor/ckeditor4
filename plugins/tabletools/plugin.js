@@ -701,10 +701,12 @@
 			startRow = getRowIndex( first.getParent() ),
 			endRow = getRowIndex( last.getParent() ),
 			cells = [],
+			markers = {},
 			start,
 			end,
 			i,
-			j;
+			j,
+			cell;
 
 		// First fetch start and end offset.
 		if ( startRow > endRow ) {
@@ -739,9 +741,19 @@
 
 		for ( i = startRow; i <= endRow; i++ ) {
 			for ( j = start; j <= end; j++ ) {
-				cells.push( new CKEDITOR.dom.element( map[ i ][ j ] ) );
+				// Table maps treat cells with colspan/rowspan as a separate cells, e.g.
+				// td[colspan=2] produces two adjacent cells in map. Therefore we mark
+				// all cells to know which were already processed.
+				cell = new CKEDITOR.dom.element( map[ i ][ j ] );
+
+				if ( !cell.getCustomData( 'selected_cell' ) ) {
+					cells.push( cell );
+					CKEDITOR.dom.element.setMarker( markers, cell, 'selected_cell', true );
+				}
 			}
 		}
+
+		CKEDITOR.dom.element.clearAllMarkers( markers );
 
 		return cells;
 	}
