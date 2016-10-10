@@ -157,6 +157,30 @@
 		// (#10308)
 		'test remove trailing cell': function() {
 			this.doTest( 'delete-cell-trailing', 'cellDelete', [ 3 ], true );
+		},
+
+		'test getCellsBetween': function() {
+			var bot = this.editorBot,
+				editor = this.editor,
+				editable = editor.editable(),
+				first,
+				last,
+				cells;
+
+			bot.setHtmlWithSelection( CKEDITOR.document.getById( 'getCellsBetween' ).getValue() );
+
+			first = editable.findOne( '#first' );
+			last = editable.findOne( '#last' );
+
+			cells = CKEDITOR.plugins.tabletools.getCellsBetween( first, last );
+
+			assert.isTrue( CKEDITOR.tools.isArray( cells ) );
+			assert.areSame( 4, cells.length );
+
+			assert.isTrue( first.equals( cells[ 0 ] ) );
+			assert.isTrue( editable.findOne( '#second' ).equals( cells[ 1 ] ) );
+			assert.isTrue( editable.findOne( '#third' ).equals( cells[ 2 ] ) );
+			assert.isTrue( last.equals( cells[ 3 ] ) );
 		}
 	} );
 } )();
