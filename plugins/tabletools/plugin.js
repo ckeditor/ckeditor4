@@ -1308,26 +1308,37 @@
  * Create a two-dimension array that reflects the actual layout of table cells,
  * with cell spans, with mappings to the original td elements.
  *
+ * It could also create the map for the specified fragment of the table.
+ *
  * @param {CKEDITOR.dom.element} table
+ * @param {Number} startRow Row's index from which the map should be created.
+ * @param {Number} startCell Cell's index from which the map should be created.
+ * @param {Number} endRow Row's index to which the map should be created.
+ * @param {Number} endCell Cell's index to which the map should be created.
  * @member CKEDITOR.tools
  */
-CKEDITOR.tools.buildTableMap = function( table ) {
+CKEDITOR.tools.buildTableMap = function( table, startRow, startCell, endRow, endCell ) {
 	var aRows = table.$.rows;
+
+	startRow = startRow || 0;
+	startCell = startCell || 0;
+	endRow = typeof endRow === 'number' ? endRow : aRows.length - 1;
+	endCell = typeof endCell === 'number' ? endCell : -1;
 
 	// Row and Column counters.
 	var r = -1;
 
 	var aMap = [];
 
-	for ( var i = 0; i < aRows.length; i++ ) {
+	for ( var i = startRow; i <= endRow; i++ ) {
 		r++;
 		!aMap[ r ] && ( aMap[ r ] = [] );
 
 		var c = -1;
 
-		for ( var j = 0; j < aRows[ i ].cells.length; j++ ) {
+		for ( var j = startCell; j <= ( endCell === -1 ? ( aRows[ i ].cells.length - 1 ) : endCell ); j++ ) {
 			var oCell = aRows[ i ].cells[ j ];
-
+			//console.log( j, oCell );
 			c++;
 			while ( aMap[ r ][ c ] )
 				c++;
@@ -1345,6 +1356,10 @@ CKEDITOR.tools.buildTableMap = function( table ) {
 			}
 
 			c += iColSpan - 1;
+
+			if ( endCell !== -1 && c >= endCell ) {
+				break;
+			}
 		}
 	}
 	return aMap;
