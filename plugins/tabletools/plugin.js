@@ -851,6 +851,178 @@
 		}
 	}
 
+	function fakeSelectionPasteHandler( evt ) {
+		var selection = evt.editor.getSelection(),
+			tmpContainer = new CKEDITOR.dom.element( 'body' ),
+			newRowsCount = 0,
+			newColsCount = 0,
+			pastedTableColCount = 0,
+			selectedTableColCount = 0,
+			markers = {},
+			selectedTable,
+			selectedTableMap,
+			selectedCells,
+			pastedTable,
+			pastedTableMap,
+			firstCell,
+			startIndex,
+			firstRow,
+			lastCell,
+			endIndex,
+			lastRow,
+			currentRow,
+			prevCell,
+			cellToPaste,
+			cellToReplace,
+			i,
+			j;
+
+		function getLongestRowLength( map ) {
+			var longest = 0,
+				i;
+
+			for ( i = 0; i < map.length; i++ ) {
+				if ( map[ i ].length > longest ) {
+					longest = map[ i ].length;
+				}
+			}
+
+			return longest;
+		}
+
+		function getRealCellPosition( cell ) {
+			var table = cell.getAscendant( 'table' ),
+				rowIndex = cell.getParent().$.rowIndex,
+				map = CKEDITOR.tools.buildTableMap( table ),
+				i;
+
+			for ( i = 0; i < map[ rowIndex ].length; i++ ) {
+				if ( new CKEDITOR.dom.element( map[ rowIndex ][ i ] ).equals( cell ) ) {
+					return i;
+				}
+			}
+		}
+
+		tmpContainer.setHtml( evt.data.dataValue );
+		pastedTable = tmpContainer.findOne( 'table' );
+
+		if ( !selection.isInTable() || evt.data.type !== 'html' || !pastedTable ) {
+			return;
+		}
+
+		evt.cancel();
+
+		selectedCells = getSelectedCells( selection );
+		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
+		firstCell = selectedCells[ 0 ];
+		firstRow = firstCell.getParent();
+		lastCell = selectedCells[ selectedCells.length - 1 ];
+		lastRow = lastCell.getParent();
+
+		// Build table map only for selected fragment.
+		selectedTableMap = CKEDITOR.tools.buildTableMap( selectedTable, selectedCells[ 0 ].getParent().$.rowIndex,
+			getCellColIndex( selectedCells[ 0 ], true ), lastRow.$.rowIndex, getRealCellPosition( lastCell ) );
+		pastedTableMap = CKEDITOR.tools.buildTableMap( pastedTable );
+
+
+		// Now we compare the dimensions of the pasted table and the selected one.
+		// If the pasted one is bigger, we add missing rows and columns.
+		pastedTableColCount = getLongestRowLength( pastedTableMap );
+		selectedTableColCount = getLongestRowLength( selectedTableMap );
+
+		if ( pastedTableMap.length > selectedTableMap.length ) {
+			newRowsCount = pastedTableMap.length - selectedTableMap.length;
+
+			for ( i = 0; i < newRowsCount; i++ ) {
+				insertRow( selectedCells );
+			}
+		}
+
+		if ( pastedTableColCount > selectedTableColCount ) {
+			newColsCount = pastedTableColCount - selectedTableColCount;
+
+			for ( i = 0; i < newColsCount; i++ ) {
+				insertColumn( selectedCells );
+			}
+		}
+
+		// Get all selected cells (original ones + newly inserted ones).
+		firstCell = selectedCells[ 0 ];
+		firstRow = firstCell.getParent();
+		lastCell = selectedCells[ selectedCells.length - 1 ];
+		lastRow = new CKEDITOR.dom.element( selectedTable.$.rows[ lastCell.getParent().$.rowIndex + newRowsCount ] );
+		lastCell = lastRow.getChild( lastCell.$.cellIndex + newColsCount );
+
+		// These indexes would be reused later, to calculate the proper position of newly pasted cells.
+		startIndex = getCellColIndex( selectedCells[ 0 ], true );
+		endIndex = getRealCellPosition( lastCell );
+
+		// Rebuild map for selected table.
+		selectedTableMap = CKEDITOR.tools.buildTableMap( selectedTable, firstRow.$.rowIndex, startIndex,
+			lastRow.$.rowIndex, endIndex );
+
+		// Empty all selected cells.
+		for ( i = 0; i < selectedTableMap.length; i++ ) {
+			for ( j = 0; j < selectedTableMap[ i ].length; j++ ) {
+				selectedTableMap[ i ][ j ].innerHTML = '';
+			}
+		}
+
+		// And now paste!
+		for ( i = 0; i < pastedTableMap.length; i++ ) {
+			currentRow = new CKEDITOR.dom.element( selectedTable.$.rows[ firstRow.$.rowIndex + i ] );
+
+			for ( j = 0; j < pastedTableMap[ i ].length; j++ ) {
+				cellToPaste = new CKEDITOR.dom.element( pastedTableMap[ i ][ j ] );
+
+				if ( selectedTableMap[ i ] && selectedTableMap[ i ][ j ] ) {
+					cellToReplace = new CKEDITOR.dom.element( selectedTableMap[ i ][ j ] );
+				} else {
+					cellToReplace = null;
+				}
+
+				// Only try to paste cells that aren't already pasted (it can occur if the pasted cell
+				// has [colspan] or [rowspan]).
+				if ( cellToPaste && !cellToPaste.getCustomData( 'processed' ) ) {
+					// If the cell to being replaced has [colspan], it could have been already
+					// replaced. In that case, it won't have parent.
+					if ( cellToReplace && cellToReplace.getParent() ) {
+						cellToPaste.replace( cellToReplace );
+					} else if ( j === 0 || pastedTableMap[ i ][ j - 1 ] ) {
+						if ( j !== 0 ) {
+							prevCell = new CKEDITOR.dom.element( pastedTableMap[ i ][ j - 1 ] );
+						} else {
+							prevCell = null;
+						}
+
+						// If the cell that should be replaced is not in the table, we must cover at least 3 cases:
+						// 1. Pasting cell in the same row as the previous pasted cell.
+						// 2. Pasting cell into the next row at the proper position.
+						// 3. If the selection started from the left edge of the table,
+						// prepending the proper row with the cell.
+						if ( prevCell && currentRow.equals( prevCell.getParent() ) ) {
+							cellToPaste.insertAfter( prevCell );
+						} else if ( startIndex > 0 ) {
+							cellToPaste.insertAfter( new CKEDITOR.dom.element( currentRow.$.cells[ startIndex ] ) );
+						} else {
+							currentRow.append( cellToPaste, true );
+						}
+					}
+
+					CKEDITOR.dom.element.setMarker( markers, cellToPaste, 'processed', true );
+				} else if ( cellToPaste.getCustomData( 'processed' ) && cellToReplace ) {
+					// If the cell was already pasted, but the cell to replace still exists (e.g. pasted
+					// cell has [colspan]), remove it.
+					cellToReplace.remove();
+				}
+			}
+		}
+
+		CKEDITOR.dom.element.clearAllMarkers( markers );
+		clearFakeCellSelection( evt.editor, true );
+	}
+
+
 	CKEDITOR.plugins.tabletools = {
 		requires: 'table,dialog,contextmenu',
 		init: function( editor ) {
@@ -1294,6 +1466,8 @@
 					editable.attachListener( editable, 'mouseup', fakeSelectionMouseHandler );
 					editable.attachListener( editable, 'selectionchange', fakeSelectionChangeHandler );
 				} );
+
+				editor.on( 'paste', fakeSelectionPasteHandler );
 			}
 		},
 
