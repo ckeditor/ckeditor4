@@ -137,6 +137,12 @@
 			[ 17 ],
 			[ 21 ],
 			[ 5 ]
+		],
+
+		// 11
+		[
+			[ 11, 12, 13 ],
+			[ 11, 16, 17 ]
 		]
 	];
 
@@ -203,6 +209,10 @@
 
 		'test fragment map, table with thead, tfoot (#10)': function() {
 			this.doTest( 'theadtfoot', 10, [ 0, 1, 5, 1 ] );
+		},
+
+		'test fragment map, table with [rowspan]s (#11)': function() {
+			this.doTest( 'rowspan', 11, [ 2, 2, 3, 4 ] );
 		}
 	} );
 } )();
