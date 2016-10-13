@@ -1338,7 +1338,11 @@ CKEDITOR.tools.buildTableMap = function( table, startRow, startCell, endRow, end
 
 		for ( var j = startCell; j <= ( endCell === -1 ? ( aRows[ i ].cells.length - 1 ) : endCell ); j++ ) {
 			var oCell = aRows[ i ].cells[ j ];
-			//console.log( j, oCell );
+
+			if ( !oCell ) {
+				break;
+			}
+
 			c++;
 			while ( aMap[ r ][ c ] )
 				c++;
@@ -1347,6 +1351,10 @@ CKEDITOR.tools.buildTableMap = function( table, startRow, startCell, endRow, end
 			var iRowSpan = isNaN( oCell.rowSpan ) ? 1 : oCell.rowSpan;
 
 			for ( var rs = 0; rs < iRowSpan; rs++ ) {
+				if ( i + rs > endRow ) {
+					break;
+				}
+
 				if ( !aMap[ r + rs ] )
 					aMap[ r + rs ] = [];
 
