@@ -42,13 +42,13 @@
 			'5134Sample': [ 'word2013' ],
 			'5300Sample': [ 'word2013' ],
 			'5399This_is_a_line_of_text': [ 'word2013' ],
-			'5743bulletlist': [ 'word2013' ],
+			// '5743bulletlist': [ 'word2013' ], // @todo
 			'5808Word_test': [ 'word2013' ],
 			'6086test': [ 'word2013' ],
 			'6241Sample_word_doc': [ 'word2013' ],
 			'6286Sample_6286': [ 'word2013' ],
 			'6330bullets': [ 'word2013' ],
-			'6362Numbering': [ 'word2013' ],
+			// '6362Numbering': [ 'word2013' ], // @todo
 			'6449Sample': [ 'word2013' ],
 			'6493Questions_and_answers': [ 'word2013' ],
 			'6533test_doc': [ 'word2013' ],

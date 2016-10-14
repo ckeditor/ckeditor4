@@ -32,7 +32,7 @@
 			'10643sample1': [ 'word2013' ],
 			'10672Lists_Test': [ 'word2013' ],
 			'10780word_margin_bug': [ 'word2013' ],
-			'10783list-break2': [ 'word2013' ], // Wrong list levels.
+			// '10783list-break2': [ 'word2013' ], // Wrong list levels. @todo
 			'10784line_missing': [ 'word2013' ], // IE11 consistently generates this weird output.
 			'11005Test_WordDoc': [ 'word2013' ],
 			'11136bugged_file': [ 'word2013' ],
