@@ -906,7 +906,7 @@
 		tmpContainer.setHtml( evt.data.dataValue );
 		pastedTable = tmpContainer.findOne( 'table' );
 
-		if ( !selection.isInTable() || evt.data.type !== 'html' || !pastedTable ) {
+		if ( !selection.isInTable() ) {
 			return;
 		}
 
@@ -918,6 +918,20 @@
 		firstRow = firstCell.getParent();
 		lastCell = selectedCells[ selectedCells.length - 1 ];
 		lastRow = lastCell.getParent();
+
+		// Empty all selected cells.
+		clearFakeCellSelection( evt.editor, true );
+		for ( i = 0; i < selectedCells.length; i++ ) {
+			selectedCells[ i ].setHtml( '' );
+		}
+
+		// Handle mixed content (if the table is not the only child in the tmpContainer, we
+		// are probably dealing with mixed content). We handle also non-table content here.
+		if ( tmpContainer.getChildCount() > 1 || !pastedTable ) {
+			selectedCells[ 0 ].setHtml( tmpContainer.getHtml() );
+
+			return;
+		}
 
 		// Build table map only for selected fragment.
 		selectedTableMap = CKEDITOR.tools.buildTableMap( selectedTable, selectedCells[ 0 ].getParent().$.rowIndex,
@@ -960,13 +974,6 @@
 		// Rebuild map for selected table.
 		selectedTableMap = CKEDITOR.tools.buildTableMap( selectedTable, firstRow.$.rowIndex, startIndex,
 			lastRow.$.rowIndex, endIndex );
-
-		// Empty all selected cells.
-		for ( i = 0; i < selectedTableMap.length; i++ ) {
-			for ( j = 0; j < selectedTableMap[ i ].length; j++ ) {
-				selectedTableMap[ i ][ j ].innerHTML = '';
-			}
-		}
 
 		// And now paste!
 		for ( i = 0; i < pastedTableMap.length; i++ ) {
@@ -1019,9 +1026,7 @@
 		}
 
 		CKEDITOR.dom.element.clearAllMarkers( markers );
-		clearFakeCellSelection( evt.editor, true );
 	}
-
 
 	CKEDITOR.plugins.tabletools = {
 		requires: 'table,dialog,contextmenu',
