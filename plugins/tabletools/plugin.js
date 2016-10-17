@@ -852,7 +852,8 @@
 	}
 
 	function fakeSelectionPasteHandler( evt ) {
-		var selection = evt.editor.getSelection(),
+		var editor = evt.editor,
+			selection = editor.getSelection(),
 			tmpContainer = new CKEDITOR.dom.element( 'body' ),
 			newRowsCount = 0,
 			newColsCount = 0,
@@ -929,6 +930,8 @@
 		// are probably dealing with mixed content). We handle also non-table content here.
 		if ( tmpContainer.getChildCount() > 1 || !pastedTable ) {
 			selectedCells[ 0 ].setHtml( tmpContainer.getHtml() );
+
+			editor.fire( 'saveSnapshot' );
 
 			return;
 		}
@@ -1026,6 +1029,7 @@
 		}
 
 		CKEDITOR.dom.element.clearAllMarkers( markers );
+		editor.fire( 'saveSnapshot' );
 	}
 
 	CKEDITOR.plugins.tabletools = {
