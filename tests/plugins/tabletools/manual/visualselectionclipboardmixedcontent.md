@@ -15,3 +15,4 @@
 * All content is pasted into the first selected cell.
 * All other cells are emptied.
 * There are no errors in the console.
+* Operation can be undone or redone.
