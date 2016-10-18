@@ -851,6 +851,104 @@
 		}
 	}
 
+	function copyTable( editor, isCut ) {
+		var selection = editor.getSelection(),
+			bookmarks = selection.createBookmarks(),
+			doc = editor.document,
+			range = editor.createRange(),
+			docElement = doc.getDocumentElement().$,
+			needsScrollHack = CKEDITOR.env.ie && CKEDITOR.env.version < 9,
+			// [IE] Use span for copybin and its container to avoid bug with expanding editable height by
+			// absolutely positioned element.
+			copybinName = ( editor.blockless || CKEDITOR.env.ie ) ? 'span' : 'div',
+			copybin,
+			copybinContainer,
+			scrollTop,
+			listener;
+
+		function cancel( evt ) {
+			evt.cancel();
+		}
+
+		// We're still handling previous copy/cut.
+		// When keystroke is used to copy/cut this will also prevent
+		// conflict with copyTable called again for native copy/cut event.
+		if ( doc.getById( 'cke_table_copybin' ) ) {
+			return;
+		}
+
+
+		copybin = doc.createElement( copybinName );
+		copybinContainer = doc.createElement( copybinName );
+
+		copybinContainer.setAttributes( {
+			id: 'cke_table_copybin',
+			'data-cke-temp': '1'
+		} );
+
+		// Position copybin element outside current viewport.
+		copybin.setStyles( {
+			position: 'absolute',
+			width: '1px',
+			height: '1px',
+			overflow: 'hidden'
+		} );
+
+		copybin.setStyle( editor.config.contentsLangDirection == 'ltr' ? 'left' : 'right', '-5000px' );
+
+		copybin.setHtml( editor.getSelectedHtml( true ) );
+
+		// Save snapshot with the current state.
+		editor.fire( 'saveSnapshot' );
+
+		// Ignore copybin.
+		editor.fire( 'lockSnapshot' );
+
+		copybinContainer.append( copybin );
+		editor.editable().append( copybinContainer );
+
+		listener = editor.on( 'selectionChange', cancel, null, null, 0 );
+
+		if ( needsScrollHack ) {
+			scrollTop = docElement.scrollTop;
+		}
+
+		// Once the clone of the table is inside of copybin, select
+		// the entire contents. This selection will be copied by the
+		// native browser's clipboard system.
+		range.selectNodeContents( copybin );
+		range.select();
+
+		if ( needsScrollHack ) {
+			docElement.scrollTop = scrollTop;
+		}
+
+		setTimeout( function() {
+			copybinContainer.remove();
+
+			selection.selectBookmarks( bookmarks );
+			listener.removeListener();
+
+			editor.fire( 'unlockSnapshot' );
+
+			if ( isCut ) {
+				editor.extractSelectedHtml();
+				editor.fire( 'saveSnapshot' );
+			}
+		}, 100 );
+	}
+
+	function fakeSelectionCopyCutHandler( evt ) {
+		var editor = evt.editor || evt.sender.editor,
+		selection = editor.getSelection();
+
+		if ( !selection.isInTable() ) {
+			return;
+		}
+
+		copyTable( editor, evt.name === 'cut' );
+	}
+
 	function fakeSelectionPasteHandler( evt ) {
 		var editor = evt.editor,
 			selection = editor.getSelection(),
@@ -1474,6 +1572,12 @@
 					editable.attachListener( editable, 'mousemove', fakeSelectionMouseHandler );
 					editable.attachListener( editable, 'mouseup', fakeSelectionMouseHandler );
 					editable.attachListener( editable, 'selectionchange', fakeSelectionChangeHandler );
+
+					// Setup copybin.
+					if ( CKEDITOR.plugins.clipboard && !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+						editable.attachListener( editable, 'cut', fakeSelectionCopyCutHandler );
+						editable.attachListener( editable, 'copy', fakeSelectionCopyCutHandler );
+					}
 				} );
 
 				editor.on( 'paste', fakeSelectionPasteHandler );
