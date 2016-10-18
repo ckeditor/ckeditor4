@@ -791,11 +791,12 @@
 				var range;
 				if ( finder.matchRange && finder.matchRange.isMatched() ) {
 					finder.matchRange.removeHighlight();
-					editor.focus();
 
 					range = finder.matchRange.toDomRange();
 					if ( range )
 						editor.getSelection().selectRanges( [ range ] );
+
+					editor.focus();
 				}
 
 				// Clear current session before dialog close
