@@ -774,42 +774,10 @@
 		editor.getSelection().selectRanges( ranges );
 	}
 
-	function fakeSelectCellsByMouse( cell, evt ) {
-		var editor = evt.editor || evt.sender.editor,
+	function fakeSelectByMouse( editor, cellOrTable, evt ) {
+		var selectedCells = getSelectedCells( editor.getSelection( true ) ),
+			cell = !cellOrTable.is( 'table' ) ? cellOrTable : null,
 			cells;
-
-		if ( evt.name === 'mousedown' && detectLeftMouseButton( evt ) ) {
-			fakeSelection = {
-				first: cell,
-				dirty: false
-			};
-
-			return;
-		}
-
-		if ( !fakeSelection ) {
-			return;
-		}
-
-		// The selection is inside one cell, so we should allow native selection,
-		// but only in case if no other cell between mousedown and mouseup
-		// was selected.
-		if ( !fakeSelection.dirty && fakeSelection.first.equals( cell ) ) {
-			return clearFakeCellSelection( editor, evt.name === 'mouseup' );
-		}
-
-		fakeSelection.dirty = true;
-		cells = getCellsBetween( fakeSelection.first, cell );
-
-		fakeSelectCells( editor, cells );
-
-		if ( evt.name === 'mouseup' ) {
-			fakeSelection = null;
-		}
-	}
-
-	function fakeSelectTableByMouse( editor, table, evt ) {
-		var selectedCells = getSelectedCells( editor.getSelection( true ) );
 
 		// getSelectedCells treats cells with cursor in them as also selected.
 		// We don't.
@@ -823,18 +791,34 @@
 			return false;
 		}
 
-		if ( !fakeSelection && detectLeftMouseButton( evt ) &&
-			areCellsReallySelected( editor.getSelection(), selectedCells ) ) {
+		// In the case of cell create new fakeSelection only when left mouse button is pressed.
+		// In the case of table create new fakeSelection only when we have some really selected cells.
+		if ( !fakeSelection && detectLeftMouseButton( evt ) && ( ( cell && evt.name === 'mousedown' ) ||
+			areCellsReallySelected( editor.getSelection(), selectedCells ) ) ) {
 			fakeSelection = {
-				first: selectedCells[ 0 ],
-				dirty: selectedCells.length !== 1
+				first: cell || selectedCells[ 0 ],
+				dirty: cell ? false : ( selectedCells.length !== 1 )
 			};
 
 			return;
 		}
 
-		if ( evt.name === 'mouseup' ) {
-			fakeSelection = null;
+		if ( !fakeSelection ) {
+			return;
+		}
+
+		if ( cell ) {
+			// The selection is inside one cell, so we should allow native selection,
+			// but only in case if no other cell between mousedown and mouseup
+			// was selected.
+			if ( !fakeSelection.dirty && fakeSelection.first.equals( cell ) ) {
+				return clearFakeCellSelection( editor, evt.name === 'mouseup' );
+			}
+
+			fakeSelection.dirty = true;
+			cells = getCellsBetween( fakeSelection.first, cell );
+
+			fakeSelectCells( editor, cells );
 		}
 	}
 
@@ -879,10 +863,12 @@
 
 		// The separate condition for table handles cases when user starts/stop dragging from/in
 		// spacing between cells.
-		if ( cell ) {
-			fakeSelectCellsByMouse( cell, evt );
-		} else if ( table ) {
-			fakeSelectTableByMouse( editor, table, evt );
+		if ( cell || table ) {
+			fakeSelectByMouse( editor, cell || table, evt );
+		}
+
+		if ( evt.name === 'mouseup' ) {
+			fakeSelection = null;
 		}
 	}
 
