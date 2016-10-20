@@ -787,7 +787,7 @@
 			return;
 		}
 
-		if ( !fakeSelection || !detectLeftMouseButton( evt ) ) {
+		if ( !fakeSelection ) {
 			return;
 		}
 
@@ -802,6 +802,36 @@
 		cells = getCellsBetween( fakeSelection.first, cell );
 
 		fakeSelectCells( editor, cells );
+
+		if ( evt.name === 'mouseup' ) {
+			fakeSelection = null;
+		}
+	}
+
+	function fakeSelectTableByMouse( editor, table, evt ) {
+		var selectedCells = getSelectedCells( editor.getSelection( true ) );
+
+		// getSelectedCells treats cells with cursor in them as also selected.
+		// We don't.
+		function areCellsReallySelected( selection, selectedCells ) {
+			var ranges = selection.getRanges();
+
+			if ( !selection.isInTable() && ( selectedCells.length > 1 || !ranges[ 0 ].collapsed ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		if ( !fakeSelection && detectLeftMouseButton( evt ) &&
+			areCellsReallySelected( editor.getSelection(), selectedCells ) ) {
+			fakeSelection = {
+				first: selectedCells[ 0 ],
+				dirty: selectedCells.length !== 1
+			};
+
+			return;
+		}
 
 		if ( evt.name === 'mouseup' ) {
 			fakeSelection = null;
@@ -837,17 +867,22 @@
 
 	function fakeSelectionMouseHandler( evt ) {
 		var editor = evt.editor || evt.sender.editor,
-			cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
+			cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true ),
+			table = evt.data.getTarget().getAscendant( 'table', true );
 
 		// 1. User clicks outside the table.
 		// 2. User opens context menu not in the selected table.
-		if ( ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !cell ) ) ||
+		if ( ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !table ) ) ||
 			( evt.name === 'mouseup' && !editor.getSelection().isInTable() ) ) {
 			clearFakeCellSelection( editor, true );
 		}
 
+		// The separate condition for table handles cases when user starts/stop dragging from/in
+		// spacing between cells.
 		if ( cell ) {
 			fakeSelectCellsByMouse( cell, evt );
+		} else if ( table ) {
+			fakeSelectTableByMouse( editor, table, evt );
 		}
 	}
 
