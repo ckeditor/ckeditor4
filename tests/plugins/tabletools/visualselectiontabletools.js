@@ -181,6 +181,30 @@
 			assert.isTrue( editable.findOne( '#second' ).equals( cells[ 1 ] ) );
 			assert.isTrue( editable.findOne( '#third' ).equals( cells[ 2 ] ) );
 			assert.isTrue( last.equals( cells[ 3 ] ) );
+		},
+
+		'test getCellsBetween (reversed)': function() {
+			var bot = this.editorBot,
+				editor = this.editor,
+				editable = editor.editable(),
+				first,
+				last,
+				cells;
+
+			bot.setHtmlWithSelection( CKEDITOR.document.getById( 'getCellsBetween' ).getValue() );
+
+			first = editable.findOne( '#first' );
+			last = editable.findOne( '#last' );
+
+			cells = CKEDITOR.plugins.tabletools.getCellsBetween( last, first );
+
+			assert.isTrue( CKEDITOR.tools.isArray( cells ) );
+			assert.areSame( 4, cells.length );
+
+			assert.isTrue( first.equals( cells[ 0 ] ) );
+			assert.isTrue( editable.findOne( '#second' ).equals( cells[ 1 ] ) );
+			assert.isTrue( editable.findOne( '#third' ).equals( cells[ 2 ] ) );
+			assert.isTrue( last.equals( cells[ 3 ] ) );
 		}
 	} );
 } )();
