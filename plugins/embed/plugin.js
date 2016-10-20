@@ -69,7 +69,11 @@
 
 /**
  * A template for the URL of the provider endpoint. This URL will be queried for each resource to be embedded.
- * By default CKEditor uses the [Iframely](https://iframely.com/) service.
+ * By default CKEditor does not use any provider, although there's a ready to use URL available:
+ *
+ *		//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}
+ *
+ * I'ts recommended to set up an account on the [Iframely](https://iframely.com/) service for better API usage tracking.
  *
  * The template might use the following parameters:
  *
@@ -87,6 +91,6 @@
  *
  * @since 4.5
  * @cfg {String} [embed_provider=//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}]
- * ** Since 4.6 **: embed_provider defaults to an empty string. Users are advised to provide their own embed provider url.
+ * ** Since 4.6 **: embed_provider defaults to an empty string.
  * @member CKEDITOR.config
  */
