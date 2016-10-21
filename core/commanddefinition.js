@@ -52,11 +52,15 @@
  * command itself manually, and that the return value of this command is not to
  * be returned by the {@link #exec} function.
  *
- * 		editorInstance.addCommand( 'loadOptions', {
+ * 		editorInstance.addCommand( 'loadoptions', {
  * 			exec: function( editor ) {
+ * 				var cmd = this;
  * 				// Asynchronous operation below.
  * 				CKEDITOR.ajax.loadXml( 'data.xml', function() {
- * 					editor.fire( 'afterCommandExec' );
+ * 					editor.fire( 'afterCommandExec', {
+ *						name: 'loadoptions',
+ *						command: cmd
+ * 					} );
  * 				} );
  * 			},
  * 			async: true // The command need some time to complete after exec function returns.
