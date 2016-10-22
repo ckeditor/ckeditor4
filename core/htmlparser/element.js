@@ -443,6 +443,38 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
+		 * Search through the current node children to find nodes matching to the `criteria`.
+		 *
+		 * @param {String/Function} criteria Tag name or evaluator function.
+		 * @param {Boolean} [recursive=false]
+		 * @returns {CKEDITOR.htmlParser.node[]}
+		 */
+		find: function( criteria, recursive ) {
+			if ( recursive === undefined ) {
+				recursive = false;
+			}
+
+			var ret = [],
+				i;
+
+			for	( i = 0; i < this.children.length; i++ ) {
+				var curChild = this.children[ i ];
+
+				if ( typeof criteria == 'function' && criteria( curChild ) ) {
+					ret.push( curChild );
+				} else if ( typeof criteria == 'string' && curChild.name === criteria ) {
+					ret.push( curChild );
+				}
+
+				if ( recursive && curChild.find ) {
+					ret = ret.concat( curChild.find( criteria, recursive ) );
+				}
+			}
+
+			return ret;
+		},
+
+		/**
 		 * Adds a class name to the list of classes.
 		 *
 		 * @since 4.4
