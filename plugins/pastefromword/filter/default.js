@@ -534,7 +534,7 @@
 	CKEDITOR.plugins.pastefromword.lists = {
 		/**
 		 * CHecks if given element is list item-alike.
-		 * 
+		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
 		 */
@@ -562,7 +562,7 @@
 
 		/**
 		 * Converts element to an element with `cke:li` tag name.
-		 * 
+		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 */
 		convertToFakeListItem: function( element ) {
@@ -608,7 +608,7 @@
 
 		/**
 		 * Converts any fake list items containerd within `root` into a real `li` elements.
-		 * 
+		 *
 		 * @param {CKEDITOR.htmlParser.element} root
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of converted elements.
 		 */
@@ -1007,7 +1007,7 @@
 
 		/**
 		 * Converts a single, flat list items array into an array with a hierarchy of items.
-		 * 
+		 *
 		 * @todo: Describe what `lists` parameter is for. By the looks of it it's supposed to be array which is used
 		 * to return the value.
 		 *
@@ -1188,8 +1188,8 @@
 		},
 
 		/**
-		 * Returns an object describing given `symbol`. 
-		 * 
+		 * Returns an object describing given `symbol`.
+		 *
 		 * @param {String} symbol
 		 * @param {String} type
 		 * @returns {Object} ret
@@ -1243,10 +1243,10 @@
 		/**
 		 * Returns Word generated information about given list item, mainly by parsing `mso-list`
 		 * CSS property.
-		 * 
+		 *
 		 * Note: by list items we mean also paragraphs with `mso-list` because we know that Word serves
 		 * list items as a paragraph.
-		 * 
+		 *
 		 * @param {CKEDITOR.htmlParser.element} list
 		 * @returns ret
 		 * @returns {String} ret.id List id, ordinarly it's a decimal string.
