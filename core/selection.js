@@ -118,6 +118,14 @@
 		return txt;
 	}
 
+	function clearCellInRange( range ) {
+		if ( !isQuirkyEnv ) {
+			return range.getEnclosedNode().setHtml( '' );
+		}
+
+		range.deleteContents();
+	}
+
 	function performFakeTableSelection( ranges ) {
 		var editor = this.root.editor,
 			realSelection = editor.getSelection( 1 ),
@@ -180,7 +188,8 @@
 				selection,
 				toStart = keystroke === 37 || keystroke == 38,
 				ranges,
-				range,
+				firstCell,
+				lastCell,
 				i;
 
 			// Handle only left/right/del/bspace keys.
@@ -190,6 +199,8 @@
 
 			selection = editor.getSelection();
 			ranges = selection.getRanges();
+			firstCell = ranges[ 0 ].getEnclosedNode().getAscendant( { td: 1, th: 1 }, true );
+			lastCell = ranges[ ranges.length - 1 ].getEnclosedNode().getAscendant( { td: 1, th: 1 }, true );
 
 			if ( !selection || !selection.isInTable() || !selection.isFake ) {
 				return;
@@ -199,20 +210,17 @@
 			evt.cancel();
 
 			if ( keystroke > 8 && keystroke < 46 ) {
-				range = ranges[ toStart ? 0 : ( ranges.length - 1 ) ];
-
-				range.moveToElementEditablePosition( range.getEnclosedNode(), !toStart );
-				selection.selectRanges( [ range ] );
+				ranges[ 0 ].moveToElementEditablePosition( toStart ? firstCell : lastCell, !toStart );
+				selection.selectRanges( [ ranges[ 0 ] ] );
 			} else {
 				for ( i = 0; i < ranges.length; i++ ) {
-					ranges[ i ].getEnclosedNode().setHtml( '' );
+					clearCellInRange( ranges[ i ] );
 				}
 
 				editor.fire( 'saveSnapshot' );
 
-				range = ranges[ 0 ];
-				range.moveToElementEditablePosition( range.getEnclosedNode() );
-				selection.selectRanges( [ range ] );
+				ranges[ 0 ].moveToElementEditablePosition( firstCell );
+				selection.selectRanges( [ ranges[ 0 ] ] );
 			}
 		};
 	}
@@ -221,23 +229,24 @@
 		return function( evt ) {
 			var selection = editor.getSelection(),
 				ranges,
-				range,
+				firstCell,
 				i;
 
 			// We must check if the event really did not produce any character as it's fired for all keys in Gecko.
-			if ( !selection || !selection.isInTable() || !selection.isFake || !evt.data.$.charCode || evt.data.$.ctrlKey ) {
+			if ( !selection || !selection.isInTable() || !selection.isFake || !evt.data.$.charCode ||
+				evt.data.getKeystroke() & CKEDITOR.CTRL ) {
 				return;
 			}
 
 			ranges = selection.getRanges();
+			firstCell = ranges[ 0 ].getEnclosedNode().getAscendant( { td: 1, th: 1 }, true );
 
 			for ( i = 0; i < ranges.length; i++ ) {
-				ranges[ i ].getEnclosedNode().setHtml( '' );
+				clearCellInRange( ranges[ i ] );
 			}
 
-			range = ranges[ 0 ];
-			range.moveToElementEditablePosition( range.getEnclosedNode() );
-			selection.selectRanges( [ range ] );
+			ranges[ 0 ].moveToElementEditablePosition( firstCell );
+			selection.selectRanges( [ ranges[ 0 ] ] );
 		};
 	}
 
