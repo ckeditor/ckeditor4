@@ -74,7 +74,7 @@
 
 	var frameDocTpl = CKEDITOR.addTemplate( 'panel-frame-inner', '<!DOCTYPE html>' +
 		'<html class="cke_panel_container {env}" dir="{dir}" lang="{langCode}">' +
-			'<head>{css}</head>' +
+			'<head>{base}{css}</head>' +
 			'<body class="cke_{dir}"' +
 				' style="margin:0;padding:0" onload="{onload}"></body>' +
 		'<\/html>' );
@@ -113,7 +113,8 @@
 
 						doc.write( frameDocTpl.output( CKEDITOR.tools.extend( {
 							css: CKEDITOR.tools.buildStyleHtml( this.css ),
-							onload: 'window.parent.CKEDITOR.tools.callFunction(' + onLoad + ');'
+							onload: 'window.parent.CKEDITOR.tools.callFunction(' + onLoad + ');',
+							base: editor.config.baseHref ? '<base href="' + editor.config.baseHref + '" data-cke-temp="1" />' : ''
 						}, data ) ) );
 
 						var win = doc.getWindow();
