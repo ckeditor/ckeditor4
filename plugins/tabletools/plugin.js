@@ -761,12 +761,20 @@
 	function fakeSelectCells( editor, cells ) {
 		var ranges = [],
 			range,
+			env = CKEDITOR.env,
 			i;
 
 		for ( i = 0; i < cells.length; i++ ) {
 			range = editor.createRange();
-			range.setStartBefore( cells[ i ] );
-			range.setEndAfter( cells[ i ] );
+
+			// IE 8 and Safari does not allow to select `[<td>cell</td>]`. Instead we must select
+			// cell's content (`<td>[cell]</td>`).
+			if ( ( env.ie && env.version < 9 ) || ( env.webkit && !env.chrome ) ) {
+				range.selectNodeContents( cells[ i ] );
+			} else {
+				range.setStartBefore( cells[ i ] );
+				range.setEndAfter( cells[ i ] );
+			}
 
 			ranges.push( range );
 		}

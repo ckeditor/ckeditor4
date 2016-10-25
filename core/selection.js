@@ -9,6 +9,8 @@
 		// #13816
 		fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
 		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' ),
+		env = CKEDITOR.env,
+		isQuirkyEnv = ( env.ie && env.version < 9 ) || ( env.webkit && !env.chrome ),
 		isSelectingTable;
 
 	// #### table selection : START
@@ -20,7 +22,11 @@
 		for ( i = 0; i < ranges.length; i++ ) {
 			node = ranges[ i ].getEnclosedNode();
 
-			if ( !node || node.type !== CKEDITOR.NODE_ELEMENT || !node.getAscendant( 'table', true ) ) {
+			if (
+				!node ||
+				( !isQuirkyEnv && ( node.type !== CKEDITOR.NODE_ELEMENT || !node.getAscendant( 'table', true ) ) ) ||
+				( isQuirkyEnv && !node.getAscendant( { td: 1, th: 1 }, true ) )
+			) {
 				return false;
 			}
 		}
@@ -73,10 +79,12 @@
 		for ( i = 0; i < ranges.length; i++ ) {
 			node = ranges[ i ].getEnclosedNode();
 
-			if ( node.is( { td: 1, th: 1 } ) ) {
+			if ( node.is && node.is( { td: 1, th: 1 } ) ) {
 				cells.push( node );
-			} else {
+			} else if ( !isQuirkyEnv ) {
 				cells.concat( getCellsFromElement( node ) );
+			} else {
+				cells.push( node.getAscendant( { td: 1, th: 1 }, true ) );
 			}
 		}
 
