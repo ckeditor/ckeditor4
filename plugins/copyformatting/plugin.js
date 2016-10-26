@@ -1130,8 +1130,8 @@
 	 * @event applyFormatting
 	 * @member CKEDITOR.editor.copyFormatting
 	 * @param {Object} data
-	 * @param {CKEDITOR.dom.range} range Range from the current selection where styling should be applied.
-	 * @param {CKEDITOR.style[]} styles Styles to be applied.
+	 * @param {CKEDITOR.dom.range} data.range Range from the current selection where styling should be applied.
+	 * @param {CKEDITOR.style[]} data.styles Styles to be applied.
 	 * @param {Boolean} [data.preventFormatStripping=false] If set to true, will prevent stripping styles from
 	 * Copy Formatting destination range.
 	 */
