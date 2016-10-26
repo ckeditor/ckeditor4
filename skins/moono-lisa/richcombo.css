@@ -31,7 +31,7 @@ The visual representation of a rich combo widget looks as follows:
 	display: inline-block;
 	float: left;
 	position: relative;
-	margin-bottom: 6px;
+	margin-bottom: 5px;
 }
 
 .cke_rtl .cke_combo
