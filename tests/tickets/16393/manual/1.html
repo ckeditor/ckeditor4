@@ -1,0 +1,20 @@
+
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	<h1>Lorem ipsum</h1>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		toolbar: [
+			{ name: 'clipboard', items: [ 'Undo', 'Redo' ] },
+			{ name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
+			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat' ] },
+			{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+			{ name: 'paragraph', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+			{ name: 'links', items: [ 'Link', 'Unlink' ] },
+			{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+			{ name: 'insert', items: [ 'Image', 'Table', 'SpecialChar' ] },
+			{ name: 'colors2', items: [ 'TextColor' ] }
+		]
+	} );
+</script>
