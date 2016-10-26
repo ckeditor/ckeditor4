@@ -93,6 +93,7 @@
 			 * Object indicating the current state of Copy Formatting plugin
 			 * in the specified editor.
 			 *
+			 * @since 4.6.0
 			 * @mixins CKEDITOR.event
 			 * @member CKEDITOR.editor
 			 */
@@ -101,7 +102,7 @@
 				 * Currently copied styles.
 				 *
 				 * @member CKEDITOR.editor.copyFormatting
-				 * @property {CKEDITOR.style[]|null}
+				 * @property {CKEDITOR.style[]/null}
 				 */
 				styles: null,
 
@@ -131,8 +132,9 @@
 
 				/**
 				 * Checks if copying and applying styles in the current context is possible.
-				 * For list of possible context values see `{@link CKEDITOR.config.copyFormatting_allowedContexts}`.
+				 * For list of possible context values see {@link CKEDITOR.config#copyFormatting_allowedContexts}.
 				 *
+				 * @member CKEDITOR.editor.copyFormatting
 				 * @param {String} testedContext Context name.
 				 * @returns {Boolean} `true` if given context is allowed in current Copy Formatting instance.
 				 * @private
@@ -333,7 +335,7 @@
 
 		/**
 		 * Array of attributes to be excluded while transforming styles from elements inside
-		 * {@link CKEDITOR.plugins.copyformatting.elementsForInlineTransform} into `span` elements with styles
+		 * {@link CKEDITOR.plugins.copyformatting#elementsForInlineTransform} into `span` elements with styles
 		 * (e.g. when applying that styles to text context).
 		 *
 		 * @property {Array}
@@ -454,7 +456,7 @@
 		/**
 		 * Converts given element into style definition that could be used to create instance of {@link CKEDITOR.style}.
 		 *
-		 * Note that all definitions has `type` property set to {@link CKEDITOR.STYLE_INLINE}
+		 * Note that all definitions has `type` property set to {@link CKEDITOR#STYLE_INLINE}
 		 *
 		 * @param {CKEDITOR.dom.element} element Element to be converted.
 		 * @returns {Object} Style definition created from the element.
@@ -476,7 +478,7 @@
 		/**
 		 * Extract styles from given element and its ancestors. The function walks up the document's tree, starting from
 		 * given element and ends on editor's editable or when the element from
-		 * {@link CKEDITOR.plugins.copyformatting.breakOnElements} is reached.
+		 * {@link CKEDITOR.plugins.copyformatting#breakOnElements} is reached.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.element} element Element which styles should be extracted.
@@ -510,7 +512,7 @@
 
 		/**
 		 * Extract styles from given range. Function finds all elements in given range and then applies
-		 * {@link CKEDITOR.plugins.copyformatting._extractStylesFromElement} on them.
+		 * {@link CKEDITOR.plugins.copyformatting#_extractStylesFromElement} on them.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
@@ -741,8 +743,8 @@
 		/**
 		 * Filter styles before applying using {@link CKEDITOR.filter}.
 		 *
-		 * @param {CKEDITOR.styles[]} styles Array of styles to be filtered.
-		 * @return {CKEDITOR.styles[]} Filtered styles.
+		 * @param {CKEDITOR.style[]} styles Array of styles to be filtered.
+		 * @return {CKEDITOR.style[]} Filtered styles.
 		 * @private
 		 */
 		_filterStyles: function( styles ) {
@@ -773,7 +775,7 @@
 
 		/**
 		 * Determines context of the given selection. For list of possible context values see
-		 * `{@link CKEDITOR.config.copyFormatting_allowedContexts}`.
+		 * `{@link CKEDITOR.config#copyFormatting_allowedContexts}`.
 		 *
 		 * @param {CKEDITOR.dom.range} range The range that the context should be determined from.
 		 * @returns {String}
@@ -937,13 +939,13 @@
 
 
 		/**
-		 * Initiliazes applying given styles to the currently selected content in the editor.
+		 * Initializes applying given styles to the currently selected content in the editor.
 		 *
 		 * The actual applying is performed inside event listeners for
-		 * {@ CKEDITOR.editory.copyFormatting.applyFormatting} event.
+		 * {@link CKEDITOR.editor.copyFormatting#applyFormatting} event.
 		 *
 		 * @param {CKEDITOR.editor} editor The editor's instance.
-		 * @param {CKEDITOR.styles[]} newStyles Array of styles to be applied.
+		 * @param {CKEDITOR.style[]} newStyles Array of styles to be applied.
 		 * @returns {Boolean} `false` if styles could not be applied, `true` otherwise.
 		 * @private
 		 */
@@ -1046,7 +1048,8 @@
 
 	/**
 	 * Defines which contexts should be enabled in Copy Formatting plugin. Available contexts are:
-	 * * `'text' – plain text context
+	 *
+	 * * `'text'` – plain text context
 	 * * `'list'` – list context
 	 * * `'table'` – table context
 	 *
