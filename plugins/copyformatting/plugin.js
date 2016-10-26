@@ -10,7 +10,7 @@
 
 	// Detects if the left mouse button was pressed:
 	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
-	// * In IE 8- we use event.button with IE's propertiary values.
+	// * In IE 8- we use event.button with IE's proprietary values.
 	function detectLeftMouseButton( evt ) {
 		var domEvent = evt.data.$;
 
@@ -70,7 +70,7 @@
 		onLoad: function() {
 			var doc = CKEDITOR.document,
 				// We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
-				// `aria-live` which has dirrectly `position: absolute` assigned.
+				// `aria-live` which has directly `position: absolute` assigned.
 				// The trick was simply to put position absolute, and all the hiding CSS into a wrapper,
 				// while content with `aria-live` attribute inside.
 				notificationTpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
@@ -438,7 +438,7 @@
 		},
 
 		/**
-		 * Return a container element where the mouse cursor should be overriden.
+		 * Return a container element where the mouse cursor should be overridden.
 		 *
 		 * @param {CKEDITOR.editor} editor Editor's instance.
 		 * @return {CKEDITOR.dom.element} for an inline editor is the editable itself and for a classic editor
@@ -566,11 +566,11 @@
 		 * It handles also cases like `lu<span style="color: #f00;">n</span>ar`.
 		 *
 		 * @param {CKEDITOR.dom.range} range Selected range.
-		 * @returns {Object} Object with properties:
-		 * @returns {CKEDITOR.dom.element} startNode Node in which the word's beginning is located.
-		 * @returns {Number} startOffset Offset inside `startNode` indicating word's beginning.
-		 * @returns {CKEDITOR.dom.element} endNode Node in which the word's ending is located.
-		 * @returns {Number} endOffset Offset inside `endNode` indicating word's ending
+		 * @returns {Object} return Object with properties:
+		 * @returns {CKEDITOR.dom.element} return.startNode Node in which the word's beginning is located.
+		 * @returns {Number} return.startOffset Offset inside `startNode` indicating word's beginning.
+		 * @returns {CKEDITOR.dom.element} return.endNode Node in which the word's ending is located.
+		 * @returns {Number} return.endOffset Offset inside `endNode` indicating word's ending
 		 * @private
 		 */
 		_getSelectedWordOffset: function( range ) {
@@ -677,11 +677,11 @@
 				// is located on the boundary of block element, set offset to 0.
 				// * if we are searching for the ending of the word and the word
 				// is located on the boundary of block element, set offset to
-				// the last occurence of non-word character or node's length.
+				// the last occurrence of non-word character or node's length.
 				// * if we are searching for the beginning of the word, we must move the offset
 				// one character to the right (the space is located just before the word).
 				// * we must also ensure that the space is not located at the boundary of the node,
-				// otherwise we must return next node with appropiate offset.
+				// otherwise we must return next node with appropriate offset.
 				if ( isBoundary ) {
 					if ( isPrev ) {
 						offset = 0;
@@ -1092,7 +1092,7 @@
 	 *			evt.data.styleDef.attributes.class = 'important';
 	 *		} );
 	 *
-	 * This event can albo be canceled to indicate that styles from current element should not
+	 * This event can also be canceled to indicate that styles from current element should not
 	 * be extracted.
 	 *
 	 *		editor.copyFormatting.on( 'extractFormatting', function( evt ) {
