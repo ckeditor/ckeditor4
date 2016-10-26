@@ -1012,6 +1012,7 @@
 	 *
 	 *		config.copyFormatting_outerCursor = false;
 	 *
+	 * @since 4.6.0
 	 * @cfg [copyFormatting_outerCursor=true]
 	 * @member CKEDITOR.config
 	 */
@@ -1027,6 +1028,7 @@
 	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allow only spans
 	 *		config.copyFormatting_allowRules = true; // Disables filtering
 	 *
+	 * @since 4.6.0
 	 * @cfg [copyFormatting_allowRules='b; s; u; strong; span; p; div; table; thead; tbody; ' +
 	 *	'tr; td; th; ol; ul; li; (*)[*]{*}']
 	 * @member CKEDITOR.config
@@ -1041,6 +1043,7 @@
 	 *
 	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallow spans with important class.
 	 *
+	 * @since 4.6.0
 	 * @cfg [copyFormatting_disallowRules='*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)']
 	 * @member CKEDITOR.config
 	 */
@@ -1059,6 +1062,7 @@
 	 *		// If set to true, will enable all contexts.
 	 *		config.copyFormatting_allowedContexts = true;
 	 *
+	 * @since 4.6.0
 	 * @cfg {Boolean/String[]} [copyFormatting_allowedContexts=true]
 	 * @member CKEDITOR.config
 	 */
@@ -1069,6 +1073,7 @@
 	 *
 	 *		config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 67; // Ctrl+Shift+C
 	 *
+	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokeCopy=CKEDITOR.CTRL + CKEDITOR.SHIFT + 67]
 	 * @member CKEDITOR.config
 	 */
@@ -1079,6 +1084,7 @@
 	 *
 	 *		config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86; // Ctrl+Shift+V
 	 *
+	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokePaste=CKEDITOR.CTRL + CKEDITOR.SHIFT + 86]
 	 * @member CKEDITOR.config
 	 */
