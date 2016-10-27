@@ -98,14 +98,6 @@
 			 */
 			editor.copyFormatting = new plugin.state( editor );
 
-			if ( editor.config.copyFormatting_allowRules === true ) {
-				editor.copyFormatting.filter.disabled = true;
-			}
-
-			if ( editor.config.copyFormatting_disallowRules ) {
-				editor.copyFormatting.filter.disallow( editor.config.copyFormatting_disallowRules );
-			}
-
 			editor.addCommand( 'copyFormatting', plugin.commands.copyFormatting );
 			editor.addCommand( 'applyFormatting', plugin.commands.applyFormatting );
 
@@ -285,6 +277,14 @@
 		 * @property {CKEDITOR.filter}
 		 */
 		this.filter = new CKEDITOR.filter( editor.config.copyFormatting_allowRules );
+
+		if ( editor.config.copyFormatting_allowRules === true ) {
+			this.filter.disabled = true;
+		}
+
+		if ( editor.config.copyFormatting_disallowRules ) {
+			this.filter.disallow( editor.config.copyFormatting_disallowRules );
+		}
 	}
 
 	/**
