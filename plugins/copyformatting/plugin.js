@@ -90,67 +90,17 @@
 			}
 
 			/**
-			 * Object indicating the current state of Copy Formatting plugin
-			 * in the specified editor.
+			 * Current state of Copy Formatting plugin in this editor instance.
 			 *
 			 * @since 4.6.0
-			 * @mixins CKEDITOR.event
+			 * @property {CKEDITOR.plugins.copyformatting.state} copyFormatting
 			 * @member CKEDITOR.editor
 			 */
-			editor.copyFormatting = {
-				/**
-				 * Currently copied styles.
-				 *
-				 * @member CKEDITOR.editor.copyFormatting
-				 * @property {CKEDITOR.style[]/null}
-				 */
-				styles: null,
-
-				/**
-				 * Indicates if the Copy Formatting plugin is in sticky mode.
-				 *
-				 * @member CKEDITOR.editor.copyFormatting
-				 * @property {Boolean}
-				 */
-				sticky: false,
-
-				/**
-				 * Reference to the editor.
-				 *
-				 * @member CKEDITOR.editor.copyFormatting
-				 * @property {CKEDITOR.editor}
-				 */
-				editor: editor,
-
-				/**
-				 * Filter used by current's Copy Formatting instance.
-				 *
-				 * @member CKEDITOR.editor.copyFormatting
-				 * @property {CKEDITOR.filter}
-				 */
-				filter: new CKEDITOR.filter( editor.config.copyFormatting_allowRules ),
-
-				/**
-				 * Checks if copying and applying styles in the current context is possible.
-				 * For list of possible context values see {@link CKEDITOR.config#copyFormatting_allowedContexts}.
-				 *
-				 * @member CKEDITOR.editor.copyFormatting
-				 * @param {String} testedContext Context name.
-				 * @returns {Boolean} `true` if given context is allowed in current Copy Formatting instance.
-				 * @private
-				 */
-				_isContextAllowed: function( testedContext ) {
-					var configValue = this.editor.config.copyFormatting_allowedContexts;
-
-					return configValue === true || indexOf( configValue, testedContext ) !== -1;
-				}
-			};
+			editor.copyFormatting = new plugin.state( editor );
 
 			if ( editor.config.copyFormatting_allowRules === true ) {
 				editor.copyFormatting.filter.disabled = true;
 			}
-
-			CKEDITOR.event.implementOn( editor.copyFormatting );
 
 			if ( editor.config.copyFormatting_disallowRules ) {
 				editor.copyFormatting.filter.disallow( editor.config.copyFormatting_disallowRules );
@@ -296,10 +246,72 @@
 	} );
 
 	/**
+	 * Copy Formatting state object created for each CKEditor instance.
+	 *
+	 * @class CKEDITOR.plugins.copyformatting.state
+	 * @mixins CKEDITOR.event
+	 * @constructor Creates a new state object.
+	 * @param {CKEDITOR.editor} editor
+	 */
+	function State( editor ) {
+		/**
+		 * Currently copied styles.
+		 *
+		 * @member CKEDITOR.plugins.copyformatting.state
+		 * @property {CKEDITOR.style[]/null}
+		 */
+		this.styles = null;
+
+		/**
+		 * Indicates if the Copy Formatting plugin is in sticky mode.
+		 *
+		 * @member CKEDITOR.plugins.copyformatting.state
+		 * @property {Boolean}
+		 */
+		this.sticky = false;
+
+		/**
+		 * Reference to the editor.
+		 *
+		 * @member CKEDITOR.plugins.copyformatting.state
+		 * @property {CKEDITOR.editor}
+		 */
+		this.editor = editor;
+
+		/**
+		 * Filter used by current's Copy Formatting instance.
+		 *
+		 * @member CKEDITOR.plugins.copyformatting.state
+		 * @property {CKEDITOR.filter}
+		 */
+		this.filter = new CKEDITOR.filter( editor.config.copyFormatting_allowRules );
+	}
+
+	/**
+	 * Checks if copying and applying styles in the current context is possible.
+	 * For list of possible context values see {@link CKEDITOR.config#copyFormatting_allowedContexts}.
+	 *
+	 * @member CKEDITOR.plugins.copyformatting.state
+	 * @param {String} testedContext Context name.
+	 * @returns {Boolean} `true` if given context is allowed in current Copy Formatting instance.
+	 * @private
+	 */
+	State.prototype._isContextAllowed = function( testedContext ) {
+			var configValue = this.editor.config.copyFormatting_allowedContexts;
+
+			return configValue === true || indexOf( configValue, testedContext ) !== -1;
+		};
+
+	CKEDITOR.event.implementOn( State.prototype );
+
+	/**
+	 * @since 4.6.0
 	 * @singleton
 	 * @class CKEDITOR.plugins.copyformatting
 	 */
 	CKEDITOR.plugins.copyformatting = {
+		state: State,
+
 		/**
 		 * Array of block boundaries that should be always transformed into inline elements with  styles, e.g.
 		 * `<div style="font-size: 24px;" class="important">` becomes `<span style="font-size: 24px;" class="important">`.
@@ -1112,7 +1124,7 @@
 	 * element's name) and put them as an object into `evt.data.styleDef`.
 	 *
 	 * @event extractFormatting
-	 * @member CKEDITOR.editor.copyFormatting
+	 * @member CKEDITOR.plugins.copyformatting.state
 	 * @param {Object} data
 	 * @param {CKEDITOR.dom.element} data.element The element which styles should be fetched.
 	 * @param {Object} data.styleDef Style's definition extracted from the element.
@@ -1134,7 +1146,7 @@
 	 * The second one applies all new styles to the current selection.
 	 *
 	 * @event applyFormatting
-	 * @member CKEDITOR.editor.copyFormatting
+	 * @member CKEDITOR.plugins.copyformatting.state
 	 * @param {Object} data
 	 * @param {CKEDITOR.dom.range} data.range Range from the current selection where styling should be applied.
 	 * @param {CKEDITOR.style[]} data.styles Styles to be applied.
