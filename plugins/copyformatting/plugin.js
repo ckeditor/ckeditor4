@@ -954,7 +954,7 @@
 		 * Initializes applying given styles to the currently selected content in the editor.
 		 *
 		 * The actual applying is performed inside event listeners for
-		 * {@link CKEDITOR.editor.copyFormatting#applyFormatting} event.
+		 * {@link CKEDITOR.plugins.copyformatting.state#applyFormatting} event.
 		 *
 		 * @param {CKEDITOR.editor} editor The editor's instance.
 		 * @param {CKEDITOR.style[]} newStyles Array of styles to be applied.
