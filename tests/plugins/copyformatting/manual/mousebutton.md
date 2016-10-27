@@ -13,7 +13,7 @@
 
 Editor doesn't do any action, standard browser scrolling kicks in.
 
-**Actual**
+**Unexpected**
 
 The word where cursor is gets styled.
 
