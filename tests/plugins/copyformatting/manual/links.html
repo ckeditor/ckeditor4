@@ -1,0 +1,18 @@
+<div id="editor1" contenteditable="true">
+	<p>Copy <span style="color: #f00;">this</span> <a href="http://cksource.com">here</a>.</p>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p>Copy <span style="color: #f00;">this</span> <a href="http://cksource.com">here</a>.</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>

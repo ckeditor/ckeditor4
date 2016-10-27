@@ -1,0 +1,21 @@
+<div id="editor1" contenteditable="true">
+	<p><span style="text-decoration: underline;color: #f00;">Copy</span>.</p>
+	<p><span>Style </span>this word.</p>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p><span style="text-decoration: underline;color: #f00;">Copy</span>.</p>
+	<p><span>Style </span>this word.</p>
+
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>
