@@ -12,6 +12,11 @@ html.cke_copyformatting_active {
 	cursor: url(../cursors/cursor-disabled.svg) 12 1, auto;
 }
 
+.cke_copyformatting_disabled .cke_top a,
+.cke_copyformatting_disabled .cke_bottom a {
+	cursor: default;
+}
+
 /* Added `!important` rule as a fix for overriding cursor by tableresize plugin.
  `!important` rule is used, because tableresize plugin creates a div which changes the cursor using inlined styles. */
 .cke_copyformatting_active,
