@@ -104,9 +104,16 @@ var config = {
 	},
 
 	'yui-beautified': {
-		'indent_with_tabs': true,
+		indent_with_tabs: true,
+		wrap_line_length: 0,
 		// All tags should be reformatted.
-		'unformatted': 'none'
+		unformatted: 'none',
+		indent_inner_html: true,
+		preserve_newlines: true,
+		max_preserve_newlines: 0,
+		indent_handlebars: false,
+		end_with_newline: true,
+		extra_liners: 'head, body, div, p, /html'
 	}
 };
 
