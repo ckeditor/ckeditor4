@@ -741,6 +741,109 @@
 			delete list.attributes[ 'cke-list-style-type' ];
 		},
 
+		/**
+		 * Helper namespace for any numbering operations.
+		 */
+		numbering: {
+			/**
+			 * Casts list marker value into a decimal number.
+			 *
+			 * @param {String} marker
+			 * @param {String} markerType Marker type according to CSS `list-style-type` values.
+			 * @returns {Number}
+			 */
+			toNumber: function( marker, markerType ) {
+				// Functions copied straight from old PFW implementation, no need to reinvent the wheel.
+				function fromAlphabet( str ) {
+					var alpahbets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+					str = str.toUpperCase();
+					var l = alpahbets.length,
+						retVal = 1;
+					for ( var x = 1; str.length > 0; x *= l ) {
+						retVal += alpahbets.indexOf( str.charAt( str.length - 1 ) ) * x;
+						str = str.substr( 0, str.length - 1 );
+					}
+					return retVal;
+				}
+
+				function fromRoman( str ) {
+					var romans = [
+							[ 1000, 'M' ],
+							[ 900, 'CM' ],
+							[ 500, 'D' ],
+							[ 400, 'CD' ],
+							[ 100, 'C' ],
+							[ 90, 'XC' ],
+							[ 50, 'L' ],
+							[ 40, 'XL' ],
+							[ 10, 'X' ],
+							[ 9, 'IX' ],
+							[ 5, 'V' ],
+							[ 4, 'IV' ],
+							[ 1, 'I' ]
+						];
+
+					str = str.toUpperCase();
+					var l = romans.length,
+						retVal = 0;
+					for ( var i = 0; i < l; ++i ) {
+						for ( var j = romans[ i ], k = j[ 1 ].length; str.substr( 0, k ) == j[ 1 ]; str = str.substr( k ) )
+							retVal += j[ 0 ];
+					}
+					return retVal;
+				}
+
+				if ( markerType == 'decimal' ) {
+					return Number( marker );
+				} else if ( markerType == 'upper-roman' || markerType == 'lower-roman' ) {
+					return fromRoman( marker.toUpperCase() );
+				} else if ( markerType == 'lower-alpha' || markerType == 'upper-alpha' ) {
+					return fromAlphabet( marker );
+				} else {
+					return 1;
+				}
+			},
+
+			/**
+			 * Returns a list style based on Word marker content.
+			 *
+			 * @param {String} marker Marker content retained from word, e.g. `1`, `7`, `XI`, `b`.
+			 * @returns {String} Resolved marker type.
+			 */
+			getStyle: function( marker ) {
+				// Characters c and d are not converted to roman on purpose. It's 100 and 500 respectively, so you rarely
+				// go with list up until this point, while it's common to start with c and d in alpha.
+				var typeMap = {
+						'i': 'lower-roman',
+						'v': 'lower-roman',
+						'x': 'lower-roman',
+						'l': 'lower-roman',
+						'm': 'lower-roman',
+						'I': 'upper-roman',
+						'V': 'upper-roman',
+						'X': 'upper-roman',
+						'L': 'upper-roman',
+						'M': 'upper-roman'
+					},
+					firstCharacter = marker.slice( 0, 1 ),
+					type = typeMap[ firstCharacter ];
+
+				if ( !type ) {
+					type = 'decimal';
+
+					if ( firstCharacter.match( /[a-z]/ ) ) {
+						type = 'lower-alpha';
+					}
+					if ( firstCharacter.match( /[A-Z]/ ) ) {
+						type = 'upper-alpha';
+					}
+				}
+
+				return type;
+			}
+		},
+
 		// Taking into account cases like "1.1.2." etc. - get the last element.
 		getSubsectionSymbol: function( symbol ) {
 			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', 1 ] )[ 1 ];
@@ -799,9 +902,11 @@
 				}
 
 				var	containerStack = [ List.createList( firstLevel1Element ) ],
+					// List wrapper (ol/ul).
 					innermostContainer = containerStack[ 0 ],
 					allContainers = [ containerStack[ 0 ] ];
 
+				// Insert first known list item before the list wrapper.
 				innermostContainer.insertBefore( list[ 0 ] );
 
 				for ( j = 0; j < list.length; j++ ) {
@@ -844,6 +949,27 @@
 					// For future reference this is where the list elements are actually put into the lists.
 					element.remove();
 					innermostContainer.add( element );
+
+					// Last but not least apply li[start] if needed.
+					// @todo: extract this fragment to a separate method.
+					var assumedValue = element.getIndex() + 1,
+						computedValue;
+
+					// We can determine proper value only if we know what type of list is it.
+					// So we need to check list wrapper if it has this information.
+					if ( innermostContainer.attributes[ 'cke-list-style-type' ] ) {
+						var cleanSymbol = element.attributes[ 'cke-symbol' ].match( /[a-z0-9]+/gi );
+
+						if ( cleanSymbol ) {
+							// Note that we always want to use last match, just because of markers like "1.1.4" "1.A.a.IV" etc.
+							computedValue =  this.numbering.toNumber( cleanSymbol[ cleanSymbol.length - 1 ], innermostContainer.attributes[ 'cke-list-style-type' ] );
+							if ( computedValue !== assumedValue ) {
+								element.attributes.value = computedValue;
+							}
+						}
+
+
+					}
 				}
 
 				// Try to set the symbol for the root (level 1) list.
