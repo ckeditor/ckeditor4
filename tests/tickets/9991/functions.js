@@ -192,14 +192,14 @@
 				'<p style="margin-left:.25in"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
 				'<p style="margin-left:.25in"><span lang="EN-GB" style="font-size:8.0pt"></span></p>' +
 				'<ul style="list-style-type:circle">' +
-				'<li style="margin-left:.5in" cke-list-id="1" cke-indentation="48"><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:8.0pt"></span>' +
+				'<li style="margin-left:.5in"><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:8.0pt"></span>' +
 				'<span lang="EN-GB" style="font-size:8.0pt">This line is size 8, TNR</span></span></li>' +
-				'<li cke-dissolved="true" cke-list-id="1" cke-indentation="0"><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:10.0pt">' +
+				'<li ><span style="tab-stops:list .5in"><span lang="EN-GB" style="font-size:10.0pt">' +
 				'<span style="font-family:&quot;Georgia&quot;,serif">This one is size 10, <st1:country-region w:st="on"><st1:place w:st="on">Georgia</st1:place></st1:country-region>' +
 				'</span></span></span>' +
-				'<ul style="list-style-type:circle"><li cke-dissolved="true" cke-list-id="1" cke-indentation="0"><span style="tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt">' +
+				'<ul style="list-style-type:circle"><li ><span style="tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt">' +
 				'<span style="font-family:&quot;Courier New&quot;">This one is size 10, Courier new</span></span></span></li>' +
-				'<li cke-dissolved="true" cke-list-id="1" cke-indentation="0"><span style="tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt">' +
+				'<li ><span style="tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt">' +
 				'<span style="font-family:&quot;Verdana&quot;,sans-serif">This one is size 10</span></span></span></li></ul></li></ul>' +
 				'<p><span style="color:green"></span></p>',
 				CKEDITOR.cleanWord( html ), { skipCompatHtml: true } );
@@ -225,6 +225,30 @@
 			sameLevelButDifferentId.insertBefore( lastListItem );
 
 			assert.isFalse( CKEDITOR.plugins.pastefromword.lists.isAListContinuation( lastListItem ) );
+		},
+
+		'test cleanup': function() {
+			var listItems = this.getParserElementsFrom( 'isAListContinuation1' ).children;
+
+			CKEDITOR.plugins.pastefromword.lists.cleanup( listItems );
+
+			assert.isUndefined( listItems[ 0 ].attributes[ 'cke-list-level' ], 'First list item cke-list-level' );
+			assert.isUndefined( listItems[ 0 ].attributes[ 'cke-symbol' ], 'First list item cke-symbol' );
+			assert.isUndefined( listItems[ 0 ].attributes[ 'cke-list-id' ], 'First list item cke-list-id' );
+			assert.isUndefined( listItems[ 0 ].attributes[ 'cke-indentation' ], 'First list item cke-indentation' );
+
+			assert.isNotUndefined( listItems[ 0 ].attributes.style, 'First list style attribute' );
+
+			assert.isUndefined( listItems[ 0 ].attributes[ 'cke-dissolved' ], 'Second list item cke-dissolved' );
+
+			// Check third list item.
+			assert.isUndefined( listItems[ 2 ].attributes[ 'cke-list-level' ], 'Third list item cke-list-level' );
+			assert.isUndefined( listItems[ 2 ].attributes[ 'cke-symbol' ], 'Third list item cke-symbol' );
+			assert.isUndefined( listItems[ 2 ].attributes[ 'cke-list-id' ], 'Third list item cke-list-id' );
+			assert.isUndefined( listItems[ 2 ].attributes[ 'cke-indentation' ], 'Third list item cke-indentation' );
+
+			// Make sure we don't remove too much.
+			assert.areSame( 'aa', listItems[ 2 ].attributes[ 'cke-foo-bar' ], 'cke-foo-bar remains' );
 		},
 
 		// Creates CKEDITOR.htmlParser.fragment based on given element, and returns it's first child.'

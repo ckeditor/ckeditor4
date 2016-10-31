@@ -848,17 +848,29 @@
 				}
 			}
 
-			// Final cleanup
+			this.cleanup( listElements );
+		},
+
+		/**
+		 * Final cleanup - removes all the `cke-*` helper attributes.
+		 *
+		 * @private
+		 * @param {CKEDITOR.htmlParser.element[]} listElements
+		 */
+		cleanup: function( listElements ) {
 			var tempAttributes = [
-				'cke-list-level',
-				'cke-symbol'
-			];
+					'cke-list-level',
+					'cke-symbol',
+					'cke-list-id',
+					'cke-indentation',
+					'cke-dissolved'
+				],
+				i,
+				j;
 
 			for ( i = 0; i < listElements.length; i++ ) {
-				element = listElements[ i ];
-
 				for ( j = 0; j < tempAttributes.length; j++ ) {
-					delete element.attributes[ tempAttributes[ j ] ];
+					delete listElements[ i ].attributes[ tempAttributes[ j ] ];
 				}
 			}
 		},
