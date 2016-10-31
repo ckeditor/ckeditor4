@@ -951,25 +951,7 @@
 					innermostContainer.add( element );
 
 					// Last but not least apply li[start] if needed.
-					// @todo: extract this fragment to a separate method.
-					var assumedValue = element.getIndex() + 1,
-						computedValue;
-
-					// We can determine proper value only if we know what type of list is it.
-					// So we need to check list wrapper if it has this information.
-					if ( innermostContainer.attributes[ 'cke-list-style-type' ] ) {
-						var cleanSymbol = element.attributes[ 'cke-symbol' ].match( /[a-z0-9]+/gi );
-
-						if ( cleanSymbol ) {
-							// Note that we always want to use last match, just because of markers like "1.1.4" "1.A.a.IV" etc.
-							computedValue =  this.numbering.toNumber( cleanSymbol[ cleanSymbol.length - 1 ], innermostContainer.attributes[ 'cke-list-style-type' ] );
-							if ( computedValue !== assumedValue ) {
-								element.attributes.value = computedValue;
-							}
-						}
-
-
-					}
+					this.determineListItemValue( element );
 				}
 
 				// Try to set the symbol for the root (level 1) list.
@@ -1015,6 +997,34 @@
 			for ( i = 0; i < listElements.length; i++ ) {
 				for ( j = 0; j < tempAttributes.length; j++ ) {
 					delete listElements[ i ].attributes[ tempAttributes[ j ] ];
+				}
+			}
+		},
+
+		/**
+		 * Tries to determine `li[value]` attribute for given list item. Give `element` must
+		 * have parent in order for function to work properly.
+		 *
+		 * @private
+		 * @param {CKEDITOR.htmlParser.element} element
+		 */
+		determineListItemValue: function( element ) {
+			var assumedValue = element.getIndex() + 1,
+				listWrapper = element.parent,
+				computedValue,
+				cleanSymbol;
+
+			// We can determine proper value only if we know what type of list is it.
+			// So we need to check list wrapper if it has this information.
+			if ( listWrapper.attributes[ 'cke-list-style-type' ] ) {
+				cleanSymbol = element.attributes[ 'cke-symbol' ].match( /[a-z0-9]+/gi );
+
+				if ( cleanSymbol ) {
+					// Note that we always want to use last match, just because of markers like "1.1.4" "1.A.a.IV" etc.
+					computedValue =  this.numbering.toNumber( cleanSymbol[ cleanSymbol.length - 1 ], listWrapper.attributes[ 'cke-list-style-type' ] );
+					if ( computedValue !== assumedValue ) {
+						element.attributes.value = computedValue;
+					}
 				}
 			}
 		},
