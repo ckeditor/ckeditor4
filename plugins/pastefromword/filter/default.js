@@ -254,6 +254,11 @@
 					element.attributes.src = element.attributes.src || src;
 
 					delete element.attributes.type;
+				},
+
+				'style': function() {
+					// We don't want to let any styles in. Firefox tends to add some.
+					return false;
 				}
 			},
 			attributes: {
@@ -600,6 +605,19 @@
 				element.attributes[ 'cke-symbol' ] = symbol.replace( / .*$/, '' );
 
 				List.removeSymbolText( element );
+			}
+
+
+			if ( element.attributes.style ) {
+				// Hacky way to get rid of margin left.
+				// @todo: we should gather all css cleanup here, and consider bidi. Eventually we might put a config variable to
+				// to enable it.
+				var styles = tools.parseCssText( element.attributes.style );
+
+				if ( styles[ 'margin-left' ] ) {
+					delete styles[ 'margin-left' ];
+					element.attributes.style =  CKEDITOR.tools.writeCssText( styles );
+				}
 			}
 
 			// Converting to a normal list item would implicitly wrap the element around an <ul>.

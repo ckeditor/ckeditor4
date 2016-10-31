@@ -45,8 +45,7 @@
 			'Spacing': true,
 			'Text_alignment': true,
 			'Underline': true,
-			'Unordered_list': true,
-			'Unordered_list_multiple': true
+			'Unordered_list': true
 		},
 		/** TODOs:
 			1. 'v:shape' filter function needs to take into account, that the element's parent
