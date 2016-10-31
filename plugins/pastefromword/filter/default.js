@@ -566,8 +566,8 @@
 		 * @param {CKEDITOR.htmlParser.element} element
 		 */
 		convertToFakeListItem: function( element ) {
-			element.attributes[ 'cke-list-level' ] = element.attributes[ 'cke-list-level' ] ||
-				+( ( element.attributes.style || '' ).match( /level(\d+)/ ) || [ '', 1 ] )[ 1 ];
+			// A dummy call to cache parsed list info inside of cke-list-* attributes.
+			this.getListItemInfo( element );
 
 			if ( !element.attributes[ 'cke-dissolved' ] ) {
 				// The symbol is usually the first text node descendant
@@ -766,10 +766,6 @@
 
 			// Chop data into continuous lists.
 			var lists = List.groupLists( listElements );
-
-			//console.log( listElements );
-			//console.log( lists );
-			//debugger;
 
 			// Create nested list structures.
 			for ( i = 0; i < lists.length; i++ ) {
@@ -1008,6 +1004,12 @@
 		/**
 		 * Converts a single, flat list items array into an array with a hierarchy of items.
 		 *
+		 * As the list gets chopped it will be forced to render as a separate list, even if it has deeper nesting level, e.g.
+		 * for level 3 it will create structure like `ol > li > ol > li > ol > li`.
+		 *
+		 * Note that list items within a single list, but with different levels that didn't get chopped,
+		 * will still be rendered as a list tree later.
+		 *
 		 * @todo: Describe what `lists` parameter is for. By the looks of it it's supposed to be array which is used
 		 * to return the value.
 		 *
@@ -1034,17 +1036,12 @@
 					currentSymbol = List.getSymbolInfo( list[ i ].attributes[ 'cke-symbol' ], forceType );
 					currentListInfo = this.getListItemInfo( list[ i ] );
 
-					var lastIndex = lastSymbol.index,
-						currentIndex = currentSymbol.index;
-
 					// Based on current and last index we'll decide if we want to chop list.
 					if (
 						// If the last list was a different list type then chop it!
 						lastSymbol.type != currentSymbol.type ||
-						// If level changed:
-						( lastListInfo && currentListInfo.level != lastListInfo.level ) ||
-						// If those are logically different lists:
-						( lastListInfo && currentListInfo.id != lastListInfo.id ) ) {
+						// If those are logically different lists, and current list is not a continuation (#7918):
+						( lastListInfo && currentListInfo.id != lastListInfo.id && !this.isAListContinuation( list[ i ] ) ) ) {
 						choppedLists.push( [] );
 					}
 				} else {
@@ -1065,6 +1062,48 @@
 			}
 
 			[].splice.apply( lists, [].concat( [ tools.indexOf( lists, list ), 1 ], choppedLists ) );
+		},
+
+		/**
+		 * Checks if this list is a direct continuation of interrupted by different id list, with different level. So if we look
+		 * at list like:
+		 *
+		 * * list1 level1
+		 * * list1 level1
+		 *		* list2 level2
+		 *		* list2 level2
+		 * * list1 level1
+		 *
+		 * It would return `true`, meaning it's a continuation, and should not be chopped. However if any paragraph or anything else
+		 * appears in between it should be broken into different lists.
+		 *
+		 * You can see fixtures from issue #7918 as an example.
+		 *
+		 * @private
+		 * @param {CKEDITOR.htmlParser.element} listElement List to be checked.
+		 * @returns {Boolean}
+		 */
+		isAListContinuation: function( listElement ) {
+			var prev = listElement;
+
+			do {
+				prev = prev.previous;
+
+				if ( prev && prev.type === CKEDITOR.NODE_ELEMENT ) {
+					if ( prev.attributes[ 'cke-list-level' ] === undefined ) {
+						// Not a list, so looks like an interrupted list.
+						return false;
+					}
+
+					if ( prev.attributes[ 'cke-list-level' ] === listElement.attributes[ 'cke-list-level' ] ) {
+						// Same level, so we want to check if this is a continuation.
+						return prev.attributes[ 'cke-list-id' ] === listElement.attributes[ 'cke-list-id' ];
+					}
+				}
+
+			} while ( prev );
+
+			return false;
 		},
 
 		getElementIndentation: function( element ) {
@@ -1249,11 +1288,19 @@
 		 *
 		 * @param {CKEDITOR.htmlParser.element} list
 		 * @returns ret
-		 * @returns {String} ret.id List id, ordinarly it's a decimal string.
-		 * @returns {String} ret.level List nesting level, `0` means it's outter most list. Ordinarly it's
+		 * @returns {String} ret.id List id, ordinarily it's a decimal string.
+		 * @returns {String} ret.level List nesting level, `0` means it's outer most list. Ordinarily it's
 		 * a decimal string.
 		 */
 		getListItemInfo: function( list ) {
+			if ( list.attributes[ 'cke-list-id' ] !== undefined ) {
+				// List was already resolved.
+				return {
+					id: list.attributes[ 'cke-list-id' ],
+					level: list.attributes[ 'cke-list-level' ]
+				};
+			}
+
 			var propValue = tools.parseCssText( list.attributes.style )[ 'mso-list' ],
 				ret = {
 					id: '0',
@@ -1267,6 +1314,11 @@
 				ret.level = propValue.match( /level(.+?)\s+/ )[ 1 ];
 				ret.id = propValue.match( /l(\d+?)\s+/ )[ 1 ];
 			}
+
+			// Store values. List level will be reused if present to prevent regressions.
+			list.attributes[ 'cke-list-level' ] = list.attributes[ 'cke-list-level' ] !== undefined ? list.attributes[ 'cke-list-level' ] : ret.level;
+			// list.attributes[ 'cke-list-level' ] = ret.level;
+			list.attributes[ 'cke-list-id' ] = ret.id;
 
 			return ret;
 		}

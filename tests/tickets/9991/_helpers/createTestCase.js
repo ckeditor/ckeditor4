@@ -1,6 +1,9 @@
 /* global assertWordFilter,Q */
 /* exported createTestCase */
-function createTestCase( fixtureName, wordVersion, browser, tickets ) {
+
+// @param {boolean} [compareRawData=false] If `true` test case will assert against raw paste's `data.dataValue` rather than
+// what will appear in the editor after all transformations and filtering.
+function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawData ) {
 	return function() {
 		var inputPath = [ tickets ? '_fixtures/Tickets' : '_fixtures' , fixtureName, wordVersion, browser ].join( '/' ) + '.html',
 			outputPath = [ tickets ? '_fixtures/Tickets' : '_fixtures' , fixtureName, '/expected.html' ].join( '/' ),
@@ -24,8 +27,9 @@ function createTestCase( fixtureName, wordVersion, browser, tickets ) {
 			load( outputPath + deCasher ),
 			load( specialCasePath + deCasher )
 		] ).done( function( values ) {
-			// null means file not found - skipping test.
 			if ( values[ 0 ] === null ) {
+				// null means that fixture file was not found - skipping test.
+
 				resume( function() {
 					assert.ignore();
 				} );
@@ -33,16 +37,19 @@ function createTestCase( fixtureName, wordVersion, browser, tickets ) {
 			}
 
 			if ( values[ 2 ] !== null ) {
-				assertWordFilter( editor )( values[ 0 ], values[ 2 ] )
+				// If browser-customized expected result was found, use it.
+
+				assertWordFilter( editor, compareRawData )( values[ 0 ], values[ 2 ] )
 					.then( function( values ) {
 						resume( function() {
 							assert.beautified.html( values[ 0 ], values[ 1 ] );
 						} );
 					} );
 			} else {
+				// Otherwise go with the regular expected.
 				assert.isNotNull( values[ 1 ], '"expected.html" missing.' );
 
-				assertWordFilter( editor )( values[ 0 ], values[ 1 ] )
+				assertWordFilter( editor, compareRawData )( values[ 0 ], values[ 1 ] )
 					.then( function( values ) {
 						resume( function() {
 							assert.beautified.html( values[ 0 ], values[ 1 ] );
