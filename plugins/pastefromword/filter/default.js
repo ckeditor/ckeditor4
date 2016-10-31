@@ -1317,7 +1317,6 @@
 
 			// Store values. List level will be reused if present to prevent regressions.
 			list.attributes[ 'cke-list-level' ] = list.attributes[ 'cke-list-level' ] !== undefined ? list.attributes[ 'cke-list-level' ] : ret.level;
-			// list.attributes[ 'cke-list-level' ] = ret.level;
 			list.attributes[ 'cke-list-id' ] = ret.id;
 
 			return ret;
