@@ -1201,15 +1201,12 @@
 				element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || List.getElementIndentation( element );
 
 				if ( element.previous !== previous ) {
-					//List.correctListLevels( lastList );
 					List.chopDiscontinousLists( lastList, lists );
 					lists.push( lastList = [] );
 				}
 
 				lastList.push( element );
 			}
-
-			//List.correctListLevels( lastList );
 
 			List.chopDiscontinousLists( lastList, lists );
 
@@ -1338,91 +1335,6 @@
 			return parseInt( tools.convertToPx( style[ 'margin-left' ] || '0px' ), 10 );
 		},
 
-		correctListLevels: function( list ) {
-			var i, j, leftAttrs, rightAttrs, needsCorrection,
-				indentations = {};
-
-			for ( i = 0; i < list.length; i++ ) {
-				if ( list[ i ].attributes[ 'cke-dissolved' ] ) {
-					needsCorrection = true;
-					continue;
-				}
-
-				indentations[ list[ i ].attributes[ 'cke-indentation' ] ] = true;
-			}
-
-			indentations = tools.objectKeys( indentations );
-
-			for ( i = 0; i < indentations.length; i++ ) {
-				indentations[ i ] = parseInt( indentations[ i ], 10 );
-			}
-
-			indentations.sort( function( a, b ) {
-				return a - b;
-			} );
-
-			var levelDifference;
-			if ( indentations.length == 1 ) {
-				// If there is only one indentation assume the indent width is default - 0.5in.
-				var indentation = indentations[ 0 ];
-				delete indentations[ 0 ];
-				indentations[ List.indentationToLevel( indentation ) - 1 ] = indentation;
-				levelDifference = 48;
-			} else {
-				var differences = {};
-
-				for ( i = 1; i < indentations.length; i++ ) {
-					var key = indentations[ i ] - indentations[ i - 1 ];
-					differences[ key ] = differences[ key ] ? differences[ key ] + 1 : 1;
-				}
-
-				differences = tools.objectKeys( differences );
-
-				for ( i = 0; i < differences.length; i++ ) {
-					differences[ i ] = parseInt( differences[ i ], 10 );
-				}
-
-				differences.sort( function( a, b ) {
-					return a - b;
-				} );
-
-				levelDifference = differences[ 0 ];
-			}
-
-
-			pairComparison:
-			for ( i = 0; i < list.length; i++ ) {
-				for ( j = 0; j < list.length; j++ ) {
-					leftAttrs = list[ i ].attributes;
-					rightAttrs = list[ j ].attributes;
-
-					var levelDiff = parseInt( leftAttrs[ 'cke-list-level' ], 10 ) - parseInt( rightAttrs[ 'cke-list-level' ], 10 );
-					var indentDiff = parseInt( leftAttrs[ 'cke-indentation' ], 10 ) - parseInt( rightAttrs[ 'cke-indentation' ], 10 );
-
-					if ( Math.abs( indentDiff - levelDiff * levelDifference ) > levelDifference / 2 ) {
-						needsCorrection = true;
-						break pairComparison;
-					}
-
-					//if ( parseInt( leftAttrs[ 'cke-list-level' ] ) >= parseInt( rightAttrs[ 'cke-list-level' ] ) &&
-					//	parseInt( leftAttrs[ 'cke-indentation' ] ) < parseInt( rightAttrs[ 'cke-indentation' ] ) ) {
-					//	error = true;
-					//	break pairComparison;
-					//}
-				}
-			}
-
-			// Corrects list levels if they don't match their indentations.
-			if ( needsCorrection ) {
-				for ( i = 0; i < list.length; i++ ) {
-					if ( list[ i ].attributes[ 'cke-dissolved' ] ) {
-						continue;
-					}
-					list[ i ].attributes[ 'cke-list-level' ] = tools.indexOf( indentations, parseInt( list[ i ].attributes[ 'cke-indentation' ], 10 ) ) + 1;
-				}
-			}
-		},
-
 		// Source: http://stackoverflow.com/a/17534350/3698944
 		toArabic: function( symbol ) {
 			if ( !symbol.match( /[ivxl]/i ) ) return 0;
@@ -1435,10 +1347,6 @@
 			if ( symbol.match( /^i/i ) ) return 1 + List.toArabic( symbol.slice( 1 ) );
 			// Ignore other characters.
 			return List.toArabic( symbol.slice( 1 ) );
-		},
-
-		indentationToLevel: function( indentation ) {
-			return Math.max( Math.floor( indentation / 48 + 0.5 ), 1 );
 		},
 
 		/**
