@@ -288,9 +288,6 @@
 
 			assert.areSame( 1, this.lists.calculateValue( removedListItem ), 'Result for a removed list item' );
 
-
-			// @todo: how about removed list item?
-
 			function assertCalculatedValue( expectedValue, list, itemIndex, listName ) {
 				assert.areSame( expectedValue, that.pastefromword.lists.calculateValue( list.children[ itemIndex ] ),
 					'Result for item ' + itemIndex + ' in list ' + listName );
