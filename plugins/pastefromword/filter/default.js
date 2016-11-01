@@ -13,6 +13,13 @@
 		links = {},
 		inComment = 0;
 
+	/**
+	 * Set of Paste from Word plugin helpers.
+	 *
+	 * @since 4.6.0
+	 * @private
+	 * @member CKEDITOR.plugins
+	 */
 	CKEDITOR.plugins.pastefromword = {};
 
 	CKEDITOR.cleanWord = function( mswordHtml ) {
@@ -301,6 +308,14 @@
 		return writer.getHtml();
 	};
 
+	/**
+	 * Namespace containing all the helper functions to work with styles.
+	 *
+	 * @since 4.6.0
+	 * @class
+	 * @singleton
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
 	CKEDITOR.plugins.pastefromword.styles = {
 		setStyle: function( element, key, value, dontOverwrite ) {
 			var styles = tools.parseCssText( element.attributes.style );
@@ -387,8 +402,14 @@
 			return CKEDITOR.tools.writeCssText( styles );
 		},
 
-		// Surround the element's children with a stack of spans,
-		// each one having one style originally belonging to the element.
+		/**
+		 * Surround the element's children with a stack of spans, each one having one style
+		 * originally belonging to the element.
+		 *
+		 * @private
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @param {CKEDITOR.htmlParser.filter} filter
+		 */
 		createStyleStack: function( element, filter ) {
 			var i,
 				children = [];
@@ -536,12 +557,21 @@
 	};
 	Style = CKEDITOR.plugins.pastefromword.styles;
 
+	/**
+	 * Namespace containing any lists-oriented helper methods.
+	 *
+	 * @since 4.6.0
+	 * @class
+	 * @singleton
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
 	CKEDITOR.plugins.pastefromword.lists = {
 		/**
-		 * CHecks if given element is list item-alike.
+		 * Checks if given element is list item-alike.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		thisIsAListItem: function( element ) {
 			/*jshint -W024 */
@@ -569,6 +599,7 @@
 		 * Converts element to an element with `cke:li` tag name.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		convertToFakeListItem: function( element ) {
 			// A dummy call to cache parsed list info inside of cke-list-* attributes.
@@ -629,6 +660,7 @@
 		 *
 		 * @param {CKEDITOR.htmlParser.element} root
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of converted elements.
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		convertToRealListItems: function( root ) {
 			var listElements = [];
@@ -743,14 +775,26 @@
 
 		/**
 		 * Helper namespace for any numbering operations.
+		 *
+		 * @class
+		 * @singleton
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		numbering: {
 			/**
-			 * Casts list marker value into a decimal number.
+			 * Converts list marker value into a decimal number.
+			 *
+			 *		 var toNumber = CKEDITOR.plugins.pastefromword.lists.numbering.toNumber;
+			 *
+			 *		 console.log( toNumber( 'XIV', 'upper-roman' ) ); // Logs 14.
+			 *		 console.log( toNumber( 'd', 'lower-alpha' ) ); // Logs 4.
+			 *		 console.log( toNumber( '35', 'decimal' ) ); // Logs 35.
+			 *		 console.log( toNumber( '404', 'foo' ) ); // Logs 1.
 			 *
 			 * @param {String} marker
 			 * @param {String} markerType Marker type according to CSS `list-style-type` values.
 			 * @returns {Number}
+			 * @member CKEDITOR.plugins.pastefromword.lists.numbering
 			 */
 			toNumber: function( marker, markerType ) {
 				// Functions copied straight from old PFW implementation, no need to reinvent the wheel.
@@ -808,12 +852,23 @@
 			/**
 			 * Returns a list style based on Word marker content.
 			 *
+			 *		var getStyle = CKEDITOR.plugins.pastefromword.lists.numbering.getStyle;
+			 *
+			 *		console.log( getStyle( '4' ) ); // Logs: "decimal"
+			 *		console.log( getStyle( 'b' ) ); // Logs: "lower-alpha"
+			 *		console.log( getStyle( 'P' ) ); // Logs: "upper-alpha"
+			 *		console.log( getStyle( 'i' ) ); // Logs: "lower-roman"
+			 *		console.log( getStyle( 'X' ) ); // Logs: "upper-roman"
+			 *
+			 *
+			 * **Implementation note:** Characters `c` and `d` are not converted to roman on purpose. It's 100 and 500 respectively, so
+			 * you rarely go with list up until this point, while it's common to start with `c` and `d` in alpha.
+			 *
 			 * @param {String} marker Marker content retained from word, e.g. `1`, `7`, `XI`, `b`.
 			 * @returns {String} Resolved marker type.
+			 * @member CKEDITOR.plugins.pastefromword.lists.numbering
 			 */
 			getStyle: function( marker ) {
-				// Characters c and d are not converted to roman on purpose. It's 100 and 500 respectively, so you rarely
-				// go with list up until this point, while it's common to start with c and d in alpha.
 				var typeMap = {
 						'i': 'lower-roman',
 						'v': 'lower-roman',
@@ -984,6 +1039,7 @@
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element[]} listElements
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		cleanup: function( listElements ) {
 			var tempAttributes = [
@@ -1009,6 +1065,7 @@
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		determineListItemValue: function( element ) {
 			if ( element.parent.name !== 'ol' ) {
@@ -1044,6 +1101,7 @@
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element `li` element.
 		 * @returns {Number}
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		calculateValue: function( element ) {
 			if ( !element.parent ) {
@@ -1225,8 +1283,10 @@
 		 * @todo: Describe what `lists` parameter is for. By the looks of it it's supposed to be array which is used
 		 * to return the value.
 		 *
+		 * @private
 		 * @param {CKEDITOR.htmlParser.element[]} list An array containing list items.
 		 * @param {CKEDITOR.htmlParser.element[]} lists
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		chopDiscontinousLists: function( list, lists ) {
 			var levelSymbols = {};
@@ -1294,6 +1354,7 @@
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} listElement List to be checked.
 		 * @returns {Boolean}
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		isAListContinuation: function( listElement ) {
 			var prev = listElement;
@@ -1357,6 +1418,7 @@
 		 * @returns {Object} ret
 		 * @returns {Number} ret.index Identified numbering value
 		 * @returns {String} ret.type One of `decimal`, `disc`, `circle`, `square`, `roman`, `alpha`.
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		getSymbolInfo: function( symbol, type ) {
 			var symbolCase = symbol.toUpperCase() == symbol ? 'upper-' : 'lower-',
@@ -1409,11 +1471,13 @@
 		 * Note: by list items we mean also paragraphs with `mso-list` because we know that Word serves
 		 * list items as a paragraph.
 		 *
+		 * @private
 		 * @param {CKEDITOR.htmlParser.element} list
 		 * @returns ret
 		 * @returns {String} ret.id List id, ordinarily it's a decimal string.
 		 * @returns {String} ret.level List nesting level, `0` means it's outer most list. Ordinarily it's
 		 * a decimal string.
+		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		getListItemInfo: function( list ) {
 			if ( list.attributes[ 'cke-list-id' ] !== undefined ) {
@@ -1523,4 +1587,24 @@
 		CKEDITOR.cleanWord[ exported ] = exportedFunctions[ exported ];
 	}
 
+	/**
+	 * Lists helper.
+	 *
+	 * @property {CKEDITOR.plugins.pastefromword.lists} lists
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
+
+	/**
+	 * Numbering helper.
+	 *
+	 * @property {CKEDITOR.plugins.pastefromword.lists.numbering} numbering
+	 * @member CKEDITOR.plugins.pastefromword.lists
+	 */
+
+	/**
+	 * Styles helper.
+	 *
+	 * @property {CKEDITOR.plugins.pastefromword.lists} lists
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
 } )();
