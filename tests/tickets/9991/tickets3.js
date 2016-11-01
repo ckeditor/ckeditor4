@@ -31,7 +31,7 @@
 			'6608': [ 'word2013' ],
 			'6639nested_list_with_empty_lines': [ 'word2013' ],
 			'6658CKEditor_Word_tabs_between_list_items_Sample': [ 'word2013' ],
-			'6662bullets': [ 'word2013' ], // Chrome and FF don't paste list symbols.
+			'6662bullets': [ 'word2013' ],
 			'6662': [ 'word2013' ],
 			'6751disappearing_spaces_example2': [ 'word2013' ],
 			'6751TextToPaste': [ 'word2013' ],
@@ -43,18 +43,18 @@
 			'6973This_is_a_line_of_text.2': [ 'word2013' ],
 			'7131customNumbering': [ 'word2013' ],
 			'7131TC_7131_2': [ 'word2013' ],
-			'7131': [ 'word2013' ], // Will break. Input from IE11 requires attention.
-			'7209test2': [ 'word2013' ], // In IE11 no indication, that the second list is multi-level.
+			'7131': [ 'word2013' ],
+			'7209test2': [ 'word2013' ],
 			'7262preformatted_list': [ 'word2013' ],
 			'7371BugReport_Example': [ 'word2013' ],
 			'7480BulletedList': [ 'word2013' ],
 			'7494Numbers_&_Bulltes_lists': [ 'word2013' ],
 			'7521simple_table': [ 'word2013' ],
 			'7581Numbering': [ 'word2013' ],
-			'7581fancyList': [ 'word2013' ], // IE drops some list numbering information.
-			'7584Numbered_list_with_diff_start_value': [ 'word2013' ], // IE11 drops some list data.
+			'7581fancyList': [ 'word2013' ],
+			'7584Numbered_list_with_diff_start_value': [ 'word2013' ],
 			'7593Numbere_&_Bullet_list_with_list_styles_applied': [ 'word2013' ],
-			'7610Multi_level_Numbered_list': [ 'word2013' ], // Probably the same file as in 7843.
+			'7610Multi_level_Numbered_list': [ 'word2013' ],
 			'7620AlphabeticNumberingLists': [ 'word2013' ]
 		},
 		testData = {},
@@ -68,6 +68,14 @@
 			}
 		}
 	}
+
+	testData._should = {
+		ignore: {
+			'test 7131 word2013 ie11': true, // Every alpha list item gets "a" numbering value (li[value=1]) while it shouldn't.'
+			'test 7131customNumbering word2013 ie11': true, // li[value] issue present only in IE11.
+			'test 7581Numbering word2013 ie11': true // Again li[value], same as above.
+		}
+	};
 
 	bender.test( testData );
 } )();
