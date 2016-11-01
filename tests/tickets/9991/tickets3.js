@@ -51,7 +51,7 @@
 			'7494Numbers_&_Bulltes_lists': [ 'word2013' ],
 			'7521simple_table': [ 'word2013' ],
 			'7581Numbering': [ 'word2013' ],
-			'7581stupidList': [ 'word2013' ], // IE drops some list numbering information.
+			'7581fancyList': [ 'word2013' ], // IE drops some list numbering information.
 			'7584Numbered_list_with_diff_start_value': [ 'word2013' ], // IE11 drops some list data.
 			'7593Numbere_&_Bullet_list_with_list_styles_applied': [ 'word2013' ],
 			'7610Multi_level_Numbered_list': [ 'word2013' ], // Probably the same file as in 7843.
