@@ -22,6 +22,12 @@
 		filterMock = new CKEDITOR.htmlParser.filter();
 
 	bender.test( {
+		setUp: function(  ) {
+			// Map PFW namespaces, so it's more convenient to use them.
+			this.pastefromword = CKEDITOR.plugins.pastefromword;
+			this.lists = this.pastefromword.lists;
+		},
+
 		'test create style stack': function() {
 			var element = new CKEDITOR.htmlParser.element( 'p' );
 			element.attributes.style = 'font-family: "Calibri"; font-size: 36pt; color: yellow; background: lime';
@@ -208,7 +214,7 @@
 		'test isAListContinuation': function() {
 			var lastListItem = this.getParserElementsFrom( 'isAListContinuation1' ).children[ 3 ];
 
-			assert.isTrue( CKEDITOR.plugins.pastefromword.lists.isAListContinuation( lastListItem ) );
+			assert.isTrue( this.lists.isAListContinuation( lastListItem ) );
 
 			// Now insert a paragraph in between.
 			var paragraph = this.getParserElementsFrom( 'isAListContinuation2' ),
@@ -217,20 +223,20 @@
 
 			paragraph.insertBefore( lastListItem );
 
-			assert.isFalse( CKEDITOR.plugins.pastefromword.lists.isAListContinuation( lastListItem ) );
+			assert.isFalse( this.lists.isAListContinuation( lastListItem ) );
 
 			paragraph.remove();
 
 			// Now this list item has the same level, but a different list id - so it should interrupt it.
 			sameLevelButDifferentId.insertBefore( lastListItem );
 
-			assert.isFalse( CKEDITOR.plugins.pastefromword.lists.isAListContinuation( lastListItem ) );
+			assert.isFalse( this.lists.isAListContinuation( lastListItem ) );
 		},
 
 		'test cleanup': function() {
 			var listItems = this.getParserElementsFrom( 'isAListContinuation1' ).children;
 
-			CKEDITOR.plugins.pastefromword.lists.cleanup( listItems );
+			this.lists.cleanup( listItems );
 
 			assert.isUndefined( listItems[ 0 ].attributes[ 'cke-list-level' ], 'First list item cke-list-level' );
 			assert.isUndefined( listItems[ 0 ].attributes[ 'cke-symbol' ], 'First list item cke-symbol' );
@@ -249,6 +255,46 @@
 
 			// Make sure we don't remove too much.
 			assert.areSame( 'aa', listItems[ 2 ].attributes[ 'cke-foo-bar' ], 'cke-foo-bar remains' );
+		},
+
+		'test calculateValue': function() {
+			var listWrapper = this.getParserElementsFrom( 'calculateValue' ),
+				that = this,
+				removedListItem;
+
+			assertCalculatedValue( 1, listWrapper, 0, 'calculateValue' );
+			assertCalculatedValue( 2, listWrapper, 1, 'calculateValue' );
+			assertCalculatedValue( 24, listWrapper, 3, 'calculateValue' );
+			assertCalculatedValue( 26, listWrapper, 5, 'calculateValue' );
+			assertCalculatedValue( 3, listWrapper, 8, 'calculateValue' );
+
+			listWrapper = this.getParserElementsFrom( 'calculateValue2' );
+
+			assertCalculatedValue( 30, listWrapper, 0, 'calculateValue2' );
+			assertCalculatedValue( 31, listWrapper, 1, 'calculateValue2' );
+			assertCalculatedValue( 41, listWrapper, 2, 'calculateValue2' );
+			assertCalculatedValue( 42, listWrapper, 3, 'calculateValue2' );
+			assertCalculatedValue( 5, listWrapper, 4, 'calculateValue2' );
+			assertCalculatedValue( 8, listWrapper, 7, 'calculateValue2' );
+
+			listWrapper = this.getParserElementsFrom( 'calculateValue3' );
+
+			assertCalculatedValue( 10, listWrapper, 0, 'calculateValue3' );
+			assertCalculatedValue( 11, listWrapper, 1, 'calculateValue3' );
+
+			// Check removed item.
+			removedListItem = listWrapper.children[ 1 ];
+			removedListItem.remove();
+
+			assert.areSame( 1, this.lists.calculateValue( removedListItem ), 'Result for a removed list item' );
+
+
+			// @todo: how about removed list item?
+
+			function assertCalculatedValue( expectedValue, list, itemIndex, listName ) {
+				assert.areSame( expectedValue, that.pastefromword.lists.calculateValue( list.children[ itemIndex ] ),
+					'Result for item ' + itemIndex + ' in list ' + listName );
+			}
 		},
 
 		// Creates CKEDITOR.htmlParser.fragment based on given element, and returns it's first child.'

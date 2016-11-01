@@ -949,9 +949,6 @@
 					// For future reference this is where the list elements are actually put into the lists.
 					element.remove();
 					innermostContainer.add( element );
-
-					// Last but not least apply li[start] if needed.
-					this.determineListItemValue( element );
 				}
 
 				// Try to set the symbol for the root (level 1) list.
@@ -971,6 +968,11 @@
 				// This can be done only after all the list elements are where they should be.
 				for ( j = 0; j < allContainers.length; j++ ) {
 					List.setListStart( allContainers[ j ] );
+				}
+
+				// Last but not least apply li[start] if needed, also this needs to be done once ols are final.
+				for ( j = 0; j < list.length; j++ ) {
+					this.determineListItemValue( list[ j ] );
 				}
 			}
 
@@ -1009,24 +1011,70 @@
 		 * @param {CKEDITOR.htmlParser.element} element
 		 */
 		determineListItemValue: function( element ) {
-			var assumedValue = element.getIndex() + 1,
-				listWrapper = element.parent,
+			if ( element.parent.name !== 'ol' ) {
+				// li[value] make sense only for list items in ordered list.
+				return;
+			}
+
+			var assumedValue = this.calculateValue(  element ),
+				cleanSymbol = element.attributes[ 'cke-symbol' ].match( /[a-z0-9]+/gi ),
 				computedValue,
-				cleanSymbol;
+				listType;
 
-			// We can determine proper value only if we know what type of list is it.
-			// So we need to check list wrapper if it has this information.
-			if ( listWrapper.attributes[ 'cke-list-style-type' ] ) {
-				cleanSymbol = element.attributes[ 'cke-symbol' ].match( /[a-z0-9]+/gi );
+			if ( cleanSymbol ) {
+				// Note that we always want to use last match, just because of markers like "1.1.4" "1.A.a.IV" etc.
+				cleanSymbol = cleanSymbol[ cleanSymbol.length - 1 ];
 
-				if ( cleanSymbol ) {
-					// Note that we always want to use last match, just because of markers like "1.1.4" "1.A.a.IV" etc.
-					computedValue =  this.numbering.toNumber( cleanSymbol[ cleanSymbol.length - 1 ], listWrapper.attributes[ 'cke-list-style-type' ] );
-					if ( computedValue !== assumedValue ) {
-						element.attributes.value = computedValue;
-					}
+				// We can determine proper value only if we know what type of list is it.
+				// So we need to check list wrapper if it has this information.
+				listType = element.parent.attributes[ 'cke-list-style-type' ] || this.numbering.getStyle( cleanSymbol );
+
+				computedValue = this.numbering.toNumber( cleanSymbol, listType );
+
+				if ( computedValue !== assumedValue ) {
+					element.attributes.value = computedValue;
 				}
 			}
+		},
+
+		/**
+		 * Calculates value for given `li` element, based on its precedent list items (e.g. `value` attr).
+		 * It could also look at list parent (`ol`) at its start attribute.
+		 *
+		 * @private
+		 * @param {CKEDITOR.htmlParser.element} element `li` element.
+		 * @returns {Number}
+		 */
+		calculateValue: function( element ) {
+			if ( !element.parent ) {
+				return 1;
+			}
+
+			var list = element.parent,
+				elementIndex = element.getIndex(),
+				valueFound = null,
+				// Index of the element with value attribute.
+				valueElementIndex,
+				curElement,
+				i;
+
+			// Look for any preceding li[value].
+			for	( i = elementIndex; i >= 0 && valueFound === null; i-- ) {
+				curElement = list.children[ i ];
+
+				if ( curElement.attributes && curElement.attributes.value !== undefined ) {
+					valueElementIndex = i;
+					valueFound = parseInt( curElement.attributes.value, 10 );
+				}
+			}
+
+			// Still if no li[value] was found, we'll check the list.
+			if ( valueFound === null ) {
+				valueFound = list.attributes.start !== undefined ? parseInt( list.attributes.start, 10 ) : 1;
+				valueElementIndex = 0;
+			}
+
+			return valueFound + ( elementIndex - valueElementIndex );
 		},
 
 		dissolveList: function( element ) {
@@ -1063,6 +1111,7 @@
 					}
 				}
 
+				// This fragment seems to look for nested lists and create cke-symbol attribute based on list type.
 				if ( child.name == 'ul' || child.name == 'ol' ) {
 					for ( var i = 0; i < child.children.length; i++ ) {
 						if ( child.children[ i ].name == 'li' ) {
