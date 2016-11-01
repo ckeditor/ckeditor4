@@ -294,6 +294,32 @@
 			}
 		},
 
+		'test numbering.toNumber': function() {
+			var toNumber = this.pastefromword.lists.numbering.toNumber;
+
+			assert.areSame( 14, toNumber( 'XIV', 'upper-roman' ), 'Upper Roman XIV' );
+			assert.areSame( 4, toNumber( 'd', 'lower-alpha' ), 'Lower alpha d' );
+			assert.areSame( 35, toNumber( '35', 'decimal' ), 'Decimal 35' );
+			assert.areSame( 1, toNumber( '404', 'foo' ), 'Invalid value' );
+		},
+
+		'test numbering.getStyle': function() {
+			var getStyle = this.pastefromword.lists.numbering.getStyle;
+
+			assert.areSame( 'decimal', getStyle( '4' ), '4' );
+			assert.areSame( 'lower-alpha', getStyle( 'b' ), 'b' );
+			assert.areSame( 'upper-alpha', getStyle( 'P' ), 'P' );
+			assert.areSame( 'lower-roman', getStyle( 'i' ), 'i' );
+			assert.areSame( 'upper-roman', getStyle( 'X' ), 'X' );
+
+			assert.areSame( 'lower-roman', getStyle( 'xiv.' ), 'xiv.' );
+			assert.areSame( 'decimal', getStyle( '210)' ), '210)' );
+
+			// Cases purposely converted to lower-alpha:
+			assert.areSame( 'lower-alpha', getStyle( 'c' ), 'c' );
+			assert.areSame( 'upper-alpha', getStyle( 'D' ), 'D' );
+		},
+
 		// Creates CKEDITOR.htmlParser.fragment based on given element, and returns it's first child.'
 		//
 		// @param {string} id
