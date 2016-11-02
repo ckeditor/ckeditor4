@@ -57,15 +57,7 @@
 			//'Unordered_list': true,
 			//'Unordered_list_multiple': true
 		},
-		/** Some tickets are commented out because of the following known issues:
-			PFW001. Multi-paragraph lists are not recognized.
-			PFW002. Bullet font is not supported.
-			PFW003. IE seperates list items into individual lists.
-
-			Solutions:
-			PFW001, PFW003: Join lists with similar mso-list styles.
-
-			TODOs:
+		/** TODOs:
 			1. 'v:shape' filter function needs to take into account, that the element's parent
 			may be the document fragment.
 		*/
