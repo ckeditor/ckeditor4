@@ -21,7 +21,8 @@
 			'ie8',
 			//'ie9',
 			//'ie10',
-			'ie11'
+			'ie11',
+			'safari'
 		],
 		wordVersions = [
 			'word2007',
