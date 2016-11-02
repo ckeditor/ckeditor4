@@ -951,7 +951,7 @@
 				listElements = List.convertToRealListItems( root );
 
 			if ( listElements.length === 0 ) {
-				return;
+				return [];
 			}
 
 
