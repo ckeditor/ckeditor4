@@ -1607,4 +1607,43 @@
 	 * @property {CKEDITOR.plugins.pastefromword.lists} lists
 	 * @member CKEDITOR.plugins.pastefromword
 	 */
+
+	/**
+	 * Whether to ignore all font related formatting styles, including:
+	 *
+	 * * font size;
+	 * * font family;
+	 * * font foreground/background color.
+	 *
+	 *		config.pasteFromWordRemoveFontStyles = false;
+	 *
+	 * @removed 4.6.0
+	 * @since 3.1
+	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=true]
+	 * @member CKEDITOR.config
+	 */
+
+	/**
+	 * Whether to transform MS Word outline numbered headings into lists.
+	 *
+	 *		config.pasteFromWordNumberedHeadingToList = true;
+	 *
+	 * @removed 4.6.0
+	 * @since 3.1
+	 * @cfg {Boolean} [pasteFromWordNumberedHeadingToList=false]
+	 * @member CKEDITOR.config
+	 */
+
+	/**
+	 * Whether to remove element styles that can't be managed with the editor. Note
+	 * that this doesn't handle the font specific styles, which depends on the
+	 * {@link #pasteFromWordRemoveFontStyles} setting instead.
+	 *
+	 *		config.pasteFromWordRemoveStyles = false;
+	 *
+	 * @removed 4.6.0
+	 * @since 3.1
+	 * @cfg {Boolean} [pasteFromWordRemoveStyles=true]
+	 * @member CKEDITOR.config
+	 */
 } )();
