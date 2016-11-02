@@ -42,7 +42,9 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 				assertWordFilter( editor, compareRawData )( values[ 0 ], values[ 2 ] )
 					.then( function( values ) {
 						resume( function() {
-							assert.beautified.html( values[ 0 ], values[ 1 ] );
+							assert.beautified.html( values[ 0 ], values[ 1 ], {
+								fixStyles: true
+							} );
 						} );
 					} );
 			} else {
@@ -52,7 +54,9 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 				assertWordFilter( editor, compareRawData )( values[ 0 ], values[ 1 ] )
 					.then( function( values ) {
 						resume( function() {
-							assert.beautified.html( values[ 0 ], values[ 1 ] );
+							assert.beautified.html( values[ 0 ], values[ 1 ], {
+								fixStyles: true
+							} );
 						} );
 					} );
 			}
