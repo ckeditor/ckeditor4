@@ -30,6 +30,9 @@
 				allowedContent: allowed,
 				requiredContent: 'div',
 				contextSensitive: true,
+				contentTransformations: [
+					[ 'div: alignmentToStyle' ]
+				],
 				refresh: function( editor, path ) {
 					var context = editor.config.div_wrapTable ? path.root : path.blockLimit;
 					this.setState( 'div' in context.getDtd() ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );

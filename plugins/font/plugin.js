@@ -38,7 +38,48 @@
 			toolbar: 'styles,' + order,
 			allowedContent: style,
 			requiredContent: style,
+			contentTransformations: [
+				[
+					{
+						element: 'font',
+						check: 'span',
+						left: function( element ) {
+							return !!element.attributes.size ||
+								!!element.attributes.align ||
+								!!element.attributes.face;
+						},
+						right: function( element ) {
+							var sizes = [
+								'', // Non-existent size "0"
+								'x-small',
+								'small',
+								'medium',
+								'large',
+								'x-large',
+								'xx-large',
+								'48px' // Closest value to what size="7" might mean.
+							];
 
+							element.name = 'span';
+
+							if ( element.attributes.size ) {
+								element.styles[ 'font-size' ] = sizes[ element.attributes.size ];
+								delete element.attributes.size;
+							}
+
+							if ( element.attributes.align ) {
+								element.styles[ 'text-align' ] = element.attributes.align;
+								delete element.attributes.align;
+							}
+
+							if ( element.attributes.face ) {
+								element.styles[ 'font-family' ] = element.attributes.face;
+								delete element.attributes.face;
+							}
+						}
+					}
+				]
+			],
 			panel: {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
 				multiSelect: false,

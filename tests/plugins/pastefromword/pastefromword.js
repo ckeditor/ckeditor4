@@ -10,14 +10,18 @@
 	bender.editors = {
 		inline: {
 			creator: 'inline',
-			name: 'inline'
+			name: 'inline',
+			config: {
+				pasteFromWordCleanupFile: 'plugins/pastefromword/filter/legacy.js'
+			}
 		},
 
 		indulgent: {
 			name: 'indulgent',
 			config: {
 				pasteFromWordRemoveFontStyles: false,
-				pasteFromWordRemoveStyles: false
+				pasteFromWordRemoveStyles: false,
+				pasteFromWordCleanupFile: 'plugins/pastefromword/filter/legacy.js'
 			}
 		}
 	};
