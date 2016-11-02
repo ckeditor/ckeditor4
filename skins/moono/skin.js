@@ -293,7 +293,7 @@ CKEDITOR.skin.chameleon = ( function() {
 	// The available icons. This list must match the file names (without
 	// extension) available inside the "icons" folder.
 	var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
-		'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
+		'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,copyformatting,' +
 		'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
 		'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
 		'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
