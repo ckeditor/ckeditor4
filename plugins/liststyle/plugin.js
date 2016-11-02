@@ -17,7 +17,7 @@
 
 			def = new CKEDITOR.dialogCommand( 'numberedListStyle', {
 				requiredContent: 'ol',
-				allowedContent: 'ol{list-style-type}[start]; li{list-style-type}',
+				allowedContent: 'ol{list-style-type}[start]; li{list-style-type}[value]',
 				contentTransformations: [
 					[ 'ol: listTypeToStyle' ]
 				]
