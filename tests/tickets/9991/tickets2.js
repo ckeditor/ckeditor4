@@ -25,7 +25,7 @@
 		],
 		wordVersion = 'word2013',
 		ticketTests = {
-			//'13590ckeditor-numberlist': [ 'word2013' ],
+			'13590ckeditor-numberlist': [ 'word2013' ],
 			'13616': [ 'word2013' ],
 			'13810test': [ 'word2013' ],
 			'1457list-test': [ 'word2013' ], // IE11 puts <font> tags between list elements.
