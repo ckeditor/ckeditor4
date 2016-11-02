@@ -30,11 +30,11 @@
 			'7797fonts': [ 'word2013' ],
 			'7843Multi_level_Numbered_list': [ 'word2013' ],
 			'7857pasting_RTL_lists_from_word_defect': [ 'word2013' ],
-			'7872lists': [ 'word2013' ], // IE11 creates distorted lists.
+			'7872lists': [ 'word2013' ],
 			'7918Numbering': [ 'word2013' ],
 			'7950Sample_word_doc': [ 'word2013' ],
 			'8437WORD_ABC': [ 'word2013' ],
-			'8501FromWord': [ 'word2013' ], // IE8 drops some formatting data.
+			'8501FromWord': [ 'word2013' ],
 			'8665Tartalom': [ 'word2013' ],
 			'8734list_test2': [ 'word2013' ],
 			'8734list_test': [ 'word2013' ],
@@ -45,7 +45,7 @@
 			'9331ckBugWord1': [ 'word2013' ],
 			'9340test_ckeditor': [ 'word2013' ],
 			'9422for_cke': [ 'word2013' ],
-			'9426CK_Sample_word_document': [ 'word2013' ], // "lists" made by tabs.
+			'9426CK_Sample_word_document': [ 'word2013' ],
 			'9456Stuff_to_get': [ 'word2013' ],
 			'9456text-with-bullet-list-example': [ 'word2013' ],
 			'9475list2003': [ 'word2013' ],
