@@ -24,6 +24,7 @@
 	bender.editor = {
 		config: {
 			allowedContent: true,
+			language: 'en',
 			on: {
 				loaded: function( evt ) {
 					Widget = CKEDITOR.plugins.widget;
