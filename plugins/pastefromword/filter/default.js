@@ -1654,7 +1654,9 @@
 	 *
 	 * @since 4.6.0
 	 * @event pasteFromWordCleanup
+	 * @param data
 	 * @param {CKEDITOR.htmlParser.fragment} data.root Document fragment containing pasted content.
+	 * @member CKEDITOR.editor
 	 */
 
 	/**
@@ -1666,7 +1668,8 @@
 	 *
 	 *		config.pasteFromWordRemoveFontStyles = false;
 	 *
-	 * @removed 4.6.0
+	 * @deprecated 4.6.0 Either configure proper [Advanced Content Filter](#!/guide/dev_advanced_content_filter) for the editor or use
+	 * {@link CKEDITOR.editor#pasteFromWordCleanup} event.
 	 * @since 3.1
 	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=true]
 	 * @member CKEDITOR.config
