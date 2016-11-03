@@ -18,16 +18,18 @@
 
 	var browsers = [
 			'chrome',
-			// 'firefox',
-			'ie8',
-			// 'ie11'
+			'ie8'
 		],
 		wordVersion = 'word2013',
 		ticketTests = {
 			'Multi_dig_list': [ 'word2013' ],
 			'List_skipped_numbering': [ 'word2013' ]
 		},
-		testData = {},
+		testData = {
+			_should: {
+				ignore: {}
+			}
+		},
 		ticketKeys = CKEDITOR.tools.objectKeys( ticketTests ),
 		i, k;
 
