@@ -1,0 +1,13 @@
+<textarea cols="80" id="editor1" name="editor1" rows="10">
+	<p>Place the content below:</p>
+	<p></p>
+</textarea>
+<script>
+	var editor = CKEDITOR.replace( 'editor1', {
+		on: {
+			pasteFromWordCleanup: function( evt ) {
+				evt.cancel();
+			}
+		}
+	} );
+</script>
