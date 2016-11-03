@@ -68,21 +68,13 @@
 		hidpi: true,
 
 		onLoad: function() {
-			var doc = CKEDITOR.document,
-				// We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
-				// `aria-live` which has directly `position: absolute` assigned.
-				// The trick was simply to put position absolute, and all the hiding CSS into a wrapper,
-				// while content with `aria-live` attribute inside.
-				notificationTpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
-						'<div aria-live="polite"></div>' +
-					'</div>';
-
-			doc.appendStyleSheet( this.path + 'styles/copyformatting.css' );
-			doc.getBody().append( CKEDITOR.dom.element.createFromHtml( notificationTpl ) );
+			CKEDITOR.document.appendStyleSheet( this.path + 'styles/copyformatting.css' );
 		},
 
 		init: function( editor ) {
 			var plugin = CKEDITOR.plugins.copyformatting;
+
+			plugin._addScreenReaderContainer();
 
 			// Add copyformatting stylesheet.
 			if ( editor.addContentsCss ) {
@@ -1011,9 +1003,40 @@
 		 * @private
 		 */
 		_putScreenReaderMessage: function( editor, msg ) {
-			var container = CKEDITOR.document.getBody().findOne( '.cke_copyformatting_notification div[aria-live]' );
+			this._getScreenReaderContainer().setText( editor.lang.copyformatting.notification[ msg ] );
+		},
 
-			container.setText( editor.lang.copyformatting.notification[ msg ] );
+		/**
+		 * Adds the screen reader messages wrapper. Multiple calls will create only one message container.
+		 *
+		 * @private
+		 * @returns {CKEDITOR.dom.element} Inserted aria-live container.
+		 */
+		_addScreenReaderContainer: function() {
+			if ( this._getScreenReaderContainer() ) {
+				return this._getScreenReaderContainer();
+			}
+
+				// We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
+				// `aria-live` which has directly `position: absolute` assigned.
+				// The trick was simply to put position absolute, and all the hiding CSS into a wrapper,
+				// while content with `aria-live` attribute inside.
+			var notificationTpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
+						'<div aria-live="polite"></div>' +
+					'</div>';
+
+			return CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( notificationTpl ) ).getChild( 0 );
+		},
+
+
+		/**
+		 * Returns a screen reader messages wrapper.
+		 *
+		 * @private
+		 * @returns
+		 */
+		_getScreenReaderContainer: function() {
+			return CKEDITOR.document.getBody().findOne( '.cke_copyformatting_notification div[aria-live]' );
 		}
 	};
 

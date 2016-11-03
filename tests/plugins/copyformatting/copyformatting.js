@@ -408,19 +408,56 @@
 		},
 
 		'test notifications': function( editor ) {
-			var notify = CKEDITOR.plugins.copyformatting._putScreenReaderMessage;
+			var copyformatting = CKEDITOR.plugins.copyformatting;
 
-			notify( editor, 'copied' );
+			copyformatting._putScreenReaderMessage( editor, 'copied' );
 			assertScreenReaderNotification( editor, 'copied' );
 
-			notify( editor, 'applied' );
+			copyformatting._putScreenReaderMessage( editor, 'applied' );
 			assertScreenReaderNotification( editor, 'applied' );
 
-			notify( editor, 'canceled' );
+			copyformatting._putScreenReaderMessage( editor, 'canceled' );
 			assertScreenReaderNotification( editor, 'canceled' );
 
-			notify( editor, 'failed' );
+			copyformatting._putScreenReaderMessage( editor, 'failed' );
 			assertScreenReaderNotification( editor, 'failed' );
+		},
+
+		'test _getScreenReaderContainer': function() {
+			var ret = CKEDITOR.plugins.copyformatting._getScreenReaderContainer();
+
+			assert.isInstanceOf( CKEDITOR.dom.element, ret, 'Proper type returned' );
+			assert.isTrue( ret.hasAttribute( 'aria-live' ), 'Is an ARIA live region' );
+		},
+
+		'test _addScreenReaderContainer': function() {
+			var copyformatting = CKEDITOR.plugins.copyformatting,
+				wrapper = copyformatting._getScreenReaderContainer(),
+				wrapperSelection = '.cke_copyformatting_notification div[aria-live]',
+				doc = CKEDITOR.document,
+				ret,
+				secondRet,
+				matched;
+
+			if ( wrapper ) {
+				// Ensure that there's no wrapper.
+				wrapper.remove();
+			}
+
+			ret = copyformatting._addScreenReaderContainer();
+
+			// Ensure that it really is in the DOM.
+			matched = doc.findOne( wrapperSelection );
+
+			assert.isNotNull( matched, 'Wrapper was placed in the document' );
+			assert.areSame( matched, ret, 'Wrapper was returned by the function' );
+
+			secondRet = copyformatting._addScreenReaderContainer();
+			copyformatting._addScreenReaderContainer();
+			copyformatting._addScreenReaderContainer();
+
+			assert.areSame( ret, secondRet, 'Returned the same value for the second call' );
+			assert.areSame( 1, doc.find( wrapperSelection ).count(), 'Multiple calls doesnt put multiple containers' );
 		}
 	};
 
