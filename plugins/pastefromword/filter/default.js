@@ -1605,20 +1605,7 @@
 		}
 	}
 
-	var exportedFunctions = {
-		createAttributeStack: createAttributeStack,
-		createStyleStack: Style.createStyleStack,
-		pushStylesLower: Style.pushStylesLower,
-		setListSymbol: List.setListSymbol,
-		removeSymbolText: List.removeSymbolText,
-		sortStyles: Style.sortStyles,
-		normalizedStyles: Style.normalizedStyles,
-		setListStart: List.setListStart
-	};
-
-	for ( var exported in exportedFunctions ) {
-		CKEDITOR.cleanWord[ exported ] = exportedFunctions[ exported ];
-	}
+	CKEDITOR.plugins.pastefromword.createAttributeStack = createAttributeStack;
 
 	/**
 	 * Lists helper.
