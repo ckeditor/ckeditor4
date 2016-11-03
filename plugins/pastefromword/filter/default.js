@@ -324,9 +324,8 @@
 	/**
 	 * Namespace containing all the helper functions to work with styles.
 	 *
+	 * @private
 	 * @since 4.6.0
-	 * @class
-	 * @singleton
 	 * @member CKEDITOR.plugins.pastefromword
 	 */
 	CKEDITOR.plugins.pastefromword.styles = {
@@ -360,6 +359,15 @@
 			}
 		},
 
+		/**
+		 * Filters Word-specific styles for given element. Also might filter additional styles
+		 * based on `editor` configuration.
+		 *
+		 * @private
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @param {CKEDITOR.editor} editor
+		 * @member CKEDITOR.plugins.pastefromword.styles
+		 */
 		normalizedStyles: function( element, editor ) {
 
 			// Some styles and style values are redundant, so delete them.
@@ -435,6 +443,7 @@
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @param {CKEDITOR.editor} editor
+		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		createStyleStack: function( element, filter, editor ) {
 			var i,
@@ -586,15 +595,15 @@
 	/**
 	 * Namespace containing any lists-oriented helper methods.
 	 *
+	 * @private
 	 * @since 4.6.0
-	 * @class
-	 * @singleton
 	 * @member CKEDITOR.plugins.pastefromword
 	 */
 	CKEDITOR.plugins.pastefromword.lists = {
 		/**
 		 * Checks if given element is list item-alike.
 		 *
+		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.lists
@@ -624,6 +633,7 @@
 		/**
 		 * Converts element to an element with `cke:li` tag name.
 		 *
+		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
@@ -684,6 +694,7 @@
 		/**
 		 * Converts any fake list items containerd within `root` into a real `li` elements.
 		 *
+		 * @private
 		 * @param {CKEDITOR.htmlParser.element} root
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of converted elements.
 		 * @member CKEDITOR.plugins.pastefromword.lists
@@ -799,14 +810,6 @@
 			delete list.attributes[ 'cke-list-style-type' ];
 		},
 
-		/**
-		 * Helper namespace for any numbering operations.
-		 *
-		 * @since 4.6.0
-		 * @class
-		 * @singleton
-		 * @member CKEDITOR.plugins.pastefromword.lists
-		 */
 		numbering: {
 			/**
 			 * Converts list marker value into a decimal number.
@@ -1446,6 +1449,7 @@
 		/**
 		 * Returns an object describing given `symbol`.
 		 *
+		 * @private
 		 * @param {String} symbol
 		 * @param {String} type
 		 * @returns {Object} ret
@@ -1610,6 +1614,7 @@
 	/**
 	 * Lists helper.
 	 *
+	 * @private
 	 * @property {CKEDITOR.plugins.pastefromword.lists} lists
 	 * @member CKEDITOR.plugins.pastefromword
 	 */
@@ -1619,13 +1624,6 @@
 	 *
 	 * @property {CKEDITOR.plugins.pastefromword.lists.numbering} numbering
 	 * @member CKEDITOR.plugins.pastefromword.lists
-	 */
-
-	/**
-	 * Styles helper.
-	 *
-	 * @property {CKEDITOR.plugins.pastefromword.lists} lists
-	 * @member CKEDITOR.plugins.pastefromword
 	 */
 
 	/**
