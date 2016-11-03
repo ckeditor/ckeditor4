@@ -11,7 +11,8 @@
 
 	bender.editor = {
 		config: {
-			language: 'en'
+			language: 'en',
+			removePlugins: 'dialogadvtab,flash,showborders,horizontalrule'
 		}
 	};
 

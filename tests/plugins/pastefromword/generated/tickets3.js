@@ -12,7 +12,9 @@
 	bender.editor = {
 		config: {
 			language: 'en',
-			extraAllowedContent: 'li[value]'
+			extraAllowedContent: 'li[value]',
+			disallowedContent: 'code',
+			removePlugins: 'dialogadvtab,flash,showborders,horizontalrule'
 		}
 	};
 
