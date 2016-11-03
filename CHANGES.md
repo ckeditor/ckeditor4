@@ -17,6 +17,7 @@ New Features:
 
 Fixed Issues:
 
+* [#9991](http://dev.ckeditor.com/ticket/9991): Fixed: Paste from word should only normalize input data.
 * [#14672](http://dev.ckeditor.com/ticket/14672): Fixed: Balloonpanel not blurred on close.
 * [#14763](http://dev.ckeditor.com/ticket/14763): Fixed: Balloonpanel plugin moono-lisa skin adjustments.
 * [#13828](http://dev.ckeditor.com/ticket/13828): Fixed: Widget classes should be added to wrapper rather than widget element.
