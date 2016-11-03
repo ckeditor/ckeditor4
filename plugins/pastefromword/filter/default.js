@@ -1651,12 +1651,14 @@
 	 * * font family;
 	 * * font foreground/background color.
 	 *
-	 *		config.pasteFromWordRemoveFontStyles = false;
+	 *		config.pasteFromWordRemoveFontStyles = true;
+	 *
+	 * Note that prior to 4.6.0 this config defaulted to `false`.
 	 *
 	 * @deprecated 4.6.0 Either configure proper [Advanced Content Filter](#!/guide/dev_advanced_content_filter) for the editor or use
 	 * {@link CKEDITOR.editor#pasteFromWordCleanup} event.
 	 * @since 3.1
-	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=true]
+	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=false]
 	 * @member CKEDITOR.config
 	 */
 
