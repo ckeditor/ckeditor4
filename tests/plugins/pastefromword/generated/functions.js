@@ -1,6 +1,6 @@
 /* bender-tags: clipboard,pastefromword */
 /* bender-ckeditor-plugins: pastefromword,ajax */
-/* bender-include: ../../plugins/clipboard/_helpers/pasting.js,  ../../../plugins/pastefromword/filter/default.js */
+/* bender-include: ../../../plugins/clipboard/_helpers/pasting.js,  ../../../../plugins/pastefromword/filter/default.js */
 /* global assertPasteEvent */
 
 ( function() {
