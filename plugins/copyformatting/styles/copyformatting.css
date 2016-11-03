@@ -2,8 +2,8 @@ html.cke_copyformatting_active {
 	min-height: 100%;
 }
 
-/* There isn't cursor in CUR format for IE/Edge as that browser
- doesn't support custom cursor in [contenteditable] area.
+/* There is no cursor in CUR format for IE/Edge as that browser
+ does not support custom cursor in [contenteditable] area.
  Ticket for this issue:
  https://connect.microsoft.com/IE/feedback/details/1070215/cant-change-cursor-in-contenteditable-using-css */
 .cke_copyformatting_disabled,
@@ -17,8 +17,8 @@ html.cke_copyformatting_active {
 	cursor: default;
 }
 
-/* Added `!important` rule as a fix for overriding cursor by tableresize plugin.
- `!important` rule is used, because tableresize plugin creates a div which changes the cursor using inlined styles. */
+/* Added `!important` rule as a fix for overriding the cursor by the Table Resize plugin.
+ The `!important` rule is used because the Table Resize plugin creates a `<div>` which changes the cursor using inlined styles. */
 .cke_copyformatting_active,
 .cke_copyformatting_active.cke_editable,
 .cke_copyformatting_active .cke_editable,

@@ -90,7 +90,7 @@
 			}
 
 			/**
-			 * Current state of Copy Formatting plugin in this editor instance.
+			 * Current state of the Copy Formatting plugin in this editor instance.
 			 *
 			 * @since 4.6.0
 			 * @property {CKEDITOR.plugins.copyformatting.state} copyFormatting
@@ -263,7 +263,7 @@
 		this.sticky = false;
 
 		/**
-		 * Reference to the editor.
+		 * Editor reference.
 		 *
 		 * @member CKEDITOR.plugins.copyformatting.state
 		 * @property {CKEDITOR.editor}
@@ -271,7 +271,7 @@
 		this.editor = editor;
 
 		/**
-		 * Filter used by current's Copy Formatting instance.
+		 * Filter used by the current Copy Formatting instance.
 		 *
 		 * @member CKEDITOR.plugins.copyformatting.state
 		 * @property {CKEDITOR.filter}
@@ -289,11 +289,11 @@
 
 	/**
 	 * Checks if copying and applying styles in the current context is possible.
-	 * For list of possible context values see {@link CKEDITOR.config#copyFormatting_allowedContexts}.
+	 * See {@link CKEDITOR.config#copyFormatting_allowedContexts} for the list of possible context values.
 	 *
 	 * @member CKEDITOR.plugins.copyformatting.state
 	 * @param {String} testedContext Context name.
-	 * @returns {Boolean} `true` if given context is allowed in current Copy Formatting instance.
+	 * @returns {Boolean} `true` if a given context is allowed in the current Copy Formatting instance.
 	 * @private
 	 */
 	State.prototype._isContextAllowed = function( testedContext ) {
@@ -313,7 +313,7 @@
 		state: State,
 
 		/**
-		 * Array of block boundaries that should be always transformed into inline elements with  styles, e.g.
+		 * An array of block boundaries that should be always transformed into inline elements with  styles, e.g.
 		 * `<div style="font-size: 24px;" class="important">` becomes `<span style="font-size: 24px;" class="important">`.
 		 *
 		 * @property {Array}
@@ -321,24 +321,24 @@
 		inlineBoundary: [ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ],
 
 		/**
-		 * Array of attributes that should be excluded from extracted styles.
+		 * An array of attributes that should be excluded from extracted styles.
 		 *
 		 * @property {Array}
 		 */
 		excludedAttributes: [ 'id', 'style', 'href', 'data-cke-saved-href', 'dir' ],
 
 		/**
-		 * Array of elements that will be transformed into inline styles while
-		 * applying formatting to the plain text context, e.g. trying to apply styles from `li` element
-		 * (`<li style="font-size: 24px;">`) to regular paragraph will cause changing the `li` element
-		 * into corresponding `span` element (`<span style="font-size: 24px;">`).
+		 * An array of elements that will be transformed into inline styles while
+		 * applying formatting to the plain text context, e.g. trying to apply styles from the `<li>` element
+		 * (`<li style="font-size: 24px;">`) to a regular paragraph will cause changing the `<li>` element
+		 * into a corresponding `<span>` element (`<span style="font-size: 24px;">`).
 		 *
 		 * @property {Array}
 		 */
 		elementsForInlineTransform: [ 'li' ],
 
 		/**
-		 * Array of elements that will be excluded from transformation while
+		 * An array of elements that will be excluded from the transformation while
 		 * applying formatting to the plain text context.
 		 *
 		 * @property {Array}
@@ -346,27 +346,28 @@
 		excludedElementsFromInlineTransform: [ 'table', 'thead', 'tbody', 'ul', 'ol' ],
 
 		/**
-		 * Array of attributes to be excluded while transforming styles from elements inside
-		 * {@link CKEDITOR.plugins.copyformatting#elementsForInlineTransform} into `span` elements with styles
-		 * (e.g. when applying that styles to text context).
+		 * An array of attributes to be excluded while transforming styles from elements inside
+		 * {@link CKEDITOR.plugins.copyformatting#elementsForInlineTransform} into `<span>` elements with styles
+		 * (e.g. when applying these styles to text context).
 		 *
 		 * @property {Array}
 		 */
 		excludedAttributesFromInlineTransform: [ 'value', 'type' ],
 
 		/**
-		 * Array of elements which should not be deleted when deleting old styles
-		 * from current selection. Instead the styles are stripped of the elements,
-		 * preserving themselves, e.g. `<ul style="font-size: 24px" class="important">` becomes `<ul>`.
+		 * An array of elements which should not be deleted when removing old styles
+		 * from the current selection. Instead the styles are stripped from the elements,
+		 * preserving the elements themselves, e.g. `<ul style="font-size: 24px" class="important">`
+		 * becomes `<ul>`.
 		 *
 		 * @property {Array}
 		 */
 		preservedElements: [ 'ul', 'ol', 'li', 'td', 'th', 'tr', 'thead', 'tbody', 'table' ],
 
 		/**
-		 * Array of elements on which extracting formatting should be stopped.
-		 * If Copy Formatting reaches an element from the array, it ends going up the document's tree
-		 * and fetching element's parents' styles.
+		 * An array of elements on which extracting formatting should be stopped.
+		 * If Copy Formatting reaches an element from the array, it ends going up the document tree
+		 * and fetching the element parents' styles.
 		 *
 		 * @property {Array}
 		 */
@@ -450,11 +451,11 @@
 		},
 
 		/**
-		 * Return a container element where the mouse cursor should be overridden.
+		 * Returns a container element where the mouse cursor should be overridden.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @return {CKEDITOR.dom.element} for an inline editor is the editable itself and for a classic editor
-		 * it's document element of editor's frame.
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @return {CKEDITOR.dom.element} For inline editor, it is the editable itself and for classic editor
+		 * it is the document element of the editor iframe.
 		 * @private
 		 */
 		_getCursorContainer: function( editor ) {
@@ -466,12 +467,12 @@
 		},
 
 		/**
-		 * Converts given element into style definition that could be used to create instance of {@link CKEDITOR.style}.
+		 * Converts a given element into a style definition that could be used to create an instance of {@link CKEDITOR.style}.
 		 *
-		 * Note that all definitions has `type` property set to {@link CKEDITOR#STYLE_INLINE}
+		 * Note that all definitions have a `type` property set to {@link CKEDITOR#STYLE_INLINE}.
 		 *
-		 * @param {CKEDITOR.dom.element} element Element to be converted.
-		 * @returns {Object} Style definition created from the element.
+		 * @param {CKEDITOR.dom.element} element The element to be converted.
+		 * @returns {Object} The style definition created from the element.
 		 * @private
 		 */
 		_convertElementToStyleDef: function( element ) {
@@ -488,13 +489,13 @@
 		},
 
 		/**
-		 * Extract styles from given element and its ancestors. The function walks up the document's tree, starting from
-		 * given element and ends on editor's editable or when the element from
+		 * Extracts styles from the given element and its ancestors. This function walks up the document tree, starting from
+		 * the given element, and ends on the editor's editable or when the element from
 		 * {@link CKEDITOR.plugins.copyformatting#breakOnElements} is reached.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @param {CKEDITOR.dom.element} element Element which styles should be extracted.
-		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {CKEDITOR.dom.element} element The element whose styles should be extracted.
+		 * @returns {CKEDITOR.style[]} An array containing all extracted styles.
 		 * @private
 		 */
 		_extractStylesFromElement: function( editor, element ) {
@@ -523,12 +524,12 @@
 		},
 
 		/**
-		 * Extract styles from given range. Function finds all elements in given range and then applies
+		 * Extracts styles from the given range. This function finds all elements in the given range and then applies
 		 * {@link CKEDITOR.plugins.copyformatting#_extractStylesFromElement} on them.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @param {CKEDITOR.dom.range} range Range from which styles should be extracted.
-		 * @returns {CKEDITOR.style[]} The array containing all extracted styles.
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {CKEDITOR.dom.range} range The range that styles should be extracted from.
+		 * @returns {CKEDITOR.style[]} An array containing all extracted styles.
 		 * @private
 		 * @todo Styles in the array returned by this method might be duplicated; it should be cleaned later on.
 		 */
@@ -546,12 +547,12 @@
 		},
 
 		/**
-		 * Removes all styles from the element in given range without
+		 * Removes all styles from the element in a given range without
 		 * removing the element itself.
 		 *
-		 * @param {CKEDITOR.dom.range} range Range in which the element
-		 * should be found
-		 * @param {String} element Element's tag name.
+		 * @param {CKEDITOR.dom.range} range The range where the element
+		 * should be found.
+		 * @param {String} element The tag name of the element.
 		 * @private
 		 */
 		_removeStylesFromElementInRange: function( range, element ) {
@@ -574,15 +575,15 @@
 		},
 
 		/**
-		 * Get offsets and start and end containers for selected word.
-		 * It handles also cases like `lu<span style="color: #f00;">n</span>ar`.
+		 * Gets offsets as well as start and end containers for the selected word.
+		 * It also handles cases like `lu<span style="color: #f00;">n</span>ar`.
 		 *
 		 * @param {CKEDITOR.dom.range} range Selected range.
-		 * @returns {Object} return Object with properties:
-		 * @returns {CKEDITOR.dom.element} return.startNode Node in which the word's beginning is located.
-		 * @returns {Number} return.startOffset Offset inside `startNode` indicating word's beginning.
-		 * @returns {CKEDITOR.dom.element} return.endNode Node in which the word's ending is located.
-		 * @returns {Number} return.endOffset Offset inside `endNode` indicating word's ending
+		 * @returns {Object} return An object with the following properties:
+		 * @returns {CKEDITOR.dom.element} return.startNode The node where the word's beginning is located.
+		 * @returns {Number} return.startOffset The offset inside the `startNode` indicating the word's beginning.
+		 * @returns {CKEDITOR.dom.element} return.endNode The node where the word's ending is located.
+		 * @returns {Number} return.endOffset The offset inside the `endNode` indicating the word's ending.
 		 * @private
 		 */
 		_getSelectedWordOffset: function( range ) {
@@ -753,9 +754,9 @@
 		},
 
 		/**
-		 * Filter styles before applying using {@link CKEDITOR.filter}.
+		 * Filters styles before applying them by using {@link CKEDITOR.filter}.
 		 *
-		 * @param {CKEDITOR.style[]} styles Array of styles to be filtered.
+		 * @param {CKEDITOR.style[]} styles An array of styles to be filtered.
 		 * @return {CKEDITOR.style[]} Filtered styles.
 		 * @private
 		 */
@@ -786,8 +787,8 @@
 		},
 
 		/**
-		 * Determines context of the given selection. For list of possible context values see
-		 * `{@link CKEDITOR.config#copyFormatting_allowedContexts}`.
+		 * Determines the context of the given selection. See {@link CKEDITOR.config#copyFormatting_allowedContexts}
+		 * for a list of possible context values.
 		 *
 		 * @param {CKEDITOR.dom.range} range The range that the context should be determined from.
 		 * @returns {String}
@@ -820,11 +821,11 @@
 		},
 
 		/**
-		 * Apply styles inside plain text context.
+		 * Applies styles inside the plain text context.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor's instance.
+		 * @param {CKEDITOR.editor} editor The editor instance.
 		 * @param {CKEDITOR.dom.range} range The range that the context can be determined from.
-		 * @param {CKEDITOR.style[]} styles Styles to be applied.
+		 * @param {CKEDITOR.style[]} styles The styles to be applied.
 		 * @private
 		 */
 		_applyStylesToTextContext: function( editor, range, styles ) {
@@ -862,11 +863,11 @@
 		},
 
 		/**
-		 * Apply list's style inside list context.
+		 * Applies the list style inside the list context.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @param {CKEDITOR.dom.range} range The range in which styles should be applied.
-		 * @param {CKEDITOR.style[]} styles Style to be applied.
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {CKEDITOR.dom.range} range The range where the styles should be applied.
+		 * @param {CKEDITOR.style[]} styles The style to be applied.
 		 * @private
 		 */
 		_applyStylesToListContext: function( editor, range, styles ) {
@@ -907,11 +908,11 @@
 		},
 
 		/**
-		 * Apply table's style inside table context.
+		 * Applies the table style inside the table context.
 		 *
-		 * @param {CKEDITOR.editor} editor Editor's instance.
-		 * @param {CKEDITOR.dom.range} range The range in which styles should be applied.
-		 * @param {CKEDITOR.style[]} styles Style to be applied.
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {CKEDITOR.dom.range} range The range where the styles should be applied.
+		 * @param {CKEDITOR.style[]} styles The style to be applied.
 		 * @private
 		 */
 		_applyStylesToTableContext: function( editor, range, styles ) {
@@ -953,11 +954,11 @@
 		/**
 		 * Initializes applying given styles to the currently selected content in the editor.
 		 *
-		 * The actual applying is performed inside event listeners for
+		 * The actual applying is performed inside event listeners for the
 		 * {@link CKEDITOR.plugins.copyformatting.state#applyFormatting} event.
 		 *
-		 * @param {CKEDITOR.editor} editor The editor's instance.
-		 * @param {CKEDITOR.style[]} newStyles Array of styles to be applied.
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {CKEDITOR.style[]} newStyles An array of styles to be applied.
 		 * @returns {Boolean} `false` if styles could not be applied, `true` otherwise.
 		 * @private
 		 */
@@ -1003,10 +1004,10 @@
 		},
 
 		/**
-		 * Puts a message solely for screen readers, meant to provide status updates for Copy Formatting plugin.
+		 * Puts a message solely for screen readers, meant to provide status updates for the Copy Formatting plugin.
 		 *
-		 * @param {CKEDITOR.editor} editor The editor's instance.
-		 * @param {string} msg Name of the message in the lang file.
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {string} msg The name of the message in the language file.
 		 * @private
 		 */
 		_putScreenReaderMessage: function( editor, msg ) {
@@ -1017,10 +1018,10 @@
 	};
 
 	/**
-	 * Define if the "disabled" cursor should be attached to the whole page
-	 * when the "Copy Formatting" is active.
+	 * Defines if the "disabled" cursor should be attached to the whole page
+	 * when the Copy Formatting plugin is active.
 	 *
-	 * "Disabled" cursor indicates that Copy Formatting won't work in the place in which the mouse cursor is placed.
+	 * "Disabled" cursor indicates that Copy Formatting will not work in the place where the mouse cursor is placed.
 	 *
 	 *		config.copyFormatting_outerCursor = false;
 	 *
@@ -1031,14 +1032,14 @@
 	CKEDITOR.config.copyFormatting_outerCursor = true;
 
 	/**
-	 * Defines rules for the elements from which styles should be fetched. If set to `true` will entirely disable
+	 * Defines rules for the elements from which the styles should be fetched. If set to `true`, it will disable
 	 * filtering.
 	 *
-	 * This property is using ACF syntax, you can learn more about it in
-	 * [Content Filtering Guide](http://docs.ckeditor.com/#!/guide/dev_acf).
+	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
+	 * [Content Filtering (ACF)](http://docs.ckeditor.com/#!/guide/dev_acf) documentation.
 	 *
-	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allow only spans
-	 *		config.copyFormatting_allowRules = true; // Disables filtering
+	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allows only spans.
+	 *		config.copyFormatting_allowRules = true; // Disables filtering.
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_allowRules='b; s; u; strong; span; p; div; table; thead; tbody; ' +
@@ -1050,10 +1051,10 @@
 	/**
 	 * Defines rules for the elements from which fetching styles is explicitly forbidden (eg. widgets).
 	 *
-	 * This property is using ACF syntax, you can learn more about it in
-	 * [Content Filtering Guide](http://docs.ckeditor.com/#!/guide/dev_acf).
+	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
+	 * [Content Filtering (ACF)](http://docs.ckeditor.com/#!/guide/dev_acf) documentation.
 	 *
-	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallow spans with important class.
+	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallows spans with "important" class.
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_disallowRules='*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)']
@@ -1062,16 +1063,16 @@
 	CKEDITOR.config.copyFormatting_disallowRules = '*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)';
 
 	/**
-	 * Defines which contexts should be enabled in Copy Formatting plugin. Available contexts are:
+	 * Defines which contexts should be enabled in the Copy Formatting plugin. Available contexts are:
 	 *
-	 * * `'text'` – plain text context
-	 * * `'list'` – list context
-	 * * `'table'` – table context
+	 * * `'text'` &ndash; Plain text context.
+	 * * `'list'` &ndash; List context.
+	 * * `'table'` &ndash; Table context.
 	 *
-	 *		// If one wants to enable only plain text context.
+	 *		// Enables only plain text context.
 	 *		config.copyFormatting_allowedContexts = [ 'text' ];
 	 *
-	 *		// If set to true, will enable all contexts.
+	 *		// If set to "true", enables all contexts.
 	 *		config.copyFormatting_allowedContexts = true;
 	 *
 	 * @since 4.6.0
@@ -1081,7 +1082,7 @@
 	CKEDITOR.config.copyFormatting_allowedContexts = true;
 
 	/**
-	 * Defines keystroke for copying styles.
+	 * Defines the keyboard shortcut for copying styles.
 	 *
 	 *		config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 67; // Ctrl+Shift+C
 	 *
@@ -1092,7 +1093,7 @@
 	CKEDITOR.config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 67;
 
 	/**
-	 * Defines keystroke for applying styles.
+	 * Defines the keyboard shortcut for applying styles.
 	 *
 	 *		config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86; // Ctrl+Shift+V
 	 *
@@ -1103,14 +1104,14 @@
 	CKEDITOR.config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86;
 
 	/**
-	 * Fired when the styles are being extracted from the element. It's fired for every element separately.
+	 * Fired when the styles are being extracted from the element. This event is fired for each element separately.
 	 * This event listener job is to extract inline styles from the element and modify them if needed.
 	 *
 	 *		editor.copyFormatting.on( 'extractFormatting', function( evt ) {
 	 *			evt.data.styleDef.attributes.class = 'important';
 	 *		} );
 	 *
-	 * This event can also be canceled to indicate that styles from current element should not
+	 * This event can also be canceled to indicate that styles from the current element should not
 	 * be extracted.
 	 *
 	 *		editor.copyFormatting.on( 'extractFormatting', function( evt ) {
@@ -1120,14 +1121,14 @@
 	 *		} );
 	 *
 	 * This event has a default listener with a default priority of `10`.
-	 * It extracts all styles from element (from some of the attributes and from
-	 * element's name) and put them as an object into `evt.data.styleDef`.
+	 * It extracts all styles from the element (from some of the attributes and from
+	 * the element name) and puts them as an object into `evt.data.styleDef`.
 	 *
 	 * @event extractFormatting
 	 * @member CKEDITOR.plugins.copyformatting.state
 	 * @param {Object} data
-	 * @param {CKEDITOR.dom.element} data.element The element which styles should be fetched.
-	 * @param {Object} data.styleDef Style's definition extracted from the element.
+	 * @param {CKEDITOR.dom.element} data.element The element whose styles should be fetched.
+	 * @param {Object} data.styleDef Style definition extracted from the element.
 	 */
 
 	/**
@@ -1140,17 +1141,17 @@
 	 *			}
 	 *		}, null, null, 999 );
 	 *
-	 * By default this event has two listeners: the first one with default priority of `10`
-	 * and the second with the priority of `999`.
-	 * The first one removes all preexisting styles from Copy Formatting destination.
+	 * By default this event has two listeners: the first one with a default priority of `10`
+	 * and the second with a priority of `999`.
+	 * The first one removes all preexisting styles from the Copy Formatting destination.
 	 * The second one applies all new styles to the current selection.
 	 *
 	 * @event applyFormatting
 	 * @member CKEDITOR.plugins.copyformatting.state
 	 * @param {Object} data
-	 * @param {CKEDITOR.dom.range} data.range Range from the current selection where styling should be applied.
-	 * @param {CKEDITOR.style[]} data.styles Styles to be applied.
-	 * @param {Boolean} [data.preventFormatStripping=false] If set to true, will prevent stripping styles from
-	 * Copy Formatting destination range.
+	 * @param {CKEDITOR.dom.range} data.range The range from the current selection where styling should be applied.
+	 * @param {CKEDITOR.style[]} data.styles The styles to be applied.
+	 * @param {Boolean} [data.preventFormatStripping=false] If set to `true`, it will prevent stripping styles from
+	 * the Copy Formatting destination range.
 	 */
 } )();
