@@ -19,8 +19,6 @@
 			'chrome',
 			'firefox',
 			'ie8',
-			//'ie9',
-			//'ie10',
 			'ie11',
 			'safari'
 		],
@@ -28,7 +26,6 @@
 			'word2007',
 			'word2013'
 		],
-		// To test only particular word versions set the key value to an array in the form: [ 'word2007', 'word2013' ].
 		tests = {
 			'Bold': true,
 			'Colors': true,
@@ -48,18 +45,24 @@
 			'Underline': true,
 			'Unordered_list': true
 		},
-		/** TODOs:
-			1. 'v:shape' filter function needs to take into account, that the element's parent
-			may be the document fragment.
-		*/
 		keys = CKEDITOR.tools.objectKeys( tests ),
-		testData = {};
+		testData = {
+			_should: {
+				ignore: {}
+			}
+		};
 
 	for ( var i = 0; i < keys.length; i++ ) {
 		for ( var j = 0; j < wordVersions.length; j++ ) {
 			for ( var k = 0; k < browsers.length; k++ ) {
 				if ( tests[ keys[ i ] ] === true || CKEDITOR.tools.indexOf( tests[ keys[ i ] ], wordVersions[ j ] ) !== -1 ) {
-					testData[ [ 'test', keys[ i ], wordVersions[ j ], browsers[ k ] ].join( ' ' ) ] = createTestCase( keys[ i ], wordVersions[ j ], browsers[ k ], false, false );
+					var testName = [ 'test', keys[ i ], wordVersions[ j ], browsers[ k ] ].join( ' ' );
+
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) {
+						testData._should.ignore[ testName ] = true;
+					}
+
+					testData[ testName ] = createTestCase( keys[ i ], wordVersions[ j ], browsers[ k ], false, false );
 				}
 			}
 		}

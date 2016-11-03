@@ -56,14 +56,24 @@
 			'13174Testdocument': [ 'word2013' ],
 			'13339Internal_Error_on_Paste_as_CTRL-V': [ 'word2013' ]
 		},
-		testData = {},
+		testData = {
+			_should: {
+				ignore: {}
+			}
+		},
 		ticketKeys = CKEDITOR.tools.objectKeys( ticketTests ),
 		i, k;
 
 	for ( i = 0; i < ticketKeys.length; i++ ) {
 		for ( k = 0; k < browsers.length; k++ ) {
 			if ( ticketTests[ ticketKeys[ i ] ] === true || CKEDITOR.tools.indexOf( ticketTests[ ticketKeys[ i ] ], wordVersion ) !== -1 ) {
-				testData[ [ 'test', ticketKeys[ i ], wordVersion, browsers[ k ] ].join( ' ' ) ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true );
+				var testName = [ 'test', ticketKeys[ i ], wordVersion, browsers[ k ] ].join( ' ' );
+
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) {
+					testData._should.ignore[ testName ] = true;
+				}
+
+				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true );
 			}
 		}
 	}

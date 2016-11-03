@@ -19,8 +19,6 @@
 			'chrome',
 			'firefox',
 			'ie8',
-			//'ie9',
-			//'ie10',
 			'ie11',
 			'safari'
 		],
@@ -32,12 +30,12 @@
 		tests = {
 			'Unordered_list_multiple': true
 		},
-		/** TODOs:
-			1. 'v:shape' filter function needs to take into account, that the element's parent
-			may be the document fragment.
-		*/
 		keys = CKEDITOR.tools.objectKeys( tests ),
-		testData = {};
+		testData = {
+			_should: {
+				ignore: {}
+			}
+		};
 
 	for ( var i = 0; i < keys.length; i++ ) {
 		for ( var j = 0; j < wordVersions.length; j++ ) {

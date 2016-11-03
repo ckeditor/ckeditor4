@@ -20,8 +20,6 @@
 			'chrome',
 			'firefox',
 			'ie8',
-			//'ie9',
-			//'ie10',
 			'ie11'
 		],
 		wordVersion = 'word2013',
@@ -57,25 +55,31 @@
 			'7610Multi_level_Numbered_list': [ 'word2013' ],
 			'7620AlphabeticNumberingLists': [ 'word2013' ]
 		},
-		testData = {},
+		testData = {
+			_should: {
+				ignore: {
+					'test 7131 word2013 ie11': true, // Every alpha list item gets "a" numbering value (li[value=1]) while it shouldn't.'
+					'test 7131customNumbering word2013 ie11': true, // li[value] issue present only in IE11.
+					'test 7581Numbering word2013 ie11': true // Again li[value], same as above.
+				}
+			}
+		},
 		ticketKeys = CKEDITOR.tools.objectKeys( ticketTests ),
 		i, k;
 
 	for ( i = 0; i < ticketKeys.length; i++ ) {
 		for ( k = 0; k < browsers.length; k++ ) {
 			if ( ticketTests[ ticketKeys[ i ] ] === true || CKEDITOR.tools.indexOf( ticketTests[ ticketKeys[ i ] ], wordVersion ) !== -1 ) {
-				testData[ [ 'test', ticketKeys[ i ], wordVersion, browsers[ k ] ].join( ' ' ) ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true );
+				var testName = [ 'test', ticketKeys[ i ], wordVersion, browsers[ k ] ].join( ' ' );
+
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) {
+					testData._should.ignore[ testName ] = true;
+				}
+
+				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true );
 			}
 		}
 	}
-
-	testData._should = {
-		ignore: {
-			'test 7131 word2013 ie11': true, // Every alpha list item gets "a" numbering value (li[value=1]) while it shouldn't.'
-			'test 7131customNumbering word2013 ie11': true, // li[value] issue present only in IE11.
-			'test 7581Numbering word2013 ie11': true // Again li[value], same as above.
-		}
-	};
 
 	bender.test( testData );
 } )();
