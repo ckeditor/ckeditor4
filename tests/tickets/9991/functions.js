@@ -29,14 +29,15 @@
 		},
 
 		'test create style stack': function() {
-			var element = new CKEDITOR.htmlParser.element( 'p' );
+			var element = new CKEDITOR.htmlParser.element( 'p' ),
+				that = this;
 			element.attributes.style = 'font-family: "Calibri"; font-size: 36pt; color: yellow; background: lime';
 			element.add( new CKEDITOR.htmlParser.text( 'test' ) );
 			element.parent = parentMock;
 
 			// Pasting used only to load the filter script.
 			assertPasteEvent( this.editor, { dataValue: '<w:WordDocument></w:WordDocument>' }, function() {
-				CKEDITOR.cleanWord.createStyleStack( element, filterMock );
+				that.pastefromword.styles.createStyleStack( element, filterMock );
 				assert.areSame(
 					'<p><span style="font-size:36pt"><span style="background:lime"><span style="font-family:&quot;Calibri&quot;"><span style="color:yellow">test</span></span></span></span></p>',
 					element.getOuterHtml()
@@ -49,7 +50,7 @@
 				element = fragment.children[ 0 ];
 
 			// The filter script was loaded in the previous test.
-			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
+			this.pastefromword.styles.createStyleStack( element, filterMock );
 			assert.areSame( '<span style="font-size:14px"><span style="font-family:Courier"><span style="font-weight:bold">Some </span>Text</span></span>', element.getOuterHtml() );
 		},
 		// Margin-bottom is a block style, so it should not be stacked.
@@ -58,7 +59,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( edgeCase ),
 				element = fragment.children[ 0 ];
 
-			CKEDITOR.cleanWord.createStyleStack( element, filterMock );
+			this.pastefromword.styles.createStyleStack( element, filterMock );
 			assert.areSame( '<p style="margin-bottom:0pt"><span style="font-size:16pt"><span style="font-family:Arial">Test</span></span></p>', element.getOuterHtml() );
 		},
 		'test push styles lower': function() {
@@ -68,7 +69,7 @@
 			ol.attributes.style = 'list-style-type: lower-alpha;font-family: "Calibri"; font-size: 36pt; color: yellow';
 			ol.add( li );
 
-			CKEDITOR.cleanWord.pushStylesLower( ol );
+			this.pastefromword.styles.pushStylesLower( ol );
 			assert.areSame( '<ol style="list-style-type:lower-alpha"><li style="font-family:&quot;Calibri&quot;; font-size:36pt; color:yellow"></li></ol>', ol.getOuterHtml() );
 		},
 		'test set symbol ul 1': function() {
@@ -78,7 +79,7 @@
 			];
 
 			for ( var i = 0; i < elements.length; i++ ) {
-				CKEDITOR.cleanWord.setListSymbol( elements[ i ], '·', i + 1 );
+				this.lists.setListSymbol( elements[ i ], '·', i + 1 );
 			}
 
 			assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
@@ -94,8 +95,8 @@
 			elements[ 0 ].attributes.style = 'list-style-type: disc';
 			elements[ 1 ].attributes.style = 'list-style-type: disc';
 
-			CKEDITOR.cleanWord.setListSymbol( elements[ 0 ], 'o', 1 );
-			CKEDITOR.cleanWord.setListSymbol( elements[ 1 ], 'o', 2 );
+			this.lists.setListSymbol( elements[ 0 ], 'o', 1 );
+			this.lists.setListSymbol( elements[ 1 ], 'o', 2 );
 
 			assert.areSame( '<ul></ul>', elements[0].getOuterHtml() );
 			assert.areSame( '<ul style="list-style-type:disc"></ul>', elements[1].getOuterHtml() );
@@ -105,7 +106,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
 				element = fragment.children[ 0 ];
 
-			CKEDITOR.cleanWord.removeSymbolText( element );
+			this.lists.removeSymbolText( element );
 
 			assert.areSame( '<cke:li cke-list-level="1" cke-symbol="1."> This</cke:li>', element.getOuterHtml() );
 		},
@@ -114,7 +115,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
 				element = fragment.children[ 0 ];
 
-			CKEDITOR.cleanWord.removeSymbolText( element );
+			this.lists.removeSymbolText( element );
 
 			assert.areSame( '<cke:li cke-list-level="1" cke-symbol="1."><span style="font-family:Calibri"> This</span></cke:li>', element.getOuterHtml() );
 		},
@@ -124,7 +125,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
 				element = fragment.children[ 0 ];
 
-			CKEDITOR.cleanWord.sortStyles( element );
+			this.pastefromword.styles.sortStyles( element );
 
 			assert.areSame( '<p style="font-size:48pt; background:yellow; font-family:Courier">Test</p>', element.getOuterHtml() );
 		},
@@ -133,7 +134,7 @@
 				fragment = CKEDITOR.htmlParser.fragment.fromHtml( html ),
 				element = fragment.children[ 0 ];
 
-			CKEDITOR.cleanWord.createAttributeStack( element, filterMock );
+			CKEDITOR.plugins.pastefromword.createAttributeStack( element, filterMock );
 
 			assert.areSame( '<font face="Arial"><font color="#faebd7"><font size="4">There is <em>content</em> here</font></font></font>', element.getOuterHtml() );
 		},
@@ -170,9 +171,14 @@
 			filter.applyTo( fragment );
 			fragment.writeHtml( writer );
 
-			assert.areSame( CKEDITOR.cleanWord( html ), writer.getHtml() );
+			assert.areSame( CKEDITOR.cleanWord( html, this.editor ), writer.getHtml() );
 		},
 		'test dissolving lists': function() {
+			var editorStub = {
+					fire: sinon.stub(),
+					config: {}
+				};
+
 			var html = '<p class="MsoNormal"><span style="color:red">The list below does not copy + paste correctly:<o:p></o:p></span></p>' +
 						'<p class="MsoNormal" style="margin-left:.25in"><span lang="EN-GB" style="font-size: 8.0pt;mso-ansi-language:EN-GB"><o:p>&nbsp;</o:p></span></p>' +
 						'<p class="MsoNormal" style="margin-left:.25in"><span lang="EN-GB" style="font-size: 8.0pt;mso-ansi-language:EN-GB"><o:p>&nbsp;</o:p></span></p>' +
@@ -208,7 +214,7 @@
 				'<li ><span style="tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt">' +
 				'<span style="font-family:&quot;Verdana&quot;,sans-serif">This one is size 10</span></span></span></li></ul></li></ul>' +
 				'<p><span style="color:green"></span></p>',
-				CKEDITOR.cleanWord( html ), { skipCompatHtml: true } );
+				CKEDITOR.cleanWord( html, editorStub ), { skipCompatHtml: true } );
 		},
 
 		'test isAListContinuation': function() {

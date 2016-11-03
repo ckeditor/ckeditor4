@@ -75,7 +75,7 @@
 
 				},
 				'div': function( element ) {
-					Style.createStyleStack( element, filter );
+					Style.createStyleStack( element, filter, editor );
 				},
 				'img': function( element ) {
 					var attributeStyleMap = {
@@ -125,22 +125,27 @@
 						}
 					}
 
-					Style.createStyleStack( element, filter );
+					Style.createStyleStack( element, filter, editor );
 				},
 				'pre': function( element ) {
 					if ( List.thisIsAListItem( element ) ) List.convertToFakeListItem( element );
 
-					Style.createStyleStack( element, filter );
+					Style.createStyleStack( element, filter, editor );
 				},
 				'h1': function( element ) {
 					if ( List.thisIsAListItem( element ) ) List.convertToFakeListItem( element );
 
-					Style.createStyleStack( element, filter );
+					Style.createStyleStack( element, filter, editor );
 				},
 				'font': function( element ) {
 					if ( element.getHtml().match( /^\s*$/ ) ) {
 						new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
 						return false;
+					}
+
+					if ( editor && editor.config.pasteFromWordRemoveFontStyles === false && element.attributes.size ) {
+						// font[size] are still used by old IEs for font size.
+						delete element.attributes.size;
 					}
 
 					createAttributeStack( element, filter );
@@ -155,7 +160,7 @@
 					return false;
 				},
 				'li': function( element ) {
-					element.attributes.style = Style.normalizedStyles( element );
+					element.attributes.style = Style.normalizedStyles( element, editor );
 
 					Style.pushStylesLower( element );
 				},
@@ -172,7 +177,7 @@
 				'span': function( element ) {
 					element.filterChildren( filter );
 
-					element.attributes.style = Style.normalizedStyles( element );
+					element.attributes.style = Style.normalizedStyles( element, editor );
 
 					if ( !element.attributes.style ||
 							// Remove garbage bookmarks that disrupt the content structure.
@@ -186,7 +191,7 @@
 						return false;
 					}
 
-					Style.createStyleStack( element, filter );
+					Style.createStyleStack( element, filter, editor );
 				},
 				'table': function( element ) {
 					element._tdBorders = {};
@@ -279,7 +284,7 @@
 			attributes: {
 				'style': function( styles, element ) {
 					// Returning false deletes the attribute.
-					return Style.normalizedStyles( element ) || false;
+					return Style.normalizedStyles( element, editor ) || false;
 				},
 				'class': function( classes ) {
 					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
@@ -355,7 +360,7 @@
 			}
 		},
 
-		normalizedStyles: function( element ) {
+		normalizedStyles: function( element, editor ) {
 
 			// Some styles and style values are redundant, so delete them.
 			var resetStyles = [
@@ -368,6 +373,15 @@
 					'visibility:visible',
 					'div:border:none' // This one stays because #6241
 				],
+				textStyles = [
+					'font-family',
+					'font',
+					'font-size',
+					'color',
+					'background-color',
+					'line-height',
+					'text-decoration'
+				],
 				matchStyle = function() {
 					var keys = [];
 					for ( var i = 0; i < arguments.length; i++ ) {
@@ -375,8 +389,10 @@
 							keys.push( arguments[ i ] );
 						}
 					}
+
 					return tools.indexOf( resetStyles, keys.join( ':' ) ) !== -1;
-				};
+				},
+				removeFontStyles = editor && editor.config.pasteFromWordRemoveFontStyles === false;
 
 			var styles = tools.parseCssText( element.attributes.style );
 
@@ -394,9 +410,10 @@
 
 			for ( var i = 0; i < keys.length; i++ ) {
 				var styleName = keys[ i ].toLowerCase(),
-					styleValue = styles[ keys[ i ] ];
+					styleValue = styles[ keys[ i ] ],
+					toBeRemoved = removeFontStyles && textStyles.indexOf( styleName.toLowerCase() ) !== -1;
 
-				if ( matchStyle( null, styleName, styleValue ) ||
+				if ( toBeRemoved || matchStyle( null, styleName, styleValue ) ||
 					matchStyle( null, styleName.replace( /\-.*$/, '-' ) ) ||
 					matchStyle( null, styleName ) ||
 					matchStyle( element.name, styleName, styleValue ) ||
@@ -417,8 +434,9 @@
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {CKEDITOR.htmlParser.filter} filter
+		 * @param {CKEDITOR.editor} editor
 		 */
-		createStyleStack: function( element, filter ) {
+		createStyleStack: function( element, filter, editor ) {
 			var i,
 				children = [];
 
@@ -433,7 +451,7 @@
 			Style.sortStyles( element );
 
 			// Create a stack of spans with each containing one style.
-			var styles = tools.parseCssText( Style.normalizedStyles( element ) ),
+			var styles = tools.parseCssText( Style.normalizedStyles( element, editor ) ),
 				innermostElement = element,
 				styleTopmost = element.name === 'span'; // Ensure that the root element retains at least one style.
 
@@ -1587,20 +1605,7 @@
 		}
 	}
 
-	var exportedFunctions = {
-		createAttributeStack: createAttributeStack,
-		createStyleStack: Style.createStyleStack,
-		pushStylesLower: Style.pushStylesLower,
-		setListSymbol: List.setListSymbol,
-		removeSymbolText: List.removeSymbolText,
-		sortStyles: Style.sortStyles,
-		normalizedStyles: Style.normalizedStyles,
-		setListStart: List.setListStart
-	};
-
-	for ( var exported in exportedFunctions ) {
-		CKEDITOR.cleanWord[ exported ] = exportedFunctions[ exported ];
-	}
+	CKEDITOR.plugins.pastefromword.createAttributeStack = createAttributeStack;
 
 	/**
 	 * Lists helper.
@@ -1636,7 +1641,9 @@
 	 *
 	 * @since 4.6.0
 	 * @event pasteFromWordCleanup
+	 * @param data
 	 * @param {CKEDITOR.htmlParser.fragment} data.root Document fragment containing pasted content.
+	 * @member CKEDITOR.editor
 	 */
 
 	/**
@@ -1648,7 +1655,8 @@
 	 *
 	 *		config.pasteFromWordRemoveFontStyles = false;
 	 *
-	 * @removed 4.6.0
+	 * @deprecated 4.6.0 Either configure proper [Advanced Content Filter](#!/guide/dev_advanced_content_filter) for the editor or use
+	 * {@link CKEDITOR.editor#pasteFromWordCleanup} event.
 	 * @since 3.1
 	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=true]
 	 * @member CKEDITOR.config
