@@ -419,7 +419,8 @@
 			for ( var i = 0; i < keys.length; i++ ) {
 				var styleName = keys[ i ].toLowerCase(),
 					styleValue = styles[ keys[ i ] ],
-					toBeRemoved = removeFontStyles && textStyles.indexOf( styleName.toLowerCase() ) !== -1;
+					indexOf = CKEDITOR.tools.indexOf,
+					toBeRemoved = removeFontStyles && indexOf( textStyles, styleName.toLowerCase() ) !== -1;
 
 				if ( toBeRemoved || matchStyle( null, styleName, styleValue ) ||
 					matchStyle( null, styleName.replace( /\-.*$/, '-' ) ) ||
