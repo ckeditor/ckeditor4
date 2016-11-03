@@ -4,6 +4,8 @@
 </textarea>
 <script>
 	var editor = CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		pasteFilter: null,
 		on: {
 			pasteFromWordCleanup: function( evt ) {
 				evt.cancel();
