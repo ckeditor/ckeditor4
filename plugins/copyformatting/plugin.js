@@ -12,11 +12,12 @@
 	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
 	// * In IE 8- we use event.button with IE's proprietary values.
 	function detectLeftMouseButton( evt ) {
-		var domEvent = evt.data.$;
+		var evtData = evt.data,
+			domEvent = evtData && evtData.$;
 
-		if ( !domEvent ) {
-			// Added in case when there's no native event available. That's the case in some unit test in built version which
-			// mock event but doesn't put native object.'
+		if ( !evtData ) {
+			// Added in case when there's no data available. That's the case in some unit test in built version which
+			// mock event but doesn't put data object.'
 			return false;
 		}
 
