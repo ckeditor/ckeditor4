@@ -151,9 +151,11 @@
 			}
 
 			editor.on( 'key', function( evt ) {
-				var cmd = editor.getCommand( 'copyFormatting' );
+				var cmd = editor.getCommand( 'copyFormatting' ),
+					domEvent = evt.data.domEvent;
 
-				if ( evt.data.domEvent.getKeystroke() === 27 ) { // ESC
+				// Esc should simply disable Copy Formatting. Make sure that getKeystroke is there, as some event stubs are missing it.
+				if ( domEvent.getKeystroke && domEvent.getKeystroke() === 27 ) { // ESC
 					if ( cmd.state === CKEDITOR.TRISTATE_ON ) {
 						editor.execCommand( 'copyFormatting' );
 					}
