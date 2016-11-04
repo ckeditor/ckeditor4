@@ -22,6 +22,7 @@ Fixed Issues:
 * [#14763](http://dev.ckeditor.com/ticket/14763): Fixed: Balloonpanel plugin moono-lisa skin adjustments.
 * [#13828](http://dev.ckeditor.com/ticket/13828): Fixed: Widget classes should be added to wrapper rather than widget element.
 * [#13519](http://dev.ckeditor.com/ticket/13519): Response should be more flexible.
+* [#16607](http://dev.ckeditor.com/ticket/16607): Fixed: Focus issue when [Copy Formatting](http://ckeditor.com/addon/copyformatting) and [Div Editing Area](http://ckeditor.com/addon/divarea) plugins are enabled.
 
 ## CKEditor 4.5.11
 
