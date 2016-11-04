@@ -108,9 +108,11 @@
 
 			editor.on( 'contentDom', function() {
 				var editable = editor.editable(),
-					// Host element for apply formatting clock. In case of classic element it needs to be entire
+					// Host element for apply formatting click. In case of classic element it needs to be entire
 					// document, otherwise clicking in body margins would not trigger the event.
-					mouseupHost = editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ? editable : editor.document,
+					// Editors with divarea plugin enabled should be treated like inline one – otherwise
+					// clicking the whole document messes the focus.
+					mouseupHost = editable.isInline() ? editable : editor.document,
 					copyFormattingButton = editor.ui.get( 'CopyFormatting' ),
 					copyFormattingButtonEl;
 
