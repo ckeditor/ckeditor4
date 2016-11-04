@@ -5,29 +5,30 @@
 
 CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	var lang = editor.lang.a11yhelp,
+		coreLang = editor.lang.common.keyboard,
 		id = CKEDITOR.tools.getNextId();
 
 	// CharCode <-> KeyChar.
 	var keyMap = {
-		8: lang.backspace,
+		8: coreLang[ 8 ],
 		9: lang.tab,
-		13: lang.enter,
-		16: lang.shift,
-		17: lang.ctrl,
-		18: lang.alt,
+		13: coreLang[ 13 ],
+		16: coreLang[ 16 ],
+		17: coreLang[ 17 ],
+		18: coreLang[ 18 ],
 		19: lang.pause,
 		20: lang.capslock,
 		27: lang.escape,
 		33: lang.pageUp,
 		34: lang.pageDown,
-		35: lang.end,
-		36: lang.home,
+		35: coreLang[ 35 ],
+		36: coreLang[ 36 ],
 		37: lang.leftArrow,
 		38: lang.upArrow,
 		39: lang.rightArrow,
 		40: lang.downArrow,
 		45: lang.insert,
-		46: lang[ 'delete' ],
+		46: coreLang[ 46 ],
 		91: lang.leftWindowKey,
 		92: lang.rightWindowKey,
 		93: lang.selectKey,
@@ -74,9 +75,9 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	};
 
 	// Modifier keys override.
-	keyMap[ CKEDITOR.ALT ] = lang.alt;
-	keyMap[ CKEDITOR.SHIFT ] = lang.shift;
-	keyMap[ CKEDITOR.CTRL ] = lang.ctrl;
+	keyMap[ CKEDITOR.ALT ] = coreLang[ 18 ];
+	keyMap[ CKEDITOR.SHIFT ] = coreLang[ 16 ];
+	keyMap[ CKEDITOR.CTRL ] = coreLang[ 17 ];
 
 	// Sort in desc.
 	var modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ];
