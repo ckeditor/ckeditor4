@@ -104,7 +104,7 @@ CKEDITOR.lang[ 'it' ] = {
 			16: 'Maiusc',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'false', // MISSING
+			32: 'Space', // MISSING
 			35: 'Fine',
 			36: 'Inizio',
 			46: 'Canc',

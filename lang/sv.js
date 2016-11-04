@@ -103,7 +103,7 @@ CKEDITOR.lang[ 'sv' ] = {
 			16: 'Skift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'false', // MISSING
+			32: 'Space', // MISSING
 			35: 'Slut',
 			36: 'Hem',
 			46: 'Radera',

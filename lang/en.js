@@ -99,15 +99,15 @@ CKEDITOR.lang[ 'en' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: '#ckeditor_translation.backspace#',
-			13: '#ckeditor_translation.enter#',
-			16: '#ckeditor_translation.shift#',
-			17: '#ckeditor_translation.ctrl#',
-			18: '#ckeditor_translation.alt#',
-			32: '#ckeditor_translation.space#',
-			35: '#ckeditor_translation.end#',
-			36: '#ckeditor_translation.home#',
-			46: '#ckeditor_translation.delete#',
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
 			224: 'Command'
 		},
 

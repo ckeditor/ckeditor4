@@ -104,7 +104,7 @@ CKEDITOR.lang[ 'cs' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'false', // MISSING
+			32: 'Space', // MISSING
 			35: 'Konec',
 			36: 'Domů',
 			46: 'Smazat',

@@ -104,7 +104,7 @@ CKEDITOR.lang[ 'ca' ] = {
 			16: 'Majúscules',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'false', // MISSING
+			32: 'Space', // MISSING
 			35: 'Fi',
 			36: 'Inici',
 			46: 'Eliminar',

@@ -103,7 +103,7 @@ CKEDITOR.lang[ 'de-ch' ] = {
 			16: 'Umschalt',
 			17: 'Strg',
 			18: 'Alt',
-			32: 'false', // MISSING
+			32: 'Space', // MISSING
 			35: 'Ende',
 			36: 'Pos1',
 			46: 'Entfernen',

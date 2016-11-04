@@ -103,7 +103,7 @@ CKEDITOR.lang[ 'ug' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'false', // MISSING
+			32: 'Space', // MISSING
 			35: 'End',
 			36: 'Home',
 			46: 'ئۆچۈر',

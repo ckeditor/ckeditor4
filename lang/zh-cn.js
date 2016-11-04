@@ -101,10 +101,10 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		keyboard: {
 			8: '退格键',
 			13: '回车键',
-			16: 'false', // MISSING
-			17: 'false', // MISSING
-			18: 'false', // MISSING
-			32: 'false', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
 			35: '行尾键',
 			36: '行首键',
 			46: '删除键',

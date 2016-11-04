@@ -104,7 +104,7 @@ CKEDITOR.lang[ 'eo' ] = {
 			16: 'Registrumo',
 			17: 'Stirklavo',
 			18: 'Alt-klavo',
-			32: 'false', // MISSING
+			32: 'Space', // MISSING
 			35: 'Fino',
 			36: 'Hejmo',
 			46: 'Forigi',

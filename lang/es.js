@@ -104,7 +104,7 @@ CKEDITOR.lang[ 'es' ] = {
 			16: 'Mayús.',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'false', // MISSING
+			32: 'Space', // MISSING
 			35: 'Fin',
 			36: 'Inicio',
 			46: 'Suprimir',
