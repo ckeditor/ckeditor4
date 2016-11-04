@@ -8,6 +8,6 @@ CKEDITOR.plugins.setLang( 'copyformatting', 'en', {
 		copied: 'Formatting copied',
 		applied: 'Formatting applied',
 		canceled: 'Formatting canceled',
-		failed: 'Formatting failed - no formatting copied'
+		failed: 'Formatting failed. You cannot apply styles without copying them first.'
 	}
 } );
