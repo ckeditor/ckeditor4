@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		alignMiddle: 'Erdian',
 		alignBottom: 'Behean',
 		alignNone: 'Bat ere ez',
-		invalidValue	: 'Balio desegokia.',
+		invalidValue: 'Balio desegokia.',
 		invalidHeight: 'Altuera zenbaki bat izan behar da.',
 		invalidWidth: 'Zabalera zenbaki bat izan behar da.',
 		invalidCssLength: '"%1" eremurako zehaztutako balioak zenbaki positibo bat izan behar du, CSS neurri unitate batekin edo gabe (px, %, in, cm, mm, em, ex, pt edo pc).',
@@ -99,15 +99,15 @@ CKEDITOR.lang[ 'eu' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
-			35: 'End', // MISSING
-			36: 'Home', // MISSING
-			46: 'Delete', // MISSING
+			8: 'false', // MISSING
+			13: 'Sartu',
+			16: 'Maius',
+			17: 'Ktrl',
+			18: 'Alt',
+			32: 'false', // MISSING
+			35: 'Buka',
+			36: 'Etxea',
+			46: 'Ezabatu',
 			224: 'Command' // MISSING
 		},
 

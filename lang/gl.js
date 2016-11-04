@@ -99,15 +99,15 @@ CKEDITOR.lang[ 'gl' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
-			35: 'End', // MISSING
-			36: 'Home', // MISSING
-			46: 'Delete', // MISSING
+			8: 'false', // MISSING
+			13: 'Intro',
+			16: 'Maiús',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'false', // MISSING
+			35: 'Fin',
+			36: 'Inicio',
+			46: 'Supr',
 			224: 'Command' // MISSING
 		},
 

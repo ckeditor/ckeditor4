@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		alignMiddle: 'Milieu',
 		alignBottom: 'Bas',
 		alignNone: 'Aucun',
-		invalidValue	: 'Valeur invalide.',
+		invalidValue: 'Valeur invalide.',
 		invalidHeight: 'La hauteur doit être un nombre.',
 		invalidWidth: 'La largeur doit être un nombre.',
 		invalidCssLength: 'La valeur spécifiée pour le champ « %1 » doit être un nombre positif avec ou sans unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, ou pc).',
@@ -99,15 +99,15 @@ CKEDITOR.lang[ 'fr' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
-			35: 'End', // MISSING
-			36: 'Home', // MISSING
-			46: 'Delete', // MISSING
+			8: 'false', // MISSING
+			13: 'Entrée',
+			16: 'Majuscule',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'false', // MISSING
+			35: 'Fin',
+			36: 'Origine',
+			46: 'Supprimer',
 			224: 'Command' // MISSING
 		},
 

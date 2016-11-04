@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sq', {
 		]
 	}
 	],
-	backspace: 'Prapa',
 	tab: 'Fletë',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Escape',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: 'Shenja majtas',
 	upArrow: 'Shenja sipër',
 	rightArrow: 'Shenja djathtas',
 	downArrow: 'Shenja poshtë',
 	insert: 'Shto',
-	'delete': 'Grise',
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'Select key', // MISSING
