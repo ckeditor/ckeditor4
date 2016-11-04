@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'no', {
 	charset: 'Lenket tegnsett',
 	cssClasses: 'Stilarkklasser',
 	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	displayText: 'Tekst som skal vises',
 	emailAddress: 'E-postadresse',
 	emailBody: 'Melding',
 	emailSubject: 'Meldingsemne',

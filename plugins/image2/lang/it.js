@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'it', {
 	title: 'Proprietà immagine',
 	uploadTab: 'Carica',
 	urlMissing: 'Manca l\'URL dell\'immagine.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Testo alternativo mancante.'
 } );

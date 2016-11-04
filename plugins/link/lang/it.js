@@ -19,7 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'it', {
 	anchorName: 'Per Nome',
 	charset: 'Set di caretteri della risorsa collegata',
 	cssClasses: 'Nome classe CSS',
-	download: 'Force Download', // MISSING
+	download: 'Forza scaricamento',
 	displayText: 'Mostra testo',
 	emailAddress: 'Indirizzo E-Mail',
 	emailBody: 'Corpo del messaggio',

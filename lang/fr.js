@@ -95,7 +95,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		cssLengthTooltip: 'Entrer un nombre pour une valeur en pixels ou un nombre avec une unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, ou pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, Indisponible</span>',
+		unavailable: '%1<span class="cke_accessibility">, indisponible</span>',
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {

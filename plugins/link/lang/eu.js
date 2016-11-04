@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'eu', {
 	charset: 'Estekatutako baliabide karaktere-jokoa',
 	cssClasses: 'Estilo-orriko klaseak',
 	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	displayText: 'Bistaratu testua',
 	emailAddress: 'E-posta helbidea',
 	emailBody: 'Mezuaren gorputza',
 	emailSubject: 'Mezuaren gaia',

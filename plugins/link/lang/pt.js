@@ -20,7 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'pt', {
 	charset: 'Fonte de caracteres vinculado',
 	cssClasses: 'Classes de Estilo',
 	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	displayText: 'Mostrar texto',
 	emailAddress: 'Endereço de email',
 	emailBody: 'Corpo da mensagem',
 	emailSubject: 'Título de mensagem',

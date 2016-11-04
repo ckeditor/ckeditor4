@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'ca', {
 	'move': 'Clicar i arrossegar per moure',
-	'label': '%1 widget' // MISSING
+	'label': '%1 widget'
 } );

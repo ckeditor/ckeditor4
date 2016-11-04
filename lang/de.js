@@ -104,7 +104,7 @@ CKEDITOR.lang[ 'de' ] = {
 			16: 'Umschalt',
 			17: 'Strg',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Leer',
 			35: 'Ende',
 			36: 'Pos1',
 			46: 'Entfernen',
@@ -112,6 +112,6 @@ CKEDITOR.lang[ 'de' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Tastaturkürzel'
 	}
 };
