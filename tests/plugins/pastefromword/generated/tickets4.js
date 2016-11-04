@@ -9,6 +9,8 @@
 ( function() {
 	'use strict';
 
+	pfwTools.defaultConfig.disallowedContent = 'span[lang,dir]';
+
 	bender.editor = {
 		config: pfwTools.defaultConfig
 	};
