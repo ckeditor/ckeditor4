@@ -80,7 +80,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'embedbase', {
-		lang: 'cs,da,de,de-ch,en,eo,es,eu,fr,gl,id,it,ko,ku,nb,nl,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ca,cs,da,de,de-ch,en,eo,es,eu,fr,gl,id,it,ko,ku,nb,nl,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,notificationaggregator',
 
 		onLoad: function() {

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'uploadwidget', {
-		lang: 'cs,da,de,de-ch,el,en,eo,es,eu,fr,gl,hu,id,it,km,ko,ku,nb,nl,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ca,cs,da,de,de-ch,el,en,eo,es,eu,fr,gl,hu,id,it,km,ko,ku,nb,nl,no,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		requires: 'widget,clipboard,filetools,notificationaggregator',
 
 		init: function( editor ) {
