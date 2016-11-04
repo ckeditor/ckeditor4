@@ -17,7 +17,8 @@
 			'chrome',
 			'firefox',
 			'ie8',
-			'ie11'
+			'ie11',
+			'edge'
 		],
 		wordVersion = 'word2013',
 		ticketTests = {
