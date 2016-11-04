@@ -14,6 +14,12 @@
 	function detectLeftMouseButton( evt ) {
 		var domEvent = evt.data.$;
 
+		if ( !domEvent ) {
+			// Added in case when there's no native event available. That's the case in some unit test in built version which
+			// mock event but doesn't put native object.'
+			return false;
+		}
+
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 			return domEvent.button === 1;
 		}
