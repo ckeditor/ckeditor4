@@ -17,11 +17,13 @@
 			'chrome',
 			'firefox',
 			'ie8',
-			'ie11'
+			'ie11',
+			'edge'
 		],
 		wordVersion = 'word2013',
 		ticketTests = {
-			'14867examples': [ 'word2013' ]
+			'14867examples': [ 'word2013' ],
+			'16593regular_paste': [ 'word2013' ]
 		},
 		testData = {
 			_should: {

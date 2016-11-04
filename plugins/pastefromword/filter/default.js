@@ -24,6 +24,8 @@
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
 
+		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
+
 		// Sometimes Word malforms the comments.
 		mswordHtml = mswordHtml.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
 
@@ -151,6 +153,11 @@
 					createAttributeStack( element, filter );
 				},
 				'ul': function( element ) {
+					if ( !msoListsDetected ) {
+						// List should only be processed if we're sure we're working with Word. (#16593)
+						return;
+					}
+
 					// Edge case from 11683 - an unusual way to create a level 2 list.
 					if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
 						Style.setStyle( element.parent, 'list-style-type', 'none' );
@@ -160,11 +167,20 @@
 					return false;
 				},
 				'li': function( element ) {
+					if ( !msoListsDetected ) {
+						return;
+					}
+
 					element.attributes.style = Style.normalizedStyles( element, editor );
 
 					Style.pushStylesLower( element );
 				},
 				'ol': function( element ) {
+					if ( !msoListsDetected ) {
+						// List should only be processed if we're sure we're working with Word. (#16593)
+						return;
+					}
+
 					// Fix edge-case where when a list skips a level in IE11, the <ol> element
 					// is implicitly surrounded by a <li>.
 					if ( element.parent.name == 'li' && tools.indexOf( element.parent.children, element ) === 0 ) {
@@ -1172,6 +1188,11 @@
 			return valueFound + ( elementIndex - valueElementIndex );
 		},
 
+		/**
+		 * @private
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @member CKEDITOR.plugins.pastefromword.lists
+		 */
 		dissolveList: function( element ) {
 			var i, children = [],
 				deletedLists = [];
