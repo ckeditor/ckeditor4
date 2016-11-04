@@ -15,7 +15,7 @@
 		var evtData = evt.data,
 			domEvent = evtData && evtData.$;
 
-		if ( !evtData ) {
+		if ( !( evtData && domEvent ) ) {
 			// Added in case when there's no data available. That's the case in some unit test in built version which
 			// mock event but doesn't put data object.'
 			return false;
