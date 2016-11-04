@@ -2,6 +2,9 @@
 @bender-tags: tc, copyformatting, 4.6.0
 @bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace
 
+
+**In IE and Edge cursor does not change.**
+
 **Procedure**
 
 1. Place cursor inside styled part of text.
