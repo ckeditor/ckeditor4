@@ -35,14 +35,7 @@
 			root: function( element ) {
 				element.filterChildren( filter );
 
-				var listElements = List.createLists( element );
-
-				if ( editor.fire( 'pasteFromWordCleanup', {
-						root: element
-					} ) !== false ) {
-
-					CKEDITOR.plugins.pastefromword.lists.cleanup( listElements );
-				}
+				CKEDITOR.plugins.pastefromword.lists.cleanup( List.createLists( element ) );
 			},
 			elementNames: [
 				[ ( /^\?xml:namespace$/ ), '' ],
@@ -1649,24 +1642,6 @@
 	 */
 
 	/**
-	 * Allows to customize first of two filtering steps that content from Microsoft Word is treated
-	 * with.
-	 *
-	 * The second step is regular CKEditor [Advanced Content Filtering](#!/guide/dev_advanced_content_filter)
-	 *  which happens after the content parsed by the Paste From Word plugin. Note that
-	 * {@link CKEDITOR.config#allowedContent editor advanced content} might be disabled, in such case
-	 * this is the only filter affecting pasted content.
-	 *
-	 * Event might be canceled to prevent any Word markup filtering in this step at all.
-	 *
-	 * @since 4.6.0
-	 * @event pasteFromWordCleanup
-	 * @param data
-	 * @param {CKEDITOR.htmlParser.fragment} data.root Document fragment containing pasted content.
-	 * @member CKEDITOR.editor
-	 */
-
-	/**
 	 * Whether to ignore all font related formatting styles, including:
 	 *
 	 * * font size;
@@ -1677,8 +1652,7 @@
 	 *
 	 * Note that prior to 4.6.0 this config defaulted to `false`.
 	 *
-	 * @deprecated 4.6.0 Either configure proper [Advanced Content Filter](#!/guide/dev_advanced_content_filter) for the editor or use
-	 * {@link CKEDITOR.editor#pasteFromWordCleanup} event.
+	 * @deprecated 4.6.0 Either configure proper [Advanced Content Filter](#!/guide/dev_advanced_content_filter) for the editor.
 	 * @since 3.1
 	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=false]
 	 * @member CKEDITOR.config
