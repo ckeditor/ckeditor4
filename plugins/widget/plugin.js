@@ -3877,8 +3877,8 @@
  * The function used to obtain an accessibility label for the widget. It might be used to make
  * the widget labels as precise as possible, since it has access to the widget instance.
  *
- * If not specified, the default implementation will use the {@link #pathName} or the main {@link #element}
- * tag name.
+ * If not specified, the default implementation will use the {@link #pathName} or the main
+ * {@link CKEDITOR.plugins.widget#element element} tag name.
  *
  * @property {Function} getLabel
  */

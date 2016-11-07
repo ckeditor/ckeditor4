@@ -2788,7 +2788,7 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Looks for elements matching the `query` selector within a range.
-		 * 
+		 *
 		 * @since 4.5.11
 		 * @private
 		 * @param {String} query
@@ -2909,9 +2909,32 @@ CKEDITOR.POSITION_BEFORE_START = 3;
  */
 CKEDITOR.POSITION_AFTER_END = 4;
 
+/**
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=1]
+ */
 CKEDITOR.ENLARGE_ELEMENT = 1;
+
+/**
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=2]
+ */
 CKEDITOR.ENLARGE_BLOCK_CONTENTS = 2;
+
+/**
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=3]
+ */
 CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS = 3;
+
+/**
+ * @readonly
+ * @member CKEDITOR
+ * @property {Number} [=4]
+ */
 CKEDITOR.ENLARGE_INLINE = 4;
 
 // Check boundary types.
