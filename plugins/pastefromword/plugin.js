@@ -60,10 +60,10 @@
 				editor.getCommand( commandName ).setState( evt.data );
 			} );
 
-			// Features bring by this command beside the normal process:
+			// Features brought by this command beside the normal process:
 			// 1. No more bothering of user about the clean-up.
-			// 2. Perform the clean-up even if content is not from MS-Word.
-			// (e.g. from a MS-Word similar application.)
+			// 2. Perform the clean-up even if content is not from Microsoft Word.
+			// (e.g. from a Microsoft Word similar application.)
 			// 3. Listen with high priority (3), so clean up is done before content
 			// type sniffing (priority = 6).
 			editor.on( 'paste', function( evt ) {
@@ -134,7 +134,7 @@
 
 
 /**
- * Whether to prompt the user about the clean up of content being pasted from MS Word.
+ * Whether to prompt the user about the clean up of content being pasted from Microsoft Word.
  *
  *		config.pasteFromWordPromptCleanup = true;
  *
@@ -144,19 +144,19 @@
  */
 
 /**
- * The file that provides the MS Word cleanup function for pasting operations.
+ * The file that provides the Microsoft Word cleanup function for pasting operations.
  *
  * **Note:** This is a global configuration shared by all editor instances present
- * in the page.
+ * on the page.
  *
- *		// Load from 'pastefromword' plugin 'filter' sub folder (custom.js file) using path relative to CKEditor installation folder.
+ *		// Load from the 'pastefromword' plugin 'filter' sub folder (custom.js file) using a path relative to the CKEditor installation folder.
  *		CKEDITOR.config.pasteFromWordCleanupFile = 'plugins/pastefromword/filter/custom.js';
  *
- *		// Load from 'pastefromword' plugin 'filter' sub folder (custom.js file) using full path (including CKEditor installation folder).
+ *		// Load from the 'pastefromword' plugin 'filter' sub folder (custom.js file) using a full path (including the CKEditor installation folder).
  *		CKEDITOR.config.pasteFromWordCleanupFile = '/ckeditor/plugins/pastefromword/filter/custom.js';
  *
- *		// Load custom.js file from 'customFilerts' folder (located in server's root) using full URL.
- *		CKEDITOR.config.pasteFromWordCleanupFile = 'http://my.example.com/customFilerts/custom.js';
+ *		// Load custom.js file from the 'customFilters' folder (located in server's root) using the full URL.
+ *		CKEDITOR.config.pasteFromWordCleanupFile = 'http://my.example.com/customFilters/custom.js';
  *
  * @since 3.1
  * @cfg {String} [pasteFromWordCleanupFile=<plugin path> + 'filter/default.js']
@@ -164,19 +164,19 @@
  */
 
 /**
- * Fired when the pasted content has been recognized as Word content.
+ * Fired when the pasted content was recognized as Microsoft Word content.
  *
- * This event is cancelable - if canceled will prevent Paste From Word processing.
+ * This event is cancellable. If canceled, it will prevent Paste from Word processing.
  *
  * @since 4.6.0
  * @event pasteFromWord
  * @param data
- * @param {String} data.dataValue Pasted content, changes to this property will affect the pasted content.
+ * @param {String} data.dataValue Pasted content. Changes to this property will affect the pasted content.
  * @member CKEDITOR.editor
  */
 
 /**
- * Fired after the Paste Form Word filters have been applied.
+ * Fired after the Paste form Word filters have been applied.
  *
  * @since 4.6.0
  * @event afterPasteFromWord

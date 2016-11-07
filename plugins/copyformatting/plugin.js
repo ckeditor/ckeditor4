@@ -1024,7 +1024,7 @@
 		 * Adds the screen reader messages wrapper. Multiple calls will create only one message container.
 		 *
 		 * @private
-		 * @returns {CKEDITOR.dom.element} Inserted aria-live container.
+		 * @returns {CKEDITOR.dom.element} Inserted `aria-live` container.
 		 */
 		_addScreenReaderContainer: function() {
 			if ( this._getScreenReaderContainer() ) {
