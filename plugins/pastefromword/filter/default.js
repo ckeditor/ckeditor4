@@ -1310,14 +1310,14 @@
 				element.attributes[ 'cke-indentation' ] = element.attributes[ 'cke-indentation' ] || List.getElementIndentation( element );
 
 				if ( element.previous !== previous ) {
-					List.chopDiscontinousLists( lastList, lists );
+					List.chopDiscontinuousLists( lastList, lists );
 					lists.push( lastList = [] );
 				}
 
 				lastList.push( element );
 			}
 
-			List.chopDiscontinousLists( lastList, lists );
+			List.chopDiscontinuousLists( lastList, lists );
 
 			return lists;
 		},
@@ -1337,7 +1337,7 @@
 		 * of list items. Modified by this method.
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
-		chopDiscontinousLists: function( list, lists ) {
+		chopDiscontinuousLists: function( list, lists ) {
 			var levelSymbols = {};
 			var choppedLists = [ [] ],
 				lastListInfo;
