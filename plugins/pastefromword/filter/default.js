@@ -1333,7 +1333,8 @@
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element[]} list An array containing list items.
-		 * @param {CKEDITOR.htmlParser.element[]} lists All the lists in the pasted content represented by an array of arrays of list items. Modified by this method.
+		 * @param {CKEDITOR.htmlParser.element[]} lists All the lists in the pasted content represented by an array of arrays
+		 * of list items. Modified by this method.
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		chopDiscontinousLists: function( list, lists ) {
