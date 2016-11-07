@@ -1331,12 +1331,9 @@
 		 * Note that list items within a single list but with different levels that did not get chopped
 		 * will still be rendered as a list tree later.
 		 *
-		 * @todo: Describe what `lists` parameter is for. By the looks of it it's supposed to be array which is used
-		 * to return the value.
-		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element[]} list An array containing list items.
-		 * @param {CKEDITOR.htmlParser.element[]} lists
+		 * @param {CKEDITOR.htmlParser.element[]} lists All the lists in the pasted content represented by an array of arrays of list items. Modified by this method.
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		chopDiscontinousLists: function( list, lists ) {

@@ -1837,6 +1837,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
+ * Event fired when the {@link #method-destroy} is called,
+ * but before destroying the editor.
+ *
+ * @event beforeDestroy
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
  * Internal event to get the current data.
  *
  * @event beforeGetData
