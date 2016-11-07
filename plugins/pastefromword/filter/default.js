@@ -369,8 +369,8 @@
 		},
 
 		/**
-		 * Filters Word-specific styles for given element. Also might filter additional styles
-		 * based on `editor` configuration.
+		 * Filters Word-specific styles for a given element. Also might filter additional styles
+		 * based on the `editor` configuration.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
@@ -446,7 +446,7 @@
 		},
 
 		/**
-		 * Surround the element's children with a stack of spans, each one having one style
+		 * Surrounds the element's children with a stack of spans, each one having one style
 		 * originally belonging to the element.
 		 *
 		 * @private
@@ -603,7 +603,7 @@
 	Style = CKEDITOR.plugins.pastefromword.styles;
 
 	/**
-	 * Namespace containing any lists-oriented helper methods.
+	 * Namespace containing any list-oriented helper methods.
 	 *
 	 * @private
 	 * @since 4.6.0
@@ -611,7 +611,7 @@
 	 */
 	CKEDITOR.plugins.pastefromword.lists = {
 		/**
-		 * Checks if given element is list item-alike.
+		 * Checks if a given element is a list item-alike.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
@@ -641,7 +641,7 @@
 		},
 
 		/**
-		 * Converts element to an element with `cke:li` tag name.
+		 * Converts an element to an element with the `cke:li` tag name.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
@@ -702,7 +702,7 @@
 		},
 
 		/**
-		 * Converts any fake list items containerd within `root` into a real `li` elements.
+		 * Converts any fake list items contained within `root` into real `li` elements.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} root
@@ -822,7 +822,7 @@
 
 		numbering: {
 			/**
-			 * Converts list marker value into a decimal number.
+			 * Converts the list marker value into a decimal number.
 			 *
 			 *		 var toNumber = CKEDITOR.plugins.pastefromword.lists.numbering.toNumber;
 			 *
@@ -890,7 +890,7 @@
 			},
 
 			/**
-			 * Returns a list style based on Word marker content.
+			 * Returns a list style based on the Word marker content.
 			 *
 			 *		var getStyle = CKEDITOR.plugins.pastefromword.lists.numbering.getStyle;
 			 *
@@ -901,10 +901,10 @@
 			 *		console.log( getStyle( 'X' ) ); // Logs: "upper-roman"
 			 *
 			 *
-			 * **Implementation note:** Characters `c` and `d` are not converted to roman on purpose. It's 100 and 500 respectively, so
-			 * you rarely go with list up until this point, while it's common to start with `c` and `d` in alpha.
+			 * **Implementation note:** Characters `c` and `d` are not converted to roman on purpose. It is 100 and 500 respectively, so
+			 * you rarely go with a list up until this point, while it is common to start with `c` and `d` in alpha.
 			 *
-			 * @param {String} marker Marker content retained from word, e.g. `1`, `7`, `XI`, `b`.
+			 * @param {String} marker Marker content retained from Word, e.g. `1`, `7`, `XI`, `b`.
 			 * @returns {String} Resolved marker type.
 			 * @member CKEDITOR.plugins.pastefromword.lists.numbering
 			 */
@@ -973,7 +973,7 @@
 
 		/**
 		 * @private
-		 * @param {CKEDITOR.htmlParser.element} root Element to be looked through for lists.
+		 * @param {CKEDITOR.htmlParser.element} root An element to be looked through for lists.
 		 * @returns {CKEDITOR.htmlParser.element[]} An array of created list items.
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
@@ -1081,7 +1081,7 @@
 		},
 
 		/**
-		 * Final cleanup - removes all the `cke-*` helper attributes.
+		 * Final cleanup &mdash; removes all `cke-*` helper attributes.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element[]} listElements
@@ -1106,8 +1106,8 @@
 		},
 
 		/**
-		 * Tries to determine `li[value]` attribute for given list item. Give `element` must
-		 * have parent in order for function to work properly.
+		 * Tries to determine the `li[value]` attribute for a given list item. The `element` given must
+		 * have a parent in order for this function to work properly.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} element
@@ -1141,11 +1141,11 @@
 		},
 
 		/**
-		 * Calculates value for given `li` element, based on its precedent list items (e.g. `value` attr).
-		 * It could also look at list parent (`ol`) at its start attribute.
+		 * Calculates the value for a given `<li>` element based on its precedent list items (e.g. the `value`
+		 * attribute). It could also look at the list parent (`<ol>`) at its start attribute.
 		 *
 		 * @private
-		 * @param {CKEDITOR.htmlParser.element} element `li` element.
+		 * @param {CKEDITOR.htmlParser.element} element The `<li>` element.
 		 * @returns {Number}
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
@@ -1325,10 +1325,10 @@
 		/**
 		 * Converts a single, flat list items array into an array with a hierarchy of items.
 		 *
-		 * As the list gets chopped it will be forced to render as a separate list, even if it has deeper nesting level, e.g.
-		 * for level 3 it will create structure like `ol > li > ol > li > ol > li`.
+		 * As the list gets chopped, it will be forced to render as a separate list, even if it has a deeper nesting level.
+		 * For example, for level 3 it will create a structure like `ol > li > ol > li > ol > li`.
 		 *
-		 * Note that list items within a single list, but with different levels that didn't get chopped,
+		 * Note that list items within a single list but with different levels that did not get chopped
 		 * will still be rendered as a list tree later.
 		 *
 		 * @todo: Describe what `lists` parameter is for. By the looks of it it's supposed to be array which is used
@@ -1388,8 +1388,8 @@
 		},
 
 		/**
-		 * Checks if this list is a direct continuation of interrupted by different id list, with different level. So if we look
-		 * at list like:
+		 * Checks if this list is a direct continuation of a list interrupted by a list with a different ID,
+		 * with a different level. So if you look at a following list:
 		 *
 		 * * list1 level1
 		 * * list1 level1
@@ -1397,13 +1397,13 @@
 		 *		* list2 level2
 		 * * list1 level1
 		 *
-		 * It would return `true`, meaning it's a continuation, and should not be chopped. However if any paragraph or anything else
-		 * appears in between it should be broken into different lists.
+		 * It would return `true` &mdash; meaning it is a continuation, and should not be chopped. However, if any paragraph or
+		 * anything else appears in between, it should be broken into different lists.
 		 *
 		 * You can see fixtures from issue #7918 as an example.
 		 *
 		 * @private
-		 * @param {CKEDITOR.htmlParser.element} listElement List to be checked.
+		 * @param {CKEDITOR.htmlParser.element} listElement The list to be checked.
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
@@ -1462,7 +1462,7 @@
 		},
 
 		/**
-		 * Returns an object describing given `symbol`.
+		 * Returns an object describing the given `symbol`.
 		 *
 		 * @private
 		 * @param {String} symbol
@@ -1517,17 +1517,17 @@
 		},
 
 		/**
-		 * Returns Word generated information about given list item, mainly by parsing `mso-list`
+		 * Returns Word-generated information about the given list item, mainly by parsing the `mso-list`
 		 * CSS property.
 		 *
-		 * Note: by list items we mean also paragraphs with `mso-list` because we know that Word serves
-		 * list items as a paragraph.
+		 * Note: Paragraphs with `mso-list` are also counted as list items because Word serves
+		 * list items as paragraphs.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} list
 		 * @returns ret
-		 * @returns {String} ret.id List id, ordinarily it's a decimal string.
-		 * @returns {String} ret.level List nesting level, `0` means it's outer most list. Ordinarily it's
+		 * @returns {String} ret.id List ID. Usually it is a decimal string.
+		 * @returns {String} ret.level List nesting level, `0` means it is the outermost list. Usually it is
 		 * a decimal string.
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
@@ -1642,25 +1642,25 @@
 	 */
 
 	/**
-	 * Whether to ignore all font related formatting styles, including:
+	 * Whether to ignore all font-related formatting styles, including:
 	 *
 	 * * font size;
 	 * * font family;
-	 * * font foreground/background color.
+	 * * font foreground and background color.
 	 *
 	 *		config.pasteFromWordRemoveFontStyles = true;
 	 *
-	 * Note that prior to 4.6.0 this config defaulted to `false`.
+	 * **Important note:** Prior to version 4.6.0 this configuration option defaulted to `false`.
 	 *
-	 * @deprecated 4.6.0 Either configure proper [Advanced Content Filter](#!/guide/dev_advanced_content_filter) for the editor or use
-	 * {@link CKEDITOR.editor#afterPasteFromWord} event.
+	 * @deprecated 4.6.0 Either configure proper [Advanced Content Filter](#!/guide/dev_advanced_content_filter) for the editor
+	 * or use the {@link CKEDITOR.editor#afterPasteFromWord} event.
 	 * @since 3.1
 	 * @cfg {Boolean} [pasteFromWordRemoveFontStyles=false]
 	 * @member CKEDITOR.config
 	 */
 
 	/**
-	 * Whether to transform MS Word outline numbered headings into lists.
+	 * Whether to transform Microsoft Word outline numbered headings into lists.
 	 *
 	 *		config.pasteFromWordNumberedHeadingToList = true;
 	 *
@@ -1671,8 +1671,8 @@
 	 */
 
 	/**
-	 * Whether to remove element styles that can't be managed with the editor. Note
-	 * that this doesn't handle the font specific styles, which depends on the
+	 * Whether to remove element styles that cannot be managed with the editor. Note
+	 * that this option does not handle font-specific styles, which depend on the
 	 * {@link #pasteFromWordRemoveFontStyles} setting instead.
 	 *
 	 *		config.pasteFromWordRemoveStyles = false;

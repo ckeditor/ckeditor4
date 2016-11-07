@@ -56,7 +56,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 };
 
 /**
- * Object presentation of CSS style declaration text.
+ * Object presentation of the CSS style declaration text.
  *
  * @class
  * @constructor Creates a `cssStyle` class instance.
@@ -419,7 +419,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 *
 		 * @since 4.3
 		 * @param {Number} index Index at which the element will be split &mdash; `0` means the beginning,
-		 * `1` after first child node, etc.
+		 * `1` after the first child node, etc.
 		 * @returns {CKEDITOR.htmlParser.element} The new element following this one.
 		 */
 		split: function( index ) {
@@ -443,7 +443,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		},
 
 		/**
-		 * Search through the current node children to find nodes matching to the `criteria`.
+		 * Searches through the current node children to find nodes matching the `criteria`.
 		 *
 		 * @param {String/Function} criteria Tag name or evaluator function.
 		 * @param {Boolean} [recursive=false]

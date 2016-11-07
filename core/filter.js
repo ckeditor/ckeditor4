@@ -2069,8 +2069,8 @@
 		 * Converts length in the `styleName` style to a valid length attribute (like `width` or `height`).
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @param {String} styleName Name of the style that will be converted.
-		 * @param {String} [attrName=styleName] Name of the attribute into which the style will be converted.
+		 * @param {String} styleName The name of the style that will be converted.
+		 * @param {String} [attrName=styleName] The name of the attribute into which the style will be converted.
 		 */
 		lengthToAttribute: function( element, styleName, attrName ) {
 			attrName = attrName || styleName;
@@ -2090,7 +2090,7 @@
 		},
 
 		/**
-		 * Converts the `align` attribute to the `float` style if not set. Attribute
+		 * Converts the `align` attribute to the `float` style if not set. The attribute
 		 * is always removed.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
@@ -2108,7 +2108,7 @@
 
 		/**
 		 * Converts the `float` style to the `align` attribute if not set.
-		 * Style is always removed.
+		 * The style is always removed.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 */
@@ -2235,12 +2235,12 @@
 		matchesStyle: elementMatchesStyle,
 
 		/**
-		 * Transforms element to given form.
+		 * Transforms an element to a given form.
 		 *
 		 * Form may be a:
 		 *
 		 *	* {@link CKEDITOR.style},
-		 *	* string &ndash; the new name of an element.
+		 *	* string &ndash; the new name of the element.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} el
 		 * @param {CKEDITOR.style/String} form
