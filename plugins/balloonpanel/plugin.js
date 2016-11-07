@@ -11,9 +11,15 @@
 ( function() {
 	'use strict';
 
+	// This flag prevents appending stylesheet more than once.
+	var stylesLoaded = false;
+
 	CKEDITOR.plugins.add( 'balloonpanel', {
-		onLoad: function() {
-			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/balloonpanel.css' );
+		init: function() {
+			if ( !stylesLoaded ) {
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/balloonpanel.css' );
+				stylesLoaded = true;
+			}
 		}
 	} );
 

@@ -6,7 +6,9 @@
 ( function() {
 	'use strict';
 
-	var indexOf = CKEDITOR.tools.indexOf;
+	var indexOf = CKEDITOR.tools.indexOf,
+		// This flag prevents appending stylesheet more than once.
+		stylesLoaded = false;
 
 	// Detects if the left mouse button was pressed:
 	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
@@ -74,14 +76,15 @@
 		icons: 'copyformatting',
 		hidpi: true,
 
-		onLoad: function() {
-			CKEDITOR.document.appendStyleSheet( this.path + 'styles/copyformatting.css' );
-		},
-
 		init: function( editor ) {
 			var plugin = CKEDITOR.plugins.copyformatting;
 
 			plugin._addScreenReaderContainer();
+
+			if ( !stylesLoaded ) {
+				CKEDITOR.document.appendStyleSheet( this.path + 'styles/copyformatting.css' );
+				stylesLoaded = true;
+			}
 
 			// Add copyformatting stylesheet.
 			if ( editor.addContentsCss ) {
