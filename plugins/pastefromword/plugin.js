@@ -4,6 +4,8 @@
  */
 
 ( function() {
+	/* global confirm */
+
 	CKEDITOR.plugins.add( 'pastefromword', {
 		requires: 'clipboard',
 		// jscs:disable maximumLineLength
@@ -66,32 +68,45 @@
 			// type sniffing (priority = 6).
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
-					mswordHtml = data.dataValue;
+					mswordHtml = data.dataValue,
+					wordRegexp = /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
+					pfwEvtData = { dataValue: mswordHtml };
 
-				// MS-WORD format sniffing.
-				if ( mswordHtml && ( forceFromWord || ( /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/ ).test( mswordHtml ) ) ) {
-					// Do not apply paste filter to data filtered by the Word filter (#13093).
-					data.dontFilter = true;
-
-					// If filter rules aren't loaded then cancel 'paste' event,
-					// load them and when they'll get loaded fire new paste event
-					// for which data will be filtered in second execution of
-					// this listener.
-					var isLazyLoad = loadFilterRules( editor, path, function() {
-						// Event continuation with the original data.
-						if ( isLazyLoad )
-							editor.fire( 'paste', data );
-						else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) // jshint ignore:line
-							data.dataValue = CKEDITOR.cleanWord( mswordHtml, editor );
-
-						// Reset forceFromWord.
-						forceFromWord = 0;
-					} );
-
-					// The cleanup rules are to be loaded, we should just cancel
-					// this event.
-					isLazyLoad && evt.cancel();
+				if ( !mswordHtml || !( forceFromWord || wordRegexp.test( mswordHtml ) ) ) {
+					return;
 				}
+
+				// PFW might still get prevented, if it's not forced.
+				if ( editor.fire( 'pasteFromWord', pfwEvtData ) === false && !forceFromWord ) {
+					return;
+				}
+
+				// Do not apply paste filter to data filtered by the Word filter (#13093).
+				data.dontFilter = true;
+
+				// If filter rules aren't loaded then cancel 'paste' event,
+				// load them and when they'll get loaded fire new paste event
+				// for which data will be filtered in second execution of
+				// this listener.
+				var isLazyLoad = loadFilterRules( editor, path, function() {
+					// Event continuation with the original data.
+					if ( isLazyLoad ) {
+						editor.fire( 'paste', data );
+					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
+						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
+
+						editor.fire( 'afterPasteFromWord', pfwEvtData );
+
+						data.dataValue = pfwEvtData.dataValue;
+					}
+
+					// Reset forceFromWord.
+					forceFromWord = 0;
+				} );
+
+				// The cleanup rules are to be loaded, we should just cancel
+				// this event.
+				isLazyLoad && evt.cancel();
 			}, null, null, 3 );
 		}
 
@@ -146,4 +161,26 @@
  * @since 3.1
  * @cfg {String} [pasteFromWordCleanupFile=<plugin path> + 'filter/default.js']
  * @member CKEDITOR.config
+ */
+
+/**
+ * Fired when the pasted content has been recognized as Word content.
+ *
+ * This event is cancelable - if canceled will prevent Paste From Word processing.
+ *
+ * @since 4.6.0
+ * @event pasteFromWord
+ * @param data
+ * @param {String} data.dataValue Pasted content, changes to this property will affect the pasted content.
+ * @member CKEDITOR.editor
+ */
+
+/**
+ * Fired after the Paste Form Word filters have been applied.
+ *
+ * @since 4.6.0
+ * @event afterPasteFromWord
+ * @param data
+ * @param {String} data.dataValue Pasted content after processing. Changes to this property will affect the pasted content.
+ * @member CKEDITOR.editor
  */
