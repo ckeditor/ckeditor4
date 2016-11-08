@@ -1625,14 +1625,6 @@
 	CKEDITOR.plugins.pastefromword.createAttributeStack = createAttributeStack;
 
 	/**
-	 * Lists helper.
-	 *
-	 * @private
-	 * @property {CKEDITOR.plugins.pastefromword.lists} lists
-	 * @member CKEDITOR.plugins.pastefromword
-	 */
-
-	/**
 	 * Numbering helper.
 	 *
 	 * @property {CKEDITOR.plugins.pastefromword.lists.numbering} numbering
