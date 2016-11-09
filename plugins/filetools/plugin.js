@@ -33,8 +33,8 @@
 			 * @event fileUploadRequest
 			 * @member CKEDITOR.editor
 			 * @param data
-			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader File loader instance.
-			 * @param {Object} data.requestData Object containing all data to be sent to the server.
+			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader A file loader instance.
+			 * @param {Object} data.requestData An object containing all data to be sent to the server.
 			 */
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader;
@@ -366,7 +366,7 @@
 	 */
 
 	/**
-	 * All data received in the response from the server. If the server returns addition data, it will be available
+	 * All data received in the response from the server. If the server returns additional data, it will be available
 	 * in this property.
 	 *
 	 * It contains all data set in the {@link CKEDITOR.editor#fileUploadResponse} event listener.

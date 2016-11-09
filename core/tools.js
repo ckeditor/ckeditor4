@@ -1313,21 +1313,21 @@
 		},
 
 		/**
-		 * Converts keystroke to its string representation. Returns object with two fields:
+		 * Converts a keystroke to its string representation. Returns an object with two fields:
 		 *
-		 * * `display` - string that should be used for visible labels,
-		 * for Mac devices uses `⌥` for `ALT`, `⇧` for `SHIFT` and `⌘` for `COMMAND`.
-		 * * `aria` - string that should be used for ARIA descriptions,
-		 * it is not using special characters like `⌥`, `⇧` or `⌘`.
+		 * * `display` &ndash; A string that should be used for visible labels.
+		 * For Mac devices it uses `⌥` for `ALT`, `⇧` for `SHIFT` and `⌘` for `COMMAND`.
+		 * * `aria` &ndash; A string that should be used for ARIA descriptions.
+		 * It does not use special characters such as `⌥`, `⇧` or `⌘`.
 		 *
 		 * 		var lang = editor.lang.common.keyboard;
 		 * 		var shortcut = CKEDITOR.tools.keystrokeToString( lang, CKEDITOR.CTRL + 88 );
-		 * 		console.log( shortcut.display ); // 'CTRL + X', on Mac '⌘ + X'
-		 * 		console.log( shortcut.aria ); // 'CTRL + X', on Mac 'COMMAND + X'
+		 * 		console.log( shortcut.display ); // 'CTRL + X', on Mac '⌘ + X'.
+		 * 		console.log( shortcut.aria ); // 'CTRL + X', on Mac 'COMMAND + X'.
 		 *
 		 * @since 4.6.0
-		 * @param {Object} lang Language object with key name translation.
-		 * @param {Number} keystroke Keystroke to convert.
+		 * @param {Object} lang A language object with the key name translation.
+		 * @param {Number} keystroke The keystroke to convert.
 		 * @returns {{display: String, aria: String}}
 		 */
 		keystrokeToString: function( lang, keystroke ) {

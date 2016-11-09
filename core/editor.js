@@ -1324,11 +1324,12 @@
 		},
 
 		/**
-		 * Returns keystroke that is assigned to specified {@link CKEDITOR.command}. If there is no keystroke assigned - returns null.
+		 * Returns the keystroke that is assigned to a specified {@link CKEDITOR.command}. If no keystroke is assigned,
+		 * it returns null.
 		 *
 		 * @since 4.6.0
 		 * @param {CKEDITOR.command} command
-		 * @returns {Number} Keystroke assigned to provided command or null if there is no keystroke.
+		 * @returns {Number} The keystroke assigned to the provided command or null if there is no keystroke.
 		 */
 		getCommandKeystroke: function( command ) {
 			var commandName = command.name,
