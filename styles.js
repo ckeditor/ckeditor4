@@ -12,6 +12,8 @@
 // If you don't have plugins that depend on this file, you can simply ignore it.
 // Otherwise it is strongly recommended to customize this file to match your
 // website requirements and design properly.
+//
+// For more information check: http://docs.ckeditor.com/#!/guide/dev_styles-section-style-rules
 
 CKEDITOR.stylesSet.add( 'default', [
 	/* Block Styles */
@@ -106,7 +108,23 @@ CKEDITOR.stylesSet.add( 'default', [
 	},
 
 	{ name: 'Borderless Table',		element: 'table',	styles: { 'border-style': 'hidden', 'background-color': '#E6E6FA' } },
-	{ name: 'Square Bulleted List',	element: 'ul',		styles: { 'list-style-type': 'square' } }
+	{ name: 'Square Bulleted List',	element: 'ul',		styles: { 'list-style-type': 'square' } },
+
+	/* Widget Styles */
+
+	{ name: 'Clean image', type: 'widget', widget: 'image', attributes: { 'class': 'image-clean' } },
+	{ name: 'Grayscale image', type: 'widget', widget: 'image', attributes: { 'class': 'image-grayscale' } },
+
+	{ name: 'Featured snippet', type: 'widget', widget: 'codeSnippet', attributes: { 'class': 'code-featured' } },
+
+	{ name: 'Featured formula', type: 'widget', widget: 'mathjax', attributes: { 'class': 'math-featured' } },
+
+	{ name: '240p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-240p' } },
+	{ name: '360p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-360p' } },
+	{ name: '480p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-480p' } },
+	{ name: '720p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-720p' } },
+	{ name: '1080p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-1080p' } }
+
 ] );
 
 // %LEAVE_UNMINIFIED% %REMOVE_LINE%
