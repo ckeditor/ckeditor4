@@ -32,6 +32,34 @@ Fixed Issues:
 * [#13828](http://dev.ckeditor.com/ticket/13828): Fixed: Widget classes should be added to the wrapper rather than the widget element.
 * [#13829](http://dev.ckeditor.com/ticket/13829): Fixed: No class in [Widget](http://ckeditor.com/addon/widget) wrapper to identify the widget type.
 * [#13519](http://dev.ckeditor.com/ticket/13519): Server response received when uploading files should be more flexible.
+* [#2507](http://dev.ckeditor.com/ticket/2507): Fixed: [Paste from Word]
+* [#3336](http://dev.ckeditor.com/ticket/3336): Fixed: [Paste from Word]
+* [#6115](http://dev.ckeditor.com/ticket/6115): Fixed: [Paste from Word]
+* [#6342](http://dev.ckeditor.com/ticket/6342): Fixed: [Paste from Word]
+* [#6457](http://dev.ckeditor.com/ticket/6457): Fixed: [Paste from Word]
+* [#6789](http://dev.ckeditor.com/ticket/6789): Fixed: [Paste from Word]
+* [#7262](http://dev.ckeditor.com/ticket/7262): Fixed: [Paste from Word]
+* [#7646](http://dev.ckeditor.com/ticket/7646): Fixed: [Paste from Word]
+* [#7662](http://dev.ckeditor.com/ticket/7662): Fixed: [Paste from Word]
+* [#7807](http://dev.ckeditor.com/ticket/7807): Fixed: [Paste from Word]
+* [#7835](http://dev.ckeditor.com/ticket/7835): Fixed: [Paste from Word]
+* [#7950](http://dev.ckeditor.com/ticket/7950): Fixed: [Paste from Word]
+* [#7982](http://dev.ckeditor.com/ticket/7982): Fixed: [Paste from Word]
+* [#8231](http://dev.ckeditor.com/ticket/8231): Fixed: [Paste from Word]
+* [#8266](http://dev.ckeditor.com/ticket/8266): Fixed: [Paste from Word]
+* [#8341](http://dev.ckeditor.com/ticket/8341): Fixed: [Paste from Word]
+* [#8754](http://dev.ckeditor.com/ticket/8754): Fixed: [Paste from Word]
+* [#8983](http://dev.ckeditor.com/ticket/8983): Fixed: [Paste from Word]
+* [#9331](http://dev.ckeditor.com/ticket/9331): Fixed: [Paste from Word]
+* [#9422](http://dev.ckeditor.com/ticket/9422): Fixed: [Paste from Word]
+* [#9616](http://dev.ckeditor.com/ticket/9616): Fixed: [Paste from Word]
+* [#10011](http://dev.ckeditor.com/ticket/10011): Fixed: [Paste from Word]
+* [#10643](http://dev.ckeditor.com/ticket/10643): Fixed: [Paste from Word]
+* [#10784](http://dev.ckeditor.com/ticket/10784): Fixed: [Paste from Word]
+* [#11294](http://dev.ckeditor.com/ticket/11294): Fixed: [Paste from Word]
+* [#11627](http://dev.ckeditor.com/ticket/11627): Fixed: [Paste from Word]
+* [#12784](http://dev.ckeditor.com/ticket/12784): Fixed: [Paste from Word]
+* [#13174](http://dev.ckeditor.com/ticket/13174): Fixed: [Paste from Word]
 
 Other Changes:
 
