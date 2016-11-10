@@ -418,6 +418,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 							{
 								type: 'hbox',
 								widths: [ '100%' ],
+								className: 'cke_dialog_image_url',
 								children: srcBoxChildren
 							}
 						]
