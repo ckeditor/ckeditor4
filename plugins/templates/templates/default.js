@@ -24,25 +24,23 @@ CKEDITOR.addTemplates( 'default', {
 			'</p>'
 	},
 	{
-		title: 'Strange Template',
+		title: 'Side By Side Template',
 		image: 'template2.gif',
 		description: 'A template that defines two colums, each one with a title, and some text.',
 		html: '<table cellspacing="0" cellpadding="0" style="width:100%" border="0">' +
 			'<tr>' +
 				'<td style="width:50%">' +
-					'<h3>Title 1</h3>' +
+					'Title 1' +
 				'</td>' +
-				'<td></td>' +
 				'<td style="width:50%">' +
-					'<h3>Title 2</h3>' +
+					'Title 2' +
 				'</td>' +
 			'</tr>' +
 			'<tr>' +
-				'<td>' +
+				'<td style="text-align:left; vertical-align:top;">' +
 					'Text 1' +
 				'</td>' +
-				'<td></td>' +
-				'<td>' +
+				'<td style="text-align:left; vertical-align:top;">' +
 					'Text 2' +
 				'</td>' +
 			'</tr>' +
