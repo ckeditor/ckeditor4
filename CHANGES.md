@@ -23,43 +23,40 @@ New Features:
 Fixed Issues:
 
 * [#9991](http://dev.ckeditor.com/ticket/9991): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) should only normalize input data.
-* [#7209](http://dev.ckeditor.com/ticket/7209): Fixed: Lists with 3 levels not pasted from Microsoft Word correctly.
+* [#7209](http://dev.ckeditor.com/ticket/7209): Fixed: Lists with 3 levels not [pasted from Word](http://ckeditor.com/addon/pastefromword) correctly.
 * [#14335](http://dev.ckeditor.com/ticket/14335): Fixed: Pasting a numbered list starting with a value different from "1" from Microsoft Word does not work correctly.
 * [#14542](http://dev.ckeditor.com/ticket/14542): Fixed: Copying a numbered list from Microsoft Word does not preserve list formatting.
 * [#14544](http://dev.ckeditor.com/ticket/14544): Fixed: Copying a nested list from Microsoft Word results in an empty list.
-* [#14660](http://dev.ckeditor.com/ticket/14660): Fixed: Pasting text from Microsoft Word breaks the styling in some cases.
-* [#14867](http://dev.ckeditor.com/ticket/14867): [Firefox] Fixed: Text gets stripped when pasting content from Microsoft Word.
+* [#14660](http://dev.ckeditor.com/ticket/14660): Fixed: [Pasting text from  Word](http://ckeditor.com/addon/pastefromword) breaks the styling in some cases.
+* [#14867](http://dev.ckeditor.com/ticket/14867): [Firefox] Fixed: Text gets stripped when [pasting content from Word](http://ckeditor.com/addon/pastefromword).
+* [#2507](http://dev.ckeditor.com/ticket/2507): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) does not detect pasting a part of a paragraph.
+* [#3336](http://dev.ckeditor.com/ticket/3336): Fixed: Extra blank row added on top of the content [pasted from Word](http://ckeditor.com/addon/pastefromword).
+* [#6115](http://dev.ckeditor.com/ticket/6115): Fixed: When Right-to-Left text direction is applied to a table [pasted from Word](http://ckeditor.com/addon/pastefromword), borders are missing on one side.
+* [#6342](http://dev.ckeditor.com/ticket/6342): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) filters out a basic text style when it is [configured to use attributes](http://docs.ckeditor.com/#!/guide/dev_basicstyles-section-custom-basic-text-style-definition).
+* [#6457](http://dev.ckeditor.com/ticket/6457): [IE] Fixed: [Pasting from Word](http://ckeditor.com/addon/pastefromword) is extremely slow.
+* [#6789](http://dev.ckeditor.com/ticket/6789): Fixed: The `mso-list: ignore` style is not handled properly when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#7262](http://dev.ckeditor.com/ticket/7262): Fixed: Lists in preformatted body disappear when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#7662](http://dev.ckeditor.com/ticket/7662): [Opera] Fixed: Extra empty number/bullet shown in the editor body when editing a multi-level list [pasted from Word](http://ckeditor.com/addon/pastefromword).
+* [#7807](http://dev.ckeditor.com/ticket/7807): Fixed: Last item in a list not converted to a `<li>` element after [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#7950](http://dev.ckeditor.com/ticket/7950): [IE] Fixed: Content [from Word pasted](http://ckeditor.com/addon/pastefromword) differently than in other browsers.
+* [#7982](http://dev.ckeditor.com/ticket/7982): Fixed: Multi-level lists get split into smaller ones when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#8231](http://dev.ckeditor.com/ticket/8231): [WebKit, Opera] Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) inserts empty paragraphs.
+* [#8266](http://dev.ckeditor.com/ticket/8266): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) inserts a blank line at the top.
+* [#8341](http://dev.ckeditor.com/ticket/8341), [#7646](http://dev.ckeditor.com/ticket/7646): Fixed: Faulty removal of empty `<span>` elements in [Paste from Word](http://ckeditor.com/addon/pastefromword) content cleanup breaking content formatting.
+* [#8754](http://dev.ckeditor.com/ticket/8754): [Firefox] Fixed: Incorrect pasting of multiple nested lists in [Paste from Word](http://ckeditor.com/addon/pastefromword).
+* [#8983](http://dev.ckeditor.com/ticket/8983): Fixed: Alignment lost when [pasting from Word](http://ckeditor.com/addon/pastefromword) with [`config.enterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) set to [`CKEDITOR.ENTER_BR`](http://docs.ckeditor.com/#!/api/CKEDITOR-property-ENTER_BR).
+* [#9331](http://dev.ckeditor.com/ticket/9331): [IE] Fixed: [Pasting text from Word](http://ckeditor.com/addon/pastefromword) creates a simple Caesar cipher.
+* [#9422](http://dev.ckeditor.com/ticket/9422): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) leaves an unwanted `color:windowtext` style.
+* [#10011](http://dev.ckeditor.com/ticket/10011): [IE9-10] Fixed: [`config.pasteFromWordRemoveFontStyles`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveFontStyles) is ignored under certain conditions.
+* [#10643](http://dev.ckeditor.com/ticket/10643): Fixed: Differences between using <kbd>Ctrl+V</kbd> and pasting from the [Paste from Word](http://ckeditor.com/addon/pastefromword) dialog.
+* [#10784](http://dev.ckeditor.com/ticket/10784): Fixed: Lines missing when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#11294](http://dev.ckeditor.com/ticket/11294): [IE10] Fixed: Font size is not preserved when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#11627](http://dev.ckeditor.com/ticket/11627): Fixed: Missing words when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#12784](http://dev.ckeditor.com/ticket/12784): Fixed: Bulleted list with custom bullets gets changed to a numbered list when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#13174](http://dev.ckeditor.com/ticket/13174): Fixed: Data loss after [pasting from Word](http://ckeditor.com/addon/pastefromword).
 * [#13828](http://dev.ckeditor.com/ticket/13828): Fixed: Widget classes should be added to the wrapper rather than the widget element.
 * [#13829](http://dev.ckeditor.com/ticket/13829): Fixed: No class in [Widget](http://ckeditor.com/addon/widget) wrapper to identify the widget type.
 * [#13519](http://dev.ckeditor.com/ticket/13519): Server response received when uploading files should be more flexible.
-* [#2507](http://dev.ckeditor.com/ticket/2507): Fixed: [Paste from Word]
-* [#3336](http://dev.ckeditor.com/ticket/3336): Fixed: [Paste from Word]
-* [#6115](http://dev.ckeditor.com/ticket/6115): Fixed: [Paste from Word]
-* [#6342](http://dev.ckeditor.com/ticket/6342): Fixed: [Paste from Word]
-* [#6457](http://dev.ckeditor.com/ticket/6457): Fixed: [Paste from Word]
-* [#6789](http://dev.ckeditor.com/ticket/6789): Fixed: [Paste from Word]
-* [#7262](http://dev.ckeditor.com/ticket/7262): Fixed: [Paste from Word]
-* [#7646](http://dev.ckeditor.com/ticket/7646): Fixed: [Paste from Word]
-* [#7662](http://dev.ckeditor.com/ticket/7662): Fixed: [Paste from Word]
-* [#7807](http://dev.ckeditor.com/ticket/7807): Fixed: [Paste from Word]
-* [#7835](http://dev.ckeditor.com/ticket/7835): Fixed: [Paste from Word]
-* [#7950](http://dev.ckeditor.com/ticket/7950): Fixed: [Paste from Word]
-* [#7982](http://dev.ckeditor.com/ticket/7982): Fixed: [Paste from Word]
-* [#8231](http://dev.ckeditor.com/ticket/8231): Fixed: [Paste from Word]
-* [#8266](http://dev.ckeditor.com/ticket/8266): Fixed: [Paste from Word]
-* [#8341](http://dev.ckeditor.com/ticket/8341): Fixed: [Paste from Word]
-* [#8754](http://dev.ckeditor.com/ticket/8754): Fixed: [Paste from Word]
-* [#8983](http://dev.ckeditor.com/ticket/8983): Fixed: [Paste from Word]
-* [#9331](http://dev.ckeditor.com/ticket/9331): Fixed: [Paste from Word]
-* [#9422](http://dev.ckeditor.com/ticket/9422): Fixed: [Paste from Word]
-* [#9616](http://dev.ckeditor.com/ticket/9616): Fixed: [Paste from Word]
-* [#10011](http://dev.ckeditor.com/ticket/10011): Fixed: [Paste from Word]
-* [#10643](http://dev.ckeditor.com/ticket/10643): Fixed: [Paste from Word]
-* [#10784](http://dev.ckeditor.com/ticket/10784): Fixed: [Paste from Word]
-* [#11294](http://dev.ckeditor.com/ticket/11294): Fixed: [Paste from Word]
-* [#11627](http://dev.ckeditor.com/ticket/11627): Fixed: [Paste from Word]
-* [#12784](http://dev.ckeditor.com/ticket/12784): Fixed: [Paste from Word]
-* [#13174](http://dev.ckeditor.com/ticket/13174): Fixed: [Paste from Word]
 
 Other Changes:
 
