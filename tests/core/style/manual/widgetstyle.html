@@ -1,142 +1,71 @@
 <div id="editor1">
-	<figure class="image image-caption-top"><img alt="Test" width="145" height="217" src="http://placekitten.com/200/300" /><figcaption>Test caption</figcaption></figure>
-	<div class="embed-titled" data-oembed-url="https://www.flickr.com/photos/polandmfa/7005560084"><a data-flickr-embed="true" href="https://www.flickr.com/photos/polandmfa/7005560084/" title="Wrocław, Hala Stulecia / Centennial Hall in Wrocław by PolandMFA, on Flickr"><img src="https://farm8.staticflickr.com/7241/7005560084_699996eab4_b.jpg" width="100%" alt="Wrocław, Hala Stulecia / Centennial Hall in Wrocław" /></a><script async="" src="https://embedr.flickr.com/assets/client-code.js" charset="utf-8"></script></div>
-<pre class="comments-hidden">
-	<code class="language-javascript">/**
- * Creates a {@link CKEDITOR.style} subclass and registers it in the style system.
- * Registered class will be used as a handler for a style of this type. This allows
- * to extend the styles system, which by default uses only the {@link CKEDITOR.style}, with
- * new functionality. Registered classes are accessible in the {@link CKEDITOR.style.customHandlers}.
- *
- * ### The Style Class Definition
- *
- * The definition object is used to override properties in a prototype inherited
- * from the {@link CKEDITOR.style} class. It must contain a `type` property which is
- * a name of the new type and therefore it must be unique. The default style types
- * ({@link CKEDITOR#STYLE_BLOCK STYLE_BLOCK}, {@link CKEDITOR#STYLE_INLINE STYLE_INLINE},
- * and {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}) are integers, but for easier identification
- * it is recommended to use strings as custom type names.
- *
- * Besides `type`, the definition may contain two more special properties:
- *
- *  * `setup {Function}` &ndash; An optional callback executed when a style instance is created.
- * Like the style constructor, it is executed in style context and with the style definition as an argument.
- *  * `assignedTo {Number}` &ndash; Can be set to one of the default style types. Some editor
- * features like the Styles drop-down assign styles to one of the default groups based on
- * the style type. By using this property it is possible to notify them to which group this
- * custom style should be assigned. It defaults to the {@link CKEDITOR#STYLE_OBJECT}.
- *
- * Other properties of the definition object will just be used to extend the prototype inherited
- * from the {@link CKEDITOR.style} class. So if the definition contains an `apply` method, it will
- * override the {@link CKEDITOR.style#apply} method.
- *
- * ### Usage
- *
- * Registering a basic handler:
- *
- *		var styleClass = CKEDITOR.style.addCustomHandler( {
- *			type: 'custom'
- *		} );
- *
- *		var style = new styleClass( { ... } );
- *		style instanceof styleClass; // -> true
- *		style instanceof CKEDITOR.style; // -> true
- *		style.type; // -> 'custom'
- *
- * The {@link CKEDITOR.style} constructor used as a factory:
- *
- *		var styleClass = CKEDITOR.style.addCustomHandler( {
- *			type: 'custom'
- *		} );
- *
- *		// Style constructor accepts style definition (do not confuse with style class definition).
- *		var style = new CKEDITOR.style( { type: 'custom', attributes: ... } );
- *		style instanceof styleClass; // -> true
- *
- * Thanks to that, integration code using styles does not need to know
- * which style handler it should use. It is determined by the {@link CKEDITOR.style} constructor.
- *
- * Overriding existing {@link CKEDITOR.style} methods:
- *
- *		var styleClass = CKEDITOR.style.addCustomHandler( {
- *			type: 'custom',
- *			apply: function( editor ) {
- *				console.log( 'apply' );
- *			},
- *			remove: function( editor ) {
- *				console.log( 'remove' );
- *			}
- *		} );
- *
- *		var style = new CKEDITOR.style( { type: 'custom', attributes: ... } );
- *		editor.applyStyle( style ); // logged 'apply'
- *
- *		style = new CKEDITOR.style( { element: 'img', attributes: { 'class': 'foo' } } );
- *		editor.applyStyle( style ); // style is really applied if image was selected
- *
- * ### Practical Recommendations
- *
- * The style handling job, which includes such tasks as applying, removing, checking state, and
- * checking if a style can be applied, is very complex. Therefore without deep knowledge
- * about DOM and especially {@link CKEDITOR.dom.range ranges} and {@link CKEDITOR.dom.walker DOM walker} it is impossible
- * to implement a completely custom style handler able to handle block, inline, and object type styles.
- * However, it is possible to customize the default implementation by overriding default methods and
- * reusing them.
- *
- * The only style handler which can be implemented from scratch without huge effort is a style
- * applicable to objects ([read more about types](http://docs.ckeditor.com/#!/guide/dev_styles-section-style-types)).
- * Such style can only be applied when a specific object is selected. An example implementation can
- * be found in the [widget plugin](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/widget/plugin.js).
- *
- * When implementing a style handler from scratch at least the following methods must be defined:
- *
- * * {@link CKEDITOR.style#apply apply} and {@link CKEDITOR.style#remove remove},
- * * {@link CKEDITOR.style#checkElementRemovable checkElementRemovable} and
- * {@link CKEDITOR.style#checkElementMatch checkElementMatch} &ndash; Note that both methods reuse the same logic,
- * * {@link CKEDITOR.style#checkActive checkActive} &ndash; Reuses
- * {@link CKEDITOR.style#checkElementMatch checkElementMatch},
- * * {@link CKEDITOR.style#toAllowedContentRules toAllowedContentRules} &ndash; Not required, but very useful in
- * case of a custom style that has to notify the {@link CKEDITOR.filter} which rules it allows when registered.
- *
- * @since 4.4
- * @static
- * @member CKEDITOR.style
- * @param definition The style class definition.
- * @returns {CKEDITOR.style} The new style class created for the provided definition.
- */
-CKEDITOR.style.addCustomHandler = function( definition ) {
-	var styleClass = function( styleDefinition ) {
-		this._ = {
-			definition: styleDefinition
-		};
 
-		if ( this.setup )
-			this.setup( styleDefinition );
-	};
+	<figure class="image" style="float:left"><img alt="Saturn V" src="%BASE_PATH%_assets/lena.jpg" width="200" />
+		<figcaption>Roll out of Saturn V on launch pad</figcaption>
+	</figure>
 
-	styleClass.prototype = CKEDITOR.tools.extend(
-		// Prototype of CKEDITOR.style.
-		CKEDITOR.tools.prototypedCopy( CKEDITOR.style.prototype ),
-		// Defaults.
-		{
-			assignedTo: CKEDITOR.STYLE_OBJECT
-		},
-		// Passed definition - overrides.
-		definition,
-		true
-	);
+	<h1>Apollo 11</h1>
 
-	this.customHandlers[ definition.type ] = styleClass;
+	<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
 
-	return styleClass;
-};
-</code></pre>
+	<p>Armstrong spent about <s>three and a half</s> two and a half hours outside the spacecraft, Aldrin slightly less; and together they collected 47.5 pounds (21.5&nbsp;kg) of lunar material for return to Earth. A third member of the mission, <a href="http://en.wikipedia.org/wiki/Michael_Collins_(astronaut)">Michael Collins</a>, piloted the <a href="http://en.wikipedia.org/wiki/Apollo_Command/Service_Module">command</a> spacecraft alone in lunar orbit until Armstrong and Aldrin returned to it for the trip back to Earth.</p>
+
+	<p>&nbsp;</p>
+
+	<p>&nbsp;</p>
+
+	<h2>JavaScript code snippet sample</h2>
+
+	<pre>
+		<code class="language-javascript">
+var cow = new Mammal( "moo", {
+	legs: 4
+} );
+		</code>
+	</pre>
+
+	<h2>The Cauchy-Schwarz Inequality</h2>
+
+	<p><span class="math-tex">\( \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) \)</span></p>
+
+	<h2>Ambition the film</h2>
+
+	<oembed>https://www.youtube.com/watch?v=H08tGjXNHO4</oembed>
+
+	<h2>Broadcasting and <em>quotes</em> <a id="quotes" name="quotes"></a></h2>
+
+	<p>Broadcast on live TV to a world-wide audience, Armstrong stepped onto the lunar surface and described the event as:</p>
+
+	<blockquote>
+		<p>One small step for [a] man, one giant leap for mankind.</p>
+	</blockquote>
+
+	<p>Apollo 11 effectively ended the <a href="http://en.wikipedia.org/wiki/Space_Race">Space Race</a> and fulfilled a national goal proposed in 1961 by the late U.S. President <a href="http://en.wikipedia.org/wiki/John_F._Kennedy">John F. Kennedy</a> in a speech before the United States Congress:</p>
+
+	<blockquote>
+		<p>[...] before this decade is out, of landing a man on the Moon and returning him safely to the Earth.</p>
+	</blockquote>
+
+	<img alt="The Eagle" width="200" src="/tests/_assets/logo.png" style="float:right" />
+
+	<h2>Technical details <a id="tech-details" name="tech-details"></a></h2>
+
+	<p>Launched by a <strong>Saturn V</strong> rocket from <a href="http://en.wikipedia.org/wiki/Kennedy_Space_Center">Kennedy Space Center</a> in Merritt Island, Florida on July 16, Apollo 11 was the fifth manned mission of <a href="http://en.wikipedia.org/wiki/NASA">NASA</a>&#39;s Apollo program. The Apollo spacecraft had three parts:</p>
+
+	<ol>
+		<li><strong>Command Module</strong> with a cabin for the three astronauts which was the only part which landed back on Earth</li>
+		<li><strong>Service Module</strong> which supported the Command Module with propulsion, electrical power, oxygen and water</li>
+		<li><strong>Lunar Module</strong> for landing on the Moon.</li>
+	</ol>
+
+	<p>After being sent to the Moon by the Saturn V&#39;s upper stage, the astronauts separated the spacecraft from it and travelled for three days until they entered into lunar orbit. Armstrong and Aldrin then moved into the Lunar Module and landed in the <a href="http://en.wikipedia.org/wiki/Mare_Tranquillitatis">Sea of Tranquility</a>. They stayed a total of about 21 and a half hours on the lunar surface. After lifting off in the upper part of the Lunar Module and rejoining Collins in the Command Module, they returned to Earth and landed in the <a href="http://en.wikipedia.org/wiki/Pacific_Ocean">Pacific Ocean</a> on July 24.</p>
 
 </div>
 
 <script>
-
-CKEDITOR.replace( 'editor1', {
-	width: 1000,
-	height: 1000
-} );</script>
+	CKEDITOR.replace( 'editor1', {
+		width: 800,
+		height: 600,
+		mathJaxLib: bender.config.mathJaxLibPath
+	} );
+</script>
