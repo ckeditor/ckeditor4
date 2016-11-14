@@ -1106,6 +1106,8 @@
 	 * * `'list'` &ndash; List context.
 	 * * `'table'` &ndash; Table context.
 	 *
+	 * Examples:
+	 *
 	 *		// Enables only plain text context.
 	 *		config.copyFormatting_allowedContexts = [ 'text' ];
 	 *
