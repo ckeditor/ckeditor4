@@ -12,6 +12,7 @@ New Features:
 	* Backward incompatibility: The [`config.pasteFromWordNumberedHeadingToList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordNumberedHeadingToList) and [`config.pasteFromWordRemoveStyles`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveStyles) options were dropped and no longer have any effect on pasted content.
 	* Major improvements in preservation of list numbering, styling and indentation (nested lists with multiple levels).
 	* Major improvements in document structure parsing that fix plenty of issues with distorted or missing content after paste.
+* Added new translation: Occitan. Thanks to Cédric Valmary!
 * [#10015](http://dev.ckeditor.com/ticket/10015): Keyboard shortcuts (relevant to the operating system in use) will now be displayed in tooltips and context menus.
 * [#13794](http://dev.ckeditor.com/ticket/13794): The [Upload Image](http://ckeditor.com/addon/uploadimage) feature now uses `uploaded.width/height` if set.
 * [#12541](http://dev.ckeditor.com/ticket/12541): Added the [Upload File](http://ckeditor.com/addon/uploadfile) plugin that lets you upload a file by drag&quot;dropping it into the editor content.
