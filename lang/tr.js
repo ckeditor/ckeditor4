@@ -98,19 +98,19 @@ CKEDITOR.lang[ 'tr' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Silme',
-			13: 'Enter', // MISSING
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
-			35: 'Sona',
-			36: 'Home', // MISSING
-			46: 'Silme',
-			224: 'Command' // MISSING
+			8: 'Silme Tuşu',
+			13: 'Giriş Tuşu',
+			16: 'Üst Karater Tuşu',
+			17: 'Kontrol Tuşu',
+			18: 'Alt Tuşu',
+			32: 'Boşluk Tuşu',
+			35: 'En Sona Tuşu',
+			36: 'En Başa Tuşu',
+			46: 'Silme Tuşu',
+			224: 'Komut Tuşu'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Klavye Kısayolu'
 	}
 };

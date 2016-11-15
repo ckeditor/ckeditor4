@@ -104,14 +104,14 @@ CKEDITOR.lang[ 'zh' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: '空白鍵',
 			35: 'End',
 			36: 'Home',
 			46: '刪除',
-			224: 'Command' // MISSING
+			224: 'Command 鍵'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: '鍵盤快捷鍵'
 	}
 };

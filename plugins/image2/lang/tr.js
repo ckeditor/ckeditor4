@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'tr', {
 	title: 'Resim Özellikleri',
 	uploadTab: 'Karşıya Yükle',
 	urlMissing: 'Resmin URL kaynağı bulunamadı.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Alternatif yazı eksik.'
 } );

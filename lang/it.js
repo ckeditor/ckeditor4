@@ -104,11 +104,11 @@ CKEDITOR.lang[ 'it' ] = {
 			16: 'Maiusc',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Spazio',
 			35: 'Fine',
 			36: 'Inizio',
 			46: 'Canc',
-			224: 'Command' // MISSING
+			224: 'Comando'
 		},
 
 		// Prepended to ARIA labels with shortcuts.

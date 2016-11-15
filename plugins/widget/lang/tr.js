@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'tr', {
 	'move': 'Taşımak için, tıklayın ve sürükleyin',
-	'label': '%1 widget' // MISSING
+	'label': '%1 Grafik Beleşeni'
 } );

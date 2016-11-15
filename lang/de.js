@@ -108,7 +108,7 @@ CKEDITOR.lang[ 'de' ] = {
 			35: 'Ende',
 			36: 'Pos1',
 			46: 'Entfernen',
-			224: 'Command' // MISSING
+			224: 'Befehl'
 		},
 
 		// Prepended to ARIA labels with shortcuts.

@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	anchorName: 'Bağlantı Adı ile',
 	charset: 'Bağlı Kaynak Karakter Gurubu',
 	cssClasses: 'Biçem Sayfası Sınıfları',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'İndirmeye Zorla',
+	displayText: 'Gösterim Metni',
 	emailAddress: 'E-Posta Adresi',
 	emailBody: 'İleti Gövdesi',
 	emailSubject: 'İleti Konusu',

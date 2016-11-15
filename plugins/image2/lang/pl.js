@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'pl', {
 	title: 'Właściwości obrazka',
 	uploadTab: 'Wyślij',
 	urlMissing: 'Podaj adres URL obrazka.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Podaj tekst zastępczy obrazka.'
 } );
