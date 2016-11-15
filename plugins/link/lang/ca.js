@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -19,7 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ca', {
 	anchorName: 'Per nom d\'àncora',
 	charset: 'Conjunt de caràcters font enllaçat',
 	cssClasses: 'Classes del full d\'estil',
-	displayText: 'Display Text', // MISSING
+	download: 'Force Download', // MISSING
+	displayText: 'Text a mostrar',
 	emailAddress: 'Adreça de correu electrònic',
 	emailBody: 'Cos del missatge',
 	emailSubject: 'Assumpte del missatge',

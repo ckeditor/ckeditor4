@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cy', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
 	tab: 'Tab',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause', // MISSING
 	capslock: 'Caps Lock', // MISSING
 	escape: 'Escape',
 	pageUp: 'Page Up', // MISSING
 	pageDown: 'Page Down', // MISSING
-	end: 'End', // MISSING
-	home: 'Home', // MISSING
 	leftArrow: 'Left Arrow', // MISSING
 	upArrow: 'Up Arrow', // MISSING
 	rightArrow: 'Right Arrow', // MISSING
 	downArrow: 'Down Arrow', // MISSING
 	insert: 'Insert', // MISSING
-	'delete': 'Delete', // MISSING
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'Select key', // MISSING

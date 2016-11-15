@@ -2,7 +2,7 @@
 
 'use strict';
 
-function assertPasteEvent( editor, eventData, expected, message, async ) {
+function assertPasteEvent( editor, eventData, expected, message, async, skipCancel ) {
 	var priority = 999,
 		executed = false;
 
@@ -45,7 +45,10 @@ function assertPasteEvent( editor, eventData, expected, message, async ) {
 	function onPaste( evt ) {
 		var data = evt.data;
 		evt.removeListener();
-		evt.cancel(); // Cancel for performance reason - we don't need insertion happen.
+
+		if ( !skipCancel ) {
+			evt.cancel(); // Cancel for performance reason - we don't need insertion happen.
+		}
 
 		executed = true;
 

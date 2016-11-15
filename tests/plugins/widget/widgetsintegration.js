@@ -11,6 +11,7 @@
 	var editorConfig = {
 		plugins: 'wysiwygarea,sourcearea,widget,clipboard',
 		allowedContent: true,
+		language: 'en',
 		on: {
 			pluginsLoaded: function( evt ) {
 				evt.editor.dataProcessor.writer.sortAttributes = 1;

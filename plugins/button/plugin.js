@@ -12,6 +12,7 @@
 		' hidefocus="true"' +
 		' role="button"' +
 		' aria-labelledby="{id}_label"' +
+		' aria-describedby="{id}_description"' +
 		' aria-haspopup="{hasArrow}"' +
 		' aria-disabled="{ariaDisabled}"';
 
@@ -35,6 +36,7 @@
 
 	template += '>&nbsp;</span>' +
 		'<span id="{id}_label" class="cke_button_label cke_button__{name}_label" aria-hidden="false">{label}</span>' +
+		'<span id="{id}_description" class="cke_button_label" aria-hidden="false">{ariaShortcut}</span>' +
 		'{arrowHtml}' +
 		'</a>';
 
@@ -47,7 +49,7 @@
 		btnTpl = CKEDITOR.addTemplate( 'button', template );
 
 	CKEDITOR.plugins.add( 'button', {
-		lang: 'af,ar,bg,ca,cs,da,de,de-ch,el,en,en-gb,eo,es,eu,fa,fi,fr,gl,he,hu,id,it,ja,km,ko,ku,lt,nb,nl,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,ca,cs,da,de,de-ch,el,en,en-gb,eo,es,eu,fa,fi,fr,gl,he,hu,id,it,ja,km,ko,ku,lt,nb,nl,no,pl,pt,pt-br,ro,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		beforeInit: function( editor ) {
 			editor.ui.addHandler( CKEDITOR.UI_BUTTON, CKEDITOR.ui.button.handler );
 		}
@@ -138,7 +140,9 @@
 				stateName = '',
 				command = this.command,
 				// Get the command name.
-				clickFn;
+				clickFn,
+				keystroke,
+				shortcut;
 
 			this._.editor = editor;
 
@@ -239,8 +243,15 @@
 				}, this );
 			}
 
-			if ( !command )
+			if ( !command ) {
 				stateName += 'off';
+			} else {
+				keystroke = editor.getCommandKeystroke( command );
+
+				if ( keystroke ) {
+					shortcut = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, keystroke );
+				}
+			}
 
 			var name = this.name || this.command,
 				iconName = name;
@@ -259,7 +270,8 @@
 				cls: this.className || '',
 				state: stateName,
 				ariaDisabled: stateName == 'disabled' ? 'true' : 'false',
-				title: this.title,
+				title: this.title + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
+				ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
 				titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 				hasArrow: this.hasArrow ? 'true' : 'false',
 				keydownFn: keydownFn,

@@ -56,7 +56,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 };
 
 /**
- * Object presentation of CSS style declaration text.
+ * Object presentation of the CSS style declaration text.
  *
  * @class
  * @constructor Creates a `cssStyle` class instance.
@@ -419,7 +419,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 		 *
 		 * @since 4.3
 		 * @param {Number} index Index at which the element will be split &mdash; `0` means the beginning,
-		 * `1` after first child node, etc.
+		 * `1` after the first child node, etc.
 		 * @returns {CKEDITOR.htmlParser.element} The new element following this one.
 		 */
 		split: function( index ) {
@@ -440,6 +440,38 @@ CKEDITOR.htmlParser.cssStyle = function() {
 			this.parent.add( clone, this.getIndex() + 1 );
 
 			return clone;
+		},
+
+		/**
+		 * Searches through the current node children to find nodes matching the `criteria`.
+		 *
+		 * @param {String/Function} criteria Tag name or evaluator function.
+		 * @param {Boolean} [recursive=false]
+		 * @returns {CKEDITOR.htmlParser.node[]}
+		 */
+		find: function( criteria, recursive ) {
+			if ( recursive === undefined ) {
+				recursive = false;
+			}
+
+			var ret = [],
+				i;
+
+			for	( i = 0; i < this.children.length; i++ ) {
+				var curChild = this.children[ i ];
+
+				if ( typeof criteria == 'function' && criteria( curChild ) ) {
+					ret.push( curChild );
+				} else if ( typeof criteria == 'string' && curChild.name === criteria ) {
+					ret.push( curChild );
+				}
+
+				if ( recursive && curChild.find ) {
+					ret = ret.concat( curChild.find( criteria, recursive ) );
+				}
+			}
+
+			return ret;
 		},
 
 		/**

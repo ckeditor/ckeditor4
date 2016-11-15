@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'sk' ] = {
 		alignMiddle: 'Na stred',
 		alignBottom: 'Dole',
 		alignNone: 'Žiadne',
-		invalidValue	: 'Neplatná hodnota.',
+		invalidValue: 'Neplatná hodnota.',
 		invalidHeight: 'Výška musí byť číslo.',
 		invalidWidth: 'Šírka musí byť číslo.',
 		invalidCssLength: 'Špecifikovaná hodnota pre pole "%1" musí byť kladné číslo s alebo bez platnej CSS mernej jednotky (px, %, in, cm, mm, em, ex, pt alebo pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'sk' ] = {
 		cssLengthTooltip: 'Vložte číslo pre hodnotu v pixeloch alebo číslo so správnou CSS jednotou (px, %, in, cm, mm, em, ex, pt alebo pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, nedostupný</span>'
+		unavailable: '%1<span class="cke_accessibility">, nedostupný</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Medzerník',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Klávesová skratka'
 	}
 };

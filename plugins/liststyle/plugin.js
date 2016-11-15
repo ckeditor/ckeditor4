@@ -17,7 +17,10 @@
 
 			def = new CKEDITOR.dialogCommand( 'numberedListStyle', {
 				requiredContent: 'ol',
-				allowedContent: 'ol{list-style-type}[start]'
+				allowedContent: 'ol{list-style-type}[start]; li{list-style-type}[value]',
+				contentTransformations: [
+					[ 'ol: listTypeToStyle' ]
+				]
 			} );
 			cmd = editor.addCommand( 'numberedListStyle', def );
 			editor.addFeature( cmd );
@@ -25,7 +28,10 @@
 
 			def = new CKEDITOR.dialogCommand( 'bulletedListStyle', {
 				requiredContent: 'ul',
-				allowedContent: 'ul{list-style-type}'
+				allowedContent: 'ul{list-style-type}',
+				contentTransformations: [
+					[ 'ul: listTypeToStyle' ]
+				]
 			} );
 			cmd = editor.addCommand( 'bulletedListStyle', def );
 			editor.addFeature( cmd );

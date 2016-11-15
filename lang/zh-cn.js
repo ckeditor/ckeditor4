@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		alignMiddle: '居中',
 		alignBottom: '底部',
 		alignNone: '无',
-		invalidValue	: '无效的值。',
+		invalidValue: '无效的值。',
 		invalidHeight: '高度必须为数字格式',
 		invalidWidth: '宽度必须为数字格式',
 		invalidCssLength: '此“%1”字段的值必须为正数，可以包含或不包含一个有效的 CSS 长度单位(px, %, in, cm, mm, em, ex, pt 或 pc)',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		cssLengthTooltip: '输入一个表示像素值的数字，或加上一个有效的 CSS 长度单位(px, %, in, cm, mm, em, ex, pt 或 pc)。',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">，不可用</span>'
+		unavailable: '%1<span class="cke_accessibility">，不可用</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: '退格键',
+			13: '回车键',
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: '行尾键',
+			36: '行首键',
+			46: '删除键',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

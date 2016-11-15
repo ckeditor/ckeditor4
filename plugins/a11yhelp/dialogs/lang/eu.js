@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eu', {
 		]
 	}
 	],
-	backspace: 'Atzera tekla',
 	tab: 'Tabuladorea',
-	enter: 'Sartu',
-	shift: 'Maius',
-	ctrl: 'Ktrl',
-	alt: 'Alt',
 	pause: 'Pausatu',
 	capslock: 'Blok Maius',
 	escape: 'Ihes',
 	pageUp: 'Page Up', // MISSING
 	pageDown: 'Page Down', // MISSING
-	end: 'Buka',
-	home: 'Etxea',
 	leftArrow: 'Ezker-gezia',
 	upArrow: 'Gora gezia',
 	rightArrow: 'Eskuin-gezia',
 	downArrow: 'Behera gezia',
 	insert: 'Txertatu',
-	'delete': 'Ezabatu',
 	leftWindowKey: 'Ezkerreko Windows tekla',
 	rightWindowKey: 'Eskuineko Windows tekla',
 	selectKey: 'Hautatu tekla',

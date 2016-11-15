@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'filetools', {
-		lang: 'cs,da,de,de-ch,en,eo,es,eu,fr,gl,id,it,km,ko,ku,nb,nl,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'ca,cs,da,de,de-ch,en,eo,es,eu,fr,gl,id,it,km,ko,ku,nb,nl,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		beforeInit: function( editor ) {
 			/**
@@ -27,42 +27,56 @@
 			/**
 			 * Event fired when the {@link CKEDITOR.fileTools.fileLoader file loader} should send XHR. If the event is not
 			 * {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled}, the default request
-			 * will be sent. To learn more refer to the [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article.
+			 * will be sent. Refer to the [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article for more information.
 			 *
 			 * @since 4.5
 			 * @event fileUploadRequest
 			 * @member CKEDITOR.editor
 			 * @param data
-			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader File loader instance.
+			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader A file loader instance.
+			 * @param {Object} data.requestData An object containing all data to be sent to the server.
 			 */
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader;
 
 				fileLoader.xhr.open( 'POST', fileLoader.uploadUrl, true );
+
+				// Adding file to event's data by default - allows overwriting it by user's event listeners. (#13518)
+				evt.data.requestData.upload = { file: fileLoader.file, name: fileLoader.fileName };
 			}, null, null, 5 );
 
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader,
-					formData = new FormData();
+					$formData = new FormData(),
+					requestData = evt.data.requestData;
 
-				formData.append( 'upload', fileLoader.file, fileLoader.fileName );
+				for ( var name in requestData ) {
+					var value = requestData[ name ];
 
+					// Treating files in special way
+					if ( typeof value === 'object' && value.file ) {
+						$formData.append( name, value.file, value.name );
+					}
+					else {
+						$formData.append( name, value );
+					}
+				}
 				// Append token preventing CSRF attacks.
-				formData.append( 'ckCsrfToken', CKEDITOR.tools.getCsrfToken() );
+				$formData.append( 'ckCsrfToken', CKEDITOR.tools.getCsrfToken() );
 
-				fileLoader.xhr.send( formData );
+				fileLoader.xhr.send( $formData );
 			}, null, null, 999 );
 
 			/**
 			 * Event fired when the {CKEDITOR.fileTools.fileLoader file upload} response is received and needs to be parsed.
 			 * If the event is not {@link CKEDITOR.eventInfo#stop stopped} or {@link CKEDITOR.eventInfo#cancel canceled},
-			 * the default response handler will be used. To learn more refer to the
-			 * [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article.
+			 * the default response handler will be used. Refer to the
+			 * [Uploading Dropped or Pasted Files](#!/guide/dev_file_upload) article for more information.
 			 *
 			 * @since 4.5
 			 * @event fileUploadResponse
 			 * @member CKEDITOR.editor
-			 * @param data
+			 * @param data All data will be passed to {@link CKEDITOR.fileTools.fileLoader#responseData}.
 			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader A file loader instance.
 			 * @param {String} data.message The message from the server. Needs to be set in the listener &mdash; see the example above.
 			 * @param {String} data.fileName The file name on server. Needs to be set in the listener &mdash; see the example above.
@@ -86,8 +100,9 @@
 					if ( !response.uploaded ) {
 						evt.cancel();
 					} else {
-						data.fileName = response.fileName;
-						data.url = response.url;
+						for ( var i in response ) {
+							data[ i ] = response[ i ];
+						}
 					}
 				} catch ( err ) {
 					// Response parsing error.
@@ -253,7 +268,7 @@
 		this.lang = editor.lang;
 
 		if ( typeof fileOrData === 'string' ) {
-			// Data are already loaded from disc.
+			// Data is already loaded from disc.
 			this.data = fileOrData;
 			this.file = dataToFile( this.data );
 			this.total = this.file.size;
@@ -281,6 +296,8 @@
 
 		this.uploaded = 0;
 		this.uploadTotal = null;
+
+		this.responseData = null;
 
 		this.status = 'created';
 
@@ -346,6 +363,16 @@
 	 *
 	 * @readonly
 	 * @property {Number} total
+	 */
+
+	/**
+	 * All data received in the response from the server. If the server returns additional data, it will be available
+	 * in this property.
+	 *
+	 * It contains all data set in the {@link CKEDITOR.editor#fileUploadResponse} event listener.
+	 *
+	 * @readonly
+	 * @property {Object} responseData
 	 */
 
 	/**
@@ -434,8 +461,10 @@
 		 * * `uploaded`.
 		 *
 		 * @param {String} url The upload URL.
+		 * @param {Object} [additionalRequestParameters] Additional parameters that would be passed to
+	 	 * the {@link CKEDITOR.editor#fileUploadRequest} event.
 		 */
-		loadAndUpload: function( url ) {
+		loadAndUpload: function( url, additionalRequestParameters ) {
 			var loader = this;
 
 			this.once( 'loaded', function( evt ) {
@@ -448,7 +477,7 @@
 				}, null, null, 0 );
 
 				// Start uploading.
-				loader.upload( url );
+				loader.upload( url, additionalRequestParameters );
 			}, null, null, 0 );
 
 			this.load();
@@ -509,8 +538,12 @@
 		 * * `uploaded`.
 		 *
 		 * @param {String} url The upload URL.
+		 * @param {Object} [additionalRequestParameters] Additional data that would be passed to
+	 	 * the {@link CKEDITOR.editor#fileUploadRequest} event.
 		 */
-		upload: function( url ) {
+		upload: function( url, additionalRequestParameters ) {
+			var requestData = additionalRequestParameters || {};
+
 			if ( !url ) {
 				this.message = this.lang.filetools.noUrlError;
 				this.changeStatus( 'error' );
@@ -520,7 +553,7 @@
 				this.xhr = new XMLHttpRequest();
 				this.attachRequestListeners();
 
-				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this } ) ) {
+				if ( this.editor.fire( 'fileUploadRequest', { fileLoader: this, requestData: requestData } ) ) {
 					this.changeStatus( 'uploading' );
 				}
 			}
@@ -599,6 +632,11 @@
 							loader[ key ] = data[ key ];
 						}
 					}
+
+					// The whole response is also hold for use by uploadwidgets (#13519).
+					loader.responseData = data;
+					// But without reference to the loader itself.
+					delete loader.responseData.fileLoader;
 
 					if ( success === false ) {
 						loader.changeStatus( 'error' );

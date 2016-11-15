@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 		]
 	}
 	],
-	backspace: 'លុបថយក្រោយ',
 	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl', // MISSING
-	alt: 'Alt', // MISSING
 	pause: 'ផ្អាក',
 	capslock: 'Caps Lock', // MISSING
 	escape: 'ចាកចេញ',
 	pageUp: 'ទំព័រ​លើ',
 	pageDown: 'ទំព័រ​ក្រោម',
-	end: 'ចុង',
-	home: 'ផ្ទះ',
 	leftArrow: 'ព្រួញ​ឆ្វេង',
 	upArrow: 'ព្រួញ​លើ',
 	rightArrow: 'ព្រួញ​ស្ដាំ',
 	downArrow: 'ព្រួញ​ក្រោម',
 	insert: 'បញ្ចូល',
-	'delete': 'លុប',
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'ជ្រើស​គ្រាប់​ចុច',

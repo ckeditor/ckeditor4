@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ku', {
 	resizer: 'کرتەبکە و ڕایبکێشە بۆ قەبارە گۆڕین',
 	title: 'خاسیەتی وێنه',
 	uploadTab: 'بارکردن',
-	urlMissing: 'سەرچاوەی بەستەری وێنه بزره'
+	urlMissing: 'سەرچاوەی بەستەری وێنه بزره',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

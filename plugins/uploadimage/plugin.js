@@ -53,10 +53,15 @@
 				},
 
 				onUploaded: function( upload ) {
+					// Width and height could be returned by server (#13519).
+					var $img = this.parts.img.$,
+						width = upload.responseData.width || $img.naturalWidth,
+						height = upload.responseData.height || $img.naturalHeight;
+
 					// Set width and height to prevent blinking.
 					this.replaceWith( '<img src="' + upload.url + '" ' +
-						'width="' + this.parts.img.$.naturalWidth + '" ' +
-						'height="' + this.parts.img.$.naturalHeight + '">' );
+						'width="' + width + '" ' +
+						'height="' + height + '">' );
 				}
 			} );
 

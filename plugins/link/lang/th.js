@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'th', {
 	anchorName: 'ชื่อ',
 	charset: 'ลิงค์เชื่อมโยงไปยังชุดตัวอักษร',
 	cssClasses: 'คลาสของไฟล์กำหนดลักษณะการแสดงผล',
+	download: 'Force Download', // MISSING
 	displayText: 'Display Text', // MISSING
 	emailAddress: 'อีเมล์ (E-Mail)',
 	emailBody: 'ข้อความ',

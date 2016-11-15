@@ -1324,6 +1324,33 @@
 		},
 
 		/**
+		 * Returns the keystroke that is assigned to a specified {@link CKEDITOR.command}. If no keystroke is assigned,
+		 * it returns null.
+		 *
+		 * @since 4.6.0
+		 * @param {CKEDITOR.command} command
+		 * @returns {Number} The keystroke assigned to the provided command or null if there is no keystroke.
+		 */
+		getCommandKeystroke: function( command ) {
+			var commandName = command.name,
+				keystrokes = this.keystrokeHandler.keystrokes,
+				key;
+
+			// Some commands have a fake keystroke - for example CUT/COPY/PASTE commands are handled natively.
+			if ( command.fakeKeystroke ) {
+				return command.fakeKeystroke;
+			}
+
+			for ( key in keystrokes ) {
+				if ( keystrokes.hasOwnProperty( key ) && keystrokes[ key ] == commandName ) {
+					return key;
+				}
+			}
+
+			return null;
+		},
+
+		/**
 		 * Shorthand for {@link CKEDITOR.filter#addFeature}.
 		 *
 		 * @since 4.1
@@ -1807,6 +1834,14 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * in any plugin.
  *
  * @event destroy
+ * @param {CKEDITOR.editor} editor This editor instance.
+ */
+
+/**
+ * Event fired when the {@link #method-destroy} method is called,
+ * but before destroying the editor.
+ *
+ * @event beforeDestroy
  * @param {CKEDITOR.editor} editor This editor instance.
  */
 

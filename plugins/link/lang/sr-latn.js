@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'sr-latn', {
 	anchorName: 'Po nazivu sidra',
 	charset: 'Linked Resource Charset',
 	cssClasses: 'Stylesheet klase',
+	download: 'Force Download', // MISSING
 	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-Mail adresa',
 	emailBody: 'Sadržaj poruke',

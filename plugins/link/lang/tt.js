@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'tt', {
 	anchorName: 'Якорь исеме буенча',
 	charset: 'Linked Resource Charset', // MISSING
 	cssClasses: 'Стильләр класслары',
+	download: 'Force Download', // MISSING
 	displayText: 'Display Text', // MISSING
 	emailAddress: 'Электрон почта адресы',
 	emailBody: 'Хат эчтәлеге',

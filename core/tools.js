@@ -1313,6 +1313,67 @@
 		},
 
 		/**
+		 * Converts a keystroke to its string representation. Returns an object with two fields:
+		 *
+		 * * `display` &ndash; A string that should be used for visible labels.
+		 * For Mac devices it uses `⌥` for `ALT`, `⇧` for `SHIFT` and `⌘` for `COMMAND`.
+		 * * `aria` &ndash; A string that should be used for ARIA descriptions.
+		 * It does not use special characters such as `⌥`, `⇧` or `⌘`.
+		 *
+		 * 		var lang = editor.lang.common.keyboard;
+		 * 		var shortcut = CKEDITOR.tools.keystrokeToString( lang, CKEDITOR.CTRL + 88 );
+		 * 		console.log( shortcut.display ); // 'CTRL + X', on Mac '⌘ + X'.
+		 * 		console.log( shortcut.aria ); // 'CTRL + X', on Mac 'COMMAND + X'.
+		 *
+		 * @since 4.6.0
+		 * @param {Object} lang A language object with the key name translation.
+		 * @param {Number} keystroke The keystroke to convert.
+		 * @returns {{display: String, aria: String}}
+		 */
+		keystrokeToString: function( lang, keystroke ) {
+			var special = keystroke & 0xFF0000,
+				key = keystroke & 0x00FFFF,
+				isMac = CKEDITOR.env.mac,
+				CTRL = 17,
+				CMD = 224,
+				ALT = 18,
+				SHIFT = 16,
+				display = [],
+				aria = [];
+
+
+			if ( special & CKEDITOR.CTRL ) {
+				display.push( isMac ? '⌘' : lang[ CTRL ] );
+				aria.push( isMac ? lang[ CMD ] : lang[ CTRL ] );
+			}
+
+			if ( special & CKEDITOR.ALT ) {
+				display.push( isMac ? '⌥' : lang[ ALT ] );
+				aria.push( lang[ ALT ] );
+			}
+
+			if ( special & CKEDITOR.SHIFT ) {
+				display.push( isMac ? '⇧' : lang[ SHIFT ] );
+				aria.push( lang[ SHIFT ] );
+			}
+
+			if ( key ) {
+				if ( lang[ key ] ) {
+					display.push( lang[ key ] );
+					aria.push( lang[ key ] );
+				} else {
+					display.push( String.fromCharCode( key ) );
+					aria.push( String.fromCharCode( key ) );
+				}
+			}
+
+			return {
+				display: display.join( '+' ),
+				aria: aria.join( '+' )
+			};
+		},
+
+		/**
 		 * The data URI of a transparent image. May be used e.g. in HTML as an image source or in CSS in `url()`.
 		 *
 		 * @since 4.4

@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'af' ] = {
 		alignMiddle: 'Middel',
 		alignBottom: 'Onder',
 		alignNone: 'Geen',
-		invalidValue	: 'Ongeldige waarde',
+		invalidValue: 'Ongeldige waarde',
 		invalidHeight: 'Hoogte moet \'n getal wees',
 		invalidWidth: 'Breedte moet \'n getal wees.',
 		invalidCssLength: 'Die waarde vir die "%1" veld moet \'n posetiewe getal wees met of sonder \'n geldige CSS eenheid (px, %, in, cm, mm, em, ex, pt, of pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'af' ] = {
 		cssLengthTooltip: 'Voeg \'n getal wert in pixel in, of \'n waarde met geldige CSS eenheid (px, %, in, cm, mm, em, ex, pt, of pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, nie beskikbaar nie</span>'
+		unavailable: '%1<span class="cke_accessibility">, nie beskikbaar nie</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space', // MISSING
+			35: 'Einde',
+			36: 'Tuis',
+			46: 'Verwyder',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

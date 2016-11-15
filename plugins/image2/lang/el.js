@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'el', {
 	resizer: 'Κάνετε κλικ και σύρετε το ποντίκι για να αλλάξετε το μέγεθος',
 	title: 'Ιδιότητες Εικόνας',
 	uploadTab: 'Αποστολή',
-	urlMissing: 'Λείπει το πηγαίο URL της εικόνας.'
+	urlMissing: 'Λείπει το πηγαίο URL της εικόνας.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

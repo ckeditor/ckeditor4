@@ -133,6 +133,12 @@ Special outer level classes used in this file:
 	vertical-align: middle;
 }
 
+/* Keyboard shortcut placed next to the label. */
+.cke_menubutton_shortcut
+{
+	color: #979797;
+}
+
 .cke_menubutton_disabled .cke_menubutton_label
 {
 	/* Greyed label text indicates a disabled menu item. */

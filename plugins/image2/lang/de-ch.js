@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'de-ch', {
 	resizer: 'Zum Vergrössern auswählen und ziehen',
 	title: 'Bild-Eigenschaften',
 	uploadTab: 'Hochladen',
-	urlMissing: 'Bildquellen-URL fehlt.'
+	urlMissing: 'Bildquellen-URL fehlt.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

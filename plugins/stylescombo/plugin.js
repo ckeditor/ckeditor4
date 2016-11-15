@@ -32,8 +32,11 @@
 				for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
 					var styleDefinition = stylesDefinitions[ i ];
 
-					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
+					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) ||
+						( typeof styleDefinition.type == 'string' && !CKEDITOR.style.customHandlers[ styleDefinition.type ] ) ) {
+
 						continue;
+					}
 
 					styleName = styleDefinition.name;
 					style = new CKEDITOR.style( styleDefinition );

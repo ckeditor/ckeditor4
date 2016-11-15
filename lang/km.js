@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'km' ] = {
 		alignMiddle: 'កណ្តាល',
 		alignBottom: 'ខាងក្រោម',
 		alignNone: 'គ្មាន',
-		invalidValue	: 'តម្លៃ​មិន​ត្រឹម​ត្រូវ។',
+		invalidValue: 'តម្លៃ​មិន​ត្រឹម​ត្រូវ។',
 		invalidHeight: 'តម្លៃ​កំពស់​ត្រូវ​តែ​ជា​លេខ។',
 		invalidWidth: 'តម្លៃ​ទទឹង​ត្រូវ​តែ​ជា​លេខ។',
 		invalidCssLength: 'តម្លៃ​កំណត់​សម្រាប់​វាល "%1" ត្រូវ​តែ​ជា​លេខ​វិជ្ជមាន​ ដោយ​ភ្ជាប់ឬ​មិន​ភ្ជាប់​ជាមួយ​នឹង​ឯកតា​រង្វាស់​របស់ CSS (px, %, in, cm, mm, em, ex, pt ឬ pc) ។',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'km' ] = {
 		cssLengthTooltip: 'បញ្ចូល​លេខ​សម្រាប់​តម្លៃ​ជា​ភិចសែល ឬ​លេខ​ដែល​មាន​ឯកតា​ត្រឹមត្រូវ​របស់ CSS (px, %, in, cm, mm, em, ex, pt ឬ pc) ។',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, មិន​មាន</span>'
+		unavailable: '%1<span class="cke_accessibility">, មិន​មាន</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'លុបថយក្រោយ',
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'ចុង',
+			36: 'ផ្ទះ',
+			46: 'លុប',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

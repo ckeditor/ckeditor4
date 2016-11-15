@@ -2106,9 +2106,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	}
 
 	function showCover( editor ) {
-		var win = CKEDITOR.document.getWindow();
-		var config = editor.config,
-			backgroundColorStyle = config.dialog_backgroundCoverColor || 'white',
+		var win = CKEDITOR.document.getWindow(),
+			config = editor.config,
+			skinName = ( CKEDITOR.skinName || editor.config.skin ),
+			backgroundColorStyle = config.dialog_backgroundCoverColor || ( skinName == 'moono-lisa' ? 'black' : 'white' ),
 			backgroundCoverOpacity = config.dialog_backgroundCoverOpacity,
 			baseFloatZIndex = config.baseFloatZIndex,
 			coverKey = CKEDITOR.tools.genKey( backgroundColorStyle, backgroundCoverOpacity, baseFloatZIndex ),

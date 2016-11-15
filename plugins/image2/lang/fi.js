@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'fi', {
 	resizer: 'Klikkaa ja raahaa muuttaaksesi kokoa',
 	title: 'Kuvan ominaisuudet',
 	uploadTab: 'Lisää tiedosto',
-	urlMissing: 'Kuvan lähdeosoite puuttuu.'
+	urlMissing: 'Kuvan lähdeosoite puuttuu.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );
