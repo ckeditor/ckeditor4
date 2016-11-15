@@ -1062,6 +1062,9 @@
 	 *
 	 *		config.copyFormatting_outerCursor = false;
 	 *
+	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_outerCursor=true]
 	 * @member CKEDITOR.config
@@ -1078,6 +1081,10 @@
 	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allows only spans.
 	 *		config.copyFormatting_allowRules = true; // Disables filtering.
 	 *
+	 *
+	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_allowRules='b; s; u; strong; span; p; div; table; thead; tbody; ' +
 	 *	'tr; td; th; ol; ul; li; (*)[*]{*}']
@@ -1092,6 +1099,10 @@
 	 * [Content Filtering (ACF)](http://docs.ckeditor.com/#!/guide/dev_acf) documentation.
 	 *
 	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallows spans with "important" class.
+	 *
+	 *
+	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg [copyFormatting_disallowRules='*[data-cke-widget*,data-widget*,data-cke-realelement](cke_widget*)']
@@ -1114,6 +1125,9 @@
 	 *		// If set to "true", enables all contexts.
 	 *		config.copyFormatting_allowedContexts = true;
 	 *
+	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
+	 *
 	 * @since 4.6.0
 	 * @cfg {Boolean/String[]} [copyFormatting_allowedContexts=true]
 	 * @member CKEDITOR.config
@@ -1125,9 +1139,12 @@
 	 *
 	 *		config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 66; // Ctrl+Shift+B
 	 *
-	 * The keyboard shortcut could be also switched off.
+	 * The keyboard shortcut can also be switched off:
 	 *
 	 *		config.copyFormatting_keystrokeCopy = false;
+	 *
+	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokeCopy=CKEDITOR.CTRL + CKEDITOR.SHIFT + 67]
@@ -1140,9 +1157,12 @@
 	 *
 	 *		config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 77; // Ctrl+Shift+M
 	 *
-	 * The keyboard shortcut could be also switched off.
+	 * The keyboard shortcut can also be switched off:
 	 *
 	 *		config.copyFormatting_keystrokePaste = false;
+	 *
+	 * Read more in the [documentation](#!/guide/dev_copyformatting)
+	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/copyformatting.html).
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokePaste=CKEDITOR.CTRL + CKEDITOR.SHIFT + 86]
