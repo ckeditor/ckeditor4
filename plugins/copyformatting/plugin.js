@@ -1123,7 +1123,11 @@
 	/**
 	 * Defines the keyboard shortcut for copying styles.
 	 *
-	 *		config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 67; // Ctrl+Shift+C
+	 *		config.copyFormatting_keystrokeCopy = CKEDITOR.CTRL + CKEDITOR.SHIFT + 66; // Ctrl+Shift+B
+	 *
+	 * The keyboard shortcut could be also switched off.
+	 *
+	 *		config.copyFormatting_keystrokeCopy = false;
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokeCopy=CKEDITOR.CTRL + CKEDITOR.SHIFT + 67]
@@ -1134,7 +1138,11 @@
 	/**
 	 * Defines the keyboard shortcut for applying styles.
 	 *
-	 *		config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86; // Ctrl+Shift+V
+	 *		config.copyFormatting_keystrokePaste = CKEDITOR.CTRL + CKEDITOR.SHIFT + 77; // Ctrl+Shift+M
+	 *
+	 * The keyboard shortcut could be also switched off.
+	 *
+	 *		config.copyFormatting_keystrokePaste = false;
 	 *
 	 * @since 4.6.0
 	 * @cfg {Number} [copyFormatting_keystrokePaste=CKEDITOR.CTRL + CKEDITOR.SHIFT + 86]
