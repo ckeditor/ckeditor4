@@ -1701,7 +1701,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
 /**
  * Determines whether alternative text is required for the captioned image.
  *
- *		config.image2_altRequired = false;
+ *		config.image2_altRequired = true;
  *
  * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
  * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
