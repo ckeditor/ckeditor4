@@ -54,6 +54,7 @@ var CKEDITOR_LANGS = ( function() {
 		nb: 'Norwegian Bokmal',
 		nl: 'Dutch',
 		no: 'Norwegian',
+		oc: 'Occitan',
 		pl: 'Polish',
 		pt: 'Portuguese (Portugal)',
 		'pt-br': 'Portuguese (Brazil)',

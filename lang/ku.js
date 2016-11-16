@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'ku' ] = {
 		alignMiddle: 'ناوەند',
 		alignBottom: 'ژێرەوە',
 		alignNone: 'هیچ',
-		invalidValue	: 'نرخێکی نادرووست.',
+		invalidValue: 'نرخێکی نادرووست.',
 		invalidHeight: 'درێژی دەبێت ژمارە بێت.',
 		invalidWidth: 'پانی دەبێت ژمارە بێت.',
 		invalidCssLength: 'ئەم نرخەی دراوە بۆ خانەی "%1" دەبێت ژمارەکی درووست بێت یان بێ ناونیشانی ئامرازی (px, %, in, cm, mm, em, ex, pt, یان pc).',
@@ -94,6 +94,23 @@ CKEDITOR.lang[ 'ku' ] = {
 		cssLengthTooltip: 'ژمارەیەك بنووسه‌ بۆ نرخی piksel یان ئامرازێکی درووستی CSS (px, %, in, cm, mm, em, ex, pt, یان pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, ئامادە نیە</span>'
+		unavailable: '%1<span class="cke_accessibility">, ئامادە نیە</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'sl', {
 	resizer: 'Kliknite in povlecite, da spremenite velikost',
 	title: 'Lastnosti slike',
 	uploadTab: 'Naloži',
-	urlMissing: 'Manjka vir (URL) slike.'
+	urlMissing: 'Manjka vir (URL) slike.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

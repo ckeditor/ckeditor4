@@ -110,8 +110,8 @@
 
 		return {
 			title: linkLang.title,
-			minWidth: 350,
-			minHeight: 230,
+			minWidth: ( CKEDITOR.skinName || editor.config.skin ) == 'moono-lisa' ? 450 : 350,
+			minHeight: 240,
 			contents: [ {
 				id: 'info',
 				label: linkLang.info,
@@ -793,6 +793,25 @@
 							validate: CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
 							setup: setupAdvParams,
 							commit: commitAdvParams
+						} ]
+					},
+					{
+						type: 'hbox',
+						widths: [ '45%', '55%' ],
+						children: [ {
+							type: 'checkbox',
+							id: 'download',
+							requiredContent: 'a[download]',
+							label: linkLang.download,
+							setup: function( data ) {
+								if ( data.download !== undefined )
+									this.setValue( 'checked', 'checked' );
+							},
+							commit: function( data ) {
+								if ( this.getValue() ) {
+									data.download = this.getValue();
+								}
+							}
 						} ]
 					} ]
 				} ]

@@ -15,3 +15,4 @@ resizer = Tooltip for the dynamic resizer of the image.
 title = Label for the Image Properties dialog window.
 uploadTab = Label for the Upload tab of the Image Properties dialog window.
 urlMissing = Error message displayed when a user attempts to add an image without giving its URL.
+altMissing = Error message displayed when the user attempts to add an image without providing alternative text that is used to describe the image for screen readers.

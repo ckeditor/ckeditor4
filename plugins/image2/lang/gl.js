@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'gl', {
 	resizer: 'Prema e arrastre para axustar o tamaño',
 	title: 'Propiedades da imaxe',
 	uploadTab: 'Cargar',
-	urlMissing: 'Non se atopa o URL da imaxe.'
+	urlMissing: 'Non se atopa o URL da imaxe.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

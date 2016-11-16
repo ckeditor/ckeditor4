@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'sv' ] = {
 		alignMiddle: 'Mitten',
 		alignBottom: 'Nederkant',
 		alignNone: 'Ingen',
-		invalidValue	: 'Felaktigt värde.',
+		invalidValue: 'Felaktigt värde.',
 		invalidHeight: 'Höjd måste vara ett nummer.',
 		invalidWidth: 'Bredd måste vara ett nummer.',
 		invalidCssLength: 'Värdet för fältet "%1" måste vara ett positivt nummer med eller utan CSS-mätenheter (px, %, in, cm, mm, em, ex, pt, eller pc).',
@@ -94,6 +94,23 @@ CKEDITOR.lang[ 'sv' ] = {
 		cssLengthTooltip: 'Ange ett nummer i pixlar eller ett nummer men godkänd CSS-mätenhet (px, %, in, cm, mm, em, ex, pt, eller pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, Ej tillgänglig</span>'
+		unavailable: '%1<span class="cke_accessibility">, Ej tillgänglig</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backsteg',
+			13: 'Retur',
+			16: 'Skift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Mellanslag',
+			35: 'Slut',
+			36: 'Hem',
+			46: 'Radera',
+			224: 'Kommando'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		alignMiddle: 'Erdian',
 		alignBottom: 'Behean',
 		alignNone: 'Bat ere ez',
-		invalidValue	: 'Balio desegokia.',
+		invalidValue: 'Balio desegokia.',
 		invalidHeight: 'Altuera zenbaki bat izan behar da.',
 		invalidWidth: 'Zabalera zenbaki bat izan behar da.',
 		invalidCssLength: '"%1" eremurako zehaztutako balioak zenbaki positibo bat izan behar du, CSS neurri unitate batekin edo gabe (px, %, in, cm, mm, em, ex, pt edo pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'eu' ] = {
 		cssLengthTooltip: 'Sartu zenbaki bat edo zenbaki bat baliozko CSS unitate batekin (px, %, in, cm, mm, em, ex, pt, edo pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, erabilezina</span>'
+		unavailable: '%1<span class="cke_accessibility">, erabilezina</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Sartu',
+			16: 'Maius',
+			17: 'Ktrl',
+			18: 'Alt',
+			32: 'Space', // MISSING
+			35: 'Buka',
+			36: 'Etxea',
+			46: 'Ezabatu',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

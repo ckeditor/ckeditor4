@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'gu', {
 	anchorName: 'ઍંકર નામથી પસંદ કરો',
 	charset: 'લિંક રિસૉર્સ કૅરિક્ટર સેટ',
 	cssClasses: 'સ્ટાઇલ-શીટ ક્લાસ',
+	download: 'Force Download', // MISSING
 	displayText: 'Display Text', // MISSING
 	emailAddress: 'ઈ-મેલ સરનામું',
 	emailBody: 'સંદેશ',

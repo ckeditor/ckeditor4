@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'he', {
 	resizer: 'לחץ וגרור לשינוי הגודל',
 	title: 'מאפייני התמונה',
 	uploadTab: 'העלאה',
-	urlMissing: 'כתובת התמונה חסרה.'
+	urlMissing: 'כתובת התמונה חסרה.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

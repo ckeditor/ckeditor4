@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'pl', {
 	resizer: 'Kliknij i przeciągnij, by zmienić rozmiar.',
 	title: 'Właściwości obrazka',
 	uploadTab: 'Wyślij',
-	urlMissing: 'Podaj adres URL obrazka.'
+	urlMissing: 'Podaj adres URL obrazka.',
+	altMissing: 'Podaj tekst zastępczy obrazka.'
 } );

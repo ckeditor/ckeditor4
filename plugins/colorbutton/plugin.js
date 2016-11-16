@@ -20,13 +20,33 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			lang = editor.lang.colorbutton;
 
 		if ( !CKEDITOR.env.hc ) {
-			addButton( 'TextColor', 'fore', lang.textColorTitle, 10 );
+			addButton( 'TextColor', 'fore', lang.textColorTitle, 10, {
+				contentTransformations: [
+					[
+						{
+							element: 'font',
+							check: 'span{color}',
+							left: function( element ) {
+								return !!element.attributes.color;
+							},
+							right: function( element ) {
+								element.name = 'span';
+
+								element.attributes.color && ( element.styles.color = element.attributes.color );
+								delete element.attributes.color;
+							}
+						}
+					]
+				]
+			} );
 			addButton( 'BGColor', 'back', lang.bgColorTitle, 20 );
 		}
 
-		function addButton( name, type, title, order ) {
+		function addButton( name, type, title, order, options ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
+
+			options = options || {};
 
 			editor.ui.add( name, CKEDITOR.UI_PANELBUTTON, {
 				label: title,
@@ -36,6 +56,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				toolbar: 'colors,' + order,
 				allowedContent: style,
 				requiredContent: style,
+				contentTransformations: options.contentTransformations,
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),

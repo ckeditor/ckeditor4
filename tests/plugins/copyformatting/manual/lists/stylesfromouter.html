@@ -1,0 +1,57 @@
+<div id="editor1" contenteditable="true">
+	<ol dir="ltr" start="5" style="list-style-type:upper-alpha">
+		<li>Start-value-5-upper-alpha
+			<ol start="3" style="list-style-type:upper-roman">
+				<li>start-value-3-upper-roman
+					<ol start="7" style="list-style-type:lower-alpha">
+						<li>start-value-7-lower-alpha
+							<ol start="6" style="list-style-type:lower-roman">
+								<li>start-value-6-lower-roman</li>
+							</ol>
+						</li>
+					</ol>
+				</li>
+			</ol>
+		</li>
+		<li>top level</li>
+	</ol>
+
+
+	<ol>
+		<li>Simple list</li>
+	</ol>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<ol dir="ltr" start="5" style="list-style-type:upper-alpha">
+		<li>Start-value-5-upper-alpha
+			<ol start="3" style="list-style-type:upper-roman">
+				<li>start-value-3-upper-roman
+					<ol start="7" style="list-style-type:lower-alpha">
+						<li>start-value-7-lower-alpha
+							<ol start="6" style="list-style-type:lower-roman">
+								<li>start-value-6-lower-roman</li>
+							</ol>
+						</li>
+					</ol>
+				</li>
+			</ol>
+		</li>
+		<li>top level</li>
+	</ol>
+
+	<ol>
+		<li>Simple list</li>
+	</ol>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>

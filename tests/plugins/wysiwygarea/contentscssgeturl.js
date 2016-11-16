@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit */
+/* bender-ckeditor-remove-plugins: copyformatting */
 /* exported CKEDITOR_GETURL */
 
 // Load contents.css from assets directory and all other files a default way.

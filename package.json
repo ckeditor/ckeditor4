@@ -1,6 +1,6 @@
 {
 	"name": "ckeditor-dev",
-	"version": "4.5.11",
+	"version": "4.6.0",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"benderjs-coverage": "^0.2.1",
@@ -8,6 +8,7 @@
 		"benderjs-jquery": "^0.3.0",
 		"benderjs-sinon": "^0.3.1",
 		"benderjs-yui": "^0.3.2",
+    	"benderjs-yui-beautified": "0.0.5",
 		"grunt": "^0",
 		"grunt-contrib-imagemin": "^1.0.0",
 		"grunt-jscs": "^2.0.0",

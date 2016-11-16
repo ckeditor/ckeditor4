@@ -55,6 +55,8 @@
 			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function( url ) {
 				loadAndUploadCount++;
 				lastUploadUrl = url;
+
+				this.responseData = {};
 			};
 
 			CKEDITOR.fileTools.fileLoader.prototype.load = function() {};
@@ -62,6 +64,8 @@
 			CKEDITOR.fileTools.fileLoader.prototype.upload = function( url ) {
 				uploadCount++;
 				lastUploadUrl = url;
+
+				this.responseData = {};
 			};
 		},
 
@@ -204,6 +208,34 @@
 					assert.areSame( 1, uploadCount );
 					assert.areSame( 'http://foo/upload', lastUploadUrl );
 				}, 10 );
+			} );
+		},
+
+		'test setting image dimensions via response (integration test) (#13794)': function() {
+			var bot = this.editorBots.classic,
+				editor = this.editors.classic;
+
+			bot.setData( '', function() {
+				pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+				var loader = editor.uploadRepository.loaders[ 0 ];
+
+				loader.data = bender.tools.pngBase64;
+				loader.uploadTotal = 10;
+				loader.changeStatus( 'uploading' );
+
+				loader.responseData.width = 555;
+				loader.responseData.height = 444;
+
+				resumeAfter( loader, 'uploaded', function() {
+					assert.sameData( '<p><img src="' + IMG_URL + '" style="height:444px; width:555px" /></p>', editor.getData() );
+					assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
+				} );
+
+				loader.url = IMG_URL;
+				loader.changeStatus( 'uploaded' );
+
+				wait();
 			} );
 		},
 

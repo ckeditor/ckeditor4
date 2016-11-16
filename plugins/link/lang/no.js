@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -19,7 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'no', {
 	anchorName: 'Anker etter navn',
 	charset: 'Lenket tegnsett',
 	cssClasses: 'Stilarkklasser',
-	displayText: 'Display Text', // MISSING
+	download: 'Force Download', // MISSING
+	displayText: 'Tekst som skal vises',
 	emailAddress: 'E-postadresse',
 	emailBody: 'Melding',
 	emailSubject: 'Meldingsemne',

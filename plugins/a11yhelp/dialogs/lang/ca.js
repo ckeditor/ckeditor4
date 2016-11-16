@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
 			{
 			name: 'Editor de quadre de diàleg',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Dins d\'un quadre de diàleg, premi la tecla TAB per desplaçar-se fins al següent element del quadre de diàleg, premi la tecla Shift + TAB per desplaçar-se a l\'anterior element del quadre de diàleg, premi la tecla ENTER per confirmar el quadre de diàleg, premi la tecla ESC per cancel·lar el quadre de diàleg. Quan un quadre de diàleg té diverses pestanyes, la llista de pestanyes pot ser assolit ja sigui amb ALT + F10 o TAB, com a part de l\'ordre de tabulació del quadre de diàleg. Amb la llista de pestanyes seleccionada, pot anar a la fitxa següent i anterior amb la tecla FLETXA DRETA i ESQUERRA, respectivament.' 
 		},
 
 			{
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
 		]
 	}
 	],
-	backspace: 'Retrocés',
 	tab: 'Tabulació',
-	enter: 'Intro',
-	shift: 'Majúscules',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pausa',
 	capslock: 'Bloqueig de majúscules',
 	escape: 'Escape',
 	pageUp: 'Pàgina Amunt',
 	pageDown: 'Pàgina Avall',
-	end: 'Fi',
-	home: 'Inici',
 	leftArrow: 'Fletxa Esquerra',
 	upArrow: 'Fletxa Amunt',
 	rightArrow: 'Fletxa Dreta',
 	downArrow: 'Fletxa Avall',
 	insert: 'Inserir',
-	'delete': 'Eliminar',
 	leftWindowKey: 'Tecla Windows Esquerra',
 	rightWindowKey: 'Tecla Windows Dreta',
 	selectKey: 'Tecla Seleccionar',

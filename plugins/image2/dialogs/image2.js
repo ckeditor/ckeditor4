@@ -41,6 +41,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		// Editor instance configuration.
 		config = editor.config,
 
+		hasFileBrowser = !!( config.filebrowserImageBrowseUrl || config.filebrowserBrowseUrl ),
+
 		// Content restrictions defined by the widget which
 		// impact on dialog structure and presence of fields.
 		features = editor.widgets.registered.image.features,
@@ -341,8 +343,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 		heightField[ method ]();
 	}
 
-	var hasFileBrowser = !!( config.filebrowserImageBrowseUrl || config.filebrowserBrowseUrl ),
-		srcBoxChildren = [
+	var srcBoxChildren = [
 			{
 				id: 'src',
 				type: 'text',
@@ -417,6 +418,7 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 							{
 								type: 'hbox',
 								widths: [ '100%' ],
+								className: 'cke_dialog_image_url',
 								children: srcBoxChildren
 							}
 						]
@@ -430,7 +432,8 @@ CKEDITOR.dialog.add( 'image2', function( editor ) {
 						},
 						commit: function( widget ) {
 							widget.setData( 'alt', this.getValue() );
-						}
+						},
+						validate: editor.config.image2_altRequired === true ? CKEDITOR.dialog.validate.notEmpty( lang.altMissing ) : null
 					},
 					{
 						type: 'hbox',

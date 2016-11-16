@@ -190,13 +190,15 @@
 					output.push( '<span class="cke_toolbox_main"' + ( expanded ? '>' : ' style="display:none">' ) );
 
 				var toolbars = editor.toolbox.toolbars,
-					toolbar = getToolbarConfig( editor );
+					toolbar = getToolbarConfig( editor ),
+					toolbarLength = toolbar.length;
 
-				for ( var r = 0; r < toolbar.length; r++ ) {
+				for ( var r = 0; r < toolbarLength; r++ ) {
 					var toolbarId,
 						toolbarObj = 0,
 						toolbarName,
 						row = toolbar[ r ],
+						lastToolbarInRow = row !== '/' && ( toolbar[ r + 1 ] === '/' || r == toolbarLength - 1 ),
 						items;
 
 					// It's better to check if the row object is really
@@ -244,7 +246,8 @@
 								toolbarName = row.name && ( editor.lang.toolbar.toolbarGroups[ row.name ] || row.name );
 
 								// Output the toolbar opener.
-								output.push( '<span id="', toolbarId, '" class="cke_toolbar"', ( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
+								output.push( '<span id="', toolbarId, '" class="cke_toolbar' + ( lastToolbarInRow ? ' cke_toolbar_last"' : '"' ),
+									( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
 
 								// If a toolbar name is available, send the voice label.
 								toolbarName && output.push( '<span id="', toolbarId, '_label" class="cke_voice_label">', toolbarName, '</span>' );

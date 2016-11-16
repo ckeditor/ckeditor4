@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -19,7 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'tr', {
 	anchorName: 'Bağlantı Adı ile',
 	charset: 'Bağlı Kaynak Karakter Gurubu',
 	cssClasses: 'Biçem Sayfası Sınıfları',
-	displayText: 'Display Text', // MISSING
+	download: 'İndirmeye Zorla',
+	displayText: 'Gösterim Metni',
 	emailAddress: 'E-Posta Adresi',
 	emailBody: 'İleti Gövdesi',
 	emailSubject: 'İleti Konusu',

@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'sq' ] = {
 		alignMiddle: 'Në mes',
 		alignBottom: 'Poshtë',
 		alignNone: 'Asnjë',
-		invalidValue	: 'Vlerë e pavlefshme',
+		invalidValue: 'Vlerë e pavlefshme',
 		invalidHeight: 'Lartësia duhet të jetë një numër',
 		invalidWidth: 'Gjerësia duhet të jetë një numër',
 		invalidCssLength: 'Vlera e fushës "%1" duhet të jetë një numër pozitiv me apo pa njësi matëse të vlefshme CSS (px, %, in, cm, mm, em, ex, pt ose pc).',
@@ -94,6 +94,23 @@ CKEDITOR.lang[ 'sq' ] = {
 		cssLengthTooltip: 'Fut një numër për vlerën në pixel apo një numër me një njësi të vlefshme CSS (px, %, in, cm, mm, ex, pt, ose pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, i padisponueshëm</span>'
+		unavailable: '%1<span class="cke_accessibility">, i padisponueshëm</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Prapa',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space', // MISSING
+			35: 'End',
+			36: 'Home',
+			46: 'Grise',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

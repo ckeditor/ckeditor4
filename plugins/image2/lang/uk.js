@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'uk', {
 	resizer: 'Клікніть та потягніть для зміни розмірів',
 	title: 'Властивості зображення',
 	uploadTab: 'Надіслати',
-	urlMissing: 'Вкажіть URL зображення.'
+	urlMissing: 'Вкажіть URL зображення.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

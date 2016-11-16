@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'it' ] = {
 		alignMiddle: 'Centrato',
 		alignBottom: 'In Basso',
 		alignNone: 'Nessuno',
-		invalidValue	: 'Valore non valido.',
+		invalidValue: 'Valore non valido.',
 		invalidHeight: 'L\'altezza dev\'essere un numero',
 		invalidWidth: 'La Larghezza dev\'essere un numero',
 		invalidCssLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le classi CSS (px, %, in, cm, mm, em, ex, pt, o pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'it' ] = {
 		cssLengthTooltip: 'Inserisci un numero per il valore in pixel oppure un numero con una valida unità CSS (px, %, in, cm, mm, ex, pt, o pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, non disponibile</span>'
+		unavailable: '%1<span class="cke_accessibility">, non disponibile</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Invio',
+			16: 'Maiusc',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Spazio',
+			35: 'Fine',
+			36: 'Inizio',
+			46: 'Canc',
+			224: 'Comando'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Scorciatoia da tastiera'
 	}
 };

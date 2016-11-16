@@ -2,8 +2,8 @@
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 editor = ARIA description for the editor.
-editorPanel = 
-common.editorHelp = 
+editorPanel = ARIA description for the editor panel.
+common.editorHelp = Screenreader message explaining how to open the Accessibility Help dialog.
 common.browseServer = Button label for the file browser.
 common.url = Label for the URL field of a dialog window.
 common.protocol = Label for the Protocol field of the Link dialog window.
@@ -70,3 +70,14 @@ common.invalidHtmlLength = Error message displayed to the user when the specifie
 common.invalidInlineStyle = Error message displayed to the user when the specified style value is not a valid CSS declaration.
 common.cssLengthTooltip = Tooltip displayed for the Width and Height fields in the Table Properties dialog window explaining the correct format of these length values.
 common.unavailable = 
+common.keyboard.8 = Label for the "Backspace" key.
+common.keyboard.13 = Label for the "Enter" key.
+common.keyboard.16 = Label for the "Shift" key.
+common.keyboard.17 = Label for the "Ctrl" key.
+common.keyboard.18 = Label for the "Alt" key.
+common.keyboard.32 = Label for the "Space" key.
+common.keyboard.35 = Label for the "End" key.
+common.keyboard.36 = Label for the "Home" key.
+common.keyboard.46 = Label for the "Delete" key.
+common.keyboard.224 = Label for the "Command" key.
+common.keyboardShortcut = ARIA message for keyboard shortcuts.

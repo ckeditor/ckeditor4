@@ -26,6 +26,12 @@ bender.test( appendDomObjectTests(
 		return new CKEDITOR.dom.element( document.getElementById( id ) );
 	},
 	{
+		_should: {
+			ignore: {
+				test_isIdentical2: CKEDITOR.env.webkit && !CKEDITOR.env.chrome
+			}
+		},
+
 		test_$: function() {
 			var element = newElement( document.getElementById( 'test1' ) );
 			assert.areSame( document.getElementById( 'test1' ), element.$ );

@@ -1,11 +1,78 @@
-CKEditor 4 Changelog
+﻿CKEditor 4 Changelog
 ====================
+
+## CKEditor 4.6
+
+New Features:
+
+* [#14569](http://dev.ckeditor.com/ticket/14569): Added a new, flat, default CKEditor skin called [Moono-Lisa](http://ckeditor.com/addon/moono-lisa). Refreshed default colors available in the [Color Button](http://ckeditor.com/addon/colorbutton) plugin ([Text Color and Background Color](http://docs.ckeditor.com/#!/guide/dev_colorbutton) feature).
+* [#14707](http://dev.ckeditor.com/ticket/14707): Added a new [Copy Formatting](http://ckeditor.com/addon/copyformatting) feature to enable easy copying of styles between your document parts.
+* Introduced the completely rewritten [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin:
+	* Backward incompatibility: The [`config.pasteFromWordRemoveFontStyles`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveFontStyles) option now defaults to `false`. This option will be deprecated in the future. Use [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_acf) to replicate the effect of setting it to `true`.
+	* Backward incompatibility: The [`config.pasteFromWordNumberedHeadingToList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordNumberedHeadingToList) and [`config.pasteFromWordRemoveStyles`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveStyles) options were dropped and no longer have any effect on pasted content.
+	* Major improvements in preservation of list numbering, styling and indentation (nested lists with multiple levels).
+	* Major improvements in document structure parsing that fix plenty of issues with distorted or missing content after paste.
+* Added new translation: Occitan. Thanks to Cédric Valmary!
+* [#10015](http://dev.ckeditor.com/ticket/10015): Keyboard shortcuts (relevant to the operating system in use) will now be displayed in tooltips and context menus.
+* [#13794](http://dev.ckeditor.com/ticket/13794): The [Upload Image](http://ckeditor.com/addon/uploadimage) feature now uses `uploaded.width/height` if set.
+* [#12541](http://dev.ckeditor.com/ticket/12541): Added the [Upload File](http://ckeditor.com/addon/uploadfile) plugin that lets you upload a file by drag&amp;dropping it into the editor content.
+* [#14449](http://dev.ckeditor.com/ticket/14449): Introduced the [Balloon Panel](http://ckeditor.com/addon/balloonpanel) plugin that lets you create stylish floating UI elements for the editor.
+* [#12077](https://dev.ckeditor.com/ticket/12077): Added support for the HTML5 `download` attribute in link (`<a>`) elements. Selecting the "Force Download" checkbox in the [Link](http://ckeditor.com/addon/link) dialog will cause the linked file to be downloaded automatically. Thanks to [sbusse](https://github.com/sbusse)!
+* [#13518](http://dev.ckeditor.com/ticket/13518): Introduced the [`additionalRequestParameters`](http://docs.ckeditor.com/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-additionalRequestParameters) property for file uploads to make it possible to send additional information about the uploaded file to the server.
+* [#14889](http://dev.ckeditor.com/ticket/14889): Added the [`config.image2_altRequired`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-image2_altRequired) option for the [Enhanced Image](http://ckeditor.com/addon/image2) plugin to allow making alternative text a mandatory field. Thanks to [Andrey Fedoseev](https://github.com/andreyfedoseev)!
+
+Fixed Issues:
+
+* [#9991](http://dev.ckeditor.com/ticket/9991): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) should only normalize input data.
+* [#7209](http://dev.ckeditor.com/ticket/7209): Fixed: Lists with 3 levels not [pasted from Word](http://ckeditor.com/addon/pastefromword) correctly.
+* [#14335](http://dev.ckeditor.com/ticket/14335): Fixed: Pasting a numbered list starting with a value different from "1" from Microsoft Word does not work correctly.
+* [#14542](http://dev.ckeditor.com/ticket/14542): Fixed: Copying a numbered list from Microsoft Word does not preserve list formatting.
+* [#14544](http://dev.ckeditor.com/ticket/14544): Fixed: Copying a nested list from Microsoft Word results in an empty list.
+* [#14660](http://dev.ckeditor.com/ticket/14660): Fixed: [Pasting text from  Word](http://ckeditor.com/addon/pastefromword) breaks the styling in some cases.
+* [#14867](http://dev.ckeditor.com/ticket/14867): [Firefox] Fixed: Text gets stripped when [pasting content from Word](http://ckeditor.com/addon/pastefromword).
+* [#2507](http://dev.ckeditor.com/ticket/2507): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) does not detect pasting a part of a paragraph.
+* [#3336](http://dev.ckeditor.com/ticket/3336): Fixed: Extra blank row added on top of the content [pasted from Word](http://ckeditor.com/addon/pastefromword).
+* [#6115](http://dev.ckeditor.com/ticket/6115): Fixed: When Right-to-Left text direction is applied to a table [pasted from Word](http://ckeditor.com/addon/pastefromword), borders are missing on one side.
+* [#6342](http://dev.ckeditor.com/ticket/6342): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) filters out a basic text style when it is [configured to use attributes](http://docs.ckeditor.com/#!/guide/dev_basicstyles-section-custom-basic-text-style-definition).
+* [#6457](http://dev.ckeditor.com/ticket/6457): [IE] Fixed: [Pasting from Word](http://ckeditor.com/addon/pastefromword) is extremely slow.
+* [#6789](http://dev.ckeditor.com/ticket/6789): Fixed: The `mso-list: ignore` style is not handled properly when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#7262](http://dev.ckeditor.com/ticket/7262): Fixed: Lists in preformatted body disappear when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#7662](http://dev.ckeditor.com/ticket/7662): [Opera] Fixed: Extra empty number/bullet shown in the editor body when editing a multi-level list [pasted from Word](http://ckeditor.com/addon/pastefromword).
+* [#7807](http://dev.ckeditor.com/ticket/7807): Fixed: Last item in a list not converted to a `<li>` element after [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#7950](http://dev.ckeditor.com/ticket/7950): [IE] Fixed: Content [from Word pasted](http://ckeditor.com/addon/pastefromword) differently than in other browsers.
+* [#7982](http://dev.ckeditor.com/ticket/7982): Fixed: Multi-level lists get split into smaller ones when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#8231](http://dev.ckeditor.com/ticket/8231): [WebKit, Opera] Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) inserts empty paragraphs.
+* [#8266](http://dev.ckeditor.com/ticket/8266): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) inserts a blank line at the top.
+* [#8341](http://dev.ckeditor.com/ticket/8341), [#7646](http://dev.ckeditor.com/ticket/7646): Fixed: Faulty removal of empty `<span>` elements in [Paste from Word](http://ckeditor.com/addon/pastefromword) content cleanup breaking content formatting.
+* [#8754](http://dev.ckeditor.com/ticket/8754): [Firefox] Fixed: Incorrect pasting of multiple nested lists in [Paste from Word](http://ckeditor.com/addon/pastefromword).
+* [#8983](http://dev.ckeditor.com/ticket/8983): Fixed: Alignment lost when [pasting from Word](http://ckeditor.com/addon/pastefromword) with [`config.enterMode`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) set to [`CKEDITOR.ENTER_BR`](http://docs.ckeditor.com/#!/api/CKEDITOR-property-ENTER_BR).
+* [#9331](http://dev.ckeditor.com/ticket/9331): [IE] Fixed: [Pasting text from Word](http://ckeditor.com/addon/pastefromword) creates a simple Caesar cipher.
+* [#9422](http://dev.ckeditor.com/ticket/9422): Fixed: [Paste from Word](http://ckeditor.com/addon/pastefromword) leaves an unwanted `color:windowtext` style.
+* [#10011](http://dev.ckeditor.com/ticket/10011): [IE9-10] Fixed: [`config.pasteFromWordRemoveFontStyles`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveFontStyles) is ignored under certain conditions.
+* [#10643](http://dev.ckeditor.com/ticket/10643): Fixed: Differences between using <kbd>Ctrl+V</kbd> and pasting from the [Paste from Word](http://ckeditor.com/addon/pastefromword) dialog.
+* [#10784](http://dev.ckeditor.com/ticket/10784): Fixed: Lines missing when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#11294](http://dev.ckeditor.com/ticket/11294): [IE10] Fixed: Font size is not preserved when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#11627](http://dev.ckeditor.com/ticket/11627): Fixed: Missing words when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#12784](http://dev.ckeditor.com/ticket/12784): Fixed: Bulleted list with custom bullets gets changed to a numbered list when [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#13174](http://dev.ckeditor.com/ticket/13174): Fixed: Data loss after [pasting from Word](http://ckeditor.com/addon/pastefromword).
+* [#13828](http://dev.ckeditor.com/ticket/13828): Fixed: Widget classes should be added to the wrapper rather than the widget element.
+* [#13829](http://dev.ckeditor.com/ticket/13829): Fixed: No class in [Widget](http://ckeditor.com/addon/widget) wrapper to identify the widget type.
+* [#13519](http://dev.ckeditor.com/ticket/13519): Server response received when uploading files should be more flexible.
+
+Other Changes:
+
+* Updated [SCAYT](http://ckeditor.com/addon/scayt) (Spell Check As You Type) and [WebSpellChecker](http://ckeditor.com/addon/wsc) plugins:
+ 	* Support for the new default Moono-Lisa skin.
+ 	* [#121](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/121): Fixed: [Basic Styles](http://ckeditor.com/addon/basicstyles) do not work when SCAYT is enabled.
+ 	* [#125](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/125): Fixed: Inline styles are not continued when writing multiple lines of styled text with SCAYT enabled.
+ 	* [#127](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/127): Fixed: Uncaught TypeError after enabling SCAYT in the CKEditor `<div>` element.
+ 	* [#128](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/128): Fixed: Error thrown after enabling SCAYT caused by conflicts with RequireJS.
 
 ## CKEditor 4.5.11
 
 **Security Updates:**
 
-* [Severity: minor] Fixed the target="_blank" vulnerability reported by James Gaskell.
+* [Severity: minor] Fixed the `target="_blank"` vulnerability reported by James Gaskell.
 
 	Issue summary: If a victim had access to a spoofed version of ckeditor.com via HTTP (e.g. due to DNS spoofing, using a hacked public network or mailicious hotspot), then when using a link to the ckeditor.com website it was possible for the attacker to change the current URL of the opening page, even if the opening page was protected with SSL.
 
@@ -52,7 +119,6 @@ Fixed Issues:
 * [#11697](http://dev.ckeditor.com/ticket/11697): Fixed: Content is replaced ignoring the letter case setting in the [Find and Replace](http://ckeditor.com/addon/find) dialog window.
 * [#13886](http://dev.ckeditor.com/ticket/13886): Fixed: Invalid handling of the [`CKEDITOR.style`](http://docs.ckeditor.com/#!/api/CKEDITOR.style) instance with the `styles` property by [`CKEDITOR.filter`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter).
 * [#14535](http://dev.ckeditor.com/ticket/14535): Fixed: CSS syntax corrections. Thanks to [mdjdenormandie](https://github.com/mdjdenormandie)!
-* [#14312](http://dev.ckeditor.com/ticket/14312): [IE] Fixed: Artifact is visible after pasting any text.
 
 ## CKEditor 4.5.8
 

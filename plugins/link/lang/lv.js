@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -19,6 +19,7 @@ CKEDITOR.plugins.setLang( 'link', 'lv', {
 	anchorName: 'Pēc iezīmes nosaukuma',
 	charset: 'Pievienotā resursa kodējums',
 	cssClasses: 'Stilu saraksta klases',
+	download: 'Force Download', // MISSING
 	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-pasta adrese',
 	emailBody: 'Ziņas saturs',

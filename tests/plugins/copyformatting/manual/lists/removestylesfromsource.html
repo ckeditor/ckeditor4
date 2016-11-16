@@ -1,0 +1,100 @@
+<div id="editor1" contenteditable="true">
+	<p dir="ltr">Numbered list with styling applied to text before making a list</p>
+
+	<ol dir="ltr">
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">apple</span></span></span>
+
+		<ol>
+			<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">boy</span></span></span>
+
+			<ol>
+				<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">cat</span></span></span>
+
+				<ol>
+					<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">dog</span></span></span></li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">elephant</span></span></span></li>
+	</ol>
+
+	<p dir="ltr">&nbsp;</p>
+
+	<p dir="ltr">Numbered list with list style applied via dialog(diff start value, list style, font size etc)</p>
+
+	<ol dir="ltr" start="5" style="list-style-type: upper-alpha; font-size: 22px;">
+		<li>orange
+		<ol start="3" style="font-size: 28px; list-style-type: upper-roman;">
+			<li>banana
+			<ol start="7" style="font-size: 36px; list-style-type: lower-alpha;">
+				<li>carrot
+				<ol start="6" style="font-size: 36px; list-style-type: lower-roman;">
+					<li>papaya</li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+		<li>pineapple</li>
+	</ol>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p dir="ltr">Numbered list with styling applied to text before making a list</p>
+
+	<ol dir="ltr">
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">apple</span></span></span>
+
+		<ol>
+			<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">boy</span></span></span>
+
+			<ol>
+				<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">cat</span></span></span>
+
+				<ol>
+					<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">dog</span></span></span></li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+		<li><span style="font-family:Trebuchet MS, Helvetica, sans-serif"><span style="font-size:26px;"><span style="color:#FF8C00;">elephant</span></span></span></li>
+	</ol>
+
+	<p dir="ltr">&nbsp;</p>
+
+	<p dir="ltr">Numbered list with list style applied via dialog(diff start value, list style, font size etc)</p>
+
+	<ol dir="ltr" start="5" style="list-style-type: upper-alpha; font-size: 22px;">
+		<li>orange
+		<ol start="3" style="font-size: 28px; list-style-type: upper-roman;">
+			<li>banana
+			<ol start="7" style="font-size: 36px; list-style-type: lower-alpha;">
+				<li>carrot
+				<ol start="6" style="font-size: 36px; list-style-type: lower-roman;">
+					<li>papaya</li>
+				</ol>
+				</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+		<li>pineapple</li>
+	</ol>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>

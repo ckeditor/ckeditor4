@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'tt' ] = {
 		alignMiddle: 'Уртага',
 		alignBottom: 'Аска',
 		alignNone: 'Һичбер',
-		invalidValue	: 'Дөрес булмаган кыйммәт.',
+		invalidValue: 'Дөрес булмаган кыйммәт.',
 		invalidHeight: 'Биеклек сан булырга тиеш.',
 		invalidWidth: 'Киңлек сан булырга тиеш.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'tt' ] = {
 		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>', // MISSING
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Кайтару',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space', // MISSING
+			35: 'End',
+			36: 'Home',
+			46: 'Бетерү',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

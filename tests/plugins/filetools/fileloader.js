@@ -4,7 +4,10 @@
 'use strict';
 
 ( function() {
-	var FileReaderBackup = window.FileReader,
+	var File = window.File,
+		Blob = window.Blob,
+		FormData = window.FormData,
+		FileReaderBackup = window.FileReader,
 		XMLHttpRequestBackup = window.XMLHttpRequest,
 		FileLoader, resumeAfter,
 		pngBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
@@ -18,6 +21,42 @@
 				fileTools_defaultFileName: 'default-file-name'
 			}
 		};
+
+	function createFileMock() {
+		window.File = File = function( data, name ) {
+			var file = new Blob( data , {} );
+			file.name = name;
+
+			return file;
+		};
+	}
+
+	function createFormDataMock() {
+		window.FormData = function() {
+			var entries = {},
+				mock = {
+					get: function( name ) {
+						return entries[ name ] || null;
+					},
+					append: function( name, value, fileName ) {
+						if ( value instanceof File && ( value.name === fileName || !fileName ) )
+							entries[ name ] = value;
+						else if ( value instanceof Blob ) {
+							fileName = fileName || value.name || 'blob';
+
+							entries [ name ] = new File( [ value ], fileName );
+						}
+						else
+							entries[ name ] = value + '';
+					},
+					has: function( name ) {
+						return Object.prototype.hasOwnProperty.call( entries, name );
+					}
+				};
+
+			return mock;
+		};
+	}
 
 	function createFileReaderMock( scenario ) {
 		var isAborted = false;
@@ -197,6 +236,15 @@
 				assert.ignore();
 			}
 
+			// IE doesn't support File constructor, so there is a need to mimic it.
+			if ( typeof MSBlobBuilder === 'function' )
+				createFileMock();
+
+			// FormData in IE & Chrome 47- supports only adding data, not getting it, so mocking (polyfilling?) is required.
+			// Note that mocking is needed only for tests, as CKEditor.fileTools uses only append method
+			if ( !FormData.prototype.get || !FormData.prototype.has )
+				createFormDataMock();
+
 			FileLoader = CKEDITOR.fileTools.fileLoader;
 			resumeAfter = bender.tools.resumeAfter;
 			testFile = bender.tools.getTestPngFile();
@@ -344,6 +392,61 @@
 			loader.upload( 'http:\/\/url\/' );
 
 			assert.areSame( 'http:\/\/url\/', loader.uploadUrl );
+
+			wait();
+		},
+
+		'test upload with custom field name (#13518)': function() {
+			var loader = new FileLoader( editorMock, pngBase64, 'name.png' );
+
+			attachListener( editorMock, 'fileUploadRequest', function( evt ) {
+				var requestData = evt.data.requestData;
+
+				requestData.myFile = requestData.upload;
+
+				delete requestData.upload;
+			} );
+
+			createXMLHttpRequestMock( [ 'load' ] );
+
+			resumeAfter( loader, 'uploaded', function() {
+				assert.isTrue( lastFormData.has( 'myFile' ) );
+				assert.isFalse( lastFormData.has( 'upload' ) );
+
+				// FormData converts all Blob objects into File ones, so we must "revert" it
+				objectAssert.areEqual( new Blob( [ lastFormData.get( 'myFile' ) ], {} ), loader.file );
+			}, 3 );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test upload with additional request parameters provided (#13518)': function() {
+			var loader = new FileLoader( editorMock, pngBase64, 'name.png' );
+
+			createXMLHttpRequestMock( [ 'load' ] );
+
+			resumeAfter( loader, 'uploaded', function() {
+				assert.areSame( 'test', lastFormData.get( 'test' ) );
+			}, 3 );
+
+			loader.upload( 'http:\/\/url\/', { test: 'test' } );
+
+			wait();
+		},
+
+		'test if name of file is correctly attached (#13518)': function() {
+			var name = 'customName.png',
+				loader = new FileLoader( editorMock, pngBase64, name );
+
+			createXMLHttpRequestMock( [ 'load' ] );
+
+			resumeAfter( loader, 'uploaded', function() {
+				assert.areSame( name, lastFormData.get( 'upload' ).name );
+			}, 3 );
+
+			loader.upload( 'http:\/\/url\/' );
 
 			wait();
 		},
@@ -861,6 +964,54 @@
 			} );
 
 			loader.update();
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test additional data passed to xhr via fileUploadRequest listener (#13518)': function() {
+			var loader = new FileLoader( editorMock, testFile ),
+				file = new File( [], 'a' );
+
+			attachListener( editorMock, 'fileUploadRequest', function( evt ) {
+				var requestData = evt.data.requestData;
+
+				requestData.customField = 'test';
+				requestData.customFile = file;
+			} );
+
+			createXMLHttpRequestMock( [ 'load' ] );
+
+			resumeAfter( loader, 'uploaded', function() {
+				assert.areSame( 'test', lastFormData.get( 'customField' ) );
+				objectAssert.areEqual( file, lastFormData.get( 'customFile' ) );
+			} );
+
+			loader.upload( 'http:\/\/url\/' );
+
+			wait();
+		},
+
+		'test additional data in fileUploadResponse (#13519)': function() {
+			var data,
+				loader = new FileLoader( editorMock, testFile );
+
+			createXMLHttpRequestMock( [ 'progress', 'load' ],
+				{ responseText: '{' +
+					'"fileName":"name2.png",' +
+					'"uploaded":1,' +
+					'"url":"http:\/\/url\/name2.png",' +
+					'"foo":"bar"' +
+				'}' } );
+
+			attachListener( editorMock, 'fileUploadResponse', function( evt ) {
+				data = evt.data;
+			} );
+
+			resumeAfter( editorMock, 'fileUploadResponse', function() {
+				assert.areSame( 'bar', data.foo );
+			} );
+
 			loader.upload( 'http:\/\/url\/' );
 
 			wait();

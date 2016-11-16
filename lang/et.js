@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'et' ] = {
 		alignMiddle: 'Keskele',
 		alignBottom: 'Alla',
 		alignNone: 'None', // MISSING
-		invalidValue	: 'Vigane väärtus.',
+		invalidValue: 'Vigane väärtus.',
 		invalidHeight: 'Kõrgus peab olema number.',
 		invalidWidth: 'Laius peab olema number.',
 		invalidCssLength: '"%1" välja jaoks määratud väärtus peab olema positiivne täisarv CSS ühikuga (px, %, in, cm, mm, em, ex, pt või pc) või ilma.',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'et' ] = {
 		cssLengthTooltip: 'Sisesta väärtus pikslites või number koos sobiva CSS-i ühikuga (px, %, in, cm, mm, em, ex, pt või pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, pole saadaval</span>'
+		unavailable: '%1<span class="cke_accessibility">, pole saadaval</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

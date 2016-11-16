@@ -19,7 +19,7 @@
 CKEDITOR.lang[ 'id' ] = {
 	// ARIA description.
 	editor: 'Rich Text Editor',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editorPanel: 'Panel Rich Text Editor',
 
 	// Common messages and labels.
 	common: {
@@ -60,16 +60,16 @@ CKEDITOR.lang[ 'id' ] = {
 		preview: 'Pratinjau',
 		resize: 'Ubah ukuran',
 		generalTab: 'Umum',
-		advancedTab: 'Advanced', // MISSING
+		advancedTab: 'Lebih Lanjut',
 		validateNumberFailed: 'Nilai ini tidak sebuah angka',
 		confirmNewPage: 'Semua perubahan yang tidak disimpan di konten ini akan hilang. Apakah anda yakin ingin memuat halaman baru?',
 		confirmCancel: 'Beberapa opsi telah berubah. Apakah anda yakin ingin menutup dialog?',
 		options: 'Opsi',
 		target: 'Sasaran',
 		targetNew: 'Jendela Baru (_blank)',
-		targetTop: 'Topmost Window (_top)', // MISSING
+		targetTop: 'Laman Atas (_top)',
 		targetSelf: 'Jendela yang Sama (_self)',
-		targetParent: 'Parent Window (_parent)', // MISSING
+		targetParent: 'Jendela Induk (_parent)',
 		langDirLTR: 'Kiri ke Kanan (LTR)',
 		langDirRTL: 'Kanan ke Kiri (RTL)',
 		styles: 'Gaya',
@@ -84,16 +84,33 @@ CKEDITOR.lang[ 'id' ] = {
 		alignTop: 'Atas',
 		alignMiddle: 'Tengah',
 		alignBottom: 'Bawah',
-		alignNone: 'None', // MISSING
-		invalidValue	: 'Nilai tidak sah.',
+		alignNone: 'Tidak ada',
+		invalidValue: 'Nilai tidak sah.',
 		invalidHeight: 'Tinggi harus sebuah angka.',
 		invalidWidth: 'Lebar harus sebuah angka.',
 		invalidCssLength: 'Nilai untuk "%1" harus sebuah angkat positif dengan atau tanpa pengukuran unit CSS yang sah (px, %, in, cm, mm, em, ex, pt, or pc).',
 		invalidHtmlLength: 'Nilai yang dispesifikasian untuk kolom "%1" harus sebuah angka positif dengan atau tanpa sebuah unit pengukuran HTML (px atau %) yang valid.',
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
+		invalidInlineStyle: 'Nilai pada inline style merupakan pasangan nama dan nilai dengan format "nama : nilai", yang dipisahkan dengan titik dua.',
 		cssLengthTooltip: 'Masukkan sebuah angka untuk sebuah nilai dalam pixel atau sebuah angka dengan unit CSS yang sah (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, tidak tersedia</span>'
+		unavailable: '%1<span class="cke_accessibility">, tidak tersedia</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Spasi',
+			35: 'End',
+			36: 'Home',
+			46: 'Hapus',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Pintasan Keyboard'
 	}
 };

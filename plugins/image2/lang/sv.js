@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'sv', {
 	resizer: 'Klicka och drag för att ändra storlek',
 	title: 'Bildegenskaper',
 	uploadTab: 'Ladda upp',
-	urlMissing: 'Bildkällans URL saknas.'
+	urlMissing: 'Bildkällans URL saknas.',
+	altMissing: 'Alternativ text saknas'
 } );

@@ -1232,7 +1232,7 @@
 	 *
 	 * @method editable
 	 * @member CKEDITOR.editor
-	 * @param {CKEDITOR.dom.element/CKEDITOR.editable} elementOrEditable The
+	 * @param {CKEDITOR.dom.element/CKEDITOR.editable} [elementOrEditable] The
 	 * DOM element to become the editable or a {@link CKEDITOR.editable} object.
 	 */
 	CKEDITOR.editor.prototype.editable = function( element ) {

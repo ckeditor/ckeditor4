@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'it', {
 	resizer: 'Fare clic e trascinare per ridimensionare',
 	title: 'Proprietà immagine',
 	uploadTab: 'Carica',
-	urlMissing: 'Manca l\'URL dell\'immagine.'
+	urlMissing: 'Manca l\'URL dell\'immagine.',
+	altMissing: 'Testo alternativo mancante.'
 } );

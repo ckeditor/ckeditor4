@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -210,6 +210,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 			},
 			{
 				type: 'hbox',
+				className: 'cke_dialog_forms_select_order_txtsize',
 				widths: [ '175px', '170px' ],
 				children: [ {
 					id: 'txtSize',
@@ -248,6 +249,7 @@ CKEDITOR.dialog.add( 'select', function( editor ) {
 			{
 				type: 'hbox',
 				widths: [ '115px', '115px', '100px' ],
+				className: 'cke_dialog_forms_select_order',
 				children: [ {
 					type: 'vbox',
 					children: [ {

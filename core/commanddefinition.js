@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview Defines the "virtual" {@link CKEDITOR.commandDefinition} class,
+ * @fileOverview Defines the "virtual" {@link CKEDITOR.commandDefinition} class
  *		which contains the defintion of a command. This file is for
  *		documentation purposes only.
  */
@@ -27,14 +27,14 @@
  *		} );
  *
  * @method exec
- * @param {CKEDITOR.editor} editor The editor within which run the command.
+ * @param {CKEDITOR.editor} editor The editor within which to run the command.
  * @param {Object} [data] Additional data to be used to execute the command.
  * @returns {Boolean} Whether the command has been successfully executed.
- * Defaults to `true`, if nothing is returned.
+ * Defaults to `true` if nothing is returned.
  */
 
 /**
- * Whether the command need to be hooked into the redo/undo system.
+ * Whether the command needs to be hooked into the redo/undo system.
  *
  *		editorInstance.addCommand( 'alertName', {
  *			exec: function( editor ) {
@@ -52,14 +52,18 @@
  * command itself manually, and that the return value of this command is not to
  * be returned by the {@link #exec} function.
  *
- * 		editorInstance.addCommand( 'loadOptions', {
+ * 		editorInstance.addCommand( 'loadoptions', {
  * 			exec: function( editor ) {
+ * 				var cmd = this;
  * 				// Asynchronous operation below.
  * 				CKEDITOR.ajax.loadXml( 'data.xml', function() {
- * 					editor.fire( 'afterCommandExec' );
+ * 					editor.fire( 'afterCommandExec', {
+ *						name: 'loadoptions',
+ *						command: cmd
+ * 					} );
  * 				} );
  * 			},
- * 			async: true // The command need some time to complete after exec function returns.
+ * 			async: true // The command needs some time to complete after the exec function returns.
  * 		} );
  *
  * @property {Boolean} [async=false]
@@ -72,7 +76,7 @@
  *				exec: function( editor ) {
  *				// ...
  *			},
- *			editorFocus: false // The command doesn't require focusing the editing document.
+ *			editorFocus: false // The command does not require focusing the editing document.
  *		} );
  *
  * See also {@link CKEDITOR.command#editorFocus}.
@@ -88,14 +92,14 @@
  *			exec: function( editor ) {
  *				// ...
  *			},
- *			startDisabled: true // Command is unavailable until selection is inside a link.
+ *			startDisabled: true // The command is unavailable until the selection is inside a link.
  *		} );
  *
  * @property {Boolean} [startDisabled=false]
  */
 
 /**
- * Indicates that this command is sensible to the selection context.
+ * Indicates that this command is sensitive to the selection context.
  * If `true`, the {@link CKEDITOR.command#method-refresh} method will be
  * called for this command on selection changes, with a single parameter
  * representing the current elements path.
@@ -104,10 +108,10 @@
  */
 
 /**
- * Defined by command definition a function to determinate the command state, it will be invoked
- * when editor has it's `states` or `selection` changed.
+ * Defined by the command definition, a function to determine the command state. It will be invoked
+ * when the editor has its `states` or `selection` changed.
  *
- * **Note:** The function provided must be calling {@link CKEDITOR.command#setState} in all circumstance,
+ * **Note:** The function provided must be calling {@link CKEDITOR.command#setState} in all circumstances
  * if it is intended to update the command state.
  *
  * @method refresh
@@ -132,7 +136,7 @@
  *			exec: function( editor ) {
  *				// ...
  *			},
- *			modes: { wysiwyg:1 } // Command is available in wysiwyg mode only.
+ *			modes: { wysiwyg:1 } // The command is available in wysiwyg mode only.
  *		} );
  *
  * See also {@link CKEDITOR.command#modes}.
@@ -145,4 +149,14 @@
  *
  * @since 4.0
  * @property {Boolean} [readOnly=false]
+ */
+
+/**
+ * A property that should be set when a command has no keystroke assigned by {@link CKEDITOR.editor#setKeystroke}, but
+ * the keystroke is still supported. For example: `cut`, `copy` and `paste` commands are handled that way.
+ * This property is used when displaying keystroke information in tooltips and context menus. It is used by
+ * {@link CKEDITOR.editor#getCommandKeystroke}.
+ *
+ * @since 4.6.0
+ * @property {Number} fakeKeystroke
  */
