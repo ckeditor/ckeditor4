@@ -143,7 +143,7 @@
 						return false;
 					}
 
-					if ( editor && editor.config.pasteFromWordRemoveFontStyles === false && element.attributes.size ) {
+					if ( editor && editor.config.pasteFromWordRemoveFontStyles === true && element.attributes.size ) {
 						// font[size] are still used by old IEs for font size.
 						delete element.attributes.size;
 					}
@@ -414,7 +414,7 @@
 
 					return tools.indexOf( resetStyles, keys.join( ':' ) ) !== -1;
 				},
-				removeFontStyles = editor && editor.config.pasteFromWordRemoveFontStyles === false;
+				removeFontStyles = editor && editor.config.pasteFromWordRemoveFontStyles === true;
 
 			var styles = tools.parseCssText( element.attributes.style );
 
@@ -1645,7 +1645,7 @@
 	 *
 	 *		config.pasteFromWordRemoveFontStyles = true;
 	 *
-	 * **Important note:** Prior to version 4.6.0 this configuration option defaulted to `false`.
+	 * **Important note:** Prior to version 4.6.0 this configuration option defaulted to `true`.
 	 *
 	 * @deprecated 4.6.0 Either configure proper [Advanced Content Filter](#!/guide/dev_advanced_content_filter) for the editor
 	 * or use the {@link CKEDITOR.editor#afterPasteFromWord} event.

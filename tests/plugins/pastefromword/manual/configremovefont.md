@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, colorbutton, font, list, table, image, pastefromword, sourcearea, elementspath
 
-Testing [`config.pasteFromWordRemoveFontStyles`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveFontStyles) set to `false`.
+Testing [`config.pasteFromWordRemoveFontStyles`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveFontStyles) set to `true`.
 
 1. Paste some content from Word that contains following font styling:
 	* font size;
@@ -11,7 +11,9 @@ Testing [`config.pasteFromWordRemoveFontStyles`](http://docs.ckeditor.com/#!/api
 
 You might use `Config_remove_font_styles.docx` as an example.
 
-**Expected:** No font formatting is preserved.
+**Expected:** editor 1: no font formatting is preserved.
+
+**Expected:** editor 2: font formatting is preserved.
 
 **Note:** It's OK to transfer styles like `text-decoration`.
 
