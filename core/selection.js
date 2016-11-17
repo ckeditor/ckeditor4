@@ -355,18 +355,44 @@
 	// Handle left, right, delete and backspace keystrokes next to non-editable elements
 	// by faking selection on them.
 	function getOnKeyDownListener( editor ) {
-		var keystrokes = { 37: 1, 39: 1, 8: 1, 46: 1 };
+		var homeEndKeys = {
+				35: 1,		// END
+				36: 1,		// HOME
+				2228259: 1,	// SHIFT + END
+				2228260: 1,	// SHIFT + HOME
+				1114149: 1,	// COMMAND + LEFT - Mac OS equivalent to HOME
+				1114151: 1,	// COMMAND + RIGHT - Mac OS equivalent to END
+				3342373: 1, // SHIFT + COMMAND + LEFT
+				3342375: 1  // SHIFT + COMMAND + RIGHT
+			},
+			keystrokes = CKEDITOR.tools.extend({
+				8: 1,		// BACKSPACE
+				37: 1,		// LEFT
+				39: 1,		// RIGHT	
+				46: 1		// DELETE
+			}, fakeSelectionNavKeys);
 
 		return function( evt ) {
 			var keystroke = evt.data.getKeystroke();
 
-			// Handle only left/right/del/bspace keys.
 			if ( !keystrokes[ keystroke ] )
 				return;
 
 			var sel = editor.getSelection(),
 				ranges = sel.getRanges(),
 				range = ranges[ 0 ];
+
+			if ( homeEndKeys[ keystroke ] ) {
+				if ( sel.isFake ) {
+					// move to right if key is HOME/LEFT else to left
+					// so non-editable element is selected on SHIFT+HOME/END
+					var key = evt.data.getKey(),
+						right = key === 36 || key === 37;
+					range.moveToClosestEditablePosition( evt.selected, right );
+					range.select();
+				}
+				return;
+			}
 
 			// Handle only single range and it has to be collapsed.
 			if ( ranges.length != 1 || !range.collapsed )

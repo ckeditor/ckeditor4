@@ -34,6 +34,8 @@ function assertCollapsedSelectionIn( editor, htmlWithSel, msg ) {
 
 function createTestKeyNavFn( editor, target ) {
 	var keyCodes = {
+		end: 35,
+		home: 36,
 		l: 37,
 		r: 39,
 		del: 46,
@@ -65,8 +67,14 @@ function createTestKeyNavFn( editor, target ) {
 	}
 }
 
-function getKeyEvent( keyCode, preventDefaultCallback ) {
-	var evt = new CKEDITOR.dom.event( { keyCode: keyCode } );
+function getKeyEvent( keyCode, preventDefaultCallback, modifiers ) {
+	var data = { keyCode: keyCode };
+	if ( modifiers ) {
+		data.ctrlKey = modifiers & CKEDITOR.CTRL;
+		data.shiftKey = modifiers & CKEDITOR.SHIFT;
+		data.altKey = modifiers & CKEDITOR.ALT;
+	}
+	var evt = new CKEDITOR.dom.event( data );
 	evt.preventDefault = function() {
 		preventDefaultCallback && preventDefaultCallback();
 	};
@@ -750,6 +758,63 @@ bender.test( {
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) ); // LEFT
 			assert.areSame( p1, editor.getSelection().getSelectedElement(), 'Move left 2 - selectedElement' );
 			assert.isTrue( !!editor.getSelection().isFake, 'Move left 2 - isFake' );
+		} );
+	},
+
+	'Test moving from non-editable element by home/end keys': function() {
+		// HOME/END key events must not be prevented so they can be handled by
+		// the normal home/end logic. The event handlers we are testing here
+		// simply create a non-fake selection and then let the default logic do
+		// the rest.
+		function noPrevent() {
+			throw new Error("event should not be prevented");
+		}
+		var editor = this.editor;
+
+		this.editorBot.setData( '<p>bar <span id="start" contenteditable="false">foo</span> bom</p>', function() {
+			function test(name, selectionState) {
+				var seq = name.split('+'),
+					modifiers = 0,
+					keyCode = keys[ seq.pop() ],
+					i;
+				for ( i = 0; i < seq.length; i++ ) {
+					modifiers = modifiers + keys[ seq[ i ] ];
+				}
+				selectionState = selectionState.replace("[foo]",
+					'<span id="start" contenteditable="false">foo</span>');
+				editor.getSelection().fake( ps );
+				editable.fire( 'keydown', getKeyEvent( keyCode, noPrevent, modifiers ) );
+				assertCollapsedSelectionIn( editor, selectionState, name );
+			}
+
+			var ps = editor.document.getById( 'start' ),
+				editable = editor.editable(),
+				keys = {
+					END: 35,
+					HOME: 36,
+					LEFT: 37,
+					UP: 38,
+					RIGHT: 39,
+					DOWN: 40,
+					SHIFT: CKEDITOR.SHIFT,
+					CTRL: CKEDITOR.CTRL
+				};
+
+			test( 'END', '<p>bar ^[foo] bom</p>' );
+
+			test( 'HOME', '<p>bar [foo]^ bom</p>' );
+
+			test( 'SHIFT+END', '<p>bar ^[foo] bom</p>' );
+
+			test( 'SHIFT+HOME', '<p>bar [foo]^ bom</p>' );
+
+			test( 'CTRL+LEFT', '<p>bar [foo]^ bom</p>' );
+
+			test( 'CTRL+RIGHT', '<p>bar ^[foo] bom</p>' );
+
+			test( 'SHIFT+CTRL+LEFT', '<p>bar [foo]^ bom</p>' );
+
+			test( 'SHIFT+CTRL+RIGHT', '<p>bar ^[foo] bom</p>' );
 		} );
 	},
 
