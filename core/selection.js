@@ -389,8 +389,9 @@
 
 			if ( fakeSelectionNavKeys[ keystroke ] ) {
 				if ( sel.isFake ) {
-					// move to right if key is HOME/LEFT/UP else to left
-					// so non-editable element is selected on SHIFT+HOME/END/UP
+				    // Make non-fake selection and let the default handler do
+				    // the rest. Move to right if key is HOME/LEFT/UP else to
+					// left so non-editable element is selected on SHIFT+KEY.
 					var key = evt.data.getKey(),
 						right = key === 36 || key === 37 || key == 38;
 					range.moveToClosestEditablePosition( evt.selected, right );
