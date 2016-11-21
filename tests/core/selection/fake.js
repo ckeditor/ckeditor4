@@ -761,11 +761,11 @@ bender.test( {
 		} );
 	},
 
-	'Test moving from non-editable element by home/end keys': function() {
-		// HOME/END key events must not be prevented so they can be handled by
-		// the normal home/end logic. The event handlers we are testing here
-		// simply create a non-fake selection and then let the default logic do
-		// the rest.
+	'Test moving from non-editable element by home/end/arrow keys': function() {
+		// HOME/END/ARROW key events must not be prevented so they can be
+		// handled by the normal home/end logic. The event handlers we are
+		// testing here simply create a non-fake selection and then let the
+		// default logic do the rest.
 		function noPrevent() {
 			throw new Error("event should not be prevented");
 		}
@@ -807,6 +807,14 @@ bender.test( {
 			test( 'SHIFT+END', '<p>bar ^[foo] bom</p>' );
 
 			test( 'SHIFT+HOME', '<p>bar [foo]^ bom</p>' );
+
+			test( 'SHIFT+LEFT', '<p>bar [foo]^ bom</p>' );
+
+			test( 'SHIFT+UP', '<p>bar [foo]^ bom</p>' );
+
+			test( 'SHIFT+RIGHT', '<p>bar ^[foo] bom</p>' );
+
+			test( 'SHIFT+DOWN', '<p>bar ^[foo] bom</p>' );
 
 			test( 'CTRL+LEFT', '<p>bar [foo]^ bom</p>' );
 
