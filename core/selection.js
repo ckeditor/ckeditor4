@@ -15,18 +15,37 @@
 
 	// #### table selection : START
 
+	function getTableElementFromRange( range ) {
+		var tableElements = {
+				table: 1,
+				tbody: 1,
+				tr: 1,
+				td: 1,
+				th: 1
+			},
+			start = range.startContainer,
+			end = range.endContainer;
+
+		if ( range.getEnclosedNode() ) {
+			return range.getEnclosedNode().getAscendant( tableElements, true );
+		}
+
+		return start.getAscendant( tableElements, true ) || end.getAscendant( tableElements, true );
+	}
+
 	function isTableSelection( ranges ) {
 		var node,
 			i;
 
-		for ( i = 0; i < ranges.length; i++ ) {
-			node = ranges[ i ].getEnclosedNode();
+		// Edge case: selected text node inside one table cell.
+		if ( ranges.length === 1 && ranges[ 0 ].collapsed ) {
+			return false;
+		}
 
-			if (
-				!node ||
-				( !isQuirkyEnv && ( node.type !== CKEDITOR.NODE_ELEMENT || !node.getAscendant( 'table', true ) ) ) ||
-				( isQuirkyEnv && !node.getAscendant( { td: 1, th: 1 }, true ) )
-			) {
+		for ( i = 0; i < ranges.length; i++ ) {
+			node = getTableElementFromRange( ranges[ i ] );
+
+			if ( !node ) {
 				return false;
 			}
 		}
@@ -41,22 +60,21 @@
 	// Also if the selection is collapsed, we should check if it's placed inside the table
 	// in which the fake selection is. Such selection occurs after right mouse click.
 	function isRealTableSelection( ranges, fakeRanges ) {
-		var table,
-			fakeTable;
+		var table = getTableElementFromRange( ranges[ 0 ] ) &&
+				getTableElementFromRange( ranges[ 0 ] ).getAscendant( 'table', true ),
+			fakeTable = getTableElementFromRange( fakeRanges[ 0 ] ) &&
+				getTableElementFromRange( fakeRanges[ 0 ] ).getAscendant( 'table', true );
 
-		if ( ranges.length === 1 && ranges[ 0 ].collapsed ) {
-			table = ranges[ 0 ].startContainer.getAscendant( 'table' );
-			fakeTable = fakeRanges[ 0 ].getEnclosedNode() && fakeRanges[ 0 ].getEnclosedNode().getAscendant( 'table' );
-
-			if ( !table || !fakeTable || !table.equals( fakeTable ) ) {
-				return false;
-			}
-		} else if ( !isTableSelection( ranges ) || !isTableSelection( fakeRanges ) || !ranges[ 0 ].getEnclosedNode() ||
-			!ranges[ 0 ].getEnclosedNode().equals( fakeRanges[ 0 ].getEnclosedNode() ) ) {
+		if ( !table || !fakeTable || !table.equals( fakeTable ) ) {
 			return false;
 		}
 
-		return true;
+		if ( ( ranges.length === 1 && ranges[ 0 ].collapsed ) ||
+			( isTableSelection( ranges ) && isTableSelection( fakeRanges ) ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	function getSelectedCells( ranges ) {
@@ -77,14 +95,12 @@
 		}
 
 		for ( i = 0; i < ranges.length; i++ ) {
-			node = ranges[ i ].getEnclosedNode();
+			node = getTableElementFromRange( ranges[ i ] );
 
 			if ( node.is && node.is( { td: 1, th: 1 } ) ) {
 				cells.push( node );
-			} else if ( !isQuirkyEnv ) {
-				cells.concat( getCellsFromElement( node ) );
 			} else {
-				cells.push( node.getAscendant( { td: 1, th: 1 }, true ) );
+				cells = cells.concat( getCellsFromElement( node ) );
 			}
 		}
 
@@ -151,7 +167,7 @@
 		// Caches given ranges.
 		cache.ranges = new CKEDITOR.dom.rangeList( ranges );
 		cache.type = CKEDITOR.SELECTION_TEXT;
-		cache.selectedElement = ranges[ 0 ].getEnclosedNode();
+		cache.selectedElement = getTableElementFromRange( ranges[ 0 ] );
 
 		// `selectedText` should contain text from all selected data ("plain text table")
 		// to be compatible with Firefox's implementation.
@@ -198,13 +214,14 @@
 			}
 
 			selection = editor.getSelection();
-			ranges = selection.getRanges();
-			firstCell = ranges[ 0 ].getEnclosedNode().getAscendant( { td: 1, th: 1 }, true );
-			lastCell = ranges[ ranges.length - 1 ].getEnclosedNode().getAscendant( { td: 1, th: 1 }, true );
 
 			if ( !selection || !selection.isInTable() || !selection.isFake ) {
 				return;
 			}
+
+			ranges = selection.getRanges();
+			firstCell = getTableElementFromRange( ranges[ 0 ] );
+			lastCell = getTableElementFromRange( ranges[ ranges.length - 1 ] );
 
 			evt.data.preventDefault();
 			evt.cancel();
@@ -2373,7 +2390,8 @@
 
 			// It may happen that the content change during loading, before selection is set so bookmark leads to text node.
 			if ( bookmarks.isFake ) {
-				node = ranges[ 0 ].getEnclosedNode();
+				node = isTableSelection( ranges ) ? getTableElementFromRange( ranges[ 0 ] ) : ranges[ 0 ].getEnclosedNode();
+
 				if ( !node || node.type != CKEDITOR.NODE_ELEMENT ) {
 					CKEDITOR.warn( 'selection-not-fake' );
 					bookmarks.isFake = 0;
