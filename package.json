@@ -1,6 +1,6 @@
 {
 	"name": "ckeditor-dev",
-	"version": "4.6.0",
+	"version": "4.6.1",
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"benderjs-coverage": "^0.2.1",
@@ -26,7 +26,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "CKSource (http://cksource.com/)",
-	"license": "For licensing, see LICENSE.md or http://ckeditor.com/license.",
+	"license": "(GPL-2.0 OR LGPL-2.1 OR MPL-1.1)",
 	"bugs": "http://dev.ckeditor.com",
 	"homepage": "http://ckeditor.com",
 	"repository": {
