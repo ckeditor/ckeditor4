@@ -662,11 +662,36 @@
 			currentRow,
 			currentRowClone;
 
+		// We must handle two cases here:
+		// 1. <tr>[<td>Cell</td>]</tr> (IE9+, Edge, Chrome, Firefox)
+		// 2. <td>[Cell]</td> (IE8-, Safari)
+		function isSelectedCell( range ) {
+			var start = range.startContainer,
+				end = range.endContainer;
+
+			if ( start.is && ( start.is( 'tr' ) ||
+				( start.is( 'td' ) && start.equals( end ) && range.endOffset === start.getChildCount() ) ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		function cloneCell( range ) {
+			var start = range.startContainer;
+
+			if ( start.is( 'tr' ) ) {
+				return range.cloneContents();
+			}
+
+			return start.clone( true );
+		}
+
 		for ( var i = 0; i < ranges.length; i++ ) {
 			var range = ranges[ i ],
-				container = range.startContainer;
+				container = range.startContainer.getAscendant( 'tr', true );
 
-			if ( container.getName && container.getName() == 'tr' ) {
+			if ( isSelectedCell( range ) ) {
 				if ( !tableClone ) {
 					tableClone = container.getAscendant( 'table' ).clone();
 					tableClone.append( container.getAscendant( { thead: 1, tbody: 1, tfoot: 1 } ).clone() );
@@ -680,7 +705,7 @@
 					tableClone.append( currentRowClone );
 				}
 
-				currentRowClone.append( range.cloneContents() );
+				currentRowClone.append( cloneCell( range ) );
 			} else {
 				// If there was something else copied with table,
 				// append it to DocumentFragment.
