@@ -661,6 +661,12 @@
 		return domEvent.button === 0;
 	}
 
+	function getFakeSelectedTable( editor ) {
+		var selectedCell = editor.editable().findOne( '.' + fakeSelectedClass );
+
+		return selectedCell && selectedCell.getAscendant( 'table' );
+	}
+
 	function clearFakeCellSelection( editor, reset ) {
 		var selectedCells = editor.editable().find( '.' + fakeSelectedClass ),
 			i;
@@ -859,13 +865,16 @@
 
 	function fakeSelectionMouseHandler( evt ) {
 		var editor = evt.editor || evt.sender.editor,
+			selection = editor.getSelection( 1 ),
+			selectedTable = getFakeSelectedTable( editor ),
 			cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true ),
 			table = evt.data.getTarget().getAscendant( 'table', true );
 
 		// 1. User clicks outside the table.
 		// 2. User opens context menu not in the selected table.
 		if ( ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !table ) ) ||
-			( evt.name === 'mouseup' && !editor.getSelection().isInTable() ) ) {
+			( evt.name === 'mouseup' &&
+				( !selection.isInTable() || !selectedTable || !selectedTable.equals( table ) ) ) ) {
 			clearFakeCellSelection( editor, true );
 		}
 
