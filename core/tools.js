@@ -1460,6 +1460,166 @@
 			}
 
 			return selector;
+		},
+
+		style: {
+			parse: {
+				_colors: {
+					maroon: '#800000',
+					red: '#ff0000',
+					orange: '#ffA500',
+					yellow: '#ffff00',
+					olive: '#808000',
+					purple: '#800080f',
+					uchsia: '#ff00ff',
+					white: '#ffffff',
+					lime: '#00ff00',
+					green: '#008000',
+					navy: '#000080b',
+					lue: '#0000ffa',
+					qua: '#00ffff',
+					teal: '#008080',
+					black: '#000000',
+					silver: '#c0c0c0',
+					gray: '#808080'
+				},
+
+				_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+
+				_hslaRegExp: /hsla?\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+
+				/**
+				 * Parses `value` used as a `background` property shorthand and returns information as
+				 * an object.
+				 *
+				 * @param {String} value
+				 * @returns {Object[]} Parsed background values as an array (as background shorthand might
+				 * specify multiple backgrounds).
+				 */
+				background: function( value ) {
+					var ret = [],
+						parts = [],
+						colors = [],
+						i;
+
+					if ( value.match( /\,/ ) ) {
+						// A possibly multiple background are used, this makes it tricky. Many values might
+						// contain coma character, like rgb, hsl values or urls.
+						// So we need to replace this with coma-less placeholders, and then we can split value.
+						var tmpValue = value,
+							replaceWithPlaceholder = function( match ) {
+								return CKEDITOR.tools.repeat( '_', match.length );
+							},
+							j;
+
+						tmpValue = tmpValue.replace( this._rgbaRegExp, replaceWithPlaceholder )
+							.replace( this._hslaRegExp, replaceWithPlaceholder );
+
+						var tmpParts = tmpValue.split( /\,/g ),
+							startIndex = 0;
+
+						// Chop all the coma separated parts. Based on tmpParts offsets which doesn't have
+						// comas but use real content from value variable.
+						for ( j = 0; j < tmpParts.length; j++ ) {
+							parts.push( value.substr( startIndex, tmpParts[ j ].length ) );
+
+							// +1 because of the coma.
+							startIndex += ( tmpParts[ j ].length + 1 );
+						}
+					} else {
+						parts = [ value ];
+					}
+
+					for ( i = 0; i < parts.length; i++ ) {
+						var curPart = parts[ i ],
+							obj = {};
+
+						colors = this._findColor( curPart );
+
+						if ( colors.length ) {
+							obj.color = colors[ 0 ];
+
+							CKEDITOR.tools.array.forEach( colors, function( colorToken ) {
+								curPart = curPart.replace( colorToken, '' );
+							} );
+						}
+
+						curPart = CKEDITOR.tools.trim( curPart );
+
+						if ( curPart ) {
+							// If anything was left unprocessed include it as unprocessed part.
+							obj.unprocessed = curPart;
+						}
+
+						ret.push( obj );
+					}
+
+					return ret;
+				},
+
+				/**
+				 * Searches `value` for any CSS color occurrences and returns it.
+				 *
+				 * @param {String} value
+				 * @returns {String[]} An array of matched results.
+				 */
+				_findColor: function( value ) {
+					var ret = [],
+						arrayFilter = CKEDITOR.tools.array.filter;
+
+
+					// Check for rgb(a).
+					ret = ret.concat( value.match( this._rgbaRegExp ) || [] );
+
+					// Check for hsl(a).
+					ret = ret.concat( value.match( this._hslaRegExp ) || [] );
+
+					ret = ret.concat( arrayFilter( value.split( /\s+/ ), function( colorEntry ) {
+						// Check for hex format.
+						if ( colorEntry.match( /^\#[a-f0-9]{3}(?:[a-f0-9]{3})?$/gi ) ) {
+							return true;
+						}
+
+						// Check for preset names.
+						return colorEntry.toLowerCase() in CKEDITOR.tools.style.parse._colors;
+					} ) );
+
+					return ret;
+				}
+			}
+		},
+
+		array: {
+			/**
+			 * Returns `array` copy filtered out using `fn` function.
+			 *
+			 * @param {Array} array
+			 * @param {Function} fn Function that gets called with each `array` item. Any item for that `fn`
+			 * returned `false`-alike value for will be filtered out of `array`.
+			 * @returns {Array} Filtered array.
+			 */
+			filter: function( array, fn, thisArg ) {
+				var ret = [],
+					len = array.length;
+
+				for ( var i = 0; i < len; i++ ) {
+					var val = array[i];
+
+					if ( fn.call( thisArg, val, i, array ) ) {
+						ret.push( val );
+					}
+				}
+
+				return ret;
+			},
+
+			forEach: function( array, fn, thisArg ) {
+				var len = array.length;
+
+				for ( var i = 0; i < len; i++ ) {
+					fn.call( thisArg, array[ i ], i, array );
+				}
+			}
 		}
 	};
 

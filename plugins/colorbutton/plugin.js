@@ -39,7 +39,50 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					]
 				]
 			} );
-			addButton( 'BGColor', 'back', lang.bgColorTitle, 20 );
+			var  bgOptions = {};
+
+			if ( !editor.filter.check( 'span{background}' ) ) {
+				// Special transformation in case if background CSS property is not allowed. If background contains only color, then we want to
+				// convert it into background-color so that it's correctly picked by colorbutton plugin.
+				bgOptions.contentTransformations = [
+					[
+						{
+							// Transform span color-only background.
+							element: 'span',
+							left: function( element ) {
+								var tools = CKEDITOR.tools;
+								if ( element.name != 'span' || !element.styles || !element.styles.background ) {
+									return false;
+								}
+
+								var background = tools.style.parse.background( element.styles.background );
+
+								// We return true only if background specifies **only** color property, and there's only one background directive.
+								return background.length === 1 && background[ 0 ].color && tools.objectKeys( background[ 0 ] ).length === 1;
+							},
+							right: function( element ) {
+								var style = new CKEDITOR.style( editor.config.colorButton_backStyle, {
+										color: element.styles.background
+									} ),
+									definition = style.getDefinition();
+
+								// Align the output object with the template used in config.
+								element.name = definition.element;
+								element.styles = definition.styles;
+								element.attributes = definition.attributes || {};
+
+								// delete element.styles.background;
+
+								// element.attributes.style = CKEDITOR.tools.writeCssText( element.styles );
+
+								return element;
+							}
+						}
+					]
+				];
+			}
+
+			addButton( 'BGColor', 'back', lang.bgColorTitle, 20, bgOptions );
 		}
 
 		function addButton( name, type, title, order, options ) {
