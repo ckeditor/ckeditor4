@@ -57,6 +57,12 @@
 			this.array.forEach( [ 1, 1 ], function() {
 				assert.areSame( context, this, 'Context object' );
 			}, context );
+		},
+
+		'test array.indexOf': function() {
+			assert.areSame( 1, this.array.indexOf( [ 1, 2, 3 ], 2 ), 'Case 1' );
+			assert.areSame( -1, this.array.indexOf( [ 1, 2, 3 ], 4 ), 'Case 2' );
+			assert.areSame( -1, this.array.indexOf( [ 1, 2, 3 ], '2' ), 'Case 3' );
 		}
 	} );
 

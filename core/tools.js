@@ -1676,6 +1676,13 @@
 
 		return result;
 	}
+
+	/**
+	 * @member CKEDITOR.tools.array
+	 * @method indexOf
+	 * @inheritdoc CKEDITOR.tools#indexOf
+	 */
+	CKEDITOR.tools.array.indexOf = CKEDITOR.tools.indexOf;
 } )();
 
 // PACKAGER_RENAME( CKEDITOR.tools )
