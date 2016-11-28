@@ -1560,6 +1560,7 @@
 				/**
 				 * Searches `value` for any CSS color occurrences and returns it.
 				 *
+				 * @private
 				 * @param {String} value
 				 * @returns {String[]} An array of matched results.
 				 */
@@ -1613,6 +1614,13 @@
 				return ret;
 			},
 
+			/**
+			 * Iterates over every element in the `array`.
+			 *
+			 * @param {Array} array An array to be iterated.
+			 * @param {Function} fn Function called for every `array` element.
+			 * @param {mixed} [thisArg=undefined] Context object for `fn`.
+			 */
 			forEach: function( array, fn, thisArg ) {
 				var len = array.length;
 
