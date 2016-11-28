@@ -1683,6 +1683,13 @@
 	 * @inheritdoc CKEDITOR.tools#indexOf
 	 */
 	CKEDITOR.tools.array.indexOf = CKEDITOR.tools.indexOf;
+
+	/**
+	 * @member CKEDITOR.tools.array
+	 * @method isArray
+	 * @inheritdoc CKEDITOR.tools#isArray
+	 */
+	CKEDITOR.tools.array.isArray = CKEDITOR.tools.isArray;
 } )();
 
 // PACKAGER_RENAME( CKEDITOR.tools )

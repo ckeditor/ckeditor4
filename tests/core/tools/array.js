@@ -63,6 +63,15 @@
 			assert.areSame( 1, this.array.indexOf( [ 1, 2, 3 ], 2 ), 'Case 1' );
 			assert.areSame( -1, this.array.indexOf( [ 1, 2, 3 ], 4 ), 'Case 2' );
 			assert.areSame( -1, this.array.indexOf( [ 1, 2, 3 ], '2' ), 'Case 3' );
+		},
+
+		'test array.isArray': function() {
+			var isArray = this.array.isArray;
+			assert.isTrue( isArray( [] ), 'Case 1' );
+			assert.isFalse( isArray( {} ), 'Case 2' );
+			assert.isFalse( isArray( { length: 0 } ), 'Case 3' );
+			assert.isFalse( isArray( 'asd' ), 'Case 4' );
+			assert.isTrue( isArray( [ 1, 2 ] ), 'Case 5' );
 		}
 	} );
 
