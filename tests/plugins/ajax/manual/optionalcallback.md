@@ -10,3 +10,5 @@
 **Expected:** No JavaScript exceptions are logged into the console.
 
 **Unexpected:** Exception `Uncaught TypeError: callback is not a function` is reported.
+
+**Note:** Still an error about 404 POST call `POST http://tests.ckeditor.dev:1030/tests/plugins/ajax/manual/post404.html 404 (Not Found)` will be reported, as Bender doesn't handle POST requests.
