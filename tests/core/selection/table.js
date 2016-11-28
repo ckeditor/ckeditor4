@@ -85,7 +85,7 @@
 
 			// Selecting only text node in table.
 			selection.selectElement( table.findOne( 'td' ).getChild( 0 ) );
-			assert.isFalse( selection.isInTable() );
+			assert.isTrue( selection.isInTable() );
 
 			// Selecting paragraph.
 			selection.selectElement( editor.document.getById( 'foo' ) );
