@@ -3,6 +3,10 @@
 
 ## CKEditor 4.6.1
 
+Fixed Issues:
+
+* [#16600](http://dev.ckeditor.com/ticket/16600): [Blink, WebKit] Fixed: Error thrown occasionally by uninitialized editable for multiple CKEditor instances on the same page.
+
 ## CKEditor 4.6
 
 New Features:
