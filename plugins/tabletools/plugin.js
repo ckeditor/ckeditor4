@@ -7,7 +7,7 @@
 	var cellNodeRegex = /^(?:td|th)$/,
 		isArray = CKEDITOR.tools.isArray,
 		fakeSelectedClass = 'cke_table-faked-selection',
-		fakeSelection;
+		fakeSelection = { active: false };
 
 	function getSelectedCells( selection ) {
 		var ranges = selection.getRanges();
@@ -680,7 +680,7 @@
 		editor.fire( 'unlockSnapshot' );
 
 		if ( reset ) {
-			fakeSelection = null;
+			fakeSelection = { active: false };
 			editor.getSelection().reset();
 		}
 	}
@@ -798,7 +798,7 @@
 		function areCellsReallySelected( selection, selectedCells ) {
 			var ranges = selection.getRanges();
 
-			if ( !selection.isInTable() && ( selectedCells.length > 1 || !ranges[ 0 ].collapsed ) ) {
+			if ( selectedCells.length > 1 || ( ranges[ 0 ] && !ranges[ 0 ].collapsed ) ) {
 				return true;
 			}
 
@@ -807,17 +807,15 @@
 
 		// In the case of cell create new fakeSelection only when left mouse button is pressed.
 		// In the case of table create new fakeSelection only when we have some really selected cells.
-		if ( !fakeSelection && detectLeftMouseButton( evt ) && ( ( cell && evt.name === 'mousedown' ) ||
-			areCellsReallySelected( editor.getSelection(), selectedCells ) ) ) {
-			fakeSelection = {
-				first: cell || selectedCells[ 0 ],
-				dirty: cell ? false : ( selectedCells.length !== 1 )
-			};
+		if ( fakeSelection.active && !fakeSelection.first &&
+			( cell || areCellsReallySelected( editor.getSelection(), selectedCells ) ) ) {
+			fakeSelection.first = cell || selectedCells[ 0 ];
+			fakeSelection.dirty = cell ? false : ( selectedCells.length !== 1 );
 
 			return;
 		}
 
-		if ( !fakeSelection ) {
+		if ( !fakeSelection.active ) {
 			return;
 		}
 
@@ -878,6 +876,11 @@
 			clearFakeCellSelection( editor, true );
 		}
 
+		// Allow fake selection only if the left mouse button is really pressed inside the table.
+		if ( !fakeSelection.active && evt.name === 'mousedown' && detectLeftMouseButton( evt ) && table ) {
+			fakeSelection = { active: true };
+		}
+
 		// The separate condition for table handles cases when user starts/stop dragging from/in
 		// spacing between cells.
 		if ( cell || table ) {
@@ -885,7 +888,7 @@
 		}
 
 		if ( evt.name === 'mouseup' ) {
-			fakeSelection = null;
+			fakeSelection = { active: false };
 		}
 	}
 
