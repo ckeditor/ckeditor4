@@ -1462,7 +1462,18 @@
 			return selector;
 		},
 
+		/**
+		 * A set of functions for operations on styles.
+		 *
+		 * @property {CKEDITOR.tools.style}
+		 */
 		style: {
+			/**
+			 * Methods to parse miscellaneous CSS properties.
+			 *
+			 * @property {CKEDITOR.tools.style.parse}
+			 * @member CKEDITOR.tools.style
+			 */
 			parse: {
 				_colors: {
 					maroon: '#800000',
@@ -1495,6 +1506,7 @@
 				 * @param {String} value
 				 * @returns {Object[]} Parsed background values as an array (as background shorthand might
 				 * specify multiple backgrounds).
+				 * @member CKEDITOR.tools.style.parse
 				 */
 				background: function( value ) {
 					var ret = [],
@@ -1563,6 +1575,7 @@
 				 * @private
 				 * @param {String} value
 				 * @returns {String[]} An array of matched results.
+				 * @member CKEDITOR.tools.style.parse
 				 */
 				_findColor: function( value ) {
 					var ret = [],
@@ -1590,6 +1603,12 @@
 			}
 		},
 
+		/**
+		 * A set of array helpers.
+		 *
+		 * @property {CKEDITOR.tools.array}
+		 * @member CKEDITOR.tools
+		 */
 		array: {
 			/**
 			 * Returns `array` copy filtered out using `fn` function.
@@ -1597,19 +1616,18 @@
 			 * @param {Array} array
 			 * @param {Function} fn Function that gets called with each `array` item. Any item for that `fn`
 			 * returned `false`-alike value for will be filtered out of `array`.
+			 * @param {Mixed} [thisArg=undefined] Context object for `fn`.
 			 * @returns {Array} Filtered array.
+			 * @member CKEDITOR.tools.array
 			 */
 			filter: function( array, fn, thisArg ) {
-				var ret = [],
-					len = array.length;
+				var ret = [];
 
-				for ( var i = 0; i < len; i++ ) {
-					var val = array[i];
-
+				this.forEach( array, function( val, i ) {
 					if ( fn.call( thisArg, val, i, array ) ) {
 						ret.push( val );
 					}
-				}
+				} );
 
 				return ret;
 			},
@@ -1619,12 +1637,14 @@
 			 *
 			 * @param {Array} array An array to be iterated.
 			 * @param {Function} fn Function called for every `array` element.
-			 * @param {mixed} [thisArg=undefined] Context object for `fn`.
+			 * @param {Mixed} [thisArg=undefined] Context object for `fn`.
+			 * @member CKEDITOR.tools.array
 			 */
 			forEach: function( array, fn, thisArg ) {
-				var len = array.length;
+				var len = array.length,
+					i;
 
-				for ( var i = 0; i < len; i++ ) {
+				for ( i = 0; i < len; i++ ) {
 					fn.call( thisArg, array[ i ], i, array );
 				}
 			}
