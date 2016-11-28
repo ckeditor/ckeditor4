@@ -1987,7 +1987,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				if ( !optimized ) {
 					editable = instance.editable();
 
-					if ( editable.equals( this ) || editable.contains( this ) ) {
+					if ( editable && ( editable.equals( this ) || editable.contains( this ) ) ) {
 						return instance;
 					}
 				}
