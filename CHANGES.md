@@ -3,6 +3,10 @@
 
 ## CKEditor 4.6.1
 
+New Features:
+
+* [#16639](http://dev.ckeditor.com/ticket/16639): The `callback` parameter in [CKEDITOR.ajax.post](http://docs.ckeditor.com/#!/api/CKEDITOR.ajax-method-post) became optional.
+
 Fixed Issues:
 
 * [#16600](http://dev.ckeditor.com/ticket/16600): [Blink, WebKit] Fixed: Error thrown occasionally by uninitialized editable for multiple CKEditor instances on the same page.
