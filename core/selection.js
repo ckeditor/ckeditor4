@@ -9,8 +9,6 @@
 		// #13816
 		fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
 		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' ),
-		env = CKEDITOR.env,
-		isQuirkyEnv = ( env.ie && env.version < 9 ) || ( env.webkit && !env.chrome ),
 		isSelectingTable;
 
 	// #### table selection : START
@@ -24,13 +22,18 @@
 				th: 1
 			},
 			start = range.startContainer,
-			end = range.endContainer;
+			end = range.endContainer,
+			startTable = start.getAscendant( 'table', true ),
+			endTable = end.getAscendant( 'table', true );
 
 		if ( range.getEnclosedNode() ) {
 			return range.getEnclosedNode().getAscendant( tableElements, true );
 		}
 
-		return start.getAscendant( tableElements, true ) || end.getAscendant( tableElements, true );
+		// Ensure that aelection starts and ends in the same table.
+		if ( startTable && startTable.equals( endTable ) ) {
+			return start.getAscendant( tableElements, true );
+		}
 	}
 
 	function isTableSelection( ranges ) {
@@ -135,8 +138,8 @@
 	}
 
 	function clearCellInRange( range ) {
-		if ( !isQuirkyEnv ) {
-			return range.getEnclosedNode().setHtml( '' );
+		if ( range.getEnclosedNode() ) {
+			return range.getEnclosedNode().setText( '' );
 		}
 
 		range.deleteContents();
