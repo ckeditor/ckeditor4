@@ -50,16 +50,28 @@
 		}
 	}
 
+	function createRange( editor, startElement, startOffset, endElement, endOffset ) {
+		var range = editor.createRange();
+
+		range.setStart( startElement, startOffset );
+		range.setEnd( endElement, endOffset );
+
+		return range;
+	}
+
 	bender.test( {
 		'Check if selection is in table': function() {
 			var editor = this.editor,
+				editable = editor.editable(),
 				selection = editor.getSelection(),
 				table,
+				range,
 				ranges;
 
 			bender.tools.setHtmlWithSelection( editor, '<p id="foo">Foo</p>' +
+				CKEDITOR.document.getById( 'simpleTable' ).getHtml() +
 				CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
-			table = editor.editable().findOne( 'table' );
+			table = editable.findOne( 'table' );
 
 			// Real table selection (one cell).
 			selection.selectElement( table.findOne( 'td' ) );
@@ -89,6 +101,18 @@
 
 			// Selecting paragraph.
 			selection.selectElement( editor.document.getById( 'foo' ) );
+			assert.isFalse( selection.isInTable() );
+
+			// Selecting table and paragraph.
+			range = createRange( editor, editor.document.getById( 'foo' ).getChild( 0 ), 2,
+				table.findOne( 'td' ).getChild( 0 ), 2 );
+			range.select();
+			assert.isFalse( selection.isInTable() );
+
+			// Selecting from two tables at once.
+			range = createRange( editor, table.find( 'td' ).getItem( 5 ).getChild( 0 ), 2,
+				editable.find( 'table' ).getItem( 1 ).findOne( 'td' ).getChild( 0 ), 2 );
+			range.select();
 			assert.isFalse( selection.isInTable() );
 		},
 
