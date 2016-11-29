@@ -39,15 +39,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					]
 				]
 			} );
-			var  bgOptions = {};
 
-			if ( !editor.filter.check( 'span{background}' ) ) {
-				// Special transformation in case if background CSS property is not allowed. If background contains only color, then we want to
-				// convert it into background-color so that it's correctly picked by colorbutton plugin.
+			var  bgOptions = {},
+				normalizeBackground = editor.config.colorButton_normalizeBackground;
+
+			if ( normalizeBackground === undefined || normalizeBackground ) {
+				// If background contains only color, then we want to convert it into background-color so that it's
+				// correctly picked by colorbutton plugin.
 				bgOptions.contentTransformations = [
 					[
 						{
-							// Transform span color-only background.
+							// Transform span that specify background with color only to background-color.
 							element: 'span',
 							left: function( element ) {
 								var tools = CKEDITOR.tools;
@@ -373,5 +375,16 @@ CKEDITOR.config.colorButton_backStyle = {
  *		config.colorButton_enableAutomatic = false;
  *
  * @cfg {Boolean} [colorButton_enableAutomatic=true]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Whether the plugin should convert `background` CSS properties with color only, to a `background-color` property,
+ * allowing [Color Button](http://ckeditor.com/addon/colorbutton) plugin to edit these styles.
+ *
+ *		config.colorButton_normalizeBackground = false;
+ *
+ * @since 4.6.1
+ * @cfg {Boolean} [colorButton_normalizeBackground=true]
  * @member CKEDITOR.config
  */
