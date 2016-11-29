@@ -40,8 +40,20 @@
 		var node,
 			i;
 
-		// Edge case: selected text node inside one table cell.
-		if ( ranges.length === 1 && ranges[ 0 ].collapsed ) {
+		function isPartiallySelected( range ) {
+			var startCell = range.startContainer.getAscendant( { td: 1, th: 1 }, true ),
+				endCell = range.endContainer.getAscendant( { td: 1, th: 1 }, true ),
+				trim = CKEDITOR.tools.trim;
+
+			if ( !startCell || !startCell.equals( endCell ) ) {
+				return false;
+			}
+
+			return trim( range.cloneContents().getFirst().getText() ) !== trim( startCell.getText() );
+		}
+
+		// Edge case: partially selected text node inside one table cell or cursor inside cell.
+		if ( ranges.length === 1 && ( ranges[ 0 ].collapsed || isPartiallySelected( ranges[ 0 ] ) ) ) {
 			return false;
 		}
 
