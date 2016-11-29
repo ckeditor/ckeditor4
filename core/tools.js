@@ -1505,17 +1505,9 @@
 				 *
 				 * **Note:** currently we extract only `color` property. Any other parts will go into `unprocessed` property.
 				 *
-				 *		var backgrounds = CKEDITOR.tools.style.parse.background( '#0C0 url(foo.png)' );
-				 *		console.log( backgrounds[ 0 ] );
-				 *		// Logs: { color: '#0C0', unprocessed: 'url(foo.png)' };
-				 *
-				 * Below is an example with multiple backgrounds:
-				 *
-				 *		var backgrounds = CKEDITOR.tools.style.parse.background( 'url(foo.png) top left, url(bar.png) bottom right' );
-				 *		console.log( backgrounds[ 0 ] );
-				 *		// Logs: { unprocessed: 'url(foo.png) top left' }
-				 *		console.log( backgrounds[ 1 ] );
-				 *		// Logs: { unprocessed: 'url(bar.png) bottom right' }
+				 *		var background = CKEDITOR.tools.style.parse.background( '#0C0 url(foo.png)' );
+				 *		console.log( background );
+				 *		// Logs: { color: '#0C0', unprocessed: 'url(foo.png)' }
 				 *
 				 * @param {String} value `background` property value.
 				 * @returns {Object[]} Parsed background values as an array (as background shorthand might
@@ -1524,60 +1516,23 @@
 				 */
 				background: function( value ) {
 					var ret = [],
-						parts = [],
-						colors = [],
-						i;
+						colors = [];
 
-					if ( value.match( /\,/ ) ) {
-						// A possibly multiple background are used, this makes it tricky. Many values might
-						// contain coma character, like rgb, hsl values or urls.
-						// So we need to replace this with coma-less placeholders, and then we can split value.
-						var tmpValue = value,
-							replaceWithPlaceholder = function( match ) {
-								return CKEDITOR.tools.repeat( '_', match.length );
-							},
-							j;
+					colors = this._findColor( value );
 
-						tmpValue = tmpValue.replace( this._rgbaRegExp, replaceWithPlaceholder )
-							.replace( this._hslaRegExp, replaceWithPlaceholder );
+					if ( colors.length ) {
+						ret.color = colors[ 0 ];
 
-						var tmpParts = tmpValue.split( /\,/g ),
-							startIndex = 0;
-
-						// Chop all the coma separated parts. Based on tmpParts offsets which doesn't have
-						// comas but use real content from value variable.
-						for ( j = 0; j < tmpParts.length; j++ ) {
-							parts.push( value.substr( startIndex, tmpParts[ j ].length ) );
-
-							// +1 because of the coma.
-							startIndex += ( tmpParts[ j ].length + 1 );
-						}
-					} else {
-						parts = [ value ];
+						CKEDITOR.tools.array.forEach( colors, function( colorToken ) {
+							value = value.replace( colorToken, '' );
+						} );
 					}
 
-					for ( i = 0; i < parts.length; i++ ) {
-						var curPart = parts[ i ],
-							obj = {};
+					value = CKEDITOR.tools.trim( value );
 
-						colors = this._findColor( curPart );
-
-						if ( colors.length ) {
-							obj.color = colors[ 0 ];
-
-							CKEDITOR.tools.array.forEach( colors, function( colorToken ) {
-								curPart = curPart.replace( colorToken, '' );
-							} );
-						}
-
-						curPart = CKEDITOR.tools.trim( curPart );
-
-						if ( curPart ) {
-							// If anything was left unprocessed include it as unprocessed part.
-							obj.unprocessed = curPart;
-						}
-
-						ret.push( obj );
+					if ( value ) {
+						// If anything was left unprocessed include it as unprocessed part.
+						ret.unprocessed = value;
 					}
 
 					return ret;

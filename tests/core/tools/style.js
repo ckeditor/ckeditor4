@@ -11,38 +11,21 @@
 		'test style.parse.background single background': function() {
 			var ret = this.parse.background( 'red url(foo.bar) no-repeat' );
 
-			assert.isInstanceOf( Array, ret, 'Return type' );
-			assert.areSame( 1, ret.length, 'Returned item count' );
-		},
+			// assert.isInstanceOf( Array, ret, 'Return type' );
+			// assert.areSame( 1, ret.length, 'Returned item count' );
 
-		'test style.parse.background multiple backgrounds': function() {
-			var ret = this.parse.background( 'red url(foo.bar) no-repeat, rgba(1,1,1,1.0), green, rgb(133,13,12)' );
-
-			assert.isInstanceOf( Array, ret, 'Return type' );
-			assert.areSame( 4, ret.length, 'Returned item count' );
-
-			// Test values.
-			objectAssert.areEqual( { color: 'red', unprocessed: 'url(foo.bar) no-repeat' }, ret[ 0 ], 'ret[ 0 ]' );
-			objectAssert.areEqual( { color: 'rgba(1,1,1,1.0)' }, ret[ 1 ], 'ret[ 1 ]' );
-			objectAssert.areEqual( { color: 'green' }, ret[ 2 ], 'ret[ 2 ]' );
-			objectAssert.areEqual( { color: 'rgb(133,13,12)' }, ret[ 3 ], 'ret[ 3 ]' );
+			objectAssert.areEqual( { color: 'red', unprocessed: 'url(foo.bar) no-repeat' }, ret );
 		},
 
 		'test style.parse.background unknown markup': function() {
 			var ret = this.parse.background( 'foo bar   baz!' );
 
-			objectAssert.areEqual( { unprocessed: 'foo bar   baz!' }, ret[ 0 ], 'ret[ 0 ]' );
+			objectAssert.areEqual( { unprocessed: 'foo bar   baz!' }, ret );
 		},
 
 		'test style.parse.background docs sample': function() {
-			var backgrounds = CKEDITOR.tools.style.parse.background( '#0C0 url(foo.png)' );
-			objectAssert.areEqual( { color: '#0C0', unprocessed: 'url(foo.png)' }, backgrounds[ 0 ] );
-		},
-
-		'test style.parse.background docs sample 2': function() {
-			var backgrounds = CKEDITOR.tools.style.parse.background( 'url(foo.png) top left, url(bar.png) bottom right' );
-			objectAssert.areEqual( { unprocessed: 'url(foo.png) top left' }, backgrounds[ 0 ] );
-			objectAssert.areEqual( { unprocessed: 'url(bar.png) bottom right' }, backgrounds[ 1 ] );
+			var background = CKEDITOR.tools.style.parse.background( '#0C0 url(foo.png)' );
+			objectAssert.areEqual( { color: '#0C0', unprocessed: 'url(foo.png)' }, background );
 		},
 
 		'test style.parse._findColor empty value': function() {
