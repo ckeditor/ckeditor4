@@ -73,53 +73,43 @@
 				CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
 			table = editable.findOne( 'table' );
 
-			// Real table selection (one cell).
 			selection.selectElement( table.findOne( 'td' ) );
-			assert.isTrue( selection.isInTable() );
+			assert.isTrue( selection.isInTable(), 'Real table selection (one cell).' );
 
-			// Real table selection (one row).
 			selection.selectElement( table.findOne( 'tr' ) );
-			assert.isTrue( selection.isInTable() );
+			assert.isTrue( selection.isInTable(), 'Real table selection (one row).' );
 
-			// Real table selection (tbody).
 			selection.selectElement( table.findOne( 'tbody' ) );
-			assert.isTrue( selection.isInTable() );
+			assert.isTrue( selection.isInTable(), 'Real table selection (tbody).' );
 
-			// Real table selection (table).
 			selection.selectElement( table );
-			assert.isTrue( selection.isInTable() );
+			assert.isTrue( selection.isInTable(), 'Table element selection.' );
 
-			// Fake table selection.
 			ranges = getRangesForCells( editor, table, [ 0, 3 ] );
 			selection.selectRanges( ranges );
-			assert.isTrue( selection.isInTable() );
+			assert.isTrue( selection.isInTable(), 'Fake table selection.' );
 			clearTableSelection( editor.editable() );
 
-			// Selecting only text node in table.
 			selection.selectElement( table.findOne( 'td' ).getChild( 0 ) );
-			assert.isTrue( selection.isInTable() );
+			assert.isTrue( selection.isInTable(), 'Selecting only text node in table.' );
 
-			// Selecting paragraph.
 			selection.selectElement( editor.document.getById( 'foo' ) );
-			assert.isFalse( selection.isInTable() );
+			assert.isFalse( selection.isInTable(), 'Selecting paragraph.' );
 
-			// Selecting table and paragraph.
 			range = createRange( editor, editor.document.getById( 'foo' ).getChild( 0 ), 2,
 				table.findOne( 'td' ).getChild( 0 ), 2 );
 			range.select();
-			assert.isFalse( editor.getSelection().isInTable() );
+			assert.isFalse( editor.getSelection().isInTable(), 'Selecting table and paragraph.' );
 
-			// Selecting from two tables at once.
 			range = createRange( editor, table.find( 'td' ).getItem( 5 ).getChild( 0 ), 2,
 				editable.find( 'table' ).getItem( 1 ).findOne( 'td' ).getChild( 0 ), 2 );
 			range.select();
-			assert.isFalse( editor.getSelection().isInTable() );
+			assert.isFalse( editor.getSelection().isInTable(), 'Selecting from two tables at once.' );
 
-			// Selecting fragment of text node inside table cell.
 			range = createRange( editor, table.findOne( 'td' ).getChild( 0 ), 0,
 				table.findOne( 'td' ).getChild( 0 ), 2 );
 			range.select();
-			assert.isFalse( editor.getSelection().isInTable() );
+			assert.isFalse( editor.getSelection().isInTable(), 'Selecting fragment of text node inside table cell.' );
 		},
 
 		'Make fake table selection': function() {
