@@ -107,13 +107,19 @@
 			range = createRange( editor, editor.document.getById( 'foo' ).getChild( 0 ), 2,
 				table.findOne( 'td' ).getChild( 0 ), 2 );
 			range.select();
-			assert.isFalse( selection.isInTable() );
+			assert.isFalse( editor.getSelection().isInTable() );
 
 			// Selecting from two tables at once.
 			range = createRange( editor, table.find( 'td' ).getItem( 5 ).getChild( 0 ), 2,
 				editable.find( 'table' ).getItem( 1 ).findOne( 'td' ).getChild( 0 ), 2 );
 			range.select();
-			assert.isFalse( selection.isInTable() );
+			assert.isFalse( editor.getSelection().isInTable() );
+
+			// Selecting fragment of text node inside table cell.
+			range = createRange( editor, table.findOne( 'td' ).getChild( 0 ), 0,
+				table.findOne( 'td' ).getChild( 0 ), 2 );
+			range.select();
+			assert.isFalse( editor.getSelection().isInTable() );
 		},
 
 		'Make fake table selection': function() {
