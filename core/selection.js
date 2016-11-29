@@ -225,7 +225,9 @@
 		}
 
 		return function( evt ) {
-			var keystroke = evt.data.getKeystroke(),
+			// Use getKey directly in order to ignore modifiers.
+			// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
+			var keystroke = evt.data.getKey(),
 				selection,
 				toStart = keystroke === 37 || keystroke == 38,
 				ranges,
