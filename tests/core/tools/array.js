@@ -24,6 +24,14 @@
 			arrayAssert.itemsAreSame( originalInput, inputArray, 'The original array has not been modified' );
 		},
 
+		'test array.filter docs sample': function() {
+			var filtered = this.array.filter( [ 0, 1, 2, 3 ], function( value ) {
+				// Leave only values equal or greater than 2.
+				return value >= 2;
+			} );
+			arrayAssert.itemsAreSame( [ 2, 3 ], filtered );
+		},
+
 		'test array.filter context and arguments': function() {
 			var context = {
 					foo: 'bar'

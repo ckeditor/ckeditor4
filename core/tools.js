@@ -1503,7 +1503,21 @@
 				 * Parses `value` used as a `background` property shorthand and returns information as
 				 * an object.
 				 *
-				 * @param {String} value
+				 * **Note:** currently we extract only `color` property. Any other parts will go into `unprocessed` property.
+				 *
+				 *		var backgrounds = CKEDITOR.tools.style.parse.background( '#0C0 url(foo.png)' );
+				 *		console.log( backgrounds[ 0 ] );
+				 *		// Logs: { color: '#0C0', unprocessed: 'url(foo.png)' };
+				 *
+				 * Below is an example with multiple backgrounds:
+				 *
+				 *		var backgrounds = CKEDITOR.tools.style.parse.background( 'url(foo.png) top left, url(bar.png) bottom right' );
+				 *		console.log( backgrounds[ 0 ] );
+				 *		// Logs: { unprocessed: 'url(foo.png) top left' }
+				 *		console.log( backgrounds[ 1 ] );
+				 *		// Logs: { unprocessed: 'url(bar.png) bottom right' }
+				 *
+				 * @param {String} value `background` property value.
 				 * @returns {Object[]} Parsed background values as an array (as background shorthand might
 				 * specify multiple backgrounds).
 				 * @member CKEDITOR.tools.style.parse
@@ -1576,11 +1590,12 @@
 				 *		// Logs: { top: "3px", right: "0", bottom: "2", left: "0" }
 				 *
 				 * @param {String} value `margin` property value.
-				 * @returns {Object} ret
-				 * @returns {Number} ret.top
-				 * @returns {Number} ret.right
-				 * @returns {Number} ret.bottom
-				 * @returns {Number} ret.left
+				 * @returns {Object}
+				 * @returns {Number} return.top Top margin.
+				 * @returns {Number} return.right Right margin.
+				 * @returns {Number} return.bottom Bottom margin.
+				 * @returns {Number} return.left Left margin.
+				 * @member CKEDITOR.tools.style.parse
 				 */
 				margin: function( value ) {
 					var ret = {};
@@ -1655,7 +1670,14 @@
 		 */
 		array: {
 			/**
-			 * Returns `array` copy filtered out using `fn` function.
+			 * Returns a copy of `array` filtered using `fn` function.
+			 *
+			 *		var filtered = this.array.filter( [ 0, 1, 2, 3 ], function( value ) {
+			 *			// Leave only values equal or greater than 2.
+			 *			return value >= 2;
+			 *		} );
+			 *		console.log( filtered );
+			 *		// Logs: [ 2, 3 ]
 			 *
 			 * @param {Array} array
 			 * @param {Function} fn Function that gets called with each `array` item. Any item for that `fn`
@@ -1734,6 +1756,29 @@
 	 * @inheritdoc CKEDITOR.tools#isArray
 	 */
 	CKEDITOR.tools.array.isArray = CKEDITOR.tools.isArray;
+
+
+
+	/**
+	 * Namespace containing functions to work on CSS properties.
+	 *
+	 * @since 4.6.1
+	 * @class CKEDITOR.tools.style
+	 */
+
+	/**
+	 * Namespace with helper functions to parse some common CSS properties.
+	 *
+	 * @since 4.6.1
+	 * @class CKEDITOR.tools.style.parse
+	 */
+
+	/**
+	 * Namespace with helper functions and polyfills for arrays.
+	 *
+	 * @since 4.6.1
+	 * @class CKEDITOR.tools.array
+	 */
 } )();
 
 // PACKAGER_RENAME( CKEDITOR.tools )

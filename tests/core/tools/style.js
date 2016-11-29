@@ -34,6 +34,17 @@
 			objectAssert.areEqual( { unprocessed: 'foo bar   baz!' }, ret[ 0 ], 'ret[ 0 ]' );
 		},
 
+		'test style.parse.background docs sample': function() {
+			var backgrounds = CKEDITOR.tools.style.parse.background( '#0C0 url(foo.png)' );
+			objectAssert.areEqual( { color: '#0C0', unprocessed: 'url(foo.png)' }, backgrounds[ 0 ] );
+		},
+
+		'test style.parse.background docs sample 2': function() {
+			var backgrounds = CKEDITOR.tools.style.parse.background( 'url(foo.png) top left, url(bar.png) bottom right' );
+			objectAssert.areEqual( { unprocessed: 'url(foo.png) top left' }, backgrounds[ 0 ] );
+			objectAssert.areEqual( { unprocessed: 'url(bar.png) bottom right' }, backgrounds[ 1 ] );
+		},
+
 		'test style.parse._findColor empty value': function() {
 			var ret = this.parse._findColor( '' );
 
