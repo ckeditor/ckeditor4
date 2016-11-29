@@ -200,7 +200,17 @@
 			40: 1, // Down Arrow
 			8: 1, // Backspace
 			46: 1 // Delete
-		};
+		},
+		tags = { table: 1, ul: 1, ol: 1, dl: 1 };
+
+		function getBlockToDelete( node ) {
+			var ancestor = node.getAscendant( tags );
+			if ( ancestor && !CKEDITOR.tools.trim( ancestor.getText() ) ) {
+				return getBlockToDelete( ancestor );
+			}
+
+			return node;
+		}
 
 		return function( evt ) {
 			var keystroke = evt.data.getKeystroke(),
@@ -209,6 +219,7 @@
 				ranges,
 				firstCell,
 				lastCell,
+				block,
 				i;
 
 			// Handle only left/right/del/bspace keys.
@@ -237,10 +248,17 @@
 					clearCellInRange( ranges[ i ] );
 				}
 
-				editor.fire( 'saveSnapshot' );
+				block = getBlockToDelete( firstCell );
 
-				ranges[ 0 ].moveToElementEditablePosition( firstCell );
+				if ( !block.equals( firstCell ) ) {
+					ranges[ 0 ].moveToPosition( block, CKEDITOR.POSITION_BEFORE_START );
+					block.remove();
+				} else {
+					ranges[ 0 ].moveToElementEditablePosition( firstCell );
+				}
+
 				selection.selectRanges( [ ranges[ 0 ] ] );
+				editor.fire( 'saveSnapshot' );
 			}
 		};
 	}
