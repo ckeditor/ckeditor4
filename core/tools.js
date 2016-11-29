@@ -1570,6 +1570,50 @@
 				},
 
 				/**
+				 * Parses `margin` CSS property shorthand format.
+				 *
+				 *		console.log( CKEDITOR.tools.parse.margin( '3px 0 2' ) );
+				 *		// Logs: { top: "3px", right: "0", bottom: "2", left: "0" }
+				 *
+				 * @param {String} value `margin` property value.
+				 * @returns {Object} ret
+				 * @returns {Number} ret.top
+				 * @returns {Number} ret.right
+				 * @returns {Number} ret.bottom
+				 * @returns {Number} ret.left
+				 */
+				margin: function( value ) {
+					var ret = {};
+
+					var widths = value.match( /(?:\-?[\.\d]+(?:%|\w*)|auto|inherit|initial|unset)/g ) || [ '0px' ];
+
+					switch ( widths.length ) {
+						case 1:
+							// element.styles.margin = widths[0];
+							mapStyles( [ 0, 0, 0, 0 ] );
+							break;
+						case 2:
+							mapStyles( [ 0, 1, 0, 1 ] );
+							break;
+						case 3:
+							mapStyles( [ 0, 1, 2, 1 ] );
+							break;
+						case 4:
+							mapStyles( [ 0, 1, 2, 3 ] );
+							break;
+					}
+
+					function mapStyles( map ) {
+						ret.top = widths[ map[ 0 ] ];
+						ret.right = widths[ map[ 1 ] ];
+						ret.bottom = widths[ map[ 2 ] ];
+						ret.left = widths[ map[ 3 ] ];
+					}
+
+					return ret;
+				},
+
+				/**
 				 * Searches `value` for any CSS color occurrences and returns it.
 				 *
 				 * @private
@@ -1579,7 +1623,7 @@
 				 */
 				_findColor: function( value ) {
 					var ret = [],
-						arrayFilter = CKEDITOR.tools.array.filter;
+						arrayTools = CKEDITOR.tools.array;
 
 
 					// Check for rgb(a).
@@ -1588,7 +1632,7 @@
 					// Check for hsl(a).
 					ret = ret.concat( value.match( this._hslaRegExp ) || [] );
 
-					ret = ret.concat( arrayFilter( value.split( /\s+/ ), function( colorEntry ) {
+					ret = ret.concat( arrayTools.filter( value.split( /\s+/ ), function( colorEntry ) {
 						// Check for hex format.
 						if ( colorEntry.match( /^\#[a-f0-9]{3}(?:[a-f0-9]{3})?$/gi ) ) {
 							return true;

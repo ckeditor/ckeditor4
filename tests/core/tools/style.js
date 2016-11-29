@@ -63,6 +63,72 @@
 			var ret = this.parse._findColor( 'xa orange red blueish' );
 
 			arrayAssert.itemsAreEqual( [ 'orange', 'red' ], ret );
+		},
+
+		'test style.parse.margin 1 member': function() {
+			var ret = this.parse.margin( '7px' ),
+				expected = {
+					/* vertical | horizontal */
+					top: '7px',
+					right: '7px',
+					bottom: '7px',
+					left: '7px'
+				};
+
+			objectAssert.areEqual( expected, ret );
+		},
+
+		'test style.parse.margin 2 members': function() {
+			var ret = this.parse.margin( '10px 20px' ),
+				expected = {
+					/* vertical | horizontal */
+					top: '10px',
+					right: '20px',
+					bottom: '10px',
+					left: '20px'
+				};
+
+			objectAssert.areEqual( expected, ret );
+		},
+
+		'test style.parse.margin 3 members': function() {
+			var ret = this.parse.margin( ' 3px 0 2' ),
+				expected = {
+					top: '3px',
+					right: '0',
+					bottom: '2',
+					left: '0'
+				};
+
+			objectAssert.areEqual( expected, ret );
+		},
+
+		'test style.parse.margin 4 members': function() {
+			var ret = this.parse.margin( ' 20px 2.5em 0 auto	' ),
+				expected = {
+					top: '20px',
+					right: '2.5em',
+					bottom: '0',
+					left: 'auto'
+				};
+
+			objectAssert.areEqual( expected, ret );
+		},
+
+		'test style.parse.margin percentage': function() {
+			var ret = this.parse.margin( ' 10px 5%;' ),
+				expected = {
+					top: '10px',
+					right: '5%',
+					bottom: '10px',
+					left: '5%'
+				};
+
+			objectAssert.areEqual( expected, ret );
+		},
+
+		'test style.parse.margin docs sample': function() {
+			objectAssert.areEqual( { top: '3px', right: '0', bottom: '2', left: '0' }, CKEDITOR.tools.style.parse.margin( '3px 0 2' ) );
 		}
 	} );
 } )();
