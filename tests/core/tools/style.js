@@ -11,9 +11,6 @@
 		'test style.parse.background single background': function() {
 			var ret = this.parse.background( 'red url(foo.bar) no-repeat' );
 
-			// assert.isInstanceOf( Array, ret, 'Return type' );
-			// assert.areSame( 1, ret.length, 'Returned item count' );
-
 			objectAssert.areEqual( { color: 'red', unprocessed: 'url(foo.bar) no-repeat' }, ret );
 		},
 
