@@ -1625,7 +1625,8 @@
 		 */
 		array: {
 			/**
-			 * Returns a copy of `array` filtered using `fn` function.
+			 * Returns a copy of `array` filtered using `fn` function. Any elements that the `fn` will return `false` for
+			 * will get removed from returned array.
 			 *
 			 *		var filtered = this.array.filter( [ 0, 1, 2, 3 ], function( value ) {
 			 *			// Leave only values equal or greater than 2.
@@ -1637,6 +1638,9 @@
 			 * @param {Array} array
 			 * @param {Function} fn Function that gets called with each `array` item. Any item for that `fn`
 			 * returned `false`-alike value for will be filtered out of `array`.
+			 * @param {Mixed} fn.value Currently iterated array value.
+			 * @param {Number} fn.index The index of currently iterated value in array.
+			 * @param {Array} fn.array The original array passed as a `array` variable.
 			 * @param {Mixed} [thisArg=undefined] Context object for `fn`.
 			 * @returns {Array} Filtered array.
 			 * @member CKEDITOR.tools.array
@@ -1658,6 +1662,9 @@
 			 *
 			 * @param {Array} array An array to be iterated.
 			 * @param {Function} fn Function called for every `array` element.
+			 * @param {Mixed} fn.value Currently iterated array value.
+			 * @param {Number} fn.index The index of currently iterated value in array.
+			 * @param {Array} fn.array The original array passed as a `array` variable.
 			 * @param {Mixed} [thisArg=undefined] Context object for `fn`.
 			 * @member CKEDITOR.tools.array
 			 */
