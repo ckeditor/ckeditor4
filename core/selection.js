@@ -30,8 +30,9 @@
 			return range.getEnclosedNode().getAscendant( tableElements, true );
 		}
 
-		// Ensure that aelection starts and ends in the same table.
-		if ( startTable && startTable.equals( endTable ) ) {
+		// Ensure that selection starts and ends in the same table or one of the table is inside the other.
+		if ( startTable && ( startTable.equals( endTable ) || startTable.contains( endTable ) ||
+			endTable.contains( startTable ) ) ) {
 			return start.getAscendant( tableElements, true );
 		}
 	}
@@ -45,7 +46,8 @@
 				endCell = range.endContainer.getAscendant( { td: 1, th: 1 }, true ),
 				trim = CKEDITOR.tools.trim;
 
-			if ( !startCell || !startCell.equals( endCell ) ) {
+			// Check if the selection is inside one cell and we don't have any nested table contents selected.
+			if ( !startCell || !startCell.equals( endCell ) || startCell.findOne( 'td, th, tr, tbody, table' ) ) {
 				return false;
 			}
 
