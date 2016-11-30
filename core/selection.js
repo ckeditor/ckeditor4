@@ -31,7 +31,7 @@
 		}
 
 		// Ensure that selection starts and ends in the same table or one of the table is inside the other.
-		if ( startTable && ( startTable.equals( endTable ) || startTable.contains( endTable ) ||
+		if ( startTable && endTable && ( startTable.equals( endTable ) || startTable.contains( endTable ) ||
 			endTable.contains( startTable ) ) ) {
 			return start.getAscendant( tableElements, true );
 		}
