@@ -872,7 +872,8 @@
 		// 2. User opens context menu not in the selected table.
 		if ( ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !table ) ) ||
 			( evt.name === 'mouseup' &&
-				( !selection.isInTable() || !selectedTable || !selectedTable.equals( table ) ) ) ) {
+				( !selection.isInTable() || !selectedTable ||
+				!( selectedTable.equals( table ) || selectedTable.contains( table ) ) ) ) ) {
 			clearFakeCellSelection( editor, true );
 		}
 
