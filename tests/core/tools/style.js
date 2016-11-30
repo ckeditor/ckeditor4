@@ -48,9 +48,9 @@
 		},
 
 		'test style.parse._findColor hsla': function() {
-			var ret = this.parse._findColor( 'hsl(10,30%,30%)   hsla(10,30%,30%,1)' );
+			var ret = this.parse._findColor( 'hsl(10,30%,30%)   hsla(10,30%,30%,1)  hsla( 90.5, 10%, 10%, 1)' );
 
-			arrayAssert.itemsAreEqual( [ 'hsl(10,30%,30%)', 'hsla(10,30%,30%,1)' ], ret );
+			arrayAssert.itemsAreEqual( [ 'hsl(10,30%,30%)', 'hsla(10,30%,30%,1)', 'hsla( 90.5, 10%, 10%, 1)' ], ret );
 		},
 
 		'test style.parse._findColor predefined': function() {
