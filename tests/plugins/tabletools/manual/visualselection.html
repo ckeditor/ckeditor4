@@ -413,6 +413,34 @@
 	<p>Some text</p>
 </div>
 
+<h2>Nested table</h2>
+<div id="editor6">
+	<p>Some text</p>
+	<table border="1">
+		<tbody>
+		<tr>
+			<td>
+				<table border="1">
+					<tbody>
+					<tr>
+						<td>IA</td>
+						<td>IB</td>
+					</tr>
+					<tr>
+						<td>IC</td>
+						<td>ID</td>
+					</tr>
+					</tbody>
+				</table>
+			</td>
+			<td>OB</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<p>Some text</p>
+</div>
+
 <script>
 	CKEDITOR.replace( 'editor1', {
 		autoGrow_onStartup: true
@@ -427,6 +455,9 @@
 		autoGrow_onStartup: true
 	} );
 	CKEDITOR.replace( 'editor5', {
+		autoGrow_onStartup: true
+	} );
+	CKEDITOR.replace( 'editor6', {
 		autoGrow_onStartup: true
 	} );
 </script>
