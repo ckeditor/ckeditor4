@@ -1500,8 +1500,7 @@
 				_hslaRegExp: /hsla?\(\s*\d+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
 				/**
-				 * Parses `value` used as a `background` property shorthand and returns information as
-				 * an object.
+				 * Parses `value` used as a `background` property shorthand and returns information as an object.
 				 *
 				 * **Note:** currently we extract only `color` property. Any other parts will go into `unprocessed` property.
 				 *
@@ -1510,8 +1509,9 @@
 				 *		// Logs: { color: '#0C0', unprocessed: 'url(foo.png)' }
 				 *
 				 * @param {String} value `background` property value.
-				 * @returns {Object[]} Parsed background values as an array (as background shorthand might
-				 * specify multiple backgrounds).
+				 * @returns {Object} Object with information extracted from the background.
+				 * @returns {String} return.color The **first** color value found, the color format remains same as in input.
+				 * @returns {String} return.unprocessed Remaining part of `value` that has not been processed.
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				background: function( value ) {
