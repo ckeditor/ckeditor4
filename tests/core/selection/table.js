@@ -110,6 +110,19 @@
 				table.findOne( 'td' ).getChild( 0 ), 2 );
 			range.select();
 			assert.isFalse( editor.getSelection().isInTable(), 'Selecting fragment of text node inside table cell.' );
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'nestedTable' ).getHtml() );
+			table = editable.findOne( 'table' );
+
+			ranges = getRangesForCells( editor, table, [ 1 ] );
+			selection.selectRanges( ranges );
+			assert.isTrue( selection.isInTable(), 'Nested cell selection.' );
+
+			selection.selectElement( table.findOne( 'table tr' ) );
+			assert.isTrue( selection.isInTable(), 'Nested table selection (one row).' );
+
+			selection.selectElement( table.findOne( 'table tbody' ) );
+			assert.isTrue( selection.isInTable(), 'Nested table selection (tbody).' );
 		},
 
 		'Make fake table selection': function() {
