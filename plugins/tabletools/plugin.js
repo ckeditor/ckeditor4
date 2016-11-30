@@ -868,12 +868,34 @@
 			cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true ),
 			table = evt.data.getTarget().getAscendant( 'table', true );
 
+		// Nested tables should be treated as the same one (e.g. user starts dragging from outer table
+		// and ends in inner one).
+		function isSameTable( selectedTable, table ) {
+			if ( !selectedTable || !table ) {
+				return false;
+			}
+
+			return selectedTable.equals( table ) || selectedTable.contains( table );
+		}
+
+		function canClearSelection( evt, selection, selectedTable, table ) {
+			// User starts click outside the table or not in the same table.
+			if ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !table ) ) {
+				return true;
+			}
+
+			// 1. User release mouse button outside the table.
+			// 2. User opens context menu not in the selected table.
+			if ( evt.name === 'mouseup' && !isSameTable( selectedTable, table ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
 		// 1. User clicks outside the table.
 		// 2. User opens context menu not in the selected table.
-		if ( ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !table ) ) ||
-			( evt.name === 'mouseup' &&
-				( !selection.isInTable() || !selectedTable ||
-				!( selectedTable.equals( table ) || selectedTable.contains( table ) ) ) ) ) {
+		if ( canClearSelection( evt, selection, selectedTable, table ) ) {
 			clearFakeCellSelection( editor, true );
 		}
 
