@@ -7,7 +7,8 @@
 	var cellNodeRegex = /^(?:td|th)$/,
 		isArray = CKEDITOR.tools.isArray,
 		fakeSelectedClass = 'cke_table-faked-selection',
-		fakeSelection = { active: false };
+		fakeSelection = { active: false },
+		previousFakeSelection;
 
 	function getSelectedCells( selection ) {
 		var ranges = selection.getRanges();
@@ -828,6 +829,8 @@
 			}
 
 			fakeSelection.dirty = true;
+			fakeSelection.last = cell;
+
 			cells = getCellsBetween( fakeSelection.first, cell );
 
 			fakeSelectCells( editor, cells );
@@ -866,7 +869,8 @@
 			selection = editor.getSelection( 1 ),
 			selectedTable = getFakeSelectedTable( editor ),
 			cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true ),
-			table = evt.data.getTarget().getAscendant( 'table', true );
+			table = evt.data.getTarget().getAscendant( 'table', true ),
+			canClear;
 
 		// Nested tables should be treated as the same one (e.g. user starts dragging from outer table
 		// and ends in inner one).
@@ -895,7 +899,7 @@
 
 		// 1. User clicks outside the table.
 		// 2. User opens context menu not in the selected table.
-		if ( canClearSelection( evt, selection, selectedTable, table ) ) {
+		if ( canClear = canClearSelection( evt, selection, selectedTable, table ) ) {
 			clearFakeCellSelection( editor, true );
 		}
 
@@ -910,7 +914,15 @@
 			fakeSelectByMouse( editor, cell || table, evt );
 		}
 
+		// Restore previous fake selection in case of context menu.
+		if ( previousFakeSelection && evt.name === 'mouseup' && !canClear && !selection.isInTable() ) {
+			fakeSelection = previousFakeSelection;
+
+			fakeSelectCells( editor, getCellsBetween( fakeSelection.first, fakeSelection.last ) );
+		}
+
 		if ( evt.name === 'mouseup' ) {
+			previousFakeSelection = fakeSelection;
 			fakeSelection = { active: false };
 		}
 	}
