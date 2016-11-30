@@ -11,7 +11,16 @@
 	};
 
 	bender.test( {
-		'test case': function() {
+		'test regular case': function() {
+			this.editorBot.setHtmlWithSelection( '<ol><li>[aaaaaaaaaaaaaaaa</li><li>&nbsp;]</li></ol>' );
+
+			this.editorBot.dialog( 'table', function( dialog ) {
+				assert.isTrue( true );
+				dialog.getButton( 'ok' ).click();
+			} );
+		},
+
+		'test bug case': function() {
 			this.editorBot.setHtmlWithSelection( '<ol><li>[aaaaaaaaaaaaaaaa</li><li class="bbbbbbbbbbbbb">&nbsp;]</li></ol>' );
 
 			this.editorBot.dialog( 'table', function( dialog ) {
