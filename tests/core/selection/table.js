@@ -11,7 +11,8 @@
 		}
 	};
 
-	var selectedClass = 'cke_table-faked-selection';
+	var selectedClass = 'cke_table-faked-selection',
+		isQuirkyEnv = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari;
 
 	function getKeyEvent( keyCode, preventDefaultCallback ) {
 		var evt = new CKEDITOR.dom.event( typeof keyCode === 'object' ? keyCode : { keyCode: keyCode, charCode: keyCode } );
@@ -19,6 +20,23 @@
 			preventDefaultCallback && preventDefaultCallback();
 		};
 		return evt;
+	}
+
+	function getTableElementFromRange( range ) {
+		var tableElements = {
+				table: 1,
+				tbody: 1,
+				tr: 1,
+				td: 1,
+				th: 1
+			},
+			start = range.startContainer;
+
+		if ( range.getEnclosedNode() ) {
+			return range.getEnclosedNode().getAscendant( tableElements, true );
+		}
+
+		return start.getAscendant( tableElements, true );
 	}
 
 	function getRangesForCells( editor, table, indexes ) {
@@ -32,6 +50,7 @@
 			range = editor.createRange();
 
 			cell.addClass( selectedClass );
+
 			range.setStartBefore( cell );
 			range.setEndAfter( cell );
 
@@ -146,14 +165,17 @@
 			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
 
 			assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+			assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
 				'Selected element equals to the first selected cell' );
 
 			realSelection = editor.getSelection( 1 );
 
 			assert.areSame( 1, realSelection.getRanges().length, 'Real selection has only one range' );
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( realSelection.getSelectedElement() ),
-				'Real selected element equals to the first selected cell' );
+
+			if ( !isQuirkyEnv ) {
+				assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( realSelection.getSelectedElement() ),
+					'Real selected element equals to the first selected cell' );
+			}
 
 			clearTableSelection( editor.editable() );
 		},
@@ -178,14 +200,21 @@
 			assert.isNotNull( selection.getNative(), 'getNative() is not null' );
 			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
 
-			assert.areSame( CKEDITOR.SELECTION_ELEMENT, selection.getType(), 'Element type selection' );
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
-				'Selected element equals to the first selected cell' );
+			// In Safari the selection is inside the cell.
+			if ( isQuirkyEnv ) {
+				assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
+			} else {
+				assert.areSame( CKEDITOR.SELECTION_ELEMENT, selection.getType(), 'Element type selection' );
+				assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+					'Selected element equals to the first selected cell' );
+			}
 
 			realSelection = editor.getSelection( 1 );
 
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( realSelection.getSelectedElement() ),
-				'Real selected element equals to the first selected cell' );
+			if ( !isQuirkyEnv ) {
+				assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( realSelection.getSelectedElement() ),
+					'Real selected element equals to the first selected cell' );
+			}
 
 			editor.config.tableImprovements = true;
 			clearTableSelection( editor.editable() );
@@ -206,8 +235,12 @@
 			assert.isFalse( !!selection.isFake, 'isFake is not set' );
 
 			assert.areSame( 1, selection.getRanges().length, 'Only first range remains selected' );
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
-				'getSelectedElement() equals to the first selected cell' );
+
+			if ( !isQuirkyEnv ) {
+				assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+					'getSelectedElement() equals to the first selected cell' );
+			}
+
 			assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
 
 			clearTableSelection( editor.editable() );
@@ -234,7 +267,7 @@
 				listener.removeListener();
 
 				assert.areSame( 1, selectionChange, 'selectionChange was fired only once' );
-				assert.areSame( ranges[ 0 ].getEnclosedNode(), selectedElement,
+				assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selectedElement ),
 					'getSelectedElement() must be the first selected table cell' );
 
 				clearTableSelection( editor.editable() );
@@ -305,7 +338,7 @@
 
 			assert.isTrue( !!selection.isFake, 'isFake is set' );
 
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+			assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
 				'getSelectedElement() must return the first selected table cell' );
 			assert.areSame( ranges.length, selection.getRanges().length, 'All ranges selected' );
 
@@ -342,7 +375,7 @@
 
 			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 3 ] );
 
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+			assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
 				'getSelectedElement() must return the first selected table cell' );
 			assert.areSame( ranges.length, selection.getRanges().length, 'All ranges selected' );
 
@@ -373,7 +406,7 @@
 
 			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 3 ] );
 
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+			assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
 				'getSelectedElement() must return the first selected table cell' );
 			assert.areSame( ranges.length, selection.getRanges().length, 'All ranges selected' );
 
@@ -407,7 +440,7 @@
 
 			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 3 ] );
 
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+			assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
 				'getSelectedElement() must return the first selected table cell' );
 			assert.areSame( ranges.length, selection.getRanges().length, 'All ranges selected' );
 
@@ -481,7 +514,7 @@
 
 			assert.isTrue( !!selection.isFake, 'isFake is set' );
 			assert.isTrue( selection.isInTable(), 'isInTable is true' );
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+			assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
 				'Selected element equals to the first selected cell' );
 
 			editor.fire( 'saveSnapshot' );
@@ -518,7 +551,7 @@
 			range = selection.getRanges()[ 0 ];
 
 			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( range.startContainer.equals( ranges[ 0 ].getEnclosedNode() ),
+			assert.isTrue( getTableElementFromRange( range ).equals( ranges[ 0 ].getEnclosedNode() ),
 				'Selection is in the first cell' );
 			assert.areSame( 0, range.startOffset, 'Range is collapsed to the start' );
 
@@ -553,7 +586,7 @@
 			range = selection.getRanges()[ 0 ];
 
 			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( range.startContainer.equals( ranges[ 0 ].getEnclosedNode() ),
+			assert.isTrue( getTableElementFromRange( range ).equals( ranges[ 0 ].getEnclosedNode() ),
 				'Selection is in the first cell' );
 			assert.areSame( 0, range.startOffset, 'Range is collapsed to the start' );
 
@@ -588,7 +621,7 @@
 			range = selection.getRanges()[ 0 ];
 
 			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( range.startContainer.equals( ranges[ 1 ].getEnclosedNode() ),
+			assert.isTrue( getTableElementFromRange( range ).equals( ranges[ 1 ].getEnclosedNode() ),
 				'Selection is in the last cell' );
 			assert.isTrue( range.startOffset > 0, 'Range is collapsed to the end' );
 
@@ -623,7 +656,7 @@
 			range = selection.getRanges()[ 0 ];
 
 			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( range.startContainer.equals( ranges[ 1 ].getEnclosedNode() ),
+			assert.isTrue( getTableElementFromRange( range ).equals( ranges[ 1 ].getEnclosedNode() ),
 				'Selection is in the last cell' );
 			assert.isTrue( range.startOffset > 0, 'Range is collapsed to the end' );
 
@@ -659,12 +692,12 @@
 			range = selection.getRanges()[ 0 ];
 
 			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( range.startContainer.equals( ranges[ 0 ].getEnclosedNode() ),
+			assert.isTrue( getTableElementFromRange( range ).equals( getTableElementFromRange( ranges[ 0 ] ) ),
 				'Selection is in the first cell' );
 
 			// Check if the content is actually deleted.
 			for ( i = 0; i < ranges.length; i++ ) {
-				if ( bender.tools.compatHtml( ranges[ i ].getEnclosedNode().getHtml(), 0, 0, 1 ).length > 0 ) {
+				if ( bender.tools.compatHtml( getTableElementFromRange( ranges[ i ] ).getHtml(), 0, 0, 1 ).length > 0 ) {
 					assert.fail( 'Content was not deleted' );
 				}
 			}
@@ -701,12 +734,12 @@
 			range = selection.getRanges()[ 0 ];
 
 			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( range.startContainer.equals( ranges[ 0 ].getEnclosedNode() ),
+			assert.isTrue( getTableElementFromRange( range ).equals( getTableElementFromRange( ranges[ 0 ] ) ),
 				'Selection is in the first cell' );
 
 			// Check if the content is actually deleted.
 			for ( i = 0; i < ranges.length; i++ ) {
-				if ( bender.tools.compatHtml( ranges[ i ].getEnclosedNode().getHtml(), 0, 0, 1 ).length > 0 ) {
+				if ( bender.tools.compatHtml( getTableElementFromRange( ranges[ i ] ).getHtml(), 0, 0, 1 ).length > 0 ) {
 					assert.fail( 'Content was not deleted' );
 				}
 			}
@@ -743,12 +776,12 @@
 			range = selection.getRanges()[ 0 ];
 
 			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( range.startContainer.equals( ranges[ 0 ].getEnclosedNode() ),
+			assert.isTrue( getTableElementFromRange( range ).equals( getTableElementFromRange( ranges[ 0 ] ) ),
 				'Selection is in the first cell' );
 
 			// Check if the content is actually ovewritten.
 			for ( i = 0; i < ranges.length; i++ ) {
-				if ( bender.tools.compatHtml( ranges[ i ].getEnclosedNode().getHtml(), 0, 0, 1 ).length > 0 ) {
+				if ( bender.tools.compatHtml( getTableElementFromRange( ranges[ i ] ).getHtml(), 0, 0, 1 ).length > 0 ) {
 					assert.fail( 'Content was not overwritten' );
 				}
 			}
@@ -782,7 +815,7 @@
 
 			// Check if the content is actually ovewritten.
 			for ( i = 0; i < ranges.length; i++ ) {
-				if ( bender.tools.compatHtml( ranges[ i ].getEnclosedNode().getHtml(), 0, 0, 1 ).length === 0 ) {
+				if ( bender.tools.compatHtml( getTableElementFromRange( ranges[ i ] ).getHtml(), 0, 0, 1 ).length === 0 ) {
 					assert.fail( 'Content was overwritten' );
 				}
 			}
@@ -816,7 +849,7 @@
 
 			// Check if the content is actually ovewritten.
 			for ( i = 0; i < ranges.length; i++ ) {
-				if ( bender.tools.compatHtml( ranges[ i ].getEnclosedNode().getHtml(), 0, 0, 1 ).length === 0 ) {
+				if ( bender.tools.compatHtml( getTableElementFromRange( ranges[ i ] ).getHtml(), 0, 0, 1 ).length === 0 ) {
 					assert.fail( 'Content was overwritten' );
 				}
 			}
@@ -859,7 +892,7 @@
 			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
 
 			assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
-			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
+			assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
 				'Selected element equals to the first selected cell' );
 
 			clearTableSelection( editor.editable() );

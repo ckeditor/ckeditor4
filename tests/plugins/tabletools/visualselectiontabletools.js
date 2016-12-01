@@ -11,6 +11,23 @@
 		allowedForTests: 'table[width];td[id]'
 	};
 
+	function getTableElementFromRange( range ) {
+		var tableElements = {
+				table: 1,
+				tbody: 1,
+				tr: 1,
+				td: 1,
+				th: 1
+			},
+			start = range.startContainer;
+
+		if ( range.getEnclosedNode() ) {
+			return range.getEnclosedNode().getAscendant( tableElements, true );
+		}
+
+		return start.getAscendant( tableElements, true );
+	}
+
 	function getRangesForCells( editor, cellsIndexes ) {
 		var ranges = [],
 			cells = editor.editable().find( 'td, th' ),
@@ -35,7 +52,7 @@
 		var i;
 
 		for ( i = 0; i < ranges.length; i++ ) {
-			ranges[ i ].getEnclosedNode().addClass( 'cke_marked' );
+			getTableElementFromRange( ranges[ i ] ).addClass( 'cke_marked' );
 		}
 	}
 
@@ -70,7 +87,7 @@
 					assert.areSame( ranges.length, afterRanges.length, 'appropriate number of ranges is selected' );
 
 					for ( i = 0; i < ranges.length; i++ ) {
-						assert.isTrue( afterRanges[ i ].getEnclosedNode().hasClass( 'cke_marked' ),
+						assert.isTrue( getTableElementFromRange( afterRanges[ i ] ).hasClass( 'cke_marked' ),
 							'appropriate ranges are selected' );
 					}
 				}
