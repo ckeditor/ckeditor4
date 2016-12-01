@@ -1460,6 +1460,222 @@
 			}
 
 			return selector;
+		},
+
+		/**
+		 * A set of functions for operations on styles.
+		 *
+		 * @property {CKEDITOR.tools.style}
+		 */
+		style: {
+			/**
+			 * Methods to parse miscellaneous CSS properties.
+			 *
+			 * @property {CKEDITOR.tools.style.parse}
+			 * @member CKEDITOR.tools.style
+			 */
+			parse: {
+				_colors: {
+					maroon: '#800000',
+					red: '#ff0000',
+					orange: '#ffA500',
+					yellow: '#ffff00',
+					olive: '#808000',
+					purple: '#800080f',
+					uchsia: '#ff00ff',
+					white: '#ffffff',
+					lime: '#00ff00',
+					green: '#008000',
+					navy: '#000080b',
+					lue: '#0000ffa',
+					qua: '#00ffff',
+					teal: '#008080',
+					black: '#000000',
+					silver: '#c0c0c0',
+					gray: '#808080'
+				},
+
+				_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+
+				_hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+
+				/**
+				 * Parses `value` used as a `background` property shorthand and returns information as an object.
+				 *
+				 * **Note:** currently we extract only `color` property. Any other parts will go into `unprocessed` property.
+				 *
+				 *		var background = CKEDITOR.tools.style.parse.background( '#0C0 url(foo.png)' );
+				 *		console.log( background );
+				 *		// Logs: { color: '#0C0', unprocessed: 'url(foo.png)' }
+				 *
+				 * @param {String} value `background` property value.
+				 * @returns {Object} Object with information extracted from the background.
+				 * @returns {String} return.color The **first** color value found, the color format remains same as in input.
+				 * @returns {String} return.unprocessed Remaining part of `value` that has not been processed.
+				 * @member CKEDITOR.tools.style.parse
+				 */
+				background: function( value ) {
+					var ret = [],
+						colors = [];
+
+					colors = this._findColor( value );
+
+					if ( colors.length ) {
+						ret.color = colors[ 0 ];
+
+						CKEDITOR.tools.array.forEach( colors, function( colorToken ) {
+							value = value.replace( colorToken, '' );
+						} );
+					}
+
+					value = CKEDITOR.tools.trim( value );
+
+					if ( value ) {
+						// If anything was left unprocessed include it as unprocessed part.
+						ret.unprocessed = value;
+					}
+
+					return ret;
+				},
+
+				/**
+				 * Parses `margin` CSS property shorthand format.
+				 *
+				 *		console.log( CKEDITOR.tools.parse.margin( '3px 0 2' ) );
+				 *		// Logs: { top: "3px", right: "0", bottom: "2", left: "0" }
+				 *
+				 * @param {String} value `margin` property value.
+				 * @returns {Object}
+				 * @returns {Number} return.top Top margin.
+				 * @returns {Number} return.right Right margin.
+				 * @returns {Number} return.bottom Bottom margin.
+				 * @returns {Number} return.left Left margin.
+				 * @member CKEDITOR.tools.style.parse
+				 */
+				margin: function( value ) {
+					var ret = {};
+
+					var widths = value.match( /(?:\-?[\.\d]+(?:%|\w*)|auto|inherit|initial|unset)/g ) || [ '0px' ];
+
+					switch ( widths.length ) {
+						case 1:
+							// element.styles.margin = widths[0];
+							mapStyles( [ 0, 0, 0, 0 ] );
+							break;
+						case 2:
+							mapStyles( [ 0, 1, 0, 1 ] );
+							break;
+						case 3:
+							mapStyles( [ 0, 1, 2, 1 ] );
+							break;
+						case 4:
+							mapStyles( [ 0, 1, 2, 3 ] );
+							break;
+					}
+
+					function mapStyles( map ) {
+						ret.top = widths[ map[ 0 ] ];
+						ret.right = widths[ map[ 1 ] ];
+						ret.bottom = widths[ map[ 2 ] ];
+						ret.left = widths[ map[ 3 ] ];
+					}
+
+					return ret;
+				},
+
+				/**
+				 * Searches `value` for any CSS color occurrences and returns it.
+				 *
+				 * @private
+				 * @param {String} value
+				 * @returns {String[]} An array of matched results.
+				 * @member CKEDITOR.tools.style.parse
+				 */
+				_findColor: function( value ) {
+					var ret = [],
+						arrayTools = CKEDITOR.tools.array;
+
+
+					// Check for rgb(a).
+					ret = ret.concat( value.match( this._rgbaRegExp ) || [] );
+
+					// Check for hsl(a).
+					ret = ret.concat( value.match( this._hslaRegExp ) || [] );
+
+					ret = ret.concat( arrayTools.filter( value.split( /\s+/ ), function( colorEntry ) {
+						// Check for hex format.
+						if ( colorEntry.match( /^\#[a-f0-9]{3}(?:[a-f0-9]{3})?$/gi ) ) {
+							return true;
+						}
+
+						// Check for preset names.
+						return colorEntry.toLowerCase() in CKEDITOR.tools.style.parse._colors;
+					} ) );
+
+					return ret;
+				}
+			}
+		},
+
+		/**
+		 * A set of array helpers.
+		 *
+		 * @property {CKEDITOR.tools.array}
+		 * @member CKEDITOR.tools
+		 */
+		array: {
+			/**
+			 * Returns a copy of `array` filtered using `fn` function. Any elements that the `fn` will return `false` for
+			 * will get removed from returned array.
+			 *
+			 *		var filtered = this.array.filter( [ 0, 1, 2, 3 ], function( value ) {
+			 *			// Leave only values equal or greater than 2.
+			 *			return value >= 2;
+			 *		} );
+			 *		console.log( filtered );
+			 *		// Logs: [ 2, 3 ]
+			 *
+			 * @param {Array} array
+			 * @param {Function} fn Function that gets called with each `array` item. Any item for that `fn`
+			 * returned `false`-alike value for will be filtered out of `array`.
+			 * @param {Mixed} fn.value Currently iterated array value.
+			 * @param {Number} fn.index The index of currently iterated value in array.
+			 * @param {Array} fn.array The original array passed as a `array` variable.
+			 * @param {Mixed} [thisArg=undefined] Context object for `fn`.
+			 * @returns {Array} Filtered array.
+			 * @member CKEDITOR.tools.array
+			 */
+			filter: function( array, fn, thisArg ) {
+				var ret = [];
+
+				this.forEach( array, function( val, i ) {
+					if ( fn.call( thisArg, val, i, array ) ) {
+						ret.push( val );
+					}
+				} );
+
+				return ret;
+			},
+
+			/**
+			 * Iterates over every element in the `array`.
+			 *
+			 * @param {Array} array An array to be iterated.
+			 * @param {Function} fn Function called for every `array` element.
+			 * @param {Mixed} fn.value Currently iterated array value.
+			 * @param {Number} fn.index The index of currently iterated value in array.
+			 * @param {Array} fn.array The original array passed as a `array` variable.
+			 * @param {Mixed} [thisArg=undefined] Context object for `fn`.
+			 * @member CKEDITOR.tools.array
+			 */
+			forEach: function( array, fn, thisArg ) {
+				var len = array.length,
+					i;
+
+				for ( i = 0; i < len; i++ ) {
+					fn.call( thisArg, array[ i ], i, array );
+				}
+			}
 		}
 	};
 
@@ -1488,6 +1704,43 @@
 
 		return result;
 	}
+
+	/**
+	 * @member CKEDITOR.tools.array
+	 * @method indexOf
+	 * @inheritdoc CKEDITOR.tools#indexOf
+	 */
+	CKEDITOR.tools.array.indexOf = CKEDITOR.tools.indexOf;
+
+	/**
+	 * @member CKEDITOR.tools.array
+	 * @method isArray
+	 * @inheritdoc CKEDITOR.tools#isArray
+	 */
+	CKEDITOR.tools.array.isArray = CKEDITOR.tools.isArray;
+
+
+
+	/**
+	 * Namespace containing functions to work on CSS properties.
+	 *
+	 * @since 4.6.1
+	 * @class CKEDITOR.tools.style
+	 */
+
+	/**
+	 * Namespace with helper functions to parse some common CSS properties.
+	 *
+	 * @since 4.6.1
+	 * @class CKEDITOR.tools.style.parse
+	 */
+
+	/**
+	 * Namespace with helper functions and polyfills for arrays.
+	 *
+	 * @since 4.6.1
+	 * @class CKEDITOR.tools.array
+	 */
 } )();
 
 // PACKAGER_RENAME( CKEDITOR.tools )
