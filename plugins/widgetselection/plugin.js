@@ -4,7 +4,7 @@
  */
 
 /**
- * Plugin created to handle #11064. While the issue is caused by native Webkit/Blink behaviour
+ * @fileOverview Plugin created to handle #11064. While the issue is caused by native Webkit/Blink behaviour
  * this plugin can be easily detached/modified when issue is fixed without changing the core.
  * When Ctrl/Cmd + A is pressed to select all content it does not work due to bug in
  * Webkit/Blink if non-editable element is on the beginning/end of the content.
@@ -26,16 +26,21 @@
 						editable = editor.editable();
 
 					editable.attachListener( doc, 'keydown', function( evt ) {
+						var data = evt.data.$;
 
-						// Defer the call so the selection is already changed by the pressed keys.
-						CKEDITOR.tools.setTimeout( function() {
+						// Ctrl/Cmd + A
+						if ( evt.data.getKey() == 65 && ( CKEDITOR.env.mac && data.metaKey || !CKEDITOR.env.mac && data.ctrlKey ) ) {
 
-							// Manage filler elements on keydown. If there is no need
-							// to add fillers, we need to check and clean previously used once.
-							if ( !widgetselection.addFillers( evt, editable ) ) {
-								widgetselection.removeFillers( editable );
-							}
-						}, 0 );
+							// Defer the call so the selection is already changed by the pressed keys.
+							CKEDITOR.tools.setTimeout( function() {
+
+								// Manage filler elements on keydown. If there is no need
+								// to add fillers, we need to check and clean previously used once.
+								if ( !widgetselection.addFillers( evt, editable ) ) {
+									widgetselection.removeFillers( editable );
+								}
+							}, 0 );
+						}
 					}, null, null, -1 );
 
 					// Check and clean previously used fillers.
@@ -103,38 +108,32 @@
 		 * @returns {Boolean}
 		 */
 		addFillers: function( evt, editable ) {
-			var data = evt.data.$,
-				key = evt.data.getKey(),
-				editor = editable.editor;
+			var editor = editable.editor;
 
-			// Ctrl/Cmd + A
-			if ( key == 65 && ( CKEDITOR.env.mac && data.metaKey || !CKEDITOR.env.mac && data.ctrlKey ) ) {
+			// Whole content should be selected, if not fix the selection manually.
+			if ( !this.isWholeContentSelected( editable ) && editable.getChildCount() > 0 ) {
 
-				// Whole content should be selected, if not fix the selection manually.
-				if ( !this.isWholeContentSelected( editable ) && editable.getChildCount() > 0 ) {
+				var firstChild = editable.getFirst( filterTempElements ),
+					lastChild = editable.getLast( filterTempElements );
 
-					var firstChild = editable.getChild( 0 ),
-						lastChild = editable.getChild( editable.getChildCount() - 1 );
+				// Check if first element is editable. If not prepend with filler.
+				if ( firstChild && firstChild.type == CKEDITOR.NODE_ELEMENT && !firstChild.isEditable() ) {
+					this.startFiller = this.createFiller();
+					editable.append( this.startFiller, 1 );
+				}
 
-					// Check if first element is editable. If not prepend with filler.
-					if ( firstChild && firstChild.type == CKEDITOR.NODE_ELEMENT && !firstChild.isEditable() ) {
-						this.startFiller = this.createFiller();
-						editable.append( this.startFiller, 1 );
-					}
+				// Check if last element is editable. If not append filler.
+				if ( lastChild && lastChild.type == CKEDITOR.NODE_ELEMENT && !lastChild.isEditable() ) {
+					this.endFiller = this.createFiller( true );
+					editable.append( this.endFiller, 0 );
+				}
 
-					// Check if last element is editable. If not append filler.
-					if ( lastChild && lastChild.type == CKEDITOR.NODE_ELEMENT && !lastChild.isEditable() ) {
-						this.endFiller = this.createFiller( true );
-						editable.append( this.endFiller, 0 );
-					}
-
-					// Reselect whole content after any filler was added.
-					if ( this.hasFiller( editable ) ) {
-						var rangeAll = editor.createRange();
-						rangeAll.selectNodeContents( editable );
-						rangeAll.select();
-						return true;
-					}
+				// Reselect whole content after any filler was added.
+				if ( this.hasFiller( editable ) ) {
+					var rangeAll = editor.createRange();
+					rangeAll.selectNodeContents( editable );
+					rangeAll.select();
+					return true;
 				}
 			}
 			return false;
@@ -283,9 +282,9 @@
 
 				} else if ( manuallyHandleCaret ) {
 					if ( fillerOnStart ) {
-						range.setStartAt( editable.getChild( 1 ), CKEDITOR.POSITION_AFTER_START );
+						range.setStartAt( editable.getFirst().getNext(), CKEDITOR.POSITION_AFTER_START );
 					} else {
-						range.setEndAt( editable.getChild( editable.getChildCount() - 2 ), CKEDITOR.POSITION_BEFORE_END );
+						range.setEndAt( editable.getLast().getPrevious(), CKEDITOR.POSITION_BEFORE_END );
 					}
 					editable.editor.getSelection().selectRanges( [ range ] );
 				}
@@ -306,4 +305,10 @@
 			return new RegExp( ( !onEnd ? '^' : '' ) + matcher + ( onEnd ? '$' : '' ) );
 		}
 	};
+
+
+	function filterTempElements( el ) {
+		return el.getName && !el.hasAttribute( 'data-cke-temp' );
+	}
+
 } )();
