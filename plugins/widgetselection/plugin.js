@@ -42,6 +42,11 @@
 					editor.on( 'selectionCheck', function( evt ) {
 						widgetselection.removeFillers( evt.editor.editable() );
 					} );
+
+					// Remove fillers on paste before data gets inserted into editor.
+					editor.on( 'paste', function( evt ) {
+						evt.data.dataValue = widgetselection.cleanPasteData( evt.data.dataValue );
+					} );
 				} );
 			}
 		}
@@ -81,6 +86,14 @@
 		 * @private
 		 */
 		fillerContent: '&nbsp;',
+
+		/**
+		 * Tag name which is used to create fillers.
+		 *
+		 * @param {String}
+		 * @private
+		 */
+		fillerTagName: 'div',
 
 		/**
 		 * Adds filler before/after non-editable element on the beginning/end of the content if Ctrl/Cmd + A was pressed.
@@ -137,8 +150,8 @@
 			// just changed from selected all. We need to remove fillers and set proper selection/content.
 			if ( this.hasFiller( editable ) && !this.isWholeContentSelected( editable ) ) {
 
-				var startFillerContent = editable.findOne( 'span[' + this.fillerAttribute + '=start]' ),
-					endFillerContent = editable.findOne( 'span[' + this.fillerAttribute + '=end]' );
+				var startFillerContent = editable.findOne( this.fillerTagName + '[' + this.fillerAttribute + '=start]' ),
+					endFillerContent = editable.findOne( this.fillerTagName + '[' + this.fillerAttribute + '=end]' );
 
 				if ( this.startFiller && startFillerContent && this.startFiller.equals( startFillerContent ) ) {
 					this.removeFiller( this.startFiller, editable );
@@ -155,6 +168,21 @@
 					this.endFiller = endFillerContent;
 				}
 			}
+		},
+
+		/**
+		 * Removes fillers from the paste data.
+		 *
+		 * @param {String} data
+		 * @returns {String}
+		 */
+		cleanPasteData: function( data ) {
+			if ( data && data.length ) {
+				data = data
+					.replace( this.createFillerRegex(), '' )
+					.replace( this.createFillerRegex( true ), '' );
+			}
+			return data;
 		},
 
 		/**
@@ -190,7 +218,7 @@
 		 * @returns {Boolean}
 		 */
 		hasFiller: function( editable ) {
-			return editable.find( 'span[' + this.fillerAttribute + ']' ).count() > 0;
+			return editable.find( this.fillerTagName + '[' + this.fillerAttribute + ']' ).count() > 0;
 		},
 
 		/**
@@ -200,7 +228,7 @@
 		 * @returns {CKEDITOR.dom.element}
 		 */
 		createFiller: function( onEnd ) {
-			var filler = new CKEDITOR.dom.element( 'span' );
+			var filler = new CKEDITOR.dom.element( this.fillerTagName );
 			filler.setHtml( this.fillerContent );
 			filler.setAttribute( this.fillerAttribute, onEnd ? 'end' : 'start' );
 			filler.setAttribute( 'data-cke-temp', 1 );
@@ -262,6 +290,20 @@
 					editable.editor.getSelection().selectRanges( [ range ] );
 				}
 			}
+		},
+
+		/**
+		 * Creates regular expression which will match the filler html in the text.
+		 *
+		 * @param {Boolean} [onEnd] If regexp should be create for filler on the beginning or end of the content.
+		 * @returns {RegExp}
+		 */
+		createFillerRegex: function( onEnd ) {
+			var matcher = this.createFiller( onEnd ).getOuterHtml()
+				.replace( /style="[^"]*"/gi, 'style="[^"]*"' )
+				.replace( />[^<]*</gi, '>[^<]*<' );
+
+			return new RegExp( ( !onEnd ? '^' : '' ) + matcher + ( onEnd ? '$' : '' ) );
 		}
 	};
 } )();
