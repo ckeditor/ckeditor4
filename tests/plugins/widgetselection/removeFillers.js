@@ -31,9 +31,9 @@
 				editable = editor.editable();
 
 			bender.tools.selection.setWithHtml( editor,
-				'<p>This is text</p><p contenteditable="false">Non-editable</p><span data-cke-filler-webkit="end" data-cke-temp="1">^&nbsp;</span>' );
+				'<p>This is text</p><p contenteditable="false">Non-editable</p><div data-cke-filler-webkit="end" data-cke-temp="1">^&nbsp;</div>' );
 
-			this.widgetselection.endFiller = editable.findOne( 'span[data-cke-filler-webkit=end]' );
+			this.widgetselection.endFiller = editable.findOne( 'div[data-cke-filler-webkit=end]' );
 			this.widgetselection.removeFillers( editor.editable() );
 
 			assert.isInnerHtmlMatching( '^<p>This is text</p><p contenteditable="false">Non-editable</p>',
@@ -45,9 +45,9 @@
 				editable = editor.editable();
 
 			bender.tools.selection.setWithHtml( editor,
-				'<span data-cke-filler-webkit="start" data-cke-temp="1">&nbsp;</span><p contenteditable="false">Non-editable</p><p>This {is text}</p>' );
+				'<div data-cke-filler-webkit="start" data-cke-temp="1">&nbsp;</div><p contenteditable="false">Non-editable</p><p>This {is text}</p>' );
 
-			this.widgetselection.startFiller = editable.findOne( 'span[data-cke-filler-webkit=start]' );
+			this.widgetselection.startFiller = editable.findOne( 'div[data-cke-filler-webkit=start]' );
 			this.widgetselection.removeFillers( editor.editable() );
 
 			assert.isInnerHtmlMatching( '<p contenteditable="false">Non-editable</p><p>This [is text]</p>',
@@ -58,11 +58,11 @@
 			var editor = this.editor,
 				editable = editor.editable();
 
-			bender.tools.selection.setWithHtml( editor, '<span data-cke-filler-webkit="start" data-cke-temp="1">&nbsp;</span>' +
-				'<p>[This is text]</p><p contenteditable="false">Non-editable</p><span data-cke-filler-webkit="end" data-cke-temp="1">&nbsp;</span>' );
+			bender.tools.selection.setWithHtml( editor, '<div data-cke-filler-webkit="start" data-cke-temp="1">&nbsp;</div>' +
+				'<p>[This is text]</p><p contenteditable="false">Non-editable</p><div data-cke-filler-webkit="end" data-cke-temp="1">&nbsp;</div>' );
 
-			this.widgetselection.startFiller = editable.findOne( 'span[data-cke-filler-webkit=start]' );
-			this.widgetselection.endFiller = editable.findOne( 'span[data-cke-filler-webkit=end]' );
+			this.widgetselection.startFiller = editable.findOne( 'div[data-cke-filler-webkit=start]' );
+			this.widgetselection.endFiller = editable.findOne( 'div[data-cke-filler-webkit=end]' );
 			this.widgetselection.removeFillers( editor.editable() );
 
 			assert.isInnerHtmlMatching( '<p>[This is text]</p><p contenteditable="false">Non-editable</p>',
@@ -100,15 +100,15 @@
 				editable = editor.editable();
 
 			bender.tools.selection.setWithHtml( editor,
-				'[<p>This is text</p><p contenteditable="false">Non-editable</p><span data-cke-filler-webkit="end" data-cke-temp="1">&nbsp;</span>]' );
+				'[<p>This is text</p><p contenteditable="false">Non-editable</p><div data-cke-filler-webkit="end" data-cke-temp="1">&nbsp;</div>]' );
 
-			this.widgetselection.startFiller = editable.findOne( 'span[data-cke-filler-webkit=start]' );
-			this.widgetselection.endFiller = editable.findOne( 'span[data-cke-filler-webkit=end]' );
+			this.widgetselection.startFiller = editable.findOne( 'div[data-cke-filler-webkit=start]' );
+			this.widgetselection.endFiller = editable.findOne( 'div[data-cke-filler-webkit=end]' );
 			this.widgetselection.removeFillers( editor.editable() );
 
-			var expected = '[<p>This is text</p><p contenteditable="false">Non-editable</p><span data-cke-filler-webkit="end" data-cke-temp="1">&nbsp;</span>]';
+			var expected = '[<p>This is text</p><p contenteditable="false">Non-editable</p><div data-cke-filler-webkit="end" data-cke-temp="1">&nbsp;</div>]';
 			if ( CKEDITOR.env.safari ) {
-				expected = '<p>[This is text</p><p contenteditable="false">Non-editable</p><span data-cke-filler-webkit="end" data-cke-temp="1">&nbsp;]</span>';
+				expected = '<p>[This is text</p><p contenteditable="false">Non-editable</p><div data-cke-filler-webkit="end" data-cke-temp="1">&nbsp;]</div>';
 			}
 
 			assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( editor ), this.compareOptions );

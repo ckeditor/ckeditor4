@@ -29,7 +29,7 @@ var htmlWithSelectionHelper = {
 			end ? onEnd = ']' : onStart = '[';
 		}
 
-		return onStart + '<span data-cke-filler-webkit="' + ( end ? 'end' : 'start' ) + '" data-cke-temp="1" style="border:0px; display:block; height:0px; left:-9999px;' +
-			' margin:0px; opacity:0; overflow:hidden; padding:0px; position:absolute; top:0px; width:0px">' + content + '</span>' + onEnd;
+		return onStart + '<div data-cke-filler-webkit="' + ( end ? 'end' : 'start' ) + '" data-cke-temp="1" style="border:0px; display:block; height:0px; left:-9999px;' +
+			' margin:0px; opacity:0; overflow:hidden; padding:0px; position:absolute; top:0px; width:0px">' + content + '</div>' + onEnd;
 	}
 };

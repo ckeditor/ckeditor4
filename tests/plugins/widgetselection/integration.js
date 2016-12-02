@@ -161,7 +161,7 @@
 				assert.isInnerHtmlMatching( this.fillerHtml() + '<p contenteditable="false">NE</p>' + this.pHtml( true, 'Text1' ),
 					bender.tools.selection.getWithHtml( editor ), this.compareOptions, 'Filler was added.' );
 
-				var filler = editor.editable().findOne( 'span[data-cke-filler-webkit=start]' );
+				var filler = editor.editable().findOne( 'div[data-cke-filler-webkit=start]' );
 				assert.isNotNull( filler, 'Filler available via find.' );
 
 				var newFiller = this.widgetselection.createFiller();
