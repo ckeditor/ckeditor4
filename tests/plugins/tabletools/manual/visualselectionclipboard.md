@@ -16,3 +16,7 @@
 * The table has the same number of cells in all rows.
 * There are no errors in the console.
 * Operation can be undone or redone.
+
+**Aditional things to check in Edge:**
+
+* Copying shouldn't activate "Undo" button.
