@@ -1,6 +1,6 @@
 @bender-tags: 4.6.1, tc, 11064, widgetselection
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,clipboard,widgetselection,image2
+@bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,image2
 
 ----
 
