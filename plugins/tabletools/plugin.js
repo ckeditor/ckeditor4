@@ -682,7 +682,13 @@
 
 		if ( reset ) {
 			fakeSelection = { active: false };
-			editor.getSelection().reset();
+
+			// Reset fake selection only if it's really a table one.
+			// Otherwise we'll make widget selection unusable.
+			if ( previousFakeSelection ) {
+				previousFakeSelection = null;
+				editor.getSelection().reset();
+			}
 		}
 	}
 
