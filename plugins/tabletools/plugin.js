@@ -973,9 +973,6 @@
 
 		copybin.setHtml( editor.getSelectedHtml( true ) );
 
-		// Save snapshot with the current state.
-		editor.fire( 'saveSnapshot' );
-
 		// Ignore copybin.
 		editor.fire( 'lockSnapshot' );
 
