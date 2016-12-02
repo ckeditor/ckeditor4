@@ -429,7 +429,7 @@
 				// Remove the original contents, merge split nodes.
 				range.deleteContents( 1 );
 
-				// If range is placed in inermediate element (not td or th), we need to do three things:
+				// If range is placed in intermediate element (not td or th), we need to do three things:
 				// * fill emptied <td/th>s with if browser needs them,
 				// * remove empty text nodes so IE8 won't crash (http://dev.ckeditor.com/ticket/11183#comment:8),
 				// * fix structure and move range into the <td/th> element.
