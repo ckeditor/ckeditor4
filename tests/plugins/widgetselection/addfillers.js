@@ -35,7 +35,7 @@
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p>This {}is text</p>' );
-			this.widgetselection.addFillers( this.mockKeydown(), editor.editable() );
+			this.widgetselection.addFillers( editor.editable() );
 
 			assert.isInnerHtmlMatching( '<p>This ^is text</p>', bender.tools.selection.getWithHtml( editor ), this.compareOptions );
 		},
@@ -44,7 +44,7 @@
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p contenteditable="false">Non-editable</p><p>This {}is text</p>' );
-			this.widgetselection.addFillers( this.mockKeydown(), editor.editable() );
+			this.widgetselection.addFillers( editor.editable() );
 
 			assert.isInnerHtmlMatching( this.fillerHtml() + '<p contenteditable="false">Non-editable</p>' + this.pHtml( true ),
 				bender.tools.selection.getWithHtml( editor ), this.compareOptions );
@@ -54,7 +54,7 @@
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p>This {}is text</p><p contenteditable="false">Non-editable</p>' );
-			this.widgetselection.addFillers( this.mockKeydown(), editor.editable() );
+			this.widgetselection.addFillers( editor.editable() );
 
 			assert.isInnerHtmlMatching( this.pHtml() + '<p contenteditable="false">Non-editable</p>' + this.fillerHtml( true ),
 				bender.tools.selection.getWithHtml( editor ), this.compareOptions );
@@ -64,25 +64,11 @@
 			var editor = this.editor;
 
 			bender.tools.selection.setWithHtml( editor, '<p contenteditable="false">Non-editable</p><p>This {}is text</p><p contenteditable="false">Non-editable</p>' );
-			this.widgetselection.addFillers( this.mockKeydown(), editor.editable() );
+			this.widgetselection.addFillers( editor.editable() );
 
 			assert.isInnerHtmlMatching(
 				this.fillerHtml() + '<p contenteditable="false">Non-editable</p><p>This is text</p><p contenteditable="false">Non-editable</p>' + this.fillerHtml( true ),
 				bender.tools.selection.getWithHtml( editor ), this.compareOptions );
-		},
-
-		mockKeydown: function() {
-			return {
-				data: {
-					getKey: function() {
-						return 65;
-					},
-					$: {
-						ctrlKey: true,
-						metaKey: true
-					}
-				}
-			};
 		}
 	} );
 } )();

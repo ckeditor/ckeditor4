@@ -36,7 +36,7 @@
 
 								// Manage filler elements on keydown. If there is no need
 								// to add fillers, we need to check and clean previously used once.
-								if ( !widgetselection.addFillers( evt, editable ) ) {
+								if ( !widgetselection.addFillers( editable ) ) {
 									widgetselection.removeFillers( editable );
 								}
 							}, 0 );
@@ -103,11 +103,10 @@
 		/**
 		 * Adds filler before/after non-editable element on the beginning/end of the content if Ctrl/Cmd + A was pressed.
 		 *
-		 * @param {CKEDITOR.event} evt
 		 * @param {CKEDITOR.editable} editable
 		 * @returns {Boolean}
 		 */
-		addFillers: function( evt, editable ) {
+		addFillers: function( editable ) {
 			var editor = editable.editor;
 
 			// Whole content should be selected, if not fix the selection manually.
