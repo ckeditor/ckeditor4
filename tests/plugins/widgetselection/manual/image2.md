@@ -1,6 +1,6 @@
 @bender-tags: 4.6.1, tc, 11064, widgetselection
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,widgetselection,image2
+@bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,link,format,sourcearea,widgetselection,image2,elementspath,undo
 
 ----
 
@@ -19,7 +19,6 @@ _Perform on of the 3 actions:_
 * Paste something
 
 **Expected:** The selection is immediately replaced by the typed/pasted content and the caret is at the end of the inserted content.
-Keep in mind that undoing is handled natively by browser.
 
 * Press a key
 
