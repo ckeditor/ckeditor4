@@ -1091,7 +1091,6 @@
 		lastRow = lastCell.getParent();
 
 		// Empty all selected cells.
-		clearFakeCellSelection( evt.editor, true );
 		for ( i = 0; i < selectedCells.length; i++ ) {
 			selectedCells[ i ].setHtml( '' );
 		}
@@ -1198,6 +1197,7 @@
 			}
 		}
 
+		clearFakeCellSelection( evt.editor, true );
 		CKEDITOR.dom.element.clearAllMarkers( markers );
 		editor.fire( 'saveSnapshot' );
 	}
