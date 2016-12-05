@@ -61,12 +61,20 @@
 		}
 	} );
 
+	/**
+	 * Set of helper methods for the Widget Selection plugin.
+	 *
+	 * @property widgetselection
+	 * @member CKEDITOR.plugins
+	 * @since 4.6.1
+	 */
 	CKEDITOR.plugins.widgetselection = {
 
 		/**
 		 * Start filler element reference.
 		 *
-		 * @param {CKEDITOR.dom.element}
+		 * @property {CKEDITOR.dom.element}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		startFiller: null,
@@ -74,7 +82,8 @@
 		/**
 		 * End filler element reference.
 		 *
-		 * @param {CKEDITOR.dom.element}
+		 * @property {CKEDITOR.dom.element}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		endFiller: null,
@@ -82,7 +91,7 @@
 		/**
 		 * Attribute which identifies filler element.
 		 *
-		 * @param {String}
+		 * @property {String}
 		 * @private
 		 */
 		fillerAttribute: 'data-cke-filler-webkit',
@@ -91,7 +100,7 @@
 		 * Filler element default content. Note: filler needs to have `visible` content.
 		 * Unprintable elements or empty content does not help as a workaround.
 		 *
-		 * @param {String}
+		 * @property {String}
 		 * @private
 		 */
 		fillerContent: '&nbsp;',
@@ -99,16 +108,17 @@
 		/**
 		 * Tag name which is used to create fillers.
 		 *
-		 * @param {String}
+		 * @property {String}
 		 * @private
 		 */
 		fillerTagName: 'div',
 
 		/**
-		 * Adds filler before/after non-editable element on the beginning/end of the content if Ctrl/Cmd + A was pressed.
+		 * Adds filler before/after non-editable element on the beginning/end of the `editable`.
 		 *
 		 * @param {CKEDITOR.editable} editable
 		 * @returns {Boolean}
+		 * @member CKEDITOR.plugins.widgetselection
 		 */
 		addFillers: function( editable ) {
 			var editor = editable.editor;
@@ -145,6 +155,9 @@
 		/**
 		 * Removes filler elements or updates its references.
 		 *
+		 * It will **not remove** filler elements if the whole content is selected, as it would break the
+		 * selection.
+		 *
 		 * @param {CKEDITOR.editable} editable
 		 */
 		removeFillers: function( editable ) {
@@ -177,6 +190,7 @@
 		 *
 		 * @param {String} data
 		 * @returns {String}
+		 * @private
 		 */
 		cleanPasteData: function( data ) {
 			if ( data && data.length ) {
@@ -192,6 +206,7 @@
 		 *
 		 * @param {CKEDITOR.editable} editable
 		 * @returns {Boolean}
+		 * @private
 		 */
 		isWholeContentSelected: function( editable ) {
 
@@ -218,6 +233,7 @@
 		 *
 		 * @param {CKEDITOR.editable} editable
 		 * @returns {Boolean}
+		 * @private
 		 */
 		hasFiller: function( editable ) {
 			return editable.find( this.fillerTagName + '[' + this.fillerAttribute + ']' ).count() > 0;
@@ -228,6 +244,7 @@
 		 *
 		 * @param {Boolean} [onEnd] If filler will be placed on end or beginning of the content.
 		 * @returns {CKEDITOR.dom.element}
+		 * @private
 		 */
 		createFiller: function( onEnd ) {
 			var filler = new CKEDITOR.dom.element( this.fillerTagName );
@@ -258,6 +275,7 @@
 		 *
 		 * @param {CKEDITOR.dom.element} filler
 		 * @param {CKEDITOR.editable} editable
+		 * @private
 		 */
 		removeFiller: function( filler, editable ) {
 			if ( filler ) {
@@ -299,6 +317,7 @@
 		 *
 		 * @param {Boolean} [onEnd] If regexp should be created for filler on the beginning or end of the content.
 		 * @returns {RegExp}
+		 * @private
 		 */
 		createFillerRegex: function( onEnd ) {
 			var matcher = this.createFiller( onEnd ).getOuterHtml()
@@ -324,14 +343,6 @@
 					widgetselection.addFillers( editable );
 				}
 			}, null, null, 9999 );
-
-			editor.editable().attachListener( editor, 'afterCommandExec', function( evt ) {
-				var editable = editor.editable();
-
-				if ( evt.data.name == 'selectAll' && editable ) {
-					widgetselection.removeFillers( editable );
-				}
-			} );
 		}
 	};
 
