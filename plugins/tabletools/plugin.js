@@ -809,8 +809,8 @@
 			return false;
 		}
 
-		// In the case of cell create new fakeSelection only when left mouse button is pressed.
-		// In the case of table create new fakeSelection only when we have some really selected cells.
+		// Only start selecting when the fakeSelection.active is true (left mouse button is pressed)
+		// and there are some cells selected or the click was done in the table cell.
 		if ( fakeSelection.active && !fakeSelection.first &&
 			( cell || areCellsReallySelected( editor.getSelection(), selectedCells ) ) ) {
 			fakeSelection.first = cell || selectedCells[ 0 ];
@@ -886,12 +886,12 @@
 		}
 
 		function canClearSelection( evt, selection, selectedTable, table ) {
-			// User starts click outside the table or not in the same table.
+			// User starts click outside the table or not in the same table as in the previous selection.
 			if ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !table ) ) {
 				return true;
 			}
 
-			// 1. User release mouse button outside the table.
+			// 1. User releases mouse button outside the table.
 			// 2. User opens context menu not in the selected table.
 			if ( evt.name === 'mouseup' && !isSameTable( selectedTable, table ) ) {
 				return true;
@@ -900,13 +900,11 @@
 			return false;
 		}
 
-		// 1. User clicks outside the table.
-		// 2. User opens context menu not in the selected table.
 		if ( canClear = canClearSelection( evt, selection, selectedTable, table ) ) {
 			clearFakeCellSelection( editor, true );
 		}
 
-		// Allow fake selection only if the left mouse button is really pressed inside the table.
+		// Start fake selection only if the left mouse button is really pressed inside the table.
 		if ( !fakeSelection.active && evt.name === 'mousedown' && detectLeftMouseButton( evt ) && table ) {
 			fakeSelection = { active: true };
 		}
