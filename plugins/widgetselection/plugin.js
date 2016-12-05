@@ -52,6 +52,10 @@
 					editor.on( 'paste', function( evt ) {
 						evt.data.dataValue = widgetselection.cleanPasteData( evt.data.dataValue );
 					} );
+
+					if ( 'selectall' in editor.plugins ) {
+						widgetselection.addSelectAllIntegration( editor );
+					}
 				} );
 			}
 		}
@@ -302,6 +306,32 @@
 				.replace( />[^<]*</gi, '>[^<]*<' );
 
 			return new RegExp( ( !onEnd ? '^' : '' ) + matcher + ( onEnd ? '$' : '' ) );
+		},
+
+		/**
+		 * Adds an integration for [Select All](http://ckeditor.com/addon/selectall) plugin to the given `editor`.
+		 *
+		 * @private
+		 * @param {CKEDITOR.editor} editor
+		 */
+		addSelectAllIntegration: function( editor ) {
+			var widgetselection = this;
+
+			editor.editable().attachListener( editor, 'beforeCommandExec', function( evt ) {
+				var editable = editor.editable();
+
+				if ( evt.data.name == 'selectAll' && editable ) {
+					widgetselection.addFillers( editable );
+				}
+			}, null, null, 9999 );
+
+			editor.editable().attachListener( editor, 'afterCommandExec', function( evt ) {
+				var editable = editor.editable();
+
+				if ( evt.data.name == 'selectAll' && editable ) {
+					widgetselection.removeFillers( editable );
+				}
+			} );
 		}
 	};
 
