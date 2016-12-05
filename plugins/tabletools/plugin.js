@@ -11,6 +11,10 @@
 		previousFakeSelection;
 
 	function getSelectedCells( selection ) {
+		if ( !selection ) {
+			return;
+		}
+
 		var ranges = selection.getRanges();
 		var retval = [];
 		var database = {};
