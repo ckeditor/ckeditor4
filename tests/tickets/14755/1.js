@@ -12,7 +12,8 @@
 
 	var htmlMatchingOpts = {
 		compareSelection: true,
-		normalizeSelection: true
+		normalizeSelection: true,
+		fixStyles: true
 	};
 
 	bender.test( {
@@ -25,11 +26,11 @@
 				assert.isTrue( true );
 				dialog.getButton( 'ok' ).click();
 
-				assert.isMatching(
+				assert.isInnerHtmlMatching(
 					// jscs:disable maximumLineLength
-					/<ol><li><table border="1" cellpadding="1" cellspacing="1" style="width: 500px;"><tbody><tr><td><br \/><\/td><td><br \/><\/td><\/tr><tr><td><br \/><\/td><td><br \/><\/td><\/tr><tr><td><br \/><\/td><td><br \/><\/td><\/tr><\/tbody><\/table><p>\^<br \/><\/p><\/li><\/ol>/,
+					'<ol><li><table border="1" cellpadding="1" cellspacing="1" style="width:500px"><tbody><tr><td>@</td><td>@</td></tr><tr><td>@</td><td>@</td></tr><tr><td>@</td><td>@</td></tr></tbody></table><p>^@</p></li></ol>',
 					// jscs:enable maximumLineLength
-					bender.tools.html.prepareInnerHtmlForComparison( bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts )
+					bender.tools.html.prepareInnerHtmlForComparison( bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts ).toLowerCase()
 				);
 			} );
 		},
