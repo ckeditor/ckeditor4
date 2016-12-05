@@ -294,7 +294,7 @@
 		/**
 		 * Creates regular expression which will match the filler html in the text.
 		 *
-		 * @param {Boolean} [onEnd] If regexp should be create for filler on the beginning or end of the content.
+		 * @param {Boolean} [onEnd] If regexp should be created for filler on the beginning or end of the content.
 		 * @returns {RegExp}
 		 */
 		createFillerRegex: function( onEnd ) {
