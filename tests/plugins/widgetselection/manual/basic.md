@@ -9,18 +9,18 @@
 1. Focus editor instance.
 1. Press `Ctrl/Cmd + a` to select all.
 
-**Expected:** Whole editor content gets selected.
+	**Expected:** Whole editor content gets selected.
 
-**Unexpected:** Caret moves to the beginning/end of the editor without selecting editor contents.
+	**Unexpected:** Caret moves to the beginning/end of the editor without selecting editor contents.
 
 _Perform on of the 3 actions:_
 
 * Type something
 * Paste something
 
-**Expected:** The selection is immediately replaced by the typed/pasted content and the caret is at the end of the inserted content.
+	**Expected:** The selection is immediately replaced by the typed/pasted content and the caret is at the end of the inserted content.
 
 * Press a key
 
-**Expected:** Keys moving selection (like `left/right` arrow) should have proper effect. Keys which do not change selection
+	**Expected:** Keys moving selection (like `left/right` arrow) should have proper effect. Keys which do not change selection
 should not influence current selection in any way.
