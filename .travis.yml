@@ -1,0 +1,21 @@
+---
+language: node_js
+node_js:
+  - "0.12"
+
+sudo: false
+
+cache:
+  directories:
+    - node_modules
+
+before_install:
+  - "npm config set spin false"
+  - "npm install -g npm@^2"
+
+install:
+  - npm install
+  - bender init
+
+script:
+  - bender server run
