@@ -43,7 +43,8 @@ bender.test( {
 	_should: {
 		ignore: {
 			'test undo and redo after creation': CKEDITOR.env.webkit && !CKEDITOR.env.chrome,
-			'test undo and redo after creation and edition': CKEDITOR.env.webkit && !CKEDITOR.env.chrome
+			'test undo and redo after creation and edition': CKEDITOR.env.webkit && !CKEDITOR.env.chrome,
+			'test undo and redo after edition': CKEDITOR.env.webkit && !CKEDITOR.env.chrome
 		}
 	},
 
