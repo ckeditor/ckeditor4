@@ -92,6 +92,7 @@
 		 * Attribute which identifies filler element.
 		 *
 		 * @property {String}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		fillerAttribute: 'data-cke-filler-webkit',
@@ -101,6 +102,7 @@
 		 * Unprintable elements or empty content does not help as a workaround.
 		 *
 		 * @property {String}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		fillerContent: '&nbsp;',
@@ -109,6 +111,7 @@
 		 * Tag name which is used to create fillers.
 		 *
 		 * @property {String}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		fillerTagName: 'div',
@@ -159,6 +162,7 @@
 		 * selection.
 		 *
 		 * @param {CKEDITOR.editable} editable
+		 * @member CKEDITOR.plugins.widgetselection
 		 */
 		removeFillers: function( editable ) {
 			// If startFiller or endFiller exists and not entire content is selected it means the selection
@@ -190,6 +194,7 @@
 		 *
 		 * @param {String} data
 		 * @returns {String}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		cleanPasteData: function( data ) {
@@ -206,6 +211,7 @@
 		 *
 		 * @param {CKEDITOR.editable} editable
 		 * @returns {Boolean}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		isWholeContentSelected: function( editable ) {
@@ -233,6 +239,7 @@
 		 *
 		 * @param {CKEDITOR.editable} editable
 		 * @returns {Boolean}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		hasFiller: function( editable ) {
@@ -244,6 +251,7 @@
 		 *
 		 * @param {Boolean} [onEnd] If filler will be placed on end or beginning of the content.
 		 * @returns {CKEDITOR.dom.element}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		createFiller: function( onEnd ) {
@@ -275,6 +283,7 @@
 		 *
 		 * @param {CKEDITOR.dom.element} filler
 		 * @param {CKEDITOR.editable} editable
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		removeFiller: function( filler, editable ) {
@@ -317,6 +326,7 @@
 		 *
 		 * @param {Boolean} [onEnd] If regexp should be created for filler on the beginning or end of the content.
 		 * @returns {RegExp}
+		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
 		 */
 		createFillerRegex: function( onEnd ) {
@@ -332,6 +342,7 @@
 		 *
 		 * @private
 		 * @param {CKEDITOR.editor} editor
+		 * @member CKEDITOR.plugins.widgetselection
 		 */
 		addSelectAllIntegration: function( editor ) {
 			var widgetselection = this;
