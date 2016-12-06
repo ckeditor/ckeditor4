@@ -23,7 +23,7 @@
 		"cksource-samples-framework": "^1.0.1"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "bender run"
 	},
 	"author": "CKSource (http://cksource.com/)",
 	"license": "(GPL-2.0 OR LGPL-2.1 OR MPL-1.1)",
