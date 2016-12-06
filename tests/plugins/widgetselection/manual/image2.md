@@ -13,7 +13,7 @@
 
 	**Unexpected:** Caret moves to the beginning/end of the editor without selecting editor contents.
 
-_Perform on of the 3 actions:_
+_Perform one of the 3 actions:_
 
 * Type something
 * Paste something
