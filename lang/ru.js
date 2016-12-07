@@ -112,6 +112,6 @@ CKEDITOR.lang[ 'ru' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Комбинация клавиш'
 	}
 };

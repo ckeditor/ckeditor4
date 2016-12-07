@@ -18,5 +18,5 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sv', {
 		colors: 'Färger',
 		tools: 'Verktyg'
 	},
-	toolbars: 'Redigera verktygsfält'
+	toolbars: 'Editorns verktygsfält'
 } );

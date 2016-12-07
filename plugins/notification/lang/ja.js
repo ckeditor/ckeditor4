@@ -2,7 +2,6 @@
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-CKEDITOR.plugins.setLang( 'list', 'nb', {
-	bulletedlist: 'Legg til / fjern punktliste',
-	numberedlist: 'Legg til / fjern nummerert liste'
+CKEDITOR.plugins.setLang( 'notification', 'ja', {
+	closed: '通知を閉じました。'
 } );

@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'nl', {
 	title: 'Afbeeldingseigenschappen',
 	uploadTab: 'Uploaden',
 	urlMissing: 'De URL naar de afbeelding ontbreekt.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Alternatieve tekst ontbreekt.'
 } );

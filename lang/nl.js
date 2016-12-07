@@ -104,14 +104,14 @@ CKEDITOR.lang[ 'nl' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Spatie',
 			35: 'End',
 			36: 'Home',
 			46: 'Verwijderen',
-			224: 'Command' // MISSING
+			224: 'Command'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Sneltoets'
 	}
 };

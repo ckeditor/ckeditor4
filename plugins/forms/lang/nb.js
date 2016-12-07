@@ -33,7 +33,7 @@ CKEDITOR.plugins.setLang( 'forms', 'nb', {
 	select: {
 		title: 'Egenskaper for rullegardinliste',
 		selectInfo: 'Info',
-		opAvail: 'Tilgjenglige alternativer',
+		opAvail: 'Tilgjengelige alternativer',
 		value: 'Verdi',
 		size: 'Størrelse',
 		lines: 'Linjer',
