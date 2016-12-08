@@ -5,14 +5,14 @@
 
 New Features:
 
-* [#16639](http://dev.ckeditor.com/ticket/16639): The `callback` parameter in [CKEDITOR.ajax.post](http://docs.ckeditor.com/#!/api/CKEDITOR.ajax-method-post) became optional.
+* [#16639](http://dev.ckeditor.com/ticket/16639): The `callback` parameter in the [CKEDITOR.ajax.post](http://docs.ckeditor.com/#!/api/CKEDITOR.ajax-method-post) method became optional.
 
 Fixed Issues:
 
-* [#11064](http://dev.ckeditor.com/ticket/11064): [Blink, WebKit] Fixed: Cannot select all when widget or non-editable element is the first/last element of the content. Also fixes this issue in [Select All](http://ckeditor.com/addon/selectall) plugin.
-* [#14755](http://dev.ckeditor.com/ticket/14755): [Blink, WebKit, IE8] Fixed: Browser hangs when table is inserted in place of selected list with empty last item.
-* [#16624](http://dev.ckeditor.com/ticket/16624): Fixed: Improved [Color Button](http://ckeditor.com/addon/colorbutton) plugin which will now normalize CSS `background` property if it only contains color value. This fixes missing background colors when using [Paste from Word](http://ckeditor.com/addon/pastefromword).
-* [#16600](http://dev.ckeditor.com/ticket/16600): [Blink, WebKit] Fixed: Error thrown occasionally by uninitialized editable for multiple CKEditor instances on the same page.
+* [#11064](http://dev.ckeditor.com/ticket/11064): [Blink, WebKit] Fixed: Cannot select all editor content when a widget or a non-editable element is the first or last element of the content. Also fixes this issue in the [Select All](http://ckeditor.com/addon/selectall) plugin.
+* [#14755](http://dev.ckeditor.com/ticket/14755): [Blink, WebKit, IE8] Fixed: Browser hangs when a table is inserted in the place of a selected list with an empty last item.
+* [#16624](http://dev.ckeditor.com/ticket/16624): Fixed: Improved the [Color Button](http://ckeditor.com/addon/colorbutton) plugin which will now normalize the CSS `background` property if it only contains a color value. This fixes missing background colors when using [Paste from Word](http://ckeditor.com/addon/pastefromword).
+* [#16600](http://dev.ckeditor.com/ticket/16600): [Blink, WebKit] Fixed: Error thrown occasionally by an uninitialized editable for multiple CKEditor instances on the same page.
 
 ## CKEditor 4.6
 

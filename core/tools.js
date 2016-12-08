@@ -1632,18 +1632,18 @@
 				_hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
 				/**
-				 * Parses `value` used as a `background` property shorthand and returns information as an object.
+				 * Parses the `value` used as a `background` property shorthand and returns information as an object.
 				 *
-				 * **Note:** currently we extract only `color` property. Any other parts will go into `unprocessed` property.
+				 * **Note:** Currently only the `color` property is extracted. Any other parts will go into the `unprocessed` property.
 				 *
 				 *		var background = CKEDITOR.tools.style.parse.background( '#0C0 url(foo.png)' );
 				 *		console.log( background );
 				 *		// Logs: { color: '#0C0', unprocessed: 'url(foo.png)' }
 				 *
-				 * @param {String} value `background` property value.
-				 * @returns {Object} Object with information extracted from the background.
-				 * @returns {String} return.color The **first** color value found, the color format remains same as in input.
-				 * @returns {String} return.unprocessed Remaining part of `value` that has not been processed.
+				 * @param {String} value The value of the `background` property.
+				 * @returns {Object} An object with information extracted from the background.
+				 * @returns {String} return.color The **first** color value found. The color format remains the same as in input.
+				 * @returns {String} return.unprocessed The remaining part of the `value` that has not been processed.
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				background: function( value ) {
@@ -1671,12 +1671,12 @@
 				},
 
 				/**
-				 * Parses `margin` CSS property shorthand format.
+				 * Parses the `margin` CSS property shorthand format.
 				 *
 				 *		console.log( CKEDITOR.tools.parse.margin( '3px 0 2' ) );
 				 *		// Logs: { top: "3px", right: "0", bottom: "2", left: "0" }
 				 *
-				 * @param {String} value `margin` property value.
+				 * @param {String} value The `margin` property value.
 				 * @returns {Object}
 				 * @returns {Number} return.top Top margin.
 				 * @returns {Number} return.right Right margin.
@@ -1716,7 +1716,7 @@
 				},
 
 				/**
-				 * Searches `value` for any CSS color occurrences and returns it.
+				 * Searches the `value` for any CSS color occurrences and returns it.
 				 *
 				 * @private
 				 * @param {String} value
@@ -1757,8 +1757,8 @@
 		 */
 		array: {
 			/**
-			 * Returns a copy of `array` filtered using `fn` function. Any elements that the `fn` will return `false` for
-			 * will get removed from returned array.
+			 * Returns a copy of `array` filtered using the `fn` function. Any elements that the `fn` will return `false` for
+			 * will get removed from the returned array.
 			 *
 			 *		var filtered = this.array.filter( [ 0, 1, 2, 3 ], function( value ) {
 			 *			// Leave only values equal or greater than 2.
@@ -1768,13 +1768,13 @@
 			 *		// Logs: [ 2, 3 ]
 			 *
 			 * @param {Array} array
-			 * @param {Function} fn Function that gets called with each `array` item. Any item for that `fn`
-			 * returned `false`-alike value for will be filtered out of `array`.
-			 * @param {Mixed} fn.value Currently iterated array value.
-			 * @param {Number} fn.index The index of currently iterated value in array.
-			 * @param {Array} fn.array The original array passed as a `array` variable.
-			 * @param {Mixed} [thisArg=undefined] Context object for `fn`.
-			 * @returns {Array} Filtered array.
+			 * @param {Function} fn A function that gets called with each `array` item. Any item that `fn`
+			 * returned a `false`-alike value for will be filtered out of the `array`.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Array} fn.array The original array passed as the `array` variable.
+			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
+			 * @returns {Array} The filtered array.
 			 * @member CKEDITOR.tools.array
 			 */
 			filter: function( array, fn, thisArg ) {
@@ -1792,12 +1792,12 @@
 			/**
 			 * Iterates over every element in the `array`.
 			 *
-			 * @param {Array} array An array to be iterated.
-			 * @param {Function} fn Function called for every `array` element.
-			 * @param {Mixed} fn.value Currently iterated array value.
-			 * @param {Number} fn.index The index of currently iterated value in array.
-			 * @param {Array} fn.array The original array passed as a `array` variable.
-			 * @param {Mixed} [thisArg=undefined] Context object for `fn`.
+			 * @param {Array} array An array to be iterated over.
+			 * @param {Function} fn The function called for every `array` element.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Array} fn.array The original array passed as an `array` variable.
+			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
 			 * @member CKEDITOR.tools.array
 			 */
 			forEach: function( array, fn, thisArg ) {
@@ -1854,21 +1854,21 @@
 
 
 	/**
-	 * Namespace containing functions to work on CSS properties.
+	 * The namespace containing functions to work on CSS properties.
 	 *
 	 * @since 4.6.1
 	 * @class CKEDITOR.tools.style
 	 */
 
 	/**
-	 * Namespace with helper functions to parse some common CSS properties.
+	 * The namespace with helper functions to parse some common CSS properties.
 	 *
 	 * @since 4.6.1
 	 * @class CKEDITOR.tools.style.parse
 	 */
 
 	/**
-	 * Namespace with helper functions and polyfills for arrays.
+	 * The namespace with helper functions and polyfills for arrays.
 	 *
 	 * @since 4.6.1
 	 * @class CKEDITOR.tools.array

@@ -4,10 +4,10 @@
  */
 
 /**
- * @fileOverview Plugin created to handle #11064. While the issue is caused by native Webkit/Blink behaviour
- * this plugin can be easily detached/modified when issue is fixed without changing the core.
- * When Ctrl/Cmd + A is pressed to select all content it does not work due to bug in
- * Webkit/Blink if non-editable element is on the beginning/end of the content.
+ * @fileOverview A plugin created to handle ticket #11064. While the issue is caused by native WebKit/Blink behaviour,
+ * this plugin can be easily detached or modified when the issue is fixed in the browsers without changing the core.
+ * When Ctrl/Cmd + A is pressed to select all content it does not work due to a bug in
+ * Webkit/Blink if a non-editable element is at the beginning or the end of the content.
  */
 
 ( function() {
@@ -62,7 +62,7 @@
 	} );
 
 	/**
-	 * Set of helper methods for the Widget Selection plugin.
+	 * A set of helper methods for the Widget Selection plugin.
 	 *
 	 * @property widgetselection
 	 * @member CKEDITOR.plugins
@@ -71,7 +71,7 @@
 	CKEDITOR.plugins.widgetselection = {
 
 		/**
-		 * Start filler element reference.
+		 * The start filler element reference.
 		 *
 		 * @property {CKEDITOR.dom.element}
 		 * @member CKEDITOR.plugins.widgetselection
@@ -80,7 +80,7 @@
 		startFiller: null,
 
 		/**
-		 * End filler element reference.
+		 * The end filler element reference.
 		 *
 		 * @property {CKEDITOR.dom.element}
 		 * @member CKEDITOR.plugins.widgetselection
@@ -89,7 +89,7 @@
 		endFiller: null,
 
 		/**
-		 * Attribute which identifies filler element.
+		 * An attribute which identifies the filler element.
 		 *
 		 * @property {String}
 		 * @member CKEDITOR.plugins.widgetselection
@@ -98,8 +98,8 @@
 		fillerAttribute: 'data-cke-filler-webkit',
 
 		/**
-		 * Filler element default content. Note: filler needs to have `visible` content.
-		 * Unprintable elements or empty content does not help as a workaround.
+		 * The default content of the filler element. Note: The filler needs to have `visible` content.
+		 * Unprintable elements or empty content do not help as a workaround.
 		 *
 		 * @property {String}
 		 * @member CKEDITOR.plugins.widgetselection
@@ -117,7 +117,7 @@
 		fillerTagName: 'div',
 
 		/**
-		 * Adds filler before/after non-editable element on the beginning/end of the `editable`.
+		 * Adds a filler before or after a non-editable element at the beginning or the end of the `editable`.
 		 *
 		 * @param {CKEDITOR.editable} editable
 		 * @returns {Boolean}
@@ -156,7 +156,7 @@
 		},
 
 		/**
-		 * Removes filler elements or updates its references.
+		 * Removes filler elements or updates their references.
 		 *
 		 * It will **not remove** filler elements if the whole content is selected, as it would break the
 		 * selection.
@@ -207,7 +207,7 @@
 		},
 
 		/**
-		 * Checks if the whole content of the given editable is selected.
+		 * Checks if the entire content of the given editable is selected.
 		 *
 		 * @param {CKEDITOR.editable} editable
 		 * @returns {Boolean}
@@ -247,7 +247,7 @@
 		},
 
 		/**
-		 * Creates filler element.
+		 * Creates a filler element.
 		 *
 		 * @param {Boolean} [onEnd] If filler will be placed on end or beginning of the content.
 		 * @returns {CKEDITOR.dom.element}
@@ -277,9 +277,9 @@
 		},
 
 		/**
-		 * Removes specific filler element from the given editable. If filler contains any content (typed or pasted),
-		 * it replaces the current editable content. If not, the caret is placed before first or after last editable
-		 * element (depends if filler was on the beginning/end).
+		 * Removes the specific filler element from the given editable. If the filler contains any content (typed or pasted),
+		 * it replaces the current editable content. If not, the caret is placed before the first or after the last editable
+		 * element (depends if the filler was at the beginning or the end).
 		 *
 		 * @param {CKEDITOR.dom.element} filler
 		 * @param {CKEDITOR.editable} editable
@@ -322,9 +322,10 @@
 		},
 
 		/**
-		 * Creates regular expression which will match the filler html in the text.
+		 * Creates a regular expression which will match the filler HTML in the text.
 		 *
-		 * @param {Boolean} [onEnd] If regexp should be created for filler on the beginning or end of the content.
+		 * @param {Boolean} [onEnd] Whether a regular expression should be created for the filler at the beginning or
+		 * the end of the content.
 		 * @returns {RegExp}
 		 * @member CKEDITOR.plugins.widgetselection
 		 * @private
@@ -338,7 +339,7 @@
 		},
 
 		/**
-		 * Adds an integration for [Select All](http://ckeditor.com/addon/selectall) plugin to the given `editor`.
+		 * Adds an integration for the [Select All](http://ckeditor.com/addon/selectall) plugin to the given `editor`.
 		 *
 		 * @private
 		 * @param {CKEDITOR.editor} editor
