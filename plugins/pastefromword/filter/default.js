@@ -6,7 +6,7 @@
 /* globals CKEDITOR */
 
 ( function() {
-	var List, Style, filter,
+	var List, Style, Heuristics, filter,
 		tools = CKEDITOR.tools,
 		invalidTags = [
 			'o:p',
@@ -636,7 +636,8 @@
 					// where the middle parentheses contain the symbol.
 				element
 					.getHtml()
-					.match( /^( )*.*?[\.\)] ( ){2,666}/ )
+					.match( /^( )*.*?[\.\)] ( ){2,666}/ ) ||
+				Heuristics.EdgeListItem( element )
 			) {
 				return true;
 			}
@@ -689,6 +690,9 @@
 				List.removeSymbolText( element );
 			}
 
+			if ( Heuristics.EdgeListItem( element ) ) {
+				Heuristics.assignListLevels( element );
+			}
 
 			if ( element.attributes.style ) {
 				// Hacky way to get rid of margin left.
@@ -989,7 +993,6 @@
 			if ( listElements.length === 0 ) {
 				return [];
 			}
-
 
 			// Chop data into continuous lists.
 			var lists = List.groupLists( listElements );
@@ -1565,6 +1568,97 @@
 		}
 	};
 	List = CKEDITOR.plugins.pastefromword.lists;
+
+	CKEDITOR.plugins.pastefromword.heuristics = {
+		/**
+		 * @return {boolean}
+		 */
+		EdgeListItem: function( item ) {
+			return !item.attributes.style.match( /mso\-list/ ) &&
+				!!item.find( function( child ) {
+				var css = tools.parseCssText( child.attributes && child.attributes.style );
+				var font = !!css && css.font || css[ 'font-size' ];
+				return font && font.match( /7pt/i ) && !!child.previous;
+			}, true ).length;
+		},
+		/** @param {CKEDITOR.htmlParser.element} item */
+		assignListLevels: function( item ) {
+			var indents = [],
+				items = [];
+
+			while ( item.next && !item.next.attributes[ 'cke-list-level' ] && Heuristics.EdgeListItem( item.next ) ) {
+				item = item.next;
+				indents.push( List.getElementIndentation( item ) );
+				items.push( item );
+			}
+
+			if ( items.length === 0 ) {
+				return;
+			}
+
+			var diffOccurrences = { 1: 0 },
+				maxIndent = Math.max.apply( null, indents );
+
+			var diffs = Heuristics.map( function( a, i ) {
+				return Math.abs( a - indents[ i ] );
+			}, indents.slice( 1 ) );
+
+			diffs = Heuristics.filter( function( a ) {
+				return a !== 0;
+			}, diffs );
+
+			var mostCommonDiff = Heuristics.reduce( function( acc, diff ) {
+				diffOccurrences[ diff ] = diffOccurrences[ diff ] || 0;
+				diffOccurrences[ diff ]++;
+
+				if ( diffOccurrences[ diff ] > diffOccurrences[ acc ] ) {
+					return diff;
+				}
+				return acc;
+			}, 1, diffs );
+
+			var levels = Heuristics.map( function( indent ) {
+				return Math.round( indent - maxIndent ) / mostCommonDiff;
+			}, indents );
+
+			var lowestLevel = Heuristics.reduce( function( acc, item ) {
+				if ( item < acc ) {
+					return item;
+				}
+				return acc;
+			}, maxIndent / mostCommonDiff, levels );
+
+			Heuristics.map( function( level, i ) {
+				items[ i ].attributes[ 'cke-list-level' ] = level - lowestLevel + 1;
+			}, levels );
+		},
+		/* TODO: Export these functions */
+		map: function( fn, array ) {
+			var result = [];
+			for ( var i = 0; i < array.length; i++ ) {
+				result.push( fn( array[ i ], i ) );
+			}
+			return result;
+		},
+		reduce: function( fn, initial, array ) {
+			var acc = initial;
+			for ( var i = 0; i < array.length; i++ ) {
+				acc = fn( acc, array[ i ], i );
+			}
+			return acc;
+		},
+		filter: function( fn, array ) {
+			var result = Heuristics.map( fn, array );
+
+			return Heuristics.reduce( function( acc, a, i ) {
+				if ( a ) {
+					acc.push( array[ i ] );
+				}
+				return acc;
+			}, [], result );
+		}
+	};
+	Heuristics = CKEDITOR.plugins.pastefromword.heuristics;
 
 	// Expose this function since it's useful in other places.
 	List.setListSymbol.removeRedundancies = function( style, level ) {
