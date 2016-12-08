@@ -17,27 +17,14 @@
 			'edge'
 		],
 		wordVersions = [
-			'word2007',
 			'word2013'
 		],
 		tests = {
-			/*'Bold': true,
-			'Colors': true,
-			'Custom_list_markers': true,
-			'Fonts': true,
-			'Image': true,
-			'Italic': true,
-			'Link': true,
-			'Only_paragraphs': true,*/
 			'Ordered_list': true,
 			'Ordered_list_multiple': true,
-			'Ordered_list_multiple_edgy': true,
-			/*'Paragraphs_with_headers': true,
-			'Simple_table': true,
-			'Spacing': true,
-			'Text_alignment': true,*/
-			'Underline': true,
-			'Unordered_list': true
+			//'Ordered_list_multiple_edgy': true,
+			'Unordered_list': true,
+			'Unordered_list_multiple': true
 		},
 		keys = CKEDITOR.tools.objectKeys( tests ),
 		testData = {
