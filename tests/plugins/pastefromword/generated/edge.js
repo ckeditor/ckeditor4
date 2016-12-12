@@ -31,7 +31,8 @@
 			_should: {
 				ignore: {}
 			}
-		};
+		},
+		isEdge = CKEDITOR.env.edge;
 
 	for ( var i = 0; i < keys.length; i++ ) {
 		for ( var j = 0; j < wordVersions.length; j++ ) {
@@ -48,6 +49,13 @@
 			}
 		}
 	}
+	testData.setUp = function() {
+		CKEDITOR.env.edge = true;
+	};
+
+	testData.tearDown = function() {
+		CKEDITOR.env.edge = isEdge;
+	};
 
 	bender.test( testData );
 } )();
