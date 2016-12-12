@@ -14,6 +14,10 @@
 		init: function( editor ) {
 			var widgetDefinition = CKEDITOR.plugins.embedBase.createWidgetBaseDefinition( editor );
 
+			if ( !editor.config.embed_provider ) {
+				CKEDITOR.error( 'embed-no-provider-url' );
+			}
+
 			// Extend the base definition with additional properties.
 			CKEDITOR.tools.extend( widgetDefinition, {
 				// Use a dialog exposed by the embedbase plugin.
