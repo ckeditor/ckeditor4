@@ -109,7 +109,7 @@
 						return false;
 					}
 
-					if ( List.thisIsAListItem( element ) ) {
+					if ( List.thisIsAListItem( element, editor ) ) {
 						List.convertToFakeListItem( element );
 					} else {
 						// In IE list level information is stored in <p> elements inside <li> elements.
@@ -128,12 +128,12 @@
 					Style.createStyleStack( element, filter, editor );
 				},
 				'pre': function( element ) {
-					if ( List.thisIsAListItem( element ) ) List.convertToFakeListItem( element );
+					if ( List.thisIsAListItem( element, editor ) ) List.convertToFakeListItem( element );
 
 					Style.createStyleStack( element, filter, editor );
 				},
 				'h1': function( element ) {
-					if ( List.thisIsAListItem( element ) ) List.convertToFakeListItem( element );
+					if ( List.thisIsAListItem( element, editor ) ) List.convertToFakeListItem( element );
 
 					Style.createStyleStack( element, filter, editor );
 				},
@@ -623,7 +623,7 @@
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
-		thisIsAListItem: function( element ) {
+		thisIsAListItem: function( element, editor ) {
 			/*jshint -W024 */
 			// Normally a style of the sort that looks like "mso-list: l0 level1 lfo1"
 			// indicates a list element, but the same style may appear in a <p> that's within a <li>.
@@ -637,7 +637,8 @@
 				element
 					.getHtml()
 					.match( /^( )*.*?[\.\)] ( ){2,666}/ ) ||
-				Heuristics.EdgeListItem( element )
+				( CKEDITOR.env.edge && editor.config.pasteFromWord_heuristicsEdgeList &&
+					Heuristics.EdgeListItem( element ) )
 			) {
 				return true;
 			}
@@ -1574,7 +1575,7 @@
 		 * @return {boolean}
 		 */
 		EdgeListItem: function( item ) {
-			return !item.attributes.style.match( /mso\-list/ ) &&
+			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) &&
 				!!item.find( function( child ) {
 				var css = tools.parseCssText( child.attributes && child.attributes.style );
 				var font = !!css && css.font || css[ 'font-size' ];
@@ -1771,4 +1772,12 @@
 	 * @cfg {Boolean} [pasteFromWordRemoveStyles=true]
 	 * @member CKEDITOR.config
 	 */
+
+	/**
+	 * Set to true activates a heuristic that detects lists pasted into MS Edge.
+	 * @since 4.6.2
+	 * @cfg {Boolean} [pasteFromWord_heuristicsEdgeList=true]
+	 * @member CKEDITOR.config
+	*/
+	CKEDITOR.config.pasteFromWord_heuristicsEdgeList = true;
 } )();
