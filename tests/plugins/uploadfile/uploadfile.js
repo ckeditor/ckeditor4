@@ -105,7 +105,7 @@ bender.test( {
 		loader.url = '%BASE_PATH%_assets/sample.txt';
 		loader.changeStatus( 'uploaded' );
 
-		assert.sameData( '<p><a href="/tests/_assets/sample.txt" target="_blank">name.txt</a></p>', editor.getData() );
+		assert.sameData( '<p><a href="%BASE_PATH%_assets/sample.txt" target="_blank">name.txt</a></p>', editor.getData() );
 		assert.areSame( 0, editor.editable().find( 'a[data-widget="uploadfile"]' ).count() );
 
 		assert.areSame( 1, loadAndUploadCount );
@@ -133,7 +133,7 @@ bender.test( {
 		loader.url = '%BASE_PATH%_assets/sample.txt';
 		loader.changeStatus( 'uploaded' );
 
-		assert.sameData( '<p><a href="/tests/_assets/sample.txt" target="_blank">name.txt</a></p>', editor.getData() );
+		assert.sameData( '<p><a href="%BASE_PATH%_assets/sample.txt" target="_blank">name.txt</a></p>', editor.getData() );
 		assert.areSame( 0, editor.editable().find( 'a[data-widget="uploadfile"]' ).count() );
 
 		assert.areSame( 1, loadAndUploadCount );
