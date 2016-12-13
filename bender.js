@@ -19,6 +19,10 @@ var config = {
 	privateKey: 'tests/_benderjs/ssl/key.pem',
 	certificate: 'tests/_benderjs/ssl/cert.pem',
 
+	// Configuration for CI.
+	manualBrowsers: [ 'Firefox' ],
+	startBrowser: 'Chrome',
+
 	coverage: {
 		paths: [
 			'adapters/**/*',
