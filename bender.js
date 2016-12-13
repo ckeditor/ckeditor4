@@ -19,11 +19,6 @@ var config = {
 	privateKey: 'tests/_benderjs/ssl/key.pem',
 	certificate: 'tests/_benderjs/ssl/cert.pem',
 
-	// Configuration for CI.
-	manualBrowsers: [ 'Firefox' ],
-	startBrowser: 'Chrome',
-	mathJaxLibPath: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML',
-
 	coverage: {
 		paths: [
 			'adapters/**/*',
