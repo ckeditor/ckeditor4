@@ -22,6 +22,7 @@ var config = {
 	// Configuration for CI.
 	manualBrowsers: [ 'Firefox' ],
 	startBrowser: 'Chrome',
+	mathJaxLibPath: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML',
 
 	coverage: {
 		paths: [
