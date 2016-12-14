@@ -944,6 +944,17 @@
 		}
 	}
 
+	function fakeSelectionDragHandler( evt ) {
+		var cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true );
+
+		if ( !cell || cell.hasClass( fakeSelectedClass ) ) {
+			return;
+		}
+
+		evt.cancel();
+		evt.data.preventDefault();
+	}
+
 	function copyTable( editor, isCut ) {
 		var selection = editor.getSelection(),
 			bookmarks = selection.createBookmarks(),
@@ -1667,6 +1678,7 @@
 					editable.attachListener( mouseHost, 'mousemove', fakeSelectionMouseHandler, null, evtInfo );
 					editable.attachListener( mouseHost, 'mouseup', fakeSelectionMouseHandler, null, evtInfo );
 
+					editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
 					editable.attachListener( editable, 'selectionchange', fakeSelectionChangeHandler );
 
 					// Setup copybin.
