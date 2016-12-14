@@ -7,6 +7,7 @@
 	var cellNodeRegex = /^(?:td|th)$/,
 		isArray = CKEDITOR.tools.isArray,
 		fakeSelectedClass = 'cke_table-faked-selection',
+		fakeSelectedTableClass = fakeSelectedClass + '-table',
 		fakeSelection = { active: false },
 		previousFakeSelection;
 
@@ -682,6 +683,10 @@
 			selectedCells.getItem( i ).removeClass( fakeSelectedClass );
 		}
 
+		if ( selectedCells.count() > 0 ) {
+			selectedCells.getItem( 0 ).getAscendant( 'table' ).removeClass( fakeSelectedTableClass );
+		}
+
 		editor.fire( 'unlockSnapshot' );
 
 		if ( reset ) {
@@ -862,6 +867,10 @@
 
 		for ( i = 0; i < cells.length; i++ ) {
 			cells[ i ].addClass( fakeSelectedClass );
+		}
+
+		if ( cells.length > 0 ) {
+			cells[ 0 ].getAscendant( 'table' ).addClass( fakeSelectedTableClass );
 		}
 
 		editor.fire( 'unlockSnapshot' );
@@ -1636,7 +1645,8 @@
 			// Allow overwriting the native table selection with our custom one.
 			if ( editor.config.tableImprovements ) {
 				// Add styles for fake visual selection.
-				CKEDITOR.addCss( '.' + fakeSelectedClass + ' { background: navy; color: #fff; }' +
+				CKEDITOR.addCss( 'table.' + fakeSelectedTableClass + ' *::selection { background: transparent; }' +
+					'.' + fakeSelectedClass + ' { background: navy; color: #fff; }' +
 					'.' + fakeSelectedClass + '::selection { background: transparent; }' );
 
 				editor.on( 'contentDom', function() {
