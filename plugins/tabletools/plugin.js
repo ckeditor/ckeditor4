@@ -1653,7 +1653,8 @@
 			if ( editor.config.tableImprovements ) {
 				// Add styles for fake visual selection.
 				CKEDITOR.addCss( 'table.' + fakeSelectedTableClass + ' *::selection { background: transparent; }' +
-					'.' + fakeSelectedClass + ' { background: navy; color: #fff; }' +
+					'.' + fakeSelectedClass + ' { background: gray; color: black; }' +
+					'.cke_focus .' + fakeSelectedClass + ' { background: navy; color: #fff; }' +
 					'.' + fakeSelectedClass + '::selection { background: transparent; }' );
 
 				editor.on( 'contentDom', function() {
