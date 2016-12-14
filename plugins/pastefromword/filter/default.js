@@ -1201,99 +1201,135 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		dissolveList: function( element ) {
-			var i, children = [],
-				deletedLists = [];
+			var i, children,
+				nameIs = function( name ) {
+					return function( element ) {
+						return element.name == name;
+					};
+				},
+				// TODO: merge these with implementations from 16682.
+				map = function( fn, array ) {
+					var result = [];
+					for ( var i = 0; i < array.length; i++ ) {
+						result.push( fn( array[ i ], i ) );
+					}
+					return result;
+				},
+				reduce = function( fn, initial, array ) {
+					var acc = initial;
+					for ( var i = 0; i < array.length; i++ ) {
+						acc = fn( acc, array[ i ], i );
+					}
+					return acc;
+				},
+				filter = function( fn, array ) {
+					return reduce( function( acc, c, i ) {
+						if ( c ) {
+							acc.push( array[ i ] );
+						}
+						return acc;
+					}, [], map( fn, array ) );
+				};
+
+			var elements = [];
 
 			element.forEach( function( child ) {
-				if ( child.name == 'li' ) {
-					var childChild = child.children[ 0 ];
-					if ( childChild && childChild.name && childChild.attributes.style && childChild.attributes.style.match( /mso-list:/i ) ) {
-						Style.pushStylesLower( child, { 'list-style-type': true, 'display': true } );
-
-						var childStyle = tools.parseCssText( childChild.attributes.style, true );
-
-						Style.setStyle( child, 'mso-list', childStyle[ 'mso-list' ], true );
-						Style.setStyle( childChild, 'mso-list', '' );
-
-						// If this style has a value it's usually "none". This marks such list elements for deletion.
-						if ( childStyle.display || childStyle.DISPLAY ) {
-							if ( childStyle.display ) {
-								Style.setStyle( child, 'display', childStyle.display, true );
-							} else {
-								Style.setStyle( child, 'display', childStyle.DISPLAY, true );
-							}
-						}
-					}
-
-					if ( child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
-						child.name = 'p';
-
-						child.attributes[ 'cke-dissolved' ] = true;
-
-						children.push( child );
-					}
-				}
-
-				// This fragment seems to look for nested lists and create cke-symbol attribute based on list type.
-				if ( child.name == 'ul' || child.name == 'ol' ) {
-					for ( var i = 0; i < child.children.length; i++ ) {
-						if ( child.children[ i ].name == 'li' ) {
-							var symbol,
-								type = child.attributes.type,
-								start = parseInt( child.attributes.start, 10 ) || 1;
-
-							if ( !type ) {
-								var style = tools.parseCssText( child.attributes.style );
-								type = style[ 'list-style-type' ];
-							}
-
-							switch ( type ) {
-								case 'disc':
-									symbol = '·';
-									break;
-								case 'circle':
-									symbol = 'o';
-									break;
-								case 'square':
-									symbol = '§';
-									break;
-								case '1':
-								case 'decimal':
-									symbol = ( start + i ) + '.';
-									break;
-								case 'a':
-								case 'lower-alpha':
-									symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + i ) + '.';
-									break;
-								case 'A':
-								case 'upper-alpha':
-									symbol = String.fromCharCode( 'A'.charCodeAt( 0 ) + start - 1 + i ) + '.';
-									break;
-								case 'i':
-								case 'lower-roman':
-									symbol = toRoman( start + i ) + '.';
-									break;
-								case 'I':
-								case 'upper-roman':
-									symbol = toRoman( start + i ).toUpperCase() + '.';
-									break;
-								default:
-									symbol = child.name == 'ul' ? '·' : ( start + i ) + '.';
-							}
-
-							child.children[ i ].attributes[ 'cke-symbol' ] = symbol;
-						}
-					}
-
-					deletedLists.push( child );
-				}
+				elements.push( child );
 			}, CKEDITOR.NODE_ELEMENT, false );
+
+			var lis = filter( nameIs( 'li' ), elements ),
+				lists = filter( function( element ) {
+					return nameIs( 'ol' )( element ) || nameIs( 'ul' )( element );
+				}, elements );
+
+			// This is really a for-each. This function has side effects.
+			map( function( list ) {
+				var type = list.attributes.type,
+					start = parseInt( list.attributes.start, 10 ) || 1;
+
+				if ( !type ) {
+					var style = tools.parseCssText( list.attributes.style );
+					type = style[ 'list-style-type' ];
+				}
+
+				map( function( child, index ) {
+					var symbol;
+
+					switch ( type ) {
+						case 'disc':
+							symbol = '·';
+							break;
+						case 'circle':
+							symbol = 'o';
+							break;
+						case 'square':
+							symbol = '§';
+							break;
+						case '1':
+						case 'decimal':
+							symbol = ( start + index ) + '.';
+							break;
+						case 'a':
+						case 'lower-alpha':
+							symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + index ) + '.';
+							break;
+						case 'A':
+						case 'upper-alpha':
+							symbol = String.fromCharCode( 'A'.charCodeAt( 0 ) + start - 1 + index ) + '.';
+							break;
+						case 'i':
+						case 'lower-roman':
+							symbol = toRoman( start + index ) + '.';
+							break;
+						case 'I':
+						case 'upper-roman':
+							symbol = toRoman( start + index ).toUpperCase() + '.';
+							break;
+						default:
+							symbol = list.name == 'ul' ? '·' : ( start + index ) + '.';
+					}
+
+					child.attributes[ 'cke-symbol' ] = symbol;
+				}, filter( nameIs( 'li' ), list.children ) );
+			}, lists );
+
+			children = reduce( function( acc, child ) {
+				var childChild = child.children[ 0 ];
+
+				if ( childChild && childChild.name && childChild.attributes.style && childChild.attributes.style.match( /mso-list:/i ) ) {
+					Style.pushStylesLower( child, { 'list-style-type': true, 'display': true } );
+
+					var childStyle = tools.parseCssText( childChild.attributes.style, true );
+
+					Style.setStyle( child, 'mso-list', childStyle[ 'mso-list' ], true );
+					Style.setStyle( childChild, 'mso-list', '' );
+
+					// If this style has a value it's usually "none". This marks such list elements for deletion.
+					if ( childStyle.display || childStyle.DISPLAY ) {
+						if ( childStyle.display ) {
+							Style.setStyle( child, 'display', childStyle.display, true );
+						} else {
+							Style.setStyle( child, 'display', childStyle.DISPLAY, true );
+						}
+					}
+				}
+
+				if ( child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
+					child.name = 'p';
+
+					child.attributes[ 'cke-dissolved' ] = true;
+
+					acc.push( child );
+				}
+
+				return acc;
+			}, [], lis );
 
 			for ( i = children.length - 1; i >= 0; i-- ) {
 				children[ i ].insertAfter( element );
 			}
-			for ( i = deletedLists.length - 1; i >= 0; i-- ) {
-				delete deletedLists[ i ].name;
+			for ( i = lists.length - 1; i >= 0; i-- ) {
+				delete lists[ i ].name;
 			}
 
 			function toRoman( number ) {
