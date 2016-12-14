@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, 18
-@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, elementspath, floatpanel
+@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, elementspath, floatingspace
 
 **Procedure for both editors:**
 
