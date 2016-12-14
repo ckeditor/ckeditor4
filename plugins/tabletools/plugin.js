@@ -877,7 +877,7 @@
 	}
 
 	function fakeSelectionMouseHandler( evt ) {
-		var editor = evt.editor || evt.sender.editor,
+		var editor = evt.editor || evt.listenerData.editor,
 			selection = editor.getSelection( 1 ),
 			selectedTable = getFakeSelectedTable( editor ),
 			cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true ),
@@ -894,6 +894,10 @@
 			return selectedTable.equals( table ) || selectedTable.contains( table );
 		}
 
+		function isEditableArea( node ) {
+			return node.equals( editor.editable() ) || node.equals( editor.document.getDocumentElement() );
+		}
+
 		function canClearSelection( evt, selection, selectedTable, table ) {
 			// User starts click outside the table or not in the same table as in the previous selection.
 			if ( evt.name === 'mousedown' && ( detectLeftMouseButton( evt ) || !table ) ) {
@@ -902,7 +906,9 @@
 
 			// 1. User releases mouse button outside the table.
 			// 2. User opens context menu not in the selected table.
-			if ( evt.name === 'mouseup' && !isSameTable( selectedTable, table ) ) {
+			// 3. User click on other element inside editor (but not in the empty space).
+			if ( evt.name === 'mouseup' && !isSameTable( selectedTable, table ) &&
+				!isEditableArea( evt.data.getTarget() ) ) {
 				return true;
 			}
 
@@ -1650,11 +1656,15 @@
 					'.' + fakeSelectedClass + '::selection { background: transparent; }' );
 
 				editor.on( 'contentDom', function() {
-					var editable = editor.editable();
+					var editable = editor.editable(),
+						mouseHost = editable.isInline() ? editable : editor.document,
+						evtInfo = { editor: editor };
 
-					editable.attachListener( editable, 'mousedown', fakeSelectionMouseHandler );
-					editable.attachListener( editable, 'mousemove', fakeSelectionMouseHandler );
-					editable.attachListener( editable, 'mouseup', fakeSelectionMouseHandler );
+					// Explicitly set editor as DOM events generated on document does not convey information about it.
+					editable.attachListener( mouseHost, 'mousedown', fakeSelectionMouseHandler, null, evtInfo );
+					editable.attachListener( mouseHost, 'mousemove', fakeSelectionMouseHandler, null, evtInfo );
+					editable.attachListener( mouseHost, 'mouseup', fakeSelectionMouseHandler, null, evtInfo );
+
 					editable.attachListener( editable, 'selectionchange', fakeSelectionChangeHandler );
 
 					// Setup copybin.
