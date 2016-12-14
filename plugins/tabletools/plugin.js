@@ -904,9 +904,10 @@
 				return true;
 			}
 
+			// Covers a case when:
 			// 1. User releases mouse button outside the table.
 			// 2. User opens context menu not in the selected table.
-			// 3. User click on other element inside editor (but not in the empty space).
+			// 3. Mouse is released on element other than editable root.
 			if ( evt.name === 'mouseup' && !isSameTable( selectedTable, table ) &&
 				!isEditableArea( evt.data.getTarget() ) ) {
 				return true;
