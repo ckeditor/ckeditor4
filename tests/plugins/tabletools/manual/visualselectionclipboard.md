@@ -16,6 +16,7 @@
 * The table has the same number of cells in all rows.
 * There are no errors in the console.
 * Operation can be undone or redone.
+* The pasted cells are fake-selected.
 
 **Aditional things to check in Edge:**
 
