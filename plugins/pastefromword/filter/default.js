@@ -1252,6 +1252,7 @@
 					type = style[ 'list-style-type' ];
 				}
 
+				// Also a for-each with side effects.
 				map( function( child, index ) {
 					var symbol;
 
@@ -1293,33 +1294,33 @@
 				}, filter( nameIs( 'li' ), list.children ) );
 			}, lists );
 
-			children = reduce( function( acc, child ) {
-				var childChild = child.children[ 0 ];
+			children = reduce( function( acc, listElement ) {
+				var child = listElement.children[ 0 ];
 
-				if ( childChild && childChild.name && childChild.attributes.style && childChild.attributes.style.match( /mso-list:/i ) ) {
-					Style.pushStylesLower( child, { 'list-style-type': true, 'display': true } );
+				if ( child && child.name && child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
+					Style.pushStylesLower( listElement, { 'list-style-type': true, 'display': true } );
 
-					var childStyle = tools.parseCssText( childChild.attributes.style, true );
+					var childStyle = tools.parseCssText( child.attributes.style, true );
 
-					Style.setStyle( child, 'mso-list', childStyle[ 'mso-list' ], true );
-					Style.setStyle( childChild, 'mso-list', '' );
+					Style.setStyle( listElement, 'mso-list', childStyle[ 'mso-list' ], true );
+					Style.setStyle( child, 'mso-list', '' );
 
 					// If this style has a value it's usually "none". This marks such list elements for deletion.
 					if ( childStyle.display || childStyle.DISPLAY ) {
 						if ( childStyle.display ) {
-							Style.setStyle( child, 'display', childStyle.display, true );
+							Style.setStyle( listElement, 'display', childStyle.display, true );
 						} else {
-							Style.setStyle( child, 'display', childStyle.DISPLAY, true );
+							Style.setStyle( listElement, 'display', childStyle.DISPLAY, true );
 						}
 					}
 				}
 
-				if ( child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
-					child.name = 'p';
+				if ( listElement.attributes.style && listElement.attributes.style.match( /mso-list:/i ) ) {
+					listElement.name = 'p';
 
-					child.attributes[ 'cke-dissolved' ] = true;
+					listElement.attributes[ 'cke-dissolved' ] = true;
 
-					acc.push( child );
+					acc.push( listElement );
 				}
 
 				return acc;
