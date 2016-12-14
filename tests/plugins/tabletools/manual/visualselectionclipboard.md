@@ -18,6 +18,6 @@
 * Operation can be undone or redone.
 * The pasted cells are fake-selected.
 
-**Aditional things to check in Edge:**
+**Additional things to check in Edge:**
 
 * Copying shouldn't activate "Undo" button.
