@@ -951,6 +951,7 @@
 			return;
 		}
 
+		// We're not supporting dragging in our table selection for the time being.
 		evt.cancel();
 		evt.data.preventDefault();
 	}
