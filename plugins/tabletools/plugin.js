@@ -956,6 +956,16 @@
 		evt.data.preventDefault();
 	}
 
+	function fakeSelectionFocusHandler( evt ) {
+		var editor = evt.editor || evt.sender.editor,
+			cells;
+
+		if ( previousFakeSelection ) {
+			cells = getCellsBetween( previousFakeSelection.first, previousFakeSelection.last );
+			fakeSelectCells( editor, cells );
+		}
+	}
+
 	function copyTable( editor, isCut ) {
 		var selection = editor.getSelection(),
 			bookmarks = selection.createBookmarks(),
@@ -1681,6 +1691,8 @@
 
 					editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
 					editable.attachListener( editable, 'selectionchange', fakeSelectionChangeHandler );
+
+					editable.attachListener( editable, 'focus', fakeSelectionFocusHandler );
 
 					// Setup copybin.
 					if ( CKEDITOR.plugins.clipboard && !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
