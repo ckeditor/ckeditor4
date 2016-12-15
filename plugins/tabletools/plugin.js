@@ -1653,10 +1653,8 @@
 			if ( editor.config.tableImprovements ) {
 				// Add styles for fake visual selection.
 				CKEDITOR.addCss( 'table.' + fakeSelectedTableClass + ' *::selection { background: transparent; }' +
-					'.' + fakeSelectedClass + ' { background: navy; color: white; }' +
-					// Why simply not use :focus? By default we **want** to use regular "active" higlight color. Only for browser that
-					// do support :focus on contenteditable we want to use "inactive" color.
-					'.cke_editable:not(:focus) .' + fakeSelectedClass + ' { background: darkgray; color: black; }' +
+					'.' + fakeSelectedClass + ' { background: darkgray; color: black; }' +
+					'.cke_editable:focus .' + fakeSelectedClass + ' { background: navy; color: white; }' +
 					'.' + fakeSelectedClass + '::selection { background: transparent; }' );
 
 				editor.on( 'contentDom', function() {
