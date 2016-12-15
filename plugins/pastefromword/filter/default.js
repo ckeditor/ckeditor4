@@ -1202,10 +1202,14 @@
 		 */
 		dissolveList: function( element ) {
 			var i, children,
+				elements = [],
 				nameIs = function( name ) {
 					return function( element ) {
 						return element.name == name;
 					};
+				},
+				isList = function( element ) {
+					return nameIs( 'ul' )( element ) || nameIs( 'ol' )( element );
 				},
 				// TODO: merge these with implementations from 16682.
 				map = function( fn, array ) {
@@ -1231,21 +1235,18 @@
 					}, [], map( fn, array ) );
 				};
 
-			var elements = [];
-
 			element.forEach( function( child ) {
 				elements.push( child );
 			}, CKEDITOR.NODE_ELEMENT, false );
 
 			var lis = filter( nameIs( 'li' ), elements ),
-				lists = filter( function( element ) {
-					return nameIs( 'ol' )( element ) || nameIs( 'ul' )( element );
-				}, elements );
+				lists = filter( isList, elements );
 
 			// This is really a for-each. This function has side effects.
 			map( function( list ) {
 				var type = list.attributes.type,
-					start = parseInt( list.attributes.start, 10 ) || 1;
+					start = parseInt( list.attributes.start, 10 ) || 1,
+					level = countParents( isList, list ) + 1;
 
 				if ( !type ) {
 					var style = tools.parseCssText( list.attributes.style );
@@ -1291,6 +1292,7 @@
 					}
 
 					child.attributes[ 'cke-symbol' ] = symbol;
+					child.attributes[ 'cke-list-level' ] = level;
 				}, filter( nameIs( 'li' ), list.children ) );
 			}, lists );
 
@@ -1304,24 +1306,24 @@
 
 					Style.setStyle( listElement, 'mso-list', childStyle[ 'mso-list' ], true );
 					Style.setStyle( child, 'mso-list', '' );
+					// mso-list takes precedence in determining the level.
+					delete listElement[ 'cke-list-level' ];
 
 					// If this style has a value it's usually "none". This marks such list elements for deletion.
-					if ( childStyle.display || childStyle.DISPLAY ) {
-						if ( childStyle.display ) {
-							Style.setStyle( listElement, 'display', childStyle.display, true );
-						} else {
-							Style.setStyle( listElement, 'display', childStyle.DISPLAY, true );
-						}
+					var styleName = childStyle.display ? 'display' : childStyle.DISPLAY ? 'DISPLAY' : '';
+					if ( styleName ) {
+						Style.setStyle( listElement, 'display', childStyle[styleName], true );
 					}
 				}
 
-				if ( listElement.attributes.style && listElement.attributes.style.match( /mso-list:/i ) ) {
-					listElement.name = 'p';
-
-					listElement.attributes[ 'cke-dissolved' ] = true;
-
-					acc.push( listElement );
+				// Don't include elements put there only to contain another list.
+				if ( listElement.children.length === 1 && isList( listElement.children[ 0 ] ) ) {
+					return acc;
 				}
+
+				listElement.name = 'p';
+				listElement.attributes[ 'cke-dissolved' ] = true;
+				acc.push( listElement );
 
 				return acc;
 			}, [], lis );
@@ -1342,6 +1344,21 @@
 				if ( number == 4 ) return 'iv';
 				if ( number >= 1 ) return 'i' + toRoman( number - 1 );
 				return '';
+			}
+
+			function countParents( condition, element ) {
+				return count( element, 0 );
+				function count( parent, number ) {
+					if ( !parent || !parent.parent ) {
+						return number;
+					}
+
+					if ( condition( parent.parent ) ) {
+						return count( parent.parent, number + 1 );
+					} else {
+						return count( parent.parent, number );
+					}
+				}
 			}
 		},
 
