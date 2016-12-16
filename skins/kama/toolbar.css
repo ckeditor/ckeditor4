@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -63,20 +63,13 @@ Special outer level classes used in this file:
 /* The box that holds buttons. */
 .cke_toolgroup
 {
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	float: left;
 	margin: 0 6px 5px 0;
 	padding: 2px;
 	background: url(images/sprites.png) repeat-x 0 -500px;
 
-	background: -webkit-gradient(linear, 0 0, 0 100, from(#fff), to(#d3d3d3)); /* Chrome,Safari4+ */
-	background: -moz-linear-gradient(top, #fff, #d3d3d3 100px); /* FF3.6+ */
-	background: -webkit-linear-gradient(top, #fff, #d3d3d3 100px); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #fff, #d3d3d3 100px); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #fff, #d3d3d3 100px); /* IE10+ */
-	background: linear-gradient(top, #fff, #d3d3d3 100px); /* W3C */
+	background: linear-gradient(to bottom, #fff, #d3d3d3 100px);
 }
 
 .cke_hc .cke_toolgroup
@@ -104,8 +97,6 @@ a.cke_button
 	display: inline-block;
 	height: 18px;
 	padding: 2px 4px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	outline: none;
 	cursor: default;
@@ -135,7 +126,7 @@ a.cke_button
 /* This class is applied to the button when it is "active" (pushed).
    This style indicates that the feature associated with the button is active
    i.e. currently writing in bold or when spell checking is enabled. */
-.cke_button_on
+a.cke_button_on
 {
 	background-color: #a3d7ff;
 }
@@ -150,7 +141,7 @@ a.cke_button
 
 /* This class is applied to the button when the feature associated with the
    button is available but currently not active.*/
-.cke_button_off
+a.cke_button_off
 {
 	opacity: 0.7;
 }
@@ -159,7 +150,7 @@ a.cke_button
    button cannot be used (grayed-out).
    i.e. paste button remains disabled when there is nothing in the clipboard to
    be pasted. */
-.cke_button_disabled
+a.cke_button_disabled
 {
 	opacity: 0.3;
 }
@@ -309,7 +300,7 @@ a.cke_button_off:active
 }
 
 /* The button, which when clicked hides (collapses) all the toolbars. */
-.cke_toolbox_collapser
+a.cke_toolbox_collapser
 {
 	width: 12px;
 	height: 11px;

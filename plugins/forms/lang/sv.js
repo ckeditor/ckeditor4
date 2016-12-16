@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'sv', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		checkboxTitle: 'Egenskaper för kryssruta',
 		radioTitle: 'Egenskaper för alternativknapp',
 		value: 'Värde',
-		selected: 'Vald'
+		selected: 'Vald',
+		required: 'Krävs'
 	},
 	form: {
 		title: 'Egenskaper för formulär',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		size: 'Storlek',
 		lines: 'Linjer',
 		chkMulti: 'Tillåt flerval',
+		required: 'Krävs',
 		opText: 'Text',
 		opValue: 'Värde',
 		btnAdd: 'Lägg till',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		value: 'Värde',
 		charWidth: 'Teckenbredd',
 		maxChars: 'Max antal tecken',
+		required: 'Krävs',
 		type: 'Typ',
 		typeText: 'Text',
 		typePass: 'Lösenord',
@@ -65,4 +68,4 @@ CKEDITOR.plugins.setLang( 'forms', 'sv', {
 		typeTel: 'Telefonnummer',
 		typeUrl: 'URL'
 	}
-});
+} );

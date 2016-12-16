@@ -1,22 +1,22 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sl', {
-	toolbarCollapse: 'Collapse Toolbar', // MISSING
-	toolbarExpand: 'Expand Toolbar', // MISSING
+	toolbarCollapse: 'Skrči orodno vrstico',
+	toolbarExpand: 'Razširi orodno vrstico',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: 'Dokument',
+		clipboard: 'Odložišče/Razveljavi',
+		editing: 'Urejanje',
+		forms: 'Obrazci',
+		basicstyles: 'Osnovni slogi',
+		paragraph: 'Odstavek',
+		links: 'Povezave',
+		insert: 'Vstavi',
+		styles: 'Slogi',
+		colors: 'Barve',
+		tools: 'Orodja'
 	},
-	toolbars: 'Editor toolbars' // MISSING
-});
+	toolbars: 'Orodne vrstice urejevalnika'
+} );

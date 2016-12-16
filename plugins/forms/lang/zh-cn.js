@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'zh-cn', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'zh-cn', {
 		checkboxTitle: '复选框属性',
 		radioTitle: '单选按钮属性',
 		value: '选定值',
-		selected: '已勾选'
+		selected: '已勾选',
+		required: '必选'
 	},
 	form: {
 		title: '表单属性',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'zh-cn', {
 		size: '高度',
 		lines: '行',
 		chkMulti: '允许多选',
+		required: '必选',
 		opText: '选项文本',
 		opValue: '选项值',
 		btnAdd: '添加',
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'zh-cn', {
 		value: '初始值',
 		charWidth: '字符宽度',
 		maxChars: '最多字符数',
+		required: '必填',
 		type: '类型',
 		typeText: '文本',
 		typePass: '密码',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: '搜索',
+		typeTel: '电话号码',
 		typeUrl: '地址'
 	}
-});
+} );

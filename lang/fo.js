@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'fo' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Rich Text Editor',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {
@@ -63,7 +56,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		advisoryTitle: 'Vegleiðandi heiti',
 		cssStyle: 'Typografi',
 		ok: 'Góðkent',
-		cancel: 'Avlýst',
+		cancel: 'Avlýs',
 		close: 'Lat aftur',
 		preview: 'Frumsýn',
 		resize: 'Drag fyri at broyta stødd',
@@ -88,10 +81,12 @@ CKEDITOR.lang[ 'fo' ] = {
 		alignLeft: 'Vinstra',
 		alignRight: 'Høgra',
 		alignCenter: 'Miðsett',
+		alignJustify: 'Javnir tekstkantar',
 		alignTop: 'Ovast',
 		alignMiddle: 'Miðja',
 		alignBottom: 'Botnur',
-		invalidValue	: 'Invalid value.', // MISSING
+		alignNone: 'Eingin',
+		invalidValue: 'Invalid value.', // MISSING
 		invalidHeight: 'Hædd má vera eitt tal.',
 		invalidWidth: 'Breidd má vera eitt tal.',
 		invalidCssLength: 'Virðið sett í "%1" feltið má vera eitt positivt tal, við ella uttan gyldugum CSS mátieind (px, %, in, cm, mm, em, ex, pt, ella pc).',
@@ -100,6 +95,23 @@ CKEDITOR.lang[ 'fo' ] = {
 		cssLengthTooltip: 'Skriva eitt tal fyri eitt virði í pixels ella eitt tal við gyldigum CSS eind (px, %, in, cm, mm, em, ex, pt, ella pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, ikki tøkt</span>'
+		unavailable: '%1<span class="cke_accessibility">, ikki tøkt</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

@@ -1,9 +1,9 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 
 	function setupAdvParams( element ) {
 		var attrName = this.att;
@@ -37,13 +37,40 @@
 		}
 	}
 
+	var defaultTabConfig = { id: 1, dir: 1, classes: 1, styles: 1 };
+
 	CKEDITOR.plugins.add( 'dialogadvtab', {
-		requires : 'dialog',
+		requires: 'dialog',
+
+		// Returns allowed content rule for the content created by this plugin.
+		allowedContent: function( tabConfig ) {
+			if ( !tabConfig )
+				tabConfig = defaultTabConfig;
+
+			var allowedAttrs = [];
+			if ( tabConfig.id )
+				allowedAttrs.push( 'id' );
+			if ( tabConfig.dir )
+				allowedAttrs.push( 'dir' );
+
+			var allowed = '';
+
+			if ( allowedAttrs.length )
+				allowed += '[' + allowedAttrs.join( ',' ) +  ']';
+
+			if ( tabConfig.classes )
+				allowed += '(*)';
+			if ( tabConfig.styles )
+				allowed += '{*}';
+
+			return allowed;
+		},
+
 		// @param tabConfig
 		// id, dir, classes, styles
-		createAdvancedTab: function( editor, tabConfig ) {
+		createAdvancedTab: function( editor, tabConfig, element ) {
 			if ( !tabConfig )
-				tabConfig = { id:1,dir:1,classes:1,styles:1 };
+				tabConfig = defaultTabConfig;
 
 			var lang = editor.lang.common;
 
@@ -51,34 +78,34 @@
 				id: 'advanced',
 				label: lang.advancedTab,
 				title: lang.advancedTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'vbox',
 					padding: 1,
 					children: []
-				}
-				]
+				} ]
 			};
 
 			var contents = [];
 
 			if ( tabConfig.id || tabConfig.dir ) {
 				if ( tabConfig.id ) {
-					contents.push({
+					contents.push( {
 						id: 'advId',
 						att: 'id',
 						type: 'text',
+						requiredContent: element ? element + '[id]' : null,
 						label: lang.id,
 						setup: setupAdvParams,
 						commit: commitAdvParams
-					});
+					} );
 				}
 
 				if ( tabConfig.dir ) {
-					contents.push({
+					contents.push( {
 						id: 'advLangDir',
 						att: 'dir',
 						type: 'select',
+						requiredContent: element ? element + '[dir]' : null,
 						label: lang.langDir,
 						'default': '',
 						style: 'width:100%',
@@ -86,27 +113,28 @@
 							[ lang.notSet, '' ],
 							[ lang.langDirLTR, 'ltr' ],
 							[ lang.langDirRTL, 'rtl' ]
-							],
+						],
 						setup: setupAdvParams,
 						commit: commitAdvParams
-					});
+					} );
 				}
 
-				result.elements[ 0 ].children.push({
+				result.elements[ 0 ].children.push( {
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
 					children: [].concat( contents )
-				});
+				} );
 			}
 
 			if ( tabConfig.styles || tabConfig.classes ) {
 				contents = [];
 
 				if ( tabConfig.styles ) {
-					contents.push({
+					contents.push( {
 						id: 'advStyles',
 						att: 'style',
 						type: 'text',
+						requiredContent: element ? element + '{cke-xyz}' : null,
 						label: lang.styles,
 						'default': '',
 
@@ -133,37 +161,36 @@
 
 						commit: commitAdvParams
 
-					});
+					} );
 				}
 
 				if ( tabConfig.classes ) {
-					contents.push({
+					contents.push( {
 						type: 'hbox',
 						widths: [ '45%', '55%' ],
-						children: [
-							{
+						children: [ {
 							id: 'advCSSClasses',
 							att: 'class',
 							type: 'text',
+							requiredContent: element ? element + '(cke-xyz)' : null,
 							label: lang.cssClasses,
 							'default': '',
 							setup: setupAdvParams,
 							commit: commitAdvParams
 
-						}
-						]
-					});
+						} ]
+					} );
 				}
 
-				result.elements[ 0 ].children.push({
+				result.elements[ 0 ].children.push( {
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
 					children: [].concat( contents )
-				});
+				} );
 			}
 
 			return result;
 		}
-	});
+	} );
 
-})();
+} )();

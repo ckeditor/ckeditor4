@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'da', {
 	acccessKey: 'Genvejstast',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'da', {
 	anchorName: 'Efter ankernavn',
 	charset: 'Tegnsæt',
 	cssClasses: 'Typografiark',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-mailadresse',
 	emailBody: 'Besked',
 	emailSubject: 'Emne',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'da', {
 	type: 'Type',
 	unlink: 'Fjern hyperlink',
 	upload: 'Upload'
-});
+} );

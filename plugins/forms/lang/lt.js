@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'lt', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'lt', {
 		checkboxTitle: 'Žymimojo langelio savybės',
 		radioTitle: 'Žymimosios akutės savybės',
 		value: 'Reikšmė',
-		selected: 'Pažymėtas'
+		selected: 'Pažymėtas',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Formos savybės',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'lt', {
 		size: 'Dydis',
 		lines: 'eilučių',
 		chkMulti: 'Leisti daugeriopą atranką',
+		required: 'Required', // MISSING
 		opText: 'Tekstas',
 		opValue: 'Reikšmė',
 		btnAdd: 'Įtraukti',
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'lt', {
 		value: 'Reikšmė',
 		charWidth: 'Ilgis simboliais',
 		maxChars: 'Maksimalus simbolių skaičius',
+		required: 'Required', // MISSING
 		type: 'Tipas',
 		typeText: 'Tekstas',
 		typePass: 'Slaptažodis',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'El. paštas',
+		typeSearch: 'Paieška',
+		typeTel: 'Telefono numeris',
 		typeUrl: 'Nuoroda'
 	}
-});
+} );

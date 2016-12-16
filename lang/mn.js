@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'mn' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Хэлбэрт бичвэр боловсруулагч',
+	editorPanel: 'Rich Text Editor panel', // MISSING
 
 	// Common messages and labels.
 	common: {
@@ -35,43 +28,43 @@ CKEDITOR.lang[ 'mn' ] = {
 		// of reading non-English words. So be careful while translating it.
 		editorHelp: 'Press ALT 0 for help', // MISSING
 
-		browseServer: 'Сервер харуулах',
-		url: 'URL',
+		browseServer: 'Үйлчлэгч тооцоолуур (сервэр)-ийг үзэх',
+		url: 'цахим хуудасны хаяг (URL)',
 		protocol: 'Протокол',
-		upload: 'Хуулах',
-		uploadSubmit: 'Үүнийг сервэррүү илгээ',
+		upload: 'Илгээж ачаалах',
+		uploadSubmit: 'Үүнийг үйлчлэгч тооцоолуур (сервер) лүү илгээх',
 		image: 'Зураг',
-		flash: 'Флаш',
-		form: 'Форм',
-		checkbox: 'Чекбокс',
-		radio: 'Радио товч',
-		textField: 'Техт талбар',
-		textarea: 'Техт орчин',
-		hiddenField: 'Нууц талбар',
-		button: 'Товч',
-		select: 'Сонгогч талбар',
-		imageButton: 'Зурагтай товч',
-		notSet: '<Оноохгүй>',
-		id: 'Id',
+		flash: 'Флаш хөдөлгөөнтэй зураг',
+		form: 'Маягт',
+		checkbox: 'Тэмдэглээний нүд',
+		radio: 'Радио товчлуур',
+		textField: 'Бичвэрийн талбар',
+		textarea: 'Бичвэрийн зай',
+		hiddenField: 'Далд талбар',
+		button: 'Товчлуур',
+		select: 'Сонголтын талбар',
+		imageButton: 'Зургий товчуур',
+		notSet: '<тохируулаагүй>',
+		id: 'Id (техникийн нэр)',
 		name: 'Нэр',
 		langDir: 'Хэлний чиглэл',
 		langDirLtr: 'Зүүнээс баруун (LTR)',
 		langDirRtl: 'Баруунаас зүүн (RTL)',
 		langCode: 'Хэлний код',
-		longDescr: 'URL-ын тайлбар',
-		cssClass: 'Stylesheet классууд',
-		advisoryTitle: 'Зөвлөлдөх гарчиг',
+		longDescr: 'Урт тайлбарын вэб хаяг',
+		cssClass: 'Хэлбэрийн хуудасны ангиуд',
+		advisoryTitle: 'Зөвлөх гарчиг',
 		cssStyle: 'Загвар',
-		ok: 'OK',
+		ok: 'За',
 		cancel: 'Болих',
 		close: 'Хаах',
-		preview: 'Уридчлан харах',
+		preview: 'Урьдчилан харах',
 		resize: 'Resize', // MISSING
 		generalTab: 'Ерөнхий',
-		advancedTab: 'Нэмэлт',
+		advancedTab: 'Гүнзгий',
 		validateNumberFailed: 'This value is not a number.', // MISSING
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
-		confirmCancel: 'Some of the options have been changed. Are you sure to close the dialog?', // MISSING
+		confirmCancel: 'You have changed some options. Are you sure you want to close the dialog window?', // MISSING
 		options: 'Сонголт',
 		target: 'Бай',
 		targetNew: 'New Window (_blank)', // MISSING
@@ -81,17 +74,19 @@ CKEDITOR.lang[ 'mn' ] = {
 		langDirLTR: 'Зүүн талаас баруун тийшээ (LTR)',
 		langDirRTL: 'Баруун талаас зүүн тийшээ (RTL)',
 		styles: 'Загвар',
-		cssClasses: 'Stylesheet классууд',
+		cssClasses: 'Хэлбэрийн хуудасны ангиуд',
 		width: 'Өргөн',
 		height: 'Өндөр',
 		align: 'Эгнээ',
 		alignLeft: 'Зүүн',
 		alignRight: 'Баруун',
 		alignCenter: 'Төвд',
+		alignJustify: 'Тэгшлэх',
 		alignTop: 'Дээд талд',
-		alignMiddle: 'Дунд талд',
+		alignMiddle: 'Дунд',
 		alignBottom: 'Доод талд',
-		invalidValue	: 'Invalid value.', // MISSING
+		alignNone: 'None', // MISSING
+		invalidValue: 'Invalid value.', // MISSING
 		invalidHeight: 'Өндөр нь тоо байх ёстой.',
 		invalidWidth: 'Өргөн нь тоо байх ёстой.',
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
@@ -100,6 +95,23 @@ CKEDITOR.lang[ 'mn' ] = {
 		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, unavailable</span>' // MISSING
+		unavailable: '%1<span class="cke_accessibility">, unavailable</span>', // MISSING
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

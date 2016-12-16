@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'htmlwriter', {
@@ -13,10 +13,10 @@ CKEDITOR.plugins.add( 'htmlwriter', {
 		// Overwrite default basicWriter initialized in hmtlDataProcessor constructor.
 		editor.dataProcessor.writer = writer;
 	}
-});
+} );
 
 /**
- * Class used to write HTML data.
+ * The class used to write HTML data.
  *
  *		var writer = new CKEDITOR.htmlWriter();
  *		writer.openTag( 'p' );
@@ -29,11 +29,11 @@ CKEDITOR.plugins.add( 'htmlwriter', {
  * @class
  * @extends CKEDITOR.htmlParser.basicWriter
  */
-CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
+CKEDITOR.htmlWriter = CKEDITOR.tools.createClass( {
 	base: CKEDITOR.htmlParser.basicWriter,
 
 	/**
-	 * Creates a htmlWriter class instance.
+	 * Creates an `htmlWriter` class instance.
 	 *
 	 * @constructor
 	 */
@@ -42,7 +42,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		this.base();
 
 		/**
-		 * The characters to be used for each identation step.
+		 * The characters to be used for each indentation step.
 		 *
 		 *		// Use tab for indentation.
 		 *		editorInstance.dataProcessor.writer.indentationChars = '\t';
@@ -81,31 +81,31 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 				breakBeforeOpen: 1,
 				breakBeforeClose: !dtd[ e ][ '#' ],
 				breakAfterClose: 1,
-				needsSpace: ( e in dtd.$block ) && !( e in { li:1,dt:1,dd:1 } )
-			});
+				needsSpace: ( e in dtd.$block ) && !( e in { li: 1, dt: 1, dd: 1 } )
+			} );
 		}
 
-		this.setRules( 'br', { breakAfterOpen:1 } );
+		this.setRules( 'br', { breakAfterOpen: 1 } );
 
 		this.setRules( 'title', {
 			indent: 0,
 			breakAfterOpen: 0
-		});
+		} );
 
 		this.setRules( 'style', {
 			indent: 0,
 			breakBeforeClose: 1
-		});
+		} );
 
 		this.setRules( 'pre', {
 			breakAfterOpen: 1, // Keep line break after the opening tag
 			indent: 0 // Disable indentation on <pre>.
-		});
+		} );
 	},
 
 	proto: {
 		/**
-		 * Writes the tag opening part for a opener tag.
+		 * Writes the tag opening part for an opener tag.
 		 *
 		 *		// Writes '<p'.
 		 *		writer.openTag( 'p', { class : 'MyClass', id : 'MyId' } );
@@ -114,7 +114,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 * @param {Object} attributes The attributes defined for this tag. The
 		 * attributes could be used to inspect the tag.
 		 */
-		openTag: function( tagName, attributes ) {
+		openTag: function( tagName ) {
 			var rules = this._.rules[ tagName ];
 
 			if ( this._.afterCloser && rules && rules.needsSpace && this._.needsSpace )
@@ -134,7 +134,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		},
 
 		/**
-		 * Writes the tag closing part for a opener tag.
+		 * Writes the tag closing part for an opener tag.
 		 *
 		 *		// Writes '>'.
 		 *		writer.openTagClose( 'p', false );
@@ -265,7 +265,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		},
 
 		/**
-		 * Writes the current indentation chars. It uses the {@link #indentationChars}
+		 * Writes the current indentation character. It uses the {@link #indentationChars}
 		 * property, repeating it for the current indentation steps.
 		 *
 		 *		// Writes '\t' (e.g.).
@@ -289,24 +289,25 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 			this._.indentation = '';
 			this._.afterCloser = 0;
 			this._.inPre = 0;
+			this._.needsSpace = 0;
 		},
 
 		/**
-		 * Sets formatting rules for a give element. The possible rules are:
+		 * Sets formatting rules for a given element. Possible rules are:
 		 *
-		 * * `indent`: indent the element contents.
-		 * * `breakBeforeOpen`: break line before the opener tag for this element.
-		 * * `breakAfterOpen`: break line after the opener tag for this element.
-		 * * `breakBeforeClose`: break line before the closer tag for this element.
-		 * * `breakAfterClose`: break line after the closer tag for this element.
+		 * * `indent` &ndash; indent the element content.
+		 * * `breakBeforeOpen` &ndash; break line before the opener tag for this element.
+		 * * `breakAfterOpen` &ndash; break line after the opener tag for this element.
+		 * * `breakBeforeClose` &ndash; break line before the closer tag for this element.
+		 * * `breakAfterClose` &ndash; break line after the closer tag for this element.
 		 *
-		 * All rules default to `false`. Each call to the function overrides
-		 * already present rules, leaving the undefined untouched.
+		 * All rules default to `false`. Each function call overrides rules that are
+		 * already present, leaving the undefined ones untouched.
 		 *
 		 * By default, all elements available in the {@link CKEDITOR.dtd#$block},
-		 * {@link CKEDITOR.dtd#$listItem} and {@link CKEDITOR.dtd#$tableContent}
+		 * {@link CKEDITOR.dtd#$listItem}, and {@link CKEDITOR.dtd#$tableContent}
 		 * lists have all the above rules set to `true`. Additionaly, the `<br>`
-		 * element has the `breakAfterOpen` set to `true`.
+		 * element has the `breakAfterOpen` rule set to `true`.
 		 *
 		 *		// Break line before and after "img" tags.
 		 *		writer.setRules( 'img', {
@@ -317,7 +318,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 		 *		// Reset the rules for the "h1" tag.
 		 *		writer.setRules( 'h1', {} );
 		 *
-		 * @param {String} tagName The element name to which set the rules.
+		 * @param {String} tagName The name of the element for which the rules are set.
 		 * @param {Object} rules An object containing the element rules.
 		 */
 		setRules: function( tagName, rules ) {
@@ -329,11 +330,11 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
 				this._.rules[ tagName ] = rules;
 		}
 	}
-});
+} );
 
 /**
- * Whether to force using `'&'` instead of `'&amp;'` in elements attributes
- * values, it's not recommended to change this setting for compliance with the
+ * Whether to force using `'&'` instead of `'&amp;'` in element attributes
+ * values. It is not recommended to change this setting for compliance with the
  * W3C XHTML 1.0 standards ([C.12, XHTML 1.0](http://www.w3.org/TR/xhtml1/#C_12)).
  *
  *		// Use `'&'` instead of `'&amp;'`
@@ -344,9 +345,9 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass({
  */
 
 /**
- * The characters to be used for indenting the HTML produced by the editor.
- * Using characters different than `' '` (space) and `'\t'` (tab) is definitely
- * a bad idea as it'll mess the code.
+ * The characters to be used for indenting HTML output produced by the editor.
+ * Using characters different from `' '` (space) and `'\t'` (tab) is not recommended
+ * as it will mess the code.
  *
  *		// No indentation.
  *		CKEDITOR.config.dataIndentationChars = '';

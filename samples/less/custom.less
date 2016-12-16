@@ -1,0 +1,163 @@
+main .grid-container,
+header .grid-container,
+.navigation-a > div,
+footer > div {
+	max-width: 1044px + 2 * @grid-gutter-width;
+}
+
+main .grid-container.freed-width {
+	max-width: none;
+}
+
+.switch {
+	background: darken( @global-link-font-color, 3% );
+	float: right;
+	overflow: visible;
+
+	// Switch balloon tooltip.
+	.balloon-a {
+		// Custom position relative to the switch.
+		position: absolute;
+		top: -40px;
+		right: 50%;
+		margin-right: -15px;
+
+		// Customize balloon colors.
+		background: #FFEFC1;
+		border-bottom-color: #DCDCA4;
+
+		&:before {
+			border-color: #FFEFC1 transparent transparent transparent;
+		}
+	}
+}
+
+#toolbar .editors-container {
+	overflow: hidden;
+	height: 0;
+	transition: height 200ms;
+
+	&.active {
+		height: auto;
+	}
+}
+
+// Style the inline editor which is enabled when wysiwygarea is not available.
+#main #editor {
+	background: #FFF;
+	padding: @grid-gutter-width / 2 @grid-gutter-width;
+	border: dashed 5px @global-link-font-color;
+}
+
+#main .adjoined-top:before {
+	height: 335px;
+}
+
+#toolbar .adjoined-top {
+	&:before {
+		height: 219px;
+	}
+
+	.grid-container-nested {
+		height: 147px;
+	}
+}
+
+.content {
+	.grid-switch-magic {
+		margin: 3.5em 0 0;
+	}
+}
+
+#info-box {
+	padding-bottom: 0;
+
+	> div {
+		width: 100%;
+		text-align: right;
+
+		.toggler {
+			padding-right: 0;
+
+			&:hover {
+				background: transparent;
+				color: #000;
+
+				> label {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		h2 {
+			float: left;
+			margin-top: 0;
+		}
+
+		&#instructions-container {
+			text-align: left;
+		}
+	}
+}
+
+#toolbarModifierWrapper {
+	overflow: hidden;
+	height: 0;
+	opacity: 0;
+	transition: height 200ms;
+
+	&.active {
+		height: auto;
+		opacity: 1;
+	}
+}
+
+// Styles that allow .balloon-a to be absolutely positioned.
+header {
+	overflow: visible;
+
+	div.grid-container {
+		overflow: visible;
+	}
+
+	.navigation-b {
+		overflow: visible;
+
+		ul {
+			overflow: visible;
+		}
+
+		a {
+			// Tip is relative to the anchor.
+			position: relative;
+		}
+	}
+
+	.balloon-a {
+		position: absolute;
+		top: 48px;
+
+		left: 50%;
+		margin-left: -35px;
+
+		// Switch the balloon arrow and position on narrow screen
+		// to make it fully visible.
+		.global-is-max-width( 1140px, {
+			left: auto;
+			margin-left: auto;
+
+			right: 50%;
+			margin-right: -35px;
+
+			&:before {
+				left: auto;
+				right: 22px;
+			}
+		} );
+
+		// Don't display the balloon on mobile.
+		.global-is-mobile( {
+			display: none;
+		} );
+	}
+}

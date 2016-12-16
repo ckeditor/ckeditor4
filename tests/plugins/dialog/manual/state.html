@@ -1,0 +1,76 @@
+<div>
+	<h2>LTR Editor</h2>
+	<textarea cols="80" name="en" id="editor1" name="editor1" rows="10">
+	</textarea>
+	<h2>RTL Editor</h2>
+	<textarea cols="80" name="he" id="editor2" name="editor2" rows="10">
+	</textarea>
+	<style>
+		.cke_button__state_label {
+			display: inline;
+		}
+
+		.cke_button__state_icon {
+			display: none;
+		}
+	</style>
+	<script>
+		CKEDITOR.on( 'instanceLoaded', function( evt ) {
+			CKEDITOR.dialog.add( 'state', function() {
+				return {
+					title: 'Dialog with state indicator',
+					minWidth: 250,
+					minHeight: 50,
+					onLoad: function( evt ) {
+						this.getContentElement( 'info', 'busy' ).on( 'click', function() {
+							this.setState( CKEDITOR.DIALOG_STATE_BUSY );
+						}, this );
+
+						this.getContentElement( 'info', 'idle' ).on( 'click', function() {
+							this.setState( CKEDITOR.DIALOG_STATE_IDLE );
+						}, this );
+					},
+					contents: [
+						{
+							id: 'info',
+							label: 'Info Tab',
+							elements: [
+								{
+									type: 'hbox',
+									children: [
+										{
+											type: 'button',
+											id: 'busy',
+											label: 'Set dialog busy'
+										},
+										{
+											type: 'button',
+											id: 'idle',
+											label: 'Set dialog idle'
+										}
+									]
+								}
+							]
+						}
+					]
+				};
+			} );
+		} );
+
+		CKEDITOR.replaceAll( function( el, config ) {
+			CKEDITOR.tools.extend( config, {
+				language: el.getAttribute( 'name' ),
+				on: {
+					pluginsLoaded: function() {
+						this.addCommand( 'state', new CKEDITOR.dialogCommand( 'state' ) );
+
+						this.ui.addButton( 'state', {
+							label: 'Show a dialog with state indicator',
+							command: 'state',
+						} );
+					}
+				}
+			} );
+		} );
+	</script>
+</div>

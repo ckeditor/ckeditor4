@@ -1,0 +1,47 @@
+<p>Test URLs</p>
+
+<ul>
+	<li>https://twitter.com/reinmarpl/status/573118615274315776</li>
+	<li>https://www.youtube.com/watch?v=GUl9_5kK9ts</li>
+	<li>https://instagram.com/p/wZB11CIfqX/</li>
+	<li>https://www.google.dk/maps/place/Zygmunta+S%C5%82omi%C5%84skiego+15,+Warszawa</li>
+	<li>http://tellto.tumblr.com/post/112160646328</li>
+	<li>https://www.flickr.com/photos/polandmfa/7005560084/</li>
+	<li>http://i.imgur.com/Z3ilPBI.jpg</li>
+	<li>https://open.spotify.com/track/2XsTC2dPbmWREu5RQ1mQC0</li>
+</ul>
+
+<p>Dat rich editor</p>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Foo bar</p>
+
+	<oembed>https://twitter.com/reinmarpl/status/573118615274315776</oembed>
+
+	<p>Foo bar.</p>
+
+	<oembed>http://i.imgur.com/Z3ilPBI.jpg</oembed>
+
+	<p>Foo bar.</p>
+</textarea>
+
+<p>Empty editor</p>
+
+<textarea id="editor2" cols="10" rows="10">
+	<p>Foo bar.</p>
+</textarea>
+
+<script>
+	( function() {
+		embedTools.delayJsonp();
+
+		var cfg = {
+			extraPlugins: 'wysiwygarea,sourcearea,htmlwriter,entities,toolbar,elementspath,undo,clipboard,format,basicstyles,image2,embedsemantic',
+			height: 500,
+			// Make them narrow so images don't take too much space.
+			width: 600
+		};
+		CKEDITOR.replace( 'editor1', cfg );
+		CKEDITOR.replace( 'editor2', cfg );
+	} )();
+</script>

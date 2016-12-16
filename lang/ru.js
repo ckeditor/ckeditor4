@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,39 +18,32 @@
  * @namespace
  */
 CKEDITOR.lang[ 'ru' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
-	editor: 'Визуальный редактор текста',
+	editor: 'Визуальный текстовый редактор',
+	editorPanel: 'Визуальный редактор текста',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'нажмите ALT-0 для открытия справки',
+		editorHelp: 'Нажмите ALT-0 для открытия справки',
 
 		browseServer: 'Выбор на сервере',
 		url: 'Ссылка',
 		protocol: 'Протокол',
-		upload: 'Загрузка',
+		upload: 'Загрузка файла',
 		uploadSubmit: 'Загрузить на сервер',
 		image: 'Изображение',
 		flash: 'Flash',
 		form: 'Форма',
-		checkbox: 'Флаговая кнопка',
-		radio: 'Кнопка выбора',
+		checkbox: 'Чекбокс',
+		radio: 'Радиокнопка',
 		textField: 'Текстовое поле',
 		textarea: 'Многострочное текстовое поле',
 		hiddenField: 'Скрытое поле',
 		button: 'Кнопка',
-		select: 'Список выбора',
-		imageButton: 'Изображение-кнопка',
+		select: 'Выпадающий список',
+		imageButton: 'Кнопка-изображение',
 		notSet: '<не указано>',
 		id: 'Идентификатор',
 		name: 'Имя',
@@ -81,17 +74,19 @@ CKEDITOR.lang[ 'ru' ] = {
 		langDirLTR: 'Слева направо (LTR)',
 		langDirRTL: 'Справа налево (RTL)',
 		styles: 'Стиль',
-		cssClasses: 'Классы CSS',
+		cssClasses: 'CSS классы',
 		width: 'Ширина',
 		height: 'Высота',
 		align: 'Выравнивание',
 		alignLeft: 'По левому краю',
 		alignRight: 'По правому краю',
 		alignCenter: 'По центру',
-		alignTop: 'По верху',
-		alignMiddle: 'По середине',
-		alignBottom: 'По низу',
-		invalidValue	: 'Недопустимое значение.',
+		alignJustify: 'По ширине',
+		alignTop: 'Поверху',
+		alignMiddle: 'Посередине',
+		alignBottom: 'Понизу',
+		alignNone: 'Нет',
+		invalidValue: 'Недопустимое значение.',
 		invalidHeight: 'Высота задается числом.',
 		invalidWidth: 'Ширина задается числом.',
 		invalidCssLength: 'Значение, указанное в поле "%1", должно быть положительным целым числом. Допускается указание единиц меры CSS (px, %, in, cm, mm, em, ex, pt или pc).',
@@ -100,6 +95,23 @@ CKEDITOR.lang[ 'ru' ] = {
 		cssLengthTooltip: 'Введите значение в пикселях, либо число с корректной единицей меры CSS (px, %, in, cm, mm, em, ex, pt или pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, недоступно</span>'
+		unavailable: '%1<span class="cke_accessibility">, недоступно</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Комбинация клавиш'
 	}
 };

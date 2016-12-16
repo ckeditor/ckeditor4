@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'it' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Rich Text Editor',
+	editorPanel: 'Pannello Rich Text Editor',
 
 	// Common messages and labels.
 	common: {
@@ -88,10 +81,12 @@ CKEDITOR.lang[ 'it' ] = {
 		alignLeft: 'Sinistra',
 		alignRight: 'Destra',
 		alignCenter: 'Centrato',
+		alignJustify: 'Giustifica',
 		alignTop: 'In Alto',
 		alignMiddle: 'Centrato',
 		alignBottom: 'In Basso',
-		invalidValue	: 'Valore non valido.',
+		alignNone: 'Nessuno',
+		invalidValue: 'Valore non valido.',
 		invalidHeight: 'L\'altezza dev\'essere un numero',
 		invalidWidth: 'La Larghezza dev\'essere un numero',
 		invalidCssLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le classi CSS (px, %, in, cm, mm, em, ex, pt, o pc).',
@@ -100,6 +95,23 @@ CKEDITOR.lang[ 'it' ] = {
 		cssLengthTooltip: 'Inserisci un numero per il valore in pixel oppure un numero con una valida unità CSS (px, %, in, cm, mm, ex, pt, o pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, non disponibile</span>'
+		unavailable: '%1<span class="cke_accessibility">, non disponibile</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Invio',
+			16: 'Maiusc',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Spazio',
+			35: 'Fine',
+			36: 'Inizio',
+			46: 'Canc',
+			224: 'Comando'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Scorciatoia da tastiera'
 	}
 };

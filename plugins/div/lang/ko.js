@@ -1,19 +1,19 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'div', 'ko', {
-	IdInputLabel: 'Id', // MISSING
-	advisoryTitleInputLabel: 'Advisory Title', // MISSING
-	cssClassInputLabel: 'Stylesheet Classes', // MISSING
-	edit: 'Edit Div', // MISSING
-	inlineStyleInputLabel: 'Inline Style', // MISSING
-	langDirLTRLabel: 'Left to Right (LTR)', // MISSING
-	langDirLabel: 'Language Direction', // MISSING
-	langDirRTLLabel: 'Right to Left (RTL)', // MISSING
-	languageCodeInputLabel: ' Language Code', // MISSING
-	remove: 'Remove Div', // MISSING
-	styleSelectLabel: 'Style', // MISSING
-	title: 'Create Div Container', // MISSING
-	toolbar: 'Create Div Container' // MISSING
-});
+	IdInputLabel: 'ID',
+	advisoryTitleInputLabel: '보조 제목',
+	cssClassInputLabel: '스타일 시트 클래스',
+	edit: 'Div 편집',
+	inlineStyleInputLabel: '인라인 스타일',
+	langDirLTRLabel: '왼쪽에서 오른쪽 (LTR)',
+	langDirLabel: '언어 방향',
+	langDirRTLLabel: '오른쪽에서 왼쪽 (RTL)',
+	languageCodeInputLabel: ' 언어 코드',
+	remove: 'Div 태그 삭제',
+	styleSelectLabel: '스타일',
+	title: 'Div 태그 생성',
+	toolbar: 'Div 태그 생성'
+} );

@@ -1,0 +1,19 @@
+<textarea id="editor1" cols="10" rows="10">
+	&lt;script><iframe src=javascript:alert(1)></iframe>
+</textarea>
+
+<textarea id="editor2" cols="10" rows="10">
+	&lt;script><iframe/src="javascript:alert(2)">
+</textarea>
+
+<textarea id="editor3" cols="10" rows="10">
+	&lt;script>alert(3);
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2' );
+	CKEDITOR.replace( 'editor3', {
+		extraAllowedContent: 'script'
+	} );
+</script>

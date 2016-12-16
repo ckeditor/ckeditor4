@@ -1,10 +1,10 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'sl', {
 	label: 'Oblika',
-	panelTitle: 'Oblika',
+	panelTitle: 'Oblika odstavka',
 	tag_address: 'Napis',
 	tag_div: 'Navaden (DIV)',
 	tag_h1: 'Naslov 1',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'sl', {
 	tag_h6: 'Naslov 6',
 	tag_p: 'Navaden',
 	tag_pre: 'Oblikovan'
-});
+} );

@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'fa', {
-	alertUrl: 'لطفا URL تصویر را بنویسید',
 	alt: 'متن جایگزین',
 	border: 'لبه',
 	btnUpload: 'به سرور بفرست',
@@ -23,4 +22,4 @@ CKEDITOR.plugins.setLang( 'image', 'fa', {
 	validateBorder: 'مقدار خطوط باید یک عدد باشد.',
 	validateHSpace: 'مقدار فاصله گذاری افقی باید یک عدد باشد.',
 	validateVSpace: 'مقدار فاصله گذاری عمودی باید یک عدد باشد.'
-});
+} );

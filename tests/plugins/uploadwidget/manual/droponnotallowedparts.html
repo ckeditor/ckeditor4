@@ -1,0 +1,43 @@
+<div style="display: none; text-align: center; color: red; font-weight: bold; padding: 20px;" id="ignore">
+	File uploading is not supported on Internet Explorer 9 and below.
+</div>
+
+<h2>Classic instance</h2>
+<textarea id="editor1">x</textarea>
+
+<h2>Inline instance</h2>
+<div id="editor2" contenteditable="true" >y</div>
+
+<h2>Div Editing Area</h2>
+<textarea id="editor3">z</textarea>
+
+<hr/>
+<input onclick="showNotifications();" type="button" value="Show notification" />
+
+<script>
+	var editors = [
+		CKEDITOR.replace( 'editor1', {
+			imageUploadUrl: 'http://sub.ckeditor.dev/',
+			extraPlugins: 'elementspath'
+		} ),
+
+		CKEDITOR.inline( 'editor2', {
+			imageUploadUrl: 'http://sub.ckeditor.dev/'
+		} ),
+
+		CKEDITOR.replace( 'editor3', {
+			imageUploadUrl: 'http://sub.ckeditor.dev/',
+			extraPlugins: 'divarea'
+		} )
+	];
+
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+		document.getElementById( 'ignore' ).style.display = 'block';
+	}
+
+	function showNotifications() {
+		for ( var i = editors.length; i--; ) {
+			editors[ i ].showNotification( 'Drag an image here.', 'warning' );
+		}
+	}
+</script>

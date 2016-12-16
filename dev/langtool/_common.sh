@@ -1,10 +1,10 @@
 #!/bin/bash
-# Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 # Updates cklangtool. This script should not be executed separately, it is included in other scripts.
 
-CKLANGTOOL_VERSION="1.0"
+CKLANGTOOL_VERSION="1.2.2"
 CKLANGTOOL_URL="http://download.cksource.com/CKLangTool/$CKLANGTOOL_VERSION/langtool.jar"
 
 PROGNAME=$(basename $0)
@@ -46,6 +46,5 @@ fi
 cd ../..
 
 
-plugins=( about basicstyles bidi blockquote clipboard colorbutton colordialog contextmenu div docprops elementspath fakeobjects find flash font format forms horizontalrule iframe image indent justify link list liststyle maximize newpage pagebreak pastefromword pastetext preview print removeformat save scayt selectall showblocks smiley sourcearea specialchar stylescombo table templates toolbar undo wsc )
+plugins=( about autoembed basicstyles bidi blockquote button clipboard codesnippet colorbutton colordialog contextmenu copyformatting devtools div docprops elementspath embedbase fakeobjects filetools find flash font format forms horizontalrule iframe image image2 indent justify language link list liststyle magicline maximize mathjax newpage notification pagebreak pastefromword pastetext placeholder preview print removeformat save selectall showblocks smiley sourcearea sourcedialog specialchar stylescombo table templates toolbar uicolor undo uploadwidget widget )
 plugins_dialogs=( a11yhelp specialchar )
-

@@ -1,13 +1,13 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
- * @fileOverview stylesheetParser plugin.
+ * @fileOverview The [Stylesheet Parser](http://ckeditor.com/addon/stylesheetparser) plugin.
  */
 
-(function() {
+( function() {
 	// We want to extract only the elements with classes defined in the stylesheets:
 	function parseClasses( aRules, skipSelectors, validSelectors ) {
 		// aRules are just the different rules in the style sheets
@@ -75,11 +75,11 @@
 				element = oElement[ 0 ].toLowerCase(),
 				sClassName = oElement[ 1 ];
 
-			styles.push({
+			styles.push( {
 				name: element + '.' + sClassName,
 				element: element,
 				attributes: { 'class': sClassName }
-			});
+			} );
 		}
 
 		return styles;
@@ -87,25 +87,39 @@
 
 	// Register a plugin named "stylesheetparser".
 	CKEDITOR.plugins.add( 'stylesheetparser', {
-		onLoad: function() {
-			var obj = CKEDITOR.editor.prototype;
-			obj.getStylesSet = CKEDITOR.tools.override( obj.getStylesSet, function( org ) {
-				return function( callback ) {
-					var self = this;
-					org.call( this, function( definitions ) {
+		init: function( editor ) {
+			// Stylesheet parser is incompatible with filter (#10136).
+			editor.filter.disable();
+
+			var cachedDefinitions;
+
+			editor.once( 'stylesSet', function( evt ) {
+				// Cancel event and fire it again when styles are ready.
+				evt.cancel();
+
+				// Overwrite editor#getStylesSet asap (contentDom is the first moment
+				// when editor.document is ready), but before stylescombo reads styles set (priority 5).
+				editor.once( 'contentDom', function() {
+					editor.getStylesSet( function( definitions ) {
 						// Rules that must be skipped
-						var skipSelectors = self.config.stylesheetParser_skipSelectors || ( /(^body\.|^\.)/i ),
+						var skipSelectors = editor.config.stylesheetParser_skipSelectors || ( /(^body\.|^\.)/i ),
 							// Rules that are valid
-							validSelectors = self.config.stylesheetParser_validSelectors || ( /\w+\.\w+/ );
+							validSelectors = editor.config.stylesheetParser_validSelectors || ( /\w+\.\w+/ );
 
-						callback( ( self._.stylesDefinitions = definitions.concat( LoadStylesCSS( self.document.$, skipSelectors, validSelectors ) ) ) );
-					});
-				};
-			});
+						cachedDefinitions = definitions.concat( LoadStylesCSS( editor.document.$, skipSelectors, validSelectors ) );
 
+						editor.getStylesSet = function( callback ) {
+							if ( cachedDefinitions )
+								return callback( cachedDefinitions );
+						};
+
+						editor.fire( 'stylesSet', { styles: cachedDefinitions } );
+					} );
+				} );
+			}, null, null, 1 );
 		}
-	});
-})();
+	} );
+} )();
 
 
 /**
@@ -113,6 +127,9 @@
  * skipped by the Stylesheet Parser plugin. A CSS rule matching
  * the regular expression will be ignored and will not be available
  * in the Styles drop-down list.
+ *
+ * Read more in the [documentation](#!/guide/dev_styles-section-the-stylesheet-parser-plugin)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
  *
  *		// Ignore rules for body and caption elements, classes starting with "high", and any class defined for no specific element.
  *		config.stylesheetParser_skipSelectors = /(^body\.|^caption\.|\.high|^\.)/i;
@@ -127,6 +144,9 @@
  * A regular expression that defines which CSS rules will be used
  * by the Stylesheet Parser plugin. A CSS rule matching the regular
  * expression will be available in the Styles drop-down list.
+ *
+ * Read more in the [documentation](#!/guide/dev_styles-section-the-stylesheet-parser-plugin)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
  *
  *		// Only add rules for p and span elements.
  *		config.stylesheetParser_validSelectors = /\^(p|span)\.\w+/;

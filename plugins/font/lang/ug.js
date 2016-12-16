@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'font', 'ug', {
 	fontSize: {
@@ -11,4 +11,4 @@ CKEDITOR.plugins.setLang( 'font', 'ug', {
 	label: 'خەت نۇسخا',
 	panelTitle: 'خەت نۇسخا',
 	voiceLabel: 'خەت نۇسخا'
-});
+} );

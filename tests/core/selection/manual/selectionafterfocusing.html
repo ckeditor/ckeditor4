@@ -1,0 +1,42 @@
+<p>Editor 1:</p>
+<textarea id="editor1" cols="10" rows="10"></textarea>
+<button id="focus1">Focus editor 1</button>
+
+<p>Editor 2:</p>
+<!-- Add some padding, so caret doesn't overlap with the outline on IE9. -->
+<div id="editor2" contenteditable="true" style="padding: 10px"></div>
+<button id="focus2">Focus editor 2</button>
+
+<script>
+( function() {
+	bind( 1, CKEDITOR.replace( 'editor1', {
+		allowedContent: true
+	} ) );
+	bind( 2, CKEDITOR.inline( 'editor2', {
+		allowedContent: true
+	} ) );
+
+	CKEDITOR.disableAutoInline = true;
+
+	function bind( editorNum, editor ) {
+		editor.on( 'focus', function() {
+			console.log( 'Editor ' + editorNum + ': focus' );
+		} );
+
+		editor.on( 'blur', function() {
+			console.log( 'Editor ' + editorNum + ': blur' );
+		} );
+
+		editor.on( 'selectionChange', function( evt ) {
+			console.log( 'Selection in editor ' + editorNum + ': ' + evt.data.selection.getStartElement().getName() );
+		} );
+
+		CKEDITOR.document.getById( 'focus' + editorNum ).on( 'click', function() {
+			// Set data before focusing to make sure that we reset any locked selection.
+			editor.setData( '<h1></h1>', function() {
+				editor.focus();
+			} );
+		} );
+	}
+} )();
+</script>

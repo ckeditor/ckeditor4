@@ -1,11 +1,11 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 	title: 'Toegankelijkheidsinstructies',
-	contents: 'Help inhoud. Druk op ESC om dit dialoog te sluiten.',
+	contents: 'Help-inhoud. Druk op ESC om dit dialoog te sluiten.',
 	legend: [
 		{
 		name: 'Algemeen',
@@ -17,7 +17,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 
 			{
 			name: 'Dialoog tekstverwerker',
-			legend: 'In een dialoogvenster, druk op TAB om te navigeren naar het volgende veld. Druk op SHIFT+TAB om naar het vorige veld te navigeren. Druk op ENTER om het dialoogvenster te verzenden. Druk op ESC om het dialoogvenster te sluiten. Voor dialoogvensters met meerdere tabbladen, druk op ALT+F10 om naar de tabset te navigeren. Schakel naar het volgende tabblad met TAB of PIJL RECHTS. Schakel naar het vorige tabblad met SHIFT+TAB of PIJL LINKS. Druk op SPATIE of ENTER om het tabblad te selecteren.'
+			legend:
+				'In een dialoogvenster, druk op TAB om te navigeren naar het volgende veld. Druk op SHIFT+TAB om naar het vorige veld te navigeren. Druk op ENTER om het dialoogvenster te verzenden. Druk op ESC om het dialoogvenster te sluiten. Bij dialoogvensters met meerdere tabbladen kan de tabset bereikt worden met ALT+F10 of met TAB als onderdeel van de tabvolgorde in het dialoogvenster. Als de tabset focus heeft, kun je schakalen naar het volgende en vorige tabblad met respectievelijk PIJL RECHTS en PIJL LINKS.' 
 		},
 
 			{
@@ -49,7 +50,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 		},
 			{
 			name: 'Vetgedrukt opdracht',
-			legend: 'Druk up ${bold}'
+			legend: 'Druk op ${bold}'
 		},
 			{
 			name: 'Cursief opdracht',
@@ -69,11 +70,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 		},
 			{
 			name: 'Ga naar vorige focus spatie commando',
-			legend: 'Druk ${accessPreviousSpace} om toegang te verkrijgen tot de dichtsbijzijnde onbereikbare focus spatie voor de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
+			legend: 'Druk ${accessPreviousSpace} om toegang te verkrijgen tot de dichtstbijzijnde onbereikbare focus spatie voor de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
 		},
 			{
 			name: 'Ga naar volgende focus spatie commando',
-			legend: 'Druk ${accessNextSpace} om toegang te verkrijgen tot de meest dichtbijzijnde onbereikbare focus spatie na de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
+			legend: 'Druk ${accessNextSpace} om toegang te verkrijgen tot de dichtstbijzijnde onbereikbare focus spatie na de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
 		},
 			{
 			name: 'Toegankelijkheidshulp',
@@ -81,5 +82,59 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 		}
 		]
 	}
-	]
-});
+	],
+	tab: 'Tab',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	leftArrow: 'Pijl naar links',
+	upArrow: 'Pijl omhoog',
+	rightArrow: 'Pijl naar rechts',
+	downArrow: 'Pijl naar beneden',
+	insert: 'Invoegen',
+	leftWindowKey: 'Linker Windows-toets',
+	rightWindowKey: 'Rechter Windows-toets',
+	selectKey: 'Selecteer toets',
+	numpad0: 'Numpad 0',
+	numpad1: 'Numpad 1',
+	numpad2: 'Numpad 2',
+	numpad3: 'Numpad 3',
+	numpad4: 'Numpad 4',
+	numpad5: 'Numpad 5',
+	numpad6: 'Numpad 6',
+	numpad7: 'Numpad 7',
+	numpad8: 'Numpad 8',
+	numpad9: 'Numpad 9',
+	multiply: 'Vermenigvuldigen',
+	add: 'Toevoegen',
+	subtract: 'Aftrekken',
+	decimalPoint: 'Decimaalteken',
+	divide: 'Delen',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
+	semiColon: 'Puntkomma',
+	equalSign: 'Is gelijk-teken',
+	comma: 'Komma',
+	dash: 'Koppelteken',
+	period: 'Punt',
+	forwardSlash: 'Slash',
+	graveAccent: 'Accent grave',
+	openBracket: 'Vierkant haakje openen',
+	backSlash: 'Backslash',
+	closeBracket: 'Vierkant haakje sluiten',
+	singleQuote: 'Apostrof'
+} );

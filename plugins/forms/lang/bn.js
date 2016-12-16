@@ -1,21 +1,22 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'bn', {
 	button: {
-		title: 'বাটন প্রোপার্টি',
+		title: 'বাটন সম্বন্ধীয়',
 		text: 'টেক্সট (ভ্যালু)',
 		type: 'প্রকার',
-		typeBtn: 'Button',
+		typeBtn: 'বাটন',
 		typeSbm: 'Submit',
 		typeRst: 'Reset'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'চেক বক্স প্রোপার্টি',
-		radioTitle: 'রেডিও বাটন প্রোপার্টি',
+		radioTitle: 'রেডিও বাটন সম্বন্ধীয়',
 		value: 'ভ্যালু',
-		selected: 'সিলেক্টেড'
+		selected: 'সিলেক্টেড',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'ফর্ম প্রোপার্টি',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'bn', {
 		size: 'সাইজ',
 		lines: 'লাইন সমূহ',
 		chkMulti: 'একাধিক সিলেকশন এলাউ কর',
+		required: 'Required', // MISSING
 		opText: 'টেক্সট',
 		opValue: 'ভ্যালু',
 		btnAdd: 'যুক্ত',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'bn', {
 		value: 'ভ্যালু',
 		charWidth: 'ক্যারেক্টার প্রশস্ততা',
 		maxChars: 'সর্বাধিক ক্যারেক্টার',
+		required: 'Required', // MISSING
 		type: 'টাইপ',
 		typeText: 'টেক্সট',
 		typePass: 'পাসওয়ার্ড',
@@ -65,4 +68,4 @@ CKEDITOR.plugins.setLang( 'forms', 'bn', {
 		typeTel: 'Telephone Number', // MISSING
 		typeUrl: 'URL'
 	}
-});
+} );

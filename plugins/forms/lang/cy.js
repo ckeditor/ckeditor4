@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'cy', {
 	button: {
@@ -8,14 +8,15 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		text: 'Testun (Gwerth)',
 		type: 'Math',
 		typeBtn: 'Botwm',
-		typeSbm: 'Gyrru',
+		typeSbm: 'Anfon',
 		typeRst: 'Ailosod'
 	},
 	checkboxAndRadio: {
 		checkboxTitle: 'Priodweddau Blwch Ticio',
 		radioTitle: 'Priodweddau Botwm Radio',
 		value: 'Gwerth',
-		selected: 'Dewiswyd'
+		selected: 'Dewiswyd',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Priodweddau Ffurflen',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		size: 'Maint',
 		lines: 'llinellau',
 		chkMulti: 'Caniatàu aml-ddewisiadau',
+		required: 'Required', // MISSING
 		opText: 'Testun',
 		opValue: 'Gwerth',
 		btnAdd: 'Ychwanegu',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		value: 'Gwerth',
 		charWidth: 'Lled Nod',
 		maxChars: 'Uchafswm y Nodau',
+		required: 'Required', // MISSING
 		type: 'Math',
 		typeText: 'Testun',
 		typePass: 'Cyfrinair',
@@ -65,4 +68,4 @@ CKEDITOR.plugins.setLang( 'forms', 'cy', {
 		typeTel: 'Rhif Ffôn',
 		typeUrl: 'URL'
 	}
-});
+} );

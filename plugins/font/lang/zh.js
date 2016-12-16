@@ -1,14 +1,14 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'font', 'zh', {
 	fontSize: {
 		label: '大小',
-		voiceLabel: '文字大小',
-		panelTitle: '大小'
+		voiceLabel: '字型大小',
+		panelTitle: '字型大小'
 	},
-	label: '字體',
-	panelTitle: '字體',
-	voiceLabel: '字體'
-});
+	label: '字型',
+	panelTitle: '字型名稱',
+	voiceLabel: '字型'
+} );

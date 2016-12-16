@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'bg', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'bg', {
 		checkboxTitle: 'Checkbox Properties',
 		radioTitle: 'Настройки на радиобутон',
 		value: 'Стойност',
-		selected: 'Избрано'
+		selected: 'Избрано',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Настройки на формата',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'bg', {
 		size: 'Размер',
 		lines: 'линии',
 		chkMulti: 'Allow multiple selections',
+		required: 'Required', // MISSING
 		opText: 'Текст',
 		opValue: 'Стойност',
 		btnAdd: 'Добави',
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'bg', {
 		value: 'Стойност',
 		charWidth: 'Ширина на знаците',
 		maxChars: 'Макс. знаци',
+		required: 'Required', // MISSING
 		type: 'Тип',
 		typeText: 'Текст',
 		typePass: 'Парола',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Търсене',
+		typeTel: 'Телефонен номер',
 		typeUrl: 'Уеб адрес'
 	}
-});
+} );

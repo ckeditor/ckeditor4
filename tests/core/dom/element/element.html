@@ -1,0 +1,170 @@
+<head>
+	<script src="../_helpers/domobject.js"></script>
+	<script id="tabIndexScriptDef" type="text/javascript"></script>
+	<style type="text/css" media="screen">
+		#test-computed {
+			width:50%;
+			margin:auto;
+			padding:10px;
+			z-index: 2;
+		}
+		.block1
+		{
+			position: absolute;
+			left: 100px;
+			top: 50px;
+			background-color: blue;
+		}
+		.block2
+		{
+			position: absolute;
+			left: 200px;
+			top: -30px;
+			background-color: green;
+		}
+		.block4
+		{
+			position: absolute;
+			left: -20px;
+			top: 75px;
+			width: 400px;
+			height: 400px;
+			background-color: pink;
+		}
+		#DocPositionTarget
+		{
+			background-color: red;
+		}
+		.invisible1
+		{
+			display: none;
+		}
+		.invisible2
+		{
+			visibility: hidden;
+		}
+	</style>
+</head>
+<body>
+	<textarea id="test1" rows="10" cols="80"></textarea>
+	<textarea id="test2" rows="10" cols="80"></textarea>
+	<textarea name="named1" rows="10" cols="80"></textarea>
+	<div>Test</div>
+	<div id="append"></div>
+	<div id="setStyle"></div>
+	<div id="setText"></div>
+	<div id="removeClass"></div>
+	<div id="removeOuter"><b id="removeInner"></b></div>
+	<div id="tabIndex10" tabindex="10"></div>
+	<div id="testExpandoAttributes" _cke_expando ="1" class="hasExpando" tabindex="1" style="float:right"></div>
+	<div id="tabIndexDef"></div>
+	<input id="tabIndexInputDef" />
+	<input id="tabIndexInput20" tabindex="20" />
+	<script id="tabIndexScriptDef" type="text/javascript"></script>
+	<div id="getText">Some <br /><b> sample text</b>    for <i>   testing</i></div>
+	<div id="getText2">A<b> </b>B</div>
+	<div id="getText3">A
+B</div>
+	<big>Test</big>
+	<small title="Testing">Test</small>
+	<input id="inputWithAttrs" type="text" class="foo" name="foo" value="bar">
+	<input id="inputWithoutAttrs" type="text">
+	<input id="checkboxWithAttrs" type="checkbox" class="foo" name="foo" value="bar" checked>
+	<input id="checkboxWithoutAttrs" type="checkbox">
+
+	<div class="block1 scroll" id="block1"><div class="block2 scroll" id="block2"><div class="block3 scroll" id="block3"><div class="block4 scroll" id="block4"><div id="DocPositionTarget" style="left: 200px; top: 400px">target</div></div></div></div></div>
+	<span id="invisible1" class="invisible1">This is an invisible element</span>
+	<span id="invisible2" class="invisible2">This is another invisible element</span>
+	<div id="domObjectTest1"></div>
+	<div id="domObjectTest2"></div>
+	<div id="appendHtml"></div>
+	<div id="breakParent"><i id="a">text1<b id="b">text2</b>text3</i></div>
+	<div id="contains"><p id="contains1">text</p></div>
+	<div id="getChildren"><i></i><b></b>text</div>
+	<div id="isIdentical"><b name="a" class="test">tessst</b><b class="test" name="a"></b><b class="test"></b><b>tessst</b><b _moz_dirty="" class="test"></b><b class="test" data-cke-expando=53></b></div>
+	<div id="isIdentical2"><b style="color: red; width: 10px">a</b><b style="width:10px;color:red;">a</b></div>
+	<div id="isEmptyInlineRemoveable"><span>
+
+	</span><p></p><span>a</span></div>
+	<div id="moveChildren1"><span></span>text</div>
+	<div id="moveChildren2"></div>
+	<div id="mergeSiblings"><b>text1</b><b>text2</b></div>
+	<div id="removeAttributes" class="test1" title="test2"></div>
+	<div id="removeAttributes_2" class="test1" title="test2"></div>
+	<div id="removeStyle" style="display: block; color: red"></div>
+	<div style="position: relative"><p><b id="getPositionedAncestor"></b></p></div>
+	<iframe id="getFrameDocument"></iframe>
+	<div>
+		<div id="copyAttributes1" title="a" style="color: red"></div>
+		<div id="copyAttributes2"></div>
+	</div>
+	<div id="renameNode"><i></i>text</div>
+	<div id="renameNode2">text</div>
+	<div id="getDirection" dir="rtl"></div>
+	<div data-test="testing" id="data"></div>
+
+	<p id="bogus_tc0">paragraph </p>
+	<p id="bogus_tc1">paragraph <br /> </p>
+	<p id="bogus_tc2"><strong><i><u>text</u><br /></i></strong></p>
+	<p id="bogus_tc3"><strong>text<br /><i></i></strong></p>
+	<div id="bogus_tc4"><p>paragraph<br /></p></div>
+	<p id="bogus_tc5"><a href="#">link<br /></a></p>
+
+	<div id="editables" contenteditable="true">
+		<a id="empty_anchor_1" name="foo"></a>
+		<a id="empty_anchor_2" data-cke-saved-name="foo"></a>
+		<a id="text_anchor_1" name="bar">bar</a>
+		<a id="text_anchor_2" data-cke-saved-name="foo">bar</a>
+	</div>
+
+	<div class="findRoot">
+		<div id="find1">
+			<div class="findRoot">
+				<i>X</i>
+				<u class="find1">X</u>
+				<u>Y</u>
+				<i>X</i>
+			</div>
+			<i>Y</i>
+			<u class="find1">Y</u>
+		</div>
+
+		<div id="find2">
+			<div class="findRoot">
+				<i>X</i>
+			</div>
+			<i>Y</i>
+		</div>
+	</div>
+
+	<div id="forEach_1">
+		<p>a<i>b</i>c</p>
+		<div>
+			<h1></h1>
+			d
+			<h2>e<b>f</b></h2>
+		</div>
+	</div>
+
+	<table>
+		<tr>
+			<td id="td1" class="test">a</td>
+			<td id="td2">b</td>
+		</tr>
+	</table>
+
+	<input id="scrolled" style="position: absolute; top: 3000px; left: 3500px" value="You must scroll to reach me." />
+
+	<div id="disableContextMenu">
+		<p class="cke_enable_context_menu" id="disableContextMenu_1"><b id="disableContextMenu_2">foo</b></p>
+		<p><b id="disableContextMenu_3">foo</b></p>
+	</div>
+
+	<div id="getAttributes">
+		<b>No attrs</b>
+		<i id="getAttributes_1">1 attr</i>
+		<p id="getAttributes_2" data-attr="bogus">Test paragraph</p>
+		<span bogus-attr="1" bogus-attr="2">Test span</span>
+		<em data-unicode="☃">Test em</em>
+	</div>
+</body>

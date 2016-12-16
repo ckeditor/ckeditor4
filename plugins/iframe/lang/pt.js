@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'iframe', 'pt', {
-	border: 'Show frame border', // MISSING
-	noUrl: 'Please type the iframe URL', // MISSING
-	scrolling: 'Enable scrollbars', // MISSING
-	title: 'IFrame Properties', // MISSING
-	toolbar: 'IFrame' // MISSING
-});
+	border: 'Mostrar a borda da Frame',
+	noUrl: 'Por favor, digite o URL da iframe',
+	scrolling: 'Ativar barras de rolamento',
+	title: 'Propriedades da IFrame',
+	toolbar: 'IFrame'
+} );

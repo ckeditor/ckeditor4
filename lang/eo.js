@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'eo' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
-	editor: 'Redaktilo por Riĉiga Teksto',
+	editor: 'RiĉTeksta Redaktilo',
+	editorPanel: 'Panelo de la RiĉTeksta Redaktilo',
 
 	// Common messages and labels.
 	common: {
@@ -88,10 +81,12 @@ CKEDITOR.lang[ 'eo' ] = {
 		alignLeft: 'Maldekstre',
 		alignRight: 'Dekstre',
 		alignCenter: 'Centre',
+		alignJustify: 'Ĝisrandigi Ambaŭflanke',
 		alignTop: 'Supre',
 		alignMiddle: 'Centre',
 		alignBottom: 'Malsupre',
-		invalidValue	: 'Nevalida Valoro',
+		alignNone: 'Neniu',
+		invalidValue: 'Nevalida Valoro',
 		invalidHeight: 'Alto devas esti nombro.',
 		invalidWidth: 'Larĝo devas esti nombro.',
 		invalidCssLength: 'La valoro indikita por la "%1" kampo devas esti pozitiva nombro kun aŭ sen valida CSSmezurunuo (px, %, in, cm, mm, em, ex, pt, or pc).',
@@ -100,6 +95,23 @@ CKEDITOR.lang[ 'eo' ] = {
 		cssLengthTooltip: 'Entajpu nombron por rastrumera valoro aŭ nombron kun valida CSSunuo (px, %, in, cm, mm, em, ex, pt, or pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, nehavebla</span>'
+		unavailable: '%1<span class="cke_accessibility">, nehavebla</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Retropaŝo',
+			13: 'Enigi',
+			16: 'Registrumo',
+			17: 'Stirklavo',
+			18: 'Alt-klavo',
+			32: 'Space', // MISSING
+			35: 'Fino',
+			36: 'Hejmo',
+			46: 'Forigi',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

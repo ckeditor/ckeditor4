@@ -1,42 +1,42 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'pt', {
-	bgColor: 'Cor de Fundo',
-	bgFixed: 'Fundo Fixo',
-	bgImage: 'Caminho para a Imagem de Fundo',
-	charset: 'Codificação de Caracteres',
-	charsetASCII: 'ASCII', // MISSING
-	charsetCE: 'Central European', // MISSING
-	charsetCR: 'Cyrillic', // MISSING
-	charsetCT: 'Chinese Traditional (Big5)', // MISSING
-	charsetGR: 'Greek', // MISSING
-	charsetJP: 'Japanese', // MISSING
-	charsetKR: 'Korean', // MISSING
-	charsetOther: 'Outra Codificação de Caracteres',
-	charsetTR: 'Turkish', // MISSING
-	charsetUN: 'Unicode (UTF-8)', // MISSING
-	charsetWE: 'Western European', // MISSING
-	chooseColor: 'Choose',
-	design: 'Design', // MISSING
-	docTitle: 'Título da Página',
-	docType: 'Tipo de Cabeçalho do Documento',
-	docTypeOther: 'Outro Tipo de Cabeçalho do Documento',
-	label: 'Propriedades do Documento',
-	margin: 'Margem das Páginas',
+	bgColor: 'Cor de fundo',
+	bgFixed: 'Fundo fixo',
+	bgImage: 'Caminho para a imagem de fundo',
+	charset: 'Codificação de caracteres',
+	charsetASCII: 'ASCII',
+	charsetCE: 'Europa Central',
+	charsetCR: 'Cirílico',
+	charsetCT: 'Chinês Traditional (Big5)',
+	charsetGR: 'Grego',
+	charsetJP: 'Japonês',
+	charsetKR: 'Coreano',
+	charsetOther: 'Outra codificação de caracteres',
+	charsetTR: 'Turco',
+	charsetUN: 'Unicode (UTF-8)',
+	charsetWE: 'Europa Ocidental',
+	chooseColor: 'Escolher',
+	design: 'Visual',
+	docTitle: 'Título da página',
+	docType: 'Tipo de cabeçalho do documento',
+	docTypeOther: 'Outro tipo de cabeçalho do documento',
+	label: 'Propriedades do documento',
+	margin: 'Margem das páginas',
 	marginBottom: 'Fundo',
 	marginLeft: 'Esquerda',
 	marginRight: 'Direita',
 	marginTop: 'Topo',
-	meta: 'Meta Data',
+	meta: 'Metadados',
 	metaAuthor: 'Autor',
-	metaCopyright: 'Direitos de Autor',
-	metaDescription: 'Descrição do Documento',
-	metaKeywords: 'Palavras de Indexação do Documento (separadas por virgula)',
+	metaCopyright: 'Direitos de autor',
+	metaDescription: 'Descrição do documento',
+	metaKeywords: 'Termos para indexação do documento (separadas por vírgulas)',
 	other: '<outro>',
-	previewHtml: '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>', // MISSING
-	title: 'Propriedades do Documento',
-	txtColor: 'Cor do Texto',
-	xhtmlDec: 'Incluir Declarações XHTML'
-});
+	previewHtml: '<p>Isto é algum <strong>texto amostra</strong>. Está a usar o <a href="javascript:void(0)">CKEditor</a>.</p>',
+	title: 'Propriedades do documento',
+	txtColor: 'Cor do texto',
+	xhtmlDec: 'Incluir declarações XHTML'
+} );

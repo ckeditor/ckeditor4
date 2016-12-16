@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'de' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'WYSIWYG-Editor',
+	editorPanel: 'WYSIWYG-Editor-Leiste',
 
 	// Common messages and labels.
 	common: {
@@ -43,30 +36,30 @@ CKEDITOR.lang[ 'de' ] = {
 		image: 'Bild',
 		flash: 'Flash',
 		form: 'Formular',
-		checkbox: 'Checkbox',
-		radio: 'Radiobutton',
-		textField: 'Textfeld einzeilig',
-		textarea: 'Textfeld mehrzeilig',
+		checkbox: 'Kontrollbox',
+		radio: 'Optionsfeld',
+		textField: 'Textfeld',
+		textarea: 'Textfeld',
 		hiddenField: 'Verstecktes Feld',
-		button: 'Klickbutton',
+		button: 'Schaltfläche',
 		select: 'Auswahlfeld',
-		imageButton: 'Bildbutton',
-		notSet: '<nichts>',
-		id: 'ID',
+		imageButton: 'Bildschaltfläche',
+		notSet: '<nicht festgelegt>',
+		id: 'Kennung',
 		name: 'Name',
 		langDir: 'Schreibrichtung',
 		langDirLtr: 'Links nach Rechts (LTR)',
 		langDirRtl: 'Rechts nach Links (RTL)',
-		langCode: 'Sprachenkürzel',
-		longDescr: 'Langform URL',
-		cssClass: 'Stylesheet Klasse',
+		langCode: 'Sprachcode',
+		longDescr: 'Langbeschreibungs-URL',
+		cssClass: 'Formatvorlagenklassen',
 		advisoryTitle: 'Titel Beschreibung',
-		cssStyle: 'Style',
+		cssStyle: 'Stil',
 		ok: 'OK',
 		cancel: 'Abbrechen',
 		close: 'Schließen',
 		preview: 'Vorschau',
-		resize: 'Zum Vergrößern ziehen',
+		resize: 'Größe ändern',
 		generalTab: 'Allgemein',
 		advancedTab: 'Erweitert',
 		validateNumberFailed: 'Dieser Wert ist keine Nummer.',
@@ -88,10 +81,12 @@ CKEDITOR.lang[ 'de' ] = {
 		alignLeft: 'Links',
 		alignRight: 'Rechts',
 		alignCenter: 'Zentriert',
+		alignJustify: 'Blocksatz',
 		alignTop: 'Oben',
 		alignMiddle: 'Mitte',
 		alignBottom: 'Unten',
-		invalidValue	: 'Invalid value.', // MISSING
+		alignNone: 'Keine',
+		invalidValue: 'Ungültiger Wert.',
 		invalidHeight: 'Höhe muss eine Zahl sein.',
 		invalidWidth: 'Breite muss eine Zahl sein.',
 		invalidCssLength: 'Wert spezifiziert für "%1" Feld muss ein positiver numerischer Wert sein mit oder ohne korrekte CSS Messeinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
@@ -100,6 +95,23 @@ CKEDITOR.lang[ 'de' ] = {
 		cssLengthTooltip: 'Gebe eine Zahl ein für ein Wert in pixels oder eine Zahl mit einer korrekten CSS Messeinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, nicht verfügbar</span>'
+		unavailable: '%1<span class="cke_accessibility">, nicht verfügbar</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Rücktaste',
+			13: 'Eingabe',
+			16: 'Umschalt',
+			17: 'Strg',
+			18: 'Alt',
+			32: 'Leer',
+			35: 'Ende',
+			36: 'Pos1',
+			46: 'Entfernen',
+			224: 'Befehl'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Tastaturkürzel'
 	}
 };

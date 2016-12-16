@@ -1,17 +1,17 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
  * @fileOverview Defines the {@link CKEDITOR.focusManager} class, which is used
- *		to handle the focus on editor instances..
+ *		to handle the focus in editor instances.
  */
 
-(function() {
+( function() {
 	/**
 	 * Manages the focus activity in an editor instance. This class is to be
-	 * used mainly by UI elements coders when adding interface elements that need
+	 * used mainly by UI element coders when adding interface elements that need
 	 * to set the focus state of the editor.
 	 *
 	 *		var focusManager = new CKEDITOR.focusManager( editor );
@@ -33,14 +33,14 @@
 		this.hasFocus = false;
 
 		/**
-		 * Indicate the currently focused DOM element that makes the editor activated.
+		 * Indicates the currently focused DOM element that makes the editor activated.
 		 *
 		 * @property {CKEDITOR.dom.domObject}
 		 */
 		this.currentActive = null;
 
 		/**
-		 * Object used to hold private stuff.
+		 * Object used to store private stuff.
 		 *
 		 * @private
 		 */
@@ -54,13 +54,20 @@
 	var SLOT_NAME = 'focusmanager',
 		SLOT_NAME_LISTENERS = 'focusmanager_handlers';
 
+	/**
+	 * Object used to store private stuff.
+	 *
+	 * @private
+	 * @class
+	 * @singleton
+	 */
 	CKEDITOR.focusManager._ = {
 		/**
-		 * The delay (in milliseconds) to deactivate the editor when UI dom element has lost focus.
+		 * The delay (in milliseconds) to deactivate the editor when a UI DOM element has lost focus.
 		 *
 		 * @private
-		 * @static
-		 * @property {Number} [_.blurDelay=200]
+		 * @property {Number} [blurDelay=200]
+		 * @member CKEDITOR.focusManager._
 		 */
 		blurDelay: 200
 	};
@@ -68,23 +75,29 @@
 	CKEDITOR.focusManager.prototype = {
 
 		/**
-		 * Indicate this editor instance is activated (due to DOM focus change),
-		 * the `activated` state is a symbolic indicator of an active user
+		 * Indicates that this editor instance is activated (due to a DOM focus change).
+		 * The `activated` state is a symbolic indicator of an active user
 		 * interaction session.
 		 *
 		 * **Note:** This method will not introduce UI focus
-		 * impact on DOM, it's here to record editor UI focus state internally.
-		 * If you want to make the cursor blink inside of the editable, use
+		 * impact on DOM, it is here to record the editor UI focus state internally.
+		 * If you want to make the cursor blink inside the editable, use
 		 * {@link CKEDITOR.editor#method-focus} instead.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
 		 *		editor.focusManage.focus( editor.editable() );
+		 *
+		 * @param {CKEDITOR.dom.element} [currentActive] The new value of the {@link #currentActive} property.
+		 * @member CKEDITOR.focusManager
 		 */
-		focus: function() {
+		focus: function( currentActive ) {
 			if ( this._.timer )
 				clearTimeout( this._.timer );
 
-			if ( ! ( this.hasFocus || this._.locked ) ) {
+			if ( currentActive )
+				this.currentActive = currentActive;
+
+			if ( !( this.hasFocus || this._.locked ) ) {
 				// If another editor has the current focus, we first "blur" it. In
 				// this way the events happen in a more logical sequence, like:
 				//		"focus 1" > "blur 1" > "focus 2"
@@ -102,14 +115,18 @@
 		},
 
 		/**
-		 * Prevent from changing the focus manager state until next {@link #unlock} is called.
+		 * Prevents from changing the focus manager state until the next {@link #unlock} is called.
+		 *
+		 * @member CKEDITOR.focusManager
 		 */
 		lock: function() {
 			this._.locked = 1;
 		},
 
 		/**
-		 * Restore the automatic focus management, if {@link #lock} is called.
+		 * Restores the automatic focus management if {@link #lock} is called.
+		 *
+		 * @member CKEDITOR.focusManager
 		 */
 		unlock: function() {
 			delete this._.locked;
@@ -119,14 +136,15 @@
 		 * Used to indicate that the editor instance has been deactivated by the specified
 		 * element which has just lost focus.
 		 *
-		 * **Note:** that this functions acts asynchronously with a delay of 100ms to
-		 * avoid temporary deactivation. Use instead the `noDelay` parameter
+		 * **Note:** This function acts asynchronously with a delay of 100ms to
+		 * avoid temporary deactivation. Use the `noDelay` parameter instead
 		 * to deactivate immediately.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
 		 *		editor.focusManager.blur();
 		 *
-		 * @param {Boolean} [noDelay=false] Deactivate immediately the editor instance synchronously.
+		 * @param {Boolean} [noDelay=false] Immediately deactivate the editor instance synchronously.
+		 * @member CKEDITOR.focusManager
 		 */
 		blur: function( noDelay ) {
 			if ( this._.locked )
@@ -146,9 +164,9 @@
 				clearTimeout( this._.timer );
 
 			var delay = CKEDITOR.focusManager._.blurDelay;
-			if ( noDelay || !delay ) {
+			if ( noDelay || !delay )
 				doBlur.call( this );
-			} else {
+			else {
 				this._.timer = CKEDITOR.tools.setTimeout( function() {
 					delete this._.timer;
 					doBlur.call( this );
@@ -157,11 +175,13 @@
 		},
 
 		/**
-		 * Register an UI DOM element to the focus manager, which will make the focus manager "hasFocus"
-		 * once input focus is relieved on the element, it's to be used by plugins to expand the jurisdiction of the editor focus.
+		 * Registers a UI DOM element to the focus manager, which will make the focus manager "hasFocus"
+		 * once the input focus is relieved on the element.
+		 * This method is designed to be used by plugins to expand the jurisdiction of the editor focus.
 		 *
-		 * @param {CKEDITOR.dom.element} element The container (top most) element of one UI part.
-		 * @param {Boolean} isCapture If specified {@link CKEDITOR.event#useCapture} will be used when listening to the focus event.
+		 * @param {CKEDITOR.dom.element} element The container (topmost) element of one UI part.
+		 * @param {Boolean} isCapture If specified, {@link CKEDITOR.event#useCapture} will be used when listening to the focus event.
+		 * @member CKEDITOR.focusManager
 		 */
 		add: function( element, isCapture ) {
 			var fm = element.getCustomData( SLOT_NAME );
@@ -180,8 +200,9 @@
 					if ( CKEDITOR.env.ie ) {
 						focusEvent = 'focusin';
 						blurEvent = 'focusout';
-					} else
+					} else {
 						CKEDITOR.event.useCapture = 1;
+					}
 				}
 
 				var listeners = {
@@ -190,11 +211,9 @@
 							this.blur();
 					},
 					focus: function() {
-						this.currentActive = element;
-						this.focus();
+						this.focus( element );
 					}
 				};
-
 
 				element.on( focusEvent, listeners.focus, this );
 				element.on( blurEvent, listeners.blur, this );
@@ -208,9 +227,10 @@
 		},
 
 		/**
-		 * Dismiss an element from the the focus manager delegations added by {@link #add}.
+		 * Dismisses an element from the focus manager delegations added by {@link #add}.
 		 *
-		 * @param {CKEDITOR.dom.element} element The element to be removed from the focusmanager.
+		 * @param {CKEDITOR.dom.element} element The element to be removed from the focus manager.
+		 * @member CKEDITOR.focusManager
 		 */
 		remove: function( element ) {
 			element.removeCustomData( SLOT_NAME );
@@ -221,7 +241,7 @@
 
 	};
 
-})();
+} )();
 
 /**
  * Fired when the editor instance receives the input focus.
@@ -239,9 +259,9 @@
  * Fired when the editor instance loses the input focus.
  *
  * **Note:** This event will **NOT** be triggered when focus is moved internally, e.g. from
- * the editable to other part of the editor UI like dialog.
- * If you're interested on only the editable focus state listen to the {@link CKEDITOR.editable#event-focus}
- * and {@link CKEDITOR.editable#blur} events instead.
+ * an editable to another part of the editor UI like a dialog window.
+ * If you are interested only in the focus state of the editable, listen to the `focus`
+ * and `blur` events of the {@link CKEDITOR.editable} instead.
  *
  *		editor.on( 'blur', function( e ) {
  *			alert( 'The editor named ' + e.editor.name + ' lost the focus' );

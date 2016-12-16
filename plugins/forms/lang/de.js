@@ -1,10 +1,10 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'de', {
 	button: {
-		title: 'Button-Eigenschaften',
+		title: 'Schaltflächeneigenschaften',
 		text: 'Text (Wert)',
 		type: 'Typ',
 		typeBtn: 'Button',
@@ -12,57 +12,60 @@ CKEDITOR.plugins.setLang( 'forms', 'de', {
 		typeRst: 'Zurücksetzen'
 	},
 	checkboxAndRadio: {
-		checkboxTitle: 'Checkbox-Eigenschaften',
-		radioTitle: 'Optionsfeld-Eigenschaften',
+		checkboxTitle: 'Kontrollboxeigenschaften',
+		radioTitle: 'Optionsfeldeigenschaften',
 		value: 'Wert',
-		selected: 'ausgewählt'
+		selected: 'Ausgewählt',
+		required: 'Erforderlich'
 	},
 	form: {
-		title: 'Formular-Eigenschaften',
-		menu: 'Formular-Eigenschaften',
-		action: 'Action',
-		method: 'Method',
-		encoding: 'Zeichenkodierung'
+		title: 'Formulareigenschaften',
+		menu: 'Formulareigenschaften',
+		action: 'Aktion',
+		method: 'Methode',
+		encoding: 'Kodierung'
 	},
 	hidden: {
-		title: 'Verstecktes Feld-Eigenschaften',
+		title: 'Versteckte Feldeigenschaften',
 		name: 'Name',
 		value: 'Wert'
 	},
 	select: {
-		title: 'Auswahlfeld-Eigenschaften',
-		selectInfo: 'Info',
-		opAvail: 'Mögliche Optionen',
+		title: 'Auswahlfeldeigenschaften',
+		selectInfo: 'Info auswählen',
+		opAvail: 'Verfügbare Optionen',
 		value: 'Wert',
 		size: 'Größe',
 		lines: 'Linien',
-		chkMulti: 'Erlaube Mehrfachauswahl',
+		chkMulti: 'Mehrfachauswahl erlauben',
+		required: 'Erforderlich',
 		opText: 'Text',
 		opValue: 'Wert',
 		btnAdd: 'Hinzufügen',
 		btnModify: 'Ändern',
 		btnUp: 'Hoch',
 		btnDown: 'Runter',
-		btnSetValue: 'Setze als Standardwert',
+		btnSetValue: 'Als ausgewählten Wert festlegen',
 		btnDelete: 'Entfernen'
 	},
 	textarea: {
-		title: 'Textfeld (mehrzeilig) Eigenschaften',
+		title: 'Textfeldeigenschaften',
 		cols: 'Spalten',
 		rows: 'Reihen'
 	},
 	textfield: {
-		title: 'Textfeld (einzeilig) Eigenschaften',
+		title: 'Textfeldeigenschaften',
 		name: 'Name',
 		value: 'Wert',
 		charWidth: 'Zeichenbreite',
 		maxChars: 'Max. Zeichen',
+		required: 'Erforderlich',
 		type: 'Typ',
 		typeText: 'Text',
 		typePass: 'Passwort',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'E-mail',
+		typeSearch: 'Suche',
+		typeTel: 'Telefonnummer',
 		typeUrl: 'URL'
 	}
-});
+} );

@@ -1,0 +1,9 @@
+# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
+
+button = Toolbar button tooltip for the Code Snippet feature. 
+codeContents = Label for the Code Content field of the Code Snippet dialog window.
+emptySnippetError = Error message displayed when a user attempts to add an empty code snippet.
+language = Label for the Language field of the Code Snippet dialog window.
+title = Label for the Code Snippet dialog window.
+pathName = Label displayed in the Elements Path when a code snippet is selected.

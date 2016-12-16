@@ -1,13 +1,13 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
  * @fileOverview Paste as plain text plugin.
  */
 
-(function() {
+( function() {
 	// The pastetext command definition.
 	var pasteTextCmd = {
 		// Snapshots are done manually by editable.insertXXX methods.
@@ -15,24 +15,32 @@
 		async: true,
 
 		exec: function( editor ) {
-			editor.getClipboardData({ title: editor.lang.pastetext.title }, function( data ) {
+			editor.getClipboardData( { title: editor.lang.pastetext.title }, function( data ) {
 				// Do not use editor#paste, because it would start from beforePaste event.
-				data && editor.fire( 'paste', { type: 'text', dataValue: data.dataValue } );
+				data && editor.fire( 'paste', {
+					type: 'text',
+					dataValue: data.dataValue,
+					method: 'paste',
+					dataTransfer: CKEDITOR.plugins.clipboard.initPasteDataTransfer()
+				} );
 
 				editor.fire( 'afterCommandExec', {
 					name: 'pastetext',
 					command: pasteTextCmd,
 					returnValue: !!data
-				});
-			});
+				} );
+			} );
 		}
 	};
 
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'pastetext', {
 		requires: 'clipboard',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		// jscs:disable maximumLineLength
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		icons: 'pastetext,pastetext-rtl', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var commandName = 'pastetext';
 
@@ -42,7 +50,7 @@
 				label: editor.lang.pastetext.button,
 				command: commandName,
 				toolbar: 'clipboard,40'
-			});
+			} );
 
 			if ( editor.config.forcePasteAsPlainText ) {
 				editor.on( 'beforePaste', function( evt ) {
@@ -50,15 +58,15 @@
 					// This allows pastefromword dominates over pastetext.
 					if ( evt.data.type != 'html' )
 						evt.data.type = 'text';
-				});
+				} );
 			}
 
 			editor.on( 'pasteState', function( evt ) {
 				editor.getCommand( commandName ).setState( evt.data );
-			});
+			} );
 		}
-	});
-})();
+	} );
+} )();
 
 
 /**

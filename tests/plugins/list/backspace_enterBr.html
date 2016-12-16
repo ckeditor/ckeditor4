@@ -1,0 +1,56 @@
+<textarea id="list1">
+	<ol>
+		<li>1<ol><li>1.1</li></ol></li>
+	</ol>
+	^2
+	<p>3</p>
+	=>
+	<ol>
+		<li>1<ol><li>1.12</li></ol></li>
+	</ol>
+	<p>3</p>
+</textarea>
+<textarea id="list1_del">
+	<ol>
+		<li>1^</li>
+	</ol>
+	2
+	<p>3</p>
+	=>
+	<ol>
+		<li>12</li>
+	</ol>
+	<p>3</p>
+</textarea>
+<textarea id="list2">
+	<ol>
+		<li>1<ol><li>1.1</li></ol></li>
+	</ol>
+	^2<br />3
+	=>
+	<ol>
+		<li>1<ol><li>1.12</li></ol></li>
+	</ol>3
+</textarea>
+<textarea id="list2_del">
+	<ol>
+		<li>1<ol><li>1.1^</li></ol></li>
+	</ol>
+	2<br />3
+	=>
+	<ol>
+		<li>1<ol><li>1.12</li></ol></li>
+	</ol>
+	3
+</textarea>
+<textarea id="merge_next_list">
+foo^
+<ol>
+	<li>bar</li>
+	<li>baz</li>
+</ol>
+=>foobar
+<ol>
+	<li>baz</li>
+</ol>
+</textarea>

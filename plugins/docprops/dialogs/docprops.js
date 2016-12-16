@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'docProps', function( editor ) {
@@ -39,8 +39,8 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						if ( typeof orginal == 'function' )
 							orginal.call( this );
 					};
-				});
-			});
+				} );
+			} );
 		}
 	}
 
@@ -124,35 +124,34 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 				padding: 0,
 				widths: [ '60%', '40%' ],
 				children: [
-					CKEDITOR.tools.extend({
-					type: 'text',
-					id: id,
-					label: lang[ label ]
-				}, fieldProps || {}, 1 ),
-				{
-					type: 'button',
-					id: id + 'Choose',
-					label: lang.chooseColor,
-					className: 'colorChooser',
-					onClick: function() {
-						var self = this;
-						getDialogValue( 'colordialog', function( colorDialog ) {
-							var dialog = self.getDialog();
-							dialog.getContentElement( dialog._.currentTabId, id ).setValue( colorDialog.getContentElement( 'picker', 'selectedColor' ).getValue() );
-						});
+					CKEDITOR.tools.extend( {
+						type: 'text',
+						id: id,
+						label: lang[ label ]
+					}, fieldProps || {}, 1 ),
+					{
+						type: 'button',
+						id: id + 'Choose',
+						label: lang.chooseColor,
+						className: 'colorChooser',
+						onClick: function() {
+							var self = this;
+							getDialogValue( 'colordialog', function( colorDialog ) {
+								var dialog = self.getDialog();
+								dialog.getContentElement( dialog._.currentTabId, id ).setValue( colorDialog.getContentElement( 'picker', 'selectedColor' ).getValue() );
+							} );
+						}
 					}
-				}
 				]
 			};
 		};
-	var previewSrc = 'javascript:' +
-		'void((function(){' +
-			encodeURIComponent( 'document.open();' +
-		( CKEDITOR.env.isCustomDomain() ? 'document.domain=\'' + document.domain + '\';' : '' ) +
-		'document.write( \'<html style="background-color: #ffffff; height: 100%"><head></head><body style="width: 100%; height: 100%; margin: 0px">' + lang.previewHtml + '</body></html>\' );' +
-		'document.close();'
-		) +
-		'})())';
+	var previewSrc = 'javascript:' + // jshint ignore:line
+		'void((function(){' + encodeURIComponent(
+			'document.open();' +
+			( CKEDITOR.env.ie ? '(' + CKEDITOR.tools.fixDomain + ')();' : '' ) +
+			'document.write( \'<html style="background-color: #ffffff; height: 100%"><head></head><body style="width: 100%; height: 100%; margin: 0px">' + lang.previewHtml + '</body></html>\' );' +
+			'document.close();'
+		) + '})())';
 
 	return {
 		title: lang.title,
@@ -176,12 +175,10 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 				body = doc.getBody();
 			this.commitContent( doc, html, head, body );
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'general',
 			label: langCommon.generalTab,
-			elements: [
-				{
+			elements: [ {
 				type: 'text',
 				id: 'title',
 				label: lang.docTitle,
@@ -194,10 +191,9 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 					doc.getElementsByTag( 'title' ).getItem( 0 ).data( 'cke-title', this.getValue() );
 				}
 			},
-				{
+			{
 				type: 'hbox',
-				children: [
-					{
+				children: [ {
 					type: 'select',
 					id: 'dir',
 					label: langCommon.langDir,
@@ -206,7 +202,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						[ langCommon.notSet, '' ],
 						[ langCommon.langDirLtr, 'ltr' ],
 						[ langCommon.langDirRtl, 'rtl' ]
-						],
+					],
 					setup: function( doc, html, head, body ) {
 						this.setValue( body.getDirection() || '' );
 					},
@@ -219,7 +215,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						body.removeStyle( 'direction' );
 					}
 				},
-					{
+				{
 					type: 'text',
 					id: 'langCode',
 					label: langCommon.langCode,
@@ -231,17 +227,15 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 							return;
 						var val = this.getValue();
 						if ( val )
-							html.setAttributes({ 'xml:lang': val, lang: val } );
+							html.setAttributes( { 'xml:lang': val, lang: val } );
 						else
-							html.removeAttributes( { 'xml:lang':1,lang:1 } );
+							html.removeAttributes( { 'xml:lang': 1, lang: 1 } );
 					}
-				}
-				]
+				} ]
 			},
-				{
+			{
 				type: 'hbox',
-				children: [
-					{
+				children: [ {
 					type: 'select',
 					id: 'charset',
 					label: lang.charset,
@@ -259,7 +253,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						[ lang.charsetUN, 'utf-8' ],
 						[ lang.charsetWE, 'iso-8859-1' ],
 						[ lang.other, 'other' ]
-						],
+					],
 					'default': '',
 					onChange: function() {
 						this.getDialog().selectedCharset = this.getValue() != 'other' ? this.getValue() : '';
@@ -299,20 +293,18 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						func.call( this, doc, html, head );
 					}
 				},
-					{
+				{
 					type: 'text',
 					id: 'charsetOther',
 					label: lang.charsetOther,
 					onChange: function() {
 						this.getDialog().selectedCharset = this.getValue();
 					}
-				}
-				]
+				} ]
 			},
-				{
+			{
 				type: 'hbox',
-				children: [
-					{
+				children: [ {
 					type: 'select',
 					id: 'docType',
 					label: lang.docType,
@@ -330,7 +322,7 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						[ 'HTML 3.2', '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">' ],
 						[ 'HTML 2.0', '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">' ],
 						[ lang.other, 'other' ]
-						],
+					],
 					onChange: handleOther,
 					setup: function() {
 						if ( editor.docType ) {
@@ -351,14 +343,13 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						editor.docType = value == 'other' ? ( other ? other.getValue() : '' ) : value;
 					}
 				},
-					{
+				{
 					type: 'text',
 					id: 'docTypeOther',
 					label: lang.docTypeOther
-				}
-				]
+				} ]
 			},
-				{
+			{
 				type: 'checkbox',
 				id: 'xhtmlDec',
 				label: lang.xhtmlDec,
@@ -376,234 +367,225 @@ CKEDITOR.dialog.add( 'docProps', function( editor ) {
 						html.removeAttribute( 'xmlns' );
 					}
 				}
-			}
-			]
+			} ]
 		},
-			{
+		{
 			id: 'design',
 			label: lang.design,
-			elements: [
-				{
+			elements: [ {
 				type: 'hbox',
 				widths: [ '60%', '40%' ],
-				children: [
-					{
+				children: [ {
 					type: 'vbox',
 					children: [
 						colorField( 'txtColor', 'txtColor', {
-						setup: function( doc, html, head, body ) {
-							this.setValue( body.getComputedStyle( 'color' ) );
-						},
-						commit: function( doc, html, head, body, isPreview ) {
-							if ( this.isChanged() || isPreview ) {
-								body.removeAttribute( 'text' );
-								var val = this.getValue();
-								if ( val )
-									body.setStyle( 'color', val );
-								else
-									body.removeStyle( 'color' );
-							}
-						}
-					}),
-						colorField( 'bgColor', 'bgColor', {
-						setup: function( doc, html, head, body ) {
-							var val = body.getComputedStyle( 'background-color' ) || '';
-							this.setValue( val == 'transparent' ? '' : val );
-						},
-						commit: function( doc, html, head, body, isPreview ) {
-							if ( this.isChanged() || isPreview ) {
-								body.removeAttribute( 'bgcolor' );
-								var val = this.getValue();
-								if ( val )
-									body.setStyle( 'background-color', val );
-								else
-									resetStyle( body, 'background-color', 'transparent' );
-							}
-						}
-					}),
-					{
-						type: 'hbox',
-						widths: [ '60%', '40%' ],
-						padding: 1,
-						children: [
-							{
-							type: 'text',
-							id: 'bgImage',
-							label: lang.bgImage,
 							setup: function( doc, html, head, body ) {
-								var val = body.getComputedStyle( 'background-image' ) || '';
-								if ( val == 'none' )
-									val = '';
-								else {
-									val = val.replace( /url\(\s*(["']?)\s*([^\)]*)\s*\1\s*\)/i, function( match, quote, url ) {
-										return url;
-									});
+								this.setValue( body.getComputedStyle( 'color' ) );
+							},
+							commit: function( doc, html, head, body, isPreview ) {
+								if ( this.isChanged() || isPreview ) {
+									body.removeAttribute( 'text' );
+									var val = this.getValue();
+									if ( val )
+										body.setStyle( 'color', val );
+									else
+										body.removeStyle( 'color' );
 								}
-								this.setValue( val );
+							}
+						} ),
+						colorField( 'bgColor', 'bgColor', {
+							setup: function( doc, html, head, body ) {
+								var val = body.getComputedStyle( 'background-color' ) || '';
+								this.setValue( val == 'transparent' ? '' : val );
+							},
+							commit: function( doc, html, head, body, isPreview ) {
+								if ( this.isChanged() || isPreview ) {
+									body.removeAttribute( 'bgcolor' );
+									var val = this.getValue();
+									if ( val )
+										body.setStyle( 'background-color', val );
+									else
+										resetStyle( body, 'background-color', 'transparent' );
+								}
+							}
+						} ),
+						{
+							type: 'hbox',
+							widths: [ '60%', '40%' ],
+							padding: 1,
+							children: [ {
+								type: 'text',
+								id: 'bgImage',
+								label: lang.bgImage,
+								setup: function( doc, html, head, body ) {
+									var val = body.getComputedStyle( 'background-image' ) || '';
+									if ( val == 'none' )
+										val = '';
+									else {
+										val = val.replace( /url\(\s*(["']?)\s*([^\)]*)\s*\1\s*\)/i, function( match, quote, url ) {
+											return url;
+										} );
+									}
+									this.setValue( val );
+								},
+								commit: function( doc, html, head, body ) {
+									body.removeAttribute( 'background' );
+									var val = this.getValue();
+									if ( val )
+										body.setStyle( 'background-image', 'url(' + val + ')' );
+									else
+										resetStyle( body, 'background-image', 'none' );
+								}
+							},
+							{
+								type: 'button',
+								id: 'bgImageChoose',
+								label: langCommon.browseServer,
+								style: 'display:inline-block;margin-top:10px;',
+								hidden: true,
+								filebrowser: 'design:bgImage'
+							} ]
+						},
+						{
+							type: 'checkbox',
+							id: 'bgFixed',
+							label: lang.bgFixed,
+							setup: function( doc, html, head, body ) {
+								this.setValue( body.getComputedStyle( 'background-attachment' ) == 'fixed' );
 							},
 							commit: function( doc, html, head, body ) {
-								body.removeAttribute( 'background' );
-								var val = this.getValue();
-								if ( val )
-									body.setStyle( 'background-image', 'url(' + val + ')' );
+								if ( this.getValue() )
+									body.setStyle( 'background-attachment', 'fixed' );
 								else
-									resetStyle( body, 'background-image', 'none' );
+									resetStyle( body, 'background-attachment', 'scroll' );
 							}
-						},
-							{
-							type: 'button',
-							id: 'bgImageChoose',
-							label: langCommon.browseServer,
-							style: 'display:inline-block;margin-top:10px;',
-							hidden: true,
-							filebrowser: 'design:bgImage'
 						}
-						]
-					},
-						{
-						type: 'checkbox',
-						id: 'bgFixed',
-						label: lang.bgFixed,
-						setup: function( doc, html, head, body ) {
-							this.setValue( body.getComputedStyle( 'background-attachment' ) == 'fixed' );
-						},
-						commit: function( doc, html, head, body ) {
-							if ( this.getValue() )
-								body.setStyle( 'background-attachment', 'fixed' );
-							else
-								resetStyle( body, 'background-attachment', 'scroll' );
-						}
-					}
 					]
 				},
-					{
+				{
 					type: 'vbox',
 					children: [
 						{
-						type: 'html',
-						id: 'marginTitle',
-						html: '<div style="text-align: center; margin: 0px auto; font-weight: bold">' + lang.margin + '</div>'
-					},
-						{
-						type: 'text',
-						id: 'marginTop',
-						label: lang.marginTop,
-						style: 'width: 80px; text-align: center',
-						align: 'center',
-						inputStyle: 'text-align: center',
-						setup: function( doc, html, head, body ) {
-							this.setValue( body.getStyle( 'margin-top' ) || body.getAttribute( 'margintop' ) || '' );
+							type: 'html',
+							id: 'marginTitle',
+							html: '<div style="text-align: center; margin: 0px auto; font-weight: bold">' + lang.margin + '</div>'
 						},
-						commit: commitMargin( 'top' )
-					},
 						{
-						type: 'hbox',
-						children: [
-							{
 							type: 'text',
-							id: 'marginLeft',
-							label: lang.marginLeft,
+							id: 'marginTop',
+							label: lang.marginTop,
 							style: 'width: 80px; text-align: center',
 							align: 'center',
 							inputStyle: 'text-align: center',
 							setup: function( doc, html, head, body ) {
-								this.setValue( body.getStyle( 'margin-left' ) || body.getAttribute( 'marginleft' ) || '' );
+								this.setValue( body.getStyle( 'margin-top' ) || body.getAttribute( 'margintop' ) || '' );
 							},
-							commit: commitMargin( 'left' )
+							commit: commitMargin( 'top' )
 						},
-							{
+						{
+							type: 'hbox',
+							children: [
+								{
+									type: 'text',
+									id: 'marginLeft',
+									label: lang.marginLeft,
+									style: 'width: 80px; text-align: center',
+									align: 'center',
+									inputStyle: 'text-align: center',
+									setup: function( doc, html, head, body ) {
+										this.setValue( body.getStyle( 'margin-left' ) || body.getAttribute( 'marginleft' ) || '' );
+									},
+									commit: commitMargin( 'left' )
+								},
+								{
+									type: 'text',
+									id: 'marginRight',
+									label: lang.marginRight,
+									style: 'width: 80px; text-align: center',
+									align: 'center',
+									inputStyle: 'text-align: center',
+									setup: function( doc, html, head, body ) {
+										this.setValue( body.getStyle( 'margin-right' ) || body.getAttribute( 'marginright' ) || '' );
+									},
+									commit: commitMargin( 'right' )
+								}
+							]
+						},
+						{
 							type: 'text',
-							id: 'marginRight',
-							label: lang.marginRight,
+							id: 'marginBottom',
+							label: lang.marginBottom,
 							style: 'width: 80px; text-align: center',
 							align: 'center',
 							inputStyle: 'text-align: center',
 							setup: function( doc, html, head, body ) {
-								this.setValue( body.getStyle( 'margin-right' ) || body.getAttribute( 'marginright' ) || '' );
+								this.setValue( body.getStyle( 'margin-bottom' ) || body.getAttribute( 'marginbottom' ) || '' );
 							},
-							commit: commitMargin( 'right' )
+							commit: commitMargin( 'bottom' )
 						}
-						]
-					},
-						{
-						type: 'text',
-						id: 'marginBottom',
-						label: lang.marginBottom,
-						style: 'width: 80px; text-align: center',
-						align: 'center',
-						inputStyle: 'text-align: center',
-						setup: function( doc, html, head, body ) {
-							this.setValue( body.getStyle( 'margin-bottom' ) || body.getAttribute( 'marginbottom' ) || '' );
-						},
-						commit: commitMargin( 'bottom' )
-					}
 					]
-				}
-				]
-			}
-			]
+				} ]
+			} ]
 		},
-			{
+		{
 			id: 'meta',
 			label: lang.meta,
 			elements: [
 				{
-				type: 'textarea',
-				id: 'metaKeywords',
-				label: lang.metaKeywords,
-				setup: setupMeta( 'keywords' ),
-				commit: commitMeta( 'keywords' )
-			},
+					type: 'textarea',
+					id: 'metaKeywords',
+					label: lang.metaKeywords,
+					setup: setupMeta( 'keywords' ),
+					commit: commitMeta( 'keywords' )
+				},
 				{
-				type: 'textarea',
-				id: 'metaDescription',
-				label: lang.metaDescription,
-				setup: setupMeta( 'description' ),
-				commit: commitMeta( 'description' )
-			},
+					type: 'textarea',
+					id: 'metaDescription',
+					label: lang.metaDescription,
+					setup: setupMeta( 'description' ),
+					commit: commitMeta( 'description' )
+				},
 				{
-				type: 'text',
-				id: 'metaAuthor',
-				label: lang.metaAuthor,
-				setup: setupMeta( 'author' ),
-				commit: commitMeta( 'author' )
-			},
+					type: 'text',
+					id: 'metaAuthor',
+					label: lang.metaAuthor,
+					setup: setupMeta( 'author' ),
+					commit: commitMeta( 'author' )
+				},
 				{
-				type: 'text',
-				id: 'metaCopyright',
-				label: lang.metaCopyright,
-				setup: setupMeta( 'copyright' ),
-				commit: commitMeta( 'copyright' )
-			}
+					type: 'text',
+					id: 'metaCopyright',
+					label: lang.metaCopyright,
+					setup: setupMeta( 'copyright' ),
+					commit: commitMeta( 'copyright' )
+				}
 			]
 		},
-			{
+		{
 			id: 'preview',
 			label: langCommon.preview,
-			elements: [
-				{
+			elements: [ {
 				type: 'html',
 				id: 'previewHtml',
-				html: '<iframe src="' + previewSrc + '" style="width: 100%; height: 310px" hidefocus="true" frameborder="0" ' +
-					'id="cke_docProps_preview_iframe"></iframe>',
+				html: '<iframe src="' + previewSrc + '" style="width: 100%; height: 310px" hidefocus="true" frameborder="0"></iframe>',
 				onLoad: function() {
+					var iframe = this.getElement();
+
 					this.getDialog().on( 'selectPage', function( ev ) {
 						if ( ev.data.page == 'preview' ) {
 							var self = this;
 							setTimeout( function() {
-								var doc = CKEDITOR.document.getById( 'cke_docProps_preview_iframe' ).getFrameDocument(),
+								var doc = iframe.getFrameDocument(),
 									html = doc.getElementsByTag( 'html' ).getItem( 0 ),
 									head = doc.getHead(),
 									body = doc.getBody();
 								self.commitContent( doc, html, head, body, 1 );
 							}, 50 );
 						}
-					});
-					CKEDITOR.document.getById( 'cke_docProps_preview_iframe' ).getAscendant( 'table' ).setStyle( 'height', '100%' );
+					} );
+					iframe.getAscendant( 'table' ).setStyle( 'height', '100%' );
 				}
-			}
-			]
-		}
-		]
+			} ]
+		} ]
 	};
-});
+} );

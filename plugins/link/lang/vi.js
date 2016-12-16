@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'vi', {
 	acccessKey: 'Phím hỗ trợ truy cập',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 	anchorName: 'Theo tên điểm neo',
 	charset: 'Bảng mã của tài nguyên được liên kết đến',
 	cssClasses: 'Lớp Stylesheet',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Thư điện tử',
 	emailBody: 'Nội dung thông điệp',
 	emailSubject: 'Tiêu đề thông điệp',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'vi', {
 	type: 'Kiểu liên kết',
 	unlink: 'Xoá liên kết',
 	upload: 'Tải lên'
-});
+} );

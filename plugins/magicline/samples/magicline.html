@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <!--
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>Using Magicline plugin &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
+	<title>Using Magicline plugin &mdash; CKEditor Sample</title>
 	<script src="../../../ckeditor.js"></script>
-	<link rel="stylesheet" href="../../../samples/sample.css">
+	<link rel="stylesheet" href="../../../samples/old/sample.css">
 	<meta name="ckeditor-sample-name" content="Magicline plugin">
 	<meta name="ckeditor-sample-group" content="Plugins">
 	<meta name="ckeditor-sample-description" content="Using the Magicline plugin to access difficult focus spaces.">
-	<meta name="ckeditor-sample-isnew" content="1">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Using Magicline plugin
+		<a href="../../../samples/old/index.html">CKEditor Samples</a> &raquo; Using Magicline plugin
 	</h1>
+	<div class="warning deprecated">
+		This sample is not maintained anymore. Check out its <a href="http://sdk.ckeditor.com/samples/magicline.html">brand new version in CKEditor SDK</a>.
+	</div>
 	<div class="description">
 		<p>
 			This sample shows the advantages of <strong>Magicline</strong> plugin
@@ -103,7 +105,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// window.onload event handler.
 
 			CKEDITOR.replace( 'editor1', {
-				extraPlugins: 'magicline' // Ensure that magicline plugin, which is required for this sample, is loaded.
+				extraPlugins: 'magicline',	// Ensure that magicline plugin, which is required for this sample, is loaded.
+				allowedContent: true		// Switch off the ACF, so very complex content created to
+											// show magicline's power isn't filtered.
 			} );
 
 		</script>
@@ -184,7 +188,9 @@ CKEDITOR.replace( 'editor2', {
 
 			CKEDITOR.replace( 'editor2', {
 				extraPlugins: 'magicline',	// Ensure that magicline plugin, which is required for this sample, is loaded.
-				magicline_color: 'blue'		// Blue line
+				magicline_color: 'blue',	// Blue line
+				allowedContent: true		// Switch off the ACF, so very complex content created to
+											// show magicline's power isn't filtered.
 			});
 
 		</script>
@@ -195,7 +201,7 @@ CKEDITOR.replace( 'editor2', {
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2013, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2016, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

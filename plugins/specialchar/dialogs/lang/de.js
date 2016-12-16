@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'de', {
@@ -9,27 +9,27 @@ CKEDITOR.plugins.setLang( 'specialchar', 'de', {
 	rsquo: 'Hochkomma rechts',
 	ldquo: 'Anführungszeichen links',
 	rdquo: 'Anführungszeichen rechts',
-	ndash: 'kleiner Strich',
-	mdash: 'mittlerer Strich',
-	iexcl: 'invertiertes Ausrufezeichen',
-	cent: 'Cent',
-	pound: 'Pfund',
-	curren: 'Währung',
+	ndash: 'Kleiner Strich',
+	mdash: 'Mittlerer Strich',
+	iexcl: 'Invertiertes Ausrufezeichen',
+	cent: 'Cent-Zeichen',
+	pound: 'Pfund-Zeichen',
+	curren: 'Währungszeichen',
 	yen: 'Yen',
-	brvbar: 'gestrichelte Linie',
-	sect: '§ Zeichen',
+	brvbar: 'Gestrichelte Linie',
+	sect: 'Paragrafenzeichen',
 	uml: 'Diäresis',
-	copy: 'Copyright',
+	copy: 'Copyright-Zeichen',
 	ordf: 'Feminine ordinal Anzeige',
 	laquo: 'Nach links zeigenden Doppel-Winkel Anführungszeichen',
 	not: 'Not-Zeichen',
-	reg: 'Registriert',
+	reg: 'Registriert-Zeichen',
 	macr: 'Längezeichen',
-	deg: 'Grad',
+	deg: 'Grad-Zeichen',
 	sup2: 'Hoch 2',
 	sup3: 'Hoch 3',
 	acute: 'Akzentzeichen ',
-	micro: 'Micro',
+	micro: 'Mikro-Zeichen',
 	para: 'Pilcrow-Zeichen',
 	middot: 'Mittelpunkt',
 	cedil: 'Cedilla',
@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'de', {
 	hArr: 'Doppelpfeil links',
 	diams: 'Karo',
 	asymp: 'Ungefähr'
-});
+} );

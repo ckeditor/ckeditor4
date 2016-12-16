@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'smiley', function( editor ) {
@@ -34,7 +34,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 					width: target.$.width,
 					height: target.$.height
 				}
-			});
+			} );
 
 			editor.insertElement( img );
 
@@ -72,13 +72,12 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				// ENTER
 				// SPACE
 			case 32:
-				onClick({ data: ev } );
+				onClick( { data: ev } );
 				ev.preventDefault();
 				break;
 
 				// RIGHT-ARROW
-			case rtl ? 37:
-				39 :
+			case rtl ? 37 : 39:
 				// relative is TD
 				if ( ( relative = element.getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -95,8 +94,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				break;
 
 				// LEFT-ARROW
-			case rtl ? 39:
-				37 :
+			case rtl ? 39 : 37:
 				// relative is TD
 				if ( ( relative = element.getParent().getPrevious() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -114,7 +112,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 				// Do not stop not handled events.
 				return;
 		}
-	});
+	} );
 
 	// Build the HTML for the smiley images table.
 	var labelId = CKEDITOR.tools.getNextId() + '_smiley_emtions_label';
@@ -124,7 +122,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 		'<table role="listbox" aria-labelledby="' + labelId + '" style="width:100%;height:100%;border-collapse:separate;" cellspacing="2" cellpadding="2"',
 		CKEDITOR.env.ie && CKEDITOR.env.quirks ? ' style="position:absolute;"' : '',
 		'><tbody>'
-		];
+	];
 
 	var size = images.length;
 	for ( i = 0; i < size; i++ ) {
@@ -132,13 +130,18 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			html.push( '<tr role="presentation">' );
 
 		var smileyLabelId = 'cke_smile_label_' + i + '_' + CKEDITOR.tools.getNextNumber();
-		html.push( '<td class="cke_dark_background cke_centered" style="vertical-align: middle;" role="presentation">' +
-			'<a href="javascript:void(0)" role="option"', ' aria-posinset="' + ( i + 1 ) + '"', ' aria-setsize="' + size + '"', ' aria-labelledby="' + smileyLabelId + '"', ' class="cke_smile cke_hand" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', onKeydown, ', event, this );">', '<img class="cke_hand" title="', config.smiley_descriptions[ i ], '"' +
-					' cke_src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '" alt="', config.smiley_descriptions[ i ], '"', ' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
-		// IE BUG: Below is a workaround to an IE image loading bug to ensure the image sizes are correct.
-		( CKEDITOR.env.ie ? ' onload="this.setAttribute(\'width\', 2); this.removeAttribute(\'width\');" ' : '' ), '>' +
-				'<span id="' + smileyLabelId + '" class="cke_voice_label">' + config.smiley_descriptions[ i ] + '</span>' +
-			'</a>', '</td>' );
+		html.push(
+			'<td class="cke_dark_background cke_centered" style="vertical-align: middle;" role="presentation">' +
+			'<a href="javascript:void(0)" role="option"', ' aria-posinset="' + ( i + 1 ) + '"', ' aria-setsize="' + size + '"', ' aria-labelledby="' + smileyLabelId + '"',
+			' class="cke_smile cke_hand" tabindex="-1" onkeydown="CKEDITOR.tools.callFunction( ', onKeydown, ', event, this );">',
+			'<img class="cke_hand" title="', config.smiley_descriptions[ i ], '"' +
+			' cke_src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '" alt="', config.smiley_descriptions[ i ], '"',
+			' src="', CKEDITOR.tools.htmlEncode( config.smiley_path + images[ i ] ), '"',
+			// IE BUG: Below is a workaround to an IE image loading bug to ensure the image sizes are correct.
+			( CKEDITOR.env.ie ? ' onload="this.setAttribute(\'width\', 2); this.removeAttribute(\'width\');" ' : '' ), '>' +
+			'<span id="' + smileyLabelId + '" class="cke_voice_label">' + config.smiley_descriptions[ i ] + '</span>' +
+			'</a>', '</td>'
+		);
 
 		if ( i % columns == columns - 1 )
 			html.push( '</tr>' );
@@ -175,8 +178,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 		title: editor.lang.smiley.title,
 		minWidth: 270,
 		minHeight: 120,
-		contents: [
-			{
+		contents: [ {
 			id: 'tab1',
 			label: '',
 			title: '',
@@ -184,9 +186,8 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 			padding: 0,
 			elements: [
 				smileySelector
-				]
-		}
-		],
+			]
+		} ],
 		buttons: [ CKEDITOR.dialog.cancelButton ]
 	};
-});
+} );

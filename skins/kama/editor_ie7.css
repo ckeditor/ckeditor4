@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -31,7 +31,7 @@ This file contains styles to used by Internet Explorer 7 only.
 .cke_rtl .cke_combo_button,
 .cke_rtl .cke_combo_button *,
 .cke_rtl .cke_button,
-.cke_rtl .cke_button_icon,
+.cke_rtl .cke_button_icon
 {
 	display: inline-block;
 	vertical-align: top;

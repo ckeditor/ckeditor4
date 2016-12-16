@@ -1,0 +1,18 @@
+<div id="playground"></div>
+<span id="nbsp">&nbsp;</span>
+<p>foo<br id="brInText">bar<br id="bogusBr"></p>
+<p><br id="brFollowedByBogus"><br id="bogusBr2"></p>
+<p>foo<b id="emptyInline"></b>,<b id="wsInline">  </b>, <b id="wsInline2">  </b> ,<b id="nonEmptyInline">x</b>bar</p>
+<p>foo<b id="zwsInline">&#8203;</b></p>
+<p id="filledBlock"><br></p>
+
+<!-- isBlockBoundary section -->
+<span id="bbf1" style="display:block; float: right">x</span>
+<span id="bbf2" style="position: absolute">x</span>
+<span id="bbf3" style="display: inline-block">x</span>
+<span id="bbf4">x</span>
+
+<span id="bbt1" style="display: block">x</span>
+<p id="bbt2">x</p>
+<ul><li id="bbt3">x</li></ul>
+<p id="bbt4" style="float: right">x</p>

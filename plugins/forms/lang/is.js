@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'is', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'is', {
 		checkboxTitle: 'Eigindi markreits',
 		radioTitle: 'Eigindi valhnapps',
 		value: 'Gildi',
-		selected: 'Valið'
+		selected: 'Valið',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Eigindi innsláttarforms',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'is', {
 		size: 'Stærð',
 		lines: 'línur',
 		chkMulti: 'Leyfa fleiri kosti',
+		required: 'Required', // MISSING
 		opText: 'Texti',
 		opValue: 'Gildi',
 		btnAdd: 'Bæta við',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'is', {
 		value: 'Gildi',
 		charWidth: 'Breidd (leturtákn)',
 		maxChars: 'Hámarksfjöldi leturtákna',
+		required: 'Required', // MISSING
 		type: 'Gerð',
 		typeText: 'Texti',
 		typePass: 'Lykilorð',
@@ -65,4 +68,4 @@ CKEDITOR.plugins.setLang( 'forms', 'is', {
 		typeTel: 'Telephone Number', // MISSING
 		typeUrl: 'Vefslóð'
 	}
-});
+} );

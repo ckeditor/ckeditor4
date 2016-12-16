@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -17,88 +17,100 @@
  * @namespace
  */
 CKEDITOR.lang[ 'tr' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Zengin Metin Editörü',
+	editorPanel: 'Zengin Metin Editör Paneli',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Yardım için ALT 0 tuşuna basın',
+		editorHelp: 'Yardım için ALT 0 tuşlarına basın',
 
-		browseServer: 'Sunucuyu Gez',
+		browseServer: 'Sunucuya Gözat',
 		url: 'URL',
 		protocol: 'Protokol',
 		upload: 'Karşıya Yükle',
-		uploadSubmit: 'Sunucuya Yolla',
+		uploadSubmit: 'Sunucuya Gönder',
 		image: 'Resim',
 		flash: 'Flash',
 		form: 'Form',
 		checkbox: 'Onay Kutusu',
 		radio: 'Seçenek Düğmesi',
-		textField: 'Metin Girişi',
-		textarea: 'Çok Satırlı Metin',
-		hiddenField: 'Gizli Veri',
+		textField: 'Metin Kutusu',
+		textarea: 'Metin Alanı',
+		hiddenField: 'Gizli Alan',
 		button: 'Düğme',
-		select: 'Seçim Menüsü',
-		imageButton: 'Resimli Düğme',
+		select: 'Seçme Alanı',
+		imageButton: 'Resim Düğmesi',
 		notSet: '<tanımlanmamış>',
 		id: 'Kimlik',
-		name: 'Ad',
+		name: 'İsim',
 		langDir: 'Dil Yönü',
 		langDirLtr: 'Soldan Sağa (LTR)',
 		langDirRtl: 'Sağdan Sola (RTL)',
 		langCode: 'Dil Kodlaması',
 		longDescr: 'Uzun Tanımlı URL',
 		cssClass: 'Biçem Sayfası Sınıfları',
-		advisoryTitle: 'Danışma Başlığı',
+		advisoryTitle: 'Öneri Başlığı',
 		cssStyle: 'Biçem',
 		ok: 'Tamam',
 		cancel: 'İptal',
 		close: 'Kapat',
-		preview: 'Ön gösterim',
-		resize: 'Boyutlandırmak için sürükle',
+		preview: 'Önizleme',
+		resize: 'Yeniden Boyutlandır',
 		generalTab: 'Genel',
 		advancedTab: 'Gelişmiş',
-		validateNumberFailed: 'Bu değer sayı değildir.',
-		confirmNewPage: 'İceriğiniz kayıt edilmediğinden dolayı kaybolacaktır. Yeni bir sayfa yüklemek istediğinize eminsiniz?',
-		confirmCancel: 'Bazı seçenekler değişmiştir. Dialog penceresini kapatmak istediğinize eminmisiniz?',
+		validateNumberFailed: 'Bu değer bir sayı değildir.',
+		confirmNewPage: 'Bu içerikle ilgili kaydedilmemiş tüm bilgiler kaybolacaktır. Yeni bir sayfa yüklemek istediğinizden emin misiniz?',
+		confirmCancel: 'Bazı seçenekleri değiştirdiniz. İletişim penceresini kapatmak istediğinizden emin misiniz?',
 		options: 'Seçenekler',
 		target: 'Hedef',
 		targetNew: 'Yeni Pencere (_blank)',
-		targetTop: 'Enüst Pencere (_top)',
+		targetTop: 'En Üstteki Pencere (_top)',
 		targetSelf: 'Aynı Pencere (_self)',
-		targetParent: 'Ana Pencere (_parent)',
+		targetParent: 'Üst Pencere (_parent)',
 		langDirLTR: 'Soldan Sağa (LTR)',
 		langDirRTL: 'Sağdan Sola (RTL)',
-		styles: 'Stil',
-		cssClasses: 'Stil sayfası Sınıfı',
+		styles: 'Biçem',
+		cssClasses: 'Biçem Sayfası Sınıfları',
 		width: 'Genişlik',
 		height: 'Yükseklik',
 		align: 'Hizalama',
 		alignLeft: 'Sol',
 		alignRight: 'Sağ',
-		alignCenter: 'Merkez',
-		alignTop: 'Tepe',
+		alignCenter: 'Ortala',
+		alignJustify: 'İki Kenara Yaslanmış',
+		alignTop: 'Üst',
 		alignMiddle: 'Orta',
 		alignBottom: 'Alt',
-		invalidValue	: 'Geçersiz değer.',
-		invalidHeight: 'Yükseklik sayı olmalıdır.',
-		invalidWidth: 'Genişlik bir sayı olmalıdır.',
-		invalidCssLength: 'Belirttiğiniz sayı "%1" alanı için pozitif bir sayı CSS birim değeri olmalıdır (px, %, in, cm, mm, em, ex, pt, veya pc).',
+		alignNone: 'Hiçbiri',
+		invalidValue: 'Geçersiz değer.',
+		invalidHeight: 'Yükseklik değeri bir sayı olmalıdır.',
+		invalidWidth: 'Genişlik değeri bir sayı olmalıdır.',
+		invalidCssLength: '"%1" alanı için verilen değer, geçerli bir CSS ölçü birimi (px, %, in, cm, mm, em, ex, pt, veya pc) içeren veya içermeyen pozitif bir sayı olmalıdır.',
 		invalidHtmlLength: 'Belirttiğiniz sayı "%1" alanı için pozitif bir sayı HTML birim değeri olmalıdır (px veya %).',
-		invalidInlineStyle: 'Noktalı virgülle ayrılmış: "değer adı," inline stil için belirtilen değer biçiminde bir veya daha fazla dizilerden oluşmalıdır.',
-		cssLengthTooltip: 'Pikseller için bir numara girin veya geçerli bir CSS numarası (px, %, in, cm, mm, em, ex, pt, veya pc).',
+		invalidInlineStyle: 'Satıriçi biçem için verilen değer, "isim : değer" biçiminde birbirinden noktalı virgüllerle ayrılan bir veya daha fazla değişkenler grubundan oluşmalıdır.',
+		cssLengthTooltip: 'Piksel türünde bir sayı veya geçerli bir CSS ölçü birimi (px, %, in, cm, mm, em, ex, pt veya pc) içeren bir sayı girin.',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, hazır değildir</span>'
+		unavailable: '%1<span class="cke_accessibility">, kullanılamaz</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Silme Tuşu',
+			13: 'Giriş Tuşu',
+			16: 'Üst Karater Tuşu',
+			17: 'Kontrol Tuşu',
+			18: 'Alt Tuşu',
+			32: 'Boşluk Tuşu',
+			35: 'En Sona Tuşu',
+			36: 'En Başa Tuşu',
+			46: 'Silme Tuşu',
+			224: 'Komut Tuşu'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Klavye Kısayolu'
 	}
 };

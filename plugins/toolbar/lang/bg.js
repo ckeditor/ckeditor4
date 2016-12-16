@@ -1,13 +1,13 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'bg', {
 	toolbarCollapse: 'Свиване на лентата с инструменти',
 	toolbarExpand: 'Разширяване на лентата с инструменти',
 	toolbarGroups: {
 		document: 'Документ',
-		clipboard: 'Clipboard/Undo',
+		clipboard: 'Клипборд/Отмяна',
 		editing: 'Промяна',
 		forms: 'Форми',
 		basicstyles: 'Базови стилове',
@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'bg', {
 		tools: 'Инструменти'
 	},
 	toolbars: 'Ленти с инструменти'
-});
+} );

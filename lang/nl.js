@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'nl' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Tekstverwerker',
+	editorPanel: 'Tekstverwerker beheerpaneel',
 
 	// Common messages and labels.
 	common: {
@@ -43,8 +36,8 @@ CKEDITOR.lang[ 'nl' ] = {
 		image: 'Afbeelding',
 		flash: 'Flash',
 		form: 'Formulier',
-		checkbox: 'Aanvinkvakje',
-		radio: 'Selectievakje',
+		checkbox: 'Selectievinkje',
+		radio: 'Keuzerondje',
 		textField: 'Tekstveld',
 		textarea: 'Tekstvak',
 		hiddenField: 'Verborgen veld',
@@ -81,17 +74,19 @@ CKEDITOR.lang[ 'nl' ] = {
 		langDirLTR: 'Links naar rechts (LTR)',
 		langDirRTL: 'Rechts naar links (RTL)',
 		styles: 'Stijl',
-		cssClasses: 'Stylesheet klassen',
+		cssClasses: 'Stylesheet-klassen',
 		width: 'Breedte',
 		height: 'Hoogte',
 		align: 'Uitlijning',
 		alignLeft: 'Links',
 		alignRight: 'Rechts',
 		alignCenter: 'Centreren',
+		alignJustify: 'Uitvullen',
 		alignTop: 'Boven',
 		alignMiddle: 'Midden',
 		alignBottom: 'Onder',
-		invalidValue	: 'Ongeldige waarde.',
+		alignNone: 'Geen',
+		invalidValue: 'Ongeldige waarde.',
 		invalidHeight: 'De hoogte moet een getal zijn.',
 		invalidWidth: 'De breedte moet een getal zijn.',
 		invalidCssLength: 'Waarde in veld "%1" moet een positief nummer zijn, met of zonder een geldige CSS meeteenheid (px, %, in, cm, mm, em, ex, pt of pc).',
@@ -100,6 +95,23 @@ CKEDITOR.lang[ 'nl' ] = {
 		cssLengthTooltip: 'Geef een nummer in voor een waarde in pixels of geef een nummer in met een geldige CSS eenheid (px, %, in, cm, mm, em, ex, pt, of pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>'
+		unavailable: '%1<span class="cke_accessibility">, niet beschikbaar</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Spatie',
+			35: 'End',
+			36: 'Home',
+			46: 'Verwijderen',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Sneltoets'
 	}
 };

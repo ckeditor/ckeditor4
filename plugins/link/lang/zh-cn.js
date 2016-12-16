@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'zh-cn', {
 	acccessKey: '访问键',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'zh-cn', {
 	anchorName: '按锚点名称',
 	charset: '字符编码',
 	cssClasses: '样式类名称',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: '地址',
 	emailBody: '内容',
 	emailSubject: '主题',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'zh-cn', {
 	type: '超链接类型',
 	unlink: '取消超链接',
 	upload: '上传'
-});
+} );

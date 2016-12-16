@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'eo', {
 	acccessKey: 'Fulmoklavo',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	anchorName: 'Per Ankronomo',
 	charset: 'Signaro de la Ligita Rimedo',
 	cssClasses: 'Klasoj de Stilfolioj',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Retpoŝto',
 	emailBody: 'Mesaĝa korpo',
 	emailSubject: 'Mesaĝa Temo',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'eo', {
 	type: 'Tipo de Ligilo',
 	unlink: 'Forigi Ligilon',
 	upload: 'Alŝuti'
-});
+} );

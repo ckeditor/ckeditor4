@@ -1,20 +1,21 @@
 #!/bin/bash
-# Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
-# Build CKEditor using the default settings (and build.js)
+# Build CKEditor using the default settings (and build.js).
 
 set -e
 
 echo "CKBuilder - Builds a release version of ckeditor-dev."
 echo ""
 
-CKBUILDER_VERSION="1.6.1"
+CKBUILDER_VERSION="2.3.1"
 CKBUILDER_URL="http://download.cksource.com/CKBuilder/$CKBUILDER_VERSION/ckbuilder.jar"
 
 PROGNAME=$(basename $0)
 MSG_UPDATE_FAILED="Warning: The attempt to update ckbuilder.jar failed. The existing file will be used."
-MSG_DOWNLOAD_FAILED="It was not possible to download ckbuilder.jar"
+MSG_DOWNLOAD_FAILED="It was not possible to download ckbuilder.jar."
+ARGS=" $@ "
 
 function error_exit
 {
@@ -30,7 +31,7 @@ function command_exists
 # Move to the script directory.
 cd $(dirname $0)
 
-# Download/update ckbuilder.jar
+# Download/update ckbuilder.jar.
 mkdir -p ckbuilder/$CKBUILDER_VERSION
 cd ckbuilder/$CKBUILDER_VERSION
 if [ -f ckbuilder.jar ]; then
@@ -54,7 +55,38 @@ cd ../..
 echo ""
 echo "Starting CKBuilder..."
 
-java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release --version="4.0 DEV" --build-config build-config.js --overwrite "$@"
+JAVA_ARGS=${ARGS// -t / } # Remove -t from args.
+
+VERSION="4.6.0 DEV"
+REVISION=$(git rev-parse --verify --short HEAD)
+SEMVER_REGEX="^([0-9]+)\.([0-9]+)\.([0-9]+)(\-[0-9A-Za-z-]+)?(\+[0-9A-Za-z-]+)?$"
+
+# Get version number from tag (if available and follows semantic versioning principles).
+# Use 2>/dev/null to block "fatal: no tag exactly matches", true is needed because of "set -e".
+TAG=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match 2>/dev/null) || true
+# "Git Bash" does not support regular expressions.
+if echo $TAG | grep -E "$SEMVER_REGEX" > /dev/null
+then
+	echo "Setting version to $TAG"
+	VERSION=$TAG
+fi
+
+java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release $JAVA_ARGS --version="$VERSION" --revision="$REVISION" --overwrite
+
+# Copy and build tests.
+if [[ "$ARGS" == *\ \-t\ * ]]; then
+	echo ""
+	echo "Copying tests..."
+
+	cp -r ../../tests release/ckeditor/tests
+	cp -r ../../package.json release/ckeditor/package.json
+	cp -r ../../bender.js release/ckeditor/bender.js
+
+	echo ""
+	echo "Installing tests..."
+
+	(cd release/ckeditor &&	npm install && bender init)
+fi
 
 echo ""
 echo "Release created in the \"release\" directory."

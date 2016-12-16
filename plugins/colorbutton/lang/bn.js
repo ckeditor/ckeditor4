@@ -1,10 +1,10 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'bn', {
-	auto: 'অটোমেটিক',
-	bgColorTitle: 'বেকগ্রাউন্ড রং',
+	auto: 'স্বয়ংক্রিয়ভাবে',
+	bgColorTitle: 'পৃষ্ঠতলের রং',
 	colors: {
 		'000': 'Black',
 		'800000': 'Maroon',
@@ -50,4 +50,4 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'bn', {
 	more: 'আরও রং...',
 	panelTitle: 'Colors',
 	textColorTitle: 'টেক্স্ট রং'
-});
+} );

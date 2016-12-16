@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'it', {
@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'it', {
 	Atilde: 'Lettera maiuscola latina A con tilde',
 	Auml: 'Lettera maiuscola latina A con dieresi',
 	Aring: 'Lettera maiuscola latina A con anello sopra',
-	AElig: 'Lettera maiuscola latina AE',
+	AElig: 'Lettera maiuscola latina Æ',
 	Ccedil: 'Lettera maiuscola latina C con cediglia',
 	Egrave: 'Lettera maiuscola latina E con accento grave',
 	Eacute: 'Lettera maiuscola latina E con accento acuto',
@@ -122,4 +122,4 @@ CKEDITOR.plugins.setLang( 'specialchar', 'it', {
 	hArr: 'Doppia freccia sinistra destra',
 	diams: 'Simbolo nero diamante',
 	asymp: 'Quasi uguale a'
-});
+} );

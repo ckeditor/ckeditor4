@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'ku', {
-	alertUrl: 'تکایه ناونیشانی بەستەری وێنه بنووسه',
 	alt: 'جێگرەوەی دەق',
 	border: 'پەراوێز',
 	btnUpload: 'ناردنی بۆ ڕاژه',
@@ -23,4 +22,4 @@ CKEDITOR.plugins.setLang( 'image', 'ku', {
 	validateBorder: 'پەراوێز دەبێت بەتەواوی تەنها ژماره بێت.',
 	validateHSpace: 'بۆشایی ئاسۆیی دەبێت بەتەواوی تەنها ژمارە بێت.',
 	validateVSpace: 'بۆشایی ئەستونی دەبێت بەتەواوی تەنها ژماره بێت.'
-});
+} );

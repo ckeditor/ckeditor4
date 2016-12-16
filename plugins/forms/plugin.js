@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -9,8 +9,11 @@
 
 CKEDITOR.plugins.add( 'forms', {
 	requires: 'dialog,fakeobjects',
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	// jscs:disable maximumLineLength
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	// jscs:enable maximumLineLength
 	icons: 'button,checkbox,form,hiddenfield,imagebutton,radio,select,select-rtl,textarea,textarea-rtl,textfield', // %REMOVE_LINE_CORE%
+	hidpi: true, // %REMOVE_LINE_CORE%
 	onLoad: function() {
 		CKEDITOR.addCss( '.cke_editable form' +
 			'{' +
@@ -32,12 +35,37 @@ CKEDITOR.plugins.add( 'forms', {
 	init: function( editor ) {
 		var lang = editor.lang,
 			order = 0,
-			textfieldTypes = { email:1,password:1,search:1,tel:1,text:1,url:1 };
+			textfieldTypes = { email: 1, password: 1, search: 1, tel: 1, text: 1, url: 1 },
+			allowedContent = {
+				checkbox: 'input[type,name,checked,required]',
+				radio: 'input[type,name,checked,required]',
+				textfield: 'input[type,name,value,size,maxlength,required]',
+				textarea: 'textarea[cols,rows,name,required]',
+				select: 'select[name,size,multiple,required]; option[value,selected]',
+				button: 'input[type,name,value]',
+				form: 'form[action,name,id,enctype,target,method]',
+				hiddenfield: 'input[type,name,value]',
+				imagebutton: 'input[type,alt,src]{width,height,border,border-width,border-style,margin,float}'
+			},
+			requiredContent = {
+				checkbox: 'input',
+				radio: 'input',
+				textfield: 'input',
+				textarea: 'textarea',
+				select: 'select',
+				button: 'input',
+				form: 'form',
+				hiddenfield: 'input',
+				imagebutton: 'input'
+			};
 
 		// All buttons use the same code to register. So, to avoid
 		// duplications, let's use this tool function.
 		var addButtonCommand = function( buttonName, commandName, dialogFile ) {
-				var def = {};
+				var def = {
+					allowedContent: allowedContent[ commandName ],
+					requiredContent: requiredContent[ commandName ]
+				};
 				commandName == 'form' && ( def.context = 'form' );
 
 				editor.addCommand( commandName, new CKEDITOR.dialogCommand( commandName, def ) );
@@ -46,7 +74,7 @@ CKEDITOR.plugins.add( 'forms', {
 					label: lang.common[ buttonName.charAt( 0 ).toLowerCase() + buttonName.slice( 1 ) ],
 					command: commandName,
 					toolbar: 'forms,' + ( order += 10 )
-				});
+				} );
 				CKEDITOR.dialog.add( commandName, dialogFile );
 			};
 
@@ -59,9 +87,12 @@ CKEDITOR.plugins.add( 'forms', {
 		addButtonCommand( 'Select', 'select', dialogPath + 'select.js' );
 		addButtonCommand( 'Button', 'button', dialogPath + 'button.js' );
 
-		// If the "image" plugin is loaded.
-		var imagePlugin = CKEDITOR.plugins.get( 'image' );
-		imagePlugin && addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
+		var imagePlugin = editor.plugins.image;
+
+		// Since Image plugin is disabled when Image2 is to be loaded,
+		// ImageButton also got to be off (#11222).
+		if ( imagePlugin && !editor.plugins.image2 )
+			addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
 
 		addButtonCommand( 'HiddenField', 'hiddenfield', dialogPath + 'hiddenfield.js' );
 
@@ -92,12 +123,6 @@ CKEDITOR.plugins.add( 'forms', {
 					group: 'hiddenfield'
 				},
 
-				imagebutton: {
-					label: lang.image.titleButton,
-					command: 'imagebutton',
-					group: 'imagebutton'
-				},
-
 				button: {
 					label: lang.forms.button.title,
 					command: 'button',
@@ -117,11 +142,19 @@ CKEDITOR.plugins.add( 'forms', {
 				}
 			};
 
+			if ( imagePlugin ) {
+				items.imagebutton = {
+					label: lang.image.titleButton,
+					command: 'imagebutton',
+					group: 'imagebutton'
+				};
+			}
+
 			!editor.blockless && ( items.form = {
 				label: lang.forms.form.menu,
 				command: 'form',
 				group: 'form'
-			});
+			} );
 
 			editor.addMenuItems( items );
 
@@ -133,7 +166,7 @@ CKEDITOR.plugins.add( 'forms', {
 				var form = path.contains( 'form', 1 );
 				if ( form && !form.isReadOnly() )
 					return { form: CKEDITOR.TRISTATE_OFF };
-			});
+			} );
 
 			editor.contextMenu.addListener( function( element ) {
 				if ( element && !element.isReadOnly() ) {
@@ -170,7 +203,7 @@ CKEDITOR.plugins.add( 'forms', {
 					if ( name == 'img' && element.data( 'cke-real-element-type' ) == 'hiddenfield' )
 						return { hiddenfield: CKEDITOR.TRISTATE_OFF };
 				}
-			});
+			} );
 		}
 
 		editor.on( 'doubleclick', function( evt ) {
@@ -205,7 +238,7 @@ CKEDITOR.plugins.add( 'forms', {
 				if ( textfieldTypes[ type ] )
 					evt.data.dialog = 'textfield';
 			}
-		});
+		} );
 	},
 
 	afterInit: function( editor ) {
@@ -214,8 +247,10 @@ CKEDITOR.plugins.add( 'forms', {
 			dataFilter = dataProcessor && dataProcessor.dataFilter;
 
 		// Cleanup certain IE form elements default values.
+		// Note: Inputs are marked with contenteditable=false flags, so filters for them
+		// need to be applied to non-editable content as well.
 		if ( CKEDITOR.env.ie ) {
-			htmlFilter && htmlFilter.addRules({
+			htmlFilter && htmlFilter.addRules( {
 				elements: {
 					input: function( input ) {
 						var attrs = input.attributes,
@@ -227,40 +262,18 @@ CKEDITOR.plugins.add( 'forms', {
 							attrs.value == 'on' && delete attrs.value;
 					}
 				}
-			});
+			}, { applyToAll: true } );
 		}
 
 		if ( dataFilter ) {
-			dataFilter.addRules({
+			dataFilter.addRules( {
 				elements: {
 					input: function( element ) {
 						if ( element.attributes.type == 'hidden' )
 							return editor.createFakeParserElement( element, 'cke_hidden', 'hiddenfield' );
 					}
 				}
-			});
+			}, { applyToAll: true } );
 		}
 	}
-});
-
-if ( CKEDITOR.env.ie ) {
-	CKEDITOR.dom.element.prototype.hasAttribute = CKEDITOR.tools.override( CKEDITOR.dom.element.prototype.hasAttribute, function( original ) {
-		return function( name ) {
-			var $attr = this.$.attributes.getNamedItem( name );
-
-			if ( this.getName() == 'input' ) {
-				switch ( name ) {
-					case 'class':
-						return this.$.className.length > 0;
-					case 'checked':
-						return !!this.$.checked;
-					case 'value':
-						var type = this.getAttribute( 'type' );
-						return type == 'checkbox' || type == 'radio' ? this.$.value != 'on' : this.$.value;
-				}
-			}
-
-			return original.apply( this, arguments );
-		};
-	});
-}
+} );

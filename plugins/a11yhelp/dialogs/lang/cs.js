@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
@@ -12,12 +12,13 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 		items: [
 			{
 			name: 'Panel nástrojů editoru',
-			legend: 'Stiskněte${toolbarFocus} k procházení panelu nástrojů. Přejděte na další a předchozí skupiny pomocí TAB a SHIFT-TAB. Přechod na další a předchozí tlačítko panelu nástrojů je pomocí ŠIPKA VPRAVO nebo ŠIPKA VLEVO. Stisknutím mezerníku nebo klávesy ENTER tlačítko aktivujete.'
+			legend: 'Stiskněte${toolbarFocus} k procházení panelu nástrojů. Přejděte na další a předchozí skupiny pomocí TAB a SHIFT+TAB. Přechod na další a předchozí tlačítko panelu nástrojů je pomocí ŠIPKA VPRAVO nebo ŠIPKA VLEVO. Stisknutím mezerníku nebo klávesy ENTER tlačítko aktivujete.'
 		},
 
 			{
 			name: 'Dialogové okno editoru',
-			legend: 'Uvnitř dialogového okna stiskněte TAB pro přesunutí na další pole, stiskněte SHIFT + TAB pro přesun na předchozí pole, stiskněte ENTER pro odeslání dialogu, stiskněte ESC pro jeho zrušení. Pro dialogová okna, která mají mnoho karet stiskněte ALT + F10 pr oprocházení seznamu karet. Pak se přesuňte na další kartu pomocí TAB nebo ŠIPKA VPRAVO. Pro přesun na předchozí stiskněte SHIFT + TAB nebo ŠIPKA VLEVO. Stiskněte MEZERNÍK nebo ENTER pro vybrání stránky karet.'
+			legend:
+				'Uvnitř dialogového okna stiskněte TAB pro přesunutí na další prvek okna, stiskněte SHIFT+TAB pro přesun na předchozí prvek okna, stiskněte ENTER pro odeslání dialogu, stiskněte ESC pro jeho zrušení. Pro dialogová okna, která mají mnoho karet stiskněte ALT+F10 pro zaměření seznamu karet, nebo TAB, pro posun podle pořadí karet.Při zaměření seznamu karet se můžete jimi posouvat pomocí ŠIPKY VPRAVO a VLEVO.' 
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 
 			{
 			name: 'Rámeček seznamu editoru',
-			legend: 'Uvnitř rámečku seznamu se přesunete na další položku menu pomocí TAB nebo ŠIPKA DOLŮ. Na předchozí položku se přesunete SHIFT + TAB nebo ŠIPKA NAHORU. Stiskněte MEZERNÍK nebo ENTER pro zvolení možnosti seznamu. Stiskněte ESC pro uzavření seznamu.'
+			legend: 'Uvnitř rámečku seznamu se přesunete na další položku menu pomocí TAB nebo ŠIPKA DOLŮ. Na předchozí položku se přesunete SHIFT+TAB nebo ŠIPKA NAHORU. Stiskněte MEZERNÍK nebo ENTER pro zvolení možnosti seznamu. Stiskněte ESC pro uzavření seznamu.'
 		},
 
 			{
 			name: 'Lišta cesty prvku v editoru',
-			legend: 'Stiskněte ${elementsPathFocus} pro procházení lišty cesty prvku. Na další tlačítko prvku se přesunete pomocí TAB nebo ŠIPKA VPRAVO. Na předchozí položku se přesunete pomocí SHIFT + TAB nebo ŠIPKA VLEVO. Stiskněte MEZERNÍK nebo ENTER pro vybrání prvku v editoru.'
+			legend: 'Stiskněte ${elementsPathFocus} pro procházení lišty cesty prvku. Na další tlačítko prvku se přesunete pomocí TAB nebo ŠIPKA VPRAVO. Na předchozí tlačítko se přesunete pomocí SHIFT+TAB nebo ŠIPKA VLEVO. Stiskněte MEZERNÍK nebo ENTER pro vybrání prvku v editoru.'
 		}
 		]
 	},
@@ -68,8 +69,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 			legend: 'Stiskněte ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Příkaz pro přístup k předchozímu prostoru zaměření',
+			legend: 'Stiskněte ${accessPreviousSpace} pro přístup k nejbližšímu nedosažitelnému prostoru zaměření před stříškou, například: dva přilehlé prvky HR. Pro dosažení vzdálených prostorů zaměření tuto kombinaci kláves opakujte.'
 		},
 			{
 			name: 'Příkaz pro přístup k dalšímu prostoru zaměření',
@@ -81,5 +82,59 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 		}
 		]
 	}
-	]
-});
+	],
+	tab: 'Tabulátor',
+	pause: 'Pauza',
+	capslock: 'Caps lock',
+	escape: 'Escape',
+	pageUp: 'Stránka nahoru',
+	pageDown: 'Stránka dolů',
+	leftArrow: 'Šipka vlevo',
+	upArrow: 'Šipka nahoru',
+	rightArrow: 'Šipka vpravo',
+	downArrow: 'Šipka dolů',
+	insert: 'Vložit',
+	leftWindowKey: 'Levá klávesa Windows',
+	rightWindowKey: 'Pravá klávesa Windows',
+	selectKey: 'Vyberte klávesu',
+	numpad0: 'Numerická klávesa 0',
+	numpad1: 'Numerická klávesa 1',
+	numpad2: 'Numerická klávesa 2',
+	numpad3: 'Numerická klávesa 3',
+	numpad4: 'Numerická klávesa 4',
+	numpad5: 'Numerická klávesa 5',
+	numpad6: 'Numerická klávesa 6',
+	numpad7: 'Numerická klávesa 7',
+	numpad8: 'Numerická klávesa 8',
+	numpad9: 'Numerická klávesa 9',
+	multiply: 'Numerická klávesa násobení',
+	add: 'Přidat',
+	subtract: 'Numerická klávesa odečítání',
+	decimalPoint: 'Desetinná tečka',
+	divide: 'Numerická klávesa dělení',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num lock',
+	scrollLock: 'Scroll lock',
+	semiColon: 'Středník',
+	equalSign: 'Rovnítko',
+	comma: 'Čárka',
+	dash: 'Pomlčka',
+	period: 'Tečka',
+	forwardSlash: 'Lomítko',
+	graveAccent: 'Přízvuk',
+	openBracket: 'Otevřená hranatá závorka',
+	backSlash: 'Obrácené lomítko',
+	closeBracket: 'Uzavřená hranatá závorka',
+	singleQuote: 'Jednoduchá uvozovka'
+} );

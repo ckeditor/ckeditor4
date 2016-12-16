@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'cs', {
 	acccessKey: 'Přístupový klíč',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'cs', {
 	anchorName: 'Podle jména kotvy',
 	charset: 'Přiřazená znaková sada',
 	cssClasses: 'Třída stylu',
+	download: 'Force Download', // MISSING
+	displayText: 'Zobrazit text',
 	emailAddress: 'E-mailová adresa',
 	emailBody: 'Tělo zprávy',
 	emailSubject: 'Předmět zprávy',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'cs', {
 	type: 'Typ odkazu',
 	unlink: 'Odstranit odkaz',
 	upload: 'Odeslat'
-});
+} );

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'mk', {
 	acccessKey: 'Access Key', // MISSING
@@ -19,15 +19,17 @@ CKEDITOR.plugins.setLang( 'link', 'mk', {
 	anchorName: 'By Anchor Name', // MISSING
 	charset: 'Linked Resource Charset', // MISSING
 	cssClasses: 'Stylesheet Classes', // MISSING
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-Mail Address', // MISSING
 	emailBody: 'Message Body', // MISSING
 	emailSubject: 'Message Subject', // MISSING
-	id: 'Id', // MISSING
+	id: 'Id',
 	info: 'Link Info', // MISSING
-	langCode: 'Language Code', // MISSING
-	langDir: 'Language Direction', // MISSING
-	langDirLTR: 'Left to Right (LTR)', // MISSING
-	langDirRTL: 'Right to Left (RTL)', // MISSING
+	langCode: 'Код на јазик',
+	langDir: 'Насока на јазик',
+	langDirLTR: 'Лево кон десно',
+	langDirRTL: 'Десно кон лево',
 	menu: 'Edit Link', // MISSING
 	name: 'Name',
 	noAnchors: '(No anchors available in the document)', // MISSING
@@ -47,19 +49,19 @@ CKEDITOR.plugins.setLang( 'link', 'mk', {
 	popupTop: 'Top Position', // MISSING
 	rel: 'Relationship', // MISSING
 	selectAnchor: 'Select an Anchor', // MISSING
-	styles: 'Style', // MISSING
+	styles: 'Стил',
 	tabIndex: 'Tab Index', // MISSING
 	target: 'Target', // MISSING
 	targetFrame: '<frame>', // MISSING
 	targetFrameName: 'Target Frame Name', // MISSING
 	targetPopup: '<popup window>', // MISSING
 	targetPopupName: 'Popup Window Name', // MISSING
-	title: 'Link', // MISSING
+	title: 'Врска',
 	toAnchor: 'Link to anchor in the text', // MISSING
 	toEmail: 'E-mail', // MISSING
-	toUrl: 'URL', // MISSING
-	toolbar: 'Link', // MISSING
+	toUrl: 'URL',
+	toolbar: 'Врска',
 	type: 'Link Type', // MISSING
 	unlink: 'Unlink', // MISSING
-	upload: 'Upload' // MISSING
-});
+	upload: 'Прикачи'
+} );

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'hu', {
 	acccessKey: 'Billentyűkombináció',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	anchorName: 'Horgony név szerint',
 	charset: 'Hivatkozott tartalom kódlapja',
 	cssClasses: 'Stíluskészlet',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-Mail cím',
 	emailBody: 'Üzenet',
 	emailSubject: 'Üzenet tárgya',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	type: 'Hivatkozás típusa',
 	unlink: 'Hivatkozás törlése',
 	upload: 'Feltöltés'
-});
+} );

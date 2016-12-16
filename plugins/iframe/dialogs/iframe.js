@@ -1,9 +1,9 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	// Map 'true' and 'false' values to match W3C's specifications
 	// http://www.w3.org/TR/REC-html40/present/frames.html#h-16.5
 	var checkboxValues = {
@@ -77,20 +77,18 @@
 				if ( this.fakeImage ) {
 					newFakeImage.replace( this.fakeImage );
 					editor.getSelection().selectElement( newFakeImage );
-				} else
+				} else {
 					editor.insertElement( newFakeImage );
+				}
 			},
-			contents: [
-				{
+			contents: [ {
 				id: 'info',
 				label: commonLang.generalTab,
 				accessKey: 'I',
-				elements: [
-					{
+				elements: [ {
 					type: 'vbox',
 					padding: 0,
-					children: [
-						{
+					children: [ {
 						id: 'src',
 						type: 'text',
 						label: commonLang.url,
@@ -98,15 +96,14 @@
 						validate: CKEDITOR.dialog.validate.notEmpty( iframeLang.noUrl ),
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
-					children: [
-						{
+					children: [ {
 						id: 'width',
 						type: 'text',
+						requiredContent: 'iframe[width]',
 						style: 'width:100%',
 						labelLayout: 'vertical',
 						label: commonLang.width,
@@ -114,9 +111,10 @@
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						id: 'height',
 						type: 'text',
+						requiredContent: 'iframe[height]',
 						style: 'width:100%',
 						labelLayout: 'vertical',
 						label: commonLang.height,
@@ -124,9 +122,10 @@
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						id: 'align',
 						type: 'select',
+						requiredContent: 'iframe[align]',
 						'default': '',
 						items: [
 							[ commonLang.notSet, '' ],
@@ -135,7 +134,7 @@
 							[ commonLang.alignTop, 'top' ],
 							[ commonLang.alignMiddle, 'middle' ],
 							[ commonLang.alignBottom, 'bottom' ]
-							],
+						],
 						style: 'width:100%',
 						labelLayout: 'vertical',
 						label: commonLang.align,
@@ -151,60 +150,58 @@
 							if ( this.getValue() )
 								extraAttributes.align = this.getValue();
 						}
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'scrolling',
 						type: 'checkbox',
+						requiredContent: 'iframe[scrolling]',
 						label: iframeLang.scrolling,
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						id: 'frameborder',
 						type: 'checkbox',
+						requiredContent: 'iframe[frameborder]',
 						label: iframeLang.border,
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'name',
 						type: 'text',
+						requiredContent: 'iframe[name]',
 						label: commonLang.name,
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						id: 'title',
 						type: 'text',
+						requiredContent: 'iframe[title]',
 						label: commonLang.advisoryTitle,
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					id: 'longdesc',
 					type: 'text',
+					requiredContent: 'iframe[longdesc]',
 					label: commonLang.longDescr,
 					setup: loadValue,
 					commit: commitValue
-				}
-				]
+				} ]
 			},
-				dialogadvtab && dialogadvtab.createAdvancedTab( editor, { id:1,classes:1,styles:1 } )
-				]
-		};
-	});
-})();
+			dialogadvtab && dialogadvtab.createAdvancedTab( editor, { id: 1, classes: 1, styles: 1 }, 'iframe' )
+		] };
+	} );
+} )();

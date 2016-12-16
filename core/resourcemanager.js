@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -71,7 +71,7 @@ CKEDITOR.resourceManager.prototype = {
 	 */
 	add: function( name, definition ) {
 		if ( this.registered[ name ] )
-			throw '[CKEDITOR.resourceManager.add] The resource name "' + name + '" is already registered.';
+			throw new Error( '[CKEDITOR.resourceManager.add] The resource name "' + name + '" is already registered.' );
 
 		var resource = this.registered[ name ] = definition || {};
 		resource.name = name;
@@ -117,7 +117,7 @@ CKEDITOR.resourceManager.prototype = {
 	 */
 	getFilePath: function( name ) {
 		var external = this.externals[ name ];
-		return CKEDITOR.getUrl( this.getPath( name ) + ( ( external && ( typeof external.file == 'string' ) ) ? external.file : this.fileName + '.js' ) );
+		return CKEDITOR.getUrl( this.getPath( name ) + ( external ? external.file : this.fileName + '.js' ) );
 	},
 
 	/**
@@ -144,9 +144,21 @@ CKEDITOR.resourceManager.prototype = {
 		for ( var i = 0; i < names.length; i++ ) {
 			var name = names[ i ];
 
+			// If "fileName" is not provided, we assume that it may be available
+			// in "path". Try to extract it in this case.
+			if ( !fileName ) {
+				path = path.replace( /[^\/]+$/, function( match ) {
+					fileName = match;
+					return '';
+				} );
+			}
+
 			this.externals[ name ] = {
 				dir: path,
-				file: fileName
+
+				// Use the default file name if there is no "fileName" and it
+				// was not found in "path".
+				file: fileName || ( this.fileName + '.js' )
 			};
 		}
 	},
@@ -189,14 +201,15 @@ CKEDITOR.resourceManager.prototype = {
 				if ( !( url in urlsNames ) )
 					urlsNames[ url ] = [];
 				urlsNames[ url ].push( name );
-			} else
+			} else {
 				resources[ name ] = this.get( name );
+			}
 		}
 
 		CKEDITOR.scriptLoader.load( urls, function( completed, failed ) {
 			if ( failed.length ) {
-				throw '[CKEDITOR.resourceManager.load] Resource name "' + urlsNames[ failed[ 0 ] ].join( ',' )
-					+ '" was not found at "' + failed[ 0 ] + '".';
+				throw new Error( '[CKEDITOR.resourceManager.load] Resource name "' + urlsNames[ failed[ 0 ] ].join( ',' ) +
+					'" was not found at "' + failed[ 0 ] + '".' );
 			}
 
 			for ( var i = 0; i < completed.length; i++ ) {

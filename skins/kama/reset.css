@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -36,12 +36,13 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	height: auto;
 	vertical-align: baseline;
 	box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
+	position: static;
+	transition: none;
 }
 
 /* Reset for elements and their children. */
-.cke_reset_all, .cke_reset_all *
+.cke_reset_all, .cke_reset_all *,
+.cke_reset_all a, .cke_reset_all textarea
 {
 	/* The following must be identical to .cke_reset. */
 	margin: 0;
@@ -53,8 +54,8 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	height: auto;
 	vertical-align: baseline;
 	box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
+	position: static;
+	transition: none;
 
 	/* These are rule inherited by all children elements. */
 	border-collapse: collapse;
@@ -63,6 +64,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
     text-align: left;
 	white-space: nowrap;
 	cursor: auto;
+	float: none;
 }
 
 .cke_reset_all .cke_rtl *
@@ -79,7 +81,7 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 
 .cke_reset_all textarea
 {
-	white-space: pre;
+	white-space: pre-wrap;
 }
 
 .cke_reset_all textarea,
@@ -102,8 +104,12 @@ http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
 	border: 2px groove #E0DFE3;
 }
 
-.cke_reset_all select {
+.cke_reset_all select
+{
 	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
+}
+
+.cke_reset_all table
+{
+	table-layout: auto;
 }

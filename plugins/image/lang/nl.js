@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'nl', {
-	alertUrl: 'Geef de URL van de afbeelding',
 	alt: 'Alternatieve tekst',
 	border: 'Rand',
 	btnUpload: 'Naar server verzenden',
@@ -23,4 +22,4 @@ CKEDITOR.plugins.setLang( 'image', 'nl', {
 	validateBorder: 'Rand moet een heel nummer zijn.',
 	validateHSpace: 'HSpace moet een heel nummer zijn.',
 	validateVSpace: 'VSpace moet een heel nummer zijn.'
-});
+} );

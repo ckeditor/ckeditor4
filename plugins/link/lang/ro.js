@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'ro', {
 	acccessKey: 'Tasta de acces',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 	anchorName: 'după numele ancorei',
 	charset: 'Setul de caractere al resursei legate',
 	cssClasses: 'Clasele cu stilul paginii (CSS)',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Adresă de e-mail',
 	emailBody: 'Opțiuni Meniu Contextual',
 	emailSubject: 'Subiectul mesajului',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'ro', {
 	type: 'Tipul link-ului (al legăturii web)',
 	unlink: 'Înlătură link (legătură web)',
 	upload: 'Încarcă'
-});
+} );

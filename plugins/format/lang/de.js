@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'de', {
 	label: 'Format',
-	panelTitle: 'Format',
-	tag_address: 'Addresse',
+	panelTitle: 'Absatzformat',
+	tag_address: 'Adresse',
 	tag_div: 'Normal (DIV)',
 	tag_h1: 'Überschrift 1',
 	tag_h2: 'Überschrift 2',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'de', {
 	tag_h6: 'Überschrift 6',
 	tag_p: 'Normal',
 	tag_pre: 'Formatiert'
-});
+} );

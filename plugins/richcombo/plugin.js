@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'richcombo', {
@@ -9,15 +9,15 @@ CKEDITOR.plugins.add( 'richcombo', {
 	beforeInit: function( editor ) {
 		editor.ui.addHandler( CKEDITOR.UI_RICHCOMBO, CKEDITOR.ui.richCombo.handler );
 	}
-});
+} );
 
-(function() {
+( function() {
 	var template = '<span id="{id}"' +
 		' class="cke_combo cke_combo__{name} {cls}"' +
 		' role="presentation">' +
 			'<span id="{id}_label" class="cke_combo_label">{label}</span>' +
-			'<a class="cke_combo_button" hidefocus=true title="{title}" tabindex="-1"' +
-			( CKEDITOR.env.gecko && CKEDITOR.env.version >= 10900 && !CKEDITOR.env.hc ? '' : '" href="javascript:void(\'{titleJs}\')"' ) +
+			'<a class="cke_combo_button" title="{title}" tabindex="-1"' +
+			( CKEDITOR.env.gecko && !CKEDITOR.env.hc ? '' : ' href="javascript:void(\'{titleJs}\')"' ) +
 			' hidefocus="true"' +
 			' role="button"' +
 			' aria-labelledby="{id}_label"' +
@@ -25,8 +25,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
-	// TODO: Check if really needed for Gecko+Mac.
-	if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+	// TODO: Check if really needed.
+	if ( CKEDITOR.env.gecko && CKEDITOR.env.mac )
 		template += ' onkeypress="return false;"';
 
 	// With Firefox, we need to force the button to redraw, otherwise it
@@ -36,7 +36,6 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 	template +=
 		' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event,this);"' +
-		' onmousedown="return CKEDITOR.tools.callFunction({mousedownFn},event);" ' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
 			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
 				'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
@@ -65,7 +64,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 	 * @class
 	 * @todo
 	 */
-	CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass({
+	CKEDITOR.ui.richCombo = CKEDITOR.tools.createClass( {
 		$: function( definition ) {
 			// Copy all definition properties to this object.
 			CKEDITOR.tools.extend( this, definition,
@@ -74,9 +73,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 				// The combo won't participate in toolbar grouping.
 				canGroup: false,
 				title: definition.label,
-				modes: { wysiwyg:1 },
+				modes: { wysiwyg: 1 },
 				editorFocus: 1
-			});
+			} );
 
 			// We don't want the panel definition in this object.
 			var panelDefinition = this.panel || {};
@@ -119,13 +118,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 				var id = 'cke_' + this.id;
 				var clickFn = CKEDITOR.tools.addFunction( function( el ) {
-
-				// Restore locked selection in Opera.
-				if ( selLocked ) {
-					editor.unlockSelection( 1 );
-					selLocked = 0;
-				}
-
+					// Restore locked selection in Opera.
+					if ( selLocked ) {
+						editor.unlockSelection( 1 );
+						selLocked = 0;
+					}
 					instance.execute( el );
 				}, this );
 
@@ -163,12 +160,27 @@ CKEDITOR.plugins.add( 'richcombo', {
 				};
 
 				function updateState() {
+					// Don't change state while richcombo is active (#11793).
+					if ( this.getState() == CKEDITOR.TRISTATE_ON )
+						return;
+
 					var state = this.modes[ editor.mode ] ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
-					this.setState( editor.readOnly && !this.readOnly ? CKEDITOR.TRISTATE_DISABLED : state );
+
+					if ( editor.readOnly && !this.readOnly )
+						state = CKEDITOR.TRISTATE_DISABLED;
+
+					this.setState( state );
 					this.setValue( '' );
+
+					// Let plugin to disable button.
+					if ( state != CKEDITOR.TRISTATE_DISABLED && this.refresh )
+						this.refresh();
 				}
 
+				// Update status when activeFilter, mode, selection or readOnly changes.
+				editor.on( 'activeFilterChange', updateState, this );
 				editor.on( 'mode', updateState, this );
+				editor.on( 'selectionChange', updateState, this );
 				// If this combo is sensitive to readOnly state, update it accordingly.
 				!this.readOnly && editor.on( 'readOnly', updateState, this );
 
@@ -176,6 +188,16 @@ CKEDITOR.plugins.add( 'richcombo', {
 					ev = new CKEDITOR.dom.event( ev );
 
 					var keystroke = ev.getKeystroke();
+
+					// ARROW-DOWN
+					// This call is duplicated in plugins/toolbar/plugin.js in itemKeystroke().
+					// Move focus to the first element after drop down was opened by the arrow down key.
+					if ( keystroke == 40 ) {
+						editor.once( 'panelShow', function( evt ) {
+							evt.data._.panel._.currentBlock.onKeyDown( 40 );
+						} );
+					}
+
 					switch ( keystroke ) {
 						case 13: // ENTER
 						case 32: // SPACE
@@ -190,23 +212,13 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 					// Avoid subsequent focus grab on editor document.
 					ev.preventDefault();
-				});
+				} );
 
 				var focusFn = CKEDITOR.tools.addFunction( function() {
 					instance.onfocus && instance.onfocus();
-				});
+				} );
 
 				var selLocked = 0;
-				var mouseDownFn = CKEDITOR.tools.addFunction( function() {
-					// Opera: lock to prevent loosing editable text selection when clicking on button.
-					if ( CKEDITOR.env.opera ) {
-						var edt = editor.editable();
-						if ( edt.isInline() && edt.hasFocus ) {
-							editor.lockSelection();
-							selLocked = 1;
-						}
-					}
-				});
 
 				// For clean up
 				instance.keyDownFn = keyDownFn;
@@ -217,9 +229,8 @@ CKEDITOR.plugins.add( 'richcombo', {
 					label: this.label,
 					title: this.title,
 					cls: this.className || '',
-					titleJs: env.gecko && env.version >= 10900 && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
+					titleJs: env.gecko && !env.hc ? '' : ( this.title || '' ).replace( "'", '' ),
 					keydownFn: keyDownFn,
-					mousedownFn: mouseDownFn,
 					focusFn: focusFn,
 					clickFn: clickFn
 				};
@@ -249,14 +260,18 @@ CKEDITOR.plugins.add( 'richcombo', {
 
 					me.setState( CKEDITOR.TRISTATE_ON );
 
-					list.focus( !list.multiSelect && me.getValue() );
-
 					me._.on = 1;
 
-					me.editorFocus && editor.focus();
+					me.editorFocus && !editor.focusManager.hasFocus && editor.focus();
 
 					if ( me.onOpen )
 						me.onOpen();
+
+					// The "panelShow" event is fired assinchronously, after the
+					// onShow method call.
+					editor.once( 'panelShow', function() {
+						list.focus( !list.multiSelect && me.getValue() );
+					} );
 				};
 
 				panel.onHide = function( preventOnClose ) {
@@ -303,8 +318,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 					if ( !( value || text ) ) {
 						text = this.label;
 						textElement.addClass( 'cke_combo_inlinelabel' );
-					} else
+					} else {
 						textElement.removeClass( 'cke_combo_inlinelabel' );
+					}
 
 					textElement.setText( typeof text != 'undefined' ? text : value );
 				}
@@ -366,6 +382,10 @@ CKEDITOR.plugins.add( 'richcombo', {
 				this._.state = state;
 			},
 
+			getState: function() {
+				return this._.state;
+			},
+
 			enable: function() {
 				if ( this._.state == CKEDITOR.TRISTATE_DISABLED )
 					this.setState( this._.lastState );
@@ -399,16 +419,16 @@ CKEDITOR.plugins.add( 'richcombo', {
 				}
 			}
 		}
-	});
+	} );
 
 	/**
-	 * @member CKEDITOR.ui
-	 * @param {String}
+	 * @param {String} name
 	 * @param {Object} definition
+	 * @member CKEDITOR.ui
 	 * @todo
 	 */
 	CKEDITOR.ui.prototype.addRichCombo = function( name, definition ) {
 		this.add( name, CKEDITOR.UI_RICHCOMBO, definition );
 	};
 
-})();
+} )();

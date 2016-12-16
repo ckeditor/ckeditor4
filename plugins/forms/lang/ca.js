@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ca', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ca', {
 		checkboxTitle: 'Propietats de la casella de verificació',
 		radioTitle: 'Propietats del botó d\'opció',
 		value: 'Valor',
-		selected: 'Seleccionat'
+		selected: 'Seleccionat',
+		required: 'Necessari'
 	},
 	form: {
 		title: 'Propietats del formulari',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ca', {
 		size: 'Mida',
 		lines: 'Línies',
 		chkMulti: 'Permet múltiples seleccions',
+		required: 'Necessari',
 		opText: 'Text',
 		opValue: 'Valor',
 		btnAdd: 'Afegeix',
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'ca', {
 		value: 'Valor',
 		charWidth: 'Amplada',
 		maxChars: 'Nombre màxim de caràcters',
+		required: 'Necessari',
 		type: 'Tipus',
 		typeText: 'Text',
 		typePass: 'Contrasenya',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Correu electrònic',
+		typeSearch: 'Cercar',
+		typeTel: 'Número de telèfon',
 		typeUrl: 'URL'
 	}
-});
+} );

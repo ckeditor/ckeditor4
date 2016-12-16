@@ -1,0 +1,65 @@
+<textarea id='create_list_table'>
+	<ol>
+		<li>
+			list
+			<table><tr><td>^list in table</td></tr></table>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>list
+			<table>
+				<tbody>
+				<tr>
+					<td>
+						<ol>
+							<li>list in table</li>
+						</ol>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</li>
+	</ol>
+</textarea>
+<textarea id='switch_list_dl'>
+<dl>
+	<dt>
+	Text1
+	</dt>
+	<dd>
+		<ul>
+			<li>
+				Text2</li>
+			<li>
+				Text2^</li>
+			<li>
+				Text2</li>
+			<li>
+				Text2</li>
+			<li>
+				Text2</li>
+			<li>
+				Text2</li>
+		</ul>
+	</dd>
+</dl>
+=>
+<dl>
+	<dt>text1</dt>
+	<dd>
+		<ul>
+			<li>text2</li>
+		</ul>
+		<ol>
+			<li>text2</li>
+		</ol>
+		<ul>
+			<li>text2</li>
+			<li>text2</li>
+			<li>text2</li>
+			<li>text2</li>
+		</ul>
+	</dd>
+</dl>
+</textarea>

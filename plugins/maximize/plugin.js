@@ -1,9 +1,9 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	function protectFormStyles( formElement ) {
 		if ( !formElement || formElement.type != CKEDITOR.NODE_ELEMENT || formElement.getName() != 'form' )
 			return [];
@@ -92,8 +92,11 @@
 	}
 
 	CKEDITOR.plugins.add( 'maximize', {
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		// jscs:disable maximumLineLength
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		icons: 'maximize', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			// Maximize plugin isn't available in inline mode yet.
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
@@ -124,7 +127,9 @@
 				readOnly: 1,
 				editorFocus: false,
 				exec: function() {
-					var container = editor.container.getChild( 1 );
+					var container = editor.container.getFirst( function( node ) {
+						return node.type == CKEDITOR.NODE_ELEMENT && node.hasClass( 'cke_inner' );
+					} );
 					var contents = editor.ui.space( 'contents' );
 
 					// Save current selection and scroll position in editing area.
@@ -138,8 +143,8 @@
 						savedScroll = [ $textarea.scrollLeft, $textarea.scrollTop ];
 					}
 
-					if ( this.state == CKEDITOR.TRISTATE_OFF ) // Go fullscreen if the state is off.
-					{
+					// Go fullscreen if the state is off.
+					if ( this.state == CKEDITOR.TRISTATE_OFF ) {
 						// Add event handler for resizing.
 						mainWindow.on( 'resize', resizeHandler );
 
@@ -176,12 +181,12 @@
 						// Special treatment for FF Quirks (#7284)
 						container.setStyle( 'position', CKEDITOR.env.gecko && CKEDITOR.env.quirks ? 'fixed' : 'absolute' );
 						container.$.offsetLeft; // SAFARI BUG: See #2066.
-						container.setStyles({
+						container.setStyles( {
 							// Show under floatpanels (-1) and context menu (-2).
 							'z-index': editor.config.baseFloatZIndex - 5,
 							left: '0px',
 							top: '0px'
-						});
+						} );
 
 						// Add cke_maximized class before resize handle since that will change things sizes (#5580)
 						container.addClass( 'cke_maximized' );
@@ -190,16 +195,16 @@
 
 						// Still not top left? Fix it. (Bug #174)
 						var offset = container.getDocumentPosition();
-						container.setStyles({
+						container.setStyles( {
 							left: ( -1 * offset.x ) + 'px',
 							top: ( -1 * offset.y ) + 'px'
-						});
+						} );
 
 						// Fixing positioning editor chrome in Firefox break design mode. (#5149)
 						CKEDITOR.env.gecko && refreshCursor( editor );
-
-					} else if ( this.state == CKEDITOR.TRISTATE_ON ) // Restore from fullscreen if the state is on.
-					{
+					}
+					// Restore from fullscreen if the state is on.
+					else if ( this.state == CKEDITOR.TRISTATE_ON ) {
 						// Remove event handler for resizing.
 						mainWindow.removeListener( 'resize', resizeHandler );
 
@@ -234,7 +239,11 @@
 
 						// Emit a resize event, because this time the size is modified in
 						// restoreStyles.
-						editor.fire( 'resize' );
+						editor.fire( 'resize', {
+							outerHeight: editor.container.$.offsetHeight,
+							contentsHeight: contents.$.offsetHeight,
+							outerWidth: editor.container.$.offsetWidth
+						} );
 					}
 
 					this.toggleState();
@@ -247,7 +256,7 @@
 						var buttonNode = CKEDITOR.document.getById( button._.id );
 						buttonNode.getChild( 1 ).setHtml( label );
 						buttonNode.setAttribute( 'title', label );
-						buttonNode.setAttribute( 'href', 'javascript:void("' + label + '");' );
+						buttonNode.setAttribute( 'href', 'javascript:void("' + label + '");' ); // jshint ignore:line
 					}
 
 					// Restore selection and scroll position in editing area.
@@ -259,8 +268,9 @@
 							editor.getSelection().selectRanges( savedSelection );
 							var element = editor.getSelection().getStartElement();
 							element && element.scrollIntoView( true );
-						} else
+						} else {
 							mainWindow.$.scrollTo( savedScroll.x, savedScroll.y );
+						}
 					} else {
 						if ( savedSelection ) {
 							$textarea.selectionStart = savedSelection[ 0 ];
@@ -276,13 +286,13 @@
 					editor.fire( 'maximize', this.state );
 				},
 				canUndo: false
-			});
+			} );
 
 			editor.ui.addButton && editor.ui.addButton( 'Maximize', {
 				label: lang.maximize.maximize,
 				command: 'maximize',
 				toolbar: 'tools,10'
-			});
+			} );
 
 			// Restore the command state after mode change, unless it has been changed to disabled (#6467)
 			editor.on( 'mode', function() {
@@ -290,8 +300,8 @@
 				command.setState( command.state == CKEDITOR.TRISTATE_DISABLED ? CKEDITOR.TRISTATE_DISABLED : savedState );
 			}, null, null, 100 );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Event fired when the maximize command is called.

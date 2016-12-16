@@ -1,0 +1,31 @@
+// Path to samples-framework components.
+@components-dir: "../../node_modules/cksource-samples-framework/components";
+
+// Good 'ol Lesshat.
+@import "../../node_modules/cksource-samples-framework/node_modules/lesshat/build/lesshat";
+
+// Generic components of the page.
+@import "@{components-dir}/global/global";
+@import "@{components-dir}/core/core";
+@import "@{components-dir}/grid/grid";
+@import "@{components-dir}/header-a/header-a";
+@import "@{components-dir}/navigation-a/navigation-a";
+@import "@{components-dir}/navigation-b/navigation-b";
+@import "@{components-dir}/footer-a/footer-a";
+@import "@{components-dir}/content/content";
+@import "@{components-dir}/button-a/button-a";
+@import "@{components-dir}/balloon-a/balloon-a";
+@import "@{components-dir}/icon/icon";
+@import "@{components-dir}/switch/switch";
+@import "@{components-dir}/toggler/toggler";
+@import "@{components-dir}/modal/modal";
+
+// Some shared application-specific components and extensions.
+@import "@{components-dir}/basicsample/core";
+@import "@{components-dir}/basicsample/adjoined";
+
+// Custom components that do not belong to samples-framework.
+@import "custom";
+
+// Toolbar modifier.
+@import "../toolbarconfigurator/less/toolbarmodifier";

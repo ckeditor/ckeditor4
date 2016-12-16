@@ -1,17 +1,18 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/* global ActiveXObject */
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
- * @fileOverview Defines the {@link CKEDITOR.ajax} object, which holds ajax methods for
+ * @fileOverview Defines the {@link CKEDITOR.ajax} object, which stores Ajax methods for
  *		data loading.
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'ajax', {
 		requires: 'xml'
-	});
+	} );
 
 	/**
 	 * Ajax methods for data loading.
@@ -19,77 +20,101 @@
 	 * @class
 	 * @singleton
 	 */
-	CKEDITOR.ajax = (function() {
-		var createXMLHttpRequest = function() {
-				// In IE, using the native XMLHttpRequest for local files may throw
-				// "Access is Denied" errors.
-				if ( !CKEDITOR.env.ie || location.protocol != 'file:' )
-					try {
+	CKEDITOR.ajax = ( function() {
+		function createXMLHttpRequest() {
+			// In IE, using the native XMLHttpRequest for local files may throw
+			// "Access is Denied" errors.
+			if ( !CKEDITOR.env.ie || location.protocol != 'file:' ) {
+				try {
 					return new XMLHttpRequest();
-				} catch ( e ) {}
-
-				try {
-					return new ActiveXObject( 'Msxml2.XMLHTTP' );
-				} catch ( e ) {}
-				try {
-					return new ActiveXObject( 'Microsoft.XMLHTTP' );
-				} catch ( e ) {}
-
-				return null;
-			};
-
-		var checkStatus = function( xhr ) {
-				// HTTP Status Codes:
-				//	 2xx : Success
-				//	 304 : Not Modified
-				//	   0 : Returned when running locally (file://)
-				//	1223 : IE may change 204 to 1223 (see http://dev.jquery.com/ticket/1450)
-
-				return ( xhr.readyState == 4 && ( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status == 304 || xhr.status === 0 || xhr.status == 1223 ) );
-			};
-
-		var getResponseText = function( xhr ) {
-				if ( checkStatus( xhr ) )
-					return xhr.responseText;
-				return null;
-			};
-
-		var getResponseXml = function( xhr ) {
-				if ( checkStatus( xhr ) ) {
-					var xml = xhr.responseXML;
-					return new CKEDITOR.xml( xml && xml.firstChild ? xml : xhr.responseText );
+				} catch ( e ) {
 				}
+			}
+
+			try {
+				return new ActiveXObject( 'Msxml2.XMLHTTP' );
+			} catch ( e ) {}
+			try {
+				return new ActiveXObject( 'Microsoft.XMLHTTP' );
+			} catch ( e ) {}
+
+			return null;
+		}
+
+		function checkStatus( xhr ) {
+			// HTTP Status Codes:
+			//	 2xx : Success
+			//	 304 : Not Modified
+			//	   0 : Returned when running locally (file://)
+			//	1223 : IE may change 204 to 1223 (see http://dev.jquery.com/ticket/1450)
+
+			return ( xhr.readyState == 4 && ( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status == 304 || xhr.status === 0 || xhr.status == 1223 ) );
+		}
+
+		function getResponseText( xhr ) {
+			if ( checkStatus( xhr ) )
+				return xhr.responseText;
+			return null;
+		}
+
+		function getResponseXml( xhr ) {
+			if ( checkStatus( xhr ) ) {
+				var xml = xhr.responseXML;
+				return new CKEDITOR.xml( xml && xml.firstChild ? xml : xhr.responseText );
+			}
+			return null;
+		}
+
+		function load( url, callback, getResponseFn ) {
+			var async = !!callback;
+
+			var xhr = createXMLHttpRequest();
+
+			if ( !xhr )
 				return null;
-			};
 
-		var load = function( url, callback, getResponseFn ) {
-				var async = !!callback;
+			xhr.open( 'GET', url, async );
 
-				var xhr = createXMLHttpRequest();
+			if ( async ) {
+				// TODO: perform leak checks on this closure.
+				xhr.onreadystatechange = function() {
+					if ( xhr.readyState == 4 ) {
+						callback( getResponseFn( xhr ) );
+						xhr = null;
+					}
+				};
+			}
 
-				if ( !xhr )
-					return null;
+			xhr.send( null );
 
-				xhr.open( 'GET', url, async );
+			return async ? '' : getResponseFn( xhr );
+		}
 
-				if ( async ) {
-					// TODO: perform leak checks on this closure.
-					xhr.onreadystatechange = function() {
-						if ( xhr.readyState == 4 ) {
-							callback( getResponseFn( xhr ) );
-							xhr = null;
-						}
-					};
+		function post( url, data, contentType, callback, getResponseFn ) {
+			var xhr = createXMLHttpRequest();
+
+			if ( !xhr )
+				return null;
+
+			xhr.open( 'POST', url, true );
+
+			xhr.onreadystatechange = function() {
+				if ( xhr.readyState == 4 ) {
+					if ( callback ) {
+						callback( getResponseFn( xhr ) );
+					}
+					xhr = null;
 				}
-
-				xhr.send( null );
-
-				return async ? '' : getResponseFn( xhr );
 			};
+
+			xhr.setRequestHeader( 'Content-type', contentType || 'application/x-www-form-urlencoded; charset=UTF-8' );
+
+			xhr.send( data );
+		}
 
 		return {
 			/**
-			 * Loads data from an URL as plain text.
+			 * Loads data from a URL as plain text.
 			 *
 			 *		// Load data synchronously.
 			 *		var data = CKEDITOR.ajax.load( 'somedata.txt' );
@@ -100,7 +125,7 @@
 			 *			alert( data );
 			 *		} );
 			 *
-			 * @param {String} url The URL from which load data.
+			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded
 			 * synchronously.
@@ -112,7 +137,31 @@
 			},
 
 			/**
-			 * Loads data from an URL as XML.
+			 * Creates an asynchronous POST `XMLHttpRequest` of the given `url`, `data` and optional `contentType`.
+			 * Once the request is done, regardless if it is successful or not, the `callback` is called
+			 * with `XMLHttpRequest#responseText` or `null` as an argument.
+			 *
+			 *		CKEDITOR.ajax.post( 'url/post.php', 'foo=bar', null, function( data ) {
+			 *			console.log( data );
+			 *		} );
+			 *
+			 *		CKEDITOR.ajax.post( 'url/post.php', JSON.stringify( { foo: 'bar' } ), 'application/json', function( data ) {
+			 *			console.log( data );
+			 *		} );
+			 *
+			 * @since 4.4
+			 * @param {String} url The URL of the request.
+			 * @param {String/Object/Array} data Data passed to `XMLHttpRequest#send`.
+			 * @param {String} [contentType='application/x-www-form-urlencoded; charset=UTF-8'] The value of the `Content-type` header.
+			 * @param {Function} [callback] A callback executed asynchronously with `XMLHttpRequest#responseText` or `null` as an argument,
+			 * depending on the `status` of the request.
+			 */
+			post: function( url, data, contentType, callback ) {
+				return post( url, data, contentType, callback, getResponseText );
+			},
+
+			/**
+			 * Loads data from a URL as XML.
 			 *
 			 *		// Load XML synchronously.
 			 *		var xml = CKEDITOR.ajax.loadXml( 'somedata.xml' );
@@ -123,16 +172,16 @@
 			 *			alert( xml.getInnerXml( '//' ) );
 			 *		} );
 			 *
-			 * @param {String} url The URL from which load data.
+			 * @param {String} url The URL from which the data is loaded.
 			 * @param {Function} [callback] A callback function to be called on
 			 * data load. If not provided, the data will be loaded synchronously.
-			 * @returns {CKEDITOR.xml} An XML object holding the loaded data. For asynchronous requests, an
+			 * @returns {CKEDITOR.xml} An XML object storing the loaded data. For asynchronous requests, an
 			 * empty string. For invalid requests, `null`.
 			 */
 			loadXml: function( url, callback ) {
 				return load( url, callback, getResponseXml );
 			}
 		};
-	})();
+	} )();
 
-})();
+} )();

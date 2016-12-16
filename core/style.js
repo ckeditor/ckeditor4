@@ -1,67 +1,55 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+
+'use strict';
 
 /**
- * Registers a function to be called whenever the selection position changes in the
- * editing area. The current state is passed to the function. The possible
- * states are {@link CKEDITOR#TRISTATE_ON} and {@link CKEDITOR#TRISTATE_OFF}.
+ * Block style type.
  *
- *		// Create a style object for the <b> element.
- *		var style = new CKEDITOR.style( { element: 'b' } );
- *		var editor = CKEDITOR.instances.editor1;
- *		editor.attachStyleStateChange( style, function( state ) {
- *			if ( state == CKEDITOR.TRISTATE_ON )
- *				alert( 'The current state for the B element is ON' );
- *			else
- *				alert( 'The current state for the B element is OFF' );
- *		} );
+ * Read more in the {@link CKEDITOR.style} class documentation.
  *
- * @member CKEDITOR.editor
- * @param {CKEDITOR.style} style The style to be watched.
- * @param {Function} callback The function to be called.
+ * @readonly
+ * @property {Number} [=1]
+ * @member CKEDITOR
  */
-CKEDITOR.editor.prototype.attachStyleStateChange = function( style, callback ) {
-	// Try to get the list of attached callbacks.
-	var styleStateChangeCallbacks = this._.styleStateChangeCallbacks;
-
-	// If it doesn't exist, it means this is the first call. So, let's create
-	// all the structure to manage the style checks and the callback calls.
-	if ( !styleStateChangeCallbacks ) {
-		// Create the callbacks array.
-		styleStateChangeCallbacks = this._.styleStateChangeCallbacks = [];
-
-		// Attach to the selectionChange event, so we can check the styles at
-		// that point.
-		this.on( 'selectionChange', function( ev ) {
-			// Loop throw all registered callbacks.
-			for ( var i = 0; i < styleStateChangeCallbacks.length; i++ ) {
-				var callback = styleStateChangeCallbacks[ i ];
-
-				// Check the current state for the style defined for that
-				// callback.
-				var currentState = callback.style.checkActive( ev.data.path ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-
-				// Call the callback function, passing the current
-				// state to it.
-				callback.fn.call( this, currentState );
-			}
-		});
-	}
-
-	// Save the callback info, so it can be checked on the next occurrence of
-	// selectionChange.
-	styleStateChangeCallbacks.push( { style: style, fn: callback } );
-};
-
 CKEDITOR.STYLE_BLOCK = 1;
+
+/**
+ * Inline style type.
+ *
+ * Read more in the {@link CKEDITOR.style} class documentation.
+ *
+ * @readonly
+ * @property {Number} [=2]
+ * @member CKEDITOR
+ */
 CKEDITOR.STYLE_INLINE = 2;
+
+/**
+ * Object style type.
+ *
+ * Read more in the {@link CKEDITOR.style} class documentation.
+ *
+ * @readonly
+ * @property {Number} [=3]
+ * @member CKEDITOR
+ */
 CKEDITOR.STYLE_OBJECT = 3;
 
-(function() {
-	var blockElements = { address:1,div:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,p:1,pre:1,section:1,header:1,footer:1,nav:1,article:1,aside:1,figure:1,dialog:1,hgroup:1,time:1,meter:1,menu:1,command:1,keygen:1,output:1,progress:1,details:1,datagrid:1,datalist:1 },
-		objectElements = { a:1,embed:1,hr:1,img:1,li:1,object:1,ol:1,table:1,td:1,tr:1,th:1,ul:1,dl:1,dt:1,dd:1,form:1,audio:1,video:1 };
+( function() {
+	var blockElements = {
+			address: 1, div: 1, h1: 1, h2: 1, h3: 1, h4: 1, h5: 1, h6: 1, p: 1,
+			pre: 1, section: 1, header: 1, footer: 1, nav: 1, article: 1, aside: 1, figure: 1,
+			dialog: 1, hgroup: 1, time: 1, meter: 1, menu: 1, command: 1, keygen: 1, output: 1,
+			progress: 1, details: 1, datagrid: 1, datalist: 1
+		},
+
+		objectElements = {
+			a: 1, blockquote: 1, embed: 1, hr: 1, img: 1, li: 1, object: 1, ol: 1, table: 1, td: 1,
+			tr: 1, th: 1, ul: 1, dl: 1, dt: 1, dd: 1, form: 1, audio: 1, video: 1
+		};
 
 	var semicolonFixRegex = /\s*(?:;\s*|$)/,
 		varRegex = /#\((.+?)\)/g;
@@ -70,15 +58,90 @@ CKEDITOR.STYLE_OBJECT = 3;
 		nonWhitespaces = CKEDITOR.dom.walker.whitespaces( 1 );
 
 	/**
-	 * TODO...
+	 * A class representing a style instance for the specific style definition.
+	 * In this approach, a style is a set of properties, like attributes and styles,
+	 * which can be applied to and removed from a {@link CKEDITOR.dom.selection selection} through
+	 * {@link CKEDITOR.editor editor} methods: {@link CKEDITOR.editor#applyStyle} and {@link CKEDITOR.editor#removeStyle},
+	 * respectively.
+	 *
+	 * Three default style types are available: {@link CKEDITOR#STYLE_BLOCK STYLE_BLOCK}, {@link CKEDITOR#STYLE_INLINE STYLE_INLINE},
+	 * and {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}. Based on its type, a style heavily changes its behavior.
+	 * You can read more about style types in the [Style Types section of the Styles guide](#!/guide/dev_styles-section-style-types).
+	 *
+	 * It is possible to define a custom style type by subclassing this class by using the {@link #addCustomHandler} method.
+	 * However, because of great complexity of the styles handling job, it is only possible in very specific cases.
+	 *
+	 * ### Usage
+	 *
+	 * Basic usage:
+	 *
+	 *		// Define a block style.
+	 *		var style = new CKEDITOR.style( { element: 'h1' } );
+	 *
+	 *		// Considering the following selection:
+	 *		// <p>Foo</p><p>Bar^</p>
+	 *		// Executing:
+	 *		editor.applyStyle( style );
+	 *		// Will give:
+	 *		// <p>Foo</p><h1>Bar^</h1>
+	 *		style.checkActive( editor.elementPath(), editor ); // -> true
+	 *
+	 *		editor.removeStyle( style );
+	 *		// Will give:
+	 *		// <p>Foo</p><p>Bar^</p>
+	 *
+	 *		style.checkActive( editor.elementPath(), editor ); // -> false
+	 *
+	 * Object style:
+	 *
+	 *		// Define an object style.
+	 *		var style = new CKEDITOR.style( { element: 'img', attributes: { 'class': 'foo' } } );
+	 *
+	 *		// Considering the following selection:
+	 *		// <p><img src="bar.png" alt="" />Foo^</p>
+	 *		// Executing:
+	 *		editor.applyStyle( style );
+	 *		// Will not apply the style, because the image is not selected.
+	 *		// You can check if a style can be applied on the current selection with:
+	 *		style.checkApplicable( editor.elementPath(), editor ); // -> false
+	 *
+	 *		// Considering the following selection:
+	 *		// <p>[<img src="bar.png" alt="" />]Foo</p>
+	 *		// Executing
+	 *		editor.applyStyle( style );
+	 *		// Will give:
+	 *		// <p>[<img src="bar.png" alt="" class="foo" />]Foo</p>
+	 *
+	 * ### API changes introduced in CKEditor 4.4
+	 *
+	 * Before CKEditor 4.4 all style instances had no access at all to the {@link CKEDITOR.editor editor instance}
+	 * within which the style is used. Neither the style constructor, nor style methods were requiring
+	 * passing the editor instance which made styles independent of the editor and hence its settings and state.
+	 * This design decision came from CKEditor 3; it started causing problems and became an unsolvable obstacle for
+	 * the {@link CKEDITOR.style.customHandlers.widget widget style handler} which we introduced in CKEditor 4.4.
+	 *
+	 * There were two possible solutions. Passing an editor instance to the style constructor or to every method.
+	 * The first approach would be clean, however, having in mind the backward compatibility, we did not decide
+	 * to go for it. It would bind the style to one editor instance, making it unusable with other editor instances.
+	 * That could break many implementations reusing styles between editors. Therefore, we decided to take the longer
+	 * but safer path &mdash; the editor instance became an argument for nearly all style methods, however,
+	 * for backward compatibility reasons, all these methods will work without it. Even the newly
+	 * implemented {@link CKEDITOR.style.customHandlers.widget widget style handler}'s methods will not fail,
+	 * although they will also not work by aborting at an early stage.
+	 *
+	 * Therefore, you can safely upgrade to CKEditor 4.4 even if you use style methods without providing
+	 * the editor instance. You must only align your code if your implementation should handle widget styles
+	 * or any other custom style handler. Of course, we recommend doing this in any case to avoid potential
+	 * problems in the future.
 	 *
 	 * @class
 	 * @constructor Creates a style class instance.
 	 * @param styleDefinition
 	 * @param variablesValues
-	 * @todo
 	 */
 	CKEDITOR.style = function( styleDefinition, variablesValues ) {
+		if ( typeof styleDefinition.type == 'string' )
+			return new CKEDITOR.style.customHandlers[ styleDefinition.type ]( styleDefinition );
 
 		// Inline style text as attribute should be converted
 		// to styles object.
@@ -97,14 +160,17 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		var element = this.element = styleDefinition.element ?
-		                             (typeof styleDefinition.element == 'string' ?
-		                              styleDefinition.element.toLowerCase() :
-		                              styleDefinition.element ) : '*';
+			(
+				typeof styleDefinition.element == 'string' ?
+					styleDefinition.element.toLowerCase() : styleDefinition.element
+			) : '*';
 
 		this.type = styleDefinition.type ||
-		            (blockElements[ element ] ? CKEDITOR.STYLE_BLOCK :
-		             objectElements[ element ] ? CKEDITOR.STYLE_OBJECT :
-		             CKEDITOR.STYLE_INLINE );
+			(
+				blockElements[ element ] ? CKEDITOR.STYLE_BLOCK :
+				objectElements[ element ] ? CKEDITOR.STYLE_OBJECT :
+				CKEDITOR.STYLE_INLINE
+			);
 
 		// If the 'element' property is an object with a set of possible element, it will be applied like an object style: only to existing elements
 		if ( typeof this.element == 'object' )
@@ -115,85 +181,149 @@ CKEDITOR.STYLE_OBJECT = 3;
 		};
 	};
 
-	/**
-	 * Apply the style upon the editor's current selection.
-	 *
-	 * @member CKEDITOR.editor
-	 * @param {CKEDITOR.style} style
-	 */
-	CKEDITOR.editor.prototype.applyStyle = function( style ) {
-		applyStyleOnSelection.call( style, this.getSelection() );
-	};
-
-	/**
-	 * Remove the style from the editor's current selection.
-	 *
-	 * @member CKEDITOR.editor
-	 * @param {CKEDITOR.style} style
-	 */
-	CKEDITOR.editor.prototype.removeStyle = function( style ) {
-		applyStyleOnSelection.call( style, this.getSelection(), 1 );
-	};
-
 	CKEDITOR.style.prototype = {
 		/**
-		 * @param {CKEDITOR.dom.document} document
-		 * @todo
+		 * Applies the style on the editor's current selection.
+		 *
+		 * Before the style is applied, the method checks if the {@link #checkApplicable style is applicable}.
+		 *
+		 * **Note:** The recommended way of applying the style is by using the
+		 * {@link CKEDITOR.editor#applyStyle} method, which is a shorthand for this method.
+		 *
+		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
+		 * the style will be applied.
+		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
+		 * reasons, although since CKEditor 4.4 this type of argument is deprecated. Read more about
+		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
-		apply: function( document ) {
-			applyStyleOnSelection.call( this, document.getSelection() );
+		apply: function( editor ) {
+			// Backward compatibility.
+			if ( editor instanceof CKEDITOR.dom.document )
+				return applyStyleOnSelection.call( this, editor.getSelection() );
+
+			if ( this.checkApplicable( editor.elementPath(), editor ) ) {
+				var initialEnterMode = this._.enterMode;
+
+				// See comment in removeStyle.
+				if ( !initialEnterMode )
+					this._.enterMode = editor.activeEnterMode;
+				applyStyleOnSelection.call( this, editor.getSelection(), 0, editor );
+				this._.enterMode = initialEnterMode;
+			}
 		},
 
 		/**
-		 * @param {CKEDITOR.dom.document} document
-		 * @todo
+		 * Removes the style from the editor's current selection.
+		 *
+		 * Before the style is applied, the method checks if {@link #checkApplicable style could be applied}.
+		 *
+		 * **Note:** The recommended way of removing the style is by using the
+		 * {@link CKEDITOR.editor#removeStyle} method, which is a shorthand for this method.
+		 *
+		 * @param {CKEDITOR.editor/CKEDITOR.dom.document} editor The editor instance in which
+		 * the style will be removed.
+		 * A {@link CKEDITOR.dom.document} instance is accepted for backward compatibility
+		 * reasons, although since CKEditor 4.4 this type of argument is deprecated. Read more about
+		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
-		remove: function( document ) {
-			applyStyleOnSelection.call( this, document.getSelection(), 1 );
+		remove: function( editor ) {
+			// Backward compatibility.
+			if ( editor instanceof CKEDITOR.dom.document )
+				return applyStyleOnSelection.call( this, editor.getSelection(), 1 );
+
+			if ( this.checkApplicable( editor.elementPath(), editor ) ) {
+				var initialEnterMode = this._.enterMode;
+
+				// Before CKEditor 4.4 style knew nothing about editor, so in order to provide enterMode
+				// which should be used developers were forced to hack the style object (see #10190).
+				// Since CKEditor 4.4 style knows about editor (at least when it's being applied/removed), but we
+				// use _.enterMode for backward compatibility with those hacks.
+				// Note: we should not change style's enter mode if it was already set.
+				if ( !initialEnterMode )
+					this._.enterMode = editor.activeEnterMode;
+				applyStyleOnSelection.call( this, editor.getSelection(), 1, editor );
+				this._.enterMode = initialEnterMode;
+			}
 		},
 
 		/**
+		 * Applies the style on the provided range. Unlike {@link #apply} this
+		 * method does not take care of setting the selection, however, the range
+		 * is updated to the correct place.
+		 *
+		 * **Note:** If you want to apply the style on the editor selection,
+		 * you probably want to use {@link CKEDITOR.editor#applyStyle}.
+		 *
 		 * @param {CKEDITOR.dom.range} range
-		 * @todo
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it is highly
+		 * recommended to provide it for integration with all features.  Read more about
+		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
 		applyToRange: function( range ) {
-			return ( this.applyToRange =
-			         this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle :
-			         this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle :
-			         this.type == CKEDITOR.STYLE_OBJECT ? applyObjectStyle :
-			         null ).call( this, range );
+			this.applyToRange =
+				this.type == CKEDITOR.STYLE_INLINE ? applyInlineStyle :
+				this.type == CKEDITOR.STYLE_BLOCK ? applyBlockStyle :
+				this.type == CKEDITOR.STYLE_OBJECT ? applyObjectStyle :
+				null;
+
+			return this.applyToRange( range );
 		},
 
 		/**
+		 * Removes the style from the provided range. Unlike {@link #remove} this
+		 * method does not take care of setting the selection, however, the range
+		 * is updated to the correct place.
+		 *
+		 * **Note:** If you want to remove the style from the editor selection,
+		 * you probably want to use {@link CKEDITOR.editor#removeStyle}.
+		 *
 		 * @param {CKEDITOR.dom.range} range
-		 * @todo
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it is highly
+		 * recommended to provide it for integration with all features. Read more about
+		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
 		removeFromRange: function( range ) {
-			return ( this.removeFromRange =
-			         this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle :
-			         this.type == CKEDITOR.STYLE_BLOCK ? removeBlockStyle :
-			         this.type == CKEDITOR.STYLE_OBJECT ? removeObjectStyle :
-			         null ).call( this, range );
+			this.removeFromRange =
+				this.type == CKEDITOR.STYLE_INLINE ? removeInlineStyle :
+				this.type == CKEDITOR.STYLE_BLOCK ? removeBlockStyle :
+				this.type == CKEDITOR.STYLE_OBJECT ? removeObjectStyle :
+				null;
+
+			return this.removeFromRange( range );
 		},
 
 		/**
+		 * Applies the style to the element. This method bypasses all checks
+		 * and applies the style attributes directly on the provided element. Use with caution.
+		 *
+		 * See {@link CKEDITOR.editor#applyStyle}.
+		 *
 		 * @param {CKEDITOR.dom.element} element
-		 * @todo
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it is highly
+		 * recommended to provide it for integration with all features. Read more about
+		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 */
 		applyToObject: function( element ) {
 			setupElement( element, this );
 		},
 
 		/**
-		 * Get the style state inside an element path.
+		 * Gets the style state inside the elements path.
 		 *
 		 * @param {CKEDITOR.dom.elementPath} elementPath
-		 * @returns {Boolean} `true` if the element is active in the path.
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it is highly
+		 * recommended to provide it for integration with all features. Read more about
+		 * the signature change in the {@link CKEDITOR.style} documentation.
+		 * @returns {Boolean} `true` if the element is active in the elements path.
 		 */
-		checkActive: function( elementPath ) {
+		checkActive: function( elementPath, editor ) {
 			switch ( this.type ) {
 				case CKEDITOR.STYLE_BLOCK:
-					return this.checkElementRemovable( elementPath.block || elementPath.blockLimit, true );
+					return this.checkElementRemovable( elementPath.block || elementPath.blockLimit, true, editor );
 
 				case CKEDITOR.STYLE_OBJECT:
 				case CKEDITOR.STYLE_INLINE:
@@ -212,7 +342,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 								continue;
 						}
 
-						if ( this.checkElementRemovable( element, true ) )
+						if ( this.checkElementRemovable( element, true, editor ) )
 							return true;
 					}
 			}
@@ -220,31 +350,46 @@ CKEDITOR.STYLE_OBJECT = 3;
 		},
 
 		/**
-		 * Whether this style can be applied at the element path.
+		 * Whether this style can be applied at the specified elements path.
 		 *
-		 * @param {CKEDITOR.dom.elementPath} elementPath
-		 * @returns {Boolean} `true` if this style can be applied at the element path.
+		 * @param {CKEDITOR.dom.elementPath} elementPath The elements path to
+		 * check the style against.
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it is highly
+		 * recommended to provide it for integration with all features. Read more about
+		 * the signature change in the {@link CKEDITOR.style} documentation.
+		 * @param {CKEDITOR.filter} [filter] If defined, the style will be
+		 * checked against this filter as well.
+		 * @returns {Boolean} `true` if this style can be applied at the elements path.
 		 */
-		checkApplicable: function( elementPath ) {
-			switch ( this.type ) {
-				case CKEDITOR.STYLE_INLINE:
-				case CKEDITOR.STYLE_BLOCK:
-					break;
+		checkApplicable: function( elementPath, editor, filter ) {
+			// Backward compatibility.
+			if ( editor && editor instanceof CKEDITOR.filter )
+				filter = editor;
 
+			if ( filter && !filter.check( this ) )
+				return false;
+
+			switch ( this.type ) {
 				case CKEDITOR.STYLE_OBJECT:
-					return elementPath.contains( this.element );
+					return !!elementPath.contains( this.element );
+				case CKEDITOR.STYLE_BLOCK:
+					return !!elementPath.blockLimit.getDtd()[ this.element ];
 			}
 
 			return true;
 		},
 
 		/**
-		 * Check if the element matches the current style definition.
+		 * Checks if the element matches the current style definition.
 		 *
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {Boolean} fullMatch
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it is highly
+		 * recommended to provide it for integration with all features. Read more about
+		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 * @returns {Boolean}
-		 * @todo
 		 */
 		checkElementMatch: function( element, fullMatch ) {
 			var def = this._.definition;
@@ -271,19 +416,18 @@ CKEDITOR.STYLE_OBJECT = 3;
 						var elementAttr = element.getAttribute( attName ) || '';
 
 						// Special treatment for 'style' attribute is required.
-						if ( attName == 'style' ?
-						     compareCssText( attribs[ attName ], elementAttr ) :
-						     attribs[ attName ] == elementAttr )
-						{
+						if ( attName == 'style' ? compareCssText( attribs[ attName ], elementAttr ) : attribs[ attName ] == elementAttr ) {
 							if ( !fullMatch )
 								return true;
-						} else if ( fullMatch )
+						} else if ( fullMatch ) {
 							return false;
+						}
 					}
 					if ( fullMatch )
 						return true;
-				} else
+				} else {
 					return true;
+				}
 			}
 
 			return false;
@@ -295,12 +439,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 		 *
 		 * @param {CKEDITOR.dom.element} element
 		 * @param {Boolean} fullMatch
+		 * @param {CKEDITOR.editor} editor The editor instance. Required argument since
+		 * CKEditor 4.4. The style system will work without it, but it is highly
+		 * recommended to provide it for integration with all features. Read more about
+		 * the signature change in the {@link CKEDITOR.style} documentation.
 		 * @returns {Boolean}
-		 * @todo
 		 */
-		checkElementRemovable: function( element, fullMatch ) {
+		checkElementRemovable: function( element, fullMatch, editor ) {
 			// Check element matches the style itself.
-			if ( this.checkElementMatch( element, fullMatch ) )
+			if ( this.checkElementMatch( element, fullMatch, editor ) )
 				return true;
 
 			// Check if the element matches the style overrides.
@@ -324,11 +471,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 						//      matches the attribute value exactly.
 						//    - The override definition value is a regex that
 						//      has matches in the attribute value.
-						if ( attValue === null ||
-						     ( typeof attValue == 'string' &&
-						       actualAttrValue == attValue ) ||
-						     attValue.test( actualAttrValue ) )
+						if ( attValue === null )
 							return true;
+						if ( typeof attValue == 'string' ) {
+							if ( actualAttrValue == attValue )
+								return true;
+						} else if ( attValue.test( actualAttrValue ) ) {
+							return true;
+						}
 					}
 				}
 			}
@@ -338,8 +488,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 		/**
 		 * Builds the preview HTML based on the styles definition.
 		 *
-		 * @param label
-		 * @todo
+		 * @param {String} [label] The label used in the style preview.
+		 * @return {String} The HTML of preview.
 		 */
 		buildPreview: function( label ) {
 			var styleDefinition = this._.definition,
@@ -355,9 +505,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// Assign all defined attributes.
 			var attribs = styleDefinition.attributes;
 			if ( attribs ) {
-				for ( var att in attribs ) {
+				for ( var att in attribs )
 					html.push( ' ', att, '="', attribs[ att ], '"' );
-				}
 			}
 
 			// Assign the style attribute.
@@ -368,16 +517,38 @@ CKEDITOR.STYLE_OBJECT = 3;
 			html.push( '>', ( label || styleDefinition.name ), '</', elementName, '>' );
 
 			return html.join( '' );
+		},
+
+		/**
+		 * Returns the style definition.
+		 *
+		 * @since 4.1
+		 * @returns {Object}
+		 */
+		getDefinition: function() {
+			return this._.definition;
 		}
+
+		/**
+		 * If defined (for example by {@link CKEDITOR.style#addCustomHandler custom style handler}), it returns
+		 * the {@link CKEDITOR.filter.allowedContentRules allowed content rules} which should be added to the
+		 * {@link CKEDITOR.filter} when enabling this style.
+		 *
+		 * **Note:** This method is not defined in the {@link CKEDITOR.style} class.
+		 *
+		 * @since 4.4
+		 * @method toAllowedContentRules
+		 * @param {CKEDITOR.editor} [editor] The editor instance.
+		 * @returns {CKEDITOR.filter.allowedContentRules} The rules that should represent this style in the {@link CKEDITOR.filter}.
+		 */
 	};
 
 	/**
-	 * Build the cssText based on the styles definition.
+	 * Builds the inline style text based on the style definition.
 	 *
 	 * @static
 	 * @param styleDefinition
-	 * @returns {String}
-	 * @todo
+	 * @returns {String} Inline style text.
 	 */
 	CKEDITOR.style.getStyleText = function( styleDefinition ) {
 		// If we have already computed it, just return it.
@@ -388,7 +559,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		stylesDef = styleDefinition.styles;
 
 		// Builds the StyleText.
-		var stylesText = ( styleDefinition.attributes && styleDefinition.attributes[ 'style' ] ) || '',
+		var stylesText = ( styleDefinition.attributes && styleDefinition.attributes.style ) || '',
 			specialStylesText = '';
 
 		if ( stylesText.length )
@@ -416,6 +587,144 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return ( styleDefinition._ST = stylesText );
 	};
 
+	/**
+	 * Namespace containing custom style handlers added with {@link CKEDITOR.style#addCustomHandler}.
+	 *
+	 * @since 4.4
+	 * @class
+	 * @singleton
+	 */
+	CKEDITOR.style.customHandlers = {};
+
+	/**
+	 * Creates a {@link CKEDITOR.style} subclass and registers it in the style system.
+	 * Registered class will be used as a handler for a style of this type. This allows
+	 * to extend the styles system, which by default uses only the {@link CKEDITOR.style}, with
+	 * new functionality. Registered classes are accessible in the {@link CKEDITOR.style.customHandlers}.
+	 *
+	 * ### The Style Class Definition
+	 *
+	 * The definition object is used to override properties in a prototype inherited
+	 * from the {@link CKEDITOR.style} class. It must contain a `type` property which is
+	 * a name of the new type and therefore it must be unique. The default style types
+	 * ({@link CKEDITOR#STYLE_BLOCK STYLE_BLOCK}, {@link CKEDITOR#STYLE_INLINE STYLE_INLINE},
+	 * and {@link CKEDITOR#STYLE_OBJECT STYLE_OBJECT}) are integers, but for easier identification
+	 * it is recommended to use strings as custom type names.
+	 *
+	 * Besides `type`, the definition may contain two more special properties:
+	 *
+	 *  * `setup {Function}` &ndash; An optional callback executed when a style instance is created.
+	 * Like the style constructor, it is executed in style context and with the style definition as an argument.
+	 *  * `assignedTo {Number}` &ndash; Can be set to one of the default style types. Some editor
+	 * features like the Styles drop-down assign styles to one of the default groups based on
+	 * the style type. By using this property it is possible to notify them to which group this
+	 * custom style should be assigned. It defaults to the {@link CKEDITOR#STYLE_OBJECT}.
+	 *
+	 * Other properties of the definition object will just be used to extend the prototype inherited
+	 * from the {@link CKEDITOR.style} class. So if the definition contains an `apply` method, it will
+	 * override the {@link CKEDITOR.style#apply} method.
+	 *
+	 * ### Usage
+	 *
+	 * Registering a basic handler:
+	 *
+	 *		var styleClass = CKEDITOR.style.addCustomHandler( {
+	 *			type: 'custom'
+	 *		} );
+	 *
+	 *		var style = new styleClass( { ... } );
+	 *		style instanceof styleClass; // -> true
+	 *		style instanceof CKEDITOR.style; // -> true
+	 *		style.type; // -> 'custom'
+	 *
+	 * The {@link CKEDITOR.style} constructor used as a factory:
+	 *
+	 *		var styleClass = CKEDITOR.style.addCustomHandler( {
+	 *			type: 'custom'
+	 *		} );
+	 *
+	 *		// Style constructor accepts style definition (do not confuse with style class definition).
+	 *		var style = new CKEDITOR.style( { type: 'custom', attributes: ... } );
+	 *		style instanceof styleClass; // -> true
+	 *
+	 * Thanks to that, integration code using styles does not need to know
+	 * which style handler it should use. It is determined by the {@link CKEDITOR.style} constructor.
+	 *
+	 * Overriding existing {@link CKEDITOR.style} methods:
+	 *
+	 *		var styleClass = CKEDITOR.style.addCustomHandler( {
+	 *			type: 'custom',
+	 *			apply: function( editor ) {
+	 *				console.log( 'apply' );
+	 *			},
+	 *			remove: function( editor ) {
+	 *				console.log( 'remove' );
+	 *			}
+	 *		} );
+	 *
+	 *		var style = new CKEDITOR.style( { type: 'custom', attributes: ... } );
+	 *		editor.applyStyle( style ); // logged 'apply'
+	 *
+	 *		style = new CKEDITOR.style( { element: 'img', attributes: { 'class': 'foo' } } );
+	 *		editor.applyStyle( style ); // style is really applied if image was selected
+	 *
+	 * ### Practical Recommendations
+	 *
+	 * The style handling job, which includes such tasks as applying, removing, checking state, and
+	 * checking if a style can be applied, is very complex. Therefore without deep knowledge
+	 * about DOM and especially {@link CKEDITOR.dom.range ranges} and {@link CKEDITOR.dom.walker DOM walker} it is impossible
+	 * to implement a completely custom style handler able to handle block, inline, and object type styles.
+	 * However, it is possible to customize the default implementation by overriding default methods and
+	 * reusing them.
+	 *
+	 * The only style handler which can be implemented from scratch without huge effort is a style
+	 * applicable to objects ([read more about types](http://docs.ckeditor.com/#!/guide/dev_styles-section-style-types)).
+	 * Such style can only be applied when a specific object is selected. An example implementation can
+	 * be found in the [widget plugin](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/widget/plugin.js).
+	 *
+	 * When implementing a style handler from scratch at least the following methods must be defined:
+	 *
+	 * * {@link CKEDITOR.style#apply apply} and {@link CKEDITOR.style#remove remove},
+	 * * {@link CKEDITOR.style#checkElementRemovable checkElementRemovable} and
+	 * {@link CKEDITOR.style#checkElementMatch checkElementMatch} &ndash; Note that both methods reuse the same logic,
+	 * * {@link CKEDITOR.style#checkActive checkActive} &ndash; Reuses
+	 * {@link CKEDITOR.style#checkElementMatch checkElementMatch},
+	 * * {@link CKEDITOR.style#toAllowedContentRules toAllowedContentRules} &ndash; Not required, but very useful in
+	 * case of a custom style that has to notify the {@link CKEDITOR.filter} which rules it allows when registered.
+	 *
+	 * @since 4.4
+	 * @static
+	 * @member CKEDITOR.style
+	 * @param definition The style class definition.
+	 * @returns {CKEDITOR.style} The new style class created for the provided definition.
+	 */
+	CKEDITOR.style.addCustomHandler = function( definition ) {
+		var styleClass = function( styleDefinition ) {
+			this._ = {
+				definition: styleDefinition
+			};
+
+			if ( this.setup )
+				this.setup( styleDefinition );
+		};
+
+		styleClass.prototype = CKEDITOR.tools.extend(
+			// Prototype of CKEDITOR.style.
+			CKEDITOR.tools.prototypedCopy( CKEDITOR.style.prototype ),
+			// Defaults.
+			{
+				assignedTo: CKEDITOR.STYLE_OBJECT
+			},
+			// Passed definition - overrides.
+			definition,
+			true
+		);
+
+		this.customHandlers[ definition.type ] = styleClass;
+
+		return styleClass;
+	};
+
 	// Gets the parent element which blocks the styling for an element. This
 	// can be done through read-only elements (contenteditable=false) or
 	// elements with the "data-nostyle" attribute.
@@ -441,6 +750,55 @@ CKEDITOR.STYLE_OBJECT = 3;
 		return unstylable;
 	}
 
+	var posPrecedingIdenticalContained =
+			CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED,
+		posFollowingIdenticalContained =
+			CKEDITOR.POSITION_FOLLOWING | CKEDITOR.POSITION_IDENTICAL | CKEDITOR.POSITION_IS_CONTAINED;
+
+	// Checks if the current node can be a child of the style element.
+	function checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, nodeIsReadonly, includeReadonly ) {
+		// Style can be applied to text node.
+		if ( !nodeName )
+			return 1;
+
+		// Style definitely cannot be applied if DTD or data-nostyle do not allow.
+		if ( !dtd[ nodeName ] || nodeIsNoStyle  )
+			return 0;
+
+		// Non-editable element cannot be styled is we shouldn't include readonly elements.
+		if ( nodeIsReadonly && !includeReadonly  )
+			return 0;
+
+		// Check that we haven't passed lastNode yet and that style's childRule allows this style on current element.
+		return checkPositionAndRule( currentNode, lastNode, def, posPrecedingIdenticalContained );
+	}
+
+	// Check if the style element can be a child of the current
+	// node parent or if the element is not defined in the DTD.
+	function checkIfStyleCanBeChildOf( def, currentParent, elementName, isUnknownElement ) {
+		return currentParent &&
+			( ( currentParent.getDtd() || CKEDITOR.dtd.span )[ elementName ] || isUnknownElement ) &&
+			( !def.parentRule || def.parentRule( currentParent ) );
+	}
+
+	function checkIfStartsRange( nodeName, currentNode, lastNode ) {
+		return (
+			!nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] ||
+			( currentNode.getPosition( lastNode ) | posPrecedingIdenticalContained ) == posPrecedingIdenticalContained
+		);
+	}
+
+	function checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) {
+		var nodeType = currentNode.type;
+		return nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly || ( nodeType == CKEDITOR.NODE_ELEMENT && !currentNode.getChildCount() );
+	}
+
+	// Checks if position is a subset of posBitFlags and that nodeA fulfills style def rule.
+	function checkPositionAndRule( nodeA, nodeB, def, posBitFlags ) {
+		return ( nodeA.getPosition( nodeB ) | posBitFlags ) == posBitFlags &&
+			( !def.childRule || def.childRule( nodeA ) );
+	}
+
 	function applyInlineStyle( range ) {
 		var document = range.document;
 
@@ -457,9 +815,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			return;
 		}
 
-		var elementName = this.element;
-		var def = this._.definition;
-		var isUnknownElement;
+		var elementName = this.element,
+			def = this._.definition,
+			isUnknownElement;
 
 		// Indicates that fully selected read-only elements are to be included in the styling range.
 		var ignoreReadonly = def.ignoreReadonly,
@@ -467,25 +825,26 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// If the read-only inclusion is not available in the definition, try
 		// to get it from the root data (most often it's the editable).
-		if ( includeReadonly == undefined )
+		if ( includeReadonly == null )
 			includeReadonly = range.root.getCustomData( 'cke_includeReadonly' );
 
 		// Get the DTD definition for the element. Defaults to "span".
-		var dtd = CKEDITOR.dtd[ elementName ] || ( isUnknownElement = true, CKEDITOR.dtd.span );
+		var dtd = CKEDITOR.dtd[ elementName ];
+		if ( !dtd ) {
+			isUnknownElement = true;
+			dtd = CKEDITOR.dtd.span;
+		}
 
 		// Expand the range.
 		range.enlarge( CKEDITOR.ENLARGE_INLINE, 1 );
 		range.trim();
 
-		// Get the first node to be processed and the last, which concludes the
-		// processing.
+		// Get the first node to be processed and the last, which concludes the processing.
 		var boundaryNodes = range.createBookmark(),
 			firstNode = boundaryNodes.startNode,
-			lastNode = boundaryNodes.endNode;
-
-		var currentNode = firstNode;
-
-		var styleRange;
+			lastNode = boundaryNodes.endNode,
+			currentNode = firstNode,
+			styleRange;
 
 		if ( !ignoreReadonly ) {
 			// Check if the boundaries are inside non stylable elements.
@@ -515,54 +874,39 @@ CKEDITOR.STYLE_OBJECT = 3;
 				currentNode = null;
 				applyStyle = true;
 			} else {
-				var nodeType = currentNode.type;
-				var nodeName = nodeType == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null;
-				var nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' );
-				var nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
+				var nodeName = currentNode.type == CKEDITOR.NODE_ELEMENT ? currentNode.getName() : null,
+					nodeIsReadonly = nodeName && ( currentNode.getAttribute( 'contentEditable' ) == 'false' ),
+					nodeIsNoStyle = nodeName && currentNode.getAttribute( 'data-nostyle' );
 
+				// Skip bookmarks.
 				if ( nodeName && currentNode.data( 'cke-bookmark' ) ) {
 					currentNode = currentNode.getNextSourceNode( true );
 					continue;
 				}
 
+				// Find all nested editables of a non-editable block and apply this style inside them.
+				if ( nodeIsReadonly && includeReadonly && CKEDITOR.dtd.$block[ nodeName ] )
+					applyStyleOnNestedEditables.call( this, currentNode );
+
 				// Check if the current node can be a child of the style element.
-				if ( !nodeName ||
-				     ( dtd[ nodeName ] && !nodeIsNoStyle &&
-				       ( !nodeIsReadonly || includeReadonly ) &&
-				       ( currentNode.getPosition( lastNode ) |
-				         CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL |
-				         CKEDITOR.POSITION_IS_CONTAINED ) ==
-				       ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL +
-				         CKEDITOR.POSITION_IS_CONTAINED ) &&
-				       ( !def.childRule || def.childRule( currentNode ) ) ) ) {
+				if ( checkIfNodeCanBeChildOfStyle( def, currentNode, lastNode, nodeName, dtd, nodeIsNoStyle, nodeIsReadonly, includeReadonly ) ) {
 					var currentParent = currentNode.getParent();
 
 					// Check if the style element can be a child of the current
 					// node parent or if the element is not defined in the DTD.
-					if ( currentParent &&
-					     ( ( currentParent.getDtd() ||
-					         CKEDITOR.dtd.span )[ elementName ] || isUnknownElement ) &&
-					     ( !def.parentRule || def.parentRule( currentParent ) ) ) {
+					if ( checkIfStyleCanBeChildOf( def, currentParent, elementName, isUnknownElement ) ) {
 						// This node will be part of our range, so if it has not
 						// been started, place its start right before the node.
 						// In the case of an element node, it will be included
 						// only if it is entirely inside the range.
-						if ( !styleRange &&
-						     ( !nodeName || !CKEDITOR.dtd.$removeEmpty[ nodeName ] ||
-						       ( currentNode.getPosition( lastNode ) |
-						         CKEDITOR.POSITION_PRECEDING | CKEDITOR.POSITION_IDENTICAL |
-						         CKEDITOR.POSITION_IS_CONTAINED ) ==
-						       ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IDENTICAL +
-						         CKEDITOR.POSITION_IS_CONTAINED ) ) ) {
+						if ( !styleRange && checkIfStartsRange( nodeName, currentNode, lastNode ) ) {
 							styleRange = range.clone();
 							styleRange.setStartBefore( currentNode );
 						}
 
 						// Non element nodes, readonly elements, or empty
 						// elements can be added completely to the range.
-						if ( nodeType == CKEDITOR.NODE_TEXT || nodeIsReadonly ||
-						     ( nodeType == CKEDITOR.NODE_ELEMENT &&
-						       !currentNode.getChildCount() ) ) {
+						if ( checkIfTextOrReadonlyOrEmptyElement( currentNode, nodeIsReadonly ) ) {
 							var includedNode = currentNode;
 							var parentNode;
 
@@ -570,29 +914,33 @@ CKEDITOR.STYLE_OBJECT = 3;
 							// if this is the last node in its parent, we must also
 							// check if the parent itself can be added completelly
 							// to the range, otherwise apply the style immediately.
-							while ( ( applyStyle = !includedNode.getNext( notBookmark ) ) &&
-							        ( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) &&
-							        ( parentNode.getPosition( firstNode ) |
-							          CKEDITOR.POSITION_FOLLOWING |
-							          CKEDITOR.POSITION_IDENTICAL |
-							          CKEDITOR.POSITION_IS_CONTAINED ) ==
-							        ( CKEDITOR.POSITION_FOLLOWING +
-							          CKEDITOR.POSITION_IDENTICAL +
-							          CKEDITOR.POSITION_IS_CONTAINED ) &&
-							        ( !def.childRule || def.childRule( parentNode ) ) ) {
+							while (
+								( applyStyle = !includedNode.getNext( notBookmark ) ) &&
+								( parentNode = includedNode.getParent(), dtd[ parentNode.getName() ] ) &&
+								checkPositionAndRule( parentNode, firstNode, def, posFollowingIdenticalContained )
+							) {
 								includedNode = parentNode;
 							}
 
 							styleRange.setEndAfter( includedNode );
 
 						}
-					} else
+					} else {
 						applyStyle = true;
-				} else
+					}
+				}
+				// Style isn't applicable to current element, so apply style to
+				// range ending at previously chosen position, or nowhere if we haven't
+				// yet started styleRange.
+				else {
 					applyStyle = true;
+				}
 
 				// Get the next node to be processed.
-				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly && !includeReadonly );
+				// If we're currently on a non-editable element or non-styleable element,
+				// then we'll be moved to current node's sibling (or even further), so we'll
+				// avoid messing up its content.
+				currentNode = currentNode.getNextSourceNode( nodeIsNoStyle || nodeIsReadonly );
 			}
 
 			// Apply the style if we have something to which apply it.
@@ -656,13 +1004,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 					// Move the contents of the range to the style element.
 					styleRange.extractContents().appendTo( styleNode );
 
-					// Here we do some cleanup, removing all duplicated
-					// elements from the style element.
-					removeFromInsideElement.call( this, styleNode );
-
 					// Insert it into the range position (it is collapsed after
 					// extractContents.
 					styleRange.insertNode( styleNode );
+
+					// Here we do some cleanup, removing all duplicated
+					// elements from the style element.
+					removeFromInsideElement.call( this, styleNode );
 
 					// Let's merge our new style with its neighbors, if possible.
 					styleNode.mergeSiblings();
@@ -696,6 +1044,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Minimize the result range to exclude empty text nodes. (#5374)
 		range.shrink( CKEDITOR.SHRINK_TEXT );
+
+		// Get inside the remaining element if range.shrink( TEXT ) has failed because of non-editable elements inside.
+		// E.g. range.shrink( TEXT ) will not get inside:
+		// [<b><i contenteditable="false">x</i></b>]
+		// but range.shrink( ELEMENT ) will.
+		range.shrink( CKEDITOR.NODE_ELEMENT, true );
 	}
 
 	function removeInlineStyle( range ) {
@@ -728,14 +1082,12 @@ CKEDITOR.STYLE_OBJECT = 3;
 						boundaryElement = element;
 						boundaryElement.match = isStart ? 'start' : 'end';
 					} else {
-						/*
-						 * Before removing the style node, there may be a sibling to the style node
-						 * that's exactly the same to the one to be removed. To the user, it makes
-						 * no difference that they're separate entities in the DOM tree. So, merge
-						 * them before removal.
-						 */
+						// Before removing the style node, there may be a sibling to the style node
+						// that's exactly the same to the one to be removed. To the user, it makes
+						// no difference that they're separate entities in the DOM tree. So, merge
+						// them before removal.
 						element.mergeSiblings();
-						if ( element.getName() == this.element )
+						if ( element.is( this.element ) )
 							removeFromElement.call( this, element );
 						else
 							removeOverrides( element, getOverrides( this )[ element.getName() ] );
@@ -748,7 +1100,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// new range.
 			if ( boundaryElement ) {
 				var clonedElement = startNode;
-				for ( i = 0;; i++ ) {
+				for ( i = 0; ; i++ ) {
 					var newElement = startPath.elements[ i ];
 					if ( newElement.equals( boundaryElement ) )
 						break;
@@ -768,37 +1120,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 			var endNode = bookmark.endNode,
 				me = this;
 
-			// Find out the style ancestor that needs to be broken down at startNode
-			// and endNode.
-			function breakNodes() {
-				var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() ),
-					endPath = new CKEDITOR.dom.elementPath( endNode.getParent() ),
-					breakStart = null,
-					breakEnd = null;
-				for ( var i = 0; i < startPath.elements.length; i++ ) {
-					var element = startPath.elements[ i ];
-
-					if ( element == startPath.block || element == startPath.blockLimit )
-						break;
-
-					if ( me.checkElementRemovable( element ) )
-						breakStart = element;
-				}
-				for ( i = 0; i < endPath.elements.length; i++ ) {
-					element = endPath.elements[ i ];
-
-					if ( element == endPath.block || element == endPath.blockLimit )
-						break;
-
-					if ( me.checkElementRemovable( element ) )
-						breakEnd = element;
-				}
-
-				if ( breakEnd )
-					endNode.breakParent( breakEnd );
-				if ( breakStart )
-					startNode.breakParent( breakStart );
-			}
 			breakNodes();
 
 			// Now, do the DFS walk.
@@ -828,6 +1149,89 @@ CKEDITOR.STYLE_OBJECT = 3;
 		}
 
 		range.moveToBookmark( bookmark );
+		// See the comment for range.shrink in applyInlineStyle.
+		range.shrink( CKEDITOR.NODE_ELEMENT, true );
+
+		// Find out the style ancestor that needs to be broken down at startNode
+		// and endNode.
+		function breakNodes() {
+			var startPath = new CKEDITOR.dom.elementPath( startNode.getParent() ),
+				endPath = new CKEDITOR.dom.elementPath( endNode.getParent() ),
+				breakStart = null,
+				breakEnd = null;
+
+			for ( var i = 0; i < startPath.elements.length; i++ ) {
+				var element = startPath.elements[ i ];
+
+				if ( element == startPath.block || element == startPath.blockLimit )
+					break;
+
+				if ( me.checkElementRemovable( element, true ) )
+					breakStart = element;
+			}
+
+			for ( i = 0; i < endPath.elements.length; i++ ) {
+				element = endPath.elements[ i ];
+
+				if ( element == endPath.block || element == endPath.blockLimit )
+					break;
+
+				if ( me.checkElementRemovable( element, true ) )
+					breakEnd = element;
+			}
+
+			if ( breakEnd )
+				endNode.breakParent( breakEnd );
+			if ( breakStart )
+				startNode.breakParent( breakStart );
+		}
+	}
+
+	// Apply style to nested editables inside editablesContainer.
+	// @param {CKEDITOR.dom.element} editablesContainer
+	// @context CKEDITOR.style
+	function applyStyleOnNestedEditables( editablesContainer ) {
+		var editables = findNestedEditables( editablesContainer ),
+			editable,
+			l = editables.length,
+			i = 0,
+			range = l && new CKEDITOR.dom.range( editablesContainer.getDocument() );
+
+		for ( ; i < l; ++i ) {
+			editable = editables[ i ];
+			// Check if style is allowed by this editable's ACF.
+			if ( checkIfAllowedInEditable( editable, this ) ) {
+				range.selectNodeContents( editable );
+				applyInlineStyle.call( this, range );
+			}
+		}
+	}
+
+	// Finds nested editables within container. Does not return
+	// editables nested in another editable (twice).
+	function findNestedEditables( container ) {
+		var editables = [];
+
+		container.forEach( function( element ) {
+			if ( element.getAttribute( 'contenteditable' ) == 'true' ) {
+				editables.push( element );
+				return false; // Skip children.
+			}
+		}, CKEDITOR.NODE_ELEMENT, true );
+
+		return editables;
+	}
+
+	// Checks if style is allowed in this editable.
+	function checkIfAllowedInEditable( editable, style ) {
+		var filter = CKEDITOR.filter.instances[ editable.data( 'cke-filter' ) ];
+
+		return filter ? filter.check( style ) : 1;
+	}
+
+	// Checks if style is allowed by iterator's active filter.
+	function checkIfAllowedByIterator( iterator, style ) {
+		return iterator.activeFilter ? iterator.activeFilter.check( style ) : 1;
 	}
 
 	function applyObjectStyle( range ) {
@@ -851,18 +1255,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Remove all defined attributes.
 		if ( attributes ) {
-			for ( var att in attributes ) {
+			for ( var att in attributes )
 				element.removeAttribute( att, attributes[ att ] );
-			}
 		}
 
 		// Assign all defined styles.
 		if ( def.styles ) {
 			for ( var i in def.styles ) {
-				if ( !def.styles.hasOwnProperty( i ) )
-					continue;
-
-				element.removeStyle( i );
+				if ( def.styles.hasOwnProperty( i ) )
+					element.removeStyle( i );
 			}
 		}
 	}
@@ -879,14 +1280,13 @@ CKEDITOR.STYLE_OBJECT = 3;
 		if ( this._.enterMode )
 			iterator.enlargeBr = ( this._.enterMode != CKEDITOR.ENTER_BR );
 
-		var block;
-		var doc = range.document;
-		var previousPreBlock;
+		var block,
+			doc = range.document,
+			newBlock;
 
-		while ( ( block = iterator.getNextParagraph() ) ) // Only one =
-		{
-			if ( !block.isReadOnly() ) {
-				var newBlock = getElement( this, doc, block );
+		while ( ( block = iterator.getNextParagraph() ) ) {
+			if ( !block.isReadOnly() && checkIfAllowedByIterator( iterator, this ) ) {
+				newBlock = getElement( this, doc, block );
 				replaceBlock( block, newBlock );
 			}
 		}
@@ -903,18 +1303,21 @@ CKEDITOR.STYLE_OBJECT = 3;
 		iterator.enforceRealBlocks = true;
 		iterator.enlargeBr = this._.enterMode != CKEDITOR.ENTER_BR;
 
-		var block;
+		var block,
+			newBlock;
+
 		while ( ( block = iterator.getNextParagraph() ) ) {
 			if ( this.checkElementRemovable( block ) ) {
 				// <pre> get special treatment.
 				if ( block.is( 'pre' ) ) {
-					var newBlock = this._.enterMode == CKEDITOR.ENTER_BR ? null :
-					               range.document.createElement( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+					newBlock = this._.enterMode == CKEDITOR.ENTER_BR ? null :
+							range.document.createElement( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 
 					newBlock && block.copyAttributes( newBlock );
 					replaceBlock( block, newBlock );
-				} else
+				} else {
 					removeFromElement.call( this, block );
+				}
 			}
 		}
 
@@ -933,11 +1336,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 			block.copyAttributes( newBlock );
 		}
 
-		var newBlockIsPre = newBlock && newBlock.is( 'pre' );
-		var blockIsPre = block.is( 'pre' );
-
-		var isToPre = newBlockIsPre && !blockIsPre;
-		var isFromPre = !newBlockIsPre && blockIsPre;
+		var newBlockIsPre = newBlock && newBlock.is( 'pre' ),
+			blockIsPre = block.is( 'pre' ),
+			isToPre = newBlockIsPre && !blockIsPre,
+			isFromPre = !newBlockIsPre && blockIsPre;
 
 		if ( isToPre )
 			newBlock = toPre( block, newBlock );
@@ -952,14 +1354,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 		if ( newBlockIsPre ) {
 			// Merge previous <pre> blocks.
 			mergePre( newBlock );
-		} else if ( removeBlock )
+		} else if ( removeBlock ) {
 			removeNoAttribsElement( newBlock );
+		}
 	}
 
 	// Merge a <pre> block with a previous sibling if available.
 	function mergePre( preBlock ) {
 		var previousBlock;
-		if ( !( ( previousBlock = preBlock.getPrevious( nonWhitespaces ) ) && previousBlock.is && previousBlock.is( 'pre' ) ) )
+		if ( !( ( previousBlock = preBlock.getPrevious( nonWhitespaces ) ) && previousBlock.type == CKEDITOR.NODE_ELEMENT && previousBlock.is( 'pre' ) ) )
 			return;
 
 		// Merge the previous <pre> block contents into the current <pre>
@@ -986,15 +1389,14 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Exclude the ones at header OR at tail,
 		// and ignore bookmark content between them.
 		var duoBrRegex = /(\S\s*)\n(?:\s|(<span[^>]+data-cke-bookmark.*?\/span>))*\n(?!$)/gi,
-			blockName = preBlock.getName(),
+			pres = [],
 			splitedHtml = replace( preBlock.getOuterHtml(), duoBrRegex, function( match, charBefore, bookmark ) {
 				return charBefore + '</pre>' + bookmark + '<pre>';
-			});
+			} );
 
-		var pres = [];
 		splitedHtml.replace( /<pre\b.*?>([\s\S]*?)<\/pre>/gi, function( match, preContent ) {
 			pres.push( preContent );
-		});
+		} );
 		return pres;
 	}
 
@@ -1007,7 +1409,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			m1 && ( headBookmark = m1 );
 			m2 && ( tailBookmark = m2 );
 			return '';
-		});
+		} );
 		return headBookmark + str.replace( regexp, replacement ) + tailBookmark;
 	}
 
@@ -1026,28 +1428,29 @@ CKEDITOR.STYLE_OBJECT = 3;
 			blockHtml = replace( blockHtml, /^[ \t]*\n/, '' );
 			blockHtml = replace( blockHtml, /\n$/, '' );
 			// 2. Convert spaces or tabs at the beginning or at the end to &nbsp;
-			blockHtml = replace( blockHtml, /^[ \t]+|[ \t]+$/g, function( match, offset, s ) {
+			blockHtml = replace( blockHtml, /^[ \t]+|[ \t]+$/g, function( match, offset ) {
 				if ( match.length == 1 ) // one space, preserve it
-				return '&nbsp;';
+					return '&nbsp;';
 				else if ( !offset ) // beginning of block
-				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
+					return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
 				else // end of block
-				return ' ' + CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 );
-			});
+					return ' ' + CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 );
+			} );
 
 			// 3. Convert \n to <BR>.
 			// 4. Convert contiguous (i.e. non-singular) spaces or tabs to &nbsp;
 			blockHtml = blockHtml.replace( /\n/g, '<br>' );
 			blockHtml = blockHtml.replace( /[ \t]{2,}/g, function( match ) {
 				return CKEDITOR.tools.repeat( '&nbsp;', match.length - 1 ) + ' ';
-			});
+			} );
 
 			if ( docFrag ) {
 				var newBlockClone = newBlock.clone();
 				newBlockClone.setHtml( blockHtml );
 				docFrag.append( newBlockClone );
-			} else
+			} else {
 				newBlock.setHtml( blockHtml );
+			}
 		}
 
 		return docFrag || newBlock;
@@ -1081,14 +1484,15 @@ CKEDITOR.STYLE_OBJECT = 3;
 			newBlock.$.outerHTML = '<pre>' + preHtml + '</pre>';
 			newBlock.copyAttributes( temp.getFirst() );
 			newBlock = temp.getFirst().remove();
-		} else
+		} else {
 			newBlock.setHtml( preHtml );
+		}
 
 		return newBlock;
 	}
 
 	// Removes a style from an element itself, don't care about its subtree.
-	function removeFromElement( element ) {
+	function removeFromElement( element, keepDataAttrs ) {
 		var def = this._.definition,
 			attributes = def.attributes,
 			styles = def.styles,
@@ -1101,6 +1505,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 			// The 'class' element value must match (#1318).
 			if ( ( attName == 'class' || this._.definition.fullMatch ) && element.getAttribute( attName ) != normalizeProperty( attName, attributes[ attName ] ) )
 				continue;
+
+			// Do not touch data-* attributes (#11011) (#11258).
+			if ( keepDataAttrs && attName.slice( 0, 5 ) == 'data-' )
+				continue;
+
 			removeEmpty = element.hasAttribute( attName );
 			element.removeAttribute( attName );
 		}
@@ -1121,30 +1530,42 @@ CKEDITOR.STYLE_OBJECT = 3;
 			if ( this._.definition.alwaysRemoveElement )
 				removeNoAttribsElement( element, 1 );
 			else {
-				!CKEDITOR.dtd.$block[ element.getName() ] || this._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() ? removeNoAttribsElement( element ) : element.renameNode( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
+				if ( !CKEDITOR.dtd.$block[ element.getName() ] || this._.enterMode == CKEDITOR.ENTER_BR && !element.hasAttributes() )
+					removeNoAttribsElement( element );
+				else
+					element.renameNode( this._.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 			}
 		}
 	}
 
-	// Removes a style from inside an element.
+	// Removes a style from inside an element. Called on applyStyle to make cleanup
+	// before apply. During clean up this function keep data-* attribute in contrast
+	// to removeFromElement.
 	function removeFromInsideElement( element ) {
-		var def = this._.definition,
-			attribs = def.attributes,
-			styles = def.styles,
-			overrides = getOverrides( this ),
-			innerElements = element.getElementsByTag( this.element );
+		var overrides = getOverrides( this ),
+			innerElements = element.getElementsByTag( this.element ),
+			innerElement;
 
-		for ( var i = innerElements.count(); --i >= 0; )
-			removeFromElement.call( this, innerElements.getItem( i ) );
+		for ( var i = innerElements.count(); --i >= 0; ) {
+			innerElement = innerElements.getItem( i );
+
+			// Do not remove elements which are read only (e.g. duplicates inside widgets).
+			if ( !innerElement.isReadOnly() )
+				removeFromElement.call( this, innerElement, true );
+		}
 
 		// Now remove any other element with different name that is
 		// defined to be overriden.
 		for ( var overrideElement in overrides ) {
 			if ( overrideElement != this.element ) {
 				innerElements = element.getElementsByTag( overrideElement );
+
 				for ( i = innerElements.count() - 1; i >= 0; i-- ) {
-					var innerElement = innerElements.getItem( i );
-					removeOverrides( innerElement, overrides[ overrideElement ] );
+					innerElement = innerElements.getItem( i );
+
+					// Do not remove elements which are read only (e.g. duplicates inside widgets).
+					if ( !innerElement.isReadOnly() )
+						removeOverrides( innerElement, overrides[ overrideElement ] );
 				}
 			}
 		}
@@ -1191,9 +1612,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 				var previous = element.getPrevious( nonWhitespaces ),
 					next = element.getNext( nonWhitespaces );
 
-				if ( previous && ( previous.type == CKEDITOR.NODE_TEXT || !previous.isBlockBoundary( { br:1 } ) ) )
+				if ( previous && ( previous.type == CKEDITOR.NODE_TEXT || !previous.isBlockBoundary( { br: 1 } ) ) )
 					element.append( 'br', 1 );
-				if ( next && ( next.type == CKEDITOR.NODE_TEXT || !next.isBlockBoundary( { br:1 } ) ) )
+				if ( next && ( next.type == CKEDITOR.NODE_TEXT || !next.isBlockBoundary( { br: 1 } ) ) )
 					element.append( 'br' );
 
 				element.remove( true );
@@ -1219,7 +1640,6 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 	function getElement( style, targetDocument, element ) {
 		var el,
-			def = style._.definition,
 			elementName = style.element;
 
 		// The "*" element name will always be a span for this function.
@@ -1251,9 +1671,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		// Assign all defined attributes.
 		if ( attributes ) {
-			for ( var att in attributes ) {
+			for ( var att in attributes )
 				el.setAttribute( att, attributes[ att ] );
-			}
 		}
 
 		// Assign all defined styles.
@@ -1267,7 +1686,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 		for ( var item in list ) {
 			list[ item ] = list[ item ].replace( varRegex, function( match, varName ) {
 				return variablesValues[ varName ];
-			});
+			} );
 		}
 	}
 
@@ -1296,9 +1715,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 		// Includes the style definitions.
 		var styleText = CKEDITOR.style.getStyleText( styleDefinition );
 		if ( styleText ) {
-			if ( !attribs[ 'style' ] )
+			if ( !attribs.style )
 				length++;
-			attribs[ 'style' ] = styleText;
+			attribs.style = styleText;
 		}
 
 		// Appends the "length" information to the object.
@@ -1327,10 +1746,10 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 			// Loop through all override definitions.
 			for ( var i = 0; i < definition.length; i++ ) {
-				var override = definition[ i ];
-				var elementName;
-				var overrideEl;
-				var attrs;
+				var override = definition[ i ],
+					elementName,
+					overrideEl,
+					attrs;
 
 				// If can be a string with the element name.
 				if ( typeof override == 'string' )
@@ -1350,7 +1769,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 					// The returning attributes list is an array, because we
 					// could have different override definitions for the same
 					// attribute name.
-					var overrideAttrs = ( overrideEl.attributes = overrideEl.attributes || new Array() );
+					var overrideAttrs = ( overrideEl.attributes = overrideEl.attributes || [] );
 					for ( var attName in attrs ) {
 						// Each item in the attributes array is also an array,
 						// where [0] is the attribute name and [1] is the
@@ -1375,18 +1794,33 @@ CKEDITOR.STYLE_OBJECT = 3;
 	// is treated as a wildcard which will match any value.
 	// @param {Object/String} source
 	// @param {Object/String} target
+	// @returns {Boolean}
 	function compareCssText( source, target ) {
-		typeof source == 'string' && ( source = CKEDITOR.tools.parseCssText( source ) );
-		typeof target == 'string' && ( target = CKEDITOR.tools.parseCssText( target, true ) );
+		function filter( string, propertyName ) {
+			// In case of font-families we'll skip quotes. (#10750)
+			return propertyName.toLowerCase() == 'font-family' ? string.replace( /["']/g, '' ) : string;
+		}
+
+		if ( typeof source == 'string' )
+			source = CKEDITOR.tools.parseCssText( source );
+		if ( typeof target == 'string' )
+			target = CKEDITOR.tools.parseCssText( target, true );
+
 		for ( var name in source ) {
-			if ( !( name in target && ( target[ name ] == source[ name ] || source[ name ] == 'inherit' || target[ name ] == 'inherit' ) ) ) {
+			if ( !( name in target ) ) {
+				return false;
+			}
+
+			if ( !( filter( target[ name ], name ) == filter( source[ name ], name ) ||
+				source[ name ] == 'inherit' ||
+				target[ name ] == 'inherit' ) ) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	function applyStyleOnSelection( selection, remove ) {
+	function applyStyleOnSelection( selection, remove, editor ) {
 		var doc = selection.document,
 			ranges = selection.getRanges(),
 			func = remove ? this.removeFromRange : this.applyToRange,
@@ -1394,19 +1828,32 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		var iterator = ranges.createIterator();
 		while ( ( range = iterator.getNextRange() ) )
-			func.call( this, range );
+			func.call( this, range, editor );
 
 		selection.selectRanges( ranges );
 		doc.removeCustomData( 'doc_processing_style' );
 	}
-})();
+} )();
 
 /**
+ * Generic style command. It applies a specific style when executed.
+ *
+ *		var boldStyle = new CKEDITOR.style( { element: 'strong' } );
+ *		// Register the "bold" command, which applies the bold style.
+ *		editor.addCommand( 'bold', new CKEDITOR.styleCommand( boldStyle ) );
+ *
  * @class
- * @todo
+ * @constructor Creates a styleCommand class instance.
+ * @extends CKEDITOR.commandDefinition
+ * @param {CKEDITOR.style} style The style to be applied when command is executed.
+ * @param {Object} [ext] Additional command definition's properties.
  */
-CKEDITOR.styleCommand = function( style ) {
+CKEDITOR.styleCommand = function( style, ext ) {
 	this.style = style;
+	this.allowedContent = style;
+	this.requiredContent = style;
+
+	CKEDITOR.tools.extend( this, ext, true );
 };
 
 /**
@@ -1425,7 +1872,7 @@ CKEDITOR.styleCommand.prototype.exec = function( editor ) {
 /**
  * Manages styles registration and loading. See also {@link CKEDITOR.config#stylesSet}.
  *
- *		// The set of styles for the <b>Styles</b> combo.
+ *		// The set of styles for the <b>Styles</b> drop-down list.
  *		CKEDITOR.stylesSet.add( 'default', [
  *			// Block Styles
  *			{ name: 'Blue Title',		element: 'h3',		styles: { 'color': 'Blue' } },
@@ -1461,40 +1908,128 @@ CKEDITOR.loadStylesSet = function( name, url, callback ) {
 	CKEDITOR.stylesSet.load( name, callback );
 };
 
+CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
+	/**
+	 * Registers a function to be called whenever the selection position changes in the
+	 * editing area. The current state is passed to the function. The possible
+	 * states are {@link CKEDITOR#TRISTATE_ON} and {@link CKEDITOR#TRISTATE_OFF}.
+	 *
+	 *		// Create a style object for the <b> element.
+	 *		var style = new CKEDITOR.style( { element: 'b' } );
+	 *		var editor = CKEDITOR.instances.editor1;
+	 *		editor.attachStyleStateChange( style, function( state ) {
+	 *			if ( state == CKEDITOR.TRISTATE_ON )
+	 *				alert( 'The current state for the B element is ON' );
+	 *			else
+	 *				alert( 'The current state for the B element is OFF' );
+	 *		} );
+	 *
+	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.style} style The style to be watched.
+	 * @param {Function} callback The function to be called.
+	 */
+	attachStyleStateChange: function( style, callback ) {
+		// Try to get the list of attached callbacks.
+		var styleStateChangeCallbacks = this._.styleStateChangeCallbacks;
 
-/**
- * Gets the current styleSet for this instance.
- *
- *		editor.getStylesSet( function( stylesDefinitions ) {} );
- *
- * @param {Function} callback The function to be called with the styles data.
- */
-CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
-	if ( !this._.stylesDefinitions ) {
-		var editor = this,
-			// Respect the backwards compatible definition entry
-			configStyleSet = editor.config.stylesCombo_stylesSet || editor.config.stylesSet || 'default';
+		// If it doesn't exist, it means this is the first call. So, let's create
+		// all the structure to manage the style checks and the callback calls.
+		if ( !styleStateChangeCallbacks ) {
+			// Create the callbacks array.
+			styleStateChangeCallbacks = this._.styleStateChangeCallbacks = [];
 
-		// #5352 Allow to define the styles directly in the config object
-		if ( configStyleSet instanceof Array ) {
-			editor._.stylesDefinitions = configStyleSet;
-			callback( configStyleSet );
-			return;
+			// Attach to the selectionChange event, so we can check the styles at
+			// that point.
+			this.on( 'selectionChange', function( ev ) {
+				// Loop throw all registered callbacks.
+				for ( var i = 0; i < styleStateChangeCallbacks.length; i++ ) {
+					var callback = styleStateChangeCallbacks[ i ];
+
+					// Check the current state for the style defined for that callback.
+					var currentState = callback.style.checkActive( ev.data.path, this ) ?
+						CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+
+					// Call the callback function, passing the current state to it.
+					callback.fn.call( this, currentState );
+				}
+			} );
 		}
 
-		var partsStylesSet = configStyleSet.split( ':' ),
-			styleSetName = partsStylesSet[ 0 ],
-			externalPath = partsStylesSet[ 1 ];
+		// Save the callback info, so it can be checked on the next occurrence of
+		// selectionChange.
+		styleStateChangeCallbacks.push( { style: style, fn: callback } );
+	},
 
-		CKEDITOR.stylesSet.addExternal( styleSetName, externalPath ? partsStylesSet.slice( 1 ).join( ':' ) : CKEDITOR.getUrl( 'styles.js' ), '' );
+	/**
+	 * Applies the style upon the editor's current selection. Shorthand for
+	 * {@link CKEDITOR.style#apply}.
+	 *
+	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.style} style
+	 */
+	applyStyle: function( style ) {
+		style.apply( this );
+	},
 
-		CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
-			editor._.stylesDefinitions = stylesSet[ styleSetName ];
-			callback( editor._.stylesDefinitions );
-		});
-	} else
-		callback( this._.stylesDefinitions );
-};
+	/**
+	 * Removes the style from the editor's current selection. Shorthand for
+	 * {@link CKEDITOR.style#remove}.
+	 *
+	 * @member CKEDITOR.editor
+	 * @param {CKEDITOR.style} style
+	 */
+	removeStyle: function( style ) {
+		style.remove( this );
+	},
+
+	/**
+	 * Gets the current `stylesSet` for this instance.
+	 *
+	 *		editor.getStylesSet( function( stylesDefinitions ) {} );
+	 *
+	 * See also {@link CKEDITOR.editor#stylesSet} event.
+	 *
+	 * @member CKEDITOR.editor
+	 * @param {Function} callback The function to be called with the styles data.
+	 */
+	getStylesSet: function( callback ) {
+		if ( !this._.stylesDefinitions ) {
+			var editor = this,
+				// Respect the backwards compatible definition entry
+				configStyleSet = editor.config.stylesCombo_stylesSet || editor.config.stylesSet;
+
+			// The false value means that none styles should be loaded.
+			if ( configStyleSet === false ) {
+				callback( null );
+				return;
+			}
+
+			// #5352 Allow to define the styles directly in the config object
+			if ( configStyleSet instanceof Array ) {
+				editor._.stylesDefinitions = configStyleSet;
+				callback( configStyleSet );
+				return;
+			}
+
+			// Default value is 'default'.
+			if ( !configStyleSet )
+				configStyleSet = 'default';
+
+			var partsStylesSet = configStyleSet.split( ':' ),
+				styleSetName = partsStylesSet[ 0 ],
+				externalPath = partsStylesSet[ 1 ];
+
+			CKEDITOR.stylesSet.addExternal( styleSetName, externalPath ? partsStylesSet.slice( 1 ).join( ':' ) : CKEDITOR.getUrl( 'styles.js' ), '' );
+
+			CKEDITOR.stylesSet.load( styleSetName, function( stylesSet ) {
+				editor._.stylesDefinitions = stylesSet[ styleSetName ];
+				callback( editor._.stylesDefinitions );
+			} );
+		} else {
+			callback( this._.stylesDefinitions );
+		}
+	}
+} );
 
 /**
  * Indicates that fully selected read-only elements will be included when
@@ -1528,21 +2063,30 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  *
  * The styles may be defined in the page containing the editor, or can be
  * loaded on demand from an external file. In the second case, if this setting
- * contains only a name, the styles definition file will be loaded from the
- * `styles` folder inside the styles plugin folder.
+ * contains only a name, the `styles.js` file will be loaded from the
+ * CKEditor root folder (what ensures backward compatibility with CKEditor 4.0).
  *
  * Otherwise, this setting has the `name:url` syntax, making it
- * possible to set the URL from which loading the styles file.
+ * possible to set the URL from which the styles file will be loaded.
+ * Note that the `name` has to be equal to the name used in
+ * {@link CKEDITOR.stylesSet#add} while registering the styles set.
  *
- * Previously this setting was available as `config.stylesCombo_stylesSet`.
+ * **Note**: Since 4.1 it is possible to set `stylesSet` to `false`
+ * to prevent loading any styles set.
  *
- *		// Load from the styles' styles folder (mystyles.js file).
+ * Read more in the [documentation](#!/guide/dev_styles)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
+ *
+ *		// Do not load any file. The styles set is empty.
+ *		config.stylesSet = false;
+ *
+ *		// Load the 'mystyles' styles set from the styles.js file.
  *		config.stylesSet = 'mystyles';
  *
- *		// Load from a relative URL.
+ *		// Load the 'mystyles' styles set from a relative URL.
  *		config.stylesSet = 'mystyles:/editorstyles/styles.js';
  *
- *		// Load from a full URL.
+ *		// Load the 'mystyles' styles set from a full URL.
  *		config.stylesSet = 'mystyles:http://www.example.com/editorstyles/styles.js';
  *
  *		// Load from a list of definitions.
@@ -1553,6 +2097,6 @@ CKEDITOR.editor.prototype.getStylesSet = function( callback ) {
  *		];
  *
  * @since 3.3
- * @cfg {String/Array} [stylesSet='default']
+ * @cfg {String/Array/Boolean} [stylesSet='default']
  * @member CKEDITOR.config
  */

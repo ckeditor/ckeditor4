@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'tr', {
-	alertUrl: 'Lütfen resmin URL\'sini yazınız',
 	alt: 'Alternatif Yazı',
 	border: 'Kenar',
 	btnUpload: 'Sunucuya Yolla',
@@ -23,4 +22,4 @@ CKEDITOR.plugins.setLang( 'image', 'tr', {
 	validateBorder: 'Çerçeve tam sayı olmalıdır.',
 	validateHSpace: 'HSpace tam sayı olmalıdır.',
 	validateVSpace: 'VSpace tam sayı olmalıdır.'
-});
+} );

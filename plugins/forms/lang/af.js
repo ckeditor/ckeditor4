@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'af', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'af', {
 		checkboxTitle: 'Merkhokkie eienskappe',
 		radioTitle: 'Radioknoppie eienskappe',
 		value: 'Waarde',
-		selected: 'Geselekteer'
+		selected: 'Geselekteer',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Vorm eienskappe',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'af', {
 		size: 'Grootte',
 		lines: 'Lyne',
 		chkMulti: 'Laat meer as een keuse toe',
+		required: 'Required', // MISSING
 		opText: 'Teks',
 		opValue: 'Waarde',
 		btnAdd: 'Byvoeg',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'af', {
 		value: 'Waarde',
 		charWidth: 'Breedte (karakters)',
 		maxChars: 'Maksimum karakters',
+		required: 'Required', // MISSING
 		type: 'Soort',
 		typeText: 'Teks',
 		typePass: 'Wagwoord',
@@ -65,4 +68,4 @@ CKEDITOR.plugins.setLang( 'forms', 'af', {
 		typeTel: 'Telephone Number', // MISSING
 		typeUrl: 'URL'
 	}
-});
+} );

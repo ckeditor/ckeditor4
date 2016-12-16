@@ -1,0 +1,721 @@
+<textarea id="join_list1">
+	<ol>
+		<li>1<ol><li>1.1</li></ol></li>
+	</ol>
+	<p>^2</p>
+	=>
+	<ol>
+		<li>1<ol><li>1.1^2@</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list1_del">
+	<ol>
+		<li>1<ol><li>1.1^</li></ol></li>
+	</ol>
+	<p>2</p>
+	=>
+	<ol>
+		<li>1<ol><li>1.1^2@</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list2">
+	<ol>
+		<li>1<ol><li><p>1.1</p></li></ol></li>
+	</ol>
+	<p>^2</p>
+	=>
+	<ol>
+		<li>1<ol><li><p>1.1^2@</p></li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list2_del">
+	<ol>
+		<li>1<ol><li><p>1.1^</p></li></ol></li>
+	</ol>
+	<p>2</p>
+	=>
+	<ol>
+		<li>1<ol><li><p>1.1^2@</p></li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list3">
+	<ol>
+		<li>1<ol><li><p>1.1</p></li></ol></li>
+	</ol>
+	<h1>^2</h1>
+	=>
+	<ol>
+		<li>1<ol><li><p>1.1^2@</p></li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list3_del">
+	<ol>
+		<li>1<ol><li><p>1.1^</p></li></ol></li>
+	</ol>
+	<h1>2</h1>
+	=>
+	<ol>
+		<li>1<ol><li><p>1.1^2@</p></li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list4">
+	<ol>
+		<li>1</li>
+		<li>2</li>
+	</ol>
+	<h1>^3</h1>
+	=>
+	<ol>
+		<li>1</li>
+		<li>2^3@</li>
+	</ol>
+</textarea>
+<textarea id="join_list4_del">
+	<ol>
+		<li>1</li>
+		<li>2^</li>
+	</ol>
+	<h1>3</h1>
+	=>
+	<ol>
+		<li>1</li>
+		<li>2^3@</li>
+	</ol>
+</textarea>
+<textarea id="join_list5">
+	<ol>
+		<li>1</li>
+		<li>2</li>
+	</ol>
+	<p>^3<br />4</p>
+	=>
+	<ol>
+		<li>1</li>
+		<li>2^3@</li>
+	</ol>
+	<p>4@</p>
+</textarea>
+<textarea id="join_list5_del">
+	<ol>
+		<li>1</li>
+		<li>2^</li>
+	</ol>
+	<p>3<br />4</p>
+	=>
+	<ol>
+		<li>1</li>
+		<li>2^3@</li>
+	</ol>
+	<p>4</p>
+</textarea>
+<textarea id="join_list6">
+	<ol>
+		<li>1</li>
+		<li></li>
+	</ol>
+	<p>^3</p>
+	=>
+	<ol>
+		<li>1</li>
+		<li>^3@</li>
+	</ol>
+</textarea>
+<textarea id="join_list6_del">
+	<ol>
+		<li>1</li>
+		<li>^</li>
+	</ol>
+	<p>3</p>
+	=>
+	<ol>
+		<li>1</li>
+		<li>^3@</li>
+	</ol>
+</textarea>
+<textarea id="join_list7">
+	<ol>
+		<li>1<ol><li>1.1</li></ol></li>
+		<li>^2</li>
+	</ol>
+	=>
+	<ol>
+		<li>1<ol><li>1.1^2@</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list7_del">
+	<ol>
+		<li>1<ol><li>1.1^</li></ol></li>
+	</ol>
+	<p></p>
+	=>
+	<ol>
+		<li>1<ol><li>1.1^@</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list8">
+	<ol>
+		<li>1</li>
+		<li>^2</li>
+	</ol>
+	=>
+	<ol>
+		<li>1^2@</li>
+	</ol>
+</textarea>
+<textarea id="join_list8_del">
+	<ol>
+		<li>1^</li>
+		<li>
+			2<ol><li>2.1</li></ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>1^2
+			<ol><li>2.1</li></ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list9">
+	<ol>
+		<li>1</li>
+		<li>^2<ol><li>1.1</li></ol></li>
+	</ol>
+	=>
+	<ol>
+		<li>1^2<ol><li>1.1</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list9_del">
+	<ol>
+		<li>1^
+			<ol>
+				<li>1.1
+					<ol><li>1.1.1</li></ol>
+				</li>
+				<li>1.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>1^1.1@@
+			<ol>
+				<li>1.1.1</li>
+				<li>1.2</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list10">
+	<ol>
+		<li>1<ol><li>1.1</li></ol></li>
+	</ol>
+	<p>^2</p>
+	<ol>
+		<li>2</li>
+	</ol>
+	=>
+	<ol>
+		<li>1<ol><li>1.1^2@</li></ol></li>
+		<li>2</li>
+	</ol>
+</textarea>
+<textarea id="join_list10_del">
+	<ol>
+		<li>1^</li>
+		<li>2
+			<ol>
+				<li>2.1</li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>1^2
+			<ol>
+				<li>2.1</li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list11">
+	<ol>
+		<li>1
+			<ol>
+				<li>^1.1</li>
+				<li>1.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>1^1.1<ol><li>1.2</li></ol></li>
+	</ol>
+</textarea>
+<textarea id="join_list11_del">
+	<ol>
+		<li>1^</li>
+		<li><p>2</p>
+			<ol>
+				<li>2.1</li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>1^2
+			<ol>
+				<li>2.1</li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list12_del">
+	<ol>
+		<li><p>1^</p>
+			<ol>
+				<li><h1>2.1</h1></li>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li><p>1^2.1</p>
+			<ol>
+				<li>2.2</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="join_list13_del">
+	<ol>
+		<li><p>1.1</p>
+			<p>1.2^</p>
+		</li>
+		<li>
+			<h1>2.1</h1>
+			2.2
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li><p>1.1</p>
+			<p>1.2^2.1</p>
+		</li>
+		<li>2.2</li>
+	</ol>
+</textarea>
+<textarea id="join_list14_del">
+	<ol>
+		<li>1<ol><li>1.1^</li></ol></li>
+	</ol>
+	<p>2</p>
+	<ol><li>2</li></ol>
+	=>
+	<ol>
+		<li>1<ol><li>1.1^2</li></ol></li>
+		<li>2</li>
+	</ol>
+</textarea>
+<!-- Result selection is incorrect - see #13098 -->
+<textarea id="join_list15_del">
+	<ul>
+		<li><a href="#one">one^</a></li>
+		<li><a href="#two">two</a></li>
+
+	</ul>
+	=>
+	<ul>
+		<li><a href="#one">one</a>^<a href="#two">two</a>@</li>
+	</ul>
+</textarea>
+<!-- Result selection is incorrect - see #13098 -->
+<textarea id="join_list16_del">
+	<ul>
+		<li><a href="#one"><span>one^</span></a></li>
+		<li><a href="#two">two</a></li>
+
+	</ul>
+	=>
+	<ul>
+		<li><a href="#one"><span>one</span></a>^<a href="#two">two</a>@</li>
+	</ul>
+</textarea>
+<!-- #13409 -->
+<textarea id="join_list17_del">
+	<ul>
+		<li>
+			<a href="#one">x^</a>
+			<ul>
+				<li><span>y</span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li><a href="#one">x</a>^<span>y</span>@</li>
+	</ul>
+</textarea>
+<!-- #13409 -->
+<textarea id="join_list18_del">
+	<ul>
+		<li>
+			<a href="#one"><strong>x^</strong></a>
+			<ul>
+				<li><span><em>y</em></span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li><a href="#one"><strong>x</strong></a>^<span><em>y</em></span>@</li>
+	</ul>
+</textarea>
+<!-- #13409 -->
+<textarea id="join_list19_del">
+	<ul>
+		<li>
+			<p><a href="#one"><strong>x^</strong></a></p>
+			<ul>
+				<li><span><em>y</em></span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li><p><a href="#one"><strong>x</strong></a>^<span><em>y</em></span>@</p></li>
+	</ul>
+</textarea>
+<!-- #13409 -->
+<textarea id="join_list20_del">
+	<ul>
+		<li>
+			x^
+			<ul>
+				<li><span><em>y</em></span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li>x^<span><em>y</em></span>@@</li>
+	</ul>
+</textarea>
+<!-- #13409 -->
+<textarea id="join_list21_del">
+	<ul>
+		<li>
+			<blockquote>x^</blockquote>
+			<ul>
+				<li><span><em>y</em></span></li>
+			</ul>
+		</li>
+	</ul>
+	=>
+	<ul>
+		<li><blockquote>x^<span><em>y</em></span></blockquote></li>
+	</ul>
+</textarea>
+
+<textarea id="outdent_list">
+	<ol>
+		<li>^1</li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>^1@</p>
+	<ol>
+		<li>2</li>
+	</ol>
+</textarea>
+<textarea id="outdent_list2">
+	<ol>
+		<li><p>^1</p></li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>^1@</p>
+	<ol>
+		<li>2</li>
+	</ol>
+</textarea>
+<!-- Result selection is incorrect - see #13098 -->
+<textarea id="join_list15">
+	<ul>
+		<li><a href="#one">one</a></li>
+		<li><a href="#two">^two</a></li>
+
+	</ul>
+	=>
+	<ul>
+		<li><a href="#one">one</a>^<a href="#two">two</a>@</li>
+	</ul>
+</textarea>
+<!-- Result selection is incorrect - see #13098 -->
+<textarea id="join_list16">
+	<ul>
+		<li><a href="#one"><span>one</span></a></li>
+		<li><a href="#two">^two</a></li>
+
+	</ul>
+	=>
+	<ul>
+		<li><a href="#one"><span>one</span></a>^<a href="#two">two</a>@</li>
+	</ul>
+</textarea>
+<!-- Result selection is incorrect - see #13098 -->
+<textarea id="join_list17">
+	<ol>
+		<li>
+			<a href="#one">one</a>
+			<ol>
+				<li><a href="#two">^two</a></li>
+				<li><a href="#three">three</a></li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>
+			<a href="#one">one</a>^<a href="#two">two</a>
+			<ol>
+				<li><a href="#three">three</a></li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<!-- Result selection is incorrect - see #13098 -->
+<textarea id="join_list18">
+	<ul>
+		<li><b>xxx</b></li>
+		<li><em>^yyy</em></li>
+	</ul>
+	=>
+	<ul>
+		<li><b>xxx</b>^<em>yyy</em>@</li>
+	</ul>
+</textarea>
+<textarea id="outdent_list3">
+	<table><tbody><tr><td>cell</td></tr></tbody></table>
+	<ol>
+		<li><p>^1</p></li>
+		<li>2</li>
+	</ol>
+	=>
+	<table><tbody><tr><td>cell</td></tr></tbody></table>
+	<p>^1@</p>
+	<ol>
+		<li>2</li>
+	</ol>
+</textarea>
+<textarea id="outdent_list4">
+	<p>foo</p>
+	<ol>
+		<li>^</li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>foo</p>
+	<p>^@</p>
+	<ol><li>2</li></ol>
+</textarea>
+<textarea id="outdent_list5">
+	<ol>
+		<li>^</li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>^@</p>
+	<ol><li>2</li></ol>
+</textarea>
+<textarea id="outdent_list6">
+	<p>foo</p>
+	<ol>
+		<li>^1</li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>foo</p>
+	<p>^1@</p>
+	<ol>
+		<li>2</li>
+	</ol>
+</textarea>
+
+<textarea id="no_outdent_list">
+	<ol>
+		<li>^1
+			<ol>
+				<li>sub1</li>
+			</ol>
+		</li>
+		<li>2</li>
+	</ol>
+	=>
+	(no change)
+</textarea>
+<textarea id="no_outdent_list2">
+	<p>foo</p>
+	<ol>
+		<li>^1
+			<ol>
+				<li>sub1</li>
+			</ol>
+		</li>
+		<li>2</li>
+	</ol>
+	=>
+	<p>foo^@</p>
+	<ol>
+		<li>1
+			<ol>
+				<li>sub1</li>
+			</ol>
+		</li>
+		<li>2</li>
+	</ol>
+</textarea>
+
+<textarea id="merge_next_list">
+	<p>foo^</p>
+	<ol>
+		<li>bar</li>
+		<li>baz</li>
+	</ol>
+	=>
+	<p>foo^bar</p>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+<textarea id="merge_next_list2">
+	<p>foo^</p>
+	<ol>
+		<li><p>bar</p></li>
+		<li>baz</li>
+	</ol>
+	=>
+	<p>foo^bar</p>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+<textarea id="merge_next_list3">
+	<h1>foo^</h1>
+	<ol>
+		<li><p>bar</p></li>
+		<li>baz</li>
+	</ol>
+	=>
+	<h1>foo^bar</h1>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+<textarea id="merge_next_list4">
+	<div><p>foo^</p></div>
+	<ol>
+		<li><p>bar</p></li>
+		<li>baz</li>
+	</ol>
+	=>
+	<div><p>foo^bar</p></div>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+<textarea id="merge_next_list5">
+	<p><a href="#foo">foo^</a></p>
+	<ol>
+		<li><a href="#bar">bar</a></li>
+		<li>baz</li>
+	</ol>
+	=>
+	<p><a href="#foo">foo^</a><a href="#bar">bar</a></p>
+	<ol>
+		<li>baz</li>
+	</ol>
+</textarea>
+
+<textarea id="remove_empty_block">
+	<p>^</p>
+	<ol>
+		<li>bar
+			<ol>
+				<li>baz</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<ol>
+		<li>^bar
+			<ol>
+				<li>baz</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>
+<textarea id="remove_empty_block2">
+	<p>^</p>
+	<ol>
+		<li>bar</li>
+		<li>baz</li>
+	</ol>
+	=>
+	<ol>
+		<li>^bar@</li>
+		<li>baz</li>
+	</ol>
+</textarea>
+
+
+<textarea id="del_no_action">
+	<table>
+		<tbody>
+			<tr>
+				<td>foo^</td>
+			</tr>
+		</tbody>
+	</table>
+	<ol>
+		<li><p>bar</p></li>
+		<li>baz</li>
+	</ol>
+	=>
+	<table>
+		<tbody>
+		<tr>
+			<td>foo@</td>
+		</tr>
+		</tbody>
+	</table>
+	<ol>
+		<li><p>^bar@</p></li>
+		<li>baz</li>
+	</ol>
+</textarea>
+<textarea id="del_no_action2">
+	<p>foo^</p>
+	<ol>
+		<li>bar
+			<ol>
+				<li>baz</li>
+			</ol>
+		</li>
+	</ol>
+	=>
+	<p>foo@</p>
+	<ol>
+		<li>^bar
+			<ol>
+				<li>baz</li>
+			</ol>
+		</li>
+	</ol>
+</textarea>

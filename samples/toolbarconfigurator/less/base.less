@@ -1,0 +1,38 @@
+// Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+// For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
+
+@base-font-size: 				16px;
+@base-line-height: 				24px;
+@base-line-ratio:				1.8;
+
+@sample-font-stack:				Arial, Helvetica, sans-serif;
+@sample-font-stack-monospace:	Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+@sample-font-maven:				"Maven Pro";
+@sample-font-indie:				"Indie Flower";
+@sample-text-color:				#575757;
+
+@sample-link-color:				#cf5d4e;
+@sample-link-color-hover:		lighten( @sample-link-color, -10% );
+
+@sample-box-background-color:	#f5f5f5;
+@sample-box-border-color:		#ddd;
+
+@sample-top-navigation-background: #454545;
+
+// Standard gaps
+@sample-standard-vgap: 			1.2em;
+@sample-standard-hgap: 			1.5em;
+
+// Generic font-size/line-height mixin.
+.font-size( @remSize ) {
+	@pxSize: round( @remSize * @base-font-size, 2 );
+
+	@remHeight: round( @remSize * @base-line-ratio, 2 );
+	@pxHeight: round( @pxSize * @base-line-ratio, 2 );
+
+	font-size: ~"@{pxSize}";
+	font-size: ~"@{remSize}rem";
+
+	line-height: ~"@{pxHeight}";
+	line-height: ~"@{remHeight}rem";
+}

@@ -1,74 +1,74 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'pt', {
-	border: 'Tamanho do Limite',
-	caption: 'Título',
+	border: 'Tamanho do contorno',
+	caption: 'Legenda',
 	cell: {
 		menu: 'Célula',
-		insertBefore: 'Insert Cell Before',
-		insertAfter: 'Insert Cell After',
-		deleteCell: 'Eliminar Célula',
-		merge: 'Unir Células',
-		mergeRight: 'Merge Right',
-		mergeDown: 'Merge Down',
-		splitHorizontal: 'Split Cell Horizontally',
-		splitVertical: 'Split Cell Vertically',
-		title: 'Cell Properties',
-		cellType: 'Cell Type',
-		rowSpan: 'Rows Span',
-		colSpan: 'Columns Span',
-		wordWrap: 'Word Wrap',
-		hAlign: 'Horizontal Alignment',
-		vAlign: 'Vertical Alignment',
-		alignBaseline: 'Baseline',
-		bgColor: 'Background Color',
-		borderColor: 'Border Color',
-		data: 'Data',
-		header: 'Header',
-		yes: 'Yes',
-		no: 'No',
-		invalidWidth: 'Cell width must be a number.',
-		invalidHeight: 'Cell height must be a number.',
-		invalidRowSpan: 'Rows span must be a whole number.',
-		invalidColSpan: 'Columns span must be a whole number.',
-		chooseColor: 'Choose'
+		insertBefore: 'Inserir célula antes',
+		insertAfter: 'Inserir célula depois',
+		deleteCell: 'Apagar células',
+		merge: 'Unir células',
+		mergeRight: 'Unir à direita',
+		mergeDown: 'Fundir abaixo',
+		splitHorizontal: 'Dividir célula horizontalmente',
+		splitVertical: 'Dividir célula verticalmente',
+		title: 'Propriedades da célula',
+		cellType: 'Tipo de célula',
+		rowSpan: 'Linhas na célula',
+		colSpan: 'Colunas na célula',
+		wordWrap: 'Moldar texto',
+		hAlign: 'Alinhamento horizontal',
+		vAlign: 'Alinhamento vertical',
+		alignBaseline: 'Base',
+		bgColor: 'Cor de fundo',
+		borderColor: 'Cor da margem',
+		data: 'Dados',
+		header: 'Cabeçalho',
+		yes: 'Sim',
+		no: 'Não',
+		invalidWidth: 'A largura da célula deve ser um número.',
+		invalidHeight: 'A altura da célula deve ser um número.',
+		invalidRowSpan: 'As filas da célula deve ter um número inteiro.',
+		invalidColSpan: 'As colunas da célula devem ter um número inteiro.',
+		chooseColor: 'Escolher'
 	},
-	cellPad: 'Esp. interior',
-	cellSpace: 'Esp. e/células',
+	cellPad: 'Espaço interior',
+	cellSpace: 'Espaçamento de célula',
 	column: {
 		menu: 'Coluna',
-		insertBefore: 'Insert Column Before',
-		insertAfter: 'Insert Column After',
-		deleteColumn: 'Eliminar Coluna'
+		insertBefore: 'Inserir coluna antes',
+		insertAfter: 'Inserir coluna depois',
+		deleteColumn: 'Apagar colunas'
 	},
 	columns: 'Colunas',
-	deleteTable: 'Eliminar Tabela',
-	headers: 'Headers', // MISSING
-	headersBoth: 'Both', // MISSING
-	headersColumn: 'First column', // MISSING
+	deleteTable: 'Apagar tabela',
+	headers: 'Cabeçalhos',
+	headersBoth: 'Ambos',
+	headersColumn: 'Primeira coluna',
 	headersNone: 'Nenhum',
-	headersRow: 'First Row', // MISSING
-	invalidBorder: 'Border size must be a number.', // MISSING
-	invalidCellPadding: 'Cell padding must be a positive number.', // MISSING
-	invalidCellSpacing: 'Cell spacing must be a positive number.', // MISSING
-	invalidCols: 'Number of columns must be a number greater than 0.', // MISSING
-	invalidHeight: 'Table height must be a number.', // MISSING
-	invalidRows: 'Number of rows must be a number greater than 0.', // MISSING
-	invalidWidth: 'Table width must be a number.', // MISSING
-	menu: 'Propriedades da Tabela',
+	headersRow: 'Primeira linha',
+	invalidBorder: 'O tamanho da margem tem de ser um número.',
+	invalidCellPadding: 'A criação do espaço na célula deve ser um número positivo.',
+	invalidCellSpacing: 'O espaçamento da célula deve ser um número positivo.',
+	invalidCols: 'O número de colunas tem de ser um número maior que 0.',
+	invalidHeight: 'A altura da tabela tem de ser um número.',
+	invalidRows: 'O número de linhas tem de ser maior que 0.',
+	invalidWidth: 'A largura da tabela tem de ser um número.',
+	menu: 'Propriedades da tabela',
 	row: {
 		menu: 'Linha',
-		insertBefore: 'Insert Row Before',
-		insertAfter: 'Insert Row After',
-		deleteRow: 'Eliminar Linhas'
+		insertBefore: 'Inserir linha antes',
+		insertAfter: 'Inserir linha depois',
+		deleteRow: 'Apagar linhas'
 	},
 	rows: 'Linhas',
-	summary: 'Sumário',
-	title: 'Propriedades da Tabela',
+	summary: 'Resumo',
+	title: 'Propriedades da tabela',
 	toolbar: 'Tabela',
 	widthPc: 'percentagem',
-	widthPx: 'pixeis',
-	widthUnit: 'width unit' // MISSING
-});
+	widthPx: 'pixéis',
+	widthUnit: 'unidade da largura'
+} );

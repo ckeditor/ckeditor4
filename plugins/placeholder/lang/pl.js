@@ -1,12 +1,12 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'placeholder', 'pl', {
 	title: 'Właściwości wypełniacza',
 	toolbar: 'Utwórz wypełniacz',
-	text: 'Tekst wypełnienia',
-	edit: 'Edytuj wypełnienie',
-	textMissing: 'Wypełnienie musi posiadać jakiś tekst.'
-});
+	name: 'Nazwa wypełniacza',
+	invalidName: 'Wypełniacz nie może być pusty ani nie może zawierać żadnego z następujących znaków: [, ], < oraz >',
+	pathName: 'wypełniacz'
+} );

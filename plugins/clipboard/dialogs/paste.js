@@ -1,11 +1,12 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'paste', function( editor ) {
-	var lang = editor.lang.clipboard;
-	var isCustomDomain = CKEDITOR.env.isCustomDomain();
+	var lang = editor.lang.clipboard,
+		clipboard = CKEDITOR.plugins.clipboard,
+		lastDataTransfer;
 
 	function onPasteFrameLoad( win ) {
 		var doc = new CKEDITOR.dom.document( win.document ),
@@ -16,12 +17,28 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 		body.setAttribute( 'contenteditable', true );
 
+		// Forward dataTransfer (#13883).
+		body.on( clipboard.mainPasteEvent, function( evt ) {
+			var dataTransfer = clipboard.initPasteDataTransfer( evt );
+
+			if ( !lastDataTransfer ) {
+				lastDataTransfer = dataTransfer;
+			} else
+			// For two paste with the same dataTransfer we can use that dataTransfer (two internal pastes are
+			// considered as an internal paste).
+			if ( dataTransfer != lastDataTransfer ) {
+				// If there were two paste with different DataTransfer objects create a new, empty, data transfer
+				// and use it (one internal and one external paste are considered as external paste).
+				lastDataTransfer = clipboard.initPasteDataTransfer();
+			}
+		} );
+
 		// IE before version 8 will leave cursor blinking inside the document after
 		// editor blurred unless we clean up the selection. (#4716)
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 8 ) {
 			doc.getWindow().on( 'blur', function() {
 				doc.$.selection.empty();
-			});
+			} );
 		}
 
 		doc.on( 'keydown', function( e ) {
@@ -56,7 +73,12 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 	// Do not use editor#paste, because it would start from beforePaste event.
 	editor.on( 'pasteDialogCommit', function( evt ) {
 		if ( evt.data )
-			editor.fire( 'paste', { type: 'auto', dataValue: evt.data } );
+			editor.fire( 'paste', {
+				type: 'auto',
+				dataValue: evt.data.dataValue,
+				method: 'paste',
+				dataTransfer: evt.data.dataTransfer || clipboard.initPasteDataTransfer()
+			} );
 	}, null, null, 1000 );
 
 	return {
@@ -86,134 +108,141 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			this.commitContent();
 		},
 
-		contents: [
-			{
+		contents: [ {
 			id: 'general',
 			label: editor.lang.common.generalTab,
 			elements: [
 				{
-				type: 'html',
-				id: 'securityMsg',
-				html: '<div style="white-space:normal;width:340px">' + lang.securityMsg + '</div>'
-			},
-				{
-				type: 'html',
-				id: 'pasteMsg',
-				html: '<div style="white-space:normal;width:340px">' + lang.pasteMsg + '</div>'
-			},
-				{
-				type: 'html',
-				id: 'editing_area',
-				style: 'width:100%;height:100%',
-				html: '',
-				focus: function() {
-					var iframe = this.getInputElement(),
-						doc = iframe.getFrameDocument(),
-						body = doc.getBody();
-
-					// Frame content may not loaded at the moment.
-					if ( !body || body.isReadOnly() )
-						iframe.setCustomData( 'pendingFocus', 1 );
-					else
-						body.focus();
+					type: 'html',
+					id: 'securityMsg',
+					html: '<div style="white-space:normal;width:340px">' + lang.securityMsg + '</div>'
 				},
-				setup: function() {
-					var dialog = this.getDialog();
-					var htmlToLoad = '<html dir="' + editor.config.contentsLangDirection + '"' +
-						' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
-						'<head><style>body{margin:3px;height:95%}</style></head><body>' +
-						'<script id="cke_actscrpt" type="text/javascript">' +
-						'window.parent.CKEDITOR.tools.callFunction(' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ',this);' +
-						'</script></body>' +
-						'</html>';
+				{
+					type: 'html',
+					id: 'pasteMsg',
+					html: '<div style="white-space:normal;width:340px">' + lang.pasteMsg + '</div>'
+				},
+				{
+					type: 'html',
+					id: 'editing_area',
+					style: 'width:100%;height:100%',
+					html: '',
+					focus: function() {
+						var iframe = this.getInputElement(),
+							doc = iframe.getFrameDocument(),
+							body = doc.getBody();
 
-					var src =
+						// Frame content may not loaded at the moment.
+						if ( !body || body.isReadOnly() )
+							iframe.setCustomData( 'pendingFocus', 1 );
+						else
+							body.focus();
+					},
+					setup: function() {
+						var dialog = this.getDialog();
+						var htmlToLoad = '<html dir="' + editor.config.contentsLangDirection + '"' +
+							' lang="' + ( editor.config.contentsLanguage || editor.langCode ) + '">' +
+							'<head><style>body{margin:3px;height:95%;word-break:break-all;}</style></head><body>' +
+							'<script id="cke_actscrpt" type="text/javascript">' +
+							'window.parent.CKEDITOR.tools.callFunction(' + CKEDITOR.tools.addFunction( onPasteFrameLoad, dialog ) + ',this);' +
+							'</script></body>' +
+							'</html>';
+
+						var src =
 							CKEDITOR.env.air ?
-								'javascript:void(0)' :
-							isCustomDomain ?
-								'javascript:void((function(){' +
+								'javascript:void(0)' : // jshint ignore:line
+							( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ?
+								'javascript:void((function(){' + encodeURIComponent( // jshint ignore:line
 									'document.open();' +
-									'document.domain=\'' + document.domain + '\';' +
-									'document.close();' +
-								'})())"'
+									'(' + CKEDITOR.tools.fixDomain + ')();' +
+									'document.close();'
+								) + '})())"'
 							: '';
 
-					var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
-						' class="cke_pasteframe"' +
-						' frameborder="0" ' +
-						' allowTransparency="true"' +
-						' src="' + src + '"' +
-						' role="region"' +
-						' aria-label="' + lang.pasteArea + '"' +
-						' aria-describedby="' + dialog.getContentElement( 'general', 'pasteMsg' ).domId + '"' +
-						' aria-multiple="true"' +
-						'></iframe>' );
+						var iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
+							' class="cke_pasteframe"' +
+							' frameborder="0" ' +
+							' allowTransparency="true"' +
+							' src="' + src + '"' +
+							' aria-label="' + lang.pasteArea + '"' +
+							' aria-describedby="' + dialog.getContentElement( 'general', 'pasteMsg' ).domId + '"' +
+							'></iframe>' );
 
-					iframe.on( 'load', function( e ) {
-						e.removeListener();
+						// Reset last data transfer.
+						lastDataTransfer = null;
 
-						var doc = iframe.getFrameDocument();
-						doc.write( htmlToLoad );
+						iframe.on( 'load', function( e ) {
+							e.removeListener();
 
-						editor.focusManager.add( doc.getBody() );
+							var doc = iframe.getFrameDocument();
+							doc.write( htmlToLoad );
 
-						if ( CKEDITOR.env.air )
-							onPasteFrameLoad.call( this, doc.getWindow().$ );
-					}, dialog );
+							editor.focusManager.add( doc.getBody() );
 
-					iframe.setCustomData( 'dialog', dialog );
+							if ( CKEDITOR.env.air )
+								onPasteFrameLoad.call( this, doc.getWindow().$ );
+						}, dialog );
 
-					var container = this.getElement();
-					container.setHtml( '' );
-					container.append( iframe );
+						iframe.setCustomData( 'dialog', dialog );
 
-					// IE need a redirect on focus to make
-					// the cursor blinking inside iframe. (#5461)
-					if ( CKEDITOR.env.ie ) {
-						var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute" role="presentation"></span>' );
-						focusGrabber.on( 'focus', function() {
-							iframe.$.contentWindow.focus();
-						});
-						container.append( focusGrabber );
+						var container = this.getElement();
+						container.setHtml( '' );
+						container.append( iframe );
 
-						// Override focus handler on field.
-						this.focus = function() {
-							focusGrabber.focus();
-							this.fire( 'focus' );
+						// IE need a redirect on focus to make
+						// the cursor blinking inside iframe. (#5461)
+						if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+							var focusGrabber = CKEDITOR.dom.element.createFromHtml( '<span tabindex="-1" style="position:absolute" role="presentation"></span>' );
+							focusGrabber.on( 'focus', function() {
+								// Since fixDomain is called in src attribute,
+								// IE needs some slight delay to correctly move focus.
+								setTimeout( function() {
+									iframe.$.contentWindow.focus();
+								} );
+							} );
+							container.append( focusGrabber );
+
+							// Override focus handler on field.
+							this.focus = function() {
+								focusGrabber.focus();
+								this.fire( 'focus' );
+							};
+						}
+
+						this.getInputElement = function() {
+							return iframe;
 						};
+
+						// Force container to scale in IE.
+						if ( CKEDITOR.env.ie ) {
+							container.setStyle( 'display', 'block' );
+							container.setStyle( 'height', ( iframe.$.offsetHeight + 2 ) + 'px' );
+						}
+					},
+					commit: function() {
+						var editor = this.getDialog().getParentEditor(),
+							body = this.getInputElement().getFrameDocument().getBody(),
+							bogus = body.getBogus(),
+							html;
+						bogus && bogus.remove();
+
+						// Saving the contents so changes until paste is complete will not take place (#7500)
+						html = body.getHtml();
+
+						// Opera needs some time to think about what has happened and what it should do now.
+						setTimeout( function() {
+							editor.fire( 'pasteDialogCommit', {
+								dataValue: html,
+								// Avoid error if there was no paste so lastDataTransfer is null.
+								dataTransfer: lastDataTransfer || clipboard.initPasteDataTransfer()
+							} );
+						}, 0 );
 					}
-
-					this.getInputElement = function() {
-						return iframe;
-					};
-
-					// Force container to scale in IE.
-					if ( CKEDITOR.env.ie ) {
-						container.setStyle( 'display', 'block' );
-						container.setStyle( 'height', ( iframe.$.offsetHeight + 2 ) + 'px' );
-					}
-				},
-				commit: function( data ) {
-					var editor = this.getDialog().getParentEditor(),
-						body = this.getInputElement().getFrameDocument().getBody(),
-						bogus = body.getBogus(),
-						html;
-					bogus && bogus.remove();
-
-					// Saving the contents so changes until paste is complete will not take place (#7500)
-					html = body.getHtml();
-
-					// Opera needs some time to think about what has happened and what it should do now.
-					setTimeout( function() {
-						editor.fire( 'pasteDialogCommit', html );
-					}, 0 );
 				}
-			}
 			]
-		}
-		]
+		} ]
 	};
-});
+} );
 
 /**
  * Internal event to pass paste dialog's data to the listeners.

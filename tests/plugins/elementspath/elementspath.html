@@ -1,0 +1,32 @@
+<head>
+	<script src="_helpers/tools.js"></script>
+</head>
+<body>
+	<textarea id="mixedContentEditableTree">
+		<div>
+			<p contenteditable="false">
+				<strong>
+					<strong contenteditable="true">
+						<span>
+							abc abc^ abc
+						</span>
+					</strong>
+				</strong>
+			</p>
+		</div>
+	</textarea>
+
+	<textarea id="testWidgetSample">
+		<div contenteditable="false">
+			<figure>
+				<span>
+					<span></span>
+				</span>
+				<figcaption id="sel_caption" contenteditable="true">Roll out of ^Saturn V on launch pad</figcaption>
+			</figure>
+			<span>
+				<img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw%3D%3D" width="14" height="14">
+			</span>
+		</div>
+	</textarea>
+</body>

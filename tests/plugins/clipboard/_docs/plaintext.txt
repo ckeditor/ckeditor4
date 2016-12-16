@@ -1,0 +1,38 @@
+1aaa
+2bbb	ccc
+
+  3ddd
+		4eee
+	5fff
+
+
+6ggg  hhh
+
+EOF----------------------
+
+Testing procedure:
+0. Open this file in some plain text editor (gedit/notepad).
+1. Select content above. Note: select with line 10.
+2. Open plugins/clipboard/samples/clipboard.html.
+3. Paste selected content into one of editors.
+4. Copy result from the paste event with lowest priority (-1).
+
+
+Fx:
+1aaa<br>2bbb&nbsp;&nbsp; &nbsp;ccc<br><br>&nbsp; 3ddd<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;4eee<br>&nbsp;&nbsp; &nbsp;5fff<br><br><br>6ggg&nbsp; hhh<br><br>
+
+
+Chrome:
+<div>1aaa</div><div>2bbb<span class="Apple-tab-span" style="white-space:pre">	</span>ccc</div><div><br></div><div>&nbsp; 3ddd</div><div><span class="Apple-tab-span" style="white-space:pre">	 </span>4eee</div><div><span class="Apple-tab-span" style="white-space:pre"> </span>5fff</div><div><br></div><div><br></div><div>6ggg &nbsp;hhh</div><div><br></div>
+
+
+IE8 & IE7 compat:
+<P>1aaa<BR>2bbb&nbsp;ccc</P> <P>&nbsp; 3ddd<BR>&nbsp;&nbsp;4eee<BR>&nbsp;5fff</P> <P><BR>6ggg&nbsp; hhh<BR></P>
+
+or:
+
+<P>1aaa<BR>2bbb&nbsp;ccc</P> <P>&nbsp; 3ddd<BR>&nbsp;&nbsp;4eee<BR>&nbsp;5fff</P> <P><BR>6ggg&nbsp; hhh</P> <P>&nbsp;</P>
+
+
+Opera:
+1aaa<br>2bbb ccc<br><br> 3ddd<br> 4eee<br> 5fff<br><br><br>6ggg hhh<br>

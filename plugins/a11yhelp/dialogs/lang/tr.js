@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
@@ -11,13 +11,14 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 		name: 'Genel',
 		items: [
 			{
-			name: 'Araç Çubuğu Editörü',
-			legend: 'Araç çubuğunda gezinmek için ${toolbarFocus} basın. TAB ve SHIFT-TAB ile önceki ve sonraki araç çubuğu grubuna taşıyın. SAĞ OK veya SOL OK ile önceki ve sonraki bir araç çubuğu düğmesini hareket ettirin. SPACE tuşuna basın veya araç çubuğu düğmesini etkinleştirmek için ENTER tuşna basın.'
+			name: 'Düzenleyici Araç Çubuğu',
+			legend: 'Araç çubuğunda gezinmek için ${toolbarFocus} basın. TAB ve SHIFT+TAB ile önceki ve sonraki araç çubuğu grubuna taşıyın. SAĞ OK veya SOL OK ile önceki ve sonraki bir araç çubuğu düğmesini hareket ettirin. SPACE tuşuna basın veya araç çubuğu düğmesini etkinleştirmek için ENTER tuşna basın.'
 		},
 
 			{
-			name: 'Dialog Editörü',
-			legend: 'Dialog penceresi içinde, sonraki iletişim alanına gitmek için SEKME tuşuna basın, önceki alana geçmek için SHIFT + TAB tuşuna basın, pencereyi göndermek için ENTER tuşuna basın, dialog penceresini iptal etmek için ESC tuşuna basın. Birden çok sekme sayfaları olan diyalogların, sekme listesine gitmek için ALT + F10 tuşlarına basın. Sonra TAB veya SAĞ OK sonraki sekmeye taşıyın. SHIFT + TAB veya SOL OK ile önceki sekmeye geçin. Sekme sayfayı seçmek için SPACE veya ENTER tuşuna basın.'
+			name: 'Diyalog Düzenleyici',
+			legend:
+				'Dialog penceresi içinde, sonraki iletişim alanına gitmek için SEKME tuşuna basın, önceki alana geçmek için SHIFT + TAB tuşuna basın, pencereyi göndermek için ENTER tuşuna basın, dialog penceresini iptal etmek için ESC tuşuna basın. Birden çok sekme sayfaları olan diyalogların, sekme listesine gitmek için ALT + F10 tuşlarına basın. Sonra TAB veya SAĞ OK sonraki sekmeye taşıyın. SHIFT + TAB veya SOL OK ile önceki sekmeye geçin. Sekme sayfayı seçmek için SPACE veya ENTER tuşuna basın.' 
 		},
 
 			{
@@ -27,12 +28,12 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 
 			{
 			name: 'Liste Kutusu Editörü',
-			legend: 'Liste kutusu içinde, bir sonraki liste öğesine SEKME VEYA AŞAĞI OK ile taşıyın. SHIFT + TAB veya YUKARI önceki liste öğesi taşıyın. Liste seçeneği seçmek için SPACE veya ENTER tuşuna basın. Liste kutusunu kapatmak için ESC tuşuna basın.'
+			legend: 'Liste kutusu içinde, bir sonraki liste öğesine SEKME VEYA AŞAĞI OK ile taşıyın. SHIFT+TAB veya YUKARI önceki liste öğesi taşıyın. Liste seçeneği seçmek için SPACE veya ENTER tuşuna basın. Liste kutusunu kapatmak için ESC tuşuna basın.'
 		},
 
 			{
 			name: 'Element Yol Çubuğu Editörü',
-			legend: 'Elementlerin yol çubuğunda gezinmek için ${ElementsPathFocus} basın. SEKME veya SAĞ OK ile sonraki element düğmesine taşıyın. SHIFT + TAB veya SOL OK önceki düğmeye hareket ettirin. Editör içindeki elementi seçmek için ENTER veya SPACE tuşuna basın.'
+			legend: 'Elementlerin yol çubuğunda gezinmek için ${ElementsPathFocus} basın. SEKME veya SAĞ OK ile sonraki element düğmesine taşıyın. SHIFT+TAB veya SOL OK önceki düğmeye hareket ettirin. Editör içindeki elementi seçmek için ENTER veya SPACE tuşuna basın.'
 		}
 		]
 	},
@@ -41,10 +42,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 		items: [
 			{
 			name: 'Komutu geri al',
-			legend: '${undo} basın'
+			legend: '$(undo)\'ya basın'
 		},
 			{
-			name: ' Tekrar komutu uygula',
+			name: 'Komutu geri al',
 			legend: '${redo} basın'
 		},
 			{
@@ -68,18 +69,72 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 			legend: '${toolbarCollapse} basın'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Önceki komut alanına odaklan',
+			legend: 'Düzeltme imleçinden önce, en yakın uzaktaki alana erişmek için ${accessPreviousSpace} basın, örneğin: iki birleşik HR elementleri. Aynı tuş kombinasyonu tekrarıyla diğer alanlarada ulaşın.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Sonraki komut alanına odaklan',
+			legend: 'Düzeltme imleçinden sonra, en yakın uzaktaki alana erişmek için ${accessNextSpace} basın, örneğin: iki birleşik HR elementleri. Aynı tuş kombinasyonu tekrarıyla diğer alanlarada ulaşın.'
 		},
 			{
 			name: 'Erişilebilirlik Yardımı',
-			legend: '${a11yHelp} basın'
+			legend: '${a11yHelp}\'e basın'
 		}
 		]
 	}
-	]
-});
+	],
+	tab: 'Sekme tuşu',
+	pause: 'Durdurma tuşu',
+	capslock: 'Büyük harf tuşu',
+	escape: 'Vazgeç tuşu',
+	pageUp: 'Sayfa Yukarı',
+	pageDown: 'Sayfa Aşağı',
+	leftArrow: 'Sol ok',
+	upArrow: 'Yukarı ok',
+	rightArrow: 'Sağ ok',
+	downArrow: 'Aşağı ok',
+	insert: 'Araya gir',
+	leftWindowKey: 'Sol windows tuşu',
+	rightWindowKey: 'Sağ windows tuşu',
+	selectKey: 'Seçme tuşu',
+	numpad0: 'Nümerik 0',
+	numpad1: 'Nümerik 1',
+	numpad2: 'Nümerik 2',
+	numpad3: 'Nümerik 3',
+	numpad4: 'Nümerik 4',
+	numpad5: 'Nümerik 5',
+	numpad6: 'Nümerik 6',
+	numpad7: 'Nümerik 7',
+	numpad8: 'Nümerik 8',
+	numpad9: 'Nümerik 9',
+	multiply: 'Çarpma',
+	add: 'Toplama',
+	subtract: 'Çıkarma',
+	decimalPoint: 'Ondalık işareti',
+	divide: 'Bölme',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lk',
+	scrollLock: 'Scr Lk',
+	semiColon: 'Noktalı virgül',
+	equalSign: 'Eşittir',
+	comma: 'Virgül',
+	dash: 'Eksi',
+	period: 'Nokta',
+	forwardSlash: 'İleri eğik çizgi',
+	graveAccent: 'Üst tırnak',
+	openBracket: 'Parantez aç',
+	backSlash: 'Ters eğik çizgi',
+	closeBracket: 'Parantez kapa',
+	singleQuote: 'Tek tırnak'
+} );

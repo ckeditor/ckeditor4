@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'bg', {
 	acccessKey: 'Ключ за достъп',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	anchorName: 'По име на котва',
 	charset: 'Тип на свързания ресурс',
 	cssClasses: 'Класове за CSS',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-mail aдрес',
 	emailBody: 'Съдържание',
 	emailSubject: 'Тема',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'bg', {
 	type: 'Тип на връзката',
 	unlink: 'Премахни връзката',
 	upload: 'Качване'
-});
+} );

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Replace Textarea by Code &mdash; CKEditor Sample</title>
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/old/sample.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="samples">
+		<a href="../../../samples/old/index.html">CKEditor Samples</a> &raquo; Replace Textarea Elements Using JavaScript Code
+	</h1>
+	<form action="sample_posteddata.php" method="post">
+		<div class="description">
+			<p>
+				This editor is using an <code>&lt;iframe&gt;</code> element-based editing area, provided by the <strong>Wysiwygarea</strong> plugin.
+			</p>
+<pre class="samples">
+CKEDITOR.replace( '<em>textarea_id</em>' )
+</pre>
+		</div>
+		<textarea cols="80" id="editor1" name="editor1" rows="10">
+			&lt;p&gt;Apollo 11&lt;/p&gt;
+			&lt;p&gt;111 222 333 444 555 666 777&lt;/p&gt;
+		</textarea>
+		<p>
+			<input type="submit" value="Submit">
+		</p>
+	</form>
+	<div id="footer">
+		<hr>
+		<p>
+			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p id="copy">
+			Copyright &copy; 2003-2016, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Knabben. All rights reserved.
+		</p>
+	</div>
+	<div id="debugConsole">
+		<div>Snapshots: <strong id="debugSnapshotsCount">0</strong></div>
+		<div>Typing: <strong id="debugTypingVal">false</strong></div>
+	</div>
+	<div id="undoControls">
+		<a onclick="CKEDITOR.instances.editor1.execCommand('undo');" href="#">&lt; Undo</a>
+		<a onclick="CKEDITOR.instances.editor1.execCommand('redo');" href="#">Redo &gt;</a>
+	</div>
+	<script type="text/javascript">
+	var snapCount = document.getElementById( 'debugSnapshotsCount' ),
+		typingTracer = document.getElementById( 'debugTypingVal' ),
+		updateTypingTracer = function() {
+			typingTracer.innerHTML = String( CKEDITOR.instances.editor1.undoManager.typing );
+		},
+		updateSnapshotCounter = function() {
+			if ( !CKEDITOR && CKEDITOR.instances.editor1 )
+				return;
+
+			snapCount.innerHTML = CKEDITOR.instances.editor1.undoManager.snapshots.length;
+			updateTypingTracer();
+		};
+
+	CKEDITOR.replace( 'editor1', {
+		toolbar: [ [ 'Source', 'Bold', 'Italic' ] ,[ 'Undo' ], [ 'Redo' ] ],
+		on: {
+			instanceReady: function( evt ) {
+				CKEDITOR.instances.editor1.focus();
+			},
+			change: function( evt ) {
+				updateSnapshotCounter();
+			}
+		}
+	} );
+
+	window.setInterval( updateSnapshotCounter, 700 );
+	</script>
+	<style type="text/css">
+	#debugConsole { clear: both; }
+	#undoControls { clear: both; }
+	#undoControls a { padding: 25px 50px; font-size: 19px; margin-right: 15px; outline: 2px solid gray; display: block; float: left; text-decoration: none; }
+	</style>
+</body>
+</html>

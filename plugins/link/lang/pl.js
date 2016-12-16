@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'pl', {
 	acccessKey: 'Klawisz dostępu',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'pl', {
 	anchorName: 'Wg nazwy',
 	charset: 'Kodowanie znaków obiektu docelowego',
 	cssClasses: 'Nazwa klasy CSS',
+	download: 'Wymuś pobieranie',
+	displayText: 'Wyświetlany tekst',
 	emailAddress: 'Adres e-mail',
 	emailBody: 'Treść',
 	emailSubject: 'Temat',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'pl', {
 	type: 'Typ odnośnika',
 	unlink: 'Usuń odnośnik',
 	upload: 'Wyślij'
-});
+} );

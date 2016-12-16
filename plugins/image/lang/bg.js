@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'bg', {
-	alertUrl: 'Моля, въведете пълния път до изображението',
 	alt: 'Алтернативен текст',
 	border: 'Рамка',
 	btnUpload: 'Изпрати я на сървъра',
@@ -23,4 +22,4 @@ CKEDITOR.plugins.setLang( 'image', 'bg', {
 	validateBorder: 'Border must be a whole number.', // MISSING
 	validateHSpace: 'HSpace must be a whole number.', // MISSING
 	validateVSpace: 'VSpace must be a whole number.' // MISSING
-});
+} );

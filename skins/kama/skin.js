@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /*
@@ -21,7 +21,7 @@ For this skin, the following tasks are achieved in this file:
 	2. Register browser specific skin files.
 	3. Define the "Chameleon" feature.
 	4. Register the skin icons, to have them used on the development version of
-	  the skin.
+		the skin.
 */
 
 // 1. Register the skin
@@ -55,7 +55,7 @@ CKEDITOR.skin.name = 'kama';
 // The available browser specific files must be set separately for editor.css
 // and dialog.css.
 CKEDITOR.skin.ua_editor = 'ie,iequirks,ie7,ie8';
-CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8,opera';
+CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8';
 
 
 // 3. Define the "Chameleon" feature
@@ -82,16 +82,6 @@ CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8,opera';
 // The "$color" placeholder can be used in the returned string. It'll be
 // replaced with the desired color.
 CKEDITOR.skin.chameleon = function( editor, part ) {
-	// Use this function just to avoid having to repeat all these rules on
-	// several places of our template.
-	function getLinearBackground( definition ) {
-		return 'background:-moz-linear-gradient(' + definition + ');' + // FF3.6+
-			'background:-webkit-linear-gradient(' + definition + ');' + // Chrome10+, Safari5.1+
-			'background:-o-linear-gradient(' + definition + ');' + // Opera 11.10+
-			'background:-ms-linear-gradient(' + definition + ');' + // IE10+
-			'background:linear-gradient(' + definition + ');'; // W3C
-	}
-
 	var css;
 
 	// The Chameleon feature is available for each CKEditor instance,
@@ -112,21 +102,18 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 		css = cssId + ' .cke_inner,' +
 			cssId + ' .cke_dialog_tab' +
 			'{' +
-		    'background-color:$color;' +
-				'background:-webkit-gradient(linear,0 -15,0 40,from(#fff),to($color));' +
-				getLinearBackground( 'top,#fff -15px,$color 40px' ) +
+			'background-color:$color;' +
+				'linear-gradient( to bottom,#fff -15px,$color 40px );' +
 			'}' +
 
 			cssId + ' .cke_toolgroup' +
 			'{' +
-				'background:-webkit-gradient(linear,0 0,0 100,from(#fff),to($color));' +
-				getLinearBackground( 'top,#fff,$color 100px' ) +
+				'linear-gradient( to bottom,#fff,$color 100px );' +
 			'}' +
 
 			cssId + ' .cke_combo_button' +
 			'{' +
-				'background:-webkit-gradient(linear, left bottom, left -100, from(#fff), to($color));' +
-				getLinearBackground( 'bottom,#fff,$color 100px' ) +
+				'linear-gradient( to top,#fff,$color 100px );' +
 			'}' +
 
 			cssId + ' .cke_dialog_contents,' +
@@ -233,7 +220,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 // used instead. This means that a skin is not required to provide all icons.
 // Actually, it is not required to provide icons at all.
 
-(function() {
+( function() {
 	// The available icons. This list must match the file names (without
 	// extension) available inside the "icons" folder.
 	var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
@@ -255,7 +242,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 	for ( var i = 0; i < icons.length; i++ ) {
 		CKEDITOR.skin.addIcon( icons[ i ], iconsFolder + icons[ i ] + '.png' );
 	}
-})();
+} )();
 
 // %REMOVE_END%
 

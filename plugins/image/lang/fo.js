@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'fo', {
-	alertUrl: 'Rita slóðina til myndina',
 	alt: 'Alternativur tekstur',
 	border: 'Bordi',
 	btnUpload: 'Send til ambætaran',
@@ -23,4 +22,4 @@ CKEDITOR.plugins.setLang( 'image', 'fo', {
 	validateBorder: 'Bordi má vera eitt heiltal.',
 	validateHSpace: 'HSpace má vera eitt heiltal.',
 	validateVSpace: 'VSpace má vera eitt heiltal.'
-});
+} );

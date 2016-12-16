@@ -1,22 +1,22 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'pt', {
-	toolbarCollapse: 'Colapsar Barra',
-	toolbarExpand: 'Expandir Barra',
+	toolbarCollapse: 'Ocultar barra de ferramentas',
+	toolbarExpand: 'Expandir barra de ferramentas',
 	toolbarGroups: {
-		document: 'Document',
-		clipboard: 'Clipboard/Undo',
-		editing: 'Editing',
-		forms: 'Forms',
-		basicstyles: 'Basic Styles',
-		paragraph: 'Paragraph',
-		links: 'Links',
-		insert: 'Insert',
-		styles: 'Styles',
-		colors: 'Colors',
-		tools: 'Tools'
+		document: 'Documento',
+		clipboard: 'Área de transferência/Anular',
+		editing: 'Edição',
+		forms: 'Formulários',
+		basicstyles: 'Estilos básicos',
+		paragraph: 'Parágrafo',
+		links: 'Hiperligações',
+		insert: 'Inserir',
+		styles: 'Estilos',
+		colors: 'Cores',
+		tools: 'Ferramentas'
 	},
 	toolbars: 'Editor de barras de ferramentas'
-});
+} );

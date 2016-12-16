@@ -1,12 +1,12 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'devtools', 'de', {
 	title: 'Elementinformation',
 	dialogName: 'Dialogfenstername',
 	tabName: 'Reitername',
-	elementId: 'Element ID',
+	elementId: 'Elementkennung',
 	elementType: 'Elementtyp'
-});
+} );

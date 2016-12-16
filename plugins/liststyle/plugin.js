@@ -1,22 +1,46 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.liststyle = {
 		requires: 'dialog,contextmenu',
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+		// jscs:disable maximumLineLength
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		init: function( editor ) {
-			editor.addCommand( 'numberedListStyle', new CKEDITOR.dialogCommand( 'numberedListStyle' ) );
+			if ( editor.blockless )
+				return;
+
+			var def, cmd;
+
+			def = new CKEDITOR.dialogCommand( 'numberedListStyle', {
+				requiredContent: 'ol',
+				allowedContent: 'ol{list-style-type}[start]; li{list-style-type}[value]',
+				contentTransformations: [
+					[ 'ol: listTypeToStyle' ]
+				]
+			} );
+			cmd = editor.addCommand( 'numberedListStyle', def );
+			editor.addFeature( cmd );
 			CKEDITOR.dialog.add( 'numberedListStyle', this.path + 'dialogs/liststyle.js' );
-			editor.addCommand( 'bulletedListStyle', new CKEDITOR.dialogCommand( 'bulletedListStyle' ) );
+
+			def = new CKEDITOR.dialogCommand( 'bulletedListStyle', {
+				requiredContent: 'ul',
+				allowedContent: 'ul{list-style-type}',
+				contentTransformations: [
+					[ 'ul: listTypeToStyle' ]
+				]
+			} );
+			cmd = editor.addCommand( 'bulletedListStyle', def );
+			editor.addFeature( cmd );
 			CKEDITOR.dialog.add( 'bulletedListStyle', this.path + 'dialogs/liststyle.js' );
 
 			//Register map group;
-			editor.addMenuGroup( "list", 108 );
+			editor.addMenuGroup( 'list', 108 );
 
-			editor.addMenuItems({
+			editor.addMenuItems( {
 				numberedlist: {
 					label: editor.lang.liststyle.numberedTitle,
 					group: 'list',
@@ -27,9 +51,9 @@
 					group: 'list',
 					command: 'bulletedListStyle'
 				}
-			});
+			} );
 
-			editor.contextMenu.addListener( function( element, selection ) {
+			editor.contextMenu.addListener( function( element ) {
 				if ( !element || element.isReadOnly() )
 					return null;
 
@@ -43,9 +67,9 @@
 					element = element.getParent();
 				}
 				return null;
-			});
+			} );
 		}
 	};
 
 	CKEDITOR.plugins.add( 'liststyle', CKEDITOR.plugins.liststyle );
-})();
+} )();

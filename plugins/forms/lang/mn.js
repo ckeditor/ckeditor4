@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'mn', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		checkboxTitle: 'Чекбоксны шинж чанар',
 		radioTitle: 'Радио товчны шинж чанар',
 		value: 'Утга',
-		selected: 'Сонгогдсон'
+		selected: 'Сонгогдсон',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Форм шинж чанар',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		size: 'Хэмжээ',
 		lines: 'Мөр',
 		chkMulti: 'Олон зүйл зэрэг сонгохыг зөвшөөрөх',
+		required: 'Required', // MISSING
 		opText: 'Тэкст',
 		opValue: 'Утга',
 		btnAdd: 'Нэмэх',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		value: 'Утга',
 		charWidth: 'Тэмдэгтын өргөн',
 		maxChars: 'Хамгийн их тэмдэгт',
+		required: 'Required', // MISSING
 		type: 'Төрөл',
 		typeText: 'Текст',
 		typePass: 'Нууц үг',
@@ -65,4 +68,4 @@ CKEDITOR.plugins.setLang( 'forms', 'mn', {
 		typeTel: 'Telephone Number', // MISSING
 		typeUrl: 'цахим хуудасны хаяг (URL)'
 	}
-});
+} );

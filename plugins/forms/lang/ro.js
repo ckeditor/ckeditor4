@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ro', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		checkboxTitle: 'Proprietăţi bifă (Checkbox)',
 		radioTitle: 'Proprietăţi buton radio (Radio Button)',
 		value: 'Valoare',
-		selected: 'Selectat'
+		selected: 'Selectat',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Proprietăţi formular (Form)',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		size: 'Mărime',
 		lines: 'linii',
 		chkMulti: 'Permite selecţii multiple',
+		required: 'Required', // MISSING
 		opText: 'Text',
 		opValue: 'Valoare',
 		btnAdd: 'Adaugă',
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'ro', {
 		value: 'Valoare',
 		charWidth: 'Lărgimea caracterului',
 		maxChars: 'Caractere maxime',
+		required: 'Required', // MISSING
 		type: 'Tip',
 		typeText: 'Text',
 		typePass: 'Parolă',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Cauta',
+		typeTel: 'Numar de telefon',
 		typeUrl: 'URL'
 	}
-});
+} );

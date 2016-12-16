@@ -1,85 +1,140 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'ja', {
-	title: 'Accessibility Instructions', // MISSING
-	contents: 'Help Contents. To close this dialog press ESC.', // MISSING
+	title: 'ユーザー補助の説明',
+	contents: 'ヘルプ　このダイアログを閉じるには ESCを押してください。',
 	legend: [
 		{
 		name: '全般',
 		items: [
 			{
-			name: 'Editor Toolbar', // MISSING
-			legend: 'Press ${toolbarFocus} to navigate to the toolbar. Move to the next and previous toolbar group with TAB and SHIFT-TAB. Move to the next and previous toolbar button with RIGHT ARROW or LEFT ARROW. Press SPACE or ENTER to activate the toolbar button.' // MISSING
+			name: 'エディターツールバー',
+			legend: '${toolbarFocus} を押すとツールバーのオン/オフ操作ができます。カーソルをツールバーのグループで移動させるにはTabかSHIFT+Tabを押します。グループ内でカーソルを移動させるには、右カーソルか左カーソルを押します。スペースキーやエンターを押すとボタンを有効/無効にすることができます。'
 		},
 
 			{
-			name: 'Editor Dialog', // MISSING
-			legend: 'Inside a dialog, press TAB to navigate to next dialog field, press SHIFT + TAB to move to previous field, press ENTER to submit dialog, press ESC to cancel dialog. For dialogs that have multiple tab pages, press ALT + F10 to navigate to tab-list. Then move to next tab with TAB OR RIGTH ARROW. Move to previous tab with SHIFT + TAB or LEFT ARROW. Press SPACE or ENTER to select the tab page.' // MISSING
+			name: '編集ダイアログ',
+			legend:
+				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
 		},
 
 			{
-			name: 'Editor Context Menu', // MISSING
-			legend: 'Press ${contextMenu} or APPLICATION KEY to open context-menu. Then move to next menu option with TAB or DOWN ARROW. Move to previous option with SHIFT+TAB or UP ARROW. Press SPACE or ENTER to select the menu option. Open sub-menu of current option with SPACE or ENTER or RIGHT ARROW. Go back to parent menu item with ESC or LEFT ARROW. Close context menu with ESC.' // MISSING
+			name: 'エディターのメニュー',
+			legend: '${contextMenu} キーかAPPLICATION KEYを押すとコンテキストメニューが開きます。Tabか下カーソルでメニューのオプション選択が下に移動します。戻るには、SHIFT+Tabか上カーソルです。スペースもしくはENTERキーでメニューオプションを決定できます。現在選んでいるオプションのサブメニューを開くには、スペース、もしくは右カーソルを押します。サブメニューから親メニューに戻るには、ESCか左カーソルを押してください。ESCでコンテキストメニュー自体をキャンセルできます。'
 		},
 
 			{
-			name: 'Editor List Box', // MISSING
-			legend: 'Inside a list-box, move to next list item with TAB OR DOWN ARROW. Move to previous list item with SHIFT + TAB or UP ARROW. Press SPACE or ENTER to select the list option. Press ESC to close the list-box.' // MISSING
+			name: 'エディターリストボックス',
+			legend: 'リストボックス内で移動するには、Tabか下カーソルで次のアイテムへ移動します。SHIFT+Tabで前のアイテムに戻ります。リストのオプションを選択するには、スペースもしくは、ENTERを押してください。リストボックスを閉じるには、ESCを押してください。'
 		},
 
 			{
-			name: 'Editor Element Path Bar', // MISSING
-			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with  SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
+			name: 'エディター要素パスバー',
+			legend: '${elementsPathFocus} を押すとエレメントパスバーを操作出来ます。Tabか右カーソルで次のエレメントを選択できます。前のエレメントを選択するには、SHIFT+Tabか左カーソルです。スペースもしくは、ENTERでエディタ内の対象エレメントを選択出来ます。'
 		}
 		]
 	},
 		{
-		name: 'Commands', // MISSING
+		name: 'コマンド',
 		items: [
 			{
-			name: ' Undo command', // MISSING
-			legend: 'Press ${undo}' // MISSING
+			name: '元に戻す',
+			legend: '${undo} をクリック'
 		},
 			{
-			name: ' Redo command', // MISSING
-			legend: 'Press ${redo}' // MISSING
+			name: 'やり直し',
+			legend: '${redo} をクリック'
 		},
 			{
-			name: ' Bold command', // MISSING
-			legend: 'Press ${bold}' // MISSING
+			name: '太字',
+			legend: '${bold} をクリック'
 		},
 			{
-			name: ' Italic command', // MISSING
-			legend: 'Press ${italic}' // MISSING
+			name: '斜体 ',
+			legend: '${italic} をクリック'
 		},
 			{
-			name: ' Underline command', // MISSING
-			legend: 'Press ${underline}' // MISSING
+			name: '下線',
+			legend: '${underline} をクリック'
 		},
 			{
-			name: ' Link command', // MISSING
-			legend: 'Press ${link}' // MISSING
+			name: 'リンク',
+			legend: '${link} をクリック'
 		},
 			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
+			name: 'ツールバーを縮める',
+			legend: '${toolbarCollapse} をクリック'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: '前のカーソル移動のできないポイントへ',
+			legend: '${accessPreviousSpace} を押すとカーソルより前にあるカーソルキーで入り込めないスペースへ移動できます。例えば、HRエレメントが2つ接している場合などです。離れた場所へは、複数回キーを押します。'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: '次のカーソル移動のできないポイントへ',
+			legend: '${accessNextSpace} を押すとカーソルより後ろにあるカーソルキーで入り込めないスペースへ移動できます。例えば、HRエレメントが2つ接している場合などです。離れた場所へは、複数回キーを押します。'
 		},
 			{
-			name: ' Accessibility Help', // MISSING
-			legend: 'Press ${a11yHelp}' // MISSING
+			name: 'ユーザー補助ヘルプ',
+			legend: '${a11yHelp} をクリック'
 		}
 		]
 	}
-	]
-});
+	],
+	tab: 'Tab',
+	pause: 'Pause',
+	capslock: 'Caps Lock',
+	escape: 'Escape',
+	pageUp: 'Page Up',
+	pageDown: 'Page Down',
+	leftArrow: '左矢印',
+	upArrow: '上矢印',
+	rightArrow: '右矢印',
+	downArrow: '下矢印',
+	insert: 'Insert',
+	leftWindowKey: '左Windowキー',
+	rightWindowKey: '右のWindowキー',
+	selectKey: 'Select',
+	numpad0: 'Num 0',
+	numpad1: 'Num 1',
+	numpad2: 'Num 2',
+	numpad3: 'Num 3',
+	numpad4: 'Num 4',
+	numpad5: 'Num 5',
+	numpad6: 'Num 6',
+	numpad7: 'Num 7',
+	numpad8: 'Num 8',
+	numpad9: 'Num 9',
+	multiply: '掛ける',
+	add: '足す',
+	subtract: '引く',
+	decimalPoint: '小数点',
+	divide: '割る',
+	f1: 'F1',
+	f2: 'F2',
+	f3: 'F3',
+	f4: 'F4',
+	f5: 'F5',
+	f6: 'F6',
+	f7: 'F7',
+	f8: 'F8',
+	f9: 'F9',
+	f10: 'F10',
+	f11: 'F11',
+	f12: 'F12',
+	numLock: 'Num Lock',
+	scrollLock: 'Scroll Lock',
+	semiColon: 'セミコロン',
+	equalSign: 'イコール記号',
+	comma: 'カンマ',
+	dash: 'ダッシュ',
+	period: 'ピリオド',
+	forwardSlash: 'フォワードスラッシュ',
+	graveAccent: 'グレイヴアクセント',
+	openBracket: '開きカッコ',
+	backSlash: 'バックスラッシュ',
+	closeBracket: '閉じカッコ',
+	singleQuote: 'シングルクォート'
+} );

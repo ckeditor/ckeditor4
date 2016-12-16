@@ -1,0 +1,289 @@
+<head>
+	<script src="../widget/_helpers/tools.js"></script>
+	<script src="_helpers/tools.js"></script>
+</head>
+<body>
+<!-- Simple linking -->
+
+<textarea id="inline-none">
+	<p>
+		<img alt="x" id="x" src="_assets/foo.png" />
+	</p>
+	=>
+	<p>
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+</textarea>
+
+<textarea id="inline-align">
+	<p>
+		<img alt="x" id="x" src="_assets/foo.png" style="float:right" />
+	</p>
+	=>
+	<p>
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" style="float:right" /></a>
+	</p>
+</textarea>
+
+<textarea id="inline-centered">
+	<p>x</p>
+	<p style="text-align:center">
+		<img alt="x" id="x" src="_assets/foo.png" />
+	</p>
+	=>
+	<p>x</p>
+	<p style="text-align:center">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png"/></a>
+	</p>
+</textarea>
+
+<textarea id="captioned-none">
+	<p>y</p>
+	<figure class="image">
+		<img alt="x" id="x" src="_assets/foo.png" />
+		<figcaption>c</figcaption>
+	</figure>
+	=>
+	<p>y</p>
+	<figure class="image">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+		<figcaption>c</figcaption>
+	</figure>
+</textarea>
+
+<textarea id="captioned-align">
+	<p>y</p>
+	<figure class="image" style="float:right">
+		<img alt="x" id="x" src="_assets/foo.png" />
+		<figcaption>c</figcaption>
+	</figure>
+	=>
+	<p>y</p>
+	<figure class="image" style="float:right">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+		<figcaption>c</figcaption>
+	</figure>
+</textarea>
+
+<textarea id="captioned-centered">
+	<p>y</p>
+	<div style="text-align:center">
+		<figure class="image" style="display:inline-block">
+			<img alt="x" id="x" src="_assets/foo.png" />
+			<figcaption>c</figcaption>
+		</figure>
+	</div>
+	=>
+	<p>y</p>
+	<div style="text-align:center">
+		<figure class="image" style="display:inline-block">
+			<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+			<figcaption>c</figcaption>
+		</figure>
+	</div>
+</textarea>
+
+<!-- State shifting of linked widget -->
+
+<textarea id="shift-inline-align">
+	<p>y</p>
+	<p>
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+	=>
+	<p>y</p>
+	<p>
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" style="float:right" /></a>
+	</p>
+</textarea>
+
+<textarea id="shift-inline-center">
+	<p>
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" style="float:right" /></a>
+	</p>
+	=>
+	<p style="text-align:center">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+</textarea>
+
+<textarea id="shift-inline-caption">
+	<p>
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+	=>
+	<figure class="image">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+		<figcaption>caption</figcaption>
+	</figure>
+</textarea>
+
+<textarea id="shift-captioned-align">
+	<p>y</p>
+	<figure class="image">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+		<figcaption>c</figcaption>
+	</figure>
+	=>
+	<p>y</p>
+	<figure class="image" style="float:right">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+		<figcaption>c</figcaption>
+	</figure>
+</textarea>
+
+<textarea id="shift-captioned-center">
+	<p>y</p>
+	<figure class="image">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+		<figcaption>c</figcaption>
+	</figure>
+	=>
+	<p>y</p>
+	<div style="text-align:center">
+		<figure class="image" style="display:inline-block;">
+			<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+			<figcaption>c</figcaption>
+		</figure>
+	</div>
+</textarea>
+
+<textarea id="shift-captioned-decaption">
+	<figure class="image">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+		<figcaption>c</figcaption>
+	</figure>
+	=>
+	<p>
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+</textarea>
+
+<!-- Update link attributes -->
+
+<textarea id="update-link-setdata">
+	<p>y</p>
+	<p>
+		<a href="http://x" target="f"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+	=>
+	<p>y</p>
+	<p>
+		<a dir="rtl" href="ftp://y" id="foo"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+</textarea>
+
+<!-- Unlinking -->
+
+<textarea id="unlink-inline">
+	<p>y</p>
+	<p>
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+	=>
+	<p>y</p>
+	<p>
+		<img alt="x" id="x" src="_assets/foo.png" />
+	</p>
+</textarea>
+
+<textarea id="unlink-inline-aligned">
+	<p>y</p>
+	<p>
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" style="float:right" /></a>
+	</p>
+	=>
+	<p>y</p>
+	<p>
+		<img alt="x" id="x" src="_assets/foo.png" style="float:right" />
+	</p>
+</textarea>
+
+<textarea id="unlink-inline-centered">
+	<p>x</p>
+	<p style="text-align:center">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+	=>
+	<p>x</p>
+	<p style="text-align:center">
+		<img alt="x" id="x" src="_assets/foo.png" />
+	</p>
+</textarea>
+
+<textarea id="unlink-captioned">
+	<p>y</p>
+	<figure class="image">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+		<figcaption>c</figcaption>
+	</figure>
+	=>
+	<p>y</p>
+	<figure class="image">
+		<img alt="x" id="x" src="_assets/foo.png" />
+		<figcaption>c</figcaption>
+	</figure>
+</textarea>
+
+<textarea id="unlink-captioned-aligned">
+	<p>y</p>
+	<figure class="image" style="float:right">
+		<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+		<figcaption>c</figcaption>
+	</figure>
+	=>
+	<p>y</p>
+	<figure class="image" style="float:right">
+		<img alt="x" id="x" src="_assets/foo.png" />
+		<figcaption>c</figcaption>
+	</figure>
+</textarea>
+
+<textarea id="unlink-captioned-centered">
+	<p>y</p>
+	<div style="text-align:center">
+		<figure class="image">
+			<a href="http://x"><img alt="x" id="x" src="_assets/foo.png" /></a>
+			<figcaption>c</figcaption>
+		</figure>
+	</div>
+	=>
+	<p>y</p>
+	<div style="text-align:center">
+		<figure class="image" style="display:inline-block;">
+			<img alt="x" id="x" src="_assets/foo.png" />
+			<figcaption>c</figcaption>
+		</figure>
+	</div>
+</textarea>
+
+<!-- Loading data into link dialog -->
+
+<textarea id="load-data-all">
+	<p>
+		<a accesskey="k" charset="ding" class="bang" dir="rtl" href="ftp://x"
+		id="foo" lang="es" name="bar" rel="dong" style="margin-left:10px;"
+		tabindex="42" target="f" title="boom" type="zoom"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+</textarea>
+
+<textarea id="load-data-mailto">
+	<p>
+		<a href="mailto:a?subject=b&amp;body=c"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+</textarea>
+
+<!-- Custom Link Plugin helpers -->
+
+<textarea id="custom-link-getter">
+	<p>y</p>
+	<p>
+		<a href="http://x" target="f"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+	=>
+	<p>y</p>
+	<p>
+		<a href="custom-href" data-custom="custom"><img alt="x" id="x" src="_assets/foo.png" /></a>
+	</p>
+</textarea>
+</body>

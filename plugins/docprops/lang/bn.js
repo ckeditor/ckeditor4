@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'bn', {
-	bgColor: 'ব্যাকগ্রাউন্ড রং',
-	bgFixed: 'স্ক্রলহীন ব্যাকগ্রাউন্ড',
-	bgImage: 'ব্যাকগ্রাউন্ড ছবির URL',
+	bgColor: 'পৃষ্ঠতলের রং',
+	bgFixed: 'স্ক্রলকরণ-ব্যতিত (নির্দিষ্ট) পৃষ্ঠতল',
+	bgImage: 'পৃষ্ঠতলের ছবির URL',
 	charset: 'ক্যারেক্টার সেট এনকোডিং',
 	charsetASCII: 'ASCII', // MISSING
 	charsetCE: 'Central European', // MISSING
@@ -39,4 +39,4 @@ CKEDITOR.plugins.setLang( 'docprops', 'bn', {
 	title: 'ডক্যুমেন্ট প্রোপার্টি',
 	txtColor: 'টেক্স্ট রং',
 	xhtmlDec: 'XHTML ডেক্লারেশন যুক্ত কর'
-});
+} );

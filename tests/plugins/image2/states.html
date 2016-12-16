@@ -1,0 +1,84 @@
+<head>
+	<script src="_helpers/tools.js"></script>
+</head>
+<body>
+	<div style="display:none">
+		<!-- Captioned widgets without link -->
+		<div id="caption:true_align:none_link:no">
+			<figure class="image" id="x">
+				<img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" />
+				<figcaption>Caption</figcaption>
+			</figure>
+		</div>
+		<div id="caption:true_align:center_link:no">
+			<figure class="image" id="x" style="display:inline-block;">
+				<img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" />
+				<figcaption>Caption</figcaption>
+			</figure>
+		</div>
+		<div id="caption:true_align:left_link:no">
+			<figure class="image" id="x">
+				<img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" />
+				<figcaption>Caption</figcaption>
+			</figure>
+		</div>
+
+		<!-- Captioned widgets with link -->
+		<div id="caption:true_align:none_link:yes">
+			<figure class="image" id="x">
+				<a href="http://x"><img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" /></a>
+				<figcaption>Caption</figcaption>
+			</figure>
+		</div>
+		<div id="caption:true_align:center_link:yes">
+			<figure class="image" id="x" style="display:inline-block;">
+				<a href="http://x"><img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" /></a>
+				<figcaption>Caption</figcaption>
+			</figure>
+		</div>
+		<div id="caption:true_align:left_link:yes">
+			<figure class="image" id="x">
+				<a href="http://x"><img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" /></a>
+				<figcaption>Caption</figcaption>
+			</figure>
+		</div>
+
+		<!-- Non-captioned widgets without link -->
+		<div id="caption:false_align:none_link:no">
+			<img alt="foo" id="x" src="_assets/foo.png" data-custom="y" lang="es" />
+		</div>
+		<div id="caption:false_align:center_link:no">
+			<p id="x" style="text-align:center;">
+				<img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" />
+			</p>
+		</div>
+		<div id="caption:false_align:left_link:no">
+			<img alt="foo" id="x" src="_assets/foo.png" data-custom="y" lang="es" />
+		</div>
+
+		<!-- Non-captioned widgets with link -->
+		<div id="caption:false_align:none_link:yes">
+			<a href="http://x" id="x"><img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" /></a>
+		</div>
+		<div id="caption:false_align:center_link:yes">
+			<p id="x" style="text-align:center;">
+				<a href="http://x"><img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" /></a>
+			</p>
+		</div>
+		<div id="caption:false_align:left_link:yes">
+			<a href="http://x" id="x"><img alt="foo" src="_assets/foo.png" data-custom="y" lang="es" /></a>
+		</div>
+
+		<!-- State-change contexts -->
+		<textarea id="plainParagraph">
+			<p>X{state}Y</p>
+			=>
+			<p>X</p>{state}<p>Y</p>
+		</textarea>
+		<textarea id="paragraphWithSpan">
+			<p>X<span>X{state}Y</span>Y</p>
+			=>
+			<p>X<span>X</span></p>{state}<p><span>Y</span>Y</p>
+		</textarea>
+	</div>
+</body>

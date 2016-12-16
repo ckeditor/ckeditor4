@@ -1,23 +1,25 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 -->
 <html>
 <head>
-	<title>Toolbar Configuration &mdash; CKEditor Sample</title>
 	<meta charset="utf-8">
+	<title>Toolbar Configuration &mdash; CKEditor Sample</title>
 	<meta name="ckeditor-sample-name" content="Toolbar Configurations">
 	<meta name="ckeditor-sample-group" content="Advanced Samples">
 	<meta name="ckeditor-sample-description" content="Configuring CKEditor to display full or custom toolbar layout.">
-	<meta name="ckeditor-sample-isnew" content="1">
 	<script src="../../../ckeditor.js"></script>
-	<link href="../../../samples/sample.css" rel="stylesheet">
+	<link href="../../../samples/old/sample.css" rel="stylesheet">
 </head>
 <body>
 	<h1 class="samples">
-		<a href="../../../samples/index.html">CKEditor Samples</a> &raquo; Toolbar Configuration
+		<a href="../../../samples/old/index.html">CKEditor Samples</a> &raquo; Toolbar Configuration
 	</h1>
+	<div class="warning deprecated">
+		This sample is not maintained anymore. Check out the <a href="../../../samples/toolbarconfigurator/index.html#basic">brand new CKEditor Toolbar Configurator</a>.
+	</div>
 	<div class="description">
 		<p>
 			This sample page demonstrates editor with loaded <a href="#fullToolbar">full toolbar</a> (all registered buttons) and, if
@@ -95,12 +97,14 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 (function() {
 	'use strict';
 
+	var buttonsNames;
+
 	CKEDITOR.config.extraPlugins = 'toolbar';
 
 	CKEDITOR.on( 'instanceReady', function( evt ) {
 		var editor = evt.editor,
 			editorCurrent = editor.name == 'editorCurrent',
-			defaultToolbar = !( editor.config.toolbar || editor.config.toolbarGroups ),
+			defaultToolbar = !( editor.config.toolbar || editor.config.toolbarGroups || editor.config.removeButtons ),
 			pre = CKEDITOR.document.getById( editor.name + 'Cfg' ),
 			output = '';
 
@@ -111,6 +115,9 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 			else
 				return;
 		}
+
+		if ( !buttonsNames )
+			buttonsNames = createButtonsNamesHash( editor.ui.items );
 
 		// Toolbar isn't set explicitly, so it was created automatically from toolbarGroups.
 		if ( !editor.config.toolbar ) {
@@ -132,12 +139,12 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 		CKEDITOR.dom.element.createFromHtml( preOutput ).replace( pre );
 	} );
 
-
 	CKEDITOR.replace( 'editorCurrent', { height: 100 } );
 	CKEDITOR.replace( 'editorFull', {
 		// Reset toolbar settings, so full toolbar will be generated automatically.
 		toolbar: null,
 		toolbarGroups: null,
+		removeButtons: null,
 		height: 100
 	} );
 
@@ -180,7 +187,35 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 	function dumpToolbarItems( items ) {
 		if ( typeof items == 'string' )
 			return '\'' + items + '\'';
-		return '[ \'' + items.join( '\', \'' ) + '\' ]';
+
+		var names = [],
+			i, item;
+
+		for ( var i = 0; i < items.length; ++i ) {
+			item = items[ i ];
+			if ( typeof item == 'string' )
+				names.push( item );
+			else {
+				if ( item.type == CKEDITOR.UI_SEPARATOR )
+					names.push( '-' );
+				else
+					names.push( buttonsNames[ item.name ] );
+			}
+		}
+
+		return '[ \'' + names.join( '\', \'' ) + '\' ]';
+	}
+
+	// Creates { 'lowercased': 'LowerCased' } buttons names hash.
+	function createButtonsNamesHash( items ) {
+		var hash = {},
+			name;
+
+		for ( name in items ) {
+			hash[ items[ name ].name ] = name;
+		}
+
+		return hash;
 	}
 
 })();
@@ -192,7 +227,7 @@ CKEDITOR.replace( <em>'textarea_id'</em>, {
 			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
 		</p>
 		<p id="copy">
-			Copyright &copy; 2003-2013, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+			Copyright &copy; 2003-2016, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
 			Knabben. All rights reserved.
 		</p>
 	</div>

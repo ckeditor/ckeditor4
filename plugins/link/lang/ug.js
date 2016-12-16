@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'ug', {
 	acccessKey: 'زىيارەت كۇنۇپكا',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	anchorName: 'لەڭگەرلىك نۇقتا ئاتى بويىچە',
 	charset: 'ھەرپ كودلىنىشى',
 	cssClasses: 'ئۇسلۇب خىلى ئاتى',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ئادرېس',
 	emailBody: 'مەزمۇن',
 	emailSubject: 'ماۋزۇ',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'ug', {
 	type: 'ئۇلانما تىپى',
 	unlink: 'ئۇلانما بىكار قىل',
 	upload: 'يۈكلە'
-});
+} );

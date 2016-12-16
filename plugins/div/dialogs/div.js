@@ -1,9 +1,9 @@
-﻿/*
- * Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+ * Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 
 	// Add to collection with DUP examination.
 	// @param {Object} collection
@@ -18,23 +18,12 @@
 		}
 	}
 
-	function getNonEmptyChildren( element ) {
-		var retval = [];
-		var children = element.getChildren();
-		for ( var i = 0; i < children.count(); i++ ) {
-			var child = children.getItem( i );
-			if ( !( child.type === CKEDITOR.NODE_TEXT && ( /^[ \t\n\r]+$/ ).test( child.getText() ) ) )
-				retval.push( child );
-		}
-		return retval;
-	}
-
 	// Dialog reused by both 'creatediv' and 'editdiv' commands.
 	// @param {Object} editor
 	// @param {String} command	The command name which indicate what the current command is.
 	function divDialog( editor, command ) {
 		// Definition of elements at which div operation should stopped.
-		var divLimitDefinition = (function() {
+		var divLimitDefinition = ( function() {
 
 			// Customzie from specialize blockLimit elements
 			var definition = CKEDITOR.tools.extend( {}, CKEDITOR.dtd.$blockLimit );
@@ -44,7 +33,7 @@
 				delete definition.th;
 			}
 			return definition;
-		})();
+		} )();
 
 		// DTD of 'div' element
 		var dtd = CKEDITOR.dtd.div;
@@ -53,6 +42,11 @@
 		// @param {Object} element
 		function getDivContainer( element ) {
 			var container = editor.elementPath( element ).blockLimit;
+
+			// Never consider read-only (i.e. contenteditable=false) element as
+			// a first div limit (#11083).
+			if ( container.isReadOnly() )
+				container = container.getParent();
 
 			// Dont stop at 'td' and 'th' when div should wrap entire table.
 			if ( editor.config.div_wrapTable && container.is( [ 'td', 'th' ] ) ) {
@@ -82,8 +76,9 @@
 						field.commit = function( element ) {
 							var fieldValue = this.getValue();
 							// ignore default element attribute values
-							if ( 'dir' == field.id && element.getComputedStyle( 'direction' ) == fieldValue )
+							if ( field.id == 'dir' && element.getComputedStyle( 'direction' ) == fieldValue ) {
 								return;
+							}
 
 							if ( fieldValue )
 								element.setAttribute( field.id, fieldValue );
@@ -92,7 +87,7 @@
 						};
 					}
 				}
-			});
+			} );
 		}
 
 		// Wrapping 'div' element around appropriate blocks among the selected ranges.
@@ -112,15 +107,12 @@
 			var bookmarks = selection.createBookmarks();
 			var i, iterator;
 
-			// Calcualte a default block tag if we need to create blocks.
-			var blockTag = editor.config.enterMode == CKEDITOR.ENTER_DIV ? 'div' : 'p';
-
 			// collect all included elements from dom-iterator
 			for ( i = 0; i < ranges.length; i++ ) {
 				iterator = ranges[ i ].createIterator();
 				while ( ( block = iterator.getNextParagraph() ) ) {
 					// include contents of blockLimit elements.
-					if ( block.getName() in divLimitDefinition ) {
+					if ( block.getName() in divLimitDefinition && !block.isReadOnly() ) {
 						var j,
 							childNodes = block.getChildren();
 						for ( j = 0; j < childNodes.count(); j++ )
@@ -136,7 +128,7 @@
 			CKEDITOR.dom.element.clearAllMarkers( database );
 
 			var blockGroups = groupByDivLimit( containedBlocks );
-			var ancestor, blockEl, divElement;
+			var ancestor, divElement;
 
 			for ( i = 0; i < blockGroups.length; i++ ) {
 				var currentNode = blockGroups[ i ][ 0 ];
@@ -160,7 +152,6 @@
 				}
 
 				// Wrapped blocks counting
-				var fixedBlock = null;
 				for ( j = 0; j < blockGroups[ i ].length; j++ ) {
 					currentNode = blockGroups[ i ][ j ];
 
@@ -192,7 +183,8 @@
 		function groupByDivLimit( nodes ) {
 			var groups = [],
 				lastDivLimit = null,
-				path, block;
+				block;
+
 			for ( var i = 0; i < nodes.length; i++ ) {
 				block = nodes[ i ];
 				var limit = getDivContainer( block );
@@ -235,17 +227,14 @@
 			title: editor.lang.div.title,
 			minWidth: 400,
 			minHeight: 165,
-			contents: [
-				{
+			contents: [ {
 				id: 'info',
 				label: editor.lang.common.generalTab,
 				title: editor.lang.common.generalTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'elementStyle',
 						type: 'select',
 						style: 'width: 100%;',
@@ -254,111 +243,99 @@
 						// Options are loaded dynamically.
 						items: [
 							[ editor.lang.common.notSet, '' ]
-							],
+						],
 						onChange: function() {
 							commitInternally.call( this, [ 'info:elementStyle', 'info:class', 'advanced:dir', 'advanced:style' ] );
 						},
 						setup: function( element ) {
 							for ( var name in styles )
-								styles[ name ].checkElementRemovable( element, true ) && this.setValue( name, 1 );
+								styles[ name ].checkElementRemovable( element, true, editor ) && this.setValue( name, 1 );
 						},
 						commit: function( element ) {
 							var styleName;
 							if ( ( styleName = this.getValue() ) ) {
 								var style = styles[ styleName ];
-								style.applyToObject( element );
+								style.applyToObject( element, editor );
 							}
-							else
+							else {
 								element.removeAttribute( 'style' );
+							}
 						}
 					},
-						{
+					{
 						id: 'class',
 						type: 'text',
+						requiredContent: 'div(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
 						label: editor.lang.common.cssClass,
 						'default': ''
-					}
-					]
-				}
-				]
+					} ]
+				} ]
 			},
-				{
+			{
 				id: 'advanced',
 				label: editor.lang.common.advancedTab,
 				title: editor.lang.common.advancedTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'vbox',
 					padding: 1,
-					children: [
-						{
+					children: [ {
 						type: 'hbox',
 						widths: [ '50%', '50%' ],
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'id',
+							requiredContent: 'div[id]',
 							label: editor.lang.common.id,
 							'default': ''
 						},
-							{
+						{
 							type: 'text',
 							id: 'lang',
+							requiredContent: 'div[lang]',
 							label: editor.lang.common.langCode,
 							'default': ''
-						}
-						]
+						} ]
 					},
-						{
+					{
 						type: 'hbox',
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'style',
+							requiredContent: 'div{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
 							style: 'width: 100%;',
 							label: editor.lang.common.cssStyle,
 							'default': '',
 							commit: function( element ) {
 								element.setAttribute( 'style', this.getValue() );
 							}
-						}
-						]
+						} ]
 					},
-						{
+					{
 						type: 'hbox',
-						children: [
-							{
+						children: [ {
 							type: 'text',
 							id: 'title',
+							requiredContent: 'div[title]',
 							style: 'width: 100%;',
 							label: editor.lang.common.advisoryTitle,
 							'default': ''
-						}
-						]
+						} ]
 					},
-						{
+					{
 						type: 'select',
 						id: 'dir',
+						requiredContent: 'div[dir]',
 						style: 'width: 100%;',
 						label: editor.lang.common.langDir,
 						'default': '',
 						items: [
 							[ editor.lang.common.notSet, '' ],
-							[
-							editor.lang.common.langDirLtr,
-							'ltr'
-							],
-							[
-							editor.lang.common.langDirRtl,
-							'rtl'
-							]
-							]
-					}
-					]
-				}
+							[ editor.lang.common.langDirLtr, 'ltr' ],
+							[ editor.lang.common.langDirRtl, 'rtl' ]
+						]
+					} ] }
 				]
-			}
-			],
+			} ],
 			onLoad: function() {
 				setupFields.call( this );
 
@@ -368,7 +345,7 @@
 
 				// Reuse the 'stylescombo' plugin's styles definition.
 				editor.getStylesSet( function( stylesDefinitions ) {
-					var styleName;
+					var styleName, style;
 
 					if ( stylesDefinitions ) {
 						// Digg only those styles that apply to 'div'.
@@ -376,11 +353,13 @@
 							var styleDefinition = stylesDefinitions[ i ];
 							if ( styleDefinition.element && styleDefinition.element == 'div' ) {
 								styleName = styleDefinition.name;
-								styles[ styleName ] = new CKEDITOR.style( styleDefinition );
+								styles[ styleName ] = style = new CKEDITOR.style( styleDefinition );
 
-								// Populate the styles field options with style name.
-								stylesField.items.push( [ styleName, styleName ] );
-								stylesField.add( styleName, styleName );
+								if ( editor.filter.check( style ) ) {
+									// Populate the styles field options with style name.
+									stylesField.items.push( [ styleName, styleName ] );
+									stylesField.add( styleName, styleName );
+								}
 							}
 						}
 					}
@@ -393,7 +372,7 @@
 					setTimeout( function() {
 						dialog._element && stylesField.setup( dialog._element );
 					}, 0 );
-				});
+				} );
 			},
 			onShow: function() {
 				// Whether always create new container regardless of existed
@@ -433,14 +412,16 @@
 
 	CKEDITOR.dialog.add( 'creatediv', function( editor ) {
 		return divDialog( editor, 'creatediv' );
-	});
+	} );
+
 	CKEDITOR.dialog.add( 'editdiv', function( editor ) {
 		return divDialog( editor, 'editdiv' );
-	});
-})();
+	} );
+
+} )();
 
 /**
- * Whether to wrap the whole table instead of indivisual cells when created `<div>` in table cell.
+ * Whether to wrap the entire table instead of individual cells when creating a `<div>` in a table cell.
  *
  *		config.div_wrapTable = true;
  *

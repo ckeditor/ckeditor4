@@ -1,0 +1,291 @@
+<textarea id="table-1">
+<table>
+	<tr>
+		<td>[foo</td>
+		<td>bar]</td>
+	</tr>
+</table>
+=>
+<table>
+	<tbody>
+	<tr>
+		<td style="height:50px;width:100px;">foo</td>
+		<td style="height:50px;width:100px;">bar</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="table-2">
+	<table>
+		<tbody>
+			<tr>
+				<td>a[a</td>
+				<td rowspan="2">bb</td>
+			</tr>
+			<tr>
+				<td>a]a1</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td rowspan="2">bb</td>
+			</tr>
+			<tr>
+				<td>aa1</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-3">
+	<table>
+		<tbody>
+			<tr>
+				<td>a[a</td>
+				<td rowspan="2">bb</td>
+			</tr>
+			<tr>
+				<td>aa1</td>
+			</tr>
+		</tbody>
+	</table>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td rowspan="2">bb</td>
+			</tr>
+			<tr>
+				<td>a]a1</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td rowspan="2">bb</td>
+			</tr>
+			<tr>
+				<td>aa1</td>
+			</tr>
+		</tbody>
+	</table>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td rowspan="2">bb</td>
+			</tr>
+			<tr>
+				<td>aa1</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-4">
+	<table>
+		<tbody>
+			<tr>
+				<td>a[a</td>
+				<td>bb</td>
+			</tr>
+			<tr>
+				<td colspan="2">a]b</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+			<tr>
+				<td colspan="2">ab</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-5">
+	<table>
+		<tbody>
+			<tr>
+				<td>a[a</td>
+				<td>bb</td>
+			</tr>
+			<tr>
+				<td colspan="2">ab</td>
+			</tr>
+		</tbody>
+	</table>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+			<tr>
+				<td colspan="2">a]b</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+			<tr>
+				<td colspan="2">ab</td>
+			</tr>
+		</tbody>
+	</table>
+	<table>
+		<tbody>
+			<tr>
+				<td>aa</td>
+				<td>bb</td>
+			</tr>
+			<tr>
+				<td colspan="2">ab</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-6">
+	<table>
+		<tbody>
+			<tr>
+				<td style="height:50px;">a[a</td>
+				<td rowspan="2">bb</td>
+			</tr>
+			<tr>
+				<td style="white-space:nowrap;">a]a1</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="background-color:red;height:50px;text-align:right;width:100px;">aa</td>
+				<td style="background-color:red;text-align:right;width:100px;" rowspan="2">bb</td>
+			</tr>
+			<tr>
+				<td style="background-color:red;text-align:right;white-space:nowrap;width:100px;">aa1</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-7">
+	<table>
+		<tbody>
+			<tr>
+				<td style="width:50px;">a[a</td>
+				<td style="width:50px;">b]b</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="width:20px;">aa</td>
+				<td style="width:20px;">bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-8">
+	<table>
+		<tbody>
+			<tr>
+				<td style="width:50px;">a[a</td>
+				<td style="width:50%;">b]b</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="width:20px;">aa</td>
+				<td style="width:20%;">bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-9">
+	<table>
+		<tbody>
+			<tr>
+				<td style="background-color:red">a[a</td>
+				<th style="background-color:red">b]b</th>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="background-color:green">aa</td>
+				<td style="background-color:green">bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-10">
+	<table>
+		<tbody>
+			<tr>
+				<td style="width:50px;">a[a</td>
+				<td style="width:20%;">b]b</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="width:10px;">aa</td>
+				<td style="width:10%;">bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>
+
+<textarea id="table-11">
+	<table>
+		<tbody>
+			<tr>
+				<td style="width:50px;">a[a</td>
+				<td style="width:20%;">b]b</td>
+			</tr>
+		</tbody>
+	</table>
+	=>
+	<table>
+		<tbody>
+			<tr>
+				<td style="width:10px;">aa</td>
+				<td style="width:10px;">bb</td>
+			</tr>
+		</tbody>
+	</table>
+</textarea>

@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'hr', {
 	acccessKey: 'Pristupna tipka',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'hr', {
 	anchorName: 'Po nazivu sidra',
 	charset: 'Kodna stranica povezanih resursa',
 	cssClasses: 'Stylesheet klase',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'E-Mail adresa',
 	emailBody: 'Sadržaj poruke',
 	emailSubject: 'Naslov',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'hr', {
 	type: 'Link vrsta',
 	unlink: 'Ukloni link',
 	upload: 'Pošalji'
-});
+} );

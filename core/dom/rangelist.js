@@ -1,9 +1,9 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	/**
 	 * Represents a list os CKEDITOR.dom.range objects, which can be easily
 	 * iterated sequentially.
@@ -39,9 +39,6 @@
 		createIterator: function() {
 			var rangeList = this,
 				bookmark = CKEDITOR.dom.walker.bookmark(),
-				guard = function( node ) {
-					return !( node.is && node.is( 'tr' ) );
-				},
 				bookmarks = [],
 				current;
 
@@ -54,7 +51,7 @@
 				 * ranges into single, e.g. consequent table cells.
 				 */
 				getNextRange: function( mergeConsequent ) {
-					current = current == undefined ? 0 : current + 1;
+					current = current === undefined ? 0 : current + 1;
 
 					var range = rangeList[ current ];
 
@@ -89,8 +86,9 @@
 											left = next;
 											continue;
 										}
-									} else
+									} else {
 										found = 1;
+									}
 
 									break;
 								}
@@ -191,7 +189,7 @@
 		dirtyRange[ checkEnd ? 'endContainer' : 'startContainer' ] = container;
 		return dirtyRange;
 	}
-})();
+} )();
 
 /**
  * (Virtual Class) Do not call this constructor. This class is not really part

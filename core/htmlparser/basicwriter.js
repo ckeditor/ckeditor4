@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -9,7 +9,7 @@
  * @class
  * @todo
  */
-CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
+CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass( {
 	/**
 	 * Creates a basicWriter class instance.
 	 *
@@ -32,7 +32,7 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
 		 * @param {Object} attributes The attributes defined for this tag. The
 		 * attributes could be used to inspect the tag.
 		 */
-		openTag: function( tagName, attributes ) {
+		openTag: function( tagName ) {
 			this._.output.push( '<', tagName );
 		},
 
@@ -149,4 +149,4 @@ CKEDITOR.htmlParser.basicWriter = CKEDITOR.tools.createClass({
 			return html;
 		}
 	}
-});
+} );

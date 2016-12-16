@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 CKEDITOR.dialog.add( 'textarea', function( editor ) {
 	return {
@@ -11,7 +11,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 			delete this.textarea;
 
 			var element = this.getParentEditor().getSelection().getSelectedElement();
-			if ( element && element.getName() == "textarea" ) {
+			if ( element && element.getName() == 'textarea' ) {
 				this.textarea = element;
 				this.setupContent( element );
 			}
@@ -30,13 +30,11 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 			if ( isInsertMode )
 				editor.insertElement( element );
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.forms.textarea.title,
 			title: editor.lang.forms.textarea.title,
-			elements: [
-				{
+			elements: [ {
 				id: '_cke_saved_name',
 				type: 'text',
 				label: editor.lang.common.name,
@@ -54,11 +52,10 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 					}
 				}
 			},
-				{
+			{
 				type: 'hbox',
 				widths: [ '50%', '50%' ],
-				children: [
-					{
+				children: [ {
 					id: 'cols',
 					type: 'text',
 					label: editor.lang.forms.textarea.cols,
@@ -77,7 +74,7 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 							element.removeAttribute( 'cols' );
 					}
 				},
-					{
+				{
 					id: 'rows',
 					type: 'text',
 					label: editor.lang.forms.textarea.rows,
@@ -95,10 +92,9 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 						else
 							element.removeAttribute( 'rows' );
 					}
-				}
-				]
+				} ]
 			},
-				{
+			{
 				id: 'value',
 				type: 'textarea',
 				label: editor.lang.forms.textfield.value,
@@ -109,10 +105,24 @@ CKEDITOR.dialog.add( 'textarea', function( editor ) {
 				commit: function( element ) {
 					element.$.value = element.$.defaultValue = this.getValue();
 				}
-			}
-
-			]
-		}
-		]
+			},
+				{
+				id: 'required',
+				type: 'checkbox',
+				label: editor.lang.forms.textfield.required,
+				'default': '',
+				accessKey: 'Q',
+				value: 'required',
+				setup: function( element ) {
+					this.setValue( element.getAttribute( 'required' ) );
+				},
+				commit: function( element ) {
+					if ( this.getValue() )
+						element.setAttribute( 'required', 'required' );
+					else
+						element.removeAttribute( 'required' );
+				}
+			} ]
+		} ]
 	};
-});
+} );

@@ -1,0 +1,31 @@
+<div id="drag" draggable="true">Drag me!</div>
+<div cols="10" id="editor1" name="editor1" rows="10" data-sample-short="" contenteditable="true">
+	<p>Drop here</p>
+</div>
+<script>
+	'use strict';
+
+	var drag = CKEDITOR.document.getById( 'drag' );
+
+	drag.on( 'dragstart', function( evt ) {
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt );
+
+		var dataTransfer = evt.data.dataTransfer;
+
+		dataTransfer.setData( 'text', 'Fail!' );
+		dataTransfer.setData( 'ok', 'Ok!' );
+	} );
+
+	drag.on( 'dragend', function( evt ) {
+		CKEDITOR.plugins.clipboard.resetDragDataTransfer();
+	} );
+
+	var editor = CKEDITOR.inline( 'editor1' );
+
+	editor.on( 'paste', function( evt ) {
+		var ok = evt.data.dataTransfer.getData( 'ok' );
+		if ( ok ) {
+			evt.data.dataValue = ok;
+		}
+	} );
+</script>

@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'ug', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'ug', {
 		checkboxTitle: 'كۆپ تاللاش خاسلىقى',
 		radioTitle: 'تاق تاللاش توپچا خاسلىقى',
 		value: 'تاللىغان قىممەت',
-		selected: 'تاللانغان'
+		selected: 'تاللانغان',
+		required: 'زۆرۈر'
 	},
 	form: {
 		title: 'جەدۋەل خاسلىقى',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'ug', {
 		size: 'ئېگىزلىكى',
 		lines: 'قۇر',
 		chkMulti: 'كۆپ تاللاشچان',
+		required: 'زۆرۈر',
 		opText: 'تاللانما تېكىستى',
 		opValue: 'تاللانما قىممىتى',
 		btnAdd: 'قوش',
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'ug', {
 		value: 'دەسلەپكى قىممىتى',
 		charWidth: 'ھەرپ كەڭلىكى',
 		maxChars: 'ئەڭ كۆپ ھەرپ سانى',
+		required: 'زۆرۈر',
 		type: 'تىپى',
 		typeText: 'تېكىست',
 		typePass: 'ئىم',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'تورخەت',
+		typeSearch: 'ئىزدە',
+		typeTel: 'تېلېفون نومۇر',
 		typeUrl: 'ئادرېس'
 	}
-});
+} );

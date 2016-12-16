@@ -1,0 +1,5 @@
+# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
+
+label = Generic template for a label, read by a screen reader once the widget gets focused. %1 sequence is replaced either with a widget path name or it's main element tag name.
+move = A tooltip for the drag handler.

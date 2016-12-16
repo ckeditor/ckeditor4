@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'anchor', function( editor ) {
@@ -12,8 +12,10 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			this.setValueOf( 'info', 'txtName', attributeValue || '' );
 		};
 
-	function createFakeAnchor( editor, anchor ) {
-		return editor.createFakeElement( anchor, 'cke_anchor', 'anchor' );
+	function createFakeAnchor( editor, attributes ) {
+		return editor.createFakeElement( editor.document.createElement( 'a', {
+			attributes: attributes
+		} ), 'cke_anchor', 'anchor' );
 	}
 
 	return {
@@ -30,37 +32,29 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 
 			if ( this._.selectedElement ) {
 				if ( this._.selectedElement.data( 'cke-realelement' ) ) {
-					var newFake = createFakeAnchor( editor, editor.document.createElement( 'a', { attributes: attributes } ) );
+					var newFake = createFakeAnchor( editor, attributes );
 					newFake.replace( this._.selectedElement );
-				} else
+
+					// Selecting fake element for IE. (#11377)
+					if ( CKEDITOR.env.ie )
+						editor.getSelection().selectElement( newFake );
+				} else {
 					this._.selectedElement.setAttributes( attributes );
+				}
 			} else {
 				var sel = editor.getSelection(),
 					range = sel && sel.getRanges()[ 0 ];
 
 				// Empty anchor
 				if ( range.collapsed ) {
-					if ( CKEDITOR.plugins.link.synAnchorSelector )
-						attributes[ 'class' ] = 'cke_anchor_empty';
-
-					if ( CKEDITOR.plugins.link.emptyAnchorFix ) {
-						attributes[ 'contenteditable' ] = 'false';
-						attributes[ 'data-cke-editable' ] = 1;
-					}
-
-					var anchor = editor.document.createElement( 'a', { attributes: attributes } );
-
-					// Transform the anchor into a fake element for browsers that need it.
-					if ( CKEDITOR.plugins.link.fakeAnchor )
-						anchor = createFakeAnchor( editor, anchor );
-
+					var anchor = createFakeAnchor( editor, attributes );
 					range.insertNode( anchor );
 				} else {
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 						attributes[ 'class' ] = 'cke_anchor';
 
 					// Apply style.
-					var style = new CKEDITOR.style({ element: 'a', attributes: attributes } );
+					var style = new CKEDITOR.style( { element: 'a', attributes: attributes } );
 					style.type = CKEDITOR.STYLE_INLINE;
 					editor.applyStyle( style );
 				}
@@ -72,49 +66,40 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		},
 
 		onShow: function() {
-			var selection = editor.getSelection(),
-				fullySelected = selection.getSelectedElement(),
-				partialSelected;
+			var sel = editor.getSelection(),
+				fullySelected = sel.getSelectedElement(),
+				fakeSelected = fullySelected && fullySelected.data( 'cke-realelement' ),
+				linkElement = fakeSelected ?
+					CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, fullySelected ) :
+					CKEDITOR.plugins.link.getSelectedLink( editor );
 
-			// Detect the anchor under selection.
-			if ( fullySelected ) {
-				if ( CKEDITOR.plugins.link.fakeAnchor ) {
-					var realElement = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, fullySelected );
-					realElement && loadElements.call( this, realElement );
+			if ( linkElement ) {
+				loadElements.call( this, linkElement );
+				!fakeSelected && sel.selectElement( linkElement );
+
+				if ( fullySelected )
 					this._.selectedElement = fullySelected;
-				} else if ( fullySelected.is( 'a' ) && fullySelected.hasAttribute( 'name' ) )
-					loadElements.call( this, fullySelected );
-			} else {
-				partialSelected = CKEDITOR.plugins.link.getSelectedLink( editor );
-				if ( partialSelected ) {
-					loadElements.call( this, partialSelected );
-					selection.selectElement( partialSelected );
-				}
 			}
 
 			this.getContentElement( 'info', 'txtName' ).focus();
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.link.anchor.title,
 			accessKey: 'I',
-			elements: [
-				{
+			elements: [ {
 				type: 'text',
 				id: 'txtName',
 				label: editor.lang.link.anchor.name,
 				required: true,
 				validate: function() {
 					if ( !this.getValue() ) {
-						alert( editor.lang.link.anchor.errorName );
+						alert( editor.lang.link.anchor.errorName ); // jshint ignore:line
 						return false;
 					}
 					return true;
 				}
-			}
-			]
-		}
-		]
+			} ]
+		} ]
 	};
-});
+} );

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -10,7 +10,7 @@
 
 if ( !CKEDITOR.event ) {
 	/**
-	 * Creates an event class instance. This constructor is rearely used, being
+	 * Creates an event class instance. This constructor is rarely used, being
 	 * the {@link #implementOn} function used in class prototypes directly
 	 * instead.
 	 *
@@ -44,12 +44,12 @@ if ( !CKEDITOR.event ) {
 		var eventProto = CKEDITOR.event.prototype;
 
 		for ( var prop in eventProto ) {
-			if ( targetObject[ prop ] == undefined )
+			if ( targetObject[ prop ] == null )
 				targetObject[ prop ] = eventProto[ prop ];
 		}
 	};
 
-	CKEDITOR.event.prototype = (function() {
+	CKEDITOR.event.prototype = ( function() {
 		// Returns the private events object for a given object.
 		var getPrivate = function( obj ) {
 				var _ = ( obj.getPrivate && obj.getPrivate() ) || obj._ || ( obj._ = {} );
@@ -194,14 +194,15 @@ if ( !CKEDITOR.event ) {
 			 * @see CKEDITOR.event#on
 			 */
 			once: function() {
-				var fn = arguments[ 1 ];
+				var args = Array.prototype.slice.call( arguments ),
+					fn = args[ 1 ];
 
-				arguments[ 1 ] = function( evt ) {
+				args[ 1 ] = function( evt ) {
 					evt.removeListener();
 					return fn.apply( this, arguments );
 				};
 
-				return this.on.apply( this, arguments );
+				return this.on.apply( this, args );
 			},
 
 			/**
@@ -242,7 +243,7 @@ if ( !CKEDITOR.event ) {
 			 * @returns {Boolean/Object} A boolean indicating that the event is to be
 			 * canceled, or data returned by one of the listeners.
 			 */
-			fire: (function() {
+			fire: ( function() {
 				// Create the function that marks the event as stopped.
 				var stopped = 0;
 				var stopEvent = function() {
@@ -285,8 +286,9 @@ if ( !CKEDITOR.event ) {
 									try {
 										retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
 									} catch ( er ) {}
-								} else
+								} else {
 									retData = listeners[ i ].call( this, editor, data, stopEvent, cancelEvent );
+								}
 
 								if ( retData === false )
 									canceled = 1;
@@ -308,7 +310,7 @@ if ( !CKEDITOR.event ) {
 
 					return ret;
 				};
-			})(),
+			} )(),
 
 			/**
 			 * Fires an specific event in the object, releasing all listeners
@@ -383,5 +385,5 @@ if ( !CKEDITOR.event ) {
 				return ( event && event.listeners.length > 0 );
 			}
 		};
-	})();
+	} )();
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Foo</title>
+	<script src="/apps/ckeditor/ckeditor.js"></script>
+	<script>
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+			CKEDITOR.tools.enableHtml5Elements( document );
+	</script>
+	<style>
+		img
+		{
+			background: #FA0;
+		}
+		figure, figcaption
+		{
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<!-- Margin is to make space for the floating toolbar... ;( -->
+	<div contenteditable="true" id="editor" style="margin-top: 50px">
+		<p>Editor contents</p>
+		<figure class="image">
+			<img alt="The Eagle" src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" style="width: 200px" />
+			<figcaption>Caption</figcaption>
+		</figure>
+		<p>Editor contents</p>
+	</div>
+
+	<script>
+
+CKEDITOR.disableAutoInline = true;
+
+CKEDITOR.inline( 'editor', {
+	extraPlugins: 'image2',
+	toolbar: [ [ 'Image' ] ]
+} );
+
+	</script>
+</body>

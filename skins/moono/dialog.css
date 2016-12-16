@@ -1,6 +1,6 @@
 /*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 /*
@@ -54,23 +54,8 @@ Comments in this file will give more details about each of the above blocks.
 	background: #eaeaea;
 	border: 1px solid #b2b2b2;
 	border-bottom-color: #999;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
-
-	-moz-box-shadow: 0 0 3px rgba(0, 0, 0, .15);
-	-webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .15);
 	box-shadow: 0 0 3px rgba(0, 0, 0, .15);
-}
-
-/* This one is required by Firefox 3.6. Without it,
-   dialog tabs and resizer float outside of the dialog.
-   Although this rule doesn't seem to break anything on other
-   browsers, it doesn't work with broken jQueryUI - #9851. */
-.cke_browser_gecko19 .cke_dialog_body
-{
-	position: relative;
 }
 
 /* Due to our reset we have to recover the styles of some elements. */
@@ -93,22 +78,65 @@ Comments in this file will give more details about each of the above blocks.
 	border-bottom: 1px solid #999;
 	padding: 6px 10px;
 
-	-moz-border-radius: 2px 2px 0 0;
-	-webkit-border-radius: 2px 2px 0 0;
 	border-radius: 2px 2px 0 0;
-
-	-moz-box-shadow: 0 1px 0 #fff inset;
-	-webkit-box-shadow: 0 1px 0 #fff inset;
 	box-shadow: 0 1px 0 #fff inset;
 
 	background: #cfd1cf;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#cfd1cf));
-	background-image: -moz-linear-gradient(top, #f5f5f5, #cfd1cf);
-	background-image: -webkit-linear-gradient(top, #f5f5f5, #cfd1cf);
-	background-image: -o-linear-gradient(top, #f5f5f5, #cfd1cf);
-	background-image: -ms-linear-gradient(top, #f5f5f5, #cfd1cf);
-	background-image: linear-gradient(top, #f5f5f5, #cfd1cf);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff5f5f5', endColorstr='#ffcfd1cf');
+	background-image: linear-gradient(to bottom, #f5f5f5, #cfd1cf);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f5f5f5', endColorstr='#cfd1cf');
+}
+
+.cke_dialog_spinner
+{
+	border-radius: 50%;
+
+	width: 12px;
+	height: 12px;
+	overflow: hidden;
+
+	text-indent: -9999em;
+
+	border-top: 2px solid rgba(102, 102, 102, 0.2);
+	border-right: 2px solid rgba(102, 102, 102, 0.2);
+	border-bottom: 2px solid rgba(102, 102, 102, 0.2);
+	border-left: 2px solid rgba(102, 102, 102, 1);
+
+	-webkit-animation: dialog_spinner 1s infinite linear;
+	animation: dialog_spinner 1s infinite linear;
+}
+
+/* A GIF fallback for IE8 and IE9 which does not support CSS animations. */
+.cke_browser_ie8 .cke_dialog_spinner,
+.cke_browser_ie9 .cke_dialog_spinner
+{
+	background: url(images/spinner.gif) center top no-repeat;
+	width: 16px;
+	height: 16px;
+	border: 0;
+}
+
+@-webkit-keyframes dialog_spinner
+{
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes dialog_spinner
+{
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
 }
 
 /* The outer part of the dialog contants, which contains the contents body
@@ -120,9 +148,6 @@ Comments in this file will give more details about each of the above blocks.
 	padding: 15px 10px 5px 10px;
 	margin-top: 30px;
 	border-top: 1px solid #bfbfbf;
-
-	-moz-border-radius: 0 0 3px 3px;
-	-webkit-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
 }
 
@@ -140,26 +165,13 @@ Comments in this file will give more details about each of the above blocks.
 {
 	text-align: right;
 	position: relative;
-
 	border: none;
 	outline: 1px solid #bfbfbf;
-
-	-moz-box-shadow: 0 1px 0 #fff inset;
-	-webkit-box-shadow: 0 1px 0 #fff inset;
 	box-shadow: 0 1px 0 #fff inset;
-
-	-moz-border-radius: 0 0 2px 2px;
-	-webkit-border-radius: 0 0 2px 2px;
 	border-radius: 0 0 2px 2px;
-
 	background: #cfd1cf;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#cfd1cf));
-	background-image: -moz-linear-gradient(top, #ebebeb, #cfd1cf);
-	background-image: -webkit-linear-gradient(top, #ebebeb, #cfd1cf);
-	background-image: -o-linear-gradient(top, #ebebeb, #cfd1cf);
-	background-image: -ms-linear-gradient(top, #ebebeb, #cfd1cf);
-	background-image: linear-gradient(top, #ebebeb, #cfd1cf);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffebebeb', endColorstr='#cfd1cf');
+	background-image: linear-gradient(to bottom, #ebebeb, #cfd1cf);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ebebeb', endColorstr='#cfd1cf');
 }
 
 .cke_rtl .cke_dialog_footer
@@ -239,18 +251,11 @@ a.cke_dialog_tab
 	color: #595959;
 	border: 1px solid #bfbfbf;
 
-	-moz-border-radius: 3px 3px 0 0;
-	-webkit-border-radius: 3px 3px 0 0;
 	border-radius: 3px 3px 0 0;
 
 	background: #d4d4d4;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#ededed));
-	background-image: -moz-linear-gradient(top, #fafafa, #ededed);
-	background-image: -webkit-linear-gradient(top, #fafafa, #ededed);
-	background-image: -o-linear-gradient(top, #fafafa, #ededed);
-	background-image: -ms-linear-gradient(top, #fafafa, #ededed);
-	background-image: linear-gradient(top, #fafafa, #ededed);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fffafafa', endColorstr='#ffededed');
+	background-image: linear-gradient(to bottom, #fafafa, #ededed);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fafafa', endColorstr='#ededed');
 }
 
 .cke_rtl a.cke_dialog_tab
@@ -260,14 +265,10 @@ a.cke_dialog_tab
 }
 
 /* A hover state of a regular inactive tab. */
-a.cke_dialog_tab:hover
+a.cke_dialog_tab:hover,
+a.cke_dialog_tab:focus
 {
 	background: #ebebeb;
-	background: -moz-linear-gradient(top, #ebebeb 0%, #dfdfdf 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebebeb), color-stop(100%,#dfdfdf));
-	background: -webkit-linear-gradient(top, #ebebeb 0%,#dfdfdf 100%);
-	background: -o-linear-gradient(top, #ebebeb 0%,#dfdfdf 100%);
-	background: -ms-linear-gradient(top, #ebebeb 0%,#dfdfdf 100%);
 	background: linear-gradient(to bottom, #ebebeb 0%,#dfdfdf 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebebeb', endColorstr='#dfdfdf',GradientType=0 );
 }
@@ -282,23 +283,26 @@ a.cke_dialog_tab_selected
 }
 
 /* A hover state for selected tab. */
-a.cke_dialog_tab_selected:hover
+a.cke_dialog_tab_selected:hover,
+a.cke_dialog_tab_selected:focus
 {
 	background: #ededed;
-	background: -moz-linear-gradient(top, #ededed 0%, #ffffff 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#ffffff));
-	background: -webkit-linear-gradient(top, #ededed 0%,#ffffff 100%);
-	background: -o-linear-gradient(top, #ededed 0%,#ffffff 100%);
-	background: -ms-linear-gradient(top, #ededed 0%,#ffffff 100%);
 	background: linear-gradient(to bottom, #ededed 0%,#ffffff 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#ffffff',GradientType=0 );
 }
 
 .cke_hc a.cke_dialog_tab:hover,
+.cke_hc a.cke_dialog_tab:focus,
 .cke_hc a.cke_dialog_tab_selected
 {
 	border: 3px solid;
 	padding: 2px 6px;
+}
+
+a.cke_dialog_tab_disabled
+{
+	color: #bababa;
+	cursor: default;
 }
 
 /* The .cke_single_page class is appended to the dialog outer element in case
@@ -317,18 +321,32 @@ a.cke_dialog_tab_selected:hover
 
 /* The close button at the top of the dialog. */
 
-.cke_dialog_close_button
+a.cke_dialog_close_button
 {
 	background-image: url(images/close.png);
 	background-repeat: no-repeat;
-	background-position: 0 0;
+	background-position: 50%;
 	position: absolute;
 	cursor: pointer;
 	text-align: center;
 	height: 20px;
 	width: 20px;
-	top: 5px;
+	top: 4px;
 	z-index: 5;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.cke_dialog_close_button:hover
+{
+	opacity: 1;
+	filter: alpha(opacity = 100);
+}
+
+.cke_hidpi .cke_dialog_close_button
+{
+	background-image: url(images/hidpi/close.png);
+	background-size: 16px;
 }
 
 .cke_dialog_close_button span
@@ -515,16 +533,10 @@ textarea.cke_dialog_ui_input_textarea
 	width: 100%;
 	*width: 95%;
 
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
 	box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
 }
 
@@ -566,7 +578,7 @@ a.cke_dialog_ui_button
 	*display: inline;
 	*zoom: 1;
 
-	padding: 3px 0;
+	padding: 4px 0;
 	margin: 0;
 
 	text-align: center;
@@ -576,29 +588,18 @@ a.cke_dialog_ui_button
 
 	border: 1px solid #b6b6b6;
 	border-bottom-color: #999;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
-
-	-moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
 
 	background: #e4e4e4;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e4e4e4));
-	background-image: -moz-linear-gradient(top, #ffffff, #e4e4e4);
-	background-image: -webkit-linear-gradient(top, #ffffff, #e4e4e4);
-	background-image: -o-linear-gradient(top, #ffffff, #e4e4e4);
-	background-image: -ms-linear-gradient(top, #ffffff, #e4e4e4);
-	background-image: linear-gradient(top, #ffffff, #e4e4e4);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffffff', endColorstr='#ffe4e4e4');
+	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
 
 }
 
 span.cke_dialog_ui_button
 {
-	padding: 0 12px;
+	padding: 0 10px;
 }
 
 a.cke_dialog_ui_button:hover
@@ -606,13 +607,8 @@ a.cke_dialog_ui_button:hover
 	border-color: #9e9e9e;
 
 	background: #ccc;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#ccc));
-	background-image: -moz-linear-gradient(top, #f2f2f2, #ccc);
-	background-image: -webkit-linear-gradient(top, #f2f2f2, #ccc);
-	background-image: -o-linear-gradient(top, #f2f2f2, #ccc);
-	background-image: -ms-linear-gradient(top, #f2f2f2, #ccc);
-	background-image: linear-gradient(top, #f2f2f2, #ccc);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff2f2f2', endColorstr='#ffcccccc');
+	background-image: linear-gradient(to bottom, #f2f2f2, #ccc);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#cccccc');
 }
 
 /* 	:focus/:active styles for dialog buttons: regular and footer. */
@@ -621,8 +617,6 @@ a.cke_dialog_ui_button:active
 {
 	border-color: #969696;
 	outline: none;
-	-moz-box-shadow: 0 0 6px rgba(0,0,0,.4) inset;
-	-webkit-box-shadow: 0 0 6px rgba(0,0,0,.4) inset;
 	box-shadow: 0 0 6px rgba(0,0,0,.4) inset;
 }
 
@@ -656,7 +650,8 @@ a.cke_dialog_ui_button[style*="width"]
 	color: inherit;
 	font-size: 12px;
 	font-weight: bold;
-	line-height: 20px;
+	line-height: 18px;
+	padding: 0 12px;
 }
 
 /* Special class appended to the Ok button. */
@@ -667,12 +662,8 @@ a.cke_dialog_ui_button_ok
 	border-color: #62a60a #62a60a #4d9200;
 
 	background: #69b10b;
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#9ad717), to(#69b10b));
-	background-image: -webkit-linear-gradient(top, #9ad717, #69b10b);
-	background-image: -o-linear-gradient(top, #9ad717, #69b10b);
 	background-image: linear-gradient(to bottom, #9ad717, #69b10b);
-	background-image: -moz-linear-gradient(top, #9ad717, #69b10b);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ff9ad717', endColorstr='#ff69b10b');
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#9ad717', endColorstr='#69b10b');
 }
 
 a.cke_dialog_ui_button_ok:hover
@@ -680,12 +671,24 @@ a.cke_dialog_ui_button_ok:hover
 	border-color: #5b9909 #5b9909 #478500;
 
 	background: #88be14;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#88be14), color-stop(100%,#5d9c0a));
-	background: -webkit-linear-gradient(top, #88be14 0%,#5d9c0a 100%);
-	background: -o-linear-gradient(top, #88be14 0%,#5d9c0a 100%);
 	background: linear-gradient(to bottom, #88be14 0%,#5d9c0a 100%);
-	background: -moz-linear-gradient(top, #88be14 0%, #5d9c0a 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#88be14', endColorstr='#5d9c0a',GradientType=0 );
+}
+
+a.cke_dialog_ui_button_ok.cke_disabled {
+	border-color: #7D9F51;
+
+	background: #8DAD62;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#B3D271), to(#8DAD62));
+	background-image: -webkit-linear-gradient(top, #B3D271, #8DAD62);
+	background-image: -o-linear-gradient(top, #B3D271, #8DAD62);
+	background-image: linear-gradient(to bottom, #B3D271, #8DAD62);
+	background-image: -moz-linear-gradient(top, #B3D271, #8DAD62);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#B3D271', endColorstr='#8DAD62');
+}
+
+a.cke_dialog_ui_button_ok.cke_disabled span {
+	color: #E0E8D1;
 }
 
 /* Default text shadow used for inner parts of all dialog buttons (both in dialog tabs and dialog footer). */
@@ -712,13 +715,19 @@ a.cke_dialog_ui_button_cancel:focus,
 a.cke_dialog_ui_button_cancel:active
 {
 	border-width: 2px;
-	padding: 2px 0;
+	padding: 3px 0;
 }
 
 a.cke_dialog_ui_button_ok:focus,
 a.cke_dialog_ui_button_ok:active
 {
 	border-color: #568C0A;
+}
+
+a.cke_dialog_ui_button_ok.cke_disabled:focus,
+a.cke_dialog_ui_button_ok.cke_disabled:active
+{
+	border-color: #6F8C49;
 }
 
 /* 	:focus/:active styles for dialog footer buttons (ok & cancel) spans */
@@ -751,22 +760,15 @@ div.cke_dialog_ui_input_select
 
 select.cke_dialog_ui_input_select
 {
-	height: 24px;
-	line-height: 24px;
+	height: 25px;
+	line-height: 25px;
 
 	background-color: #fff;
 	border: 1px solid #c9cccf;
 	border-top-color: #aeb3b9;
-	padding: 2px 6px;
-
+	padding: 3px 3px 3px 6px;
 	outline: none;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
-
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
 	box-shadow: 0 1px 2px rgba(0,0,0,.15) inset;
 }
 
@@ -804,13 +806,16 @@ select.cke_dialog_ui_input_select
 .cke_dialog a.cke_btn_reset
 {
 	float: right;
-	background-position: 0 -32px;
-	background-image: url(images/mini.png);
+	background: url(images/refresh.png) top left no-repeat;
 	width: 16px;
 	height: 16px;
-	background-repeat: no-repeat;
 	border: 1px none;
 	font-size: 1px;
+}
+
+.cke_hidpi .cke_dialog a.cke_btn_reset {
+	background-size: 16px;
+	background-image: url(images/hidpi/refresh.png);
 }
 
 .cke_rtl .cke_dialog a.cke_btn_reset
@@ -822,8 +827,6 @@ select.cke_dialog_ui_input_select
 .cke_dialog a.cke_btn_unlocked
 {
 	float: left;
-	background-position: 0 0;
-	background-image: url(images/mini.png);
 	width: 16px;
 	height: 16px;
 	background-repeat: no-repeat;
@@ -842,10 +845,27 @@ select.cke_dialog_ui_input_select
 	float: right;
 }
 
+.cke_dialog a.cke_btn_locked
+{
+	background-image: url(images/lock.png);
+}
+
 .cke_dialog a.cke_btn_unlocked
 {
-	background-position: 0 -16px;
-	background-image: url(images/mini.png);
+	background-image: url(images/lock-open.png);
+}
+
+.cke_hidpi .cke_dialog a.cke_btn_unlocked,
+.cke_hidpi .cke_dialog a.cke_btn_locked {
+	background-size: 16px;
+}
+
+.cke_hidpi .cke_dialog a.cke_btn_locked {
+	background-image: url(images/hidpi/lock.png);
+}
+
+.cke_hidpi .cke_dialog a.cke_btn_unlocked {
+	background-image: url(images/hidpi/lock-open.png);
 }
 
 .cke_dialog .cke_btn_over
@@ -919,9 +939,6 @@ tendency that these will be moved to the plugins code in the future.
 	height: 130px;
 	background-color: white;
 	border: 1px solid #aeb3b9;
-
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
 

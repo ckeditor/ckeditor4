@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'toolbar', 'sk', {
 	toolbarCollapse: 'Zbaliť lištu nástrojov',
@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sk', {
 		editing: 'Upravovanie',
 		forms: 'Formuláre',
 		basicstyles: 'Základné štýly',
-		paragraph: 'Odstavec',
+		paragraph: 'Odsek',
 		links: 'Odkazy',
 		insert: 'Vložiť',
 		styles: 'Štýly',
@@ -19,4 +19,4 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sk', {
 		tools: 'Nástroje'
 	},
 	toolbars: 'Lišty nástrojov editora'
-});
+} );

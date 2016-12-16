@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -33,7 +33,7 @@ CKEDITOR.dom.domObject = function( nativeDomObject ) {
 	}
 };
 
-CKEDITOR.dom.domObject.prototype = (function() {
+CKEDITOR.dom.domObject.prototype = ( function() {
 	// Do not define other local variables here. We want to keep the native
 	// listener closures as clean as possible.
 
@@ -50,7 +50,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	return {
 
 		/**
-		 * Get the private `_` object which is bound to the native
+		 * Gets the private `_` object which is bound to the native
 		 * DOM object using {@link #getCustomData}.
 		 *
 		 *		var elementA = new CKEDITOR.dom.element( nativeElement );
@@ -136,16 +136,20 @@ CKEDITOR.dom.domObject.prototype = (function() {
 
 				delete nativeListeners[ eventName ];
 			}
+
+			// Remove events from events object so fire() method will not call
+			// listeners (#11400).
+			CKEDITOR.event.prototype.removeAllListeners.call( this );
 		}
 	};
-})();
+} )();
 
-(function( domObjectProto ) {
+( function( domObjectProto ) {
 	var customData = {};
 
 	CKEDITOR.on( 'reset', function() {
 		customData = {};
-	});
+	} );
 
 	/**
 	 * Determines whether the specified object is equal to the current object.
@@ -170,10 +174,12 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	 * Sets a data slot value for this object. These values are shared by all
 	 * instances pointing to that same DOM object.
 	 *
-	 * **Note:** The created data slot is only guarantied to be available on this unique dom node,
-	 * thus any wish to continue access it from other element clones (either created by
-	 * clone node or from `innerHtml`) will fail, for such usage, please use
+	 * **Note:** The created data slot is only guaranteed to be available on this unique DOM node,
+	 * thus any wish to continue access to it from other element clones (either created by
+	 * clone node or from `innerHtml`) will fail. For such usage please use
 	 * {@link CKEDITOR.dom.element#setAttribute} instead.
+	 *
+	 * **Note**: This method does not work on text nodes prior to Internet Explorer 9.
 	 *
 	 *		var element = new CKEDITOR.dom.element( 'span' );
 	 *		element.setCustomData( 'hasCustomData', true );
@@ -210,7 +216,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	};
 
 	/**
-	 * Removes the value in data slot under given `key`.
+	 * Removes the value in the data slot under the given `key`.
 	 *
 	 * @param {String} key
 	 * @returns {Object} Removed value or `null` if not found.
@@ -230,7 +236,7 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	};
 
 	/**
-	 * Removes any data stored on this object.
+	 * Removes any data stored in this object.
 	 * To avoid memory leaks we must assure that there are no
 	 * references left after the object is no longer needed.
 	 */
@@ -243,8 +249,10 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	};
 
 	/**
-	 * Gets an ID that can be used to identiquely identify this DOM object in
+	 * Gets an ID that can be used to identify this DOM object in
 	 * the running session.
+	 *
+	 * **Note**: This method does not work on text nodes prior to Internet Explorer 9.
 	 *
 	 * @returns {Number} A unique ID.
 	 */
@@ -255,4 +263,4 @@ CKEDITOR.dom.domObject.prototype = (function() {
 	// Implement CKEDITOR.event.
 	CKEDITOR.event.implementOn( domObjectProto );
 
-})( CKEDITOR.dom.domObject.prototype );
+} )( CKEDITOR.dom.domObject.prototype );

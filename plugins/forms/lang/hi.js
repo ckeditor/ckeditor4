@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'hi', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'hi', {
 		checkboxTitle: 'चॅक बॉक्स प्रॉपर्टीज़',
 		radioTitle: 'रेडिओ बटन प्रॉपर्टीज़',
 		value: 'वैल्यू',
-		selected: 'सॅलॅक्टॅड'
+		selected: 'सॅलॅक्टॅड',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'फ़ॉर्म प्रॉपर्टीज़',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'hi', {
 		size: 'साइज़',
 		lines: 'पंक्तियाँ',
 		chkMulti: 'एक से ज्यादा विकल्प चुनने दें',
+		required: 'Required', // MISSING
 		opText: 'टेक्स्ट',
 		opValue: 'वैल्यू',
 		btnAdd: 'जोड़ें',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'hi', {
 		value: 'वैल्यू',
 		charWidth: 'करॅक्टर की चौढ़ाई',
 		maxChars: 'अधिकतम करॅक्टर',
+		required: 'Required', // MISSING
 		type: 'टाइप',
 		typeText: 'टेक्स्ट',
 		typePass: 'पास्वर्ड',
@@ -65,4 +68,4 @@ CKEDITOR.plugins.setLang( 'forms', 'hi', {
 		typeTel: 'Telephone Number', // MISSING
 		typeUrl: 'URL'
 	}
-});
+} );

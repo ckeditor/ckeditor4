@@ -1,10 +1,10 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'hr', {
 	button: {
-		title: 'Image Button svojstva',
+		title: 'Button svojstva',
 		text: 'Tekst (vrijednost)',
 		type: 'Vrsta',
 		typeBtn: 'Gumb',
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'hr', {
 		checkboxTitle: 'Checkbox svojstva',
 		radioTitle: 'Radio Button svojstva',
 		value: 'Vrijednost',
-		selected: 'Odabrano'
+		selected: 'Odabrano',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Form svojstva',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'hr', {
 		size: 'Veličina',
 		lines: 'linija',
 		chkMulti: 'Dozvoli višestruki odabir',
+		required: 'Required', // MISSING
 		opText: 'Tekst',
 		opValue: 'Vrijednost',
 		btnAdd: 'Dodaj',
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'hr', {
 		value: 'Vrijednost',
 		charWidth: 'Širina',
 		maxChars: 'Najviše karaktera',
+		required: 'Required', // MISSING
 		type: 'Vrsta',
 		typeText: 'Tekst',
 		typePass: 'Šifra',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Traži',
+		typeTel: 'Broj telefona',
 		typeUrl: 'URL'
 	}
-});
+} );

@@ -1,12 +1,12 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	var meta = {
 		editorFocus: false,
-		modes: { wysiwyg:1,source:1 }
+		modes: { wysiwyg: 1, source: 1 }
 	};
 
 	var blurCommand = {
@@ -25,14 +25,14 @@
 		return {
 			editorFocus: false,
 			canUndo: false,
-			modes: { wysiwyg:1 },
+			modes: { wysiwyg: 1 },
 			exec: function( editor ) {
 				if ( editor.editable().hasFocus ) {
 					var sel = editor.getSelection(),
 						path = new CKEDITOR.dom.elementPath( sel.getCommonAncestor(), sel.root ),
 						cell;
 
-					if ( ( cell = path.contains( { td:1,th:1 }, 1 ) ) ) {
+					if ( ( cell = path.contains( { td: 1, th: 1 }, 1 ) ) ) {
 						var resultRange = editor.createRange(),
 							next = CKEDITOR.tools.tryThese( function() {
 								var row = cell.getParent(),
@@ -47,7 +47,7 @@
 									nextRow = table.$.rows[ row.$.rowIndex + ( backward ? -1 : 1 ) ];
 
 								return nextRow.cells[ backward ? nextRow.cells.length - 1 : 0 ];
-							});
+							} );
 
 						// Clone one more row at the end of table and select the first newly established cell.
 						if ( !( next || backward ) ) {
@@ -58,7 +58,7 @@
 
 							for ( var i = 0, count = cells.length; i < count; i++ ) {
 								var newCell = newRow.append( new CKEDITOR.dom.element( cells[ i ], editor.document ).clone( false, false ) );
-								!CKEDITOR.env.ie && newCell.appendBogus();
+								newCell.appendBogus();
 							}
 
 							resultRange.moveToElementEditStart( newRow );
@@ -68,8 +68,9 @@
 							// Avoid selecting empty block makes the cursor blind.
 							if ( !( resultRange.checkStartOfBlock() && resultRange.checkEndOfBlock() ) )
 								resultRange.selectNodeContents( next );
-						} else
+						} else {
 							return true;
+						}
 
 						resultRange.select( true );
 						return true;
@@ -92,12 +93,12 @@
 
 			if ( tabText ) {
 				editor.on( 'key', function( ev ) {
-					if ( ev.data.keyCode == 9 ) // TAB
-					{
-						editor.insertHtml( tabText );
+					// TAB.
+					if ( ev.data.keyCode == 9 ) {
+						editor.insertText( tabText );
 						ev.cancel();
 					}
-				});
+				} );
 			}
 
 			if ( tabTools ) {
@@ -105,7 +106,7 @@
 					if ( ev.data.keyCode == 9 && editor.execCommand( 'selectNextCell' ) || // TAB
 					ev.data.keyCode == ( CKEDITOR.SHIFT + 9 ) && editor.execCommand( 'selectPreviousCell' ) ) // SHIFT+TAB
 					ev.cancel();
-				});
+				} );
 			}
 
 			editor.addCommand( 'blur', CKEDITOR.tools.extend( blurCommand, meta ) );
@@ -113,8 +114,8 @@
 			editor.addCommand( 'selectNextCell', selectNextCellCommand() );
 			editor.addCommand( 'selectPreviousCell', selectNextCellCommand( true ) );
 		}
-	});
-})();
+	} );
+} )();
 
 /**
  * Moves the UI focus to the element following this element in the tabindex order.
@@ -127,8 +128,7 @@
  * @member CKEDITOR.dom.element
  */
 CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse ) {
-	var $ = this.$,
-		curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
+	var curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
 		passedCurrent, enteredCurrent, elected, electedTabIndex, element, elementTabIndex;
 
 	if ( curTabIndex <= 0 ) {
@@ -165,8 +165,9 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse 
 							break;
 						passedCurrent = 1;
 					}
-				} else if ( enteredCurrent && !this.contains( element ) )
+				} else if ( enteredCurrent && !this.contains( element ) ) {
 					passedCurrent = 1;
+				}
 			}
 
 			if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 )
@@ -202,8 +203,7 @@ CKEDITOR.dom.element.prototype.focusNext = function( ignoreChildren, indexToUse 
  * @member CKEDITOR.dom.element
  */
 CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexToUse ) {
-	var $ = this.$,
-		curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
+	var curTabIndex = ( indexToUse === undefined ? this.getTabIndex() : indexToUse ),
 		passedCurrent, enteredCurrent, elected,
 		electedTabIndex = 0,
 		elementTabIndex;
@@ -221,8 +221,9 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 						break;
 					passedCurrent = 1;
 				}
-			} else if ( enteredCurrent && !this.contains( element ) )
+			} else if ( enteredCurrent && !this.contains( element ) ) {
 				passedCurrent = 1;
+			}
 		}
 
 		if ( !element.isVisible() || ( elementTabIndex = element.getTabIndex() ) < 0 )
@@ -266,7 +267,7 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
 
 /**
  * Intructs the editor to add a number of spaces (`&nbsp;`) to the text when
- * hitting the *TAB* key. If set to zero, the *TAB* key will be used to move the
+ * hitting the <kbd>Tab</kbd> key. If set to zero, the <kbd>Tab</kbd> key will be used to move the
  * cursor focus to the next element in the page, out of the editor focus.
  *
  *		config.tabSpaces = 4;
@@ -276,14 +277,14 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
  */
 
 /**
- * Allow context-sensitive tab key behaviors, including the following scenarios:
+ * Allow context-sensitive <kbd>Tab</kbd> key behaviors, including the following scenarios:
  *
  * When selection is anchored inside **table cells**:
  *
- * * If *TAB* is pressed, select the contents of the "next" cell. If in the last
+ * * If <kbd>Tab</kbd> is pressed, select the content of the "next" cell. If in the last
  *     cell in the table, add a new row to it and focus its first cell.
- * * If *SHIFT+TAB* is pressed, select the contents of the "previous" cell.
- *     Do nothing when it's in the first cell.
+ * * If <kbd>Shift+Tab</kbd> is pressed, select the content of the "previous" cell.
+ *     Do nothing when it is in the first cell.
  *
  * Example:
  *
@@ -293,7 +294,7 @@ CKEDITOR.dom.element.prototype.focusPrevious = function( ignoreChildren, indexTo
  * @member CKEDITOR.config
  */
 
-// If the TAB key is not supposed to be enabled for navigation, the following
+// If the <kbd>Tab</kbd> key is not supposed to be enabled for navigation, the following
 // settings could be used alternatively:
 // config.keystrokes.push(
 //	[ CKEDITOR.ALT + 38 /*Arrow Up*/, 'selectPreviousCell' ],

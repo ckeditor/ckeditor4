@@ -1,0 +1,49 @@
+<p>Test URLs</p>
+
+<ul>
+	<li><input type="text" value="https://placekitten.com/g/200/300"></li>
+	<li><input type="text" value="https://twitter.com/reinmarpl/status/573118615274315776"></li>
+	<li><input type="text" value="https://www.youtube.com/watch?v=GUl9_5kK9ts"></li>
+	<li><input type="text" value="https://instagram.com/p/wZB11CIfqX/"></li>
+	<li><input type="text" value="https://www.google.dk/maps/place/Zygmunta+S%C5%82omi%C5%84skiego+15,+Warszawa"></li>
+	<li><input type="text" value="http://tellto.tumblr.com/post/112160646328"></li>
+	<li><input type="text" value="https://www.flickr.com/photos/polandmfa/7005560084/"></li>
+	<li><input type="text" value="http://i.imgur.com/Z3ilPBI.jpg"></li>
+	<li><input type="text" value="https://open.spotify.com/track/2XsTC2dPbmWREu5RQ1mQC0"></li>
+</ul>
+
+<p>Dat rich editor &ndash; embed</p>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Foo bar.</p>
+
+	<p>Foo bar.</p>
+</textarea>
+
+<p>Dat rich editor &ndash; embedsemantic</p>
+
+<textarea id="editor2" cols="10" rows="10">
+	<p>Foo bar.</p>
+
+	<p>Foo bar.</p>
+</textarea>
+
+<script>
+	embedTools.delayJsonp();
+
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'embedsemantic',
+		extraPlugins: 'embed',
+		height: 500,
+		// Make them narrow so images don't take too much space.
+		width: 600
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		removePlugins: 'embed',
+		extraPlugins: 'embedsemantic',
+		height: 500,
+		// Make them narrow so images don't take too much space.
+		width: 600
+	} );
+</script>

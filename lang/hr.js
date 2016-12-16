@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'hr' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
-	editor: 'Bogati uređivač teksta',
+	editor: 'Bogati uređivač teksta, %1',
+	editorPanel: 'Ploča Bogatog Uređivača Teksta',
 
 	// Common messages and labels.
 	common: {
@@ -42,7 +35,7 @@ CKEDITOR.lang[ 'hr' ] = {
 		uploadSubmit: 'Pošalji na server',
 		image: 'Slika',
 		flash: 'Flash',
-		form: 'Form',
+		form: 'Forma',
 		checkbox: 'Checkbox',
 		radio: 'Radio Button',
 		textField: 'Text Field',
@@ -59,7 +52,7 @@ CKEDITOR.lang[ 'hr' ] = {
 		langDirRtl: 'S desna na lijevo (RTL)',
 		langCode: 'Kôd jezika',
 		longDescr: 'Dugački opis URL',
-		cssClass: 'Stylesheet klase',
+		cssClass: 'Klase stilova',
 		advisoryTitle: 'Advisory naslov',
 		cssStyle: 'Stil',
 		ok: 'OK',
@@ -84,14 +77,16 @@ CKEDITOR.lang[ 'hr' ] = {
 		cssClasses: 'Klase stilova',
 		width: 'Širina',
 		height: 'Visina',
-		align: 'Poravnaj',
+		align: 'Poravnanje',
 		alignLeft: 'Lijevo',
 		alignRight: 'Desno',
 		alignCenter: 'Središnje',
+		alignJustify: 'Blok poravnanje',
 		alignTop: 'Vrh',
 		alignMiddle: 'Sredina',
 		alignBottom: 'Dolje',
-		invalidValue	: 'Invalid value.', // MISSING
+		alignNone: 'None', // MISSING
+		invalidValue: 'Neispravna vrijednost.',
 		invalidHeight: 'Visina mora biti broj.',
 		invalidWidth: 'Širina mora biti broj.',
 		invalidCssLength: 'Vrijednost određena za "%1" polje mora biti pozitivni broj sa ili bez važećih CSS mjernih jedinica (px, %, in, cm, mm, em, ex, pt ili pc).',
@@ -100,6 +95,23 @@ CKEDITOR.lang[ 'hr' ] = {
 		cssLengthTooltip: 'Unesite broj za vrijednost u pikselima ili broj s važećim CSS mjernim jedinicama (px, %, in, cm, mm, em, ex, pt ili pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, nedostupno</span>'
+		unavailable: '%1<span class="cke_accessibility">, nedostupno</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Space', // MISSING
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

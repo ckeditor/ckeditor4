@@ -1,14 +1,14 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	CKEDITOR.plugins.add( 'panel', {
 		beforeInit: function( editor ) {
 			editor.ui.addHandler( CKEDITOR.UI_PANEL, CKEDITOR.ui.panel.handler );
 		}
-	});
+	} );
 
 	/**
 	 * Panel UI element.
@@ -34,7 +34,7 @@
 		CKEDITOR.tools.extend( this, {
 			className: '',
 			css: []
-		});
+		} );
 
 		this.id = CKEDITOR.tools.getNextId();
 		this.document = document;
@@ -70,7 +70,7 @@
 		'{frame}' +
 		'</div>' );
 
-	var frameTpl = CKEDITOR.addTemplate( 'panel-frame', '<iframe id="{id}" class="cke_panel_frame" role="application" frameborder="0" src="{src}"></iframe>' );
+	var frameTpl = CKEDITOR.addTemplate( 'panel-frame', '<iframe id="{id}" class="cke_panel_frame" role="presentation" frameborder="0" src="{src}"></iframe>' );
 
 	var frameDocTpl = CKEDITOR.addTemplate( 'panel-frame-inner', '<!DOCTYPE html>' +
 		'<html class="cke_panel_container {env}" dir="{dir}" lang="{langCode}">' +
@@ -100,18 +100,18 @@
 							doc = iframe.getFrameDocument();
 
 						// Make it scrollable on iOS. (#8308)
-						CKEDITOR.env.iOS && parentDiv.setStyles({
+						CKEDITOR.env.iOS && parentDiv.setStyles( {
 							'overflow': 'scroll',
 							'-webkit-overflow-scrolling': 'touch'
-						});
+						} );
 
-						var onLoad = CKEDITOR.tools.addFunction( CKEDITOR.tools.bind( function( ev ) {
+						var onLoad = CKEDITOR.tools.addFunction( CKEDITOR.tools.bind( function() {
 							this.isLoaded = true;
 							if ( this.onLoad )
 								this.onLoad();
 						}, this ) );
 
-						doc.write( frameDocTpl.output( CKEDITOR.tools.extend({
+						doc.write( frameDocTpl.output( CKEDITOR.tools.extend( {
 							css: CKEDITOR.tools.buildStyleHtml( this.css ),
 							onload: 'window.parent.CKEDITOR.tools.callFunction(' + onLoad + ');'
 						}, data ) ) );
@@ -122,7 +122,7 @@
 						win.$.CKEDITOR = CKEDITOR;
 
 						// Arrow keys for scrolling is only preventable with 'keypress' event in Opera (#4534).
-						doc.on( 'key' + ( CKEDITOR.env.opera ? 'press' : 'down' ), function( evt ) {
+						doc.on( 'keydown', function( evt ) {
 							var keystroke = evt.data.getKeystroke(),
 								dir = this.document.getById( this.id ).getAttribute( 'dir' );
 
@@ -142,8 +142,9 @@
 						holder = doc.getBody();
 						holder.unselectable();
 						CKEDITOR.env.air && CKEDITOR.tools.callFunction( onLoad );
-					} else
+					} else {
 						holder = this.document.getById( this.id );
+					}
 
 					this._.holder = holder;
 				}
@@ -163,11 +164,23 @@
 			};
 
 			if ( this.isFramed ) {
-				data.frame = frameTpl.output({
+				// With IE, the custom domain has to be taken care at first,
+				// for other browers, the 'src' attribute should be left empty to
+				// trigger iframe's 'load' event.
+				var src =
+					CKEDITOR.env.air ? 'javascript:void(0)' : // jshint ignore:line
+					CKEDITOR.env.ie ? 'javascript:void(function(){' + encodeURIComponent( // jshint ignore:line
+						'document.open();' +
+						// In IE, the document domain must be set any time we call document.open().
+						'(' + CKEDITOR.tools.fixDomain + ')();' +
+						'document.close();'
+					) + '}())' :
+					'';
+
+				data.frame = frameTpl.output( {
 					id: this.id + '_frame',
-					src: 'javascript:void(document.open(),' + ( CKEDITOR.env.isCustomDomain() ? 'document.domain=\'' + document.domain + '\',' : '' )
-						+ 'document.close())">'
-				});
+					src: src
+				} );
 			}
 
 			var html = panelTpl.output( data );
@@ -209,15 +222,11 @@
 			// for FF. (#8864)
 			var holder = !this.forceIFrame || CKEDITOR.env.ie ? this._.holder : this.document.getById( this.id + '_frame' );
 
-			if ( current ) {
-				// Clean up the current block's effects on holder.
-				holder.removeAttributes( current.attributes );
+			if ( current )
 				current.hide();
-			}
 
 			this._.currentBlock = block;
 
-			holder.setAttributes( block.attributes );
 			CKEDITOR.fire( 'ariaWidget', holder );
 
 			// Reset the focus index, so it will always go into the first one.
@@ -243,7 +252,7 @@
 	 *
 	 * @todo class and all methods
 	 */
-	CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass({
+	CKEDITOR.ui.panel.block = CKEDITOR.tools.createClass( {
 		/**
 		 * Creates a block class instances.
 		 *
@@ -253,21 +262,24 @@
 		$: function( blockHolder, blockDefinition ) {
 			this.element = blockHolder.append( blockHolder.getDocument().createElement( 'div', {
 				attributes: {
-					'tabIndex': -1,
-					'class': 'cke_panel_block',
-					'role': 'presentation'
+					'tabindex': -1,
+					'class': 'cke_panel_block'
 				},
 				styles: {
 					display: 'none'
 				}
-			}));
+			} ) );
 
 			// Copy all definition properties to this object.
 			if ( blockDefinition )
 				CKEDITOR.tools.extend( this, blockDefinition );
 
-			if ( !this.attributes.title )
-				this.attributes.title = this.attributes[ 'aria-label' ];
+			// Set the a11y attributes of this element ...
+			this.element.setAttributes( {
+				'role': this.attributes.role || 'presentation',
+				'aria-label': this.attributes[ 'aria-label' ],
+				'title': this.attributes.title || this.attributes[ 'aria-label' ]
+			} );
 
 			this.keys = {};
 
@@ -290,7 +302,7 @@
 
 				// Safari need focus on the iframe window first(#3389), but we need
 				// lock the blur to avoid hiding the panel.
-				if ( CKEDITOR.env.webkit || CKEDITOR.env.opera )
+				if ( CKEDITOR.env.webkit )
 					item.getDocument().getWindow().focus();
 				item.focus();
 
@@ -308,7 +320,7 @@
 					this.element.setStyle( 'display', 'none' );
 			},
 
-			onKeyDown: function( keystroke ) {
+			onKeyDown: function( keystroke, noCycle ) {
 				var keyAction = this.keys[ keystroke ];
 				switch ( keyAction ) {
 					// Move forward.
@@ -327,6 +339,13 @@
 								break;
 							}
 						}
+
+						// If no link was found, cycle and restart from the top. (#11125)
+						if ( !link && !noCycle ) {
+							this._.focusIndex = -1;
+							return this.onKeyDown( keystroke, 1 );
+						}
+
 						return false;
 
 						// Move backward.
@@ -343,7 +362,18 @@
 								link.focus();
 								break;
 							}
+
+							// Make sure link is null when the loop ends and nothing was
+							// found (#11125).
+							link = null;
 						}
+
+						// If no link was found, cycle and restart from the bottom. (#11125)
+						if ( !link && !noCycle ) {
+							this._.focusIndex = links.count();
+							return this.onKeyDown( keystroke, 1 );
+						}
+
 						return false;
 
 					case 'click':
@@ -360,9 +390,9 @@
 				return true;
 			}
 		}
-	});
+	} );
 
-})();
+} )();
 
 /**
  * Fired when a panel is added to the document.

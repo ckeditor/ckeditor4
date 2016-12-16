@@ -1,5 +1,5 @@
-# Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.html or http://ckeditor.com/license
+# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
 
 auto = 
 bgColorTitle = 
@@ -42,7 +42,7 @@ colors.F0FFF0 = Tooltip with a human-readable name for the #F0FFF0 color.
 colors.F0FFFF = Tooltip with a human-readable name for the #F0FFFF color.
 colors.F0F8FF = Tooltip with a human-readable name for the #F0F8FF color.
 colors.E6E6FA = Tooltip with a human-readable name for the #E6E6FA color.
-colors.FFF = Tooltip with a human-readable name for the #000 color.
+colors.FFF = Tooltip with a human-readable name for the #FFF color.
 more = 
 panelTitle = 
 textColorTitle = 

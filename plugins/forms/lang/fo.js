@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'fo', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'fo', {
 		checkboxTitle: 'Eginleikar fyri flugubein',
 		radioTitle: 'Eginleikar fyri radioknøtt',
 		value: 'Virði',
-		selected: 'Valt'
+		selected: 'Valt',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Eginleikar fyri Form',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fo', {
 		size: 'Stødd',
 		lines: 'Linjur',
 		chkMulti: 'Loyv fleiri valmøguleikum samstundis',
+		required: 'Required', // MISSING
 		opText: 'Tekstur',
 		opValue: 'Virði',
 		btnAdd: 'Legg afturat',
@@ -57,6 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'fo', {
 		value: 'Virði',
 		charWidth: 'Breidd (sjónlig tekn)',
 		maxChars: 'Mest loyvdu tekn',
+		required: 'Required', // MISSING
 		type: 'Slag',
 		typeText: 'Tekstur',
 		typePass: 'Loyniorð',
@@ -65,4 +68,4 @@ CKEDITOR.plugins.setLang( 'forms', 'fo', {
 		typeTel: 'Telephone Number', // MISSING
 		typeUrl: 'URL'
 	}
-});
+} );

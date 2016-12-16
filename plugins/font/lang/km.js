@@ -1,14 +1,14 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'font', 'km', {
 	fontSize: {
 		label: 'ទំហំ',
-		voiceLabel: 'Font Size',
-		panelTitle: 'ទំហំ'
+		voiceLabel: 'ទំហំ​អក្សរ',
+		panelTitle: 'ទំហំ​អក្សរ'
 	},
-	label: 'ហ្វុង',
-	panelTitle: 'ហ្វុង',
-	voiceLabel: 'ហ្វុង'
-});
+	label: 'ពុម្ព​អក្សរ',
+	panelTitle: 'ឈ្មោះ​ពុម្ព​អក្សរ',
+	voiceLabel: 'ពុម្ព​អក្សរ'
+} );

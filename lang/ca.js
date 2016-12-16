@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,16 +18,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'ca' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
 	editor: 'Editor de text enriquit',
+	editorPanel: 'Panell de l\'editor de text enriquit',
 
 	// Common messages and labels.
 	common: {
@@ -71,11 +64,11 @@ CKEDITOR.lang[ 'ca' ] = {
 		advancedTab: 'Avançat',
 		validateNumberFailed: 'Aquest valor no és un número.',
 		confirmNewPage: 'Els canvis en aquest contingut que no es desin es perdran. Esteu segur que voleu carregar una pàgina nova?',
-		confirmCancel: 'Algunes opcions s\'han canviat. Esteu segur que voleu tancar la finestra de diàleg?',
+		confirmCancel: 'Algunes opcions s\'han canviat. Esteu segur que voleu tancar el quadre de diàleg?',
 		options: 'Opcions',
 		target: 'Destí',
 		targetNew: 'Nova finestra (_blank)',
-		targetTop: 'Finestra major (_top)',
+		targetTop: 'Finestra superior (_top)',
 		targetSelf: 'Mateixa finestra (_self)',
 		targetParent: 'Finestra pare (_parent)',
 		langDirLTR: 'D\'esquerra a dreta (LTR)',
@@ -88,18 +81,37 @@ CKEDITOR.lang[ 'ca' ] = {
 		alignLeft: 'Ajusta a l\'esquerra',
 		alignRight: 'Ajusta a la dreta',
 		alignCenter: 'Centre',
+		alignJustify: 'Justificat',
 		alignTop: 'Superior',
 		alignMiddle: 'Centre',
 		alignBottom: 'Inferior',
-		invalidValue	: 'Valor no vàlid.',
-		invalidHeight: 'L\'alçada ha de ser un nombre.',
-		invalidWidth: 'L\'amplada ha de ser un nombre.',
+		alignNone: 'Cap',
+		invalidValue: 'Valor no vàlid.',
+		invalidHeight: 'L\'alçada ha de ser un número.',
+		invalidWidth: 'L\'amplada ha de ser un número.',
 		invalidCssLength: 'El valor especificat per als "%1" camps ha de ser un número positiu amb o sense unitat de mesura vàlida de CSS (px, %, in, cm, mm, em, ex, pt o pc).',
 		invalidHtmlLength: 'El valor especificat per als "%1" camps ha de ser un número positiu amb o sense unitat de mesura vàlida d\'HTML (px o %).',
 		invalidInlineStyle: 'El valor especificat per l\'estil en línia ha de constar d\'una o més tuples amb el format "name: value", separats per punt i coma.',
 		cssLengthTooltip: 'Introduïu un número per un valor en píxels o un número amb una unitat vàlida de CSS (px, %, in, cm, mm, em, ex, pt o pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, no disponible</span>'
+		unavailable: '%1<span class="cke_accessibility">, no disponible</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Retrocés',
+			13: 'Intro',
+			16: 'Majúscules',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space', // MISSING
+			35: 'Fi',
+			36: 'Inici',
+			46: 'Eliminar',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

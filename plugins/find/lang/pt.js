@@ -1,18 +1,18 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'find', 'pt', {
-	find: 'Procurar',
-	findOptions: 'Find Options',
-	findWhat: 'Texto a Procurar:',
+	find: 'Pesquisar',
+	findOptions: 'Opções de pesquisa',
+	findWhat: 'Texto a procurar:',
 	matchCase: 'Maiúsculas/Minúsculas',
 	matchCyclic: 'Match cyclic',
 	matchWord: 'Coincidir com toda a palavra',
 	notFoundMsg: 'O texto especificado não foi encontrado.',
 	replace: 'Substituir',
-	replaceAll: 'Substituir Tudo',
-	replaceSuccessMsg: '%1 occurrence(s) replaced.',
+	replaceAll: 'Substituir tudo',
+	replaceSuccessMsg: '%1 ocurrências(s) substituídas.',
 	replaceWith: 'Substituir por:',
-	title: 'Find and Replace'
-});
+	title: 'Pesquisar e substituir'
+} );

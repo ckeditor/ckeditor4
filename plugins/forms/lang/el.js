@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'el', {
 	button: {
@@ -15,12 +15,13 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		checkboxTitle: 'Ιδιότητες Κουτιού Επιλογής',
 		radioTitle: 'Ιδιότητες Κουμπιού Επιλογής',
 		value: 'Τιμή',
-		selected: 'Επιλεγμένο'
+		selected: 'Επιλεγμένο',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Ιδιότητες Φόρμας',
 		menu: 'Ιδιότητες Φόρμας',
-		action: 'Δράση',
+		action: 'Ενέργεια',
 		method: 'Μέθοδος',
 		encoding: 'Κωδικοποίηση'
 	},
@@ -37,13 +38,14 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		size: 'Μέγεθος',
 		lines: 'γραμμές',
 		chkMulti: 'Να επιτρέπονται οι πολλαπλές επιλογές',
+		required: 'Required', // MISSING
 		opText: 'Κείμενο',
 		opValue: 'Τιμή',
 		btnAdd: 'Προσθήκη',
 		btnModify: 'Τροποποίηση',
 		btnUp: 'Πάνω',
 		btnDown: 'Κάτω',
-		btnSetValue: 'Προεπιλογή',
+		btnSetValue: 'Θέση ως προεπιλογή',
 		btnDelete: 'Διαγραφή'
 	},
 	textarea: {
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		value: 'Τιμή',
 		charWidth: 'Πλάτος Χαρακτήρων',
 		maxChars: 'Μέγιστοι χαρακτήρες',
+		required: 'Required', // MISSING
 		type: 'Τύπος',
 		typeText: 'Κείμενο',
 		typePass: 'Κωδικός',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Email',
+		typeSearch: 'Αναζήτηση',
+		typeTel: 'Αριθμός Τηλεφώνου',
 		typeUrl: 'URL'
 	}
-});
+} );

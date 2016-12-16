@@ -1,20 +1,23 @@
 ﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'removeformat', {
-	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en-au,en-ca,en-gb,en,eo,es,et,eu,fa,fi,fo,fr-ca,fr,gl,gu,he,hi,hr,hu,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt-br,pt,ro,ru,sk,sl,sr-latn,sr,sv,th,tr,ug,uk,vi,zh-cn,zh', // %REMOVE_LINE_CORE%
+	// jscs:disable maximumLineLength
+	lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	// jscs:enable maximumLineLength
 	icons: 'removeformat', // %REMOVE_LINE_CORE%
+	hidpi: true, // %REMOVE_LINE_CORE%
 	init: function( editor ) {
 		editor.addCommand( 'removeFormat', CKEDITOR.plugins.removeformat.commands.removeformat );
 		editor.ui.addButton && editor.ui.addButton( 'RemoveFormat', {
 			label: editor.lang.removeformat.toolbar,
 			command: 'removeFormat',
 			toolbar: 'cleanup,10'
-		});
+		} );
 	}
-});
+} );
 
 CKEDITOR.plugins.removeformat = {
 	commands: {
@@ -22,11 +25,13 @@ CKEDITOR.plugins.removeformat = {
 			exec: function( editor ) {
 				var tagsRegex = editor._.removeFormatRegex || ( editor._.removeFormatRegex = new RegExp( '^(?:' + editor.config.removeFormatTags.replace( /,/g, '|' ) + ')$', 'i' ) );
 
-				var removeAttributes = editor._.removeAttributes || ( editor._.removeAttributes = editor.config.removeFormatAttributes.split( ',' ) );
-
-				var filter = CKEDITOR.plugins.removeformat.filter;
-				var ranges = editor.getSelection().getRanges( 1 ),
+				var removeAttributes = editor._.removeAttributes || ( editor._.removeAttributes = editor.config.removeFormatAttributes.split( ',' ) ),
+					filter = CKEDITOR.plugins.removeformat.filter,
+					ranges = editor.getSelection().getRanges(),
 					iterator = ranges.createIterator(),
+					isElement = function( element ) {
+						return element.type == CKEDITOR.NODE_ELEMENT;
+					},
 					range;
 
 				while ( ( range = iterator.getNextRange() ) ) {
@@ -77,12 +82,27 @@ CKEDITOR.plugins.removeformat = {
 							if ( currentNode.equals( endNode ) )
 								break;
 
+							if ( currentNode.isReadOnly() ) {
+								// In case of non-editable we're skipping to the next sibling *elmenet*.
+
+								// We need to be aware that endNode can be nested within current non-editable.
+								// This condition tests if currentNode (non-editable) contains endNode. If it does
+								// then we should break the filtering
+								if ( currentNode.getPosition( endNode ) & CKEDITOR.POSITION_CONTAINS ) {
+									break;
+								}
+
+								currentNode = currentNode.getNext( isElement );
+								continue;
+							}
+
 							// Cache the next node to be processed. Do it now, because
 							// currentNode may be removed.
-							var nextNode = currentNode.getNextSourceNode( false, CKEDITOR.NODE_ELEMENT );
+							var nextNode = currentNode.getNextSourceNode( false, CKEDITOR.NODE_ELEMENT ),
+								isFakeElement = currentNode.getName() == 'img' && currentNode.data( 'cke-realelement' );
 
-							// This node must not be a fake element.
-							if ( !( currentNode.getName() == 'img' && currentNode.data( 'cke-realelement' ) ) && filter( editor, currentNode ) ) {
+							// This node must not be a fake element, and must not be read-only.
+							if ( !isFakeElement && filter( editor, currentNode ) ) {
 								// Remove elements nodes that match with this style rules.
 								if ( tagsRegex.test( currentNode.getName() ) )
 									currentNode.remove( 1 );
@@ -151,7 +171,7 @@ CKEDITOR.editor.prototype.addRemoveFormatFilter = function( func ) {
  * @cfg
  * @member CKEDITOR.config
  */
-CKEDITOR.config.removeFormatTags = 'b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var';
+CKEDITOR.config.removeFormatTags = 'b,big,cite,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var';
 
 /**
  * A comma separated list of elements attributes to be removed when executing

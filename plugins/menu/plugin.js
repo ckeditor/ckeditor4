@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'menu', {
@@ -41,10 +41,10 @@ CKEDITOR.plugins.add( 'menu', {
 		};
 
 		/**
-		 * Adds one or more items from the specified definition array to the editor context menu.
+		 * Adds one or more items from the specified definition object to the editor context menu.
 		 *
 		 * @method
-		 * @param {Array} definitions List of definitions for each menu item as if {@link #addMenuItem} is called.
+		 * @param {Object} definitions Object where keys are used as itemName and corresponding values as definition for a {@link #addMenuItem} call.
 		 * @member CKEDITOR.editor
 		 */
 		editor.addMenuItems = function( definitions ) {
@@ -77,24 +77,27 @@ CKEDITOR.plugins.add( 'menu', {
 			delete menuItems[ name ];
 		};
 	}
-});
+} );
 
-(function() {
+( function() {
 	var menuItemSource = '<span class="cke_menuitem">' +
 		'<a id="{id}"' +
 		' class="cke_menubutton cke_menubutton__{name} cke_menubutton_{state} {cls}" href="{href}"' +
 		' title="{title}"' +
 		' tabindex="-1"' +
-		'_cke_focus=1' +
+		' _cke_focus=1' +
 		' hidefocus="true"' +
-		' role="menuitem"' +
+		' role="{role}"' +
+		' aria-label="{label}"' +
+		' aria-describedby="{id}_description"' +
 		' aria-haspopup="{hasPopup}"' +
-		' aria-disabled="{disabled}"';
+		' aria-disabled="{disabled}"' +
+		' {ariaChecked}';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
-	// TODO: Check if really needed for Gecko+Mac.
-	if ( CKEDITOR.env.opera || ( CKEDITOR.env.gecko && CKEDITOR.env.mac ) )
+	// TODO: Check if really needed.
+	if ( CKEDITOR.env.gecko && CKEDITOR.env.mac )
 		menuItemSource += ' onkeypress="return false;"';
 
 	// With Firefox, we need to force the button to redraw, otherwise it
@@ -110,6 +113,7 @@ CKEDITOR.plugins.add( 'menu', {
 			'>';
 
 	menuItemSource +=
+				//'' +
 				'<span class="cke_menubutton_inner">' +
 					'<span class="cke_menubutton_icon">' +
 						'<span class="cke_button_icon cke_button__{iconName}_icon" style="{iconStyle}"></span>' +
@@ -117,22 +121,31 @@ CKEDITOR.plugins.add( 'menu', {
 					'<span class="cke_menubutton_label">' +
 						'{label}' +
 					'</span>' +
+					'{shortcutHtml}' +
 					'{arrowHtml}' +
 				'</span>' +
-			'</a></span>';
+			'</a><span id="{id}_description" class="cke_voice_label" aria-hidden="false">{ariaShortcut}</span></span>';
 
 	var menuArrowSource = '<span class="cke_menuarrow">' +
 				'<span>{label}</span>' +
 			'</span>';
 
+	var menuShortcutSource = '<span class="cke_menubutton_label cke_menubutton_shortcut">' +
+				'{shortcut}' +
+			'</span>';
+
 	var menuItemTpl = CKEDITOR.addTemplate( 'menuItem', menuItemSource ),
-		menuArrowTpl = CKEDITOR.addTemplate( 'menuArrow', menuArrowSource );
+		menuArrowTpl = CKEDITOR.addTemplate( 'menuArrow', menuArrowSource ),
+		menuShortcutTpl = CKEDITOR.addTemplate( 'menuShortcut', menuShortcutSource );
 
 	/**
 	 * @class
 	 * @todo
 	 */
-	CKEDITOR.menu = CKEDITOR.tools.createClass({
+	CKEDITOR.menu = CKEDITOR.tools.createClass( {
+		/**
+		 * @constructor
+		 */
 		$: function( editor, definition ) {
 			definition = this._.definition = definition || {};
 			this.id = CKEDITOR.tools.getNextId();
@@ -147,7 +160,7 @@ CKEDITOR.plugins.add( 'menu', {
 				css: [ CKEDITOR.skin.getPath( 'editor' ) ],
 				level: this._.level - 1,
 				block: {}
-			});
+			} );
 
 			var attrs = panelDefinition.block.attributes = ( panelDefinition.attributes || {} );
 			// Provide default role of 'menu'.
@@ -245,11 +258,16 @@ CKEDITOR.plugins.add( 'menu', {
 				// focus when JAWS is running. (#9844)
 				setTimeout( function() {
 					menu.show( element, 2 );
-				},0);
+				}, 0 );
 			}
 		},
 
 		proto: {
+			/**
+			 * Adds an item.
+			 *
+			 * @param item
+			 */
 			add: function( item ) {
 				// Later we may sort the items, but Array#sort is not stable in
 				// some browsers, here we're forcing the original sequence with
@@ -260,10 +278,21 @@ CKEDITOR.plugins.add( 'menu', {
 				this.items.push( item );
 			},
 
+			/**
+			 * Removes all items.
+			 */
 			removeAll: function() {
 				this.items = [];
 			},
 
+			/**
+			 * Shows the menu in given location.
+			 *
+			 * @param {CKEDITOR.dom.element} offsetParent
+			 * @param {Number} [corner]
+			 * @param {Number} [offsetX]
+			 * @param {Number} [offsetY]
+			 */
 			show: function( offsetParent, corner, offsetX, offsetY ) {
 				// Not for sub menu.
 				if ( !this.parent ) {
@@ -292,7 +321,7 @@ CKEDITOR.plugins.add( 'menu', {
 					panel.onShow = function() {
 						// Menu need CSS resets, compensate class name.
 						var holder = panel._.panel.getHolderElement();
-						holder.getParent().addClass( 'cke cke_reset_all' );
+						holder.getParent().addClass( 'cke' ).addClass( 'cke_reset_all' );
 					};
 
 					panel.onHide = CKEDITOR.tools.bind( function() {
@@ -323,7 +352,7 @@ CKEDITOR.plugins.add( 'menu', {
 						this._.showSubTimeout = CKEDITOR.tools.setTimeout( this._.showSubMenu, editor.config.menu_subMenuDelay || 400, this, [ index ] );
 					}, this );
 
-					this._.itemOutFn = CKEDITOR.tools.addFunction( function( index ) {
+					this._.itemOutFn = CKEDITOR.tools.addFunction( function() {
 						clearTimeout( this._.showSubTimeout );
 					}, this );
 
@@ -381,16 +410,31 @@ CKEDITOR.plugins.add( 'menu', {
 				editor.fire( 'menuShow', [ panel ] );
 			},
 
+			/**
+			 * Adds a callback executed on opening the menu. Items
+			 * returned by that callback are added to the menu.
+			 *
+			 * @param {Function} listenerFn
+			 * @param {CKEDITOR.dom.element} listenerFn.startElement The selection start anchor element.
+			 * @param {CKEDITOR.dom.selection} listenerFn.selection The current selection.
+			 * @param {CKEDITOR.dom.elementPath} listenerFn.path The current elements path.
+			 * @param listenerFn.return Object (`commandName` => `state`) of items that should be added to the menu.
+			 */
 			addListener: function( listenerFn ) {
 				this._.listeners.push( listenerFn );
 			},
 
+			/**
+			 * Hides the menu.
+			 *
+			 * @param {Boolean} [returnFocus]
+			 */
 			hide: function( returnFocus ) {
 				this._.onHide && this._.onHide();
 				this._.panel && this._.panel.hide( returnFocus );
 			}
 		}
-	});
+	} );
 
 	function sortItems( items ) {
 		items.sort( function( itemA, itemB ) {
@@ -400,21 +444,21 @@ CKEDITOR.plugins.add( 'menu', {
 				return 1;
 
 			return itemA.order < itemB.order ? -1 : itemA.order > itemB.order ? 1 : 0;
-		});
+		} );
 	}
 
 	/**
 	 * @class
 	 * @todo
 	 */
-	CKEDITOR.menuItem = CKEDITOR.tools.createClass({
+	CKEDITOR.menuItem = CKEDITOR.tools.createClass( {
 		$: function( editor, name, definition ) {
 			CKEDITOR.tools.extend( this, definition,
 			// Defaults
 			{
 				order: 0,
 				className: 'cke_menubutton__' + name
-			});
+			} );
 
 			// Transform the group name into its order number.
 			this.group = editor._.menuGroups[ this.group ];
@@ -426,9 +470,17 @@ CKEDITOR.plugins.add( 'menu', {
 		proto: {
 			render: function( menu, index, output ) {
 				var id = menu.id + String( index ),
-					state = ( typeof this.state == 'undefined' ) ? CKEDITOR.TRISTATE_OFF : this.state;
+					state = ( typeof this.state == 'undefined' ) ? CKEDITOR.TRISTATE_OFF : this.state,
+					ariaChecked = '',
+					editor = this.editor,
+					keystroke,
+					command,
+					shortcut;
 
 				var stateName = state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off';
+
+				if ( this.role in { menuitemcheckbox: 1, menuitemradio: 1 } )
+					ariaChecked = ' aria-checked="' + ( state == CKEDITOR.TRISTATE_ON ? 'true' : 'false' ) + '"';
 
 				var hasSubMenu = this.getItems;
 				// ltr: BLACK LEFT-POINTING POINTER
@@ -439,6 +491,15 @@ CKEDITOR.plugins.add( 'menu', {
 				if ( this.icon && !( /\./ ).test( this.icon ) )
 					iconName = this.icon;
 
+				if ( this.command ) {
+					command = editor.getCommand( this.command );
+					keystroke = editor.getCommandKeystroke( command );
+
+					if ( keystroke ) {
+						shortcut = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, keystroke );
+					}
+				}
+
 				var params = {
 					id: id,
 					name: this.name,
@@ -448,22 +509,26 @@ CKEDITOR.plugins.add( 'menu', {
 					state: stateName,
 					hasPopup: hasSubMenu ? 'true' : 'false',
 					disabled: state == CKEDITOR.TRISTATE_DISABLED,
-					title: this.label,
-					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')',
+					title: this.label + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
+					ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
+					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')', // jshint ignore:line
 					hoverFn: menu._.itemOverFn,
 					moveOutFn: menu._.itemOutFn,
 					clickFn: menu._.itemClickFn,
 					index: index,
 					iconStyle: CKEDITOR.skin.getIconStyle( iconName, ( this.editor.lang.dir == 'rtl' ), iconName == this.icon ? null : this.icon, this.iconOffset ),
-					arrowHtml: hasSubMenu ? menuArrowTpl.output({ label: arrowLabel } ) : ''
+					shortcutHtml: shortcut ? menuShortcutTpl.output( { shortcut: shortcut.display } ) : '',
+					arrowHtml: hasSubMenu ? menuArrowTpl.output( { label: arrowLabel } ) : '',
+					role: this.role ? this.role : 'menuitem',
+					ariaChecked: ariaChecked
 				};
 
 				menuItemTpl.output( params, output );
 			}
 		}
-	});
+	} );
 
-})();
+} )();
 
 
 /**

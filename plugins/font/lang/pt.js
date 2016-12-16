@@ -1,14 +1,14 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'font', 'pt', {
 	fontSize: {
 		label: 'Tamanho',
-		voiceLabel: 'Font Size',
-		panelTitle: 'Tamanho'
+		voiceLabel: 'Tamanho da letra',
+		panelTitle: 'Tamanho da letra'
 	},
-	label: 'Tipo de Letra',
-	panelTitle: 'Tipo de Letra',
-	voiceLabel: 'Tipo de Letra'
-});
+	label: 'Fonte',
+	panelTitle: 'Nome do tipo de letra',
+	voiceLabel: 'Tipo de letra'
+} );

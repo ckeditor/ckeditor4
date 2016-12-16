@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'ka', {
 	acccessKey: 'წვდომის ღილაკი',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ka', {
 	anchorName: 'ღუზის სახელით',
 	charset: 'კოდირება',
 	cssClasses: 'CSS კლასი',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ელფოსტის მისამართები',
 	emailBody: 'წერილის ტექსტი',
 	emailSubject: 'წერილის სათაური',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'ka', {
 	type: 'ბმულის ტიპი',
 	unlink: 'ბმულის მოხსნა',
 	upload: 'აქაჩვა'
-});
+} );

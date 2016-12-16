@@ -1,9 +1,9 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'it', {
-	acccessKey: 'Scorciatoia<br />da tastiera',
+	acccessKey: 'Scorciatoia da tastiera',
 	advanced: 'Avanzate',
 	advisoryContentType: 'Tipo della risorsa collegata',
 	advisoryTitle: 'Titolo',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'it', {
 	anchorName: 'Per Nome',
 	charset: 'Set di caretteri della risorsa collegata',
 	cssClasses: 'Nome classe CSS',
+	download: 'Forza scaricamento',
+	displayText: 'Mostra testo',
 	emailAddress: 'Indirizzo E-Mail',
 	emailBody: 'Corpo del messaggio',
 	emailSubject: 'Oggetto del messaggio',
@@ -55,11 +57,11 @@ CKEDITOR.plugins.setLang( 'link', 'it', {
 	targetPopup: '<finestra popup>',
 	targetPopupName: 'Nome finestra popup',
 	title: 'Collegamento',
-	toAnchor: 'Ancora nella pagina',
+	toAnchor: 'Ancora nel testo',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
-	toolbar: 'Inserisci/Modifica collegamento',
+	toolbar: 'Collegamento',
 	type: 'Tipo di Collegamento',
 	unlink: 'Elimina collegamento',
 	upload: 'Carica'
-});
+} );

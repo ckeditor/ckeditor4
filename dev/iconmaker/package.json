@@ -1,0 +1,17 @@
+{
+	"name": "iconmaker",
+	"version": "0.0.1",
+	"main": "./lib/main",
+	"dependencies": {
+		"optimist": ">=0.5.2",
+		"png-js": ">=0.1.1",
+		"q": ">=0.9.6",
+		"tmp": ">=0.0.20",
+		"mkdirp": ">=0.5.0"
+	},
+	"author": {
+		"name": "CKSource - Frederico Knabben",
+		"url": "http://cksource.com"
+	},
+	"licenses": [ "GPL", "LGPL", "MPL" ]
+}

@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'specialchar', function( editor ) {
@@ -17,7 +17,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				target = new CKEDITOR.dom.element( evt );
 
 			if ( target.getName() == 'a' && ( value = target.getChild( 0 ).getHtml() ) ) {
-				target.removeClass( "cke_light_background" );
+				target.removeClass( 'cke_light_background' );
 				dialog.hide();
 
 				// We must use "insertText" here to keep text styled.
@@ -47,7 +47,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 				dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( value );
 				htmlPreview.setHtml( CKEDITOR.tools.htmlEncode( value ) );
-				target.getParent().addClass( "cke_light_background" );
+				target.getParent().addClass( 'cke_light_background' );
 
 				// Memorize focused node.
 				focusedNode = target;
@@ -63,7 +63,7 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 			if ( target.getName() == 'a' ) {
 				dialog.getContentElement( 'info', 'charPreview' ).getElement().setHtml( '&nbsp;' );
 				dialog.getContentElement( 'info', 'htmlPreview' ).getElement().setHtml( '&nbsp;' );
-				target.getParent().removeClass( "cke_light_background" );
+				target.getParent().removeClass( 'cke_light_background' );
 
 				focusedNode = undefined;
 			}
@@ -106,13 +106,12 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 				// SPACE
 				// ENTER is already handled as onClick
 			case 32:
-				onChoice({ data: ev } );
+				onChoice( { data: ev } );
 				ev.preventDefault();
 				break;
 
 				// RIGHT-ARROW
-			case rtl ? 37:
-				39 :
+			case rtl ? 37 : 39:
 				// relative is TD
 				if ( ( relative = element.getParent().getNext() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -121,8 +120,9 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 						onBlur( null, element );
 						onFocus( null, nodeToMove );
 						ev.preventDefault( true );
-					} else
+					} else {
 						onBlur( null, element );
+					}
 				}
 				// relative is TR
 				else if ( ( relative = element.getParent().getParent().getNext() ) ) {
@@ -132,14 +132,14 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 						onBlur( null, element );
 						onFocus( null, nodeToMove );
 						ev.preventDefault( true );
-					} else
+					} else {
 						onBlur( null, element );
+					}
 				}
 				break;
 
 				// LEFT-ARROW
-			case rtl ? 39:
-				37 :
+			case rtl ? 39 : 37:
 				// relative is TD
 				if ( ( relative = element.getParent().getPrevious() ) ) {
 					nodeToMove = relative.getChild( 0 );
@@ -155,14 +155,15 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 					onBlur( null, element );
 					onFocus( null, nodeToMove );
 					ev.preventDefault( true );
-				} else
+				} else {
 					onBlur( null, element );
+				}
 				break;
 			default:
 				// Do not stop not handled events.
 				return;
 		}
-	});
+	} );
 
 	return {
 		title: lang.title,
@@ -172,7 +173,6 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 		charColumns: 17,
 		onLoad: function() {
 			var columns = this.definition.charColumns,
-				extraChars = editor.config.extraSpecialChars,
 				chars = editor.config.specialChars;
 
 			var charsTableLabel = CKEDITOR.tools.getNextId() + '_specialchar_table_label';
@@ -215,8 +215,9 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 							'<span class="cke_voice_label" id="' + charLabelId + '">' +
 							charDesc +
 							'</span></a>' );
-					} else
+					} else {
 						html.push( '<td class="cke_dark_background">&nbsp;' );
+					}
 
 					html.push( '</td>' );
 				}
@@ -227,20 +228,17 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 
 			this.getContentElement( 'info', 'charContainer' ).getElement().setHtml( html.join( '' ) );
 		},
-		contents: [
-			{
+		contents: [ {
 			id: 'info',
 			label: editor.lang.common.generalTab,
 			title: editor.lang.common.generalTab,
 			padding: 0,
 			align: 'top',
-			elements: [
-				{
+			elements: [ {
 				type: 'hbox',
 				align: 'top',
 				widths: [ '320px', '90px' ],
-				children: [
-					{
+				children: [ {
 					type: 'html',
 					id: 'charContainer',
 					html: '',
@@ -264,41 +262,36 @@ CKEDITOR.dialog.add( 'specialchar', function( editor ) {
 						dialog = event.sender;
 					}
 				},
-					{
+				{
 					type: 'hbox',
 					align: 'top',
 					widths: [ '100%' ],
-					children: [
-						{
+					children: [ {
 						type: 'vbox',
 						align: 'top',
 						children: [
 							{
-							type: 'html',
-							html: '<div></div>'
-						},
+								type: 'html',
+								html: '<div></div>'
+							},
 							{
-							type: 'html',
-							id: 'charPreview',
-							className: 'cke_dark_background',
-							style: 'border:1px solid #eeeeee;font-size:28px;height:40px;width:70px;padding-top:9px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
-							html: '<div>&nbsp;</div>'
-						},
+								type: 'html',
+								id: 'charPreview',
+								className: 'cke_dark_background',
+								style: 'border:1px solid #eeeeee;font-size:28px;height:40px;width:70px;padding-top:9px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
+								html: '<div>&nbsp;</div>'
+							},
 							{
-							type: 'html',
-							id: 'htmlPreview',
-							className: 'cke_dark_background',
-							style: 'border:1px solid #eeeeee;font-size:14px;height:20px;width:70px;padding-top:2px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
-							html: '<div>&nbsp;</div>'
-						}
+								type: 'html',
+								id: 'htmlPreview',
+								className: 'cke_dark_background',
+								style: 'border:1px solid #eeeeee;font-size:14px;height:20px;width:70px;padding-top:2px;font-family:\'Microsoft Sans Serif\',Arial,Helvetica,Verdana;text-align:center;',
+								html: '<div>&nbsp;</div>'
+							}
 						]
-					}
-					]
-				}
-				]
-			}
-			]
-		}
-		]
+					} ]
+				} ]
+			} ]
+		} ]
 	};
-});
+} );

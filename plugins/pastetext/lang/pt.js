@@ -1,8 +1,8 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'pt', {
-	button: 'Colar como Texto Simples',
-	title: 'Colar como Texto Simples'
-});
+	button: 'Colar como texto simples',
+	title: 'Colar como texto simples'
+} );

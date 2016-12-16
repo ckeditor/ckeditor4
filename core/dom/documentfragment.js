@@ -1,19 +1,18 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
  * DocumentFragment is a "lightweight" or "minimal" Document object. It is
  * commonly used to extract a portion of a document's tree or to create a new
- * fragment of a document. Various operations may take DocumentFragment objects
- * as arguments and results in all the child nodes of the DocumentFragment being
+ * fragment of a document. Various operations may take document fragment objects
+ * as arguments and result in all the child nodes of the document fragment being
  * moved to the child list of this node.
  *
  * @class
  * @constructor Creates a document fragment class instance.
- * @param {Object} nodeOrDoc
- * @todo example and param doc
+ * @param {CKEDITOR.dom.document/DocumentFragment} [nodeOrDoc=CKEDITOR.document]
  */
 CKEDITOR.dom.documentFragment = function( nodeOrDoc ) {
 	nodeOrDoc = nodeOrDoc || CKEDITOR.document;
@@ -34,12 +33,30 @@ CKEDITOR.tools.extend( CKEDITOR.dom.documentFragment.prototype, CKEDITOR.dom.ele
 	type: CKEDITOR.NODE_DOCUMENT_FRAGMENT,
 
 	/**
-	 * Inserts document fragment's contents after specified node.
+	 * Inserts the document fragment content after the specified node.
 	 *
 	 * @param {CKEDITOR.dom.node} node
 	 */
 	insertAfterNode: function( node ) {
 		node = node.$;
 		node.parentNode.insertBefore( this.$, node.nextSibling );
+	},
+
+	/**
+	 * Gets HTML of this document fragment's children.
+	 *
+	 * @since 4.5
+	 * @returns {String} The HTML of this document fragment's children.
+	 */
+	getHtml: function() {
+		var container = new CKEDITOR.dom.element( 'div' );
+
+		this.clone( 1, 1 ).appendTo( container );
+
+		return container.getHtml().replace( /\s*data-cke-expando=".*?"/g, '' );
 	}
-}, true, { 'append':1,'appendBogus':1,'getFirst':1,'getLast':1,'getParent':1,'getNext':1,'getPrevious':1,'appendTo':1,'moveChildren':1,'insertBefore':1,'insertAfterNode':1,'replace':1,'trim':1,'type':1,'ltrim':1,'rtrim':1,'getDocument':1,'getChildCount':1,'getChild':1,'getChildren':1 } );
+}, true, {
+	'append': 1, 'appendBogus': 1, 'clone': 1, 'getFirst': 1, 'getHtml': 1, 'getLast': 1, 'getParent': 1, 'getNext': 1, 'getPrevious': 1,
+	'appendTo': 1, 'moveChildren': 1, 'insertBefore': 1, 'insertAfterNode': 1, 'replace': 1, 'trim': 1, 'type': 1,
+	'ltrim': 1, 'rtrim': 1, 'getDocument': 1, 'getChildCount': 1, 'getChild': 1, 'getChildren': 1
+} );

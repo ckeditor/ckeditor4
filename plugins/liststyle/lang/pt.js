@@ -1,25 +1,25 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'pt', {
 	armenian: 'Numeração armênia',
-	bulletedTitle: 'Bulleted List Properties',
+	bulletedTitle: 'Propriedades da lista não numerada',
 	circle: 'Círculo',
 	decimal: 'Decimal (1, 2, 3, etc.)',
-	decimalLeadingZero: 'Decimal leading zero (01, 02, 03, etc.)',
+	decimalLeadingZero: 'Zero decimal à esquerda (01, 02, 03, etc.)',
 	disc: 'Disco',
-	georgian: 'Georgian numbering (an, ban, gan, etc.)',
-	lowerAlpha: 'Lower Alpha (a, b, c, d, e, etc.)',
-	lowerGreek: 'Lower Greek (alpha, beta, gamma, etc.)',
-	lowerRoman: 'Lower Roman (i, ii, iii, iv, v, etc.)',
+	georgian: 'Numeração georgiana (an, ban, gan, etc.)',
+	lowerAlpha: 'Minúsculas (a, b, c, d, e, etc.)',
+	lowerGreek: 'Grego em minúsculas (alpha, beta, gamma, etc.)',
+	lowerRoman: 'Romano em minúsculas (i, ii, iii, iv, v, etc.)',
 	none: 'Nenhum',
 	notset: '<not set>',
 	numberedTitle: 'Numbered List Properties',
 	square: 'Quadrado',
 	start: 'Iniciar',
 	type: 'Tipo',
-	upperAlpha: 'Upper Alpha (A, B, C, D, E, etc.)',
-	upperRoman: 'Upper Roman (I, II, III, IV, V, etc.)',
-	validateStartNumber: 'List start number must be a whole number.'
-});
+	upperAlpha: 'Maiúsculas (A, B, C, D, E, etc.)',
+	upperRoman: 'Romanos em maiúscula (I, II, III, IV, V, etc.)',
+	validateStartNumber: 'A lista tem iniciar por um número inteiro'
+} );

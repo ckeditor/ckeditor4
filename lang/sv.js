@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -17,16 +17,9 @@
  * @namespace
  */
 CKEDITOR.lang[ 'sv' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
-	editor: 'Rich Text Editor',
+	editor: 'Rich Text-editor',
+	editorPanel: 'Panel till Rich Text-editor',
 
 	// Common messages and labels.
 	common: {
@@ -70,7 +63,7 @@ CKEDITOR.lang[ 'sv' ] = {
 		advancedTab: 'Avancerad',
 		validateNumberFailed: 'Värdet är inte ett nummer.',
 		confirmNewPage: 'Alla ändringar i innehållet kommer att förloras. Är du säker på att du vill ladda en ny sida?',
-		confirmCancel: 'Några av de alternativ har ändrats. Är du säker på att stänga dialogrutan?',
+		confirmCancel: 'Några av alternativen har ändrats. Är du säker på att du vill stänga dialogrutan?',
 		options: 'Alternativ',
 		target: 'Mål',
 		targetNew: 'Nytt fönster (_blank)',
@@ -87,18 +80,37 @@ CKEDITOR.lang[ 'sv' ] = {
 		alignLeft: 'Vänster',
 		alignRight: 'Höger',
 		alignCenter: 'Centrerad',
+		alignJustify: 'Justera till marginaler',
 		alignTop: 'Överkant',
 		alignMiddle: 'Mitten',
 		alignBottom: 'Nederkant',
-		invalidValue	: 'Felaktigt värde.',
+		alignNone: 'Ingen',
+		invalidValue: 'Felaktigt värde.',
 		invalidHeight: 'Höjd måste vara ett nummer.',
 		invalidWidth: 'Bredd måste vara ett nummer.',
 		invalidCssLength: 'Värdet för fältet "%1" måste vara ett positivt nummer med eller utan CSS-mätenheter (px, %, in, cm, mm, em, ex, pt, eller pc).',
-		invalidHtmlLength: 'rdet för fältet "%1" måste vara ett positivt nummer med eller utan godkända HTML-mätenheter (px eller %).',
+		invalidHtmlLength: 'Värdet för fältet "%1" måste vara ett positivt nummer med eller utan godkända HTML-mätenheter (px eller %).',
 		invalidInlineStyle: 'Det angivna värdet för style måste innehålla en eller flera tupler separerade med semikolon i följande format: "name : value"',
 		cssLengthTooltip: 'Ange ett nummer i pixlar eller ett nummer men godkänd CSS-mätenhet (px, %, in, cm, mm, em, ex, pt, eller pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, Ej tillgänglig</span>'
+		unavailable: '%1<span class="cke_accessibility">, Ej tillgänglig</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backsteg',
+			13: 'Retur',
+			16: 'Skift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Mellanslag',
+			35: 'Slut',
+			36: 'Hem',
+			46: 'Radera',
+			224: 'Kommando'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Kortkommando'
 	}
 };

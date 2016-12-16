@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'de', {
 	label: 'Stil',
-	panelTitle: 'Formatierungenstil',
-	panelTitle1: 'Block Stilart',
+	panelTitle: 'Formatierungsstile',
+	panelTitle1: 'Blockstile',
 	panelTitle2: 'Inline Stilart',
-	panelTitle3: 'Objekt Stilart'
-});
+	panelTitle3: 'Objektstile'
+} );

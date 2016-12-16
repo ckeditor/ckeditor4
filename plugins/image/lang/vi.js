@@ -1,9 +1,8 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image', 'vi', {
-	alertUrl: 'Hãy đưa vào đường dẫn của ảnh',
 	alt: 'Chú thích ảnh',
 	border: 'Đường viền',
 	btnUpload: 'Tải lên máy chủ',
@@ -23,4 +22,4 @@ CKEDITOR.plugins.setLang( 'image', 'vi', {
 	validateBorder: 'Chiều rộng của đường viền phải là một số nguyên dương',
 	validateHSpace: 'Khoảng đệm ngang phải là một số nguyên dương',
 	validateVSpace: 'Khoảng đệm dọc phải là một số nguyên dương'
-});
+} );

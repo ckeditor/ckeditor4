@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'liststyle', 'sk', {
 	armenian: 'Arménske číslovanie',
@@ -9,7 +9,7 @@ CKEDITOR.plugins.setLang( 'liststyle', 'sk', {
 	decimal: 'Číselné (1, 2, 3, atď.)',
 	decimalLeadingZero: 'Číselné s nulou (01, 02, 03, atď.)',
 	disc: 'Disk',
-	georgian: 'Gregoriánske číslovanie (an, ban, gan, atď.)',
+	georgian: 'Gruzínske číslovanie (an, ban, gan, atď.)',
 	lowerAlpha: 'Malé latinské (a, b, c, d, e, atď.)',
 	lowerGreek: 'Malé grécke (alfa, beta, gama, atď.)',
 	lowerRoman: 'Malé rímske (i, ii, iii, iv, v, atď.)',
@@ -22,4 +22,4 @@ CKEDITOR.plugins.setLang( 'liststyle', 'sk', {
 	upperAlpha: 'Veľké latinské (A, B, C, D, E, atď.)',
 	upperRoman: 'Veľké rímske (I, II, III, IV, V, atď.)',
 	validateStartNumber: 'Začiatočné číslo číselného zoznamu musí byť celé číslo.'
-});
+} );

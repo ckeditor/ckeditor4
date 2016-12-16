@@ -1,6 +1,6 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'forms', 'lv', {
 	button: {
@@ -15,7 +15,8 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		checkboxTitle: 'Atzīmēšanas kastītes īpašības',
 		radioTitle: 'Izvēles poga īpašības',
 		value: 'Vērtība',
-		selected: 'Iezīmēts'
+		selected: 'Iezīmēts',
+		required: 'Required' // MISSING
 	},
 	form: {
 		title: 'Formas īpašības',
@@ -37,6 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		size: 'Izmērs',
 		lines: 'rindas',
 		chkMulti: 'Atļaut vairākus iezīmējumus',
+		required: 'Required', // MISSING
 		opText: 'Teksts',
 		opValue: 'Vērtība',
 		btnAdd: 'Pievienot',
@@ -57,12 +59,13 @@ CKEDITOR.plugins.setLang( 'forms', 'lv', {
 		value: 'Vērtība',
 		charWidth: 'Simbolu platums',
 		maxChars: 'Simbolu maksimālais daudzums',
+		required: 'Required', // MISSING
 		type: 'Tips',
 		typeText: 'Teksts',
 		typePass: 'Parole',
-		typeEmail: 'Email', // MISSING
-		typeSearch: 'Search', // MISSING
-		typeTel: 'Telephone Number', // MISSING
+		typeEmail: 'Epasts',
+		typeSearch: 'Meklēt',
+		typeTel: 'Tālruņa numurs',
 		typeUrl: 'Adrese'
 	}
-});
+} );

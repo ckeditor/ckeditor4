@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'hi', {
 	acccessKey: 'ऍक्सॅस की',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	anchorName: 'ऐंकर नाम से',
 	charset: 'लिंक रिसोर्स करॅक्टर सॅट',
 	cssClasses: 'स्टाइल-शीट क्लास',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'ई-मेल पता',
 	emailBody: 'संदेश',
 	emailSubject: 'संदेश विषय',
@@ -40,12 +42,12 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	popupLeft: 'बायीं तरफ',
 	popupLocationBar: 'लोकेशन बार',
 	popupMenuBar: 'मॅन्यू बार',
-	popupResizable: 'Resizable', // MISSING
+	popupResizable: 'आकार बदलने लायक',
 	popupScrollBars: 'स्क्रॉल बार',
 	popupStatusBar: 'स्टेटस बार',
 	popupToolbar: 'टूल बार',
 	popupTop: 'दायीं तरफ',
-	rel: 'Relationship', // MISSING
+	rel: 'संबंध',
 	selectAnchor: 'ऐंकर चुनें',
 	styles: 'स्टाइल',
 	tabIndex: 'टैब इन्डॅक्स',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'hi', {
 	type: 'लिंक प्रकार',
 	unlink: 'लिंक हटायें',
 	upload: 'अपलोड'
-});
+} );

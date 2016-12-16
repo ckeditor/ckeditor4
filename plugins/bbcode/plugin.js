@@ -1,9 +1,9 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	CKEDITOR.on( 'dialogDefinition', function( ev ) {
 		var tab,
 			name = ev.data.name,
@@ -24,7 +24,7 @@
 			tab.remove( 'txtAlt' );
 			tab.remove( 'basic' );
 		}
-	});
+	} );
 
 	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
 		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', code: 'code', li: '*' },
@@ -34,7 +34,7 @@
 
 	// List of block-like tags.
 	var dtd = CKEDITOR.dtd,
-		blockLikeTags = CKEDITOR.tools.extend( { table:1 }, dtd.$block, dtd.$listItem, dtd.$tableContent, dtd.$list );
+		blockLikeTags = CKEDITOR.tools.extend( { table: 1 }, dtd.$block, dtd.$listItem, dtd.$tableContent, dtd.$list );
 
 	var semicolonFixRegex = /\s*(?:;\s*|$)/;
 
@@ -50,7 +50,9 @@
 	}
 
 	// Maintain the map of smiley-to-description.
+	// jscs:disable maximumLineLength
 	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
+	// jscs:enable maximumLineLength
 		smileyReverseMap = {},
 		smileyRegExp = [];
 
@@ -59,18 +61,16 @@
 		smileyReverseMap[ smileyMap[ i ] ] = i;
 		smileyRegExp.push( smileyMap[ i ].replace( /\(|\)|\:|\/|\*|\-|\|/g, function( match ) {
 			return '\\' + match;
-		}));
+		} ) );
 	}
 
 	smileyRegExp = new RegExp( smileyRegExp.join( '|' ), 'g' );
 
-	var decodeHtml = (function() {
+	var decodeHtml = ( function() {
 		var regex = [],
 			entities = {
 				nbsp: '\u00A0', // IE | FF
-				shy: '\u00AD', // IE
-				gt: '\u003E', // IE | FF |   --   | Opera
-				lt: '\u003C' // IE | FF | Safari | Opera
+				shy: '\u00AD' // IE
 			};
 
 		for ( var entity in entities )
@@ -81,9 +81,9 @@
 		return function( html ) {
 			return html.replace( regex, function( match, entity ) {
 				return entities[ entity ];
-			});
+			} );
 		};
-	})();
+	} )();
 
 	CKEDITOR.BBCodeParser = function() {
 		this._ = {
@@ -143,20 +143,27 @@
 
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
-						} else if ( attributesMap[ part ] )
-							attribs[ attributesMap[ part ] ] = optionPart;
+						} else if ( attributesMap[ part ] ) {
+							// All the input BBCode is encoded at the beginning so <> characters in the textual part
+							// are later correctly preserved in HTML. However... it affects parts that now become
+							// attributes, so we need to revert that. As a matter of fact, the content should not be
+							// encoded at the beginning, but only later when creating text nodes (encoding should be more precise)
+							// but it's too late not for such changes.
+							attribs[ attributesMap[ part ] ] = CKEDITOR.tools.htmlDecode( optionPart );
+						}
 					}
 
 					// Two special handling - image and email, protect them
 					// as "span" with an attribute marker.
 					if ( part == 'email' || part == 'img' )
-						attribs[ 'bbcode' ] = part;
+						attribs.bbcode = part;
 
 					this.onTagOpen( tagName, attribs, CKEDITOR.dtd.$empty[ tagName ] );
 				}
 				// Closing tag
-				else if ( parts[ 3 ] )
-					this.onTagClose( bbcodeMap[ part ] );
+				else if ( parts[ 3 ] ) {
+					this.onTagClose( bbcodeMap[part] );
+				}
 			}
 
 			if ( bbcode.length > lastIndex )
@@ -250,7 +257,7 @@
 			}
 		}
 
-		parser.onTagOpen = function( tagName, attributes, selfClosing ) {
+		parser.onTagOpen = function( tagName, attributes ) {
 			var element = new CKEDITOR.htmlParser.element( tagName, attributes );
 
 			// This is a tag to be removed if empty, so do not add it immediately.
@@ -380,12 +387,12 @@
 							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, index ) ), currentNode );
 							addElement( new CKEDITOR.htmlParser.element( 'smiley', { desc: smileyReverseMap[ match ] } ), currentNode );
 							lastIndex = index + match.length;
-						});
+						} );
 
 						if ( lastIndex != piece.length )
 							addElement( new CKEDITOR.htmlParser.text( piece.substring( lastIndex, piece.length ) ), currentNode );
 					}
-				});
+				} );
 			}
 		};
 
@@ -404,7 +411,7 @@
 		return fragment;
 	};
 
-	var BBCodeWriter = CKEDITOR.tools.createClass({
+	var BBCodeWriter = CKEDITOR.tools.createClass( {
 		$: function() {
 			this._ = {
 				output: [],
@@ -412,21 +419,21 @@
 			};
 
 			// List and list item.
-			this.setRules( 'list', { breakBeforeOpen:1,breakAfterOpen:1,breakBeforeClose:1,breakAfterClose:1 });
+			this.setRules( 'list', { breakBeforeOpen: 1, breakAfterOpen: 1, breakBeforeClose: 1, breakAfterClose: 1 } );
 
 			this.setRules( '*', {
 				breakBeforeOpen: 1,
 				breakAfterOpen: 0,
 				breakBeforeClose: 1,
 				breakAfterClose: 0
-			});
+			} );
 
 			this.setRules( 'quote', {
 				breakBeforeOpen: 1,
 				breakAfterOpen: 0,
 				breakBeforeClose: 0,
 				breakAfterClose: 1
-			});
+			} );
 		},
 
 		proto: {
@@ -464,7 +471,7 @@
 				return this._.rules[ tagName ] && this._.rules[ tagName ][ ruleName ];
 			},
 
-			openTag : function( tag ) {
+			openTag: function( tag ) {
 				if ( tag in bbcodeMap ) {
 					if ( this.getRule( tag, 'breakBeforeOpen' ) )
 						this.lineBreak( 1 );
@@ -473,7 +480,7 @@
 				}
 			},
 
-			openTagClose : function( tag ) {
+			openTagClose: function( tag ) {
 				if ( tag == 'br' )
 					this._.output.push( '\n' );
 				else if ( tag in bbcodeMap ) {
@@ -483,12 +490,8 @@
 				}
 			},
 
-			attribute : function( name, val ) {
+			attribute: function( name, val ) {
 				if ( name == 'option' ) {
-					// Force simply ampersand in attributes.
-					if ( typeof val == 'string' )
-						val = val.replace( /&amp;/g, '&' );
-
 					this.write( '=', val );
 				}
 			},
@@ -542,23 +545,32 @@
 				return decodeHtml( bbcode );
 			}
 		}
-	});
+	} );
 
 	var writer = new BBCodeWriter();
 
 	CKEDITOR.plugins.add( 'bbcode', {
 		requires: 'entities',
 
+		// Adapt some critical editor configuration for better support
+		// of BBCode environment.
 		beforeInit: function( editor ) {
-			// Adapt some critical editor configuration for better support
-			// of BBCode environment.
 			var config = editor.config;
+
 			CKEDITOR.tools.extend( config, {
+				// This one is for backwards compatibility only as
+				// editor#enterMode is already set at this stage (#11202).
 				enterMode: CKEDITOR.ENTER_BR,
 				basicEntities: false,
 				entities: false,
 				fillEmptyBlocks: false
 			}, true );
+
+			editor.filter.disable();
+
+			// Since CKEditor 4.3, editor#(active)enterMode is set before
+			// beforeInit. Properties got to be updated (#11202).
+			editor.activeEnterMode = editor.enterMode = CKEDITOR.ENTER_BR;
 		},
 
 		init: function( editor ) {
@@ -573,7 +585,7 @@
 			}
 
 			var bbcodeFilter = new CKEDITOR.htmlParser.filter();
-			bbcodeFilter.addRules({
+			bbcodeFilter.addRules( {
 				elements: {
 					blockquote: function( element ) {
 						var quoted = new CKEDITOR.htmlParser.element( 'div' );
@@ -606,8 +618,9 @@
 						if ( element.attributes.listType ) {
 							if ( element.attributes.listType != 'decimal' )
 								element.attributes.style = 'list-style-type:' + element.attributes.listType;
-						} else
+						} else {
 							element.name = 'ul';
+						}
 
 						delete element.attributes.listType;
 					},
@@ -630,9 +643,9 @@
 						};
 					}
 				}
-			});
+			} );
 
-			editor.dataProcessor.htmlFilter.addRules({
+			editor.dataProcessor.htmlFilter.addRules( {
 				elements: {
 					$: function( element ) {
 						var attributes = element.attributes,
@@ -663,8 +676,9 @@
 										value = 'A';
 										break;
 								}
-							} else if ( tagName == 'ol' )
+							} else if ( tagName == 'ol' ) {
 								value = 1;
+							}
 
 							tagName = 'list';
 						} else if ( tagName == 'blockquote' ) {
@@ -737,7 +751,7 @@
 			if ( editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 				editor.once( 'contentDom', function() {
 					editor.on( 'setData', onSetData );
-				});
+				} );
 			else
 				editor.on( 'setData', onSetData );
 
@@ -768,10 +782,10 @@
 						}
 
 						return name;
-					});
+					} );
 				}
 			}
 		}
-	});
+	} );
 
-})();
+} )();

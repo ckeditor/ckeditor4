@@ -1,11 +1,11 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'fakeobjects', 'pt', {
-	anchor: ' Inserir/Editar Âncora',
-	flash: 'Flash Animation', // MISSING
-	hiddenfield: 'Campo Escondido',
-	iframe: 'IFrame', // MISSING
-	unknown: 'Unknown Object' // MISSING
-});
+	anchor: ' Inserir/Editar âncora',
+	flash: 'Animação Flash',
+	hiddenfield: 'Campo oculto',
+	iframe: 'IFrame',
+	unknown: 'Objeto desconhecido'
+} );

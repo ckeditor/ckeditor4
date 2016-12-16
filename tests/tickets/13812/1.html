@@ -1,0 +1,15 @@
+<textarea cols="80" id="classic" name="classic" rows="10" >
+	<p>Drop an image here</p>
+</textarea>
+
+<script>
+	var editor = CKEDITOR.replace( 'classic', {
+		imageUploadUrl: 'http://foo/upload',
+		language: 'en'
+	} );
+	editor.on( 'fileUploadRequest', function( evt ) {
+		evt.data.fileLoader.abort();
+		editor.showNotification( 'File too big', 'warning' );
+		evt.cancel();
+	} );
+</script>

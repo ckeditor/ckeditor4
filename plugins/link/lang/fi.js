@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'fi', {
 	acccessKey: 'Pikanäppäin',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'fi', {
 	anchorName: 'Ankkurin nimen mukaan',
 	charset: 'Linkitetty kirjaimisto',
 	cssClasses: 'Tyyliluokat',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Sähköpostiosoite',
 	emailBody: 'Viesti',
 	emailSubject: 'Aihe',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'fi', {
 	type: 'Linkkityyppi',
 	unlink: 'Poista linkki',
 	upload: 'Lisää tiedosto'
-});
+} );

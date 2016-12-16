@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,88 +18,100 @@
  * @namespace
  */
 CKEDITOR.lang[ 'eu' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
-	editor: 'Rich Text Editor', // MISSING
+	editor: 'Testu aberastuaren editorea',
+	editorPanel: 'Testu aberastuaren editorearen panela',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Press ALT 0 for help', // MISSING
+		editorHelp: 'Sakatu ALT 0 laguntza jasotzeko',
 
-		browseServer: 'Zerbitzaria arakatu',
-		url: 'URL',
+		browseServer: 'Arakatu zerbitzaria',
+		url: 'URLa',
 		protocol: 'Protokoloa',
-		upload: 'Gora kargatu',
-		uploadSubmit: 'Zerbitzarira bidalia',
+		upload: 'Kargatu',
+		uploadSubmit: 'Bidali zerbitzarira',
 		image: 'Irudia',
-		flash: 'Flasha',
+		flash: 'Flash',
 		form: 'Formularioa',
 		checkbox: 'Kontrol-laukia',
 		radio: 'Aukera-botoia',
-		textField: 'Testu Eremua',
+		textField: 'Testu-eremua',
 		textarea: 'Testu-area',
-		hiddenField: 'Ezkutuko Eremua',
+		hiddenField: 'Ezkutuko eremua',
 		button: 'Botoia',
-		select: 'Hautespen Eremua',
-		imageButton: 'Irudi Botoia',
-		notSet: '<Ezarri gabe>',
+		select: 'Hautespen-eremua',
+		imageButton: 'Irudi-botoia',
+		notSet: '<ezarri gabe>',
 		id: 'Id',
 		name: 'Izena',
-		langDir: 'Hizkuntzaren Norabidea',
-		langDirLtr: 'Ezkerretik Eskumara(LTR)',
-		langDirRtl: 'Eskumatik Ezkerrera (RTL)',
-		langCode: 'Hizkuntza Kodea',
-		longDescr: 'URL Deskribapen Luzea',
-		cssClass: 'Estilo-orriko Klaseak',
-		advisoryTitle: 'Izenburua',
+		langDir: 'Hizkuntzaren norabidea',
+		langDirLtr: 'Ezkerretik eskuinera (LTR)',
+		langDirRtl: 'Eskuinetik ezkerrera (RTL)',
+		langCode: 'Hizkuntzaren kodea',
+		longDescr: 'URLaren deskribapen luzea',
+		cssClass: 'Estilo-orriko klaseak',
+		advisoryTitle: 'Aholkatutako izenburua',
 		cssStyle: 'Estiloa',
 		ok: 'Ados',
 		cancel: 'Utzi',
-		close: 'Close', // MISSING
+		close: 'Itxi',
 		preview: 'Aurrebista',
-		resize: 'Arrastatu tamaina aldatzeko',
+		resize: 'Aldatu tamainaz',
 		generalTab: 'Orokorra',
 		advancedTab: 'Aurreratua',
 		validateNumberFailed: 'Balio hau ez da zenbaki bat.',
 		confirmNewPage: 'Eduki honetan gorde gabe dauden aldaketak galduko dira. Ziur zaude orri berri bat kargatu nahi duzula?',
-		confirmCancel: 'Aukera batzuk aldatu egin dira. Ziur zaude elkarrizketa-koadroa itxi nahi duzula?',
+		confirmCancel: 'Aukera batzuk aldatu dituzu. Ziur zaude elkarrizketa-koadroa itxi nahi duzula?',
 		options: 'Aukerak',
-		target: 'Target (Helburua)',
-		targetNew: 'New Window (_blank)', // MISSING
-		targetTop: 'Topmost Window (_top)', // MISSING
-		targetSelf: 'Same Window (_self)', // MISSING
-		targetParent: 'Parent Window (_parent)', // MISSING
-		langDirLTR: 'Ezkerretik Eskumara(LTR)',
-		langDirRTL: 'Eskumatik Ezkerrera (RTL)',
+		target: 'Helburua',
+		targetNew: 'Leiho berria (_blank)',
+		targetTop: 'Goieneko leihoan (_top)',
+		targetSelf: 'Leiho berean (_self)',
+		targetParent: 'Leiho gurasoan (_parent)',
+		langDirLTR: 'Ezkerretik eskuinera (LTR)',
+		langDirRTL: 'Eskuinetik ezkerrera (RTL)',
 		styles: 'Estiloa',
-		cssClasses: 'Estilo-orriko Klaseak',
+		cssClasses: 'Estilo-orriko klaseak',
 		width: 'Zabalera',
 		height: 'Altuera',
-		align: 'Lerrokatu',
-		alignLeft: 'Ezkerrera',
-		alignRight: 'Eskuman',
+		align: 'Lerrokatzea',
+		alignLeft: 'Ezkerrean',
+		alignRight: 'Eskuinean',
 		alignCenter: 'Erdian',
+		alignJustify: 'Justifikatu',
 		alignTop: 'Goian',
 		alignMiddle: 'Erdian',
 		alignBottom: 'Behean',
-		invalidValue	: 'Invalid value.', // MISSING
+		alignNone: 'Bat ere ez',
+		invalidValue: 'Balio desegokia.',
 		invalidHeight: 'Altuera zenbaki bat izan behar da.',
 		invalidWidth: 'Zabalera zenbaki bat izan behar da.',
-		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
-		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
-		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING
-		cssLengthTooltip: 'Enter a number for a value in pixels or a number with a valid CSS unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidCssLength: '"%1" eremurako zehaztutako balioak zenbaki positibo bat izan behar du, CSS neurri unitate batekin edo gabe (px, %, in, cm, mm, em, ex, pt edo pc).',
+		invalidHtmlLength: '"%1" eremurako zehaztutako balioak zenbaki positibo bat izan behar du, HTML neurri unitate batekin edo gabe (px edo %).',
+		invalidInlineStyle: 'Lineako estiloan zehaztutako balioak "izen : balio" formatuko tupla bat edo gehiago izan behar dira, komaz bereiztuak.',
+		cssLengthTooltip: 'Sartu zenbaki bat edo zenbaki bat baliozko CSS unitate batekin (px, %, in, cm, mm, em, ex, pt, edo pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, erabilezina</span>'
+		unavailable: '%1<span class="cke_accessibility">, erabilezina</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Sartu',
+			16: 'Maius',
+			17: 'Ktrl',
+			18: 'Alt',
+			32: 'Space', // MISSING
+			35: 'Buka',
+			36: 'Etxea',
+			46: 'Ezabatu',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

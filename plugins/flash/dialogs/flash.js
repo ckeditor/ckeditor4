@@ -1,9 +1,9 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-(function() {
+( function() {
 	// It is possible to set things in three different places.
 	// 1. As attributes in the object tag.
 	// 2. As param tags under the object tag.
@@ -22,76 +22,79 @@
 	var attributesMap = {
 		id: [ {
 			type: ATTRTYPE_OBJECT, name: 'id'
-		}],
+		} ],
 		classid: [ {
 			type: ATTRTYPE_OBJECT, name: 'classid'
-		}],
+		} ],
 		codebase: [ {
 			type: ATTRTYPE_OBJECT, name: 'codebase'
-		}],
+		} ],
 		pluginspage: [ {
 			type: ATTRTYPE_EMBED, name: 'pluginspage'
-		}],
+		} ],
 		src: [ {
 			type: ATTRTYPE_PARAM, name: 'movie'
 		}, {
 			type: ATTRTYPE_EMBED, name: 'src'
 		}, {
 			type: ATTRTYPE_OBJECT, name: 'data'
-		}],
+		} ],
 		name: [ {
 			type: ATTRTYPE_EMBED, name: 'name'
-		}],
+		} ],
 		align: [ {
 			type: ATTRTYPE_OBJECT, name: 'align'
-		}],
+		} ],
 		'class': [ {
 			type: ATTRTYPE_OBJECT, name: 'class'
 		}, {
 			type: ATTRTYPE_EMBED, name: 'class'
-		}],
+		} ],
 		width: [ {
 			type: ATTRTYPE_OBJECT, name: 'width'
 		}, {
 			type: ATTRTYPE_EMBED, name: 'width'
-		}],
+		} ],
 		height: [ {
 			type: ATTRTYPE_OBJECT, name: 'height'
 		}, {
 			type: ATTRTYPE_EMBED, name: 'height'
-		}],
+		} ],
 		hSpace: [ {
 			type: ATTRTYPE_OBJECT, name: 'hSpace'
 		}, {
 			type: ATTRTYPE_EMBED, name: 'hSpace'
-		}],
+		} ],
 		vSpace: [ {
 			type: ATTRTYPE_OBJECT, name: 'vSpace'
 		}, {
 			type: ATTRTYPE_EMBED, name: 'vSpace'
-		}],
+		} ],
 		style: [ {
 			type: ATTRTYPE_OBJECT, name: 'style'
 		}, {
 			type: ATTRTYPE_EMBED, name: 'style'
-		}],
+		} ],
 		type: [ {
 			type: ATTRTYPE_EMBED, name: 'type'
-		}]
+		} ]
 	};
 
 	var names = [ 'play', 'loop', 'menu', 'quality', 'scale', 'salign', 'wmode', 'bgcolor', 'base', 'flashvars', 'allowScriptAccess', 'allowFullScreen' ];
-	for ( var i = 0; i < names.length; i++ )
+	for ( var i = 0; i < names.length; i++ ) {
 		attributesMap[ names[ i ] ] = [ {
-		type: ATTRTYPE_EMBED, name: names[ i ]
-	}, {
-		type: ATTRTYPE_PARAM, name: names[ i ]
-	}];
-	names = [ 'allowFullScreen', 'play', 'loop', 'menu' ];
+			type: ATTRTYPE_EMBED, name: names[ i ]
+		}, {
+			type: ATTRTYPE_PARAM, name: names[ i ]
+		} ];
+	}
+
+	// These attributes are "true" by default and not present in editor data (when "true").
+	// Note that, though default value of "allowFullScreen" is "true", it is not listed here.
+	// "allowFullScreen" is present in editor data regardless of the value (#7634).
+	names = [ 'play', 'loop', 'menu' ];
 	for ( i = 0; i < names.length; i++ )
 		attributesMap[ names[ i ] ][ 0 ][ 'default' ] = attributesMap[ names[ i ] ][ 1 ][ 'default' ] = true;
-
-	var defaultToPixel = CKEDITOR.tools.cssLength;
 
 	function loadValue( objectNode, embedNode, paramMap ) {
 		var attributes = attributesMap[ this.id ];
@@ -107,17 +110,20 @@
 						continue;
 					if ( objectNode.getAttribute( attrDef.name ) !== null ) {
 						var value = objectNode.getAttribute( attrDef.name );
-						if ( isCheckbox )
+						if ( isCheckbox ) {
 							this.setValue( value.toLowerCase() == 'true' );
-						else
+						} else {
 							this.setValue( value );
+						}
 						return;
-					} else if ( isCheckbox )
-						this.setValue( !!attrDef[ 'default' ] );
+					} else if ( isCheckbox ) {
+						this.setValue( !!attrDef['default'] );
+					}
 					break;
 				case ATTRTYPE_PARAM:
-					if ( !objectNode )
+					if ( !objectNode ) {
 						continue;
+					}
 					if ( attrDef.name in paramMap ) {
 						value = paramMap[ attrDef.name ];
 						if ( isCheckbox )
@@ -125,8 +131,9 @@
 						else
 							this.setValue( value );
 						return;
-					} else if ( isCheckbox )
+					} else if ( isCheckbox ) {
 						this.setValue( !!attrDef[ 'default' ] );
+					}
 					break;
 				case ATTRTYPE_EMBED:
 					if ( !embedNode )
@@ -138,8 +145,9 @@
 						else
 							this.setValue( value );
 						return;
-					} else if ( isCheckbox )
+					} else if ( isCheckbox ) {
 						this.setValue( !!attrDef[ 'default' ] );
+					}
 			}
 		}
 	}
@@ -177,7 +185,7 @@
 							paramMap[ attrDef.name ].setAttribute( 'value', value );
 						else {
 							var param = CKEDITOR.dom.element.createFromHtml( '<cke:param></cke:param>', objectNode.getDocument() );
-							param.setAttributes({ name: attrDef.name, value: value } );
+							param.setAttributes( { name: attrDef.name, value: value } );
 							if ( objectNode.getChildCount() < 1 )
 								param.appendTo( objectNode );
 							else
@@ -191,8 +199,9 @@
 					value = this.getValue();
 					if ( isRemove || isCheckbox && value === attrDef[ 'default' ] )
 						embedNode.removeAttribute( attrDef.name );
-					else
+					else {
 						embedNode.setAttribute( attrDef.name, value );
+					}
 			}
 		}
 	}
@@ -236,8 +245,9 @@
 								value = item.getAttribute( 'value' );
 							paramMap[ name ] = value;
 						}
-					} else if ( realElement.getName() == 'cke:embed' )
+					} else if ( realElement.getName() == 'cke:embed' ) {
 						embedNode = realElement;
+					}
 
 					this.objectNode = objectNode;
 					this.embedNode = embedNode;
@@ -262,10 +272,10 @@
 					}
 					if ( makeEmbedTag ) {
 						embedNode = CKEDITOR.dom.element.createFromHtml( '<cke:embed></cke:embed>', editor.document );
-						embedNode.setAttributes({
+						embedNode.setAttributes( {
 							type: 'application/x-shockwave-flash',
 							pluginspage: 'http://www.macromedia.com/go/getflashplayer'
-						});
+						} );
 						if ( objectNode )
 							embedNode.appendTo( objectNode );
 					}
@@ -296,8 +306,9 @@
 				if ( this.fakeImage ) {
 					newFakeImage.replace( this.fakeImage );
 					editor.getSelection().selectElement( newFakeImage );
-				} else
+				} else {
 					editor.insertElement( newFakeImage );
+				}
 			},
 
 			onHide: function() {
@@ -305,22 +316,19 @@
 					this.preview.setHtml( '' );
 			},
 
-			contents: [
-				{
+			contents: [ {
 				id: 'info',
 				label: editor.lang.common.generalTab,
 				accessKey: 'I',
-				elements: [
-					{
+				elements: [ {
 					type: 'vbox',
 					padding: 0,
-					children: [
-						{
+					children: [ {
 						type: 'hbox',
 						widths: [ '280px', '110px' ],
 						align: 'right',
-						children: [
-							{
+						className: 'cke_dialog_flash_url',
+						children: [ {
 							id: 'src',
 							type: 'text',
 							label: editor.lang.common.url,
@@ -333,8 +341,8 @@
 									updatePreview = function( src ) {
 										// Query the preloader to figure out the url impacted by based href.
 										previewPreloader.setAttribute( 'src', src );
-										dialog.preview.setHtml( '<embed height="100%" width="100%" src="' + CKEDITOR.tools.htmlEncode( previewPreloader.getAttribute( 'src' ) )
-											+ '" type="application/x-shockwave-flash"></embed>' );
+										dialog.preview.setHtml( '<embed height="100%" width="100%" src="' + CKEDITOR.tools.htmlEncode( previewPreloader.getAttribute( 'src' ) ) +
+											'" type="application/x-shockwave-flash"></embed>' );
 									};
 								// Preview element
 								dialog.preview = dialog.getContentElement( 'info', 'preview' ).getElement().getChild( 3 );
@@ -344,116 +352,110 @@
 
 									if ( evt.data && evt.data.value )
 										updatePreview( evt.data.value );
-								});
+								} );
 								// Sync when input value changed.
-								this.getInputElement().on( 'change', function( evt ) {
+								this.getInputElement().on( 'change', function() {
 
 									updatePreview( this.getValue() );
 								}, this );
 							}
 						},
-							{
+						{
 							type: 'button',
 							id: 'browse',
 							filebrowser: 'info:src',
 							hidden: true,
 							// v-align with the 'src' field.
 							// TODO: We need something better than a fixed size here.
-							style: 'display:inline-block;margin-top:10px;',
+							style: 'display:inline-block;margin-top:14px;',
 							label: editor.lang.common.browseServer
-						}
-						]
-					}
-					]
+						} ]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '25%', '25%', '25%', '25%', '25%' ],
-					children: [
-						{
+					children: [ {
 						type: 'text',
 						id: 'width',
+						requiredContent: 'embed[width]',
 						style: 'width:95px',
 						label: editor.lang.common.width,
 						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.width ) ),
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						type: 'text',
 						id: 'height',
+						requiredContent: 'embed[height]',
 						style: 'width:95px',
 						label: editor.lang.common.height,
 						validate: CKEDITOR.dialog.validate.htmlLength( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.height ) ),
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						type: 'text',
 						id: 'hSpace',
+						requiredContent: 'embed[hspace]',
 						style: 'width:95px',
 						label: editor.lang.flash.hSpace,
 						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateHSpace ),
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						type: 'text',
 						id: 'vSpace',
+						requiredContent: 'embed[vspace]',
 						style: 'width:95px',
 						label: editor.lang.flash.vSpace,
 						validate: CKEDITOR.dialog.validate.integer( editor.lang.flash.validateVSpace ),
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
 
-					{
+				{
 					type: 'vbox',
-					children: [
-						{
+					children: [ {
 						type: 'html',
 						id: 'preview',
 						style: 'width:95%;',
 						html: previewAreaHtml
-					}
-					]
-				}
-				]
+					} ]
+				} ]
 			},
-				{
+			{
 				id: 'Upload',
 				hidden: true,
 				filebrowser: 'uploadButton',
 				label: editor.lang.common.upload,
-				elements: [
-					{
+				elements: [ {
 					type: 'file',
 					id: 'upload',
 					label: editor.lang.common.upload,
 					size: 38
 				},
-					{
+				{
 					type: 'fileButton',
 					id: 'uploadButton',
 					label: editor.lang.common.uploadSubmit,
 					filebrowser: 'info:src',
 					'for': [ 'Upload', 'upload' ]
-				}
-				]
+				} ]
 			},
-				{
+			{
 				id: 'properties',
 				label: editor.lang.flash.propertiesTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'scale',
 						type: 'select',
+						requiredContent: 'embed[scale]',
 						label: editor.lang.flash.scale,
 						'default': '',
 						style: 'width : 100%;',
@@ -462,13 +464,14 @@
 							[ editor.lang.flash.scaleAll, 'showall' ],
 							[ editor.lang.flash.scaleNoBorder, 'noborder' ],
 							[ editor.lang.flash.scaleFit, 'exactfit' ]
-							],
+						],
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						id: 'allowScriptAccess',
 						type: 'select',
+						requiredContent: 'embed[allowscriptaccess]',
 						label: editor.lang.flash.access,
 						'default': '',
 						style: 'width : 100%;',
@@ -477,19 +480,18 @@
 							[ editor.lang.flash.accessAlways, 'always' ],
 							[ editor.lang.flash.accessSameDomain, 'samedomain' ],
 							[ editor.lang.flash.accessNever, 'never' ]
-							],
+						],
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'wmode',
 						type: 'select',
+						requiredContent: 'embed[wmode]',
 						label: editor.lang.flash.windowMode,
 						'default': '',
 						style: 'width : 100%;',
@@ -498,13 +500,14 @@
 							[ editor.lang.flash.windowModeWindow, 'window' ],
 							[ editor.lang.flash.windowModeOpaque, 'opaque' ],
 							[ editor.lang.flash.windowModeTransparent, 'transparent' ]
-							],
+						],
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						id: 'quality',
 						type: 'select',
+						requiredContent: 'embed[quality]',
 						label: editor.lang.flash.quality,
 						'default': 'high',
 						style: 'width : 100%;',
@@ -516,19 +519,18 @@
 							[ editor.lang.flash.qualityMedium, 'medium' ],
 							[ editor.lang.flash.qualityAutoLow, 'autolow' ],
 							[ editor.lang.flash.qualityLow, 'low' ]
-							],
+						],
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '50%', '50%' ],
-					children: [
-						{
+					children: [ {
 						id: 'align',
 						type: 'select',
+						requiredContent: 'object[align]',
 						label: editor.lang.common.align,
 						'default': '',
 						style: 'width : 100%;',
@@ -543,7 +545,7 @@
 							[ editor.lang.common.alignRight, 'right' ],
 							[ editor.lang.flash.alignTextTop, 'textTop' ],
 							[ editor.lang.common.alignTop, 'top' ]
-							],
+						],
 						setup: loadValue,
 						commit: function( objectNode, embedNode, paramMap, extraStyles, extraAttributes ) {
 							var value = this.getValue();
@@ -551,21 +553,18 @@
 							value && ( extraAttributes.align = value );
 						}
 					},
-						{
+					{
 						type: 'html',
 						html: '<div></div>'
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'fieldset',
 					label: CKEDITOR.tools.htmlEncode( editor.lang.flash.flashvars ),
-					children: [
-						{
+					children: [ {
 						type: 'vbox',
 						padding: 0,
-						children: [
-							{
+						children: [ {
 							type: 'checkbox',
 							id: 'menu',
 							label: editor.lang.flash.chkMenu,
@@ -573,7 +572,7 @@
 							setup: loadValue,
 							commit: commitValue
 						},
-							{
+						{
 							type: 'checkbox',
 							id: 'play',
 							label: editor.lang.flash.chkPlay,
@@ -581,7 +580,7 @@
 							setup: loadValue,
 							commit: commitValue
 						},
-							{
+						{
 							type: 'checkbox',
 							id: 'loop',
 							label: editor.lang.flash.chkLoop,
@@ -589,67 +588,61 @@
 							setup: loadValue,
 							commit: commitValue
 						},
-							{
+						{
 							type: 'checkbox',
 							id: 'allowFullScreen',
 							label: editor.lang.flash.chkFull,
 							'default': true,
 							setup: loadValue,
 							commit: commitValue
-						}
-						]
-					}
-					]
-				}
-				]
+						} ]
+					} ]
+				} ]
 			},
-				{
+			{
 				id: 'advanced',
 				label: editor.lang.common.advancedTab,
-				elements: [
-					{
+				elements: [ {
 					type: 'hbox',
-					children: [
-						{
+					children: [ {
 						type: 'text',
 						id: 'id',
+						requiredContent: 'object[id]',
 						label: editor.lang.common.id,
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'hbox',
 					widths: [ '45%', '55%' ],
-					children: [
-						{
+					children: [ {
 						type: 'text',
 						id: 'bgcolor',
+						requiredContent: 'embed[bgcolor]',
 						label: editor.lang.flash.bgcolor,
 						setup: loadValue,
 						commit: commitValue
 					},
-						{
+					{
 						type: 'text',
 						id: 'class',
+						requiredContent: 'embed(cke-xyz)', // Random text like 'xyz' will check if all are allowed.
 						label: editor.lang.common.cssClass,
 						setup: loadValue,
 						commit: commitValue
-					}
-					]
+					} ]
 				},
-					{
+				{
 					type: 'text',
 					id: 'style',
+					requiredContent: 'embed{cke-xyz}', // Random text like 'xyz' will check if all are allowed.
 					validate: CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
 					label: editor.lang.common.cssStyle,
 					setup: loadValue,
 					commit: commitValue
-				}
-				]
-			}
-			]
+				} ]
+			} ]
 		};
-	});
-})();
+	} );
+} )();

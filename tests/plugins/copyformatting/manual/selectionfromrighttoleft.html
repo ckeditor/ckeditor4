@@ -1,0 +1,20 @@
+<div id="editor1" contenteditable="true">
+	<p><span style="color: red;">AAA</span></p>
+	<p>BBB</p>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p><span style="color: red;">AAA</span></p>
+	<p>BBB</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>

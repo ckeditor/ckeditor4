@@ -1,0 +1,508 @@
+// Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+// For licensing, see LICENSE.html or http://cksource.com/ckeditor/license
+
+@import "base.less";
+
+@modifier-group-hover-color: #fffbe3;
+@modifier-group-active-color: #f0fafb;
+
+@modifier-active-toolbar-color: darken( @modifier-group-hover-color, 10% );
+
+@modifier-toolbar-border-color: #ccc;
+@modifier-toolbar-group-border-color: #ddd;
+@modifier-toolbar-group-vpadding: 2px;
+@modifier-toolbar-hgap: 5px;
+
+@modifier-toolbar-button-color: #e7e7e7;
+
+#toolbar .cke_toolbar {
+	pointer-events: none;
+	.user-select( none );
+	cursor: default;
+}
+
+// Dim all but active toolbars if some is active.
+.some-toolbar-active .cke_toolbar {
+	.opacity( .5 );
+}
+
+.cke_toolbar.active {
+	position: relative;
+
+	// Active toolbar is always highlighted.
+	.opacity( 1 );
+
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 6px;
+		bottom: 5px;
+		left: 0;
+		.border-radius( 5px );
+		.box-shadow( 0px 0px 15px 3px @modifier-active-toolbar-color );
+	}
+
+	.cke_toolgroup {
+		.box-shadow( none );
+		border-color: darken( @modifier-active-toolbar-color, 40% );
+	}
+
+	.cke_combo,
+	.cke_toolgroup {
+		position: relative;
+		z-index: 2;
+	}
+
+	.cke_combo_button {
+		.box-shadow( none );
+	}
+}
+
+.unselectable {
+	.user-select( none );
+}
+.toolbar {
+	padding: 5px 0;
+	margin-bottom: 2 * @sample-standard-vgap;
+	overflow: hidden;
+	background: #fff;
+
+	button.button-a {
+		&.cke_button {
+			cursor: pointer;
+
+			display: inline-block;
+			padding: 4px 6px;
+			outline: 0;
+			border: 1px solid #a6a6a6;
+		}
+
+		&.hidden {
+			display: none;
+		}
+
+		&.left {
+			float: left;
+			margin-right: 8px;
+		}
+
+		&.right {
+			float: right;
+			margin-left: 8px;
+		}
+
+		.highlight {
+			color: #ffefc1;
+		}
+	}
+}
+
+// Styles applied when configurator is hidden and code is being displayed (and vice-versa).
+.configContainer.hidden,
+.toolbarModifier.hidden,
+.toolbarModifier-hints.hidden {
+	display: none;
+}
+
+.toolbarModifier :focus,
+.toolbar button:focus,
+.configContainer textarea.configCode:focus {
+	outline: none;
+}
+
+div.toolbarModifier {
+	padding: 0;
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+	display: table;
+	border-collapse: collapse;
+
+	::-moz-focus-inner {
+		border: 0;
+	}
+
+	.empty {
+		display: none;
+	}
+
+	&.empty-visible .empty {
+		display: table-row;
+		.opacity( 0.6 );
+	}
+
+	// Give empty toolbar groups height similar to height of non empty groups.
+	// Non empty groups are stretched by contained toolbar buttons.
+	.empty > p {
+		line-height: 31px;
+	}
+
+	// List of toolbars.
+	& > ul {
+		padding: 0;
+		margin: 0;
+		border-top: 1px solid @modifier-toolbar-border-color;
+		width: 100%;
+
+		&[data-type="table-header"] {
+			display: table-header-group;
+		}
+
+		&[data-type="table-body"] {
+			display: table-row-group;
+		}
+
+		// Override global margins and paddings.
+		p {
+			padding: 0;
+			margin: 0;
+		}
+
+		// A single toolbar.
+		& > li {
+			display: table-row;
+
+			&[data-type="header"] {
+				font-weight: bold;
+				user-select: none;
+				cursor: default;
+			}
+
+			&[data-type="group"],
+			&[data-type="separator"] {
+				border-bottom: 1px solid @modifier-toolbar-border-color;
+			}
+
+			&[data-type="subgroup"] {
+				border-top: 1px solid #eee;
+
+				&:first-child {
+					border-top: none;
+				}
+			}
+
+			&[data-type="group"].active,
+			&[data-type="group"]:hover,
+			&[data-type="separator"].active,
+			&[data-type="separator"]:hover {
+				overflow: hidden;
+				z-index: 2;
+			}
+
+			&[data-type="group"].active,
+			&[data-type="separator"].active,
+			&[data-type="group"].active:hover,
+			&[data-type="separator"].active:hover {
+				background: @modifier-group-active-color;
+			}
+
+			&[data-type="group"]:hover,
+			&[data-type="separator"]:hover {
+				background: @modifier-group-hover-color;
+			}
+
+			&[data-type="separator"] {
+				&:after {
+					content: '';
+					width: 100%;
+				}
+
+				background: #f5f5f5;
+
+				& > p {
+					padding: @modifier-toolbar-group-vpadding @modifier-toolbar-hgap;
+				}
+			}
+
+			& > p, & > ul {
+				display: table-cell;
+				vertical-align: middle;
+			}
+
+			// Note: this also controls the list of toolbar groups.
+			p {
+				padding-left: @modifier-toolbar-hgap;
+				min-width: 200px;
+
+				span {
+					white-space: nowrap;
+					cursor: default;
+
+					button {
+						font-size: 12.666px;
+						margin-right: 5px;
+						cursor: pointer;
+						background: #fff;
+						.border-radius( 5px );
+						border: 1px solid #bbb;
+						padding: 0 7px;
+						line-height: 12px;
+						height: 20px;
+
+						&:not(.disabled) {
+							&:hover,
+							&:focus {
+								color: #fff;
+								background-color: @sample-top-navigation-background;
+								border-color: transparent;
+							}
+						}
+
+						&.move.disabled {
+							cursor: default;
+							.opacity( 0.2 );
+						}
+					}
+				}
+			}
+
+			// List of toolbar groups.
+			ul {
+				border-collapse: collapse;
+				padding: 0;
+				width: 100%;
+
+				// A single toolbar group.
+				li {
+					display: table-row;
+					list-style-type: none;
+					// Resets slightly increased lists' lh which is bigger than button's height
+					// so it stretches columns.
+					line-height: 1;
+
+					&[data-type="subgroup"] {
+						border-top: 1px solid @modifier-toolbar-group-border-color;
+
+						&:first-child {
+							border-top: 0;
+						}
+
+						[data-type="button"] {
+							.border-radius( 3px );
+							padding: 0 2px;
+
+							&:focus {
+								background: rgba(0, 0, 0, 0.04);
+							}
+
+							input {
+								vertical-align: middle;
+							}
+						}
+					}
+
+					& > p, & > ul {
+						display: table-cell;
+						vertical-align: middle;
+					}
+
+					// List of buttons in a group.
+					ul {
+						padding: 0;
+
+						// A single button in a group.
+						li {
+							padding: 0;
+							display: inline-block;
+							cursor: pointer;
+							margin: @modifier-toolbar-group-vpadding 5px @modifier-toolbar-group-vpadding 0;
+
+							// Enforce styles to save space.
+							.cke_combo_text {
+								cursor: pointer;
+								white-space: nowrap;
+							}
+
+							.cke_toolgroup,
+							.cke_combo_button {
+								cursor: pointer;
+								margin: 0;
+								vertical-align: middle;
+								border: 1px solid #ddd;
+								.font-size( .713 );
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	& > .codemirror-wrapper {
+		overflow-y: auto;
+	}
+
+	// Advanced configurator: list of unused elements.
+	&-hints {
+		float: right;
+		width: 350px;
+		min-width: 150px;
+		overflow-y: auto;
+		margin-left: @sample-standard-hgap;
+
+		h3 {
+			.font-size( 1.13 );
+			padding: .3*@sample-standard-vgap @sample-standard-hgap;
+			background: @sample-box-background-color;
+			border-bottom: 1px solid @sample-box-border-color;
+			margin-top: 0;
+			margin-bottom: @sample-standard-vgap;
+		}
+
+		dl {
+			//margin-top: 0;
+			margin-bottom: @sample-standard-vgap;
+			overflow: hidden;
+
+			.list-header {
+				font-weight: bold;
+				border: 0;
+				padding-bottom: .5*@sample-standard-vgap;
+			}
+
+			& > p {
+				text-align: center;
+			}
+
+			dt {
+				float: left;
+				width: 9em;
+				clear: both;
+				text-align: right;
+				border-top: 1px solid @sample-box-border-color;
+				padding-left: @sample-standard-hgap;
+				padding-right: .1em;
+				.box-sizing( border-box );
+
+				code {
+					background: none;
+					border: none;
+					vertical-align: middle;
+				}
+			}
+
+			dd {
+				margin-left: 10em;
+				clear: right;
+				padding-right: @sample-standard-hgap;
+
+				code {
+					line-height: 2.2em;
+				}
+
+				&:after {
+					content: '\00a0';
+					display: block;
+					clear: left;
+					float: right;
+					height: 0;
+					width: 0;
+				}
+			}
+		}
+	}
+}
+
+.toolbarModifier-hints,
+.configContainer textarea.configCode,
+.CodeMirror {
+	.border-radius( 3px );
+	border: 1px solid #ccc;
+	.font-size( .813 );
+}
+
+.configContainer textarea.configCode,
+.CodeMirror pre,
+.CodeMirror-linenumber {
+	.font-size( .813 );
+	font-family: @sample-font-stack-monospace;
+}
+
+.CodeMirror pre {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.configContainer textarea.configCode {
+	.box-sizing( border-box );
+	color: @sample-text-color;
+	padding: 10px;
+	width: 100%;
+	min-height: 500px;
+	margin: 0;
+	resize: none;
+	outline: none;
+	-moz-tab-size: 4;
+	tab-size: 4;
+	white-space: pre;
+	word-wrap: normal;
+	overflow: auto;
+}
+
+.CodeMirror-hints.toolbar-modifier {
+	padding: 0;
+	color: @sample-text-color;
+
+	.CodeMirror-hint-active {
+		color: @sample-text-color;
+		background: @modifier-group-active-color;
+	}
+
+	.font-size( .875 );
+	font-family: @sample-font-stack-monospace;
+
+	& > li:hover {
+		background: @modifier-group-hover-color;
+	}
+}
+
+/* Text modifier */
+#toolbarModifierWrapper {
+	margin-bottom: @sample-standard-vgap;
+
+	.invalid .CodeMirror {
+		background: #fff8f8;
+		border-color: red;
+	}
+
+	.CodeMirror {
+		// Autogrow. http://codemirror.net/demo/resize.html
+		height: auto;
+		// Complementory with std's CodeMirror-lines vertical padding.
+		// Not needed when we use lines number, but we can't due to a bug in CM.
+		padding: 0 @sample-standard-vgap/2;
+	}
+}
+
+.staticContainer {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 10;
+
+	> .grid-container {
+		max-width: 1044px + 2 * @grid-gutter-width;
+
+		.inner {
+			background: #fff;
+
+			.toolbar {
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+// Help button to display information about configurator.
+#help {
+	position: relative;
+	top: -15px;
+	left: -5px;
+
+	&-content {
+		display: none;
+	}
+}

@@ -1,10 +1,10 @@
-﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+/*
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'fr-ca', {
 	label: 'Format',
-	panelTitle: 'Format',
+	panelTitle: 'Format de paragraphe',
 	tag_address: 'Adresse',
 	tag_div: 'Normal (DIV)',
 	tag_h1: 'En-tête 1',
@@ -15,4 +15,4 @@ CKEDITOR.plugins.setLang( 'format', 'fr-ca', {
 	tag_h6: 'En-tête 6',
 	tag_p: 'Normal',
 	tag_pre: 'Formaté'
-});
+} );

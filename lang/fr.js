@@ -1,6 +1,6 @@
-﻿/**
- * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+/**
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -18,68 +18,61 @@
  * @namespace
  */
 CKEDITOR.lang[ 'fr' ] = {
-	/**
-	 * The language reading direction. Possible values are "rtl" for
-	 * Right-To-Left languages (like Arabic) and "ltr" for Left-To-Right
-	 * languages (like English).
-	 * @default 'ltr'
-	 */
-	dir: 'ltr',
-
 	// ARIA description.
-	editor: 'Éditeur de Texte Enrichi',
+	editor: 'Éditeur de texte enrichi',
+	editorPanel: 'Tableau de bord de l\'éditeur de texte enrichi',
 
 	// Common messages and labels.
 	common: {
 		// Screenreader titles. Please note that screenreaders are not always capable
 		// of reading non-English words. So be careful while translating it.
-		editorHelp: 'Appuyez sur ALT-0 pour l\'aide',
+		editorHelp: 'Utilisez le raccourci Alt-0 pour obtenir de l\'aide',
 
-		browseServer: 'Explorer le serveur',
+		browseServer: 'Parcourir le serveur',
 		url: 'URL',
 		protocol: 'Protocole',
-		upload: 'Envoyer',
+		upload: 'Téléverser',
 		uploadSubmit: 'Envoyer sur le serveur',
 		image: 'Image',
 		flash: 'Flash',
 		form: 'Formulaire',
 		checkbox: 'Case à cocher',
-		radio: 'Bouton Radio',
+		radio: 'Bouton radio',
 		textField: 'Champ texte',
 		textarea: 'Zone de texte',
-		hiddenField: 'Champ caché',
+		hiddenField: 'Champ invisible',
 		button: 'Bouton',
 		select: 'Liste déroulante',
-		imageButton: 'Bouton image',
-		notSet: '<non défini>',
-		id: 'Id',
+		imageButton: 'Bouton avec image',
+		notSet: '<indéfini>',
+		id: 'ID',
 		name: 'Nom',
 		langDir: 'Sens d\'écriture',
 		langDirLtr: 'Gauche à droite (LTR)',
 		langDirRtl: 'Droite à gauche (RTL)',
 		langCode: 'Code de langue',
-		longDescr: 'URL de description longue (longdesc => malvoyant)',
-		cssClass: 'Classe CSS',
-		advisoryTitle: 'Description (title)',
+		longDescr: 'URL de description longue',
+		cssClass: 'Classes de style',
+		advisoryTitle: 'Infobulle',
 		cssStyle: 'Style',
 		ok: 'OK',
 		cancel: 'Annuler',
 		close: 'Fermer',
 		preview: 'Aperçu',
-		resize: 'Déplacer pour modifier la taille',
+		resize: 'Redimensionner',
 		generalTab: 'Général',
 		advancedTab: 'Avancé',
 		validateNumberFailed: 'Cette valeur n\'est pas un nombre.',
-		confirmNewPage: 'Les changements non sauvegardés seront perdus. Êtes-vous sûr de vouloir charger une nouvelle page?',
-		confirmCancel: 'Certaines options ont été modifiées. Êtes-vous sûr de vouloir fermer?',
+		confirmNewPage: 'Les changements non sauvegardés seront perdus. Êtes-vous sûr de vouloir charger une nouvelle page ?',
+		confirmCancel: 'Certaines options ont été modifiées. Êtes-vous sûr de vouloir fermer ?',
 		options: 'Options',
-		target: 'Cible (Target)',
+		target: 'Cible',
 		targetNew: 'Nouvelle fenêtre (_blank)',
 		targetTop: 'Fenêtre supérieure (_top)',
 		targetSelf: 'Même fenêtre (_self)',
 		targetParent: 'Fenêtre parent (_parent)',
-		langDirLTR: 'Gauche à Droite (LTR)',
-		langDirRTL: 'Droite à Gauche (RTL)',
+		langDirLTR: 'Gauche à droite (LTR)',
+		langDirRTL: 'Droite à gauche (RTL)',
 		styles: 'Style',
 		cssClasses: 'Classes de style',
 		width: 'Largeur',
@@ -87,19 +80,38 @@ CKEDITOR.lang[ 'fr' ] = {
 		align: 'Alignement',
 		alignLeft: 'Gauche',
 		alignRight: 'Droite',
-		alignCenter: 'Centré',
+		alignCenter: 'Centrer',
+		alignJustify: 'Justifier',
 		alignTop: 'Haut',
 		alignMiddle: 'Milieu',
 		alignBottom: 'Bas',
-		invalidValue	: 'Invalid value.', // MISSING
+		alignNone: 'Aucun',
+		invalidValue: 'Valeur invalide.',
 		invalidHeight: 'La hauteur doit être un nombre.',
 		invalidWidth: 'La largeur doit être un nombre.',
-		invalidCssLength: 'La valeur spécifiée pour le champ "%1" doit être un nombre positif avec ou sans unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, or pc).',
-		invalidHtmlLength: 'La valeur spécifiée pour le champ "%1" doit être un nombre positif avec ou sans unité de mesure HTML valide (px or %).',
-		invalidInlineStyle: 'La valeur spécifiée pour le style inline doit être composée d\'un ou plusieurs couples de valeur au format "nom : valeur", separés par des points-virgules.',
-		cssLengthTooltip: 'Entrer un nombre pour une valeur en pixels ou un nombre avec une unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, or pc).',
+		invalidCssLength: 'La valeur spécifiée pour le champ « %1 » doit être un nombre positif avec ou sans unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, ou pc).',
+		invalidHtmlLength: 'La valeur spécifiée pour le champ « %1 » doit être un nombre positif avec ou sans unité de mesure HTML valide (px ou %).',
+		invalidInlineStyle: 'La valeur spécifiée pour le style en ligne doit être composée d\'un ou plusieurs couples au format « nom : valeur », séparés par des points-virgules.',
+		cssLengthTooltip: 'Entrer un nombre pour une valeur en pixels ou un nombre avec une unité de mesure CSS valide (px, %, in, cm, mm, em, ex, pt, ou pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, Indisponible</span>'
+		unavailable: '%1<span class="cke_accessibility">, indisponible</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Entrée',
+			16: 'Majuscule',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space', // MISSING
+			35: 'Fin',
+			36: 'Origine',
+			46: 'Supprimer',
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Keyboard shortcut' // MISSING
 	}
 };

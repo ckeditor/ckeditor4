@@ -1,0 +1,24 @@
+<p>Editor 1:</p>
+<textarea id="editor1" cols="10" rows="10"><p>Type something: ...</p></textarea>
+
+<p>Editor 2:</p>
+<div id="editor2" contenteditable="true"><p>Type something: ...</p></div>
+
+<script>
+( function() {
+	bind( 1, CKEDITOR.replace( 'editor1' ) );
+	bind( 2, CKEDITOR.inline( 'editor2' ) );
+
+	CKEDITOR.disableAutoInline = true;
+
+	function bind( editorNum, editor ) {
+		editor.on( 'focus', function() {
+			console.log( 'Editor ' + editorNum + ': focus' );
+		} );
+
+		editor.on( 'blur', function() {
+			console.log( 'Editor ' + editorNum + ': blur' );
+		} );
+	}
+} )();
+</script>

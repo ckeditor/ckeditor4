@@ -1,6 +1,6 @@
 ﻿/*
-Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.html or http://ckeditor.com/license
+Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'sr', {
 	acccessKey: 'Приступни тастер',
@@ -19,6 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'sr', {
 	anchorName: 'По називу сидра',
 	charset: 'Linked Resource Charset',
 	cssClasses: 'Stylesheet класе',
+	download: 'Force Download', // MISSING
+	displayText: 'Display Text', // MISSING
 	emailAddress: 'Адреса електронске поште',
 	emailBody: 'Садржај поруке',
 	emailSubject: 'Наслов',
@@ -33,19 +35,19 @@ CKEDITOR.plugins.setLang( 'link', 'sr', {
 	noAnchors: '(Нема доступних сидра)',
 	noEmail: 'Откуцајте адресу електронске поште',
 	noUrl: 'Унесите УРЛ линка',
-	other: '<other>', // MISSING
+	other: '<друго>',
 	popupDependent: 'Зависно (Netscape)',
 	popupFeatures: 'Могућности искачућег прозора',
 	popupFullScreen: 'Приказ преко целог екрана (ИE)',
 	popupLeft: 'Од леве ивице екрана (пиксела)',
 	popupLocationBar: 'Локација',
 	popupMenuBar: 'Контекстни мени',
-	popupResizable: 'Resizable', // MISSING
+	popupResizable: 'Величина се мења',
 	popupScrollBars: 'Скрол бар',
 	popupStatusBar: 'Статусна линија',
 	popupToolbar: 'Toolbar',
 	popupTop: 'Од врха екрана (пиксела)',
-	rel: 'Relationship', // MISSING
+	rel: 'Однос',
 	selectAnchor: 'Одабери сидро',
 	styles: 'Стил',
 	tabIndex: 'Таб индекс',
@@ -62,4 +64,4 @@ CKEDITOR.plugins.setLang( 'link', 'sr', {
 	type: 'Врста линка',
 	unlink: 'Уклони линк',
 	upload: 'Пошаљи'
-});
+} );
