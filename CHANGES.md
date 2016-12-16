@@ -5,7 +5,7 @@
 
 Fixed Issues:
 
-* [#16728](http://dev.ckeditor.com/ticket/16728): [IE] FixedL [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks editor in Quirks Mode.
+* [#16728](http://dev.ckeditor.com/ticket/16728): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks editor in Quirks Mode.
 
 ## CKEditor 4.6.1
 
