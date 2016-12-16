@@ -1017,7 +1017,11 @@
 		 * @private
 		 */
 		_putScreenReaderMessage: function( editor, msg ) {
-			this._getScreenReaderContainer().setText( editor.lang.copyformatting.notification[ msg ] );
+			var container = this._getScreenReaderContainer();
+
+			if ( container ) {
+				container.setText( editor.lang.copyformatting.notification[ msg ] );
+			}
 		},
 
 		/**
@@ -1031,10 +1035,15 @@
 				return this._getScreenReaderContainer();
 			}
 
-				// We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
-				// `aria-live` which has directly `position: absolute` assigned.
-				// The trick was simply to put position absolute, and all the hiding CSS into a wrapper,
-				// while content with `aria-live` attribute inside.
+			if ( CKEDITOR.env.ie6Compat ) {
+				// Screen reader notifications are not supported on IE Quirks mode.
+				return;
+			}
+
+			// We can't use aria-live together with .cke_screen_reader_only class. Based on JAWS it won't read
+			// `aria-live` which has directly `position: absolute` assigned.
+			// The trick was simply to put position absolute, and all the hiding CSS into a wrapper,
+			// while content with `aria-live` attribute inside.
 			var notificationTpl = '<div class="cke_screen_reader_only cke_copyformatting_notification">' +
 						'<div aria-live="polite"></div>' +
 					'</div>';
@@ -1050,6 +1059,11 @@
 		 * @returns
 		 */
 		_getScreenReaderContainer: function() {
+			if ( CKEDITOR.env.ie6Compat ) {
+				// findOne is not supported on Quirks.
+				return;
+			}
+
 			return CKEDITOR.document.getBody().findOne( '.cke_copyformatting_notification div[aria-live]' );
 		}
 	};
