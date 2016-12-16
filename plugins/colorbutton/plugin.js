@@ -227,7 +227,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					' role="option" aria-posinset="1" aria-setsize="', total, '">' +
 						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
 							'<tr>' +
-								'<td colspan=8 align=center><span class="cke_colorbox" id="', colorBoxId, '"></span>', lang.auto, '</td>' +
+								'<td colspan="' + colorsPerRow + '" align="center"><span class="cke_colorbox" id="', colorBoxId, '"></span>', lang.auto, '</td>' +
 							'</tr>' +
 						'</table>' +
 					'</a>' );
@@ -265,7 +265,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			if ( moreColorsEnabled ) {
 				output.push( '</tr>' +
 					'<tr>' +
-						'<td colspan=8 align=center>' +
+						'<td colspan="' + colorsPerRow + '" align="center">' +
 							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
 								' title="', lang.more, '"' +
 								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');return false;"' +
