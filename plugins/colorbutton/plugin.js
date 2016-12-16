@@ -304,7 +304,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * a name and the slash character. For example, `'FontColor1/FF9900'` will be
  * displayed as the color `#FF9900` in the selector, but will be output as `'FontColor1'`.
  *
- * **Since 4.6.0:** The default color palette has change. It contains less colors and in more
+ * **Since 4.6.2:** The default color palette has change. It contains less colors and in more
  * pastel shades than the previous one.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
@@ -386,6 +386,7 @@ CKEDITOR.config.colorButton_backStyle = {
  *
  *		config.colorButton_colorsPerRow = 8;
  *
+ * @since 4.6.2
  * @cfg {Number} [colorButton_colorsPerRow=6]
  * @member CKEDITOR.config
  */
