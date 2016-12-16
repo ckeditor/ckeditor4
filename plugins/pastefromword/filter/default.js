@@ -1572,22 +1572,30 @@
 
 	CKEDITOR.plugins.pastefromword.heuristics = {
 		/**
+		 * Tells if it can be reasonably assumed, that the given element is in fact a list item.
+		 * @param {CKEDITOR.htmlParser.element} item
 		 * @return {boolean}
 		 */
 		EdgeListItem: function( item ) {
-			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) &&
-				!!item.find( function( child ) {
-				var css = tools.parseCssText( child.attributes && child.attributes.style );
-				var font = !!css && css.font || css[ 'font-size' ];
-				return font && font.match( /7pt/i ) && !!child.previous;
-			}, true ).length;
+			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
+					var css = tools.parseCssText( child.attributes && child.attributes.style );
+
+					if ( !css ) {
+						return false;
+					}
+					var fontSize = css.font || css['font-size'] || '',
+						fontFamily = css[ 'font-family' ] || '';
+
+					return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
+						fontFamily.match( /symbol/i );
+				}, true ).length;
 		},
 		/** @param {CKEDITOR.htmlParser.element} item */
 		assignListLevels: function( item ) {
 			var indents = [],
 				items = [];
 
-			while ( item.next && !item.next.attributes[ 'cke-list-level' ] && Heuristics.EdgeListItem( item.next ) ) {
+			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.EdgeListItem( item.next ) ) {
 				item = item.next;
 				indents.push( List.getElementIndentation( item ) );
 				items.push( item );
