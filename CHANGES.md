@@ -1,6 +1,12 @@
 ﻿CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.6.2
+
+Fixed Issues:
+
+* [#16728](http://dev.ckeditor.com/ticket/16728): [IE] FixedL [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks editor in Quirks Mode.
+
 ## CKEditor 4.6.1
 
 New Features:
