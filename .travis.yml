@@ -1,0 +1,16 @@
+sudo: required
+dist: trusty
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+language: node_js
+node_js:
+  - '4'
+before_script:
+  - 'sh -e /etc/init.d/xvfb start'
+  - 'export DISPLAY=:99.0'
+  - 'npm install benderjs-cli -g'
+script: bender run -c bender.ci.js
