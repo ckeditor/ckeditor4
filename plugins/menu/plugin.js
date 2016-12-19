@@ -93,7 +93,7 @@ CKEDITOR.plugins.add( 'menu', {
 		' aria-haspopup="{hasPopup}"' +
 		' aria-disabled="{disabled}"' +
 		' {ariaChecked}' +
-		' {draggable}';
+		' draggable="false"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -521,8 +521,7 @@ CKEDITOR.plugins.add( 'menu', {
 					shortcutHtml: shortcut ? menuShortcutTpl.output( { shortcut: shortcut.display } ) : '',
 					arrowHtml: hasSubMenu ? menuArrowTpl.output( { label: arrowLabel } ) : '',
 					role: this.role ? this.role : 'menuitem',
-					ariaChecked: ariaChecked,
-					draggable: this.draggable ? '' : 'draggable="false"'
+					ariaChecked: ariaChecked
 				};
 
 				menuItemTpl.output( params, output );
