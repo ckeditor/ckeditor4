@@ -31,6 +31,7 @@ before_script:
   - 'if [ "$BUILD" = "1" ]; then sed -i -e "s/com:/com\//g" .gitmodules; fi'
   - 'if [ "$BUILD" = "1" ]; then git submodule update --init; fi'
   - 'if [ "$BUILD" = "1" ]; then ./build.sh full all -t; fi'
+  - 'if [ "$BUILD" = "1" ]; then cd "./build/$(ls -1t ./build/ | head -n 1)"; fi'
 
   - 'sh -e /etc/init.d/xvfb start'
   - 'export DISPLAY=:99.0'
