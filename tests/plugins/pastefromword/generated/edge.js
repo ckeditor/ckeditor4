@@ -17,7 +17,7 @@
 			'edge'
 		],
 		wordVersions = [
-			'word2013'
+			'word2016'
 		],
 		tests = {
 			'Ordered_list': true,
