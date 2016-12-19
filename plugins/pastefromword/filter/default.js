@@ -634,9 +634,7 @@
 					// Flat, ordered lists are represented by paragraphs
 					// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
 					// where the middle parentheses contain the symbol.
-				element
-					.getHtml()
-					.match( /^( )*.*?[\.\)] ( ){2,666}/ ) ||
+				element.getHtml().match( /^( )*.*?[\.\)] ( ){2,700}/ ) ||
 				( CKEDITOR.env.edge && editor.config.pasteFromWord_heuristicsEdgeList &&
 					Heuristics.EdgeListItem( element ) )
 			) {
