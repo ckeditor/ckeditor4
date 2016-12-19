@@ -25,6 +25,8 @@ before_script:
   - 'if [ "$BUILD" = "1" ]; then git fetch --all; fi'
   - 'if [ "$BUILD" = "1" ]; then git checkout master; fi'
   - 'if [ "$BUILD" = "1" ]; then git reset --hard origin/master; fi'
+  - 'if [ "$BUILD" = "1" ]; then sed -i -e "s/git\@/https:\/\//g" .gitmodules; fi'
+  - 'if [ "$BUILD" = "1" ]; then sed -i -e "s/com:/com\//g" .gitmodules; fi'
   - 'if [ "$BUILD" = "1" ]; then git submodule update --init; fi'
   - 'if [ "$BUILD" = "1" ]; then ./build.sh full all -t; fi'
   - 'sh -e /etc/init.d/xvfb start'
