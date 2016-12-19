@@ -19,6 +19,8 @@ matrix:
   fast_finish: true
 
 before_script:
+  - 'npm install benderjs-cli -g'
+
   - 'if [ "$BUILD" = "1" ]; then cd ..; fi'
   - 'if [ "$BUILD" = "1" ]; then git clone https://github.com/ckeditor/ckeditor-presets.git; fi'
   - 'if [ "$BUILD" = "1" ]; then cd ckeditor-presets; fi'
@@ -29,8 +31,8 @@ before_script:
   - 'if [ "$BUILD" = "1" ]; then sed -i -e "s/com:/com\//g" .gitmodules; fi'
   - 'if [ "$BUILD" = "1" ]; then git submodule update --init; fi'
   - 'if [ "$BUILD" = "1" ]; then ./build.sh full all -t; fi'
+
   - 'sh -e /etc/init.d/xvfb start'
   - 'export DISPLAY=:99.0'
-  - 'npm install benderjs-cli -g'
 
 script: bender run -c bender.ci.js
