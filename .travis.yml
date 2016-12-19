@@ -30,8 +30,12 @@ before_script:
   - 'if [ "$BUILD" = "1" ]; then sed -i -e "s/git\@/https:\/\//g" .gitmodules; fi'
   - 'if [ "$BUILD" = "1" ]; then sed -i -e "s/com:/com\//g" .gitmodules; fi'
   - 'if [ "$BUILD" = "1" ]; then git submodule update --init; fi'
+
+  - 'if [ "$BUILD" = "1" ]; then rm -rf ckeditor; fi'
+  - 'if [ "$BUILD" = "1" ]; then ln -s ../ckeditor-dev/ ckeditor; fi'
+
   - 'if [ "$BUILD" = "1" ]; then ./build.sh full all -t; fi'
-  - 'if [ "$BUILD" = "1" ]; then cd "./build/$(ls -1t ./build/ | head -n 1)"; fi'
+  - 'if [ "$BUILD" = "1" ]; then cd "./build/$(ls -1t ./build/ | head -n 1)/full-all/ckeditor/"; fi'
 
   - 'sh -e /etc/init.d/xvfb start'
   - 'export DISPLAY=:99.0'
