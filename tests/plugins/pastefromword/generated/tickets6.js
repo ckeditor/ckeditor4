@@ -17,9 +17,9 @@
 			'chrome',
 			'edge'
 		],
-		wordVersion = 'word365',
+		wordVersion = 'word2016',
 		ticketTests = {
-			'16745MixedListsAndParagraphs': [ 'word365' ]
+			'16745MixedListsAndParagraphs': [ 'word2016' ]
 		},
 		testData = {
 			_should: {
