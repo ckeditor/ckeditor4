@@ -10,7 +10,14 @@ language: node_js
 node_js:
   - '4'
 before_script:
+  - 'cd ..'
   - 'git clone https://github.com/ckeditor/ckeditor-presets.git'
+  - 'cd ckeditor-presets'
+  - 'git fetch --all'
+  - 'git co master'
+  - 'git reset --hard origin/master'
+  - 'git submodule update --init'
+  - './build.sh full all -t'
   - 'sh -e /etc/init.d/xvfb start'
   - 'export DISPLAY=:99.0'
   - 'npm install benderjs-cli -g'
