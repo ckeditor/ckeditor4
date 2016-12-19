@@ -1,24 +1,29 @@
 sudo: required
 dist: trusty
+
 addons:
   apt:
     sources:
       - google-chrome
     packages:
       - google-chrome-stable
+
 language: node_js
-node_js:
-  - '4'
+
+matrix:
+  include:
+    - node_js: 4
+      env: BUILD=0
+    - node_js: 4
+      env: BUILD=1
+  fast_finish: true
+
 before_script:
-  - 'cd ..'
-  - 'git clone https://github.com/ckeditor/ckeditor-presets.git'
-  - 'cd ckeditor-presets'
-  - 'git fetch --all'
-  - 'git co master'
-  - 'git reset --hard origin/master'
-  - 'git submodule update --init'
-  - './build.sh full all -t'
+  - 'if [ "$BUILD" = "1" ]; cd ..; git clone https://github.com/ckeditor/ckeditor-presets.git; cd ckeditor-presets; fi'
+  - 'if [ "$BUILD" = "1" ]; git fetch --all; git checkout master; git reset --hard origin/master; git submodule update --init; fi'
+  - 'if [ "$BUILD" = "1" ]; ./build.sh full all -t; fi'
   - 'sh -e /etc/init.d/xvfb start'
   - 'export DISPLAY=:99.0'
   - 'npm install benderjs-cli -g'
+
 script: bender run -c bender.ci.js
