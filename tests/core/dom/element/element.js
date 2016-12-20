@@ -1158,7 +1158,7 @@ bender.test( appendDomObjectTests(
 			elem.setSize( 'width', 200, true );
 
 			// Actually due to different devicePixelRatio it will not necessairly be 1 pixel, it might be less.
-			realBorderWidth = parseFloat( elem.getComputedStyle('border-width') );
+			realBorderWidth = parseFloat( elem.getComputedStyle( 'border-left-width' ) );
 			assert.areSame( 200 - ( 2 * realBorderWidth ) + 'px', elem.$.style.width, 'Computed width' );
 		}
 	}
