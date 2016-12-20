@@ -1145,6 +1145,21 @@ bender.test( appendDomObjectTests(
 			} ) );
 
 			assert.areSame( 1, preventDefaultCalled, 'preventDefault was called' );
+		},
+
+		'test setSize': function() {
+			// (#14630).
+			// For high dpi displays, things like border will often have a fraction of a pixel.
+			var elem = CKEDITOR.dom.element.createFromHtml( '<div style="height: 50px; border: 0.9px solid black"></div>' ),
+				realBorderWidth;
+
+			doc.getBody().append( elem );
+
+			elem.setSize( 'width', 200, true );
+
+			// Actually due to different devicePixelRatio it will not necessairly be 1 pixel, it might be less.
+			realBorderWidth = parseFloat( elem.getComputedStyle('border-width') );
+			assert.areSame( 200 - ( 2 * realBorderWidth ) + 'px', elem.$.style.width, 'Computed width' );
 		}
 	}
 ) );
