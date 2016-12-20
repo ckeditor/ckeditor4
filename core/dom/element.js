@@ -2146,7 +2146,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	function marginAndPaddingSize( type ) {
 		var adjustment = 0;
 		for ( var i = 0, len = sides[ type ].length; i < len; i++ )
-			adjustment += parseInt( this.getComputedStyle( sides[ type ][ i ] ) || 0, 10 ) || 0;
+			adjustment += parseFloat( this.getComputedStyle( sides[ type ][ i ] ) || 0, 10 ) || 0;
 		return adjustment;
 	}
 
