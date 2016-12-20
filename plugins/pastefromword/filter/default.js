@@ -1571,6 +1571,12 @@
 	};
 	List = CKEDITOR.plugins.pastefromword.lists;
 
+	/**
+	 * Namespace containing methods used to process the pasted content using heuristics.
+	 * @private
+	 * @since 4.6.2
+	 * @member CKEDITOR.plugins.pastefromword
+	*/
 	CKEDITOR.plugins.pastefromword.heuristics = {
 		/**
 		 * Tells if it can be reasonably assumed, that the given element is in fact a list item.
