@@ -6,6 +6,7 @@
 Fixed Issues:
 
 * [#16728](http://dev.ckeditor.com/ticket/16728): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks editor in Quirks Mode.
+* [#16753](http://dev.ckeditor.com/ticket/16753): Fixed: `element.setSize` sets wrong editor's dimensions if border's width is in fraction of pixels.
 
 ## CKEditor 4.6.1
 
