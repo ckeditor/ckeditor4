@@ -92,7 +92,8 @@ CKEDITOR.plugins.add( 'menu', {
 		' aria-describedby="{id}_description"' +
 		' aria-haspopup="{hasPopup}"' +
 		' aria-disabled="{disabled}"' +
-		' {ariaChecked}';
+		' {ariaChecked}' +
+		' draggable="false"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
