@@ -1153,13 +1153,18 @@ bender.test( appendDomObjectTests(
 			var elem = CKEDITOR.dom.element.createFromHtml( '<div style="height: 50px; border: 0.9px solid black"></div>' ),
 				realBorderWidth;
 
+			function round( num ) {
+				return Math.round( num * 100 ) / 100;
+			}
+
 			doc.getBody().append( elem );
 
 			elem.setSize( 'width', 200, true );
 
 			// Actually due to different devicePixelRatio it will not necessairly be 1 pixel, it might be less.
 			realBorderWidth = parseFloat( elem.getComputedStyle( 'border-left-width' ) );
-			assert.areSame( 200 - ( 2 * realBorderWidth ) + 'px', elem.$.style.width, 'Computed width' );
+			realBorderWidth = Math.round( realBorderWidth * 1000 ) / 1000;
+			assert.areSame( round(200 - ( 2 * realBorderWidth ) ), round( parseFloat( elem.$.style.width ) ), 'Computed width' );
 		}
 	}
 ) );
