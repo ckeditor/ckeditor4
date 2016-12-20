@@ -1573,6 +1573,7 @@
 
 	/**
 	 * Namespace containing methods used to process the pasted content using heuristics.
+	 *
 	 * @private
 	 * @since 4.6.2
 	 * @member CKEDITOR.plugins.pastefromword
@@ -1580,6 +1581,7 @@
 	CKEDITOR.plugins.pastefromword.heuristics = {
 		/**
 		 * Tells if it can be reasonably assumed, that the given element is in fact a list item.
+		 *
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @return {boolean}
 		 */
@@ -1597,7 +1599,19 @@
 						fontFamily.match( /symbol/i );
 				}, true ).length;
 		},
-		/** @param {CKEDITOR.htmlParser.element} item */
+		/**
+		 * Assigns list levels to `item` and all directly subsequent nodes for which
+		 * {@link CKEDITOR.plugins.pastefromword.heuristics#edgeListItem} returns `true`.
+		 *
+		 * The algorithm goes as follows: among the qualifying items find:
+		 * 1. The largest indent.
+		 * 2. The most common non-zero difference in indentation of two subsequent nodes.
+		 *
+		 * Use this to create a linear sequence of indentations with step as in `2.` - associated with levels.
+		 * Assign levels to items based on this sequence.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} item First item of the list.
+		 * */
 		assignListLevels: function( item ) {
 			var indents = [],
 				items = [],
