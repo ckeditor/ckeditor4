@@ -1148,7 +1148,7 @@ bender.test( appendDomObjectTests(
 		},
 
 		'test setSize': function() {
-			// (#14630).
+			// (#16753).
 			// For high dpi displays, things like border will often have a fraction of a pixel.
 			var elem = CKEDITOR.dom.element.createFromHtml( '<div style="height: 50px; border: 0.9px solid black"></div>' ),
 				realBorderWidth;
