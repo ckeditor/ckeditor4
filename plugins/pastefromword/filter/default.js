@@ -1600,9 +1600,13 @@
 		/** @param {CKEDITOR.htmlParser.element} item */
 		assignListLevels: function( item ) {
 			var indents = [],
-				items = [];
+				items = [],
+				array = CKEDITOR.tools.array,
+				forEach = array.forEach,
+				map = array.map,
+				reduce = array.reduce;
 
-			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.EdgeListItem( item.next ) ) {
+			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.edgeListItem( item.next ) ) {
 				item = item.next;
 				indents.push( List.getElementIndentation( item ) );
 				items.push( item );
@@ -1615,15 +1619,16 @@
 			var diffOccurrences = { 1: 0 },
 				maxIndent = Math.max.apply( null, indents );
 
-			var diffs = Heuristics.map( function( a, i ) {
+			var diffs = map( indents.slice( 1 ), function( a, i ) {
 				return Math.abs( a - indents[ i ] );
-			}, indents.slice( 1 ) );
+			} );
 
-			diffs = Heuristics.filter( function( a ) {
+			// Not to be confused with global variable "filter".
+			diffs = array.filter( diffs, function( a ) {
 				return a !== 0;
-			}, diffs );
+			} );
 
-			var mostCommonDiff = Heuristics.reduce( function( acc, diff ) {
+			var mostCommonDiff = reduce( diffs, function( acc, diff ) {
 				diffOccurrences[ diff ] = diffOccurrences[ diff ] || 0;
 				diffOccurrences[ diff ]++;
 
@@ -1631,47 +1636,22 @@
 					return diff;
 				}
 				return acc;
-			}, 1, diffs );
+			}, 1 );
 
-			var levels = Heuristics.map( function( indent ) {
+			var levels = map( indents, function( indent ) {
 				return Math.round( indent - maxIndent ) / mostCommonDiff;
-			}, indents );
+			} );
 
-			var lowestLevel = Heuristics.reduce( function( acc, item ) {
+			var lowestLevel = reduce( levels, function( acc, item ) {
 				if ( item < acc ) {
 					return item;
 				}
 				return acc;
-			}, maxIndent / mostCommonDiff, levels );
+			}, maxIndent / mostCommonDiff );
 
-			Heuristics.map( function( level, i ) {
+			forEach( levels, function( level, i ) {
 				items[ i ].attributes[ 'cke-list-level' ] = level - lowestLevel + 1;
-			}, levels );
-		},
-		/* TODO: Export these functions */
-		map: function( fn, array ) {
-			var result = [];
-			for ( var i = 0; i < array.length; i++ ) {
-				result.push( fn( array[ i ], i ) );
-			}
-			return result;
-		},
-		reduce: function( fn, initial, array ) {
-			var acc = initial;
-			for ( var i = 0; i < array.length; i++ ) {
-				acc = fn( acc, array[ i ], i );
-			}
-			return acc;
-		},
-		filter: function( fn, array ) {
-			var result = Heuristics.map( fn, array );
-
-			return Heuristics.reduce( function( acc, a, i ) {
-				if ( a ) {
-					acc.push( array[ i ] );
-				}
-				return acc;
-			}, [], result );
+			} );
 		}
 	};
 	Heuristics = CKEDITOR.plugins.pastefromword.heuristics;
