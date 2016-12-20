@@ -6,7 +6,10 @@
 /* globals CKEDITOR */
 
 ( function() {
-	var List, Style, Heuristics, filter,
+	var List,
+		Style,
+		Heuristics,
+		filter,
 		tools = CKEDITOR.tools,
 		invalidTags = [
 			'o:p',
