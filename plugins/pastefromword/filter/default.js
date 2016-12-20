@@ -636,7 +636,7 @@
 					// where the middle parentheses contain the symbol.
 				element.getHtml().match( /^( )*.*?[\.\)] ( ){2,700}/ ) ||
 				( CKEDITOR.env.edge && editor.config.pasteFromWord_heuristicsEdgeList &&
-					Heuristics.EdgeListItem( element ) )
+					Heuristics.edgeListItem( element ) )
 			) {
 				return true;
 			}
@@ -689,7 +689,7 @@
 				List.removeSymbolText( element );
 			}
 
-			if ( Heuristics.EdgeListItem( element ) ) {
+			if ( Heuristics.edgeListItem( element ) ) {
 				Heuristics.assignListLevels( element );
 			}
 
@@ -1574,7 +1574,7 @@
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @return {boolean}
 		 */
-		EdgeListItem: function( item ) {
+		edgeListItem: function( item ) {
 			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
 					var css = tools.parseCssText( child.attributes && child.attributes.style );
 
