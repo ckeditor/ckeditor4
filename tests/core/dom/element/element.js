@@ -1151,7 +1151,8 @@ bender.test( appendDomObjectTests(
 			// (#16753).
 			// For high dpi displays, things like border will often have a fraction of a pixel.
 			var elem = CKEDITOR.dom.element.createFromHtml( '<div style="height: 50px; border: 0.9px solid black"></div>' ),
-				realBorderWidth;
+				realBorderWidth,
+				expectedWidth;
 
 			function round( num ) {
 				return Math.round( num * 100 ) / 100;
@@ -1159,12 +1160,17 @@ bender.test( appendDomObjectTests(
 
 			doc.getBody().append( elem );
 
-			elem.setSize( 'width', 200, true );
-
 			// Actually due to different devicePixelRatio it will not necessairly be 1 pixel, it might be less.
 			realBorderWidth = parseFloat( elem.getComputedStyle( 'border-left-width' ) );
 			realBorderWidth = Math.round( realBorderWidth * 1000 ) / 1000;
-			assert.areSame( round(200 - ( 2 * realBorderWidth ) ), round( parseFloat( elem.$.style.width ) ), 'Computed width' );
+
+			expectedWidth = 200 - ( 2 * realBorderWidth );
+			// Browsers still will do some reasonable rounding on width, with an exception to IE8 which will round to full pixels.
+			expectedWidth = CKEDITOR.env.ie && CKEDITOR.env.version == 8 ? Math.round( expectedWidth ) : round( expectedWidth );
+
+			elem.setSize( 'width', 200, true );
+
+			assert.areSame( expectedWidth, round( parseFloat( elem.$.style.width ) ), 'Computed width' );
 		}
 	}
 ) );
