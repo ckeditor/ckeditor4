@@ -137,11 +137,10 @@
 								matching.remove();
 								range.moveToBookmark( bm );
 
-							// If we are at the boundary of the style element, just move out.
-							} else if ( startBoundary ) {
-								range.moveToPosition( matching, CKEDITOR.POSITION_BEFORE_START );
-							} else if ( endBoundary ) {
-								range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
+							// If we are at the boundary of the style element, move out and copy nested styles/elements.
+							} else if ( startBoundary || endBoundary ) {
+								range.moveToPosition( matching, startBoundary ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
+								cloneSubtreeIntoRange( range, path.elements.slice(), matching );
 							} else {
 								// Split the element and clone the elements that were in the path
 								// (between the startContainer and the matching element)
