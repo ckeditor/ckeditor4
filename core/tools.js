@@ -1812,6 +1812,7 @@
 			/**
 			 * Applies a function to each element of an array and returns the array of results in the same order.
 			 * Note the order of the parameters.
+			 *
 			 * @param {Array} array Array over elements of which `fn` is applied.
 			 * @param {Function} fn A function with the signature `a -> b`.
 			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
@@ -1829,8 +1830,9 @@
 			/**
 			 * Applies a function against each value in an array storing the result in an accumulator passed to the next iteration.
 			 * Note the order of the parameters.
-			 * @param array {Array} array Array over elements of which `fn` is applied.
-			 * @param fn {Function} a function with the signature `(accumulator, a, index, array) -> b`.
+			 *
+			 * @param {Array} array Array over elements of which `fn` is applied.
+			 * @param {Function} fn A function with the signature `(accumulator, a, index, array) -> b`.
 			 * @param {Mixed} initial Initial value of the accumulator.
 			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
 			 * @returns {Mixed} Final value of the accumulator.
