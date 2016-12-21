@@ -96,6 +96,16 @@
 			}, [ 4, 5, 6 ] ) );
 		},
 
+		'test array.map does not modify input array': function() {
+			var arr = [ 8, 4 ],
+				ret = this.array.map( arr, function() {
+					return 'a';
+				} );
+
+			// Make sure it returned a different array.
+			assert.areNotSame( arr, ret, 'Input arr was not modified' );
+		},
+
 		'test array.reduce': function() {
 			assert.areSame( 6, this.array.reduce( [ 1, 2, 3 ], function( acc, a ) {
 				return acc + a;
