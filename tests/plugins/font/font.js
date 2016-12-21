@@ -51,116 +51,64 @@
 			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>{foo}</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 48 );
-				assert.isInnerHtmlMatching( '<p><span style="font-size:48px">foo</span>@</p>',
-					bot.editor.editable().getHtml(), htmlMatchingOpts );
-			} );
+			this.assertCombo( 'FontSize', 48, false, bot, '<p><span style="font-size:48px">foo</span>@</p>' );
 		},
 
 		'test apply font size over another font size (collapsed selection)': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px">f{}oo</span>x</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 24 );
-
-				this.wait( function() {
-					// We lose (dunno where) the empty span on IE8, so let's insert something.
-					editor.insertText( 'bar' );
-					assert.isInnerHtmlMatching(
-						'<p>x<span style="font-size:48px">f</span><span style="font-size:24px">bar</span><span style="font-size:48px">oo</span>x@</p>',
-						editor.editable().getHtml(), htmlMatchingOpts );
-				}, 0 );
-			} );
+			this.assertCombo( 'FontSize', 24, true, bot,
+				'<p>x<span style="font-size:48px">f</span><span style="font-size:24px">bar</span><span style="font-size:48px">oo</span>x@</p>' );
 		},
 
 		'test apply font size over another font size (collapsed selection in empty span)': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px"><em>[]</em></span>x</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 24 );
-
-				this.wait( function() {
-					// We lose (dunno where) the empty span on IE8, so let's insert something.
-					editor.insertText( 'bar' );
-					assert.isInnerHtmlMatching( '<p>x<em><span style="font-size:24px">bar</span></em>x@</p>', editor.editable().getHtml(), htmlMatchingOpts );
-					assert.areSame( 1, editor.editable().find( 'span' ).count(), 'there is only one span in the editable' );
-				}, 0 );
-			} );
+			this.assertCombo( 'FontSize', 24, true, bot,
+				'<p>x<em><span style="font-size:24px">bar</span></em>x@</p>',
+				function( bot ) {
+					assert.areSame( 1, bot.editor.editable().find( 'span' ).count(), 'there is only one span in the editable' );
+				} );
 		},
 
 		'test apply font size over another font size (collapsed selection at the existing span boundary)': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px">{}foo</span>x</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 24 );
-
-				this.wait( function() {
-					// We lose (dunno where) the empty span on IE8, so let's insert something.
-					editor.insertText( 'bar' );
-					assert.isInnerHtmlMatching(
-						'<p>x<span style="font-size:24px">bar</span><span style="font-size:48px">foo</span>x@</p>',
-						editor.editable().getHtml(), htmlMatchingOpts );
-				}, 0 );
-			} );
+			this.assertCombo( 'FontSize', 24, true, bot,
+				'<p>x<span style="font-size:24px">bar</span><span style="font-size:48px">foo</span>x@</p>' );
 		},
 
 		'test apply font size over another font size (text selection)': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px">f{o}o</span>x</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 24 );
-				assert.isInnerHtmlMatching(
-					'<p>x<span style="font-size:48px">f</span><span style="font-size:24px">o</span><span style="font-size:48px">o</span>x@</p>',
-					editor.editable().getHtml(), htmlMatchingOpts );
-			} );
+			this.assertCombo( 'FontSize', 24, false, bot,
+				'<p>x<span style="font-size:48px">f</span><span style="font-size:24px">o</span><span style="font-size:48px">o</span>x@</p>' );
 		},
 
 		'test apply font size over another font size (the existing span selection)': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px">{foo}</span>x</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 24 );
-				assert.isInnerHtmlMatching(
-					'<p>x<span style="font-size:24px">foo</span>x@</p>',
-					editor.editable().getHtml(), htmlMatchingOpts );
-			} );
+			this.assertCombo( 'FontSize', 24, false, bot, '<p>x<span style="font-size:24px">foo</span>x@</p>' );
 		},
 
 		'test apply font size over another font size (selection containing other span)': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x{f<span style="font-size:48px">o</span>o}x</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 24 );
-				assert.isInnerHtmlMatching(
-					'<p>x<span style="font-size:24px">foo</span>x@</p>',
-					editor.editable().getHtml(), htmlMatchingOpts );
-			} );
+			this.assertCombo( 'FontSize', 24, false, bot, '<p>x<span style="font-size:24px">foo</span>x@</p>' );
 		},
 
 		'test apply font size over another font size (deeply nested text selection)': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px"><em>f{o}o</em></span>x</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 24 );
-				assert.isInnerHtmlMatching(
-					'<p>x<span style="font-size:48px"><em>f</em></span><span style="font-size:24px"><em>o</em></span><span style="font-size:48px"><em>o</em></span>x@</p>',
-					editor.editable().getHtml(), htmlMatchingOpts );
-			} );
+			this.assertCombo( 'FontSize', 24, false, bot,
+				'<p>x<span style="font-size:48px"><em>f</em></span><span style="font-size:24px"><em>o</em></span><span style="font-size:48px"><em>o</em></span>x@</p>' );
 		},
 
 		'test apply font size over another font size (deeply nested collapsed selection)': function() {
@@ -169,47 +117,69 @@
 				assert.ignore();
 			}
 
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:48px"><em>f<u class="y">{}o</u>o</em></span>x</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 24 );
-
-				this.wait( function() {
-					editor.insertText( 'bar' );
-					assert.isInnerHtmlMatching(
-						'<p>x<span style="font-size:48px"><em>f</em></span>' +
-						'<em><u class="y"><span style="font-size:24px">bar</span></u></em>' +
-						'<span style="font-size:48px"><em><u class="y">o</u>o</em></span>x@</p>',
-						editor.editable().getHtml(), htmlMatchingOpts );
-				}, 0 );
-			} );
+			this.assertCombo( 'FontSize', 24, true, bot,
+				'<p>x<span style="font-size:48px"><em>f</em></span><em><u class="y"><span style="font-size:24px">bar</span></u></em>' +
+				'<span style="font-size:48px"><em><u class="y">o</u>o</em></span>x@</p>' );
 		},
 
 		'test apply font size over font family (check possible false positive match)': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="' + ffArial + '">f{o}o</span>x</p>' );
-			bot.combo( 'FontSize', function( combo ) {
-				combo.onClick( 24 );
-				assert.isInnerHtmlMatching(
-					'<p>x<span style="' + ffArial + '">f<span style="font-size:24px">o</span>o</span>x@</p>',
-					editor.editable().getHtml(), htmlMatchingOpts );
-			} );
+			this.assertCombo( 'FontSize', 24, false, bot, '<p>x<span style="' + ffArial + '">f<span style="font-size:24px">o</span>o</span>x@</p>' );
 		},
 
 		'test apply font family over another font family (text selection)': function() {
-			var bot = this.editorBot,
-				editor = bot.editor;
+			var bot = this.editorBot;
 
 			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="' + ffArial + '">f{o}o</span>x</p>' );
-			bot.combo( 'Font', function( combo ) {
-				combo.onClick( 'Comic Sans MS' );
-				assert.isInnerHtmlMatching(
-					'<p>x<span style="' + ffArial + '">f</span><span style="' + ffCS + '">o</span><span style="' + ffArial + '">o</span>x@</p>',
-					editor.editable().getHtml(), htmlMatchingOpts );
+			this.assertCombo( 'Font', 'Comic Sans MS', false, bot,
+				'<p>x<span style="' + ffArial + '">f</span><span style="' + ffCS + '">o</span><span style="' + ffArial + '">o</span>x@</p>' );
+		},
+
+		// #14856
+		'test reapply font family on the beginning (collapsed selection)': function() {
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+
+			var bot = this.editorBot;
+
+			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="' + ffArial + '"><em>{}foo</em></span>x</p>' );
+			this.assertCombo( 'Font', 'Comic Sans MS', true, bot,
+				'<p>x<em><span style="' + ffCS + '">bar</span></em><span style="' + ffArial + '"><em>foo</em></span>x@</p>' );
+		},
+
+		'test reapply font family in the middle (collapsed selection)': function() {
+			var bot = this.editorBot;
+
+			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="' + ffArial + '"><em>fo{}o</em></span>x</p>' );
+			this.assertCombo( 'Font', 'Comic Sans MS', true, bot,
+				'<p>x<span style="' + ffArial + '"><em>fo</em></span><em><span style="' + ffCS + '">bar</span></em>' +
+				'<span style="' + ffArial + '"><em>o</em></span>x@</p>' );
+		},
+
+		'test reapply font size on the end (collapsed selection)': function() {
+			var bot = this.editorBot;
+
+			bender.tools.selection.setWithHtml( bot.editor, '<p>x<span style="font-size:12px"><em>foo{}</em></span>x</p>' );
+			this.assertCombo( 'FontSize', 24, true, bot,
+				'<p>x<span style="font-size:12px"><em>foo</em></span><em><span style="font-size:24px">bar</span></em>x@</p>' );
+		},
+
+		assertCombo: function( comboName, comboValue, collapsed, bot, resultHtml, callback ) {
+			bot.combo( comboName, function( combo ) {
+				combo.onClick( comboValue );
+
+				this.wait( function() {
+					// The empty span from collapsed selection is lost on FF and IE8, insert something to prevent that.
+					collapsed && bot.editor.insertText( 'bar' );
+					assert.isInnerHtmlMatching( resultHtml, bot.editor.editable().getHtml(), htmlMatchingOpts );
+					callback && callback( bot );
+				}, 0 );
 			} );
 		}
 	} );
