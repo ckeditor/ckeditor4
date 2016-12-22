@@ -165,6 +165,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		function renderColors( panel, type, colorBoxId ) {
 			var output = [],
 				colors = config.colorButton_colors.split( ',' ),
+				colorsPerRow = config.colorButton_colorsPerRow || 6,
 				// Tells if we should include "More Colors..." button.
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
@@ -226,10 +227,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					' role="option" aria-posinset="1" aria-setsize="', total, '">' +
 						'<table role="presentation" cellspacing=0 cellpadding=0 width="100%">' +
 							'<tr>' +
-								'<td>' +
-									'<span class="cke_colorbox" id="', colorBoxId, '"></span>' +
-								'</td>' +
-								'<td colspan=7 align=center>', lang.auto, '</td>' +
+								'<td colspan="' + colorsPerRow + '" align="center"><span class="cke_colorbox" id="', colorBoxId, '"></span>', lang.auto, '</td>' +
 							'</tr>' +
 						'</table>' +
 					'</a>' );
@@ -238,7 +236,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 			// Render the color boxes.
 			for ( var i = 0; i < colors.length; i++ ) {
-				if ( ( i % 8 ) === 0 )
+				if ( ( i % colorsPerRow ) === 0 )
 					output.push( '</tr><tr>' );
 
 				var parts = colors[ i ].split( '/' ),
@@ -267,7 +265,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			if ( moreColorsEnabled ) {
 				output.push( '</tr>' +
 					'<tr>' +
-						'<td colspan=8 align=center>' +
+						'<td colspan="' + colorsPerRow + '" align="center">' +
 							'<a class="cke_colormore" _cke_focus=1 hidefocus=true' +
 								' title="', lang.more, '"' +
 								' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'?\',\'', type, '\');return false;"' +
@@ -306,6 +304,9 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * a name and the slash character. For example, `'FontColor1/FF9900'` will be
  * displayed as the color `#FF9900` in the selector, but will be output as `'FontColor1'`.
  *
+ * **Since 4.6.2:** The default color palette has change. It contains less colors and in more
+ * pastel shades than the previous one.
+ *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
  * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
  *
@@ -317,11 +318,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * @cfg {String} [colorButton_colors=see source]
  * @member CKEDITOR.config
  */
-CKEDITOR.config.colorButton_colors = '000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,' +
-	'B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,' +
-	'F00,FF8C00,FFD700,008000,0FF,00F,EE82EE,A9A9A9,' +
-	'FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,' +
-	'FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF';
+CKEDITOR.config.colorButton_colors = '1ABC9C,2ECC71,3498DB,9B59B6,4E5F70,F1C40F,' +
+	'16A085,27AE60,2980B9,8E44AD,2C3E50,F39C12,' +
+	'E67E22,E74C3C,ECF0F1,95A5A6,DDD,FFF,' +
+	'D35400,C0392B,BDC3C7,7F8C8D,999,000';
 
 /**
  * Stores the style definition that applies the text foreground color.
@@ -375,6 +375,19 @@ CKEDITOR.config.colorButton_backStyle = {
  *		config.colorButton_enableAutomatic = false;
  *
  * @cfg {Boolean} [colorButton_enableAutomatic=true]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Defines how many colors will be shown per row in the color selectors.
+ *
+ * Read more in the [documentation](#!/guide/dev_colorbutton)
+ * and see the [SDK sample](http://sdk.ckeditor.com/samples/colorbutton.html).
+ *
+ *		config.colorButton_colorsPerRow = 8;
+ *
+ * @since 4.6.2
+ * @cfg {Number} [colorButton_colorsPerRow=6]
  * @member CKEDITOR.config
  */
 

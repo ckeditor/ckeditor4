@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'en', {
 		F0FFFF: 'Azure',
 		F0F8FF: 'Alice Blue',
 		E6E6FA: 'Lavender',
-		FFF: 'White'
+		FFF: 'White',
+		'1ABC9C': 'Strong Cyan',
+		'2ECC71': 'Emerald',
+		'3498DB': 'Bright Blue',
+		'9B59B6': 'Amethyst',
+		'4E5F70': 'Grayish Blue',
+		'F1C40F': 'Vivid Yellow',
+		'16A085': 'Dark Cyan',
+		'27AE60': 'Dark Emerald',
+		'2980B9': 'Strong Blue',
+		'8E44AD': 'Dark Violet',
+		'2C3E50': 'Desaturated Blue',
+		'F39C12': 'Orange',
+		'E67E22': 'Carrot',
+		'E74C3C': 'Pale Red',
+		'ECF0F1': 'Bright Silver',
+		'95A5A6': 'Light Grayish Cyan',
+		'DDD': 'Light Gray',
+		'D35400': 'Pumpkin',
+		'C0392B': 'Strong Red',
+		'BDC3C7': 'Silver',
+		'7F8C8D': 'Grayish Cyan',
+		'999': 'Dark Gray'
 	},
 	more: 'More Colors...',
 	panelTitle: 'Colors',

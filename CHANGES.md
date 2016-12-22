@@ -3,6 +3,10 @@
 
 ## CKEditor 4.6.2
 
+New Features:
+
+* [#16733](http://dev.ckeditor.com/ticket/16733): Added new color palette for [Color Button](http://ckeditor.com/addon/colorbutton) plugin and added [`config.colorButton_colorsPerRow`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_colorsPerRow) option.
+
 Fixed Issues:
 
 * [#10373](http://dev.ckeditor.com/ticket/10373): Fixed: Context menu items can be dragged into the editor.

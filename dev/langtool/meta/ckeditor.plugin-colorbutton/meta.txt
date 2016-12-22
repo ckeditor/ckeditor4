@@ -1,8 +1,8 @@
 # Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
-auto = 
-bgColorTitle = 
+auto =
+bgColorTitle =
 colors.000 = Tooltip with a human-readable name for the #000 color.
 colors.800000 = Tooltip with a human-readable name for the #800000 color.
 colors.8B4513 = Tooltip with a human-readable name for the #8B4513 color.
@@ -43,6 +43,28 @@ colors.F0FFFF = Tooltip with a human-readable name for the #F0FFFF color.
 colors.F0F8FF = Tooltip with a human-readable name for the #F0F8FF color.
 colors.E6E6FA = Tooltip with a human-readable name for the #E6E6FA color.
 colors.FFF = Tooltip with a human-readable name for the #FFF color.
-more = 
-panelTitle = 
-textColorTitle = 
+colors.1ABC9C = Tooltip with a human-readable name for Strong Cyan (#1ABC9C) color.
+colors.2ECC71 = Tooltip with a human-readable name for Emerald (#2ECC71) color.
+colors.3498DB = Tooltip with a human-readable name for Bright Blue (#3498DB) color.
+colors.9B59B6 = Tooltip with a human-readable name for Amethyst (#9B59B6) color.
+colors.4E5F70 = Tooltip with a human-readable name for Grayish Blue (#4E5F70) color.
+colors.F1C40F = Tooltip with a human-readable name for Vivid Yellow (#F1C40F) color.
+colors.16A085 = Tooltip with a human-readable name for Dark Cyan (#16A085) color.
+colors.27AE60 = Tooltip with a human-readable name for Dark Emerald (#27AE60) color.
+colors.2980B9 = Tooltip with a human-readable name for Strong Blue (#2980B9) color.
+colors.8E44AD = Tooltip with a human-readable name for Dark Violet (#8E44AD) color.
+colors.2C3E50 = Tooltip with a human-readable name for Desaturated Blue (#2C3E50) color.
+colors.F39C12 = Tooltip with a human-readable name for Orange (#F39C12) color.
+colors.E67E22 = Tooltip with a human-readable name for Carrot (#E67E22) color.
+colors.E74C3C = Tooltip with a human-readable name for Pale Red (#E74C3C) color.
+colors.ECF0F1 = Tooltip with a human-readable name for Bright Silver (#ECF0F1) color.
+colors.95A5A6 = Tooltip with a human-readable name for Light Grayish Cyan (#95A5A6) color.
+colors.DDD = Tooltip with a human-readable name for Light Gray (#DDD) color.
+colors.D35400 = Tooltip with a human-readable name for Pumpkin (#D35400) color.
+colors.C0392B = Tooltip with a human-readable name for Strong Red (#C0392B) color.
+colors.BDC3C7 = Tooltip with a human-readable name for Silver (#BDC3C7) color.
+colors.7F8C8D = Tooltip with a human-readable name for Grayish Cyan (#7F8C8D) color.
+colors.999 = Tooltip with a human-readable name for Dark Gray (#999) color.
+more =
+panelTitle =
+textColorTitle =
