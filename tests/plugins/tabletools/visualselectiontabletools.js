@@ -222,6 +222,63 @@
 			assert.isTrue( editable.findOne( '#second' ).equals( cells[ 1 ] ) );
 			assert.isTrue( editable.findOne( '#third' ).equals( cells[ 2 ] ) );
 			assert.isTrue( last.equals( cells[ 3 ] ) );
+		},
+
+		'Simulating merge cells from context menu ': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				expected = '<table><tbody><tr><td>Cell 1.1</td><td rowspan="2">Cell 1.2<br />Cell 2.2</td>' +
+					'<td>Cell 1.3</td></tr><tr><td>Cell 2.1</td><td>Cell 2.3</td></tr></tbody></table>',
+				realSelection,
+				ranges,
+				range;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, [ 1, 4 ] );
+
+			selection.selectRanges( ranges );
+
+			// Stub reset method to prevent overwriting fake selection on selectRanges.
+			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
+
+			// We must restore this method before any other selectionchange listeners
+			// to be sure that selectionchange works as intended.
+			editor.editable().once( 'selectionchange', function() {
+				CKEDITOR.dom.selection.prototype.reset.restore();
+			}, null, null, -2 );
+
+			realSelection = editor.getSelection( 1 );
+			range = getRangesForCells( editor, [ 2 ] ) [ 0 ];
+
+			range.collapse();
+			realSelection.selectRanges( [ range ] );
+
+			editor.editable().fire( 'contextmenu', new CKEDITOR.dom.event( {
+				target: editor.editable().find( 'table td' ).getItem( 2 ).$
+			} ) );
+
+			editor.once( 'menuShow', function( evt ) {
+				resume( function() {
+					evt.data[ 0 ].focus();
+
+					editor.execCommand( 'cellMerge' );
+
+					assert.isTrue( !!selection.isFake, 'isFake is set' );
+					assert.isTrue( selection.isInTable(), 'isInTable is true' );
+					assert.areSame( ranges.length, selection.getRanges().length, 'Multiple ranges are selected' );
+					assert.isNull( selection.getNative(), 'getNative() should be null' );
+					assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
+
+					assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
+					assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
+						'Selected element equals to the first selected cell' );
+
+					assert.areSame( expected, editor.getData(), 'Editor data' );
+				} );
+			} );
+
+			wait();
 		}
 	} );
 } )();
