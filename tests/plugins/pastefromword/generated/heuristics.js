@@ -1,7 +1,7 @@
 /* bender-tags: clipboard,pastefromword */
 /* bender-ckeditor-plugins: pastefromword,ajax */
 /* bender-include: ../../../plugins/clipboard/_helpers/pasting.js,  ../../../../plugins/pastefromword/filter/default.js, _helpers/pfwTools.js */
-/* global assertPasteEvent,pfwTools */
+/* global pfwTools */
 
 ( function() {
 	'use strict';
@@ -34,10 +34,23 @@
 			assert.beautified.html( CKEDITOR.document.getById( 'tc1expected' ).getHtml(), writer.getHtml() );
 		},
 
+		'test assignListLevels zero indent': function() {
+			var paragraphs = this.getParserElementsFrom( 'tc2' ),
+				stub = sinon.stub( this.heuristics, 'edgeListItem' ).returns( true ),
+				ret = this.heuristics.assignListLevels( this.editor, paragraphs[ 0 ] );
+
+			stub.restore();
+
+			arrayAssert.itemsAreEqual( [ 0, 0, 48 ], ret.indents );
+			arrayAssert.itemsAreEqual( [ 0, 0, 48 ], ret.diffs );
+			arrayAssert.itemsAreEqual( [ 1, 1, 2 ], ret.levels );
+		},
+
 		'test assignListLevels does early return': function() {
 			// If cke-list-level is already calculated, there's no point in doing it again.
-			var stub = sinon.stub( this.heuristics, 'guessIndentationStep' ),
-				ret = this.heuristics.assignListLevels( this.editor, this.getParserElementsFrom( 'tc1expected' )[ 0 ] );
+			var stub = sinon.stub( this.heuristics, 'guessIndentationStep' );
+
+			this.heuristics.assignListLevels( this.editor, this.getParserElementsFrom( 'tc1expected' )[ 0 ] );
 
 			stub.restore();
 

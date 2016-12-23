@@ -1659,8 +1659,16 @@
 			// Here's the tricky part, we need to magically figure out what is the indentation difference between list level.
 			levels = map( indents, function( val ) {
 				// Make sure that the level is a full number.
-				return Math.floor( val / indentationPerLevel );
+				// return Math.floor( val / indentationPerLevel );
+				return Math.round( val / indentationPerLevel );
 			} );
+
+			// Level can not be equal to 0, in case if it happens bump all the levels by 1,
+			if ( levels.indexOf( 0 ) !== -1 ) {
+				levels = map( levels, function( val ) {
+					return val + 1;
+				} );
+			}
 
 			// Assign levels to a proper place.
 			items.forEach( function( curItem, index ) {
