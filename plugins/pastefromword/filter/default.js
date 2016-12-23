@@ -1674,32 +1674,7 @@
 		 * @returns {Number/null} Number or `null` if empty `indentations` was given.
 		 */
 		_guessIndentationStep( indentations ) {
-			if ( !indentations.length ) {
-				return null;
-			}
-
-			var arrayTools = CKEDITOR.tools.array,
-				uniqueIndentations = arrayTools.unique( indentations ),
-				// Array with keys corresponding to uniqueIndentations, but containing indentation usage count.
-				occurrences = arrayTools.map( uniqueIndentations, function( curIndentation ) {
-					return arrayTools.reduce( indentations, function( curCount, value ) {
-						return curCount + Number( value === curIndentation );
-					}, 0 );
-				} ),
-				// By default use simply 0.
-				indentationKey = 0;
-
-			indentationKey = arrayTools.reduce( occurrences, function( curIndentationKey, occurrenceCount, index ) {
-					if ( uniqueIndentations[ index ] < uniqueIndentations[ curIndentationKey ] ) {
-						// Looks like more promising value, let's use it.
-						return index;
-					}
-
-					// Otherwise returned key remains unchanged.
-					return curIndentationKey;
-				}, indentationKey );
-
-			return uniqueIndentations[ indentationKey ];
+			return indentations.length ? Math.min.apply( null, indentations ) : null;
 		}
 	};
 
