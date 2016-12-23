@@ -656,6 +656,10 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		convertToFakeListItem: function( element ) {
+			if ( Heuristics.edgeListItem( element ) ) {
+				Heuristics.assignListLevels( element );
+			}
+
 			// A dummy call to cache parsed list info inside of cke-list-* attributes.
 			this.getListItemInfo( element );
 
@@ -690,10 +694,6 @@
 				element.attributes[ 'cke-symbol' ] = symbol.replace( / .*$/, '' );
 
 				List.removeSymbolText( element );
-			}
-
-			if ( Heuristics.edgeListItem( element ) ) {
-				Heuristics.assignListLevels( element );
 			}
 
 			if ( element.attributes.style ) {
@@ -1603,22 +1603,22 @@
 		 * Assigns list levels to `item` and all directly subsequent nodes for which
 		 * {@link CKEDITOR.plugins.pastefromword.heuristics#edgeListItem} returns `true`.
 		 *
-		 * The algorithm goes as follows: among the qualifying items find:
-		 * 1. The largest indent.
-		 * 2. The most common non-zero difference in indentation of two subsequent nodes.
-		 *
-		 * Use this to create a linear sequence of indentations with step as in `2.` - associated with levels.
-		 * Assign levels to items based on this sequence.
+		 * The algorithm determines list item level based on the lowest common non-zero difference in indentation
+		 * of two or more subsequent list-like elements.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} item First item of the list.
-		 * */
+		 */
 		assignListLevels: function( item ) {
-			var indents = [],
-				items = [],
+			// If levels were already calculated, there's no need to do this heavy work.
+			// if ( item.attributes && item.attributes[ 'cke-list-level' ] !== undefined ) {
+			// 	return;
+			// }
+
+			var indents = [ List.getElementIndentation( item ) ],
+				items = [ item ],
+				levels = [],
 				array = CKEDITOR.tools.array,
-				forEach = array.forEach,
-				map = array.map,
-				reduce = array.reduce;
+				map = array.map;
 
 			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.edgeListItem( item.next ) ) {
 				item = item.next;
@@ -1626,48 +1626,83 @@
 				items.push( item );
 			}
 
-			if ( items.length === 0 ) {
+			if ( items[ 0 ].attributes && items[ 0 ].attributes[ 'cke-list-level' ] !== undefined && items.length === 1 ) {
+				// assignListLevels gets called multiple times, so we need to limit this.
 				return;
 			}
 
-			var diffOccurrences = { 1: 0 },
-				maxIndent = Math.max.apply( null, indents );
+			// An array with indentation difference between n and n-1 list item. It's 0 for the first one.
+			var indentationDiffs = map( indents, function( curIndent, i  ) {
+					return i === 0 ? 0 : curIndent - indents[ i - 1 ];
+				} ),
+				// Guess indentation step, but it must not be equal to 0.
+				indentationPerLevel = this._guessIndentationStep( array.filter( indents, function( val ) {
+					return val !== 0;
+				} ) );
 
-			var diffs = map( indents.slice( 1 ), function( a, i ) {
-				return Math.abs( a - indents[ i ] );
+			// Here's the tricky part, we need to magically figure out what is the indentation difference between list level.
+			levels = map( indents, function( val ) {
+				// Make sure that the level is a full number.
+				return Math.floor( val / indentationPerLevel );
 			} );
 
-			// Not to be confused with global variable "filter".
-			diffs = array.filter( diffs, function( a ) {
-				return a !== 0;
+			// Assign levels to a proper place.
+			items.forEach( function( curItem, index ) {
+				curItem.attributes[ 'cke-list-level' ] = levels[ index ];
 			} );
 
-			var mostCommonDiff = reduce( diffs, function( acc, diff ) {
-				diffOccurrences[ diff ] = diffOccurrences[ diff ] || 0;
-				diffOccurrences[ diff ]++;
+			return {
+				indents: indents,
+				levels: levels,
+				diffs: indentationDiffs
+			};
+		},
 
-				if ( diffOccurrences[ diff ] > diffOccurrences[ acc ] ) {
-					return diff;
-				}
-				return acc;
-			}, 1 );
+		/**
+		 * Given array of list indentations, tries tu guess what is the indentation difference per list level. E.g. assuming that we
+		 * have something like:
+		 *
+		 *		* foo (indentation 30px)
+		 *				* bar (indentation 90px)
+		 *				* baz (indentation 90px)
+		 *					* baz (indentation 115px)
+		 *			* baz (indentation 60px)
+		 *
+		 * The method will return `30`.
+		 *
+		 * @param {Number[]} indentations Array of indentation sizes.
+		 * @returns {Number/null} Number or `null` if empty `indentations` was given.
+		 */
+		_guessIndentationStep( indentations ) {
+			if ( !indentations.length ) {
+				return null;
+			}
 
-			var levels = map( indents, function( indent ) {
-				return Math.round( indent - maxIndent ) / mostCommonDiff;
-			} );
+			var arrayTools = CKEDITOR.tools.array,
+				uniqueIndentations = arrayTools.unique( indentations ),
+				// Array with keys corresponding to uniqueIndentations, but containing indentation usage count.
+				occurrences = arrayTools.map( uniqueIndentations, function( curIndentation ) {
+					return arrayTools.reduce( indentations, function( curCount, value ) {
+						return curCount + Number( value === curIndentation );
+					}, 0 );
+				} ),
+				// By default use simply 0.
+				indentationKey = 0;
 
-			var lowestLevel = reduce( levels, function( acc, item ) {
-				if ( item < acc ) {
-					return item;
-				}
-				return acc;
-			}, maxIndent / mostCommonDiff );
+			indentationKey = arrayTools.reduce( occurrences, function( curIndentationKey, occurrenceCount, index ) {
+					if ( uniqueIndentations[ index ] < uniqueIndentations[ curIndentationKey ] ) {
+						// Looks like more promising value, let's use it.
+						return index;
+					}
 
-			forEach( levels, function( level, i ) {
-				items[ i ].attributes[ 'cke-list-level' ] = level - lowestLevel + 1;
-			} );
+					// Otherwise returned key remains unchanged.
+					return curIndentationKey;
+				}, indentationKey );
+
+			return uniqueIndentations[ indentationKey ];
 		}
 	};
+
 	Heuristics = CKEDITOR.plugins.pastefromword.heuristics;
 
 	// Expose this function since it's useful in other places.
