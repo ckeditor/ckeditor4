@@ -124,13 +124,13 @@ CKEDITOR.resourceManager.prototype = {
 	 * Registers one or more resources to be loaded from an external path
 	 * instead of the core base path.
 	 *
-	 *		// Loads a plugin from '/myplugin/samples/plugin.js'.
+	 *		// Loads a plugin from '/myplugins/sample/plugin.js'.
 	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
 	 *
-	 *		// Loads a plugin from '/myplugin/samples/my_plugin.js'.
+	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
 	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
 	 *
-	 *		// Loads a plugin from '/myplugin/samples/my_plugin.js'.
+	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
 	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
 	 *
 	 * @param {String} names The resource names, separated by commas.
