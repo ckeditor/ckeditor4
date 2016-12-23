@@ -1582,10 +1582,12 @@
 	*/
 	CKEDITOR.plugins.pastefromword.heuristics = {
 		/**
-		 * Tells if it can be reasonably assumed, that the given element is in fact a list item.
+		 * Tells if list looks like list item in Microsoft Edge.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} item
-		 * @return {boolean}
+		 * @return {Boolean}
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
 		 */
 		edgeListItem: function( item ) {
 			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
@@ -1601,20 +1603,27 @@
 						fontFamily.match( /symbol/i );
 				}, true ).length;
 		},
+
 		/**
-		 * Assigns list levels to `item` and all directly subsequent nodes for which
-		 * {@link CKEDITOR.plugins.pastefromword.heuristics#edgeListItem} returns `true`.
+		 * Assigns list levels to `item` and all directly subsequent nodes for which {@link #edgeListItem} returns `true`.
 		 *
 		 * The algorithm determines list item level based on the lowest common non-zero difference in indentation
 		 * of two or more subsequent list-like elements.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} item First item of the list.
+		 * @returns {Object/null} `null` if list levels were already applied, or an object used to verify results in tests.
+		 * @returns {Number[]} return.indents
+		 * @returns {Number[]} return.levels
+		 * @returns {Number[]} return.diffs
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
 		 */
 		assignListLevels: function( item ) {
-			// If levels were already calculated, there's no need to do this heavy work.
-			// if ( item.attributes && item.attributes[ 'cke-list-level' ] !== undefined ) {
-			// 	return;
-			// }
+			// If levels were already calculated, it means that this function was called for preceeding element. There's
+			// no need to do this heavy work.
+			if ( item.attributes && item.attributes[ 'cke-list-level' ] !== undefined ) {
+				return;
+			}
 
 			var indents = [ List.getElementIndentation( item ) ],
 				items = [ item ],
@@ -1626,11 +1635,6 @@
 				item = item.next;
 				indents.push( List.getElementIndentation( item ) );
 				items.push( item );
-			}
-
-			if ( items[ 0 ].attributes && items[ 0 ].attributes[ 'cke-list-level' ] !== undefined && items.length === 1 ) {
-				// assignListLevels gets called multiple times, so we need to limit this.
-				return;
 			}
 
 			// An array with indentation difference between n and n-1 list item. It's 0 for the first one.
@@ -1674,8 +1678,10 @@
 		 *
 		 * @param {Number[]} indentations Array of indentation sizes.
 		 * @returns {Number/null} Number or `null` if empty `indentations` was given.
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
 		 */
-		_guessIndentationStep( indentations ) {
+		_guessIndentationStep: function( indentations ) {
 			return indentations.length ? Math.min.apply( null, indentations ) : null;
 		}
 	};
