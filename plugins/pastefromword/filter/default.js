@@ -112,7 +112,7 @@
 						return false;
 					}
 
-					if ( List.thisIsAListItem( element, editor ) ) {
+					if ( List.thisIsAListItem( editor, element ) ) {
 						List.convertToFakeListItem( editor, element );
 					} else {
 						// In IE list level information is stored in <p> elements inside <li> elements.
@@ -131,12 +131,12 @@
 					Style.createStyleStack( element, filter, editor );
 				},
 				'pre': function( element ) {
-					if ( List.thisIsAListItem( element, editor ) ) List.convertToFakeListItem( editor, element );
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
 
 					Style.createStyleStack( element, filter, editor );
 				},
 				'h1': function( element ) {
-					if ( List.thisIsAListItem( element, editor ) ) List.convertToFakeListItem( editor, element );
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
 
 					Style.createStyleStack( element, filter, editor );
 				},
@@ -622,11 +622,12 @@
 		 * Checks if a given element is a list item-alike.
 		 *
 		 * @private
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
-		thisIsAListItem: function( element, editor ) {
+		thisIsAListItem: function( editor, element ) {
 			if ( Heuristics.edgeListItem( editor, element ) ) {
 				return true;
 			}
