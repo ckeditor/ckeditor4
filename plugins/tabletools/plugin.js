@@ -8,8 +8,7 @@
 		isArray = CKEDITOR.tools.isArray,
 		fakeSelectedClass = 'cke_table-faked-selection',
 		fakeSelectedTableClass = fakeSelectedClass + '-table',
-		fakeSelection = { active: false },
-		previousFakeSelection;
+		fakeSelection = { active: false };
 
 	function getSelectedCells( selection ) {
 		if ( !selection ) {
@@ -694,8 +693,7 @@
 
 			// Reset fake selection only if it's really a table one.
 			// Otherwise we'll make widget selection unusable.
-			if ( previousFakeSelection ) {
-				previousFakeSelection = null;
+			if ( editor.getSelection().isInTable() ) {
 				editor.getSelection().reset();
 			}
 		}
@@ -931,15 +929,7 @@
 			fakeSelectByMouse( editor, cell || table, evt );
 		}
 
-		// Restore previous fake selection in case of context menu.
-		if ( previousFakeSelection && evt.name === 'mouseup' && !canClear && !selection.isInTable() ) {
-			fakeSelection = previousFakeSelection;
-
-			fakeSelectCells( editor, getCellsBetween( fakeSelection.first, fakeSelection.last ) );
-		}
-
 		if ( evt.name === 'mouseup' ) {
-			previousFakeSelection = fakeSelection;
 			fakeSelection = { active: false };
 		}
 	}
@@ -956,13 +946,29 @@
 		evt.data.preventDefault();
 	}
 
-	function fakeSelectionFocusHandler( evt ) {
+	function fakeSelectionBlurHandler( evt ) {
 		var editor = evt.editor || evt.sender.editor,
-			cells;
+			selection = editor.getSelection(),
+			cells = editor.editable().find( '.' + fakeSelectedClass );
 
-		if ( previousFakeSelection ) {
-			cells = getCellsBetween( previousFakeSelection.first, previousFakeSelection.last );
+		if ( selection.isInTable() ) {
+			editor._.tableBookmarks = selection.createBookmarks( true );
+		} else if ( cells.count() > 0 ) {
+			cells = getCellsBetween( cells.getItem( 0 ), cells.getItem( cells.count() - 1 ) );
+
 			fakeSelectCells( editor, cells );
+
+			editor._.tableBookmarks = selection.createBookmarks( true );
+		}
+	}
+
+	function fakeSelectionFocusHandler( evt ) {
+		var editor = evt.editor || evt.sender.editor;
+
+		if ( editor._.tableBookmarks ) {
+			editor.getSelection().selectBookmarks( editor._.tableBookmarks );
+
+			delete editor._.tableBookmarks;
 		}
 	}
 
@@ -1692,6 +1698,8 @@
 					editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
 					editable.attachListener( editable, 'selectionchange', fakeSelectionChangeHandler );
 
+					// Restore previous fake selection in case of context menu.
+					editable.attachListener( editable, 'blur', fakeSelectionBlurHandler );
 					editable.attachListener( editable, 'focus', fakeSelectionFocusHandler );
 
 					// Setup copybin.
