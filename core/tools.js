@@ -1818,6 +1818,7 @@
 			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
 			 * @returns {Array} Array of mapped elements.
 			 * @member CKEDITOR.tools.array
+			 * @since 4.6.2
 			 */
 			map: function( array, fn, thisArg ) {
 				var result = [];
