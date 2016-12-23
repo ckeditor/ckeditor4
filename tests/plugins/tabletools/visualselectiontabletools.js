@@ -271,7 +271,7 @@
 					assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
 
 					assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
-					assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
+					assert.isTrue( editor.editable().find( 'td' ).getItem( 1 ).equals( selection.getSelectedElement() ),
 						'Selected element equals to the first selected cell' );
 
 					assert.areSame( expected, editor.getData(), 'Editor data' );
