@@ -878,8 +878,9 @@
 		var editor = evt.editor || evt.listenerData.editor,
 			selection = editor.getSelection( 1 ),
 			selectedTable = getFakeSelectedTable( editor ),
-			cell = evt.data.getTarget().getAscendant( { td: 1, th: 1 }, true ),
-			table = evt.data.getTarget().getAscendant( 'table', true ),
+			target = evt.data.getTarget(),
+			cell = target && target.getAscendant( { td: 1, th: 1 }, true ),
+			table = target && target.getAscendant( 'table', true ),
 			canClear;
 
 		// Nested tables should be treated as the same one (e.g. user starts dragging from outer table
