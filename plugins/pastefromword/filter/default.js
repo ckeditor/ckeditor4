@@ -627,6 +627,10 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		thisIsAListItem: function( element, editor ) {
+			if ( CKEDITOR.env.edge && editor.config.pasteFromWord_heuristicsEdgeList && Heuristics.edgeListItem( element ) ) {
+				return true;
+			}
+
 			/*jshint -W024 */
 			// Normally a style of the sort that looks like "mso-list: l0 level1 lfo1"
 			// indicates a list element, but the same style may appear in a <p> that's within a <li>.
@@ -637,9 +641,7 @@
 					// Flat, ordered lists are represented by paragraphs
 					// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
 					// where the middle parentheses contain the symbol.
-				element.getHtml().match( /^( )*.*?[\.\)] ( ){2,700}/ ) ||
-				( CKEDITOR.env.edge && editor.config.pasteFromWord_heuristicsEdgeList &&
-					Heuristics.edgeListItem( element ) )
+				element.getHtml().match( /^( )*.*?[\.\)] ( ){2,700}/ )
 			) {
 				return true;
 			}
