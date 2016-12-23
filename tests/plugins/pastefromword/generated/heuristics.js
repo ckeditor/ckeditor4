@@ -19,7 +19,10 @@
 
 		'test assignListLevels': function() {
 			var paragraphs = this.getParserElementsFrom( 'tc1' ),
-				ret = this.heuristics.assignListLevels( paragraphs[ 0 ] );
+				stub = sinon.stub( this.heuristics, 'edgeListItem' ).returns( true ),
+				ret = this.heuristics.assignListLevels( this.editor, paragraphs[ 0 ] );
+
+			stub.restore();
 
 			arrayAssert.itemsAreEqual( [ 48, 96, 96, 192, 192, 96, 146 ], ret.indents );
 			arrayAssert.itemsAreEqual( [ 0, 48, 0, 96, 0, -96, 50 ], ret.diffs );
@@ -34,7 +37,7 @@
 		'test assignListLevels does early return': function() {
 			// If cke-list-level is already calculated, there's no point in doing it again.
 			var stub = sinon.stub( this.heuristics, '_guessIndentationStep' ),
-				ret = this.heuristics.assignListLevels( this.getParserElementsFrom( 'tc1expected' )[ 0 ] );
+				ret = this.heuristics.assignListLevels( this.editor, this.getParserElementsFrom( 'tc1expected' )[ 0 ] );
 
 			stub.restore();
 
