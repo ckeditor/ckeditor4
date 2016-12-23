@@ -113,7 +113,7 @@
 					}
 
 					if ( List.thisIsAListItem( element, editor ) ) {
-						List.convertToFakeListItem( element );
+						List.convertToFakeListItem( editor, element );
 					} else {
 						// In IE list level information is stored in <p> elements inside <li> elements.
 						var container = element.getAscendant( function( element ) {
@@ -131,12 +131,12 @@
 					Style.createStyleStack( element, filter, editor );
 				},
 				'pre': function( element ) {
-					if ( List.thisIsAListItem( element, editor ) ) List.convertToFakeListItem( element );
+					if ( List.thisIsAListItem( element, editor ) ) List.convertToFakeListItem( editor, element );
 
 					Style.createStyleStack( element, filter, editor );
 				},
 				'h1': function( element ) {
-					if ( List.thisIsAListItem( element, editor ) ) List.convertToFakeListItem( element );
+					if ( List.thisIsAListItem( element, editor ) ) List.convertToFakeListItem( editor, element );
 
 					Style.createStyleStack( element, filter, editor );
 				},
@@ -627,7 +627,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		thisIsAListItem: function( element, editor ) {
-			if ( CKEDITOR.env.edge && editor.config.pasteFromWord_heuristicsEdgeList && Heuristics.edgeListItem( element ) ) {
+			if ( Heuristics.edgeListItem( editor, element ) ) {
 				return true;
 			}
 
@@ -654,12 +654,13 @@
 		 * Converts an element to an element with the `cke:li` tag name.
 		 *
 		 * @private
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
-		convertToFakeListItem: function( element ) {
-			if ( Heuristics.edgeListItem( element ) ) {
-				Heuristics.assignListLevels( element );
+		convertToFakeListItem: function( editor, element ) {
+			if ( Heuristics.edgeListItem( editor, element ) ) {
+				Heuristics.assignListLevels( editor, element );
 			}
 
 			// A dummy call to cache parsed list info inside of cke-list-* attributes.
@@ -1582,14 +1583,21 @@
 	*/
 	CKEDITOR.plugins.pastefromword.heuristics = {
 		/**
-		 * Tells if list looks like list item in Microsoft Edge.
+		 * Tells if `item` looks like list item in Microsoft Edge.
 		 *
+		 * Note: It will return `false` when run on browser other than Microsoft Edge, despite the configuration.
+		 *
+		 * @param {CKEDITOR.editor} item
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @return {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
-		edgeListItem: function( item ) {
+		edgeListItem: function( editor, item ) {
+			if ( !CKEDITOR.env.edge || !editor.config.pasteFromWord_heuristicsEdgeList ) {
+				return false;
+			}
+
 			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
 					var css = tools.parseCssText( child.attributes && child.attributes.style );
 
@@ -1610,6 +1618,7 @@
 		 * The algorithm determines list item level based on the lowest common non-zero difference in indentation
 		 * of two or more subsequent list-like elements.
 		 *
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item First item of the list.
 		 * @returns {Object/null} `null` if list levels were already applied, or an object used to verify results in tests.
 		 * @returns {Number[]} return.indents
@@ -1618,7 +1627,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
-		assignListLevels: function( item ) {
+		assignListLevels: function( editor, item ) {
 			// If levels were already calculated, it means that this function was called for preceeding element. There's
 			// no need to do this heavy work.
 			if ( item.attributes && item.attributes[ 'cke-list-level' ] !== undefined ) {
@@ -1631,7 +1640,7 @@
 				array = CKEDITOR.tools.array,
 				map = array.map;
 
-			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.edgeListItem( item.next ) ) {
+			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.edgeListItem( editor, item.next ) ) {
 				item = item.next;
 				indents.push( List.getElementIndentation( item ) );
 				items.push( item );
