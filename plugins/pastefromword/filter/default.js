@@ -1801,7 +1801,14 @@
 	 */
 
 	/**
-	 * Set to true activates a heuristic that detects lists pasted into MS Edge.
+	 * Set to `true` activates a heuristic that detects lists pasted into Microsoft Edge.
+	 *
+	 * The reason why this heuristic is needed is that Microsoft Edge does not paste Word-specific metadata
+	 * allowing to identify lists.
+	 *
+	 *		// Disables list heuristics for Edge.
+	 *		config.pasteFromWord_heuristicsEdgeList = false;
+	 *
 	 * @since 4.6.2
 	 * @cfg {Boolean} [pasteFromWord_heuristicsEdgeList=true]
 	 * @member CKEDITOR.config
