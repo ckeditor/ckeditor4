@@ -1837,6 +1837,7 @@
 			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
 			 * @returns {Mixed} Final value of the accumulator.
 			 * @member CKEDITOR.tools.array
+			 * @since 4.6.2
 			*/
 			reduce: function( array, fn, initial, thisArg ) {
 				var acc = initial;
@@ -1854,6 +1855,7 @@
 			 *
 			 * @param {Array} array Input array.
 			 * @returns {Array} Array with unique items.
+			 * @since 4.6.2
 			 */
 			unique: function( array ) {
 				var ret = [];
