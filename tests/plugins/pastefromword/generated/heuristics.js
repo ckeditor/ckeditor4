@@ -36,7 +36,7 @@
 
 		'test assignListLevels does early return': function() {
 			// If cke-list-level is already calculated, there's no point in doing it again.
-			var stub = sinon.stub( this.heuristics, '_guessIndentationStep' ),
+			var stub = sinon.stub( this.heuristics, 'guessIndentationStep' ),
 				ret = this.heuristics.assignListLevels( this.editor, this.getParserElementsFrom( 'tc1expected' )[ 0 ] );
 
 			stub.restore();
@@ -44,17 +44,17 @@
 			assert.isFalse( stub.called, 'Stub was never called' );
 		},
 
-		'test _guessIndentationStep': function() {
-			assert.isNull( this.heuristics._guessIndentationStep( [] ), 'Returned value for empty array' );
-			assert.areSame( 20, this.heuristics._guessIndentationStep( [ 20, 20 ] ), 'tc1' );
-			assert.areSame( 20, this.heuristics._guessIndentationStep( [ 20, 40, 60 ] ), 'tc2' );
-			assert.areSame( 10, this.heuristics._guessIndentationStep( [ 10, 20, 20, 10 ] ), 'tc3' );
+		'test guessIndentationStep': function() {
+			assert.isNull( this.heuristics.guessIndentationStep( [] ), 'Returned value for empty array' );
+			assert.areSame( 20, this.heuristics.guessIndentationStep( [ 20, 20 ] ), 'tc1' );
+			assert.areSame( 20, this.heuristics.guessIndentationStep( [ 20, 40, 60 ] ), 'tc2' );
+			assert.areSame( 10, this.heuristics.guessIndentationStep( [ 10, 20, 20, 10 ] ), 'tc3' );
 			// In case of same occurrences, always use the lower number.
-			assert.areSame( 10, this.heuristics._guessIndentationStep( [ 10, 20 ] ), 'tc4' );
-			assert.areSame( 10, this.heuristics._guessIndentationStep( [ 20, 10 ] ), 'tc5' );
+			assert.areSame( 10, this.heuristics.guessIndentationStep( [ 10, 20 ] ), 'tc4' );
+			assert.areSame( 10, this.heuristics.guessIndentationStep( [ 20, 10 ] ), 'tc5' );
 
 			// It should always prioritize the lowest number.
-			assert.areSame( 10, this.heuristics._guessIndentationStep( [ 20, 20, 10 ] ), 'tc5' );
+			assert.areSame( 10, this.heuristics.guessIndentationStep( [ 20, 20, 10 ] ), 'tc5' );
 		},
 
 		// Creates CKEDITOR.htmlParser.fragment based on given element, and returns it's children.'

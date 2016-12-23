@@ -1652,7 +1652,7 @@
 					return i === 0 ? 0 : curIndent - indents[ i - 1 ];
 				} ),
 				// Guess indentation step, but it must not be equal to 0.
-				indentationPerLevel = this._guessIndentationStep( array.filter( indents, function( val ) {
+				indentationPerLevel = this.guessIndentationStep( array.filter( indents, function( val ) {
 					return val !== 0;
 				} ) );
 
@@ -1691,7 +1691,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
-		_guessIndentationStep: function( indentations ) {
+		guessIndentationStep: function( indentations ) {
 			return indentations.length ? Math.min.apply( null, indentations ) : null;
 		}
 	};
