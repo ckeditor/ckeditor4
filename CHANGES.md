@@ -9,6 +9,7 @@ New Features:
 
 Fixed Issues:
 
+* [#16682](http://dev.ckeditor.com/ticket/16682): [Edge] Fixed: List gets pasted as a set of paragraphs.
 * [#10373](http://dev.ckeditor.com/ticket/10373): Fixed: Context menu items can be dragged into the editor.
 * [#16728](http://dev.ckeditor.com/ticket/16728): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks editor in Quirks Mode.
 * [#16753](http://dev.ckeditor.com/ticket/16753): Fixed: `element.setSize` sets wrong editor's dimensions if border's width is in fraction of pixels.

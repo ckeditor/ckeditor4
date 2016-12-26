@@ -6,7 +6,10 @@
 /* globals CKEDITOR */
 
 ( function() {
-	var List, Style, filter,
+	var List,
+		Style,
+		Heuristics,
+		filter,
 		tools = CKEDITOR.tools,
 		invalidTags = [
 			'o:p',
@@ -109,8 +112,8 @@
 						return false;
 					}
 
-					if ( List.thisIsAListItem( element ) ) {
-						List.convertToFakeListItem( element );
+					if ( List.thisIsAListItem( editor, element ) ) {
+						List.convertToFakeListItem( editor, element );
 					} else {
 						// In IE list level information is stored in <p> elements inside <li> elements.
 						var container = element.getAscendant( function( element ) {
@@ -128,12 +131,12 @@
 					Style.createStyleStack( element, filter, editor );
 				},
 				'pre': function( element ) {
-					if ( List.thisIsAListItem( element ) ) List.convertToFakeListItem( element );
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
 
 					Style.createStyleStack( element, filter, editor );
 				},
 				'h1': function( element ) {
-					if ( List.thisIsAListItem( element ) ) List.convertToFakeListItem( element );
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
 
 					Style.createStyleStack( element, filter, editor );
 				},
@@ -619,11 +622,16 @@
 		 * Checks if a given element is a list item-alike.
 		 *
 		 * @private
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
-		thisIsAListItem: function( element ) {
+		thisIsAListItem: function( editor, element ) {
+			if ( Heuristics.isEdgeListItem( editor, element ) ) {
+				return true;
+			}
+
 			/*jshint -W024 */
 			// Normally a style of the sort that looks like "mso-list: l0 level1 lfo1"
 			// indicates a list element, but the same style may appear in a <p> that's within a <li>.
@@ -634,9 +642,7 @@
 					// Flat, ordered lists are represented by paragraphs
 					// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
 					// where the middle parentheses contain the symbol.
-				element
-					.getHtml()
-					.match( /^( )*.*?[\.\)] ( ){2,666}/ )
+				element.getHtml().match( /^( )*.*?[\.\)] ( ){2,700}/ )
 			) {
 				return true;
 			}
@@ -649,10 +655,15 @@
 		 * Converts an element to an element with the `cke:li` tag name.
 		 *
 		 * @private
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
-		convertToFakeListItem: function( element ) {
+		convertToFakeListItem: function( editor, element ) {
+			if ( Heuristics.isEdgeListItem( editor, element ) ) {
+				Heuristics.assignListLevels( editor, element );
+			}
+
 			// A dummy call to cache parsed list info inside of cke-list-* attributes.
 			this.getListItemInfo( element );
 
@@ -688,7 +699,6 @@
 
 				List.removeSymbolText( element );
 			}
-
 
 			if ( element.attributes.style ) {
 				// Hacky way to get rid of margin left.
@@ -989,7 +999,6 @@
 			if ( listElements.length === 0 ) {
 				return [];
 			}
-
 
 			// Chop data into continuous lists.
 			var lists = List.groupLists( listElements );
@@ -1566,6 +1575,136 @@
 	};
 	List = CKEDITOR.plugins.pastefromword.lists;
 
+	/**
+	 * Namespace containing methods used to process the pasted content using heuristics.
+	 *
+	 * @private
+	 * @since 4.6.2
+	 * @member CKEDITOR.plugins.pastefromword
+	*/
+	CKEDITOR.plugins.pastefromword.heuristics = {
+		/**
+		 * Tells if `item` looks like list item in Microsoft Edge.
+		 *
+		 * Note: It will return `false` when run on browser other than Microsoft Edge, despite the configuration.
+		 *
+		 * @param {CKEDITOR.editor} item
+		 * @param {CKEDITOR.htmlParser.element} item
+		 * @return {Boolean}
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
+		 */
+		isEdgeListItem: function( editor, item ) {
+			if ( !CKEDITOR.env.edge || !editor.config.pasteFromWord_heuristicsEdgeList ) {
+				return false;
+			}
+
+			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
+					var css = tools.parseCssText( child.attributes && child.attributes.style );
+
+					if ( !css ) {
+						return false;
+					}
+					var fontSize = css.font || css['font-size'] || '',
+						fontFamily = css[ 'font-family' ] || '';
+
+					return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
+						fontFamily.match( /symbol/i );
+				}, true ).length;
+		},
+
+		/**
+		 * Assigns list levels to `item` and all directly subsequent nodes for which {@link #isEdgeListItem} returns `true`.
+		 *
+		 * The algorithm determines list item level based on the lowest common non-zero difference in indentation
+		 * of two or more subsequent list-like elements.
+		 *
+		 * @param {CKEDITOR.editor} editor
+		 * @param {CKEDITOR.htmlParser.element} item First item of the list.
+		 * @returns {Object/null} `null` if list levels were already applied, or an object used to verify results in tests.
+		 * @returns {Number[]} return.indents
+		 * @returns {Number[]} return.levels
+		 * @returns {Number[]} return.diffs
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
+		 */
+		assignListLevels: function( editor, item ) {
+			// If levels were already calculated, it means that this function was called for preceeding element. There's
+			// no need to do this heavy work.
+			if ( item.attributes && item.attributes[ 'cke-list-level' ] !== undefined ) {
+				return;
+			}
+
+			var indents = [ List.getElementIndentation( item ) ],
+				items = [ item ],
+				levels = [],
+				array = CKEDITOR.tools.array,
+				map = array.map;
+
+			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.isEdgeListItem( editor, item.next ) ) {
+				item = item.next;
+				indents.push( List.getElementIndentation( item ) );
+				items.push( item );
+			}
+
+			// An array with indentation difference between n and n-1 list item. It's 0 for the first one.
+			var indentationDiffs = map( indents, function( curIndent, i  ) {
+					return i === 0 ? 0 : curIndent - indents[ i - 1 ];
+				} ),
+				// Guess indentation step, but it must not be equal to 0.
+				indentationPerLevel = this.guessIndentationStep( array.filter( indents, function( val ) {
+					return val !== 0;
+				} ) );
+
+			// Here's the tricky part, we need to magically figure out what is the indentation difference between list level.
+			levels = map( indents, function( val ) {
+				// Make sure that the level is a full number.
+				return Math.round( val / indentationPerLevel );
+			} );
+
+			// Level can not be equal to 0, in case if it happens bump all the levels by 1,
+			if ( levels.indexOf( 0 ) !== -1 ) {
+				levels = map( levels, function( val ) {
+					return val + 1;
+				} );
+			}
+
+			// Assign levels to a proper place.
+			items.forEach( function( curItem, index ) {
+				curItem.attributes[ 'cke-list-level' ] = levels[ index ];
+			} );
+
+			return {
+				indents: indents,
+				levels: levels,
+				diffs: indentationDiffs
+			};
+		},
+
+		/**
+		 * Given array of list indentations, tries tu guess what is the indentation difference per list level. E.g. assuming that we
+		 * have something like:
+		 *
+		 *		* foo (indentation 30px)
+		 *				* bar (indentation 90px)
+		 *				* baz (indentation 90px)
+		 *					* baz (indentation 115px)
+		 *			* baz (indentation 60px)
+		 *
+		 * The method will return `30`.
+		 *
+		 * @param {Number[]} indentations Array of indentation sizes.
+		 * @returns {Number/null} Number or `null` if empty `indentations` was given.
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
+		 */
+		guessIndentationStep: function( indentations ) {
+			return indentations.length ? Math.min.apply( null, indentations ) : null;
+		}
+	};
+
+	Heuristics = CKEDITOR.plugins.pastefromword.heuristics;
+
 	// Expose this function since it's useful in other places.
 	List.setListSymbol.removeRedundancies = function( style, level ) {
 		// 'disc' and 'decimal' are the default styles in some cases - remove redundancy.
@@ -1677,4 +1816,19 @@
 	 * @cfg {Boolean} [pasteFromWordRemoveStyles=true]
 	 * @member CKEDITOR.config
 	 */
+
+	/**
+	 * Activates a heuristic that helps detecting lists pasted to editor in Microsoft Edge.
+	 *
+	 * The reason why this heuristic is needed is that when pasting Microsoft Edge will remove any Word-specific
+	 * metadata allowing to identify lists.
+	 *
+	 *		// Disables list heuristics for Edge.
+	 *		config.pasteFromWord_heuristicsEdgeList = false;
+	 *
+	 * @since 4.6.2
+	 * @cfg {Boolean} [pasteFromWord_heuristicsEdgeList=true]
+	 * @member CKEDITOR.config
+	*/
+	CKEDITOR.config.pasteFromWord_heuristicsEdgeList = true;
 } )();

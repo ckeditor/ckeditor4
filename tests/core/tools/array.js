@@ -80,6 +80,53 @@
 			assert.isFalse( isArray( { length: 0 } ), 'Case 3' );
 			assert.isFalse( isArray( 'asd' ), 'Case 4' );
 			assert.isTrue( isArray( [ 1, 2 ] ), 'Case 5' );
+		},
+
+		'test array.map': function() {
+			arrayAssert.itemsAreSame( [ 2, 4, 6 ], this.array.map( [ 1, 2, 3 ], function( a ) {
+				return a * 2;
+			} ) );
+
+			arrayAssert.itemsAreSame( [], this.array.map( [], function( a ) {
+				return a * 2;
+			} ) );
+
+			arrayAssert.itemsAreSame( [ 12, 10, 6 ], this.array.map( [ 3, 2, 1 ], function( a, i ) {
+				return a * this[ i ];
+			}, [ 4, 5, 6 ] ) );
+		},
+
+		'test array.map does not modify input array': function() {
+			var arr = [ 8, 4 ],
+				ret = this.array.map( arr, function() {
+					return 'a';
+				} );
+
+			// Make sure it returned a different array.
+			assert.areNotSame( arr, ret, 'Input arr was not modified' );
+		},
+
+		'test array.reduce': function() {
+			assert.areSame( 6, this.array.reduce( [ 1, 2, 3 ], function( acc, a ) {
+				return acc + a;
+			}, 0 ) );
+
+			assert.areSame( 9, this.array.reduce( [], function( acc, a ) {
+				return acc + a;
+			}, 9 ) );
+
+			arrayAssert.itemsAreSame( [ 4, 5 ], this.array.reduce( [ 4, 5, 6, 7 ], function( acc, a, i ) {
+				if ( this[ i ] ) {
+					acc.push( a );
+				}
+				return acc;
+			}, [], [ true, true, false, false ] ) );
+
+			arrayAssert.itemsAreSame( [ 1, 0, 2, 1, 3, 2 ], this.array.reduce( [ 1, 2, 3, 4, 5 ], function( acc, a ) {
+				acc.push( a - acc[ acc.length - 1 ] );
+
+				return acc;
+			}, [ 1 ] ) );
 		}
 	} );
 
