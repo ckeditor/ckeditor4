@@ -9,6 +9,7 @@ New Features:
 
 Fixed Issues:
 
+* [#16745](http://dev.ckeditor.com/ticket/16745): [Edge] Fixed: List items are lost when pasted from word.
 * [#16682](http://dev.ckeditor.com/ticket/16682): [Edge] Fixed: List gets pasted as a set of paragraphs. Added [`config.pasteFromWord_heuristicsEdgeList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWord_heuristicsEdgeList) option.
 * [#10373](http://dev.ckeditor.com/ticket/10373): Fixed: Context menu items can be dragged into the editor.
 * [#16728](http://dev.ckeditor.com/ticket/16728): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks editor in Quirks Mode.

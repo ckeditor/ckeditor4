@@ -1201,99 +1201,118 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		dissolveList: function( element ) {
-			var i, children = [],
-				deletedLists = [];
+			var nameIs = function( name ) {
+					return function( element ) {
+						return element.name == name;
+					};
+				},
+				isList = function( element ) {
+					return nameIs( 'ul' )( element ) || nameIs( 'ol' )( element );
+				},
+				arrayTools = CKEDITOR.tools.array,
+				elements = [],
+				children,
+				i;
 
 			element.forEach( function( child ) {
-				if ( child.name == 'li' ) {
-					var childChild = child.children[ 0 ];
-					if ( childChild && childChild.name && childChild.attributes.style && childChild.attributes.style.match( /mso-list:/i ) ) {
-						Style.pushStylesLower( child, { 'list-style-type': true, 'display': true } );
-
-						var childStyle = tools.parseCssText( childChild.attributes.style, true );
-
-						Style.setStyle( child, 'mso-list', childStyle[ 'mso-list' ], true );
-						Style.setStyle( childChild, 'mso-list', '' );
-
-						// If this style has a value it's usually "none". This marks such list elements for deletion.
-						if ( childStyle.display || childStyle.DISPLAY ) {
-							if ( childStyle.display ) {
-								Style.setStyle( child, 'display', childStyle.display, true );
-							} else {
-								Style.setStyle( child, 'display', childStyle.DISPLAY, true );
-							}
-						}
-					}
-
-					if ( child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
-						child.name = 'p';
-
-						child.attributes[ 'cke-dissolved' ] = true;
-
-						children.push( child );
-					}
-				}
-
-				// This fragment seems to look for nested lists and create cke-symbol attribute based on list type.
-				if ( child.name == 'ul' || child.name == 'ol' ) {
-					for ( var i = 0; i < child.children.length; i++ ) {
-						if ( child.children[ i ].name == 'li' ) {
-							var symbol,
-								type = child.attributes.type,
-								start = parseInt( child.attributes.start, 10 ) || 1;
-
-							if ( !type ) {
-								var style = tools.parseCssText( child.attributes.style );
-								type = style[ 'list-style-type' ];
-							}
-
-							switch ( type ) {
-								case 'disc':
-									symbol = '·';
-									break;
-								case 'circle':
-									symbol = 'o';
-									break;
-								case 'square':
-									symbol = '§';
-									break;
-								case '1':
-								case 'decimal':
-									symbol = ( start + i ) + '.';
-									break;
-								case 'a':
-								case 'lower-alpha':
-									symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + i ) + '.';
-									break;
-								case 'A':
-								case 'upper-alpha':
-									symbol = String.fromCharCode( 'A'.charCodeAt( 0 ) + start - 1 + i ) + '.';
-									break;
-								case 'i':
-								case 'lower-roman':
-									symbol = toRoman( start + i ) + '.';
-									break;
-								case 'I':
-								case 'upper-roman':
-									symbol = toRoman( start + i ).toUpperCase() + '.';
-									break;
-								default:
-									symbol = child.name == 'ul' ? '·' : ( start + i ) + '.';
-							}
-
-							child.children[ i ].attributes[ 'cke-symbol' ] = symbol;
-						}
-					}
-
-					deletedLists.push( child );
-				}
+				elements.push( child );
 			}, CKEDITOR.NODE_ELEMENT, false );
+
+			var items = arrayTools.filter( elements, nameIs( 'li' ) ),
+				lists = arrayTools.filter( elements, isList );
+
+			arrayTools.forEach( lists, function( list ) {
+				var type = list.attributes.type,
+					start = parseInt( list.attributes.start, 10 ) || 1,
+					level = countParents( isList, list ) + 1;
+
+				if ( !type ) {
+					var style = tools.parseCssText( list.attributes.style );
+					type = style[ 'list-style-type' ];
+				}
+
+				arrayTools.forEach( arrayTools.filter( list.children, nameIs( 'li' ) ), function( child, index ) {
+					var symbol;
+
+					switch ( type ) {
+						case 'disc':
+							symbol = '·';
+							break;
+						case 'circle':
+							symbol = 'o';
+							break;
+						case 'square':
+							symbol = '§';
+							break;
+						case '1':
+						case 'decimal':
+							symbol = ( start + index ) + '.';
+							break;
+						case 'a':
+						case 'lower-alpha':
+							symbol = String.fromCharCode( 'a'.charCodeAt( 0 ) + start - 1 + index ) + '.';
+							break;
+						case 'A':
+						case 'upper-alpha':
+							symbol = String.fromCharCode( 'A'.charCodeAt( 0 ) + start - 1 + index ) + '.';
+							break;
+						case 'i':
+						case 'lower-roman':
+							symbol = toRoman( start + index ) + '.';
+							break;
+						case 'I':
+						case 'upper-roman':
+							symbol = toRoman( start + index ).toUpperCase() + '.';
+							break;
+						default:
+							symbol = list.name == 'ul' ? '·' : ( start + index ) + '.';
+					}
+
+					child.attributes[ 'cke-symbol' ] = symbol;
+					child.attributes[ 'cke-list-level' ] = level;
+				} );
+			} );
+
+			children = arrayTools.reduce( items, function( acc, listElement ) {
+				var child = listElement.children[ 0 ];
+
+				if ( child && child.name && child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
+					Style.pushStylesLower( listElement, {
+						'list-style-type': true,
+						'display': true
+					} );
+
+					var childStyle = tools.parseCssText( child.attributes.style, true );
+
+					Style.setStyle( listElement, 'mso-list', childStyle[ 'mso-list' ], true );
+					Style.setStyle( child, 'mso-list', '' );
+					// mso-list takes precedence in determining the level.
+					delete listElement[ 'cke-list-level' ];
+
+					// If this style has a value it's usually "none". This marks such list elements for deletion.
+					var styleName = childStyle.display ? 'display' : childStyle.DISPLAY ? 'DISPLAY' : '';
+					if ( styleName ) {
+						Style.setStyle( listElement, 'display', childStyle[ styleName ], true );
+					}
+				}
+
+				// Don't include elements put there only to contain another list.
+				if ( listElement.children.length === 1 && isList( listElement.children[ 0 ] ) ) {
+					return acc;
+				}
+
+				listElement.name = 'p';
+				listElement.attributes[ 'cke-dissolved' ] = true;
+				acc.push( listElement );
+
+				return acc;
+			}, [] );
 
 			for ( i = children.length - 1; i >= 0; i-- ) {
 				children[ i ].insertAfter( element );
 			}
-			for ( i = deletedLists.length - 1; i >= 0; i-- ) {
-				delete deletedLists[ i ].name;
+			for ( i = lists.length - 1; i >= 0; i-- ) {
+				delete lists[ i ].name;
 			}
 
 			function toRoman( number ) {
@@ -1306,6 +1325,23 @@
 				if ( number >= 1 ) return 'i' + toRoman( number - 1 );
 				return '';
 			}
+
+			function countParents( condition, element ) {
+				return count( element, 0 );
+
+				function count( parent, number ) {
+					if ( !parent || !parent.parent ) {
+						return number;
+					}
+
+					if ( condition( parent.parent ) ) {
+						return count( parent.parent, number + 1 );
+					} else {
+						return count( parent.parent, number );
+					}
+				}
+			}
+
 		},
 
 		groupLists: function( listElements ) {
