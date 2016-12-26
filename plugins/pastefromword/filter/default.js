@@ -1818,10 +1818,10 @@
 	 */
 
 	/**
-	 * Set to `true` activates a heuristic that detects lists pasted into Microsoft Edge.
+	 * Activates a heuristic that helps detecting lists pasted to editor in Microsoft Edge.
 	 *
-	 * The reason why this heuristic is needed is that Microsoft Edge does not paste Word-specific metadata
-	 * allowing to identify lists.
+	 * The reason why this heuristic is needed is that when pasting Microsoft Edge will remove any Word-specific
+	 * metadata allowing to identify lists.
 	 *
 	 *		// Disables list heuristics for Edge.
 	 *		config.pasteFromWord_heuristicsEdgeList = false;
