@@ -1201,9 +1201,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		dissolveList: function( element ) {
-			var i, children,
-				elements = [],
-				nameIs = function( name ) {
+			var nameIs = function( name ) {
 					return function( element ) {
 						return element.name == name;
 					};
@@ -1211,7 +1209,10 @@
 				isList = function( element ) {
 					return nameIs( 'ul' )( element ) || nameIs( 'ol' )( element );
 				},
-				arrayTools = CKEDITOR.tools.array;
+				arrayTools = CKEDITOR.tools.array,
+				elements = [],
+				children,
+				i;
 
 			element.forEach( function( child ) {
 				elements.push( child );
