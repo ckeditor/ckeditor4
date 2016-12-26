@@ -1211,8 +1211,7 @@
 				isList = function( element ) {
 					return nameIs( 'ul' )( element ) || nameIs( 'ol' )( element );
 				},
-				arrayTools = CKEDITOR.tools.array,
-				map = arrayTools.map;
+				arrayTools = CKEDITOR.tools.array;
 
 			element.forEach( function( child ) {
 				elements.push( child );
@@ -1221,8 +1220,7 @@
 			var items = arrayTools.filter( elements, nameIs( 'li' ) ),
 				lists = arrayTools.filter( elements, isList );
 
-			// This is really a for-each. This function has side effects.
-			map( lists, function( list ) {
+			arrayTools.forEach( lists, function( list ) {
 				var type = list.attributes.type,
 					start = parseInt( list.attributes.start, 10 ) || 1,
 					level = countParents( isList, list ) + 1;
@@ -1232,8 +1230,7 @@
 					type = style[ 'list-style-type' ];
 				}
 
-				// Also a for-each with side effects.
-				map( arrayTools.filter( list.children, nameIs( 'li' ) ), function( child, index ) {
+				arrayTools.forEach( arrayTools.filter( list.children, nameIs( 'li' ) ), function( child, index ) {
 					var symbol;
 
 					switch ( type ) {
