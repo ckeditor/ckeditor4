@@ -1218,7 +1218,7 @@
 				elements.push( child );
 			}, CKEDITOR.NODE_ELEMENT, false );
 
-			var lis = arrayTools.filter( elements, nameIs( 'li' ) ),
+			var items = arrayTools.filter( elements, nameIs( 'li' ) ),
 				lists = arrayTools.filter( elements, isList );
 
 			// This is really a for-each. This function has side effects.
@@ -1275,7 +1275,7 @@
 				} );
 			} );
 
-			children = arrayTools.reduce( lis, function( acc, listElement ) {
+			children = arrayTools.reduce( items, function( acc, listElement ) {
 				var child = listElement.children[ 0 ];
 
 				if ( child && child.name && child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
@@ -1291,7 +1291,7 @@
 					// If this style has a value it's usually "none". This marks such list elements for deletion.
 					var styleName = childStyle.display ? 'display' : childStyle.DISPLAY ? 'DISPLAY' : '';
 					if ( styleName ) {
-						Style.setStyle( listElement, 'display', childStyle[styleName], true );
+						Style.setStyle( listElement, 'display', childStyle[ styleName ], true );
 					}
 				}
 
