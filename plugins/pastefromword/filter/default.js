@@ -1279,7 +1279,10 @@
 				var child = listElement.children[ 0 ];
 
 				if ( child && child.name && child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
-					Style.pushStylesLower( listElement, { 'list-style-type': true, 'display': true } );
+					Style.pushStylesLower( listElement, {
+						'list-style-type': true,
+						'display': true
+					} );
 
 					var childStyle = tools.parseCssText( child.attributes.style, true );
 
@@ -1327,6 +1330,7 @@
 
 			function countParents( condition, element ) {
 				return count( element, 0 );
+
 				function count( parent, number ) {
 					if ( !parent || !parent.parent ) {
 						return number;
@@ -1339,6 +1343,7 @@
 					}
 				}
 			}
+
 		},
 
 		groupLists: function( listElements ) {
