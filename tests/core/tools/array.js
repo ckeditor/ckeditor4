@@ -127,19 +127,6 @@
 
 				return acc;
 			}, [ 1 ] ) );
-		},
-
-		'test array.unique': function() {
-			arrayAssert.itemsAreSame( [ 1, 2 ], this.array.unique( [ 1, 1, 2, 2, 1 ] ), 'tc1' );
-			arrayAssert.itemsAreSame( [ 1 ], this.array.unique( [ 1 ] ), 'tc2' );
-			arrayAssert.itemsAreSame( [ 1, '1', null ], this.array.unique( [ 1, '1', '1', null ] ), 'tc3' );
-			arrayAssert.itemsAreSame( [], this.array.unique( [] ), 'tc4' );
-
-			// Make sure that original array is not modified.
-			var input = [ 0, 0, 0 ],
-				ret = this.array.unique( input );
-
-			assert.areNotSame( input, ret, 'Input and return are not the same array' );
 		}
 	} );
 

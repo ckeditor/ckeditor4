@@ -1846,28 +1846,6 @@
 					acc = fn.call( thisArg, acc, array[ i ], i, array );
 				}
 				return acc;
-			},
-
-			/**
-			 * Returns a clone of `array` with no duplicated items.
-			 *
-			 *		console.log( CKEDITOR.tools.array.unique( [ 1, '1', '1', null ] ) );
-			 *		// Logs: [ 1, "1", null ]
-			 *
-			 * @param {Array} array Input array.
-			 * @returns {Array} Array with unique items.
-			 * @since 4.6.2
-			 */
-			unique: function( array ) {
-				var ret = [];
-
-				this.forEach( array, function( item ) {
-					if ( this.indexOf( item ) === -1 ) {
-						this.push( item );
-					}
-				}, ret );
-
-				return ret;
 			}
 		}
 	};
