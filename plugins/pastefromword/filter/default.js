@@ -628,7 +628,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		thisIsAListItem: function( editor, element ) {
-			if ( Heuristics.edgeListItem( editor, element ) ) {
+			if ( Heuristics.isEdgeListItem( editor, element ) ) {
 				return true;
 			}
 
@@ -660,7 +660,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		convertToFakeListItem: function( editor, element ) {
-			if ( Heuristics.edgeListItem( editor, element ) ) {
+			if ( Heuristics.isEdgeListItem( editor, element ) ) {
 				Heuristics.assignListLevels( editor, element );
 			}
 
@@ -1594,7 +1594,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
-		edgeListItem: function( editor, item ) {
+		isEdgeListItem: function( editor, item ) {
 			if ( !CKEDITOR.env.edge || !editor.config.pasteFromWord_heuristicsEdgeList ) {
 				return false;
 			}
@@ -1614,7 +1614,7 @@
 		},
 
 		/**
-		 * Assigns list levels to `item` and all directly subsequent nodes for which {@link #edgeListItem} returns `true`.
+		 * Assigns list levels to `item` and all directly subsequent nodes for which {@link #isEdgeListItem} returns `true`.
 		 *
 		 * The algorithm determines list item level based on the lowest common non-zero difference in indentation
 		 * of two or more subsequent list-like elements.
@@ -1641,7 +1641,7 @@
 				array = CKEDITOR.tools.array,
 				map = array.map;
 
-			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.edgeListItem( editor, item.next ) ) {
+			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.isEdgeListItem( editor, item.next ) ) {
 				item = item.next;
 				indents.push( List.getElementIndentation( item ) );
 				items.push( item );

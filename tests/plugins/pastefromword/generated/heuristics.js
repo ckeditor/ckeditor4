@@ -19,7 +19,7 @@
 
 		'test assignListLevels': function() {
 			var paragraphs = this.getParserElementsFrom( 'tc1' ),
-				stub = sinon.stub( this.heuristics, 'edgeListItem' ).returns( true ),
+				stub = sinon.stub( this.heuristics, 'isEdgeListItem' ).returns( true ),
 				ret = this.heuristics.assignListLevels( this.editor, paragraphs[ 0 ] );
 
 			stub.restore();
@@ -36,7 +36,7 @@
 
 		'test assignListLevels zero indent': function() {
 			var paragraphs = this.getParserElementsFrom( 'tc2' ),
-				stub = sinon.stub( this.heuristics, 'edgeListItem' ).returns( true ),
+				stub = sinon.stub( this.heuristics, 'isEdgeListItem' ).returns( true ),
 				ret = this.heuristics.assignListLevels( this.editor, paragraphs[ 0 ] );
 
 			stub.restore();
