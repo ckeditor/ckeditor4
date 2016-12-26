@@ -1211,39 +1211,18 @@
 				isList = function( element ) {
 					return nameIs( 'ul' )( element ) || nameIs( 'ol' )( element );
 				},
-				// TODO: merge these with implementations from 16682.
-				map = function( fn, array ) {
-					var result = [];
-					for ( var i = 0; i < array.length; i++ ) {
-						result.push( fn( array[ i ], i ) );
-					}
-					return result;
-				},
-				reduce = function( fn, initial, array ) {
-					var acc = initial;
-					for ( var i = 0; i < array.length; i++ ) {
-						acc = fn( acc, array[ i ], i );
-					}
-					return acc;
-				},
-				filter = function( fn, array ) {
-					return reduce( function( acc, c, i ) {
-						if ( c ) {
-							acc.push( array[ i ] );
-						}
-						return acc;
-					}, [], map( fn, array ) );
-				};
+				arrayTools = CKEDITOR.tools.array,
+				map = arrayTools.map;
 
 			element.forEach( function( child ) {
 				elements.push( child );
 			}, CKEDITOR.NODE_ELEMENT, false );
 
-			var lis = filter( nameIs( 'li' ), elements ),
-				lists = filter( isList, elements );
+			var lis = arrayTools.filter( elements, nameIs( 'li' ) ),
+				lists = arrayTools.filter( elements, isList );
 
 			// This is really a for-each. This function has side effects.
-			map( function( list ) {
+			map( lists, function( list ) {
 				var type = list.attributes.type,
 					start = parseInt( list.attributes.start, 10 ) || 1,
 					level = countParents( isList, list ) + 1;
@@ -1254,7 +1233,7 @@
 				}
 
 				// Also a for-each with side effects.
-				map( function( child, index ) {
+				map( arrayTools.filter( list.children, nameIs( 'li' ) ), function( child, index ) {
 					var symbol;
 
 					switch ( type ) {
@@ -1293,10 +1272,10 @@
 
 					child.attributes[ 'cke-symbol' ] = symbol;
 					child.attributes[ 'cke-list-level' ] = level;
-				}, filter( nameIs( 'li' ), list.children ) );
-			}, lists );
+				} );
+			} );
 
-			children = reduce( function( acc, listElement ) {
+			children = arrayTools.reduce( lis, function( acc, listElement ) {
 				var child = listElement.children[ 0 ];
 
 				if ( child && child.name && child.attributes.style && child.attributes.style.match( /mso-list:/i ) ) {
@@ -1326,7 +1305,7 @@
 				acc.push( listElement );
 
 				return acc;
-			}, [], lis );
+			}, [] );
 
 			for ( i = children.length - 1; i >= 0; i-- ) {
 				children[ i ].insertAfter( element );
