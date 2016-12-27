@@ -67,7 +67,10 @@ function resize( table, callback ) {
 	var doc = table.getDocument(),
 		resizer = getResizer( doc ),
 		moveEvtMock = createMoveEventMock( table ),
-		evtMock = {	preventDefault: function() {} };
+		evtMock = {
+			getTarget: sinon.stub().returns( table ),
+			preventDefault: sinon.stub()
+		};
 
 	resizer.fire( 'mousedown', evtMock );
 	resizer.fire( 'mousemove', moveEvtMock );
