@@ -947,6 +947,16 @@
 		evt.data.preventDefault();
 	}
 
+	function fakeSelectionFocusHandler( evt ) {
+		var editor = evt.editor || evt.sender.editor;
+
+		if ( editor._.tableBookmarks ) {
+			editor.getSelection().selectBookmarks( editor._.tableBookmarks );
+
+			delete editor._.tableBookmarks;
+		}
+	}
+
 	function fakeSelectionBlurHandler( evt ) {
 		var editor = evt.editor || evt.sender.editor,
 			selection = editor.getSelection(),
@@ -960,16 +970,6 @@
 			fakeSelectCells( editor, cells );
 
 			editor._.tableBookmarks = selection.createBookmarks( true );
-		}
-	}
-
-	function fakeSelectionFocusHandler( evt ) {
-		var editor = evt.editor || evt.sender.editor;
-
-		if ( editor._.tableBookmarks ) {
-			editor.getSelection().selectBookmarks( editor._.tableBookmarks );
-
-			delete editor._.tableBookmarks;
 		}
 	}
 
