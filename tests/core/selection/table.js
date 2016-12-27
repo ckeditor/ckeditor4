@@ -1,5 +1,5 @@
 /* bender-tags: editor,table */
-/* bender-ckeditor-plugins: basicstyles,undo,table,tabletools,sourcearea,toolbar,elementspath */
+/* bender-ckeditor-plugins: basicstyles,undo,table,tabletools,sourcearea,toolbar */
 
 ( function() {
 	'use strict';
@@ -10,8 +10,6 @@
 			removePlugins: 'htmlwriter,entities'
 		}
 	};
-
-	CKEDITOR.addCss( 'td{ border: 1px solid black !important }' );
 
 	var selectedClass = 'cke_table-faked-selection',
 		isQuirkyEnv = ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari;
