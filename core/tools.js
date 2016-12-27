@@ -1691,7 +1691,6 @@
 
 					switch ( widths.length ) {
 						case 1:
-							// element.styles.margin = widths[0];
 							mapStyles( [ 0, 0, 0, 0 ] );
 							break;
 						case 2:
