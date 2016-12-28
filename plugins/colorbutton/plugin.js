@@ -315,7 +315,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  *
  *		config.colorButton_colors = 'FontColor1/FF9900,FontColor2/0066CC,FontColor3/F00';
  *
- *		// Pre 4.6.2. color palette.
+ *		// CKEditor color palette available before 4.6.2 version.
  *		config.colorButton_colors =
  *			'000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,' +
  *			'B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,' +
