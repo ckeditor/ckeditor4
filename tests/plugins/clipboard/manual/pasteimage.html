@@ -1,0 +1,11 @@
+<div id="editor">
+	<p>Paste image from clipboard here:</p>
+</div>
+
+<script>
+	if ( !CKEDITOR.env.gecko ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>
