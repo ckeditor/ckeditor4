@@ -73,11 +73,6 @@
 
 /**
  * A template for the URL of the provider endpoint. This URL will be queried for each resource to be embedded.
- * By default CKEditor does not use any provider, although there's a ready to use URL available:
- *
- *		//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}
- *
- * I'ts recommended to set up an account on the [Iframely](https://iframely.com/) service for better API usage tracking.
  *
  * The template might use the following parameters:
  *
@@ -88,13 +83,20 @@
  *
  *		config.embed_provider = '//example.com/api/oembed-proxy?resource-url={url}&callback={callback}';
  *
+ * By default CKEditor does not use any provider, although there's a ready to use URL available:
+ *
+ *		config.embed_provider = '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
+ *
+ * I'ts recommended to set up an account on the [Iframely](https://iframely.com/) service for better API usage tracking.
+ *
  * Read more in the [documentation](#!/guide/dev_media_embed)
  * and see the [SDK sample](http://sdk.ckeditor.com/samples/mediaembed.html).
  *
  * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
  *
+ * **Important note:** Prior to version 4.6.2 this configuration option defaulted to `//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}` string.
+ *
  * @since 4.5
- * @cfg {String} [embed_provider=//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}]
- * ** Since 4.6 **: embed_provider defaults to an empty string.
+ * @cfg {String} [embed_provider='']
  * @member CKEDITOR.config
  */
