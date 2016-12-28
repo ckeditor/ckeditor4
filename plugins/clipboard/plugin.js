@@ -148,15 +148,17 @@
 			// Convert image file (if present) to base64 string for Firefox. Do it as the first
 			// step as the conversion is asynchronous and should hold all further paste processing.
 			if ( CKEDITOR.env.gecko ) {
-				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ];
+				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
+					latestId;
 
 				editor.on( 'paste', function( evt ) {
 					var dataObj = evt.data,
-						data = dataObj.dataValue;
+						data = dataObj.dataValue,
+						dataTransfer = dataObj.dataTransfer;
 
 					// If data empty check for image content inside data transfer. #16705
-					if ( !data && dataObj.dataTransfer && dataObj.dataTransfer.getFilesCount() == 1 ) {
-						var file = dataObj.dataTransfer.getFile( 0 );
+					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
+						var file = dataTransfer.getFile( 0 );
 
 						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
 							var fileReader = new FileReader();
@@ -178,6 +180,8 @@
 							}, false );
 
 							fileReader.readAsDataURL( file );
+
+							latestId = dataObj.dataTransfer.id;
 
 							evt.stop();
 						}
