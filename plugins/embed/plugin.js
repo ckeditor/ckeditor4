@@ -74,7 +74,7 @@
 /**
  * A template for the URL of the provider endpoint. This URL will be queried for each resource to be embedded.
  *
- * The template might use the following parameters:
+ * It uses the following parameters:
  *
  *	* `url` &ndash; The URL of the requested media, e.g. `https://twitter.com/ckeditor/status/401373919157821441`.
  *	* `callback` &ndash; The name of the globally available callback used for JSONP requests.
@@ -87,7 +87,9 @@
  *
  *		config.embed_provider = '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
  *
- * I'ts recommended to set up an account on the [Iframely](https://iframely.com/) service for better API usage tracking.
+ * However above endpoint contains certain limitations, e.g. can't embed Google Maps content.
+ * It's recommended to set up an account on the [Iframely](https://iframely.com/) service for
+ * better control over embedded content.
  *
  * Read more in the [documentation](#!/guide/dev_media_embed)
  * and see the [SDK sample](http://sdk.ckeditor.com/samples/mediaembed.html).
