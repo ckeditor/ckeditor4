@@ -267,15 +267,11 @@
 
 					editor.execCommand( 'cellMerge' );
 
-					// assert.isTrue( !!selection.isFake, 'isFake is set' );
-					// assert.isTrue( selection.isInTable(), 'isInTable is true' );
-					// assert.areSame( ranges.length, selection.getRanges().length, 'Multiple ranges are selected' );
-					// assert.isNull( selection.getNative(), 'getNative() should be null' );
-					// assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
-
-					// assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
-					// assert.isTrue( editor.editable().find( 'td' ).getItem( 1 ).equals( selection.getSelectedElement() ),
-					// 	'Selected element equals to the first selected cell' );
+					assert.isTrue( !!selection.isFake, 'isFake is set' );
+					assert.isTrue( selection.isInTable(), 'isInTable is true' );
+					assert.areSame( 1, selection.getRanges().length, 'New selection ranges count' );
+					assert.isNull( selection.getNative(), 'getNative() should be null' );
+					assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
 
 					assert.areSame( expected, editor.getData(), 'Editor data' );
 				} );
