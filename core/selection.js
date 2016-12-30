@@ -1965,7 +1965,7 @@
 
 			if ( restore ) {
 				var selectedElement = this.getSelectedElement(),
-					ranges = !selectedElement && this.getRanges(),
+					ranges = this.getRanges(),
 					faked = this.isFake;
 			}
 
@@ -1979,7 +1979,10 @@
 				if ( !( common && common.getAscendant( 'body', 1 ) ) )
 					return;
 
-				if ( faked )
+				if ( isTableSelection( ranges ) ) {
+					// Tables have it's own selection method.
+					performFakeTableSelection.call( this, ranges );
+				} else if ( faked )
 					this.fake( selectedElement );
 				else if ( selectedElement )
 					this.selectElement( selectedElement );
