@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar */
+/* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar,floatingspace */
 
 ( function() {
 	'use strict';
@@ -64,6 +64,12 @@
 		for ( i = 0; i < ranges.length; i++ ) {
 			getTableElementFromRange( ranges[ i ] ).addClass( 'cke_marked' );
 		}
+	}
+
+	function prepareFocusFrame() {
+		// prepare focus iframe
+		var frame = CKEDITOR.document.findOne( '#focusIframe' );
+		frame.getFrameDocument().write( '<div contenteditable="true">foo</div>' );
 	}
 
 	function doTest( editor, bot, name, command, cellsIndexes, skipCheckingSelection ) {
@@ -278,8 +284,47 @@
 			} );
 
 			wait();
+		},
+
+		'test refocusing the editor': function( editor ) {
+			var ranges,
+				contentCells;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			contentCells = editor.editable().find( 'td' );
+
+			ranges = getRangesForCells( editor, [ 1, 4 ] );
+			editor.getSelection().selectRanges( ranges );
+
+			// Now, the we want to move the focus into a nested iframe, so that we guarantee putting focus into another document. This will
+			// force blur event inside of the editor.
+			CKEDITOR.document.findOne( '#focusIframe' ).getFrameDocument().findOne( 'div' ).focus();
+
+			editor.focus();
+			// Make sure inline editable is focused.
+			editor.editable().$.focus();
+
+			// Now time to assert.
+			ranges = editor.getSelection().getRanges();
+
+			assert.areSame( 2, ranges.length, 'Range count' );
+			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( contentCells.getItem( 1 ) ), 'Range[ 0 ] encloses correct element' );
+			assert.isTrue( ranges[ 1 ].getEnclosedNode().equals( contentCells.getItem( 4 ) ), 'Range[ 1 ] encloses correct element' );
+
+			// Check the real selection.
+			// var realSelection = editor.getSelection( 1 ),
+			// 	realRanges = realSelection.getRanges(),
+			// 	realRangePath = realRanges[ 0 ].startPath();
+
+			// This fails for the time being - the reason is that during auto fake selection upcasting, focus goes into a hidden fake selection
+			// container.
+			// assert.isNotNull( realRangePath.contains( contentCells.getItem( 1 ) ), 'Real range start is contained within proper element' );
 		}
 	};
+
+	// Prepare focus iframe before starting tests.
+	prepareFocusFrame();
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 
