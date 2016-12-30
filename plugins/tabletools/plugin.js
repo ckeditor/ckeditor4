@@ -947,32 +947,6 @@
 		evt.data.preventDefault();
 	}
 
-	function fakeSelectionFocusHandler( evt ) {
-		var editor = evt.editor || evt.sender.editor;
-
-		if ( editor._.tableBookmarks ) {
-			editor.getSelection().selectBookmarks( editor._.tableBookmarks );
-
-			delete editor._.tableBookmarks;
-		}
-	}
-
-	function fakeSelectionBlurHandler( evt ) {
-		var editor = evt.editor || evt.sender.editor,
-			selection = editor.getSelection(),
-			cells = editor.editable().find( '.' + fakeSelectedClass );
-
-		if ( selection.isInTable() ) {
-			editor._.tableBookmarks = selection.createBookmarks( true );
-		} else if ( cells.count() > 0 ) {
-			cells = getCellsBetween( cells.getItem( 0 ), cells.getItem( cells.count() - 1 ) );
-
-			fakeSelectCells( editor, cells );
-
-			editor._.tableBookmarks = selection.createBookmarks( true );
-		}
-	}
-
 	function copyTable( editor, isCut ) {
 		var selection = editor.getSelection(),
 			bookmarks = selection.createBookmarks(),
@@ -1698,10 +1672,6 @@
 
 					editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
 					editable.attachListener( editable, 'selectionchange', fakeSelectionChangeHandler );
-
-					// Restore previous fake selection in case of context menu.
-					editable.attachListener( editable, 'blur', fakeSelectionBlurHandler );
-					editable.attachListener( editable, 'focus', fakeSelectionFocusHandler );
 
 					// Setup copybin.
 					if ( CKEDITOR.plugins.clipboard && !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
