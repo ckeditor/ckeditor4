@@ -273,11 +273,12 @@
 
 					editor.execCommand( 'cellMerge' );
 
-					assert.isTrue( !!selection.isFake, 'isFake is set' );
-					assert.isTrue( selection.isInTable(), 'isInTable is true' );
-					assert.areSame( 1, selection.getRanges().length, 'New selection ranges count' );
-					assert.isNull( selection.getNative(), 'getNative() should be null' );
-					assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
+					var rangesAfterCommand = editor.getSelection().getRanges(),
+						expectedSelectionHolder = editor.editable().find( 'td' ).getItem( 1 );
+
+					assert.areSame( 1, rangesAfterCommand.length, 'Range count' );
+					assert.isTrue( rangesAfterCommand[ 0 ].collapsed, 'Range is collapsed' );
+					assert.isNotNull( rangesAfterCommand[ 0 ].startPath().contains( expectedSelectionHolder ), 'Range is collapsed' );
 
 					assert.areSame( expected, editor.getData(), 'Editor data' );
 				} );
@@ -311,15 +312,7 @@
 			assert.areSame( 2, ranges.length, 'Range count' );
 			assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( contentCells.getItem( 1 ) ), 'Range[ 0 ] encloses correct element' );
 			assert.isTrue( ranges[ 1 ].getEnclosedNode().equals( contentCells.getItem( 4 ) ), 'Range[ 1 ] encloses correct element' );
-
-			// Check the real selection.
-			// var realSelection = editor.getSelection( 1 ),
-			// 	realRanges = realSelection.getRanges(),
-			// 	realRangePath = realRanges[ 0 ].startPath();
-
-			// This fails for the time being - the reason is that during auto fake selection upcasting, focus goes into a hidden fake selection
-			// container.
-			// assert.isNotNull( realRangePath.contains( contentCells.getItem( 1 ) ), 'Real range start is contained within proper element' );
+			assert.areSame( 1,  editor.getSelection().isFake, 'Selection remains faked' );
 		}
 	};
 
