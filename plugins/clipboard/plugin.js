@@ -145,6 +145,50 @@
 
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
+			// Convert image file (if present) to base64 string for Firefox. Do it as the first
+			// step as the conversion is asynchronous and should hold all further paste processing.
+			if ( CKEDITOR.env.gecko ) {
+				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
+					latestId;
+
+				editor.on( 'paste', function( evt ) {
+					var dataObj = evt.data,
+						data = dataObj.dataValue,
+						dataTransfer = dataObj.dataTransfer;
+
+					// If data empty check for image content inside data transfer. #16705
+					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
+						var file = dataTransfer.getFile( 0 );
+
+						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
+							var fileReader = new FileReader();
+
+							// Convert image file to img tag with base64 image.
+							fileReader.addEventListener( 'load', function() {
+								evt.data.dataValue = '<img src="' + fileReader.result + '" />';
+								editor.fire( 'paste', evt.data );
+							}, false );
+
+							// Proceed with normal flow if reading file was aborted.
+							fileReader.addEventListener( 'abort', function() {
+								editor.fire( 'paste', evt.data );
+							}, false );
+
+							// Proceed with normal flow if reading file failed.
+							fileReader.addEventListener( 'error', function() {
+								editor.fire( 'paste', evt.data );
+							}, false );
+
+							fileReader.readAsDataURL( file );
+
+							latestId = dataObj.dataTransfer.id;
+
+							evt.stop();
+						}
+					}
+				}, null, null, 1 );
+			}
+
 			editor.on( 'paste', function( evt ) {
 				// Init `dataTransfer` if `paste` event was fired without it, so it will be always available.
 				if ( !evt.data.dataTransfer ) {
