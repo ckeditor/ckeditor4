@@ -4,7 +4,7 @@
 
 ## Scenario 1
 
-1. Place caret on the beginning of the text.
+1. Place caret at the beginning of the text.
 1. Change font family using Font dropdown.
 1. Type something.
 
@@ -16,14 +16,13 @@
 
 ## Scenario 3
 
-1. Place caret on the end of the text in the way that existing styles are recognized.
+1. Place caret at the end of the text so that existing styles are recognized.
 1. Change font size using Size dropdown.
 1. Type something.
 
 ### Expected:
-Styles are preserved and typed text is styles as rest of the text (except the one changed style).
+Styles are preserved and typed text is styled in the same way as the rest of the text (with the exception of the styles that were changed).
 
 ### Unexpected:
-Some styles are lost after changing font family/size. Typed text is styled differently
-(except the one changed style) than the rest of the text.
+Some styles are lost after changing font family/size. Typed text is styled(without taking into account styles that were explicitly changed) differently than the rest of the text.
 
