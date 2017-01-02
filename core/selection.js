@@ -37,7 +37,7 @@
 		}
 	}
 
-	function isTableSelection( ranges ) {
+	function isTableSelection( ranges, allowPartially ) {
 		var node,
 			i;
 
@@ -55,7 +55,8 @@
 		}
 
 		// Edge case: partially selected text node inside one table cell or cursor inside cell.
-		if ( ranges.length === 1 && ( ranges[ 0 ].collapsed || isPartiallySelected( ranges[ 0 ] ) ) ) {
+		if ( !allowPartially && ranges.length === 1 &&
+			( ranges[ 0 ].collapsed || isPartiallySelected( ranges[ 0 ] ) ) ) {
 			return false;
 		}
 
@@ -86,8 +87,10 @@
 			return false;
 		}
 
+		// In case of WebKit, when checking real selection, we must allow selection to be partial.
+		// Otherwise the check will fail for table selection with opened context menu.
 		if ( ( ranges.length === 1 && ranges[ 0 ].collapsed ) ||
-			( isTableSelection( ranges ) && isTableSelection( fakeRanges ) ) ) {
+			( isTableSelection( ranges, !!CKEDITOR.env.webkit ) && isTableSelection( fakeRanges ) ) ) {
 			return true;
 		}
 
@@ -318,7 +321,7 @@
 
 		if ( sel ) {
 			realSel = this.getSelection( 1 );
-
+			//realSel && console.log( realSel.getRanges()[ 0] , isRealTableSelection( realSel.getRanges(), sel.getRanges() ) );
 			// If real (not locked/stored) selection was moved from hidden container
 			// or is not a table one, then the fake-selection must be invalidated.
 			if ( !realSel || ( !realSel.isHidden() && !isRealTableSelection( realSel.getRanges(), sel.getRanges() ) ) ) {
