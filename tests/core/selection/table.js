@@ -1058,6 +1058,57 @@
 
 			editor.editable().fire( 'selectionchange' );
 			wait();
+		},
+
+		'Simulating opening context menu in the different table (WebKit, macOS)': function() {
+			if ( !CKEDITOR.env.webkit ) {
+				assert.ignore();
+			}
+
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				realSelection,
+				ranges,
+				range,
+				txtNode;
+
+			bender.tools.setHtmlWithSelection( editor,
+				CKEDITOR.tools.repeat( CKEDITOR.document.getById( 'simpleTable' ).getHtml(), 2 ) );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
+
+			selection.selectRanges( ranges );
+
+			// Stub reset method to prevent overwriting fake selection on selectRanges.
+			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
+
+			// We must restore this method before any other selectionchange listeners
+			// to be sure that selectionchange works as intended.
+			editor.editable().once( 'selectionchange', function() {
+				CKEDITOR.dom.selection.prototype.reset.restore();
+			}, null, null, -2 );
+
+			realSelection = editor.getSelection( 1 );
+			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] ) [ 0 ];
+			txtNode = getTextNodeFromRange( range );
+
+			range.setStart( txtNode, 0 );
+			range.setEnd( txtNode, 2 );
+			realSelection.selectRanges( [ range ] );
+
+			editor.editable().once( 'selectionchange', function() {
+				resume( function() {
+					assert.isFalse( !!selection.isFake, 'isFake is noy set' );
+					assert.isFalse( selection.isInTable(), 'isInTable is false' );
+					assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
+					assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
+
+					clearTableSelection( editor.editable() );
+				} );
+			} );
+
+			editor.editable().fire( 'selectionchange' );
+			wait();
 		}
 	} );
 }() );
