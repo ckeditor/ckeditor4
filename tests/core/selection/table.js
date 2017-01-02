@@ -895,17 +895,24 @@
 			range.collapse();
 			realSelection.selectRanges( [ range ] );
 
-			assert.isTrue( !!selection.isFake, 'isFake is set' );
-			assert.isTrue( selection.isInTable(), 'isInTable is true' );
-			assert.areSame( ranges.length, selection.getRanges().length, 'Multiple ranges are selected' );
-			assert.isNull( selection.getNative(), 'getNative() should be null' );
-			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
+			editor.editable().once( 'selectionchange', function() {
+				resume( function() {
+					assert.isTrue( !!selection.isFake, 'isFake is set' );
+					assert.isTrue( selection.isInTable(), 'isInTable is true' );
+					assert.areSame( ranges.length, selection.getRanges().length, 'Multiple ranges are selected' );
+					assert.isNull( selection.getNative(), 'getNative() should be null' );
+					assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
 
-			assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
-			assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
-				'Selected element equals to the first selected cell' );
+					assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
+					assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
+						'Selected element equals to the first selected cell' );
 
-			clearTableSelection( editor.editable() );
+					clearTableSelection( editor.editable() );
+				} );
+			} );
+
+			editor.editable().fire( 'selectionchange' );
+			wait();
 		},
 
 		'Simulating opening context menu in the different table': function() {
@@ -937,14 +944,21 @@
 			range.collapse();
 			realSelection.selectRanges( [ range ] );
 
-			assert.isFalse( !!selection.isFake, 'isFake is noy set' );
-			assert.isFalse( selection.isInTable(), 'isInTable is false' );
-			assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
-			assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
+			editor.editable().once( 'selectionchange', function() {
+				resume( function() {
+					assert.isFalse( !!selection.isFake, 'isFake is noy set' );
+					assert.isFalse( selection.isInTable(), 'isInTable is false' );
+					assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
+					assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
 
-			assert.isTrue( !!selection.getRanges()[ 0 ].collapsed, 'Selection is collapsed' );
+					assert.isTrue( !!selection.getRanges()[ 0 ].collapsed, 'Selection is collapsed' );
 
-			clearTableSelection( editor.editable() );
+					clearTableSelection( editor.editable() );
+				} );
+			} );
+
+			editor.editable().fire( 'selectionchange' );
+			wait();
 		},
 
 		'Simulating opening context menu in the paragraph': function() {
@@ -973,17 +987,22 @@
 			range = editor.createRange();
 
 			range.selectNodeContents( editor.editable().findOne( 'p' ) );
-			range.collapse();
+
 			realSelection.selectRanges( [ range ] );
 
-			assert.isFalse( !!selection.isFake, 'isFake is not set' );
-			assert.isFalse( selection.isInTable(), 'isInTable is false' );
-			assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
-			assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
+			editor.editable().once( 'selectionchange', function() {
+				resume( function() {
+					assert.isFalse( !!selection.isFake, 'isFake is not set' );
+					assert.isFalse( selection.isInTable(), 'isInTable is false' );
+					assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
+					assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
 
-			assert.isTrue( !!selection.getRanges()[ 0 ].collapsed, 'Selection is collapsed' );
+					clearTableSelection( editor.editable() );
+				} );
+			} );
 
-			clearTableSelection( editor.editable() );
+			editor.editable().fire( 'selectionchange' );
+			wait();
 		},
 
 		'Simulating opening context menu in the same table (WebKit, macOS)': function() {
