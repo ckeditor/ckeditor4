@@ -163,9 +163,19 @@
 
 	bender.test( {
 		'init': function() {
+			var initialDelay = CKEDITOR.focusManager._.blurDelay;
+
+			// Due to asynchronous nature of editor's blurring,
+			// blur handler is called after switching focus to the next editor.
+			// In case of inline editors in Chrome it causes to clear the selection
+			// and breaks the editor.
+			CKEDITOR.focusManager._.blurDelay = 0;
+
 			for ( var name in bender.editors ) {
 				bender.editors[ name ].insertText( name );
 			}
+
+			CKEDITOR.focusManager._.blurDelay = initialDelay;
 		},
 
 		'test config.title implies editor.title': function() {
