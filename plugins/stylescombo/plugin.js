@@ -102,7 +102,14 @@
 					var style = styles[ value ],
 						elementPath = editor.elementPath();
 
-					editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
+					// When more then one style from the same group is active ( which is not ok ),
+					// remove all other styles from this group and apply selected style.
+					if ( style.group && style.removeStylesFromSameGroup( editor ) ) {
+						editor.applyStyle( style );
+					} else {
+						editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
+					}
+
 					editor.fire( 'saveSnapshot' );
 				},
 
