@@ -102,8 +102,8 @@
 					var style = styles[ value ],
 						elementPath = editor.elementPath();
 
-					// When more then one style from same group is active ( which is not ok ),
-					// remove all other styles from the same group and apply selected style.
+					// When more then one style from the same group is active ( which is not ok ),
+					// remove all other styles from this group and apply selected style.
 					if ( style.group && style.removeStylesFromSameGroup( editor ) ) {
 						editor.applyStyle( style );
 					} else {

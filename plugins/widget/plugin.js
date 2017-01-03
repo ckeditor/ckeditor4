@@ -3494,7 +3494,7 @@
 				 * Array of the groups that this style belongs to.
 				 * Styles assigned to the same group cannot be combined.
 				 *
-				 * @since 4.6.0
+				 * @since 4.6.2
 				 * @property {Array} group
 				 */
 				this.group = typeof styleDefinition.group == 'string' ? [ styleDefinition.group ] : styleDefinition.group;
@@ -3545,9 +3545,9 @@
 			 * current style.
 			 * Returns true if any style was removed, otherwise returns false.
 			 *
-			 * @since 4.6.0
+			 * @since 4.6.2
 			 * @param {CKEDITOR.editor} editor
-			 * @returns {boolean}
+			 * @returns {Boolean}
 			 */
 			removeStylesFromSameGroup: function( editor ) {
 				var stylesFromSameGroup,
