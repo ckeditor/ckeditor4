@@ -4,11 +4,12 @@
 
 ## Scenario
 
-1. Open the `Find` dialog.
-2. Type one of the words from the editor into the _Find what_ input and click _Find_.
-3. Close the dialog.
+1. Add a new paragraph with at least two words beneath the one already present.
+2. Open the `Find` dialog.
+3. Type one of the newly added words from the editor into the _Find what_ input and click _Find_.
+4. Close the dialog.
 
-Make sure to go through this scenario with all the words.
+Make sure to go through this scenario with all the newly added words.
 
 ### Expected result:
 
