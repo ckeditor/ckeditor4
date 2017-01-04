@@ -9,6 +9,7 @@ New Features:
 
 Fixed Issues:
 
+* [#14856](http://dev.ckeditor.com/ticket/14856): Fixed: Font size and font family reset each other when modified at certain positions.
 * [#13818](http://dev.ckeditor.com/ticket/13818): Fixed: Allow to group [Widget](http://ckeditor.com/addon/widget) [style definitions](http://docs.ckeditor.com/#!/guide/dev_styles-section-widget-styles), so applying one style disables the other.
 * [#16745](http://dev.ckeditor.com/ticket/16745): [Edge] Fixed: List items are lost when pasted from word.
 * [#16682](http://dev.ckeditor.com/ticket/16682): [Edge] Fixed: List gets pasted as a set of paragraphs. Added [`config.pasteFromWord_heuristicsEdgeList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWord_heuristicsEdgeList) option.
