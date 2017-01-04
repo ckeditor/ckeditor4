@@ -24,5 +24,6 @@
 Styles are preserved and typed text is styled in the same way as the rest of the text (with the exception of the styles that were changed).
 
 ### Unexpected:
-Some styles are lost after changing font family/size. Typed text is styled(without taking into account styles that were explicitly changed) differently than the rest of the text.
+Some styles are lost after changing font family/size. Typed text is styled differently
+(except the one changed style) than the rest of the text.
 
