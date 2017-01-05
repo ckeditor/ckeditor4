@@ -182,6 +182,7 @@
 			} );
 		},
 
+		// 13763
 		'test change event not fired on type after paste': function() {
 			this.editorBot.setHtmlWithSelection( '<p>foo^</p>' );
 
