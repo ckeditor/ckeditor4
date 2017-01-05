@@ -9,6 +9,7 @@ New Features:
 
 Fixed Issues:
 
+* [#13446](http://dev.ckeditor.com/ticket/13446): [Chrome] Fixed: It is possible to type in an unfocused inline editor.
 * [#14856](http://dev.ckeditor.com/ticket/14856): Fixed: Font size and font family reset each other when modified at certain positions.
 * [#13818](http://dev.ckeditor.com/ticket/13818): Fixed: Allow to group [Widget](http://ckeditor.com/addon/widget) [style definitions](http://docs.ckeditor.com/#!/guide/dev_styles-section-widget-styles), so applying one style disables the other.
 * [#16745](http://dev.ckeditor.com/ticket/16745): [Edge] Fixed: List items are lost when pasted from word.
