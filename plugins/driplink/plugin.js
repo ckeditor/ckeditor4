@@ -116,7 +116,8 @@
 					url: {
 						protocol: "",
 						url: evt.data.href
-					}
+					},
+					"class": evt.data["class"]
 				};
 
 				var selection = editor.getSelection(),
@@ -652,6 +653,7 @@
 						url = ( data.url && CKEDITOR.tools.trim( data.url.url ) ) || '';
 
 					set[ 'data-cke-saved-href' ] = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
+					set["class"] = data["class"];
 
 					break;
 				case 'anchor':
