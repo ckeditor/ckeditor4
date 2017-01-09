@@ -4,6 +4,21 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'en', {
 	border: 'Border size',
+	width:"Width",
+	height:"Height",
+	borderstyle:"Border Style",
+	borderstyleNone:"none",
+	borderstyleSolid:"solid",
+	borderstyleDotted:"dotted",
+	borderstyleDashed:"dashed",
+	borderstyleHidden:"hidden",
+	borderstyleDouble:"double",
+	borderstyleGroove:"groove",
+	borderstyleRidge:"ridge",
+	borderstyleInset:"inset",
+	borderstyleOutset:"outset",
+	borderstyleInitial:"initial",
+	borderstyleInherit:"inherit",
 	caption: 'Caption',
 	cell: {
 		menu: 'Cell',
