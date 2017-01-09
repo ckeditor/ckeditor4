@@ -791,11 +791,15 @@
 				var range;
 				if ( finder.matchRange && finder.matchRange.isMatched() ) {
 					finder.matchRange.removeHighlight();
-					editor.focus();
 
 					range = finder.matchRange.toDomRange();
 					if ( range )
 						editor.getSelection().selectRanges( [ range ] );
+
+					// Focus must be restored to the editor after selecting range.
+					// Otherwise there are issues when selecting word from
+					// newly added paragraphs (#14869).
+					editor.focus();
 				}
 
 				// Clear current session before dialog close
