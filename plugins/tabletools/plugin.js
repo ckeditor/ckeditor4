@@ -795,6 +795,18 @@
 		editor.getSelection().selectRanges( ranges );
 	}
 
+	function restoreFakeSelection( editor ) {
+		var cells = editor.editable().find( '.' + fakeSelectedClass );
+
+		if ( cells.count() < 1 ) {
+			return;
+		}
+
+		cells = getCellsBetween( cells.getItem( 0 ), cells.getItem( cells.count() - 1 ) );
+
+		fakeSelectCells( editor, cells );
+	}
+
 	function fakeSelectByMouse( editor, cellOrTable, evt ) {
 		var selectedCells = getSelectedCells( editor.getSelection( true ) ),
 			cell = !cellOrTable.is( 'table' ) ? cellOrTable : null,
@@ -893,8 +905,8 @@
 			return selectedTable.equals( table ) || selectedTable.contains( table );
 		}
 
-		function isEditableArea( node ) {
-			return node.equals( editor.editable() ) || node.equals( editor.document.getDocumentElement() );
+		function isOutsideTable( node ) {
+			return !node.getAscendant( 'table', true ) && node.getDocument().equals( editor.document );
 		}
 
 		function canClearSelection( evt, selection, selectedTable, table ) {
@@ -908,7 +920,7 @@
 			// 2. User opens context menu not in the selected table.
 			// 3. Mouse is released on element other than editable root.
 			if ( evt.name === 'mouseup' && !isSameTable( selectedTable, table ) &&
-				!isEditableArea( evt.data.getTarget() ) ) {
+				!isOutsideTable( evt.data.getTarget() ) ) {
 				return true;
 			}
 
@@ -931,6 +943,12 @@
 		}
 
 		if ( evt.name === 'mouseup' ) {
+			// If the selection ended outside of the table, there's a chance that selection was messed up.
+			// In that case, we just reselect cells.
+			if ( isOutsideTable( evt.data.getTarget() ) ) {
+				restoreFakeSelection( editor );
+			}
+
 			fakeSelection = { active: false };
 		}
 	}
