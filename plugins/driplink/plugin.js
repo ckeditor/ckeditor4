@@ -78,6 +78,26 @@
 			editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 			editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
 
+			editor.addCommand( 'dripbutton', {
+				allowedContent: allowed,
+				requiredContent: required,
+				exec: function( editor ) {
+					var selection = editor.getSelection(),
+						element = null;
+
+					// Fill in all the relevant fields if there's already one link selected.
+					if ( ( element = CKEDITOR.plugins.link.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) ) {
+						// Don't change selection if some element is already selected.
+						// For example - don't destroy fake selection.
+						if ( !selection.getSelectedElement() )
+							selection.selectElement( element );
+					} else
+						element = null;
+
+					editor.fire("linkDialogRequested", { el: element, button: true });
+				}
+			} );
+
 			editor.setKeystroke( CKEDITOR.CTRL + 76 /*L*/, 'link' );
 
 			if ( editor.ui.addButton ) {
@@ -91,6 +111,11 @@
 					command: 'unlink',
 					toolbar: 'links,20'
 				} );
+	      editor.ui.addButton( 'DripButton', {
+	        label: 'Insert Button',
+	        command: 'dripbutton',
+	        toolbar: 'help'
+	      });
 			}
 
 			// CKEDITOR.dialog.add( 'link', this.path + 'dialogs/link.js' );
@@ -116,9 +141,20 @@
 					url: {
 						protocol: "",
 						url: evt.data.href
-					},
-					"class": evt.data["class"]
+					}
 				};
+
+				if ( selectedElement && element.hasAttribute( 'class' ) ) {
+					data["class"] = element.getAttribute( 'class' )
+				}
+
+				if ( evt.data["class"] != undefined ) {
+					if ( data["class"] === undefined ) {
+						data["class"] = evt.data["class"]
+					} else {
+						data["class"] = data["class"] + " " + evt.data["class"]
+					}
+				}
 
 				var selection = editor.getSelection(),
 					attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, data );
@@ -653,7 +689,10 @@
 						url = ( data.url && CKEDITOR.tools.trim( data.url.url ) ) || '';
 
 					set[ 'data-cke-saved-href' ] = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
-					set["class"] = data["class"];
+
+					if ( data["class"] != undefined ) {
+						set["class"] = data["class"];
+					}
 
 					break;
 				case 'anchor':

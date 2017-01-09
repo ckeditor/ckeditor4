@@ -49,3 +49,13 @@ textarea.cke_source
 {
   display: none;
 }
+
+.cke_button__dripbutton_label
+{
+  display: inline;
+}
+
+.cke_button__dripbutton_icon
+{
+  display: none;
+}
