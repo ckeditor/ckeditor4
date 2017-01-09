@@ -796,6 +796,9 @@
 					if ( range )
 						editor.getSelection().selectRanges( [ range ] );
 
+					// Focus must be restored to the editor after selecting range.
+					// Otherwise there are issues when selecting word from
+					// newly added paragraphs (#14869).
 					editor.focus();
 				}
 
