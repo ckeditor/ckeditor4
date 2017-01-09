@@ -119,6 +119,27 @@
 			assert.areSame( fixHtml( expectedContent ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
 		},
 
+		// #16675
+		'test applying styles from one cell to other': function( editor ) {
+			var inputContent = CKEDITOR.document.findOne( '#t-16675 .input' ).getHtml(),
+				expectedContent = CKEDITOR.document.findOne( '#t-16675 .expected' ).getHtml();
+
+			bender.tools.selection.setWithHtml( editor, inputContent );
+
+			editor.execCommand( 'copyFormatting' );
+
+			// Move the selection to Q in the second cell.
+			var rng = editor.createRange(),
+				cellTextNode = editor.editable().find( 'td' ).getItem( 1 ).findOne( 'span span' ).getFirst();
+			rng.setStart( cellTextNode, 1 );
+			rng.setEnd( cellTextNode, 1 );
+			editor.getSelection().selectRanges( [ rng ] );
+
+			editor.execCommand( 'applyFormatting' );
+
+			assert.areSame( fixHtml( expectedContent ), fixHtml( bender.tools.selection.getWithHtml( editor ) ) );
+		},
+
 		'test changing list type': function( editor ) {
 			var inputContent = CKEDITOR.document.findOne( '#list_type .input' ).getHtml(),
 				expectedContent = CKEDITOR.document.findOne( '#list_type .expected' ).getHtml();
