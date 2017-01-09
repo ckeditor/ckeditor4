@@ -923,6 +923,7 @@
 		 */
 		_applyStylesToTableContext: function( editor, range, styles ) {
 			var style,
+				bkm,
 				i;
 
 			function applyToTableCell( cell, style ) {
@@ -937,6 +938,11 @@
 
 			for ( i = 0; i < styles.length; i++ ) {
 				style = styles[ i ];
+
+				// The bookmark is used to prevent the weird behavior of tables (e.g. applying style to all cells
+				// instead of just selected cell). Restoring the selection to its initial state after every change
+				// seems to do the trick.
+				bkm = range.createBookmark();
 
 				if ( indexOf( [ 'table', 'tr' ], style.element ) !== -1 ) {
 					getNodeAndApplyCmd( range, style.element, function( currentNode ) {
@@ -953,6 +959,8 @@
 				} else {
 					CKEDITOR.plugins.copyformatting._applyStylesToTextContext( editor, range, [ style ] );
 				}
+
+				range.moveToBookmark( bkm );
 			}
 		},
 
