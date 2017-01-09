@@ -1,4 +1,4 @@
-# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 editor = ARIA description for the editor.
@@ -69,7 +69,7 @@ common.invalidCssLength = Error message displayed to the user when the specified
 common.invalidHtmlLength = Error message displayed to the user when the specified length value is not a valid HTML measurement unit.
 common.invalidInlineStyle = Error message displayed to the user when the specified style value is not a valid CSS declaration.
 common.cssLengthTooltip = Tooltip displayed for the Width and Height fields in the Table Properties dialog window explaining the correct format of these length values.
-common.unavailable = 
+common.unavailable =
 common.keyboard.8 = Label for the "Backspace" key.
 common.keyboard.13 = Label for the "Enter" key.
 common.keyboard.16 = Label for the "Shift" key.

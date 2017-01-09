@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eu', {
 			{
 			name: 'Editorearen elkarrizketa-koadroa',
 			legend:
-				'Elkarrizketa-koadro baten barruan sakatu TAB hurrengo elementura nabigatzeko, sakatu MAIUS+TAB aurreko elementura joateko, sakatu SARTU elkarrizketa-koadroa bidaltzeko eta sakatu ESC uzteko. Elkarrizketa-koadro batek hainbat fitxa dituenean, ALT+F10 erabiliz irits daiteke fitxen zerrendara, edo TAB erabiliz. Fokoa fitxen zerrendak duenean, aurreko eta hurrengo fitxetara joateko erabili EZKER-GEZIA eta ESKUIN-GEZIA.' 
+				'Elkarrizketa-koadro baten barruan sakatu TAB hurrengo elementura nabigatzeko, sakatu MAIUS+TAB aurreko elementura joateko, sakatu SARTU elkarrizketa-koadroa bidaltzeko eta sakatu ESC uzteko. Elkarrizketa-koadro batek hainbat fitxa dituenean, ALT+F10 erabiliz irits daiteke fitxen zerrendara, edo TAB erabiliz. Fokoa fitxen zerrendak duenean, aurreko eta hurrengo fitxetara joateko erabili EZKER-GEZIA eta ESKUIN-GEZIA.'
 		},
 
 			{

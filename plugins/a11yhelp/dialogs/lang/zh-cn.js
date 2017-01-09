@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 			{
 			name: '编辑器对话框',
 			legend:
-				'在对话框内，按 TAB 键移动到下一个字段，按 SHIFT + TAB 组合键移动到上一个字段，按 ENTER 键提交对话框，按 ESC 键取消对话框。对于有多选项卡的对话框，可以按 ALT + F10 直接切换到或者按 TAB 键逐步移到选项卡列表，当焦点移到选项卡列表时可以用左右箭头键来移动到前后的选项卡。' 
+				'在对话框内，按 TAB 键移动到下一个字段，按 SHIFT + TAB 组合键移动到上一个字段，按 ENTER 键提交对话框，按 ESC 键取消对话框。对于有多选项卡的对话框，可以按 ALT + F10 直接切换到或者按 TAB 键逐步移到选项卡列表，当焦点移到选项卡列表时可以用左右箭头键来移动到前后的选项卡。'
 		},
 
 			{

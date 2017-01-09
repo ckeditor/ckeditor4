@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -880,7 +880,7 @@
 						// Use extractHtmlFromRange to remove markup within the selection. Also this method is a little
 						// smarter than range#deleteContents as it plays better e.g. with table cells.
 						editor.editable().extractHtmlFromRange( range );
-						
+
 						range.insertNode( text );
 					}
 

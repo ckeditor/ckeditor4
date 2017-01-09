@@ -1,4 +1,4 @@
-# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 armenian = Label for the Armenian numbering numbered list type option.
@@ -11,7 +11,7 @@ georgian = Label for the Georgian numbering numbered list type option.
 lowerAlpha = Label for the Lower Alpha numbered list type option.
 lowerGreek = Label for the Lower Greek numbered list type option.
 lowerRoman = Label for the Lower Roman numbered list type option.
-none = 
+none =
 notset = Label for the <not set> list type option.
 numberedTitle = Label for the Numbered List Properties dialog window.
 square = Label for the Square bulleted list type option.

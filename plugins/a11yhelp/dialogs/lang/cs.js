@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 			{
 			name: 'Dialogové okno editoru',
 			legend:
-				'Uvnitř dialogového okna stiskněte TAB pro přesunutí na další prvek okna, stiskněte SHIFT+TAB pro přesun na předchozí prvek okna, stiskněte ENTER pro odeslání dialogu, stiskněte ESC pro jeho zrušení. Pro dialogová okna, která mají mnoho karet stiskněte ALT+F10 pro zaměření seznamu karet, nebo TAB, pro posun podle pořadí karet.Při zaměření seznamu karet se můžete jimi posouvat pomocí ŠIPKY VPRAVO a VLEVO.' 
+				'Uvnitř dialogového okna stiskněte TAB pro přesunutí na další prvek okna, stiskněte SHIFT+TAB pro přesun na předchozí prvek okna, stiskněte ENTER pro odeslání dialogu, stiskněte ESC pro jeho zrušení. Pro dialogová okna, která mají mnoho karet stiskněte ALT+F10 pro zaměření seznamu karet, nebo TAB, pro posun podle pořadí karet.Při zaměření seznamu karet se můžete jimi posouvat pomocí ŠIPKY VPRAVO a VLEVO.'
 		},
 
 			{

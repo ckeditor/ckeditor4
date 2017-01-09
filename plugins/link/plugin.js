@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -714,11 +714,11 @@
 			};
 		},
 
-		
+
 		/**
 		 * Determines whether an element should have a "Display Text" field in the Link dialog.
 		 *
-		 * @since 4.5.11 
+		 * @since 4.5.11
 		 * @param {CKEDITOR.dom.element/null} element Selected element, `null` if none selected or if a ranged selection
 		 * is made.
 		 * @param {CKEDITOR.editor} editor The editor instance for which the check is performed.
