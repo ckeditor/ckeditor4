@@ -9,6 +9,7 @@ var CKEDITOR_LANGS = ( function() {
 	var langs = {
 		af: 'Afrikaans',
 		ar: 'Arabic',
+		az: 'Azerbaijani',
 		bg: 'Bulgarian',
 		bn: 'Bengali/Bangla',
 		bs: 'Bosnian',
