@@ -120,7 +120,7 @@
 		},
 
 		// #16675
-		'test applying styles from one cell to other': function( editor ) {
+		'test applying styles from one cell to another': function( editor ) {
 			var inputContent = CKEDITOR.document.findOne( '#t-16675 .input' ).getHtml(),
 				expectedContent = CKEDITOR.document.findOne( '#t-16675 .expected' ).getHtml();
 
