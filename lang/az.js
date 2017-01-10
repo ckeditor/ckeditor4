@@ -3,7 +3,10 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
- // MISSING
+/**
+ * @fileOverview Defines the {@link CKEDITOR.lang} object for the
+ * Polish language.
+ */
 
 /**#@+
    @type String
