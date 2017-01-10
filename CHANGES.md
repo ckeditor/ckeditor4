@@ -6,6 +6,7 @@
 New Features:
 
 * [#16733](http://dev.ckeditor.com/ticket/16733): Added a new pastel color palette for the [Color Button](http://ckeditor.com/addon/colorbutton) plugin and a new [`config.colorButton_colorsPerRow`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_colorsPerRow) configuration option for setting the number of rows in the color selector.
+* [#16752](http://dev.ckeditor.com/ticket/16752): Added a new Azerbaijani localization.
 
 Fixed Issues:
 
