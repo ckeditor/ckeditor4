@@ -141,30 +141,32 @@
 					url: {
 						protocol: "",
 						url: evt.data.href
-					},
-					removeClass: evt.data.removeClass
+					}
 				};
 
-				if ( selectedElement && element.hasAttribute( 'class' ) ) {
-					data["class"] = " " + element.getAttribute( 'class' ) + " "
+				var currentClasses = element && element.hasAttribute( 'class' ) && element.getAttribute( 'class' ) || ""
+				var classes = element && element.hasAttribute( 'class' ) && element.getAttribute( 'class' ) || ""
+
+				if ( evt.data["class"] ) {
+					var reg = new RegExp("(?:^|\\s)" + evt.data["class"] + "(?!\\S)");
+					if ( !classes.match(reg) )
+				    classes += " " + evt.data["class"];
 				}
 
-				if ( evt.data["class"] != undefined ) {
-					if ( data["class"] === undefined ) {
-						data["class"] = evt.data["class"]
-					} else {
-						data["class"] = data["class"] + " " + evt.data["class"]
-					}
-				}
-
-				if ( evt.data["removeClass"] != undefined ) {
-					if ( data["class"] != undefined ) {
-						data["class"] = data["class"].replace(" " + evt.data["removeClass"] + " ", "")
-					}
+				if ( evt.data["removeClass"] ) {
+					var reg = new RegExp("(?:^|\\s)" + evt.data["removeClass"] + "(?!\\S)", 'g');
+					classes = classes.replace( reg , '' );
 				}
 
 				var selection = editor.getSelection(),
 					attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, data );
+
+				// Add and remove CSS classes
+				if (classes || currentClasses) {
+					attributes.set['class'] = classes;
+					var index = attributes.removed.indexOf('class')
+					attributes.removed.splice(index, 1);
+				}
 
 				if ( !selectedElement ) {
 					var range = selection.getRanges()[ 0 ];
@@ -777,12 +779,6 @@
 				else if ( data.target.type != 'notSet' && data.target.name )
 					set.target = data.target.name;
 			}
-
-			// Add and remove CSS classes
-			if ( data["class"] != undefined ) {
-				set["class"] = data["class"];
-			}
-
 			// Advanced attributes.
 			if ( data.advanced ) {
 				for ( var a in advAttrNames ) {
