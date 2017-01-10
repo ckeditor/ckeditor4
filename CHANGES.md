@@ -5,18 +5,18 @@
 
 New Features:
 
-* [#16733](http://dev.ckeditor.com/ticket/16733): Added new color palette for [Color Button](http://ckeditor.com/addon/colorbutton) plugin and added [`config.colorButton_colorsPerRow`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_colorsPerRow) option.
+* [#16733](http://dev.ckeditor.com/ticket/16733): Added a new pastel color palette for the [Color Button](http://ckeditor.com/addon/colorbutton) plugin and a new [`config.colorButton_colorsPerRow`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_colorsPerRow) configuration option for setting the number of rows in the color selector.
 
 Fixed Issues:
 
 * [#13446](http://dev.ckeditor.com/ticket/13446): [Chrome] Fixed: It is possible to type in an unfocused inline editor.
 * [#14856](http://dev.ckeditor.com/ticket/14856): Fixed: Font size and font family reset each other when modified at certain positions.
 * [#13818](http://dev.ckeditor.com/ticket/13818): Fixed: Allow to group [Widget](http://ckeditor.com/addon/widget) [style definitions](http://docs.ckeditor.com/#!/guide/dev_styles-section-widget-styles), so applying one style disables the other.
-* [#16745](http://dev.ckeditor.com/ticket/16745): [Edge] Fixed: List items are lost when pasted from word.
-* [#16682](http://dev.ckeditor.com/ticket/16682): [Edge] Fixed: List gets pasted as a set of paragraphs. Added [`config.pasteFromWord_heuristicsEdgeList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWord_heuristicsEdgeList) option.
+* [#16745](http://dev.ckeditor.com/ticket/16745): [Edge] Fixed: List items are lost when [pasted from Word](http://ckeditor.com/addon/pastefromword).
+* [#16682](http://dev.ckeditor.com/ticket/16682): [Edge] Fixed: A list gets [pasted from Word](http://ckeditor.com/addon/pastefromword) as a set of paragraphs. Added the [`config.pasteFromWord_heuristicsEdgeList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWord_heuristicsEdgeList) configuration option.
 * [#10373](http://dev.ckeditor.com/ticket/10373): Fixed: Context menu items can be dragged into the editor.
-* [#16728](http://dev.ckeditor.com/ticket/16728): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks editor in Quirks Mode.
-* [#16753](http://dev.ckeditor.com/ticket/16753): Fixed: `element.setSize` sets wrong editor's dimensions if border's width is in fraction of pixels.
+* [#16728](http://dev.ckeditor.com/ticket/16728): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks the editor in Quirks Mode.
+* [#16753](http://dev.ckeditor.com/ticket/16753): Fixed: `element.setSize` sets wrong editor dimensions if the border width is represented as a fraction of pixels.
 * [#16705](http://dev.ckeditor.com/ticket/16705): [Firefox] Fixed: Unable to paste images as Base64 strings when using [Clipboard](http://ckeditor.com/addon/clipboard).
 
 ## CKEditor 4.6.1

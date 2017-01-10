@@ -3491,7 +3491,7 @@
 				this.widget = styleDefinition.widget;
 
 				/**
-				 * Array of the groups that this style belongs to.
+				 * An array of groups that this style belongs to.
 				 * Styles assigned to the same group cannot be combined.
 				 *
 				 * @since 4.6.2
@@ -3542,8 +3542,8 @@
 
 			/**
 			 * Removes all styles that belong to the same group as this style. This method will neither add nor remove
-			 * current style.
-			 * Returns true if any style was removed, otherwise returns false.
+			 * the current style.
+			 * Returns `true` if any style was removed, otherwise returns `false`.
 			 *
 			 * @since 4.6.2
 			 * @param {CKEDITOR.editor} editor

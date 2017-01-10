@@ -1620,9 +1620,9 @@
 	*/
 	CKEDITOR.plugins.pastefromword.heuristics = {
 		/**
-		 * Tells if `item` looks like list item in Microsoft Edge.
+		 * Decides if an `item` looks like a list item in Microsoft Edge.
 		 *
-		 * Note: It will return `false` when run on browser other than Microsoft Edge, despite the configuration.
+		 * Note: It will return `false` when run in a browser other than Microsoft Edge, despite the configuration.
 		 *
 		 * @param {CKEDITOR.editor} item
 		 * @param {CKEDITOR.htmlParser.element} item
@@ -1650,13 +1650,13 @@
 		},
 
 		/**
-		 * Assigns list levels to `item` and all directly subsequent nodes for which {@link #isEdgeListItem} returns `true`.
+		 * Assigns list levels to the `item` and all directly subsequent nodes for which {@link #isEdgeListItem} returns `true`.
 		 *
 		 * The algorithm determines list item level based on the lowest common non-zero difference in indentation
 		 * of two or more subsequent list-like elements.
 		 *
 		 * @param {CKEDITOR.editor} editor
-		 * @param {CKEDITOR.htmlParser.element} item First item of the list.
+		 * @param {CKEDITOR.htmlParser.element} item The first item of the list.
 		 * @returns {Object/null} `null` if list levels were already applied, or an object used to verify results in tests.
 		 * @returns {Number[]} return.indents
 		 * @returns {Number[]} return.levels
@@ -1718,8 +1718,8 @@
 		},
 
 		/**
-		 * Given array of list indentations, tries tu guess what is the indentation difference per list level. E.g. assuming that we
-		 * have something like:
+		 * Given an array of list indentations, this method tries to guess what the indentation difference per list level is.
+		 * E.g. assuming that you have something like:
 		 *
 		 *		* foo (indentation 30px)
 		 *				* bar (indentation 90px)
@@ -1729,8 +1729,8 @@
 		 *
 		 * The method will return `30`.
 		 *
-		 * @param {Number[]} indentations Array of indentation sizes.
-		 * @returns {Number/null} Number or `null` if empty `indentations` was given.
+		 * @param {Number[]} indentations An array of indentation sizes.
+		 * @returns {Number/null} A number or `null` if empty `indentations` was given.
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
@@ -1854,9 +1854,9 @@
 	 */
 
 	/**
-	 * Activates a heuristic that helps detecting lists pasted to editor in Microsoft Edge.
+	 * Activates a heuristic that helps detect lists pasted into the editor in Microsoft Edge.
 	 *
-	 * The reason why this heuristic is needed is that when pasting Microsoft Edge will remove any Word-specific
+	 * The reason why this heuristic is needed is that on pasting Microsoft Edge removes any Word-specific
 	 * metadata allowing to identify lists.
 	 *
 	 *		// Disables list heuristics for Edge.

@@ -304,7 +304,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  * a name and the slash character. For example, `'FontColor1/FF9900'` will be
  * displayed as the color `#FF9900` in the selector, but will be output as `'FontColor1'`.
  *
- * **Since 4.6.2:** The default color palette has change. It contains less colors and in more
+ * **Since 4.6.2:** The default color palette has changed. It contains fewer colors in more
  * pastel shades than the previous one.
  *
  * Read more in the [documentation](#!/guide/dev_colorbutton)
@@ -315,7 +315,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
  *
  *		config.colorButton_colors = 'FontColor1/FF9900,FontColor2/0066CC,FontColor3/F00';
  *
- *		// CKEditor color palette available before 4.6.2 version.
+ *		// CKEditor color palette available before version 4.6.2.
  *		config.colorButton_colors =
  *			'000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,' +
  *			'B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,' +
