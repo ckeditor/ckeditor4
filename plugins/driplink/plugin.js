@@ -141,11 +141,12 @@
 					url: {
 						protocol: "",
 						url: evt.data.href
-					}
+					},
+					removeClass: evt.data.removeClass
 				};
 
 				if ( selectedElement && element.hasAttribute( 'class' ) ) {
-					data["class"] = element.getAttribute( 'class' )
+					data["class"] = " " + element.getAttribute( 'class' ) + " "
 				}
 
 				if ( evt.data["class"] != undefined ) {
@@ -153,6 +154,12 @@
 						data["class"] = evt.data["class"]
 					} else {
 						data["class"] = data["class"] + " " + evt.data["class"]
+					}
+				}
+
+				if ( evt.data["removeClass"] != undefined ) {
+					if ( data["class"] != undefined ) {
+						data["class"] = data["class"].replace(" " + evt.data["removeClass"] + " ", "")
 					}
 				}
 
@@ -690,10 +697,6 @@
 
 					set[ 'data-cke-saved-href' ] = ( url.indexOf( '/' ) === 0 ) ? url : protocol + url;
 
-					if ( data["class"] != undefined ) {
-						set["class"] = data["class"];
-					}
-
 					break;
 				case 'anchor':
 					var name = ( data.anchor && data.anchor.name ),
@@ -773,6 +776,11 @@
 				}
 				else if ( data.target.type != 'notSet' && data.target.name )
 					set.target = data.target.name;
+			}
+
+			// Add and remove CSS classes
+			if ( data["class"] != undefined ) {
+				set["class"] = data["class"];
 			}
 
 			// Advanced attributes.
