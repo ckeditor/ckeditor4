@@ -18,7 +18,7 @@ Fixed Issues:
 * [#16728](http://dev.ckeditor.com/ticket/16728): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks the editor in Quirks Mode.
 * [#16753](http://dev.ckeditor.com/ticket/16753): Fixed: `element.setSize` sets wrong editor dimensions if the border width is represented as a fraction of pixels.
 * [#16705](http://dev.ckeditor.com/ticket/16705): [Firefox] Fixed: Unable to paste images as Base64 strings when using [Clipboard](http://ckeditor.com/addon/clipboard).
-* [#14869](http://dev.ckeditor.com/ticket/14869): Fixed: JS error was thrown when trying to use [Find](http://ckeditor.com/addon/find) in a [`<div>`-based editor](http://ckeditor.com/addon/divarea).
+* [#14869](http://dev.ckeditor.com/ticket/14869): Fixed: JavaScript error is thrown when trying to use [Find](http://ckeditor.com/addon/find) in a [`<div>`-based editor](http://ckeditor.com/addon/divarea).
 
 ## CKEditor 4.6.1
 
