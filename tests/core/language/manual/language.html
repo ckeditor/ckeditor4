@@ -1,0 +1,145 @@
+<script>
+	var CKEDITOR_LANGS = ( function() {
+		var langs = {
+			af: 'Afrikaans',
+			ar: 'Arabic',
+			az: 'Azerbaijani',
+			bg: 'Bulgarian',
+			bn: 'Bengali/Bangla',
+			bs: 'Bosnian',
+			ca: 'Catalan',
+			cs: 'Czech',
+			cy: 'Welsh',
+			da: 'Danish',
+			de: 'German',
+			'de-ch': 'German (Switzerland)',
+			el: 'Greek',
+			en: 'English',
+			'en-au': 'English (Australia)',
+			'en-ca': 'English (Canadian)',
+			'en-gb': 'English (United Kingdom)',
+			eo: 'Esperanto',
+			es: 'Spanish',
+			et: 'Estonian',
+			eu: 'Basque',
+			fa: 'Persian',
+			fi: 'Finnish',
+			fo: 'Faroese',
+			fr: 'French',
+			'fr-ca': 'French (Canada)',
+			gl: 'Galician',
+			gu: 'Gujarati',
+			he: 'Hebrew',
+			hi: 'Hindi',
+			hr: 'Croatian',
+			hu: 'Hungarian',
+			id: 'Indonesian',
+			is: 'Icelandic',
+			it: 'Italian',
+			ja: 'Japanese',
+			ka: 'Georgian',
+			km: 'Khmer',
+			ko: 'Korean',
+			ku: 'Kurdish',
+			lt: 'Lithuanian',
+			lv: 'Latvian',
+			mk: 'Macedonian',
+			mn: 'Mongolian',
+			ms: 'Malay',
+			nb: 'Norwegian Bokmal',
+			nl: 'Dutch',
+			no: 'Norwegian',
+			oc: 'Occitan',
+			pl: 'Polish',
+			pt: 'Portuguese (Portugal)',
+			'pt-br': 'Portuguese (Brazil)',
+			ro: 'Romanian',
+			ru: 'Russian',
+			si: 'Sinhala',
+			sk: 'Slovak',
+			sq: 'Albanian',
+			sl: 'Slovenian',
+			sr: 'Serbian (Cyrillic)',
+			'sr-latn': 'Serbian (Latin)',
+			sv: 'Swedish',
+			th: 'Thai',
+			tr: 'Turkish',
+			tt: 'Tatar',
+			ug: 'Uighur',
+			uk: 'Ukrainian',
+			vi: 'Vietnamese',
+			zh: 'Chinese Traditional',
+			'zh-cn': 'Chinese Simplified'
+		};
+
+		var langsArray = [];
+
+		for ( var code in CKEDITOR.lang.languages ) {
+			langsArray.push( { code: code, name: ( langs[ code ] || code ) } );
+		}
+
+		langsArray.sort( function( a, b ) {
+			return ( a.name < b.name ) ? -1 : 1;
+		} );
+
+		return langsArray;
+	} )();
+</script>
+
+<p>
+	Available languages (<span id="count"> </span> languages!):<br>
+	<script>
+
+		document.write( '<select disabled="disabled" id="languages" onchange="createEditor( this.value );">' );
+
+		// Get the language list from the _languages.js file.
+		for ( var i = 0 ; i < window.CKEDITOR_LANGS.length ; i++ ) {
+			document.write(
+				'<option value="' + window.CKEDITOR_LANGS[i].code + '">' +
+				window.CKEDITOR_LANGS[i].name +
+				'</option>' );
+		}
+
+		document.write( '</select>' );
+
+	</script>
+	<br>
+	<span style="color: #888888">
+				(You may see strange characters if your system does not support the selected language)
+			</span>
+</p>
+<p>
+	<textarea cols="80" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+	<script>
+
+		// Set the number of languages.
+		document.getElementById( 'count' ).innerHTML = window.CKEDITOR_LANGS.length;
+
+		var editor;
+
+		function createEditor( languageCode ) {
+			if ( editor )
+				editor.destroy();
+
+			// Replace the <textarea id="editor"> with an CKEditor
+			// instance, using default configurations.
+			editor = CKEDITOR.replace( 'editor1', {
+				language: languageCode,
+				fullPage: true,
+				on: {
+					instanceReady: function() {
+						// Wait for the editor to be ready to set
+						// the language combo.
+						var languages = document.getElementById( 'languages' );
+						languages.value = this.langCode;
+						languages.disabled = false;
+					}
+				}
+			});
+		}
+
+		// At page startup, load the default language:
+		createEditor( '' );
+
+	</script>
+</p>
