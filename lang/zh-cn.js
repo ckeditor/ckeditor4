@@ -101,17 +101,17 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		keyboard: {
 			8: '退格键',
 			13: '回车键',
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: '空格键',
 			35: '行尾键',
 			36: '行首键',
 			46: '删除键',
-			224: 'Command' // MISSING
+			224: 'Command'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: '快捷键'
 	}
 };

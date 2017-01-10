@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'zh-cn', {
 	title: '图像属性',
 	uploadTab: '上传',
 	urlMissing: '缺少图像源文件地址',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: '缺少替换文本'
 } );

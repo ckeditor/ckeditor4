@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fi', {
 	Atilde: 'Latin capital letter A with tilde', // MISSING
 	Auml: 'Latin capital letter A with diaeresis', // MISSING
 	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin Capital letter Æ', // MISSING
+	AElig: 'Latin capital letter Æ', // MISSING
 	Ccedil: 'Latin capital letter C with cedilla', // MISSING
 	Egrave: 'Latin capital letter E with grave accent', // MISSING
 	Eacute: 'Latin capital letter E with acute accent', // MISSING

@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eo', {
 			{
 			name: 'Redaktildialogo',
 			legend:
-				'En dialogo, premu la TABAN klavon por navigi al la sekva dialogelemento, premu la MAJUSKLIGAN+TABAN klavon por iri al la antaŭa dialogelemento, premu la ENEN klavon por sendi la dialogon, premu la ESKAPAN klavon por nuligi la dialogon. Kiam dialogo havas multajn langetojn, eblas atingi la langetliston aŭ per ALT+F10 aŭ per la TABA klavo kiel parton de la dialoga taba ordo. En langetlisto, moviĝu al la sekva kaj antaŭa langeto per la klavoj SAGO DEKSTREN KAJ MALDEKSTREN respektive.'
+				'En dialogo, premu la TABAN klavon por navigi al la sekva dialogelemento, premu la MAJUSKLIGAN+TABAN klavon por iri al la antaŭa dialogelemento, premu la ENEN klavon por sendi la dialogon, premu la ESKAPAN klavon por nuligi la dialogon. Kiam dialogo havas multajn langetojn, eblas atingi la langetliston aŭ per ALT+F10 aŭ per la TABA klavo kiel parton de la dialoga taba ordo. En langetlisto, moviĝu al la sekva kaj antaŭa langeto per la klavoj SAGO DEKSTREN KAJ MALDEKSTREN respektive.' 
 		},
 
 			{

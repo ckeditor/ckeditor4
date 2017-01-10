@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'zh-cn', {
 	anchorName: '按锚点名称',
 	charset: '字符编码',
 	cssClasses: '样式类名称',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: '强制下载',
+	displayText: '显示文本',
 	emailAddress: '地址',
 	emailBody: '内容',
 	emailSubject: '主题',

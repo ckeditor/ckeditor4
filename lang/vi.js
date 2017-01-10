@@ -99,8 +99,8 @@ CKEDITOR.lang[ 'vi' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
+			8: 'Phím Backspace',
+			13: 'Enter',
 			16: 'Shift', // MISSING
 			17: 'Ctrl', // MISSING
 			18: 'Alt', // MISSING

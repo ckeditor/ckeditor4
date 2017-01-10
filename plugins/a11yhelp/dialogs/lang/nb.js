@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 			{
 			name: 'Dialog for editor',
 			legend:
-				'Mens du er i en dialog, trykk TAB for å navigere til neste dialogelement, trykk SHIFT+TAB for å flytte til forrige dialogelement, trykk ENTER for å akseptere dialogen, trykk ESC for å avbryte dialogen. Når en dialog har flere faner, kan fanelisten nås med enten ALT+F10 eller med TAB. Når fanelisten er fokusert, går man til neste og forrige fane med henholdsvis HØYRE og VENSTRE PILTAST.'
+				'Mens du er i en dialog, trykk TAB for å navigere til neste dialogelement, trykk SHIFT+TAB for å flytte til forrige dialogelement, trykk ENTER for å akseptere dialogen, trykk ESC for å avbryte dialogen. Når en dialog har flere faner, kan fanelisten nås med enten ALT+F10 eller med TAB. Når fanelisten er fokusert, går man til neste og forrige fane med henholdsvis HØYRE og VENSTRE PILTAST.' 
 		},
 
 			{

@@ -104,7 +104,7 @@ CKEDITOR.lang[ 'ru' ] = {
 			16: 'Shift', // MISSING
 			17: 'Ctrl', // MISSING
 			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
+			32: 'Пробел',
 			35: 'End', // MISSING
 			36: 'Home', // MISSING
 			46: 'Delete', // MISSING
