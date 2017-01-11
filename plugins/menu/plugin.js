@@ -93,8 +93,12 @@ CKEDITOR.plugins.add( 'menu', {
 		' aria-haspopup="{hasPopup}"' +
 		' aria-disabled="{disabled}"' +
 		' {ariaChecked}' +
-		' draggable="false"' +
-		' ondragstart="return false;" ';
+		' draggable="false"';
+
+	// #10373
+	if ( CKEDITOR.env.gecko ) {
+		menuItemSource += ' ondragstart="return false;" ';
+	}
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
