@@ -1699,14 +1699,14 @@
 			} );
 
 			// Level can not be equal to 0, in case if it happens bump all the levels by 1,
-			if ( levels.indexOf( 0 ) !== -1 ) {
+			if ( array.indexOf( levels, 0 ) !== -1 ) {
 				levels = map( levels, function( val ) {
 					return val + 1;
 				} );
 			}
 
 			// Assign levels to a proper place.
-			items.forEach( function( curItem, index ) {
+			array.forEach( items, function( curItem, index ) {
 				curItem.attributes[ 'cke-list-level' ] = levels[ index ];
 			} );
 
