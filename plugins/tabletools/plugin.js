@@ -8,6 +8,7 @@
 		isArray = CKEDITOR.tools.isArray,
 		fakeSelectedClass = 'cke_table-faked-selection',
 		fakeSelectedTableClass = fakeSelectedClass + '-table',
+		fakeSelectedEditorClass = fakeSelectedClass + '-editor',
 		fakeSelection = { active: false };
 
 	function getSelectedCells( selection, table ) {
@@ -995,6 +996,8 @@
 		// Start fake selection only if the left mouse button is really pressed inside the table.
 		if ( !fakeSelection.active && evt.name === 'mousedown' && detectLeftMouseButton( evt ) && table ) {
 			fakeSelection = { active: true };
+
+			editor.editable().addClass( fakeSelectedEditorClass );
 		}
 
 		// The separate condition for table handles cases when user starts/stop dragging from/in
@@ -1013,6 +1016,8 @@
 			}
 
 			fakeSelection = { active: false };
+
+			editor.editable().removeClass( fakeSelectedEditorClass );
 		}
 	}
 
