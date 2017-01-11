@@ -7,12 +7,12 @@ New Features:
 
 * [#16733](http://dev.ckeditor.com/ticket/16733): Added a new pastel color palette for the [Color Button](http://ckeditor.com/addon/colorbutton) plugin and a new [`config.colorButton_colorsPerRow`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_colorsPerRow) configuration option for setting the number of rows in the color selector.
 * [#16752](http://dev.ckeditor.com/ticket/16752): Added a new Azerbaijani localization. Thanks to the [Azerbaijani language team](https://www.transifex.com/ckeditor/teams/11143/az/)!
+ [#13818](http://dev.ckeditor.com/ticket/13818): It is now possible to group [Widget](http://ckeditor.com/addon/widget) [style definitions](http://docs.ckeditor.com/#!/guide/dev_styles-section-widget-styles), so applying one style disables the other.
 
 Fixed Issues:
 
 * [#13446](http://dev.ckeditor.com/ticket/13446): [Chrome] Fixed: It is possible to type in an unfocused inline editor.
 * [#14856](http://dev.ckeditor.com/ticket/14856): Fixed: [Font size and font family](http://ckeditor.com/addon/font) reset each other when modified at certain positions.
-* [#13818](http://dev.ckeditor.com/ticket/13818): Fixed: Allow to group [Widget](http://ckeditor.com/addon/widget) [style definitions](http://docs.ckeditor.com/#!/guide/dev_styles-section-widget-styles), so applying one style disables the other.
 * [#16745](http://dev.ckeditor.com/ticket/16745): [Edge] Fixed: List items are lost when [pasted from Word](http://ckeditor.com/addon/pastefromword).
 * [#16682](http://dev.ckeditor.com/ticket/16682): [Edge] Fixed: A list gets [pasted from Word](http://ckeditor.com/addon/pastefromword) as a set of paragraphs. Added the [`config.pasteFromWord_heuristicsEdgeList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWord_heuristicsEdgeList) configuration option.
 * [#10373](http://dev.ckeditor.com/ticket/10373): Fixed: Context menu items can be dragged into the editor.
