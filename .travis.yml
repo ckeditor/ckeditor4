@@ -37,6 +37,9 @@ before_script:
   - 'if [ "$BUILD" = "1" ]; then ./build.sh full all -t; fi'
   - 'if [ "$BUILD" = "1" ]; then cd "./build/$(ls -1t ./build/ | head -n 1)/full-all/ckeditor/"; fi'
 
+  # Copy bender.ci.js file as it is removed during build.
+  - 'if [ "$BUILD" = "1" ]; then cp ../../../../../ckeditor-dev/bender.ci.js bender.ci.js; fi'
+
   - 'sh -e /etc/init.d/xvfb start'
   - 'export DISPLAY=:99.0'
 
