@@ -17,11 +17,11 @@ Fixed Issues:
 * [#16682](http://dev.ckeditor.com/ticket/16682): [Edge] Fixed: A list gets [pasted from Word](http://ckeditor.com/addon/pastefromword) as a set of paragraphs. Added the [`config.pasteFromWord_heuristicsEdgeList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWord_heuristicsEdgeList) configuration option.
 * [#10373](http://dev.ckeditor.com/ticket/10373): Fixed: Context menu items can be dragged into the editor.
 * [#16728](http://dev.ckeditor.com/ticket/16728): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks the editor in Quirks Mode.
+* [#16795](http://dev.ckeditor.com/ticket/16795): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks the editor in Compatibility Mode.
 * [#16675](http://dev.ckeditor.com/ticket/16675): Fixed: Styles applied with [Copy Formatting](http://ckeditor.com/addon/copyformatting) to a single table cell are applied to the whole table.
 * [#16753](http://dev.ckeditor.com/ticket/16753): Fixed: [`element.setSize`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-setSize) sets incorrect editor dimensions if the border width is represented as a fraction of pixels.
 * [#16705](http://dev.ckeditor.com/ticket/16705): [Firefox] Fixed: Unable to paste images as Base64 strings when using [Clipboard](http://ckeditor.com/addon/clipboard).
 * [#14869](http://dev.ckeditor.com/ticket/14869): Fixed: JavaScript error is thrown when trying to use [Find](http://ckeditor.com/addon/find) in a [`<div>`-based editor](http://ckeditor.com/addon/divarea).
-* [#16795](http://dev.ckeditor.com/ticket/16795): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks the editor in Compatibility Mode.
 
 ## CKEditor 4.6.1
 
