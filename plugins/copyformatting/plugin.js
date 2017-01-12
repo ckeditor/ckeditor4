@@ -1043,7 +1043,7 @@
 				return this._getScreenReaderContainer();
 			}
 
-			if ( CKEDITOR.env.ie6Compat ) {
+			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
 				// Screen reader notifications are not supported on IE Quirks mode.
 				return;
 			}
@@ -1067,7 +1067,7 @@
 		 * @returns
 		 */
 		_getScreenReaderContainer: function() {
-			if ( CKEDITOR.env.ie6Compat ) {
+			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
 				// findOne is not supported on Quirks.
 				return;
 			}
