@@ -941,8 +941,8 @@
 		}
 
 		if ( evt.name === 'mouseup' ) {
-			// If the selection ended outside of the table, there's a chance that selection was messed up.
-			// In that case, we just reselect cells.
+			// If the selection ended outside of the table, there's a chance that selection was messed,
+			// e.g. by including text after the table. In that case, we just reselect cells.
 			if ( isOutsideTable( evt.data.getTarget() ) ) {
 				restoreFakeSelection( editor );
 			}
