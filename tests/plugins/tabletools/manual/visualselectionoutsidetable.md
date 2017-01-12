@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, 18, tp1579
-@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, floatingspace, clipboard
+@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, floatingspace, clipboard, undo
 
 **Procedure #1:**
 
