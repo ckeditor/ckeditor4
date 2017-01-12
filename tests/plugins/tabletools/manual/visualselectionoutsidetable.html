@@ -47,7 +47,7 @@
 </div>
 
 <h2>Inline editor</h2>
-<div id="editor3">
+<div id="editor3" contenteditable="true">
 	<p>Some text in which you could easily and without any problem end your selection that started
 	inside that sexy and beautiful table below.</p>
 
@@ -71,6 +71,8 @@
 </div>
 
 <script>
+	CKEDITOR.disableAutoInline = true;
+
 	CKEDITOR.replace( 'editor1' );
 	CKEDITOR.replace( 'editor2', {
 		extraPlugins: 'divarea'
