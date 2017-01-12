@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'it', {
 		F0F8FF: 'Celeste',
 		E6E6FA: 'Lavanda',
 		FFF: 'Bianco',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'Ciano intenso',
+		'2ECC71': 'Smeraldo',
+		'3498DB': 'Blu luminoso',
+		'9B59B6': 'Ametista',
+		'4E5F70': 'Blu grigiastro',
+		'F1C40F': 'Giallo vivido',
+		'16A085': 'Ciano scuro',
+		'27AE60': 'Smeraldo scuro',
+		'2980B9': 'Blu intenso',
+		'8E44AD': 'Viola scuro',
+		'2C3E50': 'Blu desaturato',
+		'F39C12': 'Arancio',
+		'E67E22': 'Carota',
+		'E74C3C': 'Rosso pallido',
+		'ECF0F1': 'Argento luminoso',
+		'95A5A6': 'Ciano grigiastro chiaro',
+		'DDD': 'Grigio chiaro',
+		'D35400': 'Zucca',
+		'C0392B': 'Rosso intenso',
+		'BDC3C7': 'Argento',
+		'7F8C8D': 'Ciano grigiastro',
+		'999': 'Grigio scuro'
 	},
 	more: 'Altri colori...',
 	panelTitle: 'Colori',

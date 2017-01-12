@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'pl', {
 		F0F8FF: 'Jasnobłękitny',
 		E6E6FA: 'Lawendowy',
 		FFF: 'Biały',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'Cyjan',
+		'2ECC71': 'Szmaragdowy',
+		'3498DB': 'Jasnoniebieski',
+		'9B59B6': 'Ametystowy',
+		'4E5F70': 'Szaroniebieski',
+		'F1C40F': 'Żółty',
+		'16A085': 'Ciemny cyjan',
+		'27AE60': 'Ciemnoszmaragdowy',
+		'2980B9': 'Ciemnoniebieski',
+		'8E44AD': 'Ciemnofioletowy',
+		'2C3E50': 'Nienasycony niebieski',
+		'F39C12': 'Pomarańczowy',
+		'E67E22': 'Marchewkowy',
+		'E74C3C': 'Bladoczerwony',
+		'ECF0F1': 'Jasnosrebrny',
+		'95A5A6': 'Szarocyjanowy',
+		'DDD': 'Jasnoszary',
+		'D35400': 'Dyniowy',
+		'C0392B': 'Ciemnoczerwony',
+		'BDC3C7': 'Srebrny',
+		'7F8C8D': 'Szarawy cyjan',
+		'999': 'Ciemnoszary'
 	},
 	more: 'Więcej kolorów...',
 	panelTitle: 'Kolory',
