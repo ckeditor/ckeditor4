@@ -102,9 +102,11 @@ CKEDITOR.plugins.add( 'menu', {
 		menuItemSource += ' onkeypress="return false;"';
 
 	// With Firefox, we need to force the button to redraw, otherwise it
-	// will remain in the focus state.
-	if ( CKEDITOR.env.gecko )
-		menuItemSource += ' onblur="this.style.cssText = this.style.cssText;"';
+	// will remain in the focus state. Also we some extra help to prevent dragging (#10373).
+	if ( CKEDITOR.env.gecko ) {
+		menuItemSource += ( ' onblur="this.style.cssText = this.style.cssText;"' +
+			' ondragstart="return false;"' );
+	}
 
 	// #188
 	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
