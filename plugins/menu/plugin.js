@@ -95,11 +95,6 @@ CKEDITOR.plugins.add( 'menu', {
 		' {ariaChecked}' +
 		' draggable="false"';
 
-	// #10373
-	if ( CKEDITOR.env.gecko ) {
-		menuItemSource += ' ondragstart="return false;" ';
-	}
-
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
 	// TODO: Check if really needed.
@@ -107,9 +102,11 @@ CKEDITOR.plugins.add( 'menu', {
 		menuItemSource += ' onkeypress="return false;"';
 
 	// With Firefox, we need to force the button to redraw, otherwise it
-	// will remain in the focus state.
-	if ( CKEDITOR.env.gecko )
-		menuItemSource += ' onblur="this.style.cssText = this.style.cssText;"';
+	// will remain in the focus state. Also we some extra help to prevent dragging (#10373).
+	if ( CKEDITOR.env.gecko ) {
+		menuItemSource += ( ' onblur="this.style.cssText = this.style.cssText;"' +
+			' ondragstart="return false;"' );
+	}
 
 	// #188
 	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
