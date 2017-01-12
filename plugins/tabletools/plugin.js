@@ -918,9 +918,7 @@
 			// Covers a case when:
 			// 1. User releases mouse button outside the table.
 			// 2. User opens context menu not in the selected table.
-			// 3. Mouse is released on element other than editable root.
-			if ( evt.name === 'mouseup' && !isSameTable( selectedTable, table ) &&
-				!isOutsideTable( evt.data.getTarget() ) ) {
+			if ( evt.name === 'mouseup' && !isOutsideTable( evt.data.getTarget() ) && !isSameTable( selectedTable, table ) ) {
 				return true;
 			}
 
