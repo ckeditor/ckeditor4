@@ -1,6 +1,6 @@
-@bender-tags: tc, link, 11956, 4.5.7
+@bender-tags: tc, link, 11956, 4.7.0
 @bender-ui: collapsed
-@bender-ckeditor-plugins: link, toolbar, wysiwygarea, colorbutton
+@bender-ckeditor-plugins: link, toolbar, wysiwygarea, colorbutton, elementspath
 
 
 1. Select the link.
