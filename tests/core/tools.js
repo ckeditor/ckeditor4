@@ -11,7 +11,11 @@
 	var htmlEncode = CKEDITOR.tools.htmlEncode,
 		htmlDecode = CKEDITOR.tools.htmlDecode;
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			language: 'en'
+		}
+	};
 	function assertNormalizeCssText( expected, input, message ) {
 		return function() {
 			assert.areSame( expected, CKEDITOR.tools.normalizeCssText( input ), message );

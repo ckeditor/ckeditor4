@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -98,19 +98,19 @@ CKEDITOR.lang[ 'pt-br' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
+			8: 'Tecla Retroceder',
 			13: 'Enter',
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Tecla Espaço',
 			35: 'End',
 			36: 'Home',
 			46: 'Delete',
-			224: 'Command' // MISSING
+			224: 'Comando'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Atalho do teclado'
 	}
 };

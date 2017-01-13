@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -18,8 +18,8 @@
  */
 CKEDITOR.lang[ 'sv' ] = {
 	// ARIA description.
-	editor: 'Rich Text Editor',
-	editorPanel: 'Rich Text Editor panel',
+	editor: 'Rich Text-editor',
+	editorPanel: 'Panel till Rich Text-editor',
 
 	// Common messages and labels.
 	common: {
@@ -111,6 +111,6 @@ CKEDITOR.lang[ 'sv' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Kortkommando'
 	}
 };

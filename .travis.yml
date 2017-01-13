@@ -1,0 +1,46 @@
+sudo: required
+dist: trusty
+
+language: node_js
+
+matrix:
+  include:
+    - node_js: 4
+      env: BUILD=0
+    - node_js: 4
+      env: BUILD=1
+  fast_finish: true
+
+before_script:
+  - 'npm install benderjs-cli -g'
+
+  # Clone and setup ckeditor-presets repository.
+  - 'if [ "$BUILD" = "1" ]; then cd ..; fi'
+  - 'if [ "$BUILD" = "1" ]; then git clone https://github.com/ckeditor/ckeditor-presets.git; fi'
+  - 'if [ "$BUILD" = "1" ]; then cd ckeditor-presets; fi'
+  - 'if [ "$BUILD" = "1" ]; then git fetch --all; fi'
+  - 'if [ "$BUILD" = "1" ]; then git checkout master; fi'
+  - 'if [ "$BUILD" = "1" ]; then git reset --hard origin/master; fi'
+
+  # Update submodules to use HTTPS instead of SSH.
+  - 'if [ "$BUILD" = "1" ]; then sed -i -e "s/git\@/https:\/\//g" .gitmodules; fi'
+  - 'if [ "$BUILD" = "1" ]; then sed -i -e "s/com:/com\//g" .gitmodules; fi'
+
+  # Update submodules.
+  - 'if [ "$BUILD" = "1" ]; then git submodule update --init; fi'
+
+  # Link to ckeditor-dev repository which triggered the build.
+  - 'if [ "$BUILD" = "1" ]; then rm -rf ckeditor; fi'
+  - 'if [ "$BUILD" = "1" ]; then ln -s ../ckeditor-dev/ ckeditor; fi'
+
+  # Build full preset.
+  - 'if [ "$BUILD" = "1" ]; then ./build.sh full all -t; fi'
+  - 'if [ "$BUILD" = "1" ]; then cd "./build/$(ls -1t ./build/ | head -n 1)/full-all/ckeditor/"; fi'
+
+  # Copy bender.ci.js file as it is removed during build.
+  - 'if [ "$BUILD" = "1" ]; then cp ../../../../../ckeditor-dev/bender.ci.js bender.ci.js; fi'
+
+  - 'sh -e /etc/init.d/xvfb start'
+  - 'export DISPLAY=:99.0'
+
+script: 'bender run -c bender.ci.js'

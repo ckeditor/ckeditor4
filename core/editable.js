@@ -1,11 +1,11 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 ( function() {
 	var isNotWhitespace, isNotBookmark, isEmpty, isBogus, emptyParagraphRegexp,
-		insert, fixTableAfterContentsDeletion, getHtmlFromRangeHelpers, extractHtmlFromRangeHelpers;
+		insert, fixTableAfterContentsDeletion, fixListAfterContentsDelete, getHtmlFromRangeHelpers, extractHtmlFromRangeHelpers;
 
 	/**
 	 * Editable class which provides all editing related activities by
@@ -429,12 +429,19 @@
 				// Remove the original contents, merge split nodes.
 				range.deleteContents( 1 );
 
-				// If range is placed in inermediate element (not td or th), we need to do three things:
-				// * fill emptied <td/th>s with if browser needs them,
-				// * remove empty text nodes so IE8 won't crash (http://dev.ckeditor.com/ticket/11183#comment:8),
-				// * fix structure and move range into the <td/th> element.
-				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.is( { tr: 1, table: 1, tbody: 1, thead: 1, tfoot: 1 } ) )
-					fixTableAfterContentsDeletion( range );
+				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
+					// If range is placed in intermediate element (not td or th), we need to do three things:
+					// * fill emptied <td/th>s with if browser needs them,
+					// * remove empty text nodes so IE8 won't crash
+					// (http://dev.ckeditor.com/ticket/11183#comment:8),
+					// * fix structure and move range into the <td/th> element.
+					if ( range.startContainer.is( { tr: 1, table: 1, tbody: 1, thead: 1, tfoot: 1 } ) ) {
+						fixTableAfterContentsDeletion( range );
+					} else if ( range.startContainer.is( CKEDITOR.dtd.$list ) ) {
+						// Similarly there's a need for lists.
+						fixListAfterContentsDelete( range );
+					}
+				}
 
 				// If we're inserting a block at dtd-violated position, split
 				// the parent blocks until we reach blockLimit.
@@ -2369,6 +2376,65 @@
 				bogus.remove();
 
 			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
+		};
+	} )();
+
+	fixListAfterContentsDelete = ( function() {
+		// Creates an element walker which operates only within lists.
+		function getFixListSelectionWalker( testRange ) {
+			var walker = new CKEDITOR.dom.walker( testRange );
+			walker.guard = function( node, isMovingOut ) {
+				if ( isMovingOut )
+					return false;
+				if ( node.type == CKEDITOR.NODE_ELEMENT )
+					return node.is( CKEDITOR.dtd.$list ) || node.is( CKEDITOR.dtd.$listItem );
+			};
+			walker.evaluator = function( node ) {
+				return node.type == CKEDITOR.NODE_ELEMENT && node.is( CKEDITOR.dtd.$listItem );
+			};
+
+			return walker;
+		}
+
+		return function( range ) {
+			var container = range.startContainer,
+				appendToStart = false,
+				testRange,
+				deeperSibling;
+
+			// Look left.
+			testRange = range.clone();
+			testRange.setStart( container, 0 );
+			deeperSibling = getFixListSelectionWalker( testRange ).lastBackward();
+
+			// If left is empty, look right.
+			if ( !deeperSibling ) {
+				testRange = range.clone();
+				testRange.setEndAt( container, CKEDITOR.POSITION_BEFORE_END );
+				deeperSibling = getFixListSelectionWalker( testRange ).lastForward();
+				appendToStart = true;
+			}
+
+			// If there's no deeper nested element in both direction - container is empty - we'll use it then.
+			if ( !deeperSibling )
+				deeperSibling = container;
+
+			// We found a list what means that it's empty - remove it completely.
+			if ( deeperSibling.is( CKEDITOR.dtd.$list ) ) {
+				range.setStartAt( deeperSibling, CKEDITOR.POSITION_BEFORE_START );
+				range.collapse( true );
+				deeperSibling.remove();
+				return;
+			}
+
+			// To avoid setting selection after bogus, remove it from the target list item.
+			// We can safely do that, because we'll insert element into that cell.
+			var bogus = deeperSibling.getBogus();
+			if ( bogus )
+				bogus.remove();
+
+			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
+			range.select();
 		};
 	} )();
 

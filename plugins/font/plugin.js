@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -137,11 +137,10 @@
 								matching.remove();
 								range.moveToBookmark( bm );
 
-							// If we are at the boundary of the style element, just move out.
-							} else if ( startBoundary ) {
-								range.moveToPosition( matching, CKEDITOR.POSITION_BEFORE_START );
-							} else if ( endBoundary ) {
-								range.moveToPosition( matching, CKEDITOR.POSITION_AFTER_END );
+							// If we are at the boundary of the style element, move out and copy nested styles/elements.
+							} else if ( startBoundary || endBoundary ) {
+								range.moveToPosition( matching, startBoundary ? CKEDITOR.POSITION_BEFORE_START : CKEDITOR.POSITION_AFTER_END );
+								cloneSubtreeIntoRange( range, path.elements.slice(), matching );
 							} else {
 								// Split the element and clone the elements that were in the path
 								// (between the startContainer and the matching element)
@@ -224,7 +223,7 @@
 	CKEDITOR.plugins.add( 'font', {
 		requires: 'richcombo',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		init: function( editor ) {
 			var config = editor.config;

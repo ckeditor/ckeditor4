@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -119,7 +119,7 @@
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: 'dialog',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -144,6 +144,50 @@
 			initDragDrop( editor );
 
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
+
+			// Convert image file (if present) to base64 string for Firefox. Do it as the first
+			// step as the conversion is asynchronous and should hold all further paste processing.
+			if ( CKEDITOR.env.gecko ) {
+				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
+					latestId;
+
+				editor.on( 'paste', function( evt ) {
+					var dataObj = evt.data,
+						data = dataObj.dataValue,
+						dataTransfer = dataObj.dataTransfer;
+
+					// If data empty check for image content inside data transfer. #16705
+					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
+						var file = dataTransfer.getFile( 0 );
+
+						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
+							var fileReader = new FileReader();
+
+							// Convert image file to img tag with base64 image.
+							fileReader.addEventListener( 'load', function() {
+								evt.data.dataValue = '<img src="' + fileReader.result + '" />';
+								editor.fire( 'paste', evt.data );
+							}, false );
+
+							// Proceed with normal flow if reading file was aborted.
+							fileReader.addEventListener( 'abort', function() {
+								editor.fire( 'paste', evt.data );
+							}, false );
+
+							// Proceed with normal flow if reading file failed.
+							fileReader.addEventListener( 'error', function() {
+								editor.fire( 'paste', evt.data );
+							}, false );
+
+							fileReader.readAsDataURL( file );
+
+							latestId = dataObj.dataTransfer.id;
+
+							evt.stop();
+						}
+					}
+				}, null, null, 1 );
+			}
 
 			editor.on( 'paste', function( evt ) {
 				// Init `dataTransfer` if `paste` event was fired without it, so it will be always available.

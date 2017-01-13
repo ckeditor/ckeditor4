@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -26,7 +26,7 @@ CKEDITOR.addTemplates( 'default', {
 	{
 		title: 'Strange Template',
 		image: 'template2.gif',
-		description: 'A template that defines two colums, each one with a title, and some text.',
+		description: 'A template that defines two columns, each one with a title, and some text.',
 		html: '<table cellspacing="0" cellpadding="0" style="width:100%" border="0">' +
 			'<tr>' +
 				'<td style="width:50%">' +

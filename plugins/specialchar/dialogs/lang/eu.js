@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'eu', {
 	Atilde: 'Latin capital letter A with tilde', // MISSING
 	Auml: 'Latin capital letter A with diaeresis', // MISSING
 	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin Capital letter Æ', // MISSING
+	AElig: 'Latin capital letter Æ', // MISSING
 	Ccedil: 'Latin capital letter C with cedilla', // MISSING
 	Egrave: 'Latin capital letter E with grave accent', // MISSING
 	Eacute: 'Latin capital letter E with acute accent', // MISSING

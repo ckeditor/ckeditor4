@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -48,8 +48,8 @@ CKEDITOR.lang[ 'nb' ] = {
 		id: 'Id',
 		name: 'Navn',
 		langDir: 'Språkretning',
-		langDirLtr: 'Venstre til høyre (VTH)',
-		langDirRtl: 'Høyre til venstre (HTV)',
+		langDirLtr: 'Venstre til høyre (LTR)',
+		langDirRtl: 'Høyre til venstre (RTL)',
 		langCode: 'Språkkode',
 		longDescr: 'Utvidet beskrivelse',
 		cssClass: 'Stilarkklasser',
@@ -68,7 +68,7 @@ CKEDITOR.lang[ 'nb' ] = {
 		options: 'Valg',
 		target: 'Mål',
 		targetNew: 'Nytt vindu (_blank)',
-		targetTop: 'Hele vindu (_top)',
+		targetTop: 'Hele vinduet (_top)',
 		targetSelf: 'Samme vindu (_self)',
 		targetParent: 'Foreldrevindu (_parent)',
 		langDirLTR: 'Venstre til høyre (VTH)',
@@ -99,19 +99,19 @@ CKEDITOR.lang[ 'nb' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
-			35: 'End', // MISSING
-			36: 'Home', // MISSING
-			46: 'Delete', // MISSING
-			224: 'Command' // MISSING
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Mellomrom',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			224: 'Command'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Tastatursnarvei'
 	}
 };

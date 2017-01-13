@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -151,8 +151,16 @@
 				return;
 
 			function doBlur() {
+				var editor = this._.editor;
+
 				if ( this.hasFocus ) {
 					this.hasFocus = false;
+
+					// Blink browsers leave selection in `[contenteditable=true]`
+					// when it's blurred and it's neccessary to remove it manually for inline editor. (#13446)
+					if ( CKEDITOR.env.chrome && editor.editable().isInline() ) {
+						editor.window.$.getSelection().removeAllRanges();
+					}
 
 					var ct = this._.editor.container;
 					ct && ct.removeClass( 'cke_focus' );

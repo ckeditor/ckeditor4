@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -1987,7 +1987,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				if ( !optimized ) {
 					editable = instance.editable();
 
-					if ( editable.equals( this ) || editable.contains( this ) ) {
+					if ( editable && ( editable.equals( this ) || editable.contains( this ) ) ) {
 						return instance;
 					}
 				}
@@ -2146,7 +2146,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	function marginAndPaddingSize( type ) {
 		var adjustment = 0;
 		for ( var i = 0, len = sides[ type ].length; i < len; i++ )
-			adjustment += parseInt( this.getComputedStyle( sides[ type ][ i ] ) || 0, 10 ) || 0;
+			adjustment += parseFloat( this.getComputedStyle( sides[ type ][ i ] ) || 0, 10 ) || 0;
 		return adjustment;
 	}
 

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'pt-br', {
@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'pt-br', {
 	title: 'Formatar Imagem',
 	uploadTab: 'Enviar ao Servidor',
 	urlMissing: 'URL da imagem está faltando.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'Texto alternativo não informado.'
 } );

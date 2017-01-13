@@ -1,5 +1,5 @@
-/*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+﻿/*
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'nb', {
@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'nb', {
 		'8B4513': 'Salbrun',
 		'2F4F4F': 'Grønnsvart',
 		'008080': 'Blågrønn',
-		'000080': 'Marineblått',
+		'000080': 'Marineblå',
 		'4B0082': 'Indigo',
 		'696969': 'Mørk grå',
 		B22222: 'Mørkerød',
@@ -35,17 +35,39 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'nb', {
 		FFFF00: 'Gul',
 		'00FF00': 'Lime',
 		AFEEEE: 'Svak turkis',
-		ADD8E6: 'Lys Blå',
+		ADD8E6: 'Lys blå',
 		DDA0DD: 'Plomme',
 		D3D3D3: 'Lys grå',
 		FFF0F5: 'Svak lavendelrosa',
 		FAEBD7: 'Antikk-hvit',
 		FFFFE0: 'Lys gul',
 		F0FFF0: 'Honningmelon',
-		F0FFFF: 'Svakt asurblått',
+		F0FFFF: 'Svak asurblå',
 		F0F8FF: 'Svak cyan',
 		E6E6FA: 'Lavendel',
-		FFF: 'Hvit'
+		FFF: 'Hvit',
+		'1ABC9C': 'Strong Cyan', // MISSING
+		'2ECC71': 'Emerald', // MISSING
+		'3498DB': 'Bright Blue', // MISSING
+		'9B59B6': 'Amethyst', // MISSING
+		'4E5F70': 'Grayish Blue', // MISSING
+		'F1C40F': 'Vivid Yellow', // MISSING
+		'16A085': 'Dark Cyan', // MISSING
+		'27AE60': 'Dark Emerald', // MISSING
+		'2980B9': 'Strong Blue', // MISSING
+		'8E44AD': 'Dark Violet', // MISSING
+		'2C3E50': 'Desaturated Blue', // MISSING
+		'F39C12': 'Orange', // MISSING
+		'E67E22': 'Carrot', // MISSING
+		'E74C3C': 'Pale Red', // MISSING
+		'ECF0F1': 'Bright Silver', // MISSING
+		'95A5A6': 'Light Grayish Cyan', // MISSING
+		'DDD': 'Light Gray', // MISSING
+		'D35400': 'Pumpkin', // MISSING
+		'C0392B': 'Strong Red', // MISSING
+		'BDC3C7': 'Silver', // MISSING
+		'7F8C8D': 'Grayish Cyan', // MISSING
+		'999': 'Dark Gray' // MISSING
 	},
 	more: 'Flere farger...',
 	panelTitle: 'Farger',

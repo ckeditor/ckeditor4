@@ -3,7 +3,40 @@
 
 ## CKEditor 4.7
 
+## CKEditor 4.6.2
+
+New Features:
+
+* [#16733](http://dev.ckeditor.com/ticket/16733): Added a new pastel color palette for the [Color Button](http://ckeditor.com/addon/colorbutton) plugin and a new [`config.colorButton_colorsPerRow`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-colorButton_colorsPerRow) configuration option for setting the number of rows in the color selector.
+* [#16752](http://dev.ckeditor.com/ticket/16752): Added a new Azerbaijani localization. Thanks to the [Azerbaijani language team](https://www.transifex.com/ckeditor/teams/11143/az/)!
+* [#13818](http://dev.ckeditor.com/ticket/13818): It is now possible to group [Widget](http://ckeditor.com/addon/widget) [style definitions](http://docs.ckeditor.com/#!/guide/dev_styles-section-widget-styles), so applying one style disables the other.
+
+Fixed Issues:
+
+* [#13446](http://dev.ckeditor.com/ticket/13446): [Chrome] Fixed: It is possible to type in an unfocused inline editor.
+* [#14856](http://dev.ckeditor.com/ticket/14856): Fixed: [Font size and font family](http://ckeditor.com/addon/font) reset each other when modified at certain positions.
+* [#16745](http://dev.ckeditor.com/ticket/16745): [Edge] Fixed: List items are lost when [pasted from Word](http://ckeditor.com/addon/pastefromword).
+* [#16682](http://dev.ckeditor.com/ticket/16682): [Edge] Fixed: A list gets [pasted from Word](http://ckeditor.com/addon/pastefromword) as a set of paragraphs. Added the [`config.pasteFromWord_heuristicsEdgeList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWord_heuristicsEdgeList) configuration option.
+* [#10373](http://dev.ckeditor.com/ticket/10373): Fixed: Context menu items can be dragged into the editor.
+* [#16728](http://dev.ckeditor.com/ticket/16728): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks the editor in Quirks Mode.
+* [#16795](http://dev.ckeditor.com/ticket/16795): [IE] Fixed: [Copy Formatting](http://ckeditor.com/addon/copyformatting) breaks the editor in Compatibility Mode.
+* [#16675](http://dev.ckeditor.com/ticket/16675): Fixed: Styles applied with [Copy Formatting](http://ckeditor.com/addon/copyformatting) to a single table cell are applied to the whole table.
+* [#16753](http://dev.ckeditor.com/ticket/16753): Fixed: [`element.setSize`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.element-method-setSize) sets incorrect editor dimensions if the border width is represented as a fraction of pixels.
+* [#16705](http://dev.ckeditor.com/ticket/16705): [Firefox] Fixed: Unable to paste images as Base64 strings when using [Clipboard](http://ckeditor.com/addon/clipboard).
+* [#14869](http://dev.ckeditor.com/ticket/14869): Fixed: JavaScript error is thrown when trying to use [Find](http://ckeditor.com/addon/find) in a [`<div>`-based editor](http://ckeditor.com/addon/divarea).
+
 ## CKEditor 4.6.1
+
+New Features:
+
+* [#16639](http://dev.ckeditor.com/ticket/16639): The `callback` parameter in the [CKEDITOR.ajax.post](http://docs.ckeditor.com/#!/api/CKEDITOR.ajax-method-post) method became optional.
+
+Fixed Issues:
+
+* [#11064](http://dev.ckeditor.com/ticket/11064): [Blink, WebKit] Fixed: Cannot select all editor content when a widget or a non-editable element is the first or last element of the content. Also fixes this issue in the [Select All](http://ckeditor.com/addon/selectall) plugin.
+* [#14755](http://dev.ckeditor.com/ticket/14755): [Blink, WebKit, IE8] Fixed: Browser hangs when a table is inserted in the place of a selected list with an empty last item.
+* [#16624](http://dev.ckeditor.com/ticket/16624): Fixed: Improved the [Color Button](http://ckeditor.com/addon/colorbutton) plugin which will now normalize the CSS `background` property if it only contains a color value. This fixes missing background colors when using [Paste from Word](http://ckeditor.com/addon/pastefromword).
+* [#16600](http://dev.ckeditor.com/ticket/16600): [Blink, WebKit] Fixed: Error thrown occasionally by an uninitialized editable for multiple CKEditor instances on the same page.
 
 ## CKEditor 4.6
 
@@ -16,7 +49,7 @@ New Features:
 	* Backward incompatibility: The [`config.pasteFromWordNumberedHeadingToList`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordNumberedHeadingToList) and [`config.pasteFromWordRemoveStyles`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveStyles) options were dropped and no longer have any effect on pasted content.
 	* Major improvements in preservation of list numbering, styling and indentation (nested lists with multiple levels).
 	* Major improvements in document structure parsing that fix plenty of issues with distorted or missing content after paste.
-* Added new translation: Occitan. Thanks to Cédric Valmary!
+* Added new translation: Occitan. Thanks to [Cédric Valmary](https://totenoc.eu/)!
 * [#10015](http://dev.ckeditor.com/ticket/10015): Keyboard shortcuts (relevant to the operating system in use) will now be displayed in tooltips and context menus.
 * [#13794](http://dev.ckeditor.com/ticket/13794): The [Upload Image](http://ckeditor.com/addon/uploadimage) feature now uses `uploaded.width/height` if set.
 * [#12541](http://dev.ckeditor.com/ticket/12541): Added the [Upload File](http://ckeditor.com/addon/uploadfile) plugin that lets you upload a file by drag&amp;dropping it into the editor content.

@@ -1,5 +1,5 @@
-/*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+﻿/*
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'colorbutton', 'zh', {
@@ -45,7 +45,29 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'zh', {
 		F0FFFF: '天藍色',
 		F0F8FF: '愛麗斯蘭',
 		E6E6FA: '淺紫色',
-		FFF: '白色'
+		FFF: '白色',
+		'1ABC9C': 'Strong Cyan', // MISSING
+		'2ECC71': 'Emerald', // MISSING
+		'3498DB': 'Bright Blue', // MISSING
+		'9B59B6': 'Amethyst', // MISSING
+		'4E5F70': 'Grayish Blue', // MISSING
+		'F1C40F': 'Vivid Yellow', // MISSING
+		'16A085': 'Dark Cyan', // MISSING
+		'27AE60': 'Dark Emerald', // MISSING
+		'2980B9': 'Strong Blue', // MISSING
+		'8E44AD': 'Dark Violet', // MISSING
+		'2C3E50': 'Desaturated Blue', // MISSING
+		'F39C12': 'Orange', // MISSING
+		'E67E22': 'Carrot', // MISSING
+		'E74C3C': 'Pale Red', // MISSING
+		'ECF0F1': 'Bright Silver', // MISSING
+		'95A5A6': 'Light Grayish Cyan', // MISSING
+		'DDD': 'Light Gray', // MISSING
+		'D35400': 'Pumpkin', // MISSING
+		'C0392B': 'Strong Red', // MISSING
+		'BDC3C7': 'Silver', // MISSING
+		'7F8C8D': 'Grayish Cyan', // MISSING
+		'999': 'Dark Gray' // MISSING
 	},
 	more: '更多顏色',
 	panelTitle: '顏色',

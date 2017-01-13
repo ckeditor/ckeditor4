@@ -1,5 +1,5 @@
-/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+﻿/**
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -14,9 +14,9 @@
 
 	CKEDITOR.plugins.add( 'widget', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,ca,cs,cy,da,de,de-ch,el,en,en-gb,eo,es,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-gb,eo,es,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,oc,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
-		requires: 'lineutils,clipboard',
+		requires: 'lineutils,clipboard,widgetselection',
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
@@ -3464,6 +3464,8 @@
 	//
 
 	( function() {
+		// Styles categorized by group. It is used to prevent applying styles for the same group being used together.
+		var styleGroups = {};
 
 		/**
 		 * The class representing a widget style. It is an {@link CKEDITOR#STYLE_OBJECT object} like
@@ -3487,9 +3489,26 @@
 				 * @property {String} widget
 				 */
 				this.widget = styleDefinition.widget;
+
+				/**
+				 * An array of groups that this style belongs to.
+				 * Styles assigned to the same group cannot be combined.
+				 *
+				 * @since 4.6.2
+				 * @property {Array} group
+				 */
+				this.group = typeof styleDefinition.group == 'string' ? [ styleDefinition.group ] : styleDefinition.group;
+
+				// Store style categorized by its group.
+				// It is used to prevent enabling two styles from same group.
+				if ( this.group ) {
+					saveStyleGroup( this );
+				}
 			},
 
 			apply: function( editor ) {
+				var widget;
+
 				// Before CKEditor 4.4 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
 				if ( !( editor instanceof CKEDITOR.editor ) )
@@ -3498,9 +3517,17 @@
 				// Theoretically we could bypass checkApplicable, get widget from
 				// widgets.focused and check its name, what would be faster, but then
 				// this custom style would work differently than the default style
-				// which checks if it's applicable before applying or removeing itself.
-				if ( this.checkApplicable( editor.elementPath(), editor ) )
-					editor.widgets.focused.applyStyle( this );
+				// which checks if it's applicable before applying or removing itself.
+				if ( this.checkApplicable( editor.elementPath(), editor ) ) {
+					widget = editor.widgets.focused;
+
+					// Remove other styles from the same group.
+					if ( this.group ) {
+						this.removeStylesFromSameGroup( editor );
+					}
+
+					widget.applyStyle( this );
+				}
 			},
 
 			remove: function( editor ) {
@@ -3511,6 +3538,43 @@
 
 				if ( this.checkApplicable( editor.elementPath(), editor ) )
 					editor.widgets.focused.removeStyle( this );
+			},
+
+			/**
+			 * Removes all styles that belong to the same group as this style. This method will neither add nor remove
+			 * the current style.
+			 * Returns `true` if any style was removed, otherwise returns `false`.
+			 *
+			 * @since 4.6.2
+			 * @param {CKEDITOR.editor} editor
+			 * @returns {Boolean}
+			 */
+			removeStylesFromSameGroup: function( editor ) {
+				var stylesFromSameGroup,
+					path,
+					removed = false;
+
+				// Before CKEditor 4.4 wasn't a required argument, so we need to
+				// handle a case when it wasn't provided.
+				if ( !( editor instanceof CKEDITOR.editor ) )
+					return false;
+
+				path = editor.elementPath();
+				if ( this.checkApplicable( path, editor ) ) {
+					// Iterate over each group.
+					for ( var i = 0, l = this.group.length; i < l; i++ ) {
+						stylesFromSameGroup = styleGroups[ this.widget ][ this.group[ i ] ];
+						// Iterate over each style from group.
+						for ( var j = 0; j < stylesFromSameGroup.length; j++ ) {
+							if ( stylesFromSameGroup[ j ] !== this && stylesFromSameGroup[ j ].checkActive( path, editor ) ) {
+								editor.widgets.focused.removeStyle( stylesFromSameGroup[ j ] );
+								removed = true;
+							}
+						}
+					}
+				}
+
+				return removed;
 			},
 
 			checkActive: function( elementPath, editor ) {
@@ -3633,6 +3697,25 @@
 
 			var widget = editor.widgets.getByElement( element, true );
 			return widget && widget.checkStyleActive( this );
+		}
+
+		// Save and categorize style by its group.
+		function saveStyleGroup( style ) {
+			var widgetName = style.widget,
+				group;
+
+			if ( !styleGroups[ widgetName ] ) {
+				styleGroups[ widgetName ] = {};
+			}
+
+			for ( var i = 0, l = style.group.length; i < l; i++ ) {
+				group = style.group[ i ];
+				if ( !styleGroups[ widgetName ][ group ] ) {
+					styleGroups[ widgetName ][ group ] = [];
+				}
+
+				styleGroups[ widgetName ][ group ].push( style );
+			}
 		}
 
 	} )();

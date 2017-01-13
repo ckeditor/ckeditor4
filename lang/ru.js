@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -104,7 +104,7 @@ CKEDITOR.lang[ 'ru' ] = {
 			16: 'Shift', // MISSING
 			17: 'Ctrl', // MISSING
 			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
+			32: 'Пробел',
 			35: 'End', // MISSING
 			36: 'Home', // MISSING
 			46: 'Delete', // MISSING
@@ -112,6 +112,6 @@ CKEDITOR.lang[ 'ru' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Комбинация клавиш'
 	}
 };

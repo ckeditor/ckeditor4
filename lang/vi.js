@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -99,8 +99,8 @@ CKEDITOR.lang[ 'vi' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
+			8: 'Phím Backspace',
+			13: 'Enter',
 			16: 'Shift', // MISSING
 			17: 'Ctrl', // MISSING
 			18: 'Alt', // MISSING
