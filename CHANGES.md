@@ -3,6 +3,10 @@
 
 ## CKEditor 4.7
 
+Fixed Issues:
+
+* [#11956](http://dev.ckeditor.com/ticket/11956): [Blink, IE] Fixed: [Link](http://ckeditor.com/addon/link) dialog does not open on a double click on the second word of the link with background color or other styles.
+
 ## CKEditor 4.6.2
 
 New Features:
