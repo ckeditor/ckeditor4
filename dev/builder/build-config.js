@@ -9,9 +9,11 @@ var CKBUILDER_CONFIG = {
 	skin: 'moono-lisa',
 	ignore: [
 		'bender.js',
+		'bender.ci.js',
 		'.bender',
 		'bender-err.log',
 		'bender-out.log',
+		'.travis.yml',
 		'dev',
 		'docs',
 		'.DS_Store',
