@@ -313,20 +313,35 @@
 		 *
 		 * @since 3.2.1
 		 * @param {CKEDITOR.editor} editor
+		 * @param {Boolean} getAll Indicates if function should return first selected link or all.
 		 */
-		getSelectedLink: function( editor ) {
-			var selection = editor.getSelection();
-			var selectedElement = selection.getSelectedElement();
-			if ( selectedElement && selectedElement.is( 'a' ) )
+		getSelectedLink: function( editor, getAll ) {
+			var selection = editor.getSelection(),
+				selectedElement = selection.getSelectedElement(),
+				ranges = selection.getRanges(),
+				links = [],
+				link,
+				range,
+				i;
+
+			if ( !getAll && selectedElement && selectedElement.is( 'a' ) ) {
 				return selectedElement;
-
-			var range = selection.getRanges()[ 0 ];
-
-			if ( range ) {
-				range.shrink( CKEDITOR.SHRINK_TEXT );
-				return editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
 			}
-			return null;
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				range = selection.getRanges()[ i ];
+
+				range.shrink( CKEDITOR.SHRINK_TEXT );
+				link = editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
+
+				if ( link && getAll ) {
+					links.push( link );
+				} else if ( link ) {
+					return link;
+				}
+			}
+
+			return getAll ? links : null;
 		},
 
 		/**

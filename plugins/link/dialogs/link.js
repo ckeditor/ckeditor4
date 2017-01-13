@@ -10,6 +10,83 @@
 		var plugin = CKEDITOR.plugins.link,
 			initialLinkText;
 
+		function createRangeForLink( editor, link ) {
+			var range = editor.createRange();
+
+			range.setStartBefore( link );
+			range.setEndAfter( link );
+
+			return range;
+		}
+
+		function insertLinksIntoSelection( editor, data ) {
+			var attributes = plugin.getLinkAttributes( editor, data ),
+				selection = editor.getSelection(),
+				ranges = selection.getRanges(),
+				style = new CKEDITOR.style( {
+					element: 'a',
+					attributes: attributes.set
+				} ),
+				rangesToSelect = [],
+				range,
+				text,
+				i;
+
+			style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				range = ranges[ i ];
+
+				// Use link URL as text with a collapsed cursor.
+				if ( range.collapsed ) {
+					// Short mailto link text view (#5736).
+					text = new CKEDITOR.dom.text( data.type == 'email' ?
+						data.email.address : attributes.set[ 'data-cke-saved-href' ], editor.document );
+					range.insertNode( text );
+					range.selectNodeContents( text );
+				}
+
+				// Apply style.
+				style.applyToRange( range, editor );
+
+				rangesToSelect.push( range );
+			}
+
+			selection.selectRanges( rangesToSelect );
+		}
+
+		function editLinksInSelection( editor, selectedElements, data ) {
+			var attributes = plugin.getLinkAttributes( editor, data ),
+				selection = editor.getSelection(),
+				ranges = [],
+				element,
+				href,
+				textView,
+				i;
+
+			for ( i = 0; i < selectedElements.length; i++ ) {
+				// We're only editing an existing link, so just overwrite the attributes.
+				element = selectedElements[ i ];
+				href = element.data( 'cke-saved-href' );
+				textView = element.getHtml();
+
+				element.setAttributes( attributes.set );
+				element.removeAttributes( attributes.removed );
+
+				// Update text view when user changes protocol (#4612).
+				if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
+					// Short mailto link text view (#5736).
+					element.setHtml( data.type == 'email' ?
+						data.email.address : attributes.set[ 'data-cke-saved-href' ] );
+				}
+
+				ranges.push( createRangeForLink( editor, element ) );
+			}
+
+			// We changed the content, so need to select it again.
+			selection.selectRanges( ranges );
+		}
+
 		// Handles the event when the "Target" selection box is changed.
 		var targetChanged = function() {
 				var dialog = this.getDialog(),
@@ -819,24 +896,23 @@
 			onShow: function() {
 				var editor = this.getParentEditor(),
 					selection = editor.getSelection(),
-					selectedElement = selection.getSelectedElement(),
 					displayTextField = this.getContentElement( 'info', 'linkDisplayText' ).getElement().getParent().getParent(),
-					element = null;
+					elements = plugin.getSelectedLink( editor, true ),
+					element = elements && elements[ 0 ];
 
 				// Fill in all the relevant fields if there's already one link selected.
-				if ( ( element = plugin.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) ) {
+				if ( element && element.hasAttribute( 'href' ) ) {
 					// Don't change selection if some element is already selected.
 					// For example - don't destroy fake selection.
-					if ( !selectedElement ) {
+					if ( !selection.getSelectedElement() && !selection.isInTable() )
 						selection.selectElement( element );
-						selectedElement = element;
-					}
 				} else {
 					element = null;
 				}
 
+
 				// Here we'll decide whether or not we want to show Display Text field.
-				if ( plugin.showDisplayTextForElement( selectedElement, editor ) ) {
+				if ( plugin.showDisplayTextForElement( element, editor ) ) {
 					displayTextField.show();
 				} else {
 					displayTextField.hide();
@@ -845,85 +921,20 @@
 				var data = plugin.parseLinkAttributes( editor, element );
 
 				// Record down the selected element in the dialog.
-				this._.selectedElement = element;
+				this._.selectedElement = elements;
 
 				this.setupContent( data );
 			},
-			onOk: function() {
+		onOk: function() {
 				var data = {};
 
 				// Collect data from fields.
 				this.commitContent( data );
 
-				var selection = editor.getSelection(),
-					attributes = plugin.getLinkAttributes( editor, data ),
-					bm,
-					nestedLinks;
-
-				if ( !this._.selectedElement ) {
-					var range = selection.getRanges()[ 0 ],
-						text;
-
-					// Use link URL as text with a collapsed cursor.
-					if ( range.collapsed ) {
-						// Short mailto link text view (#5736).
-						text = new CKEDITOR.dom.text( data.linkText || ( data.type == 'email' ?
-							data.email.address : attributes.set[ 'data-cke-saved-href' ] ), editor.document );
-						range.insertNode( text );
-						range.selectNodeContents( text );
-					} else if ( initialLinkText !== data.linkText ) {
-						text = new CKEDITOR.dom.text( data.linkText, editor.document );
-
-						// Shrink range to preserve block element.
-						range.shrink( CKEDITOR.SHRINK_TEXT );
-
-						// Use extractHtmlFromRange to remove markup within the selection. Also this method is a little
-						// smarter than range#deleteContents as it plays better e.g. with table cells.
-						editor.editable().extractHtmlFromRange( range );
-
-						range.insertNode( text );
-					}
-
-					// Editable links nested within current range should be removed, so that the link is applied to whole selection.
-					nestedLinks = range._find( 'a' );
-
-					for	( var i = 0; i < nestedLinks.length; i++ ) {
-						nestedLinks[ i ].remove( true );
-					}
-
-					// Apply style.
-					var style = new CKEDITOR.style( {
-						element: 'a',
-						attributes: attributes.set
-					} );
-
-					style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
-					style.applyToRange( range, editor );
-					range.select();
+				if ( !this._.selectedElement.length ) {
+					insertLinksIntoSelection( editor, data );
 				} else {
-					// We're only editing an existing link, so just overwrite the attributes.
-					var element = this._.selectedElement,
-						href = element.data( 'cke-saved-href' ),
-						textView = element.getHtml(),
-						newText;
-
-					element.setAttributes( attributes.set );
-					element.removeAttributes( attributes.removed );
-
-					if ( data.linkText && initialLinkText != data.linkText ) {
-						// Display text has been changed.
-						newText = data.linkText;
-					} else if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
-						// Update text view when user changes protocol (#4612).
-						// Short mailto link text view (#5736).
-						newText = data.type == 'email' ? data.email.address : attributes.set[ 'data-cke-saved-href' ];
-					}
-
-					if ( newText ) {
-						element.setText( newText );
-						// We changed the content, so need to select it again.
-						selection.selectElement( element );
-					}
+					editLinksInSelection( editor, this._.selectedElement, data );
 
 					delete this._.selectedElement;
 				}
