@@ -38,7 +38,9 @@
 
 	var table = CKEDITOR.document.getById( 'table' ).findOne( 'table' ),
 		linkedTable = CKEDITOR.document.getById( 'table-with-links' ).findOne( 'table' ),
-		editedLinkedTable = CKEDITOR.document.getById( 'table-with-links-edited' ).findOne( 'table' );
+		editedLinkedTable = CKEDITOR.document.getById( 'table-with-links-edited' ).findOne( 'table' ),
+		anchoredTable = CKEDITOR.document.getById( 'table-with-anchors' ).findOne( 'table' ),
+		editedAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors-edited' ).findOne( 'table' );
 
 	bender.test( {
 		'test create link': function() {
@@ -96,7 +98,7 @@
 			} );
 		},
 
-		'test getSelectedLink for table selection': function() {
+		'test getSelectedLink for table selection (links)': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
 				ranges,
@@ -105,6 +107,85 @@
 				i;
 
 			bot.setData( linkedTable.getOuterHtml(), function() {
+				links = editor.editable().find( 'a' );
+				ranges = getRangesForCells( editor, [ 1, 2 ] );
+
+				editor.getSelection().selectRanges( ranges );
+				selectedLinks = CKEDITOR.plugins.link.getSelectedLink( editor, true );
+
+				assert.areSame( links.count(), selectedLinks.length, 'All links found' );
+
+				for ( i = 0; i < links.count(); i++ ) {
+					assert.isTrue( links.getItem( i ).equals( selectedLinks[ i ] ),
+						'The correct links is selected' );
+				}
+			} );
+		},
+
+		'test create anchor': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				ranges;
+
+			bot.setData( table.getOuterHtml(), function() {
+				ranges = getRangesForCells( editor, [ 1, 2 ] );
+
+				editor.getSelection().selectRanges( ranges );
+
+				bot.dialog( 'anchor', function( dialog ) {
+					dialog.setValueOf( 'info', 'txtName', 'foo' );
+					dialog.getButton( 'ok' ).click();
+
+					assert.areEqual( fixHtml( anchoredTable.getOuterHtml() ), bot.getData( true ) );
+				} );
+			} );
+		},
+
+		'test edit anchor (text selected)': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				ranges;
+
+			bot.setData( anchoredTable.getOuterHtml(), function() {
+				ranges = getRangesForCells( editor, [ 1, 2 ] );
+
+				editor.getSelection().selectRanges( ranges );
+
+				bot.dialog( 'anchor', function( dialog ) {
+					dialog.setValueOf( 'info', 'txtName', 'bar' );
+					dialog.getButton( 'ok' ).click();
+
+					assert.areSame( fixHtml( editedAnchoredTable.getOuterHtml() ), bot.getData( true ) );
+				} );
+			} );
+		},
+
+		'test removeAnchor command': function() {
+			var editor = this.editor,
+				unlink = editor.getCommand( 'removeAnchor' ),
+				bot = this.editorBot,
+				ranges;
+
+			bot.setData( anchoredTable.getOuterHtml(), function() {
+				ranges = getRangesForCells( editor, [ 1, 2 ] );
+
+				editor.getSelection().selectRanges( ranges );
+				assert.isTrue( unlink.state == CKEDITOR.TRISTATE_OFF, 'removeAnchor is enabled' );
+
+				editor.execCommand( 'removeAnchor' );
+				assert.areSame( fixHtml( table.getOuterHtml() ), bot.getData( true ), 'anchors are removed' );
+			} );
+		},
+
+		'test getSelectedLink for table selection (anchors)': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				ranges,
+				links,
+				selectedLinks,
+				i;
+
+			bot.setData( anchoredTable.getOuterHtml(), function() {
 				links = editor.editable().find( 'a' );
 				ranges = getRangesForCells( editor, [ 1, 2 ] );
 
