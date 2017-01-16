@@ -96,14 +96,15 @@ module.exports = {
 	/**
 	 * Gets the list of files that are supposed to be included in the next Git commit.
 	 *
+	 * @param cachedOnly {Boolean} List only files which are staged.
 	 * @returns {String[]} A list of file paths.
 	 */
-	getGitDirtyFiles: function() {
+	getGitDirtyFiles: function( cachedOnly ) {
 		// Cache it, so it is executed only once when running multiple tasks.
 		if ( !dirtyFiles ) {
 			dirtyFiles = this
 				// Compare the state of index with HEAD.
-				.shExec( 'git diff-index --name-only HEAD' )
+				.shExec( 'git diff-index --name-only ' + ( cachedOnly ? '--cached HEAD' : 'HEAD' ) )
 				// Remove trailing /n to avoid an empty entry.
 				.replace( /\s*$/, '' )
 				// Transform into array.
