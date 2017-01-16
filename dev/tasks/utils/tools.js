@@ -125,18 +125,15 @@ module.exports = {
 	 * @returns {String} The command output.
 	 */
 	shExec: function( command ) {
-		var sh = require( 'shelljs' );
-		sh.config.silent = true;
-
-		var ret = sh.exec( command );
+		var sh = require( 'shelljs' ),
+			ret = sh.exec( command, { silent: true } );
 
 		if ( ret.code ) {
 			throw new Error(
 				'Error while executing `' + command + '`:\n\n' +
-				ret.output
+				ret.stdout
 			);
 		}
-
-		return ret.output;
+		return ret.stdout;
 	}
 };
