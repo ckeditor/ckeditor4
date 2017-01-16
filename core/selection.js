@@ -87,7 +87,7 @@
 			return false;
 		}
 
-		// In case of WebKit, when checking real selection, we must allow selection to be partial.
+		// In case of WebKit on MacOS, when checking real selection, we must allow selection to be partial.
 		// Otherwise the check will fail for table selection with opened context menu.
 		if ( ( ranges.length === 1 && ranges[ 0 ].collapsed ) ||
 			( isTableSelection( ranges, !!CKEDITOR.env.webkit ) && isTableSelection( fakeRanges ) ) ) {
