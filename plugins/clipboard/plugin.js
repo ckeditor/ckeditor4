@@ -1381,6 +1381,12 @@
 					return;
 				}
 
+				// Edge requires this handler to have `preventDefault()` regardless of the situation.
+				if ( CKEDITOR.env.edge ) {
+					evt.data.preventDefault();
+					return;
+				}
+
 				// If we do not prevent default dragover on IE the file path
 				// will be loaded and we will lose content. On the other hand
 				// if we prevent it the cursor will not we shown, so we prevent
