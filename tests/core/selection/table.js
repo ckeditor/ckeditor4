@@ -942,7 +942,7 @@
 
 			editor.editable().once( 'selectionchange', function() {
 				resume( function() {
-					assert.isFalse( !!selection.isFake, 'isFake is set' );
+					assert.isFalse( !!selection.isFake, 'isFake is not set' );
 					assert.isFalse( selection.isInTable(), 'isInTable is false' );
 					assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
 					assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
@@ -1081,7 +1081,7 @@
 
 			editor.editable().once( 'selectionchange', function() {
 				resume( function() {
-					assert.isFalse( !!selection.isFake, 'isFake is set' );
+					assert.isFalse( !!selection.isFake, 'isFake is not set' );
 					assert.isFalse( selection.isInTable(), 'isInTable is false' );
 					assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
 					assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
