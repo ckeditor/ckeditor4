@@ -1023,15 +1023,6 @@
 
 			selection.selectRanges( ranges );
 
-			// Stub reset method to prevent overwriting fake selection on selectRanges.
-			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
-
-			// We must restore this method before any other selectionchange listeners
-			// to be sure that selectionchange works as intended.
-			editor.editable().once( 'selectionchange', function() {
-				CKEDITOR.dom.selection.prototype.reset.restore();
-			}, null, null, -2 );
-
 			realSelection = editor.getSelection( 1 );
 			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] ) [ 0 ];
 			txtNode = getTextNodeFromRange( range );
@@ -1078,15 +1069,6 @@
 			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
 
 			selection.selectRanges( ranges );
-
-			// Stub reset method to prevent overwriting fake selection on selectRanges.
-			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
-
-			// We must restore this method before any other selectionchange listeners
-			// to be sure that selectionchange works as intended.
-			editor.editable().once( 'selectionchange', function() {
-				CKEDITOR.dom.selection.prototype.reset.restore();
-			}, null, null, -2 );
 
 			realSelection = editor.getSelection( 1 );
 			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] ) [ 0 ];
