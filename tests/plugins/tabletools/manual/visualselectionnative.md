@@ -9,9 +9,9 @@
 
 **Expected result:**
 
-Only visual selection is visible.
+Only visual selection is visible after selecting at least one cell.
 
 **Unexpected result:**
 
-Native selection is visible.
+Native selection is visible after selecting at lease one cell.
 
