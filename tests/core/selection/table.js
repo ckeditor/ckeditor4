@@ -892,7 +892,7 @@
 			this.setVerbosity( CKEDITOR.VERBOSITY_ERROR );
 
 			realSelection = editor.getSelection( 1 );
-			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] ) [ 0 ];
+			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] )[ 0 ];
 
 			range.collapse();
 			realSelection.selectRanges( [ range ] );
@@ -935,7 +935,7 @@
 			this.setVerbosity( CKEDITOR.VERBOSITY_ERROR );
 
 			realSelection = editor.getSelection( 1 );
-			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] ) [ 0 ];
+			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] )[ 0 ];
 
 			range.collapse();
 			realSelection.selectRanges( [ range ] );
@@ -1016,7 +1016,7 @@
 
 			// Now imitate context menu click, which essentially puts collapsed selection in text node.
 			realSelection = editor.getSelection( 1 );
-			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] ) [ 0 ];
+			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] )[ 0 ];
 			txtNode = getTextNodeFromRange( range );
 
 
@@ -1069,7 +1069,7 @@
 
 			// Now imitate context menu click, which essentially puts collapsed selection in text node.
 			realSelection = editor.getSelection( 1 );
-			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] ) [ 0 ];
+			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] )[ 0 ];
 			txtNode = getTextNodeFromRange( range );
 
 			// Switch off displaying errors as changing real selection generates couple of warnings.
