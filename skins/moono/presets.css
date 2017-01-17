@@ -50,12 +50,12 @@ textarea.cke_source
   display: none;
 }
 
-.cke_button__dripbutton_label
+.cke_button__buttonlink_label
 {
   display: inline;
 }
 
-.cke_button__dripbutton_icon
+.cke_button__buttonlink_icon
 {
   display: none;
 }

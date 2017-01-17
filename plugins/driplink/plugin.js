@@ -78,7 +78,7 @@
 			editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 			editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
 
-			editor.addCommand( 'dripbutton', {
+			editor.addCommand( 'buttonlink', {
 				allowedContent: allowed,
 				requiredContent: required,
 				exec: function( editor ) {
@@ -94,7 +94,7 @@
 					} else
 						element = null;
 
-					editor.fire("linkDialogRequested", { el: element, button: true });
+					editor.fire("buttonDialogRequested", { el: element });
 				}
 			} );
 
@@ -111,11 +111,11 @@
 					command: 'unlink',
 					toolbar: 'links,20'
 				} );
-	      editor.ui.addButton( 'DripButton', {
+	      editor.ui.addButton( 'ButtonLink', {
 	        label: 'Insert Button',
-	        command: 'dripbutton',
-	        toolbar: 'help'
-	      });
+	        command: 'buttonlink',
+	        toolbar: 'links,30'
+	      } );
 			}
 
 			// CKEDITOR.dialog.add( 'link', this.path + 'dialogs/link.js' );
