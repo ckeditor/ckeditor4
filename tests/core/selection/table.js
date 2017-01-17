@@ -89,6 +89,14 @@
 	}
 
 	bender.test( {
+		tearDown: function() {
+			if ( this._oldVerbosity !== undefined ) {
+				// Some tests might override verbosity, restore it if requested.
+				CKEDITOR.verbosity = this._oldVerbosity;
+				delete this._oldVerbosity;
+			}
+		},
+
 		'Check if selection is in table': function() {
 			var editor = this.editor,
 				editable = editor.editable(),
@@ -880,14 +888,8 @@
 
 			selection.selectRanges( ranges );
 
-			// Stub reset method to prevent overwriting fake selection on selectRanges.
-			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
-
-			// We must restore this method before any other selectionchange listeners
-			// to be sure that selectionchange works as intended.
-			editor.editable().once( 'selectionchange', function() {
-				CKEDITOR.dom.selection.prototype.reset.restore();
-			}, null, null, -2 );
+			// Switch off displaying errors as changing real selection generates couple of warnings.
+			this.setVerbosity( CKEDITOR.VERBOSITY_ERROR );
 
 			realSelection = editor.getSelection( 1 );
 			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] ) [ 0 ];
@@ -929,14 +931,8 @@
 
 			selection.selectRanges( ranges );
 
-			// Stub reset method to prevent overwriting fake selection on selectRanges.
-			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
-
-			// We must restore this method before any other selectionchange listeners
-			// to be sure that selectionchange works as intended.
-			editor.editable().once( 'selectionchange', function() {
-				CKEDITOR.dom.selection.prototype.reset.restore();
-			}, null, null, -2 );
+			// Switch off displaying errors as changing real selection generates couple of warnings.
+			this.setVerbosity( CKEDITOR.VERBOSITY_ERROR );
 
 			realSelection = editor.getSelection( 1 );
 			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] ) [ 0 ];
@@ -974,14 +970,8 @@
 
 			selection.selectRanges( ranges );
 
-			// Stub reset method to prevent overwriting fake selection on selectRanges.
-			sinon.stub( CKEDITOR.dom.selection.prototype, 'reset' );
-
-			// We must restore this method before any other selectionchange listeners
-			// to be sure that selectionchange works as intended.
-			editor.editable().once( 'selectionchange', function() {
-				CKEDITOR.dom.selection.prototype.reset.restore();
-			}, null, null, -2 );
+			// Switch off displaying errors as changing real selection generates couple of warnings.
+			this.setVerbosity( CKEDITOR.VERBOSITY_ERROR );
 
 			realSelection = editor.getSelection( 1 );
 			range = editor.createRange();
@@ -1013,7 +1003,6 @@
 
 			var editor = this.editor,
 				selection = editor.getSelection(),
-				oldVerbosity = CKEDITOR.verbosity,
 				realSelection,
 				ranges,
 				range,
@@ -1030,14 +1019,13 @@
 			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] ) [ 0 ];
 			txtNode = getTextNodeFromRange( range );
 
+
 			// Switch off displaying errors as changing real selection generates couple of warnings.
-			CKEDITOR.verbosity = 0;
+			this.setVerbosity( CKEDITOR.VERBOSITY_ERROR );
 
 			range.setStart( txtNode, 0 );
 			range.setEnd( txtNode, 2 );
 			realSelection.selectRanges( [ range ] );
-
-			CKEDITOR.verbosity = oldVerbosity;
 
 			editor.editable().once( 'selectionchange', function() {
 				resume( function() {
@@ -1067,7 +1055,6 @@
 
 			var editor = this.editor,
 				selection = editor.getSelection(),
-				oldVerbosity = CKEDITOR.verbosity,
 				realSelection,
 				ranges,
 				range,
@@ -1086,13 +1073,11 @@
 			txtNode = getTextNodeFromRange( range );
 
 			// Switch off displaying errors as changing real selection generates couple of warnings.
-			CKEDITOR.verbosity = 0;
+			this.setVerbosity( CKEDITOR.VERBOSITY_ERROR );
 
 			range.setStart( txtNode, 0 );
 			range.setEnd( txtNode, 2 );
 			realSelection.selectRanges( [ range ] );
-
-			CKEDITOR.verbosity = oldVerbosity;
 
 			editor.editable().once( 'selectionchange', function() {
 				resume( function() {
@@ -1107,6 +1092,11 @@
 
 			editor.editable().fire( 'selectionchange' );
 			wait();
+		},
+
+		setVerbosity: function( newVerbosity ) {
+			this._oldVerbosity = CKEDITOR.verbosity;
+			CKEDITOR.verbosity = newVerbosity;
 		}
 	} );
 }() );
