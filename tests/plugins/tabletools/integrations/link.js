@@ -39,8 +39,10 @@
 	var table = CKEDITOR.document.getById( 'table' ).findOne( 'table' ),
 		linkedTable = CKEDITOR.document.getById( 'table-with-links' ).findOne( 'table' ),
 		editedLinkedTable = CKEDITOR.document.getById( 'table-with-links-edited' ).findOne( 'table' ),
-		anchoredTable = CKEDITOR.document.getById( 'table-with-anchors' ).findOne( 'table' ),
-		editedAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors-edited' ).findOne( 'table' );
+		anchoredTable = CKEDITOR.document.getById( 'table-with-anchor' ).findOne( 'table' ),
+		multiAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors' ).findOne( 'table' ),
+		editedAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors-edited' ).findOne( 'table' ),
+		removedAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors-removed' ).findOne( 'table' );
 
 	bender.test( {
 		'test create link': function() {
@@ -146,13 +148,13 @@
 				bot = this.editorBot,
 				ranges;
 
-			bot.setData( anchoredTable.getOuterHtml(), function() {
+			bot.setData( multiAnchoredTable.getOuterHtml(), function() {
 				ranges = getRangesForCells( editor, [ 1, 2 ] );
 
 				editor.getSelection().selectRanges( ranges );
 
 				bot.dialog( 'anchor', function( dialog ) {
-					dialog.setValueOf( 'info', 'txtName', 'bar' );
+					dialog.setValueOf( 'info', 'txtName', 'baz' );
 					dialog.getButton( 'ok' ).click();
 
 					assert.areSame( fixHtml( editedAnchoredTable.getOuterHtml() ), bot.getData( true ) );
@@ -166,14 +168,15 @@
 				bot = this.editorBot,
 				ranges;
 
-			bot.setData( anchoredTable.getOuterHtml(), function() {
+			bot.setData( multiAnchoredTable.getOuterHtml(), function() {
 				ranges = getRangesForCells( editor, [ 1, 2 ] );
 
 				editor.getSelection().selectRanges( ranges );
 				assert.isTrue( unlink.state == CKEDITOR.TRISTATE_OFF, 'removeAnchor is enabled' );
 
 				editor.execCommand( 'removeAnchor' );
-				assert.areSame( fixHtml( table.getOuterHtml() ), bot.getData( true ), 'anchors are removed' );
+				assert.areSame( fixHtml( removedAnchoredTable.getOuterHtml() ), bot.getData( true ),
+					'anchors are removed' );
 			} );
 		},
 
