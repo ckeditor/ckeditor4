@@ -1012,6 +1012,7 @@
 
 			var editor = this.editor,
 				selection = editor.getSelection(),
+				oldVerbosity = CKEDITOR.verbosity,
 				realSelection,
 				ranges,
 				range,
@@ -1027,9 +1028,14 @@
 			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] ) [ 0 ];
 			txtNode = getTextNodeFromRange( range );
 
+			// Switch off displaying errors as changing real selection generates couple of warnings.
+			CKEDITOR.verbosity = 0;
+
 			range.setStart( txtNode, 0 );
 			range.setEnd( txtNode, 2 );
 			realSelection.selectRanges( [ range ] );
+
+			CKEDITOR.verbosity = oldVerbosity;
 
 			editor.editable().once( 'selectionchange', function() {
 				resume( function() {
@@ -1058,6 +1064,7 @@
 
 			var editor = this.editor,
 				selection = editor.getSelection(),
+				oldVerbosity = CKEDITOR.verbosity,
 				realSelection,
 				ranges,
 				range,
@@ -1074,9 +1081,14 @@
 			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] ) [ 0 ];
 			txtNode = getTextNodeFromRange( range );
 
+			// Switch off displaying errors as changing real selection generates couple of warnings.
+			CKEDITOR.verbosity = 0;
+
 			range.setStart( txtNode, 0 );
 			range.setEnd( txtNode, 2 );
 			realSelection.selectRanges( [ range ] );
+
+			CKEDITOR.verbosity = oldVerbosity;
 
 			editor.editable().once( 'selectionchange', function() {
 				resume( function() {
