@@ -946,7 +946,7 @@
 
 			editor.editable().once( 'selectionchange', function() {
 				resume( function() {
-					assert.isFalse( !!selection.isFake, 'isFake is noy set' );
+					assert.isFalse( !!selection.isFake, 'isFake is set' );
 					assert.isFalse( selection.isInTable(), 'isInTable is false' );
 					assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
 					assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
@@ -1006,6 +1006,7 @@
 		},
 
 		'Simulating opening context menu in the same table (WebKit, macOS)': function() {
+			// Webkits on macOS contrary to other browsers will collapse the selection and anchor it in a text node.
 			if ( !CKEDITOR.env.webkit ) {
 				assert.ignore();
 			}
@@ -1020,10 +1021,11 @@
 
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
 
+			// First mark the selection in our original table.
 			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
-
 			selection.selectRanges( ranges );
 
+			// Now imitate context menu click, which essentially puts collapsed selection in text node.
 			realSelection = editor.getSelection( 1 );
 			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] ) [ 0 ];
 			txtNode = getTextNodeFromRange( range );
@@ -1058,6 +1060,7 @@
 		},
 
 		'Simulating opening context menu in the different table (WebKit, macOS)': function() {
+			// Webkits on macOS contrary to other browsers will collapse the selection and anchor it in a text node.
 			if ( !CKEDITOR.env.webkit ) {
 				assert.ignore();
 			}
@@ -1073,10 +1076,11 @@
 			bender.tools.setHtmlWithSelection( editor,
 				CKEDITOR.tools.repeat( CKEDITOR.document.getById( 'simpleTable' ).getHtml(), 2 ) );
 
+			// First mark the selection in our original table.
 			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
-
 			selection.selectRanges( ranges );
 
+			// Now imitate context menu click, which essentially puts collapsed selection in text node.
 			realSelection = editor.getSelection( 1 );
 			range = getRangesForCells( editor, editor.editable().find( 'table' ).getItem( 1 ), [ 2 ] ) [ 0 ];
 			txtNode = getTextNodeFromRange( range );
@@ -1092,7 +1096,7 @@
 
 			editor.editable().once( 'selectionchange', function() {
 				resume( function() {
-					assert.isFalse( !!selection.isFake, 'isFake is noy set' );
+					assert.isFalse( !!selection.isFake, 'isFake is set' );
 					assert.isFalse( selection.isInTable(), 'isInTable is false' );
 					assert.areSame( 1, selection.getRanges().length, 'One range are selected' );
 					assert.isNotNull( selection.getNative(), 'getNative() should not be null' );
