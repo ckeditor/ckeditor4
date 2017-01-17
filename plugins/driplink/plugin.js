@@ -111,11 +111,11 @@
 					command: 'unlink',
 					toolbar: 'links,20'
 				} );
-	      editor.ui.addButton( 'ButtonLink', {
-	        label: 'Insert Button',
-	        command: 'buttonlink',
-	        toolbar: 'links,30'
-	      } );
+				editor.ui.addButton( 'ButtonLink', {
+				  label: 'Insert Button',
+				  command: 'buttonlink',
+				  toolbar: 'links,30'
+				} );
 			}
 
 			// CKEDITOR.dialog.add( 'link', this.path + 'dialogs/link.js' );
