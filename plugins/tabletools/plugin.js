@@ -942,6 +942,7 @@
 		}
 
 		if ( cells.length > 0 ) {
+			editor.editable().addClass( fakeSelectedEditorClass );
 			cells[ 0 ].getAscendant( 'table' ).addClass( fakeSelectedTableClass );
 		}
 
@@ -996,8 +997,6 @@
 		// Start fake selection only if the left mouse button is really pressed inside the table.
 		if ( !fakeSelection.active && evt.name === 'mousedown' && detectLeftMouseButton( evt ) && table ) {
 			fakeSelection = { active: true };
-
-			editor.editable().addClass( fakeSelectedEditorClass );
 		}
 
 		// The separate condition for table handles cases when user starts/stop dragging from/in
