@@ -717,7 +717,9 @@
 	}
 
 	function getCellsBetween( first, last ) {
-		var map = CKEDITOR.tools.buildTableMap( first.getAscendant( 'table' ) ),
+		var firstTable = first.getAscendant( 'table' ),
+			lastTable = last.getAscendant( 'table' ),
+			map = CKEDITOR.tools.buildTableMap( firstTable ),
 			startRow = getRowIndex( first.getParent() ),
 			endRow = getRowIndex( last.getParent() ),
 			cells = [],
@@ -727,6 +729,12 @@
 			i,
 			j,
 			cell;
+
+		// Support selection that began in outer's table, but ends in nested one.
+		if ( firstTable.contains( lastTable ) ) {
+			last = last.getAscendant( { td: 1, th: 1 } );
+			endRow = getRowIndex( last.getParent() );
+		}
 
 		// First fetch start and end offset.
 		if ( startRow > endRow ) {
@@ -839,17 +847,17 @@
 		}
 
 		if ( cell ) {
+			cells = getCellsBetween( fakeSelection.first, cell );
+
 			// The selection is inside one cell, so we should allow native selection,
 			// but only in case if no other cell between mousedown and mouseup
 			// was selected.
-			if ( !fakeSelection.dirty && fakeSelection.first.equals( cell ) ) {
+			if ( !fakeSelection.dirty && cells.length === 1 ) {
 				return clearFakeCellSelection( editor, evt.name === 'mouseup' );
 			}
 
 			fakeSelection.dirty = true;
 			fakeSelection.last = cell;
-
-			cells = getCellsBetween( fakeSelection.first, cell );
 
 			fakeSelectCells( editor, cells );
 		}
