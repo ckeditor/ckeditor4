@@ -917,6 +917,48 @@
 			wait();
 		},
 
+		'Simulating opening context menu in the nested table': function() {
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				realSelection,
+				ranges,
+				range;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'nestedTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 5 ] );
+
+			selection.selectRanges( ranges );
+
+			// Switch off displaying errors as changing real selection generates couple of warnings.
+			this.setVerbosity( CKEDITOR.VERBOSITY_ERROR );
+
+			realSelection = editor.getSelection( 1 );
+			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1 ] )[ 0 ];
+
+			range.collapse();
+			realSelection.selectRanges( [ range ] );
+
+			editor.editable().once( 'selectionchange', function() {
+				resume( function() {
+					assert.isTrue( !!selection.isFake, 'isFake is set' );
+					assert.isTrue( selection.isInTable(), 'isInTable is true' );
+					assert.areSame( ranges.length, selection.getRanges().length, 'Multiple ranges are selected' );
+					assert.isNull( selection.getNative(), 'getNative() should be null' );
+					assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
+
+					assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
+					assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
+						'Selected element equals to the first selected cell' );
+
+					clearTableSelection( editor.editable() );
+				} );
+			} );
+
+			editor.editable().fire( 'selectionchange' );
+			wait();
+		},
+
 		'Simulating opening context menu in the different table': function() {
 			var editor = this.editor,
 				selection = editor.getSelection(),
@@ -1017,6 +1059,57 @@
 			// Now imitate context menu click, which essentially puts collapsed selection in text node.
 			realSelection = editor.getSelection( 1 );
 			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 2 ] )[ 0 ];
+			txtNode = getTextNodeFromRange( range );
+
+
+			// Switch off displaying errors as changing real selection generates couple of warnings.
+			this.setVerbosity( CKEDITOR.VERBOSITY_ERROR );
+
+			range.setStart( txtNode, 0 );
+			range.setEnd( txtNode, 2 );
+			realSelection.selectRanges( [ range ] );
+
+			editor.editable().once( 'selectionchange', function() {
+				resume( function() {
+					assert.isTrue( !!selection.isFake, 'isFake is set' );
+					assert.isTrue( selection.isInTable(), 'isInTable is true' );
+					assert.areSame( ranges.length, selection.getRanges().length, 'Multiple ranges are selected' );
+					assert.isNull( selection.getNative(), 'getNative() should be null' );
+					assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
+
+					assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
+					assert.isTrue( getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
+						'Selected element equals to the first selected cell' );
+
+					clearTableSelection( editor.editable() );
+				} );
+			} );
+
+			editor.editable().fire( 'selectionchange' );
+			wait();
+		},
+
+		'Simulating opening context menu in the nested table (WebKit, macOS)': function() {
+			// Webkits on macOS contrary to other browsers will collapse the selection and anchor it in a text node.
+			if ( !CKEDITOR.env.webkit ) {
+				assert.ignore();
+			}
+
+			var editor = this.editor,
+				selection = editor.getSelection(),
+				realSelection,
+				ranges,
+				range,
+				txtNode;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'nestedTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 5 ] );
+			selection.selectRanges( ranges );
+
+			// Now imitate context menu click, which essentially puts collapsed selection in text node.
+			realSelection = editor.getSelection( 1 );
+			range = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1 ] )[ 0 ];
 			txtNode = getTextNodeFromRange( range );
 
 

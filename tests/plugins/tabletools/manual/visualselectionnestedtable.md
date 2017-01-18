@@ -9,3 +9,4 @@
 * Selection began in outer's table cell and ended in nested table's cell inside another outer's table cell should select cells from outer's table cell.
 * Selection began in nested table and ended in parent's cell should leave nested cells selected.
 * Selection inside nested table done via elementpath should select proper elements.
+* Context menu for selected cells in outer table should be also possible to open inside nested table.
