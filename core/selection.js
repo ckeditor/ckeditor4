@@ -76,14 +76,14 @@
 	// matches the fake selection, we check if the table cell from fake selection's
 	// first range and real selection's range are the same.
 	// Also if the selection is collapsed, we should check if it's placed inside the table
-	// in which the fake selection is. Such selection occurs after right mouse click.
+	// in which the fake selection is or inside nested table. Such selection occurs after right mouse click.
 	function isRealTableSelection( ranges, fakeRanges ) {
 		var table = getTableElementFromRange( ranges[ 0 ] ) &&
 				getTableElementFromRange( ranges[ 0 ] ).getAscendant( 'table', true ),
 			fakeTable = getTableElementFromRange( fakeRanges[ 0 ] ) &&
 				getTableElementFromRange( fakeRanges[ 0 ] ).getAscendant( 'table', true );
 
-		if ( !table || !fakeTable || !table.equals( fakeTable ) ) {
+		if ( !table || !fakeTable || ( !table.equals( fakeTable ) && !fakeTable.contains( table ) ) ) {
 			return false;
 		}
 
