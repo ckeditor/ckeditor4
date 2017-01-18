@@ -160,6 +160,11 @@
 
 			selection.selectElement( table.findOne( 'table tbody' ) );
 			assert.isTrue( selection.isInTable(), 'Nested table selection (tbody).' );
+
+			selection.selectElement( table.findOne( 'table' ) );
+			assert.isTrue( selection.isInTable(), 'Nested table selection (table).' );
+			assert.isTrue( table.findOne( 'table' ).equals( selection.getSelectedElement() ),
+				'Proper selected element is returned for nested table selection (table).' );
 		},
 
 		'Make fake table selection': function() {
