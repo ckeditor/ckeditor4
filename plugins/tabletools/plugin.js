@@ -1067,6 +1067,7 @@
 			pastedTableColCount = 0,
 			selectedTableColCount = 0,
 			markers = {},
+			boundarySelection,
 			selectedTable,
 			selectedTableMap,
 			selectedCells,
@@ -1084,6 +1085,26 @@
 			cellToReplace,
 			i,
 			j;
+
+		// Check if the selection is collapsed on the beginning of the row (1) or at the end (2).
+		function isBoundarySelection( selection ) {
+			var ranges = selection.getRanges(),
+				range = ranges[ 0 ],
+				container = range.endContainer,
+				length = container.type === CKEDITOR.NODE_ELEMENT ? container.getChildCount() : container.getLength(),
+				cell = container.getAscendant( { td: 1, th: 1 }, true ),
+				row = cell.getAscendant( 'tr' );
+
+			if ( ranges.length > 1 || !range.collapsed ) {
+				return 0;
+			}
+
+			if ( row.getFirst().equals( cell ) && range.startOffset === 0 ) {
+				return 1;
+			} else if ( row.getLast().equals( cell ) && range.endOffset === length ) {
+				return 2;
+			}
+		}
 
 		function getLongestRowLength( map ) {
 			var longest = 0,
@@ -1114,7 +1135,7 @@
 		tmpContainer.setHtml( evt.data.dataValue );
 		pastedTable = tmpContainer.findOne( 'table' );
 
-		if ( !selection.isInTable() ) {
+		if ( !selection.isInTable() && !( boundarySelection = isBoundarySelection( selection ) ) ) {
 			return;
 		}
 
@@ -1128,8 +1149,10 @@
 		lastRow = lastCell.getParent();
 
 		// Empty all selected cells.
-		for ( i = 0; i < selectedCells.length; i++ ) {
-			selectedCells[ i ].setHtml( '' );
+		if ( !boundarySelection ) {
+			for ( i = 0; i < selectedCells.length; i++ ) {
+				selectedCells[ i ].setHtml( '' );
+			}
 		}
 
 		// Handle mixed content (if the table is not the only child in the tmpContainer, we
@@ -1142,9 +1165,28 @@
 			return;
 		}
 
+		// In case of boundary selection, insert new row before/after selected one, select it
+		// and resume the rest of the algorithm.
+		if ( boundarySelection ) {
+			endIndex = firstRow.getChildCount();
+			firstRow = lastRow = new CKEDITOR.dom.element( 'tr' );
+			firstRow[ 'insert' + ( boundarySelection === 1 ? 'Before' : 'After' ) ]( firstCell.getParent() );
+
+			for ( i = 0; i < endIndex; i++ ) {
+				firstCell = new CKEDITOR.dom.element( 'td' );
+				firstCell.appendTo( firstRow );
+			}
+
+			firstCell = firstRow.getFirst();
+			lastCell = firstRow.getLast();
+
+			selection.selectElement( firstRow );
+			selectedCells = getSelectedCells( selection );
+		}
+
 		// Build table map only for selected fragment.
-		selectedTableMap = CKEDITOR.tools.buildTableMap( selectedTable, selectedCells[ 0 ].getParent().$.rowIndex,
-			getCellColIndex( selectedCells[ 0 ], true ), lastRow.$.rowIndex, getRealCellPosition( lastCell ) );
+		selectedTableMap = CKEDITOR.tools.buildTableMap( selectedTable, firstRow.$.rowIndex,
+			getCellColIndex( firstCell, true ), lastRow.$.rowIndex, getRealCellPosition( lastCell ) );
 		pastedTableMap = CKEDITOR.tools.buildTableMap( pastedTable );
 
 
