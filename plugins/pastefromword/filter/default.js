@@ -309,7 +309,6 @@
 				'cellspacing': remove,
 				'cellpadding': remove,
 				'border': remove,
-				'valign': remove,
 				'v:shapes': remove,
 				'o:spid': remove
 			},
