@@ -1092,8 +1092,12 @@
 				range = ranges[ 0 ],
 				container = range.endContainer,
 				length = container.type === CKEDITOR.NODE_ELEMENT ? getCellLength( container ) : container.getLength(),
-				cell = container.getAscendant( { td: 1, th: 1 }, true ),
-				row = cell.getAscendant( 'tr' );
+				cell = container.getName && container.getAscendant( { td: 1, th: 1 }, true ),
+				row = cell && cell.getAscendant( 'tr' );
+
+			if ( !row ) {
+				return 0;
+			}
 
 			function getCellLength( cell ) {
 				var children = cell.getChildren(),
