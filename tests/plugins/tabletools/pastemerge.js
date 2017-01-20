@@ -76,6 +76,20 @@
 
 					wait();
 				} );
+			},
+
+			'test merge multi rows before': function( editor, bot ) {
+				bender.tools.testInputOut( 'merge-rows-before', function( source, expected ) {
+					bot.setHtmlWithSelection( source );
+
+					_addPasteListener( editor, function() {
+						bender.assert.beautified.html( expected, bot.editor.getData() );
+					} );
+
+					bender.tools.emulatePaste( editor, doc.getById( '2cells2rows' ).getOuterHtml() );
+
+					wait();
+				} );
 			}
 		};
 

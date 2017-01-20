@@ -77,6 +77,35 @@
 </table>
 </textarea>
 
+<textarea id="merge-rows-before">
+<table>
+	<tbody>
+		<tr>
+			<td>^cell1</td>
+			<td>cell2</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>11</td>
+		<td>12</td>
+	</tr>
+	<tr>
+		<td>21</td>
+		<td>22</td>
+	</tr>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
 <table id="2cells1row">
 	<tr>
 		<td>foo</td>
