@@ -1090,36 +1090,17 @@
 		function isBoundarySelection( selection ) {
 			var ranges = selection.getRanges(),
 				range = ranges[ 0 ],
-				container = range.endContainer,
-				length = container.type === CKEDITOR.NODE_ELEMENT ? getCellLength( container ) : container.getLength(),
-				cell = container.getName && container.getAscendant( { td: 1, th: 1 }, true ),
-				row = cell && cell.getAscendant( 'tr' );
+				cell = range.endContainer.getAscendant( { td: 1, th: 1 }, true );
 
-			if ( !row ) {
-				return 0;
-			}
-
-			function getCellLength( cell ) {
-				var children = cell.getChildren(),
-					first = cell.getFirst();
-
-				// If cell contains only <br>, then treat it like an empty cell.
-				if ( children.count() === 1 && first.type === CKEDITOR.NODE_ELEMENT && first.is( 'br' ) ) {
-					return 0;
+			if ( cell && range.collapsed ) {
+				if ( range.checkBoundaryOfElement( cell, CKEDITOR.START ) ) {
+					return 1;
+				} else if ( range.checkBoundaryOfElement( cell, CKEDITOR.END ) ) {
+					return 2;
 				}
-
-				return children.count();
 			}
 
-			if ( ranges.length > 1 || !range.collapsed ) {
-				return 0;
-			}
-
-			if ( row.getFirst().equals( cell ) && range.startOffset === 0 ) {
-				return 1;
-			} else if ( row.getLast().equals( cell ) && range.endOffset === length ) {
-				return 2;
-			}
+			return 0;
 		}
 
 		function getLongestRowLength( map ) {
