@@ -43,6 +43,21 @@
 				return;
 		}
 
+		// There is a bug in IE11, that makes it possible to gain editing access to a non-editable area(e.g. widgets).
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 11 ) {
+			var range = sel.getRanges()[ 0 ],
+				ascendant = range ? range.startContainer.getAscendant( function( parent ) {
+						return parent.type == CKEDITOR.NODE_ELEMENT && parent.getAttribute( 'contenteditable' ) == 'false';
+					}, true ) : null ;
+
+			if ( range && range.collapsed && ascendant ) {
+				range.setStartBefore( ascendant );
+				range.setEndAfter( ascendant );
+				range.select();
+				return;
+			}
+		}
+
 		this.fire( 'selectionCheck', sel );
 
 		var currentPath = this.elementPath();
