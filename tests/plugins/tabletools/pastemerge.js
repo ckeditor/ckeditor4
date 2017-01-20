@@ -90,6 +90,34 @@
 
 					wait();
 				} );
+			},
+
+			'test merge multi rows after empty cell': function( editor, bot ) {
+				bender.tools.testInputOut( 'merge-rows-after-empty', function( source, expected ) {
+					bot.setHtmlWithSelection( source );
+
+					_addPasteListener( editor, function() {
+						bender.assert.beautified.html( expected, bot.editor.getData() );
+					} );
+
+					bender.tools.emulatePaste( editor, doc.getById( '2cells2rows' ).getOuterHtml() );
+
+					wait();
+				} );
+			},
+
+			'test merge multi rows before empty cell': function( editor, bot ) {
+				bender.tools.testInputOut( 'merge-rows-before-empty', function( source, expected ) {
+					bot.setHtmlWithSelection( source );
+
+					_addPasteListener( editor, function() {
+						bender.assert.beautified.html( expected, bot.editor.getData() );
+					} );
+
+					bender.tools.emulatePaste( editor, doc.getById( '2cells2rows' ).getOuterHtml() );
+
+					wait();
+				} );
 			}
 		};
 

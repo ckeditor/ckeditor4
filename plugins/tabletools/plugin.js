@@ -1090,12 +1090,12 @@
 		function isBoundarySelection( selection ) {
 			var ranges = selection.getRanges(),
 				range = ranges[ 0 ],
-				cell = range.endContainer.getAscendant( { td: 1, th: 1 }, true );
+				row = range.endContainer.getAscendant( 'tr', true );
 
-			if ( cell && range.collapsed ) {
-				if ( range.checkBoundaryOfElement( cell, CKEDITOR.START ) ) {
+			if ( row && range.collapsed ) {
+				if ( range.checkBoundaryOfElement( row, CKEDITOR.START ) ) {
 					return 1;
-				} else if ( range.checkBoundaryOfElement( cell, CKEDITOR.END ) ) {
+				} else if ( range.checkBoundaryOfElement( row, CKEDITOR.END ) ) {
 					return 2;
 				}
 			}
