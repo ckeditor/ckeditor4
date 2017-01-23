@@ -78,6 +78,26 @@
 			editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 			editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
 
+			editor.addCommand( 'buttonlink', {
+				allowedContent: allowed,
+				requiredContent: required,
+				exec: function( editor ) {
+					var selection = editor.getSelection(),
+						element = null;
+
+					// Fill in all the relevant fields if there's already one link selected.
+					if ( ( element = CKEDITOR.plugins.link.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) ) {
+						// Don't change selection if some element is already selected.
+						// For example - don't destroy fake selection.
+						if ( !selection.getSelectedElement() )
+							selection.selectElement( element );
+					} else
+						element = null;
+
+					editor.fire("buttonDialogRequested", { el: element });
+				}
+			} );
+
 			editor.setKeystroke( CKEDITOR.CTRL + 76 /*L*/, 'link' );
 
 			if ( editor.ui.addButton ) {
@@ -90,6 +110,11 @@
 					label: editor.lang.link.unlink,
 					command: 'unlink',
 					toolbar: 'links,20'
+				} );
+				editor.ui.addButton( 'ButtonLink', {
+				  label: 'Insert Button',
+				  command: 'buttonlink',
+				  toolbar: 'links,30'
 				} );
 			}
 
@@ -119,8 +144,29 @@
 					}
 				};
 
+				var currentClasses = element && element.hasAttribute( 'class' ) && element.getAttribute( 'class' ) || ""
+				var classes = element && element.hasAttribute( 'class' ) && element.getAttribute( 'class' ) || ""
+
+				if ( evt.data["class"] ) {
+					var reg = new RegExp("(?:^|\\s)" + evt.data["class"] + "(?!\\S)");
+					if ( !classes.match(reg) )
+				    classes += " " + evt.data["class"];
+				}
+
+				if ( evt.data["removeClass"] ) {
+					var reg = new RegExp("(?:^|\\s)" + evt.data["removeClass"] + "(?!\\S)", 'g');
+					classes = classes.replace( reg , '' );
+				}
+
 				var selection = editor.getSelection(),
 					attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, data );
+
+				// Add and remove CSS classes
+				if (classes || currentClasses) {
+					attributes.set['class'] = classes;
+					var index = attributes.removed.indexOf('class')
+					attributes.removed.splice(index, 1);
+				}
 
 				if ( !selectedElement ) {
 					var range = selection.getRanges()[ 0 ];
@@ -733,7 +779,6 @@
 				else if ( data.target.type != 'notSet' && data.target.name )
 					set.target = data.target.name;
 			}
-
 			// Advanced attributes.
 			if ( data.advanced ) {
 				for ( var a in advAttrNames ) {
