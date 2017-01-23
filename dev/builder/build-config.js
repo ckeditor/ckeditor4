@@ -48,6 +48,7 @@ var CKBUILDER_CONFIG = {
 		'entities' : 1,
 		'filebrowser' : 1,
 		'find' : 1,
+		'sharedspace': 1,
 		'floatingspace' : 1,
 		'font' : 1,
 		'format' : 1,

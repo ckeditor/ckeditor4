@@ -18,6 +18,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'blockquote,' +
 		'cancelChanges,' +
 		'clipboard,' +
+		'sharedspace,' +
 		'colorbutton,' +
 		'confighelper,' +
 		'contextmenu,' +

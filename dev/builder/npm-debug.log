@@ -1,0 +1,27 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'dev-hot' ]
+2 info using npm@3.8.6
+3 info using node@v5.12.0
+4 verbose stack Error: missing script: dev-hot
+4 verbose stack     at run (C:\Program Files\nodejs\node_modules\npm\lib\run-script.js:147:19)
+4 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\run-script.js:57:5
+4 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:345:5
+4 verbose stack     at checkBinReferences_ (C:\Program Files\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:309:45)
+4 verbose stack     at final (C:\Program Files\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:343:3)
+4 verbose stack     at then (C:\Program Files\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:113:5)
+4 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\read-package-json\read-json.js:300:12
+4 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\graceful-fs\graceful-fs.js:78:16
+4 verbose stack     at tryToString (fs.js:414:3)
+4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:401:12)
+5 verbose cwd D:\Work\ckeditor-dev\dev\builder
+6 error Windows_NT 10.0.14393
+7 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "dev-hot"
+8 error node v5.12.0
+9 error npm  v3.8.6
+10 error missing script: dev-hot
+11 error If you need help, you may report this error at:
+11 error     <https://github.com/npm/npm/issues>
+12 verbose exit [ 1, true ]
