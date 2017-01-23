@@ -10,7 +10,7 @@
 		fakeSelectedTableClass = fakeSelectedClass + '-table',
 		fakeSelection = { active: false };
 
-	function getSelectedCells( selection ) {
+	function getSelectedCells( selection, table ) {
 		if ( !selection ) {
 			return;
 		}
@@ -39,7 +39,7 @@
 				// Walker does not handle collapsed ranges yet - fall back to old API.
 				var startNode = range.getCommonAncestor();
 				var nearestCell = startNode.getAscendant( 'td', true ) || startNode.getAscendant( 'th', true );
-				if ( nearestCell )
+				if ( nearestCell && ( ( table && table.contains( nearestCell ) ) || !table ) )
 					retval.push( nearestCell );
 			} else {
 				var walker = new CKEDITOR.dom.walker( range );
@@ -56,7 +56,8 @@
 
 					if ( node.type != CKEDITOR.NODE_ELEMENT || !node.is( CKEDITOR.dtd.table ) ) {
 						var parent = node.getAscendant( 'td', true ) || node.getAscendant( 'th', true );
-						if ( parent && !parent.getCustomData( 'selected_cell' ) ) {
+						if ( parent && !parent.getCustomData( 'selected_cell' ) &&
+							( ( table && table.contains( parent ) ) || !table ) ) {
 							CKEDITOR.dom.element.setMarker( database, parent, 'selected_cell', true );
 							retval.push( parent );
 						}
@@ -666,6 +667,30 @@
 		return domEvent.button === 0;
 	}
 
+	function getTableElementFromRange( range ) {
+		var tableElements = {
+				table: 1,
+				tbody: 1,
+				tr: 1,
+				td: 1,
+				th: 1
+			},
+			start = range.startContainer,
+			end = range.endContainer,
+			startTable = start.getAscendant( 'table', true ),
+			endTable = end.getAscendant( 'table', true );
+
+		if ( range.getEnclosedNode() ) {
+			return range.getEnclosedNode().getAscendant( tableElements, true );
+		}
+
+		// Ensure that selection starts and ends in the same table or one of the table is inside the other.
+		if ( startTable && endTable && ( startTable.equals( endTable ) || startTable.contains( endTable ) ||
+			endTable.contains( startTable ) ) ) {
+			return start.getAscendant( tableElements, true );
+		}
+	}
+
 	function getFakeSelectedTable( editor ) {
 		var selectedCell = editor.editable().findOne( '.' + fakeSelectedClass );
 
@@ -866,7 +891,9 @@
 	function fakeSelectionChangeHandler( evt ) {
 		var editor = evt.editor || evt.sender.editor,
 			selection = editor && editor.getSelection(),
+			ranges = selection && selection.getRanges() || [],
 			cells,
+			table,
 			i;
 
 		if ( !selection ) {
@@ -879,7 +906,14 @@
 			return;
 		}
 
-		cells = getSelectedCells( selection );
+		// In case of whole nested table selection, getSelectedCells returns also
+		// cell which contains the table. We should filter it.
+		if ( ranges.length === 1 && getTableElementFromRange( ranges[ 0 ] ) &&
+			getTableElementFromRange( ranges[ 0 ] ).is( 'table' ) ) {
+			table = getTableElementFromRange( ranges[ 0 ] );
+		}
+
+		cells = getSelectedCells( selection, table );
 
 		editor.fire( 'lockSnapshot' );
 
