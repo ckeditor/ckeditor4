@@ -1198,6 +1198,7 @@
 
 		selectedCells = getSelectedCells( selection );
 		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
+		selectedCells = getSelectedCells( selection, selectedTable );
 		firstCell = selectedCells[ 0 ];
 		firstRow = firstCell.getParent();
 		lastCell = selectedCells[ selectedCells.length - 1 ];
