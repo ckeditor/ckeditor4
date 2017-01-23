@@ -19,6 +19,14 @@
 		var retval = [];
 		var database = {};
 
+		function isInTable( cell ) {
+			if ( !table ) {
+				return true;
+			}
+
+			return table.contains( cell ) && cell.getAscendant( 'table', true ).equals( table );
+		}
+
 		function moveOutOfCellGuard( node ) {
 			// Apply to the first cell only.
 			if ( retval.length > 0 )
@@ -39,7 +47,7 @@
 				// Walker does not handle collapsed ranges yet - fall back to old API.
 				var startNode = range.getCommonAncestor();
 				var nearestCell = startNode.getAscendant( 'td', true ) || startNode.getAscendant( 'th', true );
-				if ( nearestCell && ( ( table && table.contains( nearestCell ) ) || !table ) )
+				if ( nearestCell && isInTable( nearestCell ) )
 					retval.push( nearestCell );
 			} else {
 				var walker = new CKEDITOR.dom.walker( range );
@@ -56,8 +64,7 @@
 
 					if ( node.type != CKEDITOR.NODE_ELEMENT || !node.is( CKEDITOR.dtd.table ) ) {
 						var parent = node.getAscendant( 'td', true ) || node.getAscendant( 'th', true );
-						if ( parent && !parent.getCustomData( 'selected_cell' ) &&
-							( ( table && table.contains( parent ) ) || !table ) ) {
+						if ( parent && !parent.getCustomData( 'selected_cell' ) && isInTable( parent ) ) {
 							CKEDITOR.dom.element.setMarker( database, parent, 'selected_cell', true );
 							retval.push( parent );
 						}
