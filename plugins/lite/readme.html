@@ -1,0 +1,63 @@
+<html>
+<head><title>LITE (Track changes for CKEditor)</title>
+<style>body{font-family:sans-serif;}</style>
+</head>
+<body>
+<div id="preview" class="shadowbox" style="background-image: url(file:///E:/readme.html);"><h1 id="track-changes-plugin-for-ckeditor">Track Changes Plugin for CKEditor</h1>
+<ul>
+<li>Track changes plugin for CKEditor, based on <a href="https://github.com/NYTimes/ice" target="_blank">ICE</a> (NYTimes track changes for <code>contentEditable</code> documents). </li>
+</ul>
+<h2 id="main-features">Main Features</h2>
+<ul>
+<li>Enable / disable track changes mode</li>
+<li>Show / hide tracked changes</li>
+<li>Accept/Reject all/some changes</li>
+<li>Accept/Reject a single change</li>
+<li>Display customizable tooltips for each change</li>
+</ul>
+<h2 id="demo">Demo</h2>
+<p><a href="http://www.loopindex.com/lite/demo">Demo Page</a></p>
+<h2 id="site">Site</h2>
+<p><a href="http://www.loopindex.com/lite">LoopIndex</a></p>
+<h2 id="getting-started">Getting Started</h2>
+<ul>
+<li>Add the lite plugin to ckeditor. The simplest way to do this is by adding the following line to ckeditor's 
+<code>config.js</code>:<pre><code class="lang-javascript">  config.extraPlugins = 'lite';</code></pre>
+</li>
+<li><p>Include the localization file in your source. Currently, english and german localization is available, other languages are welcome.</p>
+<pre><code class="lang-javascript">
+	<span class="hljs-tag"><span class="hljs-title">&lt;script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"ckeditor/plugins/lite/lang/en.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</code></pre>
+</li>
+<li><p>Optionally include <code>lite-interface.js</code> in your source, so you can use the various constants defined in it rather than string literals.</p>
+<pre><code class="lang-javascript">&lt;script type="text/javascript" src="ckeditor/plugins/lite/lite-interface.js"&gt;&lt;/script&gt;</code></pre>
+</li>
+<li><p>See the <a href="http://www.loopindex.com/lite/docs/" target="_blank">documentation</a> for all the configuration options.</p>
+</li>
+</ul>
+<h2 id="configuration">Configuration</h2>
+<p>The LITE plugin is automatically activated after you install it and edit <code>config.js</code> as described above. For the full details of tweaking the loading process, toolbar commands, users and more, see the <a href="http://www.loopindex.com/lite/docs/" target="_blank">documentation</a>.</p>
+<h2 id="api">API</h2>
+<p>The LITE plugin exposes a wide range of methods, events and properties for controlling and reporting the tracked changes. see the <a href="http://www.loopindex.com/lite/docs/" target="_blank">documentation</a> for details.</p>
+
+<h3>Notes</h3>
+<ul><li>Note that the ICE engine adds markup to the editor content. 
+<li> LITE tracks only text insertion and deletion. Other changes, such as style edits, are not tracked.
+</ul>
+
+<h3>Browser Compatibility</h3>
+LITE has been tested on Firefox 15+ and Chrome 13+. Support for MSIE 9+ is not guaranteed, although the current version seems to work on it.
+
+<h3>License</h3>
+
+Copyright (c) LoopIndex.
+
+<h4>GPL 2.0</h4>
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License, version 2, as published by the Free Software Foundation.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with this program as the file gpl.txt. 
+If not, see http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+
+Written by (David *)Frenkiel (<a href="https://github.com/imdfl">https://github.com/imdfl</a>)
+</div></body>
+</html>

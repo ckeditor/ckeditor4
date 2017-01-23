@@ -1,0 +1,124 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Configuration Helper plugin</title>
+<link href="styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h1>Configuration Helper Plugin for CKEditor</h1>
+
+<h2>Introduction</h2>
+<p>This plugin tries to help setup <a href="http://www.ckeditor.com">CKEditor</a> by providing additional configuration options to perform some
+kind of common tasks.</p>
+<p>Currently if offers a "removeDialogFields" that allows to remove individual fields in the dialogs (versus removing whole tabs with
+<a href="http://docs.cksource.com/ckeditor_api/symbols/CKEDITOR.config.html#.removeDialogTabs">removeDialogTabs</a>, and "dialogFieldsDefaultValues"
+defines default values for dialog fields.</p>
+
+<h3 id="contact">Author:</h3>
+<p><a href="mailto:amla70@gmail.com">Alfonso Mart&iacute;nez de Lizarrondo</a></p>
+
+<h3>Version history: </h3>
+<ol>
+  <li>1.0: 26-February-2012. First version.</li>
+  <li>1.1: 16-February-2012. Added placeholder.</li>
+  <li>1.2: 23-April-2012. Added hideDialogFields.</li>
+  <li>1.3: 1-December-2012. Compatibility with CKEditor 4.</li>
+  <li>1.4: 28-March-2013. Compatibility of the "placeholder" attribute with the inline mode of CKEditor 4.</li>
+  <li>1.5: 16-April-2013. Version 1.4 was broken in CKEditor 3.</li>
+  <li>1.6: 16-August-2013. Handle the setData method to update the "placeholder" status</li>
+  <li>1.7: 6-October-2013. <a href="https://github.com/AlfonsoML/confighelper/pull/2">Patch by bfavors</a> to fix handling placeholder on initial load of editor</li>
+  <li>1.8: 9-March-2014. <a href="http://ckeditor.com/comment/reply/128664/130294">Check for IE11 by Russel Ward</a><br>
+		Set caret into the empty paragraph correctly on first focus, <a href="https://github.com/AlfonsoML/confighelper/pull/5">patch by glanchow</a>
+	</li>
+  <li>1.8.1: 5-April-2014. <a href="https://github.com/AlfonsoML/confighelper/issues/6">Fix IE8 & IE9 problem with "inline textarea" if it's empty on start</a>
+	</li>
+  <li>1.8.2: 12-April-2014. <a href="https://github.com/AlfonsoML/confighelper/pull/8">Protect detection of empty content</a>. Thanks to tanihito.
+	</li>
+  <li>1.8.3: 30-November-2014. Force SCAYT to use the language that it's specified as the language for the contents.<br>
+			<a href="https://github.com/AlfonsoML/confighelper/pull/13">Listen to the contentDom event to avoid problems when calling setData in WYSIWYG mode</a>. Thanks to noam-si.
+	</li>
+</ol>
+
+<h2>Installation</h2>
+<h3>1. Copying the files</h3>
+<p>Extract the contents of the zip in you plugins directory, so it ends up like
+    this<br>
+    <!--<img src="installation.png" alt="Screenshot of installation" width="311" height="346" longdesc="#install">-->
+    </p>
+<pre id="--install">
+ckeditor\
+	...
+	images\
+	lang\
+	plugins\
+		...
+		confighelper\
+			plugin.js
+			docs\
+				install.html
+		...
+	skins\
+	themes\
+</pre>
+<h3>2. Adding it to CKEditor</h3>
+<p>Now add the plugin in your <em>config.js</em> or custom js configuration
+file:
+<code>config.extraPlugins='confighelper'; </code>
+</p>
+
+<h3>3. Configuration</h3>
+<h4>config.removeDialogFields</h4>
+<p>This entry is a string, the fields are defined as dialogName + ":" + tab + ":" + field. Fields are joined with semicolons.
+In order to learn the name of the parameters you can use the "Developer Tools plugin", launch that sample and open the dialog that you want to customize.
+Now a little popup with appear showing the info about that field, for example:
+<pre><u>Element Information</u>
+Dialog window name : image
+Tab name : info
+Element ID : txtBorder
+Element type : text
+</pre>
+so in order to remove the class attribute for images the config is:
+<pre>config.removeDialogFields="image:info:txtBorder";</pre>
+removing another field
+<pre>config.removeDialogFields="image:info:txtBorder;image:info:txtHSpace";</pre>
+
+<h4>config.dialogFieldsDefaultValues</h4>
+<p>This setting uses directly a JSON object as the configuration value, first an object that has the dialog names as properties, each property is
+a new object with the name of the tabs and finally each property name maps to the field name and it's value is the default value to use for the field.</p>
+<p>An example might be much better as I might have messed up something in the description:</p>
+<pre>config.dialogFieldsDefaultValues =
+{
+	image:
+		{
+			advanced:
+				{
+					txtGenClass : 'myClass',
+					txtGenTitle : 'Image title'
+				}
+		}
+};
+</pre>
+
+<h4>config.placeholder</h4>
+<p>This a text that will be shown when the editor is empty following the HTML5 placeholder attribute. When the user focus the editor, the content is
+cleared automatically.</p>
+<p>The value can be set in the configuration or as an attribute of the replaced element</p>
+<pre>config.placeholder = 'Type here...';</pre>
+
+<h4>config.hideDialogFields</h4>
+<p>This entry uses the same sintax that the 'removeDialogFields' option. The difference is that some fields can't be removed easily as other parts of the dialog
+might not be ready and might try to always use it, generating a javascript error. In other cases the layout might be broken if the field is removed instead of hidden.<br>
+In those cases it's possible to hide the fields using this entry, and the preview in the image dialog is an example of such a field.</p>
+<pre>config.hideDialogFields="image:info:htmlPreview";</pre>
+
+<!--
+<h2>Final notes</h2>
+-->
+
+<h2>Disclaimers</h2>
+<p>CKEditor is  &copy; CKSource.com</p>
+</body>
+</html>

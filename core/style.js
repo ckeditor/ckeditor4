@@ -140,7 +140,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * @param variablesValues
 	 */
 	CKEDITOR.style = function( styleDefinition, variablesValues ) {
-		if ( typeof styleDefinition.type == 'string' )
+		if ( typeof styleDefinition.type === 'string' )
 			return new CKEDITOR.style.customHandlers[ styleDefinition.type ]( styleDefinition );
 
 		// Inline style text as attribute should be converted
@@ -161,9 +161,11 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 		var element = this.element = styleDefinition.element ?
 			(
-				typeof styleDefinition.element == 'string' ?
+				typeof styleDefinition.element === 'string' ?
 					styleDefinition.element.toLowerCase() : styleDefinition.element
 			) : '*';
+
+		this.elements = styleDefinition.elements || [];
 
 		this.type = styleDefinition.type ||
 			(
@@ -173,7 +175,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 			);
 
 		// If the 'element' property is an object with a set of possible element, it will be applied like an object style: only to existing elements
-		if ( typeof this.element == 'object' )
+		if ( typeof this.element === 'object' )
 			this.type = CKEDITOR.STYLE_OBJECT;
 
 		this._ = {
@@ -401,7 +403,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 				name = element.getName();
 
 			// If the element name is the same as the style name.
-			if ( typeof this.element == 'string' ? name == this.element : name in this.element ) {
+			if ( (typeof this.element === 'string' ? name === this.element : this.element && this.element[name]) ||
+				(this.elements && this.elements.indexOf(name) !== -1) ) {
 				// If no attributes are defined in the element.
 				if ( !fullMatch && !element.hasAttributes() )
 					return true;
@@ -1801,9 +1804,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 			return propertyName.toLowerCase() == 'font-family' ? string.replace( /["']/g, '' ) : string;
 		}
 
-		if ( typeof source == 'string' )
+		if ( typeof source === 'string' )
 			source = CKEDITOR.tools.parseCssText( source );
-		if ( typeof target == 'string' )
+		if ( typeof target === 'string' )
 			target = CKEDITOR.tools.parseCssText( target, true );
 
 		for ( var name in source ) {
@@ -1812,8 +1815,8 @@ CKEDITOR.STYLE_OBJECT = 3;
 			}
 
 			if ( !( filter( target[ name ], name ) == filter( source[ name ], name ) ||
-				source[ name ] == 'inherit' ||
-				target[ name ] == 'inherit' ) ) {
+				source[ name ] === 'inherit' ||
+				target[ name ] === 'inherit' ) ) {
 				return false;
 			}
 		}
