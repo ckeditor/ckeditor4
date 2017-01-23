@@ -7,119 +7,689 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 <head>
 	<meta charset="utf-8">
 	<title>CKEditor Sample</title>
+	<script src="./jquery.js"></script>
 	<script src="../ckeditor.js"></script>
 	<script src="js/sample.js"></script>
 	<link rel="stylesheet" href="css/samples.css">
-	<link rel="stylesheet" href="toolbarconfigurator/lib/codemirror/neo.css">
 </head>
 <body id="main">
-
-<nav class="navigation-a">
-	<div class="grid-container">
-		<ul class="navigation-a-left grid-width-70">
-			<li><a href="http://ckeditor.com">Project Homepage</a></li>
-			<li><a href="http://dev.ckeditor.com/">I found a bug</a></li>
-			<li><a href="http://github.com/ckeditor/ckeditor-dev" class="icon-pos-right icon-navigation-a-github">Fork CKEditor on GitHub</a></li>
-		</ul>
-		<ul class="navigation-a-right grid-width-30">
-			<li><a href="http://ckeditor.com/blog-list">CKEditor Blog</a></li>
-		</ul>
-	</div>
-</nav>
-
-<header class="header-a">
-	<div class="grid-container">
-		<h1 class="header-a-logo grid-width-30">
-			<a href="index.html"><img src="img/logo.png" alt="CKEditor Sample"></a>
-		</h1>
-
-		<nav class="navigation-b grid-width-70">
-			<ul>
-				<li><a href="index.html" class="button-a button-a-background">Start</a></li>
-				<li><a href="toolbarconfigurator/index.html" class="button-a">Toolbar configurator <span class="balloon-a balloon-a-nw">Edit your toolbar now!</span></a></li>
-			</ul>
-		</nav>
-	</div>
-</header>
-
-<main>
-	<div class="adjoined-top">
-		<div class="grid-container">
-			<div class="content grid-width-100">
-				<h1>Congratulations!</h1>
-				<p>
-					If you can see CKEditor below, it means that the installation succeeded.
-					You can now try out your new editor version, see its features, and when you are ready to move on, check some of the <a href="#sample-customize">most useful resources</a> recommended below.
-				</p>
-			</div>
-		</div>
-	</div>
 	<div class="adjoined-bottom">
 		<div class="grid-container">
 			<div class="grid-width-100">
 				<div id="editor">
-					<h1>Hello world!</h1>
-					<p>I'm an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+					<div><p data-id="4e3f054f-f0e8-4d30-9be7-c223c9bd5034" style="margin-top:5pt; margin-bottom:10pt; text-align:center; line-height:115%; font-size:11pt"><span style="font-family:Arial; font-weight:bold">Non-Disclosure Agreement</span></p></div><div><p data-id="5d711714-1d93-4d06-8d40-99a11f62ed8b" style="margin-top:5pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">This Non-Disclosure Agreement is </span><span style="font-family:Arial">dddd</span><span style="font-family:Arial"> on 12 Aug (the "</span><span style="font-family:Arial; font-weight:bold">Effective Date</span><span style="font-family:Arial">") between </span><span style="font-family:Calibri">Parley Pro Inc., a California corporation with its principal place of business at 3 Ventana Court, Emerald Hills, CA</span><span style="font-family:Arial">, </span><span style="font-family:Calibri">ProseWare Inc., a </span><span style="font-family:Calibri">Corporation state</span><span style="font-family:Calibri">&nbsp;</span><span style="font-family:Calibri">corporation with its principal place of business at 342 </span><span style="font-family:Calibri">sadfasdfa</span><span style="font-family:Calibri">way New York, NY </span><span style="font-family:Calibri">index</span><span style="font-family:Arial">. </span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial"> </span></p></div><div><p data-id="1e925a29-b657-4d0e-9c6b-bb66dcc0addf" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:12pt"><pgbr style="page-break-after: always" aria-label="Разрыв страницы" class="cke_pagebreak" contenteditable="false" data-cke-display-name="pagebreak" data-cke-pagebreak="1" title="Разрыв страницы"></pgbr></p></div><div><p data-id="662beb67-1a03-4e8f-91cc-c573b8a1b76a" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="d4758e90-fcde-49b2-a1cd-80dc03ea8a48" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">The parties agree as follows:</span></p></div><div><ol type="1" data-id="68da166e-fd96-4146-ab2b-4c11cecb6df5" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:23pt; margin-bottom:10pt; line-height:115%; padding-left:13pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Definitions</span>. In addition to the terms defined above, the following definitions apply:</li></ol></div><div><p data-id="65ad6d1a-75ff-4cbe-af48-8a884caaf033" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">1.1.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">“</span><span style="font-family:Arial; font-weight:bold">Affiliate</span><span style="font-family:Arial">” of any Person means, at the time the determination is made, any other Person that, directly or indirectly, Controls, is Controlled by, or is under common Control with that Person.</span></p></div><div><p data-id="5f543a65-1a37-4567-a260-874014cadc8d" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">1.2.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">“</span><span style="font-family:Arial; font-weight:bold">Confidential Information</span><span style="font-family:Arial">” means</span></p></div><div><p data-id="0bfa99e8-87f9-4b07-b7e9-0463108203b0" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(a)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">all [material] [non-public] [business-related] information, written or oral, whether or not it is marked as confidential, disclosed or made available,[ directly or indirectly,] through any means of communication [or observation] by one party[ or any of its Affiliates or representatives] to[ or for the benefit of] the other party, but does not include information that</span></p></div><div><p data-id="1f7eefe0-c18f-4bec-af98-9cb0cbd542b4" style="margin-top:0pt; margin-left:144pt; margin-bottom:10pt; text-indent:-27.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(i)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="color:#333333; font-family:Arial">i</span><span style="font-family:Arial">s or becomes publicly known through no wrongful act of the receiving party,</span></p></div><div><p data-id="e218fcaa-3c22-423e-af86-77a6a6d8e2e4" style="margin-top:0pt; margin-left:144pt; margin-bottom:10pt; text-indent:-30.2pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(ii)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">the receiving party received in good faith on a non-confidential basis from a source other than the disclosing party or its Representatives,</span></p></div><div><p data-id="1b499fcf-08a8-4c69-80a7-9da6b1f754a3" style="margin-top:0pt; margin-left:144pt; margin-bottom:10pt; text-indent:-32.65pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(iii)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="color:#333333; font-family:Arial">w</span><span style="font-family:Arial">as in the receiving party’s possession before its disclosure by the disclosing party or its Representatives,</span></p></div><div><p data-id="fbe6020c-f8e8-42e2-bc01-1ebe1c734bf8" style="margin-top:0pt; margin-left:144pt; margin-bottom:10pt; text-indent:-33.2pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(iv)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">the receiving party developed independently without breach of this agreement, or</span></p></div><div><p data-id="45326bc3-5e0b-4a2e-ae7d-bd53dfb07540" style="margin-top:0pt; margin-left:144pt; margin-bottom:10pt; text-indent:-30.8pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(v)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="color:#333333; font-family:Arial">the </span><span style="font-family:Arial">disclosing party </span><span style="color:#333333; font-family:Arial">has </span><span style="font-family:Arial">explicitly approved, by Notice to the receiving party, for release to a third party .</span></p></div><div><p data-id="28210c1c-161a-429a-8115-57926d4beabf" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">1.3.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">“</span><span style="font-family:Arial; font-weight:bold">Notice</span><span style="font-family:Arial">” means any notice, request, direction, or other document that a party can or must make or give under this agreement.</span></p></div><div><p data-id="bb1adda9-85f5-4e95-bf94-a8f55a984e6d" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">1.4.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">“</span><span style="font-family:Arial; font-weight:bold">Person</span><span style="font-family:Arial">” includes</span></p></div><div><p data-id="dffe7363-0956-449d-997c-e26d5468a39e" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(a)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">any corporation, company, limited liability company, partnership, Governmental Authority, joint venture, fund, trust, association, syndicate, organization, or other entity or group of persons, whether incorporated or not, and</span></p></div><div><p data-id="33cddd5e-9471-4d8b-9b8e-52e62a01ac4c" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(b)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">any individual.</span></p></div><div><p data-id="15d28d62-c5ce-4871-8c0f-521d83e187e6" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">1.5.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">“</span><span style="font-family:Arial; font-weight:bold">Purpose</span><span style="font-family:Arial">” has the meaning given to that term in section 2 (Purpose).</span></p></div><div><p data-id="44db6d20-05b6-40fd-8534-81b17236b7f7" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">1.6.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">“</span><span style="font-family:Arial; font-weight:bold">Representative</span><span style="font-family:Arial">” means, for any Person,</span></p></div><div><p data-id="945b4d76-f741-4b92-b39e-2e8c094db441" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(a)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">each director, officer, shareholder, partner, employee, agent, or professional advisor[ in connection with the transactions contemplated in this agreement], and any other authorized representative, and</span></p></div><div><p data-id="da9efb0a-15a3-4cab-beb8-dbca7b3fb1ca" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(b)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">that Person’s Affiliates and the directors, officers, shareholders, partners, employees, agents, or professional advisors[ in connection with the transactions contemplated in this agreement] of those Affiliates.</span></p></div><div><p data-id="7b3351e4-fe2f-4f75-87ba-9de007215bec" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">1.7.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">“</span><span style="font-family:Arial; font-weight:bold">Restricted Period</span><span style="font-family:Arial">” means means the Term and a period of [RESTRICTED PERIOD] following the termination or expiration^ç of this agreement.</span></p></div><div><p data-id="7ae4dbfb-df2e-43f4-bd99-724cad0c6c12" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span></p></div><div><p data-id="e9cc3631-0848-44c7-8bd2-35312b0810bc" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><pgbr style="page-break-after: always" aria-label="Разрыв страницы" class="cke_pagebreak" contenteditable="false" data-cke-display-name="pagebreak" data-cke-pagebreak="1" title="Разрыв страницы"></pgbr></p></div><div><ol start="2" type="1" data-id="e75e5e34-0da3-49c8-82c5-0853ce3784f6" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:23pt; margin-bottom:10pt; line-height:115%; padding-left:13pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Purpose</span>. The parties have entered into this agreement to exchange certain Confidential Information in connection with [PURPOSE OF DISCLOSURE] (the "<span style="font-weight:bold">Purpose</span>").</li></ol></div><div><ol start="3" type="1" data-id="a0e59fc9-c132-4687-b46d-795b1809c86b" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:23pt; margin-bottom:10pt; line-height:115%; padding-left:13pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Confidentiality </span></li></ol></div><div><p data-id="271ffee2-f672-45b0-aa89-7cb5db1fafdc" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">3.1.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Confidentiality Obligations</span><span style="font-family:Arial">. The receiving party shall hold in confidence all Confidential Information that the disclosing party discloses to it in accordance with the terms of this agreement.</span></p></div><div><p data-id="3b1cb5d5-da44-4666-96ad-434fcd1dbbd3" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">3.2.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="color:#333333; font-family:Arial; font-weight:bold">Use </span><span style="font-family:Arial; font-weight:bold">Solely for Purpose</span><span style="font-family:Arial">. The receiving party shall use the Confidential Information in accordance with the terms of this agreement and solely for the Purpose.</span></p></div><div><p data-id="317ec469-3132-457b-8302-49aaf66ed86f" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">3.3.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="color:#333333; font-family:Arial; font-weight:bold">Permitted </span><span style="font-family:Arial; font-weight:bold">Disclosure</span><span style="font-family:Arial">. The receiving party may disclose Confidential Information to its Representatives but only</span></p></div><div><p data-id="be845e17-f614-494b-b161-af79dd625086" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(a)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">to the extent necessary to carry out the Purpose,</span></p></div><div><p data-id="53343254-eeac-47b9-9b4e-62dc5485614e" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(b)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">if the receiving party first informs them of, and directs them to maintain, its confidential nature in accordance with the terms of this agreement[, and</span></p></div><div><p data-id="60b502a3-06c7-4017-a056-8c746d6dbaea" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(c)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">upon the disclosing party’s request in connection with any of the receiving party’s Representatives[ other than a director, officer, shareholder, partner, or employee], if they each first enter into separate written agreements to that effect[ in a form acceptable to the disclosing party].</span></p></div><div><p data-id="49d46121-74ba-44a3-ad30-ff6a95eebb87" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">3.4.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="color:#333333; font-family:Arial; font-weight:bold">Required </span><span style="font-family:Arial; font-weight:bold">Disclosure</span><span style="font-family:Arial">. The receiving party may disclose Confidential Information to a third party if it is required to do so by Law but only if, before that disclosure, the receiving party, to the extent permitted by Law,</span></p></div><div><p data-id="0b9b4950-5451-4e5f-bfe6-1c2dd5d22c5a" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(a)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">gives the disclosing party Notice to allow it a reasonable opportunity to either seek a protective order or other appropriate remedy or waive the receiving party’s compliance with this section,</span></p></div><div><p data-id="31976d63-0874-45f8-b70c-abd56cc1ebd7" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(b)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">reasonably cooperates with the disclosing party[, at the disclosing party’s expense,] in its reasonable efforts to obtain a protective order or other appropriate remedy,</span></p></div><div><p data-id="9f6158f4-d040-44e8-bcca-fd3363a4968c" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(c)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">discloses only that portion of the Confidential Information that[, having consulted with its counsel,] it is legally required to disclose, and</span></p></div><div><p data-id="ef49e954-b8de-4a07-83ca-be09b7f033a5" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(d)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">uses reasonable efforts to obtain reliable written assurance from the third party that the Confidential Information will be kept confidential.</span></p></div><div><p data-id="f51f5292-5e0a-4d52-9f8e-a40e2a9e26e5" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">3.5.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="color:#333333; font-family:Arial; font-weight:bold">Value </span><span style="font-family:Arial; font-weight:bold">and Nature of Confidential Information</span><span style="font-family:Arial">. The parties acknowledge that the Confidential Information is proprietary and has competitive value. Accordingly, any disclosure to the disclosing party’s competitors or to the public would be detrimental to the best interests of the disclosing party, which may incur losses, costs, and damages as a result.</span></p></div><div><p data-id="a1dd703f-4679-4202-bb18-e7d59c748f07" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">3.6.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="color:#333333; font-family:Arial; font-weight:bold">Burden </span><span style="font-family:Arial; font-weight:bold">of Proof</span><span style="font-family:Arial">. The receiving party will have the burden of proof relating to all exceptions to the definition of Confidential Information.[ The receiving party may rely on its own written records in support of its position.]</span></p></div><div><ol start="4" type="1" data-id="bc601115-7266-4c1d-861c-1c2d661351a2" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:23pt; margin-bottom:10pt; line-height:115%; padding-left:13pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">No Disclosure of Discussions</span>. Neither party nor its Authorized Representatives may, without the other party’s prior written consent, disclose the fact that</li></ol></div><div><p data-id="a44f9f40-f9eb-4fa2-bc96-9fb8eb14427b" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">4.1.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">any discussions have taken place or are taking place concerning a potential business transaction or relationship between the parties, or that</span></p></div><div><p data-id="1fdc6bd6-3b25-40c4-9057-37c3f1744cce" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">4.2.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">any Confidential Information has been or may be disclosed between the parties.</span></p></div><div><ol start="5" type="1" data-id="759a741a-9b84-4639-923e-1adb672a0825" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:23pt; margin-bottom:10pt; line-height:115%; padding-left:13pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Term</span>. This agreement will begin on the Effective Date and continue for a period of [RESTRICTED DISCLOSURE PERIOD] years.</li></ol></div><div><ol start="6" type="1" data-id="f2873199-2fff-49d6-b68b-4580ad05beb9" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:23pt; margin-bottom:10pt; line-height:115%; padding-left:13pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Representations. </span>Each party represents and warrants to the other party as follows, acknowledging that the other party is relying on these representations and warranties:</li></ol></div><div><p data-id="476209b2-2021-488d-b625-a3afd160a08e" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">6.1.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">No Conflicts</span><span style="font-family:Arial">. Neither party is under any restriction or obligation that may affect the performance of its obligations under this agreement.</span></p></div><div><p data-id="47f87cf0-6841-42e4-a39c-2efdbe5daf1d" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">6.2.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Right to Disclose</span><span style="font-family:Arial">. Each party has the right to disclose the Confidential Information to the other party under the terms of this agreement.</span></p></div><div><p data-id="2235ca1a-60cb-4065-9e07-bc88f1d5b8ad" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">6.3.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">No Violations</span><span style="font-family:Arial">. The disclosing party’s disclosure of Confidential Information to the receiving party under this agreement will not violate any proprietary rights of, or any contractual obligations that the disclosing party may owe to, any third party.</span></p></div><div><ol start="7" type="1" data-id="22f6b3b2-4263-4960-908e-f925c960888a" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:23pt; margin-bottom:10pt; line-height:115%; padding-left:13pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Warranties</span></li></ol></div><div><p data-id="c2fe2b43-8964-4c7d-b608-566f9454c7da" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">7.1.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">[</span><span style="font-family:Arial; font-weight:bold">No Warranty</span><span style="font-family:Arial">. The Confidential Information is provided "as is." The disclosing party does not make any warranty as to its accuracy or completeness.] OR [</span><span style="font-family:Arial; font-weight:bold">Accuracy and Completeness</span><span style="font-family:Arial">. The disclosing party warrants that the Confidential Information is accurate and complete as of the date of disclosure.]</span></p></div><div><ol start="8" type="1" data-id="497463d6-4146-4afa-a6cd-93d09d901a8a" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:23pt; margin-bottom:10pt; line-height:115%; padding-left:13pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Acknowledgements</span></li></ol></div><div><p data-id="95b01f40-f813-4ca6-9ff8-06c28a0ef160" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">8.1.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Ownership of Intellectual Property</span><span style="font-family:Arial">. The receiving party acknowledges that all intellectual property rights in and to any Confidential Information that is disclosed to it are and will remain the disclosing party’s exclusive property.</span></p></div><div><p data-id="4ac1cb95-42e8-444c-9ed3-f45acef9eec3" style="margin-top:5pt; margin-left:72pt; margin-bottom:10pt; text-indent:-35.75pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">8.2.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">No Obligations</span><span style="font-family:Arial">. Neither party has any obligation under this agreement to purchase from or provide to the other party any products or services, or to enter into any other agreement.</span></p></div><div><ol start="9" type="1" data-id="6422e1ef-57e8-46e8-86d1-e1ef61df50ea" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:23pt; margin-bottom:10pt; line-height:115%; padding-left:13pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Standard of Care</span>. In protecting the Confidential Information, the receiving party shall exercise at least the same degree of care as it uses with its own Confidential Information, but in no event less than reasonable care.</li></ol></div><div><ol start="10" type="1" data-id="dd32e6a9-5e47-424e-8603-e049c6f9e142" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:22.99pt; margin-bottom:10pt; line-height:115%; padding-left:13.01pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">No Modification of Confidential Information</span>. The receiving party shall not copy, decompile, modify, reverse engineer, or create derivative works out of any Confidential Information.</li></ol></div><div><ol start="11" type="1" data-id="dfc92419-f460-49fc-9496-70b65977c497" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:22.99pt; margin-bottom:10pt; line-height:115%; padding-left:13.01pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Return upon Request</span>. At the disclosing party's request, the receiving party shall promptly either destroy or return to the disclosing party all Confidential Information in its possession.</li></ol></div><div><ol start="12" type="1" data-id="5cb50896-d846-4e95-a63c-8b0d341462c6" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:22.99pt; margin-bottom:10pt; line-height:115%; padding-left:13.01pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Notice of Disclosure</span>. The receiving party shall immediately give Notice to the disclosing party upon its becoming aware of any loss or unauthorized disclosure of any of the Confidential Information.</li></ol></div><div><ol start="13" type="1" data-id="c3a6cb17-e70e-4cf7-baf9-61fc8a7e6d83" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:22.99pt; margin-bottom:10pt; line-height:115%; padding-left:13.01pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Indemnification</span>. The receiving party shall indemnify the disclosing party[ and its directors, officers, employees, shareholders, partners, agents, and Affiliates,] against all claims, liability, costs, and expenses (including attorneys' fees) arising from any third party claim or proceeding brought against the disclosing party that relates to or arises out of any disclosure of Confidential Information by the receiving party or its Authorized Representatives in breach of this agreement.</li></ol></div><div><ol start="14" type="1" data-id="88ab35ee-6523-4357-9354-7a2c2023c613" style="margin:0pt; padding-left:0pt"><li style="margin-left:22.99pt; margin-bottom:10pt; line-height:115%; padding-left:13.01pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">Termination</span></li></ol></div><div><p data-id="dfc39150-8d64-43ca-887f-c194b465ab35" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">14.1.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Termination upon Notice</span><span style="font-family:Arial">. Either party may terminate this agreement for any reason or for no reason upon [TERMINATION FOR CONVENIENCE NOTICE] business days’ Notice to the other party.</span></p></div><div><p data-id="29c9eba7-81d4-4aa5-a466-ae660f070d83" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">14.2.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="color:#333333; font-family:Arial; font-weight:bold">Termination upon Breach. </span><span style="font-family:Arial">If one party</span></p></div><div><p data-id="183b3c2a-aeee-4978-a3b3-f3c68b5fe707" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(a)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">commits any material breach or material default in the performance of any obligation under this agreement other than the unauthorized disclosure of Confidential Information, and the breach or default continues for a period of [CURE PERIOD] </span><span style="color:#333333; font-family:Arial">business days </span><span style="font-family:Arial">after the other party delivers Notice to it reasonably detailing the breach or default, or</span></p></div><div><p data-id="ed57d71d-3a57-4be3-ab9f-0b10883674c6" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(b)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">discloses Confidential Information in any manner that is not authorized under this agreement,</span></p></div><div><p data-id="fc1fd04a-30a4-4ccb-816d-19cc6515fb39" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">14.3.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">then the other party may terminate this agreement, with immediate effect, by giving Notice to the other party.</span></p></div><div><p data-id="f795af55-fc56-4f0c-bda9-3f96e1df0bfe" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">14.4.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Return </span><span style="color:#333333; font-family:Arial; font-weight:bold">of Property</span><span style="color:#333333; font-family:Arial">. Upon termination[ or expiration] of this agreement, </span><span style="font-family:Arial">the receiving party </span><span style="color:#333333; font-family:Arial">shall, at the disclosing party’s option, either return to </span><span style="font-family:Arial">the disclosing party or destroy </span><span style="color:#333333; font-family:Arial">all property belonging to the disclosing party, both originals and copies, under its direct or indirect control. If the disclosing party requires its destruction, it may also require the receiving party to provide a certificate to that effect.</span></p></div><div><ol start="15" type="1" data-id="5e9a0559-fb18-4dba-a05a-d56f5a1497ce" style="margin:0pt; padding-left:0pt"><li style="margin-top:5pt; margin-left:22.99pt; margin-bottom:10pt; line-height:115%; padding-left:13.01pt; font-family:Arial; font-size:11pt"><span style="font-weight:bold">General </span></li></ol></div><div><p data-id="a5631d59-5fcf-4421-8d76-94313d7ae5ed" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.1.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Entire Agreement</span><span style="font-family:Arial">. This agreement contains all the terms agreed to by the parties relating to its subject matter. It replaces all previous discussions, understandings, and agreements.</span></p></div><div><p data-id="62a6302b-e013-46f6-8e47-494c82c075a8" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.2.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Amendment</span><span style="font-family:Arial">. This agreement may only be amended by a written document signed by both parties.</span></p></div><div><p data-id="ff821e96-e797-4c6f-ab65-066bb7ab6785" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.3.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Assignment</span><span style="font-family:Arial">. Neither party may assign this agreement or any of their rights or obligations under this agreement without the prior written consent of the other party.</span></p></div><div><p data-id="5354f811-116a-4fdb-a886-154cacc1da2a" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.4.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">No Partnership</span><span style="font-family:Arial">. Nothing contained in this agreement creates a partnership, joint venture,[ employer/employee,] principal-and-agent, or any similar relationship between the parties.</span></p></div><div><p data-id="571103e3-da20-4b53-bbfe-fbd94e096989" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.5.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Third Party Beneficiaries</span><span style="font-family:Arial">. The Indemnification terms of this agreement confer rights and remedies upon the receiving party’s directors, officers, employees, shareholders, partners, agents or Affiliates. No Person other than the parties themselves and those beneficiaries has any rights or remedies under this agreement.</span></p></div><div><p data-id="fc61138d-9989-4bbd-81a5-27581d33a514" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.6.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Acknowledgement of Contract Terms</span><span style="font-family:Arial">. [PARTY TWO] acknowledges that he or she</span></p></div><div><p data-id="89523e91-9e1c-4f8e-a0e0-0395ae315fc1" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(a)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">has read the agreement,</span></p></div><div><p data-id="058656b8-7528-42d2-85d3-bc02a638f9a4" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(b)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">understands its terms,</span></p></div><div><p data-id="846100e7-2693-45f9-a9b8-e71238f012dd" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(c)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">has had the opportunity to consult[ and has consulted] with independent legal counsel, and</span></p></div><div><p data-id="a033513d-e50b-43b8-a0f0-ad389d16dc62" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(d)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial">has signed this agreement voluntarily.</span></p></div><div><p data-id="e91b4720-56fb-49a5-97fb-40ffd7936758" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.7.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Notices</span></p></div><div><p data-id="09b9d1b9-f7df-4b85-9053-5885fe95735d" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(a)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Form of Notice</span><span style="font-family:Arial">. All notices and other communications between the parties must be in writing.</span></p></div><div><p data-id="d1b533d8-1868-4bb7-a038-08087a395381" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(b)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Method of Notice</span><span style="font-family:Arial">. Notices must be given by (i) personal delivery, (ii) a nationally-recognized, next-day courier service, (iii) first-class registered or certified mail, postage prepaid[, (iv) fax][ or (v) electronic mail] to the party’s address specified in this agreement, or to the address that a party has notified to be that party’s address for the purposes of this section.</span></p></div><div><p data-id="d63627d2-673b-4346-bdd1-25bebe38df37" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(c)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Receipt of Notice</span><span style="font-family:Arial">. A notice given in accordance with this agreement will be effective upon receipt by the party to which it is given or, if mailed, upon the earlier of receipt and the fifth business day following mailing.</span></p></div><div><p data-id="2b11e16a-fc1d-4591-b20a-ce6a57a301a1" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.8.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Equitable Relief</span><span style="font-family:Arial">. Each party acknowledges that its breach or threatened breach of any its obligations under section 3.1 (Non-Competition), 3.2 (Non-Solicitation), or 3.3. (Confidentiality) would not be susceptible to adequate relief by way of monetary damages only. Accordingly, the non-defaulting party</span><span style="font-family:Arial">&nbsp;</span><span style="font-family:Arial"> may, in that case, apply to court for any applicable equitable remedies (including injunctive relief), without the need to post any security.</span></p></div><div><p data-id="e5a31487-d7f2-47b6-b3d6-af1b33dd8460" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-41.85pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.9.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Remedies Cumulative</span><span style="font-family:Arial">. The rights and remedies available to a party under this agreement are cumulative and in addition to, not exclusive of or in substitution for, any rights or remedies otherwise available to that party.</span></p></div><div><p data-id="c52ff922-a385-43f6-9883-99c601e38346" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-47.95pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.10.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Survival</span><span style="font-family:Arial">. Sections 3 (Confidentiality), 11 (Return upon Request), 13 (Indemnification), and 14.3 (Return of Property) survive the termination[ or expiration] of this agreement.</span></p></div><div><p data-id="9c19496d-31ad-4c1b-84ab-3c37baeaa747" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-47.95pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.11.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Severability</span><span style="font-family:Arial">. If any part of this agreement is declared unenforceable or invalid, the remainder will continue to be valid and enforceable.</span></p></div><div><p data-id="ac5eb8cb-2fb2-4fdb-b1c6-ed0e72fd72c2" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-47.95pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.12.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Waiver</span><span style="font-family:Arial">. A party’s failure or neglect to enforce any of rights under this agreement will not be deemed to be a waiver of that party's rights.</span></p></div><div><p data-id="b4916f5a-a4bb-4889-a242-498310dee91f" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-47.95pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.13.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Governing Law</span><span style="font-family:Arial">. This agreement will be governed by and construed in accordance with the laws of the State of [GOVERNING LAW STATE ], without regard to its conflict of laws rules</span><span style="color:#0000ff; font-family:Arial; font-style:italic">.</span></p></div><div><p data-id="d6a0cbc6-bf20-45d2-8407-c563d010779f" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-47.95pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.14.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Waiver </span><span style="color:#333333; font-family:Arial; font-weight:bold">of Jury Trial</span><span style="color:#333333; font-family:Arial">. Each party irrevocably waives its rights to trial by jury in any action or proceeding arising out of or relating to this agreement or the transactions relating to its subject matter.</span></p></div><div><p data-id="1a76b73f-2eac-4cba-978a-a454f614d994" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-47.95pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.15.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Attorney </span><span style="color:#333333; font-family:Arial; font-weight:bold">Fees</span><span style="color:#333333; font-family:Arial">. </span><span style="font-family:Arial">If either party brings legal action to enforce its rights under this agreement, the prevailing party will be entitled to recover its costs and expenses (including reasonable attorneys' fees) incurred in connection with the action and any appeal.</span></p></div><div><p data-id="8d4277af-92cc-4da3-8766-c808b81b54f9" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-47.95pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.16.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Interpretation</span></p></div><div><p data-id="009e4422-1726-4693-a4a7-58964cbf8e81" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(a)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Number and Gender</span><span style="font-family:Arial">. Unless the context requires otherwise, words importing the singular number include the plural and vice versa; words importing gender include all genders.</span></p></div><div><p data-id="07b13d7c-4314-4013-9988-2dbe727afeed" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(b)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Headings</span><span style="font-family:Arial">. The headings used in this agreement and its division into articles, sections,[ schedules, exhibits, appendices,] and other subdivisions do not affect its interpretation.</span></p></div><div><p data-id="4d45cabe-fc4f-4e73-9b65-84d3bf306699" style="margin-top:0pt; margin-left:108pt; margin-bottom:10pt; text-indent:-18pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">(c)</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Internal References</span><span style="font-family:Arial">. References in this agreement to articles, sections, and other subdivisions are to those parts of this agreement.</span></p></div><div><p data-id="eaac6685-a304-4334-8409-19d584b6c99b" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-47.95pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.17.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Counterparts</span><span style="font-family:Arial">. This agreement may be signed in any number of counterparts, each of which is an original and all of which taken together form one single document.</span></p></div><div><p data-id="c74a65a8-96e5-4b63-b1d5-51dedf532633" style="margin-top:0pt; margin-left:72pt; margin-bottom:10pt; text-indent:-47.95pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">15.18.</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman">&nbsp;</span><span style="font-family:Times New Roman"> </span><span style="font-family:Arial; font-weight:bold">Effective Date</span><span style="font-family:Arial">. This agreement is effective as of the Effective Date, even if any signatures are made after that date.</span></p></div><div><p data-id="2cea06cc-1eaf-4e66-9e53-9fd23eca641e" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="26500b47-0de8-4f22-9145-24701175aa82" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="abe6ba5f-b6ce-46fb-9b89-fd933f311bf4" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="092358d5-6489-44d9-ac68-8f03a9100515" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="2226f3ec-4092-44fe-8260-3142785a651e" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="11b22158-0562-4da2-8012-1ac33abd767a" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="c594e23d-e444-4e6f-ad04-6fa1dba5f669" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="eb3faea1-1ff7-43ce-8f13-a027ac9aefaa" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="dc5eb25e-9148-4ce4-9690-f123254100bd" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="baafe7e1-0020-48c3-910b-1b421deb71aa" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="01452e06-b62a-4ade-bc06-644e2bafd75d" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Arial">This agreement has been signed by the parties.</span></p></div><div><p data-id="b6f965e2-45ae-449b-9a21-c899280bdfba" style="margin-top:0pt; margin-bottom:12pt; line-height:115%; font-size:12pt"><span style="font-family:Times New Roman">&nbsp;</span></p></div><div><p data-id="f8a70a90-a215-4608-a0db-a9931f1c9ad0" style="margin-top:5pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Calibri">&nbsp;</span></p></div><div><p data-id="647a3982-624e-4647-8a47-754351865b98" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">[PARTY ONE NAME]</span></p></div><div><p data-id="aaca0de5-4b9f-4442-88dc-b21c0f72d5bf" style="margin-top:5pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Calibri">&nbsp;</span></p></div><div><p data-id="639a569f-813c-44e8-8331-93ed87ce7f46" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">By:___________________________________</span></p></div><div><p data-id="465142e5-3e11-4d4c-9897-f835e7607b3c" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">Name:</span></p></div><div><p data-id="0275c0c9-d5bb-4ce6-a252-26704c5b4802" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">Title:</span></p></div><div><p data-id="6fc2c753-fed3-4567-83f6-a05e73da2bc5" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">Date:</span></p></div><div><p data-id="60f75f0f-0f8c-43e1-a0f9-39a6328c2809" style="margin-top:5pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Calibri">&nbsp;</span></p></div><div><p data-id="30e3b6e0-ddaa-4604-b059-016c1b189812" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">ProseWare</span></p></div><div><p data-id="2ff1d299-af5e-475b-9282-04e8e784f59d" style="margin-top:5pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Calibri">&nbsp;</span></p></div><div><p data-id="4f92bc7f-bc8e-4f2f-9c03-7c66f00ac1a7" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">By:___________________________________</span></p></div><div><p data-id="e51d2bd7-ef73-4c9a-909a-9d65c5b5f529" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">Name:</span></p></div><div><p data-id="595d67f8-3755-4f49-b7f7-f6704ab65ce6" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">[Title:]</span></p></div><div><p data-id="6f5049b0-eb88-48a5-ada0-768533ec4da8" style="margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Arial">Date:</span></p></div><div><p data-id="5bfecef4-de95-4d55-8653-38124033784b" style="margin-top:5pt; margin-bottom:10pt; line-height:115%; font-size:11pt"><span style="font-family:Calibri">&nbsp;</span></p></div>
+					<div class="is-table-row">​​​​​​​
+						<table cellpadding="0" cellspacing="0" data-id="e81827ea-6c77-4537-9581-8f6c78292bf5"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; background-color:#205794">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:center; page-break-after:avoid; font-size:12pt">
+										<span style="color:#ffffff; font-family:Arial">Welltok</span><span
+										style="color:#ffffff; font-family:Arial"> Services Change </span><span
+										style="color:#ffffff; font-family:Arial">Order</span><span
+										style="color:#ffffff; font-family:Arial"> Form</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="3ce7c530-42e8-4775-b7c3-a4981dd8b25e"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:12.5pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top; background-color:#c6d9f1">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:center; line-height:115%; font-size:8.5pt">
+											<span
+												style="color:#0000ff; font-family:Arial; font-weight:bold">A. CHANGE O</span><span
+										style="color:#0000ff; font-family:Arial; font-weight:bold">RDER</span><span
+										style="font-family:Arial"> </span><span
+										style="font-family:Arial; font-style:italic">(to be completed by Requester)</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="ec659d39-1103-4370-8501-c2ceaae9be54"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:12pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-left:270pt; margin-bottom:0pt; text-indent:-270pt; line-height:115%; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">Customer: </span><span
+										style="font-family:Arial">_______________________</span><span
+										style="font-family:Arial"> (hereinafter referred to as: “</span><span
+										style="font-family:Arial; font-weight:bold">Client</span><span
+										style="font-family:Arial">”)</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="c024924e-9466-4541-b87d-78c9732cb69f"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:12.45pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:justify; line-height:115%; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">Document</span><span
+										style="font-family:Arial; font-weight:bold"> Name:</span><span
+										style="font-family:Arial">&nbsp; </span><span style="font-family:Arial">_____________</span><span
+										style="font-family:Arial">. This Change Request modifies the [</span><span
+										style="font-family:Arial">enter SOW title</span><span
+										style="font-family:Arial">] (hereinafter the “</span><span
+										style="font-family:Arial; font-weight:bold">SOW</span><span
+										style="font-family:Arial">”) to the&nbsp; </span><span
+										style="font-family:Arial">______________</span><span
+										style="font-family:Arial"> Agreement dated </span><span
+										style="font-family:Arial">_______________</span><span
+										style="font-family:Arial"> as amended (the “</span><span
+										style="font-family:Arial; font-weight:bold">Agreement</span><span
+										style="font-family:Arial">”).</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="14166ef9-3b26-4dc0-9d16-86466959920c"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:12pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; line-height:115%; font-size:8.5pt">
+											<span
+												style="font-family:Arial; font-weight:bold">Requester Phone:</span><span
+										style="font-family:Arial"> </span><span
+										style="font-family:Arial">_____________</span>
+									</p>
+
+									<p style="margin-top:3pt; margin-bottom:0pt; line-height:115%; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">Email:</span><span
+										style="font-family:Arial"> </span><span style="font-family:Arial">__________________</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="2419fe1f-bc4e-420f-b40a-b7aaa8e54a70"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:12.1pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top; background-color:#c6d9f1">
+									<p style="margin-top:3pt; margin-bottom:0pt; line-height:115%; font-size:8.5pt">
+										<span style="color:#0000ff; font-family:Arial; font-weight:bold">B. CHANGE DESCRIPTION</span><span
+										style="font-family:Arial; font-weight:bold"> </span><span
+										style="font-family:Arial; font-style:italic">(to be completed by Requester)</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="64ebbcb1-665e-453b-8e8a-764951457619"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:17.5pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; line-height:115%; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">Priority: </span><span
+										style="font-family:Arial"> </span>Select One
+										(REQUIRED)UrgentHighMediumLow<span style="font-family:Arial"> (double click box to make selection)</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="ccaee1c3-90f8-4437-86e4-af2e216127a6"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:19.5pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial; font-weight:bold">Change Category</span><span
+										style="font-family:Arial; font-weight:bold"> (select one)</span><span
+										style="font-family:Arial; font-weight:bold">: </span><span
+										style="font-family:Arial">(Welltok Requested / </span><span
+										style="font-family:Arial">Client</span><span style="font-family:Arial"> Requested</span><span
+										style="font-family:Arial">)</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="ae79d2f4-5eec-451a-87db-77ee18efe832"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:22.65pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:0pt; margin-bottom:6pt; line-height:120%; font-size:8.5pt">
+											<span
+												style="font-family:Arial; font-weight:bold">Reason for Change:</span><span
+										style="font-family:Arial"> </span><span
+										style="color:#a6a6a6; font-family:Arial; font-style:italic">Include complete background, reason and success criteria. </span>
+									</p>
+
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:justify; font-size:8.5pt; background-color:#ffffff">
+										<span style="font-family:Arial">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="1386594e-829b-4dd1-b19d-4067afbc597e"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:26.55pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<h5 style="margin-top:3pt; margin-bottom:0pt; page-break-after:avoid; font-size:8.5pt">
+										<span style="font-family:Arial; font-style:italic">Description:</span><span
+										style="font-family:Arial; font-weight:normal">&nbsp; (</span><span
+										style="font-family:Arial; font-weight:normal">List Attachment(s))</span><span
+										style="font-family:Arial; font-weight:normal"> and add approved functional specification forms as an exhibit below. </span>
+									</h5>
+
+									<p style="margin-top:1.5pt; margin-bottom:6pt; line-height:120%; font-size:8.5pt">
+										<span style="font-family:Arial">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="8d463bac-b4c0-4e0c-8ff8-0317eb567bac"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:11.55pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top; background-color:#c6d9f1">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="color:#0000ff; font-family:Arial; font-weight:bold">C. </span><span
+										style="color:#0000ff; font-family:Arial; font-weight:bold">DESCRIPTION OF </span><span
+										style="color:#0000ff; font-family:Arial; font-weight:bold">IMPACT </span><span
+										style="font-family:Arial">(</span><span
+										style="font-family:Arial">t</span><span
+										style="font-family:Arial; font-style:italic">o be completed by Requester)</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="7913da50-1032-4196-9a28-73adc3a2b703"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:18.6pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:0pt; margin-bottom:6pt; font-size:8.5pt"><span
+										style="font-family:Arial; font-weight:bold">Areas Affected: </span></p>
+
+									<p style="margin-top:0pt; margin-left:36pt; margin-bottom:6pt; font-size:8.5pt">
+										<span style="font-family:Arial">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="bc22d1b6-3400-48f9-b5e5-4ecdb2cfff2c"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:12.65pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8.5pt">
+											<span
+												style="font-family:Arial; font-weight:bold">Change Impact Detail:</span><span
+										style="font-family:Arial; font-weight:bold"> </span><span
+										style="font-family:Arial; font-style:italic">(Add rows as needed)</span></p>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="2db933fe-a311-4d05-aa59-f742a5712f25"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:20.65pt">
+								<td style="width:118.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:center; font-size:8pt">
+										<span style="font-family:Arial; font-weight:bold">Area of Impact</span></p>
+								</td>
+								<td colspan="2"
+									style="width:156.2pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:center; font-size:8pt">
+										<span style="font-family:Arial; font-weight:bold">Changes Required</span>
+									</p></td>
+								<td colspan="5"
+									style="width:183.2pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:center; font-size:8pt">
+											<span
+												style="font-family:Arial; font-weight:bold">Estimated Level of Effort</span>
+									</p>
+
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8pt"><span
+										style="font-family:Arial; font-style:italic; font-weight:bold">Est. Hours&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+										style="font-family:Arial; font-style:italic; font-weight:bold"> Rate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; E</span><span
+										style="font-family:Arial; font-style:italic; font-weight:bold">st. Fees</span><span
+										style="font-family:Arial; font-style:italic; font-weight:bold">&nbsp;&nbsp;&nbsp; Fixed Fee</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="0fe8b301-5009-4763-b07a-b3b55d39a131"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:12pt">
+								<td style="width:118.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:0pt; margin-bottom:6pt; font-size:8.5pt"><span
+										style="color:#a6a6a6; font-family:Arial; font-style:italic">&nbsp;</span>
+									</p></td>
+								<td colspan="2"
+									style="width:156.2pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial">&nbsp;</span></p></td>
+								<td colspan="2"
+									style="width:41.45pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; text-align:center; font-size:8.5pt">
+										<span style="font-family:Arial">&nbsp;</span></p></td>
+								<td style="width:41.45pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; text-align:center; font-size:8.5pt">
+										<span style="font-family:Arial">&nbsp;</span></p></td>
+								<td style="width:41.45pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; text-align:center; font-size:8.5pt">
+										<span style="font-family:Arial">&nbsp;</span></p></td>
+								<td style="width:41.45pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:center; font-size:8.5pt">
+										<span style="font-family:Arial">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="dd2f32f8-22db-4c03-bdb9-5ce42c35ff4c"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:12pt">
+								<td style="width:118.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:right; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">Totals</span></p></td>
+								<td colspan="2"
+									style="width:156.2pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial">&nbsp;</span></p></td>
+								<td colspan="2"
+									style="width:41.45pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; text-align:center; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">&nbsp;</span></p></td>
+								<td style="width:41.45pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; text-align:center; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">&nbsp;</span></p></td>
+								<td style="width:41.45pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; text-align:center; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">&nbsp;</span></p></td>
+								<td style="width:41.45pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:center; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="51bb15a0-811d-4c37-bddf-b3c419e89b78"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial; font-weight:bold">Comments: </span></p>
+
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial; font-style:italic">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="56309908-5dce-41b2-9ce7-d4a182169774"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:15.7pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top; background-color:#dbe5f1">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="color:#0000ff; font-family:Arial; font-weight:bold">D. SCHEDULE</span><span
+										style="color:#0000ff; font-family:Arial; font-weight:bold"> </span><span
+										style="color:#0000ff; font-family:Arial">&nbsp;</span><span
+										style="font-family:Arial; font-style:italic">(schedule of deliverables)</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="8a284220-2f7a-4ec3-bc27-e2bb673cfd17"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:52.6pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; page-break-after:avoid; font-size:8.5pt">
+											<span
+												style="color:#0000ff; font-family:Arial; font-weight:bold">&nbsp;</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="4f6db934-6dc1-4e52-8066-7a96f81ba054"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:10pt">
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top; background-color:#c6d9f1">
+									<p style="margin-top:3pt; margin-bottom:0pt; page-break-after:avoid; font-size:8.5pt">
+											<span
+												style="color:#0000ff; font-family:Arial; font-weight:bold">E</span><span
+										style="color:#0000ff; font-family:Arial; font-weight:bold">. SUMMARY</span><span
+										style="font-family:Arial; font-style:italic; font-weight:bold"> </span><span
+										style="font-family:Arial; font-style:italic">(to be completed by Requester)</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="98b9e80d-d420-4a99-95fa-627049a9eefa"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="4"
+									style="width:281pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:right; font-size:8.5pt">
+										<span
+											style="font-family:Arial; font-weight:bold">Total Estimated Hours Impact: </span>
+									</p></td>
+								<td colspan="4"
+									style="width:182.8pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="0af59241-a6ac-4ec1-89b1-8696d38967e3"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="4"
+									style="width:281pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:right; font-size:8.5pt">
+										<span
+											style="font-family:Arial; font-weight:bold">Total Estimated Cost Impact:</span>
+									</p></td>
+								<td colspan="4"
+									style="width:182.8pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="88312706-2c2f-4618-b706-3b11bb04531a"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="4"
+									style="width:281pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:right; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">Total Estimated Schedule Impact (Days):</span>
+									</p></td>
+								<td colspan="4"
+									style="width:182.8pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="61eb4386-af4b-41b1-a678-fb45d6ed87c9"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:3.5pt">
+								<td colspan="4"
+									style="width:281pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:right; font-size:8.5pt">
+											<span
+												style="font-family:Arial; font-weight:bold">Estimated Start Date:</span>
+									</p></td>
+								<td colspan="4"
+									style="width:182.8pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="2068bc97-8174-440b-9de7-1d456bf7aac8"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="4"
+									style="width:281pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; text-align:right; font-size:8.5pt">
+										<span style="font-family:Arial; font-weight:bold">Estimated End Date:</span>
+									</p></td>
+								<td colspan="4"
+									style="width:182.8pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:0pt; font-size:8.5pt"><span
+										style="font-family:Arial">&nbsp;</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="cffe53b6-8c16-4982-958e-18a0dc03fee4"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="4"
+									style="width:281pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial; font-weight:bold">Prepared By:</span><span
+										style="font-family:Arial"> </span></p></td>
+								<td colspan="4"
+									style="width:182.8pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial; font-weight:bold">Date: </span><span
+										style="font-family:Arial">&nbsp;&nbsp;&nbsp; </span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="17232693-caeb-4ce5-a4c6-f21fcff91cdf"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top; background-color:#c6d9f1">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; line-height:115%; font-size:8.5pt">
+										<span style="color:#0000ff; font-family:Arial; font-weight:bold">F. PAYMENT AND INVOICING</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="0f2d77c3-14be-4182-92eb-a32759e137c7"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:0pt; margin-bottom:0pt; text-align:justify; font-size:8.5pt">
+											<span
+												style="font-family:Arial">Welltok will invoice the fees set forth in </span><span
+										style="font-family:Arial">Section C </span><span style="font-family:Arial">above [</span><span
+										style="font-family:Arial">upon the Effective Date</span><span
+										style="font-family:Arial">] or [</span><span style="font-family:Arial">upon completion of the services set forth in this Change Order</span><span
+										style="font-family:Arial">].&nbsp; Payment of invoice is due in accordance with the Agreement.</span>
+									</p>
+
+									<p style="margin-top:3pt; margin-bottom:1.5pt; line-height:115%; font-size:8.5pt">
+											<span
+												style="color:#0000ff; font-family:Arial; font-weight:bold">&nbsp;</span>
+									</p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="cb42d844-2a2d-4184-80db-25cfbaf8195d"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top; background-color:#d9d9d9">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; line-height:115%; font-size:8.5pt">
+											<span
+												style="color:#0000ff; font-family:Arial; font-weight:bold">F</span><span
+										style="color:#0000ff; font-family:Arial; font-weight:bold">. CHANGE REQUEST APPROVALS </span><span
+										style="font-family:Arial">This Change Request (“</span><span
+										style="font-family:Arial; font-weight:bold">Change</span><span
+										style="font-family:Arial"> </span><span
+										style="font-family:Arial; font-weight:bold">Request</span><span
+										style="font-family:Arial">”) is made part of and incorporated into the SOW by reference. Subject to the modification contained in this Change Request, the SOW shall remain unchanged and continue in full force and effect. </span><span
+										style="font-family:Arial">Notwithstanding anything herein, nothing is intended to (i) amend any limits of liability stated in the SOW; (ii) amend and/ or add any indemnification obligations; (iii) change the warranties provided under the SOW or the Agreement or (iv) grant to Client any ownership rights in any Deliverables provided or developed</span><span
+										style="font-family:Arial; font-weight:bold"> </span><span
+										style="font-family:Arial">by Welltok hereunder. This Change Request shall be effective on the later date in the signature block below (“</span><span
+										style="font-family:Arial; font-weight:bold">Effective Date</span><span
+										style="font-family:Arial">”).</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="ef63f422-23b1-47cd-bfd9-e9f3dd0493f4"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr>
+								<td colspan="8"
+									style="width:469.6pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:3pt; margin-bottom:1.5pt; line-height:115%; font-size:8.5pt">
+										<span
+											style="font-family:Arial; font-weight:bold">To witness their understanding</span><span
+										style="font-family:Arial">, the </span><span
+										style="font-family:Arial">p</span><span style="font-family:Arial">arties have caused this </span><span
+										style="font-family:Arial">Change Order</span><span
+										style="font-family:Arial"> to be signed by their duly authorized representatives</span><span
+										style="font-family:Arial">.</span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="2ea10871-e21e-4ae6-baa0-49b23e9c54e9"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:5.35pt">
+								<td colspan="2"
+									style="width:130.7pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:1.5pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial">Client Signature: </span></p>
+
+									<p style="margin-top:1.5pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial">&nbsp;</span></p></td>
+								<td style="width:144.1pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:1.5pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial">Title: </span></p></td>
+								<td colspan="5"
+									style="width:183.2pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:1.5pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial">Date: </span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="is-table-row">
+						<table cellpadding="0" cellspacing="0" data-id="26602f17-3888-43b8-a2af-95077e350c0d"
+							   style="border-collapse:collapse; width:476.15pt" class=" cke_show_border">
+							<tbody>
+							<tr style="height:5.3pt">
+								<td colspan="2"
+									style="width:130.7pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:1.5pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial">Welltok Signature: </span></p>
+
+									<p style="margin-top:1.5pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial">&nbsp;</span></p></td>
+								<td style="width:144.1pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:1.5pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial">Title: </span></p></td>
+								<td colspan="5"
+									style="width:183.2pt; border-style:solid; border-width:0.75pt; padding-right:2.52pt; padding-left:2.52pt; vertical-align:top">
+									<p style="margin-top:1.5pt; margin-bottom:1.5pt; font-size:8.5pt"><span
+										style="font-family:Arial">Date: </span></p></td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div><p data-id="a4d6b1e2-ad94-4be4-93fb-2f2e96989b30"
+							style="margin-top:0pt; margin-bottom:0pt; font-size:12pt"><br></p></div>
+					<div><p data-id="3ff662e7-bf93-46eb-a50d-c42d4e9f905c"
+							style="margin-top:0pt; margin-bottom:0pt; font-size:12pt"><span
+						style="font-family:Times New Roman">&nbsp;cxvcxvcxvxcvcxvcxvcxv</span></p></div>
+					<div>
+						<p data-id="a34c9428-3c37-444c-b922-f43d657b484e"
+						   style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:11pt">
+							<pgbr style="page-break-after: always" aria-label="Разрыв страницы"
+								  class="cke_pagebreak" contenteditable="false" data-cke-display-name="pagebreak"
+								  data-cke-pagebreak="1" title="Разрыв страницы"></pgbr>
+							<span style="font-family:Arial; font-weight:bold">Exhibit 1</span></p>
+					</div>
+					<div><p data-id="183cdf67-855a-48ff-b287-a745124c1069"
+							style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:11pt"><span
+						style="font-family:Arial; font-weight:bold">to</span></p></div>
+					<div><p data-id="fdd43581-63b8-409f-99f4-bc2777ceeed1"
+							style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:11pt"><span
+						style="font-family:Arial; font-weight:bold">Change Request Form</span></p></div>
+					<div><p data-id="a40a7c1d-7c19-4b07-9906-368c94a01057"
+							style="margin-top:0pt; margin-bottom:0pt; font-size:10pt"><span
+						style="font-family:Arial">&nbsp;</span></p></div>
+					<div><p data-id="c43b03ab-b59f-4668-af67-ed730de49dbf"
+							style="margin-top:0pt; margin-bottom:6pt; line-height:120%; font-size:11pt"><span
+						style="font-family:Times New Roman">[Attach any additional detail here]</span></p></div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="grid-container">
-		<div class="content grid-width-100">
-			<section id="sample-customize">
-				<h2>Customize Your Editor</h2>
-				<p>Modular build and <a href="http://docs.ckeditor.com/#!/guide/dev_configuration">numerous configuration options</a> give you nearly endless possibilities to customize CKEditor. Replace the content of your <code><a href="../config.js">config.js</a></code> file with the following code and refresh this page (<strong>remember to clear the browser cache</strong>)!</p>
-		<pre class="cm-s-neo CodeMirror"><code><span style="padding-right: 0.1px;"><span class="cm-variable">CKEDITOR</span>.<span class="cm-property">editorConfig</span> <span class="cm-operator">=</span> <span class="cm-keyword">function</span>( <span class="cm-def">config</span> ) {</span>
-<span style="padding-right: 0.1px;"><span class="cm-tab">	</span><span class="cm-variable-2">config</span>.<span class="cm-property">language</span> <span class="cm-operator">=</span> <span class="cm-string">'es'</span>;</span>
-<span style="padding-right: 0.1px;"><span class="cm-tab">	</span><span class="cm-variable-2">config</span>.<span class="cm-property">uiColor</span> <span class="cm-operator">=</span> <span class="cm-string">'#F7B42C'</span>;</span>
-<span style="padding-right: 0.1px;"><span class="cm-tab">	</span><span class="cm-variable-2">config</span>.<span class="cm-property">height</span> <span class="cm-operator">=</span> <span class="cm-number">300</span>;</span>
-<span style="padding-right: 0.1px;"><span class="cm-tab">	</span><span class="cm-variable-2">config</span>.<span class="cm-property">toolbarCanCollapse</span> <span class="cm-operator">=</span> <span class="cm-atom">true</span>;</span>
-<span style="padding-right: 0.1px;">};</span></code></pre>
-			</section>
-
-			<section>
-				<h2>Toolbar Configuration</h2>
-				<p>If you want to reorder toolbar buttons or remove some of them, check <a href="toolbarconfigurator/index.html">this handy tool</a>!</p>
-			</section>
-
-			<section>
-				<h2>More Samples!</h2>
-				<p>Visit the <a href="http://sdk.ckeditor.com">CKEditor SDK</a> for a huge collection of samples showcasing editor features, with source code readily available to copy and use in your own implementation.</p>
-			</section>
-
-			<section>
-				<h2>Developer's Guide</h2>
-				<p>The most important resource for all developers working with CKEditor, integrating it with their websites and applications, and customizing to their needs. You can start from here:</p>
-				<ul>
-					<li><a href="http://docs.ckeditor.com/#!/guide/dev_installation">Getting Started</a> &ndash; Explains most crucial editor concepts and practices as well as the installation process and integration with your website.</li>
-					<li><a href="http://docs.ckeditor.com/#!/guide/dev_advanced_installation">Advanced Installation Concepts</a> &ndash; Describes how to upgrade, install additional components (plugins, skins), or create a custom build.</li>
-				</ul>
-					<p>When you have the basics sorted out, feel free to browse some more advanced sections like:</p>
-				<ul>
-					<li><a href="http://docs.ckeditor.com/#!/guide/dev_features">Functionality Overview</a> &ndash; Descriptions and samples of various editor features.</li>
-					<li><a href="http://docs.ckeditor.com/#!/guide/plugin_sdk_intro">Plugin SDK</a>, <a href="http://docs.ckeditor.com/#!/guide/widget_sdk_intro">Widget SDK</a>, and <a href="http://docs.ckeditor.com/#!/guide/skin_sdk_intro">Skin SDK</a> &ndash; Useful when you want to create your own editor components.</li>
-				</ul>
-			</section>
-
-			<section>
-				<h2>CKEditor JavaScript API</h2>
-				<p>CKEditor boasts a rich <a href="http://docs.ckeditor.com/#!/api">JavaScript API</a> that you can use to adjust the editor to your needs and integrate it with your website or application.</p>
-			</section>
-		</div>
-	</div>
-</main>
-
-<footer class="footer-a grid-container">
-	<div class="grid-container">
-		<p class="grid-width-100">
-			CKEditor &ndash; The text editor for the Internet &ndash; <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
-		</p>
-		<p class="grid-width-100" id="copy">
-			Copyright &copy; 2003-2017, <a class="samples" href="http://cksource.com/">CKSource</a> &ndash; Frederico Knabben. All rights reserved.
-		</p>
-	</div>
-</footer>
+<style>
+	.cke_contents {
+		height: auto;
+	}
+</style>
 <script>
 	initSample();
 </script>

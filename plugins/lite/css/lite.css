@@ -1,0 +1,10 @@
+/* Source version: 1.2.26 */
+ins,del{text-decoration:none!important;}del.ice-del{display:none;}ins.ice-ins,ins.ice-del{white-space:pre-wrap;text-decoration:none!important;}ins.ice-no-decoration,del.ice-no-decoration{text-decoration:none!important;}.ICE-Tracking span.ice-ins,.ICE-Tracking ins.ice-ins,.ICE-Tracking span.ice-del,.ICE-Tracking del.ice-del{color:#000;}.ICE-Tracking span.ice-del,.ICE-Tracking del.ice-del{display:inline;text-decoration:line-through!important;color:#555;background-color:#e5ffcd!important;}.ICE-Tracking .ice-ins,.ICE-Tracking .ice-ins>*{background-color:#e5ffcd!important;}.ICE-Tracking .ice-ins.ice-cts-1,.ICE-Tracking .ice-ins.ice-cts-1>*{background-color:#e5ffcd!important;}.ICE-Tracking .ice-ins.ice-cts-2,.ICE-Tracking .ice-ins.ice-cts-2>*{background-color:#e3ffff!important;}.ICE-Tracking .ice-ins.ice-cts-3,.ICE-Tracking .ice-ins.ice-cts-3>*{background-color:#fdd!important;}.ICE-Tracking .ice-del.ice-cts-1{background-color:#e5ffcd!important;}.ICE-Tracking .ice-del.ice-cts-2{background-color:#e3ffff!important;}.ICE-Tracking .ice-del.ice-cts-3{background-color:#fdd!important;}
+/* Copyright (C) 2015 LoopIndex - All Rights Reserved
+ * You may use, distribute and modify this code under the
+ * terms of the LoopIndex Comments CKEditor plugin license.
+ *
+ * You should have received a copy of the LoopIndex Comments CKEditor plugin license with
+ * this file. If not, please write to: loopindex@gmail.com, or visit http://www.loopindex.com
+ * written by (David *)Frenkiel (https://github.com/imdfl) 
+ */
