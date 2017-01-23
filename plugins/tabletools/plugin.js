@@ -672,6 +672,7 @@
 						}
 					}, {
 						element: 'td',
+						check: 'td{vertical-align}',
 						left: function( element ) {
 							return element.attributes && element.attributes.valign;
 						},
