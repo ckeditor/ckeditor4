@@ -181,6 +181,24 @@
 		// (#10308)
 		'test remove trailing cell': function() {
 			this.doTest( 'delete-cell-trailing', 'cellDelete' );
+		},
+
+		'test background color conversion': function() {
+			var bot = this.editorBot;
+
+			bender.tools.testInputOut( 'background-conversion', function( source, expected ) {
+				bot.setHtmlWithSelection( source );
+				assert.beautified.html( expected, bot.getData( true ) );
+			} );
+		},
+
+		'test valign conversion': function() {
+			var bot = this.editorBot;
+
+			bender.tools.testInputOut( 'align-conversion', function( source, expected ) {
+				bot.setHtmlWithSelection( source );
+				assert.beautified.html( expected, bot.getData( true ) );
+			} );
 		}
 	} );
 } )();

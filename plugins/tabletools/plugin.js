@@ -662,8 +662,7 @@
 			addCmd( 'cellProperties', new CKEDITOR.dialogCommand( 'cellProperties', createDef( {
 				allowedContent: 'td th{width,height,border-color,background-color,white-space,vertical-align,text-align}[colspan,rowspan]',
 				requiredContent: 'table',
-				contentTransformations: [
-					[ {
+				contentTransformations: [ [ {
 						element: 'td',
 						left: function( element ) {
 							return element.styles.background && element.styles.background.match( /^(#[a-fA-F0-9]{3,6}|rgb\([\d, ]+\)|\w+)$/ );
@@ -671,8 +670,18 @@
 						right: function( element ) {
 							element.styles[ 'background-color' ] = element.styles.background;
 						}
-					} ]
-				]
+					}, {
+						element: 'td',
+						check: 'td{vertical-align}',
+						left: function( element ) {
+							return element.attributes && element.attributes.valign;
+						},
+						right: function( element ) {
+							element.styles[ 'vertical-align' ] = element.attributes.valign;
+							delete element.attributes.valign;
+						}
+					}
+				] ]
 			} ) ) );
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 
