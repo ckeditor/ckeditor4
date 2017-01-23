@@ -224,6 +224,26 @@
 
 					Style.setStyle( element, 'border', borderStyle );
 
+					var parent = element.parent,
+						root = parent && parent.parent,
+						parentChildren,
+						i;
+
+					// In case parent div has only align attr, move it to the table element (#16811).
+					if ( parent.name && parent.name === 'div' && parent.attributes.align &&
+						tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
+						// If align is the only attribute of parent.
+						element.attributes.align = parent.attributes.align;
+
+						parentChildren = parent.children.splice( 0 );
+
+						element.remove();
+						for ( i = parentChildren.length - 1; i >= 0; i-- ) {
+							root.add( parentChildren[ i ], parent.getIndex() );
+						}
+						parent.remove();
+					}
+
 				},
 				'td': function( element ) {
 
@@ -309,7 +329,6 @@
 				'cellspacing': remove,
 				'cellpadding': remove,
 				'border': remove,
-				'valign': remove,
 				'v:shapes': remove,
 				'o:spid': remove
 			},

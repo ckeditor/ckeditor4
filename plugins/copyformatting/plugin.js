@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -72,7 +72,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'copyformatting', {
-		lang: 'en',
+		lang: 'az,de,en,it,ja,nb,nl,oc,pl,pt-br,ru,sv,tr,zh,zh-cn',
 		icons: 'copyformatting',
 		hidpi: true,
 

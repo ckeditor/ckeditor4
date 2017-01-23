@@ -6,7 +6,8 @@
 
 	bender.editor = {
 		config: {
-			autoParagraph: false
+			autoParagraph: false,
+			extraAllowedContent: 'span[style]'
 		}
 	};
 
@@ -397,6 +398,29 @@
 				// Assert selected text only because, depending on the browser,
 				// selection is <a>[b]</a> or [<a>b</a>].
 				assert.areSame( 'b', editor.getSelection().getSelectedText(), 'Link selected' );
+			} );
+		},
+
+		// #11956
+		'test select link with descendants on double-click': function() {
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			// Do not let dialog to show – it is not necessary.
+			editor.once( 'doubleclick', function( evt ) {
+				evt.cancel();
+
+				resume( function() {
+					assert.areSame( editor.document.findOne( 'a' ), evt.data.link, 'Link selected' );
+				} );
+			} );
+
+			bot.setData( '<p>a<a href="http://bar"><span style="background:#f00;">b</span></a>c</p>', function() {
+				editor.fire( 'doubleclick', {
+					element: editor.document.findOne( 'span' )
+				} );
+
+				wait();
 			} );
 		},
 

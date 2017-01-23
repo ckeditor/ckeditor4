@@ -15,7 +15,7 @@ module.exports = function( grunt ) {
 			},
 
 			git: function() {
-				return tools.getGitDirtyFiles().filter( function( file ) {
+				return tools.getGitDirtyFiles( true ).filter( function( file ) {
 					return ( /\.js$/ ).test( file );
 				} );
 			}

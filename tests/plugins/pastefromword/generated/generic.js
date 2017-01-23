@@ -41,7 +41,9 @@
 			'Spacing': true,
 			'Text_alignment': true,
 			'Underline': true,
-			'Unordered_list': true
+			'Unordered_list': true,
+			'Table_alignment': true,
+			'Table_vertical_alignment': true
 		},
 		keys = CKEDITOR.tools.objectKeys( tests ),
 		testData = {

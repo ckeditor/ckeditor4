@@ -5,6 +5,12 @@
 
 ## CKEditor 4.7
 
+Fixed Issues:
+
+* [#16811](http://dev.ckeditor.com/ticket/16811): Fixed: Pasted from Word table alignment not preserved.
+* [#16810](http://dev.ckeditor.com/ticket/16810): Fixed: Vertical align in tables not supported by [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
+* [#11956](http://dev.ckeditor.com/ticket/11956): [Blink, IE] Fixed: [Link](http://ckeditor.com/addon/link) dialog does not open on a double click on the second word of the link with background color or other styles.
+
 ## CKEditor 4.6.2
 
 New Features:
