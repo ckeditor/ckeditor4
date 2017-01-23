@@ -1869,7 +1869,7 @@
 				return dropEvt.data.testRange;
 
 			// Webkits.
-			if ( document.caretRangeFromPoint ) {
+			if ( document.caretRangeFromPoint && editor.document.$.caretRangeFromPoint( x, y ) ) {
 				$range = editor.document.$.caretRangeFromPoint( x, y );
 				range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
 				range.collapse( true );
