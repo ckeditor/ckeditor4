@@ -58,7 +58,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 							return;
 
 						// Cancel the browser context menu.
-						domEvent.preventDefault();
+						//domEvent.preventDefault();
 
 						// Fix selection when non-editable element in Webkit/Blink (Mac) (#11306).
 						if ( CKEDITOR.env.mac && CKEDITOR.env.webkit ) {
@@ -81,7 +81,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 							offsetY = fromFrame ? domEvent.$.clientY : domEvent.$.pageY || scroll.y + domEvent.$.clientY;
 
 						CKEDITOR.tools.setTimeout( function() {
-							this.open( offsetParent, null, offsetX, offsetY );
+							//this.open( offsetParent, null, offsetX, offsetY );
 
 							// IE needs a short while to allow selection change before opening menu. (#7908)
 						}, CKEDITOR.env.ie ? 200 : 0, this );
