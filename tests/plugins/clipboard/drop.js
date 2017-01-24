@@ -1177,6 +1177,21 @@ var testsForMultipleEditor = {
 
 			assert.isTrue( spy.called, 'preventDefault called.' );
 			assert.areEqual( 'none', data.$.dataTransfer.dropEffect, 'dropEffect reset to \'none\'' );
+		},
+
+		'test dragOver Edge': function() {
+			var editor = this.editors.divarea,
+				bot = this.editorBots[ editor.name ],
+				spy = sinon.spy(),
+				data = {
+					preventDefault: spy
+				};
+
+			bot.setHtmlWithSelection( '<p>Test area.</p>' );
+
+			editor.editable().fire( 'dragover', data );
+
+			assert.isTrue( spy.called, 'preventDefault called.' );
 		}
 	};
 
