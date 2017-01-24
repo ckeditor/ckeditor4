@@ -51,6 +51,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'tab,' +
 		'table,' +
 		'tabletools,' +
+		'tabletoolstoolbar,' +
 		'toolbar,' +
 		'undo';
 	config.skin = 'minimalist';

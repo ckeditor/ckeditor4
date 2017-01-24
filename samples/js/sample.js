@@ -18,7 +18,26 @@ var initSample = ( function() {
 		var editorElement = CKEDITOR.document.getById( 'editor' );
 
 		editorElement.setAttribute( 'contenteditable', 'true' );
-		CKEDITOR.inline( 'editor' );
+		CKEDITOR.inline( 'editor', {
+			toolbar: [
+				{name: 'font', items: ['Format', 'Font', 'FontSize']},
+				{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']},
+				{name: 'copyformatting', items: ['CopyFormatting']},
+				{name: 'color', items: ['TextColor', 'BGColor']},
+				{name: 'list', items: ['NumberedList', 'BulletedList']},
+				{name: 'indent', items : ['Indent', 'Outdent']},
+				{name: 'paragraph', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ]},
+				{name: 'find', items: ['Find', 'Replace']},
+				{name: 'insert', items: ['Table', 'base64image']},
+				{name: 'pagebreak', items: ['PageBreak']},
+				{name: 'placeholder', items: ['CreatePlaceholder']},
+				{name: 'tabletools', items: ['tabledelete', 'tableproperties', 'tablerowinsertbefore',
+					'tablerowinsertafter', 'tablerowdelete', 'tablecolumninsertbefore', 'tablecolumninsertafter',
+					'tablecolumndelete', 'tablecellinsertbefore', 'tablecellinsertafter', 'tablecelldelete',
+					'tablecellproperties', 'tablecellsmerge', 'tablecellmergedown', 'tablecellsplithorizontal', 'tablecellsplitvertical']},
+				{name: 'helpers', items: ['Undo', 'Redo']}
+			]
+		} );
 	};
 } )();
 
