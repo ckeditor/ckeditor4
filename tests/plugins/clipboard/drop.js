@@ -1180,6 +1180,10 @@ var testsForMultipleEditor = {
 		},
 
 		'test dragOver Edge': function() {
+			if ( !CKEDITOR.env.edge ) {
+				assert.ignore();
+			}
+
 			var editor = this.editors.divarea,
 				bot = this.editorBots[ editor.name ],
 				spy = sinon.spy(),
