@@ -190,6 +190,28 @@
 			doTest( editor, bot, 'delete-cell-trailing', 'cellDelete', [ 3 ], true );
 		},
 
+		'test getSelectedCells restricted to the given table': function( editor, bot ) {
+			var editable = editor.editable(),
+				table,
+				expectedCells,
+				selectedCells;
+
+			bot.setHtmlWithSelection( CKEDITOR.document.getById( 'getSelectedCells-nested' ).getValue() );
+
+			table = editable.findOne( '#inner' );
+			expectedCells = table.find( 'td' );
+
+			editor.getSelection().selectElement( table );
+
+			selectedCells = CKEDITOR.plugins.tabletools.getSelectedCells( editor.getSelection(), table );
+
+			assert.isTrue( CKEDITOR.tools.isArray( selectedCells ) );
+			assert.areSame( 2, selectedCells.length );
+
+			assert.isTrue( expectedCells.getItem( 0 ).equals( selectedCells[ 0 ] ) );
+			assert.isTrue( expectedCells.getItem( 1 ).equals( selectedCells[ 1 ] ) );
+		},
+
 		'test getCellsBetween': function( editor, bot ) {
 			var editable = editor.editable(),
 				first,
