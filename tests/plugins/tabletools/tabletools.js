@@ -201,6 +201,7 @@
 			} );
 		},
 
+		// (#16818)
 		'test row height conversion': function() {
 			var bot = this.editorBot;
 

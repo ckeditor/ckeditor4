@@ -681,7 +681,39 @@
 							delete element.attributes.valign;
 						}
 					}
-				] ]
+					], [
+						{
+							// (#16818)
+							element: 'tr',
+							check: 'td{height}',
+							left: function( element ) {
+								return element.styles && element.styles.height;
+							},
+							right: function( element ) {
+								CKEDITOR.tools.array.forEach( element.children, function( node ) {
+									if ( node.name in { td: 1, th: 1 } ) {
+										node.attributes[ 'cke-row-height' ] = element.styles.height;
+									}
+								} );
+
+								delete element.styles.height;
+							}
+						}
+					], [
+						{
+							// (#16818)
+							element: 'td',
+							check: 'td{height}',
+							left: function( element ) {
+								var attributes = element.attributes;
+								return attributes && attributes[ 'cke-row-height' ];
+							},
+							right: function( element ) {
+								element.styles.height = element.attributes[ 'cke-row-height' ];
+								delete element.attributes[ 'cke-row-height' ];
+							}
+						}
+					] ]
 			} ) ) );
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 
