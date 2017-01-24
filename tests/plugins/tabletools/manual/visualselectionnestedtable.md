@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, 18
-@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, clipboard, sourcearea, undo, elementspath
+@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, basicstyles, clipboard, sourcearea, undo, elementspath
 
 **Things to check:**
 
@@ -10,3 +10,4 @@
 * Selection began in nested table and ended in parent's cell should leave nested cells selected.
 * Selection inside nested table done via elementpath should select proper elements.
 * Context menu for selected cells in outer table should be also possible to open inside nested table.
+* Applying basic styles to the nested table cells is working correctly.
