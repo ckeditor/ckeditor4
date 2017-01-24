@@ -199,6 +199,16 @@
 				bot.setHtmlWithSelection( source );
 				assert.beautified.html( expected, bot.getData( true ) );
 			} );
+		},
+
+		// (#16818)
+		'test row height conversion': function() {
+			var bot = this.editorBot;
+
+			bender.tools.testInputOut( 'row-height-conversion', function( source, expected ) {
+				bot.setHtmlWithSelection( source );
+				assert.beautified.html( expected, bot.getData( true ) );
+			} );
 		}
 	} );
 } )();
