@@ -97,11 +97,62 @@
 				afterRanges = editor.getSelection().getRanges();
 				assert.isTrue( !!editor.getSelection().isFake, 'selection after is fake' );
 				assert.isTrue( editor.getSelection().isInTable(), 'selection after is in table' );
-				assert.areSame( ranges.length, afterRanges.length, 'appropriate number of ranges is selected' );
 
-				for ( i = 0; i < ranges.length; i++ ) {
-					assert.isTrue( getTableElementFromRange( afterRanges[ i ] ).hasClass( 'cke_marked' ),
-						'appropriate ranges are selected' );
+				if ( command.toLowerCase().indexOf( 'merge' ) === -1 ) {
+					assert.areSame( ranges.length, afterRanges.length, 'appropriate number of ranges is selected' );
+
+					for ( i = 0; i < ranges.length; i++ ) {
+						assert.isTrue( getTableElementFromRange( afterRanges[ i ] ).hasClass( 'cke_marked' ),
+							'appropriate ranges are selected' );
+					}
+				} else {
+					assert.areSame( 1, afterRanges.length, 'appropriate number of ranges is selected' );
+				}
+			}
+		} );
+	}
+
+	function doCollapsedTest( editor, bot, name, command, cellsIndexes, skipCheckingSelection ) {
+		var ranges = [],
+			output,
+			afterRanges,
+			i;
+
+		bender.tools.testInputOut( name, function( source, expected ) {
+			bot.setHtmlWithSelection( source );
+
+			ranges = getRangesForCells( editor, cellsIndexes );
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				ranges[ i ].shrink( CKEDITOR.SHRINK_ELEMENT, true );
+				ranges[ i ].collapse();
+			}
+
+			editor.getSelection().selectRanges( ranges );
+			// Mark selected cells to be able later to check if new selection
+			// is containing the appropriate cells.
+			markCells( ranges );
+
+			bot.execCommand( command );
+
+			output = bot.getData( true );
+			output = output.replace( /\u00a0/g, '&nbsp;' );
+			assert.areSame( bender.tools.compatHtml( expected ), output );
+
+			if ( !skipCheckingSelection ) {
+				afterRanges = editor.getSelection().getRanges();
+				assert.isFalse( !!editor.getSelection().isFake, 'selection after is not fake' );
+				assert.isFalse( editor.getSelection().isInTable(), 'selection after is not in table' );
+
+				if ( command.toLowerCase().indexOf( 'merge' ) === -1 ) {
+					assert.areSame( ranges.length, afterRanges.length, 'appropriate number of ranges is selected' );
+
+					for ( i = 0; i < ranges.length; i++ ) {
+						assert.isTrue( getTableElementFromRange( afterRanges[ i ] ).hasClass( 'cke_marked' ),
+							'appropriate ranges are selected' );
+					}
+				} else {
+					assert.areSame( 1, afterRanges.length, 'appropriate number of ranges is selected' );
 				}
 			}
 		} );
@@ -140,17 +191,17 @@
 		},
 
 		'test merge cells': function( editor, bot ) {
-			doTest( editor, bot, 'merge-cells', 'cellMerge', [ 0, 1, 2, 3, 4, 5 ], true );
-			doTest( editor, bot, 'merge-cells-2', 'cellMerge', [ 0, 1 ], true );
-			doTest( editor, bot, 'merge-cells-3', 'cellMerge', [ 2, 3, 5 ], true );
-			doTest( editor, bot, 'merge-cells-5', 'cellMerge', [ 0, 1 ], true );
+			doTest( editor, bot, 'merge-cells', 'cellMerge', [ 0, 1, 2, 3, 4, 5 ] );
+			doTest( editor, bot, 'merge-cells-2', 'cellMerge', [ 0, 1 ] );
+			doTest( editor, bot, 'merge-cells-3', 'cellMerge', [ 2, 3, 5 ] );
+			doTest( editor, bot, 'merge-cells-5', 'cellMerge', [ 0, 1 ] );
 		},
 
 		'test merge cells (4)': function( editor, bot ) {
 			if ( !CKEDITOR.env.gecko )
 				assert.ignore();
 
-			doTest( editor, bot, 'merge-cells-4', 'cellMerge', [ 0, 1 ], true );
+			doTest( editor, bot, 'merge-cells-4', 'cellMerge', [ 0, 1 ] );
 		},
 
 		'test split cells': function( editor, bot ) {
@@ -163,9 +214,15 @@
 		},
 
 		'test merge one cell': function( editor, bot ) {
-			doTest( editor, bot, 'merge-cell-right', 'cellMergeRight', [ 0 ], true );
-			doTest( editor, bot, 'merge-cell-down', 'cellMergeDown', [ 0 ], true );
-			doTest( editor, bot, 'merge-cell-down-2', 'cellMergeDown', [ 1 ], true );
+			doTest( editor, bot, 'merge-cell-right', 'cellMergeRight', [ 0 ] );
+			doTest( editor, bot, 'merge-cell-down', 'cellMergeDown', [ 0 ] );
+			doTest( editor, bot, 'merge-cell-down-2', 'cellMergeDown', [ 1 ] );
+		},
+
+		'test merge one cell (collapsed selection)': function( editor, bot ) {
+			doCollapsedTest( editor, bot, 'merge-cell-right', 'cellMergeRight', [ 0 ] );
+			doCollapsedTest( editor, bot, 'merge-cell-down', 'cellMergeDown', [ 0 ] );
+			doCollapsedTest( editor, bot, 'merge-cell-down-2', 'cellMergeDown', [ 1 ] );
 		},
 
 		'test delete nested cells': function( editor, bot ) {
@@ -295,12 +352,14 @@
 
 					editor.execCommand( 'cellMerge' );
 
-					var rangesAfterCommand = editor.getSelection().getRanges(),
+					var selection = editor.getSelection(),
+						rangesAfterCommand = selection.getRanges(),
 						expectedSelectionHolder = editor.editable().find( 'td' ).getItem( 1 );
 
 					assert.areSame( 1, rangesAfterCommand.length, 'Range count' );
-					assert.isTrue( rangesAfterCommand[ 0 ].collapsed, 'Range is collapsed' );
-					assert.isNotNull( rangesAfterCommand[ 0 ].startPath().contains( expectedSelectionHolder ), 'Range is collapsed' );
+					assert.isTrue( !!selection.isFake, 'Selection is fake' );
+					assert.isTrue( selection.isInTable(), 'Selection is in table' );
+					assert.areSame( getTableElementFromRange( rangesAfterCommand[ 0 ] ), expectedSelectionHolder, 'Correct cell is selected' );
 
 					assert.areSame( expected, editor.getData(), 'Editor data' );
 				} );
