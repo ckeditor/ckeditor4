@@ -1513,12 +1513,14 @@
 				allowedContent: 'td[colspan,rowspan]',
 				requiredContent: 'td[colspan,rowspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor.getSelection() ), true );
+					var cell = mergeCells( editor.getSelection() );
 
-					// The selection resets automatically, but the visual selection
-					// must be deleted manually.
+					// If table improvements are enabled, fake select new cell.
+					// Otherwise place cursor inside it.
 					if ( editor && editor.config.tableImprovements ) {
-						clearFakeCellSelection( editor, true );
+						fakeSelectCells( editor, [ cell ] );
+					} else {
+						placeCursorInCell( cell, true );
 					}
 				}
 			} ) );
@@ -1527,12 +1529,16 @@
 				allowedContent: 'td[colspan]',
 				requiredContent: 'td[colspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor.getSelection(), 'right' ), true );
+					var selection = editor.getSelection(),
+						isFakeTableSelection = selection.isFake && selection.isInTable(),
+						cell = mergeCells( editor.getSelection(), 'right' );
 
-					// The selection resets automatically, but the visual selection
-					// must be deleted manually.
-					if ( editor && editor.config.tableImprovements ) {
-						clearFakeCellSelection( editor, true );
+					// If the cell was faked selected, then select the new cell.
+					// Otherwise place cursor inside it.
+					if ( editor && editor.config.tableImprovements && isFakeTableSelection ) {
+						fakeSelectCells( editor, [ cell ] );
+					} else {
+						placeCursorInCell( cell, true );
 					}
 				}
 			} ) );
@@ -1541,12 +1547,16 @@
 				allowedContent: 'td[rowspan]',
 				requiredContent: 'td[rowspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor.getSelection(), 'down' ), true );
+					var selection = editor.getSelection(),
+						isFakeTableSelection = selection.isFake && selection.isInTable(),
+						cell = mergeCells( editor.getSelection(), 'down' );
 
-					// The selection resets automatically, but the visual selection
-					// must be deleted manually.
-					if ( editor && editor.config.tableImprovements ) {
-						clearFakeCellSelection( editor, true );
+					// If the cell was faked selected, then select the new cell.
+					// Otherwise place cursor inside it.
+					if ( editor && editor.config.tableImprovements && isFakeTableSelection ) {
+						fakeSelectCells( editor, [ cell ] );
+					} else {
+						placeCursorInCell( cell, true );
 					}
 				}
 			} ) );
