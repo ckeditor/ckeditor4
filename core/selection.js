@@ -26,6 +26,13 @@
 			startTable = start.getAscendant( 'table', true ),
 			endTable = end.getAscendant( 'table', true );
 
+		// Super weird edge case in Safari: if there is a table with only one cell inside and that cell
+		// is selected, then the end boundary of the table is moved into editor's editable.
+		if ( CKEDITOR.env.safari && startTable && !endTable && startTable.find( 'td, th' ).count() === 1 &&
+			end.equals( range.root ) ) {
+			return start.getAscendant( tableElements, true );
+		}
+
 		if ( range.getEnclosedNode() ) {
 			return range.getEnclosedNode().getAscendant( tableElements, true );
 		}
