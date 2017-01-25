@@ -697,6 +697,11 @@
 				return true;
 			}
 
+			var innerText = '';
+			element.forEach( function( text ) {
+				innerText += text.value;
+			}, CKEDITOR.NODE_TEXT );
+
 			/*jshint -W024 */
 			// Normally a style of the sort that looks like "mso-list: l0 level1 lfo1"
 			// indicates a list element, but the same style may appear in a <p> that's within a <li>.
@@ -704,10 +709,10 @@
 				element.parent.name !== 'li' ) ||
 				element.attributes[ 'cke-dissolved' ] ||
 				element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ ) ||
-					// Flat, ordered lists are represented by paragraphs
-					// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
-					// where the middle parentheses contain the symbol.
-				element.getHtml().match( /^( )*.*?[\.\)] ( ){2,700}/ )
+				// Flat, ordered lists are represented by paragraphs
+				// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
+				// where the middle parentheses contain the symbol.
+				innerText.match( /^( )*\(?[a-zA-Z0-9]+?[\.\)] ( ){2,700}/ )
 			) {
 				return true;
 			}
