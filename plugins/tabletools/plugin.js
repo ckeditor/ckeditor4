@@ -358,23 +358,34 @@
 
 	function deleteCells( selectionOrCell ) {
 		if ( selectionOrCell instanceof CKEDITOR.dom.selection ) {
-			var cellsToDelete = getSelectedCells( selectionOrCell );
-			var table = cellsToDelete[ 0 ] && cellsToDelete[ 0 ].getAscendant( 'table' );
-			var cellToFocus = getFocusElementAfterDelCells( cellsToDelete );
+			var ranges = selectionOrCell.getRanges(),
+				cellsToDelete = getSelectedCells( selectionOrCell ),
+				table = cellsToDelete[ 0 ] && cellsToDelete[ 0 ].getAscendant( 'table' ),
+				cellToFocus = getFocusElementAfterDelCells( cellsToDelete );
 
-			for ( var i = cellsToDelete.length - 1; i >= 0; i-- )
+			selectionOrCell.reset();
+
+			for ( var i = cellsToDelete.length - 1; i >= 0; i-- ) {
 				deleteCells( cellsToDelete[ i ] );
+			}
 
-			if ( cellToFocus )
+			if ( cellToFocus ) {
 				placeCursorInCell( cellToFocus, true );
-			else if ( table )
+			} else if ( table ) {
+				// After deleting whole table, the selection would be broken,
+				// therefore it's safer to move it outside the table first.
+				ranges[ 0 ].moveToPosition( table, CKEDITOR.POSITION_AFTER_END );
+				ranges[ 0 ].select();
+
 				table.remove();
+			}
 		} else if ( selectionOrCell instanceof CKEDITOR.dom.element ) {
 			var tr = selectionOrCell.getParent();
-			if ( tr.getChildCount() == 1 )
+			if ( tr.getChildCount() == 1 ) {
 				tr.remove();
-			else
+			} else {
 				selectionOrCell.remove();
+			}
 		}
 	}
 
