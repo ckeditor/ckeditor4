@@ -11,6 +11,12 @@ Perform steps for each editor.
 	**Expected:** Selection grays out, but is not shrinked to one cell.
 1. Use option "Cell \ Merge Cells".
 
-**Expected:** Selected cells are merged into a single cell.
+**Expected:**
 
-**Unexpected:** Selection is shrinked to one cell.
+* Selected cells are merged into a single cell.
+* Merged cell is faked selected.
+
+**Unexpected:**
+
+* Selection is shrinked to one cell.
+* Merged cell is not faked selected.
