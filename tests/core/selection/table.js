@@ -165,6 +165,22 @@
 			assert.isTrue( selection.isInTable(), 'Nested table selection (table).' );
 			assert.isTrue( table.findOne( 'table' ).equals( selection.getSelectedElement() ),
 				'Proper selected element is returned for nested table selection (table).' );
+
+			// Edge case in Safari: selecting one and only cell in the table.
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'oneCell' ).getHtml() );
+			table = editable.findOne( 'table' );
+
+			ranges = getRangesForCells( editor, table, [ 0 ] );
+			selection.selectRanges( ranges );
+			assert.isTrue( selection.isInTable(), 'Only cell in the table.' );
+
+			// Edge case in Safari: selecting one and only cell inside the nested table.
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'nestedOneCell' ).getHtml() );
+			table = editable.findOne( 'table table ' );
+
+			ranges = getRangesForCells( editor, table, [ 0 ] );
+			selection.selectRanges( ranges );
+			assert.isTrue( selection.isInTable(), 'Only cell in the table.' );
 		},
 
 		'Make fake table selection': function() {
