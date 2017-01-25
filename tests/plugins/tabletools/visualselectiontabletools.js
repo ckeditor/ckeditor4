@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar,floatingspace */
+/* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar,undo,floatingspace */
 
 ( function() {
 	'use strict';
@@ -227,6 +227,11 @@
 
 			assert.isTrue( expectedCells.getItem( 0 ).equals( selectedCells[ 0 ] ) );
 			assert.isTrue( expectedCells.getItem( 1 ).equals( selectedCells[ 1 ] ) );
+		},
+
+		'test delete all cells': function( editor, bot ) {
+			doTest( editor, bot, 'delete-all-cells', 'cellDelete', [ 0, 1, 2, 3 ], true );
+			editor.focus();
 		},
 
 		'test getCellsBetween': function( editor, bot ) {
