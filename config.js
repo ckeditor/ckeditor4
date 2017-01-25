@@ -54,7 +54,6 @@ CKEDITOR.editorConfig = function( config ) {
 		'tabletoolstoolbar,' +
 		'toolbar,' +
 		'undo';
-	//config.skin = 'minimalist';
 	config.languages = {
 		en : 1
 	};

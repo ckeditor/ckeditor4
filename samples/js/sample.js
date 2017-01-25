@@ -31,11 +31,11 @@ var initSample = ( function() {
 				{name: 'insert', items: ['Table', 'base64image']},
 				{name: 'pagebreak', items: ['PageBreak']},
 				{name: 'placeholder', items: ['CreatePlaceholder']},
+				{name: 'helpers', items: ['Undo', 'Redo']},
 				{name: 'tabletools', items: ['tabledelete', 'tableproperties', 'tablerowinsertbefore',
 					'tablerowinsertafter', 'tablerowdelete', 'tablecolumninsertbefore', 'tablecolumninsertafter',
 					'tablecolumndelete', 'tablecellinsertbefore', 'tablecellinsertafter', 'tablecelldelete',
-					'tablecellproperties', 'tablecellsmerge', 'tablecellmergedown', 'tablecellsplithorizontal', 'tablecellsplitvertical']},
-				{name: 'helpers', items: ['Undo', 'Redo']}
+					'tablecellproperties', 'tablecellsmerge', 'tablecellmergedown', 'tablecellsplithorizontal', 'tablecellsplitvertical']}
 			]
 		} );
 	};
