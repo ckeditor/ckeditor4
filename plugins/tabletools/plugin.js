@@ -284,13 +284,16 @@
 	}
 
 	function deleteColumns( selectionOrCell ) {
-		var cells = getSelectedCells( selectionOrCell ),
+		var ranges = selectionOrCell.getRanges(),
+			cells = getSelectedCells( selectionOrCell ),
 			firstCell = cells[ 0 ],
 			lastCell = cells[ cells.length - 1 ],
 			table = firstCell.getAscendant( 'table' ),
 			map = CKEDITOR.tools.buildTableMap( table ),
 			startColIndex, endColIndex,
 			rowsToDelete = [];
+
+		selectionOrCell.reset();
 
 		// Figure out selected cells' column indices.
 		for ( var i = 0, rows = map.length; i < rows; i++ ) {
@@ -333,8 +336,14 @@
 		var cursorPosition = new CKEDITOR.dom.element( firstRowCells[ startColIndex ] || ( startColIndex ? firstRowCells[ startColIndex - 1 ] : table.$.parentNode ) );
 
 		// Delete table rows only if all columns are gone (do not remove empty row).
-		if ( rowsToDelete.length == rows )
+		if ( rowsToDelete.length == rows ) {
+			// After deleting whole table, the selection would be broken,
+			// therefore it's safer to move it outside the table first.
+			ranges[ 0 ].moveToPosition( table, CKEDITOR.POSITION_AFTER_END );
+			ranges[ 0 ].select();
+
 			table.remove();
+		}
 
 		return cursorPosition;
 	}
