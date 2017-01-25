@@ -6,7 +6,7 @@
 /* exported CKBUILDER_CONFIG */
 
 var CKBUILDER_CONFIG = {
-	skin: 'minimalist',
+	skin: 'moono-lisa',
 	ignore: [
 		'bender.js',
 		'.bender',
@@ -73,6 +73,7 @@ var CKBUILDER_CONFIG = {
 		'table' : 1,
 		'tabletools' : 1,
 		'tableresize': 1,
+		'tabletoolstoolbar': 1,
 		'toolbar' : 1,
 		'undo' : 1
 	},
