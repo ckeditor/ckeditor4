@@ -153,7 +153,8 @@
 
 	function deleteRows( selectionOrRow ) {
 		if ( selectionOrRow instanceof CKEDITOR.dom.selection ) {
-			var cells = getSelectedCells( selectionOrRow ),
+			var ranges = selectionOrRow.getRanges(),
+				cells = getSelectedCells( selectionOrRow ),
 				firstCell = cells[ 0 ],
 				table = firstCell.getAscendant( 'table' ),
 				map = CKEDITOR.tools.buildTableMap( table ),
@@ -162,6 +163,8 @@
 				lastCell = cells[ cells.length - 1 ],
 				endRowIndex = lastCell.getParent().$.rowIndex + lastCell.$.rowSpan - 1,
 				rowsToDelete = [];
+
+			selectionOrRow.reset();
 
 			// Delete cell or reduce cell spans by checking through the table map.
 			for ( var i = startRowIndex; i <= endRowIndex; i++ ) {
@@ -199,17 +202,25 @@
 			// 3. Into table's parent element if it's the very last row.
 			var cursorPosition = new CKEDITOR.dom.element( rows[ endRowIndex + 1 ] || ( startRowIndex > 0 ? rows[ startRowIndex - 1 ] : null ) || table.$.parentNode );
 
-			for ( i = rowsToDelete.length; i >= 0; i-- )
+			for ( i = rowsToDelete.length; i >= 0; i-- ) {
 				deleteRows( rowsToDelete[ i ] );
+			}
 
 			return cursorPosition;
 		} else if ( selectionOrRow instanceof CKEDITOR.dom.element ) {
 			table = selectionOrRow.getAscendant( 'table' );
 
-			if ( table.$.rows.length == 1 )
+			if ( table.$.rows.length == 1 ) {
+				// After deleting whole table, the selection would be broken,
+				// therefore it's safer to move it outside the table first.
+				ranges[ 0 ].moveToPosition( table, CKEDITOR.POSITION_AFTER_END );
+				ranges[ 0 ].select();
+
 				table.remove();
-			else
+			}
+			else {
 				selectionOrRow.remove();
+			}
 		}
 
 		return null;
