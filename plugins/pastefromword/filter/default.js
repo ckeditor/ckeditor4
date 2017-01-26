@@ -114,6 +114,10 @@
 
 					if ( List.thisIsAListItem( editor, element ) ) {
 						List.convertToFakeListItem( editor, element );
+
+						if ( element.children.length === 1 && element.children[ 0 ].name === 'p' ) {
+							element.children[ 0 ].replaceWithChildren();
+						}
 					} else {
 						// In IE list level information is stored in <p> elements inside <li> elements.
 						var container = element.getAscendant( function( element ) {
