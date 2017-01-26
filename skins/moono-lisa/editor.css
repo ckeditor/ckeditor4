@@ -93,8 +93,6 @@
 }
 
 .cke_top {
-	border-bottom: 1px solid #d1d1d1;
-	background: #f8f8f8;
 	padding: 6px 8px 2px;
 	white-space: normal
 }
@@ -928,7 +926,7 @@ a.cke_combo_button {
 	float: left;
 	cursor: default;
 	color: #484848;
-	width: 60px
+	width: 45px
 }
 
 .cke_rtl .cke_combo_text {
