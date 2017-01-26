@@ -705,7 +705,7 @@
 			/*jshint -W024 */
 			// Normally a style of the sort that looks like "mso-list: l0 level1 lfo1"
 			// indicates a list element, but the same style may appear in a <p> that's within a <li>.
-			if ( ( ( element.attributes.style && element.attributes.style.match( /mso\-list:\s?l\d/ ) ) &&
+			if ( ( element.attributes.style && element.attributes.style.match( /mso\-list:\s?l\d/ ) &&
 				element.parent.name !== 'li' ) ||
 				element.attributes[ 'cke-dissolved' ] ||
 				element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ ) ||
