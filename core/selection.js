@@ -22,14 +22,22 @@
 		function isPartiallySelected( range ) {
 			var startCell = range.startContainer.getAscendant( { td: 1, th: 1 }, true ),
 				endCell = range.endContainer.getAscendant( { td: 1, th: 1 }, true ),
-				trim = CKEDITOR.tools.trim;
+				trim = CKEDITOR.tools.trim,
+				selected;
 
 			// Check if the selection is inside one cell and we don't have any nested table contents selected.
 			if ( !startCell || !startCell.equals( endCell ) || startCell.findOne( 'td, th, tr, tbody, table' ) ) {
 				return false;
 			}
 
-			return trim( range.cloneContents().getFirst().getText() ) !== trim( startCell.getText() );
+			selected = range.cloneContents();
+
+			// Empty selection is still partially selected.
+			if ( !selected.getFirst() ) {
+				return true;
+			}
+
+			return trim( selected.getFirst().getText() ) !== trim( startCell.getText() );
 		}
 
 		// Edge case: partially selected text node inside one table cell or cursor inside cell.
