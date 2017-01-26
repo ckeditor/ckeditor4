@@ -47,8 +47,9 @@
 				// Walker does not handle collapsed ranges yet - fall back to old API.
 				var startNode = range.getCommonAncestor();
 				var nearestCell = startNode.getAscendant( 'td', true ) || startNode.getAscendant( 'th', true );
-				if ( nearestCell && isInTable( nearestCell ) )
+				if ( nearestCell && isInTable( nearestCell ) ) {
 					retval.push( nearestCell );
+				}
 			} else {
 				var walker = new CKEDITOR.dom.walker( range );
 				var node;
@@ -674,6 +675,9 @@
 		return domEvent.button === 0;
 	}
 
+	// Returns any table element, like td, tbody, table etc from given range. The element
+	// is returned only if range selection is contained within one table (might be a nested
+	// table, but can't be two different tables on the same DOM level).
 	function getTableElementFromRange( range ) {
 		var tableElements = {
 				table: 1,
