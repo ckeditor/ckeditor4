@@ -730,7 +730,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		convertToFakeListItem: function( editor, element ) {
-			if ( Heuristics.isEdgeListItem( editor, element ) ) {
+			if ( Heuristics.isDegenerateListItem( editor, element ) ) {
 				Heuristics.assignListLevels( editor, element );
 			}
 
@@ -1705,6 +1705,22 @@
 				return false;
 			}
 
+			return Heuristics.isDegenerateListItem( editor, item );
+		},
+
+		/**
+		 * Check whether an element is a degenerate list item.
+		 *
+		 * Degenerate list items are elements that have some styles specific to list items,
+		 * but lack the ones that could be used to determine their features(like list level etc.).
+		 *
+		 * @param {CKEDITOR.editor} item
+		 * @param {CKEDITOR.htmlParser.element} item
+		 * @return {Boolean}
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
+		 * */
+		isDegenerateListItem: function(editor, item ) {
 			return !!item.attributes[ 'cke-list-level' ] || ( item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
 					// In rare cases there's no indication that a heading is a list item other than
 					// the fact that it has a child element containing only a list symbol.
@@ -1754,7 +1770,7 @@
 				array = CKEDITOR.tools.array,
 				map = array.map;
 
-			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.isEdgeListItem( editor, item.next ) ) {
+			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.isDegenerateListItem( editor, item.next ) ) {
 				item = item.next;
 				indents.push( List.getElementIndentation( item ) );
 				items.push( item );
