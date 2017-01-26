@@ -1210,7 +1210,7 @@
 			return;
 		}
 
-		evt.cancel();
+		evt.stop();
 
 		selectedCells = getSelectedCells( selection );
 		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
@@ -1351,6 +1351,11 @@
 		clearFakeCellSelection( evt.editor, true );
 		CKEDITOR.dom.element.clearAllMarkers( markers );
 		editor.fire( 'saveSnapshot' );
+
+		// Manually fire afterPaste event as we stop pasting to handle everything via our custom handler.
+		setTimeout( function() {
+			editor.fire( 'afterPaste' );
+		}, 0 );
 	}
 
 	CKEDITOR.plugins.tabletools = {
