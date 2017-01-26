@@ -322,6 +322,16 @@
 			}, 50 );
 		},
 
+		'isInTable allowPartially test (collapsed range)': function() {
+			var editor = this.editor;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'allowPartiallyIssue' ).getHtml() );
+
+			assert.isFalse( editor.getSelection().isInTable(), 'Selection is not in table' );
+
+			clearTableSelection( editor.editable() );
+		},
+
 		'Change selection': function() {
 			var editor = this.editor,
 				ranges;
