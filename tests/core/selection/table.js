@@ -931,6 +931,7 @@
 
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'nestedTable' ).getHtml() );
 
+			// Puts the fake selection on a sixth cell (including both tables), so that's the last cell of outer table.
 			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 5 ] );
 
 			selection.selectRanges( ranges );
