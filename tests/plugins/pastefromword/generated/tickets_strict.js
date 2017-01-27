@@ -27,7 +27,7 @@
 			'word2013'
 		],
 		tests = {
-			'232OrderedList': true
+			'16826OrderedList': true
 		},
 		keys = CKEDITOR.tools.objectKeys( tests ),
 		testData = {
