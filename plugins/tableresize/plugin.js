@@ -60,7 +60,18 @@
 		// Get the tbody element and position, which will be used to set the
 		// top and bottom boundaries.
 		var tbody = new CKEDITOR.dom.element( table.$.tBodies[ 0 ] ),
-			tbodyPosition = tbody.getDocumentPosition();
+			pillarPosition = tbody.getDocumentPosition(),
+			pillarHeight = tbody.$.offsetHeight;
+
+		if ( table.$.tHead ) {
+			var tHead = new CKEDITOR.dom.element( table.$.tHead );
+			pillarPosition = tHead.getDocumentPosition();
+			pillarHeight += tHead.$.offsetHeight;
+		}
+
+		if ( table.$.tFoot ) {
+			pillarHeight += table.$.tFoot.offsetHeight;
+		}
 
 		// Loop thorugh all cells, building pillars after each one of them.
 		for ( var i = 0, len = $tr.cells.length; i < len; i++ ) {
@@ -100,9 +111,9 @@
 				table: table,
 				index: pillarIndex,
 				x: pillarLeft,
-				y: tbodyPosition.y,
+				y: pillarPosition.y,
 				width: pillarWidth,
-				height: tbody.$.offsetHeight,
+				height: pillarHeight,
 				rtl: rtl
 			} );
 		}
@@ -126,7 +137,7 @@
 	}
 
 	function columnResizer( editor ) {
-		var pillar, document, resizer, isResizing, startOffset, currentShift;
+		var pillar, document, resizer, isResizing, startOffset, currentShift, move;
 
 		var leftSideCells, rightSideCells, leftShiftBoundary, rightShiftBoundary;
 
@@ -313,7 +324,7 @@
 			resizer.show();
 		};
 
-		var move = this.move = function( posX ) {
+		move = this.move = function( posX ) {
 				if ( !pillar )
 					return 0;
 
@@ -388,11 +399,12 @@
 						return;
 					}
 
-					// Considering table, tr, td, tbody but nothing else.
+					// Considering table, tr, td, tbody, thead, tfoot but nothing else.
 					var table, pillars;
 
-					if ( !target.is( 'table' ) && !target.getAscendant( 'tbody', 1 ) )
+					if ( !target.is( 'table' ) && !target.getAscendant( { thead: 1, tbody: 1, tfoot: 1 }, 1 ) ) {
 						return;
+					}
 
 					table = target.getAscendant( 'table', 1 );
 
