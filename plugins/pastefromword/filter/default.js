@@ -115,6 +115,7 @@
 					if ( List.thisIsAListItem( editor, element ) ) {
 						List.convertToFakeListItem( editor, element );
 
+						// IE pastes nested paragraphs in list items, which is different from other browsers. (#16826)
 						if ( element.children.length === 1 && element.children[ 0 ].name === 'p' ) {
 							element.children[ 0 ].replaceWithChildren();
 						}
