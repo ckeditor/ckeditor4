@@ -307,6 +307,27 @@
 				item.focus();
 
 				this.onMark && this.onMark( item );
+			},
+
+			markFirstDisplayed: function() {
+				var notDisplayed = function( element ) {
+						return element.type == CKEDITOR.NODE_ELEMENT && element.getStyle( 'display' ) == 'none';
+					},
+					links = this.element.getElementsByTag( 'a' ),
+					item;
+
+				for ( var i = 0; i < links.count(); i++ ) {
+					item = links.getItem( i );
+
+					if ( !item.getAscendant( notDisplayed ) ) {
+						if ( CKEDITOR.env.webkit )
+							item.getDocument().getWindow().focus();
+						item.focus();
+
+						this.onMark && this.onMark( item );
+						return;
+					}
+				}
 			}
 		},
 

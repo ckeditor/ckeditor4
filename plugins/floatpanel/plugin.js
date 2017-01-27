@@ -416,6 +416,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
+
+						// Ensure that the first item is focused (#16804).
+						block._.markFirstDisplayed();
+
 						this._.editor.fire( 'panelShow', this );
 					}, 0, this );
 				}, CKEDITOR.env.air ? 200 : 0, this );
