@@ -402,11 +402,9 @@
 					// Considering table, tr, td, tbody, thead, tfoot but nothing else.
 					var table, pillars;
 
-					if ( !target.is( 'table' ) &&
-						!target.getAscendant( 'tbody', 1 ) &&
-						!target.getAscendant( 'thead', 1 ) &&
-						!target.getAscendant( 'tfoot', 1 ) )
+					if ( !target.is( 'table' ) && !target.getAscendant( { thead: 1, tbody: 1, tfoot: 1 }, 1 ) ) {
 						return;
+					}
 
 					table = target.getAscendant( 'table', 1 );
 
