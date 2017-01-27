@@ -1373,6 +1373,12 @@
 			// we drop image it will overwrite document.
 
 			editable.attachListener( dropTarget, 'dragover', function( evt ) {
+				// Edge requires this handler to have `preventDefault()` regardless of the situation.
+				if ( CKEDITOR.env.edge ) {
+					evt.data.preventDefault();
+					return;
+				}
+
 				var target = evt.data.getTarget();
 
 				// Prevent reloading page when dragging image on empty document (#12619).
@@ -1863,7 +1869,7 @@
 				return dropEvt.data.testRange;
 
 			// Webkits.
-			if ( document.caretRangeFromPoint ) {
+			if ( document.caretRangeFromPoint && editor.document.$.caretRangeFromPoint( x, y ) ) {
 				$range = editor.document.$.caretRangeFromPoint( x, y );
 				range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
 				range.collapse( true );
