@@ -21,6 +21,7 @@ New Features:
 
 Fixed Issues:
 
+* [#16826](http://dev.ckeditor.com/ticket/16826): Fixed: Superfluous paragraphs within lists [pasted from Word](http://ckeditor.com/addon/pastefromword) in IE.
 * [#16818](http://dev.ckeditor.com/ticket/16818): Fixed: Table cell height not parsed properly by the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#13446](http://dev.ckeditor.com/ticket/13446): [Chrome] Fixed: It is possible to type in an unfocused inline editor.
 * [#14856](http://dev.ckeditor.com/ticket/14856): Fixed: [Font size and font family](http://ckeditor.com/addon/font) reset each other when modified at certain positions.
