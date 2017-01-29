@@ -35,7 +35,8 @@ CKEDITOR.plugins.setLang( 'table', 'ru', {
 		invalidColSpan: 'Количество объединяемых колонок должно быть задано числом.',
 		chooseColor: 'Выберите'
 	},
-	cellPad: 'Внутренний отступ ячеек',
+	cellVertPad: 'Внутренний вертикальный отступ ячеек',
+	cellHorPad: 'Внутренний горизонтальный отступ ячеек',
 	cellSpace: 'Внешний отступ ячеек',
 	column: {
 		menu: 'Колонка',
