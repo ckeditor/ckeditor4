@@ -854,6 +854,35 @@
 		} )(),
 
 		/**
+		 * Appends the `pt` length unit to the size value if it is missing.
+		 *
+		 *		var cssLength = CKEDITOR.tools.cssLength;
+		 *		cssLength( 42 );		// '42pt'
+		 *		cssLength( '42' );		// '42pt'
+		 *		cssLength( '42pt' );	// '42pt'
+		 *		cssLength( '42%' );		// '42%'
+		 *		cssLength( 'bold' );	// 'bold'
+		 *		cssLength( false );		// ''
+		 *		cssLength( NaN );		// ''
+		 *
+		 * @method
+		 * @param {Number/String/Boolean} length
+		 */
+		cssPtLength: (function() {
+			var ptRegex = /^-?\d+\.?\d*pt$/,
+				lengthTrimmed;
+
+			return function( length ) {
+				lengthTrimmed = CKEDITOR.tools.trim( length + '' ) + 'pt';
+
+				if ( ptRegex.test( lengthTrimmed ) )
+					return lengthTrimmed;
+				else
+					return length || '';
+			};
+		})(),
+
+		/**
 		 * Converts the specified CSS length value to the calculated pixel length inside this page.
 		 *
 		 * **Note:** Percentage-based value is left intact.

@@ -35,7 +35,8 @@ CKEDITOR.plugins.setLang( 'table', 'en', {
 		invalidColSpan: 'Columns span must be a whole number.',
 		chooseColor: 'Choose'
 	},
-	cellPad: 'Cell padding',
+	cellVertPad: 'Vertical cell padding',
+	cellHorPad: 'Horizontal cell padding',
 	cellSpace: 'Cell spacing',
 	column: {
 		menu: 'Column',

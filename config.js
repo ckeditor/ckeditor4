@@ -61,6 +61,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre;div';
 	config.title = false;
 
+	// indents for correct table with calculation when create
+	config.editor_indents = 100;
+
 	// '*(*);*{*}' allows any class and any inline style.
 	config.extraAllowedContent = '*[data-id, par-style, start, type, contenteditable, href]; *(*); *{*}; table[cellspacing, cellpadding]; tr; td; tbody; div;h1;h2;h3;h4;h5;h6; a;';
 
