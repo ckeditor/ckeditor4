@@ -960,14 +960,6 @@
 				selectedTable.getCommonAncestor( table ).is( tableElements );
 		}
 
-		function isNestedTable( table, outerTable ) {
-			if ( !table || !outerTable ) {
-				return false;
-			}
-
-			return outerTable.contains( table );
-		}
-
 		function isOutsideTable( node ) {
 			return !node.getAscendant( 'table', true ) && node.getDocument().equals( editor.document );
 		}
@@ -1007,7 +999,7 @@
 			// If the selection ended outside of the table, there's a chance that selection was messed,
 			// e.g. by including text after the table. We should also cover selection inside nested tables
 			// that ends in outer table. In these cases, we just reselect cells.
-			if ( isOutsideTable( evt.data.getTarget() ) || isNestedTable( selectedTable, table ) ) {
+			if ( isOutsideTable( evt.data.getTarget() ) || isSameTable( selectedTable, table ) ) {
 				restoreFakeSelection( editor );
 			}
 
