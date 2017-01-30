@@ -10,6 +10,8 @@ Fixed Issues:
 * [#16811](http://dev.ckeditor.com/ticket/16811): Fixed: Pasted from Word table alignment not preserved.
 * [#16810](http://dev.ckeditor.com/ticket/16810): Fixed: Vertical align in tables not supported by [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#11956](http://dev.ckeditor.com/ticket/11956): [Blink, IE] Fixed: [Link](http://ckeditor.com/addon/link) dialog does not open on a double click on the second word of the link with background color or other styles.
+* [#10472](http://dev.ckeditor.com/ticket/10472): Fixed: Unable to use [Table Resize](http://ckeditor.com/addon/tableresize) on table's header and footer.
+* [#16777](https://dev.ckeditor.com/ticket/16777): [Edge] Fixed: [Clipboard](http://ckeditor.com/addon/clipboard) plugin doesn't allow to drop widgets into editor.
 
 ## CKEditor 4.6.2
 
@@ -21,6 +23,8 @@ New Features:
 
 Fixed Issues:
 
+* [#16826](http://dev.ckeditor.com/ticket/16826): Fixed: Superfluous paragraphs within lists [pasted from Word](http://ckeditor.com/addon/pastefromword) in IE.
+* [#16818](http://dev.ckeditor.com/ticket/16818): Fixed: Table cell height not parsed properly by the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#13446](http://dev.ckeditor.com/ticket/13446): [Chrome] Fixed: It is possible to type in an unfocused inline editor.
 * [#14856](http://dev.ckeditor.com/ticket/14856): Fixed: [Font size and font family](http://ckeditor.com/addon/font) reset each other when modified at certain positions.
 * [#16745](http://dev.ckeditor.com/ticket/16745): [Edge] Fixed: List items are lost when [pasted from Word](http://ckeditor.com/addon/pastefromword).

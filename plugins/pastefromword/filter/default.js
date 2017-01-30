@@ -114,6 +114,25 @@
 
 					if ( List.thisIsAListItem( editor, element ) ) {
 						List.convertToFakeListItem( editor, element );
+
+						// IE pastes nested paragraphs in list items, which is different from other browsers. (#16826)
+						// There's a possibility that list item will contain multiple paragraphs, in that case we want
+						// to split them with BR.
+						tools.array.reduce( element.children, function( paragraphsReplaced, node ) {
+							if ( node.name === 'p' ) {
+								// If there were already paragraphs replaced, put a br before this paragraph, so that
+								// it's inline children are displayed in a next line.
+								if ( paragraphsReplaced > 0 ) {
+									var br = new CKEDITOR.htmlParser.element( 'br' );
+									br.insertBefore( node );
+								}
+
+								node.replaceWithChildren();
+								paragraphsReplaced += 1;
+							}
+
+							return paragraphsReplaced;
+						}, 0 );
 					} else {
 						// In IE list level information is stored in <p> elements inside <li> elements.
 						var container = element.getAscendant( function( element ) {
