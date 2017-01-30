@@ -187,6 +187,8 @@
 					return false;
 				},
 				'li': function( element ) {
+					Heuristics.correctLevelShift( element );
+
 					if ( !msoListsDetected ) {
 						return;
 					}
@@ -1774,6 +1776,51 @@
 		 */
 		guessIndentationStep: function( indentations ) {
 			return indentations.length ? Math.min.apply( null, indentations ) : null;
+		},
+
+		correctLevelShift: function(element ) {
+			var isShiftedList = function ( list ) {
+				return list.children && list.children.length == 1 && Heuristics.isShifted( list.children[ 0 ] )
+			};
+
+			if ( this.isShifted( element ) ) {
+				var lists = CKEDITOR.tools.array.filter( element.children, function( child ) {
+					return ( child.name == 'ul' || child.name == 'ol' );
+				} );
+
+				var listChildren = CKEDITOR.tools.array.reduce( lists, function( acc, list ) {
+					return isShiftedList( list ) ? [].concat( [ list ], acc ) : [].concat( list.children, acc );
+				}, [] );
+
+				CKEDITOR.tools.array.forEach( lists, function ( list ) {
+					list.remove();
+				} );
+
+				CKEDITOR.tools.array.forEach( listChildren, function ( child ) {
+					element.add( child, 0 );
+				} );
+
+				delete element.name;
+			}
+		},
+
+		isShifted: function(element ) {
+			if ( element.name !== 'li' ) {
+				return false;
+			}
+
+			return CKEDITOR.tools.array.filter( element.children, function( child ) {
+				if ( child.name ) {
+					if ( child.name == 'ul' || child.name == 'ol' ) {
+						return false;
+					}
+
+					if ( child.name == 'p' && child.children.length === 0 ) {
+						return false;
+					}
+				}
+				return true;
+			} ).length === 0;
 		}
 	};
 
