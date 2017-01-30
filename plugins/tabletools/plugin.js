@@ -946,6 +946,7 @@
 			target = evt.data.getTarget(),
 			cell = target && target.getAscendant( { td: 1, th: 1 }, true ),
 			table = target && target.getAscendant( 'table', true ),
+			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 },
 			canClear;
 
 		// Nested tables should be treated as the same one (e.g. user starts dragging from outer table
@@ -955,7 +956,8 @@
 				return false;
 			}
 
-			return selectedTable.equals( table ) || selectedTable.contains( table ) || table.contains( selectedTable );
+			return selectedTable.equals( table ) || selectedTable.contains( table ) || table.contains( selectedTable ) ||
+				selectedTable.getCommonAncestor( table ).is( tableElements );
 		}
 
 		function isNestedTable( table, outerTable ) {
