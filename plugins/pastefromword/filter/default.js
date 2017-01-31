@@ -1778,9 +1778,9 @@
 			return indentations.length ? Math.min.apply( null, indentations ) : null;
 		},
 
-		correctLevelShift: function(element ) {
-			var isShiftedList = function ( list ) {
-				return list.children && list.children.length == 1 && Heuristics.isShifted( list.children[ 0 ] )
+		correctLevelShift: function( element ) {
+			var isShiftedList = function( list ) {
+				return list.children && list.children.length == 1 && Heuristics.isShifted( list.children[ 0 ] );
 			};
 
 			if ( this.isShifted( element ) ) {
@@ -1792,11 +1792,11 @@
 					return isShiftedList( list ) ? [].concat( [ list ], acc ) : [].concat( list.children, acc );
 				}, [] );
 
-				CKEDITOR.tools.array.forEach( lists, function ( list ) {
+				CKEDITOR.tools.array.forEach( lists, function( list ) {
 					list.remove();
 				} );
 
-				CKEDITOR.tools.array.forEach( listChildren, function ( child ) {
+				CKEDITOR.tools.array.forEach( listChildren, function( child ) {
 					element.add( child, 0 );
 				} );
 
@@ -1804,7 +1804,7 @@
 			}
 		},
 
-		isShifted: function(element ) {
+		isShifted: function( element ) {
 			if ( element.name !== 'li' ) {
 				return false;
 			}
