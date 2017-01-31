@@ -15,17 +15,4 @@ Perform steps for each editor.
 
 **Unexpected:** Link is applied only to the first cell.
 
----
-
-Anchor integration:
-
-1. Select multiple cells, e.g. 1x3 selection starting at "Cell 1.1.1" and ending at "Cell 1.3.1".
-1. Press Anchor button.
-1. Type `foobar` as "Anchor name".
-1. Click OK.
-
-**Expected:** Anchor is applied to every selected cell.
-
----
-
 Keyboard: Use test case 1, but instead clicking Link button use `ctrl/cmd+l` hotkey.
