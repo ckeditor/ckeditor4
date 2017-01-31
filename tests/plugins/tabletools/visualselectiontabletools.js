@@ -182,9 +182,9 @@
 		},
 
 		'test merge one cell (collapsed selection)': function( editor, bot ) {
-			doTest( { bot: bot, 'case': 'merge-cell-right', command: 'cellMergeRight', skipCheckingSelection: true } );
-			doTest( { bot: bot, 'case': 'merge-cell-down', command: 'cellMergeDown', skipCheckingSelection: true } );
-			doTest( { bot: bot, 'case': 'merge-cell-down-2', command: 'cellMergeDown', skipCheckingSelection: true } );
+			doTest( { bot: bot, 'case': 'merge-cell-right', command: 'cellMergeRight' } );
+			doTest( { bot: bot, 'case': 'merge-cell-down', command: 'cellMergeDown' } );
+			doTest( { bot: bot, 'case': 'merge-cell-down-2', command: 'cellMergeDown' } );
 		},
 
 		'test delete nested cells': function( editor, bot ) {
