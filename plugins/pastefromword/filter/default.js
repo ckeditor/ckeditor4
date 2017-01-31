@@ -159,6 +159,21 @@
 
 					Style.createStyleStack( element, filter, editor );
 				},
+				'h2': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h3': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h4': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
 				'font': function( element ) {
 					if ( element.getHtml().match( /^\s*$/ ) ) {
 						new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
