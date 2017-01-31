@@ -1529,13 +1529,11 @@
 				allowedContent: 'td[colspan]',
 				requiredContent: 'td[colspan]',
 				exec: function( editor ) {
-					var selection = editor.getSelection(),
-						isFakeTableSelection = selection.isFake && selection.isInTable(),
-						cell = mergeCells( editor.getSelection(), 'right' );
+					var cell = mergeCells( editor.getSelection(), 'right' );
 
-					// If the cell was faked selected, then select the new cell.
+					// If table improvements are enabled, then select the new cell.
 					// Otherwise place cursor inside it.
-					if ( editor && editor.config.tableImprovements && isFakeTableSelection ) {
+					if ( editor && editor.config.tableImprovements ) {
 						fakeSelectCells( editor, [ cell ] );
 					} else {
 						placeCursorInCell( cell, true );
@@ -1547,13 +1545,11 @@
 				allowedContent: 'td[rowspan]',
 				requiredContent: 'td[rowspan]',
 				exec: function( editor ) {
-					var selection = editor.getSelection(),
-						isFakeTableSelection = selection.isFake && selection.isInTable(),
-						cell = mergeCells( editor.getSelection(), 'down' );
+					var cell = mergeCells( editor.getSelection(), 'down' );
 
-					// If the cell was faked selected, then select the new cell.
+					// If table improvements are enabled, then select the new cell.
 					// Otherwise place cursor inside it.
-					if ( editor && editor.config.tableImprovements && isFakeTableSelection ) {
+					if ( editor && editor.config.tableImprovements ) {
 						fakeSelectCells( editor, [ cell ] );
 					} else {
 						placeCursorInCell( cell, true );
