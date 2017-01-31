@@ -14,9 +14,9 @@ Perform steps for each editor.
 **Expected:**
 
 * Selected cells are merged into a single cell.
-* Merged cell is faked selected.
+* Merged cell is selected.
 
 **Unexpected:**
 
 * Selection is shrinked to one cell.
-* Merged cell is not faked selected.
+* Merged cell is not fully selected (e.g. has a collapsed selection).
