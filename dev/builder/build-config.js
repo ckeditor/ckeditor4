@@ -31,6 +31,7 @@ var CKBUILDER_CONFIG = {
 		'tests'
 	],
 	plugins : {
+		'aspose': 1,
 		'copyformatting': 1,
 		'pagebreak': 1,
 		'placeholder': 1,

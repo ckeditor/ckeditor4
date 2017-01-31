@@ -9,6 +9,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
 	// %REMOVE_START%
 	config.plugins =
+		'aspose,' +
 		'tableresize,' +
 		'copyformatting,' +
 		'pagebreak,' +
