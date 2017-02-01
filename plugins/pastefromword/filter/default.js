@@ -1690,7 +1690,14 @@
 				return false;
 			}
 
-			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
+			return !!item.attributes[ 'cke-list-level' ] || ( item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
+					// In rare cases there's no indication that a heading is a list item other than
+					// the fact that it has a child element containing only a list symbol.
+					if ( child.type == CKEDITOR.NODE_ELEMENT && item.name.match( /h\d/i ) &&
+						child.getHtml().match( /^[a-zA-Z0-9]+?[\.\)]$/ ) ) {
+						return true;
+					}
+
 					var css = tools.parseCssText( child.attributes && child.attributes.style );
 
 					if ( !css ) {
@@ -1701,7 +1708,7 @@
 
 					return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
 						fontFamily.match( /symbol/i );
-				}, true ).length;
+				}, true ).length );
 		},
 
 		/**
