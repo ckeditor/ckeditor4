@@ -174,6 +174,16 @@
 
 					Style.createStyleStack( element, filter, editor );
 				},
+				'h5': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h6': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
 				'font': function( element ) {
 					if ( element.getHtml().match( /^\s*$/ ) ) {
 						new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
