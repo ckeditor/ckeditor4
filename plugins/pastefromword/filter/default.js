@@ -1828,7 +1828,8 @@
 				} );
 
 				var listChildren = CKEDITOR.tools.array.reduce( lists, function( acc, list ) {
-					return isShiftedList( list ) ? [].concat( [ list ], acc ) : [].concat( list.children, acc );
+					var preceding = isShiftedList( list ) ? [ list ] : list.children;
+					return preceding.concat( acc );
 				}, [] );
 
 				CKEDITOR.tools.array.forEach( lists, function( list ) {
