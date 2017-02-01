@@ -1810,6 +1810,13 @@
 			return indentations.length ? Math.min.apply( null, indentations ) : null;
 		},
 
+		/**
+		 * Shifts lists that were deformed during pasting one level down
+		 * so that the list structure matches the content copied from Word.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @private
+		 * */
 		correctLevelShift: function( element ) {
 			var isShiftedList = function( list ) {
 				return list.children && list.children.length == 1 && Heuristics.isShifted( list.children[ 0 ] );
@@ -1836,6 +1843,14 @@
 			}
 		},
 
+		/**
+		 * Determines if the list is malformed in a manner that its items
+		 * are one level deeper than they should be.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @returns {boolean}
+		 * @private
+		 */
 		isShifted: function( element ) {
 			if ( element.name !== 'li' ) {
 				return false;
