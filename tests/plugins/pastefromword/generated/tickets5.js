@@ -20,7 +20,7 @@
 			'ie11',
 			'edge'
 		],
-		wordVersions = [ 'word2013', 'office365' ],
+		wordVersions = [ 'word2013', 'word2016' ],
 		ticketTests = {
 			'14867examples': true,
 			'16593regular_paste': true,
@@ -29,7 +29,7 @@
 		testData = {
 			_should: {
 				ignore: {
-					'test 16833Numbered_lists office365 edge': !CKEDITOR.env.edge
+					'test 16833Numbered_lists word2016 edge': !CKEDITOR.env.edge
 				}
 			}
 		},
