@@ -47,10 +47,11 @@
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 11 ) {
 			var range = sel.getRanges()[ 0 ],
 				ascendant = range ? range.startContainer.getAscendant( function( parent ) {
-						return parent.type == CKEDITOR.NODE_ELEMENT && parent.getAttribute( 'contenteditable' ) == 'false';
+						return parent.type == CKEDITOR.NODE_ELEMENT &&
+							( parent.getAttribute( 'contenteditable' ) == 'false' || parent.getAttribute( 'contenteditable' ) == 'true' );
 					}, true ) : null ;
 
-			if ( range && range.collapsed && ascendant ) {
+			if ( range && range.collapsed && ascendant.getAttribute( 'contenteditable' ) == 'false' ) {
 				range.setStartBefore( ascendant );
 				range.setEndAfter( ascendant );
 				range.select();
