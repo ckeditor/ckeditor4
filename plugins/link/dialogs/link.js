@@ -21,8 +21,7 @@
 
 		function insertLinksIntoSelection( editor, data ) {
 			var attributes = plugin.getLinkAttributes( editor, data ),
-				selection = editor.getSelection(),
-				ranges = selection.getRanges(),
+				ranges = editor.getSelection().getRanges(),
 				style = new CKEDITOR.style( {
 					element: 'a',
 					attributes: attributes.set
@@ -52,12 +51,11 @@
 				rangesToSelect.push( range );
 			}
 
-			selection.selectRanges( rangesToSelect );
+			editor.getSelection().selectRanges( rangesToSelect );
 		}
 
 		function editLinksInSelection( editor, selectedElements, data ) {
 			var attributes = plugin.getLinkAttributes( editor, data ),
-				selection = editor.getSelection(),
 				ranges = [],
 				element,
 				href,
@@ -84,7 +82,7 @@
 			}
 
 			// We changed the content, so need to select it again.
-			selection.selectRanges( ranges );
+			editor.getSelection().selectRanges( ranges );
 		}
 
 		// Handles the event when the "Target" selection box is changed.
