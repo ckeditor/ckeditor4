@@ -408,7 +408,9 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						this.focus();
 
 						// Focus the block now.
+						block.element.hide();
 						block.element.focus();
+						block.element.show();
 
 						// #10623, #10951 - restore the viewport's scroll position after focusing list element.
 						if ( CKEDITOR.env.webkit )
