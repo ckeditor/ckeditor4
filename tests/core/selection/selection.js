@@ -652,5 +652,40 @@ bender.test( {
 		sel.getType();
 
 		assert.areSame( initialRev, sel.rev, 'Revision has not been modified' );
+	},
+
+	'test IE editable contenteditable="false" handling 1': function() {
+		if ( !CKEDITOR.env.ie || !CKEDITOR.env.version == 11 ) {
+			assert.ignore();
+		}
+		var preventSpy = sinon.spy();
+
+		bender.tools.setHtmlWithSelection( this.editor, '<span contenteditable="false">^bar</span>' );
+
+		this.editor.editable().fire( 'keydown', {
+			preventDefault: preventSpy,
+			getKeystroke: function() {},
+			getKey: function() {}
+		} );
+
+		assert.isTrue( preventSpy.called, 'preventDefault() on keydown was called' );
+	},
+
+	'test IE editable contenteditable="false" handling 2': function() {
+		if ( !CKEDITOR.env.ie || !CKEDITOR.env.version == 11 ) {
+			assert.ignore();
+		}
+		var preventSpy = sinon.spy();
+
+		bender.tools.setHtmlWithSelection( this.editor, '<span contenteditable="false">' +
+			'<span contenteditable="true">^bar</span></span>' );
+
+		this.editor.editable().fire( 'keydown', {
+			preventDefault: preventSpy,
+			getKeystroke: function() {},
+			getKey: function() {}
+		} );
+
+		assert.isFalse( preventSpy.called, 'preventDefault() on keydown was called' );
 	}
 } );
