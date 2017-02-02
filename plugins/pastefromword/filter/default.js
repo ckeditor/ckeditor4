@@ -1849,7 +1849,7 @@
 		 * are one level deeper than they should be.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 * @private
 		 */
 		isShifted: function( element ) {
