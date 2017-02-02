@@ -9,6 +9,7 @@ New Features:
 
 Fixed Issues:
 
+* [#16833](http://dev.ckeditor.com/ticket/16833): [IE11] Fixed: Malformed list with headers [pasted from Word](http://ckeditor.com/addon/pastefromword).
 * [#16826](http://dev.ckeditor.com/ticket/16826): Fixed: Superfluous paragraphs within lists [pasted from Word](http://ckeditor.com/addon/pastefromword) in IE.
 * [#16811](http://dev.ckeditor.com/ticket/16811): Fixed: Pasted from Word table alignment not preserved.
 * [#16810](http://dev.ckeditor.com/ticket/16810): Fixed: Vertical align in tables not supported by [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
