@@ -896,34 +896,36 @@
 					selection = editor.getSelection(),
 					displayTextField = this.getContentElement( 'info', 'linkDisplayText' ).getElement().getParent().getParent(),
 					elements = plugin.getSelectedLink( editor, true ),
-					element = elements && elements[ 0 ];
+					firstLink = elements[ 0 ];
 
 				// Fill in all the relevant fields if there's already one link selected.
-				if ( element && element.hasAttribute( 'href' ) ) {
+				if ( firstLink && firstLink.hasAttribute( 'href' ) ) {
 					// Don't change selection if some element is already selected.
 					// For example - don't destroy fake selection.
-					if ( !selection.getSelectedElement() && !selection.isInTable() )
-						selection.selectElement( element );
+					if ( !selection.getSelectedElement() && !selection.isInTable() ) {
+						selection.selectElement( firstLink );
+					}
 				} else {
-					element = null;
+					firstLink = null;
 				}
 
+				var data = plugin.parseLinkAttributes( editor, firstLink );
 
 				// Here we'll decide whether or not we want to show Display Text field.
-				if ( plugin.showDisplayTextForElement( element, editor ) ) {
+				if ( plugin.showDisplayTextForElement( firstLink, editor ) ) {
 					displayTextField.show();
 				} else {
 					displayTextField.hide();
 				}
 
-				var data = plugin.parseLinkAttributes( editor, element );
+				var data = plugin.parseLinkAttributes( editor, firstLink );
 
 				// Record down the selected element in the dialog.
 				this._.selectedElement = elements;
 
 				this.setupContent( data );
 			},
-		onOk: function() {
+			onOk: function() {
 				var data = {};
 
 				// Collect data from fields.
