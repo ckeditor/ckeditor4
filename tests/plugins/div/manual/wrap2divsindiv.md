@@ -1,4 +1,4 @@
-@bender-tags: tc, div, 13585, 4.5.5
+@bender-tags: tc, div, 13585, 4.7.0
 @bender-ui: collapsed
 @bender-ckeditor-plugins: div, toolbar, wysiwygarea, sourcearea
 
