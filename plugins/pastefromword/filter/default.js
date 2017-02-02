@@ -159,6 +159,31 @@
 
 					Style.createStyleStack( element, filter, editor );
 				},
+				'h2': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h3': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h4': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h5': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h6': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
 				'font': function( element ) {
 					if ( element.getHtml().match( /^\s*$/ ) ) {
 						new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
@@ -187,6 +212,8 @@
 					return false;
 				},
 				'li': function( element ) {
+					Heuristics.correctLevelShift( element );
+
 					if ( !msoListsDetected ) {
 						return;
 					}
@@ -1673,7 +1700,14 @@
 				return false;
 			}
 
-			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
+			return !!item.attributes[ 'cke-list-level' ] || ( item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
+					// In rare cases there's no indication that a heading is a list item other than
+					// the fact that it has a child element containing only a list symbol.
+					if ( child.type == CKEDITOR.NODE_ELEMENT && item.name.match( /h\d/i ) &&
+						child.getHtml().match( /^[a-zA-Z0-9]+?[\.\)]$/ ) ) {
+						return true;
+					}
+
 					var css = tools.parseCssText( child.attributes && child.attributes.style );
 
 					if ( !css ) {
@@ -1684,7 +1718,7 @@
 
 					return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
 						fontFamily.match( /symbol/i );
-				}, true ).length;
+				}, true ).length );
 		},
 
 		/**
@@ -1774,6 +1808,67 @@
 		 */
 		guessIndentationStep: function( indentations ) {
 			return indentations.length ? Math.min.apply( null, indentations ) : null;
+		},
+
+		/**
+		 * Shifts lists that were deformed during pasting one level down
+		 * so that the list structure matches the content copied from Word.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @private
+		 * */
+		correctLevelShift: function( element ) {
+			var isShiftedList = function( list ) {
+				return list.children && list.children.length == 1 && Heuristics.isShifted( list.children[ 0 ] );
+			};
+
+			if ( this.isShifted( element ) ) {
+				var lists = CKEDITOR.tools.array.filter( element.children, function( child ) {
+					return ( child.name == 'ul' || child.name == 'ol' );
+				} );
+
+				var listChildren = CKEDITOR.tools.array.reduce( lists, function( acc, list ) {
+					var preceding = isShiftedList( list ) ? [ list ] : list.children;
+					return preceding.concat( acc );
+				}, [] );
+
+				CKEDITOR.tools.array.forEach( lists, function( list ) {
+					list.remove();
+				} );
+
+				CKEDITOR.tools.array.forEach( listChildren, function( child ) {
+					element.add( child, 0 );
+				} );
+
+				delete element.name;
+			}
+		},
+
+		/**
+		 * Determines if the list is malformed in a manner that its items
+		 * are one level deeper than they should be.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @returns {Boolean}
+		 * @private
+		 */
+		isShifted: function( element ) {
+			if ( element.name !== 'li' ) {
+				return false;
+			}
+
+			return CKEDITOR.tools.array.filter( element.children, function( child ) {
+				if ( child.name ) {
+					if ( child.name == 'ul' || child.name == 'ol' ) {
+						return false;
+					}
+
+					if ( child.name == 'p' && child.children.length === 0 ) {
+						return false;
+					}
+				}
+				return true;
+			} ).length === 0;
 		}
 	};
 
