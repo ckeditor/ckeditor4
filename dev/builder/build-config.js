@@ -64,6 +64,7 @@ var CKBUILDER_CONFIG = {
 		'panelbutton' : 1,
 		'pastebase64' : 1,
 		'pastefromword' : 1,
+		'pastefromexcel' : 1,
 		'pastetext' : 1,
 		'removeformat' : 1,
 		'showborders' : 1,
