@@ -16,8 +16,8 @@ above the paragraph already present there.
 
 ## Expected
 
-Entire widget gets selected.
+The caret is put inside the non-editable area, but once you press any key the widget gets selected.
 
 ## Unexpected
 
-Caret is placed within the non-editable widget and it's possible to type text.
+The widget is not selected when you press a key.
