@@ -921,7 +921,7 @@
 				var data = plugin.parseLinkAttributes( editor, firstLink );
 
 				// Record down the selected element in the dialog.
-				this._.selectedElement = elements;
+				this._.selectedElements = elements;
 
 				this.setupContent( data );
 			},
@@ -931,12 +931,12 @@
 				// Collect data from fields.
 				this.commitContent( data );
 
-				if ( !this._.selectedElement.length ) {
+				if ( !this._.selectedElements.length ) {
 					insertLinksIntoSelection( editor, data );
 				} else {
-					editLinksInSelection( editor, this._.selectedElement, data );
+					editLinksInSelection( editor, this._.selectedElements, data );
 
-					delete this._.selectedElement;
+					delete this._.selectedElements;
 				}
 			},
 			onLoad: function() {
