@@ -78,6 +78,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.coreStyles_italic = { element: 'span', styles: { 'font-style': 'italic' }, overrides: 'em' };
 	config.coreStyles_underline = { element: 'span', styles: { 'text-decoration': 'underline' }, overrides: 'u' };
 
+	config.pasteFromWordRemoveFontStyles = false;
+	config.pasteFromWordRemoveStyles = false;
+
 	config.fontSize_sizes="7/7pt;" +
 		"8/8pt;" +
 		"9/9pt;" +
