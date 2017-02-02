@@ -25,7 +25,7 @@
 			'14867examples': [ 'word2013' ],
 			'16593regular_paste': [ 'word2013' ],
 			'16833Numbered_lists': [ 'word2013' ],
-			'16817SampleDocForDataLossBug': [ 'word2013', 'office365' ]
+			'16817SampleDocForDataLossBug': [ 'word2013', 'word2016' ]
 		},
 		testData = {
 			_should: {
