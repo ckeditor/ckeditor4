@@ -1720,7 +1720,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 * */
-		isDegenerateListItem: function(editor, item ) {
+		isDegenerateListItem: function( editor, item ) {
 			return !!item.attributes[ 'cke-list-level' ] || ( item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
 					// In rare cases there's no indication that a heading is a list item other than
 					// the fact that it has a child element containing only a list symbol.
