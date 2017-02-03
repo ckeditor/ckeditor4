@@ -106,6 +106,10 @@ bender.test( {
 	},
 
 	'test scroll editable and focus': function() {
+		if ( !CKEDITOR.env.webkit ) {
+			assert.ignore();
+		}
+
 		var bot = this.editorBots.scrollable,
 			editable = this.editors.scrollable.editable();
 
