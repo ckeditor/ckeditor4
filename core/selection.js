@@ -805,7 +805,7 @@
 									( parent.getAttribute( 'contenteditable' ) == 'false' || parent.getAttribute( 'contenteditable' ) == 'true' );
 							}, true ) : null ;
 
-					return range && range.collapsed && ascendant.getAttribute( 'contenteditable' ) == 'false' && ascendant;
+					return range && ascendant.getAttribute( 'contenteditable' ) == 'false' && ascendant;
 				}
 			}
 		} );
