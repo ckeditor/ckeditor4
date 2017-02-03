@@ -12,11 +12,11 @@ above the paragraph already present there.
 1. Create the non-editable widget.
 2. Make the editor lose focus.
 3. Place the cursor over the widget so that its icon is `text` and its upper-left corner is exactly at the dot in "editable."
-4. Click to try to place the caret inside the editable.
+4. Click to try to place the caret inside the editable or drag the mouse to create a range.
 
 ## Expected
 
-The caret is put inside the non-editable area, but once you press any key the widget gets selected.
+The selection is inside the non-editable area, but once you press any key the whole widget gets selected.
 
 ## Unexpected
 
