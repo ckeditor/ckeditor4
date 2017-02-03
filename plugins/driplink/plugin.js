@@ -112,7 +112,7 @@
 					toolbar: 'links,20'
 				} );
 				editor.ui.addButton( 'ButtonLink', {
-				  label: 'Insert Button',
+				  label: 'Insert CTA Button',
 				  command: 'buttonlink',
 				  toolbar: 'links,30'
 				} );
