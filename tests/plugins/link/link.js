@@ -522,11 +522,11 @@
 			var editor = this.editor,
 				bot = this.editorBot;
 
-			bot.setHtmlWithSelection( '<p>I\'m<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of <a href="http://ckeditor.com">^<s>CKEditor</s></a>.</p>' );
+			bot.setHtmlWithSelection( '<p>I am<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of <a href="http://ckeditor.com">^<s>CKEditor</s></a>.</p>' );
 
 			editor.ui.get( 'Unlink' ).click( editor );
 
-			assert.areSame( '<p>I\'m<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of ^<s>CKEditor</s>.</p>', bot.htmlWithSelection() );
+			assert.areSame( '<p>I am<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of ^<s>CKEditor</s>.</p>', bot.htmlWithSelection() );
 		}
 	} );
 } )();
