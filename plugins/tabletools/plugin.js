@@ -675,33 +675,6 @@
 		return domEvent.button === 0;
 	}
 
-	// Returns any table element, like td, tbody, table etc from given range. The element
-	// is returned only if range selection is contained within one table (might be a nested
-	// table, but can't be two different tables on the same DOM level).
-	function getTableElementFromRange( range ) {
-		var tableElements = {
-				table: 1,
-				tbody: 1,
-				tr: 1,
-				td: 1,
-				th: 1
-			},
-			start = range.startContainer,
-			end = range.endContainer,
-			startTable = start.getAscendant( 'table', true ),
-			endTable = end.getAscendant( 'table', true );
-
-		if ( range.getEnclosedNode() ) {
-			return range.getEnclosedNode().getAscendant( tableElements, true );
-		}
-
-		// Ensure that selection starts and ends in the same table or one of the table is inside the other.
-		if ( startTable && endTable && ( startTable.equals( endTable ) || startTable.contains( endTable ) ||
-			endTable.contains( startTable ) ) ) {
-			return start.getAscendant( tableElements, true );
-		}
-	}
-
 	function getFakeSelectedTable( editor ) {
 		var selectedCell = editor.editable().findOne( '.' + fakeSelectedClass );
 
@@ -919,9 +892,9 @@
 
 		// In case of whole nested table selection, getSelectedCells returns also
 		// cell which contains the table. We should filter it.
-		if ( ranges.length === 1 && getTableElementFromRange( ranges[ 0 ] ) &&
-			getTableElementFromRange( ranges[ 0 ] ).is( 'table' ) ) {
-			table = getTableElementFromRange( ranges[ 0 ] );
+		if ( ranges.length === 1 && ranges[ 0 ].getTableElement() &&
+			ranges[ 0 ].getTableElement().is( 'table' ) ) {
+			table = ranges[ 0 ].getTableElement();
 		}
 
 		cells = getSelectedCells( selection, table );
