@@ -314,20 +314,30 @@
 						return element.type == CKEDITOR.NODE_ELEMENT && element.getStyle( 'display' ) == 'none';
 					},
 					links = this.element.getElementsByTag( 'a' ),
-					item;
+					item, focused;
 
 				for ( var i = 0; i < links.count(); i++ ) {
 					item = links.getItem( i );
 
-					if ( !item.getAscendant( notDisplayed ) ) {
-						if ( CKEDITOR.env.webkit )
-							item.getDocument().getWindow().focus();
-						item.focus();
+					if ( !item.getAscendant( notDisplayed ) && !focused ) {
+						focused = item;
+					}
 
-						this.onMark && this.onMark( item );
-						return;
+					if ( item.getAttribute( 'aria-selected' ) == 'true' ) {
+						focused = item;
+						break;
 					}
 				}
+
+				if ( !focused ) {
+					return;
+				}
+
+				if ( CKEDITOR.env.webkit )
+					focused.getDocument().getWindow().focus();
+				focused.focus();
+
+				this.onMark && this.onMark( focused );
 			}
 		},
 
