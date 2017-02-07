@@ -321,10 +321,12 @@
 
 					if ( !item.getAscendant( notDisplayed ) && !focused ) {
 						focused = item;
+						this._.focusIndex = i;
 					}
 
 					if ( item.getAttribute( 'aria-selected' ) == 'true' ) {
 						focused = item;
+						this._.focusIndex = i;
 						break;
 					}
 				}
