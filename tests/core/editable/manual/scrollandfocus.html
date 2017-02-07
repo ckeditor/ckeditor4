@@ -46,6 +46,10 @@
 	<p>Test</p>
 </textarea>
 <script type="text/javascript">
+	if ( !CKEDITOR.env.chrome ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor1' );
 	CKEDITOR.replace( 'editor2' );
 </script>
