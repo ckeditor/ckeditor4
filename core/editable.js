@@ -89,7 +89,7 @@
 					} else {
 						// We have no control over exactly what happens when the native `focus` method is called,
 						// so save the scroll position and restore it later.
-						if ( CKEDITOR.env.webkit ) {
+						if ( CKEDITOR.env.chrome ) {
 							var scrollPos = this.$.scrollTop;
 							this.$.focus();
 							this.$.scrollTop = scrollPos;

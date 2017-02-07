@@ -106,7 +106,7 @@ bender.test( {
 	},
 
 	'test scroll editable and focus': function() {
-		if ( !CKEDITOR.env.webkit ) {
+		if ( !CKEDITOR.env.chrome ) {
 			assert.ignore();
 		}
 
