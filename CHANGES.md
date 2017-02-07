@@ -17,6 +17,7 @@ Fixed Issues:
 * [#11956](http://dev.ckeditor.com/ticket/11956): [Blink, IE] Fixed: [Link](http://ckeditor.com/addon/link) dialog does not open on a double click on the second word of the link with background color or other styles.
 * [#10472](http://dev.ckeditor.com/ticket/10472): Fixed: Unable to use [Table Resize](http://ckeditor.com/addon/tableresize) on table's header and footer.
 * [#16777](https://dev.ckeditor.com/ticket/16777): [Edge] Fixed: [Clipboard](http://ckeditor.com/addon/clipboard) plugin doesn't allow to drop widgets into editor.
+* [#14894](https://dev.ckeditor.com/ticket/14894): [Chrome] Fixed: Editor scrolls to top after focusing or when a dialog is opened.
 
 ## CKEditor 4.6.2
 
