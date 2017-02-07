@@ -60,7 +60,18 @@
 		// Get the tbody element and position, which will be used to set the
 		// top and bottom boundaries.
 		var tbody = new CKEDITOR.dom.element( table.$.tBodies[ 0 ] ),
-			tbodyPosition = tbody.getDocumentPosition();
+			pillarPosition = tbody.getDocumentPosition(),
+			pillarHeight = tbody.$.offsetHeight;
+
+		if ( table.$.tHead ) {
+			var tHead = new CKEDITOR.dom.element( table.$.tHead );
+			pillarPosition = tHead.getDocumentPosition();
+			pillarHeight += tHead.$.offsetHeight;
+		}
+
+		if ( table.$.tFoot ) {
+			pillarHeight += table.$.tFoot.offsetHeight;
+		}
 
 		// Loop thorugh all cells, building pillars after each one of them.
 		for ( var i = 0, len = $tr.cells.length; i < len; i++ ) {
@@ -100,9 +111,9 @@
 				table: table,
 				index: pillarIndex,
 				x: pillarLeft,
-				y: tbodyPosition.y,
+				y: pillarPosition.y,
 				width: pillarWidth,
-				height: tbody.$.offsetHeight,
+				height: pillarHeight,
 				rtl: rtl
 			} );
 		}
@@ -126,7 +137,7 @@
 	}
 
 	function columnResizer( editor ) {
-		var pillar, document, resizer, isResizing, startOffset, currentShift;
+		var pillar, document, resizer, isResizing, startOffset, currentShift, move;
 
 		var leftSideCells, rightSideCells, leftShiftBoundary, rightShiftBoundary;
 
@@ -267,7 +278,7 @@
 
 		resizer = CKEDITOR.dom.element.createFromHtml( '<div data-cke-temp=1 contenteditable=false unselectable=on ' +
 			'style="position:absolute;cursor:col-resize;filter:alpha(opacity=0);opacity:0;' +
-				'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10"></div>', document );
+			'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10"></div>', document );
 
 		// Clean DOM when editor is destroyed.
 		editor.on( 'destroy', function() {
@@ -313,31 +324,31 @@
 			resizer.show();
 		};
 
-		var move = this.move = function( posX ) {
-				if ( !pillar )
-					return 0;
+		move = this.move = function( posX ) {
+			if ( !pillar )
+				return 0;
 
-				if ( !isResizing && ( posX < pillar.x || posX > ( pillar.x + pillar.width ) ) ) {
-					detach();
-					return 0;
-				}
+			if ( !isResizing && ( posX < pillar.x || posX > ( pillar.x + pillar.width ) ) ) {
+				detach();
+				return 0;
+			}
 
-				var resizerNewPosition = posX - Math.round( resizer.$.offsetWidth / 2 );
+			var resizerNewPosition = posX - Math.round( resizer.$.offsetWidth / 2 );
 
-				if ( isResizing ) {
-					if ( resizerNewPosition == leftShiftBoundary || resizerNewPosition == rightShiftBoundary )
-						return 1;
+			if ( isResizing ) {
+				if ( resizerNewPosition == leftShiftBoundary || resizerNewPosition == rightShiftBoundary )
+					return 1;
 
-					resizerNewPosition = Math.max( resizerNewPosition, leftShiftBoundary );
-					resizerNewPosition = Math.min( resizerNewPosition, rightShiftBoundary );
+				resizerNewPosition = Math.max( resizerNewPosition, leftShiftBoundary );
+				resizerNewPosition = Math.min( resizerNewPosition, rightShiftBoundary );
 
-					currentShift = resizerNewPosition - startOffset;
-				}
+				currentShift = resizerNewPosition - startOffset;
+			}
 
-				resizer.setStyle( 'left', pxUnit( resizerNewPosition ) );
+			resizer.setStyle( 'left', pxUnit( resizerNewPosition ) );
 
-				return 1;
-			};
+			return 1;
+		};
 	}
 
 	function clearPillarsCache( evt ) {
@@ -388,11 +399,12 @@
 						return;
 					}
 
-					// Considering table, tr, td, tbody but nothing else.
+					// Considering table, tr, td, tbody, thead, tfoot but nothing else.
 					var table, pillars;
 
-					if ( !target.is( 'table' ) && !target.getAscendant( 'tbody', 1 ) )
+					if ( !target.is( 'table' ) && !target.getAscendant( { thead: 1, tbody: 1, tfoot: 1 }, 1 ) ) {
 						return;
+					}
 
 					table = target.getAscendant( 'table', 1 );
 

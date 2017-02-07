@@ -771,6 +771,8 @@
 				filteredStyles = [],
 				styleDef,
 				i;
+			var disallowedStyleAttributes = ['text-indent'];
+			var disallowedAttributes = ['data-id'];
 
 			for ( i = 0; i < styles.length; i++ ) {
 				styleDef = styles[ i ]._.definition;
@@ -780,6 +782,14 @@
 					styleDef.element ) !== -1 ) {
 					styleDef.element = styles[ i ].element = 'span';
 				}
+
+				disallowedStyleAttributes && disallowedStyleAttributes.forEach(function(styleAttr) {
+					delete styleDef.styles[styleAttr];
+				});
+
+				disallowedAttributes && disallowedAttributes.forEach(function(styleAttr) {
+					delete styleDef.styles[styleAttr];
+				});
 
 				// We don't want to pick empty spans.
 				if ( styleDef.element === 'span' && isEmpty( styleDef.attributes ) && isEmpty( styleDef.styles ) ) {
