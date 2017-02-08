@@ -2276,9 +2276,11 @@
 		 * Facade for the native `getData` method.
 		 *
 		 * @param {String} type The type of data to retrieve.
+		 * @param {Boolean} getNative Indicates if the whole, oriignal content of the dataTransfer should be returned.
+		 * This parameter was added in 4.7.0.
 		 * @returns {String} type Stored data for the given type or an empty string if the data for that type does not exist.
 		 */
-		getData: function( type ) {
+		getData: function( type, getNative ) {
 			function isEmpty( data ) {
 				return data === undefined || data === null || data === '';
 			}
@@ -2304,16 +2306,19 @@
 			// some significant content may be placed outside Start/EndFragment comments so it's kept.
 			//
 			// See #13583 for more details.
+			// Additionally #16847 adds flag allowing to get whole, original content.
 			if ( type == 'text/html' ) {
-				data = data.replace( this._.metaRegExp, '' );
+				if ( !getNative ) {
+					data = data.replace( this._.metaRegExp, '' );
 
-				// Keep only contents of the <body> element
-				result = this._.bodyRegExp.exec( data );
-				if ( result && result.length ) {
-					data = result[ 1 ];
+					// Keep only contents of the <body> element
+					result = this._.bodyRegExp.exec( data );
+					if ( result && result.length ) {
+						data = result[ 1 ];
 
-					// Remove also comments.
-					data = data.replace( this._.fragmentRegExp, '' );
+						// Remove also comments.
+						data = data.replace( this._.fragmentRegExp, '' );
+					}
 				}
 			}
 			// Firefox on Linux put files paths as a text/plain data if there are files
@@ -2390,7 +2395,7 @@
 			function getAndSetData( type ) {
 				type = that._.normalizeType( type );
 
-				var data = that.getData( type );
+				var data = that.getData( type, true );
 				if ( data ) {
 					that._.data[ type ] = data;
 				}
