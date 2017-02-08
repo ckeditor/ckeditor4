@@ -357,6 +357,77 @@ bender.test( {
 		assert.areSame( '', dataTransfer.getData( 'Text' ) );
 	},
 
+	// #16847
+	'test getData with getNative flag': function() {
+		var html = '<html>' +
+				'<head>' +
+					'<meta charset="UTF-8">' +
+					'<meta name="foo" content=bar>' +
+					'<STYLE>h1 { color: red; }</style>' +
+				'</head>' +
+				'<BODY>' +
+					'<!--StartFragment--><p>Foo</p>' +
+					'<p>Bar</p><!--EndFragment-->' +
+				'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer;
+
+		nativeData.setData( 'text/html', html );
+
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
+	// #16847
+	'test getData with getNative flag after caching': function() {
+		var html = '<html>' +
+				'<head>' +
+					'<meta charset="UTF-8">' +
+					'<meta name="foo" content=bar>' +
+					'<STYLE>h1 { color: red; }</style>' +
+				'</head>' +
+				'<BODY>' +
+					'<!--StartFragment--><p>Foo</p>' +
+					'<p>Bar</p><!--EndFragment-->' +
+				'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer;
+
+		nativeData.setData( 'text/html', html );
+
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+		dataTransfer.cacheData();
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
+	// #16847
+	'test getData with filter after caching': function() {
+		var html = '<html>' +
+				'<head>' +
+					'<meta charset="UTF-8">' +
+					'<meta name="foo" content=bar>' +
+					'<STYLE>h1 { color: red; }</style>' +
+				'</head>' +
+				'<BODY>' +
+					'<!--StartFragment--><p>Foo</p>' +
+					'<p>Bar</p><!--EndFragment-->' +
+				'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer;
+
+		nativeData.setData( 'text/html', html );
+
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+		dataTransfer.cacheData();
+
+		assert.areSame( '<p>Foo</p><p>Bar</p>', dataTransfer.getData( 'text/html' ) );
+	},
+
 	'test cacheData': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
 			// Emulate native clipboard.
