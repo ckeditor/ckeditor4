@@ -31,6 +31,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			return element;
 		}
 
+		// In case of table cell selection, we want to shrink selection from td to a element.
 		range.shrink( CKEDITOR.SHRINK_ELEMENT );
 		element = range.getEnclosedNode();
 
