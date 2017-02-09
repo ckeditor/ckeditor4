@@ -418,7 +418,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						this.allowBlur( true );
 
 						// Ensure that the first item is focused (#16804).
-						block._.markFirstDisplayed();
+						block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
 
 						this._.editor.fire( 'panelShow', this );
 					}, 0, this );
