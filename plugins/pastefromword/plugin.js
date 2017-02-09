@@ -68,7 +68,8 @@
 			// type sniffing (priority = 6).
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
-					mswordHtml = data.dataValue,
+					mswordHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+						evt.data.dataTransfer.getData( 'text/html', true ) : data.dataValue,
 					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
 					pfwEvtData = { dataValue: mswordHtml };
 
