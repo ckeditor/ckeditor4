@@ -295,25 +295,34 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-nostyle' );
 		}
 
+		/**
+		 * Selects the specified color in the specified panel block.
+		 *
+		 * @param block
+		 * @param color
+		 */
 		function selectColor( block, color ) {
-			var normalize = function( color ) {
-					return CKEDITOR.tools.convertRgbToHex( color || '' ).replace( /#/, '' ).toLowerCase();
-				},
-				items = block._.getItems(),
-				marked = null;
+			var items = block._.getItems();
 
 			for ( var i = 0; i < items.count(); i++ ) {
 				var item = items.getItem( i );
-				if ( normalize( color ) == normalize( item.getAttribute( 'data-value' ) ) ) {
-					marked = i;
-				}
 
 				item.removeAttribute( 'aria-selected' );
-			}
 
-			if ( marked !== null ) {
-				items.getItem( marked ).setAttribute( 'aria-selected', true );
+				if ( color && color == normalizeColor( item.getAttribute( 'data-value' ) ) ) {
+					item.setAttribute( 'aria-selected', true );
+				}
 			}
+		}
+
+		/**
+		 * Converts a CSS color value to an easily comparable form.
+		 *
+		 * @param {string} color
+		 * @returns {string}
+		 */
+		function normalizeColor( color ) {
+			return CKEDITOR.tools.convertRgbToHex( color || '' ).replace( /#/, '' ).toLowerCase();
 		}
 	}
 } );
