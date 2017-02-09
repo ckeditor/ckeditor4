@@ -2723,11 +2723,12 @@ CKEDITOR.dom.range = function( root ) {
 		 * is returned only if the range is contained within one table (might be a nested
 		 * table, but can't be two different tables on the same DOM level).
 		 *
+		 * @private
 		 * @since 4.7
 		 * @param {Object} [tableElements] Mapping of element names that should be considered.
 		 * @returns {CKEDITOR.dom.element/null}
 		 */
-		getTableElement: function( tableElements ) {
+		_getTableElement: function( tableElements ) {
 			tableElements = tableElements || {
 				td: 1,
 				th: 1,

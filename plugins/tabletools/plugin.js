@@ -892,9 +892,9 @@
 
 		// In case of whole nested table selection, getSelectedCells returns also
 		// cell which contains the table. We should filter it.
-		if ( ranges.length === 1 && ranges[ 0 ].getTableElement() &&
-			ranges[ 0 ].getTableElement().is( 'table' ) ) {
-			table = ranges[ 0 ].getTableElement();
+		if ( ranges.length === 1 && ranges[ 0 ]._getTableElement() &&
+			ranges[ 0 ]._getTableElement().is( 'table' ) ) {
+			table = ranges[ 0 ]._getTableElement();
 		}
 
 		cells = getSelectedCells( selection, table );

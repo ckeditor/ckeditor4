@@ -21,7 +21,7 @@
 		}
 	};
 
-	function getTableElementFromRange( range ) {
+	function _getTableElementFromRange( range ) {
 		var tableElements = {
 				table: 1,
 				tbody: 1,
@@ -62,7 +62,7 @@
 		var i;
 
 		for ( i = 0; i < ranges.length; i++ ) {
-			getTableElementFromRange( ranges[ i ] ).addClass( 'cke_marked' );
+			_getTableElementFromRange( ranges[ i ] ).addClass( 'cke_marked' );
 		}
 	}
 
@@ -107,7 +107,7 @@
 					assert.areSame( ranges.length, afterRanges.length, 'appropriate number of ranges is selected' );
 
 					for ( i = 0; i < ranges.length; i++ ) {
-						assert.isTrue( getTableElementFromRange( afterRanges[ i ] ).hasClass( 'cke_marked' ),
+						assert.isTrue( _getTableElementFromRange( afterRanges[ i ] ).hasClass( 'cke_marked' ),
 							'appropriate ranges are selected' );
 					}
 				} else {
@@ -319,7 +319,7 @@
 					assert.areSame( 1, rangesAfterCommand.length, 'Range count' );
 					assert.isTrue( !!selection.isFake, 'Selection is fake' );
 					assert.isTrue( selection.isInTable(), 'Selection is in table' );
-					assert.areSame( getTableElementFromRange( rangesAfterCommand[ 0 ] ), expectedSelectionHolder, 'Correct cell is selected' );
+					assert.areSame( _getTableElementFromRange( rangesAfterCommand[ 0 ] ), expectedSelectionHolder, 'Correct cell is selected' );
 
 					assert.areSame( expected, editor.getData(), 'Editor data' );
 				} );
