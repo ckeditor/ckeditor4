@@ -6,6 +6,7 @@
 ( function() {
 	// Basic HTML entities.
 	var htmlbase = 'nbsp,gt,lt,amp';
+	var htmlbasenonbsp = 'gt,lt,amp';
 
 	var entities =
 	// Latin-1 entities
@@ -115,7 +116,10 @@
 				var selectedEntities = [];
 
 				if ( config.basicEntities !== false )
-					selectedEntities.push( htmlbase );
+					if ( config.basicEntityNbspOff == true )
+						selectedEntities.push( htmlbasenonbsp );
+					else
+						selectedEntities.push( htmlbase );
 
 				if ( config.entities ) {
 					if ( selectedEntities.length )
@@ -176,6 +180,20 @@
  * @member CKEDITOR.config
  */
 CKEDITOR.config.basicEntities = true;
+
+/**
+ * Whether to disable escaped nbsp entity 
+ * if basic HTML entities are escaped by config.basicEntities = true
+ *
+ * **Note:** This option has no effect if config.basicEntities = false;
+ *
+ *
+ *		config.basicEntityNbspOff = true;
+ *
+ * @cfg {Boolean} [basicEntityNbspOff=false]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.basicEntityNbspOff = false;
 
 /**
  * Whether to use HTML entities in the editor output.
