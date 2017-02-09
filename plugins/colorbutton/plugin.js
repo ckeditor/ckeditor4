@@ -85,7 +85,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function addButton( name, type, title, order, options ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
-				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
+				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
+				panelBlock;
 
 			options = options || {};
 
@@ -105,6 +106,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
+					panelBlock = block;
+
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
 					block.element.setHtml( renderColors( panel, type, colorBoxId ) );
@@ -155,6 +158,15 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					if ( config.colorButton_enableAutomatic !== false ) {
 						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+					}
+
+					var range = selection && selection.getRanges()[ 0 ],
+						startContainerElement = range.startContainer.getAscendant( function ( ascendant ) {
+							return ascendant.type === CKEDITOR.NODE_ELEMENT;
+						}, true );
+
+					if ( range ) {
+						selectColor( panelBlock, startContainerElement.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) );
 					}
 
 					return color;
@@ -255,6 +267,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						' title="', colorLabel, '"' +
 						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorLabel, '\')"' +
+						' data-value="' + colorCode + '"' +
 						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
 						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
 					'</a>' +
@@ -280,6 +293,27 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function isUnstylable( ele ) {
 			return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-nostyle' );
+		}
+
+		function selectColor( block, color ) {
+			var normalize = function( color ) {
+					return CKEDITOR.tools.convertRgbToHex( color || '' ).replace( /#/, '' ).toLowerCase();
+				},
+				items = block._.getItems(),
+				marked = null;
+
+			for ( var i = 0; i < items.count(); i++ ) {
+				var item = items.getItem( i );
+				if ( normalize( color ) == normalize( item.getAttribute( 'data-value' ) ) ) {
+					marked = i;
+				}
+
+				item.removeAttribute( 'aria-selected' );
+			}
+
+			if ( marked !== null ) {
+				items.getItem( marked ).setAttribute( 'aria-selected', true );
+			}
 		}
 	}
 } );
