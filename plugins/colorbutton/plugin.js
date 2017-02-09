@@ -138,7 +138,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					var selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
-						color;
+						automaticColor;
 
 					if ( !path )
 						return;
@@ -148,28 +148,46 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					// The background color might be transparent. In that case, look up the color in the DOM tree.
 					do {
-						color = block && block.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) || 'transparent';
+						automaticColor = block && block.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) || 'transparent';
 					}
-					while ( type == 'back' && color == 'transparent' && block && ( block = block.getParent() ) );
+					while ( type == 'back' && automaticColor == 'transparent' && block && ( block = block.getParent() ) );
 
 					// The box should never be transparent.
-					if ( !color || color == 'transparent' )
-						color = '#ffffff';
+					if ( !automaticColor || automaticColor == 'transparent' )
+						automaticColor = '#ffffff';
 
 					if ( config.colorButton_enableAutomatic !== false ) {
-						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', automaticColor );
 					}
 
-					var range = selection && selection.getRanges()[ 0 ],
-						startContainerElement = range.startContainer.getAscendant( function ( ascendant ) {
-							return ascendant.type === CKEDITOR.NODE_ELEMENT;
-						}, true );
+					var range = selection && selection.getRanges()[ 0 ];
 
 					if ( range ) {
-						selectColor( panelBlock, startContainerElement.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) );
+						var walker = new CKEDITOR.dom.walker( range ),
+							element = range.collapsed ? range.startContainer : walker.next(),
+							finalColor = '',
+							currentColor;
+
+						while ( element ) {
+							if ( element.type === CKEDITOR.NODE_TEXT ) {
+								element = element.getParent();
+							}
+
+							currentColor = normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color'  ) );
+							finalColor = finalColor || currentColor;
+
+							if ( finalColor !== currentColor ) {
+								finalColor = '';
+								break;
+							}
+
+							element = walker.next();
+						}
+
+						selectColor( panelBlock, finalColor );
 					}
 
-					return color;
+					return automaticColor;
 				}
 			} );
 		}
