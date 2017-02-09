@@ -896,7 +896,7 @@
 					selection = editor.getSelection(),
 					displayTextField = this.getContentElement( 'info', 'linkDisplayText' ).getElement().getParent().getParent(),
 					elements = plugin.getSelectedLink( editor, true ),
-					firstLink = elements[ 0 ];
+					firstLink = elements[ 0 ] || null;
 
 				// Fill in all the relevant fields if there's already one link selected.
 				if ( firstLink && firstLink.hasAttribute( 'href' ) ) {
@@ -905,8 +905,6 @@
 					if ( !selection.getSelectedElement() && !selection.isInTable() ) {
 						selection.selectElement( firstLink );
 					}
-				} else {
-					firstLink = null;
 				}
 
 				var data = plugin.parseLinkAttributes( editor, firstLink );
