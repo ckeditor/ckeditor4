@@ -325,10 +325,10 @@
 					links = this._.getItems(),
 					item, focused;
 
-				for ( var i = 0; i < links.count(); i++ ) {
+				for ( var i = links.count() - 1; i >= 0; i-- ) {
 					item = links.getItem( i );
 
-					if ( !item.getAscendant( notDisplayed ) && !focused ) {
+					if ( !item.getAscendant( notDisplayed ) ) {
 						focused = item;
 						this._.focusIndex = i;
 					}
