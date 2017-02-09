@@ -314,7 +314,7 @@
 		 * @since 3.2.1
 		 * @param {CKEDITOR.editor} editor
 		 * @param {Boolean} [returnMultiple=false] Indicates if function should return first selected link or all.
-		 * @returns {CKEDITOR.dom.element/CKEDITOR.dom.element[]} A single or an array of link
+		 * @returns {CKEDITOR.dom.element/CKEDITOR.dom.element[]/null} A single or an array of link
 		 * elements relevant for current selection.
 		 */
 		getSelectedLink: function( editor, returnMultiple ) {
