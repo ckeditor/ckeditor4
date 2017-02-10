@@ -8,6 +8,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		langCell = langTable.cell,
 		langCommon = editor.lang.common,
 		validate = CKEDITOR.dialog.validate,
+    defaultLengthUnit = 'mm';
 		lengthUnitPattern = /^(\d+(?:\.\d+)?)(px|%|mm|cm|pt|em|ex)$/,
 		spacer = { type: 'html', html: '&nbsp;' },
 		rtl = editor.lang.dir == 'rtl',
@@ -48,15 +49,6 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		};
 	}
 
-	// Reads the unit of width property of the table cell.
-	//
-	// * @param {CKEDITOR.dom.element} cell An element representing table cell.
-	// * @returns {String} A unit of width: 'px', 'cm', 'mm', 'pt', 'em', 'ex', '%' 
-	//            or undefined if none.
-	function getCellWidthType( cell ) {
-		return getLengthUnit( cell.getStyle( 'width' ) || cell.getAttribute( 'width' ) );
-	}
-
 	// Reads the unit of a CSS length.
 	//
 	// * @param {String} length the length with a unit.
@@ -83,14 +75,21 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		};
 	}
   
+	// Creates the definition for a dialog UI Element to set a length property like "width", "height", etc.
+	//
+	// * @param {String} tabId       The name of the parent tab of this UI Element
+	// * @param {String} cssProperty The name of a length CSS property (width, height, padding-left, etc.)
+	// * @param {String} label       The label on top of the UI element ("width", "height", etc.)
+	// * @param {String} msg_invalid_number The error message to show when the value is not valid
+	// * @param {String} box         'hbox' if wrong or undefined; when it's 'vbox' the unit selector is under the text box
+	// * @returns {CKEDITOR.dialog.definition.uiElement} A composite UI element to set a length property (number with unit)
   function lengthUIElement( tabId, cssProperty, label, msg_invalid_number, box ) {
-    
-    // from dashes to camel: padding-left => paddingLeft
+    // id: from CSS property dashes to camel: padding-left => paddingLeft
     var id = cssProperty.replace(/-([a-z])/g, (m, l) => l.toUpperCase());
     var typeId = id + 'Type';
 
 		return {
-      type: box || 'hbox',
+      type: box == 'vbox' ? box : 'hbox',
       widths: [ '70%', '30%' ],
       children: [ {
         type: 'text',
