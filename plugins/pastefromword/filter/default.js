@@ -420,6 +420,47 @@
 		return writer.getHtml();
 	};
 
+	CKEDITOR.parseStyles = function( styles ) {
+		var parseCssText = CKEDITOR.tools.parseCssText,
+			stylesObj = {},
+			sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles ),
+			rules,
+			i;
+
+		function createIsolatedStylesheet( styles ) {
+			var style = new CKEDITOR.dom.element( 'style' ),
+			iframe = new CKEDITOR.dom.element( 'iframe' );
+
+			CKEDITOR.document.getBody().append( iframe );
+			iframe.$.contentDocument.documentElement.appendChild( style.$ );
+			iframe.hide();
+
+			style.$.textContent = styles;
+			iframe.remove();
+			return style.$.sheet;
+		}
+
+		function getStyles( cssText ) {
+			var startIndex = cssText.indexOf( '{' ),
+				endIndex = cssText.indexOf( '}' );
+
+			return cssText.substring( startIndex + 1, endIndex );
+		}
+
+		if ( sheet ) {
+			rules = sheet.cssRules;
+
+			for ( i = 0; i < rules.length; i++ ) {
+				// In case of at-rules (e.g. @font-face), selector will be empty.
+				if ( rules[ i ].selectorText ) {
+					stylesObj[ rules[ i ].selectorText ] = parseCssText( getStyles( rules[ i ].cssText ), true );
+				}
+			}
+		}
+
+		return stylesObj;
+	};
+
 	/**
 	 * Namespace containing all the helper functions to work with styles.
 	 *
