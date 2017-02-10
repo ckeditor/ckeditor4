@@ -8,7 +8,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		langCell = langTable.cell,
 		langCommon = editor.lang.common,
 		validate = CKEDITOR.dialog.validate,
-    defaultLengthUnit = 'mm';
+		defaultLengthUnit = 'mm';
 		lengthUnitPattern = /^(\d+(?:\.\d+)?)(px|%|mm|cm|pt|em|ex)$/,
 		spacer = { type: 'html', html: '&nbsp;' },
 		rtl = editor.lang.dir == 'rtl',
@@ -85,7 +85,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 	// * @returns {CKEDITOR.dialog.definition.uiElement} A composite UI element to set a length property (number with unit)
   function lengthUIElement( tabId, cssProperty, label, msg_invalid_number, box ) {
     // id: from CSS property dashes to camel: padding-left => paddingLeft
-    var id = cssProperty.replace(/-([a-z])/g, (m, l) => l.toUpperCase());
+    var id = cssProperty.replace(/-([a-z])/g, function(m, l) { return l.toUpperCase(); });
     var typeId = id + 'Type';
 
 		return {
