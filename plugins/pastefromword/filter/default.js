@@ -420,7 +420,7 @@
 		return writer.getHtml();
 	};
 
-	CKEDITOR.parseStyles = function( styles ) {
+	CKEDITOR.plugins.pastefromword.parseStyles = function( styles ) {
 		var parseCssText = CKEDITOR.tools.parseCssText,
 			stylesObj = {},
 			sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles ),

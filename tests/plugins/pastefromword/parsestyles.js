@@ -11,7 +11,7 @@
 	function testStyles( name ) {
 		bender.tools.testInputOut( name, function( styles, parsed ) {
 			var stylesObj = JSON.parse( parsed ),
-				tested = CKEDITOR.parseStyles( styles );
+				tested = CKEDITOR.plugins.pastefromword.parseStyles( styles );
 
 			objectAssert.areDeepEqual( stylesObj, tested, name );
 		} );
@@ -38,7 +38,7 @@
 						'font-family': 'Calibri'
 					}
 				},
-				actual = CKEDITOR.parseStyles( CKEDITOR.document.getById( 'real-style' ) );
+				actual = CKEDITOR.plugins.pastefromword.parseStyles( CKEDITOR.document.getById( 'real-style' ) );
 
 			objectAssert.areDeepEqual( expected, actual );
 		}
