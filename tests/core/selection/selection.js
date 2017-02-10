@@ -655,12 +655,20 @@ bender.test( {
 	},
 
 	'test IE editable contenteditable="false" handling 1': function() {
-		if ( !CKEDITOR.env.ie || !CKEDITOR.env.version == 11 ) {
+		if ( !CKEDITOR.env.ie ) {
 			assert.ignore();
 		}
 		var preventSpy = sinon.spy();
 
 		bender.tools.setHtmlWithSelection( this.editor, '<span contenteditable="false">^bar</span>' );
+
+		var selection = this.editor.getSelection(),
+			range = selection.getRanges()[ 0 ];
+
+		// Selection was moved somehow.
+		if ( range && range.startContainer.getName() !== 'span' ) {
+			assert.ignore();
+		}
 
 		this.editor.editable().fire( 'keydown', {
 			preventDefault: preventSpy,
@@ -672,7 +680,7 @@ bender.test( {
 	},
 
 	'test IE editable contenteditable="false" handling 2': function() {
-		if ( !CKEDITOR.env.ie || !CKEDITOR.env.version == 11 ) {
+		if ( !CKEDITOR.env.ie ) {
 			assert.ignore();
 		}
 		var preventSpy = sinon.spy();
