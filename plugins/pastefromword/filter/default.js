@@ -461,6 +461,52 @@
 		return stylesObj;
 	};
 
+	CKEDITOR.plugins.pastefromword.inlineStyles = function( html ) {
+		var parseStyles = CKEDITOR.plugins.pastefromword.parseStyles,
+			document = createTempDocument( html ),
+			stylesTags = document.find( 'style' ),
+			stylesObj = parseStyleTags( stylesTags );
+
+		function createTempDocument( html ) {
+			var parser = new DOMParser(),
+				document = parser.parseFromString( html, 'text/html' );
+
+			return new CKEDITOR.dom.document( document );
+		}
+
+		function parseStyleTags( stylesTags ) {
+			var stylesObj = {},
+				i;
+
+			for ( i = 0; i < stylesTags.count(); i++ ) {
+				CKEDITOR.tools.extend( stylesObj, parseStyles( stylesTags.getItem( i ) ) );
+			}
+
+			return stylesObj;
+		}
+
+		function applyStyle( document, selector, style ) {
+			var elements = document.find( selector ),
+				i;
+
+			for ( i = 0; i < elements.count(); i++ ) {
+				elements.getItem( i ).setStyles( style );
+			}
+		}
+
+		function applyStyles( document, styles ) {
+			var style;
+
+			for ( style in styles ) {
+				applyStyle( document, style, styles[ style ] );
+			}
+		}
+
+		applyStyles( document, stylesObj );
+
+		return document;
+	};
+
 	/**
 	 * Namespace containing all the helper functions to work with styles.
 	 *
