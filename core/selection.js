@@ -798,7 +798,7 @@
 			}
 
 			function nonEditableAscendant( sel ) {
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version == 11 ) {
+				if ( CKEDITOR.env.ie ) {
 					var range = sel.getRanges()[ 0 ],
 						ascendant = range ? range.startContainer.getAscendant( function( parent ) {
 								return parent.type == CKEDITOR.NODE_ELEMENT &&
