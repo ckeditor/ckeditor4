@@ -86,3 +86,54 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	mso-default-props:yes;
 	font-family:Calibri;}
 </style>
+
+
+<textarea id="inline1">
+	<html>
+		<head>
+			<style>
+				.class1 {
+					font-family: Verdana;
+				}
+				.class2 {
+					font-size: 20px;
+				}
+			</style>
+		</head>
+		<body>
+			<p class="class1">Foo</p>
+			<p class="class2">Bar</p>
+			<p class="class1 class2">Baz</p>
+		</body>
+	</html>
+=>
+	<p class="class1" style="font-family: Verdana;">Foo</p>
+	<p class="class2" style="font-size: 20px;">Bar</p>
+	<p class="class1 class2" style="font-family: Verdana;font-size: 20px;">Baz</p>
+</textarea>
+
+<textarea id="multiple-inline">
+	<html>
+		<head>
+			<style>
+				.class1 {
+					font-family: Verdana;
+				}
+			</style>
+			<style>
+				.class2 {
+					font-size: 20px;
+				}
+			</style>
+		</head>
+		<body>
+			<p class="class1">Foo</p>
+			<p class="class2">Bar</p>
+			<p class="class1 class2">Baz</p>
+		</body>
+	</html>
+=>
+	<p class="class1" style="font-family: Verdana;">Foo</p>
+	<p class="class2" style="font-size: 20px;">Bar</p>
+	<p class="class1 class2" style="font-family: Verdana;font-size: 20px;">Baz</p>
+</textarea>

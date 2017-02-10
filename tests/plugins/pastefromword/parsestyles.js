@@ -17,6 +17,14 @@
 		} );
 	}
 
+	function testInlining( name ) {
+		bender.tools.testInputOut( name, function( input, output ) {
+			var parsed = CKEDITOR.plugins.pastefromword.inlineStyles( input );
+
+			bender.assert.beautified.html( output, bender.tools.fixHtml( parsed.getBody().getHtml() ), name );
+		} );
+	}
+
 	var tests = {
 		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
@@ -41,6 +49,11 @@
 				actual = CKEDITOR.plugins.pastefromword.parseStyles( CKEDITOR.document.getById( 'real-style' ) );
 
 			objectAssert.areDeepEqual( expected, actual );
+		},
+
+		'test inlining styles': function() {
+			testInlining( 'inline1' );
+			testInlining( 'multiple-inline' );
 		}
 	};
 
