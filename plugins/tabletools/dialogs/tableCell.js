@@ -8,7 +8,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		langCell = langTable.cell,
 		langCommon = editor.lang.common,
 		validate = CKEDITOR.dialog.validate,
-		defaultLengthUnit = '';
+		defaultLengthUnit = 'px';
 		lengthUnitPattern = /^(\d+(?:\.\d+)?)(px|%|mm|cm|pt|em|ex)$/,
 		spacer = { type: 'html', html: '&nbsp;' },
 		rtl = editor.lang.dir == 'rtl',
