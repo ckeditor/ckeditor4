@@ -487,10 +487,23 @@
 
 		function applyStyle( document, selector, style ) {
 			var elements = document.find( selector ),
+				element,
+				styleText,
 				i;
 
 			for ( i = 0; i < elements.count(); i++ ) {
-				elements.getItem( i ).setStyles( style );
+				element = elements.getItem( i );
+
+				// Modifying style property leads to removing all uknown styles
+				// from style attribute. To prevent this, only style attribute
+				// is used to manipulate element's styles.
+				styleText = CKEDITOR.tools.writeCssText( style );
+
+				if ( element.getAttribute( 'style' ) ) {
+					styleText += ';' + element.getAttribute( 'style' );
+				}
+
+				element.setAttribute( 'style', styleText );
 			}
 		}
 
