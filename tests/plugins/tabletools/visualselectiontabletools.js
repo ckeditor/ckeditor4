@@ -230,7 +230,7 @@
 		},
 
 		'test delete all cells': function( editor, bot ) {
-			doTest( editor, bot, 'delete-all-cells', 'cellDelete', [ 0, 1, 2, 3 ], true );
+			doTest( bot, 'cellDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
 			editor.focus();
 		},
 
