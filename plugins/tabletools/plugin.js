@@ -394,7 +394,7 @@
 			} else if ( table ) {
 				// After deleting whole table, the selection would be broken,
 				// therefore it's safer to move it outside the table first.
-				ranges[ 0 ].moveToPosition( table, CKEDITOR.POSITION_AFTER_END );
+				ranges[ 0 ].moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
 				ranges[ 0 ].select();
 
 				table.remove();
