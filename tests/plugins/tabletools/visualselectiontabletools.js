@@ -197,6 +197,10 @@
 			doTest( bot, 'rowDelete', { 'case': 'delete-row-from-middle', cells: [ 1 ], skipCheckingSelection: true } );
 		},
 
+		'test remove all rows': function( editor, bot ) {
+			doTest( bot, 'rowDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
+		},
+
 		// (#10308)
 		'test remove trailing column': function( editor, bot ) {
 			doTest( bot, 'columnDelete', { 'case': 'delete-column-trailing', cells: [ 3 ], skipCheckingSelection: true } );
