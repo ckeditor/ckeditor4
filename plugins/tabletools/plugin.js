@@ -196,6 +196,10 @@
 
 			var rows = table.$.rows;
 
+			// After deleting whole table, the selection would be broken,
+			// therefore it's safer to move it outside the table first.
+			ranges[ 0 ].moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
+
 			// Where to put the cursor after rows been deleted?
 			// 1. Into next sibling row if any;
 			// 2. Into previous sibling row if any;
@@ -206,16 +210,16 @@
 				deleteRows( rowsToDelete[ i ] );
 			}
 
+			if ( !table.$.parentNode ) {
+				ranges[ 0 ].select();
+				return null;
+			}
+
 			return cursorPosition;
 		} else if ( selectionOrRow instanceof CKEDITOR.dom.element ) {
 			table = selectionOrRow.getAscendant( 'table' );
 
 			if ( table.$.rows.length == 1 ) {
-				// After deleting whole table, the selection would be broken,
-				// therefore it's safer to move it outside the table first.
-				ranges[ 0 ].moveToPosition( table, CKEDITOR.POSITION_AFTER_END );
-				ranges[ 0 ].select();
-
 				table.remove();
 			}
 			else {
@@ -1419,8 +1423,12 @@
 			addCmd( 'rowDelete', createDef( {
 				requiredContent: 'table',
 				exec: function( editor ) {
-					var selection = editor.getSelection();
-					placeCursorInCell( deleteRows( selection ) );
+					var selection = editor.getSelection(),
+						cursorPosition = deleteRows( selection );
+
+					if ( cursorPosition ) {
+						placeCursorInCell( cursorPosition );
+					}
 				}
 			} ) );
 
