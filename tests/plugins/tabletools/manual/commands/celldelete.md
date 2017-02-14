@@ -22,14 +22,7 @@ Perform steps for each editor.
 * Undo is disabled.
 * There is error in console.
 
+
 ---
 
-After deleting cells, press any key to type.
-
-**Expected:**
-
-Text is appended to the existing text.
-
-**Unexpected:**
-
-Part of the existing text is replaced.
+1. Repeat above procedure, but instead of "Delete Cells" choose "Row"→"Delete Rows".
