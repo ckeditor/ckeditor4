@@ -49,20 +49,7 @@
 								return nextRow.cells[ backward ? nextRow.cells.length - 1 : 0 ];
 							} );
 
-						// Clone one more row at the end of table and select the first newly established cell.
-						if ( !( next || backward ) ) {
-							var table = cell.getAscendant( 'table' ).$,
-								cells = cell.getParent().$.cells;
-
-							var newRow = new CKEDITOR.dom.element( table.insertRow( -1 ), editor.document );
-
-							for ( var i = 0, count = cells.length; i < count; i++ ) {
-								var newCell = newRow.append( new CKEDITOR.dom.element( cells[ i ], editor.document ).clone( false, false ) );
-								newCell.appendBogus();
-							}
-
-							resultRange.moveToElementEditStart( newRow );
-						} else if ( next ) {
+						if ( next ) {
 							next = new CKEDITOR.dom.element( next );
 							resultRange.moveToElementEditStart( next );
 							// Avoid selecting empty block makes the cursor blind.
