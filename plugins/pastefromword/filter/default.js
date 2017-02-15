@@ -31,8 +31,11 @@
 	CKEDITOR.plugins.pastefromword = {};
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
-
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
+
+		// Before filtering inline all styles to allow default filter to change them
+		// into appropriate span tags.
+		mswordHtml = CKEDITOR.plugins.pastefromword.inlineStyles( mswordHtml ).getBody().getHtml();
 
 		// Sometimes Word malforms the comments.
 		mswordHtml = mswordHtml.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
