@@ -5,7 +5,10 @@ function assertWordFilter( editor, compareRawData ) {
 		var nativeDataTransfer = bender.tools.mockNativeDataTransfer(),
 			dataTransfer;
 
-		nativeDataTransfer.setData( 'text/html', input );
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			nativeDataTransfer.setData( 'text/html', input );
+		}
+
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDataTransfer );
 
 		return promisePasteEvent( editor, { dataValue: input, dataTransfer: dataTransfer } )
