@@ -222,8 +222,7 @@
 
 			if ( table.$.rows.length == 1 ) {
 				table.remove();
-			}
-			else {
+			} else {
 				selectionOrRow.remove();
 			}
 		}
