@@ -1,7 +1,11 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: toolbar,button,stylescombo */
 
-bender.editor = true;
+bender.editor = {
+	config: {
+		startupFocus: true
+	}
+};
 
 bender.test(
 {
@@ -58,5 +62,24 @@ bender.test(
 				'CKEDITOR.warn error code should be "editor-incorrect-destroy".' );
 		}, 0 );
 
+	},
+
+	'test destroy editor that has focus': function() {
+		var timeout = CKEDITOR.tools.setTimeout,
+			editor = this.editor;
+
+		CKEDITOR.tools.setTimeout = function( func, delay, context ) {
+			editor.destroy();
+
+			try {
+				func.call( context );
+				assert.pass();
+			} catch ( e ) {
+				assert.fail( e.message );
+			}
+			CKEDITOR.tools.setTimeout = timeout;
+		};
+
+		this.editor.focusManager.blur();
 	}
 } );
