@@ -452,7 +452,8 @@
 
 			for ( i = 0; i < rules.length; i++ ) {
 				// In case of at-rules (e.g. @font-face), selector will be empty.
-				if ( rules[ i ].selectorText ) {
+				// However Safari also includes @page rules, so they must be filtered out.
+				if ( rules[ i ].selectorText && rules[ i ].selectorText.indexOf( '@' ) === -1 ) {
 					stylesObj[ rules[ i ].selectorText ] = parseCssText( getStyles( rules[ i ].cssText ), true );
 				}
 			}
