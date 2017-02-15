@@ -210,6 +210,7 @@
 				deleteRows( rowsToDelete[ i ] );
 			}
 
+			// If all the rows were removed, table gets removed too.
 			if ( !table.$.parentNode ) {
 				ranges[ 0 ].select();
 				return null;
