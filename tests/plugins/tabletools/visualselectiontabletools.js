@@ -239,7 +239,6 @@
 
 		'test delete all cells': function( editor, bot ) {
 			doTest( bot, 'cellDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
-			editor.focus();
 		},
 
 		'test getCellsBetween': function( editor, bot ) {
