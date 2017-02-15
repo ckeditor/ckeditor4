@@ -447,13 +447,19 @@
 			return cssText.substring( startIndex + 1, endIndex );
 		}
 
+		// In case of at-rules (e.g. @font-face), selector will be empty.
+		// However Safari also includes @page rules as selector, so they must be filtered out.
+		// Chrome additionaly incorrectly parse @page rules and put @page at the beginning
+		// of the cssText property.
+		function isAtRule( rule ) {
+			return rule.selectorText.indexOf( '@' ) !== -1 || rule.cssText.indexOf( '@' ) === 0;
+		}
+
 		if ( sheet ) {
 			rules = sheet.cssRules;
 
 			for ( i = 0; i < rules.length; i++ ) {
-				// In case of at-rules (e.g. @font-face), selector will be empty.
-				// However Safari also includes @page rules, so they must be filtered out.
-				if ( rules[ i ].selectorText && rules[ i ].selectorText.indexOf( '@' ) === -1 ) {
+				if ( rules[ i ].selectorText && !isAtRule( rules [ i ] ) ) {
 					stylesObj[ rules[ i ].selectorText ] = parseCssText( getStyles( rules[ i ].cssText ), true );
 				}
 			}
