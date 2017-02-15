@@ -38,6 +38,7 @@
 			testStyles( 'multiple' );
 			testStyles( 'empty' );
 			testStyles( 'font-face' );
+			testStyles( 'page' );
 		},
 
 		'test parsing styles from real style element': function() {
