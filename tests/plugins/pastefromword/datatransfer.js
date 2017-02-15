@@ -22,9 +22,9 @@
 				nativeData = bender.tools.mockNativeDataTransfer(),
 				dataTransfer;
 
-			editor.once( 'pasteFromWord', function( evt ) {
+			editor.once( 'afterPasteFromWord', function( evt ) {
 				resume( function() {
-					assert.areSame( evt.data.dataValue, mockWordHtml( 'foo' ) );
+					assert.areSame( evt.data.dataValue, 'foo' );
 				} );
 			} );
 
@@ -32,14 +32,31 @@
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 			editor.fire( 'paste', {
-				dataValue: mockWordHtml( 'bar' ),
+				dataValue: mockWordHtml( 'foo' ),
 				dataTransfer: dataTransfer
 			} );
 
 			wait();
 		},
 
-		'test PFW uses dataValue when dataTransfer is not available': function() {
+		'test PFW uses dataValue when dataTransfer is empty':  function() {
+			var editor = this.editor;
+
+			editor.once( 'afterPasteFromWord', function( evt ) {
+				resume( function() {
+					assert.areSame( evt.data.dataValue, 'foo' );
+				} );
+			} );
+
+			editor.fire( 'paste', {
+				dataValue: mockWordHtml( 'foo' ),
+				dataTransfer: CKEDITOR.plugins.clipboard.initPasteDataTransfer()
+			} );
+
+			wait();
+		},
+
+		'test PFW uses dataValue when dataTransfer is not supported': function() {
 			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				assert.ignore();
 			}
@@ -48,9 +65,9 @@
 				nativeData = bender.tools.mockNativeDataTransfer(),
 				dataTransfer;
 
-			editor.once( 'pasteFromWord', function( evt ) {
+			editor.once( 'afterPasteFromWord', function( evt ) {
 				resume( function() {
-					assert.areSame( evt.data.dataValue, mockWordHtml( 'bar' ) );
+					assert.areSame( evt.data.dataValue, 'bar' );
 				} );
 			} );
 
