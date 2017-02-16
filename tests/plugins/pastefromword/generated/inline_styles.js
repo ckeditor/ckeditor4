@@ -19,7 +19,8 @@
 			'safari'
 		],
 		wordVersions = [
-			'word365'
+			'word2007',
+			'word2013'
 		],
 		tests = {
 			'InlineStyles': true
