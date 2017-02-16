@@ -428,6 +428,47 @@ bender.test( {
 		assert.areSame( '<p>Foo</p><p>Bar</p>', dataTransfer.getData( 'text/html' ) );
 	},
 
+	// #16847
+	'test filtering unwanted content with getNative': function() {
+		var html = '<html>' +
+				'<body>Foo</body>' +
+			'</html>',
+			// jshint ignore:start
+			garbage = ';\��VN�',
+			// jshint ignore:end
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer;
+
+		// jshint undef:false
+		nativeData.setData( 'text/html', html + garbage );
+		// jshint undef:true
+
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
+	// #16847
+	'test filtering unwanted content with getNative and cacheData': function() {
+		var html = '<html>' +
+				'<body>Foo</body>' +
+			'</html>',
+			// jshint ignore:start
+			garbage = ';\��VN�',
+			// jshint ignore:end
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer;
+
+		// jshint undef:false
+		nativeData.setData( 'text/html', html + garbage );
+		// jshint undef:true
+
+		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+		dataTransfer.cacheData();
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
 	'test cacheData': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
 			// Emulate native clipboard.
