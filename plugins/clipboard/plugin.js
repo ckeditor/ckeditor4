@@ -2277,7 +2277,7 @@
 		 *
 		 * @param {String} type The type of data to retrieve.
 		 * @param {Boolean} getNative Indicates if the whole, oriignal content of the dataTransfer should be returned.
-		 * This parameter was added in 4.7.0.
+		 * This parameter was added in CKEditor 4.7.0.
 		 * @returns {String} type Stored data for the given type or an empty string if the data for that type does not exist.
 		 */
 		getData: function( type, getNative ) {
