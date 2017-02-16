@@ -50,7 +50,6 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 				}
 			}, null, null, 5 );
 
-
 			assert.isNotNull( expectedValue, '"expected.html" missing.' );
 
 			assertWordFilter( editor, compareRawData )( inputFixture, expectedValue )
@@ -59,7 +58,8 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 						nbspListener.removeListener();
 
 						assert.beautified.html( values[ 0 ], values[ 1 ], {
-							fixStyles: true
+							fixStyles: true,
+							sortAttributes: true
 						} );
 					} );
 				}, function( err ) {
