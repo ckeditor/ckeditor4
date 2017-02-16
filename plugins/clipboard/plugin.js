@@ -2307,18 +2307,16 @@
 			//
 			// See #13583 for more details.
 			// Additionally #16847 adds flag allowing to get whole, original content.
-			if ( type == 'text/html' ) {
-				if ( !getNative ) {
-					data = data.replace( this._.metaRegExp, '' );
+			if ( type == 'text/html' && !getNative ) {
+				data = data.replace( this._.metaRegExp, '' );
 
-					// Keep only contents of the <body> element
-					result = this._.bodyRegExp.exec( data );
-					if ( result && result.length ) {
-						data = result[ 1 ];
+				// Keep only contents of the <body> element
+				result = this._.bodyRegExp.exec( data );
+				if ( result && result.length ) {
+					data = result[ 1 ];
 
-						// Remove also comments.
-						data = data.replace( this._.fragmentRegExp, '' );
-					}
+					// Remove also comments.
+					data = data.replace( this._.fragmentRegExp, '' );
 				}
 			}
 			// Firefox on Linux put files paths as a text/plain data if there are files
