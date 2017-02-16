@@ -1,6 +1,6 @@
 @bender-tags: tc, 4.7.0, pastefromword, 16847
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, colorbutton, font, list, table, image, pastefromword, sourcearea, elementspath
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, colorbutton, font, liststyle, table, image, pastefromword, sourcearea, htmlwriter, elementspath
 
 1. Paste some content from Word into both editors, using the method described inside the editor, that contains following elements:
 	* font size;
