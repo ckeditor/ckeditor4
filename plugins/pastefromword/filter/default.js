@@ -426,6 +426,15 @@
 		return writer.getHtml();
 	};
 
+	/**
+	 * Parses content of provided `style` element.
+	 *
+	 * @parameter {CKEDITOR.dom.element/String} styles `style` element or CSS text
+	 * @return {Object} Object containing styles with selectors as keys and styles as values
+	 * @since 4.7.0
+	 * @private
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
 	CKEDITOR.plugins.pastefromword.parseStyles = function( styles ) {
 		var parseCssText = CKEDITOR.tools.parseCssText,
 			stylesObj = {},
@@ -474,6 +483,16 @@
 		return stylesObj;
 	};
 
+	/**
+	 * Fetches all `style` elements from given HTML string and returned document, in which
+	 * all fetched styles are inlined into appropriate elements.
+	 *
+	 * @parameter {String} html HTML string to be parsed
+	 * @return {CKEDITOR.dom.document}
+	 * @since 4.7.0
+	 * @private
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
 	CKEDITOR.plugins.pastefromword.inlineStyles = function( html ) {
 		var parseStyles = CKEDITOR.plugins.pastefromword.parseStyles,
 			document = createTempDocument( html ),
