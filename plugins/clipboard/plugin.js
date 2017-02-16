@@ -2285,6 +2285,19 @@
 				return data === undefined || data === null || data === '';
 			}
 
+			function filterUnwantedCharacters( data ) {
+				var htmlEnd = data.indexOf( '</html>' );
+
+				if ( htmlEnd !== -1 ) {
+					// Just cut everything after `</html>`,
+					// so everything after htmlEnd index + length of
+					// `</html>`
+					return data.substring( 0, htmlEnd + 7 );
+				}
+
+				return data;
+			}
+
 			type = this._.normalizeType( type );
 
 			var data = this._.data[ type ],
@@ -2327,7 +2340,7 @@
 				data = '';
 			}
 
-			return data;
+			return filterUnwantedCharacters( data );
 		},
 
 		/**
