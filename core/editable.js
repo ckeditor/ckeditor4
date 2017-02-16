@@ -1,11 +1,11 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 ( function() {
 	var isNotWhitespace, isNotBookmark, isEmpty, isBogus, emptyParagraphRegexp,
-		insert, fixTableAfterContentsDeletion, getHtmlFromRangeHelpers, extractHtmlFromRangeHelpers;
+		insert, fixTableAfterContentsDeletion, fixListAfterContentsDelete, getHtmlFromRangeHelpers, extractHtmlFromRangeHelpers;
 
 	/**
 	 * Editable class which provides all editing related activities by
@@ -74,10 +74,29 @@
 					}
 				}
 
-				// [IE] Use instead "setActive" method to focus the editable if it belongs to
-				// the host page document, to avoid bringing an unexpected scroll.
+				// [Edge] Starting from EdgeHTML 14.14393, it does not support `setActive`. We need to use focus which
+				// causes unexpected scroll. Store scrollTop value so it can be restored after focusing editor.
+				// Scroll only happens if the editor is focused for the first time. (#14825)
+				if ( CKEDITOR.env.edge && CKEDITOR.env.version > 14 && !this.hasFocus && this.getDocument().equals( CKEDITOR.document ) ) {
+					this.editor._.previousScrollTop = this.$.scrollTop;
+				}
+
+				// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
+				// to avoid bringing an unexpected scroll.
 				try {
-					this.$[ CKEDITOR.env.ie && this.getDocument().equals( CKEDITOR.document ) ? 'setActive' : 'focus' ]();
+					if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
+						this.$.setActive();
+					} else {
+						// We have no control over exactly what happens when the native `focus` method is called,
+						// so save the scroll position and restore it later.
+						if ( CKEDITOR.env.chrome ) {
+							var scrollPos = this.$.scrollTop;
+							this.$.focus();
+							this.$.scrollTop = scrollPos;
+						} else {
+							this.$.focus();
+						}
+					}
 				} catch ( e ) {
 					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.
 					if ( !CKEDITOR.env.ie )
@@ -418,12 +437,19 @@
 				// Remove the original contents, merge split nodes.
 				range.deleteContents( 1 );
 
-				// If range is placed in inermediate element (not td or th), we need to do three things:
-				// * fill emptied <td/th>s with if browser needs them,
-				// * remove empty text nodes so IE8 won't crash (http://dev.ckeditor.com/ticket/11183#comment:8),
-				// * fix structure and move range into the <td/th> element.
-				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT && range.startContainer.is( { tr: 1, table: 1, tbody: 1, thead: 1, tfoot: 1 } ) )
-					fixTableAfterContentsDeletion( range );
+				if ( range.startContainer.type == CKEDITOR.NODE_ELEMENT ) {
+					// If range is placed in intermediate element (not td or th), we need to do three things:
+					// * fill emptied <td/th>s with if browser needs them,
+					// * remove empty text nodes so IE8 won't crash
+					// (http://dev.ckeditor.com/ticket/11183#comment:8),
+					// * fix structure and move range into the <td/th> element.
+					if ( range.startContainer.is( { tr: 1, table: 1, tbody: 1, thead: 1, tfoot: 1 } ) ) {
+						fixTableAfterContentsDeletion( range );
+					} else if ( range.startContainer.is( CKEDITOR.dtd.$list ) ) {
+						// Similarly there's a need for lists.
+						fixListAfterContentsDelete( range );
+					}
+				}
 
 				// If we're inserting a block at dtd-violated position, split
 				// the parent blocks until we reach blockLimit.
@@ -865,6 +891,30 @@
 					this.hasFocus = true;
 				}, null, null, -1 );
 
+				if ( CKEDITOR.env.webkit ) {
+					// [WebKit] Save scrollTop value so it can be used when restoring locked selection. (#14659)
+					this.on( 'scroll', function() {
+						editor._.previousScrollTop = editor.editable().$.scrollTop;
+					}, null, null, -1 );
+				}
+
+				// [Edge] This is the other part of the workaround for Edge which restores saved
+				// scrollTop value and removes listener which is not needed anymore. (#14825)
+				if ( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) {
+
+					var fixScrollOnFocus = function() {
+						var editable = editor.editable();
+
+						if ( editor._.previousScrollTop != null && editable.getDocument().equals( CKEDITOR.document ) ) {
+							editable.$.scrollTop = editor._.previousScrollTop;
+							editor._.previousScrollTop = null;
+							this.removeListener( 'scroll', fixScrollOnFocus );
+						}
+					};
+
+					this.on( 'scroll', fixScrollOnFocus );
+				}
+
 				// Register to focus manager.
 				editor.focusManager.add( this );
 
@@ -1197,7 +1247,7 @@
 	 *
 	 * @method editable
 	 * @member CKEDITOR.editor
-	 * @param {CKEDITOR.dom.element/CKEDITOR.editable} elementOrEditable The
+	 * @param {CKEDITOR.dom.element/CKEDITOR.editable} [elementOrEditable] The
 	 * DOM element to become the editable or a {@link CKEDITOR.editable} object.
 	 */
 	CKEDITOR.editor.prototype.editable = function( element ) {
@@ -2334,6 +2384,65 @@
 				bogus.remove();
 
 			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
+		};
+	} )();
+
+	fixListAfterContentsDelete = ( function() {
+		// Creates an element walker which operates only within lists.
+		function getFixListSelectionWalker( testRange ) {
+			var walker = new CKEDITOR.dom.walker( testRange );
+			walker.guard = function( node, isMovingOut ) {
+				if ( isMovingOut )
+					return false;
+				if ( node.type == CKEDITOR.NODE_ELEMENT )
+					return node.is( CKEDITOR.dtd.$list ) || node.is( CKEDITOR.dtd.$listItem );
+			};
+			walker.evaluator = function( node ) {
+				return node.type == CKEDITOR.NODE_ELEMENT && node.is( CKEDITOR.dtd.$listItem );
+			};
+
+			return walker;
+		}
+
+		return function( range ) {
+			var container = range.startContainer,
+				appendToStart = false,
+				testRange,
+				deeperSibling;
+
+			// Look left.
+			testRange = range.clone();
+			testRange.setStart( container, 0 );
+			deeperSibling = getFixListSelectionWalker( testRange ).lastBackward();
+
+			// If left is empty, look right.
+			if ( !deeperSibling ) {
+				testRange = range.clone();
+				testRange.setEndAt( container, CKEDITOR.POSITION_BEFORE_END );
+				deeperSibling = getFixListSelectionWalker( testRange ).lastForward();
+				appendToStart = true;
+			}
+
+			// If there's no deeper nested element in both direction - container is empty - we'll use it then.
+			if ( !deeperSibling )
+				deeperSibling = container;
+
+			// We found a list what means that it's empty - remove it completely.
+			if ( deeperSibling.is( CKEDITOR.dtd.$list ) ) {
+				range.setStartAt( deeperSibling, CKEDITOR.POSITION_BEFORE_START );
+				range.collapse( true );
+				deeperSibling.remove();
+				return;
+			}
+
+			// To avoid setting selection after bogus, remove it from the target list item.
+			// We can safely do that, because we'll insert element into that cell.
+			var bogus = deeperSibling.getBogus();
+			if ( bogus )
+				bogus.remove();
+
+			range.moveToPosition( deeperSibling, appendToStart ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_BEFORE_END );
+			range.select();
 		};
 	} )();
 

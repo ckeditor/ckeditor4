@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 		]
 	}
 	],
-	backspace: '退格鍵',
 	tab: 'Tab',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Esc',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: '向左箭號',
 	upArrow: '向上鍵號',
 	rightArrow: '向右鍵號',
 	downArrow: '向下鍵號',
 	insert: '插入',
-	'delete': '刪除',
 	leftWindowKey: '左方 Windows 鍵',
 	rightWindowKey: '右方 Windows 鍵',
 	selectKey: '選擇鍵',

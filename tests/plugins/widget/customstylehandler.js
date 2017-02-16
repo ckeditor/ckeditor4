@@ -239,7 +239,7 @@
 				var widget = getWidgetById( editor, 'w1' ),
 					executed = false;
 
-				// Focus so in normal conditions applyStyle/removeStyle would be exececuted.
+				// Focus so in normal conditions applyStyle/removeStyle would be executed.
 				widget.focus();
 
 				style.checkApplicable = function() {
@@ -326,6 +326,125 @@
 			assert.areSame( 'foo,bar', style2.getClassesArray().join( ',' ) );
 			assert.isNull( style3.getClassesArray() );
 			assert.isNull( style4.getClassesArray() );
+		},
+
+		'test removeStylesFromSameGroup': function() {
+			var editor = this.editors.editor,
+				styles = [
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c1' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c2' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c3' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c4' } } )
+				];
+
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1" class="c1 c2 c3 c4">x</p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					path;
+
+				// Focus widget for applyStyle/removeStyle.
+				widget.focus();
+				path = editor.elementPath();
+
+				styles[ 2 ].removeStylesFromSameGroup( editor );
+				assert.isFalse( styles[ 0 ].checkActive( path, editor ), 'Only one style from group should be active.' );
+				assert.isFalse( styles[ 1 ].checkActive( path, editor ), 'Only one style from group should be active.' );
+				assert.isTrue( styles[ 2 ].checkActive( path, editor ), 'Style should be active after style.removeStylesFromSameGroup' );
+				assert.isFalse( styles[ 3 ].checkActive( path, editor ), 'Only one style from group should be active.' );
+			} );
+		},
+
+		'test styles groups': function() {
+			var editor = this.editors.editor,
+				styles = {
+					group1: [
+						st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c1' } } ),
+						st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c2' } } ),
+						st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c3' } } )
+					],
+					group2: [
+						st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { 'class': 'c4' } } ),
+						st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { 'class': 'c5' } } ),
+						st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { 'class': 'c6' } } )
+					],
+					withoutGroup: [
+						st( { type: 'widget', widget: 'testWidget', attributes: { 'class': 'c7' } } ),
+						st( { type: 'widget', widget: 'testWidget', attributes: { 'class': 'c8' } } )
+					]
+				};
+
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					path;
+
+				// Focus widget for applyStyle/removeStyle.
+				widget.focus();
+				path = editor.elementPath();
+
+				// Styles with group attribute set.
+				applyStyles( editor, styles.group1 );
+				applyStyles( editor, styles.group2 );
+
+				// Styles without groups.
+				applyStyles( editor, styles.withoutGroup );
+
+				assert.isFalse( styles.group1[ 0 ].checkActive( path, editor ), 'Styles from same group should not be applied together' );
+				assert.isFalse( styles.group1[ 1 ].checkActive( path, editor ), 'Styles from same group should not be applied together' );
+				assert.isTrue( styles.group1[ 2 ].checkActive( path, editor ), 'Last applied style from the group should be active.' );
+
+				assert.isFalse( styles.group2[ 0 ].checkActive( path, editor ), 'Styles from same group should not be applied together' );
+				assert.isFalse( styles.group2[ 1 ].checkActive( path, editor ), 'Styles from same group should not be applied together' );
+				assert.isTrue( styles.group2[ 2 ].checkActive( path, editor ), 'Last applied style from the group should be active.' );
+
+				assert.isTrue( styles.withoutGroup[ 0 ].checkActive( path, editor ), 'Styles without group should not be removed.' );
+				assert.isTrue( styles.withoutGroup[ 1 ].checkActive( path, editor ), 'Styles without group should not be removed.' );
+
+			} );
+
+
+			// Applies styles to currently focused widget
+			function applyStyles( editor, styles ) {
+				for ( var i = 0, l = styles.length; i < l; i++ ) {
+					styles[ i ].apply( editor );
+				}
+			}
+		},
+
+		'test styles multiple groups': function() {
+			var editor = this.editors.editor,
+				styles = [
+					st( { type: 'widget', widget: 'testWidget', group: 'group1', attributes: { 'class': 'c1' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: 'group2', attributes: { 'class': 'c2' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: [ 'group3', 'group2' ], attributes: { 'class': 'c3' } } ),
+					st( { type: 'widget', widget: 'testWidget', group: [ 'group1', 'group2', 'group3' ], attributes: { 'class': 'c4' } } )
+				];
+
+			this.editorBots.editor.setData( '<p data-widget="testWidget" id="w1">x</p>', function() {
+				var widget = getWidgetById( editor, 'w1' ),
+					path;
+
+				// Focus widget for applyStyle/removeStyle.
+				widget.focus();
+				path = editor.elementPath();
+
+				styles[ 0 ].apply( editor );
+				styles[ 1 ].apply( editor );
+				assert.isTrue( styles[ 0 ].checkActive( path, editor ), 'Style from group1 should be active.' );
+				assert.isTrue( styles[ 1 ].checkActive( path, editor ), 'Style from group2 should be active.' );
+
+				// Applying this style should remove styles from group 2.
+				styles[ 2 ].apply( editor );
+				assert.isTrue( styles[ 0 ].checkActive( path, editor ), 'Style from group1 should be active.' );
+				assert.isFalse( styles[ 1 ].checkActive( path, editor ), 'Style from group2 should not be active.' );
+				assert.isTrue( styles[ 2 ].checkActive( path, editor ), 'Style should be active' );
+
+				// Applying this style should remove styles from all groups.
+				styles[ 3 ].apply( editor );
+				assert.isFalse( styles[ 0 ].checkActive( path, editor ), 'Style from group1 should not be active.' );
+				assert.isFalse( styles[ 1 ].checkActive( path, editor ), 'Style from group2 should not be active.' );
+				assert.isFalse( styles[ 2 ].checkActive( path, editor ), 'Style from group3 should not be active.' );
+				assert.isTrue( styles[ 3 ].checkActive( path, editor ), 'Style should be active.' );
+			} );
 		}
+
 	} );
 } )();

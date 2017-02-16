@@ -53,6 +53,6 @@
 	},
 	"validateIndentation": {
 		"value": "\t",
-		"allExcept": [ "comments" ]
+		"allExcept": [ "comments", "emptyLines" ]
 	}
 }

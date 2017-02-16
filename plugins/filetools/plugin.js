@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -7,7 +7,7 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'filetools', {
-		lang: 'cs,da,de,de-ch,en,eo,eu,fr,gl,id,it,km,ko,ku,nb,nl,pl,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,ca,cs,da,de,de-ch,en,eo,es,eu,fr,gl,id,it,ja,km,ko,ku,nb,nl,oc,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		beforeInit: function( editor ) {
 			/**
@@ -33,8 +33,8 @@
 			 * @event fileUploadRequest
 			 * @member CKEDITOR.editor
 			 * @param data
-			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader File loader instance.
-			 * @param {Object} data.requestData Object containing all data to be sent to the server.
+			 * @param {CKEDITOR.fileTools.fileLoader} data.fileLoader A file loader instance.
+			 * @param {Object} data.requestData An object containing all data to be sent to the server.
 			 */
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader;
@@ -366,7 +366,7 @@
 	 */
 
 	/**
-	 * All data received in the response from the server. If the server returns addition data, it will be available
+	 * All data received in the response from the server. If the server returns additional data, it will be available
 	 * in this property.
 	 *
 	 * It contains all data set in the {@link CKEDITOR.editor#fileUploadResponse} event listener.
@@ -571,6 +571,7 @@
 
 			loader.abort = function() {
 				xhr.abort();
+				onAbort();
 			};
 
 			xhr.onerror = onError;

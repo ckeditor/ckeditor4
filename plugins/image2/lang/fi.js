@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'fi', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'fi', {
 	resizer: 'Klikkaa ja raahaa muuttaaksesi kokoa',
 	title: 'Kuvan ominaisuudet',
 	uploadTab: 'Lisää tiedosto',
-	urlMissing: 'Kuvan lähdeosoite puuttuu.'
+	urlMissing: 'Kuvan lähdeosoite puuttuu.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

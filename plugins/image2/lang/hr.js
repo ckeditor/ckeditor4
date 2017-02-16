@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'hr', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'hr', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'Svojstva slika',
 	uploadTab: 'Pošalji',
-	urlMissing: 'Nedostaje URL slike.'
+	urlMissing: 'Nedostaje URL slike.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

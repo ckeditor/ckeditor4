@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'ru' ] = {
 		alignMiddle: 'Посередине',
 		alignBottom: 'Понизу',
 		alignNone: 'Нет',
-		invalidValue	: 'Недопустимое значение.',
+		invalidValue: 'Недопустимое значение.',
 		invalidHeight: 'Высота задается числом.',
 		invalidWidth: 'Ширина задается числом.',
 		invalidCssLength: 'Значение, указанное в поле "%1", должно быть положительным целым числом. Допускается указание единиц меры CSS (px, %, in, cm, mm, em, ex, pt или pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'ru' ] = {
 		cssLengthTooltip: 'Введите значение в пикселях, либо число с корректной единицей меры CSS (px, %, in, cm, mm, em, ex, pt или pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, недоступно</span>'
+		unavailable: '%1<span class="cke_accessibility">, недоступно</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace', // MISSING
+			13: 'Enter', // MISSING
+			16: 'Shift', // MISSING
+			17: 'Ctrl', // MISSING
+			18: 'Alt', // MISSING
+			32: 'Пробел',
+			35: 'End', // MISSING
+			36: 'Home', // MISSING
+			46: 'Delete', // MISSING
+			224: 'Command' // MISSING
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Комбинация клавиш'
 	}
 };

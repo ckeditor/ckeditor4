@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
@@ -86,6 +86,8 @@ Special outer level classes used in this file:
 	display: table-cell;
 }
 
+
+
 /* The menu item icon. */
 .cke_menubutton_icon
 {
@@ -125,6 +127,12 @@ Special outer level classes used in this file:
 	background-color: transparent;
 	width: 100%;
 	vertical-align: middle;
+}
+
+/* Keyboard shortcut placed next to the label. */
+.cke_menubutton_shortcut
+{
+	color: #979797;
 }
 
 .cke_menubutton_disabled .cke_menubutton_label

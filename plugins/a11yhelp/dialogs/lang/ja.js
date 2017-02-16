@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ja', {
 		]
 	}
 	],
-	backspace: 'Backspace',
 	tab: 'Tab',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Escape',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: '左矢印',
 	upArrow: '上矢印',
 	rightArrow: '右矢印',
 	downArrow: '下矢印',
 	insert: 'Insert',
-	'delete': 'Delete',
 	leftWindowKey: '左Windowキー',
 	rightWindowKey: '右のWindowキー',
 	selectKey: 'Select',

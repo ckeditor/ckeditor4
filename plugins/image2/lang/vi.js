@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'vi', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'vi', {
 	resizer: 'Kéo rê để thay đổi kích cỡ',
 	title: 'Thuộc tính của ảnh',
 	uploadTab: 'Tải lên',
-	urlMissing: 'Thiếu đường dẫn hình ảnh'
+	urlMissing: 'Thiếu đường dẫn hình ảnh',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

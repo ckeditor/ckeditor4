@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'zh', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'zh', {
 	resizer: '拖曳以改變大小',
 	title: '影像屬性',
 	uploadTab: '上傳',
-	urlMissing: '遺失圖片來源之 URL '
+	urlMissing: '遺失圖片來源之 URL ',
+	altMissing: '替代文字遺失。'
 } );

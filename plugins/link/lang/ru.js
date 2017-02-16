@@ -1,5 +1,5 @@
-/*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+﻿/*
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'ru', {
@@ -20,6 +20,7 @@ CKEDITOR.plugins.setLang( 'link', 'ru', {
 	charset: 'Кодировка ресурса',
 	cssClasses: 'Классы CSS',
 	download: 'Force Download', // MISSING
+	displayText: 'Отображаемый текст',
 	emailAddress: 'Email адрес',
 	emailBody: 'Текст сообщения',
 	emailSubject: 'Тема сообщения',

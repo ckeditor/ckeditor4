@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'ku', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ku', {
 	resizer: 'کرتەبکە و ڕایبکێشە بۆ قەبارە گۆڕین',
 	title: 'خاسیەتی وێنه',
 	uploadTab: 'بارکردن',
-	urlMissing: 'سەرچاوەی بەستەری وێنه بزره'
+	urlMissing: 'سەرچاوەی بەستەری وێنه بزره',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

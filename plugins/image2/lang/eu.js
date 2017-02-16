@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'eu', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'eu', {
 	resizer: 'Klikatu eta arrastatu tamainaz aldatzeko',
 	title: 'Irudiaren propietateak',
 	uploadTab: 'Kargatu',
-	urlMissing: 'Irudiaren iturburuaren URLa falta da.'
+	urlMissing: 'Irudiaren iturburuaren URLa falta da.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'fr', {
@@ -11,8 +11,8 @@ CKEDITOR.plugins.setLang( 'table', 'fr', {
 		insertAfter: 'Insérer une cellule après',
 		deleteCell: 'Supprimer les cellules',
 		merge: 'Fusionner les cellules',
-		mergeRight: 'Fusionner à droite',
-		mergeDown: 'Fusionner en bas',
+		mergeRight: 'Fusionner vers la droite',
+		mergeDown: 'Fusionner vers le bas',
 		splitHorizontal: 'Scinder la cellule horizontalement',
 		splitVertical: 'Scinder la cellule verticalement',
 		title: 'Propriétés de la cellule',

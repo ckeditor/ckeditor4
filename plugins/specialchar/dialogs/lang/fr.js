@@ -1,10 +1,10 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
-	euro: 'Symbole Euro',
+	euro: 'Symbole euro',
 	lsquo: 'Guillemet simple ouvrant',
 	rsquo: 'Guillemet simple fermant',
 	ldquo: 'Guillemet double ouvrant',
@@ -12,10 +12,10 @@ CKEDITOR.plugins.setLang( 'specialchar', 'fr', {
 	ndash: 'Tiret demi-cadratin',
 	mdash: 'Tiret cadratin',
 	iexcl: 'Point d\'exclamation inversé',
-	cent: 'Symbole Cent',
+	cent: 'Symbole cent',
 	pound: 'Symbole Livre sterling',
 	curren: 'Symbole monétaire',
-	yen: 'Symbole Yen',
+	yen: 'Symbole yen',
 	brvbar: 'Barre verticale scindée',
 	sect: 'Signe de section',
 	uml: 'Tréma',

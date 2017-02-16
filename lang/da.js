@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'da' ] = {
 		alignMiddle: 'Centreret',
 		alignBottom: 'Nederst',
 		alignNone: 'Ingen',
-		invalidValue	: 'Ugyldig værdi.',
+		invalidValue: 'Ugyldig værdi.',
 		invalidHeight: 'Højde skal være et tal.',
 		invalidWidth: 'Bredde skal være et tal.',
 		invalidCssLength: 'Værdien specificeret for "%1" feltet skal være et positivt nummer med eller uden en CSS måleenhed  (px, %, in, cm, mm, em, ex, pt, eller pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'da' ] = {
 		cssLengthTooltip: 'Indsæt en numerisk værdi i pixel eller nummer med en gyldig CSS værdi (px, %, in, cm, mm, em, ex, pt, eller pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, ikke tilgængelig</span>'
+		unavailable: '%1<span class="cke_accessibility">, ikke tilgængelig</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Retur',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Mellemrum',
+			35: 'End',
+			36: 'Home',
+			46: 'Slet',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Tastatur genvej'
 	}
 };

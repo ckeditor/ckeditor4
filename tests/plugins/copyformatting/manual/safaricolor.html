@@ -1,0 +1,24 @@
+<div id="editor1" contenteditable="true">
+	<p>Text without any format</p>
+
+	<p><span style="color: #ffff00;"> <span style="font-size:22px;"> <span style="font-family:georgia,serif;">Text with Font Georgia Size 22 & Text Colour Red </span> </span></span></p>
+
+	<p><span style="background-color: #ff8c00;"> Text with Background Colour Orange</span></p>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<p>Text without any format</p>
+
+	<p><span style="color: #ffff00;"> <span style="font-size:22px;"> <span style="font-family:georgia,serif;">Text with Font Georgia Size 22 & Text Colour Red </span> </span></span></p>
+
+	<p><span style="background-color: #ff8c00;"> Text with Background Colour Orange</span></p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true
+	} );
+</script>

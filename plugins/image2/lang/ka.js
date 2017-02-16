@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'ka', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ka', {
 	resizer: 'Click and drag to resize', // MISSING
 	title: 'სურათის პარამეტრები',
 	uploadTab: 'აქაჩვა',
-	urlMissing: 'სურათის URL არაა შევსებული.'
+	urlMissing: 'სურათის URL არაა შევსებული.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

@@ -1,0 +1,41 @@
+<div id="editor1" contenteditable="true">
+	<table cellpadding="3" cellspacing="1" style="height:80px; width:800px">
+		<tbody>
+			<tr>
+				<td style="background-color:#eeeeee; text-align:center; width:436px"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><strong>SOME TITLE</strong></span></span></td>
+				<td style="background-color:#eeeeee; text-align:center; width:92px"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">Q4 <span style="display:none">&nbsp;</span><strong>2015</strong></span></span></td>
+			</tr>
+			<tr>
+				<td>Some thing</td>
+				<td>1111</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div id="editor2" contenteditable="true">
+	<table cellpadding="3" cellspacing="1" style="height:80px; width:800px">
+		<tbody>
+			<tr>
+				<td style="background-color:#eeeeee; text-align:center; width:436px"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><strong>SOME TITLE</strong></span></span></td>
+				<td style="background-color:#eeeeee; text-align:center; width:92px"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">Q4 <span style="display:none">&nbsp;</span><strong>2015</strong></span></span></td>
+			</tr>
+			<tr>
+				<td>Some thing</td>
+				<td>1111</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true,
+		height: 550,
+		extraPlugins: 'sourcearea'
+	} );
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true,
+		extraPlugins: 'dialog,sourcedialog'
+	} );
+</script>

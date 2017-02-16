@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'gl', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'gl', {
 	resizer: 'Prema e arrastre para axustar o tamaño',
 	title: 'Propiedades da imaxe',
 	uploadTab: 'Cargar',
-	urlMissing: 'Non se atopa o URL da imaxe.'
+	urlMissing: 'Non se atopa o URL da imaxe.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

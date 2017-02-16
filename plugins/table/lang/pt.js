@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'table', 'pt', {
@@ -17,8 +17,8 @@ CKEDITOR.plugins.setLang( 'table', 'pt', {
 		splitVertical: 'Dividir célula verticalmente',
 		title: 'Propriedades da célula',
 		cellType: 'Tipo de célula',
-		rowSpan: 'Filas na Célula',
-		colSpan: 'Colunas na Célula',
+		rowSpan: 'Linhas na célula',
+		colSpan: 'Colunas na célula',
 		wordWrap: 'Moldar texto',
 		hAlign: 'Alinhamento horizontal',
 		vAlign: 'Alinhamento vertical',

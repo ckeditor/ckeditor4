@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -51,7 +51,7 @@
 	CKEDITOR.plugins.add( 'toolbar', {
 		requires: 'button',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 
 		init: function( editor ) {
@@ -190,13 +190,15 @@
 					output.push( '<span class="cke_toolbox_main"' + ( expanded ? '>' : ' style="display:none">' ) );
 
 				var toolbars = editor.toolbox.toolbars,
-					toolbar = getToolbarConfig( editor );
+					toolbar = getToolbarConfig( editor ),
+					toolbarLength = toolbar.length;
 
-				for ( var r = 0; r < toolbar.length; r++ ) {
+				for ( var r = 0; r < toolbarLength; r++ ) {
 					var toolbarId,
 						toolbarObj = 0,
 						toolbarName,
 						row = toolbar[ r ],
+						lastToolbarInRow = row !== '/' && ( toolbar[ r + 1 ] === '/' || r == toolbarLength - 1 ),
 						items;
 
 					// It's better to check if the row object is really
@@ -244,7 +246,8 @@
 								toolbarName = row.name && ( editor.lang.toolbar.toolbarGroups[ row.name ] || row.name );
 
 								// Output the toolbar opener.
-								output.push( '<span id="', toolbarId, '" class="cke_toolbar"', ( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
+								output.push( '<span id="', toolbarId, '" class="cke_toolbar' + ( lastToolbarInRow ? ' cke_toolbar_last"' : '"' ),
+									( toolbarName ? ' aria-labelledby="' + toolbarId + '_label"' : '' ), ' role="toolbar">' );
 
 								// If a toolbar name is available, send the voice label.
 								toolbarName && output.push( '<span id="', toolbarId, '_label" class="cke_voice_label">', toolbarName, '</span>' );

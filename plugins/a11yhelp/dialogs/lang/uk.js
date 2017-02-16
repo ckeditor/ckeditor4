@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'uk', {
 		]
 	}
 	],
-	backspace: 'Backspace',
 	tab: 'Tab',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Esc',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: 'Ліва стрілка',
 	upArrow: 'Стрілка вгору',
 	rightArrow: 'Права стрілка',
 	downArrow: 'Стрілка вниз',
 	insert: 'Вставити',
-	'delete': 'Видалити',
 	leftWindowKey: 'Ліва клавіша Windows',
 	rightWindowKey: 'Права клавіша Windows',
 	selectKey: 'Виберіть клавішу',

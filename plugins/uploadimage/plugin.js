@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -53,10 +53,15 @@
 				},
 
 				onUploaded: function( upload ) {
+					// Width and height could be returned by server (#13519).
+					var $img = this.parts.img.$,
+						width = upload.responseData.width || $img.naturalWidth,
+						height = upload.responseData.height || $img.naturalHeight;
+
 					// Set width and height to prevent blinking.
 					this.replaceWith( '<img src="' + upload.url + '" ' +
-						'width="' + this.parts.img.$.naturalWidth + '" ' +
-						'height="' + this.parts.img.$.naturalHeight + '">' );
+						'width="' + width + '" ' +
+						'height="' + height + '">' );
 				}
 			} );
 

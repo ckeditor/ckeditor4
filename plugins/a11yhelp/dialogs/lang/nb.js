@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 		]
 	}
 	],
-	backspace: 'Backspace',
 	tab: 'Tabulator',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Escape',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: 'Venstre piltast',
 	upArrow: 'Opp-piltast',
 	rightArrow: 'Høyre piltast',
 	downArrow: 'Ned-piltast',
 	insert: 'Insert',
-	'delete': 'Delete',
 	leftWindowKey: 'Venstre Windows-tast',
 	rightWindowKey: 'Høyre Windows-tast',
 	selectKey: 'Velg nøkkel',

@@ -1,5 +1,5 @@
-/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+﻿/**
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -14,9 +14,9 @@
 
 	CKEDITOR.plugins.add( 'widget', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,ca,cs,cy,da,de,de-ch,el,en,en-gb,eo,es,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-gb,eo,es,eu,fa,fi,fr,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,oc,pl,pt,pt-br,ru,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
-		requires: 'lineutils,clipboard',
+		requires: 'lineutils,clipboard,widgetselection',
 		onLoad: function() {
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
@@ -627,7 +627,9 @@
 				isInline;
 
 			if ( element instanceof CKEDITOR.dom.element ) {
-				widgetDef = this.registered[ widgetName || element.data( 'widget' ) ];
+				widgetName = widgetName || element.data( 'widget' );
+				widgetDef = this.registered[ widgetName ];
+
 				if ( !widgetDef )
 					return null;
 
@@ -639,13 +641,13 @@
 				// If attribute isn't already set (e.g. for pasted widget), set it.
 				if ( !element.hasAttribute( 'data-cke-widget-keep-attr' ) )
 					element.data( 'cke-widget-keep-attr', element.data( 'widget' ) ? 1 : 0 );
-				if ( widgetName )
-					element.data( 'widget', widgetName );
+
+				element.data( 'widget', widgetName );
 
 				isInline = isWidgetInline( widgetDef, element.getName() );
 
 				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
-				wrapper.setAttributes( getWrapperAttributes( isInline ) );
+				wrapper.setAttributes( getWrapperAttributes( isInline, widgetName ) );
 
 				wrapper.data( 'cke-display-name', widgetDef.pathName ? widgetDef.pathName : element.getName() );
 
@@ -655,7 +657,9 @@
 				element.appendTo( wrapper );
 			}
 			else if ( element instanceof CKEDITOR.htmlParser.element ) {
-				widgetDef = this.registered[ widgetName || element.attributes[ 'data-widget' ] ];
+				widgetName = widgetName || element.attributes[ 'data-widget' ];
+				widgetDef = this.registered[ widgetName ];
+
 				if ( !widgetDef )
 					return null;
 
@@ -671,8 +675,7 @@
 
 				isInline = isWidgetInline( widgetDef, element.name );
 
-				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline ) );
-
+				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline, widgetName ) );
 				wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName ? widgetDef.pathName : element.name;
 
 				var parent = element.parent,
@@ -2266,7 +2269,7 @@
 		return false;
 	}
 
-	function getWrapperAttributes( inlineWidget ) {
+	function getWrapperAttributes( inlineWidget, name ) {
 		return {
 			// tabindex="-1" means that it can receive focus by code.
 			tabindex: -1,
@@ -2275,7 +2278,8 @@
 			'data-cke-filter': 'off',
 			// Class cke_widget_new marks widgets which haven't been initialized yet.
 			'class': 'cke_widget_wrapper cke_widget_new cke_widget_' +
-				( inlineWidget ? 'inline' : 'block' )
+				( inlineWidget ? 'inline' : 'block' ) +
+				( name ? ' cke_widget_' + name : '' )
 		};
 	}
 
@@ -3552,6 +3556,8 @@
 	//
 
 	( function() {
+		// Styles categorized by group. It is used to prevent applying styles for the same group being used together.
+		var styleGroups = {};
 
 		/**
 		 * The class representing a widget style. It is an {@link CKEDITOR#STYLE_OBJECT object} like
@@ -3575,9 +3581,26 @@
 				 * @property {String} widget
 				 */
 				this.widget = styleDefinition.widget;
+
+				/**
+				 * An array of groups that this style belongs to.
+				 * Styles assigned to the same group cannot be combined.
+				 *
+				 * @since 4.6.2
+				 * @property {Array} group
+				 */
+				this.group = typeof styleDefinition.group == 'string' ? [ styleDefinition.group ] : styleDefinition.group;
+
+				// Store style categorized by its group.
+				// It is used to prevent enabling two styles from same group.
+				if ( this.group ) {
+					saveStyleGroup( this );
+				}
 			},
 
 			apply: function( editor ) {
+				var widget;
+
 				// Before CKEditor 4.4 wasn't a required argument, so we need to
 				// handle a case when it wasn't provided.
 				if ( !( editor instanceof CKEDITOR.editor ) )
@@ -3586,9 +3609,17 @@
 				// Theoretically we could bypass checkApplicable, get widget from
 				// widgets.focused and check its name, what would be faster, but then
 				// this custom style would work differently than the default style
-				// which checks if it's applicable before applying or removeing itself.
-				if ( this.checkApplicable( editor.elementPath(), editor ) )
-					editor.widgets.focused.applyStyle( this );
+				// which checks if it's applicable before applying or removing itself.
+				if ( this.checkApplicable( editor.elementPath(), editor ) ) {
+					widget = editor.widgets.focused;
+
+					// Remove other styles from the same group.
+					if ( this.group ) {
+						this.removeStylesFromSameGroup( editor );
+					}
+
+					widget.applyStyle( this );
+				}
 			},
 
 			remove: function( editor ) {
@@ -3599,6 +3630,43 @@
 
 				if ( this.checkApplicable( editor.elementPath(), editor ) )
 					editor.widgets.focused.removeStyle( this );
+			},
+
+			/**
+			 * Removes all styles that belong to the same group as this style. This method will neither add nor remove
+			 * the current style.
+			 * Returns `true` if any style was removed, otherwise returns `false`.
+			 *
+			 * @since 4.6.2
+			 * @param {CKEDITOR.editor} editor
+			 * @returns {Boolean}
+			 */
+			removeStylesFromSameGroup: function( editor ) {
+				var stylesFromSameGroup,
+					path,
+					removed = false;
+
+				// Before CKEditor 4.4 wasn't a required argument, so we need to
+				// handle a case when it wasn't provided.
+				if ( !( editor instanceof CKEDITOR.editor ) )
+					return false;
+
+				path = editor.elementPath();
+				if ( this.checkApplicable( path, editor ) ) {
+					// Iterate over each group.
+					for ( var i = 0, l = this.group.length; i < l; i++ ) {
+						stylesFromSameGroup = styleGroups[ this.widget ][ this.group[ i ] ];
+						// Iterate over each style from group.
+						for ( var j = 0; j < stylesFromSameGroup.length; j++ ) {
+							if ( stylesFromSameGroup[ j ] !== this && stylesFromSameGroup[ j ].checkActive( path, editor ) ) {
+								editor.widgets.focused.removeStyle( stylesFromSameGroup[ j ] );
+								removed = true;
+							}
+						}
+					}
+				}
+
+				return removed;
 			},
 
 			checkActive: function( elementPath, editor ) {
@@ -3721,6 +3789,25 @@
 
 			var widget = editor.widgets.getByElement( element, true );
 			return widget && widget.checkStyleActive( this );
+		}
+
+		// Save and categorize style by its group.
+		function saveStyleGroup( style ) {
+			var widgetName = style.widget,
+				group;
+
+			if ( !styleGroups[ widgetName ] ) {
+				styleGroups[ widgetName ] = {};
+			}
+
+			for ( var i = 0, l = style.group.length; i < l; i++ ) {
+				group = style.group[ i ];
+				if ( !styleGroups[ widgetName ][ group ] ) {
+					styleGroups[ widgetName ][ group ] = [];
+				}
+
+				styleGroups[ widgetName ][ group ].push( style );
+			}
 		}
 
 	} )();
@@ -3965,8 +4052,8 @@
  * The function used to obtain an accessibility label for the widget. It might be used to make
  * the widget labels as precise as possible, since it has access to the widget instance.
  *
- * If not specified, the default implementation will use the {@link #pathName} or the main {@link #element}
- * tag name.
+ * If not specified, the default implementation will use the {@link #pathName} or the main
+ * {@link CKEDITOR.plugins.widget#element element} tag name.
  *
  * @property {Function} getLabel
  */

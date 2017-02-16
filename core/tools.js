@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -1313,6 +1313,67 @@
 		},
 
 		/**
+		 * Converts a keystroke to its string representation. Returns an object with two fields:
+		 *
+		 * * `display` &ndash; A string that should be used for visible labels.
+		 * For Mac devices it uses `⌥` for `ALT`, `⇧` for `SHIFT` and `⌘` for `COMMAND`.
+		 * * `aria` &ndash; A string that should be used for ARIA descriptions.
+		 * It does not use special characters such as `⌥`, `⇧` or `⌘`.
+		 *
+		 * 		var lang = editor.lang.common.keyboard;
+		 * 		var shortcut = CKEDITOR.tools.keystrokeToString( lang, CKEDITOR.CTRL + 88 );
+		 * 		console.log( shortcut.display ); // 'CTRL + X', on Mac '⌘ + X'.
+		 * 		console.log( shortcut.aria ); // 'CTRL + X', on Mac 'COMMAND + X'.
+		 *
+		 * @since 4.6.0
+		 * @param {Object} lang A language object with the key name translation.
+		 * @param {Number} keystroke The keystroke to convert.
+		 * @returns {{display: String, aria: String}}
+		 */
+		keystrokeToString: function( lang, keystroke ) {
+			var special = keystroke & 0xFF0000,
+				key = keystroke & 0x00FFFF,
+				isMac = CKEDITOR.env.mac,
+				CTRL = 17,
+				CMD = 224,
+				ALT = 18,
+				SHIFT = 16,
+				display = [],
+				aria = [];
+
+
+			if ( special & CKEDITOR.CTRL ) {
+				display.push( isMac ? '⌘' : lang[ CTRL ] );
+				aria.push( isMac ? lang[ CMD ] : lang[ CTRL ] );
+			}
+
+			if ( special & CKEDITOR.ALT ) {
+				display.push( isMac ? '⌥' : lang[ ALT ] );
+				aria.push( lang[ ALT ] );
+			}
+
+			if ( special & CKEDITOR.SHIFT ) {
+				display.push( isMac ? '⇧' : lang[ SHIFT ] );
+				aria.push( lang[ SHIFT ] );
+			}
+
+			if ( key ) {
+				if ( lang[ key ] ) {
+					display.push( lang[ key ] );
+					aria.push( lang[ key ] );
+				} else {
+					display.push( String.fromCharCode( key ) );
+					aria.push( String.fromCharCode( key ) );
+				}
+			}
+
+			return {
+				display: display.join( '+' ),
+				aria: aria.join( '+' )
+			};
+		},
+
+		/**
 		 * The data URI of a transparent image. May be used e.g. in HTML as an image source or in CSS in `url()`.
 		 *
 		 * @since 4.4
@@ -1399,6 +1460,392 @@
 			}
 
 			return selector;
+		},
+
+		/**
+		 * A set of functions for operations on styles.
+		 *
+		 * @property {CKEDITOR.tools.style}
+		 */
+		style: {
+			/**
+			 * Methods to parse miscellaneous CSS properties.
+			 *
+			 * @property {CKEDITOR.tools.style.parse}
+			 * @member CKEDITOR.tools.style
+			 */
+			parse: {
+				// Color list based on https://www.w3.org/TR/css-color-4/#named-colors.
+				_colors: {
+					aliceblue: '#F0F8FF',
+					antiquewhite: '#FAEBD7',
+					aqua: '#00FFFF',
+					aquamarine: '#7FFFD4',
+					azure: '#F0FFFF',
+					beige: '#F5F5DC',
+					bisque: '#FFE4C4',
+					black: '#000000',
+					blanchedalmond: '#FFEBCD',
+					blue: '#0000FF',
+					blueviolet: '#8A2BE2',
+					brown: '#A52A2A',
+					burlywood: '#DEB887',
+					cadetblue: '#5F9EA0',
+					chartreuse: '#7FFF00',
+					chocolate: '#D2691E',
+					coral: '#FF7F50',
+					cornflowerblue: '#6495ED',
+					cornsilk: '#FFF8DC',
+					crimson: '#DC143C',
+					cyan: '#00FFFF',
+					darkblue: '#00008B',
+					darkcyan: '#008B8B',
+					darkgoldenrod: '#B8860B',
+					darkgray: '#A9A9A9',
+					darkgreen: '#006400',
+					darkgrey: '#A9A9A9',
+					darkkhaki: '#BDB76B',
+					darkmagenta: '#8B008B',
+					darkolivegreen: '#556B2F',
+					darkorange: '#FF8C00',
+					darkorchid: '#9932CC',
+					darkred: '#8B0000',
+					darksalmon: '#E9967A',
+					darkseagreen: '#8FBC8F',
+					darkslateblue: '#483D8B',
+					darkslategray: '#2F4F4F',
+					darkslategrey: '#2F4F4F',
+					darkturquoise: '#00CED1',
+					darkviolet: '#9400D3',
+					deeppink: '#FF1493',
+					deepskyblue: '#00BFFF',
+					dimgray: '#696969',
+					dimgrey: '#696969',
+					dodgerblue: '#1E90FF',
+					firebrick: '#B22222',
+					floralwhite: '#FFFAF0',
+					forestgreen: '#228B22',
+					fuchsia: '#FF00FF',
+					gainsboro: '#DCDCDC',
+					ghostwhite: '#F8F8FF',
+					gold: '#FFD700',
+					goldenrod: '#DAA520',
+					gray: '#808080',
+					green: '#008000',
+					greenyellow: '#ADFF2F',
+					grey: '#808080',
+					honeydew: '#F0FFF0',
+					hotpink: '#FF69B4',
+					indianred: '#CD5C5C',
+					indigo: '#4B0082',
+					ivory: '#FFFFF0',
+					khaki: '#F0E68C',
+					lavender: '#E6E6FA',
+					lavenderblush: '#FFF0F5',
+					lawngreen: '#7CFC00',
+					lemonchiffon: '#FFFACD',
+					lightblue: '#ADD8E6',
+					lightcoral: '#F08080',
+					lightcyan: '#E0FFFF',
+					lightgoldenrodyellow: '#FAFAD2',
+					lightgray: '#D3D3D3',
+					lightgreen: '#90EE90',
+					lightgrey: '#D3D3D3',
+					lightpink: '#FFB6C1',
+					lightsalmon: '#FFA07A',
+					lightseagreen: '#20B2AA',
+					lightskyblue: '#87CEFA',
+					lightslategray: '#778899',
+					lightslategrey: '#778899',
+					lightsteelblue: '#B0C4DE',
+					lightyellow: '#FFFFE0',
+					lime: '#00FF00',
+					limegreen: '#32CD32',
+					linen: '#FAF0E6',
+					magenta: '#FF00FF',
+					maroon: '#800000',
+					mediumaquamarine: '#66CDAA',
+					mediumblue: '#0000CD',
+					mediumorchid: '#BA55D3',
+					mediumpurple: '#9370DB',
+					mediumseagreen: '#3CB371',
+					mediumslateblue: '#7B68EE',
+					mediumspringgreen: '#00FA9A',
+					mediumturquoise: '#48D1CC',
+					mediumvioletred: '#C71585',
+					midnightblue: '#191970',
+					mintcream: '#F5FFFA',
+					mistyrose: '#FFE4E1',
+					moccasin: '#FFE4B5',
+					navajowhite: '#FFDEAD',
+					navy: '#000080',
+					oldlace: '#FDF5E6',
+					olive: '#808000',
+					olivedrab: '#6B8E23',
+					orange: '#FFA500',
+					orangered: '#FF4500',
+					orchid: '#DA70D6',
+					palegoldenrod: '#EEE8AA',
+					palegreen: '#98FB98',
+					paleturquoise: '#AFEEEE',
+					palevioletred: '#DB7093',
+					papayawhip: '#FFEFD5',
+					peachpuff: '#FFDAB9',
+					peru: '#CD853F',
+					pink: '#FFC0CB',
+					plum: '#DDA0DD',
+					powderblue: '#B0E0E6',
+					purple: '#800080',
+					rebeccapurple: '#663399',
+					red: '#FF0000',
+					rosybrown: '#BC8F8F',
+					royalblue: '#4169E1',
+					saddlebrown: '#8B4513',
+					salmon: '#FA8072',
+					sandybrown: '#F4A460',
+					seagreen: '#2E8B57',
+					seashell: '#FFF5EE',
+					sienna: '#A0522D',
+					silver: '#C0C0C0',
+					skyblue: '#87CEEB',
+					slateblue: '#6A5ACD',
+					slategray: '#708090',
+					slategrey: '#708090',
+					snow: '#FFFAFA',
+					springgreen: '#00FF7F',
+					steelblue: '#4682B4',
+					tan: '#D2B48C',
+					teal: '#008080',
+					thistle: '#D8BFD8',
+					tomato: '#FF6347',
+					turquoise: '#40E0D0',
+					violet: '#EE82EE',
+					wheat: '#F5DEB3',
+					white: '#FFFFFF',
+					whitesmoke: '#F5F5F5',
+					yellow: '#FFFF00',
+					yellowgreen: '#9ACD32'
+				},
+
+				_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+
+				_hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
+
+				/**
+				 * Parses the `value` used as a `background` property shorthand and returns information as an object.
+				 *
+				 * **Note:** Currently only the `color` property is extracted. Any other parts will go into the `unprocessed` property.
+				 *
+				 *		var background = CKEDITOR.tools.style.parse.background( '#0C0 url(foo.png)' );
+				 *		console.log( background );
+				 *		// Logs: { color: '#0C0', unprocessed: 'url(foo.png)' }
+				 *
+				 * @param {String} value The value of the `background` property.
+				 * @returns {Object} An object with information extracted from the background.
+				 * @returns {String} return.color The **first** color value found. The color format remains the same as in input.
+				 * @returns {String} return.unprocessed The remaining part of the `value` that has not been processed.
+				 * @member CKEDITOR.tools.style.parse
+				 */
+				background: function( value ) {
+					var ret = [],
+						colors = [];
+
+					colors = this._findColor( value );
+
+					if ( colors.length ) {
+						ret.color = colors[ 0 ];
+
+						CKEDITOR.tools.array.forEach( colors, function( colorToken ) {
+							value = value.replace( colorToken, '' );
+						} );
+					}
+
+					value = CKEDITOR.tools.trim( value );
+
+					if ( value ) {
+						// If anything was left unprocessed include it as unprocessed part.
+						ret.unprocessed = value;
+					}
+
+					return ret;
+				},
+
+				/**
+				 * Parses the `margin` CSS property shorthand format.
+				 *
+				 *		console.log( CKEDITOR.tools.parse.margin( '3px 0 2' ) );
+				 *		// Logs: { top: "3px", right: "0", bottom: "2", left: "0" }
+				 *
+				 * @param {String} value The `margin` property value.
+				 * @returns {Object}
+				 * @returns {Number} return.top Top margin.
+				 * @returns {Number} return.right Right margin.
+				 * @returns {Number} return.bottom Bottom margin.
+				 * @returns {Number} return.left Left margin.
+				 * @member CKEDITOR.tools.style.parse
+				 */
+				margin: function( value ) {
+					var ret = {};
+
+					var widths = value.match( /(?:\-?[\.\d]+(?:%|\w*)|auto|inherit|initial|unset)/g ) || [ '0px' ];
+
+					switch ( widths.length ) {
+						case 1:
+							mapStyles( [ 0, 0, 0, 0 ] );
+							break;
+						case 2:
+							mapStyles( [ 0, 1, 0, 1 ] );
+							break;
+						case 3:
+							mapStyles( [ 0, 1, 2, 1 ] );
+							break;
+						case 4:
+							mapStyles( [ 0, 1, 2, 3 ] );
+							break;
+					}
+
+					function mapStyles( map ) {
+						ret.top = widths[ map[ 0 ] ];
+						ret.right = widths[ map[ 1 ] ];
+						ret.bottom = widths[ map[ 2 ] ];
+						ret.left = widths[ map[ 3 ] ];
+					}
+
+					return ret;
+				},
+
+				/**
+				 * Searches the `value` for any CSS color occurrences and returns it.
+				 *
+				 * @private
+				 * @param {String} value
+				 * @returns {String[]} An array of matched results.
+				 * @member CKEDITOR.tools.style.parse
+				 */
+				_findColor: function( value ) {
+					var ret = [],
+						arrayTools = CKEDITOR.tools.array;
+
+
+					// Check for rgb(a).
+					ret = ret.concat( value.match( this._rgbaRegExp ) || [] );
+
+					// Check for hsl(a).
+					ret = ret.concat( value.match( this._hslaRegExp ) || [] );
+
+					ret = ret.concat( arrayTools.filter( value.split( /\s+/ ), function( colorEntry ) {
+						// Check for hex format.
+						if ( colorEntry.match( /^\#[a-f0-9]{3}(?:[a-f0-9]{3})?$/gi ) ) {
+							return true;
+						}
+
+						// Check for preset names.
+						return colorEntry.toLowerCase() in CKEDITOR.tools.style.parse._colors;
+					} ) );
+
+					return ret;
+				}
+			}
+		},
+
+		/**
+		 * A set of array helpers.
+		 *
+		 * @property {CKEDITOR.tools.array}
+		 * @member CKEDITOR.tools
+		 */
+		array: {
+			/**
+			 * Returns a copy of `array` filtered using the `fn` function. Any elements that the `fn` will return `false` for
+			 * will get removed from the returned array.
+			 *
+			 *		var filtered = this.array.filter( [ 0, 1, 2, 3 ], function( value ) {
+			 *			// Leave only values equal or greater than 2.
+			 *			return value >= 2;
+			 *		} );
+			 *		console.log( filtered );
+			 *		// Logs: [ 2, 3 ]
+			 *
+			 * @param {Array} array
+			 * @param {Function} fn A function that gets called with each `array` item. Any item that `fn`
+			 * returned a `false`-alike value for will be filtered out of the `array`.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Array} fn.array The original array passed as the `array` variable.
+			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
+			 * @returns {Array} The filtered array.
+			 * @member CKEDITOR.tools.array
+			 */
+			filter: function( array, fn, thisArg ) {
+				var ret = [];
+
+				this.forEach( array, function( val, i ) {
+					if ( fn.call( thisArg, val, i, array ) ) {
+						ret.push( val );
+					}
+				} );
+
+				return ret;
+			},
+
+			/**
+			 * Iterates over every element in the `array`.
+			 *
+			 * @param {Array} array An array to be iterated over.
+			 * @param {Function} fn The function called for every `array` element.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Array} fn.array The original array passed as an `array` variable.
+			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
+			 * @member CKEDITOR.tools.array
+			 */
+			forEach: function( array, fn, thisArg ) {
+				var len = array.length,
+					i;
+
+				for ( i = 0; i < len; i++ ) {
+					fn.call( thisArg, array[ i ], i, array );
+				}
+			},
+
+			/**
+			 * Applies a function to each element of an array and returns the array of results in the same order.
+			 * Note the order of the parameters.
+			 *
+			 * @param {Array} array An array of elements that `fn` is applied on.
+			 * @param {Function} fn A function with the signature `a -> b`.
+			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
+			 * @returns {Array} An array of mapped elements.
+			 * @member CKEDITOR.tools.array
+			 * @since 4.6.2
+			 */
+			map: function( array, fn, thisArg ) {
+				var result = [];
+				for ( var i = 0; i < array.length; i++ ) {
+					result.push( fn.call( thisArg, array[ i ], i, array ) );
+				}
+				return result;
+			},
+
+			/**
+			 * Applies a function against each value in an array storing the result in an accumulator passed to the next iteration.
+			 * Note the order of the parameters.
+			 *
+			 * @param {Array} array An array of elements that `fn` is applied on.
+			 * @param {Function} fn A function with the signature `(accumulator, a, index, array) -> b`.
+			 * @param {Mixed} initial Initial value of the accumulator.
+			 * @param {Mixed} [thisArg=undefined] The context object for `fn`.
+			 * @returns {Mixed} The final value of the accumulator.
+			 * @member CKEDITOR.tools.array
+			 * @since 4.6.2
+			*/
+			reduce: function( array, fn, initial, thisArg ) {
+				var acc = initial;
+				for ( var i = 0; i < array.length; i++ ) {
+					acc = fn.call( thisArg, acc, array[ i ], i, array );
+				}
+				return acc;
+			}
 		}
 	};
 
@@ -1427,6 +1874,43 @@
 
 		return result;
 	}
+
+	/**
+	 * @member CKEDITOR.tools.array
+	 * @method indexOf
+	 * @inheritdoc CKEDITOR.tools#indexOf
+	 */
+	CKEDITOR.tools.array.indexOf = CKEDITOR.tools.indexOf;
+
+	/**
+	 * @member CKEDITOR.tools.array
+	 * @method isArray
+	 * @inheritdoc CKEDITOR.tools#isArray
+	 */
+	CKEDITOR.tools.array.isArray = CKEDITOR.tools.isArray;
+
+
+
+	/**
+	 * The namespace containing functions to work on CSS properties.
+	 *
+	 * @since 4.6.1
+	 * @class CKEDITOR.tools.style
+	 */
+
+	/**
+	 * The namespace with helper functions to parse some common CSS properties.
+	 *
+	 * @since 4.6.1
+	 * @class CKEDITOR.tools.style.parse
+	 */
+
+	/**
+	 * The namespace with helper functions and polyfills for arrays.
+	 *
+	 * @since 4.6.1
+	 * @class CKEDITOR.tools.array
+	 */
 } )();
 
 // PACKAGER_RENAME( CKEDITOR.tools )

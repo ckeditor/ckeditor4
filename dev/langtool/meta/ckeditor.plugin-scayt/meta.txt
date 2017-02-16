@@ -1,4 +1,4 @@
-# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 about = Label for the About SCAYT menu option for the SCAYT feature.
@@ -24,7 +24,7 @@ mixedCase = Label for the Ignore Words with Mixed Case field of the Spell Check 
 mixedWithDigits = Label for the Ignore Words with Numbers field of the Spell Check As You Type dialog window.
 moreSuggestions = Label for the More suggestions context menu option for the SCAYT feature.
 opera_title = Toolbar drop-down menu tooltip for the SCAYT feature displayed to Opera users.
-options = 
+options =
 optionsTab = Label for the Options tab of the Spell Check As You Type dialog window.
 title = Label for the Spell Check As You Type (SCAYT) dialog window.
-toggle = 
+toggle =

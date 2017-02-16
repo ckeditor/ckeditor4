@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -11,7 +11,7 @@
 'use strict';
 
 CKEDITOR.plugins.add( 'notification', {
-	lang: 'cs,da,de,de-ch,en,eo,eu,fr,gl,id,it,km,ko,ku,nb,nl,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'az,ca,cs,da,de,de-ch,en,eo,es,eu,fr,gl,id,it,ja,km,ko,ku,nb,nl,oc,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 	requires: 'toolbar',
 
 	init: function( editor ) {

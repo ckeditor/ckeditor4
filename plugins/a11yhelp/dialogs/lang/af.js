@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'af', {
 		]
 	}
 	],
-	backspace: 'Backspace', // MISSING
 	tab: 'Tab', // MISSING
-	enter: 'Enter', // MISSING
-	shift: 'Shift', // MISSING
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pouse',
 	capslock: 'Hoofletterslot',
 	escape: 'Ontsnap',
 	pageUp: 'Blaaiop',
 	pageDown: 'Blaaiaf',
-	end: 'Einde',
-	home: 'Tuis',
 	leftArrow: 'Linkspyl',
 	upArrow: 'Oppyl',
 	rightArrow: 'Regterpyl',
 	downArrow: 'Afpyl',
 	insert: 'Toevoeg',
-	'delete': 'Verwyder',
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'Select key', // MISSING

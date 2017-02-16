@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -18,7 +18,7 @@
 
 	CKEDITOR.plugins.add( 'image2', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		requires: 'widget,dialog',
 		icons: 'image',
@@ -286,7 +286,7 @@
 			editables: {
 				caption: {
 					selector: 'figcaption',
-					allowedContent: 'br em strong sub sup u s; a[!href]'
+					allowedContent: 'br em strong sub sup u s; a[!href,target]'
 				}
 			},
 
@@ -1428,14 +1428,22 @@
 					onOk = def.onOk;
 
 				def.onShow = function() {
-					var widget = getFocusedWidget( editor );
+					var widget = getFocusedWidget( editor ),
+						displayTextField = this.getContentElement( 'info', 'linkDisplayText' ).getElement().getParent().getParent();
 
 					// Widget cannot be enclosed in a link, i.e.
 					//		<a>foo<inline widget/>bar</a>
-					if ( widget && ( widget.inline ? !widget.wrapper.getAscendant( 'a' ) : 1 ) )
+					if ( widget && ( widget.inline ? !widget.wrapper.getAscendant( 'a' ) : 1 ) ) {
 						this.setupContent( widget.data.link || {} );
-					else
+
+						// Hide the display text in case of linking image2 widget.
+						displayTextField.hide();
+					} else {
+						// Make sure that display text is visible, as it might be hidden by image2 integration
+						// before.
+						displayTextField.show();
 						onShow.apply( this, arguments );
+					}
 				};
 
 				// Set widget data if linking the widget using
@@ -1687,5 +1695,18 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *
  * @since 4.4
  * @cfg {String[]} [image2_alignClasses=null]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Determines whether alternative text is required for the captioned image.
+ *
+ *		config.image2_altRequired = true;
+ *
+ * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
+ * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
+ *
+ * @since 4.6.0
+ * @cfg {Boolean} [image2_altRequired=false]
  * @member CKEDITOR.config
  */

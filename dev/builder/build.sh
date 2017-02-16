@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 # Build CKEditor using the default settings (and build.js).
@@ -57,7 +57,7 @@ echo "Starting CKBuilder..."
 
 JAVA_ARGS=${ARGS// -t / } # Remove -t from args.
 
-VERSION="4.6.0 DEV"
+VERSION="4.7.0 DEV"
 REVISION=$(git rev-parse --verify --short HEAD)
 SEMVER_REGEX="^([0-9]+)\.([0-9]+)\.([0-9]+)(\-[0-9A-Za-z-]+)?(\+[0-9A-Za-z-]+)?$"
 

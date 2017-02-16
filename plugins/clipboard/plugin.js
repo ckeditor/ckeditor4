@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -119,7 +119,7 @@
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: 'dialog',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'copy,copy-rtl,cut,cut-rtl,paste,paste-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -144,6 +144,50 @@
 			initDragDrop( editor );
 
 			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
+
+			// Convert image file (if present) to base64 string for Firefox. Do it as the first
+			// step as the conversion is asynchronous and should hold all further paste processing.
+			if ( CKEDITOR.env.gecko ) {
+				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
+					latestId;
+
+				editor.on( 'paste', function( evt ) {
+					var dataObj = evt.data,
+						data = dataObj.dataValue,
+						dataTransfer = dataObj.dataTransfer;
+
+					// If data empty check for image content inside data transfer. #16705
+					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
+						var file = dataTransfer.getFile( 0 );
+
+						if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
+							var fileReader = new FileReader();
+
+							// Convert image file to img tag with base64 image.
+							fileReader.addEventListener( 'load', function() {
+								evt.data.dataValue = '<img src="' + fileReader.result + '" />';
+								editor.fire( 'paste', evt.data );
+							}, false );
+
+							// Proceed with normal flow if reading file was aborted.
+							fileReader.addEventListener( 'abort', function() {
+								editor.fire( 'paste', evt.data );
+							}, false );
+
+							// Proceed with normal flow if reading file failed.
+							fileReader.addEventListener( 'error', function() {
+								editor.fire( 'paste', evt.data );
+							}, false );
+
+							fileReader.readAsDataURL( file );
+
+							latestId = dataObj.dataTransfer.id;
+
+							evt.stop();
+						}
+					}
+				}, null, null, 1 );
+			}
 
 			editor.on( 'paste', function( evt ) {
 				// Init `dataTransfer` if `paste` event was fired without it, so it will be always available.
@@ -666,6 +710,7 @@
 				type: type,
 				canUndo: type == 'cut', // We can't undo copy to clipboard.
 				startDisabled: true,
+				fakeKeystroke: type == 'cut' ? CKEDITOR.CTRL + 88 /*X*/ :  CKEDITOR.CTRL + 67 /*C*/,
 				exec: function() {
 					// Attempts to execute the Cut and Copy operations.
 					function tryToCutCopy( type ) {
@@ -700,7 +745,7 @@
 				// Snapshots are done manually by editable.insertXXX methods.
 				canUndo: false,
 				async: true,
-
+				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
 				exec: function( editor, data ) {
 					var cmd = this,
 						fire = function( data, withBeforePaste ) {
@@ -1328,6 +1373,12 @@
 			// we drop image it will overwrite document.
 
 			editable.attachListener( dropTarget, 'dragover', function( evt ) {
+				// Edge requires this handler to have `preventDefault()` regardless of the situation.
+				if ( CKEDITOR.env.edge ) {
+					evt.data.preventDefault();
+					return;
+				}
+
 				var target = evt.data.getTarget();
 
 				// Prevent reloading page when dragging image on empty document (#12619).
@@ -1818,7 +1869,7 @@
 				return dropEvt.data.testRange;
 
 			// Webkits.
-			if ( document.caretRangeFromPoint ) {
+			if ( document.caretRangeFromPoint && editor.document.$.caretRangeFromPoint( x, y ) ) {
 				$range = editor.document.$.caretRangeFromPoint( x, y );
 				range.setStart( CKEDITOR.dom.node( $range.startContainer ), $range.startOffset );
 				range.collapse( true );
@@ -2044,7 +2095,8 @@
 		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( !this.isCustomCopyCutSupported ) {
-				return new this.dataTransfer( null, sourceEditor );
+				// Edge does not support custom copy/cut, but it have some useful data in the clipboardData (#13755).
+				return new this.dataTransfer( ( CKEDITOR.env.edge && evt && evt.data.$ && evt.data.$.clipboardData ) || null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
 
@@ -2361,8 +2413,11 @@
 			if ( ( this.$ && this.$.files ) || file ) {
 				this._.files = [];
 
-				for ( i = 0; i < this.$.files.length; i++ ) {
-					this._.files.push( this.$.files[ i ] );
+				// Edge have empty files property with no length (#13755).
+				if ( this.$.files && this.$.files.length ) {
+					for ( i = 0; i < this.$.files.length; i++ ) {
+						this._.files.push( this.$.files[ i ] );
+					}
 				}
 
 				// Don't include $.items if both $.files and $.items contains files, because,

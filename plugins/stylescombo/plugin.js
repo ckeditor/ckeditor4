@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -9,7 +9,7 @@
 	CKEDITOR.plugins.add( 'stylescombo', {
 		requires: 'richcombo',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 
 		init: function( editor ) {
@@ -32,8 +32,11 @@
 				for ( var i = 0, count = stylesDefinitions.length; i < count; i++ ) {
 					var styleDefinition = stylesDefinitions[ i ];
 
-					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) )
+					if ( editor.blockless && ( styleDefinition.element in CKEDITOR.dtd.$block ) ||
+						( typeof styleDefinition.type == 'string' && !CKEDITOR.style.customHandlers[ styleDefinition.type ] ) ) {
+
 						continue;
+					}
 
 					styleName = styleDefinition.name;
 					style = new CKEDITOR.style( styleDefinition );
@@ -99,7 +102,14 @@
 					var style = styles[ value ],
 						elementPath = editor.elementPath();
 
-					editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
+					// When more then one style from the same group is active ( which is not ok ),
+					// remove all other styles from this group and apply selected style.
+					if ( style.group && style.removeStylesFromSameGroup( editor ) ) {
+						editor.applyStyle( style );
+					} else {
+						editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
+					}
+
 					editor.fire( 'saveSnapshot' );
 				},
 

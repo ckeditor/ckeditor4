@@ -1,0 +1,13 @@
+<p>Editor 1:</p>
+<textarea id="editor1" cols="10" rows="10"><p>[[placeholder]] foo bar</p></textarea>
+
+<p>Editor 2:</p>
+<div id="editor2" contenteditable="true"><p>[[placeholder]] foo bar</p></div>
+
+<script>
+if ( !CKEDITOR.env.edge || CKEDITOR.env.version < 14 ) {
+	bender.ignore();
+}
+CKEDITOR.replace( 'editor1' );
+CKEDITOR.inline( 'editor2' );
+</script>

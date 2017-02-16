@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Clipboard HTML</title>
+    <style>
+
+        textarea {
+            border: 1px solid #808080;
+            float: left;
+            height: 200px;
+            width: 100%;
+            overflow: auto;
+            margin-bottom: 20px;;
+        }
+
+    </style>
+	<script src="../../ckeditor.js"></script>
+</head>
+<body>
+    <p>Paste Inside the Editor:</p>
+    <div><textarea id="input"></textarea></div>
+
+	<div style="float: left; width: 49%">
+		<p>Raw Data Received:</p>
+		<textarea id="raw" readonly="readonly"></textarea>
+	</div>
+	<div style="float: right; width: 49%">
+		<p>After Paste Processing:</p>
+		<textarea id="output" readonly="readonly"></textarea>
+	</div>
+
+	<script>
+	var editor = CKEDITOR.replace( 'input', {
+		height: 100,
+		allowedContent: true,
+		plugins: 'pastefromword,wysiwygarea'
+	} );
+
+	editor.on( 'paste', function( evt ) {
+		var val = evt.data.dataValue;
+
+		if ( evt.data.dataTransfer && evt.data.dataTransfer.getData( 'text/html' ) ) {
+			val = evt.data.dataTransfer.getData( 'text/html' );
+		}
+
+		document.getElementById( 'raw' ).value = val;
+	}, null, null, -1 );
+
+	editor.on( 'paste', function( evt ) {
+		setTimeout( function() {
+			document.getElementById( 'output' ).value = editor.getData();
+		}, 0 );
+	}, null, null, 999 );
+	</script>
+</body>
+</html>

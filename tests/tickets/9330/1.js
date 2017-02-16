@@ -5,7 +5,11 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			allowedContent: 'a[href,name]'
+		}
+	};
 
 	var compat = bender.tools.compatHtml,
 		engineName = CKEDITOR.env.webkit ? 'webkit' :
@@ -17,8 +21,8 @@
 		return function( input, output ) {
 			assertPasteEvent( editor, { dataValue: input },
 			function( data, msg ) {
-				assert.areSame( compat( output ), compat( data.dataValue ), msg );
-			}, 'tc1', true );
+				assert.areSame( compat( output ), compat( editor.getData() ), msg );
+			}, 'tc1', true, true );
 		};
 	}
 

@@ -11,7 +11,7 @@
 	};
 
 	var SRC = '%BASE_PATH%_assets/img.gif';
-	var defaultExpectedOutput = '<p>x<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>x</p>';
+	var defaultExpectedOutput = ( '<p>x<a href="#"><img alt="" src="' + SRC + '" style="height:10px;width:10px;" /></a>x</p>' ).toLowerCase();
 
 	function keepLinkTest( bot, htmlWithSelection, expectedOutput ) {
 		bot.editor.focus();

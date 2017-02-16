@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 		]
 	}
 	],
-	backspace: 'Phím Backspace',
 	tab: 'Phím Tab',
-	enter: 'Phím Tab',
-	shift: 'Phím Shift',
-	ctrl: 'Phím Ctrl',
-	alt: 'Phím Alt',
 	pause: 'Phím Pause',
 	capslock: 'Phím Caps Lock',
 	escape: 'Phím Escape',
 	pageUp: 'Phím Page Up',
 	pageDown: 'Phím Page Down',
-	end: 'Phím End',
-	home: 'Phím Home',
 	leftArrow: 'Phím Left Arrow',
 	upArrow: 'Phím Up Arrow',
 	rightArrow: 'Phím Right Arrow',
 	downArrow: 'Phím Down Arrow',
 	insert: 'Chèn',
-	'delete': 'Xóa',
 	leftWindowKey: 'Phím Left Windows',
 	rightWindowKey: 'Phím Right Windows ',
 	selectKey: 'Chọn phím',

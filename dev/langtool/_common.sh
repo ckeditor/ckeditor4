@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 # Updates cklangtool. This script should not be executed separately, it is included in other scripts.
@@ -46,5 +46,5 @@ fi
 cd ../..
 
 
-plugins=( about autoembed basicstyles bidi blockquote button clipboard codesnippet colorbutton colordialog contextmenu devtools div docprops elementspath embedbase fakeobjects filetools find flash font format forms horizontalrule iframe image image2 indent justify language link list liststyle magicline maximize mathjax newpage notification pagebreak pastefromword pastetext placeholder preview print removeformat save selectall showblocks smiley sourcearea sourcedialog specialchar stylescombo table templates toolbar uicolor undo uploadwidget widget )
+plugins=( about autoembed basicstyles bidi blockquote button clipboard codesnippet colorbutton colordialog contextmenu copyformatting devtools div docprops elementspath embedbase fakeobjects filetools find flash font format forms horizontalrule iframe image image2 indent justify language link list liststyle magicline maximize mathjax newpage notification pagebreak pastefromword pastetext placeholder preview print removeformat save selectall showblocks smiley sourcearea sourcedialog specialchar stylescombo table templates toolbar uicolor undo uploadwidget widget )
 plugins_dialogs=( a11yhelp specialchar )

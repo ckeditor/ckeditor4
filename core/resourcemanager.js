@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -124,13 +124,13 @@ CKEDITOR.resourceManager.prototype = {
 	 * Registers one or more resources to be loaded from an external path
 	 * instead of the core base path.
 	 *
-	 *		// Loads a plugin from '/myplugin/samples/plugin.js'.
+	 *		// Loads a plugin from '/myplugins/sample/plugin.js'.
 	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/' );
 	 *
-	 *		// Loads a plugin from '/myplugin/samples/my_plugin.js'.
+	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
 	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/', 'my_plugin.js' );
 	 *
-	 *		// Loads a plugin from '/myplugin/samples/my_plugin.js'.
+	 *		// Loads a plugin from '/myplugins/sample/my_plugin.js'.
 	 *		CKEDITOR.plugins.addExternal( 'sample', '/myplugins/sample/my_plugin.js', '' );
 	 *
 	 * @param {String} names The resource names, separated by commas.

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -48,8 +48,8 @@ CKEDITOR.lang[ 'nb' ] = {
 		id: 'Id',
 		name: 'Navn',
 		langDir: 'Språkretning',
-		langDirLtr: 'Venstre til høyre (VTH)',
-		langDirRtl: 'Høyre til venstre (HTV)',
+		langDirLtr: 'Venstre til høyre (LTR)',
+		langDirRtl: 'Høyre til venstre (RTL)',
 		langCode: 'Språkkode',
 		longDescr: 'Utvidet beskrivelse',
 		cssClass: 'Stilarkklasser',
@@ -68,7 +68,7 @@ CKEDITOR.lang[ 'nb' ] = {
 		options: 'Valg',
 		target: 'Mål',
 		targetNew: 'Nytt vindu (_blank)',
-		targetTop: 'Hele vindu (_top)',
+		targetTop: 'Hele vinduet (_top)',
 		targetSelf: 'Samme vindu (_self)',
 		targetParent: 'Foreldrevindu (_parent)',
 		langDirLTR: 'Venstre til høyre (VTH)',
@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'nb' ] = {
 		alignMiddle: 'Midten',
 		alignBottom: 'Bunn',
 		alignNone: 'Ingen',
-		invalidValue	: 'Ugyldig verdi.',
+		invalidValue: 'Ugyldig verdi.',
 		invalidHeight: 'Høyde må være et tall.',
 		invalidWidth: 'Bredde må være et tall.',
 		invalidCssLength: 'Den angitte verdien for feltet "%1" må være et positivt tall med eller uten en gyldig CSS-målingsenhet (px, %, in, cm, mm, em, ex, pt, eller pc).',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'nb' ] = {
 		cssLengthTooltip: 'Skriv inn et tall for en piksel-verdi eller et tall med en gyldig CSS-enhet (px, %, in, cm, mm, em, ex, pt, eller pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, utilgjenglig</span>'
+		unavailable: '%1<span class="cke_accessibility">, utilgjenglig</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Mellomrom',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Tastatursnarvei'
 	}
 };

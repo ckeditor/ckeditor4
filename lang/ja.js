@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -86,7 +86,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		alignMiddle: '中央',
 		alignBottom: '下',
 		alignNone: 'なし',
-		invalidValue	: '不正な値です。',
+		invalidValue: '不正な値です。',
 		invalidHeight: '高さは数値で入力してください。',
 		invalidWidth: '幅は数値で入力してください。',
 		invalidCssLength: '入力された "%1" 項目の値は、CSSの大きさ(px, %, in, cm, mm, em, ex, pt, または pc)が正しいものである/ないに関わらず、正の値である必要があります。',
@@ -95,6 +95,23 @@ CKEDITOR.lang[ 'ja' ] = {
 		cssLengthTooltip: 'ピクセル数もしくはCSSにセットできる数値を入力してください。(px,%,in,cm,mm,em,ex,pt,or pc)',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, 利用不可能</span>'
+		unavailable: '%1<span class="cke_accessibility">, 利用不可能</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Space',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			224: 'Command'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'キーボードショートカット'
 	}
 };

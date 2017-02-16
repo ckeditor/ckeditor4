@@ -374,7 +374,7 @@ var widgetTestsTools = ( function() {
 
 		widgetInitedWrapperAttributes:
 			'aria-label="[a-z]+ widget" ' +
-			'class="cke_widget_wrapper cke_widget_(?:inline|block)" ' +
+			'class="cke_widget_wrapper cke_widget_(?:inline|block) cke_widget_test(?:_upcasted_pasting|inline|block)" ' +
 			'contenteditable="false" ' +
 			'(?:data-cke-display-name="[a-z0-9]+" )?' +
 			'(?:data-cke-expando="[0-9]+" )?' +
@@ -384,7 +384,7 @@ var widgetTestsTools = ( function() {
 			'role="region" ' +
 			'tabindex="-1"',
 		widgetWrapperAttributes:
-			'class="cke_widget_wrapper cke_widget_new cke_widget_(?:inline|block)" ' +
+			'class="cke_widget_wrapper cke_widget_new cke_widget_(?:inline|block) cke_widget_test(?:1|2|inline|block)?" ' +
 			'contenteditable="false" ' +
 			'(?:data-cke-display-name="[a-z0-9]+" )?' +
 			'(?:data-cke-expando="[0-9]+" )?' +

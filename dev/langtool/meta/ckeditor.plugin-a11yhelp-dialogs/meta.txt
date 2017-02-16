@@ -1,4 +1,4 @@
-# Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 title = Label for the Accessibility Instructions dialog window title.
@@ -91,7 +91,7 @@ equalSign = The label for the "Equal Sign" (=) key.
 comma = The label for the "Comma" (,) key.
 dash = The label for the "Dash" (-) key.
 period = The label for the "Period" (.) key.
-forwardSlash = The label for the "for theward Slash" (/) key. 
+forwardSlash = The label for the "for theward Slash" (/) key.
 graveAccent = The label for the "Grave Accent" (`) key.
 openBracket = The label for the "Open Bracket" ([) key.
 backSlash = The label for the "Backslash" (\) key.

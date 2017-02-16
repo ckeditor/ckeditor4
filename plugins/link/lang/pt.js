@@ -1,5 +1,5 @@
-/*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+﻿/*
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'link', 'pt', {
@@ -13,12 +13,14 @@ CKEDITOR.plugins.setLang( 'link', 'pt', {
 		title: 'Propriedades da âncora',
 		name: 'Nome da âncora',
 		errorName: 'Por favor, introduza o nome da âncora',
-		remove: 'Remove Anchor'
+		remove: 'Remover âncora'
 	},
 	anchorId: 'Por ID do elemento',
 	anchorName: 'Por Nome de Referência',
 	charset: 'Fonte de caracteres vinculado',
 	cssClasses: 'Classes de Estilo',
+	download: 'Force Download', // MISSING
+	displayText: 'Mostrar texto',
 	emailAddress: 'Endereço de email',
 	emailBody: 'Corpo da mensagem',
 	emailSubject: 'Título de mensagem',

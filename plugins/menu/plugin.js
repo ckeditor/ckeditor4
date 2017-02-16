@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -41,10 +41,10 @@ CKEDITOR.plugins.add( 'menu', {
 		};
 
 		/**
-		 * Adds one or more items from the specified definition array to the editor context menu.
+		 * Adds one or more items from the specified definition object to the editor context menu.
 		 *
 		 * @method
-		 * @param {Array} definitions List of definitions for each menu item as if {@link #addMenuItem} is called.
+		 * @param {Object} definitions Object where keys are used as itemName and corresponding values as definition for a {@link #addMenuItem} call.
 		 * @member CKEDITOR.editor
 		 */
 		editor.addMenuItems = function( definitions ) {
@@ -85,12 +85,15 @@ CKEDITOR.plugins.add( 'menu', {
 		' class="cke_menubutton cke_menubutton__{name} cke_menubutton_{state} {cls}" href="{href}"' +
 		' title="{title}"' +
 		' tabindex="-1"' +
-		'_cke_focus=1' +
+		' _cke_focus=1' +
 		' hidefocus="true"' +
 		' role="{role}"' +
+		' aria-label="{label}"' +
+		' aria-describedby="{id}_description"' +
 		' aria-haspopup="{hasPopup}"' +
 		' aria-disabled="{disabled}"' +
-		' {ariaChecked}';
+		' {ariaChecked}' +
+		' draggable="false"';
 
 	// Some browsers don't cancel key events in the keydown but in the
 	// keypress.
@@ -99,9 +102,11 @@ CKEDITOR.plugins.add( 'menu', {
 		menuItemSource += ' onkeypress="return false;"';
 
 	// With Firefox, we need to force the button to redraw, otherwise it
-	// will remain in the focus state.
-	if ( CKEDITOR.env.gecko )
-		menuItemSource += ' onblur="this.style.cssText = this.style.cssText;"';
+	// will remain in the focus state. Also we some extra help to prevent dragging (#10373).
+	if ( CKEDITOR.env.gecko ) {
+		menuItemSource += ( ' onblur="this.style.cssText = this.style.cssText;"' +
+			' ondragstart="return false;"' );
+	}
 
 	// #188
 	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
@@ -111,6 +116,7 @@ CKEDITOR.plugins.add( 'menu', {
 			'>';
 
 	menuItemSource +=
+				//'' +
 				'<span class="cke_menubutton_inner">' +
 					'<span class="cke_menubutton_icon">' +
 						'<span class="cke_button_icon cke_button__{iconName}_icon" style="{iconStyle}"></span>' +
@@ -118,16 +124,22 @@ CKEDITOR.plugins.add( 'menu', {
 					'<span class="cke_menubutton_label">' +
 						'{label}' +
 					'</span>' +
+					'{shortcutHtml}' +
 					'{arrowHtml}' +
 				'</span>' +
-			'</a></span>';
+			'</a><span id="{id}_description" class="cke_voice_label" aria-hidden="false">{ariaShortcut}</span></span>';
 
 	var menuArrowSource = '<span class="cke_menuarrow">' +
 				'<span>{label}</span>' +
 			'</span>';
 
+	var menuShortcutSource = '<span class="cke_menubutton_label cke_menubutton_shortcut">' +
+				'{shortcut}' +
+			'</span>';
+
 	var menuItemTpl = CKEDITOR.addTemplate( 'menuItem', menuItemSource ),
-		menuArrowTpl = CKEDITOR.addTemplate( 'menuArrow', menuArrowSource );
+		menuArrowTpl = CKEDITOR.addTemplate( 'menuArrow', menuArrowSource ),
+		menuShortcutTpl = CKEDITOR.addTemplate( 'menuShortcut', menuShortcutSource );
 
 	/**
 	 * @class
@@ -462,7 +474,11 @@ CKEDITOR.plugins.add( 'menu', {
 			render: function( menu, index, output ) {
 				var id = menu.id + String( index ),
 					state = ( typeof this.state == 'undefined' ) ? CKEDITOR.TRISTATE_OFF : this.state,
-					ariaChecked = '';
+					ariaChecked = '',
+					editor = this.editor,
+					keystroke,
+					command,
+					shortcut;
 
 				var stateName = state == CKEDITOR.TRISTATE_ON ? 'on' : state == CKEDITOR.TRISTATE_DISABLED ? 'disabled' : 'off';
 
@@ -478,6 +494,15 @@ CKEDITOR.plugins.add( 'menu', {
 				if ( this.icon && !( /\./ ).test( this.icon ) )
 					iconName = this.icon;
 
+				if ( this.command ) {
+					command = editor.getCommand( this.command );
+					keystroke = editor.getCommandKeystroke( command );
+
+					if ( keystroke ) {
+						shortcut = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, keystroke );
+					}
+				}
+
 				var params = {
 					id: id,
 					name: this.name,
@@ -487,13 +512,15 @@ CKEDITOR.plugins.add( 'menu', {
 					state: stateName,
 					hasPopup: hasSubMenu ? 'true' : 'false',
 					disabled: state == CKEDITOR.TRISTATE_DISABLED,
-					title: this.label,
+					title: this.label + ( shortcut ? ' (' + shortcut.display + ')' : '' ),
+					ariaShortcut: shortcut ? editor.lang.common.keyboardShortcut + ' ' + shortcut.aria : '',
 					href: 'javascript:void(\'' + ( this.label || '' ).replace( "'" + '' ) + '\')', // jshint ignore:line
 					hoverFn: menu._.itemOverFn,
 					moveOutFn: menu._.itemOutFn,
 					clickFn: menu._.itemClickFn,
 					index: index,
 					iconStyle: CKEDITOR.skin.getIconStyle( iconName, ( this.editor.lang.dir == 'rtl' ), iconName == this.icon ? null : this.icon, this.iconOffset ),
+					shortcutHtml: shortcut ? menuShortcutTpl.output( { shortcut: shortcut.display } ) : '',
 					arrowHtml: hasSubMenu ? menuArrowTpl.output( { label: arrowLabel } ) : '',
 					role: this.role ? this.role : 'menuitem',
 					ariaChecked: ariaChecked

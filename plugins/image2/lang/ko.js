@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'ko', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ko', {
 	resizer: '크기를 조절하려면 클릭 후 드래그 하세요',
 	title: '이미지 속성',
 	uploadTab: '업로드',
-	urlMissing: '이미지 원본 주소(URL)가 없습니다.'
+	urlMissing: '이미지 원본 주소(URL)가 없습니다.',
+	altMissing: 'Alternative text is missing.' // MISSING
 } );

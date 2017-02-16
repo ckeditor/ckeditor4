@@ -1,9 +1,15 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 ( function() {
+	var isMSSelection = typeof window.getSelection != 'function',
+		nextRev = 1,
+		// #13816
+		fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
+		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' );
+
 	// #### checkSelectionChange : START
 
 	// The selection change check basically saves the element parent tree of
@@ -41,8 +47,10 @@
 
 		var currentPath = this.elementPath();
 		if ( !currentPath.compare( this._.selectionPreviousPath ) ) {
+			// Handle case when dialog inserts new element but parent block and path (so also focus context) does not change. (#13362)
+			var sameBlockParent = this._.selectionPreviousPath && this._.selectionPreviousPath.blockLimit.equals( currentPath.blockLimit );
 			// Cache the active element, which we'll eventually lose on Webkit.
-			if ( CKEDITOR.env.webkit )
+			if ( CKEDITOR.env.webkit && !sameBlockParent )
 				this._.previousActive = this.document.getActive();
 
 			this._.selectionPreviousPath = currentPath;
@@ -236,7 +244,7 @@
 	// Creates cke_hidden_sel container and puts real selection there.
 	function hideSelection( editor, ariaLabel ) {
 		var content = ariaLabel || '&nbsp;',
-			style = CKEDITOR.env.ie ? 'display:none' : 'position:fixed;top:0;left:-1000px',
+			style = CKEDITOR.env.ie && CKEDITOR.env.version < 14 ? 'display:none' : 'position:fixed;top:0;left:-1000px',
 			hiddenEl = CKEDITOR.dom.element.createFromHtml(
 				'<div data-cke-hidden-sel="1" data-cke-temp="1" style="' + style + '">' + content + '</div>',
 				editor.document );
@@ -540,8 +548,16 @@
 				// On Webkit we use DOMFocusIn which is fired more often than focus - e.g. when moving from main editable
 				// to nested editable (or the opposite). Unlock selection all, but restore only when it was locked
 				// for the same active element, what will e.g. mean restoring after displaying dialog.
-				if ( restoreSel && CKEDITOR.env.webkit )
+				if ( restoreSel && CKEDITOR.env.webkit ) {
 					restoreSel = editor._.previousActive && editor._.previousActive.equals( doc.getActive() );
+
+					// On Webkit when editor uses divarea, native focus causes editable viewport to scroll
+					// to the top (when there is no active selection inside while focusing) so the scroll
+					// position should be restored after focusing back editable area. (#14659)
+					if ( restoreSel && editor._.previousScrollTop != null && editor._.previousScrollTop != editable.$.scrollTop ) {
+						editable.$.scrollTop = editor._.previousScrollTop;
+					}
+				}
 
 				editor.unlockSelection( restoreSel );
 				restoreSel = 0;
@@ -611,6 +627,9 @@
 				// the normal behavior on old IEs. (#1659, #7932)
 				if ( doc.$.compatMode != 'BackCompat' ) {
 					if ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) {
+						var textRng,
+							startRng;
+
 						html.on( 'mousedown', function( evt ) {
 							evt = evt.data;
 
@@ -653,11 +672,11 @@
 									evt.$.y < html.$.clientHeight &&
 									evt.$.x < html.$.clientWidth ) {
 								// Start to build the text range.
-								var textRng = body.$.createTextRange();
+								textRng = body.$.createTextRange();
 								moveRangeToPoint( textRng, evt.$.clientX, evt.$.clientY );
 
 								// Records the dragging start of the above text range.
-								var startRng = textRng.duplicate();
+								startRng = textRng.duplicate();
 
 								html.on( 'mousemove', onHover );
 								outerDoc.on( 'mouseup', onSelectEnd );
@@ -1040,9 +1059,6 @@
 	 */
 	CKEDITOR.SELECTION_ELEMENT = 3;
 
-	var isMSSelection = typeof window.getSelection != 'function',
-		nextRev = 1;
-
 	/**
 	 * Manipulates the selection within a DOM element. If the current browser selection
 	 * spans outside of the element, an empty selection object is returned.
@@ -1142,10 +1158,6 @@
 
 	var styleObjectElements = { img: 1, hr: 1, li: 1, table: 1, tr: 1, td: 1, th: 1, embed: 1, object: 1, ol: 1, ul: 1,
 			a: 1, input: 1, form: 1, select: 1, textarea: 1, button: 1, fieldset: 1, thead: 1, tfoot: 1 };
-
-	// #13816
-	var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
-		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' );
 
 	CKEDITOR.tools.extend( CKEDITOR.dom.selection, {
 		_removeFillingCharSequenceString: removeFillingCharSequenceString,
@@ -1546,7 +1558,7 @@
 		 *		var element = editor.getSelection().getSelectedElement();
 		 *		alert( element.getName() );
 		 *
-		 * @returns {CKEDITOR.dom.element} The selected element. Null if no
+		 * @returns {CKEDITOR.dom.element/null} The selected element. `null` if no
 		 * selection is available or the selection type is not {@link CKEDITOR#SELECTION_ELEMENT}.
 		 */
 		getSelectedElement: function() {

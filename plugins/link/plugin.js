@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -9,7 +9,7 @@
 	CKEDITOR.plugins.add( 'link', {
 		requires: 'dialog,fakeobjects',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'anchor,anchor-rtl,link,unlink', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -92,9 +92,11 @@
 			CKEDITOR.dialog.add( 'anchor', this.path + 'dialogs/anchor.js' );
 
 			editor.on( 'doubleclick', function( evt ) {
-				var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || evt.data.element;
+				// If the link has descendants and the last part of it is also a part of a word partially
+				// unlinked, clicked element may be a descendant of the link, not the link itself. (#11956)
+				var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || evt.data.element.getAscendant( 'a', 1 );
 
-				if ( !element.isReadOnly() ) {
+				if ( element && !element.isReadOnly() ) {
 					if ( element.is( 'a' ) ) {
 						evt.data.dialog = ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) ? 'anchor' : 'link';
 
@@ -712,6 +714,36 @@
 				set: set,
 				removed: CKEDITOR.tools.objectKeys( removed )
 			};
+		},
+
+
+		/**
+		 * Determines whether an element should have a "Display Text" field in the Link dialog.
+		 *
+		 * @since 4.5.11
+		 * @param {CKEDITOR.dom.element/null} element Selected element, `null` if none selected or if a ranged selection
+		 * is made.
+		 * @param {CKEDITOR.editor} editor The editor instance for which the check is performed.
+		 * @returns {Boolean}
+		 */
+		showDisplayTextForElement: function( element, editor ) {
+			var undesiredElements = {
+				img: 1,
+				table: 1,
+				tbody: 1,
+				thead: 1,
+				tfoot: 1,
+				input: 1,
+				select: 1,
+				textarea: 1
+			};
+
+			// Widget duck typing, we don't want to show display text for widgets.
+			if ( editor.widgets && editor.widgets.focused ) {
+				return false;
+			}
+
+			return !element || !element.getName || !element.is( undesiredElements );
 		}
 	};
 

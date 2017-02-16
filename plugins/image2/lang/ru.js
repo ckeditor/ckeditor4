@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'ru', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'ru', {
 	resizer: 'Нажмите и растяните',
 	title: 'Свойства изображения',
 	uploadTab: 'Загрузка файла',
-	urlMissing: 'Не указана ссылка на изображение.'
+	urlMissing: 'Не указана ссылка на изображение.',
+	altMissing: 'Не задан альтернативный текст'
 } );

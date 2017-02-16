@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'flash', 'pt', {
@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'flash', 'pt', {
 	alignAbsMiddle: 'Abs centro',
 	alignBaseline: 'Linha de base',
 	alignTextTop: 'Topo do texto',
-	bgcolor: 'Cor de Fundo',
+	bgcolor: 'Cor de fundo',
 	chkFull: 'Permitir Ecrã inteiro',
 	chkLoop: 'Cíclico',
 	chkMenu: 'Permitir menu do Flash',

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'he', {
 		]
 	}
 	],
-	backspace: 'Backspace',
 	tab: 'Tab',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pause',
 	capslock: 'Caps Lock',
 	escape: 'Escape',
 	pageUp: 'Page Up',
 	pageDown: 'Page Down',
-	end: 'End',
-	home: 'Home',
 	leftArrow: 'חץ שמאלה',
 	upArrow: 'חץ למעלה',
 	rightArrow: 'חץ ימינה',
 	downArrow: 'חץ למטה',
 	insert: 'הכנס',
-	'delete': 'מחק',
 	leftWindowKey: 'Left Windows key', // MISSING
 	rightWindowKey: 'Right Windows key', // MISSING
 	selectKey: 'בחר מקש',

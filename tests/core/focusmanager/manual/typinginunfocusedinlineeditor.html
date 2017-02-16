@@ -1,0 +1,14 @@
+<body>
+<div id="editor" contenteditable="true">
+	<p>Example text</p>
+</div>
+<button>I'm a button!</button>
+
+<script>
+	if ( !CKEDITOR.env.chrome ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.inline( 'editor' );
+</script>
+</body>

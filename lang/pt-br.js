@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -85,7 +85,7 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		alignMiddle: 'Centralizado',
 		alignBottom: 'Inferior',
 		alignNone: 'Nenhum',
-		invalidValue	: 'Valor inválido.',
+		invalidValue: 'Valor inválido.',
 		invalidHeight: 'A altura tem que ser um número',
 		invalidWidth: 'A largura tem que ser um número.',
 		invalidCssLength: 'O valor do campo "%1" deve ser um número positivo opcionalmente seguido por uma válida unidade de medida de CSS (px, %, in, cm, mm, em, ex, pt ou pc).',
@@ -94,6 +94,23 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		cssLengthTooltip: 'Insira um número para valor em pixels ou um número seguido de uma válida unidade de medida de CSS (px, %, in, cm, mm, em, ex, pt ou pc).',
 
 		// Put the voice-only part of the label in the span.
-		unavailable: '%1<span class="cke_accessibility">, indisponível</span>'
+		unavailable: '%1<span class="cke_accessibility">, indisponível</span>',
+
+		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
+		keyboard: {
+			8: 'Tecla Retroceder',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Tecla Espaço',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			224: 'Comando'
+		},
+
+		// Prepended to ARIA labels with shortcuts.
+		keyboardShortcut: 'Atalho do teclado'
 	}
 };

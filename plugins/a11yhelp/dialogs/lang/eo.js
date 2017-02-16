@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eo', {
 		]
 	}
 	],
-	backspace: 'Retropaŝo',
 	tab: 'Tabo',
-	enter: 'Enigi',
-	shift: 'Registrumo',
-	ctrl: 'Stirklavo',
-	alt: 'Alt-klavo',
 	pause: 'Paŭzo',
 	capslock: 'Majuskla baskulo',
 	escape: 'Eskapa klavo',
 	pageUp: 'Antaŭa Paĝo',
 	pageDown: 'Sekva Paĝo',
-	end: 'Fino',
-	home: 'Hejmo',
 	leftArrow: 'Sago Maldekstren',
 	upArrow: 'Sago Supren',
 	rightArrow: 'Sago Dekstren',
 	downArrow: 'Sago Suben',
 	insert: 'Enmeti',
-	'delete': 'Forigi',
 	leftWindowKey: 'Maldekstra Windows-klavo',
 	rightWindowKey: 'Dekstra Windows-klavo',
 	selectKey: 'Selektklavo',

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 		]
 	}
 	],
-	backspace: 'عقبگرد',
 	tab: 'برگه',
-	enter: 'ورود',
-	shift: 'تعویض',
-	ctrl: 'کنترل',
-	alt: 'دگرساز',
 	pause: 'توقف',
 	capslock: 'Caps Lock',
 	escape: 'گریز',
 	pageUp: 'صفحه به بالا',
 	pageDown: 'صفحه به پایین',
-	end: 'پایان',
-	home: 'خانه',
 	leftArrow: 'پیکان چپ',
 	upArrow: 'پیکان بالا',
 	rightArrow: 'پیکان راست',
 	downArrow: 'پیکان پایین',
 	insert: 'ورود',
-	'delete': 'حذف',
 	leftWindowKey: 'کلید چپ ویندوز',
 	rightWindowKey: 'کلید راست ویندوز',
 	selectKey: 'انتخاب کلید',

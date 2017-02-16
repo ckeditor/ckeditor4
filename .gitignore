@@ -9,6 +9,7 @@
 
 node_modules/**
 build/**
+coverage/**
 
 dev/builder/release/**
 dev/builder/ckbuilder/**

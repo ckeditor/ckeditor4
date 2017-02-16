@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 		]
 	}
 	],
-	backspace: 'Backspace',
 	tab: 'Tabulátor',
-	enter: 'Enter',
-	shift: 'Shift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Pauza',
 	capslock: 'Caps lock',
 	escape: 'Escape',
 	pageUp: 'Stránka nahoru',
 	pageDown: 'Stránka dolů',
-	end: 'Konec',
-	home: 'Domů',
 	leftArrow: 'Šipka vlevo',
 	upArrow: 'Šipka nahoru',
 	rightArrow: 'Šipka vpravo',
 	downArrow: 'Šipka dolů',
 	insert: 'Vložit',
-	'delete': 'Smazat',
 	leftWindowKey: 'Levá klávesa Windows',
 	rightWindowKey: 'Pravá klávesa Windows',
 	selectKey: 'Vyberte klávesu',

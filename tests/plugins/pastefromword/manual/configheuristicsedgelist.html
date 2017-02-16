@@ -1,0 +1,14 @@
+
+<textarea name="editor1" id="editor1" cols="30" rows="10">
+	&lt;p&gt;Paste the content here:&lt;/p&gt;
+</textarea>
+
+<script>
+	if ( !CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		pasteFromWord_heuristicsEdgeList: false
+	} );
+</script>

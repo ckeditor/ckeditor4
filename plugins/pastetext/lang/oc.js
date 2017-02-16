@@ -1,0 +1,8 @@
+/*
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+CKEDITOR.plugins.setLang( 'pastetext', 'oc', {
+	button: 'Pegar coma tèxte brut',
+	title: 'Pegar coma tèxte brut'
+} );

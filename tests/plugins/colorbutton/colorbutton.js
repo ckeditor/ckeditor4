@@ -38,6 +38,13 @@
 			wait();
 		},
 
+		'test background color transformation': function() {
+			var input = '<p><span style="background:#ff0000">foo</span><span style="background:yellow">bar</span></p>',
+				expected = '<p><span style="background-color:#ff0000">foo</span><span style="background-color:yellow">bar</span></p>';
+
+			assert.areSame( expected, this.editor.dataProcessor.toHtml( input ) );
+		},
+
 		'test enableAutomatic=true option': function() {
 			bender.editorBot.create( {
 				name: 'editor1',

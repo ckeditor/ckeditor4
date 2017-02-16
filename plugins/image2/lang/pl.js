@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'image2', 'pl', {
@@ -16,5 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'pl', {
 	resizer: 'Kliknij i przeciągnij, by zmienić rozmiar.',
 	title: 'Właściwości obrazka',
 	uploadTab: 'Wyślij',
-	urlMissing: 'Podaj adres URL obrazka.'
+	urlMissing: 'Podaj adres URL obrazka.',
+	altMissing: 'Podaj tekst zastępczy obrazka.'
 } );

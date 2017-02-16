@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,25 +83,17 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 		]
 	}
 	],
-	backspace: 'Backsteg',
 	tab: 'Tab',
-	enter: 'Retur',
-	shift: 'Skift',
-	ctrl: 'Ctrl',
-	alt: 'Alt',
 	pause: 'Paus',
 	capslock: 'Caps lock',
 	escape: 'Escape',
 	pageUp: 'Sida Up',
 	pageDown: 'Sida Ned',
-	end: 'Slut',
-	home: 'Hem',
 	leftArrow: 'Vänsterpil',
 	upArrow: 'Uppil',
 	rightArrow: 'Högerpil',
 	downArrow: 'Nedåtpil',
 	insert: 'Infoga',
-	'delete': 'Radera',
 	leftWindowKey: 'Vänster Windowstangent',
 	rightWindowKey: 'Höger Windowstangent',
 	selectKey: 'Välj tangent',

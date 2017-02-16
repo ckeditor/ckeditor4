@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -661,7 +661,59 @@
 
 			addCmd( 'cellProperties', new CKEDITOR.dialogCommand( 'cellProperties', createDef( {
 				allowedContent: 'td th{width,height,border-color,background-color,white-space,vertical-align,text-align}[colspan,rowspan]',
-				requiredContent: 'table'
+				requiredContent: 'table',
+				contentTransformations: [ [ {
+						element: 'td',
+						left: function( element ) {
+							return element.styles.background && element.styles.background.match( /^(#[a-fA-F0-9]{3,6}|rgb\([\d, ]+\)|\w+)$/ );
+						},
+						right: function( element ) {
+							element.styles[ 'background-color' ] = element.styles.background;
+						}
+					}, {
+						element: 'td',
+						check: 'td{vertical-align}',
+						left: function( element ) {
+							return element.attributes && element.attributes.valign;
+						},
+						right: function( element ) {
+							element.styles[ 'vertical-align' ] = element.attributes.valign;
+							delete element.attributes.valign;
+						}
+					}
+					], [
+						{
+							// (#16818)
+							element: 'tr',
+							check: 'td{height}',
+							left: function( element ) {
+								return element.styles && element.styles.height;
+							},
+							right: function( element ) {
+								CKEDITOR.tools.array.forEach( element.children, function( node ) {
+									if ( node.name in { td: 1, th: 1 } ) {
+										node.attributes[ 'cke-row-height' ] = element.styles.height;
+									}
+								} );
+
+								delete element.styles.height;
+							}
+						}
+					], [
+						{
+							// (#16818)
+							element: 'td',
+							check: 'td{height}',
+							left: function( element ) {
+								var attributes = element.attributes;
+								return attributes && attributes[ 'cke-row-height' ];
+							},
+							right: function( element ) {
+								element.styles.height = element.attributes[ 'cke-row-height' ];
+								delete element.attributes[ 'cke-row-height' ];
+							}
+						}
+					] ]
 			} ) ) );
 			CKEDITOR.dialog.add( 'cellProperties', this.path + 'dialogs/tableCell.js' );
 

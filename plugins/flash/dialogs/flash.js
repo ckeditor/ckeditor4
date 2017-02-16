@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -327,6 +327,7 @@
 						type: 'hbox',
 						widths: [ '280px', '110px' ],
 						align: 'right',
+						className: 'cke_dialog_flash_url',
 						children: [ {
 							id: 'src',
 							type: 'text',
