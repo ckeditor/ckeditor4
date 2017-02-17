@@ -437,6 +437,7 @@
 	 */
 	CKEDITOR.plugins.pastefromword.parseStyles = function( styles ) {
 		var parseCssText = CKEDITOR.tools.parseCssText,
+			filterStyles = CKEDITOR.plugins.pastefromword.filterStyles,
 			stylesObj = {},
 			sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles ),
 			rules,
@@ -459,7 +460,7 @@
 			var startIndex = cssText.indexOf( '{' ),
 				endIndex = cssText.indexOf( '}' );
 
-			return cssText.substring( startIndex + 1, endIndex );
+			return parseCssText( cssText.substring( startIndex + 1, endIndex ), true );
 		}
 
 		// In case of at-rules (e.g. @font-face), selector will be empty.
@@ -475,7 +476,7 @@
 
 			for ( i = 0; i < rules.length; i++ ) {
 				if ( rules[ i ].selectorText && !isAtRule( rules [ i ] ) ) {
-					stylesObj[ rules[ i ].selectorText ] = parseCssText( getStyles( rules[ i ].cssText ), true );
+					stylesObj[ rules[ i ].selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
 				}
 			}
 		}
@@ -493,7 +494,14 @@
 	 * @member CKEDITOR.plugins.pastefromword
 	 */
 	CKEDITOR.plugins.pastefromword.filterStyles = function( stylesObj ) {
-		var toRemove = [ 'page-break', 'page-break-before', 'page-break-after', 'page-break-inside' ],
+		var toRemove = [
+				'break-before',
+				'break-after',
+				'break-inside',
+				'page-break',
+				'page-break-before',
+				'page-break-after',
+				'page-break-inside' ],
 			indexOf = CKEDITOR.tools.array.indexOf,
 			newObj = {},
 			style;
