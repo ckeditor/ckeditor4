@@ -25,6 +25,15 @@
 		} );
 	}
 
+	function testFiltering( name ) {
+		bender.tools.testInputOut( name, function( styles, parsed ) {
+			var stylesObj = JSON.parse( parsed ),
+				tested = CKEDITOR.plugins.pastefromword.filterStyles( JSON.parse( styles ) );
+
+			objectAssert.areDeepEqual( stylesObj, tested, name );
+		} );
+	}
+
 	var tests = {
 		setUp: function() {
 			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
@@ -55,6 +64,10 @@
 		'test inlining styles': function() {
 			testInlining( 'inline1' );
 			testInlining( 'multiple-inline' );
+		},
+
+		'test filtering styles': function() {
+			testFiltering( 'filter1' );
 		}
 	};
 
