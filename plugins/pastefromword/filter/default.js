@@ -658,6 +658,7 @@
 			var retainedStyles = {
 				'list-style-type': true,
 				'width': true,
+				'height': true,
 				'border': true,
 				'border-': true
 			};
