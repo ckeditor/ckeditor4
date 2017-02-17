@@ -1,0 +1,101 @@
+/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+/*
+editor_ie7.css
+===============
+
+This file contains styles to used by Internet Explorer 7 only.
+*/
+
+/* Base it on editor_ie.css, overriding it with styles defined in this file. */
+@import url("editor_ie.css");
+
+.cke_rtl .cke_toolgroup,
+.cke_rtl .cke_toolbar_separator,
+.cke_rtl .cke_button,
+.cke_rtl .cke_button *,
+.cke_rtl .cke_combo,
+.cke_rtl .cke_combo *,
+.cke_rtl .cke_path_item,
+.cke_rtl .cke_path_item *
+{
+  float: none;
+}
+
+.cke_rtl .cke_toolgroup,
+.cke_rtl .cke_toolbar_separator,
+.cke_rtl .cke_combo_button,
+.cke_rtl .cke_combo_button *,
+.cke_rtl .cke_button,
+.cke_rtl .cke_button_icon,
+{
+  display: inline-block;
+  vertical-align: top;
+}
+
+.cke_toolbox
+{
+  display:inline-block;
+  padding-bottom: 5px;
+  height: 100%;
+}
+.cke_rtl .cke_toolbox
+{
+  padding-bottom: 0;
+}
+
+.cke_toolbar
+{
+  margin-bottom: 5px;
+}
+.cke_rtl .cke_toolbar
+{
+  margin-bottom: 0;
+}
+
+/* IE7: toolgroup must be adapted to toolbar items height. */
+.cke_toolgroup
+{
+  height: 26px;
+}
+
+a.cke_button
+{
+  /* IE7: buttons must not float to wrap the toolbar in a whole. */
+  float:none;
+
+  /* IE7: buttons have to be aligned to top. Otherwise, some buttons like
+   * source and scayt are displayed a few pixels below the base line.
+   */
+  vertical-align:top;
+}
+
+.cke_toolbar_separator
+{
+  vertical-align: top;
+}
+
+.cke_toolbox_collapser .cke_arrow
+{
+  border-width:4px;
+}
+.cke_toolbox_collapser.cke_toolbox_collapser_min .cke_arrow
+{
+  border-width:3px;
+}
+
+.cke_rtl .cke_button_arrow
+{
+  padding-top: 8px;
+  margin-right: 2px;
+}
+
+.cke_rtl .cke_combo_inlinelabel
+{
+  display: table-cell;
+  vertical-align: middle;
+  padding-bottom: 8px;
+}

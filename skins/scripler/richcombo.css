@@ -1,0 +1,156 @@
+/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+/*
+richcombo.css (part of editor.css)
+=================================
+
+This file holds the style set of the "Rich Combo" widget which is commonly used
+in the toolbar. It doesn't, however, styles the panel that is displayed when
+clicking on the combo, which is instead styled by panel.css.
+
+The visual representation of a rich combo widget looks as follows:
+
++-- .cke_combo----------------------------------------------------------------------+
+| +-- .cke_combo_label --+ +-- .cke_combo_button ---------------------------------+ |
+| |                      | | +-- .cke_combo_text --+ +-- .cke_combo_open -------+ | |
+| |                      | | |                     | | +-- .cke_combo_arrow --+ | | |
+| |                      | | |                     | | |                      | | | |
+| |                      | | |                     | | +----------------------+ | | |
+| |                      | | +---------------------+ +--------------------------+ | |
+| +----------------------+ +------------------------------------------------------+ |
++-----------------------------------------------------------------------------------+
+*/
+
+/* The box that hold the entire combo widget */
+.cke_combo
+{
+  display: inline-block;
+  float: left;
+}
+
+.cke_rtl .cke_combo
+{
+  float: right;
+}
+
+/* The label of the combo widget. It is invisible by default, yet
+it's important for semantics and accessibility. */
+.cke_combo_label
+{
+  display: none;
+  float: left;
+  line-height: 22px;
+  vertical-align: top;
+  margin-right: 5px;
+}
+
+.cke_rtl .cke_combo_label
+{
+  float: right;
+  margin-left: 5px;
+  margin-right: 0;
+}
+
+/* The container for combo text and arrow. */
+.cke_combo_button
+{
+  display: inline-block;
+  float: left;
+  height: 26px;
+  margin: 0 6px 5px 0;
+
+  border: 1px solid #fff56c;
+
+  background: #fff;
+}
+
+/* Different states of the container. */
+a.cke_combo_button:hover,
+a.cke_combo_button:focus
+{
+  background: #fff56c;
+}
+
+a.cke_combo_button:active,
+.cke_combo.cke_on a.cke_combo_button
+{
+  border: 1px solid #777;
+  /*border-bottom-color: #777;*/
+
+  background: #fff;
+}
+
+a.cke_combo_button:active .cke_combo_text,
+.cke_combo.cke_on .cke_combo_text
+{
+}
+
+
+.cke_rtl .cke_combo_button
+{
+  float: right;
+  margin-left: 5px;
+  margin-right: 0;
+}
+
+/* The label that shows the current value of the rich combo.
+   By default, it holds the name of the property.
+   See: .cke_combo_inlinelabel */
+.cke_combo_text
+{
+  line-height: 25px;
+  padding-left: 7px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  float: left;
+  cursor: default;
+  color: #000000;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.cke_rtl .cke_combo_text
+{
+  float: right;
+  text-align: right;
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+/* The label of the combo whose value hasn't been changed (it's default).
+It displays the name of the property the combo is responsible for. */
+.cke_combo_inlinelabel
+{
+}
+
+/* The handler which opens the panel of rich combo properties.
+It holds an arrow as a visual indicator. */
+.cke_combo_open
+{
+  cursor: default;
+  display: inline-block;
+  font-size: 0;
+  height: 19px;
+  line-height: 17px;
+  margin: 1px 7px 1px;
+  width: 5px;
+}
+
+
+/* The arrow which is displayed inside of the .cke_combo_open handler. */
+.cke_combo_arrow
+{
+  margin: 11px 0 0;
+  float: left;
+
+  /* Pure CSS Arrow */
+  height: 0;
+  width: 0;
+  font-size: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 3px solid #000000;
+}
