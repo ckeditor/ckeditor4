@@ -359,6 +359,10 @@ bender.test( {
 
 	// #16847
 	'test getData with getNative flag': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
 		var html = '<html>' +
 				'<head>' +
 					'<meta charset="UTF-8">' +
@@ -382,6 +386,10 @@ bender.test( {
 
 	// #16847
 	'test getData with getNative flag after caching': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
 		var html = '<html>' +
 				'<head>' +
 					'<meta charset="UTF-8">' +
@@ -406,6 +414,10 @@ bender.test( {
 
 	// #16847
 	'test getData with filter after caching': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
 		var html = '<html>' +
 				'<head>' +
 					'<meta charset="UTF-8">' +
@@ -430,6 +442,10 @@ bender.test( {
 
 	// #16847
 	'test filtering unwanted content with getNative': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
 		var html = '<html>' +
 				'<body>Foo</body>' +
 			'</html>',
@@ -450,6 +466,10 @@ bender.test( {
 
 	// #16847
 	'test filtering unwanted content with getNative and cacheData': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
 		var html = '<html>' +
 				'<body>Foo</body>' +
 			'</html>',
