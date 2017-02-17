@@ -61,13 +61,14 @@
 			objectAssert.areDeepEqual( expected, actual );
 		},
 
-		'test inlining styles': function() {
-			testInlining( 'inline1' );
-			testInlining( 'multiple-inline' );
-		},
-
 		'test filtering styles': function() {
 			testFiltering( 'filter1' );
+		},
+
+		'test inlining styles': function() {
+			testInlining( 'inline1' );
+			testInlining( 'inline2' );
+			testInlining( 'multiple-inline' );
 		}
 	};
 

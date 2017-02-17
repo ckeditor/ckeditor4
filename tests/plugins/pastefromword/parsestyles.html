@@ -130,6 +130,24 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	<p class="class1 class2" style="font-family: Verdana;font-size: 20px;">Baz</p>
 </textarea>
 
+<textarea id="inline2">
+	<html>
+		<head>
+			<style>
+				.class1 {
+					page-break-before: avoid;
+					font-family: Verdana;
+				}
+			</style>
+		</head>
+		<body>
+			<p class="class1">Foo</p>
+		</body>
+	</html>
+=>
+	<p class="class1" style="font-family: Verdana;">Foo</p>
+</textarea>
+
 <textarea id="multiple-inline">
 	<html>
 		<head>
