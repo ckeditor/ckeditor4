@@ -484,6 +484,30 @@
 	};
 
 	/**
+	 * Filters out all unnecessary styles
+	 *
+	 * @parameter {Object} stylesObj Styles returned by CKEDITOR.plugins.pastefromword#parseStyles.
+	 * @return {Object}
+	 * @since 4.7.0
+	 * @private
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
+	CKEDITOR.plugins.pastefromword.filterStyles = function( stylesObj ) {
+		var toRemove = [ 'page-break', 'page-break-before', 'page-break-after', 'page-break-inside' ],
+			indexOf = CKEDITOR.tools.array.indexOf,
+			newObj = {},
+			style;
+
+		for ( style in stylesObj ) {
+			if ( indexOf( toRemove, style ) === -1 ) {
+				newObj[ style ] = stylesObj[ style ];
+			}
+		}
+
+		return newObj;
+	};
+
+	/**
 	 * Fetches all `style` elements from given HTML string and returned document, in which
 	 * all fetched styles are inlined into appropriate elements.
 	 *
