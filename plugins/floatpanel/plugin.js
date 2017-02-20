@@ -418,7 +418,13 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						this.allowBlur( true );
 
 						// Ensure that the first item is focused (#16804).
-						block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
+						if ( CKEDITOR.env.ie ) {
+							CKEDITOR.tools.setTimeout( function() {
+								block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
+							}, 0 );
+						} else {
+							block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
+						}
 
 						this._.editor.fire( 'panelShow', this );
 					}, 0, this );
