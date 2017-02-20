@@ -3,12 +3,16 @@ dist: trusty
 
 language: node_js
 
+node_js:
+  - 4
+
+env:
+  - BUILD=0 BROWSER=Chrome
+  - BUILD=1 BROWSER=Chrome
+  - BUILD=0 BROWSER=Firefox
+  - BUILD=1 BROWSER=Firefox
+
 matrix:
-  include:
-    - node_js: 4
-      env: BUILD=0 BROWSER=Chrome
-    - node_js: 4
-      env: BUILD=1 BROWSER=Chrome
   allow_failures:
     - node_js: 4
       env: BUILD=0 BROWSER=Firefox
