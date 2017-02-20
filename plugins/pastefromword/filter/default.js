@@ -254,6 +254,12 @@
 						return false;
 					}
 
+					if ( element.attributes.style.match( /FONT-FAMILY:\s*Symbol/i ) ) {
+						var whitespaces = element.forEach( node => {
+							node.value = node.value.replace( /&nbsp;/g, '' );
+						}, CKEDITOR.NODE_TEXT, true );
+					}
+
 					Style.createStyleStack( element, filter, editor );
 				},
 				'table': function( element ) {
@@ -387,11 +393,23 @@
 				}
 				return false;
 			},
-			text: function( content ) {
+			text: function( content, node ) {
 				if ( inComment ) {
 					return '';
 				}
-				return content.replace( /&nbsp;/g, ' ' );
+
+				var grandparent = node.parent && node.parent.parent;
+
+				if ( content.match( /nbsp/ ) ) {
+					console.log( 'foo' );
+				}
+
+				if ( grandparent && grandparent.attributes && grandparent.attributes.style && grandparent.attributes.style.match( /mso-list:\s*ignore/i ) ) {
+					return content.replace( /&nbsp;/g, ' ' );
+				}
+
+				return content;
+				// return content.replace( /&nbsp;/g, ' ' );
 			}
 		} );
 
@@ -529,8 +547,8 @@
 		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		createStyleStack: function( element, filter, editor ) {
-			var i,
-				children = [];
+			var children = [],
+				i;
 
 			element.filterChildren( filter );
 
@@ -756,7 +774,7 @@
 					return;
 				}
 
-				element.attributes[ 'cke-symbol' ] = symbol.replace( / .*$/, '' );
+				element.attributes[ 'cke-symbol' ] = symbol.replace( /(?: |&nbsp;).*$/, '' );
 
 				List.removeSymbolText( element );
 			}
@@ -1703,7 +1721,7 @@
 				innerText += text.value;
 			}, CKEDITOR.NODE_TEXT );
 
-			if ( innerText.match( /^( )*\(?[a-zA-Z0-9]+?[\.\)] ( ){2,}/ ) ) {
+			if ( innerText.match( /^(?: |&nbsp;)*\(?[a-zA-Z0-9]+?[\.\)](?: |&nbsp;){2,}/ ) ) {
 				return true;
 			}
 
