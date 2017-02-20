@@ -56,6 +56,30 @@
 			assert.areSame( sourceHtml, bender.tools.compatHtml( sourceHtml ) );
 		},
 
+		'test compatHtml\'s customFilters': function() {
+			var input = '<p data-some-attr><span>Foo</span></p>',
+				output = '<p><em>Foo</em></p>',
+				filters = [
+					new CKEDITOR.htmlParser.filter( {
+						elements: {
+							'p': function( element ) {
+								delete element.attributes[ 'data-some-attr' ];
+							}
+						}
+					} ),
+
+					new CKEDITOR.htmlParser.filter( {
+						elements: {
+							'span': function( element ) {
+								element.name = 'em';
+							}
+						}
+					} )
+				];
+
+			assert.areSame( output, bender.tools.compatHtml( input, false, false, false, false, false, false, filters ) );
+		},
+
 		'test escapeRegExp': function() {
 			var characters = '-[]/{}()*+?.\\^$|',
 				expected = '\\' + characters.split( '' ).join( '\\' ),
