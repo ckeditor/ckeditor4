@@ -241,6 +241,7 @@
 		 * @param {Boolean} [fixNbsp] Encode `\u00a0`.
 		 * @param {Boolean} [noTempElements] Strip elements with `data-cke-temp` attributes (e.g. hidden selection container).
 		 * @param {CKEDITOR.htmlParser.filter[]} [customFilters] Array of filters that will be applied to parsed HTML.
+		 * This parameter was added in 4.7.0.
 		 */
 		compatHtml: function( html, noInterWS, sortAttributes, fixZWS, fixStyles, fixNbsp, noTempElements, customFilters ) {
 			// Remove all indeterminate white spaces.
