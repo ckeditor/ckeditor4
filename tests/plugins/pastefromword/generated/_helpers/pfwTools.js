@@ -23,19 +23,35 @@
 						var parent = element.parent,
 							style;
 
-						if ( !parent || parent.name !== 'span' ) {
+						function isStyleElement( element ) {
+							return !!element.attributes.style;
+						}
+
+						function isColorStyle( element ) {
+							return element.attributes.style.indexOf( 'color' ) !== -1;
+						}
+
+						function needSorting( element ) {
+							var parent = element.parent;
+
+							if ( !isStyleElement( element ) || !isStyleElement( parent ) ||
+								( isColorStyle( element ) && isColorStyle( parent ) ) ) {
+								return false;
+							}
+
+							return element.attributes.style < parent.attributes.style;
+						}
+
+						if ( !parent || parent.name !== 'span' || !needSorting( element ) ) {
 							return;
 						}
 
-						if ( element.attributes.style && parent.attributes.style &&
-							element.attributes.style < parent.attributes.style ) {
-							style = element.attributes.style;
+						style = element.attributes.style;
 
-							element.attributes.style = parent.attributes.style;
-							parent.attributes.style = style;
+						element.attributes.style = parent.attributes.style;
+						parent.attributes.style = style;
 
-							sortStyles( parent );
-						}
+						sortStyles( parent );
 					}
 				}
 			} )
