@@ -15,6 +15,9 @@ matrix:
       env: BUILD=1 BROWSER=Firefox
   fast_finish: true
 
+addons:
+  firefox: "latest"
+
 before_script:
   - 'npm install benderjs-cli -g'
 
