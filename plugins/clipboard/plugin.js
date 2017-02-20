@@ -2286,6 +2286,10 @@
 			}
 
 			function filterUnwantedCharacters( data ) {
+				if ( typeof data !== 'string' ) {
+					return data;
+				}
+
 				var htmlEnd = data.indexOf( '</html>' );
 
 				if ( htmlEnd !== -1 ) {
