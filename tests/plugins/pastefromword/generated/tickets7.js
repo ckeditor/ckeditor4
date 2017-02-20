@@ -21,7 +21,7 @@
 			'chrome',
 			'edge'
 		],
-		wordVersion = 'word2016',
+		wordVersion = 'word2013',
 		ticketTests = {
 			'No_heuristics/Ordered_list': true,
 			'No_heuristics/Ordered_list_multiple': true,
