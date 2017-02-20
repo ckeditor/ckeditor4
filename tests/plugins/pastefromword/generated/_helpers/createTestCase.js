@@ -1,4 +1,5 @@
-/* global assertWordFilter,Q */
+/* global pfwTools,assertWordFilter,Q */
+/* bender-include: _helpers/pfwTools.js */
 /* exported createTestCase */
 
 // @param {boolean} [compareRawData=false] If `true` test case will assert against raw paste's `data.dataValue` rather than
@@ -59,7 +60,8 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 
 						assert.beautified.html( values[ 0 ], values[ 1 ], {
 							fixStyles: true,
-							sortAttributes: true
+							sortAttributes: true,
+							customFilters: pfwTools.filters
 						} );
 					} );
 				}, function( err ) {
