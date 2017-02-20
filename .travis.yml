@@ -9,11 +9,11 @@ matrix:
       env: BUILD=0 BROWSER=Chrome
     - node_js: 4
       env: BUILD=1 BROWSER=Chrome
+  allow_failures:
     - node_js: 4
       env: BUILD=0 BROWSER=Firefox
     - node_js: 4
       env: BUILD=1 BROWSER=Firefox
-  fast_finish: true
 
 addons:
   firefox: "latest"
