@@ -27,32 +27,55 @@
 
 	bender.test( {
 		'test mark first panel block item': function() {
-			var block = createBlock();
+			var block = createBlock(),
+				timeout = CKEDITOR.tools.setTimeout;
 
 			block.onMark = sinon.spy();
 
+			CKEDITOR.tools.setTimeout = function( callback ) {
+				callback();
+			};
+
 			block._.markFirstDisplayed();
+
+			CKEDITOR.tools.setTimeout = timeout;
 
 			assert.isTrue( block.onMark.calledWith( block.element.getElementsByTag( 'a' ).getItem( 0 ) ) );
 		},
 
 		'test mark first displayed panel block item': function() {
-			var block = createBlock();
+			var block = createBlock(),
+				timeout = CKEDITOR.tools.setTimeout;
 
 			block.onMark = sinon.spy();
 			block.element.getElementsByTag( 'p' ).getItem( 0 ).setStyle( 'display', 'none' );
+
+			CKEDITOR.tools.setTimeout = function( callback ) {
+				callback();
+			};
+
 			block._.markFirstDisplayed();
+
+			CKEDITOR.tools.setTimeout = timeout;
 
 			assert.isTrue( block.onMark.calledWith( block.element.getElementsByTag( 'a' ).getItem( 1 ) ) );
 		},
 
 		'test mark first displayed item with aria-selected': function() {
 			var block = createBlock(),
-				itemIndex = 2;
+				itemIndex = 2,
+				timeout = CKEDITOR.tools.setTimeout;
 
 			block.onMark = sinon.spy();
 			block.element.getElementsByTag( 'a' ).getItem( itemIndex ).setAttribute( 'aria-selected', true );
+
+			CKEDITOR.tools.setTimeout = function( callback ) {
+				callback();
+			};
+
 			block._.markFirstDisplayed();
+
+			CKEDITOR.tools.setTimeout = timeout;
 
 			assert.isTrue( block.onMark.calledWith( block.element.getElementsByTag( 'a' ).getItem( itemIndex ) ) );
 		}
