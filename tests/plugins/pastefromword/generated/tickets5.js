@@ -10,7 +10,9 @@
 	'use strict';
 
 	bender.editor = {
-		config: pfwTools.defaultConfig
+		config: CKEDITOR.tools.extend( {}, pfwTools.defaultConfig, {
+			pasteFromWord_heuristicsEdgeList: false
+		} )
 	};
 
 	var browsers = [

@@ -48,7 +48,9 @@
 		keys = CKEDITOR.tools.objectKeys( tests ),
 		testData = {
 			_should: {
-				ignore: {}
+				ignore: {
+					'test Ordered_list word2013 safari': true
+				}
 			}
 		};
 
