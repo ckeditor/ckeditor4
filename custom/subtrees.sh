@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 
+# Once the remote names have been created and fetched, the following
+# commands create the subtree folders and commit them to the repo.
+
+echo
+echo "# The following commands are used for setting up subtrees. Please create and"
+echo "# fetch the remotes by running remotes.sh prior to running these commands."
+
 # The custom subtree uses a separate location
 NAME="custom"
+echo
 echo \# $NAME
 
-cmd="git remote add $NAME https://github.com/a11yfirst/${NAME}.git"
-echo $cmd
-
-cmd="git fetch $NAME"
-echo $cmd
-
+# Update the index with the contents of the remote's master branch
+# and (using the -u switch) update the working directory as well:
 cmd="git read-tree --prefix=${NAME} -u ${NAME}/master"
 echo $cmd
 
@@ -29,14 +33,6 @@ do
   echo
   echo \# $NAME
 
-  # Create named remote for subtree's central repo
-  cmd="git remote add $NAME https://github.com/a11yfirst/${NAME}.git"
-  echo $cmd
-
-  # Fetch the remote ref into the index
-  cmd="git fetch $NAME"
-  echo $cmd
-
   # Update the index with the contents of the remote's master branch
   # and (using the -u switch) update the working directory as well:
   cmd="git read-tree --prefix=plugins/${NAME} -u ${NAME}/master"
@@ -50,3 +46,5 @@ do
   cmd="git commit -m \"Add subtree plugins/${NAME}\""
   echo $cmd
 done
+
+echo
