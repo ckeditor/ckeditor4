@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Once the remote name has been created and fetched, the following commands
+# allow you to backport cherry-picked subtree commits to the original repo.
+
+echo
+echo "# The following commands are used for for backporting subtree commits"
+echo "# to their original repositories. Please create and fetch the remote"
+echo "# by running remotes.sh prior to running these commands."
+
 if [ $# -eq 0 ]; then
     echo "Syntax:"
     echo "    $0 <plugin-name>"
