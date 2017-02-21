@@ -12,7 +12,9 @@
 	pfwTools.defaultConfig.disallowedContent = ( pfwTools.defaultConfig.disallowedContent ? pfwTools.defaultConfig.disallowedContent + ';' : '' ) + 'span[lang,dir]';
 
 	bender.editor = {
-		config: pfwTools.defaultConfig
+		config: CKEDITOR.tools.extend( {}, pfwTools.defaultConfig, {
+			pasteFromWord_heuristicsEdgeList: false
+		} )
 	};
 
 	var browsers = [

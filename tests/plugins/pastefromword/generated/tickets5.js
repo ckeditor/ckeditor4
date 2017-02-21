@@ -10,7 +10,9 @@
 	'use strict';
 
 	bender.editor = {
-		config: pfwTools.defaultConfig
+		config: CKEDITOR.tools.extend( {}, pfwTools.defaultConfig, {
+			pasteFromWord_heuristicsEdgeList: false
+		} )
 	};
 
 	var browsers = [
@@ -25,7 +27,8 @@
 			'14867examples': [ 'word2013' ],
 			'16593regular_paste': [ 'word2013' ],
 			'16833Numbered_lists': [ 'word2013' ],
-			'16817SampleDocForDataLossBug': [ 'word2013', 'word2016' ]
+			'16817SampleDocForDataLossBug': [ 'word2013', 'word2016' ],
+			'16860Faked_list': true
 		},
 		testData = {
 			_should: {

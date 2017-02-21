@@ -9,6 +9,7 @@ New Features:
 
 Fixed Issues:
 
+* [#16860](http://dev.ckeditor.com/ticket/16860): Fixed: Paragraphs which only look like lists wrongly transformed into them.
 * [#16817](http://dev.ckeditor.com/ticket/16817): Fixed: Paragraph transformed into lists, with corrupted data when pasting from Word.
 * [#16833](http://dev.ckeditor.com/ticket/16833): [IE11] Fixed: Malformed list with headers [pasted from Word](http://ckeditor.com/addon/pastefromword).
 * [#16826](http://dev.ckeditor.com/ticket/16826): Fixed: Superfluous paragraphs within lists [pasted from Word](http://ckeditor.com/addon/pastefromword) in IE.
