@@ -1703,7 +1703,7 @@
 				innerText += text.value;
 			}, CKEDITOR.NODE_TEXT );
 
-			if  ( innerText.match( /^( )*\(?[a-zA-Z0-9]+?[\.\)] ( ){2,700}/ ) ) {
+			if  ( innerText.match( /^( )*\(?[a-zA-Z0-9]+?[\.\)] ( ){2,}/ ) ) {
 				return true;
 			}
 
