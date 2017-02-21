@@ -1,10 +1,10 @@
-/* global pfwTools,assertWordFilter,Q */
+/* global assertWordFilter,Q */
 /* bender-include: _helpers/pfwTools.js */
 /* exported createTestCase */
 
 // @param {boolean} [compareRawData=false] If `true` test case will assert against raw paste's `data.dataValue` rather than
 // what will appear in the editor after all transformations and filtering.
-function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawData ) {
+function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawData, customFilters ) {
 	return function() {
 		var inputPath = [ tickets ? '_fixtures/Tickets' : '_fixtures', fixtureName, wordVersion, browser ].join( '/' ) + '.html',
 			outputPath = [ tickets ? '_fixtures/Tickets' : '_fixtures', fixtureName, '/expected.html' ].join( '/' ),
@@ -61,7 +61,7 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 						assert.beautified.html( values[ 0 ], values[ 1 ], {
 							fixStyles: true,
 							sortAttributes: true,
-							customFilters: pfwTools.filters
+							customFilters: customFilters
 						} );
 					} );
 				}, function( err ) {

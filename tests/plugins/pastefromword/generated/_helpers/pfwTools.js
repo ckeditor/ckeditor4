@@ -16,8 +16,8 @@
 		},
 
 		// Filters for use in compatHtml in tests.
-		filters: [
-			new CKEDITOR.htmlParser.filter( {
+		filters: {
+			span: new CKEDITOR.htmlParser.filter( {
 				elements: {
 					span: function sortStyles( element ) {
 						var parent = element.parent,
@@ -54,8 +54,41 @@
 						sortStyles( parent );
 					}
 				}
+			} ),
+
+			font: new CKEDITOR.htmlParser.filter( {
+				elements: {
+					font: function sortStyles( element ) {
+						var parent = element.parent,
+							attributes;
+
+						function needSorting( element ) {
+							var keys = CKEDITOR.tools.objectKeys,
+								parent = element.parent,
+								parentAttrs = keys( parent.attributes ),
+								elementAttrs = keys( element.attributes );
+
+							if ( elementAttrs[ 0 ] === parentAttrs[ 0 ] ) {
+								return element.attributes[ elementAttrs[ 0 ] ] < parent.attributes[ parentAttrs[ 0 ] ];
+							}
+
+							return elementAttrs[ 0 ] < parentAttrs[ 0 ];
+						}
+
+						if ( !parent || parent.name !== 'font' || !needSorting( element ) ) {
+							return;
+						}
+
+						attributes = element.attributes;
+
+						element.attributes = parent.attributes;
+						parent.attributes = attributes;
+
+						sortStyles( parent );
+					}
+				}
 			} )
-		]
+		}
 	};
 } )();
 
