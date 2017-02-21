@@ -697,22 +697,13 @@
 				return true;
 			}
 
-			var innerText = '';
-			element.forEach( function( text ) {
-				innerText += text.value;
-			}, CKEDITOR.NODE_TEXT );
-
 			/*jshint -W024 */
 			// Normally a style of the sort that looks like "mso-list: l0 level1 lfo1"
 			// indicates a list element, but the same style may appear in a <p> that's within a <li>.
 			if ( ( element.attributes.style && element.attributes.style.match( /mso\-list:\s?l\d/ ) &&
 				element.parent.name !== 'li' ) ||
 				element.attributes[ 'cke-dissolved' ] ||
-				element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ ) ||
-				// Flat, ordered lists are represented by paragraphs
-				// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
-				// where the middle parentheses contain the symbol.
-				innerText.match( /^( )*\(?[a-zA-Z0-9]+?[\.\)] ( ){2,700}/ )
+				element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ )
 			) {
 				return true;
 			}
@@ -1703,6 +1694,17 @@
 		isEdgeListItem: function( editor, item ) {
 			if ( !CKEDITOR.env.edge || !editor.config.pasteFromWord_heuristicsEdgeList ) {
 				return false;
+			}
+
+			var innerText = '';
+
+			// Edge doesn't provide any list-specific markup, so the only way to guess if it's a list is to check the text structure.
+			item.forEach && item.forEach( function( text ) {
+				innerText += text.value;
+			}, CKEDITOR.NODE_TEXT );
+
+			if  ( innerText.match( /^( )*\(?[a-zA-Z0-9]+?[\.\)] ( ){2,700}/ ) ) {
+				return true;
 			}
 
 			return Heuristics.isDegenerateListItem( editor, item );
