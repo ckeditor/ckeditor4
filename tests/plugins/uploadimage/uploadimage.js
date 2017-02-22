@@ -106,18 +106,37 @@
 			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
+			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
 			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			wait( function() {
-				loader.url = IMG_URL;
-				loader.changeStatus( 'uploaded' );
+			if ( CKEDITOR.env.ie ) {
+				wait( function() {
+					loader.url = IMG_URL;
+					loader.changeStatus( 'uploaded' );
 
-				assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
-				assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
+					assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
+					assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
-				assert.areSame( 1, loadAndUploadCount );
-				assert.areSame( 0, uploadCount );
-				assert.areSame( 'http://foo/upload', lastUploadUrl );
-			}, 10 );
+					assert.areSame( 1, loadAndUploadCount );
+					assert.areSame( 0, uploadCount );
+					assert.areSame( 'http://foo/upload', lastUploadUrl );
+				}, 100 );
+			} else {
+				image.on( 'load', function() {
+					resume( function() {
+						loader.url = IMG_URL;
+						loader.changeStatus( 'uploaded' );
+
+						assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
+						assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
+
+						assert.areSame( 1, loadAndUploadCount );
+						assert.areSame( 0, uploadCount );
+						assert.areSame( 'http://foo/upload', lastUploadUrl );
+					} );
+				} );
+				wait();
+			}
 		},
 
 		'test finish upload notification marked as important and is visible (#13032).': function() {
@@ -164,18 +183,36 @@
 			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			wait( function() {
-				loader.url = IMG_URL;
-				loader.changeStatus( 'uploaded' );
+			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
 
-				assert.sameData( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData() );
-				assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
+			if ( CKEDITOR.env.ie ) {
+				wait( function() {
+					loader.url = IMG_URL;
+					loader.changeStatus( 'uploaded' );
 
-				assert.areSame( 1, loadAndUploadCount );
-				assert.areSame( 0, uploadCount );
-				assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
-			}, 10 );
+					assert.sameData( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData() );
+					assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
+
+					assert.areSame( 1, loadAndUploadCount );
+					assert.areSame( 0, uploadCount );
+					assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
+				}, 100 );
+			} else {
+				image.on( 'load', function() {
+					resume( function() {
+						loader.url = IMG_URL;
+						loader.changeStatus( 'uploaded' );
+
+						assert.sameData( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData() );
+						assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
+
+						assert.areSame( 1, loadAndUploadCount );
+						assert.areSame( 0, uploadCount );
+						assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
+					} );
+				} );
+				wait();
+			}
 		},
 
 		'test paste img as html (integration test)': function() {
