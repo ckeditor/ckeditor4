@@ -52,7 +52,7 @@
 		};
 
 		var editable = editor.editable();
-
+		var tableWidth = 700;
 		var dialogadvtab = editor.plugins.dialogadvtab;
 
 		return {
@@ -88,10 +88,28 @@
 					ranges = selection.getRanges(),
 					table;
 
+				var element = ranges[0].endContainer.$;
+
+				for(; element.parentElement; element = element.parentElement) {
+					var tagName = (element.tagName || '').toLowerCase();
+
+					if (CKEDITOR.dtd.$block[tagName]) {
+						break;
+					}
+				}
+
+				tableWidth = parseInt(window.getComputedStyle(element, null).getPropertyValue('width'));
+
+				if (tableWidth > 700) {
+					tableWidth -= editor.config.editor_indents;
+				}
+
 				var rowsInput = this.getContentElement('info', 'txtRows'),
 					colsInput = this.getContentElement('info', 'txtCols'),
 					widthInput = this.getContentElement('info', 'txtWidth'),
 					heightInput = this.getContentElement('info', 'txtHeight');
+
+				widthInput.getInputElement().$.value = Math.round(tableWidth / pxPtCoef);
 
 				if (command == 'tableProperties') {
 					var selected = selection.getSelectedElement();
@@ -403,7 +421,7 @@
 									label: editor.lang.common.width,
 									title: editor.lang.common.cssLengthTooltip,
 									// Smarter default table width. (#9600)
-									'default': Math.min((Math.round(editable.getSize('width') - editor.config.editor_indents) / pxPtCoef), 700),
+									'default': Math.min((Math.round(editable.getSize('width') - editor.config.editor_indents) / pxPtCoef), tableWidth),
 									getValue: defaultToPt,
 									validate: CKEDITOR.dialog.validate.cssLength(editor.lang.common.invalidCssLength.replace('%1', editor.lang.common.width)),
 									onChange: function () {
@@ -412,6 +430,7 @@
 										styles && styles.updateStyle('width', this.getValue());
 									},
 									setup: function (selectedTable) {
+										console.log('setup');
 										var val = selectedTable.getStyle('width');
 
 										this.setValue(val);
