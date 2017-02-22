@@ -255,7 +255,7 @@
 					}
 
 					if ( element.attributes.style.match( /FONT-FAMILY:\s*Symbol/i ) ) {
-						var whitespaces = element.forEach( node => {
+						var whitespaces = element.forEach( function( node ) {
 							node.value = node.value.replace( /&nbsp;/g, '' );
 						}, CKEDITOR.NODE_TEXT, true );
 					}
@@ -400,16 +400,11 @@
 
 				var grandparent = node.parent && node.parent.parent;
 
-				if ( content.match( /nbsp/ ) ) {
-					console.log( 'foo' );
-				}
-
 				if ( grandparent && grandparent.attributes && grandparent.attributes.style && grandparent.attributes.style.match( /mso-list:\s*ignore/i ) ) {
 					return content.replace( /&nbsp;/g, ' ' );
 				}
 
 				return content;
-				// return content.replace( /&nbsp;/g, ' ' );
 			}
 		} );
 
