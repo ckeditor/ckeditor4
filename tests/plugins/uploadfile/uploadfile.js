@@ -158,17 +158,36 @@ bender.test( {
 		assert.areSame( 1, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
 		assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
+		var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
 		// IE needs to wait for image to be loaded so it can read width and height of the image.
-		wait( function() {
-			loader.url = IMG_URL;
-			loader.changeStatus( 'uploaded' );
+		if ( CKEDITOR.env.ie ) {
+			wait( function() {
+				loader.url = IMG_URL;
+				loader.changeStatus( 'uploaded' );
 
-			assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
-			assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
+				assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
+				assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
 
-			assert.areSame( 1, loadAndUploadCount );
-			assert.areSame( 0, uploadCount );
-			assert.areSame( 'http://foo/upload', lastUploadUrl );
-		}, 10 );
+				assert.areSame( 1, loadAndUploadCount );
+				assert.areSame( 0, uploadCount );
+				assert.areSame( 'http://foo/upload', lastUploadUrl );
+			}, 100 );
+		} else {
+			image.on( 'load', function() {
+				resume( function() {
+					loader.url = IMG_URL;
+					loader.changeStatus( 'uploaded' );
+
+					assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
+					assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
+
+					assert.areSame( 1, loadAndUploadCount );
+					assert.areSame( 0, uploadCount );
+					assert.areSame( 'http://foo/upload', lastUploadUrl );
+				} );
+			} );
+			wait();
+		}
 	}
 } );
