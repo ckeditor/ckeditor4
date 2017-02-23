@@ -27,7 +27,10 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 			load( outputPath + deCasher ),
 			load( specialCasePath + deCasher )
 		] ).done( function( values ) {
-			if ( values[ 0 ] === null ) {
+			var inputFixture = values[ 0 ],
+				expectedValue = values[ 2 ] !== null ? values[ 2 ] : values[ 1 ];
+
+			if ( inputFixture === null ) {
 				// null means that fixture file was not found - skipping test.
 
 				resume( function() {
@@ -36,30 +39,16 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 				return;
 			}
 
-			if ( values[ 2 ] !== null ) {
-				// If browser-customized expected result was found, use it.
+			assert.isNotNull( expectedValue, '"expected.html" missing.' );
 
-				assertWordFilter( editor, compareRawData )( values[ 0 ], values[ 2 ] )
+			assertWordFilter( editor, compareRawData )( inputFixture,  expectedValue )
 					.then( function( values ) {
 						resume( function() {
 							assert.beautified.html( values[ 0 ], values[ 1 ], {
 								fixStyles: true
 							} );
 						} );
-					} );
-			} else {
-				// Otherwise go with the regular expected.
-				assert.isNotNull( values[ 1 ], '"expected.html" missing.' );
-
-				assertWordFilter( editor, compareRawData )( values[ 0 ], values[ 1 ] )
-					.then( function( values ) {
-						resume( function() {
-							assert.beautified.html( values[ 0 ], values[ 1 ], {
-								fixStyles: true
-							} );
-						} );
-					} );
-			}
+					}, ( err ) => console.error( 'err', err ) );
 		} );
 
 
