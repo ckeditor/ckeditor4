@@ -44,6 +44,11 @@
 						testData._should.ignore[ testName ] = true;
 					}
 
+					if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported &&
+						testName.indexOf( 'chrome' ) !== -1 ) {
+						testData._should.ignore[ testName ] = true;
+					}
+
 					testData[ testName ] = createTestCase( keys[ i ], wordVersions[ j ], browsers[ k ], false, false, [ pfwTools.filters.style ] );
 				}
 			}
