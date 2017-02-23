@@ -5,8 +5,8 @@
 // what will appear in the editor after all transformations and filtering.
 function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawData ) {
 	return function() {
-		var inputPath = [ tickets ? '_fixtures/Tickets' : '_fixtures' , fixtureName, wordVersion, browser ].join( '/' ) + '.html',
-			outputPath = [ tickets ? '_fixtures/Tickets' : '_fixtures' , fixtureName, '/expected.html' ].join( '/' ),
+		var inputPath = [ tickets ? '_fixtures/Tickets' : '_fixtures', fixtureName, wordVersion, browser ].join( '/' ) + '.html',
+			outputPath = [ tickets ? '_fixtures/Tickets' : '_fixtures', fixtureName, '/expected.html' ].join( '/' ),
 			specialCasePath = [ tickets ? '_fixtures/Tickets' : '_fixtures', fixtureName, wordVersion, 'expected_' + browser ].join( '/' ) + '.html',
 			deCasher = '?' + Math.random().toString( 36 ).replace( /^../, '' ), // Used to trick the browser into not caching the html files.
 			editor = this.editor,
@@ -28,6 +28,7 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 			load( specialCasePath + deCasher )
 		] ).done( function( values ) {
 			var inputFixture = values[ 0 ],
+				// If browser-customized expected result was found, use it. Otherwise go with the regular expected.
 				expectedValue = values[ 2 ] !== null ? values[ 2 ] : values[ 1 ];
 
 			if ( inputFixture === null ) {
@@ -39,16 +40,33 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 				return;
 			}
 
+			var nbspListener = editor.once( 'paste', function( evt ) {
+				// Clipboard strips white spaces from pasted content if those are not encoded.
+				// This is **needed only for non-IE/Edge fixtures**, as these browsers doesn't encode nbsp char on
+				// it's own.
+				if ( CKEDITOR.env.ie &&
+					CKEDITOR.tools.array.indexOf( [ 'chrome', 'firefox', 'safari' ], browser ) !== -1 ) {
+					evt.data.dataValue = evt.data.dataValue.replace( / /g, '&nbsp;' );
+				}
+			}, null, null, 5 );
+
+
 			assert.isNotNull( expectedValue, '"expected.html" missing.' );
 
-			assertWordFilter( editor, compareRawData )( inputFixture,  expectedValue )
-					.then( function( values ) {
-						resume( function() {
-							assert.beautified.html( values[ 0 ], values[ 1 ], {
-								fixStyles: true
-							} );
+			assertWordFilter( editor, compareRawData )( inputFixture, expectedValue )
+				.then( function( values ) {
+					resume( function() {
+						nbspListener.removeListener();
+
+						assert.beautified.html( values[ 0 ], values[ 1 ], {
+							fixStyles: true
 						} );
-					}, ( err ) => console.error( 'err', err ) );
+					} );
+				}, function( err ) {
+					if ( console && console.error ) {
+						console.error( 'err', err );
+					}
+				} );
 		} );
 
 
