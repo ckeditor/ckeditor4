@@ -87,6 +87,19 @@
 						sortStyles( parent );
 					}
 				}
+			} ),
+
+			// Firefox adds quotes around all fonts in font-family.
+			style: new CKEDITOR.htmlParser.filter( {
+				attributes: {
+					style: function( attribute ) {
+						if ( attribute.indexOf( 'font-family' ) === -1 ) {
+							return;
+						}
+
+						return attribute.replace( /"/g, '' );
+					}
+				}
 			} )
 		}
 	};
