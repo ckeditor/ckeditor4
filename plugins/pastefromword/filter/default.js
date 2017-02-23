@@ -1030,7 +1030,7 @@
 
 		// Taking into account cases like "1.1.2." etc. - get the last element.
 		getSubsectionSymbol: function( symbol ) {
-			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', 1 ] )[ 1 ];
+			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', '1' ] )[ 1 ];
 		},
 
 		setListDir: function( list ) {
