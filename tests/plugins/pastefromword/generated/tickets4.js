@@ -28,7 +28,6 @@
 			'7661Multilevel_lists': [ 'word2013' ],
 			'7696empty_table': [ 'word2013' ],
 			'7797fonts': [ 'word2013' ],
-			'7843Multi_level_Numbered_list': [ 'word2013' ],
 			'7857pasting_RTL_lists_from_word_defect': [ 'word2013' ],
 			'7872lists': [ 'word2013' ],
 			'7918Numbering': [ 'word2013' ],
