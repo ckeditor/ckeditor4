@@ -113,6 +113,10 @@
 					}
 
 					if ( List.thisIsAListItem( editor, element ) ) {
+						if ( Heuristics.isEdgeListItem( editor, element ) ) {
+							Heuristics.cleanupEdgeListItem( element );
+						}
+
 						List.convertToFakeListItem( editor, element );
 
 						// IE pastes nested paragraphs in list items, which is different from other browsers. (#16826)
@@ -254,6 +258,12 @@
 						return false;
 					}
 
+					if ( element.attributes.style.match( /FONT-FAMILY:\s*Symbol/i ) ) {
+						element.forEach( function( node ) {
+							node.value = node.value.replace( /&nbsp;/g, '' );
+						}, CKEDITOR.NODE_TEXT, true );
+					}
+
 					Style.createStyleStack( element, filter, editor );
 				},
 				'table': function( element ) {
@@ -387,11 +397,18 @@
 				}
 				return false;
 			},
-			text: function( content ) {
+			text: function( content, node ) {
 				if ( inComment ) {
 					return '';
 				}
-				return content.replace( /&nbsp;/g, ' ' );
+
+				var grandparent = node.parent && node.parent.parent;
+
+				if ( grandparent && grandparent.attributes && grandparent.attributes.style && grandparent.attributes.style.match( /mso-list:\s*ignore/i ) ) {
+					return content.replace( /&nbsp;/g, ' ' );
+				}
+
+				return content;
 			}
 		} );
 
@@ -529,8 +546,8 @@
 		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		createStyleStack: function( element, filter, editor ) {
-			var i,
-				children = [];
+			var children = [],
+				i;
 
 			element.filterChildren( filter );
 
@@ -756,7 +773,7 @@
 					return;
 				}
 
-				element.attributes[ 'cke-symbol' ] = symbol.replace( / .*$/, '' );
+				element.attributes[ 'cke-symbol' ] = symbol.replace( /(?: |&nbsp;).*$/, '' );
 
 				List.removeSymbolText( element );
 			}
@@ -1017,7 +1034,7 @@
 
 		// Taking into account cases like "1.1.2." etc. - get the last element.
 		getSubsectionSymbol: function( symbol ) {
-			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', 1 ] )[ 1 ];
+			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', '1' ] )[ 1 ];
 		},
 
 		setListDir: function( list ) {
@@ -1703,11 +1720,35 @@
 				innerText += text.value;
 			}, CKEDITOR.NODE_TEXT );
 
-			if ( innerText.match( /^( )*\(?[a-zA-Z0-9]+?[\.\)] ( ){2,}/ ) ) {
+			if ( innerText.match( /^(?: |&nbsp;)*\(?[a-zA-Z0-9]+?[\.\)](?: |&nbsp;){2,}/ ) ) {
 				return true;
 			}
 
 			return Heuristics.isDegenerateListItem( editor, item );
+		},
+
+		/**
+		 * Cleans up given list `item`. It's needed to remove Edge pre marker indentation, since edge pastes
+		 * list items as plain paragraphs with multiple `&nbsp;`s before the list marker.
+		 *
+		 * @since 4.7.0
+		 * @param {CKEDITOR.htmlParser.element} item The pre-processed list-like item, like a paragraph.
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
+		 */
+		cleanupEdgeListItem: function( item ) {
+			var textOccurred = false;
+
+			item.forEach( function( node ) {
+				if ( !textOccurred ) {
+					node.value = node.value.replace( /^(?:&nbsp;|[\s])+/, '' );
+
+					// If there's any remaining text beside nbsp it means that we can stop filtering.
+					if ( node.value.length ) {
+						textOccurred = true;
+					}
+				}
+			}, CKEDITOR.NODE_TEXT );
 		},
 
 		/**
