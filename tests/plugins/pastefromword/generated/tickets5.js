@@ -50,6 +50,10 @@
 					testData._should.ignore[ testName ] = true;
 				}
 
+				if ( testName === 'test 16833Numbered_lists word2013 ie11' && ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) ) {
+					testData._should.ignore[ testName ] = true;
+				}
+
 				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true, true, [ pfwTools.filters.font ] );
 			}
 		}
