@@ -1729,10 +1729,10 @@
 
 		/**
 		 * Cleans up given list `item`. It's needed to remove Edge pre marker indentation, since edge pastes
-		 * list items as plain paragraphs with multiple `&nbsp;`s before list marker.
+		 * list items as plain paragraphs with multiple `&nbsp;`s before the list marker.
 		 *
 		 * @since 4.7.0
-		 * @param {CKEDITOR.htmlParser.element} item A pre-processed list alike item, like paragraph.
+		 * @param {CKEDITOR.htmlParser.element} item The pre-processed list-like item, like a paragraph.
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
