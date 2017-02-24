@@ -114,7 +114,7 @@
 
 					if ( List.thisIsAListItem( editor, element ) ) {
 						if ( Heuristics.isEdgeListItem( editor, element ) ) {
-							Heuristics.cleanupEdgeListItem( editor, element );
+							Heuristics.cleanupEdgeListItem( element );
 						}
 
 						List.convertToFakeListItem( editor, element );
@@ -1732,12 +1732,11 @@
 		 * list items as plain paragraphs with multiple `&nbsp;`s before list marker.
 		 *
 		 * @since 4.7.0
-		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item A pre-processed list alike item, like paragraph.
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
-		cleanupEdgeListItem: function( editor, item ) {
+		cleanupEdgeListItem: function( item ) {
 			var textOccurred = false;
 
 			item.forEach( function( node ) {

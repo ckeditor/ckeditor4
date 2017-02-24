@@ -71,11 +71,12 @@
 		},
 
 		'test cleanupEdgeListItem': function() {
-			var paragraph = this.getParserElementsFrom( 'tc3' )[ 0 ];
+			var paragraph = this.getParserElementsFrom( 'tc3' )[ 0 ],
+				html;
 
-			this.heuristics.cleanupEdgeListItem( this.editor, paragraph );
+			this.heuristics.cleanupEdgeListItem( paragraph );
 
-			var html = this.getFragmentsOutputHtml( paragraph );
+			html = this.getFragmentsOutputHtml( paragraph );
 
 			assert.beautified.html( CKEDITOR.document.getById( 'tc3expected' ).getHtml(), html, 'Paragraph\'s html' );
 		},
