@@ -35,8 +35,8 @@
 
 		// Before filtering inline all styles to allow default filter to change them
 		// into appropriate span tags.
-		// It does not work in Internet Explorer 8 as this browser does not support DOMParser.
-		if ( window.DOMParser ) {
+		// This step is skipped in IEs due to their flaky support for native DOMParser.
+		if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
 			mswordHtml = CKEDITOR.plugins.pastefromword.inlineStyles( mswordHtml ).getBody().getHtml();
 		}
 
