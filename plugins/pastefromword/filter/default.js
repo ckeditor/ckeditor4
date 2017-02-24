@@ -113,6 +113,10 @@
 					}
 
 					if ( List.thisIsAListItem( editor, element ) ) {
+						if ( Heuristics.isEdgeListItem( editor, element ) ) {
+							Heuristics.cleanupEdgeListItem( editor, element );
+						}
+
 						List.convertToFakeListItem( editor, element );
 
 						// IE pastes nested paragraphs in list items, which is different from other browsers. (#16826)
@@ -1733,15 +1737,15 @@
 		 * @private
 		 */
 		cleanupEdgeListItem: function( editor, item ) {
-			var textOccured = false;
+			var textOccurred = false;
 
 			item.forEach( function( node ) {
-				if ( !textOccured ) {
-					node.value = node.value.replace( /^(?:&nbsp;)+/, '' );
+				if ( !textOccurred ) {
+					node.value = node.value.replace( /^(?:&nbsp;|[\s])+/, '' );
 
 					// If there's any remaining text beside nbsp it means that we can stop filtering.
 					if ( node.value.length ) {
-						textOccured = true;
+						textOccurred = true;
 					}
 				}
 			}, CKEDITOR.NODE_TEXT );
