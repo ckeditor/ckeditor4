@@ -70,12 +70,28 @@
 			assert.areSame( 10, this.heuristics.guessIndentationStep( [ 20, 20, 10 ] ), 'tc5' );
 		},
 
+		'test cleanupEdgeListItem': function() {
+			var paragraph = this.getParserElementsFrom( 'tc3' )[ 0 ];
+
+			this.heuristics.cleanupEdgeListItem( this.editor, paragraph );
+
+			var html = this.getFragmentsOutputHtml( paragraph );
+
+			assert.beautified.html( CKEDITOR.document.getById( 'tc3expected' ).getHtml(), html, 'Paragraph\'s html' );
+		},
+
 		// Creates CKEDITOR.htmlParser.fragment based on given element, and returns it's children.'
 		//
 		// @param {string} id
 		// @returns {CKEDITOR.htmlParser.node/null}
 		getParserElementsFrom: function( id ) {
 			return CKEDITOR.htmlParser.fragment.fromHtml( CKEDITOR.document.getById( id ).getHtml() ).children;
+		},
+
+		getFragmentsOutputHtml: function( fragment ) {
+			var writer = new CKEDITOR.htmlParser.basicWriter();
+			fragment.writeHtml( writer );
+			return writer.getHtml();
 		}
 	} );
 } )();
