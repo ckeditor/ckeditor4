@@ -28,10 +28,8 @@
 			arrayAssert.itemsAreEqual( [ 0, 48, 0, 96, 0, -96, 50 ], ret.diffs );
 			arrayAssert.itemsAreEqual( [ 1, 2, 2, 4, 4, 2, 3 ], ret.levels );
 
-			var writer = new CKEDITOR.htmlParser.basicWriter();
-			paragraphs[ 0 ].parent.writeHtml( writer );
-
-			assert.beautified.html( CKEDITOR.document.getById( 'tc1expected' ).getHtml(), writer.getHtml() );
+			assert.beautified.html( CKEDITOR.document.getById( 'tc1expected' ).getHtml(),
+				this.getFragmentsOutputHtml( paragraphs[ 0 ].parent ) );
 		},
 
 		'test assignListLevels zero indent': function() {
