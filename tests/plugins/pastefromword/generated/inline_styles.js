@@ -44,8 +44,7 @@
 						testData._should.ignore[ testName ] = true;
 					}
 
-					if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported &&
-						testName.indexOf( 'chrome' ) !== -1 ) {
+					if ( CKEDITOR.env.ie && testName.indexOf( 'chrome' ) !== -1 ) {
 						testData._should.ignore[ testName ] = true;
 					}
 
