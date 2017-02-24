@@ -1724,6 +1724,30 @@
 		},
 
 		/**
+		 * Cleans up given Edge list item. It should be performed when the list item is still a paragraph.
+		 *
+		 * @since 4.7.0
+		 * @param {CKEDITOR.editor} editor
+		 * @param {CKEDITOR.htmlParser.element} item
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
+		 */
+		cleanupEdgeListItem: function( editor, item ) {
+			var textOccured = false;
+
+			item.forEach( function( node ) {
+				if ( !textOccured ) {
+					node.value = node.value.replace( /^(?:&nbsp;)+/, '' );
+
+					// If there's any remaining text beside nbsp it means that we can stop filtering.
+					if ( node.value.length ) {
+						textOccured = true;
+					}
+				}
+			}, CKEDITOR.NODE_TEXT );
+		},
+
+		/**
 		 * Check whether an element is a degenerate list item.
 		 *
 		 * Degenerate list items are elements that have some styles specific to list items,
