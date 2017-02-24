@@ -20,6 +20,7 @@
 			'firefox',
 			'ie8',
 			'ie11',
+			'edge',
 			'safari'
 		],
 		wordVersions = [
@@ -28,7 +29,8 @@
 		],
 		// To test only particular word versions set the key value to an array in the form: [ 'word2007', 'word2013' ].
 		tests = {
-			'Unordered_list_multiple': true
+			'Unordered_list_multiple': true,
+			'White_space': true
 		},
 		keys = CKEDITOR.tools.objectKeys( tests ),
 		testData = {

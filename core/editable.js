@@ -87,7 +87,15 @@
 					if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
 						this.$.setActive();
 					} else {
-						this.$.focus();
+						// We have no control over exactly what happens when the native `focus` method is called,
+						// so save the scroll position and restore it later.
+						if ( CKEDITOR.env.chrome ) {
+							var scrollPos = this.$.scrollTop;
+							this.$.focus();
+							this.$.scrollTop = scrollPos;
+						} else {
+							this.$.focus();
+						}
 					}
 				} catch ( e ) {
 					// IE throws unspecified error when focusing editable after closing dialog opened on nested editable.

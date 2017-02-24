@@ -3,13 +3,24 @@ dist: trusty
 
 language: node_js
 
+node_js:
+  - 4
+
+env:
+  - BUILD=0 BROWSER=Chrome
+  - BUILD=1 BROWSER=Chrome
+  - BUILD=0 BROWSER=Firefox
+  - BUILD=1 BROWSER=Firefox
+
 matrix:
-  include:
+  allow_failures:
     - node_js: 4
-      env: BUILD=0
+      env: BUILD=0 BROWSER=Firefox
     - node_js: 4
-      env: BUILD=1
-  fast_finish: true
+      env: BUILD=1 BROWSER=Firefox
+
+addons:
+  firefox: "latest"
 
 before_script:
   - 'npm install benderjs-cli -g'

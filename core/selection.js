@@ -1558,7 +1558,7 @@
 		 *		var element = editor.getSelection().getSelectedElement();
 		 *		alert( element.getName() );
 		 *
-		 * @returns {CKEDITOR.dom.element} The selected element. Null if no
+		 * @returns {CKEDITOR.dom.element/null} The selected element. `null` if no
 		 * selection is available or the selection type is not {@link CKEDITOR#SELECTION_ELEMENT}.
 		 */
 		getSelectedElement: function() {

@@ -69,7 +69,7 @@
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
 					mswordHtml = data.dataValue,
-					wordRegexp = /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
+					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
 					pfwEvtData = { dataValue: mswordHtml };
 
 				if ( !mswordHtml || !( forceFromWord || wordRegexp.test( mswordHtml ) ) ) {
