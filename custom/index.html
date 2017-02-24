@@ -9,6 +9,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   <meta charset="utf-8">
   <title>A11yFirst Features Demo</title>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    
 </head>
 
 <body id="main">
@@ -69,7 +70,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
       CKEDITOR.replace('editor', {
         // customConfig: './config.js'
         toolbar: [
-          { name: 'format', items: [ 'Format' ]},
+          { name: 'format', items: [ 'Format']},
+          { name: 'heading', items: [ 'Heading']},
           // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
           { name: 'list', items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ]},
           { name: 'link', items: [ 'Link', 'Unlink', 'Anchor' ]},
@@ -85,7 +87,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
           { name: 'basicstyles', items: [ 'Bold', 'Italic', 'RemoveFormat', 'Styles' ] },
           [ 'SpecialChar' ]
-        ]
+        ],
+        extraPlugins: 'heading',
+
       });
 
       for (var i in CKEDITOR.instances) {
