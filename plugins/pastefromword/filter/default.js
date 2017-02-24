@@ -259,7 +259,7 @@
 					}
 
 					if ( element.attributes.style.match( /FONT-FAMILY:\s*Symbol/i ) ) {
-						var whitespaces = element.forEach( function( node ) {
+						element.forEach( function( node ) {
 							node.value = node.value.replace( /&nbsp;/g, '' );
 						}, CKEDITOR.NODE_TEXT, true );
 					}
