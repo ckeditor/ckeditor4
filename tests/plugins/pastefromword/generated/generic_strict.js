@@ -4,7 +4,7 @@
 /* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
 /* jshint ignore:end */
 /* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_lib/q.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js,_helpers/pfwTools.js */
-/* global createTestCase */
+/* global pfwTools,createTestCase */
 
 ( function() {
 	'use strict';
@@ -43,7 +43,7 @@
 		for ( var j = 0; j < wordVersions.length; j++ ) {
 			for ( var k = 0; k < browsers.length; k++ ) {
 				if ( tests[ keys[ i ] ] === true || CKEDITOR.tools.indexOf( tests[ keys[ i ] ], wordVersions[ j ] ) !== -1 ) {
-					testData[ [ 'test', keys[ i ], wordVersions[ j ], browsers[ k ] ].join( ' ' ) ] = createTestCase( keys[ i ], wordVersions[ j ], browsers[ k ], false, true );
+					testData[ [ 'test', keys[ i ], wordVersions[ j ], browsers[ k ] ].join( ' ' ) ] = createTestCase( keys[ i ], wordVersions[ j ], browsers[ k ], false, true, [ pfwTools.filters.font ] );
 				}
 			}
 		}
