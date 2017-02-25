@@ -1321,7 +1321,7 @@
 			items = tmp.querySelectorAll(selector);
 
 			for(i = 0; i < items.length; i++) {
-				for(var j = 0; i < removeAttributes.length; i++) {
+				for(var j = 0; j < removeAttributes.length; j++) {
 					items[i].removeAttribute(removeAttributes[j]);
 				}
 			}
