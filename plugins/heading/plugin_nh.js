@@ -103,7 +103,7 @@ CKEDITOR.plugins.add( 'heading', {
             this.hideItem( tag );
 
           // Check if the tag is in the allowedHeadings array
-          if ( tag != 'p' && allowedHeadings.indexOf( tag ) === -1)
+          if ( tag != selectedTagName && tag != 'p' && allowedHeadings.indexOf( tag ) === -1 )
             this.hideItem( tag );
 
           // Highlight menuitem if the selected element's tag name is one of the
@@ -150,13 +150,13 @@ CKEDITOR.plugins.add( 'heading', {
           case 'h2':
             return 'h2;h3';
           case 'h3':
-            return 'h2;h3;h4'
+            return 'h2;h3;h4';
           case 'h4':
-            return 'h3;h4;h5'
+            return 'h2;h3;h4;h5';
           case 'h5':
-            return 'h4;h5;h6'
+            return 'h2;h3;h4;h5;h6';
           case 'h6':
-            return 'h5;h6'
+            return 'h2;h3;h4;h5;h6';
         }
 
         /*
