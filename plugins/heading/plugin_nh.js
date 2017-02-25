@@ -4,118 +4,103 @@
 */
 
 CKEDITOR.plugins.add( 'heading', {
-	requires: 'richcombo',
+  requires: 'richcombo',
 
-	// jscs:disable maximumLineLength
-	lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
-	// jscs:enable maximumLineLength
+  // jscs:disable maximumLineLength
+  lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
+  // jscs:enable maximumLineLength
 
-	init: function( editor ) {
-		if ( editor.blockless )
-			return;
+  init: function( editor ) {
+    if ( editor.blockless )
+      return;
 
-		var config = editor.config,
-			lang = editor.lang.heading;
+    var config = editor.config,
+      lang = editor.lang.heading;
 
-		// Get the list of tags from the settings.
-		var tags = config.heading_tags.split( ';' );
+    // Get the list of tags from the settings.
+    var tags = config.heading_tags.split( ';' );
 
-		// Create style objects for all defined styles.
+    // Create style objects for all defined styles.
     var menuStyle = new CKEDITOR.style(config.heading_menuitem_style);
 
-		var headingStyles = {},
-			stylesCount = 0,
-			allowedContent = [];
+    var headingStyles = {},
+      stylesCount = 0,
+      allowedContent = [];
 
-		for ( var i = 0; i < tags.length; i++ ) {
-			var tag = tags[ i ];
-			var style = new CKEDITOR.style( config[ 'heading_' + tag ] );
-			if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
-				stylesCount++;
-				headingStyles[ tag ] = style;
-				headingStyles[ tag ]._.enterMode = editor.config.enterMode;
-				allowedContent.push( style );
-			}
-		}
+    for ( var i = 0; i < tags.length; i++ ) {
+      var tag = tags[ i ];
+      var style = new CKEDITOR.style( config[ 'heading_' + tag ] );
+      if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
+        stylesCount++;
+        headingStyles[ tag ] = style;
+        headingStyles[ tag ]._.enterMode = editor.config.enterMode;
+        allowedContent.push( style );
+      }
+    }
 
-		// Hide entire combo when all heading formats are rejected.
-		if ( stylesCount === 0 )
-			return;
+    // Hide entire combo when all heading formats are rejected.
+    if ( stylesCount === 0 )
+      return;
 
-		editor.ui.addRichCombo( 'Heading', {
-			label: lang.label,
-			title: lang.panelTitle,
-			toolbar: 'styles,20',
-			allowedContent: allowedContent,
+    editor.ui.addRichCombo( 'Heading', {
+      label: lang.label,
+      title: lang.panelTitle,
+      toolbar: 'styles,20',
+      allowedContent: allowedContent,
 
-			panel: {
-				css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
-				multiSelect: false,
-				attributes: { 'aria-label': lang.panelTitle }
-			},
+      panel: {
+        css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
+        multiSelect: false,
+        attributes: { 'aria-label': lang.panelTitle }
+      },
 
-			init: function() {
-				for ( var tag in headingStyles ) {
-					var label = lang[ 'level_' + tag ];
+      init: function() {
+        for ( var tag in headingStyles ) {
+          var label = lang[ 'level_' + tag ];
 
-					// Add the tag entry to the panel list.
-					this.add( tag, menuStyle.buildPreview( label ), label );
-				}
-			},
+          // Add the tag entry to the panel list.
+          this.add( tag, menuStyle.buildPreview( label ), label );
+        }
+      },
 
-			onClick: function( value ) {
-				editor.focus();
-				editor.fire( 'saveSnapshot' );
+      onClick: function( value ) {
+        editor.focus();
+        editor.fire( 'saveSnapshot' );
 
-				var style = new CKEDITOR.style( config[ 'heading_' + value ]),
-					elementPath = editor.elementPath();
+        var style = new CKEDITOR.style( config[ 'heading_' + value ]),
+          elementPath = editor.elementPath();
 
-				editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
+        editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
 
-				// Save the undo snapshot after all changes are affected. (#4899)
-				setTimeout( function() {
-					editor.fire( 'saveSnapshot' );
-				}, 0 );
-			},
+        // Save the undo snapshot after all changes are affected. (#4899)
+        setTimeout( function() {
+          editor.fire( 'saveSnapshot' );
+        }, 0 );
+      },
 
-			onRender: function() {
-				editor.on( 'selectionChange', function( ev ) {
-					var currentTag = this.getValue(),
-						elementPath = ev.data.path;
+      onRender: function() {
+        editor.on( 'selectionChange', function( ev ) {
+          var currentTag = this.getValue(),
+              elementPath = ev.data.path;
 
-					this.refresh();
+          this.refresh();
+        }, this );
+      },
 
-          /*
-          for ( var tag in headingStyles ) {
-            if ( headingStyles[ tag ].checkActive( elementPath, editor ) ) {
-              if ( tag != currentTag ) {
-                this.setValue( tag, editor.lang.format[ 'heading_' + tag ] );
-              }
-              return;
-            }
-          }
-
-					// If no styles match, just empty it.
-					this.setValue( '' );
-          */
-
-				}, this );
-			},
-
-			onOpen: function() {
+      onOpen: function() {
         var selectedTagName = editor.getSelection().getStartElement().getName();
 
         var allowedHeadings = this.getAllowedHeadings();
         // console.log('ALLOWED HEADINGS: ' + allowedHeadings);
         allowedHeadings = allowedHeadings.split(';');
 
-				this.showAll();
-				for ( var tag in headingStyles ) {
-					var style = headingStyles[ tag ];
+        this.showAll();
+        for ( var tag in headingStyles ) {
+          var style = headingStyles[ tag ];
 
-					// Check if that style is enabled in activeFilter.
-					if ( !editor.activeFilter.check( style ) )
-						this.hideItem( tag );
+          // Check if that style is enabled in activeFilter.
+          if ( !editor.activeFilter.check( style ) )
+            this.hideItem( tag );
 
           // Check if the tag is in the allowedHeadings array
           if ( tag != 'p' && allowedHeadings.indexOf( tag ) === -1)
@@ -127,28 +112,28 @@ CKEDITOR.plugins.add( 'heading', {
             if ( tag == 'p' ) this.hideItem( tag );
             else this.mark( tag );
           }
-				}
-			},
+        }
+      },
 
-			refresh: function() {
-				var elementPath = editor.elementPath();
+      refresh: function() {
+        var elementPath = editor.elementPath();
 
-				if ( !elementPath )
-						return;
+        if ( !elementPath )
+            return;
 
-				// Check if element path contains 'p' element.
-				if ( !elementPath.isContextFor( 'p' ) ) {
-					this.setState( CKEDITOR.TRISTATE_DISABLED );
-					return;
-				}
+        // Check if element path contains 'p' element.
+        if ( !elementPath.isContextFor( 'p' ) ) {
+          this.setState( CKEDITOR.TRISTATE_DISABLED );
+          return;
+        }
 
-				// Check if there is any available style.
-				for ( var name in headingStyles ) {
-					if ( editor.activeFilter.check( headingStyles[ name ] ) )
-						return;
-				}
-				this.setState( CKEDITOR.TRISTATE_DISABLED );
-			},
+        // Check if there is any available style.
+        for ( var name in headingStyles ) {
+          if ( editor.activeFilter.check( headingStyles[ name ] ) )
+            return;
+        }
+        this.setState( CKEDITOR.TRISTATE_DISABLED );
+      },
 
       getAllowedHeadings: function () {
         var selectedElement = editor.getSelection().getStartElement();
@@ -156,10 +141,10 @@ CKEDITOR.plugins.add( 'heading', {
 
         var lastHeading = undefined;
 
-        getLastHeading(editor.document.getBody());
-        // console.log('LAST HEADING: ' + lastHeading);
+        getLastHeading( editor.document.getBody() );
+        // console.log( 'LAST HEADING: ' + lastHeading );
 
-        switch (lastHeading) {
+        switch ( lastHeading ) {
           case undefined:
             return 'h2';
           case 'h2':
@@ -178,17 +163,17 @@ CKEDITOR.plugins.add( 'heading', {
         *   Note: The getLastHeading function modifies the
         *   lastHeading variable in its outer scope.
         */
-        function getLastHeading (element) {
-          if (typeof element.getName !== 'function')
+        function getLastHeading ( element ) {
+          if ( typeof element.getName !== 'function' )
             return false;
 
-          if (element.equals(selectedElement))
+          if ( element.equals( selectedElement ) )
             return true;
 
           var tagName = element.getName();
-          // console.log('In getLastHeading: ' + tagName);
+          // console.log( 'In getLastHeading: ' + tagName );
 
-          switch (tagName) {
+          switch ( tagName ) {
             case 'h2':
             case 'h3':
             case 'h4':
@@ -201,8 +186,8 @@ CKEDITOR.plugins.add( 'heading', {
           var children = element.getChildren();
           var count = children.count();
 
-          for (var i = 0; i < count; i++) {
-            if (getLastHeading(children.getItem(i)))
+          for ( var i = 0; i < count; i++ ) {
+            if ( getLastHeading( children.getItem( i ) ) )
               return true;
           }
           return false;
@@ -210,8 +195,8 @@ CKEDITOR.plugins.add( 'heading', {
 
       }
 
-		} );
-	}
+    } );
+  }
 } );
 
 /**
