@@ -200,23 +200,23 @@ CKEDITOR.plugins.add( 'heading', {
 } );
 
 /**
-* The style definition for menuitems in the Heading drop-down list:
+*   The style definition for menuitems in the Heading drop-down list:
 */
 CKEDITOR.config.heading_menuitem_style = { element: 'p' };
 
 /**
-* The list of tags that will be applied to the document by the various menuitems
-* in the Heading drop-down list:
+*   The list of tags that will be applied to the document by the various menuitems
+*   in the Heading drop-down list:
 */
 CKEDITOR.config.heading_tags = 'h2;h3;h4;h5;h6;p';
 
 /**
-* The style definitions to be used to apply the corresponding heading format
-* when you select a menuitem in the Heading drop-down list.
+*   The style definitions to be used to apply the corresponding heading format
+*   when you select a menuitem in the Heading drop-down list.
 */
 CKEDITOR.config.heading_h2 = { element: 'h2' };
 CKEDITOR.config.heading_h3 = { element: 'h3' };
 CKEDITOR.config.heading_h4 = { element: 'h4' };
 CKEDITOR.config.heading_h5 = { element: 'h5' };
 CKEDITOR.config.heading_h6 = { element: 'h6' };
-CKEDITOR.config.heading_p  = { element: 'p' };
+CKEDITOR.config.heading_p  = { element: 'p'  };
