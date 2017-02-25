@@ -7,21 +7,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 <head>
   <meta charset="utf-8">
-  <title>A11yFirst Features Demo</title>
+  <title>A11yFirst Plugins Demo</title>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 
 </head>
 
 <body id="main">
 
-  <header class="header-a">
-    <div class="grid-container">
-      <h1 class="header-a-logo">CKEditor API Test Page</h1>
-    </div>
-  </header>
-
   <main>
-  <h1>A11yFirst Features Demo</h1>
+  <h1>A11yFirst Plugins Demo</h1>
 
     <div class="adjoined-bottom">
       <div class="grid-container">
@@ -69,6 +63,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
       'use strict';
       CKEDITOR.replace('editor', {
         // customConfig: './config.js'
+        height: 500,
         toolbar: [
           { name: 'format', items: [ 'Format']},
           { name: 'heading', items: [ 'Heading']},
