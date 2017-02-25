@@ -15,7 +15,13 @@ CKEDITOR.plugins.add( 'heading', {
       return;
 
     var config = editor.config,
-      lang = editor.lang.heading;
+        lang = editor.lang.heading;
+
+    // Initialize help menuitem
+    var helpValue = 'help';
+
+    CKEDITOR.dialog.add(helpValue, this.path + 'dialogs/heading_help.js');
+    editor.addCommand(helpValue, new CKEDITOR.dialogCommand( helpValue ));
 
     // Get the list of tags from the settings.
     var tags = config.heading_tags.split( ';' );
@@ -55,20 +61,30 @@ CKEDITOR.plugins.add( 'heading', {
       },
 
       init: function() {
+        var label;
+
         for ( var tag in headingStyles ) {
-          var label = lang[ 'level_' + tag ];
+          label = lang[ 'level_' + tag ];
 
           // Add the tag entry to the panel list.
           this.add( tag, menuStyle.buildPreview( label ), label );
         }
+
+        label = lang[ 'helpLabel' ];
+        this.add( helpValue, menuStyle.buildPreview( label ), label );
       },
 
       onClick: function( value ) {
+        if ( value == helpValue ) {
+          editor.execCommand( helpValue );
+          return;
+        }
+
         editor.focus();
         editor.fire( 'saveSnapshot' );
 
-        var style = new CKEDITOR.style( config[ 'heading_' + value ]),
-          elementPath = editor.elementPath();
+        var style = new CKEDITOR.style( config[ 'heading_' + value ] ),
+            elementPath = editor.elementPath();
 
         editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
 
@@ -146,17 +162,19 @@ CKEDITOR.plugins.add( 'heading', {
 
         switch ( lastHeading ) {
           case undefined:
-            return 'h2';
+            return 'h1';
+          case 'h1':
+            return 'h1;h2';
           case 'h2':
-            return 'h2;h3';
+            return 'h1;h2;h3';
           case 'h3':
-            return 'h2;h3;h4';
+            return 'h1;h2;h3;h4';
           case 'h4':
-            return 'h2;h3;h4;h5';
+            return 'h1;h2;h3;h4;h5';
           case 'h5':
-            return 'h2;h3;h4;h5;h6';
+            return 'h1;h2;h3;h4;h5;h6';
           case 'h6':
-            return 'h2;h3;h4;h5;h6';
+            return 'h1;h2;h3;h4;h5;h6';
         }
 
         /*
@@ -174,6 +192,7 @@ CKEDITOR.plugins.add( 'heading', {
           // console.log( 'In getLastHeading: ' + tagName );
 
           switch ( tagName ) {
+            case 'h1':
             case 'h2':
             case 'h3':
             case 'h4':
@@ -191,9 +210,10 @@ CKEDITOR.plugins.add( 'heading', {
               return true;
           }
           return false;
-        }
 
-      }
+        } // end getLastHeading
+
+      } // end getAllowedHeadings
 
     } );
   }
@@ -208,12 +228,13 @@ CKEDITOR.config.heading_menuitem_style = { element: 'p' };
 *   The list of tags that will be applied to the document by the various menuitems
 *   in the Heading drop-down list:
 */
-CKEDITOR.config.heading_tags = 'h2;h3;h4;h5;h6;p';
+CKEDITOR.config.heading_tags = 'h1;h2;h3;h4;h5;h6;p';
 
 /**
 *   The style definitions to be used to apply the corresponding heading format
 *   when you select a menuitem in the Heading drop-down list.
 */
+CKEDITOR.config.heading_h1 = { element: 'h1' };
 CKEDITOR.config.heading_h2 = { element: 'h2' };
 CKEDITOR.config.heading_h3 = { element: 'h3' };
 CKEDITOR.config.heading_h4 = { element: 'h4' };
