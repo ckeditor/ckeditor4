@@ -18,16 +18,16 @@ CKEDITOR.plugins.add( 'heading', {
         lang = editor.lang.heading;
 
     // Initialize help menuitem
-    var helpValue = 'help';
+    var helpCmd = 'headingHelp';
 
-    CKEDITOR.dialog.add(helpValue, this.path + 'dialogs/heading_help.js');
-    editor.addCommand(helpValue, new CKEDITOR.dialogCommand( helpValue ));
+    CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/heading_help.js' );
+    editor.addCommand( helpCmd, new CKEDITOR.dialogCommand( helpCmd ) );
 
     // Get the list of tags from the settings.
     var tags = config.heading_tags.split( ';' );
 
     // Create style objects for all defined styles.
-    var menuStyle = new CKEDITOR.style(config.heading_menuitem_style);
+    var menuStyle = new CKEDITOR.style( config.heading_menuitem_style );
 
     var headingStyles = {},
       stylesCount = 0,
@@ -71,12 +71,12 @@ CKEDITOR.plugins.add( 'heading', {
         }
 
         label = lang[ 'helpLabel' ];
-        this.add( helpValue, menuStyle.buildPreview( label ), label );
+        this.add( helpCmd, menuStyle.buildPreview( label ), label );
       },
 
       onClick: function( value ) {
-        if ( value == helpValue ) {
-          editor.execCommand( helpValue );
+        if ( value == helpCmd ) {
+          editor.execCommand( helpCmd );
           return;
         }
 
