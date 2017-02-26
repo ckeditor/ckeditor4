@@ -162,19 +162,19 @@ CKEDITOR.plugins.add( 'heading', {
 
         switch ( lastHeading ) {
           case undefined:
-            return 'h1';
-          case 'h1':
             return 'h1;h2';
+          case 'h1':
+            return 'h2';
           case 'h2':
-            return 'h1;h2;h3';
+            return 'h2;h3';
           case 'h3':
-            return 'h1;h2;h3;h4';
+            return 'h2;h3;h4';
           case 'h4':
-            return 'h1;h2;h3;h4;h5';
+            return 'h2;h3;h4;h5';
           case 'h5':
-            return 'h1;h2;h3;h4;h5;h6';
+            return 'h2;h3;h4;h5;h6';
           case 'h6':
-            return 'h1;h2;h3;h4;h5;h6';
+            return 'h2;h3;h4;h5;h6';
         }
 
         /*
