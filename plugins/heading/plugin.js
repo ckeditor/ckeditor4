@@ -104,13 +104,19 @@ CKEDITOR.plugins.add( 'heading', {
       },
 
       onOpen: function() {
-        var selectedTagName = editor.getSelection().getStartElement().getName();
-
+        // The value of getAllowedHeadings is dependent on the
+        // current selection, so it needs to be called here...
         var allowedHeadings = this.getAllowedHeadings();
-        // console.log('ALLOWED HEADINGS: ' + allowedHeadings);
-        allowedHeadings = allowedHeadings.split(';');
+        allowedHeadings = allowedHeadings.split( ';' );
 
+        function notAllowed ( name ) {
+          return allowedHeadings.indexOf( name ) == -1;
+        }
+
+        // Start by showing all menuitems.
         this.showAll();
+
+        // Then selectively hide or mark each menuitem.
         for ( var tag in headingStyles ) {
           var style = headingStyles[ tag ];
 
@@ -118,14 +124,15 @@ CKEDITOR.plugins.add( 'heading', {
           if ( !editor.activeFilter.check( style ) )
             this.hideItem( tag );
 
-          // Check if the tag is in the allowedHeadings array
-          if ( tag != selectedTagName && tag != 'p' && allowedHeadings.indexOf( tag ) === -1 )
+          // If tag is a heading tag but is not an allowed heading, hide it
+          if ( tag != 'p' && notAllowed( tag ) )
             this.hideItem( tag );
 
-          // Highlight menuitem if the selected element's tag name is one of the
-          // valid heading tags; otherwise hide the Remove Format menuitem
-          if ( tag == selectedTagName ) {
-            if ( tag == 'p' ) this.hideItem( tag );
+          // If tag is in the current element path: if 'p' tag, which corresponds
+          // to the 'Remove format' menuitem, hide it; otherwise it is an allowed
+          // heading, so highlight its menuitem to show it is currently selected.
+          if ( editor.elementPath().contains( tag ) ) {
+            if ( tag == 'p' ) this.hideItem ( tag );
             else this.mark( tag );
           }
         }
