@@ -113,27 +113,34 @@ CKEDITOR.plugins.add( 'heading', {
           return allowedHeadings.indexOf( name ) == -1;
         }
 
-        // Start by showing all menuitems.
+        function inElementPath ( name ) {
+          return editor.elementPath().contains( name );
+        }
+
+        // Start by showing all menuitems
         this.showAll();
 
-        // Then selectively hide or mark each menuitem.
+        // Then selectively hide or mark each menuitem
         for ( var tag in headingStyles ) {
           var style = headingStyles[ tag ];
 
-          // Check if that style is enabled in activeFilter.
+          // Check if that style is enabled in activeFilter
           if ( !editor.activeFilter.check( style ) )
             this.hideItem( tag );
 
-          // If tag is a heading tag but is not an allowed heading, hide it
-          if ( tag != 'p' && notAllowed( tag ) )
+          // If tag is a heading tag but is not an allowed heading, hide it unless
+          // it is currently selected.
+          if ( tag != 'p' && notAllowed( tag ) && !inElementPath( tag ) ) {
             this.hideItem( tag );
-
-          // If tag is in the current element path: if 'p' tag, which corresponds
-          // to the 'Remove format' menuitem, hide it; otherwise it is an allowed
-          // heading, so highlight its menuitem to show it is currently selected.
-          if ( editor.elementPath().contains( tag ) ) {
-            if ( tag == 'p' ) this.hideItem ( tag );
-            else this.mark( tag );
+          }
+          else {
+            // If tag is in the current element path: if 'p' tag, which corresponds
+            // to the 'Remove format' menuitem, hide it; otherwise it is an allowed
+            // heading, so highlight its menuitem to show it is currently selected.
+            if ( inElementPath( tag ) ) {
+              if ( tag == 'p' ) this.hideItem ( tag );
+              else this.mark( tag );
+            }
           }
         }
       },
