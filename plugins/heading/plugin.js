@@ -106,18 +106,10 @@ CKEDITOR.plugins.add( 'heading', {
       onOpen: function() {
         // The value of getAllowedHeadings is dependent on the
         // current selection, so it needs to be called here...
-        var allowedHeadings = this.getAllowedHeadings();
-        allowedHeadings = allowedHeadings.split( ';' );
+        var allowedHeadings = this.getAllowedHeadings().split( ';' );
+        var elementPath = editor.elementPath();
 
-        function notAllowed ( name ) {
-          return allowedHeadings.indexOf( name ) == -1;
-        }
-
-        function inElementPath ( name ) {
-          return editor.elementPath().contains( name );
-        }
-
-        // Start by showing all menuitems
+        // Start by showing all menuitems ...
         this.showAll();
 
         // Then selectively hide or mark each menuitem
@@ -129,7 +121,7 @@ CKEDITOR.plugins.add( 'heading', {
             this.hideItem( tag );
 
           // If tag is in the current element path...
-          if ( inElementPath( tag )) {
+          if ( elementPath && elementPath.contains( tag ) ) {
             // If it is the 'p' tag, which corresponds to the 'Remove format'
             // menuitem, hide it; otherwise, whether it is an allowed heading
             // or not, keep it in the menu and highlight it to show it is
@@ -140,7 +132,7 @@ CKEDITOR.plugins.add( 'heading', {
           else {
             // The tag is not in the current element path. If it is a heading
             // tag but is not an allowed heading, hide its menuitem.
-            if ( tag != 'p' && notAllowed( tag ) )
+            if ( tag != 'p' && allowedHeadings.indexOf( tag ) == -1 )
               this.hideItem( tag );
           }
         }
