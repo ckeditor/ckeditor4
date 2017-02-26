@@ -128,19 +128,20 @@ CKEDITOR.plugins.add( 'heading', {
           if ( !editor.activeFilter.check( style ) )
             this.hideItem( tag );
 
-          // If tag is a heading tag but is not an allowed heading, hide it unless
-          // it is currently selected.
-          if ( tag != 'p' && notAllowed( tag ) && !inElementPath( tag ) ) {
-            this.hideItem( tag );
+          // If tag is in the current element path...
+          if ( inElementPath( tag )) {
+            // If it is the 'p' tag, which corresponds to the 'Remove format'
+            // menuitem, hide it; otherwise, whether it is an allowed heading
+            // or not, keep it in the menu and highlight it to show it is
+            // currently selected.
+            if ( tag == 'p' ) this.hideItem ( tag );
+            else this.mark( tag );
           }
           else {
-            // If tag is in the current element path: if 'p' tag, which corresponds
-            // to the 'Remove format' menuitem, hide it; otherwise it is an allowed
-            // heading, so highlight its menuitem to show it is currently selected.
-            if ( inElementPath( tag ) ) {
-              if ( tag == 'p' ) this.hideItem ( tag );
-              else this.mark( tag );
-            }
+            // The tag is not in the current element path. If it is a heading
+            // tag but is not an allowed heading, hide its menuitem.
+            if ( tag != 'p' && notAllowed( tag ) )
+              this.hideItem( tag );
           }
         }
       },
