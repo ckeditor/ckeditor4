@@ -7,7 +7,7 @@
 	'use strict';
 
 	// Regex by Imme Emosol.
-	var validUrlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig,
+	var validUrlRegex = /^(https?|ftp):\/\/(-\.)?([^\s\/?\.#]+\.?)+(\/[^\s]*)?[^\s\.,]$/ig,
 		doubleQuoteRegex = /"/g;
 
 	CKEDITOR.plugins.add( 'autolink', {
