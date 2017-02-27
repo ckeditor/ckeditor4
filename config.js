@@ -112,6 +112,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.font_names = 'Arial;' +
 		'Comic Sans MS;' +
+		'Lucida Console;' +
 		'Calibri;' +
 		'Calibri Light;' +
 		'Courier New;' +
