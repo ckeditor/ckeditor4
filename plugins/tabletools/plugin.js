@@ -62,6 +62,32 @@
 		return retval;
 	}
 
+	function recalcCellsWidth(table) {
+		var ptPxCoef = 0.75;
+
+		var cells = table.$.querySelectorAll('th, td');
+		var tableStyleWidth = table.$.style.width;
+		var isPt = /pt$/;
+		var isPx = /px$/;
+		var tableWidthCoefficient = 1;
+		var tableCalculatedWidth = parseInt(window.getComputedStyle(table.$, null).width);
+
+		if (tableStyleWidth) {
+			if (isPt.test(tableStyleWidth)) {
+				tableWidthCoefficient = parseInt(tableStyleWidth, 10) / tableCalculatedWidth / ptPxCoef;
+			} else if (isPx.test(tableStyleWidth)) {
+				tableWidthCoefficient = parseInt(tableStyleWidth, 10) / tableCalculatedWidth;
+			}
+		}
+
+		for(var i = 0; i < cells.length; i++) {
+			var cell = cells[i];
+			var cs = window.getComputedStyle(cell, null);
+
+			cell.style.width = Math.round(parseInt(cs.width, 10) * ptPxCoef / tableWidthCoefficient) + 'pt';
+		}
+	}
+
 	function getFocusElementAfterDelCells( cellsToDelete ) {
 		var i = 0,
 			last = cellsToDelete.length - 1,
@@ -311,7 +337,8 @@
 		// 1. Into next cell of the first row if any;
 		// 2. Into previous cell of the first row if any;
 		// 3. Into table's parent element;
-		var cursorPosition = new CKEDITOR.dom.element( firstRowCells[ startColIndex ] || ( startColIndex ? firstRowCells[ startColIndex - 1 ] : table.$.parentNode ) );
+		var activeCell = firstRowCells[ startColIndex ] || firstRowCells[firstRowCells.length - 1];
+		var cursorPosition = new CKEDITOR.dom.element( activeCell || table.$.parentNode );
 
 		// Delete table rows only if all columns are gone (do not remove empty row).
 		if ( rowsToDelete.length == rows )
@@ -704,8 +731,11 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
 					var element = deleteColumns( selection );
 					element && placeCursorInCell( element, true );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -713,7 +743,10 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
 					insertColumn( selection, true );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -721,7 +754,10 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
 					insertColumn( selection );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -729,7 +765,10 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
 					deleteCells( selection );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -737,7 +776,11 @@
 				allowedContent: 'td[colspan,rowspan]',
 				requiredContent: 'td[colspan,rowspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor.getSelection() ), true );
+					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
+					placeCursorInCell( mergeCells( selection ), true );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -745,7 +788,11 @@
 				allowedContent: 'td[colspan]',
 				requiredContent: 'td[colspan]',
 				exec: function( editor ) {
+					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
 					placeCursorInCell( mergeCells( editor.getSelection(), 'right' ), true );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -753,7 +800,11 @@
 				allowedContent: 'td[rowspan]',
 				requiredContent: 'td[rowspan]',
 				exec: function( editor ) {
-					placeCursorInCell( mergeCells( editor.getSelection(), 'down' ), true );
+					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
+					placeCursorInCell( mergeCells( selection, 'down' ), true );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -761,7 +812,11 @@
 				allowedContent: 'td[rowspan]',
 				requiredContent: 'td[rowspan]',
 				exec: function( editor ) {
+					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
 					placeCursorInCell( verticalSplitCell( editor.getSelection() ) );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -769,7 +824,11 @@
 				allowedContent: 'td[colspan]',
 				requiredContent: 'td[colspan]',
 				exec: function( editor ) {
-					placeCursorInCell( horizontalSplitCell( editor.getSelection() ) );
+					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
+					placeCursorInCell( horizontalSplitCell( selection ) );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -777,7 +836,10 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
 					insertCell( selection, true );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
@@ -785,7 +847,10 @@
 				requiredContent: 'table',
 				exec: function( editor ) {
 					var selection = editor.getSelection();
+					var startElement = selection.getStartElement();
+					var table = startElement.getAscendant('table');
 					insertCell( selection );
+					table && recalcCellsWidth(table);
 				}
 			} ) );
 
