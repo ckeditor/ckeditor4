@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -14,24 +14,25 @@
 	CKEDITOR.plugins.add( 'pagebreak', {
 		requires: 'fakeobjects',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'pagebreak,pagebreak-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		onLoad: function() {
 			var cssStyles = (
-					'background:url(' + CKEDITOR.getUrl( this.path + 'images/pagebreak.gif' ) + ') no-repeat center center;' +
-					'clear:both;' +
-					'width:100%;' +
-					'border-top:#999 1px dotted;' +
-					'border-bottom:#999 1px dotted;' +
-					'padding:0;' +
-					'height:7px;' +
-					'cursor:default;'
-				).replace( /;/g, ' !important;' ); // Increase specificity to override other styles, e.g. block outline.
+				'background:url(' + CKEDITOR.getUrl( this.path + 'images/pagebreak.gif' ) + ') no-repeat center center;' +
+				'display:inline-block;' +
+				'clear:both;' +
+				'width:100%;' +
+				'border-top:#999 1px dotted;' +
+				'border-bottom:#999 1px dotted;' +
+				'padding:0;' +
+				'height:7px;' +
+				'cursor:default;'
+			).replace( /;/g, ' !important;' ); // Increase specificity to override other styles, e.g. block outline.
 
 			// Add the style that renders our placeholder.
-			CKEDITOR.addCss( 'div.cke_pagebreak{' + cssStyles + '}' );
+			CKEDITOR.addCss( 'pgbr.cke_pagebreak{' + cssStyles + '}' );
 		},
 
 		init: function( editor ) {
@@ -52,7 +53,7 @@
 			CKEDITOR.env.webkit && editor.on( 'contentDom', function() {
 				editor.document.on( 'click', function( evt ) {
 					var target = evt.data.getTarget();
-					if ( target.is( 'div' ) && target.hasClass( 'cke_pagebreak' ) )
+					if ( target.is( 'pgbr' ) && target.hasClass( 'cke_pagebreak' ) )
 						editor.getSelection().selectElement( target );
 				} );
 			} );
@@ -93,9 +94,9 @@
 			}
 
 			if ( dataFilter ) {
-				dataFilter.addRules( {
+				dataFilter.addRules({
 					elements: {
-						div: function( element ) {
+						pgbr: function( element ) {
 							// The "internal form" of a pagebreak is pasted from clipboard.
 							// ACF may have distorted the HTML because "internal form" is
 							// different than "data form". Make sure that element remains valid
@@ -106,14 +107,11 @@
 							// Check for "data form" of the pagebreak. If both element and
 							// descendants match, convert them to internal form.
 							else if ( styleRegex.test( element.attributes.style ) ) {
-								var child = element.children[ 0 ];
-
-								if ( child && child.name == 'span' && childStyleRegex.test( child.attributes.style ) )
-									upcastPageBreak( element );
+								upcastPageBreak( element );
 							}
 						}
 					}
-				} );
+				});
 			}
 		}
 	} );
@@ -122,26 +120,26 @@
 	CKEDITOR.plugins.pagebreakCmd = {
 		exec: function( editor ) {
 			// Create read-only element that represents a print break.
-			var pagebreak = editor.document.createElement( 'div', {
+			var pagebreak = editor.document.createElement( 'pgbr', {
 				attributes: attributesSet( editor.lang.pagebreak.alt )
 			} );
 
 			editor.insertElement( pagebreak );
 		},
-		context: 'div',
+		//context: 'pgbr',
 		allowedContent: {
-			div: {
+			pgbr: {
 				styles: '!page-break-after'
 			},
 			span: {
 				match: function( element ) {
 					var parent = element.parent;
-					return parent && parent.name == 'div' && parent.styles && parent.styles[ 'page-break-after' ];
+					return parent && parent.name == 'pgbr' && parent.styles && parent.styles[ 'page-break-after' ];
 				},
 				styles: 'display'
 			}
 		},
-		requiredContent: 'div{page-break-after}'
+		requiredContent: 'pgbr{page-break-after}'
 	};
 
 	// Returns an object representing all the attributes
