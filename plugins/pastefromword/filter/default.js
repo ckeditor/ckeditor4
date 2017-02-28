@@ -430,7 +430,7 @@
 	 * Parses content of provided `style` element.
 	 *
 	 * @parameter {CKEDITOR.dom.element/String} styles `style` element or CSS text
-	 * @return {Object} Object containing styles with selectors as keys and styles as values
+	 * @returns {Object} Object containing styles with selectors as keys and styles as values
 	 * @since 4.7.0
 	 * @private
 	 * @member CKEDITOR.plugins.pastefromword
@@ -488,7 +488,7 @@
 	 * Filters out all unnecessary styles
 	 *
 	 * @parameter {Object} stylesObj Styles returned by CKEDITOR.plugins.pastefromword#parseStyles.
-	 * @return {Object}
+	 * @returns {Object}
 	 * @since 4.7.0
 	 * @private
 	 * @member CKEDITOR.plugins.pastefromword
@@ -523,7 +523,7 @@
 	 * a generic style sheet.
 	 *
 	 * @parameter {String} html HTML string to be parsed.
-	 * @return {CKEDITOR.dom.document}
+	 * @returns {CKEDITOR.dom.document}
 	 * @since 4.7.0
 	 * @private
 	 * @member CKEDITOR.plugins.pastefromword
@@ -1871,7 +1871,7 @@
 		 *
 		 * @param {CKEDITOR.editor} item
 		 * @param {CKEDITOR.htmlParser.element} item
-		 * @return {Boolean}
+		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
@@ -1926,7 +1926,7 @@
 		 *
 		 * @param {CKEDITOR.editor} item
 		 * @param {CKEDITOR.htmlParser.element} item
-		 * @return {Boolean}
+		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 * */
