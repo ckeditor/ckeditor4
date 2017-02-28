@@ -6,7 +6,11 @@
 
 var htmlMatchOpts = {
 		fixStyles: true
-	};
+	},
+	/* jshint -W100, -W113 */
+	// An example of garbage string sometimes appended to Chrome.
+	garbage = ';\��VN�';
+	/* jshint +W100, +W113 */
 
 bender.editors = {
 	editor1: {
@@ -451,15 +455,10 @@ bender.test( {
 		var html = '<html>' +
 				'<body>Foo</body>' +
 			'</html>',
-			// jshint ignore:start
-			garbage = ';\��VN�',
-			// jshint ignore:end
 			nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer;
 
-		// jshint undef:false
 		nativeData.setData( 'text/html', html + garbage );
-		// jshint undef:true
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
@@ -475,15 +474,10 @@ bender.test( {
 		var html = '<html>' +
 				'<body>Foo</body>' +
 			'</html>',
-			// jshint ignore:start
-			garbage = ';\��VN�',
-			// jshint ignore:end
 			nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer;
 
-		// jshint undef:false
 		nativeData.setData( 'text/html', html + garbage );
-		// jshint undef:true
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 		dataTransfer.cacheData();
