@@ -818,7 +818,7 @@
 				// all cells to know which were already processed.
 				cell = new CKEDITOR.dom.element( map[ i ][ j ] );
 
-				if ( !cell.getCustomData( 'selected_cell' ) ) {
+				if ( cell.$ && !cell.getCustomData( 'selected_cell' ) ) {
 					cells.push( cell );
 					CKEDITOR.dom.element.setMarker( markers, cell, 'selected_cell', true );
 				}
