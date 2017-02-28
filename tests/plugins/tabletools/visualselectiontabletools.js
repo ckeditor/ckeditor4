@@ -285,6 +285,23 @@
 			assert.isTrue( last.equals( cells[ 3 ] ) );
 		},
 
+		'test getCellsBetween (irregular cells number in rows)': function( editor, bot ) {
+			var editable = editor.editable(),
+				first,
+				last,
+				cells;
+
+			bot.setHtmlWithSelection( CKEDITOR.document.getById( 'getCellsBetween-irregular' ).getValue() );
+
+			first = editable.findOne( '#first' );
+			last = editable.findOne( '#last' );
+
+			cells = CKEDITOR.plugins.tabletools.getCellsBetween( last, first );
+
+			assert.isTrue( CKEDITOR.tools.isArray( cells ) );
+			assert.areSame( 13, cells.length );
+		},
+
 		'Simulating merge cells from context menu ': function( editor ) {
 			var selection = editor.getSelection(),
 				expected = '<table><tbody><tr><td>Cell 1.1</td><td rowspan="2">Cell 1.2<br />Cell 2.2</td>' +
