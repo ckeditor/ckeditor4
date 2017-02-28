@@ -20,6 +20,7 @@ Fixed Issues:
 * [#10472](http://dev.ckeditor.com/ticket/10472): Fixed: Unable to use [Table Resize](http://ckeditor.com/addon/tableresize) on table's header and footer.
 * [#16777](https://dev.ckeditor.com/ticket/16777): [Edge] Fixed: [Clipboard](http://ckeditor.com/addon/clipboard) plugin doesn't allow to drop widgets into editor.
 * [#14894](https://dev.ckeditor.com/ticket/14894): [Chrome] Fixed: Editor scrolls to top after focusing or when a dialog is opened.
+* [#14769](https://dev.ckeditor.com/ticket/14769): Fixed: URLs with '-' in host are not detected by [Autolink](http://ckeditor.com/addon/autolink) plugin.
 
 ## CKEditor 4.6.2
 
