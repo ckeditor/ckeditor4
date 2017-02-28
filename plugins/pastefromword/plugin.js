@@ -68,22 +68,17 @@
 			// type sniffing (priority = 6).
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
-					mswordHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
-						evt.data.dataTransfer.getData( 'text/html', true ) : data.dataValue,
-					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
-					pfwEvtData;
-
-				// Some commands fire paste event without setting dataTransfer property. In such case
-				// dataValue should be used.
-				if ( mswordHtml.length === 0 && data.dataValue ) {
-					mswordHtml = data.dataValue;
-				}
+					dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+						data.dataTransfer.getData( 'text/html', true ) : null,
+					// Some commands fire paste event without setting dataTransfer property. In such case
+					// dataValue should be used.
+					mswordHtml = dataTransferHtml || data.dataValue,
+					pfwEvtData = { dataValue: mswordHtml },
+					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/;
 
 				if ( !mswordHtml || !( forceFromWord || wordRegexp.test( mswordHtml ) ) ) {
 					return;
 				}
-
-				pfwEvtData = { dataValue: mswordHtml };
 
 				// PFW might still get prevented, if it's not forced.
 				if ( editor.fire( 'pasteFromWord', pfwEvtData ) === false && !forceFromWord ) {
