@@ -2277,7 +2277,7 @@
 		 *
 		 * @param {String} type The type of data to retrieve.
 		 * @param {Boolean} getNative Indicates if the whole, original content of the dataTransfer should be returned.
-		 * This parameter was added in CKEditor 4.7.0.
+		 * Introduced in CKEditor 4.7.0.
 		 * @returns {String} type Stored data for the given type or an empty string if the data for that type does not exist.
 		 */
 		getData: function( type, getNative ) {
@@ -2293,9 +2293,8 @@
 				var htmlEnd = data.indexOf( '</html>' );
 
 				if ( htmlEnd !== -1 ) {
-					// Just cut everything after `</html>`,
-					// so everything after htmlEnd index + length of
-					// `</html>`
+					// Just cut everything after `</html>`, so everything after htmlEnd index + length of `</html>`.
+					// Required to workaround bug: https://bugs.chromium.org/p/chromium/issues/detail?id=696978
 					return data.substring( 0, htmlEnd + 7 );
 				}
 
@@ -2323,7 +2322,7 @@
 			// some significant content may be placed outside Start/EndFragment comments so it's kept.
 			//
 			// See #13583 for more details.
-			// Additionally #16847 adds flag allowing to get whole, original content.
+			// Additionally #16847 adds a flag allowing to get the whole, original content.
 			if ( type == 'text/html' && !getNative ) {
 				data = data.replace( this._.metaRegExp, '' );
 
@@ -2619,7 +2618,7 @@
  * @member CKEDITOR.editor
  */
 
- /**
+/**
  * Fired after the {@link #paste} event if content was modified. Note that if the paste
  * event does not insert any data, the `afterPaste` event will not be fired.
  *
