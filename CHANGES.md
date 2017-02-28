@@ -6,6 +6,7 @@
 New Features:
 
 * [#16818](http://dev.ckeditor.com/ticket/16818): Added table cell height parsing in the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
+* [#16850](http://dev.ckeditor.com/ticket/16850): Added new `config.enableContextMenu` configuration option for enabling and disabling [Context Menu](http://ckeditor.com/addon/contextmenu).
 
 Fixed Issues:
 

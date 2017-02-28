@@ -31,6 +31,33 @@
 			} );
 		},
 
+		'test opening context menu default config': function() {
+			bender.editorBot.create( {
+				name: 'editor_nocontextmenu1'
+			}, function( bot ) {
+				bot.editor.contextMenu.show = sinon.spy();
+
+				bot.editor.contextMenu.open( bot.editor.editable() );
+
+				assert.isTrue( bot.editor.contextMenu.show.called );
+			} );
+		},
+
+		'test opening disabled context menu': function() {
+			bender.editorBot.create( {
+					name: 'editor_nocontextmenu2',
+					config: {
+						enableContextMenu: false
+					}
+				}, function( bot ) {
+				bot.editor.contextMenu.show = sinon.spy();
+
+				bot.editor.contextMenu.open( bot.editor.editable() );
+
+				assert.isFalse( bot.editor.contextMenu.show.called );
+			} );
+		},
+
 		'#9706: test opening contextmenu in editable that does not autoparagraph': function() {
 			bender.editorBot.create( {
 				name: 'editor3',
