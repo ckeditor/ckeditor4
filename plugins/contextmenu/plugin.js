@@ -111,7 +111,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				 * @param {Number} [offsetY]
 				 */
 				open: function( offsetParent, corner, offsetX, offsetY ) {
-					if ( this.editor.config.disableContextMenu ) {
+					if ( this.editor.config.enableContextMenu === false ) {
 						return;
 					}
 
@@ -163,11 +163,11 @@ CKEDITOR.plugins.add( 'contextmenu', {
  */
 
 /**
- * Whether to disable the context menu. The plugin is still loaded.
+ * Whether to enable the context menu. Regardless of the setting the plugin is still loaded.
  *
- *		config.disableContextMenu = false;
+ *		config.enableContextMenu = true;
  *
  * @since 4.7.0
- * @cfg {Boolean} [disableContextMenu=false]
+ * @cfg {Boolean} [enableContextMenu=true]
  * @member CKEDITOR.config
  */
