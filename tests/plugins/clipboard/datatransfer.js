@@ -442,6 +442,8 @@ bender.test( {
 
 	// #16847
 	'test filtering unwanted content with getNative': function() {
+		// Chrome tends to put unwanted artifacts at the end of data transfer, see
+		// https://bugs.chromium.org/p/chromium/issues/detail?id=696978
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
 		}

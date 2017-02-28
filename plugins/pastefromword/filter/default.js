@@ -516,10 +516,13 @@
 	};
 
 	/**
-	 * Fetches all `style` elements from given HTML string and returned document, in which
-	 * all fetched styles are inlined into appropriate elements.
+	 * Finds and inlines all the `style` elements in given `html` string and returns a document, where
+	 * all the styles are inlined into appropriate elements.
 	 *
-	 * @parameter {String} html HTML string to be parsed
+	 * This is needed because sometimes Microsoft Word does not put style directly to the element, but in
+	 * a generic style sheet.
+	 *
+	 * @parameter {String} html HTML string to be parsed.
 	 * @return {CKEDITOR.dom.document}
 	 * @since 4.7.0
 	 * @private
