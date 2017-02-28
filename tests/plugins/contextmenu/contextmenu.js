@@ -47,7 +47,7 @@
 			bender.editorBot.create( {
 					name: 'editor_nocontextmenu2',
 					config: {
-						disableContextMenu: true
+						enableContextMenu: false
 					}
 				}, function( bot ) {
 				bot.editor.contextMenu.show = sinon.spy();
