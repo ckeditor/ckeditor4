@@ -42,6 +42,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'maximize,' +
 		'panelbutton,' +
 		'pastefromword,' +
+		'pastefromexcel,' +
 		'pastetext,' +
 		'removeformat,' +
 		'showborders,' +
