@@ -21,6 +21,7 @@ Fixed Issues:
 * [#16777](https://dev.ckeditor.com/ticket/16777): [Edge] Fixed: [Clipboard](http://ckeditor.com/addon/clipboard) plugin doesn't allow to drop widgets into editor.
 * [#14894](https://dev.ckeditor.com/ticket/14894): [Chrome] Fixed: Editor scrolls to top after focusing or when a dialog is opened.
 * [#14769](https://dev.ckeditor.com/ticket/14769): Fixed: URLs with '-' in host are not detected by [Autolink](http://ckeditor.com/addon/autolink) plugin.
+* [#16804](https://dev.ckeditor.com/ticket/16804): Fixed: Focus is not on the first menu item when user opens [Context Menu](http://ckeditor.com/addon/contextmenu) or combobox from editor's toolbar.
 
 ## CKEditor 4.6.2
 
