@@ -379,11 +379,9 @@ bender.test( {
 				'</body>' +
 			'</html>',
 			nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer;
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		nativeData.setData( 'text/html', html );
-
-		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
 	},
@@ -406,11 +404,9 @@ bender.test( {
 				'</body>' +
 			'</html>',
 			nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer;
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		nativeData.setData( 'text/html', html );
-
-		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 		dataTransfer.cacheData();
 
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
@@ -434,11 +430,9 @@ bender.test( {
 				'</body>' +
 			'</html>',
 			nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer;
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		nativeData.setData( 'text/html', html );
-
-		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 		dataTransfer.cacheData();
 
 		assert.areSame( '<p>Foo</p><p>Bar</p>', dataTransfer.getData( 'text/html' ) );
@@ -456,11 +450,9 @@ bender.test( {
 				'<body>Foo</body>' +
 			'</html>',
 			nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer;
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		nativeData.setData( 'text/html', html + garbage );
-
-		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
 	},
