@@ -502,7 +502,7 @@
 				'page-break-before',
 				'page-break-after',
 				'page-break-inside' ],
-			indexOf = CKEDITOR.tools.array.indexOf,
+			indexOf = tools.array.indexOf,
 			newObj = {},
 			style;
 
