@@ -20,7 +20,7 @@ CKEDITOR.plugins.add( 'pastefromexcel', {
 		if ( CKEDITOR.env.ie )
 			return;
 
-		var getDataFn =  function( type ) {
+		var getDataFn = function( type ) {
 			function isEmpty( data ) {
 				return data === undefined || data === null || data === '';
 			}
@@ -52,6 +52,7 @@ CKEDITOR.plugins.add( 'pastefromexcel', {
 				// Check whether pasted from MS Excel and Word.
 				if ( data.search( /<meta.*?Microsoft Excel\s[\d].*?>/ ) != -1 ||
 					data.search( /<meta.*?Microsoft Word\s[\d].*?>/ ) != -1 ) {
+					this._.isExcel = true;
 					data = renderStyles( data );
 				}
 

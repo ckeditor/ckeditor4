@@ -139,6 +139,7 @@
 			}
 
 			editor.pasteFilter = filtersFactory.get( filterType );
+			editor.pasteFilterAllowStyles = filtersFactory.get( filterType, true );
 
 			initPasteClipboard( editor );
 			initDragDrop( editor );
@@ -333,7 +334,7 @@
 				}
 				// External paste and pasteFilter exists and filtering isn't disabled.
 				else if ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !dataObj.dontFilter ) {
-					data = filterContent( editor, data, editor.pasteFilter );
+					data = filterContent( editor, data, evt.data.dataTransfer._.isExcel ? editor.pasteFilterAllowStyles : editor.pasteFilter );
 				}
 
 				if ( dataObj.startsWithEOL ) {
@@ -1252,14 +1253,14 @@
 			return tags;
 		}
 
-		function createSemanticContentFilter() {
+		function createSemanticContentFilter(allowStyles) {
 			var filter = new CKEDITOR.filter();
 
 			filter.allow( {
 				$1: {
 					elements: setUpTags(),
 					attributes: true,
-					styles: false,
+					styles: allowStyles ? true : false,
 					classes: false
 				}
 			} );
@@ -1268,7 +1269,7 @@
 		}
 
 		return {
-			get: function( type ) {
+			get: function( type, allowStyles ) {
 				if ( type == 'plain-text' ) {
 					// Does this look confusing to you? Did we forget about enter mode?
 					// It is a trick that let's us creating one filter for edidtor, regardless of its
@@ -1282,7 +1283,9 @@
 					//
 					// Now you can sleep well.
 					return filters.plainText || ( filters.plainText = new CKEDITOR.filter( 'br' ) );
-				} else if ( type == 'semantic-content' ) {
+				} else if ( type == 'semantic-content' && allowStyles ) {
+					return filters.semanticContentAllowStyles || ( filters.semanticContentAllowStyles = createSemanticContentFilter(allowStyles) );
+				}else if ( type == 'semantic-content') {
 					return filters.semanticContent || ( filters.semanticContent = createSemanticContentFilter() );
 				} else if ( type ) {
 					// Create filter based on rules (string or object).
