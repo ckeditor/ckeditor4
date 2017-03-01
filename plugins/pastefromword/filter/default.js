@@ -463,8 +463,8 @@
 		}
 
 		// In case of at-rules (e.g. @font-face), selector will be empty.
-		// However Safari also includes @page rules as selector, so they must be filtered out.
-		// Chrome additionaly incorrectly parse @page rules and put @page at the beginning
+		// However Safari also includes @page rules as a selector, so they must be filtered out.
+		// Chrome additionally incorrectly parse @page rules and put @page at the beginning
 		// of the cssText property.
 		function isAtRule( rule ) {
 			return rule.selectorText.indexOf( '@' ) !== -1 || rule.cssText.indexOf( '@' ) === 0;
@@ -560,7 +560,7 @@
 			for ( i = 0; i < elements.count(); i++ ) {
 				element = elements.getItem( i );
 
-				// Modifying style property leads to removing all uknown styles
+				// Modifying style property leads to removing all unknown styles
 				// from style attribute. To prevent this, only style attribute
 				// is used to manipulate element's styles.
 				styleText = CKEDITOR.tools.writeCssText( style );
