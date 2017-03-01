@@ -1345,6 +1345,10 @@
 
 	CKEDITOR.plugins.tabletools = {
 		requires: 'table,dialog,contextmenu',
+		onLoad: function() {
+			CKEDITOR.document.appendStyleSheet( this.path + '/styles/tabletools.css' );
+		},
+
 		init: function( editor ) {
 			var lang = editor.lang.table,
 				styleParse = CKEDITOR.tools.style.parse;
@@ -1785,10 +1789,7 @@
 			// Allow overwriting the native table selection with our custom one.
 			if ( editor.config.tableImprovements ) {
 				// Add styles for fake visual selection.
-				CKEDITOR.addCss( 'table.' + fakeSelectedTableClass + ' *::selection { background: transparent; }' +
-					'.' + fakeSelectedClass + ' { background: darkgray; color: black; }' +
-					'.cke_editable:focus .' + fakeSelectedClass + ' { background: navy; color: white; }' +
-					'.' + fakeSelectedClass + '::selection { background: transparent; }' );
+				editor.addContentsCss( this.path + '/styles/tabletools.css' );
 
 				editor.on( 'contentDom', function() {
 					var editable = editor.editable(),
