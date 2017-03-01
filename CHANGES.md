@@ -10,6 +10,7 @@ New Features:
 
 Fixed Issues:
 
+* [#13062](http://dev.ckeditor.com/ticket/13062): Fixed: Impossible to unlink when the caret is at the edge of the link.
 * [#13585](http://dev.ckeditor.com/ticket/13585): Fixed: Error when wrapping two adjacent `<div>`s with a `<div>`.
 * [#16866](http://dev.ckeditor.com/ticket/16866): [IE, Edge] Fixed: Whitespaces not preserved when pasting from Word.
 * [#16860](http://dev.ckeditor.com/ticket/16860): Fixed: Paragraphs which only look like lists wrongly transformed into them when pasting from Word.
