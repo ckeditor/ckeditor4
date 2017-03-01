@@ -33,9 +33,8 @@
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
 
-		// Before filtering inline all styles to allow default filter to change them
-		// into appropriate span tags.
-		// This step is skipped in IEs due to their flaky support for native DOMParser.
+		// Before filtering inline all the styles to allow because some of them are available only in style
+		// sheets. This step is skipped in IEs due to their flaky support for native DOMParser. (#16847)
 		if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
 			mswordHtml = CKEDITOR.plugins.pastefromword.inlineStyles( mswordHtml ).getBody().getHtml();
 		}

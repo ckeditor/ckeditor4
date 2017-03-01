@@ -41,7 +41,7 @@
 			}
 		},
 
-		'test if CKEDITOR.parseStyles parses styles correctly': function() {
+		'test if parseStyles parses styles correctly': function() {
 			testStyles( 'styles1' );
 			testStyles( 'styles2' );
 			testStyles( 'multiple' );
