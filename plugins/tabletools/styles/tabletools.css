@@ -1,0 +1,14 @@
+table.cke_table-faked-selection-table *::selection {
+	background: transparent;
+}
+.cke_table-faked-selection {
+	background: darkgray;
+	color: black;
+}
+.cke_editable:focus .cke_table-faked-selection {
+	background: navy;
+	color: white;
+}
+.cke_table-faked-selection::selection {
+	background: transparent;
+}
