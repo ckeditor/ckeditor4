@@ -51,14 +51,28 @@
 		},
 
 		'test parsing styles from real style element': function() {
-			var expected = {
+			var parseStyles = CKEDITOR.plugins.pastefromword.parseStyles,
+				expected = {
 					'.MsoChpDefault': {
 						'font-family': 'Calibri'
 					}
-				},
-				actual = CKEDITOR.plugins.pastefromword.parseStyles( CKEDITOR.document.getById( 'real-style' ) );
+				};
 
-			objectAssert.areDeepEqual( expected, actual );
+			objectAssert.areDeepEqual( expected, parseStyles( CKEDITOR.document.getById( 'real-style' ) ) );
+		},
+
+		'test parsing styles from a fake style element': function() {
+			var parseStyles = CKEDITOR.plugins.pastefromword.parseStyles,
+				expected = {
+					'.MsoChpDefault': {
+						'font-family': 'Calibri'
+					},
+					'div a.foo, .bar': {
+						'text-decoration': 'underline'
+					}
+				};
+
+			objectAssert.areDeepEqual( expected, parseStyles( CKEDITOR.document.getById( 'fake-style' ) ) );
 		},
 
 		'test filtering styles': function() {
