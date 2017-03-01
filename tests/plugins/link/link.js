@@ -475,7 +475,7 @@
 			} );
 		},
 
-		'test CKEDITOR.link.showDisplayTextForElement': function(){
+		'test CKEDITOR.link.showDisplayTextForElement': function() {
 			var doc = CKEDITOR.document,
 				showDisplayTextForElement = CKEDITOR.plugins.link.showDisplayTextForElement;
 
