@@ -12,7 +12,7 @@
 		bender.tools.testInputOut( name, function( styles, expected ) {
 			var tested = CKEDITOR.plugins.pastefromword.styles.parseStyles( styles );
 
-			bender.assert.beautified.js( expected, JSON.stringify( tested ), name );
+			assert.beautified.js( expected, JSON.stringify( tested ), name );
 		} );
 	}
 
@@ -28,7 +28,7 @@
 		bender.tools.testInputOut( name, function( styles, expected ) {
 			var tested = CKEDITOR.plugins.pastefromword.styles.filterStyles( JSON.parse( styles ) );
 
-			bender.assert.beautified.js( expected, JSON.stringify( tested ), name );
+			assert.beautified.js( expected, JSON.stringify( tested ), name );
 		} );
 	}
 
@@ -56,7 +56,7 @@
 					}
 				};
 
-			bender.assert.beautified.js( JSON.stringify( expected ),
+			assert.beautified.js( JSON.stringify( expected ),
 				JSON.stringify( parseStyles( CKEDITOR.document.getById( 'real-style' ) ) ) );
 		},
 
@@ -71,7 +71,7 @@
 					}
 				};
 
-			bender.assert.beautified.js( JSON.stringify( expected ),
+			assert.beautified.js( JSON.stringify( expected ),
 				JSON.stringify( parseStyles( CKEDITOR.document.getById( 'fake-style' ) ) ) );
 		},
 
