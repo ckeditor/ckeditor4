@@ -716,9 +716,9 @@
 				var style = new CKEDITOR.dom.element( 'style' ),
 					iframe = new CKEDITOR.dom.element( 'iframe' );
 
+				iframe.hide();
 				CKEDITOR.document.getBody().append( iframe );
 				iframe.$.contentDocument.documentElement.appendChild( style.$ );
-				iframe.hide();
 
 				style.$.textContent = styles;
 				iframe.remove();
