@@ -109,6 +109,10 @@
 		return {
 			getTransferType: function() {
 				return type;
+			},
+
+			getData: function() {
+				return '';
 			}
 		};
 	}
