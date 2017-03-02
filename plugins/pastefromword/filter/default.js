@@ -704,7 +704,8 @@
 		 */
 		inliner: {
 			/**
-			 * Styles, which are filtered.
+			 *
+			 * Styles skipped by the style inliner.
 			 *
 			 * @property {String[]}
 			 * @private
