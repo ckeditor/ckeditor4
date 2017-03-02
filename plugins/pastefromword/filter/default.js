@@ -698,11 +698,11 @@
 		/**
 		 * Parses content of provided `style` element.
 		 *
-		 * @parameter {CKEDITOR.dom.element/String} styles `style` element or CSS text
+		 * @param {CKEDITOR.dom.element/String} styles `style` element or CSS text
 		 * @returns {Object} Object containing styles with selectors as keys and styles as values
 		 * @since 4.7.0
 		 * @private
-		 * @member CKEDITOR.plugins.pastefromword
+		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		parseStyles: function( styles ) {
 			var parseCssText = CKEDITOR.tools.parseCssText,
@@ -754,11 +754,11 @@
 		/**
 		 * Filters out all unnecessary styles
 		 *
-		 * @parameter {Object} stylesObj Styles returned by CKEDITOR.plugins.pastefromword#parseStyles.
+		 * @param {Object} stylesObj Styles returned by {@link CKEDITOR.plugins.pastefromword.styles#parseStyles}.
 		 * @returns {Object}
 		 * @since 4.7.0
 		 * @private
-		 * @member CKEDITOR.plugins.pastefromword
+		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		filterStyles: function( stylesObj ) {
 			var toRemove = [
@@ -789,11 +789,11 @@
 		 * This is needed because sometimes Microsoft Word does not put style directly to the element, but in
 		 * a generic style sheet.
 		 *
-		 * @parameter {String} html HTML string to be parsed.
+		 * @param {String} html HTML string to be parsed.
 		 * @returns {CKEDITOR.dom.document}
 		 * @since 4.7.0
 		 * @private
-		 * @member CKEDITOR.plugins.pastefromword
+		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		inlineStyles: function( html ) {
 			var parseStyles = CKEDITOR.plugins.pastefromword.styles.parseStyles,

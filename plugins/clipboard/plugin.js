@@ -2276,7 +2276,7 @@
 		 * Facade for the native `getData` method.
 		 *
 		 * @param {String} type The type of data to retrieve.
-		 * @param {Boolean} getNative Indicates if the whole, original content of the dataTransfer should be returned.
+		 * @param {Boolean} [getNative=false] Indicates if the whole, original content of the dataTransfer should be returned.
 		 * Introduced in CKEditor 4.7.0.
 		 * @returns {String} type Stored data for the given type or an empty string if the data for that type does not exist.
 		 */
