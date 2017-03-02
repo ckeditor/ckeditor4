@@ -732,19 +732,17 @@
 				return parseCssText( cssText.substring( startIndex + 1, endIndex ), true );
 			}
 
-			// In case of at-rules (e.g. @font-face), selector will be empty.
-			// However Safari also includes @page rules as a selector, so they must be filtered out.
-			// Chrome additionally incorrectly parse @page rules and put @page at the beginning
-			// of the cssText property.
-			function isAtRule( rule ) {
-				return rule.selectorText.indexOf( '@' ) !== -1 || rule.cssText.indexOf( '@' ) === 0;
+			// To detect if the rule contains styles and is not an at-rule, it's enough to check
+			// rule's type.
+			function isStyleRule( rule ) {
+				return rule.type === window.CSSRule.STYLE_RULE;
 			}
 
 			if ( sheet ) {
 				rules = sheet.cssRules;
 
 				for ( i = 0; i < rules.length; i++ ) {
-					if ( rules[ i ].selectorText && !isAtRule( rules [ i ] ) ) {
+					if ( isStyleRule( rules[ i ] ) ) {
 						stylesObj[ rules[ i ].selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
 					}
 				}
