@@ -11,7 +11,7 @@
 	function testStyles( name ) {
 		bender.tools.testInputOut( name, function( styles, parsed ) {
 			var stylesObj = JSON.parse( parsed ),
-				tested = CKEDITOR.plugins.pastefromword.parseStyles( styles );
+				tested = CKEDITOR.plugins.pastefromword.styles.parseStyles( styles );
 
 			objectAssert.areDeepEqual( stylesObj, tested, name );
 		} );
@@ -19,7 +19,7 @@
 
 	function testInlining( name ) {
 		bender.tools.testInputOut( name, function( input, output ) {
-			var parsed = CKEDITOR.plugins.pastefromword.inlineStyles( input );
+			var parsed = CKEDITOR.plugins.pastefromword.styles.inlineStyles( input );
 
 			bender.assert.beautified.html( output, bender.tools.fixHtml( parsed.getBody().getHtml() ), name );
 		} );
@@ -28,7 +28,7 @@
 	function testFiltering( name ) {
 		bender.tools.testInputOut( name, function( styles, parsed ) {
 			var stylesObj = JSON.parse( parsed ),
-				tested = CKEDITOR.plugins.pastefromword.filterStyles( JSON.parse( styles ) );
+				tested = CKEDITOR.plugins.pastefromword.styles.filterStyles( JSON.parse( styles ) );
 
 			objectAssert.areDeepEqual( stylesObj, tested, name );
 		} );
@@ -51,7 +51,7 @@
 		},
 
 		'test parsing styles from real style element': function() {
-			var parseStyles = CKEDITOR.plugins.pastefromword.parseStyles,
+			var parseStyles = CKEDITOR.plugins.pastefromword.styles.parseStyles,
 				expected = {
 					'.MsoChpDefault': {
 						'font-family': 'Calibri'
@@ -62,7 +62,7 @@
 		},
 
 		'test parsing styles from a fake style element': function() {
-			var parseStyles = CKEDITOR.plugins.pastefromword.parseStyles,
+			var parseStyles = CKEDITOR.plugins.pastefromword.styles.parseStyles,
 				expected = {
 					'.MsoChpDefault': {
 						'font-family': 'Calibri'
