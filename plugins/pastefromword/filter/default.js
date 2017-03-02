@@ -36,7 +36,7 @@
 		// Before filtering inline all the styles to allow because some of them are available only in style
 		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (#16847)
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inlineStyles( mswordHtml ).getBody().getHtml();
+			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml ).getBody().getHtml();
 		}
 
 		// Sometimes Word malforms the comments.
@@ -696,162 +696,171 @@
 		},
 
 		/**
-		 * Parses content of provided `style` element.
+		 * Namespace containing styles's inliner.
 		 *
-		 * @param {CKEDITOR.dom.element/String} styles `style` element or CSS text
-		 * @returns {Object} Object containing styles with selectors as keys and styles as values
 		 * @since 4.7.0
 		 * @private
 		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
-		parseStyles: function( styles ) {
-			var parseCssText = CKEDITOR.tools.parseCssText,
-				filterStyles = CKEDITOR.plugins.pastefromword.styles.filterStyles,
-				stylesObj = {},
-				sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles ),
-				rules,
-				i;
-
-			function createIsolatedStylesheet( styles ) {
-				var style = new CKEDITOR.dom.element( 'style' ),
-					iframe = new CKEDITOR.dom.element( 'iframe' );
-
-				iframe.hide();
-				CKEDITOR.document.getBody().append( iframe );
-				iframe.$.contentDocument.documentElement.appendChild( style.$ );
-
-				style.$.textContent = styles;
-				iframe.remove();
-				return style.$.sheet;
-			}
-
-			function getStyles( cssText ) {
-				var startIndex = cssText.indexOf( '{' ),
-					endIndex = cssText.indexOf( '}' );
-
-				return parseCssText( cssText.substring( startIndex + 1, endIndex ), true );
-			}
-
-			// To detect if the rule contains styles and is not an at-rule, it's enough to check
-			// rule's type.
-			function isStyleRule( rule ) {
-				return rule.type === window.CSSRule.STYLE_RULE;
-			}
-
-			if ( sheet ) {
-				rules = sheet.cssRules;
-
-				for ( i = 0; i < rules.length; i++ ) {
-					if ( isStyleRule( rules[ i ] ) ) {
-						stylesObj[ rules[ i ].selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
-					}
-				}
-			}
-
-			return stylesObj;
-		},
-
-		/**
-		 * Filters out all unnecessary styles
-		 *
-		 * @param {Object} stylesObj Styles returned by {@link CKEDITOR.plugins.pastefromword.styles#parseStyles}.
-		 * @returns {Object}
-		 * @since 4.7.0
-		 * @private
-		 * @member CKEDITOR.plugins.pastefromword.styles
-		 */
-		filterStyles: function( stylesObj ) {
-			var toRemove = [
-					'break-before',
-					'break-after',
-					'break-inside',
-					'page-break',
-					'page-break-before',
-					'page-break-after',
-					'page-break-inside' ],
-				indexOf = tools.array.indexOf,
-				newObj = {},
-				style;
-
-			for ( style in stylesObj ) {
-				if ( indexOf( toRemove, style ) === -1 ) {
-					newObj[ style ] = stylesObj[ style ];
-				}
-			}
-
-			return newObj;
-		},
-
-		/**
-		 * Finds and inlines all the `style` elements in given `html` string and returns a document, where
-		 * all the styles are inlined into appropriate elements.
-		 *
-		 * This is needed because sometimes Microsoft Word does not put style directly to the element, but in
-		 * a generic style sheet.
-		 *
-		 * @param {String} html HTML string to be parsed.
-		 * @returns {CKEDITOR.dom.document}
-		 * @since 4.7.0
-		 * @private
-		 * @member CKEDITOR.plugins.pastefromword.styles
-		 */
-		inlineStyles: function( html ) {
-			var parseStyles = CKEDITOR.plugins.pastefromword.styles.parseStyles,
-				document = createTempDocument( html ),
-				stylesTags = document.find( 'style' ),
-				stylesObj = parseStyleTags( stylesTags );
-
-			function createTempDocument( html ) {
-				var parser = new DOMParser(),
-					document = parser.parseFromString( html, 'text/html' );
-
-				return new CKEDITOR.dom.document( document );
-			}
-
-			function parseStyleTags( stylesTags ) {
-				var stylesObj = {},
+		inliner: {
+			/**
+			 * Parses content of provided `style` element.
+			 *
+			 * @param {CKEDITOR.dom.element/String} styles `style` element or CSS text
+			 * @returns {Object} Object containing styles with selectors as keys and styles as values
+			 * @since 4.7.0
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			parse: function( styles ) {
+				var parseCssText = CKEDITOR.tools.parseCssText,
+					filterStyles = CKEDITOR.plugins.pastefromword.styles.inliner.filter,
+					stylesObj = {},
+					sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles ),
+					rules,
 					i;
 
-				for ( i = 0; i < stylesTags.count(); i++ ) {
-					CKEDITOR.tools.extend( stylesObj, parseStyles( stylesTags.getItem( i ) ) );
+				function createIsolatedStylesheet( styles ) {
+					var style = new CKEDITOR.dom.element( 'style' ),
+						iframe = new CKEDITOR.dom.element( 'iframe' );
+
+					iframe.hide();
+					CKEDITOR.document.getBody().append( iframe );
+					iframe.$.contentDocument.documentElement.appendChild( style.$ );
+
+					style.$.textContent = styles;
+					iframe.remove();
+					return style.$.sheet;
+				}
+
+				function getStyles( cssText ) {
+					var startIndex = cssText.indexOf( '{' ),
+						endIndex = cssText.indexOf( '}' );
+
+					return parseCssText( cssText.substring( startIndex + 1, endIndex ), true );
+				}
+
+				// To detect if the rule contains styles and is not an at-rule, it's enough to check
+				// rule's type.
+				function isStyleRule( rule ) {
+					return rule.type === window.CSSRule.STYLE_RULE;
+				}
+
+				if ( sheet ) {
+					rules = sheet.cssRules;
+
+					for ( i = 0; i < rules.length; i++ ) {
+						if ( isStyleRule( rules[ i ] ) ) {
+							stylesObj[ rules[ i ].selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
+						}
+					}
 				}
 
 				return stylesObj;
-			}
+			},
 
-			function applyStyle( document, selector, style ) {
-				var elements = document.find( selector ),
-					element,
-					styleText,
-					i;
+			/**
+			 * Filters out all unnecessary styles
+			 *
+			 * @param {Object} stylesObj Styles returned by {@link CKEDITOR.plugins.pastefromword.styles#parseStyles}.
+			 * @returns {Object}
+			 * @since 4.7.0
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			filter: function( stylesObj ) {
+				var toRemove = [
+						'break-before',
+						'break-after',
+						'break-inside',
+						'page-break',
+						'page-break-before',
+						'page-break-after',
+						'page-break-inside' ],
+					indexOf = tools.array.indexOf,
+					newObj = {},
+					style;
 
-				for ( i = 0; i < elements.count(); i++ ) {
-					element = elements.getItem( i );
+				for ( style in stylesObj ) {
+					if ( indexOf( toRemove, style ) === -1 ) {
+						newObj[ style ] = stylesObj[ style ];
+					}
+				}
 
-					// Modifying style property leads to removing all unknown styles
-					// from style attribute. To prevent this, only style attribute
-					// is used to manipulate element's styles.
-					styleText = CKEDITOR.tools.writeCssText( style );
+				return newObj;
+			},
 
-					if ( element.getAttribute( 'style' ) ) {
-						styleText += ';' + element.getAttribute( 'style' );
+			/**
+			 * Finds and inlines all the `style` elements in given `html` string and returns a document, where
+			 * all the styles are inlined into appropriate elements.
+			 *
+			 * This is needed because sometimes Microsoft Word does not put style directly to the element, but in
+			 * a generic style sheet.
+			 *
+			 * @param {String} html HTML string to be parsed.
+			 * @returns {CKEDITOR.dom.document}
+			 * @since 4.7.0
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			inline: function( html ) {
+				var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
+					document = createTempDocument( html ),
+					stylesTags = document.find( 'style' ),
+					stylesObj = parseStyleTags( stylesTags );
+
+				function createTempDocument( html ) {
+					var parser = new DOMParser(),
+						document = parser.parseFromString( html, 'text/html' );
+
+					return new CKEDITOR.dom.document( document );
+				}
+
+				function parseStyleTags( stylesTags ) {
+					var stylesObj = {},
+						i;
+
+					for ( i = 0; i < stylesTags.count(); i++ ) {
+						CKEDITOR.tools.extend( stylesObj, parseStyles( stylesTags.getItem( i ) ) );
 					}
 
-					element.setAttribute( 'style', styleText );
+					return stylesObj;
 				}
-			}
 
-			function applyStyles( document, styles ) {
-				var style;
+				function applyStyle( document, selector, style ) {
+					var elements = document.find( selector ),
+						element,
+						styleText,
+						i;
 
-				for ( style in styles ) {
-					applyStyle( document, style, styles[ style ] );
+					for ( i = 0; i < elements.count(); i++ ) {
+						element = elements.getItem( i );
+
+						// Modifying style property leads to removing all unknown styles
+						// from style attribute. To prevent this, only style attribute
+						// is used to manipulate element's styles.
+						styleText = CKEDITOR.tools.writeCssText( style );
+
+						if ( element.getAttribute( 'style' ) ) {
+							styleText += ';' + element.getAttribute( 'style' );
+						}
+
+						element.setAttribute( 'style', styleText );
+					}
 				}
+
+				function applyStyles( document, styles ) {
+					var style;
+
+					for ( style in styles ) {
+						applyStyle( document, style, styles[ style ] );
+					}
+				}
+
+				applyStyles( document, stylesObj );
+
+				return document;
 			}
-
-			applyStyles( document, stylesObj );
-
-			return document;
 		}
 	};
 	Style = CKEDITOR.plugins.pastefromword.styles;
