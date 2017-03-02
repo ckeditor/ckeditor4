@@ -9,11 +9,10 @@
 	bender.editor = {};
 
 	function testStyles( name ) {
-		bender.tools.testInputOut( name, function( styles, parsed ) {
-			var stylesObj = JSON.parse( parsed ),
-				tested = CKEDITOR.plugins.pastefromword.styles.parseStyles( styles );
+		bender.tools.testInputOut( name, function( styles, expected ) {
+			var tested = CKEDITOR.plugins.pastefromword.styles.parseStyles( styles );
 
-			objectAssert.areDeepEqual( stylesObj, tested, name );
+			bender.assert.beautified.js( expected, JSON.stringify( tested ), name );
 		} );
 	}
 
@@ -26,11 +25,10 @@
 	}
 
 	function testFiltering( name ) {
-		bender.tools.testInputOut( name, function( styles, parsed ) {
-			var stylesObj = JSON.parse( parsed ),
-				tested = CKEDITOR.plugins.pastefromword.styles.filterStyles( JSON.parse( styles ) );
+		bender.tools.testInputOut( name, function( styles, expected ) {
+			var tested = CKEDITOR.plugins.pastefromword.styles.filterStyles( JSON.parse( styles ) );
 
-			objectAssert.areDeepEqual( stylesObj, tested, name );
+			bender.assert.beautified.js( expected, JSON.stringify( tested ), name );
 		} );
 	}
 
@@ -58,7 +56,8 @@
 					}
 				};
 
-			objectAssert.areDeepEqual( expected, parseStyles( CKEDITOR.document.getById( 'real-style' ) ) );
+			bender.assert.beautified.js( JSON.stringify( expected ),
+				JSON.stringify( parseStyles( CKEDITOR.document.getById( 'real-style' ) ) ) );
 		},
 
 		'test parsing styles from a fake style element': function() {
@@ -72,7 +71,8 @@
 					}
 				};
 
-			objectAssert.areDeepEqual( expected, parseStyles( CKEDITOR.document.getById( 'fake-style' ) ) );
+			bender.assert.beautified.js( JSON.stringify( expected ),
+				JSON.stringify( parseStyles( CKEDITOR.document.getById( 'fake-style' ) ) ) );
 		},
 
 		'test filtering styles': function() {
