@@ -704,6 +704,22 @@
 		 */
 		inliner: {
 			/**
+			 * Styles, which are filtered.
+			 *
+			 * @property {String[]}
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			filtered: [
+				'break-before',
+				'break-after',
+				'break-inside',
+				'page-break',
+				'page-break-before',
+				'page-break-after',
+				'page-break-inside'
+			],
+			/**
 			 * Parses content of provided `style` element.
 			 *
 			 * @param {CKEDITOR.dom.element/String} styles `style` element or CSS text
@@ -765,14 +781,7 @@
 			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
 			 */
 			filter: function( stylesObj ) {
-				var toRemove = [
-						'break-before',
-						'break-after',
-						'break-inside',
-						'page-break',
-						'page-break-before',
-						'page-break-after',
-						'page-break-inside' ],
+				var toRemove = CKEDITOR.plugins.pastefromword.styles.inliner.filtered,
 					indexOf = tools.array.indexOf,
 					newObj = {},
 					style;
