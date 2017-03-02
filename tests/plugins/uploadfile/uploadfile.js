@@ -1,7 +1,8 @@
 /* bender-tags: editor,unit,clipboard,widget */
 /* bender-ckeditor-plugins: uploadwidget,uploadimage,toolbar,image */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
-/* global pasteFiles */
+/* bender-include: _helpers/waitForImage.js */
+/* global pasteFiles, waitForImage */
 
 'use strict';
 
@@ -160,34 +161,16 @@ bender.test( {
 
 		var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
 
-		// IE needs to wait for image to be loaded so it can read width and height of the image.
-		if ( CKEDITOR.env.ie ) {
-			wait( function() {
-				loader.url = IMG_URL;
-				loader.changeStatus( 'uploaded' );
+		waitForImage( image, function() {
+			loader.url = IMG_URL;
+			loader.changeStatus( 'uploaded' );
 
-				assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
-				assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
+			assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
+			assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
 
-				assert.areSame( 1, loadAndUploadCount );
-				assert.areSame( 0, uploadCount );
-				assert.areSame( 'http://foo/upload', lastUploadUrl );
-			}, 100 );
-		} else {
-			image.on( 'load', function() {
-				resume( function() {
-					loader.url = IMG_URL;
-					loader.changeStatus( 'uploaded' );
-
-					assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
-					assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
-
-					assert.areSame( 1, loadAndUploadCount );
-					assert.areSame( 0, uploadCount );
-					assert.areSame( 'http://foo/upload', lastUploadUrl );
-				} );
-			} );
-			wait();
-		}
+			assert.areSame( 1, loadAndUploadCount );
+			assert.areSame( 0, uploadCount );
+			assert.areSame( 'http://foo/upload', lastUploadUrl );
+		} );
 	}
 } );

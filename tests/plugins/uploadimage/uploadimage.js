@@ -1,7 +1,8 @@
 /* bender-tags: editor,unit,clipboard,widget */
 /* bender-ckeditor-plugins: uploadwidget,uploadimage,toolbar,image2 */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
-/* global pasteFiles */
+/* bender-include: %BASE_PATH%/plugins/uploadfile/_helpers/waitForImage.js */
+/* global pasteFiles, waitForImage */
 
 'use strict';
 
@@ -185,34 +186,17 @@
 
 			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
 
-			if ( CKEDITOR.env.ie ) {
-				wait( function() {
-					loader.url = IMG_URL;
-					loader.changeStatus( 'uploaded' );
+			waitForImage( image, function() {
+				loader.url = IMG_URL;
+				loader.changeStatus( 'uploaded' );
 
-					assert.sameData( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData() );
-					assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
+				assert.sameData( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData() );
+				assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
-					assert.areSame( 1, loadAndUploadCount );
-					assert.areSame( 0, uploadCount );
-					assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
-				}, 100 );
-			} else {
-				image.on( 'load', function() {
-					resume( function() {
-						loader.url = IMG_URL;
-						loader.changeStatus( 'uploaded' );
-
-						assert.sameData( '<p><img alt="" height="1" src="' + IMG_URL + '" width="1" /></p>', editor.getData() );
-						assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
-
-						assert.areSame( 1, loadAndUploadCount );
-						assert.areSame( 0, uploadCount );
-						assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
-					} );
-				} );
-				wait();
-			}
+				assert.areSame( 1, loadAndUploadCount );
+				assert.areSame( 0, uploadCount );
+				assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
+			} );
 		},
 
 		'test paste img as html (integration test)': function() {
