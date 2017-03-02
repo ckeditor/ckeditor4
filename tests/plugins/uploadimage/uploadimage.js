@@ -217,8 +217,9 @@
 				assertUploadingWidgets( editor, LOADED_IMG );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on uploading.' );
 
-				// IE needs to wait for image to be loaded so it can read width and height of the image.
-				wait( function() {
+				var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+				waitForImage( image, function() {
 					loader.url = IMG_URL;
 					loader.changeStatus( 'uploaded' );
 
@@ -228,7 +229,7 @@
 					assert.areSame( 0, loadAndUploadCount );
 					assert.areSame( 1, uploadCount );
 					assert.areSame( 'http://foo/upload', lastUploadUrl );
-				}, 10 );
+				} );
 			} );
 		},
 
