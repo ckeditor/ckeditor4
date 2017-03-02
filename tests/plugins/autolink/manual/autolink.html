@@ -1,0 +1,20 @@
+<h3>URLs that should be turned into links</h3>
+
+<p>http://google.com/one_two_three</p>
+<p>http://google.com/one_two_three/</p>
+<p>http://www.google.com/one_two_three#anchor</p>
+<p>https://www.google.com/test/?one=scoobydoobydoo&two=scoobydooby1doo&asdfgh</p>
+<p>http://a.b-c.de</p>
+
+<h3>URLs that shouldn't be turned into links</h3>
+
+<p>http://google.com/URL encoded spaces please/</p>
+<p>h://notarealprotocol</p>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Foo bar.</p>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+</script>

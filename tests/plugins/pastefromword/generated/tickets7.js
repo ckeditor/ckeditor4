@@ -52,7 +52,7 @@
 					testData._should.ignore[ testName ] = true;
 				}
 
-				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], false, true );
+				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], false, true, [ pfwTools.filters.font ] );
 			}
 		}
 	}

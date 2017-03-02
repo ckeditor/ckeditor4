@@ -180,6 +180,14 @@ CKEDITOR.plugins.add( 'listblock', {
 					this.onMark && this.onMark( item );
 				},
 
+				markFirstDisplayed: function() {
+					var context = this;
+					this._.markFirstDisplayed( function() {
+						if ( !context.multiSelect )
+							context.unmarkAll();
+					} );
+				},
+
 				unmark: function( value ) {
 					var doc = this.element.getDocument(),
 						itemId = this._.items[ value ],

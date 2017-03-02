@@ -752,8 +752,29 @@
 	CKEDITOR.unlinkCommand = function() {};
 	CKEDITOR.unlinkCommand.prototype = {
 		exec: function( editor ) {
+			// IE/Edge removes link from selection while executing "unlink" command when cursor
+			// is right before/after link's text. Therefore whole link must be selected and the
+			// position of cursor must be restored to its initial state after unlinking. (#13062)
+			if ( CKEDITOR.env.ie ) {
+				var range = editor.getSelection().getRanges()[ 0 ],
+					link = ( range.getPreviousEditableNode() && range.getPreviousEditableNode().getAscendant( 'a', true ) ) ||
+							( range.getNextEditableNode() && range.getNextEditableNode().getAscendant( 'a', true ) ),
+					bookmark;
+
+				if ( range.collapsed && link ) {
+					bookmark = range.createBookmark();
+					range.selectNodeContents( link );
+					range.select();
+				}
+			}
+
 			var style = new CKEDITOR.style( { element: 'a', type: CKEDITOR.STYLE_INLINE, alwaysRemoveElement: 1 } );
 			editor.removeStyle( style );
+
+			if ( bookmark ) {
+				range.moveToBookmark( bookmark );
+				range.select();
+			}
 		},
 
 		refresh: function( editor, path ) {
@@ -770,7 +791,8 @@
 
 		contextSensitive: 1,
 		startDisabled: 1,
-		requiredContent: 'a[href]'
+		requiredContent: 'a[href]',
+		editorFocus: 1
 	};
 
 	CKEDITOR.removeAnchorCommand = function() {};

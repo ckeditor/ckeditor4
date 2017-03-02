@@ -118,10 +118,6 @@
 							return false;
 						case 40: // DOWN-ARROW
 							if ( item.button && item.button.hasArrow ) {
-								// Note: code is duplicated in plugins\richcombo\plugin.js in keyDownFn().
-								editor.once( 'panelShow', function( evt ) {
-									evt.data._.panel._.currentBlock.onKeyDown( 40 );
-								} );
 								item.execute();
 							} else {
 								// Send left arrow key.

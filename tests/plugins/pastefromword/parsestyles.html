@@ -1,0 +1,202 @@
+<textarea id="styles1">
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-family:Calibri;}
+=>
+{
+	".MsoChpDefault": {
+		"font-family": "Calibri"
+	}
+}
+</textarea>
+
+<textarea id="styles2">
+p.MsoNormal, li.MsoNormal, div.MsoNormal {
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+}
+=>
+{
+	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
+		"margin": "0cm 0cm 0.0001pt"
+	}
+}
+</textarea>
+
+<textarea id="multiple">
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-family:Calibri;}
+p.MsoNormal, li.MsoNormal, div.MsoNormal {
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+}
+=>
+{
+	".MsoChpDefault": {
+		"font-family": "Calibri"
+	},
+	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
+		"margin": "0cm 0cm 0.0001pt"
+	}
+}
+</textarea>
+
+<textarea id="empty">
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";}
+=>
+{
+	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {}
+}
+</textarea>
+
+<textarea id="font-face">
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:-536870145 1073786111 1 0 415 0;}
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;}
+=>
+{
+	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
+		"margin": "0cm"
+	}
+}
+</textarea>
+
+<textarea id="page">
+@page WordSection1
+  {size:595.0pt 842.0pt;
+  margin:70.85pt 70.85pt 70.85pt 70.85pt;
+  mso-header-margin:35.4pt;
+  mso-footer-margin:35.4pt;
+  mso-paper-source:0;}
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;}
+=>
+{
+	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
+		"margin": "0cm"
+	}
+}
+</textarea>
+
+<style id="real-style">
+	.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-family:Calibri;}
+</style>
+
+<style id="fake-style">
+	.MsoChpDefault
+	{
+		mso-style-type:export-only;
+		mso-default-props:yes;
+		font-family:Calibri;
+	}
+
+	div a.foo, .bar
+	{
+		text-decoration: underline
+	}
+</style>
+
+<textarea id="inline1">
+	<html>
+		<head>
+			<style>
+				.class1 {
+					font-family: Verdana;
+				}
+				.class2 {
+					font-size: 20px;
+				}
+			</style>
+		</head>
+		<body>
+			<p class="class1">Foo</p>
+			<p class="class2">Bar</p>
+			<p class="class1 class2">Baz</p>
+		</body>
+	</html>
+=>
+	<p class="class1" style="font-family: Verdana;">Foo</p>
+	<p class="class2" style="font-size: 20px;">Bar</p>
+	<p class="class1 class2" style="font-family: Verdana;font-size: 20px;">Baz</p>
+</textarea>
+
+<textarea id="inline2">
+	<html>
+		<head>
+			<style>
+				.class1 {
+					page-break-before: avoid;
+					font-family: Verdana;
+				}
+			</style>
+		</head>
+		<body>
+			<p class="class1">Foo</p>
+		</body>
+	</html>
+=>
+	<p class="class1" style="font-family: Verdana;">Foo</p>
+</textarea>
+
+<textarea id="multiple-inline">
+	<html>
+		<head>
+			<style>
+				.class1 {
+					font-family: Verdana;
+				}
+			</style>
+			<style>
+				.class2 {
+					font-size: 20px;
+				}
+			</style>
+		</head>
+		<body>
+			<p class="class1">Foo</p>
+			<p class="class2">Bar</p>
+			<p class="class1 class2">Baz</p>
+		</body>
+	</html>
+=>
+	<p class="class1" style="font-family: Verdana;">Foo</p>
+	<p class="class2" style="font-size: 20px;">Bar</p>
+	<p class="class1 class2" style="font-family: Verdana;font-size: 20px;">Baz</p>
+</textarea>
+
+<textarea id="filter1">
+{
+	"page-break-inside": "avoid",
+	"page-break-after": "avoid",
+	"page-break-before": "avoid",
+	"break-before": "always",
+	"font-family": "Verdana"
+}
+=>
+{
+	"font-family": "Verdana"
+}
+</textarea>
