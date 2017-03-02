@@ -40,11 +40,7 @@
 				if ( tests[ keys[ i ] ] === true || CKEDITOR.tools.indexOf( tests[ keys[ i ] ], wordVersions[ j ] ) !== -1 ) {
 					var testName = [ 'test', keys[ i ], wordVersions[ j ], browsers[ k ] ].join( ' ' );
 
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) {
-						testData._should.ignore[ testName ] = true;
-					}
-
-					if ( CKEDITOR.env.ie && testName.indexOf( 'chrome' ) !== -1 ) {
+					if ( CKEDITOR.env.ie ) {
 						testData._should.ignore[ testName ] = true;
 					}
 
