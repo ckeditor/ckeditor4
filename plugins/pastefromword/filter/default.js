@@ -34,8 +34,8 @@
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
 
 		// Before filtering inline all the styles to allow because some of them are available only in style
-		// sheets. This step is skipped in IEs due to their flaky support for native DOMParser. (#16847)
-		if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
+		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (#16847)
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inlineStyles( mswordHtml ).getBody().getHtml();
 		}
 
