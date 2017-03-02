@@ -740,17 +740,13 @@
 					return parseCssText( cssText.substring( startIndex + 1, endIndex ), true );
 				}
 
-				// To detect if the rule contains styles and is not an at-rule, it's enough to check
-				// rule's type.
-				function isStyleRule( rule ) {
-					return rule.type === window.CSSRule.STYLE_RULE;
-				}
-
 				if ( sheet ) {
 					rules = sheet.cssRules;
 
 					for ( i = 0; i < rules.length; i++ ) {
-						if ( isStyleRule( rules[ i ] ) ) {
+						// To detect if the rule contains styles and is not an at-rule, it's enough to check
+						// rule's type.
+						if ( rules[ i ].type === window.CSSRule.STYLE_RULE ) {
 							stylesObj[ rules[ i ].selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
 						}
 					}
