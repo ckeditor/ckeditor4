@@ -1951,7 +1951,7 @@
 						return true;
 					}
 
-					var css = tools.parseCssText( child.attributes && child.attributes.style );
+					var css = tools.parseCssText( child.attributes && child.attributes.style && child.attributes.style.toLowerCase() );
 
 					if ( !css ) {
 						return false;
@@ -1959,8 +1959,8 @@
 					var fontSize = css.font || css['font-size'] || '',
 						fontFamily = css[ 'font-family' ] || '';
 
-					return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
-						fontFamily.match( /symbol/i );
+					return ( fontSize.match( /7pt/ ) && !!child.previous ) ||
+						fontFamily.match( /symbol/ );
 				}, true ).length );
 		},
 
