@@ -21,7 +21,7 @@
 			'chrome',
 			'edge'
 		],
-		wordVersion = 'word2016',
+		wordVersion = 'word2013',
 		ticketTests = {
 			'No_heuristics/Ordered_list': true,
 			'No_heuristics/Ordered_list_multiple': true,
@@ -32,11 +32,11 @@
 		testData = {
 			_should: {
 				ignore: {
-					'test Ordered_list word2016 edge': !CKEDITOR.env.edge,
-					'test Ordered_list_multiple word2016 edge': !CKEDITOR.env.edge,
-					'test Unordered_list word2016 edge': !CKEDITOR.env.edge,
-					'test Unordered_list_multiple word2016 edge': !CKEDITOR.env.edge,
-					'test Tickets/16745MixedListsAndParagraphs word2016 edge': !CKEDITOR.env.edge
+					'test No_heuristics/Ordered_list word2013 edge': !CKEDITOR.env.edge,
+					'test No_heuristics/Ordered_list_multiple word2013 edge': !CKEDITOR.env.edge,
+					'test No_heuristics/Unordered_list word2013 edge': !CKEDITOR.env.edge,
+					'test No_heuristics/Unordered_list_multiple word2013 edge': !CKEDITOR.env.edge,
+					'test No_heuristics/Tickets/16745MixedListsAndParagraphs word2013 edge': !CKEDITOR.env.edge
 				}
 			}
 		},
@@ -52,7 +52,7 @@
 					testData._should.ignore[ testName ] = true;
 				}
 
-				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], false, true );
+				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], false, true, [ pfwTools.filters.font ] );
 			}
 		}
 	}

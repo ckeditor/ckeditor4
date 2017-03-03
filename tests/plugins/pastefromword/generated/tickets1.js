@@ -71,7 +71,7 @@
 					testData._should.ignore[ testName ] = true;
 				}
 
-				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true );
+				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true, false, [ pfwTools.filters.span ] );
 			}
 		}
 	}

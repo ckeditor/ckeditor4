@@ -85,7 +85,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function addButton( name, type, title, order, options ) {
 			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
-				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox';
+				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
+				panelBlock;
 
 			options = options || {};
 
@@ -105,6 +106,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				},
 
 				onBlock: function( panel, block ) {
+					panelBlock = block;
+
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
 					block.element.setHtml( renderColors( panel, type, colorBoxId ) );
@@ -135,7 +138,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					var selection = editor.getSelection(),
 						block = selection && selection.getStartElement(),
 						path = editor.elementPath( block ),
-						color;
+						automaticColor;
 
 					if ( !path )
 						return;
@@ -145,19 +148,46 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					// The background color might be transparent. In that case, look up the color in the DOM tree.
 					do {
-						color = block && block.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) || 'transparent';
+						automaticColor = block && block.getComputedStyle( type == 'back' ? 'background-color' : 'color' ) || 'transparent';
 					}
-					while ( type == 'back' && color == 'transparent' && block && ( block = block.getParent() ) );
+					while ( type == 'back' && automaticColor == 'transparent' && block && ( block = block.getParent() ) );
 
 					// The box should never be transparent.
-					if ( !color || color == 'transparent' )
-						color = '#ffffff';
+					if ( !automaticColor || automaticColor == 'transparent' )
+						automaticColor = '#ffffff';
 
 					if ( config.colorButton_enableAutomatic !== false ) {
-						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', color );
+						this._.panel._.iframe.getFrameDocument().getById( colorBoxId ).setStyle( 'background-color', automaticColor );
 					}
 
-					return color;
+					var range = selection && selection.getRanges()[ 0 ];
+
+					if ( range ) {
+						var walker = new CKEDITOR.dom.walker( range ),
+							element = range.collapsed ? range.startContainer : walker.next(),
+							finalColor = '',
+							currentColor;
+
+						while ( element ) {
+							if ( element.type === CKEDITOR.NODE_TEXT ) {
+								element = element.getParent();
+							}
+
+							currentColor = normalizeColor( element.getComputedStyle( type == 'back' ? 'background-color' : 'color'  ) );
+							finalColor = finalColor || currentColor;
+
+							if ( finalColor !== currentColor ) {
+								finalColor = '';
+								break;
+							}
+
+							element = walker.next();
+						}
+
+						selectColor( panelBlock, finalColor );
+					}
+
+					return automaticColor;
 				}
 			} );
 		}
@@ -255,6 +285,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						' title="', colorLabel, '"' +
 						' onclick="CKEDITOR.tools.callFunction(', clickFn, ',\'', colorName, '\',\'', type, '\'); return false;"' +
 						' href="javascript:void(\'', colorLabel, '\')"' +
+						' data-value="' + colorCode + '"' +
 						' role="option" aria-posinset="', ( i + 2 ), '" aria-setsize="', total, '">' +
 						'<span class="cke_colorbox" style="background-color:#', colorCode, '"></span>' +
 					'</a>' +
@@ -280,6 +311,36 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 		function isUnstylable( ele ) {
 			return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-nostyle' );
+		}
+
+		/**
+		 * Selects the specified color in the specified panel block.
+		 *
+		 * @param block
+		 * @param color
+		 */
+		function selectColor( block, color ) {
+			var items = block._.getItems();
+
+			for ( var i = 0; i < items.count(); i++ ) {
+				var item = items.getItem( i );
+
+				item.removeAttribute( 'aria-selected' );
+
+				if ( color && color == normalizeColor( item.getAttribute( 'data-value' ) ) ) {
+					item.setAttribute( 'aria-selected', true );
+				}
+			}
+		}
+
+		/**
+		 * Converts a CSS color value to an easily comparable form.
+		 *
+		 * @param {string} color
+		 * @returns {string}
+		 */
+		function normalizeColor( color ) {
+			return CKEDITOR.tools.convertRgbToHex( color || '' ).replace( /#/, '' ).toLowerCase();
 		}
 	}
 } );

@@ -78,7 +78,8 @@ bender.test( {
 			'https://placekitten.com/g/180/300',
 			'http://giphy.com/gifs/space-nasa-test-GDiDCTh9AjbiM',
 			'https://www.google.pl/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=ebay',
-			'http://www.legia.sport.pl/legia/1,139320,18079195.html#MTstream'
+			'http://www.legia.sport.pl/legia/1,139320,18079195.html#MTstream',
+			'http://a.b-c.de'
 		];
 
 		var pastedText;

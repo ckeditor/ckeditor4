@@ -31,8 +31,13 @@
 	CKEDITOR.plugins.pastefromword = {};
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
-
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
+
+		// Before filtering inline all the styles to allow because some of them are available only in style
+		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (#16847)
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml ).getBody().getHtml();
+		}
 
 		// Sometimes Word malforms the comments.
 		mswordHtml = mswordHtml.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
@@ -113,6 +118,10 @@
 					}
 
 					if ( List.thisIsAListItem( editor, element ) ) {
+						if ( Heuristics.isEdgeListItem( editor, element ) ) {
+							Heuristics.cleanupEdgeListItem( element );
+						}
+
 						List.convertToFakeListItem( editor, element );
 
 						// IE pastes nested paragraphs in list items, which is different from other browsers. (#16826)
@@ -159,6 +168,31 @@
 
 					Style.createStyleStack( element, filter, editor );
 				},
+				'h2': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h3': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h4': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h5': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
+				'h6': function( element ) {
+					if ( List.thisIsAListItem( editor, element ) ) List.convertToFakeListItem( editor, element );
+
+					Style.createStyleStack( element, filter, editor );
+				},
 				'font': function( element ) {
 					if ( element.getHtml().match( /^\s*$/ ) ) {
 						new CKEDITOR.htmlParser.text( ' ' ).insertAfter( element );
@@ -187,6 +221,8 @@
 					return false;
 				},
 				'li': function( element ) {
+					Heuristics.correctLevelShift( element );
+
 					if ( !msoListsDetected ) {
 						return;
 					}
@@ -225,6 +261,12 @@
 							element.children[ i ].insertAfter( element );
 						}
 						return false;
+					}
+
+					if ( element.attributes.style.match( /FONT-FAMILY:\s*Symbol/i ) ) {
+						element.forEach( function( node ) {
+							node.value = node.value.replace( /&nbsp;/g, '' );
+						}, CKEDITOR.NODE_TEXT, true );
 					}
 
 					Style.createStyleStack( element, filter, editor );
@@ -360,11 +402,18 @@
 				}
 				return false;
 			},
-			text: function( content ) {
+			text: function( content, node ) {
 				if ( inComment ) {
 					return '';
 				}
-				return content.replace( /&nbsp;/g, ' ' );
+
+				var grandparent = node.parent && node.parent.parent;
+
+				if ( grandparent && grandparent.attributes && grandparent.attributes.style && grandparent.attributes.style.match( /mso-list:\s*ignore/i ) ) {
+					return content.replace( /&nbsp;/g, ' ' );
+				}
+
+				return content;
 			}
 		} );
 
@@ -502,8 +551,8 @@
 		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		createStyleStack: function( element, filter, editor ) {
-			var i,
-				children = [];
+			var children = [],
+				i;
 
 			element.filterChildren( filter );
 
@@ -644,6 +693,180 @@
 			element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 
 			return true;
+		},
+
+		/**
+		 * Namespace containing styles's inliner.
+		 *
+		 * @since 4.7.0
+		 * @private
+		 * @member CKEDITOR.plugins.pastefromword.styles
+		 */
+		inliner: {
+			/**
+			 *
+			 * Styles skipped by the style inliner.
+			 *
+			 * @property {String[]}
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			filtered: [
+				'break-before',
+				'break-after',
+				'break-inside',
+				'page-break',
+				'page-break-before',
+				'page-break-after',
+				'page-break-inside'
+			],
+			/**
+			 * Parses content of provided `style` element.
+			 *
+			 * @param {CKEDITOR.dom.element/String} styles `style` element or CSS text
+			 * @returns {Object} Object containing styles with selectors as keys and styles as values
+			 * @since 4.7.0
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			parse: function( styles ) {
+				var parseCssText = CKEDITOR.tools.parseCssText,
+					filterStyles = CKEDITOR.plugins.pastefromword.styles.inliner.filter,
+					stylesObj = {},
+					sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles ),
+					rules,
+					i;
+
+				function createIsolatedStylesheet( styles ) {
+					var style = new CKEDITOR.dom.element( 'style' ),
+						iframe = new CKEDITOR.dom.element( 'iframe' );
+
+					iframe.hide();
+					CKEDITOR.document.getBody().append( iframe );
+					iframe.$.contentDocument.documentElement.appendChild( style.$ );
+
+					style.$.textContent = styles;
+					iframe.remove();
+					return style.$.sheet;
+				}
+
+				function getStyles( cssText ) {
+					var startIndex = cssText.indexOf( '{' ),
+						endIndex = cssText.indexOf( '}' );
+
+					return parseCssText( cssText.substring( startIndex + 1, endIndex ), true );
+				}
+
+				if ( sheet ) {
+					rules = sheet.cssRules;
+
+					for ( i = 0; i < rules.length; i++ ) {
+						// To detect if the rule contains styles and is not an at-rule, it's enough to check
+						// rule's type.
+						if ( rules[ i ].type === window.CSSRule.STYLE_RULE ) {
+							stylesObj[ rules[ i ].selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
+						}
+					}
+				}
+
+				return stylesObj;
+			},
+
+			/**
+			 * Filters out all unnecessary styles
+			 *
+			 * @param {Object} stylesObj Styles returned by {@link CKEDITOR.plugins.pastefromword.styles#parseStyles}.
+			 * @returns {Object}
+			 * @since 4.7.0
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			filter: function( stylesObj ) {
+				var toRemove = CKEDITOR.plugins.pastefromword.styles.inliner.filtered,
+					indexOf = tools.array.indexOf,
+					newObj = {},
+					style;
+
+				for ( style in stylesObj ) {
+					if ( indexOf( toRemove, style ) === -1 ) {
+						newObj[ style ] = stylesObj[ style ];
+					}
+				}
+
+				return newObj;
+			},
+
+			/**
+			 * Finds and inlines all the `style` elements in given `html` string and returns a document, where
+			 * all the styles are inlined into appropriate elements.
+			 *
+			 * This is needed because sometimes Microsoft Word does not put style directly to the element, but in
+			 * a generic style sheet.
+			 *
+			 * @param {String} html HTML string to be parsed.
+			 * @returns {CKEDITOR.dom.document}
+			 * @since 4.7.0
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			inline: function( html ) {
+				var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
+					document = createTempDocument( html ),
+					stylesTags = document.find( 'style' ),
+					stylesObj = parseStyleTags( stylesTags );
+
+				function createTempDocument( html ) {
+					var parser = new DOMParser(),
+						document = parser.parseFromString( html, 'text/html' );
+
+					return new CKEDITOR.dom.document( document );
+				}
+
+				function parseStyleTags( stylesTags ) {
+					var stylesObj = {},
+						i;
+
+					for ( i = 0; i < stylesTags.count(); i++ ) {
+						CKEDITOR.tools.extend( stylesObj, parseStyles( stylesTags.getItem( i ) ) );
+					}
+
+					return stylesObj;
+				}
+
+				function applyStyle( document, selector, style ) {
+					var elements = document.find( selector ),
+						element,
+						styleText,
+						i;
+
+					for ( i = 0; i < elements.count(); i++ ) {
+						element = elements.getItem( i );
+
+						// Modifying style property leads to removing all unknown styles
+						// from style attribute. To prevent this, only style attribute
+						// is used to manipulate element's styles.
+						styleText = CKEDITOR.tools.writeCssText( style );
+
+						if ( element.getAttribute( 'style' ) ) {
+							styleText += ';' + element.getAttribute( 'style' );
+						}
+
+						element.setAttribute( 'style', styleText );
+					}
+				}
+
+				function applyStyles( document, styles ) {
+					var style;
+
+					for ( style in styles ) {
+						applyStyle( document, style, styles[ style ] );
+					}
+				}
+
+				applyStyles( document, stylesObj );
+
+				return document;
+			}
 		}
 	};
 	Style = CKEDITOR.plugins.pastefromword.styles;
@@ -673,14 +896,10 @@
 			/*jshint -W024 */
 			// Normally a style of the sort that looks like "mso-list: l0 level1 lfo1"
 			// indicates a list element, but the same style may appear in a <p> that's within a <li>.
-			if ( ( ( element.attributes.style && element.attributes.style.match( /mso\-list:\s?l\d/ ) ) &&
+			if ( ( element.attributes.style && element.attributes.style.match( /mso\-list:\s?l\d/ ) &&
 				element.parent.name !== 'li' ) ||
 				element.attributes[ 'cke-dissolved' ] ||
-				element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ ) ||
-					// Flat, ordered lists are represented by paragraphs
-					// who's text content roughly matches /(&nbsp;)*(.*?)(&nbsp;)+/
-					// where the middle parentheses contain the symbol.
-				element.getHtml().match( /^( )*.*?[\.\)] ( ){2,700}/ )
+				element.getHtml().match( /<!\-\-\[if !supportLists]\-\->/ )
 			) {
 				return true;
 			}
@@ -698,7 +917,7 @@
 		 * @member CKEDITOR.plugins.pastefromword.lists
 		 */
 		convertToFakeListItem: function( editor, element ) {
-			if ( Heuristics.isEdgeListItem( editor, element ) ) {
+			if ( Heuristics.isDegenerateListItem( editor, element ) ) {
 				Heuristics.assignListLevels( editor, element );
 			}
 
@@ -733,7 +952,7 @@
 					return;
 				}
 
-				element.attributes[ 'cke-symbol' ] = symbol.replace( / .*$/, '' );
+				element.attributes[ 'cke-symbol' ] = symbol.replace( /(?: |&nbsp;).*$/, '' );
 
 				List.removeSymbolText( element );
 			}
@@ -994,7 +1213,7 @@
 
 		// Taking into account cases like "1.1.2." etc. - get the last element.
 		getSubsectionSymbol: function( symbol ) {
-			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', 1 ] )[ 1 ];
+			return ( symbol.match( /([\da-zA-Z]+).?$/ ) || [ 'placeholder', '1' ] )[ 1 ];
 		},
 
 		setListDir: function( list ) {
@@ -1664,7 +1883,7 @@
 		 *
 		 * @param {CKEDITOR.editor} item
 		 * @param {CKEDITOR.htmlParser.element} item
-		 * @return {Boolean}
+		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
@@ -1673,7 +1892,65 @@
 				return false;
 			}
 
-			return item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
+			var innerText = '';
+
+			// Edge doesn't provide any list-specific markup, so the only way to guess if it's a list is to check the text structure.
+			item.forEach && item.forEach( function( text ) {
+				innerText += text.value;
+			}, CKEDITOR.NODE_TEXT );
+
+			if ( innerText.match( /^(?: |&nbsp;)*\(?[a-zA-Z0-9]+?[\.\)](?: |&nbsp;){2,}/ ) ) {
+				return true;
+			}
+
+			return Heuristics.isDegenerateListItem( editor, item );
+		},
+
+		/**
+		 * Cleans up given list `item`. It's needed to remove Edge pre marker indentation, since edge pastes
+		 * list items as plain paragraphs with multiple `&nbsp;`s before the list marker.
+		 *
+		 * @since 4.7.0
+		 * @param {CKEDITOR.htmlParser.element} item The pre-processed list-like item, like a paragraph.
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
+		 */
+		cleanupEdgeListItem: function( item ) {
+			var textOccurred = false;
+
+			item.forEach( function( node ) {
+				if ( !textOccurred ) {
+					node.value = node.value.replace( /^(?:&nbsp;|[\s])+/, '' );
+
+					// If there's any remaining text beside nbsp it means that we can stop filtering.
+					if ( node.value.length ) {
+						textOccurred = true;
+					}
+				}
+			}, CKEDITOR.NODE_TEXT );
+		},
+
+		/**
+		 * Check whether an element is a degenerate list item.
+		 *
+		 * Degenerate list items are elements that have some styles specific to list items,
+		 * but lack the ones that could be used to determine their features(like list level etc.).
+		 *
+		 * @param {CKEDITOR.editor} item
+		 * @param {CKEDITOR.htmlParser.element} item
+		 * @returns {Boolean}
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
+		 * @private
+		 * */
+		isDegenerateListItem: function( editor, item ) {
+			return !!item.attributes[ 'cke-list-level' ] || ( item.attributes.style && !item.attributes.style.match( /mso\-list/ ) && !!item.find( function( child ) {
+					// In rare cases there's no indication that a heading is a list item other than
+					// the fact that it has a child element containing only a list symbol.
+					if ( child.type == CKEDITOR.NODE_ELEMENT && item.name.match( /h\d/i ) &&
+						child.getHtml().match( /^[a-zA-Z0-9]+?[\.\)]$/ ) ) {
+						return true;
+					}
+
 					var css = tools.parseCssText( child.attributes && child.attributes.style );
 
 					if ( !css ) {
@@ -1684,7 +1961,7 @@
 
 					return ( fontSize.match( /7pt/i ) && !!child.previous ) ||
 						fontFamily.match( /symbol/i );
-				}, true ).length;
+				}, true ).length );
 		},
 
 		/**
@@ -1715,7 +1992,7 @@
 				array = CKEDITOR.tools.array,
 				map = array.map;
 
-			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.isEdgeListItem( editor, item.next ) ) {
+			while ( item.next && item.next.attributes && !item.next.attributes[ 'cke-list-level' ] && Heuristics.isDegenerateListItem( editor, item.next ) ) {
 				item = item.next;
 				indents.push( List.getElementIndentation( item ) );
 				items.push( item );
@@ -1774,6 +2051,67 @@
 		 */
 		guessIndentationStep: function( indentations ) {
 			return indentations.length ? Math.min.apply( null, indentations ) : null;
+		},
+
+		/**
+		 * Shifts lists that were deformed during pasting one level down
+		 * so that the list structure matches the content copied from Word.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @private
+		 * */
+		correctLevelShift: function( element ) {
+			var isShiftedList = function( list ) {
+				return list.children && list.children.length == 1 && Heuristics.isShifted( list.children[ 0 ] );
+			};
+
+			if ( this.isShifted( element ) ) {
+				var lists = CKEDITOR.tools.array.filter( element.children, function( child ) {
+					return ( child.name == 'ul' || child.name == 'ol' );
+				} );
+
+				var listChildren = CKEDITOR.tools.array.reduce( lists, function( acc, list ) {
+					var preceding = isShiftedList( list ) ? [ list ] : list.children;
+					return preceding.concat( acc );
+				}, [] );
+
+				CKEDITOR.tools.array.forEach( lists, function( list ) {
+					list.remove();
+				} );
+
+				CKEDITOR.tools.array.forEach( listChildren, function( child ) {
+					element.add( child, 0 );
+				} );
+
+				delete element.name;
+			}
+		},
+
+		/**
+		 * Determines if the list is malformed in a manner that its items
+		 * are one level deeper than they should be.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @returns {Boolean}
+		 * @private
+		 */
+		isShifted: function( element ) {
+			if ( element.name !== 'li' ) {
+				return false;
+			}
+
+			return CKEDITOR.tools.array.filter( element.children, function( child ) {
+				if ( child.name ) {
+					if ( child.name == 'ul' || child.name == 'ol' ) {
+						return false;
+					}
+
+					if ( child.name == 'p' && child.children.length === 0 ) {
+						return false;
+					}
+				}
+				return true;
+			} ).length === 0;
 		}
 	};
 

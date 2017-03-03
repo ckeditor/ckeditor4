@@ -111,6 +111,10 @@ CKEDITOR.plugins.add( 'contextmenu', {
 				 * @param {Number} [offsetY]
 				 */
 				open: function( offsetParent, corner, offsetX, offsetY ) {
+					if ( this.editor.config.enableContextMenu === false ) {
+						return;
+					}
+
 					this.editor.focus();
 					offsetParent = offsetParent || CKEDITOR.document.getDocumentElement();
 
@@ -155,5 +159,15 @@ CKEDITOR.plugins.add( 'contextmenu', {
  *
  * @since 3.0.2
  * @cfg {Boolean} [browserContextMenuOnCtrl=true]
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Whether to enable the context menu. Regardless of the setting the plugin is still loaded.
+ *
+ *		config.enableContextMenu = true;
+ *
+ * @since 4.7.0
+ * @cfg {Boolean} [enableContextMenu=true]
  * @member CKEDITOR.config
  */

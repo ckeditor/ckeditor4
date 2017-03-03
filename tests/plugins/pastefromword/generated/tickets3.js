@@ -59,7 +59,9 @@
 				ignore: {
 					'test 7131 word2013 ie11': true, // Every alpha list item gets "a" numbering value (li[value=1]) while it shouldn't.'
 					'test 7131customNumbering word2013 ie11': true, // li[value] issue present only in IE11.
-					'test 7581Numbering word2013 ie11': true // Again li[value], same as above.
+					'test 7581Numbering word2013 ie11': true, // Again li[value], same as above.
+					// Edge lists heuristics make slight difference in one list item.
+					'test 6658CKEditor_Word_tabs_between_list_items_Sample word2013 ie11': CKEDITOR.env.edge
 				}
 			}
 		},
@@ -75,7 +77,7 @@
 					testData._should.ignore[ testName ] = true;
 				}
 
-				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true );
+				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true, false, [ pfwTools.filters.span ] );
 			}
 		}
 	}

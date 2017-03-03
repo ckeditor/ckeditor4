@@ -9,6 +9,13 @@ bender.editors = {
 		config: {
 			allowedContent: true
 		}
+	},
+	scrollable: {
+		name: 'editor2',
+		creator: 'replace',
+		config: {
+			height: 300
+		}
 	}
 };
 
@@ -95,6 +102,28 @@ bender.test( {
 			} ) );
 
 			assert.areSame( 'foo', editor.getSelection().getSelectedText(), 'Selection has not been changed' );
+		} );
+	},
+
+	'test scroll editable and focus': function() {
+		if ( !CKEDITOR.env.chrome ) {
+			assert.ignore();
+		}
+
+		var bot = this.editorBots.scrollable,
+			editable = this.editors.scrollable.editable();
+
+		bot.setData( '<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
+			'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
+			'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
+			'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
+			'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>', function() {
+			var scrollPos = 100;
+
+			editable.$.scrollTop = scrollPos;
+			editable.focus();
+
+			assert.areSame( scrollPos, editable.$.scrollTop );
 		} );
 	}
 } );

@@ -12,7 +12,9 @@
 	pfwTools.defaultConfig.disallowedContent = ( pfwTools.defaultConfig.disallowedContent ? pfwTools.defaultConfig.disallowedContent + ';' : '' ) + 'span[lang,dir]';
 
 	bender.editor = {
-		config: pfwTools.defaultConfig
+		config: CKEDITOR.tools.extend( {}, pfwTools.defaultConfig, {
+			pasteFromWord_heuristicsEdgeList: false
+		} )
 	};
 
 	var browsers = [
@@ -26,7 +28,6 @@
 			'7661Multilevel_lists': [ 'word2013' ],
 			'7696empty_table': [ 'word2013' ],
 			'7797fonts': [ 'word2013' ],
-			'7843Multi_level_Numbered_list': [ 'word2013' ],
 			'7857pasting_RTL_lists_from_word_defect': [ 'word2013' ],
 			'7872lists': [ 'word2013' ],
 			'7918Numbering': [ 'word2013' ],
@@ -69,7 +70,7 @@
 					testData._should.ignore[ testName ] = true;
 				}
 
-				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true );
+				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true, false, [ pfwTools.filters.span ] );
 			}
 		}
 	}

@@ -5,14 +5,31 @@
 
 ## CKEditor 4.7
 
+New Features:
+
+* [#16847](http://dev.ckeditor.com/ticket/16847): Added a support for parsing and inlining any formatting created using Microsoft Word's style system to the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
+* [#16818](http://dev.ckeditor.com/ticket/16818): Added table cell height parsing in the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
+* [#16850](http://dev.ckeditor.com/ticket/16850): Added new `config.enableContextMenu` configuration option for enabling and disabling [Context Menu](http://ckeditor.com/addon/contextmenu).
+
 Fixed Issues:
 
+* [#12465](http://dev.ckeditor.com/ticket/12465): Fixed: Can't change state of checkboxes/radio buttons if the properties dialog was invoked via double-click.
+* [#13062](http://dev.ckeditor.com/ticket/13062): Fixed: Impossible to unlink when the caret is at the edge of the link.
+* [#13585](http://dev.ckeditor.com/ticket/13585): Fixed: Error when wrapping two adjacent `<div>`s with a `<div>`.
+* [#16866](http://dev.ckeditor.com/ticket/16866): [IE, Edge] Fixed: Whitespaces not preserved when pasting from Word.
+* [#16860](http://dev.ckeditor.com/ticket/16860): Fixed: Paragraphs which only look like lists wrongly transformed into them when pasting from Word.
+* [#16817](http://dev.ckeditor.com/ticket/16817): Fixed: Paragraph transformed into lists, with corrupted data when pasting from Word.
+* [#16833](http://dev.ckeditor.com/ticket/16833): [IE11] Fixed: Malformed list with headers [pasted from Word](http://ckeditor.com/addon/pastefromword).
 * [#16826](http://dev.ckeditor.com/ticket/16826): Fixed: Superfluous paragraphs within lists [pasted from Word](http://ckeditor.com/addon/pastefromword) in IE.
 * [#16811](http://dev.ckeditor.com/ticket/16811): Fixed: Pasted from Word table alignment not preserved.
 * [#16810](http://dev.ckeditor.com/ticket/16810): Fixed: Vertical align in tables not supported by [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#11956](http://dev.ckeditor.com/ticket/11956): [Blink, IE] Fixed: [Link](http://ckeditor.com/addon/link) dialog does not open on a double click on the second word of the link with background color or other styles.
 * [#10472](http://dev.ckeditor.com/ticket/10472): Fixed: Unable to use [Table Resize](http://ckeditor.com/addon/tableresize) on table's header and footer.
 * [#16777](https://dev.ckeditor.com/ticket/16777): [Edge] Fixed: [Clipboard](http://ckeditor.com/addon/clipboard) plugin doesn't allow to drop widgets into editor.
+* [#14894](https://dev.ckeditor.com/ticket/14894): [Chrome] Fixed: Editor scrolls to top after focusing or when a dialog is opened.
+* [#14769](https://dev.ckeditor.com/ticket/14769): Fixed: URLs with '-' in host are not detected by [Autolink](http://ckeditor.com/addon/autolink) plugin.
+* [#16804](https://dev.ckeditor.com/ticket/16804): Fixed: Focus is not on the first menu item when user opens [Context Menu](http://ckeditor.com/addon/contextmenu) or combobox from editor's toolbar.
+* [#14407](https://dev.ckeditor.com/ticket/14407): [IE] Fixed: Non-editable widgets can be edited.
 
 ## CKEditor 4.6.2
 
@@ -24,7 +41,6 @@ New Features:
 
 Fixed Issues:
 
-* [#16818](http://dev.ckeditor.com/ticket/16818): Fixed: Table cell height not parsed properly by the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#13446](http://dev.ckeditor.com/ticket/13446): [Chrome] Fixed: It is possible to type in an unfocused inline editor.
 * [#14856](http://dev.ckeditor.com/ticket/14856): Fixed: [Font size and font family](http://ckeditor.com/addon/font) reset each other when modified at certain positions.
 * [#16745](http://dev.ckeditor.com/ticket/16745): [Edge] Fixed: List items are lost when [pasted from Word](http://ckeditor.com/addon/pastefromword).

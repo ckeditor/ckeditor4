@@ -10,7 +10,9 @@
 	'use strict';
 
 	bender.editor = {
-		config: pfwTools.defaultConfig
+		config: CKEDITOR.tools.extend( {}, pfwTools.defaultConfig, {
+			pasteFromWord_heuristicsEdgeList: false
+		} )
 	};
 
 	var browsers = [
@@ -20,29 +22,39 @@
 			'ie11',
 			'edge'
 		],
-		wordVersion = 'word2013',
+		wordVersions = [ 'word2013', 'word2016' ],
 		ticketTests = {
 			'14867examples': [ 'word2013' ],
-			'16593regular_paste': [ 'word2013' ]
+			'16593regular_paste': [ 'word2013' ],
+			'16833Numbered_lists': [ 'word2013' ],
+			'16817SampleDocForDataLossBug': [ 'word2013', 'word2016' ],
+			'16860Faked_list': true
 		},
 		testData = {
 			_should: {
-				ignore: {}
+				ignore: {
+					'test 16833Numbered_lists word2016 edge': !CKEDITOR.env.edge
+				}
 			}
 		},
 		ticketKeys = CKEDITOR.tools.objectKeys( ticketTests ),
-		i, k;
+		i, k, j, wordVersion;
 
 	for ( i = 0; i < ticketKeys.length; i++ ) {
 		for ( k = 0; k < browsers.length; k++ ) {
-			if ( ticketTests[ ticketKeys[ i ] ] === true || CKEDITOR.tools.indexOf( ticketTests[ ticketKeys[ i ] ], wordVersion ) !== -1 ) {
+			for ( j = 0; j < wordVersions.length; j++ ) {
+				wordVersion = wordVersions[ j ];
 				var testName = [ 'test', ticketKeys[ i ], wordVersion, browsers[ k ] ].join( ' ' );
 
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) {
 					testData._should.ignore[ testName ] = true;
 				}
 
-				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true, true );
+				if ( testName === 'test 16833Numbered_lists word2013 ie11' && ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) ) {
+					testData._should.ignore[ testName ] = true;
+				}
+
+				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true, true, [ pfwTools.filters.font ] );
 			}
 		}
 	}

@@ -68,9 +68,13 @@
 			// type sniffing (priority = 6).
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
-					mswordHtml = data.dataValue,
-					wordRegexp = /(class=\"?Mso|style=\"[^\"]*\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
-					pfwEvtData = { dataValue: mswordHtml };
+					dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+						data.dataTransfer.getData( 'text/html', true ) : null,
+					// Some commands fire paste event without setting dataTransfer property. In such case
+					// dataValue should be used.
+					mswordHtml = dataTransferHtml || data.dataValue,
+					pfwEvtData = { dataValue: mswordHtml },
+					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/;
 
 				if ( !mswordHtml || !( forceFromWord || wordRegexp.test( mswordHtml ) ) ) {
 					return;

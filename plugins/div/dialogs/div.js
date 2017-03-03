@@ -131,12 +131,24 @@
 			var ancestor, divElement;
 
 			for ( i = 0; i < blockGroups.length; i++ ) {
+				// Sometimes we could get empty block group if all elements inside it
+				// don't have parent's nodes (#13585).
+				if ( !blockGroups[ i ].length ) {
+					continue;
+				}
+
 				var currentNode = blockGroups[ i ][ 0 ];
 
 				// Calculate the common parent node of all contained elements.
 				ancestor = currentNode.getParent();
-				for ( j = 1; j < blockGroups[ i ].length; j++ )
+				for ( j = 1; j < blockGroups[ i ].length; j++ ) {
 					ancestor = ancestor.getCommonAncestor( blockGroups[ i ][ j ] );
+				}
+
+				// If there is no ancestor, mark editable as one (#13585).
+				if ( !ancestor ) {
+					ancestor = editor.editable();
+				}
 
 				divElement = new CKEDITOR.dom.element( 'div', editor.document );
 
@@ -144,8 +156,10 @@
 				for ( j = 0; j < blockGroups[ i ].length; j++ ) {
 					currentNode = blockGroups[ i ][ j ];
 
-					while ( !currentNode.getParent().equals( ancestor ) )
+					// Check if the currentNode has a parent before attempting to operate on it (#13585).
+					while ( currentNode.getParent() && !currentNode.getParent().equals( ancestor ) ) {
 						currentNode = currentNode.getParent();
+					}
 
 					// This could introduce some duplicated elements in array.
 					blockGroups[ i ][ j ] = currentNode;
@@ -160,8 +174,9 @@
 						currentNode.is && CKEDITOR.dom.element.setMarker( database, currentNode, 'block_processed', true );
 
 						// Establish new container, wrapping all elements in this group.
-						if ( !j )
+						if ( !j ) {
 							divElement.insertBefore( currentNode );
+						}
 
 						divElement.append( currentNode );
 					}
@@ -192,8 +207,13 @@
 					lastDivLimit = limit;
 					groups.push( [] );
 				}
-				groups[ groups.length - 1 ].push( block );
+
+				// Sometimes we got nodes that are not inside the DOM, which causes error (#13585).
+				if ( block.getParent() ) {
+					groups[ groups.length - 1 ].push( block );
+				}
 			}
+
 			return groups;
 		}
 

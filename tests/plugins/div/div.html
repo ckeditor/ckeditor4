@@ -31,6 +31,19 @@
 		<p>paragraph</p></div>
 </textarea>
 
+<textarea id="create-divs">
+	<div>Some [text</div>
+	<div>to be] selected</div>
+=>
+	<div><div>Some text</div><div>to be selected</div></div>
+</textarea>
+
+<textarea id="create-divs-nested">
+	<div><div>Some [text</div><div>to be] selected</div></div>
+=>
+	<div><div><div>Some text</div><div>to be selected</div></div></div>
+</textarea>
+
 <textarea id="edit">
 	<div>
 		<div>^div</div>

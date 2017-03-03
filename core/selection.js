@@ -704,6 +704,14 @@
 			// 2. After the accomplish of keyboard and mouse events.
 			editable.attachListener( editable, 'selectionchange', checkSelectionChange, editor );
 			editable.attachListener( editable, 'keyup', checkSelectionChangeTimeout, editor );
+			// #14407 - Don't even let anything happen if the selection is in a non-editable element.
+			editable.attachListener( editable, 'keydown', function( evt ) {
+				var sel = this.getSelection( 1 );
+				if ( nonEditableAscendant( sel ) ) {
+					sel.selectElement( nonEditableAscendant( sel ) );
+					evt.data.preventDefault();
+				}
+			}, editor );
 			// Always fire the selection change on focus gain.
 			// On Webkit do this on DOMFocusIn, because the selection is unlocked on it too and
 			// we need synchronization between those listeners to not lost cached editor._.previousActive property
@@ -787,6 +795,18 @@
 				// The selection range is reported on host, but actually it should applies to the content doc.
 				if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
 					range.select();
+			}
+
+			function nonEditableAscendant( sel ) {
+				if ( CKEDITOR.env.ie ) {
+					var range = sel.getRanges()[ 0 ],
+						ascendant = range ? range.startContainer.getAscendant( function( parent ) {
+								return parent.type == CKEDITOR.NODE_ELEMENT &&
+									( parent.getAttribute( 'contenteditable' ) == 'false' || parent.getAttribute( 'contenteditable' ) == 'true' );
+							}, true ) : null ;
+
+					return range && ascendant.getAttribute( 'contenteditable' ) == 'false' && ascendant;
+				}
 			}
 		} );
 
@@ -1558,7 +1578,7 @@
 		 *		var element = editor.getSelection().getSelectedElement();
 		 *		alert( element.getName() );
 		 *
-		 * @returns {CKEDITOR.dom.element} The selected element. Null if no
+		 * @returns {CKEDITOR.dom.element/null} The selected element. `null` if no
 		 * selection is available or the selection type is not {@link CKEDITOR#SELECTION_ELEMENT}.
 		 */
 		getSelectedElement: function() {
