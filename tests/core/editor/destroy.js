@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: toolbar,button,stylescombo */
+/* bender-ckeditor-plugins: toolbar,button,stylescombo,wysiwygarea */
 
 bender.editor = {
 	config: {
@@ -68,6 +68,31 @@ bender.test(
 		var timeout = CKEDITOR.tools.setTimeout,
 			editor;
 
+		editor = CKEDITOR.replace( 'focused', {
+			startupFocus: true,
+			on: {
+				instanceReady: function() {
+					resume( function() {
+						CKEDITOR.tools.setTimeout = function( func, delay, context ) {
+							editor.destroy();
+
+							try {
+								func.call( context );
+								assert.pass();
+							} catch ( e ) {
+								assert.fail( e.message );
+							}
+							CKEDITOR.tools.setTimeout = timeout;
+						};
+
+						editor.focusManager.blur();
+					} );
+				}
+			}
+		} );
+
+		wait();
+/*
 		bender.editorBot.create( {
 			startupFocus: true
 		}, function( bot ) {
@@ -86,6 +111,6 @@ bender.test(
 			};
 
 			bot.editor.focusManager.blur();
-		} );
+		} );*/
 	}
 } );
