@@ -24,28 +24,7 @@
 				canUndo: false,
 				async: true,
 
-				exec: function( editor ) {
-					var cmd = this;
-
-					forceFromWord = 1;
-					// Force html mode for incomming paste events sequence.
-					editor.once( 'beforePaste', forceHtmlMode );
-
-					editor.getClipboardData( { title: editor.lang.pastefromword.title }, function( data ) {
-						// Do not use editor#paste, because it would start from beforePaste event.
-						data && editor.fire( 'paste', {
-							type: 'html',
-							dataValue: data.dataValue,
-							method: 'paste',
-							dataTransfer: CKEDITOR.plugins.clipboard.initPasteDataTransfer()
-						} );
-
-						editor.fire( 'afterCommandExec', {
-							name: commandName,
-							command: cmd,
-							returnValue: !!data
-						} );
-					} );
+				exec: function() {
 				}
 			} );
 
@@ -129,10 +108,6 @@
 		}
 
 		return !isLoaded;
-	}
-
-	function forceHtmlMode( evt ) {
-		evt.data.type = 'html';
 	}
 } )();
 

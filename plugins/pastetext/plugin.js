@@ -14,22 +14,7 @@
 		canUndo: false,
 		async: true,
 
-		exec: function( editor ) {
-			editor.getClipboardData( { title: editor.lang.pastetext.title }, function( data ) {
-				// Do not use editor#paste, because it would start from beforePaste event.
-				data && editor.fire( 'paste', {
-					type: 'text',
-					dataValue: data.dataValue,
-					method: 'paste',
-					dataTransfer: CKEDITOR.plugins.clipboard.initPasteDataTransfer()
-				} );
-
-				editor.fire( 'afterCommandExec', {
-					name: 'pastetext',
-					command: pasteTextCmd,
-					returnValue: !!data
-				} );
-			} );
+		exec: function() {
 		}
 	};
 
