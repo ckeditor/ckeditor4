@@ -14,29 +14,15 @@
 		icons: 'pastefromword,pastefromword-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var commandName = 'pastefromword',
-				// Flag indicate this command is actually been asked instead of a generic pasting.
-				forceFromWord = 0,
+			// Flag indicate this command is actually been asked instead of a generic pasting.
+			var forceFromWord = 0,
 				path = this.path;
-
-			editor.addCommand( commandName, {
-				// Snapshots are done manually by editable.insertXXX methods.
-				canUndo: false,
-				async: true,
-
-				exec: function() {
-				}
-			} );
 
 			// Register the toolbar button.
 			editor.ui.addButton && editor.ui.addButton( 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
-				command: commandName,
+				command: 'paste',
 				toolbar: 'clipboard,50'
-			} );
-
-			editor.on( 'pasteState', function( evt ) {
-				editor.getCommand( commandName ).setState( evt.data );
 			} );
 
 			// Features brought by this command beside the normal process:

@@ -14,7 +14,8 @@
 		canUndo: false,
 		async: true,
 
-		exec: function() {
+		exec: function( editor ) {
+			editor.execCommand( 'paste', { keystroke: 'Ctrl/Cmd+Shift+V' } );
 		}
 	};
 
