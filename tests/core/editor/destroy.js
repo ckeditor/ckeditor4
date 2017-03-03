@@ -66,20 +66,26 @@ bender.test(
 
 	'test destroy editor that has focus': function() {
 		var timeout = CKEDITOR.tools.setTimeout,
-			editor = this.editor;
+			editor;
 
-		CKEDITOR.tools.setTimeout = function( func, delay, context ) {
-			editor.destroy();
+		bender.editorBot.create( {
+			startupFocus: true
+		}, function( bot ) {
+			editor = bot.editor;
 
-			try {
-				func.call( context );
-				assert.pass();
-			} catch ( e ) {
-				assert.fail( e.message );
-			}
-			CKEDITOR.tools.setTimeout = timeout;
-		};
+			CKEDITOR.tools.setTimeout = function( func, delay, context ) {
+				editor.destroy();
 
-		this.editor.focusManager.blur();
+				try {
+					func.call( context );
+					assert.pass();
+				} catch ( e ) {
+					assert.fail( e.message );
+				}
+				CKEDITOR.tools.setTimeout = timeout;
+			};
+
+			bot.editor.focusManager.blur();
+		} );
 	}
 } );
