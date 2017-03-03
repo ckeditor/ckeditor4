@@ -109,35 +109,17 @@
 
 			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
 
-			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			if ( CKEDITOR.env.ie ) {
-				wait( function() {
-					loader.url = IMG_URL;
-					loader.changeStatus( 'uploaded' );
+			waitForImage( image, function() {
+				loader.url = IMG_URL;
+				loader.changeStatus( 'uploaded' );
 
-					assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
-					assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
+				assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
+				assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
-					assert.areSame( 1, loadAndUploadCount );
-					assert.areSame( 0, uploadCount );
-					assert.areSame( 'http://foo/upload', lastUploadUrl );
-				}, 100 );
-			} else {
-				image.on( 'load', function() {
-					resume( function() {
-						loader.url = IMG_URL;
-						loader.changeStatus( 'uploaded' );
-
-						assert.sameData( '<p><img src="' + IMG_URL + '" style="height:1px; width:1px" /></p>', editor.getData() );
-						assert.areSame( 0, editor.editable().find( 'img[data-widget="image"]' ).count() );
-
-						assert.areSame( 1, loadAndUploadCount );
-						assert.areSame( 0, uploadCount );
-						assert.areSame( 'http://foo/upload', lastUploadUrl );
-					} );
-				} );
-				wait();
-			}
+				assert.areSame( 1, loadAndUploadCount );
+				assert.areSame( 0, uploadCount );
+				assert.areSame( 'http://foo/upload', lastUploadUrl );
+			} );
 		},
 
 		'test finish upload notification marked as important and is visible (#13032).': function() {
@@ -158,14 +140,15 @@
 
 			assertUploadingWidgets( editor, LOADED_IMG );
 
-			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			wait( function() {
+			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+			waitForImage( image, function() {
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
 				assert.areSame( 1, area.notifications.length, 'Successs notification is present because it\'s important one.' );
 				assert.areSame( 'success', area.notifications[ 0 ].type );
-			}, 10 );
+			} );
 		},
 
 		'test inline with image2 (integration test)': function() {
