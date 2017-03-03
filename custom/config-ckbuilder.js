@@ -1,5 +1,4 @@
 CKEDITOR.editorConfig = function( config ) {
-/*
   config.toolbarGroups = [
     { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
     { name: 'links', groups: [ 'links' ] },
@@ -16,6 +15,5 @@ CKEDITOR.editorConfig = function( config ) {
     { name: 'colors', groups: [ 'colors' ] },
     { name: 'about', groups: [ 'about' ] }
   ];
-*/
   config.removeButtons = 'Underline,Subscript,Superscript,Strike,RemoveFormat,Maximize,Source,Format,Language,Templates,A11ychecker';
 };
