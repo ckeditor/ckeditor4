@@ -60,42 +60,22 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   <script src="../ckeditor.js"></script>
 
   <script>
-    (function () {
-      'use strict';
-      CKEDITOR.replace('editor', {
-        // customConfig: './config.js'
-        height: 400,
-        toolbar: [
-          // { name: 'format', items: [ 'Format']},
-          { name: 'heading', items: [ 'Heading']},
-          // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
-          { name: 'list', items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ]},
-          { name: 'link', items: [ 'Link', 'Unlink', 'Anchor' ]},
-
-          [ 'Image', 'Table', 'Language' ],
-
-          '/',
-
-          // Defines toolbar group without name.
-          [ 'Find', 'Replace' ],
-          // [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
-          [ 'Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Undo', 'Redo' ],
-
-          { name: 'basicstyles', items: [ 'Bold', 'Italic', 'RemoveFormat', 'Styles' ] },
-          [ 'SpecialChar' ]
-        ],
-        extraPlugins: 'heading',
-
-      });
-
-      /*
-      for (var i in CKEDITOR.instances) {
-        CKEDITOR.instances[i].on('change', function () {
-          console.log(CKEDITOR.instances[i]);
-        });
-      }
-      */
-    })();
+    CKEDITOR.replace('editor', {
+      // customConfig: '/custom/config2.js'
+      height: 400,
+      toolbar: [
+        { name: 'heading',      items: [ 'Heading' ] },
+        { name: 'list',         items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
+        { name: 'link',         items: [ 'Link', 'Unlink', 'Anchor' ] },
+        { name: 'misc1',        items: [ 'Image', 'Table', 'Language' ] },
+        '/',
+        { name: 'search',       items: [ 'Find', 'Replace' ] },
+        { name: 'clipboard',    items: [ 'Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+        { name: 'basicstyles',  items: [ 'Bold', 'Italic', 'RemoveFormat', 'Styles' ] },
+        { name: 'misc2',        items: [ 'SpecialChar' ] }
+      ],
+      extraPlugins: 'heading'
+    } );
   </script>
 
 </body>
