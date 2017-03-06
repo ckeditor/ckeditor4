@@ -1951,7 +1951,7 @@
 						return true;
 					}
 
-					var css = tools.parseCssText( child.attributes && child.attributes.style );
+					var css = tools.parseCssText( child.attributes && child.attributes.style, true );
 
 					if ( !css ) {
 						return false;
