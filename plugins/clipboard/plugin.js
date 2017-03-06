@@ -125,7 +125,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var filterType,
-				filtersFactory = filtersFactoryFactory();
+				filtersFactory = filtersFactoryFactory(editor);
 
 			if ( editor.config.forcePasteAsPlainText ) {
 				filterType = 'plain-text';
@@ -305,18 +305,13 @@
 					trueType,
 					// Default is 'html'.
 					defaultType = editor.config.clipboard_defaultContentType || 'html',
-					transferType = dataObj.dataTransfer.getTransferType( editor),
-					prohibitedAttributes = editor.config.pasteProhibitedAttributes;
+					transferType = dataObj.dataTransfer.getTransferType( editor);
 
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
 					trueType = 'html';
 				} else {
 					trueType = recogniseContentType( data );
-				}
-
-				if (type == 'html' && prohibitedAttributes){
-					data = removeProhibitedAttributes(data, prohibitedAttributes);
 				}
 
 				// Unify text markup.
@@ -334,7 +329,7 @@
 				}
 				// External paste and pasteFilter exists and filtering isn't disabled.
 				else if ( transferType == CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !dataObj.dontFilter ) {
-					data = filterContent( editor, data, evt.data.dataTransfer._.isExcel ? editor.pasteFilterAllowStyles : editor.pasteFilter );
+					data = filterContent( editor, data, editor.pasteFilterAllowStyles );
 				}
 
 				if ( dataObj.startsWithEOL ) {
@@ -1238,7 +1233,7 @@
 		return switchEnterMode( config, data );
 	}
 
-	function filtersFactoryFactory() {
+	function filtersFactoryFactory(editor) {
 		var filters = {};
 
 		function setUpTags() {
@@ -1264,6 +1259,7 @@
 					classes: false
 				}
 			} );
+			filter.disallow(editor.config.pasteDisallowContent);
 
 			return filter;
 		}
@@ -1305,34 +1301,6 @@
 		fragment.writeHtml( writer );
 
 		return writer.getHtml();
-	}
-
-	function removeProhibitedAttributes(data, removeAttributes) {
-		var tmp,
-			selector = '',
-			items;
-
-		if (removeAttributes.length) {
-			tmp = document.createElement("DIV");
-			tmp.innerHTML = data;
-
-			for(var i = 0; i < removeAttributes.length; i++) {
-				selector += '[' + removeAttributes[i] + '],';
-			}
-
-			selector = selector.slice(0, -1);
-			items = tmp.querySelectorAll(selector);
-
-			for(i = 0; i < items.length; i++) {
-				for(var j = 0; j < removeAttributes.length; j++) {
-					items[i].removeAttribute(removeAttributes[j]);
-				}
-			}
-
-			return tmp.innerHTML;
-		} else {
-			return data;
-		}
 	}
 
 	function switchEnterMode( config, data ) {

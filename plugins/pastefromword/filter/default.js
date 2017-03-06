@@ -303,9 +303,7 @@
 					// Returning false deletes the attribute.
 					return Style.normalizedStyles( element, editor ) || false;
 				},
-				'class': function( classes ) {
-					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
-				},
+				'class': remove,
 				'cellspacing': remove,
 				'cellpadding': remove,
 				'border': remove,
