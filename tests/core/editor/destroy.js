@@ -64,28 +64,19 @@ bender.test(
 
 	},
 
-	'test destroy editor that has focus': function() {
-		var timeout = CKEDITOR.tools.setTimeout,
-			editor;
+	'test check editable existence on blur': function() {
+		var editor;
 
 		editor = CKEDITOR.replace( 'focused', {
-			startupFocus: true,
 			on: {
 				instanceReady: function() {
 					resume( function() {
-						CKEDITOR.tools.setTimeout = function( func, delay, context ) {
-							editor.destroy();
-
-							try {
-								func.call( context );
-								assert.pass();
-							} catch ( e ) {
-								assert.fail( e.message );
-							}
-							CKEDITOR.tools.setTimeout = timeout;
-						};
-
-						editor.focusManager.blur();
+						// Simulate the circumstances instead of creating them.
+						CKEDITOR.focusManager._.blurDelay = 0;
+						editor.focusManager.hasFocus = true;
+						sinon.stub( editor, 'editable' ).returns( false );
+						editor.focusManager.blur( 1 );
+						assert.pass();
 					} );
 				}
 			}
