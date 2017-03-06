@@ -437,7 +437,8 @@
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON ) {
 						return;
 					} else if ( isFromKeystroke && !copyFormatting.styles ) {
-						return plugin._putScreenReaderMessage( editor, 'failed' );
+						plugin._putScreenReaderMessage( editor, 'failed' );
+						return false;
 					}
 
 					isApplied = plugin._applyFormat( editor, copyFormatting.styles );
