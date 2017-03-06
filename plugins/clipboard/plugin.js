@@ -694,8 +694,11 @@
 				canUndo: false,
 				async: true,
 				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
-				exec: function( editor ) {
-					editor.showNotification( editor.lang.clipboard.pasteMsg, 'info', 5000 );
+				exec: function( editor, data ) {
+					var keystroke = data ? data.keystroke : 'Ctrl/Cmd+V',
+						msg = editor.lang.clipboard.pasteMsg.replace( '{KEYSTROKE}', keystroke );
+
+					editor.showNotification( msg, 'info', 5000 );
 				}
 			};
 		}
