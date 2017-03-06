@@ -695,10 +695,25 @@
 				async: true,
 				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
 				exec: function( editor, data ) {
-					var keystroke = data ? data.keystroke : 'Ctrl/Cmd+V',
+					var cmd = this,
+						keystroke = data ? data.keystroke : 'Ctrl/Cmd+V',
 						msg = editor.lang.clipboard.pasteMsg.replace( '{KEYSTROKE}', keystroke );
 
-					editor.showNotification( msg, 'info', 5000 );
+					function callback( data, withBeforePaste ) {
+						if ( data ) {
+							firePasteEvents( editor, data, !!withBeforePaste );
+						} else {
+							editor.showNotification( msg, 'info', 5000 );
+						}
+
+						editor.fire( 'afterCommandExec', {
+							name: 'paste',
+							command: cmd,
+							returnValue: !!data
+						} );
+					}
+
+					editor.getClipboardData( callback );
 				}
 			};
 		}
