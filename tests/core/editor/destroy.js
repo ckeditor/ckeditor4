@@ -92,25 +92,5 @@ bender.test(
 		} );
 
 		wait();
-/*
-		bender.editorBot.create( {
-			startupFocus: true
-		}, function( bot ) {
-			editor = bot.editor;
-
-			CKEDITOR.tools.setTimeout = function( func, delay, context ) {
-				editor.destroy();
-
-				try {
-					func.call( context );
-					assert.pass();
-				} catch ( e ) {
-					assert.fail( e.message );
-				}
-				CKEDITOR.tools.setTimeout = timeout;
-			};
-
-			bot.editor.focusManager.blur();
-		} );*/
 	}
 } );
