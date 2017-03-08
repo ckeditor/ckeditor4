@@ -153,7 +153,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									inputElement = this.getInputElement(),
 									ariaLabelledByAttr = inputElement.getAttribute( 'aria-labelledby' );
 
-								heightType.getElement().setHtml( '<br />' + langTable.widthPx );
+								if ( this.getDialog().getContentElement( 'info', 'height' ).isVisible() ) {
+									labelElement.setHtml( '<br />' + langTable.widthPx );
+								}
 
 								inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
 							},
