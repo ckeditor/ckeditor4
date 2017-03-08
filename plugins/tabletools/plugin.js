@@ -1807,8 +1807,7 @@
 					editable.attachListener( mouseHost, 'mouseup', fakeSelectionMouseHandler, null, evtInfo );
 
 					editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
-					editable.attachListener( editable, 'selectionchange', fakeSelectionChangeHandler );
-
+					editable.attachListener( editor, 'selectionCheck', fakeSelectionChangeHandler );
 					// Setup copybin.
 					if ( CKEDITOR.plugins.clipboard && !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 						editable.attachListener( editable, 'cut', fakeSelectionCopyCutHandler );
