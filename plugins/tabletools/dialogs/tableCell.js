@@ -81,6 +81,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							type: 'text',
 							id: 'width',
 							width: '100px',
+							requiredContent: 'td{width,height}',
 							label: langCommon.width,
 							validate: validate.number( langCell.invalidWidth ),
 
@@ -122,6 +123,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						{
 							type: 'select',
 							id: 'widthType',
+							requiredContent: 'td{width,height}',
 							label: editor.lang.table.widthUnit,
 							labelStyle: 'visibility:hidden',
 							'default': 'px',
@@ -138,6 +140,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						children: [ {
 							type: 'text',
 							id: 'height',
+							requiredContent: 'td{width,height}',
 							label: langCommon.height,
 							width: '100px',
 							'default': '',
@@ -149,6 +152,8 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									labelElement = heightType.getElement(),
 									inputElement = this.getInputElement(),
 									ariaLabelledByAttr = inputElement.getAttribute( 'aria-labelledby' );
+
+								heightType.getElement().setHtml( '<br />' + langTable.widthPx );
 
 								inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
 							},
@@ -174,7 +179,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						{
 							id: 'htmlHeightType',
 							type: 'html',
-							html: '<br />' + langTable.widthPx
+							html: ''
 						} ]
 					},
 					spacer,
