@@ -10,11 +10,11 @@
 
 **Expected result:**
 
-Selection from inside the table is preseved.
+Selection from inside the table is preserved.
 
 **Unexpected result:**
 
-Selection is resetted or native selection is visible.
+Selection is reset or native selection is visible.
 
 **Procedure #2:**
 
