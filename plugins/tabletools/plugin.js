@@ -723,6 +723,8 @@
 
 		editor.fire( 'lockSnapshot' );
 
+		editor.editable().removeClass( fakeSelectedEditorClass );
+
 		for ( i = 0; i < selectedCells.count(); i++ ) {
 			selectedCells.getItem( i ).removeClass( fakeSelectedClass );
 		}
@@ -1015,8 +1017,6 @@
 			}
 
 			fakeSelection = { active: false };
-
-			editor.editable().removeClass( fakeSelectedEditorClass );
 		}
 	}
 
