@@ -1,0 +1,56 @@
+<div id="editor">
+	<table border="1" cellpadding="1" cellspacing="1" style="width: 500px">
+		<tbody>
+			<tr>
+				<td>here</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		allowedContent: {
+			'*': {
+				'attributes': 'lang,dir',
+				'styles': false,
+				'classes': false
+			},
+			'table': {
+				'attributes': false,
+				'styles': false,
+				'classes': false
+			},
+			'tbody': {
+				'attributes': false,
+				'styles': false,
+				'classes': false
+			},
+			'td': {
+				'attributes': false,
+				'styles': false,
+				'classes': false
+			},
+			'tfoot': {
+				'attributes': false,
+				'styles': false,
+				'classes': false
+			},
+			'th': {
+				'attributes': false,
+				'styles': false,
+				'classes': false
+			},
+			'thead': {
+				'attributes': false,
+				'styles': false,
+				'classes': false
+			},
+			'tr': {
+				'attributes': false,
+				'styles': false,
+				'classes': false
+			}
+		}
+	} );
+</script>

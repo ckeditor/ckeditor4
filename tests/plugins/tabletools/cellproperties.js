@@ -129,6 +129,64 @@
 				dialog.setValueOf( 'info', 'width', 10 );
 				dialog.setValueOf( 'info', 'widthType', 'px' );
 			} );
+		},
+
+		'test test': function() {
+			bender.editorBot.create( {
+				name: 'required',
+				config: {
+					allowedContent: {
+						'*': {
+							'attributes': 'lang,dir',
+							'styles': false,
+							'classes': false
+						},
+						'table': {
+							'attributes': false,
+							'styles': false,
+							'classes': false
+						},
+						'tbody': {
+							'attributes': false,
+							'styles': false,
+							'classes': false
+						},
+						'td': {
+							'attributes': false,
+							'styles': false,
+							'classes': false
+						},
+						'tfoot': {
+							'attributes': false,
+							'styles': false,
+							'classes': false
+						},
+						'th': {
+							'attributes': false,
+							'styles': false,
+							'classes': false
+						},
+						'thead': {
+							'attributes': false,
+							'styles': false,
+							'classes': false
+						},
+						'tr': {
+							'attributes': false,
+							'styles': false,
+							'classes': false
+						}
+					}
+				}
+			}, function( bot ) {
+				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
+
+				bot.dialog( 'cellProperties', function( dialog ) {
+					assert.isFalse( dialog.getContentElement( 'info', 'width' ).isVisible() );
+					assert.isFalse( dialog.getContentElement( 'info', 'height' ).isVisible() );
+					assert.isFalse( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
+				} );
+			} );
 		}
 	} );
 } )();
