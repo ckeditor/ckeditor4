@@ -1,7 +1,8 @@
 /* bender-tags: editor,unit,clipboard,widget */
 /* bender-ckeditor-plugins: uploadwidget,uploadimage,toolbar,image */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
-/* global pasteFiles */
+/* bender-include: _helpers/waitForImage.js */
+/* global pasteFiles, waitForImage */
 
 'use strict';
 
@@ -158,8 +159,9 @@ bender.test( {
 		assert.areSame( 1, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
 		assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-		// IE needs to wait for image to be loaded so it can read width and height of the image.
-		wait( function() {
+		var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+		waitForImage( image, function() {
 			loader.url = IMG_URL;
 			loader.changeStatus( 'uploaded' );
 
@@ -169,6 +171,6 @@ bender.test( {
 			assert.areSame( 1, loadAndUploadCount );
 			assert.areSame( 0, uploadCount );
 			assert.areSame( 'http://foo/upload', lastUploadUrl );
-		}, 10 );
+		} );
 	}
 } );

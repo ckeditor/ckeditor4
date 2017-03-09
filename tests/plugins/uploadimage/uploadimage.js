@@ -1,7 +1,8 @@
 /* bender-tags: editor,unit,clipboard,widget */
 /* bender-ckeditor-plugins: uploadwidget,uploadimage,toolbar,image2 */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
-/* global pasteFiles */
+/* bender-include: %BASE_PATH%/plugins/uploadfile/_helpers/waitForImage.js */
+/* global pasteFiles, waitForImage */
 
 'use strict';
 
@@ -106,8 +107,9 @@
 			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			wait( function() {
+			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+			waitForImage( image, function() {
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
@@ -117,7 +119,7 @@
 				assert.areSame( 1, loadAndUploadCount );
 				assert.areSame( 0, uploadCount );
 				assert.areSame( 'http://foo/upload', lastUploadUrl );
-			}, 10 );
+			} );
 		},
 
 		'test finish upload notification marked as important and is visible (#13032).': function() {
@@ -138,14 +140,15 @@
 
 			assertUploadingWidgets( editor, LOADED_IMG );
 
-			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			wait( function() {
+			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+			waitForImage( image, function() {
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
 				assert.areSame( 1, area.notifications.length, 'Successs notification is present because it\'s important one.' );
 				assert.areSame( 'success', area.notifications[ 0 ].type );
-			}, 10 );
+			} );
 		},
 
 		'test inline with image2 (integration test)': function() {
@@ -164,8 +167,9 @@
 			assertUploadingWidgets( editor, LOADED_IMG );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
-			// IE needs to wait for image to be loaded so it can read width and height of the image.
-			wait( function() {
+			var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+			waitForImage( image, function() {
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
@@ -175,7 +179,7 @@
 				assert.areSame( 1, loadAndUploadCount );
 				assert.areSame( 0, uploadCount );
 				assert.areSame( 'http://foo/upload?type=Images&responseType=json', lastUploadUrl );
-			}, 10 );
+			} );
 		},
 
 		'test paste img as html (integration test)': function() {
@@ -196,8 +200,9 @@
 				assertUploadingWidgets( editor, LOADED_IMG );
 				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on uploading.' );
 
-				// IE needs to wait for image to be loaded so it can read width and height of the image.
-				wait( function() {
+				var image = editor.editable().find( 'img[data-widget="uploadimage"]' ).getItem( 0 );
+
+				waitForImage( image, function() {
 					loader.url = IMG_URL;
 					loader.changeStatus( 'uploaded' );
 
@@ -207,7 +212,7 @@
 					assert.areSame( 0, loadAndUploadCount );
 					assert.areSame( 1, uploadCount );
 					assert.areSame( 'http://foo/upload', lastUploadUrl );
-				}, 10 );
+				} );
 			} );
 		},
 
