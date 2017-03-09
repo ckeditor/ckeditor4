@@ -5,12 +5,12 @@
 	function defaultStyle(editor, defaultStyles) {
 		var self = this;
 
-		this.defaultStyles = defaultStyles;
+		this.defaultStyles = defaultStyles || {};
 		this.styleNamesThatNeedSet = [];
 		this.editor = editor;
 
 		for(var i = 0; i < STYLES_THAT_NEED_SET_AS_DEFAULT.length; i++) {
-			if (defaultStyles[STYLES_THAT_NEED_SET_AS_DEFAULT[i]]) {
+			if (this.defaultStyles[STYLES_THAT_NEED_SET_AS_DEFAULT[i]]) {
 				this.styleNamesThatNeedSet.push(STYLES_THAT_NEED_SET_AS_DEFAULT[i]);
 			}
 		}
@@ -85,7 +85,7 @@
 		init: function (editor) {
 			var config = editor.config;
 
-			new defaultStyle(editor, config.styleNamesThatNeedSet);
+			new defaultStyle(editor, config.defaultStyles);
 
 			// Disable adding pagebreak into table
 			editor.on('selectionChange', function (event) {

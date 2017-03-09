@@ -23,7 +23,7 @@ var initSample = ( function() {
 				{ name : 'dasdf', element : 'p', styles: { 'color': 'red' } },
 				{ name: 'My Div Class', element: 'div'}
 			],
-			styleNamesThatNeedSet: {
+			defaultStyles: {
 				'font-size': '20pt',
 				'font-weight': 'bold'
 			},
