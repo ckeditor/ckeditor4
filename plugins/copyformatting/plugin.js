@@ -424,7 +424,7 @@
 			},
 
 			applyFormatting: {
-				editorFocus: 0,
+				editorFocus: false,
 				exec: function( editor, data ) {
 					var cmd = editor.getCommand( 'copyFormatting' ),
 						isFromKeystroke = data ? data.from == 'keystrokeHandler' : false,
