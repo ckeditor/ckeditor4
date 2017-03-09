@@ -19,8 +19,16 @@ var initSample = ( function() {
 
 		editorElement.setAttribute( 'contenteditable', 'true' );
 		CKEDITOR.inline( 'editor', {
+			stylesSet: [
+				{ name : 'dasdf', element : 'p', styles: { 'color': 'red' } },
+				{ name: 'My Div Class', element: 'div'}
+			],
+			styleNamesThatNeedSet: {
+				'font-size': '20pt',
+				'font-weight': 'bold'
+			},
 			toolbar: [
-				{name: 'font', items: ['Format', 'Font', 'FontSize']},
+				{name: 'font', items: ['Styles', 'Font', 'FontSize']},
 				{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']},
 				{name: 'copyformatting', items: ['CopyFormatting']},
 				{name: 'color', items: ['TextColor', 'BGColor']},
