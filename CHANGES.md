@@ -29,6 +29,7 @@ Fixed Issues:
 * [#14769](https://dev.ckeditor.com/ticket/14769): Fixed: URLs with '-' in host are not detected by [Autolink](http://ckeditor.com/addon/autolink) plugin.
 * [#16804](https://dev.ckeditor.com/ticket/16804): Fixed: Focus is not on the first menu item when user opens [Context Menu](http://ckeditor.com/addon/contextmenu) or combobox from editor's toolbar.
 * [#14407](https://dev.ckeditor.com/ticket/14407): [IE] Fixed: Non-editable widgets can be edited.
+* [#16845](https://dev.ckeditor.com/ticket/16845): [IE] Fixed: Cursor jumps to the top of the scrolled editor after focusing it when [Copy Formatting](http://ckeditor.com/addon/copyformatting) plugin is enabled.
 
 ## CKEditor 4.6.2
 
