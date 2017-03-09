@@ -61,21 +61,34 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
   <script>
     CKEDITOR.replace('editor', {
-      // customConfig: '/custom/config2.js'
+      // customConfig: '/custom/config.js'
       height: 400,
       toolbar: [
         { name: 'heading',      items: [ 'Heading' ] },
         { name: 'list',         items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
         { name: 'link',         items: [ 'Link', 'Unlink', 'Anchor' ] },
         { name: 'misc1',        items: [ 'Image', 'Table', 'Language' ] },
+        { name: 'source',       items: [ 'Source' ] },
         '/',
         { name: 'search',       items: [ 'Find', 'Replace' ] },
         { name: 'clipboard',    items: [ 'Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-        { name: 'basicstyles',  items: [ 'Bold', 'Italic', 'RemoveFormat', 'Styles' ] },
+        { name: 'basicstyles',  items: [ 'Bold', 'Italic', 'RemoveFormat' ] },
+        { name: 'inlinestyle',  items: [ 'InlineStyle' ] },
         { name: 'misc2',        items: [ 'SpecialChar' ] }
       ],
-      extraPlugins: 'heading'
+      extraPlugins: 'heading,inlinestyle'
     } );
+    CKEDITOR.stylesSet.add ( 'default', [
+      { name: 'Strong',         element: 'strong', overrides: 'b' },
+      { name: 'Emphasis',       element: 'em' , overrides: 'i' },
+      { name: 'Strikethrough',  element: 'strike' },
+      { name: 'Marker',         element: 'span', attributes: { 'class': 'marker' } },
+      { name: 'Computer Code',  element: 'code' },
+      { name: 'Cited Work',     element: 'cite' },
+      { name: 'Subscript',      element: 'sub' },
+      { name: 'Superscript',    element: 'sup' },
+      { name: 'Underline',      element: 'u' }
+    ] );
   </script>
 
 </body>
