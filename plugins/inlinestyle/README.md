@@ -1,1 +1,1 @@
-# inline-style
+# inlinestyle

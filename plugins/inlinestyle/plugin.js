@@ -85,7 +85,7 @@ CKEDITOR.plugins.add( 'inlinestyle', {
 					type = style._.type;
 
 					if ( type != lastType ) {
-						// inline-style mod: we do not need panels with titles
+						// inlinestyle mod: we do not need panels with titles
 						// this.startGroup( lang[ 'panelTitle' + String( type ) ] );
 						lastType = type;
 					}
