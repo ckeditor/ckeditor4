@@ -695,5 +695,50 @@ bender.test( {
 		} );
 
 		assert.isFalse( preventSpy.called, 'preventDefault() on keydown was called' );
+	},
+
+	'test remove filling char sequence on keydown': function() {
+		var editable = this.editor.editable();
+		var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 );
+
+		var par = this.editor.document.$.createElement( 'p' );
+		var span = this.editor.document.$.createElement( 'span' );
+		var text = editable.getDocument().createText( fillingCharSequence );
+
+		par.appendChild( span );
+		span.appendChild( text.$ );
+
+		editable.setCustomData( 'cke-fillingChar', text );
+		editable.focus();
+		editable.$.innerHTML = '';
+		editable.$.appendChild( par );
+
+		assert.areEqual( 7, editable.$.innerText.length, 'before' );
+		this.editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
+
+		assert.areEqual( 0, editable.$.innerText.length );
+	},
+
+	'test remove filling char sequence on keydown blur': function() {
+		var editable = this.editor.editable();
+		var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 );
+
+		var par = this.editor.document.$.createElement( 'p' );
+		var span = this.editor.document.$.createElement( 'span' );
+		var text = editable.getDocument().createText( fillingCharSequence );
+
+		par.appendChild( span );
+		span.appendChild( text.$ );
+
+		editable.setCustomData( 'cke-fillingChar', text );
+		this.editor.focusManager.blur( true );
+		editable.$.innerHTML = '';
+		editable.$.appendChild( par );
+
+		assert.areEqual( 7, editable.$.innerText.length, 'before' );
+		editable.hasFocus = false;
+		this.editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
+
+		assert.areEqual( 7, editable.$.innerText.length );
 	}
 } );
