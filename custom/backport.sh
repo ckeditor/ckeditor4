@@ -4,31 +4,28 @@
 # allow you to backport cherry-picked subtree commits to the original repo.
 
 if [ $# -eq 0 ]; then
-    echo "Syntax:"
-    echo "    $0 <plugin-name>"
-    exit 1
+  echo "Syntax:"
+  echo "    $0 <plugin-name>"
+  exit 1
 fi
 
 REMOTE=$1
 VALID=false
 
 case $REMOTE in
-    "custom")
-	VALID=true;;
-    "block-format")
-	VALID=true;;
-    "heading")
-	VALID=true;;
-    "inline-style")
-	VALID=true;;
-    *)
-	VALID=false;;
-esac
-
-if [ $VALID == false ]; then
-    echo "Invalid argument"
+  custom)
+    ;;
+  blockformat)
+    ;;
+  heading)
+    ;;
+  inlinestyle)
+    ;;
+  *)
+    echo "Invalid argument: $REMOTE"
     exit 1
-fi
+    ;;
+esac
 
 echo
 echo "# The following commands are used for for backporting subtree commits"

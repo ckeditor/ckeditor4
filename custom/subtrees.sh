@@ -26,7 +26,7 @@ cmd="git commit -m \"Add subtree ${NAME}\""
 echo $cmd
 
 # Install the custom plugins as subtrees under the plugins folder
-PLUGINS="block-format heading inline-style"
+PLUGINS="blockformat heading inlinestyle"
 
 for NAME in $PLUGINS
 do

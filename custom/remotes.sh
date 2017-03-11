@@ -5,7 +5,7 @@ echo "# The following commands are needed for both setting up subtrees and"
 echo "# for backporting subtree commits to their original repositories."
 echo "# See backport.sh and subtrees.sh for additional commands."
 
-SUBTREES="custom block-format heading inline-style"
+SUBTREES="custom blockformat heading inlinestyle"
 
 for NAME in $SUBTREES
 do
