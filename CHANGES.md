@@ -13,6 +13,7 @@ New Features:
 
 Fixed Issues:
 
+* [#16821](http://dev.ckeditor.com/ticket/16821): Fixed: Extraneous `spans` with `height` style stacked when [pasting from Word](http://ckeditor.com/addon/pastefromword).
 * [#12465](http://dev.ckeditor.com/ticket/12465): Fixed: Can't change state of checkboxes/radio buttons if the properties dialog was invoked via double-click.
 * [#13062](http://dev.ckeditor.com/ticket/13062): Fixed: Impossible to unlink when the caret is at the edge of the link.
 * [#13585](http://dev.ckeditor.com/ticket/13585): Fixed: Error when wrapping two adjacent `<div>`s with a `<div>`.
@@ -30,6 +31,7 @@ Fixed Issues:
 * [#14769](https://dev.ckeditor.com/ticket/14769): Fixed: URLs with '-' in host are not detected by [Autolink](http://ckeditor.com/addon/autolink) plugin.
 * [#16804](https://dev.ckeditor.com/ticket/16804): Fixed: Focus is not on the first menu item when user opens [Context Menu](http://ckeditor.com/addon/contextmenu) or combobox from editor's toolbar.
 * [#14407](https://dev.ckeditor.com/ticket/14407): [IE] Fixed: Non-editable widgets can be edited.
+* [#16845](https://dev.ckeditor.com/ticket/16845): [IE] Fixed: Cursor jumps to the top of the scrolled editor after focusing it when [Copy Formatting](http://ckeditor.com/addon/copyformatting) plugin is enabled.
 
 ## CKEditor 4.6.2
 
@@ -458,7 +460,7 @@ New Features:
 * Notification system:
   * [#11580](http://dev.ckeditor.com/ticket/11580): Introduced the [notification system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification).
   * [#12810](http://dev.ckeditor.com/ticket/12810): Introduced a [notification aggregator](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notificationAggregator) for the [notification system](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.notification) which simplifies displaying progress of many concurrent tasks.
-* [#11636](http://dev.ckeditor.com/ticket/11636): Introduced new, UX-focused, methods for getting selected HTML and deleting it &mdash; [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) and [`editor.deleteSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml).
+* [#11636](http://dev.ckeditor.com/ticket/11636): Introduced new, UX-focused, methods for getting selected HTML and deleting it &mdash; [`editor.getSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getSelectedHtml) and [`editor.extractSelectedHtml()`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-extractSelectedHtml).
 * [#12416](http://dev.ckeditor.com/ticket/12416): Added the [`widget.definition.upcastPriority`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.widget.definition-property-upcastPriority) property which gives more control over widget upcasting order to the widget author.
 * [#12036](http://dev.ckeditor.com/ticket/12036): Initialize the editor in [read-only](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) mode when the `<textarea>` element has a `readonly` attribute.
 * [#11905](http://dev.ckeditor.com/ticket/11905): The [`resize` event](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-resize) passes the current dimensions in its data.
