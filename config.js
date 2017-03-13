@@ -133,6 +133,9 @@ CKEDITOR.editorConfig = function( config ) {
 		} ]
 	};
 
+	config.indentOffset = 36;
+	config.indentUnit = 'pt';
+
 	var lite = config.lite = config.lite || {};
 
 	lite.isTracking = false;
