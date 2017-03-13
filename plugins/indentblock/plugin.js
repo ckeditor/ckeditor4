@@ -227,7 +227,7 @@
 			currentOffset += ( isIndent ? 1 : -1 ) * indentOffset;
 
 			if ( currentOffset < 0 )
-				return;
+				currentOffset = 0;
 
 			currentOffset = Math.max( currentOffset, 0 );
 			currentOffset = Math.ceil( currentOffset / indentOffset ) * indentOffset;
