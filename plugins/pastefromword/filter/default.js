@@ -226,7 +226,6 @@
 
 				},
 				'td': function( element ) {
-
 					var ascendant = element.getAscendant( 'table' ),
 						tdBorders =  ascendant._tdBorders,
 						borderStyles = [ 'border', 'border-top', 'border-right', 'border-bottom', 'border-left' ],
@@ -333,7 +332,33 @@
 		filter.applyTo( fragment );
 		fragment.writeHtml( writer );
 
-		return writer.getHtml();
+		function getLastChild(elem) {
+			var lastChild = elem;
+			var childNodes = elem.childNodes;
+
+			while(childNodes.length) {
+				lastChild = childNodes[childNodes.length - 1];
+				childNodes = lastChild.childNodes;
+			}
+
+			return lastChild;
+		}
+
+		var div = document.createElement('div');
+		var tdList;
+
+		div.innerHTML = writer.getHtml();
+		tdList = div.querySelectorAll('td');
+
+		for(var i = 0; i < tdList.length; i++) {
+			var tdItem = tdList[i];
+
+			if (!tdItem.innerText && tdItem.getElementsByTagName('br').length === 0) {
+				getLastChild(tdItem).innerHTML = '&nbsp;';
+			}
+		}
+
+		return div.innerHTML;
 	};
 
 	/**
