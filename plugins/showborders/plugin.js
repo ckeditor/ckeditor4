@@ -134,7 +134,7 @@
 			borderField.commit = CKEDITOR.tools.override( originalCommit, function( org ) {
 				return function( data, selectedTable ) {
 					org.apply( this, arguments );
-					var value = parseInt( this.getValue(), 10 );
+					var value = parseFloat( this.getValue() );
 					selectedTable[ ( !value || value <= 0 ) ? 'addClass' : 'removeClass' ]( showBorderClassName );
 				};
 			} );
