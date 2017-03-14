@@ -422,6 +422,8 @@ bender.test( {
 				editor.setData( '<p id="p">foo<em>bar</em></p>' );
 				editor.setMode( 'wysiwyg', function() {
 					resume( function() {
+						// Editor needs to have focus to remove FC on keydown. (#14714)
+						editor.focus();
 						// TC1 - on keydown
 						// <p>foo^<em>...
 						var range = editor.createRange();
@@ -540,6 +542,9 @@ bender.test( {
 		editor.document.$.getSelection().setPosition( fillingChar.$, fillingChar.$.nodeValue.length ); // FCabc^
 
 		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
+
+		// Editor needs to have focus to remove FC on keydown. (#14714)
+		editor.focus();
 
 		// Mock LEFT arrow.
 		editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 37 } ) );
