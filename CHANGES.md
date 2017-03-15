@@ -11,6 +11,7 @@ New Features:
 
 Fixed Issues:
 
+* [#14714](http://dev.ckeditor.com/ticket/14714): [Webkit/Blink] Exception thrown on refocusing a blurred inline editor.
 * [#16821](http://dev.ckeditor.com/ticket/16821): Fixed: Extraneous `spans` with `height` style stacked when [pasting from Word](http://ckeditor.com/addon/pastefromword).
 * [#12465](http://dev.ckeditor.com/ticket/12465): Fixed: Can't change state of checkboxes/radio buttons if the properties dialog was invoked via double-click.
 * [#13062](http://dev.ckeditor.com/ticket/13062): Fixed: Impossible to unlink when the caret is at the edge of the link.

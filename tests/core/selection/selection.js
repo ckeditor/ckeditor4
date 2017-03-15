@@ -695,5 +695,34 @@ bender.test( {
 		} );
 
 		assert.isFalse( preventSpy.called, 'preventDefault() on keydown was called' );
+	},
+
+	// (#14714)
+	'test remove filling char sequence on keydown blur': function() {
+		if ( !CKEDITOR.env.webkit ) {
+			assert.ignore();
+		}
+
+		// If editor has no focus, filling character should not be removed in WebKits. (#14714)
+		var editable = this.editor.editable();
+		var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 );
+
+		var par = this.editor.document.$.createElement( 'p' );
+		var span = this.editor.document.$.createElement( 'span' );
+		var text = editable.getDocument().createText( fillingCharSequence );
+
+		par.appendChild( span );
+		span.appendChild( text.$ );
+
+		editable.setCustomData( 'cke-fillingChar', text );
+		this.editor.focusManager.blur( true );
+		editable.$.innerHTML = '';
+		editable.$.appendChild( par );
+
+		assert.areEqual( 7, editable.$.innerText.length, 'before' );
+		editable.hasFocus = false;
+		this.editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
+
+		assert.areEqual( 7, editable.$.innerText.length );
 	}
 } );

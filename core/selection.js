@@ -164,6 +164,7 @@
 			// creating it.
 			if ( fillingChar.getCustomData( 'ready' ) ) {
 				removeFillingCharSequenceNode( editable );
+				editable.editor.fire( 'selectionCheck' );
 			} else {
 				fillingChar.setCustomData( 'ready', 1 );
 			}
@@ -761,7 +762,9 @@
 						case 8: // BACKSPACE
 						case 45: // INS
 						case 46: // DEl
-							removeFillingCharSequenceNode( editable );
+							if ( editable.hasFocus ) {
+								removeFillingCharSequenceNode( editable );
+							}
 					}
 
 				}, null, null, -1 );
