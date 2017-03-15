@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'inlinestyle', 'en-ca', {
   label:             'Inline Style',
   helpLabel:         'Help',
   removeStylesLabel: 'Remove styles',
-  panelTitle:        'Formatting Styles',
+  panelTitle:        'Select inline style',
   panelTitle1:       'Block Styles',
   panelTitle2:       'Inline Styles',
   panelTitle3:       'Object Styles'
