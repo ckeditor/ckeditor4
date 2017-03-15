@@ -999,6 +999,9 @@
 		// Start fake selection only if the left mouse button is really pressed inside the table.
 		if ( !fakeSelection.active && evt.name === 'mousedown' && detectLeftMouseButton( evt ) && table ) {
 			fakeSelection = { active: true };
+
+			// This listener covers case when mouse button is released outside the editor.
+			CKEDITOR.document.on( 'mouseup', fakeSelectionMouseHandler, null, { editor: editor } );
 		}
 
 		// The separate condition for table handles cases when user starts/stop dragging from/in
@@ -1017,6 +1020,8 @@
 			}
 
 			fakeSelection = { active: false };
+
+			CKEDITOR.document.removeListener( 'mouseup', fakeSelectionMouseHandler );
 		}
 	}
 
