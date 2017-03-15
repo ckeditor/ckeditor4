@@ -5,7 +5,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'blockformat', 'en', {
   label:      'Block Format',
   panelTitle: 'Select block format',
-  blockquoteLabel: 'Blockquote',
+  blockquoteLabel: 'Block quotation',
   codesnippetLabel: 'Code snippet',
   helpLabel:  'Help',
 } );
