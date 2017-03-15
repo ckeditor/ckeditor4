@@ -5,7 +5,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'heading', 'en-au', {
   label:      'Heading',
   panelTitle: 'Select heading level',
-  helpLabel:  'Help',
   level_h1:   'Level 1',
   level_h2:   'Level 2',
   level_h3:   'Level 3',
@@ -13,4 +12,6 @@ CKEDITOR.plugins.setLang( 'heading', 'en-au', {
   level_h5:   'Level 5',
   level_h6:   'Level 6',
   level_p:    'Remove format',
+  helpLabel:  'Help',
+  helpContent: '<p>This is a test:</p> <ul><li>Item #1</li><li>Item #2</li><li>Item #3</li></ul>',
 } );

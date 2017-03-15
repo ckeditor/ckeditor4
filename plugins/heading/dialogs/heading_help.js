@@ -7,7 +7,7 @@ CKEDITOR.dialog.add( 'headingHelp', function( editor ) {
   var lang = editor.lang.about;
 
   return {
-    title: "Heading Help",
+    title: editor.lang.heading.helpLabel,
     minWidth: 500,
     minHeight: 300,
     contents: [
@@ -20,7 +20,7 @@ CKEDITOR.dialog.add( 'headingHelp', function( editor ) {
         elements: [
           {
             type: 'html',
-            html: '<p>information about using headings</p>'
+            html: editor.lang.heading.helpContent
           }
         ]
       }
