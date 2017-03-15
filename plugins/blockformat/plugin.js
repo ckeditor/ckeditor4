@@ -4,7 +4,7 @@
 */
 
 CKEDITOR.plugins.add( 'blockformat', {
-  requires: 'richcombo,blockquote',
+  requires: 'richcombo,blockquote,codesnippet',
 
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -19,6 +19,7 @@ CKEDITOR.plugins.add( 'blockformat', {
 
     // Menuitem commands
     var blockquoteCmd = 'blockquote';
+    var codesnippetCmd = 'codeSnippet';
     var helpCmd = 'blockformatHelp';
 
     // Initialize help menuitem
@@ -34,7 +35,7 @@ CKEDITOR.plugins.add( 'blockformat', {
       label: lang.label,
       title: lang.panelTitle,
       toolbar: 'blockformat',
-      allowedContent: 'blockquote',
+      allowedContent: 'blockquote; pre; code(language-*)',
 
       panel: {
         css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
@@ -47,6 +48,9 @@ CKEDITOR.plugins.add( 'blockformat', {
 
         label = lang[ 'blockquoteLabel' ];
         this.add( blockquoteCmd, menuStyle.buildPreview( label ), label );
+
+        label = lang[ 'codesnippetLabel' ];
+        this.add( codesnippetCmd, menuStyle.buildPreview( label ), label );
 
         /*
         label = lang[ 'helpLabel' ];
@@ -61,8 +65,12 @@ CKEDITOR.plugins.add( 'blockformat', {
         }
 
         if ( value == blockquoteCmd ) {
-          // console.log( 'onClick: ' + value );
           editor.execCommand( blockquoteCmd );
+          return;
+        }
+
+        if ( value == codesnippetCmd ) {
+          editor.execCommand( codesnippetCmd );
           return;
         }
 
