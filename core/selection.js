@@ -1768,7 +1768,7 @@
 
 				var range = ranges[ 0 ];
 				var collapsed = range.collapsed,
-					isStartMarkerAlone, dummySpan, ieRange;
+					isStartMarkerAlone, ieRange;
 
 				// Try to make a object selection, be careful with selecting phase element in IE
 				// will breaks the selection in non-framed environment.
@@ -1828,15 +1828,6 @@
 					isStartMarkerAlone = ( !( next && next.getText && next.getText().match( fillerTextRegex ) ) && // already a filler there?
 						( inPre || !startNode.hasPrevious() || ( startNode.getPrevious().is && startNode.getPrevious().is( 'br' ) ) ) );
 
-					// Append a temporary <span>&#65279;</span> before the selection.
-					// This is needed to avoid IE destroying selections inside empty
-					// inline elements, like <b></b> (#253).
-					// It is also needed when placing the selection right after an inline
-					// element to avoid the selection moving inside of it.
-					dummySpan = range.document.createElement( 'span' );
-					dummySpan.setHtml( '&#65279;' ); // Zero Width No-Break Space (U+FEFF). See #1359.
-					dummySpan.insertBefore( startNode );
-
 					if ( isStartMarkerAlone ) {
 						// To expand empty blocks or line spaces after <br>, we need
 						// instead to have any char, which will be later deleted using the
@@ -1862,9 +1853,6 @@
 					} else {
 						ieRange.select();
 					}
-
-					range.moveToPosition( dummySpan, CKEDITOR.POSITION_BEFORE_START );
-					dummySpan.remove();
 				} else {
 					range.setEndBefore( endNode );
 					endNode.remove();

@@ -18,7 +18,7 @@ var initSample = ( function() {
 		var editorElement = CKEDITOR.document.getById( 'editor' );
 
 		editorElement.setAttribute( 'contenteditable', 'true' );
-		CKEDITOR.inline( 'editor', {
+		var editor = CKEDITOR.inline( 'editor', {
 			stylesSet: [
 				{ name : 'dasdf', element : 'p', styles: { 'color': 'red' } },
 				{ name: 'My Div Class', element: 'div'}
@@ -46,6 +46,12 @@ var initSample = ( function() {
 					'tablecellproperties', 'tablecellsmerge', 'tablecellmergedown', 'tablecellsplithorizontal', 'tablecellsplitvertical']}
 			]
 		} );
+
+		// editor.on('lite:init', function(event) {
+		// 	this._lite = event.data.lite;
+		// 	this._lite.toggleTracking(true);
+		// 	this._lite.toggleShow(props.showTracking); // enable tracking by default
+		// });
 	};
 } )();
 

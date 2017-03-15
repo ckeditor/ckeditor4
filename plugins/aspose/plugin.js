@@ -23,23 +23,26 @@
 	}
 
 	defaultStyle.prototype = {
-		getTagStyleName: function (name) {
+		/**
+		 * make style name from dash to camelCase
+		 * example: "font-size" => "fontSize"
+		 * @param name
+		 */
+		normalizeStyleName: function(name) {
 			return name.replace(/-([a-z])/, function(match, letter) {
 				return letter.toUpperCase();
 			});
 		},
 
-		getStylesThatNeedApply: function () {
+
+		getStylesThatNeedApply: function() {
 			var range = this.editor.getSelection().getRanges()[0];
-			var document = range.document;
 			var editorDOMContainer = this.editor.editable().$;
 			var container = range.startContainer.$;
 			var stylesThatNeedApply = this.styleNamesThatNeedSet.slice(0);
 
 			if (container === range.endContainer.$ && container !== editorDOMContainer) {
-				while(container !== editorDOMContainer && container !== document && stylesThatNeedApply.length) {
-					container = container.parentNode;
-
+				while(container !== editorDOMContainer && container !== range.document && stylesThatNeedApply.length) {
 					if (container.nodeType === 1) {
 						for(var i = 0; i < stylesThatNeedApply.length; i++) {
 							if (this.hasStyle(container, stylesThatNeedApply[i])) {
@@ -47,6 +50,8 @@
 							}
 						}
 					}
+
+					container = container.parentNode;
 				}
 			}
 
@@ -54,7 +59,7 @@
 		},
 
 		hasStyle: function(element, style) {
-			return element.style[this.getTagStyleName(style)];
+			return element.style[this.normalizeStyleName(style)];
 		},
 
 		makeStyleObject: function(styleNames) {
