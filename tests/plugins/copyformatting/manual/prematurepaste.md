@@ -4,11 +4,11 @@
 
 ## Test scenario 1
 
-1. Paste some text from somewhere else using `Ctrl + Shift + V`.
+1. Paste some rich formatted text using `Ctrl + Shift + V`.
 
 ## Expected
 
-Text is pasted.
+Content gets pasted as a plain text.
 
 ## Test scenario 2
 
