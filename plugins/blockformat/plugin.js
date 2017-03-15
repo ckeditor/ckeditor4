@@ -33,8 +33,8 @@ CKEDITOR.plugins.add( 'blockformat', {
     editor.ui.addRichCombo( 'BlockFormat', {
       label: lang.label,
       title: lang.panelTitle,
-      toolbar: 'styles,20',
-      allowedContent: [],
+      toolbar: 'blockformat',
+      allowedContent: 'blockquote',
 
       panel: {
         css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
@@ -92,12 +92,12 @@ CKEDITOR.plugins.add( 'blockformat', {
       },
 
       refresh: function() {
+        /*
         var elementPath = editor.elementPath();
 
         if ( !elementPath )
             return;
 
-        /*
         // Check if element path contains 'p' element.
         if ( !elementPath.isContextFor( 'p' ) ) {
           this.setState( CKEDITOR.TRISTATE_DISABLED );
@@ -107,7 +107,6 @@ CKEDITOR.plugins.add( 'blockformat', {
         this.setState( CKEDITOR.TRISTATE_DISABLED );
         */
       }
-
     } ); // END addRichCombo
 
   } // END init
