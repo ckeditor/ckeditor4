@@ -11,6 +11,7 @@ New Features:
 
 Fixed Issues:
 
+* [#16825](http://dev.ckeditor.com/ticket/16825): Fixed: [Chrome] Error thrown when destroying focused inline editor.
 * [#16857](http://dev.ckeditor.com/ticket/16857): Fixed: Ctrl + Shift + V blocked by copy formatting.
 * [#14714](http://dev.ckeditor.com/ticket/14714): [Webkit/Blink] Fixed: Exception thrown on refocusing a blurred inline editor.
 * [#16821](http://dev.ckeditor.com/ticket/16821): Fixed: Extraneous `spans` with `height` style stacked when [pasting from Word](http://ckeditor.com/addon/pastefromword).
