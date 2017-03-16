@@ -7,8 +7,7 @@ bender.editor = {
 	}
 };
 
-bender.test(
-{
+bender.test( {
 	'test destroy editor with rich combo panel opened': function() {
 		var bot = this.editorBot, editor = this.editor;
 		bot.combo( 'Styles', function( combo ) {
