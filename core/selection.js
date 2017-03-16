@@ -52,11 +52,17 @@
 	// first range and real selection's range are the same.
 	// Also if the selection is collapsed, we should check if it's placed inside the table
 	// in which the fake selection is or inside nested table. Such selection occurs after right mouse click.
-	function isRealTableSelection( ranges, fakeRanges ) {
-		var table = ranges[ 0 ]._getTableElement() &&
+	function isRealTableSelection( selection, fakeSelection ) {
+		var ranges = selection.getRanges(),
+			fakeRanges = fakeSelection.getRanges(),
+			table = ranges[ 0 ]._getTableElement() &&
 				ranges[ 0 ]._getTableElement().getAscendant( 'table', true ),
 			fakeTable = fakeRanges[ 0 ]._getTableElement() &&
-				fakeRanges[ 0 ]._getTableElement().getAscendant( 'table', true );
+				fakeRanges[ 0 ]._getTableElement().getAscendant( 'table', true ),
+			isTableRange = ranges.length === 1 && ranges[ 0 ]._getTableElement() &&
+					ranges[ 0 ]._getTableElement().is( 'table' ),
+			isFakeTableRange = fakeRanges.length === 1 && fakeRanges[ 0 ]._getTableElement() &&
+					fakeRanges[ 0 ]._getTableElement().is( 'table' );
 
 		function isValidTableSelection( table, fakeTable, ranges, fakeRanges ) {
 			var isMenuOpen = ranges.length === 1 && ranges[ 0 ].collapsed,
@@ -76,6 +82,11 @@
 		}
 
 		if ( isValidTableSelection( table, fakeTable, ranges, fakeRanges ) ) {
+			// Edge case: when editor contains only table and that table is selected using selectAll command,
+			// then the selection is not properly refreshed and it must be done manually.
+			if ( isTableRange && !isFakeTableRange ) {
+				fakeSelection.selectRanges( ranges );
+			}
 			return true;
 		}
 
@@ -309,7 +320,7 @@
 			//realSel && console.log( realSel.getRanges()[ 0] , isRealTableSelection( realSel.getRanges(), sel.getRanges() ) );
 			// If real (not locked/stored) selection was moved from hidden container
 			// or is not a table one, then the fake-selection must be invalidated.
-			if ( !realSel || ( !realSel.isHidden() && !isRealTableSelection( realSel.getRanges(), sel.getRanges() ) ) ) {
+			if ( !realSel || ( !realSel.isHidden() && !isRealTableSelection( realSel, sel ) ) ) {
 				// Remove the cache from fake-selection references in use elsewhere.
 				sel.reset();
 
