@@ -27,7 +27,6 @@
 	 * @param {String} source The template source.
 	 */
 	CKEDITOR.template = function( source ) {
-		// Builds an optimized function body for the output() method, focused on performance.
 		// For example, if we have this "source":
 		//	'<div style="{style}">{editorName}</div>'
 		// ... the resulting function body will be (apart from the "buffer" handling):
@@ -37,18 +36,21 @@
 		if ( cache[ source ] )
 			this.output = cache[ source ];
 		else {
-			var fn = source
-				// Escape chars like slash "\" or single quote "'".
-				.replace( reEscapableChars, '\\$1' )
-				.replace( reNewLine, '\\n' )
-				.replace( reCarriageReturn, '\\r' )
-				// Inject the template keys replacement.
-				.replace( rePlaceholder, function( m, key ) {
-					return "',data['" + key + "']==undefined?'{" + key + "}':data['" + key + "'],'";
-				} );
-
-			fn = "return buffer?buffer.push('" + fn + "'):['" + fn + "'].join('');";
-			this.output = cache[ source ] = Function( 'data', 'buffer', fn );
+			// less performant solution when CSP is disabling indirect evaluation
+			cache[ source ] = function( data, buffer ) {
+				var m,
+					src = source,
+					chunks = [];
+				while ( ( m = rePlaceholder.exec( src ) ) ) {
+					var k = m[ 1 ];
+					chunks.push( src.substr( 0, m.index ), data[ k ] === undefined ? m[ 0 ] : data[ k ] );
+					src = src.substr( m.index + m[ 0 ].length );
+					rePlaceholder.lastIndex = 0;
+				}
+				chunks.push( src ); // ... the rest
+				return buffer ? buffer.push.apply( buffer, chunks ) : chunks.join( '' );
+			};
+			this.output = cache[ source ];
 		}
 	};
 } )();
