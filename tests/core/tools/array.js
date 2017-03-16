@@ -80,6 +80,14 @@
 			assert.isFalse( isArray( { length: 0 } ), 'Case 3' );
 			assert.isFalse( isArray( 'asd' ), 'Case 4' );
 			assert.isTrue( isArray( [ 1, 2 ] ), 'Case 5' );
+
+			var numArrayEntries = [ 1, 5, 7 ].entries();
+			numArrayEntries.toString();           // "[object Array Iterator]"
+			assert.isTrue( isArray( numArrayEntries ), 'Case 6' );
+
+			var strArrayEntries = [ 'asd', 'qwe' ].entries();
+			strArrayEntries.toString();           // "[object Array Iterator]"
+			assert.isTrue( isArray( strArrayEntries ), 'Case 7' );
 		},
 
 		'test array.map': function() {
