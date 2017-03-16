@@ -4,7 +4,16 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {};
+	bender.editors = {
+		classic: {},
+		divarea: {
+			extraPlugins: 'divarea'
+		},
+		inline: {
+			creator: 'inline'
+		}
+	};
+
 
 	function getRangesForCells( editor, cellsIndexes ) {
 		var ranges = [],
@@ -26,63 +35,66 @@
 		return ranges;
 	}
 
-	var table = CKEDITOR.document.getById( 'table' ).findOne( 'table' );
+	var table = CKEDITOR.document.getById( 'table' ).findOne( 'table' ),
+		tests = {
+			'test selectAll command after table selection (paragraph + table)': function( editor, bot ) {
+				var editable = editor.editable(),
+					ranges;
 
-	bender.test( {
-		'test selectAll command after table selection (paragraph + table)': function() {
-			var editor = this.editor,
-				bot = this.editorBot,
-				editable = editor.editable(),
-				ranges;
+				bot.setData( '<p>Sample text</p>' + table.getOuterHtml(), function() {
+					ranges = getRangesForCells( editor, [ 1, 2 ] );
 
-			bot.setData( '<p>Sample text</p>' + table.getOuterHtml(), function() {
-				ranges = getRangesForCells( editor, [ 1, 2 ] );
+					editor.getSelection().selectRanges( ranges );
 
-				editor.getSelection().selectRanges( ranges );
+					editor.once( 'afterCommandExec', function() {
+						resume( function() {
+							wait( function() {
+								ranges = editor.getSelection().getRanges();
 
-				editor.once( 'afterCommandExec', function() {
-					resume( function() {
-						ranges = editor.getSelection().getRanges();
-
-						assert.areSame( 1, ranges.length, 'There is one range' );
-						assert.areSame( 0, editable.find( '[class*=cke_table-faked-selection]' ).count(),
-							'There are no fake selected cells' );
-						assert.isFalse( editable.hasClass( '.cke_table-faked-selection-editor' ),
-							'Editable does not have fake selection class' );
+								assert.areSame( 1, ranges.length, 'There is one range' );
+								assert.areSame( 0, editable.find( '[class*=cke_table-faked-selection]' ).count(),
+									'There are no fake selected cells' );
+								assert.isFalse( editable.hasClass( 'cke_table-faked-selection-editor' ),
+									'Editable does not have fake selection class' );
+							}, 200 );
+						} );
 					} );
+
+					editor.execCommand( 'selectAll' );
+					wait();
 				} );
+			},
 
-				editor.execCommand( 'selectAll' );
-				wait();
-			} );
-		},
+			'test selectAll command after table selection (only table)': function( editor, bot ) {
+				var editable = editor.editable(),
+					ranges;
 
-		'test selectAll command after table selection (only table)': function() {
-			var editor = this.editor,
-				bot = this.editorBot,
-				editable = editor.editable(),
-				ranges;
+				bot.setData( table.getOuterHtml(), function() {
+					ranges = getRangesForCells( editor, [ 1, 2 ] );
 
-			bot.setData( table.getOuterHtml(), function() {
-				ranges = getRangesForCells( editor, [ 1, 2 ] );
+					editor.getSelection().selectRanges( ranges );
 
-				editor.getSelection().selectRanges( ranges );
+					editor.once( 'afterCommandExec', function() {
+						resume( function() {
+							wait( function() {
+								ranges = editor.getSelection().getRanges();
 
-				editor.once( 'afterCommandExec', function() {
-					resume( function() {
-						ranges = editor.getSelection().getRanges();
-
-						assert.areSame( 1, ranges.length, 'There is one range' );
-						assert.areSame( 0, editable.find( '[class*=cke_table-faked-selection]' ).count(),
-							'There are no fake selected cells' );
-						assert.isFalse( editable.hasClass( '.cke_table-faked-selection-editor' ),
-							'Editable does not have fake selection class' );
+								assert.areSame( 1, ranges.length, 'There is one range' );
+								assert.areSame( 5, editable.find( '[class*=cke_table-faked-selection]' ).count(),
+									'There are no fake selected cells' );
+								assert.isTrue( editable.hasClass( 'cke_table-faked-selection-editor' ),
+									'Editable has fake selection class' );
+							}, 200 );
+						} );
 					} );
-				} );
 
-				editor.execCommand( 'selectAll' );
-				wait();
-			} );
-		}
-	} );
+					editor.execCommand( 'selectAll' );
+					wait();
+				} );
+			}
+		};
+
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	bender.test( tests );
 } )();
