@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 18, tp1723
+@bender-tags: tc, 18, tp1721
 @bender-ckeditor-plugins: wysiwygarea, toolbar, clipboard, table, tabletools, selectall, sourcearea, undo, elementspath
 
 ## `selectall` integration
@@ -10,7 +10,7 @@ Perform steps for each editor.
 1. Press "Select all" button.
 
 **Expected:**
-Whole editor content is selected.
+The table is faked selected.
 
 **Unexpected:**
-Table selection is still visible.
+Native selection is visible.
