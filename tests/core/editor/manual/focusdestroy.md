@@ -1,10 +1,9 @@
 @bender-tags: tc, 4.7.0, 16825,
 @bender-ui: collapsed
-@bender-ckeditor-plugins: toolbar, wysiwygarea, floatingspace, about, elementspath
+@bender-ckeditor-plugins: toolbar, wysiwygarea, about, elementspath
 
-## Test scenario
-
-Focus the editor and press any key
+1. Focus the editor.
+1. Press any printable key.
 
 ## Expected
 
