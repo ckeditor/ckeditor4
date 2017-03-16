@@ -25,7 +25,7 @@ CKEDITOR.plugins.add( 'format', {
 		for ( var i = 0; i < tags.length; i++ ) {
 			var tag = tags[ i ];
 			var style = new CKEDITOR.style( config[ 'format_' + tag ] );
-			if ( !editor.filter.customConfig || editor.filter.check( style ) ) {
+			if ( !(editor.filter && editor.filter.customConfig) || editor.filter.check( style ) ) {
 				stylesCount++;
 				styles[ tag ] = style;
 				styles[ tag ]._.enterMode = editor.config.enterMode;

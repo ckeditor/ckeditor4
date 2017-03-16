@@ -35,22 +35,15 @@
 		onLoad: function() {
 			var cssStyleText,
 				cssTemplate =
-			// TODO: For IE6, we don't have child selector support,
 			// where nested table cells could be incorrect.
-			( CKEDITOR.env.ie6Compat ? [
-				'.%1 table.%2,',
-				'.%1 table.%2 td, .%1 table.%2 th',
-				'{',
-				'border : #d3d3d3 1px dotted',
-				'}'
-			] : [
+			( [
 				'.%1 table.%2,',
 				'.%1 table.%2 > tr > td, .%1 table.%2 > tr > th,',
 				'.%1 table.%2 > tbody > tr > td, .%1 table.%2 > tbody > tr > th,',
 				'.%1 table.%2 > thead > tr > td, .%1 table.%2 > thead > tr > th,',
 				'.%1 table.%2 > tfoot > tr > td, .%1 table.%2 > tfoot > tr > th',
 				'{',
-				'border : #d3d3d3 1px dotted',
+				'border : #333 1px dotted',
 				'}'
 			] ).join( '' );
 
@@ -81,7 +74,7 @@
 
 			editor.on( 'removeFormatCleanup', function( evt ) {
 				var element = evt.data;
-				if ( editor.getCommand( 'showborders' ).state == CKEDITOR.TRISTATE_ON && element.is( 'table' ) && ( !element.hasAttribute( 'border' ) || parseInt( element.getAttribute( 'border' ), 10 ) <= 0 ) )
+				if ( editor.getCommand( 'showborders' ).state == CKEDITOR.TRISTATE_ON && element.is( 'table' ) && ( !element.hasAttribute( 'border' ) || parseFloat( element.getAttribute( 'border' ) ) <= 0 ) )
 					element.addClass( showBorderClassName );
 			} );
 		},
@@ -97,7 +90,7 @@
 						'table': function( element ) {
 							var attributes = element.attributes,
 								cssClass = attributes[ 'class' ],
-								border = parseInt( attributes.border, 10 );
+								border = parseFloat( attributes.border );
 
 							if ( ( !border || border <= 0 ) && ( !cssClass || cssClass.indexOf( showBorderClassName ) == -1 ) )
 								attributes[ 'class' ] = ( cssClass || '' ) + ' ' + showBorderClassName;
@@ -154,7 +147,7 @@
 					return function( data, element ) {
 						originalCommit.apply( this, arguments );
 
-						if ( !parseInt( element.getAttribute( 'border' ), 10 ) )
+						if ( !parseFloat( element.getAttribute( 'border' ) ) )
 							element.addClass( 'cke_show_border' );
 					};
 				} );
