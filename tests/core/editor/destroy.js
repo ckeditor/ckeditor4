@@ -70,9 +70,8 @@ bender.test( {
 					resume( function() {
 						var editor = evt.sender;
 						// Simulate the circumstances instead of creating them.
-						CKEDITOR.focusManager._.blurDelay = 0;
 						editor.focusManager.hasFocus = true;
-						sinon.stub( editor, 'editable' ).returns( false );
+						sinon.stub( editor, 'editable' ).returns( null );
 						editor.focusManager.blur( 1 );
 						assert.pass();
 					} );
