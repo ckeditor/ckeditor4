@@ -64,12 +64,11 @@ bender.test( {
 	},
 
 	'test check editable existence on blur': function() {
-		var editor;
-
-		editor = CKEDITOR.replace( 'focused', {
+		CKEDITOR.replace( 'focused', {
 			on: {
-				instanceReady: function() {
+				instanceReady: function( evt ) {
 					resume( function() {
+						var editor = evt.sender;
 						// Simulate the circumstances instead of creating them.
 						CKEDITOR.focusManager._.blurDelay = 0;
 						editor.focusManager.hasFocus = true;
