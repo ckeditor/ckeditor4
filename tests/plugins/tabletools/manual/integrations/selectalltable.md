@@ -14,3 +14,5 @@ The table is faked selected.
 
 **Unexpected:**
 Native selection is visible.
+
+Repeat the procedure, but instead of clicking button, use `Cmd/Ctrl+A`.

@@ -14,3 +14,5 @@ Whole editor content is selected.
 
 **Unexpected:**
 Table selection is still visible.
+
+Repeat the procedure, but instead of clicking button, use `Cmd/Ctrl+A`.
