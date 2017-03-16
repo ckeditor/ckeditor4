@@ -58,14 +58,24 @@
 			fakeTable = fakeRanges[ 0 ]._getTableElement() &&
 				fakeRanges[ 0 ]._getTableElement().getAscendant( 'table', true );
 
-		if ( !table || !fakeTable || ( !table.equals( fakeTable ) && !fakeTable.contains( table ) ) ) {
-			return false;
+		function isValidTableSelection( table, fakeTable, ranges, fakeRanges ) {
+			var isMenuOpen = ranges.length === 1 && ranges[ 0 ].collapsed,
+				// In case of WebKit on MacOS, when checking real selection, we must allow selection to be partial.
+				// Otherwise the check will fail for table selection with opened context menu.
+				isInTable = isTableSelection( ranges, !!CKEDITOR.env.webkit ) && isTableSelection( fakeRanges );
+
+			return isSameTable( table, fakeTable ) && ( isMenuOpen || isInTable );
 		}
 
-		// In case of WebKit on MacOS, when checking real selection, we must allow selection to be partial.
-		// Otherwise the check will fail for table selection with opened context menu.
-		if ( ( ranges.length === 1 && ranges[ 0 ].collapsed ) ||
-			( isTableSelection( ranges, !!CKEDITOR.env.webkit ) && isTableSelection( fakeRanges ) ) ) {
+		function isSameTable( table, fakeTable ) {
+			if ( !table || !fakeTable ) {
+				return false;
+			}
+
+			return table.equals( fakeTable ) || fakeTable.contains( table );
+		}
+
+		if ( isValidTableSelection( table, fakeTable, ranges, fakeRanges ) ) {
 			return true;
 		}
 
