@@ -18,6 +18,10 @@ CKEDITOR.plugins.add( 'heading', {
         lang = editor.lang.heading;
 
     // Initialize help menuitem
+    var insertTOCCmd = 'insertTOC';
+    editor.addCommand( insertTOCCmd, new CKEDITOR.dialogCommand( helpCmd ) );
+
+    // Initialize help menuitem
     var helpCmd = 'headingHelp';
 
     CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/heading_help.js' );
