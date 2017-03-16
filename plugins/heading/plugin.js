@@ -17,9 +17,10 @@ CKEDITOR.plugins.add( 'heading', {
     var config = editor.config,
         lang = editor.lang.heading;
 
-    // Initialize help menuitem
-    var insertTOCCmd = 'insertTOC';
-    editor.addCommand( insertTOCCmd, new CKEDITOR.dialogCommand( helpCmd ) );
+    // Initialize heading list menuitem
+    var outlineCmd = 'headingOutline';
+    CKEDITOR.dialog.add( outlineCmd, this.path + 'dialogs/heading_outline.js' );
+    editor.addCommand( outlineCmd, new CKEDITOR.dialogCommand( outlineCmd ) );
 
     // Initialize help menuitem
     var helpCmd = 'headingHelp';
@@ -74,6 +75,9 @@ CKEDITOR.plugins.add( 'heading', {
           this.add( tag, menuStyle.buildPreview( label ), label );
         }
 
+        label = lang[ 'outlineLabel' ];
+        this.add( outlineCmd, menuStyle.buildPreview( label ), label );
+
         label = lang[ 'helpLabel' ];
         this.add( helpCmd, menuStyle.buildPreview( label ), label );
       },
@@ -81,6 +85,11 @@ CKEDITOR.plugins.add( 'heading', {
       onClick: function( value ) {
         if ( value == helpCmd ) {
           editor.execCommand( helpCmd );
+          return;
+        }
+
+        if ( value == outlineCmd ) {
+          editor.execCommand( outlineCmd );
           return;
         }
 

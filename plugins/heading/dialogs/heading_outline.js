@@ -10,6 +10,15 @@ CKEDITOR.dialog.add( 'headingOutline', function( editor ) {
     title: editor.lang.heading.outlineLabel,
     minWidth: 500,
     minHeight: 300,
+    onShow: function( event ) {
+      console.log(event.name + " " + event.sender._.name);
+
+      var select = document.getElementById('headingOutlineSelect');
+
+      select.innerHTML = "<option>Test 1</option><option>Test 2</option><option>Test 3</option>";
+
+    },
+
     contents: [
       {
         id: 'tab1',
@@ -21,6 +30,10 @@ CKEDITOR.dialog.add( 'headingOutline', function( editor ) {
           {
             type: 'html',
             html: 'Heading Outline'
+          },
+          {
+            type: 'html',
+            html: '<select id="headingOutlineSelect" size="18" style="width: 90%; border: thin #222 solid"></select>'            
           }
         ]
       }
