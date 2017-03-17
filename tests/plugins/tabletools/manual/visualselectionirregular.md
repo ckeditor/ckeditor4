@@ -1,18 +1,18 @@
-@bender-ui: collapsed
 @bender-tags: tc, 18, tp2078
+@bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, elementspath
 
 Have fun with visual table selection!
 
-**Procedure #1:**
+# Procedure
 
 1. Open console.
-2. Select all cells.
+1. Select all cells.
 
-**Expected result:**
+## Expected Result
 
 Cells are selected.
 
-**Unexpected result:**
+## Unexpected Result
 
 Error is thrown into console.

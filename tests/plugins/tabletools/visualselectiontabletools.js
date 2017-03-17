@@ -286,17 +286,12 @@
 		},
 
 		'test getCellsBetween (irregular cells number in rows)': function( editor, bot ) {
-			var editable = editor.editable(),
-				first,
-				last,
-				cells;
-
 			bot.setHtmlWithSelection( CKEDITOR.document.getById( 'getCellsBetween-irregular' ).getValue() );
 
-			first = editable.findOne( '#first' );
-			last = editable.findOne( '#last' );
+			var inputCells = editor.editable().find( 'td' ),
+				cells;
 
-			cells = CKEDITOR.plugins.tabletools.getCellsBetween( last, first );
+			cells = CKEDITOR.plugins.tabletools.getCellsBetween( inputCells.getItem( inputCells.count() - 1 ), inputCells.getItem( 0 ) );
 
 			assert.isTrue( CKEDITOR.tools.isArray( cells ) );
 			assert.areSame( 13, cells.length );
