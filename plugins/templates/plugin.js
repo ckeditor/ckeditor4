@@ -74,8 +74,8 @@
  *			'http://www.example.com/user_templates.js'
  *		];
  *
- * For an example template file see
- * [`templates/default.js`](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/templates/templates/default.js).
+ * For an example template file
+ * [see `templates/default.js`](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/templates/templates/default.js).
  *
  * @cfg
  * @member CKEDITOR.config
