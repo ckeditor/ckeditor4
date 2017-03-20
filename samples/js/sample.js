@@ -23,10 +23,10 @@ var initSample = ( function() {
 				{ name : 'dasdf', element : 'p', styles: { 'color': 'red' } },
 				{ name: 'My Div Class', element: 'div'}
 			],
-			defaultStyles: {
-				'font-size': '20pt',
-				'font-weight': 'bold'
-			},
+			// defaultStyles: {
+			// 	'font-size': '20pt',
+			// 	'font-weight': 'bold'
+			// },
 			toolbar: [
 				{name: 'font', items: ['Styles', 'Font', 'FontSize']},
 				{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']},

@@ -6,6 +6,50 @@
 ( function() {
 	var cellNodeRegex = /^(?:td|th)$/;
 
+	function createRowHtml(prevRowHtml) {
+		/**
+		 * Save only one node that have text and replace this text to <br>, other nodes without text will be removed
+		 * @param node
+		 */
+		function saveOneTextNode(node) {
+			var children = node.children;
+			var nodeWithText = null;
+			var haveTextNode;
+
+			for (var i = 0; i < children.length; i++) {
+				var childElement = children[i];
+
+				if (!nodeWithText && childElement.innerText) {
+					nodeWithText = childElement;
+				} else {
+					node.removeChild(childElement);
+					i--;
+				}
+			}
+
+			if (nodeWithText) {
+				haveTextNode = [].some.call(node.firstChild.childNodes, function(child) {
+					return child.nodeType === 3;
+				});
+
+				if (haveTextNode) {
+					node.firstChild.innerHTML = '&nbsp;';
+				} else {
+					saveOneTextNode(nodeWithText);
+				}
+			}
+		}
+
+		var tr = document.createElement('tr');
+
+		tr.innerHTML = prevRowHtml;
+		tr.querySelectorAll('td').forEach(function(td) {
+			saveOneTextNode(td);
+		});
+
+		return tr.innerHTML;
+	}
+
 	function getSelectedCells( selection ) {
 		var ranges = selection.getRanges();
 		var retval = [];
@@ -134,30 +178,13 @@
 			rowIndex = insertBefore ? startRowIndex : endRowIndex,
 			row = insertBefore ? startRow : endRow;
 
-		var map = CKEDITOR.tools.buildTableMap( table ),
-			cloneRow = map[ rowIndex ],
-			nextRow = insertBefore ? map[ rowIndex - 1 ] : map[ rowIndex + 1 ],
-			width = map[ 0 ].length;
-
+		var nextRow = table.$.querySelectorAll('tr')[rowIndex + (insertBefore ? -1 : 0)];
 		var newRow = doc.createElement( 'tr' );
-		for ( var i = 0; cloneRow[ i ] && i < width; i++ ) {
-			var cell;
-			// Check whether there's a spanning row here, do not break it.
-			if ( cloneRow[ i ].rowSpan > 1 && nextRow && cloneRow[ i ] == nextRow[ i ] ) {
-				cell = cloneRow[ i ];
-				cell.rowSpan += 1;
-			} else {
-				cell = new CKEDITOR.dom.element( cloneRow[ i ] ).clone();
-				cell.removeAttribute( 'rowSpan' );
-				cell.appendBogus();
-				newRow.append( cell );
-				cell = cell.$;
-			}
 
-			i += cell.colSpan - 1;
-		}
-
-		insertBefore ? newRow.insertBefore( row ) : newRow.insertAfter( row );
+		newRow.$.innerHTML = createRowHtml(nextRow.innerHTML);
+		insertBefore ?
+			newRow.insertBefore( row ) :
+			newRow.insertAfter( row );
 	}
 
 	function deleteRows( selectionOrRow ) {
