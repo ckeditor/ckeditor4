@@ -9,7 +9,20 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   <meta charset="utf-8">
   <title>A11yFirst Plugins Demo</title>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-
+  <style type="text/css">
+    .cke_combo__blockformat .cke_combo_inlinelabel {
+      /* width: 71px !important; */
+      width: auto !important;
+    }
+    .cke_combo__heading .cke_combo_inlinelabel {
+      /* width: 45px !important; */
+      width: auto !important;
+    }
+    .cke_combo__inlinestyle .cke_combo_inlinelabel {
+      /* width: 59px !important; */
+      width: auto !important;
+    }
+  </style>
 </head>
 
 <body id="main">
@@ -68,6 +81,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         { name: 'list',         items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
         { name: 'link',         items: [ 'Link', 'Unlink', 'Anchor' ] },
         { name: 'misc1',        items: [ 'Image', 'Table', 'Language' ] },
+        { name: 'blockformat',  items: [ 'BlockFormat' ] },
         { name: 'source',       items: [ 'Source' ] },
         '/',
         { name: 'search',       items: [ 'Find', 'Replace' ] },
@@ -76,18 +90,21 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         { name: 'inlinestyle',  items: [ 'InlineStyle' ] },
         { name: 'misc2',        items: [ 'SpecialChar' ] }
       ],
-      extraPlugins: 'heading,inlinestyle'
+      extraPlugins: 'blockformat,heading,inlinestyle',
     } );
     CKEDITOR.stylesSet.add ( 'default', [
-      { name: 'Strong',         element: 'strong', overrides: 'b' },
-      { name: 'Emphasis',       element: 'em' , overrides: 'i' },
-      { name: 'Strikethrough',  element: 'strike' },
-      { name: 'Marker',         element: 'span', attributes: { 'class': 'marker' } },
-      { name: 'Computer Code',  element: 'code' },
-      { name: 'Cited Work',     element: 'cite' },
-      { name: 'Subscript',      element: 'sub' },
-      { name: 'Superscript',    element: 'sup' },
-      { name: 'Underline',      element: 'u' }
+      { name: 'Strong',           element: 'strong', overrides: 'b' },
+      { name: 'Emphasis',         element: 'em' , overrides: 'i' },
+      { name: 'Marker',           element: 'span', attributes: { 'class': 'marker' } },
+      { name: 'Inline quotation', element: 'q' },
+      { name: 'Cited work',       element: 'cite' },
+      { name: 'Computer code',    element: 'code' },
+      { name: 'Subscript',        element: 'sub' },
+      { name: 'Superscript',      element: 'sup' },
+      { name: 'Deleted Text',     element: 'del' },
+      { name: 'Inserted Text',    element: 'ins' },
+      { name: 'Strikethrough',    element: 'strike' },
+      { name: 'Underline',        element: 'u' }
     ] );
   </script>
 
