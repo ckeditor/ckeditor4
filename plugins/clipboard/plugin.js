@@ -297,7 +297,7 @@
 
 			editor.on( 'paste', function( evt ) {
 				var dataObj = evt.data,
-					type = dataObj.type,
+					type = editor._.nextPasteType || dataObj.type,
 					data = dataObj.dataValue,
 					trueType,
 					// Default is 'html'.
@@ -310,6 +310,8 @@
 				} else {
 					trueType = recogniseContentType( data );
 				}
+
+				delete editor._.nextPasteType;
 
 				// Unify text markup.
 				if ( trueType == 'htmlifiedtext' ) {
@@ -697,6 +699,7 @@
 				exec: function( editor, data ) {
 					var cmd = this,
 						keystroke = data ? data.keystroke : 'Ctrl/Cmd+V',
+						forcedType = data && data.type,
 						msg = editor.lang.clipboard.pasteMsg.replace( '{KEYSTROKE}', keystroke );
 
 					function callback( data, withBeforePaste ) {
@@ -704,6 +707,11 @@
 							firePasteEvents( editor, data, !!withBeforePaste );
 						} else {
 							editor.showNotification( msg, 'info', 5000 );
+
+							// Force type for the next paste.
+							if ( forcedType ) {
+								editor._.nextPasteType = forcedType;
+							}
 						}
 
 						editor.fire( 'afterCommandExec', {
