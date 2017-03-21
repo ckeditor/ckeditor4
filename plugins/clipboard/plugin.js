@@ -719,6 +719,8 @@
 					// Force type for the next paste.
 					if ( forcedType ) {
 						editor._.nextPasteType = forcedType;
+					} else {
+						delete editor._.nextPasteType;
 					}
 
 					editor.getClipboardData( callback );
