@@ -426,7 +426,7 @@
 		 */
 		editor.getClipboardData = function( options, callback ) {
 			var beforePasteNotCanceled = false,
-				dataType = 'auto';
+				dataType = editor._.nextPasteType || 'auto';
 
 			// Options are optional - args shift.
 			if ( !callback ) {
@@ -707,11 +707,6 @@
 							firePasteEvents( editor, data, !!withBeforePaste );
 						} else {
 							editor.showNotification( msg, 'info', 5000 );
-
-							// Force type for the next paste.
-							if ( forcedType ) {
-								editor._.nextPasteType = forcedType;
-							}
 						}
 
 						editor.fire( 'afterCommandExec', {
@@ -719,6 +714,11 @@
 							command: cmd,
 							returnValue: !!data
 						} );
+					}
+
+					// Force type for the next paste.
+					if ( forcedType ) {
+						editor._.nextPasteType = forcedType;
 					}
 
 					editor.getClipboardData( callback );
