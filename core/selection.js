@@ -12,6 +12,9 @@
 		isSelectingTable;
 
 	// #### table selection : START
+	// @param {CKEDITOR.dom.range[]} ranges
+	// @param {Boolean} allowPartially Whether a collapsed selection within table is recognized to be a valid selection.
+	// This happens for WebKits on MacOS, when you right click inside the table.
 	function isTableSelection( ranges, allowPartially ) {
 		var node,
 			i;
