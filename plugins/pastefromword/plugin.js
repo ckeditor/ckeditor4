@@ -18,10 +18,21 @@
 			var forceFromWord = 0,
 				path = this.path;
 
+			editor.addCommand( 'pasteFromWord', {
+				// Snapshots are done manually by editable.insertXXX methods.
+				canUndo: false,
+				async: true,
+
+				exec: function( editor ) {
+					forceFromWord = 1;
+					editor.execCommand( 'paste', { type: 'html' } );
+				}
+			} );
+
 			// Register the toolbar button.
 			editor.ui.addButton && editor.ui.addButton( 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
-				command: 'paste',
+				command: 'pasteFromWord',
 				toolbar: 'clipboard,50'
 			} );
 
