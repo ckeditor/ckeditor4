@@ -15,7 +15,7 @@
 		async: true,
 
 		exec: function( editor ) {
-			editor.execCommand( 'paste', { keystroke: 'Ctrl/Cmd+Shift+V' } );
+			editor.execCommand( 'paste', { keystroke: 'Ctrl/Cmd+Shift+V', type: 'text' } );
 		}
 	};
 
