@@ -697,15 +697,18 @@
 				async: true,
 				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
 				exec: function( editor, data ) {
+					data = data || {};
+
 					var cmd = this,
-						keystroke = data && data.keystroke || 'Ctrl/Cmd+V',
-						forcedType = data && data.type,
+						showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification : true,
+						keystroke = data.keystroke || 'Ctrl/Cmd+V',
+						forcedType = data.type,
 						msg = editor.lang.clipboard.pasteMsg.replace( '{KEYSTROKE}', keystroke );
 
 					function callback( data, withBeforePaste ) {
 						if ( data ) {
 							firePasteEvents( editor, data, !!withBeforePaste );
-						} else {
+						} else if ( showNotification ) {
 							editor.showNotification( msg, 'info', 5000 );
 						}
 
