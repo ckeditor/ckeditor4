@@ -14,8 +14,11 @@
 		canUndo: false,
 		async: true,
 
-		exec: function( editor ) {
-			editor.execCommand( 'paste', { keystroke: 'Ctrl/Cmd+Shift+V', type: 'text' } );
+		exec: function( editor, data ) {
+			var keystroke = CKEDITOR.env.ie ? null : 'Ctrl/Cmd+Shift+V',
+				showNotification = data && data.from === 'keystrokeHandler' && CKEDITOR.env.ie;
+
+			editor.execCommand( 'paste', { keystroke: keystroke, type: 'text', showNotification: showNotification } );
 		}
 	};
 
@@ -31,6 +34,8 @@
 			var commandName = 'pastetext';
 
 			editor.addCommand( commandName, pasteTextCmd );
+
+			editor.setKeystroke( CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, commandName ); // Ctrl + Shift + V
 
 			editor.ui.addButton && editor.ui.addButton( 'PasteText', {
 				label: editor.lang.pastetext.button,
