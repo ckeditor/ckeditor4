@@ -698,7 +698,7 @@
 				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
 				exec: function( editor, data ) {
 					var cmd = this,
-						keystroke = data ? data.keystroke : 'Ctrl/Cmd+V',
+						keystroke = data && data.keystroke || 'Ctrl/Cmd+V',
 						forcedType = data && data.type,
 						msg = editor.lang.clipboard.pasteMsg.replace( '{KEYSTROKE}', keystroke );
 
