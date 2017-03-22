@@ -16,7 +16,7 @@
 
 		exec: function( editor, data ) {
 			var keystroke = CKEDITOR.env.ie ? null : 'Ctrl/Cmd+Shift+V',
-				showNotification = data && data.from === 'keystrokeHandler' && CKEDITOR.env.ie;
+				showNotification = !data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie );
 
 			editor.execCommand( 'paste', { keystroke: keystroke, type: 'text', showNotification: showNotification } );
 		}
