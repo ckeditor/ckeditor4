@@ -34,6 +34,10 @@
 		return ranges;
 	}
 
+	function getFixtureHtml( id ) {
+		return CKEDITOR.document.getById( id ).getHtml();
+	}
+
 	var table = CKEDITOR.document.findOne( '#table table' ),
 		tests = {
 			'test selectAll command after table selection (paragraph + table)': function( editor, bot ) {
@@ -64,7 +68,7 @@
 				} );
 			},
 
-			'test selectAll command after table selection (only table)': function( editor, bot ) {
+			'test selectAll command after table selection (only table with cells selected)': function( editor, bot ) {
 				var editable = editor.editable(),
 					ranges;
 
@@ -90,6 +94,30 @@
 					editor.execCommand( 'selectAll' );
 					wait();
 				} );
+			},
+
+			'test selectAll command after table selection (only table with collapsed selection)': function( editor, bot ) {
+				var editable = editor.editable(),
+					ranges;
+
+				bot.setHtmlWithSelection( getFixtureHtml( 'tableCollapsedSelection' ) );
+
+				editor.once( 'afterCommandExec', function() {
+					resume( function() {
+						wait( function() {
+							ranges = editor.getSelection().getRanges();
+
+							assert.areSame( 1, ranges.length, 'There is one range' );
+							assert.areSame( 5, editable.find( '[class*=cke_table-faked-selection]' ).count(),
+								'There are no fake selected cells' );
+							assert.isTrue( editable.hasClass( 'cke_table-faked-selection-editor' ),
+								'Editable has fake selection class' );
+						}, 200 );
+					} );
+				} );
+
+				editor.execCommand( 'selectAll' );
+				wait();
 			}
 		};
 
