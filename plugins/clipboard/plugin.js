@@ -697,7 +697,7 @@
 				async: true,
 				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
 				exec: function( editor, data ) {
-					data = data || {};
+					data = typeof data !== 'undefined' ? data : {};
 
 					var cmd = this,
 						showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification : true,
@@ -706,8 +706,16 @@
 						msg = editor.lang.clipboard.pasteMsg.replace( '{KEYSTROKE}', keystroke );
 
 					function callback( data, withBeforePaste ) {
+						withBeforePaste = typeof withBeforePaste !== 'undefined' ? withBeforePaste : true;
+
 						if ( data ) {
-							firePasteEvents( editor, data, !!withBeforePaste );
+							data.method = 'paste';
+
+							if ( !data.dataTransfer ) {
+								data.dataTransfer = clipboard.initPasteDataTransfer();
+							}
+
+							firePasteEvents( editor, data, withBeforePaste );
 						} else if ( showNotification ) {
 							editor.showNotification( msg, 'info', 5000 );
 						}
@@ -726,7 +734,13 @@
 						delete editor._.nextPasteType;
 					}
 
-					editor.getClipboardData( callback );
+					if ( typeof data === 'string' ) {
+						callback( {
+							dataValue: data
+						} );
+					} else {
+						editor.getClipboardData( callback );
+					}
 				}
 			};
 		}
