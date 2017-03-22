@@ -118,6 +118,30 @@
 
 				editor.execCommand( 'selectAll' );
 				wait();
+			},
+
+			'test selectAll command after table selection (only table with ranged selection)': function( editor, bot ) {
+				var editable = editor.editable(),
+					ranges;
+
+				bot.setHtmlWithSelection( getFixtureHtml( 'tableCollapsedSelection' ) );
+
+				editor.once( 'afterCommandExec', function() {
+					resume( function() {
+						wait( function() {
+							ranges = editor.getSelection().getRanges();
+
+							assert.areSame( 1, ranges.length, 'Range count' );
+							assert.areSame( 4, editable.find( 'td[class=cke_table-faked-selection]' ).count(),
+								'Fake selected cells count' );
+							assert.isTrue( editable.hasClass( 'cke_table-faked-selection-editor' ),
+								'Editable has fake selection class' );
+						}, 200 );
+					} );
+				} );
+
+				editor.execCommand( 'selectAll' );
+				wait();
 			}
 		};
 
