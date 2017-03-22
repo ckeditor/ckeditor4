@@ -83,7 +83,7 @@
 								ranges = editor.getSelection().getRanges();
 
 								assert.areSame( 1, ranges.length, 'There is one range' );
-								assert.areSame( 5, editable.find( '[class*=cke_table-faked-selection]' ).count(),
+								assert.areSame( 4, editable.find( 'td[class=cke_table-faked-selection]' ).count(),
 									'There are no fake selected cells' );
 								assert.isTrue( editable.hasClass( 'cke_table-faked-selection-editor' ),
 									'Editable has fake selection class' );
@@ -108,7 +108,7 @@
 							ranges = editor.getSelection().getRanges();
 
 							assert.areSame( 1, ranges.length, 'There is one range' );
-							assert.areSame( 5, editable.find( '[class*=cke_table-faked-selection]' ).count(),
+							assert.areSame( 4, editable.find( 'td[class=cke_table-faked-selection]' ).count(),
 								'There are no fake selected cells' );
 							assert.isTrue( editable.hasClass( 'cke_table-faked-selection-editor' ),
 								'Editable has fake selection class' );
