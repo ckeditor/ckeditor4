@@ -261,3 +261,4 @@ CKEDITOR.config.heading_h4 = { element: 'h4' };
 CKEDITOR.config.heading_h5 = { element: 'h5' };
 CKEDITOR.config.heading_h6 = { element: 'h6' };
 CKEDITOR.config.heading_p  = { element: 'p'  };
+

@@ -6,16 +6,102 @@
 CKEDITOR.dialog.add( 'headingOutline', function( editor ) {
   var lang = editor.lang.about;
 
+  var myEditor = editor;
+
   return {
     title: editor.lang.heading.outlineLabel,
     minWidth: 500,
     minHeight: 300,
     onShow: function( event ) {
+
+      function createTOC(hlist, index, level) {
+
+        var html = '';
+
+        if (index < hlist.length) {
+
+          var h = hlist[index];
+
+          if (h.level >= level) {
+            if (h.level === level) {
+              html = '<li style="margin-left: ' + level + 'em">' + h.name + ' (level ' + h.level + ')</li>';
+              html += createTOC(hlist, (index+1), level);
+            }
+            else {
+              html = '<li><ol>';
+              html += createTOC(hlist, index, (level+1));
+              html += '</li></ol>';
+            }
+          }
+        }
+        return html;
+      }
+
+      function getHeadings(element) {
+
+        function nextHeading(element) {
+            if ( typeof element.getName !== 'function' )
+              return false;
+
+            if ( !element )
+              return true;
+
+            var tagName = element.getName();
+
+            switch ( tagName ) {
+              case 'h1':
+                headings.push({ name: element.getText(), level: 1});
+                break;
+
+              case 'h2':
+                headings.push({ name: element.getText(), level: 2});
+                break;
+
+              case 'h3':
+                headings.push({ name: element.getText(), level: 3});
+                break;
+
+              case 'h4':
+                headings.push({ name: element.getText(), level: 4});
+                break;
+
+              case 'h5':
+                headings.push({ name: element.getText(), level: 5});
+                break;
+
+              case 'h6':
+                headings.push({ name: element.getText(), level: 6});
+                break;
+
+              default:
+                break;  
+            }
+
+            var children = element.getChildren();
+            var count = children.count();
+
+            for ( var i = 0; i < count; i++ ) {
+              if ( nextHeading( children.getItem( i ) ) )
+                return true;
+            }
+            return false;
+        } // endnextHeading
+
+        var headings = [];
+
+        nextHeading(element);
+
+        return headings;
+
+    } // end getHeadings
+
       console.log(event.name + " " + event.sender._.name);
 
       var select = document.getElementById('headingOutlineSelect');
 
-      select.innerHTML = "<option>Test 1</option><option>Test 2</option><option>Test 3</option>";
+      var headings = getHeadings(myEditor.document.getBody());
+
+      select.innerHTML = createTOC(headings, 0, 1);
 
     },
 
@@ -33,11 +119,12 @@ CKEDITOR.dialog.add( 'headingOutline', function( editor ) {
           },
           {
             type: 'html',
-            html: '<select id="headingOutlineSelect" size="18" style="width: 90%; border: thin #222 solid"></select>'            
+            html: '<ol id="headingOutlineSelect"></ol>'            
           }
         ]
       }
     ],
+
 
     buttons: [ CKEDITOR.dialog.cancelButton ]
   };
