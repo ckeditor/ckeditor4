@@ -1,44 +1,44 @@
 /* bender-tags: editor,unit,clipboard */
-/* bender-ckeditor-plugins: pastetext */
+/* bender-ckeditor-plugins: link, pastetext */
+/* bender-include: ../clipboard/_helpers/pasting.js */
+/* global assertPasteCommand, assertPasteNotification */
 
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editors = {
+		classic: {},
 
-	bender.test( {
-		'test paste data structure': function() {
-			if ( CKEDITOR.env.ie )
-				assert.ignore();
-
-			var editor = this.editor;
-
-			editor.once( 'paste', function( evt ) {
-				evt.cancel();
-
-				resume( function() {
-					assert.areSame( 'foo', evt.data.dataValue, 'dataValue' );
-					assert.areSame( 'paste', evt.data.method, 'method' );
-					assert.isInstanceOf( CKEDITOR.plugins.clipboard.dataTransfer, evt.data.dataTransfer, 'dataTransfer' );
-				} );
-			} );
-
-			editor.once( 'dialogShow', function() {
-				var dialog = editor._.storedDialogs.paste,
-					frameDoc = dialog.getContentElement( 'general', 'editing_area' )
-					.getInputElement().getFrameDocument();
-
-				frameDoc.getBody().setHtml( 'foo' );
-
-				dialog.fire( 'ok' );
-				dialog.hide();
-			} );
-
-			setTimeout( function() {
-				editor.execCommand( 'pastetext' );
-			} );
-			this.wait();
+		inline: {
+			creator: 'inline'
 		}
-	} );
+	};
 
+	var cmdData = {
+			name: 'pastetext'
+		},
+		pasteData = {
+			dataValue: '<a href="http://ckeditor.com>Foobar</a>'
+		},
+		tests = {
+			'test pasting plain text': function( editor, bot ) {
+				bot.setData( '', function() {
+					pasteData.prevent = false;
+
+					assertPasteCommand( editor, { type: 'text', content: '<p>Foobar</p>' }, cmdData, pasteData );
+				} );
+			},
+
+			'test prevented direct access to clipboard': function( editor, bot ) {
+				bot.setData( '', function() {
+					pasteData.prevent = true;
+
+					assertPasteNotification( editor, { content: '', count: 1 }, cmdData, pasteData );
+				} );
+			}
+		};
+
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	bender.test( tests );
 } )();

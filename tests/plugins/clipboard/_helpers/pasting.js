@@ -1,4 +1,4 @@
-/* exported assertPasteEvent, pasteFiles */
+/* exported assertPasteEvent, pasteFiles, assertPasteCommand, assertPasteNotification */
 
 'use strict';
 
@@ -71,5 +71,58 @@ function pasteFiles( editor, files, dataValue ) {
 	editor.fire( 'paste', {
 		dataTransfer: dataTransfer,
 		dataValue: dataValue ? dataValue : ''
+	} );
+}
+
+function mockGetClipboardData( editor, pasteData ) {
+	var oldGetClipboardData = editor.getClipboardData;
+
+	editor.getClipboardData = function( options, callback ) {
+		if ( !callback ) {
+			callback = options;
+		}
+
+		if ( pasteData.prevent ) {
+			callback( null );
+		} else {
+			callback( {
+				dataValue: pasteData.dataValue,
+				dataTransfer: pasteData.dataTransfer || ( new CKEDITOR.plugins.clipboard.dataTransfer() )
+			} );
+		}
+
+		editor.getClipboardData = oldGetClipboardData;
+	};
+}
+
+function simulatePasteCommand( editor, cmdData, pasteData, callback ) {
+	mockGetClipboardData( editor, pasteData );
+
+	editor.once( pasteData.prevent ? 'afterCommandExec' : 'paste', function( evt ) {
+		resume( function() {
+
+			callback( evt );
+		} );
+	}, null, null, pasteData.priority || 1000 );
+
+	editor.execCommand( cmdData.name || 'paste', cmdData );
+	wait();
+}
+
+function assertPasteCommand( editor, expected, cmdData, pasteData ) {
+	simulatePasteCommand( editor, cmdData, pasteData, function( evt ) {
+		assert.areSame( expected.type, evt.data.type, 'Paste event has correct data type.' );
+		assert.areSame( expected.content, editor.getData(), 'Editor contains correct content.' );
+	} );
+}
+
+function assertPasteNotification( editor, expected, cmdData, pasteData ) {
+	var spy = sinon.spy( editor, 'showNotification' );
+
+	simulatePasteCommand( editor, cmdData, pasteData, function() {
+		assert.areSame( expected.count, spy.callCount, 'showNotification was called corrent number of times.' );
+		assert.areSame( expected.content, editor.getData(), 'Editor contains correct content.' );
+
+		spy.restore();
 	} );
 }
