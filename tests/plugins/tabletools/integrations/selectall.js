@@ -14,7 +14,6 @@
 		}
 	};
 
-
 	function getRangesForCells( editor, cellsIndexes ) {
 		var ranges = [],
 			cells = editor.editable().find( 'td, th' ),
@@ -35,7 +34,7 @@
 		return ranges;
 	}
 
-	var table = CKEDITOR.document.getById( 'table' ).findOne( 'table' ),
+	var table = CKEDITOR.document.findOne( '#table table' ),
 		tests = {
 			'test selectAll command after table selection (paragraph + table)': function( editor, bot ) {
 				var editable = editor.editable(),
