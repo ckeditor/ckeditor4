@@ -18,7 +18,7 @@
 			name: 'pastetext'
 		},
 		pasteData = {
-			dataValue: '<a href="http://ckeditor.com>Foobar</a>'
+			dataValue: '<a href="http://ckeditor.com">Foobar</a>'
 		},
 		tests = {
 			'test pasting plain text': function( editor, bot ) {
