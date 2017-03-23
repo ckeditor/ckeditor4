@@ -703,7 +703,8 @@
 						showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification : true,
 						keystroke = data.keystroke || 'Ctrl/Cmd+V',
 						forcedType = data.type,
-						msg = editor.lang.clipboard.pasteMsg.replace( '{KEYSTROKE}', keystroke );
+						msg = editor.lang.clipboard.pasteMsg.replace( '{KEYSTROKE}', keystroke ),
+						pastedContent = typeof data === 'string' ? data : data.dataValue;
 
 					function callback( data, withBeforePaste ) {
 						withBeforePaste = typeof withBeforePaste !== 'undefined' ? withBeforePaste : true;
@@ -734,9 +735,9 @@
 						delete editor._.nextPasteType;
 					}
 
-					if ( typeof data === 'string' ) {
+					if ( typeof pastedContent === 'string' ) {
 						callback( {
-							dataValue: data
+							dataValue: pastedContent
 						} );
 					} else {
 						editor.getClipboardData( callback );
