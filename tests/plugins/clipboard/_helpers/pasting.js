@@ -75,9 +75,9 @@ function pasteFiles( editor, files, dataValue ) {
 }
 
 function mockGetClipboardData( editor, pasteData ) {
-	var oldGetClipboardData = editor.getClipboardData;
+	var stub;
 
-	editor.getClipboardData = function( options, callback ) {
+	stub = sinon.stub( editor, 'getClipboardData', function( options, callback ) {
 		if ( !callback ) {
 			callback = options;
 		}
@@ -91,8 +91,8 @@ function mockGetClipboardData( editor, pasteData ) {
 			} );
 		}
 
-		editor.getClipboardData = oldGetClipboardData;
-	};
+		stub.restore();
+	} );
 }
 
 function simulatePasteCommand( editor, cmdData, pasteData, callback ) {
