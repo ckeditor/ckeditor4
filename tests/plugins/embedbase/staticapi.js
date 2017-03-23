@@ -13,7 +13,7 @@ bender.test( {
 		assert.isObject( CKEDITOR._.jsonpCallbacks );
 	},
 
-	//#16919
+	// #16919
 	'test if dialog is explicitly required': function() {
 		assert.areSame( 0, CKEDITOR.plugins.registered.embedbase.requires.indexOf( 'dialog,' ) );
 	},
