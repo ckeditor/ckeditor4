@@ -1101,7 +1101,7 @@
 			}
 
 			bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
-			simulatePasteCommand( editor, { name: 'paste' }, { dataValue: 'xxx' }, onPaste );
+			simulatePasteCommand( editor, 'xxx', {}, onPaste );
 		},
 
 		'paste with HTML in clipboardData': function() {
