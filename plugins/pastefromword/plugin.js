@@ -18,7 +18,7 @@
 			var forceFromWord = 0,
 				path = this.path;
 
-			editor.addCommand( 'pasteFromWord', {
+			editor.addCommand( 'pastefromword', {
 				// Snapshots are done manually by editable.insertXXX methods.
 				canUndo: false,
 				async: true,
@@ -32,7 +32,7 @@
 			// Register the toolbar button.
 			editor.ui.addButton && editor.ui.addButton( 'PasteFromWord', {
 				label: editor.lang.pastefromword.toolbar,
-				command: 'pasteFromWord',
+				command: 'pastefromword',
 				toolbar: 'clipboard,50'
 			} );
 
