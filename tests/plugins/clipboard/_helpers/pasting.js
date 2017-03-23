@@ -96,21 +96,23 @@ function mockGetClipboardData( editor, pasteData ) {
 }
 
 function simulatePasteCommand( editor, cmdData, pasteData, callback ) {
+	var cmdName = ( cmdData && cmdData.name ) || 'paste';
+
 	mockGetClipboardData( editor, pasteData );
 
 	editor.once( pasteData.prevent ? 'afterCommandExec' : 'paste', function( evt ) {
 		resume( function() {
-
 			callback( evt );
 		} );
 	}, null, null, pasteData.priority || 1000 );
 
-	editor.execCommand( cmdData.name || 'paste', cmdData );
+	editor.execCommand( cmdName, cmdData );
 	wait();
 }
 
 function assertPasteCommand( editor, expected, cmdData, pasteData ) {
 	simulatePasteCommand( editor, cmdData, pasteData, function( evt ) {
+		assert.areSame( 'paste', evt.data.method, 'Paste event has correct method.' );
 		assert.areSame( expected.type, evt.data.type, 'Paste event has correct data type.' );
 		assert.areSame( expected.content, editor.getData(), 'Editor contains correct content.' );
 	} );
