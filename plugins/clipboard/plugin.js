@@ -697,7 +697,7 @@
 				async: true,
 				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
 				exec: function( editor, data ) {
-					data = typeof data !== 'undefined' ? data : {};
+					data = typeof data !== 'undefined' && data !== null ? data : {};
 
 					var cmd = this,
 						showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification : true,
