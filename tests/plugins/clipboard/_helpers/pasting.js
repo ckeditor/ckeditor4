@@ -1,4 +1,4 @@
-/* exported assertPasteEvent, pasteFiles, assertPasteCommand, assertPasteNotification */
+/* exported assertPasteEvent, pasteFiles, assertPasteCommand, assertPasteNotification, testResetScenario */
 
 'use strict';
 
@@ -93,15 +93,22 @@ function mockGetClipboardData( editor, pasteData ) {
 
 		stub.restore();
 	} );
+
+	return stub;
 }
 
 function simulatePasteCommand( editor, cmdData, pasteData, callback ) {
-	var cmdName = ( cmdData && cmdData.name ) || 'paste';
+	var cmdName = ( cmdData && cmdData.name ) || 'paste',
+		eventName = ( !pasteData || pasteData.prevent ) ? 'afterCommandExec' : 'paste',
+		stub;
 
-	mockGetClipboardData( editor, pasteData );
+	pasteData = pasteData || {};
 
-	editor.once( pasteData.prevent ? 'afterCommandExec' : 'paste', function( evt ) {
+	stub = mockGetClipboardData( editor, pasteData );
+
+	editor.once( eventName, function( evt ) {
 		resume( function() {
+			stub.restore();
 			callback( evt );
 		} );
 	}, null, null, pasteData.priority || 1000 );
@@ -112,7 +119,7 @@ function simulatePasteCommand( editor, cmdData, pasteData, callback ) {
 
 function assertPasteCommand( editor, expected, cmdData, pasteData ) {
 	simulatePasteCommand( editor, cmdData, pasteData, function( evt ) {
-		assert.areSame( 'paste', evt.data.method, 'Paste event has correct method.' );
+		assert.areSame( expected.method || 'paste', evt.data.method, 'Paste event has correct method.' );
 		assert.areSame( expected.type, evt.data.type, 'Paste event has correct data type.' );
 		assert.areSame( expected.content, editor.getData(), 'Editor contains correct content.' );
 	} );
@@ -127,4 +134,29 @@ function assertPasteNotification( editor, expected, cmdData, pasteData ) {
 
 		spy.restore();
 	} );
+}
+
+function testResetScenario( editor, queue ) {
+	var i = 0;
+	function assertPaste( evt, expected, index ) {
+		assert.areSame( evt.dataValue, expected.dataValue, 'Paste #' + index + ' should have correct value.' );
+		assert.areSame( evt.type, expected.type, 'Paste #' + index + ' should have correct type.' );
+		assert.isUndefined( editor._.nextPasteType, 'Forced type after paste #' + index + ' should be deleted.' );
+	}
+
+	function onPaste( evt ) {
+		assertPaste( evt.data, queue[ i ] );
+
+		if ( ++i === queue.length ) {
+			return;
+		}
+
+		firePaste( queue[ i ] );
+	}
+
+	function firePaste( task ) {
+		simulatePasteCommand( editor, { name: task.cmd }, { dataValue: task.dataValue }, onPaste );
+	}
+
+	firePaste( queue[ i ] );
 }
