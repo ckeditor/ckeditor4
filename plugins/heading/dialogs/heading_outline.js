@@ -115,11 +115,31 @@ CKEDITOR.dialog.add( 'headingOutline', function( editor ) {
         elements: [
           {
             type: 'html',
-            html: 'Heading Outline'
+            html: '<div><ol id="headingOutlineSelect"></ol></div>'          
           },
           {
-            type: 'html',
-            html: '<ol id="headingOutlineSelect"></ol>'            
+              type: 'checkbox',
+              id: 'showHeadingLevel3',
+              label: 'Level 3',
+              'default': true
+          },
+          {
+              type: 'checkbox',
+              id: 'showHeadingLevel4',
+              label: 'Level 4',
+              'default': true
+          },
+          {
+              type: 'checkbox',
+              id: 'showHeadingLevel5',
+              label: 'Level 5',
+              'default': true
+          },
+          {
+              type: 'checkbox',
+              id: 'showHeadingLevel6',
+              label: 'Level 6',
+              'default': true
           }
         ]
       }
