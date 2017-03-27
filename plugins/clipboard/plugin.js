@@ -425,9 +425,6 @@
 		 * or `null` if none of the capturing methods succeeded.
 		 */
 		editor.getClipboardData = function( options, callback ) {
-			var beforePasteNotCanceled = false,
-				dataType = editor._.nextPasteType || 'auto';
-
 			// Options are optional - args shift.
 			if ( !callback ) {
 				callback = options;
@@ -438,13 +435,6 @@
 			// This callback will handle paste event that will be fired if direct
 			// access to the clipboard succeed in IE.
 			editor.on( 'paste', onPaste, null, null, 0 );
-
-			// Listen at the end of listeners chain to see if event wasn't canceled
-			// and to retrieve modified data.type.
-			editor.on( 'beforePaste', onBeforePaste, null, null, 1000 );
-
-			// getClipboardDataDirectly() will fire 'beforePaste' synchronously, so we can
-			// check if it was canceled and if any listener modified data.type.
 
 			// If command didn't succeed (only IE allows to access clipboard and only if
 			// user agrees) open and handle paste dialog.
@@ -459,12 +449,6 @@
 				evt.removeListener();
 				evt.cancel();
 				callback( evt.data );
-			}
-
-			function onBeforePaste( evt ) {
-				evt.removeListener();
-				beforePasteNotCanceled = true;
-				dataType = evt.data.type;
 			}
 		};
 
