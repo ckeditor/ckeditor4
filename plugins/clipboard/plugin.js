@@ -718,7 +718,7 @@
 
 							firePasteEvents( editor, data, withBeforePaste );
 						} else if ( showNotification ) {
-							editor.showNotification( msg, 'info', 5000 );
+							editor.showNotification( msg, 'info', 10000 );
 						}
 
 						editor.fire( 'afterCommandExec', {
