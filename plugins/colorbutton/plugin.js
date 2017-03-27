@@ -202,8 +202,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// screen readers doesn't play nice with table, based layouts (#12097).
 				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
-			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
-				var applyColorStyle = arguments.callee;
+			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, type ) {
 				function onColorDialogClose( evt ) {
 					this.removeListener( 'ok', onColorDialogClose );
 					this.removeListener( 'cancel', onColorDialogClose );
