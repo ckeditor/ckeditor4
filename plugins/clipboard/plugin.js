@@ -707,7 +707,7 @@
 
 							firePasteEvents( editor, data, withBeforePaste );
 						} else if ( showNotification ) {
-							editor.showNotification( msg, 'info', 10000 );
+							editor.showNotification( msg, 'info', editor.config.clipboard_notificationDuration );
 						}
 
 						editor.fire( 'afterCommandExec', {
@@ -2748,3 +2748,13 @@
  * @property {CKEDITOR.filter} [pasteFilter]
  * @member CKEDITOR.editor
  */
+
+/**
+ * The number of milliseconds after which the notification shown by unsuccesfull paste attempt
+ * should close automatically.
+ *
+ * @since 4.7.0
+ * @cfg {Number} [clipboard_defaultContentType=10000]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.clipboard_notificationDuration = 10000;
