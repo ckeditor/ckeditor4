@@ -597,9 +597,7 @@
 					pasteDataFromClipboard( evt );
 
 					// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
-					if ( !execIECommand( 'paste' ) ) {
-
-					}
+					execIECommand( 'paste' );
 				} );
 
 				// If mainPasteEvent is 'beforePaste' (IE before Edge),
