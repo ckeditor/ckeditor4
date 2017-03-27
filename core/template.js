@@ -10,10 +10,7 @@
 
 ( function() {
 	var cache = {},
-		rePlaceholder = /{([^}]+)}/g,
-		reEscapableChars = /([\\'])/g,
-		reNewLine = /\n/g,
-		reCarriageReturn = /\r/g;
+		rePlaceholder = /{([^}]+)}/g;
 
 	/**
 	 * Lightweight template used to build the output string from variables.
@@ -27,28 +24,28 @@
 	 * @param {String} source The template source.
 	 */
 	CKEDITOR.template = function( source ) {
-		// Builds an optimized function body for the output() method, focused on performance.
 		// For example, if we have this "source":
 		//	'<div style="{style}">{editorName}</div>'
 		// ... the resulting function body will be (apart from the "buffer" handling):
 		//	return [ '<div style="', data['style'] == undefined ? '{style}' : data['style'], '">', data['editorName'] == undefined ? '{editorName}' : data['editorName'], '</div>' ].join('');
 
 		// Try to read from the cache.
-		if ( cache[ source ] )
+		if ( cache[ source ] ) {
 			this.output = cache[ source ];
+		}
 		else {
-			var fn = source
-				// Escape chars like slash "\" or single quote "'".
-				.replace( reEscapableChars, '\\$1' )
-				.replace( reNewLine, '\\n' )
-				.replace( reCarriageReturn, '\\r' )
-				// Inject the template keys replacement.
-				.replace( rePlaceholder, function( m, key ) {
-					return "',data['" + key + "']==undefined?'{" + key + "}':data['" + key + "'],'";
+			// less performant solution when CSP is disabling indirect evaluation
+			cache[ source ] = function( data, buffer ) {
+				var output = '';
+
+				output += String( source ).replace( rePlaceholder, function( fullMatch, dataKey ) {
+					return data[ dataKey ] !== undefined ? data[ dataKey ] : fullMatch;
 				} );
 
-			fn = "return buffer?buffer.push('" + fn + "'):['" + fn + "'].join('');";
-			this.output = cache[ source ] = Function( 'data', 'buffer', fn );
+				return buffer ? buffer.push( output ) : output;
+			};
+
+			this.output = cache[ source ];
 		}
 	};
 } )();
