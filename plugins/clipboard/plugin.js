@@ -683,10 +683,17 @@
 
 					var cmd = this,
 						showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification : true,
-						keystroke = data.keystroke || 'Ctrl/Cmd+V',
 						forcedType = data.type,
-						msg = editor.lang.clipboard.pasteMsg.replace( '{KEYSTROKE}', keystroke ),
+						msg = prepareMsg( data.keystroke || ( CKEDITOR.CTRL + 86 ) ),
 						pastedContent = typeof data === 'string' ? data : data.dataValue;
+
+					function prepareMsg( keystroke ) {
+						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, keystroke );
+
+						return editor.lang.clipboard.pasteMsg
+							.replace( '{KEYSTROKE}', keystroke.display )
+							.replace( '{LABEL}', keystroke.aria );
+					}
 
 					function callback( data, withBeforePaste ) {
 						withBeforePaste = typeof withBeforePaste !== 'undefined' ? withBeforePaste : true;
