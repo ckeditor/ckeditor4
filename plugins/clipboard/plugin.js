@@ -702,15 +702,16 @@
 					var cmd = this,
 						showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification : true,
 						forcedType = data.type,
-						msg = prepareMsg( data.keystroke || ( CKEDITOR.CTRL + 86 ) ),
+						msg = prepareMsg( data.keystroke || ( CKEDITOR.CTRL + 86 ), forcedType ),
 						pastedContent = typeof data === 'string' ? data : data.dataValue;
 
-					function prepareMsg( keystroke ) {
+					function prepareMsg( keystroke, type ) {
 						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, keystroke );
 
 						return editor.lang.clipboard.pasteMsg
 							.replace( '{KEYSTROKE}', keystroke.display )
-							.replace( '{LABEL}', keystroke.aria );
+							.replace( '{LABEL}', keystroke.aria )
+							.replace( '{TYPE}', type === 'text' ? ' as plain text' : '' );
 					}
 
 					function callback( data, withBeforePaste ) {
