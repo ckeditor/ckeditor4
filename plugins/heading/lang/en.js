@@ -36,5 +36,11 @@ CKEDITOR.plugins.setLang( 'heading', 'en', {
     'Headings can also be used to generate a table of contents to provide an overview and quick navigation to sections of content.',
     'Assistive technologies used by people with disabilities can also easily navigate a document with properly nested headings.'
   ],  
-  outlineLabel: 'Heading Outline',
+  outlineLabel: 'Heading Outline/TOC',
+  includeLevelLabel: 'Include the following heading levels a in table of contents',
+  includeLevel2: 'Level 2',
+  includeLevel3: 'Level 2 and 3',
+  includeLevel4: 'Level 2, 3 and 4',
+  includeLevel5: 'Level 2, 3, 4 and 5',
+  includeLevel6: 'Level 2, 3, 4, 5 and 6'
 });
