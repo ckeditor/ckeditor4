@@ -75,6 +75,8 @@ CKEDITOR.plugins.add( 'heading', {
           this.add( tag, menuStyle.buildPreview( label ), label );
         }
 
+        this.addSeparator( "group1" );
+
         label = lang[ 'outlineLabel' ];
         this.add( outlineCmd, menuStyle.buildPreview( label ), label );
 
@@ -149,6 +151,7 @@ CKEDITOR.plugins.add( 'heading', {
               this.hideItem( tag );
           }
         }
+
       },
 
       refresh: function() {
@@ -242,7 +245,7 @@ CKEDITOR.plugins.add( 'heading', {
 /**
 *   The style definition for menuitems in the Heading drop-down list:
 */
-CKEDITOR.config.heading_menuitem_style = { element: 'p' };
+CKEDITOR.config.heading_menuitem_style = { element: 'p', attributes: { 'class': 'separator' } };
 
 /**
 *   The list of tags that will be applied to the document by the various menuitems

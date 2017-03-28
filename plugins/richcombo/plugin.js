@@ -344,6 +344,11 @@ CKEDITOR.plugins.add( 'richcombo', {
 				this._.list.startGroup( title );
 			},
 
+			addSeparator: function( title ) {
+				this._.list.addSeparator( title );
+			},
+
+
 			commit: function() {
 				if ( !this._.committed ) {
 					this._.list.commit();
