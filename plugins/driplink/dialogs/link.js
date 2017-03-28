@@ -890,7 +890,7 @@
 						textView = element.getHtml();
 
 					element.setAttributes( attributes.set );
-					element.removeAttributes( attributes.removed );
+					// element.removeAttributes( attributes.removed );
 
 					// Update text view when user changes protocol (#4612).
 					if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
