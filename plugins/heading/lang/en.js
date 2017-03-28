@@ -16,17 +16,17 @@ CKEDITOR.plugins.setLang( 'heading', 'en', {
   helpFeatureLabel:  'Features',
   helpFeatureTitle:  'Heading Menu Features',
   helpFeatureItems: ['The Heading menu shows the <strong>allowed</strong> heading levels based on the position of the cursor in the document to support proper nesting of headings.',
-    'If the cursor is on a heading it highlights the heading level in tthe menu and the allowed changes to the heading level.',
-    'The Outline option allows you to view an outline of the document, insert a table-of-contents (TOC) and check headings for proper nesting.'
+    'If the cursor is on a heading, the menu highlights the current level and lists the allowed changes to that level.',
+    'The Outline option allows you to view a headings-based outline of the document, insert the outline as a table of contents and check all headings for proper nesting.'
   ],
-  helpRuleLabel:  'Rules',
-  helpRuleTitle:  'Heading Level Rules',
+  helpRuleLabel:  'Usage',
+  helpRuleTitle:  'Using Heading Levels',
   helpRuleItems: [
     'Heading levels identify the  structural relationships between sections of content in a document.',
-    ' Higher level headings (e.g. level 1 and 2) identifty the main topics of a document and lower level headings (e.g. level 3, 4, 5, and 6) identify sub-sections of the document.',
+    ' Higher level headings (e.g. level 1 and 2) identifty the main topics of a document and lower level headings (e.g. level 3, 4, 5 and 6) identify subsections of the document.',
     'A subsection is identified by using the next lower level heading, for example subsections of a level 2 heading use level 3 headings, subsections of level 3 headings use level 4 headings and so on to level 6 headings.',
-    'Subsections typically have at least two sections of content idenitfied with headings of the same level.',
-    'Heading levels should <strong>never</strong> be used for inline visual styling of content (e.g. larger or smaller font size or bolding of content), instead use the "Inline Styling" options.'
+    'Break content into subsections when there are two or more ideas or concepts that explain the topic of the section.  Use headings of the same level to label each subsection.',    
+    'Heading levels should <strong>never</strong> be used for inline visual styling of content (e.g. larger or smaller font size, bold or italic). Instead use the "Inline Styling" options.'
   ],
   helpImportanceLabel:  'Importance',
   helpImportanceTitle:  'Why are Headings Important',
