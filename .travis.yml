@@ -12,13 +12,6 @@ env:
   - BUILD=0 BROWSER=Firefox
   - BUILD=1 BROWSER=Firefox
 
-matrix:
-  allow_failures:
-    - node_js: 4
-      env: BUILD=0 BROWSER=Firefox
-    - node_js: 4
-      env: BUILD=1 BROWSER=Firefox
-
 addons:
   firefox: "latest"
 

@@ -1249,6 +1249,7 @@
 	 * @member CKEDITOR.editor
 	 * @param {CKEDITOR.dom.element/CKEDITOR.editable} [elementOrEditable] The
 	 * DOM element to become the editable or a {@link CKEDITOR.editable} object.
+	 * @returns {CKEDITOR.dom.element/null} The editor's editable element, or `null` if not available.
 	 */
 	CKEDITOR.editor.prototype.editable = function( element ) {
 		var editable = this._.editable;

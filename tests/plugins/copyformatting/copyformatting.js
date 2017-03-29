@@ -435,6 +435,18 @@
 			assertScreenReaderNotification( editor, 'failed' );
 		},
 
+		'test premature paste formatting keystroke': function( editor ) {
+			var prevent = sinon.spy(),
+				keystroke = CKEDITOR.CTRL + CKEDITOR.SHIFT + 77;
+
+			editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+				keyCode: keystroke,
+				preventDefault: prevent
+			} ) );
+
+			assert.isFalse( prevent.called );
+		},
+
 		'test notifications': function( editor ) {
 			var copyformatting = CKEDITOR.plugins.copyformatting;
 

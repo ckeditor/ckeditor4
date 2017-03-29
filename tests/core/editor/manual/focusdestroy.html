@@ -1,0 +1,18 @@
+<textarea name="editor1" id="editor1" cols="30" rows="10">
+</textarea>
+<script>
+	if ( !CKEDITOR.env.chrome ) {
+		bender.ignore();
+	}
+
+	var editor = CKEDITOR.replace( 'editor1', {
+		on: {
+			instanceReady: function() {
+				editor.editable().on( 'keydown', function() {
+					editor.focusManager.blur();
+					editor.destroy();
+				} );
+			}
+		}
+	} );
+</script>
