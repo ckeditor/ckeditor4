@@ -414,21 +414,23 @@
 		/**
 		 * Gets clipboard data by directly accessing the clipboard (IE only).
 		 *
-		 *		editor.getClipboardData( { title: 'Get my data' }, function( data ) {
+		 *		editor.getClipboardData( function( data ) {
 		 *			if ( data )
 		 *				alert( data.type + ' ' + data.dataValue );
 		 *		} );
 		 *
 		 * @member CKEDITOR.editor
-		 * @param {Object} options
-		 * @param {Function} callback A function that will be executed with `data.type` and `data.dataValue`
-		 * or `null` if none of the capturing methods succeeded.
+		 * @param {Function/Object} callbackOrOptions This parameter is deprecated since 4.7.0 and will be
+		 * removed in following versions.
+		 * @param {Function} callback A function that will be executed with `data` property of
+		 * {@link CKEDITOR.editor#event-paste paste event} or `null` if none of the capturing methods succeeded.
+		 * This parameter is deprecated since 4.7.0 and will be removed in following versions.
 		 */
-		editor.getClipboardData = function( options, callback ) {
+		editor.getClipboardData = function( callbackOrOptions, callback ) {
 			// Options are optional - args shift.
 			if ( !callback ) {
-				callback = options;
-				options = null;
+				callback = callbackOrOptions;
+				callbackOrOptions = null;
 			}
 
 			// Listen with maximum priority to handle content before everyone else.
