@@ -1,10 +1,10 @@
-﻿/**
+/**
 * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 CKEDITOR.plugins.add( 'heading', {
-  requires: 'richcombo',
+  requires: 'a11yfirst,richcombo',
 
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -65,6 +65,9 @@ CKEDITOR.plugins.add( 'heading', {
 
         for ( var tag in headingStyles ) {
           label = lang[ 'level_' + tag ];
+
+          // Add separator before 'Remove format' menuitem
+          if (tag == 'p') this.addSeparator();
 
           // Add the tag entry to the panel list.
           this.add( tag, menuStyle.buildPreview( label ), label );
