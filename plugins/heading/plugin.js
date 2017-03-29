@@ -78,8 +78,6 @@ CKEDITOR.plugins.add( 'heading', {
           this.add( tag, menuStyle.buildPreview( label ), label );
         }
 
-        this.addSeparator( "group1" );
-
         label = lang[ 'outlineLabel' ];
         this.add( outlineCmd, menuStyle.buildPreview( label ), label );
 
