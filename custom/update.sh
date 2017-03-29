@@ -33,42 +33,51 @@ else
 fi
 
 case $SUBTREE in
+
+  blockformat)
+    FILES=(
+      lang/en-au.js
+      lang/en-ca.js
+      lang/en-gb.js
+      lang/en.js
+      plugin.js
+      README.md
+    )
+    ;;
+
   custom)
     FILES=(
-      README.md
       backport.sh
       config.js
       index.html
       remotes.sh
       subtrees.sh
       update.sh
+      README.md
     )
     ;;
 
   heading)
     FILES=(
-      README.md
-      plugin.js
       dialogs/heading_help.js
+      dialogs/heading_outline.js
       lang/en-au.js
       lang/en-ca.js
       lang/en-gb.js
       lang/en.js
+      plugin.js
+      README.md
     )
     ;;
 
   inlinestyle)
     FILES=(
-      README.md
-      plugin.js
-      examples/basicstyles-plugin.js
-      examples/heading-plugin.js
-      examples/removeformat-plugin.js
-      examples/stylescombo-plugin.js
       lang/en-au.js
       lang/en-ca.js
       lang/en-gb.js
       lang/en.js
+      plugin.js
+      README.md
     )
     ;;
 
