@@ -34,6 +34,12 @@ fi
 
 case $SUBTREE in
 
+  a11yfirst)
+    FILES=(
+      plugin.js
+    )
+    ;;
+
   blockformat)
     FILES=(
       lang/en-au.js
