@@ -684,7 +684,7 @@
 				 *
 				 * @private
 				 * @since 4.7.0
-				 * @param {CKEDITOR.editor} editor Instance of editor, in which the command is being executed.
+				 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
 				 * @param {Object/String} data If `data` is a string, then it's considered a content that is being pasted.
 				 * Otherwise it's treated as an object with options.
 				 * @param {Boolean} data.showNotification Indicates if a notification should be shown after
@@ -2769,8 +2769,7 @@
  */
 
 /**
- * The number of milliseconds after which the notification shown by unsuccesfull paste attempt
- * should close automatically.
+ * Duration of a notification displayed after paste was blocked by the browser.
  *
  * @since 4.7.0
  * @cfg {Number} [clipboard_defaultContentType=10000]
