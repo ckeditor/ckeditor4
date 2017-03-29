@@ -17,7 +17,8 @@ CKEDITOR.plugins.add( 'listblock', {
 					'{text}' +
 				'</a>' +
 				'</li>' ),
-			listGroup = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' ),
+			listGroup     = CKEDITOR.addTemplate( 'panel-list-group', '<h1 id="{id}" class="cke_panel_grouptitle" role="presentation" >{label}</h1>' ),
+			listSeparator = CKEDITOR.addTemplate( 'panel-list-separator', '<div id="{id}" class="cke_panel_groupseparator" role="presentation" ></div>' ),
 			reSingleQuote = /\'/g,
 			escapeSingleQuotes = function( str ) {
 				return str.replace( reSingleQuote, '\\\'' );
@@ -111,6 +112,14 @@ CKEDITOR.plugins.add( 'listblock', {
 					this._.groups[ title ] = id;
 
 					this._.pendingHtml.push( listGroup.output( { id: id, label: title } ) );
+				},
+
+				addSeparator: function( title ) {
+					this._.close();
+
+					var id = CKEDITOR.tools.getNextId();
+
+					this._.pendingHtml.push( listSeparator.output( { id: id } ) );
 				},
 
 				commit: function() {
