@@ -2515,6 +2515,41 @@
 			endPath = range.endPath(),
 			endBlock = endPath.block;
 
+		/*
+			CoEdit changed start
+		*/
+		var aRootNode = startBlock.$;
+		var bRootNode = endBlock.$;
+		var doc = editor.document.$;
+		while(aRootNode.parentNode!=doc.body){
+			aRootNode = aRootNode.parentNode;
+		}
+
+		while(bRootNode.parentNode!=doc.body){
+			bRootNode = bRootNode.parentNode;
+		}
+		var hasLockedNode = false;
+		var chkNode = aRootNode;
+		if(aRootNode && aRootNode.getAttribute("ce-locked") == "true" ){
+			hasLockedNode = true;
+		}
+		if(bRootNode && bRootNode.getAttribute("ce-locked") == "true" ){
+			hasLockedNode = true;
+		}
+		while(chkNode != bRootNode){
+			if(chkNode && chkNode.getAttribute("ce-locked") == "true" ){
+				hasLockedNode = true;
+			}
+			chkNode = chkNode.nextSibling;
+		}
+		if(hasLockedNode){
+			console.log("CoEdit: internal hacking 2");
+			return;
+		}
+		/*
+			CoEdit changed end
+		*/
+
 		// Selection must be anchored in two different blocks.
 		if ( !startBlock || !endBlock || startBlock.equals( endBlock ) )
 			return false;
