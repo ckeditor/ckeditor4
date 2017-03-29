@@ -6,7 +6,7 @@
 CKEDITOR.plugins.add( 'a11yfirst', {
   init: function ( editor ) {
     var listSeparator = CKEDITOR.addTemplate( 'panel-list-separator',
-      '<div id="{id}" class="cke_panel_groupseparator" role="separator"></div>' );
+      '<div id="{id}" role="separator" style="border-bottom: 1px solid #d1d1d1"></div>' );
 
     CKEDITOR.ui.listBlock.prototype.addSeparator = function () {
       this._.close();
