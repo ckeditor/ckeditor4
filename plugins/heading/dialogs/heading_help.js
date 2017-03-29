@@ -14,15 +14,15 @@ CKEDITOR.dialog.add( 'headingHelp', function( editor ) {
 
       function h2(content) {
         return '<h2 style="white-space: normal; font-weight: bold; margin-top: 0em; font-size: 135%">' + content + '</h2>';
-      } 
+      }
 
       function list(tag, list) {
         var html = '<' + tag + ' style="margin-top: 0.5em; padding-left: 1em;">';
         for (let i = 0; i < list.length; i++) {
           html += '<li style="white-space: normal; padding-bottom: 0.5em; font-size: 110%">' + list[i] + '</li>';
         }
-        html += '</' + tag + '>';  
-        return html;      
+        html += '</' + tag + '>';
+        return html;
       }
 
       var node, html;
@@ -38,7 +38,7 @@ CKEDITOR.dialog.add( 'headingHelp', function( editor ) {
       node.innerHTML = html;
 
       node = document.getElementById('tab_importance');
-      html = h2(lang.helpRuleTitle);
+      html = h2(lang.helpImportanceTitle);
       html += list('ul', lang.helpImportanceItems);
       node.innerHTML = html;
 
