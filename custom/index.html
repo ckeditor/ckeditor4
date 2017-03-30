@@ -10,7 +10,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   <title>A11yFirst Plugins Demo</title>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
   <style type="text/css">
+    /* richcombo */
     .cke_combo_inlinelabel { width: auto !important; }
+
+    /* menubutton */
+    .cke_button_arrow { margin-left: 10px !important; }
+    .cke_button__langtest_icon { display: none !important; }
+    .cke_button__langtest_label { display: inline !important; }
   </style>
 </head>
 
@@ -82,13 +88,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
   <script>
     CKEDITOR.replace('editor', {
-      height: 400,
+      height: 480,
+      menubuttonTextLabel: true,
       toolbar: [
         { name: 'heading',      items: [ 'Heading' ] },
         { name: 'list',         items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
         { name: 'link',         items: [ 'Link', 'Unlink', 'Anchor' ] },
         { name: 'misc1',        items: [ 'Image', 'Table', 'Language' ] },
-        { name: 'blockformat',  items: [ 'BlockFormat' ] },
+        { name: 'blockformat',  items: [ 'BlockFormat', 'langtest' ] },
         { name: 'source',       items: [ 'Source' ] },
         '/',
         { name: 'search',       items: [ 'Find', 'Replace' ] },
@@ -97,7 +104,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         { name: 'inlinestyle',  items: [ 'InlineStyle' ] },
         { name: 'misc2',        items: [ 'SpecialChar' ] }
       ],
-      extraPlugins: 'blockformat,heading,inlinestyle',
+      extraPlugins: 'blockformat,heading,inlinestyle,langtest',
     } );
     CKEDITOR.stylesSet.add ( 'default', [
       { name: 'Strong',           element: 'strong', overrides: 'b' },
