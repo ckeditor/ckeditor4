@@ -11,6 +11,7 @@ New Features:
 
 Fixed Issues:
 
+* [#16935](http://dev.ckeditor.com/ticket/16935): Fixed: [Chrome] Blurring editor in [Source Mode](http://ckeditor.com/addon/sourcearea) throws an error.
 * [#16825](http://dev.ckeditor.com/ticket/16825): Fixed: [Chrome] Error thrown when destroying focused inline editor.
 * [#16857](http://dev.ckeditor.com/ticket/16857): Fixed: Ctrl + Shift + V blocked by copy formatting.
 * [#14714](http://dev.ckeditor.com/ticket/14714): [Webkit/Blink] Fixed: Exception thrown on refocusing a blurred inline editor.
