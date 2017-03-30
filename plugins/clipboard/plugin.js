@@ -708,7 +708,7 @@
 					var cmd = this,
 						showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification : true,
 						forcedType = data.type,
-						msg = prepareMsg( data.keystroke || ( CKEDITOR.CTRL + 86 ), forcedType ),
+						msg = prepareMsg( data.keystroke || editor.getCommandKeystroke( this ), forcedType ),
 						pastedContent = typeof data === 'string' ? data : data.dataValue;
 
 					function prepareMsg( keystroke, type ) {
