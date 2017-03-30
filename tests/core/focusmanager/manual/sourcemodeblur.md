@@ -2,10 +2,6 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, sourcearea
 
-###ONLY IN CHROME###
-
-----
-
 1. Open console.
 2. Click inside editor.
 3. Click the button.
