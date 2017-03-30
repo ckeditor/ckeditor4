@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: link,toolbar,table,tabletools */
+/* bender-include: ../_helpers/tabletools.js */
+/* global tableToolsHelpers */
 
 ( function() {
 	'use strict';
@@ -16,27 +18,8 @@
 		return bender.tools.fixHtml( html );
 	}
 
-	function getRangesForCells( editor, cellsIndexes ) {
-		var ranges = [],
-			cells = editor.editable().find( 'td, th' ),
-			range,
-			cell,
-			i;
-
-		for ( i = 0; i < cellsIndexes.length; i++ ) {
-			range = editor.createRange();
-			cell = cells.getItem( cellsIndexes[ i ] );
-
-			range.setStartBefore( cell );
-			range.setEndAfter( cell );
-
-			ranges.push( range );
-		}
-
-		return ranges;
-	}
-
-	var table = CKEDITOR.document.getById( 'table' ).findOne( 'table' ),
+	var getRangesForCells = tableToolsHelpers.getRangesForCells,
+		table = CKEDITOR.document.getById( 'table' ).findOne( 'table' ),
 		linkedTable = CKEDITOR.document.getById( 'table-with-links' ).findOne( 'table' ),
 		editedLinkedTable = CKEDITOR.document.getById( 'table-with-links-edited' ).findOne( 'table' ),
 		anchoredTable = CKEDITOR.document.getById( 'table-with-anchor' ).findOne( 'table' ),

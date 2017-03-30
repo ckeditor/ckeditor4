@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: selectall,toolbar,table,tabletools */
+/* bender-include: ../_helpers/tabletools.js */
+/* global tableToolsHelpers */
 
 ( function() {
 	'use strict';
@@ -14,31 +16,12 @@
 		}
 	};
 
-	function getRangesForCells( editor, cellsIndexes ) {
-		var ranges = [],
-			cells = editor.editable().find( 'td, th' ),
-			range,
-			cell,
-			i;
-
-		for ( i = 0; i < cellsIndexes.length; i++ ) {
-			range = editor.createRange();
-			cell = cells.getItem( cellsIndexes[ i ] );
-
-			range.setStartBefore( cell );
-			range.setEndAfter( cell );
-
-			ranges.push( range );
-		}
-
-		return ranges;
-	}
-
 	function getFixtureHtml( id ) {
 		return CKEDITOR.document.getById( id ).getHtml();
 	}
 
-	var table = CKEDITOR.document.findOne( '#table table' ),
+	var getRangesForCells = tableToolsHelpers.getRangesForCells,
+		table = CKEDITOR.document.findOne( '#table table' ),
 		tests = {
 			'test selectAll command after table selection (paragraph + table)': function( editor, bot ) {
 				var editable = editor.editable(),
