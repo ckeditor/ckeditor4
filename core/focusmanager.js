@@ -160,7 +160,6 @@
 					// Blink browsers leave selection in `[contenteditable=true]`
 					// when it's blurred and it's necessary to remove it manually for inline editor. (#13446)
 					// It seems to be related to https://bugs.chromium.org/p/chromium/issues/detail?id=433303.
-					// when it's blurred and it's neccessary to remove it manually for inline editor. (#13446)
 					if ( CKEDITOR.env.chrome && editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE ) {
 						editor.window.$.getSelection().removeAllRanges();
 					}
