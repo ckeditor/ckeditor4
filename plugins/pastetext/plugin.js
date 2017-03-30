@@ -18,7 +18,11 @@
 			var keystroke = CKEDITOR.env.ie ? null : ( editor.getCommandKeystroke( this ) ),
 				showNotification = !data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie );
 
-			editor.execCommand( 'paste', { keystroke: keystroke, type: 'text', showNotification: showNotification } );
+			editor.execCommand( 'paste', {
+				description: editor.lang.pastetext.description,
+				keystroke: keystroke,
+				type: 'text',
+				showNotification: showNotification } );
 		}
 	};
 
