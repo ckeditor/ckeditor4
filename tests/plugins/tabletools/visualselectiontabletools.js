@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar,undo,floatingspace */
-/* bender-include: ../_helpers/tabletools.js */
+/* bender-include: _helpers/tabletools.js */
 /* global tableToolsHelpers */
 
 ( function() {
