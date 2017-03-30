@@ -685,15 +685,19 @@
 				 * Default implementation of paste command.
 				 *
 				 * @private
-				 * @since 4.7.0
 				 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
 				 * @param {Object/String} data If `data` is a string, then it's considered a content that is being pasted.
 				 * Otherwise it's treated as an object with options.
-				 * @param {Boolean} data.showNotification Indicates if a notification should be shown after
-				 * unsuccessful paste attempt.
-				 * @param {Number} data.keystroke Keystroke that should be displayed as a part of notification.
-				 * @param {String} data.type Type of the pasted content.
-				 * @param {mixed} data.dataValue Content being pasted.
+				 * @param {Boolean} [data.showNotification=true] Indicates if a notification should be shown after
+				 * unsuccessful paste attempt. This parameter was added in 4.7.0.
+				 * @param {Number} [data.keystroke] Keystroke that should be displayed as a part of notification.
+				 * This parameter was added in 4.7.0.
+				 * @param {String} [data.type='html'] Type of the pasted content. There are two allowed values:
+				 * * 'html'
+				 * * 'text'
+				 * @param {String/Object} data.dataValue Content being pasted. If this parameter is an object, it
+				 * supossed to be a `data` property of {@link CKEDITOR.editor#paste} event.
+				 *
 				 * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer `DataTransfer` instance connected
 				 * with the current paste action.
 				 * @member CKEDITOR.editor.commands.paste
