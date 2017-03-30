@@ -9,7 +9,7 @@
 
 'use strict';
 
-( function() {
+( function () {
 
 	var allowedContent = 'span[!lang,!dir]',
 		requiredContent = 'span[lang,dir]';
@@ -29,6 +29,9 @@
 				curLanguageId, // 2-letter language identifier.
 				languageButtonId, // Will store button namespaced identifier, like "language_en".
 				i;
+
+			// Change behavior of menubutton with text label
+			CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
 			// Registers command.
 			editor.addCommand( 'langtest', {
