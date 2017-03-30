@@ -7,18 +7,27 @@
 	'use strict';
 
 	bender.editors = {
-		classic: {
-			pasteFilter: null
+		divarea: {
+			config: {
+				extraPlugins: 'divarea',
+				pasteFilter: null,
+				language: 'en'
+			}
 		},
 
-		divarea: {
-			extraPlugins: 'divarea',
-			pasteFilter: null
+		classic: {
+			config: {
+				pasteFilter: null,
+				language: 'en'
+			}
 		},
 
 		inline: {
 			creator: 'inline',
-			pasteFilter: null
+			config: {
+				pasteFilter: null,
+				language: 'en'
+			}
 		}
 	};
 
@@ -128,6 +137,27 @@
 					pasteData.prevent = true;
 
 					assertPasteNotification( editor, { content: '', count: 1 }, null, pasteData );
+				} );
+			},
+
+			'test prevented direct access to clipboard without notification': function( editor, bot ) {
+				bot.setData( '', function() {
+					var pasteData = createPasteData();
+					pasteData.prevent = true;
+
+					assertPasteNotification( editor, { content: '', count: 0 }, { showNotification: false }, pasteData );
+				} );
+			},
+
+			'test notification with description': function( editor, bot ) {
+				bot.setData( '', function() {
+					var pasteData = createPasteData(),
+						description = 'foobar';
+
+					pasteData.prevent = true;
+
+					assertPasteNotification( editor, { content: '', msg: description, count: 1 },
+						{ description: description }, pasteData );
 				} );
 			}
 		};
