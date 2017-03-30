@@ -10,13 +10,21 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   <title>A11yFirst Plugins Demo</title>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
   <style type="text/css">
-    /* richcombo */
-    .cke_combo_inlinelabel { width: auto !important; }
+    /* all richcombo button labels */
+    .cke_combo_text.cke_combo_inlinelabel {
+      width: auto;
+    }
 
-    /* menubutton */
-    .cke_button_arrow { margin-left: 10px !important; }
-    .cke_button__langtest_icon { display: none !important; }
-    .cke_button__langtest_label { display: inline !important; }
+    /* langtest menubutton with text label */
+    .cke_button.cke_button__langtest .cke_button_arrow {
+      margin-left: 10px;
+    }
+    .cke_button_icon.cke_button__langtest_icon {
+      display: none;
+    }
+    .cke_button_label.cke_button__langtest_label {
+      display: inline;
+    }
   </style>
 </head>
 
