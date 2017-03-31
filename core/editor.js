@@ -1330,7 +1330,7 @@
 		 *
 		 * @since 4.6.0
 		 * @param {CKEDITOR.command|String} command The {@link CKEDITOR.command} instance or a string with command name.
-		 * @returns {Number} The keystroke assigned to the provided command or null if there is no keystroke.
+		 * @returns {Number/null} The keystroke assigned to the provided command or `null` if there is no keystroke.
 		 */
 		getCommandKeystroke: function( command ) {
 			var commandInstance = ( typeof command === 'string' ? this.getCommand( command ) : command );

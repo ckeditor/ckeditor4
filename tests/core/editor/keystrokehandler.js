@@ -93,6 +93,6 @@ bender.test(
 
 	'test editor#getCommandKeystroke with empty name': function() {
 		var editor = this.editor;
-		assert.isNull( editor.getCommandKeystroke( '' ), 'Keystrokes should be null.' );
+		assert.isNull( editor.getCommandKeystroke( '' ), 'Returned keystroke.' );
 	}
 } );
