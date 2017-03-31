@@ -1,5 +1,4 @@
-/* global assertWordFilter,Q */
-/* bender-include: _helpers/pfwTools.js */
+/* global assertWordFilter,Q,console */
 /* exported createTestCase */
 
 // @param {boolean} [compareRawData=false] If `true` test case will assert against raw paste's `data.dataValue` rather than
@@ -43,11 +42,13 @@ function createTestCase( fixtureName, wordVersion, browser, tickets, compareRawD
 
 			var nbspListener = editor.once( 'paste', function( evt ) {
 				// Clipboard strips white spaces from pasted content if those are not encoded.
-				// This is **needed only for non-IE/Edge fixtures**, as these browsers doesn't encode nbsp char on
-				// it's own.
-				if ( CKEDITOR.env.ie &&
-					CKEDITOR.tools.array.indexOf( [ 'chrome', 'firefox', 'safari' ], browser ) !== -1 ) {
-					evt.data.dataValue = evt.data.dataValue.replace( / /g, '&nbsp;' );
+				// This is **needed only for non-IE/Edge fixtures**, as these browsers doesn't encode nbsp char on it's own.
+				if ( CKEDITOR.env.ie && CKEDITOR.tools.array.indexOf( [ 'chrome', 'firefox', 'safari' ], browser ) !== -1 ) {
+					var encodedData;
+					/* jshint ignore:start */
+					encodedData = evt.data.dataValue.replace( / /g, '&nbsp;' );
+					/* jshint ignore:end */
+					evt.data.dataValue = encodedData;
 				}
 			}, null, null, 5 );
 

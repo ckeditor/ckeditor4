@@ -3,8 +3,9 @@
 /* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image */
 /* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
 /* jshint ignore:end */
-/* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_lib/q.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js,_helpers/pfwTools.js */
-/* global createTestCase,pfwTools */
+/* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js */
+/* bender-include: _helpers/createTestSuite.js,_helpers/pfwTools.js */
+/* global pfwTools,createTestSuite */
 
 ( function() {
 	'use strict';
@@ -13,14 +14,17 @@
 		config: pfwTools.defaultConfig
 	};
 
-	var browsers = [
+	bender.test( createTestSuite( {
+		browsers: [
 			'chrome',
 			'firefox',
 			'ie8',
 			'ie11'
 		],
-		wordVersion = 'word2013',
-		ticketTests = {
+		wordVersions: [
+			'word2013'
+		],
+		ticketTests: {
 			'13590ckeditor-numberlist': [ 'word2013' ],
 			'13616': [ 'word2013' ],
 			'13810test': [ 'word2013' ],
@@ -49,27 +53,9 @@
 			'6570ordered_list_97': [ 'word2013' ],
 			'6570ordered_list': [ 'word2013' ]
 		},
-		testData = {
-			_should: {
-				ignore: {}
-			}
-		},
-		ticketKeys = CKEDITOR.tools.objectKeys( ticketTests ),
-		i, k;
-
-	for ( i = 0; i < ticketKeys.length; i++ ) {
-		for ( k = 0; k < browsers.length; k++ ) {
-			if ( ticketTests[ ticketKeys[ i ] ] === true || CKEDITOR.tools.indexOf( ticketTests[ ticketKeys[ i ] ], wordVersion ) !== -1 ) {
-				var testName = [ 'test', ticketKeys[ i ], wordVersion, browsers[ k ] ].join( ' ' );
-
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) {
-					testData._should.ignore[ testName ] = true;
-				}
-
-				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true, false, [ pfwTools.filters.span ] );
-			}
-		}
-	}
-
-	bender.test( testData );
+		customFilters: [
+			pfwTools.filters.span
+		],
+		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11
+	} ) );
 } )();
