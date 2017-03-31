@@ -27,7 +27,7 @@
 		tests: {
 			'InlineStyles': true
 		},
-		customFilter: [
+		customFilters: [
 			pfwTools.filters.style
 		],
 		ignoreAll: CKEDITOR.env.ie
