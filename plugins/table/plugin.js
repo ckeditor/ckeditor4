@@ -25,7 +25,6 @@ CKEDITOR.plugins.add( 'table', {
 			requiredContent: 'table',
 			contentTransformations: [
 				[ 'table{width}: sizeToStyle', 'table[width]: sizeToAttribute' ],
-				[ 'td: splitBorderShorthand' ],
 				[ {
 					element: 'table',
 					right: function( element ) {
