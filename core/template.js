@@ -9,8 +9,7 @@
  */
 
 ( function() {
-	var cache = {},
-		rePlaceholder = /{([^}]+)}/g;
+	var rePlaceholder = /{([^}]+)}/g;
 
 	/**
 	 * Lightweight template used to build the output string from variables.
@@ -24,29 +23,16 @@
 	 * @param {String} source The template source.
 	 */
 	CKEDITOR.template = function( source ) {
-		// For example, if we have this "source":
-		//	'<div style="{style}">{editorName}</div>'
-		// ... the resulting function body will be (apart from the "buffer" handling):
-		//	return [ '<div style="', data['style'] == undefined ? '{style}' : data['style'], '">', data['editorName'] == undefined ? '{editorName}' : data['editorName'], '</div>' ].join('');
+		this.source = String( source );
+	};
 
-		// Try to read from the cache.
-		if ( cache[ source ] ) {
-			this.output = cache[ source ];
-		}
-		else {
-			// less performant solution when CSP is disabling indirect evaluation
-			cache[ source ] = function( data, buffer ) {
-				var output = '';
 
-				output += String( source ).replace( rePlaceholder, function( fullMatch, dataKey ) {
-					return data[ dataKey ] !== undefined ? data[ dataKey ] : fullMatch;
-				} );
+	CKEDITOR.template.prototype.output = function( data, buffer ) {
+		var output = this.source.replace( rePlaceholder, function( fullMatch, dataKey ) {
+			return data[ dataKey ] !== undefined ? data[ dataKey ] : fullMatch;
+		} );
 
-				return buffer ? buffer.push( output ) : output;
-			};
-
-			this.output = cache[ source ];
-		}
+		return buffer ? buffer.push( output ) : output;
 	};
 } )();
 
