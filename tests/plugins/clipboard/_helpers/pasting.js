@@ -129,14 +129,14 @@ function assertPasteNotification( editor, expected, cmdData, pasteData ) {
 	var spy = sinon.spy( editor, 'showNotification' );
 
 	simulatePasteCommand( editor, cmdData, pasteData, function() {
-		assert.areSame( expected.count, spy.callCount, 'showNotification was called corrent number of times.' );
+		spy.restore();
+
+		assert.areSame( expected.count, spy.callCount, 'showNotification was called correct number of times.' );
 		assert.areSame( expected.content, editor.getData(), 'Editor contains correct content.' );
 
 		if ( expected.msg ) {
 			assert.isTrue( spy.firstCall.args[ 0 ].indexOf( expected.msg ) !== -1, 'Correct message was shown.' );
 		}
-
-		spy.restore();
 	} );
 }
 
