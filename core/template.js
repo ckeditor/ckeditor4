@@ -26,6 +26,7 @@
 		/**
 		 * Current template source.
 		 *
+		 * @readonly
 		 * @member CKEDITOR.template
 		 * @property {String}
 		 */
@@ -35,7 +36,8 @@
 	/**
 	 * Processes the template, filling its variables with the provided data.
 	 *
-	 * @method output
+	 * @method
+	 * @member CKEDITOR.template
 	 * @param {Object} data An object containing properties which values will be
 	 * used to fill the template variables. The property names must match the
 	 * template variables names. Variables without matching properties will be
