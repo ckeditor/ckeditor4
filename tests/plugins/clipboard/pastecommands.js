@@ -131,7 +131,7 @@
 				} );
 			},
 
-			'test prevented direct access to clipboard': function( editor, bot ) {
+			'test paste notification without direct access to clipboard': function( editor, bot ) {
 				bot.setData( '', function() {
 					var pasteData = createPasteData(),
 						// CTRL + V
@@ -149,7 +149,7 @@
 				} );
 			},
 
-			'test prevented direct access to clipboard without notification': function( editor, bot ) {
+			'test skipping notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
 					var pasteData = createPasteData();
 					pasteData.prevent = true;
@@ -158,7 +158,7 @@
 				} );
 			},
 
-			'test notification with description': function( editor, bot ) {
+			'test paste notification given a description': function( editor, bot ) {
 				bot.setData( '', function() {
 					var pasteData = createPasteData(),
 						description = 'foobar',
