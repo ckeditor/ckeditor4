@@ -156,26 +156,6 @@
 
 					assertPasteNotification( editor, { content: '', count: 0 }, { showNotification: false }, pasteData );
 				} );
-			},
-
-			'test paste notification given a description': function( editor, bot ) {
-				bot.setData( '', function() {
-					var pasteData = createPasteData(),
-						description = 'foobar',
-						// CTRL + V
-						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, CKEDITOR.CTRL + 86 ),
-						expected = {
-							content: '',
-							count: 1,
-							msg: 'Your browser security settings don\'t permit the editor to paste automatically ' +
-								description + '. Use <kbd aria-label="' + keystroke.aria + '">' + keystroke.display +
-								'</kbd> to paste.'
-						};
-
-					pasteData.prevent = true;
-
-					assertPasteNotification( editor, expected, { description: description }, pasteData );
-				} );
 			}
 		};
 

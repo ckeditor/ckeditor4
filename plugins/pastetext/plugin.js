@@ -28,15 +28,27 @@
 		 * @member CKEDITOR.editor.commands.pastetext
 		 */
 		exec: function( editor, data ) {
-			var keystroke = CKEDITOR.env.ie ? null : ( editor.getCommandKeystroke( this ) ),
-				showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification :
-					!data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie );
+			var lang = editor.lang,
+				keyInfo = CKEDITOR.tools.keystrokeToString( lang.common.keyboard, editor.getCommandKeystroke( this ) ),
+				showNotification = ( data && typeof data.showNotification !== 'undefined' ) ? data.showNotification :
+					!data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie ),
+				msg = lang.pastetext.pasteMsg
+					.replace( /%1/, '<kbd aria-label="' + keyInfo.aria + '">' + keyInfo.display + '</kbd>' );
+
+			// If paste failed, display proper notification.
+			editor.on( 'afterCommandExec', function( event ) {
+				if ( event.data.name === 'paste' ) {
+					if ( !event.data.returnValue && showNotification ) {
+						editor.showNotification( msg, 'info', editor.config.clipboard_notificationDuration );
+					}
+					event.removeListener();
+				}
+			} );
 
 			editor.execCommand( 'paste', {
-				description: editor.lang.pastetext.description,
-				keystroke: keystroke,
 				type: 'text',
-				showNotification: showNotification } );
+				showNotification: false
+			} );
 		}
 	};
 

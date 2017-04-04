@@ -36,7 +36,7 @@
 						expected = {
 							content: '',
 							count: 1,
-							msg: 'Your browser security settings don\'t permit the editor to paste automatically as ' +
+							msg: 'Your browser security settings don\'t permit the editor to automatically paste as ' +
 								'plain text. Use <kbd aria-label="' + keystroke.aria + '">' + keystroke.display +
 								'</kbd> to paste.'
 						},

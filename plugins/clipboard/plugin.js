@@ -690,10 +690,6 @@
 				 * Otherwise it's treated as an object with options.
 				 * @param {Boolean} [data.showNotification=true] Indicates if a notification should be shown after
 				 * unsuccessful paste attempt. This parameter was added in 4.7.0.
-				 * @param {Number} [data.keystroke] Keystroke that should be displayed as a part of notification.
-				 * This parameter was added in 4.7.0.
-				 * @param {String} [data.description=''] Short description of the current paste method. It's used
-				 * inside notification as an additional explanation. This parameter was added in 4.7.0.
 				 * @param {String} [data.type='html'] Type of the pasted content. There are two allowed values:
 				 * * 'html'
 				 * * 'text'
@@ -710,17 +706,11 @@
 					var cmd = this,
 						showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification : true,
 						forcedType = data.type,
-						msg = prepareMsg( data.keystroke || editor.getCommandKeystroke( this ), data.description ),
+						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
+							editor.getCommandKeystroke( this ) ),
+						msg = editor.lang.clipboard.pasteMsg
+							.replace( /%1/, '<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd>' ),
 						pastedContent = typeof data === 'string' ? data : data.dataValue;
-
-					function prepareMsg( keystroke, description ) {
-						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, keystroke );
-
-						return editor.lang.clipboard.pasteMsg
-							.replace( '{KEYSTROKE}', keystroke.display )
-							.replace( '{LABEL}', keystroke.aria )
-							.replace( '{DESCRIPTION}', description ? ( ' ' + description ) : '' );
-					}
 
 					function callback( data, withBeforePaste ) {
 						withBeforePaste = typeof withBeforePaste !== 'undefined' ? withBeforePaste : true;

@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'en', {
 	cut: 'Cut',
 	cutError: 'Your browser security settings don\'t permit the editor to automatically execute cutting operations. Please use the keyboard for that (Ctrl/Cmd+X).',
 	paste: 'Paste',
-	pasteMsg: 'Your browser security settings don\'t permit the editor to paste automatically{DESCRIPTION}. Use <kbd aria-label="{LABEL}">{KEYSTROKE}</kbd> to paste.'
+	pasteMsg: 'Your browser security settings don\'t permit the editor to paste automatically. Use %1 to paste.'
 } );
