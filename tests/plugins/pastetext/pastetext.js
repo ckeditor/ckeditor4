@@ -17,13 +17,13 @@
 	var cmdData = {
 			name: 'pastetext'
 		},
-		pasteData = {
-			dataValue: '<a href="http://ckeditor.com">Foobar</a>'
-		},
 		tests = {
 			'test pasting plain text': function( editor, bot ) {
 				bot.setData( '', function() {
-					pasteData.prevent = false;
+					var pasteData = {
+						dataValue: '<a href="http://ckeditor.com">Foobar</a>',
+						prevent: false
+					};
 
 					assertPasteCommand( editor, { type: 'text', content: '<p>Foobar</p>' }, cmdData, pasteData );
 				} );
@@ -39,6 +39,10 @@
 							msg: 'Your browser security settings don\'t permit the editor to paste automatically as ' +
 								'plain text. Use <kbd aria-label="' + keystroke.aria + '">' + keystroke.display +
 								'</kbd> to paste.'
+						},
+						pasteData = {
+							dataValue: '<a href="http://ckeditor.com">Foobar</a>',
+							prevent: true
 						};
 
 					pasteData.prevent = true;
@@ -50,12 +54,19 @@
 			'test skipping notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
 					var pasteData = {
-						dataValue: 'foo'
-					};
+							dataValue: 'foo',
+							prevent: true
+						},
+						expected = {
+							content: '',
+							count: 0
+						},
+						cmdPreventData = {
+							name: 'pastetext',
+							showNotification: false
+						};
 
-					pasteData.prevent = true;
-
-					assertPasteNotification( editor, { content: '', count: 0 }, { showNotification: false }, pasteData );
+					assertPasteNotification( editor, expected, cmdPreventData, pasteData );
 				} );
 			},
 		};

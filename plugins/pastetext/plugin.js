@@ -16,7 +16,8 @@
 
 		exec: function( editor, data ) {
 			var keystroke = CKEDITOR.env.ie ? null : ( editor.getCommandKeystroke( this ) ),
-				showNotification = !data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie );
+				showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification :
+					!data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie );
 
 			editor.execCommand( 'paste', {
 				description: editor.lang.pastetext.description,
