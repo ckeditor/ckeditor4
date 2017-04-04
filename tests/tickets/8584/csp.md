@@ -1,6 +1,6 @@
 @bender-tags: tc, 4.7.0, 8584, editor
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromword, sourcearea, elementspath, list, link, basicstyles
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromword, sourcearea, elementspath, list, link, basicstyles, stylescombo, font
 
 Check if the editor is usable:
 
