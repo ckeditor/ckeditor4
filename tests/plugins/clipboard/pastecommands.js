@@ -133,10 +133,19 @@
 
 			'test prevented direct access to clipboard': function( editor, bot ) {
 				bot.setData( '', function() {
-					var pasteData = createPasteData();
+					var pasteData = createPasteData(),
+						// CTRL + V
+						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, CKEDITOR.CTRL + 86 ),
+						expected = {
+							content: '',
+							count: 1,
+							msg: 'Your browser security settings don\'t permit the editor to paste automatically. ' +
+								'Use <kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
+						};
+
 					pasteData.prevent = true;
 
-					assertPasteNotification( editor, { content: '', count: 1 }, null, pasteData );
+					assertPasteNotification( editor, expected, null, pasteData );
 				} );
 			},
 
@@ -152,11 +161,20 @@
 			'test notification with description': function( editor, bot ) {
 				bot.setData( '', function() {
 					var pasteData = createPasteData(),
-						description = 'foobar';
+						description = 'foobar',
+						// CTRL + V
+						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, CKEDITOR.CTRL + 86 ),
+						expected = {
+							content: '',
+							count: 1,
+							msg: 'Your browser security settings don\'t permit the editor to paste automatically ' +
+								description + '. Use <kbd aria-label="' + keystroke.aria + '">' + keystroke.display +
+								'</kbd> to paste.'
+						};
 
 					pasteData.prevent = true;
 
-					assertPasteNotification( editor, { content: '', msg: description, count: 1 },
+					assertPasteNotification( editor, expected,
 						{ description: description }, pasteData );
 				} );
 			}

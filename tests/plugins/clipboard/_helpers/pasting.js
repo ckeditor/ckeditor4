@@ -135,7 +135,7 @@ function assertPasteNotification( editor, expected, cmdData, pasteData ) {
 		assert.areSame( expected.content, editor.getData(), 'Editor contains correct content.' );
 
 		if ( expected.msg ) {
-			assert.isTrue( spy.firstCall.args[ 0 ].indexOf( expected.msg ) !== -1, 'Correct message was shown.' );
+			assert.areSame( expected.msg, spy.firstCall.args[ 0 ], 'Correct message was shown.' );
 		}
 	} );
 }
