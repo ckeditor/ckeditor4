@@ -31,11 +31,33 @@
 
 			'test prevented direct access to clipboard': function( editor, bot ) {
 				bot.setData( '', function() {
+					var keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
+						CKEDITOR.CTRL + CKEDITOR.SHIFT + 86 ),
+						expected = {
+							content: '',
+							count: 1,
+							msg: 'Your browser security settings don\'t permit the editor to paste automatically as ' +
+								'plain text. Use <kbd aria-label="' + keystroke.aria + '">' + keystroke.display +
+								'</kbd> to paste.'
+						};
+
 					pasteData.prevent = true;
 
-					assertPasteNotification( editor, { content: '', count: 1 }, cmdData, pasteData );
+					assertPasteNotification( editor, expected, cmdData, pasteData );
 				} );
-			}
+			},
+
+			'test skipping notification on paste': function( editor, bot ) {
+				bot.setData( '', function() {
+					var pasteData = {
+						dataValue: 'foo'
+					};
+
+					pasteData.prevent = true;
+
+					assertPasteNotification( editor, { content: '', count: 0 }, { showNotification: false }, pasteData );
+				} );
+			},
 		};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
