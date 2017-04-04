@@ -26,6 +26,9 @@
 				'.cke_widget_inline{' +
 					'display:inline-block' +
 				'}' +
+				'.cke_widget_placeholder{' +
+					'display:inline' +
+				'}' +
 				'.cke_widget_wrapper:hover>.cke_widget_element{' +
 					'outline:2px solid yellow;' +
 					'cursor:default' +
