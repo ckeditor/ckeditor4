@@ -174,8 +174,7 @@
 
 					pasteData.prevent = true;
 
-					assertPasteNotification( editor, expected,
-						{ description: description }, pasteData );
+					assertPasteNotification( editor, expected, { description: description }, pasteData );
 				} );
 			}
 		};
