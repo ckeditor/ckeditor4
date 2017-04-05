@@ -44,7 +44,6 @@
 // -- Paste command
 //		* fire 'paste' on editable ('beforepaste' for IE)
 //		* !canceled && execCommand 'paste'
-//		* !success && fire 'pasteDialog' on editor
 // -- Paste from native context menu & menubar
 //		(Fx & Webkits are handled in 'paste' default listener.
 //		Opera cannot be handled at all because it doesn't fire any events
@@ -420,11 +419,11 @@
 		 *		} );
 		 *
 		 * @member CKEDITOR.editor
-		 * @param {Function/Object} callbackOrOptions This parameter is deprecated since 4.7.0 and will be
-		 * removed in following versions.
+		 * @param {Function/Object} callbackOrOptions If function see `callback` parameter documentation. Object was given before 4.7.0 with `title` property, to set paste dialog's title.
 		 * @param {Function} callback A function that will be executed with `data` property of
 		 * {@link CKEDITOR.editor#event-paste paste event} or `null` if none of the capturing methods succeeded.
-		 * This parameter is deprecated since 4.7.0 and will be removed in following versions.
+		 * Since 4.7.0 `callback` should be provided as a first argument, just like in example above. This parameter will be removed in
+		 * upcoming major release.
 		 */
 		editor.getClipboardData = function( callbackOrOptions, callback ) {
 			// Options are optional - args shift.
@@ -439,7 +438,7 @@
 			editor.on( 'paste', onPaste, null, null, 0 );
 
 			// If command didn't succeed (only IE allows to access clipboard and only if
-			// user agrees) open and handle paste dialog.
+			// user agrees) invoke callback with null, meaning that paste is not blocked.
 			if ( getClipboardDataDirectly() === false ) {
 				// Direct access to the clipboard wasn't successful so remove listener.
 				editor.removeListener( 'paste', onPaste );
@@ -694,9 +693,8 @@
 				 * * 'html'
 				 * * 'text'
 				 * @param {String/Object} data.dataValue Content being pasted. If this parameter is an object, it
-				 * supossed to be a `data` property of {@link CKEDITOR.editor#paste} event.
-				 *
-				 * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer `DataTransfer` instance connected
+				 * supposed to be a `data` property of {@link CKEDITOR.editor#paste} event.
+				 * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer Data transfer instance connected
 				 * with the current paste action.
 				 * @member CKEDITOR.editor.commands.paste
 				 */
