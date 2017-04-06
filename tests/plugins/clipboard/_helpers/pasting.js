@@ -1,4 +1,5 @@
-/* exported assertPasteEvent, pasteFiles, assertPasteCommand, assertPasteNotification, testResetScenario */
+/* exported assertPasteEvent, pasteFiles, assertPasteCommand, assertPasteNotification, testResetScenario,
+getDefaultNotification */
 
 'use strict';
 
@@ -134,7 +135,7 @@ function assertPasteNotification( editor, expected, cmdData, pasteData ) {
 		assert.areSame( expected.count, spy.callCount, 'showNotification was called correct number of times.' );
 		assert.areSame( expected.content, editor.getData(), 'Editor contains correct content.' );
 
-		if ( expected.msg ) {
+		if ( expected.count && expected.msg ) {
 			assert.areSame( expected.msg, spy.firstCall.args[ 0 ], 'Correct message was shown.' );
 		}
 	} );
@@ -163,4 +164,13 @@ function testResetScenario( editor, queue ) {
 	}
 
 	firePaste( queue[ i ] );
+}
+
+function getDefaultNotification( editor, command ) {
+	var keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
+		editor.getCommandKeystroke( editor.commands[ command ] ) ),
+		msg = editor.lang[ command === 'paste' ? 'clipboard' : command ].pasteMsg
+			.replace( /%1/, '<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd>' );
+
+	return msg;
 }

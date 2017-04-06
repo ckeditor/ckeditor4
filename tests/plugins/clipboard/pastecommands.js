@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: link,clipboard,pastetext,pastefromword */
 /* bender-include: _helpers/pasting.js */
-/* global assertPasteCommand, assertPasteNotification, testResetScenario */
+/* global getDefaultNotification, assertPasteCommand, assertPasteNotification, testResetScenario */
 
 ( function() {
 	'use strict';
@@ -46,6 +46,10 @@
 			test: {
 				type: 'test',
 				content: '<p><a href="http://ckeditor.com">Foobar</a></p>'
+			},
+			empty: {
+				count: 1,
+				content: ''
 			}
 		},
 		createPasteData = function() {
@@ -134,15 +138,9 @@
 			'test paste notification without direct access to clipboard': function( editor, bot ) {
 				bot.setData( '', function() {
 					var pasteData = createPasteData(),
-						// CTRL + V
-						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, CKEDITOR.CTRL + 86 ),
-						expected = {
-							content: '',
-							count: 1,
-							msg: 'Your browser doesn\'t allow you to paste this way. Press <kbd aria-label="' +
-								keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
-						};
+						expected = createExpected( 'empty' );
 
+					expected.msg = getDefaultNotification( editor, 'paste' );
 					pasteData.prevent = true;
 
 					assertPasteNotification( editor, expected, null, pasteData );
@@ -152,15 +150,9 @@
 			'test forcing notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
 					var pasteData = createPasteData(),
-						// CTRL + V
-						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, CKEDITOR.CTRL + 86 ),
-						expected = {
-							content: '',
-							count: 1,
-							msg: 'Your browser doesn\'t allow you to paste this way. Press <kbd aria-label="' +
-								keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
-						};
+						expected = createExpected( 'empty' );
 
+					expected.msg = getDefaultNotification( editor, 'paste' );
 					pasteData.prevent = true;
 
 					assertPasteNotification( editor, expected, { notification: true }, pasteData );
@@ -180,12 +172,9 @@
 				bot.setData( '', function() {
 					var pasteData = createPasteData(),
 						msg = 'CKEditor is the best!',
-						expected = {
-							content: '',
-							count: 1,
-							msg: msg
-						};
+						expected = createExpected( 'empty' );
 
+					expected.msg = msg;
 					pasteData.prevent = true;
 
 					assertPasteNotification( editor, expected, { notification: msg }, pasteData );

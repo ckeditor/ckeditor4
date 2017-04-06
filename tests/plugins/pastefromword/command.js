@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: link, pastefromword */
 /* bender-include: ../clipboard/_helpers/pasting.js */
-/* global assertPasteNotification */
+/* global getDefaultNotification, assertPasteNotification */
 
 ( function() {
 	'use strict';
@@ -27,13 +27,10 @@
 		tests = {
 			'test prevented direct access to clipboard': function( editor, bot ) {
 				bot.setData( '', function() {
-					var keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
-						CKEDITOR.CTRL + 86 ),
-						expected = {
+					var expected = {
 							content: '',
 							count: 1,
-							msg: 'Your browser doesn\'t allow you to paste this way. Press ' +
-								'<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
+							msg: getDefaultNotification( editor, 'paste' )
 						},
 						pasteData = {
 							dataValue: '<a href="http://ckeditor.com">Foobar</a>',
@@ -48,13 +45,10 @@
 
 			'test forcing notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
-					var keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
-						CKEDITOR.CTRL + 86 ),
-						expected = {
+					var expected = {
 							content: '',
 							count: 1,
-							msg: 'Your browser doesn\'t allow you to paste this way. Press ' +
-								'<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
+							msg: getDefaultNotification( editor, 'paste' )
 						},
 						pasteData = {
 							dataValue: '<a href="http://ckeditor.com">Foobar</a>',
