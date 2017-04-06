@@ -149,12 +149,46 @@
 				} );
 			},
 
+			'test forcing notification on paste': function( editor, bot ) {
+				bot.setData( '', function() {
+					var pasteData = createPasteData(),
+						// CTRL + V
+						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard, CKEDITOR.CTRL + 86 ),
+						expected = {
+							content: '',
+							count: 1,
+							msg: 'Your browser doesn\'t allow you to paste this way. Press <kbd aria-label="' +
+								keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
+						};
+
+					pasteData.prevent = true;
+
+					assertPasteNotification( editor, expected, { notification: true }, pasteData );
+				} );
+			},
+
 			'test skipping notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
 					var pasteData = createPasteData();
 					pasteData.prevent = true;
 
-					assertPasteNotification( editor, { content: '', count: 0 }, { showNotification: false }, pasteData );
+					assertPasteNotification( editor, { content: '', count: 0 }, { notification: false }, pasteData );
+				} );
+			},
+
+			'test customising notification on paste': function( editor, bot ) {
+				bot.setData( '', function() {
+					var pasteData = createPasteData(),
+						msg = 'CKEditor is the best!',
+						expected = {
+							content: '',
+							count: 1,
+							msg: msg
+						};
+
+					pasteData.prevent = true;
+
+					assertPasteNotification( editor, expected, { notification: msg }, pasteData );
 				} );
 			}
 		};
