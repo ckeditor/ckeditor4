@@ -17,7 +17,7 @@
 		/**
 		 * Paste as plain text command. It will determine it's pasted text automatically if possible.
 		 *
-		 * At the time of writing it was working correctly only on Internet Explorer browsers, due to it's
+		 * At the time of writing it was working correctly only on Internet Explorer browsers, due to its
 		 * `paste` support in `document.execCommand`.
 		 *
 		 * @private
