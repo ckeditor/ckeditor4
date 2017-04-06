@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'en', {
 	button: 'Paste as plain text',
-	pasteMsg: 'Your browser security settings don\'t permit the editor to automatically paste as plain text. Use %1 to paste.'
+	pasteMsg: 'Your browser doesn\'t allow you to paste plain text this way. Press %1 to paste.'
 } );

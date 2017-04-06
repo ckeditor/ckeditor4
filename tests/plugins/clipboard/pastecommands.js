@@ -139,8 +139,8 @@
 						expected = {
 							content: '',
 							count: 1,
-							msg: 'Your browser security settings don\'t permit the editor to paste automatically. ' +
-								'Use <kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
+							msg: 'Your browser doesn\'t allow you to paste this way. Press <kbd aria-label="' +
+								keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
 						};
 
 					pasteData.prevent = true;

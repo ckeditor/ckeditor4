@@ -36,9 +36,8 @@
 						expected = {
 							content: '',
 							count: 1,
-							msg: 'Your browser security settings don\'t permit the editor to automatically paste as ' +
-								'plain text. Use <kbd aria-label="' + keystroke.aria + '">' + keystroke.display +
-								'</kbd> to paste.'
+							msg: 'Your browser doesn\'t allow you to paste plain text this way. Press ' +
+								'<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
 						},
 						pasteData = {
 							dataValue: '<a href="http://ckeditor.com">Foobar</a>',
