@@ -24,7 +24,7 @@
 				async: true,
 
 				/**
-				 * Paste as plain text command. It will determine it's pasted text automatically if possible.
+				 * Paste from Word command. It will determine it's pasted content from Word automatically if possible.
 				 *
 				 * At the time of writing it was working correctly only on Internet Explorer browsers, due to its
 				 * `paste` support in `document.execCommand`.
