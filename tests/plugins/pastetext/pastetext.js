@@ -49,9 +49,11 @@
 			'test prevented direct access to clipboard': function( editor, bot ) {
 				bot.setData( '', function() {
 					var expected = fixtures.get( 'expectedNotification' ),
-						pasteData = fixtures.get( 'pasteData' );
+						pasteData = fixtures.get( 'pasteData' ),
+						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
+							editor.getCommandKeystroke( editor.commands[ CKEDITOR.env.ie ? 'paste' : 'pastetext' ] ) );
 
-					expected.msg = getDefaultNotification( editor, 'pastetext' );
+					expected.msg = getDefaultNotification( editor, 'pastetext', keystroke );
 
 					assertPasteNotification( editor, expected, cmdData, pasteData );
 				} );
@@ -61,12 +63,14 @@
 				bot.setData( '', function() {
 					var expected = fixtures.get( 'expectedNotification' ),
 						pasteData = fixtures.get( 'pasteData' ),
+						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
+							editor.getCommandKeystroke( editor.commands[ CKEDITOR.env.ie ? 'paste' : 'pastetext' ] ) ),
 						cmdForceData = {
 							name: 'pastetext',
 							notification: true
 						};
 
-					expected.msg = getDefaultNotification( editor, 'pastetext' );
+					expected.msg = getDefaultNotification( editor, 'pastetext', keystroke );
 
 					assertPasteNotification( editor, expected, cmdForceData, pasteData );
 				} );

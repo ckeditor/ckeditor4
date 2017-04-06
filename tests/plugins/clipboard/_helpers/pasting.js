@@ -166,8 +166,8 @@ function testResetScenario( editor, queue ) {
 	firePaste( queue[ i ] );
 }
 
-function getDefaultNotification( editor, command ) {
-	var keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
+function getDefaultNotification( editor, command, keyInfo ) {
+	var keystroke = keyInfo || CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
 		editor.getCommandKeystroke( editor.commands[ command ] ) ),
 		msg = editor.lang[ command === 'paste' ? 'clipboard' : command ].pasteMsg
 			.replace( /%1/, '<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd>' );
