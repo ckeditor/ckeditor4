@@ -23,31 +23,22 @@
 		 * @private
 		 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
 		 * @param {Object} [data] Options object.
-		 * @param {Boolean} [data.showNotification=true] Indicates if a notification should be shown after
-		 * unsuccessful paste attempt. This parameter was added in 4.7.0.
+		 * @param {Boolean/String} [data.notification=true] If it's a boolean, it indicates if a notification
+		 * should be shown after unsuccessful paste attempt. If a string is passed, it will be displayed
+		 * as a notification. This parameter was added in 4.7.0.
 		 * @member CKEDITOR.editor.commands.pastetext
 		 */
 		exec: function( editor, data ) {
 			var lang = editor.lang,
 				keyInfo = CKEDITOR.tools.keystrokeToString( lang.common.keyboard, editor.getCommandKeystroke( this ) ),
-				showNotification = ( data && typeof data.showNotification !== 'undefined' ) ? data.showNotification :
+				notification = ( data && typeof data.notification !== 'undefined' ) ? data.notification :
 					!data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie ),
-				msg = lang.pastetext.pasteMsg
+				msg = ( notification && typeof notification === 'string' ) ? notification : lang.pastetext.pasteMsg
 					.replace( /%1/, '<kbd aria-label="' + keyInfo.aria + '">' + keyInfo.display + '</kbd>' );
-
-			// If paste failed, display proper notification.
-			editor.on( 'afterCommandExec', function( event ) {
-				if ( event.data.name === 'paste' ) {
-					if ( !event.data.returnValue && showNotification ) {
-						editor.showNotification( msg, 'info', editor.config.clipboard_notificationDuration );
-					}
-					event.removeListener();
-				}
-			} );
 
 			editor.execCommand( 'paste', {
 				type: 'text',
-				showNotification: false
+				notification: notification ? msg : false
 			} );
 		}
 	};
