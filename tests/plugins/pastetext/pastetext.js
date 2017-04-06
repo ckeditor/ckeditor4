@@ -7,10 +7,17 @@
 	'use strict';
 
 	bender.editors = {
-		classic: {},
+		classic: {
+			config: {
+				language: 'en'
+			}
+		},
 
 		inline: {
-			creator: 'inline'
+			creator: 'inline',
+			config: {
+				language: 'en'
+			}
 		}
 	};
 
@@ -50,6 +57,31 @@
 				} );
 			},
 
+			'test forcing notification on paste': function( editor, bot ) {
+				bot.setData( '', function() {
+					var keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
+						CKEDITOR.CTRL + CKEDITOR.SHIFT + 86 ),
+						expected = {
+							content: '',
+							count: 1,
+							msg: 'Your browser doesn\'t allow you to paste plain text this way. Press ' +
+								'<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd> to paste.'
+						},
+						pasteData = {
+							dataValue: '<a href="http://ckeditor.com">Foobar</a>',
+							prevent: true
+						},
+						cmdForceData = {
+							name: 'pastetext',
+							notification: true
+						};
+
+					pasteData.prevent = true;
+
+					assertPasteNotification( editor, expected, cmdForceData, pasteData );
+				} );
+			},
+
 			'test skipping notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
 					var pasteData = {
@@ -62,12 +94,33 @@
 						},
 						cmdPreventData = {
 							name: 'pastetext',
-							showNotification: false
+							notification: false
 						};
 
 					assertPasteNotification( editor, expected, cmdPreventData, pasteData );
 				} );
 			},
+
+			'test customising notification on paste': function( editor, bot ) {
+				bot.setData( '', function() {
+					var msg = 'CKEditor is the best!',
+						pasteData = {
+							dataValue: 'foo',
+							prevent: true
+						},
+						expected = {
+							content: '',
+							msg: msg,
+							count: 1
+						},
+						cmdPreventData = {
+							name: 'pastetext',
+							notification: msg
+						};
+
+					assertPasteNotification( editor, expected, cmdPreventData, pasteData );
+				} );
+			}
 		};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
