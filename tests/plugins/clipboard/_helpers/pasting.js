@@ -1,5 +1,5 @@
 /* exported assertPasteEvent, pasteFiles, assertPasteCommand, assertPasteNotification, testResetScenario,
-getDefaultNotification */
+getDefaultNotification, createFixtures */
 
 'use strict';
 
@@ -173,4 +173,12 @@ function getDefaultNotification( editor, command ) {
 			.replace( /%1/, '<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd>' );
 
 	return msg;
+}
+
+function createFixtures( fixtures ) {
+	return {
+		get: function( name ) {
+			return CKEDITOR.tools.copy( fixtures[ name ] );
+		}
+	};
 }

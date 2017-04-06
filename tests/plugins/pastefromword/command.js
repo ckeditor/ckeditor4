@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: link, pastefromword */
 /* bender-include: ../clipboard/_helpers/pasting.js */
-/* global getDefaultNotification, assertPasteNotification */
+/* global createFixtures, getDefaultNotification, assertPasteNotification */
 
 ( function() {
 	'use strict';
@@ -24,20 +24,24 @@
 	var cmdData = {
 			name: 'pastefromword'
 		},
+		fixtures = createFixtures( {
+			pasteData: {
+				dataValue: '<a href="http://ckeditor.com">Foobar</a>',
+				prevent: true
+			},
+
+			expected: {
+				content: '',
+				count: 1
+			}
+		} ),
 		tests = {
 			'test prevented direct access to clipboard': function( editor, bot ) {
 				bot.setData( '', function() {
-					var expected = {
-							content: '',
-							count: 1,
-							msg: getDefaultNotification( editor, 'paste' )
-						},
-						pasteData = {
-							dataValue: '<a href="http://ckeditor.com">Foobar</a>',
-							prevent: true
-						};
+					var expected = fixtures.get( 'expected' ),
+						pasteData = fixtures.get( 'pasteData' );
 
-					pasteData.prevent = true;
+					expected.msg = getDefaultNotification( editor, 'paste' );
 
 					assertPasteNotification( editor, expected, cmdData, pasteData );
 				} );
@@ -45,21 +49,14 @@
 
 			'test forcing notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
-					var expected = {
-							content: '',
-							count: 1,
-							msg: getDefaultNotification( editor, 'paste' )
-						},
-						pasteData = {
-							dataValue: '<a href="http://ckeditor.com">Foobar</a>',
-							prevent: true
-						},
+					var expected = fixtures.get( 'expected' ),
+						pasteData = fixtures.get( 'pasteData' ),
 						cmdForceData = {
 							name: 'pastefromword',
 							notification: true
 						};
 
-					pasteData.prevent = true;
+					expected.msg = getDefaultNotification( editor, 'paste' );
 
 					assertPasteNotification( editor, expected, cmdForceData, pasteData );
 				} );
@@ -67,18 +64,14 @@
 
 			'test skipping notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
-					var pasteData = {
-							dataValue: 'foo',
-							prevent: true
-						},
-						expected = {
-							content: '',
-							count: 0
-						},
+					var expected = fixtures.get( 'expected' ),
+						pasteData = fixtures.get( 'pasteData' ),
 						cmdPreventData = {
 							name: 'pastefromword',
 							notification: false
 						};
+
+					expected.count = 0;
 
 					assertPasteNotification( editor, expected, cmdPreventData, pasteData );
 				} );
@@ -87,19 +80,14 @@
 			'test customising notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
 					var msg = 'CKEditor is the best!',
-						pasteData = {
-							dataValue: 'foo',
-							prevent: true
-						},
-						expected = {
-							content: '',
-							msg: msg,
-							count: 1
-						},
+						expected = fixtures.get( 'expected' ),
+						pasteData = fixtures.get( 'pasteData' ),
 						cmdPreventData = {
 							name: 'pastefromword',
 							notification: msg
 						};
+
+					expected.msg = msg;
 
 					assertPasteNotification( editor, expected, cmdPreventData, pasteData );
 				} );

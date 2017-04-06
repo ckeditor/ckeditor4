@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,clipboard */
 /* bender-ckeditor-plugins: link, pastetext */
 /* bender-include: ../clipboard/_helpers/pasting.js */
-/* global getDefaultNotification, assertPasteCommand, assertPasteNotification */
+/* global createFixtures, getDefaultNotification, assertPasteCommand, assertPasteNotification */
 
 ( function() {
 	'use strict';
@@ -24,13 +24,23 @@
 	var cmdData = {
 			name: 'pastetext'
 		},
+		fixtures = createFixtures( {
+			pasteData: {
+				dataValue: '<a href="http://ckeditor.com">Foobar</a>',
+				prevent: true
+			},
+
+			expectedNotification: {
+				content: '',
+				count: 1
+			}
+		} ),
 		tests = {
 			'test pasting plain text': function( editor, bot ) {
 				bot.setData( '', function() {
-					var pasteData = {
-						dataValue: '<a href="http://ckeditor.com">Foobar</a>',
-						prevent: false
-					};
+					var pasteData = fixtures.get( 'pasteData' );
+
+					pasteData.prevent = false;
 
 					assertPasteCommand( editor, { type: 'text', content: '<p>Foobar</p>' }, cmdData, pasteData );
 				} );
@@ -38,17 +48,10 @@
 
 			'test prevented direct access to clipboard': function( editor, bot ) {
 				bot.setData( '', function() {
-					var expected = {
-							content: '',
-							count: 1,
-							msg: getDefaultNotification( editor, 'pastetext' )
-						},
-						pasteData = {
-							dataValue: '<a href="http://ckeditor.com">Foobar</a>',
-							prevent: true
-						};
+					var expected = fixtures.get( 'expectedNotification' ),
+						pasteData = fixtures.get( 'pasteData' );
 
-					pasteData.prevent = true;
+					expected.msg = getDefaultNotification( editor, 'pastetext' );
 
 					assertPasteNotification( editor, expected, cmdData, pasteData );
 				} );
@@ -56,21 +59,14 @@
 
 			'test forcing notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
-					var expected = {
-							content: '',
-							count: 1,
-							msg: getDefaultNotification( editor, 'pastetext' )
-						},
-						pasteData = {
-							dataValue: '<a href="http://ckeditor.com">Foobar</a>',
-							prevent: true
-						},
+					var expected = fixtures.get( 'expectedNotification' ),
+						pasteData = fixtures.get( 'pasteData' ),
 						cmdForceData = {
 							name: 'pastetext',
 							notification: true
 						};
 
-					pasteData.prevent = true;
+					expected.msg = getDefaultNotification( editor, 'pastetext' );
 
 					assertPasteNotification( editor, expected, cmdForceData, pasteData );
 				} );
@@ -78,10 +74,7 @@
 
 			'test skipping notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
-					var pasteData = {
-							dataValue: 'foo',
-							prevent: true
-						},
+					var pasteData = fixtures.get( 'pasteData' ),
 						expected = {
 							content: '',
 							count: 0
@@ -98,19 +91,14 @@
 			'test customising notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
 					var msg = 'CKEditor is the best!',
-						pasteData = {
-							dataValue: 'foo',
-							prevent: true
-						},
-						expected = {
-							content: '',
-							msg: msg,
-							count: 1
-						},
+						pasteData = fixtures.get( 'pasteData' ),
+						expected = fixtures.get( 'expectedNotification' ),
 						cmdPreventData = {
 							name: 'pastetext',
 							notification: msg
 						};
+
+					expected.msg = msg ;
 
 					assertPasteNotification( editor, expected, cmdPreventData, pasteData );
 				} );
