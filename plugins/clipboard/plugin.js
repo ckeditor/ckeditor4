@@ -687,8 +687,9 @@
 				 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
 				 * @param {Object/String} data If `data` is a string, then it's considered a content that is being pasted.
 				 * Otherwise it's treated as an object with options.
-				 * @param {Boolean} [data.showNotification=true] Indicates if a notification should be shown after
-				 * unsuccessful paste attempt. This parameter was added in 4.7.0.
+				 * @param {Boolean/String} [data.notification=true] If it's a boolean, it indicates if a notification
+				 * should be shown after unsuccessful paste attempt. If a string is passed, it will be displayed
+				 * as a notification. This parameter was added in 4.7.0.
 				 * @param {String} [data.type='html'] Type of the pasted content. There are two allowed values:
 				 * * 'html'
 				 * * 'text'
@@ -702,11 +703,11 @@
 					data = typeof data !== 'undefined' && data !== null ? data : {};
 
 					var cmd = this,
-						showNotification = typeof data.showNotification !== 'undefined' ? data.showNotification : true,
+						notification = typeof data.notification !== 'undefined' ? data.notification : true,
 						forcedType = data.type,
 						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
 							editor.getCommandKeystroke( this ) ),
-						msg = editor.lang.clipboard.pasteMsg
+						msg = typeof notification === 'string' ? notification : editor.lang.clipboard.pasteMsg
 							.replace( /%1/, '<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd>' ),
 						pastedContent = typeof data === 'string' ? data : data.dataValue;
 
@@ -721,7 +722,7 @@
 							}
 
 							firePasteEvents( editor, data, withBeforePaste );
-						} else if ( showNotification ) {
+						} else if ( notification ) {
 							editor.showNotification( msg, 'info', editor.config.clipboard_notificationDuration );
 						}
 
