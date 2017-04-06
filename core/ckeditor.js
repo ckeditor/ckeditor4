@@ -126,7 +126,7 @@ CKEDITOR.remove = function( editor ) {
 	};
 
 	/**
-	 * Returns a string will all CSS rules passed to the {@link CKEDITOR#addCss} method.
+	 * Returns a string with all CSS rules passed to the {@link CKEDITOR#addCss} method.
 	 *
 	 * @returns {String} A string containing CSS rules.
 	 */
