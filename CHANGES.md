@@ -10,9 +10,12 @@ New Features:
 * [#16847](http://dev.ckeditor.com/ticket/16847): Added a support for parsing and inlining any formatting created using Microsoft Word's style system to the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#16818](http://dev.ckeditor.com/ticket/16818): Added table cell height parsing in the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#16850](http://dev.ckeditor.com/ticket/16850): Added new `config.enableContextMenu` configuration option for enabling and disabling [Context Menu](http://ckeditor.com/addon/contextmenu).
+* [#16937](http://dev.ckeditor.com/ticket/16937): The `command` parameter in the [CKEDITOR.editor.getCommandKeystroke](http://docs.ckeditor.dev/#!/api/CKEDITOR.editor-method-getCommandKeystroke) accepts also command name as an argument.
 
 Fixed Issues:
 
+* [#16935](http://dev.ckeditor.com/ticket/16935): Fixed: [Chrome] Blurring editor in [Source Mode](http://ckeditor.com/addon/sourcearea) throws an error.
+* [#13381](http://dev.ckeditor.com/ticket/13381): Fixed: Dynamic code evaluation call in [`CKEDITOR.template`](http://docs.ckeditor.com/#!/api/CKEDITOR.template) removed. CKEditor can be used with `unsafe-inline` Content Security Policy. Thanks to [Caridy Patiño](http://caridy.name)!
 * [#16825](http://dev.ckeditor.com/ticket/16825): Fixed: [Chrome] Error thrown when destroying focused inline editor.
 * [#16857](http://dev.ckeditor.com/ticket/16857): Fixed: Ctrl + Shift + V blocked by copy formatting.
 * [#14714](http://dev.ckeditor.com/ticket/14714): [Webkit/Blink] Fixed: Exception thrown on refocusing a blurred inline editor.
@@ -35,6 +38,11 @@ Fixed Issues:
 * [#16804](https://dev.ckeditor.com/ticket/16804): Fixed: Focus is not on the first menu item when user opens [Context Menu](http://ckeditor.com/addon/contextmenu) or combobox from editor's toolbar.
 * [#14407](https://dev.ckeditor.com/ticket/14407): [IE] Fixed: Non-editable widgets can be edited.
 * [#16845](https://dev.ckeditor.com/ticket/16845): [IE] Fixed: Cursor jumps to the top of the scrolled editor after focusing it when [Copy Formatting](http://ckeditor.com/addon/copyformatting) plugin is enabled.
+* [#16927](https://dev.ckeditor.com/ticket/16927): Fixed: CKEditor throws an error if a bundle containing [Color Button](http://ckeditor.com/addon/colorbutton) plugin is run in ES5 strict mode. Thanks to [Igor Rubinovich](https://github.com/IgorRubinovich)!
+
+Other Changes:
+
+* [#16954](http://dev.ckeditor.com/ticket/16954): Remove paste dialog.
 
 ## CKEditor 4.6.2
 

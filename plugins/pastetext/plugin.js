@@ -14,21 +14,33 @@
 		canUndo: false,
 		async: true,
 
-		exec: function( editor ) {
-			editor.getClipboardData( { title: editor.lang.pastetext.title }, function( data ) {
-				// Do not use editor#paste, because it would start from beforePaste event.
-				data && editor.fire( 'paste', {
-					type: 'text',
-					dataValue: data.dataValue,
-					method: 'paste',
-					dataTransfer: CKEDITOR.plugins.clipboard.initPasteDataTransfer()
-				} );
+		/**
+		 * Paste as plain text command. It will determine it's pasted text automatically if possible.
+		 *
+		 * At the time of writing it was working correctly only on Internet Explorer browsers, due to its
+		 * `paste` support in `document.execCommand`.
+		 *
+		 * @private
+		 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
+		 * @param {Object} [data] Options object.
+		 * @param {Boolean/String} [data.notification=true] Content for a notification shown after an unsuccessful
+		 * paste attempt. If `false` notification will not be displayed. This parameter was added in 4.7.0.
+		 * @member CKEDITOR.editor.commands.pastetext
+		 */
+		exec: function( editor, data ) {
+			var lang = editor.lang,
+				// In IE we must display keystroke for `paste` command as blocked `pastetext`
+				// can fallback only to native paste.
+				keyInfo = CKEDITOR.tools.keystrokeToString( lang.common.keyboard,
+					editor.getCommandKeystroke( CKEDITOR.env.ie ? editor.commands.paste : this ) ),
+				notification = ( data && typeof data.notification !== 'undefined' ) ? data.notification :
+					!data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie ),
+				msg = ( notification && typeof notification === 'string' ) ? notification : lang.pastetext.pasteMsg
+					.replace( /%1/, '<kbd aria-label="' + keyInfo.aria + '">' + keyInfo.display + '</kbd>' );
 
-				editor.fire( 'afterCommandExec', {
-					name: 'pastetext',
-					command: pasteTextCmd,
-					returnValue: !!data
-				} );
+			editor.execCommand( 'paste', {
+				type: 'text',
+				notification: notification ? msg : false
 			} );
 		}
 	};
@@ -45,6 +57,8 @@
 			var commandName = 'pastetext';
 
 			editor.addCommand( commandName, pasteTextCmd );
+
+			editor.setKeystroke( CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, commandName ); // Ctrl + Shift + V
 
 			editor.ui.addButton && editor.ui.addButton( 'PasteText', {
 				label: editor.lang.pastetext.button,

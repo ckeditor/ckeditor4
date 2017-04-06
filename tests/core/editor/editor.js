@@ -347,7 +347,7 @@ bender.test( {
 			name: 'no_notification',
 			creator: 'inline',
 			config: {
-				removePlugins: 'notification'
+				plugins: 'wysiwygarea'
 			}
 		}, function( bot ) {
 			var editor = bot.editor,

@@ -3,8 +3,9 @@
 /* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image */
 /* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
 /* jshint ignore:end */
-/* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_lib/q.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js,_helpers/pfwTools.js */
-/* global createTestCase */
+/* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js */
+/* bender-include: _helpers/createTestSuite.js,_helpers/pfwTools.js */
+/* global createTestSuite */
 
 ( function() {
 	'use strict';
@@ -15,36 +16,21 @@
 		}
 	};
 
-	var browsers = [
+	bender.test( createTestSuite( {
+		browsers: [
 			'chrome',
 			'firefox',
 			'ie8',
 			'ie11',
 			'safari'
 		],
-		wordVersions = [
+		wordVersions: [
 			'word2007',
 			'word2013'
 		],
-		tests = {
-			'16826OrderedList': true
+		tests: {
+			'Tickets/16826OrderedList': true
 		},
-		keys = CKEDITOR.tools.objectKeys( tests ),
-		testData = {
-			_should: {
-				ignore: {}
-			}
-		};
-
-	for ( var i = 0; i < keys.length; i++ ) {
-		for ( var j = 0; j < wordVersions.length; j++ ) {
-			for ( var k = 0; k < browsers.length; k++ ) {
-				if ( tests[ keys[ i ] ] === true || CKEDITOR.tools.indexOf( tests[ keys[ i ] ], wordVersions[ j ] ) !== -1 ) {
-					testData[ [ 'test', keys[ i ], wordVersions[ j ], browsers[ k ] ].join( ' ' ) ] = createTestCase( keys[ i ], wordVersions[ j ], browsers[ k ], true, true );
-				}
-			}
-		}
-	}
-
-	bender.test( testData );
+		compareRawData: true
+	} ) );
 } )();
