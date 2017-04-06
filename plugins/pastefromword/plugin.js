@@ -32,16 +32,15 @@
 				 * @private
 				 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
 				 * @param {Object} [data] Options object.
-				 * @param {Boolean/String} [data.notification=true] If it's a boolean, it indicates if a notification
-				 * should be shown after unsuccessful paste attempt. If a string is passed, it will be displayed
-				 * as a notification. This parameter was added in 4.7.0.
+				 * @param {Boolean/String} [data.notification=true] Content for a notification shown after an unsuccessful
+				 * paste attempt. If `false` notification will not be displayed. This parameter was added in 4.7.0.
 				 * @member CKEDITOR.editor.commands.pastefromword
 				 */
 				exec: function( editor, data ) {
 					forceFromWord = 1;
 					editor.execCommand( 'paste', {
 						type: 'html',
-						notification: typeof data.notification !== 'undefined' ? data.notification : true
+						notification: data && typeof data.notification !== 'undefined' ? data.notification : true
 					} );
 				}
 			} );
