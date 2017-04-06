@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit,clipboard */
-/* bender-ckeditor-plugins: link, pastetext */
+/* bender-ckeditor-plugins: link, pastefromword */
 /* bender-include: ../clipboard/_helpers/pasting.js */
-/* global createFixtures, getDefaultNotification, assertPasteCommand, assertPasteNotification */
+/* global createFixtures, getDefaultNotification, assertPasteNotification */
 
 ( function() {
 	'use strict';
@@ -22,7 +22,7 @@
 	};
 
 	var cmdData = {
-			name: 'pastetext'
+			name: 'pastefromword'
 		},
 		fixtures = createFixtures( {
 			pasteData: {
@@ -30,30 +30,18 @@
 				prevent: true
 			},
 
-			expectedNotification: {
+			expected: {
 				content: '',
 				count: 1
 			}
 		} ),
 		tests = {
-			'test pasting plain text': function( editor, bot ) {
-				bot.setData( '', function() {
-					var pasteData = fixtures.get( 'pasteData' );
-
-					pasteData.prevent = false;
-
-					assertPasteCommand( editor, { type: 'text', content: '<p>Foobar</p>' }, cmdData, pasteData );
-				} );
-			},
-
 			'test prevented direct access to clipboard': function( editor, bot ) {
 				bot.setData( '', function() {
-					var expected = fixtures.get( 'expectedNotification' ),
-						pasteData = fixtures.get( 'pasteData' ),
-						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
-							editor.getCommandKeystroke( editor.commands[ CKEDITOR.env.ie ? 'paste' : 'pastetext' ] ) );
+					var expected = fixtures.get( 'expected' ),
+						pasteData = fixtures.get( 'pasteData' );
 
-					expected.msg = getDefaultNotification( editor, 'pastetext', keystroke );
+					expected.msg = getDefaultNotification( editor, 'paste' );
 
 					assertPasteNotification( editor, expected, cmdData, pasteData );
 				} );
@@ -61,16 +49,14 @@
 
 			'test forcing notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
-					var expected = fixtures.get( 'expectedNotification' ),
+					var expected = fixtures.get( 'expected' ),
 						pasteData = fixtures.get( 'pasteData' ),
-						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
-							editor.getCommandKeystroke( editor.commands[ CKEDITOR.env.ie ? 'paste' : 'pastetext' ] ) ),
 						cmdForceData = {
-							name: 'pastetext',
+							name: 'pastefromword',
 							notification: true
 						};
 
-					expected.msg = getDefaultNotification( editor, 'pastetext', keystroke );
+					expected.msg = getDefaultNotification( editor, 'paste' );
 
 					assertPasteNotification( editor, expected, cmdForceData, pasteData );
 				} );
@@ -78,15 +64,14 @@
 
 			'test skipping notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
-					var pasteData = fixtures.get( 'pasteData' ),
-						expected = {
-							content: '',
-							count: 0
-						},
+					var expected = fixtures.get( 'expected' ),
+						pasteData = fixtures.get( 'pasteData' ),
 						cmdPreventData = {
-							name: 'pastetext',
+							name: 'pastefromword',
 							notification: false
 						};
+
+					expected.count = 0;
 
 					assertPasteNotification( editor, expected, cmdPreventData, pasteData );
 				} );
@@ -95,14 +80,14 @@
 			'test customising notification on paste': function( editor, bot ) {
 				bot.setData( '', function() {
 					var msg = 'CKEditor is the best!',
+						expected = fixtures.get( 'expected' ),
 						pasteData = fixtures.get( 'pasteData' ),
-						expected = fixtures.get( 'expectedNotification' ),
 						cmdPreventData = {
-							name: 'pastetext',
+							name: 'pastefromword',
 							notification: msg
 						};
 
-					expected.msg = msg ;
+					expected.msg = msg;
 
 					assertPasteNotification( editor, expected, cmdPreventData, pasteData );
 				} );
