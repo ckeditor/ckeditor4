@@ -9,7 +9,6 @@
  * @param {Array} options.wordVersions Array of word version names.
  * @param {Object} options.tests Object containing tests to be generated. It contains key - value pairs, where key is name of the test file and value
  * is an array of wordVersions name for which tests should be generated or a boolean indicating: true - generate for all versions, false - for none.
- * @param {Object} [options.ticketTests] Object containing tests to be generated. It has same structure as `options.tests`.
  * @param {Array} [options.testData] Test data object (may contain e.g. information about ignored tests). All created tests will be added into testData object.
  * @param {Array} [options.customFilters] Array of custom filters (like [ pfwTools.filters.font ]) which will be used during assertions.
  * @param {Boolean} [options.compareRawData=false] If `true` test case will assert against raw paste's `data.dataValue` rather than
@@ -18,7 +17,6 @@
  * @returns {Object} Test data object which should be passed to `bender.test` function.
  */
 function createTestSuite( options ) {
-
 	options = CKEDITOR.tools.extend( options, {
 		browsers: [],
 		wordVersions: [],

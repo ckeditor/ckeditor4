@@ -3,9 +3,9 @@
 
 /**
  * Creates a single test case based on the options provided. It uses files located in `../_fixtures/` directory to build
- * a proper assertions. The input file should be located in `../fixtures/options.name/options.wordVersion/options.browser.html`.
- * The expected output in `../_fixtures/options.name/expected.html`. If the expected output is different for the given
- * browser (options.browser) than in the most cases the separate file can be used - it should be located
+ * a proper assertions. The input file should be located in `../fixtures/options.name/options.wordVersion/options.browser.html`,
+ * and the expected output in `../_fixtures/options.name/expected.html`. If the expected output is different for the given
+ * browser (`options.browser`) than in the most cases the separate file can be used - it should be located
  * under `../_fixtures/options.name/options.wordVersion/expected_options.browser.html`.
  *
  * @param {Object} options
@@ -45,9 +45,8 @@ function createTestCase( options ) {
 				// If browser-customized expected result was found, use it. Otherwise go with the regular expected.
 				expectedValue = values[ 2 ] !== null ? values[ 2 ] : values[ 1 ];
 
+			// null means that fixture file was not found - skipping test.
 			if ( inputFixture === null ) {
-				// null means that fixture file was not found - skipping test.
-
 				resume( function() {
 					assert.ignore();
 				} );
