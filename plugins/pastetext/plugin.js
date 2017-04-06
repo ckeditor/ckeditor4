@@ -30,7 +30,10 @@
 		 */
 		exec: function( editor, data ) {
 			var lang = editor.lang,
-				keyInfo = CKEDITOR.tools.keystrokeToString( lang.common.keyboard, editor.getCommandKeystroke( this ) ),
+				// In IE we must display keystroke for `paste` command as blocked `pastetext`
+				// can fallback only to native paste.
+				keyInfo = CKEDITOR.tools.keystrokeToString( lang.common.keyboard,
+					editor.getCommandKeystroke( CKEDITOR.env.ie ? editor.commands.paste : this ) ),
 				notification = ( data && typeof data.notification !== 'undefined' ) ? data.notification :
 					!data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie ),
 				msg = ( notification && typeof notification === 'string' ) ? notification : lang.pastetext.pasteMsg
