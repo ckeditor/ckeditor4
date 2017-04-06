@@ -27,12 +27,10 @@
 			'Ordered_list_multiple': true,
 			'Unordered_list': true,
 			'Unordered_list_multiple': true,
-			'Unordered_list_adjusted_margin': true
-		},
-		ticketTests: {
-			'16745MixedListsAndParagraphs': true,
-			'16682listWithMargin': true,
-			'16682noIndentation': true
+			'Unordered_list_adjusted_margin': true,
+			'Tickets/16745MixedListsAndParagraphs': true,
+			'Tickets/16682listWithMargin': true,
+			'Tickets/16682noIndentation': true
 		},
 		testData: {
 			_should: {
@@ -42,9 +40,9 @@
 					'test Unordered_list word2016 edge': !CKEDITOR.env.edge,
 					'test Unordered_list_multiple word2016 edge': !CKEDITOR.env.edge,
 					'test Unordered_list_adjusted_margin word2016 edge': !CKEDITOR.env.edge,
-					'test 16745MixedListsAndParagraphs word2016 edge': !CKEDITOR.env.edge,
-					'test 16682listWithMargin word2016 edge': !CKEDITOR.env.edge,
-					'test 16682noIndentation word2016 edge': !CKEDITOR.env.edge
+					'test Tickets/16745MixedListsAndParagraphs word2016 edge': !CKEDITOR.env.edge,
+					'test Tickets/16682listWithMargin word2016 edge': !CKEDITOR.env.edge,
+					'test Tickets/16682noIndentation word2016 edge': !CKEDITOR.env.edge
 				}
 			}
 		},

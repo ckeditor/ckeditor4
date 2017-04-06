@@ -28,8 +28,8 @@
 			'word2007',
 			'word2013'
 		],
-		ticketTests: {
-			'16826OrderedList': true
+		tests: {
+			'Tickets/16826OrderedList': true
 		},
 		compareRawData: true
 	} ) );

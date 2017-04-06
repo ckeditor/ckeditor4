@@ -26,46 +26,46 @@
 		wordVersions: [
 			'word2013'
 		],
-		ticketTests: {
-			'6594': [ 'word2013' ],
-			'6595': [ 'word2013' ],
-			'6608': [ 'word2013' ],
-			'6639nested_list_with_empty_lines': [ 'word2013' ],
-			'6658CKEditor_Word_tabs_between_list_items_Sample': [ 'word2013' ],
-			'6662bullets': [ 'word2013' ],
-			'6662': [ 'word2013' ],
-			'6751disappearing_spaces_example2': [ 'word2013' ],
-			'6751TextToPaste': [ 'word2013' ],
-			'6751': [ 'word2013' ],
-			'682tester': [ 'word2013' ],
-			'6956CKEditor_pasting_issue': [ 'word2013' ],
-			'6973CKEditor_pasting_issue': [ 'word2013' ],
-			'6973TestNegativeHeadingIndent': [ 'word2013' ],
-			'6973This_is_a_line_of_text.2': [ 'word2013' ],
-			'7131customNumbering': [ 'word2013' ],
-			'7131TC_7131_2': [ 'word2013' ],
-			'7131': [ 'word2013' ],
-			'7209test2': [ 'word2013' ],
-			'7262preformatted_list': [ 'word2013' ],
-			'7371BugReport_Example': [ 'word2013' ],
-			'7480BulletedList': [ 'word2013' ],
-			'7494Numbers_&_Bulltes_lists': [ 'word2013' ],
-			'7521simple_table': [ 'word2013' ],
-			'7581Numbering': [ 'word2013' ],
-			'7581fancyList': [ 'word2013' ],
-			'7584Numbered_list_with_diff_start_value': [ 'word2013' ],
-			'7593Numbere_&_Bullet_list_with_list_styles_applied': [ 'word2013' ],
-			'7610Multi_level_Numbered_list': [ 'word2013' ],
-			'7620AlphabeticNumberingLists': [ 'word2013' ]
+		tests: {
+			'Tickets/6594': [ 'word2013' ],
+			'Tickets/6595': [ 'word2013' ],
+			'Tickets/6608': [ 'word2013' ],
+			'Tickets/6639nested_list_with_empty_lines': [ 'word2013' ],
+			'Tickets/6658CKEditor_Word_tabs_between_list_items_Sample': [ 'word2013' ],
+			'Tickets/6662bullets': [ 'word2013' ],
+			'Tickets/6662': [ 'word2013' ],
+			'Tickets/6751disappearing_spaces_example2': [ 'word2013' ],
+			'Tickets/6751TextToPaste': [ 'word2013' ],
+			'Tickets/6751': [ 'word2013' ],
+			'Tickets/682tester': [ 'word2013' ],
+			'Tickets/6956CKEditor_pasting_issue': [ 'word2013' ],
+			'Tickets/6973CKEditor_pasting_issue': [ 'word2013' ],
+			'Tickets/6973TestNegativeHeadingIndent': [ 'word2013' ],
+			'Tickets/6973This_is_a_line_of_text.2': [ 'word2013' ],
+			'Tickets/7131customNumbering': [ 'word2013' ],
+			'Tickets/7131TC_7131_2': [ 'word2013' ],
+			'Tickets/7131': [ 'word2013' ],
+			'Tickets/7209test2': [ 'word2013' ],
+			'Tickets/7262preformatted_list': [ 'word2013' ],
+			'Tickets/7371BugReport_Example': [ 'word2013' ],
+			'Tickets/7480BulletedList': [ 'word2013' ],
+			'Tickets/7494Numbers_&_Bulltes_lists': [ 'word2013' ],
+			'Tickets/7521simple_table': [ 'word2013' ],
+			'Tickets/7581Numbering': [ 'word2013' ],
+			'Tickets/7581fancyList': [ 'word2013' ],
+			'Tickets/7584Numbered_list_with_diff_start_value': [ 'word2013' ],
+			'Tickets/7593Numbere_&_Bullet_list_with_list_styles_applied': [ 'word2013' ],
+			'Tickets/7610Multi_level_Numbered_list': [ 'word2013' ],
+			'Tickets/7620AlphabeticNumberingLists': [ 'word2013' ]
 		},
 		testData: {
 			_should: {
 				ignore: {
-					'test 7131 word2013 ie11': true, // Every alpha list item gets "a" numbering value (li[value=1]) while it shouldn't.'
-					'test 7131customNumbering word2013 ie11': true, // li[value] issue present only in IE11.
-					'test 7581Numbering word2013 ie11': true, // Again li[value], same as above.
+					'test Tickets/7131 word2013 ie11': true, // Every alpha list item gets "a" numbering value (li[value=1]) while it shouldn't.'
+					'test Tickets/7131customNumbering word2013 ie11': true, // li[value] issue present only in IE11.
+					'test Tickets/7581Numbering word2013 ie11': true, // Again li[value], same as above.
 					// Edge lists heuristics make slight difference in one list item.
-					'test 6658CKEditor_Word_tabs_between_list_items_Sample word2013 ie11': CKEDITOR.env.edge
+					'test Tickets/6658CKEditor_Word_tabs_between_list_items_Sample word2013 ie11': CKEDITOR.env.edge
 				}
 			}
 		},
