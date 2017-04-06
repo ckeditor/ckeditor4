@@ -23,9 +23,26 @@
 				canUndo: false,
 				async: true,
 
-				exec: function( editor ) {
+				/**
+				 * Paste as plain text command. It will determine it's pasted text automatically if possible.
+				 *
+				 * At the time of writing it was working correctly only on Internet Explorer browsers, due to its
+				 * `paste` support in `document.execCommand`.
+				 *
+				 * @private
+				 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
+				 * @param {Object} [data] Options object.
+				 * @param {Boolean/String} [data.notification=true] If it's a boolean, it indicates if a notification
+				 * should be shown after unsuccessful paste attempt. If a string is passed, it will be displayed
+				 * as a notification. This parameter was added in 4.7.0.
+				 * @member CKEDITOR.editor.commands.pastefromword
+				 */
+				exec: function( editor, data ) {
 					forceFromWord = 1;
-					editor.execCommand( 'paste', { type: 'html' } );
+					editor.execCommand( 'paste', {
+						type: 'html',
+						notification: typeof data.notification !== 'undefined' ? data.notification : true
+					} );
 				}
 			} );
 
