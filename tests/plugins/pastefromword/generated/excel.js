@@ -3,8 +3,9 @@
 /* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image */
 /* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
 /* jshint ignore:end */
-/* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_lib/q.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js,_helpers/pfwTools.js */
-/* global createTestCase,pfwTools */
+/* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js */
+/* bender-include: _helpers/createTestSuite.js,_helpers/pfwTools.js */
+/* global createTestSuite,pfwTools */
 
 ( function() {
 	'use strict';
@@ -16,20 +17,20 @@
 		config: config
 	};
 
-	var browsers = [
+	bender.test( createTestSuite( {
+		browsers: [
 			'datatransfer', // chrome, safari
 			'firefox_datatransfer', // ff
 			'ie8'
 		],
-		wordVersions = [
+		wordVersions: [
 			'excel2013'
 		],
-		tests = {
+		tests: {
 			'Table_text_attributes/Cell_text': true,
 			'Table_text_attributes/Mixed': true
 		},
-		keys = CKEDITOR.tools.objectKeys( tests ),
-		testData = {
+		testData: {
 			_should: {
 				ignore: {
 					'test Table_text_attributes/Mixed excel2013 datatransfer': CKEDITOR.env.gecko || CKEDITOR.env.ie,
@@ -39,17 +40,7 @@
 					'test Table_text_attributes/Cell_text excel2013 ie8': !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
 				}
 			}
-		};
-
-	for ( var i = 0; i < keys.length; i++ ) {
-		for ( var j = 0; j < wordVersions.length; j++ ) {
-			for ( var k = 0; k < browsers.length; k++ ) {
-				if ( tests[ keys[ i ] ] === true || CKEDITOR.tools.indexOf( tests[ keys[ i ] ], wordVersions[ j ] ) !== -1 ) {
-					testData[ [ 'test', keys[ i ], wordVersions[ j ], browsers[ k ] ].join( ' ' ) ] = createTestCase( keys[ i ], wordVersions[ j ], browsers[ k ], false, false, [ pfwTools.filters.style ] );
-				}
-			}
-		}
-	}
-
-	bender.test( testData );
+		},
+		customFilters: [ pfwTools.filters.style ]
+	} ) );
 } )();
