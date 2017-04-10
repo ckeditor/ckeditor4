@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'bn', {
 	button: 'সাধারণ টেক্সট হিসেবে পেইস্ট করি',
-	title: 'সাদা টেক্সট হিসেবে পেস্ট কর'
+	pasteMsg: 'Your browser doesn\'t allow you to paste plain text this way. Press %1 to paste.' // MISSING
 } );

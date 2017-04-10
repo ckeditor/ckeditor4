@@ -8,8 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sk', {
 	cut: 'Vystrihnúť',
 	cutError: 'Bezpečnostné nastavenia vášho prehliadača nedovoľujú editoru automaticky spustiť operáciu vystrihnutia. Použite na to klávesnicu (Ctrl/Cmd+X).',
 	paste: 'Vložiť',
-	pasteArea: 'Miesto na vloženie',
-	pasteMsg: 'Použitím klávesnice (<STRONG>Ctrl/Cmd+V</STRONG>) vložte text do rámčeka a stlačte OK.',
-	securityMsg: 'Kvôli bezpečnostným nastaveniam vášho prehliadača editor nemôže pristupovať k schránke na kopírovanie priamo. Vložte to preto do tohto okna.',
-	title: 'Vložiť'
+	pasteMsg: 'Použitím klávesnice (<STRONG>Ctrl/Cmd+V</STRONG>) vložte text do rámčeka a stlačte OK.'
 } );
