@@ -205,7 +205,15 @@
 						delete element.attributes.size;
 					}
 
-					createAttributeStack( element, filter );
+					// Create style stack for td/th > font if only class
+					// and style attributes are present. Such markup is produced by Excel.
+					if ( CKEDITOR.dtd.tr[ element.parent.name ] &&
+						CKEDITOR.tools.arrayCompare( CKEDITOR.tools.objectKeys( element.attributes ), [ 'class', 'style' ] ) ) {
+
+						Style.createStyleStack( element, filter, editor, null, element.name );
+					} else {
+						createAttributeStack( element, filter );
+					}
 				},
 				'ul': function( element ) {
 					if ( !msoListsDetected ) {
@@ -341,9 +349,10 @@
 						}
 					}
 
-					Style.pushStylesLower( element, {
-						'background': true
-					} );
+					Style.extractBackgroundColor( element );
+
+					Style.createStyleStack( element, filter, editor,
+						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
 				},
 				'v:imagedata': remove,
 				// This is how IE8 presents images.
@@ -386,7 +395,7 @@
 					return Style.normalizedStyles( element, editor ) || false;
 				},
 				'class': function( classes ) {
-					return falseIfEmpty( classes.replace( /msonormal|msolistparagraph\w*/ig, '' ) );
+					return falseIfEmpty( classes.replace( /(el\d+)|(font\d+)|msonormal|msolistparagraph\w*/ig, '' ) );
 				},
 				'cellspacing': remove,
 				'cellpadding': remove,
@@ -421,6 +430,7 @@
 		var writer = new CKEDITOR.htmlParser.basicWriter();
 
 		filter.applyTo( fragment );
+
 		fragment.writeHtml( writer );
 
 		return writer.getHtml();
@@ -549,9 +559,12 @@
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {CKEDITOR.htmlParser.filter} filter
 		 * @param {CKEDITOR.editor} editor
+		 * @param {RegExp} [skipStyles] All matching style names will not be extracted to a style stack. Defaults
+		 * to `/margin|text\-align|width|border|padding/i`.
+		 * @param {String} [topmostElementName=span] Element type which is considered as a root element of the stack.
 		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
-		createStyleStack: function( element, filter, editor ) {
+		createStyleStack: function( element, filter, editor, skipStyles, topmostElementName ) {
 			var children = [],
 				i;
 
@@ -568,10 +581,10 @@
 			// Create a stack of spans with each containing one style.
 			var styles = tools.parseCssText( Style.normalizedStyles( element, editor ) ),
 				innermostElement = element,
-				styleTopmost = element.name === 'span'; // Ensure that the root element retains at least one style.
+				styleTopmost = element.name === ( topmostElementName ? topmostElementName : 'span' ); // Ensure that the root element retains at least one style.
 
 			for ( var style in styles ) {
-				if ( style.match( /margin|text\-align|width|border|padding/i ) ) {
+				if ( style.match( skipStyles || /margin|text\-align|width|border|padding/i ) ) {
 					continue;
 				}
 
@@ -644,9 +657,18 @@
 			element.attributes.style = CKEDITOR.tools.writeCssText( sortedStyles );
 		},
 
-		// Moves the element's styles lower in the DOM hierarchy.
-		// Returns true on success.
-		pushStylesLower: function( element, exceptions ) {
+		/**
+		 * Moves the element's styles lower in the DOM hierarchy. If wrapText==true and the direct child of an elements
+		 * text, the text will be wrapped in `span` element.
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 * @param {Object} exceptions Object containing style names which should not be moved, e.g. `{ background: true }`.
+		 * @param {Boolean} [wrapText=false] Whether a direct text child of an element should be wrapped into a `span` tag
+		 * so that the styles can be moved to it.
+		 * @returns {Boolean} Returns true if styles were successfully moved lower.
+		 */
+		pushStylesLower: function( element, exceptions, wrapText ) {
+
 			if ( !element.attributes.style ||
 				element.children.length === 0 ) {
 				return false;
@@ -678,6 +700,13 @@
 				for ( var i = 0; i < element.children.length; i++ ) {
 					var child = element.children[ i ];
 
+					if ( child.type === CKEDITOR.NODE_TEXT && wrapText ) {
+						var wrapper = new CKEDITOR.htmlParser.element( 'span' );
+						wrapper.setHtml( child.value );
+						child.replaceWith( wrapper );
+						child = wrapper;
+					}
+
 					if ( child.type !== CKEDITOR.NODE_ELEMENT ) {
 						continue;
 					}
@@ -695,6 +724,26 @@
 			element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 
 			return true;
+		},
+
+		extractBackgroundColor: function( element ) {
+			var styles = CKEDITOR.tools.parseCssText( element.attributes.style ),
+				background = styles.background,
+				backgroundColor;
+
+			if ( background ) {
+				backgroundColor = CKEDITOR.tools.style.parse.background( background );
+
+				if ( backgroundColor.color ) {
+					styles[ 'background-color' ] = backgroundColor.color;
+				}
+
+				if ( backgroundColor.unprocessed ) {
+					styles.background = backgroundColor.unprocessed;
+				}
+
+				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
+			}
 		},
 
 		/**
@@ -850,7 +899,7 @@
 						styleText = CKEDITOR.tools.writeCssText( style );
 
 						if ( element.getAttribute( 'style' ) ) {
-							styleText += ';' + element.getAttribute( 'style' );
+							styleText = element.getAttribute( 'style' ) + ';' + styleText;
 						}
 
 						element.setAttribute( 'style', styleText );
@@ -858,9 +907,19 @@
 				}
 
 				function applyStyles( document, styles ) {
-					var style;
+					var classStyles = {},
+						style;
 
 					for ( style in styles ) {
+						if ( style.substr( 0, 1 ) === '.' ) {
+							classStyles[ style ] = styles[ style ];
+						} else {
+							applyStyle( document, style, styles[ style ] );
+						}
+					}
+
+					// Workaround for #16957.
+					for ( style in classStyles ) {
 						applyStyle( document, style, styles[ style ] );
 					}
 				}

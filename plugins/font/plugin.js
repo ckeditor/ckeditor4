@@ -46,7 +46,8 @@
 						left: function( element ) {
 							return !!element.attributes.size ||
 								!!element.attributes.align ||
-								!!element.attributes.face;
+								!!element.attributes.face ||
+								!!element.styles[ 'font-size' ];
 						},
 						right: function( element ) {
 							var sizes = [
