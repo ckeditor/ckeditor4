@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'kn' ] = {
 		protocol: 'Protocol',
 		upload: 'Upload',
 		uploadSubmit: 'Send it to the Server',
-		image: ಚ್ಿತ್ರ್',
+		image: 'ಚಿತ್ರ',
 		flash: 'Flash',
 		form: 'Form',
 		checkbox: 'Checkbox',
