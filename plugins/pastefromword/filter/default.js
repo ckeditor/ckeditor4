@@ -349,6 +349,8 @@
 						}
 					}
 
+					// Extract background color so that `background-color` contains only color and `background`
+					// rest of the styles. Such styles are needed for `tabletools` integration.
 					Style.extractBackgroundColor( element );
 
 					Style.createStyleStack( element, filter, editor,
@@ -395,6 +397,7 @@
 					return Style.normalizedStyles( element, editor ) || false;
 				},
 				'class': function( classes ) {
+					// The (el\d+)|(font\d+) are default Excel classes for table cells and text.
 					return falseIfEmpty( classes.replace( /(el\d+)|(font\d+)|msonormal|msolistparagraph\w*/ig, '' ) );
 				},
 				'cellspacing': remove,
@@ -658,8 +661,8 @@
 		},
 
 		/**
-		 * Moves the element's styles lower in the DOM hierarchy. If wrapText==true and the direct child of an elements
-		 * text, the text will be wrapped in `span` element.
+		 * Moves the element's styles lower in the DOM hierarchy. If wrapText==true and the direct child of an element
+		 * is a text node it will be wrapped in a `span` element.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @param {Object} exceptions Object containing style names which should not be moved, e.g. `{ background: true }`.
@@ -726,6 +729,18 @@
 			return true;
 		},
 
+		/**
+		 * Extracts background color to a separate style rule. For example:
+		 *
+		 *		background: url( "sample.gif" ) #00D repeat-y fixed;
+		 *
+		 * will be extracted to:
+		 *
+		 *		background-color: #00D;
+		 *		background: url( "sample.gif" ) repeat-y fixed;
+		 *
+		 * @param {CKEDITOR.htmlParser.element} element
+		 */
 		extractBackgroundColor: function( element ) {
 			var styles = CKEDITOR.tools.parseCssText( element.attributes.style ),
 				background = styles.background,
