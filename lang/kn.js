@@ -56,7 +56,7 @@ CKEDITOR.lang[ 'kn' ] = {
 		cssClass: 'ಸ್ಟೈಲ್‌ಶೀಟ್ ಕ್ಲಾಸ್‌ಗಳು',
 		advisoryTitle: 'Advisory Title',
 		cssStyle: '‍ಶೈಲಿ',
-		ok: 'OK',
+		ok: '',
 		cancel: 'ರದ್ದುಮಾಡು',
 		close: 'ಮುಚ್ಚು',
 		preview: 'ಮುನ್ನೋಟ',
