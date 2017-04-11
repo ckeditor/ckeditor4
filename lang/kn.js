@@ -17,10 +17,10 @@
  * Contains the dictionary of language entries.
  * @namespace
  */
-CKEDITOR.lang[ 'en' ] = {
+CKEDITOR.lang[ 'kn' ] = {
 	// ARIA description.
-	editor: 'Rich Text Editor',
-	editorPanel: 'Rich Text Editor panel',
+	editor: 'ಸಂಪದ್ಭರಿತ ಪಠ್ಯ ಸಂಪಾದಕ',
+	editorPanel: 'ಸಂಪದ್ಭರಿತ ಪಠ್ಯ ಸಂಪಾದಕ ಪಟ್ಟಿ',
 
 	// Common messages and labels.
 	common: {
@@ -33,7 +33,7 @@ CKEDITOR.lang[ 'en' ] = {
 		protocol: 'Protocol',
 		upload: 'Upload',
 		uploadSubmit: 'Send it to the Server',
-		image: 'Image',
+		image: ಚ್ಿತ್ರ್',
 		flash: 'Flash',
 		form: 'Form',
 		checkbox: 'Checkbox',
