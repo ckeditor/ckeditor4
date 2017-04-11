@@ -54,7 +54,7 @@ CKEDITOR.lang[ 'kn' ] = {
 		langCode: 'ಭಾಷೆಯ ಸಂಕೇತ',
 		longDescr: 'ದೀರ್ಘ ವಿವರಣೆಯ URL',
 		cssClass: 'ಸ್ಟೈಲ್‌ಶೀಟ್ ಕ್ಲಾಸ್‌ಗಳು',
-		advisoryTitle: 'Advisory Title',
+		advisoryTitle: 'ಸಲಹಾ ಶೀರ್ಷಿಕೆ',
 		cssStyle: 'ಶೈಲಿ',
 		ok: 'ಸರಿ',
 		cancel: 'ರದ್ದುಮಾಡು',
