@@ -153,7 +153,16 @@
 
 			ranges = getRangesForCells( editor, table, [ 1 ] );
 			selection.selectRanges( ranges );
-			assert.isTrue( selection.isInTable(), 'Nested cell selection.' );
+			assert.isTrue( selection.isInTable(), 'Nested cell selection (1. cell).' );
+
+			ranges = getRangesForCells( editor, table, [ 3 ] );
+			selection.selectRanges( ranges );
+			assert.isTrue( selection.isInTable(), 'Nested cell selection (middle cell).' );
+
+			// Edge case in Safari: selecting last cell inside nested table.
+			ranges = getRangesForCells( editor, table, [ 5 ] );
+			selection.selectRanges( ranges );
+			assert.isTrue( selection.isInTable(), 'Nested cell selection (last cell).' );
 
 			selection.selectElement( table.findOne( 'table tr' ) );
 			assert.isTrue( selection.isInTable(), 'Nested table selection (one row).' );
