@@ -1,4 +1,4 @@
-/**
+‍/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -45,8 +45,8 @@ CKEDITOR.lang[ 'kn' ] = {
 		button: 'ಗುಂಡಿ',
 		select: 'ಆಯ್ಕೆ ಮಾಡಬಲ್ಲ ಕ್ಷೇತ್ರ',
 		imageButton: 'ಚಿತ್ರ ಗುಂಡಿ',
-		notSet: '<‍ಹೊಂದಿಸಲಾಗಿಲ್ಲ>',
-		id: 'Id',‍‍
+		notSet: '<ಹೊಂದಿಸಲಾಗಿಲ್ಲ>',
+		id: 'Id',
 		name: 'ಹೆಸರು',
 		langDir: 'ಭಾಷೆಯ ದಿಕ್ಕು',
 		langDirLtr: 'ಎಡದಿಂದ ಬಲಕ್ಕೆ (LTR)',
@@ -55,8 +55,8 @@ CKEDITOR.lang[ 'kn' ] = {
 		longDescr: 'ದೀರ್ಘ ವಿವರಣೆಯ URL',
 		cssClass: 'ಸ್ಟೈಲ್‌ಶೀಟ್ ಕ್ಲಾಸ್‌ಗಳು',
 		advisoryTitle: 'Advisory Title',
-		cssStyle: '‍ಶೈಲಿ',
-		ok: '',
+		cssStyle: 'ಶೈಲಿ',
+		ok: 'ಸರಿ',
 		cancel: 'ರದ್ದುಮಾಡು',
 		close: 'ಮುಚ್ಚು',
 		preview: 'ಮುನ್ನೋಟ',
