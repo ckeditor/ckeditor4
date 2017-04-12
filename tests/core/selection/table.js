@@ -151,18 +151,18 @@
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'nestedTable' ).getHtml() );
 			table = editable.findOne( 'table' );
 
+			// Edge case in Safari: selecting last cell inside nested table.
+			ranges = getRangesForCells( editor, table, [ 5 ] );
+			selection.selectRanges( ranges );
+			assert.isTrue( selection.isInTable(), 'Last cell selection.' );
+
 			ranges = getRangesForCells( editor, table, [ 1 ] );
 			selection.selectRanges( ranges );
 			assert.isTrue( selection.isInTable(), 'Nested cell selection (1. cell).' );
 
 			ranges = getRangesForCells( editor, table, [ 3 ] );
 			selection.selectRanges( ranges );
-			assert.isTrue( selection.isInTable(), 'Nested cell selection (middle cell).' );
-
-			// Edge case in Safari: selecting last cell inside nested table.
-			ranges = getRangesForCells( editor, table, [ 5 ] );
-			selection.selectRanges( ranges );
-			assert.isTrue( selection.isInTable(), 'Nested cell selection (last cell).' );
+			assert.isTrue( selection.isInTable(), 'Nested cell selection first cell.' );
 
 			selection.selectElement( table.findOne( 'table tr' ) );
 			assert.isTrue( selection.isInTable(), 'Nested table selection (one row).' );
