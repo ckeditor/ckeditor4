@@ -880,13 +880,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		}
 
 		if ( !checkOnlyAttributes && element && typeof element.$.isContentEditable != 'undefined' ) {
-			return !( element.$.isContentEditable || element.data( 'cke-editable' ) );
+			return !( element.$.isContentEditable || element.data( 'cke-editable' ) ) || element.$.readonly;
 		}
 		else {
 			// Degrade for old browsers which don't support "isContentEditable", e.g. FF3
 
 			while ( element ) {
-				if ( element.data( 'cke-editable' ) ) {
+				if ( element.readonly ) {
+					return true;
+				} else if ( element.data( 'cke-editable' ) ) {
 					return false;
 				} else if ( element.hasAttribute( 'contenteditable' ) ) {
 					return element.getAttribute( 'contenteditable' ) == 'false';
