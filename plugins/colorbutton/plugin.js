@@ -312,7 +312,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-nostyle' );
 		}
 
-		/**
+		/*
 		 * Selects the specified color in the specified panel block.
 		 *
 		 * @private
@@ -334,7 +334,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 		}
 
-		/**
+		/*
 		 * Converts a CSS color value to an easily comparable form.
 		 *
 		 * @private
