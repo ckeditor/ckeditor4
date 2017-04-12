@@ -121,6 +121,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'Lucida Sans Unicode;' +
 		'Tahoma;' +
 		'Times New Roman;' +
+		'Times;' +
 		'Trebuchet MS;' +
 		'Verdana';
 
