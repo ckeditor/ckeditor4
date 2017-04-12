@@ -692,12 +692,14 @@
 
 			html: function( element ) {
 				delete element.attributes.contenteditable;
+				delete element.attributes.readonly;
 				delete element.attributes[ 'class' ];
 			},
 
 			body: function( element ) {
 				delete element.attributes.spellcheck;
 				delete element.attributes.contenteditable;
+				delete element.attributes.readonly;
 			},
 
 			style: function( element ) {
