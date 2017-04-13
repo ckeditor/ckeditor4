@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'heading', 'en-gb', {
   level_h4:   'Level 4',
   level_h5:   'Level 5',
   level_h6:   'Level 6',
-  level_p:    'Remove format',
+  remove:     'Remove format',
   helpLabel:  'Help',
 
   helpFeatureLabel:  'Features',
