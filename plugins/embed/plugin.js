@@ -87,7 +87,7 @@
  *
  *		config.embed_provider = '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
  *
- * However above endpoint contains certain limitations, e.g. can't embed Google Maps content.
+ * However, above endpoint contains certain limitations, e.g. can't embed Google Maps content.
  * It's recommended to set up an account on the [Iframely](https://iframely.com/) service for
  * better control over embedded content.
  *
