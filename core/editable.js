@@ -72,6 +72,12 @@
 						active.focus();
 						return;
 					}
+
+					if (CKEDITOR.plugins.loaded.divarea) {
+						var selection = this.editor.getSelection(),
+							range = selection.getRanges()[ 0 ];
+						range.select();
+					}
 				}
 
 				// [Edge] Starting from EdgeHTML 14.14393, it does not support `setActive`. We need to use focus which
