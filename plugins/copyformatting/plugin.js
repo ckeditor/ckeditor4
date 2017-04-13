@@ -1099,7 +1099,7 @@
 			var keystrokePaste = editor.config.copyFormatting_keystrokePaste;
 
 			if ( keystrokePaste ) {
-				this._initialKeystrokePasteCommand = editor.keystrokeHandler[ keystrokePaste ];
+				this._initialKeystrokePasteCommand = editor.keystrokeHandler.keystrokes[ keystrokePaste ];
 				editor.setKeystroke( keystrokePaste, 'applyFormatting' );
 			}
 		},
