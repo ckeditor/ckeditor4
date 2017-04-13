@@ -377,8 +377,9 @@
 		breakOnElements: [ 'ul', 'ol', 'table' ],
 
 		/**
-		 * Stores a name of command (if any) initially bound to the keystroke used also for format applying
-		 * ({@link CKEDITOR.config#copyFormatting_keystrokePaste}). Used to restore the default command.
+		 * Stores a name of command (if any) initially bound to the keystroke used for format applying
+		 * ({@link CKEDITOR.config#copyFormatting_keystrokePaste}), to restore it after copy formatting
+		 * is deactivated.
 		 *
 		 * @private
 		 * @property {String}
@@ -1090,7 +1091,7 @@
 		},
 
 		/**
-		 * Attaches the {@link CKEDITOR.plugins.copyformatting} paste keystroke handler to the given editor instance.
+		 * Attaches the paste keystroke handler to the given editor instance.
 		 *
 		 * @private
 		 * @param {CKEDITOR.editor} editor
@@ -1105,7 +1106,7 @@
 		},
 
 		/**
-		 * Detaches the {@link CKEDITOR.plugins.copyformatting} paste keystroke handler from the given editor instance.
+		 * Detaches the paste keystroke handler from the given editor instance.
 		 *
 		 * @private
 		 * @param {CKEDITOR.editor} editor
