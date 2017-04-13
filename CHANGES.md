@@ -41,6 +41,7 @@ Fixed Issues:
 
 Other Changes:
 
+* [#16958](http://dev.ckeditor.com/ticket/16958): Switched default MathJax CDN provider from `cdn.mathjax.org` to [cdnjs](https://cdnjs.com/), due to closing of `cdn.mathjax.org` scheduled on April 30, 2017.
 * [#16954](http://dev.ckeditor.com/ticket/16954): Remove paste dialog.
 
 ## CKEditor 4.6.2
