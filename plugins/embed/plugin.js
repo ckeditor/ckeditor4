@@ -96,7 +96,7 @@
  *
  * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
  *
- * **Important note:** Prior to version 4.6.2 this configuration option defaulted to `//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}` string.
+ * **Important note:** Prior to version 4.7 this configuration option defaulted to `//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}` string.
  *
  * @since 4.5
  * @cfg {String} [embed_provider='']
