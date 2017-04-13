@@ -95,7 +95,8 @@
 						}
 					};
 
-					if ( element.parent ) {
+					// If the parent is DocumentFragment it does not have any attributes. #16912
+					if ( element.parent && element.parent.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT ) {
 						var attrs = element.parent.attributes,
 							style = attrs.style || attrs.STYLE;
 						if ( style && style.match( /mso\-list:\s?Ignore/ ) ) {
