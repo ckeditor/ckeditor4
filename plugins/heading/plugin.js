@@ -63,6 +63,7 @@
           label: lang[ 'level_' + headingTag ],
           headingId: headingTag,
           group: 'heading_levels',
+          style: new CKEDITOR.style( { element: headingTag } ),
           order: i,
           onClick: function() {
             editor.execCommand( 'heading', this.headingId );
@@ -70,11 +71,7 @@
           role: 'menuitemcheckbox'
         };
 
-        // Initialize style property
-        items[ headingTag ].style = new CKEDITOR.style( {
-          element: headingTag
-        } );
-
+        // Populate allowedContent array
         allowedContent.push( items[ headingTag ].style );
       }
 
@@ -87,8 +84,10 @@
         order: headingConfigStrings.length,
         onClick: function() {
           var currentHeadingElement = plugin.getCurrentHeadingElement( editor );
-          if ( currentHeadingElement )
-            editor[ this.style.checkActive( editor.elementPath(), editor ) ? 'removeStyle' : 'applyStyle' ]( this.style );
+          if ( currentHeadingElement ) {
+            editor[ 'applyStyle' ]( this.style );
+            editor.focus();
+          }
         }
       };
 
@@ -104,10 +103,17 @@
         command: 'heading',
         onMenu: function() {
           var activeItems = {},
+            allowedHeadings = plugin.getAllowedHeadings( editor ),
             currentHeadingElement = plugin.getCurrentHeadingElement( editor );
 
-          for ( var prop in items )
-            activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
+          for ( var prop in items ) {
+            if ( plugin.isHeadingElement( prop ) ) {
+              activeItems[ prop ] = allowedHeadings.indexOf( prop ) == -1 ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF;
+            }
+            else {
+              activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
+            }
+          }
 
           activeItems.removeFormat = currentHeadingElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
 
@@ -119,36 +125,101 @@
       } );
     },
 
+    isHeadingElement: function ( name ) {
+      switch( name ) {
+        case 'h1':
+        case 'h2':
+        case 'h3':
+        case 'h4':
+        case 'h5':
+        case 'h6':
+          return true;
+        default:
+          return false;
+      }
+    },
+
     getCurrentHeadingElement: function( editor ) {
       var elementPath = editor.elementPath(),
         activePath = elementPath && elementPath.elements,
         pathMember, element;
 
-      function isHeadingElement( name ) {
-        switch( name ) {
+      // IE8: Upon initialization if there is no path, elementPath() returns null.
+      if ( elementPath ) {
+        for ( var i = 0; i < activePath.length; i++ ) {
+          pathMember = activePath[ i ];
+          if ( !element && this.isHeadingElement( pathMember.getName() ) )
+            element = pathMember;
+        }
+      }
+
+      return element;
+    },
+
+    getAllowedHeadings: function ( editor ) {
+      var selectedElement = editor.getSelection().getStartElement();
+      // console.log('SELECTED ELEMENT: ' + selectedElement.getName() );
+
+      var lastHeading = undefined;
+
+      getLastHeading( editor.document.getBody() );
+      // console.log( 'LAST HEADING: ' + lastHeading );
+
+      switch ( lastHeading ) {
+        case undefined:
+          return [ 'h1', 'h2' ];
+        case 'h1':
+          return [ 'h2' ];
+        case 'h2':
+          return [ 'h2', 'h3' ];
+        case 'h3':
+          return [ 'h2', 'h3', 'h4' ];
+        case 'h4':
+          return [ 'h2', 'h3', 'h4', 'h5' ];
+        case 'h5':
+          return [ 'h2', 'h3', 'h4', 'h5', 'h6' ];
+        case 'h6':
+          return [ 'h2', 'h3', 'h4', 'h5', 'h6' ];
+      }
+
+      /*
+      *   Note: The getLastHeading function modifies the
+      *   lastHeading variable in its outer scope.
+      */
+      function getLastHeading ( element ) {
+        if ( typeof element.getName !== 'function' )
+          return false;
+
+        if ( element.equals( selectedElement ) )
+          return true;
+
+        var tagName = element.getName();
+        // console.log( 'In getLastHeading: ' + tagName );
+
+        switch ( tagName ) {
           case 'h1':
           case 'h2':
           case 'h3':
           case 'h4':
           case 'h5':
           case 'h6':
+            lastHeading = tagName;
+            break;
+        }
+
+        var children = element.getChildren();
+        var count = children.count();
+
+        for ( var i = 0; i < count; i++ ) {
+          if ( getLastHeading( children.getItem( i ) ) )
             return true;
-          default:
-            return false;
         }
-      }
+        return false;
 
-      // IE8: Upon initialization if there is no path, elementPath() returns null.
-      if ( elementPath ) {
-        for ( var i = 0; i < activePath.length; i++ ) {
-          pathMember = activePath[ i ];
-          if ( !element && isHeadingElement( pathMember.getName() ) )
-            element = pathMember;
-        }
-      }
+      } // end getLastHeading
 
-      return element;
-    }
+    } // end getAllowedHeadings
+
   } )
 } )();
 
