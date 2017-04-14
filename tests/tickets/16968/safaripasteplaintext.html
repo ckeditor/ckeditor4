@@ -1,0 +1,12 @@
+<textarea name="editor1" id="editor1" cols="30" rows="10">
+	<p>Paste the content here:</p>
+	<h2>And here:</h2>
+</textarea>
+
+<script>
+	if ( !CKEDITOR.env.safari ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+</script>
