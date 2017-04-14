@@ -3,7 +3,7 @@
 // Register the plugin within the editor.
 CKEDITOR.plugins.add( 'simplebox', {
 	// This plugin requires the Widgets System defined in the 'widget' plugin.
-	requires: 'widget',
+	requires: 'widget,dialog',
 
 	// Register the icon used for the toolbar button. It must be the same
 	// as the name of the widget.
