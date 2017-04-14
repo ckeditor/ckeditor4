@@ -94,12 +94,6 @@
 					if ( CKEDITOR.env.ie && !( CKEDITOR.env.edge && CKEDITOR.env.version > 14 ) && this.getDocument().equals( CKEDITOR.document ) ) {
 						this.$.setActive();
 					} else {
-						if (CKEDITOR.env.webkit) {
-							var selection = this.editor.getSelection(),
-								range = selection.getRanges()[ 0 ];
-							range.select();
-						}
-
 						this.$.focus();
 					}
 				} catch ( e ) {
