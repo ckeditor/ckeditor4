@@ -192,6 +192,15 @@
 			} );
 		},
 
+		'test background color extraction': function() {
+			var bot = this.editorBot;
+
+			bender.tools.testInputOut( 'background-extraction', function( source, expected ) {
+				bot.setHtmlWithSelection( source );
+				assert.beautified.html( expected, bot.getData( true ) );
+			} );
+		},
+
 		'test valign conversion': function() {
 			var bot = this.editorBot;
 
