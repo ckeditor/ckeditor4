@@ -1,6 +1,6 @@
 @bender-tags: tc, 4.7.0, 16968, pastetext
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastetext, sourcearea, elementspath, basicstyles, format
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastetext, sourcearea, elementspath, basicstyles, format, link
 
 1. Copy some rich text / html.
 1. Focus editor and click on the `Paste as plain text` button.
