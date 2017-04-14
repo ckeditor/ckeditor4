@@ -54,11 +54,13 @@
 		icons: 'pastetext,pastetext-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
-			var commandName = 'pastetext';
+			var commandName = 'pastetext',
+				pasteKeystroke = !CKEDITOR.env.safari ? CKEDITOR.CTRL + CKEDITOR.SHIFT + 86 : // Ctrl + Shift + V
+					CKEDITOR.CTRL + CKEDITOR.ALT + CKEDITOR.SHIFT + 86; // Ctrl + Shift + Alt + V
 
 			editor.addCommand( commandName, pasteTextCmd );
 
-			editor.setKeystroke( CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, commandName ); // Ctrl + Shift + V
+			editor.setKeystroke( pasteKeystroke, commandName );
 
 			editor.ui.addButton && editor.ui.addButton( 'PasteText', {
 				label: editor.lang.pastetext.button,
