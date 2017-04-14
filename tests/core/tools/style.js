@@ -8,6 +8,14 @@
 			this.parse = CKEDITOR.tools.style.parse;
 		},
 
+		'test style.parse.background return type': function() {
+			var ret = this.parse.background( 'red url(foo.bar)' );
+
+			assert.isObject( ret, 'Type returned' );
+			// Array is also an object, so it needs some extra checking.
+			assert.areNotSame( Array, ret.constructor, 'Returned value constructor' );
+		},
+
 		'test style.parse.background single background': function() {
 			var ret = this.parse.background( 'red url(foo.bar) no-repeat' );
 
