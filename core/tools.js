@@ -1647,7 +1647,7 @@
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				background: function( value ) {
-					var ret = [],
+					var ret = {},
 						colors = [];
 
 					colors = this._findColor( value );
