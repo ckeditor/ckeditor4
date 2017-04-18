@@ -12,6 +12,7 @@ New Features:
 
 Fixed Issues:
 
+* [#16912](http://dev.ckeditor.com/ticket/16912): Fixed: Exception thrown when a single image is pasted using [paste from Word](http://ckeditor.com/addon/pastefromword).
 * [#16935](http://dev.ckeditor.com/ticket/16935): Fixed: [Chrome] Blurring editor in [Source Mode](http://ckeditor.com/addon/sourcearea) throws an error.
 * [#13381](http://dev.ckeditor.com/ticket/13381): Fixed: Dynamic code evaluation call in [`CKEDITOR.template`](http://docs.ckeditor.com/#!/api/CKEDITOR.template) removed. CKEditor can be used with `unsafe-inline` Content Security Policy. Thanks to [Caridy Patiño](http://caridy.name)!
 * [#16825](http://dev.ckeditor.com/ticket/16825): Fixed: [Chrome] Error thrown when destroying focused inline editor.
