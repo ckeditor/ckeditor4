@@ -8,21 +8,39 @@
 		classic: {}
 	};
 
-	function _addPasteListener( editor, callback ) {
-		// Since currently tabletools cancel afterPaste event, we need to do some setTimeout trickery.
-		editor.once( 'paste', function() {
-			setTimeout( function() {
-				resume( function() {
-					if ( callback ) {
-						callback();
-					}
-				} );
-			}, 100 );
-		}, null, null, 1 );
+	function createTestCase( fixtureId, pasteFixtureId ) {
+		return function( editor, bot ) {
+			bender.tools.testInputOut( fixtureId, function( source, expected ) {
+				// Since currently tabletools cancel afterPaste event, we need to do some setTimeout trickery.
+				editor.once( 'paste', function() {
+					setTimeout( function() {
+						resume( function() {
+							shrinkSelections( editor );
+							bender.assert.beautified.html( expected, bender.tools.getHtmlWithSelection( editor ) );
+						} );
+					}, 100 );
+				}, null, null, 1 );
+
+				bot.setHtmlWithSelection( source );
+
+				bender.tools.emulatePaste( editor, CKEDITOR.document.getById( pasteFixtureId ).getOuterHtml() );
+
+				wait();
+			} );
+		};
 	}
 
-	var doc = CKEDITOR.document,
-		tests = {
+	function shrinkSelections( editor ) {
+		// Shrinks each range into it's inner element, so that range markers are not outside `td` elem.
+		var ranges = editor.getSelection().getRanges(),
+			i;
+
+		for ( i = 0; i < ranges.length; i++ ) {
+			ranges[ i ].shrink( CKEDITOR.SHRINK_TEXT, false );
+		}
+	}
+
+	var tests = {
 			'test doesnt break regular paste': function( editor ) {
 				bender.tools.setHtmlWithSelection( editor, '<p>foo^bar</p>' );
 				bender.tools.emulatePaste( editor, '<p>bam</p>' );
@@ -36,89 +54,17 @@
 				wait();
 			},
 
-			'test merge row after': function( editor, bot ) {
-				bender.tools.testInputOut( 'merge-row-after', function( source, expected ) {
-					bot.setHtmlWithSelection( source );
+			'test merge row after': createTestCase( 'merge-row-after', '2cells1row' ),
 
-					_addPasteListener( editor, function() {
-						bender.assert.beautified.html( expected, bot.editor.getData() );
-					} );
+			'test merge row before': createTestCase( 'merge-row-before', '2cells1row' ),
 
-					bender.tools.emulatePaste( editor, doc.getById( '2cells1row' ).getOuterHtml() );
+			'test merge multi rows after': createTestCase( 'merge-rows-after', '2cells2rows' ),
 
-					wait();
-				} );
-			},
+			'test merge multi rows before': createTestCase( 'merge-rows-before', '2cells2rows' ),
 
-			'test merge row before': function( editor, bot ) {
-				bender.tools.testInputOut( 'merge-row-before', function( source, expected ) {
-					bot.setHtmlWithSelection( source );
+			'test merge multi rows after empty cell': createTestCase( 'merge-rows-after-empty', '2cells2rows' ),
 
-					_addPasteListener( editor, function() {
-						bender.assert.beautified.html( expected, bot.editor.getData() );
-					} );
-
-					bender.tools.emulatePaste( editor, doc.getById( '2cells1row' ).getOuterHtml() );
-
-					wait();
-				} );
-			},
-
-			'test merge multi rows after': function( editor, bot ) {
-				bender.tools.testInputOut( 'merge-rows-after', function( source, expected ) {
-					bot.setHtmlWithSelection( source );
-
-					_addPasteListener( editor, function() {
-						bender.assert.beautified.html( expected, bot.editor.getData() );
-					} );
-
-					bender.tools.emulatePaste( editor, doc.getById( '2cells2rows' ).getOuterHtml() );
-
-					wait();
-				} );
-			},
-
-			'test merge multi rows before': function( editor, bot ) {
-				bender.tools.testInputOut( 'merge-rows-before', function( source, expected ) {
-					bot.setHtmlWithSelection( source );
-
-					_addPasteListener( editor, function() {
-						bender.assert.beautified.html( expected, bot.editor.getData() );
-					} );
-
-					bender.tools.emulatePaste( editor, doc.getById( '2cells2rows' ).getOuterHtml() );
-
-					wait();
-				} );
-			},
-
-			'test merge multi rows after empty cell': function( editor, bot ) {
-				bender.tools.testInputOut( 'merge-rows-after-empty', function( source, expected ) {
-					bot.setHtmlWithSelection( source );
-
-					_addPasteListener( editor, function() {
-						bender.assert.beautified.html( expected, bot.editor.getData() );
-					} );
-
-					bender.tools.emulatePaste( editor, doc.getById( '2cells2rows' ).getOuterHtml() );
-
-					wait();
-				} );
-			},
-
-			'test merge multi rows before empty cell': function( editor, bot ) {
-				bender.tools.testInputOut( 'merge-rows-before-empty', function( source, expected ) {
-					bot.setHtmlWithSelection( source );
-
-					_addPasteListener( editor, function() {
-						bender.assert.beautified.html( expected, bot.editor.getData() );
-					} );
-
-					bender.tools.emulatePaste( editor, doc.getById( '2cells2rows' ).getOuterHtml() );
-
-					wait();
-				} );
-			}
+			'test merge multi rows before empty cell': createTestCase( 'merge-rows-before-empty', '2cells2rows' )
 		};
 
 	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
