@@ -11,14 +11,11 @@
 	function createTestCase( fixtureId, pasteFixtureId ) {
 		return function( editor, bot ) {
 			bender.tools.testInputOut( fixtureId, function( source, expected ) {
-				// Since currently tabletools cancel afterPaste event, we need to do some setTimeout trickery.
 				editor.once( 'paste', function() {
-					setTimeout( function() {
-						resume( function() {
-							shrinkSelections( editor );
-							bender.assert.beautified.html( expected, bender.tools.getHtmlWithSelection( editor ) );
-						} );
-					}, 100 );
+					resume( function() {
+						shrinkSelections( editor );
+						bender.assert.beautified.html( expected, bender.tools.getHtmlWithSelection( editor ) );
+					} );
 				}, null, null, 1 );
 
 				bot.setHtmlWithSelection( source );
