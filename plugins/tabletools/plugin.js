@@ -1157,7 +1157,6 @@
 			prevCell,
 			cellToPaste,
 			cellToReplace,
-			cellsToSelect,
 			i,
 			j;
 
@@ -1352,14 +1351,8 @@
 		CKEDITOR.dom.element.clearAllMarkers( markers );
 
 		// Select newly pasted cells.
-		cellsToSelect = getCellsBetween( new CKEDITOR.dom.element( pastedTableMap[ 0 ][ 0 ] ), cellToPaste );
-		fakeSelectCells( editor, cellsToSelect );
-		// We have to set previousFakeSelection as it's used when invoking context menu to restore
-		// current selection. Without setting it, the editor will try to use selection before the paste.
-		previousFakeSelection = {
-			first: cellsToSelect[ 0 ],
-			last: cellsToSelect[ cellsToSelect.length - 1 ]
-		};
+		fakeSelectCells( editor,
+				getCellsBetween( new CKEDITOR.dom.element( pastedTableMap[ 0 ][ 0 ] ), cellToPaste ) );
 
 		editor.fire( 'saveSnapshot' );
 
