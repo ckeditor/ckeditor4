@@ -1,6 +1,5 @@
 /* bender-tags: editor,unit,clipboard,pastefromword */
 /* bender-ckeditor-plugins: pastefromword */
-/* bender-include: ../copyformatting/_helpers/tools.js */
 
 ( function() {
 	'use strict';
@@ -19,6 +18,7 @@
 				this.isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported;
 			},
 
+			// #16912
 			'test root image': function() {
 				testOutput( this.isCustomDataTypesSupported ? 'root-image' : 'root-image-simple', this.editor );
 			},
