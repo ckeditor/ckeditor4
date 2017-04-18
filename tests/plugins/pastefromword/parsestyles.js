@@ -51,9 +51,12 @@
 		'test parsing styles from real style element': function() {
 			var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
 				expected = {
-					'.MsoChpDefault': {
-						'font-family': 'Calibri'
-					}
+					styles: {
+						'.MsoChpDefault': {
+							'font-family': 'Calibri'
+						}
+					},
+					order: [ '.MsoChpDefault' ]
 				};
 
 			assert.beautified.js( JSON.stringify( expected ),
@@ -63,12 +66,15 @@
 		'test parsing styles from a fake style element': function() {
 			var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
 				expected = {
-					'.MsoChpDefault': {
-						'font-family': 'Calibri'
+					styles: {
+						'.MsoChpDefault': {
+							'font-family': 'Calibri'
+						},
+						'div a.foo, .bar': {
+							'text-decoration': 'underline'
+						}
 					},
-					'div a.foo, .bar': {
-						'text-decoration': 'underline'
-					}
+					order: [ '.MsoChpDefault', 'div a.foo, .bar' ]
 				};
 
 			assert.beautified.js( JSON.stringify( expected ),
@@ -83,6 +89,12 @@
 			testInlining( 'inline1' );
 			testInlining( 'inline2' );
 			testInlining( 'multiple-inline' );
+		},
+
+		'test parsing styles specificity': function() {
+			testInlining( 'style-specificity' );
+			testInlining( 'style-specificity-multiple' );
+			testInlining( 'style-specificity-inline' );
 		}
 	};
 

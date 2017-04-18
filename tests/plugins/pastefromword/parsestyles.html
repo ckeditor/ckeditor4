@@ -5,9 +5,12 @@
 	font-family:Calibri;}
 =>
 {
-	".MsoChpDefault": {
-		"font-family": "Calibri"
-	}
+	"styles": {
+		".MsoChpDefault": {
+			"font-family": "Calibri"
+		}
+	},
+	"order": [ ".MsoChpDefault" ]
 }
 </textarea>
 
@@ -21,9 +24,12 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal {
 }
 =>
 {
-	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
+	"styles": {
+		"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
 		"margin": "0cm 0cm 0.0001pt"
 	}
+	},
+	"order": [ "p.MsoNormal, li.MsoNormal, div.MsoNormal" ]
 }
 </textarea>
 
@@ -41,12 +47,15 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal {
 }
 =>
 {
-	".MsoChpDefault": {
-		"font-family": "Calibri"
+	"styles": {
+		".MsoChpDefault": {
+			"font-family": "Calibri"
+		},
+		"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
+			"margin": "0cm 0cm 0.0001pt"
+		}
 	},
-	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
-		"margin": "0cm 0cm 0.0001pt"
-	}
+	"order": [ ".MsoChpDefault", "p.MsoNormal, li.MsoNormal, div.MsoNormal" ]
 }
 </textarea>
 
@@ -57,7 +66,10 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	mso-style-parent:"";}
 =>
 {
-	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {}
+	"styles": {
+		"p.MsoNormal, li.MsoNormal, div.MsoNormal": {}
+	},
+	"order": [ "p.MsoNormal, li.MsoNormal, div.MsoNormal" ]
 }
 </textarea>
 
@@ -74,9 +86,12 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{margin:0cm;}
 =>
 {
-	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
+	"styles": {
+		"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
 		"margin": "0cm"
 	}
+	},
+	"order": [ "p.MsoNormal, li.MsoNormal, div.MsoNormal" ]
 }
 </textarea>
 
@@ -92,9 +107,12 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{margin:0cm;}
 =>
 {
-	"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
+	"styles": {
+		"p.MsoNormal, li.MsoNormal, div.MsoNormal": {
 		"margin": "0cm"
 	}
+	},
+	"order": [ "p.MsoNormal, li.MsoNormal, div.MsoNormal" ]
 }
 </textarea>
 
@@ -199,4 +217,103 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 {
 	"font-family": "Verdana"
 }
+</textarea>
+
+<textarea id="style-specificity">
+	<html>
+		<head>
+			<style>
+				.li1 {
+					background-color: #000;
+				}
+				.span1 {
+					color: #F00;
+				}
+				li {
+					background-color: #FFF;
+					color: #000;
+				}
+				span {
+					color: #FF0;
+					background-color: #00F;
+				}
+			</style>
+		</head>
+		<body>
+			<ul>
+				<li class="li1">
+					Foo<span class="span1">Bar</span>
+				</li>
+			</ul>
+		</body>
+	</html>
+=>
+	<ul>
+		<li class="li1" style="color:#000000;background-color:#000000;">
+			Foo<span class="span1" style="color:#FF0000;background-color:#0000FF;">Bar</span>
+		</li>
+	</ul>
+</textarea>
+
+<textarea id="style-specificity-multiple">
+	<html>
+		<head>
+			<style>
+				.li1 {
+					background-color: #000;
+				}
+				.span1 {
+					color: #F00;
+				}
+			</style>
+			<style>
+				li {
+					background-color: #FFF;
+					color: #000;
+				}
+				span {
+					color: #FF0;
+					background-color: #00F;
+				}
+			</style>
+		</head>
+		<body>
+			<ul>
+				<li class="li1">
+					Foo<span class="span1">Bar</span>
+				</li>
+			</ul>
+		</body>
+	</html>
+=>
+	<ul>
+		<li class="li1" style="color:#000000;background-color:#000000;">
+			Foo<span class="span1" style="color:#FF0000;background-color:#0000FF;">Bar</span>
+		</li>
+	</ul>
+</textarea>
+
+<textarea id="style-specificity-inline">
+	<html>
+		<head>
+			<style>
+				.li1 {
+					background-color: #000;
+				}
+				li {
+					background-color: #FFF;
+					color: #000;
+				}
+			</style>
+		</head>
+		<body>
+			<ul>
+				<li class="li1" style="background-color:#999">Foo</li>
+			</ul>
+		</body>
+	</html>
+=>
+	<ul>
+		<li class="li1" style="color:#000000;background-color:#999999;">Foo</li>
+	</ul>
 </textarea>
