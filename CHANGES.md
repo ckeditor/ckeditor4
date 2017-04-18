@@ -37,6 +37,7 @@ Fixed Issues:
 * [#14407](https://dev.ckeditor.com/ticket/14407): [IE] Fixed: Non-editable widgets can be edited.
 * [#16845](https://dev.ckeditor.com/ticket/16845): [IE] Fixed: Cursor jumps to the top of the scrolled editor after focusing it when [Copy Formatting](http://ckeditor.com/addon/copyformatting) plugin is enabled.
 * [#16927](https://dev.ckeditor.com/ticket/16927): Fixed: CKEditor throws an error if a bundle containing [Color Button](http://ckeditor.com/addon/colorbutton) plugin is run in ES5 strict mode. Thanks to [Igor Rubinovich](https://github.com/IgorRubinovich)!
+* [#16920](http://dev.ckeditor.com/ticket/16920): Fixed: Several plugins not using dialog as a direct dependency.
 * [PR#336](https://github.com/ckeditor/ckeditor-dev/pull/336): Fixed: Typo in [CKEDITOR.getCss](http://docs.ckeditor.com/#!/api/CKEDITOR-method-getCss) api docs. Thanks to [knusperpixel](https://github.com/knusperpixel)!
 
 Other Changes:
