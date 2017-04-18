@@ -95,6 +95,7 @@
 			testInlining( 'style-specificity' );
 			testInlining( 'style-specificity-multiple' );
 			testInlining( 'style-specificity-inline' );
+			testInlining( 'style-specificity-order' );
 		}
 	};
 

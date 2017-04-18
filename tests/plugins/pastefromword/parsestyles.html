@@ -317,3 +317,28 @@ p.MsoNormal, li.MsoNormal, div.MsoNormal
 		<li class="li1" style="color:#000000;background-color:#999999;">Foo</li>
 	</ul>
 </textarea>
+
+<textarea id="style-specificity-order">
+	<html>
+		<head>
+			<style>
+				.li1 {
+					background-color: #000;
+					color: #555;
+				}
+				.li2 {
+					background-color: #FFF;
+				}
+			</style>
+		</head>
+		<body>
+			<ul>
+				<li class="li1 li2">Foo</li>
+			</ul>
+		</body>
+	</html>
+=>
+	<ul>
+		<li class="li1 li2" style="color:#555555;background-color:#FFFFFF;">Foo</li>
+	</ul>
+</textarea>

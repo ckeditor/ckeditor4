@@ -877,13 +877,19 @@
 						stylesObj.order = stylesObj.order.concat( parsedStyles.order );
 					}
 
-					// Sort all selectors so that all selectors containing classes are first (the order between
-					// class selectors is not modified) and then the rest of selectors.
+					// Sort all selectors so that all selectors containing classes are first and then the rest
+					// of the selectors. The order of the selectors with the same specificity is reversed
+					// so the most important will be applied first.
+					var orderCopy = stylesObj.order.slice();
 					stylesObj.order.sort( function( selector1, selector2 ) {
 						var value1 = isClassSelector( selector1 ) ? 1 : 0,
-							value2 = isClassSelector( selector2 ) ? 1 : 0;
+							value2 = isClassSelector( selector2 ) ? 1 : 0,
+							result = value2 - value1;
 
-						return value2 - value1;
+						// If the selectors have same specificity, the latter one should
+						// have higher priority (so goes first).
+						return result !== 0 ? result :
+							orderCopy.indexOf( selector2 ) - orderCopy.indexOf( selector1 );
 					} );
 
 					return stylesObj;
@@ -905,6 +911,8 @@
 						element = elements.getItem( i );
 
 						oldStyle = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) );
+						// The styles are applied with decreasing priority so we do not want
+						// to overwrite the existing properties.
 						newStyle = CKEDITOR.tools.extend( {}, oldStyle, style );
 						element.setAttribute( 'style', CKEDITOR.tools.writeCssText( newStyle ) );
 					}
