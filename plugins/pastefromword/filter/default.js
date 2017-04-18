@@ -753,7 +753,9 @@
 			 * Parses content of provided `style` element.
 			 *
 			 * @param {CKEDITOR.dom.element/String} styles `style` element or CSS text
-			 * @returns {Object} Object containing styles with selectors as keys and styles as values
+			 * @returns {Object}
+			 * @returns {Object} return.styles Object containing styles with selectors as keys and styles as values.
+			 * @returns {Array} return.order Array containing selectors in a parse order.
 			 * @since 4.7.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
@@ -761,10 +763,7 @@
 			parse: function( styles ) {
 				var parseCssText = CKEDITOR.tools.parseCssText,
 					filterStyles = CKEDITOR.plugins.pastefromword.styles.inliner.filter,
-					stylesObj = {},
-					sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles ),
-					rules,
-					i;
+					sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles );
 
 				function createIsolatedStylesheet( styles ) {
 					var style = new CKEDITOR.dom.element( 'style' ),
@@ -786,19 +785,34 @@
 					return parseCssText( cssText.substring( startIndex + 1, endIndex ), true );
 				}
 
-				if ( sheet ) {
-					rules = sheet.cssRules;
+				// Parses styles and store selectors order.
+				function parseStyles( sheet ) {
+					var styles = {},
+						order = [],
+						selectorText,
+						rules,
+						i;
 
-					for ( i = 0; i < rules.length; i++ ) {
-						// To detect if the rule contains styles and is not an at-rule, it's enough to check
-						// rule's type.
-						if ( rules[ i ].type === window.CSSRule.STYLE_RULE ) {
-							stylesObj[ rules[ i ].selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
+					if ( sheet ) {
+						rules = sheet.cssRules;
+
+						for ( i = 0; i < rules.length; i++ ) {
+							// To detect if the rule contains styles and is not an at-rule, it's enough to check
+							// rule's type.
+							if ( rules[ i ].type === window.CSSRule.STYLE_RULE ) {
+								selectorText = rules[ i ].selectorText;
+								styles[ selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
+								order.push( selectorText );
+							}
 						}
 					}
+					return {
+						styles: styles,
+						order: order
+					};
 				}
 
-				return stylesObj;
+				return parseStyles( sheet );
 			},
 
 			/**
@@ -852,53 +866,59 @@
 				}
 
 				function parseStyleTags( stylesTags ) {
-					var stylesObj = {},
+					var stylesObj = { styles: {}, order: [] },
+						parsedStyles,
 						i;
 
 					for ( i = 0; i < stylesTags.count(); i++ ) {
-						CKEDITOR.tools.extend( stylesObj, parseStyles( stylesTags.getItem( i ) ) );
+						parsedStyles = parseStyles( stylesTags.getItem( i ) );
+
+						CKEDITOR.tools.extend( stylesObj.styles, parsedStyles.styles );
+						stylesObj.order = stylesObj.order.concat( parsedStyles.order );
 					}
 
+					// Sort all selectors so that all selectors containing classes are first (the order between
+					// class selectors is not modified) and then the rest of selectors.
+					stylesObj.order.sort( function( selector1, selector2 ) {
+						var value1 = isClassSelector( selector1 ) ? 1 : 0,
+							value2 = isClassSelector( selector2 ) ? 1 : 0;
+
+						return value2 - value1;
+					} );
+
 					return stylesObj;
+				}
+
+				// True if selector contains a class selector.
+				function isClassSelector( selector ) {
+					return ( '' + selector ).indexOf( '.' ) !== -1;
 				}
 
 				function applyStyle( document, selector, style ) {
 					var elements = document.find( selector ),
 						element,
-						styleText,
+						oldStyle,
+						newStyle,
 						i;
 
 					for ( i = 0; i < elements.count(); i++ ) {
 						element = elements.getItem( i );
 
-						// Modifying style property leads to removing all unknown styles
-						// from style attribute. To prevent this, only style attribute
-						// is used to manipulate element's styles.
-						styleText = CKEDITOR.tools.writeCssText( style );
-
-						if ( element.getAttribute( 'style' ) ) {
-							styleText = element.getAttribute( 'style' ) + ';' + styleText;
-						}
-
-						element.setAttribute( 'style', styleText );
+						oldStyle = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) );
+						newStyle = CKEDITOR.tools.extend( {}, oldStyle, style );
+						element.setAttribute( 'style', CKEDITOR.tools.writeCssText( newStyle ) );
 					}
 				}
 
-				function applyStyles( document, styles ) {
-					var classStyles = {},
-						style;
+				function applyStyles( document, stylesObj ) {
+					var styles = stylesObj.styles,
+						order = stylesObj.order,
+						i;
 
-					for ( style in styles ) {
-						if ( style.substr( 0, 1 ) === '.' ) {
-							classStyles[ style ] = styles[ style ];
-						} else {
-							applyStyle( document, style, styles[ style ] );
+					if ( order && order.length ) {
+						for ( i = 0; i < order.length; i++ ) {
+							applyStyle( document, order[ i ], styles[ order[ i ] ] );
 						}
-					}
-
-					// Workaround for #16957.
-					for ( style in classStyles ) {
-						applyStyle( document, style, styles[ style ] );
 					}
 				}
 
