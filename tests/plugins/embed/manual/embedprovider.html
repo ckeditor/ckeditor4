@@ -1,0 +1,19 @@
+<p>Test URLs</p>
+
+<ul>
+	<li>https://www.youtube.com/watch?v=GUl9_5kK9ts</li>
+	<li>https://twitter.com/cksource/status/719823128889790464</li>
+</ul>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Foo bar</p>
+</textarea>
+<script>
+	( function() {
+		CKEDITOR.replace( 'editor1', {
+			extraPlugins: 'wysiwygarea,sourcearea,htmlwriter,entities,toolbar,elementspath,undo,clipboard,format,basicstyles,embed,preview',
+			embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
+			height: 500
+		} );
+	} )();
+</script>

@@ -3,6 +3,10 @@
 
 ## CKEditor 4.7
 
+**Important Notes:**
+
+* [#13793](http://dev.ckeditor.com/ticket/13793): [`embed_provider`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-embed_provider) is no longer preset by default.
+
 New Features:
 
 * [#16971](http://dev.ckeditor.com/ticket/16971): Added a support for color in `background` property containing also other styles for table cells in  [Table Tools](http://ckeditor.com/addon/tabletools) plugin.
