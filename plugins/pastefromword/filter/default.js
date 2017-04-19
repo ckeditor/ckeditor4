@@ -349,10 +349,6 @@
 						}
 					}
 
-					// Extract background color so that `background-color` contains only color and `background`
-					// rest of the styles. Such styles are needed for `tabletools` integration.
-					Style.extractBackgroundColor( element );
-
 					Style.createStyleStack( element, filter, editor,
 						/margin|text\-align|padding|list\-style\-type|width|height|border|white\-space|vertical\-align|background/i );
 				},
@@ -727,38 +723,6 @@
 			element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 
 			return true;
-		},
-
-		/**
-		 * Extracts background color to a separate style rule. For example:
-		 *
-		 *		background: url( "sample.gif" ) #00D repeat-y fixed;
-		 *
-		 * will be extracted to:
-		 *
-		 *		background-color: #00D;
-		 *		background: url( "sample.gif" ) repeat-y fixed;
-		 *
-		 * @param {CKEDITOR.htmlParser.element} element
-		 */
-		extractBackgroundColor: function( element ) {
-			var styles = CKEDITOR.tools.parseCssText( element.attributes.style ),
-				background = styles.background,
-				backgroundColor;
-
-			if ( background ) {
-				backgroundColor = CKEDITOR.tools.style.parse.background( background );
-
-				if ( backgroundColor.color ) {
-					styles[ 'background-color' ] = backgroundColor.color;
-				}
-
-				if ( backgroundColor.unprocessed ) {
-					styles.background = backgroundColor.unprocessed;
-				}
-
-				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
-			}
 		},
 
 		/**
