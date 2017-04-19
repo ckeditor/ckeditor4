@@ -210,7 +210,7 @@
 					if ( CKEDITOR.dtd.tr[ element.parent.name ] &&
 						CKEDITOR.tools.arrayCompare( CKEDITOR.tools.objectKeys( element.attributes ), [ 'class', 'style' ] ) ) {
 
-						Style.createStyleStack( element, filter, editor, null, element.name );
+						Style.createStyleStack( element, filter, editor );
 					} else {
 						createAttributeStack( element, filter );
 					}
