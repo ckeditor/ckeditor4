@@ -13,7 +13,7 @@
 	color: black;
 }
 .cke_editable:focus .cke_table-faked-selection {
-	background: navy;
+	background: #0076cb;
 	color: white;
 }
 .cke_table-faked-selection::selection {
