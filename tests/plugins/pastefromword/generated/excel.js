@@ -12,6 +12,9 @@
 
 	var config = pfwTools.defaultConfig;
 	config.colorButton_normalizeBackground = true;
+	// Firefox adds `border-color:windowtext currentcolor windowtext windowtext;`
+	// for `td` elements with `colspan` attribute.
+	config.disallowedContent = 'td{vertical-align,border-color}';
 
 	bender.editor = {
 		config: config
@@ -19,9 +22,9 @@
 
 	bender.test( createTestSuite( {
 		browsers: [
-			'datatransfer', // chrome, safari
-			'datatransfer_firefox', // ff
-			'ie8'
+			'datatransfer', // chrome, safari, ff
+			'ie8',
+			'ie11'
 		],
 		wordVersions: [
 			'excel2013',
@@ -34,14 +37,15 @@
 		testData: {
 			_should: {
 				ignore: {
-					'test Table_text_attributes/Mixed excel2013 datatransfer': CKEDITOR.env.gecko || CKEDITOR.env.ie,
-					'test Table_text_attributes/Mixed excel2013 datatransfer_firefox': !CKEDITOR.env.gecko,
-					'test Table_text_attributes/Mixed excel2016 datatransfer': CKEDITOR.env.gecko || CKEDITOR.env.ie,
-					'test Table_text_attributes/Mixed excel2016 datatransfer_firefox': !CKEDITOR.env.gecko,
-
 					'test Table_text_attributes/Mixed excel2013 ie8': !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ),
-					'test Table_text_attributes/Cell_text excel2013 datatransfer': CKEDITOR.env.ie && CKEDITOR.env.version == 8,
-					'test Table_text_attributes/Cell_text excel2013 ie8': !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 )
+					'test Table_text_attributes/Cell_text excel2013 ie8': !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ),
+					'test Table_text_attributes/Mixed excel2016 ie11': !( CKEDITOR.env.ie && CKEDITOR.env.version == 11 ),
+					'test Table_text_attributes/Cell_text excel2016 ie11': !( CKEDITOR.env.ie && CKEDITOR.env.version == 11 ),
+
+					'test Table_text_attributes/Mixed excel2013 datatransfer': CKEDITOR.env.ie,
+					'test Table_text_attributes/Cell_text excel2013 datatransfer': CKEDITOR.env.ie,
+					'test Table_text_attributes/Mixed excel2016 datatransfer': CKEDITOR.env.ie,
+					'test Table_text_attributes/Cell_text excel2016 datatransfer': CKEDITOR.env.ie
 				}
 			}
 		},

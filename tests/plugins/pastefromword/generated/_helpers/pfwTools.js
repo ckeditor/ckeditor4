@@ -90,7 +90,7 @@
 			} ),
 
 			// Firefox adds quotes around all fonts in font-family.
-			// Safari replaces `&guot;` with `'` in quoted font names.
+			// Safari replaces `"` with `'` in quoted font names.
 			style: new CKEDITOR.htmlParser.filter( {
 				attributes: {
 					style: function( attribute ) {
