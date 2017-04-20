@@ -29,7 +29,9 @@
 				rangesToSelect = [],
 				range,
 				text,
-				i;
+				nestedLinks,
+				i,
+				j;
 
 			style.type = CKEDITOR.STYLE_INLINE; // need to override... dunno why.
 
@@ -39,11 +41,30 @@
 				// Use link URL as text with a collapsed cursor.
 				if ( range.collapsed ) {
 					// Short mailto link text view (#5736).
-					text = new CKEDITOR.dom.text( data.type == 'email' ?
-						data.email.address : attributes.set[ 'data-cke-saved-href' ], editor.document );
+					text = new CKEDITOR.dom.text( data.linkText || ( data.type == 'email' ?
+						data.email.address : attributes.set[ 'data-cke-saved-href' ] ), editor.document );
 					range.insertNode( text );
 					range.selectNodeContents( text );
+				} else if ( initialLinkText !== data.linkText ) {
+					text = new CKEDITOR.dom.text( data.linkText, editor.document );
+
+					// Shrink range to preserve block element.
+					range.shrink( CKEDITOR.SHRINK_TEXT );
+
+					// Use extractHtmlFromRange to remove markup within the selection. Also this method is a little
+					// smarter than range#deleteContents as it plays better e.g. with table cells.
+					editor.editable().extractHtmlFromRange( range );
+
+					range.insertNode( text );
 				}
+
+				// Editable links nested within current range should be removed, so that the link is applied to whole selection.
+				nestedLinks = range._find( 'a' );
+
+				for	( j = 0; j < nestedLinks.length; j++ ) {
+					nestedLinks[ j ].remove( true );
+				}
+
 
 				// Apply style.
 				style.applyToRange( range, editor );
@@ -60,6 +81,7 @@
 				element,
 				href,
 				textView,
+				newText,
 				i;
 
 			for ( i = 0; i < selectedElements.length; i++ ) {
@@ -71,11 +93,18 @@
 				element.setAttributes( attributes.set );
 				element.removeAttributes( attributes.removed );
 
-				// Update text view when user changes protocol (#4612).
-				if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
+
+				if ( data.linkText && initialLinkText != data.linkText ) {
+					// Display text has been changed.
+					newText = data.linkText;
+				} else if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
+					// Update text view when user changes protocol (#4612).
 					// Short mailto link text view (#5736).
-					element.setHtml( data.type == 'email' ?
-						data.email.address : attributes.set[ 'data-cke-saved-href' ] );
+					newText = data.type == 'email' ? data.email.address : attributes.set[ 'data-cke-saved-href' ];
+				}
+
+				if ( newText ) {
+					element.setText( newText );
 				}
 
 				ranges.push( createRangeForLink( editor, element ) );
