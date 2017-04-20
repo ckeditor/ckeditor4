@@ -1573,11 +1573,13 @@
 
 			// Because of a Firefox bug HTML data are not available in some cases (e.g. paste from Word), in such cases we
 			// need to use the pastebin (#13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
-			if ( CKEDITOR.env.gecko && ( dataTransfer.getData( 'text/html' ) || dataTransfer.getFilesCount() ) ) {
+			// In newer Safari HTML data also should be available (#16982).
+			if ( ( CKEDITOR.env.gecko || CKEDITOR.env.safari ) &&
+				( dataTransfer.getData( 'text/html' ) || dataTransfer.getFilesCount() ) ) {
 				return true;
 			}
 
-			// In Safari and IE HTML data is not available though the Clipboard API.
+			// In older Safari and IE HTML data is not available though the Clipboard API.
 			// In Edge things are a bit messy at the moment -
 			// https://connect.microsoft.com/IE/feedback/details/1572456/edge-clipboard-api-text-html-content-messed-up-in-event-clipboarddata
 			// It is safer to use the paste bin in unknown cases.
