@@ -169,7 +169,7 @@ function testResetScenario( editor, queue ) {
 function getDefaultNotification( editor, command, keyInfo ) {
 	var keystroke = keyInfo || CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
 		editor.getCommandKeystroke( editor.commands[ command ] ) ),
-		msg = editor.lang[ command === 'paste' ? 'clipboard' : command ].pasteDefaultMsg
+		msg = ( command === 'paste' ? editor.lang.clipboard.pasteDefaultMsg : editor.lang[ command ].pasteMsg )
 			.replace( /%1/, '<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd>' );
 
 	return msg;
