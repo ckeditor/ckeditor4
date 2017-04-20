@@ -107,6 +107,36 @@
 			editor.on('paste', function(event) {
 				event.data.dataValue = event.data.dataValue.replace(removePgbrReg, '');
 			});
+
+			editor.element.$.addEventListener('keydown', function(e) {
+				var selection = editor.getSelection();
+				var range = selection.getRanges();
+				var elem;
+
+				if (range[0] && (e.keyCode === 46 || e.keyCode === 8)) {
+					if (range[0].startContainer.$.nodeType === 1) {
+						elem = range[0].startContainer.$;
+					} else {
+						elem = range[0].startContainer.$.parentNode;
+					}
+
+					if (elem && !elem.getAttribute('content-editable') && elem.firstElementChild) {
+						elem = elem.firstElementChild;
+					}
+
+					if (e.keyCode === 8 && elem && !elem.getAttribute('content-editable')) {
+						elem = elem.previousElementSibling;
+					} else if (e.keyCode === 46 && elem && !elem.getAttribute('content-editable')) {
+						elem = elem.nextElementSibling;
+					}
+				}
+
+				if (elem && elem.getAttribute('content-editable') === 'false') {
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					elem.parentNode.removeChild(elem);
+				}
+			});
 		}
 	});
 })();
