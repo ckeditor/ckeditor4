@@ -1648,7 +1648,7 @@
 				 */
 				background: function( value ) {
 					var ret = {},
-						colors = [];
+						colors;
 
 					colors = this._findColor( value );
 
