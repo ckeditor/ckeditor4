@@ -1210,9 +1210,14 @@
 			return;
 		}
 
+		selectedCells = getSelectedCells( selection );
+
+		if ( !selectedCells.length ) {
+			return;
+		}
+
 		evt.stop();
 
-		selectedCells = getSelectedCells( selection );
 		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
 		selectedCells = getSelectedCells( selection, selectedTable );
 		firstCell = selectedCells[ 0 ];
