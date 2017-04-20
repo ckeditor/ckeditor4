@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ka', {
 	cut: 'ამოჭრა',
 	cutError: 'თქვენი ბროუზერის უსაფრთხოების პარამეტრები არ იძლევა ამოჭრის ოპერაციის ავტომატურად განხორციელების საშუალებას. გამოიყენეთ კლავიატურა ამისთვის (Ctrl/Cmd+X).',
 	paste: 'ჩასმა',
-	pasteMsg: 'ჩასვით ამ არის შიგნით კლავიატურის გამოყენებით (<strong>Ctrl/Cmd+V</strong>) და დააჭირეთ OK-ს'
+	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

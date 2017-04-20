@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'de-ch', {
 	cut: 'Ausschneiden',
 	cutError: 'Die Sicherheitseinstellungen Ihres Browsers lassen es nicht zu, den Text automatisch auszuschneiden. Bitte benutzen Sie die System-Zwischenablage über STRG-X (ausschneiden) und STRG-V (einfügen).',
 	paste: 'Einfügen',
-	pasteMsg: 'Bitte fügen Sie den Text in der folgenden Box über die Tastatur (mit <STRONG>Strg+V</STRONG>) ein und bestätigen Sie mit <STRONG>OK</STRONG>.'
+	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );
