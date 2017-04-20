@@ -39,6 +39,11 @@
 				editor.getSelection().selectRanges( ranges );
 
 				bot.dialog( 'link', function( dialog ) {
+					var displayTextField = dialog.getContentElement( 'info', 'linkDisplayText' )
+						.getElement().getParent().getParent();
+
+					assert.isFalse( displayTextField.isVisible(), '"Display Text" field is hidden' );
+
 					dialog.setValueOf( 'info', 'url', 'ckeditor.com' );
 					dialog.getButton( 'ok' ).click();
 
@@ -58,6 +63,11 @@
 				editor.getSelection().selectRanges( ranges );
 
 				bot.dialog( 'link', function( dialog ) {
+					var displayTextField = dialog.getContentElement( 'info', 'linkDisplayText' )
+						.getElement().getParent().getParent();
+
+					assert.isFalse( displayTextField.isVisible(), '"Display Text" field is hidden' );
+
 					dialog.setValueOf( 'info', 'url', 'http://cksource.com' );
 					dialog.getButton( 'ok' ).click();
 
