@@ -560,10 +560,9 @@
 		 * @param {CKEDITOR.editor} editor
 		 * @param {RegExp} [skipStyles] All matching style names will not be extracted to a style stack. Defaults
 		 * to `/margin|text\-align|width|border|padding/i`.
-		 * @param {String} [topmostElementName=span] Element type which is considered as a root element of the stack.
 		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
-		createStyleStack: function( element, filter, editor, skipStyles, topmostElementName ) {
+		createStyleStack: function( element, filter, editor, skipStyles ) {
 			var children = [],
 				i;
 
@@ -580,7 +579,7 @@
 			// Create a stack of spans with each containing one style.
 			var styles = tools.parseCssText( Style.normalizedStyles( element, editor ) ),
 				innermostElement = element,
-				styleTopmost = element.name === ( topmostElementName ? topmostElementName : 'span' ); // Ensure that the root element retains at least one style.
+				styleTopmost = element.name === 'span'; // Ensure that the root element retains at least one style.
 
 			for ( var style in styles ) {
 				if ( style.match( skipStyles || /margin|text\-align|width|border|padding/i ) ) {
