@@ -221,6 +221,28 @@
 			assert.isTrue( expectedCells.getItem( 1 ).equals( selectedCells[ 1 ] ) );
 		},
 
+		// #tp-2217
+		'test getSelectedCells for nested table header cell': function( editor, bot ) {
+			var editable = editor.editable(),
+				table,
+				expectedCell,
+				selectedCells;
+
+			bot.setHtmlWithSelection( CKEDITOR.document.getById( 'getSelectedCells-nestedHeader' ).getValue() );
+
+			table = editable.findOne( '#inner' );
+			expectedCell = table.findOne( 'th' );
+
+			editor.getSelection().selectElement( expectedCell );
+
+			selectedCells = CKEDITOR.plugins.tabletools.getSelectedCells( editor.getSelection() );
+
+			assert.isTrue( CKEDITOR.tools.isArray( selectedCells ) );
+			assert.areSame( 1, selectedCells.length, 'Only header is selected.' );
+
+			assert.isTrue( expectedCell.equals( selectedCells[ 0 ] ), 'Correct table cell is selected.' );
+		},
+
 		'test delete all cells': function( editor, bot ) {
 			doTest( bot, 'cellDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
 		},
