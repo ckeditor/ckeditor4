@@ -91,6 +91,26 @@
         }
       };
 
+      // Add Outline / TOC item
+      items.outline = {
+        label: lang.outlineLabel,
+        group: 'heading_actions',
+        order: headingConfigStrings.length + 1,
+        onClick: function() {
+          editor.execCommand( outlineCmd );
+        }
+      };
+
+      // Add Help item
+      items.help = {
+        label: lang.helpLabel,
+        group: 'heading_actions',
+        order: headingConfigStrings.length + 2,
+        onClick: function() {
+          editor.execCommand( helpCmd );
+        }
+      };
+
       // Initialize menu groups
       editor.addMenuGroup( 'heading_levels', 1 );
       editor.addMenuGroup( 'heading_actions' );
@@ -116,6 +136,8 @@
           }
 
           activeItems.removeFormat = currentHeadingElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+          activeItems.outline = CKEDITOR.TRISTATE_OFF;
+          activeItems.help = CKEDITOR.TRISTATE_OFF;
 
           if ( currentHeadingElement )
             activeItems[ currentHeadingElement.getName() ] = CKEDITOR.TRISTATE_ON;
