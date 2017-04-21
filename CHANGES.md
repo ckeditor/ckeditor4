@@ -9,6 +9,7 @@
 
 New Features:
 
+* [#16961](http://dev.ckeditor.com/ticket/16961): Added a support for pasting from Excel.
 * [#16971](http://dev.ckeditor.com/ticket/16971): Added a support for color in `background` property containing also other styles for table cells in  [Table Tools](http://ckeditor.com/addon/tabletools) plugin.
 * [#16847](http://dev.ckeditor.com/ticket/16847): Added a support for parsing and inlining any formatting created using Microsoft Word's style system to the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#16818](http://dev.ckeditor.com/ticket/16818): Added table cell height parsing in the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.

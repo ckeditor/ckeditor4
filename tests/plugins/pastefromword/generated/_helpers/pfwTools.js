@@ -90,6 +90,7 @@
 			} ),
 
 			// Firefox adds quotes around all fonts in font-family.
+			// Safari replaces `"` with `'` in quoted font names.
 			style: new CKEDITOR.htmlParser.filter( {
 				attributes: {
 					style: function( attribute ) {
@@ -97,7 +98,7 @@
 							return;
 						}
 
-						return attribute.replace( /"/g, '' );
+						return attribute.replace( /"/g, '' ).replace( /'/g, '' );
 					}
 				}
 			} )
