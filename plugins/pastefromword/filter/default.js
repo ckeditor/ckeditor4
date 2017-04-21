@@ -2060,6 +2060,7 @@
 		 * so that the list structure matches the content copied from Word.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 * */
 		correctLevelShift: function( element ) {
@@ -2095,6 +2096,7 @@
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
 		 * @returns {Boolean}
+		 * @member CKEDITOR.plugins.pastefromword.heuristics
 		 * @private
 		 */
 		isShifted: function( element ) {
