@@ -14,7 +14,7 @@
 	config.colorButton_normalizeBackground = true;
 	// Firefox adds `border-color:windowtext currentcolor windowtext windowtext;`
 	// for `td` elements with `colspan` attribute.
-	config.disallowedContent = 'td{vertical-align,border-color}';
+	config.disallowedContent = 'td{border-color}';
 
 	bender.editor = {
 		config: config
