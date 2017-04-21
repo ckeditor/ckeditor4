@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'cs', {
 	cut: 'Vyjmout',
 	cutError: 'Bezpečnostní nastavení vašeho prohlížeče nedovolují editoru spustit funkci pro vyjmutí zvoleného textu do schránky. Prosím vyjměte zvolený text do schránky pomocí klávesnice (Ctrl/Cmd+X).',
 	paste: 'Vložit',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

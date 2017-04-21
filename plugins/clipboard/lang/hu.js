@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'hu', {
 	cut: 'Kivágás',
 	cutError: 'A böngésző biztonsági beállításai nem engedélyezik a szerkesztőnek, hogy végrehajtsa a kivágás műveletet. Használja az alábbi billentyűkombinációt (Ctrl/Cmd+X).',
 	paste: 'Beillesztés',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

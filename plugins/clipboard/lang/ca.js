@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ca', {
 	cut: 'Retallar',
 	cutError: 'La configuració de seguretat del vostre navegador no permet executar automàticament les operacions de retallar. Si us plau, utilitzeu el teclat (Ctrl/Cmd+X).',
 	paste: 'Enganxar',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

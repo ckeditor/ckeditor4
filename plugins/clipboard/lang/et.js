@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'et', {
 	cut: 'Lõika',
 	cutError: 'Sinu veebisirvija turvaseaded ei luba redaktoril automaatselt lõigata. Palun kasutage selleks klaviatuuri klahvikombinatsiooni (Ctrl/Cmd+X).',
 	paste: 'Aseta',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

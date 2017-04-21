@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fr-ca', {
 	cut: 'Couper',
 	cutError: 'Les paramètres de sécurité de votre navigateur empêchent l\'éditeur de couper automatiquement vos données. Veuillez utiliser les équivalents claviers (Ctrl/Cmd+X).',
 	paste: 'Coller',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

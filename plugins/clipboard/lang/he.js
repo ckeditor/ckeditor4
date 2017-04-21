@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'he', {
 	cut: 'גזירה',
 	cutError: 'הגדרות האבטחה בדפדפן שלך לא מאפשרות לעורך לבצע פעולות גזירה אוטומטיות. יש להשתמש במקלדת לשם כך (Ctrl/Cmd+X).',
 	paste: 'הדבקה',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

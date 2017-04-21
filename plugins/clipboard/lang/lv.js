@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'lv', {
 	cut: 'Izgriezt',
 	cutError: 'Jūsu pārlūkprogrammas drošības iestatījumi nepieļauj redaktoram automātiski veikt izgriezšanas darbību.  Lūdzu, izmantojiet (Ctrl/Cmd+X), lai veiktu šo darbību.',
 	paste: 'Ielīmēt',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

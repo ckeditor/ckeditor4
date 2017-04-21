@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'cy', {
 	cut: 'Torri',
 	cutError: 'Nid yw gosodiadau diogelwch eich porwr yn caniatàu\'r golygydd i gynnal \'gweithredoedd torri\' yn awtomatig. Defnyddiwch y bysellfwrdd (Ctrl/Cmd+X).',
 	paste: 'Gludo',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

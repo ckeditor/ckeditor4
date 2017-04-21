@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'af', {
 	cut: 'Knip',
 	cutError: 'U blaaier se sekuriteitsinstelling belet die outomatiese knip-aksie. Gebruik die sleutelbordkombinasie (Ctrl/Cmd+X).',
 	paste: 'Plak',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

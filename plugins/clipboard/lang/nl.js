@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'nl', {
 	cut: 'Knippen',
 	cutError: 'De beveiligingsinstelling van de browser verhinderen het automatisch knippen. Gebruik de sneltoets Ctrl/Cmd+X van het toetsenbord.',
 	paste: 'Plakken',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

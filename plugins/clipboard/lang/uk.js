@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'uk', {
 	cut: 'Вирізати',
 	cutError: 'Налаштування безпеки Вашого браузера не дозволяють редактору автоматично виконувати операції вирізування. Будь ласка, використовуйте клавіатуру для цього (Ctrl/Cmd+X)',
 	paste: 'Вставити',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

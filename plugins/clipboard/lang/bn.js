@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'bn', {
 	cut: 'কাট',
 	cutError: 'আপনার ব্রাউজারের সুরক্ষা সেটিংস এডিটরকে অটোমেটিক কাট করার অনুমতি দেয়নি। দয়া করে এই কাজের জন্য কিবোর্ড ব্যবহার করুন (Ctrl/Cmd+X)।',
 	paste: 'পেস্ট',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

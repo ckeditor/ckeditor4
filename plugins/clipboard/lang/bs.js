@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'bs', {
 	cut: 'Izreži',
 	cutError: 'Sigurnosne postavke vašeg pretraživaèa ne dozvoljavaju operacije automatskog rezanja. Molimo koristite kraticu na tastaturi (Ctrl/Cmd+X).',
 	paste: 'Zalijepi',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

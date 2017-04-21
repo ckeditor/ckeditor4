@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'gl', {
 	cut: 'Cortar',
 	cutError: 'Os axustes de seguranza do seu navegador non permiten que o editor realice automaticamente as tarefas de corte. Use o teclado para iso (Ctrl/Cmd+X).',
 	paste: 'Pegar',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

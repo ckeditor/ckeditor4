@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'zh', {
 	cut: '剪下',
 	cutError: '瀏覽器的安全性設定不允許編輯器自動執行剪下動作。請使用鏐盤快捷鍵 (Ctrl/Cmd+X) 剪下。',
 	paste: '貼上',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

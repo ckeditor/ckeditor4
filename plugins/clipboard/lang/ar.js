@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ar', {
 	cut: 'قص',
 	cutError: 'الإعدادات الأمنية للمتصفح الذي تستخدمه تمنع القص التلقائي. فضلاً إستخدم لوحة المفاتيح لفعل ذلك (Ctrl/Cmd+X).',
 	paste: 'لصق',
-	pasteDefaultMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );
