@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sv', {
 	cut: 'Klipp ut',
 	cutError: 'Säkerhetsinställningar i Er webbläsare tillåter inte åtgärden klipp ut. Använd (Ctrl/Cmd+X) istället.',
 	paste: 'Klistra in',
-	pasteMsg: 'Var god och klistra in Er text i rutan nedan genom att använda (<strong>Ctrl/Cmd+V</strong>) klicka sen på OK.'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

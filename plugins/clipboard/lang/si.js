@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'si', {
 	cut: 'කපාගන්න',
 	cutError: 'Your browser security settings don\'t permit the editor to automatically execute cutting operations. Please use the keyboard for that (Ctrl/Cmd+X).', // MISSING
 	paste: 'අලවන්න',
-	pasteMsg: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

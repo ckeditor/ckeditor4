@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pt', {
 	cut: 'Cortar',
 	cutError: 'A configuração de segurança do navegador não permite a execução automática de operações de cortar. Por favor use o teclado (Ctrl/Cmd+X).',
 	paste: 'Colar',
-	pasteMsg: 'Por favor, cole dentro da seguinte caixa usando o teclado (<STRONG>Ctrl/Cmd+V</STRONG>) e carregue em <STRONG>OK</STRONG>.'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

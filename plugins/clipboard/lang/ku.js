@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ku', {
 	cut: 'بڕین',
 	cutError: 'پارێزی وێبگەڕەکەت ڕێگەنادات بە سەرنووسەکە لەبڕینی خۆکارانە. تکایە لەبری ئەمە ئەم فەرمانە بەکاربهێنە بەداگرتنی کلیلی (Ctrl/Cmd+X).',
 	paste: 'لکاندن',
-	pasteMsg: 'تکایە بیلکێنە لەناوەوەی ئەم سنوقە لەڕێی تەختەکلیلەکەت بە بەکارهێنانی کلیلی (<STRONG>Ctrl/Cmd+V</STRONG>) دووای کلیکی باشە بکە.'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

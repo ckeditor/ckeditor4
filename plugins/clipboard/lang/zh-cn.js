@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'zh-cn', {
 	cut: '剪切',
 	cutError: '您的浏览器安全设置不允许编辑器自动执行剪切操作，请使用键盘快捷键(Ctrl/Cmd+X)来完成。',
 	paste: '粘贴',
-	pasteMsg: '请使用键盘快捷键(<STRONG>Ctrl/Cmd+V</STRONG>)把内容粘贴到下面的方框里，再按 <STRONG>确定</STRONG>'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

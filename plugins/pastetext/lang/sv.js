@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'sv', {
 	button: 'Klistra in som vanlig text',
-	pasteMsg: 'Your browser doesn\'t allow you to paste plain text this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste plain text this way. Press %1 to paste.' // MISSING
 } );

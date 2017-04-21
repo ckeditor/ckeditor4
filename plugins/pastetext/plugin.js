@@ -35,7 +35,7 @@
 					editor.getCommandKeystroke( CKEDITOR.env.ie ? editor.commands.paste : this ) ),
 				notification = ( data && typeof data.notification !== 'undefined' ) ? data.notification :
 					!data || !data.from || ( data.from === 'keystrokeHandler' && CKEDITOR.env.ie ),
-				msg = ( notification && typeof notification === 'string' ) ? notification : lang.pastetext.pasteMsg
+				msg = ( notification && typeof notification === 'string' ) ? notification : lang.pastetext.pasteNotification
 					.replace( /%1/, '<kbd aria-label="' + keyInfo.aria + '">' + keyInfo.display + '</kbd>' );
 
 			editor.execCommand( 'paste', {

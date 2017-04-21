@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'is', {
 	cut: 'Klippa',
 	cutError: 'Öryggisstillingar vafrans þíns leyfa ekki klippingu texta með músaraðgerð. Notaðu lyklaborðið í klippa (Ctrl/Cmd+X).',
 	paste: 'Líma',
-	pasteMsg: 'Límdu í svæðið hér að neðan og (<STRONG>Ctrl/Cmd+V</STRONG>) og smelltu á <STRONG>OK</STRONG>.'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

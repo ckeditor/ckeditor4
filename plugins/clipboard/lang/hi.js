@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'hi', {
 	cut: 'कट',
 	cutError: 'आपके ब्राउज़र की सुरक्षा सॅटिन्ग्स ने कट करने की अनुमति नहीं प्रदान की है। (Ctrl/Cmd+X) का प्रयोग करें।',
 	paste: 'पेस्ट',
-	pasteMsg: 'Ctrl/Cmd+V का प्रयोग करके पेस्ट करें और ठीक है करें.'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );
