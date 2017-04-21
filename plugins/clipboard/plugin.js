@@ -706,7 +706,7 @@
 						forcedType = data.type,
 						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
 							editor.getCommandKeystroke( this ) ),
-						msg = typeof notification === 'string' ? notification : editor.lang.clipboard.pasteDefaultMsg
+						msg = typeof notification === 'string' ? notification : editor.lang.clipboard.pasteNotification
 							.replace( /%1/, '<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd>' ),
 						pastedContent = typeof data === 'string' ? data : data.dataValue;
 
