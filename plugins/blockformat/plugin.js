@@ -4,7 +4,7 @@
 */
 
 CKEDITOR.plugins.add( 'blockformat', {
-  requires: 'richcombo,blockquote,codesnippet',
+  requires: 'a11yfirst,blockquote,codesnippet,menubutton',
 
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -15,7 +15,8 @@ CKEDITOR.plugins.add( 'blockformat', {
       return;
 
     var config = editor.config,
-        lang = editor.lang.blockformat;
+        lang = editor.lang.blockformat,
+        items = {};
 
     // Menuitem commands
     var blockquoteCmd = 'blockquote';
@@ -28,100 +29,44 @@ CKEDITOR.plugins.add( 'blockformat', {
     editor.addCommand( helpCmd, new CKEDITOR.dialogCommand( helpCmd ) );
     */
 
-    // Create style object for menuitems
-    var menuStyle = new CKEDITOR.style( config.blockformat_menuitem_style );
+    // Change behavior of menubutton with text label
+    CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
-    editor.ui.addRichCombo( 'BlockFormat', {
+    items.blockquote = {
+      label: lang.blockquoteLabel,
+      group: 'blockformatMain',
+      order: 0,
+      onClick: function () {
+        editor.execCommand( blockquoteCmd );
+      }
+    };
+
+    items.codesnippet = {
+      label: lang.codesnippetLabel,
+      group: 'blockformatMain',
+      order: 1,
+      onClick: function () {
+        editor.execCommand( codesnippetCmd );
+      }
+    };
+
+    // Initialize menu groups
+    editor.addMenuGroup( 'blockformatMain', 1 );
+    // editor.addMenuGroup( 'other' );
+    editor.addMenuItems( items );
+
+    editor.ui.add( 'BlockFormat', CKEDITOR.UI_MENUBUTTON, {
       label: lang.label,
-      title: lang.panelTitle,
       toolbar: 'blockformat',
       allowedContent: 'blockquote; pre; code(language-*)',
-
-      panel: {
-        css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
-        multiSelect: false,
-        attributes: { 'aria-label': lang.panelTitle }
-      },
-
-      init: function() {
-        var label;
-
-        label = lang[ 'blockquoteLabel' ];
-        this.add( blockquoteCmd, menuStyle.buildPreview( label ), label );
-
-        label = lang[ 'codesnippetLabel' ];
-        this.add( codesnippetCmd, menuStyle.buildPreview( label ), label );
-
-        /*
-        label = lang[ 'helpLabel' ];
-        this.add( helpCmd, menuStyle.buildPreview( label ), label );
-        */
-      },
-
-      onClick: function( value ) {
-        if ( value == helpCmd ) {
-          // editor.execCommand( helpCmd );
-          return;
-        }
-
-        if ( value == blockquoteCmd ) {
-          editor.execCommand( blockquoteCmd );
-          return;
-        }
-
-        if ( value == codesnippetCmd ) {
-          editor.execCommand( codesnippetCmd );
-          return;
-        }
-
-        editor.focus();
-        editor.fire( 'saveSnapshot' );
-
-        // Save the undo snapshot after all changes are affected. (#4899)
-        setTimeout( function() {
-          editor.fire( 'saveSnapshot' );
-        }, 0 );
-      },
-
-      onRender: function() {
-        editor.on( 'selectionChange', function( ev ) {
-          var currentTag = this.getValue(),
-              elementPath = ev.data.path;
-
-          this.refresh();
-        }, this );
-      },
-
-      onOpen: function() {
-        var elementPath = editor.elementPath();
-
-        // Start by showing all menuitems ...
-        this.showAll();
-      },
-
-      refresh: function() {
-        /*
-        var elementPath = editor.elementPath();
-
-        if ( !elementPath )
-            return;
-
-        // Check if element path contains 'p' element.
-        if ( !elementPath.isContextFor( 'p' ) ) {
-          this.setState( CKEDITOR.TRISTATE_DISABLED );
-          return;
-        }
-
-        this.setState( CKEDITOR.TRISTATE_DISABLED );
-        */
+      onMenu: function() {
+        var activeItems = {};
+        activeItems.blockquote = CKEDITOR.TRISTATE_OFF;
+        activeItems.codesnippet = CKEDITOR.TRISTATE_OFF;
+        return activeItems;
       }
-    } ); // END addRichCombo
+    } ); // END ui.add
 
   } // END init
 
 } );
-
-/**
-*   The style definition for menuitems in the Block Format drop-down list:
-*/
-CKEDITOR.config.blockformat_menuitem_style = { element: 'p' };
