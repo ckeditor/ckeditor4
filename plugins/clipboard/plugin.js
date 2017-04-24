@@ -1573,9 +1573,12 @@
 
 			// Because of a Firefox bug HTML data are not available in some cases (e.g. paste from Word), in such cases we
 			// need to use the pastebin (#13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
-			// In newer Safari HTML data also should be available (#16982).
-			if ( ( CKEDITOR.env.gecko || CKEDITOR.env.safari ) &&
-				( dataTransfer.getData( 'text/html' ) || dataTransfer.getFilesCount() ) ) {
+			if ( CKEDITOR.env.gecko && ( dataTransfer.getData( 'text/html' ) || dataTransfer.getFilesCount() ) ) {
+				return true;
+			}
+
+			// Safari fixed clipboard in 10.1 (https://bugs.webkit.org/show_bug.cgi?id=19893) (#16982).
+			if ( CKEDITOR.env.safari && CKEDITOR.env.version >= 603 ) {
 				return true;
 			}
 
