@@ -939,7 +939,7 @@
 				var data = plugin.parseLinkAttributes( editor, firstLink );
 
 				// Here we'll decide whether or not we want to show Display Text field.
-				if ( elements.length === 1 && plugin.showDisplayTextForElement( firstLink, editor ) ) {
+				if ( elements.length <= 1 && plugin.showDisplayTextForElement( firstLink, editor ) ) {
 					displayTextField.show();
 				} else {
 					displayTextField.hide();

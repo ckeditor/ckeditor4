@@ -745,18 +745,23 @@
 		 */
 		showDisplayTextForElement: function( element, editor ) {
 			var undesiredElements = {
-				img: 1,
-				table: 1,
-				tbody: 1,
-				thead: 1,
-				tfoot: 1,
-				input: 1,
-				select: 1,
-				textarea: 1
-			};
+					img: 1,
+					table: 1,
+					tbody: 1,
+					thead: 1,
+					tfoot: 1,
+					input: 1,
+					select: 1,
+					textarea: 1
+				},
+				selection = editor.getSelection();
 
 			// Widget duck typing, we don't want to show display text for widgets.
 			if ( editor.widgets && editor.widgets.focused ) {
+				return false;
+			}
+
+			if ( selection && selection.getRanges().length > 1 ) {
 				return false;
 			}
 
