@@ -172,10 +172,11 @@
 			bot.dialog( 'link', function( dialog ) {
 				var displayTextInput = dialog.getContentElement( 'info', 'linkDisplayText' );
 				dialog.setValueOf( 'info', 'url', 'http://ckeditor.com' );
-				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
 
 				assert.isTrue( displayTextInput.isVisible(), 'Display text input visibility' );
 				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'bb' );
+
+				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
 				dialog.getButton( 'ok' ).click();
 				assert.areSame( expected, bender.tools.getHtmlWithSelection( bot.editor ) );
 			} );
