@@ -50,14 +50,12 @@
 
 		'test parsing styles from real style element': function() {
 			var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
-				expected = {
+				expected = [ {
+					selector: '.MsoChpDefault',
 					styles: {
-						'.MsoChpDefault': {
-							'font-family': 'Calibri'
-						}
-					},
-					order: [ '.MsoChpDefault' ]
-				};
+						'font-family': 'Calibri'
+					}
+				} ];
 
 			assert.beautified.js( JSON.stringify( expected ),
 				JSON.stringify( parseStyles( CKEDITOR.document.getById( 'real-style' ) ) ) );
@@ -65,17 +63,17 @@
 
 		'test parsing styles from a fake style element': function() {
 			var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
-				expected = {
+				expected = [ {
+					selector: '.MsoChpDefault',
 					styles: {
-						'.MsoChpDefault': {
-							'font-family': 'Calibri'
-						},
-						'div a.foo, .bar': {
-							'text-decoration': 'underline'
-						}
-					},
-					order: [ '.MsoChpDefault', 'div a.foo, .bar' ]
-				};
+						'font-family': 'Calibri'
+					}
+				}, {
+					selector: 'div a.foo, .bar',
+					styles: {
+						'text-decoration': 'underline'
+					}
+				} ];
 
 			assert.beautified.js( JSON.stringify( expected ),
 				JSON.stringify( parseStyles( CKEDITOR.document.getById( 'fake-style' ) ) ) );

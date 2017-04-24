@@ -753,9 +753,9 @@
 			 * Parses content of provided `style` element.
 			 *
 			 * @param {CKEDITOR.dom.element/String} styles `style` element or CSS text
-			 * @returns {Object}
-			 * @returns {Object} return.styles Object containing styles with selectors as keys and styles as values.
-			 * @returns {Array} return.order Array containing selectors in a parse order.
+			 * @returns {Array} Array containing parsed styles. Each item is an object containing two properties:
+			 * 		selector - String representing a CSS selector.
+			 * 		styles - Object containing list of styles (e.g. `{ margin: 0 }`).
 			 * @since 4.7.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
@@ -785,34 +785,25 @@
 					return parseCssText( cssText.substring( startIndex + 1, endIndex ), true );
 				}
 
-				// Parses styles and store selectors order.
-				function parseStyles( sheet ) {
-					var styles = {},
-						order = [],
-						selectorText,
-						rules,
-						i;
+				var parsedStyles = [],
+					rules,
+					i;
 
-					if ( sheet ) {
-						rules = sheet.cssRules;
+				if ( sheet ) {
+					rules = sheet.cssRules;
 
-						for ( i = 0; i < rules.length; i++ ) {
-							// To detect if the rule contains styles and is not an at-rule, it's enough to check
-							// rule's type.
-							if ( rules[ i ].type === window.CSSRule.STYLE_RULE ) {
-								selectorText = rules[ i ].selectorText;
-								styles[ selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
-								order.push( selectorText );
-							}
+					for ( i = 0; i < rules.length; i++ ) {
+						// To detect if the rule contains styles and is not an at-rule, it's enough to check
+						// rule's type.
+						if ( rules[ i ].type === window.CSSRule.STYLE_RULE ) {
+							parsedStyles.push( {
+								selector: rules[ i ].selectorText,
+								styles: filterStyles( getStyles( rules[ i ].cssText ) )
+							} );
 						}
 					}
-					return {
-						styles: styles,
-						order: order
-					};
 				}
-
-				return parseStyles( sheet );
+				return parsedStyles;
 			},
 
 			/**
@@ -856,7 +847,7 @@
 				var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
 					document = createTempDocument( html ),
 					stylesTags = document.find( 'style' ),
-					stylesObj = parseStyleTags( stylesTags );
+					stylesArray = parseStyleTags( stylesTags );
 
 				function createTempDocument( html ) {
 					var parser = new DOMParser(),
@@ -866,38 +857,42 @@
 				}
 
 				function parseStyleTags( stylesTags ) {
-					var stylesObj = { styles: {}, order: [] },
-						parsedStyles,
+					var styles = [],
 						i;
 
 					for ( i = 0; i < stylesTags.count(); i++ ) {
-						parsedStyles = parseStyles( stylesTags.getItem( i ) );
-
-						CKEDITOR.tools.extend( stylesObj.styles, parsedStyles.styles );
-						stylesObj.order = stylesObj.order.concat( parsedStyles.order );
+						styles = styles.concat( parseStyles( stylesTags.getItem( i ) ) );
 					}
+
+					styles.sort( getCompareFunction( styles ) );
+
+					return styles;
+				}
+
+				function getCompareFunction( styles ) {
+
+					// True if selector contains a class selector.
+					function isClassSelector( selector ) {
+						return ( '' + selector ).indexOf( '.' ) !== -1;
+					}
+
+					var order = CKEDITOR.tools.array.map( styles, function( item ) {
+						return item.selector;
+					} );
 
 					// Sort all selectors so that all selectors containing classes are first and then the rest
 					// of the selectors. The order of the selectors with the same specificity is reversed
 					// so the most important will be applied first.
-					var orderCopy = stylesObj.order.slice();
-					stylesObj.order.sort( function( selector1, selector2 ) {
-						var value1 = isClassSelector( selector1 ) ? 1 : 0,
-							value2 = isClassSelector( selector2 ) ? 1 : 0,
+					return function( style1, style2 ) {
+						var value1 = isClassSelector( style1.selector ) ? 1 : 0,
+							value2 = isClassSelector( style2.selector ) ? 1 : 0,
 							result = value2 - value1;
 
 						// If the selectors have same specificity, the latter one should
 						// have higher priority (so goes first).
 						return result !== 0 ? result :
-							orderCopy.indexOf( selector2 ) - orderCopy.indexOf( selector1 );
-					} );
-
-					return stylesObj;
-				}
-
-				// True if selector contains a class selector.
-				function isClassSelector( selector ) {
-					return ( '' + selector ).indexOf( '.' ) !== -1;
+							order.indexOf( style2.selector ) - order.indexOf( style1.selector );
+					};
 				}
 
 				function applyStyle( document, selector, style ) {
@@ -918,19 +913,9 @@
 					}
 				}
 
-				function applyStyles( document, stylesObj ) {
-					var styles = stylesObj.styles,
-						order = stylesObj.order,
-						i;
-
-					if ( order && order.length ) {
-						for ( i = 0; i < order.length; i++ ) {
-							applyStyle( document, order[ i ], styles[ order[ i ] ] );
-						}
-					}
-				}
-
-				applyStyles( document, stylesObj );
+				CKEDITOR.tools.array.forEach( stylesArray, function( style ) {
+					applyStyle( document, style.selector, style.styles );
+				} );
 
 				return document;
 			}
