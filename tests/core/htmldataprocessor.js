@@ -1285,6 +1285,30 @@
 		'<p><video><source foo="x"onerror="%xss%" src="produce404" /></video></p>',
 		'<p><video><source foo="x" onerror="%xss%" src="produce404" /></video></p>' );
 
+	addXssTC( tcs, 'iframe srcdoc with < and >',
+		'<iframe srcdoc="<svg onload=\'window.parent.%xss%\'>;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &lt; and &gt;',
+		'<iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &LT; and &GT;',
+		'<iframe srcdoc="&LT;svg onload=\'window.parent.%xss%\'&GT;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &#x0003C; and &#x0003E;',
+		'<iframe srcdoc="&#x0003C;svg onload=\'window.parent.%xss%\'&#x0003E;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &#60; and &#62;',
+		'<iframe srcdoc="&#60;svg onload=\'window.parent.%xss%\'&#62;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &#x3C; and &#x3E;',
+		'<iframe srcdoc="&#x3C;svg onload=\'window.parent.%xss%\'&#x3E;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
 	// False positive cases.
 
 	// IE8 will lose custom element.

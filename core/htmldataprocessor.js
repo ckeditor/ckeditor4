@@ -563,6 +563,10 @@
 			// active in the editing area (IE|WebKit).
 			[ ( /^on/ ), 'data-cke-pa-on' ],
 
+			// The `srcdoc` iframe attribute which can be used for XSS
+			// when e.g. pasting html like `<iframe srcdoc="<svg onload=alert('xss')>;"></iframe>`.
+			[ ( /^srcdoc/ ), 'data-cke-pa-srcdoc' ],
+
 			// Don't let some old expando enter editor. Concerns only IE8,
 			// but for consistency remove on all browsers.
 			[ ( /^data-cke-expando$/ ), '' ]
