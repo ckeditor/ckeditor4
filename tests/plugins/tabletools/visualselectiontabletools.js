@@ -214,7 +214,7 @@
 
 			selectedCells = CKEDITOR.plugins.tabletools.getSelectedCells( editor.getSelection(), table );
 
-			assert.isTrue( CKEDITOR.tools.isArray( selectedCells ) );
+			assert.isArray( selectedCells );
 			assert.areSame( 2, selectedCells.length );
 
 			assert.isTrue( expectedCells.getItem( 0 ).equals( selectedCells[ 0 ] ) );
@@ -237,7 +237,7 @@
 
 			selectedCells = CKEDITOR.plugins.tabletools.getSelectedCells( editor.getSelection() );
 
-			assert.isTrue( CKEDITOR.tools.isArray( selectedCells ) );
+			assert.isArray( selectedCells );
 			assert.areSame( 1, selectedCells.length, 'Only header is selected.' );
 
 			assert.isTrue( expectedCell.equals( selectedCells[ 0 ] ), 'Correct table cell is selected.' );
@@ -260,7 +260,7 @@
 
 			cells = CKEDITOR.plugins.tabletools.getCellsBetween( first, last );
 
-			assert.isTrue( CKEDITOR.tools.isArray( cells ) );
+			assert.isArray( cells );
 			assert.areSame( 4, cells.length );
 
 			assert.isTrue( first.equals( cells[ 0 ] ) );
@@ -282,7 +282,7 @@
 
 			cells = CKEDITOR.plugins.tabletools.getCellsBetween( last, first );
 
-			assert.isTrue( CKEDITOR.tools.isArray( cells ) );
+			assert.isArray( cells );
 			assert.areSame( 4, cells.length );
 
 			assert.isTrue( first.equals( cells[ 0 ] ) );
@@ -299,7 +299,7 @@
 
 			cells = CKEDITOR.plugins.tabletools.getCellsBetween( inputCells.getItem( inputCells.count() - 1 ), inputCells.getItem( 0 ) );
 
-			assert.isTrue( CKEDITOR.tools.isArray( cells ) );
+			assert.isArray( cells );
 			assert.areSame( 13, cells.length );
 		},
 
@@ -316,7 +316,7 @@
 				assert.fail( 'Invalid indexes for rows were returned.' );
 			}
 
-			assert.isTrue( CKEDITOR.tools.isArray( cells ) );
+			assert.isArray( cells );
 			assert.areSame( 2, cells.length );
 		},
 
