@@ -20,8 +20,9 @@
 
 	var getRangesForCells = tableToolsHelpers.getRangesForCells,
 		table = CKEDITOR.document.getById( 'table' ).findOne( 'table' ),
-		linkedTable = CKEDITOR.document.getById( 'table-with-links' ).findOne( 'table' ),
-		editedLinkedTable = CKEDITOR.document.getById( 'table-with-links-edited' ).findOne( 'table' ),
+		editedLinkedTable = CKEDITOR.document.getById( 'table-with-link-edited' ).findOne( 'table' ),
+		multiLinkedTable = CKEDITOR.document.getById( 'table-with-links' ).findOne( 'table' ),
+		editedMultiLinkedTable = CKEDITOR.document.getById( 'table-with-links-edited' ).findOne( 'table' ),
 		anchoredTable = CKEDITOR.document.getById( 'table-with-anchor' ).findOne( 'table' ),
 		multiAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors' ).findOne( 'table' ),
 		editedAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors-edited' ).findOne( 'table' ),
@@ -29,6 +30,30 @@
 
 	bender.test( {
 		'test create link': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				ranges;
+
+			bot.setData( table.getOuterHtml(), function() {
+				ranges = getRangesForCells( editor, [ 1 ] );
+
+				editor.getSelection().selectRanges( ranges );
+
+				bot.dialog( 'link', function( dialog ) {
+					var displayTextField = dialog.getContentElement( 'info', 'linkDisplayText' )
+						.getElement().getParent().getParent();
+
+					assert.isTrue( displayTextField.isVisible(), '"Display Text" field visibility' );
+
+					dialog.setValueOf( 'info', 'url', 'cksource.com' );
+					dialog.getButton( 'ok' ).click();
+
+					assert.beautified.html( editedLinkedTable.getOuterHtml(), bot.getData() );
+				} );
+			} );
+		},
+
+		'test create link on multiple cells': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
 				ranges;
@@ -47,7 +72,7 @@
 					dialog.setValueOf( 'info', 'url', 'ckeditor.com' );
 					dialog.getButton( 'ok' ).click();
 
-					assert.areEqual( fixHtml( linkedTable.getOuterHtml() ), bot.getData( true ) );
+					assert.areEqual( fixHtml( multiLinkedTable.getOuterHtml() ), bot.getData( true ) );
 				} );
 			} );
 		},
@@ -57,7 +82,7 @@
 				bot = this.editorBot,
 				ranges;
 
-			bot.setData( linkedTable.getOuterHtml(), function() {
+			bot.setData( multiLinkedTable.getOuterHtml(), function() {
 				ranges = getRangesForCells( editor, [ 1, 2 ] );
 
 				editor.getSelection().selectRanges( ranges );
@@ -71,7 +96,7 @@
 					dialog.setValueOf( 'info', 'url', 'http://cksource.com' );
 					dialog.getButton( 'ok' ).click();
 
-					assert.areSame( fixHtml( editedLinkedTable.getOuterHtml() ), bot.getData( true ) );
+					assert.areSame( fixHtml( editedMultiLinkedTable.getOuterHtml() ), bot.getData( true ) );
 				} );
 			} );
 		},
@@ -82,7 +107,7 @@
 				bot = this.editorBot,
 				ranges;
 
-			bot.setData( linkedTable.getOuterHtml(), function() {
+			bot.setData( multiLinkedTable.getOuterHtml(), function() {
 				ranges = getRangesForCells( editor, [ 1, 2 ] );
 
 				editor.getSelection().selectRanges( ranges );
@@ -101,7 +126,7 @@
 				selectedLinks,
 				i;
 
-			bot.setData( linkedTable.getOuterHtml(), function() {
+			bot.setData( multiLinkedTable.getOuterHtml(), function() {
 				links = editor.editable().find( 'a' );
 				ranges = getRangesForCells( editor, [ 1, 2 ] );
 
