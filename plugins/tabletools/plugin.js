@@ -747,9 +747,7 @@
 	}
 
 	function getRowIndex( rowOrCell ) {
-		var row = rowOrCell.getAscendant( 'tr', true );
-
-		return row.$.rowIndex;
+		return rowOrCell.getAscendant( 'tr', true ).$.rowIndex;
 	}
 
 	function getCellsBetween( first, last ) {
