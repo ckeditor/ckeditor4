@@ -108,12 +108,16 @@
 				event.data.dataValue = event.data.dataValue.replace(removePgbrReg, '');
 			});
 
-			editor.element.$.addEventListener('keydown', function(e) {
+			editor.element.$.parentNode.addEventListener('keydown', function(e) {
+				if (e.keyCode !== 46 && e.keyCode !== 8) {
+					return
+				}
+
 				var selection = editor.getSelection();
 				var range = selection.getRanges();
 				var elem;
 
-				if (range[0] && (e.keyCode === 46 || e.keyCode === 8)) {
+				if (range[0]) {
 					if (range[0].startContainer.$.nodeType === 1) {
 						elem = range[0].startContainer.$;
 					} else {
@@ -132,11 +136,15 @@
 				}
 
 				if (elem && elem.getAttribute('content-editable') === 'false') {
+					var parent = elem.parentNode;
 					e.preventDefault();
 					e.stopImmediatePropagation();
-					elem.parentNode.removeChild(elem);
+					parent.removeChild(elem);
+					editor.fire('change');
+					parent.style['margin-left'] = '';
+					parent.style['text-indent'] = '';
 				}
-			});
+			}, true);
 		}
 	});
 })();
