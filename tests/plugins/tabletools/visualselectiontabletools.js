@@ -303,6 +303,23 @@
 			assert.areSame( 13, cells.length );
 		},
 
+		// tp2218
+		'test getCellsBetween (caption)': function( editor, bot ) {
+			bot.setHtmlWithSelection( CKEDITOR.document.getById( 'getCellsBetween-caption' ).getValue() );
+
+			var inputCells = editor.editable().find( 'td' ),
+				cells;
+
+			try {
+				cells = CKEDITOR.plugins.tabletools.getCellsBetween( inputCells.getItem( 0 ), inputCells.getItem( 2 ) );
+			} catch ( e ) {
+				assert.fail( 'Invalid indexes for rows were returned.' );
+			}
+
+			assert.isTrue( CKEDITOR.tools.isArray( cells ) );
+			assert.areSame( 2, cells.length );
+		},
+
 		'Simulating merge cells from context menu ': function( editor ) {
 			var selection = editor.getSelection(),
 				expected = '<table><tbody><tr><td>Cell 1.1</td><td rowspan="2">Cell 1.2<br />Cell 2.2</td>' +
