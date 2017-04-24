@@ -1398,7 +1398,7 @@
 		},
 
 		'test canClipboardApiBeTrusted on other browser': function() {
-			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko ) {
+			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko || ( CKEDITOR.env.safari && CKEDITOR.env.version >= 603 ) ) {
 				assert.ignore();
 			}
 
