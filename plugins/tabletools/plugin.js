@@ -746,29 +746,18 @@
 		}
 	}
 
-	function getRowIndex( row ) {
-		var table = row.getAscendant( 'table' ),
-			container = row.getParent().is( 'tfoot' ) ? table.getChildCount() : row.getParent().getIndex(),
-			index = row.getIndex(),
-			i;
+	function getRowIndex( rowOrCell ) {
+		var row = rowOrCell.getAscendant( 'tr', true );
 
-		for ( i = 0; i < container; i++ ) {
-			if ( table.getChild( i ).is( 'tfoot' ) ) {
-				continue;
-			}
-
-			index += table.getChild( i ).getChildCount();
-		}
-
-		return index;
+		return row.$.rowIndex;
 	}
 
 	function getCellsBetween( first, last ) {
 		var firstTable = first.getAscendant( 'table' ),
 			lastTable = last.getAscendant( 'table' ),
 			map = CKEDITOR.tools.buildTableMap( firstTable ),
-			startRow = getRowIndex( first.getParent() ),
-			endRow = getRowIndex( last.getParent() ),
+			startRow = getRowIndex( first ),
+			endRow = getRowIndex( last ),
 			cells = [],
 			markers = {},
 			start,
@@ -780,7 +769,7 @@
 		// Support selection that began in outer's table, but ends in nested one.
 		if ( firstTable.contains( lastTable ) ) {
 			last = last.getAscendant( { td: 1, th: 1 } );
-			endRow = getRowIndex( last.getParent() );
+			endRow = getRowIndex( last );
 		}
 
 		// First fetch start and end offset.
