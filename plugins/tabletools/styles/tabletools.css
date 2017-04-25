@@ -9,7 +9,7 @@
 }
 
 .cke_table-faked-selection {
-	background: darkgray;
+	background: darkgray !important;
 	color: black;
 }
 .cke_table-faked-selection a {

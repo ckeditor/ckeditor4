@@ -4,10 +4,20 @@
 
 1. Select two cells in the first row.
 
-## Expected
+	## Expected
 
-Custom table selection is visible on both cells.
+	Custom table selection is visible on both cells.
 
-## Actual
+	## Actual
 
-Second cell doesn't have background changed.
+	Second cell doesn't have background changed.
+
+1. Click outside of the editor to blur it.
+
+	## Expected
+
+	Custom table selection is consistent.
+
+	## Actual
+
+	Second cell has a different background color.

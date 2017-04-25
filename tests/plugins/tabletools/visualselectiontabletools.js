@@ -382,7 +382,9 @@
 			var cells = editor.editable().find( 'td' ),
 				ranges = getRangesForCells( editor, [ 0, 1 ] ),
 				// Different browsers produce various formats.
-				acceptableValues = [ 'rgb(0, 118, 203)', '#0076cb' ];
+				acceptableValues = [ 'rgb(0, 118, 203)', '#0076cb' ],
+				acceptableBlurValues = [ 'rgb(169, 169, 169)', '#a9a9a9', 'darkgray' ],
+				blurColor;
 
 			editor.getSelection().selectRanges( ranges );
 
@@ -390,6 +392,20 @@
 				cells.getItem( 1 ).getComputedStyle( 'background-color' ).toLowerCase(),
 				acceptableValues,
 				'Computed background is a known good color'
+			);
+
+			// Focus other textarea to blur the editor.
+			CKEDITOR.document.getById( 'cellBackground' ).focus();
+
+			blurColor = cells.getItem( 1 ).getComputedStyle( 'background-color' ).toLowerCase();
+
+			// It's important to put focus back to the editor, in case if subsequent tests expect it.
+			editor.focus();
+
+			arrayAssert.contains(
+				blurColor,
+				acceptableBlurValues,
+				'Computed blur background is a known color'
 			);
 		},
 
