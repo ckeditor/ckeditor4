@@ -68,6 +68,10 @@ function resize( table, callback ) {
 		resizer = getResizer( doc ),
 		moveEvtMock = createMoveEventMock( table ),
 		evtMock = {
+			// We need this as table improvements listens to mousedown events.
+			$: {
+				button: 0
+			},
 			getTarget: sinon.stub().returns( table ),
 			preventDefault: sinon.stub()
 		};
