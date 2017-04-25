@@ -749,11 +749,14 @@
 				'page-break-after',
 				'page-break-inside'
 			],
+
 			/**
 			 * Parses content of provided `style` element.
 			 *
-			 * @param {CKEDITOR.dom.element/String} styles `style` element or CSS text
-			 * @returns {Object} Object containing styles with selectors as keys and styles as values
+			 * @param {CKEDITOR.dom.element/String} styles The `style` element or CSS text.
+			 * @returns {Array} Array containing parsed styles. Each item (style) is an object containing two properties:
+			 * 		selector - String representing a CSS selector.
+			 * 		styles - Object containing list of styles (e.g. `{ margin: 0, text-align: 'left' }`).
 			 * @since 4.7.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
@@ -761,10 +764,7 @@
 			parse: function( styles ) {
 				var parseCssText = CKEDITOR.tools.parseCssText,
 					filterStyles = CKEDITOR.plugins.pastefromword.styles.inliner.filter,
-					stylesObj = {},
-					sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles ),
-					rules,
-					i;
+					sheet = styles.is ? styles.$.sheet : createIsolatedStylesheet( styles );
 
 				function createIsolatedStylesheet( styles ) {
 					var style = new CKEDITOR.dom.element( 'style' ),
@@ -786,26 +786,32 @@
 					return parseCssText( cssText.substring( startIndex + 1, endIndex ), true );
 				}
 
+				var parsedStyles = [],
+					rules,
+					i;
+
 				if ( sheet ) {
 					rules = sheet.cssRules;
 
 					for ( i = 0; i < rules.length; i++ ) {
-						// To detect if the rule contains styles and is not an at-rule, it's enough to check
-						// rule's type.
+						// To detect if the rule contains styles and is not an at-rule, it's enough to check rule's type.
 						if ( rules[ i ].type === window.CSSRule.STYLE_RULE ) {
-							stylesObj[ rules[ i ].selectorText ] = filterStyles( getStyles( rules[ i ].cssText ) );
+							parsedStyles.push( {
+								selector: rules[ i ].selectorText,
+								styles: filterStyles( getStyles( rules[ i ].cssText ) )
+							} );
 						}
 					}
 				}
-
-				return stylesObj;
+				return parsedStyles;
 			},
 
 			/**
 			 * Filters out all unnecessary styles
 			 *
-			 * @param {Object} stylesObj Styles returned by {@link CKEDITOR.plugins.pastefromword.styles#parseStyles}.
-			 * @returns {Object}
+			 * @param {Object} stylesObj Object containing parsed CSS declarations
+			 * as a property/value pairs (see {@link CKEDITOR.plugins.pastefromword.inline#parse}).
+			 * @returns {Object} The stylesObj copy with a specific styles filtered out.
 			 * @since 4.7.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
@@ -826,7 +832,47 @@
 			},
 
 			/**
-			 * Finds and inlines all the `style` elements in given `html` string and returns a document, where
+			 * Sorts the given styles array. All rules containing class selectors will have lower indexes than the rest
+			 * of the rules. Selectors with the same priority will be sorted in a reverse order than in the input array.
+			 *
+			 * @param {Array} stylesArray Array of styles as returned from {@link CKEDITOR.plugins.pastefromword.inline#parse}.
+			 * @returns {Array} Sorted stylesArray.
+			 * @since 4.7.0
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			sort: function( stylesArray ) {
+
+				// Returns comparison function which sorts all selectors in a way that class selectors are ordered
+				// before the rest of the selectors. The order of the selectors with the same specificity
+				// is reversed so that the most important will be applied first.
+				function getCompareFunction( styles ) {
+					var order = CKEDITOR.tools.array.map( styles, function( item ) {
+						return item.selector;
+					} );
+
+					return function( style1, style2 ) {
+						var value1 = isClassSelector( style1.selector ) ? 1 : 0,
+							value2 = isClassSelector( style2.selector ) ? 1 : 0,
+							result = value2 - value1;
+
+						// If the selectors have same specificity, the latter one should
+						// have higher priority (goes first).
+						return result !== 0 ? result :
+							order.indexOf( style2.selector ) - order.indexOf( style1.selector );
+					};
+				}
+
+				// True if given CSS selector contains a class selector.
+				function isClassSelector( selector ) {
+					return ( '' + selector ).indexOf( '.' ) !== -1;
+				}
+
+				return stylesArray.sort( getCompareFunction( stylesArray ) );
+			},
+
+			/**
+			 * Finds and inlines all the `style` elements in a given `html` string and returns a document, where
 			 * all the styles are inlined into appropriate elements.
 			 *
 			 * This is needed because sometimes Microsoft Word does not put style directly to the element, but in
@@ -840,9 +886,10 @@
 			 */
 			inline: function( html ) {
 				var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
+					sortStyles = CKEDITOR.plugins.pastefromword.styles.inliner.sort,
 					document = createTempDocument( html ),
 					stylesTags = document.find( 'style' ),
-					stylesObj = parseStyleTags( stylesTags );
+					stylesArray = sortStyles( parseStyleTags( stylesTags ) );
 
 				function createTempDocument( html ) {
 					var parser = new DOMParser(),
@@ -852,57 +899,37 @@
 				}
 
 				function parseStyleTags( stylesTags ) {
-					var stylesObj = {},
+					var styles = [],
 						i;
 
 					for ( i = 0; i < stylesTags.count(); i++ ) {
-						CKEDITOR.tools.extend( stylesObj, parseStyles( stylesTags.getItem( i ) ) );
+						styles = styles.concat( parseStyles( stylesTags.getItem( i ) ) );
 					}
 
-					return stylesObj;
+					return styles;
 				}
 
 				function applyStyle( document, selector, style ) {
 					var elements = document.find( selector ),
 						element,
-						styleText,
+						oldStyle,
+						newStyle,
 						i;
 
 					for ( i = 0; i < elements.count(); i++ ) {
 						element = elements.getItem( i );
 
-						// Modifying style property leads to removing all unknown styles
-						// from style attribute. To prevent this, only style attribute
-						// is used to manipulate element's styles.
-						styleText = CKEDITOR.tools.writeCssText( style );
-
-						if ( element.getAttribute( 'style' ) ) {
-							styleText = element.getAttribute( 'style' ) + ';' + styleText;
-						}
-
-						element.setAttribute( 'style', styleText );
+						oldStyle = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ) );
+						// The styles are applied with decreasing priority so we do not want
+						// to overwrite the existing properties.
+						newStyle = CKEDITOR.tools.extend( {}, oldStyle, style );
+						element.setAttribute( 'style', CKEDITOR.tools.writeCssText( newStyle ) );
 					}
 				}
 
-				function applyStyles( document, styles ) {
-					var classStyles = {},
-						style;
-
-					for ( style in styles ) {
-						if ( style.substr( 0, 1 ) === '.' ) {
-							classStyles[ style ] = styles[ style ];
-						} else {
-							applyStyle( document, style, styles[ style ] );
-						}
-					}
-
-					// Workaround for #16957.
-					for ( style in classStyles ) {
-						applyStyle( document, style, styles[ style ] );
-					}
-				}
-
-				applyStyles( document, stylesObj );
+				CKEDITOR.tools.array.forEach( stylesArray, function( style ) {
+					applyStyle( document, style.selector, style.styles );
+				} );
 
 				return document;
 			}
