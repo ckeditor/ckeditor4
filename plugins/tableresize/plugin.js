@@ -214,6 +214,7 @@
 			var table = pillar.table;
 			setTimeout( function() {
 				table.removeCustomData( '_cke_table_pillars' );
+				editor.fire( 'change' );
 			}, 0 );
 
 			document.removeListener( 'dragstart', cancel );
