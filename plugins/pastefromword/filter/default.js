@@ -832,6 +832,46 @@
 			},
 
 			/**
+			 * Sorts the given styles array. All rules containing class selectors will have lower indexes than the rest
+			 * of the rules. Selectors with the same priority will be sorted in a reverse order than in the input array.
+			 *
+			 * @param {Array} stylesArray Array of styles as returned from {@link CKEDITOR.plugins.pastefromword.inline#parse}.
+			 * @returns {Array} Sorted stylesArray.
+			 * @since 4.7.0
+			 * @private
+			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
+			 */
+			sort: function( stylesArray ) {
+
+				// Returns comparison function which sorts all selectors in a way that class selectors are ordered
+				// before the rest of the selectors. The order of the selectors with the same specificity
+				// is reversed so that the most important will be applied first.
+				function getCompareFunction( styles ) {
+					var order = CKEDITOR.tools.array.map( styles, function( item ) {
+						return item.selector;
+					} );
+
+					return function( style1, style2 ) {
+						var value1 = isClassSelector( style1.selector ) ? 1 : 0,
+							value2 = isClassSelector( style2.selector ) ? 1 : 0,
+							result = value2 - value1;
+
+						// If the selectors have same specificity, the latter one should
+						// have higher priority (goes first).
+						return result !== 0 ? result :
+							order.indexOf( style2.selector ) - order.indexOf( style1.selector );
+					};
+				}
+
+				// True if given CSS selector contains a class selector.
+				function isClassSelector( selector ) {
+					return ( '' + selector ).indexOf( '.' ) !== -1;
+				}
+
+				return stylesArray.sort( getCompareFunction( stylesArray ) );
+			},
+
+			/**
 			 * Finds and inlines all the `style` elements in a given `html` string and returns a document, where
 			 * all the styles are inlined into appropriate elements.
 			 *
@@ -892,46 +932,6 @@
 				} );
 
 				return document;
-			},
-
-			/**
-			 * Sorts the given styles array. All rules containing class selectors will have lower indexes than the rest
-			 * of the rules. Selectors with the same priority will be sorted in a reverse order than in the input array.
-			 *
-			 * @param {Array} stylesArray Array of styles as returned from {@link CKEDITOR.plugins.pastefromword.inline#parse}.
-			 * @returns {Array} Sorted stylesArray.
-			 * @since 4.7.0
-			 * @private
-			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
-			 */
-			sort: function( stylesArray ) {
-
-				// Returns comparison function which sorts all selectors in a way that class selectors are ordered
-				// before the rest of the selectors. The order of the selectors with the same specificity
-				// is reversed so that the most important will be applied first.
-				function getCompareFunction( styles ) {
-					var order = CKEDITOR.tools.array.map( styles, function( item ) {
-						return item.selector;
-					} );
-
-					return function( style1, style2 ) {
-						var value1 = isClassSelector( style1.selector ) ? 1 : 0,
-							value2 = isClassSelector( style2.selector ) ? 1 : 0,
-							result = value2 - value1;
-
-						// If the selectors have same specificity, the latter one should
-						// have higher priority (goes first).
-						return result !== 0 ? result :
-							order.indexOf( style2.selector ) - order.indexOf( style1.selector );
-					};
-				}
-
-				// True if given CSS selector contains a class selector.
-				function isClassSelector( selector ) {
-					return ( '' + selector ).indexOf( '.' ) !== -1;
-				}
-
-				return stylesArray.sort( getCompareFunction( stylesArray ) );
 			}
 		}
 	};
