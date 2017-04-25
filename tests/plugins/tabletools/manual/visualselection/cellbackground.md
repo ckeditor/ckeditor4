@@ -8,7 +8,7 @@
 
 	Custom table selection is visible on both cells.
 
-	## Actual
+	## Unexpected
 
 	Second cell doesn't have background changed.
 
@@ -18,6 +18,6 @@
 
 	Custom table selection is consistent.
 
-	## Actual
+	## Unexpected
 
 	Second cell has a different background color.
