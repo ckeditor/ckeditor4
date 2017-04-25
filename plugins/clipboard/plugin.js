@@ -1577,7 +1577,12 @@
 				return true;
 			}
 
-			// In Safari and IE HTML data is not available though the Clipboard API.
+			// Safari fixed clipboard in 10.1 (https://bugs.webkit.org/show_bug.cgi?id=19893) (#16982).
+			if ( CKEDITOR.env.safari && CKEDITOR.env.version >= 603 ) {
+				return true;
+			}
+
+			// In older Safari and IE HTML data is not available though the Clipboard API.
 			// In Edge things are a bit messy at the moment -
 			// https://connect.microsoft.com/IE/feedback/details/1572456/edge-clipboard-api-text-html-content-messed-up-in-event-clipboarddata
 			// It is safer to use the paste bin in unknown cases.

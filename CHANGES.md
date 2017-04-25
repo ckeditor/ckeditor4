@@ -53,6 +53,7 @@ Other Changes:
 	* Fixed: The DOM Exception after click "Remove Language" on a selected word with enabled Language plugin in SCAYT.
 * [#16958](http://dev.ckeditor.com/ticket/16958): Switched default MathJax CDN provider from `cdn.mathjax.org` to [cdnjs](https://cdnjs.com/), due to closing of `cdn.mathjax.org` scheduled on April 30, 2017.
 * [#16954](http://dev.ckeditor.com/ticket/16954): Remove paste dialog.
+* [#16982](http://dev.ckeditor.com/ticket/16982): Latest Safari now supports enhanced clipboard API introduced in CKEditor 4.5.0.
 
 ## CKEditor 4.6.2
 
