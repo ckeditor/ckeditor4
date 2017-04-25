@@ -375,6 +375,24 @@
 			wait();
 		},
 
+		// (#258, #tp2247)
+		'test overriding cell background': function( editor ) {
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'cellBackground' ).getValue() );
+
+			var cells = editor.editable().find( 'td' ),
+				ranges = getRangesForCells( editor, [ 0, 1 ] ),
+				// Different browsers produce various formats.
+				acceptableValues = [ 'rgb(0, 118, 203)', '#0076cb' ];
+
+			editor.getSelection().selectRanges( ranges );
+
+			arrayAssert.contains(
+				cells.getItem( 1 ).getComputedStyle( 'background-color' ).toLowerCase(),
+				acceptableValues,
+				'Computed background is a known good color'
+			);
+		},
+
 		'test refocusing the editor': function( editor ) {
 			var ranges,
 				contentCells;
