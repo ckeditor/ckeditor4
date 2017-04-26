@@ -24,6 +24,7 @@ Fixed Issues:
 * [#16825](http://dev.ckeditor.com/ticket/16825): Fixed: [Chrome] Error thrown when destroying focused inline editor.
 * [#16857](http://dev.ckeditor.com/ticket/16857): Fixed: Ctrl + Shift + V blocked by copy formatting.
 * [#14714](http://dev.ckeditor.com/ticket/14714): [Webkit/Blink] Fixed: Exception thrown on refocusing a blurred inline editor.
+* [#16913](http://dev.ckeditor.com/ticket/16913): [Firefox][IE] Fixed: Paste as plain text keystroke does not work.
 * [#16968](http://dev.ckeditor.com/ticket/16968): Fixed: [Safari] Paste as plain text is not handled by the editor.
 * [#16821](http://dev.ckeditor.com/ticket/16821): Fixed: Extraneous `spans` with `height` style stacked when [pasting from Word](http://ckeditor.com/addon/pastefromword).
 * [#12465](http://dev.ckeditor.com/ticket/12465): Fixed: Can't change state of checkboxes/radio buttons if the properties dialog was invoked via double-click.
