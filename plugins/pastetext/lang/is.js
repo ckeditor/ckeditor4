@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'is', {
 	button: 'Líma sem ósniðinn texta',
-	title: 'Líma sem ósniðinn texta'
+	pasteNotification: 'Your browser doesn\'t allow you to paste plain text this way. Press %1 to paste.' // MISSING
 } );

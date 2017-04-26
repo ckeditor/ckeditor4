@@ -8,8 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fo', {
 	cut: 'Kvett',
 	cutError: 'Trygdaruppseting alnótskagans forðar tekstviðgeranum í at kvetta tekstin. Vinarliga nýt knappaborðið til at kvetta tekstin (Ctrl/Cmd+X).',
 	paste: 'Innrita',
-	pasteArea: 'Avritingarumráði',
-	pasteMsg: 'Vinarliga koyr tekstin í hendan rútin við knappaborðinum (<strong>Ctrl/Cmd+V</strong>) og klikk á <strong>Góðtak</strong>.',
-	securityMsg: 'Trygdaruppseting alnótskagans forðar tekstviðgeranum í beinleiðis atgongd til avritingarminnið. Tygum mugu royna aftur í hesum rútinum.',
-	title: 'Innrita'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

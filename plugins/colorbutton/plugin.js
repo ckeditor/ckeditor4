@@ -312,11 +312,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-nostyle' );
 		}
 
-		/**
+		/*
 		 * Selects the specified color in the specified panel block.
 		 *
-		 * @param block
-		 * @param color
+		 * @private
+		 * @member CKEDITOR.plugins.colorbutton
+		 * @param {CKEDITOR.ui.panel.block} block
+		 * @param {String} color
 		 */
 		function selectColor( block, color ) {
 			var items = block._.getItems();
@@ -332,11 +334,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 		}
 
-		/**
+		/*
 		 * Converts a CSS color value to an easily comparable form.
 		 *
-		 * @param {string} color
-		 * @returns {string}
+		 * @private
+		 * @member CKEDITOR.plugins.colorbutton
+		 * @param {String} color
+		 * @returns {String}
 		 */
 		function normalizeColor( color ) {
 			return CKEDITOR.tools.convertRgbToHex( color || '' ).replace( /#/, '' ).toLowerCase();

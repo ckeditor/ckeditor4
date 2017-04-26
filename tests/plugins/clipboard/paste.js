@@ -49,6 +49,8 @@
 		} );
 	}
 
+	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603;
+
 	bender.test( {
 		setUp: function() {
 			// Force result data un-formatted.
@@ -1335,6 +1337,22 @@
 			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be used in Chrome.' );
 		},
 
+		'test canClipboardApiBeTrusted in Safari': function() {
+			if ( !trustySafari ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted,
+				nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.setData( 'text/html', '<b>foo</b>' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be marked as trusted.' );
+		},
+
 		'test canClipboardApiBeTrusted in Android Chrome (no dataTransfer support)': function() {
 			if ( !CKEDITOR.env.chrome ) {
 				assert.ignore();
@@ -1398,7 +1416,7 @@
 		},
 
 		'test canClipboardApiBeTrusted on other browser': function() {
-			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko ) {
+			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko || trustySafari ) {
 				assert.ignore();
 			}
 

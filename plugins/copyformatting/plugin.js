@@ -151,9 +151,6 @@
 			if ( editor.config.copyFormatting_keystrokeCopy ) {
 				editor.setKeystroke( editor.config.copyFormatting_keystrokeCopy, 'copyFormatting' );
 			}
-			if ( editor.config.copyFormatting_keystrokePaste ) {
-				editor.setKeystroke( editor.config.copyFormatting_keystrokePaste, 'applyFormatting' );
-			}
 
 			editor.on( 'key', function( evt ) {
 				var cmd = editor.getCommand( 'copyFormatting' ),
@@ -379,6 +376,16 @@
 		 */
 		breakOnElements: [ 'ul', 'ol', 'table' ],
 
+		/**
+		 * Stores a name of command (if any) initially bound to the keystroke used for format applying
+		 * ({@link CKEDITOR.config#copyFormatting_keystrokePaste}), to restore it after copy formatting
+		 * is deactivated.
+		 *
+		 * @private
+		 * @property {String}
+		 */
+		_initialKeystrokePasteCommand: null,
+
 		commands: {
 			copyFormatting: {
 				exec: function( editor, data ) {
@@ -399,6 +406,7 @@
 						documentElement.removeClass( 'cke_copyformatting_tableresize_cursor' );
 
 						plugin._putScreenReaderMessage( editor, 'canceled' );
+						plugin._detachPasteKeystrokeHandler( editor );
 
 						return cmd.setState( CKEDITOR.TRISTATE_OFF );
 					}
@@ -420,6 +428,7 @@
 					copyFormatting.sticky = isSticky;
 
 					plugin._putScreenReaderMessage( editor, 'copied' );
+					plugin._attachPasteKeystrokeHandler( editor );
 				}
 			},
 
@@ -436,8 +445,10 @@
 
 					if ( !isFromKeystroke && cmd.state !== CKEDITOR.TRISTATE_ON ) {
 						return;
+
 					} else if ( isFromKeystroke && !copyFormatting.styles ) {
 						plugin._putScreenReaderMessage( editor, 'failed' );
+						plugin._detachPasteKeystrokeHandler( editor );
 						return false;
 					}
 
@@ -451,6 +462,8 @@
 						documentElement.removeClass( 'cke_copyformatting_tableresize_cursor' );
 
 						cmd.setState( CKEDITOR.TRISTATE_OFF );
+
+						plugin._detachPasteKeystrokeHandler( editor );
 					}
 
 					plugin._putScreenReaderMessage( editor, isApplied ? 'applied' : 'canceled' );
@@ -1075,6 +1088,35 @@
 			}
 
 			return CKEDITOR.document.getBody().findOne( '.cke_copyformatting_notification div[aria-live]' );
+		},
+
+		/**
+		 * Attaches the paste keystroke handler to the given editor instance.
+		 *
+		 * @private
+		 * @param {CKEDITOR.editor} editor
+		 */
+		_attachPasteKeystrokeHandler: function( editor ) {
+			var keystrokePaste = editor.config.copyFormatting_keystrokePaste;
+
+			if ( keystrokePaste ) {
+				this._initialKeystrokePasteCommand = editor.keystrokeHandler.keystrokes[ keystrokePaste ];
+				editor.setKeystroke( keystrokePaste, 'applyFormatting' );
+			}
+		},
+
+		/**
+		 * Detaches the paste keystroke handler from the given editor instance.
+		 *
+		 * @private
+		 * @param {CKEDITOR.editor} editor
+		 */
+		_detachPasteKeystrokeHandler: function( editor ) {
+			var keystrokePaste = editor.config.copyFormatting_keystrokePaste;
+
+			if ( keystrokePaste ) {
+				editor.setKeystroke( keystrokePaste, this._initialKeystrokePasteCommand || false );
+			}
 		}
 	};
 

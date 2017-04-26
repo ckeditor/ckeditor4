@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'eo', {
 	button: 'Interglui kiel platan tekston',
-	title: 'Interglui kiel platan tekston'
+	pasteNotification: 'Your browser doesn\'t allow you to paste plain text this way. Press %1 to paste.' // MISSING
 } );
