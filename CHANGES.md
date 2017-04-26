@@ -24,6 +24,7 @@ Fixed Issues:
 * [#16825](http://dev.ckeditor.com/ticket/16825): Fixed: [Chrome] Error thrown when destroying focused inline editor.
 * [#16857](http://dev.ckeditor.com/ticket/16857): Fixed: Ctrl + Shift + V blocked by copy formatting.
 * [#14714](http://dev.ckeditor.com/ticket/14714): [Webkit/Blink] Fixed: Exception thrown on refocusing a blurred inline editor.
+* [#16968](http://dev.ckeditor.com/ticket/16968): Fixed: [Safari] Paste as plain text is not handled by the editor.
 * [#16821](http://dev.ckeditor.com/ticket/16821): Fixed: Extraneous `spans` with `height` style stacked when [pasting from Word](http://ckeditor.com/addon/pastefromword).
 * [#12465](http://dev.ckeditor.com/ticket/12465): Fixed: Can't change state of checkboxes/radio buttons if the properties dialog was invoked via double-click.
 * [#13062](http://dev.ckeditor.com/ticket/13062): Fixed: Impossible to unlink when the caret is at the edge of the link.
@@ -44,6 +45,7 @@ Fixed Issues:
 * [#14407](https://dev.ckeditor.com/ticket/14407): [IE] Fixed: Non-editable widgets can be edited.
 * [#16845](https://dev.ckeditor.com/ticket/16845): [IE] Fixed: Cursor jumps to the top of the scrolled editor after focusing it when [Copy Formatting](http://ckeditor.com/addon/copyformatting) plugin is enabled.
 * [#16927](https://dev.ckeditor.com/ticket/16927): Fixed: CKEditor throws an error if a bundle containing [Color Button](http://ckeditor.com/addon/colorbutton) plugin is run in ES5 strict mode. Thanks to [Igor Rubinovich](https://github.com/IgorRubinovich)!
+* [#16786](http://dev.ckeditor.com/ticket/16786): Fixed: Added missing translations for the [Copy Formatting](http://ckeditor.com/addon/copyformatting) plugin.
 * [#16920](http://dev.ckeditor.com/ticket/16920): Fixed: Several plugins not using dialog as a direct dependency.
 * [PR#336](https://github.com/ckeditor/ckeditor-dev/pull/336): Fixed: Typo in [CKEDITOR.getCss](http://docs.ckeditor.com/#!/api/CKEDITOR-method-getCss) api docs. Thanks to [knusperpixel](https://github.com/knusperpixel)!
 
