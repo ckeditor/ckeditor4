@@ -377,7 +377,7 @@
 		breakOnElements: [ 'ul', 'ol', 'table' ],
 
 		/**
-		 * Stores a name of command (if any) initially bound to the keystroke used for format applying
+		 * Stores the name of the command (if any) initially bound to the keystroke used for format applying
 		 * ({@link CKEDITOR.config#copyFormatting_keystrokePaste}), to restore it after copy formatting
 		 * is deactivated.
 		 *

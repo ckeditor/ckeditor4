@@ -419,11 +419,11 @@
 		 *		} );
 		 *
 		 * @member CKEDITOR.editor
-		 * @param {Function/Object} callbackOrOptions If function see `callback` parameter documentation. Object was given before 4.7.0 with `title` property, to set paste dialog's title.
-		 * @param {Function} callback A function that will be executed with `data` property of
+		 * @param {Function/Object} callbackOrOptions For function, see the `callback` parameter documentation. The object was used before 4.7.0 with the `title` property, to set the paste dialog's title.
+		 * @param {Function} callback A function that will be executed with the `data` property of the
 		 * {@link CKEDITOR.editor#event-paste paste event} or `null` if none of the capturing methods succeeded.
-		 * Since 4.7.0 `callback` should be provided as a first argument, just like in example above. This parameter will be removed in
-		 * upcoming major release.
+		 * Since 4.7.0 the `callback` should be provided as a first argument, just like in the example above. This parameter will be removed in
+		 * an upcoming major release.
 		 */
 		editor.getClipboardData = function( callbackOrOptions, callback ) {
 			// Options are optional - args shift.
@@ -681,19 +681,19 @@
 				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
 
 				/**
-				 * Default implementation of paste command.
+				 * The default implementation of the paste command.
 				 *
 				 * @private
-				 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
-				 * @param {Object/String} data If `data` is a string, then it's considered a content that is being pasted.
-				 * Otherwise it's treated as an object with options.
+				 * @param {CKEDITOR.editor} editor An instance of the editor where the command is being executed.
+				 * @param {Object/String} data If `data` is a string, then it is considered content that is being pasted.
+				 * Otherwise it is treated as an object with options.
 				 * @param {Boolean/String} [data.notification=true] Content for a notification shown after an unsuccessful
-				 * paste attempt. If `false` notification will not be displayed. This parameter was added in 4.7.0.
-				 * @param {String} [data.type='html'] Type of the pasted content. There are two allowed values:
+				 * paste attempt. If `false`, the notification will not be displayed. This parameter was added in 4.7.0.
+				 * @param {String} [data.type='html'] The type of pasted content. There are two allowed values:
 				 * * 'html'
 				 * * 'text'
 				 * @param {String/Object} data.dataValue Content being pasted. If this parameter is an object, it
-				 * supposed to be a `data` property of {@link CKEDITOR.editor#paste} event.
+				 * is supposed to be a `data` property of the {@link CKEDITOR.editor#paste} event.
 				 * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer Data transfer instance connected
 				 * with the current paste action.
 				 * @member CKEDITOR.editor.commands.paste
@@ -2770,7 +2770,7 @@
  */
 
 /**
- * Duration of a notification displayed after paste was blocked by the browser.
+ * Duration of the notification displayed after pasting was blocked by the browser.
  *
  * @since 4.7.0
  * @cfg {Number} [clipboard_defaultContentType=10000]

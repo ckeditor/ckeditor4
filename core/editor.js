@@ -1327,10 +1327,10 @@
 		 * Returns the keystroke that is assigned to a specified {@link CKEDITOR.command}. If no keystroke is assigned,
 		 * it returns `null`.
 		 *
-		 * Since version 4.7.0 this function also accepts `command` parameter as a string.
+		 * Since version 4.7.0 this function also accepts a `command` parameter as a string.
 		 *
 		 * @since 4.6.0
-		 * @param {CKEDITOR.command/String} command The {@link CKEDITOR.command} instance or a string with command name.
+		 * @param {CKEDITOR.command/String} command The {@link CKEDITOR.command} instance or a string with the command name.
 		 * @returns {Number/null} The keystroke assigned to the provided command or `null` if there is no keystroke.
 		 */
 		getCommandKeystroke: function( command ) {

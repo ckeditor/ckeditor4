@@ -83,12 +83,12 @@
  *
  *		config.embed_provider = '//example.com/api/oembed-proxy?resource-url={url}&callback={callback}';
  *
- * By default CKEditor does not use any provider, although there's a ready to use URL available:
+ * By default CKEditor does not use any provider, although there is a ready-to-use URL available via Iframely:
  *
  *		config.embed_provider = '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
  *
- * However, above endpoint contains certain limitations, e.g. can't embed Google Maps content.
- * It's recommended to set up an account on the [Iframely](https://iframely.com/) service for
+ * However, this endpoint contains certain limitations, e.g. it cannot embed Google Maps content.
+ * It is recommended to set up an account on the [Iframely](https://iframely.com/) service for
  * better control over embedded content.
  *
  * Read more in the [documentation](#!/guide/dev_media_embed)
@@ -96,7 +96,8 @@
  *
  * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
  *
- * **Important note:** Prior to version 4.7 this configuration option defaulted to `//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}` string.
+ * **Important note:** Prior to version 4.7 this configuration option defaulted to the
+ * `//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}` string.
  *
  * @since 4.5
  * @cfg {String} [embed_provider='']
