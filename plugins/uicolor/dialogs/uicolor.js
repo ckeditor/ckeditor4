@@ -328,7 +328,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 
 	// Returns normalized uiColor value.
 	function getUiColor( editor ) {
-		return CKEDITOR.tools.parseCssText( 'color:' + editor.getUiColor(), true ).color;
+		return editor.getUiColor() ? CKEDITOR.tools.parseCssText( 'color:' + editor.getUiColor(), true ).color : null;
 	}
 
 
