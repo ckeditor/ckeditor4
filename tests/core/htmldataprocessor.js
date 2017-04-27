@@ -1309,6 +1309,19 @@
 		'<iframe srcdoc="&#x3C;svg onload=\'window.parent.%xss%\'&#x3E;;"></iframe>',
 		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
 
+	addXssTC( tcs, 'iframe with src=javascript 1',
+		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>',
+		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>' );
+	addXssTC( tcs, 'iframe with src=javascript 2',
+		'<p><iframe src="&#10;&#106;avascript:window.parent.%xss%;"></iframe></p>',
+		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>' );
+	addXssTC( tcs, 'iframe with src=javascript 3',
+		'<p><iframe src="jAvAsCrIpT:window.parent.%xss%;"></iframe></p>',
+		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>' );
+	addXssTC( tcs, 'iframe with src=javascript 4',
+		'<p><iframe src="jav	ascript:window.parent.%xss%;"></iframe></p>',
+		'<p><iframe src="jav	ascript:window.parent.%xss%;"></iframe></p>' );
+
 	// False positive cases.
 
 	// IE8 will lose custom element.
