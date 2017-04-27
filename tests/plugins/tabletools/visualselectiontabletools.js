@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar,undo,floatingspace */
-/* bender-include: _helpers/tabletools.js */
-/* global tableToolsHelpers */
+/* bender-include: _helpers/tabletools.js,../undo/_helpers/tools.js */
+/* global tableToolsHelpers, undoEventDispatchTestsTools */
 
 ( function() {
 	'use strict';
@@ -102,6 +102,7 @@
 	}
 
 	var tests = {
+
 		'test insert row before': function( editor, bot ) {
 			doTest( bot, 'rowInsertBefore', { 'case': 'add-row-before', cells: [ 0 ] } );
 			doTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-2', cells: [ 1 ] } );
@@ -197,6 +198,22 @@
 		// (#10308)
 		'test remove trailing cell': function( editor, bot ) {
 			doTest( bot, 'cellDelete', { 'case': 'delete-cell-trailing', cells: [ 3 ], skipCheckingSelection: true } );
+		},
+
+		'test backspace in the middle': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTable', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 1, 2 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
 		},
 
 		'test getSelectedCells restricted to the given table': function( editor, bot ) {
