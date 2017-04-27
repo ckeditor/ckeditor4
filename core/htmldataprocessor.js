@@ -569,7 +569,21 @@
 			// Don't let some old expando enter editor. Concerns only IE8,
 			// but for consistency remove on all browsers.
 			[ ( /^data-cke-expando$/ ), '' ]
-		]
+		],
+
+		elements: {
+			// Prevent iframe's src attribute with javascript code from being evaluated in the editable.
+			iframe: function( element ) {
+				if ( element.attributes ) {
+
+					var src = element.attributes.src;
+					if ( src && src.toLowerCase().replace( /[^a-z]/i, '' ).indexOf( 'javascript' ) === 0 ) {
+						element.attributes[ 'data-cke-pa-src' ] = src;
+						delete element.attributes.src;
+					}
+				}
+			}
+		}
 	};
 
 	// Disable form elements editing mode provided by some browsers. (#5746)
