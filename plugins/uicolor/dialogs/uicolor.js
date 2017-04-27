@@ -430,7 +430,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 						type: 'select',
 						'default': '',
 						width: '100%',
-						label: editor.lang.uicolor.predefined,
+						label: lang.predefined,
 						items: [
 							[ '' ],
 							[ 'Light blue', '#9ab8f3' ],
@@ -472,7 +472,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 				{
 					id: 'configBox',
 					type: 'text',
-					label: editor.lang.uicolor.config,
+					label: lang.config,
 					onShow: function() {
 						this.setValue( getUiColor( editor ) );
 					},
