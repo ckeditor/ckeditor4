@@ -5,7 +5,10 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'sk', {
 	title: 'UI výber farby',
-	preview: 'Živý náhľad',
-	config: 'Vložte tento reťazec do svojho súboru config.js',
-	predefined: 'Preddefinované sady farieb'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	clear: 'Clear', // MISSING
+	predefined: 'Preddefinované sady farieb',
+	config: 'Vložte tento reťazec do svojho súboru config.js'
 } );

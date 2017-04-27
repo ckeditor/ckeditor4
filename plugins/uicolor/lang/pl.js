@@ -5,7 +5,10 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'pl', {
 	title: 'Wybór koloru interfejsu',
-	preview: 'Podgląd na żywo',
-	config: 'Wklej poniższy łańcuch znaków do pliku config.js:',
-	predefined: 'Predefiniowane zestawy kolorów'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	clear: 'Clear', // MISSING
+	predefined: 'Predefiniowane zestawy kolorów',
+	config: 'Wklej poniższy łańcuch znaków do pliku config.js:'
 } );

@@ -5,7 +5,10 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'hu', {
 	title: 'UI Színválasztó',
-	preview: 'Élő előnézet',
-	config: 'Illessze be ezt a szöveget a config.js fájlba',
-	predefined: 'Előre definiált színbeállítások'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	clear: 'Clear', // MISSING
+	predefined: 'Előre definiált színbeállítások',
+	config: 'Illessze be ezt a szöveget a config.js fájlba'
 } );

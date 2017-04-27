@@ -5,7 +5,10 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'oc', {
 	title: 'Selector de color',
-	preview: 'Apercebut interactiu',
-	config: 'Pegatz aqueste tèxte dins vòstre fichièr config.js',
-	predefined: 'Paletas de colors predefinidas'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	clear: 'Clear', // MISSING
+	predefined: 'Paletas de colors predefinidas',
+	config: 'Pegatz aqueste tèxte dins vòstre fichièr config.js'
 } );

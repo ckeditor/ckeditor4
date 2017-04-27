@@ -5,7 +5,10 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'sq', {
 	title: 'UI Mbledhës i Ngjyrave',
-	preview: 'Parapamje direkte',
-	config: 'Hidhni këtë varg në skedën tuaj config.js',
-	predefined: 'Setet e paradefinuara të ngjyrave'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	clear: 'Clear', // MISSING
+	predefined: 'Setet e paradefinuara të ngjyrave',
+	config: 'Hidhni këtë varg në skedën tuaj config.js'
 } );

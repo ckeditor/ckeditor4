@@ -5,7 +5,10 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'hr', {
 	title: 'UI odabir boja',
-	preview: 'Pregled uživo',
-	config: 'Zalijepite ovaj tekst u Vašu config.js datoteku.',
-	predefined: 'Već postavljeni setovi boja'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	clear: 'Clear', // MISSING
+	predefined: 'Već postavljeni setovi boja',
+	config: 'Zalijepite ovaj tekst u Vašu config.js datoteku.'
 } );

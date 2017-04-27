@@ -5,7 +5,10 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'id', {
 	title: 'Pengambil  Warna UI',
-	preview: 'Pratinjau',
-	config: 'Tempel string ini ke arsip config.js anda.',
-	predefined: 'Set warna belum terdefinisi.'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	clear: 'Clear', // MISSING
+	predefined: 'Set warna belum terdefinisi.',
+	config: 'Tempel string ini ke arsip config.js anda.'
 } );

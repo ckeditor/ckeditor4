@@ -5,7 +5,10 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'et', {
 	title: 'Värvivalija kasutajaliides',
-	preview: 'Automaatne eelvaade',
-	config: 'Aseta see sõne oma config.js faili.',
-	predefined: 'Eelmääratud värvikomplektid'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	clear: 'Clear', // MISSING
+	predefined: 'Eelmääratud värvikomplektid',
+	config: 'Aseta see sõne oma config.js faili.'
 } );
