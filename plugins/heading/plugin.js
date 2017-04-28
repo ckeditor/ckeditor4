@@ -249,4 +249,4 @@
 *   various menuitems in the Heading drop-down list:
 */
 CKEDITOR.config.headings = ['h1', 'h2', 'h3', 'h4'];
-CKEDITOR.config.oneLevel1 = true;
+// CKEDITOR.config.oneLevel1 = false;
