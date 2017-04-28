@@ -325,6 +325,27 @@
 			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
 			range.shrink( CKEDITOR.SHRINK_TEXT );
 			assert.areSame( source, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		// #tp2245
+		'test shrink with skipBogus param - SHRINK_TEXT': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				source = CKEDITOR.document.getById( 'bogus_table' ).getValue(),
+				range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
+
+			range.shrink( CKEDITOR.SHRINK_TEXT, false, true, true );
+			assert.areSame( 'Cell 1.1', range.cloneContents().getHtml() );
+		},
+
+		// #tp2245
+		'test shrink with skipBogus param - SHRINK_ELEMENT': function() {
+			var ct = doc.getById( 'editable_playground' ),
+				source = CKEDITOR.document.getById( 'bogus_table' ).getValue(),
+				range = bender.tools.setHtmlWithRange( ct, source )[ 0 ],
+				cell = ct.findOne( 'td' );
+
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, false, true, true );
+			assert.areSame( cell.getOuterHtml(), range.cloneContents().getHtml() );
 		}
 	};
 
