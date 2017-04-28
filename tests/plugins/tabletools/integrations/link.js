@@ -101,6 +101,27 @@
 			} );
 		},
 
+		// #tp2245
+		'test get link info from the cell with <br> filler': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				protocol = 'https://',
+				url = 'cksource.com',
+				ranges;
+
+			bot.setData( CKEDITOR.document.getById( 'table-with-br' ).getOuterHtml(), function() {
+				ranges = getRangesForCells( editor, [ 0 ] );
+				editor.getSelection().selectRanges( ranges );
+
+				bot.dialog( 'link', function( dialog ) {
+					assert.areSame( url, dialog.getValueOf( 'info', 'url' ), 'Correct URL is set.' );
+					assert.areSame( protocol, dialog.getValueOf( 'info', 'protocol' ), 'Correct protocol is set.' );
+
+					dialog.getButton( 'ok' ).click();
+				} );
+			} );
+		},
+
 		'test unlink command': function() {
 			var editor = this.editor,
 				unlink = editor.getCommand( 'unlink' ),
