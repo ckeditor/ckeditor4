@@ -32,11 +32,12 @@
           items = {},
           headingTag;
 
-      // Normalize and sort the headings array
+      // Copy config values to headings array and sort
       for ( var i = 0; i < headingConfigStrings.length; i++ ) {
         headings.push( headingConfigStrings[i].toLowerCase() );
       }
       headings.sort();
+      console.log( 'headings: ' + headings);
 
       // Initialize headings array indices used by getAllowedHeadings
       startIndex = oneLevel1 && headings[0] === 'h1' ? 1 : 0;
@@ -243,10 +244,3 @@
 
   } )
 } )();
-
-/**
-*   The list of heading tags that will be applied to the document by the
-*   various menuitems in the Heading drop-down list:
-*/
-CKEDITOR.config.headings = ['h1', 'h2', 'h3', 'h4'];
-// CKEDITOR.config.oneLevel1 = false;
