@@ -8,6 +8,7 @@
 ( function () {
 
   var allowedContent = [],
+      allHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
       headings = [],
       startIndex,
       endIndex;
@@ -25,8 +26,8 @@
 
       var config = editor.config,
           lang = editor.lang.heading,
-          headingConfigStrings = config.headings || ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-          oneLevel1,
+          headingConfigStrings = config.headings || allHeadings,
+          oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
           plugin = this,
           items = {},
           headingTag;
@@ -38,7 +39,6 @@
       headings.sort();
 
       // Initialize headings array indices used by getAllowedHeadings
-      oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1;
       startIndex = oneLevel1 && headings[0] === 'h1' ? 1 : 0;
       endIndex = headings.length - 1;
 
@@ -163,8 +163,7 @@
     },
 
     isHeadingElement: function ( name ) {
-      var names = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-      return ( names.indexOf( name ) >= 0 );
+      return ( allHeadings.indexOf( name ) >= 0 );
     },
 
     getCurrentHeadingElement: function ( editor ) {
