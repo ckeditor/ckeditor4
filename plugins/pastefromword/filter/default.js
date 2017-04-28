@@ -385,6 +385,13 @@
 				'style': function() {
 					// We don't want to let any styles in. Firefox tends to add some.
 					return false;
+				},
+
+				'object': function( element ) {
+					// The specs about object `data` attribute:
+					// 		Address of the resource as a valid URL. At least one of data and type must be defined.
+					// If there is not `data`, skip the object element.
+					return !!( element.attributes && element.attributes.data );
 				}
 			},
 			attributes: {
