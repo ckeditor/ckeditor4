@@ -5,7 +5,7 @@
 
 'use strict';
 
-( function() {
+( function () {
 
   var allowedContent = [],
       headings = [],
@@ -163,23 +163,14 @@
     },
 
     isHeadingElement: function ( name ) {
-      switch( name ) {
-        case 'h1':
-        case 'h2':
-        case 'h3':
-        case 'h4':
-        case 'h5':
-        case 'h6':
-          return true;
-        default:
-          return false;
-      }
+      var names = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+      return ( names.indexOf( name ) >= 0 );
     },
 
-    getCurrentHeadingElement: function( editor ) {
+    getCurrentHeadingElement: function ( editor ) {
       var elementPath = editor.elementPath(),
-        activePath = elementPath && elementPath.elements,
-        pathMember, element;
+          activePath = elementPath && elementPath.elements,
+          pathMember, element;
 
       // IE8: Upon initialization if there is no path, elementPath() returns null.
       if ( elementPath ) {
@@ -197,7 +188,8 @@
       var selectedElement = editor.getSelection().getStartElement();
       // console.log('SELECTED ELEMENT: ' + selectedElement.getName() );
 
-      var lastHeading = undefined;
+      var lastHeading = undefined,
+          plugin = this;
 
       /*
       *   Note: The getLastHeading function modifies the
@@ -211,18 +203,9 @@
           return true;
 
         var tagName = element.getName();
-        // console.log( 'In getLastHeading: ' + tagName );
 
-        switch ( tagName ) {
-          case 'h1':
-          case 'h2':
-          case 'h3':
-          case 'h4':
-          case 'h5':
-          case 'h6':
-            lastHeading = tagName;
-            break;
-        }
+        if ( plugin.isHeadingElement( tagName ) )
+          lastHeading = tagName;
 
         var children = element.getChildren();
         var count = children.count();
@@ -233,7 +216,7 @@
         }
         return false;
 
-      } // end getLastHeading
+      } // end function
 
       getLastHeading( editor.document.getBody() );
       // console.log( 'LAST HEADING: ' + lastHeading );
@@ -257,7 +240,7 @@
       if ( lastHeading > headings[ endIndex ] )
         return headings.slice( startIndex );
 
-    } // end getAllowedHeadings
+    } // end method getAllowedHeadings
 
   } )
 } )();
