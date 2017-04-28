@@ -7,7 +7,10 @@
 
 ( function() {
 
-  var allowedContent = [];
+  var allowedContent = [],
+      headings = [],
+      startIndex,
+      endIndex;
 
   CKEDITOR.plugins.add( 'heading', {
     requires: 'a11yfirst,menubutton',
@@ -22,10 +25,22 @@
 
       var config = editor.config,
           lang = editor.lang.heading,
-          headingConfigStrings = config.headings,
+          headingConfigStrings = config.headings || ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+          oneLevel1,
           plugin = this,
           items = {},
           headingTag;
+
+      // Normalize and sort the headings array
+      for ( var i = 0; i < headingConfigStrings.length; i++ ) {
+        headings.push( headingConfigStrings[i].toLowerCase() );
+      }
+      headings.sort();
+
+      // Initialize headings array indices used by getAllowedHeadings
+      oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1;
+      startIndex = oneLevel1 && headings[0] === 'h1' ? 1 : 0;
+      endIndex = headings.length - 1;
 
       // Change behavior of menubutton with text label
       CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
@@ -57,8 +72,8 @@
       } );
 
       // Create item entry for each heading element in config
-      for ( var i = 0; i < headingConfigStrings.length; i++ ) {
-        headingTag = headingConfigStrings[ i ];
+      for ( var i = 0; i < headings.length; i++ ) {
+        headingTag = headings[ i ];
         items[ headingTag ] = {
           label: lang[ 'level_' + headingTag ],
           headingId: headingTag,
@@ -81,7 +96,7 @@
         group: 'heading_actions',
         style: new CKEDITOR.style( { element: 'p' } ),
         state: CKEDITOR.TRISTATE_DISABLED,
-        order: headingConfigStrings.length,
+        order: headings.length,
         onClick: function() {
           var currentHeadingElement = plugin.getCurrentHeadingElement( editor );
           if ( currentHeadingElement ) {
@@ -95,7 +110,7 @@
       items.outline = {
         label: lang.outlineLabel,
         group: 'heading_actions',
-        order: headingConfigStrings.length + 1,
+        order: headings.length + 1,
         onClick: function() {
           editor.execCommand( outlineCmd );
         }
@@ -105,7 +120,7 @@
       items.help = {
         label: lang.helpLabel,
         group: 'heading_actions',
-        order: headingConfigStrings.length + 2,
+        order: headings.length + 2,
         onClick: function() {
           editor.execCommand( helpCmd );
         }
@@ -184,26 +199,6 @@
 
       var lastHeading = undefined;
 
-      getLastHeading( editor.document.getBody() );
-      // console.log( 'LAST HEADING: ' + lastHeading );
-
-      switch ( lastHeading ) {
-        case undefined:
-          return [ 'h1', 'h2' ];
-        case 'h1':
-          return [ 'h2' ];
-        case 'h2':
-          return [ 'h2', 'h3' ];
-        case 'h3':
-          return [ 'h2', 'h3', 'h4' ];
-        case 'h4':
-          return [ 'h2', 'h3', 'h4', 'h5' ];
-        case 'h5':
-          return [ 'h2', 'h3', 'h4', 'h5', 'h6' ];
-        case 'h6':
-          return [ 'h2', 'h3', 'h4', 'h5', 'h6' ];
-      }
-
       /*
       *   Note: The getLastHeading function modifies the
       *   lastHeading variable in its outer scope.
@@ -240,6 +235,28 @@
 
       } // end getLastHeading
 
+      getLastHeading( editor.document.getBody() );
+      // console.log( 'LAST HEADING: ' + lastHeading );
+
+      if ( typeof lastHeading === 'undefined' )
+        return headings.slice( 0, 1 );
+
+      var index = headings.indexOf( lastHeading );
+      if ( index >= 0 ) {
+        var retVal = headings.slice( startIndex, index + 1 );
+        if ( index < endIndex ) {
+          retVal.push( headings[ index + 1 ] );
+        }
+        return retVal;
+      }
+
+      // lastHeading not in headings array => lexical comparison
+      if ( lastHeading < headings[ 0 ] )
+        return headings.slice( startIndex, startIndex + 1 );
+
+      if ( lastHeading > headings[ endIndex ] )
+        return headings.slice( startIndex );
+
     } // end getAllowedHeadings
 
   } )
@@ -249,4 +266,5 @@
 *   The list of heading tags that will be applied to the document by the
 *   various menuitems in the Heading drop-down list:
 */
-CKEDITOR.config.headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+CKEDITOR.config.headings = ['h1', 'h2', 'h3', 'h4'];
+CKEDITOR.config.oneLevel1 = true;
