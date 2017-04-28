@@ -333,7 +333,8 @@
 			for ( i = 0; i < ranges.length; i++ ) {
 				range = selection.getRanges()[ i ];
 
-				range.shrink( CKEDITOR.SHRINK_TEXT );
+				// Skip bogus to cover cases of multiple selection inside tables (#tp2245).
+				range.shrink( CKEDITOR.SHRINK_TEXT, false, true, true );
 				link = editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
 
 				if ( link && returnMultiple ) {
