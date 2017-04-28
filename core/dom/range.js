@@ -1726,7 +1726,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * @param {Boolean} selectContents Whether result range anchors at the inner OR outer boundary of the node.
 		 */
-		shrink: function( mode, selectContents, shrinkOnBlockBoundary ) {
+		shrink: function( mode, selectContents, shrinkOnBlockBoundary, skipBogus ) {
 			// Unable to shrink a collapsed range.
 			if ( !this.collapsed ) {
 				mode = mode || CKEDITOR.SHRINK_TEXT;
@@ -1767,7 +1767,8 @@ CKEDITOR.dom.range = function( root ) {
 				}
 
 				var walker = new CKEDITOR.dom.walker( walkerRange ),
-					isBookmark = CKEDITOR.dom.walker.bookmark();
+					isBookmark = CKEDITOR.dom.walker.bookmark(),
+					isBogus = CKEDITOR.dom.walker.bogus();
 
 				walker.evaluator = function( node ) {
 					return node.type == ( mode == CKEDITOR.SHRINK_ELEMENT ? CKEDITOR.NODE_ELEMENT : CKEDITOR.NODE_TEXT );
@@ -1775,6 +1776,11 @@ CKEDITOR.dom.range = function( root ) {
 
 				var currentElement;
 				walker.guard = function( node, movingOut ) {
+					// Skipping bogus before other cases (#tp2245).
+					if ( skipBogus && isBogus( node ) ) {
+						return true;
+					}
+
 					if ( isBookmark( node ) )
 						return true;
 
