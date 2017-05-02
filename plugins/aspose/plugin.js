@@ -22,6 +22,28 @@
 		})
 	}
 
+	function filterPastedContent(editor, val) {
+		if (editor.element.$.children.length && editor.element.$.innerText.trim().length) {
+			var $val = $('<div></div>div>').html(val);
+
+			['div', 'table', 'tbody', 'tr', 'td', 'ol', 'ul', 'li'].forEach(function(item) {
+				$val.find(item).replaceWith(function() {
+					var val = '';
+
+					if (this.innerText.trim().length) {
+						val = this.innerHTML;
+					}
+
+					return val;
+				});
+			});
+
+			return $val.html();
+		} else {
+			return val;
+		}
+	}
+
 	defaultStyle.prototype = {
 		/**
 		 * make style name from dash to camelCase
@@ -105,7 +127,13 @@
 
 			// Remove page break on paste
 			editor.on('paste', function(event) {
-				event.data.dataValue = event.data.dataValue.replace(removePgbrReg, '');
+				var val = event.data.dataValue.replace(removePgbrReg, '');
+
+				if (editor.config.singleParagraphEdit) {
+					val = filterPastedContent(editor, val);
+				}
+
+				event.data.dataValue = val;
 			});
 
 			editor.element.$.parentNode.addEventListener('keydown', function(e) {
