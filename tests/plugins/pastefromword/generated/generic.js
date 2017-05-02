@@ -20,7 +20,8 @@
 			'firefox',
 			'ie8',
 			'ie11',
-			'safari'
+			'safari',
+			'datatransfer'
 		],
 		wordVersions: [
 			'word2007',
@@ -45,10 +46,12 @@
 			'Underline': true,
 			'Unordered_list': true,
 			'Table_alignment': true,
-			'Table_vertical_alignment': true
+			'Table_vertical_alignment': true,
+			'Object': [ 'word2013' ]
 		},
 		customFilters: [
-			pfwTools.filters.span
+			pfwTools.filters.span,
+			pfwTools.filters.style
 		],
 		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11
 	} ) );
