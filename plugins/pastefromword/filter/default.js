@@ -390,7 +390,7 @@
 				'object': function( element ) {
 					// The specs about object `data` attribute:
 					// 		Address of the resource as a valid URL. At least one of data and type must be defined.
-					// If there is not `data`, skip the object element.
+					// If there is not `data`, skip the object element. (#17001)
 					return !!( element.attributes && element.attributes.data );
 				}
 			},
