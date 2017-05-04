@@ -1,0 +1,232 @@
+/*
+Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+
+/*
+panel.css (part of editor.css)
+================================
+
+Panels are floating elements that can hold different types of contents.
+The following are common uses of it:
+
+	- The element that toolbar combos display when opening them.
+	- The context menu.
+	- The list of items displayed by "menu buttons" (e.g. scayt).
+	- The panel shown when opening "panel buttons" (e.g. color buttons).
+
+Panel contents are wrapped into an iframe, so it is possible to have additional
+CSS loaded inside them (e.g. to have more accurate preview on the styles combo).
+
+The following is a visual representation of the outer elements of a panel:
+
++-- .cke_panel(*) ---------------------+
+| +-- IFRAME.cke_panel_frame --------+ |
+| | +-- HTML.cke_panel_container --+ | |
+| | | +-- .cke_panel_block ------+ | | |
+| | | |                          | | | |
+| | | |     (contents here)      | | | |
+| | | |                          | | | |
+| | | +--------------------------+ | | |
+| | +------------------------------+ | |
+| +----------------------------------+ |
++--------------------------------------+
+
+(*) All kinds of panel share the above structure. Menu panels adds the
+    .cke_menu_panel class to the outer element, while toolbar combos add the
+	.cke_combopanel class.
+
+This file also defines styles for panel lists (used by combos). For menu-like
+panel contents and color panels check menu.css and colorpanel.css.
+*/
+
+/* The box that holds an IFRAME. It's inserted into a host document and positioned
+   absolutely by the application. It floats above the host document/editor. */
+.cke_panel
+{
+	/* Restore the loading hide */
+	visibility: visible;
+  min-width: 132px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(127, 138, 157, .4), 0 2px 4px rgba(3, 18, 42, 0.15);
+ 	/*overflow: hidden;*/
+}
+
+/* This class represents panels which are used as context menus. */
+.cke_menu_panel
+{
+	padding: 0;
+	margin: 0;
+}
+
+/* This class represents panels which are used by rich combos. */
+.cke_combopanel
+{
+  width: 156px;
+  height: 180px;
+  transform: translate(-26px, 13px);
+}
+.cke_combopanel:before,
+.cke_combopanel::after
+{
+  display: block;
+  content: '';
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.cke_combopanel:before
+{
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid rgba(127, 138, 157, .6);
+  margin-top: -1px;
+}
+.cke_combopanel:after
+{
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #fff;
+}
+
+/* The IFRAME the panel is wrapped into. */
+.cke_panel_frame
+{
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+  border-radius: 3px;
+
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+/* The HTML document which is a direct descendant of the IFRAME */
+.cke_panel_container
+{
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/*
+Here we start the definition of panel lists (e.g. combo panels). The following
+is its visual representation:
+
++-- .cke_panel_block -----------------+
+| +-- .cke_panel_grouptitle --------+ |
+| |                                 | |
+| +---------------------------------+ |
+| +-- .cke_panel_list --------------+ |
+| | +-- .cke_panel_listItem ------+ | |
+| | | +-- a --------------------+ | | |
+| | | | +-- span -------------+ | | | |
+| | | | |                     | | | | |
+| | | | +---------------------+ | | | |
+| | | +-------------------------+ | | |
+| | +-----------------------------+ | |
+| | +-- .cke_panel_listItem ------+ | |
+| | | +-- a --------------------+ | | |
+| | | | +-- span -------------+ | | | |
+| | | | |                     | | | | |
+| | | | +---------------------+ | | | |
+| | | +-------------------------+ | | |
+| | +-----------------------------+ | |
+| | ...                             | |
+| +---------------------------------+ |
++-------------------------------------+
+*/
+
+
+/* The list of panel items. */
+.cke_panel_list
+{
+	margin: 0;
+  padding: 0 0 3px;
+  list-style: none;
+  /*overflow: auto;*/
+  display: block;
+  max-height: calc(100vh - 96px);
+}
+
+/* The item of .cke_panel_list */
+.cke_panel_listItem
+{
+  margin: 0;
+  white-space: nowrap;
+  display: block;
+  height: 30px;
+}
+
+/* The child of .cke_panel_listItem. These elements contain spans which are
+   to display a real name of the property which is visible for an end-user. */
+.cke_panel_listItem a
+{
+  background: transparent;
+  border: none;
+  width: 100%;
+  height: 30px;
+  cursor: pointer;
+  display: block;
+  padding: 0 18px;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 30px;
+  text-align: left;
+  outline: none;
+  color: #193a6c;
+  box-sizing: border-box;
+  transition: background-color 150ms, color 150ms;
+}
+
+.cke_panel_listItem.cke_selected a
+{
+	background-color: #F2F4F7;
+}
+
+.cke_panel_listItem a:hover {
+  color: #fff;
+	background-color: #2c5490;
+}
+
+.cke_panel_listItem a:focus,
+.cke_panel_listItem a:active
+{
+  color: #fff;
+	background-color: #193a6c;
+}
+
+/* The title of the entire panel which is visible on top of the list. */
+.cke_panel_grouptitle
+{
+  background: #f2f4f7;
+	cursor: default;
+	font-size: 12px;
+  font-weight: normal;
+  line-height: 30px;
+  height: 30px;
+  padding: 0 18px;
+  color: #646f82;
+	white-space: nowrap;
+	margin: 0;
+}
+
+/* The following styles set defaults of the elements used by the Paragraph
+   Format panel. */
+.cke_panel_listItem p,
+.cke_panel_listItem h1,
+.cke_panel_listItem h2,
+.cke_panel_listItem h3,
+.cke_panel_listItem h4,
+.cke_panel_listItem h5,
+.cke_panel_listItem h6,
+.cke_panel_listItem pre
+{
+	margin: 0;
+  line-height: 30px;
+  display: inline-block;
+  width: 100%;
+}
