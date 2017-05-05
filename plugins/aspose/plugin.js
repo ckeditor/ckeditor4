@@ -22,26 +22,32 @@
 		})
 	}
 
-	function filterPastedContent(editor, val) {
-		if (editor.element.$.children.length && editor.element.$.innerText.trim().length) {
-			var $val = $('<div></div>div>').html(val);
+	function validateParagraph($editor) {
+		var POSSIBLE_ERRORS = [
+			'more than one element first level',
+			'have table inside',
+			'have div inside',
+			'have list inside'
+		];
+		var errors = [];
 
-			['div', 'table', 'tbody', 'tr', 'td', 'ol', 'ul', 'li'].forEach(function(item) {
-				$val.find(item).replaceWith(function() {
-					var val = '';
-
-					if (this.innerText.trim().length) {
-						val = this.innerHTML;
-					}
-
-					return val;
-				});
-			});
-
-			return $val.html();
-		} else {
-			return val;
+		if ($editor.children().length > 1) {
+			errors.push(POSSIBLE_ERRORS[0])
 		}
+
+		if ($editor.find('* table').length) {
+			errors.push(POSSIBLE_ERRORS[1])
+		}
+
+		if ($editor.find('div').length) {
+			errors.push(POSSIBLE_ERRORS[2])
+		}
+
+		if ($editor.find('* ol, * ul').length) {
+			errors.push(POSSIBLE_ERRORS[3])
+		}
+
+		return errors;
 	}
 
 	defaultStyle.prototype = {
@@ -129,11 +135,15 @@
 			editor.on('paste', function(event) {
 				var val = event.data.dataValue.replace(removePgbrReg, '');
 
-				if (editor.config.singleParagraphEdit) {
-					val = filterPastedContent(editor, val);
-				}
-
 				event.data.dataValue = val;
+			});
+
+			editor.on('change', function() {
+				var $editor = $(editor.element.$);
+
+				if (validateParagraph($editor).length) {
+					editor.openDialog('singleParagraphValidate');
+				}
 			});
 
 			editor.element.$.parentNode.addEventListener('keydown', function(e) {
@@ -173,6 +183,8 @@
 					parent.style['text-indent'] = '';
 				}
 			}, true);
+
+			CKEDITOR.dialog.add( 'singleParagraphValidate', this.path + 'dialogs/singleParagraphValidate.js' );
 		}
 	});
 })();

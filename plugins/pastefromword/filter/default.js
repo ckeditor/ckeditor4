@@ -79,6 +79,12 @@
 				},
 				'div': function( element ) {
 					Style.createStyleStack( element, filter, editor );
+
+					for ( var i = element.children.length - 1; i >= 0; i-- ) {
+						element.children[ i ].insertAfter( element );
+					}
+
+					return false;
 				},
 				'img': function( element ) {
 					var attributeStyleMap = {
