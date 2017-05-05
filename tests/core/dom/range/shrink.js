@@ -333,7 +333,7 @@
 				source = CKEDITOR.document.getById( 'bogus_table' ).getValue(),
 				range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
 
-			range.shrink( CKEDITOR.SHRINK_TEXT, false, true, true );
+			range.shrink( CKEDITOR.SHRINK_TEXT, false, { skipBogus: true } );
 			assert.areSame( 'Cell 1.1', range.cloneContents().getHtml() );
 		},
 
@@ -344,7 +344,7 @@
 				range = bender.tools.setHtmlWithRange( ct, source )[ 0 ],
 				cell = ct.findOne( 'td' );
 
-			range.shrink( CKEDITOR.SHRINK_ELEMENT, false, true, true );
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, false, { skipBogus: true } );
 			assert.areSame( cell.getOuterHtml(), range.cloneContents().getHtml() );
 		}
 	};
