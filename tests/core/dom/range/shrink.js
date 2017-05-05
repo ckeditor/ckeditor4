@@ -327,7 +327,7 @@
 			assert.areSame( source, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
 		},
 
-		// #tp2245
+		// (#17010)
 		'test shrink with skipBogus param - SHRINK_TEXT': function() {
 			var ct = doc.getById( 'editable_playground' ),
 				source = CKEDITOR.document.getById( 'bogus_table' ).getValue(),
@@ -337,7 +337,7 @@
 			assert.areSame( 'Cell 1.1', range.cloneContents().getHtml() );
 		},
 
-		// #tp2245
+		// (#17010)
 		'test shrink with skipBogus param - SHRINK_ELEMENT': function() {
 			var ct = doc.getById( 'editable_playground' ),
 				source = CKEDITOR.document.getById( 'bogus_table' ).getValue(),
