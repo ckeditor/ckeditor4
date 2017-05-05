@@ -1729,7 +1729,11 @@ CKEDITOR.dom.range = function( root ) {
 		 * @param {Boolean} [skipBogus=false] Wheter bogus `<br>` elements should be ignored while `mode` is set to
 		 * {@link CKEDITOR#SHRINK_TEXT}. This parameter was added in 4.7.0.
 		 */
-		shrink: function( mode, selectContents, shrinkOnBlockBoundary, skipBogus ) {
+		shrink: function( mode, selectContents, options ) {
+			var shrinkOnBlockBoundary = typeof options === 'boolean' ? options :
+				( options && typeof options.shrinkOnBlockBoundary === 'boolean' ? options.shrinkOnBlockBoundary : true ),
+				skipBogus = options && options.skipBogus;
+
 			// Unable to shrink a collapsed range.
 			if ( !this.collapsed ) {
 				mode = mode || CKEDITOR.SHRINK_TEXT;
