@@ -1725,9 +1725,12 @@ CKEDITOR.dom.range = function( root ) {
 		 *     node, range remains if there's no text nodes on boundaries at all.
 		 *
 		 * @param {Boolean} [selectContents=false] Whether result range anchors at the inner OR outer boundary of the node.
-		 * @param {Boolean} [shrinkOnBlockBoundary=true] Whether block boundary should be included in shrinked range.
-		 * @param {Boolean} [skipBogus=false] Wheter bogus `<br>` elements should be ignored while `mode` is set to
-		 * {@link CKEDITOR#SHRINK_TEXT}. This parameter was added in 4.7.0.
+		 * @param {Boolean/Object} [options=true] If this parameter is of a boolean type, it's treated as
+		 * `options.shrinkOnBlockBoundary`. This parameter was added in 4.7.0.
+		 * @param {Boolean} [options.shrinkOnBlockBoundary=true] Whether block boundary should be included in
+		 * shrinked range.
+		 * @param {Boolean} [options.skipBogus=false] Whether bogus `<br>` elements should be ignored while
+		 * `mode` is set to {@link CKEDITOR#SHRINK_TEXT}. This option was added in 4.7.0.
 		 */
 		shrink: function( mode, selectContents, options ) {
 			var shrinkOnBlockBoundary = typeof options === 'boolean' ? options :
