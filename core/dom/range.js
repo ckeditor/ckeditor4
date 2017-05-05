@@ -1724,9 +1724,19 @@ CKEDITOR.dom.range = function( root ) {
 		 * * {@link CKEDITOR#SHRINK_TEXT} - Shrink the range boudaries to anchor by the side of enclosed text
 		 *     node, range remains if there's no text nodes on boundaries at all.
 		 *
-		 * @param {Boolean} selectContents Whether result range anchors at the inner OR outer boundary of the node.
+		 * @param {Boolean} [selectContents=false] Whether result range anchors at the inner OR outer boundary of the node.
+		 * @param {Boolean/Object} [options=true] If this parameter is of a boolean type, it's treated as
+		 * `options.shrinkOnBlockBoundary`. This parameter was added in 4.7.0.
+		 * @param {Boolean} [options.shrinkOnBlockBoundary=true] Whether block boundary should be included in
+		 * shrinked range.
+		 * @param {Boolean} [options.skipBogus=false] Whether bogus `<br>` elements should be ignored while
+		 * `mode` is set to {@link CKEDITOR#SHRINK_TEXT}. This option was added in 4.7.0.
 		 */
-		shrink: function( mode, selectContents, shrinkOnBlockBoundary ) {
+		shrink: function( mode, selectContents, options ) {
+			var shrinkOnBlockBoundary = typeof options === 'boolean' ? options :
+				( options && typeof options.shrinkOnBlockBoundary === 'boolean' ? options.shrinkOnBlockBoundary : true ),
+				skipBogus = options && options.skipBogus;
+
 			// Unable to shrink a collapsed range.
 			if ( !this.collapsed ) {
 				mode = mode || CKEDITOR.SHRINK_TEXT;
@@ -1767,7 +1777,8 @@ CKEDITOR.dom.range = function( root ) {
 				}
 
 				var walker = new CKEDITOR.dom.walker( walkerRange ),
-					isBookmark = CKEDITOR.dom.walker.bookmark();
+					isBookmark = CKEDITOR.dom.walker.bookmark(),
+					isBogus = CKEDITOR.dom.walker.bogus();
 
 				walker.evaluator = function( node ) {
 					return node.type == ( mode == CKEDITOR.SHRINK_ELEMENT ? CKEDITOR.NODE_ELEMENT : CKEDITOR.NODE_TEXT );
@@ -1775,6 +1786,11 @@ CKEDITOR.dom.range = function( root ) {
 
 				var currentElement;
 				walker.guard = function( node, movingOut ) {
+					// Skipping bogus before other cases (#17010).
+					if ( skipBogus && isBogus( node ) ) {
+						return true;
+					}
+
 					if ( isBookmark( node ) )
 						return true;
 
