@@ -1786,7 +1786,7 @@ CKEDITOR.dom.range = function( root ) {
 
 				var currentElement;
 				walker.guard = function( node, movingOut ) {
-					// Skipping bogus before other cases (#tp2245).
+					// Skipping bogus before other cases (#17010, #tp2245).
 					if ( skipBogus && isBogus( node ) ) {
 						return true;
 					}
