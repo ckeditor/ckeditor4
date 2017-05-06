@@ -248,11 +248,47 @@
 			} );
 		},
 
-		'test backspace whole row': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTableMultiRow', function( source, expected ) {
+		'test backspace whole first row': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTableMultiRowFirst', function( source, expected ) {
 				bender.tools.setHtmlWithSelection( editor, source );
 
 				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				cleanupSelection( editor );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
+		'test backspace whole second row': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTableMultiRow', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 2, 3 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				cleanupSelection( editor );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
+		'test backspace whole table': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTableRemoveWhole', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1, 2, 3 ] ) );
 
 				// Reuse undo's fancy tools to mimic the keyboard.
 				var keyTools = undoEventDispatchTestsTools( {

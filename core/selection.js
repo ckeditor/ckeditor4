@@ -16,6 +16,10 @@
 	// @param {Boolean} allowPartially Whether a collapsed selection within table is recognized to be a valid selection.
 	// This happens for WebKits on MacOS, when you right click inside the table.
 	function isTableSelection( ranges, allowPartially ) {
+		if ( ranges.length === 0 ) {
+			return false;
+		}
+
 		var node,
 			i;
 
@@ -66,9 +70,9 @@
 	function isRealTableSelection( selection, fakeSelection ) {
 		var ranges = selection.getRanges(),
 			fakeRanges = fakeSelection.getRanges(),
-			table = ranges[ 0 ]._getTableElement() &&
+			table = ranges.length && ranges[ 0 ]._getTableElement() &&
 				ranges[ 0 ]._getTableElement().getAscendant( 'table', true ),
-			fakeTable = fakeRanges[ 0 ]._getTableElement() &&
+			fakeTable = fakeRanges.length && fakeRanges[ 0 ]._getTableElement() &&
 				fakeRanges[ 0 ]._getTableElement().getAscendant( 'table', true ),
 			isTableRange = ranges.length === 1 && ranges[ 0 ]._getTableElement() &&
 					ranges[ 0 ]._getTableElement().is( 'table' ),
@@ -227,13 +231,64 @@
 		},
 		tags = { table: 1, ul: 1, ol: 1, dl: 1 };
 
-		function getBlockToDelete( node ) {
-			var ancestor = node.getAscendant( tags );
-			if ( ancestor && !CKEDITOR.tools.trim( ancestor.getText() ) ) {
-				return getBlockToDelete( ancestor );
+		// Called when removing empty subseleciton of the table.
+		// It should not allow for removing part of table, e.g. when user attempts to remove 2 cells
+		// out of 4 in row. It should however remove whole row or table, if it was fully selected.
+		function deleteEmptyTablePart( node, ranges ) {
+			if ( !ranges.length ) {
+				return null;
 			}
 
-			return node;
+			var rng = editor.createRange(),
+				lastRangeIndex = ranges.length - 1;
+
+			rng.setStart( ranges[ 0 ].startContainer, ranges[ 0 ].startOffset );
+			rng.setEnd( ranges[ lastRangeIndex ].endContainer, ranges[ lastRangeIndex ].endOffset );
+
+			rng.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			var firstRangeContainedNode = rng.getEnclosedNode();
+
+			// @todo: replace with dtd, make sure that td is not allowed though.
+			if ( firstRangeContainedNode && firstRangeContainedNode.is && firstRangeContainedNode.is( 'table', 'tr', 'tbody', 'thead', 'tfoot' ) ) {
+				// A node that will receive selection after the firstRangeContainedNode is removed.
+				var targetNode = firstRangeContainedNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, editor.editable() );
+
+				var matchingElement = function( elem ) {
+					return !firstRangeContainedNode.contains( elem ) && elem.is && elem.is( 'td', 'th' );
+				}
+
+				while ( targetNode && !matchingElement( targetNode ) ) {
+					targetNode = targetNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, editor.editable() );
+				}
+
+				if ( !targetNode && !firstRangeContainedNode.is( 'table' ) && firstRangeContainedNode.getNext() ) {
+					// Special case: say we were removing the first row, so there are no more tds before, check if there's a cell after removed row.
+					targetNode = firstRangeContainedNode.getNext().findOne( 'td, th' );
+				}
+
+				if ( !targetNode ) {
+					// As a last resort of defence we'll put the selection before (about to be) removed table.
+					rng.setStartBefore( firstRangeContainedNode.getAscendant( 'table', true ) )
+					rng.collapse( true );
+				} else {
+					rng.moveToElementEditEnd( targetNode );
+				}
+
+				firstRangeContainedNode.remove();
+
+
+				return [ rng ];
+			}
+
+			// By default return a collapsed selection in a first cell.
+			var boundary = ranges[ 0 ].getBoundaryNodes();
+
+			if ( boundary.startNode ) {
+				var ret = ranges[ 0 ].clone();
+				ret.moveToElementEditablePosition( boundary.startNode );
+				return [ ret ];
+			}
 		}
 
 		return function( evt ) {
@@ -266,24 +321,25 @@
 			evt.data.preventDefault();
 			evt.cancel();
 
+			// Arrows.
 			if ( keystroke > 8 && keystroke < 46 ) {
 				ranges[ 0 ].moveToElementEditablePosition( toStart ? firstCell : lastCell, !toStart );
 				selection.selectRanges( [ ranges[ 0 ] ] );
 			} else {
+				// Delete.
 				for ( i = 0; i < ranges.length; i++ ) {
 					clearCellInRange( ranges[ i ] );
 				}
 
-				block = getBlockToDelete( firstCell );
+				var newRanges = deleteEmptyTablePart( firstCell, ranges );
 
-				if ( !block.equals( firstCell ) ) {
-					ranges[ 0 ].moveToPosition( block, CKEDITOR.POSITION_BEFORE_START );
-					block.remove();
+				if ( newRanges ) {
+					ranges = newRanges;
 				} else {
 					ranges[ 0 ].moveToElementEditablePosition( firstCell );
 				}
 
-				selection.selectRanges( [ ranges[ 0 ] ] );
+				selection.selectRanges( ranges );
 				editor.fire( 'saveSnapshot' );
 			}
 		};
