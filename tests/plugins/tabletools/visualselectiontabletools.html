@@ -36,7 +36,7 @@
 </table>
 </textarea>
 
-<textarea id="emptyTableMultiRow">
+<textarea id="emptyTableDeleteSecondRow">
 <table>
 	<tbody>
 		<tr>
@@ -61,9 +61,38 @@
 </table>
 </textarea>
 
-<textarea id="emptyTableMultiRowFirst">
+<textarea id="emptyTableDeleteFirstRow">
 <table>
 	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>^&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="emptyTableDeleteFewRows">
+<table>
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
 		<tr>
 			<td></td>
 			<td></td>

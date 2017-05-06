@@ -48,9 +48,12 @@
 		// in extra tds.
 
 		var sel = editor.getSelection(),
-			ranges = sel.getRanges();
+			ranges = sel.getRanges(),
+			rng,
+			i;
 
-		for ( var rng of ranges ) {
+		for ( i = 0; i < ranges.length; i++ ) {
+			rng = ranges[ i ];
 			rng.shrink( CKEDITOR.SHRINK_ELEMENT, true );
 		}
 
@@ -249,7 +252,7 @@
 		},
 
 		'test backspace whole first row': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTableMultiRowFirst', function( source, expected ) {
+			bender.tools.testInputOut( 'emptyTableDeleteFirstRow', function( source, expected ) {
 				bender.tools.setHtmlWithSelection( editor, source );
 
 				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1 ] ) );
@@ -267,10 +270,28 @@
 		},
 
 		'test backspace whole second row': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTableMultiRow', function( source, expected ) {
+			bender.tools.testInputOut( 'emptyTableDeleteSecondRow', function( source, expected ) {
 				bender.tools.setHtmlWithSelection( editor, source );
 
 				editor.getSelection().selectRanges( getRangesForCells( editor, [ 2, 3 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				cleanupSelection( editor );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
+		'test backspace multiple rows': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTableDeleteFewRows', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1, 2, 3 ] ) );
 
 				// Reuse undo's fancy tools to mimic the keyboard.
 				var keyTools = undoEventDispatchTestsTools( {

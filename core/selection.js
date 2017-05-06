@@ -240,14 +240,25 @@
 			}
 
 			var rng = editor.createRange(),
-				lastRangeIndex = ranges.length - 1;
+				lastRangeIndex = ranges.length - 1,
+				mergedRanges = CKEDITOR.plugins.tabletools.mergeRanges( ranges );
 
+			// Enlarge each range, so that it wraps over tr.
+			CKEDITOR.tools.array.forEach( mergedRanges, function( mergedRange ) {
+				mergedRange.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+			} );
+
+			// @todo this is part of old approach, and has to be removed. As can be seen, it's vulnerable for
+			// selection that starts spans over multiple tr, but that does not contain multiple trs.
 			rng.setStart( ranges[ 0 ].startContainer, ranges[ 0 ].startOffset );
 			rng.setEnd( ranges[ lastRangeIndex ].endContainer, ranges[ lastRangeIndex ].endOffset );
 
 			rng.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
-			var firstRangeContainedNode = rng.getEnclosedNode();
+			var boundaryNodes = mergedRanges[ 0 ].getBoundaryNodes();
+
+			var firstRangeContainedNode = boundaryNodes.startNode,
+				lastRangeContainedNode = boundaryNodes.endNode;
 
 			// @todo: replace with dtd, make sure that td is not allowed though.
 			if ( firstRangeContainedNode && firstRangeContainedNode.is && firstRangeContainedNode.is( 'table', 'tr', 'tbody', 'thead', 'tfoot' ) ) {
@@ -262,9 +273,9 @@
 					targetNode = targetNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, editor.editable() );
 				}
 
-				if ( !targetNode && !firstRangeContainedNode.is( 'table' ) && firstRangeContainedNode.getNext() ) {
+				if ( !targetNode && !lastRangeContainedNode.is( 'table' ) && lastRangeContainedNode.getNext() ) {
 					// Special case: say we were removing the first row, so there are no more tds before, check if there's a cell after removed row.
-					targetNode = firstRangeContainedNode.getNext().findOne( 'td, th' );
+					targetNode = lastRangeContainedNode.getNext().findOne( 'td, th' );
 				}
 
 				if ( !targetNode ) {
@@ -275,8 +286,7 @@
 					rng.moveToElementEditEnd( targetNode );
 				}
 
-				firstRangeContainedNode.remove();
-
+				mergedRanges[ 0 ].deleteContents();
 
 				return [ rng ];
 			}
