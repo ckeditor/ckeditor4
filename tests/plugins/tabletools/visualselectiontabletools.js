@@ -42,11 +42,32 @@
 		return start.getAscendant( tableElements, true );
 	}
 
-	function markCells( ranges ) {
+	function cleanupSelection( editor ) {
+		// Shrinks each range in the selection, as TI anchors the selection in rows,
+		// which would cause bender.tools.setHtmlWithSelection to render selection markers
+		// in extra tds.
+
+		var sel = editor.getSelection(),
+			ranges = sel.getRanges();
+
+		for ( var rng of ranges ) {
+			rng.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+		}
+
+		sel.selectRanges( ranges );
+	}
+
+	/*
+	 * Adds a class to selected cells in editable, so that it can be compared in assertions.
+	 *
+	 * @param {CKEDITOR.dom.range} ranges[] Ranges which cells should be marked.
+	 * @param {boolean} [addSelected] Whether to apply `selected` class instead `cke_marked` to the selected cells.
+	 */
+	function markCells( ranges, addSelected ) {
 		var i;
 
 		for ( i = 0; i < ranges.length; i++ ) {
-			_getTableElementFromRange( ranges[ i ] ).addClass( 'cke_marked' );
+			_getTableElementFromRange( ranges[ i ] ).addClass( addSelected ? 'selected' : 'cke_marked' );
 		}
 	}
 
@@ -74,11 +95,20 @@
 				markCells( ranges );
 			}
 
-			bot.execCommand( command );
+			if ( typeof command == 'string' ) {
+				bot.execCommand( command );
+			} else {
+				command();
+				ranges = editor.getSelection().getRanges();
+			}
+
+			if ( options.markCells ) {
+				markCells( editor.getSelection().getRanges(), true );
+			}
 
 			output = bot.getData( true );
 			output = output.replace( /\u00a0/g, '&nbsp;' );
-			assert.areSame( bender.tools.compatHtml( expected ), output );
+			assert.beautified.html( expected, output );
 
 			if ( options.customCheck ) {
 				options.customCheck( editor );
@@ -87,7 +117,7 @@
 				assert.isTrue( !!editor.getSelection().isFake, 'selection after is fake' );
 				assert.isTrue( editor.getSelection().isInTable(), 'selection after is in table' );
 
-				if ( command.toLowerCase().indexOf( 'merge' ) === -1 ) {
+				if ( typeof command != 'string' || command.toLowerCase().indexOf( 'merge' ) === -1 ) {
 					assert.areSame( ranges.length, afterRanges.length, 'appropriate number of ranges is selected' );
 
 					for ( i = 0; i < ranges.length; i++ ) {
@@ -211,6 +241,57 @@
 					editor: editor
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				cleanupSelection( editor );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
+		'test backspace whole row': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTableMultiRow', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				cleanupSelection( editor );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
+		'test backspace column': function( editor, bot ) {
+			// Make sure that backspace in one column of many, doesnt remove whole table.
+			doTest( bot, function() {
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 1, 3 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+			}, { 'case': 'emptyTableSingleColumn', markCells: true, skipCheckingSelection: true } );
+		},
+
+		'test delete in the middle': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTable', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 1, 2 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.DELETE );
+
+				cleanupSelection( editor );
 
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
