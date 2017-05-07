@@ -248,13 +248,6 @@
 				mergedRange.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 			} );
 
-			// @todo this is part of old approach, and has to be removed. As can be seen, it's vulnerable for
-			// selection that starts spans over multiple tr, but that does not contain multiple trs.
-			rng.setStart( ranges[ 0 ].startContainer, ranges[ 0 ].startOffset );
-			rng.setEnd( ranges[ lastRangeIndex ].endContainer, ranges[ lastRangeIndex ].endOffset );
-
-			rng.enlarge( CKEDITOR.ENLARGE_ELEMENT );
-
 			var boundaryNodes = mergedRanges[ 0 ].getBoundaryNodes();
 
 			var firstRangeContainedNode = boundaryNodes.startNode,
@@ -292,12 +285,9 @@
 			}
 
 			// By default return a collapsed selection in a first cell.
-			var boundary = ranges[ 0 ].getBoundaryNodes();
-
-			if ( boundary.startNode ) {
-				var ret = ranges[ 0 ].clone();
-				ret.moveToElementEditablePosition( boundary.startNode );
-				return [ ret ];
+			if ( boundaryNodes.startNode ) {
+				rng.moveToElementEditablePosition( boundaryNodes.startNode );
+				return [ rng ];
 			}
 		}
 

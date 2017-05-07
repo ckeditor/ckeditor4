@@ -1829,84 +1829,54 @@
 		getCellsBetween: getCellsBetween,
 
 		/**
+		 * Merges every subsequent range in given set, returning a smaller array of ranges.
+		 *
+		 * Note that each range in the returned value will be enlarged with `CKEDITOR.ENLARGE_ELEMENT` value.
+		 *
+		 * @since 4.7.0
 		 * @param {CKEDITOR.dom.range[]} ranges
-		 * @returns {CKEDITOR.dom.range[]}
+		 * @returns {CKEDITOR.dom.range[]} Merged set of ranges.
 		 * @member CKEDITOR.plugins.tabletools
 		 */
 		mergeRanges: function( ranges ) {
-			function rangeEnlargeOverText( rng ) {
-				rng.enlarge( CKEDITOR.ENLARGE_ELEMENT );
-
-				var nextNode = rng.endContainer.getChild( rng.endOffset ),
-					prevNode;
-
-				if ( rng.startOffset > 0 ) {
-					prevNode = rng.startContainer.getChild( rng.startOffset - 1 );
-				}
-
-				if ( nextNode && nextNode.type === CKEDITOR.NODE_TEXT && nextNode.getText().match( /^\s+$/m ) ) {
-					rng.setEnd( rng.endContainer, rng.endOffset + 1 );
-					rng.enlarge( CKEDITOR.ENLARGE_ELEMENT );
-				}
-
-				if ( prevNode && prevNode.type === CKEDITOR.NODE_TEXT && prevNode.getText().match( /^\s+$/m ) ) {
-					rng.setStart( rng.startContainer, rng.startOffset - 1 );
-					rng.enlarge( CKEDITOR.ENLARGE_ELEMENT );
-				}
-			}
-
 			return CKEDITOR.tools.array.reduce( ranges, function( ret, rng ) {
 				// Last range ATM.
 				var lastRange = ret[ ret.length - 1 ],
-					isContinuation = false,
-					gapRange;
+					isContinuation = false;
 
 				// Make a clone, we don't want to modify input.
 				rng = rng.clone();
 				rng.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
-				// if ( lastRange ) {
-				// 	lastRangeEnlarged = lastRange.clone();
-				// 	rangeEnlargeOverText( lastRangeEnlarged );
-
-				// 	curRangeEnlarged = rng.clone();
-				// 	curRangeEnlarged.enlarge( CKEDITOR.ENLARGE_ELEMENT );
-				// }
-
-				// if ( lastRange && lastRangeEnlarged._equalEnd( curRangeEnlarged.startContainer, curRangeEnlarged.startOffset ) ) {
-				// 	// If last range ends, where the current range starts, then let's merge it.
-				// 	lastRange.setEnd( curRangeEnlarged.endContainer, curRangeEnlarged.endOffset );
-				// } else {
-				// 	ret.push( rng.clone() );
-				// }
-
 				if ( lastRange ) {
-					gapRange = new CKEDITOR.dom.range( rng.root );
+					// The trick is to create a range spanning the gap between the two ranges. Then iterate over
+					// each node found in this gap. If it contains anything other than whitespace, then it means it
+					// is not a continuation.
+					var gapRange = new CKEDITOR.dom.range( rng.root ),
+						walker = new CKEDITOR.dom.walker( gapRange ),
+						isWhitespace = CKEDITOR.dom.walker.whitespaces(),
+						nodeInBetween;
+
 					gapRange.setStart( lastRange.endContainer, lastRange.endOffset );
 					gapRange.setEnd( rng.startContainer, rng.startOffset );
 
-					var walker = new CKEDITOR.dom.walker( gapRange ),
-						isWhitespace = CKEDITOR.dom.walker.whitespaces();
+					nodeInBetween = walker.next();
 
-					var contentInBetween = walker.next();
-
-					while ( isWhitespace( contentInBetween ) || rng.endContainer.equals( contentInBetween ) ) {
-						// We don't care about whitespaces, and range container.
-						contentInBetween = walker.next();
+					while ( isWhitespace( nodeInBetween ) || rng.endContainer.equals( nodeInBetween ) ) {
+						// We don't care about whitespaces, and range container. Also we skip the endContainer,
+						// as it will also be provided by the iterator (as it visits it's opening tag).
+						nodeInBetween = walker.next();
 					}
 
 					// Simply, if anything has been found there's a content in between the two.
-					isContinuation = !contentInBetween;
-
-					// if ( !isContinuation ) {
-					// 	debugger;
-					// }
+					isContinuation = !nodeInBetween;
 				}
 
 				if ( isContinuation ) {
 					// If last range ends, where the current range starts, then let's merge it.
 					lastRange.setEnd( rng.endContainer, rng.endOffset );
 				} else {
+					// In other case just push cur range into the stack.
 					ret.push( rng );
 				}
 
