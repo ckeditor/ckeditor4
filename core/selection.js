@@ -222,14 +222,17 @@
 	// Handle left, up, right, down, delete and backspace keystrokes inside table fake selection.
 	function getTableOnKeyDownListener( editor ) {
 		var keystrokes = {
-			37: 1, // Left Arrow
-			38: 1, // Up Arrow
-			39: 1, // Right Arrow,
-			40: 1, // Down Arrow
-			8: 1, // Backspace
-			46: 1 // Delete
-		},
-		tags = { table: 1, ul: 1, ol: 1, dl: 1 };
+				37: 1, // Left Arrow
+				38: 1, // Up Arrow
+				39: 1, // Right Arrow,
+				40: 1, // Down Arrow
+				8: 1, // Backspace
+				46: 1 // Delete
+			},
+			tags = CKEDITOR.tools.extend( { table: 1 }, CKEDITOR.dtd.$tableContent );
+
+		delete tags.td;
+		delete tags.th;
 
 		// Called when removing empty subseleciton of the table.
 		// It should not allow for removing part of table, e.g. when user attempts to remove 2 cells
@@ -251,11 +254,12 @@
 				startNode = boundaryNodes.startNode,
 				endNode = boundaryNodes.endNode;
 
-			// @todo: replace with dtd, make sure that td is not allowed though.
-			if ( startNode && startNode.is && startNode.is( 'table', 'tr', 'tbody', 'thead', 'tfoot' ) ) {
+			if ( startNode && startNode.is && startNode.is( tags ) ) {
 				// A node that will receive selection after the firstRangeContainedNode is removed.
 				var targetNode = startNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, editor.editable() ),
 					matchingElement = function( elem ) {
+						// We're interested in matching only td/th but not contained by the startNode since it will be removed.
+						// Technically none of startNode children should be visited but it will due to #12191.
 						return !startNode.contains( elem ) && elem.is && elem.is( 'td', 'th' );
 					};
 
