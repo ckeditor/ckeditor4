@@ -42,24 +42,6 @@
 		return start.getAscendant( tableElements, true );
 	}
 
-	function cleanupSelection( editor ) {
-		// Shrinks each range in the selection, as TI anchors the selection in rows,
-		// which would cause bender.tools.setHtmlWithSelection to render selection markers
-		// in extra tds.
-
-		var sel = editor.getSelection(),
-			ranges = sel.getRanges(),
-			rng,
-			i;
-
-		for ( i = 0; i < ranges.length; i++ ) {
-			rng = ranges[ i ];
-			rng.shrink( CKEDITOR.SHRINK_ELEMENT, true );
-		}
-
-		sel.selectRanges( ranges );
-	}
-
 	/*
 	 * Adds a class to selected cells in editable, so that it can be compared in assertions.
 	 *
@@ -245,8 +227,6 @@
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
 
-				cleanupSelection( editor );
-
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
 		},
@@ -262,8 +242,6 @@
 					editor: editor
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-
-				cleanupSelection( editor );
 
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
@@ -281,8 +259,6 @@
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
 
-				cleanupSelection( editor );
-
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
 		},
@@ -299,8 +275,6 @@
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
 
-				cleanupSelection( editor );
-
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
 		},
@@ -316,8 +290,6 @@
 					editor: editor
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-
-				cleanupSelection( editor );
 
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
@@ -347,8 +319,6 @@
 					editor: editor
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.DELETE );
-
-				cleanupSelection( editor );
 
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
