@@ -240,7 +240,6 @@
 			}
 
 			var rng = editor.createRange(),
-				lastRangeIndex = ranges.length - 1,
 				mergedRanges = CKEDITOR.plugins.tabletools.mergeRanges( ranges );
 
 			// Enlarge each range, so that it wraps over tr.
@@ -248,32 +247,30 @@
 				mergedRange.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 			} );
 
-			var boundaryNodes = mergedRanges[ 0 ].getBoundaryNodes();
-
-			var firstRangeContainedNode = boundaryNodes.startNode,
-				lastRangeContainedNode = boundaryNodes.endNode;
+			var boundaryNodes = mergedRanges[ 0 ].getBoundaryNodes(),
+				startNode = boundaryNodes.startNode,
+				endNode = boundaryNodes.endNode;
 
 			// @todo: replace with dtd, make sure that td is not allowed though.
-			if ( firstRangeContainedNode && firstRangeContainedNode.is && firstRangeContainedNode.is( 'table', 'tr', 'tbody', 'thead', 'tfoot' ) ) {
+			if ( startNode && startNode.is && startNode.is( 'table', 'tr', 'tbody', 'thead', 'tfoot' ) ) {
 				// A node that will receive selection after the firstRangeContainedNode is removed.
-				var targetNode = firstRangeContainedNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, editor.editable() );
-
-				var matchingElement = function( elem ) {
-					return !firstRangeContainedNode.contains( elem ) && elem.is && elem.is( 'td', 'th' );
-				}
+				var targetNode = startNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, editor.editable() ),
+					matchingElement = function( elem ) {
+						return !startNode.contains( elem ) && elem.is && elem.is( 'td', 'th' );
+					};
 
 				while ( targetNode && !matchingElement( targetNode ) ) {
 					targetNode = targetNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, editor.editable() );
 				}
 
-				if ( !targetNode && !lastRangeContainedNode.is( 'table' ) && lastRangeContainedNode.getNext() ) {
+				if ( !targetNode && !endNode.is( 'table' ) && endNode.getNext() ) {
 					// Special case: say we were removing the first row, so there are no more tds before, check if there's a cell after removed row.
-					targetNode = lastRangeContainedNode.getNext().findOne( 'td, th' );
+					targetNode = endNode.getNext().findOne( 'td, th' );
 				}
 
 				if ( !targetNode ) {
 					// As a last resort of defence we'll put the selection before (about to be) removed table.
-					rng.setStartBefore( firstRangeContainedNode.getAscendant( 'table', true ) )
+					rng.setStartBefore( startNode.getAscendant( 'table', true ) );
 					rng.collapse( true );
 				} else {
 					rng.moveToElementEditEnd( targetNode );
@@ -285,8 +282,8 @@
 			}
 
 			// By default return a collapsed selection in a first cell.
-			if ( boundaryNodes.startNode ) {
-				rng.moveToElementEditablePosition( boundaryNodes.startNode );
+			if ( startNode ) {
+				rng.moveToElementEditablePosition( startNode );
 				return [ rng ];
 			}
 		}
@@ -300,7 +297,6 @@
 				ranges,
 				firstCell,
 				lastCell,
-				block,
 				i;
 
 			// Handle only left/right/del/bspace keys.
@@ -321,8 +317,8 @@
 			evt.data.preventDefault();
 			evt.cancel();
 
-			// Arrows.
 			if ( keystroke > 8 && keystroke < 46 ) {
+				// Arrows.
 				ranges[ 0 ].moveToElementEditablePosition( toStart ? firstCell : lastCell, !toStart );
 				selection.selectRanges( [ ranges[ 0 ] ] );
 			} else {
@@ -336,6 +332,7 @@
 				if ( newRanges ) {
 					ranges = newRanges;
 				} else {
+					// If no new range was returned fallback to selecting first cell.
 					ranges[ 0 ].moveToElementEditablePosition( firstCell );
 				}
 
