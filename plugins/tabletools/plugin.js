@@ -1835,7 +1835,7 @@
 		 *
 		 * @since 4.7.0
 		 * @param {CKEDITOR.dom.range[]} ranges
-		 * @returns {CKEDITOR.dom.range[]} Merged set of ranges.
+		 * @returns {CKEDITOR.dom.range[]} Set of merged ranges.
 		 * @member CKEDITOR.plugins.tabletools
 		 */
 		mergeRanges: function( ranges ) {

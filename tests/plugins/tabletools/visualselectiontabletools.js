@@ -62,7 +62,19 @@
 		frame.getFrameDocument().write( '<div contenteditable="true">foo</div>' );
 	}
 
-	function doTest( bot, command, options ) {
+	/*
+	 *
+	 * @param {Object} bot Editor bot object.
+	 * @param {String/Function} action If string: editor command name to be executed. If string simply a function to be
+	 * called before the assertion.
+	 * @param {Object} options
+	 * @param {String} options.case **Required** - id of element provided to `bender.tools.testInputOut`.
+	 * @param {Number[]} [options.cells] Indexes of cells to be selected before executing `action`.
+	 * @param {Boolean} [options.markCells] Whether selected cells should get `'selected'` class in the output.
+	 * @param {Function} [options.customCheck] Custom assertion. Gets editor as an argument.
+	 * @param {Boolean} [options.skipCheckingSelection] If `true` no selection will be chekced.
+	 */
+	function doTest( bot, action, options ) {
 		var editor = bot.editor,
 			ranges = [],
 			output,
@@ -75,20 +87,19 @@
 			if ( options.cells ) {
 				ranges = getRangesForCells( editor, options.cells );
 				editor.getSelection().selectRanges( ranges );
-				// Mark selected cells to be able later to check if new selection
-				// is containing the appropriate cells.
-				markCells( ranges );
 			}
 
-			if ( typeof command == 'string' ) {
-				bot.execCommand( command );
+			if ( typeof action == 'string' ) {
+				bot.execCommand( action );
 			} else {
-				command();
+				action();
 				ranges = editor.getSelection().getRanges();
 			}
 
-			if ( options.markCells ) {
-				markCells( editor.getSelection().getRanges(), true );
+			if ( options.cells || options.markCells ) {
+				// Mark selected cells to be able later to check if new selection
+				// is containing the appropriate cells.
+				markCells( editor.getSelection().getRanges(), options.markCells );
 			}
 
 			output = bot.getData( true );
@@ -102,7 +113,7 @@
 				assert.isTrue( !!editor.getSelection().isFake, 'selection after is fake' );
 				assert.isTrue( editor.getSelection().isInTable(), 'selection after is in table' );
 
-				if ( typeof command != 'string' || command.toLowerCase().indexOf( 'merge' ) === -1 ) {
+				if ( typeof action != 'string' || action.toLowerCase().indexOf( 'merge' ) === -1 ) {
 					assert.areSame( ranges.length, afterRanges.length, 'appropriate number of ranges is selected' );
 
 					for ( i = 0; i < ranges.length; i++ ) {
@@ -117,7 +128,6 @@
 	}
 
 	var tests = {
-
 		'test insert row before': function( editor, bot ) {
 			doTest( bot, 'rowInsertBefore', { 'case': 'add-row-before', cells: [ 0 ] } );
 			doTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-2', cells: [ 1 ] } );
