@@ -1193,7 +1193,7 @@
 		tmpContainer.setHtml( evt.data.dataValue );
 		pastedTable = tmpContainer.findOne( 'table' );
 
-		if ( !selection.isInTable() && !( boundarySelection = isBoundarySelection( selection ) ) ) {
+		if ( !selection.getRanges().length || !selection.isInTable() && !( boundarySelection = isBoundarySelection( selection ) ) ) {
 			return;
 		}
 
