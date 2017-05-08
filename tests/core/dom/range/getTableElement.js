@@ -30,7 +30,9 @@
 		} else {
 			range.setStart( options.start, options.startOffset || 0 );
 
-			options.end && range.setEnd( options.end, options.endOffset || 0 );
+			if ( options.end ) {
+				range.setEnd( options.end, options.endOffset || 0 );
+			}
 		}
 
 		if ( options.collapse ) {
@@ -43,10 +45,9 @@
 	function assertElements( expected, range, selectors ) {
 		if ( !expected ) {
 			assert.isNull( range._getTableElement() );
-			return;
+		} else {
+			assert.isTrue( expected.equals( range._getTableElement( selectors ) ), 'Correct element is returned' );
 		}
-
-		assert.isTrue( expected.equals( range._getTableElement( selectors ) ), 'Correct element is returned' );
 	}
 
 	bender.test( {
