@@ -26,20 +26,14 @@
 
       var config = editor.config,
           lang = editor.lang.heading,
-          headingConfigStrings = config.headings || allHeadings,
           oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
           plugin = this,
           items = {},
           headingTag;
 
-      // Copy config values to headings array and sort
-      for ( var i = 0; i < headingConfigStrings.length; i++ ) {
-        headings.push( headingConfigStrings[i].toLowerCase() );
-      }
-      headings.sort();
-      console.log( 'headings: ' + headings);
-
-      // Initialize headings array indices used by getAllowedHeadings
+      // Initialize headings array and indices used by getAllowedHeadings
+      headings = this.getHeadingConfig( config );
+      console.log( 'headings: ' + headings );
       startIndex = oneLevel1 && headings[0] === 'h1' ? 1 : 0;
       endIndex = headings.length - 1;
 
@@ -163,6 +157,56 @@
       } );
     },
 
+    getHeadingConfig: function ( config ) {
+      var headingConfigStrings = [],
+          configLength,
+          configStringStart,
+          configIndexStart,
+          configStringEnd,
+          configIndexEnd;
+
+      if ( typeof config.headings === 'undefined' ) {
+        return allHeadings.slice();
+      }
+
+      // Get normalized and sorted copy of config.headings
+      for ( var i = 0; i < config.headings.length; i++ ) {
+        headingConfigStrings.push( config.headings[i].toLowerCase() );
+      }
+      headingConfigStrings.sort();
+
+      // Allow flexible config settings
+      configLength = headingConfigStrings.length;
+      if ( configLength > 0 ) {
+
+        configStringStart = headingConfigStrings[ 0 ];
+        configIndexStart = allHeadings.indexOf( configStringStart );
+
+        if ( configIndexStart === -1 ) {
+          return allHeadings.slice();
+        }
+        else {
+          if ( configLength === 1 ) {
+            return allHeadings.slice( configIndexStart );
+          }
+          else {
+
+            configStringEnd = headingConfigStrings[ configLength - 1 ];
+            configIndexEnd = allHeadings.indexOf( configStringEnd );
+
+            if ( configIndexEnd === -1 ) {
+              return allHeadings.slice();
+            }
+            else {
+              return allHeadings.slice( configIndexStart, configIndexEnd + 1 );
+            }
+          }
+        }
+      }
+
+      return allHeadings.slice();
+    },
+
     isHeadingElement: function ( name ) {
       return ( allHeadings.indexOf( name ) >= 0 );
     },
@@ -188,7 +232,7 @@
       var selectedElement = editor.getSelection().getStartElement();
       // console.log('SELECTED ELEMENT: ' + selectedElement.getName() );
 
-      var lastHeading = undefined,
+      var lastHeading = null,
           plugin = this;
 
       /*
@@ -221,7 +265,7 @@
       getLastHeading( editor.document.getBody() );
       // console.log( 'LAST HEADING: ' + lastHeading );
 
-      if ( typeof lastHeading === 'undefined' )
+      if ( lastHeading === null )
         return headings.slice( 0, 1 );
 
       var index = headings.indexOf( lastHeading );
