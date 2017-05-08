@@ -1885,6 +1885,19 @@
 		}
 	};
 	CKEDITOR.plugins.add( 'tabletools', CKEDITOR.plugins.tabletools );
+
+	/**
+	 * Indicates if table improvements features (overwriting native table selection,
+	 * introducing multiple ranges for table cells and handling pasting of multiple ranges
+	 * containg table cells) are enabled.
+	 *
+	 *		// Disabling table improvements.
+	 *		config.tableImprovements = false
+	 *
+	 * @since 4.5.10
+	 * @cfg {Boolean} [tableImprovements=true]
+	 */
+	CKEDITOR.config.tableImprovements = true;
 } )();
 
 /**
