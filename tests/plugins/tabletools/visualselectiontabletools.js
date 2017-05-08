@@ -87,6 +87,7 @@
 			if ( options.cells ) {
 				ranges = getRangesForCells( editor, options.cells );
 				editor.getSelection().selectRanges( ranges );
+				markCells( ranges );
 			}
 
 			if ( typeof action == 'string' ) {
@@ -96,10 +97,10 @@
 				ranges = editor.getSelection().getRanges();
 			}
 
-			if ( options.cells || options.markCells ) {
+			if ( options.markCells ) {
 				// Mark selected cells to be able later to check if new selection
 				// is containing the appropriate cells.
-				markCells( editor.getSelection().getRanges(), options.markCells );
+				markCells( ranges, options.markCells );
 			}
 
 			output = bot.getData( true );
