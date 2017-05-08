@@ -171,7 +171,10 @@
 
       // Get normalized and sorted copy of config.headings
       for ( var i = 0; i < config.headings.length; i++ ) {
-        headingConfigStrings.push( config.headings[i].toLowerCase() );
+        if ( typeof config.headings[ i ] !== 'string') {
+          return allHeadings.slice();
+        }
+        headingConfigStrings.push( config.headings[ i ].toLowerCase() );
       }
       headingConfigStrings.sort();
 
