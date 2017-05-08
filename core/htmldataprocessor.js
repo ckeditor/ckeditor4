@@ -572,13 +572,13 @@
 		],
 
 		elements: {
-			// Prevent iframe's src attribute with javascript code from being evaluated in the editable.
+			// Prevent iframe's src attribute with javascript code or data protocol from being evaluated in the editable.
 			iframe: function( element ) {
 				if ( element.attributes ) {
 
-					var src = element.attributes.src;
-					if ( src && src.toLowerCase().replace( /[^a-z]/i, '' ).indexOf( 'javascript' ) === 0 ) {
-						element.attributes[ 'data-cke-pa-src' ] = src;
+					var src = element.attributes.src && element.attributes.src.toLowerCase().replace( /[^a-z]/gi, '' );
+					if ( src && ( src.indexOf( 'javascript' ) === 0 || src.indexOf( 'data' ) === 0 ) ) {
+						element.attributes[ 'data-cke-pa-src' ] = element.attributes.src;
 						delete element.attributes.src;
 					}
 				}
