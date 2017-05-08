@@ -74,7 +74,10 @@
  *			'http://www.example.com/user_templates.js'
  *		];
  *
- * @cfg
+ * For an example template file
+ * [see `templates/default.js`](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/templates/templates/default.js).
+ *
+ * @cfg {String[]}
  * @member CKEDITOR.config
  */
 CKEDITOR.config.templates_files = [
@@ -87,7 +90,7 @@ CKEDITOR.config.templates_files = [
  *
  *		config.templates_replaceContent = false;
  *
- * @cfg
+ * @cfg {Boolean}
  * @member CKEDITOR.config
  */
 CKEDITOR.config.templates_replaceContent = true;

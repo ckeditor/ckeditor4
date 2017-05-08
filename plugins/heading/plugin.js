@@ -5,9 +5,13 @@
 
 'use strict';
 
-( function() {
+( function () {
 
-  var allowedContent = [];
+  var allowedContent = [],
+      allHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      headings = [],
+      startIndex,
+      endIndex;
 
   CKEDITOR.plugins.add( 'heading', {
     requires: 'a11yfirst,menubutton',
@@ -22,10 +26,16 @@
 
       var config = editor.config,
           lang = editor.lang.heading,
-          headingConfigStrings = config.headings,
+          oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
           plugin = this,
           items = {},
           headingTag;
+
+      // Initialize headings array and indices used by getAllowedHeadings
+      headings = this.getHeadingConfig( config );
+      console.log( 'headings: ' + headings );
+      startIndex = oneLevel1 && headings[0] === 'h1' ? 1 : 0;
+      endIndex = headings.length - 1;
 
       // Change behavior of menubutton with text label
       CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
@@ -57,8 +67,8 @@
       } );
 
       // Create item entry for each heading element in config
-      for ( var i = 0; i < headingConfigStrings.length; i++ ) {
-        headingTag = headingConfigStrings[ i ];
+      for ( var i = 0; i < headings.length; i++ ) {
+        headingTag = headings[ i ];
         items[ headingTag ] = {
           label: lang[ 'level_' + headingTag ],
           headingId: headingTag,
@@ -81,7 +91,7 @@
         group: 'heading_actions',
         style: new CKEDITOR.style( { element: 'p' } ),
         state: CKEDITOR.TRISTATE_DISABLED,
-        order: headingConfigStrings.length,
+        order: headings.length,
         onClick: function() {
           var currentHeadingElement = plugin.getCurrentHeadingElement( editor );
           if ( currentHeadingElement ) {
@@ -95,7 +105,7 @@
       items.outline = {
         label: lang.outlineLabel,
         group: 'heading_actions',
-        order: headingConfigStrings.length + 1,
+        order: headings.length + 1,
         onClick: function() {
           editor.execCommand( outlineCmd );
         }
@@ -105,7 +115,7 @@
       items.help = {
         label: lang.helpLabel,
         group: 'heading_actions',
-        order: headingConfigStrings.length + 2,
+        order: headings.length + 2,
         onClick: function() {
           editor.execCommand( helpCmd );
         }
@@ -147,24 +157,67 @@
       } );
     },
 
-    isHeadingElement: function ( name ) {
-      switch( name ) {
-        case 'h1':
-        case 'h2':
-        case 'h3':
-        case 'h4':
-        case 'h5':
-        case 'h6':
-          return true;
-        default:
-          return false;
+    getHeadingConfig: function ( config ) {
+      var headingConfigStrings = [],
+          configLength,
+          configStringStart,
+          configIndexStart,
+          configStringEnd,
+          configIndexEnd;
+
+      if ( typeof config.headings === 'undefined' ) {
+        return allHeadings.slice();
       }
+
+      // Get normalized and sorted copy of config.headings
+      for ( var i = 0; i < config.headings.length; i++ ) {
+        if ( typeof config.headings[ i ] !== 'string') {
+          return allHeadings.slice();
+        }
+        headingConfigStrings.push( config.headings[ i ].toLowerCase() );
+      }
+      headingConfigStrings.sort();
+
+      // Allow flexible config settings
+      configLength = headingConfigStrings.length;
+      if ( configLength > 0 ) {
+
+        configStringStart = headingConfigStrings[ 0 ];
+        configIndexStart = allHeadings.indexOf( configStringStart );
+
+        if ( configIndexStart === -1 ) {
+          return allHeadings.slice();
+        }
+        else {
+          if ( configLength === 1 ) {
+            return allHeadings.slice( configIndexStart );
+          }
+          else {
+
+            configStringEnd = headingConfigStrings[ configLength - 1 ];
+            configIndexEnd = allHeadings.indexOf( configStringEnd );
+
+            if ( configIndexEnd === -1 ) {
+              return allHeadings.slice();
+            }
+            else {
+              return allHeadings.slice( configIndexStart, configIndexEnd + 1 );
+            }
+          }
+        }
+      }
+
+      return allHeadings.slice();
     },
 
-    getCurrentHeadingElement: function( editor ) {
+    isHeadingElement: function ( name ) {
+      return ( allHeadings.indexOf( name ) >= 0 );
+    },
+
+    getCurrentHeadingElement: function ( editor ) {
       var elementPath = editor.elementPath(),
-        activePath = elementPath && elementPath.elements,
-        pathMember, element;
+          activePath = elementPath && elementPath.elements,
+          pathMember, element;
 
       // IE8: Upon initialization if there is no path, elementPath() returns null.
       if ( elementPath ) {
@@ -182,27 +235,8 @@
       var selectedElement = editor.getSelection().getStartElement();
       // console.log('SELECTED ELEMENT: ' + selectedElement.getName() );
 
-      var lastHeading = undefined;
-
-      getLastHeading( editor.document.getBody() );
-      // console.log( 'LAST HEADING: ' + lastHeading );
-
-      switch ( lastHeading ) {
-        case undefined:
-          return [ 'h1', 'h2' ];
-        case 'h1':
-          return [ 'h2' ];
-        case 'h2':
-          return [ 'h2', 'h3' ];
-        case 'h3':
-          return [ 'h2', 'h3', 'h4' ];
-        case 'h4':
-          return [ 'h2', 'h3', 'h4', 'h5' ];
-        case 'h5':
-          return [ 'h2', 'h3', 'h4', 'h5', 'h6' ];
-        case 'h6':
-          return [ 'h2', 'h3', 'h4', 'h5', 'h6' ];
-      }
+      var lastHeading = null,
+          plugin = this;
 
       /*
       *   Note: The getLastHeading function modifies the
@@ -216,18 +250,9 @@
           return true;
 
         var tagName = element.getName();
-        // console.log( 'In getLastHeading: ' + tagName );
 
-        switch ( tagName ) {
-          case 'h1':
-          case 'h2':
-          case 'h3':
-          case 'h4':
-          case 'h5':
-          case 'h6':
-            lastHeading = tagName;
-            break;
-        }
+        if ( plugin.isHeadingElement( tagName ) )
+          lastHeading = tagName;
 
         var children = element.getChildren();
         var count = children.count();
@@ -238,15 +263,31 @@
         }
         return false;
 
-      } // end getLastHeading
+      } // end function
 
-    } // end getAllowedHeadings
+      getLastHeading( editor.document.getBody() );
+      // console.log( 'LAST HEADING: ' + lastHeading );
+
+      if ( lastHeading === null )
+        return headings.slice( 0, 1 );
+
+      var index = headings.indexOf( lastHeading );
+      if ( index >= 0 ) {
+        var retVal = headings.slice( startIndex, index + 1 );
+        if ( index < endIndex ) {
+          retVal.push( headings[ index + 1 ] );
+        }
+        return retVal;
+      }
+
+      // lastHeading not in headings array => lexical comparison
+      if ( lastHeading < headings[ 0 ] )
+        return headings.slice( startIndex, startIndex + 1 );
+
+      if ( lastHeading > headings[ endIndex ] )
+        return headings.slice( startIndex );
+
+    } // end method getAllowedHeadings
 
   } )
 } )();
-
-/**
-*   The list of heading tags that will be applied to the document by the
-*   various menuitems in the Heading drop-down list:
-*/
-CKEDITOR.config.headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];

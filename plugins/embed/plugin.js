@@ -14,6 +14,10 @@
 		init: function( editor ) {
 			var widgetDefinition = CKEDITOR.plugins.embedBase.createWidgetBaseDefinition( editor );
 
+			if ( !editor.config.embed_provider ) {
+				CKEDITOR.error( 'embed-no-provider-url' );
+			}
+
 			// Extend the base definition with additional properties.
 			CKEDITOR.tools.extend( widgetDefinition, {
 				// Use a dialog exposed by the embedbase plugin.
@@ -21,10 +25,7 @@
 				button: editor.lang.embedbase.button,
 				allowedContent: 'div[!data-oembed-url]',
 				requiredContent: 'div[data-oembed-url]',
-				providerUrl: new CKEDITOR.template(
-					editor.config.embed_provider ||
-					'//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
-				),
+				providerUrl: new CKEDITOR.template( editor.config.embed_provider || '' ),
 
 				// The filter element callback actually allows all divs with data-oembed-url,
 				// so registering styles to the filter is virtually unnecessary because
@@ -72,9 +73,8 @@
 
 /**
  * A template for the URL of the provider endpoint. This URL will be queried for each resource to be embedded.
- * By default CKEditor uses the [Iframely](https://iframely.com/) service.
  *
- * The template might use the following parameters:
+ * It uses the following parameters:
  *
  *	* `url` &ndash; The URL of the requested media, e.g. `https://twitter.com/ckeditor/status/401373919157821441`.
  *	* `callback` &ndash; The name of the globally available callback used for JSONP requests.
@@ -83,12 +83,22 @@
  *
  *		config.embed_provider = '//example.com/api/oembed-proxy?resource-url={url}&callback={callback}';
  *
+ * By default CKEditor does not use any provider, although there's a ready to use URL available:
+ *
+ *		config.embed_provider = '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
+ *
+ * However, above endpoint contains certain limitations, e.g. can't embed Google Maps content.
+ * It's recommended to set up an account on the [Iframely](https://iframely.com/) service for
+ * better control over embedded content.
+ *
  * Read more in the [documentation](#!/guide/dev_media_embed)
  * and see the [SDK sample](http://sdk.ckeditor.com/samples/mediaembed.html).
  *
  * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
  *
+ * **Important note:** Prior to version 4.7 this configuration option defaulted to `//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}` string.
+ *
  * @since 4.5
- * @cfg {String} [embed_provider=//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}]
+ * @cfg {String} [embed_provider='']
  * @member CKEDITOR.config
  */

@@ -44,7 +44,6 @@
 // -- Paste command
 //		* fire 'paste' on editable ('beforepaste' for IE)
 //		* !canceled && execCommand 'paste'
-//		* !success && fire 'pasteDialog' on editor
 // -- Paste from native context menu & menubar
 //		(Fx & Webkits are handled in 'paste' default listener.
 //		Opera cannot be handled at all because it doesn't fire any events
@@ -117,7 +116,7 @@
 ( function() {
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
-		requires: 'dialog',
+		requires: 'notification',
 		// jscs:disable maximumLineLength
 		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
@@ -142,8 +141,6 @@
 
 			initPasteClipboard( editor );
 			initDragDrop( editor );
-
-			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			// Convert image file (if present) to base64 string for Firefox. Do it as the first
 			// step as the conversion is asynchronous and should hold all further paste processing.
@@ -299,7 +296,7 @@
 
 			editor.on( 'paste', function( evt ) {
 				var dataObj = evt.data,
-					type = dataObj.type,
+					type = editor._.nextPasteType || dataObj.type,
 					data = dataObj.dataValue,
 					trueType,
 					// Default is 'html'.
@@ -313,13 +310,15 @@
 					trueType = recogniseContentType( data );
 				}
 
+				delete editor._.nextPasteType;
+
 				// Unify text markup.
 				if ( trueType == 'htmlifiedtext' ) {
 					data = htmlifiedTextHtmlification( editor.config, data );
 				}
 
 				// Strip presentational markup & unify text markup.
-				// Forced plain text (dialog or forcePAPT).
+				// Forced plain text.
 				// Note: we do not check dontFilter option in this case, because forcePAPT was implemented
 				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5, so
 				// forcePAPT should have priority as it had before 4.5.
@@ -364,17 +363,6 @@
 					}, 0 );
 				}
 			}, null, null, 1000 );
-
-			editor.on( 'pasteDialog', function( evt ) {
-				// TODO it's possible that this setTimeout is not needed any more,
-				// because of changes introduced in the same commit as this comment.
-				// Editor.getClipboardData adds listener to the dialog's events which are
-				// fired after a while (not like 'showDialog').
-				setTimeout( function() {
-					// Open default paste dialog.
-					editor.openDialog( 'paste', evt.data );
-				}, 0 );
-			} );
 		}
 	} );
 
@@ -423,28 +411,25 @@
 		addButtonsCommands();
 
 		/**
-		 * Gets clipboard data by directly accessing the clipboard (IE only) or opening the paste dialog window.
+		 * Gets clipboard data by directly accessing the clipboard (IE only).
 		 *
-		 *		editor.getClipboardData( { title: 'Get my data' }, function( data ) {
+		 *		editor.getClipboardData( function( data ) {
 		 *			if ( data )
 		 *				alert( data.type + ' ' + data.dataValue );
 		 *		} );
 		 *
 		 * @member CKEDITOR.editor
-		 * @param {Object} options
-		 * @param {String} [options.title] The title of the paste dialog window.
-		 * @param {Function} callback A function that will be executed with `data.type` and `data.dataValue`
-		 * or `null` if none of the capturing methods succeeded.
+		 * @param {Function/Object} callbackOrOptions If function see `callback` parameter documentation. Object was given before 4.7.0 with `title` property, to set paste dialog's title.
+		 * @param {Function} callback A function that will be executed with `data` property of
+		 * {@link CKEDITOR.editor#event-paste paste event} or `null` if none of the capturing methods succeeded.
+		 * Since 4.7.0 `callback` should be provided as a first argument, just like in example above. This parameter will be removed in
+		 * upcoming major release.
 		 */
-		editor.getClipboardData = function( options, callback ) {
-			var beforePasteNotCanceled = false,
-				dataType = 'auto',
-				dialogCommited = false;
-
+		editor.getClipboardData = function( callbackOrOptions, callback ) {
 			// Options are optional - args shift.
 			if ( !callback ) {
-				callback = options;
-				options = null;
+				callback = callbackOrOptions;
+				callbackOrOptions = null;
 			}
 
 			// Listen with maximum priority to handle content before everyone else.
@@ -452,69 +437,19 @@
 			// access to the clipboard succeed in IE.
 			editor.on( 'paste', onPaste, null, null, 0 );
 
-			// Listen at the end of listeners chain to see if event wasn't canceled
-			// and to retrieve modified data.type.
-			editor.on( 'beforePaste', onBeforePaste, null, null, 1000 );
-
-			// getClipboardDataDirectly() will fire 'beforePaste' synchronously, so we can
-			// check if it was canceled and if any listener modified data.type.
-
 			// If command didn't succeed (only IE allows to access clipboard and only if
-			// user agrees) open and handle paste dialog.
+			// user agrees) invoke callback with null, meaning that paste is not blocked.
 			if ( getClipboardDataDirectly() === false ) {
 				// Direct access to the clipboard wasn't successful so remove listener.
 				editor.removeListener( 'paste', onPaste );
 
-				// If beforePaste was canceled do not open dialog.
-				// Add listeners only if dialog really opened. 'pasteDialog' can be canceled.
-				if ( beforePasteNotCanceled && editor.fire( 'pasteDialog', onDialogOpen ) ) {
-					editor.on( 'pasteDialogCommit', onDialogCommit );
-
-					// 'dialogHide' will be fired after 'pasteDialogCommit'.
-					editor.on( 'dialogHide', function( evt ) {
-						evt.removeListener();
-						evt.data.removeListener( 'pasteDialogCommit', onDialogCommit );
-
-						// Because Opera has to wait a while in pasteDialog we have to wait here.
-						setTimeout( function() {
-							// Notify even if user canceled dialog (clicked 'cancel', ESC, etc).
-							if ( !dialogCommited )
-								callback( null );
-						}, 10 );
-					} );
-				} else {
-					callback( null );
-				}
+				callback( null );
 			}
 
 			function onPaste( evt ) {
 				evt.removeListener();
 				evt.cancel();
 				callback( evt.data );
-			}
-
-			function onBeforePaste( evt ) {
-				evt.removeListener();
-				beforePasteNotCanceled = true;
-				dataType = evt.data.type;
-			}
-
-			function onDialogCommit( evt ) {
-				evt.removeListener();
-				// Cancel pasteDialogCommit so paste dialog won't automatically fire
-				// 'paste' evt by itself.
-				evt.cancel();
-				dialogCommited = true;
-				callback( {
-					type: dataType,
-					dataValue: evt.data.dataValue,
-					dataTransfer: evt.data.dataTransfer,
-					method: 'paste'
-				} );
-			}
-
-			function onDialogOpen() {
-				this.customTitle = ( options && options.title );
 			}
 		};
 
@@ -663,9 +598,7 @@
 					pasteDataFromClipboard( evt );
 
 					// Force IE to paste content into pastebin so pasteDataFromClipboard will work.
-					if ( !execIECommand( 'paste' ) ) {
-						editor.openDialog( 'paste' );
-					}
+					execIECommand( 'paste' );
 				} );
 
 				// If mainPasteEvent is 'beforePaste' (IE before Edge),
@@ -746,27 +679,73 @@
 				canUndo: false,
 				async: true,
 				fakeKeystroke: CKEDITOR.CTRL + 86 /*V*/,
+
+				/**
+				 * Default implementation of paste command.
+				 *
+				 * @private
+				 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
+				 * @param {Object/String} data If `data` is a string, then it's considered a content that is being pasted.
+				 * Otherwise it's treated as an object with options.
+				 * @param {Boolean/String} [data.notification=true] Content for a notification shown after an unsuccessful
+				 * paste attempt. If `false` notification will not be displayed. This parameter was added in 4.7.0.
+				 * @param {String} [data.type='html'] Type of the pasted content. There are two allowed values:
+				 * * 'html'
+				 * * 'text'
+				 * @param {String/Object} data.dataValue Content being pasted. If this parameter is an object, it
+				 * supposed to be a `data` property of {@link CKEDITOR.editor#paste} event.
+				 * @param {CKEDITOR.plugins.clipboard.dataTransfer} data.dataTransfer Data transfer instance connected
+				 * with the current paste action.
+				 * @member CKEDITOR.editor.commands.paste
+				 */
 				exec: function( editor, data ) {
+					data = typeof data !== 'undefined' && data !== null ? data : {};
+
 					var cmd = this,
-						fire = function( data, withBeforePaste ) {
-							data &&	firePasteEvents( editor, data, !!withBeforePaste );
+						notification = typeof data.notification !== 'undefined' ? data.notification : true,
+						forcedType = data.type,
+						keystroke = CKEDITOR.tools.keystrokeToString( editor.lang.common.keyboard,
+							editor.getCommandKeystroke( this ) ),
+						msg = typeof notification === 'string' ? notification : editor.lang.clipboard.pasteNotification
+							.replace( /%1/, '<kbd aria-label="' + keystroke.aria + '">' + keystroke.display + '</kbd>' ),
+						pastedContent = typeof data === 'string' ? data : data.dataValue;
 
-							editor.fire( 'afterCommandExec', {
-								name: 'paste',
-								command: cmd,
-								returnValue: !!data
-							} );
-						};
+					function callback( data, withBeforePaste ) {
+						withBeforePaste = typeof withBeforePaste !== 'undefined' ? withBeforePaste : true;
 
-					// Check data precisely - don't open dialog on empty string.
-					if ( typeof data == 'string' )
-						fire( {
-								dataValue: data,
-								method: 'paste',
-								dataTransfer: clipboard.initPasteDataTransfer()
-							}, 1 );
-					else
-						editor.getClipboardData( fire );
+						if ( data ) {
+							data.method = 'paste';
+
+							if ( !data.dataTransfer ) {
+								data.dataTransfer = clipboard.initPasteDataTransfer();
+							}
+
+							firePasteEvents( editor, data, withBeforePaste );
+						} else if ( notification ) {
+							editor.showNotification( msg, 'info', editor.config.clipboard_notificationDuration );
+						}
+
+						editor.fire( 'afterCommandExec', {
+							name: 'paste',
+							command: cmd,
+							returnValue: !!data
+						} );
+					}
+
+					// Force type for the next paste.
+					if ( forcedType ) {
+						editor._.nextPasteType = forcedType;
+					} else {
+						delete editor._.nextPasteType;
+					}
+
+					if ( typeof pastedContent === 'string' ) {
+						callback( {
+							dataValue: pastedContent
+						} );
+					} else {
+						editor.getClipboardData( callback );
+					}
 				}
 			};
 		}
@@ -1018,7 +997,6 @@
 		// On other browsers we should fire beforePaste event and return false.
 		function getClipboardDataDirectly() {
 			if ( clipboard.mainPasteEvent == 'paste' ) {
-				// beforePaste should be fired when dialog open so it can be canceled.
 				editor.fire( 'beforePaste', { type: 'auto', method: 'paste' } );
 				return false;
 			}
@@ -1599,7 +1577,12 @@
 				return true;
 			}
 
-			// In Safari and IE HTML data is not available though the Clipboard API.
+			// Safari fixed clipboard in 10.1 (https://bugs.webkit.org/show_bug.cgi?id=19893) (#16982).
+			if ( CKEDITOR.env.safari && CKEDITOR.env.version >= 603 ) {
+				return true;
+			}
+
+			// In older Safari and IE HTML data is not available though the Clipboard API.
 			// In Edge things are a bit messy at the moment -
 			// https://connect.microsoft.com/IE/feedback/details/1572456/edge-clipboard-api-text-html-content-messed-up-in-event-clipboarddata
 			// It is safer to use the paste bin in unknown cases.
@@ -2627,16 +2610,6 @@
  */
 
 /**
- * Internal event to open the Paste dialog window.
- *
- * @private
- * @event pasteDialog
- * @member CKEDITOR.editor
- * @param {CKEDITOR.editor} editor This editor instance.
- * @param {Function} [data] Callback that will be passed to {@link CKEDITOR.editor#openDialog}.
- */
-
-/**
  * Facade for the native `drop` event. Fired when the native `drop` event occurs.
  *
  * **Note:** To manipulate dropped data, use the {@link CKEDITOR.editor#paste} event.
@@ -2795,3 +2768,12 @@
  * @property {CKEDITOR.filter} [pasteFilter]
  * @member CKEDITOR.editor
  */
+
+/**
+ * Duration of a notification displayed after paste was blocked by the browser.
+ *
+ * @since 4.7.0
+ * @cfg {Number} [clipboard_defaultContentType=10000]
+ * @member CKEDITOR.config
+ */
+CKEDITOR.config.clipboard_notificationDuration = 10000;

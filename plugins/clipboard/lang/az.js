@@ -8,8 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'az', {
 	cut: 'Kəs',
 	cutError: 'Avtomatik kəsmə mümkün deyil. Ctrl+X basın.',
 	paste: 'Əlavə et',
-	pasteArea: 'Əlavəetmə sahəsi',
-	pasteMsg: 'Bu sahəyə əlavə edin (<strong>Ctrl+V</strong>)',
-	securityMsg: 'Mübadilə buferi açmaq mümkün deyil. Bu pəncərədə yenidən əlavə edin.',
-	title: 'Əlavə et'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

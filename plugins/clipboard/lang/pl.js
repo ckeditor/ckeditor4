@@ -8,8 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pl', {
 	cut: 'Wytnij',
 	cutError: 'Ustawienia bezpieczeństwa Twojej przeglądarki nie pozwalają na automatyczne wycinanie tekstu. Użyj skrótu klawiszowego Ctrl/Cmd+X.',
 	paste: 'Wklej',
-	pasteArea: 'Obszar wklejania',
-	pasteMsg: 'Wklej tekst w poniższym polu, używając skrótu klawiaturowego (<STRONG>Ctrl/Cmd+V</STRONG>), i kliknij <STRONG>OK</STRONG>.',
-	securityMsg: 'Zabezpieczenia przeglądarki uniemożliwiają wklejenie danych bezpośrednio do edytora. Proszę ponownie wkleić dane w tym oknie.',
-	title: 'Wklej'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

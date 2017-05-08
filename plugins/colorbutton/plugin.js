@@ -202,8 +202,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// screen readers doesn't play nice with table, based layouts (#12097).
 				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
-			var clickFn = CKEDITOR.tools.addFunction( function( color, type ) {
-				var applyColorStyle = arguments.callee;
+			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, type ) {
 				function onColorDialogClose( evt ) {
 					this.removeListener( 'ok', onColorDialogClose );
 					this.removeListener( 'cancel', onColorDialogClose );
@@ -313,11 +312,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			return ( ele.getAttribute( 'contentEditable' ) == 'false' ) || ele.getAttribute( 'data-nostyle' );
 		}
 
-		/**
+		/*
 		 * Selects the specified color in the specified panel block.
 		 *
-		 * @param block
-		 * @param color
+		 * @private
+		 * @member CKEDITOR.plugins.colorbutton
+		 * @param {CKEDITOR.ui.panel.block} block
+		 * @param {String} color
 		 */
 		function selectColor( block, color ) {
 			var items = block._.getItems();
@@ -333,11 +334,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			}
 		}
 
-		/**
+		/*
 		 * Converts a CSS color value to an easily comparable form.
 		 *
-		 * @param {string} color
-		 * @returns {string}
+		 * @private
+		 * @member CKEDITOR.plugins.colorbutton
+		 * @param {String} color
+		 * @returns {String}
 		 */
 		function normalizeColor( color ) {
 			return CKEDITOR.tools.convertRgbToHex( color || '' ).replace( /#/, '' ).toLowerCase();

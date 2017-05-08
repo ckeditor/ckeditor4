@@ -8,8 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'oc', {
 	cut: 'Talhar',
 	cutError: 'Los paramètres de seguretat de vòstre navigador autorizan pas l\'editor a executar automaticament l\'operacion « Talhar ». Utilizatz l\'acorchi de clavièr a aqueste efièit (Ctrl/Cmd+X).',
 	paste: 'Pegar',
-	pasteArea: 'Pegar la zòna',
-	pasteMsg: 'Pegatz lo tèxte dins la zòna seguenta en utilizant l\'acorchi de clavièr (<strong>Ctrl/Cmd+V</strong>) e clicatz sus D\'acòrdi.',
-	securityMsg: 'Los paramètres de seguretat de vòstre navigador empach l\'editor d\'accedir dirèctament a las donadas del quichapapièr. Las vos cal pegar tornamai dins aquesta fenèstra.',
-	title: 'Pegar'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

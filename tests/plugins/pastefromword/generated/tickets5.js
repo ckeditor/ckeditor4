@@ -3,8 +3,9 @@
 /* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image */
 /* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
 /* jshint ignore:end */
-/* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_lib/q.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js,_helpers/pfwTools.js */
-/* global createTestCase,pfwTools */
+/* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js */
+/* bender-include: _helpers/createTestSuite.js,_helpers/pfwTools.js */
+/* global pfwTools,createTestSuite */
 
 ( function() {
 	'use strict';
@@ -15,49 +16,37 @@
 		} )
 	};
 
-	var browsers = [
+	bender.test( createTestSuite( {
+		browsers: [
 			'chrome',
 			'firefox',
 			'ie8',
 			'ie11',
 			'edge'
 		],
-		wordVersions = [ 'word2013', 'word2016' ],
-		ticketTests = {
-			'14867examples': [ 'word2013' ],
-			'16593regular_paste': [ 'word2013' ],
-			'16833Numbered_lists': [ 'word2013' ],
-			'16817SampleDocForDataLossBug': [ 'word2013', 'word2016' ],
-			'16860Faked_list': true
+		wordVersions: [
+			'word2013',
+			'word2016'
+		],
+		tests: {
+			'Tickets/14867examples': [ 'word2013' ],
+			'Tickets/16593regular_paste': [ 'word2013' ],
+			'Tickets/16833Numbered_lists': [ 'word2013' ],
+			'Tickets/16817SampleDocForDataLossBug': [ 'word2013', 'word2016' ],
+			'Tickets/16860Faked_list': true
 		},
-		testData = {
+		testData: {
 			_should: {
 				ignore: {
-					'test 16833Numbered_lists word2016 edge': !CKEDITOR.env.edge
+					'test Tickets/16833Numbered_lists word2016 edge': !CKEDITOR.env.edge,
+					'test Tickets/16833Numbered_lists word2013 ie11': !CKEDITOR.env.ie || CKEDITOR.env.edge
 				}
 			}
 		},
-		ticketKeys = CKEDITOR.tools.objectKeys( ticketTests ),
-		i, k, j, wordVersion;
-
-	for ( i = 0; i < ticketKeys.length; i++ ) {
-		for ( k = 0; k < browsers.length; k++ ) {
-			for ( j = 0; j < wordVersions.length; j++ ) {
-				wordVersion = wordVersions[ j ];
-				var testName = [ 'test', ticketKeys[ i ], wordVersion, browsers[ k ] ].join( ' ' );
-
-				if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 11 ) {
-					testData._should.ignore[ testName ] = true;
-				}
-
-				if ( testName === 'test 16833Numbered_lists word2013 ie11' && ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) ) {
-					testData._should.ignore[ testName ] = true;
-				}
-
-				testData[ testName ] = createTestCase( ticketKeys[ i ], wordVersion, browsers[ k ], true, true, [ pfwTools.filters.font ] );
-			}
-		}
-	}
-
-	bender.test( testData );
+		customFilters: [
+			pfwTools.filters.font
+		],
+		compareRawData: true,
+		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11
+	} ) );
 } )();
