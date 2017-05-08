@@ -15,7 +15,7 @@ New Features:
 * [#16818](http://dev.ckeditor.com/ticket/16818): Added table cell height parsing in the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#16850](http://dev.ckeditor.com/ticket/16850): Added a new [`config.enableContextMenu`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enableContextMenu) configuration option for enabling and disabling the [context menu](http://ckeditor.com/addon/contextmenu).
 * [#16937](http://dev.ckeditor.com/ticket/16937): The `command` parameter in [CKEDITOR.editor.getCommandKeystroke](http://docs.ckeditor.dev/#!/api/CKEDITOR.editor-method-getCommandKeystroke) now also accepts a command name as an argument.
-* [#17010](http://dev.ckeditor.com/ticket/17010): The [CKEDITOR.dom.range.shrink](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-shrink) now allows for skipping bogus `br` elements.
+* [#17010](http://dev.ckeditor.com/ticket/17010): The [`CKEDITOR.dom.range.shrink`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-shrink) method now allows for skipping bogus `<br>` elements.
 
 Fixed Issues:
 

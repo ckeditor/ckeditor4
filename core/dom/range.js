@@ -1715,20 +1715,20 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Descrease the range to make sure that boundaries
-		 * always anchor beside text nodes or innermost element.
+		 * Decreases the range to make sure that boundaries
+		 * always anchor beside text nodes or the innermost element.
 		 *
 		 * @param {Number} mode The shrinking mode ({@link CKEDITOR#SHRINK_ELEMENT} or {@link CKEDITOR#SHRINK_TEXT}).
 		 *
-		 * * {@link CKEDITOR#SHRINK_ELEMENT} - Shrink the range boundaries to the edge of the innermost element.
-		 * * {@link CKEDITOR#SHRINK_TEXT} - Shrink the range boudaries to anchor by the side of enclosed text
-		 *     node, range remains if there's no text nodes on boundaries at all.
+		 * * {@link CKEDITOR#SHRINK_ELEMENT} &ndash; Shrinks the range boundaries to the edge of the innermost element.
+		 * * {@link CKEDITOR#SHRINK_TEXT} &ndash; Shrinks the range boundaries to anchor by the side of enclosed text
+		 *     node. The range remains if there are no text nodes available on boundaries.
 		 *
-		 * @param {Boolean} [selectContents=false] Whether result range anchors at the inner OR outer boundary of the node.
-		 * @param {Boolean/Object} [options=true] If this parameter is of a boolean type, it's treated as
+		 * @param {Boolean} [selectContents=false] Whether the resulting range anchors at the inner OR outer boundary of the node.
+		 * @param {Boolean/Object} [options=true] If this parameter is of a Boolean type, it is treated as
 		 * `options.shrinkOnBlockBoundary`. This parameter was added in 4.7.0.
-		 * @param {Boolean} [options.shrinkOnBlockBoundary=true] Whether block boundary should be included in
-		 * shrinked range.
+		 * @param {Boolean} [options.shrinkOnBlockBoundary=true] Whether the block boundary should be included in
+		 * the shrunk range.
 		 * @param {Boolean} [options.skipBogus=false] Whether bogus `<br>` elements should be ignored while
 		 * `mode` is set to {@link CKEDITOR#SHRINK_TEXT}. This option was added in 4.7.0.
 		 */
@@ -1832,7 +1832,7 @@ CKEDITOR.dom.range = function( root ) {
 
 		/**
 		 * Inserts a node at the start of the range. The range will be expanded
-		 * the contain the node.
+		 * to contain the node.
 		 *
 		 * @param {CKEDITOR.dom.node} node
 		 */
@@ -1859,7 +1859,7 @@ CKEDITOR.dom.range = function( root ) {
 		},
 
 		/**
-		 * Moves the range to given position according to specified node.
+		 * Moves the range to a given position according to the specified node.
 		 *
 		 *		// HTML: <p>Foo <b>bar</b></p>
 		 *		range.moveToPosition( elB, CKEDITOR.POSITION_BEFORE_START );
@@ -1867,7 +1867,7 @@ CKEDITOR.dom.range = function( root ) {
 		 *
 		 * See also {@link #setStartAt} and {@link #setEndAt}.
 		 *
-		 * @param {CKEDITOR.dom.node} node The node according to which position will be set.
+		 * @param {CKEDITOR.dom.node} node The node according to which the position will be set.
 		 * @param {Number} position One of {@link CKEDITOR#POSITION_BEFORE_START},
 		 * {@link CKEDITOR#POSITION_AFTER_START}, {@link CKEDITOR#POSITION_BEFORE_END},
 		 * {@link CKEDITOR#POSITION_AFTER_END}.
