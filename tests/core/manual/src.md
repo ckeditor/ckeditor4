@@ -2,7 +2,7 @@
 @bender-tags: tc, 4.7.0, tp2259, htmldataprocessor
 @bender-ckeditor-plugins: wysiwygarea,sourcearea,htmlwriter,toolbar,elementspath,undo,clipboard,basicstyles,divarea
 
-## Iframe `src=javascript` escaping
+## Iframe `src=javascript/data` escaping
 
 1. Select iframe object under "Source iframe" (it can include wrapping text).
 1. Copy to clipboard.

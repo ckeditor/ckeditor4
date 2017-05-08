@@ -72,6 +72,11 @@
 		};
 	}
 
+	function getDataString( code, protocol ) {
+		var proto = protocol || 'data';
+		return proto + ': text/html,<html><head><title>Test</title></head><body><script>' + code + ';<\/script></body></html>';
+	}
+
 	bender.editor = {
 		name: 'test_editor',
 		config: {
@@ -1316,11 +1321,20 @@
 		'<p><iframe src="&#10;&#106;avascript:window.parent.%xss%;"></iframe></p>',
 		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>' );
 	addXssTC( tcs, 'iframe with src=javascript 3',
-		'<p><iframe src="jAvAsCrIpT:window.parent.%xss%;"></iframe></p>',
+		'<p><iframe src="   jAvAsCrIpT:window.parent.%xss%;"></iframe></p>',
 		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>' );
 	addXssTC( tcs, 'iframe with src=javascript 4',
 		'<p><iframe src="jav	ascript:window.parent.%xss%;"></iframe></p>',
 		'<p><iframe src="jav	ascript:window.parent.%xss%;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe with src=data 1',
+		'<p><iframe src="' + getDataString( 'window.parent.parent.%xss%' ) + '"></iframe></p>', false );
+	addXssTC( tcs, 'iframe with src=data 2',
+		'<p><iframe src="' + getDataString( 'window.top.%xss%', '   dAtA' ) + '"></iframe></p>', false );
+	addXssTC( tcs, 'iframe with src=data 3',
+		'<p><iframe src="' + getDataString( 'window.top.%xss%', 'd     ata' ) + '"></iframe></p>', false );
+
+
 
 	// False positive cases.
 
