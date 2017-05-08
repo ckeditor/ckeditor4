@@ -22,4 +22,5 @@
 
 **Expected**
 
-* The keystrokes are not activating Copy Formatting functions.
+* The keystrokes are not activating Copy Formatting functions. If some content had been present
+in your clipboard it should be pasted as a plain text.

@@ -81,7 +81,7 @@
 
 	CKEDITOR.plugins.add( 'embedbase', {
 		lang: 'az,ca,cs,da,de,de-ch,en,eo,es,eu,fr,gl,id,it,ja,ko,ku,nb,nl,oc,pl,pt,pt-br,ru,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
-		requires: 'widget,notificationaggregator',
+		requires: 'dialog,widget,notificationaggregator',
 
 		onLoad: function() {
 			CKEDITOR._.jsonpCallbacks = {};

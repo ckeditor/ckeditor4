@@ -8,8 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ms', {
 	cut: 'Potong',
 	cutError: 'Keselamatan perisian browser anda tidak membenarkan operasi suntingan text/imej. Sila gunakan papan kekunci (Ctrl/Cmd+X).',
 	paste: 'Tampal',
-	pasteArea: 'Paste Area', // MISSING
-	pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK', // MISSING
-	securityMsg: 'Because of your browser security settings, the editor is not able to access your clipboard data directly. You are required to paste it again in this window.', // MISSING
-	title: 'Tampal'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );

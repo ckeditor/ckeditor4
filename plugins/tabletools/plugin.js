@@ -644,7 +644,8 @@
 	CKEDITOR.plugins.tabletools = {
 		requires: 'table,dialog,contextmenu',
 		init: function( editor ) {
-			var lang = editor.lang.table;
+			var lang = editor.lang.table,
+				styleParse = CKEDITOR.tools.style.parse;
 
 			function createDef( def ) {
 				return CKEDITOR.tools.extend( def || {}, {
@@ -665,10 +666,10 @@
 				contentTransformations: [ [ {
 						element: 'td',
 						left: function( element ) {
-							return element.styles.background && element.styles.background.match( /^(#[a-fA-F0-9]{3,6}|rgb\([\d, ]+\)|\w+)$/ );
+							return element.styles.background && styleParse.background( element.styles.background ).color;
 						},
 						right: function( element ) {
-							element.styles[ 'background-color' ] = element.styles.background;
+							element.styles[ 'background-color' ] = styleParse.background( element.styles.background ).color;
 						}
 					}, {
 						element: 'td',

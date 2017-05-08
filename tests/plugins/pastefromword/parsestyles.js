@@ -50,11 +50,12 @@
 
 		'test parsing styles from real style element': function() {
 			var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
-				expected = {
-					'.MsoChpDefault': {
+				expected = [ {
+					selector: '.MsoChpDefault',
+					styles: {
 						'font-family': 'Calibri'
 					}
-				};
+				} ];
 
 			assert.beautified.js( JSON.stringify( expected ),
 				JSON.stringify( parseStyles( CKEDITOR.document.getById( 'real-style' ) ) ) );
@@ -62,14 +63,17 @@
 
 		'test parsing styles from a fake style element': function() {
 			var parseStyles = CKEDITOR.plugins.pastefromword.styles.inliner.parse,
-				expected = {
-					'.MsoChpDefault': {
+				expected = [ {
+					selector: '.MsoChpDefault',
+					styles: {
 						'font-family': 'Calibri'
-					},
-					'div a.foo, .bar': {
+					}
+				}, {
+					selector: 'div a.foo, .bar',
+					styles: {
 						'text-decoration': 'underline'
 					}
-				};
+				} ];
 
 			assert.beautified.js( JSON.stringify( expected ),
 				JSON.stringify( parseStyles( CKEDITOR.document.getById( 'fake-style' ) ) ) );
@@ -83,6 +87,13 @@
 			testInlining( 'inline1' );
 			testInlining( 'inline2' );
 			testInlining( 'multiple-inline' );
+		},
+
+		'test parsing styles specificity': function() {
+			testInlining( 'style-specificity' );
+			testInlining( 'style-specificity-multiple' );
+			testInlining( 'style-specificity-inline' );
+			testInlining( 'style-specificity-order' );
 		}
 	};
 

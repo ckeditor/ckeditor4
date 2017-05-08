@@ -1325,28 +1325,33 @@
 
 		/**
 		 * Returns the keystroke that is assigned to a specified {@link CKEDITOR.command}. If no keystroke is assigned,
-		 * it returns null.
+		 * it returns `null`.
+		 *
+		 * Since version 4.7.0 this function also accepts `command` parameter as a string.
 		 *
 		 * @since 4.6.0
-		 * @param {CKEDITOR.command} command
-		 * @returns {Number} The keystroke assigned to the provided command or null if there is no keystroke.
+		 * @param {CKEDITOR.command/String} command The {@link CKEDITOR.command} instance or a string with command name.
+		 * @returns {Number/null} The keystroke assigned to the provided command or `null` if there is no keystroke.
 		 */
 		getCommandKeystroke: function( command ) {
-			var commandName = command.name,
-				keystrokes = this.keystrokeHandler.keystrokes,
-				key;
+			var commandInstance = ( typeof command === 'string' ? this.getCommand( command ) : command );
 
-			// Some commands have a fake keystroke - for example CUT/COPY/PASTE commands are handled natively.
-			if ( command.fakeKeystroke ) {
-				return command.fakeKeystroke;
-			}
+			if ( commandInstance ) {
+				var commandName = commandInstance && commandInstance.name,
+					keystrokes = this.keystrokeHandler.keystrokes,
+					key;
 
-			for ( key in keystrokes ) {
-				if ( keystrokes.hasOwnProperty( key ) && keystrokes[ key ] == commandName ) {
-					return key;
+				// Some commands have a fake keystroke - for example CUT/COPY/PASTE commands are handled natively.
+				if ( commandInstance.fakeKeystroke ) {
+					return commandInstance.fakeKeystroke;
+				}
+
+				for ( key in keystrokes ) {
+					if ( keystrokes.hasOwnProperty( key ) && keystrokes[ key ] == commandName ) {
+						return key;
+					}
 				}
 			}
-
 			return null;
 		},
 

@@ -1,0 +1,15 @@
+<h2>Helpers</h2>
+<p><b>Some</b> <i>rich</i> <s>text</s> <sup>with</sup> <a href="http://cksource.com">link</a></p>
+<h2>Editor</h2>
+<textarea name="editor1" id="editor1" cols="30" rows="10">
+	<p>Paste the content here:</p>
+	<h2>And here:</h2>
+</textarea>
+
+<script>
+	if ( !CKEDITOR.env.safari ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+</script>

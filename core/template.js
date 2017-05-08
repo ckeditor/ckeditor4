@@ -9,11 +9,7 @@
  */
 
 ( function() {
-	var cache = {},
-		rePlaceholder = /{([^}]+)}/g,
-		reEscapableChars = /([\\'])/g,
-		reNewLine = /\n/g,
-		reCarriageReturn = /\r/g;
+	var rePlaceholder = /{([^}]+)}/g;
 
 	/**
 	 * Lightweight template used to build the output string from variables.
@@ -27,42 +23,35 @@
 	 * @param {String} source The template source.
 	 */
 	CKEDITOR.template = function( source ) {
-		// Builds an optimized function body for the output() method, focused on performance.
-		// For example, if we have this "source":
-		//	'<div style="{style}">{editorName}</div>'
-		// ... the resulting function body will be (apart from the "buffer" handling):
-		//	return [ '<div style="', data['style'] == undefined ? '{style}' : data['style'], '">', data['editorName'] == undefined ? '{editorName}' : data['editorName'], '</div>' ].join('');
+		/**
+		 * Current template source.
+		 *
+		 * @readonly
+		 * @member CKEDITOR.template
+		 * @property {String}
+		 */
+		this.source = String( source );
+	};
 
-		// Try to read from the cache.
-		if ( cache[ source ] )
-			this.output = cache[ source ];
-		else {
-			var fn = source
-				// Escape chars like slash "\" or single quote "'".
-				.replace( reEscapableChars, '\\$1' )
-				.replace( reNewLine, '\\n' )
-				.replace( reCarriageReturn, '\\r' )
-				// Inject the template keys replacement.
-				.replace( rePlaceholder, function( m, key ) {
-					return "',data['" + key + "']==undefined?'{" + key + "}':data['" + key + "'],'";
-				} );
+	/**
+	 * Processes the template, filling its variables with the provided data.
+	 *
+	 * @method
+	 * @member CKEDITOR.template
+	 * @param {Object} data An object containing properties which values will be
+	 * used to fill the template variables. The property names must match the
+	 * template variables names. Variables without matching properties will be
+	 * kept untouched.
+	 * @param {Array} [buffer] An array into which the output data will be pushed into.
+	 * The number of entries appended to the array is unknown.
+	 * @returns {String/Number} If `buffer` has not been provided, the processed
+	 * template output data, otherwise the new length of `buffer`.
+	 */
+	CKEDITOR.template.prototype.output = function( data, buffer ) {
+		var output = this.source.replace( rePlaceholder, function( fullMatch, dataKey ) {
+			return data[ dataKey ] !== undefined ? data[ dataKey ] : fullMatch;
+		} );
 
-			fn = "return buffer?buffer.push('" + fn + "'):['" + fn + "'].join('');";
-			this.output = cache[ source ] = Function( 'data', 'buffer', fn );
-		}
+		return buffer ? buffer.push( output ) : output;
 	};
 } )();
-
-/**
- * Processes the template, filling its variables with the provided data.
- *
- * @method output
- * @param {Object} data An object containing properties which values will be
- * used to fill the template variables. The property names must match the
- * template variables names. Variables without matching properties will be
- * kept untouched.
- * @param {Array} [buffer] An array into which the output data will be pushed into.
- * The number of entries appended to the array is unknown.
- * @returns {String/Number} If `buffer` has not been provided, the processed
- * template output data, otherwise the new length of `buffer`.
- */

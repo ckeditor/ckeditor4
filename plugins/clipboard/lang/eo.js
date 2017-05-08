@@ -8,8 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'eo', {
 	cut: 'Eltondi',
 	cutError: 'La sekurecagordo de via TTT-legilo ne permesas, ke la redaktilo faras eltondajn operaciojn. Bonvolu uzi la klavaron por tio (Ctrl/Cmd-X).',
 	paste: 'Interglui',
-	pasteArea: 'Intergluoareo',
-	pasteMsg: 'Bonvolu glui la tekston en la jenan areon per uzado de la klavaro (<strong>Ctrl/Cmd+V</strong>) kaj premu OK',
-	securityMsg: 'Pro la sekurecagordo de via TTT-legilo, la redaktilo ne povas rekte atingi viajn datenojn en la poŝo. Bonvolu denove interglui la datenojn en tiun fenestron.',
-	title: 'Interglui'
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
 } );
