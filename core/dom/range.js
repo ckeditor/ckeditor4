@@ -2719,9 +2719,9 @@ CKEDITOR.dom.range = function( root ) {
 		getPreviousEditableNode: getNextEditableNode( 1 ),
 
 		/**
-		 * Returns any table element, like `td`, `tbody`, `table` etc from a given range. The element
+		 * Returns any table element, like `td`, `tbody`, `table` etc. from a given range. The element
 		 * is returned only if the range is contained within one table (might be a nested
-		 * table, but can't be two different tables on the same DOM level).
+		 * table, but it cannot be two different tables on the same DOM level).
 		 *
 		 * @private
 		 * @since 4.7

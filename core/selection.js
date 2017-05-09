@@ -2431,8 +2431,8 @@
 		},
 
 		/**
-		 * Checks if the selection contains HTML element inside a table.
-		 * Returns `false` for text selection inside a table (e.g. it will return false
+		 * Checks if the selection contains an HTML element inside a table.
+		 * Returns `false` for text selection inside a table (e.g. it will return `false`
 		 * for text selected in one cell).
 		 *
 		 *		editor.getSelection().isInTable();

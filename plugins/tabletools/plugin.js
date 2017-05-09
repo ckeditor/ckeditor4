@@ -1829,13 +1829,13 @@
 		getCellsBetween: getCellsBetween,
 
 		/**
-		 * Merges every subsequent range in given set, returning a smaller array of ranges.
+		 * Merges every subsequent range in a given set, returning a smaller array of ranges.
 		 *
-		 * Note that each range in the returned value will be enlarged with `CKEDITOR.ENLARGE_ELEMENT` value.
+		 * Note that each range in the returned value will be enlarged with the `CKEDITOR.ENLARGE_ELEMENT` value.
 		 *
 		 * @since 4.7.0
 		 * @param {CKEDITOR.dom.range[]} ranges
-		 * @returns {CKEDITOR.dom.range[]} Set of merged ranges.
+		 * @returns {CKEDITOR.dom.range[]} The set of merged ranges.
 		 * @member CKEDITOR.plugins.tabletools
 		 */
 		mergeRanges: function( ranges ) {
@@ -1891,7 +1891,7 @@
 	 * introducing multiple ranges for table cells and handling pasting of multiple ranges
 	 * containing table cells) are enabled.
 	 *
-	 *		// Disabling table improvements.
+	 *		// Disable table improvements.
 	 *		config.tableImprovements = false
 	 *
 	 * @since 4.7.0
@@ -1901,16 +1901,16 @@
 } )();
 
 /**
- * Create a two-dimension array that reflects the actual layout of table cells,
- * with cell spans, with mappings to the original td elements.
+ * Creates a two-dimension array that reflects the actual layout of table cells,
+ * with cell spans, with mappings to the original `td` elements.
  *
- * It could also create the map for the specified fragment of the table.
+ * It could also create a map for the specified fragment of the table.
  *
  * @param {CKEDITOR.dom.element} table
- * @param {Number} startRow Row's index from which the map should be created.
- * @param {Number} startCell Cell's index from which the map should be created.
- * @param {Number} endRow Row's index to which the map should be created.
- * @param {Number} endCell Cell's index to which the map should be created.
+ * @param {Number} startRow Row index from which the map should be created.
+ * @param {Number} startCell Cell index from which the map should be created.
+ * @param {Number} endRow Row index to which the map should be created.
+ * @param {Number} endCell Cell index to which the map should be created.
  * @member CKEDITOR.tools
  */
 CKEDITOR.tools.buildTableMap = function( table, startRow, startCell, endRow, endCell ) {
