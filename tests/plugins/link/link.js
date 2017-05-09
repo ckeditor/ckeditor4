@@ -163,7 +163,26 @@
 			} );
 		},
 
-		'test edit link text': function() {
+		'test edit selected text': function() {
+			var bot = this.editorBot,
+				expected = 'aa <a href="http://ckeditor.com">[foo]</a> cc';
+
+			bot.setHtmlWithSelection( 'aa [bb] cc' );
+
+			bot.dialog( 'link', function( dialog ) {
+				var displayTextInput = dialog.getContentElement( 'info', 'linkDisplayText' );
+				dialog.setValueOf( 'info', 'url', 'http://ckeditor.com' );
+
+				assert.isTrue( displayTextInput.isVisible(), 'Display text input visibility' );
+				assert.areSame( dialog.getValueOf( 'info', 'linkDisplayText' ), 'bb' );
+
+				dialog.setValueOf( 'info', 'linkDisplayText', 'foo' );
+				dialog.getButton( 'ok' ).click();
+				assert.areSame( expected, bender.tools.getHtmlWithSelection( bot.editor ) );
+			} );
+		},
+
+		'test edit existing link': function() {
 			var bot = this.editorBot,
 				expected = '[<a href="http://ckeditor.com">testing 1, 2, 3</a>]';
 

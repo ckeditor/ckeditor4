@@ -2719,6 +2719,53 @@ CKEDITOR.dom.range = function( root ) {
 		getPreviousEditableNode: getNextEditableNode( 1 ),
 
 		/**
+		 * Returns any table element, like `td`, `tbody`, `table` etc from a given range. The element
+		 * is returned only if the range is contained within one table (might be a nested
+		 * table, but can't be two different tables on the same DOM level).
+		 *
+		 * @private
+		 * @since 4.7
+		 * @param {Object} [tableElements] Mapping of element names that should be considered.
+		 * @returns {CKEDITOR.dom.element/null}
+		 */
+		_getTableElement: function( tableElements ) {
+			tableElements = tableElements || {
+				td: 1,
+				th: 1,
+				tr: 1,
+				tbody: 1,
+				thead: 1,
+				tfoot: 1,
+				table: 1
+			};
+
+			var start = this.startContainer,
+				end = this.endContainer,
+				startTable = start.getAscendant( 'table', true ),
+				endTable = end.getAscendant( 'table', true );
+
+			// Super weird edge case in Safari: if there is a table with only one cell inside and that cell
+			// is selected, then the end boundary of the table is moved into editor's editable.
+			// That case is also present when selecting the last cell inside nested table.
+			if ( CKEDITOR.env.safari && startTable && end.equals( this.root ) ) {
+				return start.getAscendant( tableElements, true );
+			}
+
+			if ( this.getEnclosedNode() ) {
+				return this.getEnclosedNode().getAscendant( tableElements, true );
+			}
+
+			// Ensure that selection starts and ends in the same table or one of the table is inside the other.
+			if ( startTable && endTable && ( startTable.equals( endTable ) || startTable.contains( endTable ) ||
+				endTable.contains( startTable ) ) ) {
+
+				return start.getAscendant( tableElements, true );
+			}
+
+			return null;
+		},
+
+		/**
 		 * Scrolls the start of current range into view.
 		 */
 		scrollIntoView: function() {

@@ -1,0 +1,184 @@
+<textarea id="merge-row-after">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>cell2^</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>[foo]</td>
+		<td>[foo]</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-row-before">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>cell2^</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>[foo]</td>
+		<td>[foo]</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-rows-after">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>cell2^</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	<tr>
+		<td>[11]</td>
+		<td>[12]</td>
+	</tr>
+	<tr>
+		<td>[21]</td>
+		<td>[22]</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-rows-before">
+<table>
+	<tbody>
+		<tr>
+			<td>^cell1</td>
+			<td>cell2</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>[11]</td>
+		<td>[12]</td>
+	</tr>
+	<tr>
+		<td>[21]</td>
+		<td>[22]</td>
+	</tr>
+	<tr>
+		<td>cell1</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-rows-after-empty">
+<table>
+	<tbody>
+		<tr>
+			<td>cell1</td>
+			<td>^</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>cell1</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>[11]</td>
+		<td>[12]</td>
+	</tr>
+	<tr>
+		<td>[21]</td>
+		<td>[22]</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="merge-rows-before-empty">
+<table>
+	<tbody>
+		<tr>
+			<td>^</td>
+			<td>cell2</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+	<tr>
+		<td>[11]</td>
+		<td>[12]</td>
+	</tr>
+	<tr>
+		<td>[21]</td>
+		<td>[22]</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>cell2</td>
+	</tr>
+	</tbody>
+</table>
+</textarea>
+
+<table id="2cells1row">
+	<tr>
+		<td>foo</td>
+		<td>foo</td>
+	</tr>
+</table>
+
+
+<table id="2cells2rows">
+	<tr>
+		<td>11</td>
+		<td>12</td>
+	</tr>
+	<tr>
+		<td>21</td>
+		<td>22</td>
+	</tr>
+</table>

@@ -654,7 +654,7 @@
 		return editor.blockless ? CKEDITOR.ENTER_BR : enterMode;
 	}
 
-	// Create DocumentFragment from specified ranges. For now it handles only tables in Firefox
+	// Create DocumentFragment from specified ranges. For now it handles only tables
 	// and returns DocumentFragment from the 1. range for other cases. (#13884)
 	function createDocumentFragmentFromRanges( ranges, editable ) {
 		var docFragment = new CKEDITOR.dom.documentFragment(),
@@ -662,16 +662,41 @@
 			currentRow,
 			currentRowClone;
 
+		// We must handle two cases here:
+		// 1. <tr>[<td>Cell</td>]</tr> (IE9+, Edge, Chrome, Firefox)
+		// 2. <td>[Cell]</td> (IE8-, Safari)
+		function isSelectedCell( range ) {
+			var start = range.startContainer,
+				end = range.endContainer;
+
+			if ( start.is && ( start.is( 'tr' ) ||
+				( start.is( 'td' ) && start.equals( end ) && range.endOffset === start.getChildCount() ) ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		function cloneCell( range ) {
+			var start = range.startContainer;
+
+			if ( start.is( 'tr' ) ) {
+				return range.cloneContents();
+			}
+
+			return start.clone( true );
+		}
+
 		for ( var i = 0; i < ranges.length; i++ ) {
 			var range = ranges[ i ],
-				container = range.startContainer;
+				container = range.startContainer.getAscendant( 'tr', true );
 
-			if ( container.getName && container.getName() == 'tr' ) {
+			if ( isSelectedCell( range ) ) {
 				if ( !tableClone ) {
 					tableClone = container.getAscendant( 'table' ).clone();
-					tableClone.append( container.getAscendant( 'tbody' ).clone() );
+					tableClone.append( container.getAscendant( { thead: 1, tbody: 1, tfoot: 1 } ).clone() );
 					docFragment.append( tableClone );
-					tableClone = tableClone.findOne( 'tbody' );
+					tableClone = tableClone.findOne( 'thead, tbody, tfoot' );
 				}
 
 				if ( !( currentRow && currentRow.equals( container ) ) ) {
@@ -680,7 +705,7 @@
 					tableClone.append( currentRowClone );
 				}
 
-				currentRowClone.append( range.cloneContents() );
+				currentRowClone.append( cloneCell( range ) );
 			} else {
 				// If there was something else copied with table,
 				// append it to DocumentFragment.
@@ -1198,17 +1223,20 @@
 		 */
 		extractSelectedHtml: function( toString, removeEmptyBlock ) {
 			var editable = this.editable(),
-				ranges = this.getSelection().getRanges();
+				ranges = this.getSelection().getRanges(),
+				docFragment = new CKEDITOR.dom.documentFragment(),
+				i;
 
 			if ( !editable || ranges.length === 0 ) {
 				return null;
 			}
 
-			var range = ranges[ 0 ],
-				docFragment = editable.extractHtmlFromRange( range, removeEmptyBlock );
+			for ( i = 0; i < ranges.length; i++ ) {
+				docFragment.append( editable.extractHtmlFromRange( ranges[ i ], removeEmptyBlock ) );
+			}
 
 			if ( !removeEmptyBlock ) {
-				this.getSelection().selectRanges( [ range ] );
+				this.getSelection().selectRanges( [ ranges[ 0 ] ] );
 			}
 
 			return toString ? docFragment.getHtml() : docFragment;

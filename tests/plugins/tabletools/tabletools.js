@@ -5,7 +5,9 @@
 	'use strict';
 
 	bender.editor = {
-		config: {},
+		config: {
+			tableImprovements: false
+		},
 		allowedForTests: 'table[width];td[id]'
 	};
 
