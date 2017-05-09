@@ -73,7 +73,7 @@
 						return;
 					}
 
-					if (CKEDITOR.plugins.loaded.divarea) {
+					if (CKEDITOR.plugins.loaded) {
 						var selection = this.editor.getSelection();
 						var range = selection.getRanges()[ 0 ];
 
