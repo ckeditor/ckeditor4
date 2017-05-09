@@ -133,6 +133,69 @@
 <p>^&nbsp;</p>
 </textarea>
 
+<textarea id="emptyTableSibling">
+<table>
+	<tbody>
+		<tr>
+			<td>aa</td>
+			<td>bb</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<tbody>
+		<tr>
+			<td>cc</td>
+			<td>dd</td>
+		</tr>
+		<tr>
+			<td>ee</td>
+			<td>ff</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+
+<table>
+	<tbody>
+		<tr>
+			<td>aa</td>
+			<td>bb</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<tbody>
+		<tr>
+			<td>^ee</td>
+			<td>ff</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
+<textarea id="emptyTableParagraphSibling">
+<table>
+	<tbody>
+		<tr>
+			<td>aa</td>
+			<td>bb</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;</p>
+
+=>
+
+<p>^&nbsp;</p>
+
+<p>&nbsp;</p>
+</textarea>
+
 <textarea id="emptyTableSingleColumn">
 <table border="2">
 	<tr>

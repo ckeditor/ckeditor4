@@ -306,6 +306,22 @@
 			} );
 		},
 
+		'test backspace whole table multiple tables': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTableSibling', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 2, 3 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
 		'test backspace column': function( editor, bot ) {
 			// Make sure that backspace in one column of many, doesnt remove whole table.
 			doTest( bot, function() {
@@ -330,6 +346,22 @@
 					editor: editor
 				} );
 				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.DELETE );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
+		'test delete whole table with sibling paragraph': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTableParagraphSibling', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
 
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
