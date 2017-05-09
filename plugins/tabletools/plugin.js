@@ -1826,63 +1826,7 @@
 		},
 
 		getSelectedCells: getSelectedCells,
-		getCellsBetween: getCellsBetween,
-
-		/**
-		 * Merges every subsequent range in a given set, returning a smaller array of ranges.
-		 *
-		 * Note that each range in the returned value will be enlarged with the `CKEDITOR.ENLARGE_ELEMENT` value.
-		 *
-		 * @since 4.7.0
-		 * @param {CKEDITOR.dom.range[]} ranges
-		 * @returns {CKEDITOR.dom.range[]} The set of merged ranges.
-		 * @member CKEDITOR.plugins.tabletools
-		 */
-		mergeRanges: function( ranges ) {
-			return CKEDITOR.tools.array.reduce( ranges, function( ret, rng ) {
-				// Last range ATM.
-				var lastRange = ret[ ret.length - 1 ],
-					isContinuation = false;
-
-				// Make a clone, we don't want to modify input.
-				rng = rng.clone();
-				rng.enlarge( CKEDITOR.ENLARGE_ELEMENT );
-
-				if ( lastRange ) {
-					// The trick is to create a range spanning the gap between the two ranges. Then iterate over
-					// each node found in this gap. If it contains anything other than whitespace, then it means it
-					// is not a continuation.
-					var gapRange = new CKEDITOR.dom.range( rng.root ),
-						walker = new CKEDITOR.dom.walker( gapRange ),
-						isWhitespace = CKEDITOR.dom.walker.whitespaces(),
-						nodeInBetween;
-
-					gapRange.setStart( lastRange.endContainer, lastRange.endOffset );
-					gapRange.setEnd( rng.startContainer, rng.startOffset );
-
-					nodeInBetween = walker.next();
-
-					while ( isWhitespace( nodeInBetween ) || rng.endContainer.equals( nodeInBetween ) ) {
-						// We don't care about whitespaces, and range container. Also we skip the endContainer,
-						// as it will also be provided by the iterator (as it visits it's opening tag).
-						nodeInBetween = walker.next();
-					}
-
-					// Simply, if anything has been found there's a content in between the two.
-					isContinuation = !nodeInBetween;
-				}
-
-				if ( isContinuation ) {
-					// If last range ends, where the current range starts, then let's merge it.
-					lastRange.setEnd( rng.endContainer, rng.endOffset );
-				} else {
-					// In other case just push cur range into the stack.
-					ret.push( rng );
-				}
-
-				return ret;
-			}, [] );
-		}
+		getCellsBetween: getCellsBetween
 	};
 	CKEDITOR.plugins.add( 'tabletools', CKEDITOR.plugins.tabletools );
 

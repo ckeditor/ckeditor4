@@ -22,7 +22,7 @@
 
 			rng.selectNodeContents( this.doc.findOne( '#mixed strong' ) );
 
-			ret = CKEDITOR.plugins.tabletools.mergeRanges( [ rng ] );
+			ret = CKEDITOR.dom.range.mergeRanges( [ rng ] );
 
 			assert.isArray( ret );
 
@@ -38,7 +38,7 @@
 			ranges[ 0 ].selectNodeContents( this.doc.findOne( '#mixed strong' ) );
 			ranges[ 1 ].selectNodeContents( this.doc.findOne( '#mixed em' ) );
 
-			ret = CKEDITOR.plugins.tabletools.mergeRanges( ranges );
+			ret = CKEDITOR.dom.range.mergeRanges( ranges );
 
 			assert.areSame( 2, ret.length, 'Returned ranges count' );
 
@@ -59,7 +59,7 @@
 			ranges[ 1 ].setStartAfter( this.doc.findOne( '#mixed strong' ) );
 			ranges[ 1 ].setEndAfter( this.doc.findOne( '#mixed span' ) );
 
-			ret = CKEDITOR.plugins.tabletools.mergeRanges( ranges );
+			ret = CKEDITOR.dom.range.mergeRanges( ranges );
 
 			assert.areSame( 1, ret.length, 'Returned ranges count' );
 
@@ -75,7 +75,7 @@
 			ranges[ 0 ].selectNodeContents( this.doc.findOne( '#mixed strong' ) );
 			ranges[ 1 ].selectNodeContents( this.doc.findOne( '#mixed span' ) );
 
-			ret = CKEDITOR.plugins.tabletools.mergeRanges( ranges );
+			ret = CKEDITOR.dom.range.mergeRanges( ranges );
 
 			assert.areSame( 1, ret.length, 'Returned ranges count' );
 
@@ -90,7 +90,7 @@
 				ranges = [],
 				rng,
 				ret,
-				i
+				i;
 
 			for ( i = 0; i < cells.count(); i++ ) {
 				rng = this.createRange();
@@ -98,7 +98,7 @@
 				ranges.push( rng );
 			}
 
-			ret = CKEDITOR.plugins.tabletools.mergeRanges( ranges );
+			ret = CKEDITOR.dom.range.mergeRanges( ranges );
 
 			assert.areSame( 1, ret.length, 'Returned ranges count' );
 

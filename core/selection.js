@@ -243,7 +243,7 @@
 			}
 
 			var rng = editor.createRange(),
-				mergedRanges = CKEDITOR.plugins.tabletools.mergeRanges( ranges );
+				mergedRanges = CKEDITOR.dom.range.mergeRanges( ranges );
 
 			// Enlarge each range, so that it wraps over tr.
 			CKEDITOR.tools.array.forEach( mergedRanges, function( mergedRange ) {
