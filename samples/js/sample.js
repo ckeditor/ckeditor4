@@ -27,6 +27,7 @@ var initSample = ( function() {
 			// 	'font-size': '20pt',
 			// 	'font-weight': 'bold'
 			// },
+			singleParagraphEdit: true,
 			toolbar: [
 				{name: 'font', items: ['Styles', 'Font', 'FontSize']},
 				{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']},
@@ -38,7 +39,7 @@ var initSample = ( function() {
 				{name: 'find', items: ['Find', 'Replace']},
 				{name: 'insert', items: ['Table', 'base64image']},
 				{name: 'pagebreak', items: ['PageBreak']},
-				{name: 'placeholder', items: ['CreatePlaceholder']},
+				{name: 'placeholder', items: ['CreatePlaceholder', 'CreateCpPlaceholder']},
 				{name: 'helpers', items: ['Undo', 'Redo']},
 				{name: 'tabletools', items: ['tabledelete', 'tableproperties', 'tablerowinsertbefore',
 					'tablerowinsertafter', 'tablerowdelete', 'tablecolumninsertbefore', 'tablecolumninsertafter',

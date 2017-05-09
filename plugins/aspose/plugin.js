@@ -133,9 +133,7 @@
 
 			// Remove page break on paste
 			editor.on('paste', function(event) {
-				var val = event.data.dataValue.replace(removePgbrReg, '');
-
-				event.data.dataValue = val;
+				event.data.dataValue = event.data.dataValue.replace(removePgbrReg, '');
 			});
 
 			if (config.singleParagraphEdit) {
@@ -144,10 +142,12 @@
 					var errors = validateParagraph($editor);
 
 					if (errors.length) {
-						//this.setData( 'errors', errors );
+						CKEDITOR._.errors = errors;
 						editor.openDialog('singleParagraphValidate');
 					}
 				});
+
+				CKEDITOR.dialog.add( 'singleParagraphValidate', this.path + 'dialogs/singleParagraphValidate.js' );
 			}
 
 			editor.element.$.parentNode.addEventListener('keydown', function(e) {
@@ -187,8 +187,6 @@
 					parent.style['text-indent'] = '';
 				}
 			}, true);
-
-			CKEDITOR.dialog.add( 'singleParagraphValidate', this.path + 'dialogs/singleParagraphValidate.js' );
 		}
 	});
 })();

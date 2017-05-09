@@ -5,15 +5,25 @@
 			resizable:      CKEDITOR.DIALOG_RESIZE_BOTH,
 			minWidth:       300,
 			minHeight:      100,
+			onShow: function() {
+				var errors = document.getElementById('singleparagraphValidate_errors');
+
+				errors.innerHTML = CKEDITOR._.errors.join('\n');
+			},
 			contents: [
 				{
-					id:         'tab1',
+					id:         'singlepv',
 					label:      'First Tab',
 					accessKey:  'Q',
 					elements: [
 						{
+							id: 'msg',
 							type: 'html',
-							html: '<h3>This is some sample HTML content.</h3>'
+							html: '<div>' +
+								'<h3>This is some sample HTML content.</h3>' +
+								'<h3>Errors list</h3>' +
+								'<div id="singleparagraphValidate_errors"></div>' +
+							'</div>'
 						}
 					]
 				}
