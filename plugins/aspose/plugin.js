@@ -138,13 +138,17 @@
 				event.data.dataValue = val;
 			});
 
-			editor.on('change', function() {
-				var $editor = $(editor.element.$);
+			if (config.singleParagraphEdit) {
+				editor.on('change', function() {
+					var $editor = $(editor.element.$);
+					var errors = validateParagraph($editor);
 
-				if (validateParagraph($editor).length) {
-					editor.openDialog('singleParagraphValidate');
-				}
-			});
+					if (errors.length) {
+						//this.setData( 'errors', errors );
+						editor.openDialog('singleParagraphValidate');
+					}
+				});
+			}
 
 			editor.element.$.parentNode.addEventListener('keydown', function(e) {
 				if (e.keyCode !== 46 && e.keyCode !== 8) {
