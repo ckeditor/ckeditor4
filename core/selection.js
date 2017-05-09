@@ -256,7 +256,9 @@
 
 			if ( startNode && startNode.is && startNode.is( tags ) ) {
 				// A node that will receive selection after the firstRangeContainedNode is removed.
-				var targetNode = startNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, editor.editable() ),
+				var boundaryTable = startNode.getAscendant( 'table', true ),
+					targetNode = startNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, boundaryTable ),
+					selectBeginning = false,
 					matchingElement = function( elem ) {
 						// We're interested in matching only td/th but not contained by the startNode since it will be removed.
 						// Technically none of startNode children should be visited but it will due to #12191.
@@ -264,12 +266,14 @@
 					};
 
 				while ( targetNode && !matchingElement( targetNode ) ) {
-					targetNode = targetNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, editor.editable() );
+					targetNode = targetNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, boundaryTable );
 				}
 
 				if ( !targetNode && !endNode.is( 'table' ) && endNode.getNext() ) {
 					// Special case: say we were removing the first row, so there are no more tds before, check if there's a cell after removed row.
 					targetNode = endNode.getNext().findOne( 'td, th' );
+					// In that particular case we want to select beginning.
+					selectBeginning = true;
 				}
 
 				if ( !targetNode ) {
@@ -277,7 +281,7 @@
 					rng.setStartBefore( startNode.getAscendant( 'table', true ) );
 					rng.collapse( true );
 				} else {
-					rng.moveToElementEditEnd( targetNode );
+					rng[ 'moveToElementEdit' + ( selectBeginning ? 'Start' : 'End' ) ]( targetNode );
 				}
 
 				mergedRanges[ 0 ].deleteContents();
