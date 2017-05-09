@@ -329,7 +329,7 @@
 
 		// (#17010)
 		'test shrink with skipBogus param - SHRINK_TEXT': function() {
-			// Test does not make sense in the environement, which does not use <br> as bogus.
+			// Test does not make sense in the environment, which does not use <br> as bogus.
 			if ( !CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
 			}
@@ -344,7 +344,7 @@
 
 		// (#17010)
 		'test shrink with skipBogus param - SHRINK_ELEMENT': function() {
-			// Test does not make sense in the environement, which does not use <br> as bogus.
+			// Test does not make sense in the environment, which does not use <br> as bogus.
 			if ( !CKEDITOR.env.needsBrFiller ) {
 				assert.ignore();
 			}
