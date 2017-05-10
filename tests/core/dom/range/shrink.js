@@ -329,6 +329,11 @@
 
 		// (#17010)
 		'test shrink with skipBogus param - SHRINK_TEXT': function() {
+			// Test does not make sense in the environment, which does not use <br> as bogus.
+			if ( !CKEDITOR.env.needsBrFiller ) {
+				assert.ignore();
+			}
+
 			var ct = doc.getById( 'editable_playground' ),
 				source = CKEDITOR.document.getById( 'bogus_table' ).getValue(),
 				range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
@@ -339,6 +344,11 @@
 
 		// (#17010)
 		'test shrink with skipBogus param - SHRINK_ELEMENT': function() {
+			// Test does not make sense in the environment, which does not use <br> as bogus.
+			if ( !CKEDITOR.env.needsBrFiller ) {
+				assert.ignore();
+			}
+
 			var ct = doc.getById( 'editable_playground' ),
 				source = CKEDITOR.document.getById( 'bogus_table' ).getValue(),
 				range = bender.tools.setHtmlWithRange( ct, source )[ 0 ],
