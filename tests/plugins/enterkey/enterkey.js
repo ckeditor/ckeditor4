@@ -244,6 +244,15 @@
 		},
 		*/
 
+		'test enter key with no selection': function() {
+			var editor = this.editors.editor;
+			var editable = editor.editable();
+
+			editor.getSelection().removeAllRanges();
+			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
+			assert.pass( 'Error is not thrown' );
+		},
+
 		'test enter key - start of block':				e( 'editor', '<p id="x">{}foo</p>', '<p>@@</p><p id="x">^foo@</p>' ),
 		'test enter key - middle of block':				e( 'editor', '<p id="x">foo{}bar</p>', '<p id="x">foo@</p><p>^bar@</p>' ),
 		'test enter key - end of block':				e( 'editor', '<p id="x">foo{}</p>', '<p id="x">foo@</p><p>^@</p>' ),
