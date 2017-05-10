@@ -242,6 +242,23 @@
 			} );
 		},
 
+		'test backspace bogus br': function( editor, bot ) {
+			// Bogus brs should not be removed.
+			bender.tools.testInputOut( 'emptyTableBogusBr', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				bender.assert.beautified.html( expected, editor.editable().getHtml() );
+			} );
+		},
+
 		'test backspace whole first row': function( editor, bot ) {
 			bender.tools.testInputOut( 'emptyTableDeleteFirstRow', function( source, expected ) {
 				bender.tools.setHtmlWithSelection( editor, source );

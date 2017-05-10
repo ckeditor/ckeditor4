@@ -36,6 +36,27 @@
 </table>
 </textarea>
 
+<textarea id="emptyTableBogusBr">
+<table>
+	<tr>
+		<td><br></td>
+		<td><br></td>
+		<td><br></td>
+	</tr>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td><br></td>
+			<td><br></td>
+			<td><br></td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
 <textarea id="emptyTableDeleteSecondRow">
 <table>
 	<tbody>

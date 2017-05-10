@@ -167,10 +167,16 @@
 
 	function clearCellInRange( range ) {
 		if ( range.getEnclosedNode() ) {
-			return range.getEnclosedNode().setText( '' );
+			range.getEnclosedNode().setText( '' );
+		} else {
+			range.deleteContents();
 		}
 
-		range.deleteContents();
+		CKEDITOR.tools.array.forEach( range._find( 'td' ), function( cell ) {
+			// Cells that were not removed, need to contain bogus BR (if needed), otherwise row might
+			// collapse. (tp#2270)
+			cell.appendBogus();
+		} );
 	}
 
 	function performFakeTableSelection( ranges ) {
