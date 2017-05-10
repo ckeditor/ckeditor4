@@ -1002,12 +1002,20 @@
 					if ( keyCode in backspaceOrDelete ) {
 						var sel = editor.getSelection(),
 							selected,
-							range = sel.getRanges()[ 0 ],
-							path = range.startPath(),
+							range,
+							path,
 							block,
 							parent,
 							next,
 							rtl = keyCode == 8;
+
+						// prevent of reading path of empty range #13096
+						if ( sel.getRanges().length === 0 ) {
+							return;
+						}
+
+						range = sel.getRanges()[ 0 ];
+						path = range.startPath();
 
 						if (
 								// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (#10055)
@@ -1181,8 +1189,17 @@
 							return;
 
 						var backspace = key == 8,
-							range = editor.getSelection().getRanges()[ 0 ],
-							startPath = range.startPath();
+							sel = editor.getSelection(),
+							range,
+							startPath;
+
+						// prevent of reading path of empty range #13096
+						if ( sel.getRanges().length === 0 ) {
+							return;
+						}
+
+						range = sel.getRanges()[ 0 ];
+						startPath = range.startPath();
 
 						if ( range.collapsed ) {
 							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) )
