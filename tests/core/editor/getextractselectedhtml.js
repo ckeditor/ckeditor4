@@ -134,22 +134,22 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			input = '<p>' +
-					'<table>' +
-						'<tr>' +
-							'<td>11</td>' +
-							'<td>22</td>' +
-						'</tr>' +
-						'<tr>' +
-							'<td>44</td>' +
-							'<td>55</td>' +
-						'</tr>' +
-					'</table>' +
-				'</p>',
-				sel = editor.getSelection(),
-				ranges = [],
-				tableCells,
-				curRange,
-				i;
+				'<table>' +
+					'<tr>' +
+						'<td>11</td>' +
+						'<td>22</td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td>44</td>' +
+						'<td>55</td>' +
+					'</tr>' +
+				'</table>' +
+			'</p>',
+			sel = editor.getSelection(),
+			ranges = [],
+			tableCells,
+			curRange,
+			i;
 
 		bender.tools.selection.setWithHtml( editor, input );
 
@@ -176,22 +176,22 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			input = '<p>' +
-					'<table>' +
-						'<tr>' +
-							'<td>11</td>' +
-							'<td>22</td>' +
-						'</tr>' +
-						'<tr>' +
-							'<td>44</td>' +
-							'<td>55</td>' +
-						'</tr>' +
-					'</table>' +
-				'</p>',
-				sel = editor.getSelection(),
-				ranges = [],
-				tableCells,
-				curRange,
-				i;
+				'<table>' +
+					'<tr>' +
+						'<td>11</td>' +
+						'<td>22</td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td>44</td>' +
+						'<td>55</td>' +
+					'</tr>' +
+				'</table>' +
+			'</p>',
+			sel = editor.getSelection(),
+			ranges = [],
+			tableCells,
+			curRange,
+			i;
 
 		bender.tools.selection.setWithHtml( editor, input );
 
@@ -217,22 +217,22 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			input = '<table>' +
-						'<tr>' +
-							'<td colspan="2">11</td>' +
-							'<td rowspan="2">22</td>' +
-							'<td>33</td>' +
-						'</tr>' +
-						'<tr>' +
-							'<td>44</td>' +
-							'<td>55</td>' +
-							'<td>66</td>' +
-						'</tr>' +
-					'</table>',
-				sel = editor.getSelection(),
-				ranges = [],
-				tableCells,
-				curRange,
-				i;
+					'<tr>' +
+						'<td colspan="2">11</td>' +
+						'<td rowspan="2">22</td>' +
+						'<td>33</td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td>44</td>' +
+						'<td>55</td>' +
+						'<td>66</td>' +
+					'</tr>' +
+				'</table>',
+			sel = editor.getSelection(),
+			ranges = [],
+			tableCells,
+			curRange,
+			i;
 
 		bender.tools.selection.setWithHtml( editor, input );
 
