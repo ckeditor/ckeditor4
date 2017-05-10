@@ -7,6 +7,7 @@ bender.editors = {
 		name: 'editor',
 		creator: 'inline',
 		config: {
+			tableImprovements: false,
 			allowedContent: true
 		}
 	},
@@ -14,6 +15,7 @@ bender.editors = {
 	editor2: {
 		name: 'editor2',
 		config: {
+			tableImprovements: false,
 			extraPlugins: 'sourcearea'
 		}
 	}
