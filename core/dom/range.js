@@ -2885,7 +2885,7 @@ CKEDITOR.dom.range = function( root ) {
 					// It's not enough to get elements from common ancestor, because it migth contain too many matches.
 					// We need to ensure that returned items are between boundary points.
 					isStartGood = ( curItem.getPosition( boundaries.startNode ) & CKEDITOR.POSITION_FOLLOWING ) || boundaries.startNode.equals( curItem );
-					isEndGood = ( curItem.getPosition( boundaries.endNode ) & ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IS_CONTAINED ) );
+					isEndGood = ( curItem.getPosition( boundaries.endNode ) & ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IS_CONTAINED ) ) || boundaries.endNode.equals( curItem );
 
 					if ( isStartGood && isEndGood ) {
 						ret.push( curItem );
