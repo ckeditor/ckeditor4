@@ -10,15 +10,13 @@
 		classic: {
 			config: {
 				tableImprovements: true
-			},
-			allowedForTests: 'table[width];td[id]'
+			}
 		},
 
 		inline: {
 			config: {
 				tableImprovements: true
 			},
-			allowedForTests: 'table[width];td[id]',
 			creator: 'inline'
 		}
 	};
