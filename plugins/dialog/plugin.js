@@ -3170,7 +3170,6 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				hideCover( this );
 				throw new Error( '[CKEDITOR.dialog.openDialog] Dialog "' + dialogName + '" failed when loading definition.' );
 			} else if ( typeof dialogDefinitions == 'string' ) {
-
 				CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( dialogDefinitions ),
 					function() {
 						var dialogDefinition = CKEDITOR.dialog._.dialogDefinitions[ dialogName ];

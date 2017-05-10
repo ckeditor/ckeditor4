@@ -430,7 +430,6 @@
 										styles && styles.updateStyle('width', this.getValue());
 									},
 									setup: function (selectedTable) {
-										console.log('setup');
 										var val = selectedTable.getStyle('width');
 
 										this.setValue(val);

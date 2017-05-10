@@ -23,14 +23,13 @@
 		},
 
 		init: function( editor ) {
-
 			var lang = editor.lang.placeholder;
 
 			// Register dialog.
 			CKEDITOR.dialog.add( 'placeholder', this.path + 'dialogs/placeholder.js' );
 
 			// Put ur init code here.
-			editor.widgets.add( 'placeholder', {
+			var widget = editor.widgets.add( 'placeholder', {
 				// Widget code.
 				dialog: 'placeholder',
 				pathName: lang.pathName,
@@ -56,9 +55,27 @@
 				}
 			} );
 
+			editor.addCommand('cpplaceholder', {
+				exec: function(e) {
+					var fragment = editor.getSelection().getRanges()[0].extractContents();
+					var container = CKEDITOR.dom.element.createFromHtml('<span class="cke_placeholder" ' +
+						'>[[Company name]]</span>', editor.document);
+
+					fragment.appendTo(container);
+					editor.insertElement(container);
+					editor.widgets.initOn( container, 'placeholder' );
+				}
+			});
+
 			editor.ui.addButton && editor.ui.addButton( 'CreatePlaceholder', {
 				label: lang.toolbar,
 				command: 'placeholder',
+				toolbar: 'insert,5',
+				icon: 'placeholder'
+			} );
+			editor.ui.addButton && editor.ui.addButton( 'CreateCpPlaceholder', {
+				label: lang.toolbar,
+				command: 'cpplaceholder',
 				toolbar: 'insert,5',
 				icon: 'placeholder'
 			} );
