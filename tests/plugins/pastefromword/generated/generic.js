@@ -57,8 +57,8 @@
 			}
 		},
 		customFilters: [
-			pfwTools.filters.span,
-			pfwTools.filters.style
+			pfwTools.filters.style,
+			pfwTools.filters.span
 		],
 		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11
 	} ) );
