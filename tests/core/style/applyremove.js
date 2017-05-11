@@ -4,7 +4,11 @@
 
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			tableImprovements: false
+		}
+	};
 
 	var getInnerHtml = bender.tools.getInnerHtml,
 		fixHtml = bender.tools.fixHtml,
@@ -557,47 +561,6 @@
 				assert.ignore();
 
 			assertAppliedStyle2( playground, { element: 'h1' }, '<p>[]<br></p>', '<h1><br /></h1>' );
-		},
-
-		'test apply to/remove from multiple table cell selection': function() {
-			var editor = this.editor,
-				editorBot = this.editorBot,
-				selection = editor.getSelection(),
-				ranges = [],
-				style = new CKEDITOR.style( { element: 'i' } ),
-				cells,
-				range,
-				i;
-
-			editorBot.setHtmlWithSelection( CKEDITOR.document.getById( 'table' ).getValue() );
-			cells = editor.editable().find( 'td' );
-
-			for ( i = 0; i < cells.count(); i++ ) {
-				range = editor.createRange();
-
-				range.setStartBefore( cells.getItem( i ) );
-				range.setEndAfter( cells.getItem( i ) );
-
-				ranges.push( range );
-			}
-
-			selection.selectRanges( ranges );
-
-			style.apply( editor );
-
-			assert.isTrue( !!selection.isFake, 'selection is fake' );
-			assert.isTrue( selection.isInTable(), 'selection is in table' );
-			assert.areSame( 2, selection.getRanges().length, 'all ranges are selected' );
-			assert.areSame( bender.tools.compatHtml( CKEDITOR.document.getById( 'table-output' ).getValue(), 0, 0, 1 ),
-				editor.getData(), 'test style apply to the editor' );
-
-			style.remove( editor );
-
-			assert.isTrue( !!selection.isFake, 'selection is fake' );
-			assert.isTrue( selection.isInTable(), 'selection is in table' );
-			assert.areSame( 2, selection.getRanges().length, 'all ranges are selected' );
-			assert.areSame( bender.tools.compatHtml( CKEDITOR.document.getById( 'table' ).getValue(), 0, 0, 1 ),
-				editor.getData(), 'test style remove from the editor' );
 		}
 	};
 
