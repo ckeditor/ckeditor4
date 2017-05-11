@@ -250,6 +250,7 @@
 
 			editor.getSelection().removeAllRanges();
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
+
 			assert.pass( 'Error is not thrown' );
 		},
 
