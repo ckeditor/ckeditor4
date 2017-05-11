@@ -686,132 +686,11 @@
 			clearTableSelection( editor.editable() );
 		},
 
-		'Navigating down inside table fake selection': function() {
-			var editor = this.editor,
-				selection = editor.getSelection(),
-				prevented = false,
-				ranges,
-				range;
-
-			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
-
-			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
-
-			selection.selectRanges( ranges );
-
-			// Down arrow.
-			editor.editable().fire( 'keydown', getKeyEvent( 40, function() {
-				prevented = true;
-			} ) );
-
-			assert.isTrue( prevented, 'Default keydown was prevented' );
-
-			assert.isFalse( !!selection.isFake, 'isFake is not set' );
-			assert.isFalse( selection.isInTable(), 'isInTable is false' );
-			assert.areSame( 1, selection.getRanges().length, 'Only one range is selected' );
-
-			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
-			range = selection.getRanges()[ 0 ];
-
-			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( _getTableElementFromRange( range ).equals( ranges[ 1 ].getEnclosedNode() ),
-				'Selection is in the last cell' );
-			assert.isTrue( range.startOffset > 0, 'Range is collapsed to the end' );
-
-			clearTableSelection( editor.editable() );
-		},
-
-		'Deleting content in table fake selection via Backspace': function() {
-			var editor = this.editor,
-				selection = editor.getSelection(),
-				prevented = false,
-				ranges,
-				range,
-				i;
-
-			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
-
-			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
-
-			selection.selectRanges( ranges );
-
-			// Backspace.
-			editor.editable().fire( 'keydown', getKeyEvent( 8, function() {
-				prevented = true;
-			} ) );
-
-			assert.isTrue( prevented, 'Default keydown was prevented' );
-
-			assert.isFalse( !!selection.isFake, 'isFake is not set' );
-			assert.isFalse( selection.isInTable(), 'isInTable is false' );
-			assert.areSame( 1, selection.getRanges().length, 'Only one range is selected' );
-
-			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
-			range = selection.getRanges()[ 0 ];
-
-			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( _getTableElementFromRange( range ).equals( _getTableElementFromRange( ranges[ 0 ] ) ),
-				'Selection is in the first cell' );
-
-			// Check if the content is actually deleted.
-			for ( i = 0; i < ranges.length; i++ ) {
-				if ( bender.tools.compatHtml( _getTableElementFromRange( ranges[ i ] ).getHtml(), 0, 0, 1 ).length > 0 ) {
-					assert.fail( 'Content was not deleted' );
-				}
-			}
-
-			clearTableSelection( editor.editable() );
-		},
-
-		'Deleting content in table fake selection via Delete': function() {
-			var editor = this.editor,
-				selection = editor.getSelection(),
-				prevented = false,
-				ranges,
-				range,
-				i;
-
-			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
-
-			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
-
-			selection.selectRanges( ranges );
-
-			// Delete.
-			editor.editable().fire( 'keydown', getKeyEvent( 46, function() {
-				prevented = true;
-			} ) );
-
-			assert.isTrue( prevented, 'Default keydown was prevented' );
-
-			assert.isFalse( !!selection.isFake, 'isFake is not set' );
-			assert.isFalse( selection.isInTable(), 'isInTable is false' );
-			assert.areSame( 1, selection.getRanges().length, 'Only one range is selected' );
-
-			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
-			range = selection.getRanges()[ 0 ];
-
-			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( _getTableElementFromRange( range ).equals( _getTableElementFromRange( ranges[ 0 ] ) ),
-				'Selection is in the first cell' );
-
-			// Check if the content is actually deleted.
-			for ( i = 0; i < ranges.length; i++ ) {
-				if ( bender.tools.compatHtml( _getTableElementFromRange( ranges[ i ] ).getHtml(), 0, 0, 1 ).length > 0 ) {
-					assert.fail( 'Content was not deleted' );
-				}
-			}
-
-			clearTableSelection( editor.editable() );
-		},
-
 		'Overwriting content in table fake selection via keypress': function() {
 			var editor = this.editor,
 				selection = editor.getSelection(),
 				prevented = false,
-				ranges,
-				range,
-				i;
+				ranges;
 
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
 
@@ -830,19 +709,8 @@
 			assert.isFalse( selection.isInTable(), 'isInTable is false' );
 			assert.areSame( 1, selection.getRanges().length, 'Only one range is selected' );
 
-			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1, 4 ] );
-			range = selection.getRanges()[ 0 ];
-
-			assert.isTrue( !!range.collapsed, 'Range is collapsed' );
-			assert.isTrue( _getTableElementFromRange( range ).equals( _getTableElementFromRange( ranges[ 0 ] ) ),
-				'Selection is in the first cell' );
-
-			// Check if the content is actually ovewritten.
-			for ( i = 0; i < ranges.length; i++ ) {
-				if ( bender.tools.compatHtml( _getTableElementFromRange( ranges[ i ] ).getHtml(), 0, 0, 1 ).length > 0 ) {
-					assert.fail( 'Content was not overwritten' );
-				}
-			}
+			assert.beautified.html( CKEDITOR.document.getById( 'contentOverwritingExpected' ).getHtml(),
+					this.editorBot.htmlWithSelection() );
 
 			clearTableSelection( editor.editable() );
 		},
