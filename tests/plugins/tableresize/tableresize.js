@@ -241,6 +241,7 @@ bender.test( {
 		wait();
 	},
 
+	// #14762
 	'test empty table': function() {
 		var editor = this.editors.classic2;
 
