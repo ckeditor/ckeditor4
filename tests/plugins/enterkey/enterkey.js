@@ -244,6 +244,7 @@
 		},
 		*/
 
+		// #16874
 		'test enter key with no selection': function() {
 			var editor = this.editors.editor;
 			var editable = editor.editable();
