@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'pt-br', {
 	title: 'Formatar Imagem',
 	uploadTab: 'Enviar ao Servidor',
 	urlMissing: 'URL da imagem está faltando.',
-	altMissing: 'Texto alternativo não informado.'
+	altMissing: 'Texto alternativo não preenchido.'
 } );
