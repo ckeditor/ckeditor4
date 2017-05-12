@@ -886,7 +886,8 @@
 		 *		editorInstance.execCommand( 'bold' );
 		 *
 		 * @param {String} commandName The indentifier name of the command.
-		 * @param {Object} [data] The data to be passed to the command.
+		 * @param {Object} [data] The data to be passed to the command. If nothing is passed,
+		 * the empty object will be used from 4.7.0.
 		 * @returns {Boolean} `true` if the command was executed
 		 * successfully, otherwise `false`.
 		 * @see CKEDITOR.editor#addCommand
@@ -896,7 +897,7 @@
 
 			var eventData = {
 				name: commandName,
-				commandData: data,
+				commandData: data || {},
 				command: command
 			};
 
