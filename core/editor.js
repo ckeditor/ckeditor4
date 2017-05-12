@@ -886,10 +886,9 @@
 		 *		editorInstance.execCommand( 'bold' );
 		 *
 		 * @param {String} commandName The identifier name of the command.
-		 * @param {Object} [data] The data to be passed to the command. If nothing is passed,
-		 * the empty object will be used from 4.7.0.
-		 * @returns {Boolean} `true` if the command was executed
-		 * successfully, otherwise `false`.
+		 * @param {Object} [data] The data to be passed to the command. It defaults to
+		 * an empty object starting from 4.7.0.
+		 * @returns {Boolean} `true` if the command was executed successfully, `false` otherwise.
 		 * @see CKEDITOR.editor#addCommand
 		 */
 		execCommand: function( commandName, data ) {
