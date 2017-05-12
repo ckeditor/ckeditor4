@@ -50,6 +50,7 @@ Fixed Issues:
 * [#16927](https://dev.ckeditor.com/ticket/16927): Fixed: An error thrown if a bundle containing the [Color Button](http://ckeditor.com/addon/colorbutton) plugin is run in ES5 strict mode. Thanks to [Igor Rubinovich](https://github.com/IgorRubinovich)!
 * [#16920](http://dev.ckeditor.com/ticket/16920): Fixed: Several plugins not using the [Dialog](http://ckeditor.com/addon/dialog) plugin as a direct dependency.
 * [PR#336](https://github.com/ckeditor/ckeditor-dev/pull/336): Fixed: Typo in [`CKEDITOR.getCss`](http://docs.ckeditor.com/#!/api/CKEDITOR-method-getCss) API docs. Thanks to [knusperpixel](https://github.com/knusperpixel)!
+* [#17027](http://dev.ckeditor.com/ticket/17027): Fixed: Commands event data should be initialized as an empty object.
 
 Other Changes:
 
