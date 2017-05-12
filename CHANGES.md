@@ -58,6 +58,7 @@ Other Changes:
 * [#16958](http://dev.ckeditor.com/ticket/16958): Switched the default MathJax CDN provider for the [Mathematical Formulas](http://ckeditor.com/addon/mathjax) plugin from `cdn.mathjax.org` to [cdnjs](https://cdnjs.com/), due to closing of `cdn.mathjax.org` scheduled for April 30, 2017.
 * [#16954](http://dev.ckeditor.com/ticket/16954): Removed the paste dialog.
 * [#16982](http://dev.ckeditor.com/ticket/16982): Latest Safari now supports enhanced clipboard API introduced in CKEditor 4.5.0.
+* [#17025](http://dev.ckeditor.com/ticket/17025): Upgraded [Bender.js](https://github.com/benderjs/benderjs) to 0.4.2.
 
 ## CKEditor 4.6.2
 
