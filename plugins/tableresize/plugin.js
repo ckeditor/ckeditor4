@@ -73,49 +73,51 @@
 			pillarHeight += table.$.tFoot.offsetHeight;
 		}
 
-		// Loop thorugh all cells, building pillars after each one of them.
-		for ( var i = 0, len = $tr.cells.length; i < len; i++ ) {
-			// Both the current cell and the successive one will be used in the
-			// pillar size calculation.
-			var td = new CKEDITOR.dom.element( $tr.cells[ i ] ),
-				nextTd = $tr.cells[ i + 1 ] && new CKEDITOR.dom.element( $tr.cells[ i + 1 ] );
+		if ( $tr ) {
+			// Loop thorugh all cells, building pillars after each one of them.
+			for ( var i = 0, len = $tr.cells.length; i < len; i++ ) {
+				// Both the current cell and the successive one will be used in the
+				// pillar size calculation.
+				var td = new CKEDITOR.dom.element( $tr.cells[ i ] ),
+					nextTd = $tr.cells[ i + 1 ] && new CKEDITOR.dom.element( $tr.cells[ i + 1 ] );
 
-			pillarIndex += td.$.colSpan || 1;
+				pillarIndex += td.$.colSpan || 1;
 
-			// Calculate the pillar boundary positions.
-			var pillarLeft, pillarRight, pillarWidth;
+				// Calculate the pillar boundary positions.
+				var pillarLeft, pillarRight, pillarWidth;
 
-			var x = td.getDocumentPosition().x;
+				var x = td.getDocumentPosition().x;
 
-			// Calculate positions based on the current cell.
-			rtl ? pillarRight = x + getBorderWidth( td, 'left' ) : pillarLeft = x + td.$.offsetWidth - getBorderWidth( td, 'right' );
+				// Calculate positions based on the current cell.
+				rtl ? pillarRight = x + getBorderWidth( td, 'left' ) : pillarLeft = x + td.$.offsetWidth - getBorderWidth( td, 'right' );
 
-			// Calculate positions based on the next cell, if available.
-			if ( nextTd ) {
-				x = nextTd.getDocumentPosition().x;
+				// Calculate positions based on the next cell, if available.
+				if ( nextTd ) {
+					x = nextTd.getDocumentPosition().x;
 
-				rtl ? pillarLeft = x + nextTd.$.offsetWidth - getBorderWidth( nextTd, 'right' ) : pillarRight = x + getBorderWidth( nextTd, 'left' );
+					rtl ? pillarLeft = x + nextTd.$.offsetWidth - getBorderWidth( nextTd, 'right' ) : pillarRight = x + getBorderWidth( nextTd, 'left' );
+				}
+				// Otherwise calculate positions based on the table (for last cell).
+				else {
+					x = table.getDocumentPosition().x;
+
+					rtl ? pillarLeft = x : pillarRight = x + table.$.offsetWidth;
+				}
+
+				pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
+
+				// The pillar should reflects exactly the shape of the hovered
+				// column border line.
+				pillars.push( {
+					table: table,
+					index: pillarIndex,
+					x: pillarLeft,
+					y: pillarPosition.y,
+					width: pillarWidth,
+					height: pillarHeight,
+					rtl: rtl
+				} );
 			}
-			// Otherwise calculate positions based on the table (for last cell).
-			else {
-				x = table.getDocumentPosition().x;
-
-				rtl ? pillarLeft = x : pillarRight = x + table.$.offsetWidth;
-			}
-
-			pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
-
-			// The pillar should reflects exactly the shape of the hovered
-			// column border line.
-			pillars.push( {
-				table: table,
-				index: pillarIndex,
-				x: pillarLeft,
-				y: pillarPosition.y,
-				width: pillarWidth,
-				height: pillarHeight,
-				rtl: rtl
-			} );
 		}
 
 		return pillars;
