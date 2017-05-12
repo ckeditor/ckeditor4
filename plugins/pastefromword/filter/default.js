@@ -477,6 +477,10 @@
 					matchStyle( styleValue )
 				) {
 					delete styles[ keys[ i ] ];
+				} else {
+					if (styleName === 'font-family') {
+						styles[ keys[ i ] ] = styleValue.split(',')[0]
+					}
 				}
 			}
 			return CKEDITOR.tools.writeCssText( styles );
