@@ -1,5 +1,5 @@
 /* bender-tags: editor,table */
-/* bender-ckeditor-plugins: basicstyles,undo,table,tabletools,sourcearea,toolbar */
+/* bender-ckeditor-plugins: basicstyles,undo,tableselection,sourcearea,toolbar */
 
 ( function() {
 	'use strict';
