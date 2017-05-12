@@ -1573,7 +1573,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * @member CKEDITOR.config
  */
 
- /**
+/**
  * Customizes the {@link CKEDITOR.editor#title human-readable title} of this editor. This title is displayed in
  * tooltips and impacts various [accessibility aspects](#!/guide/dev_a11y-section-announcing-the-editor-on-the-page),
  * e.g. it is commonly used by screen readers for distinguishing editor instances and for navigation.
