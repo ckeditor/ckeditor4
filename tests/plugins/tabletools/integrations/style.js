@@ -37,16 +37,16 @@
 			assert.isTrue( !!selection.isFake, 'selection is fake' );
 			assert.isTrue( selection.isInTable(), 'selection is in table' );
 			assert.areSame( 2, selection.getRanges().length, 'all ranges are selected' );
-			assert.areSame( bender.tools.compatHtml( CKEDITOR.document.getById( 'table-output' ).getValue(), 0, 0, 1 ),
-				editor.getData(), 'test style apply to the editor' );
+			assert.beautified.html( CKEDITOR.document.getById( 'table-output' ).getValue(), editor.getData(),
+				'test style apply to the editor' );
 
 			style.remove( editor );
 
 			assert.isTrue( !!selection.isFake, 'selection is fake' );
 			assert.isTrue( selection.isInTable(), 'selection is in table' );
 			assert.areSame( 2, selection.getRanges().length, 'all ranges are selected' );
-			assert.areSame( bender.tools.compatHtml( CKEDITOR.document.getById( 'table' ).getValue(), 0, 0, 1 ),
-				editor.getData(), 'test style remove from the editor' );
+			assert.beautified.html( CKEDITOR.document.getById( 'table' ).getValue(), editor.getData(),
+				'test style remove from the editor' );
 		}
 	};
 
