@@ -610,7 +610,7 @@
 
 		editor.on( 'afterCommandExec', function( evt ) {
 			if ( CKEDITOR.tools.array.indexOf( cmds, evt.data.name ) !== -1 ) {
-				callback( editor, selectedCells );
+				callback( editor, selectedCells, evt.data );
 
 				selectedCells = null;
 			}
@@ -668,13 +668,18 @@
 				'rowInsertAfter',
 				'columnInsertBefore',
 				'columnInsertAfter',
-				'cellMerge',
-				'cellMergeRight',
-				'cellMergeDown',
 				'cellInsertBefore',
 				'cellInsertAfter'
 			], function( editor, cells ) {
 				fakeSelectCells( editor, cells );
+			} );
+
+			hijackTabletoolsCmd( editor, [
+				'cellMerge',
+				'cellMergeRight',
+				'cellMergeDown'
+			], function( editor, cells, data ) {
+				fakeSelectCells( editor, [ data.commandData.cell ] );
 			} );
 
 			hijackTabletoolsCmd( editor, [
