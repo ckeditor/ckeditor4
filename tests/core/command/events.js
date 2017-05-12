@@ -43,15 +43,16 @@
 			this.editor.once( 'beforeCommandExec', function( evt ) {
 				beforeExecData = evt.data.commandData;
 
-				assert.isObject( beforeExecData, 'Event data is initialized as an empty object.' );
-			}, null, null, 1 );
+				assert.isObject( beforeExecData, 'Event data is initialized as an empty object' );
+			} );
 
 			this.editor.once( 'afterCommandExec', function( evt ) {
-				assert.areSame( beforeExecData, evt.data.commandData, 'The same object is passed to afterCommandExec.' );
-			}, null, null, 1 );
+				assert.areSame( beforeExecData, evt.data.commandData, 'The same object is passed to afterCommandExec' );
+			} );
 
 			this.editor.addCommand( 'dataFlow', {
-				exec: function() {
+				exec: function( editor, data ) {
+					assert.areSame( beforeExecData, data, 'Same object is given as data' );
 				}
 			} );
 
