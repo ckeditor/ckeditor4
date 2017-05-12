@@ -920,31 +920,36 @@
 			addCmd( 'cellMerge', createDef( {
 				allowedContent: 'td[colspan,rowspan]',
 				requiredContent: 'td[colspan,rowspan]',
-				exec: function( editor ) {
+				exec: function( editor, data ) {
 					var cell = mergeCells( editor.getSelection() );
 
 					placeCursorInCell( cell, true );
 
+					data.cell = cell;
 				}
 			} ) );
 
 			addCmd( 'cellMergeRight', createDef( {
 				allowedContent: 'td[colspan]',
 				requiredContent: 'td[colspan]',
-				exec: function( editor ) {
+				exec: function( editor, data ) {
 					var cell = mergeCells( editor.getSelection(), 'right' );
 
 					placeCursorInCell( cell, true );
+
+					data.cell = cell;
 				}
 			} ) );
 
 			addCmd( 'cellMergeDown', createDef( {
 				allowedContent: 'td[rowspan]',
 				requiredContent: 'td[rowspan]',
-				exec: function( editor ) {
+				exec: function( editor, data ) {
 					var cell = mergeCells( editor.getSelection(), 'down' );
 
 					placeCursorInCell( cell, true );
+
+					data.cell = cell;
 				}
 			} ) );
 
