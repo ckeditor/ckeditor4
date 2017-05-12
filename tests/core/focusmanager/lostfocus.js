@@ -17,10 +17,13 @@ bender.test({
 		var element = editor.editable().findOne('strong');
 		var selection = editor.getSelection();
 		selection.selectElement(element);
-
 		wait( function() {
-			assert.areSame('Range', editor.window.$.getSelection().type );
-		}, 200);
+			// refresh selection
+			var sel = editor.getSelection();
+			sel.unlock();
+			sel.reset();
+			assert.isInnerHtmlMatching( '<p>foo [<strong>bar</strong>]@</p>', bender.tools.range.getWithHtml( editor.editable(), sel.getRanges()[0] ) );
+		}, 210);
 
 	}
 });
