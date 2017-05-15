@@ -177,10 +177,14 @@
 
 		refresh: function( editor, path ) {
 			var firstBlock = path.block || path.blockLimit;
-			// debugger;
-			// console.log( firstBlock.getName()+'('+this.cssClassName+'): '+ editor.activeFilter.check( firstBlock.getName()+'('+this.cssClassName+')' ) );
-			if ( editor.activeFilter.check( firstBlock.getName()+'{text-align}' ) || editor.activeFilter.check( firstBlock.getName()+'('+this.cssClassName+')' ) ) {
-				this.setState( firstBlock.getName() != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			var name = firstBlock.getName();
+
+			// find if we can give to element proper class or style or we are in br mode with selected body (to display justify buttons in br mode)
+			if ((this.cssClassName && editor.activeFilter.check( name+'('+this.cssClassName+')' )) ||
+				editor.activeFilter.check( name+'{text-align}' ) ||
+				( editor.config.enterMode === CKEDITOR.ENTER_BR && name === 'body' ))
+			{
+				this.setState( name != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			} else {
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
