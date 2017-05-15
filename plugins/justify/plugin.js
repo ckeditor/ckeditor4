@@ -37,7 +37,6 @@
 		this.name = name;
 		this.value = value;
 		this.context = 'p';
-
 		var classes = editor.config.justifyClasses,
 			blockTag = editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div';
 
@@ -178,8 +177,13 @@
 
 		refresh: function( editor, path ) {
 			var firstBlock = path.block || path.blockLimit;
-
-			this.setState( firstBlock.getName() != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			// debugger;
+			// console.log( firstBlock.getName()+'('+this.cssClassName+'): '+ editor.activeFilter.check( firstBlock.getName()+'('+this.cssClassName+')' ) );
+			if ( editor.activeFilter.check( firstBlock.getName()+'{text-align}' ) || editor.activeFilter.check( firstBlock.getName()+'('+this.cssClassName+')' ) ) {
+				this.setState( firstBlock.getName() != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			} else {
+				this.setState( CKEDITOR.TRISTATE_DISABLED );
+			}
 		}
 	};
 
@@ -225,7 +229,6 @@
 					toolbar: 'align,40'
 				} );
 			}
-
 			editor.on( 'dirChanged', onDirChanged );
 		}
 	} );
