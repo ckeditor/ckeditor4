@@ -1,8 +1,8 @@
 1. **What type of issue would you like to report**?
 
-[ ] Bug
-[ ] Feature request
-[ ] Other, please explain:
+- [ ] Bug
+- [ ] Feature request
+- [ ] Other, please explain:
 
 2. **Check if the problem you are trying to report is already reported**.
 
