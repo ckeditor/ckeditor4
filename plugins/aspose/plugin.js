@@ -1,6 +1,7 @@
 (function() {
 	var removePgbrReg = /<pgbr[^>][^>]*>(.*?)<\/pgbr>/g;
 	var STYLES_THAT_NEED_SET_AS_DEFAULT = ['font-size', 'font-weight', 'font-family', 'font-style'];
+	var throttle = false;
 
 	function defaultStyle(editor, defaultStyles) {
 		var self = this;
@@ -35,7 +36,7 @@
 			errors.push(POSSIBLE_ERRORS[0])
 		}
 
-		if ($editor.find('* table').length) {
+		if ($editor.find('* table').length && $editor.text().length > $editor.find('table').text().length) {
 			errors.push(POSSIBLE_ERRORS[1])
 		}
 
@@ -141,7 +142,11 @@
 					var $editor = $(editor.editable().$);
 					var errors = validateParagraph($editor);
 
-					if (errors.length) {
+					if (errors.length && !throttle) {
+						throttle = true;
+
+						setTimeout(function() {throttle = false}, 2000);
+
 						CKEDITOR._.errors = errors;
 						CKEDITOR.dialog.getCurrent() || editor.openDialog('singleParagraphValidate');
 					}

@@ -29,9 +29,9 @@
 				}
 			],
 			onOk: function() {
-				var $content = $(editor.element.$);
+				var $editor = $(editor.editable().$).clone();
 
-				useOnlyOneParagraph($content);
+				useOnlyOneParagraph(editor, $editor);
 			},
 			onCancel: function() {
 				editor.execCommand('undo');
@@ -40,7 +40,7 @@
 	} );
 })();
 
-function useOnlyOneParagraph($html) {
+function useOnlyOneParagraph(editor, $html) {
 	$html.find('div').replaceWith(function() {
 		return this.innerHTML;
 	});
@@ -51,11 +51,10 @@ function useOnlyOneParagraph($html) {
 	children = $html.children();
 
 	if (children.length > 1 && ['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(children[0].tagName) !== -1) {
+		$html.find('table').remove();
 		children.each(function(index) {
 			if (['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(this.tagName) !== -1) {
 				innerHTML += this.innerHTML;
-			} else if (this.tagName === 'TABLE') {
-				// don't copy table
 			} else if (['UL', 'OL'].indexOf(this.tagName) !== -1) {
 				for(var i = 0; i < this.children.length; i++) {
 					innerHTML += this.children[i].innerHTML;
@@ -76,5 +75,9 @@ function useOnlyOneParagraph($html) {
 		});
 
 		children[0].innerHTML = innerHTML;
+	} else if(children[0].tagName !== 'table' && $html.text().length > $html.find('table').text().length) {
+		$html.find('table').remove();
 	}
+
+	editor.setData($html.html());
 }
