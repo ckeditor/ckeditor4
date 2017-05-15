@@ -138,12 +138,12 @@
 
 			if (config.singleParagraphEdit) {
 				editor.on('change', function() {
-					var $editor = $(editor.element.$);
+					var $editor = $(editor.editable().$);
 					var errors = validateParagraph($editor);
 
 					if (errors.length) {
 						CKEDITOR._.errors = errors;
-						editor.openDialog('singleParagraphValidate');
+						CKEDITOR.dialog.getCurrent() || editor.openDialog('singleParagraphValidate');
 					}
 				});
 

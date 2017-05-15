@@ -57,9 +57,9 @@ function useOnlyOneParagraph($html) {
 			} else if (this.tagName === 'TABLE') {
 				// don't copy table
 			} else if (['UL', 'OL'].indexOf(this.tagName) !== -1) {
-				_.forEach(this.children, function(child, i) {
-					innerHTML += child.innerHTML;
-				})
+				for(var i = 0; i < this.children.length; i++) {
+					innerHTML += this.children[i].innerHTML;
+				}
 			} else {
 				innerHTML += this.outerHTML;
 			}
