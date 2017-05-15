@@ -22,7 +22,7 @@
 
 		'test selectall integration': function() {
 			var editor = this.editor,
-				// Safari will put the selection inside of filler div.
+				// Chrome/Safari will put the selection inside of a filler div.
 				expected = '<div data-cke-filler-webkit="start" data-cke-temp="1" style="border:0px; ' +
 					'display:block; height:0px; left:-9999px; margin:0px; opacity:0; overflow:hidden; ' +
 					'padding:0px; position:absolute; top:0px; width:0px">[&nbsp;' +
