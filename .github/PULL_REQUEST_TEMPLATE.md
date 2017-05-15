@@ -1,5 +1,3 @@
-**Please follow the below guidelines to make sure your pull request meets the characteristics of a high quality PR:**
-
 1. *What is the purpose of this pull request*?
 
 [ ] Bug fix
@@ -11,9 +9,10 @@
 
 If your pull request is a **Bug fix** or a **New feature** please look for the existing issues covering the same case.
 First look on the [GitHub issue page](https://github.com/ckeditor/ckeditor-dev/issues) and then, if nothing was found,
-look in [our former bug reporting system](http://dev.ckeditor.com).
+look in [CKEditor former bug reporting system](http://dev.ckeditor.com).
 Finally, if this is the new case, please [create a new issue](https://github.com/ckeditor/ckeditor-dev/issues/new).
-Paste references (links) to all found issues below:
+
+Paste references (links) to all related issues here:
 
 3. *Does your PR contains necessary tests*?
 
@@ -25,7 +24,7 @@ in official CKEditor docs.
 
 Remember that you can always [propose an incomplete patch](http://docs.ckeditor.com/#!/guide/dev_contributing_code-section-proposing-incomplete-patches).
 If you have, for example, problem with writing tests you can submit an incomplete PR and the CKEditor development team will
-be happy to help solve the issue and complete the PR.
+be happy to help you solve the issue and complete the PR.
 
 4. *What changes did you make?*
 

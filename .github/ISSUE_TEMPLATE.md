@@ -7,13 +7,13 @@
 2. *Check if the problem you are trying to report is already reported*.
 
 Please look for the existing issues covering the same case. First look on the [GitHub issue page](https://github.com/ckeditor/ckeditor-dev/issues)
-and then, if nothing was found, look in [our former bug reporting system](http://dev.ckeditor.com).
+and then, if nothing was found, look in [CKEditor former bug reporting system](http://dev.ckeditor.com).
 
 If there is already an issue reported on [GitHub issue page](https://github.com/ckeditor/ckeditor-dev/issues) there is no
 need to create a duplicate. Just add your reaction (+1) there to upvote the issue. If you have any additional comments you
 may also add it there.
 
-If you found any similar issues in [our former bug reporting system](http://dev.ckeditor.com),
+If you found any similar issues in [CKEditor former bug reporting system](http://dev.ckeditor.com),
 please add all references (links) below:
 
 3. *If you are reporting a bug, provide a reproduction steps*.
