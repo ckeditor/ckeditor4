@@ -40,5 +40,12 @@ please add all references (links) below:
 1. Installed CKEditor plugins: ...
 
 
-4. *Additional comments*
+3. *If you are requesting a feature or have any other use case, provide a comprehensive description*.
 
+**Overview of the changes you would like to see.**
+
+*Describe how the new feature should work.*
+
+**What is your use case / what problem are you trying to solve?**
+
+*Describe the problem you are facing.*
