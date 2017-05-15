@@ -68,7 +68,7 @@ Read more on how to set up the environment and execute tests in the [CKEditor Te
 
 ## Reporting Issues
 
-Please use the [CKEditor Developer Center](https://dev.ckeditor.com/) to report bugs and feature requests.
+Please use the [CKEditor GitHub issue page](https://github.com/ckeditor/ckeditor-dev/issues) to report bugs and feature requests.
 
 ## License
 
