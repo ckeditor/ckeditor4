@@ -154,6 +154,11 @@
 		'tests updating filler references on undo flow': function() {
 			var editor = this.editor;
 
+			if ( CKEDITOR.env.chrome ) {
+				// #17029
+				assert.ignore();
+			}
+
 			bender.tools.selection.setWithHtml( editor, '<p contenteditable="false">NE</p><p>Text1</p>' );
 			this.fireSelectAll( editor );
 
