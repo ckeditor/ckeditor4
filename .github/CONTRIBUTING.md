@@ -14,8 +14,8 @@ If you would like to contribute in any other way, you can consider the following
 
 1. Create your own [plugins](http://docs.ckeditor.com/#!/guide/plugin_sdk_sample) or [skins](http://docs.ckeditor.com/#!/guide/skin_sdk_intro)
 and submit them to [CKEditor Add-Ons Repository](http://ckeditor.com/addons/plugins).
-1. Help localize CKEditor into your native language and update existing localizations by joining us at the
+2. Help localize CKEditor into your native language and update existing localizations by joining us at the
 [CKEditor UI Translation Center](https://www.transifex.com/ckeditor/ckeditor/).
-1. Join StackOverflow and share your knowledge with [fellow CKEditor users and developers](http://stackoverflow.com/questions/tagged/ckeditor).
+3. Join StackOverflow and share your knowledge with [fellow CKEditor users and developers](http://stackoverflow.com/questions/tagged/ckeditor).
 
 **Your help will be much appreciated!**
