@@ -1,11 +1,11 @@
-1. *What is the purpose of this pull request*?
+1. **What is the purpose of this pull request**?
 
 [ ] Bug fix
 [ ] New feature
 [ ] Typo fix
 [ ] Other, please explain:
 
-2. *Check if the problem you are trying to solve is already reported*.
+2. **Check if the problem you are trying to solve is already reported**.
 
 If your pull request is a **Bug fix** or a **New feature** please look for the existing issues covering the same case.
 First look on the [GitHub issue page](https://github.com/ckeditor/ckeditor-dev/issues) and then, if nothing was found,
@@ -14,7 +14,7 @@ Finally, if this is the new case, please [create a new issue](https://github.com
 
 Paste references (links) to all related issues here:
 
-3. *Does your PR contains necessary tests*?
+3. **Does your PR contains necessary tests**?
 
 All patches which change the editor code must include tests. You can always read more
 on [PR testing](http://docs.ckeditor.com/#!/guide/dev_contributing_code-section-tests),
@@ -26,8 +26,8 @@ Remember that you can always [propose an incomplete patch](http://docs.ckeditor.
 If you have, for example, problem with writing tests you can submit an incomplete PR and the CKEditor development team will
 be happy to help you solve the issue and complete the PR.
 
-4. *What changes did you make?*
+4. **What changes did you make?**
 
-Give an overview...
+*Give an overview...*
 
 **Thank you for contributing!**
