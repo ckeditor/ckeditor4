@@ -39,10 +39,12 @@ is there but not in GitHub, put a reference link to the original Trac issue.
 
 ## If you are requesting a feature or have any other use case:
 
+### What is your use case / what problem are you trying to solve?
+
+*Describe the problem you are facing.*
+
 ### Provide an overview of the changes you would like to see.
 
 *Describe how the new feature should work.*
 
-### What is your use case / what problem are you trying to solve?
 
-*Describe the problem you are facing.*

@@ -29,6 +29,11 @@ Remember that you can always [propose an incomplete patch](http://docs.ckeditor.
 If you have, for example, problem with writing tests you can submit an incomplete PR and the CKEditor development team will
 be happy to help you solve the issue and complete the PR.
 
+### This PR contains
+
+- [ ] Unit tests
+- [ ] Manual tests
+
 ## What changes did you make?
 
 *Give an overview...*
