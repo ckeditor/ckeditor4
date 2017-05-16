@@ -574,10 +574,10 @@
 		elements: {
 			// Prevent iframe's src attribute with javascript code or data protocol from being evaluated in the editable.
 			iframe: function( element ) {
-				if ( element.attributes ) {
+				if ( element.attributes && element.attributes.src ) {
 
-					var src = element.attributes.src && element.attributes.src.toLowerCase().replace( /[^a-z]/gi, '' );
-					if ( src && ( src.indexOf( 'javascript' ) === 0 || src.indexOf( 'data' ) === 0 ) ) {
+					var src = element.attributes.src.toLowerCase().replace( /[^a-z]/gi, '' );
+					if ( src.indexOf( 'javascript' ) === 0 || src.indexOf( 'data' ) === 0 ) {
 						element.attributes[ 'data-cke-pa-src' ] = element.attributes.src;
 						delete element.attributes.src;
 					}
