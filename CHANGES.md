@@ -42,6 +42,7 @@ Fixed Issues:
 * [#16810](http://dev.ckeditor.com/ticket/16810): Fixed: Vertical align in tables is not supported by the [Paste from Word](http://ckeditor.com/addon/pastefromword) plugin.
 * [#11956](http://dev.ckeditor.com/ticket/11956): [Blink, IE] Fixed: [Link](http://ckeditor.com/addon/link) dialog does not open on a double click on the second word of the link with a background color or other styles.
 * [#10472](http://dev.ckeditor.com/ticket/10472): Fixed: Unable to use [Table Resize](http://ckeditor.com/addon/tableresize) on table header and footer.
+* [#14762](http://dev.ckeditor.com/ticket/14762): Fixed: Hovering over an empty table (without rows or cells) throws an error when the [Table Resize](http://ckeditor.com/addon/tableresize) plugin is active.
 * [#16777](https://dev.ckeditor.com/ticket/16777): [Edge] Fixed: The [Clipboard](http://ckeditor.com/addon/clipboard) plugin does not allow to drop widgets into the editor.
 * [#14894](https://dev.ckeditor.com/ticket/14894): [Chrome] Fixed: The editor scrolls to the top after focusing or when a dialog is opened.
 * [#14769](https://dev.ckeditor.com/ticket/14769): Fixed: URLs with '-' in host are not detected by the [Auto Link](http://ckeditor.com/addon/autolink) plugin.
@@ -50,8 +51,7 @@ Fixed Issues:
 * [#16927](https://dev.ckeditor.com/ticket/16927): Fixed: An error thrown if a bundle containing the [Color Button](http://ckeditor.com/addon/colorbutton) plugin is run in ES5 strict mode. Thanks to [Igor Rubinovich](https://github.com/IgorRubinovich)!
 * [#16920](http://dev.ckeditor.com/ticket/16920): Fixed: Several plugins not using the [Dialog](http://ckeditor.com/addon/dialog) plugin as a direct dependency.
 * [PR#336](https://github.com/ckeditor/ckeditor-dev/pull/336): Fixed: Typo in [`CKEDITOR.getCss`](http://docs.ckeditor.com/#!/api/CKEDITOR-method-getCss) API docs. Thanks to [knusperpixel](https://github.com/knusperpixel)!
-* [#17027](http://dev.ckeditor.com/ticket/17027): Fixed: Commands event data should be initialized as an empty object.
-* [#14762](http://dev.ckeditor.com/ticket/14762): Fixed: Hovering over the empty table (without rows/cells) does not throw an error anymore when [Table Resize](http://ckeditor.com/addon/tableresize) plugin is active.
+* [#17027](http://dev.ckeditor.com/ticket/17027): Fixed: Command event data should be initialized as an empty object.
 
 Other Changes:
 
@@ -59,8 +59,8 @@ Other Changes:
 	* Fixed: DOM Exception after clicking "Remove Language" on a selected word with enabled [Language](http://ckeditor.com/addon/language) plugin in SCAYT.
 * [#16958](http://dev.ckeditor.com/ticket/16958): Switched the default MathJax CDN provider for the [Mathematical Formulas](http://ckeditor.com/addon/mathjax) plugin from `cdn.mathjax.org` to [cdnjs](https://cdnjs.com/), due to closing of `cdn.mathjax.org` scheduled for April 30, 2017.
 * [#16954](http://dev.ckeditor.com/ticket/16954): Removed the paste dialog.
-* [#16982](http://dev.ckeditor.com/ticket/16982): Latest Safari now supports enhanced clipboard API introduced in CKEditor 4.5.0.
-* [#17025](http://dev.ckeditor.com/ticket/17025): Upgraded [Bender.js](https://github.com/benderjs/benderjs) to 0.4.2.
+* [#16982](http://dev.ckeditor.com/ticket/16982): Latest Safari now supports enhanced Clipboard API introduced in CKEditor 4.5.0.
+* [#17025](http://dev.ckeditor.com/ticket/17025): Updated [Bender.js](https://github.com/benderjs/benderjs) to 0.4.2.
 
 ## CKEditor 4.6.2
 
