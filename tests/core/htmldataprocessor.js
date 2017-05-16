@@ -1318,14 +1318,23 @@
 		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>',
 		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>' );
 	addXssTC( tcs, 'iframe with src=javascript 2',
-		'<p><iframe src="&#10;&#106;avascript:window.parent.%xss%;"></iframe></p>',
-		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>' );
-	addXssTC( tcs, 'iframe with src=javascript 3',
-		'<p><iframe src="   jAvAsCrIpT:window.parent.%xss%;"></iframe></p>',
-		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>' );
-	addXssTC( tcs, 'iframe with src=javascript 4',
 		'<p><iframe src="jav	ascript:window.parent.%xss%;"></iframe></p>',
 		'<p><iframe src="jav	ascript:window.parent.%xss%;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe with src=javascript 3',
+		'<p><iframe src="   jAvAsCrIpT:window.parent.%xss%;"></iframe></p>',
+		// Only WebKit removes preceding spaces in the attribute.
+		'<p><iframe src="' + ( CKEDITOR.env.webkit ? '' : '   ' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
+
+	// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in Edge/IE8.
+	// IE8 treats it as an URL and opens it which reloads the whole page.
+	// While on Edge the tests passes, the browser prompts with "open as" dialog.
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 || CKEDITOR.env.edge ) {
+		addXssTC( tcs, 'iframe with src=javascript 4',
+			'<p><iframe src="&#10;&#106;javascript:window.parent.%xss%;"></iframe></p>',
+			// In IE9 the new line entity (&#10;) is removed.
+			'<p><iframe src="' + ( CKEDITOR.env.ie && CKEDITOR.env.version == 9 ? '' : '\n' ) + 'jjavascript:window.parent.%xss%;"></iframe></p>' );
+	}
 
 	addXssTC( tcs, 'iframe with src=data 1',
 		'<p><iframe src="' + getDataString( 'window.parent.parent.%xss%' ) + '"></iframe></p>', false );
