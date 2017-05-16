@@ -5,8 +5,7 @@ anyone to download, use, and customize. It has an amazing community around it th
 There are a few guidelines that we need contributors to follow so that the workflow is as smooth and efficient as possible.
 
 If you would like to report an issue please follow the instructions in our official docs on
-[bug reporting](http://docs.ckeditor.com/#!/guide/dev_issues_readme) and
-[feature requests](http://docs.ckeditor.com/#!/guide/dev_feature_requests_readme).
+[bug reporting and feature requests](http://docs.ckeditor.com/#!/guide/dev_issues_readme).
 
 If you are preparing a pull request, see the [guides on contributing](http://docs.ckeditor.com/#!/guide/dev_contributing_code).
 
