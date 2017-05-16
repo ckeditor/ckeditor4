@@ -252,5 +252,66 @@ bender.test(
 		bot.setHtmlWithSelection( '[<p><span contenteditable="false">foo</span></p>]' );
 		bot.execCommand( 'justifyright' );
 		assert.areSame( '<p style="text-align:right;"><span contenteditable="false">foo</span></p>', bot.getData( true ) );
+	},
+
+	'test alignment on disabled elements inline': function() {
+		var	tc = this;
+		bender.editorBot.create({
+			name: 'editor_p_1',
+			config: {
+				plugins: 'justify,toolbar',
+				allowedContent: 'p ul{text-align};li;'
+			}
+		}, function( bot ) {
+		var editor = bot.editor;
+		bot.setHtmlWithSelection( '<p>Foo</p><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
+		tc.assertCommandState( 0,0,0,0, editor );
+
+		bot.setHtmlWithSelection( '<p>Fo^o</p><ul><li>one</li><li>two</li><li>three</li></ul>' );
+		tc.assertCommandState( 1,2,2,2, editor );
+
+
+		});
+	},
+
+	'test alignment on disabled elements div mode': function() {
+		var tc = this;
+		bender.editorBot.create({
+			name: 'editor_div_1',
+			config: {
+				plugins: 'justify,toolbar',
+				allowedContent: 'div ul{text-align};li;',
+				enterMode: CKEDITOR.ENTER_DIV
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+			bot.setHtmlWithSelection( '<div>Foo</div><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
+			tc.assertCommandState( 0,0,0,0, editor );
+		});
+	},
+
+	'test alignment on disabled elements br mode': function() {
+		var tc = this;
+		bender.editorBot.create({
+			name: 'editor_br_1',
+			config: {
+				plugins: 'justify,toolbar',
+				allowedContent: 'div ul{text-align};li;',
+				enterMode: CKEDITOR.ENTER_BR
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			bot.setHtmlWithSelection( 'Foo<ul><li>on^e</li><li>two</li><li>three</li></ul>' );
+			tc.assertCommandState( 0,0,0,0, editor );
+
+			bot.setHtmlWithSelection( 'F^oo<ul><li>one</li><li>two</li><li>three</li></ul>' );
+			tc.assertCommandState( 2,2,2,2, editor );
+
+			bot.execCommand( 'justifyblock' );
+			tc.assertCommandState( 2,2,2,1, editor );
+
+			assert.areSame( '<div style="text-align:justify;">foo</div><ul><li>one</li><li>two</li><li>three</li></ul>', bot.getData( true ) );
+		});
 	}
 } );
