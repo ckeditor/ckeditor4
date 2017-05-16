@@ -23,7 +23,7 @@ All patches which change the editor code must include tests. You can always read
 on [PR testing](http://docs.ckeditor.com/#!/guide/dev_contributing_code-section-tests),
 [how to set the testing environment](http://docs.ckeditor.com/#!/guide/dev_tests) and
 [how to create tests](http://docs.ckeditor.com/#!/guide/dev_tests-section-creating-your-own-test)
-in official CKEditor docs.
+in the official CKEditor docs.
 
 Remember that you can always [propose an incomplete patch](http://docs.ckeditor.com/#!/guide/dev_contributing_code-section-proposing-incomplete-patches).
 If you have, for example, problem with writing tests you can submit an incomplete PR and the CKEditor development team will
