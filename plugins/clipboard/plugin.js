@@ -2773,7 +2773,7 @@
  * Duration of the notification displayed after pasting was blocked by the browser.
  *
  * @since 4.7.0
- * @cfg {Number} [clipboard_defaultContentType=10000]
+ * @cfg {Number} [clipboard_notificationDuration=10000]
  * @member CKEDITOR.config
  */
 CKEDITOR.config.clipboard_notificationDuration = 10000;

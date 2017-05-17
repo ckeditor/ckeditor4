@@ -1955,7 +1955,7 @@
 		 *
 		 * Note: It will return `false` when run in a browser other than Microsoft Edge, despite the configuration.
 		 *
-		 * @param {CKEDITOR.editor} item
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
@@ -2010,7 +2010,7 @@
 		 * Degenerate list items are elements that have some styles specific to list items,
 		 * but lack the ones that could be used to determine their features (like list level etc.).
 		 *
-		 * @param {CKEDITOR.editor} item
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
