@@ -847,11 +847,9 @@
 				allowedContent: 'td[colspan,rowspan]',
 				requiredContent: 'td[colspan,rowspan]',
 				exec: function( editor, data ) {
-					var cell = mergeCells( editor.getSelection() );
+					data.cell = mergeCells( editor.getSelection() );
 
-					placeCursorInCell( cell, true );
-
-					data.cell = cell;
+					placeCursorInCell( data.cell, true );
 				}
 			} ) );
 
@@ -859,11 +857,9 @@
 				allowedContent: 'td[colspan]',
 				requiredContent: 'td[colspan]',
 				exec: function( editor, data ) {
-					var cell = mergeCells( editor.getSelection(), 'right' );
+					data.cell = mergeCells( editor.getSelection(), 'right' );
 
-					placeCursorInCell( cell, true );
-
-					data.cell = cell;
+					placeCursorInCell( data.cell, true );
 				}
 			} ) );
 
@@ -871,11 +867,9 @@
 				allowedContent: 'td[rowspan]',
 				requiredContent: 'td[rowspan]',
 				exec: function( editor, data ) {
-					var cell = mergeCells( editor.getSelection(), 'down' );
+					data.cell = mergeCells( editor.getSelection(), 'down' );
 
-					placeCursorInCell( cell, true );
-
-					data.cell = cell;
+					placeCursorInCell( data.cell, true );
 				}
 			} ) );
 
