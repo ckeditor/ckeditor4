@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,dialog,tableselection,toolbar,undo,floatingspace */
 /* bender-include: ../../_helpers/tableselection.js,../../../undo/_helpers/tools.js */
-/* global tableSelectionHelpers, undoEventDispatchTestsTools */
+/* global tableSelectionHelpers, doCommandTest, undoEventDispatchTestsTools */
 
 ( function() {
 	'use strict';
@@ -25,146 +25,49 @@
 
 	var getRangesForCells = tableSelectionHelpers.getRangesForCells;
 
-	function _getTableElementFromRange( range ) {
-		var tableElements = {
-				table: 1,
-				tbody: 1,
-				tr: 1,
-				td: 1,
-				th: 1
-			},
-			start = range.startContainer;
-
-		if ( range.getEnclosedNode() ) {
-			return range.getEnclosedNode().getAscendant( tableElements, true );
-		}
-
-		return start.getAscendant( tableElements, true );
-	}
-
-	/*
-	 * Adds a class to selected cells in editable, so that it can be compared in assertions.
-	 *
-	 * @param {CKEDITOR.dom.range} ranges[] Ranges which cells should be marked.
-	 * @param {boolean} [addSelected] Whether to apply `selected` class instead `cke_marked` to the selected cells.
-	 */
-	function markCells( ranges, addSelected ) {
-		var i;
-
-		for ( i = 0; i < ranges.length; i++ ) {
-			_getTableElementFromRange( ranges[ i ] ).addClass( addSelected ? 'selected' : 'cke_marked' );
-		}
-	}
-
 	function prepareFocusFrame() {
 		// prepare focus iframe
 		var frame = CKEDITOR.document.findOne( '#focusIframe' );
 		frame.getFrameDocument().write( '<div contenteditable="true">foo</div>' );
 	}
 
-	/*
-	 *
-	 * @param {Object} bot Editor bot object.
-	 * @param {String/Function} action If string: editor command name to be executed. If string simply a function to be
-	 * called before the assertion.
-	 * @param {Object} options
-	 * @param {String} options.case **Required** - id of element provided to `bender.tools.testInputOut`.
-	 * @param {Number[]} [options.cells] Indexes of cells to be selected before executing `action`.
-	 * @param {Boolean} [options.markCells] Whether selected cells should get `'selected'` class in the output.
-	 * @param {Function} [options.customCheck] Custom assertion. Gets editor as an argument.
-	 * @param {Boolean} [options.skipCheckingSelection] If `true` no selection will be chekced.
-	 */
-	function doTest( bot, action, options ) {
-		var editor = bot.editor,
-			ranges = [],
-			output,
-			afterRanges,
-			i;
-
-		bender.tools.testInputOut( options[ 'case' ], function( source, expected ) {
-			bot.setHtmlWithSelection( source );
-
-			if ( options.cells ) {
-				ranges = getRangesForCells( editor, options.cells );
-				editor.getSelection().selectRanges( ranges );
-				markCells( ranges );
-			}
-
-			if ( typeof action == 'string' ) {
-				bot.execCommand( action );
-			} else {
-				action();
-				ranges = editor.getSelection().getRanges();
-			}
-
-			if ( options.markCells ) {
-				// Mark selected cells to be able later to check if new selection
-				// is containing the appropriate cells.
-				markCells( ranges, options.markCells );
-			}
-
-			output = bot.getData( true );
-			output = output.replace( /\u00a0/g, '&nbsp;' );
-			assert.beautified.html( expected, output );
-
-			if ( options.customCheck ) {
-				options.customCheck( editor );
-			} else if ( !options.skipCheckingSelection ) {
-				afterRanges = editor.getSelection().getRanges();
-				assert.isTrue( !!editor.getSelection().isFake, 'selection after is fake' );
-				assert.isTrue( editor.getSelection().isInTable(), 'selection after is in table' );
-
-				if ( typeof action != 'string' || action.toLowerCase().indexOf( 'merge' ) === -1 ) {
-					assert.areSame( ranges.length, afterRanges.length, 'appropriate number of ranges is selected' );
-
-					for ( i = 0; i < ranges.length; i++ ) {
-						assert.isTrue( _getTableElementFromRange( afterRanges[ i ] ).hasClass( 'cke_marked' ),
-							'appropriate ranges are selected' );
-					}
-				} else {
-					assert.areSame( 1, afterRanges.length, 'appropriate number of ranges is selected' );
-				}
-			}
-		} );
-	}
-
 	var tests = {
 		'test insert row before': function( editor, bot ) {
-			doTest( bot, 'rowInsertBefore', { 'case': 'add-row-before', cells: [ 0 ] } );
-			doTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-2', cells: [ 1 ] } );
-			doTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-3', cells: [ 0 ] } );
-			doTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-multi', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before', cells: [ 0 ] } );
+			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-3', cells: [ 0 ] } );
+			doCommandTest( bot, 'rowInsertBefore', { 'case': 'add-row-before-multi', cells: [ 0, 1 ] } );
 		},
 
 		'test insert row after': function( editor, bot ) {
-			doTest( bot, 'rowInsertAfter', { 'case': 'add-row-after', cells: [ 0 ] } );
-			doTest( bot, 'rowInsertAfter', { 'case': 'add-row-after-2', cells: [ 1 ] } );
-			doTest( bot, 'rowInsertAfter', { 'case': 'add-row-after-3', cells: [ 0 ] } );
-			doTest( bot, 'rowInsertAfter', { 'case': 'add-row-after-multi', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'rowInsertAfter', { 'case': 'add-row-after', cells: [ 0 ] } );
+			doCommandTest( bot, 'rowInsertAfter', { 'case': 'add-row-after-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'rowInsertAfter', { 'case': 'add-row-after-3', cells: [ 0 ] } );
+			doCommandTest( bot, 'rowInsertAfter', { 'case': 'add-row-after-multi', cells: [ 0, 1 ] } );
 		},
 
 		'test insert col before': function( editor, bot ) {
-			doTest( bot, 'columnInsertBefore', { 'case': 'add-col-before', cells: [ 0 ] } );
-			doTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-2', cells: [ 1 ] } );
-			doTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-3', cells: [ 0 ] } );
-			doTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-4', cells: [ 1 ] } );
-			doTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi', cells: [ 0, 1 ] } );
-			doTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi2', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before', cells: [ 0 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-3', cells: [ 0 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-4', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi2', cells: [ 1 ] } );
 		},
 
 		'test insert col after': function( editor, bot ) {
-			doTest( bot, 'columnInsertAfter', { 'case': 'add-col-after', cells: [ 0 ] } );
-			doTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-2', cells: [ 1 ] } );
-			doTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-3', cells: [ 0 ] } );
-			doTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-4', cells: [ 1 ] } );
-			doTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-multi', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after', cells: [ 0 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-3', cells: [ 0 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-4', cells: [ 1 ] } );
+			doCommandTest( bot, 'columnInsertAfter', { 'case': 'add-col-after-multi', cells: [ 0, 1 ] } );
 		},
 
 		'test merge cells': function( editor, bot ) {
-			doTest( bot, 'cellMerge', { 'case': 'merge-cells', cells: [ 0, 1, 2, 3, 4, 5 ] } );
-			doTest( bot, 'cellMerge', { 'case': 'merge-cells-2', cells: [ 0, 1 ] } );
-			doTest( bot, 'cellMerge', { 'case': 'merge-cells-3', cells: [ 2, 3, 5 ] } );
-			doTest( bot, 'cellMerge', { 'case': 'merge-cells-5', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells', cells: [ 0, 1, 2, 3, 4, 5 ] } );
+			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells-2', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells-3', cells: [ 2, 3, 5 ] } );
+			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells-5', cells: [ 0, 1 ] } );
 		},
 
 		'test merge cells (4)': function( editor, bot ) {
@@ -172,58 +75,58 @@
 				assert.ignore();
 			}
 
-			doTest( bot, 'cellMerge', { 'case': 'merge-cells-4', cells: [ 0, 1 ] } );
+			doCommandTest( bot, 'cellMerge', { 'case': 'merge-cells-4', cells: [ 0, 1 ] } );
 		},
 
 		'test split cells': function( editor, bot ) {
-			doTest( bot, 'cellHorizontalSplit', { 'case': 'split-cells', cells: [ 0 ], skipCheckingSelection: true } );
-			doTest( bot, 'cellHorizontalSplit', { 'case': 'split-cells-2', cells: [ 3 ], skipCheckingSelection: true } );
-			doTest( bot, 'cellHorizontalSplit', { 'case': 'split-cells-3', cells: [ 2 ], skipCheckingSelection: true } );
-			doTest( bot, 'cellVerticalSplit', { 'case': 'split-cells-4', cells: [ 1 ], skipCheckingSelection: true } );
-			doTest( bot, 'cellVerticalSplit', { 'case': 'split-cells-5', cells: [ 0 ], skipCheckingSelection: true } );
-			doTest( bot, 'cellVerticalSplit', { 'case': 'split-cells-6', cells: [ 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellHorizontalSplit', { 'case': 'split-cells', cells: [ 0 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellHorizontalSplit', { 'case': 'split-cells-2', cells: [ 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellHorizontalSplit', { 'case': 'split-cells-3', cells: [ 2 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellVerticalSplit', { 'case': 'split-cells-4', cells: [ 1 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellVerticalSplit', { 'case': 'split-cells-5', cells: [ 0 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellVerticalSplit', { 'case': 'split-cells-6', cells: [ 3 ], skipCheckingSelection: true } );
 		},
 
 		'test merge one cell': function( editor, bot ) {
-			doTest( bot, 'cellMergeRight', { 'case': 'merge-cell-right', cells: [ 0 ] } );
-			doTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down', cells: [ 0 ] } );
-			doTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down-2', cells: [ 1 ] } );
+			doCommandTest( bot, 'cellMergeRight', { 'case': 'merge-cell-right', cells: [ 0 ] } );
+			doCommandTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down', cells: [ 0 ] } );
+			doCommandTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down-2', cells: [ 1 ] } );
 		},
 
 		'test merge one cell (collapsed selection)': function( editor, bot ) {
-			doTest( bot, 'cellMergeRight', { 'case': 'merge-cell-right' } );
-			doTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down' } );
-			doTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down-2' } );
+			doCommandTest( bot, 'cellMergeRight', { 'case': 'merge-cell-right' } );
+			doCommandTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down' } );
+			doCommandTest( bot, 'cellMergeDown', { 'case': 'merge-cell-down-2' } );
 		},
 
 		'test delete nested cells': function( editor, bot ) {
-			doTest( bot, 'cellDelete', { 'case': 'delete-nested-cells', cells: [ 1, 2 ], skipCheckingSelection: true } );
-			doTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-2', cells: [ 2, 3 ], skipCheckingSelection: true } );
-			doTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-3', cells: [ 1, 2, 3, 4 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells', cells: [ 1, 2 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-2', cells: [ 2, 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-3', cells: [ 1, 2, 3, 4 ], skipCheckingSelection: true } );
 		},
 
 		// (#10308, #11058)
 		// To reproduce #11058 we need 4 rows in the table.
 		'test remove row from middle row': function( editor, bot ) {
-			doTest( bot, 'rowDelete', { 'case': 'delete-row-from-middle', cells: [ 1 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'rowDelete', { 'case': 'delete-row-from-middle', cells: [ 1 ], skipCheckingSelection: true } );
 		},
 
 		'test remove all rows': function( editor, bot ) {
-			doTest( bot, 'rowDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'rowDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
 		},
 
 		'test remove all rows partial selection': function( editor, bot ) {
-			doTest( bot, 'rowDelete', { 'case': 'delete-all-cells', cells: [ 0, 2 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'rowDelete', { 'case': 'delete-all-cells', cells: [ 0, 2 ], skipCheckingSelection: true } );
 		},
 
 		// (#10308)
 		'test remove trailing column': function( editor, bot ) {
-			doTest( bot, 'columnDelete', { 'case': 'delete-column-trailing', cells: [ 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'columnDelete', { 'case': 'delete-column-trailing', cells: [ 3 ], skipCheckingSelection: true } );
 		},
 
 		// (#10308)
 		'test remove trailing cell': function( editor, bot ) {
-			doTest( bot, 'cellDelete', { 'case': 'delete-cell-trailing', cells: [ 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { 'case': 'delete-cell-trailing', cells: [ 3 ], skipCheckingSelection: true } );
 		},
 
 		'test backspace in the middle': function( editor, bot ) {
@@ -231,148 +134,6 @@
 				bender.tools.setHtmlWithSelection( editor, source );
 
 				editor.getSelection().selectRanges( getRangesForCells( editor, [ 1, 2 ] ) );
-
-				// Reuse undo's fancy tools to mimic the keyboard.
-				var keyTools = undoEventDispatchTestsTools( {
-					editor: editor
-				} );
-				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test backspace bogus br': function( editor ) {
-			// Bogus brs should not be removed.
-			bender.tools.testInputOut( 'emptyTableBogusBr', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1 ] ) );
-
-				// Reuse undo's fancy tools to mimic the keyboard.
-				var keyTools = undoEventDispatchTestsTools( {
-					editor: editor
-				} );
-				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-
-				bender.assert.beautified.html( expected, editor.editable().getHtml() );
-			} );
-		},
-
-		'test backspace whole first row': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTableDeleteFirstRow', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1 ] ) );
-
-				// Reuse undo's fancy tools to mimic the keyboard.
-				var keyTools = undoEventDispatchTestsTools( {
-					editor: editor
-				} );
-				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test backspace whole second row': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTableDeleteSecondRow', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.getSelection().selectRanges( getRangesForCells( editor, [ 2, 3 ] ) );
-
-				// Reuse undo's fancy tools to mimic the keyboard.
-				var keyTools = undoEventDispatchTestsTools( {
-					editor: editor
-				} );
-				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test backspace multiple rows': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTableDeleteFewRows', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1, 2, 3 ] ) );
-
-				// Reuse undo's fancy tools to mimic the keyboard.
-				var keyTools = undoEventDispatchTestsTools( {
-					editor: editor
-				} );
-				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test backspace whole table': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTableRemoveWhole', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1, 2, 3 ] ) );
-
-				// Reuse undo's fancy tools to mimic the keyboard.
-				var keyTools = undoEventDispatchTestsTools( {
-					editor: editor
-				} );
-				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test backspace whole table multiple tables': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTableSibling', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.getSelection().selectRanges( getRangesForCells( editor, [ 2, 3 ] ) );
-
-				// Reuse undo's fancy tools to mimic the keyboard.
-				var keyTools = undoEventDispatchTestsTools( {
-					editor: editor
-				} );
-				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test backspace column': function( editor, bot ) {
-			// Make sure that backspace in one column of many, doesnt remove whole table.
-			doTest( bot, function() {
-				editor.getSelection().selectRanges( getRangesForCells( editor, [ 1, 3 ] ) );
-
-				// Reuse undo's fancy tools to mimic the keyboard.
-				var keyTools = undoEventDispatchTestsTools( {
-					editor: editor
-				} );
-				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
-			}, { 'case': 'emptyTableSingleColumn', markCells: true, skipCheckingSelection: true } );
-		},
-
-		'test delete in the middle': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTable', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.getSelection().selectRanges( getRangesForCells( editor, [ 1, 2 ] ) );
-
-				// Reuse undo's fancy tools to mimic the keyboard.
-				var keyTools = undoEventDispatchTestsTools( {
-					editor: editor
-				} );
-				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.DELETE );
-
-				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
-			} );
-		},
-
-		'test delete whole table with sibling paragraph': function( editor, bot ) {
-			bender.tools.testInputOut( 'emptyTableParagraphSibling', function( source, expected ) {
-				bender.tools.setHtmlWithSelection( editor, source );
-
-				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1 ] ) );
 
 				// Reuse undo's fancy tools to mimic the keyboard.
 				var keyTools = undoEventDispatchTestsTools( {
@@ -429,7 +190,7 @@
 		},
 
 		'test delete all cells': function( editor, bot ) {
-			doTest( bot, 'cellDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
+			doCommandTest( bot, 'cellDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
 		},
 
 		'Simulating merge cells from context menu ': function( editor ) {
@@ -478,7 +239,7 @@
 					assert.areSame( 1, rangesAfterCommand.length, 'Range count' );
 					assert.isTrue( !!selection.isFake, 'Selection is fake' );
 					assert.isTrue( selection.isInTable(), 'Selection is in table' );
-					assert.areSame( _getTableElementFromRange( rangesAfterCommand[ 0 ] ), expectedSelectionHolder, 'Correct cell is selected' );
+					assert.areSame( rangesAfterCommand[ 0 ]._getTableElement(), expectedSelectionHolder, 'Correct cell is selected' );
 
 					assert.areSame( expected, editor.getData(), 'Editor data' );
 				} );
