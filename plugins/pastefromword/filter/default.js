@@ -671,6 +671,7 @@
 		 * @param {Boolean} [wrapText=false] Whether a direct text child of an element should be wrapped into a `span` tag
 		 * so that the styles can be moved to it.
 		 * @returns {Boolean} Returns `true` if styles were successfully moved lower.
+		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		pushStylesLower: function( element, exceptions, wrapText ) {
 
@@ -817,7 +818,7 @@
 			 * Filters out all unnecessary styles.
 			 *
 			 * @param {Object} stylesObj An object containing parsed CSS declarations
-			 * as property/value pairs (see {@link CKEDITOR.plugins.pastefromword.inline#parse}).
+			 * as property/value pairs (see {@link CKEDITOR.plugins.pastefromword.styles.inliner#parse}).
 			 * @returns {Object} The `stylesObj` copy with specific styles filtered out.
 			 * @since 4.7.0
 			 * @private
@@ -842,7 +843,8 @@
 			 * Sorts the given styles array. All rules containing class selectors will have lower indexes than the rest
 			 * of the rules. Selectors with the same priority will be sorted in a reverse order than in the input array.
 			 *
-			 * @param {Array} stylesArray An array of styles as returned from {@link CKEDITOR.plugins.pastefromword.inline#parse}.
+			 * @param {Array} stylesArray An array of styles as returned from
+			 * {@link CKEDITOR.plugins.pastefromword.styles.inliner#parse}.
 			 * @returns {Array} Sorted stylesArray.
 			 * @since 4.7.0
 			 * @private
@@ -1954,7 +1956,7 @@
 		 *
 		 * Note: It will return `false` when run in a browser other than Microsoft Edge, despite the configuration.
 		 *
-		 * @param {CKEDITOR.editor} item
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
@@ -2009,7 +2011,7 @@
 		 * Degenerate list items are elements that have some styles specific to list items,
 		 * but lack the ones that could be used to determine their features (like list level etc.).
 		 *
-		 * @param {CKEDITOR.editor} item
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
