@@ -411,13 +411,6 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 								clearSelected();
 							}
 						}
-					},
-					spacer,
-					{
-						type: 'button',
-						id: 'clear',
-						label: lang.clear,
-						onClick: clearSelected
 					} ]
 				} ]
 			}, {
