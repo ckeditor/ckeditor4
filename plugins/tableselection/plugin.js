@@ -600,19 +600,15 @@
 	}
 
 	function customizeTableCommand( editor, cmds, callback ) {
-		var selectedCells;
-
 		editor.on( 'beforeCommandExec', function( evt ) {
 			if ( CKEDITOR.tools.array.indexOf( cmds, evt.data.name ) !== -1 ) {
-				selectedCells = getSelectedCells( editor.getSelection() );
+				evt.data.selectedCells = getSelectedCells( editor.getSelection() );
 			}
 		} );
 
 		editor.on( 'afterCommandExec', function( evt ) {
 			if ( CKEDITOR.tools.array.indexOf( cmds, evt.data.name ) !== -1 ) {
-				callback( editor, selectedCells, evt.data );
-
-				selectedCells = null;
+				callback( editor, evt.data );
 			}
 		} );
 	}
@@ -670,15 +666,15 @@
 				'columnInsertAfter',
 				'cellInsertBefore',
 				'cellInsertAfter'
-			], function( editor, cells ) {
-				fakeSelectCells( editor, cells );
+			], function( editor, data ) {
+				fakeSelectCells( editor, data.selectedCells );
 			} );
 
 			customizeTableCommand( editor, [
 				'cellMerge',
 				'cellMergeRight',
 				'cellMergeDown'
-			], function( editor, cells, data ) {
+			], function( editor, data ) {
 				fakeSelectCells( editor, [ data.commandData.cell ] );
 			} );
 
