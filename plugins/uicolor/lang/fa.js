@@ -8,7 +8,6 @@ CKEDITOR.plugins.setLang( 'uicolor', 'fa', {
 	options: 'Color Options', // MISSING
 	highlight: 'Highlight', // MISSING
 	selected: 'Selected Color', // MISSING
-	clear: 'Clear', // MISSING
 	predefined: 'مجموعه رنگ از پیش تعریف شده',
 	config: 'این رشته را در پروندهٔ config.js خود رونوشت کنید.'
 } );

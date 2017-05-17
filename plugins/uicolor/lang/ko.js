@@ -8,7 +8,6 @@ CKEDITOR.plugins.setLang( 'uicolor', 'ko', {
 	options: 'Color Options', // MISSING
 	highlight: 'Highlight', // MISSING
 	selected: 'Selected Color', // MISSING
-	clear: 'Clear', // MISSING
 	predefined: '미리 정의된 색상',
 	config: '이 문자열을 config.js 에 붙여넣으세요'
 } );

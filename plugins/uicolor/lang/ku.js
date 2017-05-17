@@ -8,7 +8,6 @@ CKEDITOR.plugins.setLang( 'uicolor', 'ku', {
 	options: 'Color Options', // MISSING
 	highlight: 'Highlight', // MISSING
 	selected: 'Selected Color', // MISSING
-	clear: 'Clear', // MISSING
 	predefined: 'کۆمەڵە ڕەنگە دیاریکراوەکانی پێشوو',
 	config: 'ئەم دەقانە بلکێنە بە پەڕگەی config.js-fil'
 } );

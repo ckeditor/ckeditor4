@@ -8,7 +8,6 @@ CKEDITOR.plugins.setLang( 'uicolor', 'eo', {
 	options: 'Color Options', // MISSING
 	highlight: 'Highlight', // MISSING
 	selected: 'Selected Color', // MISSING
-	clear: 'Clear', // MISSING
 	predefined: 'Antaŭdifinita koloraro',
 	config: 'Gluu tiun signoĉenon en vian dosieron config.js'
 } );

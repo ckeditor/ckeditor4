@@ -8,7 +8,6 @@ CKEDITOR.plugins.setLang( 'uicolor', 'fi', {
 	options: 'Color Options', // MISSING
 	highlight: 'Highlight', // MISSING
 	selected: 'Selected Color', // MISSING
-	clear: 'Clear', // MISSING
 	predefined: 'Esimääritellyt värijoukot',
 	config: 'Liitä tämä merkkijono config.js tiedostoosi'
 } );
