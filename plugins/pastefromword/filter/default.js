@@ -671,6 +671,7 @@
 		 * @param {Boolean} [wrapText=false] Whether a direct text child of an element should be wrapped into a `span` tag
 		 * so that the styles can be moved to it.
 		 * @returns {Boolean} Returns `true` if styles were successfully moved lower.
+		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		pushStylesLower: function( element, exceptions, wrapText ) {
 
