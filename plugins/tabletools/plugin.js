@@ -362,7 +362,7 @@
 
 	function insertCell( selection, insertBefore ) {
 		var startElement = selection.getStartElement(),
-			cell = startElement.getAscendant( 'td', 1 ) || startElement.getAscendant( 'th', 1 );
+			cell = startElement.getAscendant( { td: 1, th: 1 }, true );
 
 		if ( !cell )
 			return;
