@@ -243,6 +243,12 @@
 				wasPaste = false,
 				wasAfterPaste = false;
 
+			function callback() {
+				assert.isFalse( wasPaste, 'paste callback shouldn\'t be called' );
+				assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
+				assert.areEqual( editor.getData(), '<p>abc</p>' );
+			}
+
 			editor.once( 'paste', function() {
 				wasPaste = true;
 			} );
@@ -251,12 +257,15 @@
 			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
-			editor.execCommand( 'paste', '' );
-			tc.wait( function() {
-				assert.isFalse( wasPaste, 'paste callback shouldn\'t be called' );
-				assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
-				assert.areEqual( editor.getData(), '<p>abc</p>' );
-			}, 50 );
+
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+				// Calling editor.execCommand( 'paste' ) directly in IE triggers the security dialog.
+				// The simulatePasteCommand wrapper should be used.
+				simulatePasteCommand( editor, { name: 'paste' }, { dataValue: '' }, callback, 50 );
+			} else {
+				editor.execCommand( 'paste', '' );
+				tc.wait( callback, 50 );
+			}
 		},
 
 		'pasting empty string (native version)': function() {
