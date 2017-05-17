@@ -2268,7 +2268,7 @@
 		 *
 		 *		editor.getSelection().isInTable();
 		 *
-		 * @since
+		 * @since 4.7.0
 		 * @returns {Boolean}
 		 */
 		isInTable: function() {
