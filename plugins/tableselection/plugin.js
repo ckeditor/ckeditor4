@@ -788,13 +788,13 @@
 			// Handle left, up, right, down, delete and backspace keystrokes inside table fake selection.
 			function getTableOnKeyDownListener( editor ) {
 				var keystrokes = {
-					37: 1, // Left Arrow
-					38: 1, // Up Arrow
-					39: 1, // Right Arrow,
-					40: 1, // Down Arrow
-					8: 1, // Backspace
-					46: 1 // Delete
-				},
+						37: 1, // Left Arrow
+						38: 1, // Up Arrow
+						39: 1, // Right Arrow,
+						40: 1, // Down Arrow
+						8: 1, // Backspace
+						46: 1 // Delete
+					},
 					tags = CKEDITOR.tools.extend( { table: 1 }, CKEDITOR.dtd.$tableContent );
 
 				delete tags.td;
@@ -916,29 +916,27 @@
 				};
 			}
 
-			function getTableOnKeyPressListener( editor ) {
-				return function( evt ) {
-					var selection = editor.getSelection(),
-						ranges,
-						firstCell,
-						i;
+			function tableKeyPressListener( evt ) {
+				var selection = editor.getSelection(),
+					ranges,
+					firstCell,
+					i;
 
-					// We must check if the event really did not produce any character as it's fired for all keys in Gecko.
-					if ( !selection || !selection.isInTable() || !selection.isFake || !evt.data.$.charCode ||
-						evt.data.getKeystroke() & CKEDITOR.CTRL ) {
-						return;
-					}
+				// We must check if the event really did not produce any character as it's fired for all keys in Gecko.
+				if ( !selection || !selection.isInTable() || !selection.isFake || !evt.data.$.charCode ||
+					evt.data.getKeystroke() & CKEDITOR.CTRL ) {
+					return;
+				}
 
-					ranges = selection.getRanges();
-					firstCell = ranges[ 0 ].getEnclosedNode().getAscendant( { td: 1, th: 1 }, true );
+				ranges = selection.getRanges();
+				firstCell = ranges[ 0 ].getEnclosedNode().getAscendant( { td: 1, th: 1 }, true );
 
-					for ( i = 0; i < ranges.length; i++ ) {
-						clearCellInRange( ranges[ i ] );
-					}
+				for ( i = 0; i < ranges.length; i++ ) {
+					clearCellInRange( ranges[ i ] );
+				}
 
-					ranges[ 0 ].moveToElementEditablePosition( firstCell );
-					selection.selectRanges( [ ranges[ 0 ] ] );
-				};
+				ranges[ 0 ].moveToElementEditablePosition( firstCell );
+				selection.selectRanges( [ ranges[ 0 ] ] );
 			}
 
 			function clearCellInRange( range ) {
@@ -959,7 +957,7 @@
 			// it by left/right or backspace/del keys.
 			var editable = editor.editable();
 			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
-			editable.attachListener( editable, 'keypress', getTableOnKeyPressListener( editor ), null, null, -1 );
+			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
 		}
 	} );
 
