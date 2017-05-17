@@ -76,80 +76,6 @@
 		return retval;
 	}
 
-	function getCellsBetween( first, last ) {
-		var firstTable = first.getAscendant( 'table' ),
-			lastTable = last.getAscendant( 'table' ),
-			map = CKEDITOR.tools.buildTableMap( firstTable ),
-			startRow = getRowIndex( first ),
-			endRow = getRowIndex( last ),
-			cells = [],
-			markers = {},
-			start,
-			end,
-			i,
-			j,
-			cell;
-
-		function getRowIndex( rowOrCell ) {
-			return rowOrCell.getAscendant( 'tr', true ).$.rowIndex;
-		}
-
-		// Support selection that began in outer's table, but ends in nested one.
-		if ( firstTable.contains( lastTable ) ) {
-			last = last.getAscendant( { td: 1, th: 1 } );
-			endRow = getRowIndex( last );
-		}
-
-		// First fetch start and end offset.
-		if ( startRow > endRow ) {
-			i = startRow;
-			startRow = endRow;
-			endRow = i;
-
-			i = first;
-			first = last;
-			last = i;
-		}
-
-		for ( i = 0; i < map[ startRow ].length; i++ ) {
-			if ( first.$ === map[ startRow ][ i ] ) {
-				start = i;
-				break;
-			}
-		}
-
-		for ( i = 0; i < map[ endRow ].length; i++ ) {
-			if ( last.$ === map[ endRow ][ i ] ) {
-				end = i;
-				break;
-			}
-		}
-
-		if ( start > end ) {
-			i = start;
-			start = end;
-			end = i;
-		}
-
-		for ( i = startRow; i <= endRow; i++ ) {
-			for ( j = start; j <= end; j++ ) {
-				// Table maps treat cells with colspan/rowspan as a separate cells, e.g.
-				// td[colspan=2] produces two adjacent cells in map. Therefore we mark
-				// all cells to know which were already processed.
-				cell = new CKEDITOR.dom.element( map[ i ][ j ] );
-
-				if ( cell.$ && !cell.getCustomData( 'selected_cell' ) ) {
-					cells.push( cell );
-					CKEDITOR.dom.element.setMarker( markers, cell, 'selected_cell', true );
-				}
-			}
-		}
-
-		CKEDITOR.dom.element.clearAllMarkers( markers );
-
-		return cells;
-	}
-
 	function getFocusElementAfterDelCells( cellsToDelete ) {
 		var i = 0,
 			last = cellsToDelete.length - 1,
@@ -1166,8 +1092,7 @@
 		insertRow: insertRow,
 		insertColumn: insertColumn,
 
-		getSelectedCells: getSelectedCells,
-		getCellsBetween: getCellsBetween
+		getSelectedCells: getSelectedCells
 	};
 	CKEDITOR.plugins.add( 'tabletools', CKEDITOR.plugins.tabletools );
 } )();
