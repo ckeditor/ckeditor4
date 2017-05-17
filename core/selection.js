@@ -224,7 +224,6 @@
 
 		if ( sel ) {
 			realSel = this.getSelection( 1 );
-			//realSel && console.log( realSel.getRanges()[ 0] , isRealTableSelection( realSel.getRanges(), sel.getRanges() ) );
 			// If real (not locked/stored) selection was moved from hidden container
 			// or is not a table one, then the fake-selection must be invalidated.
 			if ( !realSel || ( !realSel.isHidden() && !isRealTableSelection( realSel, sel ) ) ) {
