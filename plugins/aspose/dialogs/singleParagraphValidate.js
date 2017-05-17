@@ -52,6 +52,7 @@ function useOnlyOneParagraph(editor, $html) {
 
 	if (children.length > 1 && ['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(children[0].tagName) !== -1) {
 		$html.find('table').remove();
+		children = $html.children();
 		children.each(function(index) {
 			if (['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(this.tagName) !== -1) {
 				innerHTML += this.innerHTML;
