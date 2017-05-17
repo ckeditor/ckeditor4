@@ -1,6 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: tableselection */
-/* bender-include: ../../_helpers/tabletools.js */
+/* bender-include: ../../_helpers/tableselection.js */
 /* global createPasteTestCase */
 
 ( function() {
