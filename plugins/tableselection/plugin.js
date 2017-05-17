@@ -686,7 +686,19 @@
 		} );
 	}
 
+	/**
+	 * @since 4.7.0
+	 * @singleton
+	 * @class CKEDITOR.plugins.tableselection
+	 */
 	CKEDITOR.plugins.tableselection = {
+		/**
+		 * Fetches all cells between cells passed as parameters, including these cells.
+		 *
+		 * @param {CKEDITOR.dom.element} first The first cell to fetch.
+		 * @param {CKEDITOR.dom.element} last The last cell to fetch.
+		 * @return {CKEDITOR.dom.element[]} Array of fetched cells.
+		 */
 		getCellsBetween: getCellsBetween
 	};
 
@@ -772,6 +784,7 @@
 	 *
 	 * @since 4.7.0
 	 * @cfg {Boolean} [tableImprovements=true]
+	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.tableImprovements = true;
 }() );
