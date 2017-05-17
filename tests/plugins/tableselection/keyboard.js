@@ -19,6 +19,22 @@
 	var getRangesForCells = tableSelectionHelpers.getRangesForCells;
 
 	var tests = {
+		'test backspace in the middle': function( editor, bot ) {
+			bender.tools.testInputOut( 'emptyTable', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 1, 2 ] ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
 		'test backspace bogus br': function( editor ) {
 			// Bogus brs should not be removed.
 			bender.tools.testInputOut( 'emptyTableBogusBr', function( source, expected ) {
