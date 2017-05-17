@@ -599,7 +599,7 @@
 		}, 0 );
 	}
 
-	function hijackTabletoolsCmd( editor, cmds, callback ) {
+	function customizeTableCommand( editor, cmds, callback ) {
 		var selectedCells;
 
 		editor.on( 'beforeCommandExec', function( evt ) {
@@ -663,7 +663,7 @@
 
 			editor.on( 'paste', fakeSelectionPasteHandler );
 
-			hijackTabletoolsCmd( editor, [
+			customizeTableCommand( editor, [
 				'rowInsertBefore',
 				'rowInsertAfter',
 				'columnInsertBefore',
@@ -674,7 +674,7 @@
 				fakeSelectCells( editor, cells );
 			} );
 
-			hijackTabletoolsCmd( editor, [
+			customizeTableCommand( editor, [
 				'cellMerge',
 				'cellMergeRight',
 				'cellMergeDown'
@@ -682,7 +682,7 @@
 				fakeSelectCells( editor, [ data.commandData.cell ] );
 			} );
 
-			hijackTabletoolsCmd( editor, [
+			customizeTableCommand( editor, [
 				'cellDelete'
 			], function( editor ) {
 				clearFakeCellSelection( editor, true );
