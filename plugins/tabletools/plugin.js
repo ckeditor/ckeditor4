@@ -295,9 +295,9 @@
 		}
 	}
 
-	function deleteColumns( selectionOrCell ) {
-		var ranges = selectionOrCell.getRanges(),
-			cells = getSelectedCells( selectionOrCell ),
+	function deleteColumns( selection ) {
+		var ranges = selection.getRanges(),
+			cells = getSelectedCells( selection ),
 			firstCell = cells[ 0 ],
 			lastCell = cells[ cells.length - 1 ],
 			table = firstCell.getAscendant( 'table' ),
@@ -305,7 +305,7 @@
 			startColIndex, endColIndex,
 			rowsToDelete = [];
 
-		selectionOrCell.reset();
+		selection.reset();
 
 		// Figure out selected cells' column indices.
 		for ( var i = 0, rows = map.length; i < rows; i++ ) {
