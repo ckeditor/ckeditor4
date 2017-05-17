@@ -474,6 +474,7 @@ CKEDITOR.dialog.add( 'uicolor', function( editor ) {
 					type: 'text',
 					label: lang.config,
 					onShow: function() {
+						this.getInputElement().setAttribute( 'readonly', true );
 						this.setValue( getUiColor( editor ) );
 					},
 					onChange: function() {
