@@ -2,4 +2,4 @@
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 button = Toolbar button tooltip for the Paste as Plain Text feature.
-pasteNotification = A notification message shown when browser is blocking pasting, and user should use the keyboard instead. %1 sequence is replaced with a keystroke that, when pressed, will perform the action.
+pasteNotification = A notification message shown when the browser is blocking pasting, and the user should use the keyboard instead. The %1 sequence is replaced with a keystroke that - when pressed - will perform the action.

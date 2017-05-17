@@ -310,13 +310,13 @@
 			},
 
 			/**
-			 * Marks the first visible item or the one who's `aria-selected` attribute is set to `true`.
+			 * Marks the first visible item or the one whose `aria-selected` attribute is set to `true`.
 			 * The latter has priority over the former.
 			 *
 			 * @private
 			 * @param beforeMark function to be executed just before marking.
-			 * Used in cases when any preparatory cleanup(like unmarking all items) would simultaneously
-			 * destroy the information that's needed to determine the focused item.
+			 * Used in cases when any preparatory cleanup (like unmarking all items) would simultaneously
+			 * destroy the information that is needed to determine the focused item.
 			 */
 			markFirstDisplayed: function( beforeMark ) {
 				var notDisplayed = function( element ) {

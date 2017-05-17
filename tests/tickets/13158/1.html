@@ -3,5 +3,7 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor' );
+	CKEDITOR.replace( 'editor', {
+		embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
+	} );
 </script>

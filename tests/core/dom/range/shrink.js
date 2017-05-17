@@ -325,6 +325,37 @@
 			var range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
 			range.shrink( CKEDITOR.SHRINK_TEXT );
 			assert.areSame( source, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
+		},
+
+		// (#17010)
+		'test shrink with skipBogus param - SHRINK_TEXT': function() {
+			// Test does not make sense in the environment, which does not use <br> as bogus.
+			if ( !CKEDITOR.env.needsBrFiller ) {
+				assert.ignore();
+			}
+
+			var ct = doc.getById( 'editable_playground' ),
+				source = CKEDITOR.document.getById( 'bogus_table' ).getValue(),
+				range = bender.tools.setHtmlWithRange( ct, source )[ 0 ];
+
+			range.shrink( CKEDITOR.SHRINK_TEXT, false, { skipBogus: true } );
+			assert.areSame( 'Cell 1.1', range.cloneContents().getHtml() );
+		},
+
+		// (#17010)
+		'test shrink with skipBogus param - SHRINK_ELEMENT': function() {
+			// Test does not make sense in the environment, which does not use <br> as bogus.
+			if ( !CKEDITOR.env.needsBrFiller ) {
+				assert.ignore();
+			}
+
+			var ct = doc.getById( 'editable_playground' ),
+				source = CKEDITOR.document.getById( 'bogus_table' ).getValue(),
+				range = bender.tools.setHtmlWithRange( ct, source )[ 0 ],
+				cell = ct.findOne( 'td' );
+
+			range.shrink( CKEDITOR.SHRINK_ELEMENT, false, { skipBogus: true } );
+			assert.areSame( cell.getOuterHtml(), range.cloneContents().getHtml() );
 		}
 	};
 

@@ -74,7 +74,7 @@
  *			'http://www.example.com/user_templates.js'
  *		];
  *
- * For an example template file
+ * For a sample template file
  * [see `templates/default.js`](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/templates/templates/default.js).
  *
  * @cfg {String[]}

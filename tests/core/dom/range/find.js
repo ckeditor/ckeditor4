@@ -30,6 +30,21 @@
 			assert.areSame( 'strong2', results[ 1 ].getId(), 'Id of a second matched element' );
 		},
 
+		// (#17022)
+		'test matching a contained node': function() {
+			var range = new CKEDITOR.dom.range( doc ),
+				strongsWrapper = doc.getById( 'strongs' ),
+				results;
+
+			range.setStartBefore( strongsWrapper );
+			range.setEndAfter( strongsWrapper );
+			results = range._find( 'div' );
+
+			assert.isArray( results, 'Return object type' );
+			assert.areSame( 1, results.length, 'Result count' );
+			assert.areSame( 'strongs', results[ 0 ].getId(), 'Id of a first matched element' );
+		},
+
 		'test multiple matches in a spanned range': function() {
 			// This range will span across two div containers. As a result, common ancestor is the container that holds
 			// whole manual test HTML. There are more strongs in doc, so if scoping is wrong, more strongs than expected

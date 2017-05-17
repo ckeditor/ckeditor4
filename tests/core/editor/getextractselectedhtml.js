@@ -7,6 +7,7 @@ bender.editors = {
 		name: 'editor',
 		creator: 'inline',
 		config: {
+			tableImprovements: false,
 			allowedContent: true
 		}
 	},
@@ -14,6 +15,7 @@ bender.editors = {
 	editor2: {
 		name: 'editor2',
 		config: {
+			tableImprovements: false,
 			extraPlugins: 'sourcearea'
 		}
 	}
@@ -134,22 +136,22 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			input = '<p>' +
-					'<table>' +
-						'<tr>' +
-							'<td>11</td>' +
-							'<td>22</td>' +
-						'</tr>' +
-						'<tr>' +
-							'<td>44</td>' +
-							'<td>55</td>' +
-						'</tr>' +
-					'</table>' +
-				'</p>',
-				sel = editor.getSelection(),
-				ranges = [],
-				tableCells,
-				curRange,
-				i;
+				'<table>' +
+					'<tr>' +
+						'<td>11</td>' +
+						'<td>22</td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td>44</td>' +
+						'<td>55</td>' +
+					'</tr>' +
+				'</table>' +
+			'</p>',
+			sel = editor.getSelection(),
+			ranges = [],
+			tableCells,
+			curRange,
+			i;
 
 		bender.tools.selection.setWithHtml( editor, input );
 
@@ -176,22 +178,22 @@ bender.test( {
 
 		var editor = this.editors.editor,
 			input = '<p>' +
-					'<table>' +
-						'<tr>' +
-							'<td>11</td>' +
-							'<td>22</td>' +
-						'</tr>' +
-						'<tr>' +
-							'<td>44</td>' +
-							'<td>55</td>' +
-						'</tr>' +
-					'</table>' +
-				'</p>',
-				sel = editor.getSelection(),
-				ranges = [],
-				tableCells,
-				curRange,
-				i;
+				'<table>' +
+					'<tr>' +
+						'<td>11</td>' +
+						'<td>22</td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td>44</td>' +
+						'<td>55</td>' +
+					'</tr>' +
+				'</table>' +
+			'</p>',
+			sel = editor.getSelection(),
+			ranges = [],
+			tableCells,
+			curRange,
+			i;
 
 		bender.tools.selection.setWithHtml( editor, input );
 
@@ -208,6 +210,48 @@ bender.test( {
 		sel.selectRanges( ranges );
 
 		assert.isInnerHtmlMatching( '<table><tbody><tr><td>11@</td></tr><tr><td>44</td></tr></tbody></table>', editor.getSelectedHtml( true ) );
+	},
+
+	'test getSelectedHtml with [colspan] and [rowspan]': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			assert.ignore();
+		}
+
+		var editor = this.editors.editor,
+			input = '<table>' +
+					'<tr>' +
+						'<td colspan="2">11</td>' +
+						'<td rowspan="2">22</td>' +
+						'<td>33</td>' +
+					'</tr>' +
+					'<tr>' +
+						'<td>44</td>' +
+						'<td>55</td>' +
+						'<td>66</td>' +
+					'</tr>' +
+				'</table>',
+			sel = editor.getSelection(),
+			ranges = [],
+			tableCells,
+			curRange,
+			i;
+
+		bender.tools.selection.setWithHtml( editor, input );
+
+		// Find cells in the first row.
+		tableCells = editor.editable().find( 'td' );
+
+		for ( i = 0; i < tableCells.count(); i++ ) {
+			curRange = editor.createRange();
+			curRange.setStartBefore( tableCells.getItem( i ) );
+			curRange.setEndAfter( tableCells.getItem( i ) );
+			ranges.push( curRange );
+		}
+
+		sel.selectRanges( ranges );
+
+		assert.isInnerHtmlMatching( '<table><tbody><tr><td colspan="2">11@</td><td rowspan="2">22</td><td>33</td></tr><tr><td>44</td><td>55</td><td>66</td></tr></tbody></table>',
+			editor.getSelectedHtml( true ) );
 	},
 
 	'test extractSelectedHtml with removeEmptyBlock': function() {

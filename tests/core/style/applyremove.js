@@ -4,7 +4,11 @@
 
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			tableImprovements: false
+		}
+	};
 
 	var getInnerHtml = bender.tools.getInnerHtml,
 		fixHtml = bender.tools.fixHtml,

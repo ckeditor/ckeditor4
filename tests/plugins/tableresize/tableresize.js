@@ -57,7 +57,7 @@ function init( table, editor ) {
 						editor.editable().isInline() ? editor.editable() :
 						editor.document;
 
-	// Run for the first time to crate pillars
+	// Run for the first time to create pillars
 	mouseElement.fire( 'mousemove', evtMock );
 	// Run for the second time to create resizer
 	mouseElement.fire( 'mousemove', evtMock );
@@ -67,7 +67,14 @@ function resize( table, callback ) {
 	var doc = table.getDocument(),
 		resizer = getResizer( doc ),
 		moveEvtMock = createMoveEventMock( table ),
-		evtMock = {	preventDefault: function() {} };
+		evtMock = {
+			// We need this as table improvements listens to mousedown events.
+			$: {
+				button: 0
+			},
+			getTarget: sinon.stub().returns( table ),
+			preventDefault: sinon.stub()
+		};
 
 	resizer.fire( 'mousedown', evtMock );
 	resizer.fire( 'mousemove', moveEvtMock );
@@ -89,6 +96,9 @@ function getResizer( doc ) {
 bender.editors = {
 	classic: {
 		name: 'classic'
+	},
+	classic2: {
+		name: 'classic2'
 	},
 	inline: {
 		name: 'inline',
@@ -226,6 +236,27 @@ bender.test( {
 				// Table should be resized.
 				this.assertIsResized( doc.findOne( 'table' ), 'insideTable' );
 			} );
+		} );
+
+		wait();
+	},
+
+	// #14762
+	'test empty table': function() {
+		var editor = this.editors.classic2;
+
+		editor.setData( CKEDITOR.document.findOne( '#empty' ).getOuterHtml(), {
+			callback: function() {
+				resume( function() {
+					var editable = editor.editable();
+
+					editor.document.fire( 'mousemove', new CKEDITOR.dom.event( {
+						target: editable.findOne( 'table' ).$
+					} ) );
+
+					assert.pass();
+				} );
+			}
 		} );
 
 		wait();

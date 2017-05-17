@@ -313,20 +313,38 @@
 		 *
 		 * @since 3.2.1
 		 * @param {CKEDITOR.editor} editor
+		 * @param {Boolean} [returnMultiple=false] Indicates whether the function should return only the first selected link or all of them.
+		 * @returns {CKEDITOR.dom.element/CKEDITOR.dom.element[]/null} A single link element or an array of link
+		 * elements relevant to the current selection.
 		 */
-		getSelectedLink: function( editor ) {
-			var selection = editor.getSelection();
-			var selectedElement = selection.getSelectedElement();
-			if ( selectedElement && selectedElement.is( 'a' ) )
+		getSelectedLink: function( editor, returnMultiple ) {
+			var selection = editor.getSelection(),
+				selectedElement = selection.getSelectedElement(),
+				ranges = selection.getRanges(),
+				links = [],
+				link,
+				range,
+				i;
+
+			if ( !returnMultiple && selectedElement && selectedElement.is( 'a' ) ) {
 				return selectedElement;
-
-			var range = selection.getRanges()[ 0 ];
-
-			if ( range ) {
-				range.shrink( CKEDITOR.SHRINK_TEXT );
-				return editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
 			}
-			return null;
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				range = selection.getRanges()[ i ];
+
+				// Skip bogus to cover cases of multiple selection inside tables (#tp2245).
+				range.shrink( CKEDITOR.SHRINK_TEXT, false, { skipBogus: true } );
+				link = editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
+
+				if ( link && returnMultiple ) {
+					links.push( link );
+				} else if ( link ) {
+					return link;
+				}
+			}
+
+			return returnMultiple ? links : null;
 		},
 
 		/**
@@ -728,18 +746,23 @@
 		 */
 		showDisplayTextForElement: function( element, editor ) {
 			var undesiredElements = {
-				img: 1,
-				table: 1,
-				tbody: 1,
-				thead: 1,
-				tfoot: 1,
-				input: 1,
-				select: 1,
-				textarea: 1
-			};
+					img: 1,
+					table: 1,
+					tbody: 1,
+					thead: 1,
+					tfoot: 1,
+					input: 1,
+					select: 1,
+					textarea: 1
+				},
+				selection = editor.getSelection();
 
 			// Widget duck typing, we don't want to show display text for widgets.
 			if ( editor.widgets && editor.widgets.focused ) {
+				return false;
+			}
+
+			if ( selection && selection.getRanges().length > 1 ) {
 				return false;
 			}
 
