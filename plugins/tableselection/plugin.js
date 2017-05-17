@@ -687,6 +687,9 @@
 	}
 
 	/**
+	 * Namespace providing a set of helper functions for working with tables, exposed by
+	 * [Table Selection](http://ckeditor.com/addon/tableselection) plugin.
+	 *
 	 * @since 4.7.0
 	 * @singleton
 	 * @class CKEDITOR.plugins.tableselection
