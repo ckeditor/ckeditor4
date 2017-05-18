@@ -702,81 +702,7 @@
 		 * @param {CKEDITOR.dom.element} last The last cell to fetch.
 		 * @return {CKEDITOR.dom.element[]} Array of fetched cells.
 		 */
-		getCellsBetween: getCellsBetween
-	};
-
-	CKEDITOR.plugins.add( 'tableselection', {
-		requires: 'clipboard,tabletools',
-
-		onLoad: function() {
-			// We can't alias these features earlier, as they could be still not loaded.
-			tabletools = CKEDITOR.plugins.tabletools;
-			getSelectedCells = tabletools.getSelectedCells;
-			getCellColIndex = tabletools.getCellColIndex;
-			insertRow = tabletools.insertRow;
-			insertColumn = tabletools.insertColumn;
-
-			CKEDITOR.document.appendStyleSheet( this.path + '/styles/tableselection.css' );
-		},
-
-		init: function( editor ) {
-			// Allow overwriting the native table selection with our custom one.
-			if ( !editor.config.tableImprovements ) {
-				return;
-			}
-
-			// Add styles for fake visual selection.
-			editor.addContentsCss( this.path + '/styles/tableselection.css' );
-
-			editor.on( 'contentDom', function() {
-				var editable = editor.editable(),
-					mouseHost = editable.isInline() ? editable : editor.document,
-					evtInfo = { editor: editor };
-
-				// Explicitly set editor as DOM events generated on document does not convey information about it.
-				editable.attachListener( mouseHost, 'mousedown', fakeSelectionMouseHandler, null, evtInfo );
-				editable.attachListener( mouseHost, 'mousemove', fakeSelectionMouseHandler, null, evtInfo );
-				editable.attachListener( mouseHost, 'mouseup', fakeSelectionMouseHandler, null, evtInfo );
-
-				editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
-				editable.attachListener( editor, 'selectionCheck', fakeSelectionChangeHandler );
-
-				this.keyboardIntegration( editor );
-
-				// Setup copybin.
-				if ( CKEDITOR.plugins.clipboard && !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
-					editable.attachListener( editable, 'cut', fakeSelectionCopyCutHandler );
-					editable.attachListener( editable, 'copy', fakeSelectionCopyCutHandler );
-				}
-			}, this );
-
-			editor.on( 'paste', fakeSelectionPasteHandler );
-
-			customizeTableCommand( editor, [
-				'rowInsertBefore',
-				'rowInsertAfter',
-				'columnInsertBefore',
-				'columnInsertAfter',
-				'cellInsertBefore',
-				'cellInsertAfter'
-			], function( editor, data ) {
-				fakeSelectCells( editor, data.selectedCells );
-			} );
-
-			customizeTableCommand( editor, [
-				'cellMerge',
-				'cellMergeRight',
-				'cellMergeDown'
-			], function( editor, data ) {
-				fakeSelectCells( editor, [ data.commandData.cell ] );
-			} );
-
-			customizeTableCommand( editor, [
-				'cellDelete'
-			], function( editor ) {
-				clearFakeCellSelection( editor, true );
-			} );
-		},
+		getCellsBetween: getCellsBetween,
 
 		/*
 		 * Adds keyboard integration for table selection in a given editor.
@@ -958,6 +884,80 @@
 			var editable = editor.editable();
 			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
 			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
+		}
+	};
+
+	CKEDITOR.plugins.add( 'tableselection', {
+		requires: 'clipboard,tabletools',
+
+		onLoad: function() {
+			// We can't alias these features earlier, as they could be still not loaded.
+			tabletools = CKEDITOR.plugins.tabletools;
+			getSelectedCells = tabletools.getSelectedCells;
+			getCellColIndex = tabletools.getCellColIndex;
+			insertRow = tabletools.insertRow;
+			insertColumn = tabletools.insertColumn;
+
+			CKEDITOR.document.appendStyleSheet( this.path + '/styles/tableselection.css' );
+		},
+
+		init: function( editor ) {
+			// Allow overwriting the native table selection with our custom one.
+			if ( !editor.config.tableImprovements ) {
+				return;
+			}
+
+			// Add styles for fake visual selection.
+			editor.addContentsCss( this.path + '/styles/tableselection.css' );
+
+			editor.on( 'contentDom', function() {
+				var editable = editor.editable(),
+					mouseHost = editable.isInline() ? editable : editor.document,
+					evtInfo = { editor: editor };
+
+				// Explicitly set editor as DOM events generated on document does not convey information about it.
+				editable.attachListener( mouseHost, 'mousedown', fakeSelectionMouseHandler, null, evtInfo );
+				editable.attachListener( mouseHost, 'mousemove', fakeSelectionMouseHandler, null, evtInfo );
+				editable.attachListener( mouseHost, 'mouseup', fakeSelectionMouseHandler, null, evtInfo );
+
+				editable.attachListener( editable, 'dragstart', fakeSelectionDragHandler );
+				editable.attachListener( editor, 'selectionCheck', fakeSelectionChangeHandler );
+
+				CKEDITOR.plugins.tableselection.keyboardIntegration( editor );
+
+				// Setup copybin.
+				if ( CKEDITOR.plugins.clipboard && !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+					editable.attachListener( editable, 'cut', fakeSelectionCopyCutHandler );
+					editable.attachListener( editable, 'copy', fakeSelectionCopyCutHandler );
+				}
+			} );
+
+			editor.on( 'paste', fakeSelectionPasteHandler );
+
+			customizeTableCommand( editor, [
+				'rowInsertBefore',
+				'rowInsertAfter',
+				'columnInsertBefore',
+				'columnInsertAfter',
+				'cellInsertBefore',
+				'cellInsertAfter'
+			], function( editor, data ) {
+				fakeSelectCells( editor, data.selectedCells );
+			} );
+
+			customizeTableCommand( editor, [
+				'cellMerge',
+				'cellMergeRight',
+				'cellMergeDown'
+			], function( editor, data ) {
+				fakeSelectCells( editor, [ data.commandData.cell ] );
+			} );
+
+			customizeTableCommand( editor, [
+				'cellDelete'
+			], function( editor ) {
+				clearFakeCellSelection( editor, true );
+			} );
 		}
 	} );
 
