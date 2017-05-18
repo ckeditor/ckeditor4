@@ -704,7 +704,7 @@
 		 */
 		getCellsBetween: getCellsBetween,
 
-		/*
+		/**
 		 * Adds keyboard integration for table selection in a given editor.
 		 *
 		 * @param {CKEDITOR.editor} editor
