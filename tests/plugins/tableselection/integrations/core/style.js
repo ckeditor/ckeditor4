@@ -1,7 +1,7 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: entities,dialog,tabletools,clipboard,toolbar */
-/* bender-include: ../_helpers/tabletools.js */
-/* global tableToolsHelpers */
+/* bender-ckeditor-plugins: entities,dialog,tabletools,clipboard,toolbar,tableselection */
+/* bender-include: ../../_helpers/tableselection.js */
+/* global tableSelectionHelpers */
 
 ( function() {
 	'use strict';
@@ -28,7 +28,7 @@
 				style = new CKEDITOR.style( { element: 'i' } );
 
 			editorBot.setHtmlWithSelection( CKEDITOR.document.getById( 'table' ).getValue() );
-			ranges = tableToolsHelpers.getRangesForCells( editor, [ 0, 1 ] );
+			ranges = tableSelectionHelpers.getRangesForCells( editor, [ 0, 1 ] );
 
 			selection.selectRanges( ranges );
 
@@ -50,5 +50,9 @@
 		}
 	};
 
-	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+
+	bender.test( tests );
 }() );
