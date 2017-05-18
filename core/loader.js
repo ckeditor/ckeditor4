@@ -102,6 +102,35 @@ if ( !CKEDITOR.loader ) {
 			};
 
 		var pendingLoad = [];
+		var handlers = {
+			ready: []
+		};
+		
+		function unregister(event,callback){
+			handlers[event] = handlers[event].filter(function(handler){
+				return handler.callback !== callback;
+			});
+		}
+		
+		function register(event,handler){
+			switch( event ) {
+				case 'ready':
+					if ( pendingLoad.length <= 0 ) {
+						handler.callback();
+						if ( handler.one ) return;
+					}
+					break;
+			}
+			
+			handlers[event].push(handler);
+		}
+		
+		function trigger(event){
+			handlers[event] = handlers[event].filter(function(handler){
+				handler.callback();
+				return !handler.one
+			});
+		}
 
 		return {
 			/**
@@ -111,6 +140,15 @@ if ( !CKEDITOR.loader ) {
 			 *		alert( CKEDITOR.loader.loadedScripts );
 			 */
 			loadedScripts: [],
+			off: function(event,callback){
+				unregister(event,callback);
+			},
+			one: function(event,callback){
+				register(event,{callback:callback,one:true});
+			},
+			on: function(event,callback){
+				register(event,{callback:callback});
+			},
 			/**
 			 * Table of script names and their dependencies.
 			 *
@@ -124,8 +162,10 @@ if ( !CKEDITOR.loader ) {
 			loadPending: function() {
 				var scriptName = pendingLoad.shift();
 
-				if ( !scriptName )
+				if ( !scriptName ) {
+					trigger('ready');
 					return;
+				}
 
 				var scriptSrc = getUrl( 'core/' + scriptName + '.js' );
 
