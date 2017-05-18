@@ -884,7 +884,15 @@
 			var editable = editor.editable();
 			editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
 			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
-		}
+		},
+
+		/*
+		 * Determines whether table selection is supported in the current environment.
+		 *
+		 * @property {Boolean}
+		 * @private
+		 */
+		isSupportedEnvironment: !( CKEDITOR.env.ie && CKEDITOR.env.version < 11 )
 	};
 
 	CKEDITOR.plugins.add( 'tableselection', {
@@ -907,7 +915,7 @@
 				return;
 			}
 
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+			if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
 				editor.config.tableImprovements = false;
 				return;
 			}
