@@ -73,7 +73,11 @@
 
 			// Save snapshots before doing custom changes.
 			editor.on( 'saveSnapshot', function( evt ) {
-				undoManager.save( evt.data && evt.data.contentOnly );
+				try {
+					undoManager.save( evt.data && evt.data.contentOnly );
+				} catch (e) {
+					console.error(e);
+				}
 			} );
 
 			// Event manager listeners should be attached on contentDom.
