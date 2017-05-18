@@ -998,24 +998,22 @@
 					var keyCode = evt.data.domEvent.getKey(),
 						isHandled;
 
+					// #13096
+					var sel = editor.getSelection();
+					if ( sel.getRanges().length === 0 ) {
+						return;
+					}
+
 					// Backspace OR Delete.
 					if ( keyCode in backspaceOrDelete ) {
-						var sel = editor.getSelection(),
-							selected,
-							range,
-							path,
+						var selected,
+							range = sel.getRanges()[ 0 ],
+							path = range.startPath(),
 							block,
 							parent,
 							next,
 							rtl = keyCode == 8;
 
-						// prevent of reading path of empty range #13096
-						if ( sel.getRanges().length === 0 ) {
-							return;
-						}
-
-						range = sel.getRanges()[ 0 ];
-						path = range.startPath();
 
 						if (
 								// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (#10055)
@@ -1188,18 +1186,15 @@
 						if ( !( key in backspaceOrDelete ) )
 							return;
 
-						var backspace = key == 8,
-							sel = editor.getSelection(),
-							range,
-							startPath;
-
-						// prevent of reading path of empty range #13096
+						// #13096
+						var sel = editor.getSelection();
 						if ( sel.getRanges().length === 0 ) {
 							return;
 						}
 
-						range = sel.getRanges()[ 0 ];
-						startPath = range.startPath();
+						var backspace = key == 8,
+							range = sel.getRanges()[ 0 ],
+							startPath = range.startPath();
 
 						if ( range.collapsed ) {
 							if ( !mergeBlocksCollapsedSelection( editor, range, backspace, startPath ) )
