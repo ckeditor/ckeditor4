@@ -907,6 +907,11 @@
 				return;
 			}
 
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				editor.config.tableImprovements = false;
+				return;
+			}
+
 			// Add styles for fake visual selection.
 			editor.addContentsCss( this.path + '/styles/tableselection.css' );
 
