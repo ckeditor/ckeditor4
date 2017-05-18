@@ -1,0 +1,17 @@
+<textarea id="editor1"><p>example text</p></textarea>
+
+<script>
+	CKEDITOR.replace(
+        'editor1',
+        {
+            find_highlight: {
+                element : 'span',
+                styles : {
+                    'background-color': '#FF0000',
+                    'color': '#fff',
+                    'border' : '1px solid #FF0000'
+                }
+            }
+        }
+    );
+</script>
