@@ -14,6 +14,11 @@ env:
 
 addons:
   firefox: "latest"
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
 
 before_script:
   - 'npm install benderjs-cli -g'
