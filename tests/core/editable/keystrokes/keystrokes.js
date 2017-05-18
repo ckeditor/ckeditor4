@@ -170,9 +170,9 @@ bender.test( {
 	},
 
 	// #13096
-    'test deleting text without selection ': function() {
-		var editor = this.editor;
-		var bot = this.editorBot;
+    'test deleting text without selection with DEL key': function() {
+		var editor = this.editor,
+			bot = this.editorBot;
 		editor.focus();
 
 		bot.setHtmlWithSelection('<p>^Foo</p>');
@@ -184,7 +184,14 @@ bender.test( {
 				}
 			}
 		} );
+		assert.pass();
+	},
 
+	'test deleting text without selection with BACKSPACE key': function() {
+		var editor = this.editor,
+			bot = this.editorBot;
+
+		editor.focus();
 		bot.setHtmlWithSelection('<p>^Foo</p>');
 		editor.getSelection().removeAllRanges();
 		editor.fire( 'key', {
@@ -194,7 +201,7 @@ bender.test( {
 				}
 			}
 		} );
-
 		assert.pass();
 	}
+
 } );
