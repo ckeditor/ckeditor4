@@ -141,5 +141,9 @@
 	// Prepare focus iframe before starting tests.
 	prepareFocusFrame();
 
-	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+
+	bender.test( tests );
 } )();

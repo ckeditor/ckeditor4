@@ -28,7 +28,7 @@
 		editedAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors-edited' ).findOne( 'table' ),
 		removedAnchoredTable = CKEDITOR.document.getById( 'table-with-anchors-removed' ).findOne( 'table' );
 
-	bender.test( {
+	var tests = {
 		'test create link': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
@@ -242,5 +242,9 @@
 				}
 			} );
 		}
-	} );
+	};
+
+	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+
+	bender.test( tests );
 } )();

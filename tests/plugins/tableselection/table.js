@@ -1,5 +1,7 @@
 /* bender-tags: editor,table */
 /* bender-ckeditor-plugins: basicstyles,undo,tableselection,sourcearea,toolbar */
+/* bender-include: _helpers/tableselection.js */
+/* global tableSelectionHelpers */
 
 ( function() {
 	'use strict';
@@ -88,7 +90,7 @@
 		return range;
 	}
 
-	bender.test( {
+	var tests =  {
 		tearDown: function() {
 			if ( this._oldVerbosity !== undefined ) {
 				// Some tests might override verbosity, restore it if requested.
@@ -1135,5 +1137,9 @@
 			this._oldVerbosity = CKEDITOR.verbosity;
 			CKEDITOR.verbosity = newVerbosity;
 		}
-	} );
+	};
+
+	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+
+	bender.test( tests );
 }() );

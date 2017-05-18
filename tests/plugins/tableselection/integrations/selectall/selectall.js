@@ -134,5 +134,7 @@
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 
+	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+
 	bender.test( tests );
 } )();

@@ -24,5 +24,9 @@
 		'test paste 2x2 table into collapsed sel boundary': createPasteTestCase( 'nested-2x2-2x2-caret-boundary', 'paste-2x2' )
 	};
 
-	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+
+	bender.test( tests );
 } )();

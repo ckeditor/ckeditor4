@@ -3,9 +3,6 @@
 /* bender-include: _helpers/tableselection.js, ../undo/_helpers/tools.js */
 /* global tableSelectionHelpers, doCommandTest, undoEventDispatchTestsTools */
 
-/* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: tableselection */
-
 ( function() {
 	'use strict';
 
@@ -178,5 +175,9 @@
 		}
 	};
 
-	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+
+	bender.test( tests );
 } )();

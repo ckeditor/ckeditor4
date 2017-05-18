@@ -1,5 +1,7 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: tableselection */
+/* bender-include: _helpers/tableselection.js */
+/* global tableSelectionHelpers */
 
 ( function() {
 	'use strict';
@@ -86,5 +88,9 @@
 		}
 	};
 
-	bender.test( bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests ) );
+	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests );
+
+	bender.test( tests );
 } )();
