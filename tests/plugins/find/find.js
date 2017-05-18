@@ -13,6 +13,20 @@ bender.editor = {
 	}
 };
 
+bender.editors = {
+	withStyles: {
+		config: {
+			find_highlight: {
+				element: 'span',
+				attributes: {
+					style: 'background-color:#fe4a67; color:#fff; border:1px solid #fe4a67'
+				}
+			},
+			allowedContent: true
+		}
+	}
+};
+
 window.alert = function() {};
 
 bender.test( {
@@ -146,5 +160,21 @@ bender.test( {
 
 			dialog.getButton( 'cancel' ).click();
 		} );
+	},
+
+	// #14629
+	'test remove styles from selection': function() {
+		var bot = this.editorBots.withStyles;
+		bot.setData( '<p>example text</p>', function() {
+
+			bot.dialog( 'find', function( dialog ) {
+				dialog.setValueOf( 'find', 'txtFindFind', 'example' );
+				dialog.getContentElement( 'find', 'btnFind' ).click();
+
+				dialog.getButton( 'cancel' ).click();
+				assert.areSame( '<p>example text</p>', bot.getData( true ) );
+			} );
+		} );
 	}
+
 } );
