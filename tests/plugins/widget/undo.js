@@ -1,5 +1,6 @@
 /* bender-tags: widgetcore */
 /* bender-ckeditor-plugins: widget,undo,dialog,basicstyles,clipboard */
+/* bender-ckeditor-remove-plugins: tableselection */
 /* bender-include: _helpers/tools.js */
 /* global widgetTestsTools */
 
