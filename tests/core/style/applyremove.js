@@ -6,7 +6,7 @@
 
 	bender.editor = {
 		config: {
-			tableImprovements: false
+			removePlugins: 'tableselection'
 		}
 	};
 

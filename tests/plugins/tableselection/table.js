@@ -230,46 +230,6 @@
 			clearTableSelection( editor.editable() );
 		},
 
-		'Switching off fake table selection': function() {
-			var editor = this.editor,
-				selection = editor.getSelection(),
-				initialRev = selection.rev,
-				realSelection,
-				ranges;
-
-			editor.config.tableImprovements = false;
-			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
-
-			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 1 ] );
-
-			selection.selectRanges( ranges );
-
-			assert.isFalse( !!selection.isFake, 'isFake is not set' );
-			assert.isTrue( selection.isInTable(), 'isInTable is true' );
-			assert.isTrue( selection.rev > initialRev, 'Next rev' );
-			assert.isNotNull( selection.getNative(), 'getNative() is not null' );
-			assert.isNotNull( selection.getSelectedText(), 'getSelectedText() should not be null' );
-
-			// In Safari the selection is inside the cell.
-			if ( isQuirkyEnv ) {
-				assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
-			} else {
-				assert.areSame( CKEDITOR.SELECTION_ELEMENT, selection.getType(), 'Element type selection' );
-				assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( selection.getSelectedElement() ),
-					'Selected element equals to the first selected cell' );
-			}
-
-			realSelection = editor.getSelection( 1 );
-
-			if ( !isQuirkyEnv ) {
-				assert.isTrue( ranges[ 0 ].getEnclosedNode().equals( realSelection.getSelectedElement() ),
-					'Real selected element equals to the first selected cell' );
-			}
-
-			editor.config.tableImprovements = true;
-			clearTableSelection( editor.editable() );
-		},
-
 		'Reset fake-selection': function() {
 			var editor = this.editor,
 				selection = editor.getSelection(),

@@ -7,16 +7,9 @@
 	'use strict';
 
 	bender.editors = {
-		classic: {
-			config: {
-				tableImprovements: true
-			}
-		},
+		classic: {},
 
 		inline: {
-			config: {
-				tableImprovements: true
-			},
 			creator: 'inline'
 		}
 	};

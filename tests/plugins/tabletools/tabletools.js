@@ -6,7 +6,7 @@
 
 	bender.editor = {
 		config: {
-			tableImprovements: false
+			removePlugins: 'tableselection'
 		},
 		allowedForTests: 'table[width];td[id]'
 	};

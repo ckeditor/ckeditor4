@@ -8,16 +8,12 @@
 
 	bender.editors = {
 		classic: {
-			config: {
-				tableImprovements: true
-			}
+			config: {}
 		},
 
 		inline: {
 			creator: 'inline',
-			config: {
-				tableImprovements: true
-			}
+			config: {}
 		}
 	};
 

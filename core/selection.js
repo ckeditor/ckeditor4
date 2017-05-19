@@ -1981,7 +1981,7 @@
 			}
 
 			// Handle special case - fake selection of table cells.
-			if ( editor && editor.config.tableImprovements && isTableSelection( ranges ) && !isSelectingTable ) {
+			if ( editor && editor.plugins.tableselection && isTableSelection( ranges ) && !isSelectingTable ) {
 				performFakeTableSelection.call( this, ranges );
 				return;
 			}

@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, 18
-@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, autogrow
+@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tableselection, autogrow
 
 Try to select more than one cell in both of editors.
 
