@@ -3,6 +3,14 @@
 
 ## CKEditor 4.7
 
+**Security Updates:**
+
+* [Severity: minor] Fixed XSS vulnerability in the HTML parser connected to `iframe` `srcdoc` attribute reported by [Sriramk21](https://twitter.com/sriramk21) from Pegasystems.
+* [Severity: minor] Fixed XSS vulnerability in the HTML parser connected to `iframe` `src` attribute reported by [Comandeer](https://github.com/comandeer).
+* [Severity: minor] [UI Color](http://ckeditor.com/addon/uicolor) plugin now uses custom color picker instead of `YUI 2.7.0` library which has some known vulnerabilities.
+
+  An upgrade is recommended.
+
 **Important Notes:**
 
 * [#13793](http://dev.ckeditor.com/ticket/13793): The [`embed_provider`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-embed_provider) configuration option for the [Media Embed](http://ckeditor.com/addon/embed) and [Semantic Media Embed](http://ckeditor.com/addon/embedsemantic) plugins is no longer preset by default.
