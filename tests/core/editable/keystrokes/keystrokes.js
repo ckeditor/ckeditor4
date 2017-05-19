@@ -1,4 +1,5 @@
 /* bender-tags: editor,unit */
+/* bender-ckeditor-remove-plugins: tableselection */
 
 bender.editor = {
 	config: {
