@@ -1,0 +1,11 @@
+<div id="editor">
+	<p></p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor' );
+</script>
