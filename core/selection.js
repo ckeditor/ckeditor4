@@ -165,14 +165,6 @@
 		return txt;
 	}
 
-	function clearCellInRange( range ) {
-		if ( range.getEnclosedNode() ) {
-			return range.getEnclosedNode().setText( '' );
-		}
-
-		range.deleteContents();
-	}
-
 	function performFakeTableSelection( ranges ) {
 		var editor = this.root.editor,
 			realSelection = editor.getSelection( 1 ),
@@ -218,163 +210,6 @@
 		// Fire selectionchange, just like a normal selection.
 		this.root.fire( 'selectionchange' );
 	}
-
-	// Handle left, up, right, down, delete and backspace keystrokes inside table fake selection.
-	function getTableOnKeyDownListener( editor ) {
-		var keystrokes = {
-				37: 1, // Left Arrow
-				38: 1, // Up Arrow
-				39: 1, // Right Arrow,
-				40: 1, // Down Arrow
-				8: 1, // Backspace
-				46: 1 // Delete
-			},
-			tags = CKEDITOR.tools.extend( { table: 1 }, CKEDITOR.dtd.$tableContent );
-
-		delete tags.td;
-		delete tags.th;
-
-		// Called when removing empty subseleciton of the table.
-		// It should not allow for removing part of table, e.g. when user attempts to remove 2 cells
-		// out of 4 in row. It should however remove whole row or table, if it was fully selected.
-		function deleteEmptyTablePart( node, ranges ) {
-			if ( !ranges.length ) {
-				return null;
-			}
-
-			var rng = editor.createRange(),
-				mergedRanges = CKEDITOR.plugins.tabletools.mergeRanges( ranges );
-
-			// Enlarge each range, so that it wraps over tr.
-			CKEDITOR.tools.array.forEach( mergedRanges, function( mergedRange ) {
-				mergedRange.enlarge( CKEDITOR.ENLARGE_ELEMENT );
-			} );
-
-			var boundaryNodes = mergedRanges[ 0 ].getBoundaryNodes(),
-				startNode = boundaryNodes.startNode,
-				endNode = boundaryNodes.endNode;
-
-			if ( startNode && startNode.is && startNode.is( tags ) ) {
-				// A node that will receive selection after the firstRangeContainedNode is removed.
-				var boundaryTable = startNode.getAscendant( 'table', true ),
-					targetNode = startNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, boundaryTable ),
-					selectBeginning = false,
-					matchingElement = function( elem ) {
-						// We're interested in matching only td/th but not contained by the startNode since it will be removed.
-						// Technically none of startNode children should be visited but it will due to #12191.
-						return !startNode.contains( elem ) && elem.is && elem.is( 'td', 'th' );
-					};
-
-				while ( targetNode && !matchingElement( targetNode ) ) {
-					targetNode = targetNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, boundaryTable );
-				}
-
-				if ( !targetNode && !endNode.is( 'table' ) && endNode.getNext() ) {
-					// Special case: say we were removing the first row, so there are no more tds before, check if there's a cell after removed row.
-					targetNode = endNode.getNext().findOne( 'td, th' );
-					// In that particular case we want to select beginning.
-					selectBeginning = true;
-				}
-
-				if ( !targetNode ) {
-					// As a last resort of defence we'll put the selection before (about to be) removed table.
-					rng.setStartBefore( startNode.getAscendant( 'table', true ) );
-					rng.collapse( true );
-				} else {
-					rng[ 'moveToElementEdit' + ( selectBeginning ? 'Start' : 'End' ) ]( targetNode );
-				}
-
-				mergedRanges[ 0 ].deleteContents();
-
-				return [ rng ];
-			}
-
-			// By default return a collapsed selection in a first cell.
-			if ( startNode ) {
-				rng.moveToElementEditablePosition( startNode );
-				return [ rng ];
-			}
-		}
-
-		return function( evt ) {
-			// Use getKey directly in order to ignore modifiers.
-			// Justification: http://dev.ckeditor.com/ticket/11861#comment:13
-			var keystroke = evt.data.getKey(),
-				selection,
-				toStart = keystroke === 37 || keystroke == 38,
-				ranges,
-				firstCell,
-				lastCell,
-				i;
-
-			// Handle only left/right/del/bspace keys.
-			if ( !keystrokes[ keystroke ] ) {
-				return;
-			}
-
-			selection = editor.getSelection();
-
-			if ( !selection || !selection.isInTable() || !selection.isFake ) {
-				return;
-			}
-
-			ranges = selection.getRanges();
-			firstCell = ranges[ 0 ]._getTableElement();
-			lastCell = ranges[ ranges.length - 1 ]._getTableElement();
-
-			evt.data.preventDefault();
-			evt.cancel();
-
-			if ( keystroke > 8 && keystroke < 46 ) {
-				// Arrows.
-				ranges[ 0 ].moveToElementEditablePosition( toStart ? firstCell : lastCell, !toStart );
-				selection.selectRanges( [ ranges[ 0 ] ] );
-			} else {
-				// Delete.
-				for ( i = 0; i < ranges.length; i++ ) {
-					clearCellInRange( ranges[ i ] );
-				}
-
-				var newRanges = deleteEmptyTablePart( firstCell, ranges );
-
-				if ( newRanges ) {
-					ranges = newRanges;
-				} else {
-					// If no new range was returned fallback to selecting first cell.
-					ranges[ 0 ].moveToElementEditablePosition( firstCell );
-				}
-
-				selection.selectRanges( ranges );
-				editor.fire( 'saveSnapshot' );
-			}
-		};
-	}
-
-	function getTableOnKeyPressListener( editor ) {
-		return function( evt ) {
-			var selection = editor.getSelection(),
-				ranges,
-				firstCell,
-				i;
-
-			// We must check if the event really did not produce any character as it's fired for all keys in Gecko.
-			if ( !selection || !selection.isInTable() || !selection.isFake || !evt.data.$.charCode ||
-				evt.data.getKeystroke() & CKEDITOR.CTRL ) {
-				return;
-			}
-
-			ranges = selection.getRanges();
-			firstCell = ranges[ 0 ].getEnclosedNode().getAscendant( { td: 1, th: 1 }, true );
-
-			for ( i = 0; i < ranges.length; i++ ) {
-				clearCellInRange( ranges[ i ] );
-			}
-
-			ranges[ 0 ].moveToElementEditablePosition( firstCell );
-			selection.selectRanges( [ ranges[ 0 ] ] );
-		};
-	}
-
 	// #### table selection : END
 
 	// #### checkSelectionChange : START
@@ -389,7 +224,6 @@
 
 		if ( sel ) {
 			realSel = this.getSelection( 1 );
-			//realSel && console.log( realSel.getRanges()[ 0] , isRealTableSelection( realSel.getRanges(), sel.getRanges() ) );
 			// If real (not locked/stored) selection was moved from hidden container
 			// or is not a table one, then the fake-selection must be invalidated.
 			if ( !realSel || ( !realSel.isHidden() && !isRealTableSelection( realSel, sel ) ) ) {
@@ -1135,13 +969,6 @@
 					}
 
 				}, null, null, -1 );
-			}
-
-			// Automatically select non-editable element when navigating into
-			// it by left/right or backspace/del keys.
-			if ( editor.config.tableImprovements ) {
-				editable.attachListener( editable, 'keydown', getTableOnKeyDownListener( editor ), null, null, -1 );
-				editable.attachListener( editable, 'keypress', getTableOnKeyPressListener( editor ), null, null, -1 );
 			}
 
 			editable.attachListener( editable, 'keydown', getOnKeyDownListener( editor ), null, null, -1 );
@@ -2154,7 +1981,10 @@
 			}
 
 			// Handle special case - fake selection of table cells.
-			if ( editor && editor.config.tableImprovements && isTableSelection( ranges ) && !isSelectingTable ) {
+			if ( editor && editor.plugins.tableselection &&
+				CKEDITOR.plugins.tableselection.isSupportedEnvironment &&
+				isTableSelection( ranges ) && !isSelectingTable
+			) {
 				performFakeTableSelection.call( this, ranges );
 				return;
 			}
@@ -2441,7 +2271,7 @@
 		 *
 		 *		editor.getSelection().isInTable();
 		 *
-		 * @since
+		 * @since 4.7.0
 		 * @returns {Boolean}
 		 */
 		isInTable: function() {
