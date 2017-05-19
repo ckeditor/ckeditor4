@@ -1,26 +1,23 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: find */
 
-bender.editor = {
-	config: {
-		find_highlight: {
-			element: 'span',
-			attributes: {
-				title: 'highlight'
-			}
-		},
-		allowedContent: true
-	}
-};
-
 bender.editors = {
-	withStyles: {
+	classic: {
 		config: {
 			find_highlight: {
 				element: 'span',
 				attributes: {
-					style: 'background-color:#fe4a67; color:#fff; border:1px solid #fe4a67'
+					title: 'highlight'
 				}
+			},
+			allowedContent: true
+		}
+	},
+	withStyles: {
+		config: {
+			find_highlight: {
+				element: 'span',
+				styles: 'background-color:#fe4a67; color:#fff; border:1px solid #fe4a67'
 			},
 			allowedContent: true
 		}
@@ -31,7 +28,7 @@ window.alert = function() {};
 
 bender.test( {
 	'test find and replace': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBots.classic;
 		bot.setHtmlWithSelection( '<p>foo</p><p>[bar]</p>' );
 		bot.dialog( 'find', function( dialog ) {
 			assert.areSame( 'bar', dialog.getValueOf( 'find', 'txtFindFind' ) );
@@ -52,7 +49,7 @@ bender.test( {
 	},
 	// #6957
 	'test find highlight for read-only text': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBots.classic;
 		bot.setHtmlWithSelection( '<p>[foo]</p><p contenteditable="false">bar</p>' );
 		bot.dialog( 'find', function( dialog ) {
 			dialog.setValueOf( 'find', 'txtFindFind', 'bar' );
@@ -65,7 +62,7 @@ bender.test( {
 
 	// #7028
 	'test replace all': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBots.classic;
 		bot.setHtmlWithSelection( '<p>[foo]&nbsp;foo</p><p>foobaz</p>' );
 		bot.dialog( 'replace', function( dialog ) {
 			dialog.setValueOf( 'replace', 'txtReplace', 'bar' );
@@ -78,7 +75,7 @@ bender.test( {
 
 	// #12848
 	'test find in read-only mode': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBots.classic;
 
 		bot.setData( '<p>example text</p>', function() {
 			bot.editor.setReadOnly( true );
@@ -97,7 +94,7 @@ bender.test( {
 
 	// #11697
 	'test find and replace with pattern change - replace text after selection': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBots.classic;
 
 		bot.setHtmlWithSelection( '<p>example text <strong>example</strong> text</p>' );
 		bot.dialog( 'replace', function( dialog ) {
@@ -120,7 +117,7 @@ bender.test( {
 
 	// #11697
 	'test find and replace with pattern change - replace text before selection': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBots.classic;
 
 		bot.setHtmlWithSelection( '<p>Apollo 11 was the spaceflight that...</p>' );
 		bot.dialog( 'replace', function( dialog ) {
@@ -143,7 +140,7 @@ bender.test( {
 
 	// #11697
 	'test find and replace with options change': function() {
-		var bot = this.editorBot;
+		var bot = this.editorBots.classic;
 
 		bot.setHtmlWithSelection( '<p>example text</p>' );
 		bot.dialog( 'replace', function( dialog ) {
@@ -171,7 +168,9 @@ bender.test( {
 				dialog.setValueOf( 'find', 'txtFindFind', 'example' );
 				dialog.getContentElement( 'find', 'btnFind' ).click();
 
+				assert.isInnerHtmlMatching( '<p><span class="cke_find_highlight">example</span> text@</p>', bender.tools.getInnerHtml( bot.editor.editable() ) );
 				dialog.getButton( 'cancel' ).click();
+
 				assert.areSame( '<p>example text</p>', bot.getData( true ) );
 			} );
 		} );
