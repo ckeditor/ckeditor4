@@ -761,7 +761,7 @@
 							targetNode = targetNode.getPreviousSourceNode( false, CKEDITOR.NODE_ELEMENT, boundaryTable );
 						}
 
-						if ( !targetNode && !endNode.is( 'table' ) && endNode.getNext() ) {
+						if ( !targetNode && endNode && endNode.is && !endNode.is( 'table' ) && endNode.getNext() ) {
 							// Special case: say we were removing the first row, so there are no more tds before, check if there's a cell after removed row.
 							targetNode = endNode.getNext().findOne( 'td, th' );
 							// In that particular case we want to select beginning.

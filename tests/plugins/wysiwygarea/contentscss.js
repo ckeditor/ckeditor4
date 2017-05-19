@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-remove-plugins: copyformatting */
+/* bender-ckeditor-remove-plugins: copyformatting,tableselection */
 
 ( function() {
 	'use strict';

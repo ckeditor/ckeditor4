@@ -1,5 +1,6 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,dialog,tabletools,clipboard,toolbar,tableselection */
+/* bender-ckeditor-remove-plugins: basicstyles */
 /* bender-include: ../../_helpers/tableselection.js */
 /* global tableSelectionHelpers */
 
