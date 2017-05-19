@@ -8,16 +8,12 @@
 
 	bender.editors = {
 		classic: {
-			config: {
-				tableImprovements: true
-			},
+			config: {},
 			allowedForTests: 'table[width];td[id]'
 		},
 
 		inline: {
-			config: {
-				tableImprovements: true
-			},
+			config: {},
 			allowedForTests: 'table[width];td[id]',
 			creator: 'inline'
 		}

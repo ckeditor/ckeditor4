@@ -910,13 +910,8 @@
 		},
 
 		init: function( editor ) {
-			// Allow overwriting the native table selection with our custom one.
-			if ( !editor.config.tableImprovements ) {
-				return;
-			}
-
+			// Disable unsupported browsers.
 			if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
-				editor.config.tableImprovements = false;
 				return;
 			}
 
@@ -973,18 +968,4 @@
 			} );
 		}
 	} );
-
-	/**
-	 * Indicates if table improvements features (overwriting native table selection,
-	 * introducing multiple ranges for table cells and handling pasting of multiple ranges
-	 * containing table cells) are enabled.
-	 *
-	 *		// Disable table improvements.
-	 *		config.tableImprovements = false
-	 *
-	 * @since 4.7.0
-	 * @cfg {Boolean} [tableImprovements=true]
-	 * @member CKEDITOR.config
-	 */
-	CKEDITOR.config.tableImprovements = true;
 }() );
