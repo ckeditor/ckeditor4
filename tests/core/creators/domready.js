@@ -20,7 +20,9 @@ $( window ).on( 'load', function() {
 			if ( CKEDITOR.env.ie && ( document.documentMode || CKEDITOR.env.version ) < 9 )
 				assert.ignore();
 
-			assert.isTrue( passed );
+			wait( function() {
+				assert.isTrue( passed );
+			}, 200 );
 		}
 	} );
 } );
