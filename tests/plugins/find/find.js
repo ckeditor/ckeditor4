@@ -21,6 +21,18 @@ bender.editors = {
 			},
 			allowedContent: true
 		}
+	},
+	withClass: {
+		config: {
+			find_highlight: {
+				element: 'span',
+				styles: 'background-color:#fe4a67; color:#fff; border:1px solid #fe4a67',
+				attributes: {
+					'class': 'additional_class'
+				}
+			},
+			allowedContent: true
+		}
 	}
 };
 
@@ -160,7 +172,7 @@ bender.test( {
 	},
 
 	// #14629
-	'test remove styles from selection': function() {
+	'test remove class from selection': function() {
 		var bot = this.editorBots.withStyles;
 		bot.setData( '<p>example text</p>', function() {
 
@@ -171,6 +183,23 @@ bender.test( {
 				assert.isInnerHtmlMatching( '<p><span class="cke_find_highlight">example</span> text@</p>', bender.tools.getInnerHtml( bot.editor.editable() ) );
 				dialog.getButton( 'cancel' ).click();
 
+				assert.areSame( '<p>example text</p>', bot.getData( true ) );
+			} );
+		} );
+	},
+
+	// #14629
+	'test check additional class': function() {
+		var bot = this.editorBots.withClass;
+
+		bot.setData( '<p>example text</p>', function() {
+
+			bot.dialog( 'find', function( dialog ) {
+				dialog.setValueOf( 'find', 'txtFindFind', 'example' );
+				dialog.getContentElement( 'find', 'btnFind' ).click();
+
+				assert.isInnerHtmlMatching( '<p><span class="cke_find_highlight additional_class">example</span> text@</p>', bender.tools.getInnerHtml( bot.editor.editable() ) );
+				dialog.getButton( 'cancel' ).click();
 				assert.areSame( '<p>example text</p>', bot.getData( true ) );
 			} );
 		} );
