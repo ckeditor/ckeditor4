@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: tableselection, link */
 /* bender-ckeditor-plugins: link,tableselection */
 /* bender-include: ../../_helpers/tableselection.js */
 /* global tableSelectionHelpers */
