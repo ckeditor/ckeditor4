@@ -671,6 +671,7 @@ bender.test( {
 		}
 
 		this.editor.editable().fire( 'keydown', {
+			$: {},
 			preventDefault: preventSpy,
 			getKeystroke: function() {},
 			getKey: function() {}
@@ -689,6 +690,7 @@ bender.test( {
 			'<span contenteditable="true">^bar</span></span>' );
 
 		this.editor.editable().fire( 'keydown', {
+			$: {},
 			preventDefault: preventSpy,
 			getKeystroke: function() {},
 			getKey: function() {}
