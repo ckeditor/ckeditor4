@@ -916,7 +916,9 @@
 			}
 
 			// Add styles for fake visual selection.
-			editor.addContentsCss( this.path + '/styles/tableselection.css' );
+			if ( editor.addContentsCss ) {
+				editor.addContentsCss( this.path + '/styles/tableselection.css' );
+			}
 
 			editor.on( 'contentDom', function() {
 				var editable = editor.editable(),
