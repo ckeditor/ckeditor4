@@ -515,7 +515,9 @@
 
 		// Pasted value must be filtered using dataProcessor to strip all unsafe code
 		// before inserting it into temporary container.
-		tmpContainer.setHtml( dataProcessor.toHtml( evt.data.dataValue ) );
+		tmpContainer.setHtml( dataProcessor.toHtml( evt.data.dataValue ), {
+			fixForBody: false
+		} );
 		pastedTable = tmpContainer.findOne( 'table' );
 
 		if ( !selection.getRanges().length || !selection.isInTable() && !( boundarySelection = isBoundarySelection( selection ) ) ) {
