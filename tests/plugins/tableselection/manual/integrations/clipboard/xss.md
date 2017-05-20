@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 18, 4.7.0
+@bender-tags: tc, 16755, 4.7.0, tp2348
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, clipboard
 
 **Procedure:**
