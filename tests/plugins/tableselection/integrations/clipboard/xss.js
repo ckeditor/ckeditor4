@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: tableselection, image2 */
+/* bender-ckeditor-plugins: tableselection */
 /* bender-include: ../../_helpers/tableselection.js */
 /* global tableSelectionHelpers */
 
@@ -7,9 +7,16 @@
 	'use strict';
 
 	bender.editors = {
-		classic: {},
+		classic: {
+			config: {
+				allowedContent: 'img[*]'
+			}
+		},
 		inline: {
-			creator: 'inline'
+			creator: 'inline',
+			config: {
+				allowedContent: 'img[*]'
+			}
 		}
 	};
 
