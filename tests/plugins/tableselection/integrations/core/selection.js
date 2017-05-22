@@ -1,6 +1,6 @@
 /* bender-tags: tableselection, selection */
 /* bender-ckeditor-plugins: basicstyles,undo,tableselection,sourcearea,toolbar */
-/* bender-include: _helpers/tableselection.js */
+/* bender-include: ../../_helpers/tableselection.js */
 /* global tableSelectionHelpers */
 
 ( function() {
