@@ -38,7 +38,7 @@
 			}
 		},
 
-		/**
+		/*
 		 * Modifies testSuite by adding entries in `_should.ignore` object for each method/property, if
 		 * the current environment is not supported.
 		 *
