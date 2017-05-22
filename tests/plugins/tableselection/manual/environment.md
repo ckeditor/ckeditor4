@@ -8,8 +8,8 @@ This editor **must not** provide improved table selection, as it's disabled for 
 
 1. Select the first row in table.
 
-**Expected:** A native selection is made.
+	**Expected:** A native selection is made.
 
-**Unexpected:** Our custom, improved selection is used.
+	**Unexpected:** Our custom, improved selection is used.
 
-1. Repeat for other editors.
+2. Repeat for other editors.
