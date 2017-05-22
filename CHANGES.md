@@ -17,6 +17,7 @@
 
 New Features:
 
+* [#16755](http://dev.ckeditor.com/ticket/16755): Added [Table Selection](http://ckeditor.com/addon/tableselection) plugin.
 * [#16961](http://dev.ckeditor.com/ticket/16961): Added support for pasting from Microsoft Excel.
 * [#13381](http://dev.ckeditor.com/ticket/13381): Dynamic code evaluation call in [`CKEDITOR.template`](http://docs.ckeditor.com/#!/api/CKEDITOR.template) removed. CKEditor can now be used with `unsafe-eval` Content Security Policy. Thanks to [Caridy Patiño](http://caridy.name)!
 * [#16971](http://dev.ckeditor.com/ticket/16971): Added support for color in the `background` property containing also other styles for table cells in the [Table Tools](http://ckeditor.com/addon/tabletools) plugin.
