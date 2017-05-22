@@ -43,7 +43,7 @@
 		 * the current environment is not supported.
 		 *
 		 * @param {Object} testSuite
-		 * @param {Boolean} [check] Custom check to replace the default one.
+		 * @param {Boolean} [check] Custom check to be considered in addition to the default one.
 		 */
 		ignoreUnsupportedEnvironment: function( testSuite, check ) {
 			testSuite._should = testSuite._should || {};
