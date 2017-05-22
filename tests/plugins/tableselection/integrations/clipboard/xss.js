@@ -45,9 +45,7 @@
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 
-	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests, function() {
-		return !CKEDITOR.env.ie && !CKEDITOR.env.iOS;
-	} );
+	tableSelectionHelpers.ignoreUnsupportedEnvironment( tests, !CKEDITOR.env.ie && !CKEDITOR.env.iOS );
 
 	bender.test( tests );
 } )();
