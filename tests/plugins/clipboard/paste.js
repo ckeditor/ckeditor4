@@ -49,7 +49,7 @@
 		} );
 	}
 
-	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603;
+	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS;
 
 	bender.test( {
 		setUp: function() {
