@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 18, tp2297
+@bender-tags: tc, 16755, 4.7.0, tp2297
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, sourcearea, undo, elementspath
 
 ## Unsupported Environment
@@ -8,8 +8,8 @@ This editor **must not** provide improved table selection, as it's disabled for 
 
 1. Select the first row in table.
 
-**Expected:** A native selection is made.
+	**Expected:** A native selection is made.
 
-**Unexpected:** Our custom, improved selection is used.
+	**Unexpected:** Our custom, improved selection is used.
 
-1. Repeat for other editors.
+2. Repeat for other editors.
