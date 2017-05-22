@@ -43,13 +43,14 @@
 		 * the current environment is not supported.
 		 *
 		 * @param {Object} testSuite
+		 * @param {Function} check
 		 */
-		ignoreUnsupportedEnvironment: function( testSuite ) {
+		ignoreUnsupportedEnvironment: function( testSuite, check ) {
 			testSuite._should = testSuite._should || {};
 			testSuite._should.ignore = testSuite._should.ignore || {};
 
 			for ( var key in testSuite ) {
-				if ( !this.isSupportedEnvironment ) {
+				if ( ( check && !check() ) || !this.isSupportedEnvironment ) {
 					testSuite._should.ignore[ key ] = true;
 				}
 			}
