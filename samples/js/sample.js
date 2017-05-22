@@ -27,7 +27,7 @@ var initSample = ( function() {
 			// 	'font-size': '20pt',
 			// 	'font-weight': 'bold'
 			// },
-			//singleParagraphEdit: true,
+			singleParagraphEdit: true,
 			toolbar: [
 				{name: 'font', items: ['Styles', 'Font', 'FontSize']},
 				{name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']},

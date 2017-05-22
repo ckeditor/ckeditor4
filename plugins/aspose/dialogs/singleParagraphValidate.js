@@ -5,11 +5,15 @@
 			resizable:      CKEDITOR.DIALOG_RESIZE_BOTH,
 			minWidth:       300,
 			minHeight:      100,
-			// onShow: function() {
-			// 	var errors = document.getElementById('singleparagraphValidate_errors');
-            //
-			// 	errors.innerHTML = CKEDITOR._.errors.join('\n');
-			// },
+			onShow: function() {
+				// var errors = document.getElementById('singleparagraphValidate_errors');
+                //
+				// errors.innerHTML = CKEDITOR._.errors.join('\n');
+
+				var buttonOk = document.querySelector('a.cke_dialog_ui_button_ok');
+
+				buttonOk.style.backgroundColor = '#1487f5';
+			},
 			contents: [
 				{
 					id:         'singlepv',
