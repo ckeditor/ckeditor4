@@ -5,7 +5,7 @@
 </div>
 
 <script>
-	if ( !CKEDITOR.env.ie && !CKEDITOR.env.iOS ) {
+	if ( CKEDITOR.env.ie || CKEDITOR.env.iOS ) {
 		bender.ignore();
 	}
 
