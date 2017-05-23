@@ -6,7 +6,7 @@
 **Security Updates:**
 
 * [Severity: minor] Fixed XSS vulnerability in the HTML parser connected to the `srcdoc` attribute of the  `iframe`  element reported by [Sriramk21](https://twitter.com/sriramk21) from Pegasystems.
-* [Severity: minor] Fixed XSS vulnerability in the HTML parser connected to the `src` attribute of the `iframe` element reported by [Comandeer](https://github.com/comandeer).
+* [Severity: minor] Fixed XSS vulnerability in the HTML parser connected to the `src` attribute of the `iframe` element.
 * [Severity: minor] The [UI Color](http://ckeditor.com/addon/uicolor) plugin now uses a custom color picker instead of the `YUI 2.7.0` library which has some known vulnerabilities.
 
   An upgrade is recommended.
