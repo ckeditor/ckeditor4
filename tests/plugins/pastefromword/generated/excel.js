@@ -32,7 +32,8 @@
 		],
 		tests: {
 			'Table_text_attributes/Cell_text': true,
-			'Table_text_attributes/Mixed': true
+			'Table_text_attributes/Mixed': true,
+			'Meta_generator/Excel': [ 'excel2016' ]
 		},
 		testData: {
 			_should: {
@@ -45,7 +46,11 @@
 					'test Table_text_attributes/Mixed excel2013 datatransfer': CKEDITOR.env.ie,
 					'test Table_text_attributes/Cell_text excel2013 datatransfer': CKEDITOR.env.ie,
 					'test Table_text_attributes/Mixed excel2016 datatransfer': CKEDITOR.env.ie,
-					'test Table_text_attributes/Cell_text excel2016 datatransfer': CKEDITOR.env.ie
+					'test Table_text_attributes/Cell_text excel2016 datatransfer': CKEDITOR.env.ie,
+
+					'test Meta_generator/Excel excel2016 ie8': CKEDITOR.env.ie,
+					'test Meta_generator/Excel excel2016 ie11': CKEDITOR.env.ie,
+					'test Meta_generator/Excel excel2016 datatransfer': CKEDITOR.env.ie
 				}
 			}
 		},
