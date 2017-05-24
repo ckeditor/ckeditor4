@@ -85,7 +85,7 @@
 			 * It's different from deprecated {@link CKEDITOR.env.mobile} in a way that we are just
 			 * interested in checking whether this is iOS or most popular Android env.
 			 */
-			mobile: CKEDITOR.env.iOS || navigator.userAgent.indexOf( 'Android' ) !== -1
+			mobile: CKEDITOR.env.iOS || navigator.userAgent.toLowerCase().indexOf( 'android' ) !== -1
 		},
 
 		fixHtml: function( html, stripLineBreaks, toLowerCase ) {
