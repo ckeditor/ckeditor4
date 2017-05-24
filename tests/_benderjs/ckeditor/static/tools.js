@@ -78,6 +78,16 @@
 			return bender.tools.fixHtml( html, stripLineBreaks );
 		},
 
+		env: {
+			/*
+			 * Tells whether current environment is running on a mobile browser.
+			 *
+			 * It's different from deprecated {@link CKEDITOR.env.mobile} in a way that we are just
+			 * interested in checking whether this is iOS or most popular Android env.
+			 */
+			mobile: CKEDITOR.env.iOS || navigator.userAgent.indexOf( 'Android' ) !== -1
+		},
+
 		fixHtml: function( html, stripLineBreaks, toLowerCase ) {
 			if ( toLowerCase !== false ) {
 				html = html.toLowerCase();
@@ -588,6 +598,8 @@
 		 * @deprecated Use {@link bender.tools.range#setWithHtml} instead.
 		 */
 		setHtmlWithRange: function( element, html, root ) {
+			var ranges = [];
+
 			root = root instanceof CKEDITOR.dom.document ?
 				root.getBody() : root || CKEDITOR.document.getBody();
 
@@ -617,9 +629,8 @@
 				element.setHtml( html );
 			}
 
-			var ranges = [],
-				// Walk prepared to traverse the inner dom tree of this element.
-				walkerRange = new CKEDITOR.dom.range( root );
+			// Walk prepared to traverse the inner dom tree of this element.
+			var walkerRange = new CKEDITOR.dom.range( root );
 
 			walkerRange.selectNodeContents( element );
 			var wallker = new CKEDITOR.dom.walker( walkerRange ),
