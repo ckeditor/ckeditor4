@@ -79,6 +79,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 			{
 			name: 'Pomoc dotycząca dostępności',
 			legend: 'Naciśnij ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}' // MISSING
 		}
 		]
 	}

@@ -79,6 +79,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 			{
 			name: 'توسالغۇسىز لايىھە چۈشەندۈرۈشى',
 			legend: '${a11yHelp} نى بېسىڭ'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}' // MISSING
 		}
 		]
 	}

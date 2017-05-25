@@ -79,6 +79,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ru', {
 			{
 			name: 'Справка по горячим клавишам',
 			legend: 'Нажмите ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}' // MISSING
 		}
 		]
 	}

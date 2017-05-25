@@ -79,6 +79,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fi', {
 			{
 			name: 'Saavutettavuus ohjeet',
 			legend: 'Paina ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}' // MISSING
 		}
 		]
 	}

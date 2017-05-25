@@ -79,6 +79,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 			{
 			name: 'دەستپێگەیشتنی یارمەتی',
 			legend: 'کلیك ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}' // MISSING
 		}
 		]
 	}

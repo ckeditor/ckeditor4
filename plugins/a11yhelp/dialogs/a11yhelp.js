@@ -77,7 +77,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	// Modifier keys override.
 	keyMap[ CKEDITOR.ALT ] = coreLang[ 18 ];
 	keyMap[ CKEDITOR.SHIFT ] = coreLang[ 16 ];
-	keyMap[ CKEDITOR.CTRL ] = coreLang[ 17 ];
+	keyMap[ CKEDITOR.CTRL ] = CKEDITOR.env.mac ? coreLang[ 224 ] : coreLang[ 17 ];
 
 	// Sort in desc.
 	var modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ];

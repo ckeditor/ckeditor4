@@ -79,6 +79,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'lv', {
 			{
 			name: 'Pieejamības palīdzība',
 			legend: 'Nospiediet ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}' // MISSING
 		}
 		]
 	}

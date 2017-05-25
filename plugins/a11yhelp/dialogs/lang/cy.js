@@ -79,6 +79,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cy', {
 			{
 			name: 'Cymorth Hygyrchedd',
 			legend: 'Pwyswch ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}' // MISSING
 		}
 		]
 	}
