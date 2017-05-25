@@ -563,10 +563,27 @@
 			// active in the editing area (IE|WebKit).
 			[ ( /^on/ ), 'data-cke-pa-on' ],
 
+			// Prevent iframe's srcdoc attribute from being evaluated in the editable.
+			[ ( /^srcdoc/ ), 'data-cke-pa-srcdoc' ],
+
 			// Don't let some old expando enter editor. Concerns only IE8,
 			// but for consistency remove on all browsers.
 			[ ( /^data-cke-expando$/ ), '' ]
-		]
+		],
+
+		elements: {
+			// Prevent iframe's src attribute with javascript code or data protocol from being evaluated in the editable.
+			iframe: function( element ) {
+				if ( element.attributes && element.attributes.src ) {
+
+					var src = element.attributes.src.toLowerCase().replace( /[^a-z]/gi, '' );
+					if ( src.indexOf( 'javascript' ) === 0 || src.indexOf( 'data' ) === 0 ) {
+						element.attributes[ 'data-cke-pa-src' ] = element.attributes.src;
+						delete element.attributes.src;
+					}
+				}
+			}
+		}
 	};
 
 	// Disable form elements editing mode provided by some browsers. (#5746)

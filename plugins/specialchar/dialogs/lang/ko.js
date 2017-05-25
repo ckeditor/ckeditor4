@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'ko', {
 	pound: '파운드화 기호',
 	curren: '커런시 기호',
 	yen: '위안화 기호',
-	brvbar: 'Broken bar', // MISSING
+	brvbar: '파선',
 	sect: '섹션 기호',
 	uml: '분음 부호',
 	copy: '저작권 기호',

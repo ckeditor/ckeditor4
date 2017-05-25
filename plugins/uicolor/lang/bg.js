@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'bg', {
 	title: 'ПИ избор на цвят',
-	preview: 'Преглед',
-	config: 'Вмъкнете този низ във Вашия config.js fajl',
-	predefined: 'Предефинирани цветови палитри'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Предефинирани цветови палитри',
+	config: 'Вмъкнете този низ във Вашия config.js fajl'
 } );

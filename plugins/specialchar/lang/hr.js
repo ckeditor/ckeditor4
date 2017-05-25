@@ -5,5 +5,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'specialchar', 'hr', {
 	options: 'Opcije specijalnih znakova',
 	title: 'Odaberite posebni karakter',
-	toolbar: 'Ubaci posebne znakove'
+	toolbar: 'Ubaci posebni znak'
 } );

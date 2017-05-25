@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'embedbase', 'pt', {
 	pathName: 'objeto de media',
 	title: 'Embeber media',
 	button: 'Insert Media Embed', // MISSING
-	unsupportedUrlGiven: 'The specified URL is not supported.', // MISSING
+	unsupportedUrlGiven: 'O URL especificado não é suportado.',
 	unsupportedUrl: 'The URL {url} is not supported by Media Embed.', // MISSING
 	fetchingFailedGiven: 'Failed to fetch content for the given URL.', // MISSING
 	fetchingFailed: 'Failed to fetch content for {url}.', // MISSING

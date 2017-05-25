@@ -28,7 +28,7 @@ CKEDITOR.plugins.setLang( 'table', 'hr', {
 		data: 'Podatak',
 		header: 'Zaglavlje',
 		yes: 'Da',
-		no: 'ne',
+		no: 'Ne',
 		invalidWidth: 'Širina ćelije mora biti broj.',
 		invalidHeight: 'Visina ćelije mora biti broj.',
 		invalidRowSpan: 'Rows span mora biti cijeli broj.',

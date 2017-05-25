@@ -16,6 +16,6 @@ CKEDITOR.plugins.setLang( 'image2', 'pt', {
 	resizer: 'Clique e arraste para redimensionar',
 	title: 'Propriedades da imagem',
 	uploadTab: 'Carregar',
-	urlMissing: 'O URL da fonte da imagem está em falta.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	urlMissing: 'O URL de origem da imagem está em falta.',
+	altMissing: 'Texto alternativo em falta.'
 } );

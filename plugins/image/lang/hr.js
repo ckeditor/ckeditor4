@@ -10,7 +10,7 @@ CKEDITOR.plugins.setLang( 'image', 'hr', {
 	hSpace: 'HSpace',
 	img2Button: 'Želite li promijeniti odabranu sliku u gumb?',
 	infoTab: 'Info slike',
-	linkTab: 'Link',
+	linkTab: 'Veza',
 	lockRatio: 'Zaključaj odnos',
 	menu: 'Svojstva slika',
 	resetSize: 'Obriši veličinu',

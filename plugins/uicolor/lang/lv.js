@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'lv', {
 	title: 'UI krāsas izvēle',
-	preview: 'Priekšskatījums',
-	config: 'Ielīmējiet šo rindu jūsu config.js failā',
-	predefined: 'Predefinēti krāsu komplekti'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Predefinēti krāsu komplekti',
+	config: 'Ielīmējiet šo rindu jūsu config.js failā'
 } );

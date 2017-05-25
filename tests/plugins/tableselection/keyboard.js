@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: tableselection */
 /* bender-ckeditor-plugins: entities,dialog,tableselection,toolbar,undo,floatingspace */
 /* bender-include: _helpers/tableselection.js, ../undo/_helpers/tools.js */
 /* global tableSelectionHelpers, doCommandTest, undoEventDispatchTestsTools */

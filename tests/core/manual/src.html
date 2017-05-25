@@ -1,0 +1,42 @@
+<script>
+	window._globalFunctionArmed = false;
+	window.globalFunction = function(){
+		// The first call will be invoked from the "source div" below.
+		if ( !window._globalFunctionArmed ) {
+			window._globalFunctionArmed = true;
+		} else {
+			alert( 'Fail' );
+		}
+	}
+</script>
+
+<h2>Source iframe 1</h2>
+
+<div style="outline: 2px solid green">
+	Foo
+	<iframe src="javascript:window.parent.globalFunction();"></iframe>
+	bar
+</div>
+
+<hr>
+
+<h2>Source iframe 2</h2>
+
+<div style="outline: 2px solid blue">
+	Foo
+	<iframe src="data: text/html,<html><head><title>Test</title></head><body><script>window.top.globalFunction();</script></body></html>"></iframe>
+	bar
+</div>
+
+<hr>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Foo bar.</p>
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		removePlugins: 'iframe',
+		allowedContent: true
+	} );
+</script>

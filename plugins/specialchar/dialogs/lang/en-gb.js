@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'en-gb', {
 	Atilde: 'Latin capital letter A with tilde',
 	Auml: 'Latin capital letter A with diaeresis',
 	Aring: 'Latin capital letter A with ring above',
-	AElig: 'Latin Capital letter Æ',
+	AElig: 'Latin capital letter Æ',
 	Ccedil: 'Latin capital letter C with cedilla',
 	Egrave: 'Latin capital letter E with grave accent',
 	Eacute: 'Latin capital letter E with acute accent',

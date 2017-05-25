@@ -4,7 +4,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'docprops', 'hr', {
 	bgColor: 'Boja pozadine',
-	bgFixed: 'Pozadine se ne pomiče',
+	bgFixed: 'Statična pozadina',
 	bgImage: 'URL slike pozadine',
 	charset: 'Enkodiranje znakova',
 	charsetASCII: 'ASCII',
@@ -29,7 +29,7 @@ CKEDITOR.plugins.setLang( 'docprops', 'hr', {
 	marginLeft: 'Lijevo',
 	marginRight: 'Desno',
 	marginTop: 'Vrh',
-	meta: 'Meta Data',
+	meta: 'Meta tagovi',
 	metaAuthor: 'Autor',
 	metaCopyright: 'Autorska prava',
 	metaDescription: 'Opis dokumenta',

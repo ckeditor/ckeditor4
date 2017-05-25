@@ -66,9 +66,11 @@
 					// dataValue should be used.
 					mswordHtml = dataTransferHtml || data.dataValue,
 					pfwEvtData = { dataValue: mswordHtml },
-					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/;
+					officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
+					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
+					isOfficeContent = officeMetaRegexp.test( mswordHtml ) || wordRegexp.test( mswordHtml );
 
-				if ( !mswordHtml || !( forceFromWord || wordRegexp.test( mswordHtml ) ) ) {
+				if ( !mswordHtml || !( forceFromWord || isOfficeContent ) ) {
 					return;
 				}
 

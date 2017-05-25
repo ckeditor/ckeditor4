@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'gl', {
 	title: 'Recolledor de cor da interface de usuario',
-	preview: 'Vista previa en vivo',
-	config: 'Pegue esta cadea no seu ficheiro config.js',
-	predefined: 'Conxuntos predefinidos de cores'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Conxuntos predefinidos de cores',
+	config: 'Pegue esta cadea no seu ficheiro config.js'
 } );

@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'pt', {
 	title: 'Seleção de Cor da IU',
-	preview: 'Pré-visualização ao vivo ',
-	config: 'Colar este item no seu ficheiro config.js',
-	predefined: 'Conjuntos de cor predefinidos'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Conjuntos de cor predefinidos',
+	config: 'Colar este item no seu ficheiro config.js'
 } );

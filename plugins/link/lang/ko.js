@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ko', {
 	anchorName: '책갈피 이름',
 	charset: '링크된 자료 문자열 인코딩',
 	cssClasses: '스타일시트 클래스',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: '강제 다운로드',
+	displayText: '보이는 글자',
 	emailAddress: '이메일 주소',
 	emailBody: '메시지 내용',
 	emailSubject: '메시지 제목',

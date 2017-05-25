@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'ku', {
 	title: 'هەڵگری ڕەنگ بۆ ڕووکاری بەکارهێنەر',
-	preview: 'پێشبینین بە زیندوویی',
-	config: 'ئەم دەقانە بلکێنە بە پەڕگەی config.js-fil',
-	predefined: 'کۆمەڵە ڕەنگە دیاریکراوەکانی پێشوو'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'کۆمەڵە ڕەنگە دیاریکراوەکانی پێشوو',
+	config: 'ئەم دەقانە بلکێنە بە پەڕگەی config.js-fil'
 } );

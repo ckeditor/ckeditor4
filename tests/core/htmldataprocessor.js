@@ -72,6 +72,11 @@
 		};
 	}
 
+	function getDataString( code, protocol ) {
+		var proto = protocol || 'data';
+		return proto + ': text/html,<html><head><title>Test</title></head><body><script>' + code + ';<\/script></body></html>';
+	}
+
 	bender.editor = {
 		name: 'test_editor',
 		config: {
@@ -1284,6 +1289,61 @@
 	addXssTC( tcs, 'video with spacy source onerror 4',
 		'<p><video><source foo="x"onerror="%xss%" src="produce404" /></video></p>',
 		'<p><video><source foo="x" onerror="%xss%" src="produce404" /></video></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with < and >',
+		'<iframe srcdoc="<svg onload=\'window.parent.%xss%\'>;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &lt; and &gt;',
+		'<iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &LT; and &GT;',
+		'<iframe srcdoc="&LT;svg onload=\'window.parent.%xss%\'&GT;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &#x0003C; and &#x0003E;',
+		'<iframe srcdoc="&#x0003C;svg onload=\'window.parent.%xss%\'&#x0003E;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &#60; and &#62;',
+		'<iframe srcdoc="&#60;svg onload=\'window.parent.%xss%\'&#62;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe srcdoc with &#x3C; and &#x3E;',
+		'<iframe srcdoc="&#x3C;svg onload=\'window.parent.%xss%\'&#x3E;;"></iframe>',
+		'<p><iframe srcdoc="&lt;svg onload=\'window.parent.%xss%\'&gt;;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe with src=javascript 1',
+		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>',
+		'<p><iframe src="javascript:window.parent.%xss%;"></iframe></p>' );
+	addXssTC( tcs, 'iframe with src=javascript 2',
+		'<p><iframe src="jav	ascript:window.parent.%xss%;"></iframe></p>',
+		'<p><iframe src="jav	ascript:window.parent.%xss%;"></iframe></p>' );
+
+	addXssTC( tcs, 'iframe with src=javascript 3',
+		'<p><iframe src="   jAvAsCrIpT:window.parent.%xss%;"></iframe></p>',
+		// Only WebKit removes preceding spaces in the attribute.
+		'<p><iframe src="' + ( CKEDITOR.env.webkit ? '' : '   ' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
+
+	// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in Edge/IE8.
+	// IE8 treats it as an URL and opens it which reloads the whole page.
+	// While on Edge the tests passes, the browser prompts with "open as" dialog.
+	if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 || CKEDITOR.env.edge ) ) {
+		addXssTC( tcs, 'iframe with src=javascript 4',
+			'<p><iframe src="&#10;&#106;javascript:window.parent.%xss%;"></iframe></p>',
+			// In IE9 the new line entity (&#10;) is removed.
+			'<p><iframe src="' + ( CKEDITOR.env.ie && CKEDITOR.env.version == 9 ? '' : '\n' ) + 'jjavascript:window.parent.%xss%;"></iframe></p>' );
+	}
+
+	addXssTC( tcs, 'iframe with src=data 1',
+		'<p><iframe src="' + getDataString( 'window.parent.parent.%xss%' ) + '"></iframe></p>', false );
+	addXssTC( tcs, 'iframe with src=data 2',
+		'<p><iframe src="' + getDataString( 'window.top.%xss%', '   dAtA' ) + '"></iframe></p>', false );
+	addXssTC( tcs, 'iframe with src=data 3',
+		'<p><iframe src="' + getDataString( 'window.top.%xss%', 'd     ata' ) + '"></iframe></p>', false );
+
+
 
 	// False positive cases.
 

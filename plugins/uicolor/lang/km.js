@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'km', {
 	title: 'ប្រដាប់​រើស​ពណ៌',
-	preview: 'មើល​ជាមុន​ផ្ទាល់',
-	config: 'បិទ​ភ្ជាប់​ខ្សែ​អក្សរ​នេះ​ទៅ​ក្នុង​ឯកសារ config.js របស់​អ្នក',
-	predefined: 'ឈុត​ពណ៌​កំណត់​រួច​ស្រេច'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'ឈុត​ពណ៌​កំណត់​រួច​ស្រេច',
+	config: 'បិទ​ភ្ជាប់​ខ្សែ​អក្សរ​នេះ​ទៅ​ក្នុង​ឯកសារ config.js របស់​អ្នក'
 } );

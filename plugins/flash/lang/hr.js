@@ -34,7 +34,7 @@ CKEDITOR.plugins.setLang( 'flash', 'hr', {
 	title: 'Flash svojstva',
 	vSpace: 'VSpace',
 	validateHSpace: 'HSpace mora biti broj.',
-	validateSrc: 'Molimo upišite URL link',
+	validateSrc: 'Molimo upišite URL link.',
 	validateVSpace: 'VSpace mora biti broj.',
 	windowMode: 'Vrsta prozora',
 	windowModeOpaque: 'Opaque',

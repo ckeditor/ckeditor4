@@ -5,7 +5,7 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'pt', {
 	button: 'Inserir fragmento de código',
-	codeContents: 'Code content', // MISSING
+	codeContents: 'Conteúdo do código',
 	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
 	language: 'Idioma',
 	title: 'Segmento de código',

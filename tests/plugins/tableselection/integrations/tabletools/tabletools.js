@@ -1,7 +1,7 @@
-/* bender-tags: editor,unit */
+/* bender-tags: tableselection, tabletools */
 /* bender-ckeditor-plugins: entities,dialog,tableselection,toolbar,undo,floatingspace */
 /* bender-include: ../../_helpers/tableselection.js,../../../undo/_helpers/tools.js */
-/* global doCommandTest */
+/* global tableSelectionHelpers, doCommandTest */
 
 ( function() {
 	'use strict';

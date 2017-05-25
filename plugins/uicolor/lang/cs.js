@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'cs', {
 	title: 'Výběr barvy rozhraní',
-	preview: 'Živý náhled',
-	config: 'Vložte tento řetězec do vašeho souboru config.js',
-	predefined: 'Přednastavené sady barev'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Přednastavené sady barev',
+	config: 'Vložte tento řetězec do vašeho souboru config.js'
 } );

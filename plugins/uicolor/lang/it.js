@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'it', {
 	title: 'Selettore Colore UI',
-	preview: 'Anteprima Live',
-	config: 'Incolla questa stringa nel tuo file config.js',
-	predefined: 'Set di colori predefiniti'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Set di colori predefiniti',
+	config: 'Incolla questa stringa nel tuo file config.js'
 } );

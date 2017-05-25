@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'mk', {
 	title: 'Палета со бои',
-	preview: 'Преглед',
-	config: 'Залепи го овој текст во config.js датотеката',
-	predefined: 'Предефинирани множества на бои'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Предефинирани множества на бои',
+	config: 'Залепи го овој текст во config.js датотеката'
 } );

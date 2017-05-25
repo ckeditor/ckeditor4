@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'fi', {
 	title: 'Käyttöliittymän väripaletti',
-	preview: 'Esikatsele heti',
-	config: 'Liitä tämä merkkijono config.js tiedostoosi',
-	predefined: 'Esimääritellyt värijoukot'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Esimääritellyt värijoukot',
+	config: 'Liitä tämä merkkijono config.js tiedostoosi'
 } );

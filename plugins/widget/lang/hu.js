@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'hu', {
 	'move': 'Kattints és húzd a mozgatáshoz',
-	'label': '%1 widget' // MISSING
+	'label': '%1 modul'
 } );

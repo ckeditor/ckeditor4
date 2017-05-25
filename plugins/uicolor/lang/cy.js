@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'cy', {
 	title: 'Dewisydd Lliwiau\'r UI',
-	preview: 'Rhagolwg Byw',
-	config: 'Gludwch y llinyn hwn i\'ch ffeil config.js',
-	predefined: 'Setiau lliw wedi\'u cyn-ddiffinio'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Setiau lliw wedi\'u cyn-ddiffinio',
+	config: 'Gludwch y llinyn hwn i\'ch ffeil config.js'
 } );
