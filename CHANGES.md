@@ -3,17 +3,10 @@
 
 ## CKEditor 4.7
 
-**Security Updates:**
-
-* [Severity: minor] Fixed XSS vulnerability in the HTML parser connected to the `srcdoc` attribute of the  `iframe`  element reported by [Sriramk21](https://twitter.com/sriramk21) from Pegasystems.
-* [Severity: minor] Fixed XSS vulnerability in the HTML parser connected to the `src` attribute of the `iframe` element.
-* [Severity: minor] The [UI Color](http://ckeditor.com/addon/uicolor) plugin now uses a custom color picker instead of the `YUI 2.7.0` library which has some known vulnerabilities.
-
-  An upgrade is recommended.
-
 **Important Notes:**
 
 * [#13793](http://dev.ckeditor.com/ticket/13793): The [`embed_provider`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-embed_provider) configuration option for the [Media Embed](http://ckeditor.com/addon/embed) and [Semantic Media Embed](http://ckeditor.com/addon/embedsemantic) plugins is no longer preset by default.
+* The [UI Color](http://ckeditor.com/addon/uicolor) plugin now uses a custom color picker instead of the `YUI 2.7.0` library which has some known vulnerabilities (it's a security precaution, there was no security issue in CKEditor due to the way it was used).
 
 New Features:
 
@@ -61,6 +54,7 @@ Fixed Issues:
 * [#16920](http://dev.ckeditor.com/ticket/16920): Fixed: Several plugins not using the [Dialog](http://ckeditor.com/addon/dialog) plugin as a direct dependency.
 * [PR#336](https://github.com/ckeditor/ckeditor-dev/pull/336): Fixed: Typo in [`CKEDITOR.getCss`](http://docs.ckeditor.com/#!/api/CKEDITOR-method-getCss) API documentation. Thanks to [knusperpixel](https://github.com/knusperpixel)!
 * [#17027](http://dev.ckeditor.com/ticket/17027): Fixed: Command event data should be initialized as an empty object.
+* Fixed the behavior of HTML parser when parsing `src`/`srcdoc` attributes of the `<iframe>` element in a CKEditor setup with ACF turned off and without the [Iframe Dialog](http://ckeditor.com/addon/iframe) plugin. Note: disabling [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) is against [security best practices](http://docs.ckeditor.com/#!/guide/dev_best_practices-section-security), so the problem described above has not been considered a security issue as such.
 
 Other Changes:
 
