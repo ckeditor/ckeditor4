@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'da', {
 	Atilde: 'Stort A med tilde',
 	Auml: 'Stort A med umlaut',
 	Aring: 'Stort Å',
-	AElig: 'Stort Æ',
+	AElig: 'Latin capital letter Æ', // MISSING
 	Ccedil: 'Stort C med cedille',
 	Egrave: 'Stort E med accent grave',
 	Eacute: 'Stort E med accent aigu',

@@ -26,7 +26,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'zh', {
 		FF8C00: '深橘色',
 		FFD700: '金色',
 		'008000': '綠色',
-		'0FF': '藍綠色',
+		'0FF': '青色',
 		'00F': '藍色',
 		EE82EE: '紫色',
 		A9A9A9: '暗灰色',
@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'zh', {
 		F0F8FF: '愛麗斯蘭',
 		E6E6FA: '淺紫色',
 		FFF: '白色',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': '深青色',
+		'2ECC71': '翠綠色',
+		'3498DB': '亮藍色',
+		'9B59B6': '紫色',
+		'4E5F70': '藍灰色',
+		'F1C40F': '鮮黃色',
+		'16A085': '暗青色',
+		'27AE60': '暗綠色',
+		'2980B9': '深藍色',
+		'8E44AD': '暗紫色',
+		'2C3E50': '不飽和藍色',
+		'F39C12': '橘色',
+		'E67E22': '胡蘿蔔色',
+		'E74C3C': '淡紅色',
+		'ECF0F1': '亮銀色',
+		'95A5A6': '淺灰青色',
+		'DDD': '淺灰色',
+		'D35400': '南瓜色',
+		'C0392B': '深紅色',
+		'BDC3C7': '銀色',
+		'7F8C8D': '灰青色',
+		'999': '深灰色'
 	},
 	more: '更多顏色',
 	panelTitle: '顏色',

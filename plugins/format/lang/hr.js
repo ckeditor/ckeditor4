@@ -4,15 +4,15 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'format', 'hr', {
 	label: 'Format',
-	panelTitle: 'Format',
-	tag_address: 'Address',
-	tag_div: 'Normal (DIV)',
-	tag_h1: 'Heading 1',
-	tag_h2: 'Heading 2',
-	tag_h3: 'Heading 3',
-	tag_h4: 'Heading 4',
-	tag_h5: 'Heading 5',
-	tag_h6: 'Heading 6',
-	tag_p: 'Normal',
+	panelTitle: 'Format paragrafa',
+	tag_address: 'Adresa',
+	tag_div: 'Normalno (DIV)',
+	tag_h1: 'Naslov 1',
+	tag_h2: 'Naslov 2',
+	tag_h3: 'Naslov 3',
+	tag_h4: 'Naslov 4',
+	tag_h5: 'Naslov 5',
+	tag_h6: 'Naslov 6',
+	tag_p: 'Normalno',
 	tag_pre: 'Formatirano'
 } );

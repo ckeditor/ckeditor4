@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'fr', {
 		F0F8FF: 'Bleu Alice',
 		E6E6FA: 'Lavande',
 		FFF: 'Blanc',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'Cyan dur',
+		'2ECC71': 'Émeraude',
+		'3498DB': 'Bleu brillant',
+		'9B59B6': 'Améthyste',
+		'4E5F70': 'Bleu-gris',
+		'F1C40F': 'Jaune vif',
+		'16A085': 'Cyan foncé',
+		'27AE60': 'Émeraude foncée',
+		'2980B9': 'Bleu dur',
+		'8E44AD': 'Violet foncé',
+		'2C3E50': 'Bleu désaturé',
+		'F39C12': 'Orange',
+		'E67E22': 'Carotte',
+		'E74C3C': 'Rouge pâle',
+		'ECF0F1': 'Argent brillant',
+		'95A5A6': 'Cyan-gris clair',
+		'DDD': 'Gris clair',
+		'D35400': 'Citrouille',
+		'C0392B': 'Rouge dur',
+		'BDC3C7': 'Argent',
+		'7F8C8D': 'Cyan-gris',
+		'999': 'Gris foncé'
 	},
 	more: 'Plus de couleurs...',
 	panelTitle: 'Couleurs',

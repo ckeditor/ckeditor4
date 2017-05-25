@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'zh-cn', {
 	Atilde: '带颚化符的拉丁文大写字母 A',
 	Auml: '带分音符的拉丁文大写字母 A',
 	Aring: '带上圆圈的拉丁文大写字母 A',
-	AElig: '拉丁文大写字母 Ae',
+	AElig: '拉丁文大写字母 Æ',
 	Ccedil: '带下加符的拉丁文大写字母 C',
 	Egrave: '带抑音符的拉丁文大写字母 E',
 	Eacute: '带锐音符的拉丁文大写字母 E',

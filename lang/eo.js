@@ -104,14 +104,14 @@ CKEDITOR.lang[ 'eo' ] = {
 			16: 'Registrumo',
 			17: 'Stirklavo',
 			18: 'Alt-klavo',
-			32: 'Space', // MISSING
+			32: 'Spaco',
 			35: 'Fino',
 			36: 'Hejmo',
 			46: 'Forigi',
-			224: 'Command' // MISSING
+			224: 'Komando'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Fulmoklavo'
 	}
 };

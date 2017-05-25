@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'sk', {
 		F0F8FF: 'Alicovo modrá',
 		E6E6FA: 'Levanduľová',
 		FFF: 'Biela',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'Silno tyrkysová',
+		'2ECC71': 'Smaragdová',
+		'3498DB': 'Svetlo modrá',
+		'9B59B6': 'Ametystová',
+		'4E5F70': 'Sivo modrá',
+		'F1C40F': 'Sýto žltá',
+		'16A085': 'Tmavo tyrkysová',
+		'27AE60': 'Tmavo smaragdová',
+		'2980B9': 'Silno modrá',
+		'8E44AD': 'Tmavo fialová',
+		'2C3E50': 'Nesýto modrá',
+		'F39C12': 'Oranžová',
+		'E67E22': 'Mrkvová',
+		'E74C3C': 'Bledo červená',
+		'ECF0F1': 'Svetlá bronzová',
+		'95A5A6': 'Svetlá sivo-tyrkysová',
+		'DDD': 'Svetlo sivá',
+		'D35400': 'Tekvicová',
+		'C0392B': 'Silno červená',
+		'BDC3C7': 'Strieborná',
+		'7F8C8D': 'Sivo tyrkysová',
+		'999': 'Tmavo sivá'
 	},
 	more: 'Viac farieb...',
 	panelTitle: 'Farby',

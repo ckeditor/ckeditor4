@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'codesnippet', 'hr', {
 	button: 'Ubaci isječak kôda',
-	codeContents: 'Code content', // MISSING
-	emptySnippetError: 'A code snippet cannot be empty.', // MISSING
-	language: 'Language', // MISSING
-	title: 'Code snippet', // MISSING
-	pathName: 'code snippet' // MISSING
+	codeContents: 'Sadržaj kôda',
+	emptySnippetError: 'Isječak kôda ne može biti prazan.',
+	language: 'Jezik',
+	title: 'Isječak kôda',
+	pathName: 'isječak kôda'
 } );

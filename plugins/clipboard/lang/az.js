@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'az', {
 	cut: 'Kəs',
 	cutError: 'Avtomatik kəsmə mümkün deyil. Ctrl+X basın.',
 	paste: 'Əlavə et',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Sizin İnternet bələdçisi bu cür mətnin köçürməsi dəstəklənmir. Əlavə etmək üçün %1 basın.'
 } );

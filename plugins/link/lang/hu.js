@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'hu', {
 	anchorName: 'Horgony név szerint',
 	charset: 'Hivatkozott tartalom kódlapja',
 	cssClasses: 'Stíluskészlet',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Kötelező letöltés',
+	displayText: 'Megjelenített szöveg',
 	emailAddress: 'E-Mail cím',
 	emailBody: 'Üzenet',
 	emailSubject: 'Üzenet tárgya',

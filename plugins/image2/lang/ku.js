@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'ku', {
 	title: 'خاسیەتی وێنه',
 	uploadTab: 'بارکردن',
 	urlMissing: 'سەرچاوەی بەستەری وێنه بزره',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: 'جێگرەوەی دەق لەدەست چووە.'
 } );

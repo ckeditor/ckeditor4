@@ -28,7 +28,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		// of reading non-English words. So be careful while translating it.
 		editorHelp: '도움이 필요하면 ALT 0 을 누르세요',
 
-		browseServer: '서버 보기',
+		browseServer: '서버 탐색',
 		url: 'URL',
 		protocol: '프로토콜',
 		upload: '업로드',
@@ -99,19 +99,19 @@ CKEDITOR.lang[ 'ko' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
-			35: 'End', // MISSING
-			36: 'Home', // MISSING
-			46: 'Delete', // MISSING
-			224: 'Command' // MISSING
+			8: '백스페이스',
+			13: '엔터',
+			16: '시프트',
+			17: '컨트롤',
+			18: '알트',
+			32: '간격',
+			35: '엔드',
+			36: '홈',
+			46: '딜리트',
+			224: '커맨드'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: '키보드 단축키'
 	}
 };

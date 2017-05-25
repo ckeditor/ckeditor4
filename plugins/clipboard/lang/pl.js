@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'pl', {
 	cut: 'Wytnij',
 	cutError: 'Ustawienia bezpieczeństwa Twojej przeglądarki nie pozwalają na automatyczne wycinanie tekstu. Użyj skrótu klawiszowego Ctrl/Cmd+X.',
 	paste: 'Wklej',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Twoja przeglądarka nie pozwala na wklejanie treści w ten sposób. Naciśnij %1 by wkleić tekst.'
 } );
