@@ -23,9 +23,10 @@ addons:
 before_script:
   - 'npm install benderjs-cli -g'
 
-  # Build CKEditor only for PRs since every change eventually goes through PR process.
+  # Build CKEditor only for master, major branches and PRs (since every change eventually goes through PR process).
   - 'RUN_BUILD=0'
   - 'if [ "$BUILD" = "1" ] && [ "$TRAVIS_PULL_REQUEST" != "false" ]; then RUN_BUILD=1; fi'
+  - 'if [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "major" ]; then RUN_BUILD=1; fi'
 
   # Clone and setup ckeditor-presets repository.
   - 'if [ "$RUN_BUILD" = "1" ]; then cd ..; fi'
