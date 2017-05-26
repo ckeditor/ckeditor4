@@ -31,4 +31,4 @@ The same as above.
 
 **IE (not Edge):** A security alert may be displayed &ndash; confirm it. After confirming the content should be pasted.
 
-**Other browsers:** The paste dialog should be displyed.
+**Other browsers:** Notification is shown, with instructions on how to paste.
