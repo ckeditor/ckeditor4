@@ -1663,7 +1663,7 @@
 		function prepareRangeToDataInsertion( that ) {
 			var range = that.range,
 				mergeCandidates = that.mergeCandidates,
-				node, marker, path, startPath, endPath, previous, bm;
+				node, marker, path, startPath, endPath, previous, bm, i, element;
 
 			// If range starts in inline element then insert a marker, so empty
 			// inline elements won't be removed while range.deleteContents
@@ -1716,18 +1716,21 @@
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
 			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
-				if ( node.hasAttribute( 'id' ) ){
-					that.elementsWithId.push({
-						"node": node,
-						"id": node.getAttribute('id')
-					});
-					node.removeAttribute('id');
+				for ( i=0; i < path.elements.length; i++ ) {
+					element = path.elements[i];
+					if ( element.hasAttribute( 'id' ) ){
+						that.elementsWithId.push({
+							"node": element,
+							"id": element.getAttribute('id')
+						});
+						element.removeAttribute('id');
+					}
 				}
 				range.splitElement( node );
 				that.inlineStylesRoot = node;
 				that.inlineStylesPeak = path.lastElement;
 			}
-			// debugger;
+
 			// Record inline merging candidates for later cleanup in place.
 			bm = range.createBookmark();
 
@@ -1943,7 +1946,7 @@
 				bogusNeededBlocks = that.bogusNeededBlocks,
 				// Create a bookmark to defend against the following range deconstructing operations.
 				bm = range.createBookmark();
-				// debugger;
+
 			// Remove all elements that could be created while splitting nodes
 			// with ranges at its start|end.
 			// E.g. remove <div><p></p></div>
@@ -1975,7 +1978,6 @@
 
 			range.moveToBookmark( bm );
 
-			// debugger;
 			while ( ( element = that.elementsWithId.pop() ) ) {
 				element.node.setAttribute( 'id', element.id );
 			}

@@ -1164,9 +1164,17 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			function mergeElements( element, sibling, isNext ) {
 				if ( sibling && sibling.type == CKEDITOR.NODE_ELEMENT ) {
 					// Jumping over bookmark nodes and empty inline elements, e.g. <b><i></i></b>,
+<<<<<<< HEAD
 					// queuing them to be moved later. (http://dev.ckeditor.com/ticket/5567)
 					var pendingNodes = [];
+=======
+					// queuing them to be moved later. (#5567)
+>>>>>>> Better fix for keeping ID.
 
+					// keep order
+					// debugger;
+					var pendingNodes = [],
+						temporaryElement;
 					while ( sibling.data( 'cke-bookmark' ) || sibling.isEmptyInlineRemoveable() ) {
 						pendingNodes.push( sibling );
 						sibling = isNext ? sibling.getNext() : sibling.getPrevious();
@@ -1175,6 +1183,14 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					}
 
 					if ( element.isIdentical( sibling ) ) {
+						//debugger;
+						if ( element.getIndex() > sibling.getIndex() ) {
+							temporaryElement = element;
+							element = sibling;
+							sibling = temporaryElement;
+							isNext = !isNext;
+						}
+
 						// Save the last child to be checked too, to merge things like
 						// <b><i></i></b><b><i></i></b> => <b><i></i></b>
 						var innerSibling = isNext ? element.getLast() : element.getFirst();
