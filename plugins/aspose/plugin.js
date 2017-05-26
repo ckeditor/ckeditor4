@@ -130,6 +130,18 @@
 				} else {
 					editor.getCommand('pagebreak').enable();
 				}
+
+				if (config.singleParagraphEdit) {
+					var $editor = $(editor.editable().$);
+
+					if ($editor.children().length === 1 && $editor.text().length === $editor.find('ol, ul').text().length) {
+						editor.getCommand('numberedlist').enable();
+						editor.getCommand('bulletedlist').enable();
+					} else {
+						editor.getCommand('bulletedlist').disable();
+						editor.getCommand('numberedlist').disable();
+					}
+				}
 			});
 
 			// Remove page break on paste
