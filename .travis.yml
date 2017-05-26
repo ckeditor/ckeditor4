@@ -21,42 +21,17 @@ addons:
       - google-chrome-stable
 
 before_script:
+  # Prepare environment.
   - 'npm install benderjs-cli -g'
-
-  # Build CKEditor only for master, major branches and PRs (since every change eventually goes through PR process).
-  - 'RUN_BUILD=0'
-  - 'if [ "$BUILD" = "1" ] && [ "$TRAVIS_PULL_REQUEST" != "false" ]; then RUN_BUILD=1; fi'
-  - 'if [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "major" ]; then RUN_BUILD=1; fi'
-
-  # Clone and setup ckeditor-presets repository.
-  - 'if [ "$RUN_BUILD" = "1" ]; then cd ..; fi'
-  - 'if [ "$RUN_BUILD" = "1" ]; then git clone https://github.com/ckeditor/ckeditor-presets.git; fi'
-  - 'if [ "$RUN_BUILD" = "1" ]; then cd ckeditor-presets; fi'
-  - 'if [ "$RUN_BUILD" = "1" ]; then git fetch --all; fi'
-  - 'if [ "$RUN_BUILD" = "1" ]; then git checkout $TRAVIS_BRANCH; fi'
-  - 'if [ "$RUN_BUILD" = "1" ]; then git reset --hard origin/$TRAVIS_BRANCH; fi'
-
-  # Update submodules to use HTTPS instead of SSH.
-  - 'if [ "$RUN_BUILD" = "1" ]; then sed -i -e "s/git\@/https:\/\//g" .gitmodules; fi'
-  - 'if [ "$RUN_BUILD" = "1" ]; then sed -i -e "s/com:/com\//g" .gitmodules; fi'
-
-  # Update submodules.
-  - 'if [ "$RUN_BUILD" = "1" ]; then git submodule update --init; fi'
-
-  # Link to ckeditor-dev repository which triggered the build.
-  - 'if [ "$RUN_BUILD" = "1" ]; then rm -rf ckeditor; fi'
-  - 'if [ "$RUN_BUILD" = "1" ]; then ln -s ../ckeditor-dev/ ckeditor; fi'
-
-  # Build full preset.
-  - 'if [ "$RUN_BUILD" = "1" ]; then ./build.sh full all -t; fi'
-  - 'if [ "$RUN_BUILD" = "1" ]; then cd "./build/$(ls -1t ./build/ | head -n 1)/full-all/ckeditor/"; fi'
-
-  # Copy bender.ci.js file as it is removed during build.
-  - 'if [ "$RUN_BUILD" = "1" ]; then cp ../../../../../ckeditor-dev/bender.ci.js bender.ci.js; fi'
-
   - 'sh -e /etc/init.d/xvfb start'
   - 'export DISPLAY=:99.0'
 
-script:
-  - 'if [ "$BUILD" = "0" ] || [ "$RUN_BUILD" = "1" ]; then bender run -c bender.ci.js; fi'
+  # The $TRAVIS_BRANCH points to target branch for PRs and for other branches it is the current branch name.
+  - 'BUILD_PATH=0'
+  - 'if [ "$BUILD" = "1" ] && ( [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "major" ] ); then
+        sh -e ./dev/travis/build.sh $TRAVIS_BRANCH && BUILD_PATH="$(sh -e ./dev/travis/buildpath.sh)";
+    fi'
 
+script:
+  - 'if [ "$BUILD" = "0" ]; then bender run -c bender.ci.js; fi'
+  - 'if [ "$BUILD" = "1" ] && [ "$BUILD_PATH" != "0" ]; then cd $BUILD_PATH && bender run -c bender.ci.js; fi'
