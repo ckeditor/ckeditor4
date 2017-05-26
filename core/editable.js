@@ -1603,7 +1603,7 @@
 		function insert( editable, type, data, range ) {
 			var editor = editable.editor,
 				dontFilter = false;
-
+			// debugger;
 			if ( type == 'unfiltered_html' ) {
 				type = 'html';
 				dontFilter = true;
@@ -1627,6 +1627,7 @@
 					editor: editor,
 					range: range,
 					blockLimit: blockLimit,
+					elementsWithId: [],
 					// During pre-processing / preparations startContainer of affectedRange should be placed
 					// in this element in which inserted or moved (in case when we merge blocks) content
 					// could create situation that will need merging inline elements.
@@ -1715,11 +1716,18 @@
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
 			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
+				if ( node.hasAttribute( 'id' ) ){
+					that.elementsWithId.push({
+						"node": node,
+						"id": node.getAttribute('id')
+					});
+					node.removeAttribute('id');
+				}
 				range.splitElement( node );
 				that.inlineStylesRoot = node;
 				that.inlineStylesPeak = path.lastElement;
 			}
-
+			// debugger;
 			// Record inline merging candidates for later cleanup in place.
 			bm = range.createBookmark();
 
@@ -1931,11 +1939,11 @@
 
 		function cleanupAfterInsertion( that ) {
 			var range = that.range,
-				node, testRange, movedIntoInline,
+				node, testRange, movedIntoInline, element,
 				bogusNeededBlocks = that.bogusNeededBlocks,
 				// Create a bookmark to defend against the following range deconstructing operations.
 				bm = range.createBookmark();
-
+				// debugger;
 			// Remove all elements that could be created while splitting nodes
 			// with ranges at its start|end.
 			// E.g. remove <div><p></p></div>
@@ -1966,6 +1974,11 @@
 				node.mergeSiblings();
 
 			range.moveToBookmark( bm );
+
+			// debugger;
+			while ( ( element = that.elementsWithId.pop() ) ) {
+				element.node.setAttribute( 'id', element.id );
+			}
 
 			// Rule 3.
 			// Shrink range to the BEFOREEND of previous innermost editable node in source order.
