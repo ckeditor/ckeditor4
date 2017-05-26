@@ -12,13 +12,13 @@ is already reported just put a 👍 (+1) reaction in it.
 During our transition period you could also check [CKEditor's former bug tracker](https://dev.ckeditor.com). If the issue
 is there but not in GitHub, put a reference link to the original Trac issue.
 
-*Put all reference links here...*
+*Put all reference links here…*
 
 ## Provide a reproduction steps (if any)
 
-1. ...
-2. ...
-3. ...
+1. …
+2. …
+3. …
 
 ## Expected result
 
@@ -30,7 +30,7 @@ is there but not in GitHub, put a reference link to the original Trac issue.
 
 ## Other details
 
-* Browser: ...
-* OS: ...
-* CKEditor version: ...
-* Installed CKEditor plugins: ...
+* Browser: …
+* OS: …
+* CKEditor version: …
+* Installed CKEditor plugins: …
