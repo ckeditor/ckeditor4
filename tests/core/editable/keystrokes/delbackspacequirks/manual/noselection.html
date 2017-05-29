@@ -13,18 +13,12 @@
 	} );
 </script>
 
-<button onclick="start()" >Start.</button>
+<div onmouseenter="start()" style="width:50px;height:50px;border:1px solid black;background-color:#bbddbb;padding:5px;">😊</div>
 <script>
+
 	function start() {
 		var ed = CKEDITOR.instances.editor;
 		ed.focus();
-		ed.editable().once( 'click', function() {
-			var el = ed.editable().findOne( 'p' ),
-				sel = ed.getSelection();
-			sel.selectElement( el );
-			el.once( 'mouseenter', function() {
-				sel.removeAllRanges();
-			})
-		});
+		ed.getSelection().removeAllRanges()
 	}
 </script>
