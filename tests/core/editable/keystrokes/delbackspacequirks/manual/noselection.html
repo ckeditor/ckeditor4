@@ -3,7 +3,28 @@
 </div>
 
 <script>
+
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'editor', {
-		height: 500
+		height: 300
 	} );
+</script>
+
+<button onclick="start()" >Start.</button>
+<script>
+	function start() {
+		var ed = CKEDITOR.instances.editor;
+		ed.focus();
+		ed.editable().once( 'click', function() {
+			var el = ed.editable().findOne( 'p' ),
+				sel = ed.getSelection();
+			sel.selectElement( el );
+			el.once( 'mouseenter', function() {
+				sel.removeAllRanges();
+			})
+		});
+	}
 </script>
