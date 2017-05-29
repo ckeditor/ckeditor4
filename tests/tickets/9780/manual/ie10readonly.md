@@ -1,4 +1,4 @@
-@bender-tags: selection, tc, 4.7.1, 9780, 16820
+@bender-tags: selection, tc, 4.7.1, 9780
 @bender-ckeditor-plugins: wysiwygarea,toolbar
 
 ## IE throws an error in read only mode.

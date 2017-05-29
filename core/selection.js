@@ -995,7 +995,8 @@
 					range = sel.createRange();
 
 				// The selection range is reported on host, but actually it should applies to the content doc.
-				if ( sel.type != 'None' && ( range.parentElement() || {}).ownerDocument == doc.$ )
+				// #9780 added check if range.parentElement() exists
+				if ( sel.type != 'None' && range.parentElement() && range.parentElement().ownerDocument == doc.$ )
 					range.select();
 			}
 
