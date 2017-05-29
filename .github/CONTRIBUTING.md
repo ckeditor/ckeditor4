@@ -4,9 +4,6 @@ We are happy to see that you would like to contribute to the CKEditor! CKEditor 
 anyone to download, use, and customize. It has an amazing community around it that supports it in all possible ways.
 There are a few guidelines that we need contributors to follow so that the workflow is as smooth and efficient as possible.
 
-If you would like to report an issue please follow the instructions in our official docs on
-[bug reporting and feature requests](http://docs.ckeditor.com/#!/guide/dev_issues_readme).
-
 If you are preparing a pull request, see the [guides on contributing](http://docs.ckeditor.com/#!/guide/dev_contributing_code).
 
 If you would like to contribute in any other way, you can consider the following actions:
