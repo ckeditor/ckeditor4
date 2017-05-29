@@ -149,6 +149,12 @@
 					if ( block.isReadOnly() )
 						continue;
 
+					// #16808 Check if style or class might be applied to currently processed element
+					var tag = block.getName(),
+						isAllowedTextAlign, isAllowedCssClass;
+					isAllowedTextAlign = editor.filter.check( tag + '{text-align}' ) || false;
+					isAllowedCssClass = editor.filter.check( tag + '(' + cssClassName + ')' ) || false;
+
 					block.removeAttribute( 'align' );
 					block.removeStyle( 'text-align' );
 
@@ -157,13 +163,13 @@
 
 					var apply = ( this.state == CKEDITOR.TRISTATE_OFF ) && ( !useComputedState || ( getAlignment( block, true ) != this.value ) );
 
-					if ( cssClassName ) {
+					if ( cssClassName && isAllowedCssClass ) {
 						// Append the desired class name.
 						if ( apply )
 							block.addClass( cssClassName );
 						else if ( !className )
 							block.removeAttribute( 'class' );
-					} else if ( apply ) {
+					} else if ( apply && isAllowedTextAlign ) {
 						block.setStyle( 'text-align', this.value );
 					}
 				}

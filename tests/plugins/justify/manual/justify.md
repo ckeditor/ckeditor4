@@ -1,4 +1,4 @@
-@bender-tags: 4.7.0, tc, 16808, justify
+@bender-tags: 4.7.1, tc, 16808, justify
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, justify, wysiwygarea
 
@@ -13,11 +13,17 @@ Note: CKEditor config allows only on justification in paragraphs `<p>`.
 **Expected:** Justification buttons should be possible to press and alignment change accorind to your selecitons.
 
 ----
-3. Move caret to list item `<li>` (e.g. word "One").
+1. Move caret to list item `<li>` (e.g. word "One").
 
 **Expected:** Justification option should be disabled and you should not be allowed to justify list item.
 
 ----
-**Unexpected:** Justification is possible to change when caret is inside list item.
+1. Select all text
+1. Change alignment.
 
-**Unexpected:** Justification buttons are not visible in editor.
+**Expected:** Aligned is only first paragraph, list remain in this same position.
+
+----
+**Unexpected:**
+* Justification is possible to change when caret is inside list item.
+* Justification buttons are not visible in editor.
