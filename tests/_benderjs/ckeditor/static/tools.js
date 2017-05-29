@@ -85,7 +85,12 @@
 			 * It's different from deprecated {@link CKEDITOR.env.mobile} in a way that we are just
 			 * interested in checking whether this is iOS or most popular Android env.
 			 */
-			mobile: CKEDITOR.env.iOS || navigator.userAgent.toLowerCase().indexOf( 'android' ) !== -1
+			mobile: CKEDITOR.env.iOS || navigator.userAgent.toLowerCase().indexOf( 'android' ) !== -1,
+
+			/* Tells whether current environment is running on a Windows. */
+			windows: navigator.platform.toLowerCase().indexOf( 'win64' ) ||
+					 navigator.platform.toLowerCase().indexOf( 'win32' ) ||
+					 navigator.platform.toLowerCase().indexOf( 'win16' ) !== -1
 		},
 
 		fixHtml: function( html, stripLineBreaks, toLowerCase ) {

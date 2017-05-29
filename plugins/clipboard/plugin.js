@@ -142,9 +142,9 @@
 			initPasteClipboard( editor );
 			initDragDrop( editor );
 
-			// Convert image file (if present) to base64 string for Firefox. Do it as the first
+			// Convert image file (if present) to base64 string for Firefox and Chrome. Do it as the first
 			// step as the conversion is asynchronous and should hold all further paste processing.
-			if ( CKEDITOR.env.gecko ) {
+			if ( CKEDITOR.env.gecko || CKEDITOR.env.webkit ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 					latestId;
 
@@ -2415,7 +2415,6 @@
 			file = this._getImageFromClipboard();
 			if ( ( this.$ && this.$.files ) || file ) {
 				this._.files = [];
-
 				// Edge have empty files property with no length (#13755).
 				if ( this.$.files && this.$.files.length ) {
 					for ( i = 0; i < this.$.files.length; i++ ) {
@@ -2444,7 +2443,6 @@
 			if ( this.$ && this.$.files && this.$.files.length ) {
 				return this.$.files.length;
 			}
-
 			return this._getImageFromClipboard() ? 1 : 0;
 		},
 
