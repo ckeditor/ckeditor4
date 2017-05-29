@@ -122,6 +122,16 @@ a.cke_button
 	float: right;
 }
 
+[lang|="ar"].cke_rtl .cke_button__about_icon
+{
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
 .cke_hc .cke_button
 {
 	border: 1px solid black;
