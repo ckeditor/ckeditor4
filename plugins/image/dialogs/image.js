@@ -116,14 +116,22 @@
 						if ( !dialog.userlockRatio && oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
 							var width = dialog.getValueOf( 'info', 'txtWidth' ),
 								height = dialog.getValueOf( 'info', 'txtHeight' ),
-								originalRatio = oImageOriginal.$.width * 1000 / oImageOriginal.$.height,
-								thisRatio = width * 1000 / height;
+								originalRatio = oImageOriginal.$.width / oImageOriginal.$.height,
+								thisRatio = width / height;
 							dialog.lockRatio = false; // Default: unlock ratio
 
 							if ( !width && !height )
 								dialog.lockRatio = true;
 							else if ( !isNaN( originalRatio ) && !isNaN( thisRatio ) ) {
-								if ( Math.round( originalRatio ) == Math.round( thisRatio ) )
+								var ratioComparison = originalRatio / thisRatio;
+
+								// Ensure that we have the larger ratio value divided by the smaller ratio value, to simplify
+								// testing for the desired tolerance.
+								if ( ratioComparison < 1.0 )
+									ratioComparison = 1.0 / ratioComparison;
+
+								// Check that the ratios are within 2% of one another.
+								if ( ratioComparison < 1.02 )
 									dialog.lockRatio = true;
 							}
 						}
