@@ -21,15 +21,6 @@
 	};
 
 	bender.test({
-		'test insert inline text into inline element with id': function() {
-			var editor = this.editors.paragraph,
-				bot = this.editorBots.paragraph;
-
-			bot.setHtmlWithSelection( '<p><span class="marker" id="abc">te^st</span></p>' );
-			editor.insertText( '789' );
-			assert.areSame( '<p><span class="marker" id="abc">te789st</span></p>', bot.getData() );
-
-		},
 
 		'test insert nothing into inline element with id': function() {
 			var editor = this.editors.paragraph,
@@ -47,8 +38,8 @@
 				bot = this.editorBots.paragraph;
 
 			bot.setHtmlWithSelection( '<p style="text-align:right"><span class="marker" id="abc"><span id="def"><span id="ghj">te^st</span></span></span></p>' );
-			editor.insertText( 'stte' );
-			assert.areSame( '<p style="text-align:right"><span class="marker" id="abc"><span id="def"><span id="ghj">testtest</span></span></span></p>', bot.getData() );
+			editor.insertText( 'foo' );
+			assert.areSame( '<p style="text-align:right"><span class="marker" id="abc"><span id="def"><span id="ghj">tefoost</span></span></span></p>', bot.getData() );
 
 
 		},
