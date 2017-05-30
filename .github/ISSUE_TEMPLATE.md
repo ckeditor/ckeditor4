@@ -8,7 +8,7 @@
 
 *Put all reference links here…*
 
-## Provide a reproduction steps (if any)
+## Provide detailed reproduction steps (if any)
 
 1. …
 2. …
