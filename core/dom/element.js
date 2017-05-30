@@ -1174,15 +1174,30 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					// keep order
 					// debugger;
 					var pendingNodes = [],
-						temporaryElement;
+						temporaryElement, node;
 					while ( sibling.data( 'cke-bookmark' ) || sibling.isEmptyInlineRemoveable() ) {
 						pendingNodes.push( sibling );
 						sibling = isNext ? sibling.getNext() : sibling.getPrevious();
-						if ( !sibling || sibling.type != CKEDITOR.NODE_ELEMENT )
+						if ( !sibling || sibling.type != CKEDITOR.NODE_ELEMENT ) {
+							/*
+							while ( node = pendingNodes.pop() ) {
+								if ( node.data( 'cke-bookmark' ) ) {
+									continue;
+								} else {
+									node.remove();
+								}
+							} */
 							return;
+
+						}
 					}
 
 					if ( element.isIdentical( sibling ) ) {
+						// Save the last child to be checked too, to merge things like
+						// <b><i></i></b><b><i></i></b> => <b><i></i></b>
+						var innerSibling = isNext ? element.getLast() : element.getFirst();
+
+
 						//debugger;
 						if ( element.getIndex() > sibling.getIndex() ) {
 							temporaryElement = element;
@@ -1191,9 +1206,6 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 							isNext = !isNext;
 						}
 
-						// Save the last child to be checked too, to merge things like
-						// <b><i></i></b><b><i></i></b> => <b><i></i></b>
-						var innerSibling = isNext ? element.getLast() : element.getFirst();
 
 						// Move pending nodes first into the target element.
 						while ( pendingNodes.length )
