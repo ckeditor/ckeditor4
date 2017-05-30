@@ -3,7 +3,7 @@
 </div>
 
 <script>
-	if ( bender.tools.env.windows ) {
+	if ( CKEDITOR.env.safari || ( CKEDITOR.env.windows && !CKEDITOR.env.gecko ) ) {
 		bender.ignore();
 	}
 

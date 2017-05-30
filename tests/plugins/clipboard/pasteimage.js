@@ -75,7 +75,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( !CKEDITOR.env.gecko ) {
+			if ( CKEDITOR.env.safari || ( CKEDITOR.env.windows && !CKEDITOR.env.gecko ) ) {
 				assert.ignore();
 			}
 			FileReader.setFileMockType();

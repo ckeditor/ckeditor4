@@ -142,9 +142,9 @@
 			initPasteClipboard( editor );
 			initDragDrop( editor );
 
-			// Convert image file (if present) to base64 string for Firefox and Chrome. Do it as the first
-			// step as the conversion is asynchronous and should hold all further paste processing.
-			if ( CKEDITOR.env.gecko || CKEDITOR.env.webkit ) {
+			// Convert image file (if present) to base64 string for Firefox and Chrome on Mac and for Firefox on Windows.
+			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
+			if ( CKEDITOR.env.gecko || ( !CKEDITOR.env.windows && CKEDITOR.env.chrome ) ) {
 				var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 					latestId;
 
@@ -152,7 +152,6 @@
 					var dataObj = evt.data,
 						data = dataObj.dataValue,
 						dataTransfer = dataObj.dataTransfer;
-
 					// If data empty check for image content inside data transfer. #16705
 					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
 						var file = dataTransfer.getFile( 0 );
