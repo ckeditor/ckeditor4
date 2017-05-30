@@ -21,5 +21,3 @@ in the official CKEditor documentation.
 ## What changes did you make?
 
 *Give an overview…*
-
-**Thank you for contributing!**
