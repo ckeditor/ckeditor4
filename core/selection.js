@@ -356,7 +356,7 @@
 		return fillingChar;
 	}
 
-	// Checks if a filling char has been used, eventualy removing it (#1272).
+	// Checks if a filling char has been used, eventually removing it (#1272).
 	function checkFillingCharSequenceNodeReady( editable ) {
 		var fillingChar = editable.getCustomData( 'cke-fillingChar' );
 
@@ -1494,7 +1494,7 @@
 		 *		alert( ranges.length );
 		 *
 		 * @method
-		 * @param {Boolean} [onlyEditables] If set to `true`, this function retrives editable ranges only.
+		 * @param {Boolean} [onlyEditables] If set to `true`, this function retrieves editable ranges only.
 		 * @returns {Array} Range instances that represent the current selection.
 		 */
 		getRanges: ( function() {
@@ -1525,7 +1525,7 @@
 						index = -1,
 						position, distance, container;
 
-					// Binary search over all element childs to test the range to see whether
+					// Binary search over all element children to test the range to see whether
 					// range is right on the boundary of one element.
 					while ( startIndex <= endIndex ) {
 						index = Math.floor( ( startIndex + endIndex ) / 2 );
@@ -1541,7 +1541,7 @@
 							return { container: parent, offset: getNodeIndex( child ) };
 					}
 
-					// All childs are text nodes,
+					// All children are text nodes,
 					// or to the right hand of test range are all text nodes. (#6992)
 					if ( index == -1 || index == siblings.length - 1 && position < 0 ) {
 						// Adapt test range to embrace the entire parent contents.
@@ -1603,7 +1603,7 @@
 								}
 								child = sibling;
 							}
-							// Measurement in IE could be somtimes wrong because of <select> element. (#4611)
+							// Measurement in IE could be sometimes wrong because of <select> element. (#4611)
 							catch ( e ) {
 								return { container: parent, offset: getNodeIndex( child ) };
 							}
@@ -1667,7 +1667,7 @@
 			} )() :
 			function() {
 				// On browsers implementing the W3C range, we simply
-				// tranform the native ranges in CKEDITOR.dom.range
+				// transform the native ranges in CKEDITOR.dom.range
 				// instances.
 
 				var ranges = [],
@@ -2123,7 +2123,7 @@
 						between.setStart( left.endContainer, left.endOffset );
 						between.setEnd( right.startContainer, right.startOffset );
 
-						// Don't confused by Firefox adjancent multi-ranges
+						// Don't confused by Firefox adjacent multi-ranges
 						// introduced by table cells selection.
 						if ( !between.collapsed ) {
 							between.shrink( CKEDITOR.NODE_ELEMENT, true );
@@ -2206,7 +2206,7 @@
 		fake: function( element, ariaLabel ) {
 			var editor = this.root.editor;
 
-			// Attempt to retreive aria-label if possible (#14539).
+			// Attempt to retrieve aria-label if possible (#14539).
 			if ( ariaLabel === undefined && element.hasAttribute( 'aria-label' ) ) {
 				ariaLabel = element.getAttribute( 'aria-label' );
 			}
