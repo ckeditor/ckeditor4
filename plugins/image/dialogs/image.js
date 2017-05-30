@@ -12,6 +12,7 @@
 				CLEANUP = 8,
 				regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i,
 				regexGetSizeOrEmpty = /(^\s*(\d+)((px)|\%)?\s*$)|^$/i,
+				regexPercentSize = /^\s*\d+\%\s*$/i,
 				pxLengthRegex = /^\d+px$/;
 
 			var onSizeChange = function() {
@@ -19,28 +20,45 @@
 						// This = input element.
 						dialog = this.getDialog(),
 						aMatch = value.match( regexGetSize ); // Check value
+
 					if ( aMatch ) {
-						if ( aMatch[ 2 ] == '%' ) // % is allowed - > unlock ratio.
-						switchLockRatio( dialog, false ); // Unlock.
+						// If using percentages, lock the width and height values. Since the main document has no fixed height, heights as
+						// percentages are going to be ignored anyway, and the image is simply going to be resized proportionally.
+						if ( aMatch[ 2 ] == '%' )
+							switchLockRatio( dialog, true );
 						value = aMatch[ 1 ];
 					}
 
 					// Only if ratio is locked
 					if ( dialog.lockRatio ) {
-						var oImageOriginal = dialog.originalElement;
-						if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
-							if ( this.id == 'txtHeight' ) {
-								if ( value && value != '0' )
-									value = Math.round( oImageOriginal.$.width * ( value / oImageOriginal.$.height ) );
-								if ( !isNaN( value ) )
-									dialog.setValueOf( 'info', 'txtWidth', value );
-							}
-							// this.id = txtWidth.
-							else {
-								if ( value && value != '0' )
-									value = Math.round( oImageOriginal.$.height * ( value / oImageOriginal.$.width ) );
-								if ( !isNaN( value ) )
-									dialog.setValueOf( 'info', 'txtHeight', value );
+						if ( aMatch && (aMatch[ 2 ] == '%') ) {
+							// If using percentages, simply make the width and height match. If the image's aspect is 2:1, it wouldn't make
+							// sense to have a width of 50% and a height of 25% when the image is going to be scaled proportionally anyway.
+							// You generally wouldn't want the height to be a percentage *of the document height* anyway, so this is just
+							// making the UI look nice; the height value isn't actually used.
+							if ( this.id == 'txtHeight' )
+								dialog.setValueOf( 'info', 'txtWidth', value + '%' );
+							else
+								dialog.setValueOf( 'info', 'txtHeight', value + '%' );
+						}
+						else {
+							var oImageOriginal = dialog.originalElement;
+							if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' ) {
+								// Scale the user's input to the other component based on the image's aspect ratio. E.g., if the image's aspect
+								// is 2:1 and the user has entered a width of 500px, set the height to 250px.
+								if ( this.id == 'txtHeight' ) {
+									if ( value && value != '0' )
+										value = Math.round( oImageOriginal.$.width * ( value / oImageOriginal.$.height ) );
+									if ( !isNaN( value ) )
+										dialog.setValueOf( 'info', 'txtWidth', value );
+								}
+								// this.id = txtWidth.
+								else {
+									if ( value && value != '0' )
+										value = Math.round( oImageOriginal.$.height * ( value / oImageOriginal.$.width ) );
+									if ( !isNaN( value ) )
+										dialog.setValueOf( 'info', 'txtHeight', value );
+								}
 							}
 						}
 					}
@@ -118,10 +136,13 @@
 								height = dialog.getValueOf( 'info', 'txtHeight' ),
 								originalRatio = oImageOriginal.$.width * 1000 / oImageOriginal.$.height,
 								thisRatio = width * 1000 / height;
+
 							dialog.lockRatio = false; // Default: unlock ratio
 
 							if ( !width && !height )
 								dialog.lockRatio = true;
+							else if ( regexPercentSize.test( width ) )
+								dialog.lockRatio = ( width == height );
 							else if ( !isNaN( originalRatio ) && !isNaN( thisRatio ) ) {
 								if ( Math.round( originalRatio ) == Math.round( thisRatio ) )
 									dialog.lockRatio = true;
@@ -181,10 +202,9 @@
 					function checkDimension( size, defaultValue ) {
 						var aMatch = size.match( regexGetSize );
 						if ( aMatch ) {
-							// % is allowed.
 							if ( aMatch[ 2 ] == '%' ) {
 								aMatch[ 1 ] += '%';
-								switchLockRatio( dialog, false ); // Unlock ratio
+								switchLockRatio( dialog, true ); // Lock ratio
 							}
 							return aMatch[ 1 ];
 						}
@@ -199,6 +219,17 @@
 					if ( size )
 						value = checkDimension( size, value );
 					value = checkDimension( element.getStyle( dimension ), value );
+
+					// If an image has been saved with only a width as a percentage, and we're in the process of setting up
+					// an empty height, copy the width to the height.
+					if ( !value && (dimension == 'height') ) {
+						var width = element.getStyle( 'width' );
+
+						if ( regexPercentSize.test( width ) ) {
+							value = width;
+							switchLockRatio( dialog, true );
+						}
+					}
 
 					this.setValue( value );
 				};
@@ -668,19 +699,45 @@
 										commit: function( type, element ) {
 											var value = this.getValue();
 											if ( type == IMAGE ) {
-												if ( value && editor.activeFilter.check( 'img{width,height}' ) )
+												// If percentages are being used, the height, which would otherwise be interpreted as a percentage of the document's
+												// *height*, is going to be ignored, because the document doesn't have a defined height. Since it is going to be
+												// ignored, and since that is the behaviour we want, skip including the height style entirely if it is percentage-
+												// based.
+												if ( value && !regexPercentSize.test( value ) && editor.activeFilter.check( 'img{width,height}' ) )
 													element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
 												else
 													element.removeStyle( 'height' );
 
 												element.removeAttribute( 'height' );
 											} else if ( type == PREVIEW ) {
-												var aMatch = value.match( regexGetSize );
+												var oImageOriginal = this.getDialog().originalElement;
+												var aMatch = value.match(regexGetSize);
 												if ( !aMatch ) {
-													var oImageOriginal = this.getDialog().originalElement;
 													if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' )
 														element.setStyle( 'height', oImageOriginal.$.height + 'px' );
 												} else {
+													var widthValue = element.getStyle( 'width' );
+													var heightValue = value;
+
+													// If percentages are being used, we need to calculate the correct size for the preview image. Unlike the main
+													// document, the preview area *does* have a fixed height. Setting the height to e.g. 50% isn't going to preserve
+													// the image aspect ratio with respect to a width of 50%, it's simply going to stretch the image to 50% of the
+													// preview area. For the preview, then, we calculate an actual pixel height by applying the image aspect ratio
+													// to the actual width obtained based on the width being a percentage.
+													if ( regexPercentSize.test( widthValue ) && regexPercentSize.test( heightValue ) ) {
+														var actualWidth = element.$.offsetWidth,
+
+														    widthPercentage = parseFloat( widthValue ),
+														    heightPercentage = parseFloat( heightValue ),
+
+														    aspectRatio = 1.0;
+
+														if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' )
+															aspectRatio = oImageOriginal.$.width / oImageOriginal.$.height;
+
+														value = actualWidth * (heightPercentage / widthPercentage) / aspectRatio;
+													}
+
 													element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
 												}
 											} else if ( type == CLEANUP ) {
