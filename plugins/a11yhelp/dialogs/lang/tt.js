@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tt', {
 			{
 			name: ' Accessibility Help', // MISSING
 			legend: '${a11yHelp} басыгыз'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}', // MISSING
+			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}
