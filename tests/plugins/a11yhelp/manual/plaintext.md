@@ -25,7 +25,7 @@ Paste as plain text
 
 2. Windows users should see:
 
-IE:
+IE, Chrome, Firefox:
 ```
 Paste as plain text
     Press Shift+Ctrl+V
