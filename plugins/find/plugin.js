@@ -18,6 +18,8 @@ CKEDITOR.plugins.add( 'find', {
 		var replaceCommand = editor.addCommand( 'replace', new CKEDITOR.dialogCommand( 'replace' ) );
 		replaceCommand.canUndo = false;
 
+		CKEDITOR.addCss( '.cke_find_highlight {' + CKEDITOR.tools.writeCssText( editor.config.find_highlight.styles ) + '}' );
+
 		if ( editor.ui.addButton ) {
 			editor.ui.addButton( 'Find', {
 				label: editor.lang.find.find,
@@ -34,7 +36,6 @@ CKEDITOR.plugins.add( 'find', {
 
 		CKEDITOR.dialog.add( 'find', this.path + 'dialogs/find.js' );
 		CKEDITOR.dialog.add( 'replace', this.path + 'dialogs/find.js' );
-		CKEDITOR.addCss( '.cke_find_highlight {' + CKEDITOR.tools.writeCssText( editor.config.find_highlight.styles ) + '}' );
 	}
 } );
 
