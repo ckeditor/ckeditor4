@@ -62,6 +62,9 @@
 					iframe.setAttribute( 'title', frameLabel );
 				}
 
+				if ( editor.name )
+					iframe.setAttribute( 'name', 'cke_wysiwyg_' + editor.name );
+
 				if ( helpLabel ) {
 					var labelId = CKEDITOR.tools.getNextId(),
 						desc = CKEDITOR.dom.element.createFromHtml( '<span id="' + labelId + '" class="cke_voice_label">' + helpLabel + '</span>' );
