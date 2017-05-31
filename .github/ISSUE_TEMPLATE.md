@@ -1,6 +1,6 @@
 ## Are you reporting feature or a bug?
 
-<!-- Put your issue type here.  -->
+<!-- Put your issue type here: Bug / Feature request / Other, please explain -->
 
 ## [Check if the issue is already reported](http://docs.ckeditor.com/#!/guide/dev_issues_readme-section-avoid-duplicates)
 
