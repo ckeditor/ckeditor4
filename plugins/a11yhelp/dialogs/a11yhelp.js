@@ -85,7 +85,6 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	function representKeyStroke( keystroke ) {
 		var quotient, modifier,
 			presentation = [];
-
 		for ( var i = 0; i < modifiers.length; i++ ) {
 			modifier = modifiers[ i ];
 			quotient = keystroke / modifiers[ i ];
@@ -103,18 +102,12 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	var variablesPattern = /\$\{(.*?)\}/g;
 
 	var replaceVariables = ( function() {
-		// Swaps keystrokes with their commands in object literal.
-		// This makes searching keystrokes by command much easier.
-		var keystrokesByCode = editor.keystrokeHandler.keystrokes,
-			keystrokesByName = {};
-
-		for ( var i in keystrokesByCode )
-			keystrokesByName[ keystrokesByCode[ i ] ] = i;
-
 		return function( match, name ) {
+			var keystrokeName = editor.getCommandKeystroke( name );
+
 			// Return the keystroke representation or leave match untouched
 			// if there's no keystroke for such command.
-			return keystrokesByName[ name ] ? representKeyStroke( keystrokesByName[ name ] ) : match;
+			return keystrokeName ? representKeyStroke( keystrokeName ) : match;
 		};
 	} )();
 
@@ -138,6 +131,10 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			for ( var j = 0; j < itemsLength; j++ ) {
 				var item = items[ j ],
 					itemLegend = item.legend.replace( variablesPattern, replaceVariables );
+
+				// (#16980) There should be a different hotkey shown in Commands on Edge browser.
+				if ( section.name === 'Commands' && ( j === 10 && CKEDITOR.env.edge || j === 11 && !CKEDITOR.env.edge ) )
+					continue;
 
 				// (#9765) If some commands haven't been replaced in the legend,
 				// most likely their keystrokes are unavailable and we shouldn't include

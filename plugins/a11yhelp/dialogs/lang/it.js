@@ -83,6 +83,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 			{
 			name: ' Paste as plain text', // MISSING
 			legend: 'Press ${pastetext}' // MISSING
+		},
+			{
+			name: 'Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}, followed by ${paste} ' // MISSING
 		}
 		]
 	}
