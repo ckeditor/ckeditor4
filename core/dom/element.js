@@ -1171,24 +1171,13 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 					// queuing them to be moved later. (#5567)
 >>>>>>> Better fix for keeping ID.
 
-					// keep order
-					// debugger;
 					var pendingNodes = [],
 						temporaryElement, node;
 					while ( sibling.data( 'cke-bookmark' ) || sibling.isEmptyInlineRemoveable() ) {
 						pendingNodes.push( sibling );
 						sibling = isNext ? sibling.getNext() : sibling.getPrevious();
 						if ( !sibling || sibling.type != CKEDITOR.NODE_ELEMENT ) {
-							/*
-							while ( node = pendingNodes.pop() ) {
-								if ( node.data( 'cke-bookmark' ) ) {
-									continue;
-								} else {
-									node.remove();
-								}
-							} */
 							return;
-
 						}
 					}
 
@@ -1197,15 +1186,13 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						// <b><i></i></b><b><i></i></b> => <b><i></i></b>
 						var innerSibling = isNext ? element.getLast() : element.getFirst();
 
-
-						//debugger;
+						// #17009 swap elements, to analyse then in this same order (from lower index to higher)
 						if ( element.getIndex() > sibling.getIndex() ) {
 							temporaryElement = element;
 							element = sibling;
 							sibling = temporaryElement;
 							isNext = !isNext;
 						}
-
 
 						// Move pending nodes first into the target element.
 						while ( pendingNodes.length )

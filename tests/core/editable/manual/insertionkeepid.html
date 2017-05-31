@@ -1,0 +1,23 @@
+<textarea id="classic">
+	<p style="text-align: justify">
+		<span id="SomeId1">Foo</span>
+	</p>
+</textarea>
+<div id="divarea" >
+	<div style="text-align: justify">
+		<span id="SomeId2">Foo</span>
+	</div>
+</div>
+
+<script>
+	( function() {
+		CKEDITOR.replace( 'classic', {
+			allowedContent: 'p span[id](*){*}'
+		});
+		CKEDITOR.replace( 'divarea', {
+			allowedContent: 'div span[id](*){*}',
+			extraPlugins: 'divarea',
+			enterMode: CKEDITOR.ENTER_DIV
+		});
+	}() )
+</script>

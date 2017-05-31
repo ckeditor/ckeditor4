@@ -1603,7 +1603,7 @@
 		function insert( editable, type, data, range ) {
 			var editor = editable.editor,
 				dontFilter = false;
-			// debugger;
+
 			if ( type == 'unfiltered_html' ) {
 				type = 'html';
 				dontFilter = true;
@@ -1716,6 +1716,7 @@
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
 			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
+				// #17009 store elements with id. Beacuse siblings are marged always from lower child index to higher, refrence to node will persist after all operations.
 				for ( i=0; i < path.elements.length; i++ ) {
 					element = path.elements[i];
 					if ( element.hasAttribute( 'id' ) ){
@@ -1978,6 +1979,7 @@
 
 			range.moveToBookmark( bm );
 
+			// #17009 restore id to previously stored elements.
 			while ( ( element = that.elementsWithId.pop() ) ) {
 				element.node.setAttribute( 'id', element.id );
 			}
