@@ -1,11 +1,12 @@
-@bender-tags: find, tc, 4.7.1, 16980
+@bender-tags: tc, 4.7.1, 16980, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,a11yhelp,pastetext
 
 ### Scenario:
 
-1. Open Accessibility Help `ALT+0`.
-2. Scroll down to `Commands` section.
+1. Focus the edtior.
+1. Open Accessibility Help using `ALT+0` hotkey.
+1. Scroll down to `Commands` section.
 
 ### Expected:
 1. Mac users should see:
