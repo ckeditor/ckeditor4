@@ -41,6 +41,9 @@ bender.test( {
 		this.assertToBBCode( '[color=#ff0000]red text[/color]', '<span style="COLOR:#ff0000;">red text</span>' );
 		this.assertToBBCode( ':)', '<img src="' + this.editor.config.smiley_path + 'regular_smile.png" alt="smiley"/>' );
 		this.assertToBBCode( '[list]\n[*]foo\n[*]bar\n[/list]\n', '<ul><li>foo</li><li>bar</li></ul>' );
+                this.assertToBBCode( '[left]foo[/left]', '<div style="text-align:left">foo</div>' );
+                this.assertToBBCode( '[center]foo[/center]', '<div style="text-align:center">foo</div>' );
+                this.assertToBBCode( '[right]foo[/right]', '<div style="text-align:right">foo</div>' );
 	},
 
 	'test bbcode to HTML': function() {
@@ -61,6 +64,10 @@ bender.test( {
 		this.assertToHtml( '<span style="color:#ff0000;">red text</span>', '[color=#ff0000]red text[/color]' );
 		this.assertToHtml( '<img alt="smiley" src="' + this.editor.config.smiley_path + 'regular_smile.png" title="smiley" />', ':)' );
 		this.assertToHtml( '<ul><li>foo</li><li>bar</li></ul>', '[list]\n[*]foo\n[*]bar\n[/list]\n' );
+                
+                this.assertToHtml( '<div style="text-align: left">foo</div>', '[left]foo[/left]' );
+                this.assertToHtml( '<div style="text-align: center">foo</div>', '[center]foo[/center]' );
+                this.assertToHtml( '<div style="text-align: right">foo</div>', '[right]foo[/right]' );
 	},
 
 	// #8995
