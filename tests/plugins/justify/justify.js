@@ -254,12 +254,12 @@ bender.test(
 		assert.areSame( '<p style="text-align:right;"><span contenteditable="false">foo</span></p>', bot.getData( true ) );
 	},
 
-	'test alignment on disabled elements inline': function() {
+	'test alignment on disabled elements paragraph': function() {
 		var	tc = this;
 		bender.editorBot.create({
 			name: 'editor_p_1',
 			config: {
-				plugins: 'justify,toolbar',
+				plugins: 'justify,toolbar,wysiwygarea',
 				allowedContent: 'p ul{text-align};li;'
 			}
 		}, function( bot ) {
@@ -279,7 +279,7 @@ bender.test(
 		bender.editorBot.create({
 			name: 'editor_div_1',
 			config: {
-				plugins: 'justify,toolbar',
+				plugins: 'justify,toolbar,divarea',
 				allowedContent: 'div ul{text-align};li;',
 				enterMode: CKEDITOR.ENTER_DIV
 			}
@@ -295,7 +295,7 @@ bender.test(
 		bender.editorBot.create({
 			name: 'editor_br_1',
 			config: {
-				plugins: 'justify,toolbar',
+				plugins: 'justify,toolbar,divarea',
 				allowedContent: 'div ul{text-align};li;',
 				enterMode: CKEDITOR.ENTER_BR
 			}
@@ -306,12 +306,33 @@ bender.test(
 			tc.assertCommandState( 0,0,0,0, editor );
 
 			bot.setHtmlWithSelection( 'F^oo<ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 2,2,2,2, editor );
+			tc.assertCommandState( 1,2,2,2, editor );
 
 			bot.execCommand( 'justifyblock' );
 			tc.assertCommandState( 2,2,2,1, editor );
 
 			assert.areSame( '<div style="text-align:justify;">foo</div><ul><li>one</li><li>two</li><li>three</li></ul>', bot.getData( true ) );
+		});
+	},
+
+	'test alignment on multi-element non-collapsed selection': function() {
+		var tc = this;
+		bender.editorBot.create({
+			name: 'editor_p_2',
+			config: {
+				plugins: 'justify,toolbar,wysiwygarea',
+				allowedContent: 'p ul{text-align};li;'
+			}
+		}, function( bot ){
+			var editor = bot.editor;
+
+			bot.setHtmlWithSelection( '<p>F[oo</p><ul><li>one</li><li>two</li><li>three</li></ul><p>B]ar</p>' );
+			tc.assertCommandState( 1,2,2,2, editor );
+
+			bot.execCommand( 'justifycenter' );
+			tc.assertCommandState( 2,2,1,2, editor );
+
+			assert.areSame( '<p style="text-align:center;">foo</p><ul><li>one</li><li>two</li><li>three</li></ul><p style="text-align:center;">bar</p>', bot.getData( true ) );
 		});
 	}
 } );

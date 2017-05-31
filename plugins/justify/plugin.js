@@ -149,11 +149,16 @@
 					if ( block.isReadOnly() )
 						continue;
 
-					// #16808 Check if style or class might be applied to currently processed element
+					// Check if style or class might be applied to currently processed element (#16808).
 					var tag = block.getName(),
 						isAllowedTextAlign, isAllowedCssClass;
-					isAllowedTextAlign = editor.filter.check( tag + '{text-align}' ) || false;
-					isAllowedCssClass = editor.filter.check( tag + '(' + cssClassName + ')' ) || false;
+
+					isAllowedTextAlign = editor.activeFilter.check( tag + '{text-align}' );
+					isAllowedCssClass = editor.activeFilter.check( tag + '(' + cssClassName + ')' );
+
+					if ( !isAllowedCssClass && !isAllowedTextAlign ) {
+						continue;
+					}
 
 					block.removeAttribute( 'align' );
 					block.removeStyle( 'text-align' );
@@ -185,7 +190,7 @@
 			var firstBlock = path.block || path.blockLimit;
 			var name = firstBlock.getName();
 
-			// find if we can give to element proper class or style or we are in br mode with selected body (to display justify buttons in br mode)
+			// Check if we can give to element proper class or style or we are in br mode with selected body (to display justify buttons in br mode) (#16808).
 			if ((this.cssClassName && editor.activeFilter.check( name+'('+this.cssClassName+')' )) ||
 				editor.activeFilter.check( name+'{text-align}' ) ||
 				( editor.config.enterMode === CKEDITOR.ENTER_BR && name === 'body' ))
