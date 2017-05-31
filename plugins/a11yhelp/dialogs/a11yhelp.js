@@ -103,11 +103,11 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 	var replaceVariables = ( function() {
 		return function( match, name ) {
-			var keystrokeName = editor.getCommandKeystroke( name );
+			var keystrokeCode = editor.getCommandKeystroke( name );
 
 			// Return the keystroke representation or leave match untouched
 			// if there's no keystroke for such command.
-			return keystrokeName ? representKeyStroke( keystrokeName ) : match;
+			return keystrokeCode ? representKeyStroke( keystrokeCode ) : match;
 		};
 	} )();
 
@@ -130,17 +130,17 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 			for ( var j = 0; j < itemsLength; j++ ) {
 				var item = items[ j ],
-					itemLegend = item.legend.replace( variablesPattern, replaceVariables );
+					// (#16980) There should be a different hotkey shown in Commands on Edge browser.
+					itemLegend = CKEDITOR.env.edge && item.legendEdge ? item.legendEdge : item.legend;
 
-				// (#16980) There should be a different hotkey shown in Commands on Edge browser.
-				if ( section.name === 'Commands' && ( j === 10 && CKEDITOR.env.edge || j === 11 && !CKEDITOR.env.edge ) )
-					continue;
+				itemLegend = itemLegend.replace( variablesPattern, replaceVariables );
 
 				// (#9765) If some commands haven't been replaced in the legend,
 				// most likely their keystrokes are unavailable and we shouldn't include
 				// them in our help list.
-				if ( itemLegend.match( variablesPattern ) )
+				if ( itemLegend.match( variablesPattern ) ) {
 					continue;
+				}
 
 				sectionHtml.push( itemTpl.replace( '%1', item.name ).replace( '%2', itemLegend ) );
 			}
