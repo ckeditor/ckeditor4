@@ -1,9 +1,6 @@
 ## What is the purpose of this pull request?
 
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Typo fix
-- [ ] Other, please explain:
+<!-- Bug fix / New feature / Typo fix / Other, please explain  -->
 
 ## Does your PR contain necessary tests?
 
