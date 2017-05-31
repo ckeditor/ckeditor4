@@ -99,17 +99,14 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		return presentation.join( '+' );
 	}
 
-	var variablesPattern = /\$\{(.*?)\}/g;
-
-	var replaceVariables = ( function() {
-		return function( match, name ) {
+	var variablesPattern = /\$\{(.*?)\}/g,
+		replaceVariables = function( match, name ) {
 			var keystrokeCode = editor.getCommandKeystroke( name );
 
 			// Return the keystroke representation or leave match untouched
 			// if there's no keystroke for such command.
 			return keystrokeCode ? representKeyStroke( keystrokeCode ) : match;
 		};
-	} )();
 
 	// Create the help list directly from lang file entries.
 	function buildHelpContents() {
