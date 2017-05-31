@@ -10,30 +10,28 @@
 ### Expected:
 1. Mac users should see:
 
+    * Chrome, Firefox:
+    ```
+    Paste as plain text
+        Press Shift+Command+V
+    ```
 
-Chrome, Firefox:
-```
-Paste as plain text
-    Press Shift+Command+V
-```
-
-Safari:
-```
-Paste as plain text
-    Press Alt+Shift+Command+V
-```
+    * Safari:
+    ```
+    Paste as plain text
+        Press Alt+Shift+Command+V
+    ```
 
 2. Windows users should see:
 
-IE, Chrome, Firefox:
-```
-Paste as plain text
-    Press Shift+Ctrl+V
-```
+    * IE, Chrome, Firefox:
+    ```
+    Paste as plain text
+        Press Shift+Ctrl+V
+    ```
 
-Edge:
-```
-Paste as plain text
-    Press Shift+Ctrl+V, followed by Ctrl+V
-```
-
+    * Edge:
+    ```
+    Paste as plain text
+        Press Shift+Ctrl+V, followed by Ctrl+V
+    ```
