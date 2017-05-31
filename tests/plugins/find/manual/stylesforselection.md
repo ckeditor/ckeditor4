@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: find, wysiwygarea, toolbar, sourcearea
 
-## Scenario:
+## Scenario 1:
 
 1. Open the `Find` dialog.
 2. Type `example` into `Find what:` input.
@@ -27,3 +27,13 @@ The word `example` has been wrapped in a `span` tag with `style="border-image:no
 #### Notes:
 
 The bug used to be on IE11, Edge.
+
+## Scenario 2:
+1. Open the `Find` dialog.
+2. Type `example` into `Find what:` input.
+3. Click `Find` button.
+
+
+### Expected result:
+
+`example` word should be highlighted with red background and white font color.
