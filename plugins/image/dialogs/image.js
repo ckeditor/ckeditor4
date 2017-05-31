@@ -727,10 +727,10 @@
 													if ( regexPercentSize.test( widthValue ) && regexPercentSize.test( heightValue ) ) {
 														var actualWidth = element.$.offsetWidth,
 
-														    widthPercentage = parseFloat( widthValue ),
-														    heightPercentage = parseFloat( heightValue ),
+															widthPercentage = parseFloat( widthValue ),
+															heightPercentage = parseFloat( heightValue ),
 
-														    aspectRatio = 1.0;
+															aspectRatio = 1.0;
 
 														if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' )
 															aspectRatio = oImageOriginal.$.width / oImageOriginal.$.height;
