@@ -7,7 +7,7 @@
 
 	bender.editor = {
 		config: {
-			extraAllowedContent: 'img figure[id]',
+			extraAllowedContent: 'img figure[id]{*}',
 			autoParagraph: false
 		}
 	};
@@ -21,7 +21,6 @@
 
 		function runCase() {
 			var	testCase = cases.shift();
-
 			if ( !testCase )
 				return;
 
