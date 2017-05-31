@@ -26,10 +26,10 @@
 		}
 	} );
 
-	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
+	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', left: 'div', right: 'div', center: 'div', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
 		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', code: 'code', li: '*' },
 		tagnameMap = { strong: 'b', em: 'i', u: 'u', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
-		stylesMap = { color: 'color', size: 'font-size' },
+		stylesMap = { color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align' },
 		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
 
 	// List of block-like tags.
@@ -138,8 +138,8 @@
 
 						if ( stylesMap[ part ] ) {
 							// Font size represents percentage.
-							if ( part == 'size' )
-								optionPart += '%';
+//							if ( part == 'size' )
+//								optionPart += '%';
 
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
@@ -157,6 +157,12 @@
 					// as "span" with an attribute marker.
 					if ( part == 'email' || part == 'img' )
 						attribs.bbcode = part;
+                                            
+                                        //special handling of left, right and center tags
+                                        if(part == 'left' || part == 'right' || part == 'center'){
+                                                styles[ stylesMap[ part ] ] = part;
+                                                attribs.style = serializeStyleText( styles );
+                                        }
 
 					this.onTagOpen( tagName, attribs, CKEDITOR.dtd.$empty[ tagName ] );
 				}
@@ -660,13 +666,18 @@
 								tagName = 'color';
 								value = CKEDITOR.tools.convertRgbToHex( value );
 							} else if ( ( value = style[ 'font-size' ] ) ) {
+                                                                tagName = 'size';
 								var percentValue = value.match( /(\d+)%$/ );
 								if ( percentValue ) {
 									value = percentValue[ 1 ];
-									tagName = 'size';
 								}
 							}
-						} else if ( tagName == 'ol' || tagName == 'ul' ) {
+						} else if ( tagName == 'div' ) {
+                                                    if( ( value = style[ 'text-align' ]) ){
+                                                        tagName = value;
+                                                        value = '';
+                                                    }
+                                                } else if ( tagName == 'ol' || tagName == 'ul' ) {
 							if ( ( value = style[ 'list-style-type' ] ) ) {
 								switch ( value ) {
 									case 'lower-alpha':
@@ -775,7 +786,11 @@
 								name = 'size';
 							else if ( element.getStyle( 'color' ) )
 								name = 'color';
-						} else if ( name == 'img' ) {
+                                                // Styled div could be align
+						} else if ( htmlName == 'div' ) {
+                                                    if ( element.getStyle( 'text-align' ) )
+								name = element.getStyle( 'text-align' );
+                                                } else if ( name == 'img' ) {
 							var src = element.data( 'cke-saved-src' ) || element.getAttribute( 'src' );
 							if ( src && src.indexOf( editor.config.smiley_path ) === 0 )
 								name = 'smiley';
