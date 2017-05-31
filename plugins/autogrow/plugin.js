@@ -130,6 +130,9 @@
 		}
 
 		function resizeEditor() {
+			//stop here if this doesn't exist yet
+			if(!editor.getWindow){ return; }
+
 			// Hide scroll because we won't need it at all.
 			// Thanks to that we'll need only one resizeEditor() call per change.
 			if ( maxHeightIsUnlimited )
