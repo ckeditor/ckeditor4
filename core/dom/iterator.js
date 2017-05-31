@@ -297,7 +297,8 @@
 					// Insert the fixed block into the DOM.
 					range.insertNode( block );
 
-					removePreviousBr = removeLastBr = true;
+					if ( this.enlargeBr )
+						removePreviousBr = removeLastBr = true;
 				} else if ( block.getName() != 'li' ) {
 					// If the range doesn't includes the entire contents of the
 					// block, we must split it, isolating the range in a dedicated
