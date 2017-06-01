@@ -52,16 +52,20 @@
 	function buildTableColumnPillars( table ) {
 		var pillars = [],
 			pillarIndex = -1,
+			pillarHeight = 0,
+			pillarPosition = null,
 			rtl = ( table.getComputedStyle( 'direction' ) == 'rtl' );
 
-		// Get the raw row element that cointains the most columns.
+		// Get the raw row element that contains the most columns.
 		var $tr = getMasterPillarRow( table );
 
-		// Get the tbody element and position, which will be used to set the
-		// top and bottom boundaries.
-		var tbody = new CKEDITOR.dom.element( table.$.tBodies[ 0 ] ),
-			pillarPosition = tbody.getDocumentPosition(),
+		// Get the tbody element and position, which will be used to set the top and bottom boundaries.
+		// Table may contain only thead or tfoot element so tbody existence should be checked. (#417)
+		if ( table.$.tBodies.length ) {
+			var tbody = new CKEDITOR.dom.element( table.$.tBodies[ 0 ] );
+			pillarPosition = tbody.getDocumentPosition();
 			pillarHeight = tbody.$.offsetHeight;
+		}
 
 		if ( table.$.tHead ) {
 			var tHead = new CKEDITOR.dom.element( table.$.tHead );
