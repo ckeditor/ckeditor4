@@ -2726,7 +2726,8 @@
 					// Nested editables are downcasted in the successive toDataFormat to create an opportunity
 					// for dataFilter's "excludeNestedEditable" option to do its job (that option relies on
 					// contenteditable="true" attribute) (#11372).
-					toBeDowncasted[ toBeDowncasted.length - 1 ].editables[ attrs[ 'data-cke-widget-editable' ] ] = element;
+					if ( toBeDowncasted.length )
+						toBeDowncasted[ toBeDowncasted.length - 1 ].editables[ attrs[ 'data-cke-widget-editable' ] ] = element;
 
 					// Don't check children - there won't be next wrapper or nested editable which we
 					// should process in this session.
