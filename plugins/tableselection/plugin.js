@@ -853,12 +853,14 @@
 
 			function tableKeyPressListener( evt ) {
 				var selection = editor.getSelection(),
+					// Enter key also produces character, but Firefox doesn't think so (#415).
+					isCharKey = evt.data.$.charCode || ( evt.data.getKey() === 13 ),
 					ranges,
 					firstCell,
 					i;
 
 				// We must check if the event really did not produce any character as it's fired for all keys in Gecko.
-				if ( !selection || !selection.isInTable() || !selection.isFake || !evt.data.$.charCode ||
+				if ( !selection || !selection.isInTable() || !selection.isFake || !isCharKey ||
 					evt.data.getKeystroke() & CKEDITOR.CTRL ) {
 					return;
 				}
