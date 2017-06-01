@@ -1,6 +1,6 @@
 @bender-tags: 4.7.1, tc, gh424
 @bender-ui: collapsed
-@bender-ckeditor-plugins: floatingspace, toolbar, list, indentlist
+@bender-ckeditor-plugins: floatingspace, toolbar, list, tab
 
 ----
 
