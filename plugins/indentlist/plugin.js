@@ -35,17 +35,24 @@
 				// Indent and outdent lists with TAB/SHIFT+TAB key. Indenting can
 				// be done for any list item that isn't the first child of the parent.
 				editor.on( 'key', function( evt ) {
+					var path = editor.elementPath();
+
 					if ( editor.mode != 'wysiwyg' )
 						return;
 
 					if ( evt.data.keyCode == this.indentKey ) {
-						var list = this.getContext( editor.elementPath() );
+						// Prevent of getting context of empty path. (#17028)
+						if ( !path ) {
+							return;
+						}
+
+						var list = this.getContext( path );
 
 						if ( list ) {
 							// Don't indent if in first list item of the parent.
 							// Outdent, however, can always be done to collapse
 							// the list into a paragraph (div).
-							if ( this.isIndent && CKEDITOR.plugins.indentList.firstItemInPath( this.context, editor.elementPath(), list ) )
+							if ( this.isIndent && CKEDITOR.plugins.indentList.firstItemInPath( this.context, path, list ) )
 								return;
 
 							// Exec related global indentation command. Global
