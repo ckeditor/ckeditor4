@@ -57,6 +57,11 @@
 		// Backward compact.
 		root = root || startNode.getDocument().getBody();
 
+		// Assign root value if startNode is null (#17028).
+		if ( !e ) {
+			e = root;
+		}
+
 		do {
 			if ( e.type == CKEDITOR.NODE_ELEMENT ) {
 				elements.push( e );
