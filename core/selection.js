@@ -947,6 +947,11 @@
 			}
 
 			if ( CKEDITOR.env.webkit ) {
+				// remove filler chars before undos #10571
+				editor.on('beforeUndoImage', function ( evt ) { 
+			    	removeFillingChar(editable); 
+				});
+
 				// Before keystroke is handled by editor, check to remove the filling char.
 				editable.attachListener( doc, 'keydown', function( evt ) {
 					var key = evt.data.getKey();
