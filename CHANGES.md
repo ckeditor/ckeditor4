@@ -10,6 +10,7 @@ New Features:
 Fixed Issues:
 
 * [#457](https://github.com/ckeditor/ckeditor-dev/issues/457): Fixed: Error thrown when deleting content from the editor with no selection.
+* [#450](https://github.com/ckeditor/ckeditor-dev/issues/450): Fixed: [`CKEDITOR.filter`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter) incorrectly transforms `margin` CSS property.
 
 ## CKEditor 4.7
 
