@@ -998,16 +998,22 @@
 					var keyCode = evt.data.domEvent.getKey(),
 						isHandled;
 
+					// Prevent of reading path of empty range (#13096, #gh457).
+					var sel = editor.getSelection();
+					if ( sel.getRanges().length === 0 ) {
+						return;
+					}
+
 					// Backspace OR Delete.
 					if ( keyCode in backspaceOrDelete ) {
-						var sel = editor.getSelection(),
-							selected,
+						var selected,
 							range = sel.getRanges()[ 0 ],
 							path = range.startPath(),
 							block,
 							parent,
 							next,
 							rtl = keyCode == 8;
+
 
 						if (
 								// [IE<11] Remove selected image/anchor/etc here to avoid going back in history. (#10055)
@@ -1180,8 +1186,14 @@
 						if ( !( key in backspaceOrDelete ) )
 							return;
 
+						// Prevent of reading path of empty range (#13096, #gh457).
+						var sel = editor.getSelection();
+						if ( sel.getRanges().length === 0 ) {
+							return;
+						}
+
 						var backspace = key == 8,
-							range = editor.getSelection().getRanges()[ 0 ],
+							range = sel.getRanges()[ 0 ],
 							startPath = range.startPath();
 
 						if ( range.collapsed ) {

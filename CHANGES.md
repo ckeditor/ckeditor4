@@ -7,6 +7,10 @@ New Features:
 
 * [#413](https://github.com/ckeditor/ckeditor-dev/issues/413): Added Paste as Plain Text hotkey in [Accessibility Help](http://ckeditor.com/addon/a11yhelp) instructions
 
+Fixed Issues:
+
+* [#457](https://github.com/ckeditor/ckeditor-dev/issues/457): Fixed: Error thrown when deleting content from the editor with no selection.
+
 ## CKEditor 4.7
 
 **Important Notes:**

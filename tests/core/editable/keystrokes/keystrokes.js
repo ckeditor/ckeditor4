@@ -167,5 +167,41 @@ bender.test( {
 		// No content in a parent list.
 		this.assertKeystroke( DEL, 0, '<ul><li><table><tbody><tr><td>[foo]</td></tr></tbody></table></li></ul>',
 			'^', 'table 3' );
+	},
+
+	// #13096
+    'test deleting text without selection with DEL key': function() {
+		var editor = this.editor,
+			bot = this.editorBot;
+		editor.focus();
+
+		bot.setHtmlWithSelection('<p>^Foo</p>');
+		editor.getSelection().removeAllRanges();
+		editor.fire( 'key', {
+			domEvent: {
+				getKey: function() {
+					return DEL;
+				}
+			}
+		} );
+		assert.pass();
+	},
+
+	'test deleting text without selection with BACKSPACE key': function() {
+		var editor = this.editor,
+			bot = this.editorBot;
+
+		editor.focus();
+		bot.setHtmlWithSelection('<p>^Foo</p>');
+		editor.getSelection().removeAllRanges();
+		editor.fire( 'key', {
+			domEvent: {
+				getKey: function() {
+					return BACKSPACE;
+				}
+			}
+		} );
+		assert.pass();
 	}
+
 } );
