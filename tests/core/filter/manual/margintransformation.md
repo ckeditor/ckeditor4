@@ -11,7 +11,7 @@
 
 ## Expected
 
-Paragraph has left margin (only), like below:
+Paragraph has left margin visible and source code like below:
 
 `<p style="margin-left:60px; margin-right:60px">This paragraph should have a margin.</p>`
 
