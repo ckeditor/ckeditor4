@@ -2201,7 +2201,7 @@
 			var widths = element.styles.margin.match( /(\-?[\.\d]+\w+)/g ) || [ '0px' ];
 			switch ( widths.length ) {
 				case 1:
-					element.styles.margin = widths[0];
+					mapStyles( [ 0, 0, 0, 0 ] );
 					break;
 				case 2:
 					mapStyles( [ 0, 1, 0, 1 ] );
