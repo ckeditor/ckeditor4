@@ -26,10 +26,10 @@
 		}
 	} );
 
-	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol' },
+	var bbcodeMap = { b: 'strong', u: 'u', i: 'em', color: 'span', size: 'span', quote: 'blockquote', code: 'code', url: 'a', email: 'span', img: 'span', '*': 'li', list: 'ol', left: 'div', center: 'div', right: 'div', justify: 'div'},
 		convertMap = { strong: 'b', b: 'b', u: 'u', em: 'i', i: 'i', code: 'code', li: '*' },
-		tagnameMap = { strong: 'b', em: 'i', u: 'u', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote' },
-		stylesMap = { color: 'color', size: 'font-size' },
+		tagnameMap = { strong: 'b', em: 'i', u: 'u', li: '*', ul: 'list', ol: 'list', code: 'code', a: 'link', img: 'img', blockquote: 'quote', div:'left' },
+		stylesMap = { color: 'color', size: 'font-size', left: 'text-align', center: 'text-align', right: 'text-align', justify: 'text-align' },
 		attributesMap = { url: 'href', email: 'mailhref', quote: 'cite', list: 'listType' };
 
 	// List of block-like tags.
@@ -49,10 +49,13 @@
 		return styleText;
 	}
 
+	function isValidTextAlign(val) {
+		return ['left', 'center', 'right', 'justify'].indexOf(val) > -1;
+	}
 	// Maintain the map of smiley-to-description.
 	// jscs:disable maximumLineLength
 	var smileyMap = { smiley: ':)', sad: ':(', wink: ';)', laugh: ':D', cheeky: ':P', blush: ':*)', surprise: ':-o', indecision: ':|', angry: '>:(', angel: 'o:)', cool: '8-)', devil: '>:-)', crying: ';(', kiss: ':-*' },
-	// jscs:enable maximumLineLength
+		// jscs:enable maximumLineLength
 		smileyReverseMap = {},
 		smileyRegExp = [];
 
@@ -126,6 +129,11 @@
 						styles = {},
 						optionPart = parts[ 2 ];
 
+					if ( isValidTextAlign(part) ) {
+						styles[ stylesMap[ part ] ] = part;
+						attribs.style = serializeStyleText( styles );
+					}
+
 					if ( optionPart ) {
 						if ( part == 'list' ) {
 							if ( !isNaN( optionPart ) )
@@ -137,10 +145,6 @@
 						}
 
 						if ( stylesMap[ part ] ) {
-							// Font size represents percentage.
-							if ( part == 'size' )
-								optionPart += '%';
-
 							styles[ stylesMap[ part ] ] = optionPart;
 							attribs.style = serializeStyleText( styles );
 						} else if ( attributesMap[ part ] ) {
@@ -227,12 +231,14 @@
 			if ( pendingBrs && ( lineBreakParent || lineBreakPrevious || lineBreakCurrent ) )
 				pendingBrs--;
 
+
 			// 1. Either we're at the end of block, where it requires us to compensate the br filler
 			// removing logic (from htmldataprocessor).
 			// 2. Or we're at the end of pseudo block, where it requires us to compensate
 			// the bogus br effect.
 			if ( pendingBrs && tagName in blockLikeTags )
 				pendingBrs++;
+
 
 			while ( pendingBrs && pendingBrs-- )
 				currentNode.children.push( previous = new CKEDITOR.htmlParser.element( 'br' ) );
@@ -434,6 +440,18 @@
 				breakBeforeClose: 0,
 				breakAfterClose: 1
 			} );
+
+			var textAlignBreakRules  = {
+				breakBeforeOpen: 1,
+				breakAfterOpen: 0,
+				breakBeforeClose: 0,
+				breakAfterClose: 1
+			};
+
+			this.setRules( 'left',  textAlignBreakRules);
+			this.setRules( 'center', textAlignBreakRules);
+			this.setRules( 'right', textAlignBreakRules);
+			this.setRules( 'justify', textAlignBreakRules);
 		},
 
 		proto: {
@@ -656,14 +674,17 @@
 						if ( tagName in convertMap )
 							tagName = convertMap[ tagName ];
 						else if ( tagName == 'span' ) {
-							if ( ( value = style.color ) ) {
+							if (( value = style.color )) {
 								tagName = 'color';
-								value = CKEDITOR.tools.convertRgbToHex( value );
-							} else if ( ( value = style[ 'font-size' ] ) ) {
-								var percentValue = value.match( /(\d+)%$/ );
-								if ( percentValue ) {
-									value = percentValue[ 1 ];
-									tagName = 'size';
+								value = CKEDITOR.tools.convertRgbToHex(value);
+							} else if (( value = style['font-size'] )) {
+								tagName = 'size';
+							}
+						}	else if ( tagName == 'div' ) {
+							if (style['text-align']) {
+								value = '';
+								if(isValidTextAlign(style['text-align']) ) {
+									tagName = style['text-align'];
 								}
 							}
 						} else if ( tagName == 'ol' || tagName == 'ul' ) {
@@ -771,10 +792,18 @@
 							name = 'email';
 						// Styled span could be either size or color.
 						else if ( htmlName == 'span' ) {
-							if ( element.getStyle( 'font-size' ) )
+							if (element.getStyle('font-size')) {
 								name = 'size';
-							else if ( element.getStyle( 'color' ) )
+							} else if (element.getStyle('color')) {
 								name = 'color';
+							}
+							// Div could be a text align
+						}	else if ( htmlName == 'div' ) {
+							if (element.getStyle('text-align')) {
+								if( isValidTextAlign(element.getStyle('text-align')) ) {
+									name = element.getStyle('text-align');
+								}
+							}
 						} else if ( name == 'img' ) {
 							var src = element.data( 'cke-saved-src' ) || element.getAttribute( 'src' );
 							if ( src && src.indexOf( editor.config.smiley_path ) === 0 )
