@@ -998,7 +998,7 @@
 					var keyCode = evt.data.domEvent.getKey(),
 						isHandled;
 
-					// #13096 prevent of reading path of empty range.
+					// Prevent of reading path of empty range (#13096, #gh457).
 					var sel = editor.getSelection();
 					if ( sel.getRanges().length === 0 ) {
 						return;
@@ -1186,7 +1186,7 @@
 						if ( !( key in backspaceOrDelete ) )
 							return;
 
-						// #13096 prevent of reading path of empty range.
+						// Prevent of reading path of empty range (#13096, #gh457).
 						var sel = editor.getSelection();
 						if ( sel.getRanges().length === 0 ) {
 							return;
