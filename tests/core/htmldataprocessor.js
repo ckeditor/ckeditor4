@@ -1326,10 +1326,11 @@
 		// Only WebKit removes preceding spaces in the attribute.
 		'<p><iframe src="' + ( CKEDITOR.env.webkit ? '' : '   ' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
 
-	// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in Edge/IE8.
+	// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in Edge/IE8 and also Chrome on Linux.
 	// IE8 treats it as an URL and opens it which reloads the whole page.
 	// While on Edge the tests passes, the browser prompts with "open as" dialog.
-	if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 || CKEDITOR.env.edge ) ) {
+	// On Chrome Linux it prompts `Open xdg-open?` dialog, which gains focus so other tests requiring focus fails.
+	if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 || CKEDITOR.env.edge ) && !( CKEDITOR.env.chrome && bender.tools.env.linux ) ) {
 		addXssTC( tcs, 'iframe with src=javascript 4',
 			'<p><iframe src="&#10;&#106;javascript:window.parent.%xss%;"></iframe></p>',
 			// In IE9 the new line entity (&#10;) is removed.
