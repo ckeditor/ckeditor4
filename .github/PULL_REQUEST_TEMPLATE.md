@@ -1,9 +1,6 @@
 ## What is the purpose of this pull request?
 
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Typo fix
-- [ ] Other, please explain:
+<!-- Bug fix / New feature / Typo fix / Other, please explain  -->
 
 ## Does your PR contain necessary tests?
 
@@ -21,5 +18,3 @@ in the official CKEditor documentation.
 ## What changes did you make?
 
 *Give an overview…*
-
-**Thank you for contributing!**

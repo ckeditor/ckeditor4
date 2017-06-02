@@ -5,6 +5,10 @@
 
 ## CKEditor 4.7.1
 
+New Features:
+
+* [#413](https://github.com/ckeditor/ckeditor-dev/issues/413): Added Paste as Plain Text hotkey in [Accessibility Help](http://ckeditor.com/addon/a11yhelp) instructions
+
 ## CKEditor 4.7
 
 **Important Notes:**

@@ -1,8 +1,6 @@
-## What type of issue would you like to report?
+## Are you reporting a feature or a bug?
 
-- [ ] Bug
-- [ ] Feature request
-- [ ] Other, please explain: …
+<!-- Put your issue type here: Bug / Feature request / Other, please explain -->
 
 ## [Check if the issue is already reported](http://docs.ckeditor.com/#!/guide/dev_issues_readme-section-avoid-duplicates)
 

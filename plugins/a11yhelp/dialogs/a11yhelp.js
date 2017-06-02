@@ -77,7 +77,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	// Modifier keys override.
 	keyMap[ CKEDITOR.ALT ] = coreLang[ 18 ];
 	keyMap[ CKEDITOR.SHIFT ] = coreLang[ 16 ];
-	keyMap[ CKEDITOR.CTRL ] = coreLang[ 17 ];
+	keyMap[ CKEDITOR.CTRL ] = CKEDITOR.env.mac ? coreLang[ 224 ] : coreLang[ 17 ];
 
 	// Sort in desc.
 	var modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ];
@@ -85,7 +85,6 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	function representKeyStroke( keystroke ) {
 		var quotient, modifier,
 			presentation = [];
-
 		for ( var i = 0; i < modifiers.length; i++ ) {
 			modifier = modifiers[ i ];
 			quotient = keystroke / modifiers[ i ];
@@ -100,23 +99,14 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		return presentation.join( '+' );
 	}
 
-	var variablesPattern = /\$\{(.*?)\}/g;
+	var variablesPattern = /\$\{(.*?)\}/g,
+		replaceVariables = function( match, name ) {
+			var keystrokeCode = editor.getCommandKeystroke( name );
 
-	var replaceVariables = ( function() {
-		// Swaps keystrokes with their commands in object literal.
-		// This makes searching keystrokes by command much easier.
-		var keystrokesByCode = editor.keystrokeHandler.keystrokes,
-			keystrokesByName = {};
-
-		for ( var i in keystrokesByCode )
-			keystrokesByName[ keystrokesByCode[ i ] ] = i;
-
-		return function( match, name ) {
 			// Return the keystroke representation or leave match untouched
 			// if there's no keystroke for such command.
-			return keystrokesByName[ name ] ? representKeyStroke( keystrokesByName[ name ] ) : match;
+			return keystrokeCode ? representKeyStroke( keystrokeCode ) : match;
 		};
-	} )();
 
 	// Create the help list directly from lang file entries.
 	function buildHelpContents() {
@@ -137,13 +127,17 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 			for ( var j = 0; j < itemsLength; j++ ) {
 				var item = items[ j ],
-					itemLegend = item.legend.replace( variablesPattern, replaceVariables );
+					// (#16980) There should be a different hotkey shown in Commands on Edge browser.
+					itemLegend = CKEDITOR.env.edge && item.legendEdge ? item.legendEdge : item.legend;
+
+				itemLegend = itemLegend.replace( variablesPattern, replaceVariables );
 
 				// (#9765) If some commands haven't been replaced in the legend,
 				// most likely their keystrokes are unavailable and we shouldn't include
 				// them in our help list.
-				if ( itemLegend.match( variablesPattern ) )
+				if ( itemLegend.match( variablesPattern ) ) {
 					continue;
+				}
 
 				sectionHtml.push( itemTpl.replace( '%1', item.name ).replace( '%2', itemLegend ) );
 			}
