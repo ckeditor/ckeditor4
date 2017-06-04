@@ -61,10 +61,10 @@ function useOnlyOneParagraph(editor, $html) {
 		children.each(function(index) {
 			if (['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(this.tagName) !== -1) {
 				innerHTML += this.innerHTML;
-			} else if (['UL', 'OL'].indexOf(this.tagName) !== -1) {
-				for(var i = 0; i < this.children.length; i++) {
-					innerHTML += this.children[i].innerHTML;
-				}
+			// } else if (['UL', 'OL'].indexOf(this.tagName) !== -1) {
+			// 	for(var i = 0; i < this.children.length; i++) {
+			// 		innerHTML += this.children[i].innerHTML;
+			// 	}
 			} else {
 				innerHTML += this.outerHTML;
 			}

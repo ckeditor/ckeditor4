@@ -27,8 +27,8 @@
 		var POSSIBLE_ERRORS = [
 			'more than one element first level',
 			'have table inside',
-			'have div inside',
-			'have list inside'
+			'have div inside'
+			// 'have list inside'
 		];
 		var errors = [];
 
@@ -44,9 +44,9 @@
 			errors.push(POSSIBLE_ERRORS[2])
 		}
 
-		if ($editor.find('* ol, * ul').length) {
-			errors.push(POSSIBLE_ERRORS[3])
-		}
+		// if ($editor.find('p ol, p ul').length) {
+		// 	errors.push(POSSIBLE_ERRORS[3])
+		// }
 
 		return errors;
 	}
