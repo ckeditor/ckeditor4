@@ -853,7 +853,7 @@
 
 			function tableKeyPressListener( evt ) {
 				var selection = editor.getSelection(),
-					// Enter key also produces character, but Firefox doesn't think so (#415).
+					// Enter key also produces character, but Firefox doesn't think so (gh#415).
 					isCharKey = evt.data.$.charCode || ( evt.data.getKey() === 13 ),
 					ranges,
 					firstCell,

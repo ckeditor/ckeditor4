@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 415, 4.7.1
+@bender-tags: tc, gh415, 4.7.1
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, basicstyles, sourcearea, elementspath, undo, autogrow
 
 **Procedure:**
