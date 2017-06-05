@@ -787,7 +787,8 @@
 					}
 
 					// Remove 'submit' events registered on form element before destroying.(#3988)
-					editor.on( 'destroy', function() {
+					editor.on('destroy', function () {
+					  form.$.submit = null;
 						form.removeListener( 'submit', onSubmit );
 					} );
 				}
