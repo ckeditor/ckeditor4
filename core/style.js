@@ -372,9 +372,9 @@ CKEDITOR.STYLE_OBJECT = 3;
 
 			switch ( this.type ) {
 				case CKEDITOR.STYLE_OBJECT:
-					return !!elementPath.contains( this.element );
+					return !!(elementPath.contains( this.element ) || this.element === '*');
 				case CKEDITOR.STYLE_BLOCK:
-					return !!elementPath.blockLimit.getDtd()[ this.element ];
+					return !!(elementPath.blockLimit.getDtd()[ this.element ] || this.element === '*');
 			}
 
 			return true;
