@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tutorial &mdash; Abbreviation Plugin, Part 2</title>
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="samples">
+		CKEditor Tutorial &mdash; Abbreviation Plugin, Part 2
+	</h1>
+
+	<p>
+		This sample demonstrates the <strong>Abbreviation</strong> plugin that was created in the
+		<a href="http://docs.ckeditor.com/#!/guide/plugin_sdk_sample_2">second installment</a> of
+		of the CKEditor plugin tutorial series.
+	</p>
+
+	<p>
+		The custom Abbreviation plugin created in the tutorial lets the users insert abbreviations into their documents.
+		The abbreviations use the <code>&lt;abbr&gt;</code> HTML element and are added and edited through a dialog window
+		that is opened after clicking the dedicated <strong>Insert Abbreviation</strong> (<img src="../icons/abbr.png">)
+		toolbar button available in the editor instance below.
+	</p>
+
+	<p>
+		<strong>Note:</strong> This version of the Abbreviation plugin was built upon the source code created in the 
+		<a href="http://docs.ckeditor.com/#!/guide/plugin_sdk_sample_1">first part of the plugin tutorial</a> and was
+		extended with context menu support as well as the possibility to edit a previously inserted element.
+	</p>
+
+	<textarea id="editor1" cols="10" rows="10">
+		&lt;p&gt;This is some sample text.&lt;/p&gt;&lt;p&gt; You are using &lt;a href=&quot;http://ckeditor.com&quot;&gt;CKEditor&lt;/a&gt;, an online &lt;abbr title=&quot;What You See Is What You Get&quot;&gt;WYSIWYG&lt;/abbr&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;editor.&lt;/p&gt;
+	</textarea>
+
+	<script>
+
+		CKEDITOR.replace( 'editor1', {
+			// Load the abbr plugin.
+			extraPlugins: 'cssclass',
+
+			// Disable Advanced Content Filter as the plugin does not implement it (yet).
+			allowedContent: true,
+
+			// The following options are set to make the sample more clear for demonstration purposes.
+
+			// Rearrange toolbar groups and remove unnecessary plugins.
+			toolbarGroups: [
+				{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+				{ name: 'links' },
+				{ name: 'insert' },
+				{ name: 'document',	   groups: [ 'mode' ] },
+				'/',
+				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+				{ name: 'paragraph',   groups: [ 'list', 'indent' ] },
+				{ name: 'styles' },
+				{ name: 'about' }
+			],
+			removePlugins: 'font,iframe,pagebreak,flash,stylescombo,print,preview,save,smiley,pastetext,pastefromword',
+			removeButtons: 'Anchor,Font,Strike,Subscript,Superscript'
+		} );
+
+	</script>
+
+</body>
+</html>
