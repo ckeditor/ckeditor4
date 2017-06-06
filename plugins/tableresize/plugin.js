@@ -74,7 +74,12 @@
 		}
 
 		if ( table.$.tFoot ) {
-			pillarHeight += table.$.tFoot.offsetHeight;
+			var tFoot = new CKEDITOR.dom.element( table.$.tFoot );
+			pillarHeight += tFoot.$.offsetHeight;
+
+			if ( !pillarPosition ) {
+				pillarPosition = tFoot.getDocumentPosition();
+			}
 		}
 
 		if ( $tr ) {
