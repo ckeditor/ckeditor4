@@ -117,7 +117,7 @@ if ( !CKEDITOR.env ) {
 			 *
 			 * @property {Boolean}
 			 */
-			iOS: /(ipad|iphone|ipod)/.test( agent ),
+			iOS: /(ipad|iphone|ipod|android|bb10)/.test( agent ),
 
 			/**
 			 * Indicates that the browser has a custom domain enabled. This has
