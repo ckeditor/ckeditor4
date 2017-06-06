@@ -225,7 +225,7 @@
 
 		context: 'blockquote',
 
-		allowedContent: 'blockquote',
+		allowedContent: 'cite blockquote[cite]',
 		requiredContent: 'blockquote'
 	};
 
