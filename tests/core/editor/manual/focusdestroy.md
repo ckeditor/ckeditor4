@@ -1,4 +1,4 @@
-@bender-tags: tc, 4.7.0, 16825
+@bender-tags: tc, 4.7.0, trac16825
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, wysiwygarea, about, elementspath
 

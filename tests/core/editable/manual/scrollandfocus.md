@@ -1,4 +1,4 @@
-@bender-tags: 4.7.0, tc, 14894
+@bender-tags: 4.7.0, tc, trac14894
 @bender-ui: collapsed
 @bender-ckeditor-plugins: clipboard, contextmenu, toolbar, wysiwygarea, link
 
