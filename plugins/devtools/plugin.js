@@ -10,7 +10,7 @@ CKEDITOR.plugins.add( 'devtools', {
 		editor._.showDialogDefinitionTooltips = 1;
 	},
 	onLoad: function() {
-		CKEDITOR.document.appendStyleText( CKEDITOR.config.devtools_styles || '#cke_tooltip { padding: 5px; border: 2px solid http://dev.ckeditor.com/ticket/333; background: #ffffff }' +
+		CKEDITOR.document.appendStyleText( CKEDITOR.config.devtools_styles || '#cke_tooltip { padding: 5px; border: 2px solid #333; background: #ffffff }' +
 			'#cke_tooltip h2 { font-size: 1.1em; border-bottom: 1px solid; margin: 0; padding: 1px; }' +
 			'#cke_tooltip ul { padding: 0pt; list-style-type: none; }' );
 	}
@@ -155,7 +155,7 @@ CKEDITOR.plugins.add( 'devtools', {
  *
  *		// This is actually the default value.
  *		CKEDITOR.config.devtools_styles =
- *			'#cke_tooltip { padding: 5px; border: 2px solid http://dev.ckeditor.com/ticket/333; background: #ffffff }' +
+ *			'#cke_tooltip { padding: 5px; border: 2px solid #333; background: #ffffff }' +
  *			'#cke_tooltip h2 { font-size: 1.1em; border-bottom: 1px solid; margin: 0; padding: 1px; }' +
  *			'#cke_tooltip ul { padding: 0pt; list-style-type: none; }';
  *
