@@ -840,7 +840,7 @@
 				} );
 			}
 
-			// Handled backspace/del key to join list items. (http://dev.ckeditor.com/ticket/8248,#9080)
+			// Handled backspace/del key to join list items. (http://dev.ckeditor.com/ticket/8248,http://dev.ckeditor.com/ticket/9080)
 			editor.on( 'key', function( evt ) {
 				// Use getKey directly in order to ignore modifiers.
 				// Justification: http://dev.ckeditor.com/ticket/11861#comment:13

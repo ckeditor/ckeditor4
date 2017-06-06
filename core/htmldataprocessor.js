@@ -192,7 +192,7 @@
 			data.writeChildrenHtml( writer );
 			data = writer.getHtml( true );
 
-			// Restore those non-HTML protected source. (http://dev.ckeditor.com/ticket/4475,#4880)
+			// Restore those non-HTML protected source. (http://dev.ckeditor.com/ticket/4475,http://dev.ckeditor.com/ticket/4880)
 			data = unprotectRealComments( data );
 			data = unprotectSource( data, editor );
 

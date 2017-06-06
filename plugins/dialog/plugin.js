@@ -563,7 +563,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			dialogElement.on( 'keydown', keydownHandler, this );
 
 			// Some browsers instead, don't cancel key events in the keydown, but in the
-			// keypress. So we must do a longer trip in those cases. (http://dev.ckeditor.com/ticket/4531,#8985)
+			// keypress. So we must do a longer trip in those cases. (http://dev.ckeditor.com/ticket/4531,http://dev.ckeditor.com/ticket/8985)
 			if ( CKEDITOR.env.gecko )
 				dialogElement.on( 'keypress', keypressHandler, this );
 

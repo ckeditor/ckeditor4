@@ -376,7 +376,7 @@
 					range.moveToPosition( element, CKEDITOR.POSITION_AFTER_END );
 
 					// If we're inserting a block element, the new cursor position must be
-					// optimized. (http://dev.ckeditor.com/ticket/3100,#5436,#8950)
+					// optimized. (http://dev.ckeditor.com/ticket/3100,http://dev.ckeditor.com/ticket/5436,http://dev.ckeditor.com/ticket/8950)
 					if ( isBlock ) {
 						// Find next, meaningful element.
 						var next = element.getNext( function( node ) {
@@ -998,7 +998,7 @@
 					var keyCode = evt.data.domEvent.getKey(),
 						isHandled;
 
-					// Prevent of reading path of empty range (http://dev.ckeditor.com/ticket/13096, #457).
+					// Prevent of reading path of empty range (http://dev.ckeditor.com/ticket/13096, http://dev.ckeditor.com/ticket/457).
 					var sel = editor.getSelection();
 					if ( sel.getRanges().length === 0 ) {
 						return;
@@ -1172,7 +1172,7 @@
 				}
 
 				// Prevent Webkit/Blink from going rogue when joining
-				// blocks on BACKSPACE/DEL (http://dev.ckeditor.com/ticket/11861,#9998).
+				// blocks on BACKSPACE/DEL (http://dev.ckeditor.com/ticket/11861,http://dev.ckeditor.com/ticket/9998).
 				if ( CKEDITOR.env.webkit ) {
 					this.attachListener( editor, 'key', function( evt ) {
 						if ( editor.readOnly ) {
@@ -1186,7 +1186,7 @@
 						if ( !( key in backspaceOrDelete ) )
 							return;
 
-						// Prevent of reading path of empty range (http://dev.ckeditor.com/ticket/13096, #457).
+						// Prevent of reading path of empty range (http://dev.ckeditor.com/ticket/13096, http://dev.ckeditor.com/ticket/457).
 						var sel = editor.getSelection();
 						if ( sel.getRanges().length === 0 ) {
 							return;

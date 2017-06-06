@@ -237,7 +237,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						// Except for "unstylable elements". (http://dev.ckeditor.com/ticket/6103)
 						return isUnstylable( element );
 					} : function( element ) {
-						// Fore color style must be applied inside links instead of around it. (http://dev.ckeditor.com/ticket/4772,#6908)
+						// Fore color style must be applied inside links instead of around it. (http://dev.ckeditor.com/ticket/4772,http://dev.ckeditor.com/ticket/6908)
 						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 					};
 
