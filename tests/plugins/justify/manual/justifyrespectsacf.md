@@ -2,9 +2,9 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, justify, wysiwygarea, elementspath
 
-## Justification disabling on disallowed content
+## Justification disabled on filtered content.
 
-Note: CKEditor config allows only on justification in paragraphs `<p>`.
+General Note: CKEditor config allows only on justification in paragraphs `<p>`.
 
 ----
 1. Put caret inside pargraph ("Foo" word).

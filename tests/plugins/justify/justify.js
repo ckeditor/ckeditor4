@@ -334,5 +334,33 @@ bender.test(
 
 			assert.areSame( '<p style="text-align:center;">foo</p><ul><li>one</li><li>two</li><li>three</li></ul><p style="text-align:center;">bar</p>', bot.getData( true ) );
 		});
+	},
+
+	'test alignment on multi-element with disallowContent': function() {
+		var tc = this;
+		bender.editorBot.create({
+			name: 'editor_p_3',
+			config: {
+				allowedContent: {
+					$1: {
+						elements: CKEDITOR.dtd,
+						attributes: true,
+						styles: true,
+						classes: true
+					}
+				},
+				disallowedContent: 'h1{text-align}'
+			}
+		}, function( bot ){
+			var editor = bot.editor;
+
+			bot.setHtmlWithSelection( '<p>fo[o</p><h1>bar</h1><p>foooos</p><h1>b]az</p>' );
+			tc.assertCommandState( 1,2,2,2, editor );
+
+			bot.execCommand( 'justifyright' );
+			tc.assertCommandState( 2,1,2,2, editor );
+
+			assert.areSame( '<p style="text-align:right;">foo</p><h1>bar</h1><p style="text-align:right;">foooos</p><h1>baz</h1>', bot.getData( true ) );
+		});
 	}
 } );
