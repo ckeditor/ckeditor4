@@ -676,8 +676,9 @@ CKEDITOR.UI_SEPARATOR = 'separator';
 CKEDITOR.config.toolbarLocation = 'top';
 
 /**
- * The toolbox (alias toolbar) definition. It is a toolbar name or an array of
- * toolbars (strips), each one being also an array, containing a list of UI items.
+ * The toolbox (alias toolbar) definition. It is either a toolbar name or an
+ * array of toolbars (strips), each one being either an array (containing a list
+ * of UI items) or a `'/'` string to produce a break (new line in toolbar).
  *
  * If set to `null`, the toolbar will be generated automatically using all available buttons
  * and {@link #toolbarGroups} as a toolbar groups layout.
@@ -698,6 +699,16 @@ CKEDITOR.config.toolbarLocation = 'top';
  *		config.toolbar_Basic = [
  *			[ 'Source', '-', 'Bold', 'Italic' ]
  *		];
+ *
+ *		// Defines a toolbar with two strips on a line, and a third strip on a
+ *		// separated line.
+ *		config.toolbar = [
+ *			[ 'Source', '-', 'Bold', 'Italic' ],
+ *			['Font', 'FontSize'],
+ *			'/',
+ *			['NumberedList', 'BulletedList']
+ *		];
+ *
  *		// Load toolbar_Name where Name = Basic.
  *		config.toolbar = 'Basic';
  *
