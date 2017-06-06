@@ -1952,7 +1952,7 @@
 			// Check if there's a hiddenSelectionContainer in editable at some index.
 			// Some ranges may be anchored after the hiddenSelectionContainer and,
 			// once the container is removed while resetting the selection, they
-			// may need new endOffset (one element less within the range) (http://dev.ckeditor.com/ticket/11021 #11393).
+			// may need new endOffset (one element less within the range) (http://dev.ckeditor.com/ticket/11021 http://dev.ckeditor.com/ticket/11393).
 			if ( hadHiddenSelectionContainer )
 				fixRangesAfterHiddenSelectionContainer( ranges, this.root );
 

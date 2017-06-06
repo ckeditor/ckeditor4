@@ -41,7 +41,7 @@
 		},
 
 		'test style.parse._findColor hex': function() {
-			var ret = this.parse._findColor( 'foo #foo #aa1 http://dev.ckeditor.com/ticket/000 aa http://dev.ckeditor.com/ticket/1234 #123456 #aag #AAB #AAB' );
+			var ret = this.parse._findColor( 'foo #foo #aa1 http://dev.ckeditor.com/ticket/000 aa http://dev.ckeditor.com/ticket/1234 http://dev.ckeditor.com/ticket/123456 #aag #AAB #AAB' );
 
 			arrayAssert.itemsAreEqual( [ '#aa1', '#000', '#123456', '#AAB', '#AAB' ], ret );
 		},
