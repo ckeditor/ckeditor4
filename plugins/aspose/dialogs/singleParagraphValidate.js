@@ -24,8 +24,9 @@
 							id: 'msg',
 							type: 'html',
 							html: '<div>' +
-								'<h3>Multiple types of content are detected.</h3>' +
-								'<h3>We are inserting the text. Please go back and insert remaining content.</h3>' +
+								'<h3>Multiple types of content are detected (text, tables, multiple paragraphs).</h3>' +
+								'<h3>Only one of these can be inserted in a single action. First section will be</h3>' +
+								'<h3>inserted. Please insert remainder as separate discussions.</h3>' +
 								'<div id="singleparagraphValidate_errors"></div>' +
 							'</div>'
 						}

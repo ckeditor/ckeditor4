@@ -6,5 +6,5 @@
  *
  * You should have received a copy of the LoopIndex Comments CKEditor plugin license with
  * this file. If not, please write to: loopindex@gmail.com, or visit http://www.loopindex.com
- * written by (David *)Frenkiel (https://github.com/imdfl) 
+ * written by (David *)Frenkiel (https://github.com/imdfl)
  */
