@@ -377,7 +377,7 @@
 			// Here we are checking in guard function whether current element
 			// reach lastNode(default behaviour) and root node to prevent against
 			// getting out of editor instance root DOM object.
-			// #12484
+			// http://dev.ckeditor.com/ticket/12484
 			function guardFunction( node ) {
 				return !( node.equals( lastNode ) || node.equals( rootNode ) );
 			}

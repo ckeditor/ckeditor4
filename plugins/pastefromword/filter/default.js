@@ -500,7 +500,7 @@
 					'mso-',
 					'text-indent',
 					'visibility:visible',
-					'div:border:none' // This one stays because #6241
+					'div:border:none' // This one stays because http://dev.ckeditor.com/ticket/6241
 				],
 				textStyles = [
 					'font-family',

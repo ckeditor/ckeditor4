@@ -4139,7 +4139,7 @@
       // select-all detection hack)
       if (!cm.curOp && cm.display.selForContextMenu != cm.doc.sel) {
         cm.display.input.reset();
-        if (webkit) setTimeout(function() { cm.display.input.reset(true); }, 20); // Issue #1730
+        if (webkit) setTimeout(function() { cm.display.input.reset(true); }, 20); // Issue http://dev.ckeditor.com/ticket/1730
       }
       cm.display.input.receivedFocus();
     }
@@ -6832,7 +6832,7 @@
       }
     }
 
-    // See issue #2901
+    // See issue http://dev.ckeditor.com/ticket/2901
     if (webkit && /\bcm-tab\b/.test(builder.content.lastChild.className))
       builder.content.className = "cm-tab-wrap-hack";
 

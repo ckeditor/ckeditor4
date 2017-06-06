@@ -43,7 +43,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		// #4513
+		// http://dev.ckeditor.com/ticket/4513
 		test_shrink_text3: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_L1' ), CKEDITOR.POSITION_BEFORE_START );
@@ -59,7 +59,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// #4513
+		// http://dev.ckeditor.com/ticket/4513
 		test_shrink_text4: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_B2' ), CKEDITOR.POSITION_BEFORE_START );
@@ -75,7 +75,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// #4513
+		// http://dev.ckeditor.com/ticket/4513
 		test_shrink_text5: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_I2' ), CKEDITOR.POSITION_BEFORE_END );
@@ -91,7 +91,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// #4513
+		// http://dev.ckeditor.com/ticket/4513
 		test_shrink_text6: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_L1' ).getFirst(), 2 );
@@ -108,7 +108,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// #4513
+		// http://dev.ckeditor.com/ticket/4513
 		test_shrink_text7: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_L1' ).getFirst(), 2 );
@@ -125,7 +125,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// #4513
+		// http://dev.ckeditor.com/ticket/4513
 		test_shrink_text8: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_L1' ).getFirst(), 2 );

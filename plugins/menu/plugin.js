@@ -108,7 +108,7 @@ CKEDITOR.plugins.add( 'menu', {
 			' ondragstart="return false;"' );
 	}
 
-	// #188
+	// http://dev.ckeditor.com/ticket/188
 	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
 			' onmouseout="CKEDITOR.tools.callFunction({moveOutFn},{index});" ' +
 			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) +

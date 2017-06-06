@@ -64,7 +64,7 @@
 			} );
 		},
 
-		// #11283
+		// http://dev.ckeditor.com/ticket/11283
 		'test upcast: ENTER_P, non-captioned, centered->DIV{text-align}': function() {
 			assertUpcast( {
 				name: 'enterP',
@@ -80,7 +80,7 @@
 			} );
 		},
 
-		// #11283
+		// http://dev.ckeditor.com/ticket/11283
 		'test upcast: ENTER_BR, non-captioned, centered->DIV{text-align}': function() {
 			assertUpcast( {
 				name: 'enterBR',
@@ -96,7 +96,7 @@
 			} );
 		},
 
-		// #11283
+		// http://dev.ckeditor.com/ticket/11283
 		'test upcast: ENTER_BR, non-captioned, centered->DIV{text-align}, siblings': function() {
 			assertUpcast( {
 				name: 'enterBR',
@@ -113,7 +113,7 @@
 			} );
 		},
 
-		// #14701
+		// http://dev.ckeditor.com/ticket/14701
 		'test upcast: setting proper label': function() {
 			assertUpcast( {
 				name: 'enterP',

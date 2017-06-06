@@ -742,7 +742,7 @@
 				'<p>X<!--{cke_protected}%3C%3F%20echo%201%3B%20%3F%3E-->Y</p>',							'leave entire PHP code' );
 		},
 
-		// #13393
+		// http://dev.ckeditor.com/ticket/13393
 		// The script's body may not be encoded if htmlDP was not used or if the encoding didn't work.
 		'test script removed completely when its body is not encoded': function() {
 			var filter = createFilter( 'p', false );
@@ -858,11 +858,11 @@
 
 			filter( '<p><bar>bar</bar></p>',						'<p><bar>bar</bar></p>' );
 			filter( '<bar><foo>bar</foo></bar>',					'<bar>bar</bar>' );
-			// #12683
+			// http://dev.ckeditor.com/ticket/12683
 			filter( '<bar><h1>bar</h1></bar>',						'<p>bar</p>' );
 		},
 
-		// #13886
+		// http://dev.ckeditor.com/ticket/13886
 		'test filter styles validation with none or empty styles': function() {
 			var filter = new CKEDITOR.filter( 'a {color}' );
 

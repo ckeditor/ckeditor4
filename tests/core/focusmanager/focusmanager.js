@@ -56,7 +56,7 @@ bender.test( {
 		}, 10 );
 	},
 
-	// #16935
+	// http://dev.ckeditor.com/ticket/16935
 	'test blur editor in source mode': function() {
 		if ( !CKEDITOR.env.chrome ) {
 			assert.ignore();

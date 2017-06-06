@@ -73,7 +73,7 @@
 			wait();
 		},
 
-		// #12411
+		// http://dev.ckeditor.com/ticket/12411
 		'test span as a direct child no break': function() {
 			bender.editorBot.create( {
 				name: 'editor2',

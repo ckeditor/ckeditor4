@@ -537,7 +537,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 					( function() {
 						element.on( 'click', function( evt ) {
 							me.click();
-							// #9958
+							// http://dev.ckeditor.com/ticket/9958
 							evt.data.preventDefault();
 						} );
 

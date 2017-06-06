@@ -110,7 +110,7 @@
 			}
 
 			// It is important to focus() *after* the above selection
-			// manipulation, otherwise Firefox will have troubles. #10119
+			// manipulation, otherwise Firefox will have troubles. http://dev.ckeditor.com/ticket/10119
 			editor.focus();
 		}
 

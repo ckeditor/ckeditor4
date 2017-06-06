@@ -269,7 +269,7 @@ bender.test( {
 		this.editor.execCommand( 'paste', pastedText );
 	},
 
-	// #13532
+	// http://dev.ckeditor.com/ticket/13532
 	'test re–embeddable url': function() {
 		var bot = this.editorBot,
 			editor = bot.editor;

@@ -11,7 +11,7 @@ bender.test( {
 		}
 	},
 
-	// #4355
+	// http://dev.ckeditor.com/ticket/4355
 	'test command exec not require editor focus': function() {
 		if ( this.editor.elementMode == CKEDITOR.ELEMENT_MODE_INLINE )
 			assert.ignore();

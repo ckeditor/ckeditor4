@@ -163,7 +163,7 @@
 
 						// Hide scroll bars.
 						var styles = {
-							overflow: CKEDITOR.env.webkit ? '' : 'hidden', // #6896
+							overflow: CKEDITOR.env.webkit ? '' : 'hidden', // http://dev.ckeditor.com/ticket/6896
 							width: 0,
 							height: 0
 						};

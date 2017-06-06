@@ -255,7 +255,7 @@ CKEDITOR.plugins.add( 'forms', {
 					input: function( input ) {
 						var attrs = input.attributes,
 							type = attrs.type;
-						// Old IEs don't provide type for Text inputs #5522
+						// Old IEs don't provide type for Text inputs http://dev.ckeditor.com/ticket/5522
 						if ( !type )
 							attrs.type = 'text';
 						if ( type == 'checkbox' || type == 'radio' )

@@ -274,7 +274,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// The data can be only a color code (without #) or colorName + color code
 				// If only a color code is provided, then the colorName is the color with the hash
-				// Convert the color from RGB to RRGGBB for better compatibility with IE and <font>. See #5676
+				// Convert the color from RGB to RRGGBB for better compatibility with IE and <font>. See http://dev.ckeditor.com/ticket/5676
 				if ( !parts[ 1 ] )
 					colorName = '#' + colorName.replace( /^(.)(.)(.)$/, '$1$1$2$2$3$3' );
 

@@ -158,7 +158,7 @@
 			[ '<p>ab{</p><p>c</p><p>}de</p>',										'<br data-cke-eol="1" /><p>c</p><br data-cke-eol="1" />',		'<p>ab[]de</p>' ],
 			[ '<h1><b>{a</b></h1><p>b}</p>',										'<h1><b>a</b></h1><p>b</p>',									'<h1>[]@!</h1>' ],
 
-			// #13449
+			// http://dev.ckeditor.com/ticket/13449
 			[ '<h1>{a</h1><p><b>b}</b></p>',										'<h1>a</h1><p><b>b</b></p>',									'<h1>[]@!</h1>' ],
 			[ '<h1>{abc</h1><p><strong>de</strong>gh}<strong>jl</strong>mn</p>',	'<h1>abc</h1><p><strong>de</strong>gh</p>',						'<h1>[]<strong>jl</strong>mn</h1>' ]
 		],
@@ -204,32 +204,32 @@
 
 		],
 
-		// #13101
+		// http://dev.ckeditor.com/ticket/13101
 		'html5': [
 			[ '<div>[<figure>img</figure>]</div>',											'<figure>img</figure>',											'<div>[]@!</div>' ],
 			[ '<div>[<div><figure>img<figcaption>cap</figcaption></figure></div>]</div>',	'<div><figure>img<figcaption>cap</figcaption></figure></div>',	'<div>[]@!</div>' ]
 		],
 
 		'tables': [
-			// #1
+			// http://dev.ckeditor.com/ticket/1
 			[ '<table><tbody><tr><td>{a}</td></tr></tbody></table>',				'a',															'<table><tbody><tr><td>[]@!</td></tr></tbody></table>' ],
-			// #2
+			// http://dev.ckeditor.com/ticket/2
 			[ '<div><table><tbody><tr><td>{a}</td></tr></tbody></table></div>',		'a',															'<div><table><tbody><tr><td>[]@!</td></tr></tbody></table></div>' ],
-			// #3
+			// http://dev.ckeditor.com/ticket/3
 			[ '<table><tbody><tr><td>a{b}c</td></tr></tbody></table>',				'b',															'<table><tbody><tr><td>a[]c</td></tr></tbody></table>' ],
-			// #4
+			// http://dev.ckeditor.com/ticket/4
 			[ '<table><tbody><tr><td>a{b</td><td>c}d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a[]</td><td>d</td></tr></tbody></table>' ],
-			// #5
+			// http://dev.ckeditor.com/ticket/5
 			[ '<div><table><tbody><tr><td>a{b</td><td>c}d</td></tr></tbody></table></div>',
 				'<table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>',
 				'<div><table><tbody><tr><td>a[]</td><td>d</td></tr></tbody></table></div>' ],
-			// #6
+			// http://dev.ckeditor.com/ticket/6
 			[ '<table><tbody><tr>[<td>a</td><td>b}c</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
 				'<table><tbody><tr><td>[]@!</td><td>c</td></tr></tbody></table>' ],
-			// #7
+			// http://dev.ckeditor.com/ticket/7
 			[ '<table><tbody><tr>[<td>a</td>]<td>b</td></tr></tbody></table>',
 				'a',
 				'<table><tbody><tr><td>[]@!</td><td>b</td></tr></tbody></table>' ],
@@ -237,27 +237,27 @@
 			[ '<table><tbody><tr><td>{a</td></tr></tbody></table><p>x</p><table><tbody><tr><td>b</td></tr><tr><td>c}</td><td>d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td></tr></tbody></table><p>x</p><table><tbody><tr><td>b</td></tr><tr><td>c</td></tr></tbody></table>',
 				'<table><tbody><tr><td>[]@!</td></tr></tbody></table><table><tbody><tr><td>@!</td></tr><tr><td>@!</td><td>d</td></tr></tbody></table>' ],
-			// #9
+			// http://dev.ckeditor.com/ticket/9
 			[ '<table><tbody><tr><td>a{b</td><td>c</td></tr><tr><td>d}e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a[]</td><td>@</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
-			// #10
+			// http://dev.ckeditor.com/ticket/10
 			[ '<p>[a</p><table><tbody><tr><td>b</td><td>c]d</td></tr></tbody></table>',
 				'<p>a</p><table><tbody><tr><td>b</td><td>c</td></tr></tbody></table>',
 				'<p>[]@!</p><table><tbody><tr><td>@</td><td>d</td></tr></tbody></table>' ],
-			// #11
+			// http://dev.ckeditor.com/ticket/11
 			[ '<table><tbody><tr><td>b{c</td><td>d</td></tr></tbody></table><p>a}b</p>',
 				'<table><tbody><tr><td>c</td><td>d</td></tr></tbody></table><p>a</p>',
 				'<table><tbody><tr><td>b[]</td><td>@</td></tr></tbody></table><p>b</p>' ],
-			// #12
+			// http://dev.ckeditor.com/ticket/12
 			[ '<p>[a</p><table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e]f</td></tr></tbody></table>',
 				'<p>a</p><table><tbody><tr><td>b</td><td>c</td></tr><tr><td>d</td><td>e</td></tr></tbody></table>',
 				'<p>[]@!</p><table><tbody><tr><td>@!</td><td>@!</td></tr><tr><td>@!</td><td>f</td></tr></tbody></table>' ],
-			// #13
+			// http://dev.ckeditor.com/ticket/13
 			[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
 				'<p>[]@!</p>' ],
-			// #14
+			// http://dev.ckeditor.com/ticket/14
 			[ '<table border="1" style="width:500px"><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',
 				'<table border="1" style="width:500px"><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
 				'<p>[]@!</p>' ],
@@ -269,35 +269,35 @@
 			[ '<table><tbody><tr><td>{a</td><td>b</td></tr><tr><td>c</td><td>d}</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr><tr><td>c</td><td>d</td></tr></tbody></table>',
 				'<table><tbody><tr><td>[]@!</td><td>@!</td></tr><tr><td>@!</td><td>@!</td></tr><tr><td>e</td><td>f</td></tr></tbody></table>' ],
-			// #17
+			// http://dev.ckeditor.com/ticket/17
 			[ '<p>[a</p><table><tbody><tr><td>b</td><td>cd</td></tr></tbody></table><p>e}f</p>',
 				'<p>a</p><table><tbody><tr><td>b</td><td>cd</td></tr></tbody></table><p>e</p>',
 				'<p>[]f</p>' ],
-			// #18
+			// http://dev.ckeditor.com/ticket/18
 			[ '<p>a</p>[<table><tbody><tr><td>x</td><td>x</td></tr></tbody></table>]<p>b</p>',
 				'<table><tbody><tr><td>x</td><td>x</td></tr></tbody></table>',
 				'<p>a</p><p>[]@!</p><p>b</p>' ],
-			// #19
+			// http://dev.ckeditor.com/ticket/19
 			[ '<p>x</p><table><tbody><tr>[<td>a</td>]</tr></tbody></table>',
 				'a',
 				'<p>x</p><table><tbody><tr><td>[]@!</td></tr></tbody></table>' ],
-			// #20
+			// http://dev.ckeditor.com/ticket/20
 			[ '<p>x</p><table><tbody><tr><td>a[</td><td>b</td>]</tr></tbody></table>',
 				'<table><tbody><tr><td></td><td>b</td></tr></tbody></table>',
 				'<p>x</p><table><tbody><tr><td>a[]</td><td>@!</td></tr></tbody></table>' ],
-			// #21
+			// http://dev.ckeditor.com/ticket/21
 			[ '<p>x</p><table><tbody><tr>[<td>a</td><td>b</td>]</tr></tbody></table>',
 				'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',
 				'<p>x</p><p>[]@!</p>' ],
-			// #22
+			// http://dev.ckeditor.com/ticket/22
 			[ '<table><thead><tr>[<th>a</th>]</tr></thead><tbody><tr><td>b</td></tr></tbody></table>',
 				'a',
 				'<table><thead><tr><th>[]@!</th></tr></thead><tbody><tr><td>b</td></tr></tbody></table>' ],
-			// #23
+			// http://dev.ckeditor.com/ticket/23
 			[ '<p>a{</p><table><tbody><tr><td>x</td></tr></tbody></table><table><tbody><tr><td>y</td></tr></tbody></table><p>}b</p>',
 				'<br data-cke-eol="1" /><table><tbody><tr><td>x</td></tr></tbody></table><table><tbody><tr><td>y</td></tr></tbody></table><br data-cke-eol="1" />',
 				'<p>a[]b</p>' ],
-			// #24
+			// http://dev.ckeditor.com/ticket/24
 			[ '<p>a</p>[<table><tbody><tr><td>x</td></tr></tbody></table><table><tbody><tr><td>y</td></tr></tbody></table>]<p>b</p>',
 				'<table><tbody><tr><td>x</td></tr></tbody></table><table><tbody><tr><td>y</td></tr></tbody></table>',
 				'<p>a</p><p>[]@!</p><p>b</p>' ],
@@ -370,15 +370,15 @@
 			[ '<p>a</p><p><b>[b]</b></p><p>c</p>',									'<b>b</b>',														'<p>a</p><p>c</p>' ],
 			[ '<p>a[b]c</p>',														'b',															'<p>ac</p>' ],
 			[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',		'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',	'' ],
-			// #13465
+			// http://dev.ckeditor.com/ticket/13465
 			[
 				'<p>[<span>foo</span>]<span data-cke-bookmark="1">&nbsp;</span></p>',
 				'<span>foo</span>',
 				'<p><span data-cke-bookmark="1">&nbsp;</span></p>'
 			],
-			// #13465
+			// http://dev.ckeditor.com/ticket/13465
 			[ '<p>a</p><p><span class="foo">{b}</span></p><p>c</p>',				'<span class="foo">b</span>',									'<p>a</p><p>c</p>' ],
-			// #13465
+			// http://dev.ckeditor.com/ticket/13465
 			[ '<p>a</p><p><b>{b}</b><span class="foo"></span></p><p>c</p>',			'<b>b</b>',														'<p>a</p><p>c</p>' ]
 		]
 	}, 'inline', 1 );

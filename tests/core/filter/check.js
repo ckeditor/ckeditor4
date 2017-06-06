@@ -75,7 +75,7 @@
 		'test element + styles - style': function() {
 			var test = createTest( 'a p{color,width,border-*}' );
 
-			// #13886
+			// http://dev.ckeditor.com/ticket/13886
 			test( true, st( { element: 'a', styles: {} } ) );
 			test( true, st( { element: 'p', styles: { color: 'red' } } ) );
 			test( true, st( { element: 'a', styles: { color: 'red', width: '10px' } } ) );

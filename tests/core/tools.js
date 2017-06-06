@@ -389,7 +389,7 @@
 			assert.areSame( 'color:#010203; border-color:#ffff00;', c( 'color:rgb(1,2,3); border-color:rgb(255,255,0);' ), 'multiple' );
 		},
 
-		// #14252
+		// http://dev.ckeditor.com/ticket/14252
 		testNormalizeHex: function() {
 			var c = CKEDITOR.tools.normalizeHex;
 

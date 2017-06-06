@@ -807,7 +807,7 @@
 		 * @since 4.5.5
 		 */
 		getLinkAttributesGetter: function() {
-			// #13885
+			// http://dev.ckeditor.com/ticket/13885
 			return CKEDITOR.plugins.link.getLinkAttributes;
 		},
 
@@ -831,7 +831,7 @@
 		 * @since 4.5.5
 		 */
 		getLinkAttributesParser: function() {
-			// #13885
+			// http://dev.ckeditor.com/ticket/13885
 			return CKEDITOR.plugins.link.parseLinkAttributes;
 		}
 	};

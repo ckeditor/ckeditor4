@@ -229,7 +229,7 @@ bender.test( {
 			'the selection was located after the strong element' );
 	},
 
-	// #12690
+	// http://dev.ckeditor.com/ticket/12690
 	'test selectRanges - inside empty inline element': function() {
 		var editor = this.editor,
 			range = editor.createRange();
@@ -286,7 +286,7 @@ bender.test( {
 		} );
 	},
 
-	// #11493
+	// http://dev.ckeditor.com/ticket/11493
 	'test getRanges(true) does not modify cached ranges': function() {
 		var editor = this.editor;
 
@@ -301,7 +301,7 @@ bender.test( {
 		assert.areSame( 1, allRanges.length, 'only 1 range returned by getRanges()' );
 	},
 
-	// #11493
+	// http://dev.ckeditor.com/ticket/11493
 	'test getRanges(true) called after getRanges() does not modify cached ranges': function() {
 		var editor = this.editor;
 
@@ -475,7 +475,7 @@ bender.test( {
 		}
 	},
 
-	// #11500
+	// http://dev.ckeditor.com/ticket/11500
 	'test removeAllRanges is limited to its root': function() {
 		var editable1 = doc.getById( 'sandbox' ),
 			editable2 = doc.getById( 'sandbox2' );

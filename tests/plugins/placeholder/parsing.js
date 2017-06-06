@@ -131,7 +131,7 @@
 			} );
 		},
 
-		// #14701
+		// http://dev.ckeditor.com/ticket/14701
 		'test label': function() {
 			assertWidget( {
 				html: '<p>[[just example]]</p>',

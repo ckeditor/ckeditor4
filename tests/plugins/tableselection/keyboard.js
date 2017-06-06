@@ -174,7 +174,7 @@
 			} );
 		},
 
-		// #415
+		// http://dev.ckeditor.com/ticket/415
 		'test enter key': function( editor, bot ) {
 			bender.tools.testInputOut( 'enterKey', function( source, expected ) {
 				bender.tools.setHtmlWithSelection( editor, source );

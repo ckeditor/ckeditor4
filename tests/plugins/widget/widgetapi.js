@@ -730,7 +730,7 @@
 			} );
 		},
 
-		// #11811
+		// http://dev.ckeditor.com/ticket/11811
 		'test paste widget with special characters in data': function() {
 			var editor = this.editor;
 
@@ -771,7 +771,7 @@
 			} );
 		},
 
-		// #11811
+		// http://dev.ckeditor.com/ticket/11811
 		'test special characters set in data during upcast': function() {
 			var editor = this.editor;
 

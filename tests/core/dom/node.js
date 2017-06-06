@@ -254,7 +254,7 @@
 			assert.isFalse( el.getChild( [ 0, 0 ] ).isReadOnly( 1 ) );
 		},
 
-		// http://dev.ckeditor.com/ticket/13609, #13919
+		// http://dev.ckeditor.com/ticket/13609, http://dev.ckeditor.com/ticket/13919
 		'test isReadOnly - isContentEditable property access': function() {
 			// Edge tends to break when accessing isContentEditable property in certain elements.
 			// If this test causes refreshes/crashes the web page, then some new element is causing this issue.

@@ -163,7 +163,7 @@
 			} );
 		},
 
-		// #12300
+		// http://dev.ckeditor.com/ticket/12300
 		'test change event not fired after navigation key': function() {
 			this.editorBot.setHtmlWithSelection( '<p>foo^</p>' );
 

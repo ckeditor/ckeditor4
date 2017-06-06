@@ -1230,7 +1230,7 @@
 		},
 
 		'test pasting widget which was copied (d&d) when its nested editable was focused': function() {
-			// #11055
+			// http://dev.ckeditor.com/ticket/11055
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 				assert.ignore();
 			}
@@ -1406,7 +1406,7 @@
 		},
 
 		'test selection in nested editable is preserved after opening and closing dialog - inline editor': function() {
-			// #11399
+			// http://dev.ckeditor.com/ticket/11399
 			if ( CKEDITOR.env.gecko ) {
 				assert.ignore();
 			}

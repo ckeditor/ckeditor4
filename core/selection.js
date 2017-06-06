@@ -6,7 +6,7 @@
 ( function() {
 	var isMSSelection = typeof window.getSelection != 'function',
 		nextRev = 1,
-		// #13816
+		// http://dev.ckeditor.com/ticket/13816
 		fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 ),
 		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' ),
 		isSelectingTable;
@@ -413,7 +413,7 @@
 		}
 	}
 
-	// #13816
+	// http://dev.ckeditor.com/ticket/13816
 	function removeFillingCharSequenceString( str, nbspAware ) {
 		if ( nbspAware ) {
 			return str.replace( fillingCharSequenceRegExp, function( m, p ) {
@@ -735,7 +735,7 @@
 					if ( restoreSel !== 0 ) {
 						var nativ = editor.getSelection().getNative();
 						// Do it only if the native selection is at an unwanted
-						// place (at the very start of the editable). #10119
+						// place (at the very start of the editable). http://dev.ckeditor.com/ticket/10119
 						if ( nativ && nativ.isCollapsed && nativ.anchorNode == editable.$ ) {
 							var rng = editor.createRange();
 							rng.moveToElementEditStart( editable );

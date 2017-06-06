@@ -118,7 +118,7 @@
 			a(	ts + '<tr><td>x^y</td></tr>' + te,
 				ts + '<tr><td>x<p contenteditable="false">foo</p>^y</td></tr>' + te,						'collapsed - middle' );
 
-			// #11798
+			// http://dev.ckeditor.com/ticket/11798
 			a(	ts + '<tr><td>x^</td></tr>' + te,
 				ts + '<tr><td>x<p contenteditable="false">foo</p><p>^&nbsp;</p></td></tr>' + te,			'collapsed - boundary' );
 

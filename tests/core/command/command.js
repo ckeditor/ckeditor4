@@ -39,7 +39,7 @@ bender.test( {
 		delete ed.commands.test_context_sensitive;
 	},
 
-	// #8342
+	// http://dev.ckeditor.com/ticket/8342
 	'test command states with readonly editor': function() {
 		var bot = this.editorBot, editor = bot.editor;
 		editor.setReadOnly( true );
@@ -258,7 +258,7 @@ bender.test( {
 		assert.isTrue( cmd.checkAllowed( true ), 'is allowed - no cache' );
 	},
 
-	// #13548
+	// http://dev.ckeditor.com/ticket/13548
 	'test copy command not disabled after clicking on elements path': function() {
 		if ( !CKEDITOR.env.ie ) {
 			assert.ignore();
@@ -281,7 +281,7 @@ bender.test( {
 		wait();
 	},
 
-	// #13548
+	// http://dev.ckeditor.com/ticket/13548
 	'test cut command not disabled after clicking on elements path': function() {
 		if ( !CKEDITOR.env.ie ) {
 			assert.ignore();

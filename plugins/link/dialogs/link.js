@@ -340,7 +340,7 @@
 							},
 							commit: function( data ) {
 								// IE will not trigger the onChange event if the mouse has been used
-								// to carry all the operations #4724
+								// to carry all the operations http://dev.ckeditor.com/ticket/4724
 								this.onChange();
 
 								if ( !data.url )

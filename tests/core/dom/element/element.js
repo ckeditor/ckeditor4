@@ -150,7 +150,7 @@ bender.test( appendDomObjectTests(
 			assert.areEqual( 'Test appendText', element.$.text );
 		},
 
-		// #13232
+		// http://dev.ckeditor.com/ticket/13232
 		'test appendText to link': function() {
 			var element = newElement( 'a' );
 			element.appendText( '@' );
@@ -682,7 +682,7 @@ bender.test( appendDomObjectTests(
 			assert.isFalse( doc.getById( 'invisible2' ).isVisible() );
 		},
 
-		// #7070
+		// http://dev.ckeditor.com/ticket/7070
 		test_getBogus: function() {
 			// Test padding block bogus BR for non-IEs.
 			if ( CKEDITOR.env.ie )
@@ -978,7 +978,7 @@ bender.test( appendDomObjectTests(
 			assert.isTrue( element1.isIdentical( element2 ) );
 		},
 
-		// #8527
+		// http://dev.ckeditor.com/ticket/8527
 		'test empty anchor editable': function() {
 			assert.isFalse( doc.getById( 'empty_anchor_1' ).isEditable() );
 			assert.isFalse( doc.getById( 'empty_anchor_2' ).isEditable() );

@@ -312,7 +312,7 @@
 			}
 		},
 
-		// #13680
+		// http://dev.ckeditor.com/ticket/13680
 		'test header elements in summary tag': function() {
 			assert.areSame( '<summary><h2>Summary</h2></summary>',
 				htmlParse( '<summary><h2>Summary</h2></summary>' ) );

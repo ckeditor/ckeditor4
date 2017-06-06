@@ -12,7 +12,7 @@ CKEDITOR.plugins.add( 'listblock', {
 				'<a id="{id}_option" _cke_focus=1 hidefocus=true' +
 					' title="{title}"' +
 					' href="javascript:void(\'{val}\')" ' +
-					' {onclick}="CKEDITOR.tools.callFunction({clickFn},\'{val}\'); return false;"' + // #188
+					' {onclick}="CKEDITOR.tools.callFunction({clickFn},\'{val}\'); return false;"' + // http://dev.ckeditor.com/ticket/188
 						' role="option">' +
 					'{text}' +
 				'</a>' +

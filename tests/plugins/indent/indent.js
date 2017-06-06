@@ -174,7 +174,7 @@
 			t.s( 2, 0 );
 		},
 
-		// This might be similar to #2
+		// This might be similar to http://dev.ckeditor.com/ticket/2
 		'test list (first li element, indent full list)': function() {
 			var t = createIndentOutdentTester( this.editors.enterP, '<ul><li>x^</li><li>y</li></ul>' );
 
@@ -703,7 +703,7 @@
 		},
 
 		'test indent next to inline non-editable': function() {
-			// #11242
+			// http://dev.ckeditor.com/ticket/11242
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 				assert.ignore();
 			}

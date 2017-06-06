@@ -222,7 +222,7 @@ bender.test( {
 		} );
 	},
 
-	// #7174
+	// http://dev.ckeditor.com/ticket/7174
 	'test "selectionChange" fired after the same selection set after data loaded': function() {
 		var bot = this.editorBots.editor,
 			editor = this.editors.editor,
@@ -326,7 +326,7 @@ bender.test( {
 		wait();
 	},
 
-	// #10115
+	// http://dev.ckeditor.com/ticket/10115
 	// Of course this test doesn't check if caret is visible.
 	// It only verifies if fixInitialSelection works correctly and does not confilct
 	// with browser or editor (http://dev.ckeditor.com/ticket/9507) fixing selection.
@@ -356,7 +356,7 @@ bender.test( {
 	},
 
 	'test initial selection after set data in autoparagraphing inline editor': function() {
-		// #13154
+		// http://dev.ckeditor.com/ticket/13154
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 			assert.ignore();
 		}
@@ -385,7 +385,7 @@ bender.test( {
 		wait();
 	},
 
-	// #13816
+	// http://dev.ckeditor.com/ticket/13816
 	'test remove filling character from snapshots and data': function() {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
@@ -404,7 +404,7 @@ bender.test( {
 		} );
 	},
 
-	// #10315
+	// http://dev.ckeditor.com/ticket/10315
 	'test selection is invalidating filling char after editable is replaced by new one': function() {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
@@ -490,7 +490,7 @@ bender.test( {
 		assert.areSame( 1, range.startOffset, 'Selection remains - offset after FC' );
 	},
 
-	// #12489
+	// http://dev.ckeditor.com/ticket/12489
 	'test filling char remains when taking snapshot if selection is not right after the filling char': function() {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
@@ -522,7 +522,7 @@ bender.test( {
 		assert.areSame( fillingCharSequenceLength + 2, range.startOffset, 'Selection remains - offset in FCab^cd' );
 	},
 
-	// #8617
+	// http://dev.ckeditor.com/ticket/8617
 	'test selection is preserved when removing filling char on left-arrow': function() {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
@@ -556,7 +556,7 @@ bender.test( {
 		assert.areSame( 3, range.startOffset, 'Selection was restored - offset in abc^' );
 	},
 
-	// #12419
+	// http://dev.ckeditor.com/ticket/12419
 	'test selection is preserved when removing filling char on select all': function() {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();

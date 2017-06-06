@@ -359,7 +359,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
-		// #13453
+		// http://dev.ckeditor.com/ticket/13453
 		'test drop inside drag range has no effect': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
@@ -493,7 +493,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
-		// #13468
+		// http://dev.ckeditor.com/ticket/13468
 		'test drop custom type from external source': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
 				evt = {};
@@ -635,7 +635,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
-		// #13879
+		// http://dev.ckeditor.com/ticket/13879
 		'test prevent drop': function( editor, bot ) {
 			var evt = bender.tools.mockDropEvent();
 

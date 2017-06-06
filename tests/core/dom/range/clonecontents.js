@@ -226,7 +226,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		// #11586
+		// http://dev.ckeditor.com/ticket/11586
 		'test cloneContents does not split text nodes': function() {
 			var root = doc.createElement( 'div' ),
 				range = new CKEDITOR.dom.range( doc );
@@ -249,7 +249,7 @@
 			assert.isInnerHtmlMatching( 'o<b>b</b>', clone.getHtml() );
 		},
 
-		// #11586
+		// http://dev.ckeditor.com/ticket/11586
 		'test cloneContents does not affect selection': function() {
 			var editor = bender.editors.classic,
 				range = editor.createRange(),

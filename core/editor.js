@@ -742,7 +742,7 @@
 			// This guarantees that commands added before first editor#mode
 			// aren't immediately updated, but waits for editor#mode and that
 			// commands added later are immediately refreshed, even when added
-			// before instanceReady. http://dev.ckeditor.com/ticket/10103, #10249
+			// before instanceReady. http://dev.ckeditor.com/ticket/10103, http://dev.ckeditor.com/ticket/10249
 			if ( this.mode )
 				updateCommand( this, cmd );
 

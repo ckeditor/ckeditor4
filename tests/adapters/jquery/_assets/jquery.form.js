@@ -342,7 +342,7 @@ $.fn.ajaxSubmit = function(options) {
                 log('aborting upload... ' + e);
                 this.aborted = 1;
 
-                try { // http://dev.ckeditor.com/ticket/214, #257
+                try { // http://dev.ckeditor.com/ticket/214, http://dev.ckeditor.com/ticket/257
                     if (io.contentWindow.document.execCommand) {
                         io.contentWindow.document.execCommand('Stop');
                     }
@@ -862,7 +862,7 @@ $.fn.formToArray = function(semantic, elements) {
                 }
             }
             else {
-                // #180
+                // http://dev.ckeditor.com/ticket/180
                 a.push({ name: n, value: '', type: el.type });
             }
         }

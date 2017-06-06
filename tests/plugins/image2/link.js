@@ -715,7 +715,7 @@
 			} );
 		},
 
-		// #11801
+		// http://dev.ckeditor.com/ticket/11801
 		'test load editor anchors into link dialog when linking for the first time': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
@@ -767,7 +767,7 @@
 			} );
 		},
 
-		// #13197
+		// http://dev.ckeditor.com/ticket/13197
 		'test align classes transfered from nested image to widget wrapper': function() {
 			var bot = this.editorBots.editor1,
 				html = '<p>' +
@@ -785,7 +785,7 @@
 			} );
 		},
 
-		// #13885
+		// http://dev.ckeditor.com/ticket/13885
 		'test custom link attributes getter': function() {
 			CKEDITOR.plugins.image2.getLinkAttributesGetter = function() {
 				return function() {
@@ -817,7 +817,7 @@
 			}, inlineStructureWithLink, [ 2, 2 ] );
 		},
 
-		// #13885
+		// http://dev.ckeditor.com/ticket/13885
 		'test custom link attributes parser': function() {
 			var bot = this.editorBot;
 

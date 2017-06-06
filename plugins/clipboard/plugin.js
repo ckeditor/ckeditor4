@@ -153,7 +153,7 @@
 						data = dataObj.dataValue,
 						dataTransfer = dataObj.dataTransfer;
 
-					// If data empty check for image content inside data transfer. #16705
+					// If data empty check for image content inside data transfer. http://dev.ckeditor.com/ticket/16705
 					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
 						var file = dataTransfer.getFile( 0 );
 

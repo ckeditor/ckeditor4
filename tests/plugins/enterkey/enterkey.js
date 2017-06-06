@@ -60,7 +60,7 @@
 			}
 		},
 
-		// #7912
+		// http://dev.ckeditor.com/ticket/7912
 		'test enter key after invisible element': function() {
 			// IE restrain making selection in invisible element.
 			if ( CKEDITOR.env.ie )
@@ -84,7 +84,7 @@
 			assert.areSame( expected, bender.tools.fixHtml( output ) );
 		},
 
-		// #8321
+		// http://dev.ckeditor.com/ticket/8321
 		'test enter key at the end of block with inline styles': function() {
 			var bot = this.editorBots.editor,
 				editor = bot.editor;
@@ -121,7 +121,7 @@
 			assert.isTrue( rect.top < viewport.height && rect.top > 0 );
 		},
 
-		// Start of #8812
+		// Start of http://dev.ckeditor.com/ticket/8812
 		'test ener key at the end of contents with comment': function() {
 			var bot = this.editorBots.editor;
 
@@ -148,7 +148,7 @@
 
 			assert.areSame( '<p><b>foo</b>bar</p><p>baz<!-- --><b>qux</b></p>', bot.getData( false, true ) );
 		},
-		// End of #8812
+		// End of http://dev.ckeditor.com/ticket/8812
 
 		'test enter key uses editor.activeEnterMode': function() {
 			var bot = this.editorBots.editorNoAutoParagraph;
@@ -258,7 +258,7 @@
 		'test shift+enter key - before br':				se( 'editor', '<p>foo{}<br />bar</p>', '<p>foo<br />^<br />bar@</p>' ),
 		'test shift+enter key - after br':				se( 'editor', '<p>foo<br />{}bar</p>', '<p>foo<br /><br />^bar@</p>' ),
 
-		// #11947
+		// http://dev.ckeditor.com/ticket/11947
 		'test shift+enter key - end of block, inside inline element followed by bogus br':
 			se( 'editor', '<p><em>foo{}</em><br /></p>', '<p><em>foo<br />^</em><br /></p>' ),
 		'test shift+enter key - end of list item, inside inline element followed by bogus br':

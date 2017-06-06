@@ -26,7 +26,7 @@ bender.test( {
 		assert.areSame( '<ul><li>foo</li><li>bar</li><li>baz</li></ul>', bot.getData( false, true ) );
 	},
 
-	// #3940
+	// http://dev.ckeditor.com/ticket/3940
 	'test create list in table': function() {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( 'create_list_table', function( input, expected ) {
@@ -60,7 +60,7 @@ bender.test( {
 		assert.areSame( '<p dir="rtl">foo</p><p dir="rtl">bar</p><p dir="rtl">baz</p>', bot.getData( true ) );
 	},
 
-	// #7657
+	// http://dev.ckeditor.com/ticket/7657
 	'test apply list (with block styles)': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '[<p dir="rtl">Item 1</p><p dir="rtl" style="margin-right: 40px;">Item 2</p><p dir="rtl" style="margin-right: 80px;">Item 3</p>]' );
@@ -125,7 +125,7 @@ bender.test( {
 		assert.areSame( '<ul><li type="square">item1</li><li type="square">item2</li><li type="square">item3</li></ul>', bot.getData( 1 ) );
 	},
 
-	// #7290
+	// http://dev.ckeditor.com/ticket/7290
 	'test switch list type (inside definition list)': function() {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( 'switch_list_dl', function( source, expected ) {
@@ -136,7 +136,7 @@ bender.test( {
 		} );
 	},
 
-	// #6059
+	// http://dev.ckeditor.com/ticket/6059
 	'test switch list type keeps text direction': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '[<ol dir="rtl" lang="en"><li>line 1</li><li>line 2</li></ol>]' );
@@ -144,7 +144,7 @@ bender.test( {
 		assert.areSame( '<ul dir="rtl" lang="en"><li>line 1</li><li>line 2</li></ul>', bot.getData( true ) );
 	},
 
-	// #8997
+	// http://dev.ckeditor.com/ticket/8997
 	'test change list type keep styles on sub list': function() {
 		if ( !this.supportForSelectFullList() )
 			assert.ignore();

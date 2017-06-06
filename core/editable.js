@@ -1109,7 +1109,7 @@
 					editor.fire( 'doubleclick', data );
 				} );
 
-				// Prevent automatic submission in IE #6336
+				// Prevent automatic submission in IE http://dev.ckeditor.com/ticket/6336
 				CKEDITOR.env.ie && this.attachListener( this, 'click', blockInputClick );
 
 				// Gecko/Webkit need some help when selecting control type elements. (http://dev.ckeditor.com/ticket/3448)

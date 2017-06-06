@@ -34,7 +34,7 @@ var tests = {
 	}
 };
 
-// Start of #8248
+// Start of http://dev.ckeditor.com/ticket/8248
 addTests( 'test backspace join list items', 'join_list1', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list2', BACKSPACE );
 addTests( 'test backspace join list items', 'join_list3', BACKSPACE );

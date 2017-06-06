@@ -422,7 +422,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			topHtml: topHtml ? '<span id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top cke_reset_all" role="presentation" style="height:auto">' + topHtml + '</span>' : '',
 			contentId: editor.ui.spaceId( 'contents' ),
 			bottomHtml: bottomHtml ? '<span id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom cke_reset_all" role="presentation">' + bottomHtml + '</span>' : '',
-			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// #9571
+			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// http://dev.ckeditor.com/ticket/9571
 		} ) );
 
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {

@@ -504,7 +504,7 @@
 	// Checks wheather this block should be element preserved (not transformed to <li>) when creating list.
 	function shouldPreserveBlock( block ) {
 		return (
-			// #5335
+			// http://dev.ckeditor.com/ticket/5335
 			block.is( 'pre' ) ||
 			// http://dev.ckeditor.com/ticket/5271 - this is a header.
 			headerTagRegex.test( block.getName() ) ||
@@ -981,7 +981,7 @@
 								nextLine = range.clone();
 								nextLine.moveToElementEditStart( next );
 
-								// #13409
+								// http://dev.ckeditor.com/ticket/13409
 								// For the following case and similar
 								//
 								// <ul>
