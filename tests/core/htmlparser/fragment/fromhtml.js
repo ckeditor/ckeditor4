@@ -113,7 +113,7 @@ bender.test( {
 	},
 
 	/**
-	 * Test fixing malformed nested list structure. (#3828)
+	 * Test fixing malformed nested list structure. (http://dev.ckeditor.com/ticket/3828)
 	 */
 	test_parser_13: function() {
 		assert.areSame( '<ul><li><ol></ol></li></ul>',
@@ -195,7 +195,7 @@ bender.test( {
 		assert.areSame( output,			parseHtml( source, 'figcaption' ),	'figcaption context - between blocks' );
 	},
 
-	// Test whitespaces handling in different context. (#3715)
+	// Test whitespaces handling in different context. (http://dev.ckeditor.com/ticket/3715)
 	'parse pre-formatted contents': function() {
 		var pre = '<pre>\t\tfoo\nbar quz  \n</pre>',
 			textarea = '<p><textarea>\t\tfoo\nbar quz  \n</textarea></p>';

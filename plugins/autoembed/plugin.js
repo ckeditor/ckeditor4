@@ -36,7 +36,7 @@
 				// If one pasted an embeddable link and then undone the action, the link in the content holds the
 				// data-cke-autoembed attribute and may be embedded on *any* successive paste.
 				// This check ensures that autoEmbedLink is called only if afterPaste is fired *right after*
-				// embeddable link got into the content. (#13532)
+				// embeddable link got into the content. (http://dev.ckeditor.com/ticket/13532)
 				if ( embedCandidatePasted ) {
 					autoEmbedLink( editor, currentId );
 				}
@@ -94,10 +94,10 @@
 					editor.fire( 'saveSnapshot' );
 
 					// Lock snapshot so we don't make unnecessary undo steps in
-					// editable.insertElement() below, which would include bookmarks. (#13429)
+					// editable.insertElement() below, which would include bookmarks. (http://dev.ckeditor.com/ticket/13429)
 					editor.fire( 'lockSnapshot', { dontUpdate: true } );
 
-					// Bookmark current selection. (#13429)
+					// Bookmark current selection. (http://dev.ckeditor.com/ticket/13429)
 					var bookmark = selection.createBookmarks( false )[ 0 ],
 						startNode = bookmark.startNode,
 						endNode = bookmark.endNode || startNode;
@@ -118,7 +118,7 @@
 					editable.insertElement( wrapper, insertRange );
 
 					// If both bookmarks are still in DOM, it means that selection was not inside
-					// an anchor that got substituted. We can safely recreate that selection. (#13429)
+					// an anchor that got substituted. We can safely recreate that selection. (http://dev.ckeditor.com/ticket/13429)
 					if ( editable.contains( startNode ) && editable.contains( endNode ) ) {
 						selection.selectBookmarks( [ bookmark ] );
 					} else {

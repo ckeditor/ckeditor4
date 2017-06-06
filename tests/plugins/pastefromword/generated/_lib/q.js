@@ -372,7 +372,7 @@ var STACK_JUMP_SEPARATOR = "From previous event:";
 
 function makeStackTraceLong(error, promise) {
     // If possible, transform the error stack trace by removing Node and Q
-    // cruft, then concatenating with the stack trace of `promise`. See #57.
+    // cruft, then concatenating with the stack trace of `promise`. See http://dev.ckeditor.com/ticket/57.
     if (hasStacks &&
         promise.stack &&
         typeof error === "object" &&

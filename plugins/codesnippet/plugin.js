@@ -367,7 +367,7 @@
 				if ( matchResult )
 					data.lang = matchResult[ 1 ];
 
-				// Use textarea to decode HTML entities (#11926).
+				// Use textarea to decode HTML entities (http://dev.ckeditor.com/ticket/11926).
 				textarea.setHtml( code.getHtml() );
 				data.code = textarea.getValue();
 

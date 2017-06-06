@@ -88,7 +88,7 @@
 			assert.areSame( '0', htmlEncode( 0 ), '0' );
 		},
 
-		'test htmlEncode - #3874': function() {
+		'test htmlEncode - http://dev.ckeditor.com/ticket/3874': function() {
 			assert.areSame( 'line1\nline2', htmlEncode( 'line1\nline2' ) );
 		},
 
@@ -335,7 +335,7 @@
 
 		testQuoteEntity: assertNormalizeCssText( 'font-family:"foo";', 'font-family: &quot;foo&quot;;', '' ),
 
-		// (#10750)
+		// (http://dev.ckeditor.com/ticket/10750)
 		'test Normalize double quote': assertNormalizeCssText( 'font-family:"crazy font";', 'font-family: "crazy font";',
 			'quoted font name' ),
 		'test Normalize single quote': assertNormalizeCssText( 'font-family:\'crazy font\';', 'font-family: \'crazy font\';',

@@ -20,7 +20,7 @@
 	}
 
 	var tests = {
-		// (#258, #tp2247)
+		// (http://dev.ckeditor.com/ticket/258, #tp2247)
 		'test overriding cell background': function( editor ) {
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'cellBackground' ).getValue() );
 

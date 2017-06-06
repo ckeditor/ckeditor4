@@ -224,7 +224,7 @@
 			wait();
 		},
 
-		'test ensure onAbort is called (#13812)': function() {
+		'test ensure onAbort is called (http://dev.ckeditor.com/ticket/13812)': function() {
 			var file;
 
 			// Fire this to fail the test if loader.abort() is never called.

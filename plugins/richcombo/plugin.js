@@ -160,7 +160,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 				};
 
 				function updateState() {
-					// Don't change state while richcombo is active (#11793).
+					// Don't change state while richcombo is active (http://dev.ckeditor.com/ticket/11793).
 					if ( this.getState() == CKEDITOR.TRISTATE_ON )
 						return;
 

@@ -516,7 +516,7 @@
 			assert.areSame( 1, range.endOffset, 'range.startOffset' );
 		},
 
-		// #13568.
+		// http://dev.ckeditor.com/ticket/13568.
 		'test cloneContents - bogus br': function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( 'bogus' ), 0 ); // <p>

@@ -5,7 +5,7 @@ bender.editor = true;
 
 bender.test( {
 	setUp: function() {
-		// Maximize plugin is disabled on iOS (#8307).
+		// Maximize plugin is disabled on iOS (http://dev.ckeditor.com/ticket/8307).
 		if ( CKEDITOR.env.iOS ) {
 			assert.ignore();
 		}

@@ -199,7 +199,7 @@
 			[ '<p>{a}<br />@</p>',													'a',															'<p>[]<br />@</p>' ],
 			[ '<p>{a<br />]@</p>',													'a<br />',														'<p>[]@!</p>' ],
 			[ '<div>b<p>{a@]</p>b</div>',											'a',															'<div>b<p>[]@!</p>b</div>' ],
-			// #13568.
+			// http://dev.ckeditor.com/ticket/13568.
 			[ '<div>[<p>Foo bar@</p>]</div>',										'<p>Foo bar</p>',												'<div>[]@!</div>' ]
 
 		],

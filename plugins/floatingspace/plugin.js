@@ -68,7 +68,7 @@
 				}
 
 				return function( evt ) {
-					// #10112 Do not fail on editable-less editor.
+					// http://dev.ckeditor.com/ticket/10112 Do not fail on editable-less editor.
 					if ( !( editable = editor.editable() ) )
 						return;
 
@@ -159,7 +159,7 @@
 						alignSide = mid - editorRect.left > editorRect.right - mid ? 'left' : 'right';
 					}
 
-					// (#9769) If viewport width is less than space width,
+					// (http://dev.ckeditor.com/ticket/9769) If viewport width is less than space width,
 					// make sure space never cross the left boundary of the viewport.
 					// In other words: top-left corner of the space is always visible.
 					if ( spaceRect.width > viewRect.width ) {
@@ -226,7 +226,7 @@
 								offset = 0;
 						}
 
-						// (#9769) Finally, stick the space to the opposite side of
+						// (http://dev.ckeditor.com/ticket/9769) Finally, stick the space to the opposite side of
 						// the viewport when it's cut off horizontally on the left/right
 						// side like below.
 						//
@@ -258,7 +258,7 @@
 					}
 
 					// Pin mode is fixed, so don't include scroll-x.
-					// (#9903) For mode is "top" or "bottom", add opposite scroll-x for right-aligned space.
+					// (http://dev.ckeditor.com/ticket/9903) For mode is "top" or "bottom", add opposite scroll-x for right-aligned space.
 					var scroll = mode == 'pin' ? 0 : alignSide == 'left' ? pageScrollX : -pageScrollX;
 
 					floatSpace.setStyle( alignSide, pixelate( ( mode == 'pin' ? pinnedOffsetX : dockedOffsetX ) + offset + scroll ) );

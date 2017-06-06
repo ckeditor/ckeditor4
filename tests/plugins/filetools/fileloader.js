@@ -396,7 +396,7 @@
 			wait();
 		},
 
-		'test upload with custom field name (#13518)': function() {
+		'test upload with custom field name (http://dev.ckeditor.com/ticket/13518)': function() {
 			var loader = new FileLoader( editorMock, pngBase64, 'name.png' );
 
 			attachListener( editorMock, 'fileUploadRequest', function( evt ) {
@@ -422,7 +422,7 @@
 			wait();
 		},
 
-		'test upload with additional request parameters provided (#13518)': function() {
+		'test upload with additional request parameters provided (http://dev.ckeditor.com/ticket/13518)': function() {
 			var loader = new FileLoader( editorMock, pngBase64, 'name.png' );
 
 			createXMLHttpRequestMock( [ 'load' ] );
@@ -436,7 +436,7 @@
 			wait();
 		},
 
-		'test if name of file is correctly attached (#13518)': function() {
+		'test if name of file is correctly attached (http://dev.ckeditor.com/ticket/13518)': function() {
 			var name = 'customName.png',
 				loader = new FileLoader( editorMock, pngBase64, name );
 
@@ -451,7 +451,7 @@
 			wait();
 		},
 
-		'test upload response not encoded (#13030)': function() {
+		'test upload response not encoded (http://dev.ckeditor.com/ticket/13030)': function() {
 			var loader = new FileLoader( editorMock, pngBase64, 'na me.png' ),
 				observer = observeEvents( loader );
 
@@ -969,7 +969,7 @@
 			wait();
 		},
 
-		'test additional data passed to xhr via fileUploadRequest listener (#13518)': function() {
+		'test additional data passed to xhr via fileUploadRequest listener (http://dev.ckeditor.com/ticket/13518)': function() {
 			var loader = new FileLoader( editorMock, testFile ),
 				file = new File( [], 'a' );
 
@@ -992,7 +992,7 @@
 			wait();
 		},
 
-		'test additional data in fileUploadResponse (#13519)': function() {
+		'test additional data in fileUploadResponse (http://dev.ckeditor.com/ticket/13519)': function() {
 			var data,
 				loader = new FileLoader( editorMock, testFile );
 

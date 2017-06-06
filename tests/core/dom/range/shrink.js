@@ -327,7 +327,7 @@
 			assert.areSame( source, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
 		},
 
-		// (#17010)
+		// (http://dev.ckeditor.com/ticket/17010)
 		'test shrink with skipBogus param - SHRINK_TEXT': function() {
 			// Test does not make sense in the environment, which does not use <br> as bogus.
 			if ( !CKEDITOR.env.needsBrFiller ) {
@@ -342,7 +342,7 @@
 			assert.areSame( 'Cell 1.1', range.cloneContents().getHtml() );
 		},
 
-		// (#17010)
+		// (http://dev.ckeditor.com/ticket/17010)
 		'test shrink with skipBogus param - SHRINK_ELEMENT': function() {
 			// Test does not make sense in the environment, which does not use <br> as bogus.
 			if ( !CKEDITOR.env.needsBrFiller ) {

@@ -28,7 +28,7 @@ CKEDITOR.dialog.add( 'sourcedialog', function( editor ) {
 			function setData( dialog, newData ) {
 				// [IE8] Focus editor before setting selection to avoid setting data on
 				// locked selection, because in case of inline editor, it won't be
-				// unlocked before editable's HTML is altered. (#11585)
+				// unlocked before editable's HTML is altered. (http://dev.ckeditor.com/ticket/11585)
 				editor.focus();
 				editor.setData( newData, function() {
 					dialog.hide();

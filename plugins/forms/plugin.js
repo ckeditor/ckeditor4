@@ -90,7 +90,7 @@ CKEDITOR.plugins.add( 'forms', {
 		var imagePlugin = editor.plugins.image;
 
 		// Since Image plugin is disabled when Image2 is to be loaded,
-		// ImageButton also got to be off (#11222).
+		// ImageButton also got to be off (http://dev.ckeditor.com/ticket/11222).
 		if ( imagePlugin && !editor.plugins.image2 )
 			addButtonCommand( 'ImageButton', 'imagebutton', CKEDITOR.plugins.getPath( 'image' ) + 'dialogs/image.js' );
 

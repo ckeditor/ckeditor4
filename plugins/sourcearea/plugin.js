@@ -38,7 +38,7 @@
 					CKEDITOR.tools.cssVendorPrefix( 'tab-size', editor.config.sourceAreaTabSize || 4 ) ) );
 
 				// Make sure that source code is always displayed LTR,
-				// regardless of editor language (#10105).
+				// regardless of editor language (http://dev.ckeditor.com/ticket/10105).
 				textarea.setAttribute( 'dir', 'ltr' );
 
 				textarea.addClass( 'cke_source' ).addClass( 'cke_reset' ).addClass( 'cke_enable_context_menu' );
@@ -53,7 +53,7 @@
 				// Having to make <textarea> fixed sized to conquer the following bugs:
 				// 1. The textarea height/width='100%' doesn't constraint to the 'td' in IE6/7.
 				// 2. Unexpected vertical-scrolling behavior happens whenever focus is moving out of editor
-				// if text content within it has overflowed. (#4762)
+				// if text content within it has overflowed. (http://dev.ckeditor.com/ticket/4762)
 				if ( CKEDITOR.env.ie ) {
 					editable.attachListener( editor, 'resize', onResize, editable );
 					editable.attachListener( CKEDITOR.document.getWindow(), 'resize', onResize, editable );
@@ -83,7 +83,7 @@
 
 			function onResize() {
 				// We have to do something with focus on IE9, because if sourcearea had focus
-				// before being resized, the caret ends somewhere in the editor UI (#11839).
+				// before being resized, the caret ends somewhere in the editor UI (http://dev.ckeditor.com/ticket/11839).
 				var wasActive = needsFocusHack && this.equals( CKEDITOR.document.getActive() );
 
 				// Holder rectange size is stretched by textarea,

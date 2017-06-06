@@ -136,7 +136,7 @@
 
 			editor.on( 'paste', function( evt ) {
 				// Firefox does remove iFrame elements from pasted content so this event do the same on other browsers.
-				// Also iFrame in paste content is reason of "Unspecified error" in IE9 (#10857).
+				// Also iFrame in paste content is reason of "Unspecified error" in IE9 (http://dev.ckeditor.com/ticket/10857).
 				var regex = new RegExp( '<span[^>]*?' + cls + '.*?<\/span>', 'ig' );
 				evt.data.dataValue = evt.data.dataValue.replace( regex, function( match ) {
 					return match.replace( /(<iframe.*?\/iframe>)/i, '' );
@@ -295,7 +295,7 @@
 					return;
 
 				// Because of IE9 bug in a src attribute can not be javascript
-				// when you undo (#10930). If you have iFrame with javascript in src
+				// when you undo (http://dev.ckeditor.com/ticket/10930). If you have iFrame with javascript in src
 				// and call insertBefore on such element then IE9 will see crash.
 				if ( CKEDITOR.env.ie )
 					iFrame.removeAttribute( 'src' );

@@ -65,7 +65,7 @@ bender.test( {
 	'test selection on initial focus': function() {
 		var ed = this.editors.editor;
 		ed.editable().focus();
-		assert.areEqual( '<p>^foo</p>', bender.tools.getHtmlWithSelection( ed ), 'Selection goes into editable on focus (#9507).' );
+		assert.areEqual( '<p>^foo</p>', bender.tools.getHtmlWithSelection( ed ), 'Selection goes into editable on focus (http://dev.ckeditor.com/ticket/9507).' );
 	},
 
 	'test selection on initial focus - ensure new doc': function() {
@@ -76,7 +76,7 @@ bender.test( {
 			ed.setData( '<p>foo</p>', function() {
 				resume( function() {
 					ed.editable().focus();
-					assert.areEqual( '<p>^foo</p>', bender.tools.getHtmlWithSelection( ed ), 'Selection goes into editable on focus (#10115).' );
+					assert.areEqual( '<p>^foo</p>', bender.tools.getHtmlWithSelection( ed ), 'Selection goes into editable on focus (http://dev.ckeditor.com/ticket/10115).' );
 				} );
 			} );
 		} );
@@ -329,7 +329,7 @@ bender.test( {
 	// #10115
 	// Of course this test doesn't check if caret is visible.
 	// It only verifies if fixInitialSelection works correctly and does not confilct
-	// with browser or editor (#9507) fixing selection.
+	// with browser or editor (http://dev.ckeditor.com/ticket/9507) fixing selection.
 	'test initial selection after set data in autoparagraphing editor': function() {
 		doc.getById( 'input1' ).focus();
 
@@ -422,7 +422,7 @@ bender.test( {
 				editor.setData( '<p id="p">foo<em>bar</em></p>' );
 				editor.setMode( 'wysiwyg', function() {
 					resume( function() {
-						// Editor needs to have focus to remove FC on keydown. (#14714)
+						// Editor needs to have focus to remove FC on keydown. (http://dev.ckeditor.com/ticket/14714)
 						editor.focus();
 						// TC1 - on keydown
 						// <p>foo^<em>...
@@ -543,7 +543,7 @@ bender.test( {
 
 		this.assertFillingChar( editable, uEl, 'abc', 'after typing' );
 
-		// Editor needs to have focus to remove FC on keydown. (#14714)
+		// Editor needs to have focus to remove FC on keydown. (http://dev.ckeditor.com/ticket/14714)
 		editor.focus();
 
 		// Mock LEFT arrow.
@@ -625,7 +625,7 @@ bender.test( {
 
 	// This particular scenario is reproducible when after typing in an empty inline element
 	// user tries to select text by mouse from right to left in that element - selection is lost.
-	// #12491 comment:3
+	// http://dev.ckeditor.com/ticket/12491 comment:3
 	'test direction of selection is preserved when taking snapshot': function() {
 		if ( !CKEDITOR.env.webkit )
 			assert.ignore();
@@ -697,7 +697,7 @@ bender.test( {
 		} );
 	},
 
-	// #11500 & #5217#comment:32
+	// http://dev.ckeditor.com/ticket/11500 & http://dev.ckeditor.com/ticket/5217#comment:32
 	// This test doesn't make much sense on !IE, because only on IE
 	// selection is locked when blurring framed editor.
 	// But the more cases we test the better, so let's see.
@@ -717,7 +717,7 @@ bender.test( {
 		} );
 	},
 
-	// #11500 & #5217#comment:32
+	// http://dev.ckeditor.com/ticket/11500 & http://dev.ckeditor.com/ticket/5217#comment:32
 	'test selection unlocked on setData in inline editor': function() {
 		var editor = this.editors.editorInline,
 			bot = this.editorBots.editorInline;

@@ -38,7 +38,7 @@
 		// %REMOVE_START%
 		// Internal DEBUG uses tools located in the topmost window.
 
-		// (#9701) Due to security limitations some browsers may throw
+		// (http://dev.ckeditor.com/ticket/9701) Due to security limitations some browsers may throw
 		// errors when accessing window.top object. Do it safely first then.
 		try {
 			that.debug = window.top.DEBUG;
@@ -278,7 +278,7 @@
 				var elements, element, i;
 
 				for ( var t in { p: 1, br: 1, div: 1 } ) {
-					// document.find is not available in QM (#11149).
+					// document.find is not available in QM (http://dev.ckeditor.com/ticket/11149).
 					elements = editor.document.getElementsByTag( t );
 
 					for ( i = elements.count(); i--; ) {
@@ -428,7 +428,7 @@
 		function elementFromPoint( doc, mouse ) {
 			var pointedElement = doc.$.elementFromPoint( mouse.x, mouse.y );
 
-			// IE9QM: from times to times it will return an empty object on scroll bar hover. (#12185)
+			// IE9QM: from times to times it will return an empty object on scroll bar hover. (http://dev.ckeditor.com/ticket/12185)
 			return pointedElement && pointedElement.nodeType ?
 				new CKEDITOR.dom.element( pointedElement ) :
 				null;
@@ -483,7 +483,7 @@
 			// If trigger is an element, neither editable nor editable's ascendant.
 			if ( trigger && that.editable.contains( trigger ) ) {
 				// Check for closest editable limit.
-				// Don't consider trigger as a limit as it may be nested editable (includeSelf=false) (#12009).
+				// Don't consider trigger as a limit as it may be nested editable (includeSelf=false) (http://dev.ckeditor.com/ticket/12009).
 				var limit = getClosestEditableLimit( trigger );
 
 				// Trigger in nested editable area.
@@ -730,7 +730,7 @@
 
 					// Consider the editable to be an element with overflow:scroll
 					// and non-zero scrollTop/scrollLeft value.
-					// For example: divarea editable. (#9383)
+					// For example: divarea editable. (http://dev.ckeditor.com/ticket/9383)
 					styleSet.top += view.editable.scroll.top;
 					styleSet.left += view.editable.scroll.left;
 				}
@@ -931,7 +931,7 @@
 					var selected = editor.getSelection().getStartElement(),
 						limit;
 
-					// (#9833) Go down to the closest non-inline element in DOM structure
+					// (http://dev.ckeditor.com/ticket/9833) Go down to the closest non-inline element in DOM structure
 					// since inline elements don't participate in in magicline.
 					selected = selected.getAscendant( DTD_BLOCK, 1 );
 

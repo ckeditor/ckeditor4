@@ -176,7 +176,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		// Enlarge without including line-breaks; (#7087)
+		// Enlarge without including line-breaks; (http://dev.ckeditor.com/ticket/7087)
 		test_enlarge_element15: function() {
 			// <p><i>[Enlarge]</i><br /></p>
 			// <p>[<i>Enlarge</i>]<br /></p>
@@ -387,7 +387,7 @@
 
 		/**
 		 * We should stop enlarging the range when it ends right after BR,
-		 * this's the case when a line selection is made in IE/Opera. (#7490)
+		 * this's the case when a line selection is made in IE/Opera. (http://dev.ckeditor.com/ticket/7490)
 		 */
 		test_enlarge_brs: function() {
 			var target = CKEDITOR.document.getById( '_EnlargeP19' ),

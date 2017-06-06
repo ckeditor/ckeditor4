@@ -468,7 +468,7 @@
 				element = isEditor ? editorOrElement.editable() : editorOrElement;
 
 			if ( isEditor ) {
-				// (#9848) Prevent additional selectionChange due to editor.focus().
+				// (http://dev.ckeditor.com/ticket/9848) Prevent additional selectionChange due to editor.focus().
 				// This fix isn't required by IE < 9.
 				if ( CKEDITOR.env.ie ? CKEDITOR.env.version > 8 : 1 ) {
 					editorOrElement.once( 'selectionChange', function( event ) {
@@ -626,7 +626,7 @@
 			// has been replace, which will otherwise bother parser.
 			html = bender.tools.compatHtml( html );
 
-			// Avoid having IE drop the comment nodes before any actual text. (#3801)
+			// Avoid having IE drop the comment nodes before any actual text. (http://dev.ckeditor.com/ticket/3801)
 			if ( CKEDITOR.env.ie && ( document.documentMode || CKEDITOR.env.version ) < 9 ) {
 				element.setHtml( '<span>a</span>' + html );
 				element.getFirst().remove();
@@ -1231,7 +1231,7 @@
 				html = html.replace( markerReplaceRegex, '<!--cke-range-marker-$1-->' );
 
 				// Set clean HTML without {, }, [, ] but with adequate comments.
-				// Prevent IE from purging comment nodes before any actual text (#3801).
+				// Prevent IE from purging comment nodes before any actual text (http://dev.ckeditor.com/ticket/3801).
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 					element.setHtml( '<span>!</span>' + html );
 					element.getFirst().remove();
@@ -1307,7 +1307,7 @@
 				if ( node.type == CKEDITOR.NODE_TEXT ) {
 					return new CKEDITOR.dom.text( node.getText() );
 				} else {
-					// Make sure ids are cloned (#12130).
+					// Make sure ids are cloned (http://dev.ckeditor.com/ticket/12130).
 					clone = node.clone( 0, 1 );
 				}
 
@@ -1347,7 +1347,7 @@
 				//       It joins adjacent text nodes when using deep clone, which is pretty annoying.
 				// Note: IE9-11 aren't any better. They lose empty text nodes between elements when cloning.
 				// See 'test special #1' in tests.
-				// Make sure ids are cloned (#12130).
+				// Make sure ids are cloned (http://dev.ckeditor.com/ticket/12130).
 				clone = CKEDITOR.env.ie ? cloneNode( element ) : element.clone( 1, 1 );
 
 				startContainer = clone.getChild( startAddress );

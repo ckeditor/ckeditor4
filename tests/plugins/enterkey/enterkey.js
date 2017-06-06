@@ -95,11 +95,11 @@
 			assert.areSame( '<p><b><i>foo</i></b></p><p><b><i>bar</i></b></p>', bot.getData( false, true ) );
 		},
 
-		// #7946 TODO: Add editor doc quirks mode tests.
+		// http://dev.ckeditor.com/ticket/7946 TODO: Add editor doc quirks mode tests.
 		'test enter key key scrolls document': function() {
 			// On iPads, behavior of scrollTop, scrollHeight and clientHeight is a bit unexpected.
 			// <html> and <iframe> are resized even though they shouldn't, sudden changes of scrollHeight
-			// from higher value to ~clientHeight, even though more elements are being added, etc. (#13439)
+			// from higher value to ~clientHeight, even though more elements are being added, etc. (http://dev.ckeditor.com/ticket/13439)
 			if ( CKEDITOR.env.iOS ) {
 				assert.ignore();
 			}
@@ -136,7 +136,7 @@
 			bot.setHtmlWithSelection( '<!-- baz -->foo^bar<!-- baz -->' );
 			bot.execCommand( 'enter' );
 
-			// IE9+Compat looses the first comment, so we remove it from the assertion (not related to #8812).
+			// IE9+Compat looses the first comment, so we remove it from the assertion (not related to http://dev.ckeditor.com/ticket/8812).
 			assert.areSame( '<p>foo</p><p>bar</p>', bot.getData( false, true ).replace( /<![^>]+>/g, '' ) );
 		},
 
@@ -198,7 +198,7 @@
 			assert.areSame( '<p>foo</p><p>bar</p>', bot.getData(), 'main mode was used' );
 		},
 
-		// (#12162)
+		// (http://dev.ckeditor.com/ticket/12162)
 		'test enter key directly in nested editable': function() {
 			var editor = this.editors.editorNoAutoParagraph,
 				expected = '<p>foo</p>' +

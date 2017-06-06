@@ -56,7 +56,7 @@
 				iLeft = Math.round( screen.width * 0.1 );
 			} catch ( e ) {}
 
-			// (#9907) Allow data manipulation before preview is displayed.
+			// (http://dev.ckeditor.com/ticket/9907) Allow data manipulation before preview is displayed.
 			// Also don't open the preview window when event cancelled.
 			if ( editor.fire( 'contentPreview', eventData = { dataValue: sHTML } ) === false )
 				return false;
@@ -75,12 +75,12 @@
 					'document.close();' +
 					'window.opener._cke_htmlToLoad = null;' +
 				'})() )';
-				// For IE we should use window.location rather than setting url in window.open. (#11146)
+				// For IE we should use window.location rather than setting url in window.open. (http://dev.ckeditor.com/ticket/11146)
 				sOpenUrl = '';
 			}
 
 			// With Firefox only, we need to open a special preview page, so
-			// anchors will work properly on it. (#9047)
+			// anchors will work properly on it. (http://dev.ckeditor.com/ticket/9047)
 			if ( CKEDITOR.env.gecko ) {
 				window._cke_htmlToLoad = eventData.dataValue;
 				sOpenUrl = CKEDITOR.getUrl( pluginPath + 'preview.html' );
@@ -90,7 +90,7 @@
 				iWidth + ',height=' + iHeight + ',left=' + iLeft );
 
 			// For IE we want to assign whole js stored in ieLocation, but in case of
-			// popup blocker activation oWindow variable will be null. (#11597)
+			// popup blocker activation oWindow variable will be null. (http://dev.ckeditor.com/ticket/11597)
 			if ( CKEDITOR.env.ie && oWindow )
 				oWindow.location = ieLocation;
 

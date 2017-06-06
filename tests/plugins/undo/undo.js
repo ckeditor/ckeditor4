@@ -362,7 +362,7 @@ bender.test( {
 		assert.isFalse( isActive( redo ), msg + 'redoable' );
 	},
 
-	// #10315 Two scenarios:
+	// http://dev.ckeditor.com/ticket/10315 Two scenarios:
 	//
 	// 1.
 	// * sellection with filling char

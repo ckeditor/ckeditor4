@@ -114,7 +114,7 @@ bender.test( {
 		if ( !CKEDITOR.env.edge || CKEDITOR.env.version < 14 ) {
 			inputHtml = '<p>[foo <span id="bar">bar</span>]</p>';
 		}
-		
+
 		bender.tools.setHtmlWithSelection( editor, inputHtml );
 
 		var span = editor.document.getById( 'bar' ),
@@ -272,7 +272,7 @@ bender.test( {
 		assert.isTrue( editor.getSelection( 1 ).isHidden(), 'Real selection is placed in hidden element' );
 	},
 
-	'Fake-selection bookmark mark as not faked when no enclosed node found. (#13280)': function() {
+	'Fake-selection bookmark mark as not faked when no enclosed node found. (http://dev.ckeditor.com/ticket/13280)': function() {
 		bender.tools.selection.setWithHtml( this.editor, '<p>fo{o ba}r</p>' );
 
 		var sel = this.editor.getSelection(),
@@ -1023,7 +1023,7 @@ bender.test( {
 		} );
 	},
 
-	// #11393.
+	// http://dev.ckeditor.com/ticket/11393.
 	'Test select editable contents when fake selection was on and DOM has been overwritten': function() {
 		var editor = this.editor;
 

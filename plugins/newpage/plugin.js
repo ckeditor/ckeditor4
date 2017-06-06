@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'newpage', {
 				var command = this;
 				editor.setData( editor.config.newpage_html || '', function() {
 					editor.focus();
-					// Save the undo snapshot after all document changes are affected. (#4889)
+					// Save the undo snapshot after all document changes are affected. (http://dev.ckeditor.com/ticket/4889)
 					setTimeout( function() {
 						editor.fire( 'afterCommandExec', {
 							name: 'newpage',

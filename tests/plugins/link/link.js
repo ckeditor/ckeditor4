@@ -20,7 +20,7 @@
 			CKEDITOR.document.getById( 'blurTarget' ).focus();
 
 			bot.dialog( 'link', function( dialog ) {
-				// Should auto trim leading spaces. (#6845)
+				// Should auto trim leading spaces. (http://dev.ckeditor.com/ticket/6845)
 				dialog.setValueOf( 'info', 'url', ' ckeditor.com' );
 				dialog.getButton( 'ok' ).click();
 

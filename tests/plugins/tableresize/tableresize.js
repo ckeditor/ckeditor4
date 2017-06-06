@@ -201,7 +201,7 @@ bender.test( {
 		assert.isNull( wrapperTable.getCustomData( '_cke_table_pillars' ) );
 	},
 
-	// #13388.
+	// http://dev.ckeditor.com/ticket/13388.
 	'test undo/redo table resize': function() {
 		var editor = this.editors.undo,
 			doc = editor.document,

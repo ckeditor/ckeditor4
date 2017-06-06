@@ -164,7 +164,7 @@
 	};
 
 	// Update the specified range which has been mangled by previous insertion of
-	// range bookmark nodes.(#3256)
+	// range bookmark nodes.(http://dev.ckeditor.com/ticket/3256)
 	function updateDirtyRange( bookmark, dirtyRange, checkEnd ) {
 		var serializable = bookmark.serializable,
 			container = dirtyRange[ checkEnd ? 'endContainer' : 'startContainer' ],

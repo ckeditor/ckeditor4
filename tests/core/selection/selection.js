@@ -252,7 +252,7 @@ bender.test( {
 		testSelectedElement( '[<b><i><img /></i>]</b>', 'img' );
 	},
 
-	// Issue noticed during works on #9764.
+	// Issue noticed during works on http://dev.ckeditor.com/ticket/9764.
 	'test getSelectedElement does not modify ranges': function() {
 		var editor = this.editor;
 
@@ -699,13 +699,13 @@ bender.test( {
 		assert.isFalse( preventSpy.called, 'preventDefault() on keydown was called' );
 	},
 
-	// (#14714)
+	// (http://dev.ckeditor.com/ticket/14714)
 	'test remove filling char sequence on keydown blur': function() {
 		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
 		}
 
-		// If editor has no focus, filling character should not be removed in WebKits. (#14714)
+		// If editor has no focus, filling character should not be removed in WebKits. (http://dev.ckeditor.com/ticket/14714)
 		var editable = this.editor.editable();
 		var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 );
 

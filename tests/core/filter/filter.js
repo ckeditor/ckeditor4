@@ -611,7 +611,7 @@
 			filter( '<p>X<a href="x"><img src="x" /></a>X</p>',		'<p>XX</p>' );
 			filter( '<p>X<a href="x"><img /></a>X</p>',				'<p>XX</p>' );
 			filter( '<p>X<a href="x"><b>A</b></a>X</p>',			'<p>XAX</p>' );
-			// #10224 - <a> element doesn't have to have any attribute if it isn't empty.
+			// http://dev.ckeditor.com/ticket/10224 - <a> element doesn't have to have any attribute if it isn't empty.
 			// Empty name attribute make this element valid (name is required).
 			filter( '<p>X<a name="">A</a>X</p>',					'<p>X<a name="">A</a>X</p>' );
 			// Keep empty anchor (it has non-empty name attr).

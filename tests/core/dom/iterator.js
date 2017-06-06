@@ -164,7 +164,7 @@ bender.test( {
 		assert.areSame( 'h1,p', iterateWithRangeIterator( ranges ).join( ',' ) );
 	},
 
-	// #12308 (Note: this test wasn't able to verify #12308's patch, but it makes sense anyway).
+	// http://dev.ckeditor.com/ticket/12308 (Note: this test wasn't able to verify http://dev.ckeditor.com/ticket/12308's patch, but it makes sense anyway).
 	'test iterating at block boundary - before bogus br': function() {
 		if ( !CKEDITOR.env.needsBrFiller )
 			assert.ignore();
@@ -220,7 +220,7 @@ bender.test( {
 		checkRangeIteration( source, { enforceRealBlocks: 1 },  [ 'p', 'p', 'p' ], output2, 'Iteration should establish paragraph if it\'s not available inside table cell' );
 	},
 
-	// #6728, #4450
+	// http://dev.ckeditor.com/ticket/6728, #4450
 	// While this test may seem to be totally broken (why would someone create bookmakrs between <tr> and <td>?)
 	// it has a deeper sense. It tests what rangeIterator#getNextRange does.
 	'test iterating over table cells (with bookmarks among cells)': function() {
@@ -260,7 +260,7 @@ bender.test( {
 		assert.areSame( output, tools.compatHtml( sandbox.getHtml() ) );
 	},
 
-	// #6728, #4450
+	// http://dev.ckeditor.com/ticket/6728, #4450
 	'test iterating over entire table': function() {
 		var source = '[<table><tbody><tr><th>cell1</th><td>cell2</td></tr></tbody></table>]',
 			output1 = source.replace( /\[|\]|\^/g, '' ),
@@ -270,7 +270,7 @@ bender.test( {
 		checkRangeIteration( source, { enforceRealBlocks: 1 }, [ 'p', 'p' ], output2, 'Iteration should establish paragraphs inside table cells' );
 	},
 
-	// #6728, #4450
+	// http://dev.ckeditor.com/ticket/6728, #4450
 	'test iterating over entire table - use rangeIterator': function() {
 		var source = '[<table><tbody><tr><th>cell1</th><td>cell2</td></tr></tbody></table>]',
 			output = source.replace( /\[|\]|\^/g, '' );
@@ -283,7 +283,7 @@ bender.test( {
 		assert.areSame( output, tools.compatHtml( sandbox.getHtml() ) );
 	},
 
-	// #6728, #4450
+	// http://dev.ckeditor.com/ticket/6728, #4450
 	'test iterating over entire table - use rangeIterator and enforceRealBlocks': function() {
 		var source = '[<table><tbody><tr><th>cell1</th><td>cell2</td></tr></tbody></table>]',
 			output = '<table><tbody><tr><th><p>cell1</p></th><td><p>cell2</p></td></tr></tbody></table>';

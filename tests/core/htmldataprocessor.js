@@ -324,7 +324,7 @@
 			assert.areSame( output, bender.tools.fixHtml( dataProcessor.toHtml( input ) ) );
 		},
 
-		// Spaces between filler brs should be ignored.(#4344)
+		// Spaces between filler brs should be ignored.(http://dev.ckeditor.com/ticket/4344)
 		test_spaces_between_filler_br: function() {
 			var dataProcessor = this.editor.dataProcessor;
 			assert.areSame( '<p><br />&nbsp;</p>',
@@ -483,7 +483,7 @@
 			assert.areSame( output, dataProcessor.toDataFormat( source ) );
 		},
 
-		// (#3165)
+		// (http://dev.ckeditor.com/ticket/3165)
 		'test bogus node output in nested list': function() {
 			var processor = this.editor.dataProcessor;
 			var source;
@@ -555,7 +555,7 @@
 			this.editor.config.protectedSource = org;
 		},
 
-		// #9250, #8216, #7805
+		// http://dev.ckeditor.com/ticket/9250, http://dev.ckeditor.com/ticket/8216, #7805
 		'test protect source does not break real comments next to \"\' characters': function() {
 			var sources = [
 				// #9250
@@ -564,7 +564,7 @@
 				'<script>/*\'*/</scr' + 'ipt><!-- comment --><script>/*\'*/</scr' + 'ipt>',
 				// #7805
 				'<p><span a="1\n">A<!-- comment -->B"</span></p>',
-				// More funny version of #7850 - assuming that regexp finding attributes won't accept new line (it doesn't match /./)
+				// More funny version of http://dev.ckeditor.com/ticket/7850 - assuming that regexp finding attributes won't accept new line (it doesn't match /./)
 				// it may find `" b="` and then `">A<!-- ....`.
 				'<p><span a="1\n1" b="2">A<!-- comment -->B"</span></p>'
 			];
@@ -621,12 +621,12 @@
 			assert.isTrue( true, 'happy to be here' );
 		},
 
-		// Some elements should not have protected source markup inside. (#11223)
+		// Some elements should not have protected source markup inside. (http://dev.ckeditor.com/ticket/11223)
 		'test protected source in title': addProtectedSourceTC( '<p>[[mytag]]</p>', '[[mytag]]' ),
 		'test protected source in iframe': addProtectedSourceTC( '<p><iframe name="aa">[[mytag]]</iframe></p>' ),
 		'test protected source in textarea': addProtectedSourceTC( '<p><textarea name="aa">[[mytag]]</textarea></p>' ),
 		'test protected source in textarea multiline': addProtectedSourceTC( '<p><textarea name="aa">[[aa]]\n[[bb]]</textarea></p>' ),
-		// Meta tags should be allowed in any element. (#8117)
+		// Meta tags should be allowed in any element. (http://dev.ckeditor.com/ticket/8117)
 		'test meta tag in paragraph': addProtectedSourceTC( '<p><meta itemprop="best" content="10" /></p>' ),
 		'test meta tag directly in body': addProtectedSourceTC( '<meta itemprop="familyName" content="McFoobar" /><p>x</p>' ),
 		'test specially formatted meta tag': addProtectedSourceTC( '<META itemprop="familyName"\tcontent="McFoobar"><p>x</p>' ),
@@ -665,7 +665,7 @@
 			}
 		},
 
-		// #11754, #11846
+		// http://dev.ckeditor.com/ticket/11754, #11846
 		'test browser does not hang up when processing malformed attributes list': function() {
 			var processor = this.editor.dataProcessor;
 			processor.toHtml( '<table border=0 cellspacing=0 cellpadding=0 style=\'border-collapse:collapse;></table>' );
@@ -1161,7 +1161,7 @@
 				bogus = CKEDITOR.env.needsBrFiller ? '<br />' : '';
 
 			// Even though filler fillEmptyBlocks is set to false, we should still put bogus to HTML,
-			// which will be displayed in editable. (#12735)
+			// which will be displayed in editable. (http://dev.ckeditor.com/ticket/12735)
 			assert.areSame( '<p>' + bogus + '</p>', htmlDP.toHtml( '<p></p>' ), 'toHtml 1' );
 			assert.areSame( '<div><h1>' + bogus + '</h1></div>', htmlDP.toHtml( '<div><h1></h1></div>' ), 'toHtml 1' );
 

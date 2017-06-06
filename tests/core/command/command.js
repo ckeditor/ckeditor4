@@ -35,7 +35,7 @@ bender.test( {
 		assert.areSame( cmd.state, CKEDITOR.TRISTATE_ON );
 
 		// We don't want this to be executed in successive tests
-		// since they use the same editor (#9848).
+		// since they use the same editor (http://dev.ckeditor.com/ticket/9848).
 		delete ed.commands.test_context_sensitive;
 	},
 
@@ -134,7 +134,7 @@ bender.test( {
 								st2 = cmd2.state,
 								st3 = cmd3.state;
 
-							// #10103 Before this test was created commands were refreshed on #mode, but not on #instanceReady.
+							// http://dev.ckeditor.com/ticket/10103 Before this test was created commands were refreshed on #mode, but not on #instanceReady.
 							// So cmd4 wouldn't be refreshed because this listener will be executed after that
 							// refreshing commands.
 							cmd4 = editor.addCommand( 'acftest4', {
@@ -142,7 +142,7 @@ bender.test( {
 							} );
 
 							resume( function() {
-								// #10249 Commands should be updated on first 'mode' event, so they are ready
+								// http://dev.ckeditor.com/ticket/10249 Commands should be updated on first 'mode' event, so they are ready
 								// on 'instanceReady'.
 								assert.areSame( CKEDITOR.TRISTATE_OFF, st1, 'first "mode" cmd1.state' );
 								assert.areSame( CKEDITOR.TRISTATE_DISABLED, st2, 'first "mode" cmd2.state' );

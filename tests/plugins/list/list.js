@@ -89,7 +89,7 @@ bender.test( {
 		assert.areSame( '<ul><li>a</li></ul><p>b</p><ul><li>c</li></ul>', bot.getData( false, true ) );
 	},
 
-	// (#6715)
+	// (http://dev.ckeditor.com/ticket/6715)
 	'test remove list (inside table)': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<table><tr><td><ol><li>[item 1</li><li>item 2]</li></ol></td></tr></table>' );
@@ -97,7 +97,7 @@ bender.test( {
 		assert.areSame( '<table><tbody><tr><td><p>item 1</p><p>item 2</p></td></tr></tbody></table>', bot.getData( false, true ) );
 	},
 
-	// (#7645)
+	// (http://dev.ckeditor.com/ticket/7645)
 	'test remove list (with input)': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<ol><li><input name="name" type="checkbox">[item1</li><li>item2]</li></ol>' );
@@ -106,7 +106,7 @@ bender.test( {
 	},
 
 	/**
-	 *  Test merge newlist with previous list. (#3820)
+	 *  Test merge newlist with previous list. (http://dev.ckeditor.com/ticket/3820)
 	 */
 	'test create list with merge': function() {
 		var bot = this.editorBot;
@@ -116,7 +116,7 @@ bender.test( {
 	},
 
 	/**
-	 * Test switch list type with custom bullet attributes. (#4950)
+	 * Test switch list type with custom bullet attributes. (http://dev.ckeditor.com/ticket/4950)
 	 */
 	'test switch list type (with custom bullet)': function() {
 		var bot = this.editorBot;

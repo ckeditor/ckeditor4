@@ -762,7 +762,7 @@
 							selectBeginning = false,
 							matchingElement = function( elem ) {
 								// We're interested in matching only td/th but not contained by the startNode since it will be removed.
-								// Technically none of startNode children should be visited but it will due to #12191.
+								// Technically none of startNode children should be visited but it will due to http://dev.ckeditor.com/ticket/12191.
 								return !startNode.contains( elem ) && elem.is && elem.is( 'td', 'th' );
 							};
 

@@ -18,7 +18,7 @@ function createPlayground( html ) {
 	html = html.replace( /\./g, '<i class="split"></i>' );
 
 	// Replace % with Filling Character Sequence dummy element.
-	// Dummy will, in turn, be converted into a real FCSeq text node (#13816).
+	// Dummy will, in turn, be converted into a real FCSeq text node (http://dev.ckeditor.com/ticket/13816).
 	html = html.replace( /%/g, '<b class="fcseq"></b>' );
 
 	// Creating empty elements...
@@ -55,7 +55,7 @@ function createPlayground( html ) {
 		split.getItem( i ).remove();
 	}
 
-	// Find the FCSeq dummy element and replace it with a real FCSeq (#13816).
+	// Find the FCSeq dummy element and replace it with a real FCSeq (http://dev.ckeditor.com/ticket/13816).
 	var fillingCharDummy = playground.findOne( '.fcseq' );
 
 	if ( fillingCharDummy ) {

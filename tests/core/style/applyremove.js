@@ -481,7 +481,7 @@
 			doTest( CKEDITOR.ENTER_DIV, '<div>heading</div>' );
 		},
 
-		// #4772, #8232
+		// http://dev.ckeditor.com/ticket/4772, #8232
 		'test color styles applied inside of link': function() {
 			var ct = playground;
 			var range = bender.tools.setHtmlWithRange( ct, '[some text and <a href="javascript:void(0)">a link</a>]' )[ 0 ];
