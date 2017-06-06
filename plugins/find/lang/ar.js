@@ -12,7 +12,7 @@ CKEDITOR.plugins.setLang( 'find', 'ar', {
 	notFoundMsg: 'لم يتم العثور على النص المحدد.',
 	replace: 'إستبدال',
 	replaceAll: 'إستبدال الكل',
-	replaceSuccessMsg: 'تم استبدال 1% من الحالات ',
+	replaceSuccessMsg: 'تم استبدال 100% من الحالات ',
 	replaceWith: 'إستبدال بـ:',
 	title: 'بحث واستبدال'
 } );
