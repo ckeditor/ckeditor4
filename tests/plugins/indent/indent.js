@@ -174,7 +174,7 @@
 			t.s( 2, 0 );
 		},
 
-		// This might be similar to http://dev.ckeditor.com/ticket/2
+		// This might be similar to #2
 		'test list (first li element, indent full list)': function() {
 			var t = createIndentOutdentTester( this.editors.enterP, '<ul><li>x^</li><li>y</li></ul>' );
 
