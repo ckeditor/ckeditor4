@@ -1,6 +1,6 @@
 @bender-tags: 4.7.1, tc, 16808, justify
 @bender-ui: collapsed
-@bender-ckeditor-plugins: toolbar, justify, wysiwygarea
+@bender-ckeditor-plugins: toolbar, justify, wysiwygarea, elementspath
 
 ## Justification disabling on disallowed content
 

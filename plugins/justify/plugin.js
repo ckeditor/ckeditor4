@@ -190,10 +190,11 @@
 			var firstBlock = path.block || path.blockLimit;
 			var name = firstBlock.getName();
 
-			// Check if we can give to element proper class or style or we are in br mode with selected body (to display justify buttons in br mode) (#16808).
-			if ((this.cssClassName && editor.activeFilter.check( name+'('+this.cssClassName+')' )) ||
+			// Check if we can give to element proper class, style or current path is body (#16808).
+			// IE8, after focus and refresh return path with 'body'
+			if ( ( this.cssClassName && editor.activeFilter.check( name+'('+this.cssClassName+')' ) ) ||
 				editor.activeFilter.check( name+'{text-align}' ) ||
-				( editor.config.enterMode === CKEDITOR.ENTER_BR && name === 'body' ))
+				name == 'body' )
 			{
 				this.setState( name != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			} else {
