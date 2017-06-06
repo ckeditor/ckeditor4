@@ -472,6 +472,8 @@
 					response.html = response.html.replace( /<iframe/g, '<iframe tabindex="-1"' );
 
 					return response.html;
+				} else if (response.type == 'link') {
+				    return response.description; 
 				}
 
 				return null;
