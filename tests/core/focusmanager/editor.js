@@ -109,7 +109,12 @@ bender.test( {
 			resume( function() {
 				editor.on( 'blur', function() {
 					resume( function() {
-						assert.areSame( 'None', editor.getSelection().getNative().type );
+						var nativeSelection = editor.getSelection().getNative();
+						if ( nativeSelection ) {
+							assert.areSame( 'None', nativeSelection.type );
+						} else {
+							assert.areSame( null, nativeSelection );
+						}
 					} );
 				} );
 
