@@ -319,7 +319,7 @@
 	 */
 	CKEDITOR.dom.element.prototype.isBlockBoundary = function( customNodeNames ) {
 		// Whether element is in normal page flow. Floated or positioned elements are out of page flow.
-		// Don't consider floated or positioned formatting as block boundary, fall back to dtd check in that case. (#6297)
+		// Don't consider floated or positioned formatting as block boundary, fall back to dtd check in that case. (http://dev.ckeditor.com/ticket/6297)
 		var inPageFlow = this.getComputedStyle( 'float' ) == 'none' && !( this.getComputedStyle( 'position' ) in outOfFlowPositions );
 
 		if ( inPageFlow && blockBoundaryDisplayMatch[ this.getComputedStyle( 'display' ) ] )
@@ -388,7 +388,7 @@
 		return function( node ) {
 			var isWhitespace;
 			if ( node && node.type == CKEDITOR.NODE_TEXT ) {
-				// Whitespace, as well as the Filling Char Sequence text node used in Webkit. (#9384, #13816)
+				// Whitespace, as well as the Filling Char Sequence text node used in Webkit. (http://dev.ckeditor.com/ticket/9384, http://dev.ckeditor.com/ticket/13816)
 				isWhitespace = !CKEDITOR.tools.trim( node.getText() ) ||
 					CKEDITOR.env.webkit && node.getText() == CKEDITOR.dom.selection.FILLING_CHAR_SEQUENCE;
 			}
@@ -406,7 +406,7 @@
 	 */
 	CKEDITOR.dom.walker.invisible = function( isReject ) {
 		var whitespace = CKEDITOR.dom.walker.whitespaces(),
-			// #12221 (Chrome) plus #11111 (Safari).
+			// http://dev.ckeditor.com/ticket/12221 (Chrome) plus http://dev.ckeditor.com/ticket/11111 (Safari).
 			offsetWidth0 = CKEDITOR.env.webkit ? 1 : 0;
 
 		return function( node ) {
@@ -422,7 +422,7 @@
 				// Nodes that take no spaces in wysiwyg:
 				// 1. White-spaces but not including NBSP.
 				// 2. Empty inline elements, e.g. <b></b>.
-				// 3. <br> elements (bogus, surrounded by text) (#12423).
+				// 3. <br> elements (bogus, surrounded by text) (http://dev.ckeditor.com/ticket/12423).
 				invisible = node.$.offsetWidth <= offsetWidth0;
 			}
 
@@ -636,7 +636,7 @@
 	 * @returns {CKEDITOR.dom.node/Boolean} Bogus node or `false`.
 	 */
 	CKEDITOR.dom.element.prototype.getBogus = function() {
-		// Bogus are not always at the end, e.g. <p><a>text<br /></a></p> (#7070).
+		// Bogus are not always at the end, e.g. <p><a>text<br /></a></p> (http://dev.ckeditor.com/ticket/7070).
 		var tail = this;
 		do {
 			tail = tail.getPreviousSourceNode();

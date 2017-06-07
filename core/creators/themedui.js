@@ -280,10 +280,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 			outer = container;
 		}
 
-		// Set as border box width. (#5353)
+		// Set as border box width. (http://dev.ckeditor.com/ticket/5353)
 		outer.setSize( 'width', width, true );
 
-		// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (#8348)
+		// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (http://dev.ckeditor.com/ticket/8348)
 		contentsFrame && ( contentsFrame.style.width = '1%' );
 
 		// Get the height delta between the outer table and the content area.
@@ -295,7 +295,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		contents.setStyle( 'height', resultContentsHeight + 'px' );
 
-		// WebKit needs to refresh the iframe size to avoid rendering issues. (2/2) (#8348)
+		// WebKit needs to refresh the iframe size to avoid rendering issues. (2/2) (http://dev.ckeditor.com/ticket/8348)
 		contentsFrame && ( contentsFrame.style.width = '100%' );
 
 		// Emit a resize event.
@@ -337,7 +337,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			// replacement will be done later in the editor creation lifecycle.
 			element.setStyle( 'visibility', 'hidden' );
 
-			// #8031 Remember if textarea was required and remove the attribute.
+			// http://dev.ckeditor.com/ticket/8031 Remember if textarea was required and remove the attribute.
 			editor._.required = element.hasAttribute( 'required' );
 			element.removeAttribute( 'required' );
 		}
@@ -422,7 +422,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			topHtml: topHtml ? '<span id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top cke_reset_all" role="presentation" style="height:auto">' + topHtml + '</span>' : '',
 			contentId: editor.ui.spaceId( 'contents' ),
 			bottomHtml: bottomHtml ? '<span id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom cke_reset_all" role="presentation">' + bottomHtml + '</span>' : '',
-			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// #9571
+			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// http://dev.ckeditor.com/ticket/9571
 		} ) );
 
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
@@ -451,7 +451,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Disable browser context menu for editor's chrome.
 		container.disableContextMenu();
 
-		// Redirect the focus into editor for webkit. (#5713)
+		// Redirect the focus into editor for webkit. (http://dev.ckeditor.com/ticket/5713)
 		CKEDITOR.env.webkit && container.on( 'focus', function() {
 			editor.focus();
 		} );

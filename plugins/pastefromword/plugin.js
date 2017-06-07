@@ -79,7 +79,7 @@
 					return;
 				}
 
-				// Do not apply paste filter to data filtered by the Word filter (#13093).
+				// Do not apply paste filter to data filtered by the Word filter (http://dev.ckeditor.com/ticket/13093).
 				data.dontFilter = true;
 
 				// If filter rules aren't loaded then cancel 'paste' event,

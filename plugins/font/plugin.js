@@ -104,8 +104,8 @@
 				var previousValue = this.getValue(),
 					style = styles[ value ];
 
-				// When applying one style over another, first remove the previous one (#12403).
-				// NOTE: This is only a temporary fix. It will be moved to the styles system (#12687).
+				// When applying one style over another, first remove the previous one (http://dev.ckeditor.com/ticket/12403).
+				// NOTE: This is only a temporary fix. It will be moved to the styles system (http://dev.ckeditor.com/ticket/12687).
 				if ( previousValue && value != previousValue ) {
 					var previousStyle = styles[ previousValue ],
 						range = editor.getSelection().getRanges()[ 0 ];

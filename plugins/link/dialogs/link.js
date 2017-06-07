@@ -40,7 +40,7 @@
 
 				// Use link URL as text with a collapsed cursor.
 				if ( range.collapsed ) {
-					// Short mailto link text view (#5736).
+					// Short mailto link text view (http://dev.ckeditor.com/ticket/5736).
 					text = new CKEDITOR.dom.text( data.linkText || ( data.type == 'email' ?
 						data.email.address : attributes.set[ 'data-cke-saved-href' ] ), editor.document );
 					range.insertNode( text );
@@ -98,8 +98,8 @@
 					// Display text has been changed.
 					newText = data.linkText;
 				} else if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 ) {
-					// Update text view when user changes protocol (#4612).
-					// Short mailto link text view (#5736).
+					// Update text view when user changes protocol (http://dev.ckeditor.com/ticket/4612).
+					// Short mailto link text view (http://dev.ckeditor.com/ticket/5736).
 					newText = data.type == 'email' ? data.email.address : attributes.set[ 'data-cke-saved-href' ];
 				}
 
@@ -267,7 +267,7 @@
 							label: commonLang.protocol,
 							'default': 'http://',
 							items: [
-								// Force 'ltr' for protocol names in BIDI. (#5433)
+								// Force 'ltr' for protocol names in BIDI. (http://dev.ckeditor.com/ticket/5433)
 								[ 'http://\u200E', 'http://' ],
 								[ 'https://\u200E', 'https://' ],
 								[ 'ftp://\u200E', 'ftp://' ],
@@ -340,7 +340,7 @@
 							},
 							commit: function( data ) {
 								// IE will not trigger the onChange event if the mouse has been used
-								// to carry all the operations #4724
+								// to carry all the operations http://dev.ckeditor.com/ticket/4724
 								this.onChange();
 
 								if ( !data.url )

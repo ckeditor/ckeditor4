@@ -128,7 +128,7 @@ function Notification( editor, options ) {
 
 	this.element = this._createElement();
 
-	// Don't allow dragging on notification (#13184).
+	// Don't allow dragging on notification (http://dev.ckeditor.com/ticket/13184).
 	editor.plugins.clipboard && CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( this.element );
 }
 
@@ -356,7 +356,7 @@ Notification.prototype = {
 		notificationElement.append( notificationCloseElement );
 
 		notificationCloseElement.on( 'click', function() {
-			// Focus editor on close (#12865)
+			// Focus editor on close (http://dev.ckeditor.com/ticket/12865)
 			notification.editor.focus();
 
 			notification.hide();

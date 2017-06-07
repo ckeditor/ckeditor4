@@ -709,7 +709,7 @@
 			} );
 		},
 
-		// #11533
+		// http://dev.ckeditor.com/ticket/11533
 		'test upcasting with DOM modification (split before upcasted element)': function() {
 			var editor = this.editor,
 				visited = 0;

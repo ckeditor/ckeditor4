@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'resize', {
 			if ( resizeVertical )
 				height = Math.max( config.resize_minHeight, Math.min( internalHeight, config.resize_maxHeight ) );
 
-			// DO NOT impose fixed size with single direction resize. (#6308)
+			// DO NOT impose fixed size with single direction resize. (http://dev.ckeditor.com/ticket/6308)
 			editor.resize( resizeHorizontal ? width : null, height );
 		}
 
@@ -37,7 +37,7 @@ CKEDITOR.plugins.add( 'resize', {
 		var spaceId = editor.ui.spaceId( 'resizer' );
 
 		// Resize in the same direction of chrome,
-		// which is identical to dir of editor element. (#6614)
+		// which is identical to dir of editor element. (http://dev.ckeditor.com/ticket/6614)
 		var resizeDir = editor.element ? editor.element.getDirection( 1 ) : 'ltr';
 
 		!config.resize_dir && ( config.resize_dir = 'vertical' );

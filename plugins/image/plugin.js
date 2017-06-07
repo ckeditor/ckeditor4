@@ -18,7 +18,7 @@
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			// Abort when Image2 is to be loaded since both plugins
-			// share the same button, command, etc. names (#11222).
+			// share the same button, command, etc. names (http://dev.ckeditor.com/ticket/11222).
 			if ( editor.plugins.image2 )
 				return;
 
@@ -78,11 +78,11 @@
 		},
 		afterInit: function( editor ) {
 			// Abort when Image2 is to be loaded since both plugins
-			// share the same button, command, etc. names (#11222).
+			// share the same button, command, etc. names (http://dev.ckeditor.com/ticket/11222).
 			if ( editor.plugins.image2 )
 				return;
 
-			// Customize the behavior of the alignment commands. (#7430)
+			// Customize the behavior of the alignment commands. (http://dev.ckeditor.com/ticket/7430)
 			setupAlignCommand( 'left' );
 			setupAlignCommand( 'right' );
 			setupAlignCommand( 'center' );

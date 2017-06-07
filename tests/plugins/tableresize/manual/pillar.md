@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 10472, 4.7.0
+@bender-tags: tc, trac10472, 4.7.0
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tableresize, basicstyles, undo
 
 Drag one of the vertical borders separating the cells (inner borders) by holding the part in the first/last row.

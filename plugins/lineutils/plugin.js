@@ -379,7 +379,7 @@
 					continue;
 				}
 
-				// On IE8 element.getElementsByTagName returns comments... sic! (#13176)
+				// On IE8 element.getElementsByTagName returns comments... sic! (http://dev.ckeditor.com/ticket/13176)
 				if ( el.type != CKEDITOR.NODE_ELEMENT ) {
 					continue;
 				}
@@ -840,7 +840,7 @@
 
 			// Let's calculate the vertical position of the line.
 			if ( this.inline ) {
-				// (#13155)
+				// (http://dev.ckeditor.com/ticket/13155)
 				styles.top = loc + this.winTopScroll.y - this.rect.relativeY;
 			} else {
 				styles.top = this.rect.top + this.winTopScroll.y + loc;
@@ -853,7 +853,7 @@
 
 			// Now let's calculate the horizontal alignment (left and width).
 			if ( this.inline ) {
-				// (#13155)
+				// (http://dev.ckeditor.com/ticket/13155)
 				styles.left = rel.elementRect.left - this.rect.relativeX;
 			} else {
 				if ( rel.elementRect.left > 0 )
@@ -939,13 +939,13 @@
 			this.winTopScroll = this.winTop.getScrollPosition();
 			this.winTopPane = this.winTop.getViewPaneSize();
 
-			// (#13155)
+			// (http://dev.ckeditor.com/ticket/13155)
 			this.rect = this.getClientRect( this.inline ? this.editable : this.frame );
 		},
 
 		/**
 		 * Returns `boundingClientRect` of an element, shifted by the position
-		 * of `container` when the container is not `static` (#13155).
+		 * of `container` when the container is not `static` (http://dev.ckeditor.com/ticket/13155).
 		 *
 		 * See also: {@link CKEDITOR.dom.element#getClientRect}.
 		 *

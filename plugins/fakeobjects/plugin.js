@@ -91,7 +91,7 @@
 			align: realElement.getAttribute( 'align' ) || ''
 		};
 
-		// Do not set "src" on high-contrast so the alt text is displayed. (#8945)
+		// Do not set "src" on high-contrast so the alt text is displayed. (http://dev.ckeditor.com/ticket/8945)
 		if ( !CKEDITOR.env.hc )
 			attributes.src = CKEDITOR.tools.transparentImageData;
 
@@ -136,7 +136,7 @@
 			align: realElement.attributes.align || ''
 		};
 
-		// Do not set "src" on high-contrast so the alt text is displayed. (#8945)
+		// Do not set "src" on high-contrast so the alt text is displayed. (http://dev.ckeditor.com/ticket/8945)
 		if ( !CKEDITOR.env.hc )
 			attributes.src = CKEDITOR.tools.transparentImageData;
 

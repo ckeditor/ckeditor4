@@ -422,9 +422,9 @@
 			docOuter = CKEDITOR.document;
 
 		// Fixing "Unspecified error" thrown in IE10 by resetting
-		// selection the dirty and shameful way (#10308).
+		// selection the dirty and shameful way (http://dev.ckeditor.com/ticket/10308).
 		// We can not apply this hack to IE8 because
-		// it causes error (#11058).
+		// it causes error (http://dev.ckeditor.com/ticket/11058).
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 10 ) {
 			docOuter.focus();
 			docInner.focus();
@@ -736,7 +736,7 @@
 					}
 					], [
 						{
-							// (#16818)
+							// (http://dev.ckeditor.com/ticket/16818)
 							element: 'tr',
 							check: 'td{height}',
 							left: function( element ) {
@@ -754,7 +754,7 @@
 						}
 					], [
 						{
-							// (#16818)
+							// (http://dev.ckeditor.com/ticket/16818)
 							element: 'td',
 							check: 'td{height}',
 							left: function( element ) {

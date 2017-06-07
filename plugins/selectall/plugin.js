@@ -41,7 +41,7 @@
 							range.select();
 						}
 
-						// Force triggering selectionChange (#7008)
+						// Force triggering selectionChange (http://dev.ckeditor.com/ticket/7008)
 						editor.forceNextSelectionCheck();
 						editor.selectionChange();
 					}

@@ -99,7 +99,7 @@
 							parentDiv = iframe.getParent(),
 							doc = iframe.getFrameDocument();
 
-						// Make it scrollable on iOS. (#8308)
+						// Make it scrollable on iOS. (http://dev.ckeditor.com/ticket/8308)
 						CKEDITOR.env.iOS && parentDiv.setStyles( {
 							'overflow': 'scroll',
 							'-webkit-overflow-scrolling': 'touch'
@@ -121,7 +121,7 @@
 						// Register the CKEDITOR global.
 						win.$.CKEDITOR = CKEDITOR;
 
-						// Arrow keys for scrolling is only preventable with 'keypress' event in Opera (#4534).
+						// Arrow keys for scrolling is only preventable with 'keypress' event in Opera (http://dev.ckeditor.com/ticket/4534).
 						doc.on( 'keydown', function( evt ) {
 							var keystroke = evt.data.getKeystroke(),
 								dir = this.document.getById( this.id ).getAttribute( 'dir' );
@@ -219,7 +219,7 @@
 				current = this._.currentBlock;
 
 			// ARIA role works better in IE on the body element, while on the iframe
-			// for FF. (#8864)
+			// for FF. (http://dev.ckeditor.com/ticket/8864)
 			var holder = !this.forceIFrame || CKEDITOR.env.ie ? this._.holder : this.document.getById( this.id + '_frame' );
 
 			if ( current )
@@ -300,7 +300,7 @@
 				var links = this.element.getElementsByTag( 'a' );
 				var item = links.getItem( this._.focusIndex = index );
 
-				// Safari need focus on the iframe window first(#3389), but we need
+				// Safari need focus on the iframe window first(http://dev.ckeditor.com/ticket/3389), but we need
 				// lock the blur to avoid hiding the panel.
 				if ( CKEDITOR.env.webkit )
 					item.getDocument().getWindow().focus();
@@ -395,7 +395,7 @@
 							}
 						}
 
-						// If no link was found, cycle and restart from the top. (#11125)
+						// If no link was found, cycle and restart from the top. (http://dev.ckeditor.com/ticket/11125)
 						if ( !link && !noCycle ) {
 							this._.focusIndex = -1;
 							return this.onKeyDown( keystroke, 1 );
@@ -419,11 +419,11 @@
 							}
 
 							// Make sure link is null when the loop ends and nothing was
-							// found (#11125).
+							// found (http://dev.ckeditor.com/ticket/11125).
 							link = null;
 						}
 
-						// If no link was found, cycle and restart from the bottom. (#11125)
+						// If no link was found, cycle and restart from the bottom. (http://dev.ckeditor.com/ticket/11125)
 						if ( !link && !noCycle ) {
 							this._.focusIndex = links.count();
 							return this.onKeyDown( keystroke, 1 );

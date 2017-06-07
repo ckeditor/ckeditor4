@@ -142,7 +142,7 @@ if ( !CKEDITOR.loader ) {
 				}
 
 				// We must guarantee the execution order of the scripts, so we
-				// need to load them one by one. (#4145)
+				// need to load them one by one. (http://dev.ckeditor.com/ticket/4145)
 				// The following if/else block has been taken from the scriptloader core code.
 				if ( typeof script.onreadystatechange !== 'undefined' ) {
 					/** @ignore */
@@ -156,7 +156,7 @@ if ( !CKEDITOR.loader ) {
 					/** @ignore */
 					script.onload = function() {
 						// Some browsers, such as Safari, may call the onLoad function
-						// immediately. Which will break the loading sequence. (#3661)
+						// immediately. Which will break the loading sequence. (http://dev.ckeditor.com/ticket/3661)
 						setTimeout( function() {
 							onScriptLoaded( scriptName );
 						}, 0 );

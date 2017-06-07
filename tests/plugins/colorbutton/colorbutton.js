@@ -23,7 +23,7 @@
 			assert.areEqual( '#ff0000', CKEDITOR.tools.convertRgbToHex( bgColorBtn.onOpen() ), 'Text color must match.' );
 		},
 
-		// #10975
+		// http://dev.ckeditor.com/ticket/10975
 		'test open palette without focus': function() {
 			var editor = CKEDITOR.replace( 'noFocus' );
 			editor.on( 'instanceReady', function() {

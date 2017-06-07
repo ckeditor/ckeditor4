@@ -1,4 +1,4 @@
-@bender-tags: tc, 4.7.0, 16845, copyformatting
+@bender-tags: tc, 4.7.0, trac16845, copyformatting
 @bender-ui: collapsed
 @bender-ckeditor-plugins: copyformatting,toolbar,wysiwygarea,floatingspace,elementspath,image2,widget,justify,div
 

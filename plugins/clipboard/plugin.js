@@ -153,7 +153,7 @@
 						data = dataObj.dataValue,
 						dataTransfer = dataObj.dataTransfer;
 
-					// If data empty check for image content inside data transfer. #16705
+					// If data empty check for image content inside data transfer. http://dev.ckeditor.com/ticket/16705
 					if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
 						var file = dataTransfer.getFile( 0 );
 
@@ -247,14 +247,14 @@
 					data = data.replace( /(<[^>]+) class="Apple-[^"]*"/gi, '$1' );
 				}
 
-				// Strip editable that was copied from inside. (#9534)
+				// Strip editable that was copied from inside. (http://dev.ckeditor.com/ticket/9534)
 				if ( data.match( /^<[^<]+cke_(editable|contents)/i ) ) {
 					var tmp,
 						editable_wrapper,
 						wrapper = new CKEDITOR.dom.element( 'div' );
 
 					wrapper.setHtml( data );
-					// Verify for sure and check for nested editor UI parts. (#9675)
+					// Verify for sure and check for nested editor UI parts. (http://dev.ckeditor.com/ticket/9675)
 					while ( wrapper.getChildCount() == 1 &&
 							( tmp = wrapper.getFirst() ) &&
 							tmp.type == CKEDITOR.NODE_ELEMENT &&	// Make sure first-child is element.
@@ -390,8 +390,8 @@
 		}
 
 		// Because of FF bug we need to use this hack, otherwise cursor is hidden
-		// or it is not possible to move it (#12420).
-		// Also, check that editor.toolbox exists, because the toolbar plugin might not be loaded (#13305).
+		// or it is not possible to move it (http://dev.ckeditor.com/ticket/12420).
+		// Also, check that editor.toolbox exists, because the toolbar plugin might not be loaded (http://dev.ckeditor.com/ticket/13305).
 		if ( CKEDITOR.env.gecko && data.method == 'drop' && editor.toolbox ) {
 			editor.once( 'afterPaste', function() {
 				editor.toolbox.focus();
@@ -509,7 +509,7 @@
 
 			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				var initOnCopyCut = function( evt ) {
-					// If user tries to cut in read-only editor, we must prevent default action. (#13872)
+					// If user tries to cut in read-only editor, we must prevent default action. (http://dev.ckeditor.com/ticket/13872)
 					if ( !editor.readOnly || evt.name != 'cut' ) {
 						clipboard.initPasteDataTransfer( evt, editor );
 					}
@@ -521,7 +521,7 @@
 
 				// Delete content with the low priority so one can overwrite cut data.
 				editable.on( 'cut', function() {
-					// If user tries to cut in read-only editor, we must prevent default action. (#13872)
+					// If user tries to cut in read-only editor, we must prevent default action. (http://dev.ckeditor.com/ticket/13872)
 					if ( !editor.readOnly ) {
 						editor.extractSelectedHtml();
 					}
@@ -602,11 +602,11 @@
 				} );
 
 				// If mainPasteEvent is 'beforePaste' (IE before Edge),
-				// dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (#7953)
+				// dismiss the (wrong) 'beforepaste' event fired on context/toolbar menu open. (http://dev.ckeditor.com/ticket/7953)
 				editable.on( 'contextmenu', preventBeforePasteEventNow, null, null, 0 );
 
 				editable.on( 'beforepaste', function( evt ) {
-					// Do not prevent event on CTRL+V and SHIFT+INS because it blocks paste (#11970).
+					// Do not prevent event on CTRL+V and SHIFT+INS because it blocks paste (http://dev.ckeditor.com/ticket/11970).
 					if ( evt.data && !evt.data.$.ctrlKey && !evt.data.$.shiftKey )
 						preventBeforePasteEventNow();
 				}, null, null, 0 );
@@ -620,7 +620,7 @@
 
 			// Use editor.document instead of editable in non-IEs for observing mouseup
 			// since editable won't fire the event if selection process started within
-			// iframe and ended out of the editor (#9851).
+			// iframe and ended out of the editor (http://dev.ckeditor.com/ticket/9851).
 			editable.attachListener( CKEDITOR.env.ie ? editable : editor.document.getDocumentElement(), 'mouseup', function() {
 				mouseupTimeout = setTimeout( function() {
 					setToolbarStates();
@@ -629,7 +629,7 @@
 
 			// Make sure that deferred mouseup callback isn't executed after editor instance
 			// had been destroyed. This may happen when editor.destroy() is called in parallel
-			// with mouseup event (i.e. a button with onclick callback) (#10219).
+			// with mouseup event (i.e. a button with onclick callback) (http://dev.ckeditor.com/ticket/10219).
 			editor.on( 'destroy', function() {
 				clearTimeout( mouseupTimeout );
 			} );
@@ -799,7 +799,7 @@
 			return enabled;
 		}
 
-		// Cutting off control type element in IE standards breaks the selection entirely. (#4881)
+		// Cutting off control type element in IE standards breaks the selection entirely. (http://dev.ckeditor.com/ticket/4881)
 		function fixCut() {
 			if ( !CKEDITOR.env.ie || CKEDITOR.env.quirks )
 				return;
@@ -836,14 +836,14 @@
 				},
 				blurListener;
 
-			// Avoid recursions on 'paste' event or consequent paste too fast. (#5730)
+			// Avoid recursions on 'paste' event or consequent paste too fast. (http://dev.ckeditor.com/ticket/5730)
 			if ( doc.getById( 'cke_pastebin' ) )
 				return;
 
 			var sel = editor.getSelection();
 			var bms = sel.createBookmarks();
 
-			// #11384. On IE9+ we use native selectionchange (i.e. editor#selectionCheck) to cache the most
+			// http://dev.ckeditor.com/ticket/11384. On IE9+ we use native selectionchange (i.e. editor#selectionCheck) to cache the most
 			// recent selection which we then lock on editable blur. See selection.js for more info.
 			// selectionchange fired before getClipboardDataByPastebin() cached selection
 			// before creating bookmark (cached selection will be invalid, because bookmarks modified the DOM),
@@ -877,7 +877,7 @@
 				// It's better to paste close to the real paste destination, so inherited styles
 				// (which Webkits will try to compensate by styling span) differs less from the destination's one.
 				editable.append( pastebin );
-				// Style pastebin like .cke_editable, to minimize differences between origin and destination. (#9754)
+				// Style pastebin like .cke_editable, to minimize differences between origin and destination. (http://dev.ckeditor.com/ticket/9754)
 				pastebin.addClass( 'cke_editable' );
 
 				// Compensate position of offsetParent.
@@ -911,7 +911,7 @@
 				padding: 0
 			} );
 
-			// Paste fails in Safari when the body tag has 'user-select: none'. (#12506)
+			// Paste fails in Safari when the body tag has 'user-select: none'. (http://dev.ckeditor.com/ticket/12506)
 			if ( CKEDITOR.env.safari )
 				pastebin.setStyles( CKEDITOR.tools.cssVendorPrefix( 'user-select', 'text' ) );
 
@@ -934,8 +934,8 @@
 
 			// Webkit fill fire blur on editable when moving selection to
 			// pastebin (if body is used). Cancel it because it causes incorrect
-			// selection lock in case of inline editor (#10644).
-			// The same seems to apply to Firefox (#10787).
+			// selection lock in case of inline editor (http://dev.ckeditor.com/ticket/10644).
+			// The same seems to apply to Firefox (http://dev.ckeditor.com/ticket/10787).
 			if ( CKEDITOR.env.webkit || CKEDITOR.env.gecko )
 				blurListener = editable.once( 'blur', cancel, null, null, -100 );
 
@@ -948,7 +948,7 @@
 			// If non-native paste is executed, IE will open security alert and blur editable.
 			// Editable will then lock selection inside itself and after accepting security alert
 			// this selection will be restored. We overwrite stored selection, so it's restored
-			// in pastebin. (#9552)
+			// in pastebin. (http://dev.ckeditor.com/ticket/9552)
 			if ( CKEDITOR.env.ie ) {
 				blurListener = editable.once( 'blur', function() {
 					editor.lockSelection( selPastebin );
@@ -960,18 +960,18 @@
 			// Wait a while and grab the pasted contents.
 			setTimeout( function() {
 				// Restore main window's scroll position which could have been changed
-				// by browser in cases described in #9771.
+				// by browser in cases described in http://dev.ckeditor.com/ticket/9771.
 				if ( CKEDITOR.env.webkit )
 					CKEDITOR.document.getBody().$.scrollTop = scrollTop;
 
 				// Blur will be fired only on non-native paste. In other case manually remove listener.
 				blurListener && blurListener.removeListener();
 
-				// Restore properly the document focus. (#8849)
+				// Restore properly the document focus. (http://dev.ckeditor.com/ticket/8849)
 				if ( CKEDITOR.env.ie )
 					editable.focus();
 
-				// IE7: selection must go before removing pastebin. (#8691)
+				// IE7: selection must go before removing pastebin. (http://dev.ckeditor.com/ticket/8691)
 				sel.selectBookmarks( bms );
 				pastebin.remove();
 
@@ -1009,7 +1009,7 @@
 			// we're canceling it.
 			preventPasteEventNow();
 
-			// #9247: Lock focus to prevent IE from hiding toolbar for inline editor.
+			// http://dev.ckeditor.com/ticket/9247: Lock focus to prevent IE from hiding toolbar for inline editor.
 			var focusManager = editor.focusManager;
 			focusManager.lock();
 
@@ -1052,7 +1052,7 @@
 					editor.fire( 'saveSnapshot' ); // Save before cut
 					setTimeout( function() {
 						editor.fire( 'saveSnapshot' ); // Save after cut
-					}, 50 ); // OSX is slow (#11416).
+					}, 50 ); // OSX is slow (http://dev.ckeditor.com/ticket/11416).
 			}
 		}
 
@@ -1305,7 +1305,7 @@
 
 			// -------------- DRAGOVER TOP & BOTTOM --------------
 
-			// Not allowing dragging on toolbar and bottom (#12613).
+			// Not allowing dragging on toolbar and bottom (http://dev.ckeditor.com/ticket/12613).
 			clipboard.preventDefaultDropOnElement( top );
 			clipboard.preventDefaultDropOnElement( bottom );
 
@@ -1327,7 +1327,7 @@
 				// Save drag range globally for cross editor D&D.
 				var dragRange = clipboard.dragRange = editor.getSelection().getRanges()[ 0 ];
 
-				// Store number of children, so we can later tell if any text node was split on drop. (#13011, #13447)
+				// Store number of children, so we can later tell if any text node was split on drop. (http://dev.ckeditor.com/ticket/13011, http://dev.ckeditor.com/ticket/13447)
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 					clipboard.dragStartContainerChildCount = dragRange ? getContainerChildCount( dragRange.startContainer ) : null;
 					clipboard.dragEndContainerChildCount = dragRange ? getContainerChildCount( dragRange.endContainer ) : null;
@@ -1359,7 +1359,7 @@
 
 				var target = evt.data.getTarget();
 
-				// Prevent reloading page when dragging image on empty document (#12619).
+				// Prevent reloading page when dragging image on empty document (http://dev.ckeditor.com/ticket/12619).
 				if ( target && target.is && target.is( 'html' ) ) {
 					evt.data.preventDefault();
 					return;
@@ -1380,7 +1380,7 @@
 			// -------------- DROP --------------
 
 			editable.attachListener( dropTarget, 'drop', function( evt ) {
-				// Do nothing if event was already prevented. (#13879)
+				// Do nothing if event was already prevented. (http://dev.ckeditor.com/ticket/13879)
 				if ( evt.data.$.defaultPrevented ) {
 					return;
 				}
@@ -1391,7 +1391,7 @@
 				var target = evt.data.getTarget(),
 					readOnly = target.isReadOnly();
 
-				// Do nothing if drop on non editable element (#13015).
+				// Do nothing if drop on non editable element (http://dev.ckeditor.com/ticket/13015).
 				// The <html> tag isn't editable (body is), but we want to allow drop on it
 				// (so it is possible to drop below editor contents).
 				if ( readOnly && !( target.type == CKEDITOR.NODE_ELEMENT && target.is( 'html' ) ) ) {
@@ -1566,18 +1566,18 @@
 			}
 
 			// In Chrome we can trust Clipboard API, with the exception of Chrome on Android (in both - mobile and desktop modes), where
-			// clipboard API is not available so we need to check it (#13187).
+			// clipboard API is not available so we need to check it (http://dev.ckeditor.com/ticket/13187).
 			if ( CKEDITOR.env.chrome && !dataTransfer.isEmpty() ) {
 				return true;
 			}
 
 			// Because of a Firefox bug HTML data are not available in some cases (e.g. paste from Word), in such cases we
-			// need to use the pastebin (#13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
+			// need to use the pastebin (http://dev.ckeditor.com/ticket/13528, https://bugzilla.mozilla.org/show_bug.cgi?id=1183686).
 			if ( CKEDITOR.env.gecko && ( dataTransfer.getData( 'text/html' ) || dataTransfer.getFilesCount() ) ) {
 				return true;
 			}
 
-			// Safari fixed clipboard in 10.1 (https://bugs.webkit.org/show_bug.cgi?id=19893) (#16982).
+			// Safari fixed clipboard in 10.1 (https://bugs.webkit.org/show_bug.cgi?id=19893) (http://dev.ckeditor.com/ticket/16982).
 			// However iOS version still doesn't work well enough (https://bugs.webkit.org/show_bug.cgi?id=19893#c34).
 			if ( CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS ) {
 				return true;
@@ -1600,8 +1600,8 @@
 		getDropTarget: function( editor ) {
 			var editable = editor.editable();
 
-			// #11123 Firefox needs to listen on document, because otherwise event won't be fired.
-			// #11086 IE8 cannot listen on document.
+			// http://dev.ckeditor.com/ticket/11123 Firefox needs to listen on document, because otherwise event won't be fired.
+			// http://dev.ckeditor.com/ticket/11086 IE8 cannot listen on document.
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || editable.isInline() ) {
 				return editable;
 			} else {
@@ -1799,7 +1799,7 @@
 			// Check if drop range is inside range.
 			// This is an edge case when we drop something on editable's margin/padding.
 			// That space is not treated as a part of the range we drag, so it is possible to drop there.
-			// When we drop, browser tries to find closest drop position and it finds it inside drag range. (#13453)
+			// When we drop, browser tries to find closest drop position and it finds it inside drag range. (http://dev.ckeditor.com/ticket/13453)
 			var startNode = dragBookmark.startNode,
 				endNode = dragBookmark.endNode,
 				dropNode = dropBookmark.startNode,
@@ -2079,7 +2079,7 @@
 		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( !this.isCustomCopyCutSupported ) {
-				// Edge does not support custom copy/cut, but it have some useful data in the clipboardData (#13755).
+				// Edge does not support custom copy/cut, but it have some useful data in the clipboardData (http://dev.ckeditor.com/ticket/13755).
 				return new this.dataTransfer( ( CKEDITOR.env.edge && evt && evt.data.$ && evt.data.$.clipboardData ) || null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
@@ -2305,8 +2305,8 @@
 			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
 			// some significant content may be placed outside Start/EndFragment comments so it's kept.
 			//
-			// See #13583 for more details.
-			// Additionally #16847 adds a flag allowing to get the whole, original content.
+			// See http://dev.ckeditor.com/ticket/13583 for more details.
+			// Additionally http://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
 			if ( type == 'text/html' && !getNative ) {
 				data = data.replace( this._.metaRegExp, '' );
 
@@ -2348,7 +2348,7 @@
 			}
 
 			// If we use the text type to bind the ID, then if someone tries to set the text, we must also
-			// update ID accordingly. #13468.
+			// update ID accordingly. http://dev.ckeditor.com/ticket/13468.
 			if ( clipboardIdDataType == 'Text' && type == 'Text' ) {
 				this.id = value;
 			}
@@ -2416,7 +2416,7 @@
 			if ( ( this.$ && this.$.files ) || file ) {
 				this._.files = [];
 
-				// Edge have empty files property with no length (#13755).
+				// Edge have empty files property with no length (http://dev.ckeditor.com/ticket/13755).
 				if ( this.$.files && this.$.files.length ) {
 					for ( i = 0; i < this.$.files.length; i++ ) {
 						this._.files.push( this.$.files[ i ] );
@@ -2516,7 +2516,7 @@
 
 		/**
 		 * When the content of the clipboard is pasted in Chrome, the clipboard data object has an empty `files` property,
-		 * but it is possible to get the file as `items[0].getAsFile();` (#12961).
+		 * but it is possible to get the file as `items[0].getAsFile();` (http://dev.ckeditor.com/ticket/12961).
 		 *
 		 * @private
 		 * @returns {File} File instance or `null` if not found.

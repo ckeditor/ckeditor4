@@ -669,7 +669,7 @@
 			} );
 		},
 
-		// #13460
+		// http://dev.ckeditor.com/ticket/13460
 		'test pasting a widget with lots of extra markup and mixed HTML case': function() {
 			var editor = this.editor;
 

@@ -18,7 +18,7 @@
 				this.isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported;
 			},
 
-			// (#16912)
+			// (http://dev.ckeditor.com/ticket/16912)
 			'test root image': function() {
 				testOutput( this.isCustomDataTypesSupported ? 'root-image' : 'root-image-simple', this.editor );
 			},

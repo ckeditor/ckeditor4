@@ -119,7 +119,7 @@ CKEDITOR.scriptLoader = ( function() {
 					} );
 
 					if ( callback ) {
-						// The onload or onerror event does not fire in IE8 and IE9 Quirks Mode (#14849).
+						// The onload or onerror event does not fire in IE8 and IE9 Quirks Mode (http://dev.ckeditor.com/ticket/14849).
 						if ( CKEDITOR.env.ie && ( CKEDITOR.env.version <= 8 || CKEDITOR.env.ie9Compat ) ) {
 							script.$.onreadystatechange = function() {
 								if ( script.$.readyState == 'loaded' || script.$.readyState == 'complete' ) {
@@ -130,7 +130,7 @@ CKEDITOR.scriptLoader = ( function() {
 						} else {
 							script.$.onload = function() {
 								// Some browsers, such as Safari, may call the onLoad function
-								// immediately. Which will break the loading sequence. (#3661)
+								// immediately. Which will break the loading sequence. (http://dev.ckeditor.com/ticket/3661)
 								setTimeout( function() {
 									onLoad( url, true );
 								}, 0 );

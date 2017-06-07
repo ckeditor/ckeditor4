@@ -61,7 +61,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				iframe = element.getFirst(),
 				that = this;
 
-			// Disable native browser menu. (#4825)
+			// Disable native browser menu. (http://dev.ckeditor.com/ticket/4825)
 			element.disableContextMenu();
 
 			this.element = element;
@@ -83,7 +83,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			editor.on( 'resize', hide );
 
 			// When resize of the window is triggered floatpanel should be repositioned according to new dimensions.
-			// #11724. Fixes issue with undesired panel hiding on Android and iOS.
+			// http://dev.ckeditor.com/ticket/11724. Fixes issue with undesired panel hiding on Android and iOS.
 			doc.getWindow().on( 'resize', function() {
 				this.reposition();
 			}, this );
@@ -155,7 +155,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 				var element = this.element,
 					iframe = this._.iframe,
-					// Edge prefers iframe's window to the iframe, just like the rest of the browsers (#13143).
+					// Edge prefers iframe's window to the iframe, just like the rest of the browsers (http://dev.ckeditor.com/ticket/13143).
 					focused = CKEDITOR.env.ie && !CKEDITOR.env.edge ? iframe : new CKEDITOR.dom.window( iframe.$.contentWindow ),
 					doc = element.getDocument(),
 					positionedAncestor = this._.parentElement.getPositionedAncestor(),
@@ -165,7 +165,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					left = position.x + ( offsetX || 0 ) - positionedAncestorPosition.x,
 					top = position.y + ( offsetY || 0 ) - positionedAncestorPosition.y;
 
-				// Floating panels are off by (-1px, 0px) in RTL mode. (#3438)
+				// Floating panels are off by (-1px, 0px) in RTL mode. (http://dev.ckeditor.com/ticket/3438)
 				if ( rtl && ( corner == 1 || corner == 4 ) )
 					left += offsetParent.$.offsetWidth;
 				else if ( !rtl && ( corner == 2 || corner == 3 ) )
@@ -198,7 +198,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 					// With addEventListener compatible browsers, we must
 					// useCapture when registering the focus/blur events to
-					// guarantee they will be firing in all situations. (#3068, #3222 )
+					// guarantee they will be firing in all situations. (http://dev.ckeditor.com/ticket/3068, http://dev.ckeditor.com/ticket/3222 )
 					CKEDITOR.event.useCapture = true;
 
 					focused.on( 'blur', function( ev ) {
@@ -211,7 +211,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 						if ( this.visible && !this._.activeChild ) {
 							// [iOS] Allow hide to be prevented if touch is bound
-							// to any parent of the iframe blur happens before touch (#10714).
+							// to any parent of the iframe blur happens before touch (http://dev.ckeditor.com/ticket/10714).
 							if ( CKEDITOR.env.iOS ) {
 								if ( !this._.hideTimeout )
 									this._.hideTimeout = CKEDITOR.tools.setTimeout( doHide, 0, this );
@@ -235,7 +235,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 					}, this );
 
 					// [iOS] if touch is bound to any parent of the iframe blur
-					// happens twice before touchstart and before touchend (#10714).
+					// happens twice before touchstart and before touchend (http://dev.ckeditor.com/ticket/10714).
 					if ( CKEDITOR.env.iOS ) {
 						// Prevent false hiding on blur.
 						// We don't need to return focus here because touchend will fire anyway.
@@ -266,7 +266,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						var target = element;
 
 						// Reset panel width as the new content can be narrower
-						// than the old one. (#9355)
+						// than the old one. (http://dev.ckeditor.com/ticket/9355)
 						target.removeStyle( 'width' );
 
 						if ( block.autoSize ) {
@@ -275,7 +275,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 							// Account for extra height needed due to IE quirks box model bug:
 							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
-							// (#3426)
+							// (http://dev.ckeditor.com/ticket/3426)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && width > 0 )
 								width += ( target.$.offsetWidth || 0 ) - ( target.$.clientWidth || 0 ) + 3;
 
@@ -288,7 +288,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 							// Account for extra height needed due to IE quirks box model bug:
 							// http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug
-							// (#3426)
+							// (http://dev.ckeditor.com/ticket/3426)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && height > 0 )
 								height += ( target.$.offsetHeight || 0 ) - ( target.$.clientHeight || 0 ) + 3;
 
@@ -364,7 +364,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 						// If IE is in RTL, we have troubles with absolute
 						// position and horizontal scrolls. Here we have a
-						// series of hacks to workaround it. (#6146)
+						// series of hacks to workaround it. (http://dev.ckeditor.com/ticket/6146)
 						if ( CKEDITOR.env.ie ) {
 							var offsetParent = new CKEDITOR.dom.element( element.$.offsetParent ),
 								scrollParent = offsetParent;
@@ -383,7 +383,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						}
 
 						// Trigger the onHide event of the previously active panel to prevent
-						// incorrect styles from being applied (#6170)
+						// incorrect styles from being applied (http://dev.ckeditor.com/ticket/6170)
 						var innerElement = element.getFirst(),
 							activePanel;
 						if ( ( activePanel = innerElement.getCustomData( 'activePanel' ) ) )
@@ -410,14 +410,14 @@ CKEDITOR.plugins.add( 'floatpanel', {
 						// Focus the block now.
 						block.element.focus();
 
-						// #10623, #10951 - restore the viewport's scroll position after focusing list element.
+						// http://dev.ckeditor.com/ticket/10623, http://dev.ckeditor.com/ticket/10951 - restore the viewport's scroll position after focusing list element.
 						if ( CKEDITOR.env.webkit )
 							CKEDITOR.document.getBody().$.scrollTop = scrollTop;
 
 						// We need this get fired manually because of unfired focus() function.
 						this.allowBlur( true );
 
-						// Ensure that the first item is focused (#16804).
+						// Ensure that the first item is focused (http://dev.ckeditor.com/ticket/16804).
 						if ( CKEDITOR.env.ie ) {
 							CKEDITOR.tools.setTimeout( function() {
 								block.markFirstDisplayed ? block.markFirstDisplayed() : block._.markFirstDisplayed();
@@ -483,13 +483,13 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			hide: function( returnFocus ) {
 				if ( this.visible && ( !this.onHide || this.onHide.call( this ) !== true ) ) {
 					this.hideChild();
-					// Blur previously focused element. (#6671)
+					// Blur previously focused element. (http://dev.ckeditor.com/ticket/6671)
 					CKEDITOR.env.gecko && this._.iframe.getFrameDocument().$.activeElement.blur();
 					this.element.setStyle( 'display', 'none' );
 					this.visible = 0;
 					this.element.getFirst().removeCustomData( 'activePanel' );
 
-					// Return focus properly. (#6247)
+					// Return focus properly. (http://dev.ckeditor.com/ticket/6247)
 					var focusReturn = returnFocus && this._.returnFocus;
 					if ( focusReturn ) {
 						// Webkit requires focus moved out panel iframe first.
@@ -510,7 +510,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 			 * @todo
 			 */
 			allowBlur: function( allow ) {
-				// Prevent editor from hiding the panel. (#3222)
+				// Prevent editor from hiding the panel. (http://dev.ckeditor.com/ticket/3222)
 				var panel = this._.panel;
 				if ( allow !== undefined )
 					panel.allowBlur = allow;
@@ -563,7 +563,7 @@ CKEDITOR.plugins.add( 'floatpanel', {
 				panel.showBlock( blockName, offsetParent, corner, offsetX, offsetY );
 				this.blur();
 
-				/* #3767 IE: Second level menu may not have borders */
+				/* http://dev.ckeditor.com/ticket/3767 IE: Second level menu may not have borders */
 				if ( CKEDITOR.env.ie7Compat || CKEDITOR.env.ie6Compat ) {
 					setTimeout( function() {
 						panel.element.getChild( 0 ).$.style.cssText += '';
@@ -594,10 +594,10 @@ CKEDITOR.plugins.add( 'floatpanel', {
 
 		for ( var i in panels ) {
 			var panel = panels[ i ];
-			// Safe to destroy it since there're no more instances.(#4241)
+			// Safe to destroy it since there're no more instances.(http://dev.ckeditor.com/ticket/4241)
 			if ( isLastInstance )
 				panel.destroy();
-			// Panel might be used by other instances, just hide them.(#4552)
+			// Panel might be used by other instances, just hide them.(http://dev.ckeditor.com/ticket/4552)
 			else
 				panel.element.hide();
 		}

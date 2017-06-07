@@ -361,7 +361,7 @@ bender.test( {
 		assert.areSame( '', dataTransfer.getData( 'Text' ) );
 	},
 
-	// #16847
+	// http://dev.ckeditor.com/ticket/16847
 	'test getData with getNative flag': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
@@ -386,7 +386,7 @@ bender.test( {
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
 	},
 
-	// #16847
+	// http://dev.ckeditor.com/ticket/16847
 	'test getData with getNative flag after caching': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
@@ -412,7 +412,7 @@ bender.test( {
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
 	},
 
-	// #16847
+	// http://dev.ckeditor.com/ticket/16847
 	'test getData with filter after caching': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
@@ -438,7 +438,7 @@ bender.test( {
 		assert.areSame( '<p>Foo</p><p>Bar</p>', dataTransfer.getData( 'text/html' ) );
 	},
 
-	// #16847
+	// http://dev.ckeditor.com/ticket/16847
 	'test filtering unwanted content with getNative': function() {
 		// Chrome tends to put unwanted artifacts at the end of data transfer, see
 		// https://bugs.chromium.org/p/chromium/issues/detail?id=696978
@@ -457,7 +457,7 @@ bender.test( {
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
 	},
 
-	// #16847
+	// http://dev.ckeditor.com/ticket/16847
 	'test filtering unwanted content with getNative and cacheData': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
@@ -551,7 +551,7 @@ bender.test( {
 		assert.isUndefined( dataTransfer.getFile( 2 ) );
 	},
 
-	// #12961
+	// http://dev.ckeditor.com/ticket/12961
 	'test file in items': function() {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 			assert.ignore();
@@ -572,7 +572,7 @@ bender.test( {
 		assert.isUndefined( dataTransfer.getFile( 1 ) );
 	},
 
-	// #12961
+	// http://dev.ckeditor.com/ticket/12961
 	'test file in items with error': function() {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 			assert.ignore();
@@ -591,7 +591,7 @@ bender.test( {
 		assert.isUndefined( dataTransfer.getFile( 0 ) );
 	},
 
-	// #12961
+	// http://dev.ckeditor.com/ticket/12961
 	'test file in items and files': function() {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 			assert.ignore();
@@ -640,7 +640,7 @@ bender.test( {
 		assert.isFalse( !!dataTransfer.getFile( 2 ) );
 	},
 
-	// #12961
+	// http://dev.ckeditor.com/ticket/12961
 	'test file in items with cache': function() {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 			assert.ignore();
@@ -670,7 +670,7 @@ bender.test( {
 		assert.isUndefined( dataTransfer.getFile( 1 ) );
 	},
 
-	// #12961
+	// http://dev.ckeditor.com/ticket/12961
 	'test file in items and files with cache': function() {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 			assert.ignore();

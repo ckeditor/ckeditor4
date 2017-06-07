@@ -60,7 +60,7 @@ CKEDITOR.plugins.add( 'table', {
 				if ( !table )
 					return;
 
-				// If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element) (#5416, #6289, #12110)
+				// If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element) (http://dev.ckeditor.com/ticket/5416, http://dev.ckeditor.com/ticket/6289, http://dev.ckeditor.com/ticket/12110)
 				var parent = table.getParent(),
 					editable = editor.editable();
 

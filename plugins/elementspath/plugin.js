@@ -17,7 +17,7 @@
 				var idBase = editor._.elementsPath.idBase;
 				var element = CKEDITOR.document.getById( idBase + '0' );
 
-				// Make the first button focus accessible for IE. (#3417)
+				// Make the first button focus accessible for IE. (http://dev.ckeditor.com/ticket/3417)
 				// Adobe AIR instead need while of delay.
 				element && element.focus( CKEDITOR.env.ie || CKEDITOR.env.air );
 			}
@@ -104,13 +104,13 @@
 				selection.selectElement( element );
 			}
 
-			// Explicitly fire selectionChange when clicking on an element path button. (#13548)
+			// Explicitly fire selectionChange when clicking on an element path button. (http://dev.ckeditor.com/ticket/13548)
 			if ( CKEDITOR.env.ie ) {
 				editor.fire( 'selectionChange', { selection: selection, path: new CKEDITOR.dom.elementPath( element ) } );
 			}
 
 			// It is important to focus() *after* the above selection
-			// manipulation, otherwise Firefox will have troubles. #10119
+			// manipulation, otherwise Firefox will have troubles. http://dev.ckeditor.com/ticket/10119
 			editor.focus();
 		}
 
@@ -160,7 +160,7 @@
 				filters = elementsPath.filters,
 				isContentEditable = true,
 
-				// Use elementPath to consider children of editable only (#11124).
+				// Use elementPath to consider children of editable only (http://dev.ckeditor.com/ticket/11124).
 				elementsChain = editor.elementPath().elements,
 				name;
 

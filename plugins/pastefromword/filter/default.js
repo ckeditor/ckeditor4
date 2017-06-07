@@ -34,7 +34,7 @@
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
 
 		// Before filtering inline all the styles to allow because some of them are available only in style
-		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (#16847)
+		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (http://dev.ckeditor.com/ticket/16847)
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml ).getBody().getHtml();
 		}
@@ -95,7 +95,7 @@
 						}
 					};
 
-					// If the parent is DocumentFragment it does not have any attributes. (#16912)
+					// If the parent is DocumentFragment it does not have any attributes. (http://dev.ckeditor.com/ticket/16912)
 					if ( element.parent && element.parent.attributes ) {
 						var attrs = element.parent.attributes,
 							style = attrs.style || attrs.STYLE;
@@ -125,7 +125,7 @@
 
 						List.convertToFakeListItem( editor, element );
 
-						// IE pastes nested paragraphs in list items, which is different from other browsers. (#16826)
+						// IE pastes nested paragraphs in list items, which is different from other browsers. (http://dev.ckeditor.com/ticket/16826)
 						// There's a possibility that list item will contain multiple paragraphs, in that case we want
 						// to split them with BR.
 						tools.array.reduce( element.children, function( paragraphsReplaced, node ) {
@@ -217,7 +217,7 @@
 				},
 				'ul': function( element ) {
 					if ( !msoListsDetected ) {
-						// List should only be processed if we're sure we're working with Word. (#16593)
+						// List should only be processed if we're sure we're working with Word. (http://dev.ckeditor.com/ticket/16593)
 						return;
 					}
 
@@ -242,7 +242,7 @@
 				},
 				'ol': function( element ) {
 					if ( !msoListsDetected ) {
-						// List should only be processed if we're sure we're working with Word. (#16593)
+						// List should only be processed if we're sure we're working with Word. (http://dev.ckeditor.com/ticket/16593)
 						return;
 					}
 
@@ -299,7 +299,7 @@
 						parentChildren,
 						i;
 
-					// In case parent div has only align attr, move it to the table element (#16811).
+					// In case parent div has only align attr, move it to the table element (http://dev.ckeditor.com/ticket/16811).
 					if ( parent.name && parent.name === 'div' && parent.attributes.align &&
 						tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
 						// If align is the only attribute of parent.
@@ -390,7 +390,7 @@
 				'object': function( element ) {
 					// The specs about object `data` attribute:
 					// 		Address of the resource as a valid URL. At least one of data and type must be defined.
-					// If there is not `data`, skip the object element. (#17001)
+					// If there is not `data`, skip the object element. (http://dev.ckeditor.com/ticket/17001)
 					return !!( element.attributes && element.attributes.data );
 				}
 			},
@@ -500,7 +500,7 @@
 					'mso-',
 					'text-indent',
 					'visibility:visible',
-					'div:border:none' // This one stays because #6241
+					'div:border:none' // This one stays because http://dev.ckeditor.com/ticket/6241
 				],
 				textStyles = [
 					'font-family',
@@ -1743,7 +1743,7 @@
 					if (
 						// If the last list was a different list type then chop it!
 						lastSymbol.type != currentSymbol.type ||
-						// If those are logically different lists, and current list is not a continuation (#7918):
+						// If those are logically different lists, and current list is not a continuation (http://dev.ckeditor.com/ticket/7918):
 						( lastListInfo && currentListInfo.id != lastListInfo.id && !this.isAListContinuation( list[ i ] ) ) ) {
 						choppedLists.push( [] );
 					}
@@ -1780,7 +1780,7 @@
 		 * It would return `true` &mdash; meaning it is a continuation, and should not be chopped. However, if any paragraph or
 		 * anything else appears in between, it should be broken into different lists.
 		 *
-		 * You can see fixtures from issue #7918 as an example.
+		 * You can see fixtures from issue http://dev.ckeditor.com/ticket/7918 as an example.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} listElement The list to be checked.

@@ -120,7 +120,7 @@ CKEDITOR.plugins.removeformat = {
 				}
 
 				// The selection path may not changed, but we should force a selection
-				// change event to refresh command states, due to the above attribution change. (#9238)
+				// change event to refresh command states, due to the above attribution change. (http://dev.ckeditor.com/ticket/9238)
 				editor.forceNextSelectionCheck();
 				editor.getSelection().selectRanges( ranges );
 			}
