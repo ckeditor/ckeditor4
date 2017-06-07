@@ -153,6 +153,24 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 	}
 };
 
+/**
+ * This function will escape numeric identifiers in selector (i.e "#123" will become "#\31\32\33")
+ *
+ * @static
+ * @param {String} selector to be escaped
+ * @returns {String} escaped selector
+ */
+CKEDITOR.dom.element.escapeQuery = function( selector ) {
+	var segments = selector.split(/(#\d+)/);
+	for (var i = 0; i < segments.length; i++) {
+		var segment = segments[i];
+		if (segment.charAt(0) === '#') {
+			segments[i] = segment = segment.replace(/\d/g, '\\3$&');
+		}
+	}
+	return segments.join('');
+};
+
 ( function() {
 	var elementsClassList = document.createElement( '_' ).classList,
 		supportsClassLists = typeof elementsClassList !== 'undefined' && String( elementsClassList.add ).match( /\[Native code\]/gi ) !== null,
@@ -2017,7 +2035,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		find: function( selector ) {
 			var removeTmpId = createTmpId( this ),
 				list = new CKEDITOR.dom.nodeList(
-					this.$.querySelectorAll( getContextualizedSelector( this, selector ) )
+					this.$.querySelectorAll(CKEDITOR.dom.element.escapeQuery( getContextualizedSelector( this, selector) ) )
 				);
 
 			removeTmpId();
@@ -2044,7 +2062,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		findOne: function( selector ) {
 			var removeTmpId = createTmpId( this ),
-				found = this.$.querySelector( getContextualizedSelector( this, selector ) );
+				found = this.$.querySelector(CKEDITOR.dom.element.escapeQuery( getContextualizedSelector( this, selector) ) );
 
 			removeTmpId();
 

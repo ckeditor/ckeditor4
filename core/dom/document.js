@@ -288,7 +288,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @returns {CKEDITOR.dom.nodeList}
 	 */
 	find: function( selector ) {
-		return new CKEDITOR.dom.nodeList( this.$.querySelectorAll( selector ) );
+		return new CKEDITOR.dom.nodeList( this.$.querySelectorAll( CKEDITOR.dom.element.escapeQuery(selector) ) );
 	},
 
 	/**
@@ -300,7 +300,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	 * @returns {CKEDITOR.dom.element}
 	 */
 	findOne: function( selector ) {
-		var el = this.$.querySelector( selector );
+		var el = this.$.querySelector( CKEDITOR.dom.element.escapeQuery(selector) );
 
 		return el ? new CKEDITOR.dom.element( el ) : null;
 	},
