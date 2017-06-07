@@ -998,7 +998,7 @@
 					var keyCode = evt.data.domEvent.getKey(),
 						isHandled;
 
-					// Prevent of reading path of empty range (http://dev.ckeditor.com/ticket/13096, http://dev.ckeditor.com/ticket/457).
+					// Prevent of reading path of empty range (http://dev.ckeditor.com/ticket/13096, #457).
 					var sel = editor.getSelection();
 					if ( sel.getRanges().length === 0 ) {
 						return;
@@ -1186,7 +1186,7 @@
 						if ( !( key in backspaceOrDelete ) )
 							return;
 
-						// Prevent of reading path of empty range (http://dev.ckeditor.com/ticket/13096, http://dev.ckeditor.com/ticket/457).
+						// Prevent of reading path of empty range (http://dev.ckeditor.com/ticket/13096, #457).
 						var sel = editor.getSelection();
 						if ( sel.getRanges().length === 0 ) {
 							return;
