@@ -574,7 +574,7 @@
 						// Create new <figure> from widget template.
 						var figure = CKEDITOR.dom.element.createFromHtml( templateBlock.output( {
 							captionedClass: captionedClass,
-							captionPlaceholder: editor.lang.image2.captionPlaceholder
+							captionPlaceholder: ( shift.newData.alt != '' ) ? shift.newData.alt : editor.lang.image2.captionPlaceholder
 						} ), doc );
 
 						// Replace element with <figure>.
