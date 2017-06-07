@@ -47,6 +47,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			var attributes = {
 				id: name,
 				name: name,
+ 				id: name,
 				'data-cke-saved-name': name
 			};
 
