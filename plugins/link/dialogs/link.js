@@ -297,7 +297,7 @@
 								this.allowOnChange = false;
 								var protocolCmb = this.getDialog().getContentElement( 'info', 'protocol' ),
 									url = this.getValue(),
-									urlOnChangeProtocol = /^(http|https|ftp|news):\/\/(?=.)/i,
+									urlOnChangeProtocol = /^\s*(http|https|ftp|news):\/\/(?=.)/i,
 									urlOnChangeTestOther = /^((javascript:)|[#\/\.\?])/i;
 
 								var protocol = urlOnChangeProtocol.exec( url );
