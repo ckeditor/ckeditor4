@@ -29,6 +29,10 @@ CKEDITOR.plugins.setLang( 'table', 'en', {
 		header: 'Header',
 		yes: 'Yes',
 		no: 'No',
+		paddingTop: 'Top',
+		paddingBottom: 'Bottom',
+		paddingLeft: 'Left',
+		paddingRight: 'Right',
 		invalidWidth: 'Cell width must be a number.',
 		invalidHeight: 'Cell height must be a number.',
 		invalidRowSpan: 'Rows span must be a whole number.',
@@ -70,5 +74,10 @@ CKEDITOR.plugins.setLang( 'table', 'en', {
 	toolbar: 'Table',
 	widthPc: 'percent',
 	widthPx: 'pixels',
+	widthMm: 'millimeters',
+	widthCm: 'centimeters',
+	widthPt: 'points',
+	widthEm: 'm-width',
+	widthEx: 'x-height',
 	widthUnit: 'width unit'
 } );

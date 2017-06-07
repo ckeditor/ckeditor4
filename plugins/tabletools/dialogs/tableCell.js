@@ -8,7 +8,8 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		langCell = langTable.cell,
 		langCommon = editor.lang.common,
 		validate = CKEDITOR.dialog.validate,
-		widthPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
+		defaultLengthUnit = 'px';
+		lengthUnitPattern = /^(\d+(?:\.\d+)?)(px|%|mm|cm|pt|em|ex)$/,
 		spacer = { type: 'html', html: '&nbsp;' },
 		rtl = editor.lang.dir == 'rtl',
 		colorDialog = editor.plugins.colordialog;
@@ -48,17 +49,109 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		};
 	}
 
-	// Reads the unit of width property of the table cell.
+	// Reads the unit of a CSS length.
 	//
-	// * @param {CKEDITOR.dom.element} cell An element representing table cell.
-	// * @returns {String} A unit of width: 'px', '%' or undefined if none.
-	function getCellWidthType( cell ) {
-		var match = widthPattern.exec(
-			cell.getStyle( 'width' ) || cell.getAttribute( 'width' ) );
-
+	// * @param {String} length the length with a unit.
+	// * @returns {String} A unit of length: 'px', 'cm', 'mm', 'pt', '%' or undefined if none.
+	function getLengthUnit( length ) {
+		var match = lengthUnitPattern.exec( length );
 		if ( match )
 			return match[ 2 ];
 	}
+
+	// Reads the unit of a length property of the table cell.
+	//
+	// * @param {String} cssProperty The name of a length CSS property (width, height, padding-left, etc.)
+	// * @returns {Function} A function that takes a {CKEDITOR.dom.element} of a cell and returns
+	//                     a {String} representing a unit of length: 'px', 'cm', 'mm', 'pt', 'em', 'en', '%' 
+	//                     or undefined if none.
+	function getCellLengthUnit( cssProperty ) {
+		if ( cssProperty == 'width' || cssProperty == 'height' )
+			return function ( cell ) {
+				return getLengthUnit( cell.getStyle( cssProperty ) || cell.getAttribute( cssProperty ) );
+			};
+		else return function ( cell ) {
+			return getLengthUnit( cell.getStyle( cssProperty ) );
+		};
+	}
+  
+	// Creates the definition for a dialog UI Element to set a length property like "width", "height", etc.
+	//
+	// * @param {String} tabId       The name of the parent tab of this UI Element
+	// * @param {String} cssProperty The name of a length CSS property (width, height, padding-left, etc.)
+	// * @param {String} label       The label on top of the UI element ("width", "height", etc.)
+	// * @param {String} msg_invalid_number The error message to show when the value is not valid
+	// * @param {String} box         'hbox' if wrong or undefined; when it's 'vbox' the unit selector is under the text box
+	// * @returns {CKEDITOR.dialog.definition.uiElement} A composite UI element to set a length property (number with unit)
+  function lengthUIElement( tabId, cssProperty, label, msg_invalid_number, box ) {
+    // id: from CSS property dashes to camel: padding-left => paddingLeft
+    var id = cssProperty.replace(/-([a-z])/g, function(m, l) { return l.toUpperCase(); });
+    var typeId = id + 'Type';
+
+		return {
+      type: box == 'vbox' ? box : 'hbox',
+      widths: [ '70%', '30%' ],
+      children: [ {
+        type: 'text',
+        id: id,
+        width: '100px',
+        label: label,
+        validate: validate.number( msg_invalid_number ),
+
+        // Extra labelling of length unit type.
+        onLoad: function() {
+          var lengthType = this.getDialog().getContentElement( tabId, typeId ),
+            labelElement = lengthType.getElement(),
+            inputElement = this.getInputElement(),
+            ariaLabelledByAttr = inputElement.getAttribute( 'aria-labelledby' );
+
+          inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
+        },
+
+        setup: setupCells( function( element ) {
+          var lengthAttr = parseInt( element.getAttribute( cssProperty ), 10 ),
+            lengthStyle = parseInt( element.getStyle( cssProperty ), 10 );
+
+          return !isNaN( lengthStyle ) ? lengthStyle :
+            !isNaN( lengthAttr ) ? lengthAttr : '';
+        } ),
+        commit: function( element ) {
+          var value = parseInt( this.getValue(), 10 );
+
+          // There might be no lengthType value, i.e. when multiple cells are
+          // selected but some of them have length (i.e. width) expressed in pixels and some
+          // of them in percent. Try to re-read the unit from the cell in such
+          // case (#11439).
+          var unit = this.getDialog().getValueOf( tabId, typeId ) || getCellLengthUnit( cssProperty )( element );
+
+          if ( !isNaN( value ) )
+            element.setStyle( cssProperty, value + unit );
+          else
+            element.removeStyle( cssProperty );
+
+          element.removeAttribute( cssProperty );
+        },
+        'default': ''
+      },
+      {
+        type: 'select',
+        id: typeId,
+        label: editor.lang.table.widthUnit,
+        labelStyle: 'visibility:hidden',
+        'default': defaultLengthUnit,
+        items: [
+          [ langTable.widthPx, 'px' ],
+          [ langTable.widthPc, '%' ],
+          [ langTable.widthMm, 'mm' ],
+          [ langTable.widthCm, 'cm' ],
+          [ langTable.widthPt, 'pt' ],
+          [ langTable.widthEm, 'em' ],
+          [ langTable.widthEx, 'ex' ]
+        ],
+        setup: setupCells( getCellLengthUnit(cssProperty) )
+      } ]
+    };
+  }
 
 	return {
 		title: langCell.title,
@@ -74,109 +167,10 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 				children: [ {
 					type: 'vbox',
 					padding: 0,
-					children: [ {
-						type: 'hbox',
-						widths: [ '70%', '30%' ],
-						children: [ {
-							type: 'text',
-							id: 'width',
-							width: '100px',
-							label: langCommon.width,
-							validate: validate.number( langCell.invalidWidth ),
-
-							// Extra labelling of width unit type.
-							onLoad: function() {
-								var widthType = this.getDialog().getContentElement( 'info', 'widthType' ),
-									labelElement = widthType.getElement(),
-									inputElement = this.getInputElement(),
-									ariaLabelledByAttr = inputElement.getAttribute( 'aria-labelledby' );
-
-								inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
-							},
-
-							setup: setupCells( function( element ) {
-								var widthAttr = parseInt( element.getAttribute( 'width' ), 10 ),
-									widthStyle = parseInt( element.getStyle( 'width' ), 10 );
-
-								return !isNaN( widthStyle ) ? widthStyle :
-									!isNaN( widthAttr ) ? widthAttr : '';
-							} ),
-							commit: function( element ) {
-								var value = parseInt( this.getValue(), 10 ),
-
-									// There might be no widthType value, i.e. when multiple cells are
-									// selected but some of them have width expressed in pixels and some
-									// of them in percent. Try to re-read the unit from the cell in such
-									// case (#11439).
-									unit = this.getDialog().getValueOf( 'info', 'widthType' ) || getCellWidthType( element );
-
-								if ( !isNaN( value ) )
-									element.setStyle( 'width', value + unit );
-								else
-									element.removeStyle( 'width' );
-
-								element.removeAttribute( 'width' );
-							},
-							'default': ''
-						},
-						{
-							type: 'select',
-							id: 'widthType',
-							label: editor.lang.table.widthUnit,
-							labelStyle: 'visibility:hidden',
-							'default': 'px',
-							items: [
-								[ langTable.widthPx, 'px' ],
-								[ langTable.widthPc, '%' ]
-							],
-							setup: setupCells( getCellWidthType )
-						} ]
-					},
-					{
-						type: 'hbox',
-						widths: [ '70%', '30%' ],
-						children: [ {
-							type: 'text',
-							id: 'height',
-							label: langCommon.height,
-							width: '100px',
-							'default': '',
-							validate: validate.number( langCell.invalidHeight ),
-
-							// Extra labelling of height unit type.
-							onLoad: function() {
-								var heightType = this.getDialog().getContentElement( 'info', 'htmlHeightType' ),
-									labelElement = heightType.getElement(),
-									inputElement = this.getInputElement(),
-									ariaLabelledByAttr = inputElement.getAttribute( 'aria-labelledby' );
-
-								inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
-							},
-
-							setup: setupCells( function( element ) {
-								var heightAttr = parseInt( element.getAttribute( 'height' ), 10 ),
-									heightStyle = parseInt( element.getStyle( 'height' ), 10 );
-
-								return !isNaN( heightStyle ) ? heightStyle :
-									!isNaN( heightAttr ) ? heightAttr : '';
-							} ),
-							commit: function( element ) {
-								var value = parseInt( this.getValue(), 10 );
-
-								if ( !isNaN( value ) )
-									element.setStyle( 'height', CKEDITOR.tools.cssLength( value ) );
-								else
-									element.removeStyle( 'height' );
-
-								element.removeAttribute( 'height' );
-							}
-						},
-						{
-							id: 'htmlHeightType',
-							type: 'html',
-							html: '<br />' + langTable.widthPx
-						} ]
-					},
+					children: 
+          [ 
+            lengthUIElement( 'info', 'width', langCommon.width, langCell.invalidWidth ),
+            lengthUIElement( 'info', 'height', langCommon.height, langCell.invalidHeight ),
 					spacer,
 					{
 						type: 'select',
@@ -426,7 +420,28 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 					} ]
 				} ]
 			} ]
-		} ],
+		}, {
+      id: 'padding',
+      label: langTable.cellPad,
+      elements: [ {
+          type: 'vbox',
+          padding: 0,
+          children: [
+            { type: 'hbox', padding: 0, widths: [ '33%', '34%', '33%' ], children: [ 
+              spacer, 
+              lengthUIElement( 'padding', 'padding-top', langCell.paddingTop, langTable.invalidCellPadding, 'vbox'), 
+              spacer ] },
+            { type: 'hbox', padding: 0, widths: [ '33%', '34%', '33%' ], children: [ 
+              lengthUIElement( 'padding', 'padding-left', langCell.paddingLeft, langTable.invalidCellPadding, 'vbox'), 
+              spacer,
+              lengthUIElement( 'padding', 'padding-right', langCell.paddingRight, langTable.invalidCellPadding, 'vbox') ] },
+            { type: 'hbox', padding: 0, widths: [ '33%', '34%', '33%' ], children: [ 
+              spacer, 
+              lengthUIElement( 'padding', 'padding-bottom', langCell.paddingBottom, langTable.invalidCellPadding, 'vbox'), 
+              spacer ] }
+          ]
+        } ]
+    } ],
 		onShow: function() {
 			this.cells = CKEDITOR.plugins.tabletools.getSelectedCells( this._.editor.getSelection() );
 			this.setupContent( this.cells );

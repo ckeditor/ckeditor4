@@ -29,6 +29,10 @@ CKEDITOR.plugins.setLang( 'table', 'it', {
 		header: 'Intestazione',
 		yes: 'Si',
 		no: 'No',
+		paddingTop: 'Superiore',
+		paddingBottom: 'Inferiore',
+		paddingLeft: 'Sinistro',
+		paddingRight: 'Destro',
 		invalidWidth: 'La larghezza della cella dev\'essere un numero.',
 		invalidHeight: 'L\'altezza della cella dev\'essere un numero.',
 		invalidRowSpan: 'Il numero di righe dev\'essere un numero intero.',
@@ -70,5 +74,10 @@ CKEDITOR.plugins.setLang( 'table', 'it', {
 	toolbar: 'Tabella',
 	widthPc: 'percento',
 	widthPx: 'pixel',
+	widthMm: 'millimetri',
+	widthCm: 'centimetri',
+	widthPt: 'punti',
+	widthEm: 'larghezza "m"',
+	widthEx: 'altezza "x"',
 	widthUnit: 'unità larghezza'
 } );
