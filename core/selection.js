@@ -514,6 +514,9 @@
 					range = editor.createRange(),
 					found;
 
+				// if editor is read-only do nothing
+				if(editor.config.readOnly) return false;
+				
 				// If haven't found place for caret on the default side,
 				// try to find it on the other side.
 				if ( !( found = range.moveToClosestEditablePosition( evt.selected, right ) ) )
