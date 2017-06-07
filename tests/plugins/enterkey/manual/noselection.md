@@ -4,10 +4,19 @@
 
 ---
 
+## Scenario 1: ###
+
 1. Open browser developer console.
-1. Select text from the end. E.g. `commodo consequat.`.
-2. Click below the whole paragraph.
-3. Press `enter` key.
+2. Select text from the end. E.g. `commodo consequat.`.
+3. Click below the whole paragraph.
+4. Press `enter` key.
+
+## Scenario 2: ###
+
+1. Open browser developer console.
+2. Select text from the end. E.g. `commodo consequat.`.
+3. Click invisible `Remove selection` button on toolbar.
+4. Click `enter` key.
 
 **Expected:** No error occurred in the browser developer console.
 

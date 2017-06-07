@@ -4,5 +4,23 @@
 </div>
 
 <script>
-	CKEDITOR.replace( 'editor', { height: 400 } );
+	CKEDITOR.replace( 'editor', {
+        height: 400,
+        on: {
+            pluginsLoaded: function( evt ) {
+                var editor = evt.editor;
+
+                editor.addCommand( 'removeSelection', {
+                  exec: function( editor ) {
+                    editor.getSelection().removeAllRanges()
+				    }
+                })
+
+                editor.ui.addButton( 'removeSelection', {
+                    label: 'Remove selection',
+                    command: 'removeSelection'
+                } )
+            }
+        }
+    } );
 </script>
