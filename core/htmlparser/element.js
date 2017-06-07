@@ -43,7 +43,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 
 	var isBlockLike = !!( CKEDITOR.dtd.$nonBodyContent[ realName ] || CKEDITOR.dtd.$block[ realName ] ||
 		CKEDITOR.dtd.$listItem[ realName ] || CKEDITOR.dtd.$tableContent[ realName ] ||
-		CKEDITOR.dtd.$nonEditable[ realName ] || realName == 'br' );
+		realName == 'br' );
 
 	this.isEmpty = !!CKEDITOR.dtd.$empty[ name ];
 	this.isUnknown = !CKEDITOR.dtd[ name ];
