@@ -1,0 +1,38 @@
+<head>
+	<link rel="stylesheet" href="/apps/ckeditor/contents.css">
+	<style>
+		i { color: red; }
+	</style>
+</head>
+<h2>Classic editor</h2>
+<div id="editor1">
+	<p><i>1></i></p>
+	<p>[[Test1]]</p>
+	<p><2</p>
+
+</div>
+
+<h2>Inline editor</h2>
+<div id="editor2" contenteditable="true">
+	<p><i>1></i></p>
+	<p>[[Test1]]</p>
+	<p><2</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+		CKEDITOR.tools.enableHtml5Elements( document );
+	}
+
+	CKEDITOR.addCss( 'i {	color:red	}' );
+	CKEDITOR.disableAutoInline = true;
+
+	CKEDITOR.replace( 'editor1', {
+		height: 400,
+		allowedContent: true
+	} );
+
+	CKEDITOR.inline( 'editor2', {
+		allowedContent: true
+	} );
+</script>

@@ -576,10 +576,41 @@
 
 			var next = range[ keystroke < 38 ? 'getPreviousEditableNode' : 'getNextEditableNode' ]();
 
+			// Special case for widgets.  We want to select it instead of delete it.
 			if ( next && next.type == CKEDITOR.NODE_ELEMENT && next.getAttribute( 'contenteditable' ) == 'false' ) {
-				editor.getSelection().fake( next );
-				evt.data.preventDefault();
-				evt.cancel();
+				var currentBlock = editor.elementPath( range.startContainer ).block,
+					nextBlock = editor.elementPath( next ).block;
+
+				// If the widget is not in a block (hence, the root editable() is it's block), OR
+				// 	  the widget is in the same block as the cursor, select the widget.
+				// We special-case this to allow the browser to handle the merging of blocks when deleting the space between them.
+				if ( !nextBlock || nextBlock.equals( currentBlock ) ) {
+					editor.getSelection().fake( next );
+					evt.data.preventDefault();
+					evt.cancel();
+				} else if ( CKEDITOR.env.gecko && ( keystroke === 8 || keystroke === 48 ) ) {
+					// Firefox has a bug from 2011 that prevents backspace/delete from working as expected around contenteditable=false
+					// https://bugzilla.mozilla.org/show_bug.cgi?id=685445
+					var isDelete = keystroke === 8,
+						first = isDelete ? nextBlock : currentBlock,
+						firstChildren = first.getChildren(),
+						firstLastChild = firstChildren.getItem( firstChildren.count() - 1 ),
+						second = isDelete ? currentBlock : nextBlock,
+						bookmark = sel.createBookmarks();
+
+					// If there's a hanging BR at the end of the paragraph, remove it before concatenating
+					if ( firstLastChild.getName() === 'br' ) {
+						firstLastChild.remove();
+					}
+					//Manually move the children into the first block, after the widget
+					second.moveChildren( first );
+					second.remove();
+					sel.selectBookmarks( bookmark );
+
+					evt.data.preventDefault();
+					evt.cancel();
+
+				}
 			}
 		};
 	}
