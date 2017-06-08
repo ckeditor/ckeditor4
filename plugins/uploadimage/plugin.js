@@ -62,6 +62,8 @@
 					this.replaceWith( '<img src="' + upload.url + '" ' +
 						'width="' + width + '" ' +
 						'height="' + height + '">' );
+					
+					editor.fire('change');
 				}
 			} );
 
