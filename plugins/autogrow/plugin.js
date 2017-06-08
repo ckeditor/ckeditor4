@@ -36,7 +36,8 @@
 			configBottomSpace = editor.config.autoGrow_bottomSpace || 0,
 			configMinHeight = editor.config.autoGrow_minHeight !== undefined ? editor.config.autoGrow_minHeight : 200,
 			configMaxHeight = editor.config.autoGrow_maxHeight || Infinity,
-			maxHeightIsUnlimited = !editor.config.autoGrow_maxHeight;
+			maxHeightIsUnlimited = !editor.config.autoGrow_maxHeight,
+			timeoutReset = null;
 
 		editor.addCommand( 'autogrow', {
 			exec: resizeEditor,
@@ -51,7 +52,9 @@
 			editor.on( eventName, function( evt ) {
 				// Some time is required for insertHtml, and it gives other events better performance as well.
 				if ( evt.editor.mode == 'wysiwyg' ) {
-					setTimeout( function() {
+					// IE performs very poorly with each keypress
+					if (timeoutReset) clearTimeout(timeoutReset);
+				    timeoutReset = setTimeout( function() {
 						if ( isNotResizable() ) {
 							lastHeight = null;
 							return;
