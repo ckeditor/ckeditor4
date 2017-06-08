@@ -52,26 +52,29 @@
 	function buildTableColumnPillars( table ) {
 		var pillars = [],
 			pillarIndex = -1,
+			pillarHeight = 0,
+			pillarPosition = null,
 			rtl = ( table.getComputedStyle( 'direction' ) == 'rtl' );
 
-		// Get the raw row element that cointains the most columns.
+		// Get the raw row element that contains the most columns.
 		var $tr = getMasterPillarRow( table );
 
-		// Get the tbody element and position, which will be used to set the
-		// top and bottom boundaries.
-		var tbody = new CKEDITOR.dom.element( table.$.tBodies[ 0 ] ),
-			pillarPosition = tbody.getDocumentPosition(),
-			pillarHeight = tbody.$.offsetHeight;
+		// Sets pillar height and position based on given table element (head, body, footer).
+		function setPillarDimensions( nativeTableElement ) {
+			if ( nativeTableElement ) {
+				var tableElement = new CKEDITOR.dom.element( nativeTableElement );
+				pillarHeight += tableElement.$.offsetHeight;
 
-		if ( table.$.tHead ) {
-			var tHead = new CKEDITOR.dom.element( table.$.tHead );
-			pillarPosition = tHead.getDocumentPosition();
-			pillarHeight += tHead.$.offsetHeight;
+				if ( !pillarPosition ) {
+					pillarPosition = tableElement.getDocumentPosition();
+				}
+			}
 		}
 
-		if ( table.$.tFoot ) {
-			pillarHeight += table.$.tFoot.offsetHeight;
-		}
+		// Table may contain only one of thead, tbody or tfoot elements so its existence should be checked (#417).
+		setPillarDimensions( table.$.tHead );
+		setPillarDimensions( table.$.tBodies[ 0 ] );
+		setPillarDimensions( table.$.tFoot );
 
 		if ( $tr ) {
 			// Loop thorugh all cells, building pillars after each one of them.

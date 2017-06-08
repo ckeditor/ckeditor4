@@ -260,5 +260,47 @@ bender.test( {
 		} );
 
 		wait();
+	},
+
+	// #417
+	'test resizing table with thead only': function() {
+		var editor = this.editors.classic2,
+			editable = editor.editable();
+
+		editor.setData( CKEDITOR.document.findOne( '#headeronly' ).getOuterHtml(), {
+
+			callback: function() {
+				resume( function() {
+					editor.document.fire( 'mousemove', new CKEDITOR.dom.event( {
+						target: editable.findOne( 'table' ).$
+					} ) );
+
+					assert.pass();
+				} );
+			}
+		} );
+
+		wait();
+	},
+
+	// #417
+	'test resizing table with tfoot only': function() {
+		var editor = this.editors.classic2,
+			editable = editor.editable();
+
+		editor.setData( CKEDITOR.document.findOne( '#footeronly' ).getOuterHtml(), {
+
+			callback: function() {
+				resume( function() {
+					editor.document.fire( 'mousemove', new CKEDITOR.dom.event( {
+						target: editable.findOne( 'table' ).$
+					} ) );
+
+					assert.pass();
+				} );
+			}
+		} );
+
+		wait();
 	}
 } );
