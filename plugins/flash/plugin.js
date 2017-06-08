@@ -37,6 +37,8 @@
 
 		},
 		init: function( editor ) {
+			editor.config.flash_flvPlayer = editor.config.flash_flvPlayer || (this.path + 'swf/player.swf');
+
 			var allowed = 'object[classid,codebase,height,hspace,vspace,width];' +
 				'param[name,value];' +
 				'embed[height,hspace,pluginspage,src,type,vspace,width]';
