@@ -2708,16 +2708,22 @@
 					widget = widgetsRepo.instances[ attrs[ 'data-cke-widget-id' ] ];
 					if ( widget ) {
 						widgetElement = element.getFirst( Widget.isParserWidgetElement );
-						toBeDowncasted.push( {
-							wrapper: element,
-							element: widgetElement,
-							widget: widget,
-							editables: {}
-						} );
+						if (widgetElement) { 
+							toBeDowncasted.push( {
+								wrapper: element,
+								element: widgetElement,
+								widget: widget,
+								editables: {}
+							} );
 
-						// If widget did not have data-cke-widget attribute before upcasting remove it.
-						if ( widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' )
-							delete widgetElement.attributes[ 'data-widget' ];
+							// If widget did not have data-cke-widget attribute before upcasting remove it.
+							if ( widgetElement.attributes[ 'data-cke-widget-keep-attr' ] != '1' )
+								delete widgetElement.attributes[ 'data-widget' ];
+						}
+						else {
+							// Odd case where content was saved with widget, this should correct it
+							widget.wrapper.remove(); 
+						}
 					}
 				}
 				// Nested editable.
