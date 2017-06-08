@@ -270,7 +270,7 @@
 		 * @returns {Boolean} `true` if the object is an Array, otherwise `false`.
 		 */
 		isArray: function( object ) {
-			return Object.prototype.toString.call( object ) == '[object Array]';
+			return Object.prototype.toString.call( object ) == '[object Array]' || Object.prototype.toString.call( object ) == '[object Array Iterator]';
 		},
 
 		/**
