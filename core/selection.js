@@ -1408,7 +1408,18 @@
 			if ( this._.cache.nativeSel !== undefined )
 				return this._.cache.nativeSel;
 
-			return ( this._.cache.nativeSel = isMSSelection ? this.document.$.selection : this.document.getWindow().$.getSelection() );
+			this._.cache.nativeSel = isMSSelection;
+
+			if ( this._.cache.nativeSel ) {
+				if ( this.document.$ ) {
+					return this.document.$.selection;
+				} else {
+					// May occur if editor is destroyed
+					return null;
+				}
+			} else {
+				return this.document.getWindow().$.getSelection();
+			}
 		},
 
 		/**

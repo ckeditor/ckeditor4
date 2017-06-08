@@ -677,6 +677,10 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 */
 		getComputedStyle: ( document.defaultView && document.defaultView.getComputedStyle ) ?
 				function( propertyName ) {
+					if ( !( this.getWindow().$ ) ) {
+						// May occur if editor is destroyed
+						return '';
+					}
 					var style = this.getWindow().$.getComputedStyle( this.$, null );
 
 					// Firefox may return null if we call the above on a hidden iframe. (http://dev.ckeditor.com/ticket/9117)

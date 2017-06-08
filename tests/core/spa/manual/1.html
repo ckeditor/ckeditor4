@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="_assets/jquery.mobile-1.4.5.css" />
+<script src="_assets/jquery-1.11.1.js"></script>
+<script>
+$(document).on("mobileinit", function() {
+	EDITOR_ID = 1;
+	$(document).bind("pagecontainershow", function( e, ui ) {
+		var $page = $(":mobile-pagecontainer").pagecontainer("getActivePage");
+		var $placeholder = $page.find(".placeholder").first();
+		$placeholder.empty();
+		var newid = "editor" + EDITOR_ID++;
+		$placeholder.append($("<textarea id='" + newid + "'>Text</textarea>"));
+		CKEDITOR.replace(
+			newid,
+			{
+				on: {
+					instanceReady: function(ev) {
+						var data = "";
+						for (var i = 0; i < 100000; i++) {
+							data += "data" + i + "\n";
+						}
+						ev.editor.setData(data);
+					}
+				}
+			}
+		);
+	});
+});
+</script>
+<script src="_assets/jquery.mobile-1.4.5.js"></script>
+
+<div data-role="page" id="page1">
+	<div role="main" class="ui-content">
+		<h1>Page1</h1>
+		<div class="placeholder"></div>
+		<p><a href="#page2">Go to Page2</a></p>
+	</div>
+</div>
+
+<div data-role="page" id="page2">
+	<div role="main" class="ui-content">
+		<h1>Page2</h1>
+		<div class="placeholder"></div>
+		<p><a href="#page1">Go to Page1</a></p>
+	</div>
+</div>
+
