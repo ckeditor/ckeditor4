@@ -1110,8 +1110,11 @@
 				return CKEDITOR.TRISTATE_OFF;
 
 			// Cut, copy - check if the selection is not empty.
-			var sel = editor.getSelection(),
-				ranges = sel.getRanges(),
+			var sel = editor.getSelection();
+			if (!sel)
+				return CKEDITOR.TRISTATE_DISABLED;
+			
+			var	ranges = sel.getRanges(),
 				selectionIsEmpty = sel.getType() == CKEDITOR.SELECTION_NONE || ( ranges.length == 1 && ranges[ 0 ].collapsed );
 
 			return selectionIsEmpty ? CKEDITOR.TRISTATE_DISABLED : CKEDITOR.TRISTATE_OFF;
