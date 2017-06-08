@@ -521,7 +521,8 @@
 		// Check path block specialities:
 		// 1. Cannot be a un-splittable element, e.g. table caption;
 		var path = editor.elementPath();
-		if ( !path.isContextFor( 'p' ) ) {
+
+		if ( path && !path.isContextFor( 'p' ) ) {
 			mode = CKEDITOR.ENTER_BR;
 			forceMode = 1;
 		}
