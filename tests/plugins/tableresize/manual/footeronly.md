@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 4.7.1, 417
+@bender-tags: bug, 4.7.1, 417
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tableresize
 
 1. Focus editor.
