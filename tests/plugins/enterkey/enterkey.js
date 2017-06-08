@@ -1,3 +1,4 @@
+/* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: entities,enterkey */
 
 ( function() {
@@ -246,8 +247,8 @@
 
 		// #478
 		'test enter key with no selection': function() {
-			var editor = this.editors.editor;
-			var editable = editor.editable();
+			var editor = this.editors.editor,
+				editable = editor.editable();
 
 			editor.getSelection().removeAllRanges();
 			editable.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 13 } ) );
