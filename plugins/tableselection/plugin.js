@@ -917,7 +917,7 @@
 			insertRow = tabletools.insertRow;
 			insertColumn = tabletools.insertColumn;
 
-			CKEDITOR.document.appendStyleSheet( this.path + '/styles/tableselection.css' );
+			CKEDITOR.document.appendStyleSheet( this.path + 'styles/tableselection.css' );
 		},
 
 		init: function( editor ) {
@@ -928,7 +928,7 @@
 
 			// Add styles for fake visual selection.
 			if ( editor.addContentsCss ) {
-				editor.addContentsCss( this.path + '/styles/tableselection.css' );
+				editor.addContentsCss( this.path + 'styles/tableselection.css' );
 			}
 
 			editor.on( 'contentDom', function() {
