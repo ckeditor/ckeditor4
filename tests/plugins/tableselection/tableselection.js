@@ -1,7 +1,7 @@
 /* bender-tags: tableselection */
 /* bender-ckeditor-plugins: tableselection */
 /* bender-include: _helpers/tableselection.js */
-/* global tableSelectionHelpers */
+/* global tableSelectionHelpers, mockMouseSelection */
 
 ( function() {
 	'use strict';
@@ -135,6 +135,18 @@
 			} );
 
 			wait();
+		},
+
+		// #493
+		'simulating mouse events while scrolling and selecting cells in nested table': function( editor ) {
+			var cells;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'nestedScroll' ).getHtml() );
+			cells = editor.editable().find( 'td' );
+
+			mockMouseSelection( editor, [ cells.getItem( 1 ), cells.getItem( 3 ), cells.getItem( 8 ) ], function() {
+				assert.pass();
+			} );
 		}
 	};
 
