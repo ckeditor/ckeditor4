@@ -7,6 +7,7 @@
 	bender.editor = {};
 
 	bender.test( {
+		// (#476)
 		'test editing anchor': function() {
 			var editor = this.editor,
 				bot = this.editorBot;
