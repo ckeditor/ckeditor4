@@ -41,7 +41,7 @@
 						return;
 
 					if ( evt.data.keyCode == this.indentKey ) {
-						// Prevent of getting context of empty path. (#17028)
+						// Prevent of getting context of empty path (https://dev.ckeditor.com/ticket/17028).
 						if ( !path ) {
 							return;
 						}
@@ -116,7 +116,8 @@
 	function indentList( editor ) {
 		var that = this,
 			database = this.database,
-			context = this.context;
+			context = this.context,
+			range;
 
 		function indent( listNode ) {
 			// Our starting and ending points of the range might be inside some blocks under a list item...
@@ -233,8 +234,7 @@
 
 		var selection = editor.getSelection(),
 			ranges = selection && selection.getRanges(),
-			iterator = ranges.createIterator(),
-			range;
+			iterator = ranges.createIterator();
 
 		while ( ( range = iterator.getNextRange() ) ) {
 			var nearestListBlock = range.getCommonAncestor();

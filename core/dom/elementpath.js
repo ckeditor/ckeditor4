@@ -57,7 +57,7 @@
 		// Backward compact.
 		root = root || startNode.getDocument().getBody();
 
-		// Assign root value if startNode is null (#17028).
+		// Assign root value if startNode is null (https://dev.ckeditor.com/ticket/17028).
 		if ( !e ) {
 			e = root;
 		}
