@@ -198,7 +198,7 @@
 			return;
 		}
 
-		// We should check if the newly selected cell is still inside the same table (#17052).
+		// We should check if the newly selected cell is still inside the same table (http://dev.ckeditor.com/ticket/17052, #465).
 		if ( cell && fakeSelection.first.getAscendant( 'table' ).equals( cell.getAscendant( 'table' ) ) ) {
 			cells = getCellsBetween( fakeSelection.first, cell );
 
