@@ -27,7 +27,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 			return null;
 		}
 
-		if ( element.is( 'a' ) ) {
+		if ( element && element.data( 'cke-real-element-type' ) === 'anchor' ) {
 			return element;
 		}
 
@@ -35,7 +35,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		range.shrink( CKEDITOR.SHRINK_ELEMENT );
 		element = range.getEnclosedNode();
 
-		return element.type === CKEDITOR.NODE_ELEMENT && element.is( 'a' ) && element;
+		return element.type === CKEDITOR.NODE_ELEMENT && element && element.data( 'cke-real-element-type' ) === 'anchor';
 	}
 
 	return {
