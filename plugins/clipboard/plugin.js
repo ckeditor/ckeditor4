@@ -1515,7 +1515,7 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		isCustomCopyCutSupported: !CKEDITOR.env.ie && !CKEDITOR.env.iOS,
+		isCustomCopyCutSupported: ( !CKEDITOR.env.ie || CKEDITOR.env.version >= 15 ) && !CKEDITOR.env.iOS,
 
 		/**
 		 * True if the environment supports MIME types and custom data types in dataTransfer/cliboardData getData/setData methods.
@@ -1524,7 +1524,7 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		isCustomDataTypesSupported: !CKEDITOR.env.ie,
+		isCustomDataTypesSupported: !CKEDITOR.env.ie || CKEDITOR.env.version >= 15,
 
 		/**
 		 * True if the environment supports File API.
@@ -1580,6 +1580,12 @@
 			// Safari fixed clipboard in 10.1 (https://bugs.webkit.org/show_bug.cgi?id=19893) (https://dev.ckeditor.com/ticket/16982).
 			// However iOS version still doesn't work well enough (https://bugs.webkit.org/show_bug.cgi?id=19893#c34).
 			if ( CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS ) {
+				return true;
+			}
+
+			// Edge 15 added support for Clipboard API
+			// (https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/6515107-clipboard-api) (#468).
+			if ( CKEDITOR.env.edge && CKEDITOR.env.version >= 15 ) {
 				return true;
 			}
 
