@@ -82,7 +82,7 @@
 			assert.areSame( 1,  editor.getSelection().isFake, 'Selection remains faked' );
 		},
 
-		'simulating merge cells from context menu ': function( editor ) {
+		'test simulating merge cells from context menu ': function( editor ) {
 			var selection = editor.getSelection(),
 				expected = '<table><tbody><tr><td>Cell 1.1</td><td rowspan="2">Cell 1.2<br />Cell 2.2</td>' +
 					'<td>Cell 1.3</td></tr><tr><td>Cell 2.1</td><td>Cell 2.3</td></tr></tbody></table>',
@@ -138,11 +138,9 @@
 		},
 
 		// #493
-		'simulating mouse events while scrolling and selecting cells in nested table': function( editor ) {
-			var cells;
-
+		'test simulating mouse events while scrolling and selecting cells in nested table': function( editor ) {
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'nestedScroll' ).getHtml() );
-			cells = editor.editable().find( 'td' );
+			var cells = editor.editable().find( 'td' );
 
 			mockMouseSelection( editor, [ cells.getItem( 1 ), cells.getItem( 3 ), cells.getItem( 8 ) ], function() {
 				assert.pass();
