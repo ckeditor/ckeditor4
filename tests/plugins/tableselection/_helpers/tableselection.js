@@ -161,7 +161,7 @@
 		} );
 	};
 
-	/**
+	/*
 	 * @param {CKEDITOR.editor} editor Editor's instance.
 	 * @param {String} type Event's type.
 	 * @param {CKEDITOR.dom.element} cell Cell that is a target of the event.
@@ -197,7 +197,7 @@
 		wait();
 	};
 
-	/**
+	/*
 	 * @param {CKEDITOR.editor} editor Editor's instance.
 	 * @param {Array} cells Cells that should be selected. The first one is used as mousedown target,
 	 * the last as mousemove and mouseup target, others as mousemove targets.
