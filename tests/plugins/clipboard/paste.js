@@ -49,7 +49,8 @@
 		} );
 	}
 
-	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS;
+	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS,
+		trustyEdge = CKEDITOR.env.edge && CKEDITOR.env.version >= 15;
 
 	bender.test( {
 		setUp: function() {
@@ -1362,6 +1363,23 @@
 			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be marked as trusted.' );
 		},
 
+		// #468
+		'test canClipboardApiBeTrusted in Edge 15+': function() {
+			if ( !trustyEdge ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted,
+				nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.setData( 'text/html', '<b>foo</b>' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be marked as trusted.' );
+		},
+
 		'test canClipboardApiBeTrusted in Android Chrome (no dataTransfer support)': function() {
 			if ( !CKEDITOR.env.chrome ) {
 				assert.ignore();
@@ -1425,7 +1443,7 @@
 		},
 
 		'test canClipboardApiBeTrusted on other browser': function() {
-			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko || trustySafari ) {
+			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko || trustySafari || trustyEdge ) {
 				assert.ignore();
 			}
 
