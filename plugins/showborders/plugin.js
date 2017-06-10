@@ -92,7 +92,8 @@
 								cssClass = attributes[ 'class' ],
 								border = parseFloat( attributes.border );
 
-							if ( ( !border || border <= 0 ) && ( !cssClass || cssClass.indexOf( showBorderClassName ) == -1 ) )
+							if ( ( !border || border <= 0 ) && ( !cssClass || cssClass.indexOf( showBorderClassName ) == -1 ) &&
+								element.styles['border-collapse'] != 'collapse')
 								attributes[ 'class' ] = ( cssClass || '' ) + ' ' + showBorderClassName;
 						}
 					}
