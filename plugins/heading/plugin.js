@@ -33,7 +33,6 @@
 
       // Initialize headings array and indices used by getAllowedHeadings
       headings = this.getHeadingConfig( config );
-      console.log( 'headings: ' + headings );
       startIndex = oneLevel1 && headings[0] === 'h1' ? 1 : 0;
       endIndex = headings.length - 1;
 
@@ -163,18 +162,19 @@
           configStringStart,
           configIndexStart,
           configStringEnd,
-          configIndexEnd;
+          configIndexEnd,
+          tempArray;
 
-      if ( typeof config.headings === 'undefined' ) {
+      if ( typeof config.headings !== 'string' || config.headings.length === 0 ) {
         return allHeadings.slice();
       }
 
-      // Get normalized and sorted copy of config.headings
-      for ( var i = 0; i < config.headings.length; i++ ) {
-        if ( typeof config.headings[ i ] !== 'string') {
-          return allHeadings.slice();
+      // Convert config.headings to array of lowercase tag names
+      tempArray = config.headings.split( ':' );
+      for ( var i = 0; i < tempArray.length; i++ ) {
+        if ( tempArray[ i ].length ) {
+          headingConfigStrings.push( tempArray[ i ].toLowerCase() );
         }
-        headingConfigStrings.push( config.headings[ i ].toLowerCase() );
       }
       headingConfigStrings.sort();
 
