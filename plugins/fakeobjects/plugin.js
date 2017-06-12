@@ -75,7 +75,7 @@
 	} );
 
 	/**
-	 * Creates fake element based on real {@link CKEDITOR.dom.element}.
+	 * Creates fake {@link CKEDITOR.dom.element} based on real element.
 	 * Fake element is an img with special attributes, which keep real element properties.
 	 *
 	 * @member CKEDITOR.editor
