@@ -2,14 +2,15 @@
 /* bender-ckeditor-plugins: toolbar,indentlist */
 /* bender-ui: collapsed */
 
-(function () {
+( function() {
 	'use strict';
 
 	bender.editor = {
 		creator: 'inline'
 	};
 
-	bender.test({
+	// #424 - https://dev.ckeditor.com/ticket/17028
+	bender.test( {
 		'test tab in inline editor': function() {
 			var editor = this.editor;
 
@@ -26,5 +27,5 @@
 			} );
 			assert.pass();
 		}
-	});
-}());
+	} );
+} )();

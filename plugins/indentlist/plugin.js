@@ -41,7 +41,7 @@
 						return;
 
 					if ( evt.data.keyCode == this.indentKey ) {
-						// Prevent of getting context of empty path (https://dev.ckeditor.com/ticket/17028).
+						// Prevent of getting context of empty path (#424)(https://dev.ckeditor.com/ticket/17028).
 						if ( !path ) {
 							return;
 						}

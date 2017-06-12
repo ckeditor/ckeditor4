@@ -1,4 +1,4 @@
-@bender-tags: 4.7.1, tc, 424
+@bender-tags: 4.7.1, tc, 424, bug
 @bender-ui: collapsed
 @bender-ckeditor-plugins: floatingspace, toolbar, list, indentlist
 
