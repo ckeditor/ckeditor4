@@ -75,8 +75,15 @@
 	} );
 
 	/**
+	 * Creates fake element based on real {@link CKEDITOR.dom.element}.
+	 * Fake element is an img with special attributes, which keep real element properties.
+	 *
 	 * @member CKEDITOR.editor
-	 * @todo
+	 * @param {CKEDITOR.dom.element} realElement Real element to transform.
+	 * @param {String} className Class name which will be used as class of fake element.
+	 * @param {String} realElementType Stores type of fake element.
+	 * @param {Boolean} isResizable Keeps information if element is resizable.
+	 * @returns {CKEDITOR.dom.element} Fake element.
 	 */
 	CKEDITOR.editor.prototype.createFakeElement = function( realElement, className, realElementType, isResizable ) {
 		var lang = this.lang.fakeobjects,
@@ -115,8 +122,14 @@
 	};
 
 	/**
+	 * Creates fake {@link CKEDITOR.htmlParser.element} based on real element.
+	 *
 	 * @member CKEDITOR.editor
-	 * @todo
+	 * @param {CKEDITOR.dom.element} realElement Real element to transform.
+	 * @param {String} className Class name which will be used as class of fake element.
+	 * @param {String} realElementType Store type of fake element.
+	 * @param {Boolean} isResizable Keep information if element is resizable.
+	 * @returns {CKEDITOR.htmlParser.element} Fake htmlParser element.
 	 */
 	CKEDITOR.editor.prototype.createFakeParserElement = function( realElement, className, realElementType, isResizable ) {
 		var lang = this.lang.fakeobjects,
@@ -160,8 +173,11 @@
 	};
 
 	/**
+	 * Creates {@link CKEDITOR.dom.element} from fake element.
+	 *
 	 * @member CKEDITOR.editor
-	 * @todo
+	 * @param {CKEDITOR.dom.element} fakeElement Fake element to transform.
+	 * @returns {CKEDITOR.dom.element/null} Returns real element or `null` if transformed element wasn't fake.
 	 */
 	CKEDITOR.editor.prototype.restoreRealElement = function( fakeElement ) {
 		if ( fakeElement.data( 'cke-real-node-type' ) != CKEDITOR.NODE_ELEMENT )
