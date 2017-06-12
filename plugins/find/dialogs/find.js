@@ -65,7 +65,16 @@
 				return 0;
 			}
 		};
-		var highlightStyle = new CKEDITOR.style( CKEDITOR.tools.extend( highlightConfig, editor.config.find_highlight, true ) );
+
+		var highlightAttributes = CKEDITOR.tools.extend( {}, editor.config.find_highlight.attributes, { 'class': 'cke_find_highlight' } );
+
+		if ( highlightAttributes[ 'class' ] != 'cke_find_highlight' ) {
+			highlightAttributes[ 'class' ] = 'cke_find_highlight'.concat( ' ' + highlightAttributes[ 'class' ] );
+		}
+
+		var highlightStyle = new CKEDITOR.style(
+			CKEDITOR.tools.extend( highlightConfig, { element: editor.config.find_highlight.element, attributes: highlightAttributes } , true ) );
+
 
 		// Iterator which walk through the specified range char by char. By
 		// default the walking will not stop at the character boundaries, until
