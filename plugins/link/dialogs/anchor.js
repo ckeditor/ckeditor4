@@ -23,19 +23,14 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		var range = selection.getRanges()[ 0 ],
 			element = selection.getSelectedElement();
 
-		if ( !element ) {
-			return null;
-		}
-
-		if ( element && element.data( 'cke-real-element-type' ) === 'anchor' ) {
-			return element;
-		}
-
 		// In case of table cell selection, we want to shrink selection from td to a element.
 		range.shrink( CKEDITOR.SHRINK_ELEMENT );
 		element = range.getEnclosedNode();
 
-		return element.type === CKEDITOR.NODE_ELEMENT && element && element.data( 'cke-real-element-type' ) === 'anchor';
+		if ( element && element.type === CKEDITOR.NODE_ELEMENT &&
+			( element.data( 'cke-real-element-type' ) === 'anchor' || element.is( 'a' ) ) ) {
+			return element;
+		}
 	}
 
 	return {
