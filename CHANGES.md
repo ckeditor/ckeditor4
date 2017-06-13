@@ -15,6 +15,7 @@ Fixed Issues:
 * [#450](https://github.com/ckeditor/ckeditor-dev/issues/450): Fixed: [`CKEDITOR.filter`](http://docs.ckeditor.com/#!/api/CKEDITOR.filter) incorrectly transforms `margin` CSS property.
 * [#478](https://github.com/ckeditor/ckeditor-dev/issues/478): Fixed: [Chrome] Error thrown by [Enter Key](http://ckeditor.com/addon/enterkey) plugin when pressing enter with no selection.
 * [#417](https://github.com/ckeditor/ckeditor-dev/issues/417): Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) plugin throws an error when used with a table with only header or footer rows.
+* [#424](https://github.com/ckeditor/ckeditor-dev/issues/424): Fixed: Error thrown by [Tab Key Handling](http://ckeditor.com/addon/tab) and [Indent List](http://ckeditor.com/addon/indentlist) when pressing `Tab` with no selection in inline editor.
 
 ## CKEditor 4.7
 
