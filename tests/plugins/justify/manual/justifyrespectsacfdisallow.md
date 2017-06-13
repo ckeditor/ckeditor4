@@ -1,4 +1,4 @@
-@bender-tags: 4.7.1, tc, 16808, justify
+@bender-tags: 4.7.1, justify, bug, 455
 @bender-ui: collapsed
 @bender-ckeditor-plugins: toolbar, justify, wysiwygarea, elementspath, sourcearea
 

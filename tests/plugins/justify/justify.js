@@ -254,30 +254,30 @@ bender.test(
 		assert.areSame( '<p style="text-align:right;"><span contenteditable="false">foo</span></p>', bot.getData( true ) );
 	},
 
+	// #455
 	'test alignment on disabled elements paragraph': function() {
 		var	tc = this;
-		bender.editorBot.create({
+		bender.editorBot.create( {
 			name: 'editor_p_1',
 			config: {
 				plugins: 'justify,toolbar,wysiwygarea',
 				allowedContent: 'p ul{text-align};li;'
 			}
 		}, function( bot ) {
-		var editor = bot.editor;
-		bot.setHtmlWithSelection( '<p>Foo</p><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
-		tc.assertCommandState( 0,0,0,0, editor );
+			var editor = bot.editor;
+			bot.setHtmlWithSelection( '<p>Foo</p><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
+			tc.assertCommandState( 0,0,0,0, editor );
 
-		bot.setHtmlWithSelection( '<p>Fo^o</p><ul><li>one</li><li>two</li><li>three</li></ul>' );
-		tc.assertCommandState( 1,2,2,2, editor );
-
-
-		});
+			bot.setHtmlWithSelection( '<p>Fo^o</p><ul><li>one</li><li>two</li><li>three</li></ul>' );
+			tc.assertCommandState( 1,2,2,2, editor );
+		} );
 	},
 
 	'test alignment on disabled elements div mode': function() {
 		var tc = this;
-		bender.editorBot.create({
+		bender.editorBot.create( {
 			name: 'editor_div_1',
+			creator: 'inline',
 			config: {
 				plugins: 'justify,toolbar,divarea',
 				allowedContent: 'div ul{text-align};li;',
@@ -287,12 +287,12 @@ bender.test(
 			var editor = bot.editor;
 			bot.setHtmlWithSelection( '<div>Foo</div><ul><li>on^e</li><li>two</li><li>three</li></ul>' );
 			tc.assertCommandState( 0,0,0,0, editor );
-		});
+		} );
 	},
 
 	'test alignment on disabled elements br mode': function() {
 		var tc = this;
-		bender.editorBot.create({
+		bender.editorBot.create( {
 			name: 'editor_br_1',
 			config: {
 				plugins: 'justify,toolbar,divarea',
@@ -312,18 +312,18 @@ bender.test(
 			tc.assertCommandState( 2,2,2,1, editor );
 
 			assert.areSame( '<div style="text-align:justify;">foo</div><ul><li>one</li><li>two</li><li>three</li></ul>', bot.getData( true ) );
-		});
+		} );
 	},
 
 	'test alignment on multi-element non-collapsed selection': function() {
 		var tc = this;
-		bender.editorBot.create({
+		bender.editorBot.create( {
 			name: 'editor_p_2',
 			config: {
 				plugins: 'justify,toolbar,wysiwygarea',
 				allowedContent: 'p ul{text-align};li;'
 			}
-		}, function( bot ){
+		}, function( bot ) {
 			var editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>F[oo</p><ul><li>one</li><li>two</li><li>three</li></ul><p>B]ar</p>' );
@@ -333,12 +333,12 @@ bender.test(
 			tc.assertCommandState( 2,2,1,2, editor );
 
 			assert.areSame( '<p style="text-align:center;">foo</p><ul><li>one</li><li>two</li><li>three</li></ul><p style="text-align:center;">bar</p>', bot.getData( true ) );
-		});
+		} );
 	},
 
 	'test alignment on multi-element with disallowContent': function() {
 		var tc = this;
-		bender.editorBot.create({
+		bender.editorBot.create( {
 			name: 'editor_p_3',
 			config: {
 				allowedContent: {
@@ -351,7 +351,7 @@ bender.test(
 				},
 				disallowedContent: 'h1{text-align}'
 			}
-		}, function( bot ){
+		}, function( bot ) {
 			var editor = bot.editor;
 
 			bot.setHtmlWithSelection( '<p>fo[o</p><h1>bar</h1><p>foooos</p><h1>b]az</p>' );
@@ -361,6 +361,35 @@ bender.test(
 			tc.assertCommandState( 2,1,2,2, editor );
 
 			assert.areSame( '<p style="text-align:right;">foo</p><h1>bar</h1><p style="text-align:right;">foooos</p><h1>baz</h1>', bot.getData( true ) );
-		});
+		} );
+	},
+
+	'test alignment div-type editor': function() {
+		var tc = this;
+		bender.editorBot.create( {
+			name: 'editor_div_2',
+			creator: 'inline',
+			config: {
+				allowedContent: {
+					$1: {
+						elements: CKEDITOR.dtd,
+						attributes: true,
+						styles: true,
+						classes: true
+					}
+				},
+				disallowedContent: 'h1{text-align}'
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+			bot.setHtmlWithSelection( '<p>f[oo</p><h1>bar</h1><p>ba]z</p>' );
+			tc.assertCommandState( 1,2,2,2, editor );
+
+			bot.execCommand( 'justifycenter' );
+			tc.assertCommandState( 2,2,1,2, editor );
+
+			assert.areSame( '<p style="text-align:center;">foo</p><h1>bar</h1><p style="text-align:center;">baz</p>', bot.getData( true ) );
+		} );
 	}
+
 } );

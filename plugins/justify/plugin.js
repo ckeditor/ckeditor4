@@ -149,7 +149,7 @@
 					if ( block.isReadOnly() )
 						continue;
 
-					// Check if style or class might be applied to currently processed element (#16808).
+					// Check if style or class might be applied to currently processed element (#455).
 					var tag = block.getName(),
 						isAllowedTextAlign, isAllowedCssClass;
 
@@ -190,12 +190,11 @@
 			var firstBlock = path.block || path.blockLimit;
 			var name = firstBlock.getName();
 
-			// Check if we can give to element proper class, style or current path is body (#16808).
+			// Check if we can give to element proper class, style or current path is body (#455).
 			// IE8, after focus and refresh return path with 'body'
-			if ( ( this.cssClassName && editor.activeFilter.check( name+'('+this.cssClassName+')' ) ) ||
-				editor.activeFilter.check( name+'{text-align}' ) ||
-				name == 'body' )
-			{
+			if ( ( this.cssClassName && editor.activeFilter.check( name + '(' + this.cssClassName + ')' ) ) ||
+				editor.activeFilter.check( name + '{text-align}' ) ||
+				name == editor.editable().getName() ) {
 				this.setState( name != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			} else {
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
