@@ -65,7 +65,7 @@
 
 				// A subset of the specified attributes/styles
 				// should also be applied on the fake element to
-				// have better visual effect. (#5240)
+				// have better visual effect. (http://dev.ckeditor.com/ticket/5240)
 				var extraStyles = {},
 					extraAttributes = {};
 				this.commitContent( iframeNode, extraStyles, extraAttributes );

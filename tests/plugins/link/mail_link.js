@@ -55,7 +55,7 @@ bender.test( {
 		} );
 	},
 
-	// #9192
+	// http://dev.ckeditor.com/ticket/9192
 	'test read from protected mail link without subject and body provided': function() {
 		var bot = this.editorBot;
 
@@ -77,7 +77,7 @@ bender.test( {
 		} );
 	},
 
-	// #12189
+	// http://dev.ckeditor.com/ticket/12189
 	'test read from mail link with Subject and Body parameters provided': function() {
 		var bot = this.editorBot;
 

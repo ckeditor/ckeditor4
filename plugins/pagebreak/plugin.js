@@ -99,7 +99,7 @@
 							// The "internal form" of a pagebreak is pasted from clipboard.
 							// ACF may have distorted the HTML because "internal form" is
 							// different than "data form". Make sure that element remains valid
-							// by re-upcasting it (#11133).
+							// by re-upcasting it (http://dev.ckeditor.com/ticket/11133).
 							if ( element.attributes[ 'data-cke-pagebreak' ] )
 								upcastPageBreak( element );
 

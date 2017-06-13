@@ -111,7 +111,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 					block.autoSize = true;
 					block.element.addClass( 'cke_colorblock' );
 					block.element.setHtml( renderColors( panel, type, colorBoxId ) );
-					// The block should not have scrollbars (#5933, #6056)
+					// The block should not have scrollbars (http://dev.ckeditor.com/ticket/5933, http://dev.ckeditor.com/ticket/6056)
 					block.element.getDocument().getBody().setStyle( 'overflow', 'hidden' );
 
 					CKEDITOR.ui.fire( 'ready', this );
@@ -132,7 +132,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						this.setState( CKEDITOR.TRISTATE_DISABLED );
 				},
 
-				// The automatic colorbox should represent the real color (#6010)
+				// The automatic colorbox should represent the real color (http://dev.ckeditor.com/ticket/6010)
 				onOpen: function() {
 
 					var selection = editor.getSelection(),
@@ -199,7 +199,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				// Tells if we should include "More Colors..." button.
 				moreColorsEnabled = editor.plugins.colordialog && config.colorButton_enableMore !== false,
 				// aria-setsize and aria-posinset attributes are used to indicate size of options, because
-				// screen readers doesn't play nice with table, based layouts (#12097).
+				// screen readers doesn't play nice with table, based layouts (http://dev.ckeditor.com/ticket/12097).
 				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, type ) {
@@ -233,11 +233,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					colorStyle.childRule = type == 'back' ?
 					function( element ) {
-						// It's better to apply background color as the innermost style. (#3599)
-						// Except for "unstylable elements". (#6103)
+						// It's better to apply background color as the innermost style. (http://dev.ckeditor.com/ticket/3599)
+						// Except for "unstylable elements". (http://dev.ckeditor.com/ticket/6103)
 						return isUnstylable( element );
 					} : function( element ) {
-						// Fore color style must be applied inside links instead of around it. (#4772,#6908)
+						// Fore color style must be applied inside links instead of around it. (http://dev.ckeditor.com/ticket/4772,http://dev.ckeditor.com/ticket/6908)
 						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 					};
 
@@ -274,7 +274,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				// The data can be only a color code (without #) or colorName + color code
 				// If only a color code is provided, then the colorName is the color with the hash
-				// Convert the color from RGB to RRGGBB for better compatibility with IE and <font>. See #5676
+				// Convert the color from RGB to RRGGBB for better compatibility with IE and <font>. See http://dev.ckeditor.com/ticket/5676
 				if ( !parts[ 1 ] )
 					colorName = '#' + colorName.replace( /^(.)(.)(.)$/, '$1$1$2$2$3$3' );
 

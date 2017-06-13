@@ -41,7 +41,7 @@
 
 				fileLoader.xhr.open( 'POST', fileLoader.uploadUrl, true );
 
-				// Adding file to event's data by default - allows overwriting it by user's event listeners. (#13518)
+				// Adding file to event's data by default - allows overwriting it by user's event listeners. (http://dev.ckeditor.com/ticket/13518)
 				evt.data.requestData.upload = { file: fileLoader.file, name: fileLoader.fileName };
 			}, null, null, 5 );
 
@@ -577,7 +577,7 @@
 			xhr.onerror = onError;
 			xhr.onabort = onAbort;
 
-			// #13533 - When xhr.upload is present attach onprogress, onerror and onabort functions to get actual upload
+			// http://dev.ckeditor.com/ticket/13533 - When xhr.upload is present attach onprogress, onerror and onabort functions to get actual upload
 			// information.
 			if ( xhr.upload ) {
 				xhr.upload.onprogress = function( evt ) {
@@ -595,17 +595,17 @@
 				xhr.upload.onabort = onAbort;
 
 			} else {
-				// #13533 - If xhr.upload is not supported - fire update event anyway and set uploadTotal to file size.
+				// http://dev.ckeditor.com/ticket/13533 - If xhr.upload is not supported - fire update event anyway and set uploadTotal to file size.
 				loader.uploadTotal = loader.total;
 				loader.update();
 			}
 
 			xhr.onload = function() {
-				// #13433 - Call update at the end of the upload. When xhr.upload object is not supported there will be
+				// http://dev.ckeditor.com/ticket/13433 - Call update at the end of the upload. When xhr.upload object is not supported there will be
 				// no update events fired during the whole process.
 				loader.update();
 
-				// #13433 - Check if loader was not aborted during last update.
+				// http://dev.ckeditor.com/ticket/13433 - Check if loader was not aborted during last update.
 				if ( loader.status == 'abort' ) {
 					return;
 				}
@@ -633,7 +633,7 @@
 						}
 					}
 
-					// The whole response is also hold for use by uploadwidgets (#13519).
+					// The whole response is also hold for use by uploadwidgets (http://dev.ckeditor.com/ticket/13519).
 					loader.responseData = data;
 					// But without reference to the loader itself.
 					delete loader.responseData.fileLoader;

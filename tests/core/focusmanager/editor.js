@@ -58,7 +58,7 @@ bender.test( {
 		}, 100 );
 	},
 
-	// #11647
+	// http://dev.ckeditor.com/ticket/11647
 	'test inheriting the initial focus': function() {
 		var el = CKEDITOR.document.createElement( 'div' );
 		CKEDITOR.document.getBody().append( el );
@@ -93,7 +93,7 @@ bender.test( {
 		wait();
 	},
 
-	// #13446
+	// http://dev.ckeditor.com/ticket/13446
 	'test cleaning up selection on blur (inline editor)': function() {
 		if ( !CKEDITOR.env.chrome ) {
 			assert.ignore();
@@ -122,7 +122,7 @@ bender.test( {
 		wait();
 	},
 
-	// #13446
+	// http://dev.ckeditor.com/ticket/13446
 	'test preserving selection on blur (classic editor)': function() {
 		if ( !CKEDITOR.env.chrome ) {
 			assert.ignore();

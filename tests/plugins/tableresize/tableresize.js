@@ -201,7 +201,7 @@ bender.test( {
 		assert.isNull( wrapperTable.getCustomData( '_cke_table_pillars' ) );
 	},
 
-	// #13388.
+	// http://dev.ckeditor.com/ticket/13388.
 	'test undo/redo table resize': function() {
 		var editor = this.editors.undo,
 			doc = editor.document,
@@ -241,7 +241,7 @@ bender.test( {
 		wait();
 	},
 
-	// #14762
+	// http://dev.ckeditor.com/ticket/14762
 	'test empty table': function() {
 		var editor = this.editors.classic2;
 
@@ -250,6 +250,48 @@ bender.test( {
 				resume( function() {
 					var editable = editor.editable();
 
+					editor.document.fire( 'mousemove', new CKEDITOR.dom.event( {
+						target: editable.findOne( 'table' ).$
+					} ) );
+
+					assert.pass();
+				} );
+			}
+		} );
+
+		wait();
+	},
+
+	// #417
+	'test resizing table with thead only': function() {
+		var editor = this.editors.classic2,
+			editable = editor.editable();
+
+		editor.setData( CKEDITOR.document.findOne( '#headeronly' ).getOuterHtml(), {
+
+			callback: function() {
+				resume( function() {
+					editor.document.fire( 'mousemove', new CKEDITOR.dom.event( {
+						target: editable.findOne( 'table' ).$
+					} ) );
+
+					assert.pass();
+				} );
+			}
+		} );
+
+		wait();
+	},
+
+	// #417
+	'test resizing table with tfoot only': function() {
+		var editor = this.editors.classic2,
+			editable = editor.editable();
+
+		editor.setData( CKEDITOR.document.findOne( '#footeronly' ).getOuterHtml(), {
+
+			callback: function() {
+				resume( function() {
 					editor.document.fire( 'mousemove', new CKEDITOR.dom.event( {
 						target: editable.findOne( 'table' ).$
 					} ) );

@@ -29,7 +29,7 @@
 
 	template += ' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event);"' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
-		( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
+		( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // http://dev.ckeditor.com/ticket/188
 			'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
 		'<span class="cke_button_icon cke_button__{iconName}_icon" style="{style}"';
 
@@ -189,7 +189,7 @@
 				}
 				instance.execute();
 
-				// Fixed iOS focus issue when your press disabled button (#12381).
+				// Fixed iOS focus issue when your press disabled button (http://dev.ckeditor.com/ticket/12381).
 				if ( env.iOS ) {
 					editor.focus();
 				}
@@ -256,7 +256,7 @@
 			var name = this.name || this.command,
 				iconName = name;
 
-			// Check if we're pointing to an icon defined by another command. (#9555)
+			// Check if we're pointing to an icon defined by another command. (http://dev.ckeditor.com/ticket/9555)
 			if ( this.icon && !( /\./ ).test( this.icon ) ) {
 				iconName = this.icon;
 				this.icon = null;
@@ -311,7 +311,7 @@
 					element.removeAttribute( 'aria-disabled' );
 
 				if ( !this.hasArrow ) {
-					// Note: aria-pressed attribute should not be added to menuButton instances. (#11331)
+					// Note: aria-pressed attribute should not be added to menuButton instances. (http://dev.ckeditor.com/ticket/11331)
 					state == CKEDITOR.TRISTATE_ON ?
 						element.setAttribute( 'aria-pressed', true ) :
 						element.removeAttribute( 'aria-pressed' );

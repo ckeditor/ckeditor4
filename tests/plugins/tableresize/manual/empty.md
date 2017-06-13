@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 4.7.0, 14762
+@bender-tags: tc, 4.7.0, trac14762
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tableresize, basicstyles, undo
 
 Drag the mouse over the empty table.

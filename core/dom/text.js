@@ -106,7 +106,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.text.prototype, {
 				retval.insertAfter( this );
 			} else {
 				// IE BUG: IE8+ does not update the childNodes array in DOM after splitText(),
-				// we need to make some DOM changes to make it update. (#3436)
+				// we need to make some DOM changes to make it update. (http://dev.ckeditor.com/ticket/3436)
 				var workaround = doc.createText( '' );
 				workaround.insertAfter( retval );
 				workaround.remove();

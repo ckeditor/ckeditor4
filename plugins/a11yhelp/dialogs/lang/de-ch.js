@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de-ch', {
 			{
 			name: 'Eingabehilfen',
 			legend: 'Drücken Sie ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}', // MISSING
+			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}

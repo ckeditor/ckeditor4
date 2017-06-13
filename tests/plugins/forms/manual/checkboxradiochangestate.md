@@ -1,4 +1,4 @@
-@bender-tags: tc, 4.7.0, 12465, forms
+@bender-tags: tc, 4.7.0, trac12465, forms
 @bender-ui: collapsed
 @bender-ckeditor-plugins: forms, wysiwygarea, toolbar
 

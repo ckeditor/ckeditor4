@@ -1021,7 +1021,7 @@
 				styleText = CKEDITOR.tools.normalizeHex( CKEDITOR.tools.convertRgbToHex( styleText ) );
 			}
 
-			// IE will leave a single semicolon when failed to parse the style text. (#3891)
+			// IE will leave a single semicolon when failed to parse the style text. (http://dev.ckeditor.com/ticket/3891)
 			if ( !styleText || styleText == ';' )
 				return retval;
 

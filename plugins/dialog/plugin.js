@@ -177,10 +177,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			title = body.getChild( 0 ),
 			close = body.getChild( 1 );
 
-		// Don't allow dragging on dialog (#13184).
+		// Don't allow dragging on dialog (http://dev.ckeditor.com/ticket/13184).
 		editor.plugins.clipboard && CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( body );
 
-		// IFrame shim for dialog that masks activeX in IE. (#7619)
+		// IFrame shim for dialog that masks activeX in IE. (http://dev.ckeditor.com/ticket/7619)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.quirks && !CKEDITOR.env.edge ) {
 			var src = 'javascript:void(function(){' + encodeURIComponent( 'document.open();(' + CKEDITOR.tools.fixDomain + ')();document.close();' ) + '}())', // jshint ignore:line
 				iframe = CKEDITOR.dom.element.createFromHtml( '<iframe' +
@@ -229,7 +229,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			tabsToRemove = {},
 			i, processed, stopPropagation;
 
-		if ( ( buttonsOrder == 'OS' && CKEDITOR.env.mac ) || // The buttons in MacOS Apps are in reverse order (#4750)
+		if ( ( buttonsOrder == 'OS' && CKEDITOR.env.mac ) || // The buttons in MacOS Apps are in reverse order (http://dev.ckeditor.com/ticket/4750)
 		( buttonsOrder == 'rtl' && dir == 'ltr' ) || ( buttonsOrder == 'ltr' && dir == 'rtl' ) )
 			defaultDefinition.buttons.reverse();
 
@@ -334,7 +334,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 		if ( definition.onOk ) {
 			this.on( 'ok', function( evt ) {
-				// Dialog confirm might probably introduce content changes (#5415).
+				// Dialog confirm might probably introduce content changes (http://dev.ckeditor.com/ticket/5415).
 				editor.fire( 'saveSnapshot' );
 				setTimeout( function() {
 					editor.fire( 'saveSnapshot' );
@@ -451,7 +451,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				currentIndex = currentIndex + offset;
 
 				if ( hasTabs && !me._.tabBarMode && ( currentIndex == focusList.length || currentIndex == -1 ) ) {
-					// If the dialog was not in tab mode, then focus the first tab (#13027).
+					// If the dialog was not in tab mode, then focus the first tab (http://dev.ckeditor.com/ticket/13027).
 					me._.tabBarMode = true;
 					me._.tabs[ me._.currentTabId ][ 0 ].focus();
 					me._.currentFocusIndex = -1;
@@ -528,7 +528,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					button && CKEDITOR.tools.setTimeout( button.click, 0, button );
 					processed = 1;
 				}
-				stopPropagation = 1; // Always block the propagation (#4269)
+				stopPropagation = 1; // Always block the propagation (http://dev.ckeditor.com/ticket/4269)
 			} else if ( keystroke == 27 /*ESC*/ ) {
 				button = this.getButton( 'cancel' );
 
@@ -539,7 +539,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 					if ( this.fire( 'cancel', { hide: true } ).hide !== false )
 						this.hide();
 				}
-				stopPropagation = 1; // Always block the propagation (#4269)
+				stopPropagation = 1; // Always block the propagation (http://dev.ckeditor.com/ticket/4269)
 			} else {
 				return;
 			}
@@ -563,7 +563,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			dialogElement.on( 'keydown', keydownHandler, this );
 
 			// Some browsers instead, don't cancel key events in the keydown, but in the
-			// keypress. So we must do a longer trip in those cases. (#4531,#8985)
+			// keypress. So we must do a longer trip in those cases. (http://dev.ckeditor.com/ticket/4531,http://dev.ckeditor.com/ticket/8985)
 			if ( CKEDITOR.env.gecko )
 				dialogElement.on( 'keypress', keypressHandler, this );
 
@@ -612,7 +612,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			}
 		}, this, null, 0xffffffff );
 
-		// IE6 BUG: Text fields and text areas are only half-rendered the first time the dialog appears in IE6 (#2661).
+		// IE6 BUG: Text fields and text areas are only half-rendered the first time the dialog appears in IE6 (http://dev.ckeditor.com/ticket/2661).
 		// This is still needed after [2708] and [2709] because text fields in hidden TR tags are still broken.
 		if ( CKEDITOR.env.ie6Compat ) {
 			this.on( 'load', function() {
@@ -788,7 +788,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			var element = this._.element.getFirst(), rtl = this._.editor.lang.dir == 'rtl';
 			var isFixed = element.getComputedStyle( 'position' ) == 'fixed';
 
-			// (#8888) In some cases of a very small viewport, dialog is incorrectly
+			// (http://dev.ckeditor.com/ticket/8888) In some cases of a very small viewport, dialog is incorrectly
 			// positioned in IE7. It also happens that it remains sticky and user cannot
 			// scroll down/up to reveal dialog's content below/above the viewport; this is
 			// cumbersome.
@@ -1038,7 +1038,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		commitContent: function() {
 			var args = arguments;
 			this.foreach( function( widget ) {
-				// Make sure IE triggers "change" event on last focused input before closing the dialog. (#7915)
+				// Make sure IE triggers "change" event on last focused input before closing the dialog. (http://dev.ckeditor.com/ticket/7915)
 				if ( CKEDITOR.env.ie && this._.currentFocusIndex == widget.focusIndex )
 					widget.getInputElement().$.blur();
 
@@ -1090,11 +1090,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				var editor = this._.editor;
 				editor.focus();
 
-				// Give a while before unlock, waiting for focus to return to the editable. (#172)
+				// Give a while before unlock, waiting for focus to return to the editable. (http://dev.ckeditor.com/ticket/172)
 				setTimeout( function() {
 					editor.focusManager.unlock();
 
-					// Fixed iOS focus issue (#12381).
+					// Fixed iOS focus issue (http://dev.ckeditor.com/ticket/12381).
 					// Keep in mind that editor.focus() does not work in this case.
 					if ( CKEDITOR.env.iOS ) {
 						editor.window.focus();
@@ -1111,7 +1111,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 				contentObj.resetInitValue && contentObj.resetInitValue();
 			} );
 
-			// Reset dialog state back to IDLE, if busy (#13213).
+			// Reset dialog state back to IDLE, if busy (http://dev.ckeditor.com/ticket/13213).
 			this.setState( CKEDITOR.DIALOG_STATE_IDLE );
 		},
 
@@ -1232,7 +1232,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 			// [IE] an invisible input[type='text'] will enlarge it's width
 			// if it's value is long when it shows, so we clear it's value
-			// before it shows and then recover it (#5649)
+			// before it shows and then recover it (http://dev.ckeditor.com/ticket/5649)
 			if ( CKEDITOR.env.ie6Compat || CKEDITOR.env.ie7Compat ) {
 				clearOrRecoverTextInputValue( selected[ 1 ] );
 				selected[ 1 ].show();
@@ -2199,7 +2199,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 		resizeCover = resizeFunc;
 		win.on( 'resize', resizeFunc );
 		resizeFunc();
-		// Using Safari/Mac, focus must be kept where it is (#7027)
+		// Using Safari/Mac, focus must be kept where it is (http://dev.ckeditor.com/ticket/7027)
 		if ( !( CKEDITOR.env.mac && CKEDITOR.env.webkit ) )
 			coverElement.focus();
 
@@ -2560,7 +2560,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 							if ( elementDefinition && elementDefinition.padding !== undefined ) {
 								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
 							}
-							// In IE Quirks alignment has to be done on table cells. (#7324)
+							// In IE Quirks alignment has to be done on table cells. (http://dev.ckeditor.com/ticket/7324)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && children[ i ].align ) {
 								styles.push( 'text-align:' + children[ i ].align );
 							}
@@ -2619,7 +2619,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 							html.push( 'height:100%;' );
 						html.push( 'width:' + cssLength( width || '100%' ), ';' );
 
-						// (#10123) Temp fix for dialog broken layout in latest webkit.
+						// (http://dev.ckeditor.com/ticket/10123) Temp fix for dialog broken layout in latest webkit.
 						if ( CKEDITOR.env.webkit )
 							html.push( 'float:none;' );
 
@@ -2639,7 +2639,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 								styles.push( 'height:' + Math.floor( 100 / childHtmlList.length ) + '%' );
 							if ( elementDefinition && elementDefinition.padding !== undefined )
 								styles.push( 'padding:' + cssLength( elementDefinition.padding ) );
-							// In IE Quirks alignment has to be done on table cells. (#7324)
+							// In IE Quirks alignment has to be done on table cells. (http://dev.ckeditor.com/ticket/7324)
 							if ( CKEDITOR.env.ie && CKEDITOR.env.quirks && children[ i ].align )
 								styles.push( 'text-align:' + children[ i ].align );
 							if ( styles.length > 0 )

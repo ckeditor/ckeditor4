@@ -1,4 +1,4 @@
-@bender-tags: 4.7.0, tc, 13793, config
+@bender-tags: 4.7.0, tc, trac13793, config
 @bender-ui: collapsed
 
 1. Open dev console.

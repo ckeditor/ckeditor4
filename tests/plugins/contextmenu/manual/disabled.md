@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: wyswigarea, tc, 4.7.0, 16850
+@bender-tags: wyswigarea, tc, 4.7.0, trac16850
 @bender-ckeditor-plugins: wysiwygarea,toolbar,table,tabletools,sourcearea
 
 **Test Scenario**

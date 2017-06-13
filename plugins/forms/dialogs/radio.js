@@ -89,7 +89,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 
 					if ( !CKEDITOR.env.ie ) {
 						var value = this.getValue();
-						// Blink/Webkit needs to change checked property, not attribute. (#12465)
+						// Blink/Webkit needs to change checked property, not attribute. (http://dev.ckeditor.com/ticket/12465)
 						if ( CKEDITOR.env.webkit ) {
 							element.$.checked = value;
 						}

@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 16755, 4.7.0, tp2224
+@bender-tags: tc, trac16755, 4.7.0, tp2224
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, undo, elementspath
 
 1. Select two cells in the middle of first row.

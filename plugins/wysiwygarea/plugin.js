@@ -29,7 +29,7 @@
 				// With IE, the custom domain has to be taken care at first,
 				// for other browers, the 'src' attribute should be left empty to
 				// trigger iframe's 'load' event.
-				// Microsoft Edge throws "Permission Denied" if treated like an IE (#13441).
+				// Microsoft Edge throws "Permission Denied" if treated like an IE (http://dev.ckeditor.com/ticket/13441).
 				if ( CKEDITOR.env.air ) {
 					src = 'javascript:void(0)'; // jshint ignore:line
 				} else if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
@@ -139,7 +139,7 @@
 			body.hideFocus = true;
 
 			// Disable and re-enable the body to avoid IE from
-			// taking the editing focus at startup. (#141 / #523)
+			// taking the editing focus at startup. (http://dev.ckeditor.com/ticket/141 / http://dev.ckeditor.com/ticket/523)
 			body.disabled = true;
 			body.removeAttribute( 'disabled' );
 		}
@@ -156,19 +156,19 @@
 
 		var editable = this;
 
-		// Without it IE8 has problem with removing selection in nested editable. (#13785)
+		// Without it IE8 has problem with removing selection in nested editable. (http://dev.ckeditor.com/ticket/13785)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
 			doc.getDocumentElement().addClass( doc.$.compatMode );
 		}
 
-		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body. (#6966, #13142)
+		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body. (http://dev.ckeditor.com/ticket/6966, http://dev.ckeditor.com/ticket/13142)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_P ) {
 			removeSuperfluousElement( 'p' );
 		} else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV ) {
 			removeSuperfluousElement( 'div' );
 		}
 
-		// Fix problem with cursor not appearing in Webkit and IE11+ when clicking below the body (#10945, #10906).
+		// Fix problem with cursor not appearing in Webkit and IE11+ when clicking below the body (http://dev.ckeditor.com/ticket/10945, http://dev.ckeditor.com/ticket/10906).
 		// Fix for older IEs (8-10 and QM) is placed inside selection.js.
 		if ( CKEDITOR.env.webkit || ( CKEDITOR.env.ie && CKEDITOR.env.version > 10 ) ) {
 			doc.getDocumentElement().on( 'mousedown', function( evt ) {
@@ -196,7 +196,7 @@
 				// PageUp OR PageDown
 				if ( keyCode == 33 || keyCode == 34 ) {
 					// PageUp/PageDown scrolling is broken in document
-					// with standard doctype, manually fix it. (#4736)
+					// with standard doctype, manually fix it. (http://dev.ckeditor.com/ticket/4736)
 					if ( CKEDITOR.env.ie ) {
 						setTimeout( function() {
 							editor.getSelection().scrollIntoView();
@@ -205,7 +205,7 @@
 					// Page up/down cause editor selection to leak
 					// outside of editable thus we try to intercept
 					// the behavior, while it affects only happen
-					// when editor contents are not overflowed. (#7955)
+					// when editor contents are not overflowed. (http://dev.ckeditor.com/ticket/7955)
 					else if ( editor.window.$.innerHeight > this.$.offsetHeight ) {
 						var range = editor.createRange();
 						range[ keyCode == 33 ? 'moveToElementEditStart' : 'moveToElementEditEnd' ]( this );
@@ -221,14 +221,14 @@
 			// focus is moved onto a non-editing host, e.g. link or button, but
 			// it becomes a problem for the object type selection, since the resizer
 			// handler attached on it will mark other part of the UI, especially
-			// for the dialog. (#8157)
+			// for the dialog. (http://dev.ckeditor.com/ticket/8157)
 			// [IE<8 & Opera] Even worse For old IEs, the cursor will not vanish even if
-			// the selection has been moved to another text input in some cases. (#4716)
+			// the selection has been moved to another text input in some cases. (http://dev.ckeditor.com/ticket/4716)
 			//
 			// Now the range restore is disabled, so we simply force IE to clean
 			// up the selection before blur.
 			this.attachListener( doc, 'blur', function() {
-				// Error proof when the editor is not visible. (#6375)
+				// Error proof when the editor is not visible. (http://dev.ckeditor.com/ticket/6375)
 				try {
 					doc.$.selection.empty();
 				} catch ( er ) {}
@@ -237,14 +237,14 @@
 
 		if ( CKEDITOR.env.iOS ) {
 			// [iOS] If touch is bound to any parent of the iframe blur happens on any touch
-			// event and body becomes the focused element (#10714).
+			// event and body becomes the focused element (http://dev.ckeditor.com/ticket/10714).
 			this.attachListener( doc, 'touchend', function() {
 				win.focus();
 			} );
 		}
 
 		var title = editor.document.getElementsByTag( 'title' ).getItem( 0 );
-		// document.title is malfunctioning on Chrome, so get value from the element (#12402).
+		// document.title is malfunctioning on Chrome, so get value from the element (http://dev.ckeditor.com/ticket/12402).
 		title.data( 'cke-title', title.getText() );
 
 		// [IE] JAWS will not recognize the aria label we used on the iframe
@@ -292,7 +292,7 @@
 			// 2. On keyup remove all elements that were not marked
 			// as non-superfluous (which means they must have had appeared in the meantime).
 			// Also we should preserve all temporary elements inserted by editor – otherwise we'd likely
-			// leak fake selection's content into editable due to removing hidden selection container (#14831).
+			// leak fake selection's content into editable due to removing hidden selection container (http://dev.ckeditor.com/ticket/14831).
 			editable.attachListener( editable, 'keyup', function() {
 				var elements = doc.getElementsByTag( tagName );
 				if ( lockRetain ) {
@@ -312,7 +312,7 @@
 
 			this._.frameLoadedHandler = CKEDITOR.tools.addFunction( function( win ) {
 				// Avoid opening design mode in a frame window thread,
-				// which will cause host page scrolling.(#4397)
+				// which will cause host page scrolling.(http://dev.ckeditor.com/ticket/4397)
 				CKEDITOR.tools.setTimeout( onDomReady, 0, this, win );
 			}, this );
 
@@ -330,7 +330,7 @@
 					this.fixInitialSelection();
 
 					// Fire dataReady for the consistency with inline editors
-					// and because it makes sense. (#10370)
+					// and because it makes sense. (http://dev.ckeditor.com/ticket/10370)
 					editor.fire( 'dataReady' );
 				}
 				else {
@@ -420,7 +420,7 @@
 					}
 
 					// The script that launches the bootstrap logic on 'domReady', so the document
-					// is fully editable even before the editing iframe is fully loaded (#4455).
+					// is fully editable even before the editing iframe is fully loaded (http://dev.ckeditor.com/ticket/4455).
 					var bootstrapCode =
 						'<script id="cke_actscrpt" type="text/javascript"' + ( CKEDITOR.env.ie ? ' defer="defer" ' : '' ) + '>' +
 							'var wasLoaded=0;' +	// It must be always set to 0 as it remains as a window property.
@@ -442,7 +442,7 @@
 					}
 
 					// IE<10 needs this hack to properly enable <base href="...">.
-					// See: http://stackoverflow.com/a/13373180/1485219 (#11910).
+					// See: http://stackoverflow.com/a/13373180/1485219 (http://dev.ckeditor.com/ticket/11910).
 					if ( baseTag && CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 						bootstrapCode +=
 							'<script id="cke_basetagscrpt">' +
@@ -461,7 +461,7 @@
 
 					var doc = this.getDocument();
 
-					// Work around Firefox bug - error prune when called from XUL (#320),
+					// Work around Firefox bug - error prune when called from XUL (http://dev.ckeditor.com/ticket/320),
 					// defer it thanks to the async nature of this method.
 					try {
 						doc.write( data );
@@ -486,9 +486,9 @@
 
 					var data = fullPage ? doc.getDocumentElement().getOuterHtml() : doc.getBody().getHtml();
 
-					// BR at the end of document is bogus node for Mozilla. (#5293).
+					// BR at the end of document is bogus node for Mozilla. (http://dev.ckeditor.com/ticket/5293).
 					// Prevent BRs from disappearing from the end of the content
-					// while enterMode is ENTER_BR (#10146).
+					// while enterMode is ENTER_BR (http://dev.ckeditor.com/ticket/10146).
 					if ( CKEDITOR.env.gecko && config.enterMode != CKEDITOR.ENTER_BR )
 						data = data.replace( /<br>(?=\s*(:?$|<\/body>))/, '' );
 
@@ -517,7 +517,7 @@
 					onResize;
 
 				// Trying to access window's frameElement property on Edge throws an exception
-				// when frame was already removed from DOM. (#13850, #13790)
+				// when frame was already removed from DOM. (http://dev.ckeditor.com/ticket/13850, http://dev.ckeditor.com/ticket/13790)
 				try {
 					iframe =  editor.window.getFrame();
 				} catch ( e ) {}
@@ -530,7 +530,7 @@
 				CKEDITOR.tools.removeFunction( this._.frameLoadedHandler );
 
 				// On IE, iframe is returned even after remove() method is called on it.
-				// Checking if parent is present fixes this issue. (#13850)
+				// Checking if parent is present fixes this issue. (http://dev.ckeditor.com/ticket/13850)
 				if ( iframe && iframe.getParent() ) {
 					iframe.clearCustomData();
 					onResize = iframe.removeCustomData( 'onResize' );
@@ -538,7 +538,7 @@
 
 					// IE BUG: When destroying editor DOM with the selection remains inside
 					// editing area would break IE7/8's selection system, we have to put the editing
-					// iframe offline first. (#3812 and #5441)
+					// iframe offline first. (http://dev.ckeditor.com/ticket/3812 and http://dev.ckeditor.com/ticket/5441)
 					iframe.remove();
 				} else {
 					CKEDITOR.warn( 'editor-destroy-iframe' );
@@ -593,7 +593,7 @@
 		var css = [];
 
 		// IE>=8 stricts mode doesn't have 'contentEditable' in effect
-		// on element unless it has layout. (#5562)
+		// on element unless it has layout. (http://dev.ckeditor.com/ticket/5562)
 		if ( CKEDITOR.document.$.documentMode >= 8 ) {
 			css.push( 'html.CSS1Compat [contenteditable=false]{min-height:0 !important}' );
 
@@ -604,14 +604,14 @@
 
 			css.push( selectors.join( ',' ) + '{display:inline-block}' );
 		}
-		// Set the HTML style to 100% to have the text cursor in affect (#6341)
+		// Set the HTML style to 100% to have the text cursor in affect (http://dev.ckeditor.com/ticket/6341)
 		else if ( CKEDITOR.env.gecko ) {
 			css.push( 'html{height:100% !important}' );
 			css.push( 'img:-moz-broken{-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}' );
 		}
 
-		// #6341: The text cursor must be set on the editor area.
-		// #6632: Avoid having "text" shape of cursor in IE7 scrollbars.
+		// http://dev.ckeditor.com/ticket/6341: The text cursor must be set on the editor area.
+		// http://dev.ckeditor.com/ticket/6632: Avoid having "text" shape of cursor in IE7 scrollbars.
 		css.push( 'html{cursor:text;*cursor:auto}' );
 
 		// Use correct cursor for these elements

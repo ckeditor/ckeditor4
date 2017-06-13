@@ -1,4 +1,4 @@
-/* exported tableSelectionHelpers, createPasteTestCase, doCommandTest */
+/* exported tableSelectionHelpers, createPasteTestCase, doCommandTest, mockMouseEventForCell, mockMouseSelection */
 
 ( function() {
 	'use strict';
@@ -159,5 +159,63 @@
 				}
 			}
 		} );
+	};
+
+	/*
+	 * @param {CKEDITOR.editor} editor Editor's instance.
+	 * @param {String} type Event's type.
+	 * @param {CKEDITOR.dom.element} cell Cell that is a target of the event.
+	 * @param {Function} callback
+	 */
+	window.mockMouseEventForCell = function( editor, type, cell, callback ) {
+
+		var host = editor.editable().isInline() ? editor.editable() : editor.document,
+			event = {
+				getTarget: function() {
+					return cell;
+				},
+
+				preventDefault: function() {
+					// noop
+				},
+
+				$: {
+					button: 0,
+
+					// We need these because on build version magicline plugin
+					// also listen on 'mousemove'.
+					clientX: 0,
+					clientY: 0
+				}
+			};
+
+		host.once( type, function() {
+			resume( callback );
+		} );
+
+		host.fire( type, event );
+		wait();
+	};
+
+	/*
+	 * @param {CKEDITOR.editor} editor Editor's instance.
+	 * @param {Array} cells Cells that should be selected. The first one is used as mousedown target,
+	 * the last as mousemove and mouseup target, others as mousemove targets.
+	 * @param {Function} callback
+	 */
+	window.mockMouseSelection = function( editor, cells, callback ) {
+		function handler() {
+			var cell = cells.shift();
+
+			if ( cells.length > 0 ) {
+				window.mockMouseEventForCell( editor, 'mousemove', cell, handler );
+			} else {
+				window.mockMouseEventForCell( editor, 'mousemove', cell, function() {
+					window.mockMouseEventForCell( editor, 'mouseup', cell, callback );
+				} );
+			}
+		}
+
+		window.mockMouseEventForCell( editor, 'mousedown', cells.shift(), handler );
 	};
 } )();
