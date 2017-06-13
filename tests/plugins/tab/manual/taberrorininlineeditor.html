@@ -1,0 +1,40 @@
+<head>
+	<link rel="stylesheet" href="../_assets/styles.css">
+</head>
+<body>
+	<script>
+		if ( !CKEDITOR.env.chrome ) {
+			bender.ignore();
+		}
+	</script>
+	<div class="inline-editor" id="inline1" contenteditable="true">
+		<p>Hello world</p>
+		<ul>
+			<li>One</li>
+			<li>Two</li>
+			<li>Three</li>
+		</ul>
+	</div>
+	<div class="inline-editor" id="inline2" contenteditable="true">
+		<p>Hello world</p>
+		<ul>
+			<li>One</li>
+			<li>Two</li>
+			<li>Three</li>
+		</ul>
+	</div>
+	<div class="inline-editor" id="inline3" contenteditable="true">
+		<p>Hello world</p>
+		<ul>
+			<li>One</li>
+			<li>Two</li>
+			<li>Three</li>
+		</ul>
+	</div>
+	<script>
+		CKEDITOR.inline( 'inline1' );
+		CKEDITOR.inline( 'inline2' );
+		CKEDITOR.inline( 'inline3' );
+	</script>
+</body>
+
