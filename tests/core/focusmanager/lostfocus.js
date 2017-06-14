@@ -1,6 +1,13 @@
 /* bender-tags: editor,unit */
 /* bender-ckeditor-plugins: divarea */
 
+// Assert for IE8 returns different selection comparing to other browsers.
+// Normal browser <p>foo [<strong>bar</strong>]</p>
+// IE8: <p>foo [<strong>bar]</strong></p>
+if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
+	bender.ignore();
+}
+
 bender.editor = {};
 
 bender.test( {
@@ -19,7 +26,10 @@ bender.test( {
 			var sel = editor.getSelection();
 			sel.reset();
 			assert.isInnerHtmlMatching( '<p>foo [<strong>bar</strong>]@</p>',
-				bender.tools.range.getWithHtml( editor.editable(), sel.getRanges()[ 0 ] ) );
+				bender.tools.selection.getWithHtml( editor ), {
+					compareSelection: true,
+					normalizeSelection: true
+				} );
 		}, 210 );
 
 	}
