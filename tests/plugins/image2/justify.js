@@ -14,7 +14,7 @@
 
 	var getWidgetById = widgetTestsTools.getWidgetById,
 		inlineHtml = '<img src="_assets/foo.png" alt="foo" width="100" id="x" />',
-		captionedHtml = '<figure class="image" id="x"><img src="_assets/bar.png" alt="foo" /><figcaption>bar</figcaption></figure>';
+		captionedHtml = '<p><figure class="image" id="x"><img src="_assets/bar.png" alt="foo" /><figcaption>bar</figcaption></figure></p>';
 
 	function justifyTester( editor, cases ) {
 		var j = 0;
