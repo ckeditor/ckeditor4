@@ -1240,7 +1240,7 @@
 			var tags = {};
 
 			for ( var tag in CKEDITOR.dtd ) {
-				if ( tag.charAt( 0 ) != '$' && tag != 'div' && tag != 'span' ) {
+				if ( tag.charAt( 0 ) != '$' && tag != 'div' ) {
 					tags[ tag ] = 1;
 				}
 			}
