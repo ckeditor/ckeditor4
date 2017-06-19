@@ -262,10 +262,14 @@
 			selection = editor.getSelection( 1 ),
 			selectedTable = getFakeSelectedTable( editor ),
 			target = evt.data.getTarget(),
-			cell = target && target.getAscendant( { td: 1, th: 1 }, true ),
-			table = target && target.getAscendant( 'table', true ),
 			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 },
 			canClear;
+
+		// Prevent of throwing error in console if target is undefined (#515).
+		if ( target.$.tagName !== undefined ) {
+			var cell = target && target.getAscendant( { td: 1, th: 1 }, true ),
+			table = target && target.getAscendant( 'table', true );
+		}
 
 		// Nested tables should be treated as the same one (e.g. user starts dragging from outer table
 		// and ends in inner one).
