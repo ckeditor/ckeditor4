@@ -1365,7 +1365,7 @@
 			var commandInstance = ( typeof command === 'string' ? this.getCommand( command ) : command );
 
 			if ( commandInstance ) {
-				var commandName = commandInstance && commandInstance.name,
+				var commandName = CKEDITOR.tools.object.findKey( this.commands, commandInstance ),
 					keystrokes = this.keystrokeHandler.keystrokes,
 					key;
 
