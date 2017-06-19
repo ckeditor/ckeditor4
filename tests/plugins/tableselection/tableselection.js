@@ -10,13 +10,6 @@
 		classic: {},
 		inline: {
 			creator: 'inline'
-		},
-		scrollable: {
-			name: 'editor2',
-			creator: 'replace',
-			config: {
-				height: 300
-			}
 		}
 	};
 
@@ -152,26 +145,6 @@
 			mockMouseSelection( editor, [ cells.getItem( 1 ), cells.getItem( 3 ), cells.getItem( 8 ) ], function() {
 				assert.pass();
 			} );
-		},
-
-		// #515
-		'test mouseover on scrollbar': function( editor ) {
-			var bot = bender.editors.scrollable,
-			editable = bot.editable();
-
-			bot.setData( '<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
-				'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
-				'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
-				'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
-				'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>', function() {
-
-				editable.$.scrollTop = 150;
-				editor.document.fire( 'mousemove', new CKEDITOR.dom.event( {
-					target: editable.getDocument()
-				} ) );
-			} );
-
-			assert.pass();
 		}
 	};
 
