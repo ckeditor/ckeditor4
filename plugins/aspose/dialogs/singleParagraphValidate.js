@@ -55,35 +55,49 @@ function useOnlyOneParagraph(editor, $html) {
 
 	children = $html.children();
 
-	if (children.length > 1 && ['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(children[0].tagName) !== -1) {
-		$html.find('table').remove();
-		children = $html.children();
+	if (children.length > 1) {
+		if (['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(children[0].tagName) !== -1) {
+			$html.find('table').remove();
+			children = $html.children();
 
-		children.each(function(index) {
-			if (['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(this.tagName) !== -1) {
-				innerHTML += this.innerHTML;
-			// } else if (['UL', 'OL'].indexOf(this.tagName) !== -1) {
-			// 	for(var i = 0; i < this.children.length; i++) {
-			// 		innerHTML += this.children[i].innerHTML;
-			// 	}
-			} else {
-				innerHTML += this.outerHTML;
-			}
-
-			if (index !== children.length - 1) {
-				if (this.innerHTML !== '<br>' && this.innerText.trim().length) {
-					innerHTML += '<br>'
+			children.each(function(index) {
+				if (['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(this.tagName) !== -1) {
+					innerHTML += this.innerHTML;
+					// } else if (['UL', 'OL'].indexOf(this.tagName) !== -1) {
+					// 	for(var i = 0; i < this.children.length; i++) {
+					// 		innerHTML += this.children[i].innerHTML;
+					// 	}
+				} else {
+					innerHTML += this.outerHTML;
 				}
-			}
 
+				if (index !== children.length - 1) {
+					if (this.innerHTML !== '<br>' && this.innerText.trim().length) {
+						innerHTML += '<br>'
+					}
+				}
+
+				if (index) {
+					this.parentNode.removeChild(this);
+				}
+			});
+
+			children[0].innerHTML = innerHTML;
+		} else {
+			children = $html.children();
+			children.each(function(index) {
+				if (index) {
+					this.parentNode.removeChild(this);
+				}
+			});
+		}
+
+	} else if (['OL', 'UL'].indexOf(children[0].tagName) !== -1 && children[0].children.length > 1) {
+		$(children[0]).children().each(function(index) {
 			if (index) {
 				this.parentNode.removeChild(this);
 			}
-		});
-
-		children[0].innerHTML = innerHTML;
-	} else if(children[0].tagName !== 'table' && $html.text().length > $html.find('table').text().length) {
-		$html.find('table').remove();
+		})
 	}
 
 	editor.setData($html.html());

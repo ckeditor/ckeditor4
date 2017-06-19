@@ -27,10 +27,12 @@
 		var POSSIBLE_ERRORS = [
 			'more than one element first level',
 			'have table inside',
-			'have div inside'
+			'have div inside',
+			'have more than one list'
 			// 'have list inside'
 		];
 		var errors = [];
+		var children = $editor.children();
 
 		if ($editor.children().length > 1) {
 			errors.push(POSSIBLE_ERRORS[0])
@@ -44,8 +46,12 @@
 			errors.push(POSSIBLE_ERRORS[2])
 		}
 
+		if (['OL', 'UL'].indexOf(children[0].tagName) !== -1 && children[0].children.length > 1) {
+			errors.push(POSSIBLE_ERRORS[3])
+		}
+
 		// if ($editor.find('p ol, p ul').length) {
-		// 	errors.push(POSSIBLE_ERRORS[3])
+		// 	errors.push(POSSIBLE_ERRORS[4])
 		// }
 
 		return errors;
@@ -137,9 +143,18 @@
 					if ($editor.children().length === 1 && $editor.text().length === $editor.find('ol, ul').text().length) {
 						editor.getCommand('numberedlist').enable();
 						editor.getCommand('bulletedlist').enable();
-					} else {
+					}
+
+					if ($editor.find('ol').length) {
 						editor.getCommand('bulletedlist').disable();
+					} else {
+						editor.getCommand('bulletedlist').enable();
+					}
+
+					if ($editor.find('ul').length) {
 						editor.getCommand('numberedlist').disable();
+					} else {
+						editor.getCommand('numberedlist').enable();
 					}
 				}
 			});
