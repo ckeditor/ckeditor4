@@ -94,8 +94,10 @@
 			editor.on( 'doubleclick', function( evt ) {
 				// If the link has descendants and the last part of it is also a part of a word partially
 				// unlinked, clicked element may be a descendant of the link, not the link itself. (http://dev.ckeditor.com/ticket/11956)
-				var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || evt.data.element.getAscendant( 'a', 1 );
+				// evt.data.element condition allows opening anchor dialog if the anchor is empty (#501).
+				var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || evt.data.element.getAscendant( 'a', 1 ) || CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, evt.data.element );
 
+				// if ( element && !element.isReadOnly() ) {
 				if ( element && !element.isReadOnly() ) {
 					if ( element.is( 'a' ) ) {
 						evt.data.dialog = ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) ? 'anchor' : 'link';

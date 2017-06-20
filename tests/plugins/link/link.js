@@ -546,6 +546,20 @@
 			editor.ui.get( 'Unlink' ).click( editor );
 
 			assert.areSame( '<p>I am<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of ^<s>CKEditor</s>.</p>', bot.htmlWithSelection() );
+		},
+
+		// #501
+		'test double-click on anchor is opening anchor dialog': function() {
+			var bot = this.editorBot,
+				editor = bot.editor;
+
+			bot.setData( '<a id="anchor" name="anchor"></a>', function() {
+				editor.fire( 'doubleclick', {
+					element: editor.document.findOne( 'a' )
+				} );
+
+				assert.areSame( ( ( bot.dialog = 'anchor' ) ? true : false ), true );
+			} );
 		}
 	} );
 } )();
