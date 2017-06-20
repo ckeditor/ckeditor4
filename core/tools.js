@@ -1854,11 +1854,11 @@
 		 */
 		object: {
 			/**
-			 * Return a first key from `obj` which has given value. If key cannot be find, `null` is returned.
+			 * Return a first key from `obj` which has given `value`.
 			 *
-			 * @param {Object} obj Object which key is looked for.
-			 * @param {Mixed} value Object's vlaue which key is looked for
-			 * @returns {String/null} Key string
+			 * @param {Object} obj Object which `key` is looked for.
+			 * @param {Mixed} value Object's `value` to be looked for.
+			 * @returns {String/null} Matched `key` or `null` if not found.
 			 * @member CKEDITOR.tools.object
 			 */
 
