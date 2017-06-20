@@ -100,7 +100,7 @@ bender.test(
 	},
 
 	// #523
-	'test keystroke with capitall letters': function() {
+	'test keystroke with capital letters': function() {
 		var editor = this.editor,
 			keystrokes = editor.keystrokeHandler.keystrokes,
 			keystroke;
