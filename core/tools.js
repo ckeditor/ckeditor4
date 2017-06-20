@@ -1946,7 +1946,7 @@
 	/**
 	 * The namespace with helper functions and polyfills for objects.
 	 *
-	 * @since 4.7.2
+	 * @since 4.7.1
 	 * @class CKEDITOR.tools.object
 	 */
 } )();
