@@ -51,6 +51,7 @@ Special outer level classes used in this file:
 {
   width: 100%;
   display: block;
+  padding: 5px 0;
 }
 .cke_toolbox:after
 {
@@ -63,9 +64,9 @@ Special outer level classes used in this file:
 .cke_toolbar
 {
 	float: left;
-  /*margin-right: 12px;*/
   /*margin: 3px 12px 3px 3px;*/
-  padding: 3px;
+  padding: 4px;
+
 }
 
 .cke_rtl .cke_toolbar
@@ -318,4 +319,46 @@ a.cke_toolbox_collapser
 	margin-top: 4px;
 	border-bottom-color: transparent;
 	border-top-color: #05132B;
+}
+
+
+/* Specific item styles */
+
+
+.cke_source {
+  background-color: #454C58;
+  color: #fff;
+  font: 14px/18px Courier, monospace;
+  padding: 15px;
+  letter-spacing: .5px;
+}
+
+#cke_15 .cke_toolgroup, #cke_19 .cke_toolgroup {
+    border-left: 1px solid #B2BED4;
+    padding-left: 6px;
+}
+
+#cke_22 {
+    margin-left: 12px;
+}
+
+#cke_23 {
+  margin: 0 -3px 0 12px;
+  padding-right: 0;
+}
+
+@media (min-width:768px) {
+
+  #cke_28 {
+    float: right;
+    margin-right: 0;
+  }
+}
+
+#cke_29:after {
+    content: 'Source';
+    font-size: 13px;
+    font-weight: 800;
+    margin: 5px;
+    display: flex;
 }
