@@ -10,8 +10,13 @@
 			name: 'editor1',
 			creator: 'replace',
 			config: {
-				extraPlugins: 'divarea',
 				height: 300
+			}
+		},
+		divarea: {
+			name: 'divarea',
+			config: {
+				extraPlugins: 'divarea'
 			}
 		}
 	};
@@ -19,7 +24,6 @@
 	var tests = {
 		// #515
 		'test mouseover on scrollbar': function( editor, bot ) {
-			// var bot = bender.editors.classic,
 			var editable = editor.editable();
 
 			bot.setData( '<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +

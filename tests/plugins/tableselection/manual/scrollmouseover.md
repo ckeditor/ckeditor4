@@ -6,7 +6,7 @@
 
 1. Open developer console.
 2. Focus on editor.
-3. Use mouse to scroll editor and point the cursor over the scrollbar.
+3. Use mouse to scroll down the editor.
 
 **Expected result:**
 
