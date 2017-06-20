@@ -9,6 +9,7 @@ New Features:
 
 Fixed Issues:
 
+* [#515](https://github.com/ckeditor/ckeditor-dev/issues/515): Fixed: [Chrome] Mouse actions on CKEditor scrollbar throws an exception when [Table Selection](http://ckeditor.com/addon/tableselection) plugin is loaded.
 * [#493](https://github.com/ckeditor/ckeditor-dev/issues/493): Fixed: Selection started from a nested table causes an error in a browser while scrolling down.
 * [#415](https://github.com/ckeditor/ckeditor-dev/issues/415): Fixed: [Firefox] Enter key breaks table structure when pressed in a table selection.
 * [#457](https://github.com/ckeditor/ckeditor-dev/issues/457): Fixed: Error thrown when deleting content from the editor with no selection.
