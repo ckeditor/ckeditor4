@@ -258,6 +258,11 @@
 	}
 
 	function fakeSelectionMouseHandler( evt ) {
+		// Prevent of throwing error in console if target is undefined (#515).
+		if ( !evt.data.getTarget().getName ) {
+			return;
+		}
+
 		var editor = evt.editor || evt.listenerData.editor,
 			selection = editor.getSelection( 1 ),
 			selectedTable = getFakeSelectedTable( editor ),
