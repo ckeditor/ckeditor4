@@ -6,10 +6,11 @@
 	'use strict';
 
 	bender.editors = {
-		scrollable: {
+		classic: {
 			name: 'editor1',
 			creator: 'replace',
 			config: {
+				extraPlugins: 'divarea',
 				height: 300
 			}
 		}
@@ -17,9 +18,9 @@
 
 	var tests = {
 		// #515
-		'test mouseover on scrollbar': function( editor ) {
-			var bot = bender.editors.scrollable,
-			editable = bot.editable();
+		'test mouseover on scrollbar': function( editor, bot ) {
+			// var bot = bender.editors.classic,
+			var editable = editor.editable();
 
 			bot.setData( '<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
 				'<p>Test</p><p>Test</p><p>Test</p><p>Test</p>' +
@@ -31,9 +32,10 @@
 				editor.document.fire( 'mousemove', new CKEDITOR.dom.event( {
 					target: editable.getDocument()
 				} ) );
+
+				assert.pass();
 			} );
 
-			assert.pass();
 		}
 	};
 
