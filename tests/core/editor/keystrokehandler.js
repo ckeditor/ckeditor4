@@ -5,8 +5,11 @@ bender.editor = true;
 
 var keyCombo1 = CKEDITOR.CTRL + 10,
 	keyCombo2 = CKEDITOR.ALT + 20,
+	keyCombo3 = CKEDITOR.SHIFT + CKEDITOR.ALT + 30,
 	command1 = 'command#1',
-	command2 = 'command#2';
+	command2 = 'command#2',
+	command3 = 'command#3WithCapitalLetters';
+
 
 bender.test(
 {
@@ -94,5 +97,26 @@ bender.test(
 	'test editor#getCommandKeystroke with empty name': function() {
 		var editor = this.editor;
 		assert.isNull( editor.getCommandKeystroke( '' ), 'Returned keystroke.' );
+	},
+
+	// #523
+	'test keystroke with capital letters': function() {
+		var editor = this.editor,
+			keystrokes = editor.keystrokeHandler.keystrokes,
+			keystroke;
+
+		editor.addCommand( command3, {} );
+		editor.setKeystroke( keyCombo3, command3 );
+
+		assert.areEqual( command3, keystrokes[ keyCombo3 ] );
+
+		// Get by command instance.
+		keystroke = editor.getCommandKeystroke( editor.getCommand( command3 ) );
+		assert.areEqual( keyCombo3, keystroke, 'Keystrokes should be equal (command).' );
+
+		// Get by command name.
+		keystroke = editor.getCommandKeystroke( command3 );
+		assert.areEqual( keyCombo3, keystroke, 'Keystrokes should be equal (command name).' );
 	}
+
 } );

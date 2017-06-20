@@ -18,6 +18,7 @@ Fixed Issues:
 * [#417](https://github.com/ckeditor/ckeditor-dev/issues/417): Fixed: [Table Resize](http://ckeditor.com/addon/tableresize) plugin throws an error when used with a table with only header or footer rows.
 * [#424](https://github.com/ckeditor/ckeditor-dev/issues/424): Fixed: Error thrown by [Tab Key Handling](http://ckeditor.com/addon/tab) and [Indent List](http://ckeditor.com/addon/indentlist) when pressing `Tab` with no selection in inline editor.
 * [#476](https://github.com/ckeditor/ckeditor-dev/issues/476): Fixed: Anchors inserted via [Link](http://ckeditor.com/addon/link) plugin on collapsed selection can't be edited.
+* [#523](https://github.com/ckeditor/ckeditor-dev/issues/523): Fixed: `editor.getCommandKeystroke` does not obtain correct keystroke.
 
 ## CKEditor 4.7
 

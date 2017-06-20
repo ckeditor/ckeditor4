@@ -1844,6 +1844,39 @@
 				}
 				return acc;
 			}
+		},
+
+		/**
+		 * A set of object helpers.
+		 *
+		 * @property {CKEDITOR.tools.object}
+		 * @member CKEDITOR.tools
+		 */
+		object: {
+			/**
+			 * Return a first key from `obj` which has given `value`.
+			 *
+			 * @param {Object} obj Object which `key` is looked for.
+			 * @param {Mixed} value Object's `value` to be looked for.
+			 * @returns {String/null} Matched `key` or `null` if not found.
+			 * @member CKEDITOR.tools.object
+			 */
+
+			findKey: function( obj, value ) {
+				if ( typeof obj !== 'object' ) {
+					return null;
+				}
+
+				var key;
+
+				for ( key in obj ) {
+					if ( obj[ key ] === value ) {
+						return key;
+					}
+				}
+
+				return null;
+			}
 		}
 	};
 
@@ -1908,6 +1941,13 @@
 	 *
 	 * @since 4.6.1
 	 * @class CKEDITOR.tools.array
+	 */
+
+	/**
+	 * The namespace with helper functions and polyfills for objects.
+	 *
+	 * @since 4.7.1
+	 * @class CKEDITOR.tools.object
 	 */
 } )();
 
