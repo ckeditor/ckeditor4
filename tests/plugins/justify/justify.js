@@ -306,7 +306,7 @@ bender.test(
 			tc.assertCommandState( 0,0,0,0, editor );
 
 			bot.setHtmlWithSelection( 'F^oo<ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 2,2,2,2, editor );
+			tc.assertCommandState( 1,2,2,2, editor );
 
 			bot.execCommand( 'justifyblock' );
 			tc.assertCommandState( 2,2,2,1, editor );

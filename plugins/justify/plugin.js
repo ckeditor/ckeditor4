@@ -192,10 +192,10 @@
 
 			// Check if we can give to element proper class, style or current path is body (#455).
 			// IE8, after focus and refresh return path with 'body'
-			if ( editor.config.enterMode === CKEDITOR.ENTER_BR && firstBlock === editor.editable() ) {
-				this.setState( CKEDITOR.TRISTATE_OFF );
-			} else if ( ( this.cssClassName && editor.activeFilter.check( name + '(' + this.cssClassName + ')' ) ) || editor.activeFilter.check( name + '{text-align}' ) ) {
-				this.setState( getAlignment( firstBlock, this.editor.config.useComputedState ) === this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			if ( ( this.cssClassName && editor.activeFilter.check( name + '(' + this.cssClassName + ')' ) ) ||
+					editor.activeFilter.check( name + '{text-align}' ) ||
+					firstBlock.equals( editor.editable() ) ) {
+				this.setState( name != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			} else {
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
