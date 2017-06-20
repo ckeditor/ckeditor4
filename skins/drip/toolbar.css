@@ -51,7 +51,6 @@ Special outer level classes used in this file:
 {
   width: 100%;
   display: block;
-  padding: 5px 0;
 }
 .cke_toolbox:after
 {
@@ -64,8 +63,7 @@ Special outer level classes used in this file:
 .cke_toolbar
 {
 	float: left;
-  /*margin: 3px 12px 3px 3px;*/
-  padding: 4px;
+  padding: 6px;
 
 }
 
@@ -91,15 +89,15 @@ Special outer level classes used in this file:
 a.cke_button
 {
 	display: inline-block;
-	height: 24px;
-  min-width: 24px;
-  padding: 0;
+	height: 30px;
+  min-width: 30px;
+  padding: 3px;
 	outline: none;
 	cursor: pointer;
 	float: left;
 	border: 0;
   border-radius: 2px;
-  margin: 3px;
+  margin: 0;
   transition: background-color 150ms;
 }
 
@@ -328,37 +326,25 @@ a.cke_toolbox_collapser
 .cke_source {
   background-color: #454C58;
   color: #fff;
-  font: 14px/18px Courier, monospace;
-  padding: 15px;
+  font: 14px/18px "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
+  padding: 18px;
   letter-spacing: .5px;
-}
-
-#cke_15 .cke_toolgroup, #cke_19 .cke_toolgroup {
-    border-left: 1px solid #B2BED4;
-    padding-left: 6px;
-}
-
-#cke_22 {
-    margin-left: 12px;
-}
-
-#cke_23 {
-  margin: 0 -3px 0 12px;
-  padding-right: 0;
 }
 
 @media (min-width:768px) {
 
   #cke_28 {
     float: right;
-    margin-right: 0;
   }
 }
-
+#cke_29 {
+  display: flex;
+  align-items: center;
+  padding: 0 6px 0 3px;
+}
 #cke_29:after {
-    content: 'Source';
-    font-size: 13px;
-    font-weight: 800;
-    margin: 5px;
-    display: flex;
+  content: 'Source';
+  font-size: 12px;
+  font-weight: 800;
+  margin-left: 4px;
 }
