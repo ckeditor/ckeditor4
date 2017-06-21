@@ -39,11 +39,6 @@
       // Change behavior of menubutton with text label
       CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
-      // Initialize Outline / TOC menuitem
-      var outlineCmd = 'headingOutline';
-      CKEDITOR.dialog.add( outlineCmd, this.path + 'dialogs/heading_outline.js' );
-      editor.addCommand( outlineCmd, new CKEDITOR.dialogCommand( outlineCmd ) );
-
       // Initialize Help menuitem
       var helpCmd = 'headingHelp';
       CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/heading_help.js' );
@@ -100,16 +95,6 @@
         }
       };
 
-      // Add Outline / TOC item
-      items.outline = {
-        label: lang.outlineLabel,
-        group: 'heading_actions',
-        order: headings.length + 1,
-        onClick: function() {
-          editor.execCommand( outlineCmd );
-        }
-      };
-
       // Add Help item
       items.help = {
         label: lang.helpLabel,
@@ -145,7 +130,6 @@
           }
 
           activeItems.removeFormat = currentHeadingElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
-          activeItems.outline = CKEDITOR.TRISTATE_OFF;
           activeItems.help = CKEDITOR.TRISTATE_OFF;
 
           if ( currentHeadingElement )
