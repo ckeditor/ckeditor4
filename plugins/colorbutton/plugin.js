@@ -231,15 +231,17 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				if ( color ) {
 					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
 
-					colorStyle.childRule = type == 'back' ?
-					function( element ) {
-						// It's better to apply background color as the innermost style. (http://dev.ckeditor.com/ticket/3599)
-						// Except for "unstylable elements". (http://dev.ckeditor.com/ticket/6103)
-						return isUnstylable( element );
-					} : function( element ) {
-						// Fore color style must be applied inside links instead of around it. (http://dev.ckeditor.com/ticket/4772,http://dev.ckeditor.com/ticket/6908)
-						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
-					};
+					if ( !colorStyle.childRule ) {
+						colorStyle.childRule = type == 'back' ?
+							function( element ) {
+								// It's better to apply background color as the innermost style. (http://dev.ckeditor.com/ticket/3599)
+								// Except for "unstylable elements". (http://dev.ckeditor.com/ticket/6103)
+								return isUnstylable( element );
+							} : function( element ) {
+								// Fore color style must be applied inside links instead of around it. (http://dev.ckeditor.com/ticket/4772,http://dev.ckeditor.com/ticket/6908)
+								return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
+							};
+					}
 
 					editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
 				}
