@@ -608,7 +608,7 @@
 				delete styles[ style ];
 			}
 
-			if ( JSON.stringify( styles ) !== '{}' ) {
+			if ( !CKEDITOR.tools.isEmpty( styles ) ) {
 				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 			} else {
 				delete element.attributes.style;
