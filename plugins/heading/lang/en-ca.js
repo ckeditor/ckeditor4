@@ -14,30 +14,46 @@ CKEDITOR.plugins.setLang( 'heading', 'en-ca', {
   remove:     'Remove format',
   helpLabel:  'Help',
 
-  helpFeatureLabel:  'Features',
-  helpFeatureTitle:  'Heading Menu Features',
-  helpFeatureItems: ['The Heading menu shows the <strong>allowed</strong> heading levels based on the position of the cursor in the document to support proper nesting of headings.',
-    'If the cursor is on a heading, the menu highlights the current level and lists the allowed changes to that level.',
+  helpFeatureLabel: 'Features',
+  helpFeatureTitle: 'Heading Menu Features',
+  helpFeatureItems: [
+    'The Heading menu only enables the <strong>allowed</strong> heading levels, based on the position of the cursor in the document, to support proper nesting of headings.',
+
+    'If the cursor is in a block of text that is not already a heading, selecting one of the enabled heading levels in the menu will convert the block to a heading of that level.',
+
+    'If the cursor is on a heading, the menu item with a checkmark indicates its <strong>current level</strong>. Additional menu items that correspond to <strong> any allowed changes</strong> to the current level are enabled.',
+
+    'When the cursor is on a heading, selecting the <strong>Remove format</strong> menu item, or selecting the <strong>current level</strong> menu item, converts the heading block to a plain text paragraph.',
+
     'The Outline option allows you to view a headings-based outline of the document, insert the outline as a table of contents and check all headings for proper nesting.'
   ],
 
-  helpRuleLabel:  'Usage',
-  helpRuleTitle:  'Using Heading Levels',
+  helpRuleLabel: 'Usage',
+  helpRuleTitle: 'Using Heading Levels',
   helpRuleItems: [
-    'Heading levels identify the  structural relationships between sections of content in a document.',
-    ' Higher level headings (e.g. level 1 and 2) identifty the main topics of a document and lower level headings (e.g. level 3, 4, 5 and 6) identify subsections of the document.',
-    'A subsection is identified by using the next lower level heading, for example subsections of a level 2 heading use level 3 headings, subsections of level 3 headings use level 4 headings and so on to level 6 headings.',
-    'Break content into subsections when there are two or more ideas or concepts that explain the topic of the section.  Use headings of the same level to label each subsection.',
-    'Heading levels should <strong>never</strong> be used for inline visual styling of content (e.g. larger or smaller font size, bold or italic). Instead use the "Inline Styling" options.'
+    'Heading levels identify the structural relationships between sections of content in a document.',
+
+    'Higher-level headings (Levels 1 and 2) identify the main topics of a document and lower-level headings (Levels 3, 4, 5 and 6) identify subsections of the document.',
+
+    'A subsection is identified by using the next lower-level heading. For example, subsections of Level 2 headings use Level 3 headings, subsections of Level 3 headings use Level 4 headings, and so on to Level 6 headings.',
+
+    'Break content into subsections when there are two or more ideas or concepts that correspond to the topics covered in the section. Use headings of the same level to label each subsection.',
+
+    'Heading levels should <strong>never</strong> be used for inline visual styling of content (e.g. larger or smaller font size, bold or italic). Instead, use the "Inline Style" options.'
   ],
 
-  helpImportanceLabel:  'Importance',
-  helpImportanceTitle:  'Why Headings Are Important',
-  helpImportanceItems: ['The proper use and nesting of heading levels improves the ability to find and read information on a page.',
-    'People read information more efficiently when content is broken up into digestable sections of information, with headings identifying each section and sub-section of information.',
-    'Headings used consistently and in a meaningful way improve Search Engine Optimization (SEO) for search engines like Google&trade;, Bing&trade;, DuckDuckGo&trade; and many others.',
-    'Headings can also be used to generate a table of contents to provide an overview and quick navigation to sections of content.',
-    'Assistive technologies used by people with disabilities can also easily navigate a document with properly nested headings.'
+  helpImportanceLabel: 'Importance',
+  helpImportanceTitle: 'Why Headings Are Important',
+  helpImportanceItems: [
+    'The proper use and nesting of heading levels improves the ability of all users to find and read information on a page.',
+
+    'People read information more efficiently when content is broken up into digestable sections of information, with headings identifying each section and subsection of information.',
+
+    'Headings used consistently and in meaningful ways improve Search Engine Optimization (SEO) for search engines like Google&trade;, Bing&trade;, DuckDuckGo&trade; and many others.',
+
+    'When documents are created with properly nested headings, assistive technologies used by people with disabilities can easily provide quick navigation to the various sections of content.',
+
+    'Headings can also be used to generate a table of contents, which can provide an overview of the document and quick navigation to sections of content.'
   ]
 
-});
+} );
