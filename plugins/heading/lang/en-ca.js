@@ -23,9 +23,8 @@ CKEDITOR.plugins.setLang( 'heading', 'en-ca', {
 
     'If the cursor is on a heading, the menu item with a checkmark indicates its <strong>current level</strong>. Additional menu items that correspond to <strong> any allowed changes</strong> to the current level are enabled.',
 
-    'When the cursor is on a heading, selecting the <strong>Remove format</strong> menu item, or selecting the <strong>current level</strong> menu item, converts the heading block to a plain text paragraph.',
+    'When the cursor is on a heading, selecting the <strong>Remove format</strong> menu item, or selecting the <strong>current level</strong> menu item, converts the heading block to a plain text paragraph.'
 
-    'The Outline option allows you to view a headings-based outline of the document, insert the outline as a table of contents and check all headings for proper nesting.'
   ],
 
   helpRuleLabel: 'Usage',
