@@ -30,6 +30,7 @@
 						plugin.availableLangs[ langCode.replace( /-.*/, '' ) ] ? langCode.replace( /-.*/, '' ) :
 						'en';
 
+					CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( plugin.path + 'styles/a11yhelp.css' ) );
 					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'dialogs/lang/' + langCode + '.js' ), function() {
 						editor.lang.a11yhelp = plugin.langEntries[ langCode ];
 						editor.openDialog( commandName );

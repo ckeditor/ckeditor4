@@ -141,5 +141,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en-gb', {
 	openBracket: 'Open Bracket',
 	backSlash: 'Backslash',
 	closeBracket: 'Close Bracket',
-	singleQuote: 'Single Quote'
+	singleQuote: 'Single Quote',
+
+	commands: 'Commands'
 } );

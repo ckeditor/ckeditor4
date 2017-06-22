@@ -82,6 +82,23 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	// Sort in desc.
 	var modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ];
 
+	// function representKeyStroke( keystroke ) {
+	// 	var quotient, modifier,
+	// 		presentation = [];
+	// 	for ( var i = 0; i < modifiers.length; i++ ) {
+	// 		modifier = modifiers[ i ];
+	// 		quotient = keystroke / modifiers[ i ];
+	// 		if ( quotient > 1 && quotient <= 2 ) {
+	// 			keystroke -= modifier;
+	// 			presentation.push( keyMap[ modifier ] );
+	// 		}
+	// 	}
+
+	// 	presentation.push( keyMap[ keystroke ] || String.fromCharCode( keystroke ) );
+
+	// 	return presentation.join( '+' );
+	// }
+
 	function representKeyStroke( keystroke ) {
 		var quotient, modifier,
 			presentation = [];
@@ -90,13 +107,12 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			quotient = keystroke / modifiers[ i ];
 			if ( quotient > 1 && quotient <= 2 ) {
 				keystroke -= modifier;
-				presentation.push( keyMap[ modifier ] );
+				presentation.push( '<kbd>' + keyMap[ modifier ] + '</kbd>' );
 			}
 		}
+		presentation.push( '<kbd>' + ( keyMap[ keystroke ] || String.fromCharCode( keystroke ) ) + '</kbd>' );
 
-		presentation.push( keyMap[ keystroke ] || String.fromCharCode( keystroke ) );
-
-		return presentation.join( '+' );
+		return '<kbd>' + presentation.join( '+' ) + '</kbd>';
 	}
 
 	var variablesPattern = /\$\{(.*?)\}/g,
@@ -108,6 +124,33 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			return keystrokeCode ? representKeyStroke( keystrokeCode ) : match;
 		};
 
+	function populateWithAvailableCommands() {
+		var commands = editor.commands;
+		var commandsWithKeystrokes = [];
+		var command, commandName, keystroke, label;
+		for ( commandName in commands ) {
+			if ( keystroke = editor.getCommandKeystroke( commandName ) ) {
+				command = editor.getCommand( commandName );
+
+				if ( command.label ) {
+					label = command.label;
+				} else if ( command.uiItems && command.uiItems.length && command.uiItems[0].label ) {
+					label = command.uiItems[0].label;
+				} else {
+					label = '';
+				}
+
+				commandsWithKeystrokes.push( {
+					keystroke: representKeyStroke( keystroke ),
+					label: label,
+					description: command.description || ''
+				} );
+			}
+		}
+		return commandsWithKeystrokes;
+	}
+
+
 	// Create the help list directly from lang file entries.
 	function buildHelpContents() {
 		var pageTpl = '<div class="cke_accessibility_legend" role="document" aria-labelledby="' + id + '_arialbl" tabIndex="-1">%1</div>' +
@@ -116,34 +159,55 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			itemTpl = '<dt>%1</dt><dd>%2</dd>';
 
 		var pageHtml = [],
-			sections = lang.legend,
-			sectionLength = sections.length;
+			sections = lang.legend;
+			// sectionLength = sections.length;
 
-		for ( var i = 0; i < sectionLength; i++ ) {
-			var section = sections[ i ],
-				sectionHtml = [],
-				items = section.items,
-				itemsLength = items.length;
+		var section = sections[0],
+			sectionHtml = [],
+			items = section.items,
+			itemsLength = items.length;
 
-			for ( var j = 0; j < itemsLength; j++ ) {
-				var item = items[ j ],
-					// (http://dev.ckeditor.com/ticket/16980) There should be a different hotkey shown in Commands on Edge browser.
-					itemLegend = CKEDITOR.env.edge && item.legendEdge ? item.legendEdge : item.legend;
+		// for ( var i = 0; i < sectionLength; i++ ) {
+		// 	var section = sections[ i ],
+		// 		sectionHtml = [],
+		// 		items = section.items,
+		// 		itemsLength = items.length;
 
-				itemLegend = itemLegend.replace( variablesPattern, replaceVariables );
+		for ( var j = 0; j < itemsLength; j++ ) {
+			var item = items[ j ],
+				// (http://dev.ckeditor.com/ticket/16980) There should be a different hotkey shown in Commands on Edge browser.
+				itemLegend = CKEDITOR.env.edge && item.legendEdge ? item.legendEdge : item.legend;
 
-				// (http://dev.ckeditor.com/ticket/9765) If some commands haven't been replaced in the legend,
-				// most likely their keystrokes are unavailable and we shouldn't include
-				// them in our help list.
-				if ( itemLegend.match( variablesPattern ) ) {
-					continue;
-				}
+			itemLegend = itemLegend.replace( variablesPattern, replaceVariables );
 
-				sectionHtml.push( itemTpl.replace( '%1', item.name ).replace( '%2', itemLegend ) );
+			// (http://dev.ckeditor.com/ticket/9765) If some commands haven't been replaced in the legend,
+			// most likely their keystrokes are unavailable and we shouldn't include
+			// them in our help list.
+			if ( itemLegend.match( variablesPattern ) ) {
+				continue;
 			}
 
-			pageHtml.push( sectionTpl.replace( '%1', section.name ).replace( '%2', sectionHtml.join( '' ) ) );
+			sectionHtml.push( itemTpl.replace( '%1', item.name ).replace( '%2', itemLegend ) );
 		}
+
+		pageHtml.push( sectionTpl.replace( '%1', section.name ).replace( '%2', sectionHtml.join( '' ) ) );
+		// }
+
+		var commandsSectionTpl = '<h1>%1</h1><table>%2</table>';
+		var commandRowTpl = '<tr><td>%1</td><td>%2</td></tr>';
+		var commandsHtml = '';
+		var commandsHtmlHeader = '<thead><tr><th>Command</th><th>Keystroke</th></tr></thead>';
+		var commands = populateWithAvailableCommands();
+		commands = CKEDITOR.tools.array.filter( commands, function() {
+			return true; // later change to belo code
+			// return !!command.label // ADD 'command' to function!!!!!!!!
+		} );
+
+		commandsHtml = CKEDITOR.tools.array.reduce( commands, function( acc, command ) {
+			return acc + commandRowTpl.replace( '%1', command.label ).replace( '%2', command.keystroke + ( command.description ? '<br />' + command.description : '' ) );
+		} , '' );
+
+		pageHtml.push( commandsSectionTpl.replace( '%1', lang.commands ).replace( '%2', commandsHtmlHeader + commandsHtml ) );
 
 		return pageTpl.replace( '%1', pageHtml.join( '' ) );
 	}
@@ -164,45 +228,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 					focus: function() {
 						this.getElement().focus();
 					},
-					html: buildHelpContents() + '<style type="text/css">' +
-						'.cke_accessibility_legend' +
-						'{' +
-							'width:600px;' +
-							'height:400px;' +
-							'padding-right:5px;' +
-							'overflow-y:auto;' +
-							'overflow-x:hidden;' +
-						'}' +
-						// Some adjustments are to be done for Quirks to work "properly" (http://dev.ckeditor.com/ticket/5757)
-						'.cke_browser_quirks .cke_accessibility_legend,' +
-						'{' +
-							'height:390px' +
-						'}' +
-						// Override non-wrapping white-space rule in reset css.
-						'.cke_accessibility_legend *' +
-						'{' +
-							'white-space:normal;' +
-						'}' +
-						'.cke_accessibility_legend h1' +
-						'{' +
-							'font-size: 20px;' +
-							'border-bottom: 1px solid #AAA;' +
-							'margin: 5px 0px 15px;' +
-						'}' +
-						'.cke_accessibility_legend dl' +
-						'{' +
-							'margin-left: 5px;' +
-						'}' +
-						'.cke_accessibility_legend dt' +
-						'{' +
-							'font-size: 13px;' +
-							'font-weight: bold;' +
-						'}' +
-						'.cke_accessibility_legend dd' +
-						'{' +
-							'margin:10px' +
-						'}' +
-						'</style>'
+					html: buildHelpContents()
 				}
 			]
 		} ],
