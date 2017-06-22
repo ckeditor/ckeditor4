@@ -86,6 +86,6 @@ CKEDITOR.dialog.add( 'headingHelp', function( editor ) {
       }
     ],
 
-    buttons: [ CKEDITOR.dialog.cancelButton ]
+    buttons: [ CKEDITOR.dialog.okButton ]
   };
 } );
