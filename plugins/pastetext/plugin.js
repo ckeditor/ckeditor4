@@ -80,6 +80,13 @@
 			editor.on( 'pasteState', function( evt ) {
 				editor.getCommand( commandName ).setState( evt.data );
 			} );
+
+			editor.on( 'keystrokeEntry', function( evt ) {
+				if ( evt.data.commandName == commandName && CKEDITOR.env.edge ) {
+					evt.data.description = editor.lang.pastetext.edgeCommandDescription.replace( '${paste}',
+						editor.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( 'paste' ) ) );
+				}
+			} );
 		}
 	} );
 } )();

@@ -5,101 +5,7 @@
 
 CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	var lang = editor.lang.a11yhelp,
-		coreLang = editor.lang.common.keyboard,
 		id = CKEDITOR.tools.getNextId();
-
-	// CharCode <-> KeyChar.
-	var keyMap = {
-		8: coreLang[ 8 ],
-		9: lang.tab,
-		13: coreLang[ 13 ],
-		16: coreLang[ 16 ],
-		17: coreLang[ 17 ],
-		18: coreLang[ 18 ],
-		19: lang.pause,
-		20: lang.capslock,
-		27: lang.escape,
-		33: lang.pageUp,
-		34: lang.pageDown,
-		35: coreLang[ 35 ],
-		36: coreLang[ 36 ],
-		37: lang.leftArrow,
-		38: lang.upArrow,
-		39: lang.rightArrow,
-		40: lang.downArrow,
-		45: lang.insert,
-		46: coreLang[ 46 ],
-		91: lang.leftWindowKey,
-		92: lang.rightWindowKey,
-		93: lang.selectKey,
-		96: lang.numpad0,
-		97: lang.numpad1,
-		98: lang.numpad2,
-		99: lang.numpad3,
-		100: lang.numpad4,
-		101: lang.numpad5,
-		102: lang.numpad6,
-		103: lang.numpad7,
-		104: lang.numpad8,
-		105: lang.numpad9,
-		106: lang.multiply,
-		107: lang.add,
-		109: lang.subtract,
-		110: lang.decimalPoint,
-		111: lang.divide,
-		112: lang.f1,
-		113: lang.f2,
-		114: lang.f3,
-		115: lang.f4,
-		116: lang.f5,
-		117: lang.f6,
-		118: lang.f7,
-		119: lang.f8,
-		120: lang.f9,
-		121: lang.f10,
-		122: lang.f11,
-		123: lang.f12,
-		144: lang.numLock,
-		145: lang.scrollLock,
-		186: lang.semiColon,
-		187: lang.equalSign,
-		188: lang.comma,
-		189: lang.dash,
-		190: lang.period,
-		191: lang.forwardSlash,
-		192: lang.graveAccent,
-		219: lang.openBracket,
-		220: lang.backSlash,
-		221: lang.closeBracket,
-		222: lang.singleQuote
-	};
-
-	// Modifier keys override.
-	keyMap[ CKEDITOR.ALT ] = coreLang[ 18 ];
-	keyMap[ CKEDITOR.SHIFT ] = coreLang[ 16 ];
-	keyMap[ CKEDITOR.CTRL ] = CKEDITOR.env.mac ? coreLang[ 224 ] : coreLang[ 17 ];
-
-	// Sort in desc.
-	var modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ];
-
-	function representKeyStroke( keystroke ) {
-		var quotient, modifier,
-			presentation = [],
-			openTag = '<kbd>',
-			closeTag = '</kbd>';
-
-		for ( var i = 0; i < modifiers.length; i++ ) {
-			modifier = modifiers[ i ];
-			quotient = keystroke / modifiers[ i ];
-			if ( quotient > 1 && quotient <= 2 ) {
-				keystroke -= modifier;
-				presentation.push( openTag + keyMap[ modifier ] + closeTag );
-			}
-		}
-		presentation.push( openTag + ( keyMap[ keystroke ] || String.fromCharCode( keystroke ) ) + closeTag );
-
-		return openTag + presentation.join( '+' ) + closeTag;
-	}
 
 	var variablesPattern = /\$\{(.*?)\}/g,
 		replaceVariables = function( match, name ) {
@@ -107,7 +13,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 			// Return the keystroke representation or leave match untouched
 			// if there's no keystroke for such command.
-			return keystrokeCode ? representKeyStroke( keystrokeCode ) : match;
+			return keystrokeCode ? editor.plugins.a11yhelp.representKeystroke( editor, keystrokeCode ) : match;
 		};
 
 	function populateWithAvailableCommands() {
@@ -146,9 +52,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 			for ( var j = 0; j < itemsLength; j++ ) {
 				var item = items[ j ],
-					// (http://dev.ckeditor.com/ticket/16980) There should be a different hotkey shown in Commands on Edge browser.
-					// this logic needs to be removed.
-					itemLegend = CKEDITOR.env.edge && item.legendEdge ? item.legendEdge : item.legend;
+					itemLegend = item.legend;
 
 				itemLegend = itemLegend.replace( variablesPattern, replaceVariables );
 
@@ -191,7 +95,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			}
 
 			commandItem.description = commandItem.command.description || '';
-			commandItem.keystrokeHtml = representKeyStroke( editor.getCommandKeystroke( commandItem.command ) );
+			commandItem.keystrokeHtml = editor.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( commandItem.command ) );
 
 			editor.fire( 'keystrokeEntry', commandItem );
 		} );
