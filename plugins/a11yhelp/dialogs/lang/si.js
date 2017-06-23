@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'si', {
 			legend: 'ඔබන්න ${මෙවලම් තීරු අවධානය} මෙවලම් තීරුවේ එහා මෙහා යෑමට.ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරුකාණ්ඩය හා TAB හා SHIFT+TAB .ඉදිරියට යෑමට හා ආපසු යෑමට මෙවලම් තීරු බොත්තම සමග RIGHT ARROW හෝ LEFT ARROW.මෙවලම් තීරු බොත්තම සක්‍රිය කර ගැනීමට SPACE හෝ ENTER බොත්තම ඔබන්න.'
 		}
 		]
-	},
-		{
-		name: 'විධාන',
-		items: [
-			{
-			name: 'විධානය වෙනස් ',
-			legend: 'ඔබන්න ${වෙනස් කිරීම}'
-		},
-			{
-			name: 'විධාන නැවත් පෙර පරිදිම වෙනස්කර ගැනීම.',
-			legend: 'ඔබන්න ${නැවත් පෙර පරිදිම වෙනස්කර ගැනීම}'
-		},
-			{
-			name: 'තද අකුරින් විධාන',
-			legend: 'ඔබන්න ${තද }'
-		},
-			{
-			name: 'බැධී අකුරු විධාන',
-			legend: 'ඔබන්න ${බැධී අකුරු }'
-		},
-			{
-			name: 'යටින් ඉරි ඇද ඇති විධාන.',
-			legend: 'ඔබන්න ${යටින් ඉරි ඇද ඇති}'
-		},
-			{
-			name: 'සම්බන්ධිත විධාන',
-			legend: 'ඔබන්න ${සම්බන්ධ }'
-		},
-			{
-			name: 'මෙවලම් තීරු හැකුලුම් විධාන',
-			legend: 'ඔබන්න ${මෙවලම් තීරු හැකුලුම් }'
-		},
-			{
-			name: 'යොමුවීමට පෙර  වැදගත්  විධාන',
-			legend: 'ඔබන්න ${යොමුවීමට ඊළඟ }'
-		},
-			{
-			name: 'යොමුවීමට ඊළග වැදගත්  විධාන',
-			legend: 'ඔබන්න ${යොමුවීමට ඊළඟ }'
-		},
-			{
-			name: 'ප්‍රවේශ ',
-			legend: 'ඔබන්න  ${a11y }'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab', // MISSING
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'si', {
 	openBracket: 'Open Bracket', // MISSING
 	backSlash: 'Backslash', // MISSING
 	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	singleQuote: 'Single Quote', // MISSING
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

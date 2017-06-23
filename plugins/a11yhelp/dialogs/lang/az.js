@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'az', {
 			legend: 'Elementin cığır paneli seçmək üçün ${elementsPathFocus} basın. Növbəti element seçmək üçün TAB ya SAĞA OX, əvvəlki isə SHIFT+TAB ya SOLA OX istifadə edin. Elementi arımaq SPACE ya ENTER düymələri mövcuddur.'
 		}
 		]
-	},
-		{
-		name: 'Əmrlər',
-		items: [
-			{
-			name: 'Əmri geri qaytar',
-			legend: '${undo} basın'
-		},
-			{
-			name: 'Geri əmri',
-			legend: '${redo} basın'
-		},
-			{
-			name: 'Qalın əmri',
-			legend: '${bold}  basın'
-		},
-			{
-			name: 'Kursiv əmri',
-			legend: '${italic} basın'
-		},
-			{
-			name: 'Altdan xətt əmri',
-			legend: '${underline} basın'
-		},
-			{
-			name: 'Link əmri',
-			legend: '${link} basın'
-		},
-			{
-			name: 'Paneli gizlət əmri',
-			legend: '${toolbarCollapse} basın'
-		},
-			{
-			name: 'Əvvəlki fokus sahəsi seç əmrı',
-			legend: 'Kursordan əvvəl ən yaxın əlçatmaz yerə dəymək üçün ${accessPreviousSpace} basın, misal üçün: iki dal-badal HR teg. Uzaq yerlərə dəymək üçün bir neçə dəfə basın.'
-		},
-			{
-			name: 'Növbəti fokus sahəsi seç əmrı',
-			legend: 'Kursordan sonra ən yaxın əlçatmaz yerə dəymək üçün ${accessNextSpace} basın, misal üçün: iki dal-badal HR teg. Uzaq yerlərə dəymək üçün bir neçə dəfə basın.'
-		},
-			{
-			name: 'Hərtərəfli Kömək',
-			legend: '${a11yHelp} basın'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'az', {
 	openBracket: 'Açılan mötərizə',
 	backSlash: 'Tərs çəpəki xətt',
 	closeBracket: 'Bağlanan mötərizə',
-	singleQuote: 'Tək dırnaq'
+	singleQuote: 'Tək dırnaq',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

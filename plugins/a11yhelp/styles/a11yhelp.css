@@ -34,11 +34,17 @@
 	border: 1px solid black;
 }
 
-.cke_accessibility_legend tr:nth-child(even) {
-	background-color: #dddddd;
+.cke_accessibility_legend th {
+	border: 0.1em solid black;
+	padding: 0.8em;
+	font-weight: bold;
 }
 
 .cke_accessibility_legend td {
-	border: 1px solid black;
+	border: 0.1em solid black;
 	padding: 0.8em;
+}
+
+.cke_accessibility_legend tbody > tr:nth-child(odd) {
+	background-color: #dddddd;
 }

@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'en', {
 	button: 'Paste as plain text',
-	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.'
+	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.',
+	edgeCommandDescription: 'Followed by ${paste}.'
 } );

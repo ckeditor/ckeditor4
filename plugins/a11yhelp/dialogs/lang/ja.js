@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ja', {
 			legend: '${elementsPathFocus} を押すとエレメントパスバーを操作出来ます。Tabか右カーソルで次のエレメントを選択できます。前のエレメントを選択するには、SHIFT+Tabか左カーソルです。スペースもしくは、ENTERでエディタ内の対象エレメントを選択出来ます。'
 		}
 		]
-	},
-		{
-		name: 'コマンド',
-		items: [
-			{
-			name: '元に戻す',
-			legend: '${undo} をクリック'
-		},
-			{
-			name: 'やり直し',
-			legend: '${redo} をクリック'
-		},
-			{
-			name: '太字',
-			legend: '${bold} をクリック'
-		},
-			{
-			name: '斜体 ',
-			legend: '${italic} をクリック'
-		},
-			{
-			name: '下線',
-			legend: '${underline} をクリック'
-		},
-			{
-			name: 'リンク',
-			legend: '${link} をクリック'
-		},
-			{
-			name: 'ツールバーをたたむ',
-			legend: '${toolbarCollapse} をクリック'
-		},
-			{
-			name: '前のカーソル移動のできないポイントへ',
-			legend: '${accessPreviousSpace} を押すとカーソルより前にあるカーソルキーで入り込めないスペースへ移動できます。例えば、HRエレメントが2つ接している場合などです。離れた場所へは、複数回キーを押します。'
-		},
-			{
-			name: '次のカーソルポイントへ移動する',
-			legend: '${accessNextSpace} を押すとカーソルより後ろにあるカーソルキーで入り込めないスペースへ移動できます。例えば、HRエレメントが2つ接している場合などです。離れた場所へは、複数回キーを押します。'
-		},
-			{
-			name: 'ユーザー補助ヘルプ',
-			legend: '${a11yHelp} をクリック'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ja', {
 	openBracket: '開きカッコ',
 	backSlash: 'バックスラッシュ',
 	closeBracket: '閉じカッコ',
-	singleQuote: 'シングルクォート'
+	singleQuote: 'シングルクォート',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 			legend: 'Stiskněte ${elementsPathFocus} pro procházení lišty cesty prvku. Na další tlačítko prvku se přesunete pomocí TAB nebo ŠIPKA VPRAVO. Na předchozí tlačítko se přesunete pomocí SHIFT+TAB nebo ŠIPKA VLEVO. Stiskněte MEZERNÍK nebo ENTER pro vybrání prvku v editoru.'
 		}
 		]
-	},
-		{
-		name: 'Příkazy',
-		items: [
-			{
-			name: ' Příkaz Zpět',
-			legend: 'Stiskněte ${undo}'
-		},
-			{
-			name: ' Příkaz Znovu',
-			legend: 'Stiskněte ${redo}'
-		},
-			{
-			name: ' Příkaz Tučné',
-			legend: 'Stiskněte ${bold}'
-		},
-			{
-			name: ' Příkaz Kurzíva',
-			legend: 'Stiskněte ${italic}'
-		},
-			{
-			name: ' Příkaz Podtržení',
-			legend: 'Stiskněte ${underline}'
-		},
-			{
-			name: ' Příkaz Odkaz',
-			legend: 'Stiskněte ${link}'
-		},
-			{
-			name: ' Příkaz Skrýt panel nástrojů',
-			legend: 'Stiskněte ${toolbarCollapse}'
-		},
-			{
-			name: 'Příkaz pro přístup k předchozímu prostoru zaměření',
-			legend: 'Stiskněte ${accessPreviousSpace} pro přístup k nejbližšímu nedosažitelnému prostoru zaměření před stříškou, například: dva přilehlé prvky HR. Pro dosažení vzdálených prostorů zaměření tuto kombinaci kláves opakujte.'
-		},
-			{
-			name: 'Příkaz pro přístup k dalšímu prostoru zaměření',
-			legend: 'Stiskněte ${accessNextSpace} pro přístup k nejbližšímu nedosažitelnému prostoru zaměření po stříšce, například: dva přilehlé prvky HR. Pro dosažení vzdálených prostorů zaměření tuto kombinaci kláves opakujte.'
-		},
-			{
-			name: ' Nápověda přístupnosti',
-			legend: 'Stiskněte ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tabulátor',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 	openBracket: 'Otevřená hranatá závorka',
 	backSlash: 'Obrácené lomítko',
 	closeBracket: 'Uzavřená hranatá závorka',
-	singleQuote: 'Jednoduchá uvozovka'
+	singleQuote: 'Jednoduchá uvozovka',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

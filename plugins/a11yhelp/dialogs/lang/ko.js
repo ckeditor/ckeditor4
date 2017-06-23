@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
 			legend: '${elementsPathFocus}를 눌러서 요소 경로 막대를 탐색할 수 있습니다. 다음 요소로 이동하려면 TAB 키 또는 오른쪽 화살표 키를 누릅니다. SHIFT+TAB 키 또는 왼쪽 화살표 키를 누르면 이전 버튼으로 이동할 수 있습니다. 스페이스 키나 ENTER 키를 누르면 편집기의 해당 항목을 선택합니다.'
 		}
 		]
-	},
-		{
-		name: '명령',
-		items: [
-			{
-			name: ' 명령 실행 취소',
-			legend: '${undo} 누르시오'
-		},
-			{
-			name: ' 명령 다시 실행',
-			legend: '${redo} 누르시오'
-		},
-			{
-			name: ' 굵게 명령',
-			legend: '${bold} 누르시오'
-		},
-			{
-			name: ' 기울임 꼴 명령',
-			legend: '${italic} 누르시오'
-		},
-			{
-			name: ' 밑줄 명령',
-			legend: '${underline} 누르시오'
-		},
-			{
-			name: ' 링크 명령',
-			legend: '${link} 누르시오'
-		},
-			{
-			name: ' 툴바 줄이기 명령',
-			legend: '${toolbarCollapse} 누르시오'
-		},
-			{
-			name: ' 이전 포커스 공간 접근 명령',
-			legend: '탈자 기호(^) 이전에 ${accessPreviousSpace} 를 누르면, 접근 불가능하면서 가장 가까운 포커스 영역에 접근합니다. 예를 들면, 두 인접한 HR 요소가 있습니다. 키 조합을 반복해서 멀리있는 포커스 영역들에 도달할 수 있습니다.'
-		},
-			{
-			name: '다음 포커스 공간 접근 명령',
-			legend: '탈자 기호(^) 다음에 ${accessNextSpace} 를 누르면, 접근 불가능하면서 가장 가까운 포커스 영역에 접근합니다. 예를 들면, 두 인접한 HR 요소가 있습니다. 키 조합을 반복해서 멀리있는 포커스 영역들에 도달할 수 있습니다. '
-		},
-			{
-			name: ' 접근성 도움말',
-			legend: '${a11yHelp} 누르시오'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: '탭 키',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
 	openBracket: '브라켓 열기([) 키',
 	backSlash: '역슬래시(\\\\) 키',
 	closeBracket: '브라켓 닫기(]) 키',
-	singleQuote: '외 따옴표(\') 키'
+	singleQuote: '외 따옴표(\') 키',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'lv', {
 			legend: 'Nospiediet ${elementsPathFocus} lai pārvietotos uz elementa ceļa joslu. Lai pārvietotos uz nākošo elementa pogu izmantojiet TAB vai Labo bultiņu. Lai pārvietotos uz iepriekšējo elementa pogu izmantojiet SHIFT+TAB vai Kreiso bultiņu. Nospiediet SPACE vai ENTER lai izvēlētos elementu redaktorā.'
 		}
 		]
-	},
-		{
-		name: 'Komandas',
-		items: [
-			{
-			name: 'Komanda atcelt darbību',
-			legend: 'Nospiediet ${undo}'
-		},
-			{
-			name: 'Komanda atkārtot darbību',
-			legend: 'Nospiediet ${redo}'
-		},
-			{
-			name: 'Treknraksta komanda',
-			legend: 'Nospiediet ${bold}'
-		},
-			{
-			name: 'Kursīva komanda',
-			legend: 'Nospiediet ${italic}'
-		},
-			{
-			name: 'Apakšsvītras komanda ',
-			legend: 'Nospiediet ${underline}'
-		},
-			{
-			name: 'Hipersaites komanda',
-			legend: 'Nospiediet ${link}'
-		},
-			{
-			name: 'Rīkjoslas aizvēršanas komanda',
-			legend: 'Nospiediet ${toolbarCollapse}'
-		},
-			{
-			name: 'Piekļūt iepriekšējai fokusa vietas komandai',
-			legend: 'Nospiediet ${accessPreviousSpace} lai piekļūtu tuvākajai nepieejamajai fokusa vietai pirms kursora. Piemēram: diviem blakus esošiem līnijas HR elementiem. Atkārtojiet taustiņu kombināciju lai piekļūtu pie tālākām vietām.'
-		},
-			{
-			name: 'Piekļūt nākošā fokusa apgabala komandai',
-			legend: 'Nospiediet ${accessNextSpace} lai piekļūtu tuvākajai nepieejamajai fokusa vietai pēc kursora. Piemēram: diviem blakus esošiem līnijas HR elementiem. Atkārtojiet taustiņu kombināciju lai piekļūtu pie tālākām vietām.'
-		},
-			{
-			name: 'Pieejamības palīdzība',
-			legend: 'Nospiediet ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab', // MISSING
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'lv', {
 	openBracket: 'Open Bracket', // MISSING
 	backSlash: 'Backslash', // MISSING
 	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	singleQuote: 'Single Quote', // MISSING
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

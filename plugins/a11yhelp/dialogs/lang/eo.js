@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eo', {
 			legend: 'Premu ${elementsPathFocus} por navigi al la breto indikanta la vojon al la redaktilelementoj. Moviĝu al la butono de la sekva elemento per la klavoj TABA aŭ SAGO DEKSTREN. Moviĝu al la butono de la antaŭa elemento per la klavoj MAJUSKLIGA+TABA aŭ SAGO MALDEKSTREN. Premu la SPACETklavon aŭ ENENklavon por selekti la elementon en la redaktilo.'
 		}
 		]
-	},
-		{
-		name: 'Komandoj',
-		items: [
-			{
-			name: 'Komando malfari',
-			legend: 'Premu ${undo}'
-		},
-			{
-			name: 'Komando refari',
-			legend: 'Premu ${redo}'
-		},
-			{
-			name: 'Komando grasa',
-			legend: 'Premu ${bold}'
-		},
-			{
-			name: 'Komando kursiva',
-			legend: 'Premu ${italic}'
-		},
-			{
-			name: 'Komando substreki',
-			legend: 'Premu ${underline}'
-		},
-			{
-			name: 'Komando ligilo',
-			legend: 'Premu ${link}'
-		},
-			{
-			name: 'Komando faldi la ilbreton',
-			legend: 'Premu ${toolbarCollapse}'
-		},
-			{
-			name: 'Komando por atingi la antaŭan fokusan spacon',
-			legend: 'Press ${accessPreviousSpace} por atingi la plej proksiman neatingeblan fokusan spacon antaŭ la kursoro, ekzemple : du kuntuŝiĝajn HR elementojn. Ripetu la klavkombinaĵon por atingi malproksimajn fokusajn spacojn.'
-		},
-			{
-			name: 'Komando por atingi la sekvan fokusan spacon',
-			legend: 'Press ${accessNextSpace} por atingi la plej proksiman neatingeblan fokusan spacon post la kursoro, ekzemple : du kuntuŝiĝajn HR elementojn. Ripetu la klavkombinajôn por atingi malproksimajn fokusajn spacojn'
-		},
-			{
-			name: 'Helpilo pri atingeblo',
-			legend: 'Premu ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tabo',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eo', {
 	openBracket: 'Malferma Krampo',
 	backSlash: 'Retroklino',
 	closeBracket: 'Ferma Krampo',
-	singleQuote: 'Citilo'
+	singleQuote: 'Citilo',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

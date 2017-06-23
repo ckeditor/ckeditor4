@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'ru', {
 	button: 'Вставить только текст',
-	pasteNotification: 'Ваш браузер не поддерживает данный метод вставки. Для вставки нажмите %1'
+	pasteNotification: 'Ваш браузер не поддерживает данный метод вставки. Для вставки нажмите %1',
+	edgeCommandDescription: 'Followed by ${paste}.' // MISSING
 } );

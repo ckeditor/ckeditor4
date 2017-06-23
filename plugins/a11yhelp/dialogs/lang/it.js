@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 			{
 			name: 'Finestra Editor',
 			legend:
-				'All\'interno di una finestra di dialogo è possibile premere TAB per passare all\'elemento successivo della finestra, MAIUSC+TAB per passare a quello precedente; premere INVIO per inviare i dati della finestra, oppure ESC per annullare l\'operazione. Quando una finestra di dialogo ha più schede, è possibile passare all\'elenco delle schede sia con ALT+F10 che con TAB, in base all\'ordine delle tabulazioni della finestra. Quando l\'elenco delle schede è attivo, premere la FRECCIA DESTRA o la FRECCIA SINISTRA per passare rispettivamente alla scheda successiva o a quella precedente.' 
+				'All\'interno di una finestra di dialogo è possibile premere TAB per passare all\'elemento successivo della finestra, MAIUSC+TAB per passare a quello precedente; premere INVIO per inviare i dati della finestra, oppure ESC per annullare l\'operazione. Quando una finestra di dialogo ha più schede, è possibile passare all\'elenco delle schede sia con ALT+F10 che con TAB, in base all\'ordine delle tabulazioni della finestra. Quando l\'elenco delle schede è attivo, premere la FRECCIA DESTRA o la FRECCIA SINISTRA per passare rispettivamente alla scheda successiva o a quella precedente.'
 		},
 
 			{
@@ -34,56 +34,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 			{
 			name: 'Barra percorso elementi editor',
 			legend: 'Premere ${elementsPathFocus} per passare agli elementi della barra del percorso. Usare TAB o FRECCIA DESTRA per passare al pulsante successivo. Per passare al pulsante precedente premere MAIUSC+TAB o FRECCIA SINISTRA. Premere SPAZIO o INVIO per selezionare l\'elemento nell\'editor.'
-		}
-		]
-	},
-		{
-		name: 'Comandi',
-		items: [
-			{
-			name: ' Annulla comando',
-			legend: 'Premi ${undo}'
-		},
-			{
-			name: ' Ripeti comando',
-			legend: 'Premi ${redo}'
-		},
-			{
-			name: ' Comando Grassetto',
-			legend: 'Premi ${bold}'
-		},
-			{
-			name: ' Comando Corsivo',
-			legend: 'Premi ${italic}'
-		},
-			{
-			name: ' Comando Sottolineato',
-			legend: 'Premi ${underline}'
-		},
-			{
-			name: ' Comando Link',
-			legend: 'Premi ${link}'
-		},
-			{
-			name: ' Comando riduci barra degli strumenti',
-			legend: 'Premi ${toolbarCollapse}'
-		},
-			{
-			name: 'Comando di accesso al precedente spazio di focus',
-			legend: 'Premi ${accessPreviousSpace} per accedere il più vicino spazio di focus non raggiungibile prima del simbolo caret, per esempio due elementi HR adiacenti. Ripeti la combinazione di tasti per raggiungere spazi di focus distanti.'
-		},
-			{
-			name: 'Comando di accesso al prossimo spazio di focus',
-			legend: 'Premi ${accessNextSpace} per accedere il più vicino spazio di focus non raggiungibile dopo il simbolo caret, per esempio due elementi HR adiacenti. Ripeti la combinazione di tasti per raggiungere spazi di focus distanti.'
-		},
-			{
-			name: ' Aiuto Accessibilità',
-			legend: 'Premi ${a11yHelp}'
-		},
-			{
-			name: 'Incolla come testo semplice',
-			legend: 'Premi ${pastetext}',
-			legendEdge: 'Premi ${pastetext}, seguito da ${paste}'
 		}
 		]
 	}
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 	openBracket: 'Parentesi quadra aperta',
 	backSlash: 'Barra rovesciata',
 	closeBracket: 'Parentesi quadra chiusa',
-	singleQuote: 'Apostrofo'
+	singleQuote: 'Apostrofo',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

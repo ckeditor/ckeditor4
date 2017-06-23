@@ -82,37 +82,23 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	// Sort in desc.
 	var modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ];
 
-	// function representKeyStroke( keystroke ) {
-	// 	var quotient, modifier,
-	// 		presentation = [];
-	// 	for ( var i = 0; i < modifiers.length; i++ ) {
-	// 		modifier = modifiers[ i ];
-	// 		quotient = keystroke / modifiers[ i ];
-	// 		if ( quotient > 1 && quotient <= 2 ) {
-	// 			keystroke -= modifier;
-	// 			presentation.push( keyMap[ modifier ] );
-	// 		}
-	// 	}
-
-	// 	presentation.push( keyMap[ keystroke ] || String.fromCharCode( keystroke ) );
-
-	// 	return presentation.join( '+' );
-	// }
-
 	function representKeyStroke( keystroke ) {
 		var quotient, modifier,
-			presentation = [];
+			presentation = [],
+			openTag = '<kbd>',
+			closeTag = '</kbd>';
+
 		for ( var i = 0; i < modifiers.length; i++ ) {
 			modifier = modifiers[ i ];
 			quotient = keystroke / modifiers[ i ];
 			if ( quotient > 1 && quotient <= 2 ) {
 				keystroke -= modifier;
-				presentation.push( '<kbd>' + keyMap[ modifier ] + '</kbd>' );
+				presentation.push( openTag + keyMap[ modifier ] + closeTag );
 			}
 		}
-		presentation.push( '<kbd>' + ( keyMap[ keystroke ] || String.fromCharCode( keystroke ) ) + '</kbd>' );
+		presentation.push( openTag + ( keyMap[ keystroke ] || String.fromCharCode( keystroke ) ) + closeTag );
 
-		return '<kbd>' + presentation.join( '+' ) + '</kbd>';
+		return openTag + presentation.join( '+' ) + closeTag;
 	}
 
 	var variablesPattern = /\$\{(.*?)\}/g,
@@ -125,25 +111,13 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		};
 
 	function populateWithAvailableCommands() {
-		var commands = editor.commands;
-		var commandsWithKeystrokes = [];
-		var command, commandName, keystroke, label;
-		for ( commandName in commands ) {
-			if ( keystroke = editor.getCommandKeystroke( commandName ) ) {
-				command = editor.getCommand( commandName );
-
-				if ( command.label ) {
-					label = command.label;
-				} else if ( command.uiItems && command.uiItems.length && command.uiItems[0].label ) {
-					label = command.uiItems[0].label;
-				} else {
-					label = '';
-				}
-
+		var commandsWithKeystrokes = [],
+			commandName;
+		for ( commandName in editor.commands ) {
+			if ( editor.getCommandKeystroke( commandName ) ) {
 				commandsWithKeystrokes.push( {
-					keystroke: representKeyStroke( keystroke ),
-					label: label,
-					description: command.description || ''
+					'command': editor.getCommand( commandName ),
+					'commandName': commandName
 				} );
 			}
 		}
@@ -158,56 +132,83 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			sectionTpl = '<h1>%1</h1><dl>%2</dl>',
 			itemTpl = '<dt>%1</dt><dd>%2</dd>';
 
-		var pageHtml = [],
-			sections = lang.legend;
-			// sectionLength = sections.length;
+		var pageHtml = [];
 
-		var section = sections[0],
-			sectionHtml = [],
-			items = section.items,
-			itemsLength = items.length;
+		// Sections from lang files
+		var sections = lang.legend,
+			sectionLength = sections.length;
 
-		// for ( var i = 0; i < sectionLength; i++ ) {
-		// 	var section = sections[ i ],
-		// 		sectionHtml = [],
-		// 		items = section.items,
-		// 		itemsLength = items.length;
+		for ( var i = 0; i < sectionLength; i++ ) {
+			var section = sections[ i ],
+				sectionHtml = [],
+				items = section.items,
+				itemsLength = items.length;
 
-		for ( var j = 0; j < itemsLength; j++ ) {
-			var item = items[ j ],
-				// (http://dev.ckeditor.com/ticket/16980) There should be a different hotkey shown in Commands on Edge browser.
-				itemLegend = CKEDITOR.env.edge && item.legendEdge ? item.legendEdge : item.legend;
+			for ( var j = 0; j < itemsLength; j++ ) {
+				var item = items[ j ],
+					// (http://dev.ckeditor.com/ticket/16980) There should be a different hotkey shown in Commands on Edge browser.
+					// this logic needs to be removed.
+					itemLegend = CKEDITOR.env.edge && item.legendEdge ? item.legendEdge : item.legend;
 
-			itemLegend = itemLegend.replace( variablesPattern, replaceVariables );
+				itemLegend = itemLegend.replace( variablesPattern, replaceVariables );
 
-			// (http://dev.ckeditor.com/ticket/9765) If some commands haven't been replaced in the legend,
-			// most likely their keystrokes are unavailable and we shouldn't include
-			// them in our help list.
-			if ( itemLegend.match( variablesPattern ) ) {
-				continue;
+				// (http://dev.ckeditor.com/ticket/9765) If some commands haven't been replaced in the legend,
+				// most likely their keystrokes are unavailable and we shouldn't include
+				// them in our help list.
+				if ( itemLegend.match( variablesPattern ) ) {
+					continue;
+				}
+
+				sectionHtml.push( itemTpl.replace( '%1', item.name ).replace( '%2', itemLegend ) );
 			}
 
-			sectionHtml.push( itemTpl.replace( '%1', item.name ).replace( '%2', itemLegend ) );
+			pageHtml.push( sectionTpl.replace( '%1', section.name ).replace( '%2', sectionHtml.join( '' ) ) );
 		}
 
-		pageHtml.push( sectionTpl.replace( '%1', section.name ).replace( '%2', sectionHtml.join( '' ) ) );
-		// }
+		// Section based on available commands
+		var commandsSectionTpl = '<h1>%1</h1><table>%2</table>',
+			commandRowTpl = '<tr><td>%1</td><td>%2</td></tr>',
+			commandsTbodyTpl = '<tbody>%1</tbody>',
+			commandsTbodyHtml = '',
+			commandsTheadTpl = '<thead><tr><th>%1</th><th>%2</th></tr></thead>',
+			commandsTheadHtml = '',
+			commandItems;
 
-		var commandsSectionTpl = '<h1>%1</h1><table>%2</table>';
-		var commandRowTpl = '<tr><td>%1</td><td>%2</td></tr>';
-		var commandsHtml = '';
-		var commandsHtmlHeader = '<thead><tr><th>Command</th><th>Keystroke</th></tr></thead>';
-		var commands = populateWithAvailableCommands();
-		commands = CKEDITOR.tools.array.filter( commands, function() {
+		commandsTheadHtml = commandsTheadTpl.replace( '%1', lang.commandsList.command ).replace( '%2', lang.commandsList.keystroke );
+
+		// get all commands with keystrokes
+		commandItems = populateWithAvailableCommands();
+
+		// get data necessary for filling table
+		CKEDITOR.tools.array.forEach( commandItems, function( commandItem ) {
+
+			if ( commandItem.command.label ) {
+				commandItem.label = commandItem.command.label;
+			} else if ( commandItem.command.uiItems && commandItem.command.uiItems.length && commandItem.command.uiItems[0].label ) {
+				commandItem.label = commandItem.command.uiItems[0].label;
+			} else {
+				commandItem.label = '';
+			}
+
+			commandItem.description = commandItem.command.description || '';
+			commandItem.keystrokeHtml = representKeyStroke( editor.getCommandKeystroke( commandItem.command ) );
+
+			editor.fire( 'keystrokeEntry', commandItem );
+		} );
+
+		// filter out commands without label
+		commandItems = CKEDITOR.tools.array.filter( commandItems, function() {
 			return true; // later change to belo code
 			// return !!command.label // ADD 'command' to function!!!!!!!!
 		} );
 
-		commandsHtml = CKEDITOR.tools.array.reduce( commands, function( acc, command ) {
-			return acc + commandRowTpl.replace( '%1', command.label ).replace( '%2', command.keystroke + ( command.description ? '<br />' + command.description : '' ) );
-		} , '' );
+		// create inner table with commands
+		commandsTbodyHtml = commandsTbodyTpl.replace( '%1', CKEDITOR.tools.array.reduce( commandItems, function( acc, commandItem ) {
+			return acc + commandRowTpl.replace( '%1', commandItem.label ).replace( '%2', commandItem.keystrokeHtml + ( commandItem.description ? '<br />' + commandItem.description : '' ) );
+		} , '' ) );
 
-		pageHtml.push( commandsSectionTpl.replace( '%1', lang.commands ).replace( '%2', commandsHtmlHeader + commandsHtml ) );
+		// push section html to output file.
+		pageHtml.push( commandsSectionTpl.replace( '%1', lang.commandsList.sectionName ).replace( '%2', commandsTheadHtml + commandsTbodyHtml ) );
 
 		return pageTpl.replace( '%1', pageHtml.join( '' ) );
 	}

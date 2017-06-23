@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 			legend: 'Trykk ${elementsPathFocus} for å navigere til verktøylinjen som viser elementsti. Gå til neste elementknapp med TAB eller HØYRE PILTAST. Gå til forrige elementknapp med SHIFT+TAB eller VENSTRE PILTAST. Trykk MELLOMROM eller ENTER for å velge elementet i editoren.'
 		}
 		]
-	},
-		{
-		name: 'Hurtigtaster',
-		items: [
-			{
-			name: 'Angre',
-			legend: 'Trykk ${undo}'
-		},
-			{
-			name: 'Gjør om',
-			legend: 'Trykk ${redo}'
-		},
-			{
-			name: 'Fet tekst',
-			legend: 'Trykk ${bold}'
-		},
-			{
-			name: 'Kursiv tekst',
-			legend: 'Trykk ${italic}'
-		},
-			{
-			name: 'Understreking',
-			legend: 'Trykk ${underline}'
-		},
-			{
-			name: 'Lenke',
-			legend: 'Trykk ${link}'
-		},
-			{
-			name: 'Skjul verktøylinje',
-			legend: 'Trykk ${toolbarCollapse}'
-		},
-			{
-			name: 'Gå til forrige fokusområde',
-			legend: 'Trykk ${accessPreviousSpace} for å komme til nærmeste fokusområde før skrivemarkøren som ikke kan nås på vanlig måte, for eksempel to tilstøtende HR-elementer. Gjenta tastekombinasjonen for å komme til fokusområder lenger unna i dokumentet.'
-		},
-			{
-			name: 'Gå til neste fokusområde',
-			legend: 'Trykk ${accessNextSpace} for å komme til nærmeste fokusområde etter skrivemarkøren som ikke kan nås på vanlig måte, for eksempel to tilstøtende HR-elementer. Gjenta tastekombinasjonen for å komme til fokusområder lenger unna i dokumentet.'
-		},
-			{
-			name: 'Hjelp for tilgjengelighet',
-			legend: 'Trykk ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tabulator',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 	openBracket: 'Åpne parentes',
 	backSlash: 'Bakover skråstrek',
 	closeBracket: 'Lukk parentes',
-	singleQuote: 'Enkelt sitattegn'
+	singleQuote: 'Enkelt sitattegn',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

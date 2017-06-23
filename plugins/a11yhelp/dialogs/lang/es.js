@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
 			legend: 'Presiona ${elementsPathFocus} para navegar a los elementos de la barra de ruta. Te mueves al siguiente elemento botón con TAB o FLECHA DERECHA. Te mueves al botón previo con SHIFT+TAB o FLECHA IZQUIERDA. Presiona ESPACIO o ENTER para seleccionar el elemento en el editor.'
 		}
 		]
-	},
-		{
-		name: 'Comandos',
-		items: [
-			{
-			name: 'Comando deshacer',
-			legend: 'Presiona ${undo}'
-		},
-			{
-			name: 'Comando rehacer',
-			legend: 'Presiona ${redo}'
-		},
-			{
-			name: 'Comando negrita',
-			legend: 'Presiona ${bold}'
-		},
-			{
-			name: 'Comando itálica',
-			legend: 'Presiona ${italic}'
-		},
-			{
-			name: 'Comando subrayar',
-			legend: 'Presiona ${underline}'
-		},
-			{
-			name: 'Comando liga',
-			legend: 'Presiona ${liga}'
-		},
-			{
-			name: 'Comando colapsar barra de herramientas',
-			legend: 'Presiona ${toolbarCollapse}'
-		},
-			{
-			name: 'Comando accesar el anterior espacio de foco',
-			legend: 'Presiona ${accessPreviousSpace} para accesar el espacio de foco no disponible más cercano anterior al cursor, por ejemplo: dos elementos HR adyacentes. Repite la combinación de teclas para alcanzar espacios de foco distantes.'
-		},
-			{
-			name: 'Comando accesar el siguiente spacio de foco',
-			legend: 'Presiona ${accessNextSpace} para accesar el espacio de foco no disponible más cercano después del cursor, por ejemplo: dos elementos HR adyacentes. Repite la combinación de teclas para alcanzar espacios de foco distantes.'
-		},
-			{
-			name: 'Ayuda de Accesibilidad',
-			legend: 'Presiona ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tabulador',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es', {
 	openBracket: 'Abrir llave',
 	backSlash: 'Diagonal Invertida',
 	closeBracket: 'Cerrar llave',
-	singleQuote: 'Comillas simples'
+	singleQuote: 'Comillas simples',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

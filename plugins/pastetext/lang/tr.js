@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'tr', {
 	button: 'Düz Metin Olarak Yapıştır',
-	pasteNotification: 'Web tarayıcınız bu şekilde düz metni yapıştırmanıza izin vermiyor. Yapıştırmak için %1 basınız.'
+	pasteNotification: 'Web tarayıcınız bu şekilde düz metni yapıştırmanıza izin vermiyor. Yapıştırmak için %1 basınız.',
+	edgeCommandDescription: 'Followed by ${paste}.' // MISSING
 } );

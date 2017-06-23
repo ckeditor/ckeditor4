@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cy', {
 			legend: 'Pwyswch ${elementsPathFocus} i fynd i\'r bar llwybr elfennau. Symudwch i fotwm yr elfen nesaf gyda TAB neu SAETH DDE. Symudwch i fotwm blaenorol gyda SHIFT+TAB neu SAETH CHWITH. Pwyswch SPACE neu ENTER i ddewis yr elfen yn y golygydd.'
 		}
 		]
-	},
-		{
-		name: 'Gorchmynion',
-		items: [
-			{
-			name: 'Gorchymyn dadwneud',
-			legend: 'Pwyswch ${undo}'
-		},
-			{
-			name: 'Gorchymyn ailadrodd',
-			legend: 'Pwyswch ${redo}'
-		},
-			{
-			name: 'Gorchymyn Bras',
-			legend: 'Pwyswch ${bold}'
-		},
-			{
-			name: 'Gorchymyn italig',
-			legend: 'Pwyswch ${italig}'
-		},
-			{
-			name: 'Gorchymyn tanlinellu',
-			legend: 'Pwyso ${underline}'
-		},
-			{
-			name: 'Gorchymyn dolen',
-			legend: 'Pwyswch ${link}'
-		},
-			{
-			name: 'Gorchymyn Cwympo\'r Dewislen',
-			legend: 'Pwyswch ${toolbarCollapse}'
-		},
-			{
-			name: 'Myned i orchymyn bwlch ffocws blaenorol',
-			legend: 'Pwyswch ${accessPreviousSpace} i fyned i\'r "blwch ffocws sydd methu ei gyrraedd" cyn y caret, er enghraifft: dwy elfen HR drws nesaf i\'w gilydd. AIladroddwch y cyfuniad allwedd i gyrraedd bylchau ffocws pell.'
-		},
-			{
-			name: 'Ewch i\'r gorchymyn blwch ffocws nesaf',
-			legend: 'Pwyswch ${accessNextSpace} i fyned i\'r blwch ffocws agosaf nad oes modd ei gyrraedd ar ôl y caret, er enghraifft: dwy elfen HR drws nesaf i\'w gilydd. Ailadroddwch y cyfuniad allwedd i gyrraedd blychau ffocws pell.'
-		},
-			{
-			name: 'Cymorth Hygyrchedd',
-			legend: 'Pwyswch ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cy', {
 	openBracket: 'Open Bracket', // MISSING
 	backSlash: 'Backslash', // MISSING
 	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	singleQuote: 'Single Quote', // MISSING
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

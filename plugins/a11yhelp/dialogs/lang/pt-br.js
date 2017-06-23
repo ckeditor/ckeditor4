@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt-br', {
 			legend: 'Pressione ${elementsPathFocus} para a barra de caminho dos elementos. Mova para o próximo botão de elemento com TAB ou SETA PARA DIREITA. Mova para o botão anterior com SHIFT+TAB ou SETA PARA ESQUERDA. Pressione ESPAÇO ou ENTER para selecionar o elemento no editor.'
 		}
 		]
-	},
-		{
-		name: 'Comandos',
-		items: [
-			{
-			name: ' Comando Desfazer',
-			legend: 'Pressione ${undo}'
-		},
-			{
-			name: ' Comando Refazer',
-			legend: 'Pressione ${redo}'
-		},
-			{
-			name: ' Comando Negrito',
-			legend: 'Pressione ${bold}'
-		},
-			{
-			name: ' Comando Itálico',
-			legend: 'Pressione ${italic}'
-		},
-			{
-			name: ' Comando Sublinhado',
-			legend: 'Pressione ${underline}'
-		},
-			{
-			name: ' Comando Link',
-			legend: 'Pressione ${link}'
-		},
-			{
-			name: ' Comando Fechar Barra de Ferramentas',
-			legend: 'Pressione ${toolbarCollapse}'
-		},
-			{
-			name: 'Acessar o comando anterior de spaço de foco',
-			legend: 'Pressione ${accessNextSpace} para acessar o espaço de foco não alcançável mais próximo antes do cursor, por exemplo: dois elementos HR adjacentes. Repita a combinação de teclas para alcançar espaços de foco distantes.'
-		},
-			{
-			name: 'Acessar próximo fomando de spaço de foco',
-			legend: 'Pressione ${accessNextSpace} para acessar o espaço de foco não alcançável mais próximo após o cursor, por exemplo: dois elementos HR adjacentes. Repita a combinação de teclas para alcançar espaços de foco distantes.'
-		},
-			{
-			name: ' Ajuda de Acessibilidade',
-			legend: 'Pressione ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tecla Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt-br', {
 	openBracket: 'Abrir Conchetes',
 	backSlash: 'Contra-barra',
 	closeBracket: 'Fechar Colchetes',
-	singleQuote: 'Aspas Simples'
+	singleQuote: 'Aspas Simples',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sk', {
 			legend: 'Stlačte ${elementsPathFocus} pre navigovanie na pásmo cesty elementu. Presuňte sa na tlačidlo ďalšieho prvku s TAB alebo pravou šípkou. Presuňte sa k predchádzajúcemu tlačidlu s SHIFT+TAB alebo ľavou šípkou. Stlačte medzerník alebo ENTER pre výber prvku v editore.'
 		}
 		]
-	},
-		{
-		name: 'Príkazy',
-		items: [
-			{
-			name: 'Vrátiť príkazy',
-			legend: 'Stlačte ${undo}'
-		},
-			{
-			name: 'Nanovo vrátiť príkaz',
-			legend: 'Stlačte ${redo}'
-		},
-			{
-			name: 'Príkaz na stučnenie',
-			legend: 'Stlačte ${bold}'
-		},
-			{
-			name: 'Príkaz na kurzívu',
-			legend: 'Stlačte ${italic}'
-		},
-			{
-			name: 'Príkaz na podčiarknutie',
-			legend: 'Stlačte ${underline}'
-		},
-			{
-			name: 'Príkaz na odkaz',
-			legend: 'Stlačte ${link}'
-		},
-			{
-			name: 'Príkaz na zbalenie lišty nástrojov',
-			legend: 'Stlačte ${toolbarCollapse}'
-		},
-			{
-			name: 'Prejsť na predchádzajúcu zamerateľnú medzeru príkazu',
-			legend: 'Stlačte ${accessPreviousSpace} pre prístup na najbližšie nedosiahnuteľné zamerateľné medzery pred vsuvkuo. Napríklad: dve za sebou idúce horizontálne čiary. Opakujte kombináciu klávesov pre dosiahnutie vzdialených zamerateľných medzier.'
-		},
-			{
-			name: 'Prejsť na ďalší ',
-			legend: 'Stlačte ${accessNextSpace} pre prístup na najbližšie nedosiahnuteľné zamerateľné medzery po vsuvke. Napríklad: dve za sebou idúce horizontálne čiary. Opakujte kombináciu klávesov pre dosiahnutie vzdialených zamerateľných medzier.'
-		},
-			{
-			name: 'Pomoc prístupnosti',
-			legend: 'Stlačte ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sk', {
 	openBracket: 'Hranatá zátvorka otváracia',
 	backSlash: 'Backslash',
 	closeBracket: 'Hranatá zátvorka zatváracia',
-	singleQuote: 'Jednoduché úvodzovky'
+	singleQuote: 'Jednoduché úvodzovky',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

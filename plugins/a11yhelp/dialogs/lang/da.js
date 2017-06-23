@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 			legend: 'Tryk ${elementsPathFocus} for at navigere til elementernes sti-bar. Flyt til næste element-knap med TAB eller HØJRE PIL. Flyt til forrige knap med SHIFT+TAB eller VENSTRE PIL. Klik MELLEMRUM eller RETUR for at vælge element i editoren.'
 		}
 		]
-	},
-		{
-		name: 'Kommandoer',
-		items: [
-			{
-			name: 'Fortryd kommando',
-			legend: 'Klik på ${undo}'
-		},
-			{
-			name: 'Gentag kommando',
-			legend: 'Klik ${redo}'
-		},
-			{
-			name: 'Fed kommando',
-			legend: 'Klik ${bold}'
-		},
-			{
-			name: 'Kursiv kommando',
-			legend: 'Klik ${italic}'
-		},
-			{
-			name: 'Understregnings kommando',
-			legend: 'Klik ${underline}'
-		},
-			{
-			name: 'Link kommando',
-			legend: 'Klik ${link}'
-		},
-			{
-			name: 'Klap værktøjslinje sammen kommando ',
-			legend: 'Klik ${toolbarCollapse}'
-		},
-			{
-			name: 'Adgang til forrige fokusområde kommando',
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
-		},
-			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
-		},
-			{
-			name: 'Tilgængelighedshjælp',
-			legend: 'Kilk ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 	openBracket: 'Start klamme',
 	backSlash: 'Omvendt skråstreg',
 	closeBracket: 'Slut klamme',
-	singleQuote: 'Enkelt citationstegn'
+	singleQuote: 'Enkelt citationstegn',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

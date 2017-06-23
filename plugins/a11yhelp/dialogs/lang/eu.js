@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eu', {
 			legend: 'Sakatu ${elementsPathFocus} elementuaren bide-barrara nabigatzeko. Hurrengo elementuaren botoira joateko erabili TAB edo ESKUIN-GEZIA. Aurreko botoira joateko aldiz erabili MAIUS+TAB edo EZKER-GEZIA. Elementua editorean hautatzeko sakatu ZURIUNEA edo SARTU.'
 		}
 		]
-	},
-		{
-		name: 'Komandoak',
-		items: [
-			{
-			name: 'Desegin komandoa',
-			legend: 'Sakatu ${undo}'
-		},
-			{
-			name: 'Berregin komandoa',
-			legend: 'Sakatu ${redo}'
-		},
-			{
-			name: 'Lodia komandoa',
-			legend: 'Sakatu ${bold}'
-		},
-			{
-			name: 'Etzana komandoa',
-			legend: 'Sakatu ${italic}'
-		},
-			{
-			name: 'Azpimarratu komandoa',
-			legend: 'Sakatu ${underline}'
-		},
-			{
-			name: 'Esteka komandoa',
-			legend: 'Sakatu ${link}'
-		},
-			{
-			name: 'Tolestu tresna-barra komandoa',
-			legend: 'Sakatu ${toolbarCollapse}'
-		},
-			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
-		},
-			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
-		},
-			{
-			name: 'Erabilerraztasunaren laguntza',
-			legend: 'Sakatu ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tabuladorea',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eu', {
 	openBracket: 'Parentesia ireki',
 	backSlash: 'Alderantzizko barra',
 	closeBracket: 'Itxi parentesia',
-	singleQuote: 'Komatxo bakuna'
+	singleQuote: 'Komatxo bakuna',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

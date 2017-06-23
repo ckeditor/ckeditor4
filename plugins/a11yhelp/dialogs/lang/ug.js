@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 			legend: '${elementsPathFocus} بېسىلسا ئېلېمېنت يول بالداققا يېتەكلەيدۇ، TAB ياكى ئوڭ يا ئوقتا كېيىنكى ئېلېمېنت تاللىنىدۇ، SHIFT+TAB ياكى سول يا ئوقتا ئالدىنقى ئېلېمېنت تاللىنىدۇ، بوشلۇق ياكى Enter كۇنۇپكىسىدا تەھرىرلىگۈچتىكى ئېلېمېنت تاللىنىدۇ.'
 		}
 		]
-	},
-		{
-		name: 'بۇيرۇق',
-		items: [
-			{
-			name: 'بۇيرۇقتىن يېنىۋال',
-			legend: '${undo} نى بېسىڭ'
-		},
-			{
-			name: 'قايتىلاش بۇيرۇقى',
-			legend: '${redo} نى بېسىڭ'
-		},
-			{
-			name: 'توملىتىش بۇيرۇقى',
-			legend: '${bold} نى بېسىڭ'
-		},
-			{
-			name: 'يانتۇ بۇيرۇقى',
-			legend: '${italic} نى بېسىڭ'
-		},
-			{
-			name: 'ئاستى سىزىق بۇيرۇقى',
-			legend: '${underline} نى بېسىڭ'
-		},
-			{
-			name: 'ئۇلانما بۇيرۇقى',
-			legend: '${link} نى بېسىڭ'
-		},
-			{
-			name: 'قورال بالداق قاتلاش بۇيرۇقى',
-			legend: '${toolbarCollapse} نى بېسىڭ'
-		},
-			{
-			name: 'ئالدىنقى فوكۇس نۇقتىسىنى زىيارەت قىلىدىغان بۇيرۇق',
-			legend: '${accessPreviousSpace} بېسىپ ^ بەلگىسىگە ئەڭ يېقىن زىيارەت قىلغىلى بولمايدىغان فوكۇس نۇقتا رايونىنىڭ ئالدىنى زىيارەت قىلىدۇ، مەسىلەن: ئۆز ئارا قوشنا ئىككى HR ئېلېمېنت. بۇ بىرىكمە كۇنۇپكا تەكرارلانسا يىراقتىكى فوكۇس نۇقتا رايونىغا يەتكىلى بولىدۇ.'
-		},
-			{
-			name: 'كېيىنكى فوكۇس نۇقتىسىنى زىيارەت قىلىدىغان بۇيرۇق',
-			legend: '${accessNextSpace} بېسىپ ^ بەلگىسىگە ئەڭ يېقىن زىيارەت قىلغىلى بولمايدىغان فوكۇس نۇقتا رايونىنىڭ كەينىنى زىيارەت قىلىدۇ، مەسىلەن: ئۆز ئارا قوشنا ئىككى HR ئېلېمېنت. بۇ بىرىكمە كۇنۇپكا تەكرارلانسا يىراقتىكى فوكۇس نۇقتا رايونىغا يەتكىلى بولىدۇ.'
-		},
-			{
-			name: 'توسالغۇسىز لايىھە چۈشەندۈرۈشى',
-			legend: '${a11yHelp} نى بېسىڭ'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ug', {
 	openBracket: 'ئېچىلغان تىرناق',
 	backSlash: 'ئوڭغا يانتۇ سىزىق',
 	closeBracket: 'يېپىلغان تىرناق',
-	singleQuote: 'يالاڭ پەش'
+	singleQuote: 'يالاڭ پەش',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

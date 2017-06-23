@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 			legend: 'Press ${elementsPathFocus} to navigate to the elements path bar. Move to next element button with TAB or RIGHT ARROW. Move to previous button with SHIFT+TAB or LEFT ARROW. Press SPACE or ENTER to select the element in editor.' // MISSING
 		}
 		]
-	},
-		{
-		name: 'ពាក្យបញ្ជា',
-		items: [
-			{
-			name: 'ការ​បញ្ជា​មិនធ្វើវិញ',
-			legend: 'ចុច ${undo}'
-		},
-			{
-			name: 'ការបញ្ជា​ធ្វើវិញ',
-			legend: 'ចុច ${redo}'
-		},
-			{
-			name: 'ការបញ្ជា​អក្សរ​ដិត',
-			legend: 'ចុច ${bold}'
-		},
-			{
-			name: 'ការបញ្ជា​អក្សរ​ទ្រេត',
-			legend: 'ចុច ${italic}'
-		},
-			{
-			name: 'ពាក្យបញ្ជា​បន្ទាត់​ពីក្រោម',
-			legend: 'ចុច ${underline}'
-		},
-			{
-			name: 'ពាក្យបញ្ជា​តំណ',
-			legend: 'ចុច ${link}'
-		},
-			{
-			name: ' Toolbar Collapse command', // MISSING
-			legend: 'Press ${toolbarCollapse}' // MISSING
-		},
-			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
-		},
-			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
-		},
-			{
-			name: 'ជំនួយ​ពី​ភាព​ងាយស្រួល',
-			legend: 'ជួយ ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab', // MISSING
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 	openBracket: 'តង្កៀប​បើក',
 	backSlash: 'Backslash', // MISSING
 	closeBracket: 'តង្កៀប​បិទ',
-	singleQuote: 'បន្តក់​មួយ'
+	singleQuote: 'បន្តក់​មួយ',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

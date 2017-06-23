@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'he', {
 			legend: 'לחץ ${elementsPathFocus} כדי לנווט לעץ האלמנטים. עבור לפריט הבא עם טאב (TAB) או חץ ימני. עבור לפריט הקודם עם שיפט (SHIFT) + טאב (TAB) או חץ שמאלי. לחץ רווח או אנטר (ENTER) כדי לבחור את האלמנט בעורך.'
 		}
 		]
-	},
-		{
-		name: 'פקודות',
-		items: [
-			{
-			name: ' ביטול צעד אחרון',
-			legend: 'לחץ ${undo}'
-		},
-			{
-			name: ' חזרה על צעד אחרון',
-			legend: 'לחץ ${redo}'
-		},
-			{
-			name: ' הדגשה',
-			legend: 'לחץ ${bold}'
-		},
-			{
-			name: ' הטייה',
-			legend: 'לחץ ${italic}'
-		},
-			{
-			name: ' הוספת קו תחתון',
-			legend: 'לחץ ${underline}'
-		},
-			{
-			name: ' הוספת לינק',
-			legend: 'לחץ ${link}'
-		},
-			{
-			name: ' כיווץ סרגל הכלים',
-			legend: 'לחץ ${toolbarCollapse}'
-		},
-			{
-			name: 'גישה למיקום המיקוד הקודם',
-			legend: 'לחץ ${accessPreviousSpace} כדי לגשת למיקום המיקוד הלא-נגיש הקרוב לפני הסמן, למשל בין שני אלמנטים סמוכים מסוג HR. חזור על צירוף מקשים זה כדי להגיע למקומות מיקוד רחוקים יותר.'
-		},
-			{
-			name: 'גישה למיקום המיקוד הבא',
-			legend: 'לחץ ${accessNextSpace} כדי לגשת למיקום המיקוד הלא-נגיש הקרוב אחרי הסמן, למשל בין שני אלמנטים סמוכים מסוג HR. חזור על צירוף מקשים זה כדי להגיע למקומות מיקוד רחוקים יותר.'
-		},
-			{
-			name: ' הוראות נגישות',
-			legend: 'לחץ ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'he', {
 	openBracket: 'Open Bracket', // MISSING
 	backSlash: 'סלאש הפוך',
 	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'ציטוט יחיד'
+	singleQuote: 'ציטוט יחיד',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

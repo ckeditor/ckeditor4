@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 			{
 			name: 'Okno dialogowe edytora',
 			legend:
-				'Wewnątrz okna dialogowego naciśnij TAB, by przejść do kolejnego elementu tego okna lub SHIFT+TAB, by przejść do poprzedniego elementu okna. Naciśnij ENTER w celu zatwierdzenia opcji okna dialogowego lub ESC w celu anulowania zmian. Jeśli okno dialogowe ma kilka zakładek, do listy zakładek można przejść za pomocą ALT+F10 lub TAB. Gdy lista zakładek jest aktywna, możesz przejść do kolejnej i poprzedniej zakładki za pomocą STRZAŁKI W PRAWO i STRZAŁKI W LEWO.' 
+				'Wewnątrz okna dialogowego naciśnij TAB, by przejść do kolejnego elementu tego okna lub SHIFT+TAB, by przejść do poprzedniego elementu okna. Naciśnij ENTER w celu zatwierdzenia opcji okna dialogowego lub ESC w celu anulowania zmian. Jeśli okno dialogowe ma kilka zakładek, do listy zakładek można przejść za pomocą ALT+F10 lub TAB. Gdy lista zakładek jest aktywna, możesz przejść do kolejnej i poprzedniej zakładki za pomocą STRZAŁKI W PRAWO i STRZAŁKI W LEWO.'
 		},
 
 			{
@@ -34,56 +34,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 			{
 			name: 'Pasek ścieżki elementów edytora',
 			legend: 'Naciśnij ${elementsPathFocus} w celu przejścia do paska ścieżki elementów edytora. W celu przejścia do kolejnego elementu naciśnij klawisz TAB lub STRZAŁKI W PRAWO. W celu przejścia do poprzedniego elementu naciśnij klawisze SHIFT+TAB lub STRZAŁKI W LEWO. By wybrać element w edytorze, użyj klawisza SPACJI lub ENTER.'
-		}
-		]
-	},
-		{
-		name: 'Polecenia',
-		items: [
-			{
-			name: 'Polecenie Cofnij',
-			legend: 'Naciśnij ${undo}'
-		},
-			{
-			name: 'Polecenie Ponów',
-			legend: 'Naciśnij ${redo}'
-		},
-			{
-			name: 'Polecenie Pogrubienie',
-			legend: 'Naciśnij ${bold}'
-		},
-			{
-			name: 'Polecenie Kursywa',
-			legend: 'Naciśnij ${italic}'
-		},
-			{
-			name: 'Polecenie Podkreślenie',
-			legend: 'Naciśnij ${underline}'
-		},
-			{
-			name: 'Polecenie Wstaw/ edytuj odnośnik',
-			legend: 'Naciśnij ${link}'
-		},
-			{
-			name: 'Polecenie schowaj pasek narzędzi',
-			legend: 'Naciśnij ${toolbarCollapse}'
-		},
-			{
-			name: 'Przejdź do poprzedniego miejsca, w którym można ustawić focus',
-			legend: 'Naciśnij ${accessPreviousSpace}, aby przejść do najbliższego niedostępnego miejsca przed kursorem, w którym można ustawić focus. Przykład: dwa przylegające elementy HR. Powtórz ten skrót klawiaturowy, by dotrzeć do kolejnych takich miejsc.'
-		},
-			{
-			name: 'Przejdź do następnego miejsca, w którym można ustawić focus',
-			legend: 'Naciśnij ${accessNextSpace}, aby przejść do najbliższego niedostępnego miejsca po kursorze, w którym można ustawić focus. Przykład: dwa przylegające elementy HR. Powtórz ten skrót klawiaturowy, by dotrzeć do kolejnych takich miejsc.'
-		},
-			{
-			name: 'Pomoc dotycząca dostępności',
-			legend: 'Naciśnij ${a11yHelp}'
-		},
-			{
-			name: 'Wklej jako tekst',
-			legend: 'Naciśnij ${pastetext}',
-			legendEdge: 'Naciśnij ${pastetext}, a następnie ${paste}'
 		}
 		]
 	}
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 	openBracket: 'Nawias kwadratowy otwierający',
 	backSlash: 'Ukośnik lewy',
 	closeBracket: 'Nawias kwadratowy zamykający',
-	singleQuote: 'Apostrof'
+	singleQuote: 'Apostrof',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'oc', {
 			legend: 'Quichar sus ${elementsPathFocus} per naviguer cap a la barra del fial d\'Ariana dels elements. Se desplaçar cap al boton de l\'element seguent amb las tòcas Tab o Sageta dreita. Se desplaçar cap al boton precedent amb las tòcas Maj+Tab o Sageta esquèrra. Quichar sus la barra d\'espaci o sus Entrada per seleccionar l\'element dins l\'editor.'
 		}
 		]
-	},
-		{
-		name: 'Comandas',
-		items: [
-			{
-			name: 'Anullar la comanda',
-			legend: 'Quichar sus ${undo}'
-		},
-			{
-			name: 'Comanda restablir',
-			legend: 'Quichar sus ${redo}'
-		},
-			{
-			name: ' Comanda gras',
-			legend: 'Quichar sus ${bold}'
-		},
-			{
-			name: ' Comanda italica',
-			legend: 'Quichar sus ${italic}'
-		},
-			{
-			name: ' Comanda solinhat',
-			legend: 'Quichar sus ${underline}'
-		},
-			{
-			name: ' Comanda ligam',
-			legend: 'Quichar sus ${link}'
-		},
-			{
-			name: 'Comanda enrotlar la barra d\'aisinas',
-			legend: 'Quichar sus ${toolbarCollapse}'
-		},
-			{
-			name: 'Comanda d\'accès a l\'element seleccionable precedent',
-			legend: 'Quichar sus ${accessNextSpace} per accedir a l\'element seleccionable inategnible lo mai pròche abans lo cursor, per exemple : doas linhas orizontalas adjacentas. Repetir la combinason de tòcas per aténher los elements seleccionables precedents.'
-		},
-			{
-			name: 'Comanda d\'accès a l\'element seleccionable seguent',
-			legend: 'Quichar sus ${accessNextSpace} per accedir a l\'element seleccionable inatenhible lo mai pròche aprèp lo cursor, per exemple : doas linhas orizontalas adjacentas. Repetir la combinason de tòcas per aténher los elements seleccionables seguents.'
-		},
-			{
-			name: ' Ajuda sus l\'accessibilitat',
-			legend: 'Quichar sus ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tabulacion',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'oc', {
 	openBracket: 'Parentèsi dobèrta',
 	backSlash: 'Barra oblica invèrsa',
 	closeBracket: 'Parentèsi tampanta',
-	singleQuote: 'Apostròfa'
+	singleQuote: 'Apostròfa',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

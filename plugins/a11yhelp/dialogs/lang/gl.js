@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 			{
 			name: 'Editor de diálogo',
 			legend:
-				'Dentro do diálogo, prema TAB para navegar cara os seguintes elementos de diálogo, prema MAIÚS+TAB para moverse cara os anteriores elementos de diálogo, prema INTRO para enviar o diálogo, prema ESC para cancelar o diálogo. Cando o diálogo ten múltiples lapelas, a lista de lapelas pode cinguirse con ALT+F10 ou con TAB como parte da orde de lapelas do diálogo. Coa lapela en foco, pode moverse cara a seguinte ou a anterior lapela coas FRECHAS ESQUERDA e DEREICHA respectivamente.' 
+				'Dentro do diálogo, prema TAB para navegar cara os seguintes elementos de diálogo, prema MAIÚS+TAB para moverse cara os anteriores elementos de diálogo, prema INTRO para enviar o diálogo, prema ESC para cancelar o diálogo. Cando o diálogo ten múltiples lapelas, a lista de lapelas pode cinguirse con ALT+F10 ou con TAB como parte da orde de lapelas do diálogo. Coa lapela en foco, pode moverse cara a seguinte ou a anterior lapela coas FRECHAS ESQUERDA e DEREICHA respectivamente.'
 		},
 
 			{
@@ -34,56 +34,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 			{
 			name: 'Barra da ruta ao elemento no editor',
 			legend: 'Prema ${elementsPathFocus} para navegar ata os elementos da barra de ruta. Móvase ao seguinte elemento botón con TAB ou FRECHA DEREITA. Móvase ao botón anterior con MAIÚS+TAB ou FRECHA ESQUERDA. Prema ESPAZO ou INTRO para seleccionar o elemento no editor.'
-		}
-		]
-	},
-		{
-		name: 'Ordes',
-		items: [
-			{
-			name: 'Orde «desfacer»',
-			legend: 'Prema ${undo}'
-		},
-			{
-			name: 'Orde «refacer»',
-			legend: 'Prema ${redo}'
-		},
-			{
-			name: 'Orde «negra»',
-			legend: 'Prema ${bold}'
-		},
-			{
-			name: 'Orde «cursiva»',
-			legend: 'Prema ${italic}'
-		},
-			{
-			name: 'Orde «subliñar»',
-			legend: 'Prema ${underline}'
-		},
-			{
-			name: 'Orde «ligazón»',
-			legend: 'Prema ${link}'
-		},
-			{
-			name: 'Orde «contraer a barra de ferramentas»',
-			legend: 'Prema ${toolbarCollapse}'
-		},
-			{
-			name: 'Orde «acceder ao anterior espazo en foco»',
-			legend: 'Prema ${accessPreviousSpace} para acceder ao espazo máis próximo de foco inalcanzábel anterior ao cursor, por exemplo: dous elementos HR adxacentes. Repita a combinación de teclas para chegar a espazos de foco distantes.'
-		},
-			{
-			name: 'Orde «acceder ao seguinte espazo en foco»',
-			legend: 'Prema ${accessNextSpace} para acceder ao espazo máis próximo de foco inalcanzábel posterior ao cursor, por exemplo: dous elementos HR adxacentes. Repita a combinación de teclas para chegar a espazos de foco distantes.'
-		},
-			{
-			name: 'Axuda da accesibilidade',
-			legend: 'Prema ${a11yHelp}'
-		},
-			{
-			name: 'Pegar como texto simple',
-			legend: 'Prema ${pastetext}',
-			legendEdge: 'Prema ${pastetext}, seguido de ${paste}'
 		}
 		]
 	}
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 	openBracket: 'Abrir corchete',
 	backSlash: 'Barra invertida',
 	closeBracket: 'Pechar corchete',
-	singleQuote: 'Comiña simple'
+	singleQuote: 'Comiña simple',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 			legend: 'کلیك ${elementsPathFocus} بۆ ڕابەری تووڵامرازی توخمەکان. چوون بۆ دوگمەی توخمێکی تر کلیکی کلیلی TAB یان کلیلی تیری دەستی ڕاست. چوون بۆ دوگمەی توخمی پێشوو کلیلی SHIFT+TAB یان کلیکی کلیلی تیری دەستی چەپ. داگرتنی کلیلی SPACE یان ENTER بۆ دیاریکردنی توخمەکه‌ لەسەرنووسه.'
 		}
 		]
-	},
-		{
-		name: 'فەرمانەکان',
-		items: [
-			{
-			name: 'پووچکردنەوەی فەرمان',
-			legend: 'کلیك ${undo}'
-		},
-			{
-			name: 'هەڵگەڕانەوەی فەرمان',
-			legend: 'کلیك ${redo}'
-		},
-			{
-			name: 'فەرمانی دەقی قەڵەو',
-			legend: 'کلیك ${bold}'
-		},
-			{
-			name: 'فەرمانی دەقی لار',
-			legend: 'کلیك ${italic}'
-		},
-			{
-			name: 'فەرمانی ژێرهێڵ',
-			legend: 'کلیك ${underline}'
-		},
-			{
-			name: 'فەرمانی به‌ستەر',
-			legend: 'کلیك ${link}'
-		},
-			{
-			name: 'شاردەنەوەی تووڵامراز',
-			legend: 'کلیك ${toolbarCollapse}'
-		},
-			{
-			name: 'چوونەناو سەرنجدانی پێشوی فەرمانی بۆشایی',
-			legend: 'کلیک ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.'
-		},
-			{
-			name: 'چوونەناو سەرنجدانی داهاتووی فەرمانی بۆشایی',
-			legend: 'کلیک ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.'
-		},
-			{
-			name: 'دەستپێگەیشتنی یارمەتی',
-			legend: 'کلیك ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 	openBracket: '[',
 	backSlash: '\\\\',
 	closeBracket: '}',
-	singleQuote: '\''
+	singleQuote: '\'',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sl', {
 			legend: 'Pritisnite ${elementsPathFocus} za pomikanje po vrstici elementnih poti. S TAB ali DESNA PUŠČICA se premaknete na naslednji gumb elementa. Z SHIFT+TAB ali LEVO PUŠČICO se premaknete na prejšnji gumb elementa. Pritisnite SPACE ali ENTER za izbiro elementa v urejevalniku.'
 		}
 		]
-	},
-		{
-		name: 'Ukazi',
-		items: [
-			{
-			name: 'Razveljavi ukaz',
-			legend: 'Pritisnite ${undo}'
-		},
-			{
-			name: 'Ponovi ukaz',
-			legend: 'Pritisnite ${redo}'
-		},
-			{
-			name: 'Krepki ukaz',
-			legend: 'Pritisnite ${bold}'
-		},
-			{
-			name: 'Ležeči ukaz',
-			legend: 'Pritisnite ${italic}'
-		},
-			{
-			name: 'Poudarni ukaz',
-			legend: 'Pritisnite ${underline}'
-		},
-			{
-			name: 'Ukaz povezave',
-			legend: 'Pritisnite ${link}'
-		},
-			{
-			name: 'Skrči Orodno Vrstico Ukaz',
-			legend: 'Pritisnite ${toolbarCollapse}'
-		},
-			{
-			name: 'Dostop do prejšnjega ukaza ostrenja',
-			legend: 'Pritisnite ${accessPreviousSpace} za dostop do najbližjega nedosegljivega osredotočenega prostora pred strešico, npr.: dva sosednja HR elementa. Ponovite kombinacijo tipk, da dosežete oddaljene osredotočene prostore.'
-		},
-			{
-			name: 'Dostop do naslednjega ukaza ostrenja',
-			legend: 'Pritisnite ${accessNextSpace} za dostop do najbližjega nedosegljivega osredotočenega prostora po strešici, npr.: dva sosednja HR elementa. Ponovite kombinacijo tipk, da dosežete oddaljene osredotočene prostore.'
-		},
-			{
-			name: 'Pomoč dostopnosti',
-			legend: 'Pritisnite ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sl', {
 	openBracket: 'Oklepaj',
 	backSlash: 'Leva poševnica',
 	closeBracket: 'Zaklepaj',
-	singleQuote: 'Opuščaj'
+	singleQuote: 'Opuščaj',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

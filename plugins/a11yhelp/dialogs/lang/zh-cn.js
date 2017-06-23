@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 			{
 			name: '编辑器对话框',
 			legend:
-				'在对话框内，按 TAB 键移动到下一个字段，按 SHIFT + TAB 组合键移动到上一个字段，按 ENTER 键提交对话框，按 ESC 键取消对话框。对于有多选项卡的对话框，可以按 ALT + F10 直接切换到或者按 TAB 键逐步移到选项卡列表，当焦点移到选项卡列表时可以用左右箭头键来移动到前后的选项卡。' 
+				'在对话框内，按 TAB 键移动到下一个字段，按 SHIFT + TAB 组合键移动到上一个字段，按 ENTER 键提交对话框，按 ESC 键取消对话框。对于有多选项卡的对话框，可以按 ALT + F10 直接切换到或者按 TAB 键逐步移到选项卡列表，当焦点移到选项卡列表时可以用左右箭头键来移动到前后的选项卡。'
 		},
 
 			{
@@ -34,56 +34,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 			{
 			name: '编辑器元素路径栏',
 			legend: '按 ${elementsPathFocus} 以导航到元素路径栏，使用 TAB 键或右箭头键选择下一个元素，使用 SHIFT+TAB 组合键或左箭头键选择上一个元素，按空格键或回车键以选定编辑器里的元素。'
-		}
-		]
-	},
-		{
-		name: '命令',
-		items: [
-			{
-			name: ' 撤消命令',
-			legend: '按 ${undo}'
-		},
-			{
-			name: ' 重做命令',
-			legend: '按 ${redo}'
-		},
-			{
-			name: ' 加粗命令',
-			legend: '按 ${bold}'
-		},
-			{
-			name: ' 倾斜命令',
-			legend: '按 ${italic}'
-		},
-			{
-			name: ' 下划线命令',
-			legend: '按 ${underline}'
-		},
-			{
-			name: ' 链接命令',
-			legend: '按 ${link}'
-		},
-			{
-			name: ' 工具栏折叠命令',
-			legend: '按 ${toolbarCollapse}'
-		},
-			{
-			name: '访问前一个焦点区域的命令',
-			legend: '按 ${accessPreviousSpace} 访问^符号前最近的不可访问的焦点区域，例如：两个相邻的 HR 元素。重复此组合按键可以到达远处的焦点区域。'
-		},
-			{
-			name: '访问下一个焦点区域命令',
-			legend: '按 ${accessNextSpace} 以访问^符号后最近的不可访问的焦点区域。例如：两个相邻的 HR 元素。重复此组合按键可以到达远处的焦点区域。'
-		},
-			{
-			name: '辅助功能帮助',
-			legend: '按 ${a11yHelp}'
-		},
-			{
-			name: '粘贴为纯文本',
-			legend: '按 ${pastetext}',
-			legendEdge: '按 ${pastetext}，然后再按 ${paste}'
 		}
 		]
 	}
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 	openBracket: '左中括号键',
 	backSlash: '反斜杠键',
 	closeBracket: '右中括号键',
-	singleQuote: '单引号键'
+	singleQuote: '单引号键',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

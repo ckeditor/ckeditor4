@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 			{
 			name: 'Editordialog',
 			legend:
-				'Drücke innerhalb eines Dialogs TAB, um zum nächsten Element zu springen. Drücke SHIFT+TAB, um zum vorigen Element zu springen, drücke ENTER um das Formular im Dialog abzusenden, drücke ESC, um den Dialog zu schließen. Hat der Dialog mehrere Tabs, dann kannst du durch ALT+F10 die Tab-Liste aufrufen or mittels TAB als Teil der Dialog-Tab-Reihenfolge. Ist die Tab-Liste fokussiert, dann mithilfe der Pfeiltasten (LINKS und RECHTS) zwischen den Tabs gewechselt werden.' 
+				'Drücke innerhalb eines Dialogs TAB, um zum nächsten Element zu springen. Drücke SHIFT+TAB, um zum vorigen Element zu springen, drücke ENTER um das Formular im Dialog abzusenden, drücke ESC, um den Dialog zu schließen. Hat der Dialog mehrere Tabs, dann kannst du durch ALT+F10 die Tab-Liste aufrufen or mittels TAB als Teil der Dialog-Tab-Reihenfolge. Ist die Tab-Liste fokussiert, dann mithilfe der Pfeiltasten (LINKS und RECHTS) zwischen den Tabs gewechselt werden.'
 		},
 
 			{
@@ -34,56 +34,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 			{
 			name: 'Editor-Elementpfadleiste',
 			legend: 'Drücken Sie ${elementsPathFocus} um sich durch die Pfadleiste zu bewegen. Um zum nächsten Element zu gelangen drücken Sie TAB oder die Pfeilrechts-Taste. Zum vorherigen Element gelangen Sie mit der SHIFT+TAB oder der Pfeillinks-Taste. Drücken Sie die Leertaste oder Enter um das Element auszuwählen.'
-		}
-		]
-	},
-		{
-		name: 'Befehle',
-		items: [
-			{
-			name: 'Rückgängig-Befehl',
-			legend: 'Drücken Sie ${undo}'
-		},
-			{
-			name: 'Wiederherstellen-Befehl',
-			legend: 'Drücken Sie ${redo}'
-		},
-			{
-			name: 'Fettschrift-Befehl',
-			legend: 'Drücken Sie ${bold}'
-		},
-			{
-			name: 'Kursiv-Befehl',
-			legend: 'Drücken Sie ${italic}'
-		},
-			{
-			name: 'Unterstreichen-Befehl',
-			legend: 'Drücken Sie ${underline}'
-		},
-			{
-			name: 'Link-Befehl',
-			legend: 'Drücken Sie ${link}'
-		},
-			{
-			name: 'Werkzeugleiste einklappen-Befehl',
-			legend: 'Drücken Sie ${toolbarCollapse}'
-		},
-			{
-			name: 'Zugang bisheriger Fokussierung Raumbefehl ',
-			legend: 'Drücken Sie ${accessPreviousSpace}  auf den am nächsten nicht erreichbar Fokus-Abstand vor die Einfügemarke zugreifen: zwei benachbarte HR-Elemente. Wiederholen Sie die Tastenkombination um entfernte Fokusräume zu erreichen. '
-		},
-			{
-			name: 'Zugang nächster Schwerpunkt Raumbefehl ',
-			legend: 'Drücken Sie $ { accessNextSpace }, um den nächsten unerreichbar Fokus Leerzeichen nach dem Cursor zum Beispiel auf: zwei benachbarten HR Elemente. Wiederholen Sie die Tastenkombination zum fernen Fokus Bereiche zu erreichen. '
-		},
-			{
-			name: 'Eingabehilfen',
-			legend: 'Drücken Sie ${a11yHelp}'
-		},
-			{
-			name: 'Einfügen als unformatierter Text. ',
-			legend: 'Drücke ${pastetext}',
-			legendEdge: 'Drücke ${pastetext} und anschließend ${paste}'
 		}
 		]
 	}
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 	openBracket: 'Öffnende eckige Klammer',
 	backSlash: 'Rückwärtsgewandter Schrägstrich',
 	closeBracket: 'Schließende eckige Klammer',
-	singleQuote: 'Einfaches Anführungszeichen'
+	singleQuote: 'Einfaches Anführungszeichen',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

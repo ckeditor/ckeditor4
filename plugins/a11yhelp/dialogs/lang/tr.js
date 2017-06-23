@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 			{
 			name: 'Diyalog Düzenleyici',
 			legend:
-				'Dialog penceresi içinde, sonraki iletişim alanına gitmek için SEKME tuşuna basın, önceki alana geçmek için SHIFT + TAB tuşuna basın, pencereyi göndermek için ENTER tuşuna basın, dialog penceresini iptal etmek için ESC tuşuna basın. Birden çok sekme sayfaları olan diyalogların, sekme listesine gitmek için ALT + F10 tuşlarına basın. Sonra TAB veya SAĞ OK sonraki sekmeye taşıyın. SHIFT + TAB veya SOL OK ile önceki sekmeye geçin. Sekme sayfayı seçmek için SPACE veya ENTER tuşuna basın.' 
+				'Dialog penceresi içinde, sonraki iletişim alanına gitmek için SEKME tuşuna basın, önceki alana geçmek için SHIFT + TAB tuşuna basın, pencereyi göndermek için ENTER tuşuna basın, dialog penceresini iptal etmek için ESC tuşuna basın. Birden çok sekme sayfaları olan diyalogların, sekme listesine gitmek için ALT + F10 tuşlarına basın. Sonra TAB veya SAĞ OK sonraki sekmeye taşıyın. SHIFT + TAB veya SOL OK ile önceki sekmeye geçin. Sekme sayfayı seçmek için SPACE veya ENTER tuşuna basın.'
 		},
 
 			{
@@ -34,56 +34,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 			{
 			name: 'Element Yol Çubuğu Editörü',
 			legend: 'Elementlerin yol çubuğunda gezinmek için ${ElementsPathFocus} basın. SEKME veya SAĞ OK ile sonraki element düğmesine taşıyın. SHIFT+TAB veya SOL OK önceki düğmeye hareket ettirin. Editör içindeki elementi seçmek için ENTER veya SPACE tuşuna basın.'
-		}
-		]
-	},
-		{
-		name: 'Komutlar',
-		items: [
-			{
-			name: 'Komutu geri al',
-			legend: '$(undo)\'ya basın'
-		},
-			{
-			name: 'Komutu geri al',
-			legend: '${redo} basın'
-		},
-			{
-			name: ' Kalın komut',
-			legend: '${bold} basın'
-		},
-			{
-			name: ' İtalik komutu',
-			legend: '${italic} basın'
-		},
-			{
-			name: ' Alttan çizgi komutu',
-			legend: '${underline} basın'
-		},
-			{
-			name: ' Bağlantı komutu',
-			legend: '${link} basın'
-		},
-			{
-			name: ' Araç çubuğu Toplama komutu',
-			legend: '${toolbarCollapse} basın'
-		},
-			{
-			name: 'Önceki komut alanına odaklan',
-			legend: 'Düzeltme imleçinden önce, en yakın uzaktaki alana erişmek için ${accessPreviousSpace} basın, örneğin: iki birleşik HR elementleri. Aynı tuş kombinasyonu tekrarıyla diğer alanlarada ulaşın.'
-		},
-			{
-			name: 'Sonraki komut alanına odaklan',
-			legend: 'Düzeltme imleçinden sonra, en yakın uzaktaki alana erişmek için ${accessNextSpace} basın, örneğin: iki birleşik HR elementleri. Aynı tuş kombinasyonu tekrarıyla diğer alanlarada ulaşın.'
-		},
-			{
-			name: 'Erişilebilirlik Yardımı',
-			legend: '${a11yHelp}\'e basın'
-		},
-			{
-			name: 'Düz Metin Olarak Yapıştır',
-			legend: '${pastetext} basın',
-			legendEdge: 'Önce ${pastetext} ardından${paste} basın'
 		}
 		]
 	}
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 	openBracket: 'Parantez aç',
 	backSlash: 'Ters eğik çizgi',
 	closeBracket: 'Parantez kapa',
-	singleQuote: 'Tek tırnak'
+	singleQuote: 'Tek tırnak',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

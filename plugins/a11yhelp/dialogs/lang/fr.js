@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 			{
 			name: 'Fenêtre de l\'éditeur',
 			legend:
-				'Dans une boîte de dialogue, appuyer sur Tab pour passer à l\'élément suivant, appuyer sur Maj+Tab pour passer à l\'élément précédent, appuyer sur Entrée pour valider, appuyer sur Échap pour annuler. Quand une boîte de dialogue possède des onglets, la liste peut être atteinte avec Alt+F10 ou avec Tab. Dans la liste des onglets, se déplacer vers le suivant et le précédent avec les touches Flèche droite et Flèche gauche respectivement.' 
+				'Dans une boîte de dialogue, appuyer sur Tab pour passer à l\'élément suivant, appuyer sur Maj+Tab pour passer à l\'élément précédent, appuyer sur Entrée pour valider, appuyer sur Échap pour annuler. Quand une boîte de dialogue possède des onglets, la liste peut être atteinte avec Alt+F10 ou avec Tab. Dans la liste des onglets, se déplacer vers le suivant et le précédent avec les touches Flèche droite et Flèche gauche respectivement.'
 		},
 
 			{
@@ -34,56 +34,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 			{
 			name: 'Barre du chemin d\'éléments de l\'éditeur',
 			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre du fil d\'Ariane des éléments. Se déplacer vers le bouton de l\'élément suivant avec les touches Tab ou Flèche droite. Se déplacer vers le bouton précédent avec les touches Maj+Tab ou Flèche gauche. Appuyer sur la barre d\'espace ou sur Entrée pour sélectionner l\'élément dans l\'éditeur.'
-		}
-		]
-	},
-		{
-		name: 'Commandes',
-		items: [
-			{
-			name: ' Annuler la commande',
-			legend: 'Appuyer sur ${undo}'
-		},
-			{
-			name: 'Commande restaurer',
-			legend: 'Appuyer sur ${redo}'
-		},
-			{
-			name: ' Commande gras',
-			legend: 'Appuyer sur ${bold}'
-		},
-			{
-			name: ' Commande italique',
-			legend: 'Appuyer sur ${italic}'
-		},
-			{
-			name: ' Commande souligné',
-			legend: 'Appuyer sur ${underline}'
-		},
-			{
-			name: ' Commande lien',
-			legend: 'Appuyer sur ${link}'
-		},
-			{
-			name: ' Commande enrouler la barre d\'outils',
-			legend: 'Appuyer sur ${toolbarCollapse}'
-		},
-			{
-			name: 'Commande d\'accès à l\'élément sélectionnable précédent',
-			legend: 'Appuyer sur ${accessNextSpace} pour accéder à l\'élément sélectionnable inatteignable le plus proche avant le curseur, par exemple : deux lignes horizontales adjacentes. Répéter la combinaison de touches pour atteindre les éléments sélectionnables précédents.'
-		},
-			{
-			name: 'Commande d\'accès à l\'élément sélectionnable suivant',
-			legend: 'Appuyer sur ${accessNextSpace} pour accéder à l\'élément sélectionnable inatteignable le plus proche après le curseur, par exemple : deux lignes horizontales adjacentes. Répéter la combinaison de touches pour atteindre les éléments sélectionnables suivants.'
-		},
-			{
-			name: ' Aide sur l\'accessibilité',
-			legend: 'Appuyer sur ${a11yHelp}'
-		},
-			{
-			name: 'Coller comme texte sans mise en forme',
-			legend: 'Appuyer sur ${pastetext}',
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 	openBracket: 'Parenthèse ouvrante',
 	backSlash: 'Barre oblique inverse',
 	closeBracket: 'Parenthèse fermante',
-	singleQuote: 'Apostrophe'
+	singleQuote: 'Apostrophe',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

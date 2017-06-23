@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr-ca', {
 			legend: 'Appuyer sur ${elementsPathFocus} pour naviguer vers la barre d\'emplacement des éléments de léditeur. Se déplacer vers le bouton d\'élément suivant avec les touches TAB ou FLECHE DROITE. Se déplacer vers le bouton d\'élément précédent avec les touches SHIFT+TAB ou FLECHE GAUCHE. Appuyer sur la BARRE D\'ESPACE ou sur ENTREE pour sélectionner l\'élément dans l\'éditeur.'
 		}
 		]
-	},
-		{
-		name: 'Commandes',
-		items: [
-			{
-			name: 'Annuler',
-			legend: 'Appuyer sur ${undo}'
-		},
-			{
-			name: 'Refaire',
-			legend: 'Appuyer sur ${redo}'
-		},
-			{
-			name: 'Gras',
-			legend: 'Appuyer sur ${bold}'
-		},
-			{
-			name: 'Italique',
-			legend: 'Appuyer sur ${italic}'
-		},
-			{
-			name: 'Souligné',
-			legend: 'Appuyer sur ${underline}'
-		},
-			{
-			name: 'Lien',
-			legend: 'Appuyer sur ${link}'
-		},
-			{
-			name: 'Enrouler la barre d\'outils',
-			legend: 'Appuyer sur ${toolbarCollapse}'
-		},
-			{
-			name: 'Accéder à l\'objet de focus précédent',
-			legend: 'Appuyer ${accessPreviousSpace} pour accéder au prochain espace disponible avant le curseur, par exemple: deux éléments HR adjacents.  Répéter la combinaison pour joindre les éléments d\'espaces distantes.'
-		},
-			{
-			name: 'Accéder au prochain objet de focus',
-			legend: 'Appuyer ${accessNextSpace} pour accéder au prochain espace disponible après le curseur, par exemple: deux éléments HR adjacents.  Répéter la combinaison pour joindre les éléments d\'espaces distantes.'
-		},
-			{
-			name: 'Aide d\'accessibilité',
-			legend: 'Appuyer sur ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab', // MISSING
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr-ca', {
 	openBracket: 'Open Bracket', // MISSING
 	backSlash: 'Backslash', // MISSING
 	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	singleQuote: 'Single Quote', // MISSING
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

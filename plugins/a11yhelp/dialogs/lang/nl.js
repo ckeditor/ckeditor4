@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 			legend: 'Druk op ${elementsPathFocus} om naar het elementenpad te navigeren. Om te schakelen naar het volgende element, gebruik TAB of PIJL RECHTS. Om te schakelen naar het vorige element, gebruik SHIFT+TAB or PIJL LINKS. Druk op SPATIE of ENTER om een element te selecteren in de tekstverwerker.'
 		}
 		]
-	},
-		{
-		name: 'Opdrachten',
-		items: [
-			{
-			name: 'Ongedaan maken opdracht',
-			legend: 'Druk op ${undo}'
-		},
-			{
-			name: 'Opnieuw uitvoeren opdracht',
-			legend: 'Druk op ${redo}'
-		},
-			{
-			name: 'Vetgedrukt opdracht',
-			legend: 'Druk op ${bold}'
-		},
-			{
-			name: 'Cursief opdracht',
-			legend: 'Druk op ${italic}'
-		},
-			{
-			name: 'Onderstrepen opdracht',
-			legend: 'Druk op ${underline}'
-		},
-			{
-			name: 'Link opdracht',
-			legend: 'Druk op ${link}'
-		},
-			{
-			name: 'Werkbalk inklappen opdracht',
-			legend: 'Druk op ${toolbarCollapse}'
-		},
-			{
-			name: 'Ga naar vorige focus spatie commando',
-			legend: 'Druk ${accessPreviousSpace} om toegang te verkrijgen tot de dichtstbijzijnde onbereikbare focus spatie voor de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
-		},
-			{
-			name: 'Ga naar volgende focus spatie commando',
-			legend: 'Druk ${accessNextSpace} om toegang te verkrijgen tot de dichtstbijzijnde onbereikbare focus spatie na de caret, bijvoorbeeld: twee aangrenzende HR elementen. Herhaal de toetscombinatie om de verste focus spatie te bereiken.'
-		},
-			{
-			name: 'Toegankelijkheidshulp',
-			legend: 'Druk op ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 	openBracket: 'Vierkant haakje openen',
 	backSlash: 'Backslash',
 	closeBracket: 'Vierkant haakje sluiten',
-	singleQuote: 'Apostrof'
+	singleQuote: 'Apostrof',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

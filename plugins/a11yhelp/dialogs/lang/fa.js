@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 			legend: 'برای رفتن به مسیر عناصر ${elementsPathFocus} را بفشارید. حرکت به کلید عنصر بعدی با کلید Tab یا کلید جهت‌نمای راست. برگشت به کلید قبلی با Shift+Tab یا کلید جهت‌نمای چپ. فشردن Space یا Enter برای انتخاب یک عنصر در ویرایشگر.'
 		}
 		]
-	},
-		{
-		name: 'فرمان‌ها',
-		items: [
-			{
-			name: 'بازگشت به آخرین فرمان',
-			legend: 'فشردن ${undo}'
-		},
-			{
-			name: 'انجام مجدد فرمان',
-			legend: 'فشردن ${redo}'
-		},
-			{
-			name: 'فرمان درشت کردن متن',
-			legend: 'فشردن ${bold}'
-		},
-			{
-			name: 'فرمان کج کردن متن',
-			legend: 'فشردن ${italic}'
-		},
-			{
-			name: 'فرمان زیرخطدار کردن متن',
-			legend: 'فشردن ${underline}'
-		},
-			{
-			name: 'فرمان پیوند دادن',
-			legend: 'فشردن ${link}'
-		},
-			{
-			name: 'بستن نوار ابزار فرمان',
-			legend: 'فشردن ${toolbarCollapse}'
-		},
-			{
-			name: 'دسترسی به فرمان محل تمرکز قبلی',
-			legend: 'فشردن ${accessPreviousSpace} برای دسترسی به نزدیک‌ترین فضای قابل دسترسی تمرکز قبل از هشتک، برای مثال: دو عنصر مجاور HR -خط افقی-. تکرار کلید ترکیبی برای رسیدن به فضاهای تمرکز از راه دور.'
-		},
-			{
-			name: 'دسترسی به فضای دستور بعدی',
-			legend: 'برای دسترسی به نزدیک‌ترین فضای تمرکز غیر قابل دسترس، ${accessNextSpace} را پس از علامت هشتک بفشارید، برای مثال:  دو عنصر مجاور HR -خط افقی-. کلید ترکیبی را برای رسیدن به فضای تمرکز تکرار کنید.'
-		},
-			{
-			name: 'راهنمای دسترسی',
-			legend: 'فشردن ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'برگه',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fa', {
 	openBracket: 'Open Bracket',
 	backSlash: 'Backslash',
 	closeBracket: 'Close Bracket',
-	singleQuote: 'Single Quote'
+	singleQuote: 'Single Quote',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

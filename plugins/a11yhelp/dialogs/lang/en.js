@@ -53,58 +53,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 				'Press SPACE or ENTER to select the element in editor.'
 		}
 		]
-	},
-		{
-		name: 'Commands',
-		items: [
-			{
-			name: ' Undo command',
-			legend: 'Press ${undo}'
-		},
-			{
-			name: ' Redo command',
-			legend: 'Press ${redo}'
-		},
-			{
-			name: ' Bold command',
-			legend: 'Press ${bold}'
-		},
-			{
-			name: ' Italic command',
-			legend: 'Press ${italic}'
-		},
-			{
-			name: ' Underline command',
-			legend: 'Press ${underline}'
-		},
-			{
-			name: ' Link command',
-			legend: 'Press ${link}'
-		},
-			{
-			name: ' Toolbar Collapse command',
-			legend: 'Press ${toolbarCollapse}'
-		},
-			{
-			name: ' Access previous focus space command',
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, ' +
-				'for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.'
-		},
-			{
-			name: ' Access next focus space command',
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, ' +
-				'for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.'
-		},
-			{
-			name: ' Accessibility Help',
-			legend: 'Press ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text',
-			legend: 'Press ${pastetext}',
-			legendEdge: 'Press ${pastetext}, followed by ${paste}'
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -160,5 +108,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 	openBracket: 'Open Bracket',
 	backSlash: 'Backslash',
 	closeBracket: 'Close Bracket',
-	singleQuote: 'Single Quote'
+	singleQuote: 'Single Quote',
+	commandsList: {
+		sectionName: 'Commands',
+		command: 'Command',
+		keystroke: 'Keystroke'
+	}
 } );

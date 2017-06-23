@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 			legend: '請按 ${elementsPathFocus} 以瀏覽元素路徑列。利用 TAB 或右方向鍵以便移動到下一個元素按鈕。利用 SHIFT 或左方向鍵以便移動到上一個按鈕。按下空白鍵或 ENTER 鍵來選取在編輯器中的元素。'
 		}
 		]
-	},
-		{
-		name: '命令',
-		items: [
-			{
-			name: '復原命令',
-			legend: '請按下「${undo}」'
-		},
-			{
-			name: '重複命令',
-			legend: '請按下「 ${redo}」'
-		},
-			{
-			name: '粗體命令',
-			legend: '請按下「${bold}」'
-		},
-			{
-			name: '斜體',
-			legend: '請按下「${italic}」'
-		},
-			{
-			name: '底線命令',
-			legend: '請按下「${underline}」'
-		},
-			{
-			name: '連結',
-			legend: '請按下「${link}」'
-		},
-			{
-			name: '隱藏工具列',
-			legend: '請按下「${toolbarCollapse}」'
-		},
-			{
-			name: '存取前一個焦點空間命令',
-			legend: '請按下 ${accessPreviousSpace} 以存取最近但無法靠近之插字符號前的焦點空間。舉例：二個相鄰的 HR 元素。\r\n重複按鍵以存取較遠的焦點空間。'
-		},
-			{
-			name: '存取下一個焦點空間命令',
-			legend: '請按下 ${accessNextSpace} 以存取最近但無法靠近之插字符號後的焦點空間。舉例：二個相鄰的 HR 元素。\r\n重複按鍵以存取較遠的焦點空間。'
-		},
-			{
-			name: '協助工具說明',
-			legend: '請按下「${a11yHelp}」'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh', {
 	openBracket: '左方括號',
 	backSlash: '反斜線',
 	closeBracket: '右方括號',
-	singleQuote: '單引號'
+	singleQuote: '單引號',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

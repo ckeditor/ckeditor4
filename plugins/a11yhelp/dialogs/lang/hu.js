@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'hu', {
 			legend: 'Nyomj ${elementsPathFocus} hogy kijelöld a elemek út sávját. A következő elem gombhoz a TAB-al vagy a JOBB NYÍLLAL juthatsz el. Az előző gombhoz a SHIFT+TAB vagy BAL NYÍLLAL mehetsz. A SPACE vagy ENTER billentyűvel kiválaszthatod az elemet a szerkesztőben.'
 		}
 		]
-	},
-		{
-		name: 'Parancsok',
-		items: [
-			{
-			name: 'Parancs visszavonása',
-			legend: 'Nyomj ${undo}'
-		},
-			{
-			name: 'Parancs megismétlése',
-			legend: 'Nyomjon ${redo}'
-		},
-			{
-			name: 'Félkövér parancs',
-			legend: 'Nyomjon ${bold}'
-		},
-			{
-			name: 'Dőlt parancs',
-			legend: 'Nyomjon ${italic}'
-		},
-			{
-			name: 'Aláhúzott parancs',
-			legend: 'Nyomjon ${underline}'
-		},
-			{
-			name: 'Link parancs',
-			legend: 'Nyomjon ${link}'
-		},
-			{
-			name: 'Szerkesztősáv összecsukása parancs',
-			legend: 'Nyomjon ${toolbarCollapse}'
-		},
-			{
-			name: 'Hozzáférés az előző fókusz helyhez parancs',
-			legend: 'Nyomj ${accessNextSpace} hogy hozzáférj a legközelebbi elérhetetlen fókusz helyhez a hiányjel előtt, például: két szomszédos HR elemhez. Ismételd meg a billentyűkombinációt hogy megtaláld a távolabbi fókusz helyeket.'
-		},
-			{
-			name: 'Hozzáférés a következő fókusz helyhez parancs',
-			legend: 'Nyomj ${accessNextSpace} hogy hozzáférj a legközelebbi elérhetetlen fókusz helyhez a hiányjel után, például: két szomszédos HR elemhez. Ismételd meg a billentyűkombinációt hogy megtaláld a távolabbi fókusz helyeket.'
-		},
-			{
-			name: 'Kisegítő súgó',
-			legend: 'Nyomjon ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'hu', {
 	openBracket: 'Nyitó szögletes zárójel',
 	backSlash: 'fordított perjel',
 	closeBracket: 'Záró szögletes zárójel',
-	singleQuote: 'szimpla idézőjel'
+	singleQuote: 'szimpla idézőjel',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

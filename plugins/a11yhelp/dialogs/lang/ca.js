@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
 			legend: 'Premi ${elementsPathFocus} per anar als elements de la barra de ruta. Desplacis al botó de l\'element següent amb TAB o RIGHT ARROW. Desplacis a l\'anterior botó amb SHIFT+TAB o LEFT ARROW. Premi SPACE o ENTER per seleccionar l\'element a l\'editor.'
 		}
 		]
-	},
-		{
-		name: 'Ordres',
-		items: [
-			{
-			name: 'Desfer ordre',
-			legend: 'Premi ${undo}'
-		},
-			{
-			name: 'Refer ordre',
-			legend: 'Premi ${redo}'
-		},
-			{
-			name: 'Ordre negreta',
-			legend: 'Premi ${bold}'
-		},
-			{
-			name: 'Ordre cursiva',
-			legend: 'Premi ${italic}'
-		},
-			{
-			name: 'Ordre subratllat',
-			legend: 'Premi ${underline}'
-		},
-			{
-			name: 'Ordre enllaç',
-			legend: 'Premi ${link}'
-		},
-			{
-			name: 'Ordre amagar barra d\'eines',
-			legend: 'Premi ${toolbarCollapse}'
-		},
-			{
-			name: 'Ordre per accedir a l\'anterior espai enfocat',
-			legend: 'Premi ${accessPreviousSpace} per accedir a l\'enfocament d\'espai més proper inabastable abans del símbol d\'intercalació, per exemple: dos elements HR adjacents. Repetiu la combinació de tecles per arribar a enfocaments d\'espais distants.'
-		},
-			{
-			name: 'Ordre per accedir al següent espai enfocat',
-			legend: 'Premi ${accessNextSpace} per accedir a l\'enfocament d\'espai més proper inabastable després del símbol d\'intercalació, per exemple: dos elements HR adjacents. Repetiu la combinació de tecles per arribar a enfocaments d\'espais distants.'
-		},
-			{
-			name: 'Ajuda d\'accessibilitat',
-			legend: 'Premi ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tabulació',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ca', {
 	openBracket: 'Claudàtor Obert',
 	backSlash: 'Barra Invertida',
 	closeBracket: 'Claudàtor Tancat',
-	singleQuote: 'Cometa Simple'
+	singleQuote: 'Cometa Simple',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fi', {
 			legend: 'Paina ${elementsPathFocus} siirtyäksesi elementtipolun palkkiin. Siirry seuraavaan elementtipainikkeeseen TAB tai NUOLI OIKEALLE painikkeilla. Siirry aiempaan painikkeeseen SHIFT+TAB tai NUOLI VASEMMALLE painikkeilla. Paina VÄLILYÖNTI tai ENTER valitaksesi elementin editorissa.'
 		}
 		]
-	},
-		{
-		name: 'Komennot',
-		items: [
-			{
-			name: 'Peruuta komento',
-			legend: 'Paina ${undo}'
-		},
-			{
-			name: 'Tee uudelleen komento',
-			legend: 'Paina ${redo}'
-		},
-			{
-			name: 'Lihavoi komento',
-			legend: 'Paina ${bold}'
-		},
-			{
-			name: 'Kursivoi komento',
-			legend: 'Paina ${italic}'
-		},
-			{
-			name: 'Alleviivaa komento',
-			legend: 'Paina ${underline}'
-		},
-			{
-			name: 'Linkki komento',
-			legend: 'Paina ${link}'
-		},
-			{
-			name: 'Pienennä työkalupalkki komento',
-			legend: 'Paina ${toolbarCollapse}'
-		},
-			{
-			name: 'Siirry aiempaan fokustilaan komento',
-			legend: 'Paina ${accessPreviousSpace} siiryäksesi lähimpään kursorin edellä olevaan saavuttamattomaan fokustilaan, esimerkiksi: kaksi vierekkäistä HR elementtiä. Toista näppäinyhdistelmää päästäksesi kauempana oleviin fokustiloihin.'
-		},
-			{
-			name: 'Siirry seuraavaan fokustilaan komento',
-			legend: 'Paina ${accessPreviousSpace} siiryäksesi lähimpään kursorin jälkeen olevaan saavuttamattomaan fokustilaan, esimerkiksi: kaksi vierekkäistä HR elementtiä. Toista näppäinyhdistelmää päästäksesi kauempana oleviin fokustiloihin.'
-		},
-			{
-			name: 'Saavutettavuus ohjeet',
-			legend: 'Paina ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Tab', // MISSING
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fi', {
 	openBracket: 'Open Bracket', // MISSING
 	backSlash: 'Backslash', // MISSING
 	closeBracket: 'Close Bracket', // MISSING
-	singleQuote: 'Single Quote' // MISSING
+	singleQuote: 'Single Quote', // MISSING
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );

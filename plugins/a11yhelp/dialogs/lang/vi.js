@@ -36,56 +36,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 			legend: 'Nhấn ${elementsPathFocus} để điều hướng các đối tượng trong thanh đường dẫn. Di chuyển đến đối tượng tiếp theo bằng phím TAB hoặc phím mũi tên bên phải. Di chuyển đến đối tượng trước đó bằng tổ hợp phím SHIFT+TAB hoặc phím mũi tên bên trái. Nhấn phím khoảng cách hoặc ENTER để chọn đối tượng trong trình soạn thảo.'
 		}
 		]
-	},
-		{
-		name: 'Lệnh',
-		items: [
-			{
-			name: 'Làm lại lện',
-			legend: 'Ấn ${undo}'
-		},
-			{
-			name: 'Làm lại lệnh',
-			legend: 'Ấn ${redo}'
-		},
-			{
-			name: 'Lệnh in đậm',
-			legend: 'Ấn ${bold}'
-		},
-			{
-			name: 'Lệnh in nghiêng',
-			legend: 'Ấn ${italic}'
-		},
-			{
-			name: 'Lệnh gạch dưới',
-			legend: 'Ấn ${underline}'
-		},
-			{
-			name: 'Lệnh liên kết',
-			legend: 'Nhấn ${link}'
-		},
-			{
-			name: 'Lệnh hiển thị thanh công cụ',
-			legend: 'Nhấn${toolbarCollapse}'
-		},
-			{
-			name: 'Truy cập đến lệnh tập trung vào khoảng cách trước đó',
-			legend: 'Ấn ${accessPreviousSpace} để truy cập đến phần tập trung khoảng cách sau phần còn sót lại của khoảng cách gần nhất vốn không tác động đến được , thí dụ: hai yếu tố điều chỉnh HR. Lặp lại các phím kết họep này để vươn đến phần khoảng cách.'
-		},
-			{
-			name: 'Truy cập phần đối tượng lệnh khoảng trống',
-			legend: 'Ấn ${accessNextSpace} để truy cập đến phần tập trung khoảng cách sau phần còn sót lại của khoảng cách gần nhất vốn không tác động đến được , thí dụ: hai yếu tố điều chỉnh HR. Lặp lại các phím kết họep này để vươn đến phần khoảng cách.'
-		},
-			{
-			name: 'Trợ giúp liên quan',
-			legend: 'Nhấn ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
-		}
-		]
 	}
 	],
 	tab: 'Phím Tab',
@@ -141,5 +91,10 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 	openBracket: 'Open Bracket',
 	backSlash: 'Dấu gạch chéo ngược',
 	closeBracket: 'Gần giá đỡ',
-	singleQuote: 'Trích dẫn'
+	singleQuote: 'Trích dẫn',
+	commandsList: {
+		sectionName: 'Commands', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	}
 } );
