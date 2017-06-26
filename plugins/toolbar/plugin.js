@@ -25,29 +25,6 @@
 		}
 	};
 
-	var commands = {
-		toolbarFocus: {
-			modes: { wysiwyg: 1, source: 1 },
-			readOnly: 1,
-
-			exec: function( editor ) {
-				if ( editor.toolbox ) {
-					editor.toolbox.focusCommandExecuted = true;
-
-					// Make the first button focus accessible for IE. (http://dev.ckeditor.com/ticket/3417)
-					// Adobe AIR instead need while of delay.
-					if ( CKEDITOR.env.ie || CKEDITOR.env.air ) {
-						setTimeout( function() {
-							editor.toolbox.focus();
-						}, 100 );
-					} else {
-						editor.toolbox.focus();
-					}
-				}
-			}
-		}
-	};
-
 	CKEDITOR.plugins.add( 'toolbar', {
 		requires: 'button',
 		// jscs:disable maximumLineLength
@@ -358,7 +335,7 @@
 								outerWidth: editor.container.$.offsetWidth
 							} );
 						},
-
+						label: editor.lang.toolbar.commandsLabels.toolbarCollapse,
 						modes: { wysiwyg: 1, source: 1 }
 					} );
 
@@ -403,8 +380,28 @@
 				var toolbox = editor.ui.space( 'toolbox' );
 				toolbox && editor.focusManager.add( toolbox, 1 );
 			} );
+			editor.addCommand( 'toolbarFocus', {
+				modes: { wysiwyg: 1, source: 1 },
+				readOnly: 1,
+				label: editor.lang.toolbar.commandsLabels.toolbarFocus,
 
-			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );
+				exec: function( editor ) {
+					if ( editor.toolbox ) {
+						editor.toolbox.focusCommandExecuted = true;
+
+						// Make the first button focus accessible for IE. (http://dev.ckeditor.com/ticket/3417)
+						// Adobe AIR instead need while of delay.
+						if ( CKEDITOR.env.ie || CKEDITOR.env.air ) {
+							setTimeout( function() {
+								editor.toolbox.focus();
+							}, 100 );
+						} else {
+							editor.toolbox.focus();
+						}
+					}
+				}
+			} );
+
 			editor.setKeystroke( CKEDITOR.ALT + 121 /*F10*/, 'toolbarFocus' );
 
 			editor.ui.add( '-', CKEDITOR.UI_SEPARATOR, {} );

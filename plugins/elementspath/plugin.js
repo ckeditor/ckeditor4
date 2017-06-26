@@ -9,21 +9,6 @@
  */
 
 ( function() {
-	var commands = {
-		toolbarFocus: {
-			editorFocus: false,
-			readOnly: 1,
-			exec: function( editor ) {
-				var idBase = editor._.elementsPath.idBase;
-				var element = CKEDITOR.document.getById( idBase + '0' );
-
-				// Make the first button focus accessible for IE. (http://dev.ckeditor.com/ticket/3417)
-				// Adobe AIR instead need while of delay.
-				element && element.focus( CKEDITOR.env.ie || CKEDITOR.env.air );
-			}
-		}
-	};
-
 	var emptyHtml = '<span class="cke_path_empty">&nbsp;</span>';
 
 	var extra = '';
@@ -228,7 +213,19 @@
 		editor.on( 'readOnly', empty );
 		editor.on( 'contentDomUnload', empty );
 
-		editor.addCommand( 'elementsPathFocus', commands.toolbarFocus );
+		editor.addCommand( 'elementsPathFocus', {
+			editorFocus: false,
+			readOnly: 1,
+			exec: function( editor ) {
+				var idBase = editor._.elementsPath.idBase;
+				var element = CKEDITOR.document.getById( idBase + '0' );
+
+				// Make the first button focus accessible for IE. (http://dev.ckeditor.com/ticket/3417)
+				// Adobe AIR instead need while of delay.
+				element && element.focus( CKEDITOR.env.ie || CKEDITOR.env.air );
+			},
+			label: editor.lang.elementspath.commandLabel
+		} );
 		editor.setKeystroke( CKEDITOR.ALT + 122 /*F11*/, 'elementsPathFocus' );
 	}
 } )();

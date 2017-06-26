@@ -12,348 +12,13 @@
 
 ( function() {
 	CKEDITOR.plugins.add( 'magicline', {
+		// jscs:disable maximumLineLength
 		lang: 'af,ar,az,bg,ca,cs,cy,da,de,de-ch,el,en,en-gb,eo,es,es-mx,et,eu,fa,fi,fr,fr-ca,gl,he,hr,hu,id,it,ja,km,ko,ku,lv,nb,nl,no,oc,pl,pt,pt-br,ru,si,sk,sl,sq,sv,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		// jscs:enable maximumLineLength
 		init: initPlugin
 	} );
 
-	// Activates the box inside of an editor.
-	function initPlugin( editor ) {
-		// Configurables
-		var config = editor.config,
-			triggerOffset = config.magicline_triggerOffset || 30,
-			enterMode = config.enterMode,
-			that = {
-				// Global stuff is being initialized here.
-				editor: editor,
-				enterMode: enterMode,
-				triggerOffset: triggerOffset,
-				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || 0.5 ),
-				boxColor: config.magicline_color || '#ff0000',
-				rtl: config.contentsLangDirection == 'rtl',
-				tabuList: [ 'data-cke-hidden-sel' ].concat( config.magicline_tabuList || [] ),
-				triggers: config.magicline_everywhere ? DTD_BLOCK : { table: 1, hr: 1, div: 1, ul: 1, ol: 1, dl: 1, form: 1, blockquote: 1 }
-			},
-			scrollTimeout, checkMouseTimeoutPending, checkMouseTimer;
 
-		// %REMOVE_START%
-		// Internal DEBUG uses tools located in the topmost window.
-
-		// (http://dev.ckeditor.com/ticket/9701) Due to security limitations some browsers may throw
-		// errors when accessing window.top object. Do it safely first then.
-		try {
-			that.debug = window.top.DEBUG;
-		}
-		catch ( e ) {}
-
-		that.debug = that.debug || {
-			groupEnd: function() {},
-			groupStart: function() {},
-			log: function() {},
-			logElements: function() {},
-			logElementsEnd: function() {},
-			logEnd: function() {},
-			mousePos: function() {},
-			showHidden: function() {},
-			showTrigger: function() {},
-			startTimer: function() {},
-			stopTimer: function() {}
-		};
-		// %REMOVE_END%
-
-		// Simple irrelevant elements filter.
-		that.isRelevant = function( node ) {
-			return isHtml( node ) && // -> Node must be an existing HTML element.
-				!isLine( that, node ) && // -> Node can be neither the box nor its child.
-				!isFlowBreaker( node ); // -> Node can be neither floated nor positioned nor aligned.
-		};
-
-		editor.on( 'contentDom', addListeners, this );
-
-		function addListeners() {
-			var editable = editor.editable(),
-				doc = editor.document,
-				win = editor.window;
-
-			// Global stuff is being initialized here.
-			extend( that, {
-				editable: editable,
-				inInlineMode: editable.isInline(),
-				doc: doc,
-				win: win,
-				hotNode: null
-			}, true );
-
-			// This is the boundary of the editor. For inline the boundary is editable itself.
-			// For classic (`iframe`-based) editor, the HTML element is a real boundary.
-			that.boundary = that.inInlineMode ? that.editable : that.doc.getDocumentElement();
-
-			// Enabling the box inside of inline editable is pointless.
-			// There's no need to access spaces inside paragraphs, links, spans, etc.
-			if ( editable.is( dtd.$inline ) )
-				return;
-
-			// Handle in-line editing by setting appropriate position.
-			// If current position is static, make it relative and clear top/left coordinates.
-			if ( that.inInlineMode && !isPositioned( editable ) ) {
-				editable.setStyles( {
-					position: 'relative',
-					top: null,
-					left: null
-				} );
-			}
-			// Enable the box. Let it produce children elements, initialize
-			// event handlers and own methods.
-			initLine.call( this, that );
-
-			// Get view dimensions and scroll positions.
-			// At this stage (before any checkMouse call) it is used mostly
-			// by tests. Nevertheless it a crucial thing.
-			updateWindowSize( that );
-
-			// Remove the box before an undo image is created.
-			// This is important. If we didn't do that, the *undo thing* would revert the box into an editor.
-			// Thanks to that, undo doesn't even know about the existence of the box.
-			editable.attachListener( editor, 'beforeUndoImage', function() {
-				that.line.detach();
-			} );
-
-			// Removes the box HTML from editor data string if getData is called.
-			// Thanks to that, an editor never yields data polluted by the box.
-			// Listen with very high priority, so line will be removed before other
-			// listeners will see it.
-			editable.attachListener( editor, 'beforeGetData', function() {
-				// If the box is in editable, remove it.
-				if ( that.line.wrap.getParent() ) {
-					that.line.detach();
-
-					// Restore line in the last listener for 'getData'.
-					editor.once( 'getData', function() {
-						that.line.attach();
-					}, null, null, 1000 );
-				}
-			}, null, null, 0 );
-
-			// Hide the box on mouseout if mouse leaves document.
-			editable.attachListener( that.inInlineMode ? doc : doc.getWindow().getFrame(), 'mouseout', function( event ) {
-				if ( editor.mode != 'wysiwyg' )
-					return;
-
-				// Check for inline-mode editor. If so, check mouse position
-				// and remove the box if mouse outside of an editor.
-				if ( that.inInlineMode ) {
-					var mouse = {
-						x: event.data.$.clientX,
-						y: event.data.$.clientY
-					};
-
-					updateWindowSize( that );
-					updateEditableSize( that, true );
-
-					var size = that.view.editable,
-						scroll = that.view.scroll;
-
-					// If outside of an editor...
-					if ( !inBetween( mouse.x, size.left - scroll.x, size.right - scroll.x ) || !inBetween( mouse.y, size.top - scroll.y, size.bottom - scroll.y ) ) {
-						clearTimeout( checkMouseTimer );
-						checkMouseTimer = null;
-						that.line.detach();
-					}
-				}
-
-				else {
-					clearTimeout( checkMouseTimer );
-					checkMouseTimer = null;
-					that.line.detach();
-				}
-			} );
-
-			// This one deactivates hidden mode of an editor which
-			// prevents the box from being shown.
-			editable.attachListener( editable, 'keyup', function() {
-				that.hiddenMode = 0;
-				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-			} );
-
-			editable.attachListener( editable, 'keydown', function( event ) {
-				if ( editor.mode != 'wysiwyg' )
-					return;
-
-				var keyStroke = event.data.getKeystroke();
-
-				switch ( keyStroke ) {
-					// Shift pressed
-					case 2228240: // IE
-					case 16:
-						that.hiddenMode = 1;
-						that.line.detach();
-				}
-
-				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-			} );
-
-			// This method ensures that checkMouse aren't executed
-			// in parallel and no more frequently than specified in timeout function.
-			// In classic (`iframe`-based) editor, document is used as a trigger, to provide magicline
-			// functionality when mouse is below the body (short content, short body).
-			editable.attachListener( that.inInlineMode ? editable : doc, 'mousemove', function( event ) {
-				checkMouseTimeoutPending = true;
-
-				if ( editor.mode != 'wysiwyg' || editor.readOnly || checkMouseTimer )
-					return;
-
-				// IE<9 requires this event-driven object to be created
-				// outside of the setTimeout statement.
-				// Otherwise it loses the event object with its properties.
-				var mouse = {
-					x: event.data.$.clientX,
-					y: event.data.$.clientY
-				};
-
-				checkMouseTimer = setTimeout( function() {
-					checkMouse( mouse );
-				}, 30 ); // balances performance and accessibility
-			} );
-
-			// This one removes box on scroll event.
-			// It is to avoid box displacement.
-			editable.attachListener( win, 'scroll', function() {
-				if ( editor.mode != 'wysiwyg' )
-					return;
-
-				that.line.detach();
-
-				// To figure this out just look at the mouseup
-				// event handler below.
-				if ( env.webkit ) {
-					that.hiddenMode = 1;
-
-					clearTimeout( scrollTimeout );
-					scrollTimeout = setTimeout( function() {
-						// Don't leave hidden mode until mouse remains pressed and
-						// scroll is being used, i.e. when dragging something.
-						if ( !that.mouseDown )
-							that.hiddenMode = 0;
-						that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-					}, 50 );
-
-					that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-				}
-			} );
-
-			// Those event handlers remove the box on mousedown
-			// and don't reveal it until the mouse is released.
-			// It is to prevent box insertion e.g. while scrolling
-			// (w/ scrollbar), selecting and so on.
-			editable.attachListener( env_ie8 ? doc : win, 'mousedown', function() {
-				if ( editor.mode != 'wysiwyg' )
-					return;
-
-				that.line.detach();
-				that.hiddenMode = 1;
-				that.mouseDown = 1;
-
-				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-			} );
-
-			// Google Chrome doesn't trigger this on the scrollbar (since 2009...)
-			// so it is totally useless to check for scroll finish
-			// see: http://code.google.com/p/chromium/issues/detail?id=14204
-			editable.attachListener( env_ie8 ? doc : win, 'mouseup', function() {
-				that.hiddenMode = 0;
-				that.mouseDown = 0;
-				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
-			} );
-
-			// Editor commands for accessing difficult focus spaces.
-			editor.addCommand( 'accessPreviousSpace', accessFocusSpaceCmd( that ) );
-			editor.addCommand( 'accessNextSpace', accessFocusSpaceCmd( that, true ) );
-
-			editor.setKeystroke( [
-				[ config.magicline_keystrokePrevious, 'accessPreviousSpace' ],
-				[ config.magicline_keystrokeNext, 'accessNextSpace' ]
-			] );
-
-			// Revert magicline hot node on undo/redo.
-			editor.on( 'loadSnapshot', function() {
-				var elements, element, i;
-
-				for ( var t in { p: 1, br: 1, div: 1 } ) {
-					// document.find is not available in QM (http://dev.ckeditor.com/ticket/11149).
-					elements = editor.document.getElementsByTag( t );
-
-					for ( i = elements.count(); i--; ) {
-						if ( ( element = elements.getItem( i ) ).data( 'cke-magicline-hot' ) ) {
-							// Restore hotNode
-							that.hotNode = element;
-							// Restore last access direction
-							that.lastCmdDirection = element.data( 'cke-magicline-dir' ) === 'true' ? true : false;
-
-							return;
-						}
-					}
-				}
-			} );
-
-			// This method handles mousemove mouse for box toggling.
-			// It uses mouse position to determine underlying element, then
-			// it tries to use different trigger type in order to place the box
-			// in correct place. The following procedure is executed periodically.
-			function checkMouse( mouse ) {
-				that.debug.groupStart( 'CheckMouse' ); // %REMOVE_LINE%
-				that.debug.startTimer(); // %REMOVE_LINE%
-
-				that.mouse = mouse;
-				that.trigger = null;
-
-				checkMouseTimer = null;
-				updateWindowSize( that );
-
-				if (
-					checkMouseTimeoutPending &&								// There must be an event pending.
-					!that.hiddenMode &&										// Can't be in hidden mode.
-					editor.focusManager.hasFocus &&							// Editor must have focus.
-					!that.line.mouseNear() &&								// Mouse pointer can't be close to the box.
-					( that.element = elementFromMouse( that, true ) )		// There must be valid element.
-				) {
-					// If trigger exists, and trigger is correct -> show the box.
-					// Don't show the line if trigger is a descendant of some tabu-list element.
-					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) &&
-						!isInTabu( that, that.trigger.upper || that.trigger.lower ) ) {
-						that.line.attach().place();
-					}
-
-					// Otherwise remove the box
-					else {
-						that.trigger = null;
-						that.line.detach();
-					}
-
-					that.debug.showTrigger( that.trigger ); // %REMOVE_LINE%
-					that.debug.mousePos( mouse.y, that.element ); // %REMOVE_LINE%
-
-					checkMouseTimeoutPending = false;
-				}
-
-				that.debug.stopTimer(); // %REMOVE_LINE%
-				that.debug.groupEnd(); // %REMOVE_LINE%
-			}
-
-			// This one allows testing and debugging. It reveals some
-			// inner methods to the world.
-			this.backdoor = {
-				accessFocusSpace: accessFocusSpace,
-				boxTrigger: boxTrigger,
-				isLine: isLine,
-				getAscendantTrigger: getAscendantTrigger,
-				getNonEmptyNeighbour: getNonEmptyNeighbour,
-				getSize: getSize,
-				that: that,
-				triggerEdge: triggerEdge,
-				triggerEditable: triggerEditable,
-				triggerExpand: triggerExpand
-			};
-		}
-	}
 
 	// Some shorthands for common methods to save bytes
 	var extend = CKEDITOR.tools.extend,
@@ -393,6 +58,12 @@
 	enterElements[ CKEDITOR.ENTER_BR ] = 'br';
 	enterElements[ CKEDITOR.ENTER_P ] = 'p';
 	enterElements[ CKEDITOR.ENTER_DIV ] = 'div';
+
+	// Is text node containing white-spaces only?
+	var isEmptyTextNode = CKEDITOR.dom.walker.whitespaces();
+
+	// Isn't node of NODE_COMMENT type?
+	var isComment = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_COMMENT );
 
 	function areSiblings( that, upper, lower ) {
 		return isHtml( upper ) && isHtml( lower ) && lower.equals( upper.getNext( function( node ) {
@@ -891,6 +562,8 @@
 		return {
 			canUndo: true,
 			modes: { wysiwyg: 1 },
+			label: insertAfter ? that.editor.lang.magicline.commandsLabels.accessNextSpace : that.editor.lang.magicline.commandsLabels.accessPreviousSpace,
+			description: insertAfter ? that.editor.lang.magicline.commandsDescriptions.accessNextSpace : that.editor.lang.magicline.commandsDescriptions.accessPreviousSpace,
 			exec: ( function() {
 
 				// Inserts line (accessNode) at the position by taking target node as a reference.
@@ -1018,9 +691,6 @@
 		return line.wrap.equals( node ) || line.wrap.contains( node );
 	}
 
-	// Is text node containing white-spaces only?
-	var isEmptyTextNode = CKEDITOR.dom.walker.whitespaces();
-
 	// Is fully visible HTML node?
 	function isHtml( node ) {
 		return node && node.type == CKEDITOR.NODE_ELEMENT && node.$;	// IE requires that
@@ -1041,9 +711,6 @@
 
 		return isPositioned( element ) || isFloated( element );
 	}
-
-	// Isn't node of NODE_COMMENT type?
-	var isComment = CKEDITOR.dom.walker.nodeType( CKEDITOR.NODE_COMMENT );
 
 	function isPositioned( element ) {
 		return !!{ absolute: 1, fixed: 1 }[ element.getComputedStyle( 'position' ) ];
@@ -1767,6 +1434,347 @@
 
 		return new boxTrigger( [ upper, lower, null, null ] );
 	}
+
+	// Activates the box inside of an editor.
+	function initPlugin( editor ) {
+		// Configurables
+		var config = editor.config,
+			triggerOffset = config.magicline_triggerOffset || 30,
+			enterMode = config.enterMode,
+			that = {
+				// Global stuff is being initialized here.
+				editor: editor,
+				enterMode: enterMode,
+				triggerOffset: triggerOffset,
+				holdDistance: 0 | triggerOffset * ( config.magicline_holdDistance || 0.5 ),
+				boxColor: config.magicline_color || '#ff0000',
+				rtl: config.contentsLangDirection == 'rtl',
+				tabuList: [ 'data-cke-hidden-sel' ].concat( config.magicline_tabuList || [] ),
+				triggers: config.magicline_everywhere ? DTD_BLOCK : { table: 1, hr: 1, div: 1, ul: 1, ol: 1, dl: 1, form: 1, blockquote: 1 }
+			},
+			scrollTimeout, checkMouseTimeoutPending, checkMouseTimer;
+
+		// %REMOVE_START%
+		// Internal DEBUG uses tools located in the topmost window.
+
+		// (http://dev.ckeditor.com/ticket/9701) Due to security limitations some browsers may throw
+		// errors when accessing window.top object. Do it safely first then.
+		try {
+			that.debug = window.top.DEBUG;
+		}
+		catch ( e ) {}
+
+		that.debug = that.debug || {
+			groupEnd: function() {},
+			groupStart: function() {},
+			log: function() {},
+			logElements: function() {},
+			logElementsEnd: function() {},
+			logEnd: function() {},
+			mousePos: function() {},
+			showHidden: function() {},
+			showTrigger: function() {},
+			startTimer: function() {},
+			stopTimer: function() {}
+		};
+		// %REMOVE_END%
+
+		// Simple irrelevant elements filter.
+		that.isRelevant = function( node ) {
+			return isHtml( node ) && // -> Node must be an existing HTML element.
+				!isLine( that, node ) && // -> Node can be neither the box nor its child.
+				!isFlowBreaker( node ); // -> Node can be neither floated nor positioned nor aligned.
+		};
+
+		editor.on( 'contentDom', addListeners, this );
+
+		function addListeners() {
+			var editable = editor.editable(),
+				doc = editor.document,
+				win = editor.window;
+
+			// Global stuff is being initialized here.
+			extend( that, {
+				editable: editable,
+				inInlineMode: editable.isInline(),
+				doc: doc,
+				win: win,
+				hotNode: null
+			}, true );
+
+			// This is the boundary of the editor. For inline the boundary is editable itself.
+			// For classic (`iframe`-based) editor, the HTML element is a real boundary.
+			that.boundary = that.inInlineMode ? that.editable : that.doc.getDocumentElement();
+
+			// Enabling the box inside of inline editable is pointless.
+			// There's no need to access spaces inside paragraphs, links, spans, etc.
+			if ( editable.is( dtd.$inline ) )
+				return;
+
+			// Handle in-line editing by setting appropriate position.
+			// If current position is static, make it relative and clear top/left coordinates.
+			if ( that.inInlineMode && !isPositioned( editable ) ) {
+				editable.setStyles( {
+					position: 'relative',
+					top: null,
+					left: null
+				} );
+			}
+			// Enable the box. Let it produce children elements, initialize
+			// event handlers and own methods.
+			initLine.call( this, that );
+
+			// Get view dimensions and scroll positions.
+			// At this stage (before any checkMouse call) it is used mostly
+			// by tests. Nevertheless it a crucial thing.
+			updateWindowSize( that );
+
+			// Remove the box before an undo image is created.
+			// This is important. If we didn't do that, the *undo thing* would revert the box into an editor.
+			// Thanks to that, undo doesn't even know about the existence of the box.
+			editable.attachListener( editor, 'beforeUndoImage', function() {
+				that.line.detach();
+			} );
+
+			// Removes the box HTML from editor data string if getData is called.
+			// Thanks to that, an editor never yields data polluted by the box.
+			// Listen with very high priority, so line will be removed before other
+			// listeners will see it.
+			editable.attachListener( editor, 'beforeGetData', function() {
+				// If the box is in editable, remove it.
+				if ( that.line.wrap.getParent() ) {
+					that.line.detach();
+
+					// Restore line in the last listener for 'getData'.
+					editor.once( 'getData', function() {
+						that.line.attach();
+					}, null, null, 1000 );
+				}
+			}, null, null, 0 );
+
+			// Hide the box on mouseout if mouse leaves document.
+			editable.attachListener( that.inInlineMode ? doc : doc.getWindow().getFrame(), 'mouseout', function( event ) {
+				if ( editor.mode != 'wysiwyg' )
+					return;
+
+				// Check for inline-mode editor. If so, check mouse position
+				// and remove the box if mouse outside of an editor.
+				if ( that.inInlineMode ) {
+					var mouse = {
+						x: event.data.$.clientX,
+						y: event.data.$.clientY
+					};
+
+					updateWindowSize( that );
+					updateEditableSize( that, true );
+
+					var size = that.view.editable,
+						scroll = that.view.scroll;
+
+					// If outside of an editor...
+					if ( !inBetween( mouse.x, size.left - scroll.x, size.right - scroll.x ) || !inBetween( mouse.y, size.top - scroll.y, size.bottom - scroll.y ) ) {
+						clearTimeout( checkMouseTimer );
+						checkMouseTimer = null;
+						that.line.detach();
+					}
+				}
+
+				else {
+					clearTimeout( checkMouseTimer );
+					checkMouseTimer = null;
+					that.line.detach();
+				}
+			} );
+
+			// This one deactivates hidden mode of an editor which
+			// prevents the box from being shown.
+			editable.attachListener( editable, 'keyup', function() {
+				that.hiddenMode = 0;
+				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+			} );
+
+			editable.attachListener( editable, 'keydown', function( event ) {
+				if ( editor.mode != 'wysiwyg' )
+					return;
+
+				var keyStroke = event.data.getKeystroke();
+
+				switch ( keyStroke ) {
+					// Shift pressed
+					case 2228240: // IE
+					case 16:
+						that.hiddenMode = 1;
+						that.line.detach();
+				}
+
+				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+			} );
+
+			// This method ensures that checkMouse aren't executed
+			// in parallel and no more frequently than specified in timeout function.
+			// In classic (`iframe`-based) editor, document is used as a trigger, to provide magicline
+			// functionality when mouse is below the body (short content, short body).
+			editable.attachListener( that.inInlineMode ? editable : doc, 'mousemove', function( event ) {
+				checkMouseTimeoutPending = true;
+
+				if ( editor.mode != 'wysiwyg' || editor.readOnly || checkMouseTimer )
+					return;
+
+				// IE<9 requires this event-driven object to be created
+				// outside of the setTimeout statement.
+				// Otherwise it loses the event object with its properties.
+				var mouse = {
+					x: event.data.$.clientX,
+					y: event.data.$.clientY
+				};
+
+				checkMouseTimer = setTimeout( function() {
+					checkMouse( mouse );
+				}, 30 ); // balances performance and accessibility
+			} );
+
+			// This one removes box on scroll event.
+			// It is to avoid box displacement.
+			editable.attachListener( win, 'scroll', function() {
+				if ( editor.mode != 'wysiwyg' )
+					return;
+
+				that.line.detach();
+
+				// To figure this out just look at the mouseup
+				// event handler below.
+				if ( env.webkit ) {
+					that.hiddenMode = 1;
+
+					clearTimeout( scrollTimeout );
+					scrollTimeout = setTimeout( function() {
+						// Don't leave hidden mode until mouse remains pressed and
+						// scroll is being used, i.e. when dragging something.
+						if ( !that.mouseDown )
+							that.hiddenMode = 0;
+						that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+					}, 50 );
+
+					that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+				}
+			} );
+
+			// Those event handlers remove the box on mousedown
+			// and don't reveal it until the mouse is released.
+			// It is to prevent box insertion e.g. while scrolling
+			// (w/ scrollbar), selecting and so on.
+			editable.attachListener( env_ie8 ? doc : win, 'mousedown', function() {
+				if ( editor.mode != 'wysiwyg' )
+					return;
+
+				that.line.detach();
+				that.hiddenMode = 1;
+				that.mouseDown = 1;
+
+				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+			} );
+
+			// Google Chrome doesn't trigger this on the scrollbar (since 2009...)
+			// so it is totally useless to check for scroll finish
+			// see: http://code.google.com/p/chromium/issues/detail?id=14204
+			editable.attachListener( env_ie8 ? doc : win, 'mouseup', function() {
+				that.hiddenMode = 0;
+				that.mouseDown = 0;
+				that.debug.showHidden( that.hiddenMode ); // %REMOVE_LINE%
+			} );
+
+			// Editor commands for accessing difficult focus spaces.
+			editor.addCommand( 'accessPreviousSpace', accessFocusSpaceCmd( that ) );
+			editor.addCommand( 'accessNextSpace', accessFocusSpaceCmd( that, true ) );
+
+			editor.setKeystroke( [
+				[ config.magicline_keystrokePrevious, 'accessPreviousSpace' ],
+				[ config.magicline_keystrokeNext, 'accessNextSpace' ]
+			] );
+
+			// Revert magicline hot node on undo/redo.
+			editor.on( 'loadSnapshot', function() {
+				var elements, element, i;
+
+				for ( var t in { p: 1, br: 1, div: 1 } ) {
+					// document.find is not available in QM (http://dev.ckeditor.com/ticket/11149).
+					elements = editor.document.getElementsByTag( t );
+
+					for ( i = elements.count(); i--; ) {
+						if ( ( element = elements.getItem( i ) ).data( 'cke-magicline-hot' ) ) {
+							// Restore hotNode
+							that.hotNode = element;
+							// Restore last access direction
+							that.lastCmdDirection = element.data( 'cke-magicline-dir' ) === 'true' ? true : false;
+
+							return;
+						}
+					}
+				}
+			} );
+
+			// This method handles mousemove mouse for box toggling.
+			// It uses mouse position to determine underlying element, then
+			// it tries to use different trigger type in order to place the box
+			// in correct place. The following procedure is executed periodically.
+			function checkMouse( mouse ) {
+				that.debug.groupStart( 'CheckMouse' ); // %REMOVE_LINE%
+				that.debug.startTimer(); // %REMOVE_LINE%
+
+				that.mouse = mouse;
+				that.trigger = null;
+
+				checkMouseTimer = null;
+				updateWindowSize( that );
+
+				if (
+					checkMouseTimeoutPending &&								// There must be an event pending.
+					!that.hiddenMode &&										// Can't be in hidden mode.
+					editor.focusManager.hasFocus &&							// Editor must have focus.
+					!that.line.mouseNear() &&								// Mouse pointer can't be close to the box.
+					( that.element = elementFromMouse( that, true ) )		// There must be valid element.
+				) {
+					// If trigger exists, and trigger is correct -> show the box.
+					// Don't show the line if trigger is a descendant of some tabu-list element.
+					if ( ( that.trigger = triggerEditable( that ) || triggerEdge( that ) || triggerExpand( that ) ) &&
+						!isInTabu( that, that.trigger.upper || that.trigger.lower ) ) {
+						that.line.attach().place();
+					}
+
+					// Otherwise remove the box
+					else {
+						that.trigger = null;
+						that.line.detach();
+					}
+
+					that.debug.showTrigger( that.trigger ); // %REMOVE_LINE%
+					that.debug.mousePos( mouse.y, that.element ); // %REMOVE_LINE%
+
+					checkMouseTimeoutPending = false;
+				}
+
+				that.debug.stopTimer(); // %REMOVE_LINE%
+				that.debug.groupEnd(); // %REMOVE_LINE%
+			}
+
+			// This one allows testing and debugging. It reveals some
+			// inner methods to the world.
+			this.backdoor = {
+				accessFocusSpace: accessFocusSpace,
+				boxTrigger: boxTrigger,
+				isLine: isLine,
+				getAscendantTrigger: getAscendantTrigger,
+				getNonEmptyNeighbour: getNonEmptyNeighbour,
+				getSize: getSize,
+				that: that,
+				triggerEdge: triggerEdge,
+				triggerEditable: triggerEditable,
+				triggerExpand: triggerExpand
+			};
+		}
+	}
+
+
 
 } )();
 

@@ -13,7 +13,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 			// Return the keystroke representation or leave match untouched
 			// if there's no keystroke for such command.
-			return keystrokeCode ? editor.plugins.a11yhelp.representKeystroke( editor, keystrokeCode ) : match;
+			return keystrokeCode ? CKEDITOR.plugins.a11yhelp.representKeystroke( editor, keystrokeCode ) : match;
 		};
 
 	function populateWithAvailableCommands() {
@@ -95,15 +95,14 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			}
 
 			commandItem.description = commandItem.command.description || '';
-			commandItem.keystrokeHtml = editor.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( commandItem.command ) );
+			commandItem.keystrokeHtml = CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( commandItem.command ) );
 
 			editor.fire( 'keystrokeEntry', commandItem );
 		} );
 
 		// filter out commands without label
-		commandItems = CKEDITOR.tools.array.filter( commandItems, function() {
-			return true; // later change to belo code
-			// return !!command.label // ADD 'command' to function!!!!!!!!
+		commandItems = CKEDITOR.tools.array.filter( commandItems, function( command ) {
+			return !!command.label;
 		} );
 
 		// create inner table with commands
