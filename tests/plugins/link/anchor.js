@@ -26,6 +26,31 @@
 					assert.isInnerHtmlMatching( '<p><a id="bar" name="bar"></a></p>', this.editor.getData() );
 				} );
 			} );
+		},
+
+		// #501
+		'test double-click on anchor is opening anchor dialog': function() {
+			var editor = this.editor,
+				bot = this.editorBot;
+
+			bot.setData( '<p><a name="foo" id="foo"></a></p>', function() {
+
+				var range = new CKEDITOR.dom.range( editor.document );
+				range.selectNodeContents( editor.editable().findOne( '[data-cke-real-element-type=anchor]' ) );
+				range.select();
+
+				editor.on( 'dialogShow', function( evt ) {
+					resume( function() {
+						assert.areSame( evt.data._.name, 'anchor' );
+					} );
+				} );
+
+				editor.fire( 'doubleclick', {
+					element: editor.editable().findOne( '[data-cke-real-element-type=anchor]' )
+				} );
+
+				wait();
+			} );
 		}
 	} );
 }() );
