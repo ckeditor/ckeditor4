@@ -160,3 +160,17 @@
  * @since 4.6.0
  * @property {Number} fakeKeystroke
  */
+
+/**
+ * Defines optional command label. Property is automatically used by accessibility helper to display it in Command table.
+ *
+ * @since 4.8.0
+ * @property {String} label
+ */
+
+/**
+ * Defines optional command description. Property is automatically used by accessibility helper to display it in Command table below keystroke.
+ *
+ * @since 4.8.0
+ * @property {String} description
+ */
