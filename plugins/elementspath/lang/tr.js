@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'elementspath', 'tr', {
 	eleLabel: 'Elementlerin yolu',
-	eleTitle: '%1 elementi'
+	eleTitle: '%1 elementi',
+	commandLabel: 'Focus Elements Path' // MISSING
 } );

@@ -93,8 +93,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sk', {
 	closeBracket: 'Hranatá zátvorka zatváracia',
 	singleQuote: 'Jednoduché úvodzovky',
 	commandsList: {
-		sectionName: 'Commands', // MISSING
+		sectionName: 'Commands table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
-	}
+	},
+	commandLabel: 'Accesibility Help' // MISSING
 } );

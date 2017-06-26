@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'id', {
 		colors: 'Warna',
 		tools: 'Alat'
 	},
-	toolbars: 'Toolbar Penyunting'
+	toolbars: 'Toolbar Penyunting',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

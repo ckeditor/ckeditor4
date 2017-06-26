@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'fr-ca', {
 		colors: 'Couleurs',
 		tools: 'Outils'
 	},
-	toolbars: 'Barre d\'outils de l\'éditeur'
+	toolbars: 'Barre d\'outils de l\'éditeur',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

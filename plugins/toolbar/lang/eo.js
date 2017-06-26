@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'eo', {
 		colors: 'Koloroj',
 		tools: 'Iloj'
 	},
-	toolbars: 'Ilobretoj de la redaktilo'
+	toolbars: 'Ilobretoj de la redaktilo',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

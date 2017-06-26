@@ -93,8 +93,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nl', {
 	closeBracket: 'Vierkant haakje sluiten',
 	singleQuote: 'Apostrof',
 	commandsList: {
-		sectionName: 'Commands', // MISSING
+		sectionName: 'Commands table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
-	}
+	},
+	commandLabel: 'Accesibility Help' // MISSING
 } );

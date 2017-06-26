@@ -110,8 +110,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 	closeBracket: 'Close Bracket',
 	singleQuote: 'Single Quote',
 	commandsList: {
-		sectionName: 'Commands',
+		sectionName: 'Commands table',
 		command: 'Command',
 		keystroke: 'Keystroke'
-	}
+	},
+	commandLabel: 'Accesibility Help'
 } );

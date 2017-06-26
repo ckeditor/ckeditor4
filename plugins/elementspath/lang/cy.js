@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'elementspath', 'cy', {
 	eleLabel: 'Llwybr elfennau',
-	eleTitle: 'Elfen %1'
+	eleTitle: 'Elfen %1',
+	commandLabel: 'Focus Elements Path' // MISSING
 } );

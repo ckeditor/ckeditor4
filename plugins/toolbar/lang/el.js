@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'el', {
 		colors: 'Χρώματα',
 		tools: 'Εργαλεία'
 	},
-	toolbars: 'Εργαλειοθήκες επεξεργαστή'
+	toolbars: 'Εργαλειοθήκες επεξεργαστή',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

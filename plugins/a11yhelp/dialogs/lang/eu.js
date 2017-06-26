@@ -93,8 +93,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eu', {
 	closeBracket: 'Itxi parentesia',
 	singleQuote: 'Komatxo bakuna',
 	commandsList: {
-		sectionName: 'Commands', // MISSING
+		sectionName: 'Commands table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
-	}
+	},
+	commandLabel: 'Accesibility Help' // MISSING
 } );

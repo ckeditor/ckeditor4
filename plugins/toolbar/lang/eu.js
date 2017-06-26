@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'eu', {
 		colors: 'Koloreak',
 		tools: 'Tresnak'
 	},
-	toolbars: 'Editorearen tresna-barrak'
+	toolbars: 'Editorearen tresna-barrak',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

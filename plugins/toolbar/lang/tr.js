@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'tr', {
 		colors: 'Renkler',
 		tools: 'Araçlar'
 	},
-	toolbars: 'Araç çubukları Editörü'
+	toolbars: 'Araç çubukları Editörü',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

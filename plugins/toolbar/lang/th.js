@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'th', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'แถบเครื่องมือช่วยพิมพ์ข้อความ'
+	toolbars: 'แถบเครื่องมือช่วยพิมพ์ข้อความ',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

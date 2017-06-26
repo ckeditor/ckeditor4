@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sr-latn', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Alatne trake'
+	toolbars: 'Alatne trake',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

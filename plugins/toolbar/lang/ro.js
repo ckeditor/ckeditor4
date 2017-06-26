@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ro', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Editează bara de unelte'
+	toolbars: 'Editează bara de unelte',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

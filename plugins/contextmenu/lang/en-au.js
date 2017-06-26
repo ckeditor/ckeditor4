@@ -3,5 +3,6 @@ Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'contextmenu', 'en-au', {
-	options: 'Context Menu Options' // MISSING
+	options: 'Context Menu Options', // MISSING
+	commandLabel: 'Context Menu' // MISSING
 } );

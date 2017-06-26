@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'lt', {
 		colors: 'Spalvos',
 		tools: 'Įrankiai'
 	},
-	toolbars: 'Redaktoriaus įrankiai'
+	toolbars: 'Redaktoriaus įrankiai',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

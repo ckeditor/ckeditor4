@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'km', {
 		colors: 'ពណ៌',
 		tools: 'ឧបករណ៍'
 	},
-	toolbars: 'របារ​ឧបករណ៍​កែ​សម្រួល'
+	toolbars: 'របារ​ឧបករណ៍​កែ​សម្រួល',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

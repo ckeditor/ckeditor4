@@ -4,5 +4,13 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'en', {
-	title: 'Insert paragraph here'
+	title: 'Insert paragraph here',
+	commandsLabels: {
+		accessPreviousSpace: 'Access Previous Space',
+		accessNextSpace: 'Acess Next Space'
+	},
+	commandsDescriptions: {
+		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.',
+		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.'
+	}
 } );

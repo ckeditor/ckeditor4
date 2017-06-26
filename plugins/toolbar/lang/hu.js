@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'hu', {
 		colors: 'Színek',
 		tools: 'Eszközök'
 	},
-	toolbars: 'Szerkesztő Eszköztár'
+	toolbars: 'Szerkesztő Eszköztár',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

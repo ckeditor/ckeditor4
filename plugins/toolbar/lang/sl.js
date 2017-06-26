@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sl', {
 		colors: 'Barve',
 		tools: 'Orodja'
 	},
-	toolbars: 'Orodne vrstice urejevalnika'
+	toolbars: 'Orodne vrstice urejevalnika',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

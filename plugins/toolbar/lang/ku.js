@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ku', {
 		colors: 'ڕەنگەکان',
 		tools: 'ئامرازەکان'
 	},
-	toolbars: 'تووڵامرازی دەسکاریکەر'
+	toolbars: 'تووڵامرازی دەسکاریکەر',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

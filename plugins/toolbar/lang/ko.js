@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'ko', {
 		colors: '색상',
 		tools: '도구'
 	},
-	toolbars: '에디터 툴바'
+	toolbars: '에디터 툴바',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

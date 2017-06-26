@@ -3,5 +3,6 @@ Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'contextmenu', 'ro', {
-	options: 'Opțiuni Meniu Contextual'
+	options: 'Opțiuni Meniu Contextual',
+	commandLabel: 'Context Menu' // MISSING
 } );

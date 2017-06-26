@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'bg', {
 		colors: 'Цветове',
 		tools: 'Инструменти'
 	},
-	toolbars: 'Ленти с инструменти'
+	toolbars: 'Ленти с инструменти',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

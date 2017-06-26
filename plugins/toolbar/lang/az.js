@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'az', {
 		colors: 'Rənqlər',
 		tools: 'Alətləri'
 	},
-	toolbars: 'Redaktorun panelləri'
+	toolbars: 'Redaktorun panelləri',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

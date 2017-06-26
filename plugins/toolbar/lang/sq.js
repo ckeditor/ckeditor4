@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sq', {
 		colors: 'Ngjyrat',
 		tools: 'Mjetet'
 	},
-	toolbars: 'Shiritet e Redaktuesit'
+	toolbars: 'Shiritet e Redaktuesit',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

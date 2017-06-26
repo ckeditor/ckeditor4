@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'elementspath', 'sk', {
 	eleLabel: 'Cesta prvkov',
-	eleTitle: '%1 prvok'
+	eleTitle: '%1 prvok',
+	commandLabel: 'Focus Elements Path' // MISSING
 } );

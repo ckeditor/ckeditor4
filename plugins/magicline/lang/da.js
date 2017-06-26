@@ -4,5 +4,13 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'da', {
-	title: 'Indsæt afsnit'
+	title: 'Indsæt afsnit',
+	commandsLabels: {
+		accessPreviousSpace: 'Access Previous Space', // MISSING
+		accessNextSpace: 'Acess Next Space' // MISSING
+	},
+	commandsDescriptions: {
+		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	}
 } );

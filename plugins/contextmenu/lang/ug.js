@@ -3,5 +3,6 @@ Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'contextmenu', 'ug', {
-	options: 'قىسقا يول تىزىملىك تاللانمىسى'
+	options: 'قىسقا يول تىزىملىك تاللانمىسى',
+	commandLabel: 'Context Menu' // MISSING
 } );

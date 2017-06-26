@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'elementspath', 'de', {
 	eleLabel: 'Elementepfad',
-	eleTitle: '%1 Element'
+	eleTitle: '%1 Element',
+	commandLabel: 'Focus Elements Path' // MISSING
 } );

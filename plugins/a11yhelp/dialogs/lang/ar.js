@@ -93,8 +93,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ar', {
 	closeBracket: 'Close Bracket', // MISSING
 	singleQuote: 'Single Quote', // MISSING
 	commandsList: {
-		sectionName: 'Commands', // MISSING
+		sectionName: 'Commands table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
-	}
+	},
+	commandLabel: 'Accesibility Help' // MISSING
 } );

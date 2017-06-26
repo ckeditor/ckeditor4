@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'elementspath', 'ko', {
 	eleLabel: '요소 경로',
-	eleTitle: '%1 요소'
+	eleTitle: '%1 요소',
+	commandLabel: 'Focus Elements Path' // MISSING
 } );

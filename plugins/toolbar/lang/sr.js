@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'sr', {
 		colors: 'Colors',
 		tools: 'Tools'
 	},
-	toolbars: 'Едитор алатне траке'
+	toolbars: 'Едитор алатне траке',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

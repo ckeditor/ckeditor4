@@ -18,5 +18,9 @@ CKEDITOR.plugins.setLang( 'toolbar', 'lv', {
 		colors: 'Krāsas',
 		tools: 'Rīki'
 	},
-	toolbars: 'Redaktora rīkjoslas'
+	toolbars: 'Redaktora rīkjoslas',
+	commandsLabels: {
+		toolbarFocus: 'Focus Toolbar', // MISSING
+		toolbarCollapse: 'Collapse Toolbar' // MISSING
+	}
 } );

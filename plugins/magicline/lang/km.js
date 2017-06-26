@@ -4,5 +4,13 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'km', {
-	title: 'បញ្ចូល​កថាខណ្ឌ​នៅ​ទីនេះ'
+	title: 'បញ្ចូល​កថាខណ្ឌ​នៅ​ទីនេះ',
+	commandsLabels: {
+		accessPreviousSpace: 'Access Previous Space', // MISSING
+		accessNextSpace: 'Acess Next Space' // MISSING
+	},
+	commandsDescriptions: {
+		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	}
 } );

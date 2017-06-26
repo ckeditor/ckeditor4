@@ -4,5 +4,13 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'fa', {
-	title: 'قرار دادن بند در اینجا'
+	title: 'قرار دادن بند در اینجا',
+	commandsLabels: {
+		accessPreviousSpace: 'Access Previous Space', // MISSING
+		accessNextSpace: 'Acess Next Space' // MISSING
+	},
+	commandsDescriptions: {
+		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	}
 } );

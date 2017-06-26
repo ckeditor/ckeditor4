@@ -93,8 +93,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 	closeBracket: 'Parantez kapa',
 	singleQuote: 'Tek tırnak',
 	commandsList: {
-		sectionName: 'Commands', // MISSING
+		sectionName: 'Commands table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
-	}
+	},
+	commandLabel: 'Accesibility Help' // MISSING
 } );

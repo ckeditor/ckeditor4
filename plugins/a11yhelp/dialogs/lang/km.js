@@ -93,8 +93,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 	closeBracket: 'តង្កៀប​បិទ',
 	singleQuote: 'បន្តក់​មួយ',
 	commandsList: {
-		sectionName: 'Commands', // MISSING
+		sectionName: 'Commands table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
-	}
+	},
+	commandLabel: 'Accesibility Help' // MISSING
 } );

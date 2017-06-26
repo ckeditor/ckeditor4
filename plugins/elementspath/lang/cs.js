@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'elementspath', 'cs', {
 	eleLabel: 'Cesta objektu',
-	eleTitle: '%1 objekt'
+	eleTitle: '%1 objekt',
+	commandLabel: 'Focus Elements Path' // MISSING
 } );
