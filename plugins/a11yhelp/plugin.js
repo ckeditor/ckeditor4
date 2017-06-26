@@ -34,6 +34,7 @@
 					CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'dialogs/lang/' + langCode + '.js' ), function() {
 						editor.lang.a11yhelp = plugin.langEntries[ langCode ];
 						editor.openDialog( commandName );
+						editor.commands[ commandName ].label = editor.lang.a11yhelp.commandLabel;
 					} );
 				},
 				modes: { wysiwyg: 1, source: 1 },
@@ -47,8 +48,27 @@
 			editor.on( 'ariaEditorHelpLabel', function( evt ) {
 				evt.data.label = editor.lang.common.editorHelp;
 			} );
-		},
+		}
+	} );
 
+	/**
+	 * Set of a11yHelp plugin helpers.
+	 *
+	 * @class
+	 * @singleton
+	 */
+	CKEDITOR.plugins.a11yhelp = {
+		/**
+		 * Return html which represent keystroke. Result is wrapped with <kbd> tags.
+		 *
+		 * 		CKEDITOR.plugins.a11yhelp.representKeystroke( CKEDITOR.instances.editor, 4456496 )
+		 * 		"<kbd><kbd>Alt</kbd>+<kbd>0</kbd></kbd>"
+		 *
+		 * @since 4.8.0
+		 * @param {CKEDITOR.editor} editor Editor instance.
+		 * @param {Number} keystroke Number which represent command keystroke.
+		 * @returns {String} HTML code with key names wrappeed with <kbd> tags.
+		 */
 		representKeystroke: function( editor, keystroke ) {
 			var lang = editor.lang.a11yhelp,
 				coreLang = editor.lang.common.keyboard;
@@ -144,5 +164,5 @@
 
 			return openTag + presentation.join( '+' ) + closeTag;
 		}
-	} );
+	};
 } )();
