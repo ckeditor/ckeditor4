@@ -1,5 +1,5 @@
 /* bender-tags: selection */
-/* bender-ckeditor-plugins: selectall */
+/* bender-ckeditor-plugins: selectall,sourcearea */
 
 ( function() {
 	'use strict';
@@ -45,6 +45,20 @@
 				acceptableResults,
 				bender.tools.html.prepareInnerHtmlForComparison( bender.tools.selection.getWithHtml( editor ), htmlMatchingOpts )
 			);
+		},
+
+		'test selectall in source view': function() {
+			var editor = this.editors.editorFramed;
+
+			editor.setData( '<p>foo</p><p>bar</p>' );
+			editor.setMode('source');
+			
+			editor.execCommand( 'selectAll' );
+			console.log(CKEDITOR.document.getActive().$.selectionEnd);
+			
+			assert.areSame(CKEDITOR.document.getActive().$.selectionStart, 0);
+			assert.areSame(CKEDITOR.document.getActive().$.selectionEnd, 20)
+			editor.setMode('wysiwyg');
 		}
 	} );
 
