@@ -2095,7 +2095,7 @@
 	// @returns {CKEDITOR.filter} Filter instance or `null` if rules are not defined.
 	// @context CKEDITOR.plugins.widget.repository
 	function createEditableFilter( widgetName, editableName, editableDefinition ) {
-		if ( !editableDefinition.allowedContent )
+		if ( !editableDefinition.allowedContent && !editableDefinition.disallowedContent )
 			return null;
 
 		var editables = this._.filters[ widgetName ];
@@ -2105,8 +2105,15 @@
 
 		var filter = editables[ editableName ];
 
-		if ( !filter )
-			editables[ editableName ] = filter = new CKEDITOR.filter( editableDefinition.allowedContent );
+		if ( !filter ) {
+			filter = editableDefinition.allowedContent ? new CKEDITOR.filter( editableDefinition.allowedContent ) : this.editor.filter.clone();
+
+			editables[ editableName ] = filter;
+
+			if ( editableDefinition.disallowedContent ) {
+				filter.disallow( editableDefinition.disallowedContent );
+			}
+		}
 
 		return filter;
 	}
@@ -4116,7 +4123,21 @@
  * This option is similar to {@link CKEDITOR.config#allowedContent} and one can
  * use it to limit the editor features available in the nested editable.
  *
+ * If no `allowedContent` is specified, editable will use editor default
+ * {@link CKEDITOR.editor#filter}.
+ *
  * @property {CKEDITOR.filter.allowedContentRules} allowedContent
+ */
+
+/**
+ * The [Advanced Content Filter](#!/guide/dev_advanced_content_filter) rules
+ * which will be used as a blacklist element withing this nested editable.
+ * This option is similar to {@link CKEDITOR.config#disallowedContent}.
+ *
+ * Note that disallowedContent work on top of definition's {@link #allowedContent}.
+ *
+ * @since 4.6.1
+ * @property {CKEDITOR.filter.disallowedContentRules} disallowedContent
  */
 
 /**

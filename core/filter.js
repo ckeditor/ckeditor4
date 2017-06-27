@@ -158,7 +158,8 @@
 			},
 			// Object: element name => array of transformations groups.
 			transformations: {},
-			cachedTests: {}
+			cachedTests: {},
+			cachedChecks: {}
 		};
 
 		// Register filter instance.
@@ -804,6 +805,32 @@
 				return CKEDITOR.ENTER_BR;
 			};
 		} )(),
+
+		/**
+		 * Returns a clone of this filter instance.
+		 *
+		 * @since {4.6.1}
+		 * @returns {CKEDITOR.filter}
+		 */
+		clone: function() {
+			var ret = new CKEDITOR.filter(),
+				clone = CKEDITOR.tools.clone;
+
+			// Cloning allowed content related things.
+			ret.allowedContent = clone( this.allowedContent );
+			ret._.allowedRules = clone( this._.allowedRules );
+
+			// Disallowed content rules.
+			ret.disallowedContent = clone( this.disallowedContent );
+			ret._.disallowedRules = clone( this._.disallowedRules );
+
+			ret._.transformations = clone( this._.transformations );
+
+			ret.disabled = this.disabled;
+			ret.editor = this.editor;
+
+			return ret;
+		},
 
 		/**
 		 * Destroys the filter instance and removes it from the global {@link CKEDITOR.filter#instances} object.
