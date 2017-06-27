@@ -4131,12 +4131,12 @@
 
 /**
  * The [Advanced Content Filter](#!/guide/dev_advanced_content_filter) rules
- * which will be used as a blacklist element withing this nested editable.
+ * which will be used to blacklist elements withing this nested editable.
  * This option is similar to {@link CKEDITOR.config#disallowedContent}.
  *
  * Note that disallowedContent work on top of definition's {@link #allowedContent}.
  *
- * @since 4.6.1
+ * @since 4.7.3
  * @property {CKEDITOR.filter.disallowedContentRules} disallowedContent
  */
 

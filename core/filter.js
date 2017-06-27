@@ -809,7 +809,7 @@
 		/**
 		 * Returns a clone of this filter instance.
 		 *
-		 * @since {4.6.1}
+		 * @since 4.7.3
 		 * @returns {CKEDITOR.filter}
 		 */
 		clone: function() {

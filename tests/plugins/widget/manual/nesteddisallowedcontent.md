@@ -1,4 +1,4 @@
-@bender-tags: widget, tc, 4.6.1
+@bender-tags: widget, feature, 4.7.3, 568
 @bender-ui: collapsed
 @bender-ckeditor-plugins: widget, basicstyles, wysiwygarea, toolbar, elementspath, htmlwriter
 
