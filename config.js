@@ -7,8 +7,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
-  config.skin = 'drip';
-  
+	config.skin = 'drip';
+
 	config.toolbarGroups = [
 		{ name: 'clipboard', groups: [ 'undo', 'clipboard' ] },
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
