@@ -604,8 +604,7 @@
 			} );
 
 			this.editorBot.setData( data, function() {
-				var widget = getWidgetById( editor, 'w1' ),
-					editable = widget.editables.foo;
+				var editable = getWidgetById( editor, 'w1' ).editables.foo;
 
 				editable.filter.addContentForms( [ 'u', 'i' ] );
 
@@ -628,6 +627,64 @@
 				assert.areSame(
 					'<p>Foo</p><div data-widget="testprocessing2" id="w1"><p id="foo"><i testprocessing2="2">A</i></p></div>',
 					editor.getData(), 'nested editable\'s data was processed as an editable content on output' );
+			} );
+		},
+
+		'test nested editable editableDef.disallowedContent filter works with editableDef.allowedContent': function() {
+			var editor = this.editor,
+				data = '<p>Foo</p><div data-widget="testprocessing3" id="w1"><p id="foo">B</p></div>';
+
+			editor.widgets.add( 'testprocessing3', {
+				editables: {
+					disallowedWithAllowedContent: {
+						selector: '#foo',
+						allowedContent: 'u i p',
+						disallowedContent: 'i'
+					}
+				}
+			} );
+
+			this.editorBot.setData( data, function() {
+				var editable = getWidgetById( editor, 'w1' ).editables.disallowedWithAllowedContent;
+
+				assert.isTrue( editable.filter.check( 'u' ), 'filter.check( \'u\' )' );
+				assert.isTrue( editable.filter.check( 'p' ), 'filter.check( \'p\' )' );
+				assert.isFalse( editable.filter.check( 'i' ), 'filter.check( \'i\' )' );
+			} );
+		},
+
+		'test nested editable editableDef.disallowedContent filter works based on editor.filter': function() {
+			var editor = this.editor,
+				data = '<p>Foo</p><div data-widget="testprocessing4" id="w1"><p id="foo">B</p></div>',
+				originalFilter = this.editor.filter;
+
+			// Since this test suite's editor have filter disabled, we need to temporary filter replace.
+			editor.filter = new CKEDITOR.filter( 'em strong sub; div[*](*); p[id]' );
+
+			editor.widgets.add( 'testprocessing4', {
+				editables: {
+					disallowedInheritingFromEditor: {
+						selector: '#foo',
+						// Since there's no allowedContent in the definition, disallowedContent will work based on
+						// current CKEDITOR.editor.filter clone. Since this test suite has ACF disabled it will allow everything.
+						// Here disallowedContent rules will be added on top of
+						disallowedContent: 'em strong'
+					}
+				}
+			} );
+
+			this.editorBot.setData( data, function() {
+				var editable = getWidgetById( editor, 'w1' ).editables.disallowedInheritingFromEditor;
+
+				// Restore the original filter.
+				editor.filter = originalFilter;
+
+				assert.isTrue( editable.filter.check( 'sub' ), 'filter.check( \'sub\' )' );
+				assert.isFalse( editable.filter.check( 'strong' ), 'filter.check( \'strong\' )' );
+				assert.isFalse( editable.filter.check( 'em' ), 'filter.check( \'em\' )' );
+				// And ensure that any other rule not allowed by the editor will fail.
+				assert.isFalse( editable.filter.check( 'audio' ), 'filter.check( \'audio\' )' );
+				assert.isFalse( editable.filter.check( 'sup' ), 'filter.check( \'sup\' )' );
 			} );
 		},
 
