@@ -1,0 +1,45 @@
+<textarea id="editor1">
+    <h1>Hello world!</h1>
+    <p>I&#39;m an instance of <a href="http://ckeditor.com">CKEditor</a>.</p>
+</textarea>
+
+<button onclick="addCommands();" >Re-create editor</button>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	var editor = CKEDITOR.replace( 'editor1' );
+
+
+	function addCommands() {
+		editor.destroy();
+		editor =CKEDITOR.replace( 'editor1' );
+
+		editor.addCommand( 'extra1', {
+			exec: function() {},
+			label: 'Extra command 1'
+		} );
+		editor.addCommand( 'extra2', {
+			exec: function() {},
+			label: 'Extra command 2',
+			description: 'This command contains some description.'
+		} );
+		editor.addCommand( 'extra3', {
+			exec: function() {},
+			label: 'Extra command 3',
+		} );
+
+		editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 65, 'extra1' );
+		editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 66, 'extra2' );
+		editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 67, 'extra3' );
+
+		editor.on( 'keystrokeEntry', function( evt ) {
+			if ( evt.data.commandName === 'extra3' ) {
+				evt.data.label = 'This label was modified by event.'
+			}
+		} );
+	}
+</script>
+
