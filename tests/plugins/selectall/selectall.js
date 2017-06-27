@@ -1,5 +1,5 @@
 /* bender-tags: selection */
-/* bender-ckeditor-plugins: selectall,sourcearea */
+/* bender-ckeditor-plugins: wysiwygarea,selectall,sourcearea */
 
 ( function() {
 	'use strict';
@@ -48,17 +48,31 @@
 		},
 
 		'test selectall in source view': function() {
-			var editor = this.editors.editorFramed;
+			var eventsRecorder;
+			bender.editorBot.create( {
+				name: 'testall_source_editor',
+				startupData: '<p>foo</p><p>bar</p>',
+				config: {
+					startupMode: 'source',
+					on: {
+						pluginsLoaded: function() {
+							eventsRecorder = bender.tools.recordEvents( this, [ 'beforeSetMode', 'beforeModeUnload', 'mode' ] );
+						}
+					}
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+				editor.execCommand( 'selectAll' );
 
-			editor.setData( '<p>foo</p><p>bar</p>' );
-			editor.setMode('source');
-			
-			editor.execCommand( 'selectAll' );
-			console.log(CKEDITOR.document.getActive().$.selectionEnd);
-			
-			assert.areSame(CKEDITOR.document.getActive().$.selectionStart, 0);
-			assert.areSame(CKEDITOR.document.getActive().$.selectionEnd, 20)
-			editor.setMode('wysiwyg');
+				eventsRecorder.assert( [ 'beforeSetMode', 'mode' ] );
+				assert.areSame( 'source', editor.mode, 'editor.mode' );
+				if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
+					assert.areSame( document.selection.createRange().text.length, 20 );
+				} else {
+					assert.areSame( CKEDITOR.document.getActive().$.selectionStart, 0 );
+					assert.areSame( CKEDITOR.document.getActive().$.selectionEnd, 20 );
+				}
+			} );
 		}
 	} );
 

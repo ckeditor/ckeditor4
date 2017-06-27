@@ -24,7 +24,7 @@
 					if ( editable.is( 'textarea' ) ) {
 						var textarea = editable.$;
 
-						if ( CKEDITOR.env.ie && document.createTextRange ) {
+						if ( CKEDITOR.env.ie && textarea.createTextRange ) {
 							textarea.createTextRange().execCommand( 'SelectAll' );
 						} else {
 							textarea.selectionStart = 0;
