@@ -81,9 +81,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 			legend: 'Premi ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Incolla come testo semplice',
+			legend: 'Premi ${pastetext}',
+			legendEdge: 'Premi ${pastetext}, seguito da ${paste}'
 		}
 		]
 	}

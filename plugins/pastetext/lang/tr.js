@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'tr', {
 	button: 'Düz Metin Olarak Yapıştır',
-	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Web tarayıcınız bu şekilde düz metni yapıştırmanıza izin vermiyor. Yapıştırmak için %1 basınız.'
 } );

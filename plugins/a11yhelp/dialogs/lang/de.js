@@ -81,7 +81,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 			legend: 'Drücken Sie ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
+			name: 'Einfügen als unformatierter Text. ',
 			legend: 'Press ${pastetext}', // MISSING
 			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}

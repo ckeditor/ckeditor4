@@ -4,9 +4,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'clipboard', 'sv', {
 	copy: 'Kopiera',
-	copyError: 'Säkerhetsinställningar i Er webbläsare tillåter inte åtgärden kopiera. Använd (Ctrl/Cmd+C) istället.',
+	copyError: 'Säkerhetsinställningar i din webbläsare tillåter inte åtgärden kopiera. Använd (Ctrl/Cmd+C) istället.',
 	cut: 'Klipp ut',
-	cutError: 'Säkerhetsinställningar i Er webbläsare tillåter inte åtgärden klipp ut. Använd (Ctrl/Cmd+X) istället.',
+	cutError: 'Säkerhetsinställningar i din webbläsare tillåter inte åtgärden klipp ut. Använd (Ctrl/Cmd+X) istället.',
 	paste: 'Klistra in',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Din webbläsare tillåter dig inte att klistra in på detta vis. Tryck på %1 för att klistra in.'
 } );

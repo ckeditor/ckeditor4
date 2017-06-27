@@ -81,9 +81,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 			legend: '${a11yHelp}\'e basın'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Düz Metin Olarak Yapıştır',
+			legend: '${pastetext} basın',
+			legendEdge: 'Önce ${pastetext} ardından${paste} basın'
 		}
 		]
 	}

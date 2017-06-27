@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'gl', {
 	button: 'Pegar como texto simple',
-	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'O seu navegador non permite pegar texto simple deste xeito. Prema %1 para pegar.'
 } );
