@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'ug', {
 	title: 'بۇ جايغا ئابزاس قىستۇر',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space', // MISSING
-		accessNextSpace: 'Acess Next Space' // MISSING
+		accessPreviousSpace: 'ئالدىنقى فوكۇس نۇقتىسىنى زىيارەت قىلىدىغان بۇيرۇق',
+		accessNextSpace: 'كېيىنكى فوكۇس نۇقتىسىنى زىيارەت قىلىدىغان بۇيرۇق'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 	}
 } );

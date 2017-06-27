@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'fi', {
 	title: 'Lisää kappale tähän.',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space', // MISSING
-		accessNextSpace: 'Acess Next Space' // MISSING
+		accessPreviousSpace: 'Siirry aiempaan fokustilaan komento',
+		accessNextSpace: 'Siirry seuraavaan fokustilaan komento'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 	}
 } );

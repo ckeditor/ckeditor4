@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'eo', {
 	title: 'Enmeti paragrafon ĉi-tien',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space', // MISSING
-		accessNextSpace: 'Acess Next Space' // MISSING
+		accessPreviousSpace: 'Komando por atingi la antaŭan fokusan spacon',
+		accessNextSpace: 'Komando por atingi la sekvan fokusan spacon'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 	}
 } );

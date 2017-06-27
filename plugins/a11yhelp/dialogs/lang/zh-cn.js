@@ -97,5 +97,5 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},
-	commandLabel: 'Accesibility Help' // MISSING
+	commandLabel: 'Accessibility Help' // MISSING
 } );

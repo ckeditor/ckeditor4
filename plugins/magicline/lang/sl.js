@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'sl', {
 	title: 'Vstavite odstavek tukaj',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space', // MISSING
-		accessNextSpace: 'Acess Next Space' // MISSING
+		accessPreviousSpace: 'Dostop do prejšnjega ukaza ostrenja',
+		accessNextSpace: 'Dostop do naslednjega ukaza ostrenja'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 	}
 } );

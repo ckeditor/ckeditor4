@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'el', {
 	title: 'Εισάγετε παράγραφο εδώ',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space', // MISSING
-		accessNextSpace: 'Acess Next Space' // MISSING
+		accessPreviousSpace: 'Πρόσβαση στην προηγούμενη εντολή του χώρου εστίασης',
+		accessNextSpace: 'Πρόσβαση στην επόμενη εντολή του χώρου εστίασης'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 	}
 } );

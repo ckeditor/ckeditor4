@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'de-ch', {
 	title: 'Absatz hier einfügen',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space', // MISSING
-		accessNextSpace: 'Acess Next Space' // MISSING
+		accessPreviousSpace: 'Zugang bisheriger Fokussierung Raumbefehl',
+		accessNextSpace: 'Zugang nächster Schwerpunkt Raumbefehl'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 	}
 } );

@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'vi', {
 	title: 'Chèn đoạn vào đây',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space', // MISSING
-		accessNextSpace: 'Acess Next Space' // MISSING
+		accessPreviousSpace: 'Truy cập đến lệnh tập trung vào khoảng cách trước đó',
+		accessNextSpace: 'Truy cập phần đối tượng lệnh khoảng trống'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 	}
 } );

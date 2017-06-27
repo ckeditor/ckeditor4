@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'en', {
 	title: 'Insert paragraph here',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space',
-		accessNextSpace: 'Acess Next Space'
+		accessPreviousSpace: 'Access previous focus space command',
+		accessNextSpace: 'Access next focus space command'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.',
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.'
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.',
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.'
 	}
 } );

@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'fr', {
 	title: 'Insérer un paragraphe ici',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space', // MISSING
-		accessNextSpace: 'Acess Next Space' // MISSING
+		accessPreviousSpace: 'Commande d\'accès à l\'élément sélectionnable précédent',
+		accessNextSpace: 'Commande d\'accès à l\'élément sélectionnable suivant'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 	}
 } );

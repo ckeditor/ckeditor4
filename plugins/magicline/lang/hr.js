@@ -6,11 +6,11 @@
 CKEDITOR.plugins.setLang( 'magicline', 'hr', {
 	title: 'Ubaci paragraf ovdje',
 	commandsLabels: {
-		accessPreviousSpace: 'Access Previous Space', // MISSING
-		accessNextSpace: 'Acess Next Space' // MISSING
+		accessPreviousSpace: 'Naredba za pristupi prethodnom prostoru fokusa',
+		accessNextSpace: 'Naredba za pristup sljedećem prostoru fokusa'
 	},
 	commandsDescriptions: {
-		accessPreviousSpace: 'Press keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
+		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 	}
 } );
