@@ -331,20 +331,9 @@ a.cke_toolbox_collapser
   letter-spacing: .5px;
 }
 
-@media (min-width:768px) {
-
-  #cke_28 {
-    float: right;
-  }
+#cke_28_label, #cke_28_label {
+    display: block;
 }
-#cke_29 {
-  display: flex;
-  align-items: center;
-  padding: 0 6px 0 3px;
-}
-#cke_29:after {
-  content: 'Source';
-  font-size: 12px;
-  font-weight: 800;
-  margin-left: 4px;
+.cke_button__shortcodes_icon {
+    display: none;
 }
