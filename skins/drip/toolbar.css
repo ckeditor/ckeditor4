@@ -331,9 +331,24 @@ a.cke_toolbox_collapser
   letter-spacing: .5px;
 }
 
-#cke_28_label, #cke_28_label {
-    display: block;
+.cke_button__source_label{
+  display: block;
 }
+
 .cke_button__shortcodes_icon {
     display: none;
+}
+
+.cke_button__shortcodes_icon+.cke_button_label{
+  display: block;
+}
+
+.cke_button_disabled .cke_button_label {
+    opacity: .5;
+}
+
+@media (min-width:768px) {
+  #cke_27, #cke_29 {
+    float: right;
+  }
 }
