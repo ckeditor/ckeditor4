@@ -2072,14 +2072,16 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  */
 
 /**
- * Event fired when new command is added to Command table in Accessibility Help plugin.
- * It allows on more advance modification of data present in table (e.g. change description or label based on user enviorment).
+ * Event is fired when Accessibility Help dialog is open. Every command which poses keystroke will fire this event. Event data posses values which will be displayed in command table.
+ * This approach provides possibility for modification data present in table (e.g. change description or label based on user environment).
+ * Note: Empty label's string will prevent of displaying command in table.
  *
  * @since 4.8.0
  * @event keystrokeEntry
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param data
  * @param {CKEDITOR.command} data.command Command which is currently added to table.
+ * @param {String} data.commandName Command name. It's a key value from {@link CKEDITOR.command} object. Please be aware this is not a {@link CKEDITOR.command} `name` property.
  * @param {String} data.label Label which will be used in Commands table.
  * @param {String} data.description Description which will be used in Commands table.
  * @param {String} data.keystrokeHtml The HTML data represent keystroke, which will be used in Commands table.
