@@ -355,9 +355,3 @@ a.cke_toolbox_collapser
 .cke_button_disabled .cke_button_label {
     opacity: .5;
 }
-
-@media (min-width:768px) {
-  #cke_27, #cke_29 {
-    float: right;
-  }
-}
