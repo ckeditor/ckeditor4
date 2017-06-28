@@ -1,0 +1,78 @@
+/*
+Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+
+/*
+elementspath.css (part of editor.css)
+=======================================
+
+This file styles the "Elements Path", whith is the list of element names
+present at the the bottom bar of the CKEditor interface.
+
+The following is a visual representation of its main elements:
+
++-- .cke_path ---------------------------------------------------------------+
+| +-- .cke_path_item ----+ +-- .cke_path_item ----+ +-- .cke_path_empty ---+ |
+| |                      | |                      | |                      | |
+| +----------------------+ +----------------------+ +----------------------+ |
++----------------------------------------------------------------------------+
+*/
+
+/* The box that holds the entire elements path. */
+.cke_path
+{
+	float: left;
+	height: 18px;
+}
+
+/* Each item of the elements path. */
+a.cke_path_item,
+/* Empty element available at the end of the elements path, to help us keeping
+   the proper box size when the elements path is empty. */
+span.cke_path_empty
+{
+	display: inline-block;
+	float: left;
+	margin-right: 3px;
+	cursor: pointer;
+	text-decoration: none;
+	outline: 0;
+	border: 0;
+	color: #05132B;
+	font-weight: normal;
+}
+a.cke_path_item
+{
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.cke_rtl .cke_path,
+.cke_rtl .cke_path_item,
+.cke_rtl .cke_path_empty
+{
+	float: right;
+}
+
+/* The items are <a> elements, so we define its hover states here. */
+a.cke_path_item:hover
+{
+  background-color: #B2BED4;
+}
+
+a.cke_path_item:focus,
+a.cke_path_item:active
+{
+  background-color: #9faabe;
+}
+
+.cke_wordcount {
+  font-size: 12px;
+  line-height: 18px;
+  float: right;
+	color: #05132B;
+  margin: 0 6px;
+}

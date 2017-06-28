@@ -7,6 +7,26 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
+	config.skin = 'drip';
+
+	config.toolbarGroups = [
+		{ name: 'clipboard', groups: [ 'undo', 'clipboard' ] },
+		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+		{ name: 'styles', groups: [ 'styles' ] },
+		{ name: 'links', groups: [ 'links' ] },
+		{ name: 'insert', groups: [ 'insert' ] },
+		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+		{ name: 'forms', groups: [ 'forms' ] },
+		{ name: 'colors', groups: [ 'colors' ] },
+		{ name: 'tools', groups: [ 'tools' ] },
+		{ name: 'others', groups: [ 'others' ] },
+		{ name: 'about', groups: [ 'about' ] }
+	];
+
+	config.removeButtons = 'Save,Templates,NewPage,Preview,Print,Cut,Copy,Paste,PasteText,PasteFromWord,Find,Replace,SelectAll,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Strike,Subscript,Superscript,RemoveFormat,Outdent,Indent,CreateDiv,Blockquote,JustifyLeft,BidiLtr,JustifyCenter,BidiRtl,JustifyRight,Language,JustifyBlock,Styles,Font,FontSize,Anchor,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,Maximize,ShowBlocks,About';
+
 	// %REMOVE_START%
 	config.plugins =
 		'about,' +
