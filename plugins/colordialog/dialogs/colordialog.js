@@ -22,6 +22,14 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		html: '&nbsp;'
 	};
 
+	var numbering = function( id ) {
+			return CKEDITOR.tools.getNextId() + '_' + id;
+		},
+		hicolorId = numbering( 'hicolor' ),
+		hicolorTextId = numbering( 'hicolortext' ),
+		selHiColorId = numbering( 'selhicolor' ),
+		table;
+
 	function clearSelected() {
 		$doc.getById( selHiColorId ).removeStyle( 'background-color' );
 		dialog.getContentElement( 'picker', 'selectedColor' ).setValue( '' );
@@ -85,8 +93,10 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 	}
 
 	function clearHighlight() {
-		focused.removeClass( focusedColorLightCls );
-		focused.removeClass( focusedColorDarkCls );
+		if ( focused ) {
+			focused.removeClass( focusedColorLightCls );
+			focused.removeClass( focusedColorDarkCls );
+		}
 		setHighlight( false );
 		focused = null;
 	}
@@ -257,13 +267,6 @@ CKEDITOR.dialog.add( 'colordialog', function( editor ) {
 		appendColorCell( oRow.$, '#ffffff' );
 	}
 
-	var numbering = function( id ) {
-			return CKEDITOR.tools.getNextId() + '_' + id;
-		},
-		hicolorId = numbering( 'hicolor' ),
-		hicolorTextId = numbering( 'hicolortext' ),
-		selHiColorId = numbering( 'selhicolor' ),
-		table;
 
 	createColorTable();
 

@@ -203,6 +203,11 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, type ) {
+				// #565
+				if ( /^[0-9a-f]{3}([0-9a-f]{3})?$/i.test( color ) ) {
+					color = '#' + color;
+				}
+
 				function onColorDialogClose( evt ) {
 					this.removeListener( 'ok', onColorDialogClose );
 					this.removeListener( 'cancel', onColorDialogClose );
