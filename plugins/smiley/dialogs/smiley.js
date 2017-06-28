@@ -164,7 +164,7 @@ CKEDITOR.dialog.add( 'smiley', function( editor ) {
 		},
 		focus: function() {
 			var self = this;
-			// IE need a while to move the focus (#6539).
+			// IE need a while to move the focus (http://dev.ckeditor.com/ticket/6539).
 			setTimeout( function() {
 				var firstSmile = self.getElement().getElementsByTag( 'a' ).getItem( 0 );
 				firstSmile.focus();

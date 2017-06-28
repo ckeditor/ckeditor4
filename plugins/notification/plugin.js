@@ -11,7 +11,7 @@
 'use strict';
 
 CKEDITOR.plugins.add( 'notification', {
-	lang: 'az,ca,cs,da,de,de-ch,en,eo,es,eu,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,oc,pl,pt,pt-br,ru,sk,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'az,ca,cs,da,de,de-ch,en,eo,es,es-mx,eu,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,oc,pl,pt,pt-br,ru,sk,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 	requires: 'toolbar',
 
 	init: function( editor ) {
@@ -128,7 +128,7 @@ function Notification( editor, options ) {
 
 	this.element = this._createElement();
 
-	// Don't allow dragging on notification (#13184).
+	// Don't allow dragging on notification (http://dev.ckeditor.com/ticket/13184).
 	editor.plugins.clipboard && CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( this.element );
 }
 
@@ -356,7 +356,7 @@ Notification.prototype = {
 		notificationElement.append( notificationCloseElement );
 
 		notificationCloseElement.on( 'click', function() {
-			// Focus editor on close (#12865)
+			// Focus editor on close (http://dev.ckeditor.com/ticket/12865)
 			notification.editor.focus();
 
 			notification.hide();

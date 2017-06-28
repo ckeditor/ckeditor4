@@ -43,7 +43,7 @@
 				return;
 
 			// When range is in nested editable, we have to replace range with this one,
-			// which have root property set to closest editable, to make auto paragraphing work. (#12162)
+			// which have root property set to closest editable, to make auto paragraphing work. (http://dev.ckeditor.com/ticket/12162)
 			range = replaceRangeWithClosestEditableRoot( range );
 
 			var doc = range.document;
@@ -58,9 +58,9 @@
 
 				newBlock;
 
-			// Exit the list when we're inside an empty list item block. (#5376)
+			// Exit the list when we're inside an empty list item block. (http://dev.ckeditor.com/ticket/5376)
 			if ( atBlockStart && atBlockEnd ) {
-				// Exit the list when we're inside an empty list item block. (#5376)
+				// Exit the list when we're inside an empty list item block. (http://dev.ckeditor.com/ticket/5376)
 				if ( block && ( block.is( 'li' ) || block.getParent().is( 'li' ) ) ) {
 					// Make sure to point to the li when dealing with empty list item.
 					if ( !block.is( 'li' ) )
@@ -293,7 +293,7 @@
 
 			var node;
 
-			// If this is a block under a list item, split it as well. (#1647)
+			// If this is a block under a list item, split it as well. (http://dev.ckeditor.com/ticket/1647)
 			if ( nextBlock ) {
 				node = nextBlock.getParent();
 				if ( node.is( 'li' ) ) {
@@ -313,7 +313,7 @@
 			if ( !isStartOfBlock && !isEndOfBlock ) {
 				// If the next block is an <li> with another list tree as the first
 				// child, we'll need to append a filler (<br>/NBSP) or the list item
-				// wouldn't be editable. (#1420)
+				// wouldn't be editable. (http://dev.ckeditor.com/ticket/1420)
 				if ( nextBlock.is( 'li' ) ) {
 					var walkerRange = range.clone();
 					walkerRange.selectNodeContents( nextBlock );
@@ -335,7 +335,7 @@
 
 				if ( previousBlock ) {
 					// Do not enter this block if it's a header tag, or we are in
-					// a Shift+Enter (#77). Create a new block element instead
+					// a Shift+Enter (http://dev.ckeditor.com/ticket/77). Create a new block element instead
 					// (later in the code).
 					if ( previousBlock.is( 'li' ) || !( headerTagRegex.test( previousBlock.getName() ) || previousBlock.is( 'pre' ) ) ) {
 						// Otherwise, duplicate the previous block.
@@ -346,7 +346,7 @@
 				}
 
 				if ( !newBlock ) {
-					// We have already created a new list item. (#6849)
+					// We have already created a new list item. (http://dev.ckeditor.com/ticket/6849)
 					if ( node && node.is( 'li' ) )
 						newBlock = node;
 					else {
@@ -384,8 +384,8 @@
 				if ( !newBlock.getParent() )
 					range.insertNode( newBlock );
 
-				// list item start number should not be duplicated (#7330), but we need
-				// to remove the attribute after it's onto the DOM tree because of old IEs (#7581).
+				// list item start number should not be duplicated (http://dev.ckeditor.com/ticket/7330), but we need
+				// to remove the attribute after it's onto the DOM tree because of old IEs (http://dev.ckeditor.com/ticket/7581).
 				newBlock.is( 'li' ) && newBlock.removeAttribute( 'value' );
 
 				// This is tricky, but to make the new block visible correctly
@@ -453,7 +453,7 @@
 			} else {
 				var lineBreak;
 
-				// IE<8 prefers text node as line-break inside of <pre> (#4711).
+				// IE<8 prefers text node as line-break inside of <pre> (http://dev.ckeditor.com/ticket/4711).
 				if ( startBlockTag == 'pre' && CKEDITOR.env.ie && CKEDITOR.env.version < 8 )
 					lineBreak = doc.createText( '\r' );
 				else
@@ -503,7 +503,7 @@
 	function shiftEnter( editor ) {
 		// On SHIFT+ENTER:
 		// 1. We want to enforce the mode to be respected, instead
-		// of cloning the current block. (#77)
+		// of cloning the current block. (http://dev.ckeditor.com/ticket/77)
 		return enter( editor, editor.activeShiftEnterMode, 1 );
 	}
 
@@ -521,7 +521,8 @@
 		// Check path block specialities:
 		// 1. Cannot be a un-splittable element, e.g. table caption;
 		var path = editor.elementPath();
-		if ( !path.isContextFor( 'p' ) ) {
+
+		if ( path && !path.isContextFor( 'p' ) ) {
 			mode = CKEDITOR.ENTER_BR;
 			forceMode = 1;
 		}

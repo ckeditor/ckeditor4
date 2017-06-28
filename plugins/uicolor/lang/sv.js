@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'sv', {
 	title: 'UI Färgväljare',
-	options: 'Color Options', // MISSING
-	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	options: 'Färgalternativ',
+	highlight: 'Markera',
+	selected: 'Vald färg',
 	predefined: 'Fördefinierade färguppsättningar',
 	config: 'Klistra in den här strängen i din config.js-fil'
 } );

@@ -1,4 +1,4 @@
-@bender-tags: tc, 4.7.0, 16777, dataTransfer
+@bender-tags: tc, 4.7.0, trac16777, dataTransfer
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, sourcearea, elementspath, clipboard, image2, uploadimage, uploadwidget
 @bender-include: ../../../plugins/uploadwidget/manual/_helpers/xhr.js

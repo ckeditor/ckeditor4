@@ -12,13 +12,13 @@
 	CKEDITOR.plugins.add( 'image', {
 		requires: 'dialog',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'image', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			// Abort when Image2 is to be loaded since both plugins
-			// share the same button, command, etc. names (#11222).
+			// share the same button, command, etc. names (http://dev.ckeditor.com/ticket/11222).
 			if ( editor.plugins.image2 )
 				return;
 
@@ -78,11 +78,11 @@
 		},
 		afterInit: function( editor ) {
 			// Abort when Image2 is to be loaded since both plugins
-			// share the same button, command, etc. names (#11222).
+			// share the same button, command, etc. names (http://dev.ckeditor.com/ticket/11222).
 			if ( editor.plugins.image2 )
 				return;
 
-			// Customize the behavior of the alignment commands. (#7430)
+			// Customize the behavior of the alignment commands. (http://dev.ckeditor.com/ticket/7430)
 			setupAlignCommand( 'left' );
 			setupAlignCommand( 'right' );
 			setupAlignCommand( 'center' );

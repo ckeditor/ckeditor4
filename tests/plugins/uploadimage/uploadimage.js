@@ -122,7 +122,7 @@
 			} );
 		},
 
-		'test finish upload notification marked as important and is visible (#13032).': function() {
+		'test finish upload notification marked as important and is visible (http://dev.ckeditor.com/ticket/13032).': function() {
 			var editor = this.editors.classic;
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
@@ -216,7 +216,7 @@
 			} );
 		},
 
-		'test setting image dimensions via response (integration test) (#13794)': function() {
+		'test setting image dimensions via response (integration test) (http://dev.ckeditor.com/ticket/13794)': function() {
 			var bot = this.editorBots.classic,
 				editor = this.editors.classic;
 
@@ -536,7 +536,7 @@
 			wait();
 		},
 
-		'test prevent upload fake elements (#13003)': function() {
+		'test prevent upload fake elements (http://dev.ckeditor.com/ticket/13003)': function() {
 			var editor = this.editors.inline,
 				createspy = sinon.spy( editor.uploadRepository, 'create' );
 

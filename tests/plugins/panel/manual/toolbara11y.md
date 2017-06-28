@@ -1,4 +1,4 @@
-@bender-tags: 4.7.0, tc, 16804
+@bender-tags: 4.7.0, tc, trac16804
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,toolbar,elementspath,floatpanel,panel,richcombo,dialog,colordialog,button,panelbutton,stylescombo,font,colorbutton,a11yhelp
 

@@ -172,6 +172,19 @@
 
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
+		},
+
+		// #415
+		'test enter key': function( editor, bot ) {
+			bender.tools.testInputOut( 'enterKey', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectRanges( getRangesForCells( editor, [ 0, 1, 2, 3 ] ) );
+
+				editor.editable().fire( 'keypress', new CKEDITOR.dom.event( { keyCode: 13 } ) );
+
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
 		}
 	};
 

@@ -468,7 +468,7 @@
 			},
 
 			'test snapshot created on more than 25 changes by holding different keys - one after another': function() {
-				// #12425
+				// http://dev.ckeditor.com/ticket/12425
 				assert.ignore();
 
 				this.editorBot.setData( '<p>Hi</p>', function() {

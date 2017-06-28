@@ -9,7 +9,7 @@
 	CKEDITOR.plugins.add( 'stylescombo', {
 		requires: 'richcombo',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 
 		init: function( editor ) {
@@ -47,7 +47,7 @@
 						// Get the type (which will be used to assign style to one of 3 groups) from assignedTo if it's defined.
 						style._.type = styleType = style.assignedTo || style.type;
 
-						// Weight is used to sort styles (#9029).
+						// Weight is used to sort styles (http://dev.ckeditor.com/ticket/9029).
 						style._.weight = i + ( styleType == CKEDITOR.STYLE_OBJECT ? 1 : styleType == CKEDITOR.STYLE_BLOCK ? 2 : 3 ) * 1000;
 
 						styles[ styleName ] = style;
@@ -56,7 +56,7 @@
 					}
 				}
 
-				// Sorts the Array, so the styles get grouped by type in proper order (#9029).
+				// Sorts the Array, so the styles get grouped by type in proper order (http://dev.ckeditor.com/ticket/9029).
 				stylesList.sort( function( styleA, styleB ) {
 					return styleA._.weight - styleB._.weight;
 				} );

@@ -52,7 +52,7 @@
 	}
 
 	function findDialog( editor, startupPage ) {
-		// Style object for highlights: (#5018)
+		// Style object for highlights: (http://dev.ckeditor.com/ticket/5018)
 		// 1. Defined as full match style to avoid compromising ordinary text color styles.
 		// 2. Must be apply onto inner-most text to avoid conflicting with ordinary text color styles visually.
 		var highlightConfig = {
@@ -305,7 +305,7 @@
 
 				if ( ( lastCursor = cursors[ cursors.length - 1 ] ) && lastCursor.textNode )
 					nextRangeWalker = new characterWalker( getRangeAfterCursor( lastCursor ) );
-				// In case it's an empty range (no cursors), figure out next range from walker (#4951).
+				// In case it's an empty range (no cursors), figure out next range from walker (http://dev.ckeditor.com/ticket/4951).
 				else
 					nextRangeWalker = this._.walker;
 
@@ -426,7 +426,7 @@
 							var rangeBefore = getRangeBeforeCursor( head ),
 								rangeAfter = getRangeAfterCursor( tail );
 
-							// The word boundary checks requires to trim the text nodes. (#9036)
+							// The word boundary checks requires to trim the text nodes. (http://dev.ckeditor.com/ticket/9036)
 							rangeBefore.trim();
 							rangeAfter.trim();
 
@@ -447,7 +447,7 @@
 				this.matchRange.removeHighlight();
 				// Clear current session and restart with the default search
 				// range.
-				// Re-run the finding once for cyclic.(#3517)
+				// Re-run the finding once for cyclic.(http://dev.ckeditor.com/ticket/3517)
 				if ( matchCyclic && !cyclicRerun ) {
 					this.searchRange = getSearchRange( 1 );
 					this.matchRange = null;
@@ -493,7 +493,7 @@
 					this.replaceCounter++;
 					result = 1;
 				} else {
-					// Reset match range so new search starts from primary cursor position (not an end of selection). (#11697)
+					// Reset match range so new search starts from primary cursor position (not an end of selection). (http://dev.ckeditor.com/ticket/11697)
 					if ( matchOptionsChanged && this.matchRange ) {
 						this.matchRange.clearMatched();
 						this.matchRange.removeHighlight();
@@ -507,7 +507,7 @@
 				return result;
 			},
 
-			// Check if pattern or match options changed since last find. (#11697)
+			// Check if pattern or match options changed since last find. (http://dev.ckeditor.com/ticket/11697)
 			matchOptions: null,
 			hasMatchOptionsChanged: function( pattern, matchCase, matchWord ) {
 				var matchOptions = [ pattern, matchCase, matchWord ].join( '.' ),
@@ -527,7 +527,7 @@
 				editable = editor.editable();
 
 			// Blink browsers return empty array of ranges when editor is in read-only mode
-			// and it hasn't got focus, so instead of selection, we check for range itself. (#12848)
+			// and it hasn't got focus, so instead of selection, we check for range itself. (http://dev.ckeditor.com/ticket/12848)
 			if ( range && !isDefault ) {
 				searchRange = range.clone();
 				searchRange.collapse( true );
@@ -798,7 +798,7 @@
 
 					// Focus must be restored to the editor after selecting range.
 					// Otherwise there are issues when selecting word from
-					// newly added paragraphs (#14869).
+					// newly added paragraphs (http://dev.ckeditor.com/ticket/14869).
 					editor.focus();
 				}
 

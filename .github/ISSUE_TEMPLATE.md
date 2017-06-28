@@ -1,6 +1,10 @@
 ## Are you reporting a feature or a bug?
 
-<!-- Put your issue type here: Bug / Feature request / Other, please explain -->
+<!--
+Replace this comment with your issue type: Bug / Feature request / Other, please explain.
+
+Please **do not report security issues here**, use the contact form at http://cksource.com/contact instead.
+-->
 
 ## [Check if the issue is already reported](http://docs.ckeditor.com/#!/guide/dev_issues_readme-section-avoid-duplicates)
 

@@ -6,7 +6,7 @@
 CKEDITOR.plugins.add( 'format', {
 	requires: 'richcombo',
 	// jscs:disable maximumLineLength
-	lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	// jscs:enable maximumLineLength
 	init: function( editor ) {
 		if ( editor.blockless )
@@ -69,7 +69,7 @@ CKEDITOR.plugins.add( 'format', {
 
 				editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
 
-				// Save the undo snapshot after all changes are affected. (#4899)
+				// Save the undo snapshot after all changes are affected. (http://dev.ckeditor.com/ticket/4899)
 				setTimeout( function() {
 					editor.fire( 'saveSnapshot' );
 				}, 0 );

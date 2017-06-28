@@ -69,21 +69,21 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 			legend: 'Naciśnij ${toolbarCollapse}'
 		},
 			{
-			name: ' Access previous focus space command', // MISSING
-			legend: 'Press ${accessPreviousSpace} to access the closest unreachable focus space before the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Przejdź do poprzedniego miejsca, w którym można ustawić focus',
+			legend: 'Naciśnij ${accessPreviousSpace}, aby przejść do najbliższego niedostępnego miejsca przed kursorem, w którym można ustawić focus. Przykład: dwa przylegające elementy HR. Powtórz ten skrót klawiaturowy, by dotrzeć do kolejnych takich miejsc.'
 		},
 			{
-			name: ' Access next focus space command', // MISSING
-			legend: 'Press ${accessNextSpace} to access the closest unreachable focus space after the caret, for example: two adjacent HR elements. Repeat the key combination to reach distant focus spaces.' // MISSING
+			name: 'Przejdź do następnego miejsca, w którym można ustawić focus',
+			legend: 'Naciśnij ${accessNextSpace}, aby przejść do najbliższego niedostępnego miejsca po kursorze, w którym można ustawić focus. Przykład: dwa przylegające elementy HR. Powtórz ten skrót klawiaturowy, by dotrzeć do kolejnych takich miejsc.'
 		},
 			{
 			name: 'Pomoc dotycząca dostępności',
 			legend: 'Naciśnij ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Wklej jako tekst',
+			legend: 'Naciśnij ${pastetext}',
+			legendEdge: 'Naciśnij ${pastetext}, a następnie ${paste}'
 		}
 		]
 	}

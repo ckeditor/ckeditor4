@@ -198,7 +198,8 @@
 			return;
 		}
 
-		if ( cell ) {
+		// We should check if the newly selected cell is still inside the same table (http://dev.ckeditor.com/ticket/17052, #493).
+		if ( cell && fakeSelection.first.getAscendant( 'table' ).equals( cell.getAscendant( 'table' ) ) ) {
 			cells = getCellsBetween( fakeSelection.first, cell );
 
 			// The selection is inside one cell, so we should allow native selection,
@@ -257,6 +258,11 @@
 	}
 
 	function fakeSelectionMouseHandler( evt ) {
+		// Prevent of throwing error in console if target is undefined (#515).
+		if ( !evt.data.getTarget().getName ) {
+			return;
+		}
+
 		var editor = evt.editor || evt.listenerData.editor,
 			selection = editor.getSelection( 1 ),
 			selectedTable = getFakeSelectedTable( editor ),
@@ -762,7 +768,7 @@
 							selectBeginning = false,
 							matchingElement = function( elem ) {
 								// We're interested in matching only td/th but not contained by the startNode since it will be removed.
-								// Technically none of startNode children should be visited but it will due to #12191.
+								// Technically none of startNode children should be visited but it will due to http://dev.ckeditor.com/ticket/12191.
 								return !startNode.contains( elem ) && elem.is && elem.is( 'td', 'th' );
 							};
 
@@ -853,12 +859,14 @@
 
 			function tableKeyPressListener( evt ) {
 				var selection = editor.getSelection(),
+					// Enter key also produces character, but Firefox doesn't think so (gh#415).
+					isCharKey = evt.data.$.charCode || ( evt.data.getKey() === 13 ),
 					ranges,
 					firstCell,
 					i;
 
 				// We must check if the event really did not produce any character as it's fired for all keys in Gecko.
-				if ( !selection || !selection.isInTable() || !selection.isFake || !evt.data.$.charCode ||
+				if ( !selection || !selection.isInTable() || !selection.isFake || !isCharKey ||
 					evt.data.getKeystroke() & CKEDITOR.CTRL ) {
 					return;
 				}

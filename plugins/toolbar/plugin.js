@@ -34,7 +34,7 @@
 				if ( editor.toolbox ) {
 					editor.toolbox.focusCommandExecuted = true;
 
-					// Make the first button focus accessible for IE. (#3417)
+					// Make the first button focus accessible for IE. (http://dev.ckeditor.com/ticket/3417)
 					// Adobe AIR instead need while of delay.
 					if ( CKEDITOR.env.ie || CKEDITOR.env.air ) {
 						setTimeout( function() {
@@ -51,7 +51,7 @@
 	CKEDITOR.plugins.add( 'toolbar', {
 		requires: 'button',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 
 		init: function( editor ) {
@@ -201,7 +201,7 @@
 					// available because it's a common mistake to leave
 					// an extra comma in the toolbar definition
 					// settings, which leads on the editor not loading
-					// at all in IE. (#3983)
+					// at all in IE. (http://dev.ckeditor.com/ticket/3983)
 					if ( !row )
 						continue;
 
@@ -283,7 +283,7 @@
 								itemObj.toolbar = toolbarObj;
 								itemObj.onkey = itemKeystroke;
 
-								// Fix for #3052:
+								// Fix for http://dev.ckeditor.com/ticket/3052:
 								// Prevent JAWS from focusing the toolbar after document load.
 								itemObj.onfocus = function() {
 									if ( !editor.toolbox.focusCommandExecuted )

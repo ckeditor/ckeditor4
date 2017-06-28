@@ -52,26 +52,29 @@
 	function buildTableColumnPillars( table ) {
 		var pillars = [],
 			pillarIndex = -1,
+			pillarHeight = 0,
+			pillarPosition = null,
 			rtl = ( table.getComputedStyle( 'direction' ) == 'rtl' );
 
-		// Get the raw row element that cointains the most columns.
+		// Get the raw row element that contains the most columns.
 		var $tr = getMasterPillarRow( table );
 
-		// Get the tbody element and position, which will be used to set the
-		// top and bottom boundaries.
-		var tbody = new CKEDITOR.dom.element( table.$.tBodies[ 0 ] ),
-			pillarPosition = tbody.getDocumentPosition(),
-			pillarHeight = tbody.$.offsetHeight;
+		// Sets pillar height and position based on given table element (head, body, footer).
+		function setPillarDimensions( nativeTableElement ) {
+			if ( nativeTableElement ) {
+				var tableElement = new CKEDITOR.dom.element( nativeTableElement );
+				pillarHeight += tableElement.$.offsetHeight;
 
-		if ( table.$.tHead ) {
-			var tHead = new CKEDITOR.dom.element( table.$.tHead );
-			pillarPosition = tHead.getDocumentPosition();
-			pillarHeight += tHead.$.offsetHeight;
+				if ( !pillarPosition ) {
+					pillarPosition = tableElement.getDocumentPosition();
+				}
+			}
 		}
 
-		if ( table.$.tFoot ) {
-			pillarHeight += table.$.tFoot.offsetHeight;
-		}
+		// Table may contain only one of thead, tbody or tfoot elements so its existence should be checked (#417).
+		setPillarDimensions( table.$.tHead );
+		setPillarDimensions( table.$.tBodies[ 0 ] );
+		setPillarDimensions( table.$.tFoot );
 
 		if ( $tr ) {
 			// Loop thorugh all cells, building pillars after each one of them.
@@ -154,7 +157,7 @@
 
 			document.getBody().setStyle( 'cursor', 'auto' );
 
-			// Hide the resizer (remove it on IE7 - #5890).
+			// Hide the resizer (remove it on IE7 - http://dev.ckeditor.com/ticket/5890).
 			needsIEHacks ? resizer.remove() : resizer.hide();
 		}
 
@@ -234,7 +237,7 @@
 
 				// Defer the resizing to avoid any interference among cells.
 				CKEDITOR.tools.setTimeout( function( leftCell, leftOldWidth, rightCell, rightOldWidth, tableWidth, sizeShift ) {
-					// 1px is the minimum valid width (#11626).
+					// 1px is the minimum valid width (http://dev.ckeditor.com/ticket/11626).
 					leftCell && leftCell.setStyle( 'width', pxUnit( Math.max( leftOldWidth + sizeShift, 1 ) ) );
 					rightCell && rightCell.setStyle( 'width', pxUnit( Math.max( rightOldWidth - sizeShift, 1 ) ) );
 
@@ -243,7 +246,7 @@
 						table.setStyle( 'width', pxUnit( tableWidth + sizeShift * ( rtl ? -1 : 1 ) ) );
 
 					// Cells resizing is asynchronous-y, so we have to use syncing
-					// to save snapshot only after all cells are resized. (#13388)
+					// to save snapshot only after all cells are resized. (http://dev.ckeditor.com/ticket/13388)
 					if ( ++cellsSaved == cellsCount ) {
 						editor.fire( 'saveSnapshot' );
 					}
@@ -259,7 +262,7 @@
 		function onMouseDown( evt ) {
 			cancel( evt );
 
-			// Save editor's state before we do any magic with cells. (#13388)
+			// Save editor's state before we do any magic with cells. (http://dev.ckeditor.com/ticket/13388)
 			editor.fire( 'saveSnapshot' );
 			resizeStart();
 
@@ -287,7 +290,7 @@
 			resizer.remove();
 		} );
 
-		// Except on IE6/7 (#5890), place the resizer after body to prevent it
+		// Except on IE6/7 (http://dev.ckeditor.com/ticket/5890), place the resizer after body to prevent it
 		// from being editable.
 		if ( !needsIEHacks )
 			document.getDocumentElement().append( resizer );
@@ -297,7 +300,7 @@
 			if ( isResizing )
 				return;
 
-			// On IE6/7, we append the resizer everytime we need it. (#5890)
+			// On IE6/7, we append the resizer everytime we need it. (http://dev.ckeditor.com/ticket/5890)
 			if ( needsIEHacks ) {
 				document.getBody().append( resizer );
 				currentShift = 0;
@@ -388,7 +391,7 @@
 					var target = evt.getTarget();
 
 					// FF may return document and IE8 some UFO (object with no nodeType property...)
-					// instead of an element (#11823).
+					// instead of an element (http://dev.ckeditor.com/ticket/11823).
 					if ( target.type != CKEDITOR.NODE_ELEMENT )
 						return;
 

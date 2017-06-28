@@ -158,7 +158,7 @@
 			[ '<p>ab{</p><p>c</p><p>}de</p>',										'<br data-cke-eol="1" /><p>c</p><br data-cke-eol="1" />',		'<p>ab[]de</p>' ],
 			[ '<h1><b>{a</b></h1><p>b}</p>',										'<h1><b>a</b></h1><p>b</p>',									'<h1>[]@!</h1>' ],
 
-			// #13449
+			// http://dev.ckeditor.com/ticket/13449
 			[ '<h1>{a</h1><p><b>b}</b></p>',										'<h1>a</h1><p><b>b</b></p>',									'<h1>[]@!</h1>' ],
 			[ '<h1>{abc</h1><p><strong>de</strong>gh}<strong>jl</strong>mn</p>',	'<h1>abc</h1><p><strong>de</strong>gh</p>',						'<h1>[]<strong>jl</strong>mn</h1>' ]
 		],
@@ -199,12 +199,12 @@
 			[ '<p>{a}<br />@</p>',													'a',															'<p>[]<br />@</p>' ],
 			[ '<p>{a<br />]@</p>',													'a<br />',														'<p>[]@!</p>' ],
 			[ '<div>b<p>{a@]</p>b</div>',											'a',															'<div>b<p>[]@!</p>b</div>' ],
-			// #13568.
+			// http://dev.ckeditor.com/ticket/13568.
 			[ '<div>[<p>Foo bar@</p>]</div>',										'<p>Foo bar</p>',												'<div>[]@!</div>' ]
 
 		],
 
-		// #13101
+		// http://dev.ckeditor.com/ticket/13101
 		'html5': [
 			[ '<div>[<figure>img</figure>]</div>',											'<figure>img</figure>',											'<div>[]@!</div>' ],
 			[ '<div>[<div><figure>img<figcaption>cap</figcaption></figure></div>]</div>',	'<div><figure>img<figcaption>cap</figcaption></figure></div>',	'<div>[]@!</div>' ]
@@ -370,15 +370,15 @@
 			[ '<p>a</p><p><b>[b]</b></p><p>c</p>',									'<b>b</b>',														'<p>a</p><p>c</p>' ],
 			[ '<p>a[b]c</p>',														'b',															'<p>ac</p>' ],
 			[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',		'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',	'' ],
-			// #13465
+			// http://dev.ckeditor.com/ticket/13465
 			[
 				'<p>[<span>foo</span>]<span data-cke-bookmark="1">&nbsp;</span></p>',
 				'<span>foo</span>',
 				'<p><span data-cke-bookmark="1">&nbsp;</span></p>'
 			],
-			// #13465
+			// http://dev.ckeditor.com/ticket/13465
 			[ '<p>a</p><p><span class="foo">{b}</span></p><p>c</p>',				'<span class="foo">b</span>',									'<p>a</p><p>c</p>' ],
-			// #13465
+			// http://dev.ckeditor.com/ticket/13465
 			[ '<p>a</p><p><b>{b}</b><span class="foo"></span></p><p>c</p>',			'<b>b</b>',														'<p>a</p><p>c</p>' ]
 		]
 	}, 'inline', 1 );

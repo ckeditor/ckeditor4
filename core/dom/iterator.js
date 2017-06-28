@@ -45,7 +45,7 @@
 		 */
 		this.forceBrBreak = 0;
 
-		// (#3730).
+		// (http://dev.ckeditor.com/ticket/3730).
 		/**
 		 * Whether to include `<br>` elements in the enlarged range. Should be
 		 * set to `false` when using the iterator in the {@link CKEDITOR#ENTER_BR} mode.
@@ -85,7 +85,7 @@
 	 */
 
 	var beginWhitespaceRegex = /^[\r\n\t ]+$/,
-		// Ignore bookmark nodes.(#3783)
+		// Ignore bookmark nodes.(http://dev.ckeditor.com/ticket/3783)
 		bookmarkGuard = CKEDITOR.dom.walker.bookmark( false, true ),
 		whitespacesGuard = CKEDITOR.dom.walker.whitespaces( true ),
 		skipGuard = function( node ) {
@@ -191,12 +191,12 @@
 						}
 
 						// The range must finish right before the boundary,
-						// including possibly skipped empty spaces. (#1603)
+						// including possibly skipped empty spaces. (http://dev.ckeditor.com/ticket/1603)
 						if ( range ) {
 							range.setEndAt( currentNode, CKEDITOR.POSITION_BEFORE_START );
 
 							// The found boundary must be set as the next one at this
-							// point. (#1717)
+							// point. (http://dev.ckeditor.com/ticket/1717)
 							if ( nodeName != 'br' ) {
 								this._.nextNode = currentNode;
 							}
@@ -244,7 +244,7 @@
 							closeRange = 1;
 							includeNode = 0;
 							isLast = isLast || ( parentNode.equals( lastNode ) );
-							// Make sure range includes bookmarks at the end of the block. (#7359)
+							// Make sure range includes bookmarks at the end of the block. (http://dev.ckeditor.com/ticket/7359)
 							range.setEndAt( parentNode, CKEDITOR.POSITION_BEFORE_END );
 							break;
 						}
@@ -377,7 +377,7 @@
 			// Here we are checking in guard function whether current element
 			// reach lastNode(default behaviour) and root node to prevent against
 			// getting out of editor instance root DOM object.
-			// #12484
+			// http://dev.ckeditor.com/ticket/12484
 			function guardFunction( node ) {
 				return !( node.equals( lastNode ) || node.equals( rootNode ) );
 			}
@@ -397,7 +397,7 @@
 			// Indicate at least one of the range boundaries is inside a preformat block.
 			touchPre,
 
-			// (#12178)
+			// (http://dev.ckeditor.com/ticket/12178)
 			// Remember if following situation takes place:
 			// * startAtInnerBoundary: <p>foo[</p>...
 			// * endAtInnerBoundary: ...<p>]bar</p>
@@ -405,13 +405,13 @@
 			// Note that we test only if path block exist, because we must properly shrink
 			// range containing table and/or table cells.
 			// Note: When range is collapsed there's no way it can be shrinked.
-			// By checking if range is collapsed we also prevent #12308.
+			// By checking if range is collapsed we also prevent http://dev.ckeditor.com/ticket/12308.
 			startPath = range.startPath(),
 			endPath = range.endPath(),
 			startAtInnerBoundary = !range.collapsed && rangeAtInnerBlockBoundary( range, startPath.block ),
 			endAtInnerBoundary = !range.collapsed && rangeAtInnerBlockBoundary( range, endPath.block, 1 );
 
-		// Shrink the range to exclude harmful "noises" (#4087, #4450, #5435).
+		// Shrink the range to exclude harmful "noises" (http://dev.ckeditor.com/ticket/4087, http://dev.ckeditor.com/ticket/4450, http://dev.ckeditor.com/ticket/5435).
 		range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
 
 		if ( startAtInnerBoundary )
@@ -437,7 +437,7 @@
 
 			// We may have an empty text node at the end of block due to [3770].
 			// If that node is the lastNode, it would cause our logic to leak to the
-			// next block.(#3887)
+			// next block.(http://dev.ckeditor.com/ticket/3887)
 			if ( this._.lastNode && this._.lastNode.type == CKEDITOR.NODE_TEXT && !CKEDITOR.tools.trim( this._.lastNode.getText() ) && this._.lastNode.getParent().isBlockBoundary() ) {
 				var testRange = this.range.clone();
 				testRange.moveToPosition( this._.lastNode, CKEDITOR.POSITION_AFTER_END );

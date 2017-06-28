@@ -214,7 +214,7 @@ CKEDITOR.dom.range = function( root ) {
 		// second part. The removal will be handled by the rest of the code.
 		if ( endNode.type == CKEDITOR.NODE_TEXT ) {
 			// If Extract or Delete we can split the text node,
-			// but if Clone (2), then we cannot modify the DOM (#11586) so we mark the text node for cloning.
+			// but if Clone (2), then we cannot modify the DOM (http://dev.ckeditor.com/ticket/11586) so we mark the text node for cloning.
 			if ( !isClone ) {
 				endNode = endNode.split( endOffset );
 			} else {
@@ -243,7 +243,7 @@ CKEDITOR.dom.range = function( root ) {
 		// be handled by the rest of the code .
 		if ( startNode.type == CKEDITOR.NODE_TEXT ) {
 			// If Extract or Delete we can split the text node,
-			// but if Clone (2), then we cannot modify the DOM (#11586) so we mark
+			// but if Clone (2), then we cannot modify the DOM (http://dev.ckeditor.com/ticket/11586) so we mark
 			// the text node for cloning.
 			if ( !isClone ) {
 				startNode.split( startOffset );
@@ -373,7 +373,7 @@ CKEDITOR.dom.range = function( root ) {
 				// If we don't do that, in next iterations nodes will be appended to wrong parent.
 				//
 				// We can just take first child because the algorithm guarantees
-				// that this will be the only child on this level. (#13568)
+				// that this will be the only child on this level. (http://dev.ckeditor.com/ticket/13568)
 				levelParent = levelParent.getChild( 0 );
 			}
 		}
@@ -574,7 +574,7 @@ CKEDITOR.dom.range = function( root ) {
 			// Tolerant bogus br when checking at the end of block.
 			// Reject any text node unless it's being bookmark
 			// OR it's spaces.
-			// Reject any element unless it's being invisible empty. (#3883)
+			// Reject any element unless it's being invisible empty. (http://dev.ckeditor.com/ticket/3883)
 			return !checkStart && isBogus( node ) ||
 				node.type == CKEDITOR.NODE_ELEMENT &&
 				node.is( CKEDITOR.dtd.$removeEmpty );
@@ -1052,7 +1052,7 @@ CKEDITOR.dom.range = function( root ) {
 			}
 
 			// Sometimes the endNode will come right before startNode for collapsed
-			// ranges. Fix it. (#3780)
+			// ranges. Fix it. (http://dev.ckeditor.com/ticket/3780)
 			if ( startNode.getPosition( endNode ) & CKEDITOR.POSITION_FOLLOWING )
 				startNode = endNode;
 
@@ -1324,13 +1324,13 @@ CKEDITOR.dom.range = function( root ) {
 
 								isWhiteSpace = /[\s\ufeff]$/.test( siblingText );
 							} else {
-								// #12221 (Chrome) plus #11111 (Safari).
+								// http://dev.ckeditor.com/ticket/12221 (Chrome) plus http://dev.ckeditor.com/ticket/11111 (Safari).
 								var offsetWidth0 = CKEDITOR.env.webkit ? 1 : 0;
 
 								// If this is a visible element.
 								// We need to check for the bookmark attribute because IE insists on
-								// rendering the display:none nodes we use for bookmarks. (#3363)
-								// Line-breaks (br) are rendered with zero width, which we don't want to include. (#7041)
+								// rendering the display:none nodes we use for bookmarks. (http://dev.ckeditor.com/ticket/3363)
+								// Line-breaks (br) are rendered with zero width, which we don't want to include. (http://dev.ckeditor.com/ticket/7041)
 								if ( ( sibling.$.offsetWidth > offsetWidth0 || excludeBrs && sibling.is( 'br' ) ) && !sibling.data( 'cke-bookmark' ) ) {
 									// We'll accept it only if we need
 									// whitespace, and this is an inline
@@ -1525,8 +1525,8 @@ CKEDITOR.dom.range = function( root ) {
 							} else if ( sibling.type == CKEDITOR.NODE_ELEMENT ) {
 								// If this is a visible element.
 								// We need to check for the bookmark attribute because IE insists on
-								// rendering the display:none nodes we use for bookmarks. (#3363)
-								// Line-breaks (br) are rendered with zero width, which we don't want to include. (#7041)
+								// rendering the display:none nodes we use for bookmarks. (http://dev.ckeditor.com/ticket/3363)
+								// Line-breaks (br) are rendered with zero width, which we don't want to include. (http://dev.ckeditor.com/ticket/7041)
 								if ( ( sibling.$.offsetWidth > 0 || excludeBrs && sibling.is( 'br' ) ) && !sibling.data( 'cke-bookmark' ) ) {
 									// We'll accept it only if we need
 									// whitespace, and this is an inline
@@ -1660,7 +1660,7 @@ CKEDITOR.dom.range = function( root ) {
 					this.setStartAt( blockBoundary, !blockBoundary.is( 'br' ) && ( !enlargeable && this.checkStartOfBlock() ||
 						enlargeable && blockBoundary.contains( enlargeable ) ) ? CKEDITOR.POSITION_AFTER_START : CKEDITOR.POSITION_AFTER_END );
 
-					// Avoid enlarging the range further when end boundary spans right after the BR. (#7490)
+					// Avoid enlarging the range further when end boundary spans right after the BR. (http://dev.ckeditor.com/ticket/7490)
 					if ( unit == CKEDITOR.ENLARGE_LIST_ITEM_CONTENTS ) {
 						var theRange = this.clone();
 						walker = new CKEDITOR.dom.walker( theRange );
@@ -1786,7 +1786,7 @@ CKEDITOR.dom.range = function( root ) {
 
 				var currentElement;
 				walker.guard = function( node, movingOut ) {
-					// Skipping bogus before other cases (#17010).
+					// Skipping bogus before other cases (http://dev.ckeditor.com/ticket/17010).
 					if ( skipBogus && isBogus( node ) ) {
 						return true;
 					}
@@ -2134,7 +2134,7 @@ CKEDITOR.dom.range = function( root ) {
 			// So even if the initial range was placed before the bogus <br>, after creating the bookmark it
 			// is placed before the bookmark.
 			// Fortunately, getBogus() is able to skip the bookmark so it finds the bogus <br> in this case.
-			// We remove incorrectly placed one and add a brand new one. (#13001)
+			// We remove incorrectly placed one and add a brand new one. (http://dev.ckeditor.com/ticket/13001)
 			var bogus = fixedBlock.getBogus();
 			if ( bogus ) {
 				bogus.remove();
@@ -2652,7 +2652,7 @@ CKEDITOR.dom.range = function( root ) {
 		getEnclosedNode: function() {
 			var walkerRange = this.clone();
 
-			// Optimize and analyze the range to avoid DOM destructive nature of walker. (#5780)
+			// Optimize and analyze the range to avoid DOM destructive nature of walker. (http://dev.ckeditor.com/ticket/5780)
 			walkerRange.optimize();
 			if ( walkerRange.startContainer.type != CKEDITOR.NODE_ELEMENT || walkerRange.endContainer.type != CKEDITOR.NODE_ELEMENT )
 				return null;

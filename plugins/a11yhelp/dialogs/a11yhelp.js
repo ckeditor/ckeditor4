@@ -127,12 +127,12 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 			for ( var j = 0; j < itemsLength; j++ ) {
 				var item = items[ j ],
-					// (#16980) There should be a different hotkey shown in Commands on Edge browser.
+					// (http://dev.ckeditor.com/ticket/16980) There should be a different hotkey shown in Commands on Edge browser.
 					itemLegend = CKEDITOR.env.edge && item.legendEdge ? item.legendEdge : item.legend;
 
 				itemLegend = itemLegend.replace( variablesPattern, replaceVariables );
 
-				// (#9765) If some commands haven't been replaced in the legend,
+				// (http://dev.ckeditor.com/ticket/9765) If some commands haven't been replaced in the legend,
 				// most likely their keystrokes are unavailable and we shouldn't include
 				// them in our help list.
 				if ( itemLegend.match( variablesPattern ) ) {
@@ -173,7 +173,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 							'overflow-y:auto;' +
 							'overflow-x:hidden;' +
 						'}' +
-						// Some adjustments are to be done for Quirks to work "properly" (#5757)
+						// Some adjustments are to be done for Quirks to work "properly" (http://dev.ckeditor.com/ticket/5757)
 						'.cke_browser_quirks .cke_accessibility_legend,' +
 						'{' +
 							'height:390px' +

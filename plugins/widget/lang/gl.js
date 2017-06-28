@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'gl', {
 	'move': 'Prema e arrastre para mover',
-	'label': '%1 widget' // MISSING
+	'label': 'Trebello %1'
 } );

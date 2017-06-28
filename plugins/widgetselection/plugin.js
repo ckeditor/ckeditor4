@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview A plugin created to handle ticket #11064. While the issue is caused by native WebKit/Blink behaviour,
+ * @fileOverview A plugin created to handle ticket http://dev.ckeditor.com/ticket/11064. While the issue is caused by native WebKit/Blink behaviour,
  * this plugin can be easily detached or modified when the issue is fixed in the browsers without changing the core.
  * When Ctrl/Cmd + A is pressed to select all content it does not work due to a bug in
  * Webkit/Blink if a non-editable element is at the beginning or the end of the content.

@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'nb', {
 	button: 'Lim inn som ren tekst',
-	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Nettleseren din lar deg ikke lime inn ren tekst på denne måten. Trykk %1 for å lime inn.'
 } );

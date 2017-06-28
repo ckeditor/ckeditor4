@@ -10,7 +10,7 @@
 
 	CKEDITOR.plugins.add( 'autoembed', {
 		requires: 'autolink,undo',
-		lang: 'az,ca,cs,de,de-ch,en,eo,es,eu,fr,hr,hu,it,ja,km,ko,ku,mk,nb,nl,oc,pl,pt,pt-br,ru,sk,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,ca,cs,de,de-ch,en,eo,es,es-mx,eu,fr,gl,hr,hu,it,ja,km,ko,ku,mk,nb,nl,oc,pl,pt,pt-br,ru,sk,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 		init: function( editor ) {
 			var currentId = 1,
 				embedCandidatePasted;
@@ -36,7 +36,7 @@
 				// If one pasted an embeddable link and then undone the action, the link in the content holds the
 				// data-cke-autoembed attribute and may be embedded on *any* successive paste.
 				// This check ensures that autoEmbedLink is called only if afterPaste is fired *right after*
-				// embeddable link got into the content. (#13532)
+				// embeddable link got into the content. (http://dev.ckeditor.com/ticket/13532)
 				if ( embedCandidatePasted ) {
 					autoEmbedLink( editor, currentId );
 				}
@@ -61,7 +61,7 @@
 			return;
 		}
 
-			// TODO Move this to a method in the widget plugin. #13408
+			// TODO Move this to a method in the widget plugin. http://dev.ckeditor.com/ticket/13408
 		var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
 			element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 			instance,
@@ -94,10 +94,10 @@
 					editor.fire( 'saveSnapshot' );
 
 					// Lock snapshot so we don't make unnecessary undo steps in
-					// editable.insertElement() below, which would include bookmarks. (#13429)
+					// editable.insertElement() below, which would include bookmarks. (http://dev.ckeditor.com/ticket/13429)
 					editor.fire( 'lockSnapshot', { dontUpdate: true } );
 
-					// Bookmark current selection. (#13429)
+					// Bookmark current selection. (http://dev.ckeditor.com/ticket/13429)
 					var bookmark = selection.createBookmarks( false )[ 0 ],
 						startNode = bookmark.startNode,
 						endNode = bookmark.endNode || startNode;
@@ -118,7 +118,7 @@
 					editable.insertElement( wrapper, insertRange );
 
 					// If both bookmarks are still in DOM, it means that selection was not inside
-					// an anchor that got substituted. We can safely recreate that selection. (#13429)
+					// an anchor that got substituted. We can safely recreate that selection. (http://dev.ckeditor.com/ticket/13429)
 					if ( editable.contains( startNode ) && editable.contains( endNode ) ) {
 						selection.selectBookmarks( [ bookmark ] );
 					} else {

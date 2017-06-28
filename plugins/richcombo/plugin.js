@@ -37,7 +37,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 	template +=
 		' onkeydown="return CKEDITOR.tools.callFunction({keydownFn},event,this);"' +
 		' onfocus="return CKEDITOR.tools.callFunction({focusFn},event);" ' +
-			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // #188
+			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) + // http://dev.ckeditor.com/ticket/188
 				'="CKEDITOR.tools.callFunction({clickFn},this);return false;">' +
 			'<span id="{id}_text" class="cke_combo_text cke_combo_inlinelabel">{label}</span>' +
 			'<span class="cke_combo_open">' +
@@ -160,7 +160,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 				};
 
 				function updateState() {
-					// Don't change state while richcombo is active (#11793).
+					// Don't change state while richcombo is active (http://dev.ckeditor.com/ticket/11793).
 					if ( this.getState() == CKEDITOR.TRISTATE_ON )
 						return;
 
