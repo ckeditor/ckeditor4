@@ -5,7 +5,7 @@
 
 New Features:
 
-* Added a new Mexican Spanish localization. Thanks to the [David Alexandro Rodriguez](https://www.transifex.com/user/profile/darsco16/)!
+* Added a new Mexican Spanish localization. Thanks to [David Alexandro Rodriguez](https://www.transifex.com/user/profile/darsco16/)!
 * [#413](https://github.com/ckeditor/ckeditor-dev/issues/413): Added Paste as Plain Text keyboard shortcut to the [Accessibility Help](http://ckeditor.com/addon/a11yhelp) instructions.
 
 Fixed Issues:
