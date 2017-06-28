@@ -23,6 +23,7 @@
 		})
 	}
 
+
 	function validateParagraph($editor) {
 		var POSSIBLE_ERRORS = [
 			'more than one element first level',
@@ -76,7 +77,7 @@
 			var container = range.startContainer.$;
 			var stylesThatNeedApply = this.styleNamesThatNeedSet.slice(0);
 
-			if (container === range.endContainer.$ && container !== editorDOMContainer) {
+			if ((container === range.endContainer.$ || container === range.startContainer.$) && container !== editorDOMContainer) {
 				while(container !== editorDOMContainer && container !== range.document && stylesThatNeedApply.length) {
 					if (container.nodeType === 1) {
 						for(var i = 0; i < stylesThatNeedApply.length; i++) {
