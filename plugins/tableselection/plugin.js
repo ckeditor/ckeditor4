@@ -9,6 +9,7 @@
 	var fakeSelectedClass = 'cke_table-faked-selection',
 		fakeSelectedTableClass = fakeSelectedClass + '-table',
 		fakeSelectedEditorClass = fakeSelectedClass + '-editor',
+		fakeSelectedTableDatasetClass = 'cke-table-faked-selection-table',
 		fakeSelection = { active: false },
 		tabletools,
 		getSelectedCells,
@@ -122,7 +123,7 @@
 		}
 
 		if ( selectedCells.count() > 0 ) {
-			selectedCells.getItem( 0 ).getAscendant( 'table' ).removeClass( fakeSelectedTableClass );
+			selectedCells.getItem( 0 ).getAscendant( 'table' ).data( fakeSelectedTableDatasetClass, false );
 		}
 
 		editor.fire( 'unlockSnapshot' );
@@ -251,7 +252,7 @@
 
 		if ( cells.length > 0 ) {
 			editor.editable().addClass( fakeSelectedEditorClass );
-			cells[ 0 ].getAscendant( 'table' ).addClass( fakeSelectedTableClass );
+			cells[ 0 ].getAscendant( 'table' ).data( fakeSelectedTableDatasetClass, fakeSelectedTableClass );
 		}
 
 		editor.fire( 'unlockSnapshot' );
