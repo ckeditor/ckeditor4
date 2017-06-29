@@ -3,6 +3,10 @@
 
 ## CKEditor 4.7.2
 
+Fixed Issues:
+
+* [#582](https://github.com/ckeditor/ckeditor-dev/issues/582): Fixed: Double slash in path to stylesheet needed by [Table Selection](http://ckeditor.com/addon/tableselection) plugin. Thanks to [Marius Dumitru Florea](https://github.com/mflorea)!
+
 ## CKEditor 4.7.1
 
 New Features:
