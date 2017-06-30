@@ -12,4 +12,4 @@ Anchor dialog has been opened.
 
 **Unexpected result:**
 
-Nothing happend.
+Nothing happened.
