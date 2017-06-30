@@ -1,0 +1,17 @@
+<body>
+<div id="editor"><p>
+	<input type="checkbox" checked required="invalid value" name="checkbox" />
+	<input type="text" />
+</p>
+<p>
+	<input type="checkbox" checked required="required" name="checkbox" />
+	<input type="radio" checked required="" name="radio" />
+</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		startupMode: 'source'
+	} );
+</script>
+</body>

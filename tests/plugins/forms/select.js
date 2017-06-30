@@ -49,5 +49,55 @@ bender.test( {
 
 			assert.areSame( '<select></select>', bot.getData( false, true ) );
 		} );
+	},
+
+	'test read collapsed required attribute': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<select required></select>]' );
+
+		bot.dialog( 'select', function( dialog ) {
+			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
+		} );
+	},
+
+	'test read empty required attribute': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<select required=""></select>]' );
+
+		bot.dialog( 'select', function( dialog ) {
+			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
+		} );
+	},
+
+	'test read required attribute with value `required`': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<select required="required"></select>]' );
+
+		bot.dialog( 'select', function( dialog ) {
+			assert.isTrue( dialog.getValueOf( 'info', 'required' ) );
+		} );
+	},
+
+	'test required attribute absent': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<select></select>]' );
+
+		bot.dialog( 'select', function( dialog ) {
+			assert.isFalse( dialog.getValueOf( 'info', 'required' ) );
+		} );
+	},
+
+	'test read required attribute with invalid value': function() {
+		var bot = this.editorBot;
+
+		bot.setHtmlWithSelection( '[<select required="any value other than empty string or required"></select>]' );
+
+		bot.dialog( 'select', function( dialog ) {
+			assert.isFalse( dialog.getValueOf( 'info', 'required' ) );
+		} );
 	}
 } );
