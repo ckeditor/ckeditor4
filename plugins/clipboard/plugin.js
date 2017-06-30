@@ -142,7 +142,7 @@
 			initPasteClipboard( editor );
 			initDragDrop( editor );
 
-			// Convert image file (if present) to blob url for Firefox and Chrome.
+			// Convert image file (if present) to blob url for Firefox, Chrome and Edge.
 			// Do it as the first step as the conversion is asynchronous and should hold all further paste processing.
 			var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 				latestId;
