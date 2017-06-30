@@ -995,7 +995,8 @@
 					range = sel.createRange();
 
 				// The selection range is reported on host, but actually it should applies to the content doc.
-				if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
+				// The parentElement may be null for read only mode in IE10 and below (http://dev.ckeditor.com/ticket/9780).
+				if ( sel.type != 'None' && range.parentElement() && range.parentElement().ownerDocument == doc.$ )
 					range.select();
 			}
 
