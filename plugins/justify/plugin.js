@@ -192,9 +192,10 @@
 
 			// Check if we can give to element proper class, style or current path is body (#455).
 			// IE8, after focus and refresh return path with 'body'
+			// path.elements.length === 1: prevent of situation: body > ul, where selected is ul by elements path
 			if ( ( this.cssClassName && editor.activeFilter.check( name + '(' + this.cssClassName + ')' ) ) ||
 					editor.activeFilter.check( name + '{text-align}' ) ||
-					firstBlock.equals( editor.editable() ) ) {
+					( firstBlock.equals( editor.editable() ) && path.elements.length === 1 ) ) {
 				this.setState( name != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			} else {
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
