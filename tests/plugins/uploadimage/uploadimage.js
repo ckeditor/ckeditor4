@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard,widget */
+/* bender-tags: editor,clipboard,widget */
 /* bender-ckeditor-plugins: uploadwidget,uploadimage,toolbar,image2 */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
 /* bender-include: %BASE_PATH%/plugins/uploadfile/_helpers/waitForImage.js */

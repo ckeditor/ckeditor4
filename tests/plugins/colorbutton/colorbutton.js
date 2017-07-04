@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: colorbutton,colordialog,undo,toolbar,wysiwygarea */
 
 ( function() {

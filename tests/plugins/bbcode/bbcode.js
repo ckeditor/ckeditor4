@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: smiley,bbcode,entities,enterkey */
 
 bender.editor = { config: { autoParagraph: false } };

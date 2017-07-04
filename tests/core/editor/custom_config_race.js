@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 var assetsPath = '%TEST_DIR%_assets/',
 	instances = {},

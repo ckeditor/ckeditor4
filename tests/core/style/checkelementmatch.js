@@ -1,4 +1,4 @@
-/* bender-tags: unit,style */
+/* bender-tags: style */
 
 ( function() {
 

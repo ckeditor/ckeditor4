@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 function parseHtml( raw, parent ) {
 	var fragment = CKEDITOR.htmlParser.fragment.fromHtml( raw, parent || 'body', 'p' ),
