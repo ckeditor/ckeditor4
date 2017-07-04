@@ -7,7 +7,7 @@
 1. Choose background color.
 1. Type color in hexadecimal 6-digit format **without** leading `#`. E.g. (`ABC123`).
 1. Confirm it.
-1. Inseted color should contain additional `#` at the beginning.
+1. Inserted color should contain additional `#` at the beginning.
 1. Repeat above steps for color with hexadecimal 3-digits format. E.g. (`FFF`).
 
-Note: You can also check some wrong situations.
+**Note:** You can also check with colors in different formats (rgb, text) or invalid hex strings. For such colors `#` should not be added.
