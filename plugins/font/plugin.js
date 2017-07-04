@@ -4,7 +4,7 @@
  */
 
 ( function() {
-	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
+	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order, twoStateList, clearFontAvailable ) {
 		var config = editor.config,
 			style = new CKEDITOR.style( styleDefinition );
 
@@ -89,9 +89,13 @@
 			init: function() {
 				this.startGroup( lang.panelTitle );
 
+				// Adding (clear) option to list.
+				if ( clearFontAvailable ) {
+					this.add( 'cke-clear', '<span>(clear)</span>', '(clear)' );
+				}
+
 				for ( var i = 0; i < names.length; i++ ) {
 					var name = names[ i ];
-
 					// Add the tag entry to the panel list.
 					this.add( name, styles[ name ].buildPreview(), name );
 				}
@@ -106,7 +110,7 @@
 
 				// When applying one style over another, first remove the previous one (http://dev.ckeditor.com/ticket/12403).
 				// NOTE: This is only a temporary fix. It will be moved to the styles system (http://dev.ckeditor.com/ticket/12687).
-				if ( previousValue && value != previousValue ) {
+				if ( previousValue && ( value != previousValue || value === 'cke-clear' ) ) {
 					var previousStyle = styles[ previousValue ],
 						range = editor.getSelection().getRanges()[ 0 ];
 
@@ -157,7 +161,9 @@
 					}
 				}
 
-				editor[ previousValue == value ? 'removeStyle' : 'applyStyle' ]( style );
+				if ( value !== 'cke-clear' ) {
+					editor[ twoStateList && previousValue == value ? 'removeStyle' : 'applyStyle' ]( style );
+				}
 
 				editor.fire( 'saveSnapshot' );
 			},
@@ -228,8 +234,8 @@
 		init: function( editor ) {
 			var config = editor.config;
 
-			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30 );
-			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40 );
+			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30, false, true );
+			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40, false, true );
 		}
 	} );
 } )();
