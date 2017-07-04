@@ -4,118 +4,53 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {};
+	bender.editor = true;
 
-	var test = {
-		'test colordialog add hash to colors 6 digits': function() {
+	bender.test( {
+		assertColor: function( inputColor, outputColor ) {
 			var editor = this.editor;
 
 			editor.once( 'dialogShow', function( evt ) {
 				var dialog = evt.data;
-				dialog.setValueOf( 'picker', 'selectedColor', '123456' );
+				dialog.setValueOf( 'picker', 'selectedColor', inputColor );
 				dialog.getButton( 'ok' ).click();
 
 			} );
 
 			editor.getColorFromDialog( function( color ) {
 				resume( function() {
-					assert.areSame( '#123456', color );
+					assert.areSame( outputColor, color );
 				} );
 			} );
 			wait();
+		},
+
+		'test colordialog add hash to colors 6 digits': function() {
+			this.assertColor( '123456', '#123456' );
 		},
 
 		'test colordialog add hash to colors 3 digits': function() {
-			var editor = this.editor;
-
-			editor.once( 'dialogShow', function( evt ) {
-				var dialog = evt.data;
-				dialog.setValueOf( 'picker', 'selectedColor', 'FDE' );
-				dialog.getButton( 'ok' ).click();
-
-			} );
-
-			editor.getColorFromDialog( function( color ) {
-				resume( function() {
-					assert.areSame( '#FDE', color );
-				} );
-			} );
-			wait();
+			this.assertColor( 'FDE', '#FDE' );
 		},
 
 		'test colordialog does not add hash 1 digit': function() {
-			var editor = this.editor;
-
-			editor.once( 'dialogShow', function( evt ) {
-				var dialog = evt.data;
-				dialog.setValueOf( 'picker', 'selectedColor', '3' );
-				dialog.getButton( 'ok' ).click();
-
-			} );
-
-			editor.getColorFromDialog( function( color ) {
-				resume( function() {
-					assert.areSame( '3', color );
-				} );
-			} );
-			wait();
+			// IE8 don't allow on totally wrong values of attributes
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+			this.assertColor( '1', '1' );
 		},
 
 		'test colordialog does not add hash color name': function() {
-			var editor = this.editor;
-
-			editor.once( 'dialogShow', function( evt ) {
-				var dialog = evt.data;
-				dialog.setValueOf( 'picker', 'selectedColor', 'red' );
-				dialog.getButton( 'ok' ).click();
-
-			} );
-
-			editor.getColorFromDialog( function( color ) {
-				resume( function() {
-					assert.areSame( 'red', color );
-				} );
-			} );
-			wait();
+			this.assertColor( 'red', 'red' );
 		},
 
 		'test colordialog does not add hash rgb': function() {
-			var editor = this.editor;
-
-			editor.once( 'dialogShow', function( evt ) {
-				var dialog = evt.data;
-				dialog.setValueOf( 'picker', 'selectedColor', 'rgb(10, 20, 30)' );
-				dialog.getButton( 'ok' ).click();
-
-			} );
-
-			editor.getColorFromDialog( function( color ) {
-				resume( function() {
-					assert.areSame( 'rgb(10, 20, 30)', color );
-				} );
-			} );
-			wait();
+			this.assertColor( 'rgb(10, 20, 30)', 'rgb(10, 20, 30)' );
 		},
 
 		'test colordialog does not add hash empty value': function() {
-			var editor = this.editor;
-
-			editor.once( 'dialogShow', function( evt ) {
-				var dialog = evt.data;
-				dialog.setValueOf( 'picker', 'selectedColor', '' );
-				dialog.getButton( 'ok' ).click();
-
-			} );
-
-			editor.getColorFromDialog( function( color ) {
-				resume( function() {
-					assert.areSame( '', color );
-				} );
-			} );
-			wait();
+			this.assertColor( '', '' );
 		}
-	};
-
-	bender.test( test );
-
+	} );
 } )();
