@@ -56,6 +56,7 @@
 	 *
 	 * @class
 	 * @singleton
+	 * @since 4.8.0
 	 */
 	CKEDITOR.plugins.a11yhelp = {
 		/**
