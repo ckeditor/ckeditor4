@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'he', {
 	title: 'הכנס פסקה כאן',
-	commandsLabels: {
-		accessPreviousSpace: 'גישה למיקום המיקוד הקודם',
-		accessNextSpace: 'גישה למיקום המיקוד הבא'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'גישה למיקום המיקוד הקודם',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'גישה למיקום המיקוד הבא',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

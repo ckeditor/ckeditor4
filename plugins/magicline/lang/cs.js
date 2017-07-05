@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'cs', {
 	title: 'zde vložit odstavec',
-	commandsLabels: {
-		accessPreviousSpace: 'Příkaz pro přístup k předchozímu prostoru zaměření',
-		accessNextSpace: 'Příkaz pro přístup k dalšímu prostoru zaměření'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Příkaz pro přístup k předchozímu prostoru zaměření',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Příkaz pro přístup k dalšímu prostoru zaměření',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

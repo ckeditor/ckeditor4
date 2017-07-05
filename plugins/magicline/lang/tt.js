@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'tt', {
 	title: 'Бирегә параграф өстәү',
-	commandsLabels: {
-		accessPreviousSpace: 'Access previous focus space command', // MISSING
-		accessNextSpace: 'Access next focus space command' // MISSING
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Access previous focus space command', // MISSING
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Access next focus space command', // MISSING
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

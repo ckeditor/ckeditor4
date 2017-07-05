@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'no', {
 	title: 'Sett inn nytt avsnitt her',
-	commandsLabels: {
-		accessPreviousSpace: 'Gå til forrige fokusområde',
-		accessNextSpace: 'Gå til neste fokusområde'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Gå til forrige fokusområde',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Gå til neste fokusområde',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'si', {
 	title: 'චේදය ඇතුලත් කරන්න',
-	commandsLabels: {
-		accessPreviousSpace: 'Access previous focus space command',
-		accessNextSpace: 'Access next focus space command'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Access previous focus space command',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Access next focus space command',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

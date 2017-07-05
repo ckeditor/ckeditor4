@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'sk', {
 	title: 'Odsek vložiť sem',
-	commandsLabels: {
-		accessPreviousSpace: 'Prejsť na predchádzajúcu zamerateľnú medzeru príkazu',
-		accessNextSpace: 'Prejsť na ďalší'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Prejsť na predchádzajúcu zamerateľnú medzeru príkazu',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Prejsť na ďalší',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

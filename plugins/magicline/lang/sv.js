@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'sv', {
 	title: 'Infoga paragraf här',
-	commandsLabels: {
-		accessPreviousSpace: 'Gå till föregående fokus plats',
-		accessNextSpace: 'Tillgå nästa fokuskommandots utrymme'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Gå till föregående fokus plats',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Tillgå nästa fokuskommandots utrymme',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'gl', {
 	title: 'Inserir aquí o parágrafo',
-	commandsLabels: {
-		accessPreviousSpace: 'Orde «acceder ao anterior espazo en foco»',
-		accessNextSpace: 'Orde «acceder ao seguinte espazo en foco»'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Orde «acceder ao anterior espazo en foco»',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Orde «acceder ao seguinte espazo en foco»',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

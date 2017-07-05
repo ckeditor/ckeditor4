@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'ja', {
 	title: 'ここに段落を挿入',
-	commandsLabels: {
-		accessPreviousSpace: '前のカーソル移動のできないポイントへ',
-		accessNextSpace: '次のカーソルポイントへ移動する'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: '前のカーソル移動のできないポイントへ',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: '次のカーソルポイントへ移動する',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

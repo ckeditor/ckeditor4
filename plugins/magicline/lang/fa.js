@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'fa', {
 	title: 'قرار دادن بند در اینجا',
-	commandsLabels: {
-		accessPreviousSpace: 'دسترسی به فرمان محل تمرکز قبلی',
-		accessNextSpace: 'دسترسی به فضای دستور بعدی'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'دسترسی به فرمان محل تمرکز قبلی',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'دسترسی به فضای دستور بعدی',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

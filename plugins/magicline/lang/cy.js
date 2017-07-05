@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'cy', {
 	title: 'Mewnosod paragraff yma',
-	commandsLabels: {
-		accessPreviousSpace: 'Myned i orchymyn bwlch ffocws blaenorol',
-		accessNextSpace: 'Ewch i\'r gorchymyn blwch ffocws nesaf'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Myned i orchymyn bwlch ffocws blaenorol',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Ewch i\'r gorchymyn blwch ffocws nesaf',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

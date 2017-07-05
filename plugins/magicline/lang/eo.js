@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'eo', {
 	title: 'Enmeti paragrafon ĉi-tien',
-	commandsLabels: {
-		accessPreviousSpace: 'Komando por atingi la antaŭan fokusan spacon',
-		accessNextSpace: 'Komando por atingi la sekvan fokusan spacon'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Komando por atingi la antaŭan fokusan spacon',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Komando por atingi la sekvan fokusan spacon',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'lv', {
 	title: 'Ievietot šeit rindkopu',
-	commandsLabels: {
-		accessPreviousSpace: 'Piekļūt iepriekšējai fokusa vietas komandai',
-		accessNextSpace: 'Piekļūt nākošā fokusa apgabala komandai'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Piekļūt iepriekšējai fokusa vietas komandai',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Piekļūt nākošā fokusa apgabala komandai',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

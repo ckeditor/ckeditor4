@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'zh-cn', {
 	title: '在这插入段落',
-	commandsLabels: {
-		accessPreviousSpace: '访问前一个焦点区域的命令',
-		accessNextSpace: '访问下一个焦点区域命令'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: '访问前一个焦点区域的命令',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: '访问下一个焦点区域命令',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

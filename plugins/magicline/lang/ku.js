@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'ku', {
 	title: 'بڕگە لێرە دابنێ',
-	commandsLabels: {
-		accessPreviousSpace: 'چوونەناو سەرنجدانی پێشوی فەرمانی بۆشایی',
-		accessNextSpace: 'چوونەناو سەرنجدانی داهاتووی فەرمانی بۆشایی'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'چوونەناو سەرنجدانی پێشوی فەرمانی بۆشایی',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'چوونەناو سەرنجدانی داهاتووی فەرمانی بۆشایی',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

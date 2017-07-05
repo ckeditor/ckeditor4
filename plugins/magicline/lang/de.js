@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'de', {
 	title: 'Absatz hier einfügen',
-	commandsLabels: {
-		accessPreviousSpace: 'Zugang bisheriger Fokussierung Raumbefehl',
-		accessNextSpace: 'Zugang nächster Schwerpunkt Raumbefehl'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Zugang bisheriger Fokussierung Raumbefehl',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Zugang nächster Schwerpunkt Raumbefehl',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'fr', {
 	title: 'Insérer un paragraphe ici',
-	commandsLabels: {
-		accessPreviousSpace: 'Commande d\'accès à l\'élément sélectionnable précédent',
-		accessNextSpace: 'Commande d\'accès à l\'élément sélectionnable suivant'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Commande d\'accès à l\'élément sélectionnable précédent',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Commande d\'accès à l\'élément sélectionnable suivant',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'el', {
 	title: 'Εισάγετε παράγραφο εδώ',
-	commandsLabels: {
-		accessPreviousSpace: 'Πρόσβαση στην προηγούμενη εντολή του χώρου εστίασης',
-		accessNextSpace: 'Πρόσβαση στην επόμενη εντολή του χώρου εστίασης'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Πρόσβαση στην προηγούμενη εντολή του χώρου εστίασης',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Πρόσβαση στην επόμενη εντολή του χώρου εστίασης',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );

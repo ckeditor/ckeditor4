@@ -4,5 +4,15 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'es-mx', {
-	title: 'Insertar un párrafo aquí'
+	title: 'Insertar un párrafo aquí',
+	commands: {
+		previousSpace: {
+			label: 'Access previous focus space command', // MISSING
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Access next focus space command', // MISSING
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
+	}
 } );

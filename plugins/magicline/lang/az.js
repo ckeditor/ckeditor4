@@ -5,12 +5,14 @@
 
 CKEDITOR.plugins.setLang( 'magicline', 'az', {
 	title: 'Abzası burada əlavə et',
-	commandsLabels: {
-		accessPreviousSpace: 'Əvvəlki fokus sahəsi seç əmrı',
-		accessNextSpace: 'Növbəti fokus sahəsi seç əmrı'
-	},
-	commandsDescriptions: {
-		accessPreviousSpace: 'Press above keystroke to access the closest unreachable focus space before the caret.', // MISSING
-		accessNextSpace: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+	commands: {
+		previousSpace: {
+			label: 'Əvvəlki fokus sahəsi seç əmrı',
+			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+		},
+		nextSpace: {
+			label: 'Növbəti fokus sahəsi seç əmrı',
+			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+		}
 	}
 } );
