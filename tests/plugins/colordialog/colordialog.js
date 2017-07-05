@@ -25,31 +25,31 @@
 			wait();
 		},
 
-		'test colordialog add hash to colors 6 digits': function() {
+		'test colordialog add hash to color\'s values with 6 hexadecimal digits': function() {
 			this.assertColor( '123456', '#123456' );
 		},
 
-		'test colordialog add hash to colors 3 digits': function() {
+		'test colordialog add hash to color\'s values with 3 hexadecimal digits': function() {
 			this.assertColor( 'FDE', '#FDE' );
 		},
 
-		'test colordialog does not add hash 1 digit': function() {
-			// IE8 don't allow on totally wrong values of attributes
+		'test colordialog does not add hash to color value with 1 digit (incorrect css color value)': function() {
+			// IE8 doesn't set incorrect values.
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
 			}
 			this.assertColor( '1', '1' );
 		},
 
-		'test colordialog does not add hash color name': function() {
+		'test colordialog does not add hash to color name': function() {
 			this.assertColor( 'red', 'red' );
 		},
 
-		'test colordialog does not add hash rgb': function() {
+		'test colordialog does not add hash to rgb color value': function() {
 			this.assertColor( 'rgb(10, 20, 30)', 'rgb(10, 20, 30)' );
 		},
 
-		'test colordialog does not add hash empty value': function() {
+		'test colordialog does not add hash to empty value ': function() {
 			this.assertColor( '', '' );
 		}
 	} );
