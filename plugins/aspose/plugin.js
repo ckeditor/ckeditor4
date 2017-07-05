@@ -28,7 +28,6 @@
 		var POSSIBLE_ERRORS = [
 			'more than one element first level',
 			'have table inside',
-			'have div inside',
 			'have more than one list'
 			// 'have list inside'
 		];
@@ -41,10 +40,6 @@
 
 		if ($editor.find('* table').length && $editor.text().length > $editor.find('table').text().length) {
 			errors.push(POSSIBLE_ERRORS[1])
-		}
-
-		if ($editor.find('div').length) {
-			errors.push(POSSIBLE_ERRORS[2])
 		}
 
 		if (['OL', 'UL'].indexOf(children[0].tagName) !== -1 && children[0].children.length > 1) {

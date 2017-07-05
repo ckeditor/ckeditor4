@@ -46,16 +46,12 @@
 })();
 
 function useOnlyOneParagraph(editor, $html) {
-	$html.find('div').replaceWith(function() {
-		return this.innerHTML;
-	});
-
 	var innerHTML = '';
 	var children = $html.children();
 
 	children = $html.children();
 
-	if (children.length > 1) {
+	if (children.length > 1 || ['DIV'].indexOf(children[0].tagName) !== -1) {
 		if (['P', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(children[0].tagName) !== -1) {
 			$html.find('table').remove();
 			children = $html.children();
@@ -63,10 +59,6 @@ function useOnlyOneParagraph(editor, $html) {
 			children.each(function(index) {
 				if (['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7'].indexOf(this.tagName) !== -1) {
 					innerHTML += this.innerHTML;
-					// } else if (['UL', 'OL'].indexOf(this.tagName) !== -1) {
-					// 	for(var i = 0; i < this.children.length; i++) {
-					// 		innerHTML += this.children[i].innerHTML;
-					// 	}
 				} else {
 					innerHTML += this.outerHTML;
 				}
