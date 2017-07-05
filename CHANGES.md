@@ -3,6 +3,10 @@
 
 ## CKEditor 4.8
 
+New Features:
+
+* [#607](https://github.com/ckeditor/ckeditor-dev/issues/607): Manually inserted hex color is prefixed with hash tag if needed. It ensures a valid hex color is used when setting table cell border or background color via [Color Dialog](http://ckeditor.com/addon/colordialog) window.
+
 ## CKEditor 4.7.1
 
 New Features:
