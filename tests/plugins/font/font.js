@@ -172,6 +172,43 @@
 				'<p>x<span style="font-size:12px"><em>foo</em></span><em><span style="font-size:24px">bar</span></em>x@</p>' );
 		},
 
+		// #584
+		'test remove font size from text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="font-size:12px">[foo]</span></p>' );
+			this.assertCombo( 'FontSize', 'cke-default', false, bot, '<p>foo@</p>' );
+		},
+
+		'test remove font family from text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="' + ffArial + '">[foo]</span></p>' );
+			this.assertCombo( 'Font', 'cke-default', false, bot, '<p>foo@</p>' );
+		},
+
+		'test remove font size partialy from text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="font-size:24px">[foo ]bar</span></p>' );
+			this.assertCombo( 'FontSize', 'cke-default', false, bot, '<p>foo <span style="font-size:24px">bar</span>@</p>' );
+		},
+
+		'test remove font family partially from text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="' + ffArial + '">[foo ]bar</span></p>' );
+			this.assertCombo( 'Font', 'cke-default', false, bot, '<p>foo <span style="' + ffArial + '">bar</span>@</p>' );
+		},
+
+		'test remove font size from unstyled text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
+			this.assertCombo( 'FontSize', 'cke-default', false, bot, '<p>foo@</p>' );
+		},
+
+		'test remove font family from unstyled text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
+			this.assertCombo( 'Font', 'cke-default', false, bot, '<p>foo@</p>' );
+		},
+
 		assertCombo: function( comboName, comboValue, collapsed, bot, resultHtml, callback ) {
 			bot.combo( comboName, function( combo ) {
 				combo.onClick( comboValue );
