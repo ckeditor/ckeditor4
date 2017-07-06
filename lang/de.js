@@ -112,6 +112,8 @@ CKEDITOR.lang[ 'de' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Tastaturkürzel'
+		keyboardShortcut: 'Tastaturkürzel',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

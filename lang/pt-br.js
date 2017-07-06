@@ -111,6 +111,8 @@ CKEDITOR.lang[ 'pt-br' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Atalho do teclado'
+		keyboardShortcut: 'Atalho do teclado',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

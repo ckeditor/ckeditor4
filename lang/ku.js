@@ -111,6 +111,8 @@ CKEDITOR.lang[ 'ku' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'کورتبڕی تەختەکلیل'
+		keyboardShortcut: 'کورتبڕی تەختەکلیل',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

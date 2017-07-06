@@ -112,6 +112,8 @@ CKEDITOR.lang[ 'hr' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Prečica na tipkovnici'
+		keyboardShortcut: 'Prečica na tipkovnici',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

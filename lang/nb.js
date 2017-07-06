@@ -112,6 +112,8 @@ CKEDITOR.lang[ 'nb' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Tastatursnarvei'
+		keyboardShortcut: 'Tastatursnarvei',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

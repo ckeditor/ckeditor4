@@ -112,6 +112,8 @@ CKEDITOR.lang[ 'oc' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Acorchi de clavièr'
+		keyboardShortcut: 'Acorchi de clavièr',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

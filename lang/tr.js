@@ -111,6 +111,8 @@ CKEDITOR.lang[ 'tr' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Klavye Kısayolu'
+		keyboardShortcut: 'Klavye Kısayolu',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

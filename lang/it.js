@@ -112,6 +112,8 @@ CKEDITOR.lang[ 'it' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Scorciatoia da tastiera'
+		keyboardShortcut: 'Scorciatoia da tastiera',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

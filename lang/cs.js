@@ -112,6 +112,8 @@ CKEDITOR.lang[ 'cs' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Klávesová zkratka'
+		keyboardShortcut: 'Klávesová zkratka',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

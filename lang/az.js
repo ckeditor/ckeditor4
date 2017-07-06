@@ -112,6 +112,8 @@ CKEDITOR.lang[ 'az' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Qısayol düymələri'
+		keyboardShortcut: 'Qısayol düymələri',
+
+		optionDefault: 'Default' // MISSING
 	}
 };
