@@ -35,8 +35,10 @@
 
 				this.wait( function() {
 					// Click again to exit the style.
+					// Since 4.8.0 2nd click into this same menu item do not unselect it.
+					// It is required to click into '(Default)' option to reset style (#584).
 					bot.combo( 'FontSize', function( combo ) {
-						combo.onClick( 48 );
+						combo.onClick( 'cke-default' );
 						this.wait( function() {
 							editor.insertText( 'bar' );
 							assert.isInnerHtmlMatching( '<p><span style="font-size:48px">foo</span>bar@</p>',
