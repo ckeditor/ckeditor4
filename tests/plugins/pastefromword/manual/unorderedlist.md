@@ -1,4 +1,4 @@
-@bender-tags: tc, bug, 4.7.1, 534, word
+@bender-tags: bug, bug, 4.7.1, 534, word
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromword, sourcearea, elementspath, newpage, list
 

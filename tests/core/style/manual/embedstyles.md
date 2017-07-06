@@ -1,4 +1,4 @@
-@bender-tags: style, tc, 4.6.0
+@bender-tags: style, bug, 4.6.0
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,sourcearea,toolbar,undo,clipboard,image2,stylescombo,codesnippet,resize,magicline,mathjax,basicstyles,blockquote,link,format
 

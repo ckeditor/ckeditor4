@@ -1,4 +1,4 @@
-@bender-tags: 4.7.0, tc, uicolor
+@bender-tags: 4.7.0, bug, uicolor
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, sourcearea, basicstyles, uicolor, floatingspace
 

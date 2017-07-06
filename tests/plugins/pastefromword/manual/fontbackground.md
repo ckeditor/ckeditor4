@@ -1,4 +1,4 @@
-@bender-tags: tc, 4.6.1, pastefromword
+@bender-tags: bug, 4.6.1, pastefromword
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, colorbutton, pastefromword, sourcearea, elementspath
 

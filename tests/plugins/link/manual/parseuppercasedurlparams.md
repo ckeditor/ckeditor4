@@ -1,4 +1,4 @@
-@bender-tags: tc, link, trac12189, 4.5.5
+@bender-tags: bug, link, trac12189, 4.5.5
 @bender-ui: collapsed
 @bender-ckeditor-plugins: link, toolbar, wysiwygarea
 

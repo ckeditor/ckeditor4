@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, trac16755, 4.7.0, tp1833
+@bender-tags: bug, trac16755, 4.7.0, tp1833
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, clipboard, sourcearea, undo, elementspath
 
 ## Forward paste

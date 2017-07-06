@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 4.7.0, tp2239
+@bender-tags: bug, 4.7.0, tp2239
 @bender-ckeditor-plugins: wysiwygarea,sourcearea,htmlwriter,toolbar,elementspath,undo,clipboard,basicstyles,divarea
 
 # `srcdoc` escaping
