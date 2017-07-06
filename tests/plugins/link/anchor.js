@@ -41,7 +41,7 @@
 
 				editor.on( 'dialogShow', function( evt ) {
 					resume( function() {
-						assert.areSame( evt.data._.name, 'anchor' );
+						assert.areSame( evt.data._.name, 'anchor', 'Anchor dialog has been opened.' );
 					} );
 				} );
 
