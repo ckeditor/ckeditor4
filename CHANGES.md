@@ -5,6 +5,7 @@
 
 Fixed Issues:
 
+* [#545](https://github.com/ckeditor/ckeditor-dev/issues/545): [Edge] Fixed: Error thrown when pressing the Select All button in a [Source Mode](http://ckeditor.com/addon/sourcearea).
 * [#582](https://github.com/ckeditor/ckeditor-dev/issues/582): Fixed: Double slash in path to stylesheet needed by [Table Selection](http://ckeditor.com/addon/tableselection) plugin. Thanks to [Marius Dumitru Florea](https://github.com/mflorea)!
 * [#9780](https://dev.ckeditor.com/ticket/9780): [IE8-9] Fixed: Clicking inside empty [read-only](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) editor throws an error.
 * [#16820](https://dev.ckeditor.com/ticket/16820): [IE10] Fixed: Clicking below single horizontal rule throws an error.
