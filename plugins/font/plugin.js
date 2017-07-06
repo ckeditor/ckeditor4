@@ -117,7 +117,8 @@
 					startBoundary,
 					endBoundary,
 					node,
-					bm;
+					bm,
+					defaultValue = 'cke-default';
 
 				// When applying one style over another, first remove the previous one (http://dev.ckeditor.com/ticket/12403).
 				// NOTE: This is only a temporary fix. It will be moved to the styles system (http://dev.ckeditor.com/ticket/12687).
@@ -170,13 +171,14 @@
 						editor.removeStyle( previousStyle );
 					}
 				}
-				if ( value === 'cke-default' && previousStyle ) {
-					editor.removeStyle( previousStyle );
-				} else if ( value !== 'cke-default' ) {
+
+				if ( value === defaultValue ) {
+					if ( previousStyle ) {
+						editor.removeStyle( previousStyle );
+					}
+				} else if ( value !== previousValue ) {
 					editor.applyStyle( style );
 				}
-
-				// editor[ previousValue == value ? 'removeStyle' : 'applyStyle' ]( style );
 
 				editor.fire( 'saveSnapshot' );
 			},
