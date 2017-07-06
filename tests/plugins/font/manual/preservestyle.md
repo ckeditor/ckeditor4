@@ -1,6 +1,6 @@
 @bender-tags: 4.8.0, feature, tc
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, font, elementspath
+@bender-ckeditor-plugins: wysiwygarea, toolbar, font, elementspath, sourcearea
 
 1. Select text
 1. Change `font size`

@@ -4,7 +4,8 @@
  */
 
 ( function() {
-	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order, twoStateList, clearFontAvailable ) {
+	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
+		// debugger;
 		var config = editor.config,
 			style = new CKEDITOR.style( styleDefinition );
 
@@ -87,15 +88,17 @@
 			},
 
 			init: function() {
+				var name,
+					defaultValue = 'cke-default',
+					defaultText = '(' + lang.optionDefault + ')';
+
 				this.startGroup( lang.panelTitle );
 
-				// Adding (clear) option to list.
-				if ( clearFontAvailable ) {
-					this.add( 'cke-clear', '<span>(clear)</span>', '(clear)' );
-				}
+				// Add (default) option as first element on the list.
+				this.add( defaultValue, defaultText, defaultText );
 
 				for ( var i = 0; i < names.length; i++ ) {
-					var name = names[ i ];
+					name = names[ i ];
 					// Add the tag entry to the panel list.
 					this.add( name, styles[ name ].buildPreview(), name );
 				}
@@ -106,27 +109,34 @@
 				editor.fire( 'saveSnapshot' );
 
 				var previousValue = this.getValue(),
-					style = styles[ value ];
+					style = styles[ value ],
+					previousStyle,
+					range,
+					path,
+					matching,
+					startBoundary,
+					endBoundary,
+					node,
+					bm;
 
 				// When applying one style over another, first remove the previous one (http://dev.ckeditor.com/ticket/12403).
 				// NOTE: This is only a temporary fix. It will be moved to the styles system (http://dev.ckeditor.com/ticket/12687).
-				if ( previousValue && ( value != previousValue || value === 'cke-clear' ) ) {
-					var previousStyle = styles[ previousValue ],
-						range = editor.getSelection().getRanges()[ 0 ];
+				if ( previousValue && value != previousValue ) {
+					previousStyle = styles[ previousValue ];
+					range = editor.getSelection().getRanges()[ 0 ];
 
 					// If the range is collapsed we can't simply use the editor.removeStyle method
 					// because it will remove the entire element and we want to split it instead.
 					if ( range.collapsed ) {
-						var path = editor.elementPath(),
-							// Find the style element.
-							matching = path.contains( function( el ) {
-								return previousStyle.checkElementRemovable( el );
-							} );
+						path = editor.elementPath();
+						// Find the style element.
+						matching = path.contains( function( el ) {
+							return previousStyle.checkElementRemovable( el );
+						} );
 
 						if ( matching ) {
-							var startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START ),
-								endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END ),
-								node, bm;
+							startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START );
+							endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END );
 
 							// If we are at both boundaries it means that the element is empty.
 							// Remove it but in a way that we won't lose other empty inline elements inside it.
@@ -160,10 +170,13 @@
 						editor.removeStyle( previousStyle );
 					}
 				}
-
-				if ( value !== 'cke-clear' ) {
-					editor[ twoStateList && previousValue == value ? 'removeStyle' : 'applyStyle' ]( style );
+				if ( value === 'cke-default' && previousStyle ) {
+					editor.removeStyle( previousStyle );
+				} else if ( value !== 'cke-default' ) {
+					editor.applyStyle( style );
 				}
+
+				// editor[ previousValue == value ? 'removeStyle' : 'applyStyle' ]( style );
 
 				editor.fire( 'saveSnapshot' );
 			},
@@ -234,8 +247,8 @@
 		init: function( editor ) {
 			var config = editor.config;
 
-			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30, false, true );
-			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40, false, true );
+			addCombo( editor, 'Font', 'family', editor.lang.font, config.font_names, config.font_defaultLabel, config.font_style, 30 );
+			addCombo( editor, 'FontSize', 'size', editor.lang.font.fontSize, config.fontSize_sizes, config.fontSize_defaultLabel, config.fontSize_style, 40 );
 		}
 	} );
 } )();
