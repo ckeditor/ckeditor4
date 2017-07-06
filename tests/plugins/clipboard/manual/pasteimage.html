@@ -1,9 +1,7 @@
-<div id="editor">
-	<p>Paste image from clipboard here:</p>
-</div>
+<div id="editor"></div>
 
 <script>
-	if ( CKEDITOR.env.safari || ( CKEDITOR.env.windows && !CKEDITOR.env.gecko ) ) {
+	if ( !CKEDITOR.env.gecko && !CKEDITOR.env.chrome && !CKEDITOR.env.edge ) {
 		bender.ignore();
 	}
 
