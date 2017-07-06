@@ -5,7 +5,6 @@
 
 ( function() {
 	function addCombo( editor, comboName, styleType, lang, entries, defaultLabel, styleDefinition, order ) {
-		// debugger;
 		var config = editor.config,
 			style = new CKEDITOR.style( styleDefinition );
 
@@ -94,7 +93,7 @@
 
 				this.startGroup( lang.panelTitle );
 
-				// Add (default) option as first element on the list.
+				// Add `(Default)` item as first element on the drop down list.
 				this.add( defaultValue, defaultText, defaultText );
 
 				for ( var i = 0; i < names.length; i++ ) {
