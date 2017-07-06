@@ -90,7 +90,7 @@
 			init: function() {
 				var name,
 					defaultValue = 'cke-default',
-					defaultText = '(' + lang.optionDefault + ')';
+					defaultText = '(' + editor.lang.common.optionDefault + ')';
 
 				this.startGroup( lang.panelTitle );
 
