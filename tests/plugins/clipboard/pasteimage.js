@@ -51,10 +51,7 @@
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
-		nativeData.files.push( {
-			name: 'mock.file',
-			type: type
-		} );
+		nativeData.files.push( new File( [ '' ], 'mock.file', { type: type } ) );
 
 		dataTransfer.cacheData();
 
@@ -75,7 +72,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( CKEDITOR.env.safari || ( CKEDITOR.env.windows && !CKEDITOR.env.gecko ) ) {
+			if ( !CKEDITOR.env.gecko && !CKEDITOR.env.chrome && !CKEDITOR.env.edge ) {
 				assert.ignore();
 			}
 			FileReader.setFileMockType();
@@ -88,8 +85,7 @@
 			FileReader.setReadResult( 'load' );
 
 			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
-			this.assertPaste( 'image/png',
-				'<p>Paste image here: <img data-cke-saved-src="data:image/png;base64,fileMockBase64=" src="data:image/png;base64,fileMockBase64=" />^@</p>' );
+			this.assertPaste( 'image/png', '<p>Paste image here: <img data-cke-saved-src="blob:" data-cke-to-replace="" src="blob:" />^@</p>' );
 		},
 
 		'test paste .jpeg from clipboard': function() {
@@ -98,7 +94,7 @@
 
 			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
 			this.assertPaste( 'image/jpeg',
-				'<p>Paste image here: <img data-cke-saved-src="data:image/jpeg;base64,fileMockBase64=" src="data:image/jpeg;base64,fileMockBase64=" />^@</p>' );
+				'<p>Paste image here: <img data-cke-saved-src="blob:" data-cke-to-replace="" src="blob:" />^@</p>' );
 		},
 
 		'test paste .gif from clipboard': function() {
@@ -107,7 +103,7 @@
 
 			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
 			this.assertPaste( 'image/gif',
-				'<p>Paste image here: <img data-cke-saved-src="data:image/gif;base64,fileMockBase64=" src="data:image/gif;base64,fileMockBase64=" />^@</p>' );
+				'<p>Paste image here: <img data-cke-saved-src="blob:" data-cke-to-replace="" src="blob:" />^@</p>' );
 		},
 
 		'test unsupported file type': function() {
@@ -119,28 +115,47 @@
 				'<p>Paste image here: ^@</p>' );
 		},
 
-		'test aborted paste': function() {
-			FileReader.setFileMockType( 'image/png' );
-			FileReader.setReadResult( 'abort' );
+		// 'test aborted paste': function() {
+		// 	FileReader.setFileMockType( 'image/png' );
+		// 	FileReader.setReadResult( 'abort' );
 
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
-			this.assertPaste( 'image/png',
-				'<p>Paste image here: ^@</p>' );
-		},
+		// 	bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
+		// 	this.assertPaste( 'image/png',
+		// 		'<p>Paste image here: ^@</p>' );
+		// },
 
-		'test failed paste': function() {
-			FileReader.setFileMockType( 'image/png' );
-			FileReader.setReadResult( 'error' );
+		// 'test failed paste': function() {
+		// 	FileReader.setFileMockType( 'image/png' );
+		// 	FileReader.setReadResult( 'error' );
 
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
-			this.assertPaste( 'image/png',
-				'<p>Paste image here: ^@</p>' );
-		},
+		// 	bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
+		// 	this.assertPaste( 'image/png',
+		// 		'<p>Paste image here: ^@</p>' );
+		// },
+
+		// assertPaste: function( type, expected ) {
+		// 	this.editor.once( 'paste', function() {
+		// 		resume( function() {
+		// 			assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( this.editor ), {
+		// 				noTempElements: true,
+		// 				fixStyles: true,
+		// 				compareSelection: true,
+		// 				normalizeSelection: true
+		// 			} );
+		// 		} );
+		// 	}, this, null, 9999 );
+
+		// 	mockPasteFile( this.editor, type );
+
+		// 	wait();
+		// }
 
 		assertPaste: function( type, expected ) {
 			this.editor.once( 'paste', function() {
 				resume( function() {
-					assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( this.editor ), {
+					var regExp = /(<p>Paste image here: <img data-cke-saved-src="blob:)|(" src="blob:)|(" data-cke-to-replace=")|(">\[]<\/p>)/g;
+					// TODO: This match method should be somewhere else.
+					assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( this.editor ).match( regExp ).join( '' ), {
 						noTempElements: true,
 						fixStyles: true,
 						compareSelection: true,
