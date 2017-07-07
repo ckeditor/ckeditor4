@@ -43,7 +43,7 @@ function createLayoutTest( mockValues, expected ) {
 			area = editor._.notificationArea,
 			body = CKEDITOR.document.getBody();
 
-		sinon.stub( editor.ui, 'space' ).withArgs( 'top' ).returns( {
+		sinon.stub( editor.ui, 'space' ).withArgs( 'content' ).returns( {
 			getClientRect: function() {
 				return {
 					bottom: mockValues.topRectBottom
