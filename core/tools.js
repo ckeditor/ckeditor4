@@ -1627,6 +1627,21 @@
 					yellowgreen: '#9ACD32'
 				},
 
+				_borderStyle: [
+					'none',
+					'hidden',
+					'dotted',
+					'dashed',
+					'solid',
+					'double',
+					'groove',
+					'ridge',
+					'inset',
+					'outset'
+				],
+
+				_widthRegExp: /^(thin|medium|thick|[\+-]?\d+\.?\d*\S*)$/,
+
 				_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
 				_hslaRegExp: /hsla?\(\s*[0-9.]+\s*,\s*\d+%\s*,\s*\d+%\s*(?:,\s*[0-9.]+\s*)?\)/gi,
@@ -1709,6 +1724,50 @@
 						ret.left = widths[ map[ 3 ] ];
 					}
 
+					return ret;
+				},
+
+				/**
+				 * Parses the `border` CSS property shorthand format.
+				 * This CSS properyty doesn't support inherit. (https://www.w3.org/TR/css3-background/#the-border-shorthands)
+				 *		console.log( CKEDITOR.tools.style.parse.border( '3px solid #ffeedd' ) );
+				 *		// Logs: { width: "3px", style: "solid", color: "#ffeedd", inherit: false }
+				 *
+				 * @param {String} value The `border` property value.
+				 * @returns {Object}
+				 * @returns {String} return.width border width.
+				 * @returns {String} return.style border-style attribute.
+				 * @returns {String} return.color border-color attribute.
+				 * @member CKEDITOR.tools.style.parse
+				 */
+				border: function( value ) {
+					var ret = {};
+					var input = value.split( /\s+/ );
+
+					CKEDITOR.tools.array.forEach( input, function( val ) {
+						if ( !ret.color ) {
+							var parseColor = CKEDITOR.tools.style.parse._findColor( val );
+							if ( parseColor.length ) {
+								ret.color = parseColor[ 0 ];
+								return;
+							}
+						}
+
+						if ( !ret.style ) {
+							if (  CKEDITOR.tools.indexOf( CKEDITOR.tools.style.parse._borderStyle, val ) !== -1 ) {
+								ret.style = val;
+								return;
+							}
+						}
+
+						if ( !ret.width ) {
+							if ( CKEDITOR.tools.style.parse._widthRegExp.test( val ) ) {
+								ret.width = val;
+								return;
+							}
+						}
+
+					} );
 					return ret;
 				},
 
