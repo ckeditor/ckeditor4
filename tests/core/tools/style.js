@@ -142,6 +142,10 @@
 			objectAssert.areEqual( { width: '0' }, CKEDITOR.tools.style.parse.border( '0' ) );
 		},
 
+		'test style.parse.border only with zero width with dot': function() {
+			objectAssert.areEqual( {}, CKEDITOR.tools.style.parse.border( '0.' ) );
+		},
+
 		'test style.parse.border with width and style': function() {
 			objectAssert.areEqual( { width: '0%', style: 'groove' }, CKEDITOR.tools.style.parse.border( '0% groove' ) );
 		},
@@ -156,6 +160,15 @@
 
 		'test style.parse.border with style only': function() {
 			objectAssert.areEqual( { style: 'dotted' }, CKEDITOR.tools.style.parse.border( 'dotted' ) );
+		},
+
+		'test style.parse.border with style and rgba color': function() {
+			objectAssert.areEqual( { style: 'dotted', color: 'rgba(0,0,0,0)' }, CKEDITOR.tools.style.parse.border( 'dotted rgba(0,0,0,0)' ) );
+		},
+
+		'test style.parse.border with style and hsla color': function() {
+			objectAssert.areEqual( { style: 'dotted', color: 'hsla(10,30%,30%,1)' }, CKEDITOR.tools.style.parse.border( 'dotted hsla(10,30%,30%,1)' ) );
 		}
+
 	} );
 } )();

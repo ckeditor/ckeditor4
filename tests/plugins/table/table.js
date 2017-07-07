@@ -111,6 +111,39 @@
 
 			assert.isTrue( CKEDITOR.document.getBody().contains( editable ), 'Editable should not be removed' );
 			assert.areEqual( '', bot.editor.getData() );
+		},
+
+		// https://github.com/ckeditor/ckeditor-dev/issues/566
+		'test html border attribute behaviour when CSS border is 0': function() {
+			var bot = this.editorBots.editor;
+
+			bot.setHtmlWithSelection(
+				'<table border="0" style="border:0px solid #ff0000">' +
+					'<tbody>' +
+						'<tr>' +
+							'<td></td>' +
+							'<td>x^x</td>' +
+						'</tr>' +
+					'</tbody>' +
+				'</table>' );
+
+			assert.isTrue( /border="0"/.test( bot.editor.getData() ), 'Border attribute should be zero' );
+		},
+
+		'test html border attribute behaviour when CSS border is not  0': function() {
+			var bot = this.editorBots.editor;
+
+			bot.setHtmlWithSelection(
+				'<table border="0" style="border:6px solid #ff0000">' +
+					'<tbody>' +
+						'<tr>' +
+							'<td></td>' +
+							'<td>x^x</td>' +
+						'</tr>' +
+					'</tbody>' +
+				'</table>' );
+
+			assert.isTrue( /border="1"/.test( bot.editor.getData() ), 'Border attribute should be one' );
 		}
 	} );
 

@@ -30,8 +30,24 @@ CKEDITOR.plugins.add( 'table', {
 					element: 'table',
 					right: function( element ) {
 						if ( element.styles ) {
-							if ( element.styles.border && element.styles.border.match( /solid/ ) ) {
-								element.attributes.border = 1;
+							var parsedStyle;
+							if ( element.styles.border ) {
+								parsedStyle = CKEDITOR.tools.style.parse.border( element.styles.border );
+								if ( parsedStyle.style && parsedStyle.style === 'solid' &&
+										parsedStyle.width && parseFloat( parsedStyle.width ) !== 0 ) {
+									element.attributes.border = 1;
+								}
+							}
+							if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+								if ( element.styles[ 'border-left' ] && element.styles[ 'border-left' ] === element.styles[ 'border-right' ] &&
+										element.styles[ 'border-right' ] === element.styles[ 'border-top' ] &&
+										element.styles[ 'border-top' ] === element.styles[ 'border-bottom' ] ) {
+									parsedStyle = CKEDITOR.tools.style.parse.border( element.styles[ 'border-top' ] );
+									if ( parsedStyle.style && parsedStyle.style === 'solid' &&
+											parsedStyle.width && parseFloat( parsedStyle.width ) !== 0 ) {
+										element.attributes.border = 1;
+									}
+								}
 							}
 							if ( element.styles[ 'border-collapse' ] == 'collapse' ) {
 								element.attributes.cellspacing = 0;
@@ -60,7 +76,8 @@ CKEDITOR.plugins.add( 'table', {
 				if ( !table )
 					return;
 
-				// If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element) (http://dev.ckeditor.com/ticket/5416, http://dev.ckeditor.com/ticket/6289, http://dev.ckeditor.com/ticket/12110)
+				// If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element)
+				//(http://dev.ckeditor.com/ticket/5416, http://dev.ckeditor.com/ticket/6289, http://dev.ckeditor.com/ticket/12110)
 				var parent = table.getParent(),
 					editable = editor.editable();
 
