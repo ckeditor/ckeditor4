@@ -612,8 +612,8 @@ Area.prototype = {
 			editor = this.editor,
 			contentsRect = editor.ui.contentsElement.getClientRect(),
 			contentsPos = editor.ui.contentsElement.getDocumentPosition(),
-			top = editor.ui.space( 'content' ) || editor.editable(),
-			topRect = top.getClientRect(),
+			top,
+			topRect,
 			areaRect = area.getClientRect(),
 			notification,
 			notificationWidth = this._notificationWidth,
@@ -634,6 +634,13 @@ Area.prototype = {
 				parseInt( notification.getComputedStyle( 'margin-right' ), 10 );
 		}
 
+		// Check if toolbar exist and if so, then assign values to it.
+		if ( editor.toolbar ) {
+			top = editor.ui.space( 'top' );
+			topRect = top.getClientRect();
+		}
+
+
 		// --------------------------------------- Horizontal layout ----------------------------------------
 
 		// +---Viewport-------------------------------+          +---Viewport-------------------------------+
@@ -650,7 +657,7 @@ Area.prototype = {
 		// | |                                      | |          | |                                      | |
 		// | +--------------------------------------+ |          | +--------------------------------------+ |
 		// +------------------------------------------+          +------------------------------------------+
-		if ( top.isVisible() &&
+		if ( top && top.isVisible() &&
 			topRect.bottom > contentsRect.top &&
 			topRect.bottom < contentsRect.bottom - areaRect.height ) {
 			setBelowToolbar();
