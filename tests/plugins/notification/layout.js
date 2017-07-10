@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: notification */
+/* bender-ckeditor-plugins: notification,toolbar */
 
 /**
  * Tests for layout have input and output data based on the real notification positions, which were checked that are
@@ -10,11 +10,7 @@
 
 'use strict';
 
-bender.editor = {
-	config: {
-		extraPlugins: 'notification'
-	}
-};
+bender.editor = true;
 
 /**
  * mockValues: {
@@ -43,7 +39,7 @@ function createLayoutTest( mockValues, expected ) {
 			area = editor._.notificationArea,
 			body = CKEDITOR.document.getBody();
 
-		sinon.stub( editor.ui, 'space' ).withArgs( 'content' ).returns( {
+		sinon.stub( editor.ui, 'space' ).withArgs( 'top' ).returns( {
 			getClientRect: function() {
 				return {
 					bottom: mockValues.topRectBottom
