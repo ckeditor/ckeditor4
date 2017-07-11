@@ -203,25 +203,13 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, type ) {
-				function onColorDialogClose( evt ) {
-					this.removeListener( 'ok', onColorDialogClose );
-					this.removeListener( 'cancel', onColorDialogClose );
-
-					evt.name == 'ok' && applyColorStyle( this.getContentElement( 'picker', 'selectedColor' ).getValue(), type );
-				}
-
 				if ( color == '?' ) {
-					editor.openDialog( 'colordialog', function() {
-						this.on( 'ok', onColorDialogClose );
-						this.on( 'cancel', onColorDialogClose );
+					editor.getColorFromDialog( function( color ) {
+						applyColorStyle( color, type );
 					} );
-
-					return;
 				}
 
 				editor.focus();
-
-				panel.hide();
 
 				editor.fire( 'saveSnapshot' );
 
