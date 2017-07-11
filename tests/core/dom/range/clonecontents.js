@@ -233,7 +233,6 @@
 
 			root.setHtml( 'foo<b>bar</b>' );
 			doc.getBody().append( root );
-
 			var startContainer = root.getFirst(),
 				endContainer = root.getLast().getFirst();
 
@@ -526,6 +525,58 @@
 
 			// See: execContentsAction in range.js.
 			assert.isInnerHtmlMatching( '<p>Foo bar</p>', docFrag.getHtml(), 'Cloned HTML' );
+		},
+
+		// #426
+		'test cloneContents - beginning element end text': function() {
+			var editor = this.editors.classic,
+				range,
+				clone;
+
+			bender.tools.selection.setWithHtml( editor, '<p>foo <strong>[bar} baz</strong></p>' );
+
+			range = editor.getSelection().getRanges()[ 0 ];
+			clone = range.cloneContents();
+
+			assert.areSame( 'bar', clone.getHtml() );
+		},
+
+		'test cloneContents - beginning text outside end element': function() {
+			var editor = this.editors.classic,
+				range,
+				clone;
+
+			bender.tools.selection.setWithHtml( editor, '<p>foo {<strong>bar] baz</strong></p>' );
+
+			range = editor.getSelection().getRanges()[ 0 ];
+			clone = range.cloneContents();
+
+			assert.areSame( 'bar', clone.getHtml() );
+		},
+
+		'test cloneContents - beginning beginning and end text': function() {
+			var editor = this.editors.classic,
+				range,
+				clone;
+
+			bender.tools.selection.setWithHtml( editor, '<p>foo {<strong>bar} baz</strong></p>' );
+
+			range = editor.getSelection().getRanges()[ 0 ];
+			clone = range.cloneContents();
+
+			assert.areSame( 'bar', clone.getHtml() );
+		},
+		'test cloneContents - beginning and end element': function() {
+			var editor = this.editors.classic,
+				range,
+				clone;
+
+			bender.tools.selection.setWithHtml( editor, '<p>foo [<strong>bar] baz</strong></p>' );
+
+			range = editor.getSelection().getRanges()[ 0 ];
+			clone = range.cloneContents();
+
+			assert.areSame( 'bar', clone.getHtml() );
 		}
 	} );
 } )();
