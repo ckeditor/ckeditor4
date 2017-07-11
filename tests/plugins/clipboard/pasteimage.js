@@ -70,6 +70,8 @@
 		}
 	};
 
+	var expectedBlobRegExp = /<p>Paste image here: <img(\sdata-cke-saved-src="blob:[^"]*"|\ssrc="blob:[^"]*"|\sdata-cke-to-replace="[^"]*"){3}\s?\/?>\^<\/p>/i;
+
 	bender.test( {
 		setUp: function() {
 			if ( !CKEDITOR.env.gecko && !CKEDITOR.env.chrome && !CKEDITOR.env.edge ) {
@@ -85,7 +87,7 @@
 			FileReader.setReadResult( 'load' );
 
 			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
-			this.assertPaste( 'image/png', '<p>Paste image here: <img data-cke-saved-src="blob:" data-cke-to-replace="" src="blob:" />^@</p>' );
+			this.assertPaste( 'image/png', expectedBlobRegExp );
 		},
 
 		'test paste .jpeg from clipboard': function() {
@@ -106,23 +108,23 @@
 				'<p>Paste image here: <img data-cke-saved-src="blob:" data-cke-to-replace="" src="blob:" />^@</p>' );
 		},
 
-		'test unsupported file type': function() {
-			FileReader.setFileMockType( 'application/pdf' );
-			FileReader.setReadResult( 'load' );
-
-			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
-			this.assertPaste( 'application/pdf',
-				'<p>Paste image here: ^@</p>' );
-		},
-
-		// 'test aborted paste': function() {
-		// 	FileReader.setFileMockType( 'image/png' );
-		// 	FileReader.setReadResult( 'abort' );
+		// 'test unsupported file type': function() {
+		// 	FileReader.setFileMockType( 'application/pdf' );
+		// 	FileReader.setReadResult( 'load' );
 
 		// 	bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
-		// 	this.assertPaste( 'image/png',
+		// 	this.assertPasteDisable( 'application/pdf',
 		// 		'<p>Paste image here: ^@</p>' );
 		// },
+
+		'test aborted paste': function() {
+			FileReader.setFileMockType( 'image/png' );
+			FileReader.setReadResult( 'abort' );
+
+			bender.tools.selection.setWithHtml( this.editor, '<p>Paste image here: {}</p>' );
+			this.assertPaste( 'image/png',
+				'<p>Paste image here: ^@</p>' );
+		},
 
 		// 'test failed paste': function() {
 		// 	FileReader.setFileMockType( 'image/png' );
@@ -148,19 +150,18 @@
 		// 	mockPasteFile( this.editor, type );
 
 		// 	wait();
-		// }
+		// },
 
 		assertPaste: function( type, expected ) {
 			this.editor.once( 'paste', function() {
 				resume( function() {
-					var regExp = /(<p>Paste image here: <img data-cke-saved-src="blob:)|(" src="blob:)|(" data-cke-to-replace=")|(">\[]<\/p>)/g;
-					// TODO: This match method should be somewhere else.
-					assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( this.editor ).match( regExp ).join( '' ), {
-						noTempElements: true,
-						fixStyles: true,
-						compareSelection: true,
-						normalizeSelection: true
-					} );
+					// assert.isInnerHtmlMatching( expected, bender.tools.selection.getWithHtml( this.editor ), {
+					// 	noTempElements: true,
+					// 	fixStyles: true,
+					// 	compareSelection: true,
+					// 	normalizeSelection: true
+					// } );
+					assert.isTrue( expected.test( bender.tools.selection.getWithHtml( this.editor ) ) );
 				} );
 			}, this, null, 9999 );
 
