@@ -538,7 +538,7 @@
 			assert.isInnerHtmlMatching( '<p>Foo bar</p>', docFrag.getHtml(), 'Cloned HTML' );
 		},
 
-		// #426
+		// Variety of edge test cases with selection range in text and elements nodes inside one element and multiple ones (#426).
 		'test cloneContents - inner selection1': function() {
 			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>[bar} baz</strong> foo</p>', 'bar' );
 		},
