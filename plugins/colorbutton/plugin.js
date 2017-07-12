@@ -205,18 +205,22 @@ CKEDITOR.plugins.add( 'colorbutton', {
 			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, type ) {
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
-						applyColorStyle( color, type );
+						if ( color ) {
+							applyColor( color );
+							return;
+						}
 					} );
+				} else {
+					applyColor( color );
 				}
 
 				editor.focus();
 
 				editor.fire( 'saveSnapshot' );
 
-				// Clean up any conflicting style within the range.
-				editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
-
-				if ( color ) {
+				function applyColor( color ) {
+					// Clean up any conflicting style within the range.
+					editor.removeStyle( new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ], { color: 'inherit' } ) );
 					var colorStyle = config[ 'colorButton_' + type + 'Style' ];
 
 					colorStyle.childRule = type == 'back' ?
@@ -231,8 +235,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
 				}
-
-				editor.fire( 'saveSnapshot' );
 			} );
 
 			if ( config.colorButton_enableAutomatic !== false ) {
