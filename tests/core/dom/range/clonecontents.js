@@ -26,7 +26,7 @@
 
 			range = editor.getSelection().getRanges()[ 0 ];
 			clone = range.cloneContents();
-			assert.areSame( expectedHtml, clone.getHtml() );
+			assert.isInnerHtmlMatching( expectedHtml, clone.getHtml() );
 		},
 
 		test_cloneContents_W3C_1: function() {
@@ -569,17 +569,18 @@
 		'test cloneContents - outer selection4': function() {
 			this.assertHtmlFragment( this.editors.classic, '<p>foo [<strong>bar} baz</strong> foo</p>', '<strong>bar</strong>' );
 		},
+		// IE8 requires some text after
 		'test cloneContents - outer selection5': function() {
-			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>] foo</p>', '<strong>baz</strong>' );
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>x] foo</p>', '<strong>baz</strong>x' );
 		},
 		'test cloneContents - outer selection6': function() {
-			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>} foo</p>', '<strong>baz</strong>' );
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>x} foo</p>', '<strong>baz</strong>x' );
 		},
 		'test cloneContents - outer selection7': function() {
-			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>] foo</p>', '<strong>baz</strong>' );
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>x] foo</p>', '<strong>baz</strong>x' );
 		},
 		'test cloneContents - outer selection8': function() {
-			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>} foo</p>', '<strong>baz</strong>' );
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>x} foo</p>', '<strong>baz</strong>x' );
 		}
 
 	} );
