@@ -18,6 +18,17 @@
 			document.getElementById( 'playground' ).innerHTML = html1;
 		},
 
+		assertHtmlFragment: function( editor, innerHtmlWithSelection, expectedHtml ) {
+			var range,
+				clone;
+
+			bender.tools.selection.setWithHtml( editor, innerHtmlWithSelection );
+
+			range = editor.getSelection().getRanges()[ 0 ];
+			clone = range.cloneContents();
+			assert.areSame( expectedHtml, clone.getHtml() );
+		},
+
 		test_cloneContents_W3C_1: function() {
 			// W3C DOM Range Specs - Section 2.7 - Example 1
 
@@ -528,55 +539,48 @@
 		},
 
 		// #426
-		'test cloneContents - beginning element end text': function() {
-			var editor = this.editors.classic,
-				range,
-				clone;
-
-			bender.tools.selection.setWithHtml( editor, '<p>foo <strong>[bar} baz</strong></p>' );
-
-			range = editor.getSelection().getRanges()[ 0 ];
-			clone = range.cloneContents();
-
-			assert.areSame( 'bar', clone.getHtml() );
+		'test cloneContents - inner selection1': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>[bar} baz</strong> foo</p>', 'bar' );
 		},
-
-		'test cloneContents - beginning text outside end element': function() {
-			var editor = this.editors.classic,
-				range,
-				clone;
-
-			bender.tools.selection.setWithHtml( editor, '<p>foo {<strong>bar] baz</strong></p>' );
-
-			range = editor.getSelection().getRanges()[ 0 ];
-			clone = range.cloneContents();
-
-			assert.areSame( 'bar', clone.getHtml() );
+		'test cloneContents - inner selection2': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>{bar} baz</strong> foo</p>', 'bar' );
 		},
-
-		'test cloneContents - beginning beginning and end text': function() {
-			var editor = this.editors.classic,
-				range,
-				clone;
-
-			bender.tools.selection.setWithHtml( editor, '<p>foo {<strong>bar} baz</strong></p>' );
-
-			range = editor.getSelection().getRanges()[ 0 ];
-			clone = range.cloneContents();
-
-			assert.areSame( 'bar', clone.getHtml() );
+		'test cloneContents - inner selection3': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>{bar] baz</strong> foo</p>', 'bar' );
 		},
-		'test cloneContents - beginning and end element': function() {
-			var editor = this.editors.classic,
-				range,
-				clone;
-
-			bender.tools.selection.setWithHtml( editor, '<p>foo [<strong>bar] baz</strong></p>' );
-
-			range = editor.getSelection().getRanges()[ 0 ];
-			clone = range.cloneContents();
-
-			assert.areSame( 'bar', clone.getHtml() );
+		'test cloneContents - inner selection4': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz}</strong> foo</p>', 'baz' );
+		},
+		'test cloneContents - inner selection5': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz}</strong> foo</p>', 'baz' );
+		},
+		'test cloneContents - inner selection6': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz]</strong> foo</p>', 'baz' );
+		},
+		'test cloneContents - outer selection1': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo {<strong>bar] baz</strong> foo</p>', '<strong>bar</strong>' );
+		},
+		'test cloneContents - outer selection2': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo {<strong>bar} baz</strong> foo</p>', '<strong>bar</strong>' );
+		},
+		'test cloneContents - outer selection3': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo [<strong>bar] baz</strong> foo</p>', '<strong>bar</strong>' );
+		},
+		'test cloneContents - outer selection4': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo [<strong>bar} baz</strong> foo</p>', '<strong>bar</strong>' );
+		},
+		'test cloneContents - outer selection5': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>] foo</p>', '<strong>baz</strong>' );
+		},
+		'test cloneContents - outer selection6': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>} foo</p>', '<strong>baz</strong>' );
+		},
+		'test cloneContents - outer selection7': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>] foo</p>', '<strong>baz</strong>' );
+		},
+		'test cloneContents - outer selection8': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>} foo</p>', '<strong>baz</strong>' );
 		}
+
 	} );
 } )();
