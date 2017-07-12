@@ -203,6 +203,10 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				total = colors.length + ( moreColorsEnabled ? 2 : 1 );
 
 			var clickFn = CKEDITOR.tools.addFunction( function applyColorStyle( color, type ) {
+
+				editor.focus();
+				editor.fire( 'saveSnapshot' );
+
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
@@ -213,10 +217,6 @@ CKEDITOR.plugins.add( 'colorbutton', {
 				} else {
 					applyColor( color );
 				}
-
-				editor.focus();
-
-				editor.fire( 'saveSnapshot' );
 
 				function applyColor( color ) {
 					// Clean up any conflicting style within the range.
@@ -235,6 +235,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
 				}
+
 			} );
 
 			if ( config.colorButton_enableAutomatic !== false ) {
