@@ -204,9 +204,16 @@ CKEDITOR.dom.range = function( root ) {
 		// This allows us to not think about startNode == endNode case later on.
 		// We do that only when cloning, because in other cases we can safely split this text node
 		// and hence we can easily handle this case as many others.
-		if ( isClone && endNode.type == CKEDITOR.NODE_TEXT && startNode.equals( endNode ) ) {
-			startNode = range.document.createText( startNode.substring( startOffset, endOffset ) );
-			docFrag.append( startNode );
+		// #426 We need to handle situation when selection is located at the beginning of node,
+		// so in selection range start node get type == NODE_ELEMENT instead of NODE_TEXT
+		// We gain selecion like <b>[foo} bar</b>, instead of <b>{foo} bar</b>
+		if ( isClone &&
+			endNode.type == CKEDITOR.NODE_TEXT &&
+			( startNode.equals( endNode ) || ( startNode.type === CKEDITOR.NODE_ELEMENT && startNode.getFirst().equals( endNode ) ) ) ) {
+
+			// endNode is always text
+			endNode = range.document.createText( endNode.substring( startOffset, endOffset ) );
+			docFrag.append( endNode );
 			return;
 		}
 
