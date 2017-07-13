@@ -6,7 +6,9 @@
 
 	bender.editor = true;
 
-	var test = {
+	bender.test( {
+
+		// #579
 		'test advance table dialog for ignorig selection class': function() {
 			if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
 				assert.ignore();
@@ -14,7 +16,7 @@
 
 			var bot = this.editorBot;
 
-			// add table with fake selection.
+			// Add table with fake selection.
 			bot.setHtmlWithSelection( '<table border="1">[<tr><td>Cell1</td><td>Cell2</td></tr>]</table>' );
 
 			bot.dialog( 'tableProperties', function( dialog ) {
@@ -22,7 +24,5 @@
 				dialog.hide();
 			} );
 		}
-	};
-
-	bender.test( test );
+	} );
 } )();
