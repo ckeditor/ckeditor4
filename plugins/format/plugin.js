@@ -64,10 +64,13 @@ CKEDITOR.plugins.add( 'format', {
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
 
-				var style = styles[ value ];
+				var style = styles[ value ],
+					elementPath = editor.elementPath();
 
-				// Always aply style, do not allow on toggle it by clicking on list item (#584).
-				editor.applyStyle( style );
+				// Always apply style, do not allow on toggle it by clicking on list item (#584).
+				if ( !style.checkActive( elementPath, editor ) ) {
+					editor.applyStyle( style );
+				}
 
 				// Save the undo snapshot after all changes are affected. (http://dev.ckeditor.com/ticket/4899)
 				setTimeout( function() {

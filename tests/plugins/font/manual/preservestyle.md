@@ -2,10 +2,10 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, font, elementspath, sourcearea
 
-1. Select text
-1. Change `font size`, (e.g. `24`)
+1. Select some text.
+1. Change `font size`, (e.g. `24`).
 1. Select this same text. So size on list has selected proper option.
-1. Select this same size once again (e.g. `24`)
+1. Select this same size once again (e.g. `24`).
 1. Text should preserve proper font size.
 1. Now select option `(Default)` to reset font size.
 1. Font size should reset to default one and `<span>` with font size style should disappear.

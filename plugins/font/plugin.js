@@ -36,6 +36,7 @@
 			label: lang.label,
 			title: lang.panelTitle,
 			toolbar: 'styles,' + order,
+			defaultValue: 'cke-default',
 			allowedContent: style,
 			requiredContent: style,
 			contentTransformations: [
@@ -88,13 +89,12 @@
 
 			init: function() {
 				var name,
-					defaultValue = 'cke-default',
 					defaultText = '(' + editor.lang.common.optionDefault + ')';
 
 				this.startGroup( lang.panelTitle );
 
-				// Add `(Default)` item as first element on the drop down list.
-				this.add( defaultValue, defaultText, defaultText );
+				// Add `(Default)` item as a first element on the drop down list.
+				this.add( this.defaultValue, defaultText, defaultText );
 
 				for ( var i = 0; i < names.length; i++ ) {
 					name = names[ i ];
@@ -116,8 +116,7 @@
 					startBoundary,
 					endBoundary,
 					node,
-					bm,
-					defaultValue = 'cke-default';
+					bm;
 
 				// When applying one style over another, first remove the previous one (http://dev.ckeditor.com/ticket/12403).
 				// NOTE: This is only a temporary fix. It will be moved to the styles system (http://dev.ckeditor.com/ticket/12687).
@@ -171,7 +170,7 @@
 					}
 				}
 
-				if ( value === defaultValue ) {
+				if ( value === this.defaultValue ) {
 					if ( previousStyle ) {
 						editor.removeStyle( previousStyle );
 					}

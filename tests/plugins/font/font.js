@@ -23,6 +23,19 @@
 			}
 		},
 
+		assertCombo: function( comboName, comboValue, collapsed, bot, resultHtml, callback ) {
+			bot.combo( comboName, function( combo ) {
+				combo.onClick( comboValue );
+
+				this.wait( function() {
+					// The empty span from collapsed selection is lost on FF and IE8, insert something to prevent that.
+					collapsed && bot.editor.insertText( 'bar' );
+					assert.isInnerHtmlMatching( resultHtml, bot.editor.editable().getHtml(), htmlMatchingOpts );
+					callback && callback( bot );
+				}, 0 );
+			} );
+		},
+
 		'test apply font size (collapsed selection)': function() {
 			var bot = this.editorBot,
 				editor = this.editor;
@@ -209,17 +222,36 @@
 			this.assertCombo( 'Font', 'cke-default', false, bot, '<p>foo@</p>' );
 		},
 
-		assertCombo: function( comboName, comboValue, collapsed, bot, resultHtml, callback ) {
-			bot.combo( comboName, function( combo ) {
-				combo.onClick( comboValue );
+		'test reaaply this same font size twice': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
 
+			bot.combo( 'FontSize', function( combo ) {
+				combo.onClick( 24 );
 				this.wait( function() {
-					// The empty span from collapsed selection is lost on FF and IE8, insert something to prevent that.
-					collapsed && bot.editor.insertText( 'bar' );
-					assert.isInnerHtmlMatching( resultHtml, bot.editor.editable().getHtml(), htmlMatchingOpts );
-					callback && callback( bot );
+					combo.onClick( 24 );
+					this.wait( function() {
+						assert.isInnerHtmlMatching( '<p><span style="font-size:24px">foo</span>@</p>', bot.editor.editable().getHtml(), htmlMatchingOpts );
+					}, 0 );
+				}, 0 );
+			} );
+
+		},
+
+		'test reaaply this same font family twice': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
+
+			bot.combo( 'Font', function( combo ) {
+				combo.onClick( 'Arial' );
+				this.wait( function() {
+					combo.onClick( 'Arial' );
+					this.wait( function() {
+						assert.isInnerHtmlMatching( '<p><span style="' + ffArial + '">foo</span>@</p>', bot.editor.editable().getHtml(), htmlMatchingOpts );
+					}, 0 );
 				}, 0 );
 			} );
 		}
+
 	} );
 } )();
