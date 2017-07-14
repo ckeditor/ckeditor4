@@ -66,7 +66,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.editor_indents = 100;
 
 	// '*(*);*{*}' allows any class and any inline style.
-	config.extraAllowedContent = '*[data-style, data-id, list-item, table-parent-id, par-style, start, type, contenteditable, href, content-editable]; *(*); *{*}; span(*); table[cellspacing, cellpadding]; tr; td; tbody; div;h1;h2;h3;h4;h5;h6; a;';
+	config.extraAllowedContent = '*[data-placeholder-id, data-style, data-id, list-item, table-parent-id, par-style, start, type, contenteditable, href, content-editable]; *(*); *{*}; span(*); table[cellspacing, cellpadding]; tr; td; tbody; div;h1;h2;h3;h4;h5;h6; a;';
 
 	// Disable auto remove empty span
 	CKEDITOR.dtd.$removeEmpty.span = 0;
@@ -78,7 +78,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.coreStyles_italic = { element: 'span', styles: { 'font-style': 'italic' }, overrides: 'em' };
 	config.coreStyles_underline = { element: 'span', styles: { 'text-decoration': 'underline' }, overrides: 'u' };
 
-	config.pasteDisallowContent = '*[data-id, table-parent-id, table-id, par-style, class]';
+	config.pasteDisallowContent = '*[data-id, table-parent-id, table-id, par-style, class, data-placeholder-id]';
 	config.pasteFromWordRemoveFontStyles = false;
 	config.pasteFromWordRemoveStyles = false;
 
