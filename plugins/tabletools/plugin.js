@@ -303,6 +303,7 @@
 	}
 
 	function deleteColumns( selection ) {
+		// debugger;
 		var ranges = selection.getRanges(),
 			cells = getSelectedCells( selection ),
 			firstCell = cells[ 0 ],
@@ -317,10 +318,15 @@
 		// Figure out selected cells' column indices.
 		for ( var i = 0, rows = map.length; i < rows; i++ ) {
 			for ( var j = 0, cols = map[ i ].length; j < cols; j++ ) {
-				if ( map[ i ][ j ] == firstCell.$ )
+				// #577
+				// Map might contain multiple times this same element, because of existings collspan.
+				// We don't want to overwrite startIndex in such situation and take first one.
+				if ( !startColIndex && map[ i ][ j ] == firstCell.$ ) {
 					startColIndex = j;
-				if ( map[ i ][ j ] == lastCell.$ )
+				}
+				if ( map[ i ][ j ] == lastCell.$ ) {
 					endColIndex = j;
+				}
 			}
 		}
 
@@ -332,27 +338,34 @@
 					cell = new CKEDITOR.dom.element( mapRow[ i ] );
 
 				if ( cell.$ ) {
-					if ( cell.$.colSpan == 1 )
+					if ( cell.$.colSpan == 1 ) {
 						cell.remove();
-					// Reduce the col spans.
-					else
+					} else {
+						// Reduce the col spans.
 						cell.$.colSpan -= 1;
+					}
 
 					j += cell.$.rowSpan - 1;
 
-					if ( !row.$.cells.length )
+					if ( !row.$.cells.length ) {
 						rowsToDelete.push( row );
+					}
 				}
 			}
 		}
-
-		var firstRowCells = table.$.rows[ 0 ] && table.$.rows[ 0 ].cells;
 
 		// Where to put the cursor after columns been deleted?
 		// 1. Into next cell of the first row if any;
 		// 2. Into previous cell of the first row if any;
 		// 3. Into table's parent element;
-		var cursorPosition = new CKEDITOR.dom.element( firstRowCells[ startColIndex ] || ( startColIndex ? firstRowCells[ startColIndex - 1 ] : table.$.parentNode ) );
+		var cursorPosition;
+		if ( map[ 0 ].length - 1 > endColIndex && map[ 0 ][ endColIndex + 1 ].cellIndex !== -1 ) {
+			cursorPosition = new CKEDITOR.dom.element( map[ 0 ][ endColIndex + 1 ] );
+		} else if ( startColIndex && map[ 0 ][ startColIndex - 1 ].cellIndex !== -1 ) {
+			cursorPosition = new CKEDITOR.dom.element( map[ 0 ][ startColIndex - 1 ] );
+		} else {
+			cursorPosition = new CKEDITOR.dom.element( table.$.parentNode );
+		}
 
 		// Delete table rows only if all columns are gone (do not remove empty row).
 		if ( rowsToDelete.length == rows ) {
