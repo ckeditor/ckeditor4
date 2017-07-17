@@ -187,7 +187,7 @@ bender.test(
 			bot.setHtmlWithSelection( 'foo^bar<br />bom' );
 
 			// None on.
-			tc.assertCommandState( 2, 2, 2, 2, editor );
+			tc.assertCommandState( 1, 2, 2, 2, editor );
 
 			// Align paragraph right;
 			bot.execCommand( 'justifyright' );
