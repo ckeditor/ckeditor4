@@ -303,7 +303,6 @@
 	}
 
 	function deleteColumns( selection ) {
-		// debugger;
 		var ranges = selection.getRanges(),
 			cells = getSelectedCells( selection ),
 			firstCell = cells[ 0 ],
@@ -321,7 +320,7 @@
 				// #577
 				// Map might contain multiple times this same element, because of existings collspan.
 				// We don't want to overwrite startIndex in such situation and take first one.
-				if ( !startColIndex && map[ i ][ j ] == firstCell.$ ) {
+				if ( startColIndex === undefined && map[ i ][ j ] == firstCell.$ ) {
 					startColIndex = j;
 				}
 				if ( map[ i ][ j ] == lastCell.$ ) {

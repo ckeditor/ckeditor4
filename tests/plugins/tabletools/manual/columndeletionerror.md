@@ -1,0 +1,14 @@
+@bender-tags: 4.7.2, bug, 577
+@bender-ui: collapsed
+@bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, tableselection, contextmenu, undo
+
+1. Open browser console.
+1. Select some cells somwhere under merged header.
+1. Selection should use `tableselection` plugin.
+1. Right click to open cntentxt menu.
+1. Select Column -> Delete Column.
+1. You can use `Undo` command and try remove different columns.
+
+**Expected:** Columns are deleted. There is no error in the console.
+
+**Unexpected:** Error is thrown in a console. Columns are not removed.
