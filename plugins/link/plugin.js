@@ -95,7 +95,7 @@
 				// If the link has descendants and the last part of it is also a part of a word partially
 				// unlinked, clicked element may be a descendant of the link, not the link itself (http://dev.ckeditor.com/ticket/11956).
 				// The evt.data.element.getAscendant( 'img', 1 ) condition allows opening anchor dialog if the anchor is empty (#501).
-				var element = evt.data.element.getAscendant( 'a', 1 ) || evt.data.element.getAscendant( 'img', 1 );
+				var element = evt.data.element.getAscendant( { a: 1, img: 1 }, true );
 
 				if ( element && !element.isReadOnly() ) {
 					if ( element.is( 'a' ) ) {
