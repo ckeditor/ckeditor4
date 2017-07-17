@@ -634,7 +634,7 @@ Area.prototype = {
 				parseInt( notification.getComputedStyle( 'margin-right' ), 10 );
 		}
 
-		// Check if toolbar exist and if so, then assign values to it.
+		// Check if toolbar exist and if so, then assign values to it (#491).
 		if ( editor.toolbar ) {
 			top = editor.ui.space( 'top' );
 			topRect = top.getClientRect();
