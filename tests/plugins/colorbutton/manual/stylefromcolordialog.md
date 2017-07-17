@@ -17,6 +17,6 @@
 2. Click `Text Colour` button and `More Colours` button.
 3. Select color and click `OK` button.
 4. Start typing. (**Expected:** The typed text has a color chosen in step 3).
-5. Check wether `Undo`/`Redo` button works correctly.
+5. Check whether `Undo`/`Redo` button works correctly.
 
 Repeat scenarios above but instead of `Text Colour` button use `Background Colour` button.
