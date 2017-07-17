@@ -2,18 +2,23 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, undo
 
-**Scenario:**
+**Scenario 1:**
 
 1. Select text in editor.
 2. Click `Text Colour` button.
 3. Change color by using a proposed color. (**Expected:** Text color has been changed. Text is selected.)
-5. Click `Text Colour` button.
-6. Click `More Colours` button.
-7. Select color and click `OK` button. (**Expected:** Text color has been changed. Text is selected.)
-8. Click `Text Colour` button.
-9. Click `More Colours` button.
-10. Click `Cancel` button. (**Expected:** Text color has not been changed. Text is selected.)
-11. Check wether `Undo`/`Redo` button works correctly.
+4. Click `Text Colour` button and `More Colours` button.
+5. Select color and click `OK` button. (**Expected:** Text color has been changed. Text is selected.)
+6. Click `Text Colour` button and `More Colours` button.
+7. Click `Cancel` button. (**Expected:** Text color has not been changed. Text is selected.)
+8. Check wether `Undo`/`Redo` button works correctly.
 
-Repeat steps above but instead of `Text Colour` button use `Background Colour` button.
+**Scenario 2:**
 
+1. Lose focus by clicking outside the editor.
+2. Click `Text Colour` button and `More Colours` button.
+3. Select color and click `OK` button.
+4. Start typing. (**Expected:** The typed text has a color chosen in step 3).
+5. Repeat steps 2, 3 and 4.
+
+Repeat scenarios above but instead of `Text Colour` button use `Background Colour` button.

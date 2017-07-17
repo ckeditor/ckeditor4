@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: colorbutton,toolbar,wysiwygarea */
+/* bender-ckeditor-plugins: colorbutton,colordialog,toolbar,wysiwygarea */
 
 ( function() {
 	'use strict';
@@ -81,6 +81,37 @@
 				bgColorBtn.click( editor );
 				assert.areEqual( 0, bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( '.cke_colorauto' ).count(), 'Automatic button should not be visible.' );
 			} );
+		},
+
+		// 590
+		'test changing text color': function() {
+			var ed = this.editor,
+				bot = this.editorBot,
+				txtColorBtn = ed.ui.get( 'TextColor' ),
+				frame;
+
+			ed.on( 'dialogHide', function() {
+				assert.areEqual( '<h1><span style="color:#ff3333">Moo</span></h1>', ed.getData() );
+			} );
+
+			ed.on( 'dialogShow', function( evt ) {
+				setTimeout( function() {
+					var dialog = evt.data;
+					dialog.setValueOf( 'picker', 'selectedColor', '#ff3333' );
+					dialog.getButton( 'ok' ).click();
+					resume();
+				}, 0 );
+			} );
+
+			bot.setHtmlWithSelection( '[<h1>Moo</h1>]' );
+			txtColorBtn.click( ed );
+
+			setTimeout( function() {
+				frame = document.querySelector( '.cke_panel_frame' );
+				frame.contentDocument.querySelector( '.cke_colormore' ).click();
+			}, 0 );
+
+			wait();
 		}
 	} );
 } )();
