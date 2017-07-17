@@ -196,7 +196,7 @@
 			if ( ( this.cssClassName && editor.activeFilter.check( name + '(' + this.cssClassName + ')' ) ) ||
 					editor.activeFilter.check( name + '{text-align}' ) ||
 					( firstBlock.equals( editor.editable() ) && path.elements.length === 1 ) ) {
-				this.setState( name != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+				this.setState( getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			} else {
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
