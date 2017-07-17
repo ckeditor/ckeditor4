@@ -206,6 +206,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
+
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
