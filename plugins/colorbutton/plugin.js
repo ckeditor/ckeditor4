@@ -206,16 +206,14 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 				editor.focus();
 				editor.fire( 'saveSnapshot' );
-
 				if ( color == '?' ) {
 					editor.getColorFromDialog( function( color ) {
 						if ( color ) {
-							applyColor( color );
-							return;
+							return applyColor( color );
 						}
 					} );
 				} else {
-					applyColor( color );
+					return applyColor( color );
 				}
 
 				function applyColor( color ) {
@@ -233,6 +231,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 						return !( element.is( 'a' ) || element.getElementsByTag( 'a' ).count() ) || isUnstylable( element );
 					};
 
+					editor.focus();
 					editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
 				}
 
