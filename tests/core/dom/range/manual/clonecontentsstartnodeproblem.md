@@ -2,9 +2,10 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: divarea, toolbar, basicstyles
 
-1. Make selection of **bar** word
-1. Press button below editor
+1. Select `bar` word in the editor.
+1. Press button below editor.
+1. Check result below.
 
-**Expected:** There will be displayed `bar` below with green background. It's possible that, result will be as follows: `<strong>bar</strong>`, what is ok.
+**Expected:** There will be displayed `bar` below editor within green background. It's possible that result will be `<strong>bar</strong>`, what is also ok.
 
 **Unexpected:** There will be displayed `bar baz` below with green background.

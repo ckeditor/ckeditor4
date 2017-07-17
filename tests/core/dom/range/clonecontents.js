@@ -581,7 +581,19 @@
 		},
 		'test cloneContents - outer selection8': function() {
 			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>x} foo</p>', '<strong>baz</strong>x' );
+		},
+		'test cloneContents - no gap between': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>[<strong>bar baz</strong>]</p>', '<strong>bar baz</strong>' );
+		},
+		'test cloneContents - nested elements1': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>[bar <em>baz</em>]</strong> foo</p>', 'bar <em>baz</em>' );
+		},
+		'test cloneContents - nested elements2': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>fo[o <strong>bar <em>b]az</em></strong> foo</p>', 'o <strong>bar <em>b</em></strong>' );
+		},
+		'test cloneContents - multiple nested elements': function() {
+			this.assertHtmlFragment( this.editors.classic, '<p>fo[o <strong>bar <em>baz</em></strong></p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo]o</p>',
+			'<p>o <strong>bar <em>baz</em></strong></p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo</p>' );
 		}
-
 	} );
 } )();

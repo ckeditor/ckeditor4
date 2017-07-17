@@ -12,7 +12,6 @@
 	var editor = CKEDITOR.replace( 'editor1' );
 
 	document.getElementById( 'getFragment' ).onclick = function() {
-		// debugger;
 		document.getElementById( 'result' ).innerText = editor.getSelection().getRanges()[ 0 ].cloneContents().getHtml()
 	}
 </script>
