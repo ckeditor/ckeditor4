@@ -310,6 +310,7 @@
 				// If forced type is 'html' we don't need to know true data type.
 				if ( type == 'html' || dataObj.preSniffing == 'html' ) {
 					trueType = 'html';
+					data = filterContent( editor, data, editor.pasteFilterAllowStyles );
 				} else {
 					trueType = recogniseContentType( data );
 				}
