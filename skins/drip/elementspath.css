@@ -40,14 +40,12 @@ span.cke_path_empty
 	outline: 0;
 	border: 0;
 	color: #05132B;
-	font-weight: normal;
+	font: normal 12px/14px "proxima-nova", Helvetica, Arial, sans-serif;
 }
 a.cke_path_item
 {
   padding: 2px 6px;
   border-radius: 3px;
-  font-size: 12px;
-  line-height: 14px;
 }
 
 .cke_rtl .cke_path,
@@ -70,9 +68,12 @@ a.cke_path_item:active
 }
 
 .cke_wordcount {
-  font-size: 12px;
-  line-height: 18px;
   float: right;
 	color: #05132B;
   margin: 0 6px;
+}
+
+
+.cke_wordcount .cke_path_item {
+	font: normal 12px/18px "proxima-nova", Helvetica, Arial, sans-serif!important;
 }
