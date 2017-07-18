@@ -234,6 +234,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 
 					editor.focus();
 					editor.applyStyle( new CKEDITOR.style( colorStyle, { color: color } ) );
+					editor.fire( 'saveSnapshot' );
 				}
 
 			} );
