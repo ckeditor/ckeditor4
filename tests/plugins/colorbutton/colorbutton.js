@@ -6,6 +6,26 @@
 
 	bender.editor = true;
 
+	function onDialogShow( editor ) {
+		editor.on( 'dialogShow', function( evt ) {
+			setTimeout( function() {
+				var dialog = evt.data;
+				dialog.setValueOf( 'picker', 'selectedColor', '#ff3333' );
+				dialog.getButton( 'ok' ).click();
+				resume();
+			}, 0 );
+		} );
+	}
+
+	function openColorDialog( frame ) {
+		setTimeout( function() {
+			frame = document.querySelector( '.cke_panel_frame' );
+			frame.contentDocument.querySelector( '.cke_colormore' ).click();
+		}, 0 );
+
+		wait();
+	}
+
 	bender.test( {
 		'test opening text/background color': function() {
 			var ed = this.editor, bot = this.editorBot;
@@ -94,22 +114,33 @@
 				assert.areEqual( '<h1><span style="color:#ff3333">Moo</span></h1>', ed.getData() );
 			} );
 
-			ed.on( 'dialogShow', function( evt ) {
-				setTimeout( function() {
-					var dialog = evt.data;
-					dialog.setValueOf( 'picker', 'selectedColor', '#ff3333' );
-					dialog.getButton( 'ok' ).click();
-					resume();
-				}, 0 );
-			} );
-
+			onDialogShow( ed );
 			bot.setHtmlWithSelection( '[<h1>Moo</h1>]' );
-			txtColorBtn.click( ed );
 
-			setTimeout( function() {
-				frame = document.querySelector( '.cke_panel_frame' );
-				frame.contentDocument.querySelector( '.cke_colormore' ).click();
-			}, 0 );
+			txtColorBtn.click( ed );
+			openColorDialog( frame );
+		},
+
+		// 590
+		'test changing text color with no focus': function() {
+			var editor = CKEDITOR.replace( 'editor' ),
+				frame;
+
+			editor.on( 'instanceReady', function() {
+				resume( function() {
+					var txtColorBtn = editor.ui.get( 'TextColor' );
+
+					editor.on( 'dialogHide', function() {
+						editor.insertText( 'foo' );
+						assert.areEqual( '<p><span style="color:#ff3333">foo</span></p>', editor.getData() );
+					} );
+
+					onDialogShow( editor );
+
+					txtColorBtn.click( editor );
+					openColorDialog( frame );
+				} );
+			} );
 
 			wait();
 		}
