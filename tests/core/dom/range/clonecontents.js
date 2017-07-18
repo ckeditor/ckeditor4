@@ -557,32 +557,60 @@
 		'test cloneContents - inner selection6': function() {
 			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz]</strong> foo</p>', 'baz' );
 		},
+		// Safari always keeps selection insdie node.
 		'test cloneContents - outer selection1': function() {
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo {<strong>bar] baz</strong> foo</p>', '<strong>bar</strong>' );
 		},
 		'test cloneContents - outer selection2': function() {
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo {<strong>bar} baz</strong> foo</p>', '<strong>bar</strong>' );
 		},
 		'test cloneContents - outer selection3': function() {
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo [<strong>bar] baz</strong> foo</p>', '<strong>bar</strong>' );
 		},
 		'test cloneContents - outer selection4': function() {
+			if ( CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo [<strong>bar} baz</strong> foo</p>', '<strong>bar</strong>' );
 		},
-		// IE8 requires some text after
+		// IE8 keeps selection of endpoint inside node.
 		'test cloneContents - outer selection5': function() {
-			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>x] foo</p>', '<strong>baz</strong>x' );
+			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>] foo</p>', '<strong>baz</strong>' );
 		},
 		'test cloneContents - outer selection6': function() {
-			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>x} foo</p>', '<strong>baz</strong>x' );
+			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>} foo</p>', '<strong>baz</strong>' );
 		},
 		'test cloneContents - outer selection7': function() {
-			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>x] foo</p>', '<strong>baz</strong>x' );
+			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>] foo</p>', '<strong>baz</strong>' );
 		},
 		'test cloneContents - outer selection8': function() {
-			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>x} foo</p>', '<strong>baz</strong>x' );
+			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
+			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>} foo</p>', '<strong>baz</strong>' );
 		},
 		'test cloneContents - no gap between': function() {
+			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
+				assert.ignore();
+			}
 			this.assertHtmlFragment( this.editors.classic, '<p>[<strong>bar baz</strong>]</p>', '<strong>bar baz</strong>' );
 		},
 		'test cloneContents - nested elements1': function() {
@@ -593,7 +621,7 @@
 		},
 		'test cloneContents - multiple nested elements': function() {
 			this.assertHtmlFragment( this.editors.classic, '<p>fo[o <strong>bar <em>baz</em></strong></p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo]o</p>',
-			'<p>o <strong>bar <em>baz</em></strong></p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo</p>' );
+			'<p>o <strong>bar <em>baz</em></strong>@</p><table><tbody><tr><td>hello</td></tr><tr><td>world</td></tr></tbody></table><p>fo</p>' );
 		}
 	} );
 } )();
