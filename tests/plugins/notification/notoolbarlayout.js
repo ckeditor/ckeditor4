@@ -16,21 +16,23 @@
 
 			editor.once( 'notificationShow', function( evt ) {
 				// just wait after entire call stack will be free, so notification will be visible.
-				setTimeout( resume( function() {
-					var contentRect = editor.ui.contentsElement.getClientRect(),
-						notificationRect = evt.data.notification.element.getClientRect();
+				setTimeout( function() {
+					resume( function() {
+						var contentRect = editor.ui.contentsElement.getClientRect(),
+							notificationRect = evt.data.notification.element.getClientRect();
 
-					assert.areSame( 'foo', evt.data.notification.message );
-					assert.areSame( 'warn', evt.data.notification.type );
+						assert.areSame( 'foo', evt.data.notification.message );
+						assert.areSame( 'warn', evt.data.notification.type );
 
-					// editor size should be enought to kept message inside editable
-					bender.assert.isNumberInRange( parseInt( notificationRect.left, 10 ), parseInt( contentRect.left, 10 ), parseInt( contentRect.right, 10 ) );
-					bender.assert.isNumberInRange( parseInt( notificationRect.right, 10 ), parseInt( contentRect.left, 10 ), parseInt( contentRect.right, 10 ) );
-					bender.assert.isNumberInRange( parseInt( notificationRect.top, 10 ), parseInt( contentRect.top, 10 ), parseInt( contentRect.bottom, 10 ) );
-					bender.assert.isNumberInRange( parseInt( notificationRect.bottom, 10 ), parseInt( contentRect.top, 10 ), parseInt( contentRect.bottom, 10 ) );
+						// editor size should be enought to kept message inside editable
+						bender.assert.isNumberInRange( parseInt( notificationRect.left, 10 ), parseInt( contentRect.left, 10 ), parseInt( contentRect.right, 10 ) );
+						bender.assert.isNumberInRange( parseInt( notificationRect.right, 10 ), parseInt( contentRect.left, 10 ), parseInt( contentRect.right, 10 ) );
+						bender.assert.isNumberInRange( parseInt( notificationRect.top, 10 ), parseInt( contentRect.top, 10 ), parseInt( contentRect.bottom, 10 ) );
+						bender.assert.isNumberInRange( parseInt( notificationRect.bottom, 10 ), parseInt( contentRect.top, 10 ), parseInt( contentRect.bottom, 10 ) );
 
-					evt.data.notification.hide();
-				} ), 0 );
+						evt.data.notification.hide();
+					} );
+				}, 0 );
 			} );
 
 			editor.showNotification( 'foo', 'warn' );
