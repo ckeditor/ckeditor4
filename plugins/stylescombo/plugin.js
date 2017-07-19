@@ -141,7 +141,8 @@
 
 				onOpen: function() {
 					var selection = editor.getSelection(),
-						element = selection.getSelectedElement(),
+						// When editor is focused but is returned `null` as selected element, then return editable (#646);
+						element = selection.getSelectedElement() || editor.editable(),
 						elementPath = editor.elementPath( element ),
 						counter = [ 0, 0, 0, 0 ];
 
