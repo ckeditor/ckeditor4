@@ -60,6 +60,40 @@
 				assert.areSame( '<h2 style="font-style:italic">A</h2><p>X<big>Y</big>Z</p>',
 					bot.editor.dataProcessor.toHtml( '<h2 style="font-style:italic">A</h2><p>X<big>Y</big>Z</p>' ) );
 			} );
+		},
+
+		// #646
+		'test for applying style without selection': function() {
+			bender.editorBot.create( {
+				name: 'style_error',
+				config: {
+					removePlugins: 'format,font'
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+				var selection = editor.getSelection();
+
+				var stub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getNative', function() {
+					if ( typeof window.getSelection != 'function' ) {
+						this.document.$.selection.empty();
+						return this.document.$.selection;
+					}
+					this.document.getWindow().$.getSelection().removeAllRanges();
+					return this.document.getWindow().$.getSelection();
+
+				} );
+
+				selection.removeAllRanges();
+				selection.reset();
+				try {
+					bot.combo( 'Styles', function() {
+						assert.pass();
+					} );
+				} finally {
+					stub.restore();
+				}
+
+			} );
 		}
 	} );
 } )();
