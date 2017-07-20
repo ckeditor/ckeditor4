@@ -558,7 +558,7 @@ bender.test(
 			bot.setData( 'Foo<br /><ul><li>one</li><li>two</li><li>three</li></ul>', function() {
 				var editable = editor.editable();
 				var range = new CKEDITOR.dom.range( editable );
-				// have sure that ul is selected regardless of browser;
+				// Selection in such way to have sure that `ul` is set up as start and end node.
 				range.selectNodeContents( editable.findOne( 'ul' ) );
 				range.select();
 				tc.assertCommandState( 0,0,0,0, editor );

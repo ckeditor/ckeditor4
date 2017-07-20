@@ -189,12 +189,12 @@
 		refresh: function( editor, path ) {
 			var firstBlock = path.block || path.blockLimit;
 			var name = firstBlock.getName();
+
 			// #455
 			// 1. Check if we are directly in editbale. Justification should be always allowed, and not highlighted.
 			//    Checking path.elements.length is required to filter out situation `body > ul` where ul is selected and path.blockLimit returns editable.
 			// 2. Check if current element can have applied specific class.
 			// 3. Check if current element can have applied text-align style.
-
 			if ( firstBlock.equals( editor.editable() ) ) {
 				// This statement is only check when path.blockLimit is equal to editable.
 				if ( path.elements.length === 1 ) {
@@ -202,12 +202,12 @@
 					this.setState( CKEDITOR.TRISTATE_OFF );
 				} else {
 					// Disable buttons if selection is not in splitable section directly under editable.
-					// e.g. `ul` under `div` type editable and filter "div{text-align};ul"
+					// E.g. `ul` under `div` type editable and editor filter set up to: "div{text-align};ul".
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				}
-			} else if ( ( this.cssClassName && editor.activeFilter.check( name + '(' + this.cssClassName + ')' ) ) ) {
-				this.setState( getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-			} else if ( editor.activeFilter.check( name + '{text-align}' ) ) {
+			} else if ( ( this.cssClassName && editor.activeFilter.check( name + '(' + this.cssClassName + ')' ) ) ||
+						( editor.activeFilter.check( name + '{text-align}' ) ) ) {
+				// 2 & 3 in one condition.
 				this.setState( getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			} else {
 				this.setState( CKEDITOR.TRISTATE_DISABLED );
