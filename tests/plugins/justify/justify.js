@@ -186,8 +186,8 @@ bender.test(
 
 			bot.setHtmlWithSelection( 'foo^bar<br />bom' );
 
-			// Now left align will be on in such situation.
-			tc.assertCommandState( 1, 2, 2, 2, editor );
+			// None on.
+			tc.assertCommandState( 2, 2, 2, 2, editor );
 
 			// Align paragraph right;
 			bot.execCommand( 'justifyright' );
@@ -350,7 +350,7 @@ bender.test(
 			tc.assertCommandState( 0,0,0,0, editor );
 
 			bot.setHtmlWithSelection( 'f^oo<ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 1,2,2,2, editor );
+			tc.assertCommandState( 2,2,2,2, editor );
 
 			bot.execCommand( 'justifyblock' );
 			tc.assertCommandState( 2,2,2,1, editor );
@@ -375,7 +375,7 @@ bender.test(
 			tc.assertCommandState( 0,0,0,0, editor );
 
 			bot.setHtmlWithSelection( 'f^oo<ul><li>one</li><li>two</li><li>three</li></ul>' );
-			tc.assertCommandState( 1,2,2,2, editor );
+			tc.assertCommandState( 2,2,2,2, editor );
 
 			bot.execCommand( 'justifyblock' );
 			tc.assertCommandState( 2,2,2,1, editor );
@@ -542,6 +542,27 @@ bender.test(
 
 			assert.areSame( '<p class="alignCenter">foo</p><h1>bar</h1><p class="alignCenter">baz</p>', bot.getData() );
 		} );
-	}
+	},
 
+	'test alignment on disabled elements block type under editable': function() {
+		var	tc = this;
+		bender.editorBot.create( {
+			name: 'editor_div_3',
+			config: {
+				plugins: 'justify,toolbar,divarea',
+				allowedContent: 'div{text-align};ul li;',
+				enterMode: CKEDITOR.ENTER_BR
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+			bot.setData( 'Foo<br /><ul><li>one</li><li>two</li><li>three</li></ul>', function() {
+				var editable = editor.editable();
+				var range = new CKEDITOR.dom.range( editable );
+				// have sure that ul is selected regardless of browser;
+				range.selectNodeContents( editable.findOne( 'ul' ) );
+				range.select();
+				tc.assertCommandState( 0,0,0,0, editor );
+			} );
+		} );
+	}
 } );
