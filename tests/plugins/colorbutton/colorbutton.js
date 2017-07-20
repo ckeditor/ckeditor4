@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: colorbutton,colordialog,toolbar,wysiwygarea */
+/* bender-ckeditor-plugins: colorbutton,colordialog,undo,toolbar,wysiwygarea */
 
 ( function() {
 	'use strict';
@@ -24,6 +24,20 @@
 		}, 0 );
 
 		wait();
+	}
+
+	function assertUndoRedo( editor, firstUndo, secondUndo, firstRedo, secondRedo ) {
+		editor.execCommand( 'undo' );
+		assert.areEqual( firstUndo, editor.getData(), 'after 1st undo' );
+
+		editor.execCommand( 'undo' );
+		assert.areEqual( secondUndo, editor.getData(), 'after 2nd undo' );
+
+		editor.execCommand( 'redo' );
+		assert.areEqual( firstRedo, editor.getData(), 'after 1st redo' );
+
+		editor.execCommand( 'redo' );
+		assert.areEqual( secondRedo, editor.getData(), 'after 2nd redo' );
 	}
 
 	bender.test( {
@@ -112,6 +126,7 @@
 
 			ed.on( 'dialogHide', function() {
 				assert.areEqual( '<h1><span style="color:#ff3333">Moo</span></h1>', ed.getData() );
+				assertUndoRedo( ed, '<h1>Moo</h1>', '', '<h1>Moo</h1>', '<h1><span style="color:#ff3333">Moo</span></h1>' );
 			} );
 
 			onDialogShow( ed );
@@ -123,16 +138,22 @@
 
 		// 590
 		'test changing text color with no focus': function() {
-			var editor = CKEDITOR.replace( 'editor' ),
-				frame;
+			bender.editorBot.create( {
+				name: 'editor3',
+				config: {
+					colorButton_enableAutomatic: false
+				}
+			}, function( bot ) {
+				var editor = bot.editor,
+					txtColorBtn = editor.ui.get( 'TextColor' ),
+					frame;
 
-			editor.on( 'instanceReady', function() {
 				resume( function() {
-					var txtColorBtn = editor.ui.get( 'TextColor' );
-
 					editor.on( 'dialogHide', function() {
 						editor.insertText( 'foo' );
-						assert.areEqual( '<p><span style="color:#ff3333">foo</span></p>', editor.getData() );
+
+						assert.areEqual( '<p><span style="color:#ff3333">foo</span></p>', editor.getData(), 'after text insert' );
+						assertUndoRedo( editor, '', '', '', '<p><span style="color:#ff3333">foo</span></p>' );
 					} );
 
 					onDialogShow( editor );
@@ -140,9 +161,9 @@
 					txtColorBtn.click( editor );
 					openColorDialog( frame );
 				} );
-			} );
 
-			wait();
+				wait();
+			} );
 		}
 	} );
 } )();
