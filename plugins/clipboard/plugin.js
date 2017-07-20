@@ -147,6 +147,9 @@
 			var supportedImageTypes = [ 'image/png', 'image/jpeg', 'image/gif' ],
 				latestId;
 
+			// Store pasted images data (blob file, blob url, base64).
+			var blobs = [];
+
 			editor.on( 'paste', function( evt ) {
 				var dataObj = evt.data,
 					data = dataObj.dataValue,
@@ -154,18 +157,38 @@
 
 				// If data empty check for image content inside data transfer. http://dev.ckeditor.com/ticket/16705
 				if ( !data && dataObj.method == 'paste' && dataTransfer && dataTransfer.getFilesCount() == 1 && latestId != dataTransfer.id ) {
-					var file = dataTransfer.getFile( 0 );
+					var blobFile = dataTransfer.getFile( 0 );
 
-					if ( CKEDITOR.tools.indexOf( supportedImageTypes, file.type ) != -1 ) {
-						var url = URL.createObjectURL( file );
+					if ( CKEDITOR.tools.indexOf( supportedImageTypes, blobFile.type ) != -1 ) {
+						var blobUrl = URL.createObjectURL( blobFile );
 						latestId = dataObj.dataTransfer.id;
 
+						blobToBase64( blobFile, function( e ) {
+							blobs.push( [ blobUrl, e.target.result, blobFile ] );
+						} );
+
 						evt.stop();
-						evt.data.dataValue = '<img src="' + url + '" data-cke-to-replace="' + latestId + '">';
+						evt.data.dataValue = '<img src="' + blobUrl + '" data-cke-to-replace="' + latestId + '">';
 						editor.fire( 'paste', evt.data );
 					}
 				}
 			}, null, null, 1 );
+
+			editor.on( 'getData', function( evt ) {
+				var editorData = evt.data.dataValue,
+					regex = /blob:[^"]*/g,
+					matches = editorData.match( regex );
+
+				if ( matches ) {
+					for ( var m = 0; m < matches.length; m++ ) {
+						for ( var b = 0; b < blobs.length; b++ ) {
+							if ( matches[ m ] === blobs[ b ][ 0 ] ) {
+								editorData = editorData.replace( matches[ m ], blobs[ b ][ 1 ] );
+							}
+						}
+					}
+				}
+			} );
 
 			editor.on( 'paste', function( evt ) {
 				// Init `dataTransfer` if `paste` event was fired without it, so it will be always available.
@@ -346,6 +369,14 @@
 			}, null, null, 1000 );
 		}
 	} );
+
+	// This method converts blob File to base64 format. Because the blob URL lifetime is tied to the document in the window on which it was created,
+	// there is a need to give a proper URL for images when getting data from the editor.
+	function blobToBase64( blob, onLoadEnd ) {
+		var reader = new window.FileReader();
+		reader.readAsDataURL( blob );
+		reader.onloadend = onLoadEnd;
+	}
 
 	function firePasteEvents( editor, data, withBeforePaste ) {
 		if ( !data.type ) {
