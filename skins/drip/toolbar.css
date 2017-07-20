@@ -190,6 +190,17 @@ a.cke_button_disabled:active
 	color: #05132B;
 }
 
+/* replace with icon? */
+.cke_button__buttonlink_icon {
+  display: none;
+}
+
+.cke_button__buttonlink_label {
+  display: block;
+  padding: 0 6px;
+}
+/* --- */
+
 .cke_button__shortcodes_icon + .cke_button_label {
   padding: 0 6px;
 }
@@ -345,14 +356,19 @@ a.cke_toolbox_collapser
   display: block;
 }
 
-.cke_button__shortcodes_icon {
-    display: none;
-}
-
 .cke_button__shortcodes_icon+.cke_button_label{
   display: block;
+  padding: 0 6px 0 3px;
 }
 
 .cke_button_disabled .cke_button_label {
     opacity: .5;
+}
+
+.cke_button__buttonlink_icon  {
+    display: block;
+}
+
+.cke_button__buttonlink_label {
+    display: none;
 }
