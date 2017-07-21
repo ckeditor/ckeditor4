@@ -40,6 +40,12 @@ The release is located under `release/ckeditor-reduced`. The complete folder can
 The built versions checksums aren't identical because the source code contains timestamps generated at build time.
 
 
+### Development for TAO
+
+To use the uncompiled version of CK for development purposes, please revert the hack in the file `core\scriptloader`.
+Set it back before recompiling.
+
+
 ## Development Code
 
 This repository contains the development version of CKEditor.
