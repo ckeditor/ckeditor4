@@ -641,7 +641,7 @@
 		return newCell;
 	}
 
-	CKEDITOR.plugins.tabletools = {
+	CKEDITOR.plugins.taoqtitabletools = {
 		requires: 'table,dialog,contextmenu',
 		init: function( editor ) {
 			var lang = editor.lang.table;
@@ -955,7 +955,7 @@
 		getSelectedCells: getSelectedCells
 
 	};
-	CKEDITOR.plugins.add( 'tabletools', CKEDITOR.plugins.tabletools );
+	CKEDITOR.plugins.add( 'taoqtitabletools', CKEDITOR.plugins.taoqtitabletools );
 } )();
 
 /**
