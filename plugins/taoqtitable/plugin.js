@@ -1,0 +1,109 @@
+﻿/**
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
+ */
+
+CKEDITOR.plugins.add( 'taoqtitable', {
+    requires: 'dialog',
+    // jscs:disable maximumLineLength
+    lang: 'af,ar,bg,bn,bs,ca,cs,cy,da,de,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+    // jscs:enable maximumLineLength
+    icons: 'taoqtitable', // %REMOVE_LINE_CORE%
+    hidpi: true, // %REMOVE_LINE_CORE%
+    init: function( editor ) {
+        if ( editor.blockless )
+            return;
+
+        var lang = editor.lang.table;
+
+        editor.addCommand( 'taoqtitable', new CKEDITOR.dialogCommand( 'taoqtitable', {
+            context: 'table',
+            allowedContent: 'table{width,height}[align,border,cellpadding,cellspacing,summary];' +
+                'caption tbody thead tfoot;' +
+                'th td tr[scope];' +
+                ( editor.plugins.dialogadvtab ? 'table' + editor.plugins.dialogadvtab.allowedContent() : '' ),
+            requiredContent: 'table',
+            contentTransformations: [
+                [ 'table{width}: sizeToStyle', 'table[width]: sizeToAttribute' ]
+            ]
+        } ) );
+
+        function createDef( def ) {
+            return CKEDITOR.tools.extend( def || {}, {
+                contextSensitive: 1,
+                refresh: function( editor, path ) {
+                    this.setState( path.contains( 'table', 1 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+                }
+            } );
+        }
+
+        editor.addCommand( 'taoqtitableProperties', new CKEDITOR.dialogCommand( 'taoqtitableProperties', createDef() ) );
+        editor.addCommand( 'taoqtitableDelete', createDef( {
+            exec: function( editor ) {
+                var path = editor.elementPath(),
+                    table = path.contains( 'table', 1 );
+
+                if ( !table )
+                    return;
+
+                // If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element) (#5416, #6289, #12110)
+                var parent = table.getParent(),
+                    editable = editor.editable();
+
+                if ( parent.getChildCount() == 1 && !parent.is( 'td', 'th' ) && !parent.equals( editable ) )
+                    table = parent;
+
+                var range = editor.createRange();
+                range.moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
+                table.remove();
+                range.select();
+            }
+        } ) );
+
+        editor.ui.addButton && editor.ui.addButton( 'TaoQtiTable', {
+            label: lang.toolbar,
+            command: 'taoqtitable',
+            toolbar: 'insert,30'
+        } );
+
+        CKEDITOR.dialog.add( 'taoqtitable', this.path + 'dialogs/taoqtitable.js' );
+        CKEDITOR.dialog.add( 'taoqtitableProperties', this.path + 'dialogs/taoqtitable.js' );
+
+        // If the "menu" plugin is loaded, register the menu items.
+        if ( editor.addMenuItems ) {
+            editor.addMenuItems( {
+                taoqtitable: {
+                    label: lang.menu,
+                    command: 'taoqtitableProperties',
+                    group: 'taoqtitable',
+                    order: 5
+                },
+
+                taoqtitabledelete: {
+                    label: lang.deleteTable,
+                    command: 'taoqtitableDelete',
+                    group: 'taoqtitable',
+                    order: 1
+                }
+            } );
+        }
+
+        editor.on( 'doubleclick', function( evt ) {
+            var element = evt.data.element;
+
+            if ( element.is( 'table' ) )
+                evt.data.dialog = 'taoqtitableProperties';
+        } );
+
+        // If the "contextmenu" plugin is loaded, register the listeners.
+        if ( editor.contextMenu ) {
+            editor.contextMenu.addListener( function() {
+                // menu item state is resolved on commands.
+                return {
+                    taoqtitabledelete: CKEDITOR.TRISTATE_OFF,
+                    taoqtitable: CKEDITOR.TRISTATE_OFF
+                };
+            } );
+        }
+    }
+} );
