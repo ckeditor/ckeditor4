@@ -1,0 +1,14 @@
+<div id='editor'>
+	<p>Foo</p>
+	<ul>
+		<li>one</li>
+		<li>two</li>
+		<li>three</li>
+	</ul>
+</div>
+
+<script>
+	CKEDITOR.replace('editor', {
+		allowedContent: 'p{text-align};ul li;'
+	});
+</script>

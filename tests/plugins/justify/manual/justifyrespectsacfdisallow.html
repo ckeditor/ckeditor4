@@ -1,0 +1,21 @@
+<div id='editor'>
+	<p>Foo</p>
+	<h1>Bar</h1>
+	<h2>Baz</h2>
+	<h1>Test</h1>
+	<p>World</p>
+</div>
+
+<script>
+	CKEDITOR.replace('editor', {
+		allowedContent: {
+			$1: {
+				elements: CKEDITOR.dtd,
+				attributes: true,
+				styles: true,
+				classes: true
+			}
+		},
+		disallowedContent: 'h1{text-align}'
+	});
+</script>

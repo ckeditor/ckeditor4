@@ -37,7 +37,6 @@
 		this.name = name;
 		this.value = value;
 		this.context = 'p';
-
 		var classes = editor.config.justifyClasses,
 			blockTag = editor.config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div';
 
@@ -150,6 +149,17 @@
 					if ( block.isReadOnly() )
 						continue;
 
+					// Check if style or class might be applied to currently processed element (#455).
+					var tag = block.getName(),
+						isAllowedTextAlign, isAllowedCssClass;
+
+					isAllowedTextAlign = editor.activeFilter.check( tag + '{text-align}' );
+					isAllowedCssClass = editor.activeFilter.check( tag + '(' + cssClassName + ')' );
+
+					if ( !isAllowedCssClass && !isAllowedTextAlign ) {
+						continue;
+					}
+
 					block.removeAttribute( 'align' );
 					block.removeStyle( 'text-align' );
 
@@ -158,13 +168,13 @@
 
 					var apply = ( this.state == CKEDITOR.TRISTATE_OFF ) && ( !useComputedState || ( getAlignment( block, true ) != this.value ) );
 
-					if ( cssClassName ) {
+					if ( cssClassName && isAllowedCssClass ) {
 						// Append the desired class name.
 						if ( apply )
 							block.addClass( cssClassName );
 						else if ( !className )
 							block.removeAttribute( 'class' );
-					} else if ( apply ) {
+					} else if ( apply && isAllowedTextAlign ) {
 						block.setStyle( 'text-align', this.value );
 					}
 				}
@@ -177,9 +187,25 @@
 		},
 
 		refresh: function( editor, path ) {
-			var firstBlock = path.block || path.blockLimit;
+			var firstBlock = path.block || path.blockLimit,
+				name = firstBlock.getName(),
+				isEditable = firstBlock.equals( editor.editable() ),
+				isStylable = this.cssClassName ? editor.activeFilter.check( name + '(' + this.cssClassName + ')' ) :
+					editor.activeFilter.check( name + '{text-align}' );
 
-			this.setState( firstBlock.getName() != 'body' && getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			// #455
+			// 1. Check if we are directly in editbale. Justification should be always allowed, and not highlighted.
+			//    Checking path.elements.length is required to filter out situation `body > ul` where ul is selected and path.blockLimit returns editable.
+			// 2. Check if current element can have applied specific class.
+			// 3. Check if current element can have applied text-align style.
+			if (  isEditable && path.elements.length === 1 ) {
+				this.setState( CKEDITOR.TRISTATE_OFF );
+			} else if ( !isEditable && isStylable ) {
+				// 2 & 3 in one condition.
+				this.setState( getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			} else {
+				this.setState( CKEDITOR.TRISTATE_DISABLED );
+			}
 		}
 	};
 
@@ -225,7 +251,6 @@
 					toolbar: 'align,40'
 				} );
 			}
-
 			editor.on( 'dirChanged', onDirChanged );
 		}
 	} );

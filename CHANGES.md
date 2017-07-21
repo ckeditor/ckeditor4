@@ -3,6 +3,10 @@
 
 ## CKEditor 4.7.2
 
+New Features:
+
+* [#455](https://github.com/ckeditor/ckeditor-dev/issues/455): Added [Advanced Content Filter](http://docs.ckeditor.com/#!/guide/dev_advanced_content_filter) integration to [Justify](http://ckeditor.com/addon/justify) plugin.
+
 Fixed Issues:
 
 * [#545](https://github.com/ckeditor/ckeditor-dev/issues/545): [Edge] Fixed: Error thrown when pressing the Select All button in a [Source Mode](http://ckeditor.com/addon/sourcearea).
