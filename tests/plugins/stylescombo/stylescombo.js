@@ -73,6 +73,8 @@
 				var editor = bot.editor;
 				var selection = editor.getSelection();
 
+				// During opening combo selection is modified, what force selection to be at the beginning of editable.
+				// Stub resets native selection before every execution of `getNative`, to properly simulate error case.
 				var stub = sinon.stub( CKEDITOR.dom.selection.prototype, 'getNative', function() {
 					if ( typeof window.getSelection != 'function' ) {
 						this.document.$.selection.empty();

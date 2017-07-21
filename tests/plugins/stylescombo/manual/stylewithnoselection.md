@@ -3,9 +3,9 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, stylescombo
 
 1. Open browser console.
-1. Press empty button in toolbar,next to style selection.
-1. Press style drop down menu to open style list.
+1. Press empty button in toolbar. It's located on the right next to the styles' list.
+1. Open styles' list and check if there anyting appear in the console.
 
-**Expected:** There is nothing happen.
+**Expected:** There is no error in the console.
 
 **Unexpected:** Error is logged in console.
