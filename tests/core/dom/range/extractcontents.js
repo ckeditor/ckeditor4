@@ -360,7 +360,7 @@
 			var playground = doc.getById( 'playground' );
 
 			// See: execContentsAction in range.js.
-			assert.isInnerHtmlMatching( '<h1>Test</h1><p>t<b id="_B">some</b>This is</p>', tmpDiv.getHtml(), 'Extracted HTML' );
+			assert.isInnerHtmlMatching( '<h1>Test</h1><p>This is <b id="_B">some</b> t</p>', tmpDiv.getHtml(), 'Extracted HTML' );
 			assert.isInnerHtmlMatching( '<h1 id="_H1">FCKW3CRange</h1><p id="_Para">ext.</p><p>Another paragraph.</p>',
 				playground.getHtml(), 'HTML after extraction' );
 
