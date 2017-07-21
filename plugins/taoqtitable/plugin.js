@@ -11,8 +11,10 @@ CKEDITOR.plugins.add( 'taoqtitable', {
     icons: 'taoqtitable', // %REMOVE_LINE_CORE%
     hidpi: true, // %REMOVE_LINE_CORE%
     init: function( editor ) {
+        // todo: this check should go somewhere else !!!
         if ( editor.blockless )
             return;
+        console.log('in plugin init');
 
         var lang = editor.lang.table;
 
@@ -60,6 +62,7 @@ CKEDITOR.plugins.add( 'taoqtitable', {
             }
         } ) );
 
+        console.log('adding button');
         editor.ui.addButton && editor.ui.addButton( 'TaoQtiTable', {
             label: lang.toolbar,
             command: 'taoqtitable',

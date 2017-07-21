@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>TAO Qti Tables plugin</h1>
+<div contenteditable="true" id="editor" style="border: 1px solid grey; margin-top: 50px; width: 100%; height: 200px"></div>
 <table contenteditable="true" id="tableeditor" style="border: 1px solid grey; margin-top: 50px">
     <thead>
     <tr>
@@ -64,613 +65,615 @@
     // this allows tables to become a ckEditor instance
     window.CKEDITOR.dtd.$editable.table = 1;
 
-    // This is a dump of the TAO config as build by ui/ckConfigurator
+    // This is a dump of the TAO config as build by ui/ckConfigurator, where taoqtitable plugin has been added
     var config =
-    {
-        "customConfig": "config.js",
-        "autoUpdateElement": true,
-        "language": "en",
-        "defaultLanguage": "en",
-        "contentsLangDirection": "",
-        "enterMode": 1,
-        "forceEnterMode": false,
-        "shiftEnterMode": 2,
-        "docType": "<!DOCTYPE html>",
-        "bodyId": "",
-        "bodyClass": "",
-        "fullPage": false,
-        "height": 200,
-        "extraPlugins": "confighelper,taoqtimedia,taoqtiimage,taoqtiinclude,taounderline,taoqtimaths",
-        "removePlugins": "",
-        "protectedSource": [],
-        "tabIndex": 0,
-        "width": "",
-        "baseFloatZIndex": 10000,
-        "blockedKeystrokes": [
-        1114178,
-        1114185,
-        1114197
-    ],
-        "startupMode": "wysiwyg",
-        "coreStyles_bold": {
-        "element": "strong",
-            "overrides": "b"
-    },
-        "coreStyles_italic": {
-        "element": "em",
-            "overrides": "i"
-    },
-        "coreStyles_underline": {
-        "element": "span",
-            "attributes": {
-            "class": "txt-underline"
-        }
-    },
-        "coreStyles_strike": {
-        "element": "s",
-            "overrides": "strike"
-    },
-        "coreStyles_subscript": {
-        "element": "sub"
-    },
-        "coreStyles_superscript": {
-        "element": "sup"
-    },
-        "colorButton_colors": "000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,F00,FF8C00,FFD700,008000,0FF,00F,EE82EE,A9A9A9,FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF",
-        "colorButton_foreStyle": {
-        "element": "span",
-            "styles": {
-            "color": "#(color)"
-        },
-        "overrides": [
-            {
-                "element": "font",
+        {
+            "customConfig": "config.js",
+            "autoUpdateElement": true,
+            "language": "en",
+            "defaultLanguage": "en",
+            "contentsLangDirection": "",
+            "enterMode": 1,
+            "forceEnterMode": false,
+            "shiftEnterMode": 2,
+            "docType": "<!DOCTYPE html>",
+            "bodyId": "",
+            "bodyClass": "",
+            "fullPage": false,
+            "height": 200,
+            "extraPlugins": "confighelper,taoqtimedia,taoqtiimage,taoqtiinclude,taounderline,taoqtimaths,taoqtitable",
+            "removePlugins": "",
+            "protectedSource": [],
+            "tabIndex": 0,
+            "width": "",
+            "baseFloatZIndex": 10000,
+            "blockedKeystrokes": [
+                1114178,
+                1114185,
+                1114197
+            ],
+            "startupMode": "wysiwyg",
+            "coreStyles_bold": {
+                "element": "strong",
+                "overrides": "b"
+            },
+            "coreStyles_italic": {
+                "element": "em",
+                "overrides": "i"
+            },
+            "coreStyles_underline": {
+                "element": "span",
                 "attributes": {
-                    "color": null
+                    "class": "txt-underline"
                 }
-            }
-        ]
-    },
-        "colorButton_backStyle": {
-        "element": "span",
-            "styles": {
-            "background-color": "#(color)"
-        }
-    },
-        "menu_groups": "clipboard,form,tablecell,tablecellproperties,tablerow,tablecolumn,table,anchor,link,image,flash,checkbox,radio,textfield,hiddenfield,imagebutton,button,select,textarea,div",
-        "basicEntities": true,
-        "entities": false,
-        "entities_latin": true,
-        "entities_greek": true,
-        "entities_additional": "#39",
-        "font_names": "Arial/Arial, Helvetica, sans-serif;Comic Sans MS/Comic Sans MS, cursive;Courier New/Courier New, Courier, monospace;Georgia/Georgia, serif;Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;Tahoma/Tahoma, Geneva, sans-serif;Times New Roman/Times New Roman, Times, serif;Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;Verdana/Verdana, Geneva, sans-serif",
-        "font_defaultLabel": "",
-        "font_style": {
-        "element": "span",
-            "styles": {
-            "font-family": "#(family)"
-        },
-        "overrides": [
-            {
-                "element": "font",
-                "attributes": {
-                    "face": null
+            },
+            "coreStyles_strike": {
+                "element": "s",
+                "overrides": "strike"
+            },
+            "coreStyles_subscript": {
+                "element": "sub"
+            },
+            "coreStyles_superscript": {
+                "element": "sup"
+            },
+            "colorButton_colors": "000,800000,8B4513,2F4F4F,008080,000080,4B0082,696969,B22222,A52A2A,DAA520,006400,40E0D0,0000CD,800080,808080,F00,FF8C00,FFD700,008000,0FF,00F,EE82EE,A9A9A9,FFA07A,FFA500,FFFF00,00FF00,AFEEEE,ADD8E6,DDA0DD,D3D3D3,FFF0F5,FAEBD7,FFFFE0,F0FFF0,F0FFFF,F0F8FF,E6E6FA,FFF",
+            "colorButton_foreStyle": {
+                "element": "span",
+                "styles": {
+                    "color": "#(color)"
+                },
+                "overrides": [
+                    {
+                        "element": "font",
+                        "attributes": {
+                            "color": null
+                        }
+                    }
+                ]
+            },
+            "colorButton_backStyle": {
+                "element": "span",
+                "styles": {
+                    "background-color": "#(color)"
                 }
-            }
-        ]
-    },
-        "fontSize_sizes": "8/8px;9/9px;10/10px;11/11px;12/12px;14/14px;16/16px;18/18px;20/20px;22/22px;24/24px;26/26px;28/28px;36/36px;48/48px;72/72px",
-        "fontSize_defaultLabel": "",
-        "fontSize_style": {
-        "element": "span",
-            "styles": {
-            "font-size": "#(size)"
-        },
-        "overrides": [
-            {
-                "element": "font",
-                "attributes": {
-                    "size": null
-                }
-            }
-        ]
-    },
-        "format_tags": "p;h1;h2;h3;h4;h5;h6;pre;address;div",
-        "format_p": {
-        "element": "p"
-    },
-        "format_div": {
-        "element": "div"
-    },
-        "format_pre": {
-        "element": "pre"
-    },
-        "format_address": {
-        "element": "address"
-    },
-        "format_h1": {
-        "element": "h1"
-    },
-        "format_h2": {
-        "element": "h2"
-    },
-        "format_h3": {
-        "element": "h3"
-    },
-        "format_h4": {
-        "element": "h4"
-    },
-        "format_h5": {
-        "element": "h5"
-    },
-        "format_h6": {
-        "element": "h6"
-    },
-        "linkShowAdvancedTab": false,
-        "linkShowTargetTab": false,
-        "magicline_keystrokePrevious": 3342387,
-        "magicline_keystrokeNext": 3342388,
-        "removeFormatTags": "b,big,cite,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var",
-        "removeFormatAttributes": "class,style,lang,width,height,align,hspace,valign",
-        "specialChars": [
-        "!",
-        "&quot;",
-        "#",
-        "$",
-        "%",
-        "&amp;",
-        "'",
-        "(",
-        ")",
-        "*",
-        "+",
-        "-",
-        ".",
-        "/",
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        ":",
-        ";",
-        [
-            "&lt;",
-            "Less than"
-        ],
-        [
-            "&le;",
-            "Less than or equal to"
-        ],
-        "&asymp;",
-        "=",
-        "&ne;",
-        [
-            "&ge;",
-            "Greater than or equal to"
-        ],
-        [
-            "&gt;",
-            "Greater than"
-        ],
-        "?",
-        "@",
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z",
-        "[",
-        "]",
-        "^",
-        "_",
-        "`",
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-        "{",
-        "|",
-        "}",
-        "~",
-        "&euro;",
-        "&lsquo;",
-        "&rsquo;",
-        "&ldquo;",
-        "&rdquo;",
-        "&ndash;",
-        "&mdash;",
-        "&iexcl;",
-        "&cent;",
-        "&pound;",
-        "&curren;",
-        "&yen;",
-        "&brvbar;",
-        "&sect;",
-        "&uml;",
-        "&copy;",
-        "&ordf;",
-        "&laquo;",
-        "&not;",
-        "&reg;",
-        "&macr;",
-        "&deg;",
-        "&sup2;",
-        "&sup3;",
-        "&acute;",
-        "&micro;",
-        "&para;",
-        "&middot;",
-        "&cedil;",
-        "&sup1;",
-        "&ordm;",
-        "&raquo;",
-        "&frac14;",
-        "&frac12;",
-        "&frac34;",
-        "&iquest;",
-        "&Agrave;",
-        "&Aacute;",
-        "&Acirc;",
-        "&Atilde;",
-        "&Auml;",
-        "&Aring;",
-        "&AElig;",
-        "&Ccedil;",
-        "&Egrave;",
-        "&Eacute;",
-        "&Ecirc;",
-        "&Euml;",
-        "&Igrave;",
-        "&Iacute;",
-        "&Icirc;",
-        "&Iuml;",
-        "&ETH;",
-        "&Ntilde;",
-        "&Ograve;",
-        "&Oacute;",
-        "&Ocirc;",
-        "&Otilde;",
-        "&Ouml;",
-        "&times;",
-        "&Oslash;",
-        "&Ugrave;",
-        "&Uacute;",
-        "&Ucirc;",
-        "&Uuml;",
-        "&Yacute;",
-        "&THORN;",
-        "&szlig;",
-        "&agrave;",
-        "&aacute;",
-        "&acirc;",
-        "&atilde;",
-        "&auml;",
-        "&aring;",
-        "&aelig;",
-        "&ccedil;",
-        "&egrave;",
-        "&eacute;",
-        "&ecirc;",
-        "&euml;",
-        "&igrave;",
-        "&iacute;",
-        "&icirc;",
-        "&iuml;",
-        "&eth;",
-        "&ntilde;",
-        "&ograve;",
-        "&oacute;",
-        "&ocirc;",
-        "&otilde;",
-        "&ouml;",
-        "&divide;",
-        "&oslash;",
-        "&ugrave;",
-        "&uacute;",
-        "&ucirc;",
-        "&uuml;",
-        "&yacute;",
-        "&thorn;",
-        "&yuml;",
-        "&OElig;",
-        "&oelig;",
-        "&#372;",
-        "&#374",
-        "&#373",
-        "&#375;",
-        "&sbquo;",
-        "&#8219;",
-        "&bdquo;",
-        "&hellip;",
-        "&trade;",
-        "&#9658;",
-        "&bull;",
-        "&rarr;",
-        "&rArr;",
-        "&hArr;",
-        "&diams;",
-        "&asymp;"
-    ],
-        "toolbarLocation": "top",
-        "disableObjectResizing": false,
-        "disableNativeTableHandles": true,
-        "disableNativeSpellChecker": true,
-        "contentsCss": "http://tao.dev/tao/views/js/lib/ckeditor/contents.css?t=H6DD",
-        "plugins": "basicstyles,bidi,blockquote,dialogui,dialog,clipboard,button,panelbutton,panel,floatpanel,colorbutton,colordialog,menu,contextmenu,confighelper,dialogadvtab,entities,floatingspace,listblock,richcombo,font,format,horizontalrule,htmlwriter,indent,indentlist,indentblock,justify,fakeobjects,link,list,liststyle,magicline,pastefromword,pastetext,removeformat,resize,selectall,sourcearea,specialchar,stylescombo,tab,table,taoqtiimage,taoqtimaths,taoqtimedia,taounderline,taohighlight,taoqtiinclude,toolbar,undo,wysiwygarea",
-		"skin": "kama", // fixme: should be 'tao'
-        "jqueryOverrideVal": true,
-        "disableAutoInline": true,
-        "entities_processNumerical": true,
-        "autoParagraph": false,
-        "floatSpaceDockedOffsetY": 10,
-        "forcePasteAsPlainText": true,
-        "justifyClasses": [
-        "txt-lft",
-        "txt-ctr",
-        "txt-rgt",
-        "txt-jty"
-    ],
-        "coreStyles_highlight": {
-        "element": "span",
-            "attributes": {
-            "class": "txt-highlight"
-        }
-    },
-        "allowedContent": true,
-        "toolbar_inline": [
-        {
-            "name": "basicstyles",
-            "items": [
-                "Bold",
-                "Italic",
-                "Subscript",
-                "Superscript"
-            ]
-        },
-        {
-            "name": "insert",
-            "items": [
-                "SpecialChar"
-            ]
-        },
-        {
-            "name": "links",
-            "items": [
-                "Link"
-            ]
-        }
-    ],
-        "toolbar_flow": [
-        {
-            "name": "basicstyles",
-            "items": [
-                "Bold",
-                "Italic",
-                "Subscript",
-                "Superscript"
-            ]
-        },
-        {
-            "name": "insert",
-            "items": [
-                "SpecialChar"
-            ]
-        },
-        {
-            "name": "links",
-            "items": [
-                "Link"
-            ]
-        }
-    ],
-        "toolbar_block": [
-        {
-            "name": "basicstyles",
-            "items": [
-                "Bold",
-                "Italic",
-                "TaoUnderline",
-                "Subscript",
-                "Superscript"
-            ]
-        },
-        {
-            "name": "insert",
-            "items": [
-                "Image",
-                "SpecialChar",
-                "TaoQtiMaths",
-                "TaoQtiInclude",
-                "TaoQtiImage",
-                "TaoQtiMedia"
-            ]
-        },
-        {
-            "name": "links",
-            "items": [
-                "Link"
-            ]
-        },
-        "/",
-        {
-            "name": "styles",
-            "items": [
-                "Format"
-            ]
-        },
-        {
-            "name": "paragraph",
-            "items": [
-                "NumberedList",
-                "BulletedList",
+            },
+            "menu_groups": "clipboard,form,tablecell,tablecellproperties,tablerow,tablecolumn,table,anchor,link,image,flash,checkbox,radio,textfield,hiddenfield,imagebutton,button,select,textarea,div",
+            "basicEntities": true,
+            "entities": false,
+            "entities_latin": true,
+            "entities_greek": true,
+            "entities_additional": "#39",
+            "font_names": "Arial/Arial, Helvetica, sans-serif;Comic Sans MS/Comic Sans MS, cursive;Courier New/Courier New, Courier, monospace;Georgia/Georgia, serif;Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;Tahoma/Tahoma, Geneva, sans-serif;Times New Roman/Times New Roman, Times, serif;Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;Verdana/Verdana, Geneva, sans-serif",
+            "font_defaultLabel": "",
+            "font_style": {
+                "element": "span",
+                "styles": {
+                    "font-family": "#(family)"
+                },
+                "overrides": [
+                    {
+                        "element": "font",
+                        "attributes": {
+                            "face": null
+                        }
+                    }
+                ]
+            },
+            "fontSize_sizes": "8/8px;9/9px;10/10px;11/11px;12/12px;14/14px;16/16px;18/18px;20/20px;22/22px;24/24px;26/26px;28/28px;36/36px;48/48px;72/72px",
+            "fontSize_defaultLabel": "",
+            "fontSize_style": {
+                "element": "span",
+                "styles": {
+                    "font-size": "#(size)"
+                },
+                "overrides": [
+                    {
+                        "element": "font",
+                        "attributes": {
+                            "size": null
+                        }
+                    }
+                ]
+            },
+            "format_tags": "p;h1;h2;h3;h4;h5;h6;pre;address;div",
+            "format_p": {
+                "element": "p"
+            },
+            "format_div": {
+                "element": "div"
+            },
+            "format_pre": {
+                "element": "pre"
+            },
+            "format_address": {
+                "element": "address"
+            },
+            "format_h1": {
+                "element": "h1"
+            },
+            "format_h2": {
+                "element": "h2"
+            },
+            "format_h3": {
+                "element": "h3"
+            },
+            "format_h4": {
+                "element": "h4"
+            },
+            "format_h5": {
+                "element": "h5"
+            },
+            "format_h6": {
+                "element": "h6"
+            },
+            "linkShowAdvancedTab": false,
+            "linkShowTargetTab": false,
+            "magicline_keystrokePrevious": 3342387,
+            "magicline_keystrokeNext": 3342388,
+            "removeFormatTags": "b,big,cite,code,del,dfn,em,font,i,ins,kbd,q,s,samp,small,span,strike,strong,sub,sup,tt,u,var",
+            "removeFormatAttributes": "class,style,lang,width,height,align,hspace,valign",
+            "specialChars": [
+                "!",
+                "&quot;",
+                "#",
+                "$",
+                "%",
+                "&amp;",
+                "'",
+                "(",
+                ")",
+                "*",
+                "+",
                 "-",
-                "Blockquote",
-                "JustifyLeft",
-                "JustifyCenter",
-                "JustifyRight",
-                "JustifyBlock"
-            ]
-        }
-    ],
-        "toolbar_extendedText": [
-        {
-            "name": "basicstyles",
-            "items": [
-                "Bold",
-                "Italic",
-                "Underline",
-                "Subscript",
-                "Superscript"
-            ]
-        },
-        {
-            "name": "insert",
-            "items": [
-                "SpecialChar"
-            ]
-        },
-        {
-            "name": "paragraph",
-            "items": [
-                "NumberedList",
-                "BulletedList"
-            ]
-        },
-        {
-            "name": "clipboard",
-            "items": [
-                "Cut",
-                "Copy",
-                "Paste"
-            ]
-        },
-        {
-            "name": "history",
-            "items": [
-                "Undo",
-                "Redo"
-            ]
-        },
-        {
-            "name": "fontstyles",
-            "items": [
-                "TextColor",
-                "Font",
-                "FontSize"
-            ]
-        }
-    ],
-        "toolbar": [
-        {
-            "name": "basicstyles",
-            "items": [
-                "Bold",
-                "Italic",
-                "TaoUnderline",
-                "Subscript",
-                "Superscript"
-            ]
-        },
-        {
-            "name": "insert",
-            "items": [
-                "Image",
-                "SpecialChar",
-                "TaoQtiMaths",
-                "TaoQtiInclude",
-                "TaoQtiImage",
-                "TaoQtiMedia"
-            ]
-        },
-        {
-            "name": "links",
-            "items": [
-                "Link"
-            ]
-        },
-        "/",
-        {
-            "name": "styles",
-            "items": [
-                "Format"
-            ]
-        },
-        {
-            "name": "paragraph",
-            "items": [
-                "NumberedList",
-                "BulletedList",
-                "-",
-                "Blockquote",
-                "JustifyLeft",
-                "JustifyCenter",
-                "JustifyRight",
-                "JustifyBlock"
-            ]
-        }
-    ],
-        "dtdMode": "qti",
-        "taoQtiItem": {},
-        "floatSpace": {
-        "debug": true,
-            "initialHide": true,
-            "on": {}
-    },
-        "on": {},
-        "qtiMedia": true,
-        "resourcemgr": {}
-    };
+                ".",
+                "/",
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                ":",
+                ";",
+                [
+                    "&lt;",
+                    "Less than"
+                ],
+                [
+                    "&le;",
+                    "Less than or equal to"
+                ],
+                "&asymp;",
+                "=",
+                "&ne;",
+                [
+                    "&ge;",
+                    "Greater than or equal to"
+                ],
+                [
+                    "&gt;",
+                    "Greater than"
+                ],
+                "?",
+                "@",
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I",
+                "J",
+                "K",
+                "L",
+                "M",
+                "N",
+                "O",
+                "P",
+                "Q",
+                "R",
+                "S",
+                "T",
+                "U",
+                "V",
+                "W",
+                "X",
+                "Y",
+                "Z",
+                "[",
+                "]",
+                "^",
+                "_",
+                "`",
+                "a",
+                "b",
+                "c",
+                "d",
+                "e",
+                "f",
+                "g",
+                "h",
+                "i",
+                "j",
+                "k",
+                "l",
+                "m",
+                "n",
+                "o",
+                "p",
+                "q",
+                "r",
+                "s",
+                "t",
+                "u",
+                "v",
+                "w",
+                "x",
+                "y",
+                "z",
+                "{",
+                "|",
+                "}",
+                "~",
+                "&euro;",
+                "&lsquo;",
+                "&rsquo;",
+                "&ldquo;",
+                "&rdquo;",
+                "&ndash;",
+                "&mdash;",
+                "&iexcl;",
+                "&cent;",
+                "&pound;",
+                "&curren;",
+                "&yen;",
+                "&brvbar;",
+                "&sect;",
+                "&uml;",
+                "&copy;",
+                "&ordf;",
+                "&laquo;",
+                "&not;",
+                "&reg;",
+                "&macr;",
+                "&deg;",
+                "&sup2;",
+                "&sup3;",
+                "&acute;",
+                "&micro;",
+                "&para;",
+                "&middot;",
+                "&cedil;",
+                "&sup1;",
+                "&ordm;",
+                "&raquo;",
+                "&frac14;",
+                "&frac12;",
+                "&frac34;",
+                "&iquest;",
+                "&Agrave;",
+                "&Aacute;",
+                "&Acirc;",
+                "&Atilde;",
+                "&Auml;",
+                "&Aring;",
+                "&AElig;",
+                "&Ccedil;",
+                "&Egrave;",
+                "&Eacute;",
+                "&Ecirc;",
+                "&Euml;",
+                "&Igrave;",
+                "&Iacute;",
+                "&Icirc;",
+                "&Iuml;",
+                "&ETH;",
+                "&Ntilde;",
+                "&Ograve;",
+                "&Oacute;",
+                "&Ocirc;",
+                "&Otilde;",
+                "&Ouml;",
+                "&times;",
+                "&Oslash;",
+                "&Ugrave;",
+                "&Uacute;",
+                "&Ucirc;",
+                "&Uuml;",
+                "&Yacute;",
+                "&THORN;",
+                "&szlig;",
+                "&agrave;",
+                "&aacute;",
+                "&acirc;",
+                "&atilde;",
+                "&auml;",
+                "&aring;",
+                "&aelig;",
+                "&ccedil;",
+                "&egrave;",
+                "&eacute;",
+                "&ecirc;",
+                "&euml;",
+                "&igrave;",
+                "&iacute;",
+                "&icirc;",
+                "&iuml;",
+                "&eth;",
+                "&ntilde;",
+                "&ograve;",
+                "&oacute;",
+                "&ocirc;",
+                "&otilde;",
+                "&ouml;",
+                "&divide;",
+                "&oslash;",
+                "&ugrave;",
+                "&uacute;",
+                "&ucirc;",
+                "&uuml;",
+                "&yacute;",
+                "&thorn;",
+                "&yuml;",
+                "&OElig;",
+                "&oelig;",
+                "&#372;",
+                "&#374",
+                "&#373",
+                "&#375;",
+                "&sbquo;",
+                "&#8219;",
+                "&bdquo;",
+                "&hellip;",
+                "&trade;",
+                "&#9658;",
+                "&bull;",
+                "&rarr;",
+                "&rArr;",
+                "&hArr;",
+                "&diams;",
+                "&asymp;"
+            ],
+            "toolbarLocation": "top",
+            "disableObjectResizing": false,
+            "disableNativeTableHandles": true,
+            "disableNativeSpellChecker": true,
+            "contentsCss": "http://tao.dev/tao/views/js/lib/ckeditor/contents.css?t=H6DD",
+            "plugins": "basicstyles,bidi,blockquote,dialogui,dialog,clipboard,button,panelbutton,panel,floatpanel,colorbutton,colordialog,menu,contextmenu,confighelper,dialogadvtab,entities,floatingspace,listblock,richcombo,font,format,horizontalrule,htmlwriter,indent,indentlist,indentblock,justify,fakeobjects,link,list,liststyle,magicline,pastefromword,pastetext,removeformat,resize,selectall,sourcearea,specialchar,stylescombo,tab,table,taoqtiimage,taoqtimaths,taoqtimedia,taounderline,taohighlight,taoqtiinclude,taoqtitable,toolbar,undo,wysiwygarea",
+            "skin": "kama", // fixme: should be 'tao'
+            "jqueryOverrideVal": true,
+            "disableAutoInline": true,
+            "entities_processNumerical": true,
+            "autoParagraph": false,
+            "floatSpaceDockedOffsetY": 10,
+            "forcePasteAsPlainText": true,
+            "justifyClasses": [
+                "txt-lft",
+                "txt-ctr",
+                "txt-rgt",
+                "txt-jty"
+            ],
+            "coreStyles_highlight": {
+                "element": "span",
+                "attributes": {
+                    "class": "txt-highlight"
+                }
+            },
+            "allowedContent": true,
+            "toolbar_inline": [
+                {
+                    "name": "basicstyles",
+                    "items": [
+                        "Bold",
+                        "Italic",
+                        "Subscript",
+                        "Superscript"
+                    ]
+                },
+                {
+                    "name": "insert",
+                    "items": [
+                        "SpecialChar"
+                    ]
+                },
+                {
+                    "name": "links",
+                    "items": [
+                        "Link"
+                    ]
+                }
+            ],
+            "toolbar_flow": [
+                {
+                    "name": "basicstyles",
+                    "items": [
+                        "Bold",
+                        "Italic",
+                        "Subscript",
+                        "Superscript"
+                    ]
+                },
+                {
+                    "name": "insert",
+                    "items": [
+                        "SpecialChar"
+                    ]
+                },
+                {
+                    "name": "links",
+                    "items": [
+                        "Link"
+                    ]
+                }
+            ],
+            "toolbar_block": [
+                {
+                    "name": "basicstyles",
+                    "items": [
+                        "Bold",
+                        "Italic",
+                        "TaoUnderline",
+                        "Subscript",
+                        "Superscript"
+                    ]
+                },
+                {
+                    "name": "insert",
+                    "items": [
+                        "Image",
+                        "SpecialChar",
+                        "TaoQtiTable",
+                        "TaoQtiMaths",
+                        "TaoQtiInclude",
+                        "TaoQtiImage",
+                        "TaoQtiMedia"
+                    ]
+                },
+                {
+                    "name": "links",
+                    "items": [
+                        "Link"
+                    ]
+                },
+                "/",
+                {
+                    "name": "styles",
+                    "items": [
+                        "Format"
+                    ]
+                },
+                {
+                    "name": "paragraph",
+                    "items": [
+                        "NumberedList",
+                        "BulletedList",
+                        "-",
+                        "Blockquote",
+                        "JustifyLeft",
+                        "JustifyCenter",
+                        "JustifyRight",
+                        "JustifyBlock"
+                    ]
+                }
+            ],
+            "toolbar_extendedText": [
+                {
+                    "name": "basicstyles",
+                    "items": [
+                        "Bold",
+                        "Italic",
+                        "Underline",
+                        "Subscript",
+                        "Superscript"
+                    ]
+                },
+                {
+                    "name": "insert",
+                    "items": [
+                        "SpecialChar"
+                    ]
+                },
+                {
+                    "name": "paragraph",
+                    "items": [
+                        "NumberedList",
+                        "BulletedList"
+                    ]
+                },
+                {
+                    "name": "clipboard",
+                    "items": [
+                        "Cut",
+                        "Copy",
+                        "Paste"
+                    ]
+                },
+                {
+                    "name": "history",
+                    "items": [
+                        "Undo",
+                        "Redo"
+                    ]
+                },
+                {
+                    "name": "fontstyles",
+                    "items": [
+                        "TextColor",
+                        "Font",
+                        "FontSize"
+                    ]
+                }
+            ],
+            "toolbar": [
+                {
+                    "name": "basicstyles",
+                    "items": [
+                        "Bold",
+                        "Italic",
+                        "TaoUnderline",
+                        "Subscript",
+                        "Superscript"
+                    ]
+                },
+                {
+                    "name": "insert",
+                    "items": [
+                        "Image",
+                        "SpecialChar",
+                        "TaoQtiTable",
+                        "TaoQtiMaths",
+                        "TaoQtiInclude",
+                        "TaoQtiImage",
+                        "TaoQtiMedia"
+                    ]
+                },
+                {
+                    "name": "links",
+                    "items": [
+                        "Link"
+                    ]
+                },
+                "/",
+                {
+                    "name": "styles",
+                    "items": [
+                        "Format"
+                    ]
+                },
+                {
+                    "name": "paragraph",
+                    "items": [
+                        "NumberedList",
+                        "BulletedList",
+                        "-",
+                        "Blockquote",
+                        "JustifyLeft",
+                        "JustifyCenter",
+                        "JustifyRight",
+                        "JustifyBlock"
+                    ]
+                }
+            ],
+            "dtdMode": "qti",
+            "taoQtiItem": {},
+            "floatSpace": {
+                "debug": true,
+                "initialHide": true,
+                "on": {}
+            },
+            "on": {},
+            "qtiMedia": true,
+            "resourcemgr": {}
+        };
 
-    CKEDITOR.inline( 'tableeditor', config);
+    CKEDITOR.inline( 'editor', config);
 </script>
 </body>
 </html>
