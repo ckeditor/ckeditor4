@@ -52,8 +52,6 @@
 
         var editable = editor.editable();
 
-        var dialogadvtab = editor.plugins.dialogadvtab;
-
         return {
             title: editor.lang.table.title,
             minWidth: 310,
@@ -224,7 +222,15 @@
 
                 // Insert the table element if we're creating one.
                 if ( !this._.selectedElement ) {
-                    editor.insertElement( table );
+                    var taoWidgetWrapper = makeElement('div');
+                    taoWidgetWrapper.setAttributes({
+                        'data-new': true,
+                        'data-qti-class': 'table',
+                        'class': 'widgetBox'
+                    });
+                    taoWidgetWrapper.append(table);
+
+                    editor.insertElement( taoWidgetWrapper );
                     // Override the default cursor position after insertElement to place
                     // cursor inside the first cell (#7959), IE needs a while.
                     setTimeout( function() {
@@ -245,7 +251,7 @@
             },
             contents: [ {
                 id: 'info',
-                label: editor.lang.table.title,
+                label: 'TAO QTI TABLE',
                 elements: [ {
                     type: 'hbox',
                     widths: [ null, null ],
@@ -317,8 +323,9 @@
                                     this.setValue( dialog.hasColumnHeaders ? 'col' : '' );
                             },
                             commit: commitValue
-                        },
-                        {
+                        }
+                        /*
+                            {
                             type: 'text',
                             id: 'txtBorder',
                             requiredContent: 'table[border]',
@@ -358,8 +365,12 @@
                                 else
                                     selectedTable.removeAttribute( 'align' );
                             }
-                        } ]
-                    },
+                        }
+                        */
+                        ]
+                    }
+                    /*
+                    ,
                     {
                         type: 'vbox',
                         padding: 0,
@@ -452,8 +463,11 @@
                                 else
                                     selectedTable.removeAttribute( 'cellPadding' );
                             }
-                        } ]
-                    } ]
+                        }
+                        ]
+                    }
+                    */
+                    ]
                 },
                 {
                     type: 'html',
@@ -526,8 +540,7 @@
                         }
                     } ]
                 } ]
-            },
-            dialogadvtab && dialogadvtab.createAdvancedTab( editor, null, 'table' )
+            }
         ] };
     }
 

@@ -11,23 +11,22 @@ CKEDITOR.plugins.add( 'taoqtitable', {
     icons: 'taoqtitable', // %REMOVE_LINE_CORE%
     hidpi: true, // %REMOVE_LINE_CORE%
     init: function( editor ) {
-        // todo: this check should go somewhere else !!!
         if ( editor.blockless )
             return;
-        console.log('in plugin init');
 
         var lang = editor.lang.table;
 
         editor.addCommand( 'taoqtitable', new CKEDITOR.dialogCommand( 'taoqtitable', {
             context: 'table',
-            allowedContent: 'table{width,height}[align,border,cellpadding,cellspacing,summary];' +
+            allowedContent: 'table[summary];' +
                 'caption tbody thead tfoot;' +
                 'th td tr[scope];' +
                 ( editor.plugins.dialogadvtab ? 'table' + editor.plugins.dialogadvtab.allowedContent() : '' ),
-            requiredContent: 'table',
-            contentTransformations: [
-                [ 'table{width}: sizeToStyle', 'table[width]: sizeToAttribute' ]
-            ]
+            requiredContent: 'table'
+            // ,
+            // contentTransformations: [
+            //     [ 'table{width}: sizeToStyle', 'table[width]: sizeToAttribute' ]
+            // ]
         } ) );
 
         function createDef( def ) {
@@ -62,7 +61,6 @@ CKEDITOR.plugins.add( 'taoqtitable', {
             }
         } ) );
 
-        console.log('adding button');
         editor.ui.addButton && editor.ui.addButton( 'TaoQtiTable', {
             label: lang.toolbar,
             command: 'taoqtitable',
@@ -76,21 +74,22 @@ CKEDITOR.plugins.add( 'taoqtitable', {
         if ( editor.addMenuItems ) {
             editor.addMenuItems( {
                 taoqtitable: {
-                    label: lang.menu,
+                    label: 'TAO' + lang.menu,
                     command: 'taoqtitableProperties',
-                    group: 'taoqtitable',
+                    group: 'table',
                     order: 5
                 },
 
                 taoqtitabledelete: {
                     label: lang.deleteTable,
                     command: 'taoqtitableDelete',
-                    group: 'taoqtitable',
+                    group: 'table',
                     order: 1
                 }
             } );
         }
 
+        // fixme: does not work
         editor.on( 'doubleclick', function( evt ) {
             var element = evt.data.element;
 
