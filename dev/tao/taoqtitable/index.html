@@ -7,68 +7,76 @@
 </head>
 <body>
 <h1>TAO Qti Tables plugin</h1>
-<div contenteditable="true" id="editor" style="border: 1px solid grey; margin-top: 50px; width: 100%; height: 200px"></div>
-<table contenteditable="true" id="tableeditor" style="border: 1px solid grey; margin-top: 50px">
-    <thead>
-    <tr>
-        <th> </th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Total</th>
-    </tr>
-    </thead>
-    <tfoot>
-    <tr>
-        <th>Total</th>
-        <td>308 994</td>
-        <td>291 785</td>
-        <td>600 779</td>
-    </tr>
-    </tfoot>
-    <tbody>
-    <tr>
-        <th>Never married</th>
-        <td>
-            XXXXX
-        </td>
-        <td>288 014</td>
-        <td>596 667</td>
-    </tr>
-    <tr>
-        <th>Married</th>
-        <td>325</td>
-        <td>3742</td>
-        <td>
-            XXXXX
-        </td>
-    </tr>
-    <tr>
-        <th>Divorced</th>
-        <td>14</td>
-        <td>
-            XXXXX
-        </td>
-        <td>39</td>
-    </tr>
-    <tr>
-        <th>Widow</th>
-        <td>2</td>
-        <td>
-            XXXXX
-        </td>
-        <td>6</td>
-    </tr>
-    </tbody>
-</table>
+<div contenteditable="true" id="editor" style="border: 1px solid grey; margin-top: 50px; width: 100%;">
+    <p>Edit me</p>
+    <table>
+        <thead>
+        <tr>
+            <th> </th>
+            <th>Male</th>
+            <th>Female</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Total</th>
+            <td>308 994</td>
+            <td>291 785</td>
+            <td>600 779</td>
+        </tr>
+        </tfoot>
+        <tbody>
+        <tr>
+            <th>Never married</th>
+            <td>
+                XXXXX
+            </td>
+            <td>288 014</td>
+            <td>596 667</td>
+        </tr>
+        <tr>
+            <th>Married</th>
+            <td>325</td>
+            <td>3742</td>
+            <td>
+                XXXXX
+            </td>
+        </tr>
+        <tr>
+            <th>Divorced</th>
+            <td>14</td>
+            <td>
+                XXXXX
+            </td>
+            <td>39</td>
+        </tr>
+        <tr>
+            <th>Widow</th>
+            <td>2</td>
+            <td>
+                XXXXX
+            </td>
+            <td>6</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 <script>
     // this allows tables to become a ckEditor instance
     window.CKEDITOR.dtd.$editable.table = 1;
 
-    // This is a dump of the TAO config as build by ui/ckConfigurator, where taoqtitable plugin has been added
+    // The following config is based from a dump of the TAO CK Config (built by ui/ckConfigurator)
     var config =
         {
-            "customConfig": "config.js",
+            taoQtiItem: {
+                insert: function insert() {
+                    console.log('inserting table');
+                }
+            },
+            "removePlugin": 'table',
+//            "customConfig": "config.js",
             "autoUpdateElement": true,
             "language": "en",
             "defaultLanguage": "en",
@@ -81,7 +89,7 @@
             "bodyClass": "",
             "fullPage": false,
             "height": 200,
-            "extraPlugins": "confighelper,taoqtimedia,taoqtiimage,taoqtiinclude,taounderline,taoqtimaths,taoqtitable",
+            "extraPlugins": "confighelper,taoqtimedia,taoqtiimage,taoqtiinclude,taounderline,taoqtimaths,taoqtitable,taoqtitabletools",
             "removePlugins": "",
             "protectedSource": [],
             "tabIndex": 0,
@@ -662,7 +670,6 @@
                 }
             ],
             "dtdMode": "qti",
-            "taoQtiItem": {},
             "floatSpace": {
                 "debug": true,
                 "initialHide": true,
