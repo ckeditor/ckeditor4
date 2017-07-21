@@ -273,6 +273,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on disabled elements paragraph (class)': function() {
 		var	tc = this;
 		bender.editorBot.create( {
@@ -293,6 +294,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on disabled elements div mode': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -313,6 +315,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on disabled elements div mode (class)': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -334,6 +337,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on disabled elements br mode': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -359,6 +363,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on disabled elements br mode (class)': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -384,6 +389,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on multi-element non-collapsed selection': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -405,6 +411,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on multi-element non-collapsed selection (class)': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -428,6 +435,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on multi-element with disallowContent': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -456,6 +464,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on multi-element with disallowContent (class)': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -486,6 +495,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment div-type editor': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -514,6 +524,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment div-type editor (class)': function() {
 		var tc = this;
 		bender.editorBot.create( {
@@ -544,6 +555,7 @@ bender.test(
 		} );
 	},
 
+	// #455
 	'test alignment on disabled elements block type under editable': function() {
 		var	tc = this;
 		bender.editorBot.create( {
