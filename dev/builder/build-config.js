@@ -89,6 +89,7 @@ var CKBUILDER_CONFIG = {
         taoqtiimage : 1,
         taoqtimaths : 1,
         taoqtimedia : 1,
+        taoqtitable : 1,
         taounderline : 1,
         taohighlight : 1,
         taoqtiinclude : 1,

@@ -14,6 +14,7 @@ $plugins = array(
     'taoqtiimage',
     'taoqtimaths',
     'taoqtimedia',
+    'taoqtitable',
     'taounderline',
     'taohighlight',
     'taoqtiinclude'
