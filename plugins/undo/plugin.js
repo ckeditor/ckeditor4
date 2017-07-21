@@ -1050,6 +1050,13 @@
 		},
 
 		/**
+		 * Stop ignoring `input` events.
+		 */
+		activateInputEventListener: function() {
+		this.ignoreInputEvent = false;
+		},
+
+		/**
 		 * Attaches editable listeners required to provide the undo functionality.
 		 */
 		attachListeners: function() {
@@ -1079,10 +1086,9 @@
 			// It would result with calling undoManager.type() on any following key.
 			editable.attachListener( editable, 'paste', that.ignoreInputEventListener, that, null, 999 );
 			editable.attachListener( editable, 'drop', that.ignoreInputEventListener, that, null, 999 );
+
 			// After paste we need to re-enable input event listener
-			editor.on('afterPaste', function () {
-				that.ignoreInputEvent = false;
-			});
+			editor.on( 'afterPaste', that.activateInputEventListener, that );
 
 			// Click should create a snapshot if needed, but shouldn't cause change event.
 			// Don't pass onNavigationKey directly as a listener because it accepts one argument which
