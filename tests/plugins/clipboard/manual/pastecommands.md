@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.7.0, tc, tp2096
+@bender-tags: 4.7.0, bug, tp2096
 @bender-ckeditor-plugins: clipboard, pastetext, pastefromword, wysiwygarea, toolbar, undo, elementspath, clipboard, floatingspace, sourcearea
 
 

@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, trac16755, 4.7.0, tp1577
+@bender-tags: bug, trac16755, 4.7.0, tp1577
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, sourcearea, undo, elementspath
 
 ## Table selection with blurred editor

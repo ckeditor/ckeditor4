@@ -1,4 +1,4 @@
-@bender-tags: lineutils, tc, 4.4.8
+@bender-tags: lineutils, bug, 4.4.8
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image2, font, stylescombo, basicstyles, format, maximize, blockquote, list, table, resize, elementspath, justify, clipboard, floatingspace, sourcearea, htmlwriter
 

@@ -1,4 +1,4 @@
-@bender-tags: tc, 4.7.1, trac16980, feature
+@bender-tags: bug, 4.7.1, trac16980, feature
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,a11yhelp,pastetext
 
