@@ -1,4 +1,4 @@
-@bender-tags: link, 4.7.2, 501, bug, tc
+@bender-tags: link, 4.7.2, 501, bug
 @bender-ui: collapsed
 @bender-ckeditor-plugins: link, toolbar, wysiwygarea
 
