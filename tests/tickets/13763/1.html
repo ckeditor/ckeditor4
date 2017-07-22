@@ -1,0 +1,12 @@
+<div id="editor1">
+	<p>Paste something here:</p>
+</div>
+<div id="changes"></div>
+
+<script>
+    var i = 1;
+    var changes = $( "#changes" );
+    CKEDITOR.replace( 'editor1' ).on("change", function () {
+        changes.append( $( "<div />" ).text( "change " + i++ ) );
+    });
+</script>
