@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,panel */
+/* bender-tags: editor,panel */
 /* bender-ckeditor-plugins: pagebreak,toolbar,clipboard,panel */
 
 ( function() {

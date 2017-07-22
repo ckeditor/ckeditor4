@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: bidi,justify,indent,table,div,toolbar */
 
 bender.editor = { config: { enterMode: CKEDITOR.ENTER_P } };

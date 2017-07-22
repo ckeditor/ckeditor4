@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* global testSelection, testSelectedElement, testSelectedText, testStartElement, rangy, doc, makeSelection,
 	convertRange, checkRangeEqual, checkSelection, assertSelectionsAreEqual, tools */
 

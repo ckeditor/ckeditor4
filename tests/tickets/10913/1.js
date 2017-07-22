@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 CKEDITOR.plugins.addExternal( 'plugin1', '%TEST_DIR%_assets/plugin1/', 'plugin.js' );
 CKEDITOR.plugins.addExternal( 'plugin2', '%TEST_DIR%_assets/plugin2/plugin.js', '' );

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard,widget,filetools */
+/* bender-tags: editor,clipboard,widget,filetools */
 /* bender-ckeditor-plugins: uploadwidget,toolbar,undo,basicstyles */
 /* bender-include: %BASE_PATH%/plugins/clipboard/_helpers/pasting.js */
 /* global pasteFiles */

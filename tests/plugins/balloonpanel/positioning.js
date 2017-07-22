@@ -1,4 +1,4 @@
-/* bender-tags: a11ychecker,unit,balloonpanel */
+/* bender-tags: a11ychecker,balloonpanel */
 /* bender-ckeditor-plugins: toolbar,link,balloonpanel */
 /* bender-include: _helpers/tools.js */
 /* global balloonTestsTools */

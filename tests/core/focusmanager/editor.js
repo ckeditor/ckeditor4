@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: floatingspace,toolbar,about,format */
 
 CKEDITOR.focusManager._.blurDelay = 0;

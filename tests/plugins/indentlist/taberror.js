@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: toolbar,indentlist */
 /* bender-ui: collapsed */
 

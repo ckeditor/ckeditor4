@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,autoparagraphing */
+/* bender-tags: editor,autoparagraphing */
 /* global doc, checkRangeEqual, assertSelectionsAreEqual */
 
 'use strict';

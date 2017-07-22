@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 // editor language detect will need a standalone clean suite.
 bender.test( {
