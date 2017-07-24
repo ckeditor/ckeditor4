@@ -358,7 +358,7 @@
 		// 2. Into previous cell of the first row if any;
 		// 3. Into table's parent element;
 		var cursorPosition;
-		if ( map[ 0 ].length - 1 > endColIndex && map[ 0 ][ endColIndex + 1 ].cellIndex !== -1 ) {
+		if ( map[ 0 ].length - 1 > endColIndex ) {
 			cursorPosition = new CKEDITOR.dom.element( map[ 0 ][ endColIndex + 1 ] );
 		} else if ( startColIndex && map[ 0 ][ startColIndex - 1 ].cellIndex !== -1 ) {
 			cursorPosition = new CKEDITOR.dom.element( map[ 0 ][ startColIndex - 1 ] );
