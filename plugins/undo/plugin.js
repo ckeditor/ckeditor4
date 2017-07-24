@@ -1053,7 +1053,7 @@
 		 * Stop ignoring `input` events.
 		 */
 		activateInputEventListener: function() {
-		this.ignoreInputEvent = false;
+			this.ignoreInputEvent = false;
 		},
 
 		/**
@@ -1088,7 +1088,7 @@
 			editable.attachListener( editable, 'drop', that.ignoreInputEventListener, that, null, 999 );
 
 			// After paste we need to re-enable input event listener
-			editor.on( 'afterPaste', that.activateInputEventListener, that );
+			editor.on( 'afterPaste', that.activateInputEventListener, that, null, 999 );
 
 			// Click should create a snapshot if needed, but shouldn't cause change event.
 			// Don't pass onNavigationKey directly as a listener because it accepts one argument which

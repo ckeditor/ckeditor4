@@ -182,8 +182,8 @@
 			} );
 		},
 
-		// 13763
-		'test change event not fired on type after paste': function() {
+		// 554
+		'test change event fired on type after paste': function() {
 			this.editorBot.setHtmlWithSelection( '<p>foo^</p>' );
 
 			var that = this,
