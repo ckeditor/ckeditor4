@@ -5,11 +5,13 @@
 
 	var getInnerHtml = bender.tools.getInnerHtml,
 		doc = CKEDITOR.document,
-		html1 = document.getElementById( 'playground' ).innerHTML;
+		html1 = document.getElementById( 'playground' ).innerHTML,
+		numbers = document.getElementById( 'numbers' ).innerHTML;
 
 	var tests = {
 		setUp: function() {
 			document.getElementById( 'playground' ).innerHTML = html1;
+			document.getElementById( 'numbers' ).innerHTML = numbers;
 		},
 
 		test_extractContents_W3C_1: function() {
@@ -383,34 +385,31 @@
 
 		// #644
 		'test extract nested tags': function() {
-			bender.editorBot.create( {
-				name: 'extract1',
-				config: {
-					extraAllowedContent: 'p strong em sup sub span'
-				}
-			}, function( bot ) {
-				var selection = bender.tools.selection.setWithHtml( bot.editor, '<p>{111<strong>222<span>333<em>444</em></span>555<sup>666</sup>777<sub>888}</sub></strong></p>' ),
-					result = selection.getRanges()[ 0 ].extractContents();
+			var range = new CKEDITOR.dom.range( doc ),
+				docFrag;
 
-				assert.isInnerHtmlMatching( '111<strong>222<span>333<em>444</em></span>555<sup>666</sup>777<sub>888</sub></strong>', result.getHtml() );
-			} );
+			// You want to select text nodes.
+			range.setStart( doc.getById( '_pe' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_sub' ).getFirst(), 3 );
+
+			docFrag = range.extractContents();
+
+			assert.isInnerHtmlMatching( '111<strong>222<span>333<em>444</em></span>555<sup>666</sup>777<sub id="_sub">888</sub></strong>', docFrag.getHtml() );
+
 		},
 
 		// #644
 		'test extractContents and cloneContents provides equal results': function() {
-			bender.editorBot.create( {
-				name: 'extract2',
-				config: {
-					extraAllowedContent: 'p strong em span sup sub'
-				}
-			}, function( bot ) {
-				var selection = bender.tools.selection.setWithHtml( bot.editor, '<p>{111<strong>222<span>333<em>444</em></span>555<sup>666</sup>777<sub>888}</sub></strong></p>' ),
-					range = selection.getRanges()[ 0 ],
-					clone = range.cloneContents(),
-					extract = range.extractContents();
+			var range = new CKEDITOR.dom.range( doc ),
+				extractFrag, cloneFrag;
 
-				assert.isInnerHtmlMatching( bender.tools.fixHtml( clone.getHtml() ), bender.tools.fixHtml( extract.getHtml() ) );
-			} );
+			range.setStart( doc.getById( '_pe' ).getFirst(), 0 );
+			range.setEnd( doc.getById( '_sub' ).getFirst(), 3 );
+
+			cloneFrag = range.cloneContents(),
+			extractFrag = range.extractContents();
+
+			assert.isInnerHtmlMatching( bender.tools.fixHtml( cloneFrag.getHtml() ), bender.tools.fixHtml( extractFrag.getHtml() ) );
 		}
 	};
 

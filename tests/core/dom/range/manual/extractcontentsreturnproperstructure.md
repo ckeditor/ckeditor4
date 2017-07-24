@@ -3,9 +3,9 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, stylescombo, sourcearea, notification
 
 1. Select all text in editor.
-1. Press button bellow.
-1. There should appear 2 belowe button, and selected text should be removed from editor.
+1. Press button below editor.
+1. There should appear 2 HTML markups extracted from the editor. Selected text should be removed from editor.
 
-**Expected:** Texts in both lines are the same.
+**Expected:** Both HTML markups are the same.
 
-**Unexpected:** Texts differ. Words are rearranged.
+**Unexpected:** Markups differ. Words are rearranged.
