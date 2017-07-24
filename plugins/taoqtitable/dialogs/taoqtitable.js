@@ -226,11 +226,17 @@
                     taoWidgetWrapper.setAttributes({
                         'data-new': true,
                         'data-qti-class': 'table',
-                        'class': 'widgetBox'
+                        'class': 'widget-box'
                     });
                     taoWidgetWrapper.append(table);
 
-                    editor.insertElement( taoWidgetWrapper );
+                    var config = editor.config.taoQtiItem;
+                    if(typeof(config.insert) === 'function'){
+                        editor.insertElement(taoWidgetWrapper);
+                        config.insert.call(editor, taoWidgetWrapper.$);
+                    }
+
+                    // todo: do we want to keep this?
                     // Override the default cursor position after insertElement to place
                     // cursor inside the first cell (#7959), IE needs a while.
                     setTimeout( function() {
