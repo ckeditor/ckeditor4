@@ -13,6 +13,8 @@
 		var b = document.getElementById( 'outputb' );
 
 		var range = editor.getSelection().getRanges()[0];
+		console.log( range );
+		debugger;
 		if ( range ) {
 			a.innerText = range.cloneContents().getHtml();
 			b.innerText = range.extractContents().getHtml();

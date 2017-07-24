@@ -379,6 +379,38 @@
 
 			// See: execContentsAction in range.js.
 			assert.isInnerHtmlMatching( '<p>Foo bar</p>', docFrag.getHtml(), 'Extracted HTML' );
+		},
+
+		// #644
+		'test extract nested tags': function() {
+			bender.editorBot.create( {
+				name: 'extract1',
+				config: {
+					extraAllowedContent: 'p strong em sup sub span'
+				}
+			}, function( bot ) {
+				var selection = bender.tools.selection.setWithHtml( bot.editor, '<p>{111<strong>222<span>333<em>444</em></span>555<sup>666</sup>777<sub>888}</sub></strong></p>' ),
+					result = selection.getRanges()[ 0 ].extractContents();
+
+				assert.isInnerHtmlMatching( '111<strong>222<span>333<em>444</em></span>555<sup>666</sup>777<sub>888</sub></strong>', result.getHtml() );
+			} );
+		},
+
+		// #644
+		'test extractContents and cloneContents provides equal results': function() {
+			bender.editorBot.create( {
+				name: 'extract2',
+				config: {
+					extraAllowedContent: 'p strong em span sup sub'
+				}
+			}, function( bot ) {
+				var selection = bender.tools.selection.setWithHtml( bot.editor, '<p>{111<strong>222<span>333<em>444</em></span>555<sup>666</sup>777<sub>888}</sub></strong></p>' ),
+					range = selection.getRanges()[ 0 ],
+					clone = range.cloneContents(),
+					extract = range.extractContents();
+
+				assert.isInnerHtmlMatching( bender.tools.fixHtml( clone.getHtml() ), bender.tools.fixHtml( extract.getHtml() ) );
+			} );
 		}
 	};
 

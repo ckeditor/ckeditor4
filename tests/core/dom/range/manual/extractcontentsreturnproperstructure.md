@@ -1,6 +1,6 @@
 @bender-tags: 4.7.2, bug, 644, range
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, stylescombo, elementspath, sourcearea, notification
+@bender-ckeditor-plugins: wysiwygarea, toolbar, basicstyles, stylescombo, sourcearea, notification
 
 1. Select all text in editor.
 1. Press button bellow.
