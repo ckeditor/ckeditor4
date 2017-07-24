@@ -21,7 +21,6 @@
 
 			bot.dialog( 'tableProperties', function( dialog ) {
 				assert.areSame( '', dialog.getValueOf( 'advanced', 'advCSSClasses' ) );
-				dialog.hide();
 			} );
 		}
 	} );
