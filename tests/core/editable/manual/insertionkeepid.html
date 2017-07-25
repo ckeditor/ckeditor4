@@ -1,10 +1,10 @@
 <textarea id="classic">
-	<p style="text-align: justify">
+	<p>
 		<span id="SomeId1">Foo</span>
 	</p>
 </textarea>
 <div id="divarea" >
-	<div style="text-align: justify">
+	<div>
 		<span id="SomeId2">Foo</span>
 	</div>
 </div>
@@ -12,12 +12,12 @@
 <script>
 	( function() {
 		CKEDITOR.replace( 'classic', {
-			allowedContent: 'p span[id](*){*}'
-		});
+			allowedContent: 'span[id]'
+		} );
 		CKEDITOR.replace( 'divarea', {
-			allowedContent: 'div span[id](*){*}',
+			allowedContent: 'span[id]',
 			extraPlugins: 'divarea',
 			enterMode: CKEDITOR.ENTER_DIV
-		});
-	}() )
+		} );
+	} )();
 </script>

@@ -1663,7 +1663,7 @@
 		function prepareRangeToDataInsertion( that ) {
 			var range = that.range,
 				mergeCandidates = that.mergeCandidates,
-				node, marker, path, startPath, endPath, previous, bm, i, element;
+				node, marker, path, startPath, endPath, previous, bm;
 
 			// If range starts in inline element then insert a marker, so empty
 			// inline elements won't be removed while range.deleteContents
@@ -1716,17 +1716,18 @@
 			// Split inline elements so HTML will be inserted with its own styles.
 			path = range.startPath();
 			if ( ( node = path.contains( isInline, false, 1 ) ) ) {
-				// #17009 store elements with id. Beacuse siblings are marged always from lower child index to higher, refrence to node will persist after all operations.
-				for ( i=0; i < path.elements.length; i++ ) {
-					element = path.elements[i];
-					if ( element.hasAttribute( 'id' ) ){
-						that.elementsWithId.push({
-							"node": element,
-							"id": element.getAttribute('id')
-						});
-						element.removeAttribute('id');
+				// Store elements with id, beacuse siblings are marged always from lowest child index to highest,
+				// refrence to node will persist after all operations (https://dev.ckeditor.com/ticket/17009).
+				CKEDITOR.tools.array.forEach( path.elements, function( element ) {
+					if ( element.hasAttribute( 'id' ) ) {
+						that.elementsWithId.push( {
+							'node': element,
+							'id': element.getAttribute( 'id' )
+						} );
+						element.removeAttribute( 'id' );
 					}
-				}
+				} );
+
 				range.splitElement( node );
 				that.inlineStylesRoot = node;
 				that.inlineStylesPeak = path.lastElement;

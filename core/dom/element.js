@@ -1164,15 +1164,9 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 			function mergeElements( element, sibling, isNext ) {
 				if ( sibling && sibling.type == CKEDITOR.NODE_ELEMENT ) {
 					// Jumping over bookmark nodes and empty inline elements, e.g. <b><i></i></b>,
-<<<<<<< HEAD
 					// queuing them to be moved later. (http://dev.ckeditor.com/ticket/5567)
-					var pendingNodes = [];
-=======
-					// queuing them to be moved later. (#5567)
->>>>>>> Better fix for keeping ID.
-
 					var pendingNodes = [],
-						temporaryElement, node;
+						temporaryElement;
 					while ( sibling.data( 'cke-bookmark' ) || sibling.isEmptyInlineRemoveable() ) {
 						pendingNodes.push( sibling );
 						sibling = isNext ? sibling.getNext() : sibling.getPrevious();
@@ -1186,7 +1180,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						// <b><i></i></b><b><i></i></b> => <b><i></i></b>
 						var innerSibling = isNext ? element.getLast() : element.getFirst();
 
-						// #17009 swap elements, to analyse then in this same order (from lower index to higher)
+						// Swap elements to return always this same order: from lowest to highest index (https://dev.ckeditor.com/ticket/17009).
 						if ( element.getIndex() > sibling.getIndex() ) {
 							temporaryElement = element;
 							element = sibling;
@@ -1195,15 +1189,17 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 						}
 
 						// Move pending nodes first into the target element.
-						while ( pendingNodes.length )
+						while ( pendingNodes.length ) {
 							pendingNodes.shift().move( element, !isNext );
+						}
 
 						sibling.moveChildren( element, !isNext );
 						sibling.remove();
 
 						// Now check the last inner child (see two comments above).
-						if ( innerSibling && innerSibling.type == CKEDITOR.NODE_ELEMENT )
+						if ( innerSibling && innerSibling.type == CKEDITOR.NODE_ELEMENT ) {
 							innerSibling.mergeSiblings();
+						}
 					}
 				}
 			}

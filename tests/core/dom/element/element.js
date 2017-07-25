@@ -752,17 +752,17 @@ bender.test( appendDomObjectTests(
 		},
 
 		test_isIdentical: function() {
-				// <b name="a" class="test">tessst</b>
+			// <b name="a" class="test">tessst</b>
 			var element1 = doc.getById( 'isIdentical' ).getFirst(),
-				// <b class="test" name="a"></b>
+			// <b class="test" name="a"></b>
 				element2 = element1.getNext(),
-				// <b class="test"></b>
+			// <b class="test"></b>
 				element3 = element2.getNext(),
-				// <b>tessst</b>
+			// <b>tessst</b>
 				element4 = element3.getNext(),
-				// <b _moz_dirty="" class="test"></b>
+			// <b _moz_dirty="" class="test"></b>
 				element5 = element4.getNext(),
-				// <b class="test" data-cke-expando=53></b>
+			// <b class="test" data-cke-expando=53></b>
 				element6 = element5.getNext();
 
 			assert.isTrue( element1.isIdentical( element2 ), 'different attrs order' );
@@ -787,9 +787,9 @@ bender.test( appendDomObjectTests(
 		},
 
 		test_isIdentical2: function() {
-				// <b style="color: red; width: 10px">a</b>
+			// <b style="color: red; width: 10px">a</b>
 			var element1 = doc.getById( 'isIdentical2' ).getFirst(),
-				// <b style="width:10px;color:red;">a</b>
+			// <b style="width:10px;color:red;">a</b>
 				element2 = element1.getNext(),
 				element3 = new CKEDITOR.dom.element( 'b' ),
 				element4 = new CKEDITOR.dom.element( 'b' );
@@ -1171,6 +1171,13 @@ bender.test( appendDomObjectTests(
 			elem.setSize( 'width', 200, true );
 
 			assert.areSame( expectedWidth, round( parseFloat( elem.$.style.width ) ), 'Computed width' );
+		},
+
+		// https://dev.ckeditor.com/ticket/17009
+		'test mergeSiblings nested tags': function() {
+			var element = CKEDITOR.dom.element.createFromHtml( '<p><strong><em>123456</em><em>abcd</em></strong><strong><em>789</em></strong></p>' );
+			element.getFirst().mergeSiblings();
+			assert.isInnerHtmlMatching( '<p><strong><em>123456abcd789</em></strong></p>', getOuterHtml( element ) );
 		}
 	}
 ) );
