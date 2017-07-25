@@ -204,10 +204,17 @@ CKEDITOR.dom.range = function( root ) {
 		// This allows us to not think about startNode == endNode case later on.
 		// We do that only when cloning, because in other cases we can safely split this text node
 		// and hence we can easily handle this case as many others.
-		if ( isClone && endNode.type == CKEDITOR.NODE_TEXT && startNode.equals( endNode ) ) {
-			startNode = range.document.createText( startNode.substring( startOffset, endOffset ) );
-			docFrag.append( startNode );
-			return;
+		if ( isClone && endNode.type == CKEDITOR.NODE_TEXT ) {
+			var checkEqualsNode = startNode;
+			if ( startNode != CKEDITOR.NODE_TEXT ) {
+				if ( startNode.$.childNodes[0] && startNode.$.childNodes[0].nodeType == 3 ) {
+					checkEqualsNode = new CKEDITOR.dom.node( startNode.$.childNodes[0] );
+				}
+			}
+			if ( checkEqualsNode.equals( endNode ) ) {
+				docFrag.append( range.document.createText( endNode.substring( startOffset, endOffset ) ) );
+				return;
+			}
 		}
 
 		// For text containers, we must simply split the node and point to the
