@@ -2053,6 +2053,11 @@
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
+		// Preserve trailing space (#605).
+		if ( typeof el.children[ 0 ] != 'undefined' && typeof el.children[0].value != 'undefined' ) {
+			el.children[ 0 ].value = el.children[ 0 ].value.replace( /\s$/, '&nbsp;' );
+		}
+
 		var parent = el.parent;
 		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] )
 			parent.replaceWith( el );

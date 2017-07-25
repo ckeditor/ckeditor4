@@ -10,6 +10,7 @@
 		}
 	};
 
+	// 605
 	bender.test( {
 		'test trailing space': function() {
 			var editor = this.editor;
@@ -27,9 +28,9 @@
 			editor.setData( '<span>lorem </span>ipsum' );
 
 			setTimeout( function() {
-				assert.areSame( 'lorem ' , editor.editable().getElementsByTag( 'span' ).$[1].innerText, 'innerText' );
-				assert.areSame( 'lorem ' , editor.editable().getElementsByTag( 'span' ).$[1].outerText, 'outerText' );
-				resume();
+				resume( function() {
+					assert.areSame( 'lorem&nbsp;' , editor.editable().getElementsByTag( 'span' ).$[1].innerHTML, 'innerHTML' );
+				} );
 			}, 100 );
 
 			wait();
