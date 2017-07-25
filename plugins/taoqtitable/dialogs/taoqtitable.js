@@ -45,7 +45,7 @@
         };
     }
 
-    function tableDialog( editor, command ) {
+    function tableDialog( editor, command, data ) {
         var makeElement = function( name ) {
                 return new CKEDITOR.dom.element( name, editor.document );
             };
@@ -90,18 +90,8 @@
                     widthInput = this.getContentElement( 'info', 'txtWidth' ),
                     heightInput = this.getContentElement( 'info', 'txtHeight' );
 
-                if ( command == 'tableProperties' ) {
-                    var selected = selection.getSelectedElement();
-                    if ( selected && selected.is( 'table' ) )
-                        table = selected;
-                    else if ( ranges.length > 0 ) {
-                        // Webkit could report the following range on cell selection (#4948):
-                        // <table><tr><td>[&nbsp;</td></tr></table>]
-                        if ( CKEDITOR.env.webkit )
-                            ranges[ 0 ].shrink( CKEDITOR.NODE_ELEMENT );
-
-                        table = editor.elementPath( ranges[ 0 ].getCommonAncestor( true ) ).contains( 'table', 1 );
-                    }
+                if ( command == 'taoqtitableProperties' ) {
+                    table = editor.element;
 
                     // Save a reference to the selected table, and push a new set of default values.
                     this._.selectedElement = table;

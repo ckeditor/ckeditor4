@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>TAO Qti Tables plugin</h1>
+<h2>Table creation</h2>
 <div contenteditable="true" id="editor" style="border: 1px solid grey; margin-top: 50px; width: 100%;">
     <p>Edit me</p>
     <table>
@@ -62,6 +63,62 @@
         </tbody>
     </table>
 </div>
+
+<h2>Table edition</h2>
+
+<table contenteditable="true" id="table-editor" style="border: 1px solid grey; margin-top: 50px; width: 100%;">
+    <thead>
+    <tr>
+        <th> </th>
+        <th>Male</th>
+        <th>Female</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>Total</th>
+        <td>308 994</td>
+        <td>291 785</td>
+        <td>600 779</td>
+    </tr>
+    </tfoot>
+    <tbody>
+    <tr>
+        <th>Never married</th>
+        <td>
+            XXXXX
+        </td>
+        <td>288 014</td>
+        <td>596 667</td>
+    </tr>
+    <tr>
+        <th>Married</th>
+        <td>325</td>
+        <td>3742</td>
+        <td>
+            XXXXX
+        </td>
+    </tr>
+    <tr>
+        <th>Divorced</th>
+        <td>14</td>
+        <td>
+            XXXXX
+        </td>
+        <td>39</td>
+    </tr>
+    <tr>
+        <th>Widow</th>
+        <td>2</td>
+        <td>
+            XXXXX
+        </td>
+        <td>6</td>
+    </tr>
+    </tbody>
+</table>
+<button id="tableProps">open table properties</button>
 
 <script>
     // this allows tables to become a ckEditor instance
@@ -625,7 +682,6 @@
                     "items": [
                         "Bold",
                         "Italic",
-                        "TaoUnderline",
                         "Subscript",
                         "Superscript"
                     ]
@@ -633,13 +689,7 @@
                 {
                     "name": "insert",
                     "items": [
-                        "Image",
-                        "SpecialChar",
-                        "TaoQtiTable",
-                        "TaoQtiMaths",
-                        "TaoQtiInclude",
-                        "TaoQtiImage",
-                        "TaoQtiMedia"
+                        "TaoQtiTable"
                     ]
                 },
                 {
@@ -680,7 +730,15 @@
             "resourcemgr": {}
         };
 
-    CKEDITOR.inline( 'editor', config);
+    var textEditor = CKEDITOR.inline( 'editor', config),
+        tableEditor = CKEDITOR.inline( 'table-editor', config),
+        tablePropsBtn = document.getElementById('tableProps');
+
+    tablePropsBtn.addEventListener('mousedown', function() {
+        var cmd = tableEditor.getCommand('taoqtitableProperties');
+        cmd.setState(1);
+        tableEditor.execCommand('taoqtitableProperties');
+    });
 </script>
 </body>
 </html>
