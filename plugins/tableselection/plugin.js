@@ -515,6 +515,14 @@
 			}
 		}
 
+		function collapseSelection( cell ) {
+			var range = editor.createRange();
+
+			range.selectNodeContents( cell );
+			range.collapse();
+			range.select();
+		}
+
 		if ( !dataProcessor ) {
 			dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
 		}
@@ -552,10 +560,12 @@
 
 		// Handle mixed content (if the table is not the only child in the tmpContainer, we
 		// are probably dealing with mixed content). We handle also non-table content here.
+		// We just collapse selection to the first selected cell and pass non-table/mixed
+		// content to other paste handlers (#520).
 		if ( tmpContainer.getChildCount() > 1 || !pastedTable ) {
-			selectedCells[ 0 ].setHtml( tmpContainer.getHtml() );
+			evt.data.dataValue = tmpContainer.getHtml();
 
-			editor.fire( 'saveSnapshot' );
+			collapseSelection( selectedCells[ 0 ] );
 
 			return;
 		}
