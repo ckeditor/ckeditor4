@@ -180,14 +180,22 @@
 
 			editor.element.$.parentNode.addEventListener('keydown', function(e) {
 				if (e.keyCode !== 46 && e.keyCode !== 8) {
-					return
+					return;
 				}
 
 				var selection = editor.getSelection();
 				var range = selection.getRanges();
 				var elem;
+				var backwards = false;
 
-				if (range[0]) {
+				for (var i = 0, len = range.length; i < len; ++i) {
+					if (!range[i].collapsed) {
+						backwards = true;
+						break;
+					}
+				}
+
+				if (!backwards && range[0]) {
 					if (range[0].startContainer.$.nodeType === 1) {
 						elem = range[0].startContainer.$;
 					} else {
@@ -205,7 +213,7 @@
 					}
 				}
 
-				if (elem && elem.getAttribute('content-editable') === 'false') {
+				if (!backwards && elem && elem.getAttribute('content-editable') === 'false') {
 					var parent = elem.parentNode;
 					e.preventDefault();
 					e.stopImmediatePropagation();
