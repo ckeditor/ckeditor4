@@ -395,13 +395,13 @@
 			docFrag = range.extractContents();
 
 			assert.isInnerHtmlMatching( '111<strong>222<span>333<em>444</em></span>555<sup>666</sup>777<sub id="_sub">888</sub></strong>', docFrag.getHtml() );
-
 		},
 
 		// #644
 		'test extractContents and cloneContents provides equal results': function() {
 			var range = new CKEDITOR.dom.range( doc ),
-				extractFrag, cloneFrag;
+				extractFrag,
+				cloneFrag;
 
 			range.setStart( doc.getById( '_pe' ).getFirst(), 0 );
 			range.setEnd( doc.getById( '_sub' ).getFirst(), 3 );
@@ -409,7 +409,7 @@
 			cloneFrag = range.cloneContents(),
 			extractFrag = range.extractContents();
 
-			assert.isInnerHtmlMatching( bender.tools.fixHtml( cloneFrag.getHtml() ), bender.tools.fixHtml( extractFrag.getHtml() ) );
+			assert.beautified.html( cloneFrag.getHtml(), extractFrag.getHtml() );
 		}
 	};
 
