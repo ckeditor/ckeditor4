@@ -1,5 +1,5 @@
-/* bender-tags: editor,clipboard */
-/* bender-ckeditor-plugins: link,clipboard,pastetext,pastefromword */
+/* bender-tags: editor,unit,clipboard */
+/* bender-ckeditor-plugins: link,clipboard,pastetext,pastefromword,toolbar*/
 /* bender-include: _helpers/pasting.js */
 /* global createFixtures, getDefaultNotification, assertPasteCommand, assertPasteNotification, testResetScenario */
 
@@ -59,7 +59,6 @@
 				bot.setData( '', function() {
 					var pasteData = fixtures.get( 'pasteData' ),
 						expected = fixtures.get( 'expectedHtml' );
-
 					assertPasteCommand( editor, expected, null, pasteData );
 				} );
 			},
