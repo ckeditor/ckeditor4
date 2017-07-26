@@ -2507,7 +2507,8 @@
 				if ( !target.type )
 					return false;
 
-				widget = widgetsRepo.getByElement( target );
+				widget = ( target instanceof CKEDITOR.dom.element ) ? widgetsRepo.getByElement( target ) : null;
+
 				mouseDownOnDragHandler = 0; // Reset.
 
 				// Widget was clicked, but not editable nested in it.
