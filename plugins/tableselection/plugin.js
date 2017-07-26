@@ -536,8 +536,6 @@
 			return;
 		}
 
-		evt.stop();
-
 		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
 		selectedCells = getSelectedCells( selection, selectedTable );
 		firstCell = selectedCells[ 0 ];
@@ -561,6 +559,9 @@
 
 			return;
 		}
+
+		// Preventing other paste handlers should be done after all early returns (#520).
+		evt.stop();
 
 		// In case of boundary selection, insert new row before/after selected one, select it
 		// and resume the rest of the algorithm.
