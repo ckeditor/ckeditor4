@@ -2185,11 +2185,13 @@
 							element.attributes[ 'data-cke-widget-upcasted' ] = 1;
 
 							// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
-							if ( typeof element.children[ 0 ] != 'undefined' && typeof element.children[0].value != 'undefined' ) {
-								element.attributes[ 'data-cke-widget-white-space' ] = 1;
+							if ( typeof element.children[ 0 ] != 'undefined' && typeof element.children[ 0 ].value != 'undefined' ) {
+								if ( element.children[ 0 ].value.match( /\s$/g ) || element.children[ 0 ].value.match( /^\s/g ) ) {
+									element.attributes[ 'data-cke-widget-white-space' ] = 1;
 
-								element.children[ 0 ].value = element.children[ 0 ].value.replace( /\s$/g, '&nbsp;' );
-								element.children[ 0 ].value = element.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
+									element.children[ 0 ].value = element.children[ 0 ].value.replace( /\s$/g, '&nbsp;' );
+									element.children[ 0 ].value = element.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
+								}
 							}
 
 							toBeWrapped.push( [ element, upcast[ 1 ] ] );
