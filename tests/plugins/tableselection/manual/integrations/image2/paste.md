@@ -1,0 +1,38 @@
+@bender-ui: collapsed
+@bender-tags: tc, 520, 4.7.2
+@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, elementspath, image2
+
+## Case 1
+
+1. Copy image.
+2. Put cursor in one of the cells.
+3. Paste image.
+4. Click image.
+
+**Expected result:**
+
+Image is inserted as widget.
+
+**Unexpected result:**
+
+Image is not a widget.
+
+
+## Case 2
+
+1. Copy image.
+2. Select some cells.
+3. Paste image.
+4. Click image.
+
+**Expected result:**
+
+* Image is inserted as widget into the first selected cell.
+* Other cells are emptied.
+* All selected cells are still selected.
+
+**Unexpected result:**
+
+* Image is not inserted.
+* Selection is modified.
+* There are selection-connected errors in browser's console.
