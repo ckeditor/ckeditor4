@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit,widget */
-/* bender-ckeditor-plugins: image2,tableselection */
+/* bender-ckeditor-plugins: image2,undo,tableselection */
 /* bender-include: ../../_helpers/tableselection.js */
 /* global tableSelectionHelpers */
 
@@ -13,6 +13,20 @@
 		}
 	};
 
+	function testUndo( editor ) {
+		editor.once( 'afterCommandExec', function() {
+			resume( function() {
+				assert.isTrue( editor.getCommand( 'undo' ).state === CKEDITOR.TRISTATE_DISABLED,
+				'Paste generated only 1 undo step' );
+				assert.isTrue( editor.getCommand( 'redo' ).state === CKEDITOR.TRISTATE_OFF, 'Paste can be repeated' );
+			} );
+		} );
+
+		editor.execCommand( 'undo' );
+
+		wait();
+	}
+
 	function pasteImage( editor ) {
 		editor.once( 'afterPaste', function() {
 			resume( function() {
@@ -20,6 +34,8 @@
 
 				assert.areSame( 1, images.count(), 'There is only one image' );
 				assert.isFalse( images.getItem( 0 ).hasClass( 'cke_widget_new' ), 'The image widget is initialized' );
+
+				testUndo( editor );
 			} );
 		} );
 
@@ -32,12 +48,14 @@
 			'the copied image to table shoud be initialized (collapsed selection)': function( editor, bot ) {
 				bot.setHtmlWithSelection( '<table border="1"><tbody><tr><td>^</td></tr></tbody></table>'  );
 
+				editor.undoManager.reset();
 				pasteImage( editor );
 			},
 
 			'the copied image to table shoud be initialized (multiple selection)': function( editor, bot ) {
 				bot.setHtmlWithSelection( '<table border="1"><tbody><tr>[<td></td>][<td></td>]</tr></tbody></table>'  );
 
+				editor.undoManager.reset();
 				pasteImage( editor );
 			}
 		};

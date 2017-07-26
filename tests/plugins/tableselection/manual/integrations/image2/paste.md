@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: tc, 520, 4.7.2
-@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, elementspath, image2
+@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, elementspath, undo, image2
 
 ## Case 1
 
@@ -36,3 +36,10 @@ Image is not a widget.
 * Image is not inserted.
 * Selection is modified.
 * There are selection-connected errors in browser's console.
+
+## Undo/redo
+
+After pasting check if undo/redo is working correctly:
+
+* The undo is enabled.
+* Paste generates only one snapshot.
