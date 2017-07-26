@@ -2053,11 +2053,6 @@
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
-		// Preserve trailing space (#605).
-		if ( typeof el.children[ 0 ] != 'undefined' && typeof el.children[0].value != 'undefined' ) {
-			el.children[ 0 ].value = el.children[ 0 ].value.replace( /\s$/, '&nbsp;' );
-		}
-
 		var parent = el.parent;
 		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] )
 			parent.replaceWith( el );
@@ -2188,6 +2183,14 @@
 							// Set initial data attr with data from upcast method.
 							element.attributes[ 'data-cke-widget-data' ] = encodeURIComponent( JSON.stringify( data ) );
 							element.attributes[ 'data-cke-widget-upcasted' ] = 1;
+
+							// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
+							if ( typeof element.children[ 0 ] != 'undefined' && typeof element.children[0].value != 'undefined' ) {
+								element.attributes[ 'data-cke-widget-white-space' ] = 1;
+
+								element.children[ 0 ].value = element.children[ 0 ].value.replace( /\s$/g, '&nbsp;' );
+								element.children[ 0 ].value = element.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
+							}
 
 							toBeWrapped.push( [ element, upcast[ 1 ] ] );
 
@@ -2713,6 +2716,14 @@
 			evt.data.dataValue.forEach( function( element ) {
 				var attrs = element.attributes,
 					widget, widgetElement;
+
+				// Reset initial and trailing space by replacing &nbsp; with white space (#605).
+				if ( 'data-cke-widget-white-space' in attrs ) {
+					element.attributes[ 'data-cke-widget-white-space' ] = 1;
+
+					element.children[ 0 ].value = element.children[ 0 ].value.replace( /&nbsp;$/g, ' ' );
+					element.children[ 0 ].value = element.children[ 0 ].value.replace( /^&nbsp;/g, ' ' );
+				}
 
 				// Wrapper.
 				// Perform first part of downcasting (cleanup) and cache widgets,
