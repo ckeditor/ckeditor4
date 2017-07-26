@@ -2721,8 +2721,6 @@
 
 				// Reset initial and trailing space by replacing &nbsp; with white space (#605).
 				if ( 'data-cke-widget-white-space' in attrs ) {
-					element.attributes[ 'data-cke-widget-white-space' ] = 1;
-
 					element.children[ 0 ].value = element.children[ 0 ].value.replace( /&nbsp;$/g, ' ' );
 					element.children[ 0 ].value = element.children[ 0 ].value.replace( /^&nbsp;/g, ' ' );
 				}
