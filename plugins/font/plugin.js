@@ -93,7 +93,7 @@
 
 				this.startGroup( lang.panelTitle );
 
-				// Add `(Default)` item as a first element on the drop down list.
+				// Add `(Default)` item as a first element on the drop-down list.
 				this.add( this.defaultValue, defaultText, defaultText );
 
 				for ( var i = 0; i < names.length; i++ ) {

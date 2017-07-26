@@ -2,9 +2,9 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, format, elementspath, sourcearea
 
-1. Select text
-1. Try to apply multiple times this same format to one selection (different than normal).
+1. Select text.
+1. Try to apply same format (other than Normal) multiple times.
 
-**Expected:** Choosen format should remain this same all the time.
+**Expected:** Choosen format should remain the same all the time.
 
-**Unexpected:** Text format toggle between styled and unstyled (Normal) one.
+**Unexpected:** Text format toggles between styled and unstyled (Normal) one.

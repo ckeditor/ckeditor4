@@ -2,15 +2,16 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, font, elementspath, sourcearea
 
+Note: Perform below scenario for both `Font size` and `Font family` drop-downs.
+----
+
 1. Select some text.
-1. Change `font size`, (e.g. `24`).
-1. Select this same text. So size on list has selected proper option.
+1. Change `Font size` (e.g. `24`).
+1. Select this same text.
+  * `Font size` drop-down shows size selected in a previous step.
 1. Select this same size once again (e.g. `24`).
-1. Text should preserve proper font size.
-1. Now select option `(Default)` to reset font size.
-1. Font size should reset to default one and `<span>` with font size style should disappear.
-1. Repeat those same steps for the `font name`.
+  * Selected text should preserve its font size.
+1. Select option `(Default)` to reset the `Font size`.
+  * `Font size` should reset to default one and `<span>` element with `Font size` style should disappear.
 
-**Expected:** Choosen font size/name will remain this same, after click into it. It still will be marked on dropdown menu and text preserve chosen style after reapplying it multiple times.
-
-**Unexpected:** Font size/name will be deselct and style dissapear from the text when clicked 2nd time.
+**Expected:** Choosen font size/name will remain the same, after click on its corresponding item in the drop-down menu. The item will remain marked as active. Selected text preserves chosen style after reapplying it multiple times.

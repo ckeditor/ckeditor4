@@ -222,7 +222,7 @@
 			this.assertCombo( 'Font', 'cke-default', false, bot, '<p>foo@</p>' );
 		},
 
-		'test reaaply this same font size twice': function() {
+		'test reapply this same font size twice': function() {
 			var bot = this.editorBot;
 			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
 
@@ -238,7 +238,7 @@
 
 		},
 
-		'test reaaply this same font family twice': function() {
+		'test reapply this same font family twice': function() {
 			var bot = this.editorBot;
 			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
 
