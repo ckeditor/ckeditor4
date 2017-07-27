@@ -1,6 +1,9 @@
 ﻿/**
  * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
+ *
+ * Heavily modified for TAO usage
+ * @author Christophe Noël <christophe@taotesting.com>
  */
 
 ( function() {
@@ -325,9 +328,9 @@
                         }
 
                     /* If this is need someday (this is QTI compliant), partial support is already there.
-                     * It will work directly in QtiCreator on table creation.
-                     * On table edition, however, the change callback of the ckEditor instance only update the element body, and not its attributes.
-                     * So this field cannot be created nor edited after the table has been created.
+                     * It will work directly in QtiCreator, but on table creation only.
+                     * On table edition, the change callback of the ckEditor instance only update the element body, and not its attributes.
+                     * Thus, this field cannot be created nor edited after the table has been created.
                     },
                     {
                         type: 'text',
