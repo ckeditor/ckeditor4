@@ -145,8 +145,8 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	this.getKeyDescription = function() {
 		if ( typeof commandDefinition.getKeyDescription == 'function' ) {
 			return commandDefinition.getKeyDescription.call( this, editor );
-		} else if ( commandDefinition.description ) {
-			return commandDefinition.description;
+		} else if ( commandDefinition.keyDescription ) {
+			return commandDefinition.keyDescription;
 		} else {
 			return '';
 		}
