@@ -563,7 +563,7 @@
 			canUndo: true,
 			modes: { wysiwyg: 1 },
 			label: insertAfter ? that.editor.lang.magicline.commands.nextSpace.label : that.editor.lang.magicline.commands.previousSpace.label,
-			description: insertAfter ? that.editor.lang.magicline.commands.nextSpace.description : that.editor.lang.magicline.commands.previousSpace.description,
+			keyDescription: insertAfter ? that.editor.lang.magicline.commands.nextSpace.description : that.editor.lang.magicline.commands.previousSpace.description,
 			exec: ( function() {
 
 				// Inserts line (accessNode) at the position by taking target node as a reference.
