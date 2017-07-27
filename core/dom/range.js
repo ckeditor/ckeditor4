@@ -210,7 +210,7 @@ CKEDITOR.dom.range = function( root ) {
 			endNode.type == CKEDITOR.NODE_TEXT &&
 			( startNode.equals( endNode ) || ( startNode.type === CKEDITOR.NODE_ELEMENT && startNode.getFirst().equals( endNode ) ) ) ) {
 
-			// this should be always text
+			// Here we should always be inside one text node.
 			docFrag.append( range.document.createText( endNode.substring( startOffset, endOffset ) ) );
 			return;
 		}

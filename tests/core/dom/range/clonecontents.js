@@ -557,57 +557,64 @@
 		'test cloneContents - inner selection6': function() {
 			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz]</strong> foo</p>', 'baz' );
 		},
-		// Safari always keeps selection insdie node.
 		'test cloneContents - outer selection1': function() {
+			// Safari always keeps selection insdie node.
 			if ( CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo {<strong>bar] baz</strong> foo</p>', '<strong>bar</strong>' );
 		},
 		'test cloneContents - outer selection2': function() {
+			// Safari always keeps selection insdie node.
 			if ( CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo {<strong>bar} baz</strong> foo</p>', '<strong>bar</strong>' );
 		},
 		'test cloneContents - outer selection3': function() {
+			// Safari always keeps selection insdie node.
 			if ( CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo [<strong>bar] baz</strong> foo</p>', '<strong>bar</strong>' );
 		},
 		'test cloneContents - outer selection4': function() {
+			// Safari always keeps selection insdie node.
 			if ( CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo [<strong>bar} baz</strong> foo</p>', '<strong>bar</strong>' );
 		},
-		// IE8 keeps selection of endpoint inside node.
 		'test cloneContents - outer selection5': function() {
+			// IE8 keeps selection of endpoint inside node, and Safari always keeps selection inside.
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>] foo</p>', '<strong>baz</strong>' );
 		},
 		'test cloneContents - outer selection6': function() {
+			// IE8 keeps selection of endpoint inside node, and Safari always keeps selection inside.
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar {baz</strong>} foo</p>', '<strong>baz</strong>' );
 		},
 		'test cloneContents - outer selection7': function() {
+			// IE8 keeps selection of endpoint inside node, and Safari always keeps selection inside.
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>] foo</p>', '<strong>baz</strong>' );
 		},
 		'test cloneContents - outer selection8': function() {
+			// IE8 keeps selection of endpoint inside node, and Safari always keeps selection inside.
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
 			this.assertHtmlFragment( this.editors.classic, '<p>foo <strong>bar [baz</strong>} foo</p>', '<strong>baz</strong>' );
 		},
 		'test cloneContents - no gap between': function() {
+			// IE8 keeps selection of endpoint inside node, and Safari always keeps selection inside.
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) || CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
