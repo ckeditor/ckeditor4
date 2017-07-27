@@ -8,7 +8,8 @@
 <body>
 <h1>TAO Qti Tables plugin</h1>
 <h2>Table creation</h2>
-<div contenteditable="true" id="editor" style="border: 1px solid grey; margin-top: 50px; width: 100%;">
+<p>This simulates a container widget: the ckeditor instance is attached to a &lt;div> element. Table creation is allowed.</p>
+<div contenteditable="true" id="editor" style="border: 1px solid grey; width: 100%;">
     <p>Edit me</p>
     <table>
         <thead>
@@ -66,7 +67,9 @@
 
 <h2>Table edition</h2>
 
-<table contenteditable="true" id="table-editor" style="border: 1px solid grey; margin-top: 50px; width: 100%;">
+<p>This simulates a table widget: the ckeditor instance is directly attached to the &lt;table> element. Table creation is not allowed.</p>
+
+<table contenteditable="true" id="table-editor" style="border: 1px solid grey; width: 100%;">
     <thead>
     <tr>
         <th> </th>
@@ -146,7 +149,7 @@
             "bodyClass": "",
             "fullPage": false,
             "height": 200,
-            "extraPlugins": "confighelper,taoqtimedia,taoqtiimage,taoqtiinclude,taounderline,taoqtimaths,taoqtitable,taoqtitabletools",
+            "extraPlugins": "confighelper,taoqtimedia,taoqtiimage,taoqtiinclude,taounderline,taoqtimaths,taoqtitable,tabletools",
             "removePlugins": "",
             "protectedSource": [],
             "tabIndex": 0,
@@ -511,7 +514,7 @@
             "disableNativeTableHandles": true,
             "disableNativeSpellChecker": true,
             "contentsCss": "http://tao.dev/tao/views/js/lib/ckeditor/contents.css?t=H6DD",
-            "plugins": "basicstyles,bidi,blockquote,dialogui,dialog,clipboard,button,panelbutton,panel,floatpanel,colorbutton,colordialog,menu,contextmenu,confighelper,dialogadvtab,entities,floatingspace,listblock,richcombo,font,format,horizontalrule,htmlwriter,indent,indentlist,indentblock,justify,fakeobjects,link,list,liststyle,magicline,pastefromword,pastetext,removeformat,resize,selectall,sourcearea,specialchar,stylescombo,tab,table,taoqtiimage,taoqtimaths,taoqtimedia,taounderline,taohighlight,taoqtiinclude,taoqtitable,toolbar,undo,wysiwygarea",
+            "plugins": "basicstyles,bidi,blockquote,dialogui,dialog,clipboard,button,panelbutton,panel,floatpanel,colorbutton,colordialog,menu,contextmenu,confighelper,dialogadvtab,entities,floatingspace,listblock,richcombo,font,format,horizontalrule,htmlwriter,indent,indentlist,indentblock,justify,fakeobjects,link,list,liststyle,magicline,pastefromword,pastetext,removeformat,resize,selectall,sourcearea,specialchar,stylescombo,tab,taoqtiimage,taoqtimaths,taoqtimedia,taounderline,taohighlight,taoqtiinclude,taoqtitable,toolbar,undo,wysiwygarea",
             "skin": "kama", // fixme: should be 'tao'
             "jqueryOverrideVal": true,
             "disableAutoInline": true,
@@ -736,7 +739,7 @@
 
     tablePropsBtn.addEventListener('mousedown', function() {
         var cmd = tableEditor.getCommand('taoqtitableProperties');
-        cmd.setState(1);
+//        cmd.setState(1);
         tableEditor.execCommand('taoqtitableProperties');
     });
 </script>

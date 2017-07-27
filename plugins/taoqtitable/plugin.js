@@ -11,9 +11,17 @@ CKEDITOR.plugins.add( 'taoqtitable', {
     icons: this.path + 'images/taoqtitable.png',
     hidpi: false,
     init: function( editor ) {
-        //fixme: this should go somewhere else
-        // if ( editor.blockless )
-        //     return;
+        var registerButton = true;
+
+        // do not register the button if the CK instance is directly bound to a table, so we don't allow nested tables creation
+        if (editor.element.is('table')) {
+            registerButton = false;
+        } else {
+            // do not register the plugin if the CK instance is not bound to a dom element allowing block content
+            if (editor.blockless) {
+                return;
+            }
+        }
 
         var lang = editor.lang.table;
 
@@ -24,90 +32,25 @@ CKEDITOR.plugins.add( 'taoqtitable', {
                 'th td tr[scope];' +
                 ( editor.plugins.dialogadvtab ? 'table' + editor.plugins.dialogadvtab.allowedContent() : '' ),
             requiredContent: 'table'
-            // ,
-            // contentTransformations: [
-            //     [ 'table{width}: sizeToStyle', 'table[width]: sizeToAttribute' ]
-            // ]
         } ) );
 
-        function createDef( def ) {
-            return CKEDITOR.tools.extend( def || {}, {
-                contextSensitive: 1, // fixme: sure?!!
-                refresh: function( editor, path ) {
-                    this.setState( path.contains( 'table', 1 ) ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
-                }
+        editor.addCommand( 'taoqtitableProperties', new CKEDITOR.dialogCommand( 'taoqtitableProperties' ) );
+
+        if (registerButton) {
+            editor.ui.addButton && editor.ui.addButton( 'TaoQtiTable', {
+                label: lang.toolbar,
+                command: 'taoqtitable',
+                toolbar: 'insert,30',
+                icon: this.path + 'images/taoqtitable.png'
             } );
         }
-
-        editor.addCommand( 'taoqtitableProperties', new CKEDITOR.dialogCommand( 'taoqtitableProperties', createDef() ) );
-        editor.addCommand( 'taoqtitableDelete', createDef( {
-            exec: function( editor ) {
-                var path = editor.elementPath(),
-                    table = path.contains( 'table', 1 );
-
-                if ( !table )
-                    return;
-
-                // If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element) (#5416, #6289, #12110)
-                var parent = table.getParent(),
-                    editable = editor.editable();
-
-                if ( parent.getChildCount() == 1 && !parent.is( 'td', 'th' ) && !parent.equals( editable ) )
-                    table = parent;
-
-                var range = editor.createRange();
-                range.moveToPosition( table, CKEDITOR.POSITION_BEFORE_START );
-                table.remove();
-                range.select();
-            }
-        } ) );
-
-        editor.ui.addButton && editor.ui.addButton( 'TaoQtiTable', {
-            label: lang.toolbar,
-            command: 'taoqtitable',
-            toolbar: 'insert,30',
-	        icon: this.path + 'images/taoqtitable.png'
-        } );
 
         CKEDITOR.dialog.add( 'taoqtitable', this.path + 'dialogs/taoqtitable.js' );
         CKEDITOR.dialog.add( 'taoqtitableProperties', this.path + 'dialogs/taoqtitable.js' );
 
-        // If the "menu" plugin is loaded, register the menu items.
-        if ( editor.addMenuItems ) {
-            editor.addMenuItems( {
-                taoqtitable: {
-                    label: 'TAO' + lang.menu,
-                    command: 'taoqtitableProperties',
-                    group: 'table',
-                    order: 5
-                },
-
-                taoqtitabledelete: {
-                    label: lang.deleteTable,
-                    command: 'taoqtitableDelete',
-                    group: 'table',
-                    order: 1
-                }
-            } );
-        }
-
-        // fixme: does not work
         editor.on( 'doubleclick', function( evt ) {
-            var element = evt.data.element;
-
-            if ( element.is( 'table' ) )
+            if ( editor.element.is( 'table' ) )
                 evt.data.dialog = 'taoqtitableProperties';
         } );
-
-        // If the "contextmenu" plugin is loaded, register the listeners.
-        if ( editor.contextMenu ) {
-            editor.contextMenu.addListener( function() {
-                // menu item state is resolved on commands.
-                return {
-                    taoqtitabledelete: CKEDITOR.TRISTATE_OFF,
-                    taoqtitable: CKEDITOR.TRISTATE_OFF
-                };
-            } );
-        }
     }
 } );

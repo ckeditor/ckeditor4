@@ -4,8 +4,6 @@
  */
 
 ( function() {
-    var defaultToPixel = CKEDITOR.tools.cssLength;
-
     var commitValue = function( data ) {
             var id = this.id;
             if ( !data.info )
@@ -50,54 +48,24 @@
                 return new CKEDITOR.dom.element( name, editor.document );
             };
 
-        var editable = editor.editable();
-
         return {
             title: editor.lang.table.title,
             minWidth: 310,
             minHeight: CKEDITOR.env.ie ? 310 : 280,
 
-            onLoad: function() {
-                var dialog = this;
-
-                var styles = dialog.getContentElement( 'advanced', 'advStyles' );
-
-                if ( styles ) {
-                    styles.on( 'change', function() {
-                        // Synchronize width value.
-                        var width = this.getStyle( 'width', '' ),
-                            txtWidth = dialog.getContentElement( 'info', 'txtWidth' );
-
-                        txtWidth && txtWidth.setValue( width, true );
-
-                        // Synchronize height value.
-                        var height = this.getStyle( 'height', '' ),
-                            txtHeight = dialog.getContentElement( 'info', 'txtHeight' );
-
-                        txtHeight && txtHeight.setValue( height, true );
-                    } );
-                }
-            },
-
             onShow: function() {
-                // Detect if there's a selected table.
-                var selection = editor.getSelection(),
-                    ranges = selection.getRanges(),
-                    table;
+                var table,
+                    rowsInput = this.getContentElement( 'info', 'txtRows' ),
+                    colsInput = this.getContentElement( 'info', 'txtCols' );
 
-                var rowsInput = this.getContentElement( 'info', 'txtRows' ),
-                    colsInput = this.getContentElement( 'info', 'txtCols' ),
-                    widthInput = this.getContentElement( 'info', 'txtWidth' ),
-                    heightInput = this.getContentElement( 'info', 'txtHeight' );
-
-                if ( command == 'taoqtitableProperties' ) {
+                if ( command === 'taoqtitableProperties' ) {
                     table = editor.element;
 
                     // Save a reference to the selected table, and push a new set of default values.
                     this._.selectedElement = table;
                 }
 
-                // Enable or disable the row, cols, width fields.
+                // Enable or disable the row, cols fields.
                 if ( table ) {
                     this.setupContent( table );
                     rowsInput && rowsInput.disable();
@@ -107,10 +75,6 @@
                     colsInput && colsInput.enable();
                 }
 
-                // Call the onChange method for the widht and height fields so
-                // they get reflected into the Advanced tab.
-                widthInput && widthInput.onChange();
-                heightInput && heightInput.onChange();
             },
             onOk: function() {
                 var selection = editor.getSelection(),
@@ -201,13 +165,6 @@
                             }
                         }
                     }
-
-                    // Set the width and height.
-                    info.txtHeight ? table.setStyle( 'height', info.txtHeight ) : table.removeStyle( 'height' );
-                    info.txtWidth ? table.setStyle( 'width', info.txtWidth ) : table.removeStyle( 'width' );
-
-                    if ( !table.getAttribute( 'style' ) )
-                        table.removeAttribute( 'style' );
                 }
 
                 // Insert the table element if we're creating one.
@@ -225,16 +182,6 @@
                         editor.insertElement(taoWidgetWrapper);
                         config.insert.call(editor, taoWidgetWrapper.$);
                     }
-
-                    // todo: do we want to keep this?
-                    // Override the default cursor position after insertElement to place
-                    // cursor inside the first cell (#7959), IE needs a while.
-                    setTimeout( function() {
-                        var firstCell = new CKEDITOR.dom.element( table.$.rows[ 0 ].cells[ 0 ] );
-                        var range = editor.createRange();
-                        range.moveToPosition( firstCell, CKEDITOR.POSITION_AFTER_START );
-                        range.select();
-                    }, 0 );
                 }
                 // Properly restore the selection, (#4822) but don't break
                 // because of this, e.g. updated table caption.
@@ -319,151 +266,8 @@
                                     this.setValue( dialog.hasColumnHeaders ? 'col' : '' );
                             },
                             commit: commitValue
-                        }
-                        /*
-                            {
-                            type: 'text',
-                            id: 'txtBorder',
-                            requiredContent: 'table[border]',
-                            // Avoid setting border which will then disappear.
-                            'default': editor.filter.check( 'table[border]' ) ? 1 : 0,
-                            label: editor.lang.table.border,
-                            controlStyle: 'width:3em',
-                            validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidBorder ),
-                            setup: function( selectedTable ) {
-                                this.setValue( selectedTable.getAttribute( 'border' ) || '' );
-                            },
-                            commit: function( data, selectedTable ) {
-                                if ( this.getValue() )
-                                    selectedTable.setAttribute( 'border', this.getValue() );
-                                else
-                                    selectedTable.removeAttribute( 'border' );
-                            }
-                        },
-                        {
-                            id: 'cmbAlign',
-                            type: 'select',
-                            requiredContent: 'table[align]',
-                            'default': '',
-                            label: editor.lang.common.align,
-                            items: [
-                                [ editor.lang.common.notSet, '' ],
-                                [ editor.lang.common.alignLeft, 'left' ],
-                                [ editor.lang.common.alignCenter, 'center' ],
-                                [ editor.lang.common.alignRight, 'right' ]
-                            ],
-                            setup: function( selectedTable ) {
-                                this.setValue( selectedTable.getAttribute( 'align' ) || '' );
-                            },
-                            commit: function( data, selectedTable ) {
-                                if ( this.getValue() )
-                                    selectedTable.setAttribute( 'align', this.getValue() );
-                                else
-                                    selectedTable.removeAttribute( 'align' );
-                            }
-                        }
-                        */
-                        ]
-                    }
-                    /*
-                    ,
-                    {
-                        type: 'vbox',
-                        padding: 0,
-                        children: [ {
-                            type: 'hbox',
-                            widths: [ '5em' ],
-                            children: [ {
-                                type: 'text',
-                                id: 'txtWidth',
-                                requiredContent: 'table{width}',
-                                controlStyle: 'width:5em',
-                                label: editor.lang.common.width,
-                                title: editor.lang.common.cssLengthTooltip,
-                                // Smarter default table width. (#9600)
-                                'default': editor.filter.check( 'table{width}' ) ? ( editable.getSize( 'width' ) < 500 ? '100%' : 500 ) : 0,
-                                getValue: defaultToPixel,
-                                validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength.replace( '%1', editor.lang.common.width ) ),
-                                onChange: function() {
-                                    var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' );
-                                    styles && styles.updateStyle( 'width', this.getValue() );
-                                },
-                                setup: function( selectedTable ) {
-                                    var val = selectedTable.getStyle( 'width' );
-                                    this.setValue( val );
-                                },
-                                commit: commitValue
-                            } ]
-                        },
-                        {
-                            type: 'hbox',
-                            widths: [ '5em' ],
-                            children: [ {
-                                type: 'text',
-                                id: 'txtHeight',
-                                requiredContent: 'table{height}',
-                                controlStyle: 'width:5em',
-                                label: editor.lang.common.height,
-                                title: editor.lang.common.cssLengthTooltip,
-                                'default': '',
-                                getValue: defaultToPixel,
-                                validate: CKEDITOR.dialog.validate.cssLength( editor.lang.common.invalidCssLength.replace( '%1', editor.lang.common.height ) ),
-                                onChange: function() {
-                                    var styles = this.getDialog().getContentElement( 'advanced', 'advStyles' );
-                                    styles && styles.updateStyle( 'height', this.getValue() );
-                                },
-
-                                setup: function( selectedTable ) {
-                                    var val = selectedTable.getStyle( 'height' );
-                                    val && this.setValue( val );
-                                },
-                                commit: commitValue
-                            } ]
-                        },
-                        {
-                            type: 'html',
-                            html: '&nbsp;'
-                        },
-                        {
-                            type: 'text',
-                            id: 'txtCellSpace',
-                            requiredContent: 'table[cellspacing]',
-                            controlStyle: 'width:3em',
-                            label: editor.lang.table.cellSpace,
-                            'default': editor.filter.check( 'table[cellspacing]' ) ? 1 : 0,
-                            validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellSpacing ),
-                            setup: function( selectedTable ) {
-                                this.setValue( selectedTable.getAttribute( 'cellSpacing' ) || '' );
-                            },
-                            commit: function( data, selectedTable ) {
-                                if ( this.getValue() )
-                                    selectedTable.setAttribute( 'cellSpacing', this.getValue() );
-                                else
-                                    selectedTable.removeAttribute( 'cellSpacing' );
-                            }
-                        },
-                        {
-                            type: 'text',
-                            id: 'txtCellPad',
-                            requiredContent: 'table[cellpadding]',
-                            controlStyle: 'width:3em',
-                            label: editor.lang.table.cellPad,
-                            'default': editor.filter.check( 'table[cellpadding]' ) ? 1 : 0,
-                            validate: CKEDITOR.dialog.validate.number( editor.lang.table.invalidCellPadding ),
-                            setup: function( selectedTable ) {
-                                this.setValue( selectedTable.getAttribute( 'cellPadding' ) || '' );
-                            },
-                            commit: function( data, selectedTable ) {
-                                if ( this.getValue() )
-                                    selectedTable.setAttribute( 'cellPadding', this.getValue() );
-                                else
-                                    selectedTable.removeAttribute( 'cellPadding' );
-                            }
-                        }
-                        ]
-                    }
-                    */
-                    ]
+                        } ]
+                    } ]
                 },
                 {
                     type: 'html',
@@ -519,6 +323,11 @@
                                     captionElement.getItem( i ).remove();
                             }
                         }
+
+                    /* If this is need someday (this is QTI compliant), partial support is already there.
+                     * It will work directly in QtiCreator on table creation.
+                     * On table edition, however, the change callback of the ckEditor instance only update the element body, and not its attributes.
+                     * So this field cannot be created nor edited after the table has been created.
                     },
                     {
                         type: 'text',
@@ -534,6 +343,7 @@
                             else
                                 selectedTable.removeAttribute( 'summary' );
                         }
+                    */
                     } ]
                 } ]
             }
