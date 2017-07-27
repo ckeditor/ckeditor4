@@ -2,3 +2,7 @@
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 title =
+commands.previousSpace.label = Label for 'access previous focused space' command.
+commands.previousSpace.description = Addtional description for 'access previous focused space' command. Used in Accessibility Helper plugin.
+commands.nextSpace.label = Label for 'access next focused space' command.
+commands.nextSpace.description = Addtional description for 'access next focused space' command. Used in Accessibility Helper plugin.

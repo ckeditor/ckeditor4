@@ -15,3 +15,5 @@ toolbarGroups.styles = WAI-ARIA label for the Styles toolbar buttons group.
 toolbarGroups.colors = WAI-ARIA label for the Colors toolbar buttons group.
 toolbarGroups.tools = WAI-ARIA label for the Tools toolbar buttons group.
 toolbars = ARIA description for editor toolbars.
+commandsLabels.toolbarFocus = Label for 'focus toolbar' command.
+commandsLabels.toolbarCollapse = Label for 'collapse toolbar' command.

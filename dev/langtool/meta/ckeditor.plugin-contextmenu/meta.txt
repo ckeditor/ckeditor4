@@ -2,3 +2,4 @@
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 options = WAI-ARIA label for the context menu entries.
+commandLabel = Label for context menu command.

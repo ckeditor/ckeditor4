@@ -3,3 +3,4 @@
 
 eleLabel = Voice label for the Elements Path feature.
 eleTitle = Tooltip displaying the element name on the Element Path bar.
+commandLabel = Label for 'focus elements path' command.
