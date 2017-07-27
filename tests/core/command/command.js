@@ -302,5 +302,106 @@ bender.test( {
 		editor._.elementsPath.onClick( 0 );
 
 		wait();
+	},
+
+	// #456
+	'test basic behavor of getLabel': function() {
+		bender.editorBot.create( {
+			name: 'getLabel1',
+			config: {
+				on: {
+					// This allows on setting up nice enviornment before asserts.
+					'pluginsLoaded': function( evt ) {
+						var editor = evt.editor;
+
+						editor.addCommand( 'custom1', {
+							exec: function() {
+								return;
+							},
+							label: 'custom label 1'
+						} );
+
+						editor.addCommand( 'custom2', {
+							exec: function() {
+								return;
+							},
+							label: 'custom label 2',
+							getLabel: function() {
+								return 'alternative label 2';
+							}
+						} );
+
+						editor.addCommand( 'custom3', {
+							exec: function() {
+								return;
+							}
+						} );
+
+						editor.addCommand( 'custom4', {
+							exec: function() {
+								return;
+							}
+						} );
+
+						editor.ui.addButton( 'Custom3', {
+							label: 'button label 3',
+							command: 'custom3'
+						} );
+					}
+				}
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			assert.areSame( 'custom label 1', editor.getCommand( 'custom1' ).getLabel() );
+			assert.areSame( 'alternative label 2', editor.getCommand( 'custom2' ).getLabel() );
+			assert.areSame( 'button label 3', editor.getCommand( 'custom3' ).getLabel() );
+			assert.areSame( '', editor.getCommand( 'custom4' ).getLabel() );
+		} );
+	},
+
+	// #456
+	'test basic behavor of getDescription': function() {
+		bender.editorBot.create( {
+			name: 'getKeyDescription1',
+			config: {
+				on: {
+					// This allows on setting up nice enviornment before asserts.
+					'pluginsLoaded': function( evt ) {
+						var editor = evt.editor;
+
+						editor.addCommand( 'custom1', {
+							exec: function() {
+								return;
+							},
+							keyDescription: 'custom keyDescription 1'
+						} );
+
+						editor.addCommand( 'custom2', {
+							exec: function() {
+								return;
+							},
+							keyDescription: 'custom keyDescription 2',
+							getKeyDescription: function() {
+								return 'alternative keyDescription 2';
+							}
+						} );
+
+						editor.addCommand( 'custom3', {
+							exec: function() {
+								return;
+							}
+						} );
+					}
+				}
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			assert.areSame( 'custom keyDescription 1', editor.getCommand( 'custom1' ).getKeyDescription() );
+			assert.areSame( 'alternative keyDescription 2', editor.getCommand( 'custom2' ).getKeyDescription() );
+			assert.areSame( '', editor.getCommand( 'custom3' ).getKeyDescription() );
+		} );
 	}
+
 } );
