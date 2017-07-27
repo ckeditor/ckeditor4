@@ -515,12 +515,27 @@
 			}
 		}
 
-		function collapseSelection( cell ) {
+		function selectCellContents( cell ) {
 			var range = editor.createRange();
 
 			range.selectNodeContents( cell );
-			range.collapse();
 			range.select();
+		}
+
+		function emptyCells( cells, lockSnapshot ) {
+			var i;
+
+			if ( lockSnapshot ) {
+				editor.fire( 'lockSnapshot' );
+			}
+
+			for ( i = 0; i < cells.length; i++ ) {
+				cells[ i ].setHtml( '' );
+			}
+
+			if ( lockSnapshot ) {
+				editor.fire( 'unlockSnapshot' );
+			}
 		}
 
 		if ( !dataProcessor ) {
@@ -551,13 +566,6 @@
 		lastCell = selectedCells[ selectedCells.length - 1 ];
 		lastRow = lastCell.getParent();
 
-		// Empty all selected cells.
-		if ( !boundarySelection ) {
-			for ( i = 0; i < selectedCells.length; i++ ) {
-				selectedCells[ i ].setHtml( '' );
-			}
-		}
-
 		// Handle mixed content (if the table is not the only child in the tmpContainer, we
 		// are probably dealing with mixed content). We handle also non-table content here.
 		// We just collapse selection to the first selected cell and pass non-table/mixed
@@ -565,13 +573,24 @@
 		if ( tmpContainer.getChildCount() > 1 || !pastedTable ) {
 			evt.data.dataValue = tmpContainer.getHtml();
 
-			collapseSelection( selectedCells[ 0 ] );
+			selectCellContents( selectedCells[ 0 ] );
+
+			// Due to limitations of our undo manager, in case of mixed content
+			// cells must be emptied after pasting (#520).
+			editor.once( 'afterPaste', function() {
+				emptyCells( selectedCells.slice( 1 ), true );
+			} );
 
 			return;
 		}
 
 		// Preventing other paste handlers should be done after all early returns (#520).
 		evt.stop();
+
+		// Empty all selected cells.
+		if ( !boundarySelection ) {
+			emptyCells( selectedCells );
+		}
 
 		// In case of boundary selection, insert new row before/after selected one, select it
 		// and resume the rest of the algorithm.
