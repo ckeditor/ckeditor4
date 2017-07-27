@@ -42,6 +42,16 @@
 				type: 'text',
 				notification: notification ? msg : false
 			} );
+		},
+
+		getKeyDescription: function( editor ) {
+			// Add extra description for Edge browser.
+			if ( CKEDITOR.env.edge ) {
+				return editor.lang.pastetext.edgeCommandDescription.replace( '${paste}',
+						CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( 'paste' ) ) );
+			} else {
+				return '';
+			}
 		}
 	};
 

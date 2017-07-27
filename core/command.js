@@ -116,6 +116,47 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		return allowed = editor.activeFilter.checkFeature( this );
 	};
 
+	/**
+	 * Provides command's label. Label is define with few fallbacks in specific order described below:
+	 * 1. If {@link CKEDITOR.commandDefinition#getLabel} method exists, it is used to provide label,
+	 * 2. If {@link CKEDITOR.commandDefinition#label} atribute exists, it is used to provide label.
+	 * 3. If {@link CKEDITOR.command#uiItems} is non empty, then label of first array's item is used as label
+	 * 4. Empty string.
+	 *
+	 * @since 4.8.0
+	 * @returns {String} Command's label
+	 */
+	this.getLabel = function() {
+		if ( typeof commandDefinition.getLabel == 'function' ) {
+			return commandDefinition.getLabel.call( this, editor );
+		} else if ( commandDefinition.label ) {
+			return commandDefinition.label;
+		} else if ( this.uiItems && this.uiItems.length && this.uiItems[ 0 ].label ) {
+			return this.uiItems[ 0 ].label;
+		} else {
+			return '';
+		}
+	};
+
+	/**
+	 * Provides command's description. Description is define with few fallbacks in specific order described below:
+	 * 1. If {@link CKEDITOR.commandDefinition#getDescription} method exists, it is used to provide description,
+	 * 2. If {@link CKEDITOR.commandDefinition#description} atribute exists, it is used to provide description.
+	 * 3. Empty string
+	 *
+	 * @since 4.8.0
+	 * @returns {String} Command's description.
+	 */
+	this.getDescription = function() {
+		if ( typeof commandDefinition.getKeyDescription == 'function' ) {
+			return commandDefinition.getKeyDescription.call( this, editor );
+		} else if ( commandDefinition.description ) {
+			return commandDefinition.description;
+		} else {
+			return '';
+		}
+	};
+
 	CKEDITOR.tools.extend( this, commandDefinition, {
 		/**
 		 * The editor modes within which the command can be executed. The
@@ -269,7 +310,7 @@ CKEDITOR.event.implementOn( CKEDITOR.command.prototype );
  * @event state
  */
 
- /**
+/**
  * @event refresh
  * @todo
  */

@@ -81,37 +81,27 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 		commandsTheadHtml = commandsTheadTpl.replace( '%1', lang.commandsList.command ).replace( '%2', lang.commandsList.keystroke );
 
-		// get all commands with keystrokes
+		// Get all commands with keystrokes.
 		commandItems = populateWithAvailableCommands();
 
-		// get data necessary for filling table
+		// Get data necessary for filling table.
 		CKEDITOR.tools.array.forEach( commandItems, function( commandItem ) {
-
-			if ( commandItem.command.label ) {
-				commandItem.label = commandItem.command.label;
-			} else if ( commandItem.command.uiItems && commandItem.command.uiItems.length && commandItem.command.uiItems[0].label ) {
-				commandItem.label = commandItem.command.uiItems[0].label;
-			} else {
-				commandItem.label = '';
-			}
-
-			commandItem.description = commandItem.command.description || '';
+			commandItem.label = commandItem.command.getLabel();
+			commandItem.description = commandItem.command.getKeyDescription();
 			commandItem.keystrokeHtml = CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( commandItem.command ) );
-
-			editor.fire( 'keystrokeEntry', commandItem );
 		} );
 
-		// filter out commands without label
+		// Filter out commands without label.
 		commandItems = CKEDITOR.tools.array.filter( commandItems, function( command ) {
 			return !!command.label;
 		} );
 
-		// create inner table with commands
+		// Create inner table with commands.
 		commandsTbodyHtml = commandsTbodyTpl.replace( '%1', CKEDITOR.tools.array.reduce( commandItems, function( acc, commandItem ) {
 			return acc + commandRowTpl.replace( '%1', commandItem.label ).replace( '%2', commandItem.keystrokeHtml + ( commandItem.description ? '<br />' + commandItem.description : '' ) );
 		} , '' ) );
 
-		// push section html to output file.
+		// Push section's HTML code to output file.
 		pageHtml.push( commandsSectionTpl.replace( '%1', lang.commandsList.sectionName ).replace( '%2', commandsTheadHtml + commandsTbodyHtml ) );
 
 		return pageTpl.replace( '%1', pageHtml.join( '' ) );
