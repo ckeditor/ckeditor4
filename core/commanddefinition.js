@@ -162,15 +162,44 @@
  */
 
 /**
+ * Provides command's label string. Label is define with few fallbacks in specific order described below:
+ *
+ * 1. If {@link CKEDITOR.command#getLabel} method exists, it is used to provide label,
+ * 2. If {@link CKEDITOR.commandDefinition#label} atribute exists, it is used to provide label.
+ * 3. If {@link CKEDITOR.command#uiItems} is non empty, then label of first array's item is used as label
+ * 4. Empty string.
+ *
+ * @since 4.8.0
+ * @method getLabel
+ * @param {CKEDITOR.editor} editor The editor instance.
+ * @returns {String} command's label
+ */
+
+/**
+ * Provides command's description. Description is define with few fallbacks in specific order described below:
+ *
+ * 1. If {@link CKEDITOR.command#getKeyDescription} method exists, it is used to provide description,
+ * 2. If {@link CKEDITOR.commandDefinition#keyDescription} atribute exists, it is used to provide description.
+ * 3. Empty string
+ *
+ * @since 4.8.0
+ * @method getKeyDescription
+ * @param {CKEDITOR.editor} editor The editor instance.
+ * @returns {String} command's description
+ */
+
+/**
  * Defines command label. This property is used by different plugins to display command information (by e.g. Accessibility Help).
+ * For geting command's label please use {@link CKEDITOR.commandDefinition#getLabel}, instead of directly reading `label` property.
  *
  * @since 4.8.0
  * @property {String} [label]
  */
 
 /**
- * Defines command description. This property is used by different plugins to display command information (by e.g. Accessibility Help).
+ * Defines command key description. This property is used by different plugins to display additional key information (by e.g. Accessibility Help).
+ * For getting command's key description please use {@link CKEDITOR.commandDefinition#getKeyDescription}, instead of directly reading `keyDescription` property.
  *
  * @since 4.8.0
- * @property {String} [description]
+ * @property {String} [keyDescription]
  */

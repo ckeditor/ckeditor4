@@ -117,11 +117,8 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	};
 
 	/**
-	 * Provides command's label. Label is define with few fallbacks in specific order described below:
-	 * 1. If {@link CKEDITOR.commandDefinition#getLabel} method exists, it is used to provide label,
-	 * 2. If {@link CKEDITOR.commandDefinition#label} atribute exists, it is used to provide label.
-	 * 3. If {@link CKEDITOR.command#uiItems} is non empty, then label of first array's item is used as label
-	 * 4. Empty string.
+	 * Providing this method will overwrite {@link CKEDITOR.commandDefinition#getLabel}, what allows on better customization
+	 * of returned label for specific command.
 	 *
 	 * @since 4.8.0
 	 * @returns {String} Command's label
@@ -139,15 +136,13 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	};
 
 	/**
-	 * Provides command's description. Description is define with few fallbacks in specific order described below:
-	 * 1. If {@link CKEDITOR.commandDefinition#getDescription} method exists, it is used to provide description,
-	 * 2. If {@link CKEDITOR.commandDefinition#description} atribute exists, it is used to provide description.
-	 * 3. Empty string
+	 * Providing this method will overwrite {@link CKEDITOR.commandDefinition#getKeyDescription}, what allows on better customization
+	 * of returned description for specific command.
 	 *
 	 * @since 4.8.0
 	 * @returns {String} Command's description.
 	 */
-	this.getDescription = function() {
+	this.getKeyDescription = function() {
 		if ( typeof commandDefinition.getKeyDescription == 'function' ) {
 			return commandDefinition.getKeyDescription.call( this, editor );
 		} else if ( commandDefinition.description ) {
