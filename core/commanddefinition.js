@@ -162,14 +162,14 @@
  */
 
 /**
- * Defines command label. Property is automatically used by accessibility helper to display it in Command table.
+ * Defines command label. This property is used by different plugins to display command information (by e.g. Accessibility Help).
  *
  * @since 4.8.0
  * @property {String} [label]
  */
 
 /**
- * Defines command description. Property is automatically used by accessibility helper to display it in Command table below keystroke.
+ * Defines command description. This property is used by different plugins to display command information (by e.g. Accessibility Help).
  *
  * @since 4.8.0
  * @property {String} [description]
