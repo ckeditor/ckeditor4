@@ -13,12 +13,25 @@
 		}
 	};
 
-	function testUndo( editor ) {
+	function testUndo( editor, selectedCells ) {
+		var undoManager = editor.undoManager,
+			ranges = editor.getSelection().getRanges(),
+			cells = editor.editable().find( 'td, th' ),
+			i;
+
 		editor.once( 'afterCommandExec', function() {
 			resume( function() {
-				assert.isTrue( editor.getCommand( 'undo' ).state === CKEDITOR.TRISTATE_DISABLED,
-				'Paste generated only 1 undo step' );
-				assert.isTrue( editor.getCommand( 'redo' ).state === CKEDITOR.TRISTATE_OFF, 'Paste can be repeated' );
+				assert.isFalse( undoManager.undoable(), 'Paste generated only 1 undo step' );
+				assert.isTrue( undoManager.redoable(), 'Paste can be repeated' );
+
+				assert.areSame( selectedCells.length, ranges.length, 'Appropriate number of ranges are selected' );
+
+				for ( i = 0; i < ranges.length; i++ ) {
+					var cell = ranges[ i ]._getTableElement();
+
+					assert.isTrue( cell.equals( cells.getItem( selectedCells[ i ] ) ),
+						'Appropriate cell is selected' );
+				}
 			} );
 		} );
 
@@ -27,7 +40,7 @@
 		wait();
 	}
 
-	function pasteImage( editor ) {
+	function pasteImage( editor, callback ) {
 		editor.once( 'afterPaste', function() {
 			resume( function() {
 				var images = editor.editable().find( '.cke_widget_image' );
@@ -35,7 +48,7 @@
 				assert.areSame( 1, images.count(), 'There is only one image' );
 				assert.isFalse( images.getItem( 0 ).hasClass( 'cke_widget_new' ), 'The image widget is initialized' );
 
-				testUndo( editor );
+				callback();
 			} );
 		} );
 
@@ -46,17 +59,21 @@
 
 	var tests = {
 			'the copied image to table shoud be initialized (collapsed selection)': function( editor, bot ) {
-				bot.setHtmlWithSelection( '<table border="1"><tbody><tr><td>^</td></tr></tbody></table>'  );
+				bot.setHtmlWithSelection( '<table border="1"><tbody><tr><td>Cel^l</td></tr></tbody></table>' );
 
 				editor.undoManager.reset();
-				pasteImage( editor );
+				pasteImage( editor, function() {
+					testUndo( editor, [ 0 ] );
+				} );
 			},
 
 			'the copied image to table shoud be initialized (multiple selection)': function( editor, bot ) {
-				bot.setHtmlWithSelection( '<table border="1"><tbody><tr>[<td></td>][<td></td>]</tr></tbody></table>'  );
+				bot.setHtmlWithSelection( '<table border="1"><tbody><tr>[<td>Cell 1</td>][<td>Cell 2</td>]</tr></tbody></table>' );
 
 				editor.undoManager.reset();
-				pasteImage( editor );
+				pasteImage( editor, function() {
+					testUndo( editor, [ 0, 1 ] );
+				} );
 			}
 		};
 
