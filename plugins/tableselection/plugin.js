@@ -566,6 +566,16 @@
 		lastCell = selectedCells[ selectedCells.length - 1 ];
 		lastRow = lastCell.getParent();
 
+		// Schedule selecting appropriate table cells after pasting. It covers both table and not-table
+		// content (#520).
+		editor.once( 'afterPaste', function() {
+			var toSelect = cellToPaste ?
+				getCellsBetween( new CKEDITOR.dom.element( pastedTableMap[ 0 ][ 0 ] ), cellToPaste ) :
+				selectedCells;
+
+			fakeSelectCells( editor, toSelect );
+		} );
+
 		// Handle mixed content (if the table is not the only child in the tmpContainer, we
 		// are probably dealing with mixed content). We handle also non-table content here.
 		// We just collapse selection to the first selected cell and pass non-table/mixed
@@ -704,10 +714,6 @@
 		}
 
 		CKEDITOR.dom.element.clearAllMarkers( markers );
-
-		// Select newly pasted cells.
-		fakeSelectCells( editor,
-				getCellsBetween( new CKEDITOR.dom.element( pastedTableMap[ 0 ][ 0 ] ), cellToPaste ) );
 
 		editor.fire( 'saveSnapshot' );
 
