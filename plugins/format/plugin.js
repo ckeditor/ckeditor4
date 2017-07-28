@@ -67,7 +67,7 @@ CKEDITOR.plugins.add( 'format', {
 				var style = styles[ value ],
 					elementPath = editor.elementPath();
 
-				// Always apply style, do not allow on toggle it by clicking on list item (#584).
+				// Always apply style, do not allow to toggle it by clicking on corresponding list item (#584).
 				if ( !style.checkActive( elementPath, editor ) ) {
 					editor.applyStyle( style );
 				}

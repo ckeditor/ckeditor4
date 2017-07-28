@@ -48,8 +48,8 @@
 
 				this.wait( function() {
 					// Click again to exit the style.
-					// Since 4.8.0 2nd click into this same menu item do not unselect it.
-					// It is required to click into '(Default)' option to reset style (#584).
+					// Since 4.8.0, 2nd click on the same menu item does not unselect it.
+					// It is required to click on the '(Default)' option to reset style (#584).
 					bot.combo( 'FontSize', function( combo ) {
 						combo.onClick( 'cke-default' );
 						this.wait( function() {

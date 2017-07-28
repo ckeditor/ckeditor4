@@ -29,19 +29,14 @@ bender.test( {
 
 	// Drop-down format menu should not be toggleable (#584).
 	'test apply format style to preformated text': function() {
-		var bot = this.editorBot,
-			editor = this.editor,
-			name = 'Format',
-			combo = editor.ui.get( name );
+		var bot = this.editorBot;
 
 		bot.setHtmlWithSelection( '<h1>f^oo</h1>' );
 
-		// Apply the same style format to element already styled.
-		assert.areSame( CKEDITOR.TRISTATE_OFF, combo.getState(), 'check state OFF' );
-		bot.combo( name, function( combo ) {
-			assert.areSame( CKEDITOR.TRISTATE_ON, combo.getState(), 'check state ON when opened' );
+		// Preserved h1 block style.
+		bot.combo( 'Format', function( combo ) {
 			combo.onClick( 'h1' );
-			assert.areSame( '<h1>f^oo</h1>', bot.htmlWithSelection(), 'applied h1 block style' );
+			assert.areSame( '<h1>f^oo</h1>', bot.htmlWithSelection() );
 		} );
 	}
 
