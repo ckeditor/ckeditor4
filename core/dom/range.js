@@ -410,7 +410,7 @@ CKEDITOR.dom.range = function( root ) {
 
 				// When Extracting, move the removed node to the docFrag.
 				if ( isExtract ) {
-					newParent.append( node );
+					newParent.append( node, toStart );
 				}
 			}
 
