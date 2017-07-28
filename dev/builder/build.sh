@@ -57,8 +57,7 @@ echo "Starting CKBuilder..."
 
 JAVA_ARGS=${ARGS// -t / } # Remove -t from args.
 
-SEMANTIC_VERSION=`node -pe "require('./../../package.json').version"`
-VERSION="$SEMANTIC_VERSION DEV"
+VERSION=`node -pe "require('./../../package.json').version"`
 REVISION=$(git rev-parse --verify --short HEAD)
 
 # If the current revision is not tagged with any CKE version, it means it's a "dirty" build. We
@@ -66,10 +65,9 @@ REVISION=$(git rev-parse --verify --short HEAD)
 TAG=$(git tag --points-at HEAD) || true
 
 # This fancy construction check str length of $TAG variable.
-if [ ${#TAG} -ge 1 ];
+if [ ${#TAG} -le 0 ];
 then
-	echo "Setting version to $SEMANTIC_VERSION"
-	VERSION=$SEMANTIC_VERSION
+	VERSION="$VERSION DEV"
 fi
 
 java -jar ckbuilder/$CKBUILDER_VERSION/ckbuilder.jar --build ../../ release $JAVA_ARGS --version="$VERSION" --revision="$REVISION" --overwrite
