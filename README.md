@@ -67,7 +67,7 @@ build it (see below) or use an official release instead, available on the
 
 There is no special installation procedure to install the development code.
 Simply clone it on any local directory and you're set.
-7c9a189834caaaac2c99249f533d41b5e43ee894
+
 ### Available Branches
 
 This repository contains the following branches:
