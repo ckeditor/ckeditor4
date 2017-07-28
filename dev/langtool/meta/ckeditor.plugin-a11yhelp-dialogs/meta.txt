@@ -101,5 +101,5 @@ backSlash = The label for the "Backslash" (\) key.
 closeBracket = The label for the "Close Bracket" (]) key.
 singleQuote = The label for the "Single Quote" (') key.
 commandsList.sectionName = Label for section, which displays table with command's keystrokes.
-commandsList.command = Label for headr of table column, which provides commands labels (names).
-commandsList.keystroke = Label for header of table column, which provides keystroke for executing specific commands.
+commandsList.command = Label for table column header, which contains command labels (names).
+commandsList.keystroke = Label for table column header, which contains keystrokes for executing specific commands.

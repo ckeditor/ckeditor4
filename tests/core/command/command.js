@@ -305,7 +305,7 @@ bender.test( {
 	},
 
 	// #456
-	'test basic behavor of getLabel': function() {
+	'test basic behaviour of getLabel': function() {
 		bender.editorBot.create( {
 			name: 'getLabel1',
 			config: {
@@ -361,7 +361,7 @@ bender.test( {
 	},
 
 	// #456
-	'test basic behavor of getDescription': function() {
+	'test basic behaviour of getDescription': function() {
 		bender.editorBot.create( {
 			name: 'getKeyDescription1',
 			config: {

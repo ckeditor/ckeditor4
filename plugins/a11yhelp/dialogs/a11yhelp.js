@@ -74,9 +74,9 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		var commandsSectionTpl = '<h1>%1</h1><table>%2</table>',
 			commandRowTpl = '<tr><td>%1</td><td>%2</td></tr>',
 			commandsTbodyTpl = '<tbody>%1</tbody>',
-			commandsTbodyHtml = '',
+			commandsTbodyHtml,
 			commandsTheadTpl = '<thead><tr><th>%1</th><th>%2</th></tr></thead>',
-			commandsTheadHtml = '',
+			commandsTheadHtml,
 			commandItems;
 
 		commandsTheadHtml = commandsTheadTpl.replace( '%1', lang.commandsList.command ).replace( '%2', lang.commandsList.keystroke );
