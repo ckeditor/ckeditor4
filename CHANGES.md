@@ -17,7 +17,7 @@ Fixed Issues:
 * [#501](https://github.com/ckeditor/ckeditor-dev/issues/501): Fixed: Double click does not open dialog for modifying anchors inserted via [Link](http://ckeditor.com/addon/link) plugin.
 * [#9780](https://dev.ckeditor.com/ticket/9780): [IE8-9] Fixed: Clicking inside empty [read-only](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-property-readOnly) editor throws an error.
 * [#16820](https://dev.ckeditor.com/ticket/16820): [IE10] Fixed: Clicking below single horizontal rule throws an error.
-* [#426](https://github.com/ckeditor/ckeditor-dev/issues/426): Fixed: [CloneContents](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-cloneContents) selects whole element when selection starts at the beginning of that element.
+* [#426](https://github.com/ckeditor/ckeditor-dev/issues/426): Fixed: [`range.cloneContents`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-cloneContents) selects whole element when selection starts at the beginning of that element.
 * [#644](https://github.com/ckeditor/ckeditor-dev/issues/644): Fixed: The [`range.extractContents`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-extractContents) returns incorrect result when multiple nodes are selected.
 
 ## CKEditor 4.7.1
