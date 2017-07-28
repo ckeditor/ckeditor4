@@ -19,6 +19,7 @@ Fixed Issues:
 * [#16820](https://dev.ckeditor.com/ticket/16820): [IE10] Fixed: Clicking below single horizontal rule throws an error.
 * [#426](https://github.com/ckeditor/ckeditor-dev/issues/426): Fixed: [`range.cloneContents`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-cloneContents) selects whole element when selection starts at the beginning of that element.
 * [#644](https://github.com/ckeditor/ckeditor-dev/issues/644): Fixed: The [`range.extractContents`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-extractContents) returns incorrect result when multiple nodes are selected.
+* [#684](https://github.com/ckeditor/ckeditor-dev/issues/684): Fixed: The [`elementPath.contains`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.elementPath-method-contains) incorrectly excludes last element instead of root when `fromTop` parameter is set to true.
 
 ## CKEditor 4.7.1
 
