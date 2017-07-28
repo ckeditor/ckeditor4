@@ -9,7 +9,7 @@ bender.test( {
 
 		var path = doc.getSelection().getRanges()[ 0 ].startPath();
 
-		assert.areSame( path.root, path.contains( path.root ), 'Root is not excluded by the default' );
+		assert.areSame( path.root, path.contains( path.root ), 'Root is not excluded by default' );
 		assert.isNull( path.contains( path.root, true ), 'Root is excluded correctly' );
 	},
 
