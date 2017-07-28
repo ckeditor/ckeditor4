@@ -63,8 +63,10 @@ REVISION=$(git rev-parse --verify --short HEAD)
 
 # If the current revision is not tagged with any CKE version, it means it's a "dirty" build. We
 # mark such builds with a " DEV" suffix. true is needed because of "set -e".
-TAG=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match 2>/dev/null) || true
-if echo $TAG
+TAG=$(git tag --points-at HEAD) || true
+
+# This fancy construction check str length of $TAG variable.
+if [ ${#TAG} -ge 1 ];
 then
 	echo "Setting version to $SEMANTIC_VERSION"
 	VERSION=$SEMANTIC_VERSION
