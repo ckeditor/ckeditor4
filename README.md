@@ -42,10 +42,17 @@ The built versions checksums aren't identical because the source code contains t
 
 ### Development for TAO
 
-To use the uncompiled version of CK for development purposes, please revert the hack in the file `core\scriptloader`.
-Set it back before recompiling.
+#### CK Playground
+- To use the uncompiled version of CK for development purposes, please revert the hack in the file `core/scriptloader`: 
+    - `git checkout f8daebc8e69c4ee216455f9b20134890aab3e4b8 -- core/scriptloader.js `
+- Set it back before rebuilding.
+    - `git checkout develop -- core/scriptloader.js`
 
-
+#### TAO Skin
+- If you need to modify TAO skin, you'll find the SASS source files in `tao/views/js/lib/ckeditor/skins/tao/scss`. They are not in this repo. 
+- To compile, use the grunt task `grunt sass:ckeditor`
+- Once compiled, copy the css files from `tao/views/js/lib/ckeditor/skins/tao/css` into the `skins/tao/` folder of this repository. This will avoid accidental override of the skin when moving a new CK build into TAO.
+  
 ## Development Code
 
 This repository contains the development version of CKEditor.
@@ -60,7 +67,7 @@ build it (see below) or use an official release instead, available on the
 
 There is no special installation procedure to install the development code.
 Simply clone it on any local directory and you're set.
-
+7c9a189834caaaac2c99249f533d41b5e43ee894
 ### Available Branches
 
 This repository contains the following branches:
