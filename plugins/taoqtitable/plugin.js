@@ -50,10 +50,5 @@ CKEDITOR.plugins.add( 'taoqtitable', {
 
         CKEDITOR.dialog.add( 'taoqtitable', this.path + 'dialogs/taoqtitable.js' );
         CKEDITOR.dialog.add( 'taoqtitableProperties', this.path + 'dialogs/taoqtitable.js' );
-
-        editor.on( 'doubleclick', function( evt ) {
-            if ( editor.element.is( 'table' ) )
-                evt.data.dialog = 'taoqtitableProperties';
-        } );
     }
 } );
