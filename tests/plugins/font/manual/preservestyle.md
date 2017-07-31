@@ -3,6 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea, toolbar, font, elementspath, sourcearea
 
 Note: Perform below scenario for both `Font size` and `Font family` drop-downs.
+
 ----
 
 1. Select some text.
