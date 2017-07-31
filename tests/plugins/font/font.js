@@ -23,6 +23,19 @@
 			}
 		},
 
+		assertCombo: function( comboName, comboValue, collapsed, bot, resultHtml, callback ) {
+			bot.combo( comboName, function( combo ) {
+				combo.onClick( comboValue );
+
+				this.wait( function() {
+					// The empty span from collapsed selection is lost on FF and IE8, insert something to prevent that.
+					collapsed && bot.editor.insertText( 'bar' );
+					assert.isInnerHtmlMatching( resultHtml, bot.editor.editable().getHtml(), htmlMatchingOpts );
+					callback && callback( bot );
+				}, 0 );
+			} );
+		},
+
 		'test apply font size (collapsed selection)': function() {
 			var bot = this.editorBot,
 				editor = this.editor;
@@ -35,8 +48,10 @@
 
 				this.wait( function() {
 					// Click again to exit the style.
+					// Since 4.8.0, 2nd click on the same menu item does not unselect it.
+					// It is required to click on the '(Default)' option to reset style (#584).
 					bot.combo( 'FontSize', function( combo ) {
-						combo.onClick( 48 );
+						combo.onClick( 'cke-default' );
 						this.wait( function() {
 							editor.insertText( 'bar' );
 							assert.isInnerHtmlMatching( '<p><span style="font-size:48px">foo</span>bar@</p>',
@@ -170,17 +185,73 @@
 				'<p>x<span style="font-size:12px"><em>foo</em></span><em><span style="font-size:24px">bar</span></em>x@</p>' );
 		},
 
-		assertCombo: function( comboName, comboValue, collapsed, bot, resultHtml, callback ) {
-			bot.combo( comboName, function( combo ) {
-				combo.onClick( comboValue );
+		// #584
+		'test remove font size from text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="font-size:12px">[foo]</span></p>' );
+			this.assertCombo( 'FontSize', 'cke-default', false, bot, '<p>foo@</p>' );
+		},
 
+		'test remove font family from text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="' + ffArial + '">[foo]</span></p>' );
+			this.assertCombo( 'Font', 'cke-default', false, bot, '<p>foo@</p>' );
+		},
+
+		'test remove font size partialy from text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="font-size:24px">[foo ]bar</span></p>' );
+			this.assertCombo( 'FontSize', 'cke-default', false, bot, '<p>foo <span style="font-size:24px">bar</span>@</p>' );
+		},
+
+		'test remove font family partially from text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p><span style="' + ffArial + '">[foo ]bar</span></p>' );
+			this.assertCombo( 'Font', 'cke-default', false, bot, '<p>foo <span style="' + ffArial + '">bar</span>@</p>' );
+		},
+
+		'test remove font size from unstyled text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
+			this.assertCombo( 'FontSize', 'cke-default', false, bot, '<p>foo@</p>' );
+		},
+
+		'test remove font family from unstyled text': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
+			this.assertCombo( 'Font', 'cke-default', false, bot, '<p>foo@</p>' );
+		},
+
+		'test reapply this same font size twice': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
+
+			bot.combo( 'FontSize', function( combo ) {
+				combo.onClick( 24 );
 				this.wait( function() {
-					// The empty span from collapsed selection is lost on FF and IE8, insert something to prevent that.
-					collapsed && bot.editor.insertText( 'bar' );
-					assert.isInnerHtmlMatching( resultHtml, bot.editor.editable().getHtml(), htmlMatchingOpts );
-					callback && callback( bot );
+					combo.onClick( 24 );
+					this.wait( function() {
+						assert.isInnerHtmlMatching( '<p><span style="font-size:24px">foo</span>@</p>', bot.editor.editable().getHtml(), htmlMatchingOpts );
+					}, 0 );
+				}, 0 );
+			} );
+
+		},
+
+		'test reapply this same font family twice': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<p>[foo]</p>' );
+
+			bot.combo( 'Font', function( combo ) {
+				combo.onClick( 'Arial' );
+				this.wait( function() {
+					combo.onClick( 'Arial' );
+					this.wait( function() {
+						assert.isInnerHtmlMatching( '<p><span style="' + ffArial + '">foo</span>@</p>', bot.editor.editable().getHtml(), htmlMatchingOpts );
+					}, 0 );
 				}, 0 );
 			} );
 		}
+
 	} );
 } )();

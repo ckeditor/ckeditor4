@@ -67,7 +67,10 @@ CKEDITOR.plugins.add( 'format', {
 				var style = styles[ value ],
 					elementPath = editor.elementPath();
 
-				editor[ style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( style );
+				// Always apply style, do not allow to toggle it by clicking on corresponding list item (#584).
+				if ( !style.checkActive( elementPath, editor ) ) {
+					editor.applyStyle( style );
+				}
 
 				// Save the undo snapshot after all changes are affected. (http://dev.ckeditor.com/ticket/4899)
 				setTimeout( function() {
