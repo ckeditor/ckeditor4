@@ -10,10 +10,12 @@ $plugins = array(
     'magicline',
     'placeholder',
     'sourcedialog',
+    'tabletools',
     'specialchar',
     'taoqtiimage',
     'taoqtimaths',
     'taoqtimedia',
+    'taoqtitable',
     'taounderline',
     'taohighlight',
     'taoqtiinclude'

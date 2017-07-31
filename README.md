@@ -40,6 +40,19 @@ The release is located under `release/ckeditor-reduced`. The complete folder can
 The built versions checksums aren't identical because the source code contains timestamps generated at build time.
 
 
+### Development for TAO
+
+#### CK Playground
+- To use the uncompiled version of CK for development purposes, please revert the hack in the file `core/scriptloader`: 
+    - `git checkout f8daebc8e69c4ee216455f9b20134890aab3e4b8 -- core/scriptloader.js `
+- Set it back before rebuilding.
+    - `git checkout develop -- core/scriptloader.js`
+
+#### TAO Skin
+- If you need to modify TAO skin, you'll find the SASS source files in `tao/views/js/lib/ckeditor/skins/tao/scss`. They are not in this repo. 
+- To compile, use the grunt task `grunt sass:ckeditor`
+- Once compiled, copy the css files from `tao/views/js/lib/ckeditor/skins/tao/css` into the `skins/tao/` folder of this repository. This will avoid accidental override of the skin when moving a new CK build into TAO.
+  
 ## Development Code
 
 This repository contains the development version of CKEditor.

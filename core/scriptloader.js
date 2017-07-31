@@ -21,7 +21,7 @@ CKEDITOR.scriptLoader = ( function() {
 	return {
 		/**
 		 * This method has been hacked to prevent dynamic script loading
-         * 
+         *
          * Loads one or more external script checking if not already loaded
 		 * previously by this function.
 		 *
