@@ -363,6 +363,20 @@
 					}, 0 );
 				}
 			}, null, null, 1000 );
+
+			// Instert fake element from external data transfer (#638).
+			editor.on( 'paste', function( evt ) {
+				// External paste and pasteFilter exists and filtering isn't disabled.
+				if ( evt.data.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !evt.data.dontFilter ) {
+					var dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+							evt.data.dataTransfer.getData( 'text/html', true ) : null,
+						regex = /<img.*>/g;
+
+					if ( dataTransferHtml && evt.data.dataValue.match( /(<img)|(cke-real-element-type)/g ) ) {
+						evt.data.dataValue = regex.exec( dataTransferHtml )[ 0 ];
+					}
+				}
+			} );
 		}
 	} );
 
