@@ -59,6 +59,17 @@
 				} );
 			}
 
+			// Get data value with all original attributes, including attributes presenting fake element (#638).
+			editor.on( 'paste', function( evt ) {
+				var dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+						evt.data.dataTransfer.getData( 'text/html', true ) : null,
+					regex = /<img.*>/g;
+
+				if ( dataTransferHtml && evt.data.dataValue.match( regex ) ) {
+					evt.data.dataValue = regex.exec( dataTransferHtml )[ 0 ];
+				}
+			} );
+
 			// If the "contextmenu" plugin is loaded, register the listeners.
 			if ( editor.contextMenu ) {
 				editor.contextMenu.addListener( function( element ) {
@@ -70,7 +81,6 @@
 		afterInit: function( editor ) {
 			var dataProcessor = editor.dataProcessor,
 				dataFilter = dataProcessor && dataProcessor.dataFilter;
-
 			if ( dataFilter ) {
 				dataFilter.addRules( {
 					elements: {
