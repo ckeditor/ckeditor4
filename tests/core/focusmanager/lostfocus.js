@@ -8,7 +8,7 @@ bender.test( {
 		// Assert for IE8 returns different selection comparing to other browsers.
 		// IE8: <p>foo [<strong>bar]</strong></p>
 		// Others: <p>foo [<strong>bar</strong>]</p>
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ) {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 8 || CKEDITOR.env.safari ) {
 			assert.ignore();
 		}
 
