@@ -6,7 +6,7 @@
 
 	bender.editor = {};
 
-	var tests = {
+	bender.test( {
 		_registerCommand: function( commandName, commandDefinition, keystroke ) {
 			var editor = this.editor;
 
@@ -49,22 +49,6 @@
 			} );
 		},
 
-		'test keystrokeEntry event': function() {
-			this._createEditor( {}, function() {
-				var editor = this.editor,
-					bot = this.editorBot;
-
-				editor.once( 'keystrokeEntry', function() {
-					assert.pass();
-				} );
-
-				this._registerCommand( 'customCommand' );
-				bot.dialog( 'a11yHelp', function( dialog ) {
-					dialog.hide();
-				} );
-			} );
-		},
-
 		'test visible label': function() {
 			this._createEditor( {}, function() {
 				var bot = this.editorBot;
@@ -78,25 +62,22 @@
 			} );
 		},
 
-		'test visible description': function() {
+		'test visible key description': function() {
 			this._createEditor( {}, function() {
 				var editor = this.editor,
 					bot = this.editorBot,
 					commandDefinition = {
 						exec: function() {},
 						label: 'Another Command',
-						description: 'Additional info.'
+						keyDescription: 'Additional info.',
+						getLabel: function() {
+							return 'Modified label';
+						}
 					},
-				keystroke = CKEDITOR.SHIFT + 65; // Shift + A
+					keystroke = CKEDITOR.SHIFT + 65; // Shift + A
 
 				this._registerCommand( 'customCommand' );
 				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
-
-				editor.on( 'keystrokeEntry', function( evt ) {
-					if ( evt.data.commandName === 'anotherCommand' ) {
-						evt.data.label = 'Modified label';
-					}
-				} );
 
 				editor.once( 'dialogHide', function( evt ) {
 					var dialogHtml = evt.data.definition.contents[0].elements[0].html; // evt.data === dialog
@@ -109,25 +90,23 @@
 			} );
 		},
 
-		'test visible description (inline)': function() {
+		'test visible key description (inline editor)': function() {
 			this._createEditor( { creator: 'inline' }, function() {
 				var editor = this.editor,
 					bot = this.editorBot,
 					commandDefinition = {
 						exec: function() {},
 						label: 'Another Command',
-						description: 'Additional info.'
+						keyDescription: 'Additional info.',
+						getLabel: function() {
+							return 'Modified label';
+						}
 					},
 				keystroke = CKEDITOR.SHIFT + 65; // Shift + A
 
 				this._registerCommand( 'customCommand' );
 				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
 
-				editor.on( 'keystrokeEntry', function( evt ) {
-					if ( evt.data.commandName === 'anotherCommand' ) {
-						evt.data.label = 'Modified label';
-					}
-				} );
 
 				editor.once( 'dialogHide', function( evt ) {
 					var dialogHtml = evt.data.definition.contents[0].elements[0].html; // evt.data === dialog
@@ -138,9 +117,36 @@
 					dialog.hide();
 				} );
 			} );
+		},
+
+		'test modified key description': function() {
+			this._createEditor( {}, function() {
+				var editor = this.editor,
+					bot = this.editorBot,
+					commandDefinition = {
+						exec: function() {},
+						label: 'Another Command',
+						keyDescription: 'Additional info.',
+						getKeyDescription: function() {
+							return 'Modified key description';
+						}
+					},
+				keystroke = CKEDITOR.SHIFT + 65; // Shift + A
+
+				this._registerCommand( 'customCommand' );
+				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
+
+
+				editor.once( 'dialogHide', function( evt ) {
+					var dialogHtml = evt.data.definition.contents[0].elements[0].html; // evt.data === dialog
+					assert.areNotSame( -1, dialogHtml.indexOf( '<tr><td>Another Command</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Modified key description</td></tr>' ) );
+				} );
+
+				bot.dialog( 'a11yHelp', function( dialog ) {
+					dialog.hide();
+				} );
+			} );
 		}
 
-	};
-
-	bender.test( tests );
+	} );
 } )();

@@ -11,8 +11,8 @@ Note: Perform below steps in both editors.
 **Expected:**
 * First editor - Table should contain at least one keystroke `Alt + 0`.
 * Second editor - Table should contains 3 new keystrokes:
-  - `Alt + Shift + A`
-  - `Alt + Shift + B`, with description
-  - `Alt + Shift + C`, with modified label
+  - `Alt + Shift + A`.
+  - `Alt + Shift + B`, with description.
+  - `Alt + Shift + C`, with modified label and modified key description.
 
 **Unexpected:** Mentioned keystrokes are not displayed in accessibility dialog.

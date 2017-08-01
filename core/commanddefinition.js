@@ -162,8 +162,7 @@
  */
 
 /**
- * Providing this method will overwrite {@link CKEDITOR.command#getLabel}, what allows on better customization
- * of returned label for specific command.
+ * If present, this method will be used to provide command's label. It allows customizing label for a specific command.
  *
  * @since 4.8.0
  * @method getLabel
@@ -172,8 +171,7 @@
  */
 
 /**
- * Providing this method will overwrite {@link CKEDITOR.command#getKeyDescription}, what allows on better customization
- * of returned description for specific command.
+ * If present, this method will be used to provide command's key description. It allows customizing key description for a specific command.
  *
  * @since 4.8.0
  * @method getKeyDescription

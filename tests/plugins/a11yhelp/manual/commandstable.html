@@ -23,21 +23,24 @@
 	editor.addCommand( 'extra2', {
 		exec: function() {},
 		label: 'Extra command 2',
-		description: 'This command contains some description.'
+		keyDescription: 'This command contains some key description.'
 	} );
 	editor.addCommand( 'extra3', {
 		exec: function() {},
 		label: 'Extra command 3',
+		keyDescription: 'if you see me, then we have problem.',
+		getLabel: function() {
+			return 'This is modified label';
+		},
+		getKeyDescription: function() {
+			return 'this is modified key description';
+		}
 	} );
 
 	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 65, 'extra1' );
 	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 66, 'extra2' );
 	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 67, 'extra3' );
 
-	editor.on( 'keystrokeEntry', function( evt ) {
-		if ( evt.data.commandName === 'extra3' ) {
-			evt.data.label = 'This label was modified by event.'
-		}
-	} );
+
 </script>
 
