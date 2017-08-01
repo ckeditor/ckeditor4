@@ -1,4 +1,4 @@
-## Are you reporting a feature or a bug?
+## Are you reporting a feature request or a bug?
 
 <!--
 Replace this comment with your issue type: Bug / Feature request / Other, please explain.
