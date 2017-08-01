@@ -372,7 +372,7 @@
 							evt.data.dataTransfer.getData( 'text/html', true ) : null,
 						regex = /<img.*>/g;
 
-					if ( dataTransferHtml && evt.data.dataValue.match( /(<img)|(cke-real-element-type)/g ) ) {
+					if ( dataTransferHtml && evt.data.dataValue.match( /(cke-real-element-type)/g ) ) {
 						evt.data.dataValue = regex.exec( dataTransferHtml )[ 0 ];
 					}
 				}
