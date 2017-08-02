@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 			{
 			name: 'Finestra Editor',
 			legend:
-				'All\'interno di una finestra di dialogo è possibile premere TAB per passare all\'elemento successivo della finestra, MAIUSC+TAB per passare a quello precedente; premere INVIO per inviare i dati della finestra, oppure ESC per annullare l\'operazione. Quando una finestra di dialogo ha più schede, è possibile passare all\'elenco delle schede sia con ALT+F10 che con TAB, in base all\'ordine delle tabulazioni della finestra. Quando l\'elenco delle schede è attivo, premere la FRECCIA DESTRA o la FRECCIA SINISTRA per passare rispettivamente alla scheda successiva o a quella precedente.'
+				'All\'interno di una finestra di dialogo è possibile premere TAB per passare all\'elemento successivo della finestra, MAIUSC+TAB per passare a quello precedente; premere INVIO per inviare i dati della finestra, oppure ESC per annullare l\'operazione. Quando una finestra di dialogo ha più schede, è possibile passare all\'elenco delle schede sia con ALT+F10 che con TAB, in base all\'ordine delle tabulazioni della finestra. Quando l\'elenco delle schede è attivo, premere la FRECCIA DESTRA o la FRECCIA SINISTRA per passare rispettivamente alla scheda successiva o a quella precedente.' 
 		},
 
 			{

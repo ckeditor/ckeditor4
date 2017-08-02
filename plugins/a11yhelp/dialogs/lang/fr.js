@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 			{
 			name: 'Fenêtre de l\'éditeur',
 			legend:
-				'Dans une boîte de dialogue, appuyer sur Tab pour passer à l\'élément suivant, appuyer sur Maj+Tab pour passer à l\'élément précédent, appuyer sur Entrée pour valider, appuyer sur Échap pour annuler. Quand une boîte de dialogue possède des onglets, la liste peut être atteinte avec Alt+F10 ou avec Tab. Dans la liste des onglets, se déplacer vers le suivant et le précédent avec les touches Flèche droite et Flèche gauche respectivement.'
+				'Dans une boîte de dialogue, appuyer sur Tab pour passer à l\'élément suivant, appuyer sur Maj+Tab pour passer à l\'élément précédent, appuyer sur Entrée pour valider, appuyer sur Échap pour annuler. Quand une boîte de dialogue possède des onglets, la liste peut être atteinte avec Alt+F10 ou avec Tab. Dans la liste des onglets, se déplacer vers le suivant et le précédent avec les touches Flèche droite et Flèche gauche respectivement.' 
 		},
 
 			{

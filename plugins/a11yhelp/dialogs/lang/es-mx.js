@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es-mx', {
 			{
 			name: 'Editor de diálogo',
 			legend:
-				'Dentro de un cuadro de diálogo, pulse TAB para desplazarse hasta el siguiente elemento de diálogo, pulse MAYÚS + TAB para desplazarse al elemento de diálogo anterior, pulse ENTER para enviar el diálogo, pulse ESC para cancelar el diálogo. Cuando un cuadro de diálogo tiene varias pestañas, se puede acceder a la lista de pestañas con ALT + F10 o con TAB como parte del orden de tabulación del diálogo. Con la lista de tabuladores enfocada, mueva a la pestaña siguiente y anterior con las flechas DERECHA y IZQUIERDA, respectivamente.'
+				'Dentro de un cuadro de diálogo, pulse TAB para desplazarse hasta el siguiente elemento de diálogo, pulse MAYÚS + TAB para desplazarse al elemento de diálogo anterior, pulse ENTER para enviar el diálogo, pulse ESC para cancelar el diálogo. Cuando un cuadro de diálogo tiene varias pestañas, se puede acceder a la lista de pestañas con ALT + F10 o con TAB como parte del orden de tabulación del diálogo. Con la lista de tabuladores enfocada, mueva a la pestaña siguiente y anterior con las flechas DERECHA y IZQUIERDA, respectivamente.' 
 		},
 
 			{
@@ -34,55 +34,6 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es-mx', {
 			{
 			name: 'Barra de ruta del elemento del editor',
 			legend: 'Presione ${elementsPathFocus} para navegar a la barra de ruta de elementos. Desplácese al siguiente botón de elemento con TAB o FLECHA DERECHA. Desplácese al botón anterior con SHIFT + TAB o FLECHA IZQUIERDA. Presione SPACE o ENTER para seleccionar el elemento en el editor.'
-		}
-		]
-	},
-		{
-		name: 'Comandos',
-		items: [
-			{
-			name: 'Comando deshacer',
-			legend: 'Presiona ${undo}'
-		},
-			{
-			name: 'Comando rehacer',
-			legend: 'Presiona ${redo}'
-		},
-			{
-			name: 'Comando negrita',
-			legend: 'Presiona ${bold}'
-		},
-			{
-			name: 'Comando cursiva',
-			legend: 'Presiona {italic}'
-		},
-			{
-			name: 'Comando subrayado',
-			legend: 'Presiona ${underline}'
-		},
-			{
-			name: 'Comando enlace',
-			legend: 'Presiona ${link}'
-		},
-			{
-			name: 'Comando colapsar barra de herramientas',
-			legend: 'Presiona ${toolbarCollapse}'
-		},
-			{
-			name: 'Acceda al comando de espacio de enfoque anterior',
-			legend: 'Presione ${accessPreviousSpace} para acceder al espacio de enfoque inaccesible más cercano antes del cursor, por ejemplo: dos elementos HR adyacentes. Repita la combinación de teclas para alcanzar los espacios de enfoque distantes.'
-		},
-			{
-			name: 'Acceder al siguiente comando de espacio de enfoque',
-			legend: 'Pulse ${accessNextSpace} para acceder al espacio de enfoque más cercano inaccesible después del cursor, por ejemplo: dos elementos HR adyacentes. Repita la combinación de teclas para alcanzar los espacios de enfoque distantes.'
-		},
-			{
-			name: 'Ayuda de accesibilidad',
-			legend: 'Presiona ${a11yHelp}'
-		},
-			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}' // MISSING
 		}
 		]
 	}
@@ -140,5 +91,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'es-mx', {
 	openBracket: 'Abrir paréntesis',
 	backSlash: 'Diagonal invertida',
 	closeBracket: 'Cerrar paréntesis',
-	singleQuote: 'Comillas simple'
+	singleQuote: 'Comillas simple',
+	commandsList: {
+		sectionName: 'Commands table', // MISSING
+		command: 'Command', // MISSING
+		keystroke: 'Keystroke' // MISSING
+	},
+	commandLabel: 'Accessibility Help' // MISSING
 } );
