@@ -1,0 +1,71 @@
+<h2>Classic</h2>
+<div id="editor1">
+	<p>Some text</p>
+
+	<table border="1">
+		<tr>
+			<td>
+				<img src="http://c.cksource.com/a/1/img/demo/brownie.jpg" alt="">
+			</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+	</table>
+
+	<p>Some text</p>
+</div>
+
+<h2>Divarea</h2>
+<div id="editor2">
+	<p>Some text</p>
+
+	<table border="1">
+		<tr>
+			<td>
+				<img src="http://c.cksource.com/a/1/img/demo/brownie.jpg" alt="">
+			</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+	</table>
+
+	<p>Some text</p>
+</div>
+
+<h2>Inline</h2>
+<div id="editor3">
+	<p>Some text</p>
+
+	<table border="1">
+		<tr>
+			<td>
+				<img src="http://c.cksource.com/a/1/img/demo/brownie.jpg" alt="">
+			</td>
+			<td>Cell</td>
+		</tr>
+		<tr>
+			<td>Cell</td>
+			<td>Cell</td>
+		</tr>
+	</table>
+
+	<p>Some text</p>
+</div>
+
+<script>
+	if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea'
+	} );
+	CKEDITOR.inline( 'editor3' );
+</script>
