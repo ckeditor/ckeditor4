@@ -174,7 +174,7 @@
  * If present, this method will be used to provide command key description. It allows customizing key description for a specific command.
  *
  * @since 4.8.0
- * @method getKeyDescription
+ * @method getKeystrokeDescription
  * @param {CKEDITOR.editor} editor The editor instance.
  * @returns {String} Command key description.
  */
@@ -189,8 +189,8 @@
 
 /**
  * Defines command key description. This property is used by different plugins to display additional key information (by e.g. Accessibility Help).
- * For getting command's key description please use {@link CKEDITOR.command#getKeyDescription}, instead of directly reading `keyDescription` property.
+ * For getting command's key description please use {@link CKEDITOR.command#getKeystrokeDescription}, instead of directly reading `keystrokeDescription` property.
  *
  * @since 4.8.0
- * @property {String} [keyDescription]
+ * @property {String} [keystrokeDescription]
  */

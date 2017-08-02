@@ -363,7 +363,7 @@ bender.test( {
 	// #456
 	'test basic behaviour of getDescription': function() {
 		bender.editorBot.create( {
-			name: 'getKeyDescription1',
+			name: 'getKeystrokeDescription1',
 			config: {
 				on: {
 					// This allows on setting up nice enviornment before asserts.
@@ -374,16 +374,16 @@ bender.test( {
 							exec: function() {
 								return;
 							},
-							keyDescription: 'custom keyDescription 1'
+							keystrokeDescription: 'custom keystrokeDescription 1'
 						} );
 
 						editor.addCommand( 'custom2', {
 							exec: function() {
 								return;
 							},
-							keyDescription: 'custom keyDescription 2',
-							getKeyDescription: function() {
-								return 'alternative keyDescription 2';
+							keystrokeDescription: 'custom keystrokeDescription 2',
+							getKeystrokeDescription: function() {
+								return 'alternative keystrokeDescription 2';
 							}
 						} );
 
@@ -398,9 +398,9 @@ bender.test( {
 		}, function( bot ) {
 			var editor = bot.editor;
 
-			assert.areSame( 'custom keyDescription 1', editor.getCommand( 'custom1' ).getKeyDescription() );
-			assert.areSame( 'alternative keyDescription 2', editor.getCommand( 'custom2' ).getKeyDescription() );
-			assert.areSame( '', editor.getCommand( 'custom3' ).getKeyDescription() );
+			assert.areSame( 'custom keystrokeDescription 1', editor.getCommand( 'custom1' ).getKeystrokeDescription() );
+			assert.areSame( 'alternative keystrokeDescription 2', editor.getCommand( 'custom2' ).getKeystrokeDescription() );
+			assert.areSame( '', editor.getCommand( 'custom3' ).getKeystrokeDescription() );
 		} );
 	}
 

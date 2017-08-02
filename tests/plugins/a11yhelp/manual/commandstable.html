@@ -23,16 +23,16 @@
 	editor.addCommand( 'extra2', {
 		exec: function() {},
 		label: 'Extra command 2',
-		keyDescription: 'This command contains some key description.'
+		keystrokeDescription: 'This command contains some key description.'
 	} );
 	editor.addCommand( 'extra3', {
 		exec: function() {},
 		label: 'Extra command 3',
-		keyDescription: 'If you see me, then we have problem.',
+		keystrokeDescription: 'If you see me, then we have problem.',
 		getLabel: function() {
 			return 'This is modified label.';
 		},
-		getKeyDescription: function() {
+		getKeystrokeDescription: function() {
 			return 'This is modified key description.';
 		}
 	} );

@@ -32,7 +32,6 @@
 
 				editor.addCommand( commandName, {
 					exec: function() {
-						CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( plugin.path + 'styles/a11yhelp.css' ) );
 						editor.openDialog( commandName );
 					},
 
@@ -48,6 +47,10 @@
 			editor.on( 'ariaEditorHelpLabel', function( evt ) {
 				evt.data.label = editor.lang.common.editorHelp;
 			} );
+		},
+
+		onLoad: function() {
+			CKEDITOR.document.appendStyleSheet( CKEDITOR.getUrl( this.path + 'styles/a11yhelp.css' ) );
 		}
 	} );
 
@@ -60,21 +63,27 @@
 	 */
 	CKEDITOR.plugins.a11yhelp = {
 		/**
-		 * Return html which represent keystroke. Result is wrapped with `<kbd></kbd>` tags.
-		 *
-		 * 		CKEDITOR.plugins.a11yhelp.representKeystroke( CKEDITOR.instances.editor, 4456496 );
-		 * 		"<kbd><kbd>Alt</kbd>+<kbd>0</kbd></kbd>"
+		 * Property contains current key map list used by {@link CKEDITOR.plugins.a11yhelp#representKeystroke}.
+		 * After setting up with {@link CKEDITOR.plugins.a11yhelp#_renderKeyMap}. Property cab be read directly.
 		 *
 		 * @since 4.8.0
-		 * @param {CKEDITOR.editor} editor Editor instance.
-		 * @param {Number} keystroke Number which represent command keystroke.
-		 * @returns {String} HTML code with key names wrapped with `<kbd></kbd>` tags.
+		 * @private
+		 * @property {Object}
 		 */
-		representKeystroke: function( editor, keystroke ) {
+		_keyMap: undefined,
+
+		/**
+		 * Method render and return {@link CKEDITOR.plugins.a11yhelp#_keyMap} property.
+		 *
+		 * @since 4.8.0
+		 * @private
+		 * @param {CKEDITOR.editor} editor Editor instance
+		 * @returns {Object}
+		 */
+		_renderKeyMap: function( editor ) {
 			var lang = editor.lang.a11yhelp,
 				coreLang = editor.lang.common.keyboard;
 
-			// CharCode <-> KeyChar.
 			var keyMap = {
 				8: coreLang[ 8 ],
 				9: lang.tab,
@@ -139,6 +148,28 @@
 				221: lang.closeBracket,
 				222: lang.singleQuote
 			};
+
+			this._keyMap = keyMap;
+			return this._keyMap;
+		},
+
+		/**
+		 * Return html which represent keystroke. Result is wrapped with `<kbd></kbd>` tags.
+		 *
+		 * 		CKEDITOR.plugins.a11yhelp.representKeystroke( CKEDITOR.instances.editor, 4456496 );
+		 * 		"<kbd><kbd>Alt</kbd>+<kbd>0</kbd></kbd>"
+		 *
+		 * @since 4.8.0
+		 * @param {CKEDITOR.editor} editor Editor instance.
+		 * @param {Number} keystroke Number which represent command keystroke.
+		 * @returns {String} HTML code with key names wrapped with `<kbd></kbd>` tags.
+		 */
+		representKeystroke: function( editor, keystroke ) {
+			var coreLang = editor.lang.common.keyboard;
+
+			// CharCode <-> KeyChar.
+			// We need to have loaded lang files before key map will be created.
+			var keyMap = this._keyMap || this._renderKeyMap( editor );
 
 			// Modifier keys override.
 			keyMap[ CKEDITOR.ALT ] = coreLang[ 18 ];

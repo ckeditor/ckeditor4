@@ -45,6 +45,6 @@
 	padding: 0.8em;
 }
 
-.cke_accessibility_legend tbody > tr:nth-child(odd) {
+.cke_accessibility_legend .cke_accessibility_table_odd {
 	background-color: #dddddd;
 }

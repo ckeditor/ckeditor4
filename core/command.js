@@ -142,18 +142,18 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	/**
 	 * Provides command description. Description is define with few fallbacks in specific order described below:
 	 *
-	 * 1. If {@link CKEDITOR.commandDefinition#getKeyDescription} method was defined, it is used to provide description.
-	 * 2. If {@link CKEDITOR.commandDefinition#keyDescription} attribute exists, it is used to provide description.
+	 * 1. If {@link CKEDITOR.commandDefinition#getKeystrokeDescription} method was defined, it is used to provide description.
+	 * 2. If {@link CKEDITOR.commandDefinition#keystrokeDescription} attribute exists, it is used to provide description.
 	 * 3. If non of the above options is available, empty string is returned.
 	 *
 	 * @since 4.8.0
 	 * @returns {String} Command description.
 	 */
-	this.getKeyDescription = function() {
-		if ( typeof commandDefinition.getKeyDescription == 'function' ) {
-			return commandDefinition.getKeyDescription.call( this, editor );
-		} else if ( commandDefinition.keyDescription ) {
-			return commandDefinition.keyDescription;
+	this.getKeystrokeDescription = function() {
+		if ( typeof commandDefinition.getKeystrokeDescription == 'function' ) {
+			return commandDefinition.getKeystrokeDescription.call( this, editor );
+		} else if ( commandDefinition.keystrokeDescription ) {
+			return commandDefinition.keystrokeDescription;
 		} else {
 			return '';
 		}

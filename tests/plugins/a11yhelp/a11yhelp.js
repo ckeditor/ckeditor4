@@ -7,6 +7,12 @@
 	bender.editor = {};
 
 	bender.test( {
+		setUp: function() {
+			if ( CKEDITOR.plugins.a11yhelp._keyMap ) {
+				CKEDITOR.plugins.a11yhelp._keyMap = undefined;
+			}
+		},
+
 		_registerCommand: function( commandName, commandDefinition, keystroke ) {
 			var editor = this.editor;
 
@@ -41,7 +47,7 @@
 			} );
 		},
 
-
+		// #456
 		'test representKeystroke': function() {
 			this._createEditor( {}, function() {
 				var editor = this.editor;
@@ -49,6 +55,7 @@
 			} );
 		},
 
+		// #456
 		'test visible label': function() {
 			this._createEditor( {}, function() {
 				var bot = this.editorBot;
@@ -56,12 +63,13 @@
 
 				bot.dialog( 'a11yHelp', function( dialog ) {
 					var dialogHtml = dialog.definition.contents[0].elements[0].html;
-					assert.areNotSame( -1, dialogHtml.indexOf( '<tr><td>Test Label.</td><td><kbd><kbd>Alt</kbd>+<kbd>A</kbd></kbd></td></tr>' ) );
+					assert.areNotSame( -1, dialogHtml.indexOf( '<td>Test Label.</td><td><kbd><kbd>Alt</kbd>+<kbd>A</kbd></kbd></td>' ) );
 					dialog.hide();
 				} );
 			} );
 		},
 
+		// #456
 		'test visible key description': function() {
 			this._createEditor( {}, function() {
 				var editor = this.editor,
@@ -69,7 +77,7 @@
 					commandDefinition = {
 						exec: function() {},
 						label: 'Another Command',
-						keyDescription: 'Additional info.',
+						keystrokeDescription: 'Additional info.',
 						getLabel: function() {
 							return 'Modified label';
 						}
@@ -81,7 +89,7 @@
 
 				editor.once( 'dialogHide', function( evt ) {
 					var dialogHtml = evt.data.definition.contents[0].elements[0].html; // evt.data === dialog
-					assert.areNotSame( -1, dialogHtml.indexOf( '<tr><td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Additional info.</td></tr>' ) );
+					assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Additional info.</td>' ) );
 				} );
 
 				bot.dialog( 'a11yHelp', function( dialog ) {
@@ -90,6 +98,7 @@
 			} );
 		},
 
+		// #456
 		'test visible key description (inline editor)': function() {
 			this._createEditor( { creator: 'inline' }, function() {
 				var editor = this.editor,
@@ -97,7 +106,7 @@
 					commandDefinition = {
 						exec: function() {},
 						label: 'Another Command',
-						keyDescription: 'Additional info.',
+						keystrokeDescription: 'Additional info.',
 						getLabel: function() {
 							return 'Modified label';
 						}
@@ -110,7 +119,7 @@
 
 				editor.once( 'dialogHide', function( evt ) {
 					var dialogHtml = evt.data.definition.contents[0].elements[0].html; // evt.data === dialog
-					assert.areNotSame( -1, dialogHtml.indexOf( '<tr><td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Additional info.</td></tr>' ) );
+					assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Additional info.</td>' ) );
 				} );
 
 				bot.dialog( 'a11yHelp', function( dialog ) {
@@ -119,6 +128,7 @@
 			} );
 		},
 
+		// #456
 		'test modified key description': function() {
 			this._createEditor( {}, function() {
 				var editor = this.editor,
@@ -126,8 +136,8 @@
 					commandDefinition = {
 						exec: function() {},
 						label: 'Another Command',
-						keyDescription: 'Additional info.',
-						getKeyDescription: function() {
+						keystrokeDescription: 'Additional info.',
+						getKeystrokeDescription: function() {
 							return 'Modified key description';
 						}
 					},
@@ -139,14 +149,95 @@
 
 				editor.once( 'dialogHide', function( evt ) {
 					var dialogHtml = evt.data.definition.contents[0].elements[0].html; // evt.data === dialog
-					assert.areNotSame( -1, dialogHtml.indexOf( '<tr><td>Another Command</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Modified key description</td></tr>' ) );
+					assert.areNotSame( -1, dialogHtml.indexOf( '<td>Another Command</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Modified key description</td>' ) );
 				} );
 
 				bot.dialog( 'a11yHelp', function( dialog ) {
 					dialog.hide();
 				} );
 			} );
-		}
+		},
 
+		// #456
+		'test for private property _keyMap': function() {
+			this._createEditor( {}, function() {
+				var editor = this.editor,
+					lang = editor.lang.a11yhelp,
+					coreLang = editor.lang.common.keyboard,
+					keyMap;
+
+				assert.isUndefined( CKEDITOR.plugins.a11yhelp._keyMap );
+
+				keyMap = CKEDITOR.plugins.a11yhelp._renderKeyMap( editor );
+
+				assert.isNotUndefined( CKEDITOR.plugins.a11yhelp._keyMap );
+				assert.areSame( keyMap, CKEDITOR.plugins.a11yhelp._keyMap );
+
+				assert.isTrue( CKEDITOR.tools.objectCompare( keyMap, {
+					8: coreLang[ 8 ],
+					9: lang.tab,
+					13: coreLang[ 13 ],
+					16: coreLang[ 16 ],
+					17: coreLang[ 17 ],
+					18: coreLang[ 18 ],
+					19: lang.pause,
+					20: lang.capslock,
+					27: lang.escape,
+					33: lang.pageUp,
+					34: lang.pageDown,
+					35: coreLang[ 35 ],
+					36: coreLang[ 36 ],
+					37: lang.leftArrow,
+					38: lang.upArrow,
+					39: lang.rightArrow,
+					40: lang.downArrow,
+					45: lang.insert,
+					46: coreLang[ 46 ],
+					91: lang.leftWindowKey,
+					92: lang.rightWindowKey,
+					93: lang.selectKey,
+					96: lang.numpad0,
+					97: lang.numpad1,
+					98: lang.numpad2,
+					99: lang.numpad3,
+					100: lang.numpad4,
+					101: lang.numpad5,
+					102: lang.numpad6,
+					103: lang.numpad7,
+					104: lang.numpad8,
+					105: lang.numpad9,
+					106: lang.multiply,
+					107: lang.add,
+					109: lang.subtract,
+					110: lang.decimalPoint,
+					111: lang.divide,
+					112: lang.f1,
+					113: lang.f2,
+					114: lang.f3,
+					115: lang.f4,
+					116: lang.f5,
+					117: lang.f6,
+					118: lang.f7,
+					119: lang.f8,
+					120: lang.f9,
+					121: lang.f10,
+					122: lang.f11,
+					123: lang.f12,
+					144: lang.numLock,
+					145: lang.scrollLock,
+					186: lang.semiColon,
+					187: lang.equalSign,
+					188: lang.comma,
+					189: lang.dash,
+					190: lang.period,
+					191: lang.forwardSlash,
+					192: lang.graveAccent,
+					219: lang.openBracket,
+					220: lang.backSlash,
+					221: lang.closeBracket,
+					222: lang.singleQuote
+				} ) );
+			} );
+		}
 	} );
 } )();

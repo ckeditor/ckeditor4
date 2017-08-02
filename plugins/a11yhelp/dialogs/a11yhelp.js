@@ -72,7 +72,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		// Section based on available commands. If you modify `commandRowTpl`,
 		// you need to change unit test in a similar way.
 		var commandsSectionTpl = '<h1>%1</h1><table>%2</table>',
-			commandRowTpl = '<tr><td>%1</td><td>%2</td></tr>',
+			commandRowTpl = '<tr%1><td>%2</td><td>%3</td></tr>',
 			commandsTbodyTpl = '<tbody>%1</tbody>',
 			commandsTbodyHtml,
 			commandsTheadTpl = '<thead><tr><th>%1</th><th>%2</th></tr></thead>',
@@ -87,7 +87,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		// Get data necessary for filling table.
 		CKEDITOR.tools.array.forEach( commandItems, function( commandItem ) {
 			commandItem.label = commandItem.command.getLabel();
-			commandItem.description = commandItem.command.getKeyDescription();
+			commandItem.description = commandItem.command.getKeystrokeDescription();
 			commandItem.keystrokeHtml = CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( commandItem.command ) );
 		} );
 
@@ -97,8 +97,9 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		} );
 
 		// Create inner table with commands.
-		commandsTbodyHtml = commandsTbodyTpl.replace( '%1', CKEDITOR.tools.array.reduce( commandItems, function( acc, commandItem ) {
-			return acc + commandRowTpl.replace( '%1', commandItem.label ).replace( '%2', commandItem.keystrokeHtml + ( commandItem.description ? '<br />' + commandItem.description : '' ) );
+		commandsTbodyHtml = commandsTbodyTpl.replace( '%1', CKEDITOR.tools.array.reduce( commandItems, function( acc, commandItem, index ) {
+			var tmpCommandRowTpl = index % 2 ? commandRowTpl.replace( '%1', '' ) : commandRowTpl.replace( '%1', ' class="cke_accessibility_table_odd"' );
+			return acc + tmpCommandRowTpl.replace( '%2', commandItem.label ).replace( '%3', commandItem.keystrokeHtml + ( commandItem.description ? '<br />' + commandItem.description : '' ) );
 		} , '' ) );
 
 		// Push section's HTML code to output file.
