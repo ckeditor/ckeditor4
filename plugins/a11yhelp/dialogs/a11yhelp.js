@@ -69,8 +69,8 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			pageHtml.push( sectionTpl.replace( '%1', section.name ).replace( '%2', sectionHtml.join( '' ) ) );
 		}
 
-		// Section based on available commands
-		// If you modify `commandRowTpl`, you need to change unit test in a simmilar way.
+		// Section based on available commands. If you modify `commandRowTpl`,
+		// you need to change unit test in a similar way.
 		var commandsSectionTpl = '<h1>%1</h1><table>%2</table>',
 			commandRowTpl = '<tr><td>%1</td><td>%2</td></tr>',
 			commandsTbodyTpl = '<tbody>%1</tbody>',

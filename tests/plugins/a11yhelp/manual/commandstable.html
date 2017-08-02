@@ -13,7 +13,7 @@
 	if ( bender.tools.env.mobile ) {
 		bender.ignore();
 	}
-	CKEDITOR.replace( 'editor1' )
+	CKEDITOR.replace( 'editor1' );
 
 	var editor = CKEDITOR.replace( 'editor2');
 	editor.addCommand( 'extra1', {
@@ -28,19 +28,17 @@
 	editor.addCommand( 'extra3', {
 		exec: function() {},
 		label: 'Extra command 3',
-		keyDescription: 'if you see me, then we have problem.',
+		keyDescription: 'If you see me, then we have problem.',
 		getLabel: function() {
-			return 'This is modified label';
+			return 'This is modified label.';
 		},
 		getKeyDescription: function() {
-			return 'this is modified key description';
+			return 'This is modified key description.';
 		}
 	} );
 
 	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 65, 'extra1' );
 	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 66, 'extra2' );
 	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 67, 'extra3' );
-
-
 </script>
 

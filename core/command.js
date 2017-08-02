@@ -117,15 +117,15 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	};
 
 	/**
-	 * Provides command's label string. Label is define with few fallbacks in specific order described below:
+	 * Provides command label string. Label is defined with few fallbacks in specific order described below:
 	 *
-	 * 1. If {@link CKEDITOR.commandDefinition#getLabel} method was defined, it is used to provide label,
-	 * 2. If {@link CKEDITOR.commandDefinition#label} atribute exists, it is used to provide label.
-	 * 3. If {@link CKEDITOR.command#uiItems} is non empty, then label of first array's item is used as label
-	 * 4. Empty string.
+	 * 1. If {@link CKEDITOR.commandDefinition#getLabel} method was defined, it is used to provide a label.
+	 * 2. If {@link CKEDITOR.commandDefinition#label} attribute exists, it is used to provide a label.
+	 * 3. If {@link CKEDITOR.command#uiItems} is not empty, then name of first array item is used as a label.
+	 * 4. If non of the above options is available, empty string is returned.
 	 *
 	 * @since 4.8.0
-	 * @returns {String} Command's label
+	 * @returns {String} Command label.
 	 */
 	this.getLabel = function() {
 		if ( typeof commandDefinition.getLabel == 'function' ) {
@@ -140,14 +140,14 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	};
 
 	/**
-	 * Provides command's description. Description is define with few fallbacks in specific order described below:
+	 * Provides command description. Description is define with few fallbacks in specific order described below:
 	 *
-	 * 1. If {@link CKEDITOR.commandDefinition#getKeyDescription} method was defined, it is used to provide description,
-	 * 2. If {@link CKEDITOR.commandDefinition#keyDescription} atribute exists, it is used to provide description.
-	 * 3. Empty string
+	 * 1. If {@link CKEDITOR.commandDefinition#getKeyDescription} method was defined, it is used to provide description.
+	 * 2. If {@link CKEDITOR.commandDefinition#keyDescription} attribute exists, it is used to provide description.
+	 * 3. If non of the above options is available, empty string is returned.
 	 *
 	 * @since 4.8.0
-	 * @returns {String} Command's description.
+	 * @returns {String} Command description.
 	 */
 	this.getKeyDescription = function() {
 		if ( typeof commandDefinition.getKeyDescription == 'function' ) {

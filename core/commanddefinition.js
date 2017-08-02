@@ -162,21 +162,21 @@
  */
 
 /**
- * If present, this method will be used to provide command's label. It allows customizing label for a specific command.
+ * If present, this method will be used to provide command label. It allows customizing label for a specific command.
  *
  * @since 4.8.0
  * @method getLabel
  * @param {CKEDITOR.editor} editor The editor instance.
- * @returns {String} command's label
+ * @returns {String} Command label.
  */
 
 /**
- * If present, this method will be used to provide command's key description. It allows customizing key description for a specific command.
+ * If present, this method will be used to provide command key description. It allows customizing key description for a specific command.
  *
  * @since 4.8.0
  * @method getKeyDescription
  * @param {CKEDITOR.editor} editor The editor instance.
- * @returns {String} command's description
+ * @returns {String} Command key description.
  */
 
 /**
