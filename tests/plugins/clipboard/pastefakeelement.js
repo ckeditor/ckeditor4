@@ -25,6 +25,11 @@
 
 	bender.editor = true;
 
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+		bender.ignore();
+		return;
+	}
+
 	bender.test( {
 		// #638
 		'test paste fake iframe': function() {
