@@ -10,11 +10,11 @@
 		}
 	};
 
-	// 605
+	// #605
 	bender.test( {
-		'test trailing space': function() {
-			var editor = this.editor;
-			editor.widgets.add( 'spanwidget', {
+
+		init: function() {
+			this.editor.widgets.add( 'spanwidget', {
 				editables: {
 					content: {
 						selector: 'span'
@@ -24,42 +24,42 @@
 					return element.name == 'span';
 				}
 			} );
+		},
 
-			editor.setData( '<span>lorem </span>ipsum' );
+		// #605
+		'test trailing space': function() {
+			var editor = this.editor;
 
-			setTimeout( function() {
+			var listener;
+
+			listener = editor.on( 'dataReady', function() {
+				listener.removeListener();
+
 				resume( function() {
 					assert.areSame( 'lorem&nbsp;' , editor.editable().getElementsByTag( 'span' ).$[ 1 ].innerHTML, 'innerHTML', 'innerHtml string' );
 					assert.areSame( '<p><span>lorem </span>ipsum</p>', editor.editable().getData(), 'editor data' );
 				} );
-			}, 100 );
+			} );
 
+			editor.setData( '<span>lorem </span>ipsum' );
 			wait();
 		},
 
-		// 605
+		// #605
 		'test initial, trailing space with additional signs': function() {
-			var editor = this.editor;
-			editor.widgets.add( 'spanwidget', {
-				editables: {
-					content: {
-						selector: 'span'
-					}
-				},
-				upcast: function( element ) {
-					return element.name == 'span';
-				}
-			} );
+			var editor = this.editor,
+				listener;
 
-			editor.setData( '<p>lorem<span> ipsum&nbsp;dolor sit </span>amet</p>' );
+			listener = editor.on( 'dataReady', function() {
+				listener.removeListener();
 
-			setTimeout( function() {
 				resume( function() {
 					assert.areSame( '&nbsp;ipsum&nbsp;dolor sit&nbsp;' , editor.editable().getElementsByTag( 'span' ).$[ 1 ].innerHTML, 'innerHTML', 'innerHtml string' );
 					assert.areSame( '<p>lorem<span> ipsum&nbsp;dolor sit </span>amet</p>', editor.editable().getData(), 'editor data' );
 				} );
-			}, 100 );
+			} );
 
+			editor.setData( '<p>lorem<span> ipsum&nbsp;dolor sit </span>amet</p>' );
 			wait();
 		}
 	} );
