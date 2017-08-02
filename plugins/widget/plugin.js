@@ -2053,9 +2053,21 @@
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
+		// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
+		if ( typeof el.children[ 0 ] != 'undefined' && typeof el.children[ 0 ].value != 'undefined' ) {
+			if ( el.children[ 0 ].value.match( /\s$/g ) || el.children[ 0 ].value.match( /^\s/g ) ) {
+				el.attributes[ 'data-cke-widget-white-space' ] = 1;
+
+				el.children[ 0 ].value = el.children[ 0 ].value.replace( /\s$/g, '&nbsp;' );
+				el.children[ 0 ].value = el.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
+			}
+		}
+
 		var parent = el.parent;
-		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] )
+
+		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] ) {
 			parent.replaceWith( el );
+		}
 	}
 
 	// Similar to cleanUpWidgetElement, but works on DOM and finds
@@ -2183,16 +2195,6 @@
 							// Set initial data attr with data from upcast method.
 							element.attributes[ 'data-cke-widget-data' ] = encodeURIComponent( JSON.stringify( data ) );
 							element.attributes[ 'data-cke-widget-upcasted' ] = 1;
-
-							// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
-							if ( typeof element.children[ 0 ] != 'undefined' && typeof element.children[ 0 ].value != 'undefined' ) {
-								if ( element.children[ 0 ].value.match( /\s$/g ) || element.children[ 0 ].value.match( /^\s/g ) ) {
-									element.attributes[ 'data-cke-widget-white-space' ] = 1;
-
-									element.children[ 0 ].value = element.children[ 0 ].value.replace( /\s$/g, '&nbsp;' );
-									element.children[ 0 ].value = element.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
-								}
-							}
 
 							toBeWrapped.push( [ element, upcast[ 1 ] ] );
 
