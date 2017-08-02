@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: bug, 710, 4.7.2
-@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, image2
+@bender-ckeditor-plugins: autogrow, wysiwygarea, toolbar, floatingspace, tableselection, image2
 
 ## Case 1
 

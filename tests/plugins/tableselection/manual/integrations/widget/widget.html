@@ -39,7 +39,7 @@
 </div>
 
 <h2>Inline</h2>
-<div id="editor3">
+<div id="editor3" contenteditable="true">
 	<p>Some text</p>
 
 	<table border="1">
@@ -63,8 +63,11 @@
 		bender.ignore();
 	}
 
-	CKEDITOR.replace( 'editor1' );
+	CKEDITOR.replace( 'editor1', {
+		autoGrow_onStartup: true
+	} );
 	CKEDITOR.replace( 'editor2', {
+		autoGrow_onStartup: true,
 		extraPlugins: 'divarea'
 	} );
 	CKEDITOR.inline( 'editor3' );
