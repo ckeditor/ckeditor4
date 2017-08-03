@@ -171,25 +171,25 @@
  */
 
 /**
- * If present, this method will be used to provide command key description. It allows customizing key description for a specific command.
+ * If present, this method will be used to provide command keystroke description. It allows customizing key description for a specific command.
  *
  * @since 4.8.0
  * @method getKeystrokeDescription
  * @param {CKEDITOR.editor} editor The editor instance.
- * @returns {String} Command key description.
+ * @returns {String} Command keystroke description.
  */
 
 /**
  * Defines command label. This property is used by different plugins to display command information (by e.g. Accessibility Help).
- * For geting command's label please use {@link CKEDITOR.command#getLabel}, instead of directly reading `label` property.
+ * For getting command label please use {@link CKEDITOR.command#getLabel} instead of directly accessing `label` property.
  *
  * @since 4.8.0
  * @property {String} [label]
  */
 
 /**
- * Defines command key description. This property is used by different plugins to display additional key information (by e.g. Accessibility Help).
- * For getting command's key description please use {@link CKEDITOR.command#getKeystrokeDescription}, instead of directly reading `keystrokeDescription` property.
+ * Defines command keystroke description. This property is used by different plugins to display additional keystroke information (by e.g. Accessibility Help).
+ * For getting command keystroke description please use {@link CKEDITOR.command#getKeystrokeDescription} instead of directly accessing `keystrokeDescription` property.
  *
  * @since 4.8.0
  * @property {String} [keystrokeDescription]
