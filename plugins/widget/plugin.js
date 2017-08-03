@@ -2055,8 +2055,7 @@
 	function cleanUpWidgetElement( el ) {
 		// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
 		var elChildren = el.children[ 0 ];
-
-		if ( typeof elChildren != 'undefined' ) {
+		if ( typeof elChildren != 'undefined' && el.attributes[ 'data-cke-widget-data' ] === '%7B%7D' ) {
 			if ( typeof elChildren.value != 'undefined' ) {
 				// Check whether the value of the element contains white space at the beginning and at the end
 				// and replace it with &nbsp;.
@@ -2069,9 +2068,11 @@
 			}
 
 			// Check whether the element contains the children and the value of the first children contains white space at the beginning.
-			if ( elChildren.name && elChildren.children[ 0 ].value.match( /^\s/g ) ) {
-				el.attributes[ 'data-cke-widget-white-space' ] = 1;
-				elChildren.children[ 0 ].value = elChildren.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
+			if ( typeof elChildren.children != 'undefined' ) {
+				if ( elChildren.name && elChildren.children[ 0 ].value.match( /^\s/g ) ) {
+					el.attributes[ 'data-cke-widget-white-space' ] = 1;
+					elChildren.children[ 0 ].value = elChildren.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
+				}
 			}
 
 			// Check whether the value of the last children contains white space at the end.
