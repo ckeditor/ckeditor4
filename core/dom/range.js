@@ -1404,7 +1404,7 @@ CKEDITOR.dom.range = function( root ) {
 
 					// Process the end boundary. This is basically the same
 					// code used for the start boundary, with small changes to
-					// make it work in the oposite side (to the right). This
+					// make it work in the opposite side (to the right). This
 					// makes it difficult to reuse the code here. So, fixes to
 					// the above code are likely to be replicated here.
 
@@ -1487,7 +1487,7 @@ CKEDITOR.dom.range = function( root ) {
 							}
 						}
 					} else {
-						// Get the node right after the boudary to be checked
+						// Get the node right after the boundary to be checked
 						// first.
 						sibling = container.getChild( offset );
 
@@ -1622,7 +1622,7 @@ CKEDITOR.dom.range = function( root ) {
 						boundaryGuard = function( node ) {
 							// We should not check contents of non-editable elements. It may happen
 							// that inline widget has display:table child which should not block range#enlarge.
-							// When encoutered non-editable element...
+							// When encountered non-editable element...
 							if ( node.type == CKEDITOR.NODE_ELEMENT && node.getAttribute( 'contenteditable' ) == 'false' ) {
 								if ( inNonEditable ) {
 									// ... in which we already were, reset it (because we're leaving it) and return.
@@ -1644,7 +1644,7 @@ CKEDITOR.dom.range = function( root ) {
 								blockBoundary = node;
 							return retval;
 						},
-						// Record the encounted 'tailBr' for later use.
+						// Record the encountered 'tailBr' for later use.
 						tailBrGuard = function( node ) {
 							var retval = boundaryGuard( node );
 							if ( !retval && node.is && node.is( 'br' ) )
@@ -1764,7 +1764,7 @@ CKEDITOR.dom.range = function( root ) {
 						walkerRange.setStartAfter( startContainer );
 					else {
 						// Enlarge the range properly to avoid walker making
-						// DOM changes caused by triming the text nodes later.
+						// DOM changes caused by trimming the text nodes later.
 						walkerRange.setStartBefore( startContainer );
 						moveStart = 0;
 					}
@@ -2361,7 +2361,7 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 0, 1 );
 			}
 
-			// Antecipate the trim() call here, so the walker will not make
+			// Anticipate the trim() call here, so the walker will not make
 			// changes to the DOM, which would not get reflected into this
 			// range otherwise.
 			this.trim();
@@ -2400,7 +2400,7 @@ CKEDITOR.dom.range = function( root ) {
 					this.trim( 1, 0 );
 			}
 
-			// Antecipate the trim() call here, so the walker will not make
+			// Anticipate the trim() call here, so the walker will not make
 			// changes to the DOM, which would not get reflected into this
 			// range otherwise.
 			this.trim();
@@ -2887,7 +2887,7 @@ CKEDITOR.dom.range = function( root ) {
 						continue;
 					}
 
-					// It's not enough to get elements from common ancestor, because it migth contain too many matches.
+					// It's not enough to get elements from common ancestor, because it might contain too many matches.
 					// We need to ensure that returned items are between boundary points.
 					isStartGood = ( curItem.getPosition( boundaries.startNode ) & CKEDITOR.POSITION_FOLLOWING ) || boundaries.startNode.equals( curItem );
 					isEndGood = ( curItem.getPosition( boundaries.endNode ) & ( CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_IS_CONTAINED ) ) || boundaries.endNode.equals( curItem );
