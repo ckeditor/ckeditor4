@@ -61,6 +61,24 @@
 
 			editor.setData( '<p>lorem<span> ipsum&nbsp;dolor sit </span>amet</p>' );
 			wait();
+		},
+
+		// #605
+		'test initial and trailing space for nested structure': function() {
+			var editor = this.editor,
+				listener;
+
+			listener = editor.on( 'dataReady', function() {
+				listener.removeListener();
+
+				resume( function() {
+					assert.areSame( '<strong>&nbsp;ipsum&nbsp;dolor</strong> sit&nbsp;' , editor.editable().getElementsByTag( 'span' ).$[ 1 ].innerHTML, 'innerHTML', 'innerHtml string' );
+					assert.areSame( '<p>lorem<span><strong> ipsum&nbsp;dolor</strong> sit </span>amet</p>', editor.editable().getData(), 'editor data' );
+				} );
+			} );
+
+			editor.setData( '<p>lorem<span><strong> ipsum&nbsp;dolor</strong> sit </span>amet</p>' );
+			wait();
 		}
 	} );
 } )();
