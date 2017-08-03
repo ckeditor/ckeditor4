@@ -2054,12 +2054,30 @@
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
 		// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
-		if ( typeof el.children[ 0 ] != 'undefined' && typeof el.children[ 0 ].value != 'undefined' ) {
-			if ( el.children[ 0 ].value.match( /\s$/g ) || el.children[ 0 ].value.match( /^\s/g ) ) {
-				el.attributes[ 'data-cke-widget-white-space' ] = 1;
+		var elChildren = el.children[ 0 ];
 
-				el.children[ 0 ].value = el.children[ 0 ].value.replace( /\s$/g, '&nbsp;' );
-				el.children[ 0 ].value = el.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
+		if ( typeof elChildren != 'undefined' ) {
+			if ( typeof elChildren.value != 'undefined' ) {
+				// Check whether the value of the element contains white space at the beginning and at the end
+				// and replace it with &nbsp;.
+				if ( elChildren.value.match( /\s$/g ) || elChildren.value.match( /^\s/g ) ) {
+					el.attributes[ 'data-cke-widget-white-space' ] = 1;
+
+					elChildren.value = elChildren.value.replace( /\s$/g, '&nbsp;' );
+					elChildren.value = elChildren.value.replace( /^\s/g, '&nbsp;' );
+				}
+			}
+
+			// Check whether the element contains the children and the value of the first children contains white space at the beginning.
+			if ( elChildren.name && elChildren.children[ 0 ].value.match( /^\s/g ) ) {
+				el.attributes[ 'data-cke-widget-white-space' ] = 1;
+				elChildren.children[ 0 ].value = elChildren.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
+			}
+
+			// Check whether the value of the last children contains white space at the end.
+			if ( el.children.slice( -1 )[ 0 ].value && el.children.slice( -1 )[ 0 ].value.match( /\s$/g ) ) {
+				el.attributes[ 'data-cke-widget-white-space' ] = 1;
+				el.children.slice( -1 )[ 0 ].value = el.children.slice( -1 )[ 0 ].value.replace( /\s$/g, '&nbsp;' );
 			}
 		}
 
@@ -2723,8 +2741,20 @@
 
 				// Reset initial and trailing space by replacing &nbsp; with white space (#605).
 				if ( 'data-cke-widget-white-space' in attrs ) {
-					element.children[ 0 ].value = element.children[ 0 ].value.replace( /&nbsp;$/g, ' ' );
-					element.children[ 0 ].value = element.children[ 0 ].value.replace( /^&nbsp;/g, ' ' );
+					var elChildren = element.children[ 0 ];
+
+					if ( elChildren.value ) {
+						elChildren.value = elChildren.value.replace( /&nbsp;$/g, ' ' );
+						elChildren.value = elChildren.value.replace( /^&nbsp;/g, ' ' );
+					}
+
+					if ( elChildren.name ) {
+						elChildren.children[ 0 ].value = elChildren.children[ 0 ].value.replace( /^&nbsp;/g, ' ' );
+					}
+
+					if ( element.children.slice( -1 )[ 0 ].value ) {
+						element.children.slice( -1 )[ 0 ].value = element.children.slice( -1 )[ 0 ].value.replace( /&nbsp;$/g, ' ' );
+					}
 				}
 
 				// Wrapper.
