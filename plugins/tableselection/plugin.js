@@ -473,15 +473,32 @@
 			}
 
 			return newRow;
+		},
+
+		// Looks for a table in a given pasted content string. Returns it as a
+		// CKEDITOR.dom.element instance or null if mixed content, or more than one table found.
+		findTableInPastedContent: function( editor, dataValue ) {
+			var dataProcessor = editor.dataProcessor,
+				tmpContainer = new CKEDITOR.dom.element( 'body' );
+
+			if ( !dataProcessor ) {
+				dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
+			}
+
+			// Pasted value must be filtered using dataProcessor to strip all unsafe code
+			// before inserting it into temporary container.
+			tmpContainer.setHtml( dataProcessor.toHtml( dataValue ), {
+				fixForBody: false
+			} );
+
+			return tmpContainer.getChildCount() > 1 ? null : tmpContainer.findOne( 'table' );
 		}
 	};
 
 	function fakeSelectionPasteHandler_( evt ) {
 		var editor = evt.editor,
-			dataProcessor = editor.dataProcessor,
 			selection = editor.getSelection(),
 			selectedCells = getSelectedCells( selection ),
-			tmpContainer = new CKEDITOR.dom.element( 'body' ),
 			newRowsCount = 0,
 			newColsCount = 0,
 			pastedTableColCount = 0,
@@ -554,16 +571,7 @@
 			}
 		}
 
-		if ( !dataProcessor ) {
-			dataProcessor = new CKEDITOR.htmlDataProcessor( editor );
-		}
-
-		// Pasted value must be filtered using dataProcessor to strip all unsafe code
-		// before inserting it into temporary container.
-		tmpContainer.setHtml( dataProcessor.toHtml( evt.data.dataValue ), {
-			fixForBody: false
-		} );
-		pastedTable = tmpContainer.findOne( 'table' );
+		pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue );
 
 		// If no cells are selected, and the selection is not in a row boundary position skip paste customization.
 		if ( !selectedCells.length ||
@@ -592,9 +600,7 @@
 		// are probably dealing with mixed content). We handle also non-table content here.
 		// We just collapse selection to the first selected cell and pass non-table/mixed
 		// content to other paste handlers (#520).
-		if ( tmpContainer.getChildCount() > 1 || !pastedTable ) {
-			evt.data.dataValue = tmpContainer.getHtml();
-
+		if ( !pastedTable ) {
 			selectCellContents( selectedCells[ 0 ] );
 
 			// Due to limitations of our undo manager, in case of mixed content
@@ -1000,7 +1006,7 @@
 				}
 			} );
 
-			editor.on( 'paste', fakeSelectionPasteHandler.onPaste );
+			editor.on( 'paste', fakeSelectionPasteHandler.onPaste, fakeSelectionPasteHandler );
 
 			customizeTableCommand( editor, [
 				'rowInsertBefore',
