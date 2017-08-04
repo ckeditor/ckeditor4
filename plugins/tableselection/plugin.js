@@ -447,6 +447,7 @@
 		var editor = evt.editor,
 			dataProcessor = editor.dataProcessor,
 			selection = editor.getSelection(),
+			selectedCells = getSelectedCells( selection ),
 			tmpContainer = new CKEDITOR.dom.element( 'body' ),
 			newRowsCount = 0,
 			newColsCount = 0,
@@ -456,7 +457,6 @@
 			boundarySelection,
 			selectedTable,
 			selectedTableMap,
-			selectedCells,
 			pastedTable,
 			pastedTableMap,
 			firstCell,
@@ -549,13 +549,9 @@
 		} );
 		pastedTable = tmpContainer.findOne( 'table' );
 
-		if ( !selection.getRanges().length || !selection.isInTable() && !( boundarySelection = isBoundarySelection( selection ) ) ) {
-			return;
-		}
-
-		selectedCells = getSelectedCells( selection );
-
-		if ( !selectedCells.length ) {
+		// If no cells are selected, and the selection is not in a row boundary position skip paste customization.
+		if ( !selectedCells.length ||
+			( !selection.isInTable() && !( boundarySelection = isBoundarySelection( selection ) ) ) ) {
 			return;
 		}
 
