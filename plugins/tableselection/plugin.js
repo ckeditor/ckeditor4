@@ -443,7 +443,40 @@
 		copyTable( editor, evt.name === 'cut' );
 	}
 
-	function fakeSelectionPasteHandler( evt ) {
+	var fakeSelectionPasteHandler = {
+		onPaste: fakeSelectionPasteHandler_,
+		// Check if the selection is collapsed on the beginning of the row (1) or at the end (2).
+		isBoundarySelection: function( selection ) {
+			var ranges = selection.getRanges(),
+				range = ranges[ 0 ],
+				row = range.endContainer.getAscendant( 'tr', true );
+
+			if ( row && range.collapsed ) {
+				if ( range.checkBoundaryOfElement( row, CKEDITOR.START ) ) {
+					return 1;
+				} else if ( range.checkBoundaryOfElement( row, CKEDITOR.END ) ) {
+					return 2;
+				}
+			}
+
+			return 0;
+		},
+
+		addRow: function( referenceRow, insertBefore ) {
+			var cellCount = referenceRow.getChildCount(),
+				newRow = new CKEDITOR.dom.element( 'tr' );
+
+			newRow[ 'insert' + ( insertBefore ? 'Before' : 'After' ) ]( referenceRow );
+
+			for ( var i = 0; i < cellCount; i++ ) {
+				newRow.append( new CKEDITOR.dom.element( 'td' ) );
+			}
+
+			return newRow;
+		}
+	};
+
+	function fakeSelectionPasteHandler_( evt ) {
 		var editor = evt.editor,
 			dataProcessor = editor.dataProcessor,
 			selection = editor.getSelection(),
@@ -471,23 +504,6 @@
 			cellToReplace,
 			i,
 			j;
-
-		// Check if the selection is collapsed on the beginning of the row (1) or at the end (2).
-		function isBoundarySelection( selection ) {
-			var ranges = selection.getRanges(),
-				range = ranges[ 0 ],
-				row = range.endContainer.getAscendant( 'tr', true );
-
-			if ( row && range.collapsed ) {
-				if ( range.checkBoundaryOfElement( row, CKEDITOR.START ) ) {
-					return 1;
-				} else if ( range.checkBoundaryOfElement( row, CKEDITOR.END ) ) {
-					return 2;
-				}
-			}
-
-			return 0;
-		}
 
 		function getLongestRowLength( map ) {
 			var longest = 0,
@@ -551,7 +567,7 @@
 
 		// If no cells are selected, and the selection is not in a row boundary position skip paste customization.
 		if ( !selectedCells.length ||
-			( !selection.isInTable() && !( boundarySelection = isBoundarySelection( selection ) ) ) ) {
+			( !selection.isInTable() && !( boundarySelection = this.isBoundarySelection( selection ) ) ) ) {
 			return;
 		}
 
@@ -601,17 +617,10 @@
 		// In case of boundary selection, insert new row before/after selected one, select it
 		// and resume the rest of the algorithm.
 		if ( boundarySelection ) {
-			endIndex = firstRow.getChildCount();
-			firstRow = lastRow = new CKEDITOR.dom.element( 'tr' );
-			firstRow[ 'insert' + ( boundarySelection === 1 ? 'Before' : 'After' ) ]( firstCell.getParent() );
-
-			for ( i = 0; i < endIndex; i++ ) {
-				firstCell = new CKEDITOR.dom.element( 'td' );
-				firstCell.appendTo( firstRow );
-			}
+			firstRow = lastRow = this.addRow( firstRow, boundarySelection === 1 );
 
 			firstCell = firstRow.getFirst();
-			lastCell = firstRow.getLast();
+			lastCell = lastRow.getLast();
 
 			selection.selectElement( firstRow );
 			selectedCells = getSelectedCells( selection );
@@ -991,7 +1000,7 @@
 				}
 			} );
 
-			editor.on( 'paste', fakeSelectionPasteHandler );
+			editor.on( 'paste', fakeSelectionPasteHandler.onPaste );
 
 			customizeTableCommand( editor, [
 				'rowInsertBefore',
