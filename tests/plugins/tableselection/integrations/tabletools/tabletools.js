@@ -161,6 +161,14 @@
 			assert.isTrue( expectedCell.equals( selectedCells[ 0 ] ), 'Correct table cell is selected.' );
 		},
 
+		'test getSelectedCells API': function() {
+			arrayAssert.itemsAreEqual( [], CKEDITOR.plugins.tabletools.getSelectedCells( null ), 'Return for null' );
+
+			var emptySelectionMock = { getRanges: sinon.stub().returns( [ ] ) };
+
+			arrayAssert.itemsAreEqual( [], CKEDITOR.plugins.tabletools.getSelectedCells( emptySelectionMock ), 'Ret for empty range list' );
+		},
+
 		'test delete all cells': function( editor, bot ) {
 			doCommandTest( bot, 'cellDelete', { 'case': 'delete-all-cells', cells: [ 0, 1, 2, 3 ], skipCheckingSelection: true } );
 		}
