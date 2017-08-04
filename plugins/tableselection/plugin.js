@@ -499,6 +499,7 @@
 		var editor = evt.editor,
 			selection = editor.getSelection(),
 			selectedCells = getSelectedCells( selection ),
+			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			newRowsCount = 0,
 			newColsCount = 0,
 			pastedTableColCount = 0,
@@ -507,7 +508,6 @@
 			boundarySelection,
 			selectedTable,
 			selectedTableMap,
-			pastedTable,
 			pastedTableMap,
 			firstCell,
 			startIndex,
@@ -571,8 +571,6 @@
 			}
 		}
 
-		pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue );
-
 		// If no cells are selected, and the selection is not in a row boundary position skip paste customization.
 		if ( !selectedCells.length ||
 			( !selection.isInTable() && !( boundarySelection = this.isBoundarySelection( selection ) ) ) ) {
@@ -612,11 +610,6 @@
 		// Preventing other paste handlers should be done after all early returns (#520).
 		evt.stop();
 
-		// Empty all selected cells.
-		if ( !boundarySelection ) {
-			emptyCells( selectedCells );
-		}
-
 		// In case of boundary selection, insert new row before/after selected one, select it
 		// and resume the rest of the algorithm.
 		if ( boundarySelection ) {
@@ -627,6 +620,9 @@
 
 			selection.selectElement( firstRow );
 			selectedCells = getSelectedCells( selection );
+		} else {
+			// Otherwise simply clear all the selected cells.
+			emptyCells( selectedCells );
 		}
 
 		// Build table map only for selected fragment.
