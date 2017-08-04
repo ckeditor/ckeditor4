@@ -613,6 +613,9 @@
 		// In case of boundary selection, insert new row before/after selected one, select it
 		// and resume the rest of the algorithm.
 		if ( boundarySelection ) {
+			// @todo: this could be further simplified, given that tabletools.insertRow returns inserted row.
+			// firstRow = lastRow = insertRow( boundarySelection === 1 ? [firstCell] : [lastCell],
+			// 	boundarySelection === 1 );
 			firstRow = lastRow = this.addRow( firstRow, boundarySelection === 1 );
 
 			firstCell = firstRow.getFirst();
