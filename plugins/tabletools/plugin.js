@@ -8,13 +8,14 @@
 		isArray = CKEDITOR.tools.isArray;
 
 	function getSelectedCells( selection, table ) {
+		var retval = [];
+		var database = {};
+
 		if ( !selection ) {
-			return;
+			return retval;
 		}
 
 		var ranges = selection.getRanges();
-		var retval = [];
-		var database = {};
 
 		function isInTable( cell ) {
 			if ( !table ) {
