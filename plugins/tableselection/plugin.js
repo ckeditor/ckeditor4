@@ -596,10 +596,7 @@
 			fakeSelectCells( editor, toSelect );
 		} );
 
-		// Handle mixed content (if the table is not the only child in the tmpContainer, we
-		// are probably dealing with mixed content). We handle also non-table content here.
-		// We just collapse selection to the first selected cell and pass non-table/mixed
-		// content to other paste handlers (#520).
+		// In case of mixed content or non table content just insert it to a first cell, erasing the others.
 		if ( !pastedTable ) {
 			selectCellContents( selectedCells[ 0 ] );
 
