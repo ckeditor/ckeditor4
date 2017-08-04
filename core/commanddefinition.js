@@ -171,7 +171,7 @@
  */
 
 /**
- * If present, this method will be used to provide command keystroke description. It allows customizing key description for a specific command.
+ * If present, this method will be used to provide command keystroke description. It allows customizing keystroke description for a specific command.
  *
  * @since 4.8.0
  * @method getKeystrokeDescription
