@@ -164,16 +164,12 @@
 				var editor = this.editor,
 					lang = editor.lang.a11yhelp,
 					coreLang = editor.lang.common.keyboard,
-					keyMap;
+					keyMap,
+					referenceKeyMap;
 
-				assert.isUndefined( CKEDITOR.plugins.a11yhelp._keyMap );
+				keyMap = CKEDITOR.plugins.a11yhelp._createKeyMap( editor );
 
-				keyMap = CKEDITOR.plugins.a11yhelp._renderKeyMap( editor );
-
-				assert.isNotUndefined( CKEDITOR.plugins.a11yhelp._keyMap );
-				assert.areSame( keyMap, CKEDITOR.plugins.a11yhelp._keyMap );
-
-				assert.isTrue( CKEDITOR.tools.objectCompare( keyMap, {
+				referenceKeyMap = {
 					8: coreLang[ 8 ],
 					9: lang.tab,
 					13: coreLang[ 13 ],
@@ -236,7 +232,12 @@
 					220: lang.backSlash,
 					221: lang.closeBracket,
 					222: lang.singleQuote
-				} ) );
+				};
+				referenceKeyMap[ CKEDITOR.ALT ] = coreLang[ 18 ];
+				referenceKeyMap[ CKEDITOR.SHIFT ] = coreLang[ 16 ];
+				referenceKeyMap[ CKEDITOR.CTRL ] = CKEDITOR.env.mac ? coreLang[ 224 ] : coreLang[ 17 ];
+
+				assert.isTrue( CKEDITOR.tools.objectCompare( referenceKeyMap, keyMap ) );
 			} );
 		}
 	} );
