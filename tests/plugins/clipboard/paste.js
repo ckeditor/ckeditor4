@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: toolbar,wysiwygarea,entities,clipboard,pastetext */
+/* bender-ckeditor-plugins: wysiwygarea,entities,clipboard,pastetext */
 /* bender-include: _helpers/pasting.js */
 /* global assertPasteEvent, simulatePasteCommand */
 

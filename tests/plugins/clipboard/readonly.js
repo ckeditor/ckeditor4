@@ -1,5 +1,5 @@
 /* bender-tags: editor, clipboard, 13872 */
-/* bender-ckeditor-plugins: toolbar, clipboard */
+/* bender-ckeditor-plugins: clipboard */
 
 'use strict';
 
