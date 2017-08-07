@@ -44,8 +44,8 @@ bender.test( {
 		wait();
 	},
 
-	'Test removing superfluous <div> inserted by Edge': function() {
-		if ( !CKEDITOR.env.edge ) {
+	'Test removing superfluous <div> inserted by Edge < v15': function() {
+		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}
 
@@ -70,8 +70,8 @@ bender.test( {
 		wait();
 	},
 
-	'Test not removing non-superfluous <div> in Edge': function() {
-		if ( !CKEDITOR.env.edge ) {
+	'Test not removing non-superfluous <div> in Edge < v15': function() {
+		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}
 
@@ -95,8 +95,8 @@ bender.test( {
 		wait();
 	},
 
-	'Test removing superfluous <div> when typing': function() {
-		if ( !CKEDITOR.env.edge ) {
+	'Test removing superfluous <div> when typing in Edge < v15': function() {
+		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}
 
@@ -145,8 +145,8 @@ bender.test( {
 		wait();
 	},
 
-	'Test not removing non-superfluous <div> when typing': function() {
-		if ( !CKEDITOR.env.edge ) {
+	'Test not removing non-superfluous <div> when typing in Edge < v15': function() {
+		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}
 
@@ -229,8 +229,8 @@ bender.test( {
 		wait();
 	},
 
-	'Test not-removing <div> with any attributes in Edge': function() {
-		if ( !CKEDITOR.env.edge ) {
+	'Test not-removing <div> with any attributes in Edge < v15': function() {
+		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}
 
