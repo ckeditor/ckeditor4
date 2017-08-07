@@ -164,7 +164,7 @@
 		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body. (http://dev.ckeditor.com/ticket/6966, http://dev.ckeditor.com/ticket/13142)
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_P ) {
 			removeSuperfluousElement( 'p' );
-		} else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV ) {
+		} else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV && CKEDITOR.env.version < 15 ) {
 			removeSuperfluousElement( 'div' );
 		}
 
