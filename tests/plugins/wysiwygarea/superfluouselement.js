@@ -227,5 +227,31 @@ bender.test( {
 			} );
 		} );
 		wait();
+	},
+
+	'Test not-removing <div> with any attributes in Edge': function() {
+		if ( !CKEDITOR.env.edge ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		editor.setData( '', function() {
+			resume( function() {
+
+				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( {
+					keyCode: 75,
+					ctrlKey: false,
+					shiftKey: false
+				} ) );
+
+				bender.tools.setHtmlWithSelection( editor, '<div some="atribute">k^</div>' );
+
+				editor.editable().fire( 'keyup', new CKEDITOR.dom.event( {} ) );
+
+				assert.isInnerHtmlMatching( '<div some="atribute">k^</div>', bender.tools.getHtmlWithSelection( editor ) );
+			} );
+		} );
+		wait();
 	}
 } );
