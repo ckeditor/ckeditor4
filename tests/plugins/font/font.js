@@ -170,6 +170,74 @@
 				'<p>x<span style="font-size:12px"><em>foo</em></span><em><span style="font-size:24px">bar</span></em>x@</p>' );
 		},
 
+		// #525
+		'test combo value for selection with multiple font families': function() {
+			var editor = this.editor;
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="font-family: Georgia;">f{oo</span><span style="font-family: Arial;">ba}r</span></p>' );
+			this.assertComboValue( editor, 'Font', '' );
+		},
+
+		// #525
+		'test combo value for selection with nested font families (case #1)': function() {
+			var editor = this.editor;
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + ffArial + '">foo<span style="' + ffCS + '">b{}ar</span></span></p>' );
+			this.assertComboValue( editor, 'Font', 'Comic Sans MS' );
+		},
+
+		// #525
+		'test combo value for selection with nested font families (case #2)': function() {
+			var editor = this.editor;
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + ffArial + '">foo<span style="' + ffCS + '">b{a}r</span></span></p>' );
+			this.assertComboValue( editor, 'Font', 'Comic Sans MS' );
+		},
+
+		// #525
+		'test combo value for selection with nested font families (case #3)': function() {
+			var editor = this.editor;
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + ffArial + '">fo{o<span style="' + ffCS + '">ba}r</span></span></p>' );
+			this.assertComboValue( editor, 'Font', '' );
+		},
+
+		// #525
+		'test combo value after reselecting from the same beginning': function() {
+			var editor = this.editor,
+				spans,
+				range;
+
+			bender.tools.selection.setWithHtml( editor, '<p>x<span style="font-size: 12px;">f{o}o</span><span style="font-size: 24px;">bar</span></p>' );
+			this.assertComboValue( editor, 'FontSize', '12' );
+
+			spans = editor.editable().find( 'span' );
+			range = editor.getSelection().getRanges()[ 0 ];
+
+			range.setEnd( spans.getItem( 1 ).getChild( 0 ), 1 );
+			range.select();
+
+			this.assertComboValue( editor, 'FontSize', '' );
+		},
+
+		assertComboValue: function( editor, comboName, expectedValue ) {
+			var combo = editor.ui.get( comboName );
+
+			assert.areSame( expectedValue, combo.getValue(), 'Combo ' + comboName + ' has appropriate value' );
+		},
+
+		/*assertComboValue: function( editor, comboName, expectedValue, callback ) {
+			bot.combo( comboName, function( combo ) {
+				assert.areSame( expectedValue, combo.getValue(), 'Combo ' + comboName + ' has appropriate value' );
+
+				if ( callback ) {
+					//combo.onClick( expectedValue );
+
+					this.wait( callback, 0 );
+				}
+			} );
+		},*/
+
 		assertCombo: function( comboName, comboValue, collapsed, bot, resultHtml, callback ) {
 			bot.combo( comboName, function( combo ) {
 				combo.onClick( comboValue );
