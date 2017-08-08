@@ -443,6 +443,132 @@
 		copyTable( editor, evt.name === 'cut' );
 	}
 
+	// A helper object abstracting table selection.
+	// By calling setSelectedCells() method it will automatically determine what's
+	// the first/last cell or row.
+	//
+	// Note: ATM the type does not make an actual selection, it just holds the data.
+	//
+	// @param {CKEDITOR.dom.element[]} [cells] An array of cells considered to be selected.
+	function TableSelection( cells ) {
+		this._reset();
+
+		if ( cells ) {
+			this.setSelectedCells( cells );
+		}
+	}
+
+	TableSelection.prototype = {};
+
+	// Resets the initial state of table selection.
+	TableSelection.prototype._reset = function() {
+		this.cells = {
+			first: null,
+			last: null,
+			all: []
+		};
+
+		this.rows = {
+			first: null,
+			last: null
+		};
+	};
+
+	// Sets the cells that are selected in the table. Based on this it figures out what cell is
+	// the first, and the last. Also sets rows property accordingly.
+	// Note: ATM the type does not make an actual selection, it just holds the data.
+	//
+	// @param {CKEDITOR.dom.element[]} [cells] An array of cells considered to be selected.
+	TableSelection.prototype.setSelectedCells = function( cells ) {
+		this._reset();
+		this.cells.all = cells;
+
+		this.cells.first = cells[ 0 ];
+		this.cells.last = cells[ cells.length - 1 ];
+
+		this.rows.first = cells[ 0 ].getAscendant( 'tr' );
+		this.rows.last = this.cells.last.getAscendant( 'tr' );
+	};
+
+	// Returns a table map, returned by {@link CKEDITOR.tools#buildTableMap}.
+	// @returns {HTMLElement[]}
+	TableSelection.prototype.getTableMap = function() {
+		function getRealCellPosition( cell ) {
+			var table = cell.getAscendant( 'table' ),
+				rowIndex = cell.getParent().$.rowIndex,
+				map = CKEDITOR.tools.buildTableMap( table ),
+				i;
+
+			for ( i = 0; i < map[ rowIndex ].length; i++ ) {
+				if ( new CKEDITOR.dom.element( map[ rowIndex ][ i ] ).equals( cell ) ) {
+					return i;
+				}
+			}
+		}
+
+		var startIndex = getCellColIndex( this.cells.first, true ),
+			endIndex = getRealCellPosition( this.cells.last );
+
+		return CKEDITOR.tools.buildTableMap(  this._getTable(), this.rows.first.$.rowIndex, startIndex,
+			this.rows.last.$.rowIndex, endIndex );
+	};
+
+	TableSelection.prototype._getTable = function() {
+		return this.rows.first.getAscendant( 'table' );
+	};
+
+	// @param {Boolean} [clearSelection=false] If set to `true`, it will set selected cells to the one inserted.
+	TableSelection.prototype.insertRow = function( count, insertBefore, clearSelection ) {
+		if ( typeof count === 'undefined' ) {
+			count = 1;
+		}
+
+		var cellIndexFirst = this.cells.first.$.cellIndex,
+			cellIndexLast = this.cells.last.$.cellIndex,
+			selectedCells = clearSelection ? [] : this.cells.all;
+
+		for ( var i = 0; i < count; i++ ) {
+			var row = insertRow( this.cells.all, insertBefore );
+
+			// Append cells from added row.
+			var newCells = CKEDITOR.tools.array.filter( this._nodeListToArray( row.find( 'td, th' ) ), function( cell ) {
+				return clearSelection ?
+					true : cell.$.cellIndex >= cellIndexFirst && cell.$.cellIndex <= cellIndexLast;
+			} );
+
+			// setSelectedCells will take care of refreshing the whole state at once.
+			if ( insertBefore ) {
+				selectedCells = newCells.concat( selectedCells );
+			} else {
+				selectedCells = selectedCells.concat( newCells );
+			}
+		}
+
+		this.setSelectedCells( selectedCells );
+	};
+
+	TableSelection.prototype.insertColumn = function( count ) {
+		if ( typeof count === 'undefined' ) {
+			count = 1;
+		}
+
+		var selectedCells = this.cells.all;
+
+		for ( var i = 0; i < count; i++ ) {
+			// Prepend added cells, then pass it to setSelectionCells so that it will
+			// take care of refreshing the whole state.
+			selectedCells = selectedCells.concat( insertColumn( this.cells.all ) );
+		}
+
+		this.setSelectedCells( selectedCells );
+	};
+
+	TableSelection.prototype._nodeListToArray = function( nodeList ) {
+		return CKEDITOR.tools.array.map( nodeList.$, function( nativeEl ) {
+			return new CKEDITOR.dom.node( nativeEl );
+		} );
+	};
+
 	var fakeSelectionPasteHandler = {
 		onPaste: fakeSelectionPasteHandler_,
 		// Check if the selection is collapsed on the beginning of the row (1) or at the end (2).
@@ -460,19 +586,6 @@
 			}
 
 			return 0;
-		},
-
-		addRow: function( referenceRow, insertBefore ) {
-			var cellCount = referenceRow.getChildCount(),
-				newRow = new CKEDITOR.dom.element( 'tr' );
-
-			newRow[ 'insert' + ( insertBefore ? 'Before' : 'After' ) ]( referenceRow );
-
-			for ( var i = 0; i < cellCount; i++ ) {
-				newRow.append( new CKEDITOR.dom.element( 'td' ) );
-			}
-
-			return newRow;
 		},
 
 		// Looks for a table in a given pasted content string. Returns it as a
@@ -501,20 +614,13 @@
 			selectedCells = getSelectedCells( selection ),
 			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
-			newRowsCount = 0,
-			newColsCount = 0,
 			pastedTableColCount = 0,
 			selectedTableColCount = 0,
 			markers = {},
 			selectedTable,
 			selectedTableMap,
 			pastedTableMap,
-			firstCell,
 			startIndex,
-			firstRow,
-			lastCell,
-			endIndex,
-			lastRow,
 			currentRow,
 			prevCell,
 			cellToPaste,
@@ -533,19 +639,6 @@
 			}
 
 			return longest;
-		}
-
-		function getRealCellPosition( cell ) {
-			var table = cell.getAscendant( 'table' ),
-				rowIndex = cell.getParent().$.rowIndex,
-				map = CKEDITOR.tools.buildTableMap( table ),
-				i;
-
-			for ( i = 0; i < map[ rowIndex ].length; i++ ) {
-				if ( new CKEDITOR.dom.element( map[ rowIndex ][ i ] ).equals( cell ) ) {
-					return i;
-				}
-			}
 		}
 
 		function selectCellContents( cell ) {
@@ -583,10 +676,8 @@
 
 		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
 		selectedCells = getSelectedCells( selection, selectedTable );
-		firstCell = selectedCells[ 0 ];
-		firstRow = firstCell.getParent();
-		lastCell = selectedCells[ selectedCells.length - 1 ];
-		lastRow = lastCell.getParent();
+
+		var tableSel = new TableSelection( selectedCells );
 
 		// Schedule selecting appropriate table cells after pasting. It covers both table and not-table
 		// content (#520).
@@ -600,7 +691,7 @@
 
 		// In case of mixed content or non table content just insert it to a first cell, erasing the others.
 		if ( !pastedTable ) {
-			selectCellContents( selectedCells[ 0 ] );
+			selectCellContents( tableSel.cells.first );
 
 			// Due to limitations of our undo manager, in case of mixed content
 			// cells must be emptied after pasting (#520).
@@ -617,15 +708,9 @@
 		// In case of boundary selection, insert new row before/after selected one, select it
 		// and resume the rest of the algorithm.
 		if ( boundarySelection ) {
-			// @todo: this could be further simplified, given that tabletools.insertRow returns inserted row.
-			// firstRow = lastRow = insertRow( boundarySelection === 1 ? [firstCell] : [lastCell],
-			// 	boundarySelection === 1 );
-			firstRow = lastRow = this.addRow( firstRow, boundarySelection === 1 );
+			tableSel.insertRow( 1, boundarySelection === 1, true );
 
-			firstCell = firstRow.getFirst();
-			lastCell = lastRow.getLast();
-
-			selection.selectElement( firstRow );
+			selection.selectElement( tableSel.rows.first );
 			selectedCells = getSelectedCells( selection );
 		} else {
 			// Otherwise simply clear all the selected cells.
@@ -633,10 +718,8 @@
 		}
 
 		// Build table map only for selected fragment.
-		selectedTableMap = CKEDITOR.tools.buildTableMap( selectedTable, firstRow.$.rowIndex,
-			getCellColIndex( firstCell, true ), lastRow.$.rowIndex, getRealCellPosition( lastCell ) );
+		selectedTableMap = tableSel.getTableMap();
 		pastedTableMap = CKEDITOR.tools.buildTableMap( pastedTable );
-
 
 		// Now we compare the dimensions of the pasted table and the selected one.
 		// If the pasted one is bigger, we add missing rows and columns.
@@ -644,39 +727,23 @@
 		selectedTableColCount = getLongestRowLength( selectedTableMap );
 
 		if ( pastedTableMap.length > selectedTableMap.length ) {
-			newRowsCount = pastedTableMap.length - selectedTableMap.length;
-
-			for ( i = 0; i < newRowsCount; i++ ) {
-				insertRow( selectedCells );
-			}
+			tableSel.insertRow( pastedTableMap.length - selectedTableMap.length );
 		}
 
 		if ( pastedTableColCount > selectedTableColCount ) {
-			newColsCount = pastedTableColCount - selectedTableColCount;
-
-			for ( i = 0; i < newColsCount; i++ ) {
-				insertColumn( selectedCells );
-			}
+			tableSel.insertColumn( pastedTableColCount - selectedTableColCount );
 		}
 
-		// Get all selected cells (original ones + newly inserted ones).
-		firstCell = selectedCells[ 0 ];
-		firstRow = firstCell.getParent();
-		lastCell = selectedCells[ selectedCells.length - 1 ];
-		lastRow = new CKEDITOR.dom.element( selectedTable.$.rows[ lastCell.getParent().$.rowIndex + newRowsCount ] );
-		lastCell = lastRow.getChild( lastCell.$.cellIndex + newColsCount );
-
-		// These indexes would be reused later, to calculate the proper position of newly pasted cells.
-		startIndex = getCellColIndex( selectedCells[ 0 ], true );
-		endIndex = getRealCellPosition( lastCell );
+		// Index of first selected cell, it needs to be reused later, to calculate the
+		// proper position of newly pasted cells.
+		startIndex = getCellColIndex( tableSel.cells.first, true );
 
 		// Rebuild map for selected table.
-		selectedTableMap = CKEDITOR.tools.buildTableMap( selectedTable, firstRow.$.rowIndex, startIndex,
-			lastRow.$.rowIndex, endIndex );
+		selectedTableMap = tableSel.getTableMap();
 
 		// And now paste!
 		for ( i = 0; i < pastedTableMap.length; i++ ) {
-			currentRow = new CKEDITOR.dom.element( selectedTable.$.rows[ firstRow.$.rowIndex + i ] );
+			currentRow = new CKEDITOR.dom.element( selectedTable.$.rows[ tableSel.rows.first.$.rowIndex + i ] );
 
 			for ( j = 0; j < pastedTableMap[ i ].length; j++ ) {
 				cellToPaste = new CKEDITOR.dom.element( pastedTableMap[ i ][ j ] );
