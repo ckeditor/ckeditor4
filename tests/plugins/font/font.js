@@ -171,10 +171,18 @@
 		},
 
 		// #525
+		'test combo value for selection with same multiple font families': function() {
+			var editor = this.editor;
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + ffArial + '">f{oo</span><span style="' + ffArial + '">ba}r</span></p>' );
+			this.assertComboValue( editor, 'Font', 'Arial' );
+		},
+
+		// #525
 		'test combo value for selection with multiple font families': function() {
 			var editor = this.editor;
 
-			bender.tools.selection.setWithHtml( editor, '<p><span style="font-family: Georgia;">f{oo</span><span style="font-family: Arial;">ba}r</span></p>' );
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + ffArial + '">f{oo</span><span style="' + ffCS + '">ba}r</span></p>' );
 			this.assertComboValue( editor, 'Font', '' );
 		},
 
