@@ -4,9 +4,11 @@
 <div id="changes"></div>
 
 <script>
-    var i = 1;
-    var changes = $( "#changes" );
-    CKEDITOR.replace( 'editor1' ).on("change", function () {
-        changes.append( $( "<div />" ).text( "change " + i++ ) );
-    });
+	var i = 1;
+	var changes = document.getElementById( 'changes' );
+	CKEDITOR.replace( 'editor1' ).on("change", function () {
+		var elem = document.createElement( 'div' );
+		elem.innerText = 'changes ' + i++;
+		changes.appendChild( elem );
+	});
 </script>
