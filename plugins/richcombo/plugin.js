@@ -114,7 +114,9 @@ CKEDITOR.plugins.add( 'richcombo', {
 			 * to this button.
 			 */
 			render: function( editor, output ) {
-				var env = CKEDITOR.env;
+				var env = CKEDITOR.env,
+					instance,
+					selLocked;
 
 				var id = 'cke_' + this.id;
 				var clickFn = CKEDITOR.tools.addFunction( function( el ) {
@@ -127,7 +129,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 				}, this );
 
 				var combo = this;
-				var instance = {
+				instance = {
 					id: id,
 					combo: this,
 					focus: function() {
@@ -209,7 +211,7 @@ CKEDITOR.plugins.add( 'richcombo', {
 					instance.onfocus && instance.onfocus();
 				} );
 
-				var selLocked = 0;
+				selLocked = 0;
 
 				// For clean up
 				instance.keyDownFn = keyDownFn;
