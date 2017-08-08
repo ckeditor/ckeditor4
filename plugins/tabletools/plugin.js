@@ -147,6 +147,8 @@
 		}
 
 		insertBefore ? newRow.insertBefore( row ) : newRow.insertAfter( row );
+
+		return newRow;
 	}
 
 	function deleteRows( selectionOrRow ) {
@@ -265,6 +267,7 @@
 		var map = CKEDITOR.tools.buildTableMap( table ),
 			cloneCol = [],
 			nextCol = [],
+			addedCells = [],
 			height = map.length;
 
 		for ( var i = 0; i < height; i++ ) {
@@ -289,11 +292,14 @@
 				cell.removeAttribute( 'colSpan' );
 				cell.appendBogus();
 				cell[ insertBefore ? 'insertBefore' : 'insertAfter' ].call( cell, originalCell );
+				addedCells.push( cell );
 				cell = cell.$;
 			}
 
 			i += cell.rowSpan - 1;
 		}
+
+		return addedCells;
 	}
 
 	function deleteColumns( selection ) {
