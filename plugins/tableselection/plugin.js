@@ -615,8 +615,12 @@
 		},
 
 		// Performs an actual paste into selectedTableMap based on content in pastedTableMap.
-		pasteTable: function( selectedTable, tableSel, selectedTableMap, pastedTableMap, startIndex ) {
+		pasteTable: function( tableSel, selectedTableMap, pastedTableMap ) {
 			var cellToReplace,
+				// Index of first selected cell, it needs to be reused later, to calculate the
+				// proper position of newly pasted cells.
+				startIndex = getCellColIndex( tableSel.cells.first, true ),
+				selectedTable = tableSel._getTable(),
 				markers = {},
 				currentRow,
 				prevCell,
@@ -689,16 +693,9 @@
 			pastedTableMap;
 
 		function getLongestRowLength( map ) {
-			var longest = 0,
-				i;
-
-			for ( i = 0; i < map.length; i++ ) {
-				if ( map[ i ].length > longest ) {
-					longest = map[ i ].length;
-				}
-			}
-
-			return longest;
+			return Math.max.apply( null, CKEDITOR.tools.array.map( map, function( rowMap ) {
+				return rowMap.length;
+			}, 0 ) );
 		}
 
 		function selectCellContents( cell ) {
@@ -788,14 +785,10 @@
 		// If the pasted one is bigger, we add missing rows and columns.
 		tableSel.insertColumn( getLongestRowLength( pastedTableMap ) - getLongestRowLength( selectedTableMap ) );
 
-		// Index of first selected cell, it needs to be reused later, to calculate the
-		// proper position of newly pasted cells.
-		var startIndex = getCellColIndex( tableSel.cells.first, true );
-
 		// Rebuild map for selected table.
 		selectedTableMap = tableSel.getTableMap();
 
-		this.pasteTable( selectedTable, tableSel, selectedTableMap, pastedTableMap, startIndex );
+		this.pasteTable( tableSel, selectedTableMap, pastedTableMap );
 
 		editor.fire( 'saveSnapshot' );
 
