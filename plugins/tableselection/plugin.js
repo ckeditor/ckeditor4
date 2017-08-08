@@ -517,10 +517,14 @@
 		return this.rows.first.getAscendant( 'table' );
 	};
 
+	// @param {Number} count Number of rows to be inserted.
+	// @param {Boolean} [insertBefore=false] If set to `true` new rows will be prepended.
 	// @param {Boolean} [clearSelection=false] If set to `true`, it will set selected cells to the one inserted.
 	TableSelection.prototype.insertRow = function( count, insertBefore, clearSelection ) {
 		if ( typeof count === 'undefined' ) {
 			count = 1;
+		} else if ( count <= 0 ) {
+			return;
 		}
 
 		var cellIndexFirst = this.cells.first.$.cellIndex,
@@ -550,6 +554,8 @@
 	TableSelection.prototype.insertColumn = function( count ) {
 		if ( typeof count === 'undefined' ) {
 			count = 1;
+		} else if ( count <= 0 ) {
+			return;
 		}
 
 		var selectedCells = this.cells.all;
@@ -557,6 +563,7 @@
 		for ( var i = 0; i < count; i++ ) {
 			// Prepend added cells, then pass it to setSelectionCells so that it will
 			// take care of refreshing the whole state.
+			// @todo the cells should be sorted in the DOM order.
 			selectedCells = selectedCells.concat( insertColumn( this.cells.all ) );
 		}
 
@@ -616,17 +623,10 @@
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
 			pastedTableColCount = 0,
 			selectedTableColCount = 0,
-			markers = {},
 			selectedTable,
 			selectedTableMap,
 			pastedTableMap,
-			startIndex,
-			currentRow,
-			prevCell,
-			cellToPaste,
-			cellToReplace,
-			i,
-			j;
+			cellToPaste;
 
 		function getLongestRowLength( map ) {
 			var longest = 0,
@@ -675,16 +675,14 @@
 		}
 
 		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
-		selectedCells = getSelectedCells( selection, selectedTable );
-
-		var tableSel = new TableSelection( selectedCells );
+		var tableSel = new TableSelection( getSelectedCells( selection, selectedTable ) );
 
 		// Schedule selecting appropriate table cells after pasting. It covers both table and not-table
 		// content (#520).
 		editor.once( 'afterPaste', function() {
 			var toSelect = cellToPaste ?
 				getCellsBetween( new CKEDITOR.dom.element( pastedTableMap[ 0 ][ 0 ] ), cellToPaste ) :
-				selectedCells;
+				tableSel.cells.all;
 
 			fakeSelectCells( editor, toSelect );
 		} );
@@ -696,7 +694,7 @@
 			// Due to limitations of our undo manager, in case of mixed content
 			// cells must be emptied after pasting (#520).
 			editor.once( 'afterPaste', function() {
-				emptyCells( selectedCells.slice( 1 ), true );
+				emptyCells( tableSel.cells.all.slice( 1 ), true );
 			} );
 
 			return;
@@ -709,37 +707,35 @@
 		// and resume the rest of the algorithm.
 		if ( boundarySelection ) {
 			tableSel.insertRow( 1, boundarySelection === 1, true );
-
 			selection.selectElement( tableSel.rows.first );
-			selectedCells = getSelectedCells( selection );
 		} else {
 			// Otherwise simply clear all the selected cells.
-			emptyCells( selectedCells );
+			emptyCells( tableSel.cells.all );
 		}
 
 		// Build table map only for selected fragment.
 		selectedTableMap = tableSel.getTableMap();
 		pastedTableMap = CKEDITOR.tools.buildTableMap( pastedTable );
 
+		tableSel.insertRow( pastedTableMap.length - selectedTableMap.length );
+
 		// Now we compare the dimensions of the pasted table and the selected one.
 		// If the pasted one is bigger, we add missing rows and columns.
-		pastedTableColCount = getLongestRowLength( pastedTableMap );
-		selectedTableColCount = getLongestRowLength( selectedTableMap );
-
-		if ( pastedTableMap.length > selectedTableMap.length ) {
-			tableSel.insertRow( pastedTableMap.length - selectedTableMap.length );
-		}
-
-		if ( pastedTableColCount > selectedTableColCount ) {
-			tableSel.insertColumn( pastedTableColCount - selectedTableColCount );
-		}
+		tableSel.insertColumn( getLongestRowLength( pastedTableMap ) - getLongestRowLength( selectedTableMap ) );
 
 		// Index of first selected cell, it needs to be reused later, to calculate the
 		// proper position of newly pasted cells.
-		startIndex = getCellColIndex( tableSel.cells.first, true );
+		var startIndex = getCellColIndex( tableSel.cells.first, true );
 
 		// Rebuild map for selected table.
 		selectedTableMap = tableSel.getTableMap();
+
+		var cellToReplace,
+			markers = {},
+			currentRow,
+			prevCell,
+			i,
+			j;
 
 		// And now paste!
 		for ( i = 0; i < pastedTableMap.length; i++ ) {
