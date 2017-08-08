@@ -2273,10 +2273,12 @@
 		 *		editor.getSelection().isInTable();
 		 *
 		 * @since 4.7.0
+		 * @param {Boolean} [allowPartially=false] Whether partial cell selection should be included.
+		 * This parameter was added in 4.7.2.
 		 * @returns {Boolean}
 		 */
-		isInTable: function() {
-			return isTableSelection( this.getRanges() );
+		isInTable: function( allowPartially ) {
+			return isTableSelection( this.getRanges(), allowPartially );
 		},
 
 		/**
