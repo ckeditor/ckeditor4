@@ -2344,7 +2344,7 @@
 
 		editor.contextMenu.addListener( function( element ) {
 			var widget = editor.widgets.getByElement( element, true );
- 
+
 			if ( widget )
 				return widget.fire( 'contextMenu', {} );
 		} );
