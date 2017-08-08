@@ -163,75 +163,17 @@
 			},
 
 			onRender: function() {
-				editor.on( 'selectionChange', function( evt ) {
-					var combo = this,
-						ranges = evt.data.selection.getRanges(),
-						elementPath = evt.data.path,
-						forEach = CKEDITOR.tools.array.forEach,
-						markers = {},
-						previous = {};
+				var combo = this;
 
-					function processNode( node ) {
-						var path = new CKEDITOR.dom.elementPath( node );
+				CKEDITOR.plugins.richcombo.createSelectionListener( editor, combo, function( node, getNewValue ) {
+					var value;
 
-						function getNewValue( value, node ) {
-							if ( previous.node && node.contains( previous.node ) ) {
-								return previous.value;
-							}
-
-							if ( !previous.value || previous.value === value ) {
-								previous = {
-									value: value,
-									node: node
-								};
-
-								return value;
-							}
-
-							return '';
+					for ( value in styles ) {
+						if ( styles[ value ].checkElementMatch( node, true, editor ) ) {
+							combo.setValue( getNewValue( value, node ) );
 						}
-
-						function checkStyles( node ) {
-							if ( node.getCustomData( 'processed_font' ) ) {
-								return;
-							}
-
-							CKEDITOR.dom.element.setMarker( markers, node, 'processed_font', true );
-							for ( var value in styles ) {
-								if ( styles[ value ].checkElementMatch( node, true, editor ) ) {
-									combo.setValue( getNewValue( value, node ) );
-								}
-							}
-						}
-
-						// Check if the element is removable by any of
-						// the styles.
-						forEach( path.elements, checkStyles );
 					}
-
-					forEach( ranges, function( range ) {
-						var element,
-							walker;
-
-						if ( range.collapsed ) {
-							processNode( elementPath.lastElement );
-						} else {
-							walker = new CKEDITOR.dom.walker( range );
-
-							walker.evaluator = function( node ) {
-								return node.type === CKEDITOR.NODE_TEXT;
-							};
-
-							walker.reset();
-
-							while ( element = walker.next() ) {
-								processNode( element );
-							}
-						}
-					} );
-
-					CKEDITOR.dom.element.clearAllMarkers( markers );
-				}, this );
+				} );
 			},
 
 			refresh: function() {

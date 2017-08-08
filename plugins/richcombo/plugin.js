@@ -416,4 +416,96 @@ CKEDITOR.plugins.add( 'richcombo', {
 		this.add( name, CKEDITOR.UI_RICHCOMBO, definition );
 	};
 
+	/**
+	 * Namespace providing a set of helper functions for working with rich combos, exposed by
+	 * [Rich Combo](http://ckeditor.com/addon/richcombo) plugin.
+	 *
+	 * @since 4.7.2
+	 * @singleton
+	 * @class CKEDITOR.plugins.richcombo
+	 */
+	CKEDITOR.plugins.richcombo = {
+		/**
+		 * Creates `selectionChange` event listener for given combo. Handler created by this function
+		 * allows to change rich combo's state according to the state of the whole selection,
+		 * not only the beginning of it.
+		 * Every node inside selection is processed via `nodeHandler` callback, which takes two
+		 * parameters:
+		 * * `node` being processed,
+		 * * `getNewValue` function, which checks if the current value is allowed in current selection.
+		 *
+		 * @param {CKEDITOR.editor} editor Editor's instance.
+		 * @param {CKEDITOR.ui.richCombo} combo Rich combo's instance.
+		 * @param {Function} nodeHandler Function to process every node.
+		 * @since 4.7.2
+		 */
+		createSelectionListener: function( editor, combo, nodeHandler ) {
+			editor.on( 'selectionChange', function( evt ) {
+				var ranges = evt.data.selection.getRanges(),
+					elementPath = evt.data.path,
+					forEach = CKEDITOR.tools.array.forEach,
+					markers = {},
+					previous = {};
+
+				function processNode( node ) {
+					var path = new CKEDITOR.dom.elementPath( node );
+
+					function getNewValue( value, node ) {
+						if ( previous.node && node.contains( previous.node ) ) {
+							return previous.value;
+						}
+
+						if ( !previous.value || previous.value === value ) {
+							previous = {
+								value: value,
+								node: node
+							};
+
+							return value;
+						}
+
+						return '';
+					}
+
+					function runHandler( node ) {
+						if ( node.getCustomData( 'processed_richcombo' ) ) {
+							return;
+						}
+
+						CKEDITOR.dom.element.setMarker( markers, node, 'processed_richcombo', true );
+
+						nodeHandler( node, getNewValue );
+					}
+
+					// Check if the element is removable by any of
+					// the styles.
+					forEach( path.elements, runHandler );
+				}
+
+				forEach( ranges, function( range ) {
+					var element,
+						walker;
+
+					if ( range.collapsed ) {
+						processNode( elementPath.lastElement );
+					} else {
+						walker = new CKEDITOR.dom.walker( range );
+
+						walker.evaluator = function( node ) {
+							return node.type === CKEDITOR.NODE_TEXT;
+						};
+
+						walker.reset();
+
+						while ( element = walker.next() ) {
+							processNode( element );
+						}
+					}
+				} );
+
+				CKEDITOR.dom.element.clearAllMarkers( markers );
+			}, combo );
+		}
+	};
+
 } )();

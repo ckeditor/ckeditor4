@@ -76,81 +76,21 @@ CKEDITOR.plugins.add( 'format', {
 			},
 
 			onRender: function() {
-				editor.on( 'selectionChange', function( evt ) {
-					var combo = this,
-						ranges = evt.data.selection.getRanges(),
-						elementPath = evt.data.path,
-						forEach = CKEDITOR.tools.array.forEach,
-						markers = {},
-						previous = {};
+				var combo = this;
 
-					this.refresh();
+				CKEDITOR.plugins.richcombo.createSelectionListener( editor, combo, function( node, getNewValue ) {
+					var path = new CKEDITOR.dom.elementPath( node ),
+						value,
+						newValue;
 
-					function processNode( node ) {
-						var path = new CKEDITOR.dom.elementPath( node );
+					for ( value in styles ) {
+						if ( styles[ value ].checkActive( path, editor ) ) {
+							newValue = getNewValue( value, node );
 
-						function getNewValue( value, node ) {
-							if ( previous.node && node.contains( previous.node ) ) {
-								return previous.value;
-							}
-
-							if ( !previous.value || previous.value === value ) {
-								previous = {
-									value: value,
-									node: node
-								};
-
-								return value;
-							}
-
-							return '';
+							combo.setValue( newValue, editor.lang.format[ 'tag_' + newValue ] );
 						}
-
-						function checkStyles( node ) {
-							var newValue;
-
-							if ( node.getCustomData( 'processed_font' ) ) {
-								return;
-							}
-
-							CKEDITOR.dom.element.setMarker( markers, node, 'processed_font', true );
-							for ( var value in styles ) {
-								if ( styles[ value ].checkActive( path, editor ) ) {
-									newValue = getNewValue( value, node );
-
-									combo.setValue( newValue, editor.lang.format[ 'tag_' + newValue ] );
-								}
-							}
-						}
-
-						// Check if the element is removable by any of
-						// the styles.
-						forEach( path.elements, checkStyles );
 					}
-
-					forEach( ranges, function( range ) {
-						var element,
-							walker;
-
-						if ( range.collapsed ) {
-							processNode( elementPath.lastElement );
-						} else {
-							walker = new CKEDITOR.dom.walker( range );
-
-							walker.evaluator = function( node ) {
-								return node.type === CKEDITOR.NODE_TEXT;
-							};
-
-							walker.reset();
-
-							while ( element = walker.next() ) {
-								processNode( element );
-							}
-						}
-					} );
-
-					CKEDITOR.dom.element.clearAllMarkers( markers );
-				}, this );
+				} );
 			},
 
 			onOpen: function() {
