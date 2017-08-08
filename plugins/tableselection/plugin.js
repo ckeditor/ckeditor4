@@ -500,12 +500,12 @@
 			selection = editor.getSelection(),
 			selectedCells = getSelectedCells( selection ),
 			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
+			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
 			newRowsCount = 0,
 			newColsCount = 0,
 			pastedTableColCount = 0,
 			selectedTableColCount = 0,
 			markers = {},
-			boundarySelection,
 			selectedTable,
 			selectedTableMap,
 			pastedTableMap,
@@ -571,9 +571,13 @@
 			}
 		}
 
-		// If no cells are selected, and the selection is not in a row boundary position skip paste customization.
+		// Do not customize paste process in following cases:
+		// No cells are selected.
 		if ( !selectedCells.length ||
-			( !selection.isInTable() && !( boundarySelection = this.isBoundarySelection( selection ) ) ) ) {
+			// It's a collapsed selection in a non-boundary position.
+			( selectedCells.length === 1 && selection.getRanges()[ 0 ].collapsed && !boundarySelection ) ||
+			// It's a boundary position but with no table pasted.
+			( boundarySelection && !pastedTable ) ) {
 			return;
 		}
 
