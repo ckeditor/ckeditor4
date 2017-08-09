@@ -450,7 +450,7 @@
 
 	function fakeSelectionCopyCutHandler( evt ) {
 		var editor = evt.editor || evt.sender.editor,
-		selection = editor.getSelection();
+			selection = editor.getSelection();
 
 		if ( !selection.isInTable() ) {
 			return;
@@ -545,14 +545,16 @@
 
 		var cellIndexFirst = this.cells.first.$.cellIndex,
 			cellIndexLast = this.cells.last.$.cellIndex,
-			selectedCells = clearSelection ? [] : this.cells.all;
+			selectedCells = clearSelection ? [] : this.cells.all,
+			row,
+			newCells;
 
 		for ( var i = 0; i < count; i++ ) {
 			// In case of clearSelection we need explicitly use cached cells, as selectedCells is empty.
-			var row = insertRow( clearSelection ? this.cells.all : selectedCells, insertBefore );
+			row = insertRow( clearSelection ? this.cells.all : selectedCells, insertBefore );
 
 			// Append cells from added row.
-			var newCells = CKEDITOR.tools.array.filter( this._nodeListToArray( row.find( 'td, th' ) ), function( cell ) {
+			newCells = CKEDITOR.tools.array.filter( this._nodeListToArray( row.find( 'td, th' ) ), function( cell ) {
 				return clearSelection ?
 					true : cell.$.cellIndex >= cellIndexFirst && cell.$.cellIndex <= cellIndexLast;
 			} );
@@ -718,6 +720,7 @@
 			selectedCells = getSelectedCells( selection ),
 			pastedTable = this.findTableInPastedContent( editor, evt.data.dataValue ),
 			boundarySelection = selection.isInTable( true ) && this.isBoundarySelection( selection ),
+			tableSel,
 			selectedTable,
 			selectedTableMap,
 			pastedTableMap;
@@ -763,7 +766,7 @@
 		}
 
 		selectedTable = selectedCells[ 0 ].getAscendant( 'table' );
-		var tableSel = new TableSelection( getSelectedCells( selection, selectedTable ) );
+		tableSel = new TableSelection( getSelectedCells( selection, selectedTable ) );
 
 		function getLastArrayItem( arr ) {
 			return arr[ arr.length - 1 ];
