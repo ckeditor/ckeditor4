@@ -291,6 +291,74 @@
 </table>
 </textarea>
 
+<textarea id="merge-smaller-table-edge">
+<table>
+	<tbody>
+		<tr>
+			<td>row1</td>
+			<td>row1</td>
+		</tr>
+		<tr>
+			<td>row2</td>
+			<td rowspan="2">[row2]</td>
+		</tr>
+		<tr>
+			<td>row3</td>
+		</tr>
+		<tr>
+			<td>row4</td>
+			<td rowspan="2">[row4]</td>
+		</tr>
+		<tr>
+			<td>row5</td>
+		</tr>
+		<tr>
+			<td>row6</td>
+			<td>row6</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>row1</td>
+			<td>row1</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>row2</td>
+			<td>[row1]</td>
+			<td>[row1]</td>
+			<td>[row1]</td>
+		</tr>
+		<tr>
+			<td>row3</td>
+			<td>[row2]</td>
+			<td>[row2]</td>
+			<td>[row2]</td>
+		</tr>
+		<tr>
+			<td>row4</td>
+			<td>[row3]</td>
+			<td>[row3]</td>
+			<td>[row3]</td>
+		</tr>
+		<tr>
+			<td>row5</td>
+		</tr>
+		<tr>
+			<td>row6</td>
+			<td>row6</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
 <table id="2cells1row">
 	<tr>
 		<td>foo</td>
