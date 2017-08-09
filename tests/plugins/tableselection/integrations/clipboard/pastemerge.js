@@ -34,7 +34,9 @@
 
 		'test merge multi rows after empty cell': createPasteTestCase( 'merge-rows-after-empty', '2cells2rows' ),
 
-		'test merge multi rows before empty cell': createPasteTestCase( 'merge-rows-before-empty', '2cells2rows' )
+		'test merge multi rows before empty cell': createPasteTestCase( 'merge-rows-before-empty', '2cells2rows' ),
+
+		'test table expansion on larger table': createPasteTestCase( 'merge-larger-table', '3cells3rows' ),
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
