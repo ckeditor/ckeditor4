@@ -7,7 +7,10 @@
 	bender.test( {
 		'test readOnly set to false': function() {
 			bender.editorBot.create( {
-				name: 'editor1'
+				name: 'editor1',
+				config: {
+					language: 'en'
+				}
 			}, function( bot ) {
 				var editor = bot.editor;
 
