@@ -551,6 +551,7 @@
 		this.setSelectedCells( selectedCells );
 	};
 
+	// @param {Number} count Number of columns to be inserted.
 	TableSelection.prototype.insertColumn = function( count ) {
 		if ( typeof count === 'undefined' ) {
 			count = 1;
@@ -569,12 +570,19 @@
 		this.setSelectedCells( selectedCells );
 	};
 
+	// Sorts given arr according to DOM position.
+	//
+	// @param {CKEDITOR.dom.node[]} arr
 	TableSelection.prototype._arraySortByDOMOrder = function( arr ) {
 		arr.sort( function( el1, el2 ) {
 			return el1.getPosition( el2 ) & CKEDITOR.POSITION_PRECEDING ? -1 : 1;
 		} );
 	};
 
+	// Converts a given node list wrapper into an array.
+	//
+	// @param {CKEDITOR.dom.nodeList} nodeList
+	// @returns {CKEDITOR.dom.node[]}
 	TableSelection.prototype._nodeListToArray = function( nodeList ) {
 		return CKEDITOR.tools.array.map( nodeList.$, function( nativeEl ) {
 			return new CKEDITOR.dom.node( nativeEl );
