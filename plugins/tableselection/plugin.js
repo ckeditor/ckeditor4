@@ -609,7 +609,7 @@
 	};
 
 	var fakeSelectionPasteHandler = {
-		onPaste: fakeSelectionPasteHandler_,
+		onPaste: pasteListener,
 		// Check if the selection is collapsed on the beginning of the row (1) or at the end (2).
 		isBoundarySelection: function( selection ) {
 			var ranges = selection.getRanges(),
@@ -714,7 +714,7 @@
 		}
 	};
 
-	function fakeSelectionPasteHandler_( evt ) {
+	function pasteListener( evt ) {
 		var editor = evt.editor,
 			selection = editor.getSelection(),
 			selectedCells = getSelectedCells( selection ),
