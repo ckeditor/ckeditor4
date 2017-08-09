@@ -30,10 +30,6 @@
 			j,
 			cell;
 
-		function getRowIndex( rowOrCell ) {
-			return rowOrCell.getAscendant( 'tr', true ).$.rowIndex;
-		}
-
 		// Support selection that began in outer's table, but ends in nested one.
 		if ( firstTable.contains( lastTable ) ) {
 			last = last.getAscendant( { td: 1, th: 1 } );
@@ -271,6 +267,10 @@
 		}
 
 		editor.fire( 'unlockSnapshot' );
+	}
+
+	function getRowIndex( rowOrCell ) {
+		return rowOrCell.getAscendant( 'tr', true ).$.rowIndex;
 	}
 
 	function fakeSelectionMouseHandler( evt ) {
@@ -515,7 +515,7 @@
 	TableSelection.prototype.getTableMap = function() {
 		function getRealCellPosition( cell ) {
 			var table = cell.getAscendant( 'table' ),
-				rowIndex = cell.getParent().$.rowIndex,
+				rowIndex = getRowIndex( cell ),
 				map = CKEDITOR.tools.buildTableMap( table ),
 				i;
 
@@ -529,8 +529,8 @@
 		var startIndex = getCellColIndex( this.cells.first, true ),
 			endIndex = getRealCellPosition( this.cells.last );
 
-		return CKEDITOR.tools.buildTableMap(  this._getTable(), this.rows.first.$.rowIndex, startIndex,
-			this.rows.last.$.rowIndex, endIndex );
+		return CKEDITOR.tools.buildTableMap( this._getTable(), getRowIndex( this.rows.first ), startIndex,
+			getRowIndex( this.rows.last ), endIndex );
 	};
 
 	TableSelection.prototype._getTable = function() {
@@ -582,12 +582,22 @@
 			return;
 		}
 
-		var selectedCells = this.cells.all;
+		var cells = this.cells,
+			selectedCells = cells.all,
+			minRowIndex = getRowIndex( cells.first ),
+			maxRowIndex = getRowIndex( cells.last );
+
+		function limitCells( cell ) {
+			var parentRowIndex = getRowIndex( cell );
+
+			return parentRowIndex >= minRowIndex && parentRowIndex <= maxRowIndex;
+		}
 
 		for ( var i = 0; i < count; i++ ) {
-			// Prepend added cells, then pass it to setSelectionCells so that it will
-			// take care of refreshing the whole state.
-			selectedCells = selectedCells.concat( insertColumn( selectedCells ) );
+			// Prepend added cells, then pass it to setSelectionCells so that it will take care of refreshing
+			// the whole state. Note that returned cells needs to be filtered, so that only cells that
+			// should get selected are added to the selectedCells array.
+			selectedCells = selectedCells.concat( CKEDITOR.tools.array.filter( insertColumn( selectedCells ), limitCells ) );
 		}
 
 		this.setSelectedCells( selectedCells );
