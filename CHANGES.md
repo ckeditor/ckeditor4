@@ -21,6 +21,10 @@ Fixed Issues:
 * [#644](https://github.com/ckeditor/ckeditor-dev/issues/644): Fixed: The [`range.extractContents`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.range-method-extractContents) returns incorrect result when multiple nodes are selected.
 * [#684](https://github.com/ckeditor/ckeditor-dev/issues/684): Fixed: The [`elementPath.contains`](http://docs.ckeditor.com/#!/api/CKEDITOR.dom.elementPath-method-contains) incorrectly excludes last element instead of root when `fromTop` parameter is set to true.
 
+Other Changes:
+
+* [#751](https://github.com/ckeditor/ckeditor-dev/issues/751): Added [CKEDITOR.dom.nodeList.toArray](https://docs.ckeditor.com/#!/api/CKEDITOR.dom.nodeList-method-toArray) method which returns array representation of a [nodeList](https://docs.ckeditor.com/#!/api/CKEDITOR.dom.nodeList).
+
 ## CKEditor 4.7.1
 
 New Features:
