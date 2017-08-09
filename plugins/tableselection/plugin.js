@@ -720,9 +720,11 @@
 							if ( prevCell && currentRow.equals( prevCell.getParent() ) ) {
 								cellToPaste.insertAfter( prevCell );
 							} else if ( startIndex > 0 ) {
+								// It might happen that there's no cell with startIndex, as it might be used by a rowspan.
 								if ( currentRow.$.cells[ startIndex ] ) {
-									cellToPaste.insertAfter( new CKEDITOR.dom.element( currentRow.$.cells[ startIndex ] ) )
+									cellToPaste.insertAfter( new CKEDITOR.dom.element( currentRow.$.cells[ startIndex ] ) );
 								} else {
+									// Since rowspans are erased from current selection, we want need to append a cell.
 									currentRow.append( cellToPaste );
 								}
 							} else {
