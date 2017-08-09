@@ -38,7 +38,9 @@
 
 		'test table expansion on larger table': createPasteTestCase( 'merge-larger-table', '3cells3rows' ),
 
-		'test partial paste doesnt cause merge': createPasteTestCase( 'dont-merge-partial-selection', '2cells1row' )
+		'test partial paste doesnt cause merge': createPasteTestCase( 'dont-merge-partial-selection', '2cells1row' ),
+
+		'test paste bigger table into a smaller selection': createPasteTestCase( 'merge-bigger-table', '3cells3rows' )
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
