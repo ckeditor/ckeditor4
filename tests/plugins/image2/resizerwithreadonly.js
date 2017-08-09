@@ -18,7 +18,7 @@
 					dialog.setValueOf( 'info', 'src', '_assets/foo.png' );
 					dialog.getButton( 'ok' ).click();
 
-					assert.areSame(
+					assert.sameData(
 						'<span class="cke_image_resizer" title="Click and drag to resize">​</span>',
 						editor.editable().getElementsByTag( 'span' ).$[ 2 ].outerHTML
 					);
