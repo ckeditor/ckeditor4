@@ -209,6 +209,43 @@
 </table>
 </textarea>
 
+<textarea id="dont-merge-partial-selection">
+<table>
+	<tbody>
+		<tr>
+			<td>ce[l]l1</td>
+			<td>cell2</td>
+		</tr>
+		<tr>
+			<td>cell3</td>
+			<td>cell4</td>
+		</tr>
+	</tbody>
+</table>
+
+=>
+<table>
+	<tbody>
+		<tr>
+			<td>ce
+			<table>
+				<tbody>
+					<tr>
+						<td>foo</td>
+						<td>foo^</td>
+					</tr>
+				</tbody>
+			</table>l1</td>
+			<td>cell2</td>
+		</tr>
+		<tr>
+			<td>cell3</td>
+			<td>cell4</td>
+		</tr>
+	</tbody>
+</table>
+</textarea>
+
 <table id="2cells1row">
 	<tr>
 		<td>foo</td>

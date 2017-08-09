@@ -103,6 +103,22 @@
 		return domEvent.button === 0;
 	}
 
+	// Checks whether a given range fully contains a table element (cell/tbody/table etc).
+	// @param {CKEDITOR.dom.range} range
+	// @returns {Boolean}
+	function rangeContainsTableElement( range ) {
+		if ( range ) {
+			// Clone the range as we're going to enlarge it, and we don't want to modify the input.
+			range = range.clone();
+
+			range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
+
+			var enclosedNode = range.getEnclosedNode();
+
+			return enclosedNode && enclosedNode.is && enclosedNode.is( CKEDITOR.dtd.$tableContent );
+		}
+	}
+
 	function getFakeSelectedTable( editor ) {
 		var selectedCell = editor.editable().findOne( '.' + fakeSelectedClass );
 
@@ -738,8 +754,9 @@
 		// Do not customize paste process in following cases:
 		// No cells are selected.
 		if ( !selectedCells.length ||
-			// It's a collapsed selection in a non-boundary position.
-			( selectedCells.length === 1 && selection.getRanges()[ 0 ].collapsed && !boundarySelection ) ||
+			// It's single range that does not fully contain table element and is not boundary, e.g. collapsed selection within
+			// cell, part of cell etc.
+			( selectedCells.length === 1 && !rangeContainsTableElement( selection.getRanges()[ 0 ] )  && !boundarySelection ) ||
 			// It's a boundary position but with no table pasted.
 			( boundarySelection && !pastedTable ) ) {
 			return;

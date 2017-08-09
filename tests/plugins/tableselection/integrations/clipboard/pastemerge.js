@@ -37,6 +37,8 @@
 		'test merge multi rows before empty cell': createPasteTestCase( 'merge-rows-before-empty', '2cells2rows' ),
 
 		'test table expansion on larger table': createPasteTestCase( 'merge-larger-table', '3cells3rows' ),
+
+		'test partial paste doesnt cause merge': createPasteTestCase( 'dont-merge-partial-selection', '2cells1row' )
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );

@@ -88,7 +88,8 @@
 
 				bot.setHtmlWithSelection( source );
 
-				bender.tools.emulatePaste( editor, CKEDITOR.document.getById( pasteFixtureId ).getOuterHtml() );
+				// Use clone, so that pasted table does not have an ID.
+				bender.tools.emulatePaste( editor, CKEDITOR.document.getById( pasteFixtureId ).clone( true ).getOuterHtml() );
 
 				wait();
 			} );
