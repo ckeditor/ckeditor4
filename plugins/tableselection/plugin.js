@@ -532,7 +532,7 @@
 			selectedCells = clearSelection ? [] : this.cells.all;
 
 		for ( var i = 0; i < count; i++ ) {
-			var row = insertRow( this.cells.all, insertBefore );
+			var row = insertRow( selectedCells, insertBefore );
 
 			// Append cells from added row.
 			var newCells = CKEDITOR.tools.array.filter( this._nodeListToArray( row.find( 'td, th' ) ), function( cell ) {
@@ -564,7 +564,7 @@
 		for ( var i = 0; i < count; i++ ) {
 			// Prepend added cells, then pass it to setSelectionCells so that it will
 			// take care of refreshing the whole state.
-			selectedCells = selectedCells.concat( insertColumn( this.cells.all ) );
+			selectedCells = selectedCells.concat( insertColumn( selectedCells ) );
 		}
 
 		this.setSelectedCells( selectedCells );
