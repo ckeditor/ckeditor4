@@ -43,7 +43,7 @@
 		'test paste bigger table into a smaller selection': createPasteTestCase( 'merge-bigger-table', '3cells3rows' ),
 
 		// This case includes some rowspan trickery.
-		'test paste smaller table into a bigger selection edge case': createPasteTestCase( 'merge-bigger-table-edge', '3cells3rows' )
+		'test paste smaller table into a bigger selection edge case': createPasteTestCase( 'merge-smaller-table-edge', '3cells3rows' )
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
