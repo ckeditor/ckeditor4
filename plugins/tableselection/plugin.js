@@ -532,7 +532,8 @@
 			selectedCells = clearSelection ? [] : this.cells.all;
 
 		for ( var i = 0; i < count; i++ ) {
-			var row = insertRow( selectedCells, insertBefore );
+			// In case of clearSelection we need explicitly use cached cells, as selectedCells is empty.
+			var row = insertRow( clearSelection ? this.cells.all : selectedCells, insertBefore );
 
 			// Append cells from added row.
 			var newCells = CKEDITOR.tools.array.filter( this._nodeListToArray( row.find( 'td, th' ) ), function( cell ) {
