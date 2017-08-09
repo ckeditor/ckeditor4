@@ -593,6 +593,17 @@
 		this.setSelectedCells( selectedCells );
 	};
 
+	// Clears the content of selected cells.
+	//
+	// @param {CKEDITOR.dom.element[]} [cells] If given, this cells will be cleared.
+	TableSelection.prototype.emptyCells =  function( cells ) {
+		cells = cells || this.cells.all;
+
+		for ( var i = 0; i < cells.length; i++ ) {
+			cells[ i ].setHtml( '' );
+		}
+	};
+
 	// Sorts given arr according to DOM position.
 	//
 	// @param {CKEDITOR.dom.node[]} arr
@@ -742,22 +753,6 @@
 			range.select();
 		}
 
-		function emptyCells( cells, lockSnapshot ) {
-			var i;
-
-			if ( lockSnapshot ) {
-				editor.fire( 'lockSnapshot' );
-			}
-
-			for ( i = 0; i < cells.length; i++ ) {
-				cells[ i ].setHtml( '' );
-			}
-
-			if ( lockSnapshot ) {
-				editor.fire( 'unlockSnapshot' );
-			}
-		}
-
 		// Do not customize paste process in following cases:
 		// No cells are selected.
 		if ( !selectedCells.length ||
@@ -795,7 +790,9 @@
 			// Due to limitations of our undo manager, in case of mixed content
 			// cells must be emptied after pasting (#520).
 			editor.once( 'afterPaste', function() {
-				emptyCells( tableSel.cells.all.slice( 1 ), true );
+				editor.fire( 'lockSnapshot' );
+				tableSel.emptyCells( tableSel.cells.all.slice( 1 ) );
+				editor.fire( 'unlockSnapshot' );
 			} );
 
 			return;
@@ -811,7 +808,7 @@
 			selection.selectElement( tableSel.rows.first );
 		} else {
 			// Otherwise simply clear all the selected cells.
-			emptyCells( tableSel.cells.all );
+			tableSel.emptyCells();
 		}
 
 		// Build table map only for selected fragment.
