@@ -428,8 +428,10 @@
 
 				// Setup dynamic image resizing with mouse.
 				// Don't initialize resizer when dimensions are disallowed (http://dev.ckeditor.com/ticket/11004).
-				if ( editor.filter.checkFeature( this.features.dimension ) && editor.config.image2_disableResizer !== true )
+				// Don't initialize resizer when config.readOnly is set to true (#719).
+				if ( editor.filter.checkFeature( this.features.dimension ) && editor.config.image2_disableResizer !== true && editor.config.readOnly != true ) {
 					setupResizer( this );
+				}
 
 				this.shiftState = helpers.stateShifter( this.editor );
 
