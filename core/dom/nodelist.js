@@ -39,5 +39,16 @@ CKEDITOR.dom.nodeList.prototype = {
 
 		var $node = this.$[ index ];
 		return $node ? new CKEDITOR.dom.node( $node ) : null;
+	},
+
+	/**
+	 * Returns node list as an array.
+	 *
+	 * @returns {CKEDITOR.dom.node[]}
+	 */
+	toArray: function() {
+		return CKEDITOR.tools.array.map( this.$, function( nativeEl ) {
+			return new CKEDITOR.dom.node( nativeEl );
+		} );
 	}
 };
