@@ -787,7 +787,8 @@
 			fakeSelectCells( editor, toSelect );
 		} );
 
-		// In case of mixed content or non table content just insert it to a first cell, erasing the others.
+		// In case of mixed content or non table content just select first cell, and erase content of other selected cells.
+		// Selection is left in first cell, so that default CKEditor logic puts pasted content in the selection.
 		if ( !pastedTable ) {
 			selectCellContents( tableSel.cells.first );
 
