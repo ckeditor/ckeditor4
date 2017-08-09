@@ -1,0 +1,13 @@
+<div id="editor1" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+<div id="editor2" contenteditable="true">
+	<img src="%BASE_PATH%/_assets/logo.png" />
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1' );
+    CKEDITOR.replace( 'editor2', {
+        readOnly: true
+	} );
+</script>
