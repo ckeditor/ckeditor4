@@ -720,7 +720,11 @@
 							if ( prevCell && currentRow.equals( prevCell.getParent() ) ) {
 								cellToPaste.insertAfter( prevCell );
 							} else if ( startIndex > 0 ) {
-								cellToPaste.insertAfter( new CKEDITOR.dom.element( currentRow.$.cells[ startIndex ] ) );
+								if ( currentRow.$.cells[ startIndex ] ) {
+									cellToPaste.insertAfter( new CKEDITOR.dom.element( currentRow.$.cells[ startIndex ] ) )
+								} else {
+									currentRow.append( cellToPaste );
+								}
 							} else {
 								currentRow.append( cellToPaste, true );
 							}
