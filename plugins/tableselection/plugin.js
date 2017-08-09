@@ -563,11 +563,16 @@
 		for ( var i = 0; i < count; i++ ) {
 			// Prepend added cells, then pass it to setSelectionCells so that it will
 			// take care of refreshing the whole state.
-			// @todo the cells should be sorted in the DOM order.
 			selectedCells = selectedCells.concat( insertColumn( this.cells.all ) );
 		}
 
 		this.setSelectedCells( selectedCells );
+	};
+
+	TableSelection.prototype._arraySortByDOMOrder = function( arr ) {
+		arr.sort( function( el1, el2 ) {
+			return el1.getPosition( el2 ) & CKEDITOR.POSITION_PRECEDING ? -1 : 1;
+		} );
 	};
 
 	TableSelection.prototype._nodeListToArray = function( nodeList ) {
