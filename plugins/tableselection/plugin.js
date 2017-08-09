@@ -497,6 +497,10 @@
 	// @param {CKEDITOR.dom.element[]} [cells] An array of cells considered to be selected.
 	TableSelection.prototype.setSelectedCells = function( cells ) {
 		this._reset();
+		// Make sure we're not modifying input array.
+		cells = cells.slice( 0 );
+		this._arraySortByDOMOrder( cells );
+
 		this.cells.all = cells;
 
 		this.cells.first = cells[ 0 ];
