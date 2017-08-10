@@ -2,23 +2,23 @@
 
 <script>
 	CKEDITOR.replace( 'editor', {
-        extraAllowedContent: 'span',
-	    extraPlugins: 'spanwidget'
+		extraAllowedContent: 'span',
+		extraPlugins: 'spanwidget'
 	} );
 
-    CKEDITOR.plugins.add( 'spanwidget', {
-        requires: 'widget',
-        init: function ( editor )	{
-            editor.widgets.add( 'spanwidget', {
-                editables: {
-                    content: {
-                        selector: 'span'
-                    }
-                },
-                upcast: function ( element ) {
-                    return element.name == 'span';
-                }
-            } );
-        }
-    } );
+	CKEDITOR.plugins.add( 'spanwidget', {
+		requires: 'widget',
+		init: function ( editor )	{
+			editor.widgets.add( 'spanwidget', {
+				editables: {
+					content: {
+						selector: 'span'
+					}
+				},
+				upcast: function ( element ) {
+					return element.name == 'span';
+				}
+			} );
+		}
+	} );
 </script>

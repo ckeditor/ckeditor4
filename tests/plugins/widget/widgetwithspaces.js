@@ -26,7 +26,6 @@
 			} );
 		},
 
-		// #605
 		'test trailing space': function() {
 			var editor = this.editor;
 
@@ -45,7 +44,6 @@
 			wait();
 		},
 
-		// #605
 		'test initial, trailing space with additional signs': function() {
 			var editor = this.editor,
 				listener;
@@ -63,7 +61,6 @@
 			wait();
 		},
 
-		// #605
 		'test initial and trailing space for nested structure': function() {
 			var editor = this.editor,
 				listener;

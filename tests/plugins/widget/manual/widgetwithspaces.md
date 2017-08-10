@@ -4,7 +4,7 @@
 
 **Scenario:**
 1. Click `Source` button.
-2. Input `lorem<span> ipsum&nbsp;dolor sit </span>amet` into source area.
+2. Paste `lorem<span> ipsum&nbsp;dolor sit </span>amet` into source area.
 3. Click `Source` button.
 
 **Expected result:**
@@ -13,4 +13,4 @@ The text displayed should equal: `lorem ipsum dolor sit amet` and `Source` data 
 
 **Unexpected result:**
 
-There are a missing spaces in a text: `loremipsum dolor sitamet`.
+The text displayed in editor equal: `loremipsum dolor sitamet`.
