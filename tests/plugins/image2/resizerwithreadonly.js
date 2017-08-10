@@ -19,8 +19,8 @@
 					dialog.getButton( 'ok' ).click();
 
 					assert.sameData(
-						'<span class="cke_image_resizer" title="Click and drag to resize">​</span>',
-						editor.editable().getElementsByTag( 'span' ).$[ 2 ].outerHTML
+						'cke_image_resizer',
+						editor.editable().getElementsByTag( 'span' ).$[ 2 ].outerHTML.match( /(cke_image_resizer)/g )[ 0 ]
 					);
 				} );
 			} );
