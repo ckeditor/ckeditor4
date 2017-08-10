@@ -303,6 +303,47 @@
 	}
 
 	function deleteColumns( selection ) {
+		function processSelection( selection ) {
+			// If selection leakt to next td/th cell, then move it back to previous cell.
+			var ranges = selection.getRanges();
+			if ( ranges.length !== 1 ) {
+				return selection;
+			}
+
+			var range = ranges[0];
+			if ( range.endOffset !== 0 ) {
+				return selection;
+			}
+
+			var endNode = range.endContainer;
+			var endNodeName = endNode.getName().toLowerCase();
+			if ( !( endNodeName === 'td' || endNodeName === 'th' ) ) {
+				return selection;
+			}
+			// Get previous td/th element or the last from previous row.
+			var previous = endNode.getPrevious();
+			if ( !previous ) {
+				previous = endNode.getParent().getPrevious().getLast();
+			}
+
+			// Get most inner text node or br in case of empty cell.
+			while ( previous.type !== CKEDITOR.NODE_TEXT && previous.getName().toLowerCase() !== 'br' ) {
+				previous = previous.getLast();
+				// Generraly previous should never be null, if statement is just for possible weird edge cases.
+				if ( !previous ) {
+					return selection;
+				}
+			}
+
+			range.setEndAt( previous, CKEDITOR.POSITION_BEFORE_END );
+			return range.select();
+		}
+
+		// Problem occures only on webkit in case of native selection (#577
+		if ( CKEDITOR.env.webkit && !selection.isFake && selection.getNative().type === 'Range' ) {
+			selection = processSelection( selection );
+		}
+
 		var ranges = selection.getRanges(),
 			cells = getSelectedCells( selection ),
 			firstCell = cells[ 0 ],
