@@ -33,21 +33,21 @@ CKEDITOR.plugins.add( 'table', {
 							var parsedStyle;
 							if ( element.styles.border ) {
 								parsedStyle = CKEDITOR.tools.style.parse.border( element.styles.border );
-								if ( parsedStyle.style && parsedStyle.style === 'solid' &&
-										parsedStyle.width && parseFloat( parsedStyle.width ) !== 0 ) {
-									element.attributes.border = 1;
+							} else if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+								var styleData = element.styles;
+								// Workaround for IE8 browser. It transforms CSS border shorthand property
+								// to the longer one, consisting of border-top, border-right, etc. We have to check
+								// if all those properties exists and have the same value (#566).
+								if ( styleData[ 'border-left' ] && styleData[ 'border-left' ] === styleData[ 'border-right' ] &&
+									styleData[ 'border-right' ] === styleData[ 'border-top' ] &&
+									styleData[ 'border-top' ] === styleData[ 'border-bottom' ] ) {
+
+									parsedStyle = CKEDITOR.tools.style.parse.border( styleData[ 'border-top' ] );
 								}
 							}
-							if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
-								if ( element.styles[ 'border-left' ] && element.styles[ 'border-left' ] === element.styles[ 'border-right' ] &&
-										element.styles[ 'border-right' ] === element.styles[ 'border-top' ] &&
-										element.styles[ 'border-top' ] === element.styles[ 'border-bottom' ] ) {
-									parsedStyle = CKEDITOR.tools.style.parse.border( element.styles[ 'border-top' ] );
-									if ( parsedStyle.style && parsedStyle.style === 'solid' &&
-											parsedStyle.width && parseFloat( parsedStyle.width ) !== 0 ) {
-										element.attributes.border = 1;
-									}
-								}
+							if ( parsedStyle && parsedStyle.style && parsedStyle.style === 'solid' &&
+								parsedStyle.width && parseFloat( parsedStyle.width ) !== 0 ) {
+								element.attributes.border = 1;
 							}
 							if ( element.styles[ 'border-collapse' ] == 'collapse' ) {
 								element.attributes.cellspacing = 0;

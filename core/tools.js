@@ -1640,7 +1640,7 @@
 					'outset'
 				],
 
-				_widthRegExp: /^(thin|medium|thick|[\+-]?\d+(\.?\d+|)[a-z%]+|[\+-]?0+(\.?0+|)|\.\d+[a-z%]+)$/,
+				_widthRegExp: /^(thin|medium|thick|[\+-]?\d+(\.\d+)?[a-z%]+|[\+-]?0+(\.0+)?|\.\d+[a-z%]+)$/,
 
 				_rgbaRegExp: /rgba?\(\s*\d+%?\s*,\s*\d+%?\s*,\s*\d+%?\s*(?:,\s*[0-9.]+\s*)?\)/gi,
 
@@ -1742,8 +1742,8 @@
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				border: function( value ) {
-					var ret = {};
-					var input = value.split( /\s+/ );
+					var ret = {},
+						input = value.split( /\s+/ );
 
 					CKEDITOR.tools.array.forEach( input, function( val ) {
 						if ( !ret.color ) {
