@@ -789,7 +789,7 @@
 		} );
 
 		// In case of mixed content or non table content just select first cell, and erase content of other selected cells.
-		// Selection is left in first cell, so that default CKEditor logic puts pasted content in the selection.
+		// Selection is left in first cell, so that default CKEditor logic puts pasted content in the selection (#520).
 		if ( !pastedTable ) {
 			selectCellContents( tableSel.cells.first );
 
