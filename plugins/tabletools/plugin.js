@@ -8,8 +8,8 @@
 		isArray = CKEDITOR.tools.isArray;
 
 	function getSelectedCells( selection, table ) {
-		var retval = [];
-		var database = {};
+		var retval = [],
+			database = {};
 
 		if ( !selection ) {
 			return retval;
