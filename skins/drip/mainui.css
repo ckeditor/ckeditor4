@@ -116,7 +116,7 @@ Special outer level classes used in this file:
 .cke_bottom
 {
 	padding: 3px 12px;
-  height: 24px;
+  min-height: 24px;
   border-radius: 0 0 3px 3px;
 	position: relative;
 	background: #D3D9E4;
