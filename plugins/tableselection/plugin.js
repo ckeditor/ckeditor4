@@ -558,7 +558,7 @@
 			row = insertRow( clearSelection ? this.cells.all : selectedCells, insertBefore );
 
 			// Append cells from added row.
-			newCells = CKEDITOR.tools.array.filter( this._nodeListToArray( row.find( 'td, th' ) ), function( cell ) {
+			newCells = CKEDITOR.tools.array.filter( row.find( 'td, th' ).toArray(), function( cell ) {
 				return clearSelection ?
 					true : cell.$.cellIndex >= cellIndexFirst && cell.$.cellIndex <= cellIndexLast;
 			} );
@@ -620,16 +620,6 @@
 	TableSelection.prototype._arraySortByDOMOrder = function( arr ) {
 		arr.sort( function( el1, el2 ) {
 			return el1.getPosition( el2 ) & CKEDITOR.POSITION_PRECEDING ? -1 : 1;
-		} );
-	};
-
-	// Converts a given node list wrapper into an array.
-	//
-	// @param {CKEDITOR.dom.nodeList} nodeList
-	// @returns {CKEDITOR.dom.node[]}
-	TableSelection.prototype._nodeListToArray = function( nodeList ) {
-		return CKEDITOR.tools.array.map( nodeList.$, function( nativeEl ) {
-			return new CKEDITOR.dom.node( nativeEl );
 		} );
 	};
 
