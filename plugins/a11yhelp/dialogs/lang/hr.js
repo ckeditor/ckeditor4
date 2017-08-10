@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'hr', {
 	closeBracket: 'Zatvorena uglata zagrada',
 	singleQuote: 'Jednostruki navodnik',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

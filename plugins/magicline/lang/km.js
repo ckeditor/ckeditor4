@@ -7,11 +7,11 @@ CKEDITOR.plugins.setLang( 'magicline', 'km', {
 	title: 'បញ្ចូល​កថាខណ្ឌ​នៅ​ទីនេះ',
 	commands: {
 		previousSpace: {
-			label: 'Access previous focus space command', // MISSING
+			label: 'Access previous focus space', // MISSING
 			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
 		},
 		nextSpace: {
-			label: 'Access next focus space command', // MISSING
+			label: 'Access next focus space', // MISSING
 			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
 		}
 	}

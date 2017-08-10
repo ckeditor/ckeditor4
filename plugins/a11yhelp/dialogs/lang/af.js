@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'af', {
 	closeBracket: 'Toeblokhakkie',
 	singleQuote: 'Enkelaanhaalingsteken',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 	closeBracket: 'Gần giá đỡ',
 	singleQuote: 'Trích dẫn',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

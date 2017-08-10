@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 	closeBracket: 'Parentesi quadra chiusa',
 	singleQuote: 'Apostrofo',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'zh-cn', {
 	closeBracket: '右中括号键',
 	singleQuote: '单引号键',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tt', {
 	closeBracket: 'Җәя ябу',
 	singleQuote: 'Бер иңле куштырнаклар',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

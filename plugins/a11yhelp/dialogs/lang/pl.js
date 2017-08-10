@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pl', {
 	closeBracket: 'Nawias kwadratowy zamykający',
 	singleQuote: 'Apostrof',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

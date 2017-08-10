@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'da', {
 	closeBracket: 'Slut klamme',
 	singleQuote: 'Enkelt citationstegn',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

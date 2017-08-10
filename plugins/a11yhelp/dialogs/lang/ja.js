@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ja', {
 	closeBracket: '閉じカッコ',
 	singleQuote: 'シングルクォート',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

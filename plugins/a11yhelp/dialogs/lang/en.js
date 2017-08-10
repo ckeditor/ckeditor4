@@ -110,7 +110,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 	closeBracket: 'Close Bracket',
 	singleQuote: 'Single Quote',
 	commandsList: {
-		sectionName: 'Commands table',
+		sectionName: 'Keystrokes table',
 		command: 'Command',
 		keystroke: 'Keystroke'
 	},

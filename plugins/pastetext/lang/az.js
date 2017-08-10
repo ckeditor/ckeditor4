@@ -5,5 +5,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'az', {
 	button: 'Yalnız mətni saxla',
 	pasteNotification: 'Sizin İnternet bələdçiniz bu cür mətnin köçürməsini dəstəklənmir. Əlavə etmək üçün %1 basın.',
-	edgeCommandDescription: 'Followed by ${paste}.' // MISSING
+	commandKeystrokeEdge: '${pastetext}, followed by ${paste}' // MISSING
 } );

@@ -5,5 +5,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'oc', {
 	button: 'Pegar coma tèxte brut',
 	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.', // MISSING
-	edgeCommandDescription: 'Followed by ${paste}.' // MISSING
+	commandKeystrokeEdge: '${pastetext}, followed by ${paste}' // MISSING
 } );

@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de-ch', {
 	closeBracket: 'Schliessende eckige Klammer',
 	singleQuote: 'Einfaches Anführungszeichen',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

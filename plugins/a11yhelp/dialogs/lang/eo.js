@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'eo', {
 	closeBracket: 'Ferma Krampo',
 	singleQuote: 'Citilo',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

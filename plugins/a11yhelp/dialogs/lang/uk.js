@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'uk', {
 	closeBracket: 'Закрити дужку',
 	singleQuote: 'Одинарні лапки',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

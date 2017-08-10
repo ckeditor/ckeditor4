@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 	closeBracket: 'Parantez kapa',
 	singleQuote: 'Tek tırnak',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},

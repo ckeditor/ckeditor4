@@ -5,5 +5,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'ko', {
 	button: '텍스트로 붙여넣기',
 	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.', // MISSING
-	edgeCommandDescription: 'Followed by ${paste}.' // MISSING
+	commandKeystrokeEdge: '${pastetext}, followed by ${paste}' // MISSING
 } );

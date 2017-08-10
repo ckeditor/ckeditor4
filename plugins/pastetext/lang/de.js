@@ -5,5 +5,5 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'pastetext', 'de', {
 	button: 'Als Klartext einfügen',
 	pasteNotification: 'Ihr Browser verhindert das Einfügen von Text über diesen Weg. Zum einfügen drücken Sie %1.',
-	edgeCommandDescription: 'Followed by ${paste}.' // MISSING
+	commandKeystrokeEdge: '${pastetext}, followed by ${paste}' // MISSING
 } );

@@ -93,7 +93,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
 	closeBracket: '브라켓 닫기(]) 키',
 	singleQuote: '외 따옴표(\') 키',
 	commandsList: {
-		sectionName: 'Commands table', // MISSING
+		sectionName: 'Keystrokes table', // MISSING
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},
