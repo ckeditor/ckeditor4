@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 520, 4.7.2
+@bender-tags: bug, 520, 4.7.2
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, elementspath, undo, image2
 
 ## Case 1
