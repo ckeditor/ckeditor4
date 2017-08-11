@@ -799,7 +799,7 @@
 				editor.fire( 'lockSnapshot' );
 				tableSel.emptyCells( tableSel.cells.all.slice( 1 ) );
 				// Reselecting cells allows to create correct undo snapshot (#763).
-				fakeSelectCells( editor, tableSel.cells.all.slice( 1 ) );
+				fakeSelectCells( editor, tableSel.cells.all );
 				editor.fire( 'unlockSnapshot' );
 			} );
 
