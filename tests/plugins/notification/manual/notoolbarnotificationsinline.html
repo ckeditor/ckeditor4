@@ -10,7 +10,9 @@
 		<input onclick="manualPlayground.emulateProgress();" type="button" value="Show progress notification">
 	</p>
 	<script>
-		var editor = CKEDITOR.inline( 'editor1' );
+		var editor = CKEDITOR.inline( 'editor1', {
+			removePlugins: 'toolbar,clipboard,pastefromword,pastetext,tableselection'
+		} );
 
 		manualPlayground.init();
 		window.scrollTo( 2950, 2950 );
