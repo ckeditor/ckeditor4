@@ -798,6 +798,8 @@
 			editor.once( 'afterPaste', function() {
 				editor.fire( 'lockSnapshot' );
 				tableSel.emptyCells( tableSel.cells.all.slice( 1 ) );
+				// Reselecting cells allows to create correct undo snapshot (#763).
+				fakeSelectCells( editor, tableSel.cells.all.slice( 1 ) );
 				editor.fire( 'unlockSnapshot' );
 			} );
 
@@ -815,6 +817,8 @@
 		} else {
 			// Otherwise simply clear all the selected cells.
 			tableSel.emptyCells();
+			// Reselecting cells allows to create correct undo snapshot (#763).
+			fakeSelectCells( editor, tableSel.cells.all );
 		}
 
 		// Build table map only for selected fragment.
