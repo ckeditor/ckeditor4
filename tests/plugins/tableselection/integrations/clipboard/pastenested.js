@@ -1,5 +1,5 @@
 /* bender-tags: tableselection, clipboard */
-/* bender-ckeditor-plugins: tableselection */
+/* bender-ckeditor-plugins: undo,tableselection */
 /* bender-ckeditor-remove-plugins: dialogadvtab */
 /* bender-include: ../../_helpers/tableselection.js */
 /* global tableSelectionHelpers, createPasteTestCase */
