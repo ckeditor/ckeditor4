@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'ru', {
 	cut: 'Вырезать',
 	cutError: 'Настройки безопасности вашего браузера не разрешают редактору выполнять операции по вырезке текста. Пожалуйста, используйте для этого клавиатуру (Ctrl/Cmd+X).',
 	paste: 'Вставить',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Ваш браузер не поддерживает данный метод вставки. Для вставки нажмите %1'
 } );

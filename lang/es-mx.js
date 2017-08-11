@@ -3,7 +3,9 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
- // MISSING
+/**
+* @fileOverview 
+*/
 
 /**#@+
    @type String
