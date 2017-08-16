@@ -22,7 +22,8 @@
 
 	var setWithHtml = bender.tools.range.setWithHtml,
 		getWithHtml = bender.tools.range.getWithHtml,
-		img_src = '%BASE_PATH%_assets/img.gif';
+		img_src = '%BASE_PATH%_assets/img.gif',
+		tests;
 
 	// <DEV>
 	// var playground = CKEDITOR.document.createElement( 'dl' );
@@ -113,7 +114,7 @@
 // output HTML	|	@	|	like compareInnerHtml (accept)	|	like compareInnerHtml		(we use it for uncertain cases)
 //				|	@!	|	like compareInnerHtml (expect)	|	like compareInnerHtml		(we use it for empty blocks)
 
-	var tests = {
+	tests = {
 		init: function() {
 			this.editables = {};
 
@@ -311,7 +312,8 @@
 				'<p>a</p><table class="t1"><tbody><tr><td><p>b[]</p></td><td><table class="t2"><tbody><tr><td><p>e</p></td></tr></tbody></table></td></tr></tbody></table><p>g</p>' ],
 
 			// #787
-			[ '<table><tbody><tr><td>ab<table><tbody><tr>[<td>cd</td>]</tr></tbody></table>ef</td></tr></tbody></table>', 'cd', '<table><tbody><tr><td>ab<table><tbody><tr><td>[]@!</td></tr></tbody></table>ef</td></tr></tbody></table>' ]
+			[ '<table><tbody><tr><td>ab<table><tbody><tr>[<td>cd</td>]</tr></tbody></table>ef</td></tr></tbody></table>', 'cd',
+				'<table><tbody><tr><td>ab<table><tbody><tr><td>[]@!</td></tr></tbody></table>ef</td></tr></tbody></table>' ]
 		],
 
 		'lists': [
