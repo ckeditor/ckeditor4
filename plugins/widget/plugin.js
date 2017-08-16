@@ -2054,33 +2054,39 @@
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
 		// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
-		var elChildren = el.children[ 0 ];
+		// TODO: Code below is duplicated in line 2744. It could be extracted.
+		var firstIteration = true,
+			firstTextNode,
+			lastTextNode;
 
-		if ( typeof elChildren != 'undefined' && el.attributes[ 'data-cke-widget-data' ] === '%7B%7D' ) {
-			if ( typeof elChildren.value != 'undefined' ) {
-				// Check whether the value of the element contains white space at the beginning and at the end
-				// and replace it with &nbsp;.
-				if ( elChildren.value.match( /\s$/g ) || elChildren.value.match( /^\s/g ) ) {
-					el.attributes[ 'data-cke-widget-white-space' ] = 1;
-
-					elChildren.value = elChildren.value.replace( /\s$/g, '&nbsp;' );
-					elChildren.value = elChildren.value.replace( /^\s/g, '&nbsp;' );
-				}
+		el.forEach( function( node ) {
+			// Get first text node.
+			if ( node.type === 3 && firstIteration ) {
+				firstTextNode = node;
+				firstIteration = false;
 			}
 
-			// Check whether the element contains the children and the value of the first children contains white space at the beginning.
-			if ( typeof elChildren.children != 'undefined' && typeof elChildren.children[ 0 ] != 'undefined' && typeof elChildren.children[ 0 ].value != 'undefined' ) {
-				if ( elChildren.name && elChildren.children[ 0 ].value.match( /^\s/g ) ) {
-					el.attributes[ 'data-cke-widget-white-space' ] = 1;
-					elChildren.children[ 0 ].value = elChildren.children[ 0 ].value.replace( /^\s/g, '&nbsp;' );
-				}
+			// Get last text node.
+			if ( node.type === 3 ) {
+				lastTextNode = node;
 			}
+		} );
 
-			// Check whether the value of the last children contains white space at the end.
-			if ( el.children.slice( -1 )[ 0 ].value && el.children.slice( -1 )[ 0 ].value.match( /\s$/g ) ) {
-				el.attributes[ 'data-cke-widget-white-space' ] = 1;
-				el.children.slice( -1 )[ 0 ].value = el.children.slice( -1 )[ 0 ].value.replace( /\s$/g, '&nbsp;' );
-			}
+		// Add attribute to element if any white space will be replaced.
+		if ( firstTextNode.value.match( /^\s/g ) || lastTextNode.value.match( /\s$/g ) ) {
+			el.attributes[ 'data-cke-widget-white-space' ] = 1;
+		}
+
+		// Check whether the value of the text node contains white space at the beginning and replace it with &nbsp;.
+		if ( firstTextNode.value && firstTextNode.value.match( /^\s/g ) ) {
+			firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] = 1;
+			firstTextNode.value = firstTextNode.value.replace( /^\s/g, '&nbsp;' );
+		}
+
+		// Check whether the value of the text node contains white space at the end and replace it with &nbsp;.
+		if ( lastTextNode.value && lastTextNode.value.match( /\s$/g ) ) {
+			lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] = 1;
+			lastTextNode.value = lastTextNode.value.replace( /\s$/g, '&nbsp;' );
 		}
 
 		var parent = el.parent;
@@ -2743,19 +2749,31 @@
 
 				// Reset initial and trailing space by replacing &nbsp; with white space (#605).
 				if ( 'data-cke-widget-white-space' in attrs ) {
-					var elChildren = element.children[ 0 ];
+					var firstIteration = true,
+						firstTextNode,
+						lastTextNode;
 
-					if ( elChildren.value ) {
-						elChildren.value = elChildren.value.replace( /&nbsp;$/g, ' ' );
-						elChildren.value = elChildren.value.replace( /^&nbsp;/g, ' ' );
+					element.forEach( function( node ) {
+						// Get first text node.
+						if ( node.type === 3 && firstIteration ) {
+							firstTextNode = node;
+							firstIteration = false;
+						}
+
+						// Get last text node.
+						if ( node.type === 3 ) {
+							lastTextNode = node;
+						}
+					} );
+
+					// Check whether the value of the text node contains &nbsp; at the beginning and replace it with white space.
+					if ( firstTextNode.value && firstTextNode.value.match( /^&nbsp;/g ) ) {
+						firstTextNode.value = firstTextNode.value.replace( /^&nbsp;/g, ' ' );
 					}
 
-					if ( elChildren.name ) {
-						elChildren.children[ 0 ].value = elChildren.children[ 0 ].value.replace( /^&nbsp;/g, ' ' );
-					}
-
-					if ( element.children.slice( -1 )[ 0 ].value ) {
-						element.children.slice( -1 )[ 0 ].value = element.children.slice( -1 )[ 0 ].value.replace( /&nbsp;$/g, ' ' );
+					// Check whether the value of the text node contains &nbsp; at the end and replace it with white space.
+					if ( lastTextNode.value && lastTextNode.value.match( /&nbsp;$/g ) ) {
+						lastTextNode.value = lastTextNode.value.replace( /&nbsp;$/g, ' ' );
 					}
 				}
 
