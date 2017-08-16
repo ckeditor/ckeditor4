@@ -67,6 +67,25 @@
 
 				assert.isInnerHtmlMatching( stripExpectWhitespaces( expected ), editor.getSelectedHtml( true ) );
 			} );
+		},
+
+		// #787
+		'test extractSelectedHtml inside nested table': function( editor ) {
+			bender.tools.testInputOut( 'nested', function( input, expected ) {
+				var sel = editor.getSelection(),
+					ranges = [];
+
+				bender.tools.selection.setWithHtml( editor, input );
+
+				// Get ranges for all cells.
+				ranges = tableSelectionHelpers.getRangesForCells( editor, [ 2, 3 ] );
+
+				sel.selectRanges( ranges );
+
+				assert.areSame( '3344', editor.extractSelectedHtml( true ) );
+
+				bender.assert.beautified.html( expected, bender.tools.getHtmlWithSelection( editor ) );
+			} );
 		}
 	};
 
