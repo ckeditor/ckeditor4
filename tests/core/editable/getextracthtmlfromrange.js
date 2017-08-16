@@ -308,7 +308,10 @@
 			// #26 Context again, making our lives a misery.
 			[ '<p>a</p><table class="t1"><tbody><tr><td><p>b{c</p></td><td><table class="t2"><tbody><tr><td><p>d}e</p></td></tr></tbody></table></td></tr></tbody></table><p>g</p>',
 				'<table class="t1"><tbody><tr><td><p>c</p></td><td><table class="t2"><tbody><tr><td><p>d</p></td></tr></tbody></table></td></tr></tbody></table>',
-				'<p>a</p><table class="t1"><tbody><tr><td><p>b[]</p></td><td><table class="t2"><tbody><tr><td><p>e</p></td></tr></tbody></table></td></tr></tbody></table><p>g</p>' ]
+				'<p>a</p><table class="t1"><tbody><tr><td><p>b[]</p></td><td><table class="t2"><tbody><tr><td><p>e</p></td></tr></tbody></table></td></tr></tbody></table><p>g</p>' ],
+
+			// #787
+			[ '<table><tbody><tr><td>ab<table><tbody><tr>[<td>cd</td>]</tr></tbody></table>ef</td></tr></tbody></table>', 'cd', '<table><tbody><tr><td>ab<table><tbody><tr><td>[]@!</td></tr></tbody></table>ef</td></tr></tbody></table>' ]
 		],
 
 		'lists': [
