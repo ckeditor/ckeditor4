@@ -2057,21 +2057,23 @@
 		var firstTextNode = getFirstTextNode( el ),
 			lastTextNode = getLastTextNode( el );
 
-		// Add attribute to element if any white space will be replaced.
-		if ( firstTextNode.value.match( /^\s/g ) || lastTextNode.value.match( /\s$/g ) ) {
-			el.attributes[ 'data-cke-widget-white-space' ] = 1;
-		}
+		if ( firstTextNode || lastTextNode && el.attributes[ 'data-cke-widget-data' ] ) {
+			// Add attribute to element if any white space will be replaced.
+			if ( firstTextNode.value.match( /^\s/g ) || lastTextNode.value.match( /\s$/g ) ) {
+				el.attributes[ 'data-cke-widget-white-space' ] = 1;
+			}
 
-		// Check whether the value of the first text node contains white space at the beginning and replace it with &nbsp;.
-		if ( firstTextNode.value && firstTextNode.value.match( /^\s/g ) ) {
-			firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] = 1;
-			firstTextNode.value = firstTextNode.value.replace( /^\s/g, '&nbsp;' );
-		}
+			// Check whether the value of the first text node contains white space at the beginning and replace it with &nbsp;.
+			if ( firstTextNode.value && firstTextNode.value.match( /^\s/g ) ) {
+				firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] = 1;
+				firstTextNode.value = firstTextNode.value.replace( /^\s/g, '&nbsp;' );
+			}
 
-		// Check whether the value of the last text node contains white space at the end and replace it with &nbsp;.
-		if ( lastTextNode.value && lastTextNode.value.match( /\s$/g ) ) {
-			lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] = 1;
-			lastTextNode.value = lastTextNode.value.replace( /\s$/g, '&nbsp;' );
+			// Check whether the value of the last text node contains white space at the end and replace it with &nbsp;.
+			if ( lastTextNode.value && lastTextNode.value.match( /\s$/g ) ) {
+				lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] = 1;
+				lastTextNode.value = lastTextNode.value.replace( /\s$/g, '&nbsp;' );
+			}
 		}
 
 		var parent = el.parent;
