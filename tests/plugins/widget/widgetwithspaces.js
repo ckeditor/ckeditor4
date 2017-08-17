@@ -71,7 +71,7 @@
 				resume( function() {
 					assert.areSame(
 						'<strong data-cke-white-space-first="1">&nbsp;ipsum&nbsp;dolor</strong> sit&nbsp;',
-						editor.editable().getElementsByTag( 'span' ).$[ 1 ].innerHTML, 'innerHTML', 'innerHtml string' );
+						editor.editable().getElementsByTag( 'span' ).$[ 1 ].innerHTML.toLowerCase(), 'innerHTML', 'innerHtml string' );
 					assert.areSame(
 						'<p>lorem<span><strong> ipsum&nbsp;dolor</strong> sit </span>amet</p>',
 						editor.editable().getData(), 'editor data' );
