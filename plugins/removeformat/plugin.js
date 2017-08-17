@@ -35,6 +35,11 @@ CKEDITOR.plugins.removeformat = {
 					range;
 
 				while ( ( range = iterator.getNextRange() ) ) {
+					// Prevent of removing `span` element with `lang` and `dir` attribute (#779).
+					editor.addRemoveFormatFilter( function( element ) {
+						return !( element.is( 'span' ) && element.getAttribute( 'dir' ) && element.getAttribute( 'lang' ) );
+					} );
+
 					if ( !range.collapsed )
 						range.enlarge( CKEDITOR.ENLARGE_ELEMENT );
 
