@@ -2768,12 +2768,12 @@
 						lastTextNode = getLastTextNode( element );
 
 					// Check whether the value of the text node contains &nbsp; at the beginning and replace it with white space.
-					if ( firstTextNode.value && firstTextNode.value.match( /^&nbsp;/g ) ) {
+					if ( firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] && firstTextNode.value.match( /^&nbsp;/g ) ) {
 						firstTextNode.value = firstTextNode.value.replace( /^&nbsp;/g, ' ' );
 					}
 
 					// Check whether the value of the text node contains &nbsp; at the end and replace it with white space.
-					if ( lastTextNode.value && lastTextNode.value.match( /&nbsp;$/g ) ) {
+					if ( lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] && lastTextNode.value.match( /&nbsp;$/g ) ) {
 						lastTextNode.value = lastTextNode.value.replace( /&nbsp;$/g, ' ' );
 					}
 				}
