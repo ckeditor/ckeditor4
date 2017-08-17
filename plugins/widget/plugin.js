@@ -2054,36 +2054,21 @@
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
 		// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
-		// TODO: Code below is duplicated in line 2744. It could be extracted.
-		var firstIteration = true,
-			firstTextNode,
-			lastTextNode;
-
-		el.forEach( function( node ) {
-			// Get first text node.
-			if ( node.type === 3 && firstIteration ) {
-				firstTextNode = node;
-				firstIteration = false;
-			}
-
-			// Get last text node.
-			if ( node.type === 3 ) {
-				lastTextNode = node;
-			}
-		} );
+		var firstTextNode = getFirstTextNode( el ),
+			lastTextNode = getLastTextNode( el );
 
 		// Add attribute to element if any white space will be replaced.
 		if ( firstTextNode.value.match( /^\s/g ) || lastTextNode.value.match( /\s$/g ) ) {
 			el.attributes[ 'data-cke-widget-white-space' ] = 1;
 		}
 
-		// Check whether the value of the text node contains white space at the beginning and replace it with &nbsp;.
+		// Check whether the value of the first text node contains white space at the beginning and replace it with &nbsp;.
 		if ( firstTextNode.value && firstTextNode.value.match( /^\s/g ) ) {
 			firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] = 1;
 			firstTextNode.value = firstTextNode.value.replace( /^\s/g, '&nbsp;' );
 		}
 
-		// Check whether the value of the text node contains white space at the end and replace it with &nbsp;.
+		// Check whether the value of the last text node contains white space at the end and replace it with &nbsp;.
 		if ( lastTextNode.value && lastTextNode.value.match( /\s$/g ) ) {
 			lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] = 1;
 			lastTextNode.value = lastTextNode.value.replace( /\s$/g, '&nbsp;' );
@@ -2094,6 +2079,34 @@
 		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] ) {
 			parent.replaceWith( el );
 		}
+	}
+
+	// Get first text node (#605).
+	function getFirstTextNode( el ) {
+		var firstIteration = true,
+			firstTextNode;
+
+		el.forEach( function( node ) {
+			if ( node.type === 3 && firstIteration ) {
+				firstTextNode = node;
+				firstIteration = false;
+			}
+		} );
+
+		return firstTextNode;
+	}
+
+	// Get last text node (#605).
+	function getLastTextNode( el ) {
+		var lastTextNode;
+
+		el.forEach( function( node ) {
+			if ( node.type === 3 ) {
+				lastTextNode = node;
+			}
+		} );
+
+		return lastTextNode;
 	}
 
 	// Similar to cleanUpWidgetElement, but works on DOM and finds
@@ -2749,22 +2762,8 @@
 
 				// Reset initial and trailing space by replacing &nbsp; with white space (#605).
 				if ( 'data-cke-widget-white-space' in attrs ) {
-					var firstIteration = true,
-						firstTextNode,
-						lastTextNode;
-
-					element.forEach( function( node ) {
-						// Get first text node.
-						if ( node.type === 3 && firstIteration ) {
-							firstTextNode = node;
-							firstIteration = false;
-						}
-
-						// Get last text node.
-						if ( node.type === 3 ) {
-							lastTextNode = node;
-						}
-					} );
+					var firstTextNode = getFirstTextNode( element ),
+						lastTextNode = getLastTextNode( element );
 
 					// Check whether the value of the text node contains &nbsp; at the beginning and replace it with white space.
 					if ( firstTextNode.value && firstTextNode.value.match( /^&nbsp;/g ) ) {
