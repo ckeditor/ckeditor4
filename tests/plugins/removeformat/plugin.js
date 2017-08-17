@@ -163,5 +163,4 @@ bender.test(
 
 		assert.areEqual( '<p><span dir="ltr" lang="fr">Lorem ipsum dolor somit</span></p>', this.editor.getData(), 'Span element with atrributes should not be removed.' );
 	}
-
 } );
