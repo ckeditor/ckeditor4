@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, 4.7.0, tp2259, htmldataprocessor
+@bender-tags: bug, 4.7.0, tp2259, htmldataprocessor
 @bender-ckeditor-plugins: wysiwygarea,sourcearea,htmlwriter,toolbar,elementspath,undo,clipboard,basicstyles,divarea
 
 ## Iframe `src=javascript/data` escaping

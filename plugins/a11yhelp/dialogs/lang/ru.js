@@ -81,8 +81,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ru', {
 			legend: 'Нажмите ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
+			name: 'Вставить только текст',
+			legend: 'Нажмите ${pastetext}',
 			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]

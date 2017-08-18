@@ -12,7 +12,6 @@
 
 CKEDITOR.plugins.add( 'notification', {
 	lang: 'az,ca,cs,da,de,de-ch,en,eo,es,es-mx,eu,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,oc,pl,pt,pt-br,ru,sk,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
-	requires: 'toolbar',
 
 	init: function( editor ) {
 		editor._.notificationArea = new Area( editor );
@@ -613,8 +612,8 @@ Area.prototype = {
 			editor = this.editor,
 			contentsRect = editor.ui.contentsElement.getClientRect(),
 			contentsPos = editor.ui.contentsElement.getDocumentPosition(),
-			top = editor.ui.space( 'top' ),
-			topRect = top.getClientRect(),
+			top,
+			topRect,
 			areaRect = area.getClientRect(),
 			notification,
 			notificationWidth = this._notificationWidth,
@@ -635,6 +634,13 @@ Area.prototype = {
 				parseInt( notification.getComputedStyle( 'margin-right' ), 10 );
 		}
 
+		// Check if toolbar exist and if so, then assign values to it (#491).
+		if ( editor.toolbar ) {
+			top = editor.ui.space( 'top' );
+			topRect = top.getClientRect();
+		}
+
+
 		// --------------------------------------- Horizontal layout ----------------------------------------
 
 		// +---Viewport-------------------------------+          +---Viewport-------------------------------+
@@ -651,7 +657,7 @@ Area.prototype = {
 		// | |                                      | |          | |                                      | |
 		// | +--------------------------------------+ |          | +--------------------------------------+ |
 		// +------------------------------------------+          +------------------------------------------+
-		if ( top.isVisible() &&
+		if ( top && top.isVisible() &&
 			topRect.bottom > contentsRect.top &&
 			topRect.bottom < contentsRect.bottom - areaRect.height ) {
 			setBelowToolbar();

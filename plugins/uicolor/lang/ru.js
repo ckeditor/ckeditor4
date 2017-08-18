@@ -7,7 +7,7 @@ CKEDITOR.plugins.setLang( 'uicolor', 'ru', {
 	title: 'Выбор цвета интерфейса',
 	options: 'Color Options', // MISSING
 	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	selected: 'Выбранный цвет',
 	predefined: 'Предопределенные цветовые схемы',
 	config: 'Вставьте эту строку в файл config.js'
 } );

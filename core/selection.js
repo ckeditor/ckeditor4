@@ -995,7 +995,8 @@
 					range = sel.createRange();
 
 				// The selection range is reported on host, but actually it should applies to the content doc.
-				if ( sel.type != 'None' && range.parentElement().ownerDocument == doc.$ )
+				// The parentElement may be null for read only mode in IE10 and below (http://dev.ckeditor.com/ticket/9780).
+				if ( sel.type != 'None' && range.parentElement() && range.parentElement().ownerDocument == doc.$ )
 					range.select();
 			}
 
@@ -1402,7 +1403,7 @@
 		 *
 		 *		var selection = editor.getSelection().getNative();
 		 *
-		 * @returns {Object} The native browser selection object.
+		 * @returns {Object} The native browser selection object or null if this is a fake selection.
 		 */
 		getNative: function() {
 			if ( this._.cache.nativeSel !== undefined )
@@ -2272,10 +2273,12 @@
 		 *		editor.getSelection().isInTable();
 		 *
 		 * @since 4.7.0
+		 * @param {Boolean} [allowPartialSelection=false] Whether a partial cell selection should be included.
+		 * Added in 4.7.2.
 		 * @returns {Boolean}
 		 */
-		isInTable: function() {
-			return isTableSelection( this.getRanges() );
+		isInTable: function( allowPartialSelection ) {
+			return isTableSelection( this.getRanges(), allowPartialSelection );
 		},
 
 		/**

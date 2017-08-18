@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: entities,dialog,tabletools,toolbar */
 
 ( function() {
@@ -38,6 +38,22 @@
 			this.doTest( 'add-row-after-multi', 'rowInsertAfter' );
 		},
 
+		'test tabletools.insertRow() return value': function() {
+			var doc = CKEDITOR.document,
+				playground = doc.getById( 'playground' ),
+				table,
+				ret;
+
+			playground.setHtml( doc.findOne( '#row-height-conversion' ).getValue() );
+
+			table = playground.findOne( 'table' );
+
+			ret = CKEDITOR.plugins.tabletools.insertRow( [ table.findOne( 'td' ) ] );
+
+			assert.isInstanceOf( CKEDITOR.dom.element, ret, 'Returned type' );
+			assert.areSame( table.find( 'tr' ).getItem( 1 ), ret, 'Returned element' );
+		},
+
 		'test insert col before': function() {
 			this.doTest( 'add-col-before', 'columnInsertBefore' );
 			this.doTest( 'add-col-before-2', 'columnInsertBefore' );
@@ -53,6 +69,24 @@
 			this.doTest( 'add-col-after-3', 'columnInsertAfter' );
 			this.doTest( 'add-col-after-4', 'columnInsertAfter' );
 			this.doTest( 'add-col-after-multi', 'columnInsertAfter' );
+		},
+
+		'test tabletools.insertColumn() return value': function() {
+			var doc = CKEDITOR.document,
+				playground = doc.getById( 'playground' ),
+				table,
+				ret;
+
+			playground.setHtml( doc.findOne( '#delete-cell-trailing' ).getValue() );
+
+			table = playground.findOne( 'table' );
+
+			ret = CKEDITOR.plugins.tabletools.insertColumn( [ table.find( 'td' ).getItem( 1 ), table.find( 'td' ).getItem( 3 ) ] );
+
+			assert.isArray( ret, 'Return type' );
+			assert.areSame( 2, ret.length, 'Returned items' );
+			assert.areSame( table.find( 'td' ).getItem( 2 ), ret[ 0 ], 'Returned element  0' );
+			assert.areSame( table.find( 'td' ).getItem( 5 ), ret[ 1 ], 'Returned element  1' );
 		},
 
 		'test merge cells': function() {

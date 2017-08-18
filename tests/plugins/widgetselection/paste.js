@@ -1,4 +1,4 @@
-/* bender-tags: 4.6.1, tc, 11064, widgetselection */
+/* bender-tags: 4.6.1, trac11064, widgetselection */
 /* bender-ckeditor-plugins: wysiwygarea, widgetselection, clipboard */
 
 ( function() {

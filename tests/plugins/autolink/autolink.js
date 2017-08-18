@@ -1,6 +1,6 @@
 'use strict';
 
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: autolink,clipboard */
 /* bender-include: ../clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */

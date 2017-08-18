@@ -79,16 +79,17 @@
 	window.createPasteTestCase = function( fixtureId, pasteFixtureId ) {
 		return function( editor, bot ) {
 			bender.tools.testInputOut( fixtureId, function( source, expected ) {
-				editor.once( 'paste', function() {
+				editor.once( 'afterPaste', function() {
 					resume( function() {
 						shrinkSelections( editor );
 						bender.assert.beautified.html( expected, bender.tools.getHtmlWithSelection( editor ) );
 					} );
-				}, null, null, 1 );
+				}, null, null, 999 );
 
 				bot.setHtmlWithSelection( source );
 
-				bender.tools.emulatePaste( editor, CKEDITOR.document.getById( pasteFixtureId ).getOuterHtml() );
+				// Use clone, so that pasted table does not have an ID.
+				bender.tools.emulatePaste( editor, CKEDITOR.document.getById( pasteFixtureId ).clone( true ).getOuterHtml() );
 
 				wait();
 			} );

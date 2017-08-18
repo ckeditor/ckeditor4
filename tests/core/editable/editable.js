@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 var testEditable = CKEDITOR.tools.createClass( {
 	base: CKEDITOR.editable,

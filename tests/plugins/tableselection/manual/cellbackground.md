@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, trac16755, 4.7.0, tp2247
+@bender-tags: bug, trac16755, 4.7.0, tp2247
 @bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, elementspath
 
 1. Select two cells in the first row.

@@ -1,4 +1,4 @@
-@bender-tags: tc, 4.7.0, tp2098
+@bender-tags: bug, 4.7.0, tp2098
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, clipboard, pastefromword, pastetext
 

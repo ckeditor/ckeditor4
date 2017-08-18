@@ -1,5 +1,5 @@
 /* bender-tags: tableselection, clipboard */
-/* bender-ckeditor-plugins: tableselection */
+/* bender-ckeditor-plugins: undo,tableselection */
 /* bender-include: ../../_helpers/tableselection.js */
 /* global tableSelectionHelpers */
 
@@ -13,32 +13,50 @@
 		}
 	};
 
-	var tests = {
-		'test paste flow': function( editor, bot ) {
-			bender.tools.testInputOut( 'simple-paste', function( source, expected ) {
-				var beforePasteStub = sinon.stub(),
-					pasteStub = sinon.stub(),
-					afterPasteStub = sinon.stub();
-				bot.setHtmlWithSelection( source );
+	function testPasteFlow( bot, caseName, fixture ) {
+		var editor = bot.editor;
 
-				editor.on( 'beforePaste', beforePasteStub );
-				editor.on( 'paste', pasteStub, null, null, 0 );
-				editor.once( 'afterPaste', function() {
-					resume( function() {
-						afterPasteStub();
+		bender.tools.testInputOut( caseName, function( source, expected ) {
+			var beforePasteStub = sinon.stub(),
+				pasteStub = sinon.stub(),
+				afterPasteStub = sinon.stub(),
+				removeBeforeStub,
+				removePasteStub,
+				removeAfterStub;
 
-						bender.assert.beautified.html( expected, bot.editor.getData() );
+			bot.setHtmlWithSelection( source );
 
-						assert.areSame( 1, beforePasteStub.callCount, 'beforePaste even count' );
-						assert.areSame( 1, pasteStub.callCount, 'paste event count' );
-						assert.areSame( 1, afterPasteStub.callCount, 'afterPaste event count' );
-					} );
+			removeBeforeStub = editor.on( 'beforePaste', beforePasteStub );
+			removePasteStub = editor.on( 'paste', pasteStub, null, null, 0 );
+			removeAfterStub = editor.on( 'afterPaste', afterPasteStub );
+
+			editor.once( 'afterPaste', function() {
+				resume( function() {
+					bender.assert.beautified.html( expected, bot.editor.getData() );
+
+					removeBeforeStub.removeListener();
+					removePasteStub.removeListener();
+					removeAfterStub.removeListener();
+
+					assert.areSame( 1, beforePasteStub.callCount, 'beforePaste even count' );
+					assert.areSame( 1, pasteStub.callCount, 'paste event count' );
+					assert.areSame( 1, afterPasteStub.callCount, 'afterPaste event count' );
 				} );
+			}, null, null, 999 );
 
-				bender.tools.emulatePaste( editor, CKEDITOR.document.getById( '2cells1row' ).getOuterHtml() );
+			bender.tools.emulatePaste( editor, CKEDITOR.document.getById( fixture ).getOuterHtml() );
 
-				wait();
-			} );
+			wait();
+		} );
+	}
+
+	var tests = {
+		'test paste flow (tabular content)': function( editor, bot ) {
+			testPasteFlow( bot, 'tabular-paste', '2cells1row' );
+		},
+
+		'test paste flow (non-tabular content)': function( editor, bot ) {
+			testPasteFlow( bot, 'nontabular-paste', 'paragraph' );
 		}
 	};
 

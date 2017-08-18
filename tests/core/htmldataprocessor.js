@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: entities,list,htmlwriter */
 
 ( function() {
@@ -1326,11 +1326,13 @@
 		// Only WebKit removes preceding spaces in the attribute.
 		'<p><iframe src="' + ( CKEDITOR.env.webkit ? '' : '   ' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
 
-	// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in Edge/IE8 and also Chrome on Linux.
+	// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in few browsers.
 	// IE8 treats it as an URL and opens it which reloads the whole page.
-	// While on Edge the tests passes, the browser prompts with "open as" dialog.
+	// While on Edge and IE11 (starting from Windows 8) the test passes, the browser prompts with "open as" dialog (which may break subsequent tests).
 	// On Chrome Linux it prompts `Open xdg-open?` dialog, which gains focus so other tests requiring focus fails.
-	if ( !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 || CKEDITOR.env.edge ) && !( CKEDITOR.env.chrome && bender.tools.env.linux ) ) {
+	if ( !( CKEDITOR.env.ie && ( CKEDITOR.env.version == 8 || CKEDITOR.env.version == 11 ) ) &&
+		!( CKEDITOR.env.edge ) &&
+		!( CKEDITOR.env.chrome && bender.tools.env.linux ) ) {
 		addXssTC( tcs, 'iframe with src=javascript 4',
 			'<p><iframe src="&#10;&#106;javascript:window.parent.%xss%;"></iframe></p>',
 			// In IE9 the new line entity (&#10;) is removed.

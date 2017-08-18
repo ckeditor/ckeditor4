@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'zh-cn', {
 	title: '用户界面颜色选择器',
-	options: 'Color Options', // MISSING
-	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	options: '颜色选项',
+	highlight: '高亮',
+	selected: '已选颜色',
 	predefined: '预定义颜色集',
 	config: '粘贴此字符串到您的 config.js 文件'
 } );

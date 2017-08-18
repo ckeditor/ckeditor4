@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard,filetools */
+/* bender-tags: editor,clipboard,filetools */
 /* bender-ckeditor-plugins: filetools */
 
 'use strict';
