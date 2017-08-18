@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: undo,basicstyles,toolbar,wysiwygarea */
+/* bender-ckeditor-plugins: undo,clipboard,basicstyles,toolbar,wysiwygarea */
 /* global undoEventDispatchTestsTools */
 
 ( function() {
@@ -180,6 +180,27 @@
 				// After setting text - caret is moved to beginning. We don't care - it does not change nothing.
 				keyTools.keyEvent( keyCodesEnum.LEFT, null, true );
 			} );
+		},
+
+		// #554
+		'test change event fired on type after paste': function() {
+			this.editorBot.setHtmlWithSelection( '<p>foo^</p>' );
+
+			var that = this,
+				keys = this.keyTools.keyCodesEnum;
+
+			bender.tools.emulatePaste( this.editor, 'PASTE' );
+
+			this.editor.once( 'afterPaste', function() {
+				resume( function() {
+					changeCounter = 0;
+					that.checkChange( function() {
+						that.keyTools.keyEvent( keys.KEY_G );
+					} );
+				} );
+			} );
+
+			wait();
 		}
 	} );
 

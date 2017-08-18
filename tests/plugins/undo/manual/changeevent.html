@@ -1,0 +1,14 @@
+<div id="editor1">
+	<p>Paste something here:</p>
+</div>
+<div id="changes"></div>
+
+<script>
+	var i = 1;
+	var changes = document.getElementById( 'changes' );
+	CKEDITOR.replace( 'editor1' ).on("change", function () {
+		var elem = document.createElement( 'div' );
+		elem.innerText = 'changes ' + i++;
+		changes.appendChild( elem );
+	});
+</script>
