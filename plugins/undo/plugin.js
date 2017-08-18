@@ -1051,6 +1051,7 @@
 
 		/**
 		 * Stop ignoring `input` events.
+		 * @since 4.7.3
 		 */
 		activateInputEventListener: function() {
 			this.ignoreInputEvent = false;
@@ -1087,7 +1088,7 @@
 			editable.attachListener( editable, 'paste', that.ignoreInputEventListener, that, null, 999 );
 			editable.attachListener( editable, 'drop', that.ignoreInputEventListener, that, null, 999 );
 
-			// After paste we need to re-enable input event listener
+			// After paste we need to re-enable input event listener (#554).
 			editor.on( 'afterPaste', that.activateInputEventListener, that, null, 999 );
 
 			// Click should create a snapshot if needed, but shouldn't cause change event.
