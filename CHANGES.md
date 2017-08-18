@@ -3,10 +3,6 @@
 
 ## CKEditor 4.7.3
 
-Fixed Issues:
-
-* [#554](https://github.com/ckeditor/ckeditor-dev/issues/554): Fixed: [`change`](https://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event not fired when typing the first character after pasting into the editor. Thanks to [Daniel Miller](https://github.com/millerdev)!
-
 ## CKEditor 4.7.2
 
 New Features:
