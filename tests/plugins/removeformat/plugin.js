@@ -160,7 +160,6 @@ bender.test(
 			'<p>[<span style="color:#ecf0f1"><span dir="ltr" lang="fr"><span style="background-color:#e74c3c">Lorem ipsum dolor somit</span></span></span>]</p>'
 		);
 		this.editor.execCommand( 'removeFormat' );
-
-		assert.areEqual( '<p><span dir="ltr" lang="fr">Lorem ipsum dolor somit</span></p>', this.editor.getData(), 'Span element with atrributes should not be removed.' );
+		assert.beautified.html( '<p><span dir="ltr" lang="fr">Lorem ipsum dolor somit</span></p>', this.editor.getData(), 'Span element with atrributes should not be removed.' );
 	}
 } );
