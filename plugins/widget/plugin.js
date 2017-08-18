@@ -21,22 +21,22 @@
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
 					'position:relative;' +
-					'outline:none' +
+					'box-shadow:none' +
 				'}' +
 				'.cke_widget_inline{' +
 					'display:inline-block' +
 				'}' +
 				'.cke_widget_wrapper:hover>.cke_widget_element{' +
-					'outline:2px solid yellow;' +
+					'box-shadow:0 0 2px yellow;' +
 					'cursor:default' +
 				'}' +
 				'.cke_widget_wrapper:hover .cke_widget_editable{' +
-					'outline:2px solid yellow' +
+					'box-shadow:0 0 2px yellow' +
 				'}' +
 				'.cke_widget_wrapper.cke_widget_focused>.cke_widget_element,' +
 				// We need higher specificity than hover style.
 				'.cke_widget_wrapper .cke_widget_editable.cke_widget_editable_focused{' +
-					'outline:2px solid #ace' +
+					'box-shadow:0 0 2px #ace' +
 				'}' +
 				'.cke_widget_editable{' +
 					'cursor:text' +
