@@ -2054,25 +2054,27 @@
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
 		// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
-		var firstTextNode = getFirstTextNode( el ),
-			lastTextNode = getLastTextNode( el );
-
-		if ( firstTextNode || lastTextNode && el.attributes[ 'data-cke-widget-data' ] ) {
-			// Add attribute to element if any white space will be replaced.
-			if ( firstTextNode.value.match( /^\s/g ) || lastTextNode.value.match( /\s$/g ) ) {
-				el.attributes[ 'data-cke-widget-white-space' ] = 1;
-			}
+		if ( el.attributes[ 'data-cke-widget-data' ] ) {
+			var firstTextNode = getFirstTextNode( el ),
+				lastTextNode = getLastTextNode( el ),
+				spacesReplaced = false;
 
 			// Check whether the value of the first text node contains white space at the beginning and replace it with &nbsp;.
-			if ( firstTextNode.value && firstTextNode.value.match( /^\s/g ) ) {
+			if ( firstTextNode && firstTextNode.value && firstTextNode.value.match( /^\s/g ) ) {
 				firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] = 1;
 				firstTextNode.value = firstTextNode.value.replace( /^\s/g, '&nbsp;' );
+				spacesReplaced = true;
 			}
 
 			// Check whether the value of the last text node contains white space at the end and replace it with &nbsp;.
-			if ( lastTextNode.value && lastTextNode.value.match( /\s$/g ) ) {
+			if ( lastTextNode && lastTextNode.value && lastTextNode.value.match( /\s$/g ) ) {
 				lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] = 1;
 				lastTextNode.value = lastTextNode.value.replace( /\s$/g, '&nbsp;' );
+				spacesReplaced = true;
+			}
+
+			if ( spacesReplaced ) {
+				el.attributes[ 'data-cke-widget-white-space' ] = 1;
 			}
 		}
 
@@ -2083,32 +2085,16 @@
 		}
 	}
 
-	// Get first text node (#605).
 	function getFirstTextNode( el ) {
-		var firstIteration = true,
-			firstTextNode;
-
-		el.forEach( function( node ) {
-			if ( node.type === 3 && firstIteration ) {
-				firstTextNode = node;
-				firstIteration = false;
-			}
-		} );
-
-		return firstTextNode;
+		return el.find( function( node ) {
+			return node.type === 3;
+		}, true ).shift();
 	}
 
-	// Get last text node (#605).
 	function getLastTextNode( el ) {
-		var lastTextNode;
-
-		el.forEach( function( node ) {
-			if ( node.type === 3 ) {
-				lastTextNode = node;
-			}
-		} );
-
-		return lastTextNode;
+		return el.find( function( node ) {
+			return node.type === 3;
+		}, true ).pop();
 	}
 
 	// Similar to cleanUpWidgetElement, but works on DOM and finds
@@ -2768,12 +2754,12 @@
 						lastTextNode = getLastTextNode( element );
 
 					// Check whether the value of the text node contains &nbsp; at the beginning and replace it with white space.
-					if ( firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] && firstTextNode.value.match( /^&nbsp;/g ) ) {
+					if ( firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] ) {
 						firstTextNode.value = firstTextNode.value.replace( /^&nbsp;/g, ' ' );
 					}
 
 					// Check whether the value of the text node contains &nbsp; at the end and replace it with white space.
-					if ( lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] && lastTextNode.value.match( /&nbsp;$/g ) ) {
+					if ( lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] ) {
 						lastTextNode.value = lastTextNode.value.replace( /&nbsp;$/g, ' ' );
 					}
 				}
