@@ -11,6 +11,7 @@ Fixed Issues:
 
 * [#554](https://github.com/ckeditor/ckeditor-dev/issues/554): Fixed: [`change`](https://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event not fired when typing the first character after pasting into the editor. Thanks to [Daniel Miller](https://github.com/millerdev)!
 * [#566](https://github.com/ckeditor/ckeditor-dev/issues/566): Fixed: The CSS border shorthand property with zero width (`border: 0px solid #000;`) no longer causes table to have border attribute set to 1.
+* [#779](https://github.com/ckeditor/ckeditor-dev/issues/779): Fixed: [Remove Format](https://ckeditor.com/addon/removeformat) plugin removes elements with language definition inserted by [Language](https://ckeditor.com/addon/language) plugin.
 
 ## CKEditor 4.7.2
 
