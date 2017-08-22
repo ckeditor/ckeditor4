@@ -3,6 +3,10 @@
 
 ## CKEditor 4.7.3
 
+New Features:
+
+* [#568](https://github.com/ckeditor/ckeditor-dev/issues/568): Added possibility to adjust nested editables' filters using [`CKEDITOR.filter.disallowedContent`](https://docs.ckeditor.com/#!/api/CKEDITOR.filter-property-disallowedContent) property.
+
 Fixed Issues:
 
 * [#554](https://github.com/ckeditor/ckeditor-dev/issues/554): Fixed: [`change`](https://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event not fired when typing the first character after pasting into the editor. Thanks to [Daniel Miller](https://github.com/millerdev)!
