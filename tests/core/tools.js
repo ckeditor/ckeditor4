@@ -22,6 +22,22 @@
 		};
 	}
 
+	function generateMouseButtonAsserts( inputs ) {
+		function generateEvent( button ) {
+			return {
+				data: {
+					$: {
+						button: button
+					}
+				}
+			};
+		}
+
+		CKEDITOR.tools.array.forEach( inputs, function( input ) {
+			assert.areSame( input[ 0 ], CKEDITOR.tools.getMouseButton( generateEvent( input[ 1 ] ) ) );
+		} );
+	}
+
 	bender.test( {
 		test_extend: function() {
 			function fakeFn() {}
@@ -773,6 +789,32 @@
 
 			// Check standard selector.
 			assert.areSame( escapedSelector, 'aaa', 'standard selector' );
+		},
+
+		// #810
+		'test getMouseButton': function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
+
+			generateMouseButtonAsserts( [
+				[ CKEDITOR.MOUSEBUTTON_LEFT, CKEDITOR.MOUSEBUTTON_LEFT ],
+				[ CKEDITOR.MOUSEBUTTON_MIDDLE, CKEDITOR.MOUSEBUTTON_MIDDLE ],
+				[ CKEDITOR.MOUSEBUTTON_RIGHT, CKEDITOR.MOUSEBUTTON_RIGHT ]
+			] );
+		},
+
+		// #810
+		'test getMouseButton (IE8)': function() {
+			if ( !CKEDITOR.env.ie || CKEDITOR.env.version >= 9 ) {
+				assert.ignore();
+			}
+
+			generateMouseButtonAsserts( [
+				[ CKEDITOR.MOUSEBUTTON_LEFT, 1 ],
+				[ CKEDITOR.MOUSEBUTTON_MIDDLE, 4 ],
+				[ CKEDITOR.MOUSEBUTTON_RIGHT, 2 ]
+			] );
 		}
 	} );
 } )();
