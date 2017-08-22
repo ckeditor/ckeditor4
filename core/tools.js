@@ -1463,6 +1463,36 @@
 		},
 
 		/**
+		 * Detects, which mouse button generated given DOM event
+		 *
+		 * @since 4.7.3
+		 * @param {CKEDITOR.dom.event} evt DOM event.
+		 * @returns {Number}
+		 */
+		getMouseButton: function( evt ) {
+			var evtData = evt.data,
+				domEvent = evtData && evtData.$;
+
+			if ( !( evtData && domEvent ) ) {
+				// Added in case when there's no data available. That's the case in some unit test in built version which
+				// mock event but doesn't put data object.
+				return false;
+			}
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				if ( domEvent.button === 4 ) {
+					return CKEDITOR.MOUSEBUTTON_MIDDLE;
+				} else if ( domEvent.button === 1 ) {
+					return CKEDITOR.MOUSEBUTTON_LEFT;
+				} else {
+					return CKEDITOR.MOUSEBUTTON_RIGHT;
+				}
+			}
+
+			return domEvent.button;
+		},
+
+		/**
 		 * A set of functions for operations on styles.
 		 *
 		 * @property {CKEDITOR.tools.style}
@@ -1980,7 +2010,35 @@
 	 */
 	CKEDITOR.tools.array.isArray = CKEDITOR.tools.isArray;
 
+	/**
+	 * Left mouse button.
+	 *
+	 * @since 4.7.3
+	 * @readonly
+	 * @property {Number} [=0]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.MOUSEBUTTON_LEFT = 0;
 
+	/**
+	 * Middle mouse button.
+	 *
+	 * @since 4.7.3
+	 * @readonly
+	 * @property {Number} [=1]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.MOUSEBUTTON_MIDDLE = 1;
+
+	/**
+	 * Right mouse button.
+	 *
+	 * @since 4.7.3
+	 * @readonly
+	 * @property {Number} [=2]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.MOUSEBUTTON_RIGHT = 2;
 
 	/**
 	 * The namespace containing functions to work on CSS properties.
