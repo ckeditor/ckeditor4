@@ -630,6 +630,7 @@
 			} );
 		},
 
+		// #568
 		'test nested editable editableDef.disallowedContent filter works with editableDef.allowedContent': function() {
 			var editor = this.editor,
 				data = '<p>Foo</p><div data-widget="testprocessing3" id="w1"><p id="foo">B</p></div>';
@@ -653,6 +654,7 @@
 			} );
 		},
 
+		// #568
 		'test nested editable editableDef.disallowedContent filter works based on editor.filter': function() {
 			var editor = this.editor,
 				data = '<p>Foo</p><div data-widget="testprocessing4" id="w1"><p id="foo">B</p></div>',
