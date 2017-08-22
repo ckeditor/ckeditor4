@@ -563,7 +563,15 @@
 			canUndo: true,
 			modes: { wysiwyg: 1 },
 			label: insertAfter ? that.editor.lang.magicline.commands.nextSpace.label : that.editor.lang.magicline.commands.previousSpace.label,
-			keystrokeDescription: insertAfter ? that.editor.lang.magicline.commands.nextSpace.description : that.editor.lang.magicline.commands.previousSpace.description,
+			getKeystrokeDescription: function() {
+				// Variable assignments for shorter expressions.
+				var editor = that.editor,
+					langCmds = editor.lang.magicline.commands;
+
+				return insertAfter ?
+					langCmds.nextSpace.description.replace( '${next}', CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( 'accessNextSpace' ) ) ) :
+					langCmds.previousSpace.description.replace( '${previous}', CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( 'accessPreviousSpace' ) ) );
+			},
 			exec: ( function() {
 
 				// Inserts line (accessNode) at the position by taking target node as a reference.

@@ -87,7 +87,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		// Get data necessary for filling table.
 		CKEDITOR.tools.array.forEach( commandItems, function( commandItem ) {
 			commandItem.label = commandItem.command.getLabel();
-			commandItem.description = commandItem.command.getKeystrokeDescription();
+			commandItem.keystrokeDescription = commandItem.command.getKeystrokeDescription();
 			commandItem.keystrokeHtml = CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( commandItem.command ) );
 		} );
 
@@ -99,7 +99,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		// Create inner table with commands.
 		commandsTbodyHtml = commandsTbodyTpl.replace( '%1', CKEDITOR.tools.array.reduce( commandItems, function( acc, commandItem, index ) {
 			var tmpCommandRowTpl = index % 2 ? commandRowTpl.replace( '%1', '' ) : commandRowTpl.replace( '%1', ' class="cke_accessibility_table_odd"' );
-			return acc + tmpCommandRowTpl.replace( '%2', commandItem.label ).replace( '%3', commandItem.keystrokeHtml + ( commandItem.description ? '<br />' + commandItem.description : '' ) );
+			return acc + tmpCommandRowTpl.replace( '%2', commandItem.label ).replace( '%3', commandItem.keystrokeDescription ? commandItem.keystrokeDescription : commandItem.keystrokeHtml );
 		} , '' ) );
 
 		// Push section's HTML code to output file.

@@ -47,10 +47,11 @@
 		getKeystrokeDescription: function( editor ) {
 			// Add extra description for Edge browser.
 			if ( CKEDITOR.env.edge ) {
-				return editor.lang.pastetext.edgeCommandDescription.replace( '${paste}',
-						CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( 'paste' ) ) );
+				return editor.lang.pastetext.commandKeystrokeEdge
+					.replace( '${pastetext}', CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( 'pastetext' ) ) )
+					.replace( '${paste}', CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( 'paste' ) ) );
 			} else {
-				return '';
+				return CKEDITOR.plugins.a11yhelp.representKeystroke( editor, editor.getCommandKeystroke( 'pastetext' ) );
 			}
 		}
 	};
