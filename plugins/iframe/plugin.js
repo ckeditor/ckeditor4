@@ -70,6 +70,7 @@
 		afterInit: function( editor ) {
 			var dataProcessor = editor.dataProcessor,
 				dataFilter = dataProcessor && dataProcessor.dataFilter;
+
 			if ( dataFilter ) {
 				dataFilter.addRules( {
 					elements: {
