@@ -86,17 +86,8 @@
 		return cells;
 	}
 
-	// Detects if the left mouse button was pressed:
-	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
-	// * In IE 8- we use event.button with IE's proprietary values.
 	function detectLeftMouseButton( evt ) {
-		var domEvent = evt.data.$;
-
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-			return domEvent.button === 1;
-		}
-
-		return domEvent.button === 0;
+		return CKEDITOR.tools.getMouseButton( evt ) === CKEDITOR.MOUSEBUTTON_LEFT;
 	}
 
 	// Checks whether a given range fully contains a table element (cell/tbody/table etc).
