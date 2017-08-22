@@ -153,4 +153,5 @@ bender.test(
 			assert.areEqual( '<p>foo <b>bar</b></p>', bot.getData() );
 		} );
 	}
+
 } );
