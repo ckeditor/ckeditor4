@@ -119,6 +119,13 @@
 					return activeItems;
 				}
 			} );
+
+			// Prevent of removing `span` element with `lang` and `dir` attribute (#779).
+			if ( editor.addRemoveFormatFilter ) {
+				editor.addRemoveFormatFilter( function( element ) {
+					return !( element.is( 'span' ) && element.getAttribute( 'dir' ) && element.getAttribute( 'lang' ) );
+				} );
+			}
 		},
 
 		// Gets the first language element for the current editor selection.
