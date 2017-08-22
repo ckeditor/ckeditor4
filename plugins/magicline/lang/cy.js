@@ -8,11 +8,11 @@ CKEDITOR.plugins.setLang( 'magicline', 'cy', {
 	commands: {
 		previousSpace: {
 			label: 'Myned i orchymyn bwlch ffocws blaenorol',
-			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+			description: 'Press ${previous} to access the closest unreachable focus space before the caret.' // MISSING
 		},
 		nextSpace: {
 			label: 'Ewch i\'r gorchymyn blwch ffocws nesaf',
-			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+			description: 'Press ${next} to access the closest unreachable focus space after the caret.' // MISSING
 		}
 	}
 } );

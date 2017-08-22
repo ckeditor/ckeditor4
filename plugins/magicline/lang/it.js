@@ -8,11 +8,11 @@ CKEDITOR.plugins.setLang( 'magicline', 'it', {
 	commands: {
 		previousSpace: {
 			label: 'Comando di accesso al precedente spazio di focus',
-			description: 'Press above keystroke to access the closest unreachable focus space before the caret.' // MISSING
+			description: 'Press ${previous} to access the closest unreachable focus space before the caret.' // MISSING
 		},
 		nextSpace: {
 			label: 'Comando di accesso al prossimo spazio di focus',
-			description: 'Press above keystroke to access the closest unreachable focus space after the caret.' // MISSING
+			description: 'Press ${next} to access the closest unreachable focus space after the caret.' // MISSING
 		}
 	}
 } );
