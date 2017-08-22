@@ -1093,6 +1093,19 @@
 			wait();
 		},
 
+		// #800
+		'isCollapsed with table selection': function() {
+			var editor = this.editor,
+				ranges;
+
+			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
+
+			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 1 ] );
+			editor.getSelection().selectRanges( ranges );
+
+			assert.isFalse( editor.getSelection().isCollapsed() );
+		},
+
 		setVerbosity: function( newVerbosity ) {
 			this._oldVerbosity = CKEDITOR.verbosity;
 			CKEDITOR.verbosity = newVerbosity;
