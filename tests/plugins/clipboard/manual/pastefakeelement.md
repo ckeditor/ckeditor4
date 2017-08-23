@@ -6,15 +6,15 @@
 
 1. Open this page in new tab.
 2. Click `Source` in editor and paste:
-`<iframe frameborder="0" src="https://example.com" width="100" height="100"></iframe>`
+`<p>Lorem ipsum</p><p><iframe frameborder="0" height="100" src="https://example.com" width="100"></iframe></p><p>cke-real-element-type</p>`
 3. Click `Source`.
-4. Select iframe and copy to clipboard.
-5. Go back to the first tab and paste iframe into editor.
+4. Select all content and copy to clipboard.
+5. Go back to the first tab and paste content into editor.
 
 **Expected result:**
 
-The iframe is visible in editor.
-The `Source` of the editor contains: `<p><iframe frameborder="0" src="https://example.com" width="100" height="100"></iframe></p>`.
+All content has been pasted into editor.
+The `Source` of the editor contains the same html like in point 2.
 
 **Scenario 2:**
 

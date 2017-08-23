@@ -370,10 +370,15 @@
 				if ( evt.data.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !evt.data.dontFilter ) {
 					var dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
 							evt.data.dataTransfer.getData( 'text/html', true ) : null,
-						regex = /<img.*>/g;
+						regex = /<img.+?data-cke-realelement.+?>/g,
+						dataValue = evt.data.dataValue;
 
-					if ( dataTransferHtml && evt.data.dataValue.match( /(cke-real-element-type)/g ) ) {
-						evt.data.dataValue = regex.exec( dataTransferHtml )[ 0 ];
+					if ( dataTransferHtml && dataValue.match( regex ) ) {
+						for ( var i = 0; i < dataValue.match( regex ).length; i++ ) {
+							dataValue = dataValue.replace( dataValue.match( regex )[ i ], dataTransferHtml.match( regex )[ i ] );
+						}
+
+						evt.data.dataValue = dataValue;
 					}
 				}
 			} );
