@@ -155,6 +155,14 @@
 							style[ 'mso-list' ].match( /level/ ) ) {
 							container.attributes[ 'cke-list-level' ] = style[ 'mso-list' ].match( /level(\d+)/ )[1];
 						}
+
+						if ( editor.config.enterMode == CKEDITOR.ENTER_BR ) {
+							// We suffer from attribute/style lost in this situation.
+							delete element.name;
+							element.add( new CKEDITOR.htmlParser.element( 'br' ) );
+						} else {
+							// elementMigrateFilter( config[ 'format_' + ( config.enterMode == CKEDITOR.ENTER_P ? 'p' : 'div' ) ] )( element );
+						}
 					}
 
 					Style.createStyleStack( element, filter, editor );
