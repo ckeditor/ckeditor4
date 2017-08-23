@@ -24,7 +24,9 @@
 
 	bender.test( createTestSuite( {
 		browsers: [
-			'chrome'
+			'chrome',
+			'firefox',
+			'ie11'
 		],
 		wordVersions: [
 			'word2016'
