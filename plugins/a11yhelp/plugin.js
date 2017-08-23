@@ -150,7 +150,7 @@
 		} )(),
 
 		/**
-		 * Return html which represent keystroke. Result is wrapped with `<kbd></kbd>` tags.
+		 * Return html which represent keystroke. Result is wrapped with `<kbd></kbd>` tags or other defined by the user.
 		 *
 		 * 		CKEDITOR.plugins.a11yhelp.representKeystroke( CKEDITOR.instances.editor, 4456496 );
 		 * 		"<kbd><kbd>Alt</kbd>+<kbd>0</kbd></kbd>"
@@ -158,9 +158,10 @@
 		 * @since 4.8.0
 		 * @param {CKEDITOR.editor} editor Editor instance.
 		 * @param {Number} keystroke Number which represent command keystroke.
-		 * @returns {String} HTML code with key names wrapped with `<kbd></kbd>` tags.
+		 * @param {String} [wrappingTag=kbd] Wrapping tag. It's inner string of tag: e.g. 'kbd' string in case of `<kbd></kbd>` tags pair.
+		 * @returns {String} HTML code with key names wrapped with wrapping tag by default it is `<kbd></kbd>`.
 		 */
-		representKeystroke: function( editor, keystroke ) {
+		representKeystroke: function( editor, keystroke, wrappingTag ) {
 			// CharCode <-> KeyChar.
 			var keyMap = this._createKeyMap( editor );
 
@@ -169,8 +170,19 @@
 
 			var quotient, modifier,
 				presentation = [],
-				openTag = '<kbd>',
-				closeTag = '</kbd>';
+				openTag,
+				closeTag;
+
+			if ( wrappingTag === '' ) {
+				openTag = '';
+				closeTag = '';
+			} else {
+				if ( wrappingTag === undefined ) {
+					wrappingTag = 'kbd';
+				}
+				openTag = '<' + wrappingTag + '>';
+				closeTag = '</' + wrappingTag + '>';
+			}
 
 			for ( var i = 0; i < modifiers.length; i++ ) {
 				modifier = modifiers[ i ];

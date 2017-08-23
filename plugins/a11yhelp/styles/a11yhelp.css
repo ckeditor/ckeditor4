@@ -11,54 +11,89 @@
 }
 .cke_accessibility_legend * {
 	white-space:normal;
+	font-family: 'Lato', Arial, sans-serif;
+	color: #4C5867;
 }
 .cke_accessibility_legend h1 {
 	font-size: 20px;
-	border-bottom: 1px solid #AAA;
-	margin: 5px 0px 15px;
+	font-weight: 400;
+	border-bottom: 1px solid #d9dce0;
+	padding-bottom: 2px;
+	margin: 35px 15px 15px;
 }
 .cke_accessibility_legend dl {
-	margin-left: 5px;
+
+	margin-left: 15px;
 }
 .cke_accessibility_legend dt {
-	font-size: 13px;
-	font-weight: bold;
+	padding-top: 10px;
+	font-size: 15px;
+	font-weight: 600;
 }
 .cke_accessibility_legend dd {
-	margin:10px
+	margin-top: 6px;
+	margin-bottom: 10px;
+	line-height: 19px;
 }
 
 .cke_accessibility_legend table {
-	width: 100%;
+	width: 95%;
 	border-collapse: collapse;
-	border: 1px solid black;
+	border: 1px solid #d9dce0;
+	margin-bottom: 40px;
 }
 
 .cke_accessibility_legend th {
-	border: 0.1em solid black;
+	border: 0.1em solid #d9dce0;
 	padding: 0.8em;
-	font-weight: bold;
+	font-weight: 400;
+	font-size: 15px;
 }
 
 .cke_accessibility_legend td {
-	border: 0.1em solid black;
+	border: 0.1em solid #d9dce0;
 	padding: 0.8em;
+	height: 26px;
+	vertical-align: middle;
 }
 
 .cke_accessibility_legend .cke_accessibility_table_odd {
-	background-color: #dddddd;
+	background-color: #fcfcfc;
+}
+
+.cke_accessibility_legend kbd > kbd {
+	display: inline-block;
+	padding: 2px 7px;
+	margin-left: 2px;
+	margin-right: 1px;
+	margin-top: -1px;
+	margin-bottom: 1px;
+	font-size: 11px;
+	line-height: 12px;
+	color: #4C5867;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	vertical-align: middle;
+	background-color: #fafbfc;
+	border: solid 1px #d9dce0;
+	border-radius: 3px;
 }
 
 .cke_accessibility_legend table kbd > kbd {
 	display: inline-block;
-	padding: 3px 5px;
-	font-size: 11px;
-	line-height: 10px;
-	color: #444d56;
+	padding: 5px 7px;
+	margin-left: 3px;
+	margin-right: 2px;
+	margin-top: -1px;
+	font-size: 13px;
+	line-height: 12px;
+	color: #4C5867;
+	font-weight: 400;
+	letter-spacing: 0.05em;
+	letter-spacing: 0px;
 	vertical-align: middle;
 	background-color: #fafbfc;
-	border: solid 1px #c6cbd1;
-	border-bottom-color: #959da5;
+	border: solid 1px #d9dce0;
+	border-bottom-color: #d9dce0;
 	border-radius: 3px;
-	box-shadow: inset 0 -1px 0 #959da5;
 }

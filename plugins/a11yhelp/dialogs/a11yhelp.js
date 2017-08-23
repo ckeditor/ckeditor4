@@ -13,7 +13,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 			// Return the keystroke representation or leave match untouched
 			// if there's no keystroke for such command.
-			return keystrokeCode ? CKEDITOR.plugins.a11yhelp.representKeystroke( editor, keystrokeCode ) : match;
+			return keystrokeCode ? CKEDITOR.plugins.a11yhelp.representKeystroke( editor, keystrokeCode, '' ) : match;
 		};
 
 	function populateWithAvailableCommands() {

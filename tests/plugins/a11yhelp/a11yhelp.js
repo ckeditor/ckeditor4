@@ -72,12 +72,11 @@
 		// #456
 		'test visible key description': function() {
 			this._createEditor( {}, function() {
-				var editor = this.editor,
-					bot = this.editorBot,
+				var bot = this.editorBot,
 					commandDefinition = {
 						exec: function() {},
 						label: 'Another Command',
-						keystrokeDescription: 'Additional info.',
+						keystrokeDescription: '<kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd> Additional info.',
 						getLabel: function() {
 							return 'Modified label';
 						}
@@ -87,13 +86,12 @@
 				this._registerCommand( 'customCommand' );
 				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
 
-				editor.once( 'dialogHide', function( evt ) {
-					var dialogHtml = evt.data.definition.contents[0].elements[0].html; // evt.data === dialog
-					assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Additional info.</td>' ) );
-				} );
-
 				bot.dialog( 'a11yHelp', function( dialog ) {
-					dialog.hide();
+					wait( function() {
+						var dialogHtml = dialog.definition.contents[0].elements[0].html; // evt.data === dialog
+						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd> Additional info.</td>' ) );
+						dialog.hide();
+					}, 20 );
 				} );
 			} );
 		},
@@ -101,12 +99,11 @@
 		// #456
 		'test visible key description (inline editor)': function() {
 			this._createEditor( { creator: 'inline' }, function() {
-				var editor = this.editor,
-					bot = this.editorBot,
+				var bot = this.editorBot,
 					commandDefinition = {
 						exec: function() {},
 						label: 'Another Command',
-						keystrokeDescription: 'Additional info.',
+						keystrokeDescription: '<kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd> Additional info.',
 						getLabel: function() {
 							return 'Modified label';
 						}
@@ -116,14 +113,12 @@
 				this._registerCommand( 'customCommand' );
 				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
 
-
-				editor.once( 'dialogHide', function( evt ) {
-					var dialogHtml = evt.data.definition.contents[0].elements[0].html; // evt.data === dialog
-					assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Additional info.</td>' ) );
-				} );
-
 				bot.dialog( 'a11yHelp', function( dialog ) {
-					dialog.hide();
+					wait( function() {
+						var dialogHtml = dialog.definition.contents[0].elements[0].html; // evt.data === dialog
+						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd> Additional info.</td>' ) );
+						dialog.hide();
+					}, 20 );
 				} );
 			} );
 		},
@@ -131,14 +126,13 @@
 		// #456
 		'test modified key description': function() {
 			this._createEditor( {}, function() {
-				var editor = this.editor,
-					bot = this.editorBot,
+				var bot = this.editorBot,
 					commandDefinition = {
 						exec: function() {},
 						label: 'Another Command',
 						keystrokeDescription: 'Additional info.',
 						getKeystrokeDescription: function() {
-							return 'Modified key description';
+							return '<kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd>Modified key description';
 						}
 					},
 				keystroke = CKEDITOR.SHIFT + 65; // Shift + A
@@ -146,14 +140,12 @@
 				this._registerCommand( 'customCommand' );
 				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
 
-
-				editor.once( 'dialogHide', function( evt ) {
-					var dialogHtml = evt.data.definition.contents[0].elements[0].html; // evt.data === dialog
-					assert.areNotSame( -1, dialogHtml.indexOf( '<td>Another Command</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd><br />Modified key description</td>' ) );
-				} );
-
 				bot.dialog( 'a11yHelp', function( dialog ) {
-					dialog.hide();
+					wait( function() {
+						var dialogHtml = dialog.definition.contents[0].elements[0].html; // evt.data === dialog
+						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Another Command</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd>Modified key description</td>' ) );
+						dialog.hide();
+					}, 20 );
 				} );
 			} );
 		},
