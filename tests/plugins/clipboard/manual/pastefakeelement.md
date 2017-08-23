@@ -1,4 +1,4 @@
-@bender-tags: 4.7.2, bug, clipboard, 638
+@bender-tags: 4.7.3, bug, clipboard, 638
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, iframe, clipboard, sourcearea, link
 
