@@ -8,8 +8,8 @@
 	window.bender = {
 		test: function( tests ) {
 			var testKeys = arrayTools.filter( ckTools.objectKeys( tests ), function( key ) {
-				return key.match( /^test/ );
-			} ),
+					return key.match( /^test/ );
+				} ),
 				i;
 
 			if ( testKeys.length ) {
