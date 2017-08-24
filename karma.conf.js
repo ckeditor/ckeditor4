@@ -11,7 +11,7 @@ module.exports = function( config ) {
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: [ 'mocha', 'chai' ],
+		frameworks: [ 'ckeditor4-yui-to-chai', 'mocha' ],
 
 		// list of files / patterns to load in the browser
 		files: [
@@ -23,7 +23,10 @@ module.exports = function( config ) {
 			'karma_tests/_runner/**/*.js',
 
 			// Include all js files from all dirs, except started with an underline.
-			'karma_tests/!(_*)/**/*.js'
+			// 'karma_tests/!(_*)/**/*.js'
+
+			'tests/core/tools/**/*.js',
+			'tests/core/command/command.js'
 		],
 
 
@@ -60,7 +63,8 @@ module.exports = function( config ) {
 		plugins: [
 			'karma-mocha',
 			'karma-chai',
-			'karma-chrome-launcher'
+			'karma-chrome-launcher',
+			'karma-ckeditor4-yui-to-chai'
 		],
 
 		// Continuous Integration mode
