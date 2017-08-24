@@ -15,11 +15,6 @@
 
 		init: function() {
 			this.editor.widgets.add( 'spanwidget', {
-				editables: {
-					content: {
-						selector: 'span'
-					}
-				},
 				upcast: function( element ) {
 					return element.name == 'span';
 				}

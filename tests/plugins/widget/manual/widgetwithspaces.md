@@ -9,8 +9,8 @@
 
 **Expected result:**
 
-The text displayed should equal: `lorem ipsum dolor sit amet` and `Source` data should be `<p>lorem<span> ipsum&nbsp;<strong>dolor sit </strong></span>amet`.
+The displayed text is equal to: `lorem ipsum dolor sit amet` and `Source` data to `<p>lorem<span> ipsum&nbsp;<strong>dolor sit </strong></span>amet`.
 
 **Unexpected result:**
 
-The text displayed in editor equal: `loremipsum dolor sitamet`.
+The text displayed in the editor is equal to: `loremipsum dolor sitamet`.

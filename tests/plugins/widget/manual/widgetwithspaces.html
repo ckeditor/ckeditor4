@@ -11,11 +11,6 @@
 		requires: 'widget',
 		init: function ( editor )	{
 			editor.widgets.add( 'spanwidget', {
-				editables: {
-					content: {
-						selector: 'span'
-					}
-				},
 				upcast: function ( element ) {
 					return element.name == 'span';
 				}
