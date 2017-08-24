@@ -16,6 +16,16 @@
 	window.arrayAssert = {
 		itemsAreSame: function( expected, actual, msg ) {
 			assert.deepEqual( actual, expected, msg );
+		},
+
+		itemsAreEqual: function( expected, actual, msg ) {
+			assert.deepEqual( actual, expected, msg );
+		}
+	};
+
+	window.objectAssert = {
+		areEqual: function( expected, actual, msg ) {
+			assert.deepEqual( actual, expected, msg );
 		}
 	};
 } )();
