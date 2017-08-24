@@ -304,24 +304,32 @@
 
 	function deleteColumns( selection ) {
 		function processSelection( selection ) {
-			// If selection leakt to next td/th cell, then move it back to previous cell.
-			var ranges = selection.getRanges();
+			// If selection leak to next td/th cell, then preserve it in previous cell.
+
+			var ranges,
+				range,
+				endNode,
+				endNodeName,
+				previous;
+
+			ranges = selection.getRanges();
 			if ( ranges.length !== 1 ) {
 				return selection;
 			}
 
-			var range = ranges[0];
-			if ( range.endOffset !== 0 ) {
+			range = ranges[0];
+			if ( range.collapsed || range.endOffset !== 0 ) {
 				return selection;
 			}
 
-			var endNode = range.endContainer;
-			var endNodeName = endNode.getName().toLowerCase();
+			endNode = range.endContainer;
+			endNodeName = endNode.getName().toLowerCase();
 			if ( !( endNodeName === 'td' || endNodeName === 'th' ) ) {
 				return selection;
 			}
+
 			// Get previous td/th element or the last from previous row.
-			var previous = endNode.getPrevious();
+			previous = endNode.getPrevious();
 			if ( !previous ) {
 				previous = endNode.getParent().getPrevious().getLast();
 			}
@@ -339,8 +347,9 @@
 			return range.select();
 		}
 
-		// Problem occures only on webkit in case of native selection (#577
-		if ( CKEDITOR.env.webkit && !selection.isFake && selection.getNative().type === 'Range' ) {
+		// Problem occures only on webkit in case of native selection (#577).
+		// Upstream: https://bugs.webkit.org/show_bug.cgi?id=175131, https://bugs.chromium.org/p/chromium/issues/detail?id=752091
+		if ( CKEDITOR.env.webkit && !selection.isFake ) {
 			selection = processSelection( selection );
 		}
 
