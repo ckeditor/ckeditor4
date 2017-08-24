@@ -1,6 +1,6 @@
 @bender-tags: bug, 4.7.3, word
 @bender-ui: collapsed
-@bender-ckeditor-plugins: pastefromword,toolbar,basicstyles,wysiwygarea,sourcearea
+@bender-ckeditor-plugins: pastefromword,toolbar,basicstyles,enterkey,wysiwygarea,sourcearea
 
 ----
 1. Open [docx file](../generated/_fixtures/Enter_BR/Enter_BR.docx) in Microsft Word.
