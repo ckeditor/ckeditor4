@@ -20,8 +20,6 @@ module.exports = function( config ) {
 			{ pattern: '+(config|styles).js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: 'contents.css', included: false, served: true, watched: false, nocache: true },
 
-			// benderadapter.js, etc.
-			{ pattern: 'runner/*.js', included: true, served: true, watched: false, nocache: true },
 			// Include all js files from all dirs, except started with an underline.
 			'karma_tests/!(_)/**/*.js'
 		],
