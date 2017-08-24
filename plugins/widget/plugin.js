@@ -646,6 +646,11 @@
 
 				isInline = isWidgetInline( widgetDef, element.getName() );
 
+				// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
+				if ( isInline ) {
+					preserveSpaces( element );
+				}
+
 				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
 				wrapper.setAttributes( getWrapperAttributes( isInline, widgetName ) );
 
@@ -674,6 +679,11 @@
 					element.attributes[ 'data-widget' ] = widgetName;
 
 				isInline = isWidgetInline( widgetDef, element.name );
+
+				// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
+				if ( isInline ) {
+					preserveSpaces( element );
+				}
 
 				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline, widgetName ) );
 				wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName ? widgetDef.pathName : element.name;
@@ -2053,7 +2063,14 @@
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
-		// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
+		var parent = el.parent;
+
+		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] ) {
+			parent.replaceWith( el );
+		}
+	}
+
+	function preserveSpaces( el ) {
 		if ( el.attributes[ 'data-cke-widget-data' ] ) {
 			var firstTextNode = getFirstTextNode( el ),
 				lastTextNode = getLastTextNode( el ),
@@ -2076,12 +2093,6 @@
 			if ( spacesReplaced ) {
 				el.attributes[ 'data-cke-widget-white-space' ] = 1;
 			}
-		}
-
-		var parent = el.parent;
-
-		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] ) {
-			parent.replaceWith( el );
 		}
 	}
 
