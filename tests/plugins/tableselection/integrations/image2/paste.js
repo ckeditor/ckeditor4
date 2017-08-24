@@ -1,5 +1,5 @@
 /* bender-tags: editor,unit,widget */
-/* bender-ckeditor-plugins: image2,undo,tableselection */
+/* bender-ckeditor-plugins: image2,undo,tableselection,toolbar */
 /* bender-include: ../../_helpers/tableselection.js */
 /* global tableSelectionHelpers */
 

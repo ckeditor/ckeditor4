@@ -1,5 +1,5 @@
 /* bender-tags: tableselection, link */
-/* bender-ckeditor-plugins: link,tableselection */
+/* bender-ckeditor-plugins: link,tableselection,toolbar */
 /* bender-include: ../../_helpers/tableselection.js */
 /* global tableSelectionHelpers */
 

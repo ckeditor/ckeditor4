@@ -1,5 +1,5 @@
 /* bender-tags: editor,13421 */
-/* bender-ckeditor-plugins: embed,autoembed,enterkey,undo,link */
+/* bender-ckeditor-plugins: embed,autoembed,enterkey,undo,link,toolbar */
 /* bender-include: ../embedbase/_helpers/tools.js */
 
 /* global embedTools */
