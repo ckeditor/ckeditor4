@@ -1,18 +1,21 @@
 ( function() {
 	'use strict';
 
-	assert.isInstanceOf = function( type, val, msg ) {
-		return assert.instanceOf.call( this, val, type, msg );
+	window.assert.isInstanceOf = function( type, actual, msg ) {
+		assert.instanceOf( actual, type, msg );
 	}
 
-	window.YUI( {
-		useBrowserConsole: false,
-		debug: false
-	} ).use( 'test', function( Y ) {
-		window.arrayAssert = Y.ArrayAssert;
-		window.objectAssert = Y.ObjectAssert;
-		window.yuiAssert = Y.Assert;
+	window.assert.areSame = function( expected, actual, msg ) {
+		assert.equal( actual, expected, msg );
+	};
 
-		window.assert = window.yuiAssert;
-	} );
+	window.assert.areNotSame = function( expected, actual, msg ) {
+		assert.notEqual( actual, expected, msg );
+	};
+
+	window.arrayAssert = {
+		itemsAreSame: function( expected, actual, msg ) {
+			assert.deepEqual( actual, expected, msg );
+		}
+	};
 } )();
