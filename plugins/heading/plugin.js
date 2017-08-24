@@ -29,7 +29,8 @@
           oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
           plugin = this,
           items = {},
-          headingTag;
+          headingTag,
+          headingLabelId;
 
       // Initialize headings array and indices used by getAllowedHeadings
       headings = this.getHeadingConfig( config );
@@ -63,8 +64,16 @@
       // Create item entry for each heading element in config
       for ( var i = 0; i < headings.length; i++ ) {
         headingTag = headings[ i ];
+
+          if (headingTag === 'h1' && oneLevel1) {
+            headingLabelId = lang[ 'level_' + headingTag + '_as_title'];
+          }
+          else {
+            headingLabelId = lang[ 'level_' + headingTag ];
+          }
+
         items[ headingTag ] = {
-          label: lang[ 'level_' + headingTag ],
+          label: headingLabelId,
           headingId: headingTag,
           group: 'heading_levels',
           style: new CKEDITOR.style( { element: headingTag } ),
