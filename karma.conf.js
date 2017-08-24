@@ -13,17 +13,17 @@ module.exports = function( config ) {
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 		frameworks: [ 'mocha', 'chai' ],
 
-
 		// list of files / patterns to load in the browser
 		files: [
-			// 'src/**/*.js',
-			// 'ckeditor.js',
-			// 'core/*/**.js',
 			{ pattern: 'ckeditor.js', included: true, served: true, watched: false, nocache: true },
 			{ pattern: '+(core|plugins|skins|lang)/**/*', included: false, served: true, watched: false, nocache: true },
 			{ pattern: '+(config|styles).js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: 'contents.css', included: false, served: true, watched: false, nocache: true },
-			'karma_tests/**/*.js'
+
+			// benderadapter.js, etc.
+			{ pattern: 'runner/*.js', included: true, served: true, watched: false, nocache: true },
+			// Include all js files from all dirs, except started with an underline.
+			'karma_tests/!(_)/**/*.js'
 		],
 
 
