@@ -1,10 +1,9 @@
 /* bender-tags: clipboard,pastefromword */
 /* jshint ignore:start */
-/* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image */
-/* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
+/* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,toolbar */
 /* jshint ignore:end */
 /* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js */
-/* bender-include: _helpers/createTestSuite.js,_helpers/pfwTools.js */
+/* bender-include: _helpers/createTestSuite.js */
 /* global createTestSuite */
 
 ( function() {
@@ -12,9 +11,8 @@
 
 	var config = {
 		language: 'en',
-		removePlugins: 'dialogadvtab,flash,showborders,horizontalrule',
 		colorButton_normalizeBackground: false,
-		disallowedContent: 'td{vertical-align}; span; p{margin-*}',
+		allowedContent: 'p strong em',
 		enterMode: CKEDITOR.ENTER_BR
 	};
 
@@ -26,16 +24,16 @@
 		browsers: [
 			'chrome',
 			'firefox',
-			'ie11'
+			'ie11',
+			'ie8'
 		],
 		wordVersions: [
 			'word2016'
 		],
 		tests: {
-			'Tickets/423': true
+			'Enter_BR': true
 		},
 
-		compareRawData: false,
-		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11
+		compareRawData: false
 	} ) );
 } )();
