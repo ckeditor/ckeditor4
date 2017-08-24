@@ -2071,7 +2071,7 @@
 	}
 
 	function preserveSpaces( el ) {
-		if ( el.attributes[ 'data-cke-widget-data' ] ) {
+		if ( typeof el.attributes != 'undefined' && el.attributes[ 'data-cke-widget-data' ] ) {
 			var firstTextNode = getFirstTextNode( el ),
 				lastTextNode = getLastTextNode( el ),
 				spacesReplaced = false;
