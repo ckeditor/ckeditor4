@@ -22,11 +22,10 @@ module.exports = function( config ) {
 
 			'karma_tests/_runner/**/*.js',
 
-			// Include all js files from all dirs, except started with an underline.
-			// 'karma_tests/!(_*)/**/*.js'
-
-			'tests/core/tools/**/*.js',
-			'tests/core/command/command.js'
+			'tests/core/tools/array.js',
+			'tests/core/tools/object.js',
+			// 'tests/core/command/events.js'
+			// 'tests/core/command/command.js'
 		],
 
 
@@ -36,7 +35,9 @@ module.exports = function( config ) {
 
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-		preprocessors: {},
+		preprocessors: {
+			'tests/!(_*)/**/*.js': [ 'ckeditor4' ]
+		},
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
@@ -64,7 +65,8 @@ module.exports = function( config ) {
 			'karma-mocha',
 			'karma-chai',
 			'karma-chrome-launcher',
-			'karma-ckeditor4-yui-to-chai'
+			'karma-ckeditor4-yui-to-chai',
+			'karma-ckeditor4-preprocessor'
 		],
 
 		// Continuous Integration mode
@@ -78,6 +80,7 @@ module.exports = function( config ) {
 
 		client: {
 			useIframe: false,
+			clearContext: true,
 			__filenameOverride: __dirname + '/../index.html'
 		}
 	} );
