@@ -16,7 +16,7 @@ bender.editor = {
 };
 
 bender.test( {
-	'Test removing superfluous <p> inserted by IE11': function() {
+	'test removing superfluous <p> inserted by IE11': function() {
 		if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
 			assert.ignore();
 		}
@@ -44,7 +44,7 @@ bender.test( {
 		wait();
 	},
 
-	'Test removing superfluous <div> inserted by Edge < v15': function() {
+	'test removing superfluous <div> inserted by Edge': function() {
 		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}
@@ -70,7 +70,7 @@ bender.test( {
 		wait();
 	},
 
-	'Test not removing non-superfluous <div> in Edge < v15': function() {
+	'test not removing non-superfluous <div> in Edge': function() {
 		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}
@@ -95,7 +95,7 @@ bender.test( {
 		wait();
 	},
 
-	'Test removing superfluous <div> when typing in Edge < v15': function() {
+	'test removing superfluous <div> when typing in Edge': function() {
 		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}
@@ -145,7 +145,7 @@ bender.test( {
 		wait();
 	},
 
-	'Test not removing non-superfluous <div> when typing in Edge < v15': function() {
+	'test not removing non-superfluous <div> when typing in Edge': function() {
 		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}
@@ -179,7 +179,7 @@ bender.test( {
 	},
 
 	// http://dev.ckeditor.com/ticket/14831
-	'Test not removing [data-cke-temp] <div> when typing': function() {
+	'test not removing [data-cke-temp] <div> when typing': function() {
 		if ( !CKEDITOR.env.edge || CKEDITOR.env.version < 14 ) {
 			assert.ignore();
 		}
@@ -229,7 +229,7 @@ bender.test( {
 		wait();
 	},
 
-	'Test not-removing <div> with any attributes in Edge < v15': function() {
+	'test not removing <div> with any attributes in Edge': function() {
 		if ( !CKEDITOR.env.edge || CKEDITOR.env.version >= 15 ) {
 			assert.ignore();
 		}

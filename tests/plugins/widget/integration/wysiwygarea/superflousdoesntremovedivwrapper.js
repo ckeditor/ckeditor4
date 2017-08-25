@@ -11,6 +11,7 @@
 	};
 
 	bender.test( {
+		// #704
 		'test keeping widget wrapper in editor when superflous elemnts are checked': function() {
 			CKEDITOR.plugins.add( 'test', {
 				requires: 'widget',

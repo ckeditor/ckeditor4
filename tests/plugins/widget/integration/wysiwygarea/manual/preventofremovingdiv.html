@@ -13,7 +13,10 @@
 	var editor = CKEDITOR.replace( 'editor1', {
 		height: '600px'
 	} );
-	setInterval( function() {
-		document.getElementById( 'output' ).innerText = editor.editable().getFirst().getName();
-	}, 200)
+	var output = document.getElementById( 'output' )
+	editor.on( 'instanceReady', function() {
+		editor.editable().$.addEventListener( 'keyup', function() {
+			output.innerText = editor.editable().getFirst().getName();
+		} );
+	});
 </script>

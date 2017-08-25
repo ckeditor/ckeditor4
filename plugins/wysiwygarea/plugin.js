@@ -161,10 +161,12 @@
 			doc.getDocumentElement().addClass( doc.$.compatMode );
 		}
 
-		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body. (http://dev.ckeditor.com/ticket/6966, http://dev.ckeditor.com/ticket/13142)
+		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body (http://dev.ckeditor.com/ticket/6966, http://dev.ckeditor.com/ticket/13142).
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_P ) {
 			removeSuperfluousElement( 'p' );
-		} else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV && CKEDITOR.env.version < 15 ) {
+		}
+		// From version Edge 15 additional `div` are not added to the editor.
+		else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV && CKEDITOR.env.version < 15 ) {
 			removeSuperfluousElement( 'div' );
 		}
 
