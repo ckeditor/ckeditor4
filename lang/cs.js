@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'cs' ] = {
 		resize: 'Uchopit pro změnu velikosti',
 		generalTab: 'Obecné',
 		advancedTab: 'Rozšířené',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Zadaná hodnota není číselná.',
 		confirmNewPage: 'Jakékoliv neuložené změny obsahu budou ztraceny. Skutečně chcete otevřít novou stránku?',
 		confirmCancel: 'Některá z nastavení byla změněna. Skutečně chcete zavřít dialogové okno?',

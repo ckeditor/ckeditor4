@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'ar' ] = {
 		resize: 'تغيير الحجم',
 		generalTab: 'عام',
 		advancedTab: 'متقدم',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'لايوجد نتيجة',
 		confirmNewPage: 'ستفقد أي متغييرات اذا لم تقم بحفظها اولا. هل أنت متأكد أنك تريد صفحة جديدة؟',
 		confirmCancel: 'بعض الخيارات قد تغيرت. هل أنت متأكد من إغلاق مربع النص؟',

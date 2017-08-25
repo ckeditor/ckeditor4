@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		resize: 'Trage pentru a redimensiona',
 		generalTab: 'General',
 		advancedTab: 'Avansat',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Această valoare nu este un număr.',
 		confirmNewPage: 'Orice modificări nesalvate ale acestui conținut, vor fi pierdute. Sigur doriți încărcarea unei noi pagini?',
 		confirmCancel: 'Câteva opțiuni au fost schimbate. Sigur doriți să închideți dialogul?',

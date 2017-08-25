@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 			{
 			name: 'Editordialog',
 			legend:
-				'Drücke innerhalb eines Dialogs TAB, um zum nächsten Element zu springen. Drücke SHIFT+TAB, um zum vorigen Element zu springen, drücke ENTER um das Formular im Dialog abzusenden, drücke ESC, um den Dialog zu schließen. Hat der Dialog mehrere Tabs, dann kannst du durch ALT+F10 die Tab-Liste aufrufen or mittels TAB als Teil der Dialog-Tab-Reihenfolge. Ist die Tab-Liste fokussiert, dann mithilfe der Pfeiltasten (LINKS und RECHTS) zwischen den Tabs gewechselt werden.'
+				'Drücke innerhalb eines Dialogs TAB, um zum nächsten Element zu springen. Drücke SHIFT+TAB, um zum vorigen Element zu springen, drücke ENTER um das Formular im Dialog abzusenden, drücke ESC, um den Dialog zu schließen. Hat der Dialog mehrere Tabs, dann kannst du durch ALT+F10 die Tab-Liste aufrufen or mittels TAB als Teil der Dialog-Tab-Reihenfolge. Ist die Tab-Liste fokussiert, dann mithilfe der Pfeiltasten (LINKS und RECHTS) zwischen den Tabs gewechselt werden.' 
 		},
 
 			{
@@ -97,5 +97,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},
-	commandLabel: 'Accessibility Help' // MISSING
+	commandsLabel: {
+		generalTab:	'Accessibility Help', // MISSING
+		keystrokesTab: 'Keystrokes list' // MISSING
+	}
 } );

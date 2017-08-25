@@ -61,6 +61,7 @@ CKEDITOR.lang[ 'si' ] = {
 		resize: 'විශාලත්වය නැවත වෙනස් කිරීම',
 		generalTab: 'පොදු කරුණු.',
 		advancedTab: 'දීය',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'මෙම වටිනාකම අංකයක් නොවේ',
 		confirmNewPage: 'ආරක්ෂා නොකළ සියලුම දත්තයන් මැකියනුලැබේ. ඔබට නව පිටුවක් ලබා ගැනීමට අවශ්‍යද?',
 		confirmCancel: 'ඇතම් විකල්පයන් වෙනස් කර ඇත. ඔබට මින් නික්මීමට අවශ්‍යද?',

@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'zh-cn' ] = {
 		resize: '拖拽以改变大小',
 		generalTab: '常规',
 		advancedTab: '高级',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: '需要输入数字格式',
 		confirmNewPage: '当前文档内容未保存，是否确认新建文档？',
 		confirmCancel: '部分修改尚未保存，是否确认关闭对话框？',

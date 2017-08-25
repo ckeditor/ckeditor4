@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'sr-latn' ] = {
 		resize: 'Resize', // MISSING
 		generalTab: 'Opšte',
 		advancedTab: 'Napredni tagovi',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Ova vrednost nije broj.',
 		confirmNewPage: 'Nesačuvane promene ovog sadržaja će biti izgubljene. Jeste li sigurni da želita da učitate novu stranu?',
 		confirmCancel: 'You have changed some options. Are you sure you want to close the dialog window?', // MISSING

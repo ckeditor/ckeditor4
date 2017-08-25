@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'eu' ] = {
 		resize: 'Aldatu tamainaz',
 		generalTab: 'Orokorra',
 		advancedTab: 'Aurreratua',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Balio hau ez da zenbaki bat.',
 		confirmNewPage: 'Eduki honetan gorde gabe dauden aldaketak galduko dira. Ziur zaude orri berri bat kargatu nahi duzula?',
 		confirmCancel: 'Aukera batzuk aldatu dituzu. Ziur zaude elkarrizketa-koadroa itxi nahi duzula?',

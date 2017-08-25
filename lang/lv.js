@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'lv' ] = {
 		resize: 'Mērogot',
 		generalTab: 'Vispārīgi',
 		advancedTab: 'Izvērstais',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Šī vērtība nav skaitlis',
 		confirmNewPage: 'Jebkuras nesaglabātās izmaiņas tiks zaudētas. Vai tiešām vēlaties atvērt jaunu lapu?',
 		confirmCancel: 'Daži no uzstādījumiem ir mainīti. Vai tiešām vēlaties aizvērt šo dialogu?',

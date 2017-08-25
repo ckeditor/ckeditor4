@@ -61,6 +61,7 @@ CKEDITOR.lang[ 'id' ] = {
 		resize: 'Ubah ukuran',
 		generalTab: 'Umum',
 		advancedTab: 'Lebih Lanjut',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Nilai ini tidak sebuah angka',
 		confirmNewPage: 'Semua perubahan yang tidak disimpan di konten ini akan hilang. Apakah anda yakin ingin memuat halaman baru?',
 		confirmCancel: 'Beberapa opsi telah berubah. Apakah anda yakin ingin menutup dialog?',

@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 			{
 			name: 'Dialogeditor',
 			legend:
-				'Inuti en dialogruta, tryck TAB för att navigera till nästa fält i dialogrutan, tryck SKIFT+TAB för att flytta till föregående fält, tryck ENTER för att skicka. Du avbryter och stänger dialogen med ESC. För dialogrutor som har flera flikar, tryck ALT+F10 eller TAB för att navigera till fliklistan. med fliklistan vald flytta till nästa och föregående flik med HÖGER- eller VÄNSTERPIL.'
+				'Inuti en dialogruta, tryck TAB för att navigera till nästa fält i dialogrutan, tryck SKIFT+TAB för att flytta till föregående fält, tryck ENTER för att skicka. Du avbryter och stänger dialogen med ESC. För dialogrutor som har flera flikar, tryck ALT+F10 eller TAB för att navigera till fliklistan. med fliklistan vald flytta till nästa och föregående flik med HÖGER- eller VÄNSTERPIL.' 
 		},
 
 			{
@@ -97,5 +97,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sv', {
 		command: 'Command', // MISSING
 		keystroke: 'Keystroke' // MISSING
 	},
-	commandLabel: 'Accessibility Help' // MISSING
+	commandsLabel: {
+		generalTab:	'Accessibility Help', // MISSING
+		keystrokesTab: 'Keystrokes list' // MISSING
+	}
 } );

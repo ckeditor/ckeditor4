@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'ko' ] = {
 		resize: '크기 조절',
 		generalTab: '일반',
 		advancedTab: '자세히',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: '이 값은 숫자가 아닙니다.',
 		confirmNewPage: '저장하지 않은 모든 변경사항은 유실됩니다. 정말로 새로운 페이지를 부르겠습니까?',
 		confirmCancel: '일부 옵션이 변경 되었습니다. 정말로 창을 닫겠습니까?',

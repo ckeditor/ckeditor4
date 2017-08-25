@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'th' ] = {
 		resize: 'ปรับขนาด',
 		generalTab: 'ทั่วไป',
 		advancedTab: 'ขั้นสูง',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'ค่านี้ไม่ใช่ตัวเลข',
 		confirmNewPage: 'การเปลี่ยนแปลงใดๆ ในเนื้อหานี้ ที่ไม่ได้ถูกบันทึกไว้ จะสูญหายทั้งหมด คุณแน่ใจว่าจะเรียกหน้าใหม่?',
 		confirmCancel: 'ตัวเลือกบางตัวมีการเปลี่ยนแปลง คุณแน่ใจว่าจะปิดกล่องโต้ตอบนี้?',

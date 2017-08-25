@@ -114,5 +114,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 		command: 'Command',
 		keystroke: 'Keystroke'
 	},
-	commandLabel: 'Accessibility Help'
+	commandsLabel: {
+		generalTab:	'Accessibility Help',
+		keystrokesTab: 'Keystrokes list'
+	}
 } );

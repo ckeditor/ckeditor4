@@ -61,6 +61,7 @@ CKEDITOR.lang[ 'tr' ] = {
 		resize: 'Yeniden Boyutlandır',
 		generalTab: 'Genel',
 		advancedTab: 'Gelişmiş',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Bu değer bir sayı değildir.',
 		confirmNewPage: 'Bu içerikle ilgili kaydedilmemiş tüm bilgiler kaybolacaktır. Yeni bir sayfa yüklemek istediğinizden emin misiniz?',
 		confirmCancel: 'Bazı seçenekleri değiştirdiniz. İletişim penceresini kapatmak istediğinizden emin misiniz?',

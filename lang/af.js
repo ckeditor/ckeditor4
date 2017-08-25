@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'af' ] = {
 		resize: 'Skalierung',
 		generalTab: 'Algemeen',
 		advancedTab: 'Gevorderd',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Hierdie waarde is nie \'n nommer nie.',
 		confirmNewPage: 'Alle wysiginge sal verlore gaan. Is jy seker dat jy \'n nuwe bladsy wil laai?',
 		confirmCancel: 'Sommige opsies is gewysig. Is jy seker dat jy hierdie dialoogvenster wil sluit?',

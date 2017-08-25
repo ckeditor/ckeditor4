@@ -61,6 +61,7 @@ CKEDITOR.lang[ 'ug' ] = {
 		resize: 'چوڭلۇقىنى ئۆزگەرت',
 		generalTab: 'ئادەتتىكى',
 		advancedTab: 'ئالىي',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'سان پىچىمىدا كىرگۈزۈش زۆرۈر',
 		confirmNewPage: 'نۆۋەتتىكى پۈتۈك مەزمۇنى ساقلانمىدى، يېڭى پۈتۈك قۇرامسىز؟',
 		confirmCancel: 'قىسمەن ئۆزگەرتىش ساقلانمىدى، بۇ سۆزلەشكۈنى تاقامسىز؟',

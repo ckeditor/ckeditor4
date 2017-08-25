@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'fi' ] = {
 		resize: 'Raahaa muuttaaksesi kokoa',
 		generalTab: 'Yleinen',
 		advancedTab: 'Lisäominaisuudet',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Arvon pitää olla numero.',
 		confirmNewPage: 'Kaikki tallentamattomat muutokset tähän sisältöön menetetään. Oletko varma, että haluat ladata uuden sivun?',
 		confirmCancel: 'Jotkut asetuksista on muuttuneet. Oletko varma, että haluat sulkea valintaikkunan?',

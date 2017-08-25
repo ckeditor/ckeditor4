@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'he' ] = {
 		resize: 'יש לגרור בכדי לשנות את הגודל',
 		generalTab: 'כללי',
 		advancedTab: 'אפשרויות מתקדמות',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'הערך חייב להיות מספרי.',
 		confirmNewPage: 'כל השינויים שלא נשמרו יאבדו. האם להעלות דף חדש?',
 		confirmCancel: 'חלק מהאפשרויות שונו, האם לסגור את הדיאלוג?',

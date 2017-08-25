@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'oc' ] = {
 		resize: 'Redimensionar',
 		generalTab: 'General',
 		advancedTab: 'Avançat',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Aquesta valor es pas un nombre.',
 		confirmNewPage: 'Los cambiaments pas salvats seràn perduts. Sètz segur que volètz cargar una novèla pagina ?',
 		confirmCancel: 'Certanas opcions son estadas modificadas. Sètz segur que volètz tampar ?',

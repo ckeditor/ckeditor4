@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'lt' ] = {
 		resize: 'Pavilkite, kad pakeistumėte dydį',
 		generalTab: 'Bendros savybės',
 		advancedTab: 'Papildomas',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Ši reikšmė nėra skaičius.',
 		confirmNewPage: 'Visas neišsaugotas turinys bus prarastas. Ar tikrai norite įkrauti naują puslapį?',
 		confirmCancel: 'Kai kurie parametrai pasikeitė. Ar tikrai norite užverti langą?',

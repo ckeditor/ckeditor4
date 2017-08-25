@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		resize: 'ખેંચી ને યોગ્ય કરવું',
 		generalTab: 'જનરલ',
 		advancedTab: 'અડ્વાન્સડ',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'આ રકમ આકડો નથી.',
 		confirmNewPage: 'સવે કાર્ય વગરનું ફકરો ખોવાઈ જશે. તમને ખાતરી છે કે તમને નવું પાનું ખોલવું છે?',
 		confirmCancel: 'ઘણા વિકલ્પો બદલાયા છે. તમારે આ બોક્ષ્ બંધ કરવું છે?',

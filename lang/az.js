@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'az' ] = {
 		resize: 'Eni dəyiş',
 		generalTab: 'Əsas',
 		advancedTab: 'Əlavə',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Rəqəm deyil.',
 		confirmNewPage: 'Yadda saxlanılmamış dəyişikliklər itiriləcək. Davam etmək istədiyinizə əminsinizmi?',
 		confirmCancel: 'Dəyişikliklər edilib. Pəncərəni bağlamaq istəyirsizə əminsinizmi?',

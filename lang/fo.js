@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'fo' ] = {
 		resize: 'Drag fyri at broyta stødd',
 		generalTab: 'Generelt',
 		advancedTab: 'Fjølbroytt',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Hetta er ikki eitt tal.',
 		confirmNewPage: 'Allar ikki goymdar broytingar í hesum innihaldið hvørva. Skal nýggj síða lesast kortini?',
 		confirmCancel: 'Nakrir valmøguleikar eru broyttir. Ert tú vísur í, at dialogurin skal latast aftur?',

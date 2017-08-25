@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'bg' ] = {
 		resize: 'Влачете за да оразмерите',
 		generalTab: 'Общи',
 		advancedTab: 'Разширено',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Тази стойност не е число',
 		confirmNewPage: 'Всички незапазени промени ще бъдат изгубени. Сигурни ли сте, че желаете да заредите нова страница?',
 		confirmCancel: 'Някои от опциите са променени. Сигурни ли сте, че желаете да затворите прозореца?',

@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'hu' ] = {
 		resize: 'Húzza az átméretezéshez',
 		generalTab: 'Általános',
 		advancedTab: 'További opciók',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'A mezőbe csak számokat írhat.',
 		confirmNewPage: 'Minden nem mentett változás el fog veszni! Biztosan be szeretné tölteni az oldalt?',
 		confirmCancel: 'Az űrlap tartalma megváltozott, ám a változásokat nem rögzítette. Biztosan be szeretné zárni az űrlapot?',

@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'pl' ] = {
 		resize: 'Przeciągnij, aby zmienić rozmiar',
 		generalTab: 'Ogólne',
 		advancedTab: 'Zaawansowane',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Ta wartość nie jest liczbą.',
 		confirmNewPage: 'Wszystkie niezapisane zmiany zostaną utracone. Czy na pewno wczytać nową stronę?',
 		confirmCancel: 'Pewne opcje zostały zmienione. Czy na pewno zamknąć okno dialogowe?',

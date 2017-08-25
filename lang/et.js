@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'et' ] = {
 		resize: 'Suuruse muutmiseks lohista',
 		generalTab: 'Üldine',
 		advancedTab: 'Täpsemalt',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'See väärtus pole number.',
 		confirmNewPage: 'Kõik salvestamata muudatused lähevad kaotsi. Kas oled kindel, et tahad laadida uue lehe?',
 		confirmCancel: 'Mõned valikud on muudetud. Kas oled kindel, et tahad dialoogi sulgeda?',

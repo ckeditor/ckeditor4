@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'da' ] = {
 		resize: 'Træk for at skalere',
 		generalTab: 'Generelt',
 		advancedTab: 'Avanceret',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Værdien er ikke et tal.',
 		confirmNewPage: 'Alt indhold, der ikke er blevet gemt, vil gå tabt. Er du sikker på, at du vil indlæse en ny side?',
 		confirmCancel: 'Nogle af indstillingerne er blevet ændret. Er du sikker på, at du vil lukke vinduet?',

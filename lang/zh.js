@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'zh' ] = {
 		resize: '調整大小',
 		generalTab: '一般',
 		advancedTab: '進階',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: '此值不是數值。',
 		confirmNewPage: '現存的修改尚未儲存，要開新檔案？',
 		confirmCancel: '部份選項尚未儲存，要關閉對話框？',

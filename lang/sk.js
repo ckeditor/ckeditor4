@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'sk' ] = {
 		resize: 'Zmeniť veľkosť',
 		generalTab: 'Hlavné',
 		advancedTab: 'Rozšírené',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Hodnota nie je číslo.',
 		confirmNewPage: 'Prajete si načítat novú stránku? Všetky neuložené zmeny budú stratené. ',
 		confirmCancel: 'Niektore možnosti boli zmenené. Naozaj chcete zavrieť okno?',

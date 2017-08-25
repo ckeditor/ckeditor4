@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'no' ] = {
 		resize: 'Dra for å skalere',
 		generalTab: 'Generelt',
 		advancedTab: 'Avansert',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Denne verdien er ikke et tall.',
 		confirmNewPage: 'Alle ulagrede endringer som er gjort i dette innholdet vil bli tapt. Er du sikker på at du vil laste en ny side?',
 		confirmCancel: 'Noen av valgene har blitt endret. Er du sikker på at du vil lukke dialogen?',

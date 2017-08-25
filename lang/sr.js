@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'sr' ] = {
 		resize: 'Resize', // MISSING
 		generalTab: 'Опште',
 		advancedTab: 'Напредни тагови',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Ова вредност није цигра.',
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'You have changed some options. Are you sure you want to close the dialog window?', // MISSING

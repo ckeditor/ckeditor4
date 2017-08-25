@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'hr' ] = {
 		resize: 'Povuci za promjenu veličine',
 		generalTab: 'Općenito',
 		advancedTab: 'Napredno',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Ova vrijednost nije broj.',
 		confirmNewPage: 'Sve napravljene promjene će biti izgubljene ukoliko ih niste snimili. Sigurno želite učitati novu stranicu?',
 		confirmCancel: 'Neke od opcija su promjenjene. Sigurno želite zatvoriti ovaj prozor?',

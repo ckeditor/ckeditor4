@@ -102,3 +102,5 @@ singleQuote = The label for the "Single Quote" (') key.
 commandsList.sectionName = Label for section, which displays table with command's keystrokes.
 commandsList.command = Label for table column header, which contains command labels (names).
 commandsList.keystroke = Label for table column header, which contains keystrokes for executing specific commands.
+commandsLabel.generalTab = Label for keystroke shortcut which opens Accessibility Help.
+commandsLabel.keystrokesTab = Label for keystroke shortcut which opens Keystrokes List.

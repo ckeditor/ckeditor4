@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'vi' ] = {
 		resize: 'Kéo rê để thay đổi kích cỡ',
 		generalTab: 'Tab chung',
 		advancedTab: 'Tab mở rộng',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Giá trị này không phải là số.',
 		confirmNewPage: 'Mọi thay đổi không được lưu lại, nội dung này sẽ bị mất. Bạn có chắc chắn muốn tải một trang mới?',
 		confirmCancel: 'Một vài tùy chọn đã bị thay đổi. Bạn có chắc chắn muốn đóng hộp thoại?',

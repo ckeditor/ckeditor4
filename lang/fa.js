@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'fa' ] = {
 		resize: 'تغییر اندازه',
 		generalTab: 'عمومی',
 		advancedTab: 'پیش‌رفته',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'این مقدار یک عدد نیست.',
 		confirmNewPage: 'هر تغییر ایجاد شده​ی ذخیره نشده از بین خواهد رفت. آیا اطمینان دارید که قصد بارگیری صفحه جدیدی را دارید؟',
 		confirmCancel: 'برخی از گزینه‌ها تغییر کرده‌اند. آیا واقعا قصد بستن این پنجره را دارید؟',

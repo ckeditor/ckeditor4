@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'nl' ] = {
 		resize: 'Sleep om te herschalen',
 		generalTab: 'Algemeen',
 		advancedTab: 'Geavanceerd',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Deze waarde is geen geldig getal.',
 		confirmNewPage: 'Alle aangebrachte wijzigingen gaan verloren. Weet u zeker dat u een nieuwe pagina wilt openen?',
 		confirmCancel: 'Enkele opties zijn gewijzigd. Weet u zeker dat u dit dialoogvenster wilt sluiten?',

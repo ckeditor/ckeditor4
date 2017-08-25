@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'es' ] = {
 		resize: 'Arrastre para redimensionar',
 		generalTab: 'General',
 		advancedTab: 'Avanzado',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'El valor no es un número.',
 		confirmNewPage: 'Cualquier cambio que no se haya guardado se perderá.\r\n¿Está seguro de querer crear una nueva página?',
 		confirmCancel: 'Algunas de las opciones se han cambiado.\r\n¿Está seguro de querer cerrar el diálogo?',

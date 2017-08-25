@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'cy' ] = {
 		resize: 'Ailfeintio',
 		generalTab: 'Cyffredinol',
 		advancedTab: 'Uwch',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: '\'Dyw\'r gwerth hwn ddim yn rhif.',
 		confirmNewPage: 'Byddwch chi\'n colli unrhyw newidiadau i\'r cynnwys sydd heb eu cadw. Ydych am barhau i lwytho tudalen newydd?',
 		confirmCancel: 'Cafodd rhai o\'r opsiynau eu newid. Ydych chi wir am gau\'r deialog?',

@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'uk' ] = {
 		resize: 'Потягніть для зміни розмірів',
 		generalTab: 'Основне',
 		advancedTab: 'Додаткове',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Значення не є цілим числом.',
 		confirmNewPage: 'Всі незбережені зміни будуть втрачені. Ви впевнені, що хочете завантажити нову сторінку?',
 		confirmCancel: 'Деякі опції змінено. Закрити вікно без збереження змін?',

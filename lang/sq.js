@@ -61,6 +61,7 @@ CKEDITOR.lang[ 'sq' ] = {
 		resize: 'Ripërmaso',
 		generalTab: 'Të përgjithshme',
 		advancedTab: 'Të përparuara',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Vlera e futur nuk është një numër',
 		confirmNewPage: 'Çdo ndryshim që nuk është ruajtur do humbasë. Je i sigurtë që dëshiron të krijosh një faqe të re?',
 		confirmCancel: 'Disa opsione kanë ndryshuar. Je i sigurtë që dëshiron ta mbyllësh dritaren?',

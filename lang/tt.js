@@ -62,6 +62,7 @@ CKEDITOR.lang[ 'tt' ] = {
 		resize: 'Зурлыкны үзгәртү',
 		generalTab: 'Төп',
 		advancedTab: 'Киңәйтелгән көйләүләр',
+		keystrokesTab: 'Keystrokes', // MISSING
 		validateNumberFailed: 'Әлеге кыйммәт сан түгел.',
 		confirmNewPage: 'Any unsaved changes to this content will be lost. Are you sure you want to load new page?', // MISSING
 		confirmCancel: 'You have changed some options. Are you sure you want to close the dialog window?', // MISSING
