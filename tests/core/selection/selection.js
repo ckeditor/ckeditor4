@@ -772,5 +772,18 @@ bender.test( {
 		bender.tools.setHtmlWithSelection( editor, '<p>[T]e[s]t</p>' );
 
 		assert.isFalse( editor.getSelection().isCollapsed() );
+	},
+
+	// #800
+	'test isCollapsed on multiple collapsed selections': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>T^es^t</p>' );
+
+		assert.isFalse( editor.getSelection().isCollapsed() );
 	}
 } );
