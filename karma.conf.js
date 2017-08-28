@@ -22,10 +22,10 @@ module.exports = function( config ) {
 
 			'karma_tests/_runner/**/*.js',
 
-			'tests/core/tools/array.js',
-			'tests/core/tools/object.js',
-			// 'tests/core/command/events.js'
-			// 'tests/core/command/command.js'
+			'tests/core/tools/**/*.js',
+			'tests/core/command/events.js',
+			'tests/core/command/command.js',
+			'tests/core/editable/aria.js'
 		],
 
 

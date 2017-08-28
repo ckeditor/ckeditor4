@@ -8,80 +8,80 @@
 
 	bender.config = window.BENDER_CONFIG;
 
-	bender.configureEditor = function( config, callback ) {
-		var toLoad = 0,
-			removePlugins,
-			regexp,
-			i;
+	// bender.configureEditor = function( config, callback ) {
+	// 	var toLoad = 0,
+	// 		removePlugins,
+	// 		regexp,
+	// 		i;
+    //
+	// 	if ( config.plugins ) {
+	// 		if ( typeof config.plugins == 'string') {
+	// 			config.plugins = config.plugins.split( ',' );
+	// 		}
+    //
+	// 		CKEDITOR.config.plugins = CKEDITOR.config.plugins.length ?
+	// 			CKEDITOR.config.plugins.split( ',' ).concat( config.plugins ).join( ',' ) :
+	// 			config.plugins.join( ',' );
+	// 	}
+    //
+	// 	// support both Bender <= 0.2.2 and >= 0.2.3 directives
+	// 	removePlugins = config[ 'remove-plugins' ] || ( config.remove && config.remove.plugins );
+    //
+	// 	if ( removePlugins ) {
+	// 		CKEDITOR.config.removePlugins = removePlugins.join( ',' );
+    //
+	// 		regexp = new RegExp( '(?:^|,)(' + removePlugins.join( '|' ) + ')(?=,|$)', 'g' );
+    //
+	// 		CKEDITOR.config.plugins = CKEDITOR.config.plugins
+	// 			.replace( regexp, '' )
+	// 			.replace( /,+/g, ',' )
+	// 			.replace( /^,|,$/g, '' );
+    //
+	// 		if ( config.plugins ) {
+	// 			config.plugins = config.plugins.join( ',' )
+	// 				.replace( regexp, '' )
+	// 				.replace( /,+/g, ',' )
+	// 				.replace( /^,|,$/g, '' )
+	// 				.split( ',' );
+	// 		}
+	// 	}
+    //
+	// 	bender.plugins = config.plugins;
+    //
+	// 	if ( bender.plugins ) {
+	// 		toLoad++;
+	// 		// defer();
+    //
+	// 		CKEDITOR.plugins.load( config.plugins, onLoad );
+	// 	}
+    //
+	// 	if ( config.adapters ) {
+	// 		for ( i = 0; i < config.adapters.length; i++ ) {
+	// 			config.adapters[ i ] = CKEDITOR.basePath + 'adapters/' + config.adapters[ i ] + '.js';
+	// 		}
+    //
+	// 		toLoad++;
+	// 		// defer();
+    //
+	// 		CKEDITOR.scriptLoader.load( config.adapters, onLoad );
+	// 	}
+    //
+	// 	function onLoad() {
+	// 		if ( toLoad ) {
+	// 			toLoad--;
+	// 		}
+    //
+	// 		if ( !toLoad ) {
+	// 			bender.setupEditors( callback );
+	// 		}
+	// 	}
+	// };
 
-		if ( config.plugins ) {
-			if ( typeof config.plugins == 'string') {
-				config.plugins = config.plugins.split( ',' );
-			}
+	// bender.setupEditors = function( callback ) {
+	// 	startRunner( callback );
+	// };
 
-			CKEDITOR.config.plugins = CKEDITOR.config.plugins.length ?
-				CKEDITOR.config.plugins.split( ',' ).concat( config.plugins ).join( ',' ) :
-				config.plugins.join( ',' );
-		}
-
-		// support both Bender <= 0.2.2 and >= 0.2.3 directives
-		removePlugins = config[ 'remove-plugins' ] || ( config.remove && config.remove.plugins );
-
-		if ( removePlugins ) {
-			CKEDITOR.config.removePlugins = removePlugins.join( ',' );
-
-			regexp = new RegExp( '(?:^|,)(' + removePlugins.join( '|' ) + ')(?=,|$)', 'g' );
-
-			CKEDITOR.config.plugins = CKEDITOR.config.plugins
-				.replace( regexp, '' )
-				.replace( /,+/g, ',' )
-				.replace( /^,|,$/g, '' );
-
-			if ( config.plugins ) {
-				config.plugins = config.plugins.join( ',' )
-					.replace( regexp, '' )
-					.replace( /,+/g, ',' )
-					.replace( /^,|,$/g, '' )
-					.split( ',' );
-			}
-		}
-
-		bender.plugins = config.plugins;
-
-		if ( bender.plugins ) {
-			toLoad++;
-			// defer();
-
-			CKEDITOR.plugins.load( config.plugins, onLoad );
-		}
-
-		if ( config.adapters ) {
-			for ( i = 0; i < config.adapters.length; i++ ) {
-				config.adapters[ i ] = CKEDITOR.basePath + 'adapters/' + config.adapters[ i ] + '.js';
-			}
-
-			toLoad++;
-			// defer();
-
-			CKEDITOR.scriptLoader.load( config.adapters, onLoad );
-		}
-
-		function onLoad() {
-			if ( toLoad ) {
-				toLoad--;
-			}
-
-			if ( !toLoad ) {
-				bender.setupEditors( callback );
-			}
-		}
-	};
-
-	bender.setupEditors = function( callback ) {
-		startRunner( callback );
-	};
-
-	function startRunner( startTestsCallback ) {
+	bender.setupEditors = function( testCase, startTestsCallback ) {
 
 		onDocumentReady( start );
 
@@ -98,8 +98,10 @@
 				}
 
 				bender.editorBot.create( bender.editor, function( bot ) {
-					bender.editor = bender.testCase.editor = bot.editor;
-					bender.testCase.editorBot = bot;
+					// bender.editor = bender.testCase.editor = bot.editor;
+					bot.testCase.editor = bot.editor;
+					// bender.testCase.editorBot = bot;
+					bot.testCase.editorBot = bot;
 					setUpEditors();
 				} );
 			}
@@ -128,9 +130,11 @@
 						definition = editorsDefinitions[ name ];
 
 					if ( !name ) {
-						bender.editors = bender.testCase.editors = editors;
-						bender.editorBots = bender.testCase.editorBots = bots;
-						startTestsCallback(); // TODO
+						// bender.editors = bender.testCase.editors = editors;
+						testCase.editors = editors;
+						// bender.editorBots = bender.testCase.editorBots = bots;
+						testCase.editorBots = bots;
+						startTestsCallback();
 						return;
 					}
 
@@ -181,7 +185,7 @@
 			// 	callbackFn();
 			// }
 		}
-	}
+	};
 
 	function onDocumentReady( callback ) {
 		function complete() {
