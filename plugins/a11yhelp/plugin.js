@@ -167,6 +167,7 @@
 		 * @param {CKEDITOR.editor} editor Editor instance.
 		 * @param {Number} keystroke Number which represent command keystroke.
 		 * @param {String} [wrappingTag=kbd] Wrapping tag. It's inner string of tag: e.g. 'kbd' string in case of `<kbd></kbd>` tags pair.
+		 * Providing empty string will remove wrapping tags from returned result.
 		 * @returns {String} HTML code with key names wrapped with wrapping tag by default it is `<kbd></kbd>`.
 		 */
 		representKeystroke: function( editor, keystroke, wrappingTag ) {
