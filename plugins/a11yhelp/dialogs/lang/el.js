@@ -92,12 +92,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'el', {
 	backSlash: 'Ανάστροφη Κάθετος',
 	closeBracket: 'Κλείσιμο Παρένθεσης',
 	singleQuote: 'Απόστροφος',
-	commandsList: {
-		sectionName: 'Keystrokes table', // MISSING
-		command: 'Command', // MISSING
-		keystroke: 'Keystroke' // MISSING
+	keystrokesTable: {
+		commandsHeader: 'Commands', // MISSING
+		keystrokesHeader: 'Keystrokes' // MISSING
 	},
-	commandsLabel: {
+	accessibilityCommandsLabels: {
 		generalTab:	'Accessibility Help', // MISSING
 		keystrokesTab: 'Keystrokes list' // MISSING
 	}

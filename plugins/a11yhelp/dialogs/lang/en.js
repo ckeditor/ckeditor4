@@ -109,12 +109,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'en', {
 	backSlash: 'Backslash',
 	closeBracket: 'Close Bracket',
 	singleQuote: 'Single Quote',
-	commandsList: {
-		sectionName: 'Keystrokes table',
-		command: 'Command',
-		keystroke: 'Keystroke'
+	keystrokesTable: {
+		commandsHeader: 'Commands',
+		keystrokesHeader: 'Keystrokes'
 	},
-	commandsLabel: {
+	accessibilityCommandsLabels: {
 		generalTab:	'Accessibility Help',
 		keystrokesTab: 'Keystrokes list'
 	}

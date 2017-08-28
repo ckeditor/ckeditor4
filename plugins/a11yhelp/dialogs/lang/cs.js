@@ -92,12 +92,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'cs', {
 	backSlash: 'Obrácené lomítko',
 	closeBracket: 'Uzavřená hranatá závorka',
 	singleQuote: 'Jednoduchá uvozovka',
-	commandsList: {
-		sectionName: 'Keystrokes table', // MISSING
-		command: 'Command', // MISSING
-		keystroke: 'Keystroke' // MISSING
+	keystrokesTable: {
+		commandsHeader: 'Commands', // MISSING
+		keystrokesHeader: 'Keystrokes' // MISSING
 	},
-	commandsLabel: {
+	accessibilityCommandsLabels: {
 		generalTab:	'Accessibility Help', // MISSING
 		keystrokesTab: 'Keystrokes list' // MISSING
 	}

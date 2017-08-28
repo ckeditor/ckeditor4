@@ -92,12 +92,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de-ch', {
 	backSlash: 'Rückwärtsgewandter Schrägstrich',
 	closeBracket: 'Schliessende eckige Klammer',
 	singleQuote: 'Einfaches Anführungszeichen',
-	commandsList: {
-		sectionName: 'Keystrokes table', // MISSING
-		command: 'Command', // MISSING
-		keystroke: 'Keystroke' // MISSING
+	keystrokesTable: {
+		commandsHeader: 'Commands', // MISSING
+		keystrokesHeader: 'Keystrokes' // MISSING
 	},
-	commandsLabel: {
+	accessibilityCommandsLabels: {
 		generalTab:	'Accessibility Help', // MISSING
 		keystrokesTab: 'Keystrokes list' // MISSING
 	}

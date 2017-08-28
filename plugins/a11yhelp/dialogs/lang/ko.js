@@ -92,12 +92,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ko', {
 	backSlash: '역슬래시(\\\\) 키',
 	closeBracket: '브라켓 닫기(]) 키',
 	singleQuote: '외 따옴표(\') 키',
-	commandsList: {
-		sectionName: 'Keystrokes table', // MISSING
-		command: 'Command', // MISSING
-		keystroke: 'Keystroke' // MISSING
+	keystrokesTable: {
+		commandsHeader: 'Commands', // MISSING
+		keystrokesHeader: 'Keystrokes' // MISSING
 	},
-	commandsLabel: {
+	accessibilityCommandsLabels: {
 		generalTab:	'Accessibility Help', // MISSING
 		keystrokesTab: 'Keystrokes list' // MISSING
 	}
