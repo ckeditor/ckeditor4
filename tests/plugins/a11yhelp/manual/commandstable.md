@@ -2,17 +2,16 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea,a11yhelp
 
-Note: Perform below steps in both editors.
-----
+**Perform below steps in both editors.**
+
 1. Focus editor.
-1. Press `Alt + 0`.
-1. Check `Commands table` section.
+1. Press `Ctrl/Cmd + /`.
 
 **Expected:**
-* First editor - Table should contain at least one keystroke `Alt + 0`.
+* First editor - Table should contain at least 2 keystrokes `Alt + 0` amd `Ctrl/Cmd + Forward Slash`.
 * Second editor - Table should contains 3 new keystrokes:
   - `Alt + Shift + A`.
-  - `Alt + Shift + B`, with description.
-  - `Alt + Shift + C`, with modified label and modified key description.
+  - `Alt + Shift + X`, with text 'This is alternative keystroke description'.
+  - `Alt + Shift + Z`, with modified label ('This is modified label.') and modified key description ('This is modified key description.').
 
 **Unexpected:** Mentioned keystrokes are not displayed in accessibility dialog.

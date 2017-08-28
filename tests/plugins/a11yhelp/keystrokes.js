@@ -47,7 +47,6 @@
 			} );
 		},
 
-		// #456
 		'test representKeystroke': function() {
 			this._createEditor( {}, function() {
 				var editor = this.editor;
@@ -55,21 +54,19 @@
 			} );
 		},
 
-		// #456
 		'test visible label': function() {
 			this._createEditor( {}, function() {
 				var bot = this.editorBot;
 				this._registerCommand( 'customCommand' );
 
 				bot.dialog( 'a11yHelp', function( dialog ) {
-					var dialogHtml = dialog.definition.contents[0].elements[0].html;
+					var dialogHtml = dialog.definition.contents[ 0 ].elements[ 0 ].html;
 					assert.areNotSame( -1, dialogHtml.indexOf( '<td>Test Label.</td><td><kbd><kbd>Alt</kbd>+<kbd>A</kbd></kbd></td>' ) );
 					dialog.hide();
 				} );
 			} );
 		},
 
-		// #456
 		'test visible key description': function() {
 			this._createEditor( {}, function() {
 				var bot = this.editorBot,
@@ -88,7 +85,7 @@
 
 				bot.dialog( 'a11yHelp', function( dialog ) {
 					wait( function() {
-						var dialogHtml = dialog.definition.contents[0].elements[0].html; // evt.data === dialog
+						var dialogHtml = dialog.definition.contents[ 0 ].elements[ 0 ].html;
 						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd> Additional info.</td>' ) );
 						dialog.hide();
 					}, 20 );
@@ -96,7 +93,6 @@
 			} );
 		},
 
-		// #456
 		'test visible key description (inline editor)': function() {
 			this._createEditor( { creator: 'inline' }, function() {
 				var bot = this.editorBot,
@@ -108,14 +104,14 @@
 							return 'Modified label';
 						}
 					},
-				keystroke = CKEDITOR.SHIFT + 65; // Shift + A
+					keystroke = CKEDITOR.SHIFT + 65; // Shift + A
 
 				this._registerCommand( 'customCommand' );
 				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
 
 				bot.dialog( 'a11yHelp', function( dialog ) {
 					wait( function() {
-						var dialogHtml = dialog.definition.contents[0].elements[0].html; // evt.data === dialog
+						var dialogHtml = dialog.definition.contents[ 0 ].elements[ 0 ].html;
 						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd> Additional info.</td>' ) );
 						dialog.hide();
 					}, 20 );
@@ -123,7 +119,6 @@
 			} );
 		},
 
-		// #456
 		'test modified key description': function() {
 			this._createEditor( {}, function() {
 				var bot = this.editorBot,
@@ -142,7 +137,7 @@
 
 				bot.dialog( 'a11yHelp', function( dialog ) {
 					wait( function() {
-						var dialogHtml = dialog.definition.contents[0].elements[0].html; // evt.data === dialog
+						var dialogHtml = dialog.definition.contents[ 0 ].elements[ 0 ].html;
 						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Another Command</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd>Modified key description</td>' ) );
 						dialog.hide();
 					}, 20 );
@@ -150,7 +145,6 @@
 			} );
 		},
 
-		// #456
 		'test for private property _keyMap': function() {
 			this._createEditor( {}, function() {
 				var editor = this.editor,

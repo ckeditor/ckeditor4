@@ -310,21 +310,17 @@ bender.test( {
 			name: 'getLabel1',
 			config: {
 				on: {
-					// This allows on setting up nice enviornment before asserts.
+					// This allows on setting up nice environment before asserts.
 					'pluginsLoaded': function( evt ) {
 						var editor = evt.editor;
 
 						editor.addCommand( 'custom1', {
-							exec: function() {
-								return;
-							},
+							exec: function() {},
 							label: 'custom label 1'
 						} );
 
 						editor.addCommand( 'custom2', {
-							exec: function() {
-								return;
-							},
+							exec: function() {},
 							label: 'custom label 2',
 							getLabel: function() {
 								return 'alternative label 2';
@@ -332,15 +328,11 @@ bender.test( {
 						} );
 
 						editor.addCommand( 'custom3', {
-							exec: function() {
-								return;
-							}
+							exec: function() {}
 						} );
 
 						editor.addCommand( 'custom4', {
-							exec: function() {
-								return;
-							}
+							exec: function() {}
 						} );
 
 						editor.ui.addButton( 'Custom3', {
@@ -366,21 +358,17 @@ bender.test( {
 			name: 'getKeystrokeDescription1',
 			config: {
 				on: {
-					// This allows on setting up nice enviornment before asserts.
+					// This allows on setting up nice environment before asserts.
 					'pluginsLoaded': function( evt ) {
 						var editor = evt.editor;
 
 						editor.addCommand( 'custom1', {
-							exec: function() {
-								return;
-							},
+							exec: function() {},
 							keystrokeDescription: 'custom keystrokeDescription 1'
 						} );
 
 						editor.addCommand( 'custom2', {
-							exec: function() {
-								return;
-							},
+							exec: function() {},
 							keystrokeDescription: 'custom keystrokeDescription 2',
 							getKeystrokeDescription: function() {
 								return 'alternative keystrokeDescription 2';
@@ -388,9 +376,7 @@ bender.test( {
 						} );
 
 						editor.addCommand( 'custom3', {
-							exec: function() {
-								return;
-							}
+							exec: function() {}
 						} );
 					}
 				}

@@ -23,7 +23,7 @@
 	editor.addCommand( 'extra2', {
 		exec: function() {},
 		label: 'Extra command 2',
-		keystrokeDescription: 'This command contains some key description.'
+		keystrokeDescription: '<kbd><kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>X</kbd></kbd>' + ' This is alternative keystroke description.'
 	} );
 	editor.addCommand( 'extra3', {
 		exec: function() {},
@@ -33,12 +33,12 @@
 			return 'This is modified label.';
 		},
 		getKeystrokeDescription: function() {
-			return 'This is modified key description.';
+			return '<kbd><kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>Z</kbd></kbd>' + ' This is modified key description.';
 		}
 	} );
 
-	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 65, 'extra1' );
-	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 66, 'extra2' );
-	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 67, 'extra3' );
+	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 65 /*A*/, 'extra1' );
+	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 66 /*B*/, 'extra2' );
+	editor.setKeystroke( CKEDITOR.SHIFT + CKEDITOR.ALT + 67 /*C*/, 'extra3' );
 </script>
 
