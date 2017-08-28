@@ -34,18 +34,26 @@
 			CKEDITOR.scriptLoader.load( CKEDITOR.getUrl( plugin.path + 'dialogs/lang/' + langCode + '.js' ), function() {
 				editor.lang.a11yhelp = plugin.langEntries[ langCode ];
 
-				editor.addCommand( commandName, {
-					exec: function() {
-						editor.openDialog( commandName );
-					},
-
+				editor.addCommand( commandName, new CKEDITOR.dialogCommand( commandName, {
 					modes: { wysiwyg: 1, source: 1 },
 					readOnly: 1,
 					canUndo: false,
-					label: editor.lang.a11yhelp.commandLabel
-				} );
+					label: editor.lang.a11yhelp.commandsLabel.generalTab
+				} ) );
+
+				editor.addCommand( 'keystrokesTab', new CKEDITOR.dialogCommand( commandName, {
+					modes: { wysiwyg: 1, source: 1 },
+					readOnly: 1,
+					canUndo: false,
+					label: editor.lang.a11yhelp.commandsLabel.keystrokesTab, // label for keystrokes
+					tab: 'keystrokes'
+				} ) );
+
 				editor.setKeystroke( CKEDITOR.ALT + 48 /*0*/, 'a11yHelp' );
 				CKEDITOR.dialog.add( commandName, plugin.path + 'dialogs/a11yhelp.js' );
+
+				editor.setKeystroke( CKEDITOR.CTRL + 191 /*/*/, 'keystrokesTab' );
+				CKEDITOR.dialog.add( 'keystrokesTab', plugin.path + 'dialogs/a11yhelp.js' );
 			} );
 
 			editor.on( 'ariaEditorHelpLabel', function( evt ) {
