@@ -199,7 +199,8 @@
 				selection = editor.getSelection(),
 				initialRev = selection.rev,
 				realSelection,
-				ranges;
+				ranges,
+				i;
 
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
 
@@ -217,6 +218,10 @@
 			assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
 			assert.isTrue( _getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
 				'Selected element equals to the first selected cell' );
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				assert.isFalse( ranges[ i ].collapsed, 'Range #' + i + ' is not collapsed' );
+			}
 
 			realSelection = editor.getSelection( 1 );
 
@@ -1091,19 +1096,6 @@
 
 			editor.editable().fire( 'selectionchange' );
 			wait();
-		},
-
-		// #800
-		'isCollapsed with table selection': function() {
-			var editor = this.editor,
-				ranges;
-
-			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
-
-			ranges = getRangesForCells( editor, editor.editable().findOne( 'table' ), [ 0, 1 ] );
-			editor.getSelection().selectRanges( ranges );
-
-			assert.isFalse( editor.getSelection().isCollapsed() );
 		},
 
 		setVerbosity: function( newVerbosity ) {
