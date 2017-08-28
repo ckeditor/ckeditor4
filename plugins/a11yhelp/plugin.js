@@ -38,14 +38,14 @@
 					modes: { wysiwyg: 1, source: 1 },
 					readOnly: 1,
 					canUndo: false,
-					label: editor.lang.a11yhelp.commandsLabel.generalTab
+					label: editor.lang.a11yhelp.accessibilityCommandsLabels.generalTab
 				} ) );
 
 				editor.addCommand( 'keystrokesTab', new CKEDITOR.dialogCommand( commandName, {
 					modes: { wysiwyg: 1, source: 1 },
 					readOnly: 1,
 					canUndo: false,
-					label: editor.lang.a11yhelp.commandsLabel.keystrokesTab, // label for keystrokes
+					label: editor.lang.a11yhelp.accessibilityCommandsLabels.keystrokesTab,
 					tab: 'keystrokes'
 				} ) );
 

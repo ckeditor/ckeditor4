@@ -34,7 +34,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		var id = CKEDITOR.tools.getNextId(),
 			pageTpl = '<div class="cke_accessibility_legend" role="document" aria-labelledby="' + id + '_arialbl" tabIndex="-1">%1</div>' +
 				'<span id="' + id + '_arialbl" class="cke_voice_label">' + lang.contents + ' </span>',
-			sectionTpl = '<h1>%1</h1><dl>%2</dl>',
+			sectionTpl = '<dl>%2</dl>',
 			itemTpl = '<dt>%1</dt><dd>%2</dd>';
 
 		var pageHtml = [];
@@ -65,7 +65,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 				sectionHtml.push( itemTpl.replace( '%1', item.name ).replace( '%2', itemLegend ) );
 			}
 
-			pageHtml.push( sectionTpl.replace( '%1', section.name ).replace( '%2', sectionHtml.join( '' ) ) );
+			pageHtml.push( sectionTpl.replace( '%2', sectionHtml.join( '' ) ) );
 		}
 
 		return pageTpl.replace( '%1', pageHtml.join( '' ) );
@@ -79,7 +79,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 		// Section based on available commands. If you modify `commandRowTpl`,
 		// you need to change unit test in a similar way.
-		var commandsSectionTpl = '<h1>%1</h1><table>%2</table>',
+		var commandsSectionTpl = '<table>%2</table>',
 			commandRowTpl = '<tr%1><td>%2</td><td>%3</td></tr>',
 			commandsTbodyTpl = '<tbody>%1</tbody>',
 			commandsTbodyHtml,
@@ -87,7 +87,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 			commandsTheadHtml,
 			commandItems;
 
-		commandsTheadHtml = commandsTheadTpl.replace( '%1', lang.commandsList.command ).replace( '%2', lang.commandsList.keystroke );
+		commandsTheadHtml = commandsTheadTpl.replace( '%1', lang.keystrokesTable.commandsHeader ).replace( '%2', lang.keystrokesTable.keystrokesHeader );
 
 		// Get all commands with keystrokes.
 		commandItems = populateWithAvailableCommands();
@@ -111,7 +111,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		} , '' ) );
 
 		// Push section's HTML code to output file.
-		pageHtml.push( commandsSectionTpl.replace( '%1', lang.commandsList.sectionName ).replace( '%2', commandsTheadHtml + commandsTbodyHtml ) );
+		pageHtml.push( commandsSectionTpl.replace( '%2', commandsTheadHtml + commandsTbodyHtml ) );
 
 		return pageTpl.replace( '%1', pageHtml.join( '' ) );
 	}

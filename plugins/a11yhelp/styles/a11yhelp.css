@@ -11,7 +11,6 @@
 }
 .cke_accessibility_legend * {
 	white-space:normal;
-	font-family: 'Lato', Arial, sans-serif;
 	color: #4C5867;
 }
 .cke_accessibility_legend h1 {
@@ -19,7 +18,7 @@
 	font-weight: 400;
 	border-bottom: 1px solid #d9dce0;
 	padding-bottom: 2px;
-	margin: 35px 15px 15px;
+	margin: 15px;
 }
 .cke_accessibility_legend dl {
 
@@ -37,16 +36,15 @@
 }
 
 .cke_accessibility_legend table {
-	width: 95%;
 	border-collapse: collapse;
 	border: 1px solid #d9dce0;
-	margin-bottom: 40px;
+	margin: 10px !important;
 }
 
 .cke_accessibility_legend th {
 	border: 0.1em solid #d9dce0;
 	padding: 0.8em;
-	font-weight: 400;
+	font-weight: 600;
 	font-size: 15px;
 }
 
