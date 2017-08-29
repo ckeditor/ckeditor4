@@ -13,6 +13,7 @@ Fixed Issues:
 * [#566](https://github.com/ckeditor/ckeditor-dev/issues/566): Fixed: The CSS border shorthand property with zero width (`border: 0px solid #000;`) no longer causes table to have border attribute set to 1.
 * [#779](https://github.com/ckeditor/ckeditor-dev/issues/779): Fixed: [Remove Format](https://ckeditor.com/addon/removeformat) plugin removes elements with language definition inserted by [Language](https://ckeditor.com/addon/language) plugin.
 * [#423](https://github.com/ckeditor/ckeditor-dev/issues/423): Fixed: [Paste from Word](https://ckeditor.com/addon/pastefromword) plugin pastes paragraphs into the editor even if [`CKEDITOR.config.enterMode`](https://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) is set to `CKEDITOR.ENTER_BR`.
+* [#719](https://github.com/ckeditor/ckeditor-dev/issues/719): Fixed: Image inserted using [Enhanced Image](https://ckeditor.com/addon/image2) plugin could be resized when editor is in read-only mode.
 
 ## CKEditor 4.7.2
 
