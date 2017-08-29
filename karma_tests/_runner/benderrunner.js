@@ -6,7 +6,35 @@
 ( function( window, bender ) {
 	'use strict';
 
+	// TODO config mockup - previously it was generated dynamically by bender server.
 	bender.config = window.BENDER_CONFIG;
+
+	// Bender global scope for storing current test suit and test case.
+	bender._ = {};
+
+	// Returns currently executed test suite or null.
+	bender.getTestSuite = function() {
+		return bender._.currentTestSuite;
+	};
+
+	// Sets currently executed test suite (should be set in `before` method).
+	bender.setTestSuite = function( ts ) {
+		bender._.currentTestSuite = ts;
+	};
+
+	// Returns currently executed test case or null.
+	bender.getTestCase = function() {
+		return bender._.currentTestCase;
+	};
+
+	// Sets currently executed test case (should be set in the beginning of the test run).
+	bender.setTestCase = function( tc ) {
+		bender._.currentTestCase = tc;
+	};
+
+	// bender.testSuite = function( tests, name ) {
+	// 	this
+	// };
 
 	// bender.configureEditor = function( config, callback ) {
 	// 	var toLoad = 0,

@@ -6,13 +6,6 @@
 ( function( bender ) {
 	'use strict';
 
-	bender.testSuite = function( tests, name ) {
-		return {
-			tests: tests,
-			name: name
-		}
-	};
-
 	bender.editorBot = function( tc, editor ) {
 		this.testCase = tc;
 		this.editor = editor;
@@ -21,7 +14,7 @@
 	bender.editorBot.create = function( profile, callback ) {
 		var creator = profile.creator || 'replace',
 			name = profile.name || 'test_editor',
-			tc = bender.testSuite,
+			tc = bender.getTestSuite(),
 			element,
 			config;
 
@@ -84,13 +77,13 @@
 
 			// Allow all instantiation tasks to complete.
 			setTimeout( function() {
-				// if ( bender.runner._inTest ) {
-				// 	resume( function() {
-				// 		callback( bot );
-				// 	} );
-				// } else {
+				if ( bender.currentTestCase && bender.currentTestCase.isWaiting ) {
+					resume( function() {
+						callback( bot );
+					} );
+				} else {
 					callback( bot );
-				// }
+				}
 			} );
 		}, this );
 
@@ -115,10 +108,10 @@
 		CKEDITOR[ creator ]( element, profile.config );
 
 		// TODO
-		// if ( bender.currentTestCase ) {
-		// if ( bender.runner._inTest ) {
-		// 	// tc.wait();
-		// }
+		console.log( 'ctc', bender.currentTestCase );
+		if ( bender.currentTestCase ) {
+			bender.currentTestCase.wait();
+		}
 	};
 
 	bender.editorBot.prototype = {

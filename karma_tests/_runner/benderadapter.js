@@ -21,9 +21,8 @@
 				i;
 
 			if ( testKeys.length ) {
-				testSuite = tests;//new bender.testSuite( tests, 'Test suite ' + counter );
+				testSuite = tests;
 				testSuite.name = 'Test suite ' + counter;
-				testSuite._ = {};
 
 				describe( testSuite.name, ( function( testIndex ) {
 
@@ -34,7 +33,8 @@
 						// 2. Setup all editor instances.
 						// 3. Run original "init" function.
 						before( function( done ) {
-							bender.testSuite = testSuite;
+
+							bender.setTestSuite( testSuite );
 							// TODO pass editor config (testEditorConfig)
 							bender.setupEditors( testSuite, function() {
 								if ( tests.init ) {
@@ -77,6 +77,7 @@
 									if ( destroyedInstances == instances.length ) {
 										// CKEDITOR.removeAllListeners();
 										console.log( testSuite.name, 'instanceDestroyed' , destroyedInstances, instances.length );
+										bender.setTestSuite( null );
 										done();
 									}
 								} );
@@ -85,6 +86,7 @@
 									CKEDITOR.instances[ instanceName ].destroy();
 								} );
 							} else {
+								bender.setTestSuite( null );
 								done();
 							}
 						} );
@@ -93,38 +95,50 @@
 							// Running each test case:
 							// 1. By default it is treated as async - done passed.
 							// 2. Setup wait/resume.
-							// 3. Set "currentTestCase" global bender property so we know we are during test run.
+							// 3. Set "currentTestCase" global bender property so we know we are executing a test case.
 							// 4. Run original test function.
 							it( testKeys[ i ], ( function() {
-								var testFn = tests[ testKeys[ i ] ];
-								var testName = testKeys[ i ],
-									isWaiting = false;
+								var testFn = tests[ testKeys[ i ] ],
+									testName = testKeys[ i ];
 
 								return function( done ) {
-									bender.currentTestCase = {
-										name: testName
-									};
+									var scope = this;
 
 									// TODO
 									window.wait = function() {
-										console.log( 'wait' );
-										isWaiting = true;
+										// console.log( 'wait' );
+										bender.currentTestCase.isWaiting = true;
 									};
 
 									// TODO
 									window.resume = function( callback ) {
-										console.log( 'resume' );
-										if ( !isWaiting ) {
+										// console.log( 'resume' );
+										if ( !bender.currentTestCase.isWaiting ) {
 											// TODO throw 'resume called without wait'; done();
 										} else {
+											bender.currentTestCase.isWaiting = false;
 											callback();
-											done();
+											if ( !bender.currentTestCase.isWaiting ) {
+												done();
+											}
 										}
+									};
+
+									window.assert.ignore = function() {
+										scope.skip();
+									};
+
+									bender.currentTestCase = {
+										name: testName,
+										isWaiting: false,
+										wait: window.wait,
+										resume: window.resume,
+										done: done
 									};
 
 									ckTools.bind( testFn, testSuite )();
 
-									if ( !isWaiting ) {
+									if ( !bender.currentTestCase.isWaiting ) {
 										done();
 									}
 								}
