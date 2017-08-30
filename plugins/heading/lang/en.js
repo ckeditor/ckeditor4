@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'heading', 'en', {
   label:      'Heading',
   panelTitle: 'Select heading level',
   level_h1:   'Level 1',
-  level_h1_as_title:   'Level 1 (Reserved for Document Title)',
+  level_h1_as_title:   'Level 1 (Reserved for document title)',
   level_h2:   'Level 2',
   level_h3:   'Level 3',
   level_h4:   'Level 4',

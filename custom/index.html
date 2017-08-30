@@ -55,6 +55,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
   <main>
   <h1>A11yFirst Plugins Demo</h1>
 
+
     <div class="adjoined-bottom">
       <div class="grid-container">
         <div class="grid-width-100">
@@ -124,11 +125,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
       skin: 'a11yfirst',
       startupFocus: true,
       toolbar: [
+        { name: 'a11ychecker',  items: [ 'A11ychecker' ] },
         { name: 'heading',      items: [ 'Heading' ] },
         { name: 'list',         items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
         { name: 'link',         items: [ 'Link', 'Unlink', 'Anchor' ] },
         { name: 'misc1',        items: [ 'Image', 'Table', 'Language' ] },
         { name: 'blockformat',  items: [ 'BlockFormat' ] },
+        { name: 'paragraph',    items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
         { name: 'source',       items: [ 'Source' ] },
         '/',
         { name: 'search',       items: [ 'Find', 'Replace' ] },
@@ -137,7 +140,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
         { name: 'inlinestyle',  items: [ 'InlineStyle' ] },
         { name: 'misc2',        items: [ 'SpecialChar' ] }
       ],
-      extraPlugins: 'blockformat,heading,inlinestyle',
+      extraPlugins: 'blockformat,heading,inlinestyle,balloonpanel,a11ychecker',
     } );
     CKEDITOR.stylesSet.add ( 'default', [
       { name: 'Strong',           element: 'strong', overrides: 'b' },

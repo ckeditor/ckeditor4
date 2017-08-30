@@ -1,0 +1,82 @@
+{
+  "videoMayBePresent": {
+    "type": "custom",
+    "testability": 1,
+    "title": {
+      "de": "Das Video sollte geprüft werden, wenn Untertitel, Transkript und Audio-Beschreibungen gefordert sind",
+      "en": "The video should be tested if captions, transcript and audio description is required",
+      "nl": "De video dient te worden getest of ondertiteling, transcript en  audiodescription nodig zijn"
+    },
+    "description": {
+      "de": "Das Video sollte geprüft werden, wenn Untertitel, Transkript und Audio-Beschreibungen gefordert sind",
+      "en": "The video should be tested if captions, transcript and audio description is required",
+      "nl": "De video dient te worden getest of ondertiteling, transcript en  audiodescription nodig zijn"
+    },
+    "guidelines": [],
+    "tags": [
+      "link",
+      "video"
+    ],
+    "callback": "videoMayBePresent"
+  },
+  "audioMayBePresent": {
+    "type": "custom",
+    "testability": 1,
+    "title": {
+      "de": "Das Audio sollte geprüft werden, wenn Untertitel, Transkript und Audio-Beschreibungen gefordert sind",
+      "en": "The audio should be tested if captions, transcript and audio description is required",
+      "nl": "De audio dient te worden getest of ondertiteling, transcript en  audiodescription nodig zijn"
+    },
+    "description": {
+      "de": "Das Audio sollte geprüft werden, wenn Untertitel, Transkript und Audio-Beschreibungen gefordert sind",
+      "en": "The audio should be tested if captions, transcript and audio description is required",
+      "nl": "De audio dient te worden getest of ondertiteling, transcript en  audiodescription nodig zijn"
+    },
+    "guidelines": [],
+    "tags": [
+      "link",
+      "audio"
+    ],
+    "callback": "audioMayBePresent"
+  },
+  "animatedGifMayBePresent": {
+    "type": "custom",
+    "testability": 1,
+    "title": {
+      "de": "Es sollte geprüft werden, ob .gif-Dateien auf der Seite verwendet werden und, ob vorhandene .gif-Dateien mehr als einen Frame enthalten",
+      "en": "Test if a .gif is used on the page. Test if the .gif contains more then one frame",
+      "nl": "Test of een .gif afbeelding gebruikt is op de pagina. Test of het .gif bestand uit meer dan één frame bestaat"
+    },
+    "description": {
+      "de": "",
+      "en": "",
+      "nl": ""
+    },
+    "guidelines": [],
+    "tags": [
+      "link",
+      "gif"
+    ],
+    "callback": "animatedGifMayBePresent"
+  },
+  "userInputMayBeRequired": {
+    "type": "custom",
+    "testability": 1,
+    "title": {
+      "de": "Formulare sollten dem Benutzer ausreichend Rückmeldungen geben",
+      "en": "Form should be checked to ensure sufficient feedback is given to the user",
+      "nl": "Formulieren dienen te worden gecontroleerd of voldoende feedback aan gebruikers wordt gegeven"
+    },
+    "description": {
+      "de": "",
+      "en": "",
+      "nl": ""
+    },
+    "guidelines": [],
+    "tags": [
+      "form",
+      "input"
+    ],
+    "callback": "userInputMayBeRequired"
+  }
+}

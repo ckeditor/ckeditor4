@@ -89,9 +89,9 @@
       }
 
       // Add Remove format item
-      items.removeFormat = {
+      items.normalText = {
         label: lang.remove,
-        group: 'heading_actions',
+        group: 'heading_levels',
         style: new CKEDITOR.style( { element: 'p' } ),
         state: CKEDITOR.TRISTATE_DISABLED,
         order: headings.length,
@@ -138,7 +138,7 @@
             }
           }
 
-          activeItems.removeFormat = currentHeadingElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+          activeItems.normalText = currentHeadingElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
           activeItems.help = CKEDITOR.TRISTATE_OFF;
 
           if ( currentHeadingElement )

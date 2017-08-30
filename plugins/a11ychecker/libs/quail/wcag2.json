@@ -1,0 +1,615 @@
+{
+  "1.1.1": {
+    "id": "wcag20:text-equiv-all",
+    "level": "wcag20:level_a",
+    "default": "cantTell",
+    "testAggregators": [
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "tests": [
+          "areaHasAltValue"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "tests": [
+          "imgAltNotEmptyInAnchor"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "tests": [
+          "imgHasAlt"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "stacking",
+        "tests": [
+          "inputImageAltNotRedundant",
+          "inputImageAltIsNotPlaceholder",
+          "inputImageAltIsNotFileName",
+          "inputImageHasAlt"
+        ]
+      }
+    ]
+  },
+  "1.2.1": {
+    "id": "wcag20:media-equiv-av-only-alt",
+    "level": "wcag20:level_a",
+    "preconditions": [
+      "videoMayBePresent",
+      "audioMayBePresent"
+    ]
+  },
+  "1.2.2": {
+    "id": "wcag20:media-equiv-captions",
+    "level": "wcag20:level_a",
+    "testAggregators": [
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "tests": [
+          "videosEmbeddedOrLinkedNeedCaptions"
+        ]
+      }
+    ]
+  },
+  "1.2.3": {
+    "id": "wcag20:media-equiv-audio-desc",
+    "level": "wcag20:level_a",
+    "preconditions": [
+      "videoMayBePresent"
+    ]
+  },
+  "1.2.4": {
+    "id": "wcag20:media-equiv-real-time-captions",
+    "level": "wcag20:level_aa",
+    "preconditions": [
+      "videoMayBePresent"
+    ]
+  },
+  "1.2.5": {
+    "id": "wcag20:media-equiv-audio-desc-only",
+    "level": "wcag20:level_aa",
+    "preconditions": [
+      "videoMayBePresent"
+    ]
+  },
+  "1.2.6": {
+    "id": "wcag20:media-equiv-sign",
+    "level": "wcag20:level_aaa"
+  },
+  "1.2.7": {
+    "id": "wcag20:media-equiv-extended-ad",
+    "level": "wcag20:level_aaa"
+  },
+  "1.2.8": {
+    "id": "wcag20:media-equiv-text-doc",
+    "level": "wcag20:level_aaa"
+  },
+  "1.2.9": {
+    "id": "wcag20:media-equiv-live-audio-only",
+    "level": "wcag20:level_aaa"
+  },
+  "1.3.1": {
+    "id": "wcag20:content-structure-separation-programmatic",
+    "level": "wcag20:level_a",
+    "default": "cantTell",
+    "testAggregators": [
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "fileHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "inputTextHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "passwordHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "checkboxHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "radioHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "selectHasAssociatedLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "textareaHasAssociatedLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "cantTell",
+        "tests": [
+          "pNotUsedAsHeader"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "tests": [
+          "tableLayoutDataShouldNotHaveTh"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "tests": [
+          "tableLayoutHasNoSummary"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "tests": [
+          "tableLayoutHasNoCaption"
+        ]
+      }
+    ]
+  },
+  "1.3.2": {
+    "id": "wcag20:content-structure-separation-sequence",
+    "level": "wcag20:level_a"
+  },
+  "1.3.3": {
+    "id": "wcag20:content-structure-separation-understanding",
+    "level": "wcag20:level_a"
+  },
+  "1.4.1": {
+    "id": "wcag20:visual-audio-contrast-without-color",
+    "level": "wcag20:level_a",
+    "default": "cantTell",
+    "testAggregators": [
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "aInPHasADistinctStyle"
+        ]
+      }
+    ]
+  },
+  "1.4.2": {
+    "id": "wcag20:visual-audio-contrast-dis-audio",
+    "level": "wcag20:level_a",
+    "preconditions": [
+      "videoMayBePresent",
+      "audioMayBePresent"
+    ]
+  },
+  "1.4.3": {
+    "id": "wcag20:visual-audio-contrast-contrast",
+    "level": "wcag20:level_aa",
+    "testAggregators": [
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "colorFontContrast",
+          "colorElementBehindContrast",
+          "colorBackgroundImageContrast",
+          "colorElementBehindBackgroundImageContrast",
+          "colorBackgroundGradientContrast",
+          "colorElementBehindBackgroundGradientContrast"
+        ]
+      }
+    ]
+  },
+  "1.4.4": {
+    "id": "wcag20:visual-audio-contrast-scale",
+    "level": "wcag20:level_aa"
+  },
+  "1.4.5": {
+    "id": "wcag20:visual-audio-contrast-text-presentation",
+    "level": "wcag20:level_aa"
+  },
+  "1.4.6": {
+    "id": "wcag20:visual-audio-contrast7",
+    "level": "wcag20:level_aaa"
+  },
+  "1.4.7": {
+    "id": "wcag20:visual-audio-contrast-noaudio",
+    "level": "wcag20:level_aaa"
+  },
+  "1.4.8": {
+    "id": "wcag20:visual-audio-contrast-visual-presentation",
+    "level": "wcag20:level_aaa"
+  },
+  "1.4.9": {
+    "id": "wcag20:visual-audio-contrast-text-images",
+    "level": "wcag20:level_aaa"
+  },
+  "2.1.1": {
+    "id": "wcag20:keyboard-operation-keyboard-operable",
+    "level": "wcag20:level_a"
+  },
+  "2.1.2": {
+    "id": "wcag20:keyboard-operation-trapping",
+    "level": "wcag20:level_a"
+  },
+  "2.1.3": {
+    "id": "wcag20:keyboard-operation-all-funcs",
+    "level": "wcag20:level_aaa"
+  },
+  "2.2.1": {
+    "id": "wcag20:time-limits-required-behaviors",
+    "level": "wcag20:level_a"
+  },
+  "2.2.2": {
+    "id": "wcag20:time-limits-pause",
+    "level": "wcag20:level_a"
+  },
+  "2.2.3": {
+    "id": "wcag20:time-limits-no-exceptions",
+    "level": "wcag20:level_aaa"
+  },
+  "2.2.4": {
+    "id": "wcag20:time-limits-postponed",
+    "level": "wcag20:level_aaa"
+  },
+  "2.2.5": {
+    "id": "wcag20:time-limits-server-timeout",
+    "level": "wcag20:level_aaa"
+  },
+  "2.3.1": {
+    "id": "wcag20:seizure-does-not-violate",
+    "level": "wcag20:level_a"
+  },
+  "2.3.2": {
+    "id": "wcag20:seizure-three-times",
+    "level": "wcag20:level_aaa"
+  },
+  "2.4.1": {
+    "id": "wcag20:navigation-mechanisms-skip",
+    "level": "wcag20:level_a"
+  },
+  "2.4.2": {
+    "id": "wcag20:navigation-mechanisms-title",
+    "level": "wcag20:level_a"
+  },
+  "2.4.3": {
+    "id": "wcag20:navigation-mechanisms-focus-order",
+    "level": "wcag20:level_a"
+  },
+  "2.4.4": {
+    "id": "wcag20:navigation-mechanisms-refs",
+    "level": "wcag20:level_a",
+    "default": "cantTell",
+    "testAggregators": [
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "linkHasAUniqueContext"
+        ]
+      }
+    ]
+  },
+  "2.4.5": {
+    "id": "wcag20:navigation-mechanisms-mult-loc",
+    "level": "wcag20:level_aa"
+  },
+  "2.4.6": {
+    "id": "wcag20:navigation-mechanisms-descriptive",
+    "level": "wcag20:level_aa"
+  },
+  "2.4.7": {
+    "id": "wcag20:navigation-mechanisms-focus-visible",
+    "level": "wcag20:level_aa"
+  },
+  "2.4.8": {
+    "id": "wcag20:navigation-mechanisms-location",
+    "level": "wcag20:level_aaa"
+  },
+  "2.4.9": {
+    "id": "wcag20:navigation-mechanisms-link",
+    "level": "wcag20:level_aaa"
+  },
+  "2.4.10": {
+    "id": "wcag20:navigation-mechanisms-headings",
+    "level": "wcag20:level_aaa"
+  },
+  "3.1.1": {
+    "id": "wcag20:meaning-doc-lang-id",
+    "level": "wcag20:level_a",
+    "testAggregators": [
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "type": "stacking",
+        "tests": [
+          "documentLangIsISO639Standard",
+          "documentLangNotIdentified"
+        ]
+      }
+    ]
+  },
+  "3.1.2": {
+    "id": "wcag20:meaning-other-lang-id",
+    "level": "wcag20:level_aa"
+  },
+  "3.1.3": {
+    "id": "wcag20:meaning-idioms",
+    "level": "wcag20:level_aaa"
+  },
+  "3.1.4": {
+    "id": "wcag20:meaning-located",
+    "level": "wcag20:level_aaa"
+  },
+  "3.1.5": {
+    "id": "wcag20:meaning-supplements",
+    "level": "wcag20:level_aaa"
+  },
+  "3.1.6": {
+    "id": "wcag20:meaning-pronunciation",
+    "level": "wcag20:level_aaa"
+  },
+  "3.2.1": {
+    "id": "wcag20:consistent-behavior-receive-focus",
+    "level": "wcag20:level_a"
+  },
+  "3.2.2": {
+    "id": "wcag20:consistent-behavior-unpredictable-change",
+    "level": "wcag20:level_a"
+  },
+  "3.2.3": {
+    "id": "wcag20:consistent-behavior-consistent-locations",
+    "level": "wcag20:level_aa"
+  },
+  "3.2.4": {
+    "id": "wcag20:consistent-behavior-consistent-functionality",
+    "level": "wcag20:level_aa"
+  },
+  "3.2.5": {
+    "id": "wcag20:consistent-behavior-no-extreme-changes-context",
+    "level": "wcag20:level_aaa"
+  },
+  "3.3.1": {
+    "id": "wcag20:minimize-error-identified",
+    "level": "wcag20:level_a",
+    "preconditions": [
+      "userInputMayBeRequired"
+    ]
+  },
+  "3.3.2": {
+    "id": "wcag20:minimize-error-cues",
+    "level": "wcag20:level_a"
+  },
+  "3.3.3": {
+    "id": "wcag20:minimize-error-suggestions",
+    "level": "wcag20:level_aa",
+    "preconditions": [
+      "userInputMayBeRequired"
+    ]
+  },
+  "3.3.4": {
+    "id": "wcag20:minimize-error-reversible",
+    "level": "wcag20:level_aa",
+    "preconditions": [
+      "userInputMayBeRequired"
+    ]
+  },
+  "3.3.5": {
+    "id": "wcag20:minimize-error-context-help",
+    "level": "wcag20:level_aaa"
+  },
+  "3.3.6": {
+    "id": "wcag20:minimize-error-reversible-all",
+    "level": "wcag20:level_aaa"
+  },
+  "4.1.1": {
+    "id": "wcag20:ensure-compat-parses",
+    "level": "wcag20:level_a",
+    "default": "cantTell",
+    "testAggregators": [
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "documentIDsMustBeUnique"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "elementsDoNotHaveDuplicateAttributes"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "idRefHasCorrespondingId"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "idrefsHasCorrespondingId"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "tagsAreNestedCorrectly"
+        ]
+      }
+    ]
+  },
+  "4.1.2": {
+    "id": "wcag20:ensure-compat-rsv",
+    "level": "wcag20:level_a",
+    "default": "cantTell",
+    "testAggregators": [
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "areaHasAltValue"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "formButtonsHaveValue"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "fileHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "stacking",
+        "tests": [
+          "frameTitlesNotPlaceholder",
+          "frameTitlesNotEmpty",
+          "framesHaveATitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "cantTell",
+        "tests": [
+          "imgAltNotEmptyInAnchor"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "type": "stacking",
+        "tests": [
+          "inputImageAltNotRedundant",
+          "inputImageAltIsNotFileName",
+          "inputImageHasAlt",
+          "inputImageAltIsNotPlaceholder"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "inputTextHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "passwordHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "checkboxHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "radioHasLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "selectHasAssociatedLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "cantTell",
+        "failed": "failed",
+        "type": "combined",
+        "tests": [
+          "textareaHasAssociatedLabel",
+          "inputWithoutLabelHasTitle"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "aMustContainText"
+        ]
+      },
+      {
+        "passed": "passed",
+        "failed": "failed",
+        "tests": [
+          "buttonHasName"
+        ]
+      }
+    ]
+  }
+}

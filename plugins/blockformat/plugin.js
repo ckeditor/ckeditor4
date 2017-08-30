@@ -14,20 +14,20 @@ CKEDITOR.plugins.add( 'blockformat', {
     if ( editor.blockless )
       return;
 
-    var config = editor.config,
+    var allowedContent = [],
+        config = editor.config,
         lang = editor.lang.blockformat,
-        items = {};
+        items = {},
+        order = 0;
+
+    // Gets the list of tags from the settings.
+    var tags = config.format_tags.split( ';' );
 
     // Menuitem commands
     var blockquoteCmd = 'blockquote';
-    var codesnippetCmd = 'codeSnippet';
-    var helpCmd = 'blockformatHelp';
+    var helpCmd = 'headingHelp';
 
-    // Initialize help menuitem
-    /*
-    CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/blockformat-help.js' );
-    editor.addCommand( helpCmd, new CKEDITOR.dialogCommand( helpCmd ) );
-    */
+    console.log("TAGS" + tags);
 
     // Change behavior of menubutton with text label
     CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
@@ -35,36 +35,101 @@ CKEDITOR.plugins.add( 'blockformat', {
     items.blockquote = {
       label: lang.blockquoteLabel,
       group: 'blockformatMain',
-      order: 0,
+      order: order++,
       onClick: function () {
         editor.execCommand( blockquoteCmd );
       }
     };
 
-    items.codesnippet = {
-      label: lang.codesnippetLabel,
-      group: 'blockformatMain',
-      order: 1,
-      onClick: function () {
-        editor.execCommand( codesnippetCmd );
+    // Add Normal text item
+    items.p = {
+      label: lang.remove,
+      group: 'blockElementTags',
+      style: new CKEDITOR.style( { element: 'p' } ),
+      order: order++,
+      onClick: function() {
+          editor.focus();
+          editor.fire( 'saveSnapshot' );
+
+          editor[ 'applyStyle' ]( this.style );
+          editor.focus();
+
+          // Save the undo snapshot after all changes are affected. (#4899)
+          setTimeout( function() {
+            editor.fire( 'saveSnapshot' );
+          }, 0 );
+      }
+    };  
+
+    // Create item entry for each element in format_tags, excluding headings
+    for ( var i = 0; i < tags.length; i++ ) {
+      var elementTag = tags[ i ];
+
+      if (!['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'].includes(elementTag)) {
+
+        items[ elementTag ] = {
+          label: elementTag,
+          elementTag: elementTag,
+          group: 'blockElementTags',
+          style: new CKEDITOR.style( { element: elementTag } ),
+          order: order++,
+
+          onClick: function() {
+            editor.focus();
+            editor.fire( 'saveSnapshot' );
+
+            var elementPath = editor.elementPath();
+
+            editor[ this.style.checkActive( elementPath, editor ) ? 'removeStyle' : 'applyStyle' ]( this.style );
+
+            // Save the undo snapshot after all changes are affected. (#4899)
+            setTimeout( function() {
+              editor.fire( 'saveSnapshot' );
+            }, 0 );
+          },
+          refresh: function( editor ) {
+            this.setState(CKEDITOR.TRISTATE_ON);
+          },
+          role: 'menuitemcheckbox'
+        };
+
+      }
+
+    }
+
+
+
+    // Add Help item
+    items.help = {
+      label: lang.helpLabel,
+      group: 'blockHelp',
+      order: order++,
+      onClick: function() {
+        editor.execCommand( helpCmd );
       }
     };
 
     // Initialize menu groups
     editor.addMenuGroup( 'blockformatMain', 1 );
-    // editor.addMenuGroup( 'other' );
+    editor.addMenuGroup( 'blockElementTags', 2);
+    editor.addMenuGroup( 'blockHelp', 4);
     editor.addMenuItems( items );
 
     editor.ui.add( 'BlockFormat', CKEDITOR.UI_MENUBUTTON, {
       label: lang.label,
+      group: 'format_options',
       toolbar: 'blockformat',
-      allowedContent: 'blockquote; pre; code(language-*)',
+
       onMenu: function() {
         var activeItems = {};
-        activeItems.blockquote = CKEDITOR.TRISTATE_OFF;
-        activeItems.codesnippet = CKEDITOR.TRISTATE_OFF;
+
+        for ( var prop in items ) {
+          activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
+        }
+
         return activeItems;
       }
+
     } ); // END ui.add
 
   } // END init
