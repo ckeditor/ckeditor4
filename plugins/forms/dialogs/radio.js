@@ -26,10 +26,9 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				editor = this.getParentEditor();
 				element = editor.document.createElement( 'input' );
 				element.setAttribute( 'type', 'radio' );
+				editor.insertElement( element );
 			}
 
-			if ( isInsertMode )
-				editor.insertElement( element );
 			this.commitContent( { element: element } );
 		},
 		contents: [ {
@@ -107,6 +106,12 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 								'></input>', editor.document );
 							element.copyAttributes( replace, { type: 1, checked: 1 } );
 							replace.replace( element );
+
+							// Ugly hack which fix IE issues with radiobuttons (#834).
+							if ( isChecked ) {
+								replace.setAttribute( 'checked', 'checked' );
+							}
+
 							editor.getSelection().selectElement( replace );
 							data.element = replace;
 						}
