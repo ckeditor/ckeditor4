@@ -726,5 +726,64 @@ bender.test( {
 		this.editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
 
 		assert.areEqual( 7, editable.$.innerText.length );
+	},
+
+	// #800
+	'test isCollapsed on collapsed selection': function() {
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>Te^st</p>' );
+
+		assert.isTrue( editor.getSelection().isCollapsed() );
+	},
+
+	// #800
+	'test isCollapsed on non-collapsed selection': function() {
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>T[es]t</p>' );
+
+		assert.isFalse( editor.getSelection().isCollapsed() );
+	},
+
+	// #800
+	'test isCollapsed on selection with no ranges': function() {
+		// In old IEs it's actually impossible to get really empty selection.
+		if ( typeof window.getSelection != 'function' ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>T[es]t</p>' );
+		editor.getSelection().removeAllRanges();
+
+		assert.isFalse( editor.getSelection().isCollapsed() );
+	},
+
+	// #800
+	'test isCollapsed on multi-range selection': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>[T]e[s]t</p>' );
+
+		assert.isFalse( editor.getSelection().isCollapsed() );
+	},
+
+	// #800
+	'test isCollapsed on multiple collapsed selections': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>T^es^t</p>' );
+
+		assert.isFalse( editor.getSelection().isCollapsed() );
 	}
 } );

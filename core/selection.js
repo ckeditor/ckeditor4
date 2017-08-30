@@ -2282,6 +2282,22 @@
 		},
 
 		/**
+		 * Checks if the selection contains only one range, which is collapsed.
+		 *
+		 *		if ( editor.getSelection().isCollapsed() ) {
+		 *			// Do something when selection is collapsed.
+		 *		}
+		 *
+		 * @since 4.7.3
+		 * @returns {Boolean}
+		 */
+		isCollapsed: function() {
+			var ranges = this.getRanges();
+
+			return ranges.length === 1 && ranges[ 0 ].collapsed;
+		},
+
+		/**
 		 * Creates a bookmark for each range of this selection (from {@link #getRanges})
 		 * by calling the {@link CKEDITOR.dom.range#createBookmark} method,
 		 * with extra care taken to avoid interference among those ranges. The arguments
