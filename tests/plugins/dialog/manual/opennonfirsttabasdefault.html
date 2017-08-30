@@ -1,7 +1,7 @@
 <textarea name="" id="editor" cols="30" rows="10">
 	hello world
 </textarea>
-<button id="press">Press me</button>
+<button id="press">Open Dialog</button>
 <script>
 	var editor = CKEDITOR.replace( 'editor' );
 
@@ -37,7 +37,7 @@
 		} );
 
 		editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog', {
-			tab: 'tab2'
+			tabId: 'tab2'
 		} ) );
 
 	} );

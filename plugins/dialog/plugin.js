@@ -862,7 +862,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Reset all inputs back to their default value.
 			this.reset();
 
-			// Select provided tab or first one if there is nothing provided.
+			// Selects the first tab if no tab is already selected.
 			if ( this._.currentTabId === null ) {
 				this.selectPage( this.definition.contents[ 0 ].id );
 			}
@@ -2995,9 +2995,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	 * @param {String} dialogName The name of the dialog to open when executing
 	 * this command.
 	 * @param {Object} [ext] Additional command definition's properties.
-	 * You can provide additional property (`tab`) to ext object if you wish to open dialog on specific tab.
-	 * 		// Open dialog on 'keystroke' tab
-	 *		editor.addCommand( 'keystroke', new CKEDITOR.dalogCommand( 'a11yHelp', { tab: 'keystroke' } ) );
+	 * @param {String} [ext.tabId] You can provide additional property (`tabId`) if you wish to open dialog on specific tabId.
+	 *
+	 *		// Open dialog on 'keystroke' tabId.
+	 *		editor.addCommand( 'keystroke', new CKEDITOR.dialogCommand( 'a11yHelp', { tabId: 'keystroke' } ) );
 	 */
 	CKEDITOR.dialogCommand = function( dialogName, ext ) {
 		this.dialogName = dialogName;
@@ -3006,11 +3007,11 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 	CKEDITOR.dialogCommand.prototype = {
 		exec: function( editor ) {
-			var that = this;
+			var tabId = this.tabId;
 			editor.openDialog( this.dialogName, function( dialog ) {
 				// Select different tab if it's provided (#830).
-				if ( that && that.tab ) {
-					dialog.selectPage( that.tab );
+				if ( tabId ) {
+					dialog.selectPage( tabId );
 				}
 			} );
 		},

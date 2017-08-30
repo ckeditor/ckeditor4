@@ -4,8 +4,8 @@
 
 ----
 
-1. Press button below editor with name `Press me`.
+1. Press `Open Dialog` button below editor.
 
-**Expected:** Dialog shows up, where `Tab two` will be displayed as default.
+**Expected:** `Tab two` is active when dialog is shown.
 
-**Unexpected:** Dialog shows upe, where `Tab one` will be displayed as default.
+**Unexpected:** `Tab one` is active when dialog is shown.

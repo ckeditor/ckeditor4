@@ -347,7 +347,7 @@
 		},
 
 		// #830
-		'test dialog opens non first tab as default': function() {
+		'test dialog opens tab defined in tabId as default': function() {
 			var editor = this.editor;
 
 			CKEDITOR.dialog.add( 'testDialog6', function() {
@@ -381,7 +381,7 @@
 			} );
 
 			editor.addCommand( 'testDialog6', new CKEDITOR.dialogCommand( 'testDialog6', {
-				tab: 'tab2'
+				tabId: 'tab2'
 			} ) );
 
 
