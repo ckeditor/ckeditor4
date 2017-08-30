@@ -15,6 +15,10 @@ Fixed Issues:
 * [#423](https://github.com/ckeditor/ckeditor-dev/issues/423): Fixed: [Paste from Word](https://ckeditor.com/addon/pastefromword) plugin pastes paragraphs into the editor even if [`CKEDITOR.config.enterMode`](https://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) is set to `CKEDITOR.ENTER_BR`.
 * [#719](https://github.com/ckeditor/ckeditor-dev/issues/719): Fixed: Image inserted using [Enhanced Image](https://ckeditor.com/addon/image2) plugin could be resized when editor is in read-only mode.
 
+Other Changes:
+
+* [#800](https://github.com/ckeditor/ckeditor-dev/issues/800): Added the [`CKEDITOR.dom.selection.isCollapsed`](https://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-isCollapsed) method which is a simpler way to check if the selection is collapsed.
+
 ## CKEditor 4.7.2
 
 New Features:
