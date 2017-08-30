@@ -9,10 +9,6 @@ bender.editor = {
 
 bender.test( {
 	'test fill fields': function() {
-		// That feature is generally broken in IEs.
-		if ( CKEDITOR.env.ie )
-			assert.ignore();
-
 		var bot = this.editorBot;
 
 		bot.dialog( 'radio', function( dialog ) {
@@ -28,17 +24,23 @@ bender.test( {
 	},
 
 	'test empty fields': function() {
-		// That feature is generally broken in IEs.
-		if ( CKEDITOR.env.ie )
-			assert.ignore();
-
+		// IE is quite problematic. You cannot remove `value` from the input. There are some hacks design specially for IE to fix `value` problem.
+		// Those customization should be removed if #844 will be fixed.
 		var bot = this.editorBot;
 
-		bot.setHtmlWithSelection( '[<input checked="checked" name="name" required="required" type="radio" value="value" />]' );
+		if ( CKEDITOR.env.ie ) {
+			bot.setHtmlWithSelection( '[<input checked="checked" name="name" required="required" type="radio" />]' );
+			// We need to add 'checked', after adding input to editable by setHtmlWithSelection. There is some magic with IE ;)
+			this.editor.editable().findOne( 'input' ).setAttribute( 'checked', 'checked' );
+		} else {
+			bot.setHtmlWithSelection( '[<input checked="checked" name="name" required="required" type="radio" value="value" />]' );
+		}
 
 		bot.dialog( 'radio', function( dialog ) {
 			assert.areSame( 'name', dialog.getValueOf( 'info', 'name' ) );
-			assert.areSame( 'value', dialog.getValueOf( 'info', 'value' ) );
+			if ( !CKEDITOR.env.ie ) {
+				assert.areSame( 'value', dialog.getValueOf( 'info', 'value' ) );
+			}
 			assert.areSame( true, dialog.getValueOf( 'info', 'checked' ) );
 			assert.areSame( true, dialog.getValueOf( 'info', 'required' ) );
 
