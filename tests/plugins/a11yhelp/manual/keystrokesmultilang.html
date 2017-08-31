@@ -1,0 +1,27 @@
+<h1>Editor1</h1>
+
+<textarea id="editor1">
+    <h1>German instance</h1>
+    <p>Press ctrl/meta+? to view keystrokes list.</p>
+</textarea>
+
+<h1>Editor2</h1>
+
+<textarea id="editor2">
+    <h1>English instance</h1>
+    <p>Press ctrl/meta+? to view keystrokes list.</p>
+</textarea>
+
+<script>
+	if ( bender.tools.env.mobile ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		language: 'de'
+	} );
+
+	CKEDITOR.replace( 'editor2', {
+		language: 'en'
+	} );
+</script>
