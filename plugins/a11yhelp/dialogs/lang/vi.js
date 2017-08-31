@@ -96,8 +96,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'vi', {
 		commandsHeader: 'Commands', // MISSING
 		keystrokesHeader: 'Keystrokes' // MISSING
 	},
-	accessibilityCommandsLabels: {
-		generalTab:	'Accessibility Help', // MISSING
-		keystrokesTab: 'Keystrokes list' // MISSING
+	tabLabels: {
+		general: 'Accessibility Help', // MISSING
+		keystrokes: 'Keystrokes list' // MISSING
 	}
 } );
