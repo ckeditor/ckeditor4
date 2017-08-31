@@ -19,6 +19,7 @@ Fixed Issues:
 Other Changes:
 
 * [#800](https://github.com/ckeditor/ckeditor-dev/issues/800): Added the [`CKEDITOR.dom.selection.isCollapsed`](https://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-isCollapsed) method which is a simpler way to check if the selection is collapsed.
+* [#830](https://github.com/ckeditor/ckeditor-dev/issues/830): Added option to define which dialog tab should be shown by default when creating [`CKEDITOR.dialogCommand`](https://docs.ckeditor.com/#!/api/CKEDITOR.dialogCommand).
 
 ## CKEditor 4.7.2
 
