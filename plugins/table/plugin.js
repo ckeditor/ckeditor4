@@ -30,7 +30,23 @@ CKEDITOR.plugins.add( 'table', {
 					element: 'table',
 					right: function( element ) {
 						if ( element.styles ) {
-							if ( element.styles.border && element.styles.border.match( /solid/ ) ) {
+							var parsedStyle;
+							if ( element.styles.border ) {
+								parsedStyle = CKEDITOR.tools.style.parse.border( element.styles.border );
+							} else if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+								var styleData = element.styles;
+								// Workaround for IE8 browser. It transforms CSS border shorthand property
+								// to the longer one, consisting of border-top, border-right, etc. We have to check
+								// if all those properties exists and have the same value (#566).
+								if ( styleData[ 'border-left' ] && styleData[ 'border-left' ] === styleData[ 'border-right' ] &&
+									styleData[ 'border-right' ] === styleData[ 'border-top' ] &&
+									styleData[ 'border-top' ] === styleData[ 'border-bottom' ] ) {
+
+									parsedStyle = CKEDITOR.tools.style.parse.border( styleData[ 'border-top' ] );
+								}
+							}
+							if ( parsedStyle && parsedStyle.style && parsedStyle.style === 'solid' &&
+								parsedStyle.width && parseFloat( parsedStyle.width ) !== 0 ) {
 								element.attributes.border = 1;
 							}
 							if ( element.styles[ 'border-collapse' ] == 'collapse' ) {
@@ -60,7 +76,8 @@ CKEDITOR.plugins.add( 'table', {
 				if ( !table )
 					return;
 
-				// If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element) (http://dev.ckeditor.com/ticket/5416, http://dev.ckeditor.com/ticket/6289, http://dev.ckeditor.com/ticket/12110)
+				// If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element)
+				//(http://dev.ckeditor.com/ticket/5416, http://dev.ckeditor.com/ticket/6289, http://dev.ckeditor.com/ticket/12110)
 				var parent = table.getParent(),
 					editable = editor.editable();
 

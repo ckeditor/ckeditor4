@@ -199,7 +199,8 @@
 				selection = editor.getSelection(),
 				initialRev = selection.rev,
 				realSelection,
-				ranges;
+				ranges,
+				i;
 
 			bender.tools.setHtmlWithSelection( editor, CKEDITOR.document.getById( 'simpleTable' ).getHtml() );
 
@@ -217,6 +218,10 @@
 			assert.areSame( CKEDITOR.SELECTION_TEXT, selection.getType(), 'Text type selection' );
 			assert.isTrue( _getTableElementFromRange( ranges[ 0 ] ).equals( selection.getSelectedElement() ),
 				'Selected element equals to the first selected cell' );
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				assert.isFalse( ranges[ i ].collapsed, 'Range #' + i + ' is not collapsed' );
+			}
 
 			realSelection = editor.getSelection( 1 );
 

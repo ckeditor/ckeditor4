@@ -39,8 +39,8 @@
 	editor.on( 'paste', function( evt ) {
 		var val = evt.data.dataValue;
 
-		if ( evt.data.dataTransfer && evt.data.dataTransfer.getData( 'text/html' ) ) {
-			val = evt.data.dataTransfer.getData( 'text/html' );
+		if ( evt.data.dataTransfer && evt.data.dataTransfer.getData( 'text/html', true ) ) {
+			val = evt.data.dataTransfer.getData( 'text/html', true );
 		}
 
 		document.getElementById( 'raw' ).value = val;
