@@ -27,14 +27,12 @@ CKEDITOR.plugins.add( 'blockformat', {
     var blockquoteCmd = 'blockquote';
     var helpCmd = 'headingHelp';
 
-    console.log("TAGS" + tags);
-
     // Change behavior of menubutton with text label
     CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
     items.blockquote = {
       label: lang.blockquoteLabel,
-      group: 'blockformatMain',
+      group: 'blockElementTags',
       order: order++,
       onClick: function () {
         editor.execCommand( blockquoteCmd );
@@ -87,17 +85,12 @@ CKEDITOR.plugins.add( 'blockformat', {
               editor.fire( 'saveSnapshot' );
             }, 0 );
           },
-          refresh: function( editor ) {
-            this.setState(CKEDITOR.TRISTATE_ON);
-          },
           role: 'menuitemcheckbox'
         };
 
       }
 
     }
-
-
 
     // Add Help item
     items.help = {
@@ -123,8 +116,10 @@ CKEDITOR.plugins.add( 'blockformat', {
       onMenu: function() {
         var activeItems = {};
 
+        var elemName = editor.elementPath().elements.length ? editor.elementPath().elements[0].getName() : '';
+
         for ( var prop in items ) {
-          activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
+          activeItems[ prop ] = prop == elemName ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
         }
 
         return activeItems;
