@@ -11,6 +11,10 @@
 		return CKEDITOR.env.ie ? el.$.clientWidth : parseInt( el.getComputedStyle( 'width' ), 10 );
 	}
 
+	function getHeight( el ) {
+		return CKEDITOR.env.ie ? el.$.clientHeight : parseInt( el.getComputedStyle( 'height' ), 10 );
+	}
+
 	function getBorderWidth( element, side ) {
 		var computed = element.getComputedStyle( 'border-' + side + '-width' ),
 			borderMap = {
@@ -164,7 +168,6 @@
 		function resizeStart() {
 			// Before starting to resize, figure out which cells to change
 			// and the boundaries of this resizing shift.
-
 			var columnIndex = pillar.index,
 				map = CKEDITOR.tools.buildTableMap( pillar.table ),
 				leftColumnCells = [],
@@ -197,7 +200,6 @@
 			// Cache the resize limit boundaries.
 			leftShiftBoundary = pillar.x - leftMinSize;
 			rightShiftBoundary = pillar.x + rightMinSize;
-
 			resizer.setOpacity( 0.5 );
 			startOffset = parseInt( resizer.getStyle( 'left' ), 10 );
 			currentShift = 0;
@@ -372,7 +374,190 @@
 		}
 
 		target.getAscendant( 'table', 1 ).removeCustomData( '_cke_table_pillars' );
+		target.getAscendant( 'table', 1 ).removeCustomData( '_cke_table_row-lines' );
 		evt.removeListener();
+	}
+
+	// Row resizer ------------------------------------------------------------------------------------------------------
+	function rowResizerFunc( editor ) {
+		var rowLine, rowResizer, document, isResizing, startOffset, currentShift, move;
+
+		var topSideCells, bottomSideCells, topShiftBoundary, bottomShiftBoundary;
+
+		function detach() {
+			rowLine = null;
+			currentShift = 0;
+			isResizing = 0;
+
+			// document.removeListener( 'mouseup', onMouseUp );
+			rowResizer.removeListener( 'mousedown', onMouseDown );
+			rowResizer.removeListener( 'mousemove', onMouseMove );
+
+			// document.getBody().setStyle( 'cursor', 'auto' );
+
+			// Hide the resizer (remove it on IE7 - http://dev.ckeditor.com/ticket/5890).
+			needsIEHacks ? rowResizer.remove() : rowResizer.hide();
+		}
+
+		function resizeStart() {
+			var rowIndex = rowLine.index,
+				map = CKEDITOR.tools.buildTableMap( rowLine.table ),
+				topMinSize = Number.MAX_VALUE,
+				bottomMinSize = topMinSize,
+				topRowCells = [],
+				bottomRowCells = [];
+
+			for ( var i = 0, len = map[ rowIndex ].length; i < len; i++ ) {
+				var topCell = new CKEDITOR.dom.element( map[ rowIndex ][ i ] ),
+					bottomCell = new CKEDITOR.dom.element( map[ rowIndex + 1 ][ i ] );
+
+				if ( !topCell || !bottomCell || !topCell.equals( !bottomCell ) ) {
+					topCell && ( topMinSize = Math.min( topMinSize, getHeight( topCell ) ) );
+					bottomCell && ( bottomMinSize = Math.min( bottomMinSize, getHeight( bottomCell ) ) );
+
+					topRowCells.push( topCell );
+					bottomRowCells.push( bottomCell );
+				}
+			}
+
+			topSideCells = topRowCells;
+			bottomSideCells = bottomRowCells;
+
+			topShiftBoundary = rowLine.y - topMinSize;
+			bottomShiftBoundary = rowLine.y + bottomMinSize;
+
+			rowResizer.setOpacity( 0.5 );
+			startOffset = parseInt( rowResizer.getStyle( 'top' ), 10 );
+			isResizing = 1;
+			currentShift = 0;
+
+			rowResizer.on( 'mousemove', onMouseMove );
+		}
+
+		function resizeEnd() {
+			isResizing = 0;
+
+			rowResizer.setOpacity( 0 );
+
+			// currentShift && resizeRow(); TODO
+
+			document.removeListener( 'dragstart', cancel );
+		}
+
+		function onMouseDown( evt ) {
+			cancel( evt );
+			editor.fire( 'saveSnapshot' );
+
+			resizeStart();
+
+			document.on( 'onMouseUp', onMouseUp, this );
+		}
+
+		function onMouseUp( evt ) {
+			evt.removeListener();
+
+			resizeEnd();
+		}
+
+		function onMouseMove( evt ) {
+			move( evt.data.getPageOffset().y );
+		}
+
+		document = editor.document;
+
+		rowResizer = CKEDITOR.dom.element.createFromHtml( '<div data-cke-temp=1 contenteditable=false unselectable=on ' +
+		'style="position:absolute;cursor:row-resize;filter:alpha(opacity=0);opacity:0;' +
+			'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10"></div>', document );
+
+		this.attachTo = function( targetRowLine ) {
+			editor.document.getDocumentElement().append( rowResizer );
+
+			rowLine = targetRowLine;
+
+			rowResizer.setStyles( {
+				width: pxUnit( targetRowLine.width ),
+				height: pxUnit( targetRowLine.height ),
+				left: pxUnit( targetRowLine.x ),
+				top: pxUnit( targetRowLine.y )
+			} );
+
+			rowResizer.on( 'mousedown', onMouseDown, this );
+
+			rowResizer.show();
+		};
+
+		move = this.move = function( posY ) {
+				if ( !rowLine )
+					return 0;
+
+				if ( !isResizing && ( posY < rowLine.y || posY > ( rowLine.y + rowLine.height ) ) ) {
+					detach();
+					return 0;
+				}
+
+				var resizerNewPosition = posY - Math.round( rowResizer.$.offsetHeight / 2 );
+
+				if ( isResizing ) {
+					if ( resizerNewPosition == topShiftBoundary || resizerNewPosition == bottomShiftBoundary )
+						return 1;
+
+					resizerNewPosition = Math.max( resizerNewPosition, topShiftBoundary );
+					resizerNewPosition = Math.min( resizerNewPosition, bottomShiftBoundary );
+
+					currentShift = resizerNewPosition - startOffset;
+				}
+
+				rowResizer.setStyle( 'top', pxUnit( resizerNewPosition ) );
+
+				return 1;
+			};
+	}
+
+	function buildTableRowLines( table ) {
+		var rowLines = [],
+			rowLineIndex = -1,
+			rowLineHeight = 0,
+			rowLineWidth = 0,
+			rowLinePosition = null,
+			rtl = ( table.getComputedStyle( 'direction' ) == 'rtl' );
+
+		if ( table.$.rows ) {
+
+			for (  var i = 0, len = table.$.rows.length; i < len; i++ ) {
+				var tr = new CKEDITOR.dom.element( table.$.rows[ i ] );
+
+				rowLineIndex = rowLineIndex + 1;
+
+				rowLineHeight = getBorderWidth( table, 'left' ) + getBorderWidth( table, 'right' ) + Number( table.$.cellSpacing );
+				rowLineWidth = getWidth( table );
+
+				rowLinePosition = tr.$.offsetTop + tr.$.offsetHeight + table.$.offsetTop;
+
+				rowLines.push( {
+					table: table,
+					index: rowLineIndex,
+					x: table.$.offsetLeft,
+					y: rowLinePosition,
+					width: rowLineWidth,
+					height: rowLineHeight,
+					rtl: rtl
+				} );
+			}
+		}
+
+		return rowLines;
+	}
+
+	function getRowLineAtPosition( rowLines, positionY ) {
+		for ( var i = 0, len = rowLines.length; i < len; i++ ) {
+			var rowLine = rowLines[ i ];
+
+			if ( positionY >= rowLine.y && positionY <= ( rowLine.y + rowLine.height ) ) {
+				return rowLine;
+			}
+		}
+
+		return null;
 	}
 
 	CKEDITOR.plugins.add( 'tableresize', {
@@ -395,7 +580,8 @@
 					if ( target.type != CKEDITOR.NODE_ELEMENT )
 						return;
 
-					var pageX = evt.getPageOffset().x;
+					var pageX = evt.getPageOffset().x,
+						pageY = evt.getPageOffset().y;
 
 					// If we're already attached to a pillar, simply move the
 					// resizer.
@@ -431,9 +617,34 @@
 						!resizer && ( resizer = new columnResizer( editor ) );
 						resizer.attachTo( pillar );
 					}
+
+					// Row resizer.
+					var rowLines,
+						rowResizer;
+
+					if ( !( rowLines = table.getCustomData( '_cke_table_row-lines' ) ) ) {
+						table.setCustomData( '_cke_table_row-lines', ( rowLines = buildTableRowLines( table ) ) );
+						table.on( 'mouseout', clearPillarsCache );
+						table.on( 'mousedown', clearPillarsCache );
+					}
+
+					var rowLine = getRowLineAtPosition( rowLines, pageY );
+					if ( rowLine ) {
+						!rowResizer && ( rowResizer = new rowResizerFunc( editor ) );
+						rowResizer.attachTo( rowLine );
+					}
+
 				} );
 			} );
 		}
 	} );
 
 } )();
+
+// TODO:
+// * Resizing.
+// * Check nested tables.
+// * Change row resizer width on table width change.
+// * Check column resizer height on table row size change.
+// * Show/hide resizer background.
+// * Code refactor. Code for row resize is similar to column resize.
