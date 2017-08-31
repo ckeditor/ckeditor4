@@ -225,6 +225,26 @@
 
 				assert.isTrue( CKEDITOR.tools.objectCompare( referenceKeyMap, keyMap ) );
 			} );
+		},
+
+		'test _keyMap supports multilang': function() {
+			var that = this;
+
+			this._createEditor( { language: 'en' }, function() {
+				var editor = this.editor,
+					keyMap;
+
+				keyMap = CKEDITOR.plugins.a11yhelp._createKeyMap( editor );
+
+				assert.areSame( 'Ctrl', keyMap[ CKEDITOR.CTRL ], 'Ctrl key label' );
+
+				// Test multilang support.
+				that._createEditor( { language: 'de' }, function() {
+					var germanKeyMap = CKEDITOR.plugins.a11yhelp._createKeyMap( that.editor );
+
+					assert.areSame( 'Strg', germanKeyMap[ CKEDITOR.CTRL ], 'Ctrl key label' );
+				} );
+			} );
 		}
 	} );
 } )();
