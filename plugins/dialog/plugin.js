@@ -862,8 +862,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 			// Reset all inputs back to their default value.
 			this.reset();
 
-			// Select the first tab by default.
-			this.selectPage( this.definition.contents[ 0 ].id );
+			// Selects the first tab if no tab is already selected.
+			if ( this._.currentTabId === null ) {
+				this.selectPage( this.definition.contents[ 0 ].id );
+			}
 
 			// Set z-index.
 			if ( CKEDITOR.dialog._.currentZIndex === null )
@@ -2993,6 +2995,10 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	 * @param {String} dialogName The name of the dialog to open when executing
 	 * this command.
 	 * @param {Object} [ext] Additional command definition's properties.
+	 * @param {String} [ext.tabId] You can provide additional property (`tabId`) if you wish to open dialog on specific tabId.
+	 *
+	 *		// Open dialog on 'keystroke' tabId.
+	 *		editor.addCommand( 'keystroke', new CKEDITOR.dialogCommand( 'a11yHelp', { tabId: 'keystroke' } ) );
 	 */
 	CKEDITOR.dialogCommand = function( dialogName, ext ) {
 		this.dialogName = dialogName;
@@ -3001,7 +3007,13 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 
 	CKEDITOR.dialogCommand.prototype = {
 		exec: function( editor ) {
-			editor.openDialog( this.dialogName );
+			var tabId = this.tabId;
+			editor.openDialog( this.dialogName, function( dialog ) {
+				// Select different tab if it's provided (#830).
+				if ( tabId ) {
+					dialog.selectPage( tabId );
+				}
+			} );
 		},
 
 		// Dialog commands just open a dialog ui, thus require no undo logic,
