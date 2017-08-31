@@ -22,92 +22,82 @@
 		bender._.currentTestSuite = ts;
 	};
 
-	// Returns currently executed test case or null.
-	bender.getTestCase = function() {
-		return bender._.currentTestCase;
+	if ( typeof CKEDITOR != 'undefined' ) {
+		CKEDITOR.config.customConfig = '';
+		CKEDITOR.replaceClass = false;
+		CKEDITOR.disableAutoInline = true;
+	}
+
+	bender.configurePlugins = function( config ) {
+		var removePlugins,
+			regexp,
+			plugins;
+
+		if ( config.plugins ) {
+			plugins = config.plugins;
+			if ( typeof plugins == 'string' ) {
+				plugins = plugins.split( ',' );
+			}
+
+			CKEDITOR.config.plugins = CKEDITOR.config.plugins.length ?
+				CKEDITOR.config.plugins.split( ',' ).concat( plugins ).join( ',' ) : plugins.join( ',' );
+		}
+
+		// support both Bender <= 0.2.2 and >= 0.2.3 directives
+		removePlugins = config[ 'remove-plugins' ] || ( config.remove && config.remove.plugins );
+		// console.log( 'removePlugins', removePlugins );
+
+		if ( removePlugins ) {
+			CKEDITOR.config.removePlugins = removePlugins.join( ',' );
+
+			regexp = new RegExp( '(?:^|,)(' + removePlugins.join( '|' ) + ')(?=,|$)', 'g' );
+
+			CKEDITOR.config.plugins = CKEDITOR.config.plugins
+				.replace( regexp, '' )
+				.replace( /,+/g, ',' )
+				.replace( /^,|,$/g, '' );
+
+			// if ( config.plugins ) {
+			// 	config.plugins = config.plugins.join( ',' )
+			// 		.replace( regexp, '' )
+			// 		.replace( /,+/g, ',' )
+			// 		.replace( /^,|,$/g, '' )
+			// 		.split( ',' );
+			// }
+		}
+
+		// console.log( config );
+
+		// bender.plugins = config.plugins;
+        //
+		// if ( bender.plugins ) {
+		// 	toLoad++;
+		// 	// defer();
+        //
+		// 	CKEDITOR.plugins.load( config.plugins, onLoad );
+		// }
+        //
+		// if ( config.adapters ) {
+		// 	for ( i = 0; i < config.adapters.length; i++ ) {
+		// 		config.adapters[ i ] = CKEDITOR.basePath + 'adapters/' + config.adapters[ i ] + '.js';
+		// 	}
+        //
+		// 	toLoad++;
+		// 	// defer();
+        //
+		// 	CKEDITOR.scriptLoader.load( config.adapters, onLoad );
+		// }
+        //
+		// function onLoad() {
+		// 	if ( toLoad ) {
+		// 		toLoad--;
+		// 	}
+        //
+		// 	if ( !toLoad ) {
+		// 		bender.setupEditors( callback );
+		// 	}
+		// }
 	};
-
-	// Sets currently executed test case (should be set in the beginning of the test run).
-	bender.setTestCase = function( tc ) {
-		bender._.currentTestCase = tc;
-	};
-
-	// bender.testSuite = function( tests, name ) {
-	// 	this
-	// };
-
-	// bender.configureEditor = function( config, callback ) {
-	// 	var toLoad = 0,
-	// 		removePlugins,
-	// 		regexp,
-	// 		i;
-    //
-	// 	if ( config.plugins ) {
-	// 		if ( typeof config.plugins == 'string') {
-	// 			config.plugins = config.plugins.split( ',' );
-	// 		}
-    //
-	// 		CKEDITOR.config.plugins = CKEDITOR.config.plugins.length ?
-	// 			CKEDITOR.config.plugins.split( ',' ).concat( config.plugins ).join( ',' ) :
-	// 			config.plugins.join( ',' );
-	// 	}
-    //
-	// 	// support both Bender <= 0.2.2 and >= 0.2.3 directives
-	// 	removePlugins = config[ 'remove-plugins' ] || ( config.remove && config.remove.plugins );
-    //
-	// 	if ( removePlugins ) {
-	// 		CKEDITOR.config.removePlugins = removePlugins.join( ',' );
-    //
-	// 		regexp = new RegExp( '(?:^|,)(' + removePlugins.join( '|' ) + ')(?=,|$)', 'g' );
-    //
-	// 		CKEDITOR.config.plugins = CKEDITOR.config.plugins
-	// 			.replace( regexp, '' )
-	// 			.replace( /,+/g, ',' )
-	// 			.replace( /^,|,$/g, '' );
-    //
-	// 		if ( config.plugins ) {
-	// 			config.plugins = config.plugins.join( ',' )
-	// 				.replace( regexp, '' )
-	// 				.replace( /,+/g, ',' )
-	// 				.replace( /^,|,$/g, '' )
-	// 				.split( ',' );
-	// 		}
-	// 	}
-    //
-	// 	bender.plugins = config.plugins;
-    //
-	// 	if ( bender.plugins ) {
-	// 		toLoad++;
-	// 		// defer();
-    //
-	// 		CKEDITOR.plugins.load( config.plugins, onLoad );
-	// 	}
-    //
-	// 	if ( config.adapters ) {
-	// 		for ( i = 0; i < config.adapters.length; i++ ) {
-	// 			config.adapters[ i ] = CKEDITOR.basePath + 'adapters/' + config.adapters[ i ] + '.js';
-	// 		}
-    //
-	// 		toLoad++;
-	// 		// defer();
-    //
-	// 		CKEDITOR.scriptLoader.load( config.adapters, onLoad );
-	// 	}
-    //
-	// 	function onLoad() {
-	// 		if ( toLoad ) {
-	// 			toLoad--;
-	// 		}
-    //
-	// 		if ( !toLoad ) {
-	// 			bender.setupEditors( callback );
-	// 		}
-	// 	}
-	// };
-
-	// bender.setupEditors = function( callback ) {
-	// 	startRunner( callback );
-	// };
 
 	bender.setupEditors = function( testCase, startTestsCallback ) {
 

@@ -20,12 +20,19 @@ module.exports = function( config ) {
 			{ pattern: '+(config|styles).js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: 'contents.css', included: false, served: true, watched: false, nocache: true },
 
-			'karma_tests/_runner/**/*.js',
+			// Load all tests html files.
+			// { pattern: 'tests/!(_*)/**/!(manual)/*.html', included: true, served: true, watched: false, nocache: true },
 
+			'tests/_karma/init.js',
+			'tests/_karma/**/*.js',
+
+			// Tests working fine when running separately, but when running in groups some tests influence others.
+			// 'tests/core/ckeditor/ckeditor.html',
+			// 'tests/core/ckeditor/ckeditor.js',
 			'tests/core/tools/**/*.js',
 			'tests/core/command/events.js',
-			'tests/core/command/command.js',
-			'tests/core/editable/aria.js'
+			'tests/core/command/command.js'
+			// 'tests/core/editable/aria.js'
 		],
 
 
@@ -36,7 +43,8 @@ module.exports = function( config ) {
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'tests/!(_*)/**/*.js': [ 'ckeditor4' ]
+			'tests/**/*.js': [ 'ckeditor4' ],
+			'tests/**/*.html': [ 'html2js' ]
 		},
 
 		// test results reporter to use
@@ -66,7 +74,8 @@ module.exports = function( config ) {
 			'karma-chai',
 			'karma-chrome-launcher',
 			'karma-ckeditor4-yui-to-chai',
-			'karma-ckeditor4-preprocessor'
+			'karma-ckeditor4-preprocessor',
+			'karma-html2js-preprocessor'
 		],
 
 		// Continuous Integration mode
@@ -81,7 +90,8 @@ module.exports = function( config ) {
 		client: {
 			useIframe: false,
 			clearContext: true,
-			__filenameOverride: __dirname + '/../index.html'
+			__filenameOverride: __dirname + '/../index.html',
+			timeout: 20000
 		}
 	} );
 };

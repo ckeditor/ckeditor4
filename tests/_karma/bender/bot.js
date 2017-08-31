@@ -14,11 +14,12 @@
 	bender.editorBot.create = function( profile, callback ) {
 		var creator = profile.creator || 'replace',
 			name = profile.name || 'test_editor',
-			tc = bender.getTestSuite(),
+			tc = bender.getTestSuite().getBenderTestCase(),
+			htmlContainer = CKEDITOR.document.getById( 'html-container' ),
 			element,
 			config;
 
-		element = CKEDITOR.document.getById( name ) || CKEDITOR.document.getBody().append(
+		element = CKEDITOR.document.getById( name ) || htmlContainer.append(
 			CKEDITOR.dom.element.createFromHtml( creator == 'replace' ?
 				'<textarea id="' + name + '"' + '></textarea>' :
 				'<div id="' + name + '"' + ' contenteditable="true"></div>' )
@@ -77,7 +78,7 @@
 
 			// Allow all instantiation tasks to complete.
 			setTimeout( function() {
-				if ( bender.currentTestCase && bender.currentTestCase.isWaiting ) {
+				if ( bender.getTestSuite().isInTest() && bender.getTestSuite().isWaiting() ) {
 					resume( function() {
 						callback( bot );
 					} );
@@ -107,10 +108,8 @@
 
 		CKEDITOR[ creator ]( element, profile.config );
 
-		// TODO
-		console.log( 'ctc', bender.currentTestCase );
-		if ( bender.currentTestCase ) {
-			bender.currentTestCase.wait();
+		if ( bender.getTestSuite().isInTest() ) {
+			wait();
 		}
 	};
 
