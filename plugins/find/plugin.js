@@ -15,7 +15,10 @@ CKEDITOR.plugins.add( 'find', {
 		findCommand.canUndo = false;
 		findCommand.readOnly = 1;
 
-		var replaceCommand = editor.addCommand( 'replace', new CKEDITOR.dialogCommand( 'replace' ) );
+		var replaceCommand = editor.addCommand( 'replace', new CKEDITOR.dialogCommand( 'find', {
+			tabId: 'replace'
+		} ) );
+
 		replaceCommand.canUndo = false;
 
 		if ( editor.ui.addButton ) {
@@ -33,7 +36,6 @@ CKEDITOR.plugins.add( 'find', {
 		}
 
 		CKEDITOR.dialog.add( 'find', this.path + 'dialogs/find.js' );
-		CKEDITOR.dialog.add( 'replace', this.path + 'dialogs/find.js' );
 	}
 } );
 

@@ -51,8 +51,8 @@
 		}
 	}
 
-	function findDialog( editor, startupPage ) {
-		// Style object for highlights: (https://dev.ckeditor.com/ticket/5018)
+	function findDialog( editor ) {
+		// Style object for highlights: (http://dev.ckeditor.com/ticket/5018)
 		// 1. Defined as full match style to avoid compromising ordinary text color styles.
 		// 2. Must be apply onto inner-most text to avoid conflicting with ordinary text color styles visually.
 		var highlightConfig = {
@@ -776,14 +776,13 @@
 				finder.searchRange = getSearchRange();
 
 				// Fill in the find field with selected text.
-				var selectedText = this.getParentEditor().getSelection().getSelectedText(),
+				var startupPage = this._.currentTabId,
+					selectedText = this.getParentEditor().getSelection().getSelectedText(),
 					patternFieldId = ( startupPage == 'find' ? 'txtFindFind' : 'txtFindReplace' );
 
 				var field = this.getContentElement( startupPage, patternFieldId );
 				field.setValue( selectedText );
 				field.select();
-
-				this.selectPage( startupPage );
 
 				this[ ( startupPage == 'find' && this._.editor.readOnly ? 'hide' : 'show' ) + 'Page' ]( 'replace' );
 			},
@@ -806,7 +805,7 @@
 				delete finder.matchRange;
 			},
 			onFocus: function() {
-				if ( startupPage == 'replace' )
+				if ( this._.currentTabId == 'replace' )
 					return this.getContentElement( 'replace', 'txtFindReplace' );
 				else
 					return this.getContentElement( 'find', 'txtFindFind' );
@@ -814,11 +813,5 @@
 		};
 	}
 
-	CKEDITOR.dialog.add( 'find', function( editor ) {
-		return findDialog( editor, 'find' );
-	} );
-
-	CKEDITOR.dialog.add( 'replace', function( editor ) {
-		return findDialog( editor, 'replace' );
-	} );
+	CKEDITOR.dialog.add( 'find', findDialog );
 } )();
