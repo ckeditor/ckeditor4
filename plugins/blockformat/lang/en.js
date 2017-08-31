@@ -6,6 +6,8 @@ CKEDITOR.plugins.setLang( 'blockformat', 'en', {
   label:      'Format',
   panelTitle: 'Select block format',
   blockquoteLabel: 'Block quotation',
-  remove: 'Normal Text',
+  remove:     'Normal text',
+  pre:        'Preformatted',
+  address:    'Addresss',
   helpLabel:  'Help',
 } );

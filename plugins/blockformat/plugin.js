@@ -4,7 +4,7 @@
 */
 
 CKEDITOR.plugins.add( 'blockformat', {
-  requires: 'a11yfirst,blockquote,codesnippet,menubutton',
+  requires: 'a11yfirst,codesnippet,menubutton',
 
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -18,10 +18,12 @@ CKEDITOR.plugins.add( 'blockformat', {
         config = editor.config,
         lang = editor.lang.blockformat,
         items = {},
-        order = 0;
+        order = 0,
+        label;
 
     // Gets the list of tags from the settings.
     var tags = config.format_tags.split( ';' );
+    tags = 'pre;address'.split( ';' );
 
     // Menuitem commands
     var blockquoteCmd = 'blockquote';
@@ -32,32 +34,14 @@ CKEDITOR.plugins.add( 'blockformat', {
 
     items.blockquote = {
       label: lang.blockquoteLabel,
-      group: 'blockElementTags',
+      group: 'blockformatMain',
       order: order++,
       onClick: function () {
         editor.execCommand( blockquoteCmd );
       }
     };
 
-    // Add Normal text item
-    items.p = {
-      label: lang.remove,
-      group: 'blockElementTags',
-      style: new CKEDITOR.style( { element: 'p' } ),
-      order: order++,
-      onClick: function() {
-          editor.focus();
-          editor.fire( 'saveSnapshot' );
 
-          editor[ 'applyStyle' ]( this.style );
-          editor.focus();
-
-          // Save the undo snapshot after all changes are affected. (#4899)
-          setTimeout( function() {
-            editor.fire( 'saveSnapshot' );
-          }, 0 );
-      }
-    };  
 
     // Create item entry for each element in format_tags, excluding headings
     for ( var i = 0; i < tags.length; i++ ) {
@@ -65,8 +49,9 @@ CKEDITOR.plugins.add( 'blockformat', {
 
       if (!['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'].includes(elementTag)) {
 
+
         items[ elementTag ] = {
-          label: elementTag,
+          label: lang[elementTag],
           elementTag: elementTag,
           group: 'blockElementTags',
           style: new CKEDITOR.style( { element: elementTag } ),
@@ -92,6 +77,25 @@ CKEDITOR.plugins.add( 'blockformat', {
 
     }
 
+    // Add Normal text item
+    items.p = {
+      label: lang.remove,
+      group: 'blockElementTags',
+      style: new CKEDITOR.style( { element: 'p' } ),
+      order: order++,
+      onClick: function() {
+          editor.focus();
+          editor.fire( 'saveSnapshot' );
+
+          editor[ 'applyStyle' ]( this.style );
+          editor.focus();
+
+          // Save the undo snapshot after all changes are affected. (#4899)
+          setTimeout( function() {
+            editor.fire( 'saveSnapshot' );
+          }, 0 );
+      }
+    };  
     // Add Help item
     items.help = {
       label: lang.helpLabel,
@@ -117,6 +121,7 @@ CKEDITOR.plugins.add( 'blockformat', {
         var activeItems = {};
 
         var elemName = editor.elementPath().elements.length ? editor.elementPath().elements[0].getName() : '';
+
 
         for ( var prop in items ) {
           activeItems[ prop ] = prop == elemName ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
