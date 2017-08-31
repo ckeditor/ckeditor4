@@ -36,7 +36,7 @@
 		},
 
 		// #577
-		'test remove selection collspan': function() {
+		'test remove selection colspan': function() {
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
 				assert.ignore();
 			}
@@ -44,7 +44,7 @@
 		},
 
 		// #577
-		'test remove single column under collspan': function() {
+		'test remove single column under colspan': function() {
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
 				assert.ignore();
 			}
@@ -52,7 +52,7 @@
 		},
 
 		// #577
-		'test remove middle columns half with 2 collspans': function() {
+		'test remove middle columns half with 2 colspans': function() {
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
 				assert.ignore();
 			}
@@ -60,7 +60,7 @@
 		},
 
 		// #577
-		'test remove multirange selection under collspan': function() {
+		'test remove multirange selection under colspan': function() {
 			if ( ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) || bender.tools.env.mobile ) {
 				assert.ignore();
 			}

@@ -24,26 +24,32 @@
 			this.doTest( 'table-1', 'columnDelete' );
 		},
 
+		// #577
 		'test remove 2 last columns by single row selection': function() {
 			this.doTest( 'table-2', 'columnDelete' );
 		},
 
-		'test remove selection collspan': function() {
+		// #577
+		'test remove selection colspan': function() {
 			this.doTest( 'table-3', 'columnDelete' );
 		},
 
-		'test remove single column under collspan': function() {
+		// #577
+		'test remove single column under colspan': function() {
 			this.doTest( 'table-4', 'columnDelete' );
 		},
 
-		'test remove middle columns half with 2 collspans': function() {
+		// #577
+		'test remove middle columns half with 2 colspans': function() {
 			this.doTest( 'table-5', 'columnDelete' );
 		},
 
-		'test remove multirange selection under collspan': function() {
+		// #577
+		'test remove multirange selection under colspan': function() {
 			this.doTest( 'table-6', 'columnDelete' );
 		},
 
+		// #577
 		'test remove entire table by column delete': function() {
 			this.doTest( 'table-7', 'columnDelete' );
 		}
