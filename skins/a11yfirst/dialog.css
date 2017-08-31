@@ -45,6 +45,7 @@ Comments in this file will give more details about each of the above blocks.
 	/* Mandatory: Because the dialog.css file is loaded on demand, we avoid
 		showing an unstyled dialog by hidding it. Here, we restore its visibility. */
 	visibility: visible;
+	border: 1px solid #d1d1d1;
 }
 
 /* The inner boundary container. */

@@ -2,16 +2,9 @@
 Copyright (c) 2003-2017, CKSource - Nicholas Hoyt and Jon Gunderson All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-CKEDITOR.plugins.setLang( 'blockformat', 'en', {
-  label:      'Format',
-  panelTitle: 'Select block format',
-  blockquoteLabel: 'Block quotation',
-  remove:     'Normal text',
-  pre:        'Preformatted (preserves spaces and line breaks)',
-  address:    'Addresss',
-  helpLabel:  'Help',
-
-  helpTitle: 'Format Menu Features',
+CKEDITOR.plugins.setLang( 'a11yfirst', 'en', {
+  toolbar: 'Getting Started with Accessibility',
+  helpTitle: 'Getting Started with A11yFirst',
   helpItems: [
     'The Format menu provides a way to change the styling of a block of text from a paragraph style (e.g. Normal Text) to a style that represents the semantics of the content.',
 

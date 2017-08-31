@@ -19,41 +19,52 @@ CKEDITOR.plugins.add( 'blockformat', {
         lang = editor.lang.blockformat,
         items = {},
         order = 0,
+        allowedContent = "",
         label;
 
     // Gets the list of tags from the settings.
-    var tags = config.format_tags.split( ';' );
-    tags = 'pre;address'.split( ';' );
-
-    // Menuitem commands
-    var blockquoteCmd = 'blockquote';
-    var helpCmd = 'headingHelp';
+    var tags = config.blockformat_tags.split( ';' );
 
     // Change behavior of menubutton with text label
     CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
-    items.blockquote = {
-      label: lang.blockquoteLabel,
-      group: 'blockformatMain',
-      order: order++,
-      onClick: function () {
-        editor.execCommand( blockquoteCmd );
-      }
-    };
+    // Initialize Block Format Help menuitem
+    var helpCmd = 'blockformatHelp';
+    CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/blockformat_help.js' );
+    editor.addCommand( helpCmd, new CKEDITOR.dialogCommand( helpCmd ) );    
 
+    // Initialize Blockquote menuitem
+    var blockquoteCmd = 'blockquote';
+    if (tags.includes('blockquote')) {
 
+      allowedContent += 'blockquote';
+
+      items.blockquote = {
+        label: lang.blockquoteLabel,
+        group: 'blockformatMain',
+        order: order++,
+        onClick: function () {
+          editor.execCommand( blockquoteCmd );
+        }
+      };
+
+    }
 
     // Create item entry for each element in format_tags, excluding headings
     for ( var i = 0; i < tags.length; i++ ) {
       var elementTag = tags[ i ];
 
-      if (!['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'].includes(elementTag)) {
+      if (!['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'blockquote'].includes(elementTag)) {
 
+        allowedContent += ';' + elementTag;
+
+        label = elementTag;
+        if (lang[elementTag]) label = lang[elementTag];
 
         items[ elementTag ] = {
-          label: lang[elementTag],
+          label: label,
           elementTag: elementTag,
-          group: 'blockElementTags',
+          group: 'blockformatTags',
           style: new CKEDITOR.style( { element: elementTag } ),
           order: order++,
 
@@ -77,10 +88,12 @@ CKEDITOR.plugins.add( 'blockformat', {
 
     }
 
+    allowedContent += ';p';
+
     // Add Normal text item
     items.p = {
       label: lang.remove,
-      group: 'blockElementTags',
+      group: 'blockformatTags',
       style: new CKEDITOR.style( { element: 'p' } ),
       order: order++,
       onClick: function() {
@@ -97,9 +110,9 @@ CKEDITOR.plugins.add( 'blockformat', {
       }
     };  
     // Add Help item
-    items.help = {
+    items.blockformatHelp = {
       label: lang.helpLabel,
-      group: 'blockHelp',
+      group: 'blockformatHelp',
       order: order++,
       onClick: function() {
         editor.execCommand( helpCmd );
@@ -107,15 +120,16 @@ CKEDITOR.plugins.add( 'blockformat', {
     };
 
     // Initialize menu groups
-    editor.addMenuGroup( 'blockformatMain', 1 );
-    editor.addMenuGroup( 'blockElementTags', 2);
-    editor.addMenuGroup( 'blockHelp', 4);
+    editor.addMenuGroup( 'blockformatMain', 1);
+    editor.addMenuGroup( 'blockformatTags', 2);
+    editor.addMenuGroup( 'blockformatHelp', 3);
     editor.addMenuItems( items );
 
     editor.ui.add( 'BlockFormat', CKEDITOR.UI_MENUBUTTON, {
       label: lang.label,
       group: 'format_options',
       toolbar: 'blockformat',
+      allowedContent: allowedContent,
 
       onMenu: function() {
         var activeItems = {};

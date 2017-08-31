@@ -4,7 +4,21 @@
  */
 
 CKEDITOR.plugins.add( 'a11yfirst', {
+  lang: 'en',
+  icons: 'a11yfirst', 
   init: function ( editor ) {
+
+    // Initialize A11yFirst Getting Started dialog and command
+    var helpCmd = 'A11yFirstGettingStarted';
+    CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/getting_started.js' );
+    editor.addCommand( helpCmd, new CKEDITOR.dialogCommand( helpCmd ) );    
+
+    editor.ui.addButton && editor.ui.addButton( 'A11yFirst', {
+      label: editor.lang.a11yfirst.toolbar,
+      command: helpCmd,
+      toolbar: 'blocks,10'
+    } );
+
     // Pull request: Add template and method in plugins/listblock/plugin.js
     var listSeparator = CKEDITOR.addTemplate( 'panel-list-separator',
       '<div id="{id}" role="separator" style="border-bottom: 1px solid #d1d1d1"></div>' );

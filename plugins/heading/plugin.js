@@ -40,7 +40,7 @@
       // Change behavior of menubutton with text label
       CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
-      // Initialize Help menuitem
+      // Initialize Heading Help menuitem
       var helpCmd = 'headingHelp';
       CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/heading_help.js' );
       editor.addCommand( helpCmd, new CKEDITOR.dialogCommand( helpCmd ) );
@@ -105,7 +105,7 @@
       };
 
       // Add Help item
-      items.help = {
+      items.headingHelp = {
         label: lang.helpLabel,
         group: 'heading_actions',
         order: headings.length + 2,
@@ -139,7 +139,7 @@
           }
 
           activeItems.normalText = currentHeadingElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
-          activeItems.help = CKEDITOR.TRISTATE_OFF;
+          activeItems.headingHelp = CKEDITOR.TRISTATE_OFF;
 
           if ( currentHeadingElement )
             activeItems[ currentHeadingElement.getName() ] = CKEDITOR.TRISTATE_ON;
