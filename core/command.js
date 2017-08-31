@@ -117,10 +117,10 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	};
 
 	/**
-	 * Provides command label string. Label is defined with few fallbacks in specific order described below:
+	 * Returns the command label string. By default label is determined with the following steps:
 	 *
-	 * 1. If {@link CKEDITOR.commandDefinition#getLabel} method was defined, it is used to provide a label.
-	 * 2. If {@link CKEDITOR.commandDefinition#label} attribute exists, it is used to provide a label.
+	 * 1. If {@link #getLabel} method was defined, it is used to provide a label.
+	 * 2. If {@link #label} attribute exists, it is used to provide a label.
 	 * 3. If {@link CKEDITOR.command#uiItems} is not empty, then name of first array item is used as a label.
 	 * 4. If non of the above options is available, empty string is returned.
 	 *
@@ -140,10 +140,10 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 	};
 
 	/**
-	 * Provides command keystroke description. Description is defined with few fallbacks in specific order described below:
+	 * Returns the command keystroke description. By default keystroke description is determined with the following steps:
 	 *
-	 * 1. If {@link CKEDITOR.commandDefinition#getKeystrokeDescription} method was defined, it is used to provide keystroke description.
-	 * 2. If {@link CKEDITOR.commandDefinition#keystrokeDescription} attribute exists, it is used to provide keystroke description.
+	 * 1. If {@link #getKeystrokeDescription} method was defined, it is used to provide keystroke description.
+	 * 2. If {@link #keystrokeDescription} attribute exists, it is used to provide keystroke description.
 	 * 3. If non of the above options is available, empty string is returned.
 	 *
 	 * @since 4.8.0

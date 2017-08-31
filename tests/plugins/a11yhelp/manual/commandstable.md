@@ -8,7 +8,7 @@
 1. Press `Ctrl/Cmd + /`.
 
 **Expected:**
-* First editor - Table should contain at least 2 keystrokes `Alt + 0` amd `Ctrl/Cmd + Forward Slash`.
+* First editor - Table should contain at least 2 keystrokes `Alt + 0` and `Ctrl/Cmd + Forward Slash`.
 * Second editor - Table should contains 3 new keystrokes:
   - `Alt + Shift + A`.
   - `Alt + Shift + X`, with text 'This is alternative keystroke description'.

@@ -1,4 +1,4 @@
-.cke_accessibility_legend {
+.cke_accessibility_dialog {
 	width:600px;
 	height:400px;
 	padding-right:5px;
@@ -6,60 +6,61 @@
 	overflow-x:hidden;
 }
 
-.cke_browser_quirks .cke_accessibility_legend {
+.cke_browser_quirks .cke_accessibility_dialog {
 	height:390px
 }
-.cke_accessibility_legend * {
+.cke_accessibility_dialog * {
 	white-space:normal;
 	color: #4C5867;
 }
-.cke_accessibility_legend h1 {
+.cke_accessibility_dialog h1 {
 	font-size: 20px;
 	font-weight: 400;
 	border-bottom: 1px solid #d9dce0;
 	padding-bottom: 2px;
 	margin: 15px;
 }
-.cke_accessibility_legend dl {
+.cke_accessibility_dialog dl {
 
 	margin-left: 15px;
 }
-.cke_accessibility_legend dt {
+.cke_accessibility_dialog dt {
 	padding-top: 10px;
 	font-size: 15px;
 	font-weight: 600;
 }
-.cke_accessibility_legend dd {
+.cke_accessibility_dialog dd {
 	margin-top: 6px;
 	margin-bottom: 10px;
 	line-height: 19px;
 }
 
-.cke_accessibility_legend table {
+/* tag needs to overwrite ".cke_dialog_ui_vbox table" from dialog.css file */
+div.cke_accessibility_dialog table {
 	border-collapse: collapse;
 	border: 1px solid #d9dce0;
-	margin: 10px !important;
+	margin: 10px;
 }
 
-.cke_accessibility_legend th {
+.cke_accessibility_dialog th {
 	border: 0.1em solid #d9dce0;
 	padding: 0.8em;
 	font-weight: 600;
 	font-size: 15px;
 }
 
-.cke_accessibility_legend td {
+.cke_accessibility_dialog td {
 	border: 0.1em solid #d9dce0;
 	padding: 0.8em;
 	height: 26px;
 	vertical-align: middle;
 }
 
-.cke_accessibility_legend .cke_accessibility_table_odd {
+.cke_accessibility_dialog .cke_accessibility_table_odd {
 	background-color: #fcfcfc;
 }
 
-.cke_accessibility_legend kbd > kbd {
+.cke_accessibility_dialog kbd > kbd {
 	display: inline-block;
 	padding: 2px 7px;
 	margin-left: 2px;
@@ -77,7 +78,7 @@
 	border-radius: 3px;
 }
 
-.cke_accessibility_legend table kbd > kbd {
+.cke_accessibility_dialog table kbd > kbd {
 	display: inline-block;
 	padding: 5px 7px;
 	margin-left: 3px;

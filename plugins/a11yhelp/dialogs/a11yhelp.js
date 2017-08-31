@@ -2,6 +2,7 @@
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
+
 CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	var lang = editor.lang.a11yhelp;
 
@@ -32,9 +33,8 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 	// Create the help list directly from lang file entries.
 	function buildHelpContents() {
 		var id = CKEDITOR.tools.getNextId(),
-			pageTpl = '<div class="cke_accessibility_legend" role="document" aria-labelledby="' + id + '_arialbl" tabIndex="-1">%1</div>' +
+			pageTpl = '<div class="cke_accessibility_dialog" role="document" aria-labelledby="' + id + '_arialbl" tabIndex="-1">%1</div>' +
 				'<span id="' + id + '_arialbl" class="cke_voice_label">' + lang.contents + ' </span>',
-			sectionTpl = '<dl>%2</dl>',
 			itemTpl = '<dt>%1</dt><dd>%2</dd>';
 
 		var pageHtml = [];
@@ -65,7 +65,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 				sectionHtml.push( itemTpl.replace( '%1', item.name ).replace( '%2', itemLegend ) );
 			}
 
-			pageHtml.push( sectionTpl.replace( '%2', sectionHtml.join( '' ) ) );
+			pageHtml.push( '<dl>' + sectionHtml.join( '' ) + '</dl>' );
 		}
 
 		return pageTpl.replace( '%1', pageHtml.join( '' ) );
@@ -73,13 +73,11 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 
 	function buildKeystrokesContent() {
 		var id = CKEDITOR.tools.getNextId(),
-			pageTpl = '<div class="cke_accessibility_legend" role="document" aria-labelledby="' + id + '_arialbl" tabIndex="-1">%1</div>' +
+			pageTpl = '<div class="cke_accessibility_dialog" role="document" aria-labelledby="' + id + '_arialbl" tabIndex="-1">%1</div>' +
 				'<span id="' + id + '_arialbl" class="cke_voice_label">' + lang.contents + ' </span>',
 			pageHtml = [];
 
-		// Section based on available commands. If you modify `commandRowTpl`,
-		// you need to change unit test in a similar way.
-		var commandsSectionTpl = '<table>%2</table>',
+		var commandsSectionTpl = '<table>%1</table>',
 			commandRowTpl = '<tr%1><td>%2</td><td>%3</td></tr>',
 			commandsTbodyTpl = '<tbody>%1</tbody>',
 			commandsTbodyHtml,
@@ -111,7 +109,7 @@ CKEDITOR.dialog.add( 'a11yHelp', function( editor ) {
 		} , '' ) );
 
 		// Push section's HTML code to output file.
-		pageHtml.push( commandsSectionTpl.replace( '%2', commandsTheadHtml + commandsTbodyHtml ) );
+		pageHtml.push( commandsSectionTpl.replace( '%1', commandsTheadHtml + commandsTbodyHtml ) );
 
 		return pageTpl.replace( '%1', pageHtml.join( '' ) );
 	}

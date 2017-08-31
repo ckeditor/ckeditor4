@@ -37,23 +37,20 @@
 				editor.addCommand( commandName, new CKEDITOR.dialogCommand( commandName, {
 					modes: { wysiwyg: 1, source: 1 },
 					readOnly: 1,
-					canUndo: false,
-					label: editor.lang.a11yhelp.accessibilityCommandsLabels.generalTab
+					label: editor.lang.a11yhelp.tabLabels.general
 				} ) );
 
-				editor.addCommand( 'keystrokesTab', new CKEDITOR.dialogCommand( commandName, {
+				editor.addCommand( 'keystrokesHelp', new CKEDITOR.dialogCommand( commandName, {
 					modes: { wysiwyg: 1, source: 1 },
 					readOnly: 1,
-					canUndo: false,
-					label: editor.lang.a11yhelp.accessibilityCommandsLabels.keystrokesTab,
-					tab: 'keystrokes'
+					label: editor.lang.a11yhelp.tabLabels.keystrokes,
+					tabId: 'keystrokes'
 				} ) );
 
-				editor.setKeystroke( CKEDITOR.ALT + 48 /*0*/, 'a11yHelp' );
 				CKEDITOR.dialog.add( commandName, plugin.path + 'dialogs/a11yhelp.js' );
 
-				editor.setKeystroke( CKEDITOR.CTRL + 191 /*/*/, 'keystrokesTab' );
-				CKEDITOR.dialog.add( 'keystrokesTab', plugin.path + 'dialogs/a11yhelp.js' );
+				editor.setKeystroke( CKEDITOR.ALT + 48 /*0*/, 'a11yHelp' );
+				editor.setKeystroke( CKEDITOR.CTRL + 191 /*?*/, 'keystrokesHelp' );
 			} );
 
 			editor.on( 'ariaEditorHelpLabel', function( evt ) {
@@ -71,6 +68,56 @@
 	 */
 	CKEDITOR.plugins.a11yhelp = {
 		/**
+		 * Return html which represent keystroke. Result is wrapped with `<kbd></kbd>` tags or other defined by the user.
+		 *
+		 * 		CKEDITOR.plugins.a11yhelp.representKeystroke( CKEDITOR.instances.editor, 4456496 );
+		 * 		"<kbd><kbd>Alt</kbd>+<kbd>0</kbd></kbd>"
+		 *
+		 * @since 4.8.0
+		 * @private
+		 * @param {CKEDITOR.editor} editor Editor instance.
+		 * @param {Number} keystroke Number which represent command keystroke.
+		 * @param {String} [wrappingTag='kbd'] Wrapping tag. It's inner string of tag: e.g. 'kbd' string in case of `<kbd></kbd>` tags pair.
+		 * Providing empty string will remove wrapping tags from returned result.
+		 * @returns {String} HTML code with key names wrapped with wrapping tag by default it is `<kbd></kbd>`.
+		 */
+		representKeystroke: function( editor, keystroke, wrappingTag ) {
+			// CharCode <-> KeyChar.
+			var keyMap = this._createKeyMap( editor );
+
+			// Sort in desc.
+			var modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ];
+
+			var quotient, modifier,
+				presentation = [],
+				openTag,
+				closeTag;
+
+			if ( wrappingTag === '' ) {
+				openTag = '';
+				closeTag = '';
+			} else {
+				if ( wrappingTag === undefined ) {
+					wrappingTag = 'kbd';
+				}
+				openTag = '<' + wrappingTag + '>';
+				closeTag = '</' + wrappingTag + '>';
+			}
+
+			for ( var i = 0; i < modifiers.length; i++ ) {
+				modifier = modifiers[ i ];
+				quotient = keystroke / modifiers[ i ];
+				if ( quotient > 1 && quotient <= 2 ) {
+					keystroke -= modifier;
+					presentation.push( openTag + keyMap[ modifier ] + closeTag );
+				}
+			}
+			presentation.push( openTag + ( keyMap[ keystroke ] || String.fromCharCode( keystroke ) ) + closeTag );
+
+			return openTag + presentation.join( '+' ) + closeTag;
+		},
+
+		/**
 		 * Method creates key map object used by {@link CKEDITOR.plugins.a11yhelp#representKeystroke} to provide proper names for keys.
 		 *
 		 * @since 4.8.0
@@ -79,13 +126,14 @@
 		 * @returns {Object}
 		 */
 		_createKeyMap: ( function() {
-			var keyMapCache;
+			var keyMapCache = {};
 			return function( editor ) {
-				if ( !keyMapCache ) {
+				var language = editor.config.language || 'en';
+				if ( !keyMapCache[ language ] ) {
 					var lang = editor.lang.a11yhelp,
 						coreLang = editor.lang.common.keyboard;
 
-					keyMapCache = {
+					keyMapCache[ language ] = {
 						8: coreLang[ 8 ],
 						9: lang.tab,
 						13: coreLang[ 13 ],
@@ -149,61 +197,12 @@
 						221: lang.closeBracket,
 						222: lang.singleQuote
 					};
-					keyMapCache[ CKEDITOR.ALT ] = coreLang[ 18 ];
-					keyMapCache[ CKEDITOR.SHIFT ] = coreLang[ 16 ];
-					keyMapCache[ CKEDITOR.CTRL ] = CKEDITOR.env.mac ? coreLang[ 224 ] : coreLang[ 17 ];
+					keyMapCache[ language ][ CKEDITOR.ALT ] = coreLang[ 18 ];
+					keyMapCache[ language ][ CKEDITOR.SHIFT ] = coreLang[ 16 ];
+					keyMapCache[ language ][ CKEDITOR.CTRL ] = CKEDITOR.env.mac ? coreLang[ 224 ] : coreLang[ 17 ];
 				}
-				return keyMapCache;
+				return keyMapCache[ language ];
 			};
-		} )(),
-
-		/**
-		 * Return html which represent keystroke. Result is wrapped with `<kbd></kbd>` tags or other defined by the user.
-		 *
-		 * 		CKEDITOR.plugins.a11yhelp.representKeystroke( CKEDITOR.instances.editor, 4456496 );
-		 * 		"<kbd><kbd>Alt</kbd>+<kbd>0</kbd></kbd>"
-		 *
-		 * @since 4.8.0
-		 * @param {CKEDITOR.editor} editor Editor instance.
-		 * @param {Number} keystroke Number which represent command keystroke.
-		 * @param {String} [wrappingTag=kbd] Wrapping tag. It's inner string of tag: e.g. 'kbd' string in case of `<kbd></kbd>` tags pair.
-		 * Providing empty string will remove wrapping tags from returned result.
-		 * @returns {String} HTML code with key names wrapped with wrapping tag by default it is `<kbd></kbd>`.
-		 */
-		representKeystroke: function( editor, keystroke, wrappingTag ) {
-			// CharCode <-> KeyChar.
-			var keyMap = this._createKeyMap( editor );
-
-			// Sort in desc.
-			var modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ];
-
-			var quotient, modifier,
-				presentation = [],
-				openTag,
-				closeTag;
-
-			if ( wrappingTag === '' ) {
-				openTag = '';
-				closeTag = '';
-			} else {
-				if ( wrappingTag === undefined ) {
-					wrappingTag = 'kbd';
-				}
-				openTag = '<' + wrappingTag + '>';
-				closeTag = '</' + wrappingTag + '>';
-			}
-
-			for ( var i = 0; i < modifiers.length; i++ ) {
-				modifier = modifiers[ i ];
-				quotient = keystroke / modifiers[ i ];
-				if ( quotient > 1 && quotient <= 2 ) {
-					keystroke -= modifier;
-					presentation.push( openTag + keyMap[ modifier ] + closeTag );
-				}
-			}
-			presentation.push( openTag + ( keyMap[ keystroke ] || String.fromCharCode( keystroke ) ) + closeTag );
-
-			return openTag + presentation.join( '+' ) + closeTag;
-		}
+		} )()
 	};
 } )();

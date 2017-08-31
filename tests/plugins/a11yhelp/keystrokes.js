@@ -4,8 +4,6 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {};
-
 	bender.test( {
 		setUp: function() {
 			if ( CKEDITOR.plugins.a11yhelp._keyMap ) {
@@ -59,7 +57,7 @@
 				var bot = this.editorBot;
 				this._registerCommand( 'customCommand' );
 
-				bot.dialog( 'keystrokesTab', function( dialog ) {
+				bot.dialog( 'a11yHelp', function( dialog ) {
 						var dialogHtml = dialog.definition.contents[ 1 ].elements[ 0 ].html;
 						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Test Label.</td><td><kbd><kbd>Alt</kbd>+<kbd>A</kbd></kbd></td>' ) );
 						dialog.hide();
@@ -83,7 +81,7 @@
 				this._registerCommand( 'customCommand' );
 				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
 
-				bot.dialog( 'keystrokesTab', function( dialog ) {
+				bot.dialog( 'a11yHelp', function( dialog ) {
 					wait( function() {
 						var dialogHtml = dialog.definition.contents[ 1 ].elements[ 0 ].html;
 						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd> Additional info.</td>' ) );
@@ -109,7 +107,7 @@
 				this._registerCommand( 'customCommand' );
 				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
 
-				bot.dialog( 'keystrokesTab', function( dialog ) {
+				bot.dialog( 'a11yHelp', function( dialog ) {
 					wait( function() {
 						var dialogHtml = dialog.definition.contents[ 1 ].elements[ 0 ].html;
 						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Modified label</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd> Additional info.</td>' ) );
@@ -135,7 +133,7 @@
 				this._registerCommand( 'customCommand' );
 				this._registerCommand( 'anotherCommand', commandDefinition, keystroke );
 
-				bot.dialog( 'keystrokesTab', function( dialog ) {
+				bot.dialog( 'a11yHelp', function( dialog ) {
 					wait( function() {
 						var dialogHtml = dialog.definition.contents[ 1 ].elements[ 0 ].html;
 						assert.areNotSame( -1, dialogHtml.indexOf( '<td>Another Command</td><td><kbd><kbd>Shift</kbd>+<kbd>A</kbd></kbd>Modified key description</td>' ) );
@@ -236,13 +234,13 @@
 
 				keyMap = CKEDITOR.plugins.a11yhelp._createKeyMap( editor );
 
-				assert.areSame( 'Ctrl', keyMap[ CKEDITOR.CTRL ], 'Ctrl key label' );
+				assert.areSame( 'Shift', keyMap[ CKEDITOR.SHIFT ], 'Shift key label' );
 
 				// Test multilang support.
 				that._createEditor( { language: 'de' }, function() {
 					var germanKeyMap = CKEDITOR.plugins.a11yhelp._createKeyMap( that.editor );
 
-					assert.areSame( 'Strg', germanKeyMap[ CKEDITOR.CTRL ], 'Ctrl key label' );
+					assert.areSame( 'Umschalt', germanKeyMap[ CKEDITOR.SHIFT ], 'Shift key label' );
 				} );
 			} );
 		}
