@@ -14,6 +14,7 @@ Fixed Issues:
 * [#779](https://github.com/ckeditor/ckeditor-dev/issues/779): Fixed: [Remove Format](https://ckeditor.com/addon/removeformat) plugin removes elements with language definition inserted by [Language](https://ckeditor.com/addon/language) plugin.
 * [#423](https://github.com/ckeditor/ckeditor-dev/issues/423): Fixed: [Paste from Word](https://ckeditor.com/addon/pastefromword) plugin pastes paragraphs into the editor even if [`CKEDITOR.config.enterMode`](https://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) is set to `CKEDITOR.ENTER_BR`.
 * [#719](https://github.com/ckeditor/ckeditor-dev/issues/719): Fixed: Image inserted using [Enhanced Image](https://ckeditor.com/addon/image2) plugin could be resized when editor is in read-only mode.
+* [#577](https://github.com/ckeditor/ckeditor-dev/issues/577): Fixed: "Delete Columns" command provided by [Table Tools](https://ckeditor.com/addon/tabletools) plugin throws an error while trying to delete columns.
 
 Other Changes:
 
