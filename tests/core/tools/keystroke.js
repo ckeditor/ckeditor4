@@ -12,7 +12,6 @@
 	bender.test( {
 		'test keystrokeToString': function() {
 			var tests = [
-				// [ Keystroke, display string, display string on Mac, ARIA string, ARIA string on Mac ]
 				[ CKEDITOR.CTRL + 65 /*A*/, 'Ctrl+A', '⌘+A', 'Ctrl+A', 'Command+A' ],
 				[ CKEDITOR.ALT + 66 /*B*/, 'Alt+B', '⌥+B', 'Alt+B', 'Alt+B' ],
 				[ CKEDITOR.SHIFT + 67 /*C*/, 'Shift+C', '⇧+C', 'Shift+C', 'Shift+C' ],
@@ -29,16 +28,15 @@
 
 		'test keystrokeToArray': function() {
 			var tests = [
-				// [ Keystroke, display string, display string on Mac, ARIA string, ARIA string on Mac ]
 				[ CKEDITOR.CTRL + 65 /*A*/, [ 'Ctrl', 'A' ], [ '⌘', 'A' ], [ 'Ctrl', 'A' ], [ 'Command', 'A' ] ],
 				[ CKEDITOR.ALT + 66 /*B*/, [ 'Alt', 'B' ], [ '⌥', 'B' ], [ 'Alt', 'B' ], [ 'Alt', 'B' ] ],
-				// [ CKEDITOR.SHIFT + 67 /*C*/, 'Shift+C', '⇧+C', 'Shift+C', 'Shift+C' ],
-				// [ CKEDITOR.CTRL + CKEDITOR.ALT + 68 /*D*/, 'Ctrl+Alt+D', '⌘+⌥+D', 'Ctrl+Alt+D', 'Command+Alt+D' ],
-				// [ CKEDITOR.CTRL + CKEDITOR.SHIFT + 69 /*E*/, 'Ctrl+Shift+E', '⌘+⇧+E', 'Ctrl+Shift+E', 'Command+Shift+E' ],
-				// [ CKEDITOR.ALT + CKEDITOR.SHIFT + 70 /*F*/, 'Alt+Shift+F', '⌥+⇧+F', 'Alt+Shift+F', 'Alt+Shift+F' ],
-				// [ CKEDITOR.CTRL + CKEDITOR.ALT + CKEDITOR.SHIFT + 71 /*G*/, 'Ctrl+Alt+Shift+G', '⌘+⌥+⇧+G', 'Ctrl+Alt+Shift+G', 'Command+Alt+Shift+G' ],
-				// [ CKEDITOR.CTRL + 32 /*SPACE*/, 'Ctrl+Space', '⌘+Space', 'Ctrl+Space', 'Command+Space' ],
-				// [ CKEDITOR.ALT + 13 /*ENTER*/, 'Alt+Enter', '⌥+Enter', 'Alt+Enter', 'Alt+Enter' ]
+				[ CKEDITOR.SHIFT + 67 /*C*/, [ 'Shift', 'C' ], [ '⇧', 'C' ], [ 'Shift', 'C' ], [ 'Shift', 'C' ] ],
+				[ CKEDITOR.CTRL + CKEDITOR.ALT + 68 /*D*/, [ 'Ctrl', 'Alt', 'D' ], [ '⌘', '⌥', 'D' ], [ 'Ctrl', 'Alt', 'D' ], [ 'Command', 'Alt', 'D' ] ],
+				[ CKEDITOR.CTRL + CKEDITOR.SHIFT + 69 /*E*/, [ 'Ctrl', 'Shift', 'E' ], [ '⌘', '⇧', 'E' ], [ 'Ctrl', 'Shift', 'E' ], [ 'Command', 'Shift', 'E' ] ],
+				[ CKEDITOR.ALT + CKEDITOR.SHIFT + 70 /*F*/, [ 'Alt', 'Shift', 'F' ], [ '⌥', '⇧', 'F' ], [ 'Alt', 'Shift', 'F' ], [ 'Alt', 'Shift', 'F' ] ],
+				[ CKEDITOR.CTRL + 32 /*SPACE*/, [ 'Ctrl', 'Space' ], [ '⌘', 'Space' ], [ 'Ctrl', 'Space' ], [ 'Command', 'Space' ] ],
+				[ CKEDITOR.ALT + 13 /*ENTER*/, [ 'Alt', 'Enter' ], [ '⌥', 'Enter' ], [ 'Alt', 'Enter' ], [ 'Alt', 'Enter' ] ],
+				[ CKEDITOR.CTRL + CKEDITOR.ALT + CKEDITOR.SHIFT + 71 /*G*/, [ 'Ctrl', 'Alt', 'Shift', 'G' ], [ '⌘', '⌥', '⇧', 'G' ], [ 'Ctrl', 'Alt', 'Shift', 'G' ], [ 'Command', 'Alt', 'Shift', 'G' ] ]
 			];
 
 			this._assertKeyboardMatrix( 'keystrokeToArray', tests, true );
@@ -49,9 +47,12 @@
 		 *
 		 * Each entry in `tests` should have the structure as follows:
 		 *
-		 * [ <keystroke>, <display>, <macDisplay>, <aria>, <macAria> ]
+		 * [
+		 * 	[ <keystroke>, <display>, <macDisplay>, <aria>, <macAria> ],
+		 * 	(...)
+		 * ]
 		 *
-		 * e.g. [ CKEDITOR.CTRL + 65, 'Ctrl+A', '⌘+A', 'Ctrl+A', 'Command+A' ]
+		 * e.g. [ [ CKEDITOR.CTRL + 65, 'Ctrl+A', '⌘+A', 'Ctrl+A', 'Command+A' ] ]
 		 *
 		 * @param {String} methodName Name of method to be called in `CKEDITOR.tools`.
 		 * @param {Array[]} tests An object containing the tests.
