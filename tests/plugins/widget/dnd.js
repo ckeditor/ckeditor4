@@ -459,7 +459,8 @@
 				pasteCounter = sinon.spy(),
 				dragstartCounter = sinon.spy(),
 				dragendCounter = sinon.spy(),
-				dropCounter = sinon.spy();
+				dropCounter = sinon.spy(),
+				isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
 			editor.on( 'paste', pasteCounter );
 			editor.on( 'dragstart', dragstartCounter );
@@ -486,7 +487,11 @@
 					// Testing if widget is selected is meaningful only if it is not selected at the beginning. (http://dev.ckeditor.com/ticket/13129)
 					assert.isNull( editor.widgets.focused, 'widget not focused before mousedown' );
 
-					img.fire( 'mousedown' );
+					img.fire( 'mousedown', {
+						$: {
+							button: isIe8 ? 1 : 0
+						}
+					} );
 
 					// Create dummy line and pretend it's visible to cheat drop listener
 					// making if feel that there's a place for the widget to be dropped.
