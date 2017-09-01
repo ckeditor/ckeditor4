@@ -22,22 +22,6 @@
 		};
 	}
 
-	function generateMouseButtonAsserts( inputs ) {
-		function generateEvent( button ) {
-			return {
-				data: {
-					$: {
-						button: button
-					}
-				}
-			};
-		}
-
-		CKEDITOR.tools.array.forEach( inputs, function( input ) {
-			assert.areSame( input[ 0 ], CKEDITOR.tools.getMouseButton( generateEvent( input[ 1 ] ) ) );
-		} );
-	}
-
 	bender.test( {
 		test_extend: function() {
 			function fakeFn() {}
@@ -793,27 +777,28 @@
 
 		// #810
 		'test getMouseButton': function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
+			var isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
+			function generateMouseButtonAsserts( inputs ) {
+				function generateEvent( button ) {
+					return {
+						data: {
+							$: {
+								button: button
+							}
+						}
+					};
+				}
+
+				CKEDITOR.tools.array.forEach( inputs, function( input ) {
+					assert.areSame( input[ 0 ], CKEDITOR.tools.getMouseButton( generateEvent( input[ 1 ] ) ) );
+				} );
 			}
 
 			generateMouseButtonAsserts( [
-				[ CKEDITOR.MOUSE_BUTTON_LEFT, CKEDITOR.MOUSE_BUTTON_LEFT ],
-				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, CKEDITOR.MOUSE_BUTTON_MIDDLE ],
-				[ CKEDITOR.MOUSE_BUTTON_RIGHT, CKEDITOR.MOUSE_BUTTON_RIGHT ]
-			] );
-		},
-
-		// #810
-		'test getMouseButton (IE8)': function() {
-			if ( !CKEDITOR.env.ie || CKEDITOR.env.version >= 9 ) {
-				assert.ignore();
-			}
-
-			generateMouseButtonAsserts( [
-				[ CKEDITOR.MOUSE_BUTTON_LEFT, 1 ],
-				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, 4 ],
-				[ CKEDITOR.MOUSE_BUTTON_RIGHT, 2 ]
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, isIe8 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, isIe8 ? 4 : CKEDITOR.MOUSE_BUTTON_MIDDLE ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, isIe8 ? 2 : CKEDITOR.MOUSE_BUTTON_RIGHT ]
 			] );
 		}
 	} );
