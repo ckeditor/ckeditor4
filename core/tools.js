@@ -1482,11 +1482,11 @@
 
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				if ( domEvent.button === 4 ) {
-					return CKEDITOR.MOUSEBUTTON_MIDDLE;
+					return CKEDITOR.MOUSE_BUTTON_MIDDLE;
 				} else if ( domEvent.button === 1 ) {
-					return CKEDITOR.MOUSEBUTTON_LEFT;
+					return CKEDITOR.MOUSE_BUTTON_LEFT;
 				} else {
-					return CKEDITOR.MOUSEBUTTON_RIGHT;
+					return CKEDITOR.MOUSE_BUTTON_RIGHT;
 				}
 			}
 
@@ -2019,7 +2019,7 @@
 	 * @property {Number} [=0]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.MOUSEBUTTON_LEFT = 0;
+	CKEDITOR.MOUSE_BUTTON_LEFT = 0;
 
 	/**
 	 * Middle mouse button.
@@ -2029,7 +2029,7 @@
 	 * @property {Number} [=1]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.MOUSEBUTTON_MIDDLE = 1;
+	CKEDITOR.MOUSE_BUTTON_MIDDLE = 1;
 
 	/**
 	 * Right mouse button.
@@ -2039,7 +2039,7 @@
 	 * @property {Number} [=2]
 	 * @member CKEDITOR
 	 */
-	CKEDITOR.MOUSEBUTTON_RIGHT = 2;
+	CKEDITOR.MOUSE_BUTTON_RIGHT = 2;
 
 	/**
 	 * The namespace containing functions to work on CSS properties.

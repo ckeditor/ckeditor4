@@ -87,7 +87,7 @@
 	}
 
 	function detectLeftMouseButton( evt ) {
-		return CKEDITOR.tools.getMouseButton( evt ) === CKEDITOR.MOUSEBUTTON_LEFT;
+		return CKEDITOR.tools.getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT;
 	}
 
 	// Checks whether a given range fully contains a table element (cell/tbody/table etc).

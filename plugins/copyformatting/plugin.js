@@ -101,7 +101,7 @@
 					copyFormattingButtonEl;
 
 				editable.attachListener( mouseupHost, 'mouseup', function( evt ) {
-					if ( getMouseButton( evt ) === CKEDITOR.MOUSEBUTTON_LEFT ) {
+					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT ) {
 						editor.execCommand( 'applyFormatting' );
 					}
 				} );
@@ -109,7 +109,7 @@
 				editable.attachListener( CKEDITOR.document, 'mouseup', function( evt ) {
 					var cmd = editor.getCommand( 'copyFormatting' );
 
-					if ( getMouseButton( evt ) === CKEDITOR.MOUSEBUTTON_LEFT && cmd.state === CKEDITOR.TRISTATE_ON &&
+					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT && cmd.state === CKEDITOR.TRISTATE_ON &&
 						!editable.contains( evt.data.getTarget() ) ) {
 						editor.execCommand( 'copyFormatting' );
 					}
