@@ -1060,7 +1060,7 @@
 			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
 		},
 
-		/*
+		/**
 		 * Determines whether table selection is supported in the current environment.
 		 *
 		 * @property {Boolean}
