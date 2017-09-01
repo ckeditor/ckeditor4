@@ -68,9 +68,9 @@
 	 */
 	CKEDITOR.plugins.a11yhelp = {
 		/**
-		 * Return html which represent keystroke. Result is wrapped with `<kbd></kbd>` tags or other defined by the user.
+		 * Returns HTML which represent the keystroke. The result is wrapped with `<kbd></kbd>` tags or other defined by the user.
 		 *
-		 * 		CKEDITOR.plugins.a11yhelp.representKeystroke( CKEDITOR.instances.editor, 4456496 );
+		 * 		CKEDITOR.plugins.a11yhelp.representKeystroke( editor, 4456496 );
 		 * 		"<kbd><kbd>Alt</kbd>+<kbd>0</kbd></kbd>"
 		 *
 		 * @since 4.8.0
