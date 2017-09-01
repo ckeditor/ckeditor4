@@ -107,6 +107,9 @@
 					( CKEDITOR.env.webkit ? '&nbsp;' : '' ) +
 				'</span>',
 				doc );
+
+			// Append a temporary marker element, so we can retrieve the height later.
+			markerContainer.append( marker );
 		}
 
 		function isNotResizable() {
@@ -119,12 +122,11 @@
 			);
 		}
 
-		// Actual content height, figured out by appending check the last element's document position.
+		// Actual content height, figured out by checking the last element's document position.
 		function contentHeight() {
-			// Append a temporary marker element.
-			markerContainer.append( marker );
+			marker.setStyle( 'display', 'block' );
 			var height = marker.getDocumentPosition( doc ).y + marker.$.offsetHeight;
-			marker.remove();
+			marker.setStyle( 'display', 'none' );
 
 			return height;
 		}
