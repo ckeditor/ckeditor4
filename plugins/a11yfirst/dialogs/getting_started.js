@@ -41,30 +41,30 @@ CKEDITOR.dialog.add( 'A11yFirstGettingStarted', function( editor ) {
 
     contents: [
       {
-          id: 'getting_started_tab1',
-          label: lang.importanceLabel,
-          title: lang.importanceTitle,
-          expand: true,
-          padding: 0,
-          elements: [
-              {
-                  type: 'html',
-                  html: '<div id="id_importance"></div>'
-              }
-          ]
+        id: 'getting_started_tab1',
+        label: lang.importanceLabel,
+        title: lang.importanceTitle,
+        expand: true,
+        padding: 0,
+        elements: [
+          {
+            type: 'html',
+            html: '<div><div id="id_importance"></div></div>'
+          }
+        ]
       },
       {
-          id: 'getting_started_tab2',
-          label: lang.featuresLabel,
-          title: lang.featuresTitle,
-          expand: true,
-          padding: 0,
-          elements: [
-              {
-                  type: 'html',
-                  html: '<div id="id_features"></div>'
-              }
-          ]
+        id: 'getting_started_tab2',
+        label: lang.featuresLabel,
+        title: lang.featuresTitle,
+        expand: true,
+        padding: 0,
+        elements: [
+          {
+            type: 'html',
+            html: '<div><div id="id_features"></div></div>'
+          }
+        ]
       }
     ],
 
