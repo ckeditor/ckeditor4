@@ -83,13 +83,11 @@
 		 */
 		representKeystroke: function( editor, keystroke, wrappingTag ) {
 			// CharCode <-> KeyChar.
-			var keyMap = this._createKeyMap( editor );
-
-			// Sort in desc.
-			var modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ];
-
-			var quotient, modifier,
+			var keyMap = this._createKeyMap( editor ),
+				modifiers = [ CKEDITOR.ALT, CKEDITOR.SHIFT, CKEDITOR.CTRL ],
 				presentation = [],
+				quotient,
+				modifier,
 				openTag,
 				closeTag;
 
