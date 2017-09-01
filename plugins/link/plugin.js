@@ -327,8 +327,14 @@
 				range,
 				i;
 
-			if ( !returnMultiple && selectedElement && selectedElement.is( 'a' ) ) {
-				return selectedElement;
+			if ( selectedElement && selectedElement.is( 'a' ) ) {
+			
+				if ( returnMultiple ) {
+					links.push( selectedElement );
+				}
+				else {
+					return selectedElement;
+				}
 			}
 
 			for ( i = 0; i < ranges.length; i++ ) {
