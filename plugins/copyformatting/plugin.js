@@ -7,28 +7,9 @@
 	'use strict';
 
 	var indexOf = CKEDITOR.tools.indexOf,
+		getMouseButton = CKEDITOR.tools.getMouseButton,
 		// This flag prevents appending stylesheet more than once.
 		stylesLoaded = false;
-
-	// Detects if the left mouse button was pressed:
-	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
-	// * In IE 8- we use event.button with IE's proprietary values.
-	function detectLeftMouseButton( evt ) {
-		var evtData = evt.data,
-			domEvent = evtData && evtData.$;
-
-		if ( !( evtData && domEvent ) ) {
-			// Added in case when there's no data available. That's the case in some unit test in built version which
-			// mock event but doesn't put data object.'
-			return false;
-		}
-
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-			return domEvent.button === 1;
-		}
-
-		return domEvent.button === 0;
-	}
 
 	// Searches for given node in given query. It also checks ancestors of elements in the range.
 	function getNodeAndApplyCmd( range, query, cmd, stopOnFirst ) {
@@ -120,7 +101,7 @@
 					copyFormattingButtonEl;
 
 				editable.attachListener( mouseupHost, 'mouseup', function( evt ) {
-					if ( detectLeftMouseButton( evt ) ) {
+					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT ) {
 						editor.execCommand( 'applyFormatting' );
 					}
 				} );
@@ -128,7 +109,7 @@
 				editable.attachListener( CKEDITOR.document, 'mouseup', function( evt ) {
 					var cmd = editor.getCommand( 'copyFormatting' );
 
-					if ( detectLeftMouseButton( evt ) && cmd.state === CKEDITOR.TRISTATE_ON &&
+					if ( getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT && cmd.state === CKEDITOR.TRISTATE_ON &&
 						!editable.contains( evt.data.getTarget() ) ) {
 						editor.execCommand( 'copyFormatting' );
 					}

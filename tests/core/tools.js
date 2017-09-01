@@ -773,6 +773,33 @@
 
 			// Check standard selector.
 			assert.areSame( escapedSelector, 'aaa', 'standard selector' );
+		},
+
+		// #810
+		'test getMouseButton': function() {
+			var isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
+			function generateMouseButtonAsserts( inputs ) {
+				function generateEvent( button ) {
+					return {
+						data: {
+							$: {
+								button: button
+							}
+						}
+					};
+				}
+
+				CKEDITOR.tools.array.forEach( inputs, function( input ) {
+					assert.areSame( input[ 0 ], CKEDITOR.tools.getMouseButton( generateEvent( input[ 1 ] ) ) );
+				} );
+			}
+
+			generateMouseButtonAsserts( [
+				[ CKEDITOR.MOUSE_BUTTON_LEFT, isIe8 ? 1 : CKEDITOR.MOUSE_BUTTON_LEFT ],
+				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, isIe8 ? 4 : CKEDITOR.MOUSE_BUTTON_MIDDLE ],
+				[ CKEDITOR.MOUSE_BUTTON_RIGHT, isIe8 ? 2 : CKEDITOR.MOUSE_BUTTON_RIGHT ]
+			] );
 		}
 	} );
 } )();
