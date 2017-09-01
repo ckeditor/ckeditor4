@@ -44,8 +44,9 @@
 			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE )
 				return;
 
+			saveCmd.startDisabled = !( editor.element.$.form );
 			var command = editor.addCommand( pluginName, saveCmd );
-			command.modes = { wysiwyg: !!( editor.element.$.form ), source: !!( editor.element.$.form ) };
+			command.modes = { wysiwyg: 1,source: 1 };
 
 			editor.ui.addButton && editor.ui.addButton( 'Save', {
 				label: editor.lang.save.toolbar,
