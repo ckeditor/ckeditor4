@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2017, CKSource - Nicholas Hoyt and Jon Gunderson All rights reserved.
+Copyright (c) University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'blockformat', 'en', {
@@ -11,8 +11,8 @@ CKEDITOR.plugins.setLang( 'blockformat', 'en', {
   address:    'Address (e.g. street, city, room information..)',
   helpLabel:  'Help',
 
-  helpTitle: 'Format Menu Features',
-  helpItems: [
+  featuresTitle: 'Format Menu Features',
+  featuresItems: [
     'The Format menu provides a way to change the styling of a block of text from a paragraph style (e.g. Normal Text) to a style that represents the semantics of the content.',
 
     'The <strong>Blockquote</strong> option provides a way to identify and style quotations in a standardized to make quotes more consistly styles across pages and accessible to users of assisitve technologies.',

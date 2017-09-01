@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2017, Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -29,15 +29,15 @@ CKEDITOR.dialog.add( 'blockformatHelp', function( editor ) {
       var node, html;
 
       node = document.getElementById('id_features');
-      html = h2(lang.helpTitle);
-      html += list('ul', lang.helpItems);
+      html = h2(lang.featuresTitle);
+      html += list('ul', lang.featuresItems);
       node.innerHTML = html;
 
     },
 
     contents: [
         {
-            id: 'tab1',
+            id: 'blockformat_tab1',
             label: '',
             title: '',
             elements: [

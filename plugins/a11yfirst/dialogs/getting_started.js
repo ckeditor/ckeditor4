@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2017, University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -28,25 +28,44 @@ CKEDITOR.dialog.add( 'A11yFirstGettingStarted', function( editor ) {
 
       var node, html;
 
-      node = document.getElementById('id_features');
-      html = h2(lang.helpTitle);
-      html += list('ul', lang.helpItems);
+      node = document.getElementById('id_importance');
+      html = h2(lang.importanceTitle);
+      html += list('ul', lang.importanceItems);
       node.innerHTML = html;
 
+      node = document.getElementById('id_features');
+      html = h2(lang.featuresTitle);
+      html += list('ul', lang.featuresItems);
+      node.innerHTML = html;
     },
 
     contents: [
-        {
-            id: 'tab1',
-            label: '',
-            title: '',
-            elements: [
-                {
-                    type: 'html',
-                    html: '<div id="id_features"></div>'
-                }
-            ]
-        }
+      {
+          id: 'getting_started_tab1',
+          label: lang.importanceLabel,
+          title: lang.importanceTitle,
+          expand: true,
+          padding: 0,
+          elements: [
+              {
+                  type: 'html',
+                  html: '<div id="id_importance"></div>'
+              }
+          ]
+      },
+      {
+          id: 'getting_started_tab2',
+          label: lang.featuresLabel,
+          title: lang.featuresTitle,
+          expand: true,
+          padding: 0,
+          elements: [
+              {
+                  type: 'html',
+                  html: '<div id="id_features"></div>'
+              }
+          ]
+      }
     ],
 
     buttons: [ CKEDITOR.dialog.okButton ]
