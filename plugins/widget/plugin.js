@@ -3228,7 +3228,7 @@
 
 	function onBlockWidgetDrag( evt ) {
 		// Allow to drag widget only with left mouse button (#711).
-		if ( typeof evt.data != 'undefined' && evt.data.$.button != 0 ) {
+		if ( CKEDITOR.tools.getMouseButton( evt ) !== CKEDITOR.MOUSE_BUTTON_LEFT ) {
 			return;
 		}
 
