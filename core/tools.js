@@ -1373,6 +1373,49 @@
 			};
 		},
 
+		keystrokeToArray: function( lang, keystroke ) {
+			var special = keystroke & 0xFF0000,
+				key = keystroke & 0x00FFFF,
+				isMac = CKEDITOR.env.mac,
+				CTRL = 17,
+				CMD = 224,
+				ALT = 18,
+				SHIFT = 16,
+				display = [],
+				aria = [];
+
+
+			if ( special & CKEDITOR.CTRL ) {
+				display.push( isMac ? '⌘' : lang[ CTRL ] );
+				aria.push( isMac ? lang[ CMD ] : lang[ CTRL ] );
+			}
+
+			if ( special & CKEDITOR.ALT ) {
+				display.push( isMac ? '⌥' : lang[ ALT ] );
+				aria.push( lang[ ALT ] );
+			}
+
+			if ( special & CKEDITOR.SHIFT ) {
+				display.push( isMac ? '⇧' : lang[ SHIFT ] );
+				aria.push( lang[ SHIFT ] );
+			}
+
+			if ( key ) {
+				if ( lang[ key ] ) {
+					display.push( lang[ key ] );
+					aria.push( lang[ key ] );
+				} else {
+					display.push( String.fromCharCode( key ) );
+					aria.push( String.fromCharCode( key ) );
+				}
+			}
+
+			return {
+				display: display,
+				aria: aria
+			};
+		},
+
 		/**
 		 * The data URI of a transparent image. May be used e.g. in HTML as an image source or in CSS in `url()`.
 		 *
