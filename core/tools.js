@@ -1467,7 +1467,7 @@
 		 *
 		 * @since 4.7.3
 		 * @param {CKEDITOR.dom.event} evt DOM event.
-		 * @returns {Number|Boolean} Returns number indicating mouse button or boolean
+		 * @returns {Number|Boolean} Returns number indicating mouse button or `false`
 		 * if mouse button can't be determined.
 		 */
 		getMouseButton: function( evt ) {
