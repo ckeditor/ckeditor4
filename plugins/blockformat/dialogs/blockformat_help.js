@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2017, Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
+ * @license Copyright (c) 2017, University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 

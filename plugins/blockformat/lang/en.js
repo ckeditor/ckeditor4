@@ -1,5 +1,5 @@
 /*
-Copyright (c) University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
+Copyright (c) 2017, University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'blockformat', 'en', {
