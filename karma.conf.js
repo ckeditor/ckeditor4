@@ -30,6 +30,8 @@ module.exports = function( config ) {
 			// 'tests/core/ckeditor/*.html',
 			// 'tests/core/ckeditor/ckeditor.js',
 			// Working fine.
+			'tests/core/creators/setmode.js',
+			'tests/core/creators/themedui.js',
 			'tests/core/tools/**/*.js',
 			'tests/core/command/events.js',
 			'tests/core/command/command.js',

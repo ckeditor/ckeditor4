@@ -52,7 +52,6 @@
 				for ( var i = 0; i < testNames.length; i++ ) {
 					it( testNames[ i ], scope._getTestCase( ts[ testNames[ i ] ] ) );
 				}
-
 			} );
 		}
 	};
@@ -128,8 +127,9 @@
 
 		function onInstanceDestroyed( evt ) {
 			destroyedInstances++;
-			// evt.editor.removeAllListeners();
+			evt.editor.removeAllListeners();
 			if ( destroyedInstances == allInstances.length ) {
+				CKEDITOR.removeListener( onInstanceDestroyed );
 				onDone();
 			}
 		}
