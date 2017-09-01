@@ -9,94 +9,58 @@
 	// TODO config mockup - previously it was generated dynamically by bender server.
 	bender.config = window.BENDER_CONFIG;
 
-	// Bender global scope for storing current test suit and test case.
-	bender._ = {};
-
 	// Returns currently executed test suite or null.
 	bender.getTestSuite = function() {
-		return bender._.currentTestSuite;
+		return bender._currentTestSuite;
 	};
 
 	// Sets currently executed test suite (should be set in `before` method).
 	bender.setTestSuite = function( ts ) {
-		bender._.currentTestSuite = ts;
+		bender._currentTestSuite = ts;
 	};
 
-	if ( typeof CKEDITOR != 'undefined' ) {
+	bender.getBenderPlugins = function() {
+		return bender._plugins;
+	};
+
+	bender.setBenderPlugins = function( plugins, removePlugins) {
+		bender._plugins = {
+			plugins: plugins,
+			removePlugins: removePlugins
+		};
+	};
+
+	bender.resetCKEditorSettings = function() {
 		CKEDITOR.config.customConfig = '';
 		CKEDITOR.replaceClass = false;
 		CKEDITOR.disableAutoInline = true;
-	}
+	};
 
 	bender.configurePlugins = function( config ) {
-		var removePlugins,
+		var pluginsToRemove,
+			removePlugins,
 			regexp,
 			plugins;
 
 		if ( config.plugins ) {
 			plugins = config.plugins;
-			if ( typeof plugins == 'string' ) {
-				plugins = plugins.split( ',' );
+			if ( typeof plugins != 'string' ) {
+				plugins = plugins.join( ',' );
 			}
-
-			CKEDITOR.config.plugins = CKEDITOR.config.plugins.length ?
-				CKEDITOR.config.plugins.split( ',' ).concat( plugins ).join( ',' ) : plugins.join( ',' );
 		}
 
 		// support both Bender <= 0.2.2 and >= 0.2.3 directives
-		removePlugins = config[ 'remove-plugins' ] || ( config.remove && config.remove.plugins );
-		// console.log( 'removePlugins', removePlugins );
+		pluginsToRemove = config[ 'remove-plugins' ] || ( config.remove && config.remove.plugins );
 
-		if ( removePlugins ) {
-			CKEDITOR.config.removePlugins = removePlugins.join( ',' );
+		if ( pluginsToRemove ) {
+			removePlugins = pluginsToRemove.join( ',' );
 
-			regexp = new RegExp( '(?:^|,)(' + removePlugins.join( '|' ) + ')(?=,|$)', 'g' );
+			regexp = new RegExp( '(?:^|,)(' + pluginsToRemove.join( '|' ) + ')(?=,|$)', 'g' );
 
-			CKEDITOR.config.plugins = CKEDITOR.config.plugins
-				.replace( regexp, '' )
-				.replace( /,+/g, ',' )
-				.replace( /^,|,$/g, '' );
-
-			// if ( config.plugins ) {
-			// 	config.plugins = config.plugins.join( ',' )
-			// 		.replace( regexp, '' )
-			// 		.replace( /,+/g, ',' )
-			// 		.replace( /^,|,$/g, '' )
-			// 		.split( ',' );
-			// }
+			plugins = plugins.replace( regexp, '' ).replace( /,+/g, ',' ).replace( /^,|,$/g, '' );
 		}
 
-		// console.log( config );
-
-		// bender.plugins = config.plugins;
-        //
-		// if ( bender.plugins ) {
-		// 	toLoad++;
-		// 	// defer();
-        //
-		// 	CKEDITOR.plugins.load( config.plugins, onLoad );
-		// }
-        //
-		// if ( config.adapters ) {
-		// 	for ( i = 0; i < config.adapters.length; i++ ) {
-		// 		config.adapters[ i ] = CKEDITOR.basePath + 'adapters/' + config.adapters[ i ] + '.js';
-		// 	}
-        //
-		// 	toLoad++;
-		// 	// defer();
-        //
-		// 	CKEDITOR.scriptLoader.load( config.adapters, onLoad );
-		// }
-        //
-		// function onLoad() {
-		// 	if ( toLoad ) {
-		// 		toLoad--;
-		// 	}
-        //
-		// 	if ( !toLoad ) {
-		// 		bender.setupEditors( callback );
-		// 	}
-		// }
+		bender.setBenderPlugins( plugins, removePlugins );
 	};
 
 	bender.setupEditors = function( testCase, startTestsCallback ) {

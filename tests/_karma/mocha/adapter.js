@@ -38,8 +38,6 @@
 			ts = this._benderTestSuite,
 			testNames = this._benderTestNames;
 
-		debugger;
-
 		return function() {
 			describe( scope._benderTestTags.test.name, function() {
 
@@ -60,11 +58,13 @@
 	};
 
 	// When starting execution of new test suite:
-	// 1. Append HTML fixture to `fixtureContainer` (if any).
-	// 2. Configure editor plugins config based on bender tags.
-	// 3. Assign current testSuite to bender (it is used further in the execution).
-	// 4. Setup all editor instances.
-	// 5. Run original "init" function.
+	// - Create HTML container which will hold fixtures and editor instances.
+	// - Append HTML fixture to `htmlSandbox` (if any).
+	// - Reset some CKEDITOR settings.
+	// - Configure editor plugins config based on bender tags.
+	// - Assign current testSuite to bender (it is used further in the execution).
+	// - Setup all editor instances.
+	// - Run original "init" function.
 	MochaAdapter.prototype._getBefore = function() {
 		var scope = this,
 			ts = this._benderTestSuite,
@@ -76,6 +76,8 @@
 			if ( tags.test.fixture ) {
 				scope._appendFixture( tags.test.fixture.path );
 			}
+
+			bender.resetCKEditorSettings();
 
 			bender.configurePlugins( tags.ckeditor || {} );
 
@@ -91,7 +93,7 @@
 	};
 
 	// Before each test case:
-	// 1. Run original "setUp" function.
+	// - Run original "setUp" function.
 	MochaAdapter.prototype._getBeforeEach = function() {
 		var ts = this._benderTestSuite;
 
@@ -103,7 +105,7 @@
 	};
 
 	// After each test case:
-	// 1. Run original "tearDown" function.
+	// - Run original "tearDown" function.
 	MochaAdapter.prototype._getAfterEach = function() {
 		var ts = this._benderTestSuite;
 
@@ -115,19 +117,19 @@
 	};
 
 	// After test suite:
-	// 1. Destroy all editor instances (if any) initiated in this test suite.
-	// 2. Reset "currentTestSuite" global bender property.
-	// 3. Remove `htmlSandbox` container.
+	// - Destroy all editor instances (if any) initiated in this test suite.
+	// - Reset current testSuite bender property.
+	// - Remove `htmlSandbox` container.
 	MochaAdapter.prototype._getAfter = function() {
 		var scope = this,
 			allInstances = null,
 			destroyedInstances = 0,
 			doneFn = null;
 
-		function onInstanceDestroyed() {
+		function onInstanceDestroyed( evt ) {
 			destroyedInstances++;
+			// evt.editor.removeAllListeners();
 			if ( destroyedInstances == allInstances.length ) {
-				CKEDITOR.removeAllListeners();
 				onDone();
 			}
 		}
@@ -165,11 +167,10 @@
 	};
 
 	// Running each test case:
-	// 1. By default every test case is treated as async.
-	// 2. Setup wait/resume.
-	// 3. Setup assert.ignore;
-	// 4. Set "currentTestCase" global bender property so we know we are executing a test case.
-	// 5. Run original test function.
+	// - By default every test case is treated as async.
+	// - Setup wait/resume.
+	// - Setup assert.ignore;
+	// - Run original test function.
 	MochaAdapter.prototype._getTestCase = function( testFn ) {
 		var scope = this,
 			testScope = null,

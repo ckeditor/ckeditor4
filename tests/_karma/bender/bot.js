@@ -16,6 +16,7 @@
 			name = profile.name || 'test_editor',
 			tc = bender.getTestSuite().getBenderTestCase(),
 			htmlContainer = CKEDITOR.document.getById( 'html-container' ),
+			benderPlugins = bender.getBenderPlugins(),
 			element,
 			config;
 
@@ -98,6 +99,16 @@
 
 		config = profile.config;
 
+		if ( benderPlugins.plugins ) {
+			config.plugins = config.plugins && config.plugins.length ?
+				config.plugins + ',' + benderPlugins.plugins : benderPlugins.plugins;
+		}
+
+		if ( benderPlugins.removePlugins ) {
+			config.removePlugins = config.removePlugins && config.removePlugins.length ?
+				config.removePlugins + ',' + benderPlugins.removePlugins : benderPlugins.removePlugins;
+		}
+
 		// For convenience, load here creator dedicated plugin, to avoid having them defined by test.
 		config.extraPlugins = ( ( creator == 'replace' || creator == 'append' ) ?
 			'wysiwygarea' : 'floatingspace' ) + ',' + ( config.extraPlugins || '' );
@@ -106,7 +117,7 @@
 			config.extraPlugins += 'htmlwriter';
 		}
 
-		CKEDITOR[ creator ]( element, profile.config );
+		CKEDITOR[ creator ]( element, config );
 
 		if ( bender.getTestSuite().isInTest() ) {
 			wait();

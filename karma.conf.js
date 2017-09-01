@@ -26,13 +26,14 @@ module.exports = function( config ) {
 			'tests/_karma/init.js',
 			'tests/_karma/**/*.js',
 
-			// Tests working fine when running separately, but when running in groups some tests influence others.
-			// 'tests/core/ckeditor/ckeditor.html',
+			// This test does not wait for CKEditor to fully initialize.
+			// 'tests/core/ckeditor/*.html',
 			// 'tests/core/ckeditor/ckeditor.js',
+			// Working fine.
 			'tests/core/tools/**/*.js',
 			'tests/core/command/events.js',
-			'tests/core/command/command.js'
-			// 'tests/core/editable/aria.js'
+			'tests/core/command/command.js',
+			'tests/core/editable/aria.js'
 		],
 
 
