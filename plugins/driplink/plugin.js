@@ -180,6 +180,11 @@
 						range.selectNodeContents( text );
 					}
 
+					var wrapper = new CKEDITOR.style( {
+						element: 'span'
+					} );
+					wrapper.applyToRange( range, editor );
+
 					// Apply style.
 					var style = new CKEDITOR.style( {
 						element: 'a',
