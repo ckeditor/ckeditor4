@@ -1345,7 +1345,7 @@
 		 * It does not use special characters such as `⌥`, `⇧` or `⌘`.
 		 *
 		 * 		var lang = editor.lang.common.keyboard;
-		 * 		var shortcut = CKEDITOR.tools.keystrokeToString( lang, CKEDITOR.CTRL + 88 );
+		 * 		var shortcut = CKEDITOR.tools.keystrokeToArray( lang, CKEDITOR.CTRL + 88 );
 		 * 		console.log( shortcut.display ); // [ 'CTRL', 'X' ], on Mac [ '⌘', 'X' ].
 		 * 		console.log( shortcut.aria ); // [ 'CTRL', 'X' ], on Mac [ 'COMMAND', 'X' ].
 		 *
