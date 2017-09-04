@@ -2986,6 +2986,11 @@
 
 				// #787
 				function checkNested( node ) {
+					// Check only table cells, not every node inside table.
+					if ( !node.is( tableEditable ) ) {
+						return;
+					}
+
 					var startTable = startCell && startCell.getAscendant( 'table', true ),
 						endTable = endCell && endCell.getAscendant( 'table', true ),
 						nodeTable = node.getAscendant( 'table', true );
