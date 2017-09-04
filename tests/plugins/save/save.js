@@ -19,7 +19,7 @@ function saveTest( editor ) {
 		return false;
 	} );
 
-wait();
+	wait();
 }
 
 bender.test( {
