@@ -141,8 +141,9 @@
 
 				onOpen: function() {
 					var selection = editor.getSelection(),
-						// When editor is focused but is returned `null` as selected element, then return editable (#646);
-						element = selection.getSelectedElement() || editor.editable(),
+						// When editor is focused but is returned `null` as selected element, then return editable (#646).
+						// In case when selection dosen't cover whole element, we try to return element where selection starts (#862).
+						element = selection.getSelectedElement() || selection.getStartElement() || editor.editable(),
 						elementPath = editor.elementPath( element ),
 						counter = [ 0, 0, 0, 0 ];
 
