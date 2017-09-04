@@ -313,6 +313,11 @@
 
 			// #787
 			[ '<table><tbody><tr><td>ab<table><tbody><tr>[<td>cd</td>]</tr></tbody></table>ef</td></tr></tbody></table>', 'cd',
+				'<table><tbody><tr><td>ab<table><tbody><tr><td>[]@!</td></tr></tbody></table>ef</td></tr></tbody></table>' ],
+
+			// #787 – br case
+			[ '<table><tbody><tr><td>ab<table><tbody><tr>[<td>cd@</td>]</tr></tbody></table>ef</td></tr></tbody></table>',
+				CKEDITOR.env.ie && CKEDITOR.env.version <= 8 ? 'cd' : '<table><tbody><tr><td>cd</td></tr></tbody></table>',
 				'<table><tbody><tr><td>ab<table><tbody><tr><td>[]@!</td></tr></tbody></table>ef</td></tr></tbody></table>' ]
 		],
 
