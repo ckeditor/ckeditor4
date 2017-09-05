@@ -24,7 +24,7 @@ The following is a visual representation of its main elements:
 {
 	float: left;
 	min-height: 18px;
-  max-width: calc(100% - 100px);
+  max-width: calc(100% - 188px);
 }
 
 /* Each item of the elements path. */
@@ -72,7 +72,9 @@ a.cke_path_item:active
   float: right;
 	color: #05132B;
   margin: 0 6px;
-  max-width: 72px;
+  max-width: 160px;
+	white-space: normal;
+	word-break: break-word;
 }
 
 
