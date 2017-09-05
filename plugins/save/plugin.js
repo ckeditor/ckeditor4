@@ -10,6 +10,7 @@
 ( function() {
 	var saveCmd = {
 		readOnly: 1,
+		modes: { wysiwyg: 1,source: 1 },
 
 		exec: function( editor ) {
 			if ( editor.fire( 'save' ) ) {
@@ -44,9 +45,8 @@
 			if ( editor.elementMode != CKEDITOR.ELEMENT_MODE_REPLACE )
 				return;
 
-			saveCmd.startDisabled = !( editor.element.$.form );
 			var command = editor.addCommand( pluginName, saveCmd );
-			command.modes = { wysiwyg: 1,source: 1 };
+			command.startDisabled = !( editor.element.$.form );
 
 			editor.ui.addButton && editor.ui.addButton( 'Save', {
 				label: editor.lang.save.toolbar,
