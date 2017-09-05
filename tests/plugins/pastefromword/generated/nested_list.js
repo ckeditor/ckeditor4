@@ -1,7 +1,5 @@
 /* bender-tags: clipboard,pastefromword */
-/* jshint ignore:start */
-/* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,toolbar */
-/* jshint ignore:end */
+/* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,toolbar,list */
 /* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js */
 /* bender-include: _helpers/createTestSuite.js */
 /* global createTestSuite */
@@ -9,15 +7,7 @@
 ( function() {
 	'use strict';
 
-	var config = {
-		language: 'en',
-		colorButton_normalizeBackground: false,
-		allowedContent: 'p ul li'
-	};
-
-	bender.editor = {
-		config: config
-	};
+	bender.editor = true;
 
 	bender.test( createTestSuite( {
 		browsers: [
@@ -30,7 +20,7 @@
 			'OneNote'
 		],
 		tests: {
-			'OneNote': true
+			'Unordered_nested_list': true
 		},
 
 		compareRawData: false
