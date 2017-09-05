@@ -1026,12 +1026,19 @@
 					clearCellInRange( ranges[ i ] );
 				}
 
-				ranges[ 0 ].moveToElementEditablePosition( firstCell );
+				// In case of selection of table element, there won't be any cell (#867).
+				if ( firstCell ) {
+					ranges[ 0 ].moveToElementEditablePosition( firstCell );
+				}
+
 				selection.selectRanges( [ ranges[ 0 ] ] );
 			}
 
 			function clearCellInRange( range ) {
-				if ( range.getEnclosedNode() ) {
+				var node = range.getEnclosedNode();
+
+				// Set text only in case of table cells, otherwise remove whole element (#867).
+				if ( node && node.is( { td: 1, th: 1 } ) ) {
 					range.getEnclosedNode().setText( '' );
 				} else {
 					range.deleteContents();
