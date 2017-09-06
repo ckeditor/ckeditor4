@@ -1029,9 +1029,8 @@
 				// In case of selection of table element, there won't be any cell (#867).
 				if ( firstCell ) {
 					ranges[ 0 ].moveToElementEditablePosition( firstCell );
+					selection.selectRanges( [ ranges[ 0 ] ] );
 				}
-
-				selection.selectRanges( [ ranges[ 0 ] ] );
 			}
 
 			function clearCellInRange( range ) {
