@@ -16,6 +16,7 @@ Fixed Issues:
 * [#719](https://github.com/ckeditor/ckeditor-dev/issues/719): Fixed: Image inserted using [Enhanced Image](https://ckeditor.com/addon/image2) plugin could be resized when editor is in read-only mode.
 * [#577](https://github.com/ckeditor/ckeditor-dev/issues/577): Fixed: "Delete Columns" command provided by [Table Tools](https://ckeditor.com/addon/tabletools) plugin throws an error while trying to delete columns.
 * [#867](https://github.com/ckeditor/ckeditor-dev/issues/867): Fixed: Typing into selected table throws an error.
+* [#817](https://github.com/ckeditor/ckeditor-dev/issues/817): Fixed: [Save](https://ckeditor.com/addon/save) plugin does not work in [Source Mode](https://ckeditor.com/addon/sourcearea).
 
 Other Changes:
 
