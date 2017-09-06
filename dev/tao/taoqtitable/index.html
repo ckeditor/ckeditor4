@@ -67,60 +67,62 @@
 
 <h2>Table edition</h2>
 
-<p>This simulates a table widget: the ckeditor instance is directly attached to the &lt;table> element. Table creation is not allowed.</p>
+<p>This simulates a table widget: table creation is not allowed.</p>
 
-<table contenteditable="true" id="table-editor" style="border: 1px solid grey; width: 100%;">
-    <thead>
-    <tr>
-        <th> </th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Total</th>
-    </tr>
-    </thead>
-    <tfoot>
-    <tr>
-        <th>Total</th>
-        <td>308 994</td>
-        <td>291 785</td>
-        <td>600 779</td>
-    </tr>
-    </tfoot>
-    <tbody>
-    <tr>
-        <th>Never married</th>
-        <td>
-            XXXXX
-        </td>
-        <td>288 014</td>
-        <td>596 667</td>
-    </tr>
-    <tr>
-        <th>Married</th>
-        <td>325</td>
-        <td>3742</td>
-        <td>
-            XXXXX
-        </td>
-    </tr>
-    <tr>
-        <th>Divorced</th>
-        <td>14</td>
-        <td>
-            XXXXX
-        </td>
-        <td>39</td>
-    </tr>
-    <tr>
-        <th>Widow</th>
-        <td>2</td>
-        <td>
-            XXXXX
-        </td>
-        <td>6</td>
-    </tr>
-    </tbody>
-</table>
+<div contenteditable="true" id="table-editor" data-qti-class="table">
+    <table style="border: 1px solid grey; width: 100%;">
+        <thead>
+        <tr>
+            <th> </th>
+            <th>Male</th>
+            <th>Female</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Total</th>
+            <td>308 994</td>
+            <td>291 785</td>
+            <td>600 779</td>
+        </tr>
+        </tfoot>
+        <tbody>
+        <tr>
+            <th>Never married</th>
+            <td>
+                XXXXX
+            </td>
+            <td>288 014</td>
+            <td>596 667</td>
+        </tr>
+        <tr>
+            <th>Married</th>
+            <td>325</td>
+            <td>3742</td>
+            <td>
+                XXXXX
+            </td>
+        </tr>
+        <tr>
+            <th>Divorced</th>
+            <td>14</td>
+            <td>
+                XXXXX
+            </td>
+            <td>39</td>
+        </tr>
+        <tr>
+            <th>Widow</th>
+            <td>2</td>
+            <td>
+                XXXXX
+            </td>
+            <td>6</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <button id="tableProps">open table properties</button>
 
 <script>
@@ -738,8 +740,6 @@
         tablePropsBtn = document.getElementById('tableProps');
 
     tablePropsBtn.addEventListener('mousedown', function() {
-        var cmd = tableEditor.getCommand('taoqtitableProperties');
-//        cmd.setState(1);
         tableEditor.execCommand('taoqtitableProperties');
     });
 </script>

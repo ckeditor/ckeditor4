@@ -16,8 +16,8 @@ CKEDITOR.plugins.add( 'taoqtitable', {
     init: function( editor ) {
         var registerButton = true;
 
-        // do not register the button if the CK instance is directly bound to a table, so we don't allow nested tables creation
-        if (editor.element.is('table')) {
+        // do not register the button if the CK instance is bound to a table widget, so we don't allow nested tables creation
+        if (editor.element.getAttribute('data-qti-class') === 'table') {
             registerButton = false;
         } else {
             // do not register the plugin if the CK instance is not bound to a dom element allowing block content

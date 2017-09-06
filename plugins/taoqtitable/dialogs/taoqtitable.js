@@ -46,7 +46,7 @@
         };
     }
 
-    function tableDialog( editor, command, data ) {
+    function tableDialog( editor, command ) {
         var makeElement = function( name ) {
                 return new CKEDITOR.dom.element( name, editor.document );
             };
@@ -62,7 +62,7 @@
                     colsInput = this.getContentElement( 'info', 'txtCols' );
 
                 if ( command === 'taoqtitableProperties' ) {
-                    table = editor.element;
+                    table = editor.element.findOne('table');
 
                     // Save a reference to the selected table, and push a new set of default values.
                     this._.selectedElement = table;
@@ -199,88 +199,75 @@
                 id: 'info',
                 label: 'TAO QTI TABLE',
                 elements: [ {
-                    type: 'hbox',
+                    type: 'vbox',
                     widths: [ null, null ],
                     styles: [ 'vertical-align:top' ],
                     children: [ {
-                        type: 'vbox',
-                        padding: 0,
-                        children: [ {
-                            type: 'text',
-                            id: 'txtRows',
-                            'default': 3,
-                            label: editor.lang.table.rows,
-                            required: true,
-                            controlStyle: 'width:5em',
-                            validate: validatorNum( editor.lang.table.invalidRows ),
-                            setup: function( selectedElement ) {
-                                this.setValue( selectedElement.$.rows.length );
-                            },
-                            commit: commitValue
+                        type: 'text',
+                        id: 'txtRows',
+                        'default': 3,
+                        label: editor.lang.table.rows,
+                        required: true,
+                        controlStyle: 'width:5em',
+                        validate: validatorNum( editor.lang.table.invalidRows ),
+                        setup: function( selectedElement ) {
+                            this.setValue( selectedElement.$.rows.length );
                         },
-                        {
-                            type: 'text',
-                            id: 'txtCols',
-                            'default': 2,
-                            label: editor.lang.table.columns,
-                            required: true,
-                            controlStyle: 'width:5em',
-                            validate: validatorNum( editor.lang.table.invalidCols ),
-                            setup: function( selectedTable ) {
-                                this.setValue( tableColumns( selectedTable ) );
-                            },
-                            commit: commitValue
+                        commit: commitValue
+                    },
+                    {
+                        type: 'text',
+                        id: 'txtCols',
+                        'default': 2,
+                        label: editor.lang.table.columns,
+                        required: true,
+                        controlStyle: 'width:5em',
+                        validate: validatorNum( editor.lang.table.invalidCols ),
+                        setup: function( selectedTable ) {
+                            this.setValue( tableColumns( selectedTable ) );
                         },
-                        {
-                            type: 'html',
-                            html: '&nbsp;'
-                        },
-                        {
-                            type: 'select',
-                            id: 'selHeaders',
-                            requiredContent: 'th',
-                            'default': '',
-                            label: editor.lang.table.headers,
-                            items: [
-                                [ editor.lang.table.headersNone, '' ],
-                                [ editor.lang.table.headersRow, 'row' ],
-                                [ editor.lang.table.headersColumn, 'col' ],
-                                [ editor.lang.table.headersBoth, 'both' ]
-                            ],
-                            setup: function( selectedTable ) {
-                                // Fill in the headers field.
-                                var dialog = this.getDialog();
-                                dialog.hasColumnHeaders = true;
+                        commit: commitValue
+                    },
+                    {
+                        type: 'html',
+                        html: '&nbsp;'
+                    },
+                    {
+                        type: 'select',
+                        id: 'selHeaders',
+                        requiredContent: 'th',
+                        'default': '',
+                        label: editor.lang.table.headers,
+                        items: [
+                            [ editor.lang.table.headersNone, '' ],
+                            [ editor.lang.table.headersRow, 'row' ],
+                            [ editor.lang.table.headersColumn, 'col' ],
+                            [ editor.lang.table.headersBoth, 'both' ]
+                        ],
+                        setup: function( selectedTable ) {
+                            // Fill in the headers field.
+                            var dialog = this.getDialog();
+                            dialog.hasColumnHeaders = true;
 
-                                // Check if all the first cells in every row are TH
-                                for ( var row = 0; row < selectedTable.$.rows.length; row++ ) {
-                                    // If just one cell isn't a TH then it isn't a header column
-                                    var headCell = selectedTable.$.rows[ row ].cells[ 0 ];
-                                    if ( headCell && headCell.nodeName.toLowerCase() != 'th' ) {
-                                        dialog.hasColumnHeaders = false;
-                                        break;
-                                    }
+                            // Check if all the first cells in every row are TH
+                            for ( var row = 0; row < selectedTable.$.rows.length; row++ ) {
+                                // If just one cell isn't a TH then it isn't a header column
+                                var headCell = selectedTable.$.rows[ row ].cells[ 0 ];
+                                if ( headCell && headCell.nodeName.toLowerCase() != 'th' ) {
+                                    dialog.hasColumnHeaders = false;
+                                    break;
                                 }
+                            }
 
-                                // Check if the table contains <thead>.
-                                if ( ( selectedTable.$.tHead !== null ) )
-                                    this.setValue( dialog.hasColumnHeaders ? 'both' : 'row' );
-                                else
-                                    this.setValue( dialog.hasColumnHeaders ? 'col' : '' );
-                            },
-                            commit: commitValue
-                        } ]
-                    } ]
-                },
-                {
-                    type: 'html',
-                    align: 'right',
-                    html: ''
-                },
-                {
-                    type: 'vbox',
-                    padding: 0,
-                    children: [ {
+                            // Check if the table contains <thead>.
+                            if ( ( selectedTable.$.tHead !== null ) )
+                                this.setValue( dialog.hasColumnHeaders ? 'both' : 'row' );
+                            else
+                                this.setValue( dialog.hasColumnHeaders ? 'col' : '' );
+                        },
+                        commit: commitValue
+                    },
+                    {
                         type: 'text',
                         id: 'txtCaption',
                         requiredContent: 'caption',
@@ -306,7 +293,6 @@
                         commit: function( data, table ) {
                             if ( !this.isEnabled() )
                                 return;
-
                             var caption = this.getValue(),
                                 captionElement = table.getElementsByTag( 'caption' );
                             if ( caption ) {
@@ -325,29 +311,29 @@
                                 for ( var i = captionElement.count() - 1; i >= 0; i-- )
                                     captionElement.getItem( i ).remove();
                             }
-                        }
 
-                    /* If this is need someday (this is QTI compliant), partial support is already there.
-                     * It will work directly in QtiCreator, but on table creation only.
-                     * On table edition, the change callback of the ckEditor instance only update the element body, and not its attributes.
-                     * Thus, this field cannot be created nor edited after the table has been created.
-                    },
-                    {
-                        type: 'text',
-                        id: 'txtSummary',
-                        requiredContent: 'table[summary]',
-                        label: editor.lang.table.summary,
-                        setup: function( selectedTable ) {
-                            this.setValue( selectedTable.getAttribute( 'summary' ) || '' );
+                        /* If this is need someday (this is QTI compliant), partial support is already there.
+                         * It will work directly in QtiCreator, but on table creation only.
+                         * On table edition, the change callback of the ckEditor instance only update the element body, and not its attributes.
+                         * Thus, this field cannot be created nor edited after the table has been created.
                         },
-                        commit: function( data, selectedTable ) {
-                            if ( this.getValue() )
-                                selectedTable.setAttribute( 'summary', this.getValue() );
-                            else
-                                selectedTable.removeAttribute( 'summary' );
+                        {
+                            type: 'text',
+                            id: 'txtSummary',
+                            requiredContent: 'table[summary]',
+                            label: editor.lang.table.summary,
+                            setup: function( selectedTable ) {
+                                this.setValue( selectedTable.getAttribute( 'summary' ) || '' );
+                            },
+                            commit: function( data, selectedTable ) {
+                                if ( this.getValue() )
+                                    selectedTable.setAttribute( 'summary', this.getValue() );
+                                else
+                                    selectedTable.removeAttribute( 'summary' );
+                            }
+                        */
                         }
-                    */
-                    } ]
+                    }]
                 } ]
             }
         ] };
