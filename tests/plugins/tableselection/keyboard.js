@@ -113,6 +113,25 @@
 			} );
 		},
 
+		'test backspace whole table outer': function( editor, bot ) {
+			// This test has a selection outside the table [<table>(...)</table>] rather than inside.
+			bender.tools.testInputOut( 'emptyTableRemoveWholeOuter', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectElement( editor.editable().findOne( 'table' ) );
+
+				// Reuse undo's fancy tools to mimic the keyboard.
+				var keyTools = undoEventDispatchTestsTools( {
+					editor: editor
+				} );
+				keyTools.key.keyEvent( keyTools.key.keyCodesEnum.BACKSPACE );
+
+				// Note: this test should rather **have exact same** expected value as emptyTableRemoveWhole
+				// fixture, but ATM it does not due to #613.
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
+		},
+
 		'test backspace whole table multiple tables': function( editor, bot ) {
 			bender.tools.testInputOut( 'emptyTableSibling', function( source, expected ) {
 				bender.tools.setHtmlWithSelection( editor, source );
