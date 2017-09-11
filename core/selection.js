@@ -2282,10 +2282,10 @@
 		},
 
 		/**
-		 * Checks if the selection contains only one range, which is collapsed.
+		 * Checks if the selection contains only one range which is collapsed.
 		 *
 		 *		if ( editor.getSelection().isCollapsed() ) {
-		 *			// Do something when selection is collapsed.
+		 *			// Do something when the selection is collapsed.
 		 *		}
 		 *
 		 * @since 4.7.3

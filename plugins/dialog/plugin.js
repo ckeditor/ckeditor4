@@ -2986,7 +2986,7 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	/**
 	 * Generic dialog command. It opens a specific dialog when executed.
 	 *
-	 *		// Register the "link" command, which opens the "link" dialog.
+	 *		// Register the "link" command which opens the "link" dialog.
 	 *		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link' ) );
 	 *
 	 * @class
@@ -2995,9 +2995,9 @@ CKEDITOR.DIALOG_STATE_BUSY = 2;
 	 * @param {String} dialogName The name of the dialog to open when executing
 	 * this command.
 	 * @param {Object} [ext] Additional command definition's properties.
-	 * @param {String} [ext.tabId] You can provide additional property (`tabId`) if you wish to open dialog on specific tabId.
+	 * @param {String} [ext.tabId] You can provide additional property (`tabId`) if you wish to open the dialog on a specific tabId.
 	 *
-	 *		// Open dialog on 'keystroke' tabId.
+	 *		// Open the dialog on the 'keystroke' tabId.
 	 *		editor.addCommand( 'keystroke', new CKEDITOR.dialogCommand( 'a11yHelp', { tabId: 'keystroke' } ) );
 	 */
 	CKEDITOR.dialogCommand = function( dialogName, ext ) {

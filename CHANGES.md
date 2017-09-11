@@ -5,25 +5,25 @@
 
 New Features:
 
-* [#568](https://github.com/ckeditor/ckeditor-dev/issues/568): Added possibility to adjust nested editables' filters using [`CKEDITOR.filter.disallowedContent`](https://docs.ckeditor.com/#!/api/CKEDITOR.filter-property-disallowedContent) property.
+* [#568](https://github.com/ckeditor/ckeditor-dev/issues/568): Added possibility to adjust nested editables' filters using the [`CKEDITOR.filter.disallowedContent`](https://docs.ckeditor.com/#!/api/CKEDITOR.filter-property-disallowedContent) property.
 
 Fixed Issues:
 
 * [#554](https://github.com/ckeditor/ckeditor-dev/issues/554): Fixed: [`change`](https://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event not fired when typing the first character after pasting into the editor. Thanks to [Daniel Miller](https://github.com/millerdev)!
-* [#566](https://github.com/ckeditor/ckeditor-dev/issues/566): Fixed: The CSS border shorthand property with zero width (`border: 0px solid #000;`) no longer causes table to have border attribute set to 1.
-* [#779](https://github.com/ckeditor/ckeditor-dev/issues/779): Fixed: [Remove Format](https://ckeditor.com/addon/removeformat) plugin removes elements with language definition inserted by [Language](https://ckeditor.com/addon/language) plugin.
-* [#423](https://github.com/ckeditor/ckeditor-dev/issues/423): Fixed: [Paste from Word](https://ckeditor.com/addon/pastefromword) plugin pastes paragraphs into the editor even if [`CKEDITOR.config.enterMode`](https://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) is set to `CKEDITOR.ENTER_BR`.
-* [#719](https://github.com/ckeditor/ckeditor-dev/issues/719): Fixed: Image inserted using [Enhanced Image](https://ckeditor.com/addon/image2) plugin could be resized when editor is in read-only mode.
-* [#577](https://github.com/ckeditor/ckeditor-dev/issues/577): Fixed: "Delete Columns" command provided by [Table Tools](https://ckeditor.com/addon/tabletools) plugin throws an error while trying to delete columns.
-* [#867](https://github.com/ckeditor/ckeditor-dev/issues/867): Fixed: Typing into selected table throws an error.
-* [#817](https://github.com/ckeditor/ckeditor-dev/issues/817): Fixed: [Save](https://ckeditor.com/addon/save) plugin does not work in [Source Mode](https://ckeditor.com/addon/sourcearea).
+* [#566](https://github.com/ckeditor/ckeditor-dev/issues/566): Fixed: The CSS `border` shorthand property with zero width (`border: 0px solid #000;`) causes the table to have the border attribute set to 1.
+* [#779](https://github.com/ckeditor/ckeditor-dev/issues/779): Fixed: The [Remove Format](https://ckeditor.com/addon/removeformat) plugin removes elements with language definition inserted by the [Language](https://ckeditor.com/addon/language) plugin.
+* [#423](https://github.com/ckeditor/ckeditor-dev/issues/423): Fixed: The [Paste from Word](https://ckeditor.com/addon/pastefromword) plugin pastes paragraphs into the editor even if [`CKEDITOR.config.enterMode`](https://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) is set to `CKEDITOR.ENTER_BR`.
+* [#719](https://github.com/ckeditor/ckeditor-dev/issues/719): Fixed: Image inserted using the [Enhanced Image](https://ckeditor.com/addon/image2) plugin can be resized when the editor is in [read-only mode](https://docs.ckeditor.com/#!/guide/dev_readonly).
+* [#577](https://github.com/ckeditor/ckeditor-dev/issues/577): Fixed: The "Delete Columns" command provided by the [Table Tools](https://ckeditor.com/addon/tabletools) plugin throws an error when trying to delete columns.
+* [#867](https://github.com/ckeditor/ckeditor-dev/issues/867): Fixed: Typing into a selected table throws an error.
+* [#817](https://github.com/ckeditor/ckeditor-dev/issues/817): Fixed: The [Save](https://ckeditor.com/addon/save) plugin does not work in [Source Mode](https://ckeditor.com/addon/sourcearea).
 
 Other Changes:
 
 * Updated the [WebSpellChecker](http://ckeditor.com/addon/wsc) plugin:
-	* [#40](https://github.com/WebSpellChecker/ckeditor-plugin-wsc/issues/40): Fixed: IE 10 throws an error when spell checking is started.
+	* [#40](https://github.com/WebSpellChecker/ckeditor-plugin-wsc/issues/40): Fixed: IE10 throws an error when spell checking is started.
 * [#800](https://github.com/ckeditor/ckeditor-dev/issues/800): Added the [`CKEDITOR.dom.selection.isCollapsed`](https://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-isCollapsed) method which is a simpler way to check if the selection is collapsed.
-* [#830](https://github.com/ckeditor/ckeditor-dev/issues/830): Added option to define which dialog tab should be shown by default when creating [`CKEDITOR.dialogCommand`](https://docs.ckeditor.com/#!/api/CKEDITOR.dialogCommand).
+* [#830](https://github.com/ckeditor/ckeditor-dev/issues/830): Added an option to define which dialog tab should be shown by default when creating [`CKEDITOR.dialogCommand`](https://docs.ckeditor.com/#!/api/CKEDITOR.dialogCommand).
 
 ## CKEditor 4.7.2
 

@@ -1463,12 +1463,12 @@
 		},
 
 		/**
-		 * Detects, which mouse button generated given DOM event
+		 * Detects which mouse button generated a given DOM event.
 		 *
 		 * @since 4.7.3
 		 * @param {CKEDITOR.dom.event} evt DOM event.
-		 * @returns {Number|Boolean} Returns number indicating mouse button or `false`
-		 * if mouse button can't be determined.
+		 * @returns {Number|Boolean} Returns a number indicating the mouse button or `false`
+		 * if the mouse button cannot be determined.
 		 */
 		getMouseButton: function( evt ) {
 			var evtData = evt.data,
@@ -1760,16 +1760,16 @@
 
 				/**
 				 * Parses the `border` CSS property shorthand format.
-				 * This CSS property doesn't support inherit (https://www.w3.org/TR/css3-background/#the-border-shorthands).
+				 * This CSS property does not support inheritance (https://www.w3.org/TR/css3-background/#the-border-shorthands).
 				 *
 				 *		console.log( CKEDITOR.tools.style.parse.border( '3px solid #ffeedd' ) );
 				 *		// Logs: { width: "3px", style: "solid", color: "#ffeedd" }
 				 *
 				 * @param {String} value The `border` property value.
 				 * @returns {Object}
-				 * @returns {String} return.width border-width attribute.
-				 * @returns {String} return.style border-style attribute.
-				 * @returns {String} return.color border-color attribute.
+				 * @returns {String} return.width The border-width attribute.
+				 * @returns {String} return.style The border-style attribute.
+				 * @returns {String} return.color The border-color attribute.
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				border: function( value ) {
