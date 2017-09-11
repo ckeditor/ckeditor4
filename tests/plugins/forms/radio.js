@@ -24,23 +24,19 @@ bender.test( {
 	},
 
 	'test empty fields': function() {
-		// IE is quite problematic. You cannot remove `value` from the input. There are some hacks design specially for IE to fix `value` problem.
-		// Those customization should be removed if #844 will be fixed.
 		var bot = this.editorBot;
 
+		bot.setHtmlWithSelection( '[<input checked="checked" name="name" required="required" type="radio" value="value" />]' );
+
+		// We need to add attribute 'checked', after adding radio input to editable.
+		// From uknown reason IE omits this attribute when add radio input element to DOM tree.
 		if ( CKEDITOR.env.ie ) {
-			bot.setHtmlWithSelection( '[<input checked="checked" name="name" required="required" type="radio" />]' );
-			// We need to add 'checked', after adding input to editable by setHtmlWithSelection. There is some magic with IE ;)
 			this.editor.editable().findOne( 'input' ).setAttribute( 'checked', 'checked' );
-		} else {
-			bot.setHtmlWithSelection( '[<input checked="checked" name="name" required="required" type="radio" value="value" />]' );
 		}
 
 		bot.dialog( 'radio', function( dialog ) {
 			assert.areSame( 'name', dialog.getValueOf( 'info', 'name' ) );
-			if ( !CKEDITOR.env.ie ) {
-				assert.areSame( 'value', dialog.getValueOf( 'info', 'value' ) );
-			}
+			assert.areSame( 'value', dialog.getValueOf( 'info', 'value' ) );
 			assert.areSame( true, dialog.getValueOf( 'info', 'checked' ) );
 			assert.areSame( true, dialog.getValueOf( 'info', 'required' ) );
 
@@ -51,7 +47,13 @@ bender.test( {
 
 			dialog.getButton( 'ok' ).click();
 
-			assert.areSame( '<input type="radio" />', bot.getData( false, true ) );
+			// IE is problematic: you cannot remove `value` from the input.
+			// This customization should be removed if #844 will be fixed.
+			if ( CKEDITOR.env.ie ) {
+				assert.areSame( '<input type="radio" value="value" />', bot.getData( false, true ) );
+			} else {
+				assert.areSame( '<input type="radio" />', bot.getData( false, true ) );
+			}
 		} );
 	}
 } );

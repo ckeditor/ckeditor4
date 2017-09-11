@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.7.3, forms, 834
+@bender-tags: bug, 4.8.0, forms, 834
 @bender-ui: collapsed
 @bender-ckeditor-plugins: forms, wysiwygarea, toolbar, sourcearea
 
@@ -17,4 +17,4 @@
 * In source mode appeaers 'checked' attribute when radio button is marked as selected.
 
 **Unexpected:**
-* The state of radio button is not saved. 'Checked' attribute is **not present** in source mode when it should be.
+* The state of radio button is not saved. 'Checked' attribute is **not present** in source mode.
