@@ -4,7 +4,7 @@
  */
 
 CKEDITOR.dialog.add( 'headingHelp', function( editor ) {
-  var lang = editor.lang.heading;
+  var lang = editor.lang.a11yheading;
 
   return {
     title: lang.helpLabel,

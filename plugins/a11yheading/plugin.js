@@ -41,7 +41,7 @@
 
       // Initialize Help menuitem
       var helpCmd = 'headingHelp';
-      CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/heading_help.js' );
+      CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/heading-help.js' );
       editor.addCommand( helpCmd, new CKEDITOR.dialogCommand( helpCmd ) );
 
       // Register heading command
