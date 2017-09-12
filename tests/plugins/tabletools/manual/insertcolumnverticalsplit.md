@@ -1,4 +1,4 @@
-@bender-tags: 4.5.7, tc, tabletools, 13729
+@bender-tags: 4.8.0, bug, tabletools, trac13729, 591
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, table, tabletools, contextmenu
 
