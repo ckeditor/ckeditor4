@@ -1050,7 +1050,7 @@
 		},
 
 		/**
-		 * Stop ignoring `input` events.
+		 * Stops ignoring `input` events.
 		 * @since 4.7.3
 		 */
 		activateInputEventListener: function() {

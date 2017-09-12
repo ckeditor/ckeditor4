@@ -1487,6 +1487,37 @@
 		},
 
 		/**
+		 * Detects which mouse button generated a given DOM event.
+		 *
+		 * @since 4.7.3
+		 * @param {CKEDITOR.dom.event} evt DOM event.
+		 * @returns {Number|Boolean} Returns a number indicating the mouse button or `false`
+		 * if the mouse button cannot be determined.
+		 */
+		getMouseButton: function( evt ) {
+			var evtData = evt.data,
+				domEvent = evtData && evtData.$;
+
+			if ( !( evtData && domEvent ) ) {
+				// Added in case when there's no data available. That's the case in some unit test in built version which
+				// mock event but doesn't put data object.
+				return false;
+			}
+
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				if ( domEvent.button === 4 ) {
+					return CKEDITOR.MOUSE_BUTTON_MIDDLE;
+				} else if ( domEvent.button === 1 ) {
+					return CKEDITOR.MOUSE_BUTTON_LEFT;
+				} else {
+					return CKEDITOR.MOUSE_BUTTON_RIGHT;
+				}
+			}
+
+			return domEvent.button;
+		},
+
+		/**
 		 * A set of functions for operations on styles.
 		 *
 		 * @property {CKEDITOR.tools.style}
@@ -1753,16 +1784,16 @@
 
 				/**
 				 * Parses the `border` CSS property shorthand format.
-				 * This CSS property doesn't support inherit (https://www.w3.org/TR/css3-background/#the-border-shorthands).
+				 * This CSS property does not support inheritance (https://www.w3.org/TR/css3-background/#the-border-shorthands).
 				 *
 				 *		console.log( CKEDITOR.tools.style.parse.border( '3px solid #ffeedd' ) );
 				 *		// Logs: { width: "3px", style: "solid", color: "#ffeedd" }
 				 *
 				 * @param {String} value The `border` property value.
 				 * @returns {Object}
-				 * @returns {String} return.width border-width attribute.
-				 * @returns {String} return.style border-style attribute.
-				 * @returns {String} return.color border-color attribute.
+				 * @returns {String} return.width The border-width attribute.
+				 * @returns {String} return.style The border-style attribute.
+				 * @returns {String} return.color The border-color attribute.
 				 * @member CKEDITOR.tools.style.parse
 				 */
 				border: function( value ) {
@@ -2004,7 +2035,35 @@
 	 */
 	CKEDITOR.tools.array.isArray = CKEDITOR.tools.isArray;
 
+	/**
+	 * Left mouse button.
+	 *
+	 * @since 4.7.3
+	 * @readonly
+	 * @property {Number} [=0]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.MOUSE_BUTTON_LEFT = 0;
 
+	/**
+	 * Middle mouse button.
+	 *
+	 * @since 4.7.3
+	 * @readonly
+	 * @property {Number} [=1]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.MOUSE_BUTTON_MIDDLE = 1;
+
+	/**
+	 * Right mouse button.
+	 *
+	 * @since 4.7.3
+	 * @readonly
+	 * @property {Number} [=2]
+	 * @member CKEDITOR
+	 */
+	CKEDITOR.MOUSE_BUTTON_RIGHT = 2;
 
 	/**
 	 * The namespace containing functions to work on CSS properties.

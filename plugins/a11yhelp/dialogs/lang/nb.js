@@ -81,9 +81,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 			legend: 'Trykk ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Lim inn som ren tekst',
+			legend: 'Trykk ${pastetext}',
+			legendEdge: 'Trykk ${pastetext}, etterfulgt av ${past}'
 		}
 		]
 	}

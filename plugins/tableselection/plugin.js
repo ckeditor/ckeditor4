@@ -86,17 +86,8 @@
 		return cells;
 	}
 
-	// Detects if the left mouse button was pressed:
-	// * In all browsers and IE 9+ we use event.button property with standard compliant values.
-	// * In IE 8- we use event.button with IE's proprietary values.
 	function detectLeftMouseButton( evt ) {
-		var domEvent = evt.data.$;
-
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-			return domEvent.button === 1;
-		}
-
-		return domEvent.button === 0;
+		return CKEDITOR.tools.getMouseButton( evt ) === CKEDITOR.MOUSE_BUTTON_LEFT;
 	}
 
 	// Checks whether a given range fully contains a table element (cell/tbody/table etc).
@@ -1035,12 +1026,18 @@
 					clearCellInRange( ranges[ i ] );
 				}
 
-				ranges[ 0 ].moveToElementEditablePosition( firstCell );
-				selection.selectRanges( [ ranges[ 0 ] ] );
+				// In case of selection of table element, there won't be any cell (#867).
+				if ( firstCell ) {
+					ranges[ 0 ].moveToElementEditablePosition( firstCell );
+					selection.selectRanges( [ ranges[ 0 ] ] );
+				}
 			}
 
 			function clearCellInRange( range ) {
-				if ( range.getEnclosedNode() ) {
+				var node = range.getEnclosedNode();
+
+				// Set text only in case of table cells, otherwise remove whole element (#867).
+				if ( node && node.is( { td: 1, th: 1 } ) ) {
 					range.getEnclosedNode().setText( '' );
 				} else {
 					range.deleteContents();
@@ -1060,7 +1057,7 @@
 			editable.attachListener( editable, 'keypress', tableKeyPressListener, null, null, -1 );
 		},
 
-		/*
+		/**
 		 * Determines whether table selection is supported in the current environment.
 		 *
 		 * @property {Boolean}

@@ -4123,7 +4123,7 @@
  * This option is similar to {@link CKEDITOR.config#allowedContent} and one can
  * use it to limit the editor features available in the nested editable.
  *
- * If no `allowedContent` is specified, editable will use editor default
+ * If no `allowedContent` is specified, the editable will use the editor default
  * {@link CKEDITOR.editor#filter}.
  *
  * @property {CKEDITOR.filter.allowedContentRules} allowedContent
@@ -4131,17 +4131,17 @@
 
 /**
  * The [Advanced Content Filter](#!/guide/dev_advanced_content_filter) rules
- * which will be used to blacklist elements withing this nested editable.
+ * which will be used to blacklist elements within this nested editable.
  * This option is similar to {@link CKEDITOR.config#disallowedContent}.
  *
- * Note that disallowedContent work on top of definition's {@link #allowedContent}.
+ * Note that `disallowedContent` work on top of the definition's {@link #allowedContent}.
  *
  * @since 4.7.3
  * @property {CKEDITOR.filter.disallowedContentRules} disallowedContent
  */
 
 /**
- * Nested editable name displayed in elements path.
+ * Nested editable name displayed in the elements path.
  *
  * @property {String} pathName
  */

@@ -10,6 +10,7 @@
 ( function() {
 	var saveCmd = {
 		readOnly: 1,
+		modes: { wysiwyg: 1,source: 1 },
 
 		exec: function( editor ) {
 			if ( editor.fire( 'save' ) ) {
@@ -45,7 +46,7 @@
 				return;
 
 			var command = editor.addCommand( pluginName, saveCmd );
-			command.modes = { wysiwyg: !!( editor.element.$.form ) };
+			command.startDisabled = !( editor.element.$.form );
 
 			editor.ui.addButton && editor.ui.addButton( 'Save', {
 				label: editor.lang.save.toolbar,

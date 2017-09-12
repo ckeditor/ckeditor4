@@ -185,6 +185,21 @@
 
 				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
 			} );
+		},
+
+		// #867
+		'test typing inside selected table': function( editor, bot ) {
+			bender.tools.testInputOut( 'typingTable', function( source, expected ) {
+				bender.tools.setHtmlWithSelection( editor, source );
+
+				editor.getSelection().selectElement( editor.editable().findOne( 'table' ) );
+
+				editor.editable().fire( 'keypress', new CKEDITOR.dom.event( { charCode: 65 } ) );
+
+				// This test checks only if table is correctly removed as artificial
+				// keypress event can't actually type anything into the editor.
+				bender.assert.beautified.html( expected, bot.htmlWithSelection() );
+			} );
 		}
 	};
 
