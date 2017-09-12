@@ -62,7 +62,7 @@
 			this.doTest( 'add-col-before-multi', 'columnInsertBefore' );
 			this.doTest( 'add-col-before-multi2', 'columnInsertBefore' );
 
-			// (#13729)
+			// (#591) (http://dev.ckeditor.com/ticket/13729)
 			this.doTest( 'add-col-before-vertical-split', 'columnInsertBefore' );
 		},
 
