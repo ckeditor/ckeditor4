@@ -517,7 +517,7 @@
 			}
 		}
 
-		var startIndex = getCellColIndex( this.cells.first, true ),
+		var startIndex = getCellColIndex( this.cells.first ),
 			endIndex = getRealCellPosition( this.cells.last );
 
 		return CKEDITOR.tools.buildTableMap( this._getTable(), getRowIndex( this.rows.first ), startIndex,
@@ -657,7 +657,7 @@
 			var cellToReplace,
 				// Index of first selected cell, it needs to be reused later, to calculate the
 				// proper position of newly pasted cells.
-				startIndex = getCellColIndex( tableSel.cells.first, true ),
+				startIndex = getCellColIndex( tableSel.cells.first ),
 				selectedTable = tableSel._getTable(),
 				markers = {},
 				currentRow,
