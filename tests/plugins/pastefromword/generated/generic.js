@@ -46,6 +46,7 @@
 			'Text_alignment': true,
 			'Underline': true,
 			'Unordered_list': true,
+			'Unordered_list_special_char_bullet': true,
 			'Table_alignment': true,
 			'Table_vertical_alignment': true
 		},
