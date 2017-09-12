@@ -1,8 +1,7 @@
 ﻿/**
-* @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+* Copyright (c) 2017 University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-
 CKEDITOR.plugins.add( 'a11ystylescombo', {
   requires: 'a11yfirst,richcombo,removeformat',
   // jscs:disable maximumLineLength

@@ -1,6 +1,6 @@
-/*
-Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+/**
+* Copyright (c) 2017 University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
+* For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'a11yformat', 'en-au', {
   label:      'Block Format',
