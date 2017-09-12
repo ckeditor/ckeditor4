@@ -13,7 +13,7 @@
       startIndex,
       endIndex;
 
-  CKEDITOR.plugins.add( 'heading', {
+  CKEDITOR.plugins.add( 'a11yheading', {
     requires: 'a11yfirst,menubutton',
 
     // jscs:disable maximumLineLength
@@ -25,7 +25,7 @@
         return;
 
       var config = editor.config,
-          lang = editor.lang.heading,
+          lang = editor.lang.a11yheading,
           oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
           plugin = this,
           items = {},

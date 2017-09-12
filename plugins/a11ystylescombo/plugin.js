@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
-CKEDITOR.plugins.add( 'inlinestyle', {
+CKEDITOR.plugins.add( 'a11ystylescombo', {
   requires: 'a11yfirst,richcombo,removeformat',
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -11,7 +11,7 @@ CKEDITOR.plugins.add( 'inlinestyle', {
 
   init: function( editor ) {
     var config = editor.config,
-      lang = editor.lang.inlinestyle,
+      lang = editor.lang.a11ystylescombo,
       styles = {},
       stylesList = [],
       combo,

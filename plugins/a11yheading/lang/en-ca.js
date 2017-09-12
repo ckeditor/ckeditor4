@@ -2,7 +2,7 @@
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-CKEDITOR.plugins.setLang( 'heading', 'en', {
+CKEDITOR.plugins.setLang( 'a11yheading', 'en-ca', {
   label:      'Heading',
   panelTitle: 'Select heading level',
   level_h1:   'Level 1',

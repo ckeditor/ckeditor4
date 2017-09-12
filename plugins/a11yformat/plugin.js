@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
-CKEDITOR.plugins.add( 'blockformat', {
+CKEDITOR.plugins.add( 'a11yformat', {
   requires: 'a11yfirst,blockquote,codesnippet,menubutton',
 
   // jscs:disable maximumLineLength
@@ -15,7 +15,7 @@ CKEDITOR.plugins.add( 'blockformat', {
       return;
 
     var config = editor.config,
-        lang = editor.lang.blockformat,
+        lang = editor.lang.a11yformat,
         items = {};
 
     // Menuitem commands
