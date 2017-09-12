@@ -16,6 +16,40 @@
 		insertRow,
 		insertColumn;
 
+	function getRowIndex( rowOrCell ) {
+		return rowOrCell.getAscendant( 'tr', true ).$.rowIndex;
+	}
+
+	function getBoundaryCells( cells, table ) {
+		var first,
+			last,
+			current,
+			i;
+
+		for ( i = 0; i < cells.count(); i++ ) {
+			current = cells.getItem( i );
+
+			if ( table && !current.getAscendant( 'table' ).equals( table ) ) {
+				continue;
+			}
+
+			if ( !first || getRowIndex( current ) < getRowIndex( first ) ||
+				( getRowIndex( current ) === getRowIndex( first ) && current.$.cellIndex < first.$.cellIndex ) ) {
+				first = current;
+			}
+
+			if ( !last || getRowIndex( current ) > getRowIndex( last ) ||
+				( getRowIndex( current ) === getRowIndex( last ) && current.$.cellIndex > last.$.cellIndex ) ) {
+				last = current;
+			}
+		}
+
+		return {
+			first: first,
+			last: last
+		};
+	}
+
 	function getCellsBetween( first, last ) {
 		var firstTable = first.getAscendant( 'table' ),
 			lastTable = last.getAscendant( 'table' ),
@@ -159,13 +193,19 @@
 	}
 
 	function restoreFakeSelection( editor ) {
-		var cells = editor.editable().find( '.' + fakeSelectedClass );
+		var editable = editor.editable(),
+			table = editable.findOne( '.' + fakeSelectedTableClass ),
+			cells = editable.find( '.' + fakeSelectedClass ),
+			boundaryCells;
 
 		if ( cells.count() < 1 ) {
 			return;
 		}
 
-		cells = getCellsBetween( cells.getItem( 0 ), cells.getItem( cells.count() - 1 ) );
+		// We need to calculate real boundary cells as the order in collection
+		// is based on DOM, not the visual order, which can be altered by `tfoot` (#17067).
+		boundaryCells = getBoundaryCells( cells, table );
+		cells = getCellsBetween( boundaryCells.first, boundaryCells.last );
 
 		fakeSelectCells( editor, cells );
 	}
