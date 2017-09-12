@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: bug, 4.7.2, 704
+@bender-tags: bug, 4.8.0, 704
 @bender-ckeditor-plugins: image2, wysiwygarea, undo, sourcearea
 
 ----
