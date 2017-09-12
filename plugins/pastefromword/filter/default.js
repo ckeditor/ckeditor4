@@ -1085,7 +1085,8 @@
 				symbol = element.attributes[ 'cke-symbol' ];
 
 			element.forEach( function( node ) {
-				if ( !removed && node.value.match( symbol.replace( ')', '\\)' ).replace( '(', '' ) ) ) {
+				// Changing `match` -> `indexOf`, symbol is String not RegExp (#877).
+				if ( !removed && node.value.indexOf( symbol ) > -1 ) {
 
 					node.value = node.value.replace( symbol, '' );
 
