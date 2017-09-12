@@ -220,9 +220,18 @@ Special outer level classes used in this file:
 	display: inline;
 }
 
+/* The following are A11yFirst modifications */
+
 .cke_menubutton_on .cke_menubutton_icon:after {
   content: '✓';
+  font-weight: bold;
+  font-size: 110%;
   position: relative;
   left: -0.9em;
   top: .05em;
+}
+
+.cke_menubutton_disabled .cke_menubutton_label {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
 }
