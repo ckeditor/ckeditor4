@@ -239,7 +239,7 @@
 			var mapCell = rowCells[ i ];
 
 			// Not always adding colSpan results in wrong position
-			// of newly inserted column. (#13729)
+			// of newly inserted column. (#591) (http://dev.ckeditor.com/ticket/13729)
 			colIndex += mapCell.colSpan;
 			if ( mapCell == cell.$ )
 				break;
