@@ -2164,7 +2164,8 @@
 				} );
 
 				CKEDITOR.tools.array.forEach( listChildren, function( child ) {
-					element.add( child, 0 );
+					// `Add` method without index always append child at the end (#796).
+					element.add( child );
 				} );
 
 				delete element.name;

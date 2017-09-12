@@ -9,6 +9,10 @@ New Features:
 * [#584](https://github.com/ckeditor/ckeditor-dev/issues/584): [Font size and Family](http://ckeditor.com/addon/font) and [Format](http://ckeditor.com/addon/format) drop-downs are not toggleable anymore. Default option to reset styles added.
 * [#856](https://github.com/ckeditor/ckeditor-dev/issues/856): Introduced [`CKEDITOR.tools.keystrokeToArray`](https://docs.ckeditor.com/ckeditor-docs/build/#!/api/CKEDITOR.tools-method-keystrokeToArray). It converts given keystroke into its string representation, returning every key name as separate array element.
 
+Fixed Issues:
+
+* [#796](https://github.com/ckeditor/ckeditor-dev/issues/796): Fixed: List is pasted from OneNote in a reversed order.
+
 ## CKEditor 4.7.3
 
 New Features:
