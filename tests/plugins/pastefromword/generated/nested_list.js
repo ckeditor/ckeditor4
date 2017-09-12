@@ -17,7 +17,7 @@
 			'ie11'
 		],
 		wordVersions: [
-			'OneNote'
+			'onenote'
 		],
 		tests: {
 			'Unordered_nested_list': true
