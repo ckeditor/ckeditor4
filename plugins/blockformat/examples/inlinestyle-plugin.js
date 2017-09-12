@@ -4,7 +4,7 @@
 */
 
 CKEDITOR.plugins.add( 'inlinestyle', {
-  requires: 'a11yfirst,richcombo,removeformat',
+  requires: 'richcombo,removeformat',
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
   // jscs:enable maximumLineLength
@@ -92,9 +92,6 @@ CKEDITOR.plugins.add( 'inlinestyle', {
 
           this.add( styleName, style.type == CKEDITOR.STYLE_OBJECT ? styleName : style.buildPreview(), styleName );
         }
-
-        // Add separator between list of styles and 'Remove styles' menuitem
-        this.addSeparator();
 
         var label = lang[ 'removeStylesLabel' ];
         this.add( removeStylesCmd, menuStyle.buildPreview( label ), label );

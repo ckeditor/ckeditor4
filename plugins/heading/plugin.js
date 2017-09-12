@@ -1,5 +1,5 @@
 /**
-* @license Copyright (c) University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
+* @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
@@ -29,8 +29,7 @@
           oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
           plugin = this,
           items = {},
-          headingTag,
-          headingLabelId;
+          headingTag;
 
       // Initialize headings array and indices used by getAllowedHeadings
       headings = this.getHeadingConfig( config );
@@ -40,7 +39,7 @@
       // Change behavior of menubutton with text label
       CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
-      // Initialize Heading Help menuitem
+      // Initialize Help menuitem
       var helpCmd = 'headingHelp';
       CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/heading_help.js' );
       editor.addCommand( helpCmd, new CKEDITOR.dialogCommand( helpCmd ) );
@@ -64,16 +63,8 @@
       // Create item entry for each heading element in config
       for ( var i = 0; i < headings.length; i++ ) {
         headingTag = headings[ i ];
-
-          if (headingTag === 'h1' && oneLevel1) {
-            headingLabelId = lang[ 'level_' + headingTag + '_as_title'];
-          }
-          else {
-            headingLabelId = lang[ 'level_' + headingTag ];
-          }
-
         items[ headingTag ] = {
-          label: headingLabelId,
+          label: lang[ 'level_' + headingTag ],
           headingId: headingTag,
           group: 'heading_levels',
           style: new CKEDITOR.style( { element: headingTag } ),
@@ -89,9 +80,9 @@
       }
 
       // Add Remove format item
-      items.normalText = {
+      items.removeFormat = {
         label: lang.remove,
-        group: 'heading_levels',
+        group: 'heading_actions',
         style: new CKEDITOR.style( { element: 'p' } ),
         state: CKEDITOR.TRISTATE_DISABLED,
         order: headings.length,
@@ -105,7 +96,7 @@
       };
 
       // Add Help item
-      items.headingHelp = {
+      items.help = {
         label: lang.helpLabel,
         group: 'heading_actions',
         order: headings.length + 2,
@@ -138,8 +129,8 @@
             }
           }
 
-          activeItems.normalText = currentHeadingElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
-          activeItems.headingHelp = CKEDITOR.TRISTATE_OFF;
+          activeItems.removeFormat = currentHeadingElement ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED;
+          activeItems.help = CKEDITOR.TRISTATE_OFF;
 
           if ( currentHeadingElement )
             activeItems[ currentHeadingElement.getName() ] = CKEDITOR.TRISTATE_ON;

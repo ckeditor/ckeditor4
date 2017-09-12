@@ -173,8 +173,8 @@ Special outer level classes used in this file:
 .cke_menubutton_disabled .cke_menubutton_label
 {
 	/* Greyed label text indicates a disabled menu item. */
-	opacity: 0.5;
-	filter: alpha(opacity=50);
+	opacity: 0.3;
+	filter: alpha(opacity=30);
 }
 
 .cke_panel_frame .cke_menubutton_label
@@ -222,8 +222,6 @@ Special outer level classes used in this file:
 
 .cke_menubutton_on .cke_menubutton_icon:after {
   content: '✓';
-  font-weight: bold;
-  font-size: 110%;
   position: relative;
   left: -0.9em;
   top: .05em;

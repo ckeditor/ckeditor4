@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
+ * @license Copyright (c) 2003-2016, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -46,7 +46,7 @@ CKEDITOR.dialog.add( 'headingHelp', function( editor ) {
 
     contents: [
       {
-        id: 'heading_tab1',
+        id: 'tab1',
         label: lang.helpFeatureLabel,
         title: lang.helpFeatureTitle,
         expand: true,
@@ -59,7 +59,7 @@ CKEDITOR.dialog.add( 'headingHelp', function( editor ) {
         ]
       },
       {
-        id: 'heading_tab2',
+        id: 'tab2',
         label: lang.helpRuleLabel,
         title: lang.helpRuleTitle,
         expand: true,
@@ -72,7 +72,7 @@ CKEDITOR.dialog.add( 'headingHelp', function( editor ) {
         ]
       },
       {
-        id: 'heading_tab3',
+        id: 'tab3',
         label: lang.helpImportanceLabel,
         title: lang.helpImportanceTitle,
         expand: true,

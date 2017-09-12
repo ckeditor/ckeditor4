@@ -1,18 +1,17 @@
 /*
-Copyright (c) University of Illinois - Nicholas Hoyt and Jon Gunderson. All rights reserved.
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-CKEDITOR.plugins.setLang( 'heading', 'en', {
+CKEDITOR.plugins.setLang( 'heading', 'en-ca', {
   label:      'Heading',
   panelTitle: 'Select heading level',
   level_h1:   'Level 1',
-  level_h1_as_title:   'Level 1 (Reserved for document title)',
   level_h2:   'Level 2',
   level_h3:   'Level 3',
   level_h4:   'Level 4',
   level_h5:   'Level 5',
   level_h6:   'Level 6',
-  remove:     'Normal text',
+  remove:     'Remove format',
   helpLabel:  'Help',
 
   helpFeatureLabel: 'Features',
@@ -45,7 +44,7 @@ CKEDITOR.plugins.setLang( 'heading', 'en', {
   helpImportanceLabel: 'Importance',
   helpImportanceTitle: 'Why Headings Are Important',
   helpImportanceItems: [
-    'The proper use and nesting of heading levels improves the ability of all users to find and read information on a page, especially users of assitive technologies who rely on them to identify and navigate to the topics on a page.',
+    'The proper use and nesting of heading levels improves the ability of all users to find and read information on a page.',
 
     'People read information more efficiently when content is broken up into digestable sections of information, with headings identifying each section and subsection of information.',
 
