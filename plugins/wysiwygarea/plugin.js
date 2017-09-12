@@ -165,7 +165,7 @@
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_P ) {
 			removeSuperfluousElement( 'p' );
 		}
-		// From version Edge 15 additional `div` are not added to the editor.
+		// Starting from Edge 15 additional `div` is not added to the editor.
 		else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV && CKEDITOR.env.version < 15 ) {
 			removeSuperfluousElement( 'div' );
 		}
