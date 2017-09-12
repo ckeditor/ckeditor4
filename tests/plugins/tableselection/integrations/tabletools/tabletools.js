@@ -41,6 +41,9 @@
 			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-4', cells: [ 1 ] } );
 			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi', cells: [ 0, 1 ] } );
 			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi2', cells: [ 1 ] } );
+
+			// #591
+			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-vertical-split', cells: [ 3 ] } );
 		},
 
 		'test insert col after': function( editor, bot ) {
