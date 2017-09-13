@@ -161,10 +161,12 @@
 			doc.getDocumentElement().addClass( doc.$.compatMode );
 		}
 
-		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body. (http://dev.ckeditor.com/ticket/6966, http://dev.ckeditor.com/ticket/13142)
+		// Prevent IE/Edge from leaving a new paragraph/div after deleting all contents in body (http://dev.ckeditor.com/ticket/6966, http://dev.ckeditor.com/ticket/13142).
 		if ( CKEDITOR.env.ie && !CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_P ) {
 			removeSuperfluousElement( 'p' );
-		} else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV ) {
+		}
+		// Starting from Edge 15 additional `div` is not added to the editor.
+		else if ( CKEDITOR.env.edge && CKEDITOR.env.version < 15 && editor.enterMode != CKEDITOR.ENTER_DIV  ) {
 			removeSuperfluousElement( 'div' );
 		}
 
@@ -297,7 +299,7 @@
 				var elements = doc.getElementsByTag( tagName );
 				if ( lockRetain ) {
 					if ( elements.count() == 1 && !elements.getItem( 0 ).getCustomData( 'retain' ) &&
-						!elements.getItem( 0 ).hasAttribute( 'data-cke-temp' ) ) {
+						CKEDITOR.tools.isEmpty( elements.getItem( 0 ).getAttributes() ) ) {
 						elements.getItem( 0 ).remove( 1 );
 					}
 					lockRetain = false;
