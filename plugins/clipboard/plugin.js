@@ -1509,6 +1509,7 @@
 				evt.data.preventDefault();
 
 				// #808
+				// We shouldn't start drop action when editor is in read only mode
 				if ( editor.readOnly ) {
 					return;
 				}
