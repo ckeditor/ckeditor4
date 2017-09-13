@@ -10,13 +10,17 @@
 </textarea>
 <pre id="output" style="background-color: lightgreen;"></pre>
 <script>
+	if ( !CKEDITOR.env.edge ) {
+		bender.ignore();
+	}
+
 	var editor = CKEDITOR.replace( 'editor1', {
 		height: '600px'
 	} );
-	var output = document.getElementById( 'output' )
+	var output = document.getElementById( 'output' );
 	editor.on( 'instanceReady', function() {
-		editor.editable().$.addEventListener( 'keyup', function() {
+		editor.editable().$.onkeyup = function() {
 			output.innerText = editor.editable().getFirst().getName();
-		} );
-	});
+		};
+	} );
 </script>
