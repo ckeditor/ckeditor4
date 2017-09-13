@@ -166,7 +166,7 @@
 			removeSuperfluousElement( 'p' );
 		}
 		// Starting from Edge 15 additional `div` is not added to the editor.
-		else if ( CKEDITOR.env.edge && editor.enterMode != CKEDITOR.ENTER_DIV && CKEDITOR.env.version < 15 ) {
+		else if ( CKEDITOR.env.edge && CKEDITOR.env.version < 15 && editor.enterMode != CKEDITOR.ENTER_DIV  ) {
 			removeSuperfluousElement( 'div' );
 		}
 
