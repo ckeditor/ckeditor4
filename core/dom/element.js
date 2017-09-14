@@ -2118,19 +2118,19 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Returns scroll position of the element's document.
 		 *
 		 * @since 4.8.0
-		 * @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
+		 * @param {Boolean} [onlyScrollTop] If set to `true` returns only scrollTop value
+		 * @returns {Object/Number} Object with keys: `scrollTop` and `scrollLeft`, or Number represent scrollTop
 		 */
-		'getDocumentScroll': function() {
+		'getDocumentScroll': function( onlyScrollTop ) {
 			var doc = this.getDocument(),
 				scrollingElement = doc.getScrollingElement();
 
 			if ( scrollingElement ) {
-				return { 'scrollTop': scrollingElement.$.scrollTop, 'scrollLeft': scrollingElement.$.scrollLeft };
+				return onlyScrollTop ? scrollingElement.$.scrollTop : { 'scrollTop': scrollingElement.$.scrollTop, 'scrollLeft': scrollingElement.$.scrollLeft };
 			} else {
 				scrollingElement = doc.$.documentElement || doc.$.body;
-				return { 'scrollTop': scrollingElement.scrollTop, 'scrollLeft': scrollingElement.scrollLeft };
+				return onlyScrollTop ? scrollingElement.scrollTop : { 'scrollTop': scrollingElement.scrollTop, 'scrollLeft': scrollingElement.scrollLeft };
 			}
-			return;
 		},
 
 		/**
@@ -2158,10 +2158,11 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * Returns scroll position of the element itself.
 		 *
 		 * @since 4.8.0
+		 * @param {Boolean} [onlyScrollTop] If set to `true` returns only scrollTop value
 		 * @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
 		 */
-		'getScroll': function() {
-			return { 'scrollTop': this.$.scrollTop, 'scrollLeft': this.$.scrollLeft };
+		'getScroll': function( onlyScrollTop ) {
+			return onlyScrollTop ? this.$.scrollTop : { 'scrollTop': this.$.scrollTop, 'scrollLeft': this.$.scrollLeft };
 		},
 
 		/**
