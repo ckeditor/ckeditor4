@@ -15,6 +15,7 @@ Fixed Issues:
 * [#834](https://github.com/ckeditor/ckeditor-dev/issues/834): [IE9-11] Fixed: Editor does not save selected state of radiobuttons inserted by [Form Elements](https://ckeditor.com/addon/forms) plugin.
 * [#704](https://github.com/ckeditor/ckeditor-dev/issues/704): [Edge] Fixed: Using `Ctrl/Cmd + Z` breaks widgets structure.
 * [#591](https://github.com/ckeditor/ckeditor-dev/issues/591): Fixed: Column is inserted in a wrong order inside table if any cell has a vertical split.
+* [#787](https://github.com/ckeditor/ckeditor-dev/issues/787): Fixed: Using cut inside nested table does not cut selected content.
 
 ## CKEditor 4.7.3
 
