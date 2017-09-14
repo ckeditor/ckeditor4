@@ -42,7 +42,7 @@
 			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi', cells: [ 0, 1 ] } );
 			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-multi2', cells: [ 1 ] } );
 
-			// #591
+			// (#591)
 			doCommandTest( bot, 'columnInsertBefore', { 'case': 'add-col-before-vertical-split', cells: [ 3 ] } );
 		},
 
@@ -96,8 +96,8 @@
 			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-3', cells: [ 1, 2, 3, 4 ], skipCheckingSelection: true } );
 		},
 
-		// (http://dev.ckeditor.com/ticket/10308, http://dev.ckeditor.com/ticket/11058)
-		// To reproduce http://dev.ckeditor.com/ticket/11058 we need 4 rows in the table.
+		// To reproduce http://dev.ckeditor.com/ticket/11058 we need 4 rows
+		// in the table (http://dev.ckeditor.com/ticket/10308, http://dev.ckeditor.com/ticket/11058).
 		'test remove row from middle row': function( editor, bot ) {
 			doCommandTest( bot, 'rowDelete', { 'case': 'delete-row-from-middle', cells: [ 1 ], skipCheckingSelection: true } );
 		},
@@ -142,7 +142,7 @@
 			assert.isTrue( expectedCells.getItem( 1 ).equals( selectedCells[ 1 ] ) );
 		},
 
-		// #tp-2217
+		// (#tp-2217)
 		'test getSelectedCells for nested table header cell': function( editor, bot ) {
 			var editable = editor.editable(),
 				table,
