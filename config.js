@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
@@ -83,8 +83,14 @@ CKEDITOR.editorConfig = function( config ) {
 	config.pasteFromWordRemoveFontStyles = false;
 	config.pasteFromWordRemoveStyles = false;
 
-	config.fontSize_sizes="7/7pt;" +
+	config.fontSize_sizes="5/5pt;" +
+		"5.5/5.5pt;" +
+		"6/6pt;" +
+		"6.5/6.5pt;" +
+		"7/7pt;" +
+		"7.5/7.5pt;" +
 		"8/8pt;" +
+		"8.5/8.5pt;" +
 		"9/9pt;" +
 		"10/10pt;" +
 		"10.5/10.5pt;" +
@@ -120,6 +126,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'Courier New;' +
 		'Georgia;' +
 		'Lucida Sans Unicode;' +
+		'Railroad Gothic;' +
 		'Tahoma;' +
 		'Times New Roman;' +
 		'Times;' +
@@ -150,5 +157,3 @@ CKEDITOR.editorConfig = function( config ) {
 		show: false
 	}
 };
-
-// %LEAVE_UNMINIFIED% %REMOVE_LINE%
