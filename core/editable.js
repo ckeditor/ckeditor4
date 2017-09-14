@@ -799,6 +799,29 @@
 			},
 
 			/**
+			 * Returns scroll position of editable.
+			 *
+			* @since 4.8.0
+			* @param {Boolean} [onlyScrollTop] If set to `true` returns only scrollTop value
+			* @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
+			*/
+			getEditableScroll: function( onlyScrollTop ) {
+				return this.isInline() ? this.getScroll( onlyScrollTop ) : this.getDocumentScroll( onlyScrollTop );
+			},
+
+			/**
+			 * Set scroll position of editable.
+			 *
+			 * @since 4.8.0
+			 * @param {Number} scrollTop number of pixels that an element's document is scrolled vertically.
+			 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
+			 */
+			setEditableScroll: function( scrollTop, scrollLeft ) {
+				this.isInline() ? this.setScroll( scrollTop, scrollLeft ) : this.setDocumentScroll( scrollTop, scrollLeft );
+			},
+
+
+			/**
 			 * Editable element bootstrapping.
 			 *
 			 * @private
