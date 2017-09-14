@@ -248,6 +248,15 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	},
 
 	/**
+	 * Gets the DOM scrolling element for this document.
+	 *
+	 * @since 4.8.0
+	 * @returns {CKEDITOR.dom.element} The scrolling element or `null` if element doesn't exists.
+	 */
+	getScrollingElement: function() {
+		return this.$.scrollingElement ? new CKEDITOR.dom.element( this.$.scrollingElement ) : null;
+	},
+	/**
 	 * Defines the document content through `document.write`. Note that the
 	 * previous document content will be lost (cleaned).
 	 *
