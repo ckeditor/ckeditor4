@@ -2112,6 +2112,68 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 				else if ( !type || node.type == type )
 					callback( node );
 			}
+		},
+
+		/**
+		 * Returns scroll position of the element's document.
+		 *
+		 * @since 4.8.0
+		 * @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
+		 */
+		'getDocumentScroll': function() {
+			var doc = this.getDocument(),
+				scrollingElement = doc.getScrollingElement();
+
+			if ( scrollingElement ) {
+				return { 'scrollTop': scrollingElement.$.scrollTop, 'scrollLeft': scrollingElement.$.scrollLeft };
+			} else {
+				scrollingElement = doc.$.documentElement || doc.$.body;
+				return { 'scrollTop': scrollingElement.scrollTop, 'scrollLeft': scrollingElement.scrollLeft };
+			}
+			return;
+		},
+
+		/**
+		 * Set scroll position of element's document.
+		 *
+		 * @since 4.8.0
+		 * @param {Number} scrollTop number of pixels that an element's document is scrolled vertically.
+		 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
+		 */
+		'setDocumentScroll': function( scrollTop, scrollLeft ) {
+			var doc = this.getDocument(),
+				scrollingElement = doc.getScrollingElement();
+
+			if ( scrollingElement ) {
+				scrollingElement.$.scrollTop = scrollTop;
+				scrollingElement.$.scrollLeft = scrollLeft !== undefined ? scrollLeft : scrollingElement.$.scrollLeft;
+			} else {
+				scrollingElement = doc.$.documentElement || doc.$.body;
+				scrollingElement.scrollTop = scrollTop;
+				scrollingElement.scrollLeft = scrollLeft !== undefined ? scrollLeft : scrollingElement.scrollLeft;
+			}
+		},
+
+		/**
+		 * Returns scroll position of the element itself.
+		 *
+		 * @since 4.8.0
+		 * @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
+		 */
+		'getScroll': function() {
+			return { 'scrollTop': this.$.scrollTop, 'scrollLeft': this.$.scrollLeft };
+		},
+
+		/**
+		 * Set scroll position of element itself.
+		 *
+		 * @since 4.8.0
+		 * @param {Number} scrollTop number of pixels that an element's contentt is scrolled vertically.
+		 * @param {Number} [scrollLeft] number of pixels that an element's contentt is scrolled horizontally.
+		 */
+		'setScroll': function( scrollTop, scrollLeft ) {
+			this.$.scrollTop = scrollTop;
+			this.$.scrollLeft = scrollLeft !== undefined ? scrollLeft : this.$.scrollLeft;
 		}
 	} );
 
