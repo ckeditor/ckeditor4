@@ -159,7 +159,7 @@
 			[ '<p>ab{</p><p>c</p><p>}de</p>',										'<br data-cke-eol="1" /><p>c</p><br data-cke-eol="1" />',		'<p>ab[]de</p>' ],
 			[ '<h1><b>{a</b></h1><p>b}</p>',										'<h1><b>a</b></h1><p>b</p>',									'<h1>[]@!</h1>' ],
 
-			// http://dev.ckeditor.com/ticket/13449
+			// (http://dev.ckeditor.com/ticket/13449)
 			[ '<h1>{a</h1><p><b>b}</b></p>',										'<h1>a</h1><p><b>b</b></p>',									'<h1>[]@!</h1>' ],
 			[ '<h1>{abc</h1><p><strong>de</strong>gh}<strong>jl</strong>mn</p>',	'<h1>abc</h1><p><strong>de</strong>gh</p>',						'<h1>[]<strong>jl</strong>mn</h1>' ]
 		],
@@ -205,7 +205,7 @@
 
 		],
 
-		// http://dev.ckeditor.com/ticket/13101
+		// (http://dev.ckeditor.com/ticket/13101)
 		'html5': [
 			[ '<div>[<figure>img</figure>]</div>',											'<figure>img</figure>',											'<div>[]@!</div>' ],
 			[ '<div>[<div><figure>img<figcaption>cap</figcaption></figure></div>]</div>',	'<div><figure>img<figcaption>cap</figcaption></figure></div>',	'<div>[]@!</div>' ]
@@ -311,11 +311,11 @@
 				'<table class="t1"><tbody><tr><td><p>c</p></td><td><table class="t2"><tbody><tr><td><p>d</p></td></tr></tbody></table></td></tr></tbody></table>',
 				'<p>a</p><table class="t1"><tbody><tr><td><p>b[]</p></td><td><table class="t2"><tbody><tr><td><p>e</p></td></tr></tbody></table></td></tr></tbody></table><p>g</p>' ],
 
-			// #787
+			// #27 (#787)
 			[ '<table><tbody><tr><td>ab<table><tbody><tr>[<td>cd</td>]</tr></tbody></table>ef</td></tr></tbody></table>', 'cd',
 				'<table><tbody><tr><td>ab<table><tbody><tr><td>[]@!</td></tr></tbody></table>ef</td></tr></tbody></table>' ],
 
-			// #787 – br case
+			// #28 - br case (#787).
 			[ '<table><tbody><tr><td>ab<table><tbody><tr>[<td>cd@</td>]</tr></tbody></table>ef</td></tr></tbody></table>',
 				CKEDITOR.env.ie && CKEDITOR.env.version < 11 ? 'cd' : '<table><tbody><tr><td>cd</td></tr></tbody></table>',
 				'<table><tbody><tr><td>ab<table><tbody><tr><td>[]@!</td></tr></tbody></table>ef</td></tr></tbody></table>' ]
@@ -380,15 +380,15 @@
 			[ '<p>a</p><p><b>[b]</b></p><p>c</p>',									'<b>b</b>',														'<p>a</p><p>c</p>' ],
 			[ '<p>a[b]c</p>',														'b',															'<p>ac</p>' ],
 			[ '<table><tbody><tr><td>{a</td><td>b}</td></tr></tbody></table>',		'<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>',	'' ],
-			// http://dev.ckeditor.com/ticket/13465
+			// (http://dev.ckeditor.com/ticket/13465)
 			[
 				'<p>[<span>foo</span>]<span data-cke-bookmark="1">&nbsp;</span></p>',
 				'<span>foo</span>',
 				'<p><span data-cke-bookmark="1">&nbsp;</span></p>'
 			],
-			// http://dev.ckeditor.com/ticket/13465
+			// (http://dev.ckeditor.com/ticket/13465)
 			[ '<p>a</p><p><span class="foo">{b}</span></p><p>c</p>',				'<span class="foo">b</span>',									'<p>a</p><p>c</p>' ],
-			// http://dev.ckeditor.com/ticket/13465
+			// (http://dev.ckeditor.com/ticket/13465)
 			[ '<p>a</p><p><b>{b}</b><span class="foo"></span></p><p>c</p>',			'<b>b</b>',														'<p>a</p><p>c</p>' ]
 		]
 	}, 'inline', 1 );

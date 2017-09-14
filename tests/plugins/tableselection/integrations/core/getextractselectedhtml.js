@@ -19,7 +19,7 @@
 	}
 
 	var tests = {
-		// http://dev.ckeditor.com/ticket/13884.
+		// (http://dev.ckeditor.com/ticket/13884)
 		'test getSelectedHtml with multiple ranges': function( editor ) {
 			bender.tools.testInputOut( 'multipleRanges', function( input, expected ) {
 				var sel = editor.getSelection(),
@@ -36,7 +36,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/13884.
+		// (http://dev.ckeditor.com/ticket/13884)
 		'test getSelectedHtml with partial table selection': function( editor ) {
 			bender.tools.testInputOut( 'partialTableSeleciton', function( input, expected ) {
 				var sel = editor.getSelection(),
@@ -69,7 +69,7 @@
 			} );
 		},
 
-		// #787
+		// (#787)
 		'test extractSelectedHtml inside nested table': function( editor ) {
 			bender.tools.testInputOut( 'nested', function( input, expected ) {
 				var sel = editor.getSelection(),
