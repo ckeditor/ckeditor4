@@ -2968,7 +2968,9 @@
 					// the start and end cells to correctly handle case like:
 					// <td>x{x</td><td><table>..<td>y}y</td>..</table></td>
 					// without the check the second cell's content would be entirely removed.
-					if ( !leaving && checkRemoveCellContents( node ) ) {
+					// We also handle all nested cells (#787).
+					if ( ( !leaving && checkRemoveCellContents( node ) ) ||
+						( leaving && checkNested( node ) ) ) {
 						editableRange = range.clone();
 						editableRange.selectNodeContents( node );
 						contentsRanges.push( editableRange );
@@ -2981,6 +2983,21 @@
 				CKEDITOR.dom.element.clearAllMarkers( database );
 
 				return contentsRanges;
+
+				// #787
+				function checkNested( node ) {
+					// Check only table cells, not every node inside table.
+					if ( !node.is( tableEditable ) ) {
+						return;
+					}
+
+					var startTable = startCell && startCell.getAscendant( 'table', true ),
+						endTable = endCell && endCell.getAscendant( 'table', true ),
+						nodeTable = node.getAscendant( 'table', true );
+
+					return ( startTable && startTable.contains( nodeTable ) ) ||
+						( endTable && endTable.contains( nodeTable ) );
+				}
 
 				function checkRemoveCellContents( node ) {
 					return (
