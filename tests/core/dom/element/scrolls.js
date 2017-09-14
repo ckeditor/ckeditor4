@@ -7,7 +7,7 @@
 		'test getDocumentScroll': function() {
 			var element = document.getElementById( 'small' );
 			var ckEl = new CKEDITOR.dom.element( element );
-			var doc, docEl, result;
+			var doc, docEl, result, resultOnlyTop;
 
 			// Reset position with native methods
 			doc = ckEl.getDocument();
@@ -19,6 +19,8 @@
 
 			// document no-scroll, element no-scroll
 			result = ckEl.getDocumentScroll();
+			resultOnlyTop = ckEl.getDocumentScroll( true );
+			assert.areSame( 0, resultOnlyTop );
 			assert.areSame( 0, result.scrollTop );
 			assert.areSame( 0, result.scrollLeft );
 
@@ -26,6 +28,8 @@
 			ckEl.$.scrollTop = 123;
 			ckEl.$.scrollLeft = 123;
 			result = ckEl.getDocumentScroll();
+			resultOnlyTop = ckEl.getDocumentScroll( true );
+			assert.areSame( 0, resultOnlyTop );
 			assert.areSame( 0, result.scrollTop );
 			assert.areSame( 0, result.scrollLeft );
 
@@ -33,6 +37,8 @@
 			docEl.scrollTop = 20;
 			docEl.scrollLeft = 20;
 			result = ckEl.getDocumentScroll();
+			resultOnlyTop = ckEl.getDocumentScroll( true );
+			assert.areSame( 20, resultOnlyTop );
 			assert.areSame( 20, result.scrollTop );
 			assert.areSame( 20, result.scrollLeft );
 
@@ -40,6 +46,8 @@
 			ckEl.$.scrollTop = 0;
 			ckEl.$.scrollLeft = 0;
 			result = ckEl.getDocumentScroll();
+			resultOnlyTop = ckEl.getDocumentScroll( true );
+			assert.areSame( 20, resultOnlyTop );
 			assert.areSame( 20, result.scrollTop );
 			assert.areSame( 20, result.scrollLeft );
 		},
@@ -47,7 +55,7 @@
 		'test getScroll': function() {
 			var element = document.getElementById( 'small' );
 			var ckEl = new CKEDITOR.dom.element( element );
-			var doc, docEl, result;
+			var doc, docEl, result, resultOnlyTop;
 
 			// Reset position with native methods
 			doc = ckEl.getDocument();
@@ -59,6 +67,8 @@
 
 			// document no-scroll, element no-scroll
 			result = ckEl.getScroll();
+			resultOnlyTop = ckEl.getScroll( true );
+			assert.areSame( 0, resultOnlyTop );
 			assert.areSame( 0, result.scrollTop );
 			assert.areSame( 0, result.scrollLeft );
 
@@ -66,6 +76,8 @@
 			ckEl.$.scrollTop = 321;
 			ckEl.$.scrollLeft = 321;
 			result = ckEl.getScroll();
+			resultOnlyTop = ckEl.getScroll( true );
+			assert.areSame( 321, resultOnlyTop );
 			assert.areSame( 321, result.scrollTop );
 			assert.areSame( 321, result.scrollLeft );
 
@@ -75,6 +87,8 @@
 			docEl.scrollTop = 20;
 			docEl.scrollLeft = 20;
 			result = ckEl.getScroll();
+			resultOnlyTop = ckEl.getScroll( true );
+			assert.areSame( 321, resultOnlyTop );
 			assert.areSame( 321, result.scrollTop );
 			assert.areSame( 321, result.scrollLeft );
 
@@ -82,6 +96,8 @@
 			ckEl.$.scrollTop = 0;
 			ckEl.$.scrollLeft = 0;
 			result = ckEl.getScroll();
+			resultOnlyTop = ckEl.getScroll( true );
+			assert.areSame( 0, resultOnlyTop );
 			assert.areSame( 0, result.scrollTop );
 			assert.areSame( 0, result.scrollLeft );
 		},
