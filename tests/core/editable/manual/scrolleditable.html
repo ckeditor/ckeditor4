@@ -1,0 +1,67 @@
+<pre id="values1" style="min-width:100px;min-height:50px;background-color:lightgreen;">
+</pre>
+<textarea id="classic">
+		<div style="width:1000px;height:1000px;background-color:grey;" ></div>
+</textarea>
+<button id="id1">Scroll classic left-down</button>
+<button id="id2">Scroll classic right-down</button>
+<button id="id3">Scroll classic left-up</button>
+<button id="id4">Scroll classic right-up</button>
+<hr />
+<pre id="values2" style="min-width:100px;min-height:50px;background-color:lightgreen;">
+	</pre>
+<div id="divarea">
+	<div style="width:1000px;height:1000px;background-color:grey;" ></div>
+</div>
+<button id="id5">Scroll diveditor left-down</button>
+<button id="id6">Scroll diveditor right-down</button>
+<button id="id7">Scroll diveditor left-up</button>
+<button id="id8">Scroll diveditor right-up</button>
+<script>
+	var classic = CKEDITOR.replace( 'classic', {
+		width: 300,
+		height: 200,
+		extraAllowedContent: 'em[id]'
+	} );
+	var divarea = CKEDITOR.replace( 'divarea', {
+		width: 300,
+		height: 200,
+		extraPlugins: 'divarea',
+		extraAllowedContent: 'em[id]'
+	} );
+
+	var id1 = document.getElementById( 'id1' );
+	var id2 = document.getElementById( 'id2' );
+	var id3 = document.getElementById( 'id3' );
+	var id4 = document.getElementById( 'id4' );
+	var id5 = document.getElementById( 'id5' );
+	var id6 = document.getElementById( 'id6' );
+	var id7 = document.getElementById( 'id7' );
+	var id8 = document.getElementById( 'id8' );
+	var values1 = document.getElementById( 'values1' );
+	var values2 = document.getElementById( 'values2' );
+
+	var scrl = function( top, left, editor ) {
+		return function() {
+			if ( editor.name == 'classic' ) {
+				val = values1;
+			} else {
+				val = values2;
+			}
+			var editable = editor.editable();
+			editable.setEditableScroll( top, left );
+			var scroll = editable.getEditableScroll();
+			val.innerHTML = '<p>Scroll Top: ' + scroll.scrollTop + '</p>' +
+				'<p>Scroll Left: ' + scroll.scrollLeft + '</p>';
+		}
+	}
+
+	id1.onclick = scrl( 1000, 0, classic );
+	id2.onclick = scrl( 1000, 1000, classic );
+	id3.onclick = scrl( 0, 0, classic );
+	id4.onclick = scrl( 0, 1000, classic );
+	id5.onclick = scrl( 1000, 0, divarea );
+	id6.onclick = scrl( 1000, 1000, divarea );
+	id7.onclick = scrl( 0, 0, divarea );
+	id8.onclick = scrl( 0, 1000, divarea );
+</script>
