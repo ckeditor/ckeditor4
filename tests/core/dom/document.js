@@ -82,14 +82,6 @@ bender.test( appendDomObjectTests(
 				'Create text node content doesn\'t match.' );
 		},
 
-// 		test_getByAddress1: function()
-// 		{
-// 			var doc = new CKEDITOR.dom.document( document );
-// 			var node = doc.getByAddress( [ 1, 1, 0, 1, 0, 0 ] );
-// 			assert.areSame( 'target', node.getText(),
-// 				'Addressing target doesn\'t match.' );
-// 		},
-
 		test_getElementsByTag: function() {
 			var nodeList = new CKEDITOR.dom.document( document ).getElementsByTag( 'span' ),
 				results = [];
@@ -142,6 +134,19 @@ bender.test( appendDomObjectTests(
 			assert.areSame( 1, div.find( 'video' ).count(), 'Second edge element' );
 
 			assert.areSame( $frag, CKEDITOR.document._getHtml5ShivFrag(), 'Document fragment is cached' );
+		},
+
+		// #910
+		'test getScrollingElement': function() {
+			// IE doesn't support `scrollingElement`
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
+			var doc = CKEDITOR.document;
+
+			assert.isTrue( doc.getScrollingElement().$.isEqualNode( document.scrollingElement ) );
+			assert.isTrue( doc.getScrollingElement().equals( new CKEDITOR.dom.element( document.scrollingElement ) ) );
 		}
 	}
 ) );
