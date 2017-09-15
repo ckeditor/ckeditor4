@@ -51,8 +51,8 @@ CKEDITOR.dialog.add( 'a11yFirstGettingStarted', function( editor ) {
     contents: [
       {
         id: 'tab1',
-        label: lang.helpFeatureLabel,
-        title: lang.helpFeatureTitle,
+        label: lang.gettingStartedLabel,
+        title: lang.gettingStartedTitle,
         expand: true,
         padding: 0,
         elements: [
