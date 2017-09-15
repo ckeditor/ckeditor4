@@ -78,7 +78,7 @@
 				// causes unexpected scroll. Store scrollTop value so it can be restored after focusing editor.
 				// Scroll only happens if the editor is focused for the first time. (https://dev.ckeditor.com/ticket/14825)
 				if ( CKEDITOR.env.edge && CKEDITOR.env.version > 14 && !this.hasFocus && this.getDocument().equals( CKEDITOR.document ) ) {
-					this.editor._.previousScrollTop = this.$.scrollTop;
+					this.editor._.previousScrollTop = this.getEditableScroll( true );
 				}
 
 				// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
@@ -90,9 +90,9 @@
 						// We have no control over exactly what happens when the native `focus` method is called,
 						// so save the scroll position and restore it later.
 						if ( CKEDITOR.env.chrome ) {
-							var scrollPos = this.$.scrollTop;
+							var scrollPos = this.getEditableScroll( true );
 							this.$.focus();
-							this.$.scrollTop = scrollPos;
+							this.setEditableScroll( scrollPos );
 						} else {
 							this.$.focus();
 						}
@@ -917,7 +917,7 @@
 				if ( CKEDITOR.env.webkit ) {
 					// [WebKit] Save scrollTop value so it can be used when restoring locked selection. (https://dev.ckeditor.com/ticket/14659)
 					this.on( 'scroll', function() {
-						editor._.previousScrollTop = editor.editable().$.scrollTop;
+						editor._.previousScrollTop = editor.editable().getEditableScroll( true );
 					}, null, null, -1 );
 				}
 
@@ -929,7 +929,7 @@
 						var editable = editor.editable();
 
 						if ( editor._.previousScrollTop != null && editable.getDocument().equals( CKEDITOR.document ) ) {
-							editable.$.scrollTop = editor._.previousScrollTop;
+							editable.setEditableScroll( editor._.previousScrollTop );
 							editor._.previousScrollTop = null;
 							this.removeListener( 'scroll', fixScrollOnFocus );
 						}
