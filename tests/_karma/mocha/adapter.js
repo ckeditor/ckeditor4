@@ -15,7 +15,7 @@
 		this._benderTestSuite = benderTestSuite;
 		this._benderTestNames = benderTestNames;
 		this._benderTestTags = benderTestTags;
-		this._htmlSandbox = null;
+		this._htmlWorkspace = null;
 		this._isWaiting = false;
 		this._isInTest = false;
 	}
@@ -70,7 +70,7 @@
 			tags = this._benderTestTags;
 
 		return function( done ) {
-			scope._createHtmlSandbox();
+			scope._createHtmlWorkspace();
 
 			if ( tags.test.fixture ) {
 				scope._appendFixture( tags.test.fixture.path );
@@ -136,7 +136,8 @@
 
 		function onDone() {
 			bender.setTestSuite( null );
-			scope._removeHtmlSandbox();
+			scope._clearFixtures();
+			scope._clearHtmlWorkspace();
 			doneFn();
 		}
 
@@ -217,22 +218,39 @@
 		}
 	};
 
-	// Creates HTML container in which fixtures are placed and also all editor instanced
-	// created by `bender.editorBot.create`.
-	MochaAdapter.prototype._createHtmlSandbox = function() {
-		this._htmlSandbox = document.createElement( 'div' );
-		this._htmlSandbox.setAttribute( 'id', 'html-container' );
-		window.document.body.appendChild( this._htmlSandbox );
+	// Creates HTML container in which all editor instances created by `bender.editorBot.create` are inserted.
+	MochaAdapter.prototype._createHtmlWorkspace = function() {
+		this._htmlWorkspace = document.createElement( 'div' );
+		this._htmlWorkspace.setAttribute( 'id', 'html-workspace' );
+		window.document.body.appendChild( this._htmlWorkspace );
 	};
 
-	MochaAdapter.prototype._removeHtmlSandbox = function() {
-		this._htmlSandbox.remove();
-		this._htmlSandbox = null;
+	MochaAdapter.prototype._clearHtmlWorkspace = function() {
+		this._htmlWorkspace.remove();
+		this._htmlWorkspace = null;
 	};
 
+	// All fixtures are placed directly in the `body` and after `#html-workspace` element. Fixtures needs to be placed
+	// directly in the body as in some tests elements path is checked (so the wrapper container
+	// will be additional element in this path, breaking the assertions).
 	MochaAdapter.prototype._appendFixture = function( path ) {
 		if ( window.__html__ && window.__html__[ path ] ) {
-			this._htmlSandbox.innerHTML = window.__html__[ path ];
+			window.document.body.insertAdjacentHTML( 'beforeend', window.__html__[ path ] );
+		}
+	};
+
+	// Removes all nodes placed after `#html-workspace` in the DOM (fixtures).
+	MochaAdapter.prototype._clearFixtures = function() {
+		var children = window.document.body.children,
+			childrenLength = children.length,
+			child;
+
+		for ( var i = childrenLength - 1; i >= 0; i-- ) {
+			child = children[ i ];
+			if ( child.id === 'html-workspace' ) {
+				break;
+			}
+			child.remove();
 		}
 	};
 
