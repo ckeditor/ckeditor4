@@ -174,17 +174,14 @@
 				listArray[ i ].indent += indentOffset;
 				// Make sure the newly created sublist get a brand-new element of the same type. (http://dev.ckeditor.com/ticket/5372)
 				if ( indentOffset > 0 ) {
-					var listRoot;
+					var listRoot = listArray[ i ].parent;
 
+					// Looking for previous list items which has the same indetion to copy its root tag.
 					for ( var j = i - 1; j >= 0; j-- ) {
 						if ( listArray[ j ].indent === indentOffset ) {
 							listRoot = listArray[ j ].parent;
 							break;
 						}
-					}
-
-					if ( listRoot === undefined ) {
-						listRoot = listArray[ i ].parent;
 					}
 
 					listArray[ i ].parent = new CKEDITOR.dom.element( listRoot.getName(), listRoot.getDocument() );
