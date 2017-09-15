@@ -63,7 +63,7 @@
       for ( var i = 0; i < headings.length; i++ ) {
         headingTag = headings[ i ];
         items[ headingTag ] = {
-          label: lang[ 'level_' + headingTag ],
+          label: this.getLevelLabel( headingTag, oneLevel1, lang ),
           headingId: headingTag,
           group: 'heading_levels',
           style: new CKEDITOR.style( { element: headingTag } ),
@@ -137,6 +137,11 @@
           return activeItems;
         }
       } );
+    },
+
+    getLevelLabel: function ( tag, flag, lang ) {
+      var label = lang['level_' + tag];
+      return ( tag === 'h1' ) && flag ? label + lang['level_suffix'] : label;
     },
 
     getHeadingConfig: function ( config ) {

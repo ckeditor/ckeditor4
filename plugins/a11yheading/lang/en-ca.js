@@ -3,16 +3,17 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'a11yheading', 'en-ca', {
-  label:      'Heading',
-  panelTitle: 'Select heading level',
-  level_h1:   'Level 1',
-  level_h2:   'Level 2',
-  level_h3:   'Level 3',
-  level_h4:   'Level 4',
-  level_h5:   'Level 5',
-  level_h6:   'Level 6',
-  remove:     'Normal text',
-  helpLabel:  'Help',
+  label:        'Heading',
+  panelTitle:   'Select heading level',
+  level_suffix: ' (Document title)',
+  level_h1:     'Level 1',
+  level_h2:     'Level 2',
+  level_h3:     'Level 3',
+  level_h4:     'Level 4',
+  level_h5:     'Level 5',
+  level_h6:     'Level 6',
+  remove:       'Normal text',
+  helpLabel:    'Help',
 
   helpFeatureLabel: 'Features',
   helpFeatureTitle: 'Heading Menu Features',
