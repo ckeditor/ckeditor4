@@ -16,6 +16,7 @@ Fixed Issues:
 * [#704](https://github.com/ckeditor/ckeditor-dev/issues/704): [Edge] Fixed: Using `Ctrl/Cmd + Z` breaks widgets structure.
 * [#591](https://github.com/ckeditor/ckeditor-dev/issues/591): Fixed: Column is inserted in a wrong order inside table if any cell has a vertical split.
 * [#787](https://github.com/ckeditor/ckeditor-dev/issues/787): Fixed: Using cut inside nested table does not cut selected content.
+* [#842](https://github.com/ckeditor/ckeditor-dev/issues/842): Fixed: List style not restored when toggling list indent level in [Indent List](http://ckeditor.com/addon/indentlist) plugin.
 
 ## CKEditor 4.7.3
 
