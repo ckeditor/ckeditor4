@@ -176,7 +176,8 @@
 				if ( indentOffset > 0 ) {
 					var listRoot = listArray[ i ].parent;
 
-					// Looking for previous list items which has the same indetion to copy its root tag.
+					// Find previous list item which has the same indention offset as the new indention offset
+					// of current item to copy its root tag (so the proper list-style-type is used) (#842).
 					for ( var j = i - 1; j >= 0; j-- ) {
 						if ( listArray[ j ].indent === indentOffset ) {
 							listRoot = listArray[ j ].parent;
