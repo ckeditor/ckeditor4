@@ -201,8 +201,8 @@
 					allowedContent: 'b'
 				} );
 
+				// We do not add testcommand as it's automatically added by `editor.addCommand` (#678).
 				editor.addFeature( editor.ui.items.testButton );
-				editor.addFeature( editor.getCommand( 'testCommand' ) );
 
 				var allowed = editor.filter.allowedContent;
 
@@ -213,11 +213,11 @@
 
 				assert.areSame( 'editorbot', allowed[ 1 ].featureName );
 
-				assert.areSame( 'testbutton', allowed[ 2 ].featureName );
-				assert.isTrue( CKEDITOR.tools.objectCompare( { a: true }, allowed[ 2 ].elements ) );
+				assert.areSame( 'testcommand', allowed[ 2 ].featureName );
+				assert.isTrue( CKEDITOR.tools.objectCompare( { b: true }, allowed[ 2 ].elements ) );
 
-				assert.areSame( 'testcommand', allowed[ 3 ].featureName );
-				assert.isTrue( CKEDITOR.tools.objectCompare( { b: true }, allowed[ 3 ].elements ) );
+				assert.areSame( 'testbutton', allowed[ 3 ].featureName );
+				assert.isTrue( CKEDITOR.tools.objectCompare( { a: true }, allowed[ 3 ].elements ) );
 			} );
 		},
 
