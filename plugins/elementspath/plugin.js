@@ -153,7 +153,7 @@
 				return true;
 			} );
 
-		editor.on( 'selectionChange', function() {
+		editor.on( 'selectionChange', function( evt ) {
 			var html = [],
 				elementsList = elementsPath.list = [],
 				namesList = [],
@@ -161,7 +161,7 @@
 				isContentEditable = true,
 
 				// Use elementPath to consider children of editable only (http://dev.ckeditor.com/ticket/11124).
-				elementsChain = editor.elementPath().elements,
+				elementsChain = evt.data.path.elements,
 				name;
 
 			// Starts iteration from body element, skipping html.
