@@ -771,6 +771,11 @@
 			if ( this.mode )
 				updateCommand( this, cmd );
 
+			// If there is no toolbar loaded, automatically add feature to the editor (#678).
+			if ( !this.plugins.toolbar ) {
+				this.addFeature( cmd );
+			}
+
 			return this.commands[ commandName ] = cmd;
 		},
 
