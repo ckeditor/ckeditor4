@@ -371,5 +371,41 @@ bender.test( {
 
 			assert.isTrue( bot.editor.execCommand( 'link' ) );
 		} );
+	},
+
+	// #678
+	'test addCommand without toolbar plugin invokes addFeature': function() {
+		bender.editorBot.create( {
+			name: 'test_editor_notoolbar2',
+			config: {
+				plugins: 'wysiwygarea'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				spy = sinon.spy( editor, 'addFeature' );
+
+			editor.addCommand( 'testCommand', {} );
+
+			assert.isTrue( spy.calledOnce );
+			spy.restore();
+		} );
+	},
+
+	// #678
+	'test addCommand with toolbar plugin does not invoke addFeature': function() {
+		bender.editorBot.create( {
+			name: 'test_editor_notoolbar3',
+			config: {
+				plugins: 'wysiwygarea,toolbar'
+			}
+		}, function( bot ) {
+			var editor = bot.editor,
+				spy = sinon.spy( editor, 'addFeature' );
+
+			editor.addCommand( 'testCommand', {} );
+
+			assert.areSame( 0, spy.callCount );
+			spy.restore();
+		} );
 	}
 } );
