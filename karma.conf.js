@@ -1,4 +1,4 @@
-// Karma configuration
+/* globals module, __dirname */
 
 'use strict';
 
@@ -19,9 +19,6 @@ module.exports = function( config ) {
 			{ pattern: '+(core|plugins|skins|lang)/**/*', included: false, served: true, watched: false, nocache: true },
 			{ pattern: '+(config|styles).js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: 'contents.css', included: false, served: true, watched: false, nocache: true },
-
-			// // Load helpers. - 'tests/**/_helpers/*.js'
-			// { pattern: 'tests/core/**/_helpers/*.js', included: true, served: true, watched: false, nocache: true },
 
 			// Load karma files.
 			'tests/_karma/init.js',

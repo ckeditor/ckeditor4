@@ -3,6 +3,8 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
+/* globals describe, before, beforeEach, afterEach, after, it */
+
 ( function( window, bender ) {
 
 	'use strict';
@@ -40,6 +42,7 @@
 			testNames = this._benderTestNames;
 
 		return function() {
+
 			describe( scope._benderTestTags.test.name, function() {
 
 				before( scope._getBefore() );
@@ -54,7 +57,7 @@
 					it( testNames[ i ], scope._getTestCase( ts[ testNames[ i ] ] ) );
 				}
 			} );
-		}
+		};
 	};
 
 	// When starting execution of new test suite:
@@ -94,7 +97,7 @@
 				}
 				done();
 			} );
-		}
+		};
 	};
 
 	// Before each test case:
@@ -106,7 +109,7 @@
 			if ( ts.setUp ) {
 				ts.setUp();
 			}
-		}
+		};
 	};
 
 	// After each test case:
@@ -118,7 +121,7 @@
 			if ( ts.tearDown ) {
 				ts.tearDown();
 			}
-		}
+		};
 	};
 
 	// After test suite:
@@ -175,7 +178,7 @@
 			} else {
 				onDone();
 			}
-		}
+		};
 	};
 
 	// Running each test case:
@@ -226,7 +229,7 @@
 				scope._isInTest = false;
 				doneFn();
 			}
-		}
+		};
 	};
 
 	MochaAdapter.prototype._markWorkspaceStart = function() {
