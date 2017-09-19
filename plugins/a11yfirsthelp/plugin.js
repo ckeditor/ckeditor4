@@ -36,6 +36,22 @@
       CKEDITOR.dialog.add( gettingStartedCmd, this.path + 'dialogs/getting-started.js' );
       editor.addCommand( gettingStartedCmd, new CKEDITOR.dialogCommand( gettingStartedCmd ) );
 
+      // Initialize Block Format Help menuitem
+      var blockFormatHelpCmd = 'blockFormatHelp';
+      CKEDITOR.dialog.add( blockFormatHelpCmd, this.path + 'dialogs/block-format-help.js' );
+      editor.addCommand( blockFormatHelpCmd, new CKEDITOR.dialogCommand( blockFormatHelpCmd ) );
+
+      // Initialize Inline Style Help menuitem
+      var inlineStyleHelpCmd = 'inlineStyleHelp';
+      CKEDITOR.dialog.add( inlineStyleHelpCmd, this.path + 'dialogs/inline-style-help.js' );
+      editor.addCommand( inlineStyleHelpCmd, new CKEDITOR.dialogCommand( inlineStyleHelpCmd ) );
+
+      // Initialize Link Help menuitem
+      var a11yFirstLinkHelpCmd = 'a11yFirstLinkHelp';
+      CKEDITOR.dialog.add( a11yFirstLinkHelpCmd, this.path + 'dialogs/link-help.js' );
+      editor.addCommand( a11yFirstLinkHelpCmd, new CKEDITOR.dialogCommand( a11yFirstLinkHelpCmd ) );
+
+
       // Register a11yfirsthelp command
       editor.addCommand( 'allyfirsthelp', {
         allowedContent: allowedContent,
@@ -52,6 +68,37 @@
           editor.execCommand('headingHelp');
         }
       };
+
+      // Add Block Format Help
+      items.a11yFirstBlockFormatHelpCmd = {
+        label: lang.blockFormatHelpLabel,
+        group: 'a11yfirsthelp_helps',
+        order: index++,
+        onClick: function() {
+          editor.execCommand(blockFormatHelpCmd);
+        }
+      };      
+
+      // Add Inline Style Help
+      items.a11yFirstInlineStyleHelpCmd = {
+        label: lang.inlineStyleHelpLabel,
+        group: 'a11yfirsthelp_helps',
+        order: index++,
+        onClick: function() {
+          editor.execCommand(inlineStyleHelpCmd);
+        }
+      };  
+
+      // Add Link Help
+      items.a11yFirstLinkHelpCmd = {
+        label: lang.linkHelpLabel,
+        group: 'a11yfirsthelp_helps',
+        order: index++,
+        onClick: function() {
+          editor.execCommand(a11yFirstLinkHelpCmd);
+        }
+      };  
+
 
       // Add Getting Started item
       items.a11yFirstHelpGettingStarted = {

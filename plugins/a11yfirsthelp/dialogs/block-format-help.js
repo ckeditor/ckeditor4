@@ -2,11 +2,11 @@
 * Copyright (c) 2017 University of Illinois - Jon Gunderson and Nicholas Hoyt. All rights reserved.
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-CKEDITOR.dialog.add( 'a11yFirstGettingStarted', function( editor ) {
+CKEDITOR.dialog.add( 'blockFormatHelp', function( editor ) {
   var lang = editor.lang.a11yfirsthelp;
 
   return {
-    title: lang.gettingStartedLabel,
+    title: lang.blockFormatHelpLabel,
     minWidth: 500,
     minHeight: 300,
     onShow: function(event) {
@@ -32,17 +32,11 @@ CKEDITOR.dialog.add( 'a11yFirstGettingStarted', function( editor ) {
 
       node = document.getElementById('a11yfirsthelp_getting_started_content');
 
-      html = h2(lang.gettingStarted1Heading);
-      html += p(lang.gettingStarted1Content);
+      html = h2(lang.blockFormatHelp1Heading);
+      html += p(lang.blockFormatHelp1Content);
 
-      html += h2(lang.gettingStarted2Heading);
-      html += list('ul', lang.gettingStarted2Content);
-
-      html += h2(lang.gettingStarted3Heading);
-      html += list('ul', lang.gettingStarted3Content);
-
-      html += h2(lang.gettingStarted4Heading);
-      html += list('ul', lang.gettingStarted4Content);
+      html += h2(lang.blockFormatHelp2Heading);
+      html += list('ul', lang.blockFormatHelp2Content);
 
       node.innerHTML = html;
 
@@ -51,8 +45,8 @@ CKEDITOR.dialog.add( 'a11yFirstGettingStarted', function( editor ) {
     contents: [
       {
         id: 'tab1',
-        label: lang.gettingStartedLabel,
-        title: lang.gettingStartedTitle,
+        label: lang.blockFormatHelpLabel,
+        title: lang.blockFormatHelpTitle,
         expand: true,
         padding: 0,
         elements: [
