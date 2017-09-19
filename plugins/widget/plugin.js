@@ -2394,6 +2394,7 @@
 				// and widget need to be focused on drag start (http://dev.ckeditor.com/ticket/12172#comment:10).
 				widget.focus();
 			}
+
 		} );
 
 		editor.on( 'drop', function( evt ) {
@@ -3226,6 +3227,11 @@
 	}
 
 	function onBlockWidgetDrag( evt ) {
+		// Allow to drag widget only with left mouse button (#711).
+		if ( CKEDITOR.tools.getMouseButton( evt ) !== CKEDITOR.MOUSE_BUTTON_LEFT ) {
+			return;
+		}
+
 		var finder = this.repository.finder,
 			locator = this.repository.locator,
 			liner = this.repository.liner,
@@ -3266,6 +3272,7 @@
 
 		// Fire drag start as it happens during the native D&D.
 		editor.fire( 'dragstart', { target: evt.sender } );
+
 
 		function onMouseUp() {
 			var l;

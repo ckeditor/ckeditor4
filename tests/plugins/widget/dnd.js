@@ -459,7 +459,8 @@
 				pasteCounter = sinon.spy(),
 				dragstartCounter = sinon.spy(),
 				dragendCounter = sinon.spy(),
-				dropCounter = sinon.spy();
+				dropCounter = sinon.spy(),
+				isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
 
 			editor.on( 'paste', pasteCounter );
 			editor.on( 'dragstart', dragstartCounter );
@@ -486,7 +487,11 @@
 					// Testing if widget is selected is meaningful only if it is not selected at the beginning. (http://dev.ckeditor.com/ticket/13129)
 					assert.isNull( editor.widgets.focused, 'widget not focused before mousedown' );
 
-					img.fire( 'mousedown' );
+					img.fire( 'mousedown', {
+						$: {
+							button: isIe8 ? 1 : 0
+						}
+					} );
 
 					// Create dummy line and pretend it's visible to cheat drop listener
 					// making if feel that there's a place for the widget to be dropped.
@@ -605,6 +610,48 @@
 				finder.greedySearch();
 
 				assertRelations( editor, finder, '|<div data-widget="testwidget4" id="w4"><div class="n1"><p>x</p></div></div>|' );
+			} );
+		},
+
+		// #711
+		'test if only left mouse button triggers dragstart': function() {
+			var editor = this.editor,
+				bot = this.editorBot,
+				isIe8 = CKEDITOR.env.ie && CKEDITOR.env.version < 9;
+
+			function testButton( button, isOn, callback ) {
+				bot.setData( '<p id="a">foo</p><div data-widget="testwidget" id="w1">bar</div>', function() {
+					var widget = getWidgetById( editor, 'w1' ),
+						img = widget.dragHandlerContainer.findOne( 'img' );
+
+					editor.focus();
+					img.fire( 'mousedown', {
+						$: {
+							button: button
+						}
+					} );
+
+					setTimeout( function() {
+						resume( function() {
+							assert[ isOn ? 'isTrue' : 'isFalse' ]( editor.editable().hasClass( 'cke_widget_dragging' ) );
+
+							if ( callback ) {
+								callback();
+							}
+						} );
+					}, 0 );
+
+					wait();
+				} );
+			}
+
+			// Left mouse button – should activate dragging.
+			testButton( isIe8 ? 1 : 0, true, function() {
+				// Middle mouse button – shouldn't activate dragging.
+				testButton( isIe8 ? 4 : 1, false, function() {
+					// Right mouse button - shouldn't activate dragging.
+					testButton( 2, false );
+				} );
 			} );
 		}
 	} );
