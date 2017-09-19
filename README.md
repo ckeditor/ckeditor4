@@ -51,7 +51,7 @@ The built versions checksums aren't identical because the source code contains t
 #### TAO Skin
 - If you need to modify TAO skin, you'll find the SASS source files in `tao/views/js/lib/ckeditor/skins/tao/scss`. They are not in this repo. 
 - To compile, use the grunt task `grunt sass:ckeditor`
-- Once compiled, copy the css files from `tao/views/js/lib/ckeditor/skins/tao/css` into the `skins/tao/` folder of this repository. This will avoid accidental override of the skin when moving a new CK build into TAO.
+- Once compiled, copy the css files from `tao/views/js/lib/ckeditor/skins/tao/*` into the `skins/tao/` folder of this repository. This will avoid accidental override of the skin when moving a new CK build into TAO.
   
 ## Development Code
 
