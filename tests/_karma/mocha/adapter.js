@@ -13,10 +13,11 @@
 		arrayTools = tools.array;
 
 
-	function MochaAdapter( benderTestSuite, benderTestNames, benderTestTags ) {
+	function MochaAdapter( benderTestSuite, benderTestNames, benderTestTags, editorsConfig ) {
 		this._benderTestSuite = benderTestSuite;
 		this._benderTestNames = benderTestNames;
 		this._benderTestTags = benderTestTags;
+		this._benderEditorsConfig = editorsConfig;
 		this._workspaceStartMark = null;
 		this._editorsWrapper = null;
 		this._isWaiting = false;
@@ -68,6 +69,7 @@
 	// - Reset some CKEDITOR settings.
 	// - Configure editor plugins config based on bender tags.
 	// - Assign current testSuite to bender (it is used further in the execution).
+	// - Assign editor/editors configso setupEditors can access it.
 	// - Setup all editor instances.
 	// - Run original "init" function.
 	MochaAdapter.prototype._getBefore = function() {
@@ -90,6 +92,9 @@
 			bender.configurePlugins( tags.ckeditor || {} );
 
 			bender.setTestSuite( scope );
+
+			bender.editor = scope._benderEditorsConfig.editor;
+			bender.editors = scope._benderEditorsConfig.editors;
 
 			bender.setupEditors( ts, function() {
 				if ( ts.init ) {

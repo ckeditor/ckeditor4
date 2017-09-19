@@ -12,7 +12,19 @@
 			} );
 
 		if ( testKeys.length ) {
-			var mochaTestSuite = ( new MochaAdapter( tests, testKeys, window.test_tags ) ).generateTestSuite();
+
+			var editorsConfig = {};
+
+			if ( bender.editor ) {
+				editorsConfig.editor = bender.editor;
+				delete bender.editor;
+			}
+			if ( bender.editors ) {
+				editorsConfig.editors = bender.editors;
+				delete bender.editors;
+			}
+
+			var mochaTestSuite = ( new MochaAdapter( tests, testKeys, window.test_tags, editorsConfig ) ).generateTestSuite();
 			mochaTestSuite();
 		}
 	};
