@@ -18,7 +18,7 @@ The following code has been added:
 
 ## `dialog.css`
 
-```
+```css
 /* Adding a border around dialog boxes */
 .cke_dialog
 {
