@@ -19,6 +19,14 @@
 					return element.name == 'span';
 				}
 			} );
+
+			this.editor.widgets.add( 'divwidget', {
+				upcast: function( element ) {
+					return element.name == 'div';
+				}
+			} );
+
+			this.editor.widgets.add( 'smallwidget' );
 		},
 
 		'test trailing space': function() {
@@ -74,6 +82,48 @@
 			} );
 
 			editor.setData( '<p>lorem<span><strong> ipsum&nbsp;dolor</strong> sit </span>amet</p>' );
+			wait();
+		},
+
+		'test block widget': function() {
+			var editor = this.editor,
+				listener;
+
+			listener = editor.on( 'dataReady', function() {
+				listener.removeListener();
+
+				resume( function() {
+					assert.areSame(
+						'lorem ipsum dolor sit',
+						editor.editable().getElementsByTag( 'div' ).$[ 1 ].innerHTML.toLowerCase(), 'innerHTML', 'innerHtml string' );
+					assert.areSame(
+						'<div>lorem ipsum dolor sit</div>',
+						editor.editable().getData(), 'editor data' );
+				} );
+			} );
+
+			editor.setData( '<div> lorem ipsum dolor sit </div>' );
+			wait();
+		},
+
+		'test widget without upcast method': function() {
+			var editor = this.editor,
+				listener;
+
+			listener = editor.on( 'dataReady', function() {
+				listener.removeListener();
+
+				resume( function() {
+					assert.areSame(
+						'&nbsp;lorem ipsum dolor sit&nbsp;',
+						editor.editable().getElementsByTag( 'small' ).$[ 0 ].innerHTML.toLowerCase(), 'innerHTML', 'innerHtml string' );
+					assert.areSame(
+						'<p>lorem<small data-widget="smallwidget"> lorem ipsum dolor sit </small>ipsum</p>',
+						editor.editable().getData(), 'editor data' );
+				} );
+			} );
+
+			editor.setData( '<p>lorem<small data-widget="smallwidget"> lorem ipsum dolor sit </small>ipsum</p>' );
 			wait();
 		}
 	} );

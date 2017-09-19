@@ -2078,7 +2078,7 @@
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function preserveSpaces( el ) {
-		if ( typeof el.attributes != 'undefined' && el.attributes[ 'data-cke-widget-data' ] ) {
+		if ( typeof el.attributes != 'undefined' && el.attributes[ 'data-widget' ] ) {
 			var firstTextNode = getFirstTextNode( el ),
 				lastTextNode = getLastTextNode( el ),
 				spacesReplaced = false;
@@ -3929,7 +3929,7 @@
  * The function to be used to downcast this widget or
  * a name of the downcast option from the {@link #downcasts} object.
  *
- * The downcast funciton will be executed in the {@link CKEDITOR.plugins.widget} context
+ * The downcast function will be executed in the {@link CKEDITOR.plugins.widget} context
  * and with `widgetElement` ({@link CKEDITOR.htmlParser.element}) argument which is
  * the widget's main element.
  *
