@@ -30,7 +30,7 @@ CKEDITOR.dialog.add( 'inlineStyleHelp', function( editor ) {
 
       var node, html;
 
-      node = document.getElementById('a11yfirsthelp_getting_started_content');
+      node = document.getElementById('a11yfirsthelp_inline_style_content');
 
       html = h2(lang.inlineStyleHelp1Heading);
       html += p(lang.inlineStyleHelp1Content);
@@ -52,7 +52,7 @@ CKEDITOR.dialog.add( 'inlineStyleHelp', function( editor ) {
         elements: [
           {
             type: 'html',
-            html: '<div><div id="a11yfirsthelp_getting_started_content" style="height: 300px; overflow: auto">Tab 1</div></div>'
+            html: '<div><div id="a11yfirsthelp_inline_style_content" style="height: 300px; overflow: auto">Tab 1</div></div>'
           }
         ]
       }
