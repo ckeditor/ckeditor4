@@ -147,6 +147,19 @@ bender.test( appendDomObjectTests(
 
 			assert.isTrue( doc.getScrollingElement().$.isEqualNode( document.scrollingElement ) );
 			assert.isTrue( doc.getScrollingElement().equals( new CKEDITOR.dom.element( document.scrollingElement ) ) );
+		},
+
+		// #910
+		'test scrollingElement is not present': function() {
+			if ( !CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
+
+			var doc = CKEDITOR.document;
+
+			assert.isTrue( doc.getScrollingElement().$.isEqualNode( document.documentElement || document.body ) );
+			assert.isTrue( doc.getScrollingElement().equals( new CKEDITOR.dom.element( document.documentElement || document.body ) ) );
 		}
+
 	}
 ) );
