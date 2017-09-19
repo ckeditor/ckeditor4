@@ -15,7 +15,8 @@
 		this._benderTestSuite = benderTestSuite;
 		this._benderTestNames = benderTestNames;
 		this._benderTestTags = benderTestTags;
-		this._htmlWorkspace = null;
+		this._workspaceStartMark = null;
+		this._editorsWrapper = null;
 		this._isWaiting = false;
 		this._isInTest = false;
 	}
@@ -57,6 +58,8 @@
 	};
 
 	// When starting execution of new test suite:
+	// - Mark workspace start with a comment. All tests specific DOM elements will ba added after it and removed
+	//	 after test suite is finished.
 	// - Create HTML container which will hold fixtures and editor instances.
 	// - Append HTML fixture to `htmlSandbox` (if any).
 	// - Reset some CKEDITOR settings.
@@ -70,11 +73,14 @@
 			tags = this._benderTestTags;
 
 		return function( done ) {
-			scope._createHtmlWorkspace();
+
+			scope._markWorkspaceStart();
 
 			if ( tags.test.fixture ) {
 				scope._appendFixture( tags.test.fixture.path );
 			}
+
+			scope._createEditorsWrapper();
 
 			bender.resetCKEditorSettings();
 
@@ -125,9 +131,15 @@
 			destroyedInstances = 0,
 			doneFn = null;
 
+		function onInstanceLoaded( evt ) {
+			evt.editor.destroy();
+		}
+
 		function onInstanceDestroyed( evt ) {
 			destroyedInstances++;
-			evt.editor.removeAllListeners();
+			if ( evt && evt.editor ) {
+				evt.editor.removeAllListeners();
+			}
 			if ( destroyedInstances == allInstances.length ) {
 				CKEDITOR.removeListener( onInstanceDestroyed );
 				onDone();
@@ -137,7 +149,7 @@
 		function onDone() {
 			bender.setTestSuite( null );
 			scope._clearFixtures();
-			scope._clearHtmlWorkspace();
+			scope._clearEditorsWrapper();
 			doneFn();
 		}
 
@@ -151,8 +163,7 @@
 
 				arrayTools.forEach( allInstances, function( instanceName ) {
 					if ( CKEDITOR.instances[ instanceName ].status === 'unloaded' ) {
-						CKEDITOR.remove( CKEDITOR.instances[ instanceName ] );
-						onInstanceDestroyed();
+						CKEDITOR.instances[ instanceName ].on( 'loaded', onInstanceLoaded );
 
 					} else if ( CKEDITOR.instances[ instanceName ].status !== 'destroyed' ) {
 						CKEDITOR.instances[ instanceName ].destroy();
@@ -218,28 +229,35 @@
 		}
 	};
 
+	MochaAdapter.prototype._markWorkspaceStart = function() {
+		this._workspaceStartMark = window.document.createComment( 'Workspace Start. All html below is defined per test and removed after every test suite.' );
+		window.document.body.appendChild( this._workspaceStartMark );
+	};
+
 	// Creates HTML container in which all editor instances created by `bender.editorBot.create` are inserted.
-	MochaAdapter.prototype._createHtmlWorkspace = function() {
-		this._htmlWorkspace = document.createElement( 'div' );
-		this._htmlWorkspace.setAttribute( 'id', 'html-workspace' );
-		window.document.body.appendChild( this._htmlWorkspace );
+	MochaAdapter.prototype._createEditorsWrapper = function() {
+		this._editorsWrapper = document.createElement( 'div' );
+		this._editorsWrapper.setAttribute( 'id', 'editors-wrapper' );
+		window.document.body.appendChild( this._editorsWrapper );
 	};
 
-	MochaAdapter.prototype._clearHtmlWorkspace = function() {
-		this._htmlWorkspace.remove();
-		this._htmlWorkspace = null;
+	MochaAdapter.prototype._clearEditorsWrapper = function() {
+		this._editorsWrapper.remove();
+		this._editorsWrapper = null;
 	};
 
-	// All fixtures are placed directly in the `body` and after `#html-workspace` element. Fixtures needs to be placed
-	// directly in the body as in some tests elements path is checked (so the wrapper container
-	// will be additional element in this path, breaking the assertions).
+	// All fixtures are placed directly in the `body` and after `this._workspaceStartMark` element. Fixtures needs
+	// to be placed directly in the body as in some tests elements paths are checked (so the wrapper container
+	// will be additional element in this path, breaking the assertions). Also some tests uses generic selectors like
+	// `getElementsByTagName` so any element with the sam name before fixtures may break the test, so that is the reason
+	// fixtures are placed rigt after script tags.
 	MochaAdapter.prototype._appendFixture = function( path ) {
 		if ( window.__html__ && window.__html__[ path ] ) {
 			window.document.body.insertAdjacentHTML( 'beforeend', window.__html__[ path ] );
 		}
 	};
 
-	// Removes all nodes placed after `#html-workspace` in the DOM (fixtures).
+	// Removes all nodes placed after `this._workspaceStartMark` in the DOM.
 	MochaAdapter.prototype._clearFixtures = function() {
 		var children = window.document.body.children,
 			childrenLength = children.length,
@@ -247,7 +265,8 @@
 
 		for ( var i = childrenLength - 1; i >= 0; i-- ) {
 			child = children[ i ];
-			if ( child.id === 'html-workspace' ) {
+			if ( child === this._workspaceStartMark ) {
+				child.remove();
 				break;
 			}
 			child.remove();

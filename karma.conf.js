@@ -20,6 +20,9 @@ module.exports = function( config ) {
 			{ pattern: '+(config|styles).js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: 'contents.css', included: false, served: true, watched: false, nocache: true },
 
+			// // Load helpers. - 'tests/**/_helpers/*.js'
+			// { pattern: 'tests/core/**/_helpers/*.js', included: true, served: true, watched: false, nocache: true },
+
 			// Load karma files.
 			'tests/_karma/init.js',
 			'tests/_karma/**/*.js',
@@ -30,20 +33,14 @@ module.exports = function( config ) {
 			// Load helpers. - 'tests/**/_helpers/*.js'
 			'tests/core/**/_helpers/*.js',
 
-			// This test does not wait for CKEditor to fully initialize.
-			// 'tests/core/ckeditor/*.html',
-			// 'tests/core/ckeditor/ckeditor.js',
-			// Working fine.
+			// Tests.
+			'tests/core/ckeditor/ckeditor.js',
 			'tests/core/tools/**/*.js',
 			'tests/core/command/**/*.js',
 
-			'tests/core/dom/comment.js',
-			'tests/core/dom/document.js',
-			'tests/core/dom/documentfragment.js',
-			'tests/core/dom/elementpath.js',
-			'tests/core/dom/iterator.js',
-			'tests/core/dom/node.js',
-			'tests/core/dom/nodeList.js',
+			'tests/core/dom/*.js',
+			'tests/core/dom/element/*.js',
+			'tests/core/dom/elementpath/*.js',
 
 			'tests/core/creators/setmode.js',
 			'tests/core/creators/themedui.js',

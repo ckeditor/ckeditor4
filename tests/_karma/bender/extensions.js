@@ -139,33 +139,6 @@
 					} );
 				}
 			}
-
-			// // async:init stage 3: call original async/async:init and finish async:init (testCase.callback).
-			// function callback() {
-			// 	debugger;
-			// 	if ( bender._init ) {
-			// 		var init = bender._init;
-            //
-			// 		delete bender._init;
-            //
-			// 		init.call( bender.testCase );
-			// 	}
-            //
-			// 	if ( bender._asyncInit ) {
-			// 		var asyncInit = bender._asyncInit;
-            //
-			// 		delete bender._asyncInit;
-            //
-			// 		asyncInit.call( bender.testCase );
-			// 	} else {
-			// 		bender.testCase.callback();
-			// 	}
-			// }
-            //
-			// // after setting up editors run tests
-			// function startTests() {
-			// 	callbackFn();
-			// }
 		}
 	};
 
