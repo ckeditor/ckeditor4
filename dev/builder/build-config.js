@@ -49,7 +49,7 @@ var CKBUILDER_CONFIG = {
 		filebrowser: 0,
 		find: 0,
 		flash: 0,
-		floatingspace: 0,
+		floatingspace: 1,
 		font: 1,
 		format: 1,
 		forms: 0,
