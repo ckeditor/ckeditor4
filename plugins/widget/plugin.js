@@ -2070,6 +2070,13 @@
 		}
 	}
 
+	// Preserves white spaces in widget element.
+	//
+	// This function is replacing white spaces with &nbsp;
+	// at the beginning of the first text node
+	// and at the end of the last text node.
+	//
+	// @param {CKEDITOR.htmlParser.element} el
 	function preserveSpaces( el ) {
 		if ( typeof el.attributes != 'undefined' && el.attributes[ 'data-cke-widget-data' ] ) {
 			var firstTextNode = getFirstTextNode( el ),
@@ -2096,12 +2103,19 @@
 		}
 	}
 
+	// It returns first text node from the element.
+	//
+	// @param {CKEDITOR.htmlParser.element} el
 	function getFirstTextNode( el ) {
 		return el.find( function( node ) {
 			return node.type === 3;
 		}, true ).shift();
 	}
 
+
+	// It returns last text node from the element.
+	//
+	// @param {CKEDITOR.htmlParser.element} el
 	function getLastTextNode( el ) {
 		return el.find( function( node ) {
 			return node.type === 3;
