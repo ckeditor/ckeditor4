@@ -68,11 +68,12 @@
 					var dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
 							evt.data.dataTransfer.getData( 'text/html', true ) : null,
 						regex = /<img.+?data-cke-realelement.+?>/g,
-						dataValue = evt.data.dataValue;
+						dataValue = evt.data.dataValue,
+						matchedDataValue = dataValue.match( regex );
 
-					if ( dataTransferHtml && dataValue.match( regex ) ) {
-						for ( var i = 0; i < dataValue.match( regex ).length; i++ ) {
-							dataValue = dataValue.replace( dataValue.match( regex )[ i ], dataTransferHtml.match( regex )[ i ] );
+					if ( dataTransferHtml && matchedDataValue ) {
+						for ( var i = 0; i < matchedDataValue.length; i++ ) {
+							dataValue = dataValue.replace( matchedDataValue[ i ], dataTransferHtml.match( regex )[ i ] );
 						}
 
 						evt.data.dataValue = dataValue;
