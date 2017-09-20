@@ -14,3 +14,14 @@ The following code has been added:
   top: .05em;
 }
 ```
+
+
+## `dialog.css`
+
+```css
+/* Adding a border around dialog boxes */
+.cke_dialog
+{
+    border: 1px solid #d1d1d1;
+}
+```
