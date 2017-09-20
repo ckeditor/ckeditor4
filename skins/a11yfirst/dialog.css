@@ -1155,9 +1155,9 @@ a.cke_dialog_ui_button.cke_dialog_image_browse
 	padding: 6px;
 }
 
-/* A11yfirst overrides of monolisa skin container of the dialog. */
+/* The following are A11yFirst modifications */
 
-/* Adding a border around dialog boxes */
+/* Add border to dialog box */
 .cke_dialog
 {
 	border: 1px solid #d1d1d1;
