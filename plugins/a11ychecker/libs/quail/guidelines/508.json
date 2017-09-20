@@ -1,0 +1,52 @@
+{
+  "guidelines": {
+    "a": {
+      "title": "A text equivalent for every non-text element shall be provided (e.g., via 'alt', 'longdesc', or in element content)."
+    },
+    "b": {
+      "title": "Equivalent alternatives for any multimedia presentation shall be synchronized with the presentation."
+    },
+    "c": {
+      "title": "Web pages shall be designed so that all information conveyed with color is also available without color, for example from context or markup."
+    },
+    "d": {
+      "title": "Documents shall be organized so they are readable without requiring an associated style sheet."
+    },
+    "e": {
+      "title": "Redundant text links shall be provided for each active region of a server-side image map."
+    },
+    "f": {
+      "title": "Client-side image maps shall be provided instead of server-side image maps except where the regions cannot be defined with an available geometric shape."
+    },
+    "g": {
+      "title": "Row and column headers shall be identified for data tables."
+    },
+    "h": {
+      "title": "Markup shall be used to associate data cells and header cells for data tables that have two or more logical levels of row or column headers."
+    },
+    "i": {
+      "title": "Frames shall be titled with text that facilitates frame identification and navigation."
+    },
+    "j": {
+      "title": "Pages shall be designed to avoid causing the screen to flicker with a frequency greater than 2 Hz and lower than 55 Hz."
+    },
+    "k": {
+      "title": "A text-only page, with equivalent information or functionality, shall be provided to make a web site comply with the provisions of this part, when compliance cannot be accomplished in any other way. The content of the text-only page shall be updated whenever the primary page changes."
+    },
+    "l": {
+      "title": "When pages utilize scripting languages to display content, or to create interface elements, the information provided by the script shall be identified with functional text that can be read by assistive technology."
+    },
+    "m": {
+      "title": "When a web page requires that an applet, plug-in or other application be present on the client system to interpret page content, the page must provide a link to a plug-in or applet that complies with §1194.21(a) through (l)."
+    },
+    "n": {
+      "title": "When electronic forms are designed to be completed on-line, the form shall allow people using assistive technology to access the information, field elements, and functionality required for completion and submission of the form, including all directions and cues."
+    },
+    "o": {
+      "title": "A method shall be provided that permits users to skip repetitive navigation links."
+    },
+    "p": {
+      "title": "When a timed response is required, the user shall be alerted and given sufficient time to indicate more time is required."
+    }
+  }
+}
