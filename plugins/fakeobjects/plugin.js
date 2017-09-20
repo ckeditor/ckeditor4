@@ -60,6 +60,25 @@
 			// Allow image with all styles and classes plus src, alt and title attributes.
 			// We need them when fakeobject is pasted.
 			editor.filter.allow( 'img[!data-cke-realelement,src,alt,title](*){*}', 'fakeobjects' );
+
+			// Instert fake element from external data transfer (#638).
+			editor.on( 'paste', function( evt ) {
+				// External paste and pasteFilter exists and filtering isn't disabled.
+				if ( evt.data.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !evt.data.dontFilter ) {
+					var dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+							evt.data.dataTransfer.getData( 'text/html', true ) : null,
+						regex = /<img.+?data-cke-realelement.+?>/g,
+						dataValue = evt.data.dataValue;
+
+					if ( dataTransferHtml && dataValue.match( regex ) ) {
+						for ( var i = 0; i < dataValue.match( regex ).length; i++ ) {
+							dataValue = dataValue.replace( dataValue.match( regex )[ i ], dataTransferHtml.match( regex )[ i ] );
+						}
+
+						evt.data.dataValue = dataValue;
+					}
+				}
+			} );
 		},
 
 		afterInit: function( editor ) {
