@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,dialog,div */
+/* bender-tags: editor,dialog,div */
 /* bender-ckeditor-plugins: dialog,toolbar,button,div,table,list */
 
 ( function() {
@@ -34,7 +34,7 @@
 			} );
 		},
 
-		// #13585
+		// http://dev.ckeditor.com/ticket/13585
 		'test create div from selection from 2 adjacent divs': function() {
 			var bot = this.editorBot;
 
@@ -48,7 +48,7 @@
 			} );
 		},
 
-		// #13585
+		// http://dev.ckeditor.com/ticket/13585
 		'test create nested divs from selection from 2 adjacent divs': function() {
 			var bot = this.editorBot;
 

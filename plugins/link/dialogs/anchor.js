@@ -18,6 +18,21 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 		} ), 'cke_anchor', 'anchor' );
 	}
 
+
+	function getSelectedAnchor( selection ) {
+		var range = selection.getRanges()[ 0 ],
+			element = selection.getSelectedElement();
+
+		// In case of table cell selection, we want to shrink selection from td to a element.
+		range.shrink( CKEDITOR.SHRINK_ELEMENT );
+		element = range.getEnclosedNode();
+
+		if ( element && element.type === CKEDITOR.NODE_ELEMENT &&
+			( element.data( 'cke-real-element-type' ) === 'anchor' || element.is( 'a' ) ) ) {
+			return element;
+		}
+	}
+
 	return {
 		title: editor.lang.link.anchor.title,
 		minWidth: 300,
@@ -35,9 +50,10 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 					var newFake = createFakeAnchor( editor, attributes );
 					newFake.replace( this._.selectedElement );
 
-					// Selecting fake element for IE. (#11377)
-					if ( CKEDITOR.env.ie )
+					// Selecting fake element for IE. (http://dev.ckeditor.com/ticket/11377)
+					if ( CKEDITOR.env.ie ) {
 						editor.getSelection().selectElement( newFake );
+					}
 				} else {
 					this._.selectedElement.setAttributes( attributes );
 				}
@@ -56,7 +72,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 					// Apply style.
 					var style = new CKEDITOR.style( { element: 'a', attributes: attributes } );
 					style.type = CKEDITOR.STYLE_INLINE;
-					editor.applyStyle( style );
+					style.applyToRange( range );
 				}
 			}
 		},
@@ -67,7 +83,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 
 		onShow: function() {
 			var sel = editor.getSelection(),
-				fullySelected = sel.getSelectedElement(),
+				fullySelected = getSelectedAnchor( sel ),
 				fakeSelected = fullySelected && fullySelected.data( 'cke-realelement' ),
 				linkElement = fakeSelected ?
 					CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, fullySelected ) :
@@ -77,8 +93,9 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 				loadElements.call( this, linkElement );
 				!fakeSelected && sel.selectElement( linkElement );
 
-				if ( fullySelected )
+				if ( fullySelected ) {
 					this._.selectedElement = fullySelected;
+				}
 			}
 
 			this.getContentElement( 'info', 'txtName' ).focus();

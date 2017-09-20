@@ -26,7 +26,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 				// We don't want the widget system to finalize widget insertion (it happens with priority 20).
 				evt.stop();
 
-				// Indicate visually that waiting for the response (#13213).
+				// Indicate visually that waiting for the response (http://dev.ckeditor.com/ticket/13213).
 				that.setState( CKEDITOR.DIALOG_STATE_BUSY );
 
 				var url = that.getValueOf( 'info', 'url' );
@@ -63,7 +63,7 @@ CKEDITOR.dialog.add( 'embedBase', function( editor ) {
 			} );
 
 			function unlock() {
-				// Visual waiting indicator is no longer needed (#13213).
+				// Visual waiting indicator is no longer needed (http://dev.ckeditor.com/ticket/13213).
 				that.setState( CKEDITOR.DIALOG_STATE_IDLE );
 				loadContentRequest = null;
 			}

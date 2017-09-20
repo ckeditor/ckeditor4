@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'ko', {
 		F0F8FF: '앨리스 블루',
 		E6E6FA: '라벤더',
 		FFF: '흰색',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': '진한 청록색',
+		'2ECC71': '에메랄드',
+		'3498DB': '밝은 파랑',
+		'9B59B6': '자수정',
+		'4E5F70': '회청색',
+		'F1C40F': '선명한 노랑',
+		'16A085': '다크 시안',
+		'27AE60': '다크 에메랄드',
+		'2980B9': '진한 파랑',
+		'8E44AD': '다크 바이올렛',
+		'2C3E50': '탁한 파랑',
+		'F39C12': '주황',
+		'E67E22': '당근',
+		'E74C3C': '창백한 빨강',
+		'ECF0F1': '밝은 은색',
+		'95A5A6': '밝은 회청록',
+		'DDD': '밝은 회색',
+		'D35400': '호박',
+		'C0392B': '진한 빨강',
+		'BDC3C7': '은색',
+		'7F8C8D': '회청록',
+		'999': '암회색'
 	},
 	more: '색상 선택...',
 	panelTitle: '색상',

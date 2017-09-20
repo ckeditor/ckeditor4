@@ -14,6 +14,6 @@ CKEDITOR.plugins.setLang( 'div', 'ja', {
 	languageCodeInputLabel: ' 言語コード',
 	remove: 'Divコンテナを削除',
 	styleSelectLabel: 'スタイル',
-	title: 'Divコンテナ',
-	toolbar: 'Divコンテナ'
+	title: 'Divコンテナを作成',
+	toolbar: 'Divコンテナを作成'
 } );

@@ -62,6 +62,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'stylescombo,' +
 		'tab,' +
 		'table,' +
+		'tableselection,' +
 		'tabletools,' +
 		'templates,' +
 		'toolbar,' +

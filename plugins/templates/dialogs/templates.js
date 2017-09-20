@@ -65,7 +65,7 @@
 
 			if ( isReplace ) {
 				editor.fire( 'saveSnapshot' );
-				// Everything should happen after the document is loaded (#4073).
+				// Everything should happen after the document is loaded (http://dev.ckeditor.com/ticket/4073).
 				editor.setData( html, function() {
 					dialog.hide();
 

@@ -9,7 +9,7 @@
 	CKEDITOR.plugins.add( 'pastefromword', {
 		requires: 'clipboard',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'pastefromword,pastefromword-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -24,16 +24,16 @@
 				async: true,
 
 				/**
-				 * Paste from Word command. It will determine it's pasted content from Word automatically if possible.
+				 * The Paste from Word command. It will determine its pasted content from Word automatically if possible.
 				 *
-				 * At the time of writing it was working correctly only on Internet Explorer browsers, due to its
+				 * At the time of writing it was working correctly only in Internet Explorer browsers, due to their
 				 * `paste` support in `document.execCommand`.
 				 *
 				 * @private
-				 * @param {CKEDITOR.editor} editor Instance of editor where the command is being executed.
-				 * @param {Object} [data] Options object.
+				 * @param {CKEDITOR.editor} editor An instance of the editor where the command is being executed.
+				 * @param {Object} [data] The options object.
 				 * @param {Boolean/String} [data.notification=true] Content for a notification shown after an unsuccessful
-				 * paste attempt. If `false` notification will not be displayed. This parameter was added in 4.7.0.
+				 * paste attempt. If `false`, the notification will not be displayed. This parameter was added in 4.7.0.
 				 * @member CKEDITOR.editor.commands.pastefromword
 				 */
 				exec: function( editor, data ) {
@@ -66,9 +66,11 @@
 					// dataValue should be used.
 					mswordHtml = dataTransferHtml || data.dataValue,
 					pfwEvtData = { dataValue: mswordHtml },
-					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/;
+					officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
+					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
+					isOfficeContent = officeMetaRegexp.test( mswordHtml ) || wordRegexp.test( mswordHtml );
 
-				if ( !mswordHtml || !( forceFromWord || wordRegexp.test( mswordHtml ) ) ) {
+				if ( !mswordHtml || !( forceFromWord || isOfficeContent ) ) {
 					return;
 				}
 
@@ -77,7 +79,7 @@
 					return;
 				}
 
-				// Do not apply paste filter to data filtered by the Word filter (#13093).
+				// Do not apply paste filter to data filtered by the Word filter (http://dev.ckeditor.com/ticket/13093).
 				data.dontFilter = true;
 
 				// If filter rules aren't loaded then cancel 'paste' event,

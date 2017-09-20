@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'km', {
 			{
 			name: 'ជំនួយ​ពី​ភាព​ងាយស្រួល',
 			legend: 'ជួយ ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}', // MISSING
+			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}

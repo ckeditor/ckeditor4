@@ -1,4 +1,4 @@
-@bender-tags: 12729, tc, 4.5.2
+@bender-tags: trac12729, bug, 4.5.2
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, htmlwriter, list, link, basicstyles, sourcearea, undo, elementspath
 

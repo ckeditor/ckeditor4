@@ -5,7 +5,7 @@
 
 /**
  * Represents a list of {@link CKEDITOR.dom.node} objects.
- * It's a wrapper for native nodes list.
+ * It is a wrapper for a native nodes list.
  *
  *		var nodeList = CKEDITOR.document.getBody().getChildren();
  *		alert( nodeList.count() ); // number [0;N]
@@ -20,7 +20,7 @@ CKEDITOR.dom.nodeList = function( nativeList ) {
 
 CKEDITOR.dom.nodeList.prototype = {
 	/**
-	 * Get count of nodes in this list.
+	 * Gets the count of nodes in this list.
 	 *
 	 * @returns {Number}
 	 */
@@ -29,7 +29,7 @@ CKEDITOR.dom.nodeList.prototype = {
 	},
 
 	/**
-	 * Get node from the list.
+	 * Gets the node from the list.
 	 *
 	 * @returns {CKEDITOR.dom.node}
 	 */
@@ -39,5 +39,16 @@ CKEDITOR.dom.nodeList.prototype = {
 
 		var $node = this.$[ index ];
 		return $node ? new CKEDITOR.dom.node( $node ) : null;
+	},
+
+	/**
+	 * Returns a node list as an array.
+	 *
+	 * @returns {CKEDITOR.dom.node[]}
+	 */
+	toArray: function() {
+		return CKEDITOR.tools.array.map( this.$, function( nativeEl ) {
+			return new CKEDITOR.dom.node( nativeEl );
+		} );
 	}
 };

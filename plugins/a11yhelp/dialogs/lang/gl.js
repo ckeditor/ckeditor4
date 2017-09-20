@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 			{
 			name: 'Editor de diálogo',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Dentro do diálogo, prema TAB para navegar cara os seguintes elementos de diálogo, prema MAIÚS+TAB para moverse cara os anteriores elementos de diálogo, prema INTRO para enviar o diálogo, prema ESC para cancelar o diálogo. Cando o diálogo ten múltiples lapelas, a lista de lapelas pode cinguirse con ALT+F10 ou con TAB como parte da orde de lapelas do diálogo. Coa lapela en foco, pode moverse cara a seguinte ou a anterior lapela coas FRECHAS ESQUERDA e DEREICHA respectivamente.' 
 		},
 
 			{
@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'gl', {
 			{
 			name: 'Axuda da accesibilidade',
 			legend: 'Prema ${a11yHelp}'
+		},
+			{
+			name: 'Pegar como texto simple',
+			legend: 'Prema ${pastetext}',
+			legendEdge: 'Prema ${pastetext}, seguido de ${paste}'
 		}
 		]
 	}

@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'fr', {
 			{
 			name: ' Aide sur l\'accessibilité',
 			legend: 'Appuyer sur ${a11yHelp}'
+		},
+			{
+			name: 'Coller comme texte sans mise en forme',
+			legend: 'Appuyer sur ${pastetext}',
+			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}

@@ -20,106 +20,106 @@ CKEDITOR.plugins.setLang( 'specialchar', 'hr', {
 	sect: 'Znak odjeljka',
 	uml: 'Prijeglasi',
 	copy: 'Copyright znak',
-	ordf: 'Feminine ordinal indicator', // MISSING
+	ordf: 'Ženska redna oznaka',
 	laquo: 'Lijevi dvostruki uglati navodnik',
 	not: 'Not znak',
 	reg: 'Registered znak',
-	macr: 'Macron', // MISSING
+	macr: 'Crta iznad',
 	deg: 'Stupanj znak',
-	sup2: 'Superscript two', // MISSING
-	sup3: 'Superscript three', // MISSING
-	acute: 'Acute accent', // MISSING
+	sup2: 'Eksponent 2',
+	sup3: 'Eksponent tri',
+	acute: 'Akcent',
 	micro: 'Mikro znak',
-	para: 'Pilcrow sign', // MISSING
+	para: 'Znak paragrafa',
 	middot: 'Srednja točka',
-	cedil: 'Cedilla', // MISSING
-	sup1: 'Superscript one', // MISSING
-	ordm: 'Masculine ordinal indicator', // MISSING
+	cedil: 'Cedilla',
+	sup1: 'Eksponent 1',
+	ordm: 'Muška redna oznaka',
 	raquo: 'Desni dvostruku uglati navodnik',
-	frac14: 'Vulgar fraction one quarter', // MISSING
-	frac12: 'Vulgar fraction one half', // MISSING
-	frac34: 'Vulgar fraction three quarters', // MISSING
+	frac14: 'Četvrtina',
+	frac12: 'Polovina',
+	frac34: 'Tri četvrtine',
 	iquest: 'Naopaki upitnik',
 	Agrave: 'Veliko latinsko slovo A s akcentom',
 	Aacute: 'Latinično veliko slovo A sa oštrim naglaskom',
-	Acirc: 'Latin capital letter A with circumflex', // MISSING
-	Atilde: 'Latin capital letter A with tilde', // MISSING
-	Auml: 'Latin capital letter A with diaeresis', // MISSING
-	Aring: 'Latin capital letter A with ring above', // MISSING
-	AElig: 'Latin capital letter Æ', // MISSING
-	Ccedil: 'Latin capital letter C with cedilla', // MISSING
-	Egrave: 'Latin capital letter E with grave accent', // MISSING
-	Eacute: 'Latin capital letter E with acute accent', // MISSING
-	Ecirc: 'Latin capital letter E with circumflex', // MISSING
-	Euml: 'Latin capital letter E with diaeresis', // MISSING
-	Igrave: 'Latin capital letter I with grave accent', // MISSING
-	Iacute: 'Latin capital letter I with acute accent', // MISSING
-	Icirc: 'Latin capital letter I with circumflex', // MISSING
-	Iuml: 'Latin capital letter I with diaeresis', // MISSING
-	ETH: 'Latin capital letter Eth', // MISSING
-	Ntilde: 'Latin capital letter N with tilde', // MISSING
-	Ograve: 'Latin capital letter O with grave accent', // MISSING
-	Oacute: 'Latin capital letter O with acute accent', // MISSING
-	Ocirc: 'Latin capital letter O with circumflex', // MISSING
-	Otilde: 'Latin capital letter O with tilde', // MISSING
-	Ouml: 'Latin capital letter O with diaeresis', // MISSING
-	times: 'Multiplication sign', // MISSING
-	Oslash: 'Latin capital letter O with stroke', // MISSING
-	Ugrave: 'Latin capital letter U with grave accent', // MISSING
-	Uacute: 'Latin capital letter U with acute accent', // MISSING
-	Ucirc: 'Latin capital letter U with circumflex', // MISSING
-	Uuml: 'Latin capital letter U with diaeresis', // MISSING
-	Yacute: 'Latin capital letter Y with acute accent', // MISSING
-	THORN: 'Latin capital letter Thorn', // MISSING
-	szlig: 'Latin small letter sharp s', // MISSING
-	agrave: 'Latin small letter a with grave accent', // MISSING
-	aacute: 'Latin small letter a with acute accent', // MISSING
-	acirc: 'Latin small letter a with circumflex', // MISSING
-	atilde: 'Latin small letter a with tilde', // MISSING
-	auml: 'Latin small letter a with diaeresis', // MISSING
-	aring: 'Latin small letter a with ring above', // MISSING
-	aelig: 'Latin small letter æ', // MISSING
-	ccedil: 'Latin small letter c with cedilla', // MISSING
-	egrave: 'Latin small letter e with grave accent', // MISSING
-	eacute: 'Latin small letter e with acute accent', // MISSING
-	ecirc: 'Latin small letter e with circumflex', // MISSING
-	euml: 'Latin small letter e with diaeresis', // MISSING
-	igrave: 'Latin small letter i with grave accent', // MISSING
-	iacute: 'Latin small letter i with acute accent', // MISSING
-	icirc: 'Latin small letter i with circumflex', // MISSING
-	iuml: 'Latin small letter i with diaeresis', // MISSING
-	eth: 'Latin small letter eth', // MISSING
-	ntilde: 'Latin small letter n with tilde', // MISSING
-	ograve: 'Latin small letter o with grave accent', // MISSING
-	oacute: 'Latin small letter o with acute accent', // MISSING
-	ocirc: 'Latin small letter o with circumflex', // MISSING
-	otilde: 'Latin small letter o with tilde', // MISSING
-	ouml: 'Latin small letter o with diaeresis', // MISSING
-	divide: 'Division sign', // MISSING
-	oslash: 'Latin small letter o with stroke', // MISSING
-	ugrave: 'Latin small letter u with grave accent', // MISSING
-	uacute: 'Latin small letter u with acute accent', // MISSING
-	ucirc: 'Latin small letter u with circumflex', // MISSING
-	uuml: 'Latin small letter u with diaeresis', // MISSING
-	yacute: 'Latin small letter y with acute accent', // MISSING
-	thorn: 'Latin small letter thorn', // MISSING
-	yuml: 'Latin small letter y with diaeresis', // MISSING
-	OElig: 'Latin capital ligature OE', // MISSING
-	oelig: 'Latin small ligature oe', // MISSING
-	'372': 'Latin capital letter W with circumflex', // MISSING
-	'374': 'Latin capital letter Y with circumflex', // MISSING
-	'373': 'Latin small letter w with circumflex', // MISSING
-	'375': 'Latin small letter y with circumflex', // MISSING
-	sbquo: 'Single low-9 quotation mark', // MISSING
-	'8219': 'Single high-reversed-9 quotation mark', // MISSING
-	bdquo: 'Double low-9 quotation mark', // MISSING
-	hellip: 'Horizontal ellipsis', // MISSING
-	trade: 'Trade mark sign', // MISSING
-	'9658': 'Black right-pointing pointer', // MISSING
-	bull: 'Bullet', // MISSING
-	rarr: 'Rightwards arrow', // MISSING
-	rArr: 'Rightwards double arrow', // MISSING
-	hArr: 'Left right double arrow', // MISSING
-	diams: 'Black diamond suit', // MISSING
-	asymp: 'Almost equal to' // MISSING
+	Acirc: 'Latinično veliko slovo A sa circumflex',
+	Atilde: 'Latinično veliko slovo A sa tildom',
+	Auml: 'Latinično veliko slovo A sa diaeresis',
+	Aring: 'Latinično veliko slovo A sa gornjim prstenom',
+	AElig: 'Latinično veliko slovo Æ',
+	Ccedil: 'Veliko latinično slovo C sa cedilla',
+	Egrave: 'Veliko latinično slovo E sa akcentom',
+	Eacute: 'Veliko latinično slovo E sa  akcentom',
+	Ecirc: 'Veliko latinično slovo E sa circumflex',
+	Euml: 'Veliko latinično slovo E sa diaresis',
+	Igrave: 'Veliko latinično slovo I sa akcentom',
+	Iacute: 'Veliko latinično slovo I sa akcentom',
+	Icirc: 'Veliko latinično slovo I sa circumflex',
+	Iuml: 'Veliko latinično slovo I sa diaresis',
+	ETH: 'Veliko latinično slovo Eth',
+	Ntilde: 'Veliko latinično slovo N sa tildom',
+	Ograve: 'Veliko latinično slovo O sa akcentom',
+	Oacute: 'Veliko latinično slovo O sa akcentom',
+	Ocirc: 'Veliko latinično slovo O sa circumflex',
+	Otilde: 'Veliko latinično slovo O sa tildom',
+	Ouml: 'Veliko latinično slovo O sa diaresis',
+	times: 'Znak množenja',
+	Oslash: 'Veliko latinično slovo O sa crtom',
+	Ugrave: 'Veliko latinično slovo U sa akcentom',
+	Uacute: 'Veliko latinično slovo U sa akcentom',
+	Ucirc: 'Veliko latinično slovo U sa circumflex',
+	Uuml: 'Veliko latinično slovo U sa diaresis',
+	Yacute: 'Veliko latinično slovo Y sa akcentom',
+	THORN: 'Veliko latinično slovo Trn',
+	szlig: 'Malo latinično slovo oštro s',
+	agrave: 'Malo latinično slovo a sa akcentom',
+	aacute: 'Malo latinično slovo sa akcentom',
+	acirc: 'Malo latinično slovo a sa circumflex',
+	atilde: 'Malo latinično slovo a sa tildom',
+	auml: 'Malo latinično slovo a sa diaresis',
+	aring: 'Malo latinično slovo a sa gornjim prstenom',
+	aelig: 'Malo latinično slovo æ',
+	ccedil: 'Malo latinično slovo e sa cedilla',
+	egrave: 'Malo latinično slovo e sa akcentom',
+	eacute: 'Malo latinično slovo e sa akcentom',
+	ecirc: 'Malo latinično slovo e sa circumflex',
+	euml: 'Malo latinično slovo e sa diaresis',
+	igrave: 'Malo latinično slovo i sa akcentom',
+	iacute: 'Malo latinično slovo i sa akcentom',
+	icirc: 'Malo latinično slovo i sa circumflex',
+	iuml: 'Malo latinično slovo i sa diaresis',
+	eth: 'Malo latinično slovo eth',
+	ntilde: 'Malo latinično slovo n sa tildom',
+	ograve: 'Malo latinično slovo o sa akcentom',
+	oacute: 'Malo latinično slovo o sa akcentom',
+	ocirc: 'Malo latinično slovo o sa circumflex',
+	otilde: 'Malo latinično slovo o sa tildom',
+	ouml: 'Malo latinično slovo o sa diaresis',
+	divide: 'Znak dijeljenja',
+	oslash: 'Malo latinično slovo o sa crtom',
+	ugrave: 'Malo latinično slovo s akcentom',
+	uacute: 'Malo latinično slovo u sa akcentom',
+	ucirc: 'Malo latinično slovo sa circumflex',
+	uuml: 'Malo latinično slovo u sa diaresis',
+	yacute: 'Malo latinično slovo y s akcentom',
+	thorn: 'Malo latinično slovo Trn',
+	yuml: 'Malo latinično slovo y sa diaresis',
+	OElig: 'Veliko latinično slovo OE',
+	oelig: 'Malo latinično slovoe OE',
+	'372': 'Veliko latinično slovo W sa circumflex',
+	'374': 'Veliko latinično slovo Y sa circumflex',
+	'373': 'Malo latinično slovo w sa circumflex',
+	'375': 'Malo latinično slovo y sa circumflex',
+	sbquo: 'Jednostruki donji navodnik',
+	'8219': 'Jednostruki gornji navodnik',
+	bdquo: 'Dvostruki donji navodnik',
+	hellip: 'Tri točkice',
+	trade: 'TM znak',
+	'9658': 'Crni desni pokazivač',
+	bull: 'Bullet',
+	rarr: 'Desna strelica',
+	rArr: 'Desna dvostruka strelica',
+	hArr: 'Dvostruka strelica',
+	diams: 'Crni dijamant',
+	asymp: 'Približno'
 } );

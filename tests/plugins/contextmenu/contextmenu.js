@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: clipboard,contextmenu */
 
 ( function() {
@@ -95,7 +95,7 @@
 						nestedEditable = doc.getById( 'b' ),
 						preventDefaultCalled = 0;
 
-					// #13910
+					// http://dev.ckeditor.com/ticket/13910
 					editor.focus();
 
 					editable.fire( 'contextmenu', new CKEDITOR.dom.event( {

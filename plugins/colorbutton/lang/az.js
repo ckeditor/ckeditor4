@@ -24,7 +24,7 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'az', {
 		'808080': 'Boz',
 		F00: 'Qırmızı',
 		FF8C00: 'Tünd narıncı',
-		FFD700: 'Qızıl',
+		FFD700: 'Qızılı',
 		'008000': 'Yaşıl',
 		'0FF': 'Mavi',
 		'00F': 'Göy',
@@ -41,33 +41,33 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'az', {
 		FFF0F5: 'Yasəmən',
 		FAEBD7: 'Kağız',
 		FFFFE0: 'Acıq sarı',
-		F0FFF0: 'Bal',
+		F0FFF0: 'Yemişi',
 		F0FFFF: 'Gömgöy',
 		F0F8FF: 'Solğun göy',
 		E6E6FA: 'Lavanda',
 		FFF: 'Ağ',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'Güclü mavi',
+		'2ECC71': 'Zümrüd',
+		'3498DB': 'Parlaq göy',
+		'9B59B6': 'Ametist',
+		'4E5F70': 'Bozlu göy',
+		'F1C40F': 'Sapsarı',
+		'16A085': 'Tünd mavi',
+		'27AE60': 'Tünd zümrüd',
+		'2980B9': 'Güclü göy',
+		'8E44AD': 'Tünd bənövşəyi',
+		'2C3E50': 'Rəngsiz göy',
+		'F39C12': 'Narıncı',
+		'E67E22': 'Yerkökülü',
+		'E74C3C': 'Solğun qırmızı',
+		'ECF0F1': 'Parlaq gümüşü',
+		'95A5A6': 'Acıq bozlu mavi',
+		'DDD': 'Acıq boz',
+		'D35400': 'Balqabaqlı',
+		'C0392B': 'Güclü qırmızı',
+		'BDC3C7': 'Gümüşü',
+		'7F8C8D': 'Bozlu mavi',
+		'999': 'Tünd boz'
 	},
 	more: 'Digər rənglər...',
 	panelTitle: 'Rənglər',

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: toolbar,wysiwygarea,entities,clipboard,pastetext */
 /* bender-include: _helpers/pasting.js */
 /* global assertPasteEvent, simulatePasteCommand */
@@ -49,7 +49,7 @@
 		} );
 	}
 
-	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603;
+	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS;
 
 	bender.test( {
 		setUp: function() {
@@ -243,6 +243,12 @@
 				wasPaste = false,
 				wasAfterPaste = false;
 
+			function callback() {
+				assert.isFalse( wasPaste, 'paste callback shouldn\'t be called' );
+				assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
+				assert.areEqual( editor.getData(), '<p>abc</p>' );
+			}
+
 			editor.once( 'paste', function() {
 				wasPaste = true;
 			} );
@@ -251,12 +257,15 @@
 			} );
 
 			bender.tools.setHtmlWithSelection( editor, '<p>[abc]</p>' );
-			editor.execCommand( 'paste', '' );
-			tc.wait( function() {
-				assert.isFalse( wasPaste, 'paste callback shouldn\'t be called' );
-				assert.isFalse( wasAfterPaste, 'afterPaste callback shouldn\'t be called' );
-				assert.areEqual( editor.getData(), '<p>abc</p>' );
-			}, 50 );
+
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+				// Calling editor.execCommand( 'paste' ) directly in IE triggers the security dialog.
+				// The simulatePasteCommand wrapper should be used.
+				simulatePasteCommand( editor, { name: 'paste' }, { dataValue: '' }, callback, 50 );
+			} else {
+				editor.execCommand( 'paste', '' );
+				tc.wait( callback, 50 );
+			}
 		},
 
 		'pasting empty string (native version)': function() {
@@ -892,18 +901,18 @@
 				}, { type: 'text', dataValue: 'A<p>B</p><p>C</p><p>D</p><p>E</p>F' }, 'transparent divs' );
 		},
 
-		'html textification 3 - ticket #8834': function() {
+		'html textification 3 - ticket http://dev.ckeditor.com/ticket/8834': function() {
 			// Mso classes will be stripped by pastefromword filters, and we need some styling element,
 			// because otherwise this will be handled as htmlified text.
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<p><strong>Line</strong> 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
 				{ type: 'text', dataValue: '<p>Line 1<br />Line 2</p><p>Line 3</p><p>Line 4</p>' },
-				'tt #8834' );
+				'tt http://dev.ckeditor.com/ticket/8834' );
 
 			assertPasteEvent( this.editor,
 				{ type: 'text', dataValue: '<p><strong>Line</strong> 1<br>Line 2</p><p>Line 3</p><p>Line 4</p>' },
 				{ type: 'text', dataValue: '<p>Line 1<br />Line 2</p><p>Line 3</p><p>Line 4</p>' },
-				'tt #8834' );
+				'tt http://dev.ckeditor.com/ticket/8834' );
 		},
 
 		'html textification 4': function() {
@@ -1449,16 +1458,16 @@
 				} );
 		},
 
-		// #9675 and #9534.
+		// http://dev.ckeditor.com/ticket/9675 and http://dev.ckeditor.com/ticket/9534.
 		'strip editable when about to paste the entire inline editor': function() {
-			// #9534: FF and Webkits in inline editor based on header element.
+			// http://dev.ckeditor.com/ticket/9534: FF and Webkits in inline editor based on header element.
 			assertPasteEvent( this.editor, { dataValue: '<h1 class="cke_editable">Foo<br>Bar</h1>' },
 				{ dataValue: 'Foo<br>Bar' }, 'stripped .cke_editable' );
 
 			assertPasteEvent( this.editor, { dataValue: '<div class="cke_contents">Bar<br></div>' },
 				{ dataValue: 'Bar' }, 'stripped .cke_contents & bogus br removed' );
 
-			// #9675: FF36 copies divarea.
+			// http://dev.ckeditor.com/ticket/9675: FF36 copies divarea.
 			assertPasteEvent( this.editor,
 				{ dataValue: '<div id="cke_1_contents" class="cke_contents"><div class="cke_editable" contenteditable="true"><p>aaa</p></div></div>' },
 				{ dataValue: '<p>aaa</p>' }, 'stripped .cke_editable > .cke_contents' );

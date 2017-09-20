@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: mathjax,dialog,toolbar,preview,clipboard,basicstyles,sourcearea */
 /* global widgetTestsTools */
 
@@ -105,7 +105,7 @@
 				assert.areSame( 1, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be only one widget.' );
 			},
 
-			// #11777
+			// http://dev.ckeditor.com/ticket/11777
 			'test &amp; encoding': function() {
 				var editor = this.editors.classic,
 					bot = this.editorBots.classic;
@@ -131,7 +131,7 @@
 				} );
 			},
 
-			// #11777
+			// http://dev.ckeditor.com/ticket/11777
 			'test &amp;amp; encoding': function() {
 				var editor = this.editors.classic,
 					bot = this.editorBots.classic;

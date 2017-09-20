@@ -35,7 +35,7 @@ CKEDITOR.htmlParser.element = function( name, attributes ) {
 	 */
 	this.children = [];
 
-	// Reveal the real semantic of our internal custom tag name (#6639),
+	// Reveal the real semantic of our internal custom tag name (http://dev.ckeditor.com/ticket/6639),
 	// when resolving whether it's block like.
 	var realName = name || '',
 		prefixed = realName.match( /^cke:(.*)/ );
@@ -543,8 +543,8 @@ CKEDITOR.htmlParser.cssStyle = function() {
 
 			if ( !ctx.nonEditable && this.attributes.contenteditable == 'false' )
 				changes.push( 'nonEditable', true );
-			// A context to be given nestedEditable must be nonEditable first (by inheritance) (#11372, #11698).
-			// Special case: #11504 - filter starts on <body contenteditable=true>,
+			// A context to be given nestedEditable must be nonEditable first (by inheritance) (http://dev.ckeditor.com/ticket/11372, http://dev.ckeditor.com/ticket/11698).
+			// Special case: http://dev.ckeditor.com/ticket/11504 - filter starts on <body contenteditable=true>,
 			// so ctx.nonEditable has not been yet set to true.
 			else if ( ctx.nonEditable && !ctx.nestedEditable && this.attributes.contenteditable == 'true' )
 				changes.push( 'nestedEditable', true );

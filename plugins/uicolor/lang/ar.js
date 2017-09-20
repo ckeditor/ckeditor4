@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'ar', {
 	title: 'منتقي الألوان',
-	preview: 'معاينة مباشرة',
-	config: 'قص السطر إلى الملف config.js',
-	predefined: 'مجموعات ألوان معرفة مسبقا'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'مجموعات ألوان معرفة مسبقا',
+	config: 'قص السطر إلى الملف config.js'
 } );

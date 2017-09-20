@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'ja', {
 	anchorName: 'アンカー名',
 	charset: 'リンク先のcharset',
 	cssClasses: 'スタイルシートクラス',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: '強制的にダウンロード',
+	displayText: '表示文字',
 	emailAddress: 'E-Mail アドレス',
 	emailBody: '本文',
 	emailSubject: '件名',

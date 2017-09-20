@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'fr', {
 	anchorName: 'Par nom d\'ancre',
 	charset: 'Encodage de la ressource liée',
 	cssClasses: 'Classes de style',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Forcer le téléchargement',
+	displayText: 'Afficher le texte',
 	emailAddress: 'Adresse électronique',
 	emailBody: 'Corps du message',
 	emailSubject: 'Sujet du message',

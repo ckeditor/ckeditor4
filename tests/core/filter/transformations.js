@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-remove-plugins: basicstyles,image,table,showborders,tabletools,fakeobjects,flash,forms,iframe,link,pagebreak */
 
 ( function() {
@@ -400,6 +400,34 @@
 				assertToHtml( editor, '<h4 align="left">A</h4>',		'<h4 style="float:left">A</h4>',	'h4 2' );
 				assertToHtml( editor, '<h4 align="left" style="float:right">A</h4>',
 					'<h4 style="float:right">A</h4>',														'h4 3' );
+			} );
+		},
+
+		'test margin transformations': function() {
+			bender.editorBot.create( {
+				name: 'test_margin_transformations',
+				config: {
+					allowedContent: 'h1{margin-left,margin-top}'
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.filter.addTransformations( [
+					[ 'h1: splitMarginShorthand' ]
+				] );
+
+				assertToHtml( editor, '<h1 style="margin:10px">A</h1>',
+					'<h1 style="margin-left:10px; margin-top:10px">A</h1>',
+					'margin shortcut 1 member' );
+				assertToHtml( editor, '<h1 style="margin:20px 10px">A</h1>',
+					'<h1 style="margin-left:10px; margin-top:20px">A</h1>',
+					'margin shortcut 2 members' );
+				assertToHtml( editor, '<h1 style="margin:1px 2px 3px">A</h1>',
+					'<h1 style="margin-left:2px; margin-top:1px">A</h1>',
+					'margin shortcut 3 members' );
+				assertToHtml( editor, '<h1 style="margin:1px 2px 3px 4px">A</h1>',
+					'<h1 style="margin-left:4px; margin-top:1px">A</h1>',
+					'margin shortcut 4 members' );
 			} );
 		}
 	} );

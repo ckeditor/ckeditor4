@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,jquery */
+/* bender-tags: editor,jquery */
 /* bender-ckeditor-adapters: jquery */
 /* bender-ckeditor-plugins: wysiwygarea,save,toolbar */
 /* global $ */

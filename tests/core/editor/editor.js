@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 CKEDITOR.replaceClass = 'ckeditor';
 bender.editor = true;

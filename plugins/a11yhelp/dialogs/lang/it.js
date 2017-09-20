@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'it', {
 			{
 			name: ' Aiuto Accessibilità',
 			legend: 'Premi ${a11yHelp}'
+		},
+			{
+			name: 'Incolla come testo semplice',
+			legend: 'Premi ${pastetext}',
+			legendEdge: 'Premi ${pastetext}, seguito da ${paste}'
 		}
 		]
 	}

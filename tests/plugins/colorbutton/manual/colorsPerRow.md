@@ -1,4 +1,4 @@
-@bender-tags: 16733, tc, 4.6.2, config
+@bender-tags: trac16733, bug, 4.6.2, config
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, floatingspace
 

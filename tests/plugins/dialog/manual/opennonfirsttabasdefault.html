@@ -1,0 +1,48 @@
+<textarea name="" id="editor" cols="30" rows="10">
+	hello world
+</textarea>
+<button id="press">Open Dialog</button>
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+
+	CKEDITOR.once( 'instanceLoaded', function() {
+		CKEDITOR.dialog.add( 'testDialog', function() {
+			return {
+				title: 'Test dialog',
+				contents: [
+					{
+						id: 'tab1',
+						label: 'Tab one',
+						elements: [
+							{
+								type: 'html',
+								id: 'field11',
+								html: 'foo'
+							}
+						]
+					},
+					{
+						id: 'tab2',
+						label: 'Tab two',
+						elements: [
+							{
+								type: 'html',
+								id: 'field21',
+								html: 'bar'
+							}
+						]
+					}
+				]
+			}
+		} );
+
+		editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog', {
+			tabId: 'tab2'
+		} ) );
+
+	} );
+
+	document.getElementById( 'press' ).onclick = function() {
+		editor.execCommand( 'testDialog' );
+	};
+</script>

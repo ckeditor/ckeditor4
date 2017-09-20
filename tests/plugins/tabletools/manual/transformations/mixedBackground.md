@@ -1,6 +1,6 @@
-@bender-tags: 4.7.0, tc, 16971
+@bender-tags: 4.7.0, bug, trac16971
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, tabletools, sourcearea
+@bender-ckeditor-plugins: wysiwygarea, toolbar, tableselection, sourcearea
 
 1. Open source area using "Source" button.
 1. Insert following HTML:

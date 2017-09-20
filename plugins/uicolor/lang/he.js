@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'he', {
 	title: 'בחירת צבע ממשק משתמש',
-	preview: 'תצוגה מקדימה',
-	config: 'הדבק את הטקסט הבא לתוך הקובץ config.js',
-	predefined: 'קבוצות צבעים מוגדרות מראש'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'קבוצות צבעים מוגדרות מראש',
+	config: 'הדבק את הטקסט הבא לתוך הקובץ config.js'
 } );

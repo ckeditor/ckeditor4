@@ -47,9 +47,9 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cs', {
 		E6E6FA: 'Levandulová',
 		FFF: 'Bílá',
 		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
+		'2ECC71': 'Emeraldová',
+		'3498DB': 'Jasně modrá',
+		'9B59B6': 'Ametystová',
 		'4E5F70': 'Grayish Blue', // MISSING
 		'F1C40F': 'Vivid Yellow', // MISSING
 		'16A085': 'Dark Cyan', // MISSING
@@ -57,15 +57,15 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'cs', {
 		'2980B9': 'Strong Blue', // MISSING
 		'8E44AD': 'Dark Violet', // MISSING
 		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
+		'F39C12': 'Oranžová',
+		'E67E22': 'Mrkvová',
 		'E74C3C': 'Pale Red', // MISSING
 		'ECF0F1': 'Bright Silver', // MISSING
 		'95A5A6': 'Light Grayish Cyan', // MISSING
 		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
+		'D35400': 'Dýňová',
 		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
+		'BDC3C7': 'Stříbrná',
 		'7F8C8D': 'Grayish Cyan', // MISSING
 		'999': 'Dark Gray' // MISSING
 	},

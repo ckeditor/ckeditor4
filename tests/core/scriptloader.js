@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* global testVar, testVar1, testVar2, testVar3 */
 
 var tests = {

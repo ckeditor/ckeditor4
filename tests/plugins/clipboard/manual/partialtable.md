@@ -1,4 +1,4 @@
-@bender-tags: clipboard, tc, 4.5.7, 13884
+@bender-tags: clipboard, bug, 4.5.7, trac13884
 @bender-ui: collapsed
 @bender-ckeditor-plugins: clipboard, wysiwygarea, toolbar, sourcearea, sourcedialog, floatingspace, elementspath, table
 

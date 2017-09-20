@@ -136,7 +136,7 @@ if ( !CKEDITOR.env ) {
 				var domain = document.domain,
 					hostname = window.location.hostname;
 
-				return domain != hostname && domain != ( '[' + hostname + ']' ); // IPv6 IP support (#5434)
+				return domain != hostname && domain != ( '[' + hostname + ']' ); // IPv6 IP support (http://dev.ckeditor.com/ticket/5434)
 			},
 
 			/**

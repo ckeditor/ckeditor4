@@ -1,6 +1,6 @@
 'use strict';
 
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: autolink,clipboard */
 /* bender-include: ../clipboard/_helpers/pasting.js */
 /* global assertPasteEvent */
@@ -47,7 +47,7 @@ bender.test( {
 		}
 	},
 
-	// #13419
+	// http://dev.ckeditor.com/ticket/13419
 	'test link with quotation marks': function() {
 		var pastedText = 'https://foo.bar/?bam="bom"',
 			expected = '<a href="https://foo.bar/?bam=%22bom%22">https://foo.bar/?bam="bom"</a>';

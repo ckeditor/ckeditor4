@@ -31,7 +31,7 @@ CKEDITOR.lang[ 'fr' ] = {
 		browseServer: 'Parcourir le serveur',
 		url: 'URL',
 		protocol: 'Protocole',
-		upload: 'Téléverser',
+		upload: 'Télécharger',
 		uploadSubmit: 'Envoyer sur le serveur',
 		image: 'Image',
 		flash: 'Flash',
@@ -99,19 +99,19 @@ CKEDITOR.lang[ 'fr' ] = {
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
+			8: 'Retour arrière',
 			13: 'Entrée',
 			16: 'Majuscule',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Espace',
 			35: 'Fin',
 			36: 'Origine',
 			46: 'Supprimer',
-			224: 'Command' // MISSING
+			224: 'Commande'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Raccourci clavier'
 	}
 };

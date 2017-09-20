@@ -34,7 +34,7 @@
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
 
 		// Before filtering inline all the styles to allow because some of them are available only in style
-		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (#16847)
+		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (http://dev.ckeditor.com/ticket/16847)
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml ).getBody().getHtml();
 		}
@@ -95,7 +95,7 @@
 						}
 					};
 
-					// If the parent is DocumentFragment it does not have any attributes. (#16912)
+					// If the parent is DocumentFragment it does not have any attributes. (http://dev.ckeditor.com/ticket/16912)
 					if ( element.parent && element.parent.attributes ) {
 						var attrs = element.parent.attributes,
 							style = attrs.style || attrs.STYLE;
@@ -125,7 +125,7 @@
 
 						List.convertToFakeListItem( editor, element );
 
-						// IE pastes nested paragraphs in list items, which is different from other browsers. (#16826)
+						// IE pastes nested paragraphs in list items, which is different from other browsers. (http://dev.ckeditor.com/ticket/16826)
 						// There's a possibility that list item will contain multiple paragraphs, in that case we want
 						// to split them with BR.
 						tools.array.reduce( element.children, function( paragraphsReplaced, node ) {
@@ -155,6 +155,14 @@
 							style[ 'mso-list' ].match( /level/ ) ) {
 							container.attributes[ 'cke-list-level' ] = style[ 'mso-list' ].match( /level(\d+)/ )[1];
 						}
+
+						// Adapt paragraph formatting to editor's convention according to enter-mode (#423).
+						if ( editor.config.enterMode == CKEDITOR.ENTER_BR ) {
+							// We suffer from attribute/style lost in this situation.
+							delete element.name;
+							element.add( new CKEDITOR.htmlParser.element( 'br' ) );
+						}
+
 					}
 
 					Style.createStyleStack( element, filter, editor );
@@ -217,7 +225,7 @@
 				},
 				'ul': function( element ) {
 					if ( !msoListsDetected ) {
-						// List should only be processed if we're sure we're working with Word. (#16593)
+						// List should only be processed if we're sure we're working with Word. (http://dev.ckeditor.com/ticket/16593)
 						return;
 					}
 
@@ -242,7 +250,7 @@
 				},
 				'ol': function( element ) {
 					if ( !msoListsDetected ) {
-						// List should only be processed if we're sure we're working with Word. (#16593)
+						// List should only be processed if we're sure we're working with Word. (http://dev.ckeditor.com/ticket/16593)
 						return;
 					}
 
@@ -299,7 +307,7 @@
 						parentChildren,
 						i;
 
-					// In case parent div has only align attr, move it to the table element (#16811).
+					// In case parent div has only align attr, move it to the table element (http://dev.ckeditor.com/ticket/16811).
 					if ( parent.name && parent.name === 'div' && parent.attributes.align &&
 						tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
 						// If align is the only attribute of parent.
@@ -385,6 +393,13 @@
 				'style': function() {
 					// We don't want to let any styles in. Firefox tends to add some.
 					return false;
+				},
+
+				'object': function( element ) {
+					// The specs about object `data` attribute:
+					// 		Address of the resource as a valid URL. At least one of data and type must be defined.
+					// If there is not `data`, skip the object element. (http://dev.ckeditor.com/ticket/17001)
+					return !!( element.attributes && element.attributes.data );
 				}
 			},
 			attributes: {
@@ -493,7 +508,7 @@
 					'mso-',
 					'text-indent',
 					'visibility:visible',
-					'div:border:none' // This one stays because #6241
+					'div:border:none' // This one stays because http://dev.ckeditor.com/ticket/6241
 				],
 				textStyles = [
 					'font-family',
@@ -601,7 +616,7 @@
 				delete styles[ style ];
 			}
 
-			if ( JSON.stringify( styles ) !== '{}' ) {
+			if ( !CKEDITOR.tools.isEmpty( styles ) ) {
 				element.attributes.style = CKEDITOR.tools.writeCssText( styles );
 			} else {
 				delete element.attributes.style;
@@ -656,14 +671,15 @@
 		},
 
 		/**
-		 * Moves the element's styles lower in the DOM hierarchy. If wrapText==true and the direct child of an element
+		 * Moves the element's styles lower in the DOM hierarchy. If `wrapText==true` and the direct child of an element
 		 * is a text node it will be wrapped in a `span` element.
 		 *
 		 * @param {CKEDITOR.htmlParser.element} element
-		 * @param {Object} exceptions Object containing style names which should not be moved, e.g. `{ background: true }`.
+		 * @param {Object} exceptions An object containing style names which should not be moved, e.g. `{ background: true }`.
 		 * @param {Boolean} [wrapText=false] Whether a direct text child of an element should be wrapped into a `span` tag
 		 * so that the styles can be moved to it.
-		 * @returns {Boolean} Returns true if styles were successfully moved lower.
+		 * @returns {Boolean} Returns `true` if styles were successfully moved lower.
+		 * @member CKEDITOR.plugins.pastefromword.styles
 		 */
 		pushStylesLower: function( element, exceptions, wrapText ) {
 
@@ -725,7 +741,7 @@
 		},
 
 		/**
-		 * Namespace containing styles's inliner.
+		 * Namespace containing the styles inliner.
 		 *
 		 * @since 4.7.0
 		 * @private
@@ -734,7 +750,7 @@
 		inliner: {
 			/**
 			 *
-			 * Styles skipped by the style inliner.
+			 * Styles skipped by the styles inliner.
 			 *
 			 * @property {String[]}
 			 * @private
@@ -751,12 +767,12 @@
 			],
 
 			/**
-			 * Parses content of provided `style` element.
+			 * Parses the content of the provided `style` element.
 			 *
 			 * @param {CKEDITOR.dom.element/String} styles The `style` element or CSS text.
-			 * @returns {Array} Array containing parsed styles. Each item (style) is an object containing two properties:
-			 * 		selector - String representing a CSS selector.
-			 * 		styles - Object containing list of styles (e.g. `{ margin: 0, text-align: 'left' }`).
+			 * @returns {Array} An array containing parsed styles. Each item (style) is an object containing two properties:
+			 * 		selector &ndash; A string representing a CSS selector.
+			 * 		styles &ndash; An object containing a list of styles (e.g. `{ margin: 0, text-align: 'left' }`).
 			 * @since 4.7.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
@@ -807,11 +823,11 @@
 			},
 
 			/**
-			 * Filters out all unnecessary styles
+			 * Filters out all unnecessary styles.
 			 *
-			 * @param {Object} stylesObj Object containing parsed CSS declarations
-			 * as a property/value pairs (see {@link CKEDITOR.plugins.pastefromword.inline#parse}).
-			 * @returns {Object} The stylesObj copy with a specific styles filtered out.
+			 * @param {Object} stylesObj An object containing parsed CSS declarations
+			 * as property/value pairs (see {@link CKEDITOR.plugins.pastefromword.styles.inliner#parse}).
+			 * @returns {Object} The `stylesObj` copy with specific styles filtered out.
 			 * @since 4.7.0
 			 * @private
 			 * @member CKEDITOR.plugins.pastefromword.styles.inliner
@@ -835,7 +851,8 @@
 			 * Sorts the given styles array. All rules containing class selectors will have lower indexes than the rest
 			 * of the rules. Selectors with the same priority will be sorted in a reverse order than in the input array.
 			 *
-			 * @param {Array} stylesArray Array of styles as returned from {@link CKEDITOR.plugins.pastefromword.inline#parse}.
+			 * @param {Array} stylesArray An array of styles as returned from
+			 * {@link CKEDITOR.plugins.pastefromword.styles.inliner#parse}.
 			 * @returns {Array} Sorted stylesArray.
 			 * @since 4.7.0
 			 * @private
@@ -872,13 +889,13 @@
 			},
 
 			/**
-			 * Finds and inlines all the `style` elements in a given `html` string and returns a document, where
+			 * Finds and inlines all the `style` elements in a given `html` string and returns a document where
 			 * all the styles are inlined into appropriate elements.
 			 *
-			 * This is needed because sometimes Microsoft Word does not put style directly to the element, but in
-			 * a generic style sheet.
+			 * This is needed because sometimes Microsoft Word does not put the style directly into the element, but
+			 * into a generic style sheet.
 			 *
-			 * @param {String} html HTML string to be parsed.
+			 * @param {String} html An HTML string to be parsed.
 			 * @returns {CKEDITOR.dom.document}
 			 * @since 4.7.0
 			 * @private
@@ -1734,7 +1751,7 @@
 					if (
 						// If the last list was a different list type then chop it!
 						lastSymbol.type != currentSymbol.type ||
-						// If those are logically different lists, and current list is not a continuation (#7918):
+						// If those are logically different lists, and current list is not a continuation (http://dev.ckeditor.com/ticket/7918):
 						( lastListInfo && currentListInfo.id != lastListInfo.id && !this.isAListContinuation( list[ i ] ) ) ) {
 						choppedLists.push( [] );
 					}
@@ -1771,7 +1788,7 @@
 		 * It would return `true` &mdash; meaning it is a continuation, and should not be chopped. However, if any paragraph or
 		 * anything else appears in between, it should be broken into different lists.
 		 *
-		 * You can see fixtures from issue #7918 as an example.
+		 * You can see fixtures from issue http://dev.ckeditor.com/ticket/7918 as an example.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} listElement The list to be checked.
@@ -1947,7 +1964,7 @@
 		 *
 		 * Note: It will return `false` when run in a browser other than Microsoft Edge, despite the configuration.
 		 *
-		 * @param {CKEDITOR.editor} item
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics
@@ -1973,7 +1990,7 @@
 		},
 
 		/**
-		 * Cleans up given list `item`. It's needed to remove Edge pre marker indentation, since edge pastes
+		 * Cleans up a given list `item`. It is needed to remove Edge pre-marker indentation, since Edge pastes
 		 * list items as plain paragraphs with multiple `&nbsp;`s before the list marker.
 		 *
 		 * @since 4.7.0
@@ -1997,12 +2014,12 @@
 		},
 
 		/**
-		 * Check whether an element is a degenerate list item.
+		 * Checks whether an element is a degenerate list item.
 		 *
 		 * Degenerate list items are elements that have some styles specific to list items,
-		 * but lack the ones that could be used to determine their features(like list level etc.).
+		 * but lack the ones that could be used to determine their features (like list level etc.).
 		 *
-		 * @param {CKEDITOR.editor} item
+		 * @param {CKEDITOR.editor} editor
 		 * @param {CKEDITOR.htmlParser.element} item
 		 * @returns {Boolean}
 		 * @member CKEDITOR.plugins.pastefromword.heuristics

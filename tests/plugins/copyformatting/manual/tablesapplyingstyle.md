@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: tc, copyformatting, 4.6.2, 16675
+@bender-tags: bug, copyformatting, 4.6.2, trac16675
 @bender-ckeditor-plugins: copyformatting, toolbar, wysiwygarea, floatingspace, elementspath, undo
 
 1. Put cursor in the first cell.

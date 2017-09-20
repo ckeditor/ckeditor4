@@ -1,4 +1,4 @@
-@bender-tags: 4.6.0, tc, config
+@bender-tags: 4.6.0, bug, config
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, image2
 

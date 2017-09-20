@@ -158,7 +158,8 @@
 			},
 			// Object: element name => array of transformations groups.
 			transformations: {},
-			cachedTests: {}
+			cachedTests: {},
+			cachedChecks: {}
 		};
 
 		// Register filter instance.
@@ -299,7 +300,7 @@
 					if ( el.attributes[ 'data-cke-filter' ] == 'off' )
 						return false;
 
-					// (#10260) Don't touch elements like spans with data-cke-* attribute since they're
+					// (http://dev.ckeditor.com/ticket/10260) Don't touch elements like spans with data-cke-* attribute since they're
 					// responsible e.g. for placing markers, bookmarks, odds and stuff.
 					// We love 'em and we don't wanna lose anything during the filtering.
 					// '|' is to avoid tricky joints like data-="foo" + cke-="bar". Yes, they're possible.
@@ -346,7 +347,7 @@
 				if ( !element.parent )
 					continue;
 
-				// Handle custom elements as inline elements (#12683).
+				// Handle custom elements as inline elements (http://dev.ckeditor.com/ticket/12683).
 				parentDtd = DTD[ element.parent.name ] || DTD.span;
 
 				switch ( check.check ) {
@@ -804,6 +805,32 @@
 				return CKEDITOR.ENTER_BR;
 			};
 		} )(),
+
+		/**
+		 * Returns a clone of this filter instance.
+		 *
+		 * @since 4.7.3
+		 * @returns {CKEDITOR.filter}
+		 */
+		clone: function() {
+			var ret = new CKEDITOR.filter(),
+				clone = CKEDITOR.tools.clone;
+
+			// Cloning allowed content related things.
+			ret.allowedContent = clone( this.allowedContent );
+			ret._.allowedRules = clone( this._.allowedRules );
+
+			// Disallowed content rules.
+			ret.disallowedContent = clone( this.disallowedContent );
+			ret._.disallowedRules = clone( this._.disallowedRules );
+
+			ret._.transformations = clone( this._.transformations );
+
+			ret.disabled = this.disabled;
+			ret.editor = this.editor;
+
+			return ret;
+		},
 
 		/**
 		 * Destroys the filter instance and removes it from the global {@link CKEDITOR.filter#instances} object.
@@ -2201,7 +2228,7 @@
 			var widths = element.styles.margin.match( /(\-?[\.\d]+\w+)/g ) || [ '0px' ];
 			switch ( widths.length ) {
 				case 1:
-					element.styles.margin = widths[0];
+					mapStyles( [ 0, 0, 0, 0 ] );
 					break;
 				case 2:
 					mapStyles( [ 0, 1, 0, 1 ] );
@@ -2291,7 +2318,7 @@
  *	* {@link CKEDITOR.filter.allowedContentRules} &ndash; defined rules will be added
  *	to the {@link CKEDITOR.editor#filter}.
  *	* `true` &ndash; will disable the filter (data will not be filtered,
- *	all features will be activated).
+ *	all features will be activated). Reading [security best practices](#!/guide/dev_best_practices) before setting `true` is recommended.
  *	* default &ndash; the filter will be configured by loaded features
  *	(toolbar items, commands, etc.).
  *

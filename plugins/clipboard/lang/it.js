@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'it', {
 	cut: 'Taglia',
 	cutError: 'Le impostazioni di sicurezza del browser non permettono di tagliare automaticamente il testo. Usa la tastiera (Ctrl/Cmd+X).',
 	paste: 'Incolla',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Il browser non permette di incollare in questo modo. Premere %1 per incollare.'
 } );

@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 			{
 			name: 'Editordialog',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.'  // MISSING
+				'Drücke innerhalb eines Dialogs TAB, um zum nächsten Element zu springen. Drücke SHIFT+TAB, um zum vorigen Element zu springen, drücke ENTER um das Formular im Dialog abzusenden, drücke ESC, um den Dialog zu schließen. Hat der Dialog mehrere Tabs, dann kannst du durch ALT+F10 die Tab-Liste aufrufen or mittels TAB als Teil der Dialog-Tab-Reihenfolge. Ist die Tab-Liste fokussiert, dann mithilfe der Pfeiltasten (LINKS und RECHTS) zwischen den Tabs gewechselt werden.' 
 		},
 
 			{
@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'de', {
 			{
 			name: 'Eingabehilfen',
 			legend: 'Drücken Sie ${a11yHelp}'
+		},
+			{
+			name: 'Einfügen als unformatierter Text. ',
+			legend: 'Drücke ${pastetext}',
+			legendEdge: 'Drücke ${pastetext} und anschließend ${paste}'
 		}
 		]
 	}

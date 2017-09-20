@@ -31,7 +31,7 @@
 	bender.test( {
 
 		setUp: function() {
-			// Class prefix for widget wrapper classes (#13828).
+			// Class prefix for widget wrapper classes (http://dev.ckeditor.com/ticket/13828).
 			prefix = CKEDITOR.plugins.widget.WRAPPER_CLASS_PREFIX;
 		},
 
@@ -206,7 +206,7 @@
 				regWidgetDef = editor.widgets.add( 'testinit5', {} ),
 				widgetRepository, widgetDefinition;
 
-			// #10864 - at some point we were setting these properties on registered widget definition.
+			// http://dev.ckeditor.com/ticket/10864 - at some point we were setting these properties on registered widget definition.
 			assert.isUndefined( regWidgetDef.repository, 'no repository set in definition' );
 			assert.isUndefined( regWidgetDef.definiotion, 'no definition set in definition' );
 
@@ -730,7 +730,7 @@
 			} );
 		},
 
-		// #11811
+		// http://dev.ckeditor.com/ticket/11811
 		'test paste widget with special characters in data': function() {
 			var editor = this.editor;
 
@@ -771,7 +771,7 @@
 			} );
 		},
 
-		// #11811
+		// http://dev.ckeditor.com/ticket/11811
 		'test special characters set in data during upcast': function() {
 			var editor = this.editor;
 

@@ -104,8 +104,8 @@
 				var previousValue = this.getValue(),
 					style = styles[ value ];
 
-				// When applying one style over another, first remove the previous one (#12403).
-				// NOTE: This is only a temporary fix. It will be moved to the styles system (#12687).
+				// When applying one style over another, first remove the previous one (http://dev.ckeditor.com/ticket/12403).
+				// NOTE: This is only a temporary fix. It will be moved to the styles system (http://dev.ckeditor.com/ticket/12687).
 				if ( previousValue && value != previousValue ) {
 					var previousStyle = styles[ previousValue ],
 						range = editor.getSelection().getRanges()[ 0 ];
@@ -223,7 +223,7 @@
 	CKEDITOR.plugins.add( 'font', {
 		requires: 'richcombo',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		init: function( editor ) {
 			var config = editor.config;

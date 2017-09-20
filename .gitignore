@@ -25,3 +25,6 @@ tests/plugins/mathjax/_assets/mathjax/**
 *.css.map
 
 bender-*.log
+
+!.github/*
+.DS_Store

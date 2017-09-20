@@ -23,7 +23,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt', {
 
 			{
 			name: 'Menu de contexto do editor',
-			legend: 'Clique em ${contextMenu} ou TECLA APLICAÇÃO para abrir o menu de contexto. Depois vá para a opção do menu seguinte com TAB ou SETA PARA BAIXO. Vá para a opção anterior com  SHIFT+TAB ou SETA PARA CIMA. Pressione ESPAÇO ou ENTER para selecionar a opção do menu.  Abra o submenu da opção atual com ESPAÇO, ENTER ou SETA DIREITA. GVá para o item do menu parente  com ESC ou SETA ESQUERDA. Feche o menu de contexto com ESC.'
+			legend: 'Clique em ${contextMenu} ou TECLA APLICAÇÃO para abrir o menu de contexto. Depois vá para a opção do menu seguinte com TAB ou SETA PARA BAIXO. Vá para a opção anterior com  SHIFT+TAB ou SETA PARA CIMA. Pressione ESPAÇO ou ENTER para selecionar a opção do menu.  Abra o submenu da opção atual com ESPAÇO, ENTER ou SETA DIREITA. Vá para o item do menu contentor com ESC ou SETA ESQUERDA. Feche o menu de contexto com ESC.'
 		},
 
 			{
@@ -79,24 +79,29 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt', {
 			{
 			name: 'Ajuda a acessibilidade',
 			legend: 'Pressione ${a11yHelp}'
+		},
+			{
+			name: ' Paste as plain text', // MISSING
+			legend: 'Press ${pastetext}', // MISSING
+			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
 		}
 		]
 	}
 	],
-	tab: 'Tab', // MISSING
+	tab: 'Separador',
 	pause: 'Pausa',
 	capslock: 'Maiúsculas',
 	escape: 'Esc',
-	pageUp: 'Page Up', // MISSING
-	pageDown: 'Page Down', // MISSING
+	pageUp: 'Subir página',
+	pageDown: 'Descer página',
 	leftArrow: 'Seta esquerda',
 	upArrow: 'Seta para cima',
 	rightArrow: 'Seta direita',
 	downArrow: 'Seta para baixo',
 	insert: 'Inserir',
-	leftWindowKey: 'Left Windows key', // MISSING
-	rightWindowKey: 'Right Windows key', // MISSING
-	selectKey: 'Select key', // MISSING
+	leftWindowKey: 'Tecla esquerda Windows',
+	rightWindowKey: 'Tecla direita Windows',
+	selectKey: 'Selecionar tecla',
 	numpad0: 'Numpad 0', // MISSING
 	numpad1: 'Numpad 1', // MISSING
 	numpad2: 'Numpad 2', // MISSING
@@ -110,7 +115,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt', {
 	multiply: 'Multiplicar',
 	add: 'Adicionar',
 	subtract: 'Subtrair',
-	decimalPoint: 'Decimal Point', // MISSING
+	decimalPoint: 'Ponto decimal',
 	divide: 'Separar',
 	f1: 'F1',
 	f2: 'F2',
@@ -126,8 +131,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'pt', {
 	f12: 'F12',
 	numLock: 'Num Lock', // MISSING
 	scrollLock: 'Scroll Lock', // MISSING
-	semiColon: 'Semicolon', // MISSING
-	equalSign: 'Equal Sign', // MISSING
+	semiColon: 'Ponto e vírgula',
+	equalSign: 'Sinald e igual',
 	comma: 'Vírgula',
 	dash: 'Cardinal',
 	period: 'Ponto',

@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: list,justify,bidi,table,forms,toolbar */
 
 bender.editor = {
@@ -26,7 +26,7 @@ bender.test( {
 		assert.areSame( '<ul><li>foo</li><li>bar</li><li>baz</li></ul>', bot.getData( false, true ) );
 	},
 
-	// #3940
+	// http://dev.ckeditor.com/ticket/3940
 	'test create list in table': function() {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( 'create_list_table', function( input, expected ) {
@@ -60,7 +60,7 @@ bender.test( {
 		assert.areSame( '<p dir="rtl">foo</p><p dir="rtl">bar</p><p dir="rtl">baz</p>', bot.getData( true ) );
 	},
 
-	// #7657
+	// http://dev.ckeditor.com/ticket/7657
 	'test apply list (with block styles)': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '[<p dir="rtl">Item 1</p><p dir="rtl" style="margin-right: 40px;">Item 2</p><p dir="rtl" style="margin-right: 80px;">Item 3</p>]' );
@@ -89,7 +89,7 @@ bender.test( {
 		assert.areSame( '<ul><li>a</li></ul><p>b</p><ul><li>c</li></ul>', bot.getData( false, true ) );
 	},
 
-	// (#6715)
+	// (http://dev.ckeditor.com/ticket/6715)
 	'test remove list (inside table)': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<table><tr><td><ol><li>[item 1</li><li>item 2]</li></ol></td></tr></table>' );
@@ -97,7 +97,7 @@ bender.test( {
 		assert.areSame( '<table><tbody><tr><td><p>item 1</p><p>item 2</p></td></tr></tbody></table>', bot.getData( false, true ) );
 	},
 
-	// (#7645)
+	// (http://dev.ckeditor.com/ticket/7645)
 	'test remove list (with input)': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '<ol><li><input name="name" type="checkbox">[item1</li><li>item2]</li></ol>' );
@@ -106,7 +106,7 @@ bender.test( {
 	},
 
 	/**
-	 *  Test merge newlist with previous list. (#3820)
+	 *  Test merge newlist with previous list. (http://dev.ckeditor.com/ticket/3820)
 	 */
 	'test create list with merge': function() {
 		var bot = this.editorBot;
@@ -116,7 +116,7 @@ bender.test( {
 	},
 
 	/**
-	 * Test switch list type with custom bullet attributes. (#4950)
+	 * Test switch list type with custom bullet attributes. (http://dev.ckeditor.com/ticket/4950)
 	 */
 	'test switch list type (with custom bullet)': function() {
 		var bot = this.editorBot;
@@ -125,7 +125,7 @@ bender.test( {
 		assert.areSame( '<ul><li type="square">item1</li><li type="square">item2</li><li type="square">item3</li></ul>', bot.getData( 1 ) );
 	},
 
-	// #7290
+	// http://dev.ckeditor.com/ticket/7290
 	'test switch list type (inside definition list)': function() {
 		var bot = this.editorBot;
 		bender.tools.testInputOut( 'switch_list_dl', function( source, expected ) {
@@ -136,7 +136,7 @@ bender.test( {
 		} );
 	},
 
-	// #6059
+	// http://dev.ckeditor.com/ticket/6059
 	'test switch list type keeps text direction': function() {
 		var bot = this.editorBot;
 		bot.setHtmlWithSelection( '[<ol dir="rtl" lang="en"><li>line 1</li><li>line 2</li></ol>]' );
@@ -144,7 +144,7 @@ bender.test( {
 		assert.areSame( '<ul dir="rtl" lang="en"><li>line 1</li><li>line 2</li></ul>', bot.getData( true ) );
 	},
 
-	// #8997
+	// http://dev.ckeditor.com/ticket/8997
 	'test change list type keep styles on sub list': function() {
 		if ( !this.supportForSelectFullList() )
 			assert.ignore();

@@ -32,20 +32,26 @@
 		],
 		tests: {
 			'Table_text_attributes/Cell_text': true,
-			'Table_text_attributes/Mixed': true
+			'Table_text_attributes/Mixed': true,
+			'Meta_generator/Excel': [ 'excel2016' ]
 		},
 		testData: {
 			_should: {
 				ignore: {
-					'test Table_text_attributes/Mixed excel2013 ie8': !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ),
-					'test Table_text_attributes/Cell_text excel2013 ie8': !( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ),
+					// Ignore two IE8 tests, until #831 is not resolved.
+					'test Table_text_attributes/Mixed excel2013 ie8': true,
+					'test Table_text_attributes/Cell_text excel2013 ie8': true,
 					'test Table_text_attributes/Mixed excel2016 ie11': !( CKEDITOR.env.ie && CKEDITOR.env.version == 11 ),
 					'test Table_text_attributes/Cell_text excel2016 ie11': !( CKEDITOR.env.ie && CKEDITOR.env.version == 11 ),
 
 					'test Table_text_attributes/Mixed excel2013 datatransfer': CKEDITOR.env.ie,
 					'test Table_text_attributes/Cell_text excel2013 datatransfer': CKEDITOR.env.ie,
 					'test Table_text_attributes/Mixed excel2016 datatransfer': CKEDITOR.env.ie,
-					'test Table_text_attributes/Cell_text excel2016 datatransfer': CKEDITOR.env.ie
+					'test Table_text_attributes/Cell_text excel2016 datatransfer': CKEDITOR.env.ie,
+
+					'test Meta_generator/Excel excel2016 ie8': CKEDITOR.env.ie,
+					'test Meta_generator/Excel excel2016 ie11': CKEDITOR.env.ie,
+					'test Meta_generator/Excel excel2016 datatransfer': CKEDITOR.env.ie
 				}
 			}
 		},

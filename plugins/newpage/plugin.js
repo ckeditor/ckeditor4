@@ -10,7 +10,7 @@
 // Register a plugin named "newpage".
 CKEDITOR.plugins.add( 'newpage', {
 	// jscs:disable maximumLineLength
-	lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+	lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 	// jscs:enable maximumLineLength
 	icons: 'newpage,newpage-rtl', // %REMOVE_LINE_CORE%
 	hidpi: true, // %REMOVE_LINE_CORE%
@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'newpage', {
 				var command = this;
 				editor.setData( editor.config.newpage_html || '', function() {
 					editor.focus();
-					// Save the undo snapshot after all document changes are affected. (#4889)
+					// Save the undo snapshot after all document changes are affected. (http://dev.ckeditor.com/ticket/4889)
 					setTimeout( function() {
 						editor.fire( 'afterCommandExec', {
 							name: 'newpage',

@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'eu', {
 	title: 'EI kolore-hautatzailea',
-	preview: 'Zuzeneko aurrebista',
-	config: 'Itsatsi kate hau zure config.js fitxategian',
-	predefined: 'Aurrez definitutako kolore multzoak'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Aurrez definitutako kolore multzoak',
+	config: 'Itsatsi kate hau zure config.js fitxategian'
 } );

@@ -46,7 +46,7 @@ CKEDITOR.plugins.setLang( 'specialchar', 'cs', {
 	Atilde: 'Velké písmeno latinky A s tildou',
 	Auml: 'Velké písmeno latinky A s dvěma tečkami',
 	Aring: 'Velké písmeno latinky A s kroužkem nad',
-	AElig: 'Velké písmeno latinky Ae',
+	AElig: 'Velké písmeno latinky Æ',
 	Ccedil: 'Velké písmeno latinky C s ocáskem vlevo',
 	Egrave: 'Velké písmeno latinky E s čárkou nad vlevo',
 	Eacute: 'Velké písmeno latinky E s čárkou nad vpravo',

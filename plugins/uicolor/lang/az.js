@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'az', {
 	title: 'Panellərin rəng seçimi',
-	preview: 'İnteraktiv baxış',
-	config: 'Bu sətri sizin config.js faylına əlavə edin',
-	predefined: 'Öncədən təyin edilmiş rənglərin yığımları'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Öncədən təyin edilmiş rənglərin yığımları',
+	config: 'Bu sətri sizin config.js faylına əlavə edin'
 } );

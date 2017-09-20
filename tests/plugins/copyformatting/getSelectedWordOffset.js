@@ -19,9 +19,7 @@
 		'test getSelectedWordOffset (word inside element)': function() {
 			testGettingWordOffset( this.editor, '<p>Get <span style="font-weight: bold">th{}is</span> word</p>', 'this' );
 
-			// Workaround for IE8 needed due to #13842.
-			testGettingWordOffset( this.editor, '<p>Get <span style="font-weight: bold">th{}is word</span></p>',
-				CKEDITOR.env.ie && CKEDITOR.env.version === 8 ? 'isth' : 'this' );
+			testGettingWordOffset( this.editor, '<p>Get <span style="font-weight: bold">th{}is word</span></p>', 'this' );
 
 			testGettingWordOffset( this.editor, '<p>Get <span style="font-weight: bold">this w{}ord</span></p>', 'word' );
 		},
@@ -30,10 +28,8 @@
 			testGettingWordOffset( this.editor, '<p>Get <u><span style="font-weight: bold">th{}is</span></u> word</p>',
 				'this' );
 
-			// Workaround for IE8 needed due to #13842.
 			testGettingWordOffset( this.editor,
-				'<p>Get <s><u><span style="font-weight: bold">th{}is word</span></u></s></p>',
-				CKEDITOR.env.ie && CKEDITOR.env.version === 8 ? 'isth' : 'this' );
+				'<p>Get <s><u><span style="font-weight: bold">th{}is word</span></u></s></p>', 'this' );
 
 			testGettingWordOffset( this.editor,
 				'<p>Get <u><span style="font-weight: bold">this w{}ord</span></u></p>', 'word' );

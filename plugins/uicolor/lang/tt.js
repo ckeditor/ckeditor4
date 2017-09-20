@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'tt', {
 	title: 'Интерфейс төсләрен сайлау',
-	preview: 'Тере карап алу',
-	config: 'Бу юлны config.js файлына языгыз',
-	predefined: 'Баштан билгеләнгән төсләр җыелмасы'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Баштан билгеләнгән төсләр җыелмасы',
+	config: 'Бу юлны config.js файлына языгыз'
 } );

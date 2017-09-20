@@ -35,7 +35,7 @@
 
 	CKEDITOR.plugins.add( 'showblocks', {
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'showblocks,showblocks-rtl', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -43,7 +43,7 @@
 			var tags = [ 'p', 'div', 'pre', 'address', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ],
 				cssStd, cssImg, cssLtr, cssRtl,
 				path = CKEDITOR.getUrl( this.path ),
-				// #10884 don't apply showblocks styles to non-editable elements and chosen ones.
+				// http://dev.ckeditor.com/ticket/10884 don't apply showblocks styles to non-editable elements and chosen ones.
 				// IE8 does not support :not() pseudoclass, so we need to reset showblocks rather
 				// than 'prevent' its application. We do that by additional rules.
 				supportsNotPseudoclass = !( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ),
@@ -85,7 +85,7 @@
 			CKEDITOR.addCss( cssStd.concat( cssImg, cssLtr, cssRtl ) );
 
 			// [IE8] Reset showblocks styles for non-editables and chosen elements, because
-			// it could not be done using :not() pseudoclass (#10884).
+			// it could not be done using :not() pseudoclass (http://dev.ckeditor.com/ticket/10884).
 			if ( !supportsNotPseudoclass ) {
 				CKEDITOR.addCss(
 					'.cke_show_blocks [contenteditable=false],.cke_show_blocks .cke_show_blocks_off{' +

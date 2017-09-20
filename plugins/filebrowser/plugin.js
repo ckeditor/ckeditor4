@@ -167,7 +167,7 @@
 			params.langCode = editor.langCode;
 
 		var url = addQueryString( this.filebrowser.url, params );
-		// TODO: V4: Remove backward compatibility (#8163).
+		// TODO: V4: Remove backward compatibility (http://dev.ckeditor.com/ticket/8163).
 		editor.popup( url, width, height, editor.config.filebrowserWindowFeatures || editor.config.fileBrowserWindowFeatures );
 	}
 

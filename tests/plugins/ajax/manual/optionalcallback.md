@@ -1,4 +1,4 @@
-@bender-tags: tc, 4.6.1, 16639
+@bender-tags: bug, 4.6.1, trac16639
 @bender-ui: collapsed
 @bender-ckeditor-plugins: ajax
 

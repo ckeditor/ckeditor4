@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* global testSelection, testSelectedElement, testSelectedText, testStartElement, rangy, doc, makeSelection,
 	convertRange, checkRangeEqual, checkSelection, assertSelectionsAreEqual, tools */
 
@@ -229,7 +229,7 @@ bender.test( {
 			'the selection was located after the strong element' );
 	},
 
-	// #12690
+	// http://dev.ckeditor.com/ticket/12690
 	'test selectRanges - inside empty inline element': function() {
 		var editor = this.editor,
 			range = editor.createRange();
@@ -252,7 +252,7 @@ bender.test( {
 		testSelectedElement( '[<b><i><img /></i>]</b>', 'img' );
 	},
 
-	// Issue noticed during works on #9764.
+	// Issue noticed during works on http://dev.ckeditor.com/ticket/9764.
 	'test getSelectedElement does not modify ranges': function() {
 		var editor = this.editor;
 
@@ -286,7 +286,7 @@ bender.test( {
 		} );
 	},
 
-	// #11493
+	// http://dev.ckeditor.com/ticket/11493
 	'test getRanges(true) does not modify cached ranges': function() {
 		var editor = this.editor;
 
@@ -301,7 +301,7 @@ bender.test( {
 		assert.areSame( 1, allRanges.length, 'only 1 range returned by getRanges()' );
 	},
 
-	// #11493
+	// http://dev.ckeditor.com/ticket/11493
 	'test getRanges(true) called after getRanges() does not modify cached ranges': function() {
 		var editor = this.editor;
 
@@ -475,7 +475,7 @@ bender.test( {
 		}
 	},
 
-	// #11500
+	// http://dev.ckeditor.com/ticket/11500
 	'test removeAllRanges is limited to its root': function() {
 		var editable1 = doc.getById( 'sandbox' ),
 			editable2 = doc.getById( 'sandbox2' );
@@ -671,6 +671,7 @@ bender.test( {
 		}
 
 		this.editor.editable().fire( 'keydown', {
+			$: {},
 			preventDefault: preventSpy,
 			getKeystroke: function() {},
 			getKey: function() {}
@@ -689,6 +690,7 @@ bender.test( {
 			'<span contenteditable="true">^bar</span></span>' );
 
 		this.editor.editable().fire( 'keydown', {
+			$: {},
 			preventDefault: preventSpy,
 			getKeystroke: function() {},
 			getKey: function() {}
@@ -697,13 +699,13 @@ bender.test( {
 		assert.isFalse( preventSpy.called, 'preventDefault() on keydown was called' );
 	},
 
-	// (#14714)
+	// (http://dev.ckeditor.com/ticket/14714)
 	'test remove filling char sequence on keydown blur': function() {
 		if ( !CKEDITOR.env.webkit ) {
 			assert.ignore();
 		}
 
-		// If editor has no focus, filling character should not be removed in WebKits. (#14714)
+		// If editor has no focus, filling character should not be removed in WebKits. (http://dev.ckeditor.com/ticket/14714)
 		var editable = this.editor.editable();
 		var fillingCharSequence = CKEDITOR.tools.repeat( '\u200b', 7 );
 
@@ -724,5 +726,64 @@ bender.test( {
 		this.editor.document.fire( 'keydown', new CKEDITOR.dom.event( { keyCode: 46 } ) );
 
 		assert.areEqual( 7, editable.$.innerText.length );
+	},
+
+	// #800
+	'test isCollapsed on collapsed selection': function() {
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>Te^st</p>' );
+
+		assert.isTrue( editor.getSelection().isCollapsed() );
+	},
+
+	// #800
+	'test isCollapsed on non-collapsed selection': function() {
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>T[es]t</p>' );
+
+		assert.isFalse( editor.getSelection().isCollapsed() );
+	},
+
+	// #800
+	'test isCollapsed on selection with no ranges': function() {
+		// In old IEs it's actually impossible to get really empty selection.
+		if ( typeof window.getSelection != 'function' ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>T[es]t</p>' );
+		editor.getSelection().removeAllRanges();
+
+		assert.isFalse( editor.getSelection().isCollapsed() );
+	},
+
+	// #800
+	'test isCollapsed on multi-range selection': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>[T]e[s]t</p>' );
+
+		assert.isFalse( editor.getSelection().isCollapsed() );
+	},
+
+	// #800
+	'test isCollapsed on multiple collapsed selections': function() {
+		if ( !CKEDITOR.env.gecko ) {
+			assert.ignore();
+		}
+
+		var editor = this.editor;
+
+		bender.tools.setHtmlWithSelection( editor, '<p>T^es^t</p>' );
+
+		assert.isFalse( editor.getSelection().isCollapsed() );
 	}
 } );

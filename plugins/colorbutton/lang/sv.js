@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'sv', {
 		F0F8FF: 'Aliceblå',
 		E6E6FA: 'Lavendel',
 		FFF: 'Vit',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'Stark turkos',
+		'2ECC71': 'Smaragd',
+		'3498DB': 'Klarblå',
+		'9B59B6': 'Ametist',
+		'4E5F70': 'Gråblå',
+		'F1C40F': 'Klargul',
+		'16A085': 'Mörk turkos',
+		'27AE60': 'Mörk smaragd',
+		'2980B9': 'Stark blå',
+		'8E44AD': 'Mörk violett',
+		'2C3E50': 'Blek blå',
+		'F39C12': 'Orange',
+		'E67E22': 'Morot',
+		'E74C3C': 'Blekröd',
+		'ECF0F1': 'Stark silver',
+		'95A5A6': 'Ljus gråaktig turkos',
+		'DDD': 'Ljusgrå',
+		'D35400': 'Pumpa',
+		'C0392B': 'Stark röd',
+		'BDC3C7': 'Silver',
+		'7F8C8D': 'Gråaktig turkos',
+		'999': 'Mörkgrå'
 	},
 	more: 'Fler färger...',
 	panelTitle: 'Färger',
