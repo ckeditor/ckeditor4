@@ -64,12 +64,12 @@
 	// When starting execution of new test suite:
 	// - Mark workspace start with a comment. All tests specific DOM elements will ba added after it and removed
 	//	 after test suite is finished.
-	// - Create HTML container which will hold fixtures and editor instances.
 	// - Append HTML fixture to `htmlSandbox` (if any).
-	// - Reset some CKEDITOR settings.
+	// - Create HTML container which will hold fixtures and editor instances.
+	// - Reset some CKEDITOR settings (compatible with what bender does).
 	// - Configure editor plugins config based on bender tags.
 	// - Assign current testSuite to bender (it is used further in the execution).
-	// - Assign editor/editors configso setupEditors can access it.
+	// - Assign editor/editors config so setupEditors can access it.
 	// - Setup all editor instances.
 	// - Run original "init" function.
 	MochaAdapter.prototype._getBefore = function() {
@@ -156,8 +156,7 @@
 
 		function onDone() {
 			bender.setTestSuite( null );
-			scope._clearFixtures();
-			scope._clearEditorsWrapper();
+			scope._cleanup();
 			doneFn();
 		}
 
@@ -238,7 +237,7 @@
 	};
 
 	MochaAdapter.prototype._markWorkspaceStart = function() {
-		this._workspaceStartMark = window.document.createComment( 'Workspace Start. All html below is defined per test and removed after every test suite.' );
+		this._workspaceStartMark = window.document.createComment( 'Workspace:Start' );
 		window.document.body.appendChild( this._workspaceStartMark );
 	};
 
@@ -249,16 +248,11 @@
 		window.document.body.appendChild( this._editorsWrapper );
 	};
 
-	MochaAdapter.prototype._clearEditorsWrapper = function() {
-		this._editorsWrapper.remove();
-		this._editorsWrapper = null;
-	};
-
 	// All fixtures are placed directly in the `body` and after `this._workspaceStartMark` element. Fixtures needs
 	// to be placed directly in the body as in some tests elements paths are checked (so the wrapper container
 	// will be additional element in this path, breaking the assertions). Also some tests uses generic selectors like
-	// `getElementsByTagName` so any element with the sam name before fixtures may break the test, so that is the reason
-	// fixtures are placed rigt after script tags.
+	// `getElementsByTagName` so any element with the same name before fixtures may break the test, so that is the reason
+	// fixtures are placed right after script tags (after `this._workspaceStartMark` element).
 	MochaAdapter.prototype._appendFixture = function( path ) {
 		if ( window.__html__ && window.__html__[ path ] ) {
 			window.document.body.insertAdjacentHTML( 'beforeend', window.__html__[ path ] );
@@ -266,11 +260,14 @@
 	};
 
 	// Removes all nodes placed after `this._workspaceStartMark` in the DOM.
-	MochaAdapter.prototype._clearFixtures = function() {
+	MochaAdapter.prototype._cleanup = function() {
 		var children = window.document.body.children,
 			childrenLength = children.length,
 			child;
 
+		this._editorsWrapper = null;
+
+		// Removes all nodes after 'workspaceStartMark' (including 'workspaceStartMark').
 		for ( var i = childrenLength - 1; i >= 0; i-- ) {
 			child = children[ i ];
 			if ( child === this._workspaceStartMark ) {

@@ -38,7 +38,6 @@ module.exports = function( config ) {
 			'tests/core/dom/*.js',
 			'tests/core/dom/element/*.js',
 			'tests/core/dom/elementpath/*.js',
-
 			'tests/core/creators/setmode.js',
 			'tests/core/creators/themedui.js',
 			'tests/core/editable/aria.js'
