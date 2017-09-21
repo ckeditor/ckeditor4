@@ -10,12 +10,10 @@
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
 
 		nativeData.files.push( {
-			type: 'text/html',
-			data: dataValue
+			type: 'text/html'
 		} );
 
-		nativeData.setData( 'text/html', dataValue );
-
+		dataTransfer.setData( 'text/html', dataValue );
 		dataTransfer.cacheData();
 
 		editor.fire( 'paste', {
@@ -38,7 +36,6 @@
 				name: 'editor1'
 			}, function( bot ) {
 				var editor = bot.editor;
-
 				editor.once( 'paste', function() {
 					resume( function() {
 						assert.areSame(
