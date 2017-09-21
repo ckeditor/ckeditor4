@@ -66,7 +66,7 @@
 
 					widget.focus();
 
-					assert.isFalse( widget.element.hasClass( 'easyimage--side' ), 'Image does not have side class' );
+					assert.isFalse( widget.element.hasClass( 'easyimage-side' ), 'Image does not have side class' );
 
 					bot.contextmenu( function( menu ) {
 						assertMenuItemsState( menu.items, {
@@ -76,7 +76,7 @@
 
 						editor.execCommand( 'easyimageSide' );
 
-						assert.isTrue( widget.element.hasClass( 'easyimage--side' ), 'Image has side class' );
+						assert.isTrue( widget.element.hasClass( 'easyimage-side' ), 'Image has side class' );
 
 						bot.contextmenu( function( menu ) {
 							assertMenuItemsState( menu.items, {
