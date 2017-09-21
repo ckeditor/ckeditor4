@@ -21,7 +21,7 @@
 		lang: 'en',
 
 		onLoad: function() {
-			CKEDITOR.dialog.add( 'eiAltText', this.path + 'dialogs/eiAltText.js' );
+			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
 		},
 
 		init: function( editor ) {
@@ -50,7 +50,7 @@
 				}
 			} );
 
-			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'eiAltText' ) );
+			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt' ) );
 
 			editor.addMenuGroup( 'easyimage' );
 			editor.addMenuItems( {
