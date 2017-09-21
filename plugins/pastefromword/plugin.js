@@ -62,10 +62,13 @@
 				var data = evt.data,
 					dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
 						data.dataTransfer.getData( 'text/html', true ) : null,
+					// Required in paste from word image plugin (#662).
+					dataTransferRtf = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
+						data.dataTransfer.getData( 'text/rtf', true ) : null,
 					// Some commands fire paste event without setting dataTransfer property. In such case
 					// dataValue should be used.
 					mswordHtml = dataTransferHtml || data.dataValue,
-					pfwEvtData = { dataValue: mswordHtml },
+					pfwEvtData = { dataValue: mswordHtml, dataTransfer: { 'text/rtf': dataTransferRtf } },
 					officeMetaRegexp = /<meta\s*name=(?:\"|\')?generator(?:\"|\')?\s*content=(?:\"|\')?microsoft/gi,
 					wordRegexp = /(class=\"?Mso|style=(?:\"|\')[^\"]*?\bmso\-|w:WordDocument|<o:\w+>|<\/font>)/,
 					isOfficeContent = officeMetaRegexp.test( mswordHtml ) || wordRegexp.test( mswordHtml );
