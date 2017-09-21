@@ -7,8 +7,12 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'image2,contextmenu',
+		requires: 'image2,contextmenu,dialog',
 		lang: 'en',
+
+		onLoad: function() {
+			CKEDITOR.dialog.add( 'eiAltText', this.path + 'dialogs/eiAltText.js' );
+		},
 
 		init: function( editor ) {
 			editor.addCommand( 'eiFullImage', {
@@ -17,9 +21,7 @@
 			editor.addCommand( 'eiSideImage', {
 				exec: function() {}
 			} );
-			editor.addCommand( 'eiAltText', {
-				exec: function() {}
-			} );
+			editor.addCommand( 'eiAltText', new CKEDITOR.dialogCommand( 'eiAltText' ) );
 
 			editor.addMenuGroup( 'easyimage' );
 			editor.addMenuItems( {
