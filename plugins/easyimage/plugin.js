@@ -14,26 +14,26 @@
 		return widget.element.hasClass( 'easyimage--side' );
 	}
 
+	var stylesLoaded = false;
+
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'image2,contextmenu,dialog',
 		lang: 'en',
 
 		onLoad: function() {
-			CKEDITOR.addCss(
-				'.easyimage {' +
-					'display: block;' +
-				'}' +
-				'.easyimage img {' +
-					'max-width: 100%;' +
-				'}' +
-				'.easyimage--side {' +
-					'float: right;' +
-				'}'
-			);
 			CKEDITOR.dialog.add( 'eiAltText', this.path + 'dialogs/eiAltText.js' );
 		},
 
 		init: function( editor ) {
+			if ( !stylesLoaded ) {
+				CKEDITOR.document.appendStyleSheet( this.path + 'styles/easyimage.css' );
+				stylesLoaded = true;
+			}
+
+			if ( editor.addContentsCss ) {
+				editor.addContentsCss( this.path + 'styles/easyimage.css' );
+			}
+
 			editor.addCommand( 'eiFullImage', {
 				exec: function() {
 					var widget = editor.widgets.focused;
