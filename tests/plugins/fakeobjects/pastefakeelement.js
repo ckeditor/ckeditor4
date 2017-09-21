@@ -42,12 +42,13 @@
 							'<p><iframe></iframe></p>',
 							editor.getData()
 						);
+
 						assert.beautified.html(
-							'<p><img data-cke-realelement="%3Ciframe%3E%3C%2Fiframe%3E" data-cke-real-node-type="1" alt="IFrame" title="IFrame" ' +
+							'<img data-cke-realelement="%3Ciframe%3E%3C%2Fiframe%3E" data-cke-real-node-type="1" alt="IFrame" title="IFrame" ' +
 							'data-cke-saved-src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" ' +
 							'src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" ' +
-							'data-cke-real-element-type="iframe" data-cke-resizable="true" class="cke_iframe"><br/></p>',
-							editor.editable().getHtml()
+							'data-cke-real-element-type="iframe" data-cke-resizable="true" class="cke_iframe">',
+							editor.editable().getHtml().match( /<img.+?>/g )[ 0 ]
 						);
 					} );
 				} );
@@ -77,10 +78,10 @@
 							editor.getData()
 						);
 						assert.beautified.html(
-							'<p><img data-cke-realelement="%3Ca%20id%3D%22anchor%22%20data-cke-saved-name%3D%22anchor%22%20name%3D%22anchor%22%3E%3C%2Fa%3E" ' +
+							'<img data-cke-realelement="%3Ca%20id%3D%22anchor%22%20data-cke-saved-name%3D%22anchor%22%20name%3D%22anchor%22%3E%3C%2Fa%3E" ' +
 							'data-cke-real-node-type="1" alt="Anchor" title="Anchor" data-cke-saved-src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" ' +
-							'src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" data-cke-real-element-type="anchor" class="cke_anchor"><br /></p>',
-							editor.editable().getHtml()
+							'src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" data-cke-real-element-type="anchor" class="cke_anchor">',
+							editor.editable().getHtml().match( /<img.+?>/g )[ 0 ]
 						);
 					} );
 				} );
