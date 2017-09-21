@@ -100,11 +100,14 @@
 
 					return elementRect;
 				}
+				function isVisible( elementRect, selectedRect ) {
+					if ( elementRect.top > selectedRect.bottom || elementRect.bottom < selectedRect.top ) {
+						return false;
+					}
+					return true;
+				}
 
 				return function( element, focusElement ) {
-					this.show();
-
-					this.fire( 'attach' );
 
 					winGlobal = CKEDITOR.document.getWindow();
 					frame = this.editor.window.getFrame();
@@ -152,21 +155,28 @@
 
 					// This method will modify elementRect if the element is outside of allowedRect / editorRect.
 					// If it's outside then in
-					this._adjustElementRect( elementRect, isInline ? allowedRect : editorRect );
-/*
-					'top hcenter': {
-						top: elementRect.top - panelHeight - this.triangleHeight,
-						left: elementRect.left + elementRect.width / 2 - panelWidth / 2
-					},
-					'bottom hcenter': {
-						top: elementRect.bottom + this.triangleHeight,
-						left: elementRect.left + elementRect.width / 2 - panelWidth / 2
-					},
-					*/
+					var selectedRect = isInline ? allowedRect : editorRect;
+					if ( !isVisible( elementRect, selectedRect ) ) {
+						this.hide();
+						return;
+					} else {
+						this.show();
+					}
 
+					this.fire( 'attach' );
+					this._adjustElementRect( elementRect, selectedRect );
 					// The area of the panel.
 					var panelArea = panelWidth * panelHeight,
-						alignments = this._getAlignments( elementRect, panelWidth, panelHeight ),
+						alignments = {
+							'top hcenter': {
+								top: elementRect.top - panelHeight - this.triangleHeight,
+								left: elementRect.left + elementRect.width / 2 - panelWidth / 2
+							},
+							'bottom hcenter': {
+								top: elementRect.bottom + this.triangleHeight,
+								left: elementRect.left + elementRect.width / 2 - panelWidth / 2
+							}
+						},
 						minDifferenceAlignment, alignmentRect, areaDifference;
 
 					// Iterate over all possible alignments to find the optimal one.
@@ -199,7 +209,7 @@
 					this.move( alignments[ minDifferenceAlignment ].top, alignments[ minDifferenceAlignment ].left );
 					minDifferenceAlignment = minDifferenceAlignment.split( ' ' );
 
-					this.setTriangle( /*triangleRelativePosition[ minDifferenceAlignment[ 0 ] ]*/ 'bottom', 'hcenter' );
+					this.setTriangle( minDifferenceAlignment[0] === 'top' ? 'bottom' : 'top', 'hcenter' );
 
 					// Set focus to proper element.
 					if ( focusElement !== false ) {
