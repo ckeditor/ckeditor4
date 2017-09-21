@@ -209,8 +209,14 @@
 			} )();
 			CKEDITOR.ui.inlineToolbar.prototype.create = function( element ) {
 				this.attach( element );
-				var that = this;
+
+				var that = this,
+				editable = this.editor.editable();
+
 				this.editor.on( 'resize', function() {
+					that.attach( element, false );
+				} );
+				editable.attachListener( editable.getDocument(), 'scroll', function() {
 					that.attach( element, false );
 				} );
 			};
