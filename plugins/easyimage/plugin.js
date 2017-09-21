@@ -6,21 +6,50 @@
 ( function() {
 	'use strict';
 
+	function isFullImage( widget ) {
+		return !widget.element.hasClass( 'easyimage--side' );
+	}
+
+	function isSideImage( widget ) {
+		return widget.element.hasClass( 'easyimage--side' );
+	}
+
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'image2,contextmenu,dialog',
 		lang: 'en',
 
 		onLoad: function() {
+			CKEDITOR.addCss(
+				'.easyimage {' +
+					'display: block;' +
+				'}' +
+				'.easyimage img {' +
+					'max-width: 100%;' +
+				'}' +
+				'.easyimage--side {' +
+					'float: right;' +
+				'}'
+			);
 			CKEDITOR.dialog.add( 'eiAltText', this.path + 'dialogs/eiAltText.js' );
 		},
 
 		init: function( editor ) {
 			editor.addCommand( 'eiFullImage', {
-				exec: function() {}
+				exec: function() {
+					var widget = editor.widgets.focused;
+
+					widget.element.removeClass( 'easyimage--side' );
+				}
 			} );
+
 			editor.addCommand( 'eiSideImage', {
-				exec: function() {}
+				exec: function() {
+					var widget = editor.widgets.focused;
+
+					widget.element.addClass( 'easyimage--side' );
+				}
 			} );
+
 			editor.addCommand( 'eiAltText', new CKEDITOR.dialogCommand( 'eiAltText' ) );
 
 			editor.addMenuGroup( 'easyimage' );
@@ -55,6 +84,8 @@
 					return;
 				}
 
+				evt.data.allowedContent.figure.classes += ',!easyimage,easyimage--side';
+
 				// Block default image dialog.
 				evt.data.dialog = null;
 
@@ -65,8 +96,8 @@
 						// Remove "Image Properties" option.
 						delete evt.data.image;
 
-						evt.data.eiFullImage = CKEDITOR.TRISTATE_OFF;
-						evt.data.eiSideImage = CKEDITOR.TRISTATE_OFF;
+						evt.data.eiFullImage = isFullImage( this ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+						evt.data.eiSideImage = isSideImage( this ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 						evt.data.eiAltText = CKEDITOR.TRISTATE_OFF;
 					} );
 				};
