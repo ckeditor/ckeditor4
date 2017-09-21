@@ -1515,7 +1515,7 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		isCustomCopyCutSupported: ( !CKEDITOR.env.ie || CKEDITOR.env.version >= 15 ) && !CKEDITOR.env.iOS,
+		isCustomCopyCutSupported: ( !CKEDITOR.env.ie || CKEDITOR.env.version >= 16 ) && !CKEDITOR.env.iOS,
 
 		/**
 		 * True if the environment supports MIME types and custom data types in dataTransfer/cliboardData getData/setData methods.
@@ -1524,7 +1524,7 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		isCustomDataTypesSupported: !CKEDITOR.env.ie || CKEDITOR.env.version >= 15,
+		isCustomDataTypesSupported: !CKEDITOR.env.ie,
 
 		/**
 		 * True if the environment supports File API.
@@ -1584,8 +1584,9 @@
 			}
 
 			// Edge 15 added support for Clipboard API
-			// (https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/6515107-clipboard-api) (#468).
-			if ( CKEDITOR.env.edge && CKEDITOR.env.version >= 15 ) {
+			// (https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/6515107-clipboard-api), however it is
+			// usable for our case starting from Edge 16 (#468).
+			if ( CKEDITOR.env.edge && CKEDITOR.env.version >= 16 ) {
 				return true;
 			}
 
