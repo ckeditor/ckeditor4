@@ -3,7 +3,7 @@
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
-CKEDITOR.dialog.add( 'eiAltText', function( editor ) {
+CKEDITOR.dialog.add( 'easyimageAlt', function( editor ) {
 	return {
 		title: editor.lang.easyimage.commands.altText,
 		minWidth: 200,
