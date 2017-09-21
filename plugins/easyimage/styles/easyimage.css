@@ -9,6 +9,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .easyimage img {
 	max-width: 100%;
 }
-.easyimage--side {
+.easyimage-side {
 	float: right;
 }

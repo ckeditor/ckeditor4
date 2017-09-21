@@ -7,7 +7,7 @@
 	'use strict';
 
 	function isSideImage( widget ) {
-		return widget.element.hasClass( 'easyimage--side' );
+		return widget.element.hasClass( 'easyimage-side' );
 	}
 
 	function isFullImage( widget ) {
@@ -38,7 +38,7 @@
 				exec: function() {
 					var widget = editor.widgets.focused;
 
-					widget.element.removeClass( 'easyimage--side' );
+					widget.element.removeClass( 'easyimage-side' );
 				}
 			} );
 
@@ -46,7 +46,7 @@
 				exec: function() {
 					var widget = editor.widgets.focused;
 
-					widget.element.addClass( 'easyimage--side' );
+					widget.element.addClass( 'easyimage-side' );
 				}
 			} );
 
@@ -84,7 +84,7 @@
 					return;
 				}
 
-				evt.data.allowedContent.figure.classes += ',!easyimage,easyimage--side';
+				evt.data.allowedContent.figure.classes += ',!easyimage,easyimage-side';
 
 				// Block default image dialog.
 				evt.data.dialog = null;
