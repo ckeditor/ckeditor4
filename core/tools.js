@@ -1519,6 +1519,71 @@
 		},
 
 		/**
+		 * Converts hexstring to base64 coode.
+		 *
+		 * Hexstring contains 8bit numbers, where base64 use 6bit to code.
+		 * We need to process 3 * 8bit chunks of hexstring into 4 * 6bit characters of base64.
+		 * Algorithm:
+		 * 1. Take 3 * 8bit.
+		 * 2. If there is less than 3 byte, fill it with zeros.
+		 * 3. Transform 3 * 8bit into 4 * 6bit numbers.
+		 * 4. Translate those numbers to proper character related to base64.
+		 * 5. If there was added extra zeros bytes fill them with '=' sign.
+		 *
+		 * Example:
+		 * 	hex: 08A11D8ADA2B -> binary: 0000 1000 1010 0001 0001 1101 1000 1010 1101 1010 0010 1011
+		 * 	| <- shows where base64 will cut bits
+		 * 	binary: 0000 10|00 1010| 0001 00|01 1101| 1000 10|10 1101| 1010 00|10 1011
+		 * 	This gives indexes in base64character table
+		 * 	decimal: 2 10 4 29 34 45 40 43 -> base64: "CKEditor"
+		 *
+		 * @since 4.8.0
+		 * @param {String} hexstring string contained only hexadecimal values, e.g. "0AB7"
+		 * @returns {String} base64 string
+		 */
+		hexstring2base64: function( hexstring ) {
+			var binaryArray = [],
+				base64characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+				base64string = '',
+				binArrLength = hexstring.length / 2,
+				i;
+
+
+			for ( i = 0; i < binArrLength; i++ ) {
+				binaryArray.push( parseInt( hexstring.substr( i * 2, 2 ), 16 ) );
+			}
+
+			for ( i = 0; i < binArrLength; i += 3 ) {
+				var array3 = binaryArray.slice( i, i + 3 ),
+					array3length = array3.length,
+					array4 = [],
+					j;
+
+				if ( array3length < 3 ) {
+					for ( j = array3length; j < 3; j++ ) {
+						array3[ j ] = 0;
+					}
+				}
+
+				// 0xFC -> 11111100 || 0x03 -> 00000011 || 0x0F -> 00001111 || 0xC0 -> 11000000 || 0x3F -> 00111111
+				array4[ 0 ] = ( array3[ 0 ] & 0xFC ) >> 2;
+				array4[ 1 ] = ( ( array3[ 0 ] & 0x03 ) << 4 ) | ( array3[ 1 ] >> 4 );
+				array4[ 2 ] = ( ( array3[ 1 ] & 0x0F ) << 2 ) | ( ( array3[ 2 ] & 0xC0 ) >> 6 );
+				array4[ 3 ] = array3[ 2 ] & 0x3F;
+
+				for ( j = 0; j < 4; j++ ) {
+					if ( j <= array3length ) {
+						base64string += base64characters.charAt( array4[ j ] );
+					} else {
+						base64string += '=';
+					}
+				}
+
+			}
+			return base64string;
+		},
+
+		/**
 		 * A set of functions for operations on styles.
 		 *
 		 * @property {CKEDITOR.tools.style}

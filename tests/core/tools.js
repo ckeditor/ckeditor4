@@ -775,6 +775,44 @@
 				[ CKEDITOR.MOUSE_BUTTON_MIDDLE, isIe8 ? 4 : CKEDITOR.MOUSE_BUTTON_MIDDLE ],
 				[ CKEDITOR.MOUSE_BUTTON_RIGHT, isIe8 ? 2 : CKEDITOR.MOUSE_BUTTON_RIGHT ]
 			] );
+		},
+
+		// #662
+		'test hex2base64 converter': function() {
+			var hex = [
+				{
+					hex: '00',
+					base64: 'AA=='
+				},
+				{
+					hex: '000000',
+					base64: 'AAAA'
+				},
+				{
+					hex: '011001',
+					base64: 'ARAB'
+				},
+				{
+					hex: '0123456789ABCDEF',
+					base64: 'ASNFZ4mrze8='
+				},
+				{
+					hex: 'FFFFFF',
+					base64: '////'
+				},
+				{
+					hex: 'fc0fc0',
+					base64: '/A/A'
+				},
+				{
+					hex: '08A11D8ADA2B',
+					base64: 'CKEditor'
+				}
+			];
+
+			CKEDITOR.tools.array.forEach( hex, function( item ) {
+				assert.areSame( item.base64, CKEDITOR.tools.hexstring2base64( item.hex ) );
+			} );
 		}
 	} );
 } )();
