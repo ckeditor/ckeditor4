@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'ko', {
 	'move': '움직이려면 클릭 후 드래그 하세요',
-	'label': '%1 widget' // MISSING
+	'label': '%1 위젯'
 } );

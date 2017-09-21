@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,image */
+/* bender-tags: editor,image */
 /* bender-ckeditor-plugins: image,button,toolbar,link */
 
 ( function() {
@@ -245,7 +245,7 @@
 			} );
 		},
 
-		// #10867
+		// http://dev.ckeditor.com/ticket/10867
 		'test set encoded URI as image\'s link': function() {
 			var uri = 'http://ckeditor.dev/?q=%C5rsrapport';
 			var htmlWithSelection = '<p>[<img src="' + SRC + '" />]</p>';
@@ -256,7 +256,7 @@
 			} );
 		},
 
-		// #12132
+		// http://dev.ckeditor.com/ticket/12132
 		'test width and height not set when not allowed': function() {
 			bender.editorBot.create( {
 				name: 'editor_disallowed_dimension',
@@ -289,7 +289,7 @@
 		},
 
 		/**
-		 * #12126
+		 * http://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image dialog.
 		 * 2. Set some proper image url and focus out.
@@ -336,7 +336,7 @@
 		},
 
 		/**
-		 * #12126
+		 * http://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image dialog.
 		 * 2. Set some proper image url and focus out.

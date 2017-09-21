@@ -102,13 +102,13 @@ CKEDITOR.plugins.add( 'menu', {
 		menuItemSource += ' onkeypress="return false;"';
 
 	// With Firefox, we need to force the button to redraw, otherwise it
-	// will remain in the focus state. Also we some extra help to prevent dragging (#10373).
+	// will remain in the focus state. Also we some extra help to prevent dragging (http://dev.ckeditor.com/ticket/10373).
 	if ( CKEDITOR.env.gecko ) {
 		menuItemSource += ( ' onblur="this.style.cssText = this.style.cssText;"' +
 			' ondragstart="return false;"' );
 	}
 
-	// #188
+	// http://dev.ckeditor.com/ticket/188
 	menuItemSource += ' onmouseover="CKEDITOR.tools.callFunction({hoverFn},{index});"' +
 			' onmouseout="CKEDITOR.tools.callFunction({moveOutFn},{index});" ' +
 			( CKEDITOR.env.ie ? 'onclick="return false;" onmouseup' : 'onclick' ) +
@@ -258,7 +258,7 @@ CKEDITOR.plugins.add( 'menu', {
 
 				// Show the submenu.
 				// This timeout is needed to give time for the sub-menu get
-				// focus when JAWS is running. (#9844)
+				// focus when JAWS is running. (http://dev.ckeditor.com/ticket/9844)
 				setTimeout( function() {
 					menu.show( element, 2 );
 				}, 0 );
@@ -274,7 +274,7 @@ CKEDITOR.plugins.add( 'menu', {
 			add: function( item ) {
 				// Later we may sort the items, but Array#sort is not stable in
 				// some browsers, here we're forcing the original sequence with
-				// 'order' attribute if it hasn't been assigned. (#3868)
+				// 'order' attribute if it hasn't been assigned. (http://dev.ckeditor.com/ticket/3868)
 				if ( !item.order )
 					item.order = this.items.length;
 
@@ -342,7 +342,7 @@ CKEDITOR.plugins.add( 'menu', {
 					keys[ CKEDITOR.SHIFT + 9 ] = 'prev'; // SHIFT + TAB
 					keys[ ( editor.lang.dir == 'rtl' ? 37 : 39 ) ] = CKEDITOR.env.ie ? 'mouseup' : 'click'; // ARROW-RIGHT/ARROW-LEFT(rtl)
 					keys[ 32 ] = CKEDITOR.env.ie ? 'mouseup' : 'click'; // SPACE
-					CKEDITOR.env.ie && ( keys[ 13 ] = 'mouseup' ); // Manage ENTER, since onclick is blocked in IE (#8041).
+					CKEDITOR.env.ie && ( keys[ 13 ] = 'mouseup' ); // Manage ENTER, since onclick is blocked in IE (http://dev.ckeditor.com/ticket/8041).
 
 					element = this._.element = block.element;
 

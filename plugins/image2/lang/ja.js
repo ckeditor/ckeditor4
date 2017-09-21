@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'ja', {
 	title: '画像のプロパティ',
 	uploadTab: 'アップロード',
 	urlMissing: '画像のURLを入力してください。',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: '代替テキストを入力してください。'
 } );

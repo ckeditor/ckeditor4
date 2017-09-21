@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: list,toolbar */
 
 bender.editor = {
@@ -11,7 +11,7 @@ bender.editor = {
 var BACKSPACE = 8,
 	DEL = 46;
 
-// #8248
+// http://dev.ckeditor.com/ticket/8248
 bender.test( {
 	assertBackspace: function( name, key ) {
 		var bot = this.editorBot;

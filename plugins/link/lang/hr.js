@@ -5,8 +5,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 CKEDITOR.plugins.setLang( 'link', 'hr', {
 	acccessKey: 'Pristupna tipka',
 	advanced: 'Napredno',
-	advisoryContentType: 'Advisory vrsta sadržaja',
-	advisoryTitle: 'Advisory naslov',
+	advisoryContentType: 'Savjetodavna vrsta sadržaja',
+	advisoryTitle: 'Savjetodavni naslov',
 	anchor: {
 		toolbar: 'Ubaci/promijeni sidro',
 		menu: 'Svojstva sidra',
@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'hr', {
 	anchorName: 'Po nazivu sidra',
 	charset: 'Kodna stranica povezanih resursa',
 	cssClasses: 'Stylesheet klase',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Preuzmi na silu',
+	displayText: 'Prikaži tekst',
 	emailAddress: 'E-Mail adresa',
 	emailBody: 'Sadržaj poruke',
 	emailSubject: 'Naslov',
@@ -56,12 +56,12 @@ CKEDITOR.plugins.setLang( 'link', 'hr', {
 	targetFrameName: 'Ime ciljnog okvira',
 	targetPopup: '<popup prozor>',
 	targetPopupName: 'Naziv popup prozora',
-	title: 'Link',
+	title: 'Veza',
 	toAnchor: 'Sidro na ovoj stranici',
 	toEmail: 'E-Mail',
 	toUrl: 'URL',
-	toolbar: 'Ubaci/promijeni link',
-	type: 'Link vrsta',
-	unlink: 'Ukloni link',
+	toolbar: 'Ubaci/promijeni vezu',
+	type: 'Vrsta veze',
+	unlink: 'Ukloni vezu',
 	upload: 'Pošalji'
 } );

@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'eo', {
 		F0F8FF: 'Aliceblua',
 		E6E6FA: 'Lavendkolora',
 		FFF: 'Blanka',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'Fortverdblua',
+		'2ECC71': 'Smeraldkolora',
+		'3498DB': 'Brilblua',
+		'9B59B6': 'Ametistkolora',
+		'4E5F70': 'Grizblua',
+		'F1C40F': 'Brilflava',
+		'16A085': 'Malhelverdblua',
+		'27AE60': 'Malhelsmeraldkolora',
+		'2980B9': 'Fortblua',
+		'8E44AD': 'Malhelviola',
+		'2C3E50': 'Malsaturita Bluo',
+		'F39C12': 'Oranĝkolora',
+		'E67E22': 'Karotkolora',
+		'E74C3C': 'Pale Ruĝa',
+		'ECF0F1': 'Brile Arĝenta',
+		'95A5A6': 'Helgrizverdblua',
+		'DDD': 'Helgriza',
+		'D35400': 'Kukurbokolora',
+		'C0392B': 'Forte ruĝa',
+		'BDC3C7': 'Arĝenta',
+		'7F8C8D': 'Grizverdblua',
+		'999': 'Malhelgriza'
 	},
 	more: 'Pli da Koloroj...',
 	panelTitle: 'Koloroj',

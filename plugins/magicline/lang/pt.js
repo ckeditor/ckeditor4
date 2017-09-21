@@ -4,5 +4,5 @@
  */
 
 CKEDITOR.plugins.setLang( 'magicline', 'pt', {
-	title: 'Insira aqui o parágrafo'
+	title: 'Inserir parágrafo aqui'
 } );

@@ -46,28 +46,28 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'hr', {
 		F0F8FF: 'Alice plava',
 		E6E6FA: 'Lavanda',
 		FFF: 'Bijela',
-		'1ABC9C': 'Strong Cyan', // MISSING
-		'2ECC71': 'Emerald', // MISSING
-		'3498DB': 'Bright Blue', // MISSING
-		'9B59B6': 'Amethyst', // MISSING
-		'4E5F70': 'Grayish Blue', // MISSING
-		'F1C40F': 'Vivid Yellow', // MISSING
-		'16A085': 'Dark Cyan', // MISSING
-		'27AE60': 'Dark Emerald', // MISSING
-		'2980B9': 'Strong Blue', // MISSING
-		'8E44AD': 'Dark Violet', // MISSING
-		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
-		'E74C3C': 'Pale Red', // MISSING
-		'ECF0F1': 'Bright Silver', // MISSING
-		'95A5A6': 'Light Grayish Cyan', // MISSING
-		'DDD': 'Light Gray', // MISSING
-		'D35400': 'Pumpkin', // MISSING
-		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
-		'7F8C8D': 'Grayish Cyan', // MISSING
-		'999': 'Dark Gray' // MISSING
+		'1ABC9C': 'Jaka cijan',
+		'2ECC71': 'Emerald',
+		'3498DB': 'Svijetlo plava',
+		'9B59B6': 'Ametist',
+		'4E5F70': 'Sivkasto plava',
+		'F1C40F': 'Žarka žuta',
+		'16A085': 'Tamna cijan',
+		'27AE60': 'Tamna emerald',
+		'2980B9': 'Jaka plava',
+		'8E44AD': 'Tamno ljubičasta',
+		'2C3E50': 'Desatuirarana plava',
+		'F39C12': 'Narančasta',
+		'E67E22': 'Mrkva',
+		'E74C3C': 'Blijedo crvena',
+		'ECF0F1': 'Sjana srebrna',
+		'95A5A6': 'Svijetlo sivkasta cijan',
+		'DDD': 'Svijetlo siva',
+		'D35400': 'Tikva',
+		'C0392B': 'Jaka crvena',
+		'BDC3C7': 'Srebrna',
+		'7F8C8D': 'Sivkasto cijan',
+		'999': 'Tamno siva'
 	},
 	more: 'Više boja...',
 	panelTitle: 'Boje',

@@ -2,6 +2,8 @@
 # For licensing, see LICENSE.md or http://ckeditor.com/license
 
 title = The UI Color Picker toolbar button tooltip and dialog window title.
-preview = Label for the Live Preview checkbox of the UI Color Picker dialog window.
 config = Label for the text box containing the configuration code for the UI Color Picker dialog window.
 predefined = Label for the Predefined color sets drop-down list of the UI Color Picker dialog window.
+highlight = Label for the Highlight field of the UI Color Picker dialog window.
+options = Voice label for the Options entry of the UI Color Picker dialog window.
+selected = Label for the Selected color field of the UI Color Picker dialog window.

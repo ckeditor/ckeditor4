@@ -9,7 +9,7 @@
 	CKEDITOR.plugins.add( 'link', {
 		requires: 'dialog,fakeobjects',
 		// jscs:disable maximumLineLength
-		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
 		icons: 'anchor,anchor-rtl,link,unlink', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -93,8 +93,9 @@
 
 			editor.on( 'doubleclick', function( evt ) {
 				// If the link has descendants and the last part of it is also a part of a word partially
-				// unlinked, clicked element may be a descendant of the link, not the link itself. (#11956)
-				var element = CKEDITOR.plugins.link.getSelectedLink( editor ) || evt.data.element.getAscendant( 'a', 1 );
+				// unlinked, clicked element may be a descendant of the link, not the link itself (http://dev.ckeditor.com/ticket/11956).
+				// The evt.data.element.getAscendant( 'img', 1 ) condition allows opening anchor dialog if the anchor is empty (#501).
+				var element = evt.data.element.getAscendant( { a: 1, img: 1 }, true );
 
 				if ( element && !element.isReadOnly() ) {
 					if ( element.is( 'a' ) ) {
@@ -110,7 +111,7 @@
 
 			// If event was cancelled, link passed in event data will not be selected.
 			editor.on( 'doubleclick', function( evt ) {
-				// Make sure both links and anchors are selected (#11822).
+				// Make sure both links and anchors are selected (http://dev.ckeditor.com/ticket/11822).
 				if ( evt.data.dialog in { link: 1, anchor: 1 } && evt.data.link )
 					editor.getSelection().selectElement( evt.data.link );
 			}, null, null, 20 );
@@ -313,20 +314,38 @@
 		 *
 		 * @since 3.2.1
 		 * @param {CKEDITOR.editor} editor
+		 * @param {Boolean} [returnMultiple=false] Indicates whether the function should return only the first selected link or all of them.
+		 * @returns {CKEDITOR.dom.element/CKEDITOR.dom.element[]/null} A single link element or an array of link
+		 * elements relevant to the current selection.
 		 */
-		getSelectedLink: function( editor ) {
-			var selection = editor.getSelection();
-			var selectedElement = selection.getSelectedElement();
-			if ( selectedElement && selectedElement.is( 'a' ) )
+		getSelectedLink: function( editor, returnMultiple ) {
+			var selection = editor.getSelection(),
+				selectedElement = selection.getSelectedElement(),
+				ranges = selection.getRanges(),
+				links = [],
+				link,
+				range,
+				i;
+
+			if ( !returnMultiple && selectedElement && selectedElement.is( 'a' ) ) {
 				return selectedElement;
-
-			var range = selection.getRanges()[ 0 ];
-
-			if ( range ) {
-				range.shrink( CKEDITOR.SHRINK_TEXT );
-				return editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
 			}
-			return null;
+
+			for ( i = 0; i < ranges.length; i++ ) {
+				range = selection.getRanges()[ i ];
+
+				// Skip bogus to cover cases of multiple selection inside tables (#tp2245).
+				range.shrink( CKEDITOR.SHRINK_TEXT, false, { skipBogus: true } );
+				link = editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
+
+				if ( link && returnMultiple ) {
+					links.push( link );
+				} else if ( link ) {
+					return link;
+				}
+			}
+
+			return returnMultiple ? links : null;
 		},
 
 		/**
@@ -342,7 +361,7 @@
 			var editable = editor.editable(),
 
 				// The scope of search for anchors is the entire document for inline editors
-				// and editor's editable for classic editor/divarea (#11359).
+				// and editor's editable for classic editor/divarea (http://dev.ckeditor.com/ticket/11359).
 				scope = ( editable.isInline() && !editor.plugins.divarea ) ? editor.document : editable,
 
 				links = scope.getElementsByTag( 'a' ),
@@ -386,7 +405,7 @@
 		fakeAnchor: true,
 
 		/**
-		 * For browsers that do not support CSS3 `a[name]:empty()`. Note that IE9 is included because of #7783.
+		 * For browsers that do not support CSS3 `a[name]:empty()`. Note that IE9 is included because of http://dev.ckeditor.com/ticket/7783.
 		 *
 		 * @readonly
 		 * @deprecated 4.3.3 It is set to `false` in every browser.
@@ -440,7 +459,7 @@
 			if ( ( javascriptMatch = href.match( javascriptProtocolRegex ) ) ) {
 				if ( emailProtection == 'encode' ) {
 					href = href.replace( encodedEmailLinkRegex, function( match, protectedAddress, rest ) {
-						// Without it 'undefined' is appended to e-mails without subject and body (#9192).
+						// Without it 'undefined' is appended to e-mails without subject and body (http://dev.ckeditor.com/ticket/9192).
 						rest = rest || '';
 
 						return 'mailto:' +
@@ -515,7 +534,7 @@
 
 						var featureMatch;
 						while ( ( featureMatch = popupFeaturesRegex.exec( onclickMatch[ 2 ] ) ) ) {
-							// Some values should remain numbers (#7300)
+							// Some values should remain numbers (http://dev.ckeditor.com/ticket/7300)
 							if ( ( featureMatch[ 2 ] == 'yes' || featureMatch[ 2 ] == '1' ) && !( featureMatch[ 1 ] in { height: 1, width: 1, top: 1, left: 1 } ) )
 								retval.target[ featureMatch[ 1 ] ] = true;
 							else if ( isFinite( featureMatch[ 2 ] ) )
@@ -691,7 +710,7 @@
 					set[ 'data-cke-saved-name' ] = set.name;
 			}
 
-			// Browser need the "href" fro copy/paste link to work. (#6641)
+			// Browser need the "href" fro copy/paste link to work. (http://dev.ckeditor.com/ticket/6641)
 			if ( set[ 'data-cke-saved-href' ] )
 				set.href = set[ 'data-cke-saved-href' ];
 
@@ -728,18 +747,23 @@
 		 */
 		showDisplayTextForElement: function( element, editor ) {
 			var undesiredElements = {
-				img: 1,
-				table: 1,
-				tbody: 1,
-				thead: 1,
-				tfoot: 1,
-				input: 1,
-				select: 1,
-				textarea: 1
-			};
+					img: 1,
+					table: 1,
+					tbody: 1,
+					thead: 1,
+					tfoot: 1,
+					input: 1,
+					select: 1,
+					textarea: 1
+				},
+				selection = editor.getSelection();
 
 			// Widget duck typing, we don't want to show display text for widgets.
 			if ( editor.widgets && editor.widgets.focused ) {
+				return false;
+			}
+
+			if ( selection && selection.getRanges().length > 1 ) {
 				return false;
 			}
 
@@ -754,7 +778,7 @@
 		exec: function( editor ) {
 			// IE/Edge removes link from selection while executing "unlink" command when cursor
 			// is right before/after link's text. Therefore whole link must be selected and the
-			// position of cursor must be restored to its initial state after unlinking. (#13062)
+			// position of cursor must be restored to its initial state after unlinking. (http://dev.ckeditor.com/ticket/13062)
 			if ( CKEDITOR.env.ie ) {
 				var range = editor.getSelection().getRanges()[ 0 ],
 					link = ( range.getPreviousEditableNode() && range.getPreviousEditableNode().getAscendant( 'a', true ) ) ||

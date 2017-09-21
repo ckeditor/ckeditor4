@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'eo', {
 	title: 'UI Kolorselektilo',
-	preview: 'Vidigi la aspekton',
-	config: 'Gluu tiun signoĉenon en vian dosieron config.js',
-	predefined: 'Antaŭdifinita koloraro'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Antaŭdifinita koloraro',
+	config: 'Gluu tiun signoĉenon en vian dosieron config.js'
 } );

@@ -57,15 +57,15 @@ CKEDITOR.plugins.setLang( 'colorbutton', 'el', {
 		'2980B9': 'Strong Blue', // MISSING
 		'8E44AD': 'Dark Violet', // MISSING
 		'2C3E50': 'Desaturated Blue', // MISSING
-		'F39C12': 'Orange', // MISSING
-		'E67E22': 'Carrot', // MISSING
+		'F39C12': 'Πορτοκαλί',
+		'E67E22': 'Καροτί',
 		'E74C3C': 'Pale Red', // MISSING
 		'ECF0F1': 'Bright Silver', // MISSING
 		'95A5A6': 'Light Grayish Cyan', // MISSING
 		'DDD': 'Light Gray', // MISSING
 		'D35400': 'Pumpkin', // MISSING
 		'C0392B': 'Strong Red', // MISSING
-		'BDC3C7': 'Silver', // MISSING
+		'BDC3C7': 'Αργυρό',
 		'7F8C8D': 'Grayish Cyan', // MISSING
 		'999': 'Dark Gray' // MISSING
 	},

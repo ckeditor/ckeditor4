@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'tr', {
 			{
 			name: 'Erişilebilirlik Yardımı',
 			legend: '${a11yHelp}\'e basın'
+		},
+			{
+			name: 'Düz Metin Olarak Yapıştır',
+			legend: '${pastetext} basın',
+			legendEdge: 'Önce ${pastetext} ardından${paste} basın'
 		}
 		]
 	}

@@ -48,7 +48,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
 			return false;
 
 		try {
-			// Chrome is problematic with moveTo/resizeTo, but it's not really needed here (#8855).
+			// Chrome is problematic with moveTo/resizeTo, but it's not really needed here (http://dev.ckeditor.com/ticket/8855).
 			var ua = navigator.userAgent.toLowerCase();
 			if ( ua.indexOf( ' chrome/' ) == -1 ) {
 				popupWindow.moveTo( left, top );

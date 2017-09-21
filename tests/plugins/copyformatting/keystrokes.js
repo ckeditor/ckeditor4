@@ -4,7 +4,10 @@
 ( function() {
 	'use strict';
 
-	var defaultKeystroke = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, // CTRL + SHIFT + V
+	// Safari does not use CTRL + SHIFT + 86 as paste as plain text. It uses
+	// CTRL + SHIFT + ALT + 86 so there is no conflict between copyformatting and pastetext plugins.
+	var defaultKeystrokeCommand = CKEDITOR.env.safari ? undefined : 'pastetext',
+		defaultKeystroke = CKEDITOR.CTRL + CKEDITOR.SHIFT + 86, // CTRL + SHIFT + V
 		customKeystroke = CKEDITOR.CTRL + CKEDITOR.SHIFT + 77; // CTRL + SHIFT + M
 
 	bender.editors = {
@@ -26,7 +29,7 @@
 
 	bender.test( {
 		'test default paste keystroke set on editor init': function() {
-			assert.areEqual( 'pastetext', this.editors.editor1.keystrokeHandler.keystrokes[ defaultKeystroke ] );
+			assert.areEqual( defaultKeystrokeCommand, this.editors.editor1.keystrokeHandler.keystrokes[ defaultKeystroke ] );
 		},
 
 		'test copy keystroke set on editor init': function() {
@@ -44,7 +47,7 @@
 
 			editor.execCommand( 'copyFormatting' );
 
-			assert.areEqual( 'pastetext', editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
+			assert.areEqual( defaultKeystrokeCommand, editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
 		},
 
 		'test keystroke detached when copied format canceled (sticky)': function() {
@@ -58,7 +61,7 @@
 
 			editor.execCommand( 'copyFormatting' );
 
-			assert.areEqual( 'pastetext', editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
+			assert.areEqual( defaultKeystrokeCommand, editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
 		},
 
 		'test keystroke attached on format copy (normal) and detached on format apply': function() {
@@ -72,7 +75,7 @@
 
 			editor.execCommand( 'applyFormatting' );
 
-			assert.areEqual( 'pastetext', editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
+			assert.areEqual( defaultKeystrokeCommand, editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
 		},
 
 		'test keystroke attached on format copy (sticky) and not detached on format apply': function() {
@@ -94,16 +97,16 @@
 
 			bender.tools.selection.setWithHtml( editor, '<p>Copy <em>for{}mat</em></p>' );
 
-			assert.areEqual( 'pastetext', editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
+			assert.areEqual( defaultKeystrokeCommand, editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
 
 			editor.execCommand( 'copyFormatting' );
 
-			assert.areEqual( 'pastetext', editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
+			assert.areEqual( defaultKeystrokeCommand, editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
 			assert.areEqual( 'applyFormatting', editor.keystrokeHandler.keystrokes[ customKeystroke ] );
 
 			editor.execCommand( 'applyFormatting' );
 
-			assert.areEqual( 'pastetext', editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
+			assert.areEqual( defaultKeystrokeCommand, editor.keystrokeHandler.keystrokes[ defaultKeystroke ] );
 			assert.areEqual( undefined, editor.keystrokeHandler.keystrokes[ customKeystroke ] );
 		}
 	} );

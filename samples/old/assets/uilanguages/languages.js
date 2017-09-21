@@ -26,6 +26,7 @@ var CKEDITOR_LANGS = ( function() {
 		'en-gb': 'English (United Kingdom)',
 		eo: 'Esperanto',
 		es: 'Spanish',
+		'es-mx': 'Spanish (Mexico)',
 		et: 'Estonian',
 		eu: 'Basque',
 		fa: 'Persian',

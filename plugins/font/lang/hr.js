@@ -9,6 +9,6 @@ CKEDITOR.plugins.setLang( 'font', 'hr', {
 		panelTitle: 'Veličina'
 	},
 	label: 'Font',
-	panelTitle: 'Font',
+	panelTitle: 'Naziv fonta',
 	voiceLabel: 'Font'
 } );

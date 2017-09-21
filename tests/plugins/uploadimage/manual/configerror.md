@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.5.1, tc, 13486, filetools
+@bender-tags: 4.5.1, bug, trac13486, filetools
 @bender-ckeditor-plugins: uploadimage, wysiwygarea, toolbar, basicstyles
 
 Run this test with the console opened.

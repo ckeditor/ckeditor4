@@ -79,6 +79,11 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'nb', {
 			{
 			name: 'Hjelp for tilgjengelighet',
 			legend: 'Trykk ${a11yHelp}'
+		},
+			{
+			name: 'Lim inn som ren tekst',
+			legend: 'Trykk ${pastetext}',
+			legendEdge: 'Trykk ${pastetext}, etterfulgt av ${past}'
 		}
 		]
 	}

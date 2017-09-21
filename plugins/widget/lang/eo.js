@@ -4,5 +4,5 @@
  */
 CKEDITOR.plugins.setLang( 'widget', 'eo', {
 	'move': 'klaki kaj treni por movi',
-	'label': '%1 widget' // MISSING
+	'label': '%1 fenestraĵo'
 } );

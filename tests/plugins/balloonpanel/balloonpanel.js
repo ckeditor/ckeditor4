@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,balloonpanel */
+/* bender-tags: editor,balloonpanel */
 /* bender-ckeditor-plugins: balloonpanel */
 
 ( function() {

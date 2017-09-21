@@ -1,4 +1,4 @@
-@bender-tags: image, tc, 4.4.8, 13351
+@bender-tags: image, bug, 4.4.8, trac13351
 @bender-ui: collapsed
 @bender-ckeditor-plugins: link,image,toolbar,wysiwygarea,sourcearea
 

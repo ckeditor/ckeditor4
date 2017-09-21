@@ -1,4 +1,4 @@
-@bender-tags: selection, focus, tc, 4.4.6, 12630, 12337
+@bender-tags: selection, focus, bug, 4.4.6, trac12630, trac12337
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea
 

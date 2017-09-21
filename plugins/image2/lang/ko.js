@@ -17,5 +17,5 @@ CKEDITOR.plugins.setLang( 'image2', 'ko', {
 	title: '이미지 속성',
 	uploadTab: '업로드',
 	urlMissing: '이미지 원본 주소(URL)가 없습니다.',
-	altMissing: 'Alternative text is missing.' // MISSING
+	altMissing: '대체 문자가 없습니다.'
 } );

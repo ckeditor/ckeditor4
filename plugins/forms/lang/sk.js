@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sk', {
 		radioTitle: 'Vlastnosti prepínača (radio button)',
 		value: 'Hodnota',
 		selected: 'Vybrané (selected)',
-		required: 'Required' // MISSING
+		required: 'Povinný'
 	},
 	form: {
 		title: 'Vlastnosti formulára',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sk', {
 		size: 'Veľkosť',
 		lines: 'riadkov',
 		chkMulti: 'Povoliť viacnásobný výber',
-		required: 'Required', // MISSING
+		required: 'Povinný',
 		opText: 'Text',
 		opValue: 'Hodnota',
 		btnAdd: 'Pridať',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'sk', {
 		value: 'Hodnota',
 		charWidth: 'Šírka poľa (podľa znakov)',
 		maxChars: 'Maximálny počet znakov',
-		required: 'Required', // MISSING
+		required: 'Povinný',
 		type: 'Typ',
 		typeText: 'Text',
 		typePass: 'Heslo',

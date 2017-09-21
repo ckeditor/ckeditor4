@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 
 var tests = {},
 	cases = [ '$$', '$&', '$', '$\'', '$0' ];

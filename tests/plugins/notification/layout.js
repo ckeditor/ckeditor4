@@ -1,5 +1,5 @@
-/* bender-tags: editor,unit */
-/* bender-ckeditor-plugins: notification */
+/* bender-tags: editor */
+/* bender-ckeditor-plugins: notification,toolbar */
 
 /**
  * Tests for layout have input and output data based on the real notification positions, which were checked that are
@@ -10,11 +10,7 @@
 
 'use strict';
 
-bender.editor = {
-	config: {
-		extraPlugins: 'notification'
-	}
-};
+bender.editor = true;
 
 /**
  * mockValues: {

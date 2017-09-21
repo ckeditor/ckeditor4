@@ -1,0 +1,11 @@
+<textarea name="editor1" id="editor1" cols="30" rows="10">
+	<p>Paste things here</p>
+</textarea>
+
+<script>
+	if ( CKEDITOR.env.ie ) {
+		bender.ignore();
+	}
+
+	CKEDITOR.replace( 'editor1' );
+</script>

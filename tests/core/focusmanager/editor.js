@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit */
+/* bender-tags: editor */
 /* bender-ckeditor-plugins: floatingspace,toolbar,about,format */
 
 CKEDITOR.focusManager._.blurDelay = 0;
@@ -58,7 +58,7 @@ bender.test( {
 		}, 100 );
 	},
 
-	// #11647
+	// https://dev.ckeditor.com/ticket/11647
 	'test inheriting the initial focus': function() {
 		var el = CKEDITOR.document.createElement( 'div' );
 		CKEDITOR.document.getBody().append( el );
@@ -91,53 +91,6 @@ bender.test( {
 		} );
 
 		wait();
-	},
-
-	// #13446
-	'test cleaning up selection on blur (inline editor)': function() {
-		if ( !CKEDITOR.env.chrome ) {
-			assert.ignore();
-		}
-
-		var el = CKEDITOR.document.createElement( 'div' );
-		CKEDITOR.document.getBody().append( el );
-		el.setAttribute( 'contenteditable', true );
-
-		var editor = CKEDITOR.inline( el );
-
-		editor.on( 'instanceReady', function() {
-			resume( function() {
-				editor.on( 'blur', function() {
-					resume( function() {
-						assert.areSame( 'None', editor.getSelection().getNative().type );
-					} );
-				} );
-
-				CKEDITOR.document.getById( 'focusable' ).focus();
-				wait();
-			} );
-		} );
-
-		el.focus();
-		wait();
-	},
-
-	// #13446
-	'test preserving selection on blur (classic editor)': function() {
-		if ( !CKEDITOR.env.chrome ) {
-			assert.ignore();
-		}
-
-		var editor = this.editor;
-
-		editor.focus();
-
-		bender.tools.focus( CKEDITOR.document.getById( 'focusable' ), function() {
-			// Chrome doesn't reset selection after blurring [contenteditable=true],
-			// however is not troublesome for classic editor (because the focus is moved
-			// outside the whole editor's window), so it should be left untouched there.
-			assert.areSame( 'Caret', editor.getSelection().getNative().type );
-		} );
 	}
 
 } );

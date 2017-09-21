@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'de-ch', {
 	title: 'UI-Farbpipette',
-	preview: 'Live-Vorschau',
-	config: 'Fügen Sie diese Zeichenfolge in die Datei config.js ein.',
-	predefined: 'Vordefinierte Farbsätze'
+	options: 'Color Options', // MISSING
+	highlight: 'Highlight', // MISSING
+	selected: 'Selected Color', // MISSING
+	predefined: 'Vordefinierte Farbsätze',
+	config: 'Fügen Sie diese Zeichenfolge in die Datei config.js ein.'
 } );

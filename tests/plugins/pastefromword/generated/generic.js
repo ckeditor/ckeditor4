@@ -20,7 +20,8 @@
 			'firefox',
 			'ie8',
 			'ie11',
-			'safari'
+			'safari',
+			'datatransfer'
 		],
 		wordVersions: [
 			'word2007',
@@ -34,6 +35,7 @@
 			'Image': true,
 			'Italic': true,
 			'Link': true,
+			'Object': [ 'word2013' ],
 			'Only_paragraphs': true,
 			'Ordered_list': true,
 			'Ordered_list_multiple': true,
@@ -47,7 +49,15 @@
 			'Table_alignment': true,
 			'Table_vertical_alignment': true
 		},
+		testData: {
+			_should: {
+				ignore: {
+					'test Object word2013 datatransfer': CKEDITOR.env.edge
+				}
+			}
+		},
 		customFilters: [
+			pfwTools.filters.style,
 			pfwTools.filters.span
 		],
 		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11

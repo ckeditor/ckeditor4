@@ -1,4 +1,4 @@
-@bender-tags: find, tc, 4.5.5, 12848
+@bender-tags: find, bug, 4.5.5, trac12848
 @bender-ui: collapsed
 @bender-ckeditor-plugins: find, wysiwygarea, toolbar
 

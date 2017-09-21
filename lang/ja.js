@@ -62,7 +62,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		resize: 'ドラッグしてリサイズ',
 		generalTab: '全般',
 		advancedTab: '高度な設定',
-		validateNumberFailed: '値が数ではありません',
+		validateNumberFailed: '値が数値ではありません',
 		confirmNewPage: '変更内容を保存せず、 新しいページを開いてもよろしいでしょうか？',
 		confirmCancel: 'オプション設定を変更しました。ダイアログを閉じてもよろしいでしょうか？',
 		options: 'オプション',

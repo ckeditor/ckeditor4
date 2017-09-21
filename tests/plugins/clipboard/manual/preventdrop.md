@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.5.5, tc, 13879, clipboard
+@bender-tags: 4.5.5, bug, trac13879, clipboard
 @bender-ckeditor-plugins: clipboard, wysiwygarea, toolbar, image2
 
 1. Drag and drop text into the editor.

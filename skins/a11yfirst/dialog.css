@@ -1154,3 +1154,11 @@ a.cke_dialog_ui_button.cke_dialog_image_browse
 	border: 2px solid #139FF7;
 	padding: 6px;
 }
+
+/* The following are A11yFirst modifications */
+
+/* Add border to dialog box */
+.cke_dialog
+{
+	border: 1px solid #d1d1d1;
+}

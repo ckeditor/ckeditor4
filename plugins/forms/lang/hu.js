@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'hu', {
 		radioTitle: 'Választógomb tulajdonságai',
 		value: 'Érték',
 		selected: 'Kiválasztott',
-		required: 'Required' // MISSING
+		required: 'Kötelező'
 	},
 	form: {
 		title: 'Űrlap tulajdonságai',
@@ -38,7 +38,7 @@ CKEDITOR.plugins.setLang( 'forms', 'hu', {
 		size: 'Méret',
 		lines: 'sor',
 		chkMulti: 'több sor is kiválasztható',
-		required: 'Required', // MISSING
+		required: 'Kötelező',
 		opText: 'Szöveg',
 		opValue: 'Érték',
 		btnAdd: 'Hozzáad',
@@ -59,7 +59,7 @@ CKEDITOR.plugins.setLang( 'forms', 'hu', {
 		value: 'Érték',
 		charWidth: 'Megjelenített karakterek száma',
 		maxChars: 'Maximális karakterszám',
-		required: 'Required', // MISSING
+		required: 'Kötelező',
 		type: 'Típus',
 		typeText: 'Szöveg',
 		typePass: 'Jelszó',

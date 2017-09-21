@@ -35,17 +35,24 @@
 				// Indent and outdent lists with TAB/SHIFT+TAB key. Indenting can
 				// be done for any list item that isn't the first child of the parent.
 				editor.on( 'key', function( evt ) {
+					var path = editor.elementPath();
+
 					if ( editor.mode != 'wysiwyg' )
 						return;
 
 					if ( evt.data.keyCode == this.indentKey ) {
-						var list = this.getContext( editor.elementPath() );
+						// Prevent of getting context of empty path (#424)(https://dev.ckeditor.com/ticket/17028).
+						if ( !path ) {
+							return;
+						}
+
+						var list = this.getContext( path );
 
 						if ( list ) {
 							// Don't indent if in first list item of the parent.
 							// Outdent, however, can always be done to collapse
 							// the list into a paragraph (div).
-							if ( this.isIndent && CKEDITOR.plugins.indentList.firstItemInPath( this.context, editor.elementPath(), list ) )
+							if ( this.isIndent && CKEDITOR.plugins.indentList.firstItemInPath( this.context, path, list ) )
 								return;
 
 							// Exec related global indentation command. Global
@@ -109,7 +116,8 @@
 	function indentList( editor ) {
 		var that = this,
 			database = this.database,
-			context = this.context;
+			context = this.context,
+			range;
 
 		function indent( listNode ) {
 			// Our starting and ending points of the range might be inside some blocks under a list item...
@@ -164,7 +172,7 @@
 
 			for ( i = startItem.getCustomData( 'listarray_index' ); i <= lastItem.getCustomData( 'listarray_index' ); i++ ) {
 				listArray[ i ].indent += indentOffset;
-				// Make sure the newly created sublist get a brand-new element of the same type. (#5372)
+				// Make sure the newly created sublist get a brand-new element of the same type. (http://dev.ckeditor.com/ticket/5372)
 				if ( indentOffset > 0 ) {
 					var listRoot = listArray[ i ].parent;
 					listArray[ i ].parent = new CKEDITOR.dom.element( listRoot.getName(), listRoot.getDocument() );
@@ -179,7 +187,7 @@
 			var newList = CKEDITOR.plugins.list.arrayToList( listArray, database, null, editor.config.enterMode, listNode.getDirection() );
 
 			// Avoid nested <li> after outdent even they're visually same,
-			// recording them for later refactoring.(#3982)
+			// recording them for later refactoring.(http://dev.ckeditor.com/ticket/3982)
 			if ( !that.isIndent ) {
 				var parentLiElement;
 				if ( ( parentLiElement = listNode.getParent() ) && parentLiElement.is( 'li' ) ) {
@@ -207,7 +215,7 @@
 					// Nest preceding <ul>/<ol> inside current <li> if any.
 					while ( ( followingList = followingList.getNext() ) && followingList.is && followingList.getName() in context ) {
 						// IE requires a filler NBSP for nested list inside empty list item,
-						// otherwise the list item will be inaccessiable. (#4476)
+						// otherwise the list item will be inaccessiable. (http://dev.ckeditor.com/ticket/4476)
 						if ( CKEDITOR.env.needsNbspFiller && !li.getFirst( neitherWhitespacesNorBookmark ) )
 							li.append( range.document.createText( '\u00a0' ) );
 
@@ -226,14 +234,13 @@
 
 		var selection = editor.getSelection(),
 			ranges = selection && selection.getRanges(),
-			iterator = ranges.createIterator(),
-			range;
+			iterator = ranges.createIterator();
 
 		while ( ( range = iterator.getNextRange() ) ) {
 			var nearestListBlock = range.getCommonAncestor();
 
 			while ( nearestListBlock && !( nearestListBlock.type == CKEDITOR.NODE_ELEMENT && context[ nearestListBlock.getName() ] ) ) {
-				// Avoid having plugin propagate to parent of editor in inline mode by canceling the indentation. (#12796)
+				// Avoid having plugin propagate to parent of editor in inline mode by canceling the indentation. (http://dev.ckeditor.com/ticket/12796)
 				if ( editor.editable().equals( nearestListBlock ) ) {
 					nearestListBlock = false;
 					break;
@@ -248,7 +255,7 @@
 					range.setEndAt( nearestListBlock, CKEDITOR.POSITION_BEFORE_END );
 			}
 
-			// Avoid having selection enclose the entire list. (#6138)
+			// Avoid having selection enclose the entire list. (http://dev.ckeditor.com/ticket/6138)
 			// [<ul><li>...</li></ul>] =><ul><li>[...]</li></ul>
 			if ( !nearestListBlock ) {
 				var selectedNode = range.getEnclosedNode();

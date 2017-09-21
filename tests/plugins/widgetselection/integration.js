@@ -1,4 +1,4 @@
-/* bender-tags: 4.6.1, tc, 11064, widgetselection */
+/* bender-tags: 4.6.1, trac11064, widgetselection */
 /* bender-ckeditor-plugins: wysiwygarea, widgetselection */
 /* bender-include: _helpers/tools.js */
 /* global htmlWithSelectionHelper */
@@ -153,6 +153,11 @@
 
 		'tests updating filler references on undo flow': function() {
 			var editor = this.editor;
+
+			if ( CKEDITOR.env.chrome ) {
+				// http://dev.ckeditor.com/ticket/17029
+				assert.ignore();
+			}
 
 			bender.tools.selection.setWithHtml( editor, '<p contenteditable="false">NE</p><p>Text1</p>' );
 			this.fireSelectAll( editor );

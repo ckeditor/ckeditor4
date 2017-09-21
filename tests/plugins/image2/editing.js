@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,widget */
+/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: image2,toolbar */
 /* global widgetTestsTools, image2TestsTools */
 
@@ -114,7 +114,7 @@
 		},
 
 		/**
-		 * #12126
+		 * http://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image2 dialog.
 		 * 2. Set some proper image url and focus out.
@@ -164,7 +164,7 @@
 		},
 
 		/**
-		 * #12126
+		 * http://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image2 dialog.
 		 * 2. Set some proper image url and focus out.

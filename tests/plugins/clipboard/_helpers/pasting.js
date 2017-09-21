@@ -98,7 +98,7 @@ function mockGetClipboardData( editor, pasteData ) {
 	return stub;
 }
 
-function simulatePasteCommand( editor, cmdData, pasteData, callback ) {
+function simulatePasteCommand( editor, cmdData, pasteData, callback, timeout ) {
 	var cmdName = ( cmdData && cmdData.name ) || 'paste',
 		eventName = ( !pasteData || pasteData.prevent ) ? 'afterCommandExec' : 'paste',
 		stub;
@@ -107,12 +107,21 @@ function simulatePasteCommand( editor, cmdData, pasteData, callback ) {
 
 	stub = mockGetClipboardData( editor, pasteData );
 
-	editor.once( eventName, function( evt ) {
-		resume( function() {
-			stub.restore();
-			callback( evt );
-		} );
-	}, null, null, pasteData.priority || 1000 );
+	if ( timeout ) {
+		CKEDITOR.tools.setTimeout( function() {
+			resume( function() {
+				stub.restore();
+				callback();
+			} );
+		}, timeout );
+	} else {
+		editor.once( eventName, function( evt ) {
+			resume( function() {
+				stub.restore();
+				callback( evt );
+			} );
+		}, null, null, pasteData.priority || 1000 );
+	}
 
 	editor.execCommand( cmdName, cmdData );
 	wait();

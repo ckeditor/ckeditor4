@@ -5,7 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'sv', {
 	title: 'UI Färgväljare',
-	preview: 'Live förhandsgranskning',
-	config: 'Klistra in den här strängen i din config.js-fil',
-	predefined: 'Fördefinierade färguppsättningar'
+	options: 'Färgalternativ',
+	highlight: 'Markera',
+	selected: 'Vald färg',
+	predefined: 'Fördefinierade färguppsättningar',
+	config: 'Klistra in den här strängen i din config.js-fil'
 } );

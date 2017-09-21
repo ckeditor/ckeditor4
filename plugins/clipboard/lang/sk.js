@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sk', {
 	cut: 'Vystrihnúť',
 	cutError: 'Bezpečnostné nastavenia vášho prehliadača nedovoľujú editoru automaticky spustiť operáciu vystrihnutia. Použite na to klávesnicu (Ctrl/Cmd+X).',
 	paste: 'Vložiť',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Váš prehliadač nepovoľuje prilepiť text takýmto spôsobom. Pre prilepenie stlačte %1.'
 } );

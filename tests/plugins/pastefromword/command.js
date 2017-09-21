@@ -1,4 +1,4 @@
-/* bender-tags: editor,unit,clipboard */
+/* bender-tags: editor,clipboard */
 /* bender-ckeditor-plugins: link, pastefromword */
 /* bender-include: ../clipboard/_helpers/pasting.js */
 /* global createFixtures, getDefaultNotification, assertPasteNotification */

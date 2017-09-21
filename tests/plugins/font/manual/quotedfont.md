@@ -1,4 +1,4 @@
-@bender-tags: 4.5.10, tc, 10750
+@bender-tags: 4.5.10, bug, trac10750
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, font, enterkey, elementspath, sourcearea
 

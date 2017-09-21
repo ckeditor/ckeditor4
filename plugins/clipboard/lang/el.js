@@ -8,5 +8,5 @@ CKEDITOR.plugins.setLang( 'clipboard', 'el', {
 	cut: 'Αποκοπή',
 	cutError: 'Οι ρυθμίσεις ασφαλείας του περιηγητή σας δεν επιτρέπουν την επιλεγμένη εργασία αποκοπής. Παρακαλώ χρησιμοποιείστε το πληκτρολόγιο (Ctrl/Cmd+X).',
 	paste: 'Επικόλληση',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Ο περιηγητής σας δεν σας επιτρέπει να επικολλήσετε με αυτόν τον τρόπο. Πατήστε %1 για επικόλληση.'
 } );

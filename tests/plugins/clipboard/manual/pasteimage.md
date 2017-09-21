@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.6.2, tc, clipboard
+@bender-tags: 4.6.2, bug, clipboard
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, image, clipboard, sourcearea
 
 ## Scenario:

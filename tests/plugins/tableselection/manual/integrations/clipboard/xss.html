@@ -1,0 +1,23 @@
+<h2>Copy here…</h2>
+<img src="x" alt="Copy me!" onerror="window.parent.attack()">
+<div id="editor1">
+	<p>Paste here</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.ie || CKEDITOR.env.iOS ) {
+		bender.ignore();
+	}
+
+	window.attack = function() {
+		if ( window.attack.armed ) {
+			return alert( 'MEGA FAIL!' );
+		}
+
+		window.attack.armed = true;
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: 'img[*]'
+	} );
+</script>

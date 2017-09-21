@@ -1,4 +1,4 @@
-@bender-tags: link, tc, 7154, 4.5.11
+@bender-tags: link, bug, trac7154, 4.5.11
 @bender-ui: collapsed
 @bender-ckeditor-plugins: link, toolbar, wysiwygarea, sourcearea, basicstyles, format, undo
 
