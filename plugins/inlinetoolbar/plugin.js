@@ -207,6 +207,13 @@
 					}
 				};
 			} )();
+			CKEDITOR.ui.inlineToolbar.prototype.create = function( element ) {
+				this.attach( element );
+				var that = this;
+				this.editor.on( 'resize', function() {
+					that.attach( element, false );
+				} );
+			};
 				/////TEMPORARY CODE ///////
 			editor.addCommand( 'testInlineToolbar', {
 				exec: function( editor ) {
@@ -218,7 +225,7 @@
 						} );
 
 						// Attach the panel to an element in DOM and show it immediately.
-						panel.attach( img );
+						panel.create( img );
 					}
 				}
 			} );
