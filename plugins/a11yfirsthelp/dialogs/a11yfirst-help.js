@@ -51,14 +51,14 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
       function addNavigationLinks() {
         html = '<script type="text/javascript">'; 
-        html += 'function showTopic(id) {'; 
+        html += 'function editor.a11yfirst.showTopic(id) {'; 
         html += '  for(var i = 0; i < navigation_info.length; i++) {'; 
         html += '    var node = document.getElementById(navigation_info[i].id);'; 
         html += '    node.style.display = "none";'; 
         html += '  }'; 
         html += '  node = document.getElementById(id);'; 
         html += '  node.style.display = "block";'; 
-        html += '};'; 
+        html += '};  alert(typeof editor.a11yfirst.showTopic);' 
         html += '</script>'; 
         html += '<nav>';
         html += '  <ul title="A11yFirst Help Navigation" style="list-style: none;">';
@@ -71,7 +71,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
             before = '&rtrif;&nbsp;';
           }  
           html += '    <li style="' + css.padding + css.margin + css.border + css.background + css.font + '">';
-          html += '      <a href="#' + item.id + '" onclick="showTopic(\'' + item.id + '\')">' + before + item.label + '</a>';
+          html += '      <a href="#' + item.id + '" onclick="editor.a11yfirst.showTopic(\'' + item.id + '\')">' + before + item.label + '</a>';
           html += '    </li>';
         }
         html += '  </ul>';
