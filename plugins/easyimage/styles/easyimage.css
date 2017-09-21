@@ -1,0 +1,14 @@
+/*
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+
+.easyimage {
+	display: block;
+}
+.easyimage img {
+	max-width: 100%;
+}
+.easyimage--side {
+	float: right;
+}
