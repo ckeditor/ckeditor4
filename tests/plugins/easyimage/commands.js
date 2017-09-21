@@ -37,7 +37,7 @@
 				}
 			},
 
-			'test eiAltText command': function( editor, bot ) {
+			'test easyimageAlt command': function( editor, bot ) {
 				bot.setData( widgetHtml, function() {
 					editor.once( 'dialogShow', function( evt ) {
 						resume( function() {
@@ -55,12 +55,12 @@
 					} );
 
 					editor.widgets.instances[ 0 ].focus();
-					editor.execCommand( 'eiAltText' );
+					editor.execCommand( 'easyimageAlt' );
 					wait();
 				} );
 			},
 
-			'test eiFullImage and eiSideImage commands': function( editor, bot ) {
+			'test easyimageFull and easyimageSide commands': function( editor, bot ) {
 				bot.setData( widgetHtml, function() {
 					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
 
@@ -70,18 +70,18 @@
 
 					bot.contextmenu( function( menu ) {
 						assertMenuItemsState( menu.items, {
-							eiFullImage: CKEDITOR.TRISTATE_ON,
-							eiSideImage: CKEDITOR.TRISTATE_OFF
+							easyimageFull: CKEDITOR.TRISTATE_ON,
+							easyimageSide: CKEDITOR.TRISTATE_OFF
 						} );
 
-						editor.execCommand( 'eiSideImage' );
+						editor.execCommand( 'easyimageSide' );
 
 						assert.isTrue( widget.element.hasClass( 'easyimage--side' ), 'Image has side class' );
 
 						bot.contextmenu( function( menu ) {
 							assertMenuItemsState( menu.items, {
-								eiFullImage: CKEDITOR.TRISTATE_OFF,
-								eiSideImage: CKEDITOR.TRISTATE_ON
+								easyimageFull: CKEDITOR.TRISTATE_OFF,
+								easyimageSide: CKEDITOR.TRISTATE_ON
 							} );
 
 							menu.hide();
