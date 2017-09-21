@@ -6,12 +6,12 @@
 ( function() {
 	'use strict';
 
-	function isFullImage( widget ) {
-		return !widget.element.hasClass( 'easyimage--side' );
-	}
-
 	function isSideImage( widget ) {
 		return widget.element.hasClass( 'easyimage--side' );
+	}
+
+	function isFullImage( widget ) {
+		return !isSideImage( widget );
 	}
 
 	var stylesLoaded = false;
