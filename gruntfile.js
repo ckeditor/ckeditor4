@@ -26,6 +26,24 @@ module.exports = function( grunt ) {
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 
+		babel: {
+			options: {
+				sourceMap: false,
+				presets: [ [ 'env', {
+					modules: false
+				} ], 'minify' ],
+				plugins: [ [ 'transform-es2015-modules-umd', {
+					globals: {
+						'uploadgateway': 'CKEDITOR.uploadgateway'
+					},
+					exactGlobals: true
+				} ] ],
+				shouldPrintComment: function( comment ) {
+					return comment.indexOf( '@license' ) !== -1;
+				}
+			}
+		},
+
 		jshint: {
 			options: {
 				ignores: ignoreFiles
