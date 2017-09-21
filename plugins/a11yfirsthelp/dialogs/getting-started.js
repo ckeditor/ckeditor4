@@ -4,12 +4,15 @@
 */
 CKEDITOR.dialog.add( 'a11yFirstGettingStarted', function( editor ) {
   var lang = editor.lang.a11yfirsthelp;
+  var dialogObj = this;
 
   return {
     title: lang.gettingStartedLabel,
     minWidth: 500,
     minHeight: 300,
     onShow: function(event) {
+
+      console.log('helpOption: ' + editor.a11yfirst.helpOption);
 
       function h2(content) {
         return '<h2 style="white-space: normal; font-weight: bold; margin-top: 1em; font-size: 135%">' + content + '</h2>';

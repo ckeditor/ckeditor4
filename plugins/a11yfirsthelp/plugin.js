@@ -28,13 +28,21 @@
           index = 1;
 
 
+      if (!editor.a11yfirst) {
+        editor.a11yfirst = {};        
+      }
+
+      if (!editor.a11yfirst.helpOption) {
+        editor.a11yfirst.helpOption = 'gettingstarted';        
+      }
+
       // Change behavior of menubutton with text label
       CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
       // Initialize Getting Started menuitem
       var gettingStartedCmd = 'a11yFirstGettingStarted';
       CKEDITOR.dialog.add( gettingStartedCmd, this.path + 'dialogs/getting-started.js' );
-      editor.addCommand( gettingStartedCmd, new CKEDITOR.dialogCommand( gettingStartedCmd ) );
+      editor.addCommand( gettingStartedCmd, new CKEDITOR.dialogCommand( gettingStartedCmd, {helpCommandId: 'gettingstarted'} ) );
 
       // Initialize Block Format Help menuitem
       var blockFormatHelpCmd = 'blockFormatHelp';
@@ -51,6 +59,10 @@
       CKEDITOR.dialog.add( a11yFirstLinkHelpCmd, this.path + 'dialogs/link-help.js' );
       editor.addCommand( a11yFirstLinkHelpCmd, new CKEDITOR.dialogCommand( a11yFirstLinkHelpCmd ) );
 
+      // Initialize A11yFirst Help dialog and command
+      var a11yFirstHelpDialogCmd = 'a11yFirstHelpDialog';
+      CKEDITOR.dialog.add( a11yFirstHelpDialogCmd, this.path + 'dialogs/a11yfirst-help.js' );
+      editor.addCommand( a11yFirstHelpDialogCmd, new CKEDITOR.dialogCommand( a11yFirstHelpDialogCmd ) );
 
       // Register a11yfirsthelp command
       editor.addCommand( 'allyfirsthelp', {
@@ -65,7 +77,9 @@
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
-          editor.execCommand('headingHelp');
+          editor.a11yfirst.helpOption = 'heading';        
+          editor.execCommand(a11yFirstHelpDialogCmd);
+//          editor.execCommand('headingHelp');
         }
       };
 
@@ -75,7 +89,9 @@
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
-          editor.execCommand(blockFormatHelpCmd);
+          editor.a11yfirst.helpOption = 'blockformat';        
+          editor.execCommand(a11yFirstHelpDialogCmd);
+//          editor.execCommand(blockFormatHelpCmd, 'blockformat');
         }
       };      
 
@@ -85,7 +101,9 @@
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
-          editor.execCommand(inlineStyleHelpCmd);
+          editor.a11yfirst.helpOption = 'inlinestyle';        
+          editor.execCommand(a11yFirstHelpDialogCmd);
+//          editor.execCommand(inlineStyleHelpCmd,'inlinestyle');
         }
       };  
 
@@ -95,7 +113,9 @@
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
-          editor.execCommand(a11yFirstLinkHelpCmd);
+          editor.a11yfirst.helpOption = 'link';        
+          editor.execCommand(a11yFirstHelpDialogCmd);
+//          editor.execCommand(a11yFirstLinkHelpCmd, 'link');
         }
       };  
 
@@ -106,7 +126,9 @@
         group: 'a11yfirsthelp_getting_started',
         order: index+1,
         onClick: function() {
-          editor.execCommand( gettingStartedCmd );
+          editor.a11yfirst.helpOption = 'gettingstarted';        
+          editor.execCommand(a11yFirstHelpDialogCmd);
+//          editor.execCommand( gettingStartedCmd, 'gettingstarted');
         }
       };
       

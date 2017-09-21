@@ -7,6 +7,9 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   panelTitle:   'Learn about A11yFirst Toolbar',
   headingHelpLabel:    'Heading Help',
 
+  a11yFirstHelpLabel:   'Accessibility Help',
+  a11yFirstHelpTitle:   'Information to help auhtoris use the A11yFirst features to make content more accessible to people with disabilites',
+
   gettingStartedLabel: 'Getting Started',
   gettingStartedTitle: 'Getting Started with accessibility using the A11yFirst Toolbar',
 
@@ -38,6 +41,25 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
     'Item 5'
   ],
 
+  // Heading help content
+
+  headingHelpLabel: 'Heading Help',
+  headingHelpTitle: 'Headings identify the section and sub-section of the document, and provide a consistent styling of the structure of a document to help users understand the organization of the documents.',
+
+  headingHelp1Heading: 'Donec scelerisque sapien',
+  headingHelp1Content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at nisi nisi. Maecenas vulputate aliquam eros vel auctor. Nam bibendum varius placerat. Etiam sit amet quam orci. Aenean accumsan ultrices turpis, sit amet convallis quam bibendum eu. Aliquam tempor, dui a malesuada dignissim, ipsum lacus tincidunt nunc, in aliquam leo libero sit amet libero.',
+
+  headingHelp2Heading: 'Aliquam dictum ac',
+  headingHelp2Content: [
+    'Fusce vitae iaculis lectus, quis pellentesque turpis',
+    'Donec placerat condimentum interdum. ',
+    'Um sit amet, hendreri morbi eu risus eget lacus ve. ',
+    'C enim enim, interdum ac mauris eu, viverra tempor.',
+    'Donec scelerisque sapien sit amet ultrices consectetur.'
+  ],
+
+  // Block Format help content
+
   blockFormatHelpLabel: 'Block Format Help',
   blockFormatHelpTitle: 'Block format applies styles to an entire block of text, for example a paragraph or a list item.',
 
@@ -53,6 +75,8 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
     'Donec scelerisque sapien sit amet ultrices consectetur.'
   ],
 
+  // Inline Style help content
+
   inlineStyleHelpLabel: 'Inline Style Help',
   inlineStyleHelpTitle: 'Inline style applies styles to an selected block of text, for example applying emphasis to a few words in a sentence.',
 
@@ -67,6 +91,8 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
     'C enim enim, interdum ac mauris eu, viverra tempor.',
     'Donec scelerisque sapien sit amet ultrices consectetur.'
   ],
+
+  // Link help content
 
   linkHelpLabel: 'Link Help',
   linkHelpTitle: 'The text used to identify a linke is very important to all users, but especially to people using screen readers and some types of learning disabilies.',
