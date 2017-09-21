@@ -34,7 +34,7 @@
 				editor.addContentsCss( this.path + 'styles/easyimage.css' );
 			}
 
-			editor.addCommand( 'eiFullImage', {
+			editor.addCommand( 'easyimageFull', {
 				exec: function() {
 					var widget = editor.widgets.focused;
 
@@ -42,7 +42,7 @@
 				}
 			} );
 
-			editor.addCommand( 'eiSideImage', {
+			editor.addCommand( 'easyimageSide', {
 				exec: function() {
 					var widget = editor.widgets.focused;
 
@@ -50,27 +50,27 @@
 				}
 			} );
 
-			editor.addCommand( 'eiAltText', new CKEDITOR.dialogCommand( 'eiAltText' ) );
+			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'eiAltText' ) );
 
 			editor.addMenuGroup( 'easyimage' );
 			editor.addMenuItems( {
-				eiFullImage: {
+				easyimageFull: {
 					label: editor.lang.easyimage.commands.fullImage,
-					command: 'eiFullImage',
+					command: 'easyimageFull',
 					group: 'easyimage',
 					order: 1
 				},
 
-				eiSideImage: {
+				easyimageSide: {
 					label: editor.lang.easyimage.commands.sideImage,
-					command: 'eiSideImage',
+					command: 'easyimageSide',
 					group: 'easyimage',
 					order: 2
 				},
 
-				eiAltText: {
+				easyimageAlt: {
 					label: editor.lang.easyimage.commands.altText,
-					command: 'eiAltText',
+					command: 'easyimageAlt',
 					group: 'easyimage',
 					order: 3
 				}
@@ -96,9 +96,9 @@
 						// Remove "Image Properties" option.
 						delete evt.data.image;
 
-						evt.data.eiFullImage = isFullImage( this ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-						evt.data.eiSideImage = isSideImage( this ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-						evt.data.eiAltText = CKEDITOR.TRISTATE_OFF;
+						evt.data.easyimageFull = isFullImage( this ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+						evt.data.easyimageSide = isSideImage( this ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+						evt.data.easyimageAlt = CKEDITOR.TRISTATE_OFF;
 					} );
 				};
 			} );
