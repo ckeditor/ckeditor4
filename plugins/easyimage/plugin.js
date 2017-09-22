@@ -6,6 +6,8 @@
 ( function() {
 	'use strict';
 
+	var commandsToRefresh = [ 'easyimageFull', 'easyimageSide' ];
+
 	function isSideImage( widget ) {
 		return widget.element.hasClass( 'easyimage-side' );
 	}
@@ -14,9 +16,41 @@
 		return !isSideImage( widget );
 	}
 
-	function refreshCommands( editor ) {
-		editor.getCommand( 'easyimageFull' ).refresh( editor );
-		editor.getCommand( 'easyimageSide' ).refresh( editor );
+	function refreshCommands( editor, commands ) {
+		CKEDITOR.tools.array.forEach( commands, function( command ) {
+			editor.getCommand( command ).refresh( editor );
+		} );
+	}
+
+	function createCommandRefresh( check ) {
+		return function( editor ) {
+			var widget = editor.widgets.focused;
+
+			if ( widget && widget.name === 'image' ) {
+				this.setState( ( check && check( widget ) ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+			} else {
+				this.setState( CKEDITOR.TRISTATE_DISABLED );
+			}
+		};
+	}
+
+	function createCommand( exec, refreshCheck ) {
+		return {
+			startDisabled: true,
+			contextSensitive: true,
+
+			exec: function( editor ) {
+				var widget = editor.widgets.focused;
+
+				exec( widget );
+
+				// We have to manually refresh commands as refresh seems
+				// to be executed prior to exec.
+				refreshCommands( editor, commandsToRefresh );
+			},
+
+			refresh: createCommandRefresh( refreshCheck )
+		};
 	}
 
 	var stylesLoaded = false;
@@ -39,70 +73,22 @@
 				editor.addContentsCss( this.path + 'styles/easyimage.css' );
 			}
 
-			editor.addCommand( 'easyimageFull', {
-				startDisabled: true,
-				contextSensitive: true,
+			editor.addCommand( 'easyimageFull', createCommand( function( widget ) {
+				widget.element.removeClass( 'easyimage-side' );
+			}, function( widget ) {
+				return isFullImage( widget );
+			} ) );
 
-				exec: function() {
-					var widget = editor.widgets.focused;
-
-					widget.element.removeClass( 'easyimage-side' );
-
-					// We have to manually refresh commands as refresh seems
-					// to be executed prior to exec.
-					refreshCommands( editor, [ 'easyimageFull', 'easyimageSide' ] );
-
-				},
-
-				refresh: function( editor ) {
-					var widget = editor.widgets.focused;
-
-					if ( widget && widget.name === 'image' ) {
-						this.setState( isFullImage( widget ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-					} else {
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
-					}
-				}
-			} );
-
-			editor.addCommand( 'easyimageSide', {
-				startDisabled: true,
-				contextSensitive: true,
-
-				exec: function() {
-					var widget = editor.widgets.focused;
-
-					widget.element.addClass( 'easyimage-side' );
-
-					// We have to manually refresh commands as refresh seems
-					// to be executed prior to exec.
-					refreshCommands( editor, [ 'easyimageFull', 'easyimageSide' ] );
-				},
-
-				refresh: function( editor ) {
-					var widget = editor.widgets.focused;
-
-					if ( widget && widget.name === 'image' ) {
-						this.setState( isSideImage( widget ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
-					} else {
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
-					}
-				}
-			} );
+			editor.addCommand( 'easyimageSide', createCommand( function( widget ) {
+				widget.element.addClass( 'easyimage-side' );
+			}, function( widget ) {
+				return isSideImage( widget );
+			} ) );
 
 			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
 				startDisabled: true,
 				contextSensitive: true,
-
-				refresh: function( editor ) {
-					var widget = editor.widgets.focused;
-
-					if ( widget && widget.name === 'image' ) {
-						this.setState( CKEDITOR.TRISTATE_OFF );
-					} else {
-						this.setState( CKEDITOR.TRISTATE_DISABLED );
-					}
-				}
+				refresh: createCommandRefresh()
 			} ) );
 
 			editor.addMenuGroup( 'easyimage' );
