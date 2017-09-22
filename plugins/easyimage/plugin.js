@@ -7,20 +7,12 @@
 	'use strict';
 
 	function addCommands( editor ) {
-		var commandsToRefresh = [ 'easyimageFull', 'easyimageSide' ];
-
 		function isSideImage( widget ) {
 			return widget.element.hasClass( 'easyimage-side' );
 		}
 
 		function isFullImage( widget ) {
 			return !isSideImage( widget );
-		}
-
-		function refreshCommands( editor, commands ) {
-			CKEDITOR.tools.array.forEach( commands, function( command ) {
-				editor.getCommand( command ).refresh( editor );
-			} );
 		}
 
 		function createCommandRefresh( enableCheck ) {
@@ -45,9 +37,9 @@
 
 					exec( widget );
 
-					// We have to manually refresh commands as refresh seems
+					// We have to manually force refresh commands as refresh seems
 					// to be executed prior to exec.
-					refreshCommands( editor, commandsToRefresh );
+					editor.forceNextSelectionCheck();
 				},
 
 				refresh: createCommandRefresh( refreshCheck )
