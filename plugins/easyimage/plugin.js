@@ -10,7 +10,7 @@
 
 	function addCommands( editor ) {
 		function isSideImage( widget ) {
-			return widget.element.hasClass( 'easyimage-side' );
+			return widget.element.hasClass( editor.config.easyimage_sideClass );
 		}
 
 		function isFullImage( widget ) {
@@ -49,13 +49,13 @@
 		}
 
 		editor.addCommand( 'easyimageFull', createCommand( function( widget ) {
-			widget.element.removeClass( 'easyimage-side' );
+			widget.element.removeClass( editor.config.easyimage_sideClass );
 		}, function( widget ) {
 			return isFullImage( widget );
 		} ) );
 
 		editor.addCommand( 'easyimageSide', createCommand( function( widget ) {
-			widget.element.addClass( 'easyimage-side' );
+			widget.element.addClass( editor.config.easyimage_sideClass );
 		}, function( widget ) {
 			return isSideImage( widget );
 		} ) );
@@ -102,7 +102,8 @@
 				return;
 			}
 
-			evt.data.allowedContent.figure.classes += ',!easyimage,easyimage-side';
+			evt.data.allowedContent.figure.classes += ',!' + editor.config.easyimage_class + ',' +
+				editor.config.easyimage_sideClass;
 
 			// Block default image dialog.
 			evt.data.dialog = null;
@@ -148,4 +149,26 @@
 			registerWidget( editor );
 		}
 	} );
+
+	/**
+	 * A CSS class applied to all Easy Image widgets
+	 *
+	 *		// Changes the class to "my-image".
+	 *		config.easyimage_class = 'my-image';
+	 *
+	 * @cfg {String} [easyimage_class='easyimage']
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_class = 'easyimage';
+
+	/**
+	 * A CSS class representing side image.
+	 *
+	 *		// Changes the class to "my-side-image".
+	 *		config.easyimage_sideClass = 'my-side-image';
+	 *
+	 * @cfg {String} [easyimage_sideClass='easyimage-side']
+	 * @member CKEDITOR.config
+	 */
+	CKEDITOR.config.easyimage_sideClass = 'easyimage-side';
 }() );
