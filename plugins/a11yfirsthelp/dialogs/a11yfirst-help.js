@@ -49,18 +49,23 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
         return html;
       }
 
+      var showTopic = function(event, id) {
+        console.log("[showTopic] id: " + id);
+        for(var i = 0; i < navigation_info.length; i++) {
+          var node = document.getElementById(navigation_info[i].id);
+          if (node) node.style.display = "none";
+        }
+        node = document.getElementById(id);
+        if(node) node.style.display = "block";
+
+        event.stopPropagation();
+        event.preventDefault();
+
+      };
+
+
       function addNavigationLinks() {
-        html = '<script type="text/javascript">'; 
-        html += 'function editor.a11yfirst.showTopic(id) {'; 
-        html += '  for(var i = 0; i < navigation_info.length; i++) {'; 
-        html += '    var node = document.getElementById(navigation_info[i].id);'; 
-        html += '    node.style.display = "none";'; 
-        html += '  }'; 
-        html += '  node = document.getElementById(id);'; 
-        html += '  node.style.display = "block";'; 
-        html += '};  alert(typeof editor.a11yfirst.showTopic);' 
-        html += '</script>'; 
-        html += '<nav>';
+        html = '<nav>';
         html += '  <ul title="A11yFirst Help Navigation" style="list-style: none;">';
         for (var i = 0; i < navigation_info.length; i++) {
           var item = navigation_info[i];
@@ -71,7 +76,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
             before = '&rtrif;&nbsp;';
           }  
           html += '    <li style="' + css.padding + css.margin + css.border + css.background + css.font + '">';
-          html += '      <a href="#' + item.id + '" onclick="editor.a11yfirst.showTopic(\'' + item.id + '\')">' + before + item.label + '</a>';
+          html += '      <a tabindex="0" id="' + item.id + '_link" href="#' + item.id + '">' + before + item.label + '</a>';
           html += '    </li>';
         }
         html += '  </ul>';
@@ -93,6 +98,21 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
       node.innerHTML = addNavigationLinks();
 
+      var node = document.getElementById('id_a11yfirst_getting_started_link');
+      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_getting_started')});
+
+      var node = document.getElementById('id_a11yfirst_heading_link');
+      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_heading')});
+
+      var node = document.getElementById('id_a11yfirst_block_format_link');
+      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_block_format')});
+
+      var node = document.getElementById('id_a11yfirst_inline_style_link');
+      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_inline_style')});
+
+      var node = document.getElementById('id_a11yfirst_link_link');
+      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_link')});
+
 
       node = document.getElementById('a11yfirsthelp_content');
 
@@ -113,19 +133,19 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     },
 
     contents: [
-      {
-        id: 'tab1',
-        label: lang.a11yFirstHelpLabel,
-        title: lang.a11yFirstHelpTitle,
-        expand: true,
-        padding: 0,
-        elements: [
           {
-            type: 'html',
-            html: '<table role="none"><tr><td style="width: 150px"><div id="a11yfirsthelp_nav" style="padding-right: 1em;"></div></td><td style="width: 480px; border-left: 1px #d1d1d1 solid"><div id="a11yfirsthelp_content" style="padding-left: 1em; height: 400px; overflow: auto">Tab 1</div></td></tr></table>'
+            id: 'tab1',
+            label: lang.a11yFirstHelpLabel,
+            title: lang.a11yFirstHelpTitle,
+            expand: true,
+            padding: 0,
+            elements: [
+              {
+                type: 'html',
+                html: '<table role="none"><tr><td style="width: 150px"><div id="a11yfirsthelp_nav" style="padding-right: 1em;"></div></td><td style="width: 480px; border-left: 1px #d1d1d1 solid"><div id="a11yfirsthelp_content" style="padding-left: 1em; height: 400px; overflow: auto">Tab 1</div></td></tr></table>'
+              }
+            ]
           }
-        ]
-      }
     ],
 
     buttons: [ CKEDITOR.dialog.okButton ]
