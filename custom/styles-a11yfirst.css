@@ -1,0 +1,37 @@
+/* all richcombo button labels */
+.cke_combo_text.cke_combo_inlinelabel {
+  width: auto;
+}
+
+/* heading menubutton with text label */
+.cke_button.cke_button__heading .cke_button_arrow {
+  margin-left: 10px;
+}
+.cke_button_icon.cke_button__heading_icon {
+  display: none;
+}
+.cke_button_label.cke_button__heading_label {
+  display: inline;
+}
+
+/* blockformat menubutton with text label */
+.cke_button.cke_button__blockformat .cke_button_arrow {
+  margin-left: 10px;
+}
+.cke_button_icon.cke_button__blockformat_icon {
+  display: none;
+}
+.cke_button_label.cke_button__blockformat_label {
+  display: inline;
+}
+
+/* langtest menubutton with text label */
+.cke_button.cke_button__langtest .cke_button_arrow {
+  margin-left: 10px;
+}
+.cke_button_icon.cke_button__langtest_icon {
+  display: none;
+}
+.cke_button_label.cke_button__langtest_label {
+  display: inline;
+}
