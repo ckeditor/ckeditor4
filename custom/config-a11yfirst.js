@@ -1,0 +1,41 @@
+CKEDITOR.replace('editor', {
+  headings: 'h1:h4',
+  oneLevel1: true,
+  height: 480,
+  skin: 'a11yfirst',
+  startupFocus: true,
+  toolbar: [
+    { name: 'heading',      items: [ 'Heading' ] },
+    { name: 'list',         items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
+    { name: 'link',         items: [ 'Link', 'Unlink', 'Anchor' ] },
+    { name: 'blockformat',  items: [ 'BlockFormat' ] },
+    { name: 'blockquote',   items: [ 'Blockquote', 'ShowBlocks' ] },
+    { name: 'paragraph',    items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
+    { name: 'misc1',        items: [ 'Image', 'Table' ] },
+    { name: 'a11ychecker',  items: [ 'A11ychecker' ] },
+    '/',
+    { name: 'undoredo',     items: [ 'Undo', 'Redo'] },
+    { name: 'clipboard',    items: [ 'Cut', 'Copy', 'Paste', 'PasteFromWord' ] },
+    { name: 'search',       items: [ 'Find', 'Replace' ] },
+    { name: 'basicstyles',  items: [ 'Bold', 'Italic'] },
+    { name: 'removeformat', items: [ 'RemoveFormat' ] },
+    { name: 'inlinestyle',  items: [ 'InlineStyle' ] },
+    { name: 'misc2',        items: [ 'Language', 'SpecialChar' ] },
+    { name: 'source',       items: [ 'Source' ] }
+  ],
+  extraPlugins: 'a11ychecker,a11yformat,a11yheading,a11ystylescombo',
+} );
+CKEDITOR.stylesSet.add ( 'default', [
+  { name: 'Strong',           element: 'strong', overrides: 'b' },
+  { name: 'Emphasis',         element: 'em' , overrides: 'i' },
+  { name: 'Marker',           element: 'span', attributes: { 'class': 'marker' } },
+  { name: 'Inline quotation', element: 'q' },
+  { name: 'Cited work',       element: 'cite' },
+  { name: 'Computer code',    element: 'code' },
+  { name: 'Subscript',        element: 'sub' },
+  { name: 'Superscript',      element: 'sup' },
+  { name: 'Deleted Text',     element: 'del' },
+  { name: 'Inserted Text',    element: 'ins' },
+  { name: 'Strikethrough',    element: 'strike' },
+  { name: 'Underline',        element: 'u' }
+] );
