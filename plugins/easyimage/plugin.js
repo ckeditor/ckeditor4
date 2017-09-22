@@ -23,12 +23,12 @@
 			} );
 		}
 
-		function createCommandRefresh( check ) {
+		function createCommandRefresh( enableCheck ) {
 			return function( editor ) {
 				var widget = editor.widgets.focused;
 
 				if ( widget && widget.name === 'image' ) {
-					this.setState( ( check && check( widget ) ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+					this.setState( ( enableCheck && enableCheck( widget ) ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				} else {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				}
