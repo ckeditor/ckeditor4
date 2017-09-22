@@ -1521,36 +1521,38 @@
 		/**
 		 * Converts hexstring to base64 coode.
 		 *
-		 * Hexstring contains 8bit numbers, where base64 use 6bit to code.
-		 * We need to process 3 * 8bit chunks of hexstring into 4 * 6bit characters of base64.
+		 * Hexstring contains `8bit` numbers, where base64 use `6bit` to code.
+		 * We need to process `3 * 8bit` chunks of hexstring into `4 * 6bit` characters of base64.
+		 *
 		 * Algorithm:
-		 * 1. Take 3 * 8bit.
-		 * 2. If there is less than 3 byte, fill it with zeros.
-		 * 3. Transform 3 * 8bit into 4 * 6bit numbers.
+		 *
+		 * 1. Take `3 * 8bit`.
+		 * 2. If there is less than 3 byte, fill empty bits with zeros.
+		 * 3. Transform `3 * 8bit` into `4 * 6bit` numbers.
 		 * 4. Translate those numbers to proper character related to base64.
-		 * 5. If there was added extra zeros bytes fill them with '=' sign.
+		 * 5. If there was added extra zeros bytes fill them with `=` sign.
 		 *
 		 * Example:
-		 * 	hex: 08A11D8ADA2B -> binary: 0000 1000 1010 0001 0001 1101 1000 1010 1101 1010 0010 1011
-		 * 	| <- shows where base64 will cut bits
-		 * 	binary: 0000 10|00 1010| 0001 00|01 1101| 1000 10|10 1101| 1010 00|10 1011
-		 * 	This gives indexes in base64character table
-		 * 	decimal: 2 10 4 29 34 45 40 43 -> base64: "CKEditor"
+		 *
+		 * * Hex: `08A11D8ADA2B` -> binary: `0000 1000 1010 0001 0001 1101 1000 1010 1101 1010 0010 1011`.
+		 * * `|` (pipe) shows where base64 will cut bits during transform.
+		 * * Binary: `0000 10|00 1010| 0001 00|01 1101| 1000 10|10 1101| 1010 00|10 1011`.
+		 * * Now we have 6bit numbers (decimal values below), which are translated to indexes in `base64characters` array.
+		 * * Decimal: `2 10 4 29 34 45 40 43` -> base64: `CKEditor`.
 		 *
 		 * @since 4.8.0
-		 * @param {String} hexstring string contained only hexadecimal values, e.g. "0AB7"
-		 * @returns {String} base64 string
+		 * @param {String} hexString String contained only hexadecimal values, e.g. `0AB7`.
+		 * @returns {String} Base64 string represnet input value.
 		 */
-		hexstring2base64: function( hexstring ) {
+		convertHexstringToBase64: function( hexString ) {
 			var binaryArray = [],
 				base64characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
 				base64string = '',
-				binArrLength = hexstring.length / 2,
+				binArrLength = hexString.length / 2,
 				i;
 
-
 			for ( i = 0; i < binArrLength; i++ ) {
-				binaryArray.push( parseInt( hexstring.substr( i * 2, 2 ), 16 ) );
+				binaryArray.push( parseInt( hexString.substr( i * 2, 2 ), 16 ) );
 			}
 
 			for ( i = 0; i < binArrLength; i += 3 ) {
@@ -1572,6 +1574,9 @@
 				array4[ 3 ] = array3[ 2 ] & 0x3F;
 
 				for ( j = 0; j < 4; j++ ) {
+					// Example: if array3legth == 1, then we need to add 2 equal sign at the end of base64.
+					// array3[ 0 ] is used to calcualte array4[ 0 ] and array4[ 1 ], so there will be regular values,
+					// next two one has to be replaced with `=`, because array3[ 1 ] and array3[ 2 ] wasn't present in input string.
 					if ( j <= array3length ) {
 						base64string += base64characters.charAt( array4[ j ] );
 					} else {
