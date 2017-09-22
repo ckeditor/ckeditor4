@@ -91,6 +91,35 @@
 		} );
 	}
 
+	function registerWidget( editor ) {
+		// Overwrite some image2 defaults.
+		editor.on( 'widgetDefinition', function( evt ) {
+			var oldInit = evt.data.init;
+
+			if ( evt.data.name !== 'image' ) {
+				return;
+			}
+
+			evt.data.allowedContent.figure.classes += ',!easyimage,easyimage-side';
+
+			// Block default image dialog.
+			evt.data.dialog = null;
+
+			evt.data.init = function() {
+				oldInit.call( this );
+
+				this.on( 'contextMenu', function( evt ) {
+					// Remove "Image Properties" option.
+					delete evt.data.image;
+
+					evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
+					evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
+					evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
+				} );
+			};
+		} );
+	}
+
 	var stylesLoaded = false;
 
 	CKEDITOR.plugins.add( 'easyimage', {
@@ -113,33 +142,7 @@
 
 			addCommands( editor );
 			addMenuItems( editor );
-
-			// Overwrite some image2 defaults.
-			editor.on( 'widgetDefinition', function( evt ) {
-				var oldInit = evt.data.init;
-
-				if ( evt.data.name !== 'image' ) {
-					return;
-				}
-
-				evt.data.allowedContent.figure.classes += ',!easyimage,easyimage-side';
-
-				// Block default image dialog.
-				evt.data.dialog = null;
-
-				evt.data.init = function() {
-					oldInit.call( this );
-
-					this.on( 'contextMenu', function( evt ) {
-						// Remove "Image Properties" option.
-						delete evt.data.image;
-
-						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
-						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
-						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
-					} );
-				};
-			} );
+			registerWidget( editor );
 		}
 	} );
 }() );
