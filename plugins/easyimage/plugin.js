@@ -14,6 +14,11 @@
 		return !isSideImage( widget );
 	}
 
+	function refreshCommands( editor ) {
+		editor.getCommand( 'easyimageFull' ).refresh( editor );
+		editor.getCommand( 'easyimageSide' ).refresh( editor );
+	}
+
 	var stylesLoaded = false;
 
 	CKEDITOR.plugins.add( 'easyimage', {
@@ -35,22 +40,70 @@
 			}
 
 			editor.addCommand( 'easyimageFull', {
+				startDisabled: true,
+				contextSensitive: true,
+
 				exec: function() {
 					var widget = editor.widgets.focused;
 
 					widget.element.removeClass( 'easyimage-side' );
+
+					// We have to manually refresh commands as refresh seems
+					// to be executed prior to exec.
+					refreshCommands( editor, [ 'easyimageFull', 'easyimageSide' ] );
+
+				},
+
+				refresh: function( editor ) {
+					var widget = editor.widgets.focused;
+
+					if ( widget && widget.name === 'image' ) {
+						this.setState( isFullImage( widget ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+					} else {
+						this.setState( CKEDITOR.TRISTATE_DISABLED );
+					}
 				}
 			} );
 
 			editor.addCommand( 'easyimageSide', {
+				startDisabled: true,
+				contextSensitive: true,
+
 				exec: function() {
 					var widget = editor.widgets.focused;
 
 					widget.element.addClass( 'easyimage-side' );
+
+					// We have to manually refresh commands as refresh seems
+					// to be executed prior to exec.
+					refreshCommands( editor, [ 'easyimageFull', 'easyimageSide' ] );
+				},
+
+				refresh: function( editor ) {
+					var widget = editor.widgets.focused;
+
+					if ( widget && widget.name === 'image' ) {
+						this.setState( isSideImage( widget ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
+					} else {
+						this.setState( CKEDITOR.TRISTATE_DISABLED );
+					}
 				}
 			} );
 
-			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt' ) );
+			editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
+				startDisabled: true,
+				contextSensitive: true,
+
+				refresh: function( editor ) {
+					var widget = editor.widgets.focused;
+
+					if ( widget && widget.name === 'image' ) {
+						this.setState( CKEDITOR.TRISTATE_OFF );
+					} else {
+						this.setState( CKEDITOR.TRISTATE_DISABLED );
+					}
+				}
+			} ) );
 
 			editor.addMenuGroup( 'easyimage' );
 			editor.addMenuItems( {
@@ -96,9 +149,9 @@
 						// Remove "Image Properties" option.
 						delete evt.data.image;
 
-						evt.data.easyimageFull = isFullImage( this ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-						evt.data.easyimageSide = isSideImage( this ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
-						evt.data.easyimageAlt = CKEDITOR.TRISTATE_OFF;
+						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
+						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
+						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
 					} );
 				};
 			} );
