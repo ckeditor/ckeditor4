@@ -115,7 +115,7 @@
 				}
 			} );
 
-			// Overwrite some image2 defaults
+			// Overwrite some image2 defaults.
 			editor.on( 'widgetDefinition', function( evt ) {
 				var oldInit = evt.data.init;
 
