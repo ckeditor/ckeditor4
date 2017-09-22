@@ -11,13 +11,11 @@ CKEDITOR.dialog.add( 'easyimageAlt', function( editor ) {
 		onOk: function() {
 			var newAlt = CKEDITOR.tools.trim( this.getValueOf( 'info', 'txtAlt' ) );
 
-			if ( this._.selectedImage ) {
-				this._.selectedImage.setAttribute( 'alt', newAlt );
-			}
+			this._.selectedImage.setAttribute( 'alt', newAlt );
 		},
 
 		onHide: function() {
-			delete this._.selectedElement;
+			delete this._.selectedImage;
 		},
 
 		onShow: function() {
