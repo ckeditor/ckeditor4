@@ -558,7 +558,6 @@
 				// But don't you know any way to distinguish first two cases from last two?
 				// Only one - special flag set in CTRL+V handler and exec method of 'paste'
 				// command. And that's what we did using preventPasteEventNow().
-
 				pasteDataFromClipboard( evt );
 			} );
 
@@ -662,7 +661,6 @@
 					this.type == 'cut' && fixCut();
 
 					var success = tryToCutCopy( this.type );
-
 					if ( !success ) {
 						// Show cutError or copyError.
 						editor.showNotification( editor.lang.clipboard[ this.type + 'Error' ] ); // jshint ignore:line
@@ -1527,6 +1525,15 @@
 		isCustomDataTypesSupported: !CKEDITOR.env.ie,
 
 		/**
+		 * True if the environment supports only predefined MIME types in dataTransfer/cliboardData getData/setData methods.
+		 *
+		 * @since 4.8
+		 * @readonly
+		 * @property {Boolean}
+		 */
+		isOnlyMimeTypeDataTypesSupported: CKEDITOR.env.edge && CKEDITOR.env.version >= 16,
+
+		/**
 		 * True if the environment supports File API.
 		 *
 		 * @since 4.5
@@ -2086,11 +2093,10 @@
 		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( !this.isCustomCopyCutSupported ) {
-				// Edge does not support custom copy/cut, but it have some useful data in the clipboardData (https://dev.ckeditor.com/ticket/13755).
+				// Edge < 16 does not support custom copy/cut, but it have some useful data in the clipboardData (https://dev.ckeditor.com/ticket/13755).
 				return new this.dataTransfer( ( CKEDITOR.env.edge && evt && evt.data.$ && evt.data.$.clipboardData ) || null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
-
 				if ( this.copyCutData && dataTransfer.id == this.copyCutData.id ) {
 					dataTransfer = this.copyCutData;
 					dataTransfer.$ = evt.data.$.clipboardData;
@@ -2165,7 +2171,7 @@
 
 		// If there is no ID we need to create it. Different browsers needs different ID.
 		if ( !this.id ) {
-			if ( clipboardIdDataType == 'Text' ) {
+			if ( clipboardIdDataType == 'Text' && !CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported ) {
 				// For IE10+ only Text data type is supported and we have to compare dragged
 				// and dropped text. If the ID is not set it means that empty string was dragged
 				// (ex. image with no alt). We change null to empty string.
@@ -2177,7 +2183,7 @@
 		}
 
 		// In IE10+ we can not use any data type besides text, so we do not call setData.
-		if ( clipboardIdDataType != 'Text' ) {
+		if ( clipboardIdDataType != 'Text' || CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported ) {
 			// Try to set ID so it will be passed from the drag to the drop event.
 			// On some browsers with some event it is not possible to setData so we
 			// need to catch exceptions.
@@ -2350,7 +2356,7 @@
 
 			// There is "Unexpected call to method or property access." error if you try
 			// to set data of unsupported type on IE.
-			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && type != 'URL' && type != 'Text' ) {
+			if ( !this._isMimeTypeSupported( type ) && type != 'URL' && type != 'Text' ) {
 				return;
 			}
 
@@ -2407,7 +2413,7 @@
 			}
 
 			// Copy data.
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported ) {
 				if ( this.$.types ) {
 					for ( i = 0; i < this.$.types.length; i++ ) {
 						getAndSetData( this.$.types[ i ] );
@@ -2495,7 +2501,7 @@
 
 			// Add native types.
 			if ( this.$ ) {
-				if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+				if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported ) {
 					if ( this.$.types ) {
 						for ( var i = 0; i < this.$.types.length; i++ ) {
 							typesToCheck[ this.$.types[ i ] ] = 1;
@@ -2531,7 +2537,9 @@
 		_getImageFromClipboard: function() {
 			var file;
 
-			if ( this.$ && this.$.items && this.$.items[ 0 ] ) {
+			// The dataTransfer.items is not supported in IE/Edge. This function is used as a backup always after
+			// dataTransfer.files is checked so there is no need for implementing more logic than ignoring IE/Edge (#468).
+			if ( !CKEDITOR.env.ie && this.$ && this.$.items && this.$.items[ 0 ] ) {
 				try {
 					file = this.$.items[ 0 ].getAsFile();
 					// Duck typing
@@ -2544,6 +2552,22 @@
 			}
 
 			return undefined;
+		},
+
+		/**
+		 * Checks if given MIME type could be used in `dataTransfer.setData`. It is important for browser not supporting custom
+		 * MIME types in `dataTransfer.setData`. Such browsers are flagged with {@link CKEDITOR.plugins.clipboard#isOnlyMimeTypeDataTypesSupported}.
+		 *
+		 * @private
+		 * @param {String} type The MIME type to check.
+		 * @returns {Boolean} Whether the MIME type is supported by `dataTransfer.setData`.
+		 */
+		_isMimeTypeSupported: function( type ) {
+			// We could use static array of predefined types or try/catch to test if setting mime type throws an error.
+			var supportedTypes = [ 'text/plain', 'text/html' ];
+
+			return CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ||
+				( CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported && CKEDITOR.tools.indexOf( supportedTypes, type ) !== -1 );
 		}
 	};
 } )();
