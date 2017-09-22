@@ -16,21 +16,13 @@ CKEDITOR.plugins.add( 'a11yformat', {
     var config = editor.config,
       lang = editor.lang.a11yformat;
 
-    var menuStyle = new CKEDITOR.style( { element: 'p' } );
-    var blockquoteCmd = 'blockquote';
-    var helpCmd = 'blockformatHelp';
-
-    for (var item in lang) {
-      console.log( item );
-    }
-
     // Gets the list of tags from the settings.
     var tags = config.format_tags.split( ';' );
 
     // Create style objects for all defined styles.
     var styles = {},
       stylesCount = 0,
-      allowedContent = ['blockquote'];
+      allowedContent = [];
     for ( var i = 0; i < tags.length; i++ ) {
       var tag = tags[ i ];
       var style = new CKEDITOR.style( config[ 'format_' + tag ] );
@@ -68,9 +60,6 @@ CKEDITOR.plugins.add( 'a11yformat', {
           this.add( tag, styles[ tag ].buildPreview( label ), label );
         }
 
-        var label = lang[ 'blockquoteLabel' ];
-        this.add( blockquoteCmd, menuStyle.buildPreview( label ), label );
-
         // Add separator between list of styles and 'Help' menuitem
         // this.addSeparator();
       },
@@ -78,11 +67,6 @@ CKEDITOR.plugins.add( 'a11yformat', {
       onClick: function( value ) {
         editor.focus();
         editor.fire( 'saveSnapshot' );
-
-        if ( value == blockquoteCmd ) {
-          editor.execCommand( blockquoteCmd );
-          return;
-        }
 
         var style = styles[ value ],
           elementPath = editor.elementPath();
