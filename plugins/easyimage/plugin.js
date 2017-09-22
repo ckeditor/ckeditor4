@@ -6,6 +6,8 @@
 ( function() {
 	'use strict';
 
+	var stylesLoaded = false;
+
 	function addCommands( editor ) {
 		function isSideImage( widget ) {
 			return widget.element.hasClass( 'easyimage-side' );
@@ -120,7 +122,16 @@
 		} );
 	}
 
-	var stylesLoaded = false;
+	function loadStyles( editor, plugin ) {
+		if ( !stylesLoaded ) {
+			CKEDITOR.document.appendStyleSheet( plugin.path + 'styles/easyimage.css' );
+			stylesLoaded = true;
+		}
+
+		if ( editor.addContentsCss ) {
+			editor.addContentsCss( plugin.path + 'styles/easyimage.css' );
+		}
+	}
 
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'image2,contextmenu,dialog',
@@ -131,15 +142,7 @@
 		},
 
 		init: function( editor ) {
-			if ( !stylesLoaded ) {
-				CKEDITOR.document.appendStyleSheet( this.path + 'styles/easyimage.css' );
-				stylesLoaded = true;
-			}
-
-			if ( editor.addContentsCss ) {
-				editor.addContentsCss( this.path + 'styles/easyimage.css' );
-			}
-
+			loadStyles( editor, this );
 			addCommands( editor );
 			addMenuItems( editor );
 			registerWidget( editor );
