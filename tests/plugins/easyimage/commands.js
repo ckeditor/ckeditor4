@@ -27,6 +27,15 @@
 		} );
 	}
 
+	function assertCommandsState( editor, asserts ) {
+		var command;
+
+		for ( command in asserts ) {
+			assert.areSame( asserts[ command ], editor.getCommand( command ).state,
+				'Command ' + command + ' has appropriate state' );
+		}
+	}
+
 	var widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
 			tearDown: function() {
@@ -37,8 +46,30 @@
 				}
 			},
 
+			'test commands are enabled only on widget': function( editor, bot ) {
+				bot.setData( widgetHtml, function() {
+					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+					assertCommandsState( editor, {
+						easyimageFull: CKEDITOR.TRISTATE_DISABLED,
+						easyimageSide: CKEDITOR.TRISTATE_DISABLED,
+						easyimageAlt: CKEDITOR.TRISTATE_DISABLED
+					} );
+
+					widget.focus();
+
+					assertCommandsState( editor, {
+						easyimageFull: CKEDITOR.TRISTATE_ON,
+						easyimageSide: CKEDITOR.TRISTATE_OFF,
+						easyimageAlt: CKEDITOR.TRISTATE_OFF
+					} );
+				} );
+			},
+
 			'test easyimageAlt command': function( editor, bot ) {
 				bot.setData( widgetHtml, function() {
+					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
 					editor.once( 'dialogShow', function( evt ) {
 						resume( function() {
 							var dialog = evt.data;
@@ -54,7 +85,7 @@
 						} );
 					} );
 
-					editor.widgets.instances[ 0 ].focus();
+					widget.focus();
 					editor.execCommand( 'easyimageAlt' );
 					wait();
 				} );
