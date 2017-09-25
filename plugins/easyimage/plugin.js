@@ -156,6 +156,7 @@
 	 *		// Changes the class to "my-image".
 	 *		config.easyimage_class = 'my-image';
 	 *
+	 * @since 4.8.0
 	 * @cfg {String} [easyimage_class='easyimage']
 	 * @member CKEDITOR.config
 	 */
@@ -167,6 +168,7 @@
 	 *		// Changes the class to "my-side-image".
 	 *		config.easyimage_sideClass = 'my-side-image';
 	 *
+	 * @since 4.8.0
 	 * @cfg {String} [easyimage_sideClass='easyimage-side']
 	 * @member CKEDITOR.config
 	 */
