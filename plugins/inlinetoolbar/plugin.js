@@ -13,6 +13,13 @@
 			CKEDITOR.ui.inlineToolbar.prototype.build = function() {
 				var editor = this.editor;
 
+				var content = '<div class="cke_balloon_content">';
+				if ( this.menuItems ) {
+					for ( var i = 0; i < this.menuItems.length; i++ ) {
+						content += '<a href ="" onClick="">' + this.menuItems[i].label + '</a>';
+					}
+				}
+				content += '</div>';
 				this.parts = {
 					panel: CKEDITOR.dom.element.createFromHtml( this.templates.panel.output( {
 						id: editor.id,
@@ -23,9 +30,7 @@
 						voiceLabel: editor.lang.editorPanel + ', ' + editor.name
 					} ) ),
 
-					content: CKEDITOR.dom.element.createFromHtml( this.templates.content.output( {
-						content: this.content || ''
-					} ) ),
+					content: CKEDITOR.dom.element.createFromHtml( content ),
 
 					triangleOuter: CKEDITOR.dom.element.createFromHtml( this.templates.triangleOuter.output() ),
 
@@ -217,7 +222,9 @@
 					}
 				};
 			} )();
+
 			CKEDITOR.ui.inlineToolbar.prototype.create = function( element ) {
+				this.build();
 				this.attach( element );
 
 				var that = this,
@@ -230,14 +237,32 @@
 					that.attach( element, false );
 				} );
 			};
+
+			CKEDITOR.ui.inlineToolbar.prototype.detach = function() {
+
+			};
+
+			CKEDITOR.ui.inlineToolbar.prototype.addMenuItem = function( item ) {
+				if ( !this.menuItems ) {
+					this.menuItems = [];
+				}
+				this.menuItems.push( item );
+			};
+
+			CKEDITOR.ui.inlineToolbar.prototype.removeAll = function() {
+				this.menuItems = [];
+			};
+
 				/////TEMPORARY CODE ///////
 			editor.addCommand( 'testInlineToolbar', {
 				exec: function( editor ) {
 					var img = editor.editable().findOne( 'img' );
 					if ( img ) {
-						var panel = new CKEDITOR.ui.balloonPanel( editor, {
-							title: 'My Panel',
-							content: '<p>This is my panel</p>'
+						var panel = new CKEDITOR.ui.balloonPanel( editor );
+						panel.addMenuItem( {
+							label: 'testowy',
+							command: 'testowy',
+							group: 'testowy'
 						} );
 
 						// Attach the panel to an element in DOM and show it immediately.
@@ -255,7 +280,6 @@
 
 	CKEDITOR.ui.inlineToolbar = function( editor, definition ) {
 		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
-		//regitster panel on scroll, resize, rotation device
 	};
 
 }() );
