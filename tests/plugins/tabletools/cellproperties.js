@@ -131,56 +131,15 @@
 			} );
 		},
 
-		'test test': function() {
+		// https://dev.ckeditor.com/ticket/16893
+		'test allowedContent rule': function() {
 			bender.editorBot.create( {
 				name: 'required',
 				config: {
-					allowedContent: {
-						'*': {
-							'attributes': 'lang,dir',
-							'styles': false,
-							'classes': false
-						},
-						'table': {
-							'attributes': false,
-							'styles': false,
-							'classes': false
-						},
-						'tbody': {
-							'attributes': false,
-							'styles': false,
-							'classes': false
-						},
-						'td': {
-							'attributes': false,
-							'styles': false,
-							'classes': false
-						},
-						'tfoot': {
-							'attributes': false,
-							'styles': false,
-							'classes': false
-						},
-						'th': {
-							'attributes': false,
-							'styles': false,
-							'classes': false
-						},
-						'thead': {
-							'attributes': false,
-							'styles': false,
-							'classes': false
-						},
-						'tr': {
-							'attributes': false,
-							'styles': false,
-							'classes': false
-						}
-					}
+					allowedContent: '*[lang,dir]; table tbody thead tr th td tfoot'
 				}
 			}, function( bot ) {
 				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
-
 				bot.dialog( 'cellProperties', function( dialog ) {
 					assert.isFalse( dialog.getContentElement( 'info', 'width' ).isVisible() );
 					assert.isFalse( dialog.getContentElement( 'info', 'height' ).isVisible() );
