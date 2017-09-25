@@ -1518,10 +1518,27 @@
 		},
 
 		/**
-		 * Converts hexstring to base64 coode.
+		 * Convert hex string to array contained 1 byte in each cell. Bytes are represent as a Integer number.
 		 *
-		 * Hexstring contains `8bit` numbers, where base64 use `6bit` to code.
-		 * We need to process `3 * 8bit` chunks of hexstring into `4 * 6bit` characters of base64.
+		 * @since 4.8.0
+		 * @param {String} hexString Contains input string which represent bytes, e.g. `"08A11D8ADA2B"`
+		 * @return {Array} Bytes stored in a form o Integer numebrs, e.g. `[ 8, 161, 29, 138, 218, 43 ]`
+		 */
+		convertHexStringToBytes: function( hexString ) {
+			var bytesArray = [],
+				bytesArrayLength = hexString.length / 2,
+				i;
+
+			for ( i = 0; i < bytesArrayLength; i++ ) {
+				bytesArray.push( parseInt( hexString.substr( i * 2, 2 ), 16 ) );
+			}
+			return bytesArray;
+		},
+
+		/**
+		 * Convert bytes array into base64 code.
+		 *
+		 * Bytes are `8bit` numbers, where base64 use `6bit` to store data. That's why we process 3 Bytes into 4 charcters represent by base64.
 		 *
 		 * Algorithm:
 		 *
@@ -1533,29 +1550,23 @@
 		 *
 		 * Example:
 		 *
-		 * * Hex: `08A11D8ADA2B` -> binary: `0000 1000 1010 0001 0001 1101 1000 1010 1101 1010 0010 1011`.
-		 * * `|` (pipe) shows where base64 will cut bits during transform.
-		 * * Binary: `0000 10|00 1010| 0001 00|01 1101| 1000 10|10 1101| 1010 00|10 1011`.
-		 * * Now we have 6bit numbers (decimal values below), which are translated to indexes in `base64characters` array.
-		 * * Decimal: `2 10 4 29 34 45 40 43` -> base64: `CKEditor`.
+		 * * Bytes Array: [ 8, 161, 29, 138, 218, 43 ] -> binary: `0000 1000 1010 0001 0001 1101 1000 1010 1101 1010 0010 1011`.
+		 * * Binary: `0000 10|00 1010| 0001 00|01 1101| 1000 10|10 1101| 1010 00|10 1011` ← `|` (pipe) shows where base64 will cut bits during transformation.
+		 * * Now we have 6bit numbers (written in decimal values), which are translated to indexes in `base64characters` array.<br />
+		 * Decimal: `2 10 4 29 34 45 40 43` → base64: `CKEditor`.
 		 *
 		 * @since 4.8.0
-		 * @param {String} hexString String contained only hexadecimal values, e.g. `0AB7`.
-		 * @returns {String} Base64 string represnet input value.
+		 * @param bytesArray Array which stores 1 byte in each cell as Integer number.
+		 * @returns Base64 string which reprepsents input bytes.
 		 */
-		convertHexstringToBase64: function( hexString ) {
-			var binaryArray = [],
-				base64characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+		convertBytesToBase64: function( bytesArray ) {
+			var base64characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
 				base64string = '',
-				binArrLength = hexString.length / 2,
+				bytesArrayLength = bytesArray.length,
 				i;
 
-			for ( i = 0; i < binArrLength; i++ ) {
-				binaryArray.push( parseInt( hexString.substr( i * 2, 2 ), 16 ) );
-			}
-
-			for ( i = 0; i < binArrLength; i += 3 ) {
-				var array3 = binaryArray.slice( i, i + 3 ),
+			for ( i = 0; i < bytesArrayLength; i += 3 ) {
+				var array3 = bytesArray.slice( i, i + 3 ),
 					array3length = array3.length,
 					array4 = [],
 					j;
