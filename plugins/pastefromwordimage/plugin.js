@@ -59,16 +59,16 @@
 		 *
 		 * @private
 		 * @since 4.8.0
-		 * @param {String} dataValue String represent HTML code.
+		 * @param {String} htmlString String represent HTML code.
 		 * @returns {Array} Array of arrays represent img tags found in `dataValue`.
 		 * @returns {Array} return.Array Single result of `regexp.exec`, which finds img tags.
 		 */
-		imagesToProcess: function( dataValue ) {
+		extractImgTagsFromHtmlString: function( htmlString ) {
 			var regexp = /<img[^>]+src="([^"]+)/g,
 				ret = [];
 
 			do {
-				ret.push( regexp.exec( dataValue ) );
+				ret.push( regexp.exec( htmlString ) );
 			} while ( ret[ ret.length - 1 ] );
 
 			// Remove null.
