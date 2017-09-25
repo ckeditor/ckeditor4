@@ -146,6 +146,20 @@
 					assert.isFalse( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
 				} );
 			} );
+		},
+
+		// https://dev.ckeditor.com/ticket/16893
+		'test disallowedContent rule': function() {
+			bender.editorBot.create( {
+				name: 'editor'
+			}, function( bot ) {
+				bot.setHtmlWithSelection( '<table><tr><td>Te^st</td></tr></table>' );
+				bot.dialog( 'cellProperties', function( dialog ) {
+					assert.isTrue( dialog.getContentElement( 'info', 'width' ).isVisible() );
+					assert.isTrue( dialog.getContentElement( 'info', 'height' ).isVisible() );
+					assert.isTrue( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
+				} );
+			} );
 		}
 	} );
 } )();
