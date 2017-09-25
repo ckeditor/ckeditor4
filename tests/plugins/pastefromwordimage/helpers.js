@@ -7,7 +7,7 @@
 	'use strict';
 
 	bender.test( {
-		'test image to process': function() {
+		'test img tags extraction from html string': function() {
 			var item,
 				i,
 				length,
@@ -16,26 +16,26 @@
 
 			test = [
 				{
-					dataValue: '<p><img src="http://example-picture.com/random.png" /></p>',
+					htmlString: '<p><img src="http://example-picture.com/random.png" /></p>',
 					result: [
 						[ '<img src="http://example-picture.com/random.png', 'http://example-picture.com/random.png' ]
 					]
 				},
 				{
-					dataValue: '<p><img class="border" width="400" height="300" data-custom="something" src="http://example-picture.com/random.png?parameter=2" /></p>',
+					htmlString: '<p><img class="border" width="400" height="300" data-custom="something" src="http://example-picture.com/random.png?parameter=2" /></p>',
 					result: [
 						[ '<img class="border" width="400" height="300" data-custom="something" src="http://example-picture.com/random.png?parameter=2',
 							'http://example-picture.com/random.png?parameter=2' ]
 					]
 				},
 				{
-					dataValue: '<p><img src="file://Some/Path/To/Local/Resources/kitty.jpeg" class="invisible" /></p>',
+					htmlString: '<p><img src="file://Some/Path/To/Local/Resources/kitty.jpeg" class="invisible" /></p>',
 					result: [
 						[ '<img src="file://Some/Path/To/Local/Resources/kitty.jpeg', 'file://Some/Path/To/Local/Resources/kitty.jpeg' ]
 					]
 				},
 				{
-					dataValue: '<p><img class="one" src="//example.com/pic1.png" /></p><p>Hello world</p><p><img src="//example.com/pic2.gif" class="two" /></p>' +
+					htmlString: '<p><img class="one" src="//example.com/pic1.png" /></p><p>Hello world</p><p><img src="//example.com/pic2.gif" class="two" /></p>' +
 						'<div><span class="something"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==" /></span></div>',
 					result: [
 						[ '<img class="one" src="//example.com/pic1.png', '//example.com/pic1.png' ],
@@ -45,13 +45,13 @@
 					]
 				},
 				{
-					dataValue: '<p>There is no img</p>',
+					htmlString: '<p>There is no img</p>',
 					result: []
 				}
 			];
 
 			while ( item = test.shift() ) {
-				result = CKEDITOR.plugins.pastefromwordimage.imagesToProcess( item.dataValue );
+				result = CKEDITOR.plugins.pastefromwordimage.extractImgTagsFromHtmlString( item.htmlString );
 				assert.areSame( item.result.length, result.length );
 				for ( i = 0, length = result.length; i < length; i++ ) {
 					assert.areSame( item.result[ i ][ 0 ], result[ i ][ 0 ] );
