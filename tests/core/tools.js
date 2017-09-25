@@ -778,41 +778,85 @@
 		},
 
 		// #662
-		'test hex2base64 converter': function() {
-			var hex = [
+		'test hexstring to bytes converter': function() {
+			var testCases = [
 				{
 					hex: '00',
-					base64: 'AA=='
+					bytes:	[ 0 ]
 				},
 				{
 					hex: '000000',
-					base64: 'AAAA'
+					bytes: [ 0, 0, 0 ]
 				},
 				{
 					hex: '011001',
-					base64: 'ARAB'
+					bytes: [ 1, 16, 1 ]
 				},
 				{
 					hex: '0123456789ABCDEF',
-					base64: 'ASNFZ4mrze8='
+					bytes: [ 1, 35, 69, 103, 137, 171, 205, 239 ]
 				},
 				{
-					hex: 'FFFFFF',
-					base64: '////'
+					hex: 'FFFFFFFF',
+					bytes: [ 255, 255, 255, 255 ]
 				},
 				{
 					hex: 'fc0fc0',
-					base64: '/A/A'
+					bytes: [ 252, 15, 192 ]
 				},
 				{
 					hex: '08A11D8ADA2B',
+					bytes: [ 8, 161, 29, 138, 218, 43 ]
+				}
+			];
+			CKEDITOR.tools.array.forEach( testCases, function( test ) {
+				assert.isTrue( CKEDITOR.tools.arrayCompare( test.bytes, CKEDITOR.tools.convertHexStringToBytes( test.hex ) ) );
+			} );
+		},
+
+		// #662
+		'test bytes to base64 converter': function() {
+			var testCases = [
+				{
+					bytes: [ 0 ],
+					base64: 'AA=='
+				},
+				{
+					bytes: [ 0, 0, 0 ],
+					base64: 'AAAA'
+				},
+				{
+					bytes: [ 1, 16, 1 ],
+					base64: 'ARAB'
+				},
+				{
+					bytes: [ 1, 35, 69, 103, 137, 171, 205, 239 ],
+					base64: 'ASNFZ4mrze8='
+				},
+				{
+					bytes: [ 255, 255, 255 ],
+					base64: '////'
+				},
+				{
+					bytes: [ 252, 15, 192 ],
+					base64: '/A/A'
+				},
+				{
+					bytes: [ 8, 161, 29, 138, 218, 43 ],
 					base64: 'CKEditor'
+				},
+				{
+					// jscs:disable
+					bytes: [ 0, 16, 131, 16, 81, 135, 32, 146, 139, 48, 211, 143, 65, 20, 147, 81, 85, 151, 97, 150, 155, 113, 215, 159, 130, 24, 163, 146, 89, 167, 162, 154, 171, 178, 219, 175, 195, 28, 179, 211, 93, 183, 227, 158, 187, 243, 223, 191 ],
+					// jscs:enable
+					base64: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 				}
 			];
 
-			CKEDITOR.tools.array.forEach( hex, function( item ) {
-				assert.areSame( item.base64, CKEDITOR.tools.hexstring2base64( item.hex ) );
+			CKEDITOR.tools.array.forEach( testCases, function( test ) {
+				assert.areSame( test.base64, CKEDITOR.tools.convertBytesToBase64( test.bytes ) );
 			} );
 		}
+
 	} );
 } )();
