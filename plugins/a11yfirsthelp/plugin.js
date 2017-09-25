@@ -77,7 +77,7 @@
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
-          editor.a11yfirst.helpOption = 'heading';        
+          editor.a11yfirst.helpOption = 'HeadingHelp';        
           editor.execCommand(a11yFirstHelpDialogCmd);
 //          editor.execCommand('headingHelp');
         }
@@ -89,7 +89,7 @@
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
-          editor.a11yfirst.helpOption = 'blockformat';        
+          editor.a11yfirst.helpOption = 'BlockFormatHelp';        
           editor.execCommand(a11yFirstHelpDialogCmd);
 //          editor.execCommand(blockFormatHelpCmd, 'blockformat');
         }
@@ -101,7 +101,7 @@
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
-          editor.a11yfirst.helpOption = 'inlinestyle';        
+          editor.a11yfirst.helpOption = 'InlineStyleHelp';        
           editor.execCommand(a11yFirstHelpDialogCmd);
 //          editor.execCommand(inlineStyleHelpCmd,'inlinestyle');
         }
@@ -113,7 +113,7 @@
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
-          editor.a11yfirst.helpOption = 'link';        
+          editor.a11yfirst.helpOption = 'LinkHelp';        
           editor.execCommand(a11yFirstHelpDialogCmd);
 //          editor.execCommand(a11yFirstLinkHelpCmd, 'link');
         }
@@ -126,7 +126,7 @@
         group: 'a11yfirsthelp_getting_started',
         order: index+1,
         onClick: function() {
-          editor.a11yfirst.helpOption = 'gettingstarted';        
+          editor.a11yfirst.helpOption = 'GettingStarted';        
           editor.execCommand(a11yFirstHelpDialogCmd);
 //          editor.execCommand( gettingStartedCmd, 'gettingstarted');
         }

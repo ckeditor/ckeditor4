@@ -6,6 +6,82 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
   var lang = editor.lang.a11yfirsthelp;
   var dialogObj = this;
 
+  var helpTopics = ['contentGettingStarted', 'contentHeadingHelp', 'contentBlockFormatHelp', 'contentInlineStyleHelp', 'contentLinkHelp'];
+
+  var highlighStyle = 'background-color: #e6f2ff;';
+
+  function showHelpTopic(id) {
+    console.log(id);
+
+    for (var i = 0; i < helpTopics.length; i++) {
+      var node = document.getElementById(helpTopics[i]);
+      if (node) {
+        if (helpTopics[i] == id) {
+          node.style.display = 'block';
+        }
+        else {
+          node.style.display = 'none';     
+        }        
+      }
+    }
+  }
+
+  var buttonGettingStarted = {
+    type: 'button',
+    id: 'buttonGettingStarted',
+    style: "width: 11em; text-align: left;",
+    label: lang.gettingStartedLabel,
+    title: lang.gettingStartedTitle,
+    onClick: function() {
+        showHelpTopic('contentGettingStarted');
+    }
+  };
+
+  var buttonHeadingHelp = {
+    type: 'button',
+    id: 'buttonHeadingHelp',
+    style: "width: 11em; text-align: left;",
+    label: lang.headingHelpLabel,
+    title: lang.headingHelpTitle,
+    onClick: function() {
+        showHelpTopic('contentHeadingHelp');
+    }
+  };
+
+  var buttonBlockFormatHelp = {
+    type: 'button',
+    id: 'buttonBlockFormatHelp',
+    style: "width: 11em; text-align: left;",
+    label: lang.blockFormatHelpLabel,
+    title: lang.blockFormatHelpTitle,
+    onClick: function() {
+        showHelpTopic('contentBlockFormatHelp');
+    },
+  };
+
+  var buttonInlineStyleHelp = {
+    type: 'button',
+    id: 'buttonInlineStyleHelp',
+    style: "width: 11em; text-align: left;",
+    label: lang.inlineStyleHelpLabel,
+    title: lang.inlineStyleHelpTitle,
+    onClick: function() {
+        showHelpTopic('contentInlineStyleHelp');
+    },
+  };    
+
+  var buttonLinkHelp = {
+    type: 'button',
+    id: 'buttonLinkHelp',
+    style: "width: 11em; text-align: left;",
+    label: lang.linkHelpLabel,
+    title: lang.linkHelpTitle,
+    onClick: function() {
+        showHelpTopic('contentLinkHelp');
+    },
+  };  
+
+
   return {
     title: lang.a11yFirstHelpLabel,
     minWidth: 600,
@@ -36,6 +112,11 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
         return '<h2 style="white-space: normal; font-weight: bold; margin-top: 1em; font-size: 135%">' + content + '</h2>';
       }
 
+      function h3(content) {
+        return '<h3 style="white-space: normal; font-weight: bold; margin-top: 1em; font-size: 110%">' + content + '</h3>';
+      }
+
+
       function p(content) {
         return '<p style="white-space: normal; font-weight: normal; margin-top: 0.5em; font-size: 110%">' + content + '</p>';
       }
@@ -49,86 +130,81 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
         return html;
       }
 
-      var showTopic = function(event, id) {
-        console.log("[showTopic] id: " + id);
-        for(var i = 0; i < navigation_info.length; i++) {
-          var node = document.getElementById(navigation_info[i].id);
-          if (node) node.style.display = "none";
-        }
-        node = document.getElementById(id);
-        if(node) node.style.display = "block";
-
-        event.stopPropagation();
-        event.preventDefault();
-
-      };
-
-
-      function addNavigationLinks() {
-        html = '<nav>';
-        html += '  <ul title="A11yFirst Help Navigation" style="list-style: none;">';
-        for (var i = 0; i < navigation_info.length; i++) {
-          var item = navigation_info[i];
-          var css = cssLink;
-          var before = '';
-          if (i == 2) {
-            css = cssLinkSelected;
-            before = '&rtrif;&nbsp;';
-          }  
-          html += '    <li style="' + css.padding + css.margin + css.border + css.background + css.font + '">';
-          html += '      <a tabindex="0" id="' + item.id + '_link" href="#' + item.id + '">' + before + item.label + '</a>';
-          html += '    </li>';
-        }
-        html += '  </ul>';
-        html += '</nav>';
-        return html;        
-      }
-
-      var navigation_info = [
-        {id: 'id_a11yfirst_getting_started', label: lang.gettingStartedLabel},
-        {id: 'id_a11yfirst_heading',         label: lang.headingHelpLabel},
-        {id: 'id_a11yfirst_block_format',    label: lang.blockFormatHelpLabel},
-        {id: 'id_a11yfirst_inline_style',    label: lang.inlineStyleHelpLabel},
-        {id: 'id_a11yfirst_link',            label: lang.linkHelpLabel}
-      ];
-
       var node, html;
 
-      node = document.getElementById('a11yfirsthelp_nav');
+      node = document.getElementById('contentGettingStarted');
 
-      node.innerHTML = addNavigationLinks();
+      html = h2(lang.gettingStartedLabel);
 
-      var node = document.getElementById('id_a11yfirst_getting_started_link');
-      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_getting_started')});
-
-      var node = document.getElementById('id_a11yfirst_heading_link');
-      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_heading')});
-
-      var node = document.getElementById('id_a11yfirst_block_format_link');
-      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_block_format')});
-
-      var node = document.getElementById('id_a11yfirst_inline_style_link');
-      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_inline_style')});
-
-      var node = document.getElementById('id_a11yfirst_link_link');
-      node.addEventListener('click', function(event) {showTopic(event, 'id_a11yfirst_link')});
-
-
-      node = document.getElementById('a11yfirsthelp_content');
-
-      html = h2(lang.gettingStarted1Heading);
+      html += h3(lang.gettingStarted1Heading);
       html += p(lang.gettingStarted1Content);
 
-      html += h2(lang.gettingStarted2Heading);
+      html += h3(lang.gettingStarted2Heading);
       html += list('ul', lang.gettingStarted2Content);
 
-      html += h2(lang.gettingStarted3Heading);
+      html += h3(lang.gettingStarted3Heading);
       html += list('ul', lang.gettingStarted3Content);
 
-      html += h2(lang.gettingStarted4Heading);
+      html += h3(lang.gettingStarted4Heading);
       html += list('ul', lang.gettingStarted4Content);
 
       node.innerHTML = html;
+
+      node = document.getElementById('contentHeadingHelp');
+      console.log('HeadingHelp: ' + node);
+
+      html = h2(lang.headingHelpLabel);
+
+      html += h3(lang.headingHelp1Heading);
+      html += p(lang.headingHelp1Content);
+
+      html += h3(lang.headingHelp2Heading);
+      html += list('ul', lang.headingHelp2Content);
+
+      node.innerHTML = html;
+
+      node = document.getElementById('contentBlockFormatHelp');
+      console.log('BlockFormat: ' + node);
+
+      html = h2(lang.blockFormatHelpLabel);
+
+      html += h3(lang.blockFormatHelp1Heading);
+      html += p(lang.blockFormatHelp1Content);
+
+      html += h3(lang.blockFormatHelp2Heading);
+      html += list('ul', lang.blockFormatHelp2Content);
+
+      node.innerHTML = html;
+
+      node = document.getElementById('contentInlineStyleHelp');
+      console.log('InlineStyle: ' + node);
+
+      html = h2(lang.inlineStyleHelpLabel);
+
+      html += h3(lang.inlineStyleHelp1Heading);
+      html += p(lang.inlineStyleHelp1Content);
+
+      html += h2(lang.inlineStyleHelp2Heading);
+      html += list('ul', lang.inlineStyleHelp2Content);
+
+      node.innerHTML = html;
+
+      node = document.getElementById('contentLinkHelp');
+      console.log('Link: ' + node);
+
+      html = h2(lang.linkHelpLabel);
+
+      html += h3(lang.linkHelp1Heading);
+      html += p(lang.linkHelp1Content);
+
+      html += h3(lang.linkHelp2Heading);
+      html += list('ul', lang.linkHelp2Content);
+
+      node.innerHTML = html;
+
+      if (editor.a11yfirst.helpOption) {
+        showHelpTopic('content' + editor.a11yfirst.helpOption);
+      }
 
     },
 
@@ -141,8 +217,20 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
             padding: 0,
             elements: [
               {
-                type: 'html',
-                html: '<table role="none"><tr><td style="width: 150px"><div id="a11yfirsthelp_nav" style="padding-right: 1em;"></div></td><td style="width: 480px; border-left: 1px #d1d1d1 solid"><div id="a11yfirsthelp_content" style="padding-left: 1em; height: 400px; overflow: auto">Tab 1</div></td></tr></table>'
+                type: 'hbox',
+                widths: [ '10%', '90%' ],
+                children: [
+                  {
+                    type: 'vbox',
+                    align: 'left',
+                    width: '200px',
+                    children: [buttonGettingStarted, buttonHeadingHelp, buttonBlockFormatHelp, buttonInlineStyleHelp, buttonLinkHelp],
+                  },
+                  {
+                    type: 'html',
+                    html: '<div style="padding-left: 1em; height: 400px; overflow: auto; border-left: 2px solid #ddd; margin-left: -5.5em"><div id="contentGettingStarted"></div><div id="contentHeadingHelp"></div><div id="contentBlockFormatHelp"></div><div id="contentInlineStyleHelp"></div><div id="contentLinkHelp"></div></div>'
+                  }
+                ]
               }
             ]
           }
