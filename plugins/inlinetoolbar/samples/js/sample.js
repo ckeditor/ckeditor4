@@ -12,7 +12,7 @@ if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 // unless user specified own height.
 CKEDITOR.config.height = 150;
 CKEDITOR.config.width = 'auto';
-CKEDITOR.plugins.add( 'inlinetoolbar' );
+CKEDITOR.config.extraPlugins = 'inlinetoolbar';
 
 var initSample = ( function() {
 	var wysiwygareaAvailable = isWysiwygareaAvailable();
