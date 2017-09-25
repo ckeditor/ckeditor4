@@ -1,0 +1,6 @@
+# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+# For licensing, see LICENSE.md or http://ckeditor.com/license
+
+altText = Label for button converting image to assign an alternative text.
+fullImage = Label for button converting image to a full width.
+sideImage = Label for button converting image to be a side image.
