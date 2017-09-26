@@ -1556,8 +1556,8 @@
 		 * Decimal: `2 10 4 29 34 45 40 43` → base64: `CKEditor`.
 		 *
 		 * @since 4.8.0
-		 * @param bytesArray Array which stores 1 byte in each cell as Integer number.
-		 * @returns Base64 string which represents input bytes.
+		 * @param {Array} bytesArray An array which stores 1 byte in each cell as Integer number.
+		 * @returns {String} Base64 string which represents input bytes.
 		 */
 		convertBytesToBase64: function( bytesArray ) {
 			var base64characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
