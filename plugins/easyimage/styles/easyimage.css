@@ -4,11 +4,47 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 .easyimage {
+	background-color: #fff;
+	border: none;
 	display: block;
+	padding: 0;
 }
+
 .easyimage img {
+	display: block;
+	height: auto;
+	margin: 0 auto;
 	max-width: 100%;
 }
+
 .easyimage-side {
 	float: right;
+}
+
+.easyimage .cke_widget_editable {
+	background-color: #f7f7f7;
+	color: #333;
+    padding: .8em;
+}
+
+.cke_widget_wrapper:hover .easyimage .cke_widget_editable {
+	outline: 3px solid transparent;
+}
+
+.cke_widget_wrapper .easyimage .cke_widget_editable.cke_widget_editable_focused {
+	background-color: #fff;
+	border: 1px solid #48a3f5;
+	outline: none;
+}
+
+.cke_widget_wrapper:hover .easyimage.cke_widget_element {
+	outline: 3px solid #ffd25c;
+}
+
+.cke_widget_wrapper.cke_widget_focused.cke_widget_selected .easyimage.cke_widget_element {
+	outline: 3px solid #48a3f5;
+}
+
+.cke_widget_wrapper.cke_widget_selected .easyimage.cke_widget_element {
+	outline: 3px solid #ddd;
 }
