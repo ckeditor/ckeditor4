@@ -149,48 +149,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
   <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
   <script src="../ckeditor.js"></script>
+  <script src="config-a11yfirst.js"></script>
 
-  <script>
-    CKEDITOR.replace('editor', {
-      headings: 'h1:h4',
-      oneLevel1: true,
-      height: 480,
-      skin: 'a11yfirst',
-      startupFocus: true,
-      toolbar: [
-        { name: 'heading',      items: [ 'Heading' ] },
-        { name: 'list',         items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
-        { name: 'link',         items: [ 'Link', 'Unlink', 'Anchor' ] },
-        { name: 'misc1',        items: [ 'Image', 'Table', 'Language' ] },
-        { name: 'blockformat',  items: [ 'BlockFormat' ] },
-        { name: 'paragraph',    items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
-        { name: 'a11ychecker',  items: [ 'A11ychecker' ] },
-        { name: 'source',       items: [ 'Source' ] },
-        '/',
-        { name: 'search',       items: [ 'Find', 'Replace' ] },
-        { name: 'clipboard',    items: [ 'Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-        { name: 'basicstyles',  items: [ 'Bold', 'Italic'] },
-        { name: 'removeformat', items: [ 'RemoveFormat' ] },
-        { name: 'inlinestyle',  items: [ 'InlineStyle' ] },
-        { name: 'misc2',        items: [ 'SpecialChar' ] }
-      ],
-      extraPlugins: 'a11yformat,a11yheading,a11ystylescombo,balloonpanel,a11ychecker',
-    } );
-    CKEDITOR.stylesSet.add ( 'default', [
-      { name: 'Strong',           element: 'strong', overrides: 'b' },
-      { name: 'Emphasis',         element: 'em' , overrides: 'i' },
-      { name: 'Marker',           element: 'span', attributes: { 'class': 'marker' } },
-      { name: 'Inline quotation', element: 'q' },
-      { name: 'Cited work',       element: 'cite' },
-      { name: 'Computer code',    element: 'code' },
-      { name: 'Subscript',        element: 'sub' },
-      { name: 'Superscript',      element: 'sup' },
-      { name: 'Deleted Text',     element: 'del' },
-      { name: 'Inserted Text',    element: 'ins' },
-      { name: 'Strikethrough',    element: 'strike' },
-      { name: 'Underline',        element: 'u' }
-    ] );
-  </script>
 
 </body>
 </html>
