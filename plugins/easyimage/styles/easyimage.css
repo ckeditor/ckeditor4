@@ -36,15 +36,3 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	border: 1px solid #48a3f5;
 	outline: none;
 }
-
-.cke_widget_wrapper:hover .easyimage.cke_widget_element {
-	outline: 3px solid #ffd25c;
-}
-
-.cke_widget_wrapper.cke_widget_focused.cke_widget_selected .easyimage.cke_widget_element {
-	outline: 3px solid #48a3f5;
-}
-
-.cke_widget_wrapper.cke_widget_selected .easyimage.cke_widget_element {
-	outline: 3px solid #ddd;
-}
