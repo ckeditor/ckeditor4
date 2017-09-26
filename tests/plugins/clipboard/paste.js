@@ -50,7 +50,7 @@
 	}
 
 	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS,
-		trustyEdge = CKEDITOR.env.edge && CKEDITOR.env.version >= 15;
+		trustyEdge = CKEDITOR.env.edge && CKEDITOR.env.version >= 16;
 
 	bender.test( {
 		setUp: function() {
