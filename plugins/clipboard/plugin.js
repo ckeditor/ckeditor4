@@ -2226,8 +2226,8 @@
 		 */
 
 		/**
-		 * The MIME type which is used to store custom data (in <!-- cke-data: encoded JSON --> comment) when
-		 * the browser does not allow to use custom MIME types in `dataTransfer.setData`.
+		 * The MIME type which is used to store custom data (in special `<!-- cke-data: encoded JSON -->` comment)
+		 * when browser does not allow to use custom MIME types in `dataTransfer.setData`.
 		 *
 		 * @readonly
 		 * @property {String} customDataFallbackType
@@ -2583,14 +2583,14 @@
 		},
 
 		/**
-		 * Additional layer over `dataTransfer.setData` method. If used with `useFallback=true` in case of native `setData`
+		 * Additional layer over `dataTransfer.setData` method. If used with `useFallback = true` in case of native `setData`
 		 * throwing an error it will try to place passed value in
 		 * {@link CKEDITOR.plugins.clipboard.dataTransfer#customDataFallbackType} type using special comment format:
 		 *
-		 * 		<!--cke-data:{ type: value }-->
+		 * <!--cke-data:{ type: value }-->
 		 *
-		 * It is important to keep in mind that { type: value } object is stringified (using JSON.stringify)
-		 * and encoded (using encodeURIComponent).
+		 * It is important to keep in mind that `{ type: value }` object is stringified (using `JSON.stringify`)
+		 * and encoded (using `encodeURIComponent`).
 		 *
 		 * @private
 		 * @param {String} type
@@ -2621,13 +2621,13 @@
 
 		/**
 		 * Extracts `cke-data` comment from the given content. Returns an object containing extracted data as `data`
-		 * and content without `cke-data` comment as `content`.
+		 * and content (without `cke-data` comment) as `content`.
 		 *
 		 * @private
 		 * @param {String} content
-		 * @returns {Object} result
-		 * @returns {Object} result.data
-		 * @returns {String} result.content
+		 * @returns {Object}
+		 * @returns {Object} return.data
+		 * @returns {String} return.content
 		 */
 		_extractDataComment: function( content ) {
 			var result = {
