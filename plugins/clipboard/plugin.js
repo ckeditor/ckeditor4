@@ -1523,16 +1523,7 @@
 		 * @readonly
 		 * @property {Boolean}
 		 */
-		isCustomDataTypesSupported: !CKEDITOR.env.ie,
-
-		/**
-		 * True if the environment supports only predefined MIME types in dataTransfer/cliboardData getData/setData methods.
-		 *
-		 * @since 4.8
-		 * @readonly
-		 * @property {Boolean}
-		 */
-		isOnlyMimeTypeDataTypesSupported: CKEDITOR.env.edge && CKEDITOR.env.version >= 16,
+		isCustomDataTypesSupported: !CKEDITOR.env.ie || CKEDITOR.env.version >= 16,
 
 		/**
 		 * True if the environment supports File API.
@@ -1599,7 +1590,7 @@
 			}
 
 			// In older Safari and IE HTML data is not available though the Clipboard API.
-			// In Edge things are a bit messy at the moment -
+			// In older Edge version things are also a bit messy -
 			// https://connect.microsoft.com/IE/feedback/details/1572456/edge-clipboard-api-text-html-content-messed-up-in-event-clipboarddata
 			// It is safer to use the paste bin in unknown cases.
 			return false;
@@ -2098,6 +2089,7 @@
 				return new this.dataTransfer( ( CKEDITOR.env.edge && evt && evt.data.$ && evt.data.$.clipboardData ) || null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
 				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
+
 				if ( this.copyCutData && dataTransfer.id == this.copyCutData.id ) {
 					dataTransfer = this.copyCutData;
 					dataTransfer.$ = evt.data.$.clipboardData;
@@ -2146,6 +2138,8 @@
 			this.$ = nativeDataTransfer;
 		}
 
+		this.customDataFallbackType = 'text/html';
+
 		this._ = {
 			metaRegExp: /^<meta.*?>/i,
 			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/i,
@@ -2172,7 +2166,7 @@
 
 		// If there is no ID we need to create it. Different browsers needs different ID.
 		if ( !this.id ) {
-			if ( clipboardIdDataType == 'Text' && !CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported ) {
+			if ( clipboardIdDataType == 'Text' ) {
 				// For IE10+ only Text data type is supported and we have to compare dragged
 				// and dropped text. If the ID is not set it means that empty string was dragged
 				// (ex. image with no alt). We change null to empty string.
@@ -2184,13 +2178,9 @@
 		}
 
 		// In IE10+ we can not use any data type besides text, so we do not call setData.
-		if ( clipboardIdDataType != 'Text' || CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported ) {
+		if ( clipboardIdDataType != 'Text' ) {
 			// Try to set ID so it will be passed from the drag to the drop event.
-			// On some browsers with some event it is not possible to setData so we
-			// need to catch exceptions.
-			try {
-				this.$.setData( clipboardIdDataType, this.id );
-			} catch ( err ) {}
+			this._setCustomData( clipboardIdDataType, this.id, CKEDITOR.env.ie && CKEDITOR.env.version >= 16 );
 		}
 
 		if ( editor ) {
@@ -2233,6 +2223,14 @@
 		 *
 		 * @private
 		 * @property {Object} _
+		 */
+
+		/**
+		 * The MIME type which is used to store custom data (in <!-- cke-data: encoded JSON --> comment) when
+		 * the browser does not allow to use custom MIME types in `dataTransfer.setData`.
+		 *
+		 * @readonly
+		 * @property {String} customDataFallbackType
 		 */
 	};
 
@@ -2302,11 +2300,27 @@
 			type = this._.normalizeType( type );
 
 			var data = this._.data[ type ],
+				content,
 				result;
 
 			if ( isEmpty( data ) ) {
 				try {
 					data = this.$.getData( type );
+				} catch ( e ) {}
+			}
+
+			// If we are getting the same type which may store custom data we need to extract it.
+			// Or if we are getting different type and it is empty we need to check inside data comment.
+			if ( !isEmpty( data ) && type === this.customDataFallbackType ) {
+				content = this._extractDataComment( data );
+				data = content.content;
+
+			} else if ( isEmpty( data ) ) {
+				try {
+					content = this._extractDataComment( this.$.getData( this.customDataFallbackType ) );
+					if ( content.data && content.data[ type ] ) {
+						data = content.data[ type ];
+					}
 				} catch ( e ) {}
 			}
 
@@ -2357,7 +2371,7 @@
 
 			// There is "Unexpected call to method or property access." error if you try
 			// to set data of unsupported type on IE.
-			if ( !this._isMimeTypeSupported( type ) && type != 'URL' && type != 'Text' ) {
+			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && type != 'URL' && type != 'Text' ) {
 				return;
 			}
 
@@ -2367,9 +2381,22 @@
 				this.id = value;
 			}
 
-			try {
-				this.$.setData( type, value );
-			} catch ( e ) {}
+			// Extract custom data if used type is the same one which is used for storing it.
+			// Then custom data is added to a new value so it will not be overwritten.
+			if ( type === this.customDataFallbackType ) {
+				var content = null;
+				try {
+					content = this._extractDataComment( this.$.getData( this.customDataFallbackType ) );
+				} catch ( e ) {}
+
+				if ( content && content.data ) {
+					value = this._applyDataComment( value, content.data );
+				}
+				this._setCustomData( type, value );
+
+			} else {
+				this._setCustomData( type, value, CKEDITOR.env.ie && CKEDITOR.env.version >= 16 );
+			}
 		},
 
 		/**
@@ -2414,7 +2441,7 @@
 			}
 
 			// Copy data.
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				if ( this.$.types ) {
 					for ( i = 0; i < this.$.types.length; i++ ) {
 						getAndSetData( this.$.types[ i ] );
@@ -2502,7 +2529,7 @@
 
 			// Add native types.
 			if ( this.$ ) {
-				if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported ) {
+				if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 					if ( this.$.types ) {
 						for ( var i = 0; i < this.$.types.length; i++ ) {
 							typesToCheck[ this.$.types[ i ] ] = 1;
@@ -2556,19 +2583,86 @@
 		},
 
 		/**
-		 * Checks if given MIME type could be used in `dataTransfer.setData`. It is important for browser not supporting custom
-		 * MIME types in `dataTransfer.setData`. Such browsers are flagged with {@link CKEDITOR.plugins.clipboard#isOnlyMimeTypeDataTypesSupported}.
+		 * Additional layer over `dataTransfer.setData` method. If used with `useFallback=true` in case of native `setData`
+		 * throwing an error it will try to place passed value in
+		 * {@link CKEDITOR.plugins.clipboard.dataTransfer#customDataFallbackType} type using special comment format:
+		 *
+		 * 		<!--cke-data:{ type: value }-->
+		 *
+		 * It is important to keep in mind that { type: value } object is stringified (using JSON.stringify)
+		 * and encoded (using encodeURIComponent).
 		 *
 		 * @private
-		 * @param {String} type The MIME type to check.
-		 * @returns {Boolean} Whether the MIME type is supported by `dataTransfer.setData`.
+		 * @param {String} type
+		 * @param {String} value
+		 * @param {Boolean} useFallback
 		 */
-		_isMimeTypeSupported: function( type ) {
-			// We could use static array of predefined types or try/catch to test if setting mime type throws an error.
-			var supportedTypes = [ 'text/plain', 'text/html' ];
+		_setCustomData: function( type, value, useFallback ) {
+			try {
+				this.$.setData( type, value );
 
-			return CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ||
-				( CKEDITOR.plugins.clipboard.isOnlyMimeTypeDataTypesSupported && CKEDITOR.tools.indexOf( supportedTypes, type ) !== -1 );
+			} catch ( e ) {
+				if ( useFallback ) {
+					// Still in some situations some browsers may throw errors even when using predefined MIME types.
+					try {
+						// We need to get the data first to append `type` and not to overwrite whole custom data.
+						var content = this._extractDataComment( this.$.getData( this.customDataFallbackType ) );
+
+						if ( !content.data ) {
+							content.data = {};
+						}
+						content.data[ type ] = value;
+
+						this.$.setData( this.customDataFallbackType, this._applyDataComment( content.content, content.data ) );
+					} catch ( e ) {}
+				}
+			}
+		},
+
+		/**
+		 * Extracts `cke-data` comment from the given content. Returns an object containing extracted data as `data`
+		 * and content without `cke-data` comment as `content`.
+		 *
+		 * @private
+		 * @param {String} content
+		 * @returns {Object} result
+		 * @returns {Object} result.data
+		 * @returns {String} result.content
+		 */
+		_extractDataComment: function( content ) {
+			var result = {
+				data: null,
+				content: content || ''
+			};
+
+			// At least 17 characters length: <!--cke-data:-->.
+			if ( content && content.length > 16 ) {
+				var matcher = /<!--cke-data:(.*?)-->/g,
+					matches;
+
+				matches = matcher.exec( content );
+				if ( matches && matches[ 1 ] ) {
+					result.data = JSON.parse( decodeURIComponent( matches[ 1 ] ) );
+					result.content = content.replace( matches[ 0 ], '' );
+				}
+			}
+			return result;
+		},
+
+		/**
+		 * Creates `cke-data` comment containing stringified and encoded data object which is prepended to a given content.
+		 *
+		 * @private
+		 * @param {String} content
+		 * @param {Object} data
+		 * @returns {String}
+		 */
+		_applyDataComment: function( content, data ) {
+			var customData = '';
+			if ( data && CKEDITOR.tools.objectKeys( data ).length ) {
+				customData = '<!--cke-data:' + encodeURIComponent( JSON.stringify( data ) ) + '-->';
+			}
+			return customData + ( content && content.length ? content : '' );
 		}
 	};
 } )();
