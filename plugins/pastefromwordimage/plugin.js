@@ -26,29 +26,40 @@
 		 */
 		extractImagesFromRtf: function( rtfClipboard ) {
 			var images = [],
-				rePicture = /(?:\{\\\*\\shppict[\s\S]+?{\\\*\\blipuid\s+[0-9a-f]+\}\s?)([0-9a-f\s]+)\}\}/g,
+				rePictureOrShape = /((?:\{\\\*\\shppict[\s\S]+?{\\\*\\blipuid\s+[0-9a-f]+\}\s?)|(?:\{\\shp[\s\S]+?\{\\\*\\svb\s?))([0-9a-f\s]+)\}\}/g,
 				rePictureHeader = /\{\\\*\\shppict[\s\S]+?{\\\*\\blipuid\s+[0-9a-f]+\}\s?/,
+				reShapeHeader = /\{\\shp[\s\S]+?\{\\\*\\svb\s?/,
 				wholeImage,
 				imageType;
 
-			wholeImage = rtfClipboard.match( rePicture );
+			wholeImage = rtfClipboard.match( rePictureOrShape );
 			if ( !wholeImage ) {
 				return;
 			}
 
 			for ( var i = 0, len = wholeImage.length; i < len; i++ ) {
-				if ( wholeImage[ i ].indexOf( '\\pngblip' ) !== -1 ) {
-					imageType = 'image/png';
-				} else if ( wholeImage[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
-					imageType = 'image/jpeg';
-				} else {
-					imageType = null;
-				}
+				if ( rePictureHeader.test( wholeImage[ i ] ) ) {
+					if ( wholeImage[ i ].indexOf( '\\pngblip' ) !== -1 ) {
+						imageType = 'image/png';
+					} else if ( wholeImage[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
+						imageType = 'image/jpeg';
+					} else {
+						imageType = null;
+					}
 
-				images.push( {
-					hex: imageType ? wholeImage[ i ].replace( rePictureHeader, '' ).replace( /\s/g, '' ).replace( /\}\}/, '' ) : null,
-					type: imageType
-				} );
+					images.push( {
+						hex: imageType ? wholeImage[ i ].replace( rePictureHeader, '' ).replace( /\s/g, '' ).replace( /\}\}/, '' ) : null,
+						type: imageType
+					} );
+				} else if ( reShapeHeader.test( wholeImage[ i ] ) ) {
+					// We left information about shapes, to have proper indexes of images.
+					images.push( {
+						hex: null,
+						type: null
+					} );
+				} else {
+					throw new Error( 'Problem with processing images in RTF clipboard.' );
+				}
 			}
 
 			return images;
