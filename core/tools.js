@@ -1518,11 +1518,11 @@
 		},
 
 		/**
-		 * Convert hex string to array contained 1 byte in each cell. Bytes are represent as a Integer number.
+		 * Convert hex string to array containing 1 byte in each cell. Bytes are represent as an Integer numbers.
 		 *
 		 * @since 4.8.0
-		 * @param {String} hexString Contains input string which represent bytes, e.g. `"08A11D8ADA2B"`
-		 * @return {Array} Bytes stored in a form o Integer numebrs, e.g. `[ 8, 161, 29, 138, 218, 43 ]`
+		 * @param {String} hexString Contains input string which represent bytes, e.g. `"08A11D8ADA2B"`.
+		 * @returns {Array} Bytes stored in a form of Integer numbers, e.g. `[ 8, 161, 29, 138, 218, 43 ]`.
 		 */
 		convertHexStringToBytes: function( hexString ) {
 			var bytesArray = [],
@@ -1538,7 +1538,7 @@
 		/**
 		 * Convert bytes array into base64 code.
 		 *
-		 * Bytes are `8bit` numbers, where base64 use `6bit` to store data. That's why we process 3 Bytes into 4 charcters represent by base64.
+		 * Bytes are `8bit` numbers, where base64 use `6bit` to store data. That's why we process 3 Bytes into 4 characters representing base64.
 		 *
 		 * Algorithm:
 		 *
@@ -1546,7 +1546,7 @@
 		 * 2. If there is less than 3 byte, fill empty bits with zeros.
 		 * 3. Transform `3 * 8bit` into `4 * 6bit` numbers.
 		 * 4. Translate those numbers to proper character related to base64.
-		 * 5. If there was added extra zeros bytes fill them with `=` sign.
+		 * 5. If extra zeros bytes were added fill them with `=` sign.
 		 *
 		 * Example:
 		 *
@@ -1557,7 +1557,7 @@
 		 *
 		 * @since 4.8.0
 		 * @param bytesArray Array which stores 1 byte in each cell as Integer number.
-		 * @returns Base64 string which reprepsents input bytes.
+		 * @returns Base64 string which represents input bytes.
 		 */
 		convertBytesToBase64: function( bytesArray ) {
 			var base64characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
@@ -1584,8 +1584,8 @@
 				array4[ 3 ] = array3[ 2 ] & 0x3F;
 
 				for ( j = 0; j < 4; j++ ) {
-					// Example: if array3legth == 1, then we need to add 2 equal sign at the end of base64.
-					// array3[ 0 ] is used to calcualte array4[ 0 ] and array4[ 1 ], so there will be regular values,
+					// Example: if array3length == 1, then we need to add 2 equal sign at the end of base64.
+					// array3[ 0 ] is used to calculate array4[ 0 ] and array4[ 1 ], so there will be regular values,
 					// next two one has to be replaced with `=`, because array3[ 1 ] and array3[ 2 ] wasn't present in input string.
 					if ( j <= array3length ) {
 						base64string += base64characters.charAt( array4[ j ] );
