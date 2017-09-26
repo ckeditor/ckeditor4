@@ -810,7 +810,7 @@
 				}
 			];
 			CKEDITOR.tools.array.forEach( testCases, function( test ) {
-				assert.isTrue( CKEDITOR.tools.arrayCompare( test.bytes, CKEDITOR.tools.convertHexStringToBytes( test.hex ) ) );
+				arrayAssert.itemsAreEqual( test.bytes, CKEDITOR.tools.convertHexStringToBytes( test.hex ) );
 			} );
 		},
 
