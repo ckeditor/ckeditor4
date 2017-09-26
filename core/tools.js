@@ -1522,7 +1522,7 @@
 		 *
 		 * @since 4.8.0
 		 * @param {String} hexString Contains input string which represent bytes, e.g. `"08A11D8ADA2B"`.
-		 * @returns {Array} Bytes stored in a form of Integer numbers, e.g. `[ 8, 161, 29, 138, 218, 43 ]`.
+		 * @returns {Number[]} Bytes stored in a form of Integer numbers, e.g. `[ 8, 161, 29, 138, 218, 43 ]`.
 		 */
 		convertHexStringToBytes: function( hexString ) {
 			var bytesArray = [],
@@ -1536,10 +1536,10 @@
 		},
 
 		/**
-		 * Convert bytes array into base64 code.
+		 * Convert bytes array into a base64 encoded string.
 		 *
 		 * @since 4.8.0
-		 * @param {Array} bytesArray An array which stores 1 byte in each cell as Integer number.
+		 * @param {Number[]} bytesArray An array which stores 1 byte in each cell as Integer number.
 		 * @returns {String} Base64 string which represents input bytes.
 		 */
 		convertBytesToBase64: function( bytesArray ) {
