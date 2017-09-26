@@ -29,7 +29,7 @@
 
 
       if (!editor.a11yfirst) {
-        editor.a11yfirst = {};        
+        editor.a11yfirst = {};
       }
 
       if (!editor.a11yfirst.helpOption) {

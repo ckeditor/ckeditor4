@@ -1,4 +1,9 @@
 CKEDITOR.replace('editor', {
+  a11yfirst: {
+    organization: 'library',
+    a11yPolicyLink: 'http://guides.library.illinois.edu/usersdisabilities/',
+    a11yPolicyLabel: 'Information for Users With Disabilities',
+  },
   headings: 'h1:h4',
   oneLevel1: true,
   height: 480,

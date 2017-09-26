@@ -4,6 +4,7 @@
 */
 CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
   var lang = editor.lang.a11yfirsthelp;
+  var config = editor.config;
   var dialogObj = this;
 
   var helpTopics = ['contentGettingStarted', 'contentHeadingHelp', 'contentBlockFormatHelp', 'contentInlineStyleHelp', 'contentLinkHelp'];
@@ -30,7 +31,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     type: 'button',
     id: 'buttonGettingStarted',
     style: "width: 11em; text-align: left;",
-    label: lang.gettingStartedLabel,
+    label: lang.gettingStartedButtonLabel,
     title: lang.gettingStartedTitle,
     onClick: function() {
         showHelpTopic('contentGettingStarted');
@@ -41,7 +42,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     type: 'button',
     id: 'buttonHeadingHelp',
     style: "width: 11em; text-align: left;",
-    label: lang.headingHelpLabel,
+    label: lang.headingHelpButtonLabel,
     title: lang.headingHelpTitle,
     onClick: function() {
         showHelpTopic('contentHeadingHelp');
@@ -52,7 +53,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     type: 'button',
     id: 'buttonBlockFormatHelp',
     style: "width: 11em; text-align: left;",
-    label: lang.blockFormatHelpLabel,
+    label: lang.blockFormatHelpButtonLabel,
     title: lang.blockFormatHelpTitle,
     onClick: function() {
         showHelpTopic('contentBlockFormatHelp');
@@ -63,7 +64,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     type: 'button',
     id: 'buttonInlineStyleHelp',
     style: "width: 11em; text-align: left;",
-    label: lang.inlineStyleHelpLabel,
+    label: lang.inlineStyleHelpButtonLabel,
     title: lang.inlineStyleHelpTitle,
     onClick: function() {
         showHelpTopic('contentInlineStyleHelp');
@@ -74,7 +75,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     type: 'button',
     id: 'buttonLinkHelp',
     style: "width: 11em; text-align: left;",
-    label: lang.linkHelpLabel,
+    label: lang.linkHelpButtonLabel,
     title: lang.linkHelpTitle,
     onClick: function() {
         showHelpTopic('contentLinkHelp');
@@ -136,35 +137,52 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
       html = h2(lang.gettingStartedLabel);
 
-      html += h3(lang.gettingStarted1Heading);
-      html += p(lang.gettingStarted1Content);
+      var importanceContent = lang.gettingStartedImportanceOrganizationContent;
+      var a11yLink  = "";
 
-      html += h3(lang.gettingStarted2Heading);
-      html += list('ul', lang.gettingStarted2Content);
+      if (config.a11yfirst) {
+        if (config.a11yfirst.organization && config.a11yfirst.organization.length) {
+          importanceContent = lang.gettingStartedImportanceOrganizationContent.replace(/%org/g, config.a11yfirst.organization);
+        }
+        if (config.a11yfirst.a11yPolicyLink && config.a11yfirst.a11yPolicyLabel) {
+          a11yLink = '<a target="_reference" style="text-decoration: underline" href="' + config.a11yfirst.a11yPolicyLink + '">' + config.a11yfirst.a11yPolicyLabel + '</a>';
+        }
+      } 
 
-      html += h3(lang.gettingStarted3Heading);
-      html += list('ul', lang.gettingStarted3Content);
+      html += h3(lang.gettingStartedImportanceHeading);
+      html += p(importanceContent);
 
-      html += h3(lang.gettingStarted4Heading);
-      html += list('ul', lang.gettingStarted4Content);
+      if (a11yLink.length) {
+        html += p(a11yLink);
+      }
+
+      html += h3(lang.gettingStartedWhatIsHeading);
+      html += list('ul', lang.gettingStartedWhatIsContent);
+
+      html += h3(lang.gettingStartedFeaturesHeading);
+      html += list('ul', lang.gettingStartedFeaturesContent);
+
+      html += h3(lang.gettingStartedResourcesHeading);
+      html += list('ul', lang.gettingStartedResourcesContent);
 
       node.innerHTML = html;
 
       node = document.getElementById('contentHeadingHelp');
-      console.log('HeadingHelp: ' + node);
 
       html = h2(lang.headingHelpLabel);
 
-      html += h3(lang.headingHelp1Heading);
-      html += p(lang.headingHelp1Content);
+      html += h3(lang.headingHelpFeatureHeading);
+      html += list('ul', lang.headingHelpFeatureContent);
 
-      html += h3(lang.headingHelp2Heading);
-      html += list('ul', lang.headingHelp2Content);
+      html += h3(lang.headingHelpRuleHeading);
+      html += list('ul', lang.headingHelpRuleContent);
+
+      html += h3(lang.headingHelpImportanceHeading);
+      html += list('ul', lang.headingHelpImportanceContent);
 
       node.innerHTML = html;
 
       node = document.getElementById('contentBlockFormatHelp');
-      console.log('BlockFormat: ' + node);
 
       html = h2(lang.blockFormatHelpLabel);
 
@@ -177,7 +195,6 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       node.innerHTML = html;
 
       node = document.getElementById('contentInlineStyleHelp');
-      console.log('InlineStyle: ' + node);
 
       html = h2(lang.inlineStyleHelpLabel);
 
@@ -190,7 +207,6 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       node.innerHTML = html;
 
       node = document.getElementById('contentLinkHelp');
-      console.log('Link: ' + node);
 
       html = h2(lang.linkHelpLabel);
 
