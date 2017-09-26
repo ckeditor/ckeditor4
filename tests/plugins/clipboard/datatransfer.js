@@ -482,7 +482,10 @@ bender.test( {
 			// Emulate native clipboard.
 			nativeData = bender.tools.mockNativeDataTransfer();
 
-		if ( isCustomDataTypesSupported ) {
+		// This test uses native (mocked) `setData` which does not applies fallback
+		// for Edge >= 16 (because it skips our wrapper) so it works
+		// as if `isCustomDataTypesSupported` flag was turned off for Edge.
+		if ( isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
 			nativeData.setData( 'text/html', 'foo' );
 			nativeData.setData( 'text/plain', 'bom' );
 			nativeData.setData( 'cke/custom', 'bar' );
@@ -502,7 +505,7 @@ bender.test( {
 		nativeData.getData = throwPermissionDenied;
 
 		// Assert
-		if ( isCustomDataTypesSupported ) {
+		if ( isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
 			assert.areSame( 'foo', dataTransfer.getData( 'text/html' ) );
 			assert.areSame( 'bom', dataTransfer.getData( 'text/plain' ) );
 			assert.areSame( 'bar', dataTransfer.getData( 'cke/custom' ) );
@@ -553,7 +556,8 @@ bender.test( {
 
 	// http://dev.ckeditor.com/ticket/12961
 	'test file in items': function() {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+		// DataTransfer.items is not supported in IE/EDGE so there is no reason to test it.
+		if ( CKEDITOR.env.ie ) {
 			assert.ignore();
 		}
 
@@ -642,7 +646,8 @@ bender.test( {
 
 	// http://dev.ckeditor.com/ticket/12961
 	'test file in items with cache': function() {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+		// DataTransfer.items is not supported in IE/EDGE so there is no reason to test it.
+		if ( CKEDITOR.env.ie ) {
 			assert.ignore();
 		}
 

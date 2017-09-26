@@ -816,13 +816,21 @@
 				types: [],
 				files: CKEDITOR.env.ie && CKEDITOR.env.version < 10 ? undefined : [],
 				_data: {},
-				// Emulate browsers native behavior for getDeta/setData.
+				// Emulate browsers native behavior for getData/setData.
 				setData: function( type, data ) {
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 15 && type != 'Text' && type != 'URL' )
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 16 && type != 'Text' && type != 'URL' ) {
 						throw 'Unexpected call to method or property access.';
+					}
 
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' )
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' ) {
 						return;
+					}
+
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version >= 16 &&
+						CKEDITOR.tools.indexOf( [ 'Text', 'URL', 'text/plain', 'text/html' ], type ) === -1 ) {
+
+						throw 'Element not found.';
+					}
 
 					if ( type == 'text/plain' || type == 'Text' ) {
 						this._data[ 'text/plain' ] = data;
@@ -834,11 +842,13 @@
 					this.types.push( type );
 				},
 				getData: function( type ) {
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 15 && type != 'Text' && type != 'URL' )
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 16 && type != 'Text' && type != 'URL' ) {
 						throw 'Invalid argument.';
+					}
 
-					if ( typeof this._data[ type ] === 'undefined' || this._data[ type ] === null )
+					if ( typeof this._data[ type ] === 'undefined' || this._data[ type ] === null ) {
 						return '';
+					}
 
 					return this._data[ type ];
 				}
