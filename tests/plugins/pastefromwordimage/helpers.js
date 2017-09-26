@@ -1,6 +1,6 @@
 /* bender-tags: editor,pastefromwordimage */
 /* bender-ckeditor-plugins: pastefromwordimage */
-/* bender-include: _lib/helpers-fixtures.js */
+/* bender-include: _fixtures/helpers-fixtures.js */
 /* global fixtures */
 
 ( function() {

@@ -6,6 +6,11 @@
 ( function() {
 	'use strict';
 
+	CKEDITOR.plugins.add( 'pastefromwordimage', {
+		requires: 'pastefromword',
+		init: function() {}
+	} );
+
 	/**
 	 * Help methods used by paste from word image plugin.
 	 *
