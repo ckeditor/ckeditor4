@@ -2176,12 +2176,6 @@
 			}
 		}
 
-		// In IE10+ we can not use any data type besides text, so we do not call setData.
-		if ( clipboardIdDataType != 'Text' ) {
-			// Try to set ID so it will be passed from the drag to the drop event.
-			this._setCustomData( clipboardIdDataType, this.id, CKEDITOR.env.ie && CKEDITOR.env.version >= 16 );
-		}
-
 		if ( editor ) {
 			this.sourceEditor = editor;
 
@@ -2192,6 +2186,13 @@
 			if ( clipboardIdDataType != 'Text' && !this.getData( 'text/plain' ) ) {
 				this.setData( 'text/plain', editor.getSelection().getSelectedText() );
 			}
+		}
+
+		// Set id as a last thing to not force rereading/rewriting custom data comment.
+		// In IE10+ we can not use any data type besides text, so we do not call setData.
+		if ( clipboardIdDataType != 'Text' ) {
+			// Try to set ID so it will be passed from the drag to the drop event.
+			this._setCustomData( clipboardIdDataType, this.id, CKEDITOR.env.ie && CKEDITOR.env.version >= 16 );
 		}
 
 		/**
@@ -2308,8 +2309,8 @@
 				} catch ( e ) {}
 			}
 
-			// If we are getting the same type which may store custom data we need to extract it.
-			// Or if we are getting different type and it is empty we need to check inside data comment.
+			// If we are getting the same type which may store custom data we need to extract it (removing custom data comment).
+			// Or if we are getting different type and it is empty we need to check inside data comment if it is stored there.
 			if ( !isEmpty( data ) && type === this.customDataFallbackType ) {
 				content = this._extractDataComment( data );
 				data = content.content;
@@ -2381,7 +2382,7 @@
 			}
 
 			// Extract custom data if used type is the same one which is used for storing it.
-			// Then custom data is added to a new value so it will not be overwritten.
+			// Then new value is added to a custom data so it will not be overwritten entirely.
 			if ( type === this.customDataFallbackType ) {
 				var content = null;
 				try {
