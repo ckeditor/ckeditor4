@@ -1,8 +1,20 @@
+<h1>Editor 1:</h1>
 <div id="editor">
 	<table border="1" cellpadding="1" cellspacing="1" style="width: 500px">
 		<tbody>
 			<tr>
-				<td>here</td>
+				<td>right click here</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<h1>Editor 2:</h1>
+<div id="editor1">
+	<table border="1" cellpadding="1" cellspacing="1" style="width: 500px">
+		<tbody>
+			<tr>
+				<td>right click here</td>
 			</tr>
 		</tbody>
 	</table>
@@ -12,4 +24,5 @@
 	CKEDITOR.replace( 'editor', {
 		allowedContent: '*[lang,dir]; table tbody thead tr th td tfoot'
 	} );
+	CKEDITOR.replace( 'editor1' );
 </script>

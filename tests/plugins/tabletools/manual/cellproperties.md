@@ -8,4 +8,12 @@
 
 ## Expected
 
-Cell width and height fields are not visible. All dialog elements are properly aligned (no gap at the top in one of the columns).
+All dialog elements are properly aligned (no gap at the top in one of the columns).
+
+#### Editor 1:
+
+Cell width and height fields are not visible. 
+
+#### Editor 2:
+
+Cell width and height fields are visible.
