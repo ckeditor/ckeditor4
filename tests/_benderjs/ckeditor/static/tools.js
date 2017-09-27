@@ -899,7 +899,7 @@
 			return {
 				$: {
 					ctrlKey: true,
-					clipboardData: ( CKEDITOR.env.ie && CKEDITOR.env.version < 15 ) ? undefined : dataTransfer
+					clipboardData: ( CKEDITOR.env.ie && CKEDITOR.env.version < 16 ) ? undefined : dataTransfer
 				},
 				preventDefault: function() {
 					// noop
