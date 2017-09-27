@@ -484,7 +484,7 @@ bender.test( {
 
 		// This test uses native (mocked) `setData` which does not applies fallback
 		// for Edge >= 16 (because it skips our wrapper) so it works
-		// as if `isCustomDataTypesSupported` flag was turned off for Edge.
+		// as if `isCustomDataTypesSupported` flag was turned off for Edge (#962).
 		if ( isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
 			nativeData.setData( 'text/html', 'foo' );
 			nativeData.setData( 'text/plain', 'bom' );
@@ -504,7 +504,7 @@ bender.test( {
 		nativeData.setData = throwPermissionDenied;
 		nativeData.getData = throwPermissionDenied;
 
-		// Assert
+		// Assert. Edge browser case same as above (#962).
 		if ( isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
 			assert.areSame( 'foo', dataTransfer.getData( 'text/html' ) );
 			assert.areSame( 'bom', dataTransfer.getData( 'text/plain' ) );

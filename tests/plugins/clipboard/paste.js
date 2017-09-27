@@ -1384,7 +1384,7 @@
 		},
 
 		// #468
-		'test canClipboardApiBeTrusted in Edge 15+': function() {
+		'test canClipboardApiBeTrusted in Edge 16+': function() {
 			if ( !trustyEdge ) {
 				assert.ignore();
 			}
