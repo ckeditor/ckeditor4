@@ -12,6 +12,14 @@
 		bender.tools.testInputOut( name, function( styles, expected ) {
 			var tested = CKEDITOR.plugins.pastefromword.styles.inliner.parse( styles );
 
+			// In CKEDITOR.plugins.pastefromword.styles.inliner.parse#createIsolatedStylesheet function
+			// somehow Edge camelcases the selectors so we need to lowercase it.
+			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported && CKEDITOR.env.edge ) {
+				CKEDITOR.tools.array.forEach( tested, function( item ) {
+					item.selector = item.selector.toLowerCase();
+				} );
+			}
+
 			assert.beautified.js( expected, JSON.stringify( tested ), name );
 		} );
 	}
@@ -41,8 +49,13 @@
 
 		'test if parseStyles parses styles correctly': function() {
 			testStyles( 'styles1' );
-			testStyles( 'styles2' );
-			testStyles( 'multiple' );
+
+			// Edge cannot handle 'margin-bottom: 0.0001pt' as it rounds it to 0 when parsing stylesheet.
+			if ( !( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported && CKEDITOR.env.edge ) ) {
+				testStyles( 'styles2' );
+				testStyles( 'multiple' );
+			}
+
 			testStyles( 'empty' );
 			testStyles( 'font-face' );
 			testStyles( 'page' );

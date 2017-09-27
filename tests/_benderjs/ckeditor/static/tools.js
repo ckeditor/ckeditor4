@@ -832,7 +832,7 @@
 					}
 
 					if ( CKEDITOR.env.ie && CKEDITOR.env.version >= 16 &&
-						CKEDITOR.tools.indexOf( [ 'Text', 'URL', 'text/plain', 'text/html' ], type ) === -1 ) {
+						CKEDITOR.tools.indexOf( [ 'Text', 'URL', 'text/plain', 'text/html', 'application/xml' ], type ) === -1 ) {
 
 						throw 'Element not found.';
 					}
