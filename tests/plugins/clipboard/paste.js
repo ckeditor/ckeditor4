@@ -1187,7 +1187,14 @@
 
 			editable.fire( 'cut', pasteEventMock );
 
-			assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
+			// As Edge stores custom data in text/html it needs to be assert differently - we need to extract content part (#962).
+			if ( CKEDITOR.env.edge ) {
+				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
+				assert.areSame( 'b<b>a</b>r', dataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
+			} else {
+				assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
+			}
+
 			assert.areSame( 'bar', pasteEventMock.$.clipboardData.getData( 'Text' ), 'Plain text' );
 			assert.isInnerHtmlMatching( '<p>x^x@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true, normalizeSelection: true }, 'Editor content' );
 			assert.areSame( pasteEventMock.$.clipboardData, CKEDITOR.plugins.clipboard.copyCutData.$, 'copyCutData should be initialized' );
@@ -1205,7 +1212,14 @@
 
 			editable.fire( 'copy', pasteEventMock );
 
-			assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML data' );
+			// As Edge stores custom data in text/html it needs to be assert differently - we need to extract content part (#962).
+			if ( CKEDITOR.env.edge ) {
+				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
+				assert.areSame( 'b<b>a</b>r', dataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
+			} else {
+				assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
+			}
+
 			assert.areSame( 'bar', pasteEventMock.$.clipboardData.getData( 'Text' ), 'Plain text data' );
 			assert.isInnerHtmlMatching( '<p>x[b<b>a</b>r]x@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true, normalizeSelection: true }, 'Editor content' );
 			assert.areSame( pasteEventMock.$.clipboardData, CKEDITOR.plugins.clipboard.copyCutData.$, 'copyCutData should be initialized' );
@@ -1289,17 +1303,23 @@
 			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
-			var editor = this.editor;
+			var editor = this.editor,
+				// As dataTransfer mock is used in `bender.tools.emulatePaste` we need to pass type which is acceptable in Edge
+				// as it does not support custom types (#962).
+				customType = CKEDITOR.env.edge ? 'application/xml' : 'cke/custom',
+				initialData = {};
+
+			initialData[ customType ] = 'foo';
 
 			this.on( 'paste', function( evt ) {
 				resume( function() {
 					assert.areSame( 'paste', evt.data.method, 'Paste method.' );
-					assert.areSame( 'foo', evt.data.dataTransfer.getData( 'cke/custom' ), 'cke/custom data' );
+					assert.areSame( 'foo', evt.data.dataTransfer.getData( customType ), 'cke/custom data' );
 					assert.areSame( '', evt.data.dataValue, 'dataValue' );
 				} );
 			} );
 
-			bender.tools.emulatePaste( editor, '', { 'cke/custom': 'foo' } );
+			bender.tools.emulatePaste( editor, '', initialData );
 
 			this.wait();
 		},
