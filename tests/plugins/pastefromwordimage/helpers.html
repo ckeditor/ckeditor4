@@ -1,0 +1,46 @@
+<!-- Expected value is JSON surronded with HTML comment -->
+<textarea id="source1">
+	<p><img src="http://example-picture.com/random.png" /></p>
+	=>
+<!--
+[
+	[ "<img src=\"http://example-picture.com/random.png", "http://example-picture.com/random.png" ]
+]
+-->
+</textarea>
+<textarea id="source2">
+	<p><img class="border" width="400" height="300" data-custom="something" src="http://example-picture.com/random.png?parameter=2" /></p>
+	=>
+<!--
+[
+	[ "<img class=\"border\" width=\"400\" height=\"300\" data-custom=\"something\" src=\"http://example-picture.com/random.png?parameter=2", "http://example-picture.com/random.png?parameter=2" ]
+]
+-->
+</textarea>
+<textarea id="source3">
+	<p><img src="file:///Some/Path/To/Local/Resources/kitty.jpeg" class="invisible" /></p>
+	=>
+<!--
+[
+	[ "<img src=\"file:///Some/Path/To/Local/Resources/kitty.jpeg", "file://Some/Path/To/Local/Resources/kitty.jpeg" ]
+]
+-->
+</textarea>
+<textarea id="source4">
+	<p><img class="one" src="//example.com/pic1.png" /></p><p>Hello world</p><p><img src="//example.com/pic2.gif" class="two" /></p><div><span class="something"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==" /></span></div>
+	=>
+<!--
+[
+	[ "<img class=\"one\" src=\"//example.com/pic1.png", "//example.com/pic1.png" ],
+	[ "<img src=\"//example.com/pic2.gif", "//example.com/pic2.gif" ],
+	[ "<img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==" ]
+]
+-->
+</textarea>
+<textarea id="source5">
+	<p>There is no img</p>
+	=>
+<!--
+[]
+-->
+</textarea>

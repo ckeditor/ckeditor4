@@ -19,46 +19,46 @@
 	 */
 	CKEDITOR.plugins.pastefromwordimage = {
 		/**
-		 * Methods parse rtf clipboard to find embeded images.
+		 * Methods parse RTF clipboard to find embedded images.
 		 *
 		 * @private
 		 * @since 4.8.0
-		 * @param {String} rtfClipboard Data obtained from rtf clipboard.
-		 * @returns {Array} Contains array of objects with images.
+		 * @param {String} rtfClipboard Data obtained from RTF clipboard.
+		 * @returns {Array} Contains array of objects with images or empty array if there weren't a match.
 		 * @returns {Object} return.Object Single image found in `rtfClipboard`.
-		 * @returns {String/null} return.Object.hex Hexadecimal string of image embeded in rtf clipboard.
+		 * @returns {String/null} return.Object.hex Hexadecimal string of image embedded in RTF clipboard.
 		 * @returns {String/null} return.Object.type String represent type of image, allowed values: 'image/png', 'image/jpeg' or `null`
 		 */
 		extractImagesFromRtf: function( rtfClipboard ) {
-			var images = [],
-				rePictureOrShape = /((?:\{\\\*\\shppict[\s\S]+?{\\\*\\blipuid\s+[0-9a-f]+\}\s?)|(?:\{\\shp[\s\S]+?\{\\\*\\svb\s?))([0-9a-f\s]+)\}\}/g,
+			var ret = [],
 				rePictureHeader = /\{\\\*\\shppict[\s\S]+?{\\\*\\blipuid\s+[0-9a-f]+\}\s?/,
 				reShapeHeader = /\{\\shp[\s\S]+?\{\\\*\\svb\s?/,
-				wholeImage,
+				rePictureOrShape = new RegExp( '(?:(' + rePictureHeader.source + ')|(' + reShapeHeader.source + '))([0-9a-f\\s]+)\\}\\}', 'g' ),
+				wholeImages,
 				imageType;
 
-			wholeImage = rtfClipboard.match( rePictureOrShape );
-			if ( !wholeImage ) {
-				return;
+			wholeImages = rtfClipboard.match( rePictureOrShape );
+			if ( !wholeImages ) {
+				return ret;
 			}
 
-			for ( var i = 0, len = wholeImage.length; i < len; i++ ) {
-				if ( rePictureHeader.test( wholeImage[ i ] ) ) {
-					if ( wholeImage[ i ].indexOf( '\\pngblip' ) !== -1 ) {
+			for ( var i = 0; i < wholeImages.length; i++ ) {
+				if ( rePictureHeader.test( wholeImages[ i ] ) ) {
+					if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
 						imageType = 'image/png';
-					} else if ( wholeImage[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
+					} else if ( wholeImages[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
 						imageType = 'image/jpeg';
 					} else {
 						imageType = null;
 					}
 
-					images.push( {
-						hex: imageType ? wholeImage[ i ].replace( rePictureHeader, '' ).replace( /\s/g, '' ).replace( /\}\}/, '' ) : null,
+					ret.push( {
+						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /\s/g, '' ).replace( /\}\}/, '' ) : null,
 						type: imageType
 					} );
-				} else if ( reShapeHeader.test( wholeImage[ i ] ) ) {
+				} else if ( reShapeHeader.test( wholeImages[ i ] ) ) {
 					// We left information about shapes, to have proper indexes of images.
-					images.push( {
+					ret.push( {
 						hex: null,
 						type: null
 					} );
@@ -67,16 +67,16 @@
 				}
 			}
 
-			return images;
+			return ret;
 		},
 
 		/**
-		 * Method extracts array of img tags.
+		 * Method extracts array of img tags from given htmlString.
 		 *
 		 * @private
 		 * @since 4.8.0
 		 * @param {String} htmlString String represent HTML code.
-		 * @returns {Array} Array of arrays represent img tags found in `dataValue`.
+		 * @returns {Array} Array of arrays represent img tags found in `htmlString`.
 		 * @returns {Array} return.Array Single result of `regexp.exec`, which finds img tags.
 		 */
 		extractImgTagsFromHtmlString: function( htmlString ) {
