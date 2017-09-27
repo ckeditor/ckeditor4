@@ -1,82 +1,48 @@
 /* bender-tags: editor,pastefromwordimage */
-/* bender-ckeditor-plugins: pastefromwordimage */
-/* bender-include: _fixtures/helpers-fixtures.js */
-/* global fixtures */
+/* bender-ckeditor-plugins: pastefromwordimage,ajax */
 
 ( function() {
 	'use strict';
 
 	bender.test( {
 		'test img tags extraction from html string': function() {
-			var item,
-				i,
-				length,
-				test,
-				result;
+			bender.tools.testInputOut( 'source1', function( input, output ) {
+				var expectedResult = JSON.parse( output.replace( /<!--/, '' ).replace( /-->/, '' ) ),
+					actualResult = CKEDITOR.plugins.pastefromwordimage.extractImgTagsFromHtmlString( input ),
+					i;
 
-			test = [
+				assert.areSame( expectedResult.length, actualResult.length );
+
+				for ( i = 0; i < actualResult.length; i++ ) {
+					assert.areSame( expectedResult[ i ][ 0 ], actualResult[ i ][ 0 ] );
+					assert.areSame( expectedResult[ i ][ 1 ], actualResult[ i ][ 1 ] );
+				}
+			} );
+		},
+
+		'test extract images hexstrings from rtf': function() {
+			var actualResult,
+				testCase,
+				testCases = [
 				{
-					htmlString: '<p><img src="http://example-picture.com/random.png" /></p>',
-					result: [
-						[ '<img src="http://example-picture.com/random.png', 'http://example-picture.com/random.png' ]
-					]
+					rtf: CKEDITOR.ajax.load( './_fixtures/helpers1.rtf' ),
+					result: JSON.parse( CKEDITOR.ajax.load( './_fixtures/helpers1.json' ) )
 				},
 				{
-					htmlString: '<p><img class="border" width="400" height="300" data-custom="something" src="http://example-picture.com/random.png?parameter=2" /></p>',
-					result: [
-						[ '<img class="border" width="400" height="300" data-custom="something" src="http://example-picture.com/random.png?parameter=2',
-							'http://example-picture.com/random.png?parameter=2' ]
-					]
+					rtf: CKEDITOR.ajax.load( './_fixtures/helpers2.rtf' ),
+					result: JSON.parse( CKEDITOR.ajax.load( './_fixtures/helpers2.json' ) )
 				},
 				{
-					htmlString: '<p><img src="file://Some/Path/To/Local/Resources/kitty.jpeg" class="invisible" /></p>',
-					result: [
-						[ '<img src="file://Some/Path/To/Local/Resources/kitty.jpeg', 'file://Some/Path/To/Local/Resources/kitty.jpeg' ]
-					]
-				},
-				{
-					htmlString: '<p><img class="one" src="//example.com/pic1.png" /></p><p>Hello world</p><p><img src="//example.com/pic2.gif" class="two" /></p>' +
-						'<div><span class="something"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==" /></span></div>',
-					result: [
-						[ '<img class="one" src="//example.com/pic1.png', '//example.com/pic1.png' ],
-						[ '<img src="//example.com/pic2.gif', '//example.com/pic2.gif' ],
-						[ '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==',
-							'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==' ]
-					]
-				},
-				{
-					htmlString: '<p>There is no img</p>',
-					result: []
+					rtf: CKEDITOR.ajax.load( './_fixtures/helpers3.rtf' ),
+					result: JSON.parse( CKEDITOR.ajax.load( './_fixtures/helpers3.json' ) )
 				}
 			];
 
-			while ( item = test.shift() ) {
-				result = CKEDITOR.plugins.pastefromwordimage.extractImgTagsFromHtmlString( item.htmlString );
-				assert.areSame( item.result.length, result.length );
-				for ( i = 0, length = result.length; i < length; i++ ) {
-					assert.areSame( item.result[ i ][ 0 ], result[ i ][ 0 ] );
-					assert.areSame( item.result[ i ][ 1 ], result[ i ][ 1 ] );
-				}
-			}
-		},
-
-		'test extract images from rtf': function() {
-			var testCase,
-				result,
-				i,
-				length;
-
-			while ( testCase = fixtures.shift() ) {
-				result = CKEDITOR.plugins.pastefromwordimage.extractImagesFromRtf( testCase.rtf );
-				if ( result ) {
-					for ( i = 0, length = result.length; i < length; i++ ) {
-						assert.areSame( testCase.result[ i ].hex, result[ i ].hex );
-						assert.areSame( testCase.result[ i ].type, result[ i ].type );
-					}
-				}
-				// Test where no image is returned and both value should be undefiend.
-				else {
-					assert.areSame( testCase.result, result );
+			while ( testCase = testCases.shift() ) {
+				actualResult = CKEDITOR.plugins.pastefromwordimage.extractImagesFromRtf( testCase.rtf );
+				assert.areSame( testCase.result.length, actualResult.length );
+				for ( var i = 0; i < actualResult.length; i++ ) {
+					objectAssert.areEqual( testCase.result[ i ], actualResult[ i ] );
 				}
 			}
 		}
