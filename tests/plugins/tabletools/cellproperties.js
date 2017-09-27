@@ -144,6 +144,7 @@
 					assert.isFalse( dialog.getContentElement( 'info', 'width' ).isVisible() );
 					assert.isFalse( dialog.getContentElement( 'info', 'height' ).isVisible() );
 					assert.isFalse( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
+					assert.isFalse( dialog.getContentElement( 'info', 'hiddenSpacer' ).isVisible() );
 				} );
 			} );
 		},
@@ -158,6 +159,7 @@
 					assert.isTrue( dialog.getContentElement( 'info', 'width' ).isVisible() );
 					assert.isTrue( dialog.getContentElement( 'info', 'height' ).isVisible() );
 					assert.isTrue( dialog.getContentElement( 'info', 'htmlHeightType' ).isVisible() );
+					assert.isTrue( dialog.getContentElement( 'info', 'hiddenSpacer' ).isVisible() );
 				} );
 			} );
 		}

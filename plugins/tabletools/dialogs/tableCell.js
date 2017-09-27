@@ -10,6 +10,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		validate = CKEDITOR.dialog.validate,
 		widthPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
 		spacer = { type: 'html', html: '&nbsp;' },
+		hiddenSpacer,
 		rtl = editor.lang.dir == 'rtl',
 		colorDialog = editor.plugins.colordialog;
 
@@ -155,6 +156,9 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 								if ( this.getDialog().getContentElement( 'info', 'height' ).isVisible() ) {
 									labelElement.setHtml( '<br />' + langTable.widthPx );
+									labelElement.setStyle( 'display', 'block' );
+
+									this.getDialog().getContentElement( 'info', 'hiddenSpacer' ).getElement().setStyle( 'display', 'block' );
 								}
 
 								inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
@@ -181,10 +185,16 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						{
 							id: 'htmlHeightType',
 							type: 'html',
-							html: ''
+							html: '',
+							style: 'display: none'
 						} ]
 					},
-					spacer,
+					hiddenSpacer = {
+						type: 'html',
+						id: 'hiddenSpacer',
+						html: '&nbsp;',
+						style: 'display: none'
+					},
 					{
 						type: 'select',
 						id: 'wordWrap',
