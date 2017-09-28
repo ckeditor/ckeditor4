@@ -12,9 +12,9 @@ This plug-in adds a dialog box to CKEditor explaning:
 There is the abiity to customize the importance message to include the organizations name and a link to accessibility policies by adding a `a11yfirst` object to the configuration file.   
 
 The `attyfirst` object has three options:
-* **organization**: name of the organization 
-* **a11yPolicyLink**: URL to a link describing the organizations accessibility policies
-* **a11yPolicyLabel**: Text label for the URL to the policies
+* **organization**: *name of the organization* 
+* **a11yPolicyLink**: *URL to a link describing the organizations accessibility policies*
+* **a11yPolicyLabel**: *Text label for the URL to the policies*
 
 ## Example A11yFirst help customization
 
