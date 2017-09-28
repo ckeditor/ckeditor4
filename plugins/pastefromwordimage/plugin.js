@@ -9,7 +9,6 @@
 	CKEDITOR.plugins.add( 'pastefromwordimage', {
 		requires: 'pastefromword',
 		init: function( editor ) {
-			// Check it!
 			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				return;
 			}
@@ -21,42 +20,48 @@
 		},
 
 		pasteListener: function( evt ) {
-			var imgTags,
-				base64images = [],
+			var pfwi = CKEDITOR.plugins.pastefromwordimage,
+				imgTags,
 				hexImages,
-				length,
+				newSrcValues = [],
 				i;
 
-			function hexToBase64( hexString ) {
-				return CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( hexString ) );
-			}
-
-			imgTags = CKEDITOR.plugins.pastefromwordimage.extractImgTagsFromHtmlString( evt.data.dataValue );
+			imgTags = pfwi.extractImgTagsFromHtmlString( evt.data.dataValue );
 			if ( imgTags.length === 0 ) {
 				return;
 			}
 
-			hexImages = CKEDITOR.plugins.pastefromwordimage.extractImagesFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
+			hexImages = pfwi.extractImagesFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
 			if ( hexImages.length === 0 ) {
 				return;
 			}
 
 			CKEDITOR.tools.array.forEach( hexImages, function( img ) {
-				base64images.push( img.type ? 'data:' + img.type + ';base64,' + hexToBase64( img.hex ) : null );
-			} );
+				newSrcValues.push( this.createSrcWithBase64( img ) );
+			}, this );
 
 			// Assumption there is equal amout of Images in RTF and HTML source, so we can match them accoriding to existing order.
-			if ( imgTags.length === base64images.length ) {
-				length = imgTags.length;
-				for ( i = 0; i < length; i++ ) {
-					if ( ( imgTags[ i ][ 1 ].indexOf( 'file://' ) === 0 ) && base64images[ i ] ) {
-						evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ][ 1 ], base64images[ i ] );
+			if ( imgTags.length === newSrcValues.length ) {
+				for ( i = 0; i < imgTags.length; i++ ) {
+					// Replace only `file` urls and real images ( shapes are null ).
+					if ( ( imgTags[ i ][ 1 ].indexOf( 'file:///' ) === 0 ) && newSrcValues[ i ] ) {
+						evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ][ 1 ], newSrcValues[ i ] );
 					}
 				}
 			} else {
-				throw new Error( 'There is problem with embeding images from word.' );
+				throw new Error( 'There appeared a problem with embeding images while pasting from Word.' );
 			}
+
+		},
+
+		createSrcWithBase64: function( img ) {
+			return img.type ? 'data:' + img.type + ';base64,' + this.hexToBase64( img.hex ) : null;
+		},
+
+		hexToBase64: function( hexString ) {
+			return CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( hexString ) );
 		}
+
 	} );
 
 	/**
