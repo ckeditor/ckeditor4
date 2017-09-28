@@ -2087,11 +2087,12 @@
 				// Edge < 16 does not support custom copy/cut, but it have some useful data in the clipboardData (https://dev.ckeditor.com/ticket/13755).
 				return new this.dataTransfer( ( CKEDITOR.env.edge && evt && evt.data.$ && evt.data.$.clipboardData ) || null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
-				var dataTransfer = new this.dataTransfer( evt.data.$.clipboardData, sourceEditor );
+				var clipboardData = evt.data.$.clipboardData,
+					dataTransfer = new this.dataTransfer( clipboardData, sourceEditor );
 
 				if ( this.copyCutData && dataTransfer.id == this.copyCutData.id ) {
 					dataTransfer = this.copyCutData;
-					dataTransfer.$ = evt.data.$.clipboardData;
+					dataTransfer.$ = clipboardData;
 				} else {
 					this.copyCutData = dataTransfer;
 				}
