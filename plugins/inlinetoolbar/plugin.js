@@ -47,13 +47,9 @@
 				this.parts.panel.addClass( 'cke_inlinetoolbar' );
 				this.parts.title.remove();
 				this.parts.close.remove();
-				var output = [],
-					index = 0;
+				var output = [];
 				for ( var menuItem in this.menuItems ) {
-					this.menuItems[ menuItem ].render( this.menu, index++ , output );
-					//this.menuItems[ menuItem ].render( this.menu, output );
-
-					//console.log( output );
+					this.menuItems[ menuItem ].render( this.editor, output );
 				}
 				this.parts.content.setHtml( output.join( '' ) );
 			};
@@ -116,6 +112,18 @@
 			CKEDITOR.ui.inlineToolbarView.prototype.detach = function() {
 				this._detachListeners();
 				this.hide();
+			};
+
+				/**
+			 * Adds an item from the specified definition to the editor context menu.
+			 *
+			 * @method
+			 * @param {String} name The menu item name.
+			 * @param {Object} definition The menu item definition.
+			 * @member CKEDITOR.editor
+			 */
+			CKEDITOR.ui.inlineToolbar.prototype.addMenuItem = function( name, definition ) {
+				this.menuItems[ name ] = new CKEDITOR.ui.button( definition );
 			};
 
 			/**
