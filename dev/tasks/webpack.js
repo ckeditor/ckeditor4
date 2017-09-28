@@ -33,6 +33,10 @@ module.exports = function( grunt ) {
 												browsers: [ 'last 2 versions', 'ie >= 8' ]
 											}
 										} ]
+									],
+									plugins: [
+										'transform-es3-property-literals',
+										'transform-es3-member-expression-literals'
 									]
 								}
 							}
