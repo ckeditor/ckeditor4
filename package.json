@@ -4,6 +4,9 @@
 	"description": "The development version of CKEditor - JavaScript WYSIWYG web text editor.",
 	"devDependencies": {
 		"@ckeditor/ckeditor-cloudservices-core": "^0.1.0",
+		"babel-loader": "^7.1.2",
+		"babel-minify-webpack-plugin": "^0.2.0",
+		"babel-preset-es2015": "^6.24.1",
 		"benderjs": "^0.4.2",
 		"benderjs-coverage": "^0.2.1",
 		"benderjs-jquery": "^0.3.0",
@@ -20,8 +23,10 @@
 		"grunt-githooks": "^0.6.0",
 		"grunt-jscs": "^3.0.1",
 		"grunt-jsduck": "^1.0.1",
+		"grunt-webpack": "^3.0.2",
 		"less": "^2.5.0",
-		"shelljs": "^0.7.6"
+		"shelljs": "^0.7.6",
+		"webpack": "^3.6.0"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
