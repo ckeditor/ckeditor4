@@ -8,7 +8,7 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   headingHelpLabel:    'Heading Help',
 
   a11yFirstHelpLabel:   'Accessibility Help',
-  a11yFirstHelpTitle:   'Information to help auhtoris use the A11yFirst features to make content more accessible to people with disabilites',
+  a11yFirstHelpTitle:   'Information to help authors understand how the A11yFirst features help them make content more accessible to people with disabilites',
 
   gettingStartedLabel: 'Getting Started',
   gettingStartedTitle: 'Getting Started with accessibility using the A11yFirst Toolbar',
@@ -16,24 +16,27 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   gettingStartedButtonLabel: 'Getting Started',
 
   gettingStartedImportanceHeading: 'Importance of Accessibility',
-  gettingStartedImportanceContent: 'This organization has made a committment to accessibility, not only to comply with the American\'s with Disabilities Act(ADA) or Section 504 requirements, but also because it the right thing to do to make sure everyone has equal access to the information in this website.  <strong>Youplay an important part</strong>  in making sure this organization creates and maintains online content that is accessible.  The changes to the editor toolbar are designed to help you create and maintain accessible content and learn more about accessibility.',
+  gettingStartedImportanceContent: 'This organization has made a committment to accessibility, not only to comply with the American\'s with Disabilities Act(ADA) or Section 504 requirements, but also because it the right thing to do to make sure everyone has equal access to the information in this website.\n<strong>You play an important part</strong> in making sure this organization creates and maintains online content that is accessible.  The changes to the editor toolbar are designed to help you create and maintain accessible content and learn more about accessibility.',
 
-  gettingStartedImportanceOrganizationContent: 'The %org has made a committment to accessibility, not only to comply with the American\'s with Disabilities Act(ADA) or Section 504 requirements, but also because it the right thing to do to make sure everyone has equal access to the information in this website.  <strong>You play an important part</strong> in making sure the %org creates and maintains online content that is accessible.  The changes to the editor toolbar are designed to help you create and maintain accessible content and learn more about accessibility.',
+  gettingStartedImportanceOrganizationContent: 'The %org has made a committment to accessibility, not only to comply with the American\'s with Disabilities Act(ADA) or Section 504 requirements, but also because it the right thing to do to make sure everyone has equal access to the information in this website.\n<strong>You play an important part</strong> in making sure the %org creates and maintains online content that is accessible.  The changes to the editor toolbar are designed to help you create and maintain accessible content and learn more about accessibility.',
 
   gettingStartedWhatIsHeading: 'What Is Accessibility?',
-  gettingStartedWhatIsContent: [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5'
-  ],
+  gettingStartedWhatIsContent: ['Information should be perceivable and usable to everyone, including people with disabilities',
+'Information should be organized and structured for people understand the purpose of the content.',  
+'Compatibility with assistive technologies and operating system accessibility features.'],
+
+  gettingStartedPeopleWithHeading: 'People with disabilities include people who:',
+  gettingStartedPeopleWithContent: ['Cannot see very well or are blind.',
+  'Cannot hear very well or are deaf.',
+  'Have impaired motor skills or are paralyzed.',
+  'Have learning or cognitive disabilities that affects their ability to read text or understand images.'],
+
 
   gettingStartedFeaturesHeading: 'A11yFirst Toolbar Features',
   gettingStartedFeaturesContent: [
-    'Headings',
-    'Block Format',
-    'Inline Styles'
+    '<strong>Headings</strong>: The Heading menu helps you keep the heading and sub-heding structure of your page propertly nested.',
+    '<strong>Block Format</strong>: Provides special styling for certain blocks of information on a page.',
+    '<strong>Inline Styles</strong>: Provides styling to highlight or emphasize a word or group of words with in a block of text'
   ],     
 
   gettingStartedResourcesHeading: 'Additional Resources',

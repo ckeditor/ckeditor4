@@ -25,7 +25,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       button = dialogObj.getContentElement('a11yFirstHelpTab', buttonId);
 
       if (node && button) {
-        
+
         buttonElement = button.getElement();
 
         if (itemId == id) {
@@ -60,8 +60,14 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       }
 
       function p(content) {
-        return '<p style="white-space: normal; font-weight: normal; margin-top: 0.5em; font-size: 110%">' + content + '</p>';
-      }
+        var html = '';
+        var paras = content.split('\n');
+        for(var i = 0; i < paras.length; i++ ) {
+          html += '<p style="white-space: normal; font-weight: normal; margin-top: 0.5em; font-size: 110%">' + paras[i] + '</p>';
+
+        }
+        return html;
+      }  
 
       function list(tag, list) {
         var html = '<' + tag + ' style="margin-top: 0.5em; padding-left: 1em;">';
@@ -103,6 +109,9 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
       html += h3(lang.gettingStartedWhatIsHeading);
       html += list('ul', lang.gettingStartedWhatIsContent);
+
+      html += h3(lang.gettingStartedPeopleWithHeading);
+      html += list('ul', lang.gettingStartedPeopleWithContent);
 
       html += h3(lang.gettingStartedFeaturesHeading);
       html += list('ul', lang.gettingStartedFeaturesContent);
