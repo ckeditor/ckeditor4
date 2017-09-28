@@ -6,6 +6,8 @@
 		"@ckeditor/ckeditor-cloudservices-core": "^0.1.0",
 		"babel-loader": "^7.1.2",
 		"babel-minify-webpack-plugin": "^0.2.0",
+		"babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
+		"babel-plugin-transform-es3-property-literals": "^6.22.0",
 		"babel-preset-env": "^1.6.0",
 		"benderjs": "^0.4.2",
 		"benderjs-coverage": "^0.2.1",
