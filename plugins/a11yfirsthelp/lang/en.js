@@ -50,7 +50,7 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   headingHelpLabel: 'Heading Help',
   headingHelpTitle: 'Headings identify the section and sub-section of the document, and provide a consistent styling of the structure of a document to help users understand the organization of the documents.',
 
-  headingHelpButtonLabel: 'Headings',
+  headingHelpButtonLabel: 'Heading',
 
   headingHelpFeatureHeading: 'Heading Menu Features',
   headingHelpFeatureContent: [
@@ -130,7 +130,7 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
 
   // Link help content
 
-  linkHelpButtonLabel: 'Links',
+  linkHelpButtonLabel: 'Link',
 
   linkHelpLabel: 'Link Help',
   linkHelpTitle: 'The text used to identify a linke is very important to all users, but especially to people using screen readers and some types of learning disabilies.',

@@ -100,7 +100,8 @@
         group: 'heading_actions',
         order: headings.length + 2,
         onClick: function() {
-          editor.execCommand( helpCmd );
+          editor.a11yfirst.helpOption = 'HeadingHelp';        
+          editor.execCommand('a11yFirstHelpDialog');
         }
       };
 

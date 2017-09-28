@@ -39,26 +39,6 @@
       // Change behavior of menubutton with text label
       CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
-      // Initialize Getting Started menuitem
-      var gettingStartedCmd = 'a11yFirstGettingStarted';
-      CKEDITOR.dialog.add( gettingStartedCmd, this.path + 'dialogs/getting-started.js' );
-      editor.addCommand( gettingStartedCmd, new CKEDITOR.dialogCommand( gettingStartedCmd, {helpCommandId: 'gettingstarted'} ) );
-
-      // Initialize Block Format Help menuitem
-      var blockFormatHelpCmd = 'blockFormatHelp';
-      CKEDITOR.dialog.add( blockFormatHelpCmd, this.path + 'dialogs/block-format-help.js' );
-      editor.addCommand( blockFormatHelpCmd, new CKEDITOR.dialogCommand( blockFormatHelpCmd ) );
-
-      // Initialize Inline Style Help menuitem
-      var inlineStyleHelpCmd = 'inlineStyleHelp';
-      CKEDITOR.dialog.add( inlineStyleHelpCmd, this.path + 'dialogs/inline-style-help.js' );
-      editor.addCommand( inlineStyleHelpCmd, new CKEDITOR.dialogCommand( inlineStyleHelpCmd ) );
-
-      // Initialize Link Help menuitem
-      var a11yFirstLinkHelpCmd = 'a11yFirstLinkHelp';
-      CKEDITOR.dialog.add( a11yFirstLinkHelpCmd, this.path + 'dialogs/link-help.js' );
-      editor.addCommand( a11yFirstLinkHelpCmd, new CKEDITOR.dialogCommand( a11yFirstLinkHelpCmd ) );
-
       // Initialize A11yFirst Help dialog and command
       var a11yFirstHelpDialogCmd = 'a11yFirstHelpDialog';
       CKEDITOR.dialog.add( a11yFirstHelpDialogCmd, this.path + 'dialogs/a11yfirst-help.js' );
@@ -70,7 +50,6 @@
         contextSensitive: false
       } );
 
-
       // Add Heading Help
       items.a11yFirstHelpheadingHelp = {
         label: lang.headingHelpLabel,
@@ -79,7 +58,6 @@
         onClick: function() {
           editor.a11yfirst.helpOption = 'HeadingHelp';        
           editor.execCommand(a11yFirstHelpDialogCmd);
-//          editor.execCommand('headingHelp');
         }
       };
 
@@ -91,7 +69,6 @@
         onClick: function() {
           editor.a11yfirst.helpOption = 'BlockFormatHelp';        
           editor.execCommand(a11yFirstHelpDialogCmd);
-//          editor.execCommand(blockFormatHelpCmd, 'blockformat');
         }
       };      
 
@@ -103,7 +80,6 @@
         onClick: function() {
           editor.a11yfirst.helpOption = 'InlineStyleHelp';        
           editor.execCommand(a11yFirstHelpDialogCmd);
-//          editor.execCommand(inlineStyleHelpCmd,'inlinestyle');
         }
       };  
 
@@ -115,7 +91,6 @@
         onClick: function() {
           editor.a11yfirst.helpOption = 'LinkHelp';        
           editor.execCommand(a11yFirstHelpDialogCmd);
-//          editor.execCommand(a11yFirstLinkHelpCmd, 'link');
         }
       };  
 
@@ -128,7 +103,6 @@
         onClick: function() {
           editor.a11yfirst.helpOption = 'GettingStarted';        
           editor.execCommand(a11yFirstHelpDialogCmd);
-//          editor.execCommand( gettingStartedCmd, 'gettingstarted');
         }
       };
       

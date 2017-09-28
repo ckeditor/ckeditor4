@@ -1162,3 +1162,19 @@ a.cke_dialog_ui_button.cke_dialog_image_browse
 {
 	border: 1px solid #d1d1d1;
 }
+
+/* styling of the selected button in A11yFristHelp */
+
+.cke_dialog_ui_button.selected {
+  background-color: #fff;
+}
+
+.cke_dialog_ui_button > span {
+  padding-left: 16px;
+}
+
+.cke_dialog_ui_button.selected > span:before {
+  background-image: url('images/right-arrow.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
