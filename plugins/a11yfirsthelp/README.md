@@ -18,7 +18,7 @@ The `a11yfirst` object has three options:
 
 If the `a11yfirst` option is not present a generic importance message is used.
 
-## Example A11yFirst help customization
+## Example Configuration
 
 ```
 CKEDITOR.replace('editor', {
@@ -35,5 +35,7 @@ CKEDITOR.replace('editor', {
   toolbar: [
     { name: 'heading',      items: [ 'Heading' ] },
     { name: 'list',         items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
+
   .....
+  
 ```
