@@ -21,7 +21,7 @@
 			return function( editor ) {
 				var widget = editor.widgets.focused;
 
-				if ( widget && widget.name === 'image' ) {
+				if ( widget && widget.name === 'easyimage' ) {
 					this.setState( ( enableCheck && enableCheck( widget ) ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 				} else {
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
@@ -94,32 +94,16 @@
 	}
 
 	function registerWidget( editor ) {
-		// Overwrite some image2 defaults.
-		editor.on( 'widgetDefinition', function( evt ) {
-			var oldInit = evt.data.init;
-
-			if ( evt.data.name !== 'image' ) {
-				return;
-			}
-
-			evt.data.allowedContent.figure.classes += ',!' + editor.config.easyimage_class + ',' +
-				editor.config.easyimage_sideClass;
-
-			// Block default image dialog.
-			evt.data.dialog = null;
-
-			evt.data.init = function() {
-				oldInit.call( this );
-
+		CKEDITOR.plugins.imagebase.createWidget( editor, 'easyimage', {
+			basicClass: editor.config.easyimage_class,
+			additionalClasses: [ editor.config.easyimage_sideClass ],
+			init: function() {
 				this.on( 'contextMenu', function( evt ) {
-					// Remove "Image Properties" option.
-					delete evt.data.image;
-
 					evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
 					evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
 					evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
 				} );
-			};
+			}
 		} );
 	}
 
@@ -135,7 +119,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'image2,contextmenu,dialog',
+		requires: 'imagebase,contextmenu,dialog',
 		lang: 'en',
 
 		onLoad: function() {
