@@ -32,13 +32,20 @@
 		this._listeners = [];
 	};
 
+	var stylesLoaded = false;
+
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
 		onLoad: function() {
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
 		},
 		init: function() {
+			if ( !stylesLoaded ) {
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
+				stylesLoaded = true;
+			}
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
+			CKEDITOR.ui.inlineToolbar.prototype.templateDefinitions.panel = CKEDITOR.ui.inlineToolbar.prototype.templateDefinitions.panel.replace( 'cke_balloon', 'cke_inlinetoolbar' );
 			/**
 			 * Build inline toolbar DOM representation.
 			 */
@@ -101,4 +108,17 @@
 			};
 		}
 	} );
+<<<<<<< HEAD
+=======
+
+	CKEDITOR.ui.inlineToolbar = function( editor, definition ) {
+		var defParams = CKEDITOR.tools.extend( definition || {}, {
+			width: 'auto',
+			triangleWidth: 10,
+			triangleHeight: 10
+		} );
+		CKEDITOR.ui.balloonPanel.call( this, editor, defParams );
+	};
+
+>>>>>>> CSS styling for inline toolbar
 }() );
