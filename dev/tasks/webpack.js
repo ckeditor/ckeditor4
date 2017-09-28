@@ -27,7 +27,12 @@ module.exports = function( grunt ) {
 								query: {
 									cacheDirectory: true,
 									presets: [
-										require( 'babel-preset-es2015' )
+										[ require( 'babel-preset-env' ), {
+											modules: false,
+											targets: {
+												browsers: [ 'last 2 versions', 'ie >= 8' ]
+											}
+										} ]
 									]
 								}
 							}
