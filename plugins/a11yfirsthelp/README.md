@@ -13,8 +13,10 @@ There is the abiity to customize the importance message to include the organizat
 
 The `a11yfirst` object has three options:
 * `organization`: *name of the organization* 
-* `a11yPolicyLink`: *URL to a link describing the organizations accessibility policies*
-* `a11yPolicyLabel`: *Text label for the URL to the policies*
+* `a11yPolicyLink`: *URL to a resource describing the organizations accessibility policies*
+* `a11yPolicyLabel`: *Text label for the URL*
+
+If the `a11yfirst` option is not present a generic importance message is used.
 
 ## Example A11yFirst help customization
 
