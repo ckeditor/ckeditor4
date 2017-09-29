@@ -96,6 +96,29 @@
 				}
 
 			} );
+		},
+
+		// #862
+		'test visible object styles on list items': function() {
+			bender.editorBot.create( {
+				name: 'object_styles',
+				config: {
+					removePlugins: 'format,font',
+					language: 'en'
+				}
+			}, function( bot ) {
+
+				bot.setHtmlWithSelection( '<ul><li>o^ne</li><li>two</li></ul>' );
+
+				bot.combo( 'Styles', function( combo ) {
+					var list = combo._.list.element;
+					var squareOptionId = combo._.list._.items[ 'Square Bulleted List' ] ;
+
+					assert.isNotNull( list.findOne( '#' + squareOptionId ), 'Square Bulleted List should be avialable.' );
+					assert.areNotSame( 'none', list.findOne( '#' + squareOptionId ).getStyle( 'display' ).toLowerCase(),
+						'Element with ID: #' + squareOptionId + ', should be displayed.' );
+				} );
+			} );
 		}
 	} );
 } )();
