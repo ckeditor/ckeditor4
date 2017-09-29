@@ -1,4 +1,4 @@
-/* bender-tags: a11ychecker,inlinetoolbar */
+/* bender-tags: inlinetoolbar */
 /* bender-ckeditor-plugins: toolbar,link,inlinetoolbar */
 /* bender-include: ../balloonpanel/_helpers/tools.js */
 /* global balloonTestsTools */
@@ -6,6 +6,7 @@
 ( function() {
 	'use strict';
 
+	var restore = CKEDITOR.dom.window.prototype.getViewPaneSize;
 	CKEDITOR.dom.window.prototype.getViewPaneSize = function() {
 		return {
 			width: 1183,
@@ -16,25 +17,23 @@
 	bender.editor = {
 		name: 'editor1',
 		config: {
-			allowedContent: true,
 			height: 300,
 			width: 300
 		}
 	};
 
-	var inlineToolbarConfig = {
-			width: 100,
-			height: 200
-		},
-		spy = sinon.spy,
+	var spy = sinon.spy,
 		tests = {
-			// There's no need to call editor.window.scrollTo, because balloon logic initialy considers only
+			// There's no need to call editor.window.scrollTo, because balloon logic initially considers only
 			// scrolling of **outer window**. It does not care about editable window, as its scrolling is already
 			// "contained" in result returned by the element.getClientRect() of marker.
 			_getFrameMethodReplaced: false,
 
 			setUp: function() {
-				this.inlineToolbar = new CKEDITOR.ui.inlineToolbar( this.editor, inlineToolbarConfig );
+				this.inlineToolbar = new CKEDITOR.ui.inlineToolbar( this.editor, {
+					width: 100,
+					height: 200
+				} );
 
 				this.markerElement = this.editor.editable().findOne( '#marker' );
 
@@ -42,21 +41,7 @@
 				window.scrollTo( 0, 0 );
 
 				if ( !this._getFrameMethodReplaced ) {
-					// The problem is also window.getFrame().getClientRect() as it retursn different results from dashboard and directly.
-					this._getFrameMethodReplaced = true;
-					var orig = this.editor.window.getFrame;
-
-					this.editor.window.getFrame = function() {
-						var ret = orig.call( this );
-
-						if ( ret ) {
-							ret.getClientRect = function() {
-								return { height: 300, width: 300, left: 1, bottom: 643, right: 301, top: 343 };
-							};
-						}
-
-						return ret;
-					};
+					sinon.stub( this.editor.window, 'getFrame', { height: 300, width: 300, left: 1, bottom: 643, right: 301, top: 343 } );
 				}
 			},
 
@@ -89,4 +74,5 @@
 			}
 		};
 	bender.test( tests );
+	CKEDITOR.dom.window.prototype.getViewPaneSize = restore;
 } )();
