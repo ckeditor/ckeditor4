@@ -1166,7 +1166,7 @@ a.cke_dialog_ui_button.cke_dialog_image_browse
 /* styling of the selected button in A11yFristHelp */
 
 .cke_dialog_ui_button.selected {
-  background-color: #fff;
+  background-color: #d1d1d1;
 }
 
 .cke_dialog_ui_button > span {
@@ -1177,4 +1177,57 @@ a.cke_dialog_ui_button.cke_dialog_image_browse
   background-image: url('images/right-arrow.png');
   background-repeat: no-repeat;
   background-position: left center;
+}
+
+/* Changes to button styling from default moolisa */
+
+a.cke_dialog_ui_button.a11yfirsthelp:hover
+{
+	background-color: #d1d1d1;
+}
+
+.cke_dialog_ui_vbox_child.a11yfirsthelp {
+    padding: 3px 0px;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent * {
+    white-space: normal;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent h2 {
+	margin-top: 1em;
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent h3 {
+	margin-top: 1em;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent p {
+    margin-bottom: 1em;
+	font-size: 110%;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent ul,
+.cke_dialog_ui_hbox .a11yfirsthelpcontent ol {
+	font-size: 110%;
+	padding-left: 1.25em;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent li {
+	margin-bottom: 0.125em;
+}
+
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent a {
+	text-decoration: underline;
+	color: blue;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent strong {
+	font-weight: bold;
+	font-size: 100%;
 }

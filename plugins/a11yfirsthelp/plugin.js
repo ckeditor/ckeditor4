@@ -52,7 +52,7 @@
 
       // Add Heading Help
       items.a11yFirstHelpheadingHelp = {
-        label: lang.headingHelpLabel,
+        label: lang.headingHelp.menu,
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
@@ -63,7 +63,7 @@
 
       // Add Block Format Help
       items.a11yFirstBlockFormatHelpCmd = {
-        label: lang.blockFormatHelpLabel,
+        label: lang.blockFormatHelp.menu,
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
@@ -74,7 +74,7 @@
 
       // Add Inline Style Help
       items.a11yFirstInlineStyleHelpCmd = {
-        label: lang.inlineStyleHelpLabel,
+        label: lang.inlineStyleHelp.menu,
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
@@ -85,7 +85,7 @@
 
       // Add Link Help
       items.a11yFirstLinkHelpCmd = {
-        label: lang.linkHelpLabel,
+        label: lang.linkHelp.menu,
         group: 'a11yfirsthelp_helps',
         order: index++,
         onClick: function() {
@@ -97,7 +97,7 @@
 
       // Add Getting Started item
       items.a11yFirstHelpGettingStarted = {
-        label: lang.gettingStartedLabel,
+        label: lang.gettingStarted.menu,
         group: 'a11yfirsthelp_getting_started',
         order: index+1,
         onClick: function() {
