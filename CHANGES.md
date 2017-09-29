@@ -18,10 +18,11 @@ Fixed Issues:
 * [#787](https://github.com/ckeditor/ckeditor-dev/issues/787): Fixed: Using cut inside nested table does not cut selected content.
 * [#842](https://github.com/ckeditor/ckeditor-dev/issues/842): Fixed: List style not restored when toggling list indent level in [Indent List](http://ckeditor.com/addon/indentlist) plugin.
 * [#711](https://github.com/ckeditor/ckeditor-dev/issues/711): Fixed: Dragging widgets should only work with left mouse button.
+* [#862](https://github.com/ckeditor/ckeditor-dev/issues/862): Fixed: "Object Styles" group in [Styles Combo](https://ckeditor.com/addon/stylescombo) plugin is visible only if whole element is selected.
 
 Other Changes:
 
-* [#815](https://github.com/ckeditor/ckeditor-dev/issues/815): Removed Node.js dependency from CKEditor build script. 
+* [#815](https://github.com/ckeditor/ckeditor-dev/issues/815): Removed Node.js dependency from CKEditor build script.
 
 ## CKEditor 4.7.3
 
