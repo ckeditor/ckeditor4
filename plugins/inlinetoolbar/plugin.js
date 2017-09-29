@@ -19,6 +19,7 @@
 	 */
 	CKEDITOR.ui.inlineToolbarView = function( editor, definition ) {
 		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
+		this.listeners = [];
 	};
 
 	CKEDITOR.inlineToolbar = function( editor ) {
@@ -27,7 +28,7 @@
 
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
-		init: function( editor ) {
+		init: function() {
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 			/**
 			 * build inline toolbar DOM representation.
@@ -60,11 +61,12 @@
 			 *
 			 * @private
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype._detachListiners = function() {
-				if ( this.listeners ) {
-					this.editor.removeListener( 'resize', this.listeners.resize );
-					this.listeners.scrollEvent.removeListener();
-					this.listeners = null;
+			CKEDITOR.ui.inlineToolbarView.prototype._detachListeners = function() {
+				if ( this.listeners.length ) {
+					CKEDITOR.tools.forEach( this.listeners, function( listener ) {
+						listener.removeListener();
+					} );
+					this.listeners = [];
 				}
 			};
 
@@ -74,7 +76,7 @@
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.destroy = function() {
 				CKEDITOR.ui.balloonPanel.prototype.destroy.call( this );
-				this._detachListiners();
+				this._detachListeners();
 			};
 
 			/**
@@ -89,45 +91,24 @@
 
 				var that = this,
 					editable = this.editor.editable();
-				this._detachListiners();
-				this.listeners = {
-					resize: function() {
-						that.attach( element, false );
-					},
-					scroll: function() {
-						that.attach( element, false );
-					}
-				};
+				this._detachListeners();
+				this.listeners = [];
 
-				this.editor.on( 'resize', this.listeners.resize );
-				this.listeners.scrollEvent = editable.attachListener( editable.getDocument(), 'scroll', this.listeners.scroll );
+				this.listeners.push( this.editor.on( 'resize', function() {
+					that.attach( element, false );
+				} ) );
+				this.listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
+					that.attach( element, false );
+				} ) );
 			};
 
 			/**
 			 * Hides the inline toolbar, detaches listners and moves the focus back to the editable.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.detach = function() {
-				this._detachListiners();
+				this._detachListeners();
 				this.hide();
 			};
-
-			function temporaryCode() {
-				editor.addCommand( 'testInlineToolbar', {
-					exec: function( editor ) {
-						var img = editor.editable().findOne( 'img' );
-						if ( img ) {
-							var panel = new CKEDITOR.ui.inlineToolbarView( editor );
-							panel.create( img );
-						}
-					}
-				} );
-				editor.ui.addButton( 'testInlineToolbar', {
-					label: 'test inlinetoolbar',
-					command: 'testInlineToolbar',
-					toolbar: 'insert'
-				} );
-			}
-			temporaryCode();
 		}
 	} );
 }() );
