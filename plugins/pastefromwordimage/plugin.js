@@ -71,20 +71,23 @@
 		},
 
 		/**
-		 * Method extracts array of img tags from given htmlString.
+		 * Method extracts array of img tags from given HTML.
+		 *
+		 *		CKEDITOR.plugins.pastefromwordimage.extractImgTagsFromHtmlString( html );
+		 * 		// Returns: [ [ '<img src="http://example-picture.com/random.png', 'http://example-picture.com/random.png' ] ]
 		 *
 		 * @private
 		 * @since 4.8.0
-		 * @param {String} htmlString String represent HTML code.
-		 * @returns {Array} Array of arrays represent img tags found in `htmlString`.
-		 * @returns {Array} return.Array Single result of `regexp.exec`, which finds img tags.
+		 * @param {String} html String represent HTML code.
+		 * @returns {Array} Array of arrays represent img tags found in `html`.
+		 * @returns {Array[]} return.Array Single result of `regexp.exec`, which finds img tags.
 		 */
-		extractImgTagsFromHtmlString: function( htmlString ) {
+		extractImgTagsFromHtmlString: function( html ) {
 			var regexp = /<img[^>]+src="([^"]+)/g,
 				ret = [];
 
 			do {
-				ret.push( regexp.exec( htmlString ) );
+				ret.push( regexp.exec( html ) );
 			} while ( ret[ ret.length - 1 ] );
 
 			// Remove null.
