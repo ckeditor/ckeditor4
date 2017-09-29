@@ -13,6 +13,21 @@ if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 CKEDITOR.config.height = 150;
 CKEDITOR.config.width = 'auto';
 CKEDITOR.config.extraPlugins = 'inlinetoolbar';
+CKEDITOR.on( 'instanceReady', function( e ) {
+	var editor = e.editor;
+	editor.addCommand( 'testInlineToolbar', {
+		exec: function( editor ) {
+			var img = editor.editable().findOne( 'img' );
+			if ( img ) {
+				var panel = new CKEDITOR.ui.inlineToolbarView( editor );
+				panel.create( img );
+			}
+		}
+	} );
+	document.getElementById( 'test-inline-toolbar' ).addEventListener( 'click', function() {
+		editor.execCommand( 'testInlineToolbar' );
+	} );
+} );
 
 var initSample = ( function() {
 	var wysiwygareaAvailable = isWysiwygareaAvailable();
