@@ -34,59 +34,28 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
           buttonElement.focus();
         }
         else {
-          node.style.display = 'none';     
+          node.style.display = 'none';
           buttonElement.removeClass('selected');
-        }        
+        }
       }
     }
   }
 
   return {
     title: lang.a11yFirstHelpLabel,
+
     minWidth: 600,
+
     minHeight: 360,
+
     onShow: function(event) {
-
-      function h1(content) {
-        return '<h1>' + content + '</h1>';
-      }
-
-      function h2(content) {
-        return '<h2>' + content + '</h2>';
-      }
-
-      function h3(content) {
-        return '<h3>' + content + '</h3>';
-      }
-
-      function p(content) {
-        var html = '';
-        var paras = content.split('\n');
-        for(var i = 0; i < paras.length; i++ ) {
-          html += '<p>' + paras[i] + '</p>';
-
-        }
-        return html;
-      }  
-
-      function list(tag, list) {
-        var html = '<' + tag + ' style="margin-top: 0.5em; padding-left: 1em;">';
-        for (let i = 0; i < list.length; i++) {
-          html += '<li style="white-space: normal; padding-bottom: 0.5em; font-size: 110%">' + list[i] + '</li>';
-        }
-        html += '</' + tag + '>';
-        return html;
-      }
-
       var node, html;
 
       dialogObj = this;
 
       var converter = new showdown.Converter();
 
-
       // Add getting started content
-
       node = document.getElementById('contentGettingStarted');
 
       var content = lang.gettingStarted.no_org;
@@ -97,9 +66,9 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
           content = lang.gettingStarted.has_org.replace(/%org/g, config.a11yfirst.organization);
         }
         if (config.a11yfirst.a11yPolicyLink && config.a11yfirst.a11yPolicyLabel) {
-          content += lang.gettingStarted.policy_link.replace(/%policy_label/g, config.a11yfirst.a11yPolicyLabel).replace(/%policy_url/g, config.a11yfirst.a11yPolicyLink); 
+          content += lang.gettingStarted.policy_link.replace(/%policy_label/g, config.a11yfirst.a11yPolicyLabel).replace(/%policy_url/g, config.a11yfirst.a11yPolicyLink);
         }
-      } 
+      }
 
       content += lang.gettingStarted.content;
 
@@ -150,7 +119,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         title: lang.gettingStarted.title,
                         onClick: function() {
                             showHelpTopic('GettingStarted');
-                        },    
+                        },
                       },
                       {
                         type: 'button',
@@ -171,7 +140,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         onClick: function() {
                             showHelpTopic('BlockFormatHelp');
                         },
-                      },  
+                      },
                       {
                         type: 'button',
                         id: 'buttonInlineStyleHelp',
@@ -181,7 +150,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         onClick: function() {
                             showHelpTopic('InlineStyleHelp');
                         },
-                      },  
+                      },
                       {
                         type: 'button',
                         id: 'buttonLinkHelp',
@@ -191,7 +160,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         onClick: function() {
                             showHelpTopic('LinkHelp');
                         },
-                      }  
+                      }
                     ],
                   },
                   {
