@@ -4,7 +4,7 @@
 */
 CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   label:        'A11yFirst Help',
-  panelTitle:   'Learn about A11yFirst Toolbar',
+  panelTitle:   'learn about A11yFirst features',
   headingHelpLabel:    'Heading Help',
 
   a11yFirstHelpLabel:   'Accessibility Help',
@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   gettingStarted: {
     'menu': 'Getting Started',
     'label': 'Getting Started',
-    'title': 'Getting Started with accessibility using the A11yFirst Toolbar', 
+    'title': 'Getting Started with accessibility using the A11yFirst Toolbar',
 
     'no_org': '\
 ## Getting Started\n\
@@ -29,7 +29,7 @@ This organization has made a committment to accessibility, not only to comply wi
 **You play an important part** in making sure the %org creates and maintains online content that is accessible.  The changes to the editor toolbar are designed to help you create and maintain accessible content and learn more about accessibility.\n',
 
     'policy_link':  '\n[%policy_label](%policy_url)\n',
-  
+
     'content': '\
 ### What Is Accessibility?\n\n\
 * Information should be perceivable and usable to everyone, including people with disabilities.\n\
@@ -62,7 +62,7 @@ This organization has made a committment to accessibility, not only to comply wi
   headingHelp: {
     'menu': 'Heading Help',
     'label': 'Heading',
-    'title': 'Headings identify the section and sub-section of the document, and provide a consistent styling of the structure of a document to help users understand the organization of the documents.', 
+    'title': 'Headings identify the section and sub-section of the document, and provide a consistent styling of the structure of a document to help users understand the organization of the documents.',
     'content': '\
 ## Heading\n\
 \n\
@@ -92,7 +92,7 @@ This organization has made a committment to accessibility, not only to comply wi
   blockFormatHelp: {
     'menu': 'Block Format Help',
     'label': 'Block Format',
-    'title': 'Block format applies styles to an entire block of text, for example a paragraph or a list item.', 
+    'title': 'Block format applies styles to an entire block of text, for example a paragraph or a list item.',
     'content': '\
 ## Block Format\n\
 \n\
