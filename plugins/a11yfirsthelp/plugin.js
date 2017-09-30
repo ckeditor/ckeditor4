@@ -2,129 +2,114 @@
 * Copyright (c) 2017 University of Illinois - Jon Gunderson and Nicholas Hoyt. All rights reserved.
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
-'use strict';
+CKEDITOR.plugins.add( 'a11yfirsthelp', {
+  requires: 'richcombo',
 
-( function () {
+  // jscs:disable maximumLineLength
+  lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
+  // jscs:enable maximumLineLength
 
-  var allowedContent = [],
-      startIndex,
-      endIndex;
+  init: function( editor ) {
+    if ( editor.blockless )
+      return;
 
-  CKEDITOR.plugins.add( 'a11yfirsthelp', {
-    requires: 'a11yfirst,menubutton',
+    var allowedContent = [],
+        config = editor.config,
+        lang = editor.lang.a11yfirsthelp,
 
-    // jscs:disable maximumLineLength
-    lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
-    // jscs:enable maximumLineLength
+        a11yFirstHelpDialogCmd = 'a11yFirstHelpDialog',
+        helpTopics = config.helpTopics,
+        helpTopicIds = config.helpTopicIds,
+        menuStyle = new CKEDITOR.style( { element: 'p' } );
 
-    init: function( editor ) {
-      if ( editor.blockless )
-        return;
+    // Initialize A11yFirst Help dialog and command
+    CKEDITOR.dialog.add( a11yFirstHelpDialogCmd, this.path + 'dialogs/a11yfirst-help.js' );
+    editor.addCommand( a11yFirstHelpDialogCmd, new CKEDITOR.dialogCommand( a11yFirstHelpDialogCmd ) );
 
-      var config = editor.config,
-          lang = editor.lang.a11yfirsthelp,
-          plugin = this,
-          items = {},
-          index = 1;
+    // Register a11yfirsthelp command
+    editor.addCommand( 'allyfirsthelp', {
+      allowedContent: allowedContent,
+      contextSensitive: false
+    } );
 
+    // Create namespaced object for help option
+    if (!editor.a11yfirst) {
+      editor.a11yfirst = {};
+    }
 
-      if (!editor.a11yfirst) {
-        editor.a11yfirst = {};
+    // Add richcombo button and menu items
+    editor.ui.addRichCombo( 'A11yFirstHelp', {
+      label: lang.label,
+      title: lang.panelTitle,
+      toolbar: 'a11yfirsthelp',
+      command: 'allyfirsthelp',
+      allowedContent: allowedContent,
+
+      panel: {
+        css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
+        multiSelect: false,
+        attributes: { 'aria-label': lang.panelTitle }
+      },
+
+      init: function() {
+        for (var i = 0; i < helpTopicIds.length; i++) {
+          var id = helpTopicIds[i];
+          var label = lang[ id ].menu;
+          // Add the entry to the panel list
+          this.add( id, menuStyle.buildPreview( label ), label );
+        }
+      },
+
+      onClick: function( value ) {
+        // editor.fire( 'saveSnapshot' );
+        if (helpTopicIds.indexOf( value ) !== -1) {
+          editor.a11yfirst.helpOption = helpTopics[ value ].option;
+          editor.execCommand( a11yFirstHelpDialogCmd );
+        }
       }
 
-      if (!editor.a11yfirst.helpOption) {
-        editor.a11yfirst.helpOption = 'gettingstarted';        
-      }
+    } ); // end addRichCombo
 
-      // Change behavior of menubutton with text label
-      CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
+  } // end init
 
-      // Initialize A11yFirst Help dialog and command
-      var a11yFirstHelpDialogCmd = 'a11yFirstHelpDialog';
-      CKEDITOR.dialog.add( a11yFirstHelpDialogCmd, this.path + 'dialogs/a11yfirst-help.js' );
-      editor.addCommand( a11yFirstHelpDialogCmd, new CKEDITOR.dialogCommand( a11yFirstHelpDialogCmd ) );
+} ); // end plugins.add
 
-      // Register a11yfirsthelp command
-      editor.addCommand( 'allyfirsthelp', {
-        allowedContent: allowedContent,
-        contextSensitive: false
-      } );
+CKEDITOR.config.helpTopicIds = [
+  'headingHelp',
+  'blockFormatHelp',
+  'inlineStyleHelp',
+  'linkHelp',
+  'gettingStarted'
+];
 
-      // Add Heading Help
-      items.a11yFirstHelpheadingHelp = {
-        label: lang.headingHelp.menu,
-        group: 'a11yfirsthelp_helps',
-        order: index++,
-        onClick: function() {
-          editor.a11yfirst.helpOption = 'HeadingHelp';        
-          editor.execCommand(a11yFirstHelpDialogCmd);
-        }
-      };
+CKEDITOR.config.helpTopics = {
+  'headingHelp': {
+    option:  'HeadingHelp',
+    command: 'A11yFirstHeadingHelp',
+    group:   'A11yFirst_1'
+  },
 
-      // Add Block Format Help
-      items.a11yFirstBlockFormatHelpCmd = {
-        label: lang.blockFormatHelp.menu,
-        group: 'a11yfirsthelp_helps',
-        order: index++,
-        onClick: function() {
-          editor.a11yfirst.helpOption = 'BlockFormatHelp';        
-          editor.execCommand(a11yFirstHelpDialogCmd);
-        }
-      };      
+  'blockFormatHelp': {
+    option:  'BlockFormatHelp',
+    command: 'A11yFirstBlockFormatHelp',
+    group:   'A11yFirst_1'
+  },
 
-      // Add Inline Style Help
-      items.a11yFirstInlineStyleHelpCmd = {
-        label: lang.inlineStyleHelp.menu,
-        group: 'a11yfirsthelp_helps',
-        order: index++,
-        onClick: function() {
-          editor.a11yfirst.helpOption = 'InlineStyleHelp';        
-          editor.execCommand(a11yFirstHelpDialogCmd);
-        }
-      };  
+  'inlineStyleHelp': {
+    option:  'InlineStyleHelp',
+    command: 'A11yFirstInlineStyleHelp',
+    group:   'A11yFirst_1'
+  },
 
-      // Add Link Help
-      items.a11yFirstLinkHelpCmd = {
-        label: lang.linkHelp.menu,
-        group: 'a11yfirsthelp_helps',
-        order: index++,
-        onClick: function() {
-          editor.a11yfirst.helpOption = 'LinkHelp';        
-          editor.execCommand(a11yFirstHelpDialogCmd);
-        }
-      };  
+  'linkHelp': {
+    option:  'LinkHelp',
+    command: 'A11yFirstLinkHelp',
+    group:   'A11yFirst_1'
+  },
 
-
-      // Add Getting Started item
-      items.a11yFirstHelpGettingStarted = {
-        label: lang.gettingStarted.menu,
-        group: 'a11yfirsthelp_getting_started',
-        order: index+1,
-        onClick: function() {
-          editor.a11yfirst.helpOption = 'GettingStarted';        
-          editor.execCommand(a11yFirstHelpDialogCmd);
-        }
-      };
-      
-      // Initialize menu groups
-      editor.addMenuGroup( 'a11yfirsthelp_helps', 1 );
-      editor.addMenuGroup( 'a11yfirsthelp_getting_started' );
-      editor.addMenuItems( items );
-
-      editor.ui.add( 'A11yFirstHelp', CKEDITOR.UI_MENUBUTTON, {
-        label: lang.label,
-        toolbar: 'a11yfirsthelp',
-        command: 'allyfirsthelp',
-        onMenu: function() {
-          var activeItems = {};
-
-          for ( var prop in items ) {
-            activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
-          }
-
-          return activeItems;
-        }
-      } );
-    },
-  } )
-} )();
+  'gettingStarted': {
+    option:  'GettingStarted',
+    command: 'A11yFirstGettingStarted',
+    group:   'A11yFirst_2'
+  }
+};
