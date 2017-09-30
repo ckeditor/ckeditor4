@@ -75,14 +75,20 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
 } ); // end plugins.add
 
 CKEDITOR.config.helpTopicIds = [
+  'gettingStarted',
   'headingHelp',
   'blockFormatHelp',
   'inlineStyleHelp',
-  'linkHelp',
-  'gettingStarted'
+  'linkHelp'
 ];
 
 CKEDITOR.config.helpTopics = {
+  'gettingStarted': {
+    option:  'GettingStarted',
+    command: 'A11yFirstGettingStarted',
+    group:   'A11yFirst_2'
+  },
+
   'headingHelp': {
     option:  'HeadingHelp',
     command: 'A11yFirstHeadingHelp',
@@ -105,11 +111,5 @@ CKEDITOR.config.helpTopics = {
     option:  'LinkHelp',
     command: 'A11yFirstLinkHelp',
     group:   'A11yFirst_1'
-  },
-
-  'gettingStarted': {
-    option:  'GettingStarted',
-    command: 'A11yFirstGettingStarted',
-    group:   'A11yFirst_2'
   }
 };
