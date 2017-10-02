@@ -53,17 +53,17 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
 
       init: function() {
         for ( var i = 0; i < helpTopicsKeys.length; i++ ) {
-          var value = helpTopicsKeys[ i ];
-          var label = lang[ value ].menu;
+          var key = helpTopicsKeys[ i ];
+          var label = lang[ key ].menu;
           // Add the entry to the panel list
-          this.add( value, menuStyle.buildPreview( label ), label );
+          this.add( key, menuStyle.buildPreview( label ), label );
         }
       },
 
-      onClick: function( value ) {
+      onClick: function( key ) {
         // editor.fire( 'saveSnapshot' );
-        if (helpTopicsKeys.indexOf( value ) !== -1) {
-          editor.a11yfirst.helpOption = helpTopics[ value ].option;
+        if (helpTopicsKeys.indexOf( key ) !== -1) {
+          editor.a11yfirst.helpOption = helpTopics[ key ].option;
           editor.execCommand( a11yFirstHelpDialogCmd );
         }
       }
