@@ -63,7 +63,7 @@
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype._detachListeners = function() {
 				if ( this.listeners.length ) {
-					CKEDITOR.tools.forEach( this.listeners, function( listener ) {
+					CKEDITOR.tools.array.forEach( this.listeners, function( listener ) {
 						listener.removeListener();
 					} );
 					this.listeners = [];
