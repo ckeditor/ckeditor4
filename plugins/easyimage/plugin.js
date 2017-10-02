@@ -8,6 +8,23 @@
 
 	var stylesLoaded = false;
 
+	// A helper class abstracting fetching image from dropped data.
+	//
+	// @param {CKEDITOR.editor} [editor] Editor, on which the drop will be performed.
+	function DropHandler( editor ) {
+		this.editor = editor;
+	}
+
+	DropHandler.prototype = {
+		constructor: DropHandler,
+
+		// Method dedicated for handling DOM `drop` event.
+		//
+		// @param {CKEDITOR.dom.event} evt DOM `drop` event.
+		handle: function() {
+		}
+	};
+
 	function addCommands( editor ) {
 		function isSideImage( widget ) {
 			return widget.element.hasClass( editor.config.easyimage_sideClass );
@@ -134,6 +151,14 @@
 		}
 	}
 
+	function handleDrop( editor ) {
+		var dropHandler = new DropHandler( editor );
+
+		editor.on( 'drop', function( evt ) {
+			dropHandler.handle( evt );
+		} );
+	}
+
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'image2,contextmenu,dialog',
 		lang: 'en',
@@ -147,6 +172,7 @@
 			addCommands( editor );
 			addMenuItems( editor );
 			registerWidget( editor );
+			handleDrop( editor );
 		}
 	} );
 
