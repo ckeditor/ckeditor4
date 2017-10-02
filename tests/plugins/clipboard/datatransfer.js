@@ -36,9 +36,19 @@ bender.test( {
 	'test id': function() {
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 ),
-			dataTransfer1b = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 ),
-			dataTransfer2 = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData2 );
+			idMimeType = CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ? 'cke/id' : 'Text',
+			dataTransfer1a, dataTransfer1b, dataTransfer2;
+
+		// Setting id was moved from dataTransfer constructor to functions which initializes dataTransfer object
+		// only on specific events so we need to simulate these behaviour here too (#962).
+		dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 );
+		dataTransfer1a.setData( idMimeType, dataTransfer1a.id );
+
+		dataTransfer1b = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 );
+		dataTransfer1b.setData( idMimeType, dataTransfer1b.id );
+
+		dataTransfer2 = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData2 );
+		dataTransfer2.setData( idMimeType, dataTransfer2.id );
 
 		assert.areSame( dataTransfer1a.id, dataTransfer1b.id, 'Ids for object based on the same event should be the same.' );
 
@@ -818,9 +828,9 @@ bender.test( {
 	'test initDragDataTransfer binding': function() {
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			evt1a = { data: { $: { dataTransfer: nativeData1 } } },
-			evt1b = { data: { $: { dataTransfer: nativeData1 } } },
-			evt2 = { data: { $: { dataTransfer: nativeData2 } } };
+			evt1a = { data: { $: { dataTransfer: nativeData1 } }, name: 'dragstart' },
+			evt1b = { data: { $: { dataTransfer: nativeData1 } }, name: 'dragstart' },
+			evt2 = { data: { $: { dataTransfer: nativeData2 } }, name: 'dragstart' };
 
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1a );
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt1b );
@@ -897,9 +907,9 @@ bender.test( {
 
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			evt1 = { data: { $: { clipboardData: nativeData1 } } },
-			evt2 = { data: { $: { clipboardData: nativeData1 } } },
-			evt3 = { data: { $: { clipboardData: nativeData2 } } },
+			evt1 = { data: { $: { clipboardData: nativeData1 } }, name: 'copy' },
+			evt2 = { data: { $: { clipboardData: nativeData1 } }, name: 'copy' },
+			evt3 = { data: { $: { clipboardData: nativeData2 } }, name: 'copy' },
 			dataTransfer1 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt1 ),
 			dataTransfer2 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt2 ),
 			dataTransfer3 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt3 );
@@ -955,5 +965,69 @@ bender.test( {
 				text: isCustomDataTypesSupported ? 'xfoox' : '',
 				html: 'x<b>foo</b>x'	},
 		dataTransfer );
+	},
+
+	// (#962)
+	'test if dataTransfer id is set natively for copy/cut/dragstart events': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+			assert.ignore();
+		}
+
+		var nativeData1 = bender.tools.mockNativeDataTransfer(),
+			nativeData2 = bender.tools.mockNativeDataTransfer(),
+			nativeData3 = bender.tools.mockNativeDataTransfer(),
+			evt1 = { data: { $: { clipboardData: nativeData1 } }, name: 'copy' },
+			evt2 = { data: { $: { clipboardData: nativeData2 } }, name: 'cut' },
+			evt3 = { data: { $: { dataTransfer: nativeData3 } }, name: 'dragstart' },
+			dataTransfer1 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt1 ),
+			dataTransfer2 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt2 ),
+			dataTransfer3;
+
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt3 );
+		dataTransfer3 = evt3.data.dataTransfer;
+
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
+			assert.areSame( dataTransfer1.id, nativeData1.getData( 'cke/id' ), 'dataTransfer1 id is not empty' );
+			assert.areSame( dataTransfer2.id, nativeData2.getData( 'cke/id' ), 'dataTransfer2 id is not empty' );
+			assert.areSame( dataTransfer3.id, nativeData3.getData( 'cke/id' ), 'dataTransfer3 id is not empty' );
+		} else {
+			assert.areSame( dataTransfer1.id,
+				dataTransfer1._extractDataComment( nativeData1.getData( dataTransfer1.customDataFallbackType ) ).data[ 'cke/id' ],
+				'dataTransfer1 id is not empty' );
+
+			assert.areSame( dataTransfer2.id,
+				dataTransfer2._extractDataComment( nativeData2.getData( dataTransfer2.customDataFallbackType ) ).data[ 'cke/id' ],
+				'dataTransfer2 id is not empty' );
+
+			assert.areSame( dataTransfer3.id,
+				dataTransfer3._extractDataComment( nativeData3.getData( dataTransfer3.customDataFallbackType ) ).data[ 'cke/id' ],
+				'dataTransfer3 id is not empty' );
+		}
+	},
+
+	// (#962)
+	'test if dataTransfer id is not set natively for all paste/drop events': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+			assert.ignore();
+		}
+
+		var nativeData1 = bender.tools.mockNativeDataTransfer(),
+			nativeData2 = bender.tools.mockNativeDataTransfer(),
+			evt1 = { data: { $: { clipboardData: nativeData1 } }, name: 'paste' },
+			evt2 = { data: { $: { dataTransfer: nativeData2 } }, name: 'drop' },
+			dataTransfer1 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt1 ),
+			dataTransfer2;
+
+		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt2 );
+		dataTransfer2 = evt2.data.dataTransfer;
+
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && !CKEDITOR.env.edge ) {
+			assert.areSame( '', nativeData1.getData( 'cke/id' ), 'dataTransfer1 id is empty' );
+			assert.areSame( '', nativeData2.getData( 'cke/id' ), 'dataTransfer2 id is empty' );
+		} else {
+			// As dataTransfer id is stored in `customDataFallbackType` ('text/html' mime type), we just check if it is empty.
+			assert.areSame( '', nativeData1.getData( dataTransfer1.customDataFallbackType ), 'dataTransfer1 id is empty' );
+			assert.areSame( '', nativeData2.getData( dataTransfer2.customDataFallbackType ), 'dataTransfer2 id is empty' );
+		}
 	}
 } );

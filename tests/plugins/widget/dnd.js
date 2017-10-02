@@ -308,7 +308,7 @@
 			var editor = this.editor;
 
 			this.editorBot.setData( '<p class="x">foo</p><p><b>x<span data-widget="testwidget" id="w1">foo</span>x</b></p>', function() {
-				var evt = { data: bender.tools.mockDropEvent() },
+				var evt = { data: bender.tools.mockDropEvent(), name: 'dragstart' },
 					range = editor.createRange(),
 					dropCalled = false,
 					dropNotCancelled = false;
