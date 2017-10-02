@@ -18,8 +18,8 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
         lang = editor.lang.a11yfirsthelp,
 
         a11yFirstHelpDialogCmd = 'a11yFirstHelpDialog',
-        helpTopics = config.helpTopics,
-        helpTopicIds = config.helpTopicIds,
+        helpTopics = config.a11yFirstHelpTopics,
+        helpTopicsKeys = Object.keys( helpTopics ),
         menuStyle = new CKEDITOR.style( { element: 'p' } );
 
     // Initialize A11yFirst Help dialog and command
@@ -52,17 +52,17 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
       },
 
       init: function() {
-        for (var i = 0; i < helpTopicIds.length; i++) {
-          var id = helpTopicIds[i];
-          var label = lang[ id ].menu;
+        for ( var i = 0; i < helpTopicsKeys.length; i++ ) {
+          var value = helpTopicsKeys[ i ];
+          var label = lang[ value ].menu;
           // Add the entry to the panel list
-          this.add( id, menuStyle.buildPreview( label ), label );
+          this.add( value, menuStyle.buildPreview( label ), label );
         }
       },
 
       onClick: function( value ) {
         // editor.fire( 'saveSnapshot' );
-        if (helpTopicIds.indexOf( value ) !== -1) {
+        if (helpTopicsKeys.indexOf( value ) !== -1) {
           editor.a11yfirst.helpOption = helpTopics[ value ].option;
           editor.execCommand( a11yFirstHelpDialogCmd );
         }
@@ -74,42 +74,20 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
 
 } ); // end plugins.add
 
-CKEDITOR.config.helpTopicIds = [
-  'gettingStarted',
-  'headingHelp',
-  'blockFormatHelp',
-  'inlineStyleHelp',
-  'linkHelp'
-];
-
-CKEDITOR.config.helpTopics = {
+CKEDITOR.config.a11yFirstHelpTopics = {
   'gettingStarted': {
-    option:  'GettingStarted',
-    command: 'A11yFirstGettingStarted',
-    group:   'A11yFirst_2'
+    option:  'GettingStarted'
   },
-
   'headingHelp': {
-    option:  'HeadingHelp',
-    command: 'A11yFirstHeadingHelp',
-    group:   'A11yFirst_1'
+    option:  'HeadingHelp'
   },
-
   'blockFormatHelp': {
-    option:  'BlockFormatHelp',
-    command: 'A11yFirstBlockFormatHelp',
-    group:   'A11yFirst_1'
+    option:  'BlockFormatHelp'
   },
-
   'inlineStyleHelp': {
-    option:  'InlineStyleHelp',
-    command: 'A11yFirstInlineStyleHelp',
-    group:   'A11yFirst_1'
+    option:  'InlineStyleHelp'
   },
-
   'linkHelp': {
-    option:  'LinkHelp',
-    command: 'A11yFirstLinkHelp',
-    group:   'A11yFirst_1'
+    option:  'LinkHelp'
   }
 };
