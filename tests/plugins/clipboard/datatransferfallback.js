@@ -13,7 +13,8 @@ bender.test( {
 
 	'test setData/getData with predefined type': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
 
 		dataTransfer.setData( 'text/plain', 'plain text' );
 		dataTransfer.setData( 'text/html', '<p>html text</p>' );
@@ -27,7 +28,8 @@ bender.test( {
 
 	'test setData/getData with custom type': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
 
 		dataTransfer.setData( 'cke/custom', 'cke-custom data' );
 		dataTransfer.setData( 'custom/tag', '<p>custom html tag</p>' );
@@ -44,7 +46,8 @@ bender.test( {
 
 	'test setData with custom type does not affect getData( "text/html" )': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
 
 		dataTransfer.setData( 'text/html', '<h1>Header1</h1>' );
 
@@ -63,7 +66,8 @@ bender.test( {
 
 	'test setData( "text/html" ) does not overwrite custom data': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
 
 		dataTransfer.setData( 'cke/custom', 'custom data' );
 
@@ -85,7 +89,8 @@ bender.test( {
 
 	'test setData( "text/html" ) called a few times does not overwrite custom data': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
 
 		dataTransfer.setData( 'cke/custom', 'custom data' );
 
@@ -108,7 +113,8 @@ bender.test( {
 
 	'test setting same custom type overwrites the previous value and does not affect other types': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
 
 		dataTransfer.setData( 'cke/custom', 'cke-custom data' );
 		dataTransfer.setData( 'custom/tag', '<p>custom html tag</p>' );
