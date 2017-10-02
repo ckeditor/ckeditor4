@@ -1,0 +1,47 @@
+<style>
+	body {
+		margin-left: 0px;
+		padding-left: 400px;
+	}
+</style>
+<textarea id="editor" cols="10" rows="10">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<img src="http://lorempixel.com/400/200/">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+</textarea>
+
+<script>
+	CKEDITOR.disableAutoInline = true;
+
+	function instanceReadyListener( evt ) {
+		var images = this.editable().find( 'img' ),
+			panel = new CKEDITOR.ui.inlineToolbarView( this, {
+				width: 'auto',
+				height: 40,
+			} ),
+			i = 0,
+			image;
+
+		while ( ( image = images.getItem( i++ ) ) ) {
+			image.on( 'click', function() {
+				panel.create( this );
+				panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + '</p>' );
+			} );
+		}
+	}
+
+	CKEDITOR.replace( 'editor', {
+		extraPlugins: 'balloonpanel',
+		height: 300,
+		width: 600,
+		skin: 'kama',
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+
+</script>
