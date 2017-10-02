@@ -9,33 +9,40 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
   var buttonStyle = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
 
-  var helpTopics  = ['GettingStarted', 'HeadingHelp', 'BlockFormatHelp', 'InlineStyleHelp', 'LinkHelp'];
+  var helpTopicsKeys = Object.keys( config.a11yFirstHelpTopics ),
+      helpOptions = [];
 
-  function showHelpTopic(id) {
-    var node, button, buttonElement, itemId, contentId, buttonId;
+  // Initialize helpOptions array from config defined in plugin.js
+  for ( var i = 0; i < helpTopicsKeys.length; i++ ) {
+    var key = helpTopicsKeys[ i ];
+    helpOptions.push( config.a11yFirstHelpTopics[ key ].option );
+  }
 
-    for (let i = 0; i < helpTopics.length; i++) {
-      itemId = helpTopics[i];
-      contentId = 'content' + itemId;
-      buttonId  = 'button'  + itemId;
+  function showHelpTopic( value ) {
+    var node, button, buttonElement, option, contentId, buttonId;
 
-      node = document.getElementById(contentId);
-      button = dialogObj.getContentElement('a11yFirstHelpTab', buttonId);
+    for ( var i = 0; i < helpOptions.length; i++ ) {
+      option = helpOptions[ i ];
+      contentId = 'content' + option;
+      buttonId  = 'button'  + option;
 
-      if (node && button) {
+      node = document.getElementById( contentId );
+      button = dialogObj.getContentElement( 'a11yFirstHelpTab', buttonId );
+
+      if ( node && button ) {
 
         buttonElement = button.getElement();
-        buttonElement.addClass('a11yfirsthelp');
-        buttonElement.getParent().addClass('a11yfirsthelp');
+        buttonElement.addClass( 'a11yfirsthelp' );
+        buttonElement.getParent().addClass( 'a11yfirsthelp' );
 
-        if (itemId == id) {
+        if (option == value) {
           node.style.display = 'block';
-          buttonElement.addClass('selected');
+          buttonElement.addClass( 'selected' );
           buttonElement.focus();
         }
         else {
           node.style.display = 'none';
-          buttonElement.removeClass('selected');
+          buttonElement.removeClass( 'selected' );
         }
       }
     }
@@ -48,7 +55,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
 
     minHeight: 360,
 
-    onShow: function(event) {
+    onShow: function( event ) {
       var node, html;
 
       dialogObj = this;
@@ -56,40 +63,40 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       var converter = new showdown.Converter();
 
       // Add getting started content
-      node = document.getElementById('contentGettingStarted');
+      node = document.getElementById( 'contentGettingStarted' );
 
       var content = lang.gettingStarted.no_org;
       var a11yLink  = "";
 
-      if (config.a11yfirst) {
-        if (config.a11yfirst.organization && config.a11yfirst.organization.length) {
-          content = lang.gettingStarted.has_org.replace(/%org/g, config.a11yfirst.organization);
+      if ( config.a11yfirst ) {
+        if ( config.a11yfirst.organization && config.a11yfirst.organization.length ) {
+          content = lang.gettingStarted.has_org.replace( /%org/g, config.a11yfirst.organization );
         }
-        if (config.a11yfirst.a11yPolicyLink && config.a11yfirst.a11yPolicyLabel) {
-          content += lang.gettingStarted.policy_link.replace(/%policy_label/g, config.a11yfirst.a11yPolicyLabel).replace(/%policy_url/g, config.a11yfirst.a11yPolicyLink);
+        if ( config.a11yfirst.a11yPolicyLink && config.a11yfirst.a11yPolicyLabel ) {
+          content += lang.gettingStarted.policy_link.replace( /%policy_label/g, config.a11yfirst.a11yPolicyLabel ).replace( /%policy_url/g, config.a11yfirst.a11yPolicyLink );
         }
       }
 
       content += lang.gettingStarted.content;
 
-      node.innerHTML = converter.makeHtml(content);
+      node.innerHTML = converter.makeHtml( content );
 
-      // Add heading help content
+      // Add help content
 
-      node = document.getElementById('contentHeadingHelp');
-      node.innerHTML = converter.makeHtml(lang.headingHelp.content);
+      node = document.getElementById( 'contentHeadingHelp' );
+      node.innerHTML = converter.makeHtml( lang.headingHelp.content );
 
-      node = document.getElementById('contentBlockFormatHelp');
-      node.innerHTML = converter.makeHtml(lang.blockFormatHelp.content);
+      node = document.getElementById( 'contentBlockFormatHelp' );
+      node.innerHTML = converter.makeHtml( lang.blockFormatHelp.content );
 
-      node = document.getElementById('contentInlineStyleHelp');
-      node.innerHTML = converter.makeHtml(lang.inlineStyleHelp.content);
+      node = document.getElementById( 'contentInlineStyleHelp' );
+      node.innerHTML = converter.makeHtml( lang.inlineStyleHelp.content );
 
-      node = document.getElementById('contentLinkHelp');
-      node.innerHTML = converter.makeHtml(lang.linkHelp.content);
+      node = document.getElementById( 'contentLinkHelp' );
+      node.innerHTML = converter.makeHtml( lang.linkHelp.content );
 
-      if (editor.a11yfirst.helpOption) {
-        showHelpTopic(editor.a11yfirst.helpOption);
+      if ( editor.a11yfirst.helpOption ) {
+        showHelpTopic( editor.a11yfirst.helpOption );
       }
 
     },
@@ -118,7 +125,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         label: lang.gettingStarted.label,
                         title: lang.gettingStarted.title,
                         onClick: function() {
-                            showHelpTopic('GettingStarted');
+                            showHelpTopic( 'GettingStarted' );
                         },
                       },
                       {
@@ -128,7 +135,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         label: lang.headingHelp.label,
                         title: lang.headingHelpTitle,
                         onClick: function() {
-                            showHelpTopic('HeadingHelp');
+                            showHelpTopic( 'HeadingHelp' );
                         },
                       },
                       {
@@ -138,7 +145,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         label: lang.blockFormatHelp.label,
                         title: lang.blockFormatHelpTitle,
                         onClick: function() {
-                            showHelpTopic('BlockFormatHelp');
+                            showHelpTopic( 'BlockFormatHelp' );
                         },
                       },
                       {
@@ -148,7 +155,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         label: lang.inlineStyleHelp.label,
                         title: lang.inlineStyleHelpTitle,
                         onClick: function() {
-                            showHelpTopic('InlineStyleHelp');
+                            showHelpTopic( 'InlineStyleHelp' );
                         },
                       },
                       {
@@ -158,7 +165,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         label: lang.linkHelp.label,
                         title: lang.linkHelpTitle,
                         onClick: function() {
-                            showHelpTopic('LinkHelp');
+                            showHelpTopic( 'LinkHelp' );
                         },
                       }
                     ],
