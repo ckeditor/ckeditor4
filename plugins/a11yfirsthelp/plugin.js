@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.add( 'a11yfirsthelp', {
-  requires: 'richcombo',
+  requires: 'a11yfirst,richcombo',
 
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -18,6 +18,8 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
         lang = editor.lang.a11yfirsthelp,
 
         a11yFirstHelpDialogCmd = 'a11yFirstHelpDialog',
+        keyboardShortcutsValue = 'keyboardShortcuts',
+        keyboardShortcutsCmd   = 'a11yHelp',
         helpTopics = config.a11yFirstHelpTopics,
         helpTopicsKeys = Object.keys( helpTopics ),
         menuStyle = new CKEDITOR.style( { element: 'p' } );
@@ -58,12 +60,21 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
           // Add the entry to the panel list
           this.add( key, menuStyle.buildPreview( label ), label );
         }
+        // Add separator between list of help options and keyboard shortcuts
+        this.addSeparator();
+
+        this.add( keyboardShortcutsValue, menuStyle.buildPreview( lang.keyboardShortcutsLabel ), 
+          lang.keyboardShortcutsLabel );
       },
 
-      onClick: function( key ) {
+      onClick: function( value ) {
+        if ( value === keyboardShortcutsValue ) {
+          editor.execCommand( keyboardShortcutsCmd );
+          return;
+        }
         // editor.fire( 'saveSnapshot' );
-        if (helpTopicsKeys.indexOf( key ) !== -1) {
-          editor.a11yfirst.helpOption = helpTopics[ key ].option;
+        if (helpTopicsKeys.indexOf( value ) !== -1) {
+          editor.a11yfirst.helpOption = helpTopics[ value ].option;
           editor.execCommand( a11yFirstHelpDialogCmd );
         }
       }

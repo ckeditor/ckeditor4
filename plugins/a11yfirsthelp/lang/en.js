@@ -5,7 +5,7 @@
 CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   label:        'A11yFirst Help',
   panelTitle:   'learn about A11yFirst features',
-  headingHelpLabel:    'Heading Help',
+  keyboardShortcutsLabel:    'Keyboard Shortcuts',
 
   a11yFirstHelpLabel:   'A11yFirst Help: Content Accessibility',
   a11yFirstHelpTitle:   'Information to help authors understand how the A11yFirst features help them make content more accessible to people with disabilites',
