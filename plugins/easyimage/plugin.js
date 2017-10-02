@@ -18,10 +18,84 @@
 	DropHandler.prototype = {
 		constructor: DropHandler,
 
+		// Checks if provided file is an image
+		//
+		// @private
+		// @param {File} file File to be inspected.
+		_isImage: function( file ) {
+			return CKEDITOR.fileTools.isTypeSupported( file, /^image\// );
+		},
+
+		// Gets images from dropped data if there's at least one included.
+		//
+		// @private
+		// @param {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer Transferred data to be inspected.
+		// @returns {CKEDITOR.dom.element[]} Array of fetched images.
+		_getImagesFromDataTransfer: function( dataTransfer ) {
+			var files = [],
+				filesCount = dataTransfer.getFilesCount(),
+				i;
+
+			for ( i = 0; i < filesCount; i++ ) {
+				var file = dataTransfer.getFile( i );
+
+				if ( this._isImage( file ) ) {
+					files.push( file );
+				}
+			}
+
+			return files;
+		},
+
+		// Asynchronously read provided images using `FileReader`.
+		// Every read is followed up by invoking callback with just read image.
+		// Note that all readings are performed in parallel.
+		//
+		// @private
+		// @param {File[]} images Table of File objects containing images
+		// @param {Function} callback Callback to be invoked for every read image.
+		_readImages: function( images, callback ) {
+			var editor = this.editor;
+
+			CKEDITOR.tools.array.forEach( images, function( image ) {
+				var reader = new CKEDITOR.fileTools.fileLoader( editor, image );
+
+				reader.on( 'loaded', function( evt ) {
+					callback( evt.sender.data );
+				} );
+
+				reader.load();
+			} );
+		},
+
+		// Inserts image as EasyImage widget at the beginning of given range.
+		//
+		// @private
+		// @param {CKEDITOR.editor} editor
+		// @param {String} image Base64 encoded image.
+		// @param {CKEDITOR.dom.range} range Range to which image will be prepended.
+		//
+		_insertImage: function( editor, image, range ) {
+			var html = '<figure class="image ' + editor.config.easyimage_class + '">' +
+				'<img src="' + image + '" alt=""><figcaption></figcaption></figure>',
+				node = CKEDITOR.dom.element.createFromHtml( html );
+
+			range.insertNode( node );
+			editor.widgets.initOn( node, 'image' );
+		},
+
 		// Method dedicated for handling DOM `drop` event.
 		//
 		// @param {CKEDITOR.dom.event} evt DOM `drop` event.
-		handle: function() {
+		handle: function( evt ) {
+			var images = this._getImagesFromDataTransfer( evt.data.dataTransfer ),
+				editor = this.editor,
+				range = evt.data.dropRange,
+				handler = this;
+
+			this._readImages( images, function( image ) {
+				handler._insertImage( editor, image, range );
+			} );
 		}
 	};
 
@@ -160,7 +234,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'image2,contextmenu,dialog',
+		requires: 'image2,clipboard,filetools,contextmenu,dialog',
 		lang: 'en',
 
 		onLoad: function() {
