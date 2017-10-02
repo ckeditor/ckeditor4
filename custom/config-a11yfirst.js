@@ -1,4 +1,9 @@
 CKEDITOR.replace('editor', {
+  a11yfirst: {
+    organization: 'University of Illinois Library',
+    a11yPolicyLink: 'http://guides.library.illinois.edu/usersdisabilities/',
+    a11yPolicyLabel: 'Information for Users With Disabilities',
+  },
   headings: 'h1:h4',
   oneLevel1: true,
   height: 480,
@@ -13,6 +18,7 @@ CKEDITOR.replace('editor', {
     { name: 'paragraph',    items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
     { name: 'misc1',        items: [ 'Image', 'Table' ] },
     { name: 'a11ychecker',  items: [ 'A11ychecker' ] },
+    { name: 'a11yfirsthelp', items: [ 'A11yFirstHelp'] },
     '/',
     { name: 'undoredo',     items: [ 'Undo', 'Redo'] },
     { name: 'clipboard',    items: [ 'Cut', 'Copy', 'Paste', 'PasteFromWord' ] },
@@ -23,7 +29,7 @@ CKEDITOR.replace('editor', {
     { name: 'misc2',        items: [ 'Language', 'SpecialChar' ] },
     { name: 'source',       items: [ 'Source' ] }
   ],
-  extraPlugins: 'a11ychecker,a11yformat,a11yheading,a11ystylescombo',
+  extraPlugins: 'a11ychecker,a11yformat,a11yheading,a11ystylescombo,a11yfirsthelp',
 } );
 CKEDITOR.stylesSet.add ( 'default', [
   { name: 'Strong',           element: 'strong', overrides: 'b' },
