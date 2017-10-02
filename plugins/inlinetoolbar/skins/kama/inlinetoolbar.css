@@ -5,11 +5,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .cke_balloon.cke_inlinetoolbar
 {
-<<<<<<< HEAD
-=======
-
-	background: #fff;
->>>>>>> CSS styling for inline toolbar
 	border: 1px solid #D3D3D3;
 	background: #fff url(images/sprites.png) repeat-x 0 -500px;
 	background: linear-gradient(to bottom, #fff, #d3d3d3 20px);
