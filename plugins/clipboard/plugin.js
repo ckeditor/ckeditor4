@@ -114,6 +114,8 @@
 'use strict';
 
 ( function() {
+	var clipboardIdDataType;
+
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
 		requires: 'notification,toolbar',
@@ -2019,6 +2021,11 @@
 			var nativeDataTransfer = evt.data.$ ? evt.data.$.dataTransfer : null,
 				dataTransfer = new this.dataTransfer( nativeDataTransfer, sourceEditor );
 
+			// Set dataTransfer.id only for 'dragstart' event (so for events initializing dataTransfer inside editor) (#962).
+			if ( evt.name === 'dragstart' && clipboardIdDataType !== 'Text' ) {
+				dataTransfer.setData( clipboardIdDataType, dataTransfer.id );
+			}
+
 			if ( !nativeDataTransfer ) {
 				// No native event.
 				if ( this.dragData ) {
@@ -2091,6 +2098,11 @@
 				var clipboardData = evt.data.$.clipboardData,
 					dataTransfer = new this.dataTransfer( clipboardData, sourceEditor );
 
+				// Set dataTransfer.id only for 'copy'/'cut' events (so for events initializing dataTransfer inside editor) (#962).
+				if ( ( evt.name === 'copy' || evt.name === 'cut' ) && clipboardIdDataType !== 'Text' ) {
+					dataTransfer.setData( clipboardIdDataType, dataTransfer.id );
+				}
+
 				if ( this.copyCutData && dataTransfer.id == this.copyCutData.id ) {
 					dataTransfer = this.copyCutData;
 					dataTransfer.$ = clipboardData;
@@ -2122,7 +2134,8 @@
 	// so we just read dragged text.
 	//
 	// In Chrome and Firefox we can use custom data types.
-	var clipboardIdDataType = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ? 'cke/id' : 'Text';
+	clipboardIdDataType = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ? 'cke/id' : 'Text';
+
 	/**
 	 * Facade for the native `dataTransfer`/`clipboadData` object to hide all differences
 	 * between browsers.
@@ -2188,13 +2201,6 @@
 			if ( clipboardIdDataType != 'Text' && !this.getData( 'text/plain' ) ) {
 				this.setData( 'text/plain', editor.getSelection().getSelectedText() );
 			}
-		}
-
-		// Set id as a last thing to not force rereading/rewriting custom data comment.
-		// In IE10+ we can not use any data type besides text, so we do not call setData.
-		if ( clipboardIdDataType != 'Text' ) {
-			// Try to set ID so it will be passed from the drag to the drop event.
-			this._setCustomData( clipboardIdDataType, this.id, CKEDITOR.env.ie && CKEDITOR.env.version >= 16 );
 		}
 
 		/**
