@@ -7,7 +7,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 {
 	position: absolute;
 	z-index: 10000;
-
 	background: #cfd1cf;
 	border: 1px solid #b6b6b6;
 	outline: none;
@@ -29,12 +28,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	height: 0;
 }
 
+.cke_inlinetoolbar > .cke_balloon_triangle_outer,
 .cke_inlinetoolbar > .cke_balloon_triangle_outer > .cke_balloon_triangle_inner
-{
-	z-index: 0;
-}
-
-.cke_inlinetoolbar > .cke_balloon_triangle_outer
 {
 	z-index: 0;
 }
@@ -86,5 +81,3 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	left: 50%;
 	margin-left: -10px;
 }
-
-

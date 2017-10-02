@@ -7,8 +7,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 {
 	position: absolute;
 	z-index: 10000;
-
-	background: #ffffff;
+	background: #fff;
 	border: 1px solid #D3D3D3;
 	outline: none;
 }
@@ -29,12 +28,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	height: 0;
 }
 
+.cke_inlinetoolbar > .cke_balloon_triangle_outer,
 .cke_inlinetoolbar > .cke_balloon_triangle_outer > .cke_balloon_triangle_inner
-{
-	z-index: 0;
-}
-
-.cke_inlinetoolbar > .cke_balloon_triangle_outer
 {
 	z-index: 0;
 }
@@ -61,7 +56,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .cke_inlinetoolbar > .cke_balloon_triangle_outer > .cke_balloon_triangle_inner.cke_balloon_triangle_bottom
 {
-	border-color: #ffffff transparent;
+	border-color: #fff transparent;
 	border-width: 10px 10px 0;
 	top: -11px;
 }
@@ -75,7 +70,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 
 .cke_inlinetoolbar > .cke_balloon_triangle_outer > .cke_balloon_triangle_inner.cke_balloon_triangle_top
 {
-	border-color: #ffffff transparent;
+	border-color: #fff transparent;
 	border-width: 0 10px 10px;
 	top: 1px;
 }
@@ -86,5 +81,3 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	left: 50%;
 	margin-left: -10px;
 }
-
-
