@@ -43,15 +43,12 @@
 			// Assumption there is equal amout of Images in RTF and HTML source, so we can match them accoriding to existing order.
 			if ( imgTags.length === newSrcValues.length ) {
 				for ( i = 0; i < imgTags.length; i++ ) {
-					// Replace only `file` urls and real images ( shapes are null ).
-					if ( ( imgTags[ i ].indexOf( 'file:///' ) === 0 ) && newSrcValues[ i ] ) {
+					// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+					if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
 						evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
 					}
 				}
-			} else {
-				throw new Error( 'There appeared a problem with embeding images while pasting from Word.' );
 			}
-
 		},
 
 		createSrcWithBase64: function( img ) {
@@ -89,7 +86,6 @@
 				rePictureOrShape = new RegExp( '(?:(' + rePictureHeader.source + ')|(' + reShapeHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
 				wholeImages,
 				imageType;
-
 			wholeImages = rtfContent.match( rePictureOrShape );
 			if ( !wholeImages ) {
 				return ret;

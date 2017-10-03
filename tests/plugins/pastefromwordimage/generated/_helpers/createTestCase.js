@@ -37,6 +37,9 @@ function createTestCase( options ) {
 				return deferred.promise;
 			};
 
+		// Change for env settings when testing fixtures from mac and windows
+		options.wordVersion.toLowerCase() === 'macos' ? CKEDITOR.env.mac = true : CKEDITOR.env.mac = false;
+
 		Q.all( [
 			load( inputPathHtml + deCasher ),
 			load( inputPathRtf + deCasher ),
