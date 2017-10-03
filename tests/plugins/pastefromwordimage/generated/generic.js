@@ -21,14 +21,15 @@
 		],
 		wordVersions: [
 			'word2013',
-			'word2016'
+			'word2016',
+			'macos'
 		],
 		tests: {
 			'SimpleImages': true,
 			'MixedOnline': true,
-			'MixedOnlineAndShapes': true
+			'MixedOnlineAndShapes': true,
+			'WrappedImage': true
 		},
-		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
-		mac: 0
+		ignoreAll: CKEDITOR.env.ie
 	} ) );
 } )();
