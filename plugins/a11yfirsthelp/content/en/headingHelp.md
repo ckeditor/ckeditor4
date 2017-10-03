@@ -3,7 +3,7 @@
 ### How it works
 * The Heading menu only enables the **allowed** heading levels.
 
-* The cursor position determines which headings are allowed.
+* The cursor position determines which heading levels are allowed.
 
 * Create a new heading by moving the cursor to a text block and selecting an allowed heading level.
 
