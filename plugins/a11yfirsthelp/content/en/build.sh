@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Add escaped newline character at the end of each line
+# and escape all single quote characters with backslash
 for name in gettingStarted headingHelp blockFormatHelp inlineStyleHelp linkHelp
 do
   sed -e 's/$/\\n\\/' -e "s/'/\\\'/g" "${name}.md" > "${name}.tmp"
@@ -16,7 +17,7 @@ sed -e '/BLOCKFORMATHELP\\/ {' -e 'r blockFormatHelp.tmp' -e 'd' -e '}' setLang-
 sed -e '/INLINESTYLEHELP\\/ {' -e 'r inlineStyleHelp.tmp' -e 'd' -e '}' setLang-3.js > setLang-4.js
 sed -e '/LINKHELP\\/ {'        -e 'r linkHelp.tmp'        -e 'd' -e '}' setLang-4.js > en.js
 
-# Copy the end result to the lang directory
+# Move the end result to the lang folder
 mv en.js ../../lang/
 
 # Remove temp files
