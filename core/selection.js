@@ -772,7 +772,13 @@
 
 			// Save a cloned version of current selection.
 			function saveSel() {
+				var previousSelection = lastSel;
+
 				lastSel = new CKEDITOR.dom.selection( editor.getSelection() );
+				// If iOS, set previous selection as last (selection is lost after opening dialog box or panel for any tool in inline editor) (#948).
+				if ( CKEDITOR.env.iOS && lastSel && lastSel.getRanges().length === 0 ) {
+					lastSel = previousSelection;
+				}
 				lastSel.lock();
 			}
 
@@ -791,7 +797,11 @@
 				// On Webkit we use DOMFocusOut which is fired more often than blur. I.e. it will also be
 				// fired when nested editable is blurred.
 				editable.attachListener( editable, CKEDITOR.env.webkit ? 'DOMFocusOut' : 'blur', function() {
+					if ( CKEDITOR.env.iOS ) {
+						saveSel();
+					}
 					editor.lockSelection( lastSel );
+
 					restoreSel = 1;
 				}, null, null, -1 );
 

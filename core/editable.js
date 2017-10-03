@@ -882,25 +882,12 @@
 
 				editor.keystrokeHandler.attach( this );
 
-				var range;
-
 				// Update focus states.
 				this.on( 'blur', function() {
-					// If iOS, save selection (selection is lost after opening dialog box or panel for any tool in inline editor) (#948).
-					if ( CKEDITOR.env.iOS && this.isInline() ) {
-						range = editor.getSelection().getRanges()[ 0 ];
-					}
-
 					this.hasFocus = false;
 				}, null, null, -1 );
 
 				this.on( 'focus', function() {
-					// If iOS, set saved selection (selection is lost after opening dialog box or panel for any tool in inline editor) (#948).
-					if ( CKEDITOR.env.iOS && this.isInline() && range ) {
-						editor.getSelection().selectRanges( [ range ] );
-						range = null;
-					}
-
 					this.hasFocus = true;
 				}, null, null, -1 );
 
