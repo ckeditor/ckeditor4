@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
 
         a11yFirstHelpDialogCmd = 'a11yFirstHelpDialog',
         keyboardShortcutsValue = 'keyboardShortcuts',
-        keyboardShortcutsCmd   = 'a11yHelp',
+        keyboardShortcutsCmd   = 'a11yHelp', // defined in a11yhelp plugin by CKSource
         helpTopics = config.a11yFirstHelpTopics,
         helpTopicsKeys = Object.keys( helpTopics ),
         menuStyle = new CKEDITOR.style( { element: 'p' } );
@@ -60,10 +60,10 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
           // Add the entry to the panel list
           this.add( key, menuStyle.buildPreview( label ), label );
         }
-        // Add separator between list of help options and keyboard shortcuts
+        // Add separator between list of help options and keyboard shortcuts item
         this.addSeparator();
 
-        this.add( keyboardShortcutsValue, menuStyle.buildPreview( lang.keyboardShortcutsLabel ), 
+        this.add( keyboardShortcutsValue, menuStyle.buildPreview( lang.keyboardShortcutsLabel ),
           lang.keyboardShortcutsLabel );
       },
 
