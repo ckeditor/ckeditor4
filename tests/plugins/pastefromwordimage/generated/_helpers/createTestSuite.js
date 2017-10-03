@@ -26,6 +26,7 @@ function createTestSuite( options ) {
 		compareRawData: false,
 		customFilters: null
 	} );
+	CKEDITOR.env.mac = options.mac;
 
 	var testData = options.testData,
 		testsKeys = CKEDITOR.tools.objectKeys( options.tests ),

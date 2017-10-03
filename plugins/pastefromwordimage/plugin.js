@@ -26,7 +26,7 @@
 				newSrcValues = [],
 				i;
 
-			imgTags = pfwi.extractImgTagsFromHtmlString( evt.data.dataValue );
+			imgTags = pfwi.extractImgTagsFromHtml( evt.data.dataValue );
 			if ( imgTags.length === 0 ) {
 				return;
 			}
@@ -44,8 +44,8 @@
 			if ( imgTags.length === newSrcValues.length ) {
 				for ( i = 0; i < imgTags.length; i++ ) {
 					// Replace only `file` urls and real images ( shapes are null ).
-					if ( ( imgTags[ i ][ 1 ].indexOf( 'file:///' ) === 0 ) && newSrcValues[ i ] ) {
-						evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ][ 1 ], newSrcValues[ i ] );
+					if ( ( imgTags[ i ].indexOf( 'file:///' ) === 0 ) && newSrcValues[ i ] ) {
+						evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
 					}
 				}
 			} else {
