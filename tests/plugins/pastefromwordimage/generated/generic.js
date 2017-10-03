@@ -28,6 +28,7 @@
 			'MixedOnline': true,
 			'MixedOnlineAndShapes': true
 		},
-		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11
+		ignoreAll: CKEDITOR.env.ie && CKEDITOR.env.version <= 11,
+		mac: 0
 	} ) );
 } )();
