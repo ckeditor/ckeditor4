@@ -81,7 +81,7 @@ This organization has made a committment to accessibility, not only to comply wi
 ### How it works\n\
 * The Heading menu only enables the **allowed** heading levels.\n\
 \n\
-* The cursor position determines which headings are allowed.\n\
+* The cursor position determines which heading levels are allowed.\n\
 \n\
 * Create a new heading by moving the cursor to a text block and selecting an allowed heading level.\n\
 \n\
