@@ -7,12 +7,12 @@
 	'use strict';
 
 	/**
-	 * A class that represents a inline toolbar capable of presenting defined
+	 * A class that represents a view of inline toolbar capable of presenting defined
 	 * menu buttons.
 	 *
 	 * @class
 	 * @extends CKEDITOR.ui.balloonPanel
-	 * @constructor Creates a command class instance.
+	 * @constructor Creates a inline toolbar view instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the panel is created.
 	 * @param {Object} definition An object containing the panel definition.
@@ -22,6 +22,14 @@
 		this.listeners = [];
 	};
 
+		/**
+	 * A class that represents a inline toolbar capable of presenting defined
+	 * menu buttons.
+	 *
+	 * @class
+	 * @since 4.8
+	 * @param {CKEDITOR.editor} editor The editor instance for which the panel is created.
+	 */
 	CKEDITOR.inlineToolbar = function( editor ) {
 		this.inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor );
 	};
@@ -31,7 +39,7 @@
 		init: function() {
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 			/**
-			 * build inline toolbar DOM representation.
+			 * Build inline toolbar DOM representation.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.build = function() {
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
@@ -40,20 +48,43 @@
 			};
 
 			/**
-			 * Get all posbile toolbar aligments.
+			 * Returns a dictionary containing different alignment positions.
 			 *
-			 * @private
-			 */
+			 * Keys tell where the inlinte toolbar is positioned relative to the element, e.g. this would be the result for "top hcenter":
+			 *
+			 *		[Editor]
+			*		+-------------------------------------+
+			*		|         [Panel]                     |
+			*		|         +-----------------+         |
+			*		|         |                 |         |
+			*		|  [El.]  +--------v--------+         |
+			*		|  +-------------------------------+  |
+			*		|  |                               |  |
+			*		|  |                               |  |
+			*		+--+-------------------------------+--+
+			*
+			* Sample result:
+			*
+			*		{
+			*			"top hcenter": { top: 402, left: 92.5},
+			*			"bottom hcenter": { top: 643, left: 92.5}
+			*		}
+			*
+			* @private
+			* @param elementRect
+			* @param {Number} panelWidth
+			* @param {Number} panelHeight
+			* @returns {Object}
+			*/
 			CKEDITOR.ui.inlineToolbarView.prototype._getAlignments = function( elementRect, panelWidth, panelHeight ) {
 				var filter = [ 'top hcenter', 'bottom hcenter' ],
-					output = {},
 					alignments = CKEDITOR.ui.balloonPanel.prototype._getAlignments.call( this, elementRect, panelWidth, panelHeight );
 				for ( var a in alignments ) {
-					if ( CKEDITOR.tools.indexOf( filter, a ) !== -1 ) {
-						output[ a ] = alignments[ a ];
+					if ( CKEDITOR.tools.indexOf( filter, a ) === -1 ) {
+						delete alignments[ a ];
 					}
 				}
-				return output;
+				return alignments;
 			};
 
 			/**
@@ -81,7 +112,7 @@
 
 			/**
 			 * Places the inline toolbar next to a specified element so the tip of the toolbar's triangle
-			 * touches that element. Once the toolbar is attached it gains focus and attach DOM change listiners.
+			 * touches that element.
 			 *
 			 * @method attach
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
@@ -103,7 +134,7 @@
 			};
 
 			/**
-			 * Hides the inline toolbar, detaches listners and moves the focus back to the editable.
+			 * Hides the inline toolbar, detaches listeners and moves the focus back to the editable.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.detach = function() {
 				this._detachListeners();
