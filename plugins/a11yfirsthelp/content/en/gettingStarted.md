@@ -1,10 +1,13 @@
 ### What Is Accessibility?
 
-* Information should be perceivable and usable to everyone, including people with disabilities.
+* Information should be perceivable and usable by everyone, including people
+with disabilities.
 
-* Information should be organized and structured for people understand the purpose of the content.
+* Information should be organized and structured such that people can
+understand the purpose of the content.
 
-* Compatibility with assistive technologies and operating system accessibility features.
+* Accessible documents are compatible with assistive technologies and
+operating system accessibility features.
 
 ### People with disabilities include people who:
 
@@ -14,15 +17,19 @@
 
 * have impaired motor skills or are paralyzed;
 
-* have learning or cognitive disabilities that affect their ability to read text or understand images.
+* have learning or cognitive disabilities that affect their ability to read
+text or understand images.
 
 ### A11yFirst Toolbar Features
 
-* **Heading**: Helps you keep the heading and sub-heading structure of your document properly nested.
+* **Heading**: Helps you keep the heading and sub-heading structure of your
+document properly nested.
 
-* **Block Format**: Provides special styling for blocks of text (e.g. paragraphs) within your document.
+* **Block Format**: Provides special styling for blocks of text (e.g.
+paragraphs) within your document.
 
-* **Inline Style**: Provides styling to highlight or emphasize a word or group of words (i.e. characters) within a block of text.
+* **Inline Style**: Provides styling to highlight or emphasize a word or
+group of words (i.e. characters) within a block of text.
 
 ### Additional Resources
 
