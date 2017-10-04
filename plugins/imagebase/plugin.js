@@ -39,7 +39,7 @@
 				caption: {
 					selector: 'figcaption',
 					pathName: editor.lang.imagebase.pathNameCaption,
-					allowedContent: 'br em strong sub sup u s; a[!href,target]'
+					allowedContent: options.captionAllowedContent
 				}
 			},
 
