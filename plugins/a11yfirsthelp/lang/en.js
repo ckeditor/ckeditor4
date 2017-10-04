@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   gettingStarted: {
     'menu': 'Getting Started',
     'label': 'Getting Started',
-    'title': 'Getting Started with accessibility using the A11yFirst Toolbar',
+    'title': 'Getting Started with Accessibility (A11y)',
 
     'no_org': '\
 ## Getting Started\n\
@@ -91,7 +91,7 @@ group of words (i.e. characters) within a block of text.\n\
   headingHelp: {
     'menu': 'Heading',
     'label': 'Heading',
-    'title': 'Headings identify the section and sub-section of the document, and provide a consistent styling of the structure of a document to help users understand the organization of the documents.',
+    'title': 'Heading Help',
     'content': '\
 ## Heading\n\
 \n\
@@ -133,7 +133,7 @@ group of words (i.e. characters) within a block of text.\n\
   blockFormatHelp: {
     'menu': 'Block Format',
     'label': 'Block Format',
-    'title': 'Block format applies styles to an entire block of text, for example a paragraph or a list item.',
+    'title': 'Block Format Help',
     'content': '\
 ## Block Format\n\
 \n\
@@ -166,7 +166,7 @@ of the content within your document.\n\
   inlineStyleHelp: {
     'menu': 'Inline Style',
     'label': 'Inline Style',
-    'title': 'Inline style applies styles to an selected block of text, for example applying emphasis to a few words in a sentence',
+    'title': 'Inline Style Help',
     'content': '\
 ## Inline Style\n\
 \n\
@@ -204,7 +204,7 @@ visual styling decisions are already made by default.\n\
   linkHelp: {
     'menu': 'Link',
     'label': 'Link',
-    'title': 'Inline style applies styles to an selected block of text, for example applying emphasis to a few words in a sentence',
+    'title': 'Link Help',
     'content' : '\
 ## Link\n\
 \n\

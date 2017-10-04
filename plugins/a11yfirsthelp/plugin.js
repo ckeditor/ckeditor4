@@ -57,8 +57,9 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
         for ( var i = 0; i < helpTopicsKeys.length; i++ ) {
           var key = helpTopicsKeys[ i ];
           var label = lang[ key ].menu;
+          var title = lang[ key ].title;
           // Add the entry to the panel list
-          this.add( key, menuStyle.buildPreview( label ), label );
+          this.add( key, menuStyle.buildPreview( label ), title );
         }
         // Add separator between list of help options and keyboard shortcuts item
         this.addSeparator();

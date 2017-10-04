@@ -13,7 +13,7 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   gettingStarted: {
     'menu': 'Getting Started',
     'label': 'Getting Started',
-    'title': 'Getting Started with accessibility using the A11yFirst Toolbar',
+    'title': 'Getting Started with Accessibility (A11y)',
 
     'no_org': '\
 ## Getting Started\n\
@@ -48,7 +48,7 @@ GETTINGSTARTED\
   headingHelp: {
     'menu': 'Heading',
     'label': 'Heading',
-    'title': 'Headings identify the section and sub-section of the document, and provide a consistent styling of the structure of a document to help users understand the organization of the documents.',
+    'title': 'Heading Help',
     'content': '\
 HEADINGHELP\
 ',
@@ -57,7 +57,7 @@ HEADINGHELP\
   blockFormatHelp: {
     'menu': 'Block Format',
     'label': 'Block Format',
-    'title': 'Block format applies styles to an entire block of text, for example a paragraph or a list item.',
+    'title': 'Block Format Help',
     'content': '\
 BLOCKFORMATHELP\
 ',
@@ -66,7 +66,7 @@ BLOCKFORMATHELP\
   inlineStyleHelp: {
     'menu': 'Inline Style',
     'label': 'Inline Style',
-    'title': 'Inline style applies styles to an selected block of text, for example applying emphasis to a few words in a sentence',
+    'title': 'Inline Style Help',
     'content': '\
 INLINESTYLEHELP\
 ',
@@ -75,7 +75,7 @@ INLINESTYLEHELP\
   linkHelp: {
     'menu': 'Link',
     'label': 'Link',
-    'title': 'Inline style applies styles to an selected block of text, for example applying emphasis to a few words in a sentence',
+    'title': 'Link Help',
     'content' : '\
 LINKHELP\
 ',
