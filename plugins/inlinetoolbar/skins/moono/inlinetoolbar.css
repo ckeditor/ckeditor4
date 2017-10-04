@@ -3,58 +3,38 @@ Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
-.cke_inlinetoolbar
+.cke_balloon.cke_inlinetoolbar
 {
-	position: absolute;
-	z-index: 10000;
 	background: #cfd1cf;
 	border: 1px solid #b6b6b6;
-	outline: none;
 }
 
-.cke_inlinetoolbar > .cke_balloon_content
+.cke_balloon.cke_inlinetoolbar .cke_balloon_content
 {
-	overflow: hidden;
 	min-height: 10px;
-	padding: 3px;
-}
-
-.cke_inlinetoolbar > cke_balloon_triangle
-{
-	position: absolute;
-	border-style: solid;
-	display: block;
-	width: 0;
-	height: 0;
-}
-
-.cke_inlinetoolbar > .cke_balloon_triangle_outer,
-.cke_inlinetoolbar > .cke_balloon_triangle_outer > .cke_balloon_triangle_inner
-{
-	z-index: 0;
 }
 
 /* side: [ bottom, top ] */
-.cke_inlinetoolbar > .cke_balloon_triangle_outer.cke_balloon_triangle_bottom,
-.cke_inlinetoolbar > .cke_balloon_triangle_outer.cke_balloon_triangle_top
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_bottom,
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_top
 {
 	border-color: #b6b6b6 transparent;
 }
 
-.cke_inlinetoolbar > .cke_balloon_triangle_outer > .cke_balloon_triangle_inner.cke_balloon_triangle_bottom,
-.cke_inlinetoolbar > .cke_balloon_triangle_outer > .cke_balloon_triangle_inner.cke_balloon_triangle_top
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_bottom,
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_top
 {
 	left: -10px;
 }
 
 /* side: [ bottom ] */
-.cke_inlinetoolbar >.cke_balloon_triangle_outer.cke_balloon_triangle_bottom
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_bottom
 {
 	border-width: 10px 10px 0;
 	bottom: -10px;
 }
 
-.cke_inlinetoolbar > .cke_balloon_triangle_outer > .cke_balloon_triangle_inner.cke_balloon_triangle_bottom
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer > .cke_balloon_triangle_inner.cke_balloon_triangle_bottom
 {
 	border-color: #cfd1cf transparent;
 	border-width: 10px 10px 0;
@@ -62,22 +42,20 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 }
 
 /* side: [ top ] */
-.cke_inlinetoolbar > .cke_balloon_triangle_outer.cke_balloon_triangle_top
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_top
 {
 	border-width: 0 10px 10px;
 	top: -10px;
 }
 
-.cke_inlinetoolbar > .cke_balloon_triangle_outer > .cke_balloon_triangle_inner.cke_balloon_triangle_top
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer > .cke_balloon_triangle_inner.cke_balloon_triangle_top
 {
 	border-color: #cfd1cf transparent;
 	border-width: 0 10px 10px;
-	top: 1px;
 }
 
 /* align: [ hcenter ] */
-.cke_inlinetoolbar > .cke_balloon_triangle_outer.cke_balloon_triangle_align_hcenter
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_align_hcenter
 {
-	left: 50%;
 	margin-left: -10px;
 }
