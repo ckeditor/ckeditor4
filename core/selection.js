@@ -775,7 +775,7 @@
 				var previousSelection = lastSel;
 
 				lastSel = new CKEDITOR.dom.selection( editor.getSelection() );
-				// For iOS, set previous selection as last because last selection is lost on blur (#948).
+				// For iOS, set previous selection as last. The selection is lost on blur (#948).
 				if ( CKEDITOR.env.iOS && lastSel && lastSel.getRanges().length === 0 ) {
 					lastSel = previousSelection;
 				}
