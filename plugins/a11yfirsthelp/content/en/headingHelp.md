@@ -3,11 +3,11 @@
 ### How it works
 * The Heading menu only enables the **allowed** heading levels.
 
-* The cursor position determines which heading levels are allowed.
+* The cursor position relative to other headings in the document determines which heading levels are allowed.
 
-* Create a new heading by moving the cursor to a text block and selecting an allowed heading level.
+* To create a new heading, move the cursor to a text block and selecting an allowed heading level.
 
-* To convert a heading to normal text, move the cursor to a heading and select the normal text option.
+* To convert a heading to normal text, move the cursor to a heading and select the 'Normal text' option.
 
 ### Why it's important
 * The purpose of a heading is to label the content that follows it.

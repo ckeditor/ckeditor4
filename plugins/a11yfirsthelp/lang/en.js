@@ -81,11 +81,11 @@ This organization has made a committment to accessibility, not only to comply wi
 ### How it works\n\
 * The Heading menu only enables the **allowed** heading levels.\n\
 \n\
-* The cursor position determines which heading levels are allowed.\n\
+* The cursor position relative to other headings in the document determines which heading levels are allowed.\n\
 \n\
-* Create a new heading by moving the cursor to a text block and selecting an allowed heading level.\n\
+* To create a new heading, move the cursor to a text block and selecting an allowed heading level.\n\
 \n\
-* To convert a heading to normal text, move the cursor to a heading and select the normal text option.\n\
+* To convert a heading to normal text, move the cursor to a heading and select the \'Normal text\' option.\n\
 \n\
 ### Why it\'s important\n\
 * The purpose of a heading is to label the content that follows it.\n\
