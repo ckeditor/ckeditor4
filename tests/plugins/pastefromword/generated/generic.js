@@ -53,7 +53,9 @@
 		testData: {
 			_should: {
 				ignore: {
-					'test Object word2013 datatransfer': CKEDITOR.env.edge
+					'test Object word2013 datatransfer': CKEDITOR.env.edge,
+					'test Unordered_list_special_char_bullet word2013 chrome': CKEDITOR.env.edge,
+					'test Unordered_list_special_char_bullet word2013 firefox': CKEDITOR.env.edge
 				}
 			}
 		},
