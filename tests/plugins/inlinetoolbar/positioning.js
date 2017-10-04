@@ -30,7 +30,7 @@
 			_getFrameMethodReplaced: false,
 
 			setUp: function() {
-				this.inlineToolbar = new CKEDITOR.ui.inlineToolbar( this.editor, {
+				this.inlineToolbar = new CKEDITOR.ui.inlineToolbarView( this.editor, {
 					width: 100,
 					height: 200
 				} );
