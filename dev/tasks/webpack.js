@@ -31,7 +31,12 @@ module.exports = function( grunt ) {
 										[ require( 'babel-preset-env' ), {
 											modules: false,
 											targets: {
-												browsers: [ 'last 2 versions', 'ie >= 8' ]
+												browsers: [
+													'last 1 Chrome versions',
+													'last 1 Firefox versions',
+													'last 1 Safari versions',
+													'last 1 Edge versions'
+												]
 											}
 										} ]
 									],
