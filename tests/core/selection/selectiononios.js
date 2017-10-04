@@ -1,13 +1,13 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: wysiwygarea, basicstyles, toolbar, floatingspace, colorbutton, image2, link, colordialog */
+/* bender-ckeditor-plugins: wysiwygarea, basicstyles, toolbar, floatingspace, colorbutton, image2, link, colordialog, justify */
 
 ( function() {
 	'use strict';
 
-	// if ( !CKEDITOR.env.iOS ) {
-	// 	bender.ignore();
-	// 	return;
-	// }
+	if ( !CKEDITOR.env.iOS ) {
+		bender.ignore();
+		return;
+	}
 
 	function onDialogShow( editor, pageId, elementId, value ) {
 		editor.on( 'dialogShow', function( evt ) {
@@ -30,6 +30,7 @@
 	}
 
 	bender.test( {
+		// #948
 		'test loosing selection': function() {
 			bender.editorBot.create( {
 				name: 'editor1',
@@ -50,7 +51,7 @@
 			} );
 		},
 
-		'test changing text color': function() {
+		'test selection on double blur': function() {
 			bender.editorBot.create( {
 				name: 'editor2',
 				creator: 'inline'
@@ -71,7 +72,7 @@
 			} );
 		},
 
-		'test setting link': function() {
+		'test selection on text': function() {
 			bender.editorBot.create( {
 				name: 'editor3',
 				creator: 'inline'
@@ -95,23 +96,21 @@
 			} );
 		},
 
-		'test select fake element': function() {
+		'test selection on image2': function() {
 			bender.editorBot.create( {
 				name: 'editor4',
 				creator: 'inline',
 				extraPlugins: 'image2',
-				startupData: '<figure id="image" class="image"><img alt="" src="../../_assets/lena.jpg" /><figcaption>Caption</figcaption></figure>',
 				config: {
 					extraAllowedContent: 'figure a[id]'
 				}
 			}, function( bot ) {
 				var editor = bot.editor,
-					figure = editor.document.getById( 'image' ),
 					linkButton = editor.ui.get( 'Link' );
 
 				editor.on( 'dialogHide', function() {
 					assert.areEqual(
-						'<figure id="image" class="image"><a href="http://foo.com"><img alt="" src="../../_assets/lena.jpg" /></a><figcaption>Caption</figcaption></figure>',
+						'<figure id="image" class="image"><a href="http://foo.com"><img alt="" src="../../_assets/lena.jpg" /></a><figcaption><a href="http://foo.com">Caption</a></figcaption></figure>',
 						editor.getData()
 					);
 				} );
@@ -119,7 +118,7 @@
 				linkButton.click( editor );
 				onDialogShow( editor, 'info', 'url', 'foo.com' );
 
-				editor.getSelection().selectElement( figure );
+				bender.tools.selection.setWithHtml( editor, '[<figure id="image" class="image"><img alt="" src="../../_assets/lena.jpg" /><figcaption>Caption</figcaption></figure>]' );
 				wait();
 			} );
 		}
