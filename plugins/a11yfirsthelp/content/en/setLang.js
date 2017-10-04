@@ -22,7 +22,7 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
 ### Importance of Accessibility\n\
 This organization has made a committment to accessibility, not only to comply with the \
 Americans with Disabilities Act (ADA) and Section 504 requirements, but also because making \
-making sure everyone has equal access to the information in this website is the right thing \
+sure everyone has equal access to the information in this website is the right thing \
 to do.\n\n\
 **You play an important part** in making sure this organization creates and maintains online \
 content that is accessible. The changes to the editor toolbar are designed to help you create \
