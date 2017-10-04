@@ -4,14 +4,15 @@
 */
 CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   label:        'A11yFirst Help',
-  panelTitle:   'learn about A11yFirst features',
-  keyboardShortcutsLabel:    'Keyboard Shortcuts',
+  panelTitle:   'Learn about A11yFirst features',
+  keyboardShortcutsLabel: 'Keyboard Shortcuts',
 
-  a11yFirstHelpLabel:   'A11yFirst Help: Content Accessibility',
-  a11yFirstHelpTitle:   'Information to help authors understand how the A11yFirst features help them make content more accessible to people with disabilites',
+  a11yFirstHelpLabel: 'A11yFirst Help: Content Accessibility',
+  a11yFirstHelpTitle: 'Information to help authors understand how the A11yFirst features help \
+  them make content more accessible to people with disabilites',
 
   gettingStarted: {
-    'menu': 'Getting Started',
+    'menu':  'Getting Started',
     'label': 'Getting Started',
     'title': 'Getting Started with Accessibility (A11y)',
 
@@ -46,7 +47,7 @@ GETTINGSTARTED\
 },
 
   headingHelp: {
-    'menu': 'Heading',
+    'menu':  'Heading',
     'label': 'Heading',
     'title': 'Heading Help',
     'content': '\
@@ -55,7 +56,7 @@ HEADINGHELP\
 },
 
   blockFormatHelp: {
-    'menu': 'Block Format',
+    'menu':  'Block Format',
     'label': 'Block Format',
     'title': 'Block Format Help',
     'content': '\
@@ -64,7 +65,7 @@ BLOCKFORMATHELP\
 },
 
   inlineStyleHelp: {
-    'menu': 'Inline Style',
+    'menu':  'Inline Style',
     'label': 'Inline Style',
     'title': 'Inline Style Help',
     'content': '\
@@ -73,7 +74,7 @@ INLINESTYLEHELP\
 },
 
   linkHelp: {
-    'menu': 'Link',
+    'menu':  'Link',
     'label': 'Link',
     'title': 'Link Help',
     'content' : '\
