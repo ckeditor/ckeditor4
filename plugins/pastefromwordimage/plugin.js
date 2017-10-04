@@ -72,7 +72,7 @@
 		},
 
 		/**
-		 * Method extracts array of src atributes in img tags from given HTML.
+		 * Method extracts array of src attributes in img tags from given HTML.
 		 *
 		 *		CKEDITOR.plugins.pastefromwordimage.extractImgTagsFromHtmlString( html );
 		 * 		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
