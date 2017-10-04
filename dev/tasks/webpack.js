@@ -3,8 +3,11 @@
 'use strict';
 
 var path = require( 'path' ),
+	webpack = require( 'webpack' ),
 	pluginPath = path.join( __dirname, '..', '..', 'plugins', 'easyimage' ),
-	MinifyPlugin = require( 'babel-minify-webpack-plugin' );
+	MinifyPlugin = require( 'babel-minify-webpack-plugin' ),
+	banner = '@license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.\n' +
+		'For licensing, see LICENSE.md.';
 
 module.exports = function( grunt ) {
 	grunt.config.merge( {
@@ -52,7 +55,9 @@ module.exports = function( grunt ) {
 					plugins: [
 						new MinifyPlugin( null, {
 							comments: false
-						} )
+						} ),
+
+						new webpack.BannerPlugin( banner )
 					]
 				};
 			}
