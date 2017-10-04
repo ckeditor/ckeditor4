@@ -7,7 +7,7 @@ var path = require( 'path' ),
 	pluginPath = path.join( __dirname, '..', '..', 'plugins', 'easyimage' ),
 	MinifyPlugin = require( 'babel-minify-webpack-plugin' ),
 	banner = '@license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.\n' +
-		'For licensing, see LICENSE.md.';
+		'For licensing, see https://github.com/ckeditor/ckeditor-cloudservices-core/blob/master/LICENSE.md.';
 
 module.exports = function( grunt ) {
 	grunt.config.merge( {
