@@ -1,12 +1,25 @@
 ## Block Format
 
-### Donec scelerisque sapien
+### How it works
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at nisi nisi. Maecenas vulputate aliquam eros vel auctor. Nam bibendum varius placerat. Etiam sit amet quam orci. Aenean accumsan ultrices turpis, sit amet convallis quam bibendum eu. Aliquam tempor, dui a malesuada dignissim, ipsum lacus tincidunt nunc, in aliquam leo libero sit amet libero.
+* A block format can be applied by placing your cursor within a text block and
+selecting an item from the 'Block Format' menu.
 
-### Aliquam dictum ac
+* The baseline block format is 'Normal text', which is a simple paragraph.
 
-* Fusce vitae iaculis lectus, quis pellentesque turpis.
-* Donec placerat condimentum interdum.
-* Um sit amet, hendreri morbi eu risus eget lacus ve.
-* C enim enim, interdum ac mauris eu, viverra tempor.
+* To remove an active block format, either toggle it off by selecting it in the
+menu, or select the 'Normal text' option from the menu.
+
+* Headings are a specialized type of block format which are specified using
+the 'Heading' menu.
+
+### Why it's important
+
+* Thinking in terms of blocks within your document is a higher-level approach
+to providing structure and semantics that are important for all users.
+
+* Visual styling for block formats is predetermined by your organization, thus
+freeing up your time and energy for concentrating on the structure and meaning
+of the content within your document.
+
+### More information

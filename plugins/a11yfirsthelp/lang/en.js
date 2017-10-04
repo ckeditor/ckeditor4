@@ -120,16 +120,29 @@ This organization has made a committment to accessibility, not only to comply wi
     'content': '\
 ## Block Format\n\
 \n\
-### Donec scelerisque sapien\n\
+### How it works\n\
 \n\
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at nisi nisi. Maecenas vulputate aliquam eros vel auctor. Nam bibendum varius placerat. Etiam sit amet quam orci. Aenean accumsan ultrices turpis, sit amet convallis quam bibendum eu. Aliquam tempor, dui a malesuada dignissim, ipsum lacus tincidunt nunc, in aliquam leo libero sit amet libero.\n\
+* A block format can be applied by placing your cursor within a text block and\n\
+selecting an item from the \'Block Format\' menu.\n\
 \n\
-### Aliquam dictum ac\n\
+* The baseline block format is \'Normal text\', which is a simple paragraph.\n\
 \n\
-* Fusce vitae iaculis lectus, quis pellentesque turpis.\n\
-* Donec placerat condimentum interdum.\n\
-* Um sit amet, hendreri morbi eu risus eget lacus ve.\n\
-* C enim enim, interdum ac mauris eu, viverra tempor.\n\
+* To remove an active block format, either toggle it off by selecting it in the\n\
+menu, or select the \'Normal text\' option from the menu.\n\
+\n\
+* Headings are a specialized type of block format which are specified using\n\
+the \'Heading\' menu.\n\
+\n\
+### Why it\'s important\n\
+\n\
+* Thinking in terms of blocks within your document is a higher-level approach\n\
+to providing structure and semantics that are important for all users.\n\
+\n\
+* Visual styling for block formats is predetermined by your organization, thus\n\
+freeing up your time and energy for concentrating on the structure and meaning\n\
+of the content within your document.\n\
+\n\
+### More information\n\
 ',
 },
 
