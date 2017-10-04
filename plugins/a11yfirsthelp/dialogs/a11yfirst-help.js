@@ -38,7 +38,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
         if (option == value) {
           node.style.display = 'block';
           buttonElement.addClass( 'selected' );
-          buttonElement.focus();
+          // buttonElement.focus();
         }
         else {
           node.style.display = 'none';
@@ -46,6 +46,9 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
         }
       }
     }
+
+    var container = dialogObj.getContentElement( 'a11yFirstHelpTab', 'helpContentContainer' );
+    container.focus();
   }
 
   return {
@@ -98,7 +101,6 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       if ( editor.a11yfirst.helpOption ) {
         showHelpTopic( editor.a11yfirst.helpOption );
       }
-
     },
 
     contents: [
@@ -172,7 +174,11 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                   },
                   {
                     type: 'html',
-                    html: '<div class="a11yfirsthelpcontent" style="margin: 0; margin-top: -1em; padding-left: 1em; height: 400px; overflow: auto; border-left: 2px solid #ddd; margin-left: -5.5em"><div id="contentGettingStarted"></div><div id="contentHeadingHelp"></div><div id="contentBlockFormatHelp"></div><div id="contentInlineStyleHelp"></div><div id="contentLinkHelp"></div></div>'
+                    id: 'helpContentContainer',
+                    focus: function() {
+                      this.getElement().focus();
+                    },
+                    html: '<div tabindex="-1" class="a11yfirsthelpcontent" style="margin: 0; margin-top: -1em; padding-left: 1em; height: 400px; overflow: auto; border-left: 2px solid #ddd; margin-left: -5.5em"><div id="contentGettingStarted"></div><div id="contentHeadingHelp"></div><div id="contentBlockFormatHelp"></div><div id="contentInlineStyleHelp"></div><div id="contentLinkHelp"></div></div>'
                   }
                 ]
               }
