@@ -48,7 +48,9 @@
 				stylesLoaded = true;
 			}
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
-			CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel = CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel.replace( 'cke_balloon', 'cke_inlinetoolbar' );
+			if (CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions && CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel.indexOf( 'cke_inlinetoolbar' ) === -1 ) {
+				CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel = CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel.replace( 'cke_balloon', 'cke_balloon cke_inlinetoolbar' );
+			}
 			/**
 			 * Build inline toolbar DOM representation.
 			 */
