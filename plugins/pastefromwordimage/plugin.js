@@ -19,16 +19,15 @@
 	 */
 	CKEDITOR.plugins.pastefromwordimage = {
 		/**
-		 * Methods parse RTF content to find embedded images. Because Word shapes are also represnt in a smillar way as images,
-		 * method keeps track on them and return empty object in such case. That allows on having proper index of RTF images and image tags in html clipboard.
+		 * Method parses RTF content to find embedded images.
 		 *
 		 * @private
 		 * @since 4.8.0
-		 * @param {String} rtfContent Data obtained from RTF content.
-		 * @returns {Array} Contains array of objects with images or empty array if there weren't a match.
-		 * @returns {Object} return.Object Single image found in `rtfContent`.
-		 * @returns {String/null} return.Object.hex Hexadecimal string of image embedded in RTF clipboard.
-		 * @returns {String/null} return.Object.type String represent type of image, allowed values: 'image/png', 'image/jpeg' or `null`
+		 * @param {String} rtfContent RTF content to be checked for images.
+		 * @returns {Object[]} An array of images found in the `rtfContent`.
+		 * @returns {String/null} return.hex Hexadecimal string of an image embedded in `rtfContent`.
+		 * @returns {String/null} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg' or `null` in case of unsupported
+		 * cases like shapes.
 		 */
 		extractImagesFromRtf: function( rtfContent ) {
 			var ret = [],
