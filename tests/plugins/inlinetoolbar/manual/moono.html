@@ -4,7 +4,7 @@
 		padding-left: 400px;
 	}
 </style>
-<textarea id="editor" cols="10" rows="10">
+<textarea id="editor1" cols="10" rows="10">
 	<p>Apollo 11</p>
 	<p>Apollo 11</p>
 	<p>Apollo 11</p>
@@ -14,34 +14,48 @@
 	<p>Apollo 11</p>
 </textarea>
 
+<div id="editor2" contenteditable="true">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<img src="http://lorempixel.com/400/200/">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+</div>
+
+<div id="editor3" contenteditable="true">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<img src="http://lorempixel.com/400/200/">
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+	<p>Apollo 11</p>
+</div>
+
 <script>
 	CKEDITOR.disableAutoInline = true;
 
 	function instanceReadyListener( evt ) {
-		var images = this.editable().find( 'img' ),
-			panel = new CKEDITOR.ui.inlineToolbarView( this, {
-				width: 'auto',
-				height: 40,
-			} ),
-			i = 0,
-			image;
+		var image = this.editable().findOne( 'img' ),
+			panel = new CKEDITOR.ui.inlineToolbarView( this );
 
-		while ( ( image = images.getItem( i++ ) ) ) {
-			image.on( 'click', function() {
-				panel.create( this );
-				panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + '</p>' );
-			} );
-		}
+		image.on( 'click', function() {
+			panel.create( this );
+			panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + '</p>' );
+		} );
 	}
-
-	CKEDITOR.replace( 'editor', {
-		extraPlugins: 'balloonpanel',
+	var config = {
 		height: 300,
 		width: 600,
 		skin: 'moono',
 		on: {
 			instanceReady: instanceReadyListener
 		}
-	} );
+	};
+	CKEDITOR.replace( 'editor1', config );
+	CKEDITOR.inline( 'editor2', config );
+	CKEDITOR.replace( 'editor3', config );
 
 </script>

@@ -18,19 +18,15 @@
 	 * docs for an example definition.
 	 */
 	CKEDITOR.ui.inlineToolbarView = function( editor, definition ) {
-<<<<<<< HEAD
-		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
-=======
-		var defParams = CKEDITOR.tools.extend( definition || {}, {
+		definition = CKEDITOR.tools.extend( definition || {}, {
 			width: 'auto',
 			triangleWidth: 10,
 			triangleHeight: 10
 		} );
-		CKEDITOR.ui.balloonPanel.call( this, editor, defParams );
+		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
 		this.listeners = [];
 	};
 
->>>>>>> review fixes and manual tests
 		/**
 		 * Listeners registered by this toolbar view.
 		 *
@@ -49,13 +45,12 @@
 				stylesLoaded = true;
 			}
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
-<<<<<<< HEAD
-=======
-			CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel = CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel.replace( 'cke_balloon', 'cke_inlinetoolbar' );
+			if (CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions && CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel.indexOf( 'cke_inlinetoolbar' ) === -1 ) {
+				CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel = CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel.replace( 'cke_balloon', 'cke_balloon cke_inlinetoolbar' );
+			}
 			/**
 			 * Build inline toolbar DOM representation.
 			 */
->>>>>>> review fixes and manual tests
 			CKEDITOR.ui.inlineToolbarView.prototype.build = function() {
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
 				this.parts.title.remove();
