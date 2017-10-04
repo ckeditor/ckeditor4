@@ -7,8 +7,9 @@
 1. Select text in the editor.
 2. Tap `Text Colour`/`Background Colour` button and choose color.
 3. Tap `Link` button, type URL: `foo.com`, tap `OK`.
+4. Tap `Text Colour`/`Background Colour` --> `More Colours` button and choose color.
 
 
 #### Expected result:
 
-Chosen color and link has been applied to selected text.
+Chosen colors and link has been applied to selected text.
