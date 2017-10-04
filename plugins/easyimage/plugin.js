@@ -97,6 +97,7 @@
 		CKEDITOR.plugins.imagebase.createWidget( editor, 'easyimage', {
 			basicClass: editor.config.easyimage_class,
 			additionalClasses: [ editor.config.easyimage_sideClass ],
+			captionAllowedContent: 'br em strong sub sup u s; a[!href,target]',
 			init: function() {
 				this.on( 'contextMenu', function( evt ) {
 					evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
