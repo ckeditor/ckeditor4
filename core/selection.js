@@ -1188,7 +1188,7 @@
 
 	/**
 	 * Unlocks the selection made in the editor and locked with the
-	 * {@link CKEDITOR.editor#unlockSelection} method. An unlocked selection
+	 * {@link CKEDITOR.editor#lockSelection} method. An unlocked selection
 	 * is no longer cached and can be changed.
 	 *
 	 * @method
