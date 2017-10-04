@@ -123,6 +123,49 @@
 		} );
 	}
 
+	function registerUploadWidget( editor ) {
+		editor.on( 'widgetDefinition', function( evt ) {
+			if ( evt.data.name !== 'uploadimage' ) {
+				return;
+			}
+
+			evt.data.onUploaded = function( upload ) {
+				var $img = this.parts.img.$,
+					width = $img.naturalWidth,
+					height = $img.naturalHeight;
+
+				// Set width and height to prevent blinking.
+				this.replaceWith( '<img src="' + upload.responseData.url[ 'default' ] + '" ' +
+					'width="' + width + '" ' +
+					'height="' + height + '">' );
+			};
+		} );
+
+		editor.on( 'fileUploadRequest', function( evt ) {
+			evt.data.requestData.file = evt.data.requestData.upload;
+			delete evt.data.requestData.upload;
+
+			evt.data.fileLoader.xhr.setRequestHeader( 'Authorization', editor.config.easyimage_token );
+		} );
+
+		editor.on( 'fileUploadResponse', function( evt ) {
+			var fileLoader = evt.data.fileLoader,
+				xhr = fileLoader.xhr,
+				data = evt.data,
+				response;
+
+			evt.stop();
+
+			try {
+				response = JSON.parse( xhr.responseText );
+
+				data.url = response;
+			} catch ( e ) {
+				CKEDITOR.warn( 'filetools-response-error', { responseText: xhr.responseText } );
+			}
+		} );
+	}
+
 	function loadStyles( editor, plugin ) {
 		if ( !stylesLoaded ) {
 			CKEDITOR.document.appendStyleSheet( plugin.path + 'styles/easyimage.css' );
@@ -135,7 +178,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'image2,contextmenu,dialog',
+		requires: 'image2,uploadimage,contextmenu,dialog',
 		lang: 'en',
 
 		onLoad: function() {
@@ -147,6 +190,7 @@
 			addCommands( editor );
 			addMenuItems( editor );
 			registerWidget( editor );
+			registerUploadWidget( editor );
 		}
 	} );
 
