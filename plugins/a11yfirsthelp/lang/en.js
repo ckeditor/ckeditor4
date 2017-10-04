@@ -153,16 +153,34 @@ of the content within your document.\n\
     'content': '\
 ## Inline Style\n\
 \n\
-### Consectetur adipiscing elit\n\
+### How it works\n\
 \n\
-Fusce vitae iaculis lectus, quis pellentesque turpis, consectetur adipiscing elit. enim enim, interdum ac mauris eu, viverra tempor. Maecenas vulputate aliquam eros vel auctor. Nam bibendum varius placerat. Etiam sit amet quam orci. Aenean accumsan hendreri morbi eu risus quam bibendum eu. Aliquam tempor, dui a malesuada dignissim, ipsum lacus tincidunt nunc, in aliquam leo libero sit amet libero.\n\
+* Inline styles are applied differently than block formats. They require either\n\
+an inline selection of characters within a block, an empty selection where you\n\
+immediately insert characters, or in special circumstances, the selection of one\n\
+or more text blocks.\n\
 \n\
-### Hendreri morbi\n\
+* If you apply an inline style to an empty selection, the characters that you type\n\
+immediately after choosing a style from the menu will have that style applied to\n\
+them.\n\
 \n\
-* Nam bibendum varius placerat.\n\
-* Aliquam tempor, dui a malesuada dignissim.\n\
-* Urpis, sit amet convallis lacus ve.\n\
-* C vulputate aliquam eros vel auctor.\n\
+* With an empty selection, if you choose an inline style and then do not type any\n\
+characters and change the position of the cursor, the style will not be applied.\n\
+\n\
+### Why it\'s important\n\
+\n\
+* Inline styles are important semantically at a lower level than block formats.\n\
+For example, choosing \'Emphasis\' for a word or phrase within a text block will\n\
+highlight them both visually and semantically, which is important for users of\n\
+assistive technologies such as screen readers.\n\
+\n\
+* Thinking in terms of block formats first, and inline styles at a lower level\n\
+as necessary, results in documents with more comprehensible structure and semantics.\n\
+\n\
+* When block formats are considered as primary, and inline styles secondary, many\n\
+visual styling decisions are already made by default.\n\
+\n\
+### More information\n\
 ',
 },
 
@@ -173,16 +191,18 @@ Fusce vitae iaculis lectus, quis pellentesque turpis, consectetur adipiscing eli
     'content' : '\
 ## Link\n\
 \n\
-### Vestibulum elementum\n\
+### How it works\n\
 \n\
 Maecenas faucibus rhoncus ultricies. Etiam eget porttitor elit. Aenean congue rhoncus commodo. Nulla et condimentum nulla. Phasellus tempor ligula vel ipsum vehicula, a condimentum turpis sagittis. Nunc elementum arcu nec odio euismod, non sodales mi convallis. Nunc vitae libero nibh. Phasellus condimentum velit non porttitor pharetra. Sed accumsan elit nulla, ut pretium libero sollicitudin at. Morbi tempus interdum fermentum..\n\
 \n\
-### Maecenas lobortis\n\
+### Why it\'s important\n\
 \n\
 * Aliquam non scelerisque nisl.\n\
 * Aenean nec semper erat. Aliquam erat volutpat.\n\
 * Proin mattis egestas libero a ultricies.\n\
 * Aliquam hendrerit ultrices neque.\n\
+\n\
+### More information\n\
 ',
 },
 } );

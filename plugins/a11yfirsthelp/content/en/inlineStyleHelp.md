@@ -1,12 +1,30 @@
 ## Inline Style
 
-### Consectetur adipiscing elit
+### How it works
 
-Fusce vitae iaculis lectus, quis pellentesque turpis, consectetur adipiscing elit. enim enim, interdum ac mauris eu, viverra tempor. Maecenas vulputate aliquam eros vel auctor. Nam bibendum varius placerat. Etiam sit amet quam orci. Aenean accumsan hendreri morbi eu risus quam bibendum eu. Aliquam tempor, dui a malesuada dignissim, ipsum lacus tincidunt nunc, in aliquam leo libero sit amet libero.
+* Inline styles are applied differently than block formats. They require either
+an inline selection of characters within a block, an empty selection where you
+immediately insert characters, or in special circumstances, the selection of one
+or more text blocks.
 
-### Hendreri morbi
+* If you apply an inline style to an empty selection, the characters that you type
+immediately after choosing a style from the menu will have that style applied to
+them.
 
-* Nam bibendum varius placerat.
-* Aliquam tempor, dui a malesuada dignissim.
-* Urpis, sit amet convallis lacus ve.
-* C vulputate aliquam eros vel auctor.
+* With an empty selection, if you choose an inline style and then do not type any
+characters and change the position of the cursor, the style will not be applied.
+
+### Why it's important
+
+* Inline styles are important semantically at a lower level than block formats.
+For example, choosing 'Emphasis' for a word or phrase within a text block will
+highlight them both visually and semantically, which is important for users of
+assistive technologies such as screen readers.
+
+* Thinking in terms of block formats first, and inline styles at a lower level
+as necessary, results in documents with more comprehensible structure and semantics.
+
+* When block formats are considered as primary, and inline styles secondary, many
+visual styling decisions are already made by default.
+
+### More information
