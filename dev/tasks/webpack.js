@@ -3,6 +3,7 @@
 'use strict';
 
 var path = require( 'path' ),
+	pluginPath = path.join( __dirname, '..', '..', 'plugins', 'easyimage' ),
 	MinifyPlugin = require( 'babel-minify-webpack-plugin' );
 
 module.exports = function( grunt ) {
@@ -10,11 +11,11 @@ module.exports = function( grunt ) {
 		webpack: {
 			all: function() {
 				return {
-					entry: path.join( __dirname, 'utils', 'cs-build-entry.js' ),
+					entry: path.join( pluginPath, 'src', 'cs-build-entry.js' ),
 
 					output: {
 						filename: 'cs.js',
-						path: path.join( __dirname, '..', '..', 'plugins', 'easyimage', 'lib' ),
+						path: path.join( pluginPath, 'lib' ),
 						libraryTarget: 'var',
 						library: ''
 					},
