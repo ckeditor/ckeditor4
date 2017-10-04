@@ -5,7 +5,7 @@ import UploadGateway from '@ckeditor/ckeditor-cloudservices-core/src/uploadgatew
 
 window.CKEDITOR = ( window.CKEDITOR || {} );
 
-window.CKEDITOR.cloudservices = {
+window.CKEDITOR.cloudServices = {
 	FileUploader,
 	UploadGateway
 };
