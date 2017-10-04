@@ -72,9 +72,48 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	</div>
 </footer>
 <script>
-CKEDITOR.replace( 'editor', {
-	extraPlugins: 'easyimage',
-	height: 500
+var CLOUD_SERVICES_TOKEN_URL = 'https://j2sns7jmy0.execute-api.eu-central-1.amazonaws.com/prod/token';
+// Stolen from https://github.com/ckeditor/ckeditor5-easy-image/blob/42fbc4b8ed8b020f559da0a5a499e0a604ea0baf/tests/_utils/gettoken.js
+function getToken( callback ) {
+	function uid() {
+		var uuid = 'e'; // Make sure that id does not start with number.
+
+		for ( var i = 0; i < 8; i++ ) {
+			uuid += Math.floor( ( 1 + Math.random() ) * 0x10000 ).toString( 16 ).substring( 1 );
+		}
+
+		return uuid;
+	}
+
+	var xhr = new XMLHttpRequest(),
+		userId = uid();
+
+	xhr.open( 'GET', CLOUD_SERVICES_TOKEN_URL + '?user.id=' + userId );
+
+	xhr.onload = function() {
+		if ( xhr.status >= 200 && xhr.status < 300 ) {
+			var response = JSON.parse( xhr.responseText );
+
+			callback( response.token );
+		} else {
+			console.error( xhr.status );
+		}
+	};
+
+	xhr.onerror = function( error ) {
+		console.error( error );
+	}
+
+	xhr.send( null );
+}
+
+getToken( function( token ) {
+	CKEDITOR.replace( 'editor', {
+		extraPlugins: 'easyimage',
+		imageUploadUrl: 'https://files.cke-cs.com/upload/',
+		easyimage_token: token,
+		height: 500
+	} );
 } );
 </script>
 
