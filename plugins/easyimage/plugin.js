@@ -133,10 +133,11 @@
 			var loader = this,
 				editor = loader.editor;
 
-			loader.changeStatus( 'uploading' );
-
 			new CKEDITOR.cloudServices.UploadGateway( editor.config.easyimage_token, url )
-			.upload( this.file )
+			.upload( loader.file )
+			.onProgress( function() {
+				loader.changeStatus( 'uploading' );
+			} )
 			.send()
 			.then( function( response ) {
 				loader.uploaded = 1;
@@ -171,7 +172,7 @@
 
 			onUploading: function( upload ) {
 				// Show the image during the upload.
-				this.parts.img.setAttribute( 'src', upload.data );
+				this.parts.img.setAttribute( 'src', URL.createObjectURL( upload.file ) );
 			},
 
 			onUploaded: function( upload ) {
