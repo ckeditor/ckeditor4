@@ -8,6 +8,11 @@
 
 	var stylesLoaded = false;
 
+	// jscs:disable maximumLineLength
+	// Black rectangle which is shown before image is loaded.
+	var loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
+	// jscs:enable maximumLineLength
+
 	function addCommands( editor ) {
 		function isSideImage( widget ) {
 			return widget.element.hasClass( editor.config.easyimage_sideClass );
@@ -123,53 +128,65 @@
 		} );
 	}
 
+	function prepareFileTools() {
+		CKEDITOR.fileTools.fileLoader.prototype.uploadToCS = function( url ) {
+			var loader = this,
+				editor = loader.editor;
+
+			loader.changeStatus( 'uploading' );
+
+			new CKEDITOR.cloudServices.UploadGateway( editor.config.easyimage_token, url )
+			.upload( this.file )
+			.send()
+			.then( function( response ) {
+				loader.uploaded = 1;
+				loader.responseData = response;
+				loader.changeStatus( 'uploaded' );
+			} )
+			[ 'catch' ]( function() {
+				loader.changeStatus( 'error' );
+			} );
+		};
+	}
+
 	function registerUploadWidget( editor ) {
-		editor.on( 'widgetDefinition', function( evt ) {
-			if ( evt.data.name !== 'uploadimage' ) {
-				return;
-			}
+		var uploadUrl = CKEDITOR.fileTools.getUploadUrl( editor.config, 'easyimage' );
 
-			evt.data.onUploaded = function( upload ) {
-				var $img = this.parts.img.$,
-					width = $img.naturalWidth,
-					height = $img.naturalHeight;
+		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadeasyimage', {
+			supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
-				// Set width and height to prevent blinking.
-				this.replaceWith( '<img src="' + upload.responseData.url[ 'default' ] + '" ' +
-					'width="' + width + '" ' +
-					'height="' + height + '">' );
-			};
-		} );
+			uploadUrl: uploadUrl,
 
-		editor.on( 'fileUploadRequest', function( evt ) {
-			evt.data.requestData.file = evt.data.requestData.upload;
-			delete evt.data.requestData.upload;
+			loadMethod: 'uploadToCS',
 
-			evt.data.fileLoader.xhr.setRequestHeader( 'Authorization', editor.config.easyimage_token );
-		} );
+			fileToElement: function() {
+				var img = new CKEDITOR.dom.element( 'img' );
+				img.setAttribute( 'src', loadingImage );
+				return img;
+			},
 
-		editor.on( 'fileUploadResponse', function( evt ) {
-			var fileLoader = evt.data.fileLoader,
-				xhr = fileLoader.xhr,
-				data = evt.data,
-				response;
+			parts: {
+				img: 'img'
+			},
 
-			evt.stop();
+			onUploading: function( upload ) {
+				// Show the image during the upload.
+				this.parts.img.setAttribute( 'src', upload.data );
+			},
 
-			try {
-				response = JSON.parse( xhr.responseText );
-
-				data.url = response;
-			} catch ( e ) {
-				CKEDITOR.warn( 'filetools-response-error', { responseText: xhr.responseText } );
+			onUploaded: function( upload ) {
+				this.replaceWith( '<img src="' + upload.responseData[ 'default' ] + '">' );
 			}
 		} );
 	}
 
-	function loadCSLib( path ) {
+	function loadCSLib( path, callback ) {
 		var script = new CKEDITOR.dom.element( 'script' );
 
 		script.setAttribute( 'src', path + 'lib/cs.js' );
+		script.on( 'load', function() {
+			callback();
+		} );
 		script.on( 'error', function() {
 			CKEDITOR.error( 'cs-lib-not-loaded' );
 		} );
@@ -189,12 +206,12 @@
 	}
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'image2,uploadimage,contextmenu,dialog',
+		requires: 'image2,uploadwidget,contextmenu,dialog',
 		lang: 'en',
 
 		onLoad: function() {
 			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
-			loadCSLib( this.path );
+			loadCSLib( this.path, prepareFileTools );
 		},
 
 		init: function( editor ) {
