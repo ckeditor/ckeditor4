@@ -166,6 +166,17 @@
 		} );
 	}
 
+	function loadCSLib( path ) {
+		var script = new CKEDITOR.dom.element( 'script' );
+
+		script.setAttribute( 'src', path + 'lib/cs.js' );
+		script.on( 'error', function() {
+			CKEDITOR.error( 'cs-lib-not-loaded' );
+		} );
+
+		CKEDITOR.document.getHead().append( script );
+	}
+
 	function loadStyles( editor, plugin ) {
 		if ( !stylesLoaded ) {
 			CKEDITOR.document.appendStyleSheet( plugin.path + 'styles/easyimage.css' );
@@ -183,6 +194,7 @@
 
 		onLoad: function() {
 			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
+			loadCSLib( this.path );
 		},
 
 		init: function( editor ) {
