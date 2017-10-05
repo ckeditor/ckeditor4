@@ -31,10 +31,9 @@
 		 */
 		extractImagesFromRtf: function( rtfContent ) {
 			var ret = [],
-				rePictureHeader = CKEDITOR.env.mac ? /\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\d+?)?\s?/ : /\{\\pict[\s\S]+?\{\\\*\\blipuid[\s0-9a-f]+?\}\s?/,
-				reShapeHeader = /\{\\shp[\s\S]+?\{\\\*\\svb\s?/,
-				rePictureOrShape = new RegExp( '(?:(' + rePictureHeader.source + ')|(' + reShapeHeader.source + '))([0-9a-f\\s]+)\\}', 'g' ),
-				unwantedType = CKEDITOR.env.mac ? '\\macpict' : '\\wmetafile',
+				rePictureHeader = /\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
+				reShapeHeader = /\{\\shp\{\\\*\\shpinst[\s\S]+?\{\\\*\\svb\s?/,
+				rePictureOrShape = new RegExp( '(?:(' + rePictureHeader.source + ')|(' + reShapeHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
 				wholeImages,
 				imageType;
 
@@ -45,7 +44,7 @@
 
 			for ( var i = 0; i < wholeImages.length; i++ ) {
 				if ( rePictureHeader.test( wholeImages[ i ] ) ) {
-					if ( wholeImages[ i ].indexOf( unwantedType ) !== -1 ) {
+					if ( wholeImages[ i ].indexOf( '\\wmetafile' ) !== -1 || wholeImages[ i ].indexOf( '\\macpict' ) !== -1 ) {
 						continue;
 					} else if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
 						imageType = 'image/png';
@@ -56,7 +55,7 @@
 					}
 
 					ret.push( {
-						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /\s/g, '' ).replace( /\}/, '' ) : null,
+						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
 						type: imageType
 					} );
 				} else if ( reShapeHeader.test( wholeImages[ i ] ) ) {
