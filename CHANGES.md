@@ -20,6 +20,7 @@ Fixed Issues:
 * [#711](https://github.com/ckeditor/ckeditor-dev/issues/711): Fixed: Dragging widgets should only work with left mouse button.
 * [#862](https://github.com/ckeditor/ckeditor-dev/issues/862): Fixed: "Object Styles" group in [Styles Combo](https://ckeditor.com/addon/stylescombo) plugin is visible only if whole element is selected.
 * [#994](https://github.com/ckeditor/ckeditor-dev/pull/994): Fixed: Typo in [`CKEDITOR.focusManager.focus`](https://docs.ckeditor.com/#!/api/CKEDITOR.focusManager-method-focus) API documentation. Thanks to [benjy](https://github.com/benjy)!
+* [#1014](https://github.com/ckeditor/ckeditor-dev/issues/1014): Fixed: [Table Tools](https://ckeditor.com/addon/tabletools) cell properties dialog is now [ACF](http://docs.ckeditor.com/#!/guide/dev_acf) aware - it not possible to change cell width/height if corresponding styles are disabled.
 
 Other Changes:
 
