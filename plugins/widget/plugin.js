@@ -2103,7 +2103,7 @@
 		}
 	}
 
-	// It returns first text node from the element.
+	// Returns first child text node of the given element.
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function getFirstTextNode( el ) {
@@ -2113,7 +2113,7 @@
 	}
 
 
-	// It returns last text node from the element.
+	// Returns last child text node of the given element.
 	//
 	// @param {CKEDITOR.htmlParser.element} el
 	function getLastTextNode( el ) {
