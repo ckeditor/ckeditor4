@@ -22,13 +22,13 @@ text or understand images.
 
 ### A11yFirst Toolbar Features
 
-* `Heading`: Assists you in choosing the proper heading levels to make the
+* **Heading**: Assists you in choosing the proper heading levels to make the
 heading structure in your document more meaningful to readers.
 
-* `Block Format`: Provides special formatting for blocks of text (e.g.
+* **Block Format**: Provides special formatting for blocks of text (e.g.
 paragraphs) within your document.
 
-* `Inline Style`: Provides styling to highlight or emphasize a word or group of
+* **Inline Style**: Provides styling to highlight or emphasize a word or group of
 words (i.e. characters) within a block of text.
 
 ### Additional Resources

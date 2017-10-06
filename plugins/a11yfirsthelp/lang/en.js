@@ -66,13 +66,13 @@ text or understand images.\n\
 \n\
 ### A11yFirst Toolbar Features\n\
 \n\
-* `Heading`: Assists you in choosing the proper heading levels to make the\n\
+* **Heading**: Assists you in choosing the proper heading levels to make the\n\
 heading structure in your document more meaningful to readers.\n\
 \n\
-* `Block Format`: Provides special formatting for blocks of text (e.g.\n\
+* **Block Format**: Provides special formatting for blocks of text (e.g.\n\
 paragraphs) within your document.\n\
 \n\
-* `Inline Style`: Provides styling to highlight or emphasize a word or group of\n\
+* **Inline Style**: Provides styling to highlight or emphasize a word or group of\n\
 words (i.e. characters) within a block of text.\n\
 \n\
 ### Additional Resources\n\
@@ -106,7 +106,7 @@ which heading levels are allowed.\n\
 allowed heading level.\n\
 \n\
 * To convert a heading to normal text, move the cursor to a heading and select\n\
-the `Normal text` option.\n\
+the *Normal text* option.\n\
 \n\
 ### Why it\'s important\n\
 * The purpose of a heading is to label the content that follows it.\n\
@@ -157,22 +157,22 @@ Style` options.\n\
 ### How it works\n\
 \n\
 * A block format can be applied by placing your cursor within a text block and\n\
-selecting an item from the `Block Format` menu.\n\
+selecting an item from the *Block Format* menu.\n\
 \n\
-* The baseline block format is `Normal text`, which is a simple paragraph.\n\
+* The baseline block format is *Normal text*, which is a simple paragraph.\n\
 \n\
 * To remove an active block format, either toggle it off by selecting it in the\n\
-menu, or select the `Normal text` option from the menu.\n\
+menu, or select the *Normal text* option from the menu.\n\
 \n\
 * Headings are a specialized type of block format used to label other text\n\
-blocks, and are specified using the `Heading` menu.\n\
+blocks, and are specified using the *Heading* menu.\n\
 \n\
 ### Why it\'s important\n\
 \n\
 * Thinking in terms of blocks within your document is a higher-level approach\n\
 to providing structure and semantics that are important for all users.\n\
 \n\
-* When block formats are used properly (e.g. `Preformatted text` or `Address`),\n\
+* When block formats are used properly (e.g. *Preformatted text* or *Address*),\n\
 they help users of assistive technologies understand the intended role of the\n\
 content.\n\
 \n\
@@ -193,7 +193,10 @@ of the content within your document.\n\
 \n\
 ### How it works\n\
 \n\
-* To apply inline styles to existing text, select a range of text and then\n\
+* Inline styles have a different purpose than block formats. They are used\n\
+at a lower level to highlight words or phrases within blocks of text.\n\
+\n\
+* To apply an inline style to existing text, select a range of text and then\n\
 choose an option from the menu.\n\
 \n\
 * To apply inline styles to text you are about to type, choose an option from\n\
@@ -202,35 +205,24 @@ choose another option or move the cursor to a different point in the document.\n
 \n\
 * Multiple inline styles can be applied to selected text.\n\
 \n\
-* Inline styles are applied differently than block formats. They require either\n\
-an inline selection of characters within a block, an empty selection where you\n\
-immediately insert characters, or in special circumstances, the selection of\n\
-one or more text blocks.\n\
-\n\
-* If you apply an inline style to an empty selection, the characters that you\n\
-type immediately after choosing a style from the menu will have that style\n\
-applied to them.\n\
-\n\
-* With an empty selection, if you choose an inline style and then do not type\n\
-any characters and change the position of the cursor, the style will not be\n\
-applied.\n\
-\n\
 ### Why it\'s important\n\
 \n\
 * Thinking in terms of block formats first, and then using inline styles to\n\
 emphasize key words or phrases within text blocks, results in documents that\n\
 are easier to read and understand.\n\
 \n\
-* Inline styles, when used properly, help screen reader users find and\n\
-understand the meaning of the lower level semantics of inline style changes.\n\
-\n\
-* Inline styles are important semantically at a lower level than block formats.\n\
-For example, choosing \'Emphasis\' for a word or phrase within a text block will\n\
-highlight them both visually and semantically, which is important for users of\n\
-assistive technologies such as screen readers.\n\
+* Inline styles, when used properly, help screen reader users better understand\n\
+the types and meanings of lower-level stylistic changes within blocks of text.\n\
 \n\
 * When block formats are considered as primary, and inline styles secondary,\n\
 many visual styling decisions are already made by default.\n\
+\n\
+* When inline styles are used to change the styling of blocks of text, it\n\
+makes the document more difficult to read and understand within the context of\n\
+the website.\n\
+\n\
+* Using block formats and inline styles properly will make it easier for you to\n\
+maintain stylistic consistency.\n\
 \n\
 ### More information\n\
 ',

@@ -10,7 +10,7 @@ which heading levels are allowed.
 allowed heading level.
 
 * To convert a heading to normal text, move the cursor to a heading and select
-the `Normal text` option.
+the *Normal text* option.
 
 ### Why it's important
 * The purpose of a heading is to label the content that follows it.
