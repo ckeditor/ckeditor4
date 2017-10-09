@@ -24,9 +24,6 @@
 			triangleHeight: 10
 		} );
 		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
-		this.listeners = [];
-	};
-
 		/**
 		 * Listeners registered by this toolbar view.
 		 *
