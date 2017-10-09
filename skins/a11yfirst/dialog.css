@@ -1163,7 +1163,12 @@ a.cke_dialog_ui_button.cke_dialog_image_browse
 	border: 1px solid #d1d1d1;
 }
 
-/* styling of the selected button in A11yFristHelp */
+.cke_dialog_title
+{
+	font-size: 15px;
+}
+
+/* Styling of the selected button */
 
 .cke_dialog_ui_button.selected {
   background-color: #d1d1d1;
@@ -1179,7 +1184,7 @@ a.cke_dialog_ui_button.cke_dialog_image_browse
   background-position: left center;
 }
 
-/* Changes to button styling from default moolisa */
+/* Changes to button styling from default moono-lisa */
 
 a.cke_dialog_ui_button.a11yfirsthelp:hover
 {
@@ -1187,25 +1192,26 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
 }
 
 .cke_dialog_ui_vbox_child.a11yfirsthelp {
-    padding: 3px 0px;
+  padding: 3px 0px;
 }
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent * {
-    white-space: normal;
+  white-space: normal;
+  font-size: 13px;
 }
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent h2 {
 	margin-top: 1em;
-    font-size: 150%;
-    font-weight: bold;
+  font-size: 150%;
+  font-weight: bold;
 }
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent h3 {
 	margin-top: 1em;
-    font-size: 120%;
-    font-weight: bold;
+	margin-bottom: 0.5em;
+  font-size: 120%;
+  font-weight: bold;
 }
-
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent ul,
 .cke_dialog_ui_hbox .a11yfirsthelpcontent ol {
@@ -1215,10 +1221,8 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
 .cke_dialog_ui_hbox .a11yfirsthelpcontent p,
 .cke_dialog_ui_hbox .a11yfirsthelpcontent li,
 .cke_dialog_ui_hbox .a11yfirsthelpcontent li > p {
-	font-size: 110%;
 	margin-bottom: 1em;
 }
-
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent a {
 	text-decoration: underline;
@@ -1227,10 +1231,8 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent strong {
 	font-weight: bold;
-	font-size: 100%;
 }
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent em {
 	font-style: italic;
-	font-size: 100%;
 }
