@@ -18,7 +18,8 @@ $plugins = array(
     'taoqtitable',
     'taounderline',
     'taohighlight',
-    'taoqtiinclude'
+    'taoqtiinclude',
+    'taoqtiprintedvariable'
 );
 
 $one = new OneFileCompiler($dir.'release/ckeditor/', $dir.'release/ckeditor-reduced/', 'en');
