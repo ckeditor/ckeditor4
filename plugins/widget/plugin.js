@@ -646,6 +646,11 @@
 
 				isInline = isWidgetInline( widgetDef, element.getName() );
 
+				// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
+				if ( isInline ) {
+					preserveSpaces( element );
+				}
+
 				wrapper = new CKEDITOR.dom.element( isInline ? 'span' : 'div' );
 				wrapper.setAttributes( getWrapperAttributes( isInline, widgetName ) );
 
@@ -674,6 +679,11 @@
 					element.attributes[ 'data-widget' ] = widgetName;
 
 				isInline = isWidgetInline( widgetDef, element.name );
+
+				// Preserve initial and trailing space by replacing white space with &nbsp; (#605).
+				if ( isInline ) {
+					preserveSpaces( element );
+				}
 
 				wrapper = new CKEDITOR.htmlParser.element( isInline ? 'span' : 'div', getWrapperAttributes( isInline, widgetName ) );
 				wrapper.attributes[ 'data-cke-display-name' ] = widgetDef.pathName ? widgetDef.pathName : element.name;
@@ -2054,8 +2064,64 @@
 	// @param {CKEDITOR.htmlParser.element} el
 	function cleanUpWidgetElement( el ) {
 		var parent = el.parent;
-		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] )
+
+		if ( parent.type == CKEDITOR.NODE_ELEMENT && parent.attributes[ 'data-cke-widget-wrapper' ] ) {
 			parent.replaceWith( el );
+		}
+	}
+
+	// Preserves white spaces in widget element.
+	//
+	// This function is replacing white spaces with &nbsp;
+	// at the beginning of the first text node
+	// and at the end of the last text node.
+	//
+	// @param {CKEDITOR.htmlParser.element} el
+	function preserveSpaces( el ) {
+		if ( typeof el.attributes != 'undefined' && el.attributes[ 'data-widget' ] ) {
+			var firstTextNode = getFirstTextNode( el ),
+				lastTextNode = getLastTextNode( el ),
+				spacesReplaced = false;
+
+			// Check whether the value of the first text node contains white space at the beginning and replace it with &nbsp;.
+			if ( firstTextNode && firstTextNode.value && firstTextNode.value.match( /^\s/g ) ) {
+				firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] = 1;
+				firstTextNode.value = firstTextNode.value.replace( /^\s/g, '&nbsp;' );
+				spacesReplaced = true;
+			}
+
+			// Check whether the value of the last text node contains white space at the end and replace it with &nbsp;.
+			if ( lastTextNode && lastTextNode.value && lastTextNode.value.match( /\s$/g ) ) {
+				lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] = 1;
+				lastTextNode.value = lastTextNode.value.replace( /\s$/g, '&nbsp;' );
+				spacesReplaced = true;
+			}
+
+			if ( spacesReplaced ) {
+				el.attributes[ 'data-cke-widget-white-space' ] = 1;
+			}
+		}
+	}
+
+	// Returns first child text node of the given element.
+	//
+	// @param {CKEDITOR.htmlParser.element} el.
+	// @returns {CKEDITOR.htmlParser.text}
+	function getFirstTextNode( el ) {
+		return el.find( function( node ) {
+			return node.type === 3;
+		}, true ).shift();
+	}
+
+
+	// Returns last child text node of the given element.
+	//
+	// @param {CKEDITOR.htmlParser.element} el.
+	// @returns {CKEDITOR.htmlParser.text}
+	function getLastTextNode( el ) {
+		return el.find( function( node ) {
+			return node.type === 3;
+		}, true ).pop();
 	}
 
 	// Similar to cleanUpWidgetElement, but works on DOM and finds
@@ -2708,6 +2774,22 @@
 			evt.data.dataValue.forEach( function( element ) {
 				var attrs = element.attributes,
 					widget, widgetElement;
+
+				// Reset initial and trailing space by replacing &nbsp; with white space (#605).
+				if ( 'data-cke-widget-white-space' in attrs ) {
+					var firstTextNode = getFirstTextNode( element ),
+						lastTextNode = getLastTextNode( element );
+
+					// Check whether the value of the text node contains &nbsp; at the beginning and replace it with white space.
+					if ( firstTextNode.parent.attributes[ 'data-cke-white-space-first' ] ) {
+						firstTextNode.value = firstTextNode.value.replace( /^&nbsp;/g, ' ' );
+					}
+
+					// Check whether the value of the text node contains &nbsp; at the end and replace it with white space.
+					if ( lastTextNode.parent.attributes[ 'data-cke-white-space-last' ] ) {
+						lastTextNode.value = lastTextNode.value.replace( /&nbsp;$/g, ' ' );
+					}
+				}
 
 				// Wrapper.
 				// Perform first part of downcasting (cleanup) and cache widgets,
@@ -3849,7 +3931,7 @@
  * The function to be used to downcast this widget or
  * a name of the downcast option from the {@link #downcasts} object.
  *
- * The downcast funciton will be executed in the {@link CKEDITOR.plugins.widget} context
+ * The downcast function will be executed in the {@link CKEDITOR.plugins.widget} context
  * and with `widgetElement` ({@link CKEDITOR.htmlParser.element}) argument which is
  * the widget's main element.
  *

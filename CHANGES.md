@@ -22,6 +22,7 @@ Fixed Issues:
 * [#994](https://github.com/ckeditor/ckeditor-dev/pull/994): Fixed: Typo in [`CKEDITOR.focusManager.focus`](https://docs.ckeditor.com/#!/api/CKEDITOR.focusManager-method-focus) API documentation. Thanks to [benjy](https://github.com/benjy)!
 * [#1014](https://github.com/ckeditor/ckeditor-dev/issues/1014): Fixed: [Table Tools](https://ckeditor.com/addon/tabletools) cell properties dialog is now [ACF](http://docs.ckeditor.com/#!/guide/dev_acf) aware - it not possible to change cell width/height if corresponding styles are disabled.
 * [#877](https://github.com/ckeditor/ckeditor-dev/issues/877): Fixed: Lists with custom bullets with exotic characters crashes editor when [pasted from Word](http://ckeditor.com/addon/pastefromword).
+* [#605](https://github.com/ckeditor/ckeditor-dev/issues/605): Fixed: Inline widgets do not preserve trailing spaces.
 
 Other Changes:
 
