@@ -249,21 +249,42 @@ maintain stylistic consistency.\n\
 \n\
 ### How it works\n\
 \n\
-* The *Display Text* for a link should be descriptive, unique and start with keywords (NNG).\n\
+* When the *Link* button is activated, the *Link* dialog is displayed with\n\
+the focus set to the *URL* field. If a text selection was previously made,\n\
+the *Display Text* field is populated with the selected text.\n\
 \n\
-* The *Display Text* must **not** be empty, since it results in the URL being used as the display text for the link.\n\
+* However, if you activate the *Link* button with an empty selection, the\n\
+default behavior is to use the *URL* text as the *Display Text*. This is\n\
+problematic because URLs are often not very descriptive.\n\
 \n\
-* The *Display Text* must **not** use ambiguous text, for example "Click Here" or "More".\n\
+### About display text\n\
 \n\
-* The *Display Text* for links is like a sign post. It should tell you what you’ll find when you follow it (NOMENSA).\n\
+* The *Display Text* for a link should be descriptive, unique and start with\n\
+keywords (NNG).\n\
 \n\
-* Be consistent, the links to the same URL should have the same *Display Text*.\n\
+* The *Display Text* must **not** be empty, since it results in the URL being\n\
+used as the display text for the link.\n\
+\n\
+* The *Display Text* must **not** use ambiguous text, for example "Click Here"\n\
+or "More".\n\
+\n\
+* The *Display Text* for links is like a sign post. It should tell you what\n\
+you’ll find when you follow it (NOMENSA).\n\
+\n\
+* Be consistent: Links to the same URL should have the same *Display Text*.\n\
 \n\
 ### Why it\'s important\n\
 \n\
-* Descriptive link text makes it easier for everyone to find and follow links on a page that are of interest to them.\n\
+* Descriptive link text makes it easier for everyone to find and follow links\n\
+on a page that are of interest to them.\n\
 \n\
-* It is especially important for people using screen readers who typically only hear the display text spoken to them through a speech synthesize and do not "see" the link in the context of other content on the page.  So when URLs or ambiguous text are used as the display text for a link, it is impossible in many cases, and much more difficult in the remaining cases for screen reader users to find and follow links of interest to them.\n\
+* Descriptive link text is especially important for people using screen\n\
+readers, who typically only hear the display text spoken to them through speech,\n\
+synthesis and do not "see" the link in the context of other content on the page.\n\
+\n\
+* When URLs or ambiguous text are used as the display text for a link, it is\n\
+impossible in many cases, and much more difficult in the remaining cases, for\n\
+screen reader users to find and follow links of interest to them.\n\
 \n\
 ### More information\n\
 \n\
@@ -272,9 +293,6 @@ maintain stylistic consistency.\n\
 * <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NOMENSA: Writing good link text</a>\n\
 \n\
 * <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Hyperlinks (Good ad Bad Examples)</a>\n\
-\n\
-\n\
-\n\
 ',
 },
 } );
