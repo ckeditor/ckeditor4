@@ -16,7 +16,7 @@
 
 * Descriptive link text makes it easier for everyone to find and follow links on a page that are of interest to them.
 
-* It is especially important for people using screen readers who only hear the link text and do not "see" the link in the context of other content on the page.  So when URLs are used as *display text* or links the *display text* is ambiguous it is much harder for screen reader users to find and follow links of interest to them.
+* It is especially important for people using screen readers who typically only hear the display text spoken to them through a speech synthesize and do not "see" the link in the context of other content on the page.  So when URLs or ambiguous text are used as the display text for a link, it is impossible in many cases, and much more difficult in the remaining cases for screen reader users to find and follow links of interest to them.
 
 ### More information
 
