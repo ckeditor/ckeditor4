@@ -127,6 +127,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'Georgia;' +
 		'Lucida Sans Unicode;' +
 		'Railroad Gothic;' +
+		'Railroad Gothic Com;' +
 		'Tahoma;' +
 		'Times New Roman;' +
 		'Times;' +
