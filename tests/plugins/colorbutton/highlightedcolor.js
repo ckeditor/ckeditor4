@@ -7,6 +7,7 @@
 	bender.editor = true;
 
 	bender.test( {
+		// 1008
 		'test highlighted color with text color button': function() {
 			var editor = this.editor,
 				bot = this.editorBot,
