@@ -35,10 +35,17 @@ words (i.e. characters) within a block of text.
 
 * <a href="https://webaim.org/techniques/semanticstructure/" target="_resource">WebAIM: Semantic Structure</a>
 
+* <a href="http://accessibility.umn.edu/core-skills/headings" target="_resource">Accessible U: Headings</a>
+
 * <a href="https://webaim.org/techniques/hypertext/" target="_resource">WebAIM: Links and Hypertext</a>
+
+* <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Links</a>
 
 * <a href="https://webaim.org/techniques/images/" target="_resource">WebAIM: Accessible Images</a>
 
-* <a href="https://webaim.org/techniques/tables/data" target="_resource">WebAIM: Creating Accessible Tables</a>
+* <a href="http://accessibility.umn.edu/core-skills/alt-text" target="_resource">Accessible U: ALT Text</a>
 
 * <a href="http://diagramcenter.org/" target="_resource">Diagram Center: Image Description Guidelines</a>
+
+* <a href="https://webaim.org/techniques/tables/data" target="_resource">WebAIM: Creating Accessible Tables</a>
+
