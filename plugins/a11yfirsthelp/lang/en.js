@@ -279,7 +279,7 @@ you’ll find when you follow it (NOMENSA).\n\
 on a page that are of interest to them.\n\
 \n\
 * Descriptive link text is especially important for people using screen\n\
-readers, who typically only hear the display text spoken to them through speech,\n\
+readers, who typically only hear the display text spoken to them through speech\n\
 synthesis and do not "see" the link in the context of other content on the page.\n\
 \n\
 * When URLs or ambiguous text are used as the display text for a link, it is\n\

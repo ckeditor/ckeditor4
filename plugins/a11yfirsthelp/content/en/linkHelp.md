@@ -32,7 +32,7 @@ you’ll find when you follow it (NOMENSA).
 on a page that are of interest to them.
 
 * Descriptive link text is especially important for people using screen
-readers, who typically only hear the display text spoken to them through speech,
+readers, who typically only hear the display text spoken to them through speech
 synthesis and do not "see" the link in the context of other content on the page.
 
 * When URLs or ambiguous text are used as the display text for a link, it is
