@@ -27,3 +27,8 @@ freeing up your time and energy for concentrating on the structure and meaning
 of the content within your document.
 
 ### More information
+
+* <a href="https://en.wikiversity.org/wiki/Technical_writing" target="_resource">Wikiversity: Technical writing</a>
+
+* <a href="https://en.wikipedia.org/wiki/Chunking_&lpar;writing&rpar;" target="_resource">Chunking (writing)</a>
+

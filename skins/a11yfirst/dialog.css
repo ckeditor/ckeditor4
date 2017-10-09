@@ -1206,19 +1206,17 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
     font-weight: bold;
 }
 
-.cke_dialog_ui_hbox .a11yfirsthelpcontent p {
-    margin-bottom: 1em;
-	font-size: 110%;
-}
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent ul,
 .cke_dialog_ui_hbox .a11yfirsthelpcontent ol {
-	font-size: 110%;
 	padding-left: 1.25em;
 }
 
-.cke_dialog_ui_hbox .a11yfirsthelpcontent li {
-	margin-bottom: 0.125em;
+.cke_dialog_ui_hbox .a11yfirsthelpcontent p,
+.cke_dialog_ui_hbox .a11yfirsthelpcontent li,
+.cke_dialog_ui_hbox .a11yfirsthelpcontent li > p {
+	font-size: 110%;
+	margin-bottom: 1em;
 }
 
 
@@ -1229,5 +1227,10 @@ a.cke_dialog_ui_button.a11yfirsthelp:hover
 
 .cke_dialog_ui_hbox .a11yfirsthelpcontent strong {
 	font-weight: bold;
+	font-size: 100%;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent em {
+	font-style: italic;
 	font-size: 100%;
 }

@@ -33,4 +33,4 @@ the website.
 * Using block formats and inline styles properly will make it easier for you to
 maintain stylistic consistency.
 
-### More information
+
