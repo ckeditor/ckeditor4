@@ -6,17 +6,10 @@
 ( function() {
 	'use strict';
 
-	var restore = CKEDITOR.dom.window.prototype.getViewPaneSize;
-	CKEDITOR.dom.window.prototype.getViewPaneSize = function() {
-		return {
-			width: 1183,
-			height: 1818
-		};
-	};
-
 	bender.editor = {
 		name: 'editor1',
 		config: {
+			allowedContent: true,
 			height: 300,
 			width: 300
 		}
@@ -30,6 +23,12 @@
 			_getFrameMethodReplaced: false,
 
 			setUp: function() {
+				this.getViewPaneSize = sinon.stub( this.editor.window, 'getViewPaneSize', function() {
+					return {
+						width: 1183,
+						height: 1818
+					};
+				} );
 				this.inlineToolbar = new CKEDITOR.ui.inlineToolbarView( this.editor, {
 					width: 100,
 					height: 200
@@ -41,11 +40,28 @@
 				window.scrollTo( 0, 0 );
 
 				if ( !this._getFrameMethodReplaced ) {
-					sinon.stub( this.editor.window, 'getFrame', { height: 300, width: 300, left: 1, bottom: 643, right: 301, top: 343 } );
+					// The problem is also window.getFrame().getClientRect() as it retursn different results from dashboard and directly.
+					this._getFrameMethodReplaced = true;
+					var orig = this.editor.window.getFrame;
+
+					this.editor.window.getFrame = function() {
+						var ret = orig.call( this );
+
+						if ( ret ) {
+							ret.getClientRect = function() {
+								return { height: 300, width: 300, left: 1, bottom: 643, right: 301, top: 343 };
+							};
+						}
+
+						return ret;
+					};
 				}
+				this.moveSpy = spy( this.inlineToolbar, 'move' );
 			},
 
 			tearDown: function() {
+				this.moveSpy.restore();
+				this.getViewPaneSize.restore();
 				this.inlineToolbar.destroy();
 				this.inlineToolbar = null;
 			},
@@ -54,25 +70,19 @@
 			'test classic - out of view - bottom center': function() {
 				// Position acts as if the editor viewport was at position x: 260, 0.
 				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 129, bottom: 416.34375, right: 154, top: 401.34375 } );
-				var moveSpy = spy( this.inlineToolbar, 'move' );
 				balloonTestsTools.attachBalloon( this.inlineToolbar, this.markerElement );
 
-				balloonTestsTools.assertMoveTo( moveSpy, 92.5, 422 );
+				balloonTestsTools.assertMoveTo( this.moveSpy, 92.5, 422 );
 
-				moveSpy.restore();
 			},
 
 			'test classic - out of view - hcenter top': function() {
 				// Position acts as if the editor viewport was at position x: 260, 500.
 				this.markerElement.getClientRect = sinon.stub().returns( { height: 15, width: 25, left: 129, bottom: -75.65625, right: 154, top: -90.65625 } );
-				var moveSpy = spy( this.inlineToolbar, 'move' );
 				balloonTestsTools.attachBalloon( this.inlineToolbar, this.markerElement );
 
-				balloonTestsTools.assertMoveTo( moveSpy, 92.5, 363 );
-
-				moveSpy.restore();
+				balloonTestsTools.assertMoveTo( this.moveSpy, 92.5, 363 );
 			}
 		};
 	bender.test( tests );
-	CKEDITOR.dom.window.prototype.getViewPaneSize = restore;
 } )();
