@@ -109,7 +109,7 @@ words (i.e. characters) within a block of text.\n\
 * The cursor position relative to other headings in the document determines\n\
 which heading levels are allowed.\n\
 \n\
-* To create a new heading, move the cursor to a text block and selecting an\n\
+* To create a new heading, move the cursor to a text block and select an\n\
 allowed heading level.\n\
 \n\
 * To convert a heading to normal text, move the cursor to a heading and select\n\

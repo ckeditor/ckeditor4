@@ -6,7 +6,7 @@
 * The cursor position relative to other headings in the document determines
 which heading levels are allowed.
 
-* To create a new heading, move the cursor to a text block and selecting an
+* To create a new heading, move the cursor to a text block and select an
 allowed heading level.
 
 * To convert a heading to normal text, move the cursor to a heading and select
