@@ -2105,7 +2105,8 @@
 
 	// Returns first child text node of the given element.
 	//
-	// @param {CKEDITOR.htmlParser.element} el
+	// @param {CKEDITOR.htmlParser.element} el.
+	// @returns {CKEDITOR.htmlParser.text}
 	function getFirstTextNode( el ) {
 		return el.find( function( node ) {
 			return node.type === 3;
@@ -2115,7 +2116,8 @@
 
 	// Returns last child text node of the given element.
 	//
-	// @param {CKEDITOR.htmlParser.element} el
+	// @param {CKEDITOR.htmlParser.element} el.
+	// @returns {CKEDITOR.htmlParser.text}
 	function getLastTextNode( el ) {
 		return el.find( function( node ) {
 			return node.type === 3;
