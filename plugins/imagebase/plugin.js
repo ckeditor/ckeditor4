@@ -21,9 +21,33 @@
 			return toApply.join( ',' );
 		}
 
+		/**
+		 * This is an abstract class that describes a definition of an image widget.
+		 * It is a return type of {@link CKEDITOR.plugins.imagebase#createWidget} method.
+		 *
+		 * Note that because the image widget is a type of a widget, this definition extends
+		 * {@link CKEDITOR.plugins.widget.definition}.
+		 * It adds several parts of image and implements the {@link CKEDITOR.plugins.widget.definition#upcast} callback.
+		 * This callback should not be overwritten.
+		 *
+		 * @abstract
+		 * @class CKEDITOR.plugins.imagebase.imageWidgetDefinition
+		 * @mixins CKEDITOR.plugins.widget.definition
+		 */
 		return {
+			/**
+			 * @inheritdoc
+			 */
 			pathName: editor.lang.imagebase.pathName,
+
+			/**
+			 * @inheritdoc
+			 */
 			template: defaultTemplate,
+
+			/**
+			 * @inheritdoc
+			 */
 			allowedContent: {
 				img: {
 					attributes: '!src,alt,width,height'
@@ -33,8 +57,15 @@
 				},
 				figcaption: true
 			},
+
+			/**
+			 * @inheritdoc
+			 */
 			requiredContent: 'figure(!' + options.basicClass + ')',
 
+			/**
+			 * @inheritdoc
+			 */
 			editables: {
 				caption: {
 					selector: 'figcaption',
@@ -43,11 +74,20 @@
 				}
 			},
 
+			/**
+			 * @inheritdoc
+			 */
 			parts: {
 				image: 'img',
 				caption: 'figcaption'
 			},
 
+			/**
+			 * Image widget definition overwrites the {@link CKEDITOR.plugins.widget.definition#upcast} property.
+			 * This should not be changed.
+			 *
+			 * @property {Function}
+			 */
 			upcast: function( element ) {
 				// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
 				if ( element.attributes[ 'data-cke-realelement' ] ) {
@@ -59,6 +99,11 @@
 				}
 			},
 
+			/**
+			 * Invokes user defined widget initialization method.
+			 *
+			 * @property {Function}
+			 */
 			init: function() {
 				if ( options.init ) {
 					options.init.call( this );
@@ -72,7 +117,29 @@
 		lang: 'en'
 	} );
 
+	/**
+	 * Namespace providing a set of helper functions for working with image widgets.
+	 *
+	 * @since 4.8.0
+	 * @singleton
+	 * @class CKEDITOR.plugins.imagebase
+	 */
 	CKEDITOR.plugins.imagebase = {
+		/**
+		 * Creates new image widget based on passed options.
+		 *
+		 * @since 4.8.0
+		 * @param {CKEDITOR.editor} editor Editor that owns the new widget.
+		 * @param {String} name Name of newly created widget.
+		 * @param {Object} options Widget's options.
+		 * @param {String} options.basicClass Primary class for widget's element, that allows to properly
+		 * identify the widget.
+		 * @param {String[]} options.additionalClasses Additional classes that could be applied to widget's
+		 * element.
+		 * @param {CKEDITOR.filter.allowedContentRules} options.captionAllowedContent Allowed content inside
+		 * image's caption.
+		 * @param {Function} options.init Widget's initialization method.
+		 */
 		createWidget: function( editor, name, options ) {
 			var widget = editor.widgets.add( name, createWidgetDefinition( editor, options ) );
 
@@ -80,4 +147,3 @@
 		}
 	};
 }() );
-
