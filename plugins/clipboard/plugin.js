@@ -2615,9 +2615,9 @@
 	};
 
 	/**
-	 * True if the environment supports custom MIME types in dataTransfer/cliboardData getData/setData methods. Introduced
-	 * for Edge 16+ which supports only some whitelisted types (like 'text/html', 'application/xml'), but does not support
-	 * custom MIME types (like `cke/id`).
+	 * True if the environment supports custom MIME types in `dataTransfer/cliboardData` `getData/setData` methods. Introduced
+	 * to distinguish browsers which supports only some whitelisted types (like 'text/html', 'application/xml'), but does not support
+	 * custom MIME types (like `cke/id`) like Edge 16+.
 	 * This property should not be accessed directly, use {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#isRequired}
 	 * method instead.
 	 *
@@ -2655,8 +2655,8 @@
 
 		/**
 		 * Extracts and returns data of the given MIME type if stored in
-		 * {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_customDataFallbackType} special comment or if type
-		 * is the same as {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_customDataFallbackType}.
+		 * {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#\_customDataFallbackType} special comment or if type
+		 * is the same as {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#\_customDataFallbackType}.
 		 *
 		 * @param {String} type
 		 * @returns {String}
@@ -2680,11 +2680,11 @@
 		},
 
 		/**
-		 * Sets given data in native dataTransfer object. If given MIME type is not supported it uses
+		 * Sets given data in native `dataTransfer` object. If given MIME type is not supported it uses
 		 * {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_customDataFallbackType} MIME type
 		 * to save data using special comment format:
 		 *
-		 * <!--cke-data:{ type: value }-->
+		 * 		<!--cke-data:{ type: value }-->
 		 *
 		 * It is important to keep in mind that `{ type: value }` object is stringified (using `JSON.stringify`)
 		 * and encoded (using `encodeURIComponent`).
@@ -2761,12 +2761,12 @@
 		},
 
 		/**
-		 * Extracts `cke-data` comment from the given content. Returns an object containing extracted data as `data`
-		 * and content (without `cke-data` comment) as `content`.
+		 * Extracts `cke-data` comment from the given content.
 		 *
 		 * @private
 		 * @param {String} content
-		 * @returns {Object}
+		 * @returns {Object} Returns an object containing extracted data as `data`
+		 * and content (without `cke-data` comment) as `content`.
 		 * @returns {Object} return.data
 		 * @returns {String} return.content
 		 */
