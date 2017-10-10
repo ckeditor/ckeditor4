@@ -2022,8 +2022,8 @@
 				dataTransfer = new this.dataTransfer( nativeDataTransfer, sourceEditor );
 
 			// Set dataTransfer.id only for 'dragstart' event (so for events initializing dataTransfer inside editor) (#962).
-			if ( evt.name === 'dragstart' && clipboardIdDataType !== 'Text' ) {
-				dataTransfer.setData( clipboardIdDataType, dataTransfer.id );
+			if ( evt.name === 'dragstart' ) {
+				dataTransfer.setId( dataTransfer.id );
 			}
 
 			if ( !nativeDataTransfer ) {
@@ -2099,8 +2099,8 @@
 					dataTransfer = new this.dataTransfer( clipboardData, sourceEditor );
 
 				// Set dataTransfer.id only for 'copy'/'cut' events (so for events initializing dataTransfer inside editor) (#962).
-				if ( ( evt.name === 'copy' || evt.name === 'cut' ) && clipboardIdDataType !== 'Text' ) {
-					dataTransfer.setData( clipboardIdDataType, dataTransfer.id );
+				if ( evt.name === 'copy' || evt.name === 'cut' ) {
+					dataTransfer.setId( dataTransfer.id );
 				}
 
 				if ( this.copyCutData && dataTransfer.id == this.copyCutData.id ) {
@@ -2387,6 +2387,18 @@
 				try {
 					this.$.setData( type, value );
 				} catch ( e ) {}
+			}
+		},
+
+		/**
+		 * Sets dataTransfer id.
+		 *
+		 * @since 4.8
+		 * @param {String} id
+		 */
+		setId: function( id ) {
+			if ( clipboardIdDataType !== 'Text' ) {
+				this.setData( clipboardIdDataType, id );
 			}
 		},
 

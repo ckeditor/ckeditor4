@@ -36,25 +36,25 @@ bender.test( {
 	'test id': function() {
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			idMimeType = CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ? 'cke/id' : 'Text',
 			dataTransfer1a, dataTransfer1b, dataTransfer2;
 
 		// Setting id was moved from dataTransfer constructor to functions which initializes dataTransfer object
 		// only on specific events so we need to simulate these behaviour here too (#962).
 		dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 );
-		dataTransfer1a.setData( idMimeType, dataTransfer1a.id );
+		dataTransfer1a.setId( dataTransfer1a.id );
 
 		dataTransfer1b = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 );
-		dataTransfer1b.setData( idMimeType, dataTransfer1b.id );
+		dataTransfer1b.setId( dataTransfer1b.id );
 
 		dataTransfer2 = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData2 );
-		dataTransfer2.setData( idMimeType, dataTransfer2.id );
+		dataTransfer2.setId( dataTransfer2.id );
 
 		assert.areSame( dataTransfer1a.id, dataTransfer1b.id, 'Ids for object based on the same event should be the same.' );
 
 		// In IE we can not use any data type besides text, so id is fixed.
-		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported )
+		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			assert.areNotSame( dataTransfer1a.id, dataTransfer2.id, 'Ids for object based on different events should be different.' );
+		}
 	},
 
 	'test internal drag drop': function() {
