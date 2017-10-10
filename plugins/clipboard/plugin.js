@@ -2152,7 +2152,7 @@
 			this.$ = nativeDataTransfer;
 		}
 
-		this.customDataFallbackType = 'text/html';
+		this.fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( this.$ );
 
 		this._ = {
 			metaRegExp: /^<meta.*?>/i,
@@ -2234,11 +2234,12 @@
 		 */
 
 		/**
-		 * The MIME type which is used to store custom data (in special `<!-- cke-data: encoded JSON -->` comment)
-		 * when browser does not allow to use custom MIME types in `dataTransfer.setData`.
+		 * Fallback object which is used in browsers not supporting custom
+		 * MIME types in native `dataTransfer.setData` (Edge 16+).
 		 *
+		 * @since 4.8
 		 * @readonly
-		 * @property {String} customDataFallbackType
+		 * @property {CKEDITOR.plugins.clipboard.fallbackDataTransfer} fallbackDataTransfer
 		 */
 	};
 
@@ -2308,32 +2309,22 @@
 			type = this._.normalizeType( type );
 
 			var data = this._.data[ type ],
-				content,
 				result;
 
 			if ( isEmpty( data ) ) {
-				try {
-					data = this.$.getData( type );
-				} catch ( e ) {}
-			}
 
-			// If we are getting the same type which may store custom data we need to extract it (removing custom data comment).
-			// Or if we are getting different type and it is empty we need to check inside data comment if it is stored there.
-			if ( !isEmpty( data ) && type === this.customDataFallbackType ) {
-				content = this._extractDataComment( data );
-				data = content.content;
+				// First get data using fallback object and then proceed with regular flow.
+				if ( this.fallbackDataTransfer.isRequired() ) {
+					data = this.fallbackDataTransfer.getData( type );
+				}
 
-			} else if ( isEmpty( data ) ) {
-				try {
-					content = this._extractDataComment( this.$.getData( this.customDataFallbackType ) );
-					if ( content.data && content.data[ type ] ) {
-						data = content.data[ type ];
+				if ( isEmpty( data ) ) {
+					try {
+						data = this.$.getData( type ) || '';
+					} catch ( e ) {
+						data = '';
 					}
-				} catch ( e ) {}
-			}
-
-			if ( isEmpty( data ) ) {
-				data = '';
+				}
 			}
 
 			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
@@ -2389,21 +2380,13 @@
 				this.id = value;
 			}
 
-			// Extract custom data if used type is the same one which is used for storing it.
-			// Then new value is added to a custom data so it will not be overwritten entirely.
-			if ( type === this.customDataFallbackType ) {
-				var content = null;
-				try {
-					content = this._extractDataComment( this.$.getData( this.customDataFallbackType ) );
-				} catch ( e ) {}
-
-				if ( content && content.data ) {
-					value = this._applyDataComment( value, content.data );
-				}
-				this._setCustomData( type, value );
+			if ( this.fallbackDataTransfer.isRequired() ) {
+				this.fallbackDataTransfer.setData( type, value );
 
 			} else {
-				this._setCustomData( type, value, CKEDITOR.env.ie && CKEDITOR.env.version >= 16 );
+				try {
+					this.$.setData( type, value );
+				} catch ( e ) {}
 			}
 		},
 
@@ -2588,43 +2571,182 @@
 			}
 
 			return undefined;
+		}
+	};
+
+	/**
+	 * Fallback dataTransfer object which is used together with {@link CKEDITOR.plugins.clipboard.dataTransfer}
+	 * for browsers supporting Clipboard API, but not supporting custom MIME types (Edge 16+).
+	 *
+	 * @since 4.8
+	 * @class CKEDITOR.plugins.clipboard.fallbackDataTransfer
+	 * @constructor Creates a class instance.
+	 * @param {Object} [nativeDataTransfer] A native data transfer object.
+	 * @param {String} [customDataFallbackType=text/html] A MIME type used for storing custom data types.
+	 */
+	CKEDITOR.plugins.clipboard.fallbackDataTransfer = function( nativeDataTransfer, customDataFallbackType ) {
+
+		/**
+		 * A native dataTransfer object.
+		 *
+		 * @private
+		 * @property {Object} _nativeDataTransfer
+		 */
+		this._nativeDataTransfer = nativeDataTransfer;
+
+		/**
+		 * A MIME type used for storing custom MIME types. Defaults to 'text/html'.
+		 *
+		 * @private
+		 * @property {String} _customDataFallbackType
+		 */
+		this._customDataFallbackType =  customDataFallbackType || 'text/html';
+	};
+
+	/**
+	 * True if the environment supports custom MIME types in dataTransfer/cliboardData getData/setData methods. Introduced
+	 * for Edge 16+ which supports only some whitelisted types (like 'text/html', 'application/xml'), but does not support
+	 * custom MIME types (like `cke/id`).
+	 * This property should not be accessed directly, use {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#isRequired}
+	 * method instead.
+	 *
+	 * @private
+	 * @static
+	 * @property {Boolean}
+	 */
+	CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = null;
+
+	CKEDITOR.plugins.clipboard.fallbackDataTransfer.prototype = {
+		/**
+		 * Whether {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer} should be used when operating on dataTransfer.
+		 * If true is returned, it means custom MIME types are not supported in the current browser
+		 * (see {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_isCustomMimeTypeSupported}).
+		 *
+		 * @returns {Boolean}
+		 */
+		isRequired: function() {
+			if ( CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported === null ) {
+
+				CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = true;
+
+				try {
+					this._nativeDataTransfer.setData( 'cke/mimetypetest', 'test value' );
+					this._nativeDataTransfer.setData( 'cke/mimetypetest', null );
+				} catch ( e ) {
+					if ( this._isUnsupportedMimeTypeError( e ) ) {
+						CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = false;
+					}
+				}
+			}
+
+			return !CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported;
 		},
 
 		/**
-		 * Additional layer over `dataTransfer.setData` method. If used with `useFallback = true` in case of native `setData`
-		 * throwing an error it will try to place passed value in
-		 * {@link CKEDITOR.plugins.clipboard.dataTransfer#customDataFallbackType} type using special comment format:
+		 * Extracts and returns data of the given MIME type if stored in
+		 * {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_customDataFallbackType} special comment or if type
+		 * is the same as {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_customDataFallbackType}.
+		 *
+		 * @param {String} type
+		 * @returns {String}
+		 */
+		getData: function( type ) {
+			var value = null;
+
+			// If we are getting the same type which may store custom data we need to extract it (removing custom data comment).
+			if ( type === this._customDataFallbackType ) {
+				value = this._extractDataComment( this._getData( type ) ).content;
+
+			// If we are getting different type we need to check inside data comment if it is stored there.
+			} else {
+				var result = this._extractDataComment( this._getData( this._customDataFallbackType ) );
+				if ( result.data && result.data[ type ] ) {
+					value = result.data[ type ];
+				}
+			}
+
+			return value;
+		},
+
+		/**
+		 * Sets given data in native dataTransfer object. If given MIME type is not supported it uses
+		 * {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_customDataFallbackType} MIME type
+		 * to save data using special comment format:
 		 *
 		 * <!--cke-data:{ type: value }-->
 		 *
 		 * It is important to keep in mind that `{ type: value }` object is stringified (using `JSON.stringify`)
 		 * and encoded (using `encodeURIComponent`).
 		 *
+		 * @param {String} type
+		 * @param {String} value
+		 */
+		setData: function( type, value ) {
+			// Extract custom data if used type is the same one which is used for storing it.
+			if ( type === this._customDataFallbackType ) {
+				var content = this._extractDataComment( this._getData( this._customDataFallbackType ) );
+
+				if ( content && content.data ) {
+					value = this._applyDataComment( value, content.data );
+				}
+			}
+
+			try {
+				this._nativeDataTransfer.setData( type, value );
+			} catch ( e ) {
+				if ( this._isUnsupportedMimeTypeError( e ) ) {
+					// We need to get the data first to append `type` and not to overwrite whole custom data.
+					var current = this._extractDataComment( this._getData( this._customDataFallbackType ) );
+
+					if ( !current.data ) {
+						current.data = {};
+					}
+					current.data[ type ] = value;
+
+					this._setData( this._customDataFallbackType, this._applyDataComment( current.content, current.data ) );
+				}
+			}
+		},
+
+		/**
+		 * Native getData wrapper.
+		 *
+		 * @private
+		 * @param {String} type
+		 * @returns {String}
+		 */
+		_getData: function( type ) {
+			try {
+				return this._nativeDataTransfer.getData( type );
+			} catch ( e ) {
+				return null;
+			}
+		},
+
+		/**
+		 * Native setData wrapper.
+		 *
 		 * @private
 		 * @param {String} type
 		 * @param {String} value
-		 * @param {Boolean} useFallback
 		 */
-		_setCustomData: function( type, value, useFallback ) {
+		_setData: function( type, value ) {
 			try {
-				this.$.setData( type, value );
-
+				this._nativeDataTransfer.setData( type, value );
 			} catch ( e ) {
-				if ( useFallback ) {
-					// Still in some situations some browsers may throw errors even when using predefined MIME types.
-					try {
-						// We need to get the data first to append `type` and not to overwrite whole custom data.
-						var content = this._extractDataComment( this.$.getData( this.customDataFallbackType ) );
-
-						if ( !content.data ) {
-							content.data = {};
-						}
-						content.data[ type ] = value;
-
-						this.$.setData( this.customDataFallbackType, this._applyDataComment( content.content, content.data ) );
-					} catch ( e ) {}
-				}
+				// Some dev logger should be added here.
 			}
+		},
+
+		/**
+		 * Whether provided error means that unsupported MIME type was used when calling native `dataTransfer.setData` method.
+		 *
+		 * @private
+		 * @param {Object} error
+		 * @returns {Boolean}
+		 */
+		_isUnsupportedMimeTypeError: function( error ) {
+			return error.message.search( /element not found/gi ) !== -1;
 		},
 
 		/**
@@ -2673,6 +2795,7 @@
 			return customData + ( content && content.length ? content : '' );
 		}
 	};
+
 } )();
 
 /**
