@@ -558,6 +558,7 @@
 
 				bot.dialog( 'link', function( dialog ) {
 					assert.areSame( dialog.getValueOf( 'info', 'url' ), 'linkUrl' );
+					dialog.hide();
 				} );
 			} );
 		}
