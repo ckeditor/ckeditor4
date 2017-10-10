@@ -1,6 +1,6 @@
 @bender-tags: 4.8.0, bug, 1008
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog
+@bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton, colordialog, format
 
 ** Scenario 1: **
 
