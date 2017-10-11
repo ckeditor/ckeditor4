@@ -64,7 +64,7 @@
 			// Instert fake element from external data transfer on Chrome (#638).
 			editor.on( 'paste', function( evt ) {
 				// External paste and pasteFilter exists and filtering isn't disabled.
-				if ( CKEDITOR.env.chrome && evt.data.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL && editor.pasteFilter && !evt.data.dontFilter ) {
+				if ( CKEDITOR.env.chrome && ( evt.data.dataTransfer.getTransferType( editor ) === CKEDITOR.DATA_TRANSFER_EXTERNAL ) && editor.pasteFilter && !evt.data.dontFilter ) {
 					var dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
 							evt.data.dataTransfer.getData( 'text/html', true ) : null,
 						regex = /<img.+?data-cke-realelement.+?>/g,
