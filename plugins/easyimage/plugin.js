@@ -107,7 +107,7 @@
 				return;
 			}
 
-			evt.data.allowedContent.figure.classes += ',!' + editor.config.easyimage_class + ',' +
+			evt.data.allowedContent.figure.classes += ', img[srcset], !' + editor.config.easyimage_class + ',' +
 				editor.config.easyimage_sideClass;
 
 			// Block default image dialog.
@@ -158,7 +158,10 @@
 			},
 
 			onUploaded: function( upload ) {
-				this.replaceWith( '<img src="' + upload.responseData.response[ 'default' ] + '">' );
+				var srcset = CKEDITOR.plugins.easyimage._parseSrcSet( upload.responseData.response );
+
+				this.replaceWith( '<img src="' + upload.responseData.response[ 'default' ] + '" srcset="' +
+					srcset + '" sizes="100vw">' );
 			}
 		} );
 
@@ -209,6 +212,38 @@
 			editor.addContentsCss( plugin.path + 'styles/easyimage.css' );
 		}
 	}
+
+	/**
+	 * Namespace providing a set of helper functions for Easy Image plugin.
+	 *
+	 * @since 4.8.0
+	 * @singleton
+	 * @class CKEDITOR.plugins.easyimage
+	 */
+	CKEDITOR.plugins.easyimage = {
+		/**
+		 * Converts response from the server into proper `[srcset]` attribute.
+		 *
+		 * @since 4.8.0
+		 * @private
+		 * @param {Object} srcs Sources list to be parsed.
+		 * @returns {String} `img[srcset]` attribute.
+		 */
+		_parseSrcSet: function( srcs ) {
+			var srcset = [],
+				src;
+
+			for ( src in srcs ) {
+				if ( src === 'default' ) {
+					continue;
+				}
+
+				srcset.push( srcs[ src ] + ' ' + src + 'w' );
+			}
+
+			return srcset.join( ', ' );
+		}
+	};
 
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'image2,uploadwidget,contextmenu,dialog',
