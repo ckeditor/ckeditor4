@@ -59,6 +59,19 @@
         }
       } );
 
+      editor.addCommand( 'normalText', {
+        allowedContent: allowedContent,
+        contextSensitive: true,
+        exec: function( editor ) {
+          var currentHeadingElement = plugin.getCurrentHeadingElement( editor );
+          var normalTextStyle = new CKEDITOR.style( { element: 'p' } );
+          if ( currentHeadingElement ) {
+            editor[ 'applyStyle' ]( normalTextStyle );
+            editor.focus();
+          }
+        }
+      } )
+
       // Create item entry for each heading element in config
       for ( var i = 0; i < headings.length; i++ ) {
         headingTag = headings[ i ];
@@ -86,11 +99,7 @@
         state: CKEDITOR.TRISTATE_DISABLED,
         order: headings.length,
         onClick: function() {
-          var currentHeadingElement = plugin.getCurrentHeadingElement( editor );
-          if ( currentHeadingElement ) {
-            editor[ 'applyStyle' ]( this.style );
-            editor.focus();
-          }
+          editor.execCommand( 'normalText' );
         }
       };
 
@@ -100,7 +109,7 @@
         group: 'heading_actions',
         order: headings.length + 2,
         onClick: function() {
-          editor.a11yfirst.helpOption = 'HeadingHelp';        
+          editor.a11yfirst.helpOption = 'HeadingHelp';
           editor.execCommand('a11yFirstHelpDialog');
         }
       };
