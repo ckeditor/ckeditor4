@@ -8,7 +8,7 @@ This repository contains the development version of CKEditor 4.
 development purposes only. We do not recommend using it in production environment
 because the user experience will be very limited. For that purpose, you should
 either build the editor (see below) or use an official release available on the
-[CKEditor website](http://ckeditor.com/ckeditor-4/).
+[CKEditor website](https://ckeditor.com/ckeditor-4/).
 
 ## Code Installation
 

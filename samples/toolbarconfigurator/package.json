@@ -2,7 +2,7 @@
   "name": "ckeditor-toolbarconfigurator",
   "version": "0.0.0",
   "description": "",
-  "author": "CKSource (http://cksource.com/)",
+  "author": "CKSource (https://cksource.com/)",
   "license": "For licensing, see LICENSE.md or http://ckeditor.com/license.",
   "devDependencies": {
     "benderjs": "~0.2.1",

@@ -17,6 +17,6 @@ For more advanced needs (e.g. CKEditor integration in your products, or developm
 
 For more reading visit our supporting resources:
 
-* An extensive [CKEditor 4 documentation](http://docs.ckeditor.com/) with information about CKEditor features and configuration settings.
+* An extensive [CKEditor 4 documentation](https://docs.ckeditor.com/ckeditor4/latest/) with information about CKEditor features and configuration settings.
 * [CKEditor 4 samples](http://sdk.ckeditor.com/) that you can try out and even download to copy and implement in your own environment.
 * A knowledge base with [Frequently Asked Questions](https://support.ckeditor.com/hc/en-us/sections/115000842245-CKEditor-4-FAQ).

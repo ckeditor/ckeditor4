@@ -163,7 +163,7 @@ CKEDITOR.plugins.add( 'contextmenu', {
  */
 
 /**
- * Whether to enable the context menu. Regardless of the setting the [Context Menu](http://ckeditor.com/addon/contextmenu)
+ * Whether to enable the context menu. Regardless of the setting the [Context Menu](https://ckeditor.com/addon/contextmenu)
  * plugin is still loaded.
  *
  *		config.enableContextMenu = false;

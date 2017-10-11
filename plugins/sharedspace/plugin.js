@@ -138,7 +138,7 @@
  *			top: htmlElement
  *		};
  *
- * **Note:** The [Maximize](http://ckeditor.com/addon/maximize) and [Editor Resize](http://ckeditor.com/addon/resize)
+ * **Note:** The [Maximize](https://ckeditor.com/addon/maximize) and [Editor Resize](https://ckeditor.com/addon/resize)
  * features are not supported in the shared space environment and should be disabled in this context.
  *
  *		config.removePlugins = 'maximize,resize';

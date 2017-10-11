@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview The [Stylesheet Parser](http://ckeditor.com/addon/stylesheetparser) plugin.
+ * @fileOverview The [Stylesheet Parser](https://ckeditor.com/addon/stylesheetparser) plugin.
  */
 
 ( function() {

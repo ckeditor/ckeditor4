@@ -25,10 +25,10 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"author": "CKSource (http://cksource.com/)",
+	"author": "CKSource (https://cksource.com/)",
 	"license": "(GPL-2.0 OR LGPL-2.1 OR MPL-1.1)",
-	"bugs": "http://dev.ckeditor.com",
-	"homepage": "http://ckeditor.com",
+	"bugs": "https://dev.ckeditor.com",
+	"homepage": "https://ckeditor.com",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ckeditor/ckeditor-dev.git"

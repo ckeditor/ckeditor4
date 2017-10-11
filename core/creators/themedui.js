@@ -309,7 +309,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 	/**
 	 * Gets the element that can be used to check the editor size. This method
-	 * is mainly used by the [Editor Resize](http://ckeditor.com/addon/resize) plugin, which adds
+	 * is mainly used by the [Editor Resize](https://ckeditor.com/addon/resize) plugin, which adds
 	 * a UI handle that can be used to resize the editor.
 	 *
 	 * @param {Boolean} forContents Whether to return the "contents" part of the theme instead of the container.

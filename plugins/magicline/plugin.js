@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview The [Magic Line](http://ckeditor.com/addon/magicline) plugin that makes it easier to access some document areas that
+ * @fileOverview The [Magic Line](https://ckeditor.com/addon/magicline) plugin that makes it easier to access some document areas that
  * are difficult to focus.
  */
 

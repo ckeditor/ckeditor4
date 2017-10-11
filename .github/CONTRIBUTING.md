@@ -9,7 +9,7 @@ If you are preparing a pull request, see [Contributing Code and Providing Patche
 If you would like to contribute in any other way, you can consider the following actions:
 
 1. Create your own [plugins](http://docs.ckeditor.com/#!/guide/plugin_sdk_sample) or [skins](http://docs.ckeditor.com/#!/guide/skin_sdk_intro)
-and submit them to [CKEditor Add-Ons Repository](http://ckeditor.com/addons/plugins).
+and submit them to [CKEditor Add-Ons Repository](https://ckeditor.com/addons/plugins).
 2. Help localize CKEditor into your native language and update existing localizations by joining us at the
 [CKEditor UI Translation Center](https://www.transifex.com/ckeditor/ckeditor/).
 3. Join StackOverflow and share your knowledge with [fellow CKEditor users and developers](http://stackoverflow.com/questions/tagged/ckeditor).

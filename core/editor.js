@@ -1476,7 +1476,7 @@
 		/**
 		 * Shows a notification to the user.
 		 *
-		 * If the [Notification](http://ckeditor.com/addons/notification) plugin is not enabled, this function shows
+		 * If the [Notification](https://ckeditor.com/cke4/addon/notification) plugin is not enabled, this function shows
 		 * a normal alert with the given `message`. The `type` and `progressOrDuration` parameters are supported
 		 * only by the Notification plugin.
 		 *
