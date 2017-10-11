@@ -15,8 +15,8 @@
 				CKEDITOR.ajax.load( './_fixtures/' + name + '.rtf?' + cacheBuster(), function( rtf ) {
 					CKEDITOR.ajax.load( './_fixtures/' + name + '.json?' + cacheBuster(), function( json ) {
 						resume( function() {
-							var actualResult = CKEDITOR.plugins.pastefromwordimage.extractImagesFromRtf( rtf );
-							var expectedResult = JSON.parse( json );
+							var actualResult = CKEDITOR.plugins.pastefromwordimage.extractImagesFromRtf( rtf ),
+								expectedResult = JSON.parse( json );
 							assert.areSame( expectedResult.length, actualResult.length );
 							for ( var i = 0; i < actualResult.length; i++ ) {
 								objectAssert.areEqual( expectedResult[ i ], actualResult[ i ] );
