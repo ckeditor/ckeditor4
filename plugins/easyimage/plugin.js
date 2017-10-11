@@ -8,6 +8,11 @@
 
 	var stylesLoaded = false;
 
+	// jscs:disable maximumLineLength
+	// Black rectangle which is shown before image is loaded.
+	var loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
+	// jscs:enable maximumLineLength
+
 	function addCommands( editor ) {
 		function isSideImage( widget ) {
 			return widget.element.hasClass( editor.config.easyimage_sideClass );
@@ -132,26 +137,51 @@
 	}
 
 	function registerUploadWidget( editor ) {
-		editor.on( 'widgetDefinition', function( evt ) {
-			if ( evt.data.name !== 'uploadimage' ) {
-				return;
+		var uploadUrl = CKEDITOR.fileTools.getUploadUrl( editor.config, 'easyimage' );
+
+		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadeasyimage', {
+			supportedTypes: /image\/(jpeg|png|gif|bmp)/,
+
+			uploadUrl: uploadUrl,
+
+			loadMethod: 'loadAndUpload',
+
+			additionalRequestParameters: {
+				isEasyImage: true
+			},
+
+			fileToElement: function() {
+				var img = new CKEDITOR.dom.element( 'img' );
+				img.setAttribute( 'src', loadingImage );
+				return img;
+			},
+
+			parts: {
+				img: 'img'
+			},
+
+			onUploading: function( upload ) {
+				// Show the image during the upload.
+				this.parts.img.setAttribute( 'src', URL.createObjectURL( upload.file ) );
+			},
+
+			onUploaded: function( upload ) {
+				this.replaceWith( '<img src="' + upload.responseData.response[ 'default' ] + '">' );
 			}
-
-			evt.data.onUploaded = function( upload ) {
-				var $img = this.parts.img.$,
-					width = $img.naturalWidth,
-					height = $img.naturalHeight;
-
-				// Set width and height to prevent blinking.
-				this.replaceWith( '<img src="' + upload.responseData.url[ 'default' ] + '" ' +
-					'width="' + width + '" ' +
-					'height="' + height + '">' );
-			};
 		} );
 
 		editor.on( 'fileUploadRequest', function( evt ) {
+			var requestData = evt.data.requestData;
+
+			if ( !requestData.isEasyImage ) {
+				return;
+			}
+
 			evt.data.requestData.file = evt.data.requestData.upload;
 			delete evt.data.requestData.upload;
+
+			// This property is used by fileUploadResponse callback to identify EI requests.
+			evt.data.fileLoader.isEasyImage = true;
 
 			evt.data.fileLoader.xhr.setRequestHeader( 'Authorization', editor.config.easyimage_token );
 		} );
@@ -159,15 +189,18 @@
 		editor.on( 'fileUploadResponse', function( evt ) {
 			var fileLoader = evt.data.fileLoader,
 				xhr = fileLoader.xhr,
-				data = evt.data,
 				response;
+
+			if ( !fileLoader.isEasyImage ) {
+				return;
+			}
 
 			evt.stop();
 
 			try {
 				response = JSON.parse( xhr.responseText );
 
-				data.url = response;
+				evt.data.response = response;
 			} catch ( e ) {
 				CKEDITOR.warn( 'filetools-response-error', { responseText: xhr.responseText } );
 			}
@@ -186,7 +219,7 @@
 	}
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'imagebase,uploadimage,contextmenu,dialog',
+		requires: 'imagebase,uploadwidget,contextmenu,dialog',
 		lang: 'en',
 
 		onLoad: function() {
