@@ -110,7 +110,7 @@ function getToken( callback ) {
 getToken( function( token ) {
 	CKEDITOR.replace( 'editor', {
 		extraPlugins: 'easyimage',
-		imageUploadUrl: 'https://files.cke-cs.com/upload/',
+		easyimageUploadUrl: 'https://files.cke-cs.com/upload/',
 		easyimage_token: token,
 		height: 500
 	} );
