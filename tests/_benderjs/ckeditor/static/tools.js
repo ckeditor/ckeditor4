@@ -831,11 +831,15 @@
 						return;
 					}
 
-					// While Edge 16+ supports Clipboard API, it does not support custom mime types in setData.
+					// While Edge 16+ supports Clipboard API, it does not support custom mime types
+					// in `setData` and throws `Element not found.` if such are used.
 					if ( CKEDITOR.env.edge && CKEDITOR.env.version >= 16 &&
 						CKEDITOR.tools.indexOf( [ 'Text', 'URL', 'text/plain', 'text/html', 'application/xml' ], type ) === -1 ) {
 
-						throw 'Element not found.';
+						throw {
+							name: 'Error',
+							message: 'Element not found.'
+						};
 					}
 
 					if ( type == 'text/plain' || type == 'Text' ) {

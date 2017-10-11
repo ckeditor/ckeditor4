@@ -139,129 +139,129 @@ bender.test( {
 	},
 
 	'test _applyDataComment case1': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			expected = document.querySelector( '#case1' ).innerHTML;
 
-		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p>', { test: 1 }, dataTransfer, expected );
+		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p>', { test: 1 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment case2': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			expected = document.querySelector( '#case2' ).innerHTML;
 
-		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p>', { test: 1, comment: '<!-- comment -->' }, dataTransfer, expected );
+		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p>', { test: 1, comment: '<!-- comment -->' }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment case3': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#case3' ).innerHTML );
 
-		this.assertApplyDataComment( '<!-- Start Comment --><h1>Header1</h1><p>Test1</p>', { test: 1 }, dataTransfer, expected );
+		this.assertApplyDataComment( '<!-- Start Comment --><h1>Header1</h1><p>Test1</p>', { test: 1 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment case4': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#case4' ).innerHTML );
 
-		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p><!-- End Comment -->', { test: 123 }, dataTransfer, expected );
+		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p><!-- End Comment -->', { test: 123 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment with empty content': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#empty-content' ).innerHTML );
 
-		this.assertApplyDataComment( undefined, { test: 1 }, dataTransfer, expected );
-		this.assertApplyDataComment( null, { test: 1 }, dataTransfer, expected );
-		this.assertApplyDataComment( '', { test: 1 }, dataTransfer, expected );
+		this.assertApplyDataComment( undefined, { test: 1 }, dataTransferFallback, expected );
+		this.assertApplyDataComment( null, { test: 1 }, dataTransferFallback, expected );
+		this.assertApplyDataComment( '', { test: 1 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment with empty data': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#empty-data' ).innerHTML );
 
-		this.assertApplyDataComment( '<p>foobar</p>', '', dataTransfer, expected );
-		this.assertApplyDataComment( '<p>foobar</p>', null, dataTransfer, expected );
-		this.assertApplyDataComment( '<p>foobar</p>', {}, dataTransfer, expected );
+		this.assertApplyDataComment( '<p>foobar</p>', '', dataTransferFallback, expected );
+		this.assertApplyDataComment( '<p>foobar</p>', null, dataTransferFallback, expected );
+		this.assertApplyDataComment( '<p>foobar</p>', {}, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment with empty content and data': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			expected = '';
 
-		this.assertApplyDataComment( undefined, null, dataTransfer, expected );
-		this.assertApplyDataComment( null, undefined, dataTransfer, expected );
-		this.assertApplyDataComment( '', {}, dataTransfer, expected );
+		this.assertApplyDataComment( undefined, null, dataTransferFallback, expected );
+		this.assertApplyDataComment( null, undefined, dataTransferFallback, expected );
+		this.assertApplyDataComment( '', {}, dataTransferFallback, expected );
 	},
 
 	'test _extractDataComment case1': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			content = document.querySelector( '#case1' ).innerHTML,
-			extracted = dataTransfer._extractDataComment( content );
+			extracted = fallbackDataTransfer._extractDataComment( content );
 
 		objectAssert.areEqual( extracted.data, { test: 1 } );
 		assert.isInnerHtmlMatching( '<h1>Header1</h1><p>Test1</p>', extracted.content );
 	},
 
 	'test _extractDataComment case2': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			content = document.querySelector( '#case2' ).innerHTML,
-			extracted = dataTransfer._extractDataComment( content );
+			extracted = fallbackDataTransfer._extractDataComment( content );
 
 		objectAssert.areEqual( extracted.data, { test: 1, comment: '<!-- comment -->' } );
 		assert.isInnerHtmlMatching( '<h1>Header1</h1><p>Test1</p>', extracted.content );
 	},
 
 	'test _extractDataComment case3': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			content = document.querySelector( '#case3' ).innerHTML,
-			extracted = dataTransfer._extractDataComment( content );
+			extracted = fallbackDataTransfer._extractDataComment( content );
 
 		objectAssert.areEqual( extracted.data, { test: 1 } );
 		assert.isInnerHtmlMatching( '<!-- Start Comment --><h1>Header1</h1><p>Test1</p>', extracted.content );
 	},
 
 	'test _extractDataComment case4': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			content = document.querySelector( '#case4' ).innerHTML,
-			extracted = dataTransfer._extractDataComment( content );
+			extracted = fallbackDataTransfer._extractDataComment( content );
 
 		objectAssert.areEqual( extracted.data, { test: 123 } );
 		assert.isInnerHtmlMatching( '<h1>Header1</h1><p>Test1</p><!-- End Comment -->', extracted.content );
 	},
 
 	'test _extractDataComment with empty content': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			content = CKEDITOR.tools.trim( document.querySelector( '#empty-content' ).innerHTML ),
-			extracted = dataTransfer._extractDataComment( content );
+			extracted = fallbackDataTransfer._extractDataComment( content );
 
 		objectAssert.areEqual( extracted.data, { test: 1 } );
 		assert.areSame( '', extracted.content );
 	},
 
 	'test _extractDataComment with empty data': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
 			content = CKEDITOR.tools.trim( document.querySelector( '#empty-data' ).innerHTML ),
-			extracted = dataTransfer._extractDataComment( content );
+			extracted = fallbackDataTransfer._extractDataComment( content );
 
 		assert.isNull( extracted.data );
 		assert.isInnerHtmlMatching( '<p>foobar</p>', extracted.content );
 	},
 
 	'test _extractDataComment with empty data and content': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} ),
-			extracted = dataTransfer._extractDataComment( '' );
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+			extracted = fallbackDataTransfer._extractDataComment( '' );
 
 		assert.isNull( extracted.data );
 		assert.areSame( '', extracted.content );
 	},
 
 	'test _extractDataComment with falsy value': function() {
-		var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {} );
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} );
 
-		assert.areSame( '', dataTransfer._extractDataComment( '' ).content );
-		assert.areSame( '', dataTransfer._extractDataComment( null ).content );
-		assert.areSame( '', dataTransfer._extractDataComment( undefined ).content );
-		assert.areSame( '', dataTransfer._extractDataComment( false ).content );
+		assert.areSame( '', fallbackDataTransfer._extractDataComment( '' ).content );
+		assert.areSame( '', fallbackDataTransfer._extractDataComment( null ).content );
+		assert.areSame( '', fallbackDataTransfer._extractDataComment( undefined ).content );
+		assert.areSame( '', fallbackDataTransfer._extractDataComment( false ).content );
 	},
 
 	assertDataTransferType: function( dataTransfer, type, value, customValue ) {
@@ -271,8 +271,8 @@ bender.test( {
 		assert.areSame( value, dataTransfer.$.getData( type ) );
 	},
 
-	assertApplyDataComment: function( content, data, dataTransfer, expected ) {
-		assert.isInnerHtmlMatching( expected.replace( /[\n\r\t]*/g, '' ), dataTransfer._applyDataComment( content, data ) );
+	assertApplyDataComment: function( content, data, dataTransferFallback, expected ) {
+		assert.isInnerHtmlMatching( expected.replace( /[\n\r\t]*/g, '' ), dataTransferFallback._applyDataComment( content, data ) );
 	}
 } );
 
@@ -281,3 +281,7 @@ function getDataNoCache( dataTransfer, type ) {
 	dataTransfer._.data = {};
 	return dataTransfer.getData( type );
 }
+
+
+// check if 'text/html' read from cache works fine
+// check if 'text/html' with data '0' is not nulled
