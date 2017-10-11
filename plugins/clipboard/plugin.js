@@ -2569,9 +2569,7 @@
 		_getImageFromClipboard: function() {
 			var file;
 
-			// The dataTransfer.items is not supported in IE/Edge. This function is used as a backup always after
-			// dataTransfer.files is checked so there is no need for implementing more logic than ignoring IE/Edge (#468).
-			if ( !CKEDITOR.env.ie && this.$ && this.$.items && this.$.items[ 0 ] ) {
+			if ( this.$ && this.$.items && this.$.items[ 0 ] ) {
 				try {
 					file = this.$.items[ 0 ].getAsFile();
 					// Duck typing

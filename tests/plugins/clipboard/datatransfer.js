@@ -566,11 +566,6 @@ bender.test( {
 
 	// http://dev.ckeditor.com/ticket/12961
 	'test file in items': function() {
-		// DataTransfer.items is not supported in IE/EDGE so there is no reason to test it.
-		if ( CKEDITOR.env.ie ) {
-			assert.ignore();
-		}
-
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
 			file = { type: 'type' };
@@ -656,11 +651,6 @@ bender.test( {
 
 	// http://dev.ckeditor.com/ticket/12961
 	'test file in items with cache': function() {
-		// DataTransfer.items is not supported in IE/EDGE so there is no reason to test it.
-		if ( CKEDITOR.env.ie ) {
-			assert.ignore();
-		}
-
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
 			file = { type: 'type' };
