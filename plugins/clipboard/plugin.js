@@ -355,9 +355,10 @@
 			// events chain.
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data;
-
 				if ( data.dataValue ) {
 					editor.insertHtml( data.dataValue, data.type, data.range );
+
+					// debugger;
 
 					// Defer 'afterPaste' so all other listeners for 'paste' will be fired first.
 					// Fire afterPaste only if paste inserted some HTML.
@@ -2311,6 +2312,8 @@
 			var data = this._.data[ type ],
 				result;
 
+
+
 			if ( isEmpty( data ) ) {
 
 				if ( this.fallbackDataTransfer.isRequired() ) {
@@ -2635,6 +2638,12 @@
 		 * @returns {Boolean}
 		 */
 		isRequired: function() {
+			// If there is no `dataTransfer` we cannot detect if fallback is needed.
+			// Method returns `false` so regular flow will be applied.
+			if ( !this._nativeDataTransfer ) {
+				return false;
+			}
+
 			if ( CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported === null ) {
 
 				CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = true;
