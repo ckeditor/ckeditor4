@@ -2313,12 +2313,10 @@
 
 			if ( isEmpty( data ) ) {
 
-				// First get data using fallback object and then proceed with regular flow.
 				if ( this.fallbackDataTransfer.isRequired() ) {
 					data = this.fallbackDataTransfer.getData( type );
-				}
 
-				if ( isEmpty( data ) ) {
+				} else {
 					try {
 						data = this.$.getData( type ) || '';
 					} catch ( e ) {
@@ -2655,9 +2653,8 @@
 		},
 
 		/**
-		 * Extracts and returns data of the given MIME type if stored in
-		 * {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#\_customDataFallbackType} special comment or if type
-		 * is the same as {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#\_customDataFallbackType}.
+		 * Returns the data of the given MIME type. Extracts data of the given MIME type if it is stored in
+		 * {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#\_customDataFallbackType} special comment.
 		 *
 		 * @param {String} type
 		 * @returns {String}
@@ -2665,7 +2662,7 @@
 		getData: function( type ) {
 			var value = null;
 
-			// If we are getting the same type which may store custom data we need to extract it (removing custom data comment).
+			// If we are getting the same type which may store custom data we need to extract content only.
 			if ( type === this._customDataFallbackType ) {
 				value = this._extractDataComment( this._getData( type ) ).content;
 
@@ -2674,10 +2671,14 @@
 				var result = this._extractDataComment( this._getData( this._customDataFallbackType ) );
 				if ( result.data && result.data[ type ] ) {
 					value = result.data[ type ];
+
+				// And then fallback to regular `getData`.
+				} else {
+					value = this._getData( type );
 				}
 			}
 
-			return value;
+			return value !== null ? value : '';
 		},
 
 		/**
@@ -2758,7 +2759,7 @@
 		 * @returns {Boolean}
 		 */
 		_isUnsupportedMimeTypeError: function( error ) {
-			return error.message.search( /element not found/gi ) !== -1;
+			return error.message && error.message.search( /element not found/gi ) !== -1;
 		},
 
 		/**
