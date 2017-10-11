@@ -74,4 +74,4 @@ Please use the [CKEditor 4 GitHub issue page](https://github.com/ckeditor/ckedit
 
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 
-For licensing, see LICENSE.md or [http://ckeditor.com/license](http://ckeditor.com/license)
+For licensing, see LICENSE.md or [http://ckeditor.com/license](https://ckeditor.com/legal/terms-of-use/#open-source-licences)
