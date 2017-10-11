@@ -161,6 +161,7 @@
 				isContentEditable = true,
 
 				// Use elementPath to consider children of editable only (http://dev.ckeditor.com/ticket/11124).
+				// Use elementPath provided in evt, which is accurate in all cases (#801).
 				elementsChain = evt.data.path.elements,
 				name;
 
