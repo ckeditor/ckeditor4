@@ -7,7 +7,7 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'pastefromwordimage', {
-		requires: 'pastefromword',
+		requires: 'pastefromword,filetools',
 		init: function( editor ) {
 			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				return;
@@ -24,7 +24,9 @@
 				imgTags,
 				hexImages,
 				newSrcValues = [],
-				i;
+				i,
+				editor = evt.editor,
+				that = this;
 
 			imgTags = pfwi.extractImgTagsFromHtml( evt.data.dataValue );
 			if ( imgTags.length === 0 ) {
@@ -45,10 +47,21 @@
 				for ( i = 0; i < imgTags.length; i++ ) {
 					// Replace only `file` urls of images ( shapes get newSrcValue with null ).
 					if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
-						evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
+						( function( oldSrc, newSrc ) {
+							var loader = editor.uploadRepository.create( newSrc );
+							editor.fire( 'pasteFromWordImage', {
+								loader: loader
+							} );
+							loader.on( 'loaded', function() {
+								// Currently we directly assign data to src. If there will be some server, then we need to provide proper url to replace.
+								that.replaceSrc( this.editor, oldSrc, this.data );
+							} );
+							loader.load();
+						} )( imgTags[ i ], newSrcValues[ i ] );
 					}
 				}
 			}
+
 		},
 
 		createSrcWithBase64: function( img ) {
@@ -57,6 +70,18 @@
 
 		hexToBase64: function( hexString ) {
 			return CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( hexString ) );
+		},
+
+		replaceSrc: function( editor, url, newSrc ) {
+			var list = editor.editable().find( 'img[src="' + url.replace( /\\/g, '\\\\' ) + '"]' ),
+				i;
+			// Because this same URL should point to exact the same picture, we replace all of them.
+			if ( list.count() > 0 ) {
+				for ( i = 0; i < list.count(); i++ ) {
+					list.getItem( i ).setAttribute( 'src', newSrc );
+					list.getItem( i ).data( 'cke-saved-src', newSrc );
+				}
+			}
 		}
 
 	} );
