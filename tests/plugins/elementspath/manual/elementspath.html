@@ -1,0 +1,82 @@
+<textarea id="editor1">
+	<p>Hello world. <strong>Bold text and <em>italic with additional <u>underline</u></em></strong>.</p>
+	<p>Hello world. <strong contenteditable="false">Bold text and <em contenteditable="true">italic with additional <u>underline</u></em></strong>.</p>
+	<ul>
+		<li>One</li>
+		<li>Two<ol>
+			<li><strong>STRONG: </strong>1111</li>
+			<li><em>ITALIC: </em>2222</li>
+		</ol></li>
+	</ul>
+	<div><div><div><div><div><div><div><div><div><div><div>Divception</div></div></div></div></div></div></div></div></div></div></div>
+	<table border='1'>
+		<thead>
+			<tr>
+				<th>Something</th>
+				<th>else</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>One</td>
+				<td>Two</td>
+			</tr>
+			<tr>
+				<td>Three</td>
+				<td>Four</td>
+			</tr>
+		</tbody>
+	</table>
+	<figure class="image">
+		<img src="/tests/_assets/lena.jpg" alt="avatar" />
+		<figcaption>Lena</figcaption>
+	</figure>
+
+</textarea>
+
+<div id="editor2" contenteditable="true">
+		<p>Hello world. <strong>Bold text and <em>italic with additional <u>underline</u></em></strong>.</p>
+		<p>Hello world. <strong contenteditable="false">Bold text and <em contenteditable="true">italic with additional <u>underline</u></em></strong>.</p>
+		<ul>
+			<li>One</li>
+			<li>Two<ol>
+				<li><strong>STRONG: </strong>1111</li>
+				<li><em>ITALIC: </em>2222</li>
+			</ol></li>
+		</ul>
+		<div><div><div><div><div><div><div><div><div><div><div>Divception</div></div></div></div></div></div></div></div></div></div></div>
+		<table border='1'>
+			<thead>
+				<tr>
+					<th>Something</th>
+					<th>else</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>One</td>
+					<td>Two</td>
+				</tr>
+				<tr>
+					<td>Three</td>
+					<td>Four</td>
+				</tr>
+			</tbody>
+		</table>
+		<figure class="image">
+			<img src="/tests/_assets/lena.jpg" alt="avatar" />
+			<figcaption>Caption</figcaption>
+		</figure>
+
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'image2',
+		allowedContent: true
+	} );
+	CKEDITOR.replace( 'editor2', {
+		extraPlugins: 'divarea,image2',
+		allowedContent: true
+	} );
+</script>
