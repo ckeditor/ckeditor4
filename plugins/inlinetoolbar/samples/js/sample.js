@@ -20,22 +20,22 @@ CKEDITOR.on( 'instanceReady', function( e ) {
 			var img = editor.editable().findOne( 'img' );
 			if ( img ) {
 				var panel = new CKEDITOR.ui.inlineToolbarView( editor );
-				panel.addMenuItems( {
-					iamge: {
+				panel.addUIElements( {
+					iamge: new CKEDITOR.ui.button( {
 						label: editor.lang.common.image,
 						command: 'image',
 						toolbar: 'insert,10'
-					},
-					image2: {
+					} ),
+					image2: new CKEDITOR.ui.button( {
 						label: editor.lang.common.image,
 						command: 'image',
 						toolbar: 'insert,10'
-					},
-					imag3: {
+					} ),
+					imag3: new CKEDITOR.ui.button( {
 						label: editor.lang.common.image,
 						command: 'image',
 						toolbar: 'insert,10'
-					}
+					} )
 				} );
 				panel.create( img );
 			}
