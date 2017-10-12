@@ -126,11 +126,11 @@
 	 */
 	CKEDITOR.plugins.imagebase = {
 		/**
-		 * Creates new image widget based on passed options.
+		 * Registers a new widget definition based on passed options.
 		 *
 		 * @since 4.8.0
-		 * @param {CKEDITOR.editor} editor Editor that owns the new widget.
-		 * @param {String} name Name of newly created widget.
+		 * @param {CKEDITOR.editor} editor Editor that will get the definition registered.
+		 * @param {String} name Widget name.
 		 * @param {Object} options Widget's options.
 		 * @param {String} options.basicClass Primary class for widget's element, that allows to properly
 		 * identify the widget.
