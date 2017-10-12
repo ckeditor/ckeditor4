@@ -101,6 +101,19 @@
 			assert.areEqual( frame.top.toFixed( 2 ), ( inlineToolbarRect.top - inlineToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
 			inlineToolbar.destroy();
 			inlineToolbar = null;
+		},
+		'test panel adds cke_inlinetoolbar class': function( editor ) {
+			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
+				width: 100,
+				height: 200
+			} ),
+				markerElement = editor.editable().findOne( '#marker' );
+			inlineToolbar.create( markerElement );
+
+			assert.isTrue( inlineToolbar.parts.panel.hasClass( 'cke_inlinetoolbar' ), 'Panel has a cke_inlinetoolbar class' );
+			assert.isTrue( inlineToolbar.parts.panel.hasClass( 'cke_balloon' ), 'Class cke_balloon class was not removed' );
+			inlineToolbar.destroy();
+			inlineToolbar = null;
 		}
 	};
 
