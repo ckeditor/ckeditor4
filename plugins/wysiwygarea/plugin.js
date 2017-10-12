@@ -659,7 +659,7 @@ CKEDITOR.config.disableNativeTableHandles = true;
  * users can always reach the native context menu by holding the
  * *Ctrl* key when right-clicking if {@link #browserContextMenuOnCtrl}
  * is enabled or you are simply not using the
- * [context menu](https://ckeditor.com/addon/contextmenu) plugin.
+ * [context menu](https://ckeditor.com/cke4/addon/contextmenu) plugin.
  *
  *		config.disableNativeSpellChecker = false;
  *

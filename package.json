@@ -27,7 +27,7 @@
 	},
 	"author": "CKSource (https://cksource.com/)",
 	"license": "(GPL-2.0 OR LGPL-2.1 OR MPL-1.1)",
-	"bugs": "https://dev.ckeditor.com",
+	"bugs": "https://github.com/ckeditor/ckeditor-dev/issues",
 	"homepage": "https://ckeditor.com",
 	"repository": {
 		"type": "git",

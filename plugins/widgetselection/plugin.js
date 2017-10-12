@@ -339,7 +339,7 @@
 		},
 
 		/**
-		 * Adds an integration for the [Select All](https://ckeditor.com/addon/selectall) plugin to the given `editor`.
+		 * Adds an integration for the [Select All](https://ckeditor.com/cke4/addon/selectall) plugin to the given `editor`.
 		 *
 		 * @private
 		 * @param {CKEDITOR.editor} editor

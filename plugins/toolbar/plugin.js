@@ -782,7 +782,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  *
  * This configuration option should not be overused. The recommended way is to use the
  * {@link CKEDITOR.config#removePlugins} setting to remove features from the editor
- * or even better, [create a custom editor build](https://ckeditor.com/builder) with
+ * or even better, [create a custom editor build](https://ckeditor.com/cke4/builder) with
  * just the features that you will use.
  * In some cases though, a single plugin may define a set of toolbar buttons and
  * `removeButtons` may be useful when just a few of them are to be removed.

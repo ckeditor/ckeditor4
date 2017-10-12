@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview The [Mathematical Formulas](https://ckeditor.com/addon/mathjax) plugin that allows you to create and modify mathematical equations written in TeX directly in CKEditor..
+ * @fileOverview The [Mathematical Formulas](https://ckeditor.com/cke4/addon/mathjax) plugin that allows you to create and modify mathematical equations written in TeX directly in CKEditor..
  */
 
 'use strict';
@@ -453,7 +453,7 @@
 
 /**
  * Sets the default class for `span` elements that will be
- * converted into [Mathematical Formulas](https://ckeditor.com/addon/mathjax)
+ * converted into [Mathematical Formulas](https://ckeditor.com/cke4/addon/mathjax)
  * widgets.
  *
  * If you set it to the following:

@@ -458,7 +458,7 @@ CKEDITOR.config.colorButton_backStyle = {
 
 /**
  * Whether the plugin should convert `background` CSS properties with color only, to a `background-color` property,
- * allowing the [Color Button](https://ckeditor.com/addon/colorbutton) plugin to edit these styles.
+ * allowing the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) plugin to edit these styles.
  *
  *		config.colorButton_normalizeBackground = false;
  *

@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview The [Language](https://ckeditor.com/addon/language) plugin.
+ * @fileOverview The [Language](https://ckeditor.com/cke4/addon/language) plugin.
  */
 
 'use strict';
@@ -153,7 +153,7 @@
 
 /**
  * Specifies the list of languages available in the
- * [Language](https://ckeditor.com/addon/language) plugin. Each entry
+ * [Language](https://ckeditor.com/cke4/addon/language) plugin. Each entry
  * should be a string in the following format:
  *
  *		<languageCode>:<languageLabel>[:<textDirection>]

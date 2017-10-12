@@ -851,7 +851,7 @@
 
 	/**
 	 * Namespace providing a set of helper functions for working with tables, exposed by
-	 * [Table Selection](https://ckeditor.com/addon/tableselection) plugin.
+	 * [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin.
 	 *
 	 * @since 4.7.0
 	 * @singleton

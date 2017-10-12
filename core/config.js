@@ -319,7 +319,7 @@ CKEDITOR.config = {
 	 *
 	 * **Note:** The most recommended way to
 	 * [add CKEditor plugins](http://docs.ckeditor.com/#!/guide/dev_plugins) is through
-	 * [CKEditor Builder](https://ckeditor.com/builder). Read more in the
+	 * [CKEditor Builder](https://ckeditor.com/cke4/builder). Read more in the
 	 * [documentation](#!/guide/dev_plugins).
 	 *
 	 *		config.extraPlugins = 'myplugin,anotherplugin';
