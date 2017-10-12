@@ -9,25 +9,25 @@
 	bender.test( {
 		'test adding buttion': function() {
 			var panel = new CKEDITOR.ui.inlineToolbarView( this.editor );
-			panel.addMenuItems( {
-				cut: {
+			panel.addUIElements( {
+				cut: new CKEDITOR.ui.button( {
 					label: 'test',
 					command: 'cut'
-				}
+				} )
 			} );
-			assert.isNotUndefined( panel.getMenuItem( 'cut' ), 'The button should exist.' );
+			assert.isNotUndefined( panel.getUIElement( 'cut' ), 'The button should exist.' );
 
 		},
 		'test removing buttion': function() {
 			var panel = new CKEDITOR.ui.inlineToolbarView( this.editor );
-			panel.addMenuItems( {
-				cut: {
+			panel.addUIElements( {
+				cut: new CKEDITOR.ui.button( {
 					label: 'test',
 					command: 'cut'
-				}
+				} )
 			} );
-			panel.deleteMenuItem( 'cut' );
-			assert.isUndefined( panel.getMenuItem( 'cut' ), 'The button should be deleted.' );
+			panel.deleteUIElement( 'cut' );
+			assert.isUndefined( panel.getUIElement( 'cut' ), 'The button should be deleted.' );
 
 		}
 	} );

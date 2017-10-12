@@ -116,25 +116,25 @@
 			};
 
 			/**
-			 * Adds an item from the specified definition to the inline toolbar.
+			 * Adds an item to the inline toolbar.
 			 *
 			 * @method
 			 * @param {String} name The menu item name.
-			 * @param {Object} definition The menu item definition.
+			 * @param {Object} element instance of CKEDITOR.ui element
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.addMenuItem = function( name, definition ) {
-				this.menuItems[ name ] = new CKEDITOR.ui.button( definition );
+			CKEDITOR.ui.inlineToolbarView.prototype.addUIElement = function( name, element ) {
+				this.menuItems[ name ] = element;
 			};
 
 			/**
-			 * Adds one or more items from the specified definition object to the inline toolbar.
+			 * Adds one or more items to the inline toolbar.
 			 *
 			 * @method
-			 * @param {Object} definitions Object where keys are used as itemName and corresponding values as definition for a {@link #addMenuItem} call.
+			 * @param {Object} elements Object where keys are used as itemName and corresponding values as definition for a {@link #addMenuItem} call.
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.addMenuItems = function( definitions ) {
-				for ( var itemName in definitions ) {
-					this.addMenuItem( itemName, definitions[ itemName ] );
+			CKEDITOR.ui.inlineToolbarView.prototype.addUIElements = function( elements ) {
+				for ( var itemName in elements ) {
+					this.addUIElement( itemName, elements[ itemName ] );
 				}
 			};
 
@@ -145,7 +145,7 @@
 			 * @param {String} name The name of the desired menu item.
 			 * @returns {Object}
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.getMenuItem = function( name ) {
+			CKEDITOR.ui.inlineToolbarView.prototype.getUIElement = function( name ) {
 				return this.menuItems[ name ];
 			};
 
@@ -156,7 +156,7 @@
 			 * @param {String} name The name of the desired menu item.
 			 * @returns {Object}
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.deleteMenuItem = function( name ) {
+			CKEDITOR.ui.inlineToolbarView.prototype.deleteUIElement = function( name ) {
 				if ( this.menuItems[ name ] ) {
 					delete this.menuItems[ name ];
 				}
