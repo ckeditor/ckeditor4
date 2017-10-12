@@ -4,7 +4,7 @@
  */
 
 /**
- * @fileOverview [Widget](http://ckeditor.com/addon/widget) plugin.
+ * @fileOverview [Widget](https://ckeditor.com/cke4/addon/widget) plugin.
  */
 
 'use strict';
