@@ -31,15 +31,15 @@
 		var i,
 			obj = {},
 			testsFilesNames = [
-				'1-win-singleimage',
-				'2-win-multipleimagesandshapes',
-				'3-win-noimage',
-				'4-win-hyperlinkimage',
-				'5-win-wrappedimage',
-				'6-mac-twoimages',
-				'7-mac-multipleimageswithshapes',
-				'8-mac-hyperlinkimage',
-				'9-mac-wrappedimage'
+				'singleimage_win',
+				'multipleimagesandshapes_win',
+				'noimage_win',
+				'hyperlinkedimage_win',
+				'wrappedimage_win',
+				'twoimages_mac',
+				'multipleimageswithshapes_mac',
+				'hyperlinkedimage_mac',
+				'wrappedimage_mac'
 			];
 
 		for ( i = 0; i < testsFilesNames.length; i++ ) {
