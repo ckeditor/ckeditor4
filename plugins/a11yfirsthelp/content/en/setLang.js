@@ -43,8 +43,8 @@ and maintain accessible content and learn more about accessibility.\n',
 
     'content': '\
 GETTINGSTARTED\
-',
-},
+'
+  },
 
   headingHelp: {
     'menu':  'Heading',
@@ -52,8 +52,8 @@ GETTINGSTARTED\
     'title': 'Heading Help',
     'content': '\
 HEADINGHELP\
-',
-},
+'
+  },
 
   blockFormatHelp: {
     'menu':  'Block Format',
@@ -61,8 +61,8 @@ HEADINGHELP\
     'title': 'Block Format Help',
     'content': '\
 BLOCKFORMATHELP\
-',
-},
+'
+  },
 
   inlineStyleHelp: {
     'menu':  'Inline Style',
@@ -70,8 +70,8 @@ BLOCKFORMATHELP\
     'title': 'Inline Style Help',
     'content': '\
 INLINESTYLEHELP\
-',
-},
+'
+  },
 
   linkHelp: {
     'menu':  'Link',
@@ -79,6 +79,6 @@ INLINESTYLEHELP\
     'title': 'Link Help',
     'content' : '\
 LINKHELP\
-',
-},
+'
+  }
 } );
