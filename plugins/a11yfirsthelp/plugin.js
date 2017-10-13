@@ -58,11 +58,14 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
           var key = helpTopicsKeys[ i ];
           var label = lang[ key ].menu;
           var title = lang[ key ].title;
+
+          // Add separator between list of help options and other items
+          if ( key === 'gettingStarted' )
+            this.addSeparator();
+
           // Add the entry to the panel list
           this.add( key, menuStyle.buildPreview( label ), title );
         }
-        // Add separator between list of help options and keyboard shortcuts item
-        this.addSeparator();
 
         this.add( keyboardShortcutsValue, menuStyle.buildPreview( lang.keyboardShortcutsLabel ),
           lang.keyboardShortcutsLabel );
@@ -87,9 +90,6 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
 } ); // end plugins.add
 
 CKEDITOR.config.a11yFirstHelpTopics = {
-  'gettingStarted': {
-    option:  'GettingStarted'
-  },
   'headingHelp': {
     option:  'HeadingHelp'
   },
@@ -101,5 +101,8 @@ CKEDITOR.config.a11yFirstHelpTopics = {
   },
   'linkHelp': {
     option:  'LinkHelp'
+  },
+  'gettingStarted': {
+    option:  'GettingStarted'
   }
 };
