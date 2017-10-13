@@ -26,6 +26,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_bottom,
 .cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_top
 {
+	border-color: #cfd1cf transparent;
 	left: -10px;
 }
 
