@@ -168,3 +168,14 @@
 		}
 	};
 } )();
+
+
+/**
+ * Fired when the pasted content from word contained images.
+ *
+ * @since 4.8.0
+ * @event pasteFromWordImage
+ * @param data
+ * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader which embed images in editor.
+ * @member CKEDITOR.editor
+ */

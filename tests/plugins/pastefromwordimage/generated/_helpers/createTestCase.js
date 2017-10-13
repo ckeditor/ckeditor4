@@ -1,4 +1,4 @@
-/* global assertWordFilter,Q,console */
+/* global Q */
 /* exported createTestCase */
 
 /**
@@ -37,9 +37,6 @@ function createTestCase( options ) {
 				return deferred.promise;
 			};
 
-		// Change for env settings when testing fixtures from mac and windows
-		options.wordVersion.toLowerCase() === 'macos' ? CKEDITOR.env.mac = true : CKEDITOR.env.mac = false;
-
 		Q.all( [
 			load( inputPathHtml + deCasher ),
 			load( inputPathRtf + deCasher ),
@@ -49,7 +46,8 @@ function createTestCase( options ) {
 			var inputFixtureHtml = values[ 0 ],
 				inputFixtureRtf = values[ 1 ],
 				// If browser-customized expected result was found, use it. Otherwise go with the regular expected.
-				expectedValue = values[ 3 ] !== null ? values[ 3 ] : values[ 2 ];
+				expectedValue = values[ 3 ] !== null ? values[ 3 ] : values[ 2 ],
+				that = this;
 
 			// Both null means that fixture file was not found - skipping test.
 			if ( inputFixtureHtml === null && inputFixtureRtf === null ) {
@@ -66,7 +64,7 @@ function createTestCase( options ) {
 				} );
 			}
 
-			var nbspListener = editor.once( 'paste', function( evt ) {
+			editor.once( 'paste', function( evt ) {
 				// Clipboard strips white spaces from pasted content if those are not encoded.
 				// This is **needed only for non-IE/Edge fixtures**, as these browsers doesn't encode nbsp char on it's own.
 				if ( CKEDITOR.env.ie && CKEDITOR.tools.array.indexOf( [ 'chrome', 'firefox', 'safari' ], options.browser ) !== -1 ) {
@@ -79,24 +77,42 @@ function createTestCase( options ) {
 			}, null, null, 5 );
 
 			assert.isNotNull( expectedValue, '"expected.html" missing.' );
+			// Tu wklejam
+			var nativeDataTransfer = bender.tools.mockNativeDataTransfer(),
+				dataTransfer,
+				eventData = {};
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+				nativeDataTransfer.setData( 'text/html', inputFixtureHtml );
+				nativeDataTransfer.setData( 'text/rtf', inputFixtureRtf );
+			}
 
-			assertWordFilter( editor, options.compareRawData )( inputFixtureHtml, inputFixtureRtf, expectedValue )
-				.then( function( values ) {
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDataTransfer );
+			eventData.dataTransfer = dataTransfer;
+			eventData.dataValue = inputFixtureHtml;
+
+			if ( !eventData.type ) {
+				eventData.type = 'auto';
+			}
+
+			eventData.method = 'paste';
+
+			editor.once( 'pasteFromWordImage', function() {
+				setTimeout( function() {
 					resume( function() {
-						nbspListener.removeListener();
-						assert.beautified.html( values[ 0 ], values[ 1 ], {
+						assert.beautified.html( expectedValue, editor.getData(), {
 							fixStyles: true,
 							sortAttributes: true,
 							customFilters: options.customFilters
 						} );
 					} );
-				}, function( err ) {
-					if ( console && console.error ) {
-						console.error( 'err', err );
-					}
-				} );
-		} );
+				}.bind( that ), 5 );
+			} );
 
+			editor.setData( '', function() {
+				editor.fire( 'paste', eventData );
+			} );
+
+		} );
 
 		wait();
 	};
