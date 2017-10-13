@@ -3,11 +3,11 @@
 * Information should be perceivable and usable by everyone, including people
 with disabilities.
 
-* Documents should be organized and structured to make them as easy to read and
-understand as possible.
+* Documents should be organized and structured to make them as easy to read
+and understand as possible.
 
-* Accessible documents are compatible with assistive technologies and operating
-system accessibility features.
+* Accessible documents are compatible with assistive technologies and
+operating system accessibility features.
 
 ### People with disabilities include people who:
 
@@ -28,8 +28,12 @@ heading structure in your document more meaningful to readers.
 * **Block Format**: Provides special formatting for blocks of text (e.g.
 paragraphs) within your document.
 
-* **Inline Style**: Provides styling to highlight or emphasize a word or group of
-words (i.e. characters) within a block of text.
+* **Inline Style**: Provides styling to highlight or emphasize a word or group
+of words (i.e. characters) within a block of text.
+
+### About A11yFirst
+
+Version: %version
 
 ### Additional Resources
 
