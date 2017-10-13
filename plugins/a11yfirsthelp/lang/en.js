@@ -47,11 +47,11 @@ and maintain accessible content and learn more about accessibility.\n',
 * Information should be perceivable and usable by everyone, including people\n\
 with disabilities.\n\
 \n\
-* Documents should be organized and structured to make them as easy to read and\n\
-understand as possible.\n\
+* Documents should be organized and structured to make them as easy to read\n\
+and understand as possible.\n\
 \n\
-* Accessible documents are compatible with assistive technologies and operating\n\
-system accessibility features.\n\
+* Accessible documents are compatible with assistive technologies and\n\
+operating system accessibility features.\n\
 \n\
 ### People with disabilities include people who:\n\
 \n\
@@ -72,8 +72,12 @@ heading structure in your document more meaningful to readers.\n\
 * **Block Format**: Provides special formatting for blocks of text (e.g.\n\
 paragraphs) within your document.\n\
 \n\
-* **Inline Style**: Provides styling to highlight or emphasize a word or group of\n\
-words (i.e. characters) within a block of text.\n\
+* **Inline Style**: Provides styling to highlight or emphasize a word or group\n\
+of words (i.e. characters) within a block of text.\n\
+\n\
+### About A11yFirst\n\
+\n\
+Version: %version\n\
 \n\
 ### Additional Resources\n\
 \n\
@@ -93,8 +97,8 @@ words (i.e. characters) within a block of text.\n\
 \n\
 * <a href="https://webaim.org/techniques/tables/data" target="_resource">WebAIM: Creating Accessible Tables</a>\n\
 \n\
-',
-},
+'
+  },
 
   headingHelp: {
     'menu':  'Heading',
@@ -151,8 +155,8 @@ level to label each subsection.\n\
 * Heading levels should **never** be used for inline visual styling of content\n\
 (e.g. larger or smaller font size, bold or italic). Instead, use the `Inline\n\
 Style` options.\n\
-',
-},
+'
+  },
 
   blockFormatHelp: {
     'menu':  'Block Format',
@@ -193,8 +197,8 @@ of the content within your document.\n\
 \n\
 * <a href="https://en.wikipedia.org/wiki/Chunking_&lpar;writing&rpar;" target="_resource">Chunking (writing)</a>\n\
 \n\
-',
-},
+'
+  },
 
   inlineStyleHelp: {
     'menu':  'Inline Style',
@@ -237,8 +241,8 @@ the website.\n\
 maintain stylistic consistency.\n\
 \n\
 \n\
-',
-},
+'
+  },
 
   linkHelp: {
     'menu':  'Link',
@@ -293,6 +297,6 @@ screen reader users to find and follow links of interest to them.\n\
 * <a href="https://www.nomensa.com/blog/2011/writing-good-link-text" target="_resource">NOMENSA: Writing good link text</a>\n\
 \n\
 * <a href="http://accessibility.umn.edu/core-skills/hyperlinks" target="_resource">Accessible U: Hyperlinks (Good ad Bad Examples)</a>\n\
-',
-},
+'
+  }
 } );
