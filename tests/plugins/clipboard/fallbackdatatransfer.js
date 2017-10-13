@@ -11,7 +11,7 @@ bender.test( {
 		}
 	},
 
-	'test setData/getData with predefined type': function() {
+	'test setData/getData with predefined type - dataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
 			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
@@ -26,7 +26,18 @@ bender.test( {
 		this.assertDataTransferType( dataTransfer, 'text/html', '<p>html text</p>', { 'cke/id': dataTransfer.id } );
 	},
 
-	'test setData/getData with custom type': function() {
+	'test setData/getData with predefined type - fallbackDataTransfer': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+
+		dataTransferFallback.setData( 'text/plain', 'plain text' );
+		dataTransferFallback.setData( 'text/html', '<p>html text</p>' );
+
+		assert.areSame( 'plain text', dataTransferFallback.getData( 'text/plain' ) );
+		assert.areSame( '<p>html text</p>', dataTransferFallback.getData( 'text/html' ) );
+	},
+
+	'test setData/getData with custom type - dataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
 			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
@@ -44,7 +55,23 @@ bender.test( {
 		} );
 	},
 
-	'test setData with custom type does not affect getData( "text/html" )': function() {
+	'test setData/getData with custom type - fallbackDataTransfer': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+
+		dataTransferFallback.setData( 'cke/custom', 'cke-custom data' );
+		dataTransferFallback.setData( 'custom/tag', '<p>custom html tag</p>' );
+
+		assert.areSame( 'cke-custom data', dataTransferFallback.getData( 'cke/custom' ) );
+		assert.areSame( '<p>custom html tag</p>', dataTransferFallback.getData( 'custom/tag' ) );
+
+		this.assertDataTransferType( dataTransferFallback, 'text/html', '', {
+			'cke/custom': 'cke-custom data',
+			'custom/tag': '<p>custom html tag</p>'
+		} );
+	},
+
+	'test setData with custom type does not affect getData( "text/html" ) - dataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
 			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
@@ -64,7 +91,24 @@ bender.test( {
 		} );
 	},
 
-	'test setData( "text/html" ) does not overwrite custom data': function() {
+	'test setData with custom type does not affect getData( "text/html" ) - fallbackDataTransfer': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+
+		dataTransferFallback.setData( 'text/html', '<h1>Header1</h1>' );
+
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h1>Header1</h1>' );
+
+		dataTransferFallback.setData( 'cke/custom', 'custom data' );
+
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h1>Header1</h1>' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
+		this.assertDataTransferType( dataTransferFallback, 'text/html', '<h1>Header1</h1>', {
+			'cke/custom': 'custom data'
+		} );
+	},
+
+	'test setData( "text/html" ) does not overwrite custom data - dataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
 			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
@@ -87,7 +131,27 @@ bender.test( {
 		} );
 	},
 
-	'test setData( "text/html" ) called a few times does not overwrite custom data': function() {
+	'test setData( "text/html" ) does not overwrite custom data - fallbackDataTransfer': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+
+		dataTransferFallback.setData( 'cke/custom', 'custom data' );
+
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
+		this.assertDataTransferType( dataTransferFallback, 'text/html', '', {
+			'cke/custom': 'custom data'
+		} );
+
+		dataTransferFallback.setData( 'text/html', '<h1>Header1</h1>' );
+
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h1>Header1</h1>' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
+		this.assertDataTransferType( dataTransferFallback, 'text/html', '<h1>Header1</h1>', {
+			'cke/custom': 'custom data'
+		} );
+	},
+
+	'test setData( "text/html" ) called a few times does not overwrite custom data - dataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
 			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
@@ -111,7 +175,29 @@ bender.test( {
 		} );
 	},
 
-	'test setting same custom type overwrites the previous value and does not affect other types': function() {
+	'test setData( "text/html" ) called a few times does not overwrite custom data - fallbackDataTransfer': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+
+		dataTransferFallback.setData( 'cke/custom', 'custom data' );
+
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
+
+		dataTransferFallback.setData( 'text/html', '<h1>Header1</h1>' );
+
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h1>Header1</h1>' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
+
+		dataTransferFallback.setData( 'text/html', '<h2>Header2</h2>' );
+
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h2>Header2</h2>' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
+		this.assertDataTransferType( dataTransferFallback, 'text/html', '<h2>Header2</h2>', {
+			'cke/custom': 'custom data'
+		} );
+	},
+
+	'test setting same custom type overwrites the previous value and does not affect other types - dataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
 			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
@@ -136,6 +222,42 @@ bender.test( {
 			'cke/custom': 'cke-custom',
 			'custom/tag': '<p>custom html tag</p>'
 		} );
+	},
+
+	'test setting same custom type overwrites the previous value and does not affect other types - fallbackDataTransfer': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+
+		dataTransferFallback.setData( 'cke/custom', 'cke-custom data' );
+		dataTransferFallback.setData( 'custom/tag', '<p>custom html tag</p>' );
+
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'cke-custom data' );
+		assert.areSame( dataTransferFallback.getData( 'custom/tag' ), '<p>custom html tag</p>' );
+		this.assertDataTransferType( dataTransferFallback, 'text/html', '', {
+			'cke/custom': 'cke-custom data',
+			'custom/tag': '<p>custom html tag</p>'
+		} );
+
+		dataTransferFallback.setData( 'cke/custom', 'cke-custom' );
+
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'cke-custom' );
+		assert.areSame( dataTransferFallback.getData( 'custom/tag' ), '<p>custom html tag</p>' );
+		this.assertDataTransferType( dataTransferFallback, 'text/html', '', {
+			'cke/custom': 'cke-custom',
+			'custom/tag': '<p>custom html tag</p>'
+		} );
+	},
+
+	'test getting "text/html" and "cke/test" from cache': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock );
+
+		dataTransfer.setData( 'text/html', '<p>html text</p>' );
+		dataTransfer.setData( 'cke/test', 'cke_test' );
+
+		assert.areSame( '<p>html text</p>', dataTransfer.getData( 'text/html' ) );
+		assert.areSame( 'cke_test', dataTransfer.getData( 'cke/test' ) );
 	},
 
 	'test _applyDataComment case1': function() {
@@ -268,7 +390,9 @@ bender.test( {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version >= 16 && customValue ) {
 			value = '<!--cke-data:' + encodeURIComponent( JSON.stringify( customValue ) ) + '-->' + value;
 		}
-		assert.areSame( value, dataTransfer.$.getData( type ) );
+
+		var nativeDataTransfer = dataTransfer.$ || dataTransfer._nativeDataTransfer;
+		assert.areSame( value, nativeDataTransfer.getData( type ) );
 	},
 
 	assertApplyDataComment: function( content, data, dataTransferFallback, expected ) {
@@ -281,7 +405,3 @@ function getDataNoCache( dataTransfer, type ) {
 	dataTransfer._.data = {};
 	return dataTransfer.getData( type );
 }
-
-
-// check if 'text/html' read from cache works fine
-// check if 'text/html' with data '0' is not nulled
