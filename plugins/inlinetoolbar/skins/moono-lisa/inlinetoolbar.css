@@ -21,15 +21,10 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	border-color: #d1d1d1 transparent;
 }
 
-.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_top,
-.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_bottom
-{
-	border-color: #f8f8f8 transparent;
-}
-
 .cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_bottom,
 .cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_top
 {
+	border-color: #f8f8f8 transparent;
 	left: -10px;
 }
 
