@@ -38,11 +38,6 @@
       // Change behavior of menubutton with text label
       CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
 
-      // Initialize Help menuitem
-      var helpCmd = 'headingHelp';
-      CKEDITOR.dialog.add( helpCmd, this.path + 'dialogs/heading-help.js' );
-      editor.addCommand( helpCmd, new CKEDITOR.dialogCommand( helpCmd ) );
-
       // Register heading command
       editor.addCommand( 'heading', {
         allowedContent: allowedContent,
@@ -103,7 +98,7 @@
         }
       };
 
-      // Add Help item
+      // Add Help item using command from a11yfirsthelp plugin
       items.headingHelp = {
         label: lang.helpLabel,
         group: 'heading_actions',
