@@ -9,7 +9,7 @@
 	bender.editor = {
 		name: 'editor1',
 		config: {
-			allowedContent: true,
+			extraAllowedContent: 'span[id]',
 			height: 300,
 			width: 300
 		}
@@ -40,7 +40,7 @@
 				window.scrollTo( 0, 0 );
 
 				if ( !this._getFrameMethodReplaced ) {
-					// The problem is also window.getFrame().getClientRect() as it retursn different results from dashboard and directly.
+					// The problem is also window.getFrame().getClientRect() as it returns different results from dashboard and directly.
 					this._getFrameMethodReplaced = true;
 					var orig = this.editor.window.getFrame;
 
