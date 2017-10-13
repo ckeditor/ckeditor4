@@ -189,7 +189,6 @@
 			}
 
 			editor.on( 'paste', function( evt ) {
-
 				// Init `dataTransfer` if `paste` event was fired without it, so it will be always available.
 				if ( !evt.data.dataTransfer ) {
 					evt.data.dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer();
@@ -357,8 +356,6 @@
 				var data = evt.data;
 				if ( data.dataValue ) {
 					editor.insertHtml( data.dataValue, data.type, data.range );
-
-					// debugger;
 
 					// Defer 'afterPaste' so all other listeners for 'paste' will be fired first.
 					// Fire afterPaste only if paste inserted some HTML.
@@ -562,6 +559,7 @@
 				// But don't you know any way to distinguish first two cases from last two?
 				// Only one - special flag set in CTRL+V handler and exec method of 'paste'
 				// command. And that's what we did using preventPasteEventNow().
+
 				pasteDataFromClipboard( evt );
 			} );
 
@@ -665,6 +663,7 @@
 					this.type == 'cut' && fixCut();
 
 					var success = tryToCutCopy( this.type );
+
 					if ( !success ) {
 						// Show cutError or copyError.
 						editor.showNotification( editor.lang.clipboard[ this.type + 'Error' ] ); // jshint ignore:line
@@ -2723,7 +2722,11 @@
 					}
 					current.data[ type ] = value;
 
-					this._setData( this._customDataFallbackType, this._applyDataComment( current.content, current.data ) );
+					try {
+						this._nativeDataTransfer.setData( this._customDataFallbackType, this._applyDataComment( current.content, current.data ) );
+					} catch ( e ) {
+						// Some dev logger should be added here.
+					}
 				}
 			}
 		},
@@ -2740,21 +2743,6 @@
 				return this._nativeDataTransfer.getData( type );
 			} catch ( e ) {
 				return null;
-			}
-		},
-
-		/**
-		 * Native setData wrapper.
-		 *
-		 * @private
-		 * @param {String} type
-		 * @param {String} value
-		 */
-		_setData: function( type, value ) {
-			try {
-				this._nativeDataTransfer.setData( type, value );
-			} catch ( e ) {
-				// Some dev logger should be added here.
 			}
 		},
 
