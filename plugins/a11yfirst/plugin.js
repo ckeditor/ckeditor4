@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.add( 'a11yfirst', {
-  version: '1.0.0',
+  version: '0.5.0',
 
   init: function ( editor ) {
     // Pull request: Add template and method in plugins/listblock/plugin.js
