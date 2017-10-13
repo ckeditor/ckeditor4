@@ -32,24 +32,19 @@
 		this._listeners = [];
 	};
 
-	var stylesLoaded = false;
-
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
+		onLoad: function() {
+			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
+		},
 		init: function() {
-			if ( !stylesLoaded ) {
-				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
-				stylesLoaded = true;
-			}
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
-			if ( CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions && CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel.indexOf( 'cke_inlinetoolbar' ) === -1 ) {
-				CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel = CKEDITOR.ui.inlineToolbarView.prototype.templateDefinitions.panel.replace( 'cke_balloon', 'cke_balloon cke_inlinetoolbar' );
-			}
 			/**
 			 * Build inline toolbar DOM representation.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.build = function() {
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
+				this.parts.panel.addClass( 'cke_inlinetoolbar' );
 				this.parts.title.remove();
 				this.parts.close.remove();
 			};
