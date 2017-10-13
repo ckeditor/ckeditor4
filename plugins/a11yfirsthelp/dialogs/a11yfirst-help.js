@@ -3,9 +3,10 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
-  var lang = editor.lang.a11yfirsthelp;
-  var config = editor.config;
-  var dialogObj;
+  var lang = editor.lang.a11yfirsthelp,
+    config = editor.config,
+    version = CKEDITOR.plugins.get( 'a11yfirst' ).version,
+    dialogObj;
 
   var buttonStyle = 'width: 11em; text-align: left; margin-bottom: 0; margin-top: 0';
 
@@ -81,6 +82,7 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       }
 
       content += lang.gettingStarted.content;
+      content = content.replace( /%version/g, version );
 
       node.innerHTML = converter.makeHtml( content );
 
@@ -122,16 +124,6 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                     children: [
                       {
                         type: 'button',
-                        id: 'buttonGettingStarted',
-                        style: buttonStyle,
-                        label: lang.gettingStarted.label,
-                        title: lang.gettingStarted.title,
-                        onClick: function() {
-                            showHelpTopic( 'GettingStarted' );
-                        },
-                      },
-                      {
-                        type: 'button',
                         id: 'buttonHeadingHelp',
                         style: buttonStyle,
                         label: lang.headingHelp.label,
@@ -168,6 +160,16 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                         title: lang.linkHelpTitle,
                         onClick: function() {
                             showHelpTopic( 'LinkHelp' );
+                        },
+                      },
+                      {
+                        type: 'button',
+                        id: 'buttonGettingStarted',
+                        style: buttonStyle,
+                        label: lang.gettingStarted.label,
+                        title: lang.gettingStarted.title,
+                        onClick: function() {
+                            showHelpTopic( 'GettingStarted' );
                         },
                       }
                     ],
