@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.add( 'a11ystylescombo', {
-  requires: 'a11yfirst,richcombo,removeformat',
+  requires: 'a11yfirst,a11yfirsthelp,richcombo,removeformat',
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
   // jscs:enable maximumLineLength

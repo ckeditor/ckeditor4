@@ -13,7 +13,7 @@
     endIndex;
 
   CKEDITOR.plugins.add( 'a11yheading', {
-    requires: 'a11yfirst,menubutton,a11yfirsthelp',
+    requires: 'a11yfirst,a11yfirsthelp,menubutton',
 
     // jscs:disable maximumLineLength
     lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
