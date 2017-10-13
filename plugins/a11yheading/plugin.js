@@ -7,10 +7,10 @@
 ( function () {
 
   var allowedContent = [],
-      allHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-      headings = [],
-      startIndex,
-      endIndex;
+    allHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+    headings = [],
+    startIndex,
+    endIndex;
 
   CKEDITOR.plugins.add( 'a11yheading', {
     requires: 'a11yfirst,menubutton,a11yfirsthelp',
@@ -24,11 +24,11 @@
         return;
 
       var config = editor.config,
-          lang = editor.lang.a11yheading,
-          oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
-          plugin = this,
-          items = {},
-          headingTag;
+        lang = editor.lang.a11yheading,
+        oneLevel1 = typeof config.oneLevel1 === 'undefined' ? true : config.oneLevel1,
+        plugin = this,
+        items = {},
+        headingTag;
 
       // Initialize headings array and indices used by getAllowedHeadings
       headings = this.getHeadingConfig( config );
