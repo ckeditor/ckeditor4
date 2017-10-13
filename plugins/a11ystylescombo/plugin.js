@@ -16,8 +16,9 @@ CKEDITOR.plugins.add( 'a11ystylescombo', {
       combo,
       allowedContent = [];
 
-    var menuStyle = new CKEDITOR.style( { element: 'p' } );
-    var removeStylesCmd = 'removeFormat';
+    var menuStyle = new CKEDITOR.style( { element: 'p' } ),
+      removeStylesCmd = 'removeFormat', // Defined in removeformat plugin
+      helpValue = 'inlineStyleHelp';
 
     editor.on( 'stylesSet', function( evt ) {
       var stylesDefinitions = evt.data.styles;
@@ -74,7 +75,7 @@ CKEDITOR.plugins.add( 'a11ystylescombo', {
       },
 
       init: function() {
-        var style, styleName, lastType, type, i, count;
+        var style, styleName, label, lastType, type, i, count;
 
         // Loop over the Array, adding all items to the
         // combo.
@@ -95,8 +96,11 @@ CKEDITOR.plugins.add( 'a11ystylescombo', {
         // Add separator between list of styles and 'Remove styles' menuitem
         this.addSeparator();
 
-        var label = lang[ 'removeStylesLabel' ];
+        label = lang[ 'removeStylesLabel' ];
         this.add( removeStylesCmd, menuStyle.buildPreview( label ), label );
+
+        label = lang[ 'helpLabel' ];
+        this.add( helpValue, menuStyle.buildPreview( label ), label );
 
         this.commit();
       },
@@ -107,6 +111,12 @@ CKEDITOR.plugins.add( 'a11ystylescombo', {
 
         if ( value == removeStylesCmd ) {
           editor.execCommand( removeStylesCmd );
+          return;
+        }
+
+        if ( value == helpValue ) {
+          editor.a11yfirst.helpOption = 'InlineStyleHelp';
+          editor.execCommand('a11yFirstHelpDialog');
           return;
         }
 

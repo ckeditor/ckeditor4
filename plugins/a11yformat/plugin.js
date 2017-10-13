@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.add( 'a11yformat', {
-  requires: 'blockquote,richcombo',
+  requires: 'a11yfirst,richcombo',
 
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -14,7 +14,8 @@ CKEDITOR.plugins.add( 'a11yformat', {
       return;
 
     var config = editor.config,
-      lang = editor.lang.a11yformat;
+      lang = editor.lang.a11yformat,
+      helpValue = 'blockFormatHelp';
 
     // Gets the list of tags from the settings.
     var tags = config.format_tags.split( ';' );
@@ -51,22 +52,31 @@ CKEDITOR.plugins.add( 'a11yformat', {
       },
 
       init: function() {
-        // this.startGroup( lang.panelTitle );
+        var label, menuStyle = new CKEDITOR.style( { element: 'p' } );
 
         for ( var tag in styles ) {
-          var label = lang[ 'tag_' + tag ];
+          label = lang[ 'tag_' + tag ];
 
           // Add the tag entry to the panel list.
           this.add( tag, styles[ tag ].buildPreview( label ), label );
         }
 
         // Add separator between list of styles and 'Help' menuitem
-        // this.addSeparator();
+        this.addSeparator();
+
+        label = lang[ 'helpLabel' ];
+        this.add( helpValue, menuStyle.buildPreview( label ), label );
       },
 
       onClick: function( value ) {
         editor.focus();
         editor.fire( 'saveSnapshot' );
+
+        if ( value == helpValue ) {
+          editor.a11yfirst.helpOption = 'BlockFormatHelp';
+          editor.execCommand('a11yFirstHelpDialog');
+          return;
+        }
 
         var style = styles[ value ],
           elementPath = editor.elementPath();
