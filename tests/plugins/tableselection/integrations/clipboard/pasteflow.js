@@ -50,13 +50,14 @@
 		} );
 	}
 
+	// Tests breaks bender run in Edge 16+ when in reversed order (#1047).
 	var tests = {
-		'test paste flow (tabular content)': function( editor, bot ) {
-			testPasteFlow( bot, 'tabular-paste', '2cells1row' );
-		},
-
 		'test paste flow (non-tabular content)': function( editor, bot ) {
 			testPasteFlow( bot, 'nontabular-paste', 'paragraph' );
+		},
+
+		'test paste flow (tabular content)': function( editor, bot ) {
+			testPasteFlow( bot, 'tabular-paste', '2cells1row' );
 		}
 	};
 
