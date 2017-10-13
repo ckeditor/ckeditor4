@@ -54,6 +54,7 @@
         }
       } );
 
+      // Register normalText command
       editor.addCommand( 'normalText', {
         allowedContent: allowedContent,
         contextSensitive: true,
