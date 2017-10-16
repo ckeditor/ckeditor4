@@ -1996,6 +1996,35 @@
 			/**
 			 * Merges two objects and returns new one.
 			 *
+			 *		var obj1 = {
+			 *				a: 1,
+			 *				conflicted: 10,
+			 *				obj: {
+			 *					c: 1
+			 *				}
+			 *			},
+			 *			obj2 = {
+			 *				b: 2,
+			 *				conflicted: 20,
+			 *				obj: {
+			 *					d: 2
+			 *				}
+			 *			};
+			 *
+			 *		CKEDITOR.tools.object.merge( obj1, obj2 );
+			 *
+			 * This code produces the following object;
+			 *
+			 *		{
+			 *			a: 1,
+			 *			b: 2,
+			 *			conflicted: 20,
+			 *			obj: {
+			 *				c: 1,
+			 *				d: 2
+			 *			}
+			 *		}
+			 *
 			 * @param {Object} obj1 A base object.
 			 * @param {Object} obj2 An object, which properties will be merged to the base one.
 			 * @returns {Object} Merged object.
