@@ -174,7 +174,7 @@
 					if ( previousStyle ) {
 						editor.removeStyle( previousStyle );
 					}
-				} else if ( value !== previousValue ) {
+				} else {
 					editor.applyStyle( style );
 				}
 
