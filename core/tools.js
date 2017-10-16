@@ -2001,14 +2001,14 @@
 			 * @returns {Object} Merged object.
 			 * @member CKEDITOR.tools.object
 			 */
-			merge: function merge( obj1, obj2 ) {
-				var copy1 = CKEDITOR.tools.clone( obj1 ),
-					copy2 = CKEDITOR.tools.clone( obj2 ),
-					tools = CKEDITOR.tools;
+			merge: function( obj1, obj2 ) {
+				var tools = CKEDITOR.tools,
+					copy1 = tools.clone( obj1 ),
+					copy2 = tools.clone( obj2 );
 
 				tools.array.forEach( tools.objectKeys( copy2 ), function( key ) {
 					if ( typeof copy2[ key ] === 'object' && typeof copy1[ key ] === 'object' ) {
-						copy1[ key ] = merge( copy1[ key ], copy2[ key ] );
+						copy1[ key ] = tools.object.merge( copy1[ key ], copy2[ key ] );
 					} else {
 						copy1[ key ] = copy2[ key ];
 					}
