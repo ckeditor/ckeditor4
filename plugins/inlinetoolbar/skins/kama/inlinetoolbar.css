@@ -18,10 +18,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 /* side: [ bottom, top ] */
 .cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_bottom,
 .cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_top,
-.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_bottom,
-.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_top
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_bottom
 {
 	border-color: #D3D3D3 transparent;
+}
+
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_top
+{
+	border-color: #fff transparent;
 }
 
 .cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_bottom,
