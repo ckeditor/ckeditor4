@@ -22,8 +22,8 @@
 		}
 
 		/**
-		 * This is an abstract class that describes a definition of an image widget.
-		 * It is a return type of {@link CKEDITOR.plugins.imagebase#createWidget} method.
+		 * This is an abstract class that describes a definition of a basic image widget
+		 * creted by {@link CKEDITOR.plugins.imagebase#createWidget} method.
 		 *
 		 * Note that because the image widget is a type of a widget, this definition extends
 		 * {@link CKEDITOR.plugins.widget.definition}.
@@ -35,19 +35,11 @@
 		 * @mixins CKEDITOR.plugins.widget.definition
 		 */
 		return {
-			/**
-			 * @inheritdoc
-			 */
+
 			pathName: editor.lang.imagebase.pathName,
 
-			/**
-			 * @inheritdoc
-			 */
 			template: defaultTemplate,
 
-			/**
-			 * @inheritdoc
-			 */
 			allowedContent: {
 				img: {
 					attributes: '!src,alt,width,height'
@@ -58,14 +50,8 @@
 				figcaption: true
 			},
 
-			/**
-			 * @inheritdoc
-			 */
 			requiredContent: 'figure(!' + options.basicClass + ')',
 
-			/**
-			 * @inheritdoc
-			 */
 			editables: {
 				caption: {
 					selector: 'figcaption',
@@ -74,9 +60,6 @@
 				}
 			},
 
-			/**
-			 * @inheritdoc
-			 */
 			parts: {
 				image: 'img',
 				caption: 'figcaption'
