@@ -5,10 +5,9 @@
 'use strict';
 
 // Based on http://yuilibrary.com/yui/docs/api/files/test_js_ObjectAssert.js.html#l12.
-YUITest.ObjectAssert.areDeepEqual = function( expected, actual, message ) {
+YUITest.ObjectAssert.areDeepEqual = function areDeepEqual( expected, actual, message ) {
 	var expectedKeys = YUITest.Object.keys( expected ),
-		actualKeys = YUITest.Object.keys( actual ),
-		areEqual = YUITest.ObjectAssert.areEqual;
+		actualKeys = YUITest.Object.keys( actual );
 
 	YUITest.Assert._increment();
 
@@ -21,8 +20,8 @@ YUITest.ObjectAssert.areDeepEqual = function( expected, actual, message ) {
 	// Then check values.
 	for ( var name in expected ) {
 		if ( expected.hasOwnProperty( name ) ) {
-			if ( typeof expected[ name ] === 'object' ) {
-				areEqual( expected[ name ], actual[ name ] );
+			if ( expected[ name ] && typeof expected[ name ] === 'object' ) {
+				areDeepEqual( expected[ name ], actual[ name ] );
 			}
 			else if ( expected[ name ] !== actual[ name ] ) {
 				throw new YUITest.ComparisonFailure( YUITest.Assert._formatMessage( message,
