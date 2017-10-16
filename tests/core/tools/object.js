@@ -64,7 +64,7 @@
 			assert.areSame( returned, 'c' );
 		},
 
-		// #1053
+		// (#1053)
 		'test object.merge': function() {
 			var obj1 = {
 					one: 1,
