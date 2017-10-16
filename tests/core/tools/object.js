@@ -1,5 +1,4 @@
 /* bender-tags: editor */
-/* bender-include: %BASE_PATH%/plugins/copyformatting/_helpers/tools.js */
 
 ( function() {
 	'use strict';
