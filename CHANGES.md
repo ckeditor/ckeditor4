@@ -21,7 +21,7 @@ Fixed Issues:
 * [#842](https://github.com/ckeditor/ckeditor-dev/issues/842): Fixed: List style not restored when toggling list indent level in [Indent List](https://ckeditor.com/cke4/addon/indentlist) plugin.
 * [#711](https://github.com/ckeditor/ckeditor-dev/issues/711): Fixed: Dragging widgets should only work with left mouse button.
 * [#862](https://github.com/ckeditor/ckeditor-dev/issues/862): Fixed: "Object Styles" group in [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin is visible only if whole element is selected.
-* [#994](https://github.com/ckeditor/ckeditor-dev/pull/994): Fixed: Typo in [`CKEDITOR.focusManager.focus`](https://docs.ckeditor.com/#!/api/CKEDITOR.focusManager-method-focus) API documentation. Thanks to [benjy](https://github.com/benjy)!
+* [#994](https://github.com/ckeditor/ckeditor-dev/pull/994): Fixed: Typo in [`CKEDITOR.focusManager.focus`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.focusManager-method-focus) API documentation. Thanks to [benjy](https://github.com/benjy)!
 * [#1014](https://github.com/ckeditor/ckeditor-dev/issues/1014): Fixed: [Table Tools](https://ckeditor.com/cke4/addon/tabletools) cell properties dialog is now [ACF](http://docs.ckeditor.com/#!/guide/dev_acf) aware - it not possible to change cell width/height if corresponding styles are disabled.
 * [#877](https://github.com/ckeditor/ckeditor-dev/issues/877): Fixed: Lists with custom bullets with exotic characters crashes editor when [pasted from Word](https://ckeditor.com/cke4/addon/pastefromword).
 * [#605](https://github.com/ckeditor/ckeditor-dev/issues/605): Fixed: Inline widgets do not preserve trailing spaces.
@@ -42,14 +42,14 @@ Other Changes:
 
 New Features:
 
-* [#568](https://github.com/ckeditor/ckeditor-dev/issues/568): Added possibility to adjust nested editables' filters using the [`CKEDITOR.filter.disallowedContent`](https://docs.ckeditor.com/#!/api/CKEDITOR.filter-property-disallowedContent) property.
+* [#568](https://github.com/ckeditor/ckeditor-dev/issues/568): Added possibility to adjust nested editables' filters using the [`CKEDITOR.filter.disallowedContent`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.filter-property-disallowedContent) property.
 
 Fixed Issues:
 
-* [#554](https://github.com/ckeditor/ckeditor-dev/issues/554): Fixed: [`change`](https://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event not fired when typing the first character after pasting into the editor. Thanks to [Daniel Miller](https://github.com/millerdev)!
+* [#554](https://github.com/ckeditor/ckeditor-dev/issues/554): Fixed: [`change`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.editor-event-change) event not fired when typing the first character after pasting into the editor. Thanks to [Daniel Miller](https://github.com/millerdev)!
 * [#566](https://github.com/ckeditor/ckeditor-dev/issues/566): Fixed: The CSS `border` shorthand property with zero width (`border: 0px solid #000;`) causes the table to have the border attribute set to 1.
 * [#779](https://github.com/ckeditor/ckeditor-dev/issues/779): Fixed: The [Remove Format](https://ckeditor.com/cke4/addon/removeformat) plugin removes elements with language definition inserted by the [Language](https://ckeditor.com/cke4/addon/language) plugin.
-* [#423](https://github.com/ckeditor/ckeditor-dev/issues/423): Fixed: The [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin pastes paragraphs into the editor even if [`CKEDITOR.config.enterMode`](https://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-enterMode) is set to `CKEDITOR.ENTER_BR`.
+* [#423](https://github.com/ckeditor/ckeditor-dev/issues/423): Fixed: The [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin pastes paragraphs into the editor even if [`CKEDITOR.config.enterMode`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-enterMode) is set to `CKEDITOR.ENTER_BR`.
 * [#719](https://github.com/ckeditor/ckeditor-dev/issues/719): Fixed: Image inserted using the [Enhanced Image](https://ckeditor.com/cke4/addon/image2) plugin can be resized when the editor is in [read-only mode](https://docs.ckeditor.com/#!/guide/dev_readonly).
 * [#577](https://github.com/ckeditor/ckeditor-dev/issues/577): Fixed: The "Delete Columns" command provided by the [Table Tools](https://ckeditor.com/cke4/addon/tabletools) plugin throws an error when trying to delete columns.
 * [#867](https://github.com/ckeditor/ckeditor-dev/issues/867): Fixed: Typing into a selected table throws an error.
@@ -59,8 +59,8 @@ Other Changes:
 
 * Updated the [WebSpellChecker](https://ckeditor.com/cke4/addon/wsc) plugin:
 	* [#40](https://github.com/WebSpellChecker/ckeditor-plugin-wsc/issues/40): Fixed: IE10 throws an error when spell checking is started.
-* [#800](https://github.com/ckeditor/ckeditor-dev/issues/800): Added the [`CKEDITOR.dom.selection.isCollapsed`](https://docs.ckeditor.com/#!/api/CKEDITOR.dom.selection-method-isCollapsed) method which is a simpler way to check if the selection is collapsed.
-* [#830](https://github.com/ckeditor/ckeditor-dev/issues/830): Added an option to define which dialog tab should be shown by default when creating [`CKEDITOR.dialogCommand`](https://docs.ckeditor.com/#!/api/CKEDITOR.dialogCommand).
+* [#800](https://github.com/ckeditor/ckeditor-dev/issues/800): Added the [`CKEDITOR.dom.selection.isCollapsed`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.dom.selection-method-isCollapsed) method which is a simpler way to check if the selection is collapsed.
+* [#830](https://github.com/ckeditor/ckeditor-dev/issues/830): Added an option to define which dialog tab should be shown by default when creating [`CKEDITOR.dialogCommand`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.dialogCommand).
 
 ## CKEditor 4.7.2
 
@@ -90,7 +90,7 @@ Other Changes:
 
 * Updated the [SCAYT](http://ckeditor.com/addon/scayt) (Spell Check As You Type) plugin:
 	* [#148](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/148): Fixed: SCAYT leaves underlined word after the CKEditor Replace dialog corrects it.
-* [#751](https://github.com/ckeditor/ckeditor-dev/issues/751): Added the [`CKEDITOR.dom.nodeList.toArray`](https://docs.ckeditor.com/#!/api/CKEDITOR.dom.nodeList-method-toArray) method which returns an array representation of a [node list](https://docs.ckeditor.com/#!/api/CKEDITOR.dom.nodeList).
+* [#751](https://github.com/ckeditor/ckeditor-dev/issues/751): Added the [`CKEDITOR.dom.nodeList.toArray`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.dom.nodeList-method-toArray) method which returns an array representation of a [node list](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.dom.nodeList).
 
 ## CKEditor 4.7.1
 
