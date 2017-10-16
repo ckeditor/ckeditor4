@@ -1,19 +1,28 @@
 <textarea id="editor1">
-	<p>Hello world. <strong>Bold text and <em>italic with additional <u>underline</u></em></strong>.</p>
-	<p>Hello world. <strong contenteditable="false">Bold text and <em contenteditable="true">italic with additional <u>underline</u></em></strong>.</p>
+	<p>Regular text. <strong>Bold text and <em>italic embeded in bold <u>and underline embeded once more</u></em></strong>.</p>
 	<ul>
 		<li>One</li>
 		<li>Two<ol>
-			<li><strong>STRONG: </strong>1111</li>
-			<li><em>ITALIC: </em>2222</li>
+			<li><strong>STRONG: </strong>regular text</li>
+			<li><em>ITALIC: </em>regular text</li>
 		</ol></li>
 	</ul>
-	<div><div><div><div><div><div><div><div><div><div><div>Divception</div></div></div></div></div></div></div></div></div></div></div>
+	<div><div><div><div><div>Spanception - This text is embed in 5 spans.</div></div></div></div></div>
+	<figure class="image">
+		<img src="/tests/_assets/lena.jpg" alt="avatar" />
+		<figcaption>Lena</figcaption>
+	</figure>
+
+</textarea>
+<br>
+<div id="editor2" contenteditable="true">
+	<p>You can type here <strong contenteditable="false">This is uneditable part <em contenteditable="true">and you can type again inside this widget<u> and some underline inside</u></em></strong>.</p>
+	<p><a href="http://ckeditor.com" target="_blank">This is link</a></p>
 	<table border='1'>
 		<thead>
 			<tr>
-				<th>Something</th>
-				<th>else</th>
+				<th>Just</th>
+				<th>header</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -23,60 +32,22 @@
 			</tr>
 			<tr>
 				<td>Three</td>
-				<td>Four</td>
+				<td><span><span><span><span><span>Divception - This text is embed in 5 divs.</span></span></span></span></span></td>
+			</tr>
+			<tr>
+				<td><strong>Strong text</strong></td>
+				<td><em>Emphasised text</em></td>
 			</tr>
 		</tbody>
 	</table>
-	<figure class="image">
-		<img src="/tests/_assets/lena.jpg" alt="avatar" />
-		<figcaption>Lena</figcaption>
-	</figure>
-
-</textarea>
-
-<div id="editor2" contenteditable="true">
-		<p>Hello world. <strong>Bold text and <em>italic with additional <u>underline</u></em></strong>.</p>
-		<p>Hello world. <strong contenteditable="false">Bold text and <em contenteditable="true">italic with additional <u>underline</u></em></strong>.</p>
-		<ul>
-			<li>One</li>
-			<li>Two<ol>
-				<li><strong>STRONG: </strong>1111</li>
-				<li><em>ITALIC: </em>2222</li>
-			</ol></li>
-		</ul>
-		<div><div><div><div><div><div><div><div><div><div><div>Divception</div></div></div></div></div></div></div></div></div></div></div>
-		<table border='1'>
-			<thead>
-				<tr>
-					<th>Something</th>
-					<th>else</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>One</td>
-					<td>Two</td>
-				</tr>
-				<tr>
-					<td>Three</td>
-					<td>Four</td>
-				</tr>
-			</tbody>
-		</table>
-		<figure class="image">
-			<img src="/tests/_assets/lena.jpg" alt="avatar" />
-			<figcaption>Caption</figcaption>
-		</figure>
-
 </div>
 
 <script>
 	CKEDITOR.replace( 'editor1', {
-		extraPlugins: 'image2',
 		allowedContent: true
 	} );
 	CKEDITOR.replace( 'editor2', {
-		extraPlugins: 'divarea,image2',
+		extraPlugins: 'divarea',
 		allowedContent: true
 	} );
 </script>
