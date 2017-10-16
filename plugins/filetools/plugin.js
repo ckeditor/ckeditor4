@@ -156,9 +156,11 @@
 		 * @param {String} fileName See {@link CKEDITOR.fileTools.fileLoader}.
 		 * @returns {CKEDITOR.fileTools.fileLoader} The created file loader instance.
 		 */
-		create: function( fileOrData, fileName ) {
+		create: function( fileOrData, fileName, loaderType ) {
+			loaderType = loaderType || FileLoader;
+
 			var id = this.loaders.length,
-				loader = new FileLoader( this.editor, fileOrData, fileName );
+				loader = new loaderType( this.editor, fileOrData, fileName );
 
 			loader.id = id;
 			this.loaders[ id ] = loader;
