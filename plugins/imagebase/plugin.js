@@ -20,10 +20,11 @@
 		 *
 		 * Note that because the image widget is a type of a widget, this definition extends
 		 * {@link CKEDITOR.plugins.widget.definition}.
-		 * It adds several parts of image and implements the {@link CKEDITOR.plugins.widget.definition#upcast} callback.
-		 * This callback should not be overwritten.
+		 * It adds several parts of image and implements the basic version of
+		 * {@link CKEDITOR.plugins.widget.definition#upcast} callback.
 		 *
 		 * @abstract
+		 * @since 4.8.0
 		 * @class CKEDITOR.plugins.imagebase.imageWidgetDefinition
 		 * @mixins CKEDITOR.plugins.widget.definition
 		 */
@@ -92,10 +93,9 @@
 	 */
 	CKEDITOR.plugins.imagebase = {
 		/**
-		 * Registers a new widget definition based on passed options.
+		 * Registers a new widget based on passed definition.
 		 *
-		 * @since 4.8.0
-		 * @param {CKEDITOR.editor} editor Editor that will get the definition registered.
+		 * @param {CKEDITOR.editor} editor Editor that will get the widget registered.
 		 * @param {String} name Widget name.
 		 * @param {CKEDITOR.plugins.imagebase.imageWidgetDefinition} definition Widget's definition.
 		 */
