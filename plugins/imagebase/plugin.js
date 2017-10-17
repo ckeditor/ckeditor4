@@ -99,7 +99,7 @@
 		 * @param {String} name Widget name.
 		 * @param {CKEDITOR.plugins.imagebase.imageWidgetDefinition} definition Widget's definition.
 		 */
-		createWidget: function( editor, name, definition ) {
+		addImageWidget: function( editor, name, definition ) {
 			var widget = editor.widgets.add( name, createWidgetDefinition( editor, definition ) );
 
 			editor.addFeature( widget );
