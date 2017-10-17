@@ -2025,7 +2025,7 @@
 			 *			}
 			 *		}
 			 *
-			 * @param {Object} obj1 A base object.
+			 * @param {Object} obj1 Source object, which will be used to create a new base object.
 			 * @param {Object} obj2 An object, which properties will be merged to the base one.
 			 * @returns {Object} Merged object.
 			 * @member CKEDITOR.tools.object
