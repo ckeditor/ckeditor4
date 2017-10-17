@@ -13,16 +13,3 @@ Proper text/background color should be highlighted in color panel.
 ### Unexpected result:
 
 Text/background color in color panel is not highlighted.
-
-** Scenario 2: **
-
-1. Click `Text Colour`/`Background Colour` button.
-2. Mouseover on each color element in color palette.
-
-### Expected result:
-
-For each color, a label is showing with a proper color name.
-
-### Unexpected result:
-
-Instead of color name in label, hex color appear.
