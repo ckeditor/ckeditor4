@@ -6,20 +6,13 @@
 ( function() {
 	'use strict';
 
-	function createWidgetDefinition( editor, options ) {
+	function createWidgetDefinition( editor, definition ) {
 		var defaultTemplate = new CKEDITOR.template(
 			'<figure class="{basicClass}">' +
 				'<img alt="" src="" />' +
 				'<figcaption>{captionPlaceholder}</figcaption>' +
-			'</figure>' );
-
-		function joinClasses( basicClass, additionalClasses ) {
-			var toApply = additionalClasses.slice();
-
-			toApply.unshift( basicClass );
-
-			return toApply.join( ',' );
-		}
+			'</figure>' ),
+			baseDefinition;
 
 		/**
 		 * This is an abstract class that describes a definition of a basic image widget
@@ -34,8 +27,7 @@
 		 * @class CKEDITOR.plugins.imagebase.imageWidgetDefinition
 		 * @mixins CKEDITOR.plugins.widget.definition
 		 */
-		return {
-
+		baseDefinition = {
 			pathName: editor.lang.imagebase.pathName,
 
 			template: defaultTemplate,
@@ -45,18 +37,18 @@
 					attributes: '!src,alt,width,height'
 				},
 				figure: {
-					classes: '!' + joinClasses( options.basicClass, options.additionalClasses )
+					classes: '!imagebase'
 				},
 				figcaption: true
 			},
 
-			requiredContent: 'figure(!' + options.basicClass + ')',
+			requiredContent: 'figure(!imagebase)',
 
 			editables: {
 				caption: {
 					selector: 'figcaption',
 					pathName: editor.lang.imagebase.pathNameCaption,
-					allowedContent: options.captionAllowedContent
+					allowedContent: 'br em strong sub sup u s; a[!href,target]'
 				}
 			},
 
@@ -77,22 +69,13 @@
 					return;
 				}
 
-				if ( element.name === 'figure' && element.hasClass( options.basicClass ) ) {
+				if ( element.name === 'figure' && element.hasClass( 'imagebase' ) ) {
 					return element;
-				}
-			},
-
-			/**
-			 * Invokes user defined widget initialization method.
-			 *
-			 * @property {Function}
-			 */
-			init: function() {
-				if ( options.init ) {
-					options.init.call( this );
 				}
 			}
 		};
+
+		return CKEDITOR.tools.object.merge( baseDefinition, definition );
 	}
 
 	CKEDITOR.plugins.add( 'imagebase', {
@@ -114,17 +97,10 @@
 		 * @since 4.8.0
 		 * @param {CKEDITOR.editor} editor Editor that will get the definition registered.
 		 * @param {String} name Widget name.
-		 * @param {Object} options Widget's options.
-		 * @param {String} options.basicClass Primary class for widget's element, that allows to properly
-		 * identify the widget.
-		 * @param {String[]} options.additionalClasses Additional classes that could be applied to widget's
-		 * element.
-		 * @param {CKEDITOR.filter.allowedContentRules} options.captionAllowedContent Allowed content inside
-		 * image's caption.
-		 * @param {Function} options.init Widget's initialization method.
+		 * @param {CKEDITOR.plugins.imagebase.imageWidgetDefinition} definition Widget's definition.
 		 */
-		createWidget: function( editor, name, options ) {
-			var widget = editor.widgets.add( name, createWidgetDefinition( editor, options ) );
+		createWidget: function( editor, name, definition ) {
+			var widget = editor.widgets.add( name, createWidgetDefinition( editor, definition ) );
 
 			editor.addFeature( widget );
 		}

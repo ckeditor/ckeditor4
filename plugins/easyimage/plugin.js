@@ -94,10 +94,28 @@
 	}
 
 	function registerWidget( editor ) {
+		var config = editor.config;
+
 		CKEDITOR.plugins.imagebase.createWidget( editor, 'easyimage', {
-			basicClass: editor.config.easyimage_class,
-			additionalClasses: [ editor.config.easyimage_sideClass ],
-			captionAllowedContent: 'br em strong sub sup u s; a[!href,target]',
+			allowedContent: {
+				figure: {
+					classes: '!' + config.easyimage_class + ',' + config.easyimage_sideClass
+				}
+			},
+
+			requiredContent: 'figure(!' + config.easyimage_class + ')',
+
+			upcast: function( element ) {
+				// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
+				if ( element.attributes[ 'data-cke-realelement' ] ) {
+					return;
+				}
+
+				if ( element.name === 'figure' && element.hasClass( config.easyimage_class ) ) {
+					return element;
+				}
+			},
+
 			init: function() {
 				this.on( 'contextMenu', function( evt ) {
 					evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
