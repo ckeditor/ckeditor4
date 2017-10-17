@@ -42,6 +42,14 @@
 				newSrcValues.push( this.createSrcWithBase64( img ) );
 			}, this );
 
+			editor.on( 'pasteFromWordImage', function( evt ) {
+				evt.data.loader.on( 'loaded', function() {
+					// Currently we directly assign data to src. If there will be some server, then we need to provide proper url to replace.
+					that.replaceSrc( this.editor, evt.data.oldSrc, this.url || this.data );
+				} );
+				evt.data.loader.load();
+			} );
+
 			// Assumption there is equal amout of Images in RTF and HTML source, so we can match them accoriding to existing order.
 			if ( imgTags.length === newSrcValues.length ) {
 				for ( i = 0; i < imgTags.length; i++ ) {
@@ -50,13 +58,9 @@
 						( function( oldSrc, newSrc ) {
 							var loader = editor.uploadRepository.create( newSrc );
 							editor.fire( 'pasteFromWordImage', {
-								loader: loader
+								loader: loader,
+								oldSrc: oldSrc
 							} );
-							loader.on( 'loaded', function() {
-								// Currently we directly assign data to src. If there will be some server, then we need to provide proper url to replace.
-								that.replaceSrc( this.editor, oldSrc, this.data );
-							} );
-							loader.load();
 						} )( imgTags[ i ], newSrcValues[ i ] );
 					}
 				}
@@ -173,9 +177,12 @@
 /**
  * Fired when the pasted content from word contained images.
  *
+ * This event is cancellable. If canceled, it will prevent Paste images from Word.
+ *
  * @since 4.8.0
  * @event pasteFromWordImage
  * @param data
  * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader which embed images in editor.
+ * @param {string} data.oldSrc Img url which is going to be replaced with File Loader.
  * @member CKEDITOR.editor
  */
