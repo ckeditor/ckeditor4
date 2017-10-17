@@ -96,7 +96,7 @@
 	function registerWidget( editor ) {
 		var config = editor.config;
 
-		CKEDITOR.plugins.imagebase.createWidget( editor, 'easyimage', {
+		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', {
 			allowedContent: {
 				figure: {
 					classes: '!' + config.easyimage_class + ',' + config.easyimage_sideClass
