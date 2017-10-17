@@ -510,12 +510,13 @@
 
 			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
 				var initOnCopyCut = function( evt ) {
-					// Make copy/cut only when we have non-collapsed selection (#869).
-					// If user tries to cut in read-only editor, we must prevent default action (https://dev.ckeditor.com/ticket/13872).
-					var collapsedSelection = editor.getSelection().isCollapsed(),
-						readOnlyCut = editor.readOnly && evt.name == 'cut';
+					// There shouldn't be anythong to copy/cut when selection is collapsed (#869).
+					if ( editor.getSelection().isCollapsed() ) {
+						return;
+					}
 
-					if ( !collapsedSelection && !readOnlyCut ) {
+					// If user tries to cut in read-only editor, we must prevent default action (https://dev.ckeditor.com/ticket/13872).
+					if ( !editor.readOnly || evt.name != 'cut' ) {
 						clipboard.initPasteDataTransfer( evt, editor );
 					}
 					evt.data.preventDefault();
