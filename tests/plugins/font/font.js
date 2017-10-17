@@ -211,6 +211,14 @@
 		},
 
 		// #525
+		'test combo value for selection with no font family': function() {
+			var editor = this.editor;
+
+			bender.tools.selection.setWithHtml( editor, '<p><span style="' + ffArial + '">f{oo</span>ba}r</p>' );
+			this.assertComboValue( editor, 'Font', '' );
+		},
+
+		// #525
 		// Currently unfixable as richcombo is based on selectionChange event
 		// 'test combo value after reselecting from the same beginning': function() {
 		// 	var editor = this.editor,
