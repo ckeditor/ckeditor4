@@ -37,7 +37,7 @@
 				'hyperlinkedimage_win',
 				'wrappedimage_win',
 				'twoimages_mac',
-				'multipleimageswithshapes_mac',
+				'multipleimagesandshapes_mac',
 				'hyperlinkedimage_mac',
 				'wrappedimage_mac'
 			];
