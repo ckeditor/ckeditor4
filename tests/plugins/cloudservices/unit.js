@@ -15,11 +15,11 @@ bender.test( {
 	},
 
 	'test plugin exposes loader': function() {
-		assert.isInstanceOf( Function, this.cloudservices.cloudSericesLoader, 'cloudServicesLoader property type' );
+		assert.isInstanceOf( Function, this.cloudservices.cloudServicesLoader, 'cloudServicesLoader property type' );
 	},
 
 	'test loader uses config url/token': function() {
-		var instance = new this.cloudservices.cloudSericesLoader( this.editor, mockBase64 ),
+		var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64 ),
 			// Stub loader.xhr methods before it's actually called.
 			listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
 
@@ -43,7 +43,7 @@ bender.test( {
 	},
 
 	'test loader allows url overriding': function() {
-		var instance = new this.cloudservices.cloudSericesLoader( this.editor, mockBase64 ),
+		var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64 ),
 			// Stub loader.xhr methods before it's actually called.
 			listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
 
