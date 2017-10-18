@@ -150,7 +150,7 @@
 
 			loadMethod: 'loadAndUpload',
 
-			loaderType: CKEDITOR.plugins.cloudservices.fileLoader,
+			loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
 
 			additionalRequestParameters: {
 				isEasyImage: true
