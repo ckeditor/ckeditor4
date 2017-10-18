@@ -38,7 +38,7 @@
 				/**
 				 * Custom [Cloud Service](https://ckeditor.com/ckeditor-cloud-services/) token.
 				 *
-				 * @property {String} custom_token
+				 * @property {String} customToken
 				 * @member CKEDITOR.plugins.cloudservices.cloudServicesLoader
 				 */
 				this.customToken = token;
