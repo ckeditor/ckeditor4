@@ -141,20 +141,12 @@
 	}
 
 	function registerUploadWidget( editor ) {
-		var uploadUrl = CKEDITOR.fileTools.getUploadUrl( editor.config, 'easyimage' );
-
 		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadeasyimage', {
 			supportedTypes: /image\/(jpeg|png|gif|bmp)/,
-
-			uploadUrl: uploadUrl,
 
 			loadMethod: 'loadAndUpload',
 
 			loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
-
-			additionalRequestParameters: {
-				isEasyImage: true
-			},
 
 			fileToElement: function() {
 				var img = new CKEDITOR.dom.element( 'img' );
