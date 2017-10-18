@@ -51,10 +51,10 @@ divarea test are failing, its upstream issue from balloonpanel. issue #1064
 			var elementFrame = markerElement.getClientRect();
 			inlineToolbar.create( markerElement );
 			var inlineToobarRect = inlineToolbar.parts.panel.getClientRect();
-			assert.areEqual( frame.left + elementFrame.left + elementFrame.width / 2 - 50, inlineToobarRect.left, 'left align' );
+			assert.areEqual( ( frame.left + elementFrame.left + elementFrame.width / 2 - 50 ).toFixed( 2 ), inlineToobarRect.left.toFixed( 2 ), 'left align' );
 			//We have to add 1px because of border
-			assert.areEqual( inlineToobarRect.top + inlineToolbar.height + inlineToolbar.triangleHeight + 1,
-				frame.top + frame.height, 'top align' );
+			assert.areEqual( ( inlineToobarRect.top + inlineToolbar.height + inlineToolbar.triangleHeight + 1 ).toFixed( 2 ),
+				( frame.top + frame.height ).toFixed( 2 ), 'top align' );
 			inlineToolbar.destroy();
 			inlineToolbar = null;
 		},
@@ -70,8 +70,8 @@ divarea test are failing, its upstream issue from balloonpanel. issue #1064
 			markerElement.getParent().getNext().scrollIntoView( true );
 			inlineToolbar.create( markerElement );
 			var inlineToobarRect = inlineToolbar.parts.panel.getClientRect();
-			assert.areEqual( frame.left + elementFrame.left + elementFrame.width / 2 - 50, inlineToobarRect.left, 'left align' );
-			assert.areEqual( frame.top, inlineToobarRect.top - inlineToolbar.triangleHeight, 'top align' );
+			assert.areEqual( ( frame.left + elementFrame.left + elementFrame.width / 2 - 50 ).toFixed( 2 ), inlineToobarRect.left.toFixed( 2 ), 'left align' );
+			assert.areEqual( frame.top.toFixed( 2 ), ( inlineToobarRect.top - inlineToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
 			inlineToolbar.destroy();
 			inlineToolbar = null;
 		}
