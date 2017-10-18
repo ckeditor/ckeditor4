@@ -62,6 +62,26 @@ bender.test( {
 		}
 	},
 
+	'test loader allows token overriding': function() {
+		var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64, null, 'different_token' ),
+			// Stub loader.xhr methods before it's actually called.
+			listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
+
+		try {
+			instance.upload();
+
+			sinon.assert.calledWithExactly( instance.xhr.setRequestHeader, 'Authorization', 'different_token' );
+
+			assert.areSame( 1, instance.xhr.send.callCount, 'Call count' );
+		} catch ( e ) {
+			// Propagate.
+			throw e;
+		} finally {
+			// Always remove listener.
+			listener.removeListener();
+		}
+	},
+
 	// Common fileUploadRequest listener reused by tests.
 	commonRequestListener: function( evt ) {
 		var loader = evt.data.fileLoader;

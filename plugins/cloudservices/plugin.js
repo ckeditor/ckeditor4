@@ -21,9 +21,27 @@
 			 * @since 4.8.0
 			 * @class CKEDITOR.plugins.cloudservices.cloudServicesLoader
 			 * @extends CKEDITOR.fileTools.fileLoader
+			 * @constructor
+			 * @inheritdoc
+			 * @param {CKEDITOR.editor} editor The editor instance. Used only to get language data.
+			 * @param {Blob/String} fileOrData A [blob object](https://developer.mozilla.org/en/docs/Web/API/Blob) or a data
+			 * string encoded with Base64.
+			 * @param {String} [fileName] The file name. If not set and the second parameter is a file, then its name will be used.
+			 * If not set and the second parameter is a Base64 data string, then the file name will be created based on
+			 * the {@link CKEDITOR.config#fileTools_defaultFileName} option.
+			 * @param {String} [token] A token used for [Cloud Service](https://ckeditor.com/ckeditor-cloud-services/) request. If
+			 * skipped {@link CKEDITOR.config#cloudServices_token} will be used.
 			 */
-			function CloudServicesLoader( editor, fileOrData, fileName ) {
+			function CloudServicesLoader( editor, fileOrData, fileName, token ) {
 				FileLoader.call( this, editor, fileOrData, fileName );
+
+				/**
+				 * Custom [Cloud Service](https://ckeditor.com/ckeditor-cloud-services/) token.
+				 *
+				 * @property {String} custom_token
+				 * @member CKEDITOR.plugins.cloudservices.cloudServicesLoader
+				 */
+				this.customToken = token;
 			}
 
 			CloudServicesLoader.prototype = CKEDITOR.tools.extend( {}, FileLoader.prototype );
@@ -62,7 +80,7 @@
 					delete reqData.upload;
 
 					// Add authorization token.
-					evt.data.fileLoader.xhr.setRequestHeader( 'Authorization', editor.config.cloudServices_token );
+					evt.data.fileLoader.xhr.setRequestHeader( 'Authorization', fileLoader.customToken || editor.config.cloudServices_token );
 				}
 			}, null, null, 6 );
 
