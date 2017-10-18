@@ -1,0 +1,31 @@
+<div id="editor">
+    <h1>Title</h1>
+	<strong><span>lorem ipsum</span></strong>
+    <p>Sample text.</p>
+</div>
+
+<script>
+	CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'span',
+		extraPlugins: 'spanwidget',
+		allowedContent: true
+	} );
+
+    CKEDITOR.dtd.$editable.span = 1;
+
+	CKEDITOR.plugins.add( 'spanwidget', {
+		requires: 'widget',
+		init: function ( editor )	{
+			editor.widgets.add('spanwidget', {
+				editables: {
+					content: {
+						selector: 'span'
+				}
+				},
+				upcast: function (element) {
+					return element.name == 'span';
+				}
+			});
+		}
+	} );
+</script>
