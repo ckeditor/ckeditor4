@@ -40,7 +40,7 @@
 				newSrcValues.push( this.createSrcWithBase64( img ) );
 			}, this );
 
-			// Assumption there is equal amout of Images in RTF and HTML source, so we can match them accoriding to existing order.
+			// Assumption there is equal amount of Images in RTF and HTML source, so we can match them accordingly to existing order.
 			if ( imgTags.length === newSrcValues.length ) {
 				for ( i = 0; i < imgTags.length; i++ ) {
 					// Replace only `file` urls of images ( shapes get newSrcValue with null ).
