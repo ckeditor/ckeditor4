@@ -545,7 +545,7 @@
 				this.upload = uploadStub;
 			}
 
-			addTestUploadWidget( editor, 'loadMethodLoad', {
+			addTestUploadWidget( editor, 'customLoaderType', {
 				loaderType: CustomLoaderType,
 				loadMethod: 'upload'
 			} );
