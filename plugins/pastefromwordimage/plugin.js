@@ -7,8 +7,94 @@
 	'use strict';
 
 	CKEDITOR.plugins.add( 'pastefromwordimage', {
-		requires: 'pastefromword',
-		init: function() {}
+		requires: 'pastefromword,filetools',
+		// Transparent 1x1 gif pixel
+		srcTmpFiller: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
+
+		init: function( editor ) {
+			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+				return;
+			}
+
+			// Register a proper filter, so that images are not stripped out.
+			editor.filter.allow( 'img[src,data-cke-saved-src]' );
+
+			editor.on( 'afterPasteFromWord', this.pasteListener, this );
+		},
+
+		pasteListener: function( evt ) {
+			var pfwi = CKEDITOR.plugins.pastefromwordimage,
+				imgTags,
+				hexImages,
+				newSrcValues = [],
+				i,
+				editor = evt.editor,
+				that = this;
+
+			imgTags = pfwi.extractImgTagsFromHtml( evt.data.dataValue );
+			if ( imgTags.length === 0 ) {
+				return;
+			}
+
+			hexImages = pfwi.extractImagesFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
+			if ( hexImages.length === 0 ) {
+				return;
+			}
+
+			CKEDITOR.tools.array.forEach( hexImages, function( img ) {
+				newSrcValues.push( this.createSrcWithBase64( img ) );
+			}, this );
+
+			editor.on( 'pasteFromWordImage', function( evt ) {
+				evt.data.loader.on( 'loaded', function() {
+					// Currently we directly assign data to src. If there will be some server, then we need to provide proper url to replace.
+					that.replaceSrc( this.editor, evt.data.oldSrc, this.url || this.data );
+				} );
+				evt.data.loader.load();
+			} );
+			// Assumption there is equal amount of Images in RTF and HTML source, so we can match them accoriding to existing order.
+			if ( imgTags.length === newSrcValues.length ) {
+				for ( i = 0; i < imgTags.length; i++ ) {
+					// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+					if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
+						( function( oldSrc, newSrc ) {
+							var loader;
+							// Replace 'file://...' url with transparent empty pixel.
+							evt.data.dataValue = evt.data.dataValue.replace( new RegExp( 'src=[\"\']' + imgTags[ i ].replace( /\\/g, '\\\\' ) + '[\"\']', 'g' ),
+							'src="' + that.srcTmpFiller + '" data-cke-saved-src="' + imgTags[ i ] + '"' );
+							// Register loader to upload and swap img src later on.
+							loader = editor.uploadRepository.create( newSrc );
+							editor.fire( 'pasteFromWordImage', {
+								loader: loader,
+								oldSrc: oldSrc
+							} );
+						} )( imgTags[ i ], newSrcValues[ i ] );
+					}
+				}
+			}
+
+		},
+
+		createSrcWithBase64: function( img ) {
+			return img.type ? 'data:' + img.type + ';base64,' + this.hexToBase64( img.hex ) : null;
+		},
+
+		hexToBase64: function( hexString ) {
+			return CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( hexString ) );
+		},
+
+		replaceSrc: function( editor, url, newSrc ) {
+			var list = editor.editable().find( 'img[data-cke-saved-src="' + url.replace( /\\/g, '\\\\' ) + '"]' ),
+				i;
+			// Because this same URL should point to exact the same picture, we replace all of them.
+			if ( list.count() > 0 ) {
+				for ( i = 0; i < list.count(); i++ ) {
+					list.getItem( i ).setAttribute( 'src', newSrc );
+					list.getItem( i ).data( 'cke-saved-src', newSrc );
+				}
+			}
+		}
+
 	} );
 
 	/**
@@ -36,7 +122,6 @@
 				rePictureOrShape = new RegExp( '(?:(' + rePictureHeader.source + ')|(' + reShapeHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
 				wholeImages,
 				imageType;
-
 			wholeImages = rtfContent.match( rePictureOrShape );
 			if ( !wholeImages ) {
 				return ret;
@@ -94,3 +179,17 @@
 		}
 	};
 } )();
+
+
+/**
+ * Fired when the pasted content from word contained images.
+ *
+ * This event is cancellable. If canceled, it will prevent Paste images from Word.
+ *
+ * @since 4.8.0
+ * @event pasteFromWordImage
+ * @param data
+ * @param {CKEDITOR.fileTools.fileLoader} data.loader Loader which embed images in editor.
+ * @param {string} data.oldSrc Img url which is going to be replaced with File Loader.
+ * @member CKEDITOR.editor
+ */
