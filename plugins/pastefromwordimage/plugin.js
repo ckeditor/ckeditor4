@@ -8,13 +8,16 @@
 
 	CKEDITOR.plugins.add( 'pastefromwordimage', {
 		requires: 'pastefromword,filetools',
+		// Transparent 1x1 gif pixel
+		srcTmpFiller: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
+
 		init: function( editor ) {
 			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				return;
 			}
 
 			// Register a proper filter, so that images are not stripped out.
-			editor.filter.allow( 'img[src]' );
+			editor.filter.allow( 'img[src,data-cke-saved-src]' );
 
 			editor.on( 'afterPasteFromWord', this.pasteListener, this );
 		},
@@ -49,14 +52,18 @@
 				} );
 				evt.data.loader.load();
 			} );
-
-			// Assumption there is equal amout of Images in RTF and HTML source, so we can match them accoriding to existing order.
+			// Assumption there is equal amount of Images in RTF and HTML source, so we can match them accoriding to existing order.
 			if ( imgTags.length === newSrcValues.length ) {
 				for ( i = 0; i < imgTags.length; i++ ) {
 					// Replace only `file` urls of images ( shapes get newSrcValue with null ).
 					if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
 						( function( oldSrc, newSrc ) {
-							var loader = editor.uploadRepository.create( newSrc );
+							var loader;
+							// Replace 'file://...' url with transparent empty pixel.
+							evt.data.dataValue = evt.data.dataValue.replace( new RegExp( 'src=[\"\']' + imgTags[ i ].replace( /\\/g, '\\\\' ) + '[\"\']', 'g' ),
+							'src="' + that.srcTmpFiller + '" data-cke-saved-src="' + imgTags[ i ] + '"' );
+							// Register loader to upload and swap img src later on.
+							loader = editor.uploadRepository.create( newSrc );
 							editor.fire( 'pasteFromWordImage', {
 								loader: loader,
 								oldSrc: oldSrc
@@ -77,7 +84,7 @@
 		},
 
 		replaceSrc: function( editor, url, newSrc ) {
-			var list = editor.editable().find( 'img[src="' + url.replace( /\\/g, '\\\\' ) + '"]' ),
+			var list = editor.editable().find( 'img[data-cke-saved-src="' + url.replace( /\\/g, '\\\\' ) + '"]' ),
 				i;
 			// Because this same URL should point to exact the same picture, we replace all of them.
 			if ( list.count() > 0 ) {
