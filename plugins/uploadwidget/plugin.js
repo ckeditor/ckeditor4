@@ -366,6 +366,12 @@
 			 */
 
 			/**
+			 * Loader type that should be used for creating fileTools requests.
+			 *
+			 * @property {Function} [loaderType]
+			 */
+
+			/**
 			 * An object containing additional data that should be passed to the function defined by {@link #loadMethod}.
 			 *
 			 * @property {Object} [additionalRequestParameters]
