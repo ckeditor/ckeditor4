@@ -19,20 +19,6 @@
 	bender.editor = true;
 
 	bender.test( {
-		'test pastefromwordimage event triggered': function() {
-			var editor = this.editor;
-
-			editor.once( 'pasteFromWordImage', function() {
-				resume( function() {
-					assert.pass();
-				} );
-			} );
-
-			editor.fire( 'afterPasteFromWord', pasteData );
-
-			wait();
-		},
-
 		'test embed picture': function() {
 			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				assert.ignore();
@@ -53,7 +39,6 @@
 				eventData.dataValue = pasteData.dataValue;
 				eventData.type = 'auto';
 				eventData.method = 'paste';
-
 				editor.once( 'pasteFromWordImage', function() {
 					setTimeout( function() {
 						resume( function() {
