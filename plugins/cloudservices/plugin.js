@@ -22,11 +22,11 @@
 			 * @class CKEDITOR.plugins.cloudservices.cloudServicesLoader
 			 * @extends CKEDITOR.fileTools.fileLoader
 			 */
-			function cloudServicesLoader( editor, fileOrData, fileName ) {
+			function CloudServicesLoader( editor, fileOrData, fileName ) {
 				FileLoader.call( this, editor, fileOrData, fileName );
 			}
 
-			cloudServicesLoader.prototype = CKEDITOR.tools.extend( {}, FileLoader.prototype );
+			CloudServicesLoader.prototype = CKEDITOR.tools.extend( {}, FileLoader.prototype );
 
 			/**
 			 * @inheritdoc
@@ -34,7 +34,7 @@
 			 * @param {Object} [additionalRequestParameters] Additional data that would be passed to the
 			 * {@link CKEDITOR.editor#fileUploadRequest} event.
 			 */
-			cloudServicesLoader.prototype.upload = function( url, additionalRequestParameters ) {
+			CloudServicesLoader.prototype.upload = function( url, additionalRequestParameters ) {
 				url = url || this.editor.config.cloudServices_url;
 
 				FileLoader.prototype.upload.call( this, url, additionalRequestParameters );
@@ -48,7 +48,7 @@
 			 * the {@link CKEDITOR.editor#fileUploadRequest} event.
 			*/
 
-			CKEDITOR.plugins.cloudservices.cloudServicesLoader = cloudServicesLoader;
+			CKEDITOR.plugins.cloudservices.cloudServicesLoader = CloudServicesLoader;
 		},
 
 		beforeInit: function( editor ) {
