@@ -507,6 +507,28 @@
 			wait();
 		},
 
+		'test custom def.loaderType': function() {
+			var editor = mockEditorForPaste(),
+				uploadStub = sinon.stub();
+
+			function CustomLoaderType() {
+				this.upload = uploadStub;
+			}
+
+			addTestUploadWidget( editor, 'loadMethodLoad', {
+				loaderType: CustomLoaderType,
+				loadMethod: 'upload'
+			} );
+
+			resumeAfter( editor, 'paste', function() {
+				assert.areSame( 1, uploadStub.callCount, 'CustomLoaderType.upload call count' );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test1.png' ) ] );
+
+			wait();
+		},
+
 		'test paste multiple files': function() {
 			var editor = mockEditorForPaste();
 
