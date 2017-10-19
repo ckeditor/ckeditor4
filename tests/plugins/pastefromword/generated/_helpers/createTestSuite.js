@@ -24,7 +24,8 @@ function createTestSuite( options ) {
 		testData: { _should: { ignore: {} } },
 		ignoreAll: false,
 		compareRawData: false,
-		customFilters: null
+		customFilters: null,
+		includeRTF: false
 	} );
 
 	var testData = options.testData,
@@ -52,7 +53,8 @@ function createTestSuite( options ) {
 							wordVersion: wordVersion,
 							browser: options.browsers[ j ],
 							compareRawData: options.compareRawData,
-							customFilters: options.customFilters
+							customFilters: options.customFilters,
+							includeRTF: options.includeRTF
 						} );
 					}
 				}
