@@ -31,19 +31,20 @@
 			}
 
 			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
-				width: 100,
-				height: 200
-			} ),
+					width: 100,
+					height: 200
+				} ),
 				markerElement = editor.editable().findOne( '#marker' ),
 				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
 				elementFrame = markerElement.getClientRect(),
-				inlineToobarRect;
-			inlineToolbar.create( markerElement );
-			inlineToobarRect = inlineToolbar.parts.panel.getClientRect();
+				inlineToolbarRect;
 
-			assert.areEqual( ( frame.left + elementFrame.left + elementFrame.width / 2 - 50 ).toFixed( 2 ), inlineToobarRect.left.toFixed( 2 ), 'left align' );
-			//We have to add 1px because of border
-			assert.areEqual( ( inlineToobarRect.top + inlineToolbar.height + inlineToolbar.triangleHeight + 1 ).toFixed( 2 ),
+			inlineToolbar.create( markerElement );
+			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
+
+			assert.areEqual( ( frame.left + elementFrame.left + elementFrame.width / 2 - 50 ).toFixed( 2 ), inlineToolbarRect.left.toFixed( 2 ), 'left align' );
+			// We have to add 1px because of border.
+			assert.areEqual( ( inlineToolbarRect.top + inlineToolbar.height + inlineToolbar.triangleHeight + 1 ).toFixed( 2 ),
 				( frame.top + frame.height ).toFixed( 2 ), 'top align' );
 			inlineToolbar.destroy();
 			inlineToolbar = null;
@@ -56,19 +57,20 @@
 			}
 
 			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
-				width: 100,
-				height: 200
-			} ),
+					width: 100,
+					height: 200
+				} ),
 				markerElement = editor.editable().findOne( '#marker' ),
 				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
 				elementFrame = markerElement.getClientRect(),
-				inlineToobarRect;
+				inlineToolbarRect;
+
 			markerElement.getParent().getNext().scrollIntoView( true );
 			inlineToolbar.create( markerElement );
-			inlineToobarRect = inlineToolbar.parts.panel.getClientRect();
+			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
 
-			assert.areEqual( ( frame.left + elementFrame.left + elementFrame.width / 2 - 50 ).toFixed( 2 ), inlineToobarRect.left.toFixed( 2 ), 'left align' );
-			assert.areEqual( frame.top.toFixed( 2 ), ( inlineToobarRect.top - inlineToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
+			assert.areEqual( ( frame.left + elementFrame.left + elementFrame.width / 2 - 50 ).toFixed( 2 ), inlineToolbarRect.left.toFixed( 2 ), 'left align' );
+			assert.areEqual( frame.top.toFixed( 2 ), ( inlineToolbarRect.top - inlineToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
 			inlineToolbar.destroy();
 			inlineToolbar = null;
 		}
