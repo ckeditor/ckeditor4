@@ -2648,7 +2648,7 @@
 				try {
 					this._nativeDataTransfer.setData( testType, testValue );
 					fallbackDataTransfer._isCustomMimeTypeSupported = this._nativeDataTransfer.getData( testType ) === testValue;
-					this._nativeDataTransfer.setData( testType, '' );
+					this._nativeDataTransfer.clearData( testType );
 				} catch ( e ) {}
 			}
 			return !fallbackDataTransfer._isCustomMimeTypeSupported;
