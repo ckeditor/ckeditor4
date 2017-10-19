@@ -1,4 +1,7 @@
 <textarea id="editor" cols="30" rows="10"></textarea>
 <script>
+	if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+		bender.ignore();
+	}
 	CKEDITOR.replace( 'editor' );
 </script>
