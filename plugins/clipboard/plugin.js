@@ -2311,13 +2311,10 @@
 			var data = this._.data[ type ],
 				result;
 
-
-
 			if ( isEmpty( data ) ) {
 
 				if ( this.fallbackDataTransfer.isRequired() ) {
 					data = this.fallbackDataTransfer.getData( type );
-
 				} else {
 					try {
 						data = this.$.getData( type ) || '';
@@ -2586,7 +2583,7 @@
 
 	/**
 	 * Fallback dataTransfer object which is used together with {@link CKEDITOR.plugins.clipboard.dataTransfer}
-	 * for browsers supporting Clipboard API, but not supporting custom MIME types (Edge 16+).
+	 * for browsers supporting Clipboard API, but not supporting custom MIME types (Edge 16+ - #962).
 	 *
 	 * @since 4.8
 	 * @class CKEDITOR.plugins.clipboard.fallbackDataTransfer
@@ -2614,11 +2611,11 @@
 	};
 
 	/**
-	 * True if the environment supports custom MIME types in `dataTransfer/cliboardData` `getData/setData` methods. Introduced
-	 * to distinguish browsers which supports only some whitelisted types (like 'text/html', 'application/xml'), but does not support
-	 * custom MIME types (like `cke/id`) like Edge 16+.
-	 * This property should not be accessed directly, use {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#isRequired}
-	 * method instead.
+	 * True if the environment supports custom MIME types in {@link CKEDITOR.plugins.clipboard.dataTransfer#getData}
+	 * and {@link CKEDITOR.plugins.clipboard.dataTransfer#setData} methods. Introduced to distinguish browsers which
+	 * supports only some whitelisted types (like 'text/html', 'application/xml'), but does not support custom
+	 * MIME types (like `cke/id`) like Edge 16+. When the value of this property equals 'null' it means it was not yet initialized.
+	 * This property should not be accessed directly, use {@link #isRequired} method instead.
 	 *
 	 * @private
 	 * @static
@@ -2629,8 +2626,7 @@
 	CKEDITOR.plugins.clipboard.fallbackDataTransfer.prototype = {
 		/**
 		 * Whether {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer} should be used when operating on dataTransfer.
-		 * If true is returned, it means custom MIME types are not supported in the current browser
-		 * (see {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_isCustomMimeTypeSupported}).
+		 * If true is returned, it means custom MIME types are not supported in the current browser (see {@link #_isCustomMimeTypeSupported}).
 		 *
 		 * @returns {Boolean}
 		 */
@@ -2641,26 +2637,26 @@
 				return false;
 			}
 
-			if ( CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported === null ) {
+			var testValue = 'cke test value',
+				testType = 'cke/mimetypetest',
+				fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
 
-				CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = true;
+			if ( fallbackDataTransfer._isCustomMimeTypeSupported === null ) {
+
+				fallbackDataTransfer._isCustomMimeTypeSupported = false;
 
 				try {
-					this._nativeDataTransfer.setData( 'cke/mimetypetest', 'test value' );
-					this._nativeDataTransfer.setData( 'cke/mimetypetest', null );
-				} catch ( e ) {
-					if ( this._isUnsupportedMimeTypeError( e ) ) {
-						CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = false;
-					}
-				}
+					this._nativeDataTransfer.setData( testType, testValue );
+					fallbackDataTransfer._isCustomMimeTypeSupported = this._nativeDataTransfer.getData( testType ) === testValue;
+					this._nativeDataTransfer.setData( testType, '' );
+				} catch ( e ) {}
 			}
-
-			return !CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported;
+			return !fallbackDataTransfer._isCustomMimeTypeSupported;
 		},
 
 		/**
-		 * Returns the data of the given MIME type. Extracts data of the given MIME type if it is stored in
-		 * {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#\_customDataFallbackType} special comment.
+		 * Returns the data of the given MIME type if stored in a regular way or in a special comment. If given type
+		 * is the same as {@link #_customDataFallbackType} the whole data without special comment is returned.
 		 *
 		 * @param {String} type
 		 * @returns {String}
@@ -2736,7 +2732,7 @@
 		 *
 		 * @private
 		 * @param {String} type
-		 * @returns {String}
+		 * @returns {String|null}
 		 */
 		_getData: function( type ) {
 			try {
@@ -2750,7 +2746,7 @@
 		 * Whether provided error means that unsupported MIME type was used when calling native `dataTransfer.setData` method.
 		 *
 		 * @private
-		 * @param {Object} error
+		 * @param {Error} error
 		 * @returns {Boolean}
 		 */
 		_isUnsupportedMimeTypeError: function( error ) {
@@ -2764,8 +2760,9 @@
 		 * @param {String} content
 		 * @returns {Object} Returns an object containing extracted data as `data`
 		 * and content (without `cke-data` comment) as `content`.
-		 * @returns {Object} return.data
-		 * @returns {String} return.content
+		 * @returns {Object|null} return.data Object containing `MIME type : value` pairs
+		 * or null if `cke-data` comment is not present.
+		 * @returns {String} return.content Regular content without `cke-data` comment.
 		 */
 		_extractDataComment: function( content ) {
 			var result = {
