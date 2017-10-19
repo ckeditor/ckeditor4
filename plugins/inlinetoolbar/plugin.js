@@ -11,7 +11,7 @@
 	 *
 	 * @class
 	 * @extends CKEDITOR.ui.balloonPanel
-	 * @constructor Creates a inline toolbar view instance.
+	 * @constructor Creates an inline toolbar view instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the panel is created.
 	 * @param {Object} definition An object containing the panel definition. See {@link CKEDITOR.ui.balloonPanel}
@@ -50,7 +50,7 @@
 			};
 
 			/**
-			 * Detach all listeners.
+			 * Detaches all listeners.
 			 *
 			 * @private
 			 */
