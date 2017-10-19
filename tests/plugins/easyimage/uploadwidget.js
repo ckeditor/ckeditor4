@@ -16,7 +16,7 @@
 		classic: {
 			name: 'classic',
 			config: {
-				easyimageUploadUrl: 'http://foo/upload',
+				cloudServices_url: 'http://foo/upload',
 				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
 				pasteFilter: null
 			}
@@ -26,7 +26,7 @@
 			name: 'divarea',
 			config: {
 				extraPlugins: 'divarea',
-				easyimageUploadUrl: 'http://foo/upload',
+				cloudServices_url: 'http://foo/upload',
 				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
 				pasteFilter: null
 			}
@@ -36,7 +36,7 @@
 			name: 'inline',
 			creator: 'inline',
 			config: {
-				easyimageUploadUrl: 'http://foo/upload',
+				cloudServices_url: 'http://foo/upload',
 				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
 				pasteFilter: null
 			}
@@ -56,16 +56,22 @@
 		}
 	}
 
+	CKEDITOR.on( 'instanceCreated', function() {
+		if ( !CKEDITOR.plugins.cloudservices.cloudServicesLoader.restore ) {
+			sinon.stub( CKEDITOR.plugins.cloudservices, 'cloudServicesLoader', CKEDITOR.fileTools.fileLoader );
+		}
+	} );
+
 	tests = {
 		init: function() {
 			var responseData = {
 				response: {
 					100: IMG_URL,
-					200: IMG_URL
+					200: IMG_URL,
+					default: IMG_URL
 				}
 			};
 
-			responseData[ 'default' ] = IMG_URL;
 			resumeAfter = bender.tools.resumeAfter;
 
 			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function( url ) {
@@ -83,6 +89,11 @@
 
 				this.responseData = CKEDITOR.tools.clone( responseData );
 			};
+
+			// Further hacking, now stub can be safely removed, as it's used only in plugin.init, which has already been called.
+			if ( CKEDITOR.plugins.cloudservices.cloudServicesLoader.restore ) {
+				CKEDITOR.plugins.cloudservices.cloudServicesLoader.restore();
+			}
 		},
 
 		setUp: function() {
