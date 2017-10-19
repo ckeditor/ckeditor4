@@ -3,15 +3,16 @@
 /* bender-ckeditor-plugins: pastefromword,ajax,basicstyles,bidi,font,link,toolbar,colorbutton,image,pastefromwordimage */
 /* bender-ckeditor-plugins: list,liststyle,sourcearea,format,justify,table,tableresize,tabletools,indent,indentblock,div,dialog */
 /* jshint ignore:end */
-/* bender-include: _lib/q.js,_helpers/promisePasteEvent.js,_helpers/assertWordFilter.js,_helpers/createTestCase.js */
-/* bender-include: _helpers/createTestSuite.js,_helpers/pfwTools.js */
+/* bender-include: ../../pastefromword/generated/_lib/q.js,../../pastefromword/generated/_helpers/promisePasteEvent.js */
+/* bender-include: ../../pastefromword/generated/_helpers/assertWordFilter.js,../../pastefromword/generated/_helpers/createTestCase.js */
+/* bender-include: ../../pastefromword/generated/_helpers/createTestSuite.js,../../pastefromword/generated/_helpers/pfwTools.js */
 /* global pfwTools,createTestSuite */
 
 ( function() {
 	'use strict';
 
 	bender.editor = {
-		config: pfwTools.defaultConfig
+		config: pfwTools.imageDefaultConfig
 	};
 
 	bender.test( createTestSuite( {
@@ -30,6 +31,7 @@
 			'MixedOnlineAndShapes': true,
 			'WrappedImage': true
 		},
-		ignoreAll: CKEDITOR.env.ie
+		ignoreAll: CKEDITOR.env.ie,
+		includeRTF: true
 	} ) );
 } )();
