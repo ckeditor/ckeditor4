@@ -42,7 +42,6 @@ function createTestCase( options ) {
 				load( outputPath + deCasher ),
 				load( specialCasePath + deCasher )
 			];
-
 		if ( options.includeRTF ) {
 			loadQueue.push( load( inputPathRtf + deCasher ) );
 		}
@@ -63,7 +62,7 @@ function createTestCase( options ) {
 				return;
 			}
 			// Single null when RTF is avaialble means that one of 2 required files is missing.
-			else if ( inputFixtureHtml === null || inputFixtureRtf === null ) {
+			else if ( options.includeRTF && ( inputFixtureHtml === null || inputFixtureRtf === null ) ) {
 				resume( function() {
 					assert.isNotNull( inputFixtureHtml, '"' + inputPathHtml + '" file is missing' );
 					assert.isNotNull( inputFixtureRtf, '"' + inputPathRtf + '" file is missing' );

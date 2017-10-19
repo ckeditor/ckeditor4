@@ -9,57 +9,53 @@
 	CKEDITOR.plugins.add( 'pastefromwordimage', {
 		requires: 'pastefromword',
 		init: function( editor ) {
-			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			if ( CKEDITOR.env.ie || CKEDITOR.env.iOS ) {
 				return;
 			}
 
 			// Register a proper filter, so that images are not stripped out.
 			editor.filter.allow( 'img[src]' );
 
-			editor.on( 'afterPasteFromWord', this.pasteListener, this );
-		},
+			editor.on( 'afterPasteFromWord', pasteListener );
+		}
+	} );
 
-		pasteListener: function( evt ) {
-			var pfwi = CKEDITOR.plugins.pastefromwordimage,
-				imgTags,
-				hexImages,
-				newSrcValues = [],
-				i;
 
-			imgTags = pfwi.extractImgTagsFromHtml( evt.data.dataValue );
-			if ( imgTags.length === 0 ) {
-				return;
-			}
+	function pasteListener( evt ) {
+		var pfwi = CKEDITOR.plugins.pastefromwordimage,
+			imgTags,
+			hexImages,
+			newSrcValues = [],
+			i;
 
-			hexImages = pfwi.extractImagesFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
-			if ( hexImages.length === 0 ) {
-				return;
-			}
-
-			CKEDITOR.tools.array.forEach( hexImages, function( img ) {
-				newSrcValues.push( this.createSrcWithBase64( img ) );
-			}, this );
-
-			// Assumption there is equal amount of Images in RTF and HTML source, so we can match them accordingly to existing order.
-			if ( imgTags.length === newSrcValues.length ) {
-				for ( i = 0; i < imgTags.length; i++ ) {
-					// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-					if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
-						evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
-					}
-				}
-			}
-		},
-
-		createSrcWithBase64: function( img ) {
-			return img.type ? 'data:' + img.type + ';base64,' + this.hexToBase64( img.hex ) : null;
-		},
-
-		hexToBase64: function( hexString ) {
-			return CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( hexString ) );
+		imgTags = pfwi.extractImgTagsFromHtml( evt.data.dataValue );
+		if ( imgTags.length === 0 ) {
+			return;
 		}
 
-	} );
+		hexImages = pfwi.extractImagesFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
+		if ( hexImages.length === 0 ) {
+			return;
+		}
+
+		CKEDITOR.tools.array.forEach( hexImages, function( img ) {
+			newSrcValues.push( createSrcWithBase64( img ) );
+		}, this );
+
+		// Assumption there is equal amount of Images in RTF and HTML source, so we can match them accordingly to existing order.
+		if ( imgTags.length === newSrcValues.length ) {
+			for ( i = 0; i < imgTags.length; i++ ) {
+				// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+				if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
+					evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
+				}
+			}
+		}
+	}
+
+	function createSrcWithBase64( img ) {
+		return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
+	}
 
 	/**
 	 * Help methods used by paste from word image plugin.
