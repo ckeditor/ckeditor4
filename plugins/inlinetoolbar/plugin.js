@@ -14,12 +14,14 @@
 	 * @constructor Creates a inline toolbar view instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the panel is created.
-	 * @param {Object} definition An object containing the panel definition.
+	 * @param {Object} definition An object containing the panel definition. See {@link CKEDITOR.ui.balloonPanel}
+	 * docs for an example definition.
 	 */
 	CKEDITOR.ui.inlineToolbarView = function( editor, definition ) {
 		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
 		/**
-		 * The editor for this balloon panel.
+		 * Listeners registered by this toolbar view.
+		 *
 		 * @private
 		 */
 		this.listeners = [];
@@ -29,19 +31,13 @@
 		requires: 'balloonpanel',
 		init: function() {
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
-			/**
-			 * Build inline toolbar DOM representation.
-			 */
+
 			CKEDITOR.ui.inlineToolbarView.prototype.build = function() {
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
 				this.parts.title.remove();
 				this.parts.close.remove();
 			};
 
-			/**
-			* @private
-			* @inheritdoc CKEDITOR.ui.balloonPanel#_getAlignments
-			*/
 			CKEDITOR.ui.inlineToolbarView.prototype._getAlignments = function( elementRect, panelWidth, panelHeight ) {
 				var filter = [ 'top hcenter', 'bottom hcenter' ],
 					alignments = CKEDITOR.ui.balloonPanel.prototype._getAlignments.call( this, elementRect, panelWidth, panelHeight );
@@ -67,9 +63,6 @@
 				}
 			};
 
-			/**
-			* @inheritdoc CKEDITOR.ui.balloonPanel#destroy
-			*/
 			CKEDITOR.ui.inlineToolbarView.prototype.destroy = function() {
 				CKEDITOR.ui.balloonPanel.prototype.destroy.call( this );
 				this._detachListeners();
@@ -77,9 +70,8 @@
 
 			/**
 			 * Places the inline toolbar next to a specified element so the tip of the toolbar's triangle
-			 * touches that element.
+			 * points to that element.
 			 *
-			 * @method create
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.create = function( element ) {
