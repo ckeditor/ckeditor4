@@ -24,7 +24,7 @@
 		 *
 		 * @private
 		 */
-		this.listeners = [];
+		this._listeners = [];
 	};
 
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
@@ -55,11 +55,11 @@
 			 * @private
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype._detachListeners = function() {
-				if ( this.listeners.length ) {
-					CKEDITOR.tools.array.forEach( this.listeners, function( listener ) {
+				if ( this._listeners.length ) {
+					CKEDITOR.tools.array.forEach( this._listeners, function( listener ) {
 						listener.removeListener();
 					} );
-					this.listeners = [];
+					this._listeners = [];
 				}
 			};
 
@@ -81,10 +81,10 @@
 					editable = this.editor.editable();
 				this._detachListeners();
 
-				this.listeners.push( this.editor.on( 'resize', function() {
+				this._listeners.push( this.editor.on( 'resize', function() {
 					that.attach( element, false );
 				} ) );
-				this.listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
+				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
 					that.attach( element, false );
 				} ) );
 			};
