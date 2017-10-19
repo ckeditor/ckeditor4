@@ -7,7 +7,7 @@
 'use strict';
 
 ( function() {
-	var uploadCount, loadAndUploadCount, lastUploadUrl, resumeAfter, tests,
+	var uploadCount, loadAndUploadCount, resumeAfter, tests,
 		IMG_URL = '%BASE_PATH%_assets/logo.png',
 		DATA_IMG = 'data:',
 		BLOB_IMG = 'blob:';
@@ -74,18 +74,16 @@
 
 			resumeAfter = bender.tools.resumeAfter;
 
-			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function( url ) {
+			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function() {
 				loadAndUploadCount++;
-				lastUploadUrl = url;
 
 				this.responseData = CKEDITOR.tools.clone( responseData );
 			};
 
 			CKEDITOR.fileTools.fileLoader.prototype.load = function() {};
 
-			CKEDITOR.fileTools.fileLoader.prototype.upload = function( url ) {
+			CKEDITOR.fileTools.fileLoader.prototype.upload = function() {
 				uploadCount++;
-				lastUploadUrl = url;
 
 				this.responseData = CKEDITOR.tools.clone( responseData );
 			};
@@ -142,7 +140,6 @@
 
 				assert.areSame( 1, loadAndUploadCount );
 				assert.areSame( 0, uploadCount );
-				assert.areSame( 'http://foo/upload', lastUploadUrl );
 			} );
 		},
 
@@ -172,7 +169,6 @@
 
 					assert.areSame( 0, loadAndUploadCount );
 					assert.areSame( 1, uploadCount );
-					assert.areSame( 'http://foo/upload', lastUploadUrl );
 				} );
 			} );
 		},
