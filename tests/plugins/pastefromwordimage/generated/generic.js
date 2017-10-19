@@ -26,9 +26,9 @@
 			'macos'
 		],
 		tests: {
-			'SimpleImages': true,
-			'MixedOnline': true,
-			'MixedOnlineAndShapes': true,
+			'SimpleOfflineImage': true,
+			'OnlineAndOfflineImage': true,
+			'ShapesAndOnlineAndOfflineImage': true,
 			'WrappedImage': true
 		},
 		ignoreAll: CKEDITOR.env.ie,
