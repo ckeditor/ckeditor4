@@ -2237,7 +2237,7 @@
 		 * Fallback object which is used in browsers not supporting custom
 		 * MIME types in native `dataTransfer.setData` (Edge 16+).
 		 *
-		 * @since 4.8
+		 * @since 4.8.0
 		 * @private
 		 * @property {CKEDITOR.plugins.clipboard.fallbackDataTransfer} _fallbackDataTransfer
 		 */
@@ -2390,7 +2390,7 @@
 		/**
 		 * Sets dataTransfer id.
 		 *
-		 * @since 4.8
+		 * @since 4.8.0
 		 * @param {String} id
 		 */
 		setId: function( id ) {
@@ -2585,13 +2585,12 @@
 	 * Fallback dataTransfer object which is used together with {@link CKEDITOR.plugins.clipboard.dataTransfer}
 	 * for browsers supporting Clipboard API, but not supporting custom MIME types (Edge 16+ - #962).
 	 *
-	 * @since 4.8
+	 * @since 4.8.0
 	 * @class CKEDITOR.plugins.clipboard.fallbackDataTransfer
-	 * @constructor Creates a class instance.
+	 * @constructor
 	 * @param {Object} [nativeDataTransfer] A native data transfer object.
-	 * @param {String} [customDataFallbackType=text/html] A MIME type used for storing custom data types.
 	 */
-	CKEDITOR.plugins.clipboard.fallbackDataTransfer = function( nativeDataTransfer, customDataFallbackType ) {
+	CKEDITOR.plugins.clipboard.fallbackDataTransfer = function( nativeDataTransfer ) {
 
 		/**
 		 * A native dataTransfer object.
@@ -2607,7 +2606,7 @@
 		 * @private
 		 * @property {String} _customDataFallbackType
 		 */
-		this._customDataFallbackType =  customDataFallbackType || 'text/html';
+		this._customDataFallbackType = 'text/html';
 	};
 
 	/**
@@ -2625,31 +2624,32 @@
 
 	CKEDITOR.plugins.clipboard.fallbackDataTransfer.prototype = {
 		/**
-		 * Whether {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer} should be used when operating on dataTransfer.
-		 * If true is returned, it means custom MIME types are not supported in the current browser (see {@link #_isCustomMimeTypeSupported}).
+		 * Whether {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer fallbackDataTransfer object} should
+		 * be used when operating on dataTransfer. If `true` is returned, it means custom MIME types are not supported
+		 * in the current browser (see {@link #_isCustomMimeTypeSupported}).
 		 *
 		 * @returns {Boolean}
 		 */
 		isRequired: function() {
-			// If there is no `dataTransfer` we cannot detect if fallback is needed.
-			// Method returns `false` so regular flow will be applied.
-			if ( !this._nativeDataTransfer ) {
-				return false;
-			}
-
-			var testValue = 'cke test value',
-				testType = 'cke/mimetypetest',
-				fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
+			var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
 
 			if ( fallbackDataTransfer._isCustomMimeTypeSupported === null ) {
+				// If there is no `dataTransfer` we cannot detect if fallback is needed.
+				// Method returns `false` so regular flow will be applied.
+				if ( !this._nativeDataTransfer ) {
+					return false;
+				} else {
+					var testValue = 'cke test value',
+						testType = 'cke/mimetypetest';
 
-				fallbackDataTransfer._isCustomMimeTypeSupported = false;
+					fallbackDataTransfer._isCustomMimeTypeSupported = false;
 
-				try {
-					this._nativeDataTransfer.setData( testType, testValue );
-					fallbackDataTransfer._isCustomMimeTypeSupported = this._nativeDataTransfer.getData( testType ) === testValue;
-					this._nativeDataTransfer.clearData( testType );
-				} catch ( e ) {}
+					try {
+						this._nativeDataTransfer.setData( testType, testValue );
+						fallbackDataTransfer._isCustomMimeTypeSupported = this._nativeDataTransfer.getData( testType ) === testValue;
+						this._nativeDataTransfer.clearData( testType );
+					} catch ( e ) {}
+				}
 			}
 			return !fallbackDataTransfer._isCustomMimeTypeSupported;
 		},
