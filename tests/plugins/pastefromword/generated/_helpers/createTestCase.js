@@ -15,13 +15,14 @@
  * @param {Boolean} [options.compareRawData=false] If `true` test case will assert against raw paste's `data.dataValue` rather than
  * what will appear in the editor after all transformations and filtering.
  * @param {Array} [options.customFilters] Array of custom filters (like [ pfwTools.filters.font ]) which will be used during assertions.
- * @param {Boolean} options.includeRTF Flag infor if RTF clipboard should be loaded in test case
+ * @param {Boolean} [options.includeRTF=false] Whether RTF clipboard should be loaded in test case
  * @returns {Function}
  */
 function createTestCase( options ) {
 	return function() {
-		var inputPathHtml = [ '_fixtures', options.name, options.wordVersion, options.browser ].join( '/' ) + '.html',
-			inputPathRtf = options.includeRTF ? [ '_fixtures', options.name, options.wordVersion, options.browser ].join( '/' ) + '.rtf' : false,
+		var inputPath = [ '_fixtures', options.name, options.wordVersion, options.browser ].join( '/' ),
+			inputPathHtml = inputPath + '.html',
+			inputPathRtf = inputPath + '.rtf',
 			outputPath = [ '_fixtures', options.name, '/expected.html' ].join( '/' ),
 			specialCasePath = [ '_fixtures', options.name, options.wordVersion, 'expected_' + options.browser ].join( '/' ) + '.html',
 			deCasher = '?' + Math.random().toString( 36 ).replace( /^../, '' ), // Used to trick the browser into not caching the html files.
@@ -69,8 +70,6 @@ function createTestCase( options ) {
 				} );
 			}
 
-
-
 			var nbspListener = editor.once( 'paste', function( evt ) {
 				// Clipboard strips white spaces from pasted content if those are not encoded.
 				// This is **needed only for non-IE/Edge fixtures**, as these browsers doesn't encode nbsp char on it's own.
@@ -85,7 +84,7 @@ function createTestCase( options ) {
 
 			assert.isNotNull( expectedValue, '"expected.html" missing.' );
 
-			assertWordFilter( editor, options.compareRawData )( inputFixtureHtml, expectedValue, inputFixtureRtf )
+			assertWordFilter( editor, options.compareRawData )( { 'text/html': inputFixtureHtml, 'text/rtf': inputFixtureRtf }, expectedValue )
 				.then( function( values ) {
 					resume( function() {
 						nbspListener.removeListener();
