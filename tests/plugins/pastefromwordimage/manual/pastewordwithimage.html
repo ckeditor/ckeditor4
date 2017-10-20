@@ -1,6 +1,6 @@
 <textarea id="editor" cols="30" rows="10"></textarea>
 <script>
-	if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+	if ( CKEDITOR.env.ie || CKEDITOR.env.iOS ) {
 		bender.ignore();
 	}
 	CKEDITOR.replace( 'editor' );

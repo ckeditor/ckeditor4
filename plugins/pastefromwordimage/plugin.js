@@ -9,7 +9,7 @@
 	CKEDITOR.plugins.add( 'pastefromwordimage', {
 		requires: 'pastefromword',
 		init: function( editor ) {
-			if ( CKEDITOR.env.ie || CKEDITOR.env.iOS ) {
+			if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 				return;
 			}
 
