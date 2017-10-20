@@ -31,16 +31,7 @@ module.exports = function( config ) {
 			'tests/core/**/_helpers/*.js',
 
 			// Tests.
-			'tests/core/ckeditor/ckeditor.js',
-			'tests/core/tools/**/*.js',
-			'tests/core/command/**/*.js',
-
-			'tests/core/dom/*.js',
-			'tests/core/dom/element/*.js',
-			'tests/core/dom/elementpath/*.js',
-			'tests/core/creators/setmode.js',
-			'tests/core/creators/themedui.js',
-			'tests/core/editable/aria.js'
+			'tests/karma/*.js'
 		],
 
 
