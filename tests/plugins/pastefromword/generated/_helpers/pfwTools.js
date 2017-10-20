@@ -14,7 +14,7 @@
 				'unicode-bidi,direction,dir,lang,page-break-after};td[valign]',
 			disallowedContent: 'td{vertical-align}'
 		},
-		// Prefered editor config for generated tests with PFW Image.
+		// Preferred editor config for generated tests with PFW Image.
 		imageDefaultConfig: {
 			language: 'en',
 			removePlugins: 'dialogadvtab,flash,showborders,horizontalrule',
