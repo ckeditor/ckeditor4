@@ -2023,7 +2023,7 @@
 
 			// Set dataTransfer.id only for 'dragstart' event (so for events initializing dataTransfer inside editor) (#962).
 			if ( evt.name === 'dragstart' ) {
-				dataTransfer.setId( dataTransfer.id );
+				dataTransfer.storeId();
 			}
 
 			if ( !nativeDataTransfer ) {
@@ -2100,7 +2100,7 @@
 
 				// Set dataTransfer.id only for 'copy'/'cut' events (so for events initializing dataTransfer inside editor) (#962).
 				if ( evt.name === 'copy' || evt.name === 'cut' ) {
-					dataTransfer.setId( dataTransfer.id );
+					dataTransfer.storeId();
 				}
 
 				if ( this.copyCutData && dataTransfer.id == this.copyCutData.id ) {
@@ -2388,14 +2388,14 @@
 		},
 
 		/**
-		 * Sets dataTransfer id.
+		 * Stores dataTransfer id in native data transfer object
+		 * so it can be retrieved by other events.
 		 *
 		 * @since 4.8.0
-		 * @param {String} id
 		 */
-		setId: function( id ) {
+		storeId: function() {
 			if ( clipboardIdDataType !== 'Text' ) {
-				this.setData( clipboardIdDataType, id );
+				this.setData( clipboardIdDataType, this.id );
 			}
 		},
 
