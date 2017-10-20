@@ -61,7 +61,7 @@ function createTestCase( options ) {
 				} );
 				return;
 			}
-			// Single null when RTF is avaialble means that one of 2 required files is missing.
+			// Single null when RTF is available means that one of 2 required files is missing.
 			else if ( options.includeRTF && ( inputFixtureHtml === null || inputFixtureRtf === null ) ) {
 				resume( function() {
 					assert.isNotNull( inputFixtureHtml, '"' + inputPathHtml + '" file is missing' );
