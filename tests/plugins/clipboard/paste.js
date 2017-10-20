@@ -1190,7 +1190,7 @@
 			// As Edge stores custom data in text/html it needs to be assert differently - we need to extract content part (#962).
 			if ( CKEDITOR.env.edge ) {
 				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
-				assert.areSame( 'b<b>a</b>r', dataTransfer.fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
+				assert.areSame( 'b<b>a</b>r', dataTransfer._fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
 			} else {
 				assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
 			}
@@ -1215,7 +1215,7 @@
 			// As Edge stores custom data in text/html it needs to be assert differently - we need to extract content part (#962).
 			if ( CKEDITOR.env.edge ) {
 				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
-				assert.areSame( 'b<b>a</b>r', dataTransfer.fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
+				assert.areSame( 'b<b>a</b>r', dataTransfer._fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
 			} else {
 				assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
 			}

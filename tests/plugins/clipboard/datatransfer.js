@@ -971,14 +971,14 @@ bender.test( {
 			evt3 = { data: { $: { dataTransfer: nativeData3 } }, name: 'dragstart' },
 			dataTransfer1 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt1 ),
 			dataTransfer2 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt2 ),
-			dtFallback1 = dataTransfer1.fallbackDataTransfer,
-			dtFallback2 = dataTransfer2.fallbackDataTransfer,
+			dtFallback1 = dataTransfer1._fallbackDataTransfer,
+			dtFallback2 = dataTransfer2._fallbackDataTransfer,
 			dataTransfer3,
 			dtFallback3;
 
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt3 );
 		dataTransfer3 = evt3.data.dataTransfer;
-		dtFallback3 = dataTransfer3.fallbackDataTransfer;
+		dtFallback3 = dataTransfer3._fallbackDataTransfer;
 
 		// Check if ids are not empty.
 		assert.isTrue( dataTransfer1.id.length > 0, 'dataTransfer1 id is not empty' );
@@ -1033,11 +1033,11 @@ bender.test( {
 		} else {
 			// As dataTransfer id is stored in `customDataFallbackType` ('text/html' mime type), we just check if it is empty.
 			assert.areSame( '',
-				nativeData1.getData( dataTransfer1.fallbackDataTransfer._customDataFallbackType ), 'dataTransfer1 id is empty' );
+				nativeData1.getData( dataTransfer1._fallbackDataTransfer._customDataFallbackType ), 'dataTransfer1 id is empty' );
 			assert.areSame( '',
-				nativeData2.getData( dataTransfer2.fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
+				nativeData2.getData( dataTransfer2._fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
 			assert.areSame( '',
-				nativeData2.getData( dataTransfer3.fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
+				nativeData2.getData( dataTransfer3._fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
 		}
 	}
 } );
