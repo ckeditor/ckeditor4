@@ -2152,7 +2152,7 @@
 			this.$ = nativeDataTransfer;
 		}
 
-		this.fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( this.$ );
+		this._fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( this.$ );
 
 		this._ = {
 			metaRegExp: /^<meta.*?>/i,
@@ -2238,8 +2238,8 @@
 		 * MIME types in native `dataTransfer.setData` (Edge 16+).
 		 *
 		 * @since 4.8
-		 * @readonly
-		 * @property {CKEDITOR.plugins.clipboard.fallbackDataTransfer} fallbackDataTransfer
+		 * @private
+		 * @property {CKEDITOR.plugins.clipboard.fallbackDataTransfer} _fallbackDataTransfer
 		 */
 	};
 
@@ -2313,8 +2313,8 @@
 
 			if ( isEmpty( data ) ) {
 
-				if ( this.fallbackDataTransfer.isRequired() ) {
-					data = this.fallbackDataTransfer.getData( type );
+				if ( this._fallbackDataTransfer.isRequired() ) {
+					data = this._fallbackDataTransfer.getData( type );
 				} else {
 					try {
 						data = this.$.getData( type ) || '';
@@ -2377,8 +2377,8 @@
 				this.id = value;
 			}
 
-			if ( this.fallbackDataTransfer.isRequired() ) {
-				this.fallbackDataTransfer.setData( type, value );
+			if ( this._fallbackDataTransfer.isRequired() ) {
+				this._fallbackDataTransfer.setData( type, value );
 
 			} else {
 				try {
