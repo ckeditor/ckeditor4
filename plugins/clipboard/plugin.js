@@ -2235,7 +2235,7 @@
 
 		/**
 		 * Fallback object which is used in browsers not supporting custom
-		 * MIME types in native `dataTransfer.setData` (Edge 16+).
+		 * MIME types in native `dataTransfer.setData`.
 		 *
 		 * @since 4.8.0
 		 * @private
@@ -2583,7 +2583,8 @@
 
 	/**
 	 * Fallback dataTransfer object which is used together with {@link CKEDITOR.plugins.clipboard.dataTransfer}
-	 * for browsers supporting Clipboard API, but not supporting custom MIME types (Edge 16+ - #962).
+	 * for browsers supporting Clipboard API, but not supporting custom
+	 * MIME types (Edge 16+, see [ckeditor-dev/issues/#962](https://github.com/ckeditor/ckeditor-dev/issues/962)).
 	 *
 	 * @since 4.8.0
 	 * @class CKEDITOR.plugins.clipboard.fallbackDataTransfer
@@ -2601,19 +2602,22 @@
 		this._nativeDataTransfer = nativeDataTransfer;
 
 		/**
-		 * A MIME type used for storing custom MIME types. Defaults to 'text/html'.
+		 * A MIME type used for storing custom MIME types.
 		 *
 		 * @private
-		 * @property {String} _customDataFallbackType
+		 * @property {String} [_customDataFallbackType='text/html']
 		 */
 		this._customDataFallbackType = 'text/html';
 	};
 
 	/**
 	 * True if the environment supports custom MIME types in {@link CKEDITOR.plugins.clipboard.dataTransfer#getData}
-	 * and {@link CKEDITOR.plugins.clipboard.dataTransfer#setData} methods. Introduced to distinguish browsers which
-	 * supports only some whitelisted types (like 'text/html', 'application/xml'), but does not support custom
-	 * MIME types (like `cke/id`) like Edge 16+. When the value of this property equals 'null' it means it was not yet initialized.
+	 * and {@link CKEDITOR.plugins.clipboard.dataTransfer#setData} methods.
+	 *
+	 * Introduced to distinguish browsers which supports only some whitelisted types (like `text/html`, `application/xml`),
+	 * but does not support custom MIME types (like `cke/id`). When the value of this property equals `null`
+	 * it means it was not yet initialized.
+	 *
 	 * This property should not be accessed directly, use {@link #isRequired} method instead.
 	 *
 	 * @private
@@ -2625,8 +2629,8 @@
 	CKEDITOR.plugins.clipboard.fallbackDataTransfer.prototype = {
 		/**
 		 * Whether {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer fallbackDataTransfer object} should
-		 * be used when operating on dataTransfer. If `true` is returned, it means custom MIME types are not supported
-		 * in the current browser (see {@link #_isCustomMimeTypeSupported}).
+		 * be used when operating on native `dataTransfer`. If `true` is returned, it means custom MIME types
+		 * are not supported in the current browser (see {@link #_isCustomMimeTypeSupported}).
 		 *
 		 * @returns {Boolean}
 		 */
