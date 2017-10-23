@@ -394,13 +394,14 @@
 					// In chrome a <v:shape> element may be followed by an <img> element with the same content.
 					if ( !element.attributes[ 'o:gfxdata' ] ) {
 						var duplicate = false;
-						element.parent.getFirst( function( child ) {
+						// Sometimes child with proper ID might be nested in other tag.
+						element.parent.find( function( child ) {
 							if ( child.name == 'img' &&
 							child.attributes &&
 							child.attributes[ 'v:shapes' ] == element.attributes.id ) {
 								duplicate = true;
 							}
-						} );
+						}, true );
 
 						if ( duplicate ) return false;
 
