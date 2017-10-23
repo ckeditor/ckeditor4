@@ -23,7 +23,29 @@
 		}
 	};
 
+	var parentFrame = window.frameElement,
+		originalHeight = parentFrame && parentFrame.style.height;
+	function makeExpectedLeft( data ) {
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
+			return data.toFixed( 0 ) + '.00';
+		} else {
+			return data.toFixed( 2 );
+		}
+	}
+
 	var tests = {
+		setUp: function() {
+			if ( parentFrame ) {
+				parentFrame.style.height = '900px';
+			}
+		},
+
+		tearDown: function() {
+			if ( parentFrame ) {
+				parentFrame.style.height = originalHeight;
+			}
+		},
+
 		'test divaera - out of view - bottom center': function( editor ) {
 			if ( editor.name == 'divarea' ) {
 				// divarea tests are failing, it's an upstream issue from balloonpanel (#1064).
@@ -42,7 +64,8 @@
 			inlineToolbar.create( markerElement );
 			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
 
-			assert.areEqual( ( frame.left + elementFrame.left + elementFrame.width / 2 - 50 ).toFixed( 2 ), inlineToolbarRect.left.toFixed( 2 ), 'left align' );
+			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
+			assert.areEqual( expectedLeft, inlineToolbarRect.left.toFixed( 2 ), 'left align' );
 			// We have to add 1px because of border.
 			assert.areEqual( ( inlineToolbarRect.top + inlineToolbar.height + inlineToolbar.triangleHeight + 1 ).toFixed( 2 ),
 				( frame.top + frame.height ).toFixed( 2 ), 'top align' );
@@ -69,7 +92,8 @@
 			inlineToolbar.create( markerElement );
 			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
 
-			assert.areEqual( ( frame.left + elementFrame.left + elementFrame.width / 2 - 50 ).toFixed( 2 ), inlineToolbarRect.left.toFixed( 2 ), 'left align' );
+			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
+			assert.areEqual( expectedLeft, inlineToolbarRect.left.toFixed( 2 ), 'left align' );
 			assert.areEqual( frame.top.toFixed( 2 ), ( inlineToolbarRect.top - inlineToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
 			inlineToolbar.destroy();
 			inlineToolbar = null;
