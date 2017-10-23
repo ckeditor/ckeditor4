@@ -18,6 +18,16 @@
 			'meta',
 			'link'
 		],
+		shapeTags = [
+			'v:arc',
+			'v:curve',
+			'v:line',
+			'v:oval',
+			'v:polyline',
+			'v:rect',
+			'v:roundrect',
+			'v:group'
+		],
 		links = {},
 		inComment = 0;
 
@@ -44,7 +54,15 @@
 
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
 
-		filter = new CKEDITOR.htmlParser.filter( {
+		var shapesIds = [];
+
+		function shapeTagging( element ) {
+			if ( element.attributes[ 'o:gfxdata' ] ) {
+				shapesIds.push( element.attributes.id );
+			}
+		}
+
+		var filterDefinition = {
 			root: function( element ) {
 				element.filterChildren( filter );
 
@@ -110,6 +128,16 @@
 						element.attributes.alt && element.attributes.alt.match( /^https?:\/\// ) ) {
 						element.attributes.src = element.attributes.alt;
 					}
+
+					var imgShapes = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
+					// Check if every single name is recognised as shape before, then add additional attribute.
+					var isShapeFromList = CKEDITOR.tools.array.every( imgShapes, function( item ) {
+						return shapesIds.indexOf( item ) > -1;
+					} );
+					if ( imgShapes.length && isShapeFromList ) {
+						element.attributes[ 'data-cke-is-shape' ] = true;
+					}
+
 				},
 				'p': function( element ) {
 					element.filterChildren( filter );
@@ -364,30 +392,34 @@
 				// This is how IE8 presents images.
 				'v:shape': function( element ) {
 					// In chrome a <v:shape> element may be followed by an <img> element with the same content.
-					var duplicate = false;
-					element.parent.getFirst( function( child ) {
-						if ( child.name == 'img' &&
+					if ( !element.attributes[ 'o:gfxdata' ] ) {
+						var duplicate = false;
+						element.parent.getFirst( function( child ) {
+							if ( child.name == 'img' &&
 							child.attributes &&
 							child.attributes[ 'v:shapes' ] == element.attributes.id ) {
-							duplicate = true;
-						}
-					} );
+								duplicate = true;
+							}
+						} );
 
-					if ( duplicate ) return false;
+						if ( duplicate ) return false;
 
-					var src = '';
-					element.forEach( function( child ) {
-						if ( child.attributes && child.attributes.src ) {
-							src = child.attributes.src;
-						}
-					}, CKEDITOR.NODE_ELEMENT, true );
+						var src = '';
+						element.forEach( function( child ) {
+							if ( child.attributes && child.attributes.src ) {
+								src = child.attributes.src;
+							}
+						}, CKEDITOR.NODE_ELEMENT, true );
 
-					element.filterChildren( filter );
+						element.filterChildren( filter );
 
-					element.name = 'img';
-					element.attributes.src = element.attributes.src || src;
+						element.name = 'img';
+						element.attributes.src = element.attributes.src || src;
 
-					delete element.attributes.type;
+						delete element.attributes.type;
+					} else {
+						shapeTagging( element );
+					}
 				},
 
 				'style': function() {
@@ -439,7 +471,14 @@
 
 				return content;
 			}
+		};
+
+		// Add shape processing to filter definition.
+		CKEDITOR.tools.array.forEach( shapeTags, function( shapeTag ) {
+			filterDefinition.elements[ shapeTag ] = shapeTagging;
 		} );
+
+		filter = new CKEDITOR.htmlParser.filter( filterDefinition );
 
 		var writer = new CKEDITOR.htmlParser.basicWriter();
 
