@@ -31,9 +31,11 @@ paragraphs) within your document.
 * **Inline Style**: Provides styling to highlight or emphasize a word or group
 of words (i.e. characters) within a block of text.
 
-### About A11yFirst
+### Project Information
 
 Version: %version
+
+GitHub Repository: <a href="https://github.com/a11yfirst/plugins-dev" target="_resource">a11yfirst/plugins-dev</a>
 
 ### Additional Resources
 

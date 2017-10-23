@@ -12,12 +12,12 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   them make content more accessible to people with disabilites',
 
   gettingStarted: {
-    'menu':  'Getting Started',
-    'label': 'Getting Started',
-    'title': 'Getting Started with Accessibility (A11y)',
+    'menu':  'About A11yFirst',
+    'label': 'About A11yFirst',
+    'title': 'About A11yFirst',
 
     'no_org': '\
-## Getting Started\n\
+## About A11yFirst\n\
 \n\
 ### Importance of Accessibility\n\
 This organization has made a committment to accessibility, not only to comply with the \
@@ -29,7 +29,7 @@ content that is accessible. The changes to the editor toolbar are designed to he
 and maintain accessible content and learn more about accessibility.\n',
 
     'has_org':'\
-## Getting Started\n\
+## About A11yFirst\n\
 \
 ### Importance of Accessibility\n\
 The %org has made a committment to accessibility, not only to comply with the Americans with \
