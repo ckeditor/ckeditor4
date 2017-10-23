@@ -69,11 +69,10 @@
 
 			CKEDITOR.plugins.cloudservices.cloudServicesLoader.prototype.load = function() {};
 
-			CKEDITOR.plugins.cloudservices.cloudServicesLoader.prototype.upload = function() {
+			sinon.stub( CKEDITOR.plugins.cloudservices.cloudServicesLoader.prototype, 'upload', function() {
 				uploadCount++;
-
 				this.responseData = CKEDITOR.tools.clone( responseData );
-			};
+			} );
 		},
 
 		setUp: function() {
@@ -93,6 +92,10 @@
 
 			if ( CKEDITOR.fileTools.bindNotifications.reset ) {
 				CKEDITOR.fileTools.bindNotifications.reset();
+			}
+
+			if ( CKEDITOR.plugins.cloudservices.cloudServicesLoader.prototype.upload.reset ) {
+				CKEDITOR.plugins.cloudservices.cloudServicesLoader.prototype.upload.reset();
 			}
 		},
 
@@ -424,6 +427,30 @@
 				resume( function() {
 					assert.isTrue( createspy.notCalled );
 				} );
+			} );
+
+			wait();
+		},
+
+		'test cloudservices URL can be customized': function( editor ) {
+			var originalUploadUrl = editor.widgets.registered.uploadeasyimage.uploadUrl,
+				loader;
+
+			// Upload widget might have an uploadUrl changed in definition, allowing for upload URL customization.
+			editor.widgets.registered.uploadeasyimage.uploadUrl = 'https://customDomain.localhost/endpoint';
+
+			resumeAfter( editor, 'paste', function() {
+				// Restore original value.
+				editor.widgets.registered.uploadeasyimage.uploadUrl = originalUploadUrl;
+
+				loader = editor.uploadRepository.loaders[ 0 ];
+
+				sinon.assert.calledWith( loader.upload, 'https://customDomain.localhost/endpoint' );
+				assert.isTrue( true );
+			} );
+
+			editor.fire( 'paste', {
+				dataValue: '<img src="' + bender.tools.pngBase64 + '">'
 			} );
 
 			wait();
