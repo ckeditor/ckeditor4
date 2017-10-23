@@ -16,16 +16,24 @@
 
 
 	bender.editors = {
-		classic: {},
+		classic: {
+			config: {
+				extraAllowedContent: 'figure img'
+			}
+		},
 
 		divarea: {
 			config: {
-				extraPlugins: 'divarea'
+				extraPlugins: 'divarea',
+				extraAllowedContent: 'figure img'
 			}
 		},
 
 		inline: {
-			creator: 'inline'
+			creator: 'inline',
+			config: {
+				extraAllowedContent: 'figure img'
+			}
 		}
 	};
 
@@ -48,8 +56,20 @@
 
 		},
 
-		'test upcasting image widget': function( editor, bot ) {
-			assertUpcast( bot, '<figure class="imagebase"></figure>', 'testWidget' );
+		'test default upcast': function( editor, bot ) {
+			assertUpcast( bot, '<figure></figure>', 'testWidget' );
+		},
+
+		'test custom upcast': function( editor, bot ) {
+			CKEDITOR.plugins.imagebase.addImageWidget( editor, 'customUpcastWidget', {
+				upcasts: {
+					img: function( element ) {
+						return element;
+					}
+				}
+			} );
+
+			assertUpcast( bot, '<img src="test" />', 'customUpcastWidget' );
 		}
 	};
 
