@@ -184,6 +184,7 @@
 			var data = evt.data,
 				// Prevent XSS attacks.
 				tempDoc = document.implementation.createHTMLDocument( '' ),
+				widgetDef = editor.widgets.registered.uploadeasyimage,
 				temp = new CKEDITOR.dom.element( tempDoc.body ),
 				imgs, img, i;
 
@@ -203,7 +204,7 @@
 
 				// We are not uploading images in non-editable blocs and fake objects (http://dev.ckeditor.com/ticket/13003).
 				if ( isDataInSrc && isRealObject && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
-					var loader = editor.uploadRepository.create( img.getAttribute( 'src' ) );
+					var loader = editor.uploadRepository.create( img.getAttribute( 'src' ), undefined, widgetDef.loaderType );
 					loader.upload();
 
 					fileTools.markElement( img, 'uploadeasyimage', loader.id );
