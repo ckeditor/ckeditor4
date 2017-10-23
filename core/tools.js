@@ -1986,9 +1986,8 @@
 					return true;
 				}
 
-				var ret = [];
+				var ret = this.filter( array, fn, thisArg );
 
-				ret = this.filter( array, fn, thisArg );
 				return array.length === ret.length;
 			}
 		},
