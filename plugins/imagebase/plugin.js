@@ -59,19 +59,35 @@
 			},
 
 			/**
+			 * @inheritdoc
+			 * @property {Object} upcasts
+			 * @property {Function} upcasts.figure
+			 */
+
+			/**
 			 * Image widget definition overwrites the {@link CKEDITOR.plugins.widget.definition#upcast} property.
-			 * This should not be changed.
+			 * This method allows to upcast many different elements using callbacks defined in the
+			 * {@link CKEDITOR.plugins.imagebase.imageWidgetDefinition#upcasts} property, applying some additional
+			 * checkings.
+			 *
+			 * This method should not be changed.
 			 *
 			 * @property {Function}
 			 */
 			upcast: function( element ) {
+				var upcasts = definition.upcasts || {
+					figure: function() {
+						return true;
+					}
+				};
+
 				// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
 				if ( element.attributes[ 'data-cke-realelement' ] ) {
 					return;
 				}
 
-				if ( element.name === 'figure' && element.hasClass( 'imagebase' ) ) {
-					return element;
+				if ( upcasts[ element.name ] ) {
+					return upcasts[ element.name ]( element );
 				}
 			}
 		};
