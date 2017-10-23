@@ -206,7 +206,7 @@
 				// We are not uploading images in non-editable blocs and fake objects (http://dev.ckeditor.com/ticket/13003).
 				if ( isDataInSrc && isRealObject && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
 					var loader = editor.uploadRepository.create( img.getAttribute( 'src' ), undefined, widgetDef.loaderType );
-					loader.upload();
+					loader.upload( widgetDef.uploadUrl, widgetDef.additionalRequestParameters );
 
 					fileTools.markElement( img, 'uploadeasyimage', loader.id );
 
