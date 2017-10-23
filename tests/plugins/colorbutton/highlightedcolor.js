@@ -8,7 +8,8 @@
 
 	bender.editor = {
 		config: {
-			colorButton_colors: '999,000,DDD,FFF,A1a1A1,00F'
+			colorButton_colors: '999,000,DDD,FFF,A1a1A1,00F',
+			language: 'en'
 		}
 	};
 
