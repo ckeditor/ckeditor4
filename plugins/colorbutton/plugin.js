@@ -336,11 +336,7 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		 */
 		function normalizeColor( color ) {
 			// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
-			if ( color && color.length === 3 ) {
-				color = CKEDITOR.tools.normalizeHex( '#' + color );
-			}
-
-			return CKEDITOR.tools.convertRgbToHex( color || '' ).replace( /#/, '' ).toLowerCase();
+			return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
 		}
 	}
 } );

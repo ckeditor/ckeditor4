@@ -1,4 +1,4 @@
-/* bender-tags: editor */
+/* bender-tags: editor, colorbutton, 1008 */
 /* bender-ckeditor-plugins: colorbutton,toolbar,wysiwygarea */
 
 ( function() {
@@ -6,16 +6,19 @@
 
 	bender.editor = true;
 
+	function assertSelectedColor( colorButton, colorName, colorValue, colorIndex ) {
+		assert.areSame( 'true', colorButton._.panel.getBlock( colorButton._.id ).element.find( 'a.cke_colorbox' ).getItem( colorIndex ).getAttribute( 'aria-selected' ) );
+		assert.areSame( colorName, colorButton._.panel.getBlock( colorButton._.id ).element.find( 'a.cke_colorbox' ).getItem( colorIndex ).$.title );
+		assert.areSame( colorValue, colorButton._.panel.getBlock( colorButton._.id ).element.find( 'a.cke_colorbox' ).getItem( colorIndex ).getAttribute( 'data-value' ) );
+	}
+
 	bender.test( {
-		// 1008
 		'test highlighted color with background color button': function() {
 			var editor = this.editor,
 				bgColorBtn = editor.ui.get( 'BGColor' );
 
 			resume( function() {
-				assert.areSame( 'true', bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 22 ).getAttribute( 'aria-selected' ) );
-				assert.areSame( 'Dark Gray', bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 22 ).$.title );
-				assert.areSame( '999', bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 22 ).getAttribute( 'data-value' ) );
+				assertSelectedColor( bgColorBtn, 'Dark Gray', '999', 22 );
 			} );
 
 			bender.tools.selection.setWithHtml( editor, '<h1 style="background: #999999">{Moo}</h1>' );
@@ -29,9 +32,7 @@
 				txtColorBtn = editor.ui.get( 'TextColor' );
 
 			resume( function() {
-				assert.areSame( 'true', txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 23 ).getAttribute( 'aria-selected' ) );
-				assert.areSame( 'Black', txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 23 ).$.title );
-				assert.areSame( '000', txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 23 ).getAttribute( 'data-value' ) );
+				assertSelectedColor( txtColorBtn, 'Black', '000', 23 );
 			} );
 
 			bender.tools.selection.setWithHtml( editor, '<h1 style="color: #000000;">{Moo}</h1>' );
@@ -46,15 +47,10 @@
 				bgColorBtn = editor.ui.get( 'BGColor' );
 
 			resume( function() {
-				assert.areSame( 'true', bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 16 ).getAttribute( 'aria-selected' ) );
-				assert.areSame( 'Light Gray', bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 16 ).$.title );
-				assert.areSame( 'DDD', bgColorBtn._.panel.getBlock( bgColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 16 ).getAttribute( 'data-value' ) );
+				assertSelectedColor( bgColorBtn, 'Light Gray', 'DDD', 16 );
 
 				txtColorBtn.click( editor );
-
-				assert.areSame( 'true', txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 17 ).getAttribute( 'aria-selected' ) );
-				assert.areSame( 'White', txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 17 ).$.title );
-				assert.areSame( 'FFF', txtColorBtn._.panel.getBlock( txtColorBtn._.id ).element.find( 'a.cke_colorbox' ).getItem( 17 ).getAttribute( 'data-value' ) );
+				assertSelectedColor( txtColorBtn, 'White', 'FFF', 17 );
 			} );
 
 			bender.tools.selection.setWithHtml( editor, '<h1 style="color: #ffffff; background: #dddddd">{Moo}</h1>' );
