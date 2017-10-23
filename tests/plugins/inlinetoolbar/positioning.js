@@ -35,6 +35,10 @@
 
 	var tests = {
 		setUp: function() {
+			// In IE8 tests are run in very small window which breaks positioning assertions and tests fails (#1076).
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
+				assert.ignore();
+			}
 			if ( parentFrame ) {
 				parentFrame.style.height = '900px';
 			}
