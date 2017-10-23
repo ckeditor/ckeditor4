@@ -1958,6 +1958,38 @@
 					acc = fn.call( thisArg, acc, array[ i ], i, array );
 				}
 				return acc;
+			},
+
+			/**
+			 * Method tests whether all elements in the array pass the test implemented by the provided function.
+			 * Returns `true` if provided array is empty.
+			 *
+			 *		var every = this.array.every( [ 11, 22, 33, 44 ], function( value ) {
+			 *			return value > 10;
+			 *		} );
+			 *		console.log( every );
+			 *		// Logs: true
+			 *
+			 * @param {Array} array
+			 * @param {Function} fn A function that gets called with each `array` item.
+			 * @param {Mixed} fn.value The currently iterated array value.
+			 * @param {Number} fn.index The index of the currently iterated value in an array.
+			 * @param {Array} fn.array The original array passed as the `array` variable.
+			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
+			 * @returns {Boolean} Information if all elements pass the test.
+			 * @member CKEDITOR.tools.array
+			 * @since 4.8.0
+			 */
+			every: function( array, fn, thisArg ) {
+				// Empty arrays always return true.
+				if ( !array.length ) {
+					return true;
+				}
+
+				var ret = [];
+
+				ret = this.filter( array, fn, thisArg );
+				return array.length === ret.length;
 			}
 		},
 
