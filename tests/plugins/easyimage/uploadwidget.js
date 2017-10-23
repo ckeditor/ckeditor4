@@ -48,14 +48,6 @@
 		}
 	}
 
-	CKEDITOR.on( 'instanceCreated', function() {
-		if ( !CKEDITOR.plugins.cloudservices.cloudServicesLoader.restore ) {
-			// Because of #1068 we can't provide loaderType directly. Instead we just replace cloudServicesLoader
-			// with our loader stub that is going to be customized in init method.
-			sinon.stub( CKEDITOR.plugins.cloudservices, 'cloudServicesLoader', CKEDITOR.fileTools.fileLoader );
-		}
-	} );
-
 	tests = {
 		init: function() {
 			var responseData = {
@@ -68,27 +60,20 @@
 
 			resumeAfter = bender.tools.resumeAfter;
 
-			// This tests suite could be made much prettier, it would require #1068 to be resolved. Then you
-			// could just use LoaderStub type with stubbed methods, rather than overwrite base FileLoader type.
-			CKEDITOR.fileTools.fileLoader.prototype.loadAndUpload = function() {
+			// Approach taken from tests/plugins/uploadwidget/uploadwidget.js test.
+			CKEDITOR.plugins.cloudservices.cloudServicesLoader.prototype.loadAndUpload = function() {
 				loadAndUploadCount++;
 
 				this.responseData = CKEDITOR.tools.clone( responseData );
 			};
 
-			CKEDITOR.fileTools.fileLoader.prototype.load = function() {};
+			CKEDITOR.plugins.cloudservices.cloudServicesLoader.prototype.load = function() {};
 
-			CKEDITOR.fileTools.fileLoader.prototype.upload = function() {
+			CKEDITOR.plugins.cloudservices.cloudServicesLoader.prototype.upload = function() {
 				uploadCount++;
 
 				this.responseData = CKEDITOR.tools.clone( responseData );
 			};
-
-			// Now stub can be safely removed, as it's used only in plugin.init, which has already been called,
-			// this workaround could be removed once #1068 is fixed.
-			if ( CKEDITOR.plugins.cloudservices.cloudServicesLoader.restore ) {
-				CKEDITOR.plugins.cloudservices.cloudServicesLoader.restore();
-			}
 		},
 
 		setUp: function() {
