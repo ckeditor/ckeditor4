@@ -10,36 +10,28 @@
 	var uploadCount, loadAndUploadCount, resumeAfter, tests,
 		IMG_URL = '%BASE_PATH%_assets/logo.png',
 		DATA_IMG = 'data:',
-		BLOB_IMG = 'blob:';
+		BLOB_IMG = 'blob:',
+		commonConfig = {
+			cloudServices_url: 'http://foo/upload',
+			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+			pasteFilter: null
+		};
 
 	bender.editors = {
 		classic: {
 			name: 'classic',
-			config: {
-				cloudServices_url: 'http://foo/upload',
-				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
-				pasteFilter: null
-			}
+			config: commonConfig
 		},
 
 		divarea: {
 			name: 'divarea',
-			config: {
-				extraPlugins: 'divarea',
-				cloudServices_url: 'http://foo/upload',
-				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
-				pasteFilter: null
-			}
+			config: CKEDITOR.tools.extend( { extraPlugins: 'divarea' }, commonConfig )
 		},
 
 		inline: {
 			name: 'inline',
 			creator: 'inline',
-			config: {
-				cloudServices_url: 'http://foo/upload',
-				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
-				pasteFilter: null
-			}
+			config: commonConfig
 		}
 	};
 
