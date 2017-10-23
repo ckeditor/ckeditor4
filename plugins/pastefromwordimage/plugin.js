@@ -78,11 +78,11 @@
 		extractImagesFromRtf: function( rtfContent ) {
 			var ret = [],
 				rePictureHeader = /\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
-				reShapeHeader = /\{\\shp\{\\\*\\shpinst[\s\S]+?\{\\\*\\svb\s?/,
-				rePictureOrShape = new RegExp( '(?:(' + rePictureHeader.source + ')|(' + reShapeHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
+				rePicture = new RegExp( '(?:(' + rePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
 				wholeImages,
 				imageType;
-			wholeImages = rtfContent.match( rePictureOrShape );
+
+			wholeImages = rtfContent.match( rePicture );
 			if ( !wholeImages ) {
 				return ret;
 			}
@@ -103,12 +103,6 @@
 						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
 						type: imageType
 					} );
-				} else if ( reShapeHeader.test( wholeImages[ i ] ) ) {
-					// We left information about shapes, to have proper indexes of images.
-					ret.push( {
-						hex: null,
-						type: null
-					} );
 				}
 			}
 
@@ -116,7 +110,8 @@
 		},
 
 		/**
-		 * Method extracts array of src attributes in img tags from given HTML.
+		 * Method extracts array of src attributes in img tags from given HTML. Img tags belong to VML shapes are removed.
+		 * Method base on `data-cke-is-shape="true"` attribute, which is add to shapes by Paste From Word plugin.
 		 *
 		 *		CKEDITOR.plugins.pastefromwordimage.extractImgTagsFromHtmlString( html );
 		 * 		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
@@ -127,15 +122,18 @@
 		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
 		 */
 		extractImgTagsFromHtml: function( html ) {
-			var regexp = /<img[^>]+src="([^"]+)/g,
+			var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
 				ret = [],
 				item;
 
 			while ( item = regexp.exec( html ) ) {
-				ret.push( item[ 1 ] );
+				if ( item[ 0 ].indexOf( 'data-cke-is-shape="true"' ) === -1 ) {
+					ret.push( item[ 1 ] );
+				}
 			}
 
 			return ret;
 		}
+
 	};
 } )();
