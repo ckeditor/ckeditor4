@@ -120,8 +120,8 @@
 				assert.sameData( '<p><img alt="" src="' + IMG_URL + '" /></p>', editor.getData() );
 				assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
 
-				assert.areSame( 1, loadAndUploadCount );
-				assert.areSame( 0, uploadCount );
+				assert.areSame( 0, loadAndUploadCount );
+				assert.areSame( 1, uploadCount );
 			} );
 		},
 

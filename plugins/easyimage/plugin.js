@@ -132,7 +132,8 @@
 		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadeasyimage', {
 			supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
-			loadMethod: 'loadAndUpload',
+			// Easy image uses only upload method, as is manually handled in onUploading function.
+			loadMethod: 'upload',
 
 			loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
 
