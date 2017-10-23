@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, colorbutton
 
-** Scenario 1: **
+** Scenario (both editors): **
 
 1. Select each word or put caret in each word and click `Text Colour`/`Background Colour` button.
 
