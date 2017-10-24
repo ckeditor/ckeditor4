@@ -1,0 +1,9 @@
+<textarea id="editor" cols="30" rows="10"></textarea>
+<script>
+	var editor = CKEDITOR.replace( 'editor' );
+	editor.on( 'loaded', function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.env.iOS ) {
+			bender.ignore();
+		}
+	} );
+</script>
