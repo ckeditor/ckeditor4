@@ -27,7 +27,9 @@
 			'Simple_offline_image': true,
 			'Online_and_offline_image': true,
 			'Shapes_and_online_and_offline_image': true,
-			'Wrapped_image': true
+			'Wrapped_image': true,
+			'Link_image': true,
+			'Gruped_adjacent_shapes_and_images': true
 		},
 		ignoreAll: CKEDITOR.env.ie,
 		includeRTF: true
