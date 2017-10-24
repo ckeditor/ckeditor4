@@ -10,7 +10,7 @@
 		folderPath = path + testDir.slice( 0, testDir.lastIndexOf( '/' ) ),
 		expectedEditorPath = '/apps/ckeditor/',
 		query = CKEDITOR.timestamp ? '?t=' + CKEDITOR.timestamp : '',
-		secondDomainName = 'sub.ckeditor.dev',
+		secondDomainName = window.location.hostname,
 		port = window.location.port;
 
 
