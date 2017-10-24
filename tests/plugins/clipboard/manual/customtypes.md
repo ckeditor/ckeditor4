@@ -7,3 +7,8 @@
 1. Select part of the editor.
 1. Copy using `ctrl/cmd+c`.
 1. Paste the clipboard into the same editable.
+
+### Expected
+
+1. Table contains 4 types: `Text`, `text/html`, `foo-bar`, `baz`.
+1. Each type has a value: `<type> value`, e.g. `foo-bar` has `foo-bar value`.
