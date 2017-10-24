@@ -432,21 +432,56 @@
 			wait();
 		},
 
-		'test cloudservices URL can be customized': function( editor ) {
-			var originalUploadUrl = editor.widgets.registered.uploadeasyimage.uploadUrl,
+		'test cloudservices URL/request params can be customized': function( editor ) {
+			var uploadEasyImageDef = editor.widgets.registered.uploadeasyimage,
+				originalUploadUrl = uploadEasyImageDef.uploadUrl,
+				originalAdditionalParams = uploadEasyImageDef.additionalRequestParameters,
 				loader;
 
 			// Upload widget might have an uploadUrl changed in definition, allowing for upload URL customization.
-			editor.widgets.registered.uploadeasyimage.uploadUrl = 'https://customDomain.localhost/endpoint';
+			uploadEasyImageDef.uploadUrl = 'https://customDomain.localhost/endpoint';
+			uploadEasyImageDef.additionalRequestParameters = { a: 1 };
 
 			resumeAfter( editor, 'paste', function() {
 				// Restore original value.
-				editor.widgets.registered.uploadeasyimage.uploadUrl = originalUploadUrl;
+				uploadEasyImageDef.uploadUrl = originalUploadUrl;
+				uploadEasyImageDef.additionalRequestParameters = originalAdditionalParams;
 
 				loader = editor.uploadRepository.loaders[ 0 ];
 
-				sinon.assert.calledWith( loader.upload, 'https://customDomain.localhost/endpoint' );
+				sinon.assert.calledWith( loader.upload, 'https://customDomain.localhost/endpoint', { a: 1 } );
 				assert.isTrue( true );
+			} );
+
+			editor.fire( 'paste', {
+				dataValue: '<img src="' + bender.tools.pngBase64 + '">'
+			} );
+
+			wait();
+		},
+
+		'test loader type can be customized': function( editor ) {
+			var uploadEasyImageDef = editor.widgets.registered.uploadeasyimage,
+				originalType = uploadEasyImageDef.loaderType,
+				CloudServicesLoader = CKEDITOR.plugins.cloudservices.cloudServicesLoader,
+				loader;
+
+			function LoaderSubclass( editor, fileOrData, fileName, token ) {
+				CloudServicesLoader.call( this, editor, fileOrData, fileName, token );
+			}
+
+			LoaderSubclass.prototype = CKEDITOR.tools.extend( {}, CloudServicesLoader.prototype );
+
+			// Upload widget might have an uploadUrl changed in definition, allowing for upload URL customization.
+			uploadEasyImageDef.loaderType = LoaderSubclass;
+
+			resumeAfter( editor, 'paste', function() {
+				// Restore original value.
+				uploadEasyImageDef.loaderType = originalType;
+
+				loader = editor.uploadRepository.loaders[ 0 ];
+
+				assert.isInstanceOf( LoaderSubclass, loader, 'Loader type' );
 			} );
 
 			editor.fire( 'paste', {
