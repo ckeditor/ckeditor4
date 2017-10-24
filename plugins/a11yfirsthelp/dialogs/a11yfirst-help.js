@@ -67,21 +67,23 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
       var converter = new showdown.Converter();
 
       // Add getting started content
-      node = document.getElementById( 'contentGettingStarted' );
+      node = document.getElementById( 'contentAboutA11yFirst' );
 
-      var content = lang.gettingStarted.no_org;
+      var content = lang.aboutA11yFirst.no_org;
       var a11yLink  = "";
 
       if ( config.a11yfirst ) {
         if ( config.a11yfirst.organization && config.a11yfirst.organization.length ) {
-          content = lang.gettingStarted.has_org.replace( /%org/g, config.a11yfirst.organization );
+          content = lang.aboutA11yFirst.has_org.replace( /%org/g, config.a11yfirst.organization );
         }
         if ( config.a11yfirst.a11yPolicyLink && config.a11yfirst.a11yPolicyLabel ) {
-          content += lang.gettingStarted.policy_link.replace( /%policy_label/g, config.a11yfirst.a11yPolicyLabel ).replace( /%policy_url/g, config.a11yfirst.a11yPolicyLink );
+          content += lang.aboutA11yFirst.policy_link
+          .replace( /%policy_label/g, config.a11yfirst.a11yPolicyLabel )
+          .replace( /%policy_url/g, config.a11yfirst.a11yPolicyLink );
         }
       }
 
-      content += lang.gettingStarted.content;
+      content += lang.aboutA11yFirst.content;
       content = content.replace( /%version/g, version );
 
       node.innerHTML = converter.makeHtml( content );
@@ -164,12 +166,12 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                       },
                       {
                         type: 'button',
-                        id: 'buttonGettingStarted',
+                        id: 'buttonAboutA11yFirst',
                         style: buttonStyle,
-                        label: lang.gettingStarted.label,
-                        title: lang.gettingStarted.title,
+                        label: lang.aboutA11yFirst.label,
+                        title: lang.aboutA11yFirst.title,
                         onClick: function() {
-                            showHelpTopic( 'GettingStarted' );
+                            showHelpTopic( 'AboutA11yFirst' );
                         },
                       }
                     ],
@@ -180,7 +182,17 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
                     focus: function() {
                       this.getElement().focus();
                     },
-                    html: '<div tabindex="-1" class="a11yfirsthelpcontent" style="margin: 0; margin-top: -1em; padding-left: 1em; height: 400px; overflow: auto; border-left: 2px solid #ddd; margin-left: -5.5em"><div id="contentGettingStarted"></div><div id="contentHeadingHelp"></div><div id="contentBlockFormatHelp"></div><div id="contentInlineStyleHelp"></div><div id="contentLinkHelp"></div></div>'
+                    html:
+                      '<div tabindex="-1" class="a11yfirsthelpcontent" style="\
+                      margin: 0; margin-top: -1em; margin-left: -5.5em; \
+                      padding-left: 1em; border-left: 2px solid #ddd; \
+                      height: 400px; overflow: auto">\
+                        <div id="contentAboutA11yFirst"></div>\
+                        <div id="contentHeadingHelp"></div>\
+                        <div id="contentBlockFormatHelp"></div>\
+                        <div id="contentInlineStyleHelp"></div>\
+                        <div id="contentLinkHelp"></div>\
+                      </div>'
                   }
                 ]
               }

@@ -11,7 +11,7 @@ CKEDITOR.plugins.setLang( 'a11yfirsthelp', 'en', {
   a11yFirstHelpTitle: 'Information to help authors understand how the A11yFirst features help \
   them make content more accessible to people with disabilites',
 
-  gettingStarted: {
+  aboutA11yFirst: {
     'menu':  'About A11yFirst',
     'label': 'About A11yFirst',
     'title': 'About A11yFirst',

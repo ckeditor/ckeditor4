@@ -60,7 +60,7 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
           var title = lang[ key ].title;
 
           // Add separator between list of help options and other items
-          if ( key === 'gettingStarted' )
+          if ( key === 'aboutA11yFirst' )
             this.addSeparator();
 
           // Add the entry to the panel list
@@ -102,7 +102,7 @@ CKEDITOR.config.a11yFirstHelpTopics = {
   'linkHelp': {
     option:  'LinkHelp'
   },
-  'gettingStarted': {
-    option:  'GettingStarted'
+  'aboutA11yFirst': {
+    option:  'AboutA11yFirst'
   }
 };
