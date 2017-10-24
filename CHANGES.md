@@ -25,6 +25,7 @@ Fixed Issues:
 * [#1014](https://github.com/ckeditor/ckeditor-dev/issues/1014): Fixed: [Table Tools](https://ckeditor.com/addon/tabletools) cell properties dialog is now [ACF](http://docs.ckeditor.com/#!/guide/dev_acf) aware - it not possible to change cell width/height if corresponding styles are disabled.
 * [#877](https://github.com/ckeditor/ckeditor-dev/issues/877): Fixed: Lists with custom bullets with exotic characters crashes editor when [pasted from Word](http://ckeditor.com/addon/pastefromword).
 * [#605](https://github.com/ckeditor/ckeditor-dev/issues/605): Fixed: Inline widgets do not preserve trailing spaces.
+* [#1008](https://github.com/ckeditor/ckeditor-dev/issues/1008): Fixed: Shorthand hex colors from [colorButton_colors](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-colorButton_colors) are not correctly highlighted in [Color Button](http://ckeditor.com/addon/colorbutton) _text color_ / _background color_ panel.
 
 Other Changes:
 
