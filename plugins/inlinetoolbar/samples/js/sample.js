@@ -19,7 +19,7 @@ CKEDITOR.on( 'instanceReady', function( e ) {
 		exec: function( editor ) {
 			var img = editor.editable().findOne( 'img' );
 			if ( img ) {
-				var panel = new CKEDITOR.ui.inlineToolbarView( editor );
+				var panel = new CKEDITOR.ui.inlineToolbar( editor );
 				panel.addUIElements( {
 					iamge: new CKEDITOR.ui.button( {
 						label: editor.lang.common.image,
