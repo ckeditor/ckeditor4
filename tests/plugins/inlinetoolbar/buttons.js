@@ -1,5 +1,5 @@
 /* bender-tags: inlinetoolbar */
-/* bender-ckeditor-plugins: inlinetoolbar */
+/* bender-ckeditor-plugins: inlinetoolbar,button */
 
 ( function() {
 	'use strict';
@@ -8,7 +8,7 @@
 
 	bender.test( {
 		'test adding buttion': function() {
-			var panel = new CKEDITOR.ui.inlineToolbarView( this.editor );
+			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
 			panel.addUIElements( {
 				cut: new CKEDITOR.ui.button( {
 					label: 'test',
@@ -19,7 +19,7 @@
 
 		},
 		'test removing buttion': function() {
-			var panel = new CKEDITOR.ui.inlineToolbarView( this.editor );
+			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
 			panel.addUIElements( {
 				cut: new CKEDITOR.ui.button( {
 					label: 'test',
