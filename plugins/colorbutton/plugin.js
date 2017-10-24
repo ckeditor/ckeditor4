@@ -335,7 +335,8 @@ CKEDITOR.plugins.add( 'colorbutton', {
 		 * @returns {String}
 		 */
 		function normalizeColor( color ) {
-			return CKEDITOR.tools.convertRgbToHex( color || '' ).replace( /#/, '' ).toLowerCase();
+			// Replace 3-character hexadecimal notation with a 6-character hexadecimal notation (#1008).
+			return CKEDITOR.tools.normalizeHex( '#' + CKEDITOR.tools.convertRgbToHex( color || '' ) ).replace( /#/g, '' );
 		}
 	}
 } );
