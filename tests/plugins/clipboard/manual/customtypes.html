@@ -1,0 +1,105 @@
+<h2>Classic editor</h2>
+
+<div id="classic">
+	<h1>Classic editor</h1>
+
+	<p>Copy content and paste content here.</p>
+</div>
+
+<style>
+#output{ width: 500px;border: 1px solid black; table-layout: fixed; }
+#output th:first-child { width: 70px; }
+#output tbody td{ border-top: 1px solid black; white-space: pre-wrap; }
+#output tbody tr:nth-child(odd) { background: #F3F3F3; }
+#output tbody tr.raw { background: rgb(242, 243, 194); }
+</style>
+
+<table id="output">
+	<thead>
+		<tr>
+			<th>Type</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody></tbody>
+	<caption>Pasted data transfer dump</caption>
+</table>
+
+<script>
+	CKEDITOR.replace( 'classic', {
+		on: {
+			instanceReady: function( evt ) {
+				evt.editor.editable().on( 'copy', function( ckEvt ) {
+					var evt = ckEvt.data.$,
+						nativeDt = evt.clipboardData,
+						ckDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDt );
+
+					ckDataTransfer.setData( 'text/plain', 'CK plain text' + Math.random() * 100 );
+					ckDataTransfer.setData( 'text/html', '<strong>CK HTML</strong> text' + Math.random() * 100 );
+					ckDataTransfer.setData( 'foo-bar', 'customvalue' );
+					ckDataTransfer.setData( 'baz', 'bom' );
+					evt.preventDefault();
+				}, null, null, 100000 );
+
+				// evt.editor.editable().on( 'paste', function( evt ) {
+				// 	// This is native approach.
+				// 	var tbody = CKEDITOR.document.findOne( 'tbody' ),
+				// 		dt = evt.data.$.clipboardData,
+				// 		types = dt.types,
+				// 		output = '';
+
+				// 	function getRow( row1, row2, rowClass ) {
+				// 		return '<tr class="' + rowClass + '"><td>' + row1 + '</td><td>' + CKEDITOR.tools.htmlEncode( row2 ) + '</td></tr>';
+				// 	}
+
+				// 	for ( var j = 0; j < types.length; j++ ) {
+				// 		output += getRow( types[ j ], dt.getData( types[ j ] ) );
+				// 	}
+
+
+				// 	if ( CKEDITOR.tools.array.indexOf( types, 'text/html' ) != -1 ) {
+				// 		output += getRow( 'Raw HTML data', dt.getData( 'text/html', true ), 'raw' );
+				// 	}
+
+				// 	if ( types.length === 0 ) {
+				// 		output += '<tr><td colspan="2">No items in datatransfer</td></tr>';
+				// 	}
+
+				// 	tbody.setHtml( output );
+				// } );
+
+				evt.editor.editable().on( 'paste', function( evt ) {
+					// This is native approach.
+					var tbody = CKEDITOR.document.findOne( 'tbody' ),
+						dt = evt.data.$.clipboardData,
+						ckDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( dt ),
+						output = '',
+						types;
+
+					// Force data cache so that we can acces data types from cache.
+					ckDataTransfer.cacheData();
+
+					types = [ 'Text', 'text/html', 'foo-bar', 'cke/id', 'baz' ];
+
+					function getRow( row1, row2, rowClass ) {
+						return '<tr class="' + rowClass + '"><td>' + row1 + '</td><td>' + CKEDITOR.tools.htmlEncode( row2 ) + '</td></tr>';
+					}
+
+					for ( var j = 0; j < types.length; j++ ) {
+						output += getRow( types[ j ], ckDataTransfer.getData( types[ j ] ) );
+					}
+
+					if ( CKEDITOR.tools.array.indexOf( types, 'text/html' ) != -1 ) {
+						output += getRow( 'Raw HTML data', ckDataTransfer.getData( 'text/html', true ), 'raw' );
+					}
+
+					if ( types.length === 0 ) {
+						output += '<tr><td colspan="2">No items in datatransfer</td></tr>';
+					}
+
+					tbody.setHtml( output );
+				} );
+			}
+		}
+	} );
+</script>
