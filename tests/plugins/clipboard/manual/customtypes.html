@@ -31,8 +31,8 @@
 			instanceReady: function( evt ) {
 				evt.editor.editable().on( 'copy', function( ckEvt ) {
 					var evt = ckEvt.data.$,
-						nativeDt = evt.clipboardData,
-						ckDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDt );
+						nativeDataTransfer = evt.clipboardData,
+						ckDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDataTransfer );
 
 					ckDataTransfer.setData( 'text/plain', 'CK plain text' + Math.random() * 100 );
 					ckDataTransfer.setData( 'text/html', '<strong>CK HTML</strong> text' + Math.random() * 100 );
@@ -41,38 +41,11 @@
 					evt.preventDefault();
 				}, null, null, 100000 );
 
-				// evt.editor.editable().on( 'paste', function( evt ) {
-				// 	// This is native approach.
-				// 	var tbody = CKEDITOR.document.findOne( 'tbody' ),
-				// 		dt = evt.data.$.clipboardData,
-				// 		types = dt.types,
-				// 		output = '';
-
-				// 	function getRow( row1, row2, rowClass ) {
-				// 		return '<tr class="' + rowClass + '"><td>' + row1 + '</td><td>' + CKEDITOR.tools.htmlEncode( row2 ) + '</td></tr>';
-				// 	}
-
-				// 	for ( var j = 0; j < types.length; j++ ) {
-				// 		output += getRow( types[ j ], dt.getData( types[ j ] ) );
-				// 	}
-
-
-				// 	if ( CKEDITOR.tools.array.indexOf( types, 'text/html' ) != -1 ) {
-				// 		output += getRow( 'Raw HTML data', dt.getData( 'text/html', true ), 'raw' );
-				// 	}
-
-				// 	if ( types.length === 0 ) {
-				// 		output += '<tr><td colspan="2">No items in datatransfer</td></tr>';
-				// 	}
-
-				// 	tbody.setHtml( output );
-				// } );
-
 				evt.editor.editable().on( 'paste', function( evt ) {
 					// This is native approach.
 					var tbody = CKEDITOR.document.findOne( 'tbody' ),
-						dt = evt.data.$.clipboardData,
-						ckDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( dt ),
+						nativeDataTransfer = evt.data.$.clipboardData,
+						ckDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDataTransfer ),
 						output = '',
 						types;
 
