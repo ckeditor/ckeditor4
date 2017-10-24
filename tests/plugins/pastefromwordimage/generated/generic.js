@@ -21,15 +21,15 @@
 			'firefox'
 		],
 		wordVersions: [
-			'word2013',
-			'word2016',
-			'macos'
+			'word2013_win',
+			'word2016_win',
+			'word2011_osx'
 		],
 		tests: {
-			'SimpleOfflineImage': true,
-			'OnlineAndOfflineImage': true,
-			'ShapesAndOnlineAndOfflineImage': true,
-			'WrappedImage': true
+			'Simple_offline_image': true,
+			'Online_and_offline_image': true,
+			'Shapes_and_online_and_offline_image': true,
+			'Wrapped_image': true
 		},
 		ignoreAll: CKEDITOR.env.ie,
 		includeRTF: true
