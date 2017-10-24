@@ -53,11 +53,11 @@
 			var responseData = {
 				response: {
 					100: IMG_URL,
-					200: IMG_URL,
-					default: IMG_URL
+					200: IMG_URL
 				}
 			};
 
+			responseData.response[ 'default' ] = IMG_URL;
 			resumeAfter = bender.tools.resumeAfter;
 
 			// Approach taken from tests/plugins/uploadwidget/uploadwidget.js test.
