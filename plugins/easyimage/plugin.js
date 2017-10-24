@@ -105,14 +105,11 @@
 
 			requiredContent: 'figure(!' + config.easyimage_class + ')',
 
-			upcast: function( element ) {
-				// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
-				if ( element.attributes[ 'data-cke-realelement' ] ) {
-					return;
-				}
-
-				if ( element.name === 'figure' && element.hasClass( config.easyimage_class ) ) {
-					return element;
+			upcasts: {
+				figure: function( element ) {
+					if ( element.hasClass( config.easyimage_class ) ) {
+						return element;
+					}
 				}
 			},
 
