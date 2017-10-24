@@ -12,7 +12,7 @@
 
 	var config = pfwTools.defaultConfig;
 
-	config.disallowedContent = 'td{vertical-align};img[data-cke-saved-src]';
+	config.disallowedContent = 'td{vertical-align};img[data-cke-saved-src];span{font-family};';
 
 	bender.editor = {
 		config: pfwTools.defaultConfig
@@ -27,10 +27,10 @@
 			'word2013'
 		],
 		tests: {
-			'Shape_Single': true,
-			'Shape_Nested_Groups': true,
-			'Shape_Adjacent': true,
-			'Shape_And_Image': true
+			'Shape_single_image': true,
+			'Shape_nested_groups': true,
+			'Shape_adjacent_image': true,
+			'Shape_and_image': true
 		},
 
 		ignoreAll: CKEDITOR.env.ie
