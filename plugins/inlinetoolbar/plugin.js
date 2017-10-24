@@ -18,6 +18,11 @@
 	 * docs for an example definition.
 	 */
 	CKEDITOR.ui.inlineToolbarView = function( editor, definition ) {
+		definition = CKEDITOR.tools.extend( definition || {}, {
+			width: 'auto',
+			triangleWidth: 10,
+			triangleHeight: 10
+		} );
 		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
 		/**
 		 * Listeners registered by this toolbar view.
@@ -29,11 +34,17 @@
 
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
+		onLoad: function() {
+			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
+		},
 		init: function() {
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
-
+			/**
+			 * Build inline toolbar DOM representation.
+			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.build = function() {
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
+				this.parts.panel.addClass( 'cke_inlinetoolbar' );
 				this.parts.title.remove();
 				this.parts.close.remove();
 			};
