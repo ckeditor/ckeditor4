@@ -1,0 +1,17 @@
+<textarea id="editor">
+
+</textarea>
+<button onclick="getHtml()">Get HTML</button>
+<pre id="output" style="white-space: pre-wrap;background-color:aquamarine;">
+
+</pre>
+<script>
+	var editor = CKEDITOR.replace( 'editor', {
+		extraAllowedContent: 'img[*];*[data-cke-is-shape]'
+	} );
+	function getHtml() {
+		// Strip out `data-cke-saved-src` to not blure the output.
+		document.getElementById( 'output' ).innerText = editor.editable().getHtml().replace( /data-cke-saved-src=\"[^\"]+?\"/g, '' );
+	}
+
+</script>
