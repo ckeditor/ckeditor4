@@ -34,10 +34,12 @@
 						nativeDataTransfer = evt.clipboardData,
 						ckDataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDataTransfer );
 
-					ckDataTransfer.setData( 'text/plain', 'CK plain text' + Math.random() * 100 );
-					ckDataTransfer.setData( 'text/html', '<strong>CK HTML</strong> text' + Math.random() * 100 );
-					ckDataTransfer.setData( 'foo-bar', 'customvalue' );
-					ckDataTransfer.setData( 'baz', 'bom' );
+					ckDataTransfer.setData( 'text/plain', 'plain value' );
+					ckDataTransfer.setData( 'text/html', 'html value' );
+					ckDataTransfer.setData( 'foo-bar', 'foo-bar value' );
+					ckDataTransfer.setData( 'baz', 'baz value' );
+
+					// Prevent DOM event, so that clipboard gets overriden.
 					evt.preventDefault();
 				}, null, null, 100000 );
 
@@ -52,7 +54,8 @@
 					// Force data cache so that we can acces data types from cache.
 					ckDataTransfer.cacheData();
 
-					types = [ 'Text', 'text/html', 'foo-bar', 'cke/id', 'baz' ];
+					// Eventually these types should be dynamically fetched.
+					types = [ 'Text', 'text/html', 'foo-bar', 'baz' ];
 
 					function getRow( row1, row2, rowClass ) {
 						return '<tr class="' + rowClass + '"><td>' + row1 + '</td><td>' + CKEDITOR.tools.htmlEncode( row2 ) + '</td></tr>';
@@ -62,8 +65,9 @@
 						output += getRow( types[ j ], ckDataTransfer.getData( types[ j ] ) );
 					}
 
+					// Extract raw HTML, see
 					if ( CKEDITOR.tools.array.indexOf( types, 'text/html' ) != -1 ) {
-						output += getRow( 'Raw HTML data', ckDataTransfer.getData( 'text/html', true ), 'raw' );
+						output += getRow( 'Native HTML data', ckDataTransfer.getData( 'text/html', true ), 'raw' );
 					}
 
 					if ( types.length === 0 ) {
