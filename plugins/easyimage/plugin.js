@@ -105,12 +105,12 @@
 
 			requiredContent: 'figure(!' + config.easyimage_class + ')',
 
-			upcasts: {
-				figure: function( element ) {
-					if ( element.hasClass( config.easyimage_class ) ) {
-						return element;
-					}
+			upcast: function( element ) {
+				if ( !this._isValidImageElement( element ) ) {
+					return;
 				}
+
+				return element.name === 'figure' && element.hasClass( config.easyimage_class );
 			},
 
 			init: function() {

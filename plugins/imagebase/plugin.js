@@ -75,20 +75,16 @@
 			 * @property {Function}
 			 */
 			upcast: function( element ) {
-				var upcasts = definition.upcasts || {
-					figure: function() {
-						return true;
-					}
-				};
-
-				// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
-				if ( element.attributes[ 'data-cke-realelement' ] ) {
+				if ( !baseDefinition._isValidImageElement( element ) ) {
 					return;
 				}
 
-				if ( upcasts[ element.name ] ) {
-					return upcasts[ element.name ]( element );
-				}
+				return element.name === 'figure';
+			},
+
+			_isValidImageElement: function( element ) {
+				// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
+				return !element.attributes[ 'data-cke-realelement' ];
 			}
 		};
 
