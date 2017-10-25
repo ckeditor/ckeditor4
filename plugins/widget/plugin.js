@@ -1967,15 +1967,15 @@
 		if ( typeof upcast == 'string' ) {
 			upcasts = upcast.split( ',' );
 			while ( upcasts.length ) {
-				addUpcast( widgetDef.upcasts[ upcasts.pop() ], widgetDef.name, priority );
+				addUpcast( widgetDef.upcasts[ upcasts.pop() ], widgetDef, priority );
 			}
 		}
 		// Single rule which is automatically activated.
 		else {
-			addUpcast( upcast, widgetDef.name, priority );
+			addUpcast( upcast, widgetDef, priority );
 		}
 
-		function addUpcast( upcast, name, priority ) {
+		function addUpcast( upcast, def, priority ) {
 			// Find index of the first higher (in terms of value) priority upcast.
 			var index = CKEDITOR.tools.getIndex( widgetsRepo._.upcasts, function( element ) {
 				return element[ 2 ] > priority;
@@ -1985,7 +1985,7 @@
 				index = widgetsRepo._.upcasts.length;
 			}
 
-			widgetsRepo._.upcasts.splice( index, 0, [ upcast, name, priority ] );
+			widgetsRepo._.upcasts.splice( index, 0, [ CKEDITOR.tools.bind( upcast, def ), def.name, priority ] );
 		}
 	}
 
