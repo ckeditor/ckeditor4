@@ -15,7 +15,7 @@
  * @param {Boolean} [options.compareRawData=false] If `true` test case will assert against raw paste's `data.dataValue` rather than
  * what will appear in the editor after all transformations and filtering.
  * @param {Array} [options.customFilters] Array of custom filters (like [ pfwTools.filters.font ]) which will be used during assertions.
- * @param {Boolean} [options.includeRTF=false] Whether RTF clipboard should be loaded in test case
+ * @param {Boolean} [options.includeRTF=false] Whether RTF clipboard should be loaded in test case.
  * @returns {Function}
  */
 function createTestCase( options ) {
@@ -54,8 +54,8 @@ function createTestCase( options ) {
 				// If browser-customized expected result was found, use it. Otherwise go with the regular expected.
 				expectedValue = values[ 2 ] !== null ? values[ 2 ] : values[ 1 ];
 
-			// null means that fixture file was not found in case of regular test - skipping test.
-			// In case of using RTF clipboard it's required to have both nulls
+			// Null means that fixture file was not found in case of regular test - skipping test.
+			// In case of using RTF clipboard it's required to have both nulls.
 			if ( inputFixtureHtml === null && ( !options.includeRTF || inputFixtureRtf === null ) ) {
 				resume( function() {
 					assert.ignore();
