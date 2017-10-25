@@ -4,13 +4,17 @@
 ( function() {
 	'use strict';
 
-	function assertUpcast( bot, data, widget ) {
+	function assertUpcast( bot, data, widget, expectedWidgetCount ) {
 		var editor = bot.editor;
+
+		if ( typeof expectedWidgetCount === 'undefined' ) {
+			expectedWidgetCount = 1;
+		}
 
 		bot.setData( data, function() {
 			var widgets = editor.editable().find( '[data-widget="' + widget + '"]' );
 
-			assert.areSame( 1, widgets.count(), 'Widget is properly upcasted' );
+			assert.areSame( expectedWidgetCount, widgets.count(), 'Widgets count' );
 		} );
 	}
 
@@ -18,21 +22,21 @@
 	bender.editors = {
 		classic: {
 			config: {
-				extraAllowedContent: 'figure img'
+				extraAllowedContent: 'figure img[data-cke-realelement]'
 			}
 		},
 
 		divarea: {
 			config: {
 				extraPlugins: 'divarea',
-				extraAllowedContent: 'figure img'
+				extraAllowedContent: 'figure img[data-cke-realelement]'
 			}
 		},
 
 		inline: {
 			creator: 'inline',
 			config: {
-				extraAllowedContent: 'figure img'
+				extraAllowedContent: 'figure img[data-cke-realelement]'
 			}
 		}
 	};
@@ -60,16 +64,19 @@
 			assertUpcast( bot, '<figure></figure>', 'testWidget' );
 		},
 
-		'test custom upcast': function( editor, bot ) {
-			CKEDITOR.plugins.imagebase.addImageWidget( editor, 'customUpcastWidget', {
-				upcasts: {
-					img: function( element ) {
-						return element;
+		'test does not upcast fake objects': function( editor, bot ) {
+			CKEDITOR.plugins.imagebase.addImageWidget( editor, 'imgWidget', {
+				upcast: function( element ) {
+					if ( !this._isValidImageElement( element ) ) {
+						return;
 					}
+
+
+					return element.name === 'img';
 				}
 			} );
 
-			assertUpcast( bot, '<img src="test" />', 'customUpcastWidget' );
+			assertUpcast( bot, '<img data-cke-realelement="foo" src="test" />', 'imgWidget', 0 );
 		}
 	};
 

@@ -82,6 +82,14 @@
 				return element.name === 'figure';
 			},
 
+			/**
+			 * Checks whether provided element is a valid image elment. For instance method will refuse fake
+			 * objects.
+			 *
+			 * @private
+			 * @param {CKEDITOR.htmlParser.element} elemnt
+			 * @returns {Boolean} `false` if element is invalid image, `true` otherwise.
+			 */
 			_isValidImageElement: function( element ) {
 				// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
 				return !element.attributes[ 'data-cke-realelement' ];
