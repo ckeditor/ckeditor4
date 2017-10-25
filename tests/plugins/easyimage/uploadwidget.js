@@ -472,7 +472,7 @@
 
 			LoaderSubclass.prototype = CKEDITOR.tools.extend( {}, CloudServicesLoader.prototype );
 
-			// Upload widget might have an uploadUrl changed in definition, allowing for upload URL customization.
+			// Upload widget might have a loaderType changed in definition, allowing for loader type customization.
 			uploadEasyImageDef.loaderType = LoaderSubclass;
 
 			resumeAfter( editor, 'paste', function() {
