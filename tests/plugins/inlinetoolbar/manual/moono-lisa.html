@@ -43,8 +43,15 @@
 			panel = new CKEDITOR.ui.inlineToolbar( this );
 
 		image.on( 'click', function() {
+			panel.addItems( {
+				bold: new CKEDITOR.ui.button( {
+					label: 'test',
+					command: 'bold'
+				} ),
+				language: evt.editor.ui.create('Language'),
+				Styles: evt.editor.ui.create( 'Styles' )
+			} );
 			panel.create( this );
-			panel._toolbar.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + '</p>' );
 		} );
 	}
 	var config = {

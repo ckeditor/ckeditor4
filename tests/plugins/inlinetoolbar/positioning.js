@@ -56,7 +56,7 @@
 				assert.ignore();
 			}
 
-			var inlineToolbar = new CKEDITOR.ui.inlineToolbar( editor, {
+			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
 					width: 100,
 					height: 200
 				} ),
@@ -66,12 +66,12 @@
 				inlineToolbarRect;
 
 			inlineToolbar.create( markerElement );
-			inlineToolbarRect = inlineToolbar._toolbar.parts.panel.getClientRect();
+			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
 
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
 			assert.areEqual( expectedLeft, inlineToolbarRect.left.toFixed( 2 ), 'left align' );
 			// We have to add 1px because of border.
-			assert.areEqual( ( inlineToolbarRect.top + inlineToolbar._toolbar.height + inlineToolbar._toolbar.triangleHeight + 1 ).toFixed( 2 ),
+			assert.areEqual( ( inlineToolbarRect.top + inlineToolbar.height + inlineToolbar.triangleHeight + 1 ).toFixed( 2 ),
 				( frame.top + frame.height ).toFixed( 2 ), 'top align' );
 			inlineToolbar.destroy();
 			inlineToolbar = null;
@@ -83,7 +83,7 @@
 				assert.ignore();
 			}
 
-			var inlineToolbar = new CKEDITOR.ui.inlineToolbar( editor, {
+			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
 					width: 100,
 					height: 200
 				} ),
@@ -94,25 +94,25 @@
 
 			markerElement.getParent().getNext().scrollIntoView( true );
 			inlineToolbar.create( markerElement );
-			inlineToolbarRect = inlineToolbar._toolbar.parts.panel.getClientRect();
+			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
 
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
 			assert.areEqual( expectedLeft, inlineToolbarRect.left.toFixed( 2 ), 'left align' );
-			assert.areEqual( frame.top.toFixed( 2 ), ( inlineToolbarRect.top - inlineToolbar._toolbar.triangleHeight ).toFixed( 2 ), 'top align' );
+			assert.areEqual( frame.top.toFixed( 2 ), ( inlineToolbarRect.top - inlineToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
 			inlineToolbar.destroy();
 			inlineToolbar = null;
 		},
 
 		'test panel adds cke_inlinetoolbar class': function( editor ) {
-			var inlineToolbar = new CKEDITOR.ui.inlineToolbar( editor, {
+			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
 				width: 100,
 				height: 200
 			} ),
 				markerElement = editor.editable().findOne( '#marker' );
 			inlineToolbar.create( markerElement );
 
-			assert.isTrue( inlineToolbar._toolbar.parts.panel.hasClass( 'cke_inlinetoolbar' ), 'Panel has a cke_inlinetoolbar class' );
-			assert.isTrue( inlineToolbar._toolbar.parts.panel.hasClass( 'cke_balloon' ), 'Class cke_balloon class was not removed' );
+			assert.isTrue( inlineToolbar.parts.panel.hasClass( 'cke_inlinetoolbar' ), 'Panel has a cke_inlinetoolbar class' );
+			assert.isTrue( inlineToolbar.parts.panel.hasClass( 'cke_balloon' ), 'Class cke_balloon class was not removed' );
 			inlineToolbar.destroy();
 			inlineToolbar = null;
 		}
