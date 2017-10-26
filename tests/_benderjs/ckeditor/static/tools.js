@@ -856,6 +856,14 @@
 					}
 
 					return this._data[ type ];
+				},
+				clearData: function( type ) {
+					var index = CKEDITOR.tools.indexOf( this.types, type );
+
+					if ( index !== -1 ) {
+						delete this._data[ type ];
+						this.types.splice( index, 1 );
+					}
 				}
 			};
 		},

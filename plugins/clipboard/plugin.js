@@ -2152,14 +2152,15 @@
 			this.$ = nativeDataTransfer;
 		}
 
-		this._fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( this.$ );
+		this._cache = this._getCacheObject();
+		this._fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( this._cache, this.$ );
+
 
 		this._ = {
 			metaRegExp: /^<meta.*?>/i,
 			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/i,
 			fragmentRegExp: /<!--(?:Start|End)Fragment-->/g,
 
-			data: {},
 			files: [],
 
 			normalizeType: function( type ) {
@@ -2308,7 +2309,7 @@
 
 			type = this._.normalizeType( type );
 
-			var data = this._.data[ type ],
+			var data = this._cache.get( type ),
 				result;
 
 			if ( isEmpty( data ) ) {
@@ -2363,7 +2364,7 @@
 		setData: function( type, value ) {
 			type = this._.normalizeType( type );
 
-			this._.data[ type ] = value;
+			this._cache.set( type, value );
 
 			// There is "Unexpected call to method or property access." error if you try
 			// to set data of unsupported type on IE.
@@ -2436,7 +2437,7 @@
 
 				var data = that.getData( type, true );
 				if ( data ) {
-					that._.data[ type ] = data;
+					that._cache.set( type, data );
 				}
 			}
 
@@ -2522,10 +2523,9 @@
 				return false;
 			}
 
-			// Add custom types.
-			for ( type in this._.data ) {
+			CKEDITOR.tools.array.forEach( this._cache.types(), function( type ) {
 				typesToCheck[ type ] = 1;
-			}
+			} );
 
 			// Add native types.
 			if ( this.$ ) {
@@ -2578,7 +2578,105 @@
 			}
 
 			return undefined;
-		}
+		},
+
+		/**
+		 * Returns new cache instance.
+		 *
+		 * @since 4.8.0
+		 * @private
+		 * @returns {Object} Cache object.
+		 */
+		_getCacheObject: ( function() {
+
+			/*
+			 * Simple cache object.
+			 *
+			 * @class dataTransferCache
+			 * @constructor
+			 */
+			function dataTransferCache() {
+				/*
+				 * Object storing cached data.
+				 *
+				 * @private
+				 * @property {Object} _storage
+				 */
+				this._storage = {};
+
+				/*
+				 * Array storing custom types.
+				 *
+				 * @private
+				 * @type {Array} _customTypes
+				 */
+				this._customTypes = [];
+			}
+
+			dataTransferCache.prototype = {
+				/*
+				 * Returns stored value for the given type.
+				 *
+				 * @param {String} type
+				 * @returns {String|null} Value of the given type or null if value not set.
+				 */
+				get: function( type ) {
+					return this._storage[ type ] || null;
+				},
+
+				/*
+				 * Sets value for the given type.
+				 *
+				 * @param {String} type
+				 * @param {String} value
+				 */
+				set: function( type, value ) {
+					this._storage[ type ] = value;
+				},
+
+				/*
+				 * Returns list of all types currently stored in cache.
+				 *
+				 * @returns {Array}
+				 */
+				types: function() {
+					return CKEDITOR.tools.objectKeys( this._storage );
+				},
+
+				/*
+				 * Marks given type as a custom one.
+				 *
+				 * @param {String} type
+				 */
+				markCustomType: function( type ) {
+					if ( CKEDITOR.tools.indexOf( this._customTypes, type ) === -1 ) {
+						this._customTypes.push( type );
+					}
+				},
+
+				/*
+				 * Returns custom data.
+				 *
+				 * @returns {Object} Object containing custom types in 'type : data' format.
+				 */
+				getCustomTypesData: function() {
+					var customData = {};
+					if ( this._customTypes.length ) {
+						CKEDITOR.tools.array.forEach( this._customTypes, function( type ) {
+							// Custom type can be marked, but value for it may not be set so it needs to be checked.
+							if ( this._storage[ type ] ) {
+								customData[ type ] = this._storage[ type ];
+							}
+						}, this );
+					}
+					return customData;
+				}
+			};
+
+			return function() {
+				return new dataTransferCache();
+			};
+		} )()
 	};
 
 	/**
@@ -2589,9 +2687,18 @@
 	 * @since 4.8.0
 	 * @class CKEDITOR.plugins.clipboard.fallbackDataTransfer
 	 * @constructor
+	 * @param {Object} cache Cache object used on storing and retrieving data.
 	 * @param {Object} [nativeDataTransfer] A native data transfer object.
 	 */
-	CKEDITOR.plugins.clipboard.fallbackDataTransfer = function( nativeDataTransfer ) {
+	CKEDITOR.plugins.clipboard.fallbackDataTransfer = function( cache, nativeDataTransfer ) {
+
+		/**
+		 * Cache object. Shared with {@link CKEDITOR.plugins.clipboard.dataTransfer} instance.
+		 *
+		 * @private
+		 * @type {Object} _cache
+		 */
+		this._cache = cache;
 
 		/**
 		 * A native dataTransfer object.
@@ -2666,21 +2773,24 @@
 		 * @returns {String}
 		 */
 		getData: function( type ) {
-			var value = null;
+			// As cache is already checked in CKEDITOR.plugins.clipboard.dataTransfer#getData it is skipped
+			// here. So the assumption is the given type is not in cache.
+
+			var dataComment = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ),
+				value = null;
 
 			// If we are getting the same type which may store custom data we need to extract content only.
 			if ( type === this._customDataFallbackType ) {
-				value = this._extractDataComment( this._getData( type ) ).content;
+				value = dataComment.content;
 
 			// If we are getting different type we need to check inside data comment if it is stored there.
 			} else {
-				var result = this._extractDataComment( this._getData( this._customDataFallbackType ) );
-				if ( result.data && result.data[ type ] ) {
-					value = result.data[ type ];
+				if ( dataComment.data && dataComment.data[ type ] ) {
+					value = dataComment.data[ type ];
 
 				// And then fallback to regular `getData`.
 				} else {
-					value = this._getData( type );
+					value = this._getData( type, true );
 				}
 			}
 
@@ -2701,29 +2811,44 @@
 		 * @param {String} value
 		 */
 		setData: function( type, value ) {
-			// Extract custom data if used type is the same one which is used for storing it.
-			if ( type === this._customDataFallbackType ) {
-				var content = this._extractDataComment( this._getData( this._customDataFallbackType ) );
+			// In case of fallbackDataTransfer, cache does not reflect native data one-to-one. For example, having
+			// types like text/plain, text/html, cke/id will result in cache storing:
+			//
+			//		{
+			// 			text/plain: value1,
+			//			text/html: value2,
+			//			cke/id: value3
+			//		}
+			//
+			// and native dataTransfer storing:
+			//
+			//		{
+			//			text/plain: value1,
+			//			text/html: <!--cke-data:{ cke/id: value3 }-->value2
+			//		}
+			//
+			// This way, accessing cache will always return proper value for a given type without a need for further processing.
+			// Cache is already set in CKEDITOR.plugins.clipboard.dataTransfer#setData so it is skipped here.
 
-				if ( content && content.data ) {
-					value = this._applyDataComment( value, content.data );
-				}
+			if ( type === this._customDataFallbackType ) {
+				value = this._applyDataComment( value, this._getFallbackTypeData() );
 			}
 
 			try {
 				this._nativeDataTransfer.setData( type, value );
 			} catch ( e ) {
 				if ( this._isUnsupportedMimeTypeError( e ) ) {
-					// We need to get the data first to append `type` and not to overwrite whole custom data.
-					var current = this._extractDataComment( this._getData( this._customDataFallbackType ) );
 
-					if ( !current.data ) {
-						current.data = {};
-					}
-					current.data[ type ] = value;
+					this._cache.markCustomType( type );
+
+					var fallbackTypeContent = this._getFallbackTypeContent(),
+						fallbackTypeData = this._getFallbackTypeData();
+
+					fallbackTypeData[ type ] = value;
 
 					try {
-						this._nativeDataTransfer.setData( this._customDataFallbackType, this._applyDataComment( current.content, current.data ) );
+						this._nativeDataTransfer.setData( this._customDataFallbackType,
+							this._applyDataComment( fallbackTypeContent, fallbackTypeData ) );
 					} catch ( e ) {
 						// Some dev logger should be added here.
 					}
@@ -2736,14 +2861,51 @@
 		 *
 		 * @private
 		 * @param {String} type
+		 * @param {Boolean} [skipCache=false]
 		 * @returns {String|null}
 		 */
-		_getData: function( type ) {
-			try {
-				return this._nativeDataTransfer.getData( type );
-			} catch ( e ) {
-				return null;
+		_getData: function( type, skipCache ) {
+			if ( !skipCache && this._cache[ type ] ) {
+				return this._cache[ type ];
+			} else {
+				try {
+					return this._nativeDataTransfer.getData( type );
+				} catch ( e ) {
+					return null;
+				}
 			}
+		},
+
+		/**
+		 * Returns content stored in {@link #_customDataFallbackType}. Content is always first retrieved
+		 * from {@link #_cache} and then from native `dataTransfer` object.
+		 *
+		 * @private
+		 * @returns {String}
+		 */
+		_getFallbackTypeContent: function() {
+			var fallbackTypeContent = this._cache.get( this._customDataFallbackType );
+
+			if ( !fallbackTypeContent ) {
+				fallbackTypeContent = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).content;
+			}
+			return fallbackTypeContent;
+		},
+
+		/**
+		 * Returns custom data stored in {@link #_customDataFallbackType}. Custom data is always first retrieved
+		 * from {@link #_cache} and then from native `dataTransfer` object.
+		 *
+		 * @private
+		 * @returns {Object}
+		 */
+		_getFallbackTypeData: function() {
+			var fallbackTypeData = this._cache.getCustomTypesData();
+
+			if ( CKEDITOR.tools.objectKeys( fallbackTypeData ).length === 0 ) {
+				fallbackTypeData = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).data || {};
+			}
+			return fallbackTypeData;
 		},
 
 		/**

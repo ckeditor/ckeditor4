@@ -28,7 +28,7 @@ bender.test( {
 
 	'test setData/getData with predefined type - fallbackDataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
 
 		dataTransferFallback.setData( 'text/plain', 'plain text' );
 		dataTransferFallback.setData( 'text/html', '<p>html text</p>' );
@@ -57,7 +57,7 @@ bender.test( {
 
 	'test setData/getData with custom type - fallbackDataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
 
 		dataTransferFallback.setData( 'cke/custom', 'cke-custom data' );
 		dataTransferFallback.setData( 'custom/tag', '<p>custom html tag</p>' );
@@ -93,7 +93,7 @@ bender.test( {
 
 	'test setData with custom type does not affect getData( "text/html" ) - fallbackDataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
 
 		dataTransferFallback.setData( 'text/html', '<h1>Header1</h1>' );
 
@@ -133,7 +133,7 @@ bender.test( {
 
 	'test setData( "text/html" ) does not overwrite custom data - fallbackDataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
 
 		dataTransferFallback.setData( 'cke/custom', 'custom data' );
 
@@ -177,7 +177,7 @@ bender.test( {
 
 	'test setData( "text/html" ) called a few times does not overwrite custom data - fallbackDataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
 
 		dataTransferFallback.setData( 'cke/custom', 'custom data' );
 
@@ -226,7 +226,7 @@ bender.test( {
 
 	'test setting same custom type overwrites the previous value and does not affect other types - fallbackDataTransfer': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( nativeData );
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
 
 		dataTransferFallback.setData( 'cke/custom', 'cke-custom data' );
 		dataTransferFallback.setData( 'custom/tag', '<p>custom html tag</p>' );
@@ -261,35 +261,35 @@ bender.test( {
 	},
 
 	'test _applyDataComment case1': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			expected = document.querySelector( '#case1' ).innerHTML;
 
 		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p>', { test: 1 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment case2': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			expected = document.querySelector( '#case2' ).innerHTML;
 
 		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p>', { test: 1, comment: '<!-- comment -->' }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment case3': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#case3' ).innerHTML );
 
 		this.assertApplyDataComment( '<!-- Start Comment --><h1>Header1</h1><p>Test1</p>', { test: 1 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment case4': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#case4' ).innerHTML );
 
 		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p><!-- End Comment -->', { test: 123 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment with empty content': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#empty-content' ).innerHTML );
 
 		this.assertApplyDataComment( undefined, { test: 1 }, dataTransferFallback, expected );
@@ -298,7 +298,7 @@ bender.test( {
 	},
 
 	'test _applyDataComment with empty data': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#empty-data' ).innerHTML );
 
 		this.assertApplyDataComment( '<p>foobar</p>', '', dataTransferFallback, expected );
@@ -307,7 +307,7 @@ bender.test( {
 	},
 
 	'test _applyDataComment with empty content and data': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			expected = '';
 
 		this.assertApplyDataComment( undefined, null, dataTransferFallback, expected );
@@ -316,7 +316,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment case1': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			content = document.querySelector( '#case1' ).innerHTML,
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -325,7 +325,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment case2': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			content = document.querySelector( '#case2' ).innerHTML,
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -334,7 +334,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment case3': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			content = document.querySelector( '#case3' ).innerHTML,
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -343,7 +343,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment case4': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			content = document.querySelector( '#case4' ).innerHTML,
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -352,7 +352,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment with empty content': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			content = CKEDITOR.tools.trim( document.querySelector( '#empty-content' ).innerHTML ),
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -361,7 +361,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment with empty data': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			content = CKEDITOR.tools.trim( document.querySelector( '#empty-data' ).innerHTML ),
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -370,7 +370,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment with empty data and content': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
 			extracted = fallbackDataTransfer._extractDataComment( '' );
 
 		assert.isNull( extracted.data );
@@ -378,12 +378,111 @@ bender.test( {
 	},
 
 	'test _extractDataComment with falsy value': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( {} );
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null );
 
 		assert.areSame( '', fallbackDataTransfer._extractDataComment( '' ).content );
 		assert.areSame( '', fallbackDataTransfer._extractDataComment( null ).content );
 		assert.areSame( '', fallbackDataTransfer._extractDataComment( undefined ).content );
 		assert.areSame( '', fallbackDataTransfer._extractDataComment( false ).content );
+	},
+
+	'test if isRequired sets _isCustomMimeTypeSupported flag on the first run': function() {
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null, bender.tools.mockNativeDataTransfer() );
+
+		CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = null;
+
+		var isRequiredValue = fallbackDataTransfer.isRequired(),
+			flagValue = CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported;
+
+		assert.isTrue( flagValue !== null, '_isCustomMimeTypeSupported should be set' );
+		assert.isTrue( flagValue === false || flagValue === true, '_isCustomMimeTypeSupported should be only true or false' );
+		assert.isTrue( flagValue !== isRequiredValue, 'isRequired should return value equal to !_isCustomMimeTypeSupported' );
+	},
+
+	'test if isRequired clears test MIME type': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null, nativeData );
+
+		CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = null;
+
+		fallbackDataTransfer.isRequired();
+
+		assert.isTrue( nativeData.types.length === 0, 'dataTransfer.types should be empty' );
+		assert.isTrue( CKEDITOR.tools.objectKeys( nativeData._data ).length === 0, 'dataTransfer should be empty' );
+	},
+
+	'test if isRequired does not remove other MIME types': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null, nativeData );
+
+		CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = null;
+
+		nativeData.setData( 'text/html', 'foobar' );
+
+		fallbackDataTransfer.isRequired();
+
+		assert.areSame( 1, nativeData.types.length, 'dataTransfer.types should only contain one type' );
+		assert.areSame( 1, CKEDITOR.tools.objectKeys( nativeData._data ).length, 'dataTransfer should only contain one type' );
+		arrayAssert.itemsAreEqual( CKEDITOR.tools.objectKeys( nativeData._data ), [ 'text/html' ], 'dataTransfer should only contain text/html' );
+	},
+
+	'test getFallbackTypeContent prioritize cache': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
+
+		dataTransferFallback._cache.set( dataTransferFallback._customDataFallbackType, 'cache value' );
+		nativeData.setData( dataTransferFallback._customDataFallbackType, 'native value' );
+
+		assert.areEqual( 'cache value', dataTransferFallback._getFallbackTypeContent() );
+	},
+
+	'test getFallbackTypeContent fallbacks to native data': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
+
+		nativeData.setData( dataTransferFallback._customDataFallbackType, 'native value' );
+
+		assert.areEqual( 'native value', dataTransferFallback._getFallbackTypeContent() );
+	},
+
+	'test getFallbackTypeContent for empty content in both cache and native data': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
+
+		assert.areEqual( '', dataTransferFallback._getFallbackTypeContent() );
+	},
+
+	'test getFallbackTypeData prioritize cache': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
+
+		dataTransferFallback._cache.set( 'cke/id', 'cache value' );
+		dataTransferFallback._cache.markCustomType( 'cke/id' );
+		nativeData.setData( dataTransferFallback._customDataFallbackType,
+			dataTransferFallback._applyDataComment( 'html', { 'cke/id': 'native value' } ) );
+
+		objectAssert.areEqual( {
+			'cke/id': 'cache value'
+		}, dataTransferFallback._getFallbackTypeData() );
+	},
+
+	'test getFallbackTypeData fallbacks to native data': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
+
+		nativeData.setData( dataTransferFallback._customDataFallbackType,
+			dataTransferFallback._applyDataComment( 'html', { 'cke/id': 'native value' } ) );
+
+		objectAssert.areEqual( {
+			'cke/id': 'native value'
+		}, dataTransferFallback._getFallbackTypeData() );
+	},
+
+	'test getFallbackTypeData for empty content in both cache and native data': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._fallbackDataTransfer;
+
+		objectAssert.areEqual( {}, dataTransferFallback._getFallbackTypeData() );
 	},
 
 	assertDataTransferType: function( dataTransfer, type, value, customValue ) {
@@ -400,8 +499,7 @@ bender.test( {
 	}
 } );
 
-// Gets data but clears the cache first, so data is extracted from saved types not from cache object.
+// Gets data with omitting the cache.
 function getDataNoCache( dataTransfer, type ) {
-	dataTransfer._.data = {};
-	return dataTransfer.getData( type );
+	return dataTransfer._fallbackDataTransfer.getData( type );
 }
