@@ -19,7 +19,9 @@
 		if ( ranges.length === 0 ) {
 			return false;
 		}
-
+		if ( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( ranges[ 0 ].getEnclosedNode() ) ) {
+			return false;
+		}
 		var node,
 			i;
 
@@ -94,6 +96,11 @@
 			}
 
 			return table.equals( fakeTable ) || fakeTable.contains( table );
+		}
+
+		// When widget is selected, then definately is not a table.
+		if ( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( fakeSelection.getSelectedElement() ) ) {
+			return false;
 		}
 
 		if ( isValidTableSelection( table, fakeTable, ranges, fakeRanges ) ) {
@@ -226,6 +233,7 @@
 			realSel = this.getSelection( 1 );
 			// If real (not locked/stored) selection was moved from hidden container
 			// or is not a table one, then the fake-selection must be invalidated.
+
 			if ( !realSel || ( !realSel.isHidden() && !isRealTableSelection( realSel, sel ) ) ) {
 				// Remove the cache from fake-selection references in use elsewhere.
 				sel.reset();
@@ -1907,7 +1915,6 @@
 				// faked or its clone.
 				if ( this.rev == editor._.fakeSelection.rev ) {
 					delete editor._.fakeSelection;
-
 					removeHiddenSelectionContainer( editor );
 				}
 				else {

@@ -208,7 +208,8 @@
 			// The selection is inside one cell, so we should allow native selection,
 			// but only in case if no other cell between mousedown and mouseup
 			// was selected.
-			if ( !fakeSelection.dirty && cells.length === 1 ) {
+			// We don't want to clear selection if widget is event target (#1027).
+			if ( !fakeSelection.dirty && cells.length === 1 && !( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( evt.data.getTarget() ) ) ) {
 				return clearFakeCellSelection( editor, evt.name === 'mouseup' );
 			}
 
@@ -269,6 +270,11 @@
 		if ( !evt.data.getTarget().getName ) {
 			return;
 		}
+		// Prevent of applying table selection when widget is selected.
+		// Mouseup remain possibility to finish table selection when user release mouse button above widget in table.
+		if ( evt.name !== 'mouseup' && CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( evt.data.getTarget() ) ) {
+			return;
+		}
 
 		var editor = evt.editor || evt.listenerData.editor,
 			selection = editor.getSelection( 1 ),
@@ -276,8 +282,7 @@
 			target = evt.data.getTarget(),
 			cell = target && target.getAscendant( { td: 1, th: 1 }, true ),
 			table = target && target.getAscendant( 'table', true ),
-			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 },
-			canClear;
+			tableElements = { table: 1, thead: 1, tbody: 1, tfoot: 1, tr: 1, td: 1, th: 1 };
 
 		// Nested tables should be treated as the same one (e.g. user starts dragging from outer table
 		// and ends in inner one).
@@ -310,7 +315,7 @@
 			return false;
 		}
 
-		if ( canClear = canClearSelection( evt, selection, selectedTable, table ) ) {
+		if ( canClearSelection( evt, selection, selectedTable, table ) ) {
 			clearFakeCellSelection( editor, true );
 		}
 

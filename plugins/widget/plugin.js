@@ -1585,6 +1585,18 @@
 	};
 
 	/**
+	 * Checks whether the `node` is a DOM widget.
+	 *
+	 * @since 4.8.0
+	 * @static
+	 * @param {CKEDItOR.dom.element} node
+	 * @returns {Boolean}
+	 */
+	Widget.isDomWidget = function( node ) {
+		return node ? this.isDomWidgetWrapper( node ) || this.isDomWidgetElement( node ) : false;
+	};
+
+	/**
 	 * Checks whether the `node` is a {@link CKEDITOR.plugins.widget#element widget element}.
 	 *
 	 * @since 4.5
