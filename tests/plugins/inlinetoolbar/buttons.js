@@ -9,25 +9,26 @@
 	bender.test( {
 		'test adding buttion': function() {
 			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
-			panel.addUIElements( {
+			panel.addItems( {
 				cut: new CKEDITOR.ui.button( {
 					label: 'test',
 					command: 'cut'
 				} )
 			} );
-			assert.isNotUndefined( panel.getUIElement( 'cut' ), 'The button should exist.' );
+			assert.isInstanceOf( CKEDITOR.ui.button, panel.getItem( 'cut' ), 'Registered button type.' );
 
 		},
 		'test removing buttion': function() {
 			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
-			panel.addUIElements( {
+			panel.addItems( {
 				cut: new CKEDITOR.ui.button( {
 					label: 'test',
 					command: 'cut'
 				} )
 			} );
-			panel.deleteUIElement( 'cut' );
-			assert.isUndefined( panel.getUIElement( 'cut' ), 'The button should be deleted.' );
+			assert.isInstanceOf( CKEDITOR.ui.button, panel.getItem( 'cut' ), 'Registered button type.' );
+			panel.deleteItem( 'cut' );
+			assert.isUndefined( panel.getItem( 'cut' ), 'The button should be deleted.' );
 
 		}
 	} );
