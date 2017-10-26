@@ -2309,8 +2309,12 @@
 
 			type = this._.normalizeType( type );
 
-			var data = this._cache.get( type ),
+			var data,
 				result;
+
+			if ( !getNative ) {
+				data = this._cache.get( type );
+			}
 
 			if ( isEmpty( data ) ) {
 
