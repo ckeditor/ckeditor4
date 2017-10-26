@@ -13,8 +13,8 @@
 	 * @extends CKEDITOR.ui.balloonPanel
 	 * @constructor Creates an inline toolbar view instance.
 	 * @since 4.8
-	 * @param {CKEDITOR.editor} editor The editor instance for which the panel is created.
-	 * @param {Object} definition An object containing the panel definition. See {@link CKEDITOR.ui.balloonPanel}
+	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
+	 * @param {Object} definition An object containing the toolbar definition. See {@link CKEDITOR.ui.balloonPanel}
 	 * docs for an example definition.
 	 */
 	CKEDITOR.ui.inlineToolbarView = function( editor, definition ) {
@@ -24,6 +24,7 @@
 			triangleHeight: 10
 		} );
 		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
+
 		/**
 		 * Listeners registered by this toolbar view.
 		 *
@@ -43,13 +44,14 @@
 	 * docs for an example definition.
 	 */
 	CKEDITOR.ui.inlineToolbar = function( editor, definition ) {
-		this._toolbar = new CKEDITOR.ui.inlineToolbarView( editor, definition );
+		this._view = new CKEDITOR.ui.inlineToolbarView( editor, definition );
+
 		/**
 		 * Menu items added to inline toolbar
 		 *
 		 * @private
 		 */
-		this._menuItems = [];
+		this._items = [];
 	};
 
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
@@ -101,11 +103,16 @@
 			};
 
 			/**
-			 * Hides the inline toolbar, detaches listeners and moves the focus back to the editable.
+			 * Create html representation of menu items in toolbar.
+			 *
+			 * @param items array of {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} objects.
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.detach = function() {
-				this._detachListeners();
-				this.hide();
+			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
+				var output = [];
+				for ( var menuItem in items ) {
+					items[ menuItem ].render( this.editor, output );
+				}
+				this.parts.content.setHtml( output.join( '' ) );
 			};
 
 			/**
@@ -114,75 +121,75 @@
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
 			 */
+			CKEDITOR.ui.inlineToolbarView.prototype.create = function( element ) {
+				this.attach( element );
+
+				var that = this,
+					editable = this.editor.editable();
+				this._detachListeners();
+
+				this._listeners.push( this.editor.on( 'resize', function() {
+					that.attach( element, false );
+				} ) );
+				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
+					that.attach( element, false );
+				} ) );
+			};
+
+			/**
+			 * Render items and attach view to DOM element.
+			 *
+			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
+			 */
 			CKEDITOR.ui.inlineToolbar.prototype.create = function( element ) {
-				var output = [];
-				for ( var menuItem in this._menuItems ) {
-					this._menuItems[ menuItem ].render( this._toolbar.editor, output );
-				}
-				this._toolbar.parts.content.setHtml( output.join( '' ) );
-
-				this._toolbar.attach( element );
-
-				var that = this._toolbar,
-					editable = this._toolbar.editor.editable();
-				this._toolbar._detachListeners();
-
-				this._toolbar._listeners.push( this._toolbar.editor.on( 'resize', function() {
-					that.attach( element, false );
-				} ) );
-				this._toolbar._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
-					that.attach( element, false );
-				} ) );
+				this._view.renderItems( this._items );
+				this._view.create( element );
 			};
 
 			/**
 			 * Adds an item to the inline toolbar.
 			 *
-			 * @method
 			 * @param {String} name The menu item name.
-			 * @param {Object} element instance of CKEDITOR.ui element
+			 * @param {Object} element instance of {CKEDITOR.ui.button/CKEDITOR.ui.richCombo}
 			 */
-			CKEDITOR.ui.inlineToolbar.prototype.addUIElement = function( name, element ) {
-				this._menuItems[ name ] = element;
+			CKEDITOR.ui.inlineToolbar.prototype.addItem = function( name, element ) {
+				this._items[ name ] = element;
 			};
 
 			/**
 			 * Adds one or more items to the inline toolbar.
 			 *
-			 * @method
-			 * @param {Object} elements Object where keys are used as itemName and corresponding values as definition for a {@link #addMenuItem} call.
+			 * @param {Object} elements Object where keys are used as itemName and corresponding values as definition for a {@link #addUIElement} call.
 			 */
-			CKEDITOR.ui.inlineToolbar.prototype.addUIElements = function( elements ) {
+			CKEDITOR.ui.inlineToolbar.prototype.addItems = function( elements ) {
 				for ( var itemName in elements ) {
-					this.addUIElement( itemName, elements[ itemName ] );
+					this.addItem( itemName, elements[ itemName ] );
 				}
 			};
 
 			/**
 			 * Retrieves a particular menu item definition from the inline toolbar.
 			 *
-			 * @method
 			 * @param {String} name The name of the desired menu item.
 			 * @returns {Object}
 			 */
-			CKEDITOR.ui.inlineToolbar.prototype.getUIElement = function( name ) {
-				return this._menuItems[ name ];
+			CKEDITOR.ui.inlineToolbar.prototype.getItem = function( name ) {
+				return this._items[ name ];
 			};
 
 			/**
 			 * Removes a particular menu item definition from the inline toolbar.
 			 *
-			 * @method
 			 * @param {String} name The name of the desired menu item.
 			 * @returns {Object}
 			 */
-			CKEDITOR.ui.inlineToolbar.prototype.deleteUIElement = function( name ) {
-				if ( this._menuItems[ name ] ) {
-					delete this._menuItems[ name ];
+			CKEDITOR.ui.inlineToolbar.prototype.deleteItem = function( name ) {
+				if ( this._items[ name ] ) {
+					delete this._items[ name ];
 				}
 			};
 			CKEDITOR.ui.inlineToolbar.prototype.destroy = function() {
-				this._toolbar.destroy();
+				this._view.destroy();
 			};
 		}
 	} );

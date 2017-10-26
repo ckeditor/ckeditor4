@@ -21,7 +21,7 @@
 
 	function instanceReadyListener( evt ) {
 		var strongs = this.editable().find( 'strong' ),
-			panel = new CKEDITOR.ui.inlineToolbar( this, {
+			panel = new CKEDITOR.ui.inlineToolbarView( this, {
 				width: 'auto',
 				height: 40,
 			} ),
@@ -34,9 +34,7 @@
 			strong.setStyle( 'outline', '4px solid red' );
 			strong.on( 'click', function() {
 				panel.create( this );
-				console.log(this);
-				console.log(panel._toolbar.parts.content);
-				panel._toolbar.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + ' ("' + this.getText() + '")</p>' );
+				panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + ' ("' + this.getText() + '")</p>' );
 			} );
 		}
 	}
