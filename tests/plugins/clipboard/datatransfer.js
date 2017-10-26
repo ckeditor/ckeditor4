@@ -487,6 +487,33 @@ bender.test( {
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
 	},
 
+	'test getData with getNative flag if cache differs from native data': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+				'<head>' +
+				'<meta charset="UTF-8">' +
+				'<meta name="foo" content=bar>' +
+				'<STYLE>h1 { color: red; }</style>' +
+				'</head>' +
+				'<BODY>' +
+				'<!--StartFragment--><p>Foo</p>' +
+				'<p>Bar</p><!--EndFragment-->' +
+				'</body>' +
+				'</html>',
+			newHtml = html.replace( 'Bar', 'Baz' ),
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', html );
+		dataTransfer.cacheData();
+		nativeData.setData( 'text/html', newHtml );
+
+		assert.areSame( newHtml, dataTransfer.getData( 'text/html', true ) );
+	},
+
 	'test cacheData': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
 			// Emulate native clipboard.
