@@ -2242,6 +2242,14 @@
 		 * @private
 		 * @property {CKEDITOR.plugins.clipboard.fallbackDataTransfer} _fallbackDataTransfer
 		 */
+
+		/**
+		 * Cache object.
+		 *
+		 * @since 4.8.0
+		 * @private
+		 * @property {Object} _cache
+		 */
 	};
 
 	/**
@@ -2700,7 +2708,7 @@
 		 * Cache object. Shared with {@link CKEDITOR.plugins.clipboard.dataTransfer} instance.
 		 *
 		 * @private
-		 * @type {Object} _cache
+		 * @property {Object} _cache
 		 */
 		this._cache = cache;
 
@@ -2803,7 +2811,7 @@
 
 		/**
 		 * Sets given data in native `dataTransfer` object. If given MIME type is not supported it uses
-		 * {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_customDataFallbackType} MIME type
+		 * {@link #_customDataFallbackType} MIME type
 		 * to save data using special comment format:
 		 *
 		 * 		<!--cke-data:{ type: value }-->
@@ -2881,7 +2889,7 @@
 		},
 
 		/**
-		 * Returns content stored in {@link #_customDataFallbackType}. Content is always first retrieved
+		 * Returns content stored in {@link #\_customDataFallbackType}. Content is always first retrieved
 		 * from {@link #_cache} and then from native `dataTransfer` object.
 		 *
 		 * @private
@@ -2897,7 +2905,7 @@
 		},
 
 		/**
-		 * Returns custom data stored in {@link #_customDataFallbackType}. Custom data is always first retrieved
+		 * Returns custom data stored in {@link #\_customDataFallbackType}. Custom data is always first retrieved
 		 * from {@link #_cache} and then from native `dataTransfer` object.
 		 *
 		 * @private
