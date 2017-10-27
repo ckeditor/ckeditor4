@@ -37,13 +37,11 @@
 				img: {
 					attributes: '!src,alt,width,height'
 				},
-				figure: {
-					classes: '!imagebase'
-				},
+				figure: true,
 				figcaption: true
 			},
 
-			requiredContent: 'figure(!imagebase)',
+			requiredContent: 'figure',
 
 			editables: {
 				caption: {
