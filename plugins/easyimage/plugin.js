@@ -105,12 +105,33 @@
 
 			requiredContent: 'figure(!' + config.easyimage_class + ')',
 
+			upcasts: {
+				img: function( element ) {
+					if ( !this._isValidImageElement( element ) ) {
+						return;
+					}
+
+					return true;
+				},
+				figure: function( element ) {
+					return element.name === 'figure' && element.hasClass( config.easyimage_class );
+				},
+				a: function( element ) {
+					var children = element.children;
+
+					if ( children.length === 1 && children[ 0 ].name && this.upcasts[ children[ 0 ].name ] ) {
+						return this.upcasts[ children[ 0 ].name ].call( this, element );
+					}
+				}
+			},
+
 			upcast: function( element ) {
-				if ( !this._isValidImageElement( element ) ) {
-					return;
+				// Workaround until #1094 is fixed.
+				if ( element.name && this.upcasts[ element.name ] ) {
+					return this.upcasts[ element.name ].call( this, element );
 				}
 
-				return element.name === 'figure' && element.hasClass( config.easyimage_class );
+				return false;
 			},
 
 			init: function() {
