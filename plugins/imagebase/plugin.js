@@ -87,7 +87,7 @@
 			 * objects.
 			 *
 			 * @private
-			 * @param {CKEDITOR.htmlParser.element} elemnt
+			 * @param {CKEDITOR.htmlParser.element} element
 			 * @returns {Boolean} `false` if element is invalid image, `true` otherwise.
 			 */
 			_isValidImageElement: function( element ) {
