@@ -1957,18 +1957,31 @@
 
 	function addWidgetProcessors( widgetsRepo, widgetDef ) {
 		var upcast = widgetDef.upcast,
-			upcasts,
 			priority = widgetDef.upcastPriority || 10;
+
+		function multipleUpcastsHandler( element, data ) {
+			var upcasts = widgetDef.upcast.split( ',' ),
+				upcast,
+				i;
+
+			for ( i = 0; i < upcasts.length; i++ ) {
+				upcast = upcasts[ i ];
+
+				if ( upcast === element.name ) {
+					return widgetDef.upcasts[ upcast ].call( this, element, data );
+				}
+			}
+
+			return false;
+		}
 
 		if ( !upcast )
 			return;
 
 		// Multiple upcasts defined in string.
 		if ( typeof upcast == 'string' ) {
-			upcasts = upcast.split( ',' );
-			while ( upcasts.length ) {
-				addUpcast( widgetDef.upcasts[ upcasts.pop() ], widgetDef.name, priority );
-			}
+			// This handler ensures that upcast method is fired only for appropriate element (#1094).
+			addUpcast( multipleUpcastsHandler, widgetDef.name, priority );
 		}
 		// Single rule which is automatically activated.
 		else {
