@@ -16,7 +16,7 @@
 
 		/**
 		 * This is an abstract class that describes a definition of a basic image widget
-		 * creted by {@link CKEDITOR.plugins.imagebase#createWidget} method.
+		 * creted by {@link CKEDITOR.plugins.imagebase#addImageWidget} method.
 		 *
 		 * Note that because the image widget is a type of a widget, this definition extends
 		 * {@link CKEDITOR.plugins.widget.definition}.
