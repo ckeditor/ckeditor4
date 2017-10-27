@@ -49,7 +49,8 @@
 		},
 
 		'test upcasting image widget': function( editor, bot ) {
-			assertUpcast( bot, '<figure class="imagebase"></figure>', 'testWidget' );
+			assert.areSame( 'figure', editor.widgets.registered.testWidget.upcast );
+			assertUpcast( bot, '<figure>Foo</figure>', 'testWidget' );
 		}
 	};
 
