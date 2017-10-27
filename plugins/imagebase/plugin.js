@@ -83,7 +83,7 @@
 			},
 
 			/**
-			 * Checks whether provided element is a valid image elment. For instance method will refuse fake
+			 * Checks whether provided element is a valid image element. For instance method will refuse fake
 			 * objects.
 			 *
 			 * @private
