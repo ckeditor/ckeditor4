@@ -58,25 +58,32 @@
 				caption: 'figcaption'
 			},
 
-			/**
-			 * Image widget definition overwrites the {@link CKEDITOR.plugins.widget.definition#upcast} property.
-			 * This should not be changed.
-			 *
-			 * @property {Function}
-			 */
-			upcast: function( element ) {
-				// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
-				if ( element.attributes[ 'data-cke-realelement' ] ) {
-					return;
-				}
+			upcasts: {
+				figure: function( element ) {
+					// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
+					if ( element.attributes[ 'data-cke-realelement' ] ) {
+						return;
+					}
 
-				if ( element.name === 'figure' && element.hasClass( 'imagebase' ) ) {
-					return element;
+					if ( element.name === 'figure' ) {
+						return element;
+					}
 				}
 			}
 		};
 
-		return CKEDITOR.tools.object.merge( baseDefinition, definition );
+		definition = CKEDITOR.tools.object.merge( baseDefinition, definition );
+
+		/**
+		 * Image widget definition overwrites the {@link CKEDITOR.plugins.widget.definition#upcast} property.
+		 * This should not be changed.
+		 *
+		 * @member CKEDITOR.plugins.imagebase.imageWidgetDefinition
+		 * @property {String}
+		 */
+		definition.upcast = CKEDITOR.tools.objectKeys( definition.upcasts ).join( ',' );
+
+		return definition;
 	}
 
 	CKEDITOR.plugins.add( 'imagebase', {
