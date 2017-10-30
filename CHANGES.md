@@ -27,6 +27,7 @@ Fixed Issues:
 * [#605](https://github.com/ckeditor/ckeditor-dev/issues/605): Fixed: Inline widgets do not preserve trailing spaces.
 * [#1008](https://github.com/ckeditor/ckeditor-dev/issues/1008): Fixed: Shorthand hex colors from [colorButton_colors](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-colorButton_colors) are not correctly highlighted in [Color Button](http://ckeditor.com/addon/colorbutton) _text color_ / _background color_ panel.
 * [#1094](https://github.com/ckeditor/ckeditor-dev/issues/1094): Fixed: Widget definition [`upcats`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-upcasts) methods are called for every element.
+* [#1057](https://github.com/ckeditor/ckeditor-dev/issues/1057): Fixed: [Notification](https://ckeditor.com/addon/notification) plugin overwrites Web Notifications API due to leakage to the global scope.
 
 Other Changes:
 
