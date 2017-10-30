@@ -446,7 +446,7 @@ bender.test( {
 	'test Notification should not leak the global scope': function() {
 		// Web Notification Api is not supported by IE.
 		if ( typeof Notification === 'undefined' ) {
-			assert.ignore();
+			return assert.pass();
 		}
 
 		assert.isFunction( Notification );
