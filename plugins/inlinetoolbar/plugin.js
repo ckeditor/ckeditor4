@@ -70,6 +70,8 @@
 
 			/**
 			 * Build inline toolbar DOM representation.
+			 *
+			 * @member CKEDITOR.ui.inlineToolbarView
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.build = function() {
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
@@ -93,6 +95,7 @@
 			 * Detaches all listeners.
 			 *
 			 * @private
+			 * @member CKEDITOR.ui.inlineToolbarView
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype._detachListeners = function() {
 				if ( this._listeners.length ) {
@@ -111,6 +114,7 @@
 			/**
 			 * Create HTML representation of menu items in toolbar.
 			 *
+			 * @member CKEDITOR.ui.inlineToolbarView
 			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items Array of UI elements objects.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
@@ -125,8 +129,8 @@
 			 * Places the inline toolbar next to a specified element so the tip of the toolbar's triangle
 			 * points to that element.
 			 *
-			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
 			 * @member CKEDITOR.ui.inlineToolbarView
+			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.create = function( element ) {
 				this.attach( element );
