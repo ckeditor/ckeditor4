@@ -795,6 +795,24 @@
 				assert.areSame( '&nbsp;', widget.data.nbsp );
 				assert.areSame( '\u00a0', widget.data.nbspu );
 			} );
+		},
+
+		// #1094
+		'test upcasts methods are invoked only for specified elements': function() {
+			var editor = this.editor,
+				spy = sinon.spy();
+
+			editor.widgets.add( 'upcastelement', {
+				upcasts: {
+					del: spy
+				},
+				upcast: 'del'
+			} );
+
+			this.editorBot.setData( '<p><b>Foo</b><del>Bar</del></p>', function() {
+				assert.areSame( 1, spy.callCount, 'Upcast was called only once' );
+				assert.areSame( 'del', spy.getCall( 0 ).args[ 0 ].name, 'Upcast was called on del element' );
+			} );
 		}
 	} );
 } )();

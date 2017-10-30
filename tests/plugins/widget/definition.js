@@ -71,20 +71,20 @@
 
 				var widgetDef = {
 					upcasts: {
-						up1: function( el ) {
+						b: function( el ) {
 							return el.name == 'b';
 						},
-						up2: function( el ) {
+						i: function( el ) {
 							return el.name == 'i';
 						},
-						up3: function( el ) {
+						u: function( el ) {
 							return el.name == 'u';
 						}
 					}
 				};
 
 				editor.once( 'widgetDefinition', function( evt ) {
-					evt.data.upcast = 'up1,up2';
+					evt.data.upcast = 'b,i';
 				} );
 
 				editor.widgets.add( 'testup1', widgetDef );
