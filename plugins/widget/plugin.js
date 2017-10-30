@@ -3890,7 +3890,8 @@
  * comma-separated list of upcast methods from the {@link #upcasts} object.
  *
  * The upcast function **is not** executed in the widget context (because the widget
- * does not exist yet) and two arguments are passed:
+ * does not exist yet), however it is executed in the widget's definition context.
+ * Two arguments are passed to the upcast function:
  *
  * * `element` ({@link CKEDITOR.htmlParser.element}) &ndash; The element to be checked.
  * * `data` (`Object`) &ndash; The object which can be extended with data which will then be passed to the widget.
