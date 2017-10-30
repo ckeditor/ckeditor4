@@ -45,15 +45,15 @@
 	 */
 	CKEDITOR.ui.inlineToolbar = function( editor, definition ) {
 		/**
-		 * View instance of inlinetoolbar.
+		 * View instance of inline toolbar.
 		 *
 		 * @private
-		 * @property {CKEDITOR.ui.inlineToolbarView} _view
+		 * @property {CKEDITOR.ui.inlineToolbarView}
 		 */
 		this._view = new CKEDITOR.ui.inlineToolbarView( editor, definition );
 
 		/**
-		 * Menu items added to inline toolbar
+		 * Menu items added to inline toolbar.
 		 *
 		 * @private
 		 */
@@ -111,7 +111,7 @@
 			/**
 			 * Create HTML representation of menu items in toolbar.
 			 *
-			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items array of UI elements objects.
+			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items Array of UI elements objects.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
 				var output = [];
@@ -144,7 +144,7 @@
 			};
 
 			/**
-			 * Render items and attach view to DOM element. To see more about creat checkout {@link CKEDITOR.ui.inlineToolbarView#create}
+			 * Displays the inline toolbar, pointing it to the `element`.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
 			 * @member CKEDITOR.ui.inlineToolbar
@@ -158,7 +158,7 @@
 			 * Adds an item to the inline toolbar.
 			 *
 			 * @param {String} name The menu item name.
-			 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} element instance of ui elemenet
+			 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} element Instance of ui element.
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.addItem = function( name, element ) {
 				this._items[ name ] = element;
@@ -196,6 +196,10 @@
 					delete this._items[ name ];
 				}
 			};
+
+			/**
+			 * Hides the toolbar and removes it from the DOM.
+			 */
 			CKEDITOR.ui.inlineToolbar.prototype.destroy = function() {
 				this._view.destroy();
 			};
