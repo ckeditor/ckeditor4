@@ -39,11 +39,17 @@
 	 * @class
 	 * @constructor Creates an inline toolbar instance.
 	 * @since 4.8
-	 * @param {CKEDITOR.editor} editor The editor instance for which the panel is created.
+	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {Object} definition An object containing the panel definition. See {@link CKEDITOR.ui.balloonPanel}
 	 * docs for an example definition.
 	 */
 	CKEDITOR.ui.inlineToolbar = function( editor, definition ) {
+		/**
+		 * View instance of inlinetoolbar.
+		 *
+		 * @private
+		 * @property {CKEDITOR.ui.inlineToolbarView} _view
+		 */
 		this._view = new CKEDITOR.ui.inlineToolbarView( editor, definition );
 
 		/**
@@ -103,9 +109,9 @@
 			};
 
 			/**
-			 * Create html representation of menu items in toolbar.
+			 * Create HTML representation of menu items in toolbar.
 			 *
-			 * @param items array of {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} objects.
+			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items array of UI elements objects.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
 				var output = [];
@@ -120,6 +126,7 @@
 			 * points to that element.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
+			 * @member CKEDITOR.ui.inlineToolbarView
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.create = function( element ) {
 				this.attach( element );
@@ -137,9 +144,10 @@
 			};
 
 			/**
-			 * Render items and attach view to DOM element.
+			 * Render items and attach view to DOM element. To see more about creat checkout {@link CKEDITOR.ui.inlineToolbarView#create}
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
+			 * @member CKEDITOR.ui.inlineToolbar
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.create = function( element ) {
 				this._view.renderItems( this._items );
@@ -150,7 +158,7 @@
 			 * Adds an item to the inline toolbar.
 			 *
 			 * @param {String} name The menu item name.
-			 * @param {Object} element instance of {CKEDITOR.ui.button/CKEDITOR.ui.richCombo}
+			 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} element instance of ui elemenet
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.addItem = function( name, element ) {
 				this._items[ name ] = element;
@@ -159,7 +167,7 @@
 			/**
 			 * Adds one or more items to the inline toolbar.
 			 *
-			 * @param {Object} elements Object where keys are used as itemName and corresponding values as definition for a {@link #addUIElement} call.
+			 * @param {Object} elements Object where keys are used as itemName and corresponding values as definition for a {@link #addItem} call.
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.addItems = function( elements ) {
 				for ( var itemName in elements ) {

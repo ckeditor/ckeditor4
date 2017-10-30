@@ -21,7 +21,7 @@
 
 	function instanceReadyListener( evt ) {
 		var strongs = this.editable().find( 'strong' ),
-			panel = new CKEDITOR.ui.inlineToolbarView( this, {
+			panel = new CKEDITOR.ui.inlineToolbar( this, {
 				width: 'auto',
 				height: 40,
 			} ),
@@ -33,14 +33,21 @@
 			strong.setStyle( 'background', 'pink' );
 			strong.setStyle( 'outline', '4px solid red' );
 			strong.on( 'click', function() {
+				panel.addItems( {
+					bold: new CKEDITOR.ui.button( {
+						label: 'test',
+						command: 'bold'
+					} ),
+					language: evt.editor.ui.create('Language'),
+					Styles: evt.editor.ui.create( 'Styles' )
+				} );
 				panel.create( this );
-				panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + this.getName() + ' ("' + this.getText() + '")</p>' );
 			} );
 		}
 	}
 
 	CKEDITOR.replace( 'editor1', {
-		extraPlugins: 'balloonpanel',
+		extraPlugins: 'balloonpanel,language,stylescombo',
 		height: 300,
 		width: 600,
 		on: {
@@ -49,7 +56,7 @@
 	} );
 
 	CKEDITOR.inline( 'editor2', {
-		extraPlugins: 'balloonpanel',
+		extraPlugins: 'balloonpanel,language,stylescombo',
 		height: 300,
 		width: 600,
 		on: {
