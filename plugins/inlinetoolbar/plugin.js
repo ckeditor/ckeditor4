@@ -142,9 +142,25 @@
 			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items Array of UI elements objects.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
-				var output = [];
+				var output = [],
+					isStarted = false;
 				for ( var menuItem in items ) {
+
+					if ( items[ menuItem ] instanceof CKEDITOR.ui.richCombo ) {
+						if ( isStarted ) {
+							isStarted = false;
+							output.push( '</span>' );
+						}
+					} else {
+						if ( !isStarted ) {
+							output.push( '<span class="cke_toolgroup">' );
+							isStarted = true;
+						}
+					}
 					items[ menuItem ].render( this.editor, output );
+				}
+				if ( isStarted ) {
+					output.push( '</span>' );
 				}
 				this.parts.content.setHtml( output.join( '' ) );
 			};
