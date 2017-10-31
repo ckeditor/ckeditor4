@@ -102,6 +102,7 @@
 			inlineToolbar.destroy();
 			inlineToolbar = null;
 		},
+
 		'test panel adds cke_inlinetoolbar class': function( editor ) {
 			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
 				width: 100,
