@@ -23,6 +23,18 @@
 		return link;
 	}
 
+	function unwrapFromLink( img ) {
+		var link = img.getAscendant( 'a' );
+
+		if ( !link ) {
+			return;
+		}
+
+		img.replace( link );
+
+		return img;
+	}
+
 	var featuresDefinitions = {
 		link: {
 			allowedContent: {
@@ -35,9 +47,10 @@
 			},
 
 			init: function() {
-				var widget = this;
+				var widget = this,
+					editor = widget.editor;
 
-				widget.editor.on( 'dialogShow', function( evt ) {
+				editor.on( 'dialogShow', function( evt ) {
 					var dialog = evt.data,
 						displayTextField;
 
@@ -67,17 +80,52 @@
 						displayTextField.show();
 					} );
 				} );
+
+				// Overwrite default behaviour of unlink command.
+				editor.getCommand( 'unlink' ).on( 'exec', function( evt ) {
+					// Override unlink only when link truly belongs to the widget.
+					// If wrapped inline widget in a link, let default unlink work (http://dev.ckeditor.com/ticket/11814).
+					if ( !isWidgetFocused( widget ) ) {
+						return;
+					}
+
+					widget.setData( 'link', null );
+
+					// Selection (which is fake) may not change if unlinked image in focused widget,
+					// i.e. if captioned image. Let's refresh command state manually here.
+					this.refresh( editor, editor.elementPath() );
+
+					evt.cancel();
+				} );
+
+				// Overwrite default refresh of unlink command.
+				editor.getCommand( 'unlink' ).on( 'refresh', function( evt ) {
+					if ( !isWidgetFocused( widget ) ) {
+						return;
+					}
+
+					// Note that widget may be wrapped in a link, which
+					// does not belong to that widget (http://dev.ckeditor.com/ticket/11814).
+					this.setState( widget.data.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+
+					evt.cancel();
+				} );
 			},
 
 			data: function( evt ) {
 				var link = evt.data.link,
 					img = this.element.findOne( 'img' );
 
-				if ( !link || !link.url.url ) {
+				if ( typeof link === 'undefined' ) {
 					return;
 				}
 
-				wrapInLink( img, link );
+				// Unlink was invoked.
+				if ( link === null ) {
+					unwrapFromLink( img );
+				} else {
+					wrapInLink( img, link );
+				}
 			}
 		}
 	};
