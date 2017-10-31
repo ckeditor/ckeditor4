@@ -89,6 +89,8 @@
 						return;
 					}
 
+					evt.stop();
+
 					widget.setData( 'link', null );
 
 					// Selection (which is fake) may not change if unlinked image in focused widget,
@@ -104,9 +106,11 @@
 						return;
 					}
 
+					evt.stop();
+
 					// Note that widget may be wrapped in a link, which
 					// does not belong to that widget (http://dev.ckeditor.com/ticket/11814).
-					this.setState( widget.data.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
+					this.setState( widget.parts.link ? CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 
 					evt.cancel();
 				} );
@@ -123,8 +127,10 @@
 				// Unlink was invoked.
 				if ( link === null ) {
 					unwrapFromLink( img );
+
+					this.parts.link = null;
 				} else {
-					wrapInLink( img, link );
+					this.parts.link = wrapInLink( img, link );
 				}
 			}
 		}
