@@ -35,6 +35,10 @@
 		return img;
 	}
 
+	function getLinkData( widget ) {
+		return CKEDITOR.plugins.link.parseLinkAttributes( widget.parts.link );
+	}
+
 	var featuresDefinitions = {
 		link: {
 			allowedContent: {
@@ -119,6 +123,11 @@
 			data: function( evt ) {
 				var link = evt.data.link,
 					img = this.element.findOne( 'img' );
+
+				// Widget is inited with link, so let's set appropriate data.
+				if ( typeof link === 'undefined' && this.parts.link ) {
+					this.setData( 'link', getLinkData( this ) );
+				}
 
 				if ( typeof link === 'undefined' ) {
 					return;
