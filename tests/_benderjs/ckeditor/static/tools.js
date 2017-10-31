@@ -92,10 +92,10 @@
 			 */
 			linux: navigator.userAgent.toLowerCase().indexOf( 'linux' ) !== -1,
 
-			/**
-			 * Check whether current environment is running in Opera.
+			/*
+			 * Whether current environment is Opera browser.
 			 */
-			opera: ( navigator.userAgent.toLowerCase().indexOf( ' opr/' ) >= 0 )
+			opera: navigator.userAgent.toLowerCase().indexOf( ' opr/' ) !== -1
 		},
 
 		fixHtml: function( html, stripLineBreaks, toLowerCase ) {
