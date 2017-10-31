@@ -7,9 +7,10 @@
 	'use strict';
 
 	/**
-	 * Class representing view of inline toolbar.
+	 * Class representing view of inline toolbar, used by {@link CKEDITOR.ui.inlineToolbar}.
 	 *
 	 * @class
+	 * @private
 	 * @extends CKEDITOR.ui.balloonPanel
 	 * @constructor Creates an inline toolbar view instance.
 	 * @since 4.8
@@ -35,6 +36,29 @@
 
 	/**
 	 * Class representing instance of inline toolbar.
+	 *
+	 *		// Following example will show an inline toolbar on any selection change. The toolbar is anchored to the
+	 *		// last element in selection, assuming that editor variable is an instance of CKEDITOR.editor.
+	 *		editor.on( 'instanceReady', function() {
+	 *			var panel = new CKEDITOR.ui.inlineToolbar( editor );
+	 *
+	 *			panel.addItems( {
+	 *				link: new CKEDITOR.ui.button( {
+	 *					command: 'link'
+	 *				} ),
+	 *				unlink: new CKEDITOR.ui.button( {
+	 *					command: 'unlink'
+	 *				} )
+	 *			} );
+	 *
+	 *			editor.on( 'selectionChange', function( evt ) {
+	 *				var lastElement = evt.data.path.lastElement;
+	 *
+	 *				if ( lastElement ) {
+	 *					panel.create( lastElement );
+	 *				}
+	 *			} );
+	 *		} );
 	 *
 	 * @class
 	 * @constructor Creates an inline toolbar instance.
