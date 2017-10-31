@@ -90,7 +90,12 @@
 			/*
 			 * Whether current OS is a Linux environment.
 			 */
-			linux: navigator.userAgent.toLowerCase().indexOf( 'linux' ) !== -1
+			linux: navigator.userAgent.toLowerCase().indexOf( 'linux' ) !== -1,
+
+			/**
+			 * Check whether current environment is running in Opera.
+			 */
+			opera: ( navigator.userAgent.toLowerCase().indexOf( ' opr/' ) >= 0 )
 		},
 
 		fixHtml: function( html, stripLineBreaks, toLowerCase ) {

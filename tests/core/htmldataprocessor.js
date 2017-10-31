@@ -1323,8 +1323,8 @@
 
 	addXssTC( tcs, 'iframe with src=javascript 3',
 		'<p><iframe src="   jAvAsCrIpT:window.parent.%xss%;"></iframe></p>',
-		// Only WebKit (except Chrome version >= 62) removes preceding spaces in the attribute.
-		'<p><iframe src="' + ( CKEDITOR.env.chrome || !CKEDITOR.env.webkit ? '   ' : '' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
+		// Only Safari and Opera removes preceding spaces in the attribute.
+		'<p><iframe src="' + ( bender.tools.env.opera || CKEDITOR.env.safari ? '' : '   ' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
 
 	// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in few browsers.
 	// IE8 treats it as an URL and opens it which reloads the whole page.
