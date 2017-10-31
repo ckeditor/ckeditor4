@@ -163,6 +163,8 @@
 			widgetDefinition.allowedContent.figure.classes = '!' + figureClass + ',' + widgetDefinition.allowedContent.figure.classes;
 		}
 
+		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( 'link', widgetDefinition );
+
 		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', widgetDefinition );
 	}
 
@@ -288,7 +290,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'imagebase,uploadwidget,contextmenu,dialog,cloudservices',
+		requires: 'imagebase,uploadwidget,contextmenu,dialog,cloudservices,link',
 		lang: 'en',
 
 		onLoad: function() {
