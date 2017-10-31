@@ -80,6 +80,7 @@
 		 * Menu items added to inline toolbar.
 		 *
 		 * @private
+		 * @property {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]}
 		 */
 		this._items = [];
 	};
@@ -136,7 +137,7 @@
 			};
 
 			/**
-			 * Create HTML representation of menu items in toolbar.
+			 * Renders provided UI elements inside of the view.
 			 *
 			 * @member CKEDITOR.ui.inlineToolbarView
 			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items Array of UI elements objects.
