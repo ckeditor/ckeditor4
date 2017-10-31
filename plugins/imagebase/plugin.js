@@ -6,6 +6,82 @@
 ( function() {
 	'use strict';
 
+	function isWidgetFocused( widget ) {
+		return widget.editor.widgets.focused === widget;
+	}
+
+	function wrapInLink( img, linkData ) {
+		var link = img.getDocument().createElement( 'a', {
+			attributes: {
+				href: linkData.url.url
+			}
+		} );
+
+		link.replace( img );
+		img.move( link );
+
+		return link;
+	}
+
+	var featuresDefinitions = {
+		link: {
+			allowedContent: {
+				a: {
+					attributes: '!href'
+				}
+			},
+			parts: {
+				link: 'a'
+			},
+
+			init: function() {
+				var widget = this;
+
+				widget.editor.on( 'dialogShow', function( evt ) {
+					var dialog = evt.data,
+						displayTextField;
+
+					if ( !isWidgetFocused( widget ) || dialog._.name !== 'link' ) {
+						return;
+					}
+
+					displayTextField = dialog.getContentElement( 'info', 'linkDisplayText' ).getElement().getParent().getParent();
+
+					dialog.setupContent( widget.data.link || {} );
+					displayTextField.hide();
+
+					dialog.once( 'ok', function( evt ) {
+						if ( !isWidgetFocused( widget ) ) {
+							return;
+						}
+
+						evt.stop();
+
+						var data = {};
+
+						dialog.commitContent( data );
+						widget.setData( 'link', data );
+					}, null, null, 9 );
+
+					dialog.once( 'hide', function() {
+						displayTextField.show();
+					} );
+				} );
+			},
+
+			data: function( evt ) {
+				var link = evt.data.link,
+					img = this.element.findOne( 'img' );
+
+				if ( !link || !link.url.url ) {
+					return;
+				}
+
+				wrapInLink( img, link );
+			}
+		}
+	};
+
 	function createWidgetDefinition( editor, definition ) {
 		var defaultTemplate = new CKEDITOR.template(
 			'<figure>' +
@@ -104,6 +180,26 @@
 			var widget = editor.widgets.add( name, createWidgetDefinition( editor, definition ) );
 
 			editor.addFeature( widget );
+		},
+
+		addFeature: function( name, definition ) {
+			var featureDefinition = featuresDefinitions[ name ];
+
+			function mergeMethods( oldOne, newOne ) {
+				if ( !oldOne && !newOne ) {
+					return;
+				}
+
+				return function() {
+					oldOne && oldOne.apply( this, arguments );
+					newOne && newOne.apply( this, arguments );
+				};
+			}
+
+			featureDefinition.init = mergeMethods( definition.init, featureDefinition.init );
+			featureDefinition.data = mergeMethods( definition.data, featureDefinition.data );
+
+			return CKEDITOR.tools.object.merge( definition, featureDefinition );
 		}
 	};
 }() );
