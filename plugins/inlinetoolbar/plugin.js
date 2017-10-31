@@ -157,7 +157,7 @@
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.create = function( element ) {
-				this.attach( element );
+				this.attach( element, false );
 
 				var that = this,
 					editable = this.editor.editable();
@@ -204,20 +204,19 @@
 			};
 
 			/**
-			 * Retrieves a particular menu item definition from the inline toolbar.
+			 * Retrieves a particular menu item from the inline toolbar.
 			 *
 			 * @param {String} name The name of the desired menu item.
-			 * @returns {Object}
+			 * @returns {CKEDITOR.ui.button/CKEDITOR.ui.richCombo}
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.getItem = function( name ) {
 				return this._items[ name ];
 			};
 
 			/**
-			 * Removes a particular menu item definition from the inline toolbar.
+			 * Removes a particular menu item from the inline toolbar.
 			 *
-			 * @param {String} name The name of the desired menu item.
-			 * @returns {Object}
+			 * @param {String} name The name of the item menu to be deleted.
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.deleteItem = function( name ) {
 				if ( this._items[ name ] ) {
