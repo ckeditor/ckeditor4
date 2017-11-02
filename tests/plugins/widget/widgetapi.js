@@ -813,6 +813,57 @@
 				assert.areSame( 1, spy.callCount, 'Upcast was called only once' );
 				assert.areSame( 'del', spy.getCall( 0 ).args[ 0 ].name, 'Upcast was called on del element' );
 			} );
+		},
+
+		// #1097
+		'test scope of upcast': function() {
+			var editor = this.editor,
+				widget,
+				scope;
+
+			editor.widgets.add( 'upcastscope', {
+				upcast: function( element ) {
+					if ( element.name === 'b' && element.hasClass( 'upcastscope' ) ) {
+						scope = this;
+
+						return true;
+					}
+
+					return false;
+				}
+			} );
+			widget = editor.widgets.registered.upcastscope;
+
+			this.editorBot.setData( '<p><b class="upcastscope">Foo</b></p>', function() {
+				assert.areSame( widget, scope, 'Upcast is called in the context of widget' );
+			} );
+		},
+
+		// #1097
+		'test scope of upcasts': function() {
+			var editor = this.editor,
+				widget,
+				scope;
+
+			editor.widgets.add( 'upcastscope2', {
+				upcasts:  {
+					b: function( element ) {
+						if ( element.name === 'b' && element.hasClass( 'upcastscope2' ) ) {
+							scope = this;
+
+							return true;
+						}
+
+						return false;
+					}
+				},
+				upcast: 'b'
+			} );
+			widget = editor.widgets.registered.upcastscope2;
+
+			this.editorBot.setData( '<p><b class="upcastscope2">Foo</b></p>', function() {
+				assert.areSame( widget, scope, 'Upcasts are called in the context of widget' );
+			} );
 		}
 	} );
 } )();
