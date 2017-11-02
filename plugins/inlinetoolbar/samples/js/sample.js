@@ -12,6 +12,8 @@ if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 // unless user specified own height.
 CKEDITOR.config.height = 150;
 CKEDITOR.config.width = 'auto';
+CKEDITOR.config.customConfig = '';
+CKEDITOR.config.plugins = 'sourcearea,wysiwygarea,basicstyles,toolbar,undo,image,list,blockquote,table';
 CKEDITOR.config.extraPlugins = 'inlinetoolbar';
 CKEDITOR.on( 'instanceReady', function( e ) {
 	var editor = e.editor;
