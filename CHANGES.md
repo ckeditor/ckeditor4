@@ -29,6 +29,10 @@ Fixed Issues:
 * [#1094](https://github.com/ckeditor/ckeditor-dev/issues/1094): Fixed: Widget definition [`upcats`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-upcasts) methods are called for every element.
 * [#1057](https://github.com/ckeditor/ckeditor-dev/issues/1057): Fixed: [Notification](https://ckeditor.com/addon/notification) plugin overwrites Web Notifications API due to leakage to the global scope.
 
+API Changes:
+
+* [#1097](https://github.com/ckeditor/ckeditor-dev/issues/1097): Widget [`upcast`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-upcast) methods are now called in the [widget definition's](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget-property-definition) context.
+
 Other Changes:
 
 * [#815](https://github.com/ckeditor/ckeditor-dev/issues/815): Removed Node.js dependency from CKEditor build script.
