@@ -4,7 +4,11 @@
 ( function() {
 	'use strict';
 
-	bender.editor = {};
+	bender.editor = {
+		config: {
+			extraAllowedContent: 'strong'
+		}
+	};
 
 	bender.test( {
 		'test inlineToolbarView.render': function() {
@@ -36,6 +40,24 @@
 			view.renderItems( items );
 
 			assert.areSame( '', view.parts.content.getHtml() );
+		},
+
+		'test inline toolbar doesnt steal the focus': function() {
+			var editor = this.editor;
+
+			this.editorBot.setData( '<p>foo <strong>bar</strong> baz</p>', function() {
+				editor.focus();
+
+				var view = new CKEDITOR.ui.inlineToolbarView( editor ),
+					pointedElement = editor.editable().findOne( 'strong' );
+
+				view.parts.content.setHtml( 'foo' );
+				view.create( pointedElement );
+
+				assert.areSame( this.editor.window.getFrame(), CKEDITOR.document.getActive(), 'Editor frame is focused' );
+
+				view.destroy();
+			} );
 		}
 	} );
 } )();
