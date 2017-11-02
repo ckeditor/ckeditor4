@@ -65,3 +65,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 {
 	margin-bottom: 0px;
 }
+
+.cke_balloon.cke_inlinetoolbar span:last-child a:last-child::after,
+.cke_balloon.cke_inlinetoolbar span:last-child::after {
+	border-right: 0px;
+}
