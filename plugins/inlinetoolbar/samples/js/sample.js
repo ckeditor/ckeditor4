@@ -10,41 +10,37 @@ if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
 
 // The trick to keep the editor in the sample quite small
 // unless user specified own height.
-CKEDITOR.config.height = 150;
+CKEDITOR.config.height = 200;
 CKEDITOR.config.width = 'auto';
 CKEDITOR.config.customConfig = '';
-CKEDITOR.config.plugins = 'sourcearea,wysiwygarea,basicstyles,toolbar,undo,image,list,blockquote,table';
+CKEDITOR.config.plugins = 'sourcearea,wysiwygarea,basicstyles,toolbar,undo,image,link,list,blockquote,table,resize,elementspath';
 CKEDITOR.config.extraPlugins = 'inlinetoolbar';
 CKEDITOR.on( 'instanceReady', function( e ) {
 	var editor = e.editor;
-	editor.addCommand( 'testInlineToolbar', {
-		exec: function( editor ) {
-			var img = editor.editable().findOne( 'img' );
-			if ( img ) {
-				var panel = new CKEDITOR.ui.inlineToolbar( editor );
-				panel.addItems( {
-					iamge: new CKEDITOR.ui.button( {
-						label: editor.lang.common.image,
-						command: 'image',
-						toolbar: 'insert,10'
-					} ),
-					image2: new CKEDITOR.ui.button( {
-						label: editor.lang.common.image,
-						command: 'image',
-						toolbar: 'insert,10'
-					} ),
-					imag3: new CKEDITOR.ui.button( {
-						label: editor.lang.common.image,
-						command: 'image',
-						toolbar: 'insert,10'
-					} )
-				} );
-				panel.create( img );
-			}
-		}
+
+	var panel = new CKEDITOR.ui.inlineToolbar( editor );
+
+	panel.addItems( {
+		bold: new CKEDITOR.ui.button( {
+			command: 'bold'
+		} ),
+		underline: new CKEDITOR.ui.button( {
+			command: 'underline'
+		} ),
+		link: new CKEDITOR.ui.button( {
+			command: 'link'
+		} ),
+		unlink: new CKEDITOR.ui.button( {
+			command: 'unlink'
+		} )
 	} );
-	document.getElementById( 'test-inline-toolbar' ).addEventListener( 'click', function() {
-		editor.execCommand( 'testInlineToolbar' );
+
+	editor.on( 'selectionChange', function( evt ) {
+		var lastElement = evt.data.path.lastElement;
+
+		if ( lastElement ) {
+			panel.create( lastElement );
+		}
 	} );
 } );
 
