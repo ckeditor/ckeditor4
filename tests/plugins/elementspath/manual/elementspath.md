@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.8.0, bug
+@bender-tags: 4.8.0, 801, bug
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, link, elementspath, table, image2
 
 ----
