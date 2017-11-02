@@ -36,7 +36,7 @@
 	}
 
 	function getLinkData( widget ) {
-		return CKEDITOR.plugins.link.parseLinkAttributes( widget.parts.link );
+		return CKEDITOR.plugins.link.parseLinkAttributes( widget.editor, widget.parts.link );
 	}
 
 	var featuresDefinitions = {
