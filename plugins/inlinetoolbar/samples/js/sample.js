@@ -42,6 +42,10 @@ CKEDITOR.on( 'instanceReady', function( e ) {
 			panel.create( lastElement );
 		}
 	} );
+
+	editor.on( 'mode', function() {
+		panel._view.hide();
+	} );
 } );
 
 var initSample = ( function() {
