@@ -1776,7 +1776,7 @@
  * `15` for 15 pixels).
  *
  * Read more in the [documentation](#!/guide/dev_magicline)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/magicline.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/magicline.html).
  *
  *		// Changes the offset to 15px.
  *		CKEDITOR.config.magicline_triggerOffset = 15;
@@ -1792,7 +1792,7 @@
  * This value is relative to {@link #magicline_triggerOffset}.
  *
  * Read more in the [documentation](#!/guide/dev_magicline)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/magicline.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/magicline.html).
  *
  *		// Increases the distance to 80% of CKEDITOR.config.magicline_triggerOffset.
  *		CKEDITOR.config.magicline_holdDistance = .8;
@@ -1807,7 +1807,7 @@
  * the caret (start of the selection). If there is no focus space available, the selection remains unchanged.
  *
  * Read more in the [documentation](#!/guide/dev_magicline)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/magicline.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/magicline.html).
  *
  *		// Changes the default keystroke to "Ctrl + ,".
  *		CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + 188;
@@ -1822,7 +1822,7 @@ CKEDITOR.config.magicline_keystrokePrevious = CKEDITOR.CTRL + CKEDITOR.SHIFT + 5
  * the caret (start of the selection). If there is no focus space available, the selection remains unchanged.
  *
  * Read more in the [documentation](#!/guide/dev_magicline)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/magicline.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/magicline.html).
  *
  *		// Changes keystroke to "Ctrl + .".
  *		CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + 190;
@@ -1837,7 +1837,7 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
  * used within these elements.
  *
  * Read more in the [documentation](#!/guide/dev_magicline)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/magicline.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/magicline.html).
  *
  *		// Adds the "data-tabu" attribute to the magic line tabu list.
  *		CKEDITOR.config.magicline_tabuList = [ 'data-tabu' ];
@@ -1850,7 +1850,7 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
  * Defines the color of the magic line. The color may be adjusted to enhance readability.
  *
  * Read more in the [documentation](#!/guide/dev_magicline)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/magicline.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/magicline.html).
  *
  *		// Changes magic line color to blue.
  *		CKEDITOR.config.magicline_color = '#0000FF';
@@ -1864,7 +1864,7 @@ CKEDITOR.config.magicline_keystrokeNext = CKEDITOR.CTRL + CKEDITOR.SHIFT + 52; /
  * {@link CKEDITOR.dtd#$block} elements as accessible by the magic line.
  *
  * Read more in the [documentation](#!/guide/dev_magicline)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/magicline.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/magicline.html).
  *
  *		// Enables the greedy "put everywhere" mode.
  *		CKEDITOR.config.magicline_everywhere = true;

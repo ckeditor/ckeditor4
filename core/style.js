@@ -2092,7 +2092,7 @@ CKEDITOR.tools.extend( CKEDITOR.editor.prototype, {
  * to prevent loading any styles set.
  *
  * Read more in the [documentation](#!/guide/dev_styles)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/styles.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/styles.html).
  *
  *		// Do not load any file. The styles set is empty.
  *		config.stylesSet = false;

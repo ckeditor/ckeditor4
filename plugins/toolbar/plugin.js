@@ -666,7 +666,7 @@ CKEDITOR.UI_SEPARATOR = 'separator';
  * position is set dynamically depending on the position of the editable element on the screen.
  *
  * Read more in the [documentation](#!/guide/dev_toolbarlocation)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/toolbarlocation.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/toolbarlocation.html).
  *
  *		config.toolbarLocation = 'bottom';
  *

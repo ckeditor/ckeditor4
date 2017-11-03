@@ -431,7 +431,7 @@
  * See {@link CKEDITOR.plugins.codesnippet.highlighter} to read more.
  *
  * Read more in the [documentation](#!/guide/dev_codesnippet)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/codesnippet.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
  *
  * @since 4.4
  * @cfg {String} [codeSnippet_codeClass='hljs']
@@ -447,7 +447,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * you may need to refer to external documentation to set `config.codeSnippet_languages` properly.
  *
  * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-supported-languages)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/codesnippet.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
  *
  *		// Restricts languages to JavaScript and PHP.
  *		config.codeSnippet_languages = {
@@ -467,7 +467,7 @@ CKEDITOR.config.codeSnippet_codeClass = 'hljs';
  * ([highlight.js](http://highlightjs.org/static/test.html)).
  *
  * Read more in the [documentation](#!/guide/dev_codesnippet-section-changing-highlighter-theme)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/codesnippet.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/codesnippet.html).
  *
  *		// Changes the theme to "pojoaque".
  *		config.codeSnippet_theme = 'pojoaque';

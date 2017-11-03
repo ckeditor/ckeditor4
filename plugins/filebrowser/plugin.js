@@ -422,7 +422,7 @@
  * **Link**, **Image**, and **Flash** dialog windows.
  *
  * Read more in the [documentation](#!/guide/dev_file_browse_upload)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserBrowseUrl = '/browser/browse.php';
  *
@@ -437,7 +437,7 @@
  * and **Flash** dialog windows.
  *
  * Read more in the [documentation](#!/guide/dev_file_browse_upload)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserUploadUrl = '/uploader/upload.php';
  *
@@ -457,7 +457,7 @@
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserBrowseUrl}.
  *
  * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserImageBrowseUrl = '/browser/browse.php?type=Images';
  *
@@ -473,7 +473,7 @@
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserBrowseUrl}.
  *
  * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserFlashBrowseUrl = '/browser/browse.php?type=Flash';
  *
@@ -488,7 +488,7 @@
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserUploadUrl}.
  *
  * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserImageUploadUrl = '/uploader/upload.php?type=Images';
  *
@@ -507,7 +507,7 @@
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserUploadUrl}.
  *
  * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserFlashUploadUrl = '/uploader/upload.php?type=Flash';
  *
@@ -523,7 +523,7 @@
  * If not set, CKEditor will use {@link CKEDITOR.config#filebrowserBrowseUrl}.
  *
  * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-adding-file-manager-scripts-for-selected-dialog-windows)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserImageBrowseLinkUrl = '/browser/browse.php';
  *
@@ -547,7 +547,7 @@
  * pixels or a percent string.
  *
  * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-file-manager-window-size)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserWindowWidth = 750;
  *
@@ -562,7 +562,7 @@
  * pixels or a percent string.
  *
  * Read more in the [documentation](#!/guide/dev_file_manager_configuration-section-file-manager-window-size)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/fileupload.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/fileupload.html).
  *
  *		config.filebrowserWindowHeight = 580;
  *

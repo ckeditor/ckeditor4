@@ -439,7 +439,7 @@
  * Please note that this must be a full or absolute path.
  *
  * Read more in the [documentation](#!/guide/dev_mathjax)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/mathjax.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/mathjax.html).
  *
  *		config.mathJaxLib = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML';
  *
@@ -465,7 +465,7 @@
  *		<span class="my-math">\( \sqrt{4} = 2 \)</span>
  *
  * Read more in the [documentation](#!/guide/dev_mathjax)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/mathjax.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/mathjax.html).
  *
  * @cfg {String} [mathJaxClass='math-tex']
  * @member CKEDITOR.config

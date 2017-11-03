@@ -372,7 +372,7 @@ Other Changes:
 	- New features:
 		- CKEditor [Language](http://ckeditor.com/addon/language) plugin support.
 		- CKEditor [Placeholder](http://ckeditor.com/addon/placeholder) plugin support.
-		- [Drag&Drop](http://sdk.ckeditor.com/samples/fileupload.html) support.
+		- [Drag&Drop](https://sdk.ckeditor.com/samples/fileupload.html) support.
 		- **Experimental** [GRAYT](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-grayt_autoStartup) (Grammar As You Type) functionality.
 	- Fixed issues:
 		* [#98](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/98): SCAYT affects dialog double-click. Fixed in SCAYT core.
@@ -591,7 +591,7 @@ New Features:
     * Direct access to clipboard could only be implemented in Chrome, Safari on Mac OS, Opera and Firefox. In other browsers the pastebin must still be used.
 
 * [#12875](http://dev.ckeditor.com/ticket/12875): Samples and toolbar configuration tools.
-  * The old set of samples shipped with every CKEditor package was replaced with a shiny new single-page sample. This change concluded a long term plan which started from introducing the [CKEditor SDK](http://sdk.ckeditor.com/) and [CKEditor Functionality Overview](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_features) section in the documentation which essentially redefined the old samples.
+  * The old set of samples shipped with every CKEditor package was replaced with a shiny new single-page sample. This change concluded a long term plan which started from introducing the [CKEditor SDK](https://sdk.ckeditor.com/) and [CKEditor Functionality Overview](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_features) section in the documentation which essentially redefined the old samples.
   * Toolbar configurators with live previews were introduced. They will be shipped with every CKEditor package and are meant to help in configuring toolbar layouts.
 
 * [#10925](http://dev.ckeditor.com/ticket/10925): The [Media Embed](http://ckeditor.com/addon/embed) and [Semantic Media Embed](http://ckeditor.com/addon/embedsemantic) plugins were introduced. Read more about the new features in the [Embedding Content](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_media_embed) article.

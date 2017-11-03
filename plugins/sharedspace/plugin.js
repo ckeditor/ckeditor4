@@ -115,7 +115,7 @@
  * will be displayed.
  *
  * Read more in the [documentation](#!/guide/dev_sharedspace)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/sharedspace.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/sharedspace.html).
  *
  *		// Place the toolbar inside the element with an ID of "someElementId" and the
  *		// elements path into the element with an  ID of "anotherId".

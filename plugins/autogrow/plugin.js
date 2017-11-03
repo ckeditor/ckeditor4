@@ -166,7 +166,7 @@
  * feature. This option accepts a value in pixels, without the unit (for example: `300`).
  *
  * Read more in the [documentation](#!/guide/dev_autogrow)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/autogrow.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/autogrow.html).
  *
  *		config.autoGrow_minHeight = 300;
  *
@@ -181,7 +181,7 @@
  * Zero (`0`) means that the maximum height is not limited and the editor will expand infinitely.
  *
  * Read more in the [documentation](#!/guide/dev_autogrow)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/autogrow.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/autogrow.html).
  *
  *		config.autoGrow_maxHeight = 400;
  *
@@ -195,7 +195,7 @@
  * editor creation.
  *
  * Read more in the [documentation](#!/guide/dev_autogrow)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/autogrow.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/autogrow.html).
  *
  *		config.autoGrow_onStartup = true;
  *
@@ -210,7 +210,7 @@
  * without the unit (for example: `50`).
  *
  * Read more in the [documentation](#!/guide/dev_autogrow)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/autogrow.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/autogrow.html).
  *
  *		config.autoGrow_bottomSpace = 50;
  *

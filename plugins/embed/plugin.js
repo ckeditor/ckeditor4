@@ -92,7 +92,7 @@
  * better control over embedded content.
  *
  * Read more in the [documentation](#!/guide/dev_media_embed)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/mediaembed.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/mediaembed.html).
  *
  * Refer to {@link CKEDITOR.plugins.embedBase.baseDefinition#providerUrl} for more information about content providers.
  *
