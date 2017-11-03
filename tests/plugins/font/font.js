@@ -275,7 +275,7 @@
 			bot.combo( 'Font', function( combo ) {
 				combo.onClick( 'Courier New' );
 				this.wait( function() {
-					assert.isInnerHtmlMatching( '<h1><span style="' + ffCourierNew + '">Hello</span> world!</h1>', bot.editor.editable().getHtml(), htmlMatchingOpts );
+					assert.isInnerHtmlMatching( '<h1><span style="' + ffCourierNew + '">Hello</span> world!@</h1>', bot.editor.editable().getHtml(), htmlMatchingOpts );
 				}, 0 );
 			} );
 		}
