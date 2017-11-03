@@ -326,7 +326,7 @@
 		 * to be focused by passing any {@link CKEDITOR.dom.element} instance.
 		 * You can also prevent changing focus at all by setting it to `false`.
 		 * Balloonpanel still support old API where focusElement was second param of attach method.
-		 * @param {Boolean} options.show Param defines if we want to show balloonpanel after attach.
+		 * @param {Boolean} [options.show] Param defines if we want to show balloonpanel after attach. By default panel will show.
 		 */
 		attach: ( function() {
 			var winGlobal, frame, editable, isInline;
@@ -393,7 +393,7 @@
 					focusElement = options;
 					this.show();
 				} else {
-					if ( options.show ) {
+					if ( options.show === true || typeof options.show === 'undefined' ) {
 						this.show();
 					}
 					focusElement = options.focusElement;
