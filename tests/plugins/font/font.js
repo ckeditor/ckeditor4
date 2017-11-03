@@ -254,18 +254,28 @@
 			} );
 		},
 
-		// #1040
+		// (#1040)
 		'test apply new style to entire selection if partially present': function() {
 			var bot = this.editorBot;
-			bender.tools.selection.setWithHtml( bot.editor, '<h1><span style="font-family:Courier New,Courier,monospace">[Hello</span> world!]</h1>' );
+			bender.tools.selection.setWithHtml( bot.editor, '<h1><span style="' + ffCourierNew + '">[Hello</span> world!]</h1>' );
 
 			bot.combo( 'Font', function( combo ) {
 				combo.onClick( 'Courier New' );
 				this.wait( function() {
-					combo.onClick( 'Courier New' );
-					this.wait( function() {
-						assert.isInnerHtmlMatching( '<h1><span style="' + ffCourierNew + '">Hello world!</span>@</h1>', bot.editor.editable().getHtml(), htmlMatchingOpts );
-					}, 0 );
+					assert.isInnerHtmlMatching( '<h1><span style="' + ffCourierNew + '">Hello world!</span>@</h1>', bot.editor.editable().getHtml(), htmlMatchingOpts );
+				}, 0 );
+			} );
+		},
+
+		// (#1040)
+		'test if styles are not changed if applied second time on the part of already styled element': function() {
+			var bot = this.editorBot;
+			bender.tools.selection.setWithHtml( bot.editor, '<h1><span style="' + ffCourierNew + '">[Hel]lo</span> world!</h1>' );
+
+			bot.combo( 'Font', function( combo ) {
+				combo.onClick( 'Courier New' );
+				this.wait( function() {
+					assert.isInnerHtmlMatching( '<h1><span style="' + ffCourierNew + '">Hello</span> world!</h1>', bot.editor.editable().getHtml(), htmlMatchingOpts );
 				}, 0 );
 			} );
 		}
