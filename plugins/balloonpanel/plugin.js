@@ -320,10 +320,13 @@
 		 *
 		 * @method attach
 		 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
-		 * @param {CKEDITOR.dom.element/Boolean} [focusElement] The element to be focused after the panel
+		 * @param {Object} options Ballonpanel focus and show options
+		 * @param {CKEDITOR.dom.element/Boolean} [options.focusElement] The element to be focused after the panel
 		 * is attached. By default the `panel` property of {@link #parts} will be focused. You might specify the element
 		 * to be focused by passing any {@link CKEDITOR.dom.element} instance.
 		 * You can also prevent changing focus at all by setting it to `false`.
+		 * Balloonpanel still support old API where focusElement was second param of attach method.
+		 * @param {Boolean} options.show Param defines if we want to show balloonpanel after attach.
 		 */
 		attach: ( function() {
 			var winGlobal, frame, editable, isInline;
@@ -383,8 +386,18 @@
 				left: 'right'
 			};
 
-			return function( element, focusElement ) {
-				this.show();
+			return function( element, options ) {
+				var focusElement;
+				// Support for old API.
+				if ( options instanceof CKEDITOR.dom.element || typeof options === 'boolean' || typeof options === 'undefined' ) {
+					focusElement = options;
+					this.show();
+				} else {
+					if ( options.show ) {
+						this.show();
+					}
+					focusElement = options.focusElement;
+				}
 
 				this.fire( 'attach' );
 
