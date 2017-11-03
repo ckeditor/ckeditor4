@@ -44,7 +44,7 @@
 
 				var element = elements.getItem( 0 );
 
-				// http://dev.ckeditor.com/ticket/14605, #tp2314
+				// https://dev.ckeditor.com/ticket/14605, #tp2314
 				if ( CKEDITOR.env.webkit ) {
 					assert.areSame( 'page', element.getStyle( 'break-after' ), prefix + 'Pagebreak holds page-break-after style' );
 				} else {
@@ -73,7 +73,7 @@
 			wait();
 		},
 
-		// http://dev.ckeditor.com/ticket/12411
+		// https://dev.ckeditor.com/ticket/12411
 		'test span as a direct child no break': function() {
 			bender.editorBot.create( {
 				name: 'editor2',

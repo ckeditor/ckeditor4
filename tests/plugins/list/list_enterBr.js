@@ -48,7 +48,7 @@ bender.test( {
 	},
 
 	/**
-	 *  Test merge newlist with previous list. (http://dev.ckeditor.com/ticket/3820)
+	 *  Test merge newlist with previous list. (https://dev.ckeditor.com/ticket/3820)
 	 */
 	'test create list with merge': function() {
 		var bot = this.editorBot;
@@ -58,7 +58,7 @@ bender.test( {
 	},
 
 	/**
-	 *  Test remove list first list item not merging with previous text node. (http://dev.ckeditor.com/ticket/3836)
+	 *  Test remove list first list item not merging with previous text node. (https://dev.ckeditor.com/ticket/3836)
 	 */
 	'test remove list without merge': function() {
 		var bot = this.editorBot;

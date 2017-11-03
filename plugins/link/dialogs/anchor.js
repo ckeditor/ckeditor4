@@ -50,7 +50,7 @@ CKEDITOR.dialog.add( 'anchor', function( editor ) {
 					var newFake = createFakeAnchor( editor, attributes );
 					newFake.replace( this._.selectedElement );
 
-					// Selecting fake element for IE. (http://dev.ckeditor.com/ticket/11377)
+					// Selecting fake element for IE. (https://dev.ckeditor.com/ticket/11377)
 					if ( CKEDITOR.env.ie ) {
 						editor.getSelection().selectElement( newFake );
 					}

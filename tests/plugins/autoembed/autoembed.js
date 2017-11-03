@@ -119,7 +119,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/13420.
+	// https://dev.ckeditor.com/ticket/13420.
 	'test link with encodable characters': function() {
 		var links = [
 			// Mind that links differ in a part g/200/3xx so it is easier and faster
@@ -269,7 +269,7 @@ bender.test( {
 		this.editor.execCommand( 'paste', pastedText );
 	},
 
-	// http://dev.ckeditor.com/ticket/13532
+	// https://dev.ckeditor.com/ticket/13532
 	'test re–embeddable url': function() {
 		var bot = this.editorBot,
 			editor = bot.editor;
@@ -377,7 +377,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/13429.
+	// https://dev.ckeditor.com/ticket/13429.
 	'test selection after auto embedding - empty editor': function() {
 		var bot = this.editorBot,
 			editor = bot.editor,
@@ -401,7 +401,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/13429.
+	// https://dev.ckeditor.com/ticket/13429.
 	'test selection after auto embedding - inside content': function() {
 		var bot = this.editorBot,
 			editor = bot.editor,
@@ -436,7 +436,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/13429.
+	// https://dev.ckeditor.com/ticket/13429.
 	'test selection after auto embedding - content and selection change before insert': function() {
 		var bot = this.editorBot,
 			editor = bot.editor,

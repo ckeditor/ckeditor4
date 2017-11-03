@@ -19,7 +19,7 @@
 ### General:
 
 * For data type `Files` no data is logged.
-* Everything should works as described in [this research](http://dev.ckeditor.com/ticket/11526#comment:7) or better.
+* Everything should works as described in [this research](https://dev.ckeditor.com/ticket/11526#comment:7) or better.
 
 ### Safari
 

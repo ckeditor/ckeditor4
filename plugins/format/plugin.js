@@ -72,7 +72,7 @@ CKEDITOR.plugins.add( 'format', {
 					editor.applyStyle( style );
 				}
 
-				// Save the undo snapshot after all changes are affected. (http://dev.ckeditor.com/ticket/4899)
+				// Save the undo snapshot after all changes are affected. (https://dev.ckeditor.com/ticket/4899)
 				setTimeout( function() {
 					editor.fire( 'saveSnapshot' );
 				}, 0 );

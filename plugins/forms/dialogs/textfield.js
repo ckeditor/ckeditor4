@@ -130,7 +130,7 @@ CKEDITOR.dialog.add( 'textfield', function( editor ) {
 					validate: CKEDITOR.dialog.validate.integer( editor.lang.common.validateNumberFailed )
 				} ],
 				onLoad: function() {
-					// Repaint the style for IE7 (http://dev.ckeditor.com/ticket/6068)
+					// Repaint the style for IE7 (https://dev.ckeditor.com/ticket/6068)
 					if ( CKEDITOR.env.ie7Compat )
 						this.getElement().setStyle( 'zoom', '100%' );
 				}

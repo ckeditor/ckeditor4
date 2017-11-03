@@ -89,7 +89,7 @@
 						block = e;
 
 					if ( pathBlockLimitElements[ elementName ] ) {
-						// End level DIV is considered as the block, if no block is available. (http://dev.ckeditor.com/ticket/525)
+						// End level DIV is considered as the block, if no block is available. (https://dev.ckeditor.com/ticket/525)
 						// But it must NOT be the root element (checked above).
 						if ( !block && elementName == 'div' && !checkHasBlock( e ) )
 							block = e;

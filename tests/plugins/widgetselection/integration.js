@@ -155,7 +155,7 @@
 			var editor = this.editor;
 
 			if ( CKEDITOR.env.chrome ) {
-				// http://dev.ckeditor.com/ticket/17029
+				// https://dev.ckeditor.com/ticket/17029
 				assert.ignore();
 			}
 

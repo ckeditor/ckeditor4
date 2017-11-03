@@ -76,7 +76,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 						element.setAttribute( 'value', value );
 					else {
 						if ( CKEDITOR.env.ie ) {
-							// Remove attribute 'value' of checkbox (http://dev.ckeditor.com/ticket/4721).
+							// Remove attribute 'value' of checkbox (https://dev.ckeditor.com/ticket/4721).
 							var checkbox = new CKEDITOR.dom.element( 'input', element.getDocument() );
 							element.copyAttributes( checkbox, { value: 1 } );
 							checkbox.replace( element );
@@ -116,7 +116,7 @@ CKEDITOR.dialog.add( 'checkbox', function( editor ) {
 						}
 					} else {
 						var value = this.getValue();
-						// Blink/Webkit needs to change checked property, not attribute. (http://dev.ckeditor.com/ticket/12465)
+						// Blink/Webkit needs to change checked property, not attribute. (https://dev.ckeditor.com/ticket/12465)
 						if ( CKEDITOR.env.webkit ) {
 							element.$.checked = value;
 						}

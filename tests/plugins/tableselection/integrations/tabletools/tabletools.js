@@ -96,8 +96,8 @@
 			doCommandTest( bot, 'cellDelete', { 'case': 'delete-nested-cells-3', cells: [ 1, 2, 3, 4 ], skipCheckingSelection: true } );
 		},
 
-		// To reproduce http://dev.ckeditor.com/ticket/11058 we need 4 rows
-		// in the table (http://dev.ckeditor.com/ticket/10308, http://dev.ckeditor.com/ticket/11058).
+		// To reproduce https://dev.ckeditor.com/ticket/11058 we need 4 rows
+		// in the table (https://dev.ckeditor.com/ticket/10308, https://dev.ckeditor.com/ticket/11058).
 		'test remove row from middle row': function( editor, bot ) {
 			doCommandTest( bot, 'rowDelete', { 'case': 'delete-row-from-middle', cells: [ 1 ], skipCheckingSelection: true } );
 		},
@@ -110,12 +110,12 @@
 			doCommandTest( bot, 'rowDelete', { 'case': 'delete-all-cells', cells: [ 0, 2 ], skipCheckingSelection: true } );
 		},
 
-		// (http://dev.ckeditor.com/ticket/10308)
+		// (https://dev.ckeditor.com/ticket/10308)
 		'test remove trailing column': function( editor, bot ) {
 			doCommandTest( bot, 'columnDelete', { 'case': 'delete-column-trailing', cells: [ 3 ], skipCheckingSelection: true } );
 		},
 
-		// (http://dev.ckeditor.com/ticket/10308)
+		// (https://dev.ckeditor.com/ticket/10308)
 		'test remove trailing cell': function( editor, bot ) {
 			doCommandTest( bot, 'cellDelete', { 'case': 'delete-cell-trailing', cells: [ 3 ], skipCheckingSelection: true } );
 		},

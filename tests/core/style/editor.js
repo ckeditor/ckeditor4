@@ -103,7 +103,7 @@ bender.test( {
 	},
 
 	'test apply inline style on non-editable inline element - at non-editable inline boundary': function() {
-		// http://dev.ckeditor.com/ticket/11242
+		// https://dev.ckeditor.com/ticket/11242
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 			assert.ignore();
 		}
@@ -114,7 +114,7 @@ bender.test( {
 	},
 
 	'test remove inline style from non-editable inline element - at non-editable inline boundary': function() {
-		// http://dev.ckeditor.com/ticket/11242
+		// https://dev.ckeditor.com/ticket/11242
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
 			assert.ignore();
 		}

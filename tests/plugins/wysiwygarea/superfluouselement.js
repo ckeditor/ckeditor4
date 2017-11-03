@@ -178,7 +178,7 @@ bender.test( {
 		wait();
 	},
 
-	// http://dev.ckeditor.com/ticket/14831
+	// https://dev.ckeditor.com/ticket/14831
 	'test not removing [data-cke-temp] <div> when typing': function() {
 		if ( !CKEDITOR.env.edge || CKEDITOR.env.version < 14 ) {
 			assert.ignore();

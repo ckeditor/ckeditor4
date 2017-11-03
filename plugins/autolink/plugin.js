@@ -26,7 +26,7 @@
 					return;
 				}
 
-				// http://dev.ckeditor.com/ticket/13419
+				// https://dev.ckeditor.com/ticket/13419
 				data = data.replace( validUrlRegex , '<a href="' + data.replace( doubleQuoteRegex, '%22' ) + '">$&</a>' );
 
 				// If link was discovered, change the type to 'html'. This is important e.g. when pasting plain text in Chrome

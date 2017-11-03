@@ -88,11 +88,11 @@
 			assert.areSame( '0', htmlEncode( 0 ), '0' );
 		},
 
-		'test htmlEncode - http://dev.ckeditor.com/ticket/3874': function() {
+		'test htmlEncode - https://dev.ckeditor.com/ticket/3874': function() {
 			assert.areSame( 'line1\nline2', htmlEncode( 'line1\nline2' ) );
 		},
 
-		// http://dev.ckeditor.com/ticket/13105#comment:8
+		// https://dev.ckeditor.com/ticket/13105#comment:8
 		'test htmlDecode - all covered named entities': function() {
 			assert.areSame( '< a & b > c \u00a0 d \u00ad e "', htmlDecode( '&lt; a &amp; b &gt; c &nbsp; d &shy; e &quot;' ) );
 		},
@@ -335,7 +335,7 @@
 
 		testQuoteEntity: assertNormalizeCssText( 'font-family:"foo";', 'font-family: &quot;foo&quot;;', '' ),
 
-		// (http://dev.ckeditor.com/ticket/10750)
+		// (https://dev.ckeditor.com/ticket/10750)
 		'test Normalize double quote': assertNormalizeCssText( 'font-family:"crazy font";', 'font-family: "crazy font";',
 			'quoted font name' ),
 		'test Normalize single quote': assertNormalizeCssText( 'font-family:\'crazy font\';', 'font-family: \'crazy font\';',
@@ -389,7 +389,7 @@
 			assert.areSame( 'color:#010203; border-color:#ffff00;', c( 'color:rgb(1,2,3); border-color:rgb(255,255,0);' ), 'multiple' );
 		},
 
-		// http://dev.ckeditor.com/ticket/14252
+		// https://dev.ckeditor.com/ticket/14252
 		testNormalizeHex: function() {
 			var c = CKEDITOR.tools.normalizeHex;
 

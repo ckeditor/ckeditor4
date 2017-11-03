@@ -144,7 +144,7 @@ bender.test( {
 		wait();
 	},
 
-	'test val() of multiple editors (http://dev.ckeditor.com/ticket/7876)': function() {
+	'test val() of multiple editors (https://dev.ckeditor.com/ticket/7876)': function() {
 		$( '.editorMultipleGet' ).ckeditor();
 
 		$.when(
@@ -158,7 +158,7 @@ bender.test( {
 		wait();
 	},
 
-	'test use val() as called with undefined (http://dev.ckeditor.com/ticket/9019)': function() {
+	'test use val() as called with undefined (https://dev.ckeditor.com/ticket/9019)': function() {
 		$( '#editorUndefined' ).ckeditor();
 
 		assert.isFunction( $( '#editorUndefined' ).val( undefined ).done, 'val( undefined ) should be treated as setter and return promise.' );

@@ -88,7 +88,7 @@
 	// Register a plugin named "stylesheetparser".
 	CKEDITOR.plugins.add( 'stylesheetparser', {
 		init: function( editor ) {
-			// Stylesheet parser is incompatible with filter (http://dev.ckeditor.com/ticket/10136).
+			// Stylesheet parser is incompatible with filter (https://dev.ckeditor.com/ticket/10136).
 			editor.filter.disable();
 
 			var cachedDefinitions;

@@ -34,7 +34,7 @@
 				if ( editor.toolbox ) {
 					editor.toolbox.focusCommandExecuted = true;
 
-					// Make the first button focus accessible for IE. (http://dev.ckeditor.com/ticket/3417)
+					// Make the first button focus accessible for IE. (https://dev.ckeditor.com/ticket/3417)
 					// Adobe AIR instead need while of delay.
 					if ( CKEDITOR.env.ie || CKEDITOR.env.air ) {
 						setTimeout( function() {
@@ -201,7 +201,7 @@
 					// available because it's a common mistake to leave
 					// an extra comma in the toolbar definition
 					// settings, which leads on the editor not loading
-					// at all in IE. (http://dev.ckeditor.com/ticket/3983)
+					// at all in IE. (https://dev.ckeditor.com/ticket/3983)
 					if ( !row )
 						continue;
 
@@ -283,7 +283,7 @@
 								itemObj.toolbar = toolbarObj;
 								itemObj.onkey = itemKeystroke;
 
-								// Fix for http://dev.ckeditor.com/ticket/3052:
+								// Fix for https://dev.ckeditor.com/ticket/3052:
 								// Prevent JAWS from focusing the toolbar after document load.
 								itemObj.onfocus = function() {
 									if ( !editor.toolbox.focusCommandExecuted )

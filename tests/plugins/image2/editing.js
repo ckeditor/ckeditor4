@@ -114,7 +114,7 @@
 		},
 
 		/**
-		 * http://dev.ckeditor.com/ticket/12126
+		 * https://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image2 dialog.
 		 * 2. Set some proper image url and focus out.
@@ -164,7 +164,7 @@
 		},
 
 		/**
-		 * http://dev.ckeditor.com/ticket/12126
+		 * https://dev.ckeditor.com/ticket/12126
 		 *
 		 * 1. Open image2 dialog.
 		 * 2. Set some proper image url and focus out.

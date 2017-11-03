@@ -232,7 +232,7 @@
 			filter( '<p><i on="1" ona="1" onfoo="1">A</i></p>',			'<p><i>A</i></p>' );
 			filter( '<p><b foo-a="1" foo-b="1" foo-xxx="1">A</b></p>',	'<p><b foo-b="1">A</b></p>' );
 			filter( '<p><b bar-a="1" bar-bar="1">A</b></p>',			'<p><b>A</b></p>' );
-			// http://dev.ckeditor.com/ticket/11780
+			// https://dev.ckeditor.com/ticket/11780
 			filter( '<p><i onx="1" data-x="1">A</i></p>',				'<p><i data-x="1">A</i></p>' );
 		},
 
@@ -298,7 +298,7 @@
 			filter( '<p><i class="on ona onfoo">A</i></p>',				'<p><i>A</i></p>' );
 			filter( '<p><b class="foo-a foo-b foo-xxx">A</b></p>',		'<p><b class="foo-b">A</b></p>' );
 			filter( '<p><b class="bar-a bar-bar">A</b></p>',			'<p><b>A</b></p>' );
-			// http://dev.ckeditor.com/ticket/11780
+			// https://dev.ckeditor.com/ticket/11780
 			filter( '<p><i class="onx data-x">A</i></p>',				'<p><i class="data-x">A</i></p>' );
 		},
 
@@ -331,7 +331,7 @@
 			filter( '<p><b style="foo-a:1; foo-b:1; foo-xxx:1">A</b></p>',
 				'<p><b style="foo-b:1">A</b></p>' );
 			filter( '<p><b style="bar-a:1; bar-bar:1">A</b></p>',		'<p><b>A</b></p>' );
-			// http://dev.ckeditor.com/ticket/11780
+			// https://dev.ckeditor.com/ticket/11780
 			filter( '<p><i style="onx:1; data-x:1">A</i></p>',			'<p><i style="data-x:1">A</i></p>' );
 		},
 

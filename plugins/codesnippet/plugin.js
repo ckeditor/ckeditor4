@@ -357,7 +357,7 @@
 				if ( childrenArray.length != 1 || ( code = childrenArray[ 0 ] ).name != 'code' )
 					return;
 
-				// Upcast <code> with text only: http://dev.ckeditor.com/ticket/11926#comment:4
+				// Upcast <code> with text only: https://dev.ckeditor.com/ticket/11926#comment:4
 				if ( code.children.length != 1 || code.children[ 0 ].type != CKEDITOR.NODE_TEXT )
 					return;
 
@@ -367,7 +367,7 @@
 				if ( matchResult )
 					data.lang = matchResult[ 1 ];
 
-				// Use textarea to decode HTML entities (http://dev.ckeditor.com/ticket/11926).
+				// Use textarea to decode HTML entities (https://dev.ckeditor.com/ticket/11926).
 				textarea.setHtml( code.getHtml() );
 				data.code = textarea.getValue();
 

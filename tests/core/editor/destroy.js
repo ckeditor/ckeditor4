@@ -15,7 +15,7 @@ bender.test( {
 			editor.destroy();
 			assert.isFalse( CKEDITOR.document.getBody().contains( panelEl ) );
 
-			// http://dev.ckeditor.com/ticket/4552: Do that one more time.
+			// https://dev.ckeditor.com/ticket/4552: Do that one more time.
 			bender.editorBot.create( {}, function( bot ) {
 				this.wait( function() {
 					bot.combo( 'Styles', function( combo ) {
@@ -30,7 +30,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/13385.
+	// https://dev.ckeditor.com/ticket/13385.
 	'test getSnapshot returns empty string after editor destroyed': function() {
 		bender.editorBot.create( {}, function( bot ) {
 			this.wait( function() {

@@ -118,8 +118,8 @@
 					node,
 					bm;
 
-				// When applying one style over another, first remove the previous one (http://dev.ckeditor.com/ticket/12403).
-				// NOTE: This is only a temporary fix. It will be moved to the styles system (http://dev.ckeditor.com/ticket/12687).
+				// When applying one style over another, first remove the previous one (https://dev.ckeditor.com/ticket/12403).
+				// NOTE: This is only a temporary fix. It will be moved to the styles system (https://dev.ckeditor.com/ticket/12687).
 				if ( previousValue && value != previousValue ) {
 					previousStyle = styles[ previousValue ];
 					range = editor.getSelection().getRanges()[ 0 ];

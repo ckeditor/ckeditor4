@@ -163,7 +163,7 @@ CKEDITOR.htmlParser = function() {
 					tagName = tagName.toLowerCase();
 
 					// There are some tag names that can break things, so let's
-					// simply ignore them when parsing. (http://dev.ckeditor.com/ticket/5224)
+					// simply ignore them when parsing. (https://dev.ckeditor.com/ticket/5224)
 					if ( /="/.test( tagName ) )
 						continue;
 
