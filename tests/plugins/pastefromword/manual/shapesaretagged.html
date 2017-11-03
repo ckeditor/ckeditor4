@@ -2,12 +2,12 @@
 
 </textarea>
 <button onclick="getHtml()">Get HTML</button>
-<pre id="output" style="white-space: pre-wrap;background-color:aquamarine;">
+<pre id="output" style="word-wrap: break-word;white-space: pre-wrap;background-color:aquamarine;">
 
 </pre>
 <script>
 	var editor = CKEDITOR.replace( 'editor', {
-		extraAllowedContent: 'img[*];*[data-cke-is-shape]'
+		extraAllowedContent: 'img[*]'
 	} );
 	function getHtml() {
 		// Strip out `data-cke-saved-src` to not blure the output.
