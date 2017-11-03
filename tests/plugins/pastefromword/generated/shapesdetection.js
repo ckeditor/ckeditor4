@@ -24,13 +24,15 @@
 			'firefox'
 		],
 		wordVersions: [
-			'word2013'
+			'word2013',
+			'osx'
 		],
 		tests: {
-			'Shape_single_image': true,
-			'Shape_nested_groups': true,
-			'Shape_adjacent_image': true,
-			'Shape_and_image': true
+			'Shapes/Single': true,
+			'Shapes/Nested_groups': true,
+			'Shapes/Adjacent_shapes': true,
+			'Shapes/Shape_and_image': true,
+			'Shapes/Canvas': true
 		},
 
 		ignoreAll: CKEDITOR.env.ie
