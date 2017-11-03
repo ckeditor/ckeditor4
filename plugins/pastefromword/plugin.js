@@ -18,6 +18,7 @@
 			var forceFromWord = 0,
 				path = this.path;
 
+			editor.filter.allow( 'img[data-cke-is-shape]' );
 			editor.addCommand( 'pastefromword', {
 				// Snapshots are done manually by editable.insertXXX methods.
 				canUndo: false,
