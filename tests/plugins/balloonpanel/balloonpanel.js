@@ -149,15 +149,46 @@
 			assert.isTrue( doc.getActive().equals( panelElement ), 'Panel element is focused' );
 
 			// Giving focus element explicitly.
-			panel.attach( strong, closeElement );
+			panel.attach( strong, { focusElement: closeElement } );
 			assert.isTrue( doc.getActive().equals( closeElement ), 'Close element is focused' );
 
 			// Blur focused element, so the body will be focused.
 			closeElement.$.blur();
 
 			// Ensure that focus is not changed when giving false.
-			panel.attach( strong, false );
+			panel.attach( strong, { focusElement: false } );
 			assert.isTrue( doc.getActive().equals( doc.getBody() ), 'Focus remains on body element' );
+		},
+		'test panel show option': function() {
+			var panel = new CKEDITOR.ui.balloonPanel( bender.editor, {
+				title: 'Test panel #3'
+			} ),
+				strong = bender.editor.document.findOne( 'strong' ),
+				showEvent = false;
+
+			panel.addShowListener( function() {
+				showEvent = true;
+				return {
+					removeListener: function() {
+						showEvent = false;
+					}
+				};
+			} );
+
+
+			panel.attach( strong, { show: false } );
+			assert.isFalse( showEvent, 'Event show should not be fired when show param is false.' );
+
+			panel.attach( strong, { show: true } );
+			assert.isTrue( showEvent, 'Event show should be fired when show param is true.' );
+			panel.hide();
+			assert.isFalse( showEvent, 'After hide showElement should be false' );
+
+			panel.attach( strong, {} );
+			assert.isTrue( showEvent, 'Event show should be fired when show param is undefined.' );
+			panel.hide();
+
+			panels.push( panel );
 		},
 
 		'test panel destroy': function() {
