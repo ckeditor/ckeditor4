@@ -41,7 +41,14 @@
 	CKEDITOR.plugins.pastefromword = {};
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
-		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
+		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
+			shapesIds = [];
+
+		function shapeTagging( element ) {
+			if ( element.attributes[ 'o:gfxdata' ] ) {
+				shapesIds.push( element.attributes.id );
+			}
+		}
 
 		// Before filtering inline all the styles to allow because some of them are available only in style
 		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (https://dev.ckeditor.com/ticket/16847)
@@ -53,14 +60,6 @@
 		mswordHtml = mswordHtml.replace( /<!\[/g, '<!--[' ).replace( /\]>/g, ']-->' );
 
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
-
-		var shapesIds = [];
-
-		function shapeTagging( element ) {
-			if ( element.attributes[ 'o:gfxdata' ] ) {
-				shapesIds.push( element.attributes.id );
-			}
-		}
 
 		var filterDefinition = {
 			root: function( element ) {
@@ -129,12 +128,12 @@
 						element.attributes.src = element.attributes.alt;
 					}
 
-					var imgShapes = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
+					var imgShapesId = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
 					// Check if every single name is recognised as shape before, then add additional attribute.
-					var isShapeFromList = CKEDITOR.tools.array.every( imgShapes, function( item ) {
-						return shapesIds.indexOf( item ) > -1;
+					var isShapeFromList = CKEDITOR.tools.array.every( imgShapesId, function( shapeId ) {
+						return shapesIds.indexOf( shapeId ) > -1;
 					} );
-					if ( imgShapes.length && isShapeFromList ) {
+					if ( imgShapesId.length && isShapeFromList ) {
 						element.attributes[ 'data-cke-is-shape' ] = true;
 					}
 
@@ -391,9 +390,21 @@
 				'v:imagedata': remove,
 				// This is how IE8 presents images.
 				'v:shape': function( element ) {
+					var emptyShapeInsideGroup = element.parent && element.parent.name === 'v:group';
+
 					// In chrome a <v:shape> element may be followed by an <img> element with the same content.
-					if ( !element.attributes[ 'o:gfxdata' ] ) {
-						var duplicate = false;
+					// Remain for legacy comaptibility (#995, #1069).
+					if ( !element.attributes[ 'o:gfxdata' ] && !emptyShapeInsideGroup ) {
+						var duplicate = false,
+							child;
+
+						// Canvas left empty v:shape. We don't want to convert it into img tag.
+						child = element.getFirst( 'v:imagedata' );
+						if ( child && ( child.attributes.croptop !== undefined || child.attributes.cropbottom !== undefined ) ) {
+							shapeTagging( element );
+							return;
+						}
+
 						// Sometimes child with proper ID might be nested in other tag.
 						element.parent.find( function( child ) {
 							if ( child.name == 'img' &&
