@@ -678,7 +678,7 @@ CKEDITOR.STYLE_OBJECT = 3;
 	 * reusing them.
 	 *
 	 * The only style handler which can be implemented from scratch without huge effort is a style
-	 * applicable to objects ([read more about types](http://docs.ckeditor.com/#!/guide/dev_styles-section-style-types)).
+	 * applicable to objects ([read more about types](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_styles-section-style-types)).
 	 * Such style can only be applied when a specific object is selected. An example implementation can
 	 * be found in the [widget plugin](https://github.com/ckeditor/ckeditor-dev/blob/master/plugins/widget/plugin.js).
 	 *

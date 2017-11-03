@@ -683,7 +683,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  * and {@link #toolbarGroups} as a toolbar groups layout.
  *
  * In CKEditor 4.5+ you can generate your toolbar customization code by using the [visual
- * toolbar configurator](http://docs.ckeditor.com/#!/guide/dev_toolbar).
+ * toolbar configurator](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_toolbar).
  *
  *		// Defines a toolbar with only one strip containing the "Source" button, a
  *		// separator, and the "Bold" and "Italic" buttons.

@@ -318,7 +318,7 @@ CKEDITOR.config = {
 	 * to add new plugins without having to touch the {@link CKEDITOR.config#plugins} setting.
 	 *
 	 * **Note:** The most recommended way to
-	 * [add CKEditor plugins](http://docs.ckeditor.com/#!/guide/dev_plugins) is through
+	 * [add CKEditor plugins](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_plugins) is through
 	 * [CKEditor Builder](https://ckeditor.com/cke4/builder). Read more in the
 	 * [documentation](#!/guide/dev_plugins).
 	 *

@@ -4,7 +4,7 @@ If you feel you are unable to get going by yourself, you can use the following c
 
 [Stack Overflow](https://stackoverflow.com/tags/ckeditor) – a place to share problems and solutions by CKEditor developers and integrators which you can use for usage and implementation issues. CKEditor has grown as an Open Source product, thanks to the amazing community of developers and users. Use the [[ckeditor](https://stackoverflow.com/tags/ckeditor)] tag to ask a question or to help fellow developers.
 
-[GitHub Issue Tracker](https://github.com/ckeditor/ckeditor-dev/issues) – a place to report bugs, and to request new features. Before you attempt to do so, please make sure you read [the issue tracker instructions](http://docs.ckeditor.com/#!/guide/dev_issues_tracker) and thus help us optimize the management of issues. Make sure that the bug you report is not caused by a third-party software or your customizations.
+[GitHub Issue Tracker](https://github.com/ckeditor/ckeditor-dev/issues) – a place to report bugs, and to request new features. Before you attempt to do so, please make sure you read [the issue tracker instructions](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_issues_tracker) and thus help us optimize the management of issues. Make sure that the bug you report is not caused by a third-party software or your customizations.
 
 Please refer to the [CONTRIBUTING](https://github.com/ckeditor/ckeditor-dev/blob/master/.github/CONTRIBUTING.md) file for more information on how to support the development of CKEditor.
 

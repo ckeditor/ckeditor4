@@ -1123,7 +1123,7 @@
 	 * filtering.
 	 *
 	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
-	 * [Content Filtering (ACF)](http://docs.ckeditor.com/#!/guide/dev_acf) documentation.
+	 * [Content Filtering (ACF)](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_acf) documentation.
 	 *
 	 *		config.copyFormatting_allowRules = 'span(*)[*]{*}'; // Allows only spans.
 	 *		config.copyFormatting_allowRules = true; // Disables filtering.
@@ -1143,7 +1143,7 @@
 	 * Defines rules for the elements from which fetching styles is explicitly forbidden (eg. widgets).
 	 *
 	 * This property is using Advanced Content Filter syntax. You can learn more about it in the
-	 * [Content Filtering (ACF)](http://docs.ckeditor.com/#!/guide/dev_acf) documentation.
+	 * [Content Filtering (ACF)](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_acf) documentation.
 	 *
 	 *		config.copyFormatting_disallowRules = 'span(important)'; // Disallows spans with "important" class.
 	 *
