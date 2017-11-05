@@ -94,38 +94,45 @@
 	}
 
 	function registerWidget( editor ) {
-		var config = editor.config;
-
-		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', {
-			allowedContent: {
-				figure: {
-					classes: '!' + config.easyimage_class + ',' + config.easyimage_sideClass
-				}
-			},
-
-			requiredContent: 'figure(!' + config.easyimage_class + ')',
-
-			upcasts: {
-				figure: function( element ) {
-					// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
-					if ( element.attributes[ 'data-cke-realelement' ] ) {
-						return;
+		var config = editor.config,
+			figureClass = config.easyimage_class,
+			widgetDefinition = {
+				allowedContent: {
+					figure: {
+						classes: config.easyimage_sideClass
 					}
+				},
 
-					if ( element.name === 'figure' && element.hasClass( config.easyimage_class ) ) {
-						return element;
+				requiredContent: 'figure',
+
+				upcasts: {
+					figure: function( element ) {
+						// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
+						if ( element.attributes[ 'data-cke-realelement' ] ) {
+							return;
+						}
+
+						if ( element.name === 'figure' && ( !figureClass || element.hasClass( figureClass ) ) ) {
+							return element;
+						}
 					}
-				}
-			},
+				},
 
-			init: function() {
-				this.on( 'contextMenu', function( evt ) {
-					evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
-					evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
-					evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
-				} );
-			}
-		} );
+				init: function() {
+					this.on( 'contextMenu', function( evt ) {
+						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
+						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
+						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
+					} );
+				}
+			};
+
+		if ( figureClass ) {
+			widgetDefinition.requiredContent += '(!' + figureClass + ')';
+			widgetDefinition.allowedContent.figure.classes = '!' + figureClass + ',' + widgetDefinition.allowedContent.figure.classes;
+		}
+
+		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', widgetDefinition );
 	}
 
 	function loadStyles( editor, plugin ) {
@@ -156,13 +163,16 @@
 	} );
 
 	/**
-	 * A CSS class applied to all Easy Image widgets
+	 * A CSS class applied to all Easy Image widgets. If set to `null` all `<figure>` elements are converted into widgets.
 	 *
 	 *		// Changes the class to "my-image".
 	 *		config.easyimage_class = 'my-image';
 	 *
+	 *		// This will cause plugin to convert any figure into a widget.
+	 *		config.easyimage_class = null;
+	 *
 	 * @since 4.8.0
-	 * @cfg {String} [easyimage_class='easyimage']
+	 * @cfg {String/null} [easyimage_class='easyimage']
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_class = 'easyimage';
