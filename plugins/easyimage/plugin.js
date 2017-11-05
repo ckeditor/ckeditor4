@@ -42,6 +42,7 @@
 					// We have to manually force refresh commands as refresh seems
 					// to be executed prior to exec.
 					editor.forceNextSelectionCheck();
+					editor.selectionChange( 1 );
 				},
 
 				refresh: createCommandRefresh( refreshCheck )
@@ -114,6 +115,16 @@
 				},
 
 				init: function() {
+					this.on( 'focus', function() {
+						this.editor._.easyImageToolbar.create( this.element );
+					} );
+
+					this.on( 'blur', function() {
+						// @todo: There's an issue where currently blur will cause focus again.
+						// If easyImageToolbar._view.hide() line is removed, then the problem is gone.
+						this.editor._.easyImageToolbar._view.hide();
+					} );
+
 					this.on( 'contextMenu', function( evt ) {
 						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
@@ -142,14 +153,46 @@
 	}
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'imagebase,contextmenu,dialog',
+		requires: 'imagebase,contextmenu,dialog,inlinetoolbar',
 		lang: 'en',
+
+		icons: 'full,side,alt',
 
 		onLoad: function() {
 			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
 		},
 
-		init: function( editor ) {
+		afterInit: function( editor ) {
+			var toolbar = new CKEDITOR.ui.inlineToolbar( editor );
+			editor._.easyImageToolbar = toolbar;
+
+			toolbar.addItems( {
+				side: new CKEDITOR.ui.button( {
+					command: 'easyimageSide',
+					label: 'side img',
+					name: 'side'
+				} ),
+				full: new CKEDITOR.ui.button( {
+					command: 'easyimageFull',
+					label: 'full',
+					name: 'full'
+				} ),
+				alt: new CKEDITOR.ui.button( {
+					command: 'easyimageAlt',
+					label: 'alt',
+					name: 'alt'
+				} )
+			} );
+
+			editor.on( 'afterCommandExec', function() {
+				// Temporary solution: refresh the toolbar position after command was executed.
+				var focusedWidget = editor.widgets.focused;
+
+				if ( focusedWidget && focusedWidget.name === 'easyimage' ) {
+					editor._.easyImageToolbar.create( focusedWidget.element );
+				}
+			} );
+
 			loadStyles( editor, this );
 			addCommands( editor );
 			addMenuItems( editor );
