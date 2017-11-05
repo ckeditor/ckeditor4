@@ -17,13 +17,20 @@
 
 		inline: {
 			creator: 'inline'
+		},
+
+		// This instance upcasts all figures, despite figure[class] value.
+		classicAllFigures: {
+			config: {
+				easyimage_class: null
+			}
 		}
 	};
 
 	var tests = {
 		'test upcasting image widget': function( editor, bot ) {
 			widgetTestsTools.assertWidget( {
-				count: 1,
+				count: editor.name === 'classicAllFigures' ? 2 : 1,
 				widgetOffset: 0,
 				nameCreated: 'easyimage',
 				html: CKEDITOR.document.getById( 'mixedFigures' ).getHtml(),
