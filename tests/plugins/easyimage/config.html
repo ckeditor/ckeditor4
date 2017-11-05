@@ -1,0 +1,24 @@
+<div id="changedClass">
+	<figure class="customClass">
+		<img src="../image2/_assets/foo.png" alt="fig1">
+		<figcaption>Changed class</figcaption>
+	</figure>
+
+	<figure>
+		<img src="../image2/_assets/foo.png" alt="fig2">
+		<figcaption>Figure without class</figcaption>
+	</figure>
+</div>
+
+<div id="expectedCustomSideClass">
+	<figure class="customClass customSideClass">
+		<img alt="fig1" src="../image2/_assets/foo.png" />
+		<figcaption>Changed class</figcaption>
+	</figure>
+
+	<p>
+		<img alt="fig2" src="../image2/_assets/foo.png" />
+	</p>
+
+	<p>Figure without class</p>
+</div>
