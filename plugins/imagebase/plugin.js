@@ -8,7 +8,7 @@
 
 	function createWidgetDefinition( editor, definition ) {
 		var defaultTemplate = new CKEDITOR.template(
-			'<figure class="{basicClass}">' +
+			'<figure>' +
 				'<img alt="" src="" />' +
 				'<figcaption>{captionPlaceholder}</figcaption>' +
 			'</figure>' ),
@@ -16,7 +16,7 @@
 
 		/**
 		 * This is an abstract class that describes a definition of a basic image widget
-		 * creted by {@link CKEDITOR.plugins.imagebase#addImageWidget} method.
+		 * created by {@link CKEDITOR.plugins.imagebase#addImageWidget} method.
 		 *
 		 * Note that because the image widget is a type of a widget, this definition extends
 		 * {@link CKEDITOR.plugins.widget.definition}.
