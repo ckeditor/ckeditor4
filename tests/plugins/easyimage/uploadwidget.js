@@ -11,6 +11,9 @@
 		IMG_URL = '%BASE_PATH%_assets/logo.png',
 		DATA_IMG = 'data:',
 		BLOB_IMG = 'blob:',
+		WIDGET_HTML = '<figure class="easyimage">' +
+				'<img src="' + IMG_URL + '" srcset="' + IMG_URL + ' 100w, ' + IMG_URL + ' 200w" />' +
+			'</figure>',
 		commonConfig = {
 			cloudServices_url: 'http://foo/upload',
 			// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
@@ -120,8 +123,8 @@
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
-				assert.sameData( '<p><img alt="" src="' + IMG_URL + '" /></p>', editor.getData() );
-				assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
+				assert.sameData( WIDGET_HTML, editor.getData() );
+				assert.areSame( 1, editor.editable().find( '[data-widget="easyimage"]' ).count(), 'dupa' );
 
 				assert.areSame( 0, loadAndUploadCount );
 				assert.areSame( 1, uploadCount );
@@ -149,8 +152,9 @@
 					loader.url = IMG_URL;
 					loader.changeStatus( 'uploaded' );
 
-					assert.sameData( '<p>x<img alt="" src="' + IMG_URL + '" />x</p>', editor.getData() );
-					assert.areSame( 1, editor.editable().find( 'img[data-widget="image"]' ).count() );
+					assert.sameData( '<p>x</p>' + WIDGET_HTML + '<p>x</p>',
+					editor.getData() );
+					assert.areSame( 1, editor.editable().find( '[data-widget="easyimage"]' ).count() );
 
 					assert.areSame( 0, loadAndUploadCount );
 					assert.areSame( 1, uploadCount );
