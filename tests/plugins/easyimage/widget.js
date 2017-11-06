@@ -28,13 +28,34 @@
 	};
 
 	var tests = {
-		'test upcasting image widget': function( editor, bot ) {
+		'test upcasting image widget (figure)': function( editor, bot ) {
 			widgetTestsTools.assertWidget( {
 				count: editor.name === 'classicAllFigures' ? 2 : 1,
 				widgetOffset: 0,
 				nameCreated: 'easyimage',
 				html: CKEDITOR.document.getById( 'mixedFigures' ).getHtml(),
 				bot: bot
+			} );
+		},
+
+		'test upcasting image widget (img)': function( editor, bot ) {
+			widgetTestsTools.assertWidget( {
+				count: 1,
+				widgetOffset: 0,
+				nameCreated: 'easyimage',
+				html: CKEDITOR.document.getById( 'mixedImgs' ).getHtml(),
+				bot: bot,
+				assertCreated: function( widget ) {
+					var element = widget.element;
+
+					assert.areSame( 'figure', element.getName(), 'img is wrapped in figure' );
+
+					if ( editor.name !== 'classicAllFigures' ) {
+						assert.isTrue( element.hasClass( 'easyimage' ), 'figure has appropriate class' );
+					} else {
+						assert.isFalse( element.hasClass( 'easyimage' ), 'figure does not have class' );
+					}
+				}
 			} );
 		}
 	};
