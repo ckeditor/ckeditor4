@@ -55,11 +55,11 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 							'<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/">https://ckeditor.com</a>' +
 						'</p>' +
 						'<p>' +
-							lang.help.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="http://docs.ckeditor.com/user">' + lang.userGuide + '</a>' ) +
+							lang.help.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="https://docs.ckeditor.com/ckeditor4/docs/">' + lang.userGuide + '</a>' ) +
 						'</p>' +
 						'<p>' +
 							lang.moreInfo + '<br>' +
-							'<a target="_blank" rel="noopener noreferrer" href="http://ckeditor.com/about/license">http://ckeditor.com/about/license</a>' +
+							'<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/license">https://ckeditor.com/license</a>' +
 						'</p>' +
 						'<p>' +
 							lang.copy.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="https://cksource.com/">CKSource</a> - Frederico Knabben' ) +
