@@ -117,7 +117,7 @@
 				upcasts: {
 					figure: function( element ) {
 						if ( ( !figureClass || element.hasClass( figureClass ) ) &&
-							element.find( 'img' ).length === 1 ) {
+							element.find( 'img', true ).length === 1 ) {
 							return element;
 						}
 					}

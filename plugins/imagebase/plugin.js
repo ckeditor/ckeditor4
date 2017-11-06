@@ -204,7 +204,7 @@
 
 			upcasts: {
 				figure: function( element ) {
-					if ( element.find( 'img' ).length === 1 ) {
+					if ( element.find( 'img', true ).length === 1 ) {
 						return element;
 					}
 				}
