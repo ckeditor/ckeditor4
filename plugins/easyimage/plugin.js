@@ -321,20 +321,4 @@
 	 * @member CKEDITOR.config
 	 */
 	CKEDITOR.config.easyimage_sideClass = 'easyimage-side';
-
-	/**
-	 * The URL where images inserted by Easy Image plugin  should be uploaded.
-	 *
-	 * @since 4.8.0
-	 * @cfg {String} [easyimageUploadUrl='' (empty string = disabled)]
-	 * @member CKEDITOR.config
-	 */
-
-	/**
-	 * Token used for authorization while uploading images via Easy Image plugin.
-	 *
-	 * @since 4.8.0
-	 * @cfg {String} [easyimage_token='' (empty string = disabled)]
-	 * @member CKEDITOR.config
-	 */
 }() );
