@@ -311,7 +311,7 @@ if ( !window.CKEDITOR ) {
  * @param {CKEDITOR.config} config A configuration object containing the
  * settings defined for a {@link CKEDITOR.editor} instance up to this
  * function call. Note that not all settings may still be available. See
- * [Configuration Loading Order](http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Setting_Configurations#Configuration_Loading_Order)
+ * [Configuration Loading Order](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_configuration)
  * for details.
  */
 
