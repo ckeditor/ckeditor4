@@ -19,6 +19,7 @@
 		if ( ranges.length === 0 ) {
 			return false;
 		}
+		// It's not table selection when selected node is a widget (#1027).
 		if ( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( ranges[ 0 ].getEnclosedNode() ) ) {
 			return false;
 		}
@@ -98,7 +99,7 @@
 			return table.equals( fakeTable ) || fakeTable.contains( table );
 		}
 
-		// When widget is selected, then definately is not a table.
+		// When widget is selected, then definately is not a table (#1027).
 		if ( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( fakeSelection.getSelectedElement() ) ) {
 			return false;
 		}

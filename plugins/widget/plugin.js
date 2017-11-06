@@ -1589,7 +1589,7 @@
 	 *
 	 * @since 4.8.0
 	 * @static
-	 * @param {CKEDItOR.dom.element} node
+	 * @param {CKEDITOR.dom.node} node
 	 * @returns {Boolean}
 	 */
 	Widget.isDomWidget = function( node ) {
