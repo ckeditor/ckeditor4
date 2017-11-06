@@ -58,14 +58,7 @@
 
 			upcasts: {
 				figure: function( element ) {
-					// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
-					if ( element.attributes[ 'data-cke-realelement' ] ) {
-						return;
-					}
-
-					if ( element.name === 'figure' ) {
-						return element;
-					}
+					return element;
 				}
 			}
 		};
