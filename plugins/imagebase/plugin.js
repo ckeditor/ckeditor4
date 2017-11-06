@@ -66,8 +66,9 @@
 		definition = CKEDITOR.tools.object.merge( baseDefinition, definition );
 
 		/**
-		 * Image widget definition overwrites the {@link CKEDITOR.plugins.widget.definition#upcast} property.
-		 * This should not be changed.
+		 * Image widget definition overrides {@link CKEDITOR.plugins.widget.definition#upcast} property.
+		 * It's automatically set to enumerate keys of {@link #upcasts}.
+		 * Avoid changes, unless you know what you're doing.
 		 *
 		 * @member CKEDITOR.plugins.imagebase.imageWidgetDefinition
 		 * @property {String}
