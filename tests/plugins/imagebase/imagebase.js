@@ -48,7 +48,7 @@
 
 		'test upcasting image widget': function( editor, bot ) {
 			assert.areSame( 'figure', editor.widgets.registered.testWidget.upcast );
-			assertUpcast( bot, '<figure>Foo</figure>', 'testWidget' );
+			assertUpcast( bot, '<figure>Foo</figure><div><img src="foo"></div><figure><img src="foo"></figure>', 'testWidget' );
 		}
 	};
 
