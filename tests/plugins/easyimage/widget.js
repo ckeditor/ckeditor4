@@ -1,5 +1,7 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: easyimage,toolbar */
+/* bender-include: ../widget/_helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
@@ -15,33 +17,27 @@
 
 		inline: {
 			creator: 'inline'
+		},
+
+		// This instance upcasts all figures, despite figure[class] value.
+		classicAllFigures: {
+			config: {
+				easyimage_class: null
+			}
 		}
 	};
 
-	function assertUpcast( bot, data, widget ) {
-		var editor = bot.editor;
-
-		bot.setData( data, function() {
-			var widgets = editor.editable().find( '[data-widget="' + widget + '"]' );
-
-			assert.areSame( 1, widgets.count(), 'Widget is properly upcasted' );
-		} );
-	}
-
-	var widgetHtml = '<figure class="easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
-		tests = {
-			tearDown: function() {
-				var currentDialog = CKEDITOR.dialog.getCurrent();
-
-				if ( currentDialog ) {
-					currentDialog.hide();
-				}
-			},
-
-			'test upcasting image widget': function( editor, bot ) {
-				assertUpcast( bot, widgetHtml + '<figure>Foo</figure>', 'easyimage' );
-			}
-		};
+	var tests = {
+		'test upcasting image widget': function( editor, bot ) {
+			widgetTestsTools.assertWidget( {
+				count: editor.name === 'classicAllFigures' ? 2 : 1,
+				widgetOffset: 0,
+				nameCreated: 'easyimage',
+				html: CKEDITOR.document.getById( 'mixedFigures' ).getHtml(),
+				bot: bot
+			} );
+		}
+	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
 	bender.test( tests );
