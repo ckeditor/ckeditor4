@@ -1,18 +1,10 @@
 /* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: imagebase,toolbar */
+/* bender-include: ../widget/_helpers/tools.js */
+/* global widgetTestsTools */
 
 ( function() {
 	'use strict';
-
-	function assertUpcast( bot, data, widget ) {
-		var editor = bot.editor;
-
-		bot.setData( data, function() {
-			var widgets = editor.editable().find( '[data-widget="' + widget + '"]' );
-
-			assert.areSame( 1, widgets.count(), 'Widget is properly upcasted' );
-		} );
-	}
 
 	bender.editors = {
 		classic: {},
@@ -48,7 +40,14 @@
 
 		'test upcasting image widget': function( editor, bot ) {
 			assert.areSame( 'figure', editor.widgets.registered.testWidget.upcast );
-			assertUpcast( bot, '<figure>Foo</figure><div><img src="foo"></div><figure><img src="foo"></figure>', 'testWidget' );
+
+			widgetTestsTools.assertWidget( {
+				count: 1,
+				widgetOffset: 0,
+				nameCreated: 'testWidget',
+				html: CKEDITOR.document.getById( 'upcastTest' ).getHtml(),
+				bot: bot
+			} );
 		}
 	};
 
