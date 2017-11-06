@@ -186,6 +186,10 @@
 			panel.attach( strong, {} );
 			assert.isTrue( showListener.called, 'Event show should be fired when show param is undefined.' );
 			resetState();
+
+			panel.attach( strong, null );
+			assert.isTrue( showListener.called, 'Event show should be fired when show param is null.' );
+			resetState();
 		},
 
 		'test panel destroy': function() {
