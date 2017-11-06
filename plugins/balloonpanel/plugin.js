@@ -320,9 +320,9 @@
 		 *
 		 * @method attach
 		 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
-		 * @param {Object/CKEDITOR.dom.element/Boolean} [options] **Since 4.8.0** this parameter works as options object.
+		 * @param {Object/CKEDITOR.dom.element/Boolean} [options] **Since 4.8.0** this parameter works as `options` object.
 		 *
-		 * If CKEDITOR.dom.element/Boolean instance is given this parameter acts as a options.focusElement.
+		 * If `{@link CKEDITOR.dom.element}/Boolean` instance is given this parameter acts as a `options.focusElement`.
 		 * @param {CKEDITOR.dom.element/Boolean} [options.focusElement] The element to be focused after the panel
 		 * is attached. By default the `panel` property of {@link #parts} will be focused. You might specify the element
 		 * to be focused by passing any {@link CKEDITOR.dom.element} instance.
