@@ -320,13 +320,13 @@
 		 *
 		 * @method attach
 		 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
-		 * @param {Object} options Ballonpanel focus and show options
+		 * @param {Object/CKEDITOR.dom.element/Boolean} [options] **Since 4.8.0** this parameter works as options object.
+		 * Balloonpanel still support old API where `CKEDITOR.dom.element/Boolean` will be used as `options.focusElement`.
 		 * @param {CKEDITOR.dom.element/Boolean} [options.focusElement] The element to be focused after the panel
 		 * is attached. By default the `panel` property of {@link #parts} will be focused. You might specify the element
 		 * to be focused by passing any {@link CKEDITOR.dom.element} instance.
 		 * You can also prevent changing focus at all by setting it to `false`.
-		 * Balloonpanel still support old API where focusElement was second param of attach method.
-		 * @param {Boolean} [options.show] Param defines if we want to show balloonpanel after attach. By default panel will show.
+		 * @param {Boolean} [options.show=true] Param defines if we want to show balloonpanel after attach.
 		 */
 		attach: ( function() {
 			var winGlobal, frame, editable, isInline;
@@ -387,16 +387,17 @@
 			};
 
 			return function( element, options ) {
-				var focusElement;
-				// Support for old API.
 				if ( options instanceof CKEDITOR.dom.element || typeof options === 'boolean' || typeof options === 'undefined' ) {
-					focusElement = options;
+					options = { focusElement: options };
+				}
+
+				options = CKEDITOR.tools.extend( options, {
+					show: true,
+					focusElement: undefined
+				} );
+
+				if ( options.show === true ) {
 					this.show();
-				} else {
-					if ( options.show === true || typeof options.show === 'undefined' ) {
-						this.show();
-					}
-					focusElement = options.focusElement;
 				}
 
 				this.fire( 'attach' );
@@ -487,8 +488,8 @@
 				this.setTriangle( triangleRelativePosition[ minDifferenceAlignment[ 0 ] ], minDifferenceAlignment[ 1 ] );
 
 				// Set focus to proper element.
-				if ( focusElement !== false ) {
-					( focusElement || this.parts.panel ).focus();
+				if ( options.focusElement !== false ) {
+					( options.focusElement || this.parts.panel ).focus();
 				}
 			};
 		} )(),
