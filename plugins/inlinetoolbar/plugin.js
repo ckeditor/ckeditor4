@@ -40,9 +40,9 @@
 	 *		// Following example will show an inline toolbar on any selection change. The toolbar is anchored to the
 	 *		// last element in selection, assuming that editor variable is an instance of CKEDITOR.editor.
 	 *		editor.on( 'instanceReady', function() {
-	 *			var panel = new CKEDITOR.ui.inlineToolbar( editor );
+	 *			var toolbar = new CKEDITOR.ui.inlineToolbar( editor );
 	 *
-	 *			panel.addItems( {
+	 *			toolbar.addItems( {
 	 *				link: new CKEDITOR.ui.button( {
 	 *					command: 'link'
 	 *				} ),
@@ -55,7 +55,7 @@
 	 *				var lastElement = evt.data.path.lastElement;
 	 *
 	 *				if ( lastElement ) {
-	 *					panel.create( lastElement );
+	 *					toolbar.create( lastElement );
 	 *				}
 	 *			} );
 	 *		} );
