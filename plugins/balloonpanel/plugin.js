@@ -392,8 +392,7 @@
 				}
 
 				options = CKEDITOR.tools.extend( options, {
-					show: true,
-					focusElement: undefined
+					show: true
 				} );
 
 				if ( options.show === true ) {
