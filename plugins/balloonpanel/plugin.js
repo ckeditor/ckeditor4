@@ -387,7 +387,7 @@
 			};
 
 			return function( element, options ) {
-				if ( options instanceof CKEDITOR.dom.element || typeof options === 'boolean' || typeof options === 'undefined' ) {
+				if ( options instanceof CKEDITOR.dom.element || !options ) {
 					options = { focusElement: options };
 				}
 
