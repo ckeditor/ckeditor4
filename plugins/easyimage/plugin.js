@@ -103,11 +103,12 @@
 					}
 				},
 
-				requiredContent: 'figure',
+				requiredContent: 'figure; img[!src]',
 
 				upcasts: {
 					figure: function( element ) {
-						if ( !figureClass || element.hasClass( figureClass ) ) {
+						if ( ( !figureClass || element.hasClass( figureClass ) ) &&
+							element.find( 'img' ).length === 1 ) {
 							return element;
 						}
 					}
