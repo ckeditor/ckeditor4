@@ -11,7 +11,14 @@
 	}
 
 	function wrapInLink( img, linkData ) {
-		var link = img.getDocument().createElement( 'a', {
+		// Covers cases when widget with link inside is upcasted.
+		var link = img.getAscendant( 'a' );
+
+		if ( link ) {
+			return link;
+		}
+
+		link = img.getDocument().createElement( 'a', {
 			attributes: {
 				href: linkData.url.url
 			}
