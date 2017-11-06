@@ -32,7 +32,7 @@ Fixed Issues:
 API Changes:
 
 * [#1097](https://github.com/ckeditor/ckeditor-dev/issues/1097): Widget [`upcast`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-upcast) methods are now called in the [widget definition's](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget-property-definition) context.
-* [#1118](https://github.com/ckeditor/ckeditor-dev/issues/1118): Added `show` option in [`balloonPanel.attach`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.ui.balloonPanel-method-attach) method, allowing to attach a hidden [Balloon Panel](http://ckeditor.com/addon/balloonpanel) instance.
+* [#1118](https://github.com/ckeditor/ckeditor-dev/issues/1118): Added `show` option in [`balloonPanel.attach`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.ui.balloonPanel-method-attach) method, allowing to attach a hidden [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) instance.
 
 Other Changes:
 
