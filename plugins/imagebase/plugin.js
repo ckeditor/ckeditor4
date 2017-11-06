@@ -41,7 +41,7 @@
 				figcaption: true
 			},
 
-			requiredContent: 'figure',
+			requiredContent: 'figure; img[!src]',
 
 			editables: {
 				caption: {
@@ -58,7 +58,9 @@
 
 			upcasts: {
 				figure: function( element ) {
-					return element;
+					if ( element.find( 'img' ).length === 1 ) {
+						return element;
+					}
 				}
 			}
 		};
