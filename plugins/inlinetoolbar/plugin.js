@@ -105,6 +105,34 @@
 				this.parts.close.remove();
 			};
 
+			CKEDITOR.ui.inlineToolbarView.prototype.show = function() {
+				if ( this.rect.visible ) {
+					return;
+				}
+				var that = this,
+					editable = this.editor.editable();
+				this._detachListeners();
+
+				this._listeners.push( this.editor.on( 'resize', function() {
+					that.attach( that._element, {
+						focusElement: false,
+						show: true
+					} );
+				} ) );
+				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
+					that.attach( that._element, {
+						focusElement: false,
+						show: true
+					} );
+				} ) );
+				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
+			};
+
+			CKEDITOR.ui.inlineToolbarView.prototype.hide = function() {
+				this._detachListeners();
+				CKEDITOR.ui.balloonPanel.prototype.hide.call( this );
+			};
+
 			CKEDITOR.ui.inlineToolbarView.prototype._getAlignments = function( elementRect, panelWidth, panelHeight ) {
 				var filter = [ 'top hcenter', 'bottom hcenter' ],
 					alignments = CKEDITOR.ui.balloonPanel.prototype._getAlignments.call( this, elementRect, panelWidth, panelHeight );
@@ -180,18 +208,11 @@
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.create = function( element ) {
-				this.attach( element, false );
-
-				var that = this,
-					editable = this.editor.editable();
-				this._detachListeners();
-
-				this._listeners.push( this.editor.on( 'resize', function() {
-					that.attach( element, false );
-				} ) );
-				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
-					that.attach( element, false );
-				} ) );
+				this._element = element;
+				this.attach( element, {
+					focusElement: false,
+					show: true
+				} );
 			};
 
 			/**
@@ -251,6 +272,7 @@
 			 * Hides the toolbar and removes it from the DOM.
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.destroy = function() {
+				this._element = null;
 				this._view.destroy();
 			};
 		}
