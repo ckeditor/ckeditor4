@@ -159,41 +159,38 @@
 			panel.attach( strong, { focusElement: false } );
 			assert.isTrue( doc.getActive().equals( doc.getBody() ), 'Focus remains on body element' );
 		},
+
 		'test panel show option': function() {
 			var panel = new CKEDITOR.ui.balloonPanel( bender.editor, {
-				title: 'Test panel #3'
-			} ),
+					title: 'Test panel #4'
+				} ),
 				strong = bender.editor.document.findOne( 'strong' ),
-				showEvent = false;
-
-			panel.addShowListener( function() {
-				showEvent = true;
-				return {
-					removeListener: function() {
-						showEvent = false;
-					}
+				showListener = sinon.stub(),
+				resetState = function() {
+					showListener.reset();
+					panel.hide();
 				};
-			} );
+
+			panel.addShowListener( showListener );
+			panels.push( panel );
 
 
 			panel.attach( strong, { show: false } );
-			assert.isFalse( showEvent, 'Event show should not be fired when show param is false.' );
+			assert.isFalse( showListener.called, 'Event show should not be fired when show param is false.' );
+			resetState();
 
 			panel.attach( strong, { show: true } );
-			assert.isTrue( showEvent, 'Event show should be fired when show param is true.' );
-			panel.hide();
-			assert.isFalse( showEvent, 'After hide showElement should be false' );
+			assert.isTrue( showListener.called, 'Event show should be fired when show param is true.' );
+			resetState();
 
 			panel.attach( strong, {} );
-			assert.isTrue( showEvent, 'Event show should be fired when show param is undefined.' );
-			panel.hide();
-
-			panels.push( panel );
+			assert.isTrue( showListener.called, 'Event show should be fired when show param is undefined.' );
+			resetState();
 		},
 
 		'test panel destroy': function() {
 			var panel = new CKEDITOR.ui.balloonPanel( bender.editor, {
-				title: 'Test panel #4'
+				title: 'Test panel #5'
 			} );
 
 			panels.push( panel );
