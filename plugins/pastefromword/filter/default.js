@@ -45,7 +45,7 @@
 			shapesIds = [];
 
 		function shapeTagging( element ) {
-			// Is it shape or canva's shape (#1088).
+			// Check if regular or canvas shape (#1088).
 			if ( element.attributes[ 'o:gfxdata' ] || element.parent.name === 'v:group' ) {
 				shapesIds.push( element.attributes.id );
 			}
@@ -130,7 +130,8 @@
 					}
 
 					var imgShapesIds = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
-					// Check wether attribute contains recognise earlier shapes ( stored at global list of shapesIds). If so, Then add additional data-attribute to img tag.
+					// Check whether attribute contains shapes recognised earlier (stored in global list of shapesIds).
+					// If so, add additional data-attribute to img tag.
 					var isShapeFromList = CKEDITOR.tools.array.every( imgShapesIds, function( shapeId ) {
 						return shapesIds.indexOf( shapeId ) > -1;
 					} );
@@ -399,8 +400,8 @@
 						var duplicate = false,
 							child;
 
-						// Canvas left empty `v:shape`. We don't want to convert it into img tag.
-						// Those empty `v:shape` contains 2 tested below attributes.
+						// Canvas leaves empty `v:shape`, which should not be converted into img tag.
+						// These empty `v:shape` contains 2 attributes which helps distinguish it.
 						child = element.getFirst( 'v:imagedata' );
 						if ( child && ( child.attributes.croptop !== undefined || child.attributes.cropbottom !== undefined ) ) {
 							shapeTagging( element );
