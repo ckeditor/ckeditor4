@@ -4,7 +4,7 @@
 
 ## Custom types
 
-1. Select part of the editor.
+1. Select part of the editor content.
 1. Copy using `ctrl/cmd+c`.
 1. Paste the clipboard into the same editable.
 

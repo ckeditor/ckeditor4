@@ -720,7 +720,6 @@ bender.test( {
 
 		nativeData.files.push( 'foo' );
 
-		// debugger;
 		dataTransfer.cacheData();
 
 		assert.areSame( 1, dataTransfer.getFilesCount() );
@@ -998,14 +997,14 @@ bender.test( {
 			evt3 = { data: { $: { dataTransfer: nativeData3 } }, name: 'dragstart' },
 			dataTransfer1 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt1 ),
 			dataTransfer2 = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt2 ),
-			dtFallback1 = dataTransfer1._fallbackDataTransfer,
-			dtFallback2 = dataTransfer2._fallbackDataTransfer,
+			dtFallback1 = dataTransfer1._.fallbackDataTransfer,
+			dtFallback2 = dataTransfer2._.fallbackDataTransfer,
 			dataTransfer3,
 			dtFallback3;
 
 		CKEDITOR.plugins.clipboard.initDragDataTransfer( evt3 );
 		dataTransfer3 = evt3.data.dataTransfer;
-		dtFallback3 = dataTransfer3._fallbackDataTransfer;
+		dtFallback3 = dataTransfer3._.fallbackDataTransfer;
 
 		// Check if ids are not empty.
 		assert.isTrue( dataTransfer1.id.length > 0, 'dataTransfer1 id is not empty' );
@@ -1060,11 +1059,24 @@ bender.test( {
 		} else {
 			// As dataTransfer id is stored in `customDataFallbackType` ('text/html' mime type), we just check if it is empty.
 			assert.areSame( '',
-				nativeData1.getData( dataTransfer1._fallbackDataTransfer._customDataFallbackType ), 'dataTransfer1 id is empty' );
+				nativeData1.getData( dataTransfer1._.fallbackDataTransfer._customDataFallbackType ), 'dataTransfer1 id is empty' );
 			assert.areSame( '',
-				nativeData2.getData( dataTransfer2._fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
+				nativeData2.getData( dataTransfer2._.fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
 			assert.areSame( '',
-				nativeData2.getData( dataTransfer3._fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
+				nativeData2.getData( dataTransfer3._.fallbackDataTransfer._customDataFallbackType ), 'dataTransfer2 id is empty' );
 		}
+	},
+
+	'test if cache is initialized on dataTransfer creation': function() {
+		var cache = new CKEDITOR.plugins.clipboard.dataTransfer()._.cache;
+
+		assert.isObject( cache, 'cache should be initialized' );
+	},
+
+	'test if different dataTransfer objects has different caches': function() {
+		var dt1 = new CKEDITOR.plugins.clipboard.dataTransfer(),
+			dt2 = new CKEDITOR.plugins.clipboard.dataTransfer();
+
+		assert.isTrue( dt1._.cache !== dt2._.cache, 'caches should not be equal' );
 	}
 } );
