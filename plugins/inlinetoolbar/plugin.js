@@ -25,6 +25,7 @@
 			triangleHeight: 10
 		} );
 		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
+
 		/**
 		 * Listeners registered by this toolbar view.
 		 *
@@ -143,22 +144,28 @@
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
 				var output = [],
-					keys = CKEDITOR.tools.objectKeys( items );
+					keys = CKEDITOR.tools.objectKeys( items ),
+					groupStarted = false;
 
-				CKEDITOR.tools.array.forEach( keys, function( itemKey, keyIndex ) {
-					if ( items[ itemKey ] instanceof CKEDITOR.ui.richCombo || keyIndex === 0 ) {
-						// Button group should be open on the beginning, and for each rich combo.
-						if ( keyIndex !== 0 ) {
-							output.push( '</span>' );
-						}
+				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
 
+					//if next element to render is richCombo and we have already opened group we have to close it.
+					if ( items[ itemKey ] instanceof CKEDITOR.ui.richCombo  && groupStarted ) {
+						groupStarted = false;
+						output.push( '</span>' );
+
+					//if we have closed group and element that is not richBox we have to open group
+					} else if ( !( items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) && !groupStarted ) {
+						groupStarted = true;
 						output.push( '<span class="cke_toolgroup">' );
 					}
 
+					//Now we can render element
 					items[ itemKey ].render( this.editor, output );
 				}, this );
 
-				if ( keys.length ) {
+				// We have to check if last group is closed
+				if ( groupStarted ) {
 					output.push( '</span>' );
 				}
 
