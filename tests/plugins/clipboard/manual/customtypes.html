@@ -29,6 +29,11 @@
 	CKEDITOR.replace( 'classic', {
 		on: {
 			instanceReady: function( evt ) {
+				if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+					bender.ignore();
+					return;
+				}
+
 				evt.editor.editable().on( 'copy', function( ckEvt ) {
 					var evt = ckEvt.data.$,
 						nativeDataTransfer = evt.clipboardData,
@@ -51,7 +56,7 @@
 						output = '',
 						types;
 
-					// Force data cache so that we can acces data types from cache.
+					// Force data cache so that we can access data types from cache.
 					ckDataTransfer.cacheData();
 
 					// Eventually these types should be dynamically fetched.

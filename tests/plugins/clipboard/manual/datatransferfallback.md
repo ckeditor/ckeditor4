@@ -9,17 +9,19 @@ _Open dev console as events are logged there._
  * between editors,
  * externally (helpers, MS Word, etc).
 
-## Expected:
+## Expected (Chrome, FF, Safari Edge):
  * Events sequence caused by one action (e.g. `drag` -> `drop` -> `paste`) always have the same `DataTransfer id`.
  * `Id storage` (if present) should be `text/html` for `Edge` browser and `cke/id` for other browsers.
+
+## Expected (All):
  * No content lost (e.g. ids of anchors), no crashes, nor errors.
  * In the internal and cross editor D&D, dragged content should be removed.
- 
+
 ## Helpers:
  <textarea style="width:90%; height:30px;">
  	Lorem ipsum <b>dolor</b> sit amet <img src="%BASE_PATH%_assets/logo.png" /> elit.
  </textarea>
- 		
+
 Lorem ipsum <b>dolor</b> sit <i>amet</i>, consectetur adipiscing elit.
 <img height="20" alt="CKEditor logo" src="%BASE_PATH%_assets/logo.png" /> In commodo
 vulputate tempor. Sed &lt;b&gt;at elit&lt;/b&gt; vel <a href="foo">ligula mollis</a> aliquet a ac odio.
