@@ -65,7 +65,7 @@
 				elementFrame = markerElement.getClientRect(),
 				inlineToolbarRect;
 
-			inlineToolbar.create( markerElement );
+			inlineToolbar.attach( markerElement );
 			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
 
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
@@ -93,7 +93,7 @@
 				inlineToolbarRect;
 
 			markerElement.getParent().getNext().scrollIntoView( true );
-			inlineToolbar.create( markerElement );
+			inlineToolbar.attach( markerElement );
 			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
 
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
@@ -109,7 +109,7 @@
 				height: 200
 			} ),
 				markerElement = editor.editable().findOne( '#marker' );
-			inlineToolbar.create( markerElement );
+			inlineToolbar.attach( markerElement );
 
 			assert.isTrue( inlineToolbar.parts.panel.hasClass( 'cke_inlinetoolbar' ), 'Panel has a cke_inlinetoolbar class' );
 			assert.isTrue( inlineToolbar.parts.panel.hasClass( 'cke_balloon' ), 'Class cke_balloon class was not removed' );
