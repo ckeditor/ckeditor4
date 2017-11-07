@@ -2152,9 +2152,7 @@
 			this.$ = nativeDataTransfer;
 		}
 
-		this._cache = this._getCacheObject();
-		this._fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( this._cache, this.$ );
-
+		var cache = {};
 
 		this._ = {
 			metaRegExp: /^<meta.*?>/i,
@@ -2162,6 +2160,9 @@
 			fragmentRegExp: /<!--(?:Start|End)Fragment-->/g,
 
 			files: [],
+			cache: cache,
+
+			fallbackDataTransfer: new CKEDITOR.plugins.clipboard.fallbackDataTransfer( cache, this.$ ),
 
 			normalizeType: function( type ) {
 				type = type.toLowerCase();
@@ -2233,23 +2234,6 @@
 		 * @private
 		 * @property {Object} _
 		 */
-
-		/**
-		 * Fallback object which is used in browsers not supporting custom
-		 * MIME types in native `dataTransfer.setData`.
-		 *
-		 * @since 4.8.0
-		 * @private
-		 * @property {CKEDITOR.plugins.clipboard.fallbackDataTransfer} _fallbackDataTransfer
-		 */
-
-		/**
-		 * Cache object.
-		 *
-		 * @since 4.8.0
-		 * @private
-		 * @property {Object} _cache
-		 */
 	};
 
 	/**
@@ -2320,19 +2304,23 @@
 			var data,
 				result;
 
-			if ( !getNative ) {
-				data = this._cache.get( type );
-			}
-
-			if ( isEmpty( data ) ) {
-
-				if ( this._fallbackDataTransfer.isRequired() ) {
-					data = this._fallbackDataTransfer.getData( type );
-				} else {
-					try {
-						data = this.$.getData( type ) || '';
-					} catch ( e ) {
-						data = '';
+			if ( getNative ) {
+				try {
+					data = this.$.getData( type ) || '';
+				} catch ( e ) {
+					data = '';
+				}
+			} else {
+				data = this._.cache[ type ] || null;
+				if ( isEmpty( data ) ) {
+					if ( this._.fallbackDataTransfer.isRequired() ) {
+						data = this._.fallbackDataTransfer.getData( type );
+					} else {
+						try {
+							data = this.$.getData( type ) || '';
+						} catch ( e ) {
+							data = '';
+						}
 					}
 				}
 			}
@@ -2376,7 +2364,7 @@
 		setData: function( type, value ) {
 			type = this._.normalizeType( type );
 
-			this._cache.set( type, value );
+			this._.cache[ type ] = value;
 
 			// There is "Unexpected call to method or property access." error if you try
 			// to set data of unsupported type on IE.
@@ -2390,8 +2378,8 @@
 				this.id = value;
 			}
 
-			if ( this._fallbackDataTransfer.isRequired() ) {
-				this._fallbackDataTransfer.setData( type, value );
+			if ( this._.fallbackDataTransfer.isRequired() ) {
+				this._.fallbackDataTransfer.setData( type, value );
 
 			} else {
 				try {
@@ -2447,9 +2435,9 @@
 			function getAndSetData( type ) {
 				type = that._.normalizeType( type );
 
-				var data = that.getData( type, true );
+				var data = that.getData( type, !that._.fallbackDataTransfer.isRequired() );
 				if ( data ) {
-					that._cache.set( type, data );
+					that._.cache[ type ] = data;
 				}
 			}
 
@@ -2535,7 +2523,7 @@
 				return false;
 			}
 
-			CKEDITOR.tools.array.forEach( this._cache.types(), function( type ) {
+			CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( this._.cache ), function( type ) {
 				typesToCheck[ type ] = 1;
 			} );
 
@@ -2590,105 +2578,7 @@
 			}
 
 			return undefined;
-		},
-
-		/**
-		 * Returns new cache instance.
-		 *
-		 * @since 4.8.0
-		 * @private
-		 * @returns {Object} Cache object.
-		 */
-		_getCacheObject: ( function() {
-
-			/*
-			 * Simple cache object.
-			 *
-			 * @class dataTransferCache
-			 * @constructor
-			 */
-			function dataTransferCache() {
-				/*
-				 * Object storing cached data.
-				 *
-				 * @private
-				 * @property {Object} _storage
-				 */
-				this._storage = {};
-
-				/*
-				 * Array storing custom types.
-				 *
-				 * @private
-				 * @type {Array} _customTypes
-				 */
-				this._customTypes = [];
-			}
-
-			dataTransferCache.prototype = {
-				/*
-				 * Returns stored value for the given type.
-				 *
-				 * @param {String} type
-				 * @returns {String|null} Value of the given type or null if value not set.
-				 */
-				get: function( type ) {
-					return this._storage[ type ] || null;
-				},
-
-				/*
-				 * Sets value for the given type.
-				 *
-				 * @param {String} type
-				 * @param {String} value
-				 */
-				set: function( type, value ) {
-					this._storage[ type ] = value;
-				},
-
-				/*
-				 * Returns list of all types currently stored in cache.
-				 *
-				 * @returns {Array}
-				 */
-				types: function() {
-					return CKEDITOR.tools.objectKeys( this._storage );
-				},
-
-				/*
-				 * Marks given type as a custom one.
-				 *
-				 * @param {String} type
-				 */
-				markCustomType: function( type ) {
-					if ( CKEDITOR.tools.indexOf( this._customTypes, type ) === -1 ) {
-						this._customTypes.push( type );
-					}
-				},
-
-				/*
-				 * Returns custom data.
-				 *
-				 * @returns {Object} Object containing custom types in 'type : data' format.
-				 */
-				getCustomTypesData: function() {
-					var customData = {};
-					if ( this._customTypes.length ) {
-						CKEDITOR.tools.array.forEach( this._customTypes, function( type ) {
-							// Custom type can be marked, but value for it may not be set so it needs to be checked.
-							if ( this._storage[ type ] ) {
-								customData[ type ] = this._storage[ type ];
-							}
-						}, this );
-					}
-					return customData;
-				}
-			};
-
-			return function() {
-				return new dataTransferCache();
-			};
-		} )()
+		}
 	};
 
 	/**
@@ -2745,6 +2635,17 @@
 	 */
 	CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = null;
 
+	/**
+	 * Array containing MIME types which are not supported by native `setData`. Those types are
+	 * recognized by error which is thrown when using native `setData` with a given type
+	 * (see {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer#_isUnsupportedMimeTypeError}).
+	 *
+	 * @private
+	 * @static
+	 * @property {Array}
+	 */
+	CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes = [];
+
 	CKEDITOR.plugins.clipboard.fallbackDataTransfer.prototype = {
 		/**
 		 * Whether {@link CKEDITOR.plugins.clipboard.fallbackDataTransfer fallbackDataTransfer object} should
@@ -2794,14 +2695,12 @@
 			// If we are getting the same type which may store custom data we need to extract content only.
 			if ( type === this._customDataFallbackType ) {
 				value = dataComment.content;
-
-			// If we are getting different type we need to check inside data comment if it is stored there.
 			} else {
+				// If we are getting different type we need to check inside data comment if it is stored there.
 				if ( dataComment.data && dataComment.data[ type ] ) {
 					value = dataComment.data[ type ];
-
-				// And then fallback to regular `getData`.
 				} else {
+					// And then fallback to regular `getData`.
 					value = this._getData( type, true );
 				}
 			}
@@ -2811,8 +2710,7 @@
 
 		/**
 		 * Sets given data in native `dataTransfer` object. If given MIME type is not supported it uses
-		 * {@link #_customDataFallbackType} MIME type
-		 * to save data using special comment format:
+		 * {@link #_customDataFallbackType} MIME type to save data using special comment format:
 		 *
 		 * 		<!--cke-data:{ type: value }-->
 		 *
@@ -2850,8 +2748,11 @@
 				this._nativeDataTransfer.setData( type, value );
 			} catch ( e ) {
 				if ( this._isUnsupportedMimeTypeError( e ) ) {
+					var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
 
-					this._cache.markCustomType( type );
+					if ( CKEDITOR.tools.indexOf( fallbackDataTransfer._customTypes, type ) === -1 ) {
+						fallbackDataTransfer._customTypes.push( type );
+					}
 
 					var fallbackTypeContent = this._getFallbackTypeContent(),
 						fallbackTypeData = this._getFallbackTypeData();
@@ -2896,7 +2797,7 @@
 		 * @returns {String}
 		 */
 		_getFallbackTypeContent: function() {
-			var fallbackTypeContent = this._cache.get( this._customDataFallbackType );
+			var fallbackTypeContent = this._cache[ this._customDataFallbackType ];
 
 			if ( !fallbackTypeContent ) {
 				fallbackTypeContent = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).content;
@@ -2912,11 +2813,12 @@
 		 * @returns {Object}
 		 */
 		_getFallbackTypeData: function() {
-			var fallbackTypeData = this._cache.getCustomTypesData();
-
-			if ( CKEDITOR.tools.objectKeys( fallbackTypeData ).length === 0 ) {
+			var fallbackTypes = CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes,
 				fallbackTypeData = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).data || {};
-			}
+
+			CKEDITOR.tools.array.forEach( fallbackTypes, function( type ) {
+				fallbackTypeData[ type ] = this._cache[ type ] !== undefined ? this._cache[ type ] : fallbackTypeData[ type ];
+			}, this );
 			return fallbackTypeData;
 		},
 
