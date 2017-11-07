@@ -28,7 +28,7 @@
 	};
 
 	var tests = {
-		'test upcasting image widget': function( editor, bot ) {
+		'test upcasting image widget (figure)': function( editor, bot ) {
 			widgetTestsTools.assertWidget( {
 				count: editor.name === 'classicAllFigures' ? 2 : 1,
 				widgetOffset: 0,

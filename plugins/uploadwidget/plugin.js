@@ -188,7 +188,7 @@
 					// No def.supportedTypes means all types are supported.
 					if ( !def.supportedTypes || fileTools.isTypeSupported( file, def.supportedTypes ) ) {
 						var el = def.fileToElement( file ),
-							loader = uploads.create( file );
+							loader = uploads.create( file, undefined, def.loaderType );
 
 						if ( el ) {
 							loader[ loadMethod ]( def.uploadUrl, def.additionalRequestParameters );
@@ -361,6 +361,12 @@
 			 * {@link CKEDITOR.fileTools#getUploadUrl}.
 			 *
 			 * @property {String} [uploadUrl]
+			 */
+
+			/**
+			 * Loader type that should be used for creating fileTools requests.
+			 *
+			 * @property {Function} [loaderType]
 			 */
 
 			/**
