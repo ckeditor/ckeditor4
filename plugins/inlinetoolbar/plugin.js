@@ -90,20 +90,25 @@
 		onLoad: function() {
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
 		},
-		init: function() {
-			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 
 		/**
-		 * Facade for the native `dataTransfer`/`clipboadData` object to hide all differences
-		 * between browsers.
+		 * Create new inline toolbar
 		 *
 		 * @since 4.8
 		 * @class CKEDITOR.plugins.inlinetoolbar.create
 		 * @constructor Creates a class instance.
 		 */
-			CKEDITOR.plugins.inlinetoolbar.create = function() {
+		create: function( params ) {
+			var toolbar = new CKEDITOR.ui.inlineToolbar();
+			if ( params && params.buttons ) {
 
-			};
+			}
+
+			return toolbar;
+		},
+
+		init: function() {
+			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 
 			/**
 			 * Build inline toolbar DOM representation.
