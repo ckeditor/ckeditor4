@@ -143,24 +143,25 @@
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
 				var output = [],
-					isStarted = false;
-				for ( var menuItem in items ) {
-					if ( items[ menuItem ] instanceof CKEDITOR.ui.richCombo ) {
-						if ( isStarted ) {
-							isStarted = false;
+					keys = CKEDITOR.tools.objectKeys( items );
+
+				CKEDITOR.tools.array.forEach( keys, function( itemKey, keyIndex ) {
+					if ( items[ itemKey ] instanceof CKEDITOR.ui.richCombo || keyIndex === 0 ) {
+						// Button group should be open on the beginning, and for each rich combo.
+						if ( keyIndex !== 0 ) {
 							output.push( '</span>' );
 						}
-					} else {
-						if ( !isStarted ) {
-							output.push( '<span class="cke_toolgroup">' );
-							isStarted = true;
-						}
+
+						output.push( '<span class="cke_toolgroup">' );
 					}
-					items[ menuItem ].render( this.editor, output );
-				}
-				if ( isStarted ) {
+
+					items[ itemKey ].render( this.editor, output );
+				}, this );
+
+				if ( keys.length ) {
 					output.push( '</span>' );
 				}
+
 				this.parts.content.setHtml( output.join( '' ) );
 			};
 
