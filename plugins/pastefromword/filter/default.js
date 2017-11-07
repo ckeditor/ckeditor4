@@ -128,12 +128,12 @@
 						element.attributes.src = element.attributes.alt;
 					}
 
-					var imgShapesId = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
-					// Check if every single name is recognised as shape before, then add additional attribute.
-					var isShapeFromList = CKEDITOR.tools.array.every( imgShapesId, function( shapeId ) {
+					var imgShapesIds = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
+					// Check wether attribute contains recognise earlier shapes ( stored at global list of shapesIds). If so, Then add additional data-attribute to img tag.
+					var isShapeFromList = CKEDITOR.tools.array.every( imgShapesIds, function( shapeId ) {
 						return shapesIds.indexOf( shapeId ) > -1;
 					} );
-					if ( imgShapesId.length && isShapeFromList ) {
+					if ( imgShapesIds.length && isShapeFromList ) {
 						element.attributes[ 'data-cke-is-shape' ] = true;
 					}
 
