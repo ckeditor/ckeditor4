@@ -108,7 +108,7 @@
 					},
 
 					img: {
-						attributes: '!src,srcset,alt,width,height'
+						attributes: '!src,srcset,alt'
 					}
 				},
 
