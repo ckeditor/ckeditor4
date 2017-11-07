@@ -13,6 +13,7 @@
 		BLOB_IMG = 'blob:',
 		WIDGET_HTML = '<figure class="easyimage">' +
 				'<img src="' + IMG_URL + '" srcset="' + IMG_URL + ' 100w, ' + IMG_URL + ' 200w" />' +
+				'<figcaption></figcaption>' +
 			'</figure>',
 		commonConfig = {
 			cloudServices_url: 'http://foo/upload',
@@ -39,16 +40,20 @@
 	};
 
 	function assertUploadingWidgets( editor, expectedSrc ) {
-		var widgets = editor.editable().find( 'img[data-widget="uploadeasyimage"]' ),
-			widget, i;
+		var tools = CKEDITOR.tools,
+			array = tools.array,
+			widgets = array.map( tools.objectKeys( editor.widgets.instances ), function( val ) {
+				return editor.widgets.instances[ val ];
+			} );
 
-		assert.areSame( 1, widgets.count(), 'Expected widgets count should be 1' );
+		widgets = array.filter( widgets, function( val ) {
+			return val.name === 'uploadeasyimage';
+		} );
 
-		for ( i = 0; i < widgets.count(); i++ ) {
-			widget = widgets.getItem( i );
-			assert.areSame( '0', widget.getAttribute( 'data-cke-upload-id' ) );
-			assert.areSame( expectedSrc, widget.getAttribute( 'src' ).substring( 0, 5 ) );
-		}
+		assert.areSame( 1, widgets.length, 'Created widgets count' );
+
+		assert.areSame( '0', widgets[ 0 ].element.getAttribute( 'data-cke-upload-id' ) );
+		assert.areSame( expectedSrc, widgets[ 0 ].element.getAttribute( 'src' ).substring( 0, 5 ) );
 	}
 
 	tests = {
@@ -213,7 +218,7 @@
 		'test not supportedTypes tiff': function( editor, bot ) {
 			bot.setData( '', function() {
 				resumeAfter( editor, 'paste', function() {
-					assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadeasyimage"]' ).count() );
+					assert.areSame( 0, editor.editable().find( 'figure[data-widget="uploadeasyimage"]' ).count() );
 				} );
 
 				pasteFiles( editor, [ { name: 'test.tiff', type: 'image/tiff' } ] );
@@ -242,7 +247,7 @@
 
 		'test paste nested image': function( editor ) {
 			resumeAfter( editor, 'paste', function( evt ) {
-				var imgs = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).find( 'img[data-widget="uploadeasyimage"]' ),
+				var imgs = CKEDITOR.dom.element.createFromHtml( evt.data.dataValue ).find( '[data-widget="uploadeasyimage"]' ),
 					img, i;
 
 				assert.areSame( 2, imgs.count(), 'Expected imgs count should be 2' );

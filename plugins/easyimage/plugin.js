@@ -120,23 +120,6 @@
 							element.find( 'img' ).length === 1 ) {
 							return element;
 						}
-					},
-
-					// Upload widget creates bare img[srcset] elements, so we should also upcast them.
-					img: function( element )  {
-						if ( element.attributes.srcset ) {
-							var figure = new CKEDITOR.htmlParser.element( 'figure' );
-
-							if ( figureClass ) {
-								figure.attributes[ 'class' ] = figureClass;
-							}
-
-							element.wrapWith( figure );
-
-							return figure;
-						}
-
-						return false;
 					}
 				},
 
@@ -184,8 +167,8 @@
 			onUploaded: function( upload ) {
 				var srcset = CKEDITOR.plugins.easyimage._parseSrcSet( upload.responseData.response );
 
-				this.replaceWith( '<img src="' + upload.responseData.response[ 'default' ] + '" srcset="' +
-					srcset + '" sizes="100vw">' );
+				this.replaceWith( '<figure class="' + ( editor.config.easyimage_class || '' ) + '"><img src="' +
+					upload.responseData.response[ 'default' ] + '" srcset="' + srcset + '" sizes="100vw"><figcaption></figcaption></figure>' );
 			}
 		} );
 
