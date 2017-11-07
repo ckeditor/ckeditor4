@@ -24,8 +24,8 @@
 			'firefox'
 		],
 		wordVersions: [
-			'word2013',
-			'osx'
+			'word2013_win',
+			'word2011_osx'
 		],
 		tests: {
 			'Shapes/Single': true,
