@@ -5,38 +5,38 @@
 
 New Features:
 
-* [#607](https://github.com/ckeditor/ckeditor-dev/issues/607): Manually inserted hex color is prefixed with hash tag if needed. It ensures a valid hex color is used when setting table cell border or background color via [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) window.
+* [#607](https://github.com/ckeditor/ckeditor-dev/issues/607): Manually inserted Hex color is prefixed with a hash character (`#`) if needed. It ensures a valid Hex color value is used when setting the table cell border or background color with the [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) window.
 * [#584](https://github.com/ckeditor/ckeditor-dev/issues/584): [Font size and Family](https://ckeditor.com/cke4/addon/font) and [Format](https://ckeditor.com/cke4/addon/format) drop-downs are not toggleable anymore. Default option to reset styles added.
-* [#856](https://github.com/ckeditor/ckeditor-dev/issues/856): Introduced [`CKEDITOR.tools.keystrokeToArray`](https://docs.ckeditor.com/ckeditor-docs/build/#!/api/CKEDITOR.tools-method-keystrokeToArray). It converts given keystroke into its string representation, returning every key name as separate array element.
-* [#1053](https://github.com/ckeditor/ckeditor-dev/issues/1053): Introduced [`CKEDITOR.tools.object.merge`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.tools.object-method-merge). It allows to merge two objects, returning the new object with all properties from both objects deeply cloned.
-* [#1073](https://github.com/ckeditor/ckeditor-dev/issues/1073): Introduced [`CKEDITOR.tools.array.every`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.tools.array-method-every). It invokes given test function on every array element and returns true if all elements pass the test.
+* [#856](https://github.com/ckeditor/ckeditor-dev/issues/856): Introduced the [`CKEDITOR.tools.keystrokeToArray`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.tools-method-keystrokeToArray) method. It converts a keystroke into its string representation, returning every key name as a separate array element.
+* [#1053](https://github.com/ckeditor/ckeditor-dev/issues/1053): Introduced the [`CKEDITOR.tools.object.merge`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.tools.object-method-merge) method. It allows to merge two objects, returning the new object with all properties from both objects deeply cloned.
+* [#1073](https://github.com/ckeditor/ckeditor-dev/issues/1073): Introduced the [`CKEDITOR.tools.array.every`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.tools.array-method-every) method. It invokes a given test function on every array element and returns `true` if all elements pass the test.
 
 Fixed Issues:
 
-* [#796](https://github.com/ckeditor/ckeditor-dev/issues/796): Fixed: List is pasted from OneNote in a reversed order.
-* [#834](https://github.com/ckeditor/ckeditor-dev/issues/834): [IE9-11] Fixed: Editor does not save selected state of radiobuttons inserted by [Form Elements](https://ckeditor.com/cke4/addon/forms) plugin.
-* [#704](https://github.com/ckeditor/ckeditor-dev/issues/704): [Edge] Fixed: Using `Ctrl/Cmd + Z` breaks widgets structure.
-* [#591](https://github.com/ckeditor/ckeditor-dev/issues/591): Fixed: Column is inserted in a wrong order inside table if any cell has a vertical split.
-* [#787](https://github.com/ckeditor/ckeditor-dev/issues/787): Fixed: Using cut inside nested table does not cut selected content.
-* [#842](https://github.com/ckeditor/ckeditor-dev/issues/842): Fixed: List style not restored when toggling list indent level in [Indent List](https://ckeditor.com/cke4/addon/indentlist) plugin.
-* [#711](https://github.com/ckeditor/ckeditor-dev/issues/711): Fixed: Dragging widgets should only work with left mouse button.
-* [#862](https://github.com/ckeditor/ckeditor-dev/issues/862): Fixed: "Object Styles" group in [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin is visible only if whole element is selected.
-* [#994](https://github.com/ckeditor/ckeditor-dev/pull/994): Fixed: Typo in [`CKEDITOR.focusManager.focus`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.focusManager-method-focus) API documentation. Thanks to [benjy](https://github.com/benjy)!
-* [#1014](https://github.com/ckeditor/ckeditor-dev/issues/1014): Fixed: [Table Tools](https://ckeditor.com/cke4/addon/tabletools) cell properties dialog is now [ACF](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_acf) aware - it not possible to change cell width/height if corresponding styles are disabled.
-* [#877](https://github.com/ckeditor/ckeditor-dev/issues/877): Fixed: Lists with custom bullets with exotic characters crashes editor when [pasted from Word](https://ckeditor.com/cke4/addon/pastefromword).
+* [#796](https://github.com/ckeditor/ckeditor-dev/issues/796): Fixed: A list is pasted from OneNote in the reversed order.
+* [#834](https://github.com/ckeditor/ckeditor-dev/issues/834): [IE9-11] Fixed: The editor does not save the selected state of radio buttons inserted by the [Form Elements](https://ckeditor.com/cke4/addon/forms) plugin.
+* [#704](https://github.com/ckeditor/ckeditor-dev/issues/704): [Edge] Fixed: Using <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Z</kbd> breaks widget structure.
+* [#591](https://github.com/ckeditor/ckeditor-dev/issues/591): Fixed: A column is inserted in a wrong order inside the table if any cell has a vertical split.
+* [#787](https://github.com/ckeditor/ckeditor-dev/issues/787): Fixed: Using Cut inside a nested table does not cut the selected content.
+* [#842](https://github.com/ckeditor/ckeditor-dev/issues/842): Fixed: List style not restored when toggling list indent level in the [Indent List](https://ckeditor.com/cke4/addon/indentlist) plugin.
+* [#711](https://github.com/ckeditor/ckeditor-dev/issues/711): Fixed: Dragging widgets should only work with the left mouse button.
+* [#862](https://github.com/ckeditor/ckeditor-dev/issues/862): Fixed: The "Object Styles" group in the [Styles Combo](https://ckeditor.com/cke4/addon/stylescombo) plugin is visible only if the whole element is selected.
+* [#994](https://github.com/ckeditor/ckeditor-dev/pull/994): Fixed: Typo in the [`CKEDITOR.focusManager.focus`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.focusManager-method-focus) API documentation. Thanks to [benjy](https://github.com/benjy)!
+* [#1014](https://github.com/ckeditor/ckeditor-dev/issues/1014): Fixed: The [Table Tools](https://ckeditor.com/cke4/addon/tabletools) Cell Properties dialog is now [Advanced Content Filter](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_acf) aware &mdash; it is not possible to change the cell width or height if corresponding styles are disabled.
+* [#877](https://github.com/ckeditor/ckeditor-dev/issues/877): Fixed: A list with custom bullets with exotic characters crashes the editor when [pasted from Word](https://ckeditor.com/cke4/addon/pastefromword).
 * [#605](https://github.com/ckeditor/ckeditor-dev/issues/605): Fixed: Inline widgets do not preserve trailing spaces.
-* [#1008](https://github.com/ckeditor/ckeditor-dev/issues/1008): Fixed: Shorthand hex colors from [colorButton_colors](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-colorButton_colors) are not correctly highlighted in [Color Button](https://ckeditor.com/cke4/addon/colorbutton) _text color_ / _background color_ panel.
-* [#1094](https://github.com/ckeditor/ckeditor-dev/issues/1094): Fixed: Widget definition [`upcats`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-upcasts) methods are called for every element.
-* [#1057](https://github.com/ckeditor/ckeditor-dev/issues/1057): Fixed: [Notification](https://ckeditor.com/addon/notification) plugin overwrites Web Notifications API due to leakage to the global scope.
+* [#1008](https://github.com/ckeditor/ckeditor-dev/issues/1008): Fixed: Shorthand Hex colors from the [`config.colorButton_colors`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-colorButton_colors) option are not correctly highlighted in the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) Text Color or Background Color panel.
+* [#1094](https://github.com/ckeditor/ckeditor-dev/issues/1094): Fixed: Widget definition [`upcast`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-upcasts) methods are called for every element.
+* [#1057](https://github.com/ckeditor/ckeditor-dev/issues/1057): Fixed: The [Notification](https://ckeditor.com/addon/notification) plugin overwrites Web Notifications API due to leakage to the global scope.
 
 API Changes:
 
 * [#1097](https://github.com/ckeditor/ckeditor-dev/issues/1097): Widget [`upcast`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-upcast) methods are now called in the [widget definition's](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget-property-definition) context.
-* [#1118](https://github.com/ckeditor/ckeditor-dev/issues/1118): Added `show` option in [`balloonPanel.attach`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.ui.balloonPanel-method-attach) method, allowing to attach a hidden [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) instance.
+* [#1118](https://github.com/ckeditor/ckeditor-dev/issues/1118): Added the `show` option in the [`balloonPanel.attach`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.ui.balloonPanel-method-attach) method, allowing to attach a hidden [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) instance.
 
 Other Changes:
 
-* [#815](https://github.com/ckeditor/ckeditor-dev/issues/815): Removed Node.js dependency from CKEditor build script.
+* [#815](https://github.com/ckeditor/ckeditor-dev/issues/815): Removed Node.js dependency from the CKEditor build script.
 
 ## CKEditor 4.7.3
 
