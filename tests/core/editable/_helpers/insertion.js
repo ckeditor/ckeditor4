@@ -93,11 +93,11 @@ var insertionDT = ( function() {
 
 						// Decrease the range content to exclude particial
 						// selected node on the start which doesn't have
-						// visual impact. ( http://dev.ckeditor.com/ticket/3231 )
+						// visual impact. ( https://dev.ckeditor.com/ticket/3231 )
 						while ( 1 ) {
 							var startContainer = range.startContainer,
 								startOffset = range.startOffset;
-							// Limit the fix only to non-block elements. (http://dev.ckeditor.com/ticket/3950)
+							// Limit the fix only to non-block elements. (https://dev.ckeditor.com/ticket/3950)
 							if (
 								startOffset ==
 								(

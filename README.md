@@ -8,7 +8,7 @@ This repository contains the development version of CKEditor 4.
 development purposes only. We do not recommend using it in production environment
 because the user experience will be very limited. For that purpose, you should
 either build the editor (see below) or use an official release available on the
-[CKEditor website](http://ckeditor.com/ckeditor-4/).
+[CKEditor website](https://ckeditor.com/ckeditor-4/).
 
 ## Code Installation
 
@@ -35,7 +35,7 @@ Additionally, all releases have their respective tags in the following form: 4.4
 ## Samples
 
 The `samples/` folder contains some examples that can be used to test your
-installation. Visit [CKEditor 4 SDK](http://sdk.ckeditor.com/) for plenty of samples
+installation. Visit [CKEditor 4 SDK](https://sdk.ckeditor.com/) for plenty of samples
 showcasing numerous editor features, with source code readily available to view, copy
 and use in your own solution.
 
@@ -74,4 +74,4 @@ Please use the [CKEditor 4 GitHub issue page](https://github.com/ckeditor/ckedit
 
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 
-For licensing, see LICENSE.md or [http://ckeditor.com/license](http://ckeditor.com/license)
+For licensing, see LICENSE.md or [https://ckeditor.com/license](https://ckeditor.com/license)

@@ -228,7 +228,7 @@
 			assert.areSame( '<b>foo</b><i>bar</i>', bender.tools.fixHtml( frag.getHtml(), 1, 1 ), 'HTML of documentFragment' );
 		},
 
-		// http://dev.ckeditor.com/ticket/13101
+		// https://dev.ckeditor.com/ticket/13101
 		'test getHtml with html5': function() {
 			// IE8 only.
 			if ( !CKEDITOR.env.ie || CKEDITOR.env.version > 8 )

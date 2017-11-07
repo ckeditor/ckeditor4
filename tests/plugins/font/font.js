@@ -127,7 +127,7 @@
 		},
 
 		'test apply font size over another font size (deeply nested collapsed selection)': function() {
-			// http://dev.ckeditor.com/ticket/12690
+			// https://dev.ckeditor.com/ticket/12690
 			if ( CKEDITOR.env.safari ) {
 				assert.ignore();
 			}
@@ -155,7 +155,7 @@
 				'<p>x<span style="' + ffArial + '">f</span><span style="' + ffCS + '">o</span><span style="' + ffArial + '">o</span>x@</p>' );
 		},
 
-		// http://dev.ckeditor.com/ticket/14856
+		// https://dev.ckeditor.com/ticket/14856
 		'test reapply font family on the beginning (collapsed selection)': function() {
 			if ( CKEDITOR.env.safari ) {
 				assert.ignore();

@@ -194,7 +194,7 @@
 			assert.isTrue( doc.getById( '_enclosed_i' ).equals( range.getEnclosedNode() ) );
 		},
 
-		/* Start of http://dev.ckeditor.com/ticket/6735 */
+		/* Start of https://dev.ckeditor.com/ticket/6735 */
 
 		'test checkReadOnly when both range boundaries are inside of read-only element': function() {
 			var source = 'some <strong contenteditable="false"> sample [text</strong> and a <a href="javascript:void(0)" contenteditable="false">link]</a>',
@@ -220,7 +220,7 @@
 			assert.isFalse( range.checkReadOnly() );
 		},
 
-		/* End of http://dev.ckeditor.com/ticket/6735 */
+		/* End of https://dev.ckeditor.com/ticket/6735 */
 
 		'test checkReadOnly when entire range is enclosed in an editable element which is contained by another read-only element': function() {
 			var source = 'some <strong contenteditable="false"> sample text and <a href="javascript:void(0)" contenteditable="true">a [link].</a></strong>',

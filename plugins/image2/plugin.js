@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 'use strict';
@@ -42,7 +42,7 @@
 				'right:-5px;' +
 				'background:#000;' +
 				'outline:1px solid #fff;' +
-				// Prevent drag handler from being misplaced (http://dev.ckeditor.com/ticket/11207).
+				// Prevent drag handler from being misplaced (https://dev.ckeditor.com/ticket/11207).
 				'line-height:0;' +
 				'cursor:se-resize;' +
 			'}' +
@@ -244,7 +244,7 @@
 
 				// Once widget was re-created, it may become an inline element without
 				// block wrapper (i.e. when unaligned, end not captioned). Let's do some
-				// sort of autoparagraphing here (http://dev.ckeditor.com/ticket/10853).
+				// sort of autoparagraphing here (https://dev.ckeditor.com/ticket/10853).
 				if ( this.widget.inline && !( new CKEDITOR.dom.elementPath( this.widget.wrapper, editable ).block ) ) {
 					var block = doc.createElement( editor.activeEnterMode == CKEDITOR.ENTER_P ? 'p' : 'div' );
 					block.replace( this.widget.wrapper );
@@ -305,11 +305,11 @@
 			data: function() {
 				var features = this.features;
 
-				// Image can't be captioned when figcaption is disallowed (http://dev.ckeditor.com/ticket/11004).
+				// Image can't be captioned when figcaption is disallowed (https://dev.ckeditor.com/ticket/11004).
 				if ( this.data.hasCaption && !editor.filter.checkFeature( features.caption ) )
 					this.data.hasCaption = false;
 
-				// Image can't be aligned when floating is disallowed (http://dev.ckeditor.com/ticket/11004).
+				// Image can't be aligned when floating is disallowed (https://dev.ckeditor.com/ticket/11004).
 				if ( this.data.align != 'none' && !editor.filter.checkFeature( features.align ) )
 					this.data.align = 'none';
 
@@ -350,7 +350,7 @@
 				}
 
 				// Set dimensions of the image according to gathered data.
-				// Do it only when the attributes are allowed (http://dev.ckeditor.com/ticket/11004).
+				// Do it only when the attributes are allowed (https://dev.ckeditor.com/ticket/11004).
 				if ( editor.filter.checkFeature( features.dimension ) )
 					setDimensions( this );
 
@@ -368,13 +368,13 @@
 						width: image.getAttribute( 'width' ) || '',
 						height: image.getAttribute( 'height' ) || '',
 
-						// Lock ratio is on by default (http://dev.ckeditor.com/ticket/10833).
+						// Lock ratio is on by default (https://dev.ckeditor.com/ticket/10833).
 						lock: this.ready ? helpers.checkHasNaturalRatio( image ) : true
 					};
 
 				// If we used 'a' in widget#parts definition, it could happen that
 				// selected element is a child of widget.parts#caption. Since there's no clever
-				// way to solve it with CSS selectors, it's done like that. (http://dev.ckeditor.com/ticket/11783).
+				// way to solve it with CSS selectors, it's done like that. (https://dev.ckeditor.com/ticket/11783).
 				var link = image.getAscendant( 'a' );
 
 				if ( link && this.wrapper.contains( link ) )
@@ -427,7 +427,7 @@
 				this.setData( data );
 
 				// Setup dynamic image resizing with mouse.
-				// Don't initialize resizer when dimensions are disallowed (http://dev.ckeditor.com/ticket/11004).
+				// Don't initialize resizer when dimensions are disallowed (https://dev.ckeditor.com/ticket/11004).
 				// Don't initialize resizer when editor.readOnly is set to true (#719).
 				if ( editor.filter.checkFeature( this.features.dimension ) && editor.config.image2_disableResizer !== true && editor.readOnly != true ) {
 					setupResizer( this );
@@ -441,7 +441,7 @@
 
 					// Integrate context menu items for link.
 					// Note that widget may be wrapped in a link, which
-					// does not belong to that widget (http://dev.ckeditor.com/ticket/11814).
+					// does not belong to that widget (https://dev.ckeditor.com/ticket/11814).
 					if ( this.parts.link || this.wrapper.getAscendant( 'a' ) )
 						evt.data.link = evt.data.unlink = CKEDITOR.TRISTATE_OFF;
 				} );
@@ -809,7 +809,7 @@
 		 * @since 4.5.5
 		 */
 		getLinkAttributesGetter: function() {
-			// http://dev.ckeditor.com/ticket/13885
+			// https://dev.ckeditor.com/ticket/13885
 			return CKEDITOR.plugins.link.getLinkAttributes;
 		},
 
@@ -833,7 +833,7 @@
 		 * @since 4.5.5
 		 */
 		getLinkAttributesParser: function() {
-			// http://dev.ckeditor.com/ticket/13885
+			// https://dev.ckeditor.com/ticket/13885
 			return CKEDITOR.plugins.link.parseLinkAttributes;
 		}
 	};
@@ -899,7 +899,7 @@
 				name = el.name,
 				image;
 
-			// http://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
+			// https://dev.ckeditor.com/ticket/11110 Don't initialize on pasted fake objects.
 			if ( el.attributes[ 'data-cke-realelement' ] )
 				return;
 
@@ -1121,7 +1121,7 @@
 			editable = editor.editable(),
 			doc = editor.document,
 
-			// Store the resizer in a widget for testing (http://dev.ckeditor.com/ticket/11004).
+			// Store the resizer in a widget for testing (https://dev.ckeditor.com/ticket/11004).
 			resizer = widget.resizer = doc.createElement( 'span' );
 
 		resizer.addClass( 'cke_image_resizer' );
@@ -1397,7 +1397,7 @@
 				if ( enabled === undefined )
 					enabled = editor.filter.checkFeature( editor.widgets.registered.image.features.align );
 
-				// Don't allow justify commands when widget alignment is disabled (http://dev.ckeditor.com/ticket/11004).
+				// Don't allow justify commands when widget alignment is disabled (https://dev.ckeditor.com/ticket/11004).
 				if ( !enabled )
 					this.setState( CKEDITOR.TRISTATE_DISABLED );
 				else {
@@ -1477,7 +1477,7 @@
 			var widget = getFocusedWidget( editor );
 
 			// Override unlink only when link truly belongs to the widget.
-			// If wrapped inline widget in a link, let default unlink work (http://dev.ckeditor.com/ticket/11814).
+			// If wrapped inline widget in a link, let default unlink work (https://dev.ckeditor.com/ticket/11814).
 			if ( !widget || !widget.parts.link )
 				return;
 
@@ -1498,7 +1498,7 @@
 				return;
 
 			// Note that widget may be wrapped in a link, which
-			// does not belong to that widget (http://dev.ckeditor.com/ticket/11814).
+			// does not belong to that widget (https://dev.ckeditor.com/ticket/11814).
 			this.setState( widget.data.link || widget.wrapper.getAscendant( 'a' ) ?
 				CKEDITOR.TRISTATE_OFF : CKEDITOR.TRISTATE_DISABLED );
 
@@ -1605,7 +1605,7 @@
  * A CSS class applied to the `<figure>` element of a captioned image.
  *
  * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
+ * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
  *
  *		// Changes the class to "captionedImage".
  *		config.image2_captionedClass = 'captionedImage';
@@ -1620,7 +1620,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * plugin dialog window.
  *
  * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
+ * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
  *
  *		config.image2_prefillDimensions = false;
  *
@@ -1633,7 +1633,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  * Disables the image resizer. By default the resizer is enabled.
  *
  * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
+ * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
  *
  *		config.image2_disableResizer = true;
  *
@@ -1693,7 +1693,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *		}
  *
  * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
+ * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
  *
  * @since 4.4
  * @cfg {String[]} [image2_alignClasses=null]
@@ -1706,7 +1706,7 @@ CKEDITOR.config.image2_captionedClass = 'image';
  *		config.image2_altRequired = true;
  *
  * Read more in the [documentation](#!/guide/dev_captionedimage) and see the
- * [SDK sample](http://sdk.ckeditor.com/samples/captionedimage.html).
+ * [SDK sample](https://sdk.ckeditor.com/samples/captionedimage.html).
  *
  * @since 4.6.0
  * @cfg {Boolean} [image2_altRequired=false]

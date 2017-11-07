@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'resize', {
@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'resize', {
 			if ( resizeVertical )
 				height = Math.max( config.resize_minHeight, Math.min( internalHeight, config.resize_maxHeight ) );
 
-			// DO NOT impose fixed size with single direction resize. (http://dev.ckeditor.com/ticket/6308)
+			// DO NOT impose fixed size with single direction resize. (https://dev.ckeditor.com/ticket/6308)
 			editor.resize( resizeHorizontal ? width : null, height );
 		}
 
@@ -37,7 +37,7 @@ CKEDITOR.plugins.add( 'resize', {
 		var spaceId = editor.ui.spaceId( 'resizer' );
 
 		// Resize in the same direction of chrome,
-		// which is identical to dir of editor element. (http://dev.ckeditor.com/ticket/6614)
+		// which is identical to dir of editor element. (https://dev.ckeditor.com/ticket/6614)
 		var resizeDir = editor.element ? editor.element.getDirection( 1 ) : 'ltr';
 
 		!config.resize_dir && ( config.resize_dir = 'vertical' );
@@ -115,7 +115,7 @@ CKEDITOR.plugins.add( 'resize', {
  * Note: It falls back to editor's actual width if it is smaller than the default value.
  *
  * Read more in the [documentation](#!/guide/dev_resize)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
  *
  *		config.resize_minWidth = 500;
  *
@@ -128,7 +128,7 @@ CKEDITOR.plugins.add( 'resize', {
  * Note: It falls back to editor's actual height if it is smaller than the default value.
  *
  * Read more in the [documentation](#!/guide/dev_resize)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
  *
  *		config.resize_minHeight = 600;
  *
@@ -140,7 +140,7 @@ CKEDITOR.plugins.add( 'resize', {
  * The maximum editor width, in pixels, when resizing the editor interface by using the resize handle.
  *
  * Read more in the [documentation](#!/guide/dev_resize)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
  *
  *		config.resize_maxWidth = 750;
  *
@@ -152,7 +152,7 @@ CKEDITOR.plugins.add( 'resize', {
  * The maximum editor height, in pixels, when resizing the editor interface by using the resize handle.
  *
  * Read more in the [documentation](#!/guide/dev_resize)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
  *
  *		config.resize_maxHeight = 600;
  *
@@ -164,7 +164,7 @@ CKEDITOR.plugins.add( 'resize', {
  * Whether to enable the resizing feature. If this feature is disabled, the resize handle will not be visible.
  *
  * Read more in the [documentation](#!/guide/dev_resize)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
  *
  *		config.resize_enabled = false;
  *
@@ -177,7 +177,7 @@ CKEDITOR.plugins.add( 'resize', {
  * are `both`, `vertical`, and `horizontal`.
  *
  * Read more in the [documentation](#!/guide/dev_resize)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/resize.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/resize.html).
  *
  *		config.resize_dir = 'both';
  *

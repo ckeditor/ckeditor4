@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 ( function() {
@@ -107,7 +107,7 @@
 
 					var oImageOriginal = dialog.originalElement;
 
-					// Dialog may already closed. (http://dev.ckeditor.com/ticket/5505)
+					// Dialog may already closed. (https://dev.ckeditor.com/ticket/5505)
 					if ( !oImageOriginal )
 						return null;
 
@@ -233,7 +233,7 @@
 					this.firstLoad = false;
 					this.dontResetSize = false;
 
-					// Possible fix for http://dev.ckeditor.com/ticket/12818.
+					// Possible fix for https://dev.ckeditor.com/ticket/12818.
 					updatePreview( this );
 				};
 
@@ -310,7 +310,7 @@
 						this.linkEditMode = true;
 
 						// If there is an existing link, by default keep it (true).
-						// It will be removed if certain conditions are met and Link tab is enabled. (http://dev.ckeditor.com/ticket/13351)
+						// It will be removed if certain conditions are met and Link tab is enabled. (https://dev.ckeditor.com/ticket/13351)
 						this.addLink = true;
 
 						// Look for Image element.
@@ -542,7 +542,7 @@
 										this.getDialog().dontResetSize = true;
 
 										field.setValue( url ); // And call this.onChange()
-										// Manually set the initial value.(http://dev.ckeditor.com/ticket/4191)
+										// Manually set the initial value.(https://dev.ckeditor.com/ticket/4191)
 										field.setInitValue();
 									}
 								},

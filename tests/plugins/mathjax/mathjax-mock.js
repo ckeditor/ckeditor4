@@ -105,7 +105,7 @@
 				assert.areSame( 1, editor.document.getElementsByTag( 'iframe' ).count(), 'There should be only one widget.' );
 			},
 
-			// http://dev.ckeditor.com/ticket/11777
+			// https://dev.ckeditor.com/ticket/11777
 			'test &amp; encoding': function() {
 				var editor = this.editors.classic,
 					bot = this.editorBots.classic;
@@ -131,7 +131,7 @@
 				} );
 			},
 
-			// http://dev.ckeditor.com/ticket/11777
+			// https://dev.ckeditor.com/ticket/11777
 			'test &amp;amp; encoding': function() {
 				var editor = this.editors.classic,
 					bot = this.editorBots.classic;

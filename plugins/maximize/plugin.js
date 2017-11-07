@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 ( function() {
@@ -51,7 +51,7 @@
 		}
 
 		retval.inline = $element.style.cssText || '';
-		if ( !isInsideEditor ) // Reset any external styles that might interfere. (http://dev.ckeditor.com/ticket/2474)
+		if ( !isInsideEditor ) // Reset any external styles that might interfere. (https://dev.ckeditor.com/ticket/2474)
 		$element.style.cssText = 'position: static; overflow: visible';
 
 		restoreFormStyles( data );
@@ -72,14 +72,14 @@
 		if ( editor.editable().isInline() )
 			return;
 
-		// Refresh all editor instances on the page (http://dev.ckeditor.com/ticket/5724).
+		// Refresh all editor instances on the page (https://dev.ckeditor.com/ticket/5724).
 		var all = CKEDITOR.instances;
 		for ( var i in all ) {
 			var one = all[ i ];
 			if ( one.mode == 'wysiwyg' && !one.readOnly ) {
 				var body = one.document.getBody();
 				// Refresh 'contentEditable' otherwise
-				// DOM lifting breaks design mode. (http://dev.ckeditor.com/ticket/5560)
+				// DOM lifting breaks design mode. (https://dev.ckeditor.com/ticket/5560)
 				body.setAttribute( 'contentEditable', false );
 				body.setAttribute( 'contentEditable', true );
 			}
@@ -122,7 +122,7 @@
 			var savedState = CKEDITOR.TRISTATE_OFF;
 
 			editor.addCommand( 'maximize', {
-				// Disabled on iOS (http://dev.ckeditor.com/ticket/8307).
+				// Disabled on iOS (https://dev.ckeditor.com/ticket/8307).
 				modes: { wysiwyg: !CKEDITOR.env.iOS, source: !CKEDITOR.env.iOS },
 				readOnly: 1,
 				editorFocus: false,
@@ -163,7 +163,7 @@
 
 						// Hide scroll bars.
 						var styles = {
-							overflow: CKEDITOR.env.webkit ? '' : 'hidden', // http://dev.ckeditor.com/ticket/6896
+							overflow: CKEDITOR.env.webkit ? '' : 'hidden', // https://dev.ckeditor.com/ticket/6896
 							width: 0,
 							height: 0
 						};
@@ -172,15 +172,15 @@
 						!CKEDITOR.env.gecko && mainDocument.getDocumentElement().setStyle( 'position', 'fixed' );
 						!( CKEDITOR.env.gecko && CKEDITOR.env.quirks ) && mainDocument.getBody().setStyles( styles );
 
-						// Scroll to the top left (IE needs some time for it - http://dev.ckeditor.com/ticket/4923).
+						// Scroll to the top left (IE needs some time for it - https://dev.ckeditor.com/ticket/4923).
 						CKEDITOR.env.ie ? setTimeout( function() {
 							mainWindow.$.scrollTo( 0, 0 );
 						}, 0 ) : mainWindow.$.scrollTo( 0, 0 );
 
 						// Resize and move to top left.
-						// Special treatment for FF Quirks (http://dev.ckeditor.com/ticket/7284)
+						// Special treatment for FF Quirks (https://dev.ckeditor.com/ticket/7284)
 						container.setStyle( 'position', CKEDITOR.env.gecko && CKEDITOR.env.quirks ? 'fixed' : 'absolute' );
-						container.$.offsetLeft; // SAFARI BUG: See http://dev.ckeditor.com/ticket/2066.
+						container.$.offsetLeft; // SAFARI BUG: See https://dev.ckeditor.com/ticket/2066.
 						container.setStyles( {
 							// Show under floatpanels (-1) and context menu (-2).
 							'z-index': editor.config.baseFloatZIndex - 5,
@@ -188,19 +188,19 @@
 							top: '0px'
 						} );
 
-						// Add cke_maximized class before resize handle since that will change things sizes (http://dev.ckeditor.com/ticket/5580)
+						// Add cke_maximized class before resize handle since that will change things sizes (https://dev.ckeditor.com/ticket/5580)
 						container.addClass( 'cke_maximized' );
 
 						resizeHandler();
 
-						// Still not top left? Fix it. (Bug http://dev.ckeditor.com/ticket/174)
+						// Still not top left? Fix it. (Bug https://dev.ckeditor.com/ticket/174)
 						var offset = container.getDocumentPosition();
 						container.setStyles( {
 							left: ( -1 * offset.x ) + 'px',
 							top: ( -1 * offset.y ) + 'px'
 						} );
 
-						// Fixing positioning editor chrome in Firefox break design mode. (http://dev.ckeditor.com/ticket/5149)
+						// Fixing positioning editor chrome in Firefox break design mode. (https://dev.ckeditor.com/ticket/5149)
 						CKEDITOR.env.gecko && refreshCursor( editor );
 					}
 					// Restore from fullscreen if the state is on.
@@ -229,7 +229,7 @@
 						// Remove cke_maximized class.
 						container.removeClass( 'cke_maximized' );
 
-						// Webkit requires a re-layout on editor chrome. (http://dev.ckeditor.com/ticket/6695)
+						// Webkit requires a re-layout on editor chrome. (https://dev.ckeditor.com/ticket/6695)
 						if ( CKEDITOR.env.webkit ) {
 							container.setStyle( 'display', 'inline' );
 							setTimeout( function() {
@@ -250,7 +250,7 @@
 
 					// Toggle button label.
 					var button = this.uiItems[ 0 ];
-					// Only try to change the button if it exists (http://dev.ckeditor.com/ticket/6166)
+					// Only try to change the button if it exists (https://dev.ckeditor.com/ticket/6166)
 					if ( button ) {
 						var label = ( this.state == CKEDITOR.TRISTATE_OFF ) ? lang.maximize.maximize : lang.maximize.minimize;
 						var buttonNode = CKEDITOR.document.getById( button._.id );
@@ -262,7 +262,7 @@
 					// Restore selection and scroll position in editing area.
 					if ( editor.mode == 'wysiwyg' ) {
 						if ( savedSelection ) {
-							// Fixing positioning editor chrome in Firefox break design mode. (http://dev.ckeditor.com/ticket/5149)
+							// Fixing positioning editor chrome in Firefox break design mode. (https://dev.ckeditor.com/ticket/5149)
 							CKEDITOR.env.gecko && refreshCursor( editor );
 
 							editor.getSelection().selectRanges( savedSelection );
@@ -294,7 +294,7 @@
 				toolbar: 'tools,10'
 			} );
 
-			// Restore the command state after mode change, unless it has been changed to disabled (http://dev.ckeditor.com/ticket/6467)
+			// Restore the command state after mode change, unless it has been changed to disabled (https://dev.ckeditor.com/ticket/6467)
 			editor.on( 'mode', function() {
 				var command = editor.getCommand( 'maximize' );
 				command.setState( command.state == CKEDITOR.TRISTATE_DISABLED ? CKEDITOR.TRISTATE_DISABLED : savedState );

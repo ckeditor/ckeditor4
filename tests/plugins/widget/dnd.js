@@ -148,7 +148,7 @@
 			} );
 		},
 
-		// Regression test for http://dev.ckeditor.com/ticket/11177, http://dev.ckeditor.com/ticket/11001.
+		// Regression test for https://dev.ckeditor.com/ticket/11177, https://dev.ckeditor.com/ticket/11001.
 		'test handler - initial position': function() {
 			var editor = this.editor;
 
@@ -204,7 +204,7 @@
 			} );
 		},
 
-		// Regression test for http://dev.ckeditor.com/ticket/11177#comment:22
+		// Regression test for https://dev.ckeditor.com/ticket/11177#comment:22
 		'test handler - is repositioned on #data and mouseenter after widget reinitialization': function() {
 			var editor = this.editor,
 				updated = 0;
@@ -484,7 +484,7 @@
 				editor.focus();
 
 				try {
-					// Testing if widget is selected is meaningful only if it is not selected at the beginning. (http://dev.ckeditor.com/ticket/13129)
+					// Testing if widget is selected is meaningful only if it is not selected at the beginning. (https://dev.ckeditor.com/ticket/13129)
 					assert.isNull( editor.widgets.focused, 'widget not focused before mousedown' );
 
 					img.fire( 'mousedown', {
@@ -508,7 +508,7 @@
 						assert.isTrue( dropCounter.calledOnce, 'drop called once' );
 						assert.areSame( '<div data-widget="testwidget" id="w1">bar</div><p id="a">foo</p>', editor.getData(), 'Widget moved on drop.' );
 
-						// Check if widget is still selected after undo. (http://dev.ckeditor.com/ticket/13129)
+						// Check if widget is still selected after undo. (https://dev.ckeditor.com/ticket/13129)
 						editor.execCommand( 'undo' );
 						assert.areSame( getWidgetById( editor, 'w1' ), editor.widgets.focused, 'widget focused after undo' );
 					} );

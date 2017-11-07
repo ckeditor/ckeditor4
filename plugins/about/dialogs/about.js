@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'about', function( editor ) {
@@ -52,17 +52,17 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 						'<div class="cke_about_logo"></div>' +
 						'<p>' +
 							'CKEditor ' + CKEDITOR.version + ' (revision ' + CKEDITOR.revision + ')<br>' +
-							'<a target="_blank" rel="noopener noreferrer" href="http://ckeditor.com/">http://ckeditor.com</a>' +
+							'<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/">https://ckeditor.com</a>' +
 						'</p>' +
 						'<p>' +
-							lang.help.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="http://docs.ckeditor.com/user">' + lang.userGuide + '</a>' ) +
+							lang.help.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="https://docs.ckeditor.com/ckeditor4/docs/">' + lang.userGuide + '</a>' ) +
 						'</p>' +
 						'<p>' +
 							lang.moreInfo + '<br>' +
-							'<a target="_blank" rel="noopener noreferrer" href="http://ckeditor.com/about/license">http://ckeditor.com/about/license</a>' +
+							'<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/license">https://ckeditor.com/license</a>' +
 						'</p>' +
 						'<p>' +
-							lang.copy.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="http://cksource.com/">CKSource</a> - Frederico Knabben' ) +
+							lang.copy.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="https://cksource.com/">CKSource</a> - Frederico Knabben' ) +
 						'</p>' +
 						'</div>'
 				}

@@ -3,10 +3,10 @@
 <!--
 Replace this comment with your issue type: Bug / Feature request / Other, please explain.
 
-Please **do not report security issues here**, use the contact form at http://cksource.com/contact instead.
+Please **do not report security issues here**, use the contact form at https://ckeditor.com/contact/ instead.
 -->
 
-## [Check if the issue is already reported](http://docs.ckeditor.com/#!/guide/dev_issues_readme-section-avoid-duplicates)
+## [Check if the issue is already reported](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_issues_readme-section-avoid-duplicates)
 
 *Put all reference links here…*
 

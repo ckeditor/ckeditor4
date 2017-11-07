@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 /**
@@ -34,7 +34,7 @@
 				if ( editor.toolbox ) {
 					editor.toolbox.focusCommandExecuted = true;
 
-					// Make the first button focus accessible for IE. (http://dev.ckeditor.com/ticket/3417)
+					// Make the first button focus accessible for IE. (https://dev.ckeditor.com/ticket/3417)
 					// Adobe AIR instead need while of delay.
 					if ( CKEDITOR.env.ie || CKEDITOR.env.air ) {
 						setTimeout( function() {
@@ -201,7 +201,7 @@
 					// available because it's a common mistake to leave
 					// an extra comma in the toolbar definition
 					// settings, which leads on the editor not loading
-					// at all in IE. (http://dev.ckeditor.com/ticket/3983)
+					// at all in IE. (https://dev.ckeditor.com/ticket/3983)
 					if ( !row )
 						continue;
 
@@ -283,7 +283,7 @@
 								itemObj.toolbar = toolbarObj;
 								itemObj.onkey = itemKeystroke;
 
-								// Fix for http://dev.ckeditor.com/ticket/3052:
+								// Fix for https://dev.ckeditor.com/ticket/3052:
 								// Prevent JAWS from focusing the toolbar after document load.
 								itemObj.onfocus = function() {
 									if ( !editor.toolbox.focusCommandExecuted )
@@ -666,7 +666,7 @@ CKEDITOR.UI_SEPARATOR = 'separator';
  * position is set dynamically depending on the position of the editable element on the screen.
  *
  * Read more in the [documentation](#!/guide/dev_toolbarlocation)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/toolbarlocation.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/toolbarlocation.html).
  *
  *		config.toolbarLocation = 'bottom';
  *
@@ -683,7 +683,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  * and {@link #toolbarGroups} as a toolbar groups layout.
  *
  * In CKEditor 4.5+ you can generate your toolbar customization code by using the [visual
- * toolbar configurator](http://docs.ckeditor.com/#!/guide/dev_toolbar).
+ * toolbar configurator](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_toolbar).
  *
  *		// Defines a toolbar with only one strip containing the "Source" button, a
  *		// separator, and the "Bold" and "Italic" buttons.
@@ -782,7 +782,7 @@ CKEDITOR.config.toolbarLocation = 'top';
  *
  * This configuration option should not be overused. The recommended way is to use the
  * {@link CKEDITOR.config#removePlugins} setting to remove features from the editor
- * or even better, [create a custom editor build](http://ckeditor.com/builder) with
+ * or even better, [create a custom editor build](https://ckeditor.com/cke4/builder) with
  * just the features that you will use.
  * In some cases though, a single plugin may define a set of toolbar buttons and
  * `removeButtons` may be useful when just a few of them are to be removed.

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 ( function() {
@@ -113,7 +113,7 @@
 				// 4 : close of tag;
 
 				part = ( parts[ 1 ] || parts[ 3 ] || '' ).toLowerCase();
-				// Unrecognized tags should be delivered as a simple text (http://dev.ckeditor.com/ticket/7860).
+				// Unrecognized tags should be delivered as a simple text (https://dev.ckeditor.com/ticket/7860).
 				if ( part && !bbcodeMap[ part ] ) {
 					this.onText( parts[ 0 ] );
 					continue;
@@ -559,7 +559,7 @@
 
 			CKEDITOR.tools.extend( config, {
 				// This one is for backwards compatibility only as
-				// editor#enterMode is already set at this stage (http://dev.ckeditor.com/ticket/11202).
+				// editor#enterMode is already set at this stage (https://dev.ckeditor.com/ticket/11202).
 				enterMode: CKEDITOR.ENTER_BR,
 				basicEntities: false,
 				entities: false,
@@ -569,7 +569,7 @@
 			editor.filter.disable();
 
 			// Since CKEditor 4.3, editor#(active)enterMode is set before
-			// beforeInit. Properties got to be updated (http://dev.ckeditor.com/ticket/11202).
+			// beforeInit. Properties got to be updated (https://dev.ckeditor.com/ticket/11202).
 			editor.activeEnterMode = editor.enterMode = CKEDITOR.ENTER_BR;
 		},
 

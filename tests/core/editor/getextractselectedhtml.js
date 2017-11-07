@@ -33,7 +33,7 @@ bender.test( {
 		}
 	},
 
-	'test getSelectedHtml in source mode (http://dev.ckeditor.com/ticket/13118)': function() {
+	'test getSelectedHtml in source mode (https://dev.ckeditor.com/ticket/13118)': function() {
 		var editor = this.editors.editor2;
 
 		editor.setMode( 'source', function() {
@@ -81,7 +81,7 @@ bender.test( {
 		assert.isNull( selectedHtml, 'There should be no error but null should be returns if selection contains no ranges' );
 	},
 
-	// http://dev.ckeditor.com/ticket/13568.
+	// https://dev.ckeditor.com/ticket/13568.
 	'test getSelectedHtml with possible bogus br': function() {
 		var editor = this.editors.editor,
 			filler = CKEDITOR.env.needsBrFiller ? '<br />' : '';
@@ -129,7 +129,7 @@ bender.test( {
 		assert.isNull( selectedHtml, 'There should be no error but null should be returns if selection contains no ranges' );
 	},
 
-	// http://dev.ckeditor.com/ticket/13884.
+	// https://dev.ckeditor.com/ticket/13884.
 	'test getSelectedHtml with multiple ranges': function() {
 		if ( !CKEDITOR.env.gecko ) {
 			assert.ignore();
@@ -171,7 +171,7 @@ bender.test( {
 		assert.isInnerHtmlMatching( '<table><tbody><tr><td>11@</td><td>22</td></tr></tbody></table>', editor.getSelectedHtml( true ) );
 	},
 
-	// http://dev.ckeditor.com/ticket/13884.
+	// https://dev.ckeditor.com/ticket/13884.
 	'test getSelectedHtml with partial table selection': function() {
 		if ( !CKEDITOR.env.gecko ) {
 			assert.ignore();

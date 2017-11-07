@@ -140,9 +140,9 @@
 				'</ol>',
 				true );
 		},
-		// End of http://dev.ckeditor.com/ticket/3165
+		// End of https://dev.ckeditor.com/ticket/3165
 
-		// http://dev.ckeditor.com/ticket/5460
+		// https://dev.ckeditor.com/ticket/5460
 		'test enterkey at the end of nested list item': function() {
 			assertEnter( 'enterP',
 				'<ul>' +
@@ -583,7 +583,7 @@
 
 				true, 'Dir change forces block.', true );
 		},
-		// http://dev.ckeditor.com/ticket/11982
+		// https://dev.ckeditor.com/ticket/11982
 		'test enterkey: nested empty list': function() {
 			assertEnter( 'enterP',
 				'<ul>' +
@@ -603,7 +603,7 @@
 				true, 'New item should be added to the list.', true );
 		},
 
-		// http://dev.ckeditor.com/ticket/11982
+		// https://dev.ckeditor.com/ticket/11982
 		'test enterkey: nested list with empty item': function() {
 			assertEnter( 'enterP',
 				'<ul>' +

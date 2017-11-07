@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'devtools', {
@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'devtools', {
 ( function() {
 	function defaultCallback( editor, dialog, element, tabName ) {
 		var lang = editor.lang.devtools,
-			link = '<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.' +
+			link = '<a href="https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.dialog.definition.' +
 			( element ? ( element.type == 'text' ? 'textInput' : element.type ) : 'content' ) +
 			'" target="_blank" rel="noopener noreferrer">' + ( element ? element.type : 'content' ) + '</a>',
 			str = '<h2>' + lang.title + '</h2>' +
@@ -115,13 +115,13 @@ CKEDITOR.plugins.add( 'devtools', {
  * tooltip when hovering over a dialog UI element.
  *
  * Read more in the [documentation](#!/guide/dev_devtools)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/devtools.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/devtools.html).
  *
  *		// This is actually the default value.
  *		// Show dialog window name, tab ID, and element ID.
  *		config.devtools_textCallback = function( editor, dialog, element, tabName ) {
  *			var lang = editor.lang.devtools,
- *				link = '<a href="http://docs.ckeditor.com/#!/api/CKEDITOR.dialog.definition.' +
+ *				link = '<a href="https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.dialog.definition.' +
  *					( element ? ( element.type == 'text' ? 'textInput' : element.type ) : 'content' ) +
  *					'.html" target="_blank">' + ( element ? element.type : 'content' ) + '</a>',
  *				str =
@@ -151,7 +151,7 @@ CKEDITOR.plugins.add( 'devtools', {
  * A setting that stores CSS rules to be injected into the page with styles to be applied to the tooltip element.
  *
  * Read more in the [documentation](#!/guide/dev_devtools)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/devtools.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/devtools.html).
  *
  *		// This is actually the default value.
  *		CKEDITOR.config.devtools_styles =

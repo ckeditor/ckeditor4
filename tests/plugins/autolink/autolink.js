@@ -47,7 +47,7 @@ bender.test( {
 		}
 	},
 
-	// http://dev.ckeditor.com/ticket/13419
+	// https://dev.ckeditor.com/ticket/13419
 	'test link with quotation marks': function() {
 		var pastedText = 'https://foo.bar/?bam="bom"',
 			expected = '<a href="https://foo.bar/?bam=%22bom%22">https://foo.bar/?bam="bom"</a>';

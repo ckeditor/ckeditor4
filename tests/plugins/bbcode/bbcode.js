@@ -63,7 +63,7 @@ bender.test( {
 		this.assertToHtml( '<ul><li>foo</li><li>bar</li></ul>', '[list]\n[*]foo\n[*]bar\n[/list]\n' );
 	},
 
-	// http://dev.ckeditor.com/ticket/8995
+	// https://dev.ckeditor.com/ticket/8995
 	'test escape HTML entities in bbcode': function() {
 		var html = '<a href="foo&amp;bar">&amp;foo&lt;bar&gt;</a>', bbcode = '[url=foo&bar]&foo<bar>[/url]';
 		this.assertToHtml( html, bbcode );

@@ -240,7 +240,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/12022
+		// https://dev.ckeditor.com/ticket/12022
 		'test drag handler is created for every widget': function() {
 			var editor = this.editors.editor;
 
@@ -297,7 +297,7 @@
 			}
 		},
 
-		// http://dev.ckeditor.com/ticket/12008
+		// https://dev.ckeditor.com/ticket/12008
 		'test pasting widget with nested editable into nested editable': function() {
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 				assert.ignore();
@@ -374,7 +374,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/13334
+		// https://dev.ckeditor.com/ticket/13334
 		'test editables are not matched from among nested widgets': function() {
 			var editor = this.editors.editor;
 

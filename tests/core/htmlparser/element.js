@@ -280,7 +280,7 @@ bender.test( {
 		assert.isTrue( ctx.nonEditable, 'nonEditable' );
 	},
 
-	// http://dev.ckeditor.com/ticket/11504
+	// https://dev.ckeditor.com/ticket/11504
 	'test getFilterContext - editable body (fullPage)': function() {
 		var el = new CKEDITOR.htmlParser.fragment.fromHtml( '<body contenteditable="true">x</body>' ).children[ 0 ];
 
@@ -302,7 +302,7 @@ bender.test( {
 		assert.isTrue( ctx.nonEditable, 'nonEditable' );
 	},
 
-	// http://dev.ckeditor.com/ticket/11698
+	// https://dev.ckeditor.com/ticket/11698
 	'test getFilterContext - element with contenteditable=true': function() {
 		var el = new CKEDITOR.htmlParser.fragment.fromHtml( '<p contenteditable="true">x</p>' ).children[ 0 ];
 

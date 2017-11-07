@@ -79,7 +79,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/11848
+		// https://dev.ckeditor.com/ticket/11848
 		'test insertElementIntoSelection with no selection': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,

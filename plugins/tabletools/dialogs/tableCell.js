@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
@@ -109,7 +109,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									// There might be no widthType value, i.e. when multiple cells are
 									// selected but some of them have width expressed in pixels and some
 									// of them in percent. Try to re-read the unit from the cell in such
-									// case (http://dev.ckeditor.com/ticket/11439).
+									// case (https://dev.ckeditor.com/ticket/11439).
 									unit = this.getDialog().getValueOf( 'info', 'widthType' ) || getCellWidthType( element );
 
 								if ( !isNaN( value ) )
@@ -383,7 +383,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							'class': 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							onLoad: function() {
-								// Stick the element to the bottom (http://dev.ckeditor.com/ticket/5587)
+								// Stick the element to the bottom (https://dev.ckeditor.com/ticket/5587)
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
@@ -429,7 +429,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							label: langCell.chooseColor,
 							style: ( rtl ? 'margin-right' : 'margin-left' ) + ': 10px',
 							onLoad: function() {
-								// Stick the element to the bottom (http://dev.ckeditor.com/ticket/5587)
+								// Stick the element to the bottom (https://dev.ckeditor.com/ticket/5587)
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
@@ -465,7 +465,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 			// Prevent from changing cell properties when the field's value
 			// remains unaltered, i.e. when selected multiple cells and dialog loaded
-			// only the properties of the first cell (http://dev.ckeditor.com/ticket/11439).
+			// only the properties of the first cell (https://dev.ckeditor.com/ticket/11439).
 			this.foreach( function( field ) {
 				if ( !field.setup || !field.commit )
 					return;

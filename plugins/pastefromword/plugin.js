@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 ( function() {
@@ -79,7 +79,7 @@
 					return;
 				}
 
-				// Do not apply paste filter to data filtered by the Word filter (http://dev.ckeditor.com/ticket/13093).
+				// Do not apply paste filter to data filtered by the Word filter (https://dev.ckeditor.com/ticket/13093).
 				data.dontFilter = true;
 
 				// If filter rules aren't loaded then cancel 'paste' event,

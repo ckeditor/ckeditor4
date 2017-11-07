@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 /**
@@ -47,7 +47,7 @@ CKEDITOR.command = function( editor, commandDefinition ) {
 		if ( this.state == CKEDITOR.TRISTATE_DISABLED || !this.checkAllowed() )
 			return false;
 
-		if ( this.editorFocus ) // Give editor focus if necessary (http://dev.ckeditor.com/ticket/4355).
+		if ( this.editorFocus ) // Give editor focus if necessary (https://dev.ckeditor.com/ticket/4355).
 			editor.focus();
 
 		if ( this.fire( 'exec' ) === false )

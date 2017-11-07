@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 ( function() {
@@ -23,7 +23,7 @@
 
 			var bookmarks = selection.createBookmarks();
 
-			// Kludge for http://dev.ckeditor.com/ticket/1592: if the bookmark nodes are in the beginning of
+			// Kludge for https://dev.ckeditor.com/ticket/1592: if the bookmark nodes are in the beginning of
 			// blockquote, then move them to the nearest block element in the
 			// blockquote.
 			if ( CKEDITOR.env.ie ) {

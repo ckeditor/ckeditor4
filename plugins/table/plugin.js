@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'table', {
@@ -77,7 +77,7 @@ CKEDITOR.plugins.add( 'table', {
 					return;
 
 				// If the table's parent has only one child remove it as well (unless it's a table cell, or the editable element)
-				//(http://dev.ckeditor.com/ticket/5416, http://dev.ckeditor.com/ticket/6289, http://dev.ckeditor.com/ticket/12110)
+				//(https://dev.ckeditor.com/ticket/5416, https://dev.ckeditor.com/ticket/6289, https://dev.ckeditor.com/ticket/12110)
 				var parent = table.getParent(),
 					editable = editor.editable();
 

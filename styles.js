@@ -13,7 +13,7 @@
 // ignore it. Otherwise it is strongly recommended to customize this file to match your
 // website requirements and design properly.
 //
-// For more information refer to: http://docs.ckeditor.com/#!/guide/dev_styles-section-style-rules
+// For more information refer to: https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_styles-section-style-rules
 
 CKEDITOR.stylesSet.add( 'default', [
 	/* Block styles */
@@ -126,7 +126,7 @@ CKEDITOR.stylesSet.add( 'default', [
 	{ name: '1080p', type: 'widget', widget: 'embedSemantic', attributes: { 'class': 'embed-1080p' }, group: 'size' },
 
 	// Adding space after the style name is an intended workaround. For now, there
-	// is no option to create two styles with the same name for different widget types. See http://dev.ckeditor.com/ticket/16664.
+	// is no option to create two styles with the same name for different widget types. See https://dev.ckeditor.com/ticket/16664.
 	{ name: '240p ', type: 'widget', widget: 'embed', attributes: { 'class': 'embed-240p' }, group: 'size' },
 	{ name: '360p ', type: 'widget', widget: 'embed', attributes: { 'class': 'embed-360p' }, group: 'size' },
 	{ name: '480p ', type: 'widget', widget: 'embed', attributes: { 'class': 'embed-480p' }, group: 'size' },

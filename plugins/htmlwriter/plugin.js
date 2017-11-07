@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'htmlwriter', {
@@ -69,7 +69,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass( {
 
 		this._.indent = 0;
 		this._.indentation = '';
-		// Indicate preformatted block context status. (http://dev.ckeditor.com/ticket/5789)
+		// Indicate preformatted block context status. (https://dev.ckeditor.com/ticket/5789)
 		this._.inPre = 0;
 		this._.rules = {};
 
@@ -180,7 +180,7 @@ CKEDITOR.htmlWriter = CKEDITOR.tools.createClass( {
 
 			if ( typeof attValue == 'string' ) {
 				this.forceSimpleAmpersand && ( attValue = attValue.replace( /&amp;/g, '&' ) );
-				// Browsers don't always escape special character in attribute values. (http://dev.ckeditor.com/ticket/4683, http://dev.ckeditor.com/ticket/4719).
+				// Browsers don't always escape special character in attribute values. (https://dev.ckeditor.com/ticket/4683, https://dev.ckeditor.com/ticket/4719).
 				attValue = CKEDITOR.tools.htmlEncodeAttr( attValue );
 			}
 

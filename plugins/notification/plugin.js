@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 /**
@@ -104,7 +104,7 @@
 	 * All of the notification actions: ({@link #show}, {@link #update} and {@link #hide}) fire cancelable events
 	 * on the related {@link CKEDITOR.editor} instance so you can integrate editor notifications with your website notifications.
 	 *
-	 * Refer to the [Notifications](http://docs.ckeditor.com/#!/guide/dev_notifications) article for more information about this feature.
+	 * Refer to the [Notifications](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_notifications) article for more information about this feature.
 	 *
 	 * @since 4.5
 	 * @class CKEDITOR.plugins.notification
@@ -129,7 +129,7 @@
 
 		this.element = this._createElement();
 
-		// Don't allow dragging on notification (http://dev.ckeditor.com/ticket/13184).
+		// Don't allow dragging on notification (https://dev.ckeditor.com/ticket/13184).
 		editor.plugins.clipboard && CKEDITOR.plugins.clipboard.preventDefaultDropOnElement( this.element );
 	}
 
@@ -357,7 +357,7 @@
 			notificationElement.append( notificationCloseElement );
 
 			notificationCloseElement.on( 'click', function() {
-				// Focus editor on close (http://dev.ckeditor.com/ticket/12865)
+				// Focus editor on close (https://dev.ckeditor.com/ticket/12865)
 				notification.editor.focus();
 
 				notification.hide();
@@ -873,7 +873,7 @@
 	 * `0` means that notifications will not close automatically.
 	 * Note that `warning` and `progress` notifications will never close automatically.
 	 *
-	 * Refer to the [Notifications](http://docs.ckeditor.com/#!/guide/dev_notifications) article
+	 * Refer to the [Notifications](https://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_notifications) article
 	 * for more information about this feature.
 	 *
 	 * @since 4.5

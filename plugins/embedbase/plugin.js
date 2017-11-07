@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 ( function() {
@@ -468,7 +468,7 @@
 						'alt="' + CKEDITOR.tools.htmlEncodeAttr( response.title || '' ) + '" style="max-width:100%;height:auto" />';
 				} else if ( response.type == 'video' || response.type == 'rich' ) {
 					// Embedded iframes are added to page's focus list. Adding negative tabindex attribute
-					// removes their ability to be focused by user. (http://dev.ckeditor.com/ticket/14538)
+					// removes their ability to be focused by user. (https://dev.ckeditor.com/ticket/14538)
 					response.html = response.html.replace( /<iframe/g, '<iframe tabindex="-1"' );
 
 					return response.html;

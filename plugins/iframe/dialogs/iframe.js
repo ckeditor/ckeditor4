@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 ( function() {
@@ -65,7 +65,7 @@
 
 				// A subset of the specified attributes/styles
 				// should also be applied on the fake element to
-				// have better visual effect. (http://dev.ckeditor.com/ticket/5240)
+				// have better visual effect. (https://dev.ckeditor.com/ticket/5240)
 				var extraStyles = {},
 					extraAttributes = {};
 				this.commitContent( iframeNode, extraStyles, extraAttributes );

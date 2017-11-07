@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 ( function() {
@@ -183,7 +183,7 @@
 							}
 
 							return !!( isNodeElement( node ) && isGuard( node ) && !( node.is( enterTagName ) && isNodeElement( node.getParent() ) && node.getParent().is( 'blockquote' ) ) &&
-							// Element must be fully included in the range as well. (http://dev.ckeditor.com/ticket/6485).
+							// Element must be fully included in the range as well. (https://dev.ckeditor.com/ticket/6485).
 							node.getPosition( start ) & CKEDITOR.POSITION_FOLLOWING &&
 							( ( node.getPosition( end ) & CKEDITOR.POSITION_PRECEDING + CKEDITOR.POSITION_CONTAINS ) == CKEDITOR.POSITION_PRECEDING ) );
 						};
@@ -260,7 +260,7 @@
 
 	// If the element direction changed, we need to switch the margins of
 	// the element and all its children, so it will get really reflected
-	// like a mirror. (http://dev.ckeditor.com/ticket/5910)
+	// like a mirror. (https://dev.ckeditor.com/ticket/5910)
 	function isOffline( el ) {
 		var html = el.getDocument().getBody().getParent();
 		while ( el ) {

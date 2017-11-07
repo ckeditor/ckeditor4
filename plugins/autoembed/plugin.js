@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 'use strict';
@@ -36,7 +36,7 @@
 				// If one pasted an embeddable link and then undone the action, the link in the content holds the
 				// data-cke-autoembed attribute and may be embedded on *any* successive paste.
 				// This check ensures that autoEmbedLink is called only if afterPaste is fired *right after*
-				// embeddable link got into the content. (http://dev.ckeditor.com/ticket/13532)
+				// embeddable link got into the content. (https://dev.ckeditor.com/ticket/13532)
 				if ( embedCandidatePasted ) {
 					autoEmbedLink( editor, currentId );
 				}
@@ -61,7 +61,7 @@
 			return;
 		}
 
-			// TODO Move this to a method in the widget plugin. http://dev.ckeditor.com/ticket/13408
+			// TODO Move this to a method in the widget plugin. https://dev.ckeditor.com/ticket/13408
 		var defaults = typeof widgetDef.defaults == 'function' ? widgetDef.defaults() : widgetDef.defaults,
 			element = CKEDITOR.dom.element.createFromHtml( widgetDef.template.output( defaults ) ),
 			instance,
@@ -94,10 +94,10 @@
 					editor.fire( 'saveSnapshot' );
 
 					// Lock snapshot so we don't make unnecessary undo steps in
-					// editable.insertElement() below, which would include bookmarks. (http://dev.ckeditor.com/ticket/13429)
+					// editable.insertElement() below, which would include bookmarks. (https://dev.ckeditor.com/ticket/13429)
 					editor.fire( 'lockSnapshot', { dontUpdate: true } );
 
-					// Bookmark current selection. (http://dev.ckeditor.com/ticket/13429)
+					// Bookmark current selection. (https://dev.ckeditor.com/ticket/13429)
 					var bookmark = selection.createBookmarks( false )[ 0 ],
 						startNode = bookmark.startNode,
 						endNode = bookmark.endNode || startNode;
@@ -118,7 +118,7 @@
 					editable.insertElement( wrapper, insertRange );
 
 					// If both bookmarks are still in DOM, it means that selection was not inside
-					// an anchor that got substituted. We can safely recreate that selection. (http://dev.ckeditor.com/ticket/13429)
+					// an anchor that got substituted. We can safely recreate that selection. (https://dev.ckeditor.com/ticket/13429)
 					if ( editable.contains( startNode ) && editable.contains( endNode ) ) {
 						selection.selectBookmarks( [ bookmark ] );
 					} else {
@@ -205,7 +205,7 @@
 	 * For example, there is the `embedsemantic` plugin and the `embedSemantic` widget.
 	 *
 	 * Read more in the [documentation](#!/guide/dev_media_embed-section-automatic-embedding-on-paste)
-	 * and see the [SDK sample](http://sdk.ckeditor.com/samples/mediaembed.html).
+	 * and see the [SDK sample](https://sdk.ckeditor.com/samples/mediaembed.html).
 	 *
 	 * @since 4.5
 	 * @cfg {String/Function} [autoEmbed_widget='embed,embedSemantic']

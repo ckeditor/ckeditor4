@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 CKEDITOR.plugins.add( 'removeformat', {
@@ -120,7 +120,7 @@ CKEDITOR.plugins.removeformat = {
 				}
 
 				// The selection path may not changed, but we should force a selection
-				// change event to refresh command states, due to the above attribution change. (http://dev.ckeditor.com/ticket/9238)
+				// change event to refresh command states, due to the above attribution change. (https://dev.ckeditor.com/ticket/9238)
 				editor.forceNextSelectionCheck();
 				editor.getSelection().selectRanges( ranges );
 			}

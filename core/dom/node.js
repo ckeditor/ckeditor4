@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 /**
@@ -200,7 +200,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		}
 
 		// IE8 rename HTML5 nodes by adding `:` at the begging of the tag name when the node is cloned,
-		// so `<figure>` will be `<:figure>` after 'cloneNode'. We need to fix it (http://dev.ckeditor.com/ticket/13101).
+		// so `<figure>` will be `<:figure>` after 'cloneNode'. We need to fix it (https://dev.ckeditor.com/ticket/13101).
 		function renameNodes( node ) {
 			if ( node.type != CKEDITOR.NODE_ELEMENT && node.type != CKEDITOR.NODE_DOCUMENT_FRAGMENT )
 				return;
@@ -804,7 +804,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 				} else if ( trimmed.length < originalLength ) {
 					child.split( originalLength - trimmed.length );
 
-					// IE BUG: child.remove() may raise JavaScript errors here. (http://dev.ckeditor.com/ticket/81)
+					// IE BUG: child.remove() may raise JavaScript errors here. (https://dev.ckeditor.com/ticket/81)
 					this.$.removeChild( this.$.firstChild );
 				}
 			}
@@ -829,7 +829,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 					child.split( trimmed.length );
 
 					// IE BUG: child.getNext().remove() may raise JavaScript errors here.
-					// (http://dev.ckeditor.com/ticket/81)
+					// (https://dev.ckeditor.com/ticket/81)
 					this.$.lastChild.parentNode.removeChild( this.$.lastChild );
 				}
 			}
@@ -840,7 +840,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 			child = this.$.lastChild;
 
 			if ( child && child.type == 1 && child.nodeName.toLowerCase() == 'br' ) {
-				// Use "eChildNode.parentNode" instead of "node" to avoid IE bug (http://dev.ckeditor.com/ticket/324).
+				// Use "eChildNode.parentNode" instead of "node" to avoid IE bug (https://dev.ckeditor.com/ticket/324).
 				child.parentNode.removeChild( child );
 			}
 		}
@@ -874,7 +874,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype, {
 		if ( this.type != CKEDITOR.NODE_ELEMENT )
 			element = this.getParent();
 
-		// Prevent Edge crash (http://dev.ckeditor.com/ticket/13609, http://dev.ckeditor.com/ticket/13919).
+		// Prevent Edge crash (https://dev.ckeditor.com/ticket/13609, https://dev.ckeditor.com/ticket/13919).
 		if ( CKEDITOR.env.edge && element && element.is( 'textarea', 'input' ) ) {
 			checkOnlyAttributes = true;
 		}

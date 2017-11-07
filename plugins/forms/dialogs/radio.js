@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
 CKEDITOR.dialog.add( 'radio', function( editor ) {
@@ -88,7 +88,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 
 					if ( !CKEDITOR.env.ie ) {
 						var value = this.getValue();
-						// Blink/Webkit needs to change checked property, not attribute. (http://dev.ckeditor.com/ticket/12465)
+						// Blink/Webkit needs to change checked property, not attribute. (https://dev.ckeditor.com/ticket/12465)
 						if ( CKEDITOR.env.webkit ) {
 							element.$.checked = value;
 						}
