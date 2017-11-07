@@ -6,9 +6,7 @@
 
 </pre>
 <script>
-	var editor = CKEDITOR.replace( 'editor', {
-		extraAllowedContent: 'img[*]'
-	} );
+	var editor = CKEDITOR.replace( 'editor' );
 	function getHtml() {
 		// Strip out `data-cke-saved-src` to not blure the output.
 		document.getElementById( 'output' ).innerText = editor.editable().getHtml().replace( /data-cke-saved-src=\"[^\"]+?\"/g, '' );
