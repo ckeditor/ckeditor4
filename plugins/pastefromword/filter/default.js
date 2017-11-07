@@ -45,7 +45,8 @@
 			shapesIds = [];
 
 		function shapeTagging( element ) {
-			if ( element.attributes[ 'o:gfxdata' ] ) {
+			// Is it shape or canva's shape (#1088).
+			if ( element.attributes[ 'o:gfxdata' ] || element.parent.name === 'v:group' ) {
 				shapesIds.push( element.attributes.id );
 			}
 		}
@@ -398,7 +399,8 @@
 						var duplicate = false,
 							child;
 
-						// Canvas left empty v:shape. We don't want to convert it into img tag.
+						// Canvas left empty `v:shape`. We don't want to convert it into img tag.
+						// Those empty `v:shape` contains 2 tested below attributes.
 						child = element.getFirst( 'v:imagedata' );
 						if ( child && ( child.attributes.croptop !== undefined || child.attributes.cropbottom !== undefined ) ) {
 							shapeTagging( element );
