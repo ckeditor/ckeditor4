@@ -75,10 +75,10 @@ CKEDITOR.plugins.add('taotooltip', {
 	     * @returns {boolean}
 	     */
 	    function isValidRange(range) {
-	    	var start = getContainerElement(range.startContainer),
+	        	var start = getContainerElement(range.startContainer),
 			    end   = getContainerElement(range.endContainer);
 
-	    	return start.isSameNode(end);
+	    	    return start.isSameNode(end);
 	    }
 
 	    /**
@@ -145,7 +145,13 @@ CKEDITOR.plugins.add('taotooltip', {
 								'data-qti-class': '_tooltip',
 								'class': 'widget-box'
 							});
-							taoWidgetWrapper.append(getSelectionContent(selection));
+							if (isSelectionEmpty(selection.getNative())) {
+								// For some profound esoteric reasons, editor.getData() will not return an inserted <span> if that <span> is empty.
+								// So we add a space if nothing was selected!
+								taoWidgetWrapper.append(new CKEDITOR.dom.text('&nbsp;'));
+							} else {
+								taoWidgetWrapper.append(getSelectionContent(selection));
+							}
 
 							editor.insertElement(taoWidgetWrapper);
 
