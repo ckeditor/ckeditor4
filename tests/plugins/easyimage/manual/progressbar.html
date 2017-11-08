@@ -1,0 +1,52 @@
+
+<h2>Classic editor</h2>
+
+<div id="classic">
+	<h1>Sample editor</h1>
+
+	<p>Go on, put some content here.</p>
+</div>
+
+<h2>Divarea editor</h2>
+
+<div id="divarea">
+	<h1>Sample editor</h1>
+
+	<p>Go on, put some content here.</p>
+</div>
+
+<h2>Inline editor</h2>
+
+<div id="inline" contenteditable="true">
+	<h1>Sample editor</h1>
+
+	<p>Go on, put some content here.</p>
+</div>
+
+<script>
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+		bender.ignore();
+	}
+
+	var IMG_URL = '%BASE_PATH%_assets/logo.png',
+		commonConfig = {
+			cloudServices_url: 'https://files.cke-cs.com/upload/'
+		};
+
+	window.XMLHttpRequest.responseData = {
+		100: IMG_URL,
+		200: IMG_URL,
+		default: IMG_URL,
+		// Unset properties set by the generic XHR mock implementation.
+		fileName: undefined,
+		uploaded: undefined,
+		url: undefined,
+		error: undefined
+	};
+
+	CKEDITOR.replace( 'classic', commonConfig );
+	CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
+		extraPlugins: 'divarea'
+	}, commonConfig ) );
+	CKEDITOR.inline( 'inline', commonConfig );
+</script>
