@@ -2152,17 +2152,13 @@
 			this.$ = nativeDataTransfer;
 		}
 
-		var cache = {};
-
 		this._ = {
 			metaRegExp: /^<meta.*?>/i,
 			bodyRegExp: /<body(?:[\s\S]*?)>([\s\S]*)<\/body>/i,
 			fragmentRegExp: /<!--(?:Start|End)Fragment-->/g,
 
+			data: {},
 			files: [],
-			cache: cache,
-
-			fallbackDataTransfer: new CKEDITOR.plugins.clipboard.fallbackDataTransfer( cache, this.$ ),
 
 			normalizeType: function( type ) {
 				type = type.toLowerCase();
@@ -2176,6 +2172,7 @@
 				}
 			}
 		};
+		this._.fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( this );
 
 		// Check if ID is already created.
 		this.id = this.getData( clipboardIdDataType );
@@ -2311,7 +2308,7 @@
 					data = '';
 				}
 			} else {
-				data = this._.cache[ type ] || null;
+				data = this._.data[ type ] || null;
 				if ( isEmpty( data ) ) {
 					if ( this._.fallbackDataTransfer.isRequired() ) {
 						data = this._.fallbackDataTransfer.getData( type );
@@ -2364,7 +2361,7 @@
 		setData: function( type, value ) {
 			type = this._.normalizeType( type );
 
-			this._.cache[ type ] = value;
+			this._.data[ type ] = value;
 
 			// There is "Unexpected call to method or property access." error if you try
 			// to set data of unsupported type on IE.
@@ -2437,7 +2434,7 @@
 
 				var data = that.getData( type, !that._.fallbackDataTransfer.isRequired() );
 				if ( data ) {
-					that._.cache[ type ] = data;
+					that._.data[ type ] = data;
 				}
 			}
 
@@ -2523,7 +2520,7 @@
 				return false;
 			}
 
-			CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( this._.cache ), function( type ) {
+			CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( this._.data ), function( type ) {
 				typesToCheck[ type ] = 1;
 			} );
 
@@ -2589,18 +2586,18 @@
 	 * @since 4.8.0
 	 * @class CKEDITOR.plugins.clipboard.fallbackDataTransfer
 	 * @constructor
-	 * @param {Object} cache Cache object used on storing and retrieving data.
-	 * @param {Object} [nativeDataTransfer] A native data transfer object.
+	 * @param {CKEDITOR.plugins.clipboard.dataTransfer} dataTransfer DataTransfer
+	 * object which internal cache and
+	 * {@link CKEDITOR.plugins.clipboard.dataTransfer#$ data transfer} objects will be reused.
 	 */
-	CKEDITOR.plugins.clipboard.fallbackDataTransfer = function( cache, nativeDataTransfer ) {
-
+	CKEDITOR.plugins.clipboard.fallbackDataTransfer = function( dataTransfer ) {
 		/**
 		 * Cache object. Shared with {@link CKEDITOR.plugins.clipboard.dataTransfer} instance.
 		 *
 		 * @private
 		 * @property {Object} _cache
 		 */
-		this._cache = cache;
+		this._cache = dataTransfer._.data;
 
 		/**
 		 * A native dataTransfer object.
@@ -2608,7 +2605,7 @@
 		 * @private
 		 * @property {Object} _nativeDataTransfer
 		 */
-		this._nativeDataTransfer = nativeDataTransfer;
+		this._nativeDataTransfer = dataTransfer.$;
 
 		/**
 		 * A MIME type used for storing custom MIME types.
@@ -2642,7 +2639,7 @@
 	 *
 	 * @private
 	 * @static
-	 * @property {Array}
+	 * @property {String[]}
 	 */
 	CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes = [];
 
