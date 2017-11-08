@@ -1,4 +1,4 @@
-/* bender-tags: editor,widget */
+﻿/* bender-tags: editor,widget */
 /* bender-ckeditor-plugins: floatingspace,easyimage,toolbar */
 /* bender-include: ../widget/_helpers/tools.js */
 /* global widgetTestsTools */
@@ -23,6 +23,12 @@
 		classicAllFigures: {
 			config: {
 				easyimage_class: null
+			}
+		},
+
+		linkEditor: {
+			config: {
+				extraPlugins: 'link'
 			}
 		}
 	};
@@ -77,6 +83,13 @@
 				bot: bot,
 
 				assertCreated: function( widget ) {
+					if ( editor.name === 'linkEditor' ) {
+						assert.isNull( widget.parts.link, 'Widget does have link part if the editor has link plugin' );
+					} else {
+						assert.isUndefined( widget.parts.link,
+							'Widget does not have link part if the editor does not have link plugin' );
+					}
+
 					if ( editor.name !== 'classicAllFigures' ) {
 						assert.isTrue( widget.hasClass( 'easyimage' ), 'Widget wrapper has main class' );
 					}
