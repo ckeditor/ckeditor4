@@ -3890,7 +3890,7 @@
  * comma-separated list of upcast methods from the {@link #upcasts} object.
  *
  * The upcast function **is not** executed in the widget context (because the widget
- * does not exist yet), however it is executed in the
+ * does not exist yet), however, it is executed in the
  * {@link CKEDITOR.plugins.widget#definition widget's definition} context.
  * Two arguments are passed to the upcast function:
  *

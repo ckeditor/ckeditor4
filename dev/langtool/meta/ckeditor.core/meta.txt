@@ -81,4 +81,4 @@ common.keyboard.36 = Label for the "Home" key.
 common.keyboard.46 = Label for the "Delete" key.
 common.keyboard.224 = Label for the "Command" key.
 common.keyboardShortcut = ARIA message for keyboard shortcuts.
-common.optionDefault = Label for "(Default)" option in drop-down text-styling menus. Using such option restores default styling.
+common.optionDefault = Label for the "(Default)" option in the text styling drop-downs. Using such option restores the default styling.

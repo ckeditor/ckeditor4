@@ -1962,8 +1962,8 @@
 			},
 
 			/**
-			 * Method tests whether all elements in the array pass the test implemented by the provided function.
-			 * Returns `true` if provided array is empty.
+			 * Tests whether all elements in an array pass the test implemented by the provided function.
+			 * Returns `true` if the provided array is empty.
 			 *
 			 *		var every = this.array.every( [ 11, 22, 33, 44 ], function( value ) {
 			 *			return value > 10;
@@ -1977,7 +1977,7 @@
 			 * @param {Number} fn.index The index of the currently iterated value in an array.
 			 * @param {Array} fn.array The original array passed as the `array` variable.
 			 * @param {Mixed} [thisArg=undefined] A context object for `fn`.
-			 * @returns {Boolean} Information if all elements pass the test.
+			 * @returns {Boolean} Information whether all elements pass the test.
 			 * @member CKEDITOR.tools.array
 			 * @since 4.8.0
 			 */
@@ -2026,7 +2026,7 @@
 			},
 
 			/**
-			 * Merges two objects and returns new one.
+			 * Merges two objects and returns the new one.
 			 *
 			 *		var obj1 = {
 			 *				a: 1,
@@ -2045,7 +2045,7 @@
 			 *
 			 *		CKEDITOR.tools.object.merge( obj1, obj2 );
 			 *
-			 * This code produces the following object;
+			 * This code produces the following object:
 			 *
 			 *		{
 			 *			a: 1,
@@ -2057,9 +2057,9 @@
 			 *			}
 			 *		}
 			 *
-			 * @param {Object} obj1 Source object, which will be used to create a new base object.
-			 * @param {Object} obj2 An object, which properties will be merged to the base one.
-			 * @returns {Object} Merged object.
+			 * @param {Object} obj1 The source object which will be used to create a new base object.
+			 * @param {Object} obj2 An object whose properties will be merged into the base one.
+			 * @returns {Object} The merged object.
 			 * @member CKEDITOR.tools.object
 			 */
 			merge: function( obj1, obj2 ) {
