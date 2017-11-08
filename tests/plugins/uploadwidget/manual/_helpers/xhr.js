@@ -11,7 +11,7 @@ window.FormData = function() {
 	var total, uploadedFilename;
 	return {
 		append: function( name, file, filename ) {
-			if ( name == 'upload' ) {
+			if ( CKEDITOR.tools.array.indexOf( [ 'upload', 'file' ], name ) !== -1 ) {
 				total = file.size;
 				uploadedFilename = filename;
 			}
@@ -31,6 +31,8 @@ window.XMLHttpRequest = function() {
 
 	return {
 		open: function() {},
+
+		setRequestHeader: function() {},
 
 		upload: {},
 
