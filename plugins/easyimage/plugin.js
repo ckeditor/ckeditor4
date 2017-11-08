@@ -163,7 +163,7 @@
 			widgetDefinition.allowedContent.figure.classes = '!' + figureClass + ',' + widgetDefinition.allowedContent.figure.classes;
 		}
 
-		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( 'link', widgetDefinition );
+		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'link', widgetDefinition );
 
 		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', widgetDefinition );
 	}

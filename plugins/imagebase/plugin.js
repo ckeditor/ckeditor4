@@ -6,8 +6,12 @@
 ( function() {
 	'use strict';
 
-	function isWidgetFocused( widget ) {
-		return widget.editor.widgets.focused === widget;
+	function getFocusedWidget( editor ) {
+		return editor.widgets.focused;
+	}
+
+	function isLinkable( widget ) {
+		return widget && typeof widget.parts.link !== 'undefined';
 	}
 
 	function wrapInLink( img, linkData ) {
@@ -57,15 +61,13 @@
 				link: 'a'
 			},
 
-			init: function() {
-				var widget = this,
-					editor = widget.editor;
-
+			setUp: function( editor ) {
 				editor.on( 'dialogShow', function( evt ) {
-					var dialog = evt.data,
+					var widget = getFocusedWidget( editor ),
+						dialog = evt.data,
 						displayTextField;
 
-					if ( !isWidgetFocused( widget ) || dialog._.name !== 'link' ) {
+					if ( !isLinkable( widget ) || dialog._.name !== 'link' ) {
 						return;
 					}
 
@@ -75,7 +77,7 @@
 					displayTextField.hide();
 
 					dialog.once( 'ok', function( evt ) {
-						if ( !isWidgetFocused( widget ) ) {
+						if ( !isLinkable( widget ) ) {
 							return;
 						}
 
@@ -94,9 +96,11 @@
 
 				// Overwrite default behaviour of unlink command.
 				editor.getCommand( 'unlink' ).on( 'exec', function( evt ) {
+					var widget = getFocusedWidget( editor );
+
 					// Override unlink only when link truly belongs to the widget.
 					// If wrapped inline widget in a link, let default unlink work (http://dev.ckeditor.com/ticket/11814).
-					if ( !isWidgetFocused( widget ) ) {
+					if ( !isLinkable( widget ) ) {
 						return;
 					}
 
@@ -113,7 +117,9 @@
 
 				// Overwrite default refresh of unlink command.
 				editor.getCommand( 'unlink' ).on( 'refresh', function( evt ) {
-					if ( !isWidgetFocused( widget ) ) {
+					var widget = getFocusedWidget( editor );
+
+					if ( !isLinkable( widget ) ) {
 						return;
 					}
 
@@ -252,7 +258,7 @@
 			editor.addFeature( widget );
 		},
 
-		addFeature: function( name, definition ) {
+		addFeature: function( editor, name, definition ) {
 			var featureDefinition = featuresDefinitions[ name ];
 
 			function mergeMethods( oldOne, newOne ) {
@@ -268,6 +274,12 @@
 
 			featureDefinition.init = mergeMethods( definition.init, featureDefinition.init );
 			featureDefinition.data = mergeMethods( definition.data, featureDefinition.data );
+
+			if ( featureDefinition.setUp ) {
+				featureDefinition.setUp( editor );
+
+				delete featureDefinition.setUp;
+			}
 
 			return CKEDITOR.tools.object.merge( definition, featureDefinition );
 		}
