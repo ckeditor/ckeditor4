@@ -24,6 +24,12 @@
 			config: {
 				easyimage_class: null
 			}
+		},
+
+		linkEditor: {
+			config: {
+				extraPlugins: 'link'
+			}
 		}
 	};
 
@@ -34,7 +40,16 @@
 				widgetOffset: 0,
 				nameCreated: 'easyimage',
 				html: CKEDITOR.document.getById( 'mixedFigures' ).getHtml(),
-				bot: bot
+				bot: bot,
+
+				assertCreated: function( widget ) {
+					if ( editor.name === 'linkEditor' ) {
+						assert.isNull( widget.parts.link, 'Widget does have link part if the editor has link plugin' );
+					} else {
+						assert.isUndefined( widget.parts.link,
+							'Widget does not have link part if the editor does not have link plugin' );
+					}
+				}
 			} );
 		}
 	};
