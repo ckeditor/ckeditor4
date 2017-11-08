@@ -55,7 +55,7 @@
 	 *				var lastElement = evt.data.path.lastElement;
 	 *
 	 *				if ( lastElement ) {
-	 *					toolbar.create( lastElement );
+	 *					toolbar.attach( lastElement );
 	 *				}
 	 *			} );
 	 *		} );
@@ -103,6 +103,31 @@
 				this.parts.panel.addClass( 'cke_inlinetoolbar' );
 				this.parts.title.remove();
 				this.parts.close.remove();
+			};
+
+			CKEDITOR.ui.inlineToolbarView.prototype.show = function() {
+				if ( this.rect.visible ) {
+					return;
+				}
+				var editable = this.editor.editable();
+				this._detachListeners();
+
+				this._listeners.push( this.editor.on( 'resize', function() {
+					this.attach( this._pointedElement, {
+						focusElement: false
+					} );
+				}, this ) );
+				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
+					this.attach( this._pointedElement, {
+						focusElement: false
+					} );
+				}, this ) );
+				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
+			};
+
+			CKEDITOR.ui.inlineToolbarView.prototype.hide = function() {
+				this._detachListeners();
+				CKEDITOR.ui.balloonPanel.prototype.hide.call( this );
 			};
 
 			CKEDITOR.ui.inlineToolbarView.prototype._getAlignments = function( elementRect, panelWidth, panelHeight ) {
@@ -173,36 +198,51 @@
 			};
 
 			/**
-			 * Places the inline toolbar next to a specified element so the tip of the toolbar's triangle
-			 * points to that element.
-			 *
+			 * @inheritdoc CKEDITOR.ui.balloonPanel#attach
 			 * @member CKEDITOR.ui.inlineToolbarView
-			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.create = function( element ) {
-				this.attach( element, false );
+			CKEDITOR.ui.inlineToolbarView.prototype.attach = function( element, options ) {
 
-				var that = this,
-					editable = this.editor.editable();
-				this._detachListeners();
-
-				this._listeners.push( this.editor.on( 'resize', function() {
-					that.attach( element, false );
-				} ) );
-				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
-					that.attach( element, false );
-				} ) );
+				/**
+				 * DOM element used by inline toolbar to attach to.
+				 *
+				 * @private
+				 */
+				this._pointedElement = element;
+				CKEDITOR.ui.balloonPanel.prototype.attach.call( this, element, options );
 			};
 
 			/**
 			 * Displays the inline toolbar, pointing it to the `element`.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
+			 * @param {Boolean} [hidden=false] Do not show inline toolbar after attach.
 			 * @member CKEDITOR.ui.inlineToolbar
 			 */
-			CKEDITOR.ui.inlineToolbar.prototype.create = function( element ) {
+			CKEDITOR.ui.inlineToolbar.prototype.attach = function( element, hidden ) {
 				this._view.renderItems( this._items );
-				this._view.create( element );
+				this._view.attach( element, {
+					focusElement: false,
+					show: !hidden
+				} );
+			};
+
+			/**
+			 * Show inline toolbar.
+			 *
+			 * @member CKEDITOR.ui.inlineToolbar
+			 */
+			CKEDITOR.ui.inlineToolbar.prototype.show = function() {
+				this._view.show();
+			};
+
+			/**
+			 * Hide inline toolbar.
+			 *
+			 * @member CKEDITOR.ui.inlineToolbar
+			 */
+			CKEDITOR.ui.inlineToolbar.prototype.hide = function() {
+				this._view.hide();
 			};
 
 			/**
@@ -251,6 +291,7 @@
 			 * Hides the toolbar and removes it from the DOM.
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.destroy = function() {
+				this._pointedElement = null;
 				this._view.destroy();
 			};
 		}
