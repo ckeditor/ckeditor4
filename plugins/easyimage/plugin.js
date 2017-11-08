@@ -137,7 +137,9 @@
 			widgetDefinition.allowedContent.figure.classes = '!' + figureClass + ',' + widgetDefinition.allowedContent.figure.classes;
 		}
 
-		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'link', widgetDefinition );
+		if ( editor.plugins.link ) {
+			widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'link', widgetDefinition );
+		}
 
 		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', widgetDefinition );
 	}
@@ -264,7 +266,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'imagebase,uploadwidget,contextmenu,dialog,cloudservices,link',
+		requires: 'imagebase,contextmenu,dialog,cloudservices',
 		lang: 'en',
 
 		onLoad: function() {
