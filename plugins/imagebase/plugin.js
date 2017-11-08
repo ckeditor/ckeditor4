@@ -134,7 +134,8 @@
 			},
 
 			data: function( evt ) {
-				var link = evt.data.link,
+				var editor = this.editor,
+					link = evt.data.link,
 					img = this.element.findOne( 'img' );
 
 				// Widget is inited with link, so let's set appropriate data.
@@ -152,7 +153,19 @@
 
 					this.parts.link = null;
 				} else {
-					this.parts.link = wrapInLink( img, link );
+					var linkElement = wrapInLink( img, link ),
+						// Set and remove all attributes associated with this state.
+						attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, link );
+
+					if ( !CKEDITOR.tools.isEmpty( attributes.set ) ) {
+						linkElement.setAttributes( attributes.set );
+					}
+
+					if ( attributes.removed.length ) {
+						linkElement.removeAttributes( attributes.removed );
+					}
+
+					this.parts.link = linkElement;
 				}
 			}
 		}
