@@ -271,6 +271,20 @@
 			editor.addFeature( widget );
 		},
 
+		/**
+		 * Adds new feature to the newly created image widget by invoking initial setup once for the editor
+		 * and extending widget's definition to include all fields needed by this feature.
+		 *
+		 *		var widgetDefinition = {};
+		 *		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'link', widgetDefinition );
+		 *		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'myWidget', widgetDefinition );
+		 *
+		 * @param {CKEDITOR.editor} editor Editor that will get the widget registered.
+		 * @param {String} name Feature name.
+		 * @param {CKEDITOR.plugins.imagebase.imageWidgetDefinition} definition Widget's definition.
+		 * @returns {CKEDITOR.plugins.imagebase.imageWidgetDefinition} Widget's definition extended
+		 * with fields needed by feature.
+		 */
 		addFeature: function( editor, name, definition ) {
 			var featureDefinition = featuresDefinitions[ name ];
 
