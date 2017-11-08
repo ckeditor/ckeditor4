@@ -75,7 +75,7 @@
 					if ( CKEDITOR.tools.array.indexOf( types, 'text/html' ) != -1 ) {
 						// Native 'getData' needs to be used here as 'ckDataTransfer.getData'
 						// strips special comment which we would like to show here too.
-						output += getRow( 'Native HTML data', ckDataTransfer.$.getData( 'text/html', true ), 'raw' );
+						output += getRow( 'Native HTML data', ckDataTransfer.getData( 'text/html', true ), 'raw' );
 					}
 
 					if ( types.length === 0 ) {
