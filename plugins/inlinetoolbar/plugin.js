@@ -55,7 +55,7 @@
 	 *				var lastElement = evt.data.path.lastElement;
 	 *
 	 *				if ( lastElement ) {
-	 *					toolbar.create( lastElement );
+	 *					toolbar.attac( lastElement );
 	 *				}
 	 *			} );
 	 *		} );
@@ -105,35 +105,26 @@
 				this.parts.close.remove();
 			};
 
-			/**
-			 * @inheritdoc CKEDITOR.ui.balloonPanel#show
-			 * @member CKEDITOR.ui.inlineToolbarView
-			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.show = function() {
 				if ( this.rect.visible ) {
 					return;
 				}
-				var that = this,
-					editable = this.editor.editable();
+				var editable = this.editor.editable();
 				this._detachListeners();
 
 				this._listeners.push( this.editor.on( 'resize', function() {
-					that.attach( that._element, {
+					this.attach( this._pointedElement, {
 						focusElement: false
 					} );
-				} ) );
+				}, this ) );
 				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
-					that.attach( that._element, {
+					this.attach( this._pointedElement, {
 						focusElement: false
 					} );
-				} ) );
+				}, this ) );
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
 			};
 
-			/**
-			 * @inheritdoc CKEDITOR.ui.balloonPanel#hide
-			 * @member CKEDITOR.ui.inlineToolbarView
-			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.hide = function() {
 				this._detachListeners();
 				CKEDITOR.ui.balloonPanel.prototype.hide.call( this );
@@ -211,7 +202,13 @@
 			 * @member CKEDITOR.ui.inlineToolbarView
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.attach = function( element, options ) {
-				this._element = element;
+
+				/**
+				 * DOM element used by inline toolbar to attach to.
+				 *
+				 * @private
+				 */
+				this._pointedElement = element;
 				CKEDITOR.ui.balloonPanel.prototype.attach.call( this, element, options );
 			};
 
@@ -219,19 +216,19 @@
 			 * Displays the inline toolbar, pointing it to the `element`.
 			 *
 			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
-			 * @param {Boolean} [showToolbar=true] Show inline toolbar after attach.
+			 * @param {Boolean} [hidden=false] Do not show inline toolbar after attach.
 			 * @member CKEDITOR.ui.inlineToolbar
 			 */
-			CKEDITOR.ui.inlineToolbar.prototype.attach = function( element, showToolbar ) {
+			CKEDITOR.ui.inlineToolbar.prototype.attach = function( element, hidden ) {
 				this._view.renderItems( this._items );
 				this._view.attach( element, {
 					focusElement: false,
-					show: showToolbar === false ? false : true
+					show: !hidden
 				} );
 			};
 
 			/**
-			 * @inheritdoc CKEDITOR.ui.balloonPanel#show
+			 * Show inline toolbar.
 			 * @member CKEDITOR.ui.inlineToolbar
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.show = function() {
@@ -239,7 +236,7 @@
 			};
 
 			/**
-			 * @inheritdoc CKEDITOR.ui.balloonPanel#hide
+			 * Hide inline toolbar.
 			 * @member CKEDITOR.ui.inlineToolbar
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.hide = function() {
@@ -292,7 +289,7 @@
 			 * Hides the toolbar and removes it from the DOM.
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.destroy = function() {
-				this._element = null;
+				this._pointedElement = null;
 				this._view.destroy();
 			};
 		}
