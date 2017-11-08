@@ -265,35 +265,35 @@ bender.test( {
 	},
 
 	'test _applyDataComment case1': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			expected = document.querySelector( '#case1' ).innerHTML;
 
 		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p>', { test: 1 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment case2': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			expected = document.querySelector( '#case2' ).innerHTML;
 
 		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p>', { test: 1, comment: '<!-- comment -->' }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment case3': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#case3' ).innerHTML );
 
 		this.assertApplyDataComment( '<!-- Start Comment --><h1>Header1</h1><p>Test1</p>', { test: 1 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment case4': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#case4' ).innerHTML );
 
 		this.assertApplyDataComment( '<h1>Header1</h1><p>Test1</p><!-- End Comment -->', { test: 123 }, dataTransferFallback, expected );
 	},
 
 	'test _applyDataComment with empty content': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#empty-content' ).innerHTML );
 
 		this.assertApplyDataComment( undefined, { test: 1 }, dataTransferFallback, expected );
@@ -302,7 +302,7 @@ bender.test( {
 	},
 
 	'test _applyDataComment with empty data': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			expected = CKEDITOR.tools.trim( document.querySelector( '#empty-data' ).innerHTML );
 
 		this.assertApplyDataComment( '<p>foobar</p>', '', dataTransferFallback, expected );
@@ -311,7 +311,7 @@ bender.test( {
 	},
 
 	'test _applyDataComment with empty content and data': function() {
-		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var dataTransferFallback = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			expected = '';
 
 		this.assertApplyDataComment( undefined, null, dataTransferFallback, expected );
@@ -320,7 +320,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment case1': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			content = document.querySelector( '#case1' ).innerHTML,
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -329,7 +329,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment case2': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			content = document.querySelector( '#case2' ).innerHTML,
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -338,7 +338,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment case3': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			content = document.querySelector( '#case3' ).innerHTML,
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -347,7 +347,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment case4': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			content = document.querySelector( '#case4' ).innerHTML,
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -356,7 +356,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment with empty content': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			content = CKEDITOR.tools.trim( document.querySelector( '#empty-content' ).innerHTML ),
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -365,7 +365,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment with empty data': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			content = CKEDITOR.tools.trim( document.querySelector( '#empty-data' ).innerHTML ),
 			extracted = fallbackDataTransfer._extractDataComment( content );
 
@@ -374,7 +374,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment with empty data and content': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null ),
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } ),
 			extracted = fallbackDataTransfer._extractDataComment( '' );
 
 		assert.isNull( extracted.data );
@@ -382,7 +382,7 @@ bender.test( {
 	},
 
 	'test _extractDataComment with falsy value': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null );
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { _: { data: {} } } );
 
 		assert.areSame( '', fallbackDataTransfer._extractDataComment( '' ).content );
 		assert.areSame( '', fallbackDataTransfer._extractDataComment( null ).content );
@@ -391,7 +391,8 @@ bender.test( {
 	},
 
 	'test if isRequired sets _isCustomMimeTypeSupported flag on the first run': function() {
-		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null, bender.tools.mockNativeDataTransfer() );
+		var fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer(
+			{ $: bender.tools.mockNativeDataTransfer(), _: { data: {} } } );
 
 		CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = null;
 
@@ -405,7 +406,7 @@ bender.test( {
 
 	'test if isRequired clears test MIME type': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null, nativeData );
+			fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { $: nativeData, _: { data: {} } } );
 
 		CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = null;
 
@@ -417,7 +418,7 @@ bender.test( {
 
 	'test if isRequired does not remove other MIME types': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( null, nativeData );
+			fallbackDataTransfer = new CKEDITOR.plugins.clipboard.fallbackDataTransfer( { $: nativeData, _: { data: {} } } );
 
 		CKEDITOR.plugins.clipboard.fallbackDataTransfer._isCustomMimeTypeSupported = null;
 
