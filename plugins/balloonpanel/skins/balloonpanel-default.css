@@ -1,0 +1,81 @@
+/*
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or https://ckeditor.com/license
+*/
+
+.cke_balloon
+{
+	position: absolute;
+	z-index: 10000;
+
+	background: #fff;
+	border: 2px solid #aaa;
+	outline: none;
+}
+
+.cke_balloon_triangle
+{
+	position: absolute;
+	border-style: solid;
+	display: block;
+	width: 0;
+	height: 0;
+}
+
+.cke_balloon_triangle_inner
+{
+	z-index: 0;
+}
+
+.cke_balloon_triangle_outer
+{
+	z-index: 0;
+}
+
+/* side: [ bottom, top ] */
+.cke_balloon_triangle_outer.cke_balloon_triangle_bottom,
+.cke_balloon_triangle_outer.cke_balloon_triangle_top
+{
+	border-color: #999 transparent;
+}
+
+.cke_balloon_triangle_inner.cke_balloon_triangle_bottom,
+.cke_balloon_triangle_inner.cke_balloon_triangle_top
+{
+	left: -20px;
+}
+
+/* side: [ bottom ] */
+.cke_balloon_triangle_outer.cke_balloon_triangle_bottom
+{
+	border-width: 20px 20px 0;
+	bottom: -20px;
+}
+
+.cke_balloon_triangle_inner.cke_balloon_triangle_bottom
+{
+	border-color: #fff transparent;
+	border-width: 20px 20px 0;
+	top: -22px;
+}
+
+/* side: [ top ] */
+.cke_balloon_triangle_outer.cke_balloon_triangle_top
+{
+	border-width: 0 20px 20px;
+	top: -20px;
+}
+
+.cke_balloon_triangle_inner.cke_balloon_triangle_top
+{
+	border-color: #f8f8f8 transparent;
+	border-width: 0 20px 20px;
+	top: 2px;
+}
+
+/* align: [ hcenter ] */
+.cke_balloon_triangle_outer.cke_balloon_triangle_align_hcenter
+{
+	left: 50%;
+	margin-left: -20px;
+}
