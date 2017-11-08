@@ -292,7 +292,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'imagebase,contextmenu,dialog,cloudservices',
+		requires: 'imagebase,uploadwidget,contextmenu,dialog,cloudservices',
 		lang: 'en',
 
 		onLoad: function() {
