@@ -18,6 +18,16 @@
 			'meta',
 			'link'
 		],
+		shapeTags = [
+			'v:arc',
+			'v:curve',
+			'v:line',
+			'v:oval',
+			'v:polyline',
+			'v:rect',
+			'v:roundrect',
+			'v:group'
+		],
 		links = {},
 		inComment = 0;
 
@@ -31,7 +41,15 @@
 	CKEDITOR.plugins.pastefromword = {};
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
-		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
+		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
+			shapesIds = [];
+
+		function shapeTagging( element ) {
+			// Check if regular or canvas shape (#1088).
+			if ( element.attributes[ 'o:gfxdata' ] || element.parent.name === 'v:group' ) {
+				shapesIds.push( element.attributes.id );
+			}
+		}
 
 		// Before filtering inline all the styles to allow because some of them are available only in style
 		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (http://dev.ckeditor.com/ticket/16847)
@@ -44,7 +62,7 @@
 
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
 
-		filter = new CKEDITOR.htmlParser.filter( {
+		var filterDefinition = {
 			root: function( element ) {
 				element.filterChildren( filter );
 
@@ -110,6 +128,17 @@
 						element.attributes.alt && element.attributes.alt.match( /^https?:\/\// ) ) {
 						element.attributes.src = element.attributes.alt;
 					}
+
+					var imgShapesIds = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
+					// Check whether attribute contains shapes recognised earlier (stored in global list of shapesIds).
+					// If so, add additional data-attribute to img tag.
+					var isShapeFromList = CKEDITOR.tools.array.every( imgShapesIds, function( shapeId ) {
+						return shapesIds.indexOf( shapeId ) > -1;
+					} );
+					if ( imgShapesIds.length && isShapeFromList ) {
+						element.attributes[ 'data-cke-is-shape' ] = true;
+					}
+
 				},
 				'p': function( element ) {
 					element.filterChildren( filter );
@@ -363,31 +392,48 @@
 				'v:imagedata': remove,
 				// This is how IE8 presents images.
 				'v:shape': function( element ) {
+					var emptyShapeInsideGroup = element.parent && element.parent.name === 'v:group';
+
 					// In chrome a <v:shape> element may be followed by an <img> element with the same content.
-					var duplicate = false;
-					element.parent.getFirst( function( child ) {
-						if ( child.name == 'img' &&
+					// Remain for legacy comaptibility (#995, #1069).
+					if ( !element.attributes[ 'o:gfxdata' ] && !emptyShapeInsideGroup ) {
+						var duplicate = false,
+							child = element.getFirst( 'v:imagedata' );
+
+						// Canvas leaves empty `v:shape`, which should not be converted into img tag.
+						// These empty `v:shape` contains 2 attributes which helps distinguish it (#1088).
+						if ( child && ( child.attributes.croptop !== undefined || child.attributes.cropbottom !== undefined ) ) {
+							shapeTagging( element );
+							return;
+						}
+
+						// Sometimes child with proper ID might be nested in other tag.
+						element.parent.find( function( child ) {
+							if ( child.name == 'img' &&
 							child.attributes &&
 							child.attributes[ 'v:shapes' ] == element.attributes.id ) {
-							duplicate = true;
-						}
-					} );
+								duplicate = true;
+							}
+						}, true );
 
-					if ( duplicate ) return false;
+						if ( duplicate ) return false;
 
-					var src = '';
-					element.forEach( function( child ) {
-						if ( child.attributes && child.attributes.src ) {
-							src = child.attributes.src;
-						}
-					}, CKEDITOR.NODE_ELEMENT, true );
+						var src = '';
+						element.forEach( function( child ) {
+							if ( child.attributes && child.attributes.src ) {
+								src = child.attributes.src;
+							}
+						}, CKEDITOR.NODE_ELEMENT, true );
 
-					element.filterChildren( filter );
+						element.filterChildren( filter );
 
-					element.name = 'img';
-					element.attributes.src = element.attributes.src || src;
+						element.name = 'img';
+						element.attributes.src = element.attributes.src || src;
 
-					delete element.attributes.type;
+						delete element.attributes.type;
+					} else {
+						shapeTagging( element );
+					}
 				},
 
 				'style': function() {
@@ -439,7 +485,14 @@
 
 				return content;
 			}
+		};
+
+		// Add shape processing to filter definition.
+		CKEDITOR.tools.array.forEach( shapeTags, function( shapeTag ) {
+			filterDefinition.elements[ shapeTag ] = shapeTagging;
 		} );
+
+		filter = new CKEDITOR.htmlParser.filter( filterDefinition );
 
 		var writer = new CKEDITOR.htmlParser.basicWriter();
 
