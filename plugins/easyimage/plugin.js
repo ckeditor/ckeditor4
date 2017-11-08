@@ -171,6 +171,51 @@
 	}
 
 	function registerUploadWidget( editor ) {
+		editor.on( 'widgetDefinition', function( evt ) {
+			var definition = evt.data,
+				baseInit;
+
+			if ( definition.name === 'uploadeasyimage' ) {
+				// Extend init method.
+				baseInit =  definition.init;
+
+				definition.init = function() {
+					var loader = this.definition._getLoader( this ),
+						progressListeners = [];
+
+					function removeProgressListeners() {
+						if ( progressListeners ) {
+							CKEDITOR.tools.array.forEach( progressListeners, function( listener ) {
+								listener.removeListener();
+							} );
+
+							progressListeners = null;
+						}
+					}
+
+					// Add a progress bar.
+					this.definition._createProgressBar( this );
+
+					progressListeners.push( loader.on( 'update', function() {
+						var progressBar = this.parts.progressBar.findOne( '.cke_bar' ),
+							percentage;
+
+						if ( progressBar && loader.uploadTotal ) {
+							percentage = ( loader.uploaded / loader.uploadTotal ) * 100;
+							progressBar.setStyle( 'width', percentage + '%' );
+						}
+					}, this ) );
+
+					progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
+					progressListeners.push( loader.once( 'error', removeProgressListeners ) );
+					progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
+
+					// Call base init implementation.
+					baseInit.call( this );
+				};
+			}
+		} );
+
 		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadeasyimage', {
 			supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
@@ -186,7 +231,8 @@
 			},
 
 			parts: {
-				img: 'img'
+				img: 'img',
+				loader: '.cke_loader'
 			},
 
 			onUploading: function( upload ) {
@@ -199,6 +245,30 @@
 
 				this.replaceWith( '<figure class="' + ( editor.config.easyimage_class || '' ) + '"><img src="' +
 					upload.responseData.response[ 'default' ] + '" srcset="' + srcset + '" sizes="100vw"><figcaption></figcaption></figure>' );
+			},
+
+			/**
+			 * Creates a progress bar in a given widget.h
+			 *
+			 * Also puts it in it's {@link CKEDITOR.plugins.widget#parts} structure as `progressBar`
+			 *
+			 * @private
+			 * @param {CKEDITOR.plugins.widget} widget
+			 */
+			_createProgressBar: function( widget ) {
+				var ret = new  CKEDITOR.dom.element( 'span' );
+				ret.addClass( 'cke_loader' );
+
+				ret.setHtml( '<span class="cke_bar"></span>' );
+
+				widget.wrapper.append( ret, true );
+
+				widget.parts.progressBar = ret;
+			},
+
+			// @todo: this function should be moved to uploadwidget core definition.
+			_getLoader: function( widget ) {
+				return widget.editor.uploadRepository.loaders[ widget.wrapper.findOne( '[data-cke-upload-id]' ).data( 'cke-upload-id' ) ];
 			}
 		} );
 
@@ -297,6 +367,9 @@
 
 		onLoad: function() {
 			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
+
+			CKEDITOR.addCss( '.cke_loader { height: 15px; display: block; background: yellow; position: absolute; left: 0px; right: 0px; }\n' +
+				'.cke_loader .cke_bar { display:block; height: 13px; background: red; width: 0; }' );
 		},
 
 		init: function( editor ) {
