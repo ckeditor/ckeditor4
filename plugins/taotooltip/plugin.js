@@ -153,7 +153,11 @@ CKEDITOR.plugins.add('taotooltip', {
 
 						} else {
 							if (typeof(config.alert) === 'function') {
-								config.alert.call(editor, 'tooltip_create_warning');
+								config.alert.call(
+									editor,
+									'.cke_button__taotooltip',
+									'tooltipInvalidSelection'
+								);
 							}
 						}
 					}
