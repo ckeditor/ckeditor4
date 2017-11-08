@@ -49,7 +49,11 @@
 					command: 'bold'
 				} ),
 				language: evt.editor.ui.create('Language'),
-				Styles: evt.editor.ui.create( 'Styles' )
+				Styles: evt.editor.ui.create( 'Styles' ),
+				italic: new CKEDITOR.ui.button( {
+					label: 'test',
+					command: 'italic'
+				} )
 			} );
 			panel.create( this );
 		} );
