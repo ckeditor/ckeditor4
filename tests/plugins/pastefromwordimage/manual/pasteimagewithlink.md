@@ -1,6 +1,6 @@
 @bender-tags: bug, 4.8.0, 662, pastefromwordimage
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromwordimage, sourcearea, elementspath, newpage, resize, link
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, pastefromwordimage, sourcearea, elementspath, newpage, resize, link, image
 
 ----
 

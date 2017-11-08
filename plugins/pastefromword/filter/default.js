@@ -398,11 +398,10 @@
 					// Remain for legacy comaptibility (#995, #1069).
 					if ( !element.attributes[ 'o:gfxdata' ] && !emptyShapeInsideGroup ) {
 						var duplicate = false,
-							child;
+							child = element.getFirst( 'v:imagedata' );
 
 						// Canvas leaves empty `v:shape`, which should not be converted into img tag.
-						// These empty `v:shape` contains 2 attributes which helps distinguish it.
-						child = element.getFirst( 'v:imagedata' );
+						// These empty `v:shape` contains 2 attributes which helps distinguish it (#1088).
 						if ( child && ( child.attributes.croptop !== undefined || child.attributes.cropbottom !== undefined ) ) {
 							shapeTagging( element );
 							return;

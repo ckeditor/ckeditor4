@@ -2,7 +2,8 @@
 <script>
 	var editor = CKEDITOR.replace( 'editor' );
 	editor.on( 'loaded', function() {
-		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.env.iOS ) {
+		// It's required to have access to rtf clipboard.
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported || CKEDITOR.env.safari ) {
 			bender.ignore();
 		}
 	} );
