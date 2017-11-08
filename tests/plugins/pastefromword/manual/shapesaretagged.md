@@ -8,4 +8,4 @@
 
 **Expected:**
   * For browsers with good `text/html` clipboard processing (Firefox, Chrome, Safari): First image tag had additional attribute `data-cke-is-shape="true"`. Second image is pasted without this attribute.
-  * For other browsers (IE, Mobile): There won't be `data-cke-is-shape="true"`. Browser will behave in an old way: display blank place or embed image by it's own.
+  * For other browsers (Edge, IE, Mobile): There won't be `data-cke-is-shape="true"`. Browser will behave in an old way: display blank place or embed image by it's own.
