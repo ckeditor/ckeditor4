@@ -143,10 +143,32 @@
 			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items Array of UI elements objects.
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
-				var output = [];
-				for ( var menuItem in items ) {
-					items[ menuItem ].render( this.editor, output );
+				var output = [],
+					keys = CKEDITOR.tools.objectKeys( items ),
+					groupStarted = false;
+
+				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
+
+					// If next element to render is richCombo and we have already opened group we have to close it.
+					if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo && groupStarted ) {
+						groupStarted = false;
+						output.push( '</span>' );
+
+					// If we have closed group and element that is not richBox we have to open group.
+					} else if ( !( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) && !groupStarted ) {
+						groupStarted = true;
+						output.push( '<span class="cke_toolgroup">' );
+					}
+
+					// Now we can render element.
+					items[ itemKey ].render( this.editor, output );
+				}, this );
+
+				// We have to check if last group is closed.
+				if ( groupStarted ) {
+					output.push( '</span>' );
 				}
+
 				this.parts.content.setHtml( output.join( '' ) );
 			};
 

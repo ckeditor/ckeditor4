@@ -28,7 +28,7 @@
 
 			view.renderItems( items );
 
-			assert.areSame( 'aabb', view.parts.content.getHtml() );
+			assert.areSame( '<span class="cke_toolgroup">aabb</span>', view.parts.content.getHtml() );
 		},
 
 		'test inlineToolbarView.render empty list': function() {
