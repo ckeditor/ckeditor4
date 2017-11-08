@@ -1,0 +1,62 @@
+<style>
+	body {
+		/* (#1048) */
+		margin-left: 0px;
+		padding-left: 400px;
+	}
+</style>
+<textarea id="editor1">
+	<p>Hello world</p>
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+</textarea>
+<div contenteditable="true" id="editor2">
+	<p>Hello world</p>
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+</div>
+
+<script>
+	function instanceReadyListener( evt ) {
+		var images = this.editable().find( 'img' ).toArray(),
+			panel = new CKEDITOR.ui.inlineToolbar( this );
+
+		panel.addItems( {
+			bold: new CKEDITOR.ui.button( {
+				label: 'test',
+				command: 'bold'
+			} ),
+			language: evt.editor.ui.create( 'Language' ),
+			Styles: evt.editor.ui.create( 'Styles' )
+		} );
+
+		CKEDITOR.tools.array.forEach( images, function( image ) {
+			image.on( 'click', function() {
+				panel.create( this );
+			} );
+		} );
+	}
+	CKEDITOR.replace( 'editor1', {
+		skin: 'moono2,%BASE_PATH%_skins/moono2/',
+		on: {
+			instanceReady: instanceReadyListener,
+		}
+	} );
+	CKEDITOR.replace( 'editor2', {
+		skin: 'moono2,%BASE_PATH%_skins/moono2/',
+		extraPlugins: 'divarea',
+		on: {
+			instanceReady: instanceReadyListener,
+		}
+	} );
+</script>
