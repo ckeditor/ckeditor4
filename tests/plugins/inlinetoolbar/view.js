@@ -70,7 +70,7 @@
 					pointedElement = editor.editable().findOne( 'strong' );
 
 				view.attach( pointedElement, { focusElement: false, show: false } );
-				assert.isFalse( view.rect.visible, 'Toolbar should not be shown.' );
+				assert.isFalse( view.rect.visible, 'Toolbar should not be shown' );
 				assert.areEqual( 0, view._listeners.length, 'Listensers should not be attached' );
 
 				view.show();
@@ -78,8 +78,8 @@
 				assert.areEqual( 2, view._listeners.length, 'Listensers should be attached after show method' );
 
 				view.hide();
-				assert.isFalse( view.rect.visible, 'Toolbar should not be shown after hide method.' );
-				assert.areEqual( 0, view._listeners.length, 'Listensers should not be attached after hide method.' );
+				assert.isFalse( view.rect.visible, 'Toolbar should not be shown after hide method' );
+				assert.areEqual( 0, view._listeners.length, 'Listensers should not be attached after hide method' );
 
 				view.destroy();
 			} );
