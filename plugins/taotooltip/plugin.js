@@ -13,6 +13,18 @@ CKEDITOR.plugins.add('taotooltip', {
 	    ];
 	    var containForbiddenTag;
 
+
+	    /**
+	     * @param {Selection} selection
+	     * @returns {boolean}
+	     */
+	    function canInsert(selection) {
+	    	var range = selection.getRangeAt(0);
+	    	return isSelectionEmpty(selection)
+			    && ! isInTooltip(range.startContainer);
+
+	    }
+
 	    /**
 	     * @param {Selection} selection
 	     * @returns {boolean}
@@ -135,20 +147,21 @@ CKEDITOR.plugins.add('taotooltip', {
 			exec: function(editor) {
 				var config = editor.config.taoQtiItem,
 				    selection = editor.getSelection(),
+					nativeSelection = selection.getNative(),
 				    taoWidgetWrapper;
 
 					if(typeof(config.insert) === 'function') {
-						if (isSelectionEmpty(selection.getNative()) || isWrappable(selection.getNative())) {
+						if (canInsert(nativeSelection) || isWrappable(nativeSelection)) {
 							taoWidgetWrapper = new CKEDITOR.dom.element('span', editor.document);
 							taoWidgetWrapper.setAttributes({
 								'data-new': true,
 								'data-qti-class': '_tooltip',
 								'class': 'widget-box'
 							});
-							if (isSelectionEmpty(selection.getNative())) {
+							if (isSelectionEmpty(nativeSelection)) {
 								// For some profound esoteric reasons, editor.getData() will not return an inserted <span> if that <span> is empty.
 								// So we add a space if nothing was selected!
-								taoWidgetWrapper.append(new CKEDITOR.dom.text('&nbsp;'));
+								taoWidgetWrapper.appendHtml('&nbsp;');
 							} else {
 								taoWidgetWrapper.append(getSelectionContent(selection));
 							}
