@@ -303,6 +303,11 @@
 			loadStyles( editor, this );
 			addCommands( editor );
 			addMenuItems( editor );
+		},
+
+		// Widget must be registered after init in case that link plugin is dynamically loaded e.g. via
+		// `config.extraPlugins`.
+		afterInit: function( editor ) {
 			registerWidget( editor );
 			registerUploadWidget( editor );
 		}
