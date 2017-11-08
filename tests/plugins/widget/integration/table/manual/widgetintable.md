@@ -1,4 +1,4 @@
-@bender-tags: 1027, 4.8.0, widget
+@bender-tags: 1027, 4.8.0, widget, bug
 @bender-ui: collapsed
 @bender-include: ../_helpers/testwidgets.js
 @bender-ckeditor-plugins: undo,clipboard,basicstyles,toolbar,wysiwygarea,widget,table,resize

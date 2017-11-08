@@ -67,6 +67,13 @@
 <script>
 	CKEDITOR.replace( 'classic', {
 		extraPlugins: 'inlineWidget,blockWidget',
+		on: {
+			pluginsLoaded: function() {
+				if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
+					bender.ignore();
+				}
+			}
+		}
 	} );
 
 	CKEDITOR.replace( 'divarea', {

@@ -1,5 +1,5 @@
+<label>Lena's path: <input style="border:2px solid black" type="text" value="../../_assets/lena.jpg" readonly></label>
 <textarea id="editor">
-	<p>Lena's path: "../../_assets/lena.jpg"</p>
 	<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
 		<tbody>
 			<tr>
@@ -22,6 +22,13 @@
 </textarea>
 <script>
 	CKEDITOR.replace( 'editor', {
-		extraPlugins: 'image2'
+		extraPlugins: 'image2',
+		on: {
+			pluginsLoaded: function() {
+				if ( !CKEDITOR.plugins.tableselection.isSupportedEnvironment ) {
+					bender.ignore();
+				}
+			}
+		}
 	} );
 </script>
