@@ -172,6 +172,9 @@
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
 		onLoad: function() {
+			// Load fallback styles.
+			CKEDITOR.document.appendStyleSheet( this.path + 'skins/inlinetoolbar-default.css' );
+
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
 		},
 		init: function() {
