@@ -63,6 +63,7 @@
 					types = [ 'Text', 'text/html', 'foo-bar', 'baz' ];
 
 					function getRow( row1, row2, rowClass ) {
+						rowClass = rowClass || '';
 						return '<tr class="' + rowClass + '"><td>' + row1 + '</td><td>' + CKEDITOR.tools.htmlEncode( row2 ) + '</td></tr>';
 					}
 
