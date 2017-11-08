@@ -14,27 +14,34 @@
 		return widget && typeof widget.parts.link !== 'undefined';
 	}
 
-	function wrapInLink( img, linkData ) {
-		// Covers cases when widget with link inside is upcasted.
-		var link = img.getAscendant( 'a' );
+	function addLinkAttributes( editor, linkElement, linkData ) {
+		// Set and remove all attributes associated with this state.
+		var attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, linkData );
 
-		if ( link ) {
-			return link;
+		if ( !CKEDITOR.tools.isEmpty( attributes.set ) ) {
+			linkElement.setAttributes( attributes.set );
 		}
 
-		link = img.getDocument().createElement( 'a', {
-			attributes: {
-				href: linkData.url.url
-			}
-		} );
+		if ( attributes.removed.length ) {
+			linkElement.removeAttributes( attributes.removed );
+		}
+	}
 
-		link.replace( img );
-		img.move( link );
+	function createLink( editor, img, linkData ) {
+		// Covers cases when widget with link inside is upcasted.
+		var link = img.getAscendant( 'a' ) || editor.document.createElement( 'a' );
+
+		addLinkAttributes( editor, link, linkData );
+
+		if ( !link.contains( img ) ) {
+			link.replace( img );
+			img.move( link );
+		}
 
 		return link;
 	}
 
-	function unwrapFromLink( img ) {
+	function deleteLink( img ) {
 		var link = img.getAscendant( 'a' );
 
 		if ( !link ) {
@@ -149,21 +156,11 @@
 
 				// Unlink was invoked.
 				if ( link === null ) {
-					unwrapFromLink( img );
+					deleteLink( img );
 
 					this.parts.link = null;
 				} else {
-					var linkElement = wrapInLink( img, link ),
-						// Set and remove all attributes associated with this state.
-						attributes = CKEDITOR.plugins.link.getLinkAttributes( editor, link );
-
-					if ( !CKEDITOR.tools.isEmpty( attributes.set ) ) {
-						linkElement.setAttributes( attributes.set );
-					}
-
-					if ( attributes.removed.length ) {
-						linkElement.removeAttributes( attributes.removed );
-					}
+					var linkElement = createLink( editor, img, link );
 
 					this.parts.link = linkElement;
 				}
