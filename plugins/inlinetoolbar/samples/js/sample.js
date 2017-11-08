@@ -39,12 +39,12 @@ CKEDITOR.on( 'instanceReady', function( e ) {
 		var lastElement = evt.data.path.lastElement;
 
 		if ( lastElement ) {
-			panel.create( lastElement );
+			panel.attach( lastElement );
 		}
 	} );
 
 	editor.on( 'mode', function() {
-		panel._view.hide();
+		panel.hide();
 	} );
 } );
 
