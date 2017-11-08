@@ -36,7 +36,9 @@ bender.test( {
 	'test id': function() {
 		var nativeData1 = bender.tools.mockNativeDataTransfer(),
 			nativeData2 = bender.tools.mockNativeDataTransfer(),
-			dataTransfer1a, dataTransfer1b, dataTransfer2;
+			dataTransfer1a,
+			dataTransfer1b,
+			dataTransfer2;
 
 		// Setting id was moved from dataTransfer constructor to functions which initializes dataTransfer object
 		// only on specific events so we need to simulate these behaviour here too (#962).
@@ -60,7 +62,8 @@ bender.test( {
 	'test internal drag drop': function() {
 		var bot = this.editorBots.editor1,
 			editor = this.editors.editor1,
-			nativeData, dataTransfer;
+			nativeData,
+			dataTransfer;
 
 		bot.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
@@ -99,7 +102,8 @@ bender.test( {
 
 	'test drop text from external source': function() {
 		var editor = this.editors.editor1,
-			nativeData, dataTransfer;
+			nativeData,
+			dataTransfer;
 
 		nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'Text', 'x<b>foo</b>x' );
@@ -118,7 +122,8 @@ bender.test( {
 	'test drop html from external source': function() {
 		var isCustomDataTypesSupported = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported,
 			editor = this.editors.editor1,
-			nativeData, dataTransfer;
+			nativeData,
+			dataTransfer;
 
 		nativeData = bender.tools.mockNativeDataTransfer();
 		nativeData.setData( 'Text', 'bar' );
@@ -141,7 +146,8 @@ bender.test( {
 		var bot1 = this.editorBots.editor1,
 			editor1 = this.editors.editor1,
 			editor2 = this.editors.editor2,
-			nativeData, dataTransfer;
+			nativeData,
+			dataTransfer;
 
 		bot1.setHtmlWithSelection( '<p>x[x<b>foo</b>x]x</p>' );
 
@@ -1068,7 +1074,7 @@ bender.test( {
 	},
 
 	'test if cache is initialized on dataTransfer creation': function() {
-		var cache = new CKEDITOR.plugins.clipboard.dataTransfer()._.cache;
+		var cache = new CKEDITOR.plugins.clipboard.dataTransfer()._.data;
 
 		assert.isObject( cache, 'cache should be initialized' );
 	},
@@ -1077,6 +1083,7 @@ bender.test( {
 		var dt1 = new CKEDITOR.plugins.clipboard.dataTransfer(),
 			dt2 = new CKEDITOR.plugins.clipboard.dataTransfer();
 
-		assert.isTrue( dt1._.cache !== dt2._.cache, 'caches should not be equal' );
+		assert.isObject( dt1._.data, 'cache should be initialized' );
+		assert.isTrue( dt1._.data !== dt2._.data, 'caches should not be equal' );
 	}
 } );
