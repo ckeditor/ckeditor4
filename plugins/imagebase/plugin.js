@@ -286,7 +286,7 @@
 		 * with fields needed by feature.
 		 */
 		addFeature: function( editor, name, definition ) {
-			var featureDefinition = featuresDefinitions[ name ];
+			var featureDefinition = CKEDITOR.tools.clone( featuresDefinitions[ name ] );
 
 			function mergeMethods( oldOne, newOne ) {
 				if ( !oldOne && !newOne ) {
