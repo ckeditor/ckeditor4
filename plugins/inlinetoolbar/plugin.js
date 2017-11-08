@@ -150,12 +150,12 @@
 				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
 
 					// If next element to render is richCombo and we have already opened group we have to close it.
-					if ( items[ itemKey ] instanceof CKEDITOR.ui.richCombo && groupStarted ) {
+					if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo && groupStarted ) {
 						groupStarted = false;
 						output.push( '</span>' );
 
 					// If we have closed group and element that is not richBox we have to open group.
-					} else if ( !( items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) && !groupStarted ) {
+					} else if ( !( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) && !groupStarted ) {
 						groupStarted = true;
 						output.push( '<span class="cke_toolgroup">' );
 					}

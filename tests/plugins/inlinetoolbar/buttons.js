@@ -31,7 +31,7 @@
 			assert.isUndefined( panel.getItem( 'cut' ), 'The button should be deleted.' );
 		},
 
-		'test buuton group wrapping': function() {
+		'test button group wrapping': function() {
 			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
 			panel.addItems( {
 				cut: new CKEDITOR.ui.button( {
@@ -43,7 +43,7 @@
 			assert.isNotNull( panel._view.parts.content.findOne( '.cke_toolgroup' ), 'Button should be wrapped in group' );
 		},
 
-		'test group wrapping ommiting checkbox': function() {
+		'test group wrapping omitting rich combo': function() {
 			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
 			panel.addItems( {
 				rich: new CKEDITOR.ui.richCombo( {
@@ -61,7 +61,7 @@
 			assert.isNull( panel._view.parts.content.findOne( '.cke_toolgroup' ), 'Checkbox should not be wrapped in group' );
 		},
 
-		'test group wrapping ommiting checkbox at the beggining': function() {
+		'test group wrapping omiting rich combo at the beginning': function() {
 			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
 			panel.addItems( {
 				rich: new CKEDITOR.ui.richCombo( {
