@@ -55,7 +55,7 @@
 	 *				var lastElement = evt.data.path.lastElement;
 	 *
 	 *				if ( lastElement ) {
-	 *					toolbar.attac( lastElement );
+	 *					toolbar.attach( lastElement );
 	 *				}
 	 *			} );
 	 *		} );
@@ -229,6 +229,7 @@
 
 			/**
 			 * Show inline toolbar.
+			 *
 			 * @member CKEDITOR.ui.inlineToolbar
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.show = function() {
@@ -237,6 +238,7 @@
 
 			/**
 			 * Hide inline toolbar.
+			 *
 			 * @member CKEDITOR.ui.inlineToolbar
 			 */
 			CKEDITOR.ui.inlineToolbar.prototype.hide = function() {
