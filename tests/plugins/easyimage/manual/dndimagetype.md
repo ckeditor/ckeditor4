@@ -3,13 +3,13 @@
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, easyimage, htmlwriter, elementspath
 
 1. Focus widget.
-2. Switch it to full mode.
+2. Switch it to full size.
 3. Drag and drop widget on the beginning of the editor.
 
-**Expected:**
+## Expected
 
-* Widget is still in full mode.
+Widget is still in full size.
 
-**Unexpected:**
+## Unexpected
 
-* Widget switches back to side mode.
+Widget switches back to side image.
