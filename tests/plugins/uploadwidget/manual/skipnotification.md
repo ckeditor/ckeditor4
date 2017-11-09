@@ -5,7 +5,7 @@
 
 ## Skipping Notifications
 
-1. Paste an image into editor.
+1. Paste or drag and drop an image into editor.
 
 ## Expected
 
