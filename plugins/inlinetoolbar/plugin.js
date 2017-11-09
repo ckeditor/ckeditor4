@@ -176,6 +176,11 @@
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
 
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
+			CKEDITOR.plugins.inlineToolbar.create.prototype = {
+				destroy: function() {
+					this.toolbar.destroy();
+				}
+			};
 		},
 
 		/**
@@ -185,13 +190,26 @@
 		 * @class CKEDITOR.plugins.inlinetoolbar.create
 		 * @constructor Creates a class instance.
 		 */
-		create: function( params ) {
-			var toolbar = new CKEDITOR.ui.inlineToolbar();
-			if ( params && params.buttons ) {
-
+		create: function( params, editor ) {
+			if ( !params ) {
+				return;
 			}
 
-			return toolbar;
+			this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
+
+			if ( params.buttons ) {
+				params.buttons = params.buttons.split( ',' );
+				CKEDITOR.tools.array.forEach( params.buttons, function( name ) {
+					if ( editor.ui.items[ name ] ) {
+						this.toolbar.addItem( name, new CKEDITOR.ui.button( {
+							command: editor.ui.items[ name ].command,
+							label: editor.ui.items[ name ].label
+						} ) );
+					}
+				} );
+			}
+
+			return this;
 		},
 
 		init: function() {
