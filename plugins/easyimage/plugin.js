@@ -11,6 +11,8 @@
 	// jscs:disable maximumLineLength
 	// Black rectangle which is shown before image is loaded.
 	var loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
+	// Throttling of progress update in ms.
+	var UPLOAD_PROGRESS_THROTTLING = 100;
 	// jscs:enable maximumLineLength
 
 	function addCommands( editor ) {
@@ -196,7 +198,7 @@
 					// Add a progress bar.
 					this.definition._createProgressBar( this );
 
-					progressListeners.push( loader.on( 'update', function() {
+					var updateListener = CKEDITOR.tools.eventsBuffer( UPLOAD_PROGRESS_THROTTLING, function() {
 						var progressBar = this.parts.progressBar.findOne( '.cke_bar' ),
 							percentage;
 
@@ -204,7 +206,9 @@
 							percentage = ( loader.uploaded / loader.uploadTotal ) * 100;
 							progressBar.setStyle( 'width', percentage + '%' );
 						}
-					}, this ) );
+					}, this );
+
+					progressListeners.push( loader.on( 'update', updateListener.input ) );
 
 					progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
 					progressListeners.push( loader.once( 'error', removeProgressListeners ) );
@@ -369,7 +373,7 @@
 			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
 
 			CKEDITOR.addCss( '.cke_loader { height: 15px; display: block; background: yellow; position: absolute; left: 0px; right: 0px; }\n' +
-				'.cke_loader .cke_bar { display:block; height: 13px; background: red; width: 0; }' );
+				'.cke_loader .cke_bar { display:block; height: 13px; background: red; width: 0; transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's; }' );
 		},
 
 		init: function( editor ) {
