@@ -226,6 +226,8 @@
 			// Easy image uses only upload method, as is manually handled in onUploading function.
 			loadMethod: 'upload',
 
+			skipNotifications: true,
+
 			loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
 
 			fileToElement: function() {
@@ -372,8 +374,8 @@
 		onLoad: function() {
 			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
 
-			CKEDITOR.addCss( '.cke_loader { height: 15px; display: block; background: yellow; position: absolute; left: 0px; right: 0px; }\n' +
-				'.cke_loader .cke_bar { display:block; height: 13px; background: red; width: 0; transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's; }' );
+			CKEDITOR.addCss( '.cke_loader { display: block; position: absolute; left: 0px; right: 0px; }\n' +
+				'.cke_loader .cke_bar { display:block; height: 10px; background: #6a9ed1; width: 0; transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's; }' );
 		},
 
 		init: function( editor ) {
