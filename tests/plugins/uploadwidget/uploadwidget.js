@@ -61,7 +61,11 @@
 	function mockEditorForPaste() {
 		var editor = {
 			widgets: {
-				add: function() {}
+				add: function( name, def ) {
+					// Note that widget system makes a duplicate of a definition.
+					this.registered[ name ] = CKEDITOR.tools.prototypedCopy( def );
+				},
+				registered: {}
 			},
 			lang: {},
 			config: {}
@@ -500,6 +504,31 @@
 				assert.areSame( 0, loadCount, 'Load should not be called.' );
 				assert.areSame( 1, uploadCount, 'Upload should be called once.' );
 				assert.areSame( 0, loadAndUploadCount, 'LoadAndUpload should not be called once.' );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test1.png' ) ] );
+
+			wait();
+		},
+
+		'test supports definition changes at a runtime': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'runtimeDefChanges', {
+				supportedTypes: /image\/png/,
+
+				loadMethod: 'upload',
+
+				fileToElement: function() {
+					return new CKEDITOR.dom.element( 'span' );
+				}
+			} );
+
+			// Change supported type, so that paste does not match.
+			editor.widgets.registered.runtimeDefChanges.supportedTypes = /text\/plain/;
+
+			resumeAfter( editor, 'paste', function() {
+				assert.areSame( 0, uploadCount, 'Upload call count' );
 			} );
 
 			pasteFiles( editor, [ bender.tools.getTestPngFile( 'test1.png' ) ] );
