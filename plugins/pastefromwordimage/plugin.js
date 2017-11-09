@@ -88,14 +88,12 @@
 
 			for ( var i = 0; i < wholeImages.length; i++ ) {
 				if ( rePictureHeader.test( wholeImages[ i ] ) ) {
-					if ( wholeImages[ i ].indexOf( '\\wmetafile' ) !== -1 || wholeImages[ i ].indexOf( '\\macpict' ) !== -1 ) {
-						continue;
-					} else if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
+					if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
 						imageType = 'image/png';
 					} else if ( wholeImages[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
 						imageType = 'image/jpeg';
 					} else {
-						imageType = null;
+						continue;
 					}
 
 					ret.push( {

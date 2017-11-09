@@ -392,33 +392,47 @@
 				'v:imagedata': remove,
 				// This is how IE8 presents images.
 				'v:shape': function( element ) {
-					var emptyShapeInsideGroup = element.parent && element.parent.name === 'v:group';
+					// There are 3 paths:
+					// 1. There is regular `v:shape` ( no `v:imagedata` inside )
+					// 2. There is simple situation where is `v:shape` with `v:imagedata`, we can remove such element and rely on `img` tag found later on.
+					// 3. There is complicated situation where we can not find proper `img` tag after `v:shape` or there is some canva in word.
+					//  a) If shape is a child of v:group, then most probably we process element belong to canva, so we need to treat it as in path 1.
+					//  b) In other case, most probably there is no related img tag. So we need to transform this `v:shape` into `img` tag (IE8 integration).
 
-					// In chrome a <v:shape> element may be followed by an <img> element with the same content.
-					// Remain for legacy comaptibility (#995, #1069).
-					if ( !element.attributes[ 'o:gfxdata' ] && !emptyShapeInsideGroup ) {
-						var duplicate = false,
-							child = element.getFirst( 'v:imagedata' );
+					var duplicate = false,
+						child = element.getFirst( 'v:imagedata' );
 
-						// Canvas leaves empty `v:shape`, which should not be converted into img tag.
-						// These empty `v:shape` contains 2 attributes which helps distinguish it (#1088).
-						if ( child && ( child.attributes.croptop !== undefined || child.attributes.cropbottom !== undefined ) ) {
+					// Path 1:
+					if ( child === null ) {
+						shapeTagging( element );
+						return;
+					}
+
+					// Path 2:
+					// Sometimes child with proper ID might be nested in other tag.
+					element.parent.find( function( child ) {
+						if ( child.name == 'img' &&
+						child.attributes &&
+						child.attributes[ 'v:shapes' ] == element.attributes.id ) {
+							duplicate = true;
+						}
+					}, true );
+
+					if ( duplicate ) {
+						return false;
+					} else {
+
+						// Path 3:
+						var src = '';
+
+						// 3.a) Filter out situation when canvas is used. In such scenario there is v:group contained v:shape contained v:imagedata.
+						// Such v:shapes we treat as in Path 1.
+						if ( element.parent.name === 'v:group' ) {
 							shapeTagging( element );
 							return;
 						}
 
-						// Sometimes child with proper ID might be nested in other tag.
-						element.parent.find( function( child ) {
-							if ( child.name == 'img' &&
-							child.attributes &&
-							child.attributes[ 'v:shapes' ] == element.attributes.id ) {
-								duplicate = true;
-							}
-						}, true );
-
-						if ( duplicate ) return false;
-
-						var src = '';
+						// 3.b) Most probably there is no img tag later on, so we need to transform this v:shape into img. This should only happen on IE8.
 						element.forEach( function( child ) {
 							if ( child.attributes && child.attributes.src ) {
 								src = child.attributes.src;
@@ -431,9 +445,9 @@
 						element.attributes.src = element.attributes.src || src;
 
 						delete element.attributes.type;
-					} else {
-						shapeTagging( element );
 					}
+
+					return;
 				},
 
 				'style': function() {
