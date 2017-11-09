@@ -15,7 +15,7 @@
 
 	function addCommands( editor ) {
 		function isSideImage( widget ) {
-			return widget.element.hasClass( editor.config.easyimage_sideClass );
+			return widget.data.type === 'side';
 		}
 
 		function isFullImage( widget ) {
@@ -54,13 +54,13 @@
 		}
 
 		editor.addCommand( 'easyimageFull', createCommand( function( widget ) {
-			widget.element.removeClass( editor.config.easyimage_sideClass );
+			widget.setData( 'type', 'full' );
 		}, function( widget ) {
 			return isFullImage( widget );
 		} ) );
 
 		editor.addCommand( 'easyimageSide', createCommand( function( widget ) {
-			widget.element.addClass( editor.config.easyimage_sideClass );
+			widget.setData( 'type', 'side' );
 		}, function( widget ) {
 			return isSideImage( widget );
 		} ) );
@@ -98,6 +98,14 @@
 		} );
 	}
 
+	function getInitialImageType( widget ) {
+		if ( widget.element.hasClass( widget.editor.config.easyimage_sideClass ) ) {
+			return 'side';
+		}
+
+		return 'full';
+	}
+
 	function registerWidget( editor ) {
 		var config = editor.config,
 			figureClass = config.easyimage_class,
@@ -129,6 +137,20 @@
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
 						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
 					} );
+				},
+
+				data: function( evt ) {
+					var data = evt.data;
+
+					if ( !data.type ) {
+						data.type = getInitialImageType( this );
+					}
+
+					if ( data.type === 'side' ) {
+						this.element.addClass( editor.config.easyimage_sideClass );
+					} else {
+						this.element.removeClass( editor.config.easyimage_sideClass );
+					}
 				}
 			};
 
