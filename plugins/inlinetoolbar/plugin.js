@@ -177,6 +177,9 @@
 	 */
 	var createContext = function( editor ) {
 		this.editor = editor;
+		editor.on( 'destroy', function() {
+			this.destroy();
+		}, this );
 	};
 
 	var pluginInit = false;
@@ -209,7 +212,10 @@
 					return this.toolbar;
 				},
 				destroy: function() {
-					this.toolbar.destroy();
+
+					if ( this.toolbar ) {
+						this.toolbar.destroy();
+					}
 				}
 			};
 		},
