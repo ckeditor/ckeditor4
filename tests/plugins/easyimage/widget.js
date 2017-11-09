@@ -27,6 +27,37 @@
 		}
 	};
 
+	function dragstart( editor, evt, widget ) {
+		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
+
+		// Use realistic target which is the drag handler.
+		evt.setTarget( widget.dragHandlerContainer.findOne( 'img' ) );
+
+		dropTarget.fire( 'dragstart', evt );
+	}
+
+	function drop( editor, evt, dropRange ) {
+		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+
+		// If drop range is known use a realistic target. If no, then use a mock.
+		if ( dropRange ) {
+			evt.setTarget( dropRange.startContainer );
+		} else {
+			evt.setTarget( new CKEDITOR.dom.text( 'targetMock' ) );
+		}
+
+		dropTarget.fire( 'drop', evt );
+	}
+
+	function dragend( editor, evt, widget ) {
+		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+
+		// Use realistic target which is the drag handler.
+		evt.setTarget( widget.dragHandlerContainer.findOne( 'img' ) );
+
+		dropTarget.fire( 'dragend', evt );
+	}
+
 	var tests = {
 		'test upcasting image widget (figure)': function( editor, bot ) {
 			widgetTestsTools.assertWidget( {
@@ -35,6 +66,36 @@
 				nameCreated: 'easyimage',
 				html: CKEDITOR.document.getById( 'mixedFigures' ).getHtml(),
 				bot: bot
+			} );
+		},
+
+		// tp3163
+		'test drag and drop retains data type': function( editor, bot ) {
+			bot.setData( CKEDITOR.document.getById( 'typeData' ).getHtml(), function() {
+				var widget = widgetTestsTools.getWidgetByDOMOffset( editor, 0 ),
+					evt = bender.tools.mockDropEvent(),
+					range = editor.createRange();
+
+				widget.focus();
+				editor.execCommand( 'easyimageFull' );
+
+				editor.once( 'drop', function() {
+					resume( function() {
+						// Drag and drop probably destroyed old widget, so we should fetch it once more.
+						var widget = editor.widgets.focused;
+
+						assert.areSame( 'full', widget.data.type, 'Widget has correct data type' );
+					} );
+				} );
+
+				range.setStartBefore( editor.editable().findOne( 'p' ) );
+				range.collapse();
+
+				dragstart( editor, evt, widget );
+				drop( editor, evt, range );
+				dragend( editor, evt, widget );
+
+				wait();
 			} );
 		}
 	};
