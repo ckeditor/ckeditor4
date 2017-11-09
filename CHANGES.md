@@ -28,11 +28,13 @@ Fixed Issues:
 * [#1008](https://github.com/ckeditor/ckeditor-dev/issues/1008): Fixed: Shorthand Hex colors from the [`config.colorButton_colors`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-colorButton_colors) option are not correctly highlighted in the [Color Button](https://ckeditor.com/cke4/addon/colorbutton) Text Color or Background Color panel.
 * [#1094](https://github.com/ckeditor/ckeditor-dev/issues/1094): Fixed: Widget definition [`upcast`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-upcasts) methods are called for every element.
 * [#1057](https://github.com/ckeditor/ckeditor-dev/issues/1057): Fixed: The [Notification](https://ckeditor.com/addon/notification) plugin overwrites Web Notifications API due to leakage to the global scope.
+* [#1068](https://github.com/ckeditor/ckeditor-dev/issues/1068): Fixed: Upload widget paste listener ignores changes to the `uploadWidgetDefinition`.
 
 API Changes:
 
 * [#1097](https://github.com/ckeditor/ckeditor-dev/issues/1097): Widget [`upcast`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget.definition-property-upcast) methods are now called in the [widget definition's](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.plugins.widget-property-definition) context.
 * [#1118](https://github.com/ckeditor/ckeditor-dev/issues/1118): Added the `show` option in the [`balloonPanel.attach`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.ui.balloonPanel-method-attach) method, allowing to attach a hidden [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) instance.
+* [#1145(]https://github.com/ckeditor/ckeditor-dev/issues/1145): Added the `skipNotifications` option to the [`CKEDITOR.fileTools.uploadWidgetDefinition`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.fileTools.uploadWidgetDefinition-property-skipNotifications), allowing to switch off default notifications displayed by upload widgets.
 
 Other Changes:
 
