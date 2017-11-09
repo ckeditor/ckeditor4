@@ -85,47 +85,50 @@
 		this._items = [];
 	};
 
+	/**
+	 * Create new inline toolbar
+	 *
+	 * @since 4.8
+	 * @class CKEDITOR.plugins.inlinetoolbar.create
+	 * @constructor Creates a class instance.
+	 */
+	var createContext = function( editor ) {
+		this.editor = editor;
+	};
+
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
 		onLoad: function() {
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
-			CKEDITOR.plugins.inlineToolbar.create.prototype = {
+			createContext.prototype = {
+				create: function( params ) {
+					if ( !params ) {
+						return;
+					}
+
+					this.toolbar = new CKEDITOR.ui.inlineToolbar( this.editor );
+
+					if ( params.buttons ) {
+						params.buttons = params.buttons.split( ',' );
+						CKEDITOR.tools.array.forEach( params.buttons, function( name ) {
+							if ( this.editor.ui.items[ name ] ) {
+								this.toolbar.addItem( name, new CKEDITOR.ui.button( {
+									command: this.editor.ui.items[ name ].command,
+									label: this.editor.ui.items[ name ].label
+								} ) );
+							}
+						}, this );
+					}
+					return this.toolbar;
+				},
 				destroy: function() {
 					this.toolbar.destroy();
 				}
 			};
 		},
 
-		/**
-		 * Create new inline toolbar
-		 *
-		 * @since 4.8
-		 * @class CKEDITOR.plugins.inlinetoolbar.create
-		 * @constructor Creates a class instance.
-		 */
-		create: function( params, editor ) {
-			if ( !params ) {
-				return;
-			}
-
-			this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
-
-			if ( params.buttons ) {
-				params.buttons = params.buttons.split( ',' );
-				CKEDITOR.tools.array.forEach( params.buttons, function( name ) {
-					if ( editor.ui.items[ name ] ) {
-						this.toolbar.addItem( name, new CKEDITOR.ui.button( {
-							command: editor.ui.items[ name ].command,
-							label: editor.ui.items[ name ].label
-						} ) );
-					}
-				} );
-			}
-
-			return this;
-		},
-
-		init: function() {
+		init: function( editor ) {
+			editor.inlineToolbar = new createContext( editor );
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 
 			/**
