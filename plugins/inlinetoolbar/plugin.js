@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -168,6 +168,17 @@
 		this._view.destroy();
 	};
 
+	/**
+	 * Create new inline toolbar
+	 *
+	 * @since 4.8
+	 * @class CKEDITOR.plugins.inlinetoolbar.create
+	 * @constructor Creates a class instance.
+	 */
+	var createContext = function( editor ) {
+		this.editor = editor;
+	};
+
 	var pluginInit = false;
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
@@ -176,7 +187,27 @@
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
 
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
-			CKEDITOR.plugins.inlineToolbar.create.prototype = {
+			createContext.prototype = {
+				create: function( params ) {
+					if ( !params ) {
+						return;
+					}
+
+					this.toolbar = new CKEDITOR.ui.inlineToolbar( this.editor );
+
+					if ( params.buttons ) {
+						params.buttons = params.buttons.split( ',' );
+						CKEDITOR.tools.array.forEach( params.buttons, function( name ) {
+							if ( this.editor.ui.items[ name ] ) {
+								this.toolbar.addItem( name, new CKEDITOR.ui.button( {
+									command: this.editor.ui.items[ name ].command,
+									label: this.editor.ui.items[ name ].label
+								} ) );
+							}
+						}, this );
+					}
+					return this.toolbar;
+				},
 				destroy: function() {
 					this.toolbar.destroy();
 				}
@@ -212,7 +243,9 @@
 			return this;
 		},
 
-		init: function() {
+		init: function( editor ) {
+			editor.inlineToolbar = new createContext( editor );
+
 			// Awful hack for overwriting prototypes of inilineToolbarView (#1142).
 			if ( pluginInit ) {
 				return;
