@@ -392,14 +392,12 @@
 			wait();
 		},
 
-		'test bindNotifications when paste image': function( editor ) {
+		'test custom loader': function( editor ) {
 			CKEDITOR.fileTools.bindNotifications = sinon.spy();
 
 			resumeAfter( editor, 'paste', function() {
 				var spy = CKEDITOR.fileTools.bindNotifications;
-				assert.areSame( 1, spy.callCount );
-				assert.isTrue( spy.calledWith( editor ) );
-				assert.areSame( bender.tools.pngBase64, spy.firstCall.args[ 1 ].data );
+				assert.areSame( 0, spy.callCount );
 			} );
 
 			editor.fire( 'paste', {
