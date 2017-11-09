@@ -173,6 +173,8 @@
 		if ( def.fileToElement ) {
 			editor.on( 'paste', function( evt ) {
 				var data = evt.data,
+					// Fetch runtime widget definition as it might get changed in editor#widgetDefinition event.
+					def = editor.widgets.registered[ name ],
 					dataTransfer = data.dataTransfer,
 					filesCount = dataTransfer.getFilesCount(),
 					loadMethod = def.loadMethod || 'loadAndUpload',
@@ -195,7 +197,7 @@
 
 							CKEDITOR.fileTools.markElement( el, name, loader.id );
 
-							if ( loadMethod == 'loadAndUpload' || loadMethod == 'upload' ) {
+							if ( ( loadMethod == 'loadAndUpload' || loadMethod == 'upload' ) && !def.skipNotifications ) {
 								CKEDITOR.fileTools.bindNotifications( editor, loader );
 							}
 
@@ -381,6 +383,16 @@
 			 * otherwise you can get an "out of memory" error.
 			 *
 			 * @property {String} [loadMethod=loadAndUpload]
+			 */
+
+			/**
+			 * Indicates whether default notification handling should be skipped.
+			 *
+			 * By default upload widget will use [Notification](https://ckeditor.com/cke4/addon/notification) plugin to provide
+			 * feedback for upload progress and eventual success / error message.
+			 *
+			 * @since 4.8.0
+			 * @property {Boolean} [skipNotifications=false]
 			 */
 
 			/**
