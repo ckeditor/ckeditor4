@@ -1,5 +1,5 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: easyimage,toolbar */
+/* bender-ckeditor-plugins: floatingspace,easyimage,toolbar */
 /* bender-include: ../widget/_helpers/tools.js */
 /* global widgetTestsTools */
 
@@ -37,7 +37,7 @@
 	}
 
 	function drop( editor, evt, dropRange ) {
-		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
 
 		// If drop range is known use a realistic target. If no, then use a mock.
 		if ( dropRange ) {
@@ -50,7 +50,7 @@
 	}
 
 	function dragend( editor, evt, widget ) {
-		var dropTarget = CKEDITOR.env.ie && CKEDITOR.env.version < 9 ? editor.editable() : editor.document;
+		var dropTarget = CKEDITOR.plugins.clipboard.getDropTarget( editor );
 
 		// Use realistic target which is the drag handler.
 		evt.setTarget( widget.dragHandlerContainer.findOne( 'img' ) );
@@ -88,7 +88,7 @@
 					} );
 				} );
 
-				range.setStartBefore( editor.editable().findOne( 'p' ) );
+				range.setStart( editor.editable().findOne( 'p' ).getChild( 0 ), 1 );
 				range.collapse();
 
 				dragstart( editor, evt, widget );
