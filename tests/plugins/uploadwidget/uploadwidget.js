@@ -622,6 +622,23 @@
 			wait();
 		},
 
+		'test uploadWidgetDefinition.skipNotifications': function() {
+			var editor = mockEditorForPaste();
+
+			addTestUploadWidget( editor, 'bindNotificationsWidget', {
+				skipNotifications: true
+			} );
+
+			resumeAfter( editor, 'paste', function() {
+				var spy = CKEDITOR.fileTools.bindNotifications;
+				assert.areSame( 0, spy.callCount, 'CKEDITOR.fileTools.bindNotifications call count' );
+			} );
+
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+			wait();
+		},
+
 		'test undo and redo': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
