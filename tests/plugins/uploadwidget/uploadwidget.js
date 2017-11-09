@@ -511,6 +511,7 @@
 			wait();
 		},
 
+		// (#1068).
 		'test supports definition changes at a runtime': function() {
 			var editor = mockEditorForPaste();
 
@@ -651,6 +652,7 @@
 			wait();
 		},
 
+		// (#1145).
 		'test uploadWidgetDefinition.skipNotifications': function() {
 			var editor = mockEditorForPaste();
 
