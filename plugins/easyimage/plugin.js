@@ -253,7 +253,7 @@
 					upload.responseData.response[ 'default' ] + '" srcset="' + srcset + '" sizes="100vw"><figcaption></figcaption></figure>' );
 			},
 
-			/**
+			/*
 			 * Creates a progress bar in a given widget.h
 			 *
 			 * Also puts it in it's {@link CKEDITOR.plugins.widget#parts} structure as `progressBar`
