@@ -85,6 +85,89 @@
 		this._items = [];
 	};
 
+	/**
+	 * Displays the inline toolbar, pointing it to the `element`.
+	 *
+	 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
+	 * @param {Boolean} [hidden=false] Do not show inline toolbar after attach.
+	 * @member CKEDITOR.ui.inlineToolbar
+	 */
+	CKEDITOR.ui.inlineToolbar.prototype.attach = function( element, hidden ) {
+		this._view.renderItems( this._items );
+		this._view.attach( element, {
+			focusElement: false,
+			show: !hidden
+		} );
+	};
+
+	/**
+	 * Show inline toolbar.
+	 *
+	 * @member CKEDITOR.ui.inlineToolbar
+	 */
+	CKEDITOR.ui.inlineToolbar.prototype.show = function() {
+		this._view.show();
+	};
+
+	/**
+	 * Hide inline toolbar.
+	 *
+	 * @member CKEDITOR.ui.inlineToolbar
+	 */
+	CKEDITOR.ui.inlineToolbar.prototype.hide = function() {
+		this._view.hide();
+	};
+
+	/**
+	 * Adds an item to the inline toolbar.
+	 *
+	 * @param {String} name The menu item name.
+	 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} element Instance of ui element.
+	 */
+	CKEDITOR.ui.inlineToolbar.prototype.addItem = function( name, element ) {
+		this._items[ name ] = element;
+	};
+
+	/**
+	 * Adds one or more items to the inline toolbar.
+	 *
+	 * @param {Object} elements Object where keys are used as itemName and corresponding values as definition for a {@link #addItem} call.
+	 */
+	CKEDITOR.ui.inlineToolbar.prototype.addItems = function( elements ) {
+		for ( var itemName in elements ) {
+			this.addItem( itemName, elements[ itemName ] );
+		}
+	};
+
+	/**
+	 * Retrieves a particular menu item from the inline toolbar.
+	 *
+	 * @param {String} name The name of the desired menu item.
+	 * @returns {CKEDITOR.ui.button/CKEDITOR.ui.richCombo}
+	 */
+	CKEDITOR.ui.inlineToolbar.prototype.getItem = function( name ) {
+		return this._items[ name ];
+	};
+
+	/**
+	 * Removes a particular menu item from the inline toolbar.
+	 *
+	 * @param {String} name The name of the item menu to be deleted.
+	 */
+	CKEDITOR.ui.inlineToolbar.prototype.deleteItem = function( name ) {
+		if ( this._items[ name ] ) {
+			delete this._items[ name ];
+		}
+	};
+
+	/**
+	 * Hides the toolbar and removes it from the DOM.
+	 */
+	CKEDITOR.ui.inlineToolbar.prototype.destroy = function() {
+		this._pointedElement = null;
+		this._view.destroy();
+	};
+
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
 		onLoad: function() {
@@ -210,89 +293,6 @@
 				 */
 				this._pointedElement = element;
 				CKEDITOR.ui.balloonPanel.prototype.attach.call( this, element, options );
-			};
-
-			/**
-			 * Displays the inline toolbar, pointing it to the `element`.
-			 *
-			 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
-			 * @param {Boolean} [hidden=false] Do not show inline toolbar after attach.
-			 * @member CKEDITOR.ui.inlineToolbar
-			 */
-			CKEDITOR.ui.inlineToolbar.prototype.attach = function( element, hidden ) {
-				this._view.renderItems( this._items );
-				this._view.attach( element, {
-					focusElement: false,
-					show: !hidden
-				} );
-			};
-
-			/**
-			 * Show inline toolbar.
-			 *
-			 * @member CKEDITOR.ui.inlineToolbar
-			 */
-			CKEDITOR.ui.inlineToolbar.prototype.show = function() {
-				this._view.show();
-			};
-
-			/**
-			 * Hide inline toolbar.
-			 *
-			 * @member CKEDITOR.ui.inlineToolbar
-			 */
-			CKEDITOR.ui.inlineToolbar.prototype.hide = function() {
-				this._view.hide();
-			};
-
-			/**
-			 * Adds an item to the inline toolbar.
-			 *
-			 * @param {String} name The menu item name.
-			 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} element Instance of ui element.
-			 */
-			CKEDITOR.ui.inlineToolbar.prototype.addItem = function( name, element ) {
-				this._items[ name ] = element;
-			};
-
-			/**
-			 * Adds one or more items to the inline toolbar.
-			 *
-			 * @param {Object} elements Object where keys are used as itemName and corresponding values as definition for a {@link #addItem} call.
-			 */
-			CKEDITOR.ui.inlineToolbar.prototype.addItems = function( elements ) {
-				for ( var itemName in elements ) {
-					this.addItem( itemName, elements[ itemName ] );
-				}
-			};
-
-			/**
-			 * Retrieves a particular menu item from the inline toolbar.
-			 *
-			 * @param {String} name The name of the desired menu item.
-			 * @returns {CKEDITOR.ui.button/CKEDITOR.ui.richCombo}
-			 */
-			CKEDITOR.ui.inlineToolbar.prototype.getItem = function( name ) {
-				return this._items[ name ];
-			};
-
-			/**
-			 * Removes a particular menu item from the inline toolbar.
-			 *
-			 * @param {String} name The name of the item menu to be deleted.
-			 */
-			CKEDITOR.ui.inlineToolbar.prototype.deleteItem = function( name ) {
-				if ( this._items[ name ] ) {
-					delete this._items[ name ];
-				}
-			};
-
-			/**
-			 * Hides the toolbar and removes it from the DOM.
-			 */
-			CKEDITOR.ui.inlineToolbar.prototype.destroy = function() {
-				this._pointedElement = null;
-				this._view.destroy();
 			};
 		}
 	} );
