@@ -168,12 +168,18 @@
 		this._view.destroy();
 	};
 
+	var pluginInit = false;
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
 		onLoad: function() {
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
 		},
 		init: function() {
+			// Awufl hack for overwriting prototypes of inilineToolbarView (#1142)
+			if ( pluginInit ) {
+				return;
+			}
+			pluginInit = true;
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 
 			/**
