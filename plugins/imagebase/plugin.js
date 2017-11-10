@@ -40,18 +40,6 @@
 		return link;
 	}
 
-	function deleteLink( img ) {
-		var link = img.getAscendant( 'a' );
-
-		if ( !link ) {
-			return;
-		}
-
-		img.replace( link );
-
-		return img;
-	}
-
 	function getLinkData( widget ) {
 		return CKEDITOR.plugins.link.parseLinkAttributes( widget.editor, widget.parts.link );
 	}
@@ -161,8 +149,7 @@
 
 				// Unlink was invoked.
 				if ( link === null ) {
-					deleteLink( img );
-
+					this.parts.link.remove( true );
 					this.parts.link = null;
 				} else {
 					var linkElement = createLink( editor, img, link );
