@@ -152,9 +152,7 @@
 					this.parts.link.remove( true );
 					this.parts.link = null;
 				} else {
-					var linkElement = createLink( editor, img, link );
-
-					this.parts.link = linkElement;
+					this.parts.link = createLink( editor, img, link );
 				}
 			}
 		}
