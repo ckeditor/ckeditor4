@@ -61,13 +61,16 @@
 </div>
 
 <script>
-	var classic, inline;
+	var classic,
+		inline;
 
 	classic = CKEDITOR.replace( 'classic' );
 	inline = CKEDITOR.inline( 'inline' );
 
 	classic.on( 'pluginsLoaded', function() {
-		if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+		if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported ) {
+			bender.ignore();
+		} else {
 			classic.on( 'copy', logData );
 			classic.on( 'paste', logData );
 			classic.on( 'dragstart', logData );
