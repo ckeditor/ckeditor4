@@ -28,7 +28,6 @@
 	}
 
 	function createLink( editor, img, linkData ) {
-		// Covers cases when widget with link inside is upcasted.
 		var link = img.getAscendant( 'a' ) || editor.document.createElement( 'a' );
 
 		addLinkAttributes( editor, link, linkData );
