@@ -83,6 +83,10 @@
 					dialog.setupContent( widget.data.link || {} );
 					displayTextField.hide();
 
+					// This listener overwrites the default action after pressing "OK" button in link dialog.
+					// It gets the user input and set appropriate data in the widget.
+					// `evt.stop` and higher priority are necessary to prevent adding unwanted link to
+					// widget's caption.
 					okListener = dialog.once( 'ok', function( evt ) {
 						if ( !isLinkable( widget ) ) {
 							return;
