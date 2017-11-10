@@ -33,6 +33,24 @@
 				'Widget definition has correct value for widgetFeatures property' );
 
 			linkDefinition.setUp = originalSetUp;
+		},
+
+		'testing feature.setUp parameters': function() {
+			var plugin = CKEDITOR.plugins.imagebase,
+				editor = this.editor,
+				widgetDefinition = {},
+				spy = sinon.spy();
+
+			plugin.featuresDefinitions.foo = {
+				setUp: spy
+			};
+
+			plugin.addFeature( editor, 'foo', widgetDefinition );
+
+			assert.isTrue( spy.calledWithExactly( editor, widgetDefinition ),
+				'setUp is called with appropriate parameters' );
+
+			delete plugin.featuresDefinitions.foo;
 		}
 	} );
 } )();

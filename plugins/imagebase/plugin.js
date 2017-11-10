@@ -303,7 +303,7 @@
 			featureDefinition.data = mergeMethods( definition.data, featureDefinition.data );
 
 			if ( featureDefinition.setUp ) {
-				featureDefinition.setUp( editor );
+				featureDefinition.setUp( editor, definition );
 
 				delete featureDefinition.setUp;
 			}
