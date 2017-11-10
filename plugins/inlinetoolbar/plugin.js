@@ -175,7 +175,7 @@
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
 		},
 		init: function() {
-			// Awufl hack for overwriting prototypes of inilineToolbarView (#1142)
+			// Awful hack for overwriting prototypes of inilineToolbarView (#1142).
 			if ( pluginInit ) {
 				return;
 			}
