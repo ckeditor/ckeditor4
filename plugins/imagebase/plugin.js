@@ -11,7 +11,7 @@
 	}
 
 	function isLinkable( widget ) {
-		return widget && typeof widget.parts.link !== 'undefined';
+		return widget && widget.widgetFeatures && CKEDITOR.tools.array.indexOf( widget.widgetFeatures, 'link' ) !== -1;
 	}
 
 	function addLinkAttributes( editor, linkElement, linkData ) {
