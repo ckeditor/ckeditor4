@@ -205,6 +205,13 @@
 
 			requiredContent: 'figure; img[!src]',
 
+			/**
+			 * The array containing names of features added to this widget's definition
+			 *
+			 * @property {String[]} widgetFeatures
+			 */
+			widgetFeatures: [],
+
 			editables: {
 				caption: {
 					selector: 'figcaption',
@@ -310,6 +317,8 @@
 
 				delete featureDefinition.setUp;
 			}
+
+			featureDefinition.widgetFeatures = [ name ];
 
 			return CKEDITOR.tools.object.merge( definition, featureDefinition );
 		}
