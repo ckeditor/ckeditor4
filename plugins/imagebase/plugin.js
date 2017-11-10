@@ -57,6 +57,7 @@
 
 			setUp: function( editor ) {
 				if ( !editor.plugins.link ) {
+					// All of listeners registered later on make only when link plugin is loaded.
 					return;
 				}
 
@@ -200,7 +201,7 @@
 			requiredContent: 'figure; img[!src]',
 
 			/**
-			 * The array containing names of features added to this widget's definition
+			 * The array containing names of features added to this widget's definition.
 			 *
 			 * @property {String[]} widgetFeatures
 			 */
