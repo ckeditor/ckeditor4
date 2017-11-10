@@ -29,6 +29,8 @@
 				'Link feature definition is not modified' );
 			assert.areNotSame( widgetDefinition, extendedDefinition, 'addFeature returns new definition' );
 			assert.areSame( 1, callCount, 'setUp was called only once' );
+			arrayAssert.itemsAreSame( [ 'link' ], extendedDefinition.widgetFeatures,
+				'Widget definition has correct value for widgetFeatures property' );
 
 			linkDefinition.setUp = originalSetUp;
 		}
