@@ -37,6 +37,7 @@
 	}
 
 	var widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
+		sideWidgetHtml = '<figure class="image easyimage easyimage-side"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
 		tests = {
 			tearDown: function() {
 				var currentDialog = CKEDITOR.dialog.getCurrent();
@@ -98,6 +99,7 @@
 					widget.focus();
 
 					assert.isFalse( widget.element.hasClass( 'easyimage-side' ), 'Image does not have side class' );
+					assert.areSame( 'full', widget.data.type, 'Widget has correct type data' );
 
 					bot.contextmenu( function( menu ) {
 						assertMenuItemsState( menu.items, {
@@ -108,6 +110,7 @@
 						editor.execCommand( 'easyimageSide' );
 
 						assert.isTrue( widget.element.hasClass( 'easyimage-side' ), 'Image has side class' );
+						assert.areSame( 'side', widget.data.type, 'Widget has correct type data' );
 
 						bot.contextmenu( function( menu ) {
 							assertMenuItemsState( menu.items, {
@@ -118,6 +121,14 @@
 							menu.hide();
 						} );
 					} );
+				} );
+			},
+
+			'test initial type data for side image': function( editor, bot ) {
+				bot.setData( sideWidgetHtml, function() {
+					var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+					assert.areSame( 'side', widget.data.type, 'Widget has correct type data' );
 				} );
 			}
 		};
