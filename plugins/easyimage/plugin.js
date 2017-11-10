@@ -137,6 +137,10 @@
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
 						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
 					} );
+
+					if ( editor.config.easyimage_class ) {
+						this.wrapper.addClass( editor.config.easyimage_class );
+					}
 				},
 
 				data: function( evt ) {
