@@ -71,7 +71,8 @@
 				editor.on( 'dialogShow', function( evt ) {
 					var widget = getFocusedWidget( editor ),
 						dialog = evt.data,
-						displayTextField;
+						displayTextField,
+						okListener;
 
 					if ( !isLinkable( widget ) || dialog._.name !== 'link' ) {
 						return;
@@ -82,7 +83,7 @@
 					dialog.setupContent( widget.data.link || {} );
 					displayTextField.hide();
 
-					dialog.once( 'ok', function( evt ) {
+					okListener = dialog.once( 'ok', function( evt ) {
 						if ( !isLinkable( widget ) ) {
 							return;
 						}
@@ -96,6 +97,7 @@
 					}, null, null, 9 );
 
 					dialog.once( 'hide', function() {
+						okListener.removeListener();
 						displayTextField.show();
 					} );
 				} );
