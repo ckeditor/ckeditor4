@@ -56,6 +56,10 @@
 			},
 
 			setUp: function( editor ) {
+				if ( !editor.plugins.link ) {
+					return;
+				}
+
 				editor.on( 'dialogShow', function( evt ) {
 					var widget = getFocusedWidget( editor ),
 						dialog = evt.data,
