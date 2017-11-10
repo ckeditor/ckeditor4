@@ -59,6 +59,15 @@
 	}
 
 	var tests = {
+		init: function() {
+			// Ignore some irrelevant warnings for this test suite.
+			CKEDITOR.on( 'log', function( evt ) {
+				if ( evt.data.type == 'warn' ) {
+					evt.cancel();
+				}
+			} );
+		},
+
 		'test upcasting image widget (figure)': function( editor, bot ) {
 			widgetTestsTools.assertWidget( {
 				count: editor.name === 'classicAllFigures' ? 2 : 1,
@@ -77,14 +86,14 @@
 					range = editor.createRange();
 
 				widget.focus();
-				editor.execCommand( 'easyimageFull' );
+				editor.execCommand( 'easyimageSide' );
 
 				editor.once( 'drop', function() {
 					resume( function() {
 						// Drag and drop probably destroyed old widget, so we should fetch it once more.
 						var widget = editor.widgets.focused;
 
-						assert.areSame( 'full', widget.data.type, 'Widget has correct data type' );
+						assert.areSame( 'side', widget.data.type, 'Widget has correct data type' );
 					} );
 				} );
 
