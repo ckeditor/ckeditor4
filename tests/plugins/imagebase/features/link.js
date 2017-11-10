@@ -321,6 +321,36 @@
 			} );
 		},
 
+		'test dialog ok listener is deleted when closing the dialog': function( editor, bot ) {
+			addTestWidget( editor );
+
+			testLinkCommand( {
+				bot: bot,
+				html: '<p>test</p><figure><img src="http://foo"></figure>',
+				dialogCallback: function( dialog ) {
+					var paragraph = editor.editable().findOne( 'p' ).getChild( 0 ),
+						range = editor.createRange();
+
+					editor.once( 'dialogShow', function() {
+						resume( function() {
+							dialog.setValueOf( 'info', 'url', 'x' );
+							dialog.getButton( 'ok' ).click();
+
+							assert.areSame( 1, editor.editable().find( 'p > a' ).count(), 'Link is correctly added' );
+						} );
+					} );
+
+					dialog.getButton( 'cancel' ).click();
+
+					range.setStart( paragraph, 1 );
+					range.setEnd( paragraph, 3 );
+					range.select();
+					editor.execCommand( 'link' );
+					wait();
+				}
+			} );
+		},
+
 		'test unlink image widget': function( editor, bot ) {
 			addTestWidget( editor );
 
