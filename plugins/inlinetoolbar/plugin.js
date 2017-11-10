@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
@@ -86,6 +86,8 @@
 	};
 
 	/**
+	 * Create new inline toolbar
+	 * Class representing inlinet toolbar context in the editor.
 	 * Displays the inline toolbar, pointing it to the `element`.
 	 *
 	 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
@@ -169,17 +171,67 @@
 	};
 
 	/**
-	 * Create new inline toolbar
+	 * Class representing inlinet toolbar context in the editor.
 	 *
+	 * @class
+	 * @constructor Creates an inline toolbar context instance.
 	 * @since 4.8
-	 * @class CKEDITOR.plugins.inlinetoolbar.create
-	 * @constructor Creates a class instance.
+	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 */
-	var createContext = function( editor ) {
+	var Context = function( editor ) {
 		this.editor = editor;
 		editor.on( 'destroy', function() {
 			this.destroy();
 		}, this );
+		editor.on( 'selectionChange', function( evt ) {
+			var lastElement = evt.data.path.lastElement;
+
+			if ( lastElement && this.toolbar && this.filters ) {
+
+			}
+		}, this );
+	};
+
+	Context.prototype = {
+		/**
+		 * Set up and create inline toolbar.
+		 *
+		 * @param {Object} params Configutartion object for inline toolbar context.
+		 * @param {String} params.buttons Names of the elements that should be availabe in inline toolbar.
+		 * @param {String} params.context ACF rules that describes focused elements that should have inline toolbar
+		 */
+		context: function( params ) {
+			if ( !params ) {
+				return;
+			}
+
+			this.toolbar = new CKEDITOR.ui.inlineToolbar( this.editor );
+
+			if ( params.buttons ) {
+				params.buttons = params.buttons.split( ',' );
+				CKEDITOR.tools.array.forEach( params.buttons, function( name ) {
+					this.toolbar.addItem( name, this.editor.ui.create( name ) );
+				}, this );
+			}
+			if ( params.context ) {
+				params.context = params.context.split( ',' );
+				this.filters = [];
+				CKEDITOR.tools.array.forEach( params.context, function( rule ) {
+					this.filters.push( new CKEDITOR.filter( rule ) );
+				}, this );
+			}
+			return this.toolbar;
+		},
+
+		/**
+		 * Destroy inline toolbar context
+		 */
+		destroy: function() {
+
+			if ( this.toolbar ) {
+				this.toolbar.destroy();
+			}
+		}
 	};
 
 	var pluginInit = false;
@@ -190,34 +242,6 @@
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
 
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
-			createContext.prototype = {
-				create: function( params ) {
-					if ( !params ) {
-						return;
-					}
-
-					this.toolbar = new CKEDITOR.ui.inlineToolbar( this.editor );
-
-					if ( params.buttons ) {
-						params.buttons = params.buttons.split( ',' );
-						CKEDITOR.tools.array.forEach( params.buttons, function( name ) {
-							if ( this.editor.ui.items[ name ] ) {
-								this.toolbar.addItem( name, new CKEDITOR.ui.button( {
-									command: this.editor.ui.items[ name ].command,
-									label: this.editor.ui.items[ name ].label
-								} ) );
-							}
-						}, this );
-					}
-					return this.toolbar;
-				},
-				destroy: function() {
-
-					if ( this.toolbar ) {
-						this.toolbar.destroy();
-					}
-				}
-			};
 		},
 
 		/**
@@ -250,7 +274,7 @@
 		},
 
 		init: function( editor ) {
-			editor.inlineToolbar = new createContext( editor );
+			editor.inlineToolbar = new Context( editor );
 
 			// Awful hack for overwriting prototypes of inilineToolbarView (#1142).
 			if ( pluginInit ) {
