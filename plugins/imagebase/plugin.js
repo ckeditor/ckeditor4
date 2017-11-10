@@ -272,7 +272,7 @@
 		},
 
 		/**
-		 * Adds new feature to the newly created image widget by invoking initial setup once for the editor
+		 * Adds new feature to the passed widget's definition by invoking initial setup once for the editor
 		 * and extending widget's definition to include all fields needed by this feature.
 		 *
 		 *		var widgetDefinition = {};
