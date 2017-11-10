@@ -80,6 +80,10 @@
 
 		// tp3163
 		'test drag and drop retains data type': function( editor, bot ) {
+			if ( CKEDITOR.env.webkit && editor.editable().isInline() ) {
+				assert.ignore();
+			}
+
 			bot.setData( CKEDITOR.document.getById( 'typeData' ).getHtml(), function() {
 				var widget = widgetTestsTools.getWidgetByDOMOffset( editor, 0 ),
 					evt = bender.tools.mockDropEvent(),
@@ -88,15 +92,6 @@
 				widget.focus();
 				editor.execCommand( 'easyimageSide' );
 
-				editor.once( 'drop', function() {
-					resume( function() {
-						// Drag and drop probably destroyed old widget, so we should fetch it once more.
-						var widget = editor.widgets.focused;
-
-						assert.areSame( 'side', widget.data.type, 'Widget has correct data type' );
-					} );
-				} );
-
 				range.setStart( editor.editable().findOne( 'p' ).getChild( 0 ), 1 );
 				range.collapse();
 
@@ -104,7 +99,9 @@
 				drop( editor, evt, range );
 				dragend( editor, evt, widget );
 
-				wait();
+				// Drag and drop probably destroyed old widget, so we should fetch it once more.
+				widget = editor.widgets.focused;
+				assert.areSame( 'side', widget.data.type, 'Widget has correct data type' );
 			} );
 		}
 	};
