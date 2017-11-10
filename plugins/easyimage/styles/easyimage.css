@@ -20,6 +20,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .easyimage-side {
 	float: right;
 	max-width: 50%;
+	clear: both;
 }
 
 .easyimage .cke_widget_editable {
