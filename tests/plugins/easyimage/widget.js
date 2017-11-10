@@ -74,7 +74,13 @@
 				widgetOffset: 0,
 				nameCreated: 'easyimage',
 				html: CKEDITOR.document.getById( 'mixedFigures' ).getHtml(),
-				bot: bot
+				bot: bot,
+
+				assertCreated: function( widget ) {
+					if ( editor.name !== 'classicAllFigures' ) {
+						assert.isTrue( widget.wrapper.hasClass( 'easyimage' ), 'Widget wrapper has main class' );
+					}
+				}
 			} );
 		},
 

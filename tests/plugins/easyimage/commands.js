@@ -99,6 +99,7 @@
 					widget.focus();
 
 					assert.isFalse( widget.element.hasClass( 'easyimage-side' ), 'Image does not have side class' );
+					assert.isTrue( widget.wrapper.hasClass( 'easyimage' ), 'Widget wrapper has main class' );
 					assert.isFalse( widget.wrapper.hasClass( 'easyimage-side' ),
 						'Widget wrapper does not have side class' );
 					assert.areSame( 'full', widget.data.type, 'Widget has correct type data' );
@@ -112,6 +113,7 @@
 						editor.execCommand( 'easyimageSide' );
 
 						assert.isTrue( widget.element.hasClass( 'easyimage-side' ), 'Image has side class' );
+						assert.isTrue( widget.wrapper.hasClass( 'easyimage' ), 'Widget wrapper has main class' );
 						assert.isTrue( widget.wrapper.hasClass( 'easyimage-side' ), 'Widget wrapper has side class' );
 						assert.areSame( 'side', widget.data.type, 'Widget has correct type data' );
 
