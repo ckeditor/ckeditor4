@@ -49,7 +49,8 @@
 		} );
 	}
 
-	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS;
+	var trustySafari = CKEDITOR.env.safari && CKEDITOR.env.version >= 603 && !CKEDITOR.env.iOS,
+		trustyEdge = CKEDITOR.env.edge && CKEDITOR.env.version >= 16;
 
 	bender.test( {
 		setUp: function() {
@@ -1186,7 +1187,14 @@
 
 			editable.fire( 'cut', pasteEventMock );
 
-			assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
+			// As Edge stores custom data in text/html it needs to be assert differently - we need to extract content part (#962).
+			if ( CKEDITOR.env.edge ) {
+				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
+				assert.areSame( 'b<b>a</b>r', dataTransfer._.fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
+			} else {
+				assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
+			}
+
 			assert.areSame( 'bar', pasteEventMock.$.clipboardData.getData( 'Text' ), 'Plain text' );
 			assert.isInnerHtmlMatching( '<p>x^x@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true, normalizeSelection: true }, 'Editor content' );
 			assert.areSame( pasteEventMock.$.clipboardData, CKEDITOR.plugins.clipboard.copyCutData.$, 'copyCutData should be initialized' );
@@ -1204,7 +1212,14 @@
 
 			editable.fire( 'copy', pasteEventMock );
 
-			assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML data' );
+			// As Edge stores custom data in text/html it needs to be assert differently - we need to extract content part (#962).
+			if ( CKEDITOR.env.edge ) {
+				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
+				assert.areSame( 'b<b>a</b>r', dataTransfer._.fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
+			} else {
+				assert.areSame( 'b<b>a</b>r', pasteEventMock.$.clipboardData.getData( 'text/html' ), 'HTML text' );
+			}
+
 			assert.areSame( 'bar', pasteEventMock.$.clipboardData.getData( 'Text' ), 'Plain text data' );
 			assert.isInnerHtmlMatching( '<p>x[b<b>a</b>r]x@</p>', bender.tools.selection.getWithHtml( editor ), { compareSelection: true, normalizeSelection: true }, 'Editor content' );
 			assert.areSame( pasteEventMock.$.clipboardData, CKEDITOR.plugins.clipboard.copyCutData.$, 'copyCutData should be initialized' );
@@ -1288,17 +1303,23 @@
 			if ( !CKEDITOR.plugins.clipboard.isCustomCopyCutSupported )
 				assert.ignore();
 
-			var editor = this.editor;
+			var editor = this.editor,
+				// As dataTransfer mock is used in `bender.tools.emulatePaste` we need to pass type which is acceptable in Edge
+				// as it does not support custom types (#962).
+				customType = CKEDITOR.env.edge ? 'application/xml' : 'cke/custom',
+				initialData = {};
+
+			initialData[ customType ] = 'foo';
 
 			this.on( 'paste', function( evt ) {
 				resume( function() {
 					assert.areSame( 'paste', evt.data.method, 'Paste method.' );
-					assert.areSame( 'foo', evt.data.dataTransfer.getData( 'cke/custom' ), 'cke/custom data' );
+					assert.areSame( 'foo', evt.data.dataTransfer.getData( customType ), 'cke/custom data' );
 					assert.areSame( '', evt.data.dataValue, 'dataValue' );
 				} );
 			} );
 
-			bender.tools.emulatePaste( editor, '', { 'cke/custom': 'foo' } );
+			bender.tools.emulatePaste( editor, '', initialData );
 
 			this.wait();
 		},
@@ -1348,6 +1369,23 @@
 
 		'test canClipboardApiBeTrusted in Safari': function() {
 			if ( !trustySafari ) {
+				assert.ignore();
+			}
+
+			var canClipboardApiBeTrusted = CKEDITOR.plugins.clipboard.canClipboardApiBeTrusted,
+				nativeData = bender.tools.mockNativeDataTransfer();
+
+			nativeData.setData( 'text/html', '<b>foo</b>' );
+
+			var evt = { data: { $: { clipboardData: nativeData } } },
+				dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( evt );
+
+			assert.isTrue( canClipboardApiBeTrusted( dataTransfer ), 'Clipboard API should be marked as trusted.' );
+		},
+
+		// #468
+		'test canClipboardApiBeTrusted in Edge 16+': function() {
+			if ( !trustyEdge ) {
 				assert.ignore();
 			}
 
@@ -1425,7 +1463,7 @@
 		},
 
 		'test canClipboardApiBeTrusted on other browser': function() {
-			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko || trustySafari ) {
+			if ( CKEDITOR.env.chrome || CKEDITOR.env.gecko || trustySafari || trustyEdge ) {
 				assert.ignore();
 			}
 
