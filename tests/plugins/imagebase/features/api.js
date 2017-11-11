@@ -51,6 +51,23 @@
 				'setUp is called with appropriate parameters' );
 
 			delete plugin.featuresDefinitions.foo;
+		},
+
+		'test widgetDefinition.widgetFeatures stacking': function() {
+			var plugin = CKEDITOR.plugins.imagebase,
+				inputDefinition = {
+					widgetFeatures: [ 'bar' ]
+				};
+
+			plugin.featuresDefinitions.foo = {};
+			plugin.featuresDefinitions.bar = {};
+
+			var outputDefinition = plugin.addFeature( this.editor, 'foo', inputDefinition );
+
+			// Cleanup.
+			delete plugin.featuresDefinitions.foo;
+
+			arrayAssert.itemsAreSame( [ 'bar', 'foo' ], outputDefinition.widgetFeatures );
 		}
 	} );
 } )();
