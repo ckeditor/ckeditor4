@@ -29,6 +29,39 @@
 				'Widget definition has correct value for widgetFeatures property' );
 		},
 
+		'test baseWidget functions remain called': function() {
+			var plugin = CKEDITOR.plugins.imagebase,
+				editor = this.editor,
+				inputDefinition = {
+					init: sinon.stub(),
+					data: sinon.stub()
+				},
+				dummyFeature = {
+					init: sinon.stub(),
+					data: sinon.stub()
+				},
+				outputDefinition;
+
+			plugin.featuresDefinitions.dummy = dummyFeature;
+
+			outputDefinition = plugin.addFeature( editor, 'dummy', inputDefinition );
+
+			delete plugin.featuresDefinitions.dummy;
+
+			outputDefinition.init( 1 );
+			outputDefinition.data( 2 );
+
+			assert.areSame( 1, inputDefinition.init.callCount, 'inputDefinition.init call count' );
+			assert.areSame( 1, inputDefinition.data.callCount, 'inputDefinition.data call count' );
+			assert.areSame( 1, dummyFeature.init.callCount, 'dummyFeature.init call count' );
+			assert.areSame( 1, dummyFeature.data.callCount, 'dummyFeature.data call count' );
+
+			sinon.assert.alwaysCalledWithExactly( inputDefinition.init, 1 );
+			sinon.assert.alwaysCalledWithExactly( inputDefinition.data, 2 );
+			sinon.assert.alwaysCalledWithExactly( dummyFeature.init, 1 );
+			sinon.assert.alwaysCalledWithExactly( dummyFeature.data, 2 );
+		},
+
 		'test feature.setUp parameters': function() {
 			var plugin = CKEDITOR.plugins.imagebase,
 				editor = this.editor,
