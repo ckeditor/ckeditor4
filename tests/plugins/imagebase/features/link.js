@@ -173,6 +173,32 @@
 			} );
 		},
 
+		'test upcasting image widget with https link': function( editor, bot ) {
+			addTestWidget( editor );
+
+			widgetTestsTools.assertWidget( {
+				count: 1,
+				widgetOffset: 0,
+				nameCreated: 'testWidget',
+				html: CKEDITOR.document.getById( 'upcastTestHttps' ).getHtml(),
+				bot: bot,
+				assertCreated: function( widget ) {
+					assertLinkWidget( {
+						widget: widget,
+						editor: editor,
+						url: 'foo',
+						data: {
+							type: 'url',
+							url: {
+								protocol: 'https://',
+								url: 'img'
+							}
+						}
+					} );
+				}
+			} );
+		},
+
 		'test add link to existing image widget': function( editor, bot ) {
 			addTestWidget( editor );
 
