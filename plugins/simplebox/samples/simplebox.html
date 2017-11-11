@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2014-2016, CKSource - Frederico Knabben. All rights reserved.
+Licensed under the terms of the MIT License (see LICENSE.md).
+-->
+<html>
+<head>
+	<title>Tutorial &mdash; Simple Box Widget, part 2</title>
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="samples">
+		Tutorial &mdash; Simple Box Widget, part 2
+	</h1>
+
+	<textarea id="editor1" cols="10" rows="10">
+		<h1>Simple Box Sample</h1>
+
+		<div class="simplebox align-right" style="width: 50%">
+			<h2 class="simplebox-title">Title</h2>
+			<div class="simplebox-content">
+				<p>Foo <strong>bar</strong>.</p>
+				<ul>
+					<li>Foo!</li>
+					<li>Bar!</li>
+				</ul>
+			</div>
+		</div>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet orci ut nisi adipiscing ultrices. Sed pellentesque iaculis malesuada. Pellentesque scelerisque, purus non porta dictum, neque urna bibendum dolor, eget tristique ipsum metus fringilla dolor. Nullam sed accumsan sapien. Vestibulum in placerat magna. Sed justo lacus, volutpat rhoncus odio luctus, ornare adipiscing mauris. Vivamus erat sem, egestas et lectus eget, varius cursus odio. Duis posuere lacus sit amet urna bibendum, id iaculis eros ultrices. Vestibulum a ultrices ante.</p>
+
+		<p>Pellentesque vitae eleifend nisl, non accumsan tellus. Maecenas nec libero non tellus tincidunt mollis porttitor sed arcu. Donec ultricies nulla vitae eros lacinia, vel congue sem auctor. Vivamus convallis, urna ac tincidunt malesuada, lectus erat convallis metus, a hendrerit massa augue accumsan magna. Nulla mattis tellus elit, nec congue magna scelerisque eget. Aliquam posuere nisi augue, posuere sodales nisi iaculis eu. Donec fermentum urna id nibh sagittis fermentum sit amet sed enim. Aliquam neque elit, pretium elementum nunc a, faucibus accumsan lorem. Etiam pulvinar odio et hendrerit tincidunt. Suspendisse tempus eros lacus, in convallis velit mollis ut. Aenean congue, justo eleifend ultricies malesuada, nunc nunc molestie mauris, eget placerat libero eros vel nisi. Quisque diam arcu, mollis ac laoreet vitae, varius et sem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis in vehicula sapien. Nunc feugiat porta elit nec volutpat.</p>
+
+		<div class="simplebox align-center" style="width: 750px">
+			<h2 class="simplebox-title">Title</h2>
+			<div class="simplebox-content">
+				<p>Foo <strong>bar</strong>.</p>
+				<ul>
+					<li>Foo!</li>
+					<li>Bar!</li>
+				</ul>
+			</div>
+		</div>
+
+		<p>Ut eget ipsum a sapien porta ultrices. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus mi lacus, pharetra eu bibendum blandit, tristique sit amet leo. Integer eu nulla nec magna vulputate blandit. Praesent mattis quis ante eget adipiscing. Nulla vel tempus risus, in placerat velit. Mauris sed nibh at elit posuere laoreet. Morbi non sapien sed nunc fringilla imperdiet.</p>
+	</textarea>
+
+	<script>
+
+CKEDITOR.replace( 'editor1', {
+	// Load the simplebox plugin.
+	extraPlugins: 'simplebox',
+
+	// Besides editor's main stylesheet load also simplebox styles.
+	// In the usual case they can be added to the main stylesheet.
+	contentsCss: [
+		'../../../contents.css',
+		'contents.css'
+	],
+
+	// The following options are set to make the sample more clear for demonstration purposes.
+
+	// Set height to make more content visible.
+	height: 500,
+	// Rearrange toolbar groups and remove unnecessary plugins.
+	toolbarGroups: [
+		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+		{ name: 'links' },
+		{ name: 'insert' },
+		{ name: 'document',	   groups: [ 'mode' ] },
+		'/',
+		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		{ name: 'paragraph',   groups: [ 'list', 'indent' ] },
+		{ name: 'styles' },
+		{ name: 'about' }
+	],
+	removePlugins: 'font,iframe,pagebreak,flash,stylescombo,print,preview,save,smiley,pastetext,pastefromword'
+} );
+
+	</script>
+
+</body>
+</html>

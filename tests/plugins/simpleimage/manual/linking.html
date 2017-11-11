@@ -1,0 +1,86 @@
+B<head>
+	<link rel="stylesheet" href="_assets/contentstyle.css">
+</head>
+
+<body>
+	<h2>Classic editor</h2>
+
+	<div id="classic">
+		<h1>Simple Box Sample</h1>
+
+		<div class="simplebox align-right" style="width:50%">
+			<h2 class="simplebox-title">Title</h2>
+
+			<div class="simplebox-content">
+
+				<p>Foo
+					<strong>bar</strong>.</p>
+
+				<ul>
+					<li>Foo!</li>
+					<li>Bar!</li>
+				</ul>
+			</div>
+		</div>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet orci ut nisi adipiscing ultrices. Sed pellentesque
+			iaculis malesu</p>
+	</div>
+
+	<h2>Divarea editor</h2>
+
+	<div id="divarea">
+		<h1>Simple Box Sample</h1>
+
+		<div class="simplebox align-right" style="width:50%">
+			<h2 class="simplebox-title">Title</h2>
+
+			<div class="simplebox-content">
+
+				<p>Foo
+					<strong>bar</strong>.</p>
+
+				<ul>
+					<li>Foo!</li>
+					<li>Bar!</li>
+				</ul>
+			</div>
+		</div>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet orci ut nisi adipiscing ultrices. Sed pellentesque
+			iaculis malesu</p>
+	</div>
+
+	<script>
+		var commonConfig = {
+			contentsCss: '_assets/contentstyle.css',
+			on: {
+				widgetDefinition: function( evt ) {
+					var definition = evt.data;
+
+					var editor = evt.editor,
+						plugin = CKEDITOR.plugins.imagebase;
+
+					if ( evt.data.name === 'simplebox' ) {
+						var modified = plugin.addFeature( editor, 'link', definition );
+
+						definition.init = modified.init;
+						definition.data = modified.data;
+						definition.parts = modified.parts;
+						definition.features = modified.features;
+
+						// CKEDITOR.tools.extend( definition, CKEDITOR.tools.object.merge( definition, modified ), true );
+						// CKEDITOR.tools.extend( definition, modified, true );
+
+						definition._linkable = '.simplebox-title';
+					}
+				}
+			}
+		};
+
+		CKEDITOR.replace( 'classic', commonConfig );
+		CKEDITOR.replace( 'divarea', CKEDITOR.tools.extend( {
+			extraPlugins: 'divarea'
+		}, commonConfig ) );
+	</script>
+</body>
