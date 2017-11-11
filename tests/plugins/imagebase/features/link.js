@@ -204,7 +204,7 @@
 
 			testLinkCommand( {
 				bot: bot,
-				html: '<figure><img src="http://foo"></figure>',
+				html: '<figure><img src="%BASE_PATH%_assets/logo.png"></figure>',
 				url: 'x',
 				dialogCallback: function( dialog, widget ) {
 					var data = {};
@@ -228,7 +228,7 @@
 
 			testLinkCommand( {
 				bot: bot,
-				html: '<figure><a href="http://foo"><img src="http://foo"></a></figure>',
+				html: '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>',
 				initialUrl: 'foo',
 				unlinkCmdState: CKEDITOR.TRISTATE_OFF,
 				dialogCallback: function( dialog, widget ) {
@@ -256,7 +256,7 @@
 
 			testLinkCommand( {
 				bot: bot,
-				html: '<figure><img src="http://foo"></figure>',
+				html: '<figure><img src="%BASE_PATH%_assets/logo.png"></figure>',
 				url: 'x',
 				dialogCallback: function( dialog, widget ) {
 					var data = {};
@@ -281,7 +281,7 @@
 
 			testLinkCommand( {
 				bot: bot,
-				html: '<figure><a href="http://foo" target="_blank"><img src="http://foo"></a></figure>',
+				html: '<figure><a href="http://foo" target="_blank"><img src="%BASE_PATH%_assets/logo.png"></a></figure>',
 				initialUrl: 'foo',
 				unlinkCmdState: CKEDITOR.TRISTATE_OFF,
 				dialogCallback: function( dialog, widget ) {
@@ -310,7 +310,7 @@
 
 			testLinkCommand( {
 				bot: bot,
-				html: '<figure><a href="http://foo" target="_blank"><img src="http://foo"></a></figure>',
+				html: '<figure><a href="http://foo" target="_blank"><img src="%BASE_PATH%_assets/logo.png"></a></figure>',
 				initialUrl: 'foo',
 				unlinkCmdState: CKEDITOR.TRISTATE_OFF,
 				dialogCallback: function( dialog, widget ) {
@@ -339,7 +339,7 @@
 
 			testLinkCommand( {
 				bot: bot,
-				html: '<p>test</p><figure><img src="http://foo"></figure>',
+				html: '<p>test</p><figure><img src="%BASE_PATH%_assets/logo.png"></figure>',
 				dialogCallback: function( dialog ) {
 					var paragraph = editor.editable().findOne( 'p' ).getChild( 0 ),
 						range = editor.createRange();
@@ -369,7 +369,7 @@
 
 			testUnlinkCommand( {
 				bot: bot,
-				html: '<figure><a href="http://foo"><img src="http://foo"></a></figure>',
+				html: '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>',
 
 				callback: function( evt, widget ) {
 					assertUnlinkWidget( {
