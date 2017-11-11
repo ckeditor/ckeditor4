@@ -44,45 +44,32 @@
 		} );
 	}
 
-	function assertLinkWidget( options ) {
+	function assertLinkWidgetStatus( options, linkCount, linkCmdState, unlinkCmdState ) {
 		var editor = options.editor,
 			linkCmd = editor.getCommand( 'link' ),
 			unlinkCmd = editor.getCommand( 'unlink' ),
-			widget;
-
-		if ( options.widget ) {
-			widget = options.widget;
-		} else {
-			widget = widgetTestsTools.getWidgetByDOMOffset( editor, 0 );
-		}
+			widget = options.widget || widgetTestsTools.getWidgetByDOMOffset( editor, 0 );
 
 		widget.focus();
 
-		assert.areSame( 1, widget.element.find( 'a' ).count(), 'There is only one link element inside widget' );
-		assert.areSame( CKEDITOR.TRISTATE_OFF, linkCmd.state, 'Link command state' );
-		assert.areSame( CKEDITOR.TRISTATE_OFF, unlinkCmd.state, 'Unlink command state' );
+		assert.areSame( linkCount, widget.element.find( 'a' ).count(), 'There is only one link element inside widget' );
+		assert.areSame( linkCmdState, linkCmd.state, 'Link command state' );
+		assert.areSame( unlinkCmdState, unlinkCmd.state, 'Unlink command state' );
+
+		return widget;
+	}
+
+	function assertLinkWidget( options ) {
+		var widget = assertLinkWidgetStatus( options, 1, CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_OFF );
+
 		assert.isObject( widget.parts.link, 'Widget has link part' );
 		objectAssert.areDeepEqual( options.data, widget.data.link, 'Widget has correct link data' );
-		assertAttributes( editor, widget.parts.link, options.data );
+		assertAttributes( options.editor, widget.parts.link, options.data );
 	}
 
 	function assertUnlinkWidget( options ) {
-		var editor = options.editor,
-			linkCmd = editor.getCommand( 'link' ),
-			unlinkCmd = editor.getCommand( 'unlink' ),
-			widget;
+		var widget = assertLinkWidgetStatus( options, 0, CKEDITOR.TRISTATE_OFF, CKEDITOR.TRISTATE_DISABLED );
 
-		if ( options.widget ) {
-			widget = options.widget;
-		} else {
-			widget = widgetTestsTools.getWidgetByDOMOffset( editor, 0 );
-		}
-
-		widget.focus();
-
-		assert.areSame( 0, widget.element.find( 'a' ).count(), 'There is no link element inside widget' );
-		assert.areSame( CKEDITOR.TRISTATE_OFF, linkCmd.state, 'Link command state' );
-		assert.areSame( CKEDITOR.TRISTATE_DISABLED, unlinkCmd.state, 'Unlink command state' );
 		assert.isNull( widget.parts.link, 'Widget does not have link part' );
 		assert.isNull( widget.data.link, 'Widget does not have link data' );
 	}
