@@ -57,7 +57,7 @@
 
 			setUp: function( editor ) {
 				if ( !editor.plugins.link ) {
-					// All of listeners registered later on make only when link plugin is loaded.
+					// All of listeners registered later on make only sense when link plugin is loaded.
 					return;
 				}
 
