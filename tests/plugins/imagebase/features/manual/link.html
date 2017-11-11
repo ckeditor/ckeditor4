@@ -16,7 +16,6 @@
 
 <script>
 	CKEDITOR.replace( 'classic', {
-		extraAllowedContent: 'figure(*)',
 		on: {
 			pluginsLoaded: function( evt ) {
 				var editor = evt.editor,
@@ -24,6 +23,7 @@
 
 				plugin.addImageWidget( editor, 'testWidget', plugin.addFeature( editor, 'link', {} ) );
 			}
-		}
+		},
+		height: 500
 	} );
 </script>
