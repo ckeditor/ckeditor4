@@ -11,7 +11,7 @@
 	}
 
 	function isLinkable( widget ) {
-		return widget && widget.widgetFeatures && CKEDITOR.tools.array.indexOf( widget.widgetFeatures, 'link' ) !== -1;
+		return widget && widget.features && CKEDITOR.tools.array.indexOf( widget.features, 'link' ) !== -1;
 	}
 
 	function addLinkAttributes( editor, linkElement, linkData ) {
@@ -203,9 +203,9 @@
 			/**
 			 * The array containing names of features added to this widget's definition.
 			 *
-			 * @property {String[]} widgetFeatures
+			 * @property {String[]} features
 			 */
-			widgetFeatures: [],
+			features: [],
 
 			editables: {
 				caption: {
@@ -316,11 +316,11 @@
 
 			ret = CKEDITOR.tools.object.merge( definition, featureDefinition );
 
-			if ( !CKEDITOR.tools.isArray( ret.widgetFeatures ) ) {
-				ret.widgetFeatures = [];
+			if ( !CKEDITOR.tools.isArray( ret.features ) ) {
+				ret.features = [];
 			}
 
-			ret.widgetFeatures.push( name );
+			ret.features.push( name );
 
 			return ret;
 		}
