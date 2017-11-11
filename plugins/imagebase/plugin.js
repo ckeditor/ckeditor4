@@ -141,7 +141,7 @@
 			data: function( evt ) {
 				var editor = this.editor,
 					link = evt.data.link,
-					img = this.element.findOne( 'img' );
+					img = this.element.findOne( this._linkable || 'img' );
 
 				// Widget is inited with link, so let's set appropriate data.
 				if ( typeof link === 'undefined' && this.parts.link ) {

@@ -52,6 +52,16 @@ B<head>
 	</div>
 
 	<script>
+		// Some hacking prereqsuites to get around our missing HTML5 link support.
+		// (https://dev.ckeditor.com/ticket/7961)
+		CKEDITOR.dtd.a.div = 1;
+		CKEDITOR.dtd.a.p = 1;
+		CKEDITOR.dtd.a.h1 = 1;
+		CKEDITOR.dtd.a.h2 = 1;
+
+		// delete CKEDITOR.dtd.$inline.a;
+		CKEDITOR.dtd.$block.a = 1;
+
 		var commonConfig = {
 			contentsCss: '_assets/contentstyle.css',
 			on: {
@@ -75,7 +85,8 @@ B<head>
 						definition._linkable = '.simplebox-title';
 					}
 				}
-			}
+			},
+			height: 280
 		};
 
 		CKEDITOR.replace( 'classic', commonConfig );
