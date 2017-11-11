@@ -291,7 +291,8 @@
 		 * with fields needed by feature.
 		 */
 		addFeature: function( editor, name, definition ) {
-			var featureDefinition = CKEDITOR.tools.clone( this.featuresDefinitions[ name ] );
+			var featureDefinition = CKEDITOR.tools.clone( this.featuresDefinitions[ name ] ),
+				ret;
 
 			function mergeMethods( oldOne, newOne ) {
 				if ( !oldOne && !newOne ) {
@@ -313,9 +314,15 @@
 				delete featureDefinition.setUp;
 			}
 
-			featureDefinition.widgetFeatures = [ name ];
+			ret = CKEDITOR.tools.object.merge( definition, featureDefinition );
 
-			return CKEDITOR.tools.object.merge( definition, featureDefinition );
+			if ( !CKEDITOR.tools.isArray( ret.widgetFeatures ) ) {
+				ret.widgetFeatures = [];
+			}
+
+			ret.widgetFeatures.push( name );
+
+			return ret;
 		}
 	};
 }() );
