@@ -8,34 +8,28 @@
 	bender.editor = true;
 
 	bender.test( {
-		'testing adding new feature': function() {
+		'test adding new feature': function() {
 			var plugin = CKEDITOR.plugins.imagebase,
 				editor = this.editor,
 				widgetDefinition = {},
 				linkDefinition = plugin.featuresDefinitions.link,
-				originalSetUp = linkDefinition.setUp,
-				callCount = 0,
-				originalLinkDefinition,
+				originalLinkDefinition = CKEDITOR.tools.clone( linkDefinition ),
+				setUp = sinon.stub( linkDefinition, 'setUp' ),
 				extendedDefinition;
 
-			linkDefinition.setUp = function() {
-				callCount++;
-			};
-			originalLinkDefinition = CKEDITOR.tools.clone( linkDefinition );
-
 			extendedDefinition = plugin.addFeature( editor, 'link', widgetDefinition );
+
+			setUp.restore();
 
 			objectAssert.areDeepEqual( originalLinkDefinition, plugin.featuresDefinitions.link,
 				'Link feature definition is not modified' );
 			assert.areNotSame( widgetDefinition, extendedDefinition, 'addFeature returns new definition' );
-			assert.areSame( 1, callCount, 'setUp was called only once' );
+			assert.areSame( 1, setUp.callCount, 'setUp call count' );
 			arrayAssert.itemsAreSame( [ 'link' ], extendedDefinition.widgetFeatures,
 				'Widget definition has correct value for widgetFeatures property' );
-
-			linkDefinition.setUp = originalSetUp;
 		},
 
-		'testing feature.setUp parameters': function() {
+		'test feature.setUp parameters': function() {
 			var plugin = CKEDITOR.plugins.imagebase,
 				editor = this.editor,
 				widgetDefinition = {},
@@ -47,10 +41,10 @@
 
 			plugin.addFeature( editor, 'foo', widgetDefinition );
 
+			delete plugin.featuresDefinitions.foo;
+
 			assert.isTrue( spy.calledWithExactly( editor, widgetDefinition ),
 				'setUp is called with appropriate parameters' );
-
-			delete plugin.featuresDefinitions.foo;
 		},
 
 		'test widgetDefinition.widgetFeatures stacking': function() {
