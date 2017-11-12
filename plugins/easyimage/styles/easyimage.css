@@ -18,14 +18,9 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	max-width: 100%;
 }
 
-.easyimage-side, .cke_widget_wrapper_easyimage-side {
+.cke_widget_wrapper_easyimage-side {
 	float: right;
 	max-width: 25%;
-}
-
-.cke_widget_wrapper_easyimage-side > .easyimage-side {
-	float: none;
-	max-width: none;
 }
 
 .easyimage .cke_widget_editable {
