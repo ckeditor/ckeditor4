@@ -151,10 +151,8 @@
 					}
 
 					if ( data.type === 'side' ) {
-						this.element.addClass( editor.config.easyimage_sideClass );
 						this.addClass( editor.config.easyimage_sideClass );
 					} else {
-						this.element.removeClass( editor.config.easyimage_sideClass );
 						this.removeClass( editor.config.easyimage_sideClass );
 					}
 				}
