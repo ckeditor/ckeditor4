@@ -259,14 +259,10 @@
 			 * @param {CKEDITOR.plugins.widget} widget
 			 */
 			_createProgressBar: function( widget ) {
-				var ret = new  CKEDITOR.dom.element( 'span' );
-				ret.addClass( 'cke_loader' );
-
-				ret.setHtml( '<span class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></span>' );
-
-				widget.wrapper.append( ret, true );
-
-				widget.parts.progressBar = ret;
+				widget.parts.progressBar = CKEDITOR.dom.element.createFromHtml( '<div class="cke_loader">' +
+						'<div class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></div>' +
+					'</div>' );
+				widget.wrapper.append( widget.parts.progressBar, true );
 			},
 
 			// @todo: this function should be moved to uploadwidget core definition.
