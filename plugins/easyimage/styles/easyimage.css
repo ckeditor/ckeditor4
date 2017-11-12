@@ -11,7 +11,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	clear: both;
 }
 
-.easyimage img {
+.easyimage img, .cke_widget_uploadeasyimage img {
 	display: block;
 	height: auto;
 	margin: 0 auto;
