@@ -141,7 +141,7 @@
 				pasteFiles( editor, [], '<p>x<img src="' + bender.tools.pngBase64 + '">x</p>' );
 
 				assertUploadingWidgets( editor, DATA_IMG );
-				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on loading.' );
+				assert.areSame( '<p>x</p><p>x</p>', editor.getData(), 'getData on loading.' );
 
 				var loader = editor.uploadRepository.loaders[ 0 ];
 
@@ -149,7 +149,7 @@
 				loader.changeStatus( 'uploading' );
 
 				assertUploadingWidgets( editor, BLOB_IMG );
-				assert.areSame( '<p>xx</p>', editor.getData(), 'getData on uploading.' );
+				assert.areSame( '<p>x</p><p>x</p>', editor.getData(), 'getData on uploading.' );
 
 				var image = editor.editable().find( 'img[data-widget="uploadeasyimage"]' ).getItem( 0 );
 
