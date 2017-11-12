@@ -93,6 +93,7 @@
 
 			// Cleanup.
 			delete plugin.featuresDefinitions.foo;
+			delete plugin.featuresDefinitions.bar;
 
 			arrayAssert.itemsAreSame( [ 'bar', 'foo' ], outputDefinition.features );
 		}
