@@ -3,7 +3,7 @@ Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
-.easyimage {
+.easyimage, .cke_widget_wrapper_easyimage {
 	background-color: #fff;
 	border: none;
 	display: block;
@@ -18,9 +18,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	max-width: 100%;
 }
 
-.easyimage-side {
+.easyimage-side, .cke_widget_wrapper_easyimage-side {
 	float: right;
 	max-width: 50%;
+}
+
+.cke_widget_wrapper_easyimage-side > .easyimage-side {
+	float: none;
+	max-width: none;
 }
 
 .easyimage .cke_widget_editable {
