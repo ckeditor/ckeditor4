@@ -139,7 +139,7 @@
 					} );
 
 					if ( editor.config.easyimage_class ) {
-						this.wrapper.addClass( editor.config.easyimage_class );
+						this.addClass( editor.config.easyimage_class );
 					}
 				},
 
@@ -152,10 +152,10 @@
 
 					if ( data.type === 'side' ) {
 						this.element.addClass( editor.config.easyimage_sideClass );
-						this.wrapper.addClass( editor.config.easyimage_sideClass );
+						this.addClass( editor.config.easyimage_sideClass );
 					} else {
 						this.element.removeClass( editor.config.easyimage_sideClass );
-						this.wrapper.removeClass( editor.config.easyimage_sideClass );
+						this.removeClass( editor.config.easyimage_sideClass );
 					}
 				}
 			};
