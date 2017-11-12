@@ -78,7 +78,7 @@
 
 				assertCreated: function( widget ) {
 					if ( editor.name !== 'classicAllFigures' ) {
-						assert.isTrue( widget.wrapper.hasClass( 'easyimage' ), 'Widget wrapper has main class' );
+						assert.isTrue( widget.hasClass( 'easyimage' ), 'Widget wrapper has main class' );
 					}
 				}
 			} );
