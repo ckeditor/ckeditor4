@@ -137,6 +137,10 @@
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
 						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
 					} );
+
+					if ( editor.config.easyimage_class ) {
+						this.addClass( editor.config.easyimage_class );
+					}
 				},
 
 				data: function( evt ) {
@@ -147,9 +151,9 @@
 					}
 
 					if ( data.type === 'side' ) {
-						this.element.addClass( editor.config.easyimage_sideClass );
+						this.addClass( editor.config.easyimage_sideClass );
 					} else {
-						this.element.removeClass( editor.config.easyimage_sideClass );
+						this.removeClass( editor.config.easyimage_sideClass );
 					}
 				}
 			};
