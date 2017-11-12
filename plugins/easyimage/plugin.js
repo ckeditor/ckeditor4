@@ -170,60 +170,13 @@
 	}
 
 	function registerUploadWidget( editor ) {
-		editor.on( 'widgetDefinition', function( evt ) {
-			var definition = evt.data,
-				baseInit;
-
-			if ( definition.name === 'uploadeasyimage' ) {
-				// Extend init method.
-				baseInit =  definition.init;
-
-				definition.init = function() {
-					var loader = this.definition._getLoader( this ),
-						progressListeners = [];
-
-					function removeProgressListeners() {
-						if ( progressListeners ) {
-							CKEDITOR.tools.array.forEach( progressListeners, function( listener ) {
-								listener.removeListener();
-							} );
-
-							progressListeners = null;
-						}
-					}
-
-					// Add a progress bar.
-					this.definition._createProgressBar( this );
-
-					var updateListener = CKEDITOR.tools.eventsBuffer( UPLOAD_PROGRESS_THROTTLING, function() {
-						var progressBar = this.parts.progressBar.findOne( '.cke_bar' ),
-							percentage;
-
-						if ( progressBar && loader.uploadTotal ) {
-							percentage = ( loader.uploaded / loader.uploadTotal ) * 100;
-							progressBar.setStyle( 'width', percentage + '%' );
-						}
-					}, this );
-
-					progressListeners.push( loader.on( 'update', updateListener.input ) );
-
-					progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
-					progressListeners.push( loader.once( 'error', removeProgressListeners ) );
-					progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
-
-					// Call base init implementation.
-					baseInit.call( this );
-				};
-			}
-		} );
-
-		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadeasyimage', {
+		var uploadWidgetDefinition = {
 			supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
 			// Easy image uses only upload method, as is manually handled in onUploading function.
 			loadMethod: 'upload',
 
-			skipNotifications: true,
+			inline: false,
 
 			loaderType: CKEDITOR.plugins.cloudservices.cloudServicesLoader,
 
@@ -248,28 +201,12 @@
 
 				this.replaceWith( '<figure class="' + ( editor.config.easyimage_class || '' ) + '"><img src="' +
 					upload.responseData.response[ 'default' ] + '" srcset="' + srcset + '" sizes="100vw"><figcaption></figcaption></figure>' );
-			},
-
-			/*
-			 * Creates a progress bar in a given widget.
-			 *
-			 * Also puts it in it's {@link CKEDITOR.plugins.widget#parts} structure as `progressBar`
-			 *
-			 * @private
-			 * @param {CKEDITOR.plugins.widget} widget
-			 */
-			_createProgressBar: function( widget ) {
-				widget.parts.progressBar = CKEDITOR.dom.element.createFromHtml( '<div class="cke_loader">' +
-						'<div class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></div>' +
-					'</div>' );
-				widget.wrapper.append( widget.parts.progressBar, true );
-			},
-
-			// @todo: this function should be moved to uploadwidget core definition.
-			_getLoader: function( widget ) {
-				return widget.editor.uploadRepository.loaders[ widget.wrapper.findOne( '[data-cke-upload-id]' ).data( 'cke-upload-id' ) ];
 			}
-		} );
+		};
+
+		addUploadProgressBar( editor, uploadWidgetDefinition );
+
+		CKEDITOR.fileTools.addUploadWidget( editor, 'uploadeasyimage', uploadWidgetDefinition );
 
 		// Handle images which are not available in the dataTransfer.
 		// This means that we need to read them from the <img src="data:..."> elements.
@@ -314,6 +251,79 @@
 			}
 
 			data.dataValue = temp.getHtml();
+		} );
+	}
+
+	// Extends given uploadWidget `definition` with an upload progress bar, added within wrapper.
+	function addUploadProgressBar( editor, definition ) {
+		definition.skipNotifications = true;
+		definition.parts.loader = '.cke_loader';
+
+		/*
+		 * Creates a progress bar in a given widget.
+		 *
+		 * Also puts it in it's {@link CKEDITOR.plugins.widget#parts} structure as `progressBar`
+		 *
+		 * @private
+		 * @param {CKEDITOR.plugins.widget} widget
+		 */
+		definition._createProgressBar = function( widget ) {
+			widget.parts.progressBar = CKEDITOR.dom.element.createFromHtml( '<div class="cke_loader">' +
+					'<div class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></div>' +
+				'</div>' );
+			widget.wrapper.append( widget.parts.progressBar, true );
+		};
+
+		// @todo: this function should be moved to uploadwidget core definition.
+		definition._getLoader = function( widget ) {
+			return widget.editor.uploadRepository.loaders[ widget.wrapper.findOne( '[data-cke-upload-id]' ).data( 'cke-upload-id' ) ];
+		};
+
+		editor.on( 'widgetDefinition', function( evt ) {
+			var definition = evt.data,
+				baseInit;
+
+			if ( definition.name === 'uploadeasyimage' ) {
+				// Extend init method, that was initially defined by the uploadwidget plugin.
+				baseInit =  definition.init;
+
+				definition.init = function() {
+					var loader = this.definition._getLoader( this ),
+						progressListeners = [];
+
+					function removeProgressListeners() {
+						if ( progressListeners ) {
+							CKEDITOR.tools.array.forEach( progressListeners, function( listener ) {
+								listener.removeListener();
+							} );
+
+							progressListeners = null;
+						}
+					}
+
+					// Add a progress bar.
+					this.definition._createProgressBar( this );
+
+					var updateListener = CKEDITOR.tools.eventsBuffer( UPLOAD_PROGRESS_THROTTLING, function() {
+						var progressBar = this.parts.progressBar.findOne( '.cke_bar' ),
+							percentage;
+
+						if ( progressBar && loader.uploadTotal ) {
+							percentage = ( loader.uploaded / loader.uploadTotal ) * 100;
+							progressBar.setStyle( 'width', percentage + '%' );
+						}
+					}, this );
+
+					progressListeners.push( loader.on( 'update', updateListener.input ) );
+
+					progressListeners.push( loader.once( 'abort', removeProgressListeners ) );
+					progressListeners.push( loader.once( 'error', removeProgressListeners ) );
+					progressListeners.push( loader.once( 'uploaded', removeProgressListeners ) );
+
+					// Call base init implementation.
+					baseInit.call( this );
+				};
+			}
 		} );
 	}
 
