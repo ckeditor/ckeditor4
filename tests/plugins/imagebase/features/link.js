@@ -243,7 +243,6 @@
 			testLinkCommand( {
 				bot: bot,
 				html: '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>',
-				initialUrl: 'foo',
 				unlinkCmdState: CKEDITOR.TRISTATE_OFF,
 				dialogCallback: function( dialog, widget ) {
 					var data = {};
@@ -296,7 +295,6 @@
 			testLinkCommand( {
 				bot: bot,
 				html: '<figure><a href="http://foo" target="_blank"><img src="%BASE_PATH%_assets/logo.png"></a></figure>',
-				initialUrl: 'foo',
 				unlinkCmdState: CKEDITOR.TRISTATE_OFF,
 				dialogCallback: function( dialog, widget ) {
 					var data = {};
@@ -325,7 +323,6 @@
 			testLinkCommand( {
 				bot: bot,
 				html: '<figure><a href="http://foo" target="_blank"><img src="%BASE_PATH%_assets/logo.png"></a></figure>',
-				initialUrl: 'foo',
 				unlinkCmdState: CKEDITOR.TRISTATE_OFF,
 				dialogCallback: function( dialog, widget ) {
 					var data = {};
