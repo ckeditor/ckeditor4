@@ -18,7 +18,11 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	max-width: 100%;
 }
 
-.cke_widget_wrapper_easyimage-side {
+.cke_widget_wrapper_easyimage-side, :not(.cke_widget_wrapper_easyimage-side) > .easyimage {
+	/*
+	:not() selector will be used for Easy Image content ouside of the editor. E.g. when the editor was destoryed.
+	See https://github.com/ckeditor/ckeditor-dev/pull/1150#discussion_r150415261 for more details.
+	*/
 	float: right;
 	max-width: 25%;
 }
