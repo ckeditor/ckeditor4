@@ -6,14 +6,11 @@
 ( function() {
 	'use strict';
 
-	var stylesLoaded = false;
-
-	// jscs:disable maximumLineLength
-	// Black rectangle which is shown before image is loaded.
-	var loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
-	// Throttling of progress update in ms.
-	var UPLOAD_PROGRESS_THROTTLING = 100;
-	// jscs:enable maximumLineLength
+	var stylesLoaded = false,
+		// Black rectangle which is shown before image is loaded.
+		loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=',
+		// Throttling of progress update in ms.
+		UPLOAD_PROGRESS_THROTTLING = 100;
 
 	function addCommands( editor ) {
 		function isSideImage( widget ) {
@@ -254,7 +251,7 @@
 			},
 
 			/*
-			 * Creates a progress bar in a given widget.h
+			 * Creates a progress bar in a given widget.
 			 *
 			 * Also puts it in it's {@link CKEDITOR.plugins.widget#parts} structure as `progressBar`
 			 *
@@ -265,7 +262,7 @@
 				var ret = new  CKEDITOR.dom.element( 'span' );
 				ret.addClass( 'cke_loader' );
 
-				ret.setHtml( '<span class="cke_bar"></span>' );
+				ret.setHtml( '<span class="cke_bar" styles="transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's"></span>' );
 
 				widget.wrapper.append( ret, true );
 
@@ -373,21 +370,6 @@
 
 		onLoad: function() {
 			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
-
-			CKEDITOR.addCss(
-				'.cke_loader {' +
-					'display: block;' +
-					'position: absolute;' +
-					'left: 0px;' +
-					'right: 0px;' +
-				'}' +
-				'.cke_loader .cke_bar {' +
-					'display:block;' +
-					'height: 10px;' +
-					'background: #6a9ed1;' +
-					'width: 0;' +
-					'transition: width ' + UPLOAD_PROGRESS_THROTTLING / 1000 + 's;' +
-				'}' );
 		},
 
 		init: function( editor ) {

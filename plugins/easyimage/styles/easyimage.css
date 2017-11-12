@@ -42,3 +42,19 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	border: 1px solid #48a3f5;
 	outline: none;
 }
+
+/* Loaders */
+
+.cke_loader {
+	display: block;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+}
+
+.cke_loader .cke_bar {
+	display: block;
+	height: 10px;
+	background: #6a9ed1;
+	width: 0;
+}
