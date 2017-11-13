@@ -86,14 +86,15 @@
 	};
 
 	/**
-	 * Class representing inlinet toolbar context in the editor.
+	 * Class representing inline toolbar context in the editor.
 	 *
-	 * @class
+	 * @class CKEDITOR.plugins.inlinetoolbar.context
 	 * @constructor Creates an inline toolbar context instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
+	 * @param {Object} options Options object passed in {@link CKEDITOR.editor.plugins.inlinetoolbar#create} method.
 	 */
-	var Context = function( editor ) {
+	var Context = function( editor, options ) {
 		this.editor = editor;
 		editor.on( 'destroy', function() {
 			this.destroy();
@@ -105,22 +106,24 @@
 
 			}
 		}, this );
+
+		this.options = options;
+
+		this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
 	};
 
 	Context.prototype = {
 		/**
 		 * Set up and create inline toolbar.
 		 *
-		 * @param {Object} params Configutartion object for inline toolbar context.
-		 * @param {String} params.buttons Names of the elements that should be availabe in inline toolbar.
+		 * @param {Object} params Configuration object for inline toolbar context.
+		 * @param {String} params.buttons Names of the elements that should be available in inline toolbar.
 		 * @param {String} params.context ACF rules that describes focused elements that should have inline toolbar
 		 */
 		context: function( params ) {
 			if ( !params ) {
 				return;
 			}
-
-			this.toolbar = new CKEDITOR.ui.inlineToolbar( this.editor );
 
 			if ( params.buttons ) {
 				params.buttons = params.buttons.split( ',' );
@@ -146,6 +149,38 @@
 			if ( this.toolbar ) {
 				this.toolbar.destroy();
 			}
+		},
+
+		/**
+		 * Function to be called in order to check whether inline toolbar visibility should change.
+		 *
+		 * @param {CKEDITOR.dom.elementPath} path
+		 */
+		refresh: function() {
+			var visibility = false;
+
+			if ( this.options.widgets ) {
+				visibility = this._hasWidgetFocused();
+			}
+
+			if ( visibility ) {
+				this.toolbar.show();
+			} else {
+				this.toolbar.hide();
+			}
+		},
+
+		/**
+		 * Checks if any of `options.widgets` widgets is currently focused.
+		 *
+		 * @private
+		 * @returns {Boolean}
+		 */
+		_hasWidgetFocused: function() {
+			var widgetNames = this.options.widgets,
+				curWidgetName = this.editor.widgets && this.editor.widgets.focused && this.editor.widgets.focused.name;
+
+			return CKEDITOR.tools.array.indexOf( widgetNames, curWidgetName ) !== -1;
 		}
 	};
 
@@ -156,11 +191,22 @@
 		},
 
 		init: function( editor ) {
-			editor.inlineToolbar = new Context( editor );
+			// editor.inlineToolbar = new Context( editor );
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 
-			// Expose instance-specific public APIs.
+			/**
+			 * Set of instance-specific public APIs exposed by Inline Toolbar plugin.
+			 *
+			 * @class
+	 		 * @singleton
+			 * @member CKEDITOR.editor.plugins
+			 */
 			editor.plugins.inlinetoolbar = {
+				/**
+				 * @param {Object} options Config object for Inline Toolbar.
+				 * @param {String[]} options.widgets An array of widget names that should trigger this toolbar.
+				 * @returns {CKEDITOR.plugins.inlinetoolbar.context} A context object created for this inline toolbar configuration.
+				 */
 				create: function( options ) {
 					return new CKEDITOR.plugins.inlinetoolbar.context( editor, options );
 				}
