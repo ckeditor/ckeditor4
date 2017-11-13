@@ -162,6 +162,21 @@
 			assert.sameData( '<p data-cke-upload-id="1" data-widget="widgetName"></p>', element.getOuterHtml() );
 		},
 
+		'test _getLoader': function() {
+			var bot = this.editorBot,
+				editor = bot.editor,
+				uploads = editor.uploadRepository,
+				loader = uploads.create( bender.tools.getTestPngFile() );
+
+			addTestUploadWidget( editor, 'testGetLoader' );
+
+			bot.setData( '<p>x<span data-cke-upload-id="' + loader.id + '" data-widget="testGetLoader">uploading...</span>x</p>', function() {
+				var widget = editor.widgets.getByElement( editor.editable().findOne( 'span[data-widget="testGetLoader"]' ) );
+
+				assert.areSame( loader, widget._getLoader(), '_getLoader return value' );
+			} );
+		},
+
 		'test replaceWith 1 element': function() {
 			var bot = this.editorBot,
 				editor = bot.editor,
