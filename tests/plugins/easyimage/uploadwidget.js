@@ -39,21 +39,34 @@
 		}
 	};
 
-	function assertUploadingWidgets( editor, expectedSrc ) {
+	function assertUploadingWidgets( editor, options ) {
 		var tools = CKEDITOR.tools,
 			array = tools.array,
 			widgets = array.map( tools.objectKeys( editor.widgets.instances ), function( val ) {
 				return editor.widgets.instances[ val ];
 			} );
 
+		if ( typeof options === 'string' ) {
+			// Compatibility with the older format.
+			options = {
+				expectedSrc: options
+			};
+		}
+
 		widgets = array.filter( widgets, function( val ) {
 			return val.name === 'uploadeasyimage';
 		} );
 
 		assert.areSame( 1, widgets.length, 'Created widgets count' );
-
 		assert.areSame( '0', widgets[ 0 ].element.getAttribute( 'data-cke-upload-id' ) );
-		assert.areSame( expectedSrc, widgets[ 0 ].element.getAttribute( 'src' ).substring( 0, 5 ) );
+
+		if ( typeof options.expectedSrc !== 'undefined' ) {
+			assert.areSame( options.expectedSrc, widgets[ 0 ].element.getAttribute( 'src' ).substring( 0, 5 ) );
+		}
+
+		if ( options.callback ) {
+			options.callback( widgets );
+		}
 	}
 
 	tests = {
@@ -157,8 +170,7 @@
 					loader.url = IMG_URL;
 					loader.changeStatus( 'uploaded' );
 
-					assert.sameData( '<p>x</p>' + WIDGET_HTML + '<p>x</p>',
-					editor.getData() );
+					assert.sameData( '<p>x</p>' + WIDGET_HTML + '<p>x</p>', editor.getData() );
 					assert.areSame( 1, editor.editable().find( '[data-widget="easyimage"]' ).count() );
 
 					assert.areSame( 0, loadAndUploadCount );
@@ -393,11 +405,11 @@
 		},
 
 		'test custom loader': function( editor ) {
-			CKEDITOR.fileTools.bindNotifications = sinon.spy();
+			var bindStub = sinon.stub( CKEDITOR.fileTools, 'bindNotifications' );
 
 			resumeAfter( editor, 'paste', function() {
-				var spy = CKEDITOR.fileTools.bindNotifications;
-				assert.areSame( 0, spy.callCount );
+				bindStub.restore();
+				assert.areSame( 0, bindStub.callCount );
 			} );
 
 			editor.fire( 'paste', {
@@ -494,6 +506,55 @@
 			editor.fire( 'paste', {
 				dataValue: '<img src="' + bender.tools.pngBase64 + '">'
 			} );
+
+			wait();
+		},
+
+		'test progress bar': function( editor ) {
+			// When run in batch, this test tends to "inherit" some widgets from previous runs. Make sure that the list is clear.
+			editor.widgets.destroyAll();
+
+			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+
+			// First stage, image file has just been pasted. This should create a progress bar, with initial markup.
+			assertUploadingWidgets( editor, {
+				callback: function( widgets ) {
+					var progressBarWrappers = widgets[ 0 ].wrapper.find( '.cke_loader' ),
+						progressBar;
+
+					assert.areSame( 1, progressBarWrappers.count(), 'Progress bar wrappers count' );
+
+					progressBar = progressBarWrappers.getItem( 0 ).findOne( '.cke_bar' );
+
+					assert.isInstanceOf( CKEDITOR.dom.element, progressBar, 'Progress bar type' );
+					assert.areSame( 0, progressBar.getClientRect().width, 'Progress bar width' );
+				}
+			} );
+
+			// Then pick up the loader, and fake some progress.
+			var loader = editor.uploadRepository.loaders[ 0 ];
+
+			loader.data = bender.tools.pngBase64;
+			loader.uploaded = 2;
+			loader.uploadTotal = 10;
+			loader.changeStatus( 'uploading' );
+
+			// Status update is throttled, so we need to delay the checking.
+			window.setTimeout( function() {
+				resume( function() {
+					assertUploadingWidgets( editor, {
+						callback: function( widgets ) {
+							var progressBar = widgets[ 0 ].wrapper.findOne( '.cke_bar' );
+							assert.areSame( '20%', progressBar.getStyle( 'width' ), 'Progress bar width after first update' );
+						}
+					} );
+
+					// Normally we would wait for image to load, but we don't care for image in this test case, we fake all the progress update by ourself.
+					loader.changeStatus( 'uploaded' );
+
+					assert.areSame( 0, editor.editable().find( '.cke_loader' ).count(), 'Progress bar wrappers count in the whole editable' );
+				} );
+			}, 250 );
 
 			wait();
 		}
