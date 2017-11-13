@@ -272,11 +272,6 @@
 			widget.wrapper.append( widget.parts.progressBar, true );
 		};
 
-		// @todo: this function should be moved to uploadwidget core definition.
-		definition._getLoader = function( widget ) {
-			return widget.editor.uploadRepository.loaders[ widget.wrapper.findOne( '[data-cke-upload-id]' ).data( 'cke-upload-id' ) ];
-		};
-
 		editor.on( 'widgetDefinition', function( evt ) {
 			var definition = evt.data,
 				baseInit;
@@ -286,7 +281,7 @@
 				baseInit =  definition.init;
 
 				definition.init = function() {
-					var loader = this.definition._getLoader( this ),
+					var loader = this._getLoader( this ),
 						progressListeners = [];
 
 					function removeProgressListeners() {
