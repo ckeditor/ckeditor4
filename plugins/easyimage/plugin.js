@@ -245,8 +245,6 @@
 					loader.upload( widgetDef.uploadUrl, widgetDef.additionalRequestParameters );
 
 					fileTools.markElement( img, 'uploadeasyimage', loader.id );
-
-					fileTools.bindNotifications( editor, loader );
 				}
 			}
 
