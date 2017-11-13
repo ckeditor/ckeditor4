@@ -95,11 +95,16 @@
 					if ( isLazyLoad ) {
 						editor.fire( 'paste', data );
 					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
+
 						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
 
 						data.dataValue = pfwEvtData.dataValue;
+						// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content.
+						if ( editor.config.forcePasteAsPlainText === true ) {
+							data.type = 'text';
+						}
 					}
 
 					// Reset forceFromWord.

@@ -733,8 +733,8 @@
 						} );
 					}
 
-					// Force type for the next paste.
-					if ( forcedType ) {
+					// Force type for the next paste. Do not force if `config.forcePasteAsPlainText` set to true (#1013).
+					if ( forcedType && editor.config.forcePasteAsPlainText !== true ) {
 						editor._.nextPasteType = forcedType;
 					} else {
 						delete editor._.nextPasteType;
