@@ -283,6 +283,13 @@
 			pluginInit = true;
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 
+			// Expose instance-specific public APIs.
+			editor.plugins.inlinetoolbar = {
+				create: function( options ) {
+					return new CKEDITOR.plugins.inlinetoolbar.context( editor, options );
+				}
+			};
+
 			/**
 			 * Build inline toolbar DOM representation.
 			 *
@@ -403,4 +410,16 @@
 			};
 		}
 	} );
+
+
+
+	/**
+	 * Static API exposed by the [Inline Toolbar](https://ckeditor.com/cke4/addon/inlinetoolbar) plugin.
+	 *
+	 * @class
+	 * @singleton
+	 */
+	CKEDITOR.plugins.inlinetoolbar = {
+		context: Context
+	};
 }() );

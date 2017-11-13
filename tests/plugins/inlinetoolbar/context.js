@@ -36,6 +36,16 @@
 			bender.editor.destroy();
 			assert.isTrue( stub.called, 'Event show should be fired when editor is destroyed.' );
 			stub.restore();
+		},
+
+		'test exposes editor.plugins.inlinetoolbar.create': function() {
+			var ContextTypeStub = sinon.stub( CKEDITOR.plugins.inlinetoolbar, 'context' ),
+				ret = this.editor.plugins.inlinetoolbar.create( {} );
+
+			ContextTypeStub.restore();
+
+			assert.isInstanceOf( ContextTypeStub, ret, 'Ret type' );
+			sinon.assert.calledWithExactly( ContextTypeStub, this.editor, {} );
 		}
 	} );
 } )();
