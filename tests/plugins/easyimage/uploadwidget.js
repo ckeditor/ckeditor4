@@ -129,7 +129,7 @@
 				loader.changeStatus( 'uploaded' );
 
 				assert.sameData( WIDGET_HTML, editor.getData() );
-				assert.areSame( 1, editor.editable().find( '[data-widget="easyimage"]' ).count(), 'dupa' );
+				assert.areSame( 1, editor.editable().find( '[data-widget="easyimage"]' ).count(), 'Easy Image widgets count' );
 
 				assert.areSame( 0, loadAndUploadCount );
 				assert.areSame( 1, uploadCount );
