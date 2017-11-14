@@ -234,13 +234,15 @@
 		 * @param {CKEDITOR.dom.elementPath} path
 		 */
 		refresh: function( path ) {
+			path = path || this.editor.elementPath();
+
 			var visibility = false,
 				// Element where the toolbar will be attached to.
 				// @todo: this will have to be adjusted to point matched element.
-				highlightElement = this.editor.editable();
+				highlightElement = path.lastElement || this.editor.editable();
 
 			if ( this.options.refresh ) {
-				visibility = this.options.refresh( this.editor, path || this.editor.elementPath() );
+				visibility = this.options.refresh( this.editor, path );
 			} else if ( this.options.widgets ) {
 				visibility = this._hasWidgetFocused();
 			}
