@@ -1,0 +1,59 @@
+<style>
+	body {
+		/* (#1048) */
+		margin-left: 0px;
+		padding-left: 400px;
+	}
+
+</style>
+
+<textarea id="editor1" cols="10" rows="10">
+	<p>Sample paragraph with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strike thourgh</s>.</p>
+	<ol>
+		<li>list item</li>
+		<li>
+			<p>Sample list item with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strike thourgh</s>.</p>
+		</li>
+		<li>list item</li>
+	</ol>
+</textarea>
+
+<div id="editor2" contenteditable="true">
+	<p>Sample paragraph with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strike thourgh</s>.</p>
+	<ol>
+		<li>list item</li>
+		<li>
+			<p>Sample list item with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strike thourgh</s>.</p>
+		</li>
+		<li>list item</li>
+	</ol>
+</div>
+
+<script>
+	CKEDITOR.disableAutoInline = true;
+
+	var listenersConfig = {
+		instanceReady: function( evt ) {
+			var editor = evt.editor;
+
+			window.context = editor.plugins.inlinetoolbar.create( {
+				buttons: 'Bold,Underline',
+				refresh: function( editor, path ) {
+					return path.contains( 'strong' ) || path.contains( 'em' );
+				}
+			} );
+		}
+	};
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'balloonpanel,language,stylescombo',
+		height: 300,
+		on: listenersConfig
+	} );
+
+	CKEDITOR.inline( 'editor2', {
+		extraPlugins: 'balloonpanel,language,stylescombo',
+		height: 300,
+		on: listenersConfig
+	} );
+</script>
