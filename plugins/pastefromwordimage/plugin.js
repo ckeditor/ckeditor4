@@ -65,15 +65,14 @@
 	 */
 	CKEDITOR.plugins.pastefromwordimage = {
 		/**
-		 * Method parses RTF content to find embedded images.
+		 * Method parses RTF content to find embedded images. Please be aware that method should only return `png` and `jpeg` images.
 		 *
 		 * @private
 		 * @since 4.8.0
 		 * @param {String} rtfContent RTF content to be checked for images.
 		 * @returns {Object[]} An array of images found in the `rtfContent`.
-		 * @returns {String/null} return.hex Hexadecimal string of an image embedded in `rtfContent`.
-		 * @returns {String/null} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg' or `null` in case of unsupported
-		 * cases like shapes.
+		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
+		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'
 		 */
 		extractImagesFromRtf: function( rtfContent ) {
 			var ret = [],
