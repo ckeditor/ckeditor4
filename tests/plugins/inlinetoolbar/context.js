@@ -7,6 +7,12 @@
 	bender.editor = {};
 
 	bender.test( {
+		init: function() {
+			// Stub listener register method, as since it's called in a constructor and it adds
+			// selectionChange listener, it causes extra calls to toolbar hide/show methods.
+			sinon.stub( CKEDITOR.plugins.inlinetoolbar.context.prototype, '_attachListeners' );
+		},
+
 		// 'test adding button': function() {
 		// 	var panel = this.editor.inlineToolbar.context( { buttons: 'Bold' } );
 		// 	assert.isInstanceOf( CKEDITOR.ui.button, panel.getItem( 'Bold' ), 'Registered button type.' );

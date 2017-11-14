@@ -184,17 +184,7 @@
 
 		this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
 
-		editor.on( 'destroy', function() {
-			this.destroy();
-		}, this );
-
-		editor.on( 'selectionChange', function( evt ) {
-			var lastElement = evt.data.path.lastElement;
-
-			if ( lastElement && this.toolbar && this.filters ) {
-
-			}
-		}, this );
+		this._attachListeners();
 	}
 
 	Context.prototype = {
@@ -268,6 +258,21 @@
 				curWidgetName = this.editor.widgets && this.editor.widgets.focused && this.editor.widgets.focused.name;
 
 			return CKEDITOR.tools.array.indexOf( widgetNames, curWidgetName ) !== -1;
+		},
+
+		/**
+		 * Registers all the needed listeners, like {@link CKEDITOR.editor#selectionChange} listener.
+		 *
+		 * @private
+		 */
+		_attachListeners: function() {
+			this.editor.on( 'destroy', function() {
+				this.destroy();
+			}, this );
+
+			this.editor.on( 'selectionChange', function() {
+				this.refresh();
+			}, this );
 		}
 	};
 
