@@ -1,12 +1,12 @@
-/* bender-tags: inlinetoolbar,context */
-/* bender-ckeditor-plugins: inlinetoolbar,basicstyles */
+/* bender-tags: inlinetoolbar, context */
+/* bender-ckeditor-plugins: inlinetoolbar, basicstyles */
 
 ( function() {
 	'use strict';
 
 	bender.editor = {
 		config: {
-			extraAllowedContent: 'div[*]'
+			extraAllowedContent: 'strong,em'
 		}
 	};
 

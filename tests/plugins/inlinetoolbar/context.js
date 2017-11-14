@@ -1,5 +1,5 @@
-/* bender-tags: inlinetoolbar,context */
-/* bender-ckeditor-plugins: inlinetoolbar,button,richcombo,basicstyles,format */
+/* bender-tags: inlinetoolbar, context */
+/* bender-ckeditor-plugins: inlinetoolbar, button, richcombo, basicstyles, format */
 
 ( function() {
 	'use strict';
