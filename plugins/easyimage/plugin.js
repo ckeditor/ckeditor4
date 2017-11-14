@@ -73,7 +73,7 @@
 
 	function addMenuItems( editor ) {
 		editor.addMenuGroup( 'easyimage' );
-		editor.addMenuItems( {
+		var itemsData = {
 			easyimageFull: {
 				label: editor.lang.easyimage.commands.fullImage,
 				command: 'easyimageFull',
@@ -94,7 +94,16 @@
 				group: 'easyimage',
 				order: 3
 			}
-		} );
+		};
+		if ( editor.plugins.link ) {
+			itemsData.link = {
+				label: editor.lang.link.toolbar,
+				command: 'link',
+				group: 'easyimage',
+				order: 4
+			};
+		}
+		editor.addMenuItems( itemsData );
 	}
 
 	function getInitialImageType( widget ) {
@@ -135,6 +144,9 @@
 						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
 						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
+						if ( editor.plugins.link ) {
+							evt.data.link = editor.getCommand( 'link' ).state;
+						}
 					} );
 
 					if ( editor.config.easyimage_class ) {
