@@ -94,11 +94,17 @@
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {Object} options Options object passed in {@link CKEDITOR.editor.plugins.inlinetoolbar#create} method.
 	 */
-	var Context = function( editor, options ) {
+	function Context( editor, options ) {
 		this.editor = editor;
+
+		this.options = options;
+
+		this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
+
 		editor.on( 'destroy', function() {
 			this.destroy();
 		}, this );
+
 		editor.on( 'selectionChange', function( evt ) {
 			var lastElement = evt.data.path.lastElement;
 
@@ -106,11 +112,7 @@
 
 			}
 		}, this );
-
-		this.options = options;
-
-		this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
-	};
+	}
 
 	Context.prototype = {
 		/**
@@ -156,10 +158,12 @@
 		 *
 		 * @param {CKEDITOR.dom.elementPath} path
 		 */
-		refresh: function() {
+		refresh: function( path ) {
 			var visibility = false;
 
-			if ( this.options.widgets ) {
+			if ( this.options.refresh ) {
+				visibility = this.options.refresh( this.editor, path || this.editor.elementPath() );
+			} else if ( this.options.widgets ) {
 				visibility = this._hasWidgetFocused();
 			}
 
@@ -297,9 +301,8 @@
 					if ( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo && groupStarted ) {
 						groupStarted = false;
 						output.push( '</span>' );
-
-					// If we have closed group and element that is not richBox we have to open group.
 					} else if ( !( CKEDITOR.ui.richCombo && items[ itemKey ] instanceof CKEDITOR.ui.richCombo ) && !groupStarted ) {
+						// If we have closed group and element that is not richBox we have to open group.
 						groupStarted = true;
 						output.push( '<span class="cke_toolgroup">' );
 					}
