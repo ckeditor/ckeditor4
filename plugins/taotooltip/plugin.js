@@ -5,14 +5,26 @@ CKEDITOR.plugins.add('taotooltip', {
         var commandName = 'insertTaoTooltip';
 
 	    var allowedTagsInTooltips = [
-	    	'em',
-	    	'strong',
+	    	'b', 'strong',
+	    	'i', 'em',
+		    's',
 		    // 'span', // WARNING: do not blindly add span without also checking that the selection does not already contain a tooltip...
 		    'sub',
-		    'sup'
+		    'sup',
+		    'u'
 	    ];
 	    var containForbiddenTag;
 
+
+	    /**
+	     * @param {CkEditor} editor - ckEditor instance
+	     */
+	    function tooltipCanBeCreated(editor) {
+		    var selection = editor.getSelection(),
+			    nativeSelection = selection.getNative();
+
+			return (canInsert(nativeSelection) || isWrappable(nativeSelection));
+	    }
 
 	    /**
 	     * @param {Selection} selection
@@ -22,7 +34,6 @@ CKEDITOR.plugins.add('taotooltip', {
 	    	var range = selection.getRangeAt(0);
 	    	return isSelectionEmpty(selection)
 			    && ! isInTooltip(range.startContainer);
-
 	    }
 
 	    /**
@@ -88,7 +99,7 @@ CKEDITOR.plugins.add('taotooltip', {
 	     */
 	    function isValidRange(range) {
 	        	var start = getContainerElement(range.startContainer),
-			    end   = getContainerElement(range.endContainer);
+			        end   = getContainerElement(range.endContainer);
 
 	    	    return start.isSameNode(end);
 	    }
@@ -142,6 +153,21 @@ CKEDITOR.plugins.add('taotooltip', {
 		    return node.nodeType === window.Node.TEXT_NODE;
 	    }
 
+	    /**
+	     * Change command state according to the current selection content
+	     * @param {CkEditor} editor - ckEditor instance
+	     */
+	    function refreshCommandState(editor) {
+		    var command = editor.getCommand(commandName);
+
+		    if (command) {
+			    if (tooltipCanBeCreated(editor)) {
+				    command.setState(CKEDITOR.TRISTATE_OFF);
+			    } else {
+				    command.setState(CKEDITOR.TRISTATE_DISABLED);
+			    }
+		    }
+	    }
 
 		editor.addCommand(commandName, {
 			exec: function(editor) {
@@ -150,43 +176,43 @@ CKEDITOR.plugins.add('taotooltip', {
 					nativeSelection = selection.getNative(),
 				    taoWidgetWrapper;
 
-					if(typeof(config.insert) === 'function') {
-						if (canInsert(nativeSelection) || isWrappable(nativeSelection)) {
-							taoWidgetWrapper = new CKEDITOR.dom.element('span', editor.document);
-							taoWidgetWrapper.setAttributes({
-								'data-new': true,
-								'data-qti-class': '_tooltip',
-								'class': 'widget-box'
-							});
-							if (isSelectionEmpty(nativeSelection)) {
-								// For some profound esoteric reasons, editor.getData() will not return an inserted <span> if that <span> is empty.
-								// So we add a space if nothing was selected!
-								taoWidgetWrapper.appendHtml('&nbsp;');
-							} else {
-								taoWidgetWrapper.append(getSelectionContent(selection));
-							}
-
-							editor.insertElement(taoWidgetWrapper);
-
-							config.insert.call(editor, taoWidgetWrapper.$);
-
+					if(tooltipCanBeCreated(editor) && typeof(config.insert) === 'function') {
+						taoWidgetWrapper = new CKEDITOR.dom.element('span', editor.document);
+						taoWidgetWrapper.setAttributes({
+							'data-new': true,
+							'data-qti-class': '_tooltip',
+							'class': 'widget-box'
+						});
+						if (isSelectionEmpty(nativeSelection)) {
+							// For some profound reason, editor.getData() will not return an inserted <span> if that <span> is empty.
+							// So we add a space if nothing was selected!
+							taoWidgetWrapper.appendHtml('&nbsp;');
 						} else {
-							if (typeof(config.alert) === 'function') {
-								config.alert.call(
-									editor,
-									'.cke_button__taotooltip',
-									'tooltipInvalidSelection'
-								);
-							}
+							taoWidgetWrapper.append(getSelectionContent(selection));
 						}
+
+						editor.insertElement(taoWidgetWrapper);
+
+						config.insert.call(editor, taoWidgetWrapper.$);
 					}
 			}
 		});
 
-        editor.ui.addButton('TaoTooltip', {
-            label : 'Tooltip',
-            command : commandName,
-            icon : this.path + 'images/taotooltip.png'
-        });
+	    editor.on('instanceReady', function() {
+		    var editable = editor.editable();
+
+		    editable.attachListener(editable, 'mouseup', function() {
+				refreshCommandState(editor);
+		    });
+		    editable.attachListener(editable, 'keyup', function() {
+				refreshCommandState(editor);
+		    });
+	    });
+
+	    editor.ui.addButton('TaoTooltip', {
+		    label : 'Tooltip',
+		    command : commandName,
+		    icon : this.path + 'images/taotooltip.png'
+	    });
     }
 });

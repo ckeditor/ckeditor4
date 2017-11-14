@@ -15,7 +15,6 @@
 <h2>Tooltip creation</h2>
 <div contenteditable="true" id="editor" style="border: 1px solid grey; width: 100%;"></div>
 <p><strong>Created Widget = </strong> <span id="result"></span></p>
-<p><strong>Alert = </strong> <span id="alert"></span></p>
 <p><strong>Editor Data = </strong> <span id="editorData"></span></p>
 
 <script>
@@ -25,14 +24,8 @@
             taoQtiItem: {
                 insert: function insert(newWidget) {
                 	document.getElementById('result').textContent = newWidget.outerHTML;
-                	document.getElementById('alert').textContent = '';
                 	document.getElementById('editorData').textContent = this.getData();
-                },
-				alert: function alert() {
-                	document.getElementById('result').textContent = '';
-                	document.getElementById('alert').textContent = "The current selection does not allow tooltip creation";
-                	document.getElementById('editorData').textContent = this.getData();
-				}
+                }
             },
             "removePlugin": 'table',
 //            "customConfig": "config.js",
