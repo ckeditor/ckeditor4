@@ -171,6 +171,10 @@
 				this.refresh();
 			}, this );
 
+			this.editor.on( 'mode', function() {
+				this.toolbar.hide();
+			}, this, null, 9999 );
+
 			this.editor.on( 'blur', function() {
 				this.toolbar.hide();
 			}, this, null, 9999 );
