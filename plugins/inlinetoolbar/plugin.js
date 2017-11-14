@@ -253,6 +253,10 @@
 			this.editor.on( 'selectionChange', function() {
 				this.refresh();
 			}, this );
+
+			this.editor.on( 'blur', function() {
+				this.toolbar.hide();
+			}, this, null, 9999 );
 		},
 
 		/**
@@ -392,6 +396,19 @@
 			CKEDITOR.ui.inlineToolbarView.prototype.hide = function() {
 				this._detachListeners();
 				CKEDITOR.ui.balloonPanel.prototype.hide.call( this );
+			};
+
+			/**
+			 * @inheritdoc CKEDITOR.ui.balloonPanel#blur
+			 * @param {Boolean} [focusEditor=false] Whether the editor should be focused after blurring.
+			 */
+			CKEDITOR.ui.inlineToolbarView.prototype.blur = function( focusEditor ) {
+				if ( !!focusEditor ) {
+					// This is actually different behavior from standard balloonpanel, where it always puts the focus back to editor.
+					// We don't want to do it here, as e.g. we hide the toolbar as user leaves the editor (tabs out). Forcing focus
+					// back to the editor would trap end user inside of the editor, and show the toolbar... again.
+					this.editor.focus();
+				}
 			};
 
 			CKEDITOR.ui.inlineToolbarView.prototype._getAlignments = function( elementRect, panelWidth, panelHeight ) {
