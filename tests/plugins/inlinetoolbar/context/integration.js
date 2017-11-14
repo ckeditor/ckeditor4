@@ -12,71 +12,45 @@
 
 	bender.test( {
 		'test integration selectionChange with options.refresh': function() {
-			var context = this._getContextStub( {
-				buttons: 'Bold,Italic,Underline',
-				refresh: function( editor, path ) {
-					return path.contains( 'em' );
-				}
-			} );
-
-			// context.refresh();
+			var context = this.editor.plugins.inlinetoolbar.create( {
+					buttons: 'Bold,Italic,Underline',
+					refresh: function( editor, path ) {
+						return path.contains( 'em' );
+					}
+				} ),
+				newRange = this.editor.createRange(),
+				emElem;
 
 			this.editorBot.setHtmlWithSelection( '<p>Test^ <strong>Foo</strong><em>bar</em></p>' );
 
-			// bot.setHtmlWithSelection will trigger selection change, which will already do some refresh() calls.
-			context.toolbar.hide.reset();
-			context.toolbar.show.reset();
+			emElem = this.editor.editable().findOne( 'em' );
 
-			var rng = this.editor.createRange();
-
+			// First set the selection in a place where inline toolbar should not be shown.
 			// Set range at <strong>F^oo</strong>.
-			rng.setStart( this.editor.editable().findOne( 'strong' ).getFirst(), 1 );
-			rng.collapse( true );
-
-			this.editor.getSelection().selectRanges( [ rng ] );
-			// debugger;
-
-			assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
-
-			this._assertToolbarVisible( false );
-
-			context.toolbar.hide.reset();
-			context.toolbar.show.reset();
-
-			var newRange = this.editor.createRange(),
-				emElem = this.editor.editable().findOne( 'em' );
-
-			newRange.setStartAt( emElem, CKEDITOR.POSITION_AFTER_START );
-			newRange.setEndAt( emElem, CKEDITOR.POSITION_BEFORE_END );
+			newRange.setStart( this.editor.editable().findOne( 'strong' ).getFirst(), 1 );
+			newRange.collapse( true );
 
 			this.editor.getSelection().selectRanges( [ newRange ] );
 
-			assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( false, context );
 
-			this._assertToolbarVisible( true );
-		},
+			// Now, change the selection to a place that should show the toolbar.
+			// For example: "<em>b^ar</em>".
+			newRange.setStartAt( emElem.getFirst(), 1 );
+			newRange.collapse( true );
 
-		/*
-		 * Returns a Context instance with toolbar show/hide methods stubbed.
-		 *
-		 * @param {Object} options
-		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
-		 */
-		_getContextStub: function( options ) {
-			var ret = this.editor.plugins.inlinetoolbar.create( options );
+			this.editor.getSelection().selectRanges( [ newRange ] );
 
-			sinon.stub( ret.toolbar, 'hide' );
-			sinon.stub( ret.toolbar, 'show' );
+			this._assertToolbarVisible( true, context );
 
-			return ret;
+			context.destroy();
 		},
 
 		/*
 		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
 		 */
-		_assertToolbarVisible: function() {
+		_assertToolbarVisible: function( expected, context ) {
+			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), 'Toolbar visibility' );
 		}
 	} );
 } )();
