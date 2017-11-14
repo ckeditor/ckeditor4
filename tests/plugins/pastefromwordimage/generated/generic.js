@@ -29,7 +29,10 @@
 			'Shapes_and_online_and_offline_image': true,
 			'Wrapped_image': true,
 			'Link_image': true,
-			'Gruped_adjacent_shapes_and_images': true
+			'Gruped_adjacent_shapes_and_images': true,
+			'Image_alternative_text': true,
+			'Image_reflection': true,
+			'Image_rotation': true
 		},
 		ignoreAll: CKEDITOR.env.ie,
 		includeRTF: true
