@@ -101,6 +101,8 @@
 
 		this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
 
+		this._loadButtons();
+
 		this._attachListeners();
 	}
 
@@ -149,7 +151,10 @@
 		 * @param {CKEDITOR.dom.elementPath} path
 		 */
 		refresh: function( path ) {
-			var visibility = false;
+			var visibility = false,
+				// Element where the toolbar will be attached to.
+				// @todo: this will have to be adjusted to point matched element.
+				highlightElement = this.editor.editable();
 
 			if ( this.options.refresh ) {
 				visibility = this.options.refresh( this.editor, path || this.editor.elementPath() );
@@ -158,6 +163,7 @@
 			}
 
 			if ( visibility ) {
+				this.toolbar.attach( highlightElement );
 				this.toolbar.show();
 			} else {
 				this.toolbar.hide();
@@ -190,6 +196,22 @@
 			this.editor.on( 'selectionChange', function() {
 				this.refresh();
 			}, this );
+		},
+
+		/**
+		 * Loads button from `options.buttons`.
+		 *
+		 * @private
+		 */
+		_loadButtons: function() {
+			var buttons = this.options.buttons;
+
+			if ( buttons ) {
+				buttons = buttons.split( ',' );
+				CKEDITOR.tools.array.forEach( buttons, function( name ) {
+					this.toolbar.addItem( name, this.editor.ui.create( name ) );
+				}, this );
+			}
 		}
 	};
 
