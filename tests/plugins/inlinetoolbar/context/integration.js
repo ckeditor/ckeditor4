@@ -1,5 +1,5 @@
 /* bender-tags: inlinetoolbar, context */
-/* bender-ckeditor-plugins: inlinetoolbar, toolbar, basicstyles */
+/* bender-ckeditor-plugins: inlinetoolbar, toolbar, basicstyles, sourcearea */
 
 ( function() {
 	'use strict';
@@ -72,6 +72,35 @@
 
 			// Keep in mind that modern browsers will "debounce" the focus event, it will happen asynchronously.
 			CKEDITOR.document.getById( 'focusHost' ).focus();
+
+			wait();
+		},
+
+		'test switching source mode hides the toolbar': function() {
+			var initialMode = this.editor.mode;
+
+			this.curContext = this.editor.plugins.inlinetoolbar.create( {
+				buttons: 'Bold,Italic',
+				refresh: sinon.stub().returns( true )
+			} );
+
+			this.editorBot.setHtmlWithSelection( '<p><strong>foo^bar</strong></p>' );
+
+			this._assertToolbarVisible( true, this.curContext );
+
+			this.editor.setMode( 'source', function() {
+				resume( function() {
+					try {
+						this._assertToolbarVisible( false, this.curContext, 'Toolbar visibility after switching to source area' );
+					} catch ( e ) {
+						// Propagate the exception.
+						throw e;
+					} finally {
+						// In any case, set the mode back to initial editor mode.
+						this.editor.setMode( initialMode );
+					}
+				} );
+			} );
 
 			wait();
 		},
