@@ -4,7 +4,7 @@
 
 ## Inline Toolbar Context
 
-Inline toolbar should be shown only selections containg `strong` and `em` in its path.
+Inline toolbar should be shown only selections containing `strong` and `em` in its path.
 
 Example test case:
 

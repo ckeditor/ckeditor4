@@ -34,12 +34,14 @@
 
 	var listenersConfig = {
 		instanceReady: function( evt ) {
-			var editor = evt.editor;
-
-			window.context = editor.plugins.inlinetoolbar.create( {
+			// Register the toolbar for inline elements.
+			evt.editor.plugins.inlinetoolbar.create( {
 				buttons: 'Bold,Underline',
 				refresh: function( editor, path ) {
-					return path.contains( 'strong' ) || path.contains( 'em' );
+					return path.contains( {
+						strong: 1,
+						em: 1
+					} );
 				}
 			} );
 		}
