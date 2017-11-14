@@ -13,6 +13,9 @@
   2. [Online_and_offline_image.docx](../generated/_fixtures/Online_and_offline_image/Online_and_offline_image.docx)
   3. [Shapes_and_online_and_offline_image.docx](../generated/_fixtures/Shapes_and_online_and_offline_image/Shapes_and_online_and_offline_image.docx)
   4. [Wrapped_image.docx](../generated/_fixtures/Wrapped_image/Wrapped_image.docx)
+  5. [Image_alternative_text.docx](../generated/_fixtures/Image_alternative_text/Image_alternative_text.docx)
+  6. [Image_reflection.docx](../generated/_fixtures/Image_reflection/Image_reflection.docx)
+  7. [Image_rotation.docx](../generated/_fixtures/Image_rotation/Image_rotation.docx)
 
 **Expected:** Images are pasted to the editor.<br>
 Note: Keep in mind that shapes (like last object in `Shapes_and_online_and_offline_image.docx`) will not be pasted.
