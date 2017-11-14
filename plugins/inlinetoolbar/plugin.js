@@ -92,7 +92,7 @@
 	 * @constructor Creates an inline toolbar context instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
-	 * @param {Object} options Options object passed in {@link CKEDITOR.editor.plugins.inlinetoolbar#create} method.
+	 * @param {Object} options Options object passed in the {@link CKEDITOR.editor.plugins.inlinetoolbar#create} method.
 	 */
 	function Context( editor, options ) {
 		this.editor = editor;
@@ -107,34 +107,6 @@
 	}
 
 	Context.prototype = {
-		/**
-		 * Set up and create inline toolbar.
-		 *
-		 * @param {Object} params Configuration object for inline toolbar context.
-		 * @param {String} params.buttons Names of the elements that should be available in inline toolbar.
-		 * @param {String} params.context ACF rules that describes focused elements that should have inline toolbar
-		 */
-		context: function( params ) {
-			if ( !params ) {
-				return;
-			}
-
-			if ( params.buttons ) {
-				params.buttons = params.buttons.split( ',' );
-				CKEDITOR.tools.array.forEach( params.buttons, function( name ) {
-					this.toolbar.addItem( name, this.editor.ui.create( name ) );
-				}, this );
-			}
-			if ( params.context ) {
-				params.context = params.context.split( ',' );
-				this.filters = [];
-				CKEDITOR.tools.array.forEach( params.context, function( rule ) {
-					this.filters.push( new CKEDITOR.filter( rule ) );
-				}, this );
-			}
-			return this.toolbar;
-		},
-
 		/**
 		 * Destroy inline toolbar context
 		 */
@@ -156,7 +128,7 @@
 			var visibility = false,
 				// Element where the toolbar will be attached to.
 				// @todo: this will have to be adjusted to point matched element.
-				highlightElement = path.lastElement || this.editor.editable();
+				highlightElement = ( path && path.lastElement ) || this.editor.editable();
 
 			if ( this.options.refresh ) {
 				visibility = this.options.refresh( this.editor, path );
@@ -237,7 +209,25 @@
 			editor.plugins.inlinetoolbar = {
 				/**
 				 * @param {Object} options Config object for Inline Toolbar.
-				 * @param {String[]} options.widgets An array of widget names that should trigger this toolbar.
+				 * @param {String[]} [options.widgets] An array of widget names that should trigger this toolbar.
+				 * @param {Function} [options.refresh] A function that determines whether the toolbar should be visible for a given `elementPath`.
+				 *
+				 * It gets following parameters:
+				 * * `editor` - {@link CKEDITOR.editor} an editor that controls this context.
+				 * * `elementPath` - {@link CKEDITOR.dom.elementPath} path for probed selection.
+				 *
+				 * Function is expected to return `Boolean` value. Returning `true` means that the inline toolbar should be shown.
+				 *
+				 * An example below will show the toolbar only for paths containing `<strong>` elements.
+				 *
+				 *	// Assuming that editor is an CKEDITOR.editor instance.
+				 *	editor.plugins.inlinetoolbar.create( {
+				 *		buttons: 'Bold,Underline',
+				 *		refresh: function( editor, path ) {
+				 *			return path.contains( 'strong' );
+				 *		}
+				 *	} );
+				 *
 				 * @returns {CKEDITOR.plugins.inlinetoolbar.context} A context object created for this inline toolbar configuration.
 				 */
 				create: function( options ) {
