@@ -1,0 +1,16 @@
+
+<div id="classic">
+	<p>Context menu should have option link: </p>
+	<figure class="easyimage">
+		<img src="../../image2/_assets/foo.png" alt="foo">
+		<figcaption>Test image</figcaption>
+	</figure>
+</div>
+
+<script>
+	CKEDITOR.replace( 'classic', {
+		easyimage_class: null,
+		height: 500,
+		extraAllowedContent: 'figure(*)'
+	} );
+</script>
