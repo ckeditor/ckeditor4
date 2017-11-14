@@ -1,4 +1,4 @@
-/* bender-tags: inlinetoolbar */
+/* bender-tags: inlinetoolbar,context */
 /* bender-ckeditor-plugins: inlinetoolbar,button,widget */
 /* bender-include: ../../widget/_helpers/tools.js */
 /* global widgetTestsTools */
