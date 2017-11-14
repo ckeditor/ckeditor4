@@ -2308,7 +2308,7 @@
 					data = '';
 				}
 			} else {
-				data = this._.data[ type ] || null;
+				data = this._.data[ type ];
 				if ( isEmpty( data ) ) {
 					if ( this._.fallbackDataTransfer.isRequired() ) {
 						data = this._.fallbackDataTransfer.getData( type );
