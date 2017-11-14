@@ -11,7 +11,14 @@
 	};
 
 	bender.test( {
-		'test integration selectionChange with options.refresh': function() {
+		tearDown: function() {
+			if ( this.curContext ) {
+				this.curContext.destroy();
+				this.curContext = null;
+			}
+		},
+
+		'test selectionChange with options.refresh': function() {
 			var context = this.editor.plugins.inlinetoolbar.create( {
 					buttons: 'Bold,Italic,Underline',
 					refresh: function( editor, path ) {
@@ -46,11 +53,34 @@
 			context.destroy();
 		},
 
+		'test moving focus out of the editor hides the toolbar': function() {
+			// Note: this test is verified to fail with testing window blurred (e.g. when dev console window focused).
+			this.curContext = this.editor.plugins.inlinetoolbar.create( {
+					buttons: 'Bold,Italic',
+					refresh: sinon.stub().returns( true )
+				} );
+
+			this.editorBot.setHtmlWithSelection( '<p><strong>foo^bar</strong></p>' );
+
+			this._assertToolbarVisible( true, this.curContext );
+
+			this.editor.once( 'blur', function() {
+				resume( function() {
+					this._assertToolbarVisible( false, this.curContext, 'Toolbar visibility after blurring the editor' );
+				} );
+			}, this, null, 99999 );
+
+			// Keep in mind that modern browsers will "debounce" the focus event, it will happen asynchronously.
+			CKEDITOR.document.getById( 'focusHost' ).focus();
+
+			wait();
+		},
+
 		/*
 		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
 		 */
-		_assertToolbarVisible: function( expected, context ) {
-			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), 'Toolbar visibility' );
+		_assertToolbarVisible: function( expected, context, msg ) {
+			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), msg || 'Toolbar visibility' );
 		}
 	} );
 } )();
