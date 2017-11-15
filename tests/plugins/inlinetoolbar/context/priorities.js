@@ -8,7 +8,7 @@
 
 	bender.editor = {
 		config: {
-			extraAllowedContent: 'div[*];strong;h1'
+			extraAllowedContent: 'div[*];strong;u;em;cite'
 		}
 	};
 
@@ -79,6 +79,30 @@
 		// 	} );
 		// },
 
+		'test options.elements the top-most patch match wins': function() {
+			// If we have path like: "foo > bar > baz" and there are contexts matching "bar" and "baz", only the context
+			// that matches for "baz" should be shown.
+			var additionalContextDefinitions = {
+				emContext: {
+					buttons: 'Bold,Italic',
+					elements: 'em'
+				},
+				citeContext: {
+					buttons: 'Bold,Italic',
+					elements: 'cite'
+				}
+			};
+
+			this.editorBot.setHtmlWithSelection( CKEDITOR.document.getById( 'nestedElements' ).getHtml() );
+
+			var contexts = this._createContexts( [ 'elements', 'emContext', 'citeContext' ], true, additionalContextDefinitions );
+
+			this._assertToolbarVisible( true, contexts.citeContext, 'contexts.citeContext visibility' );
+
+			this._assertToolbarVisible( false, contexts.elements, 'contexts.elements visibility' );
+			this._assertToolbarVisible( false, contexts.emContext, 'contexts.emContext visibility' );
+		},
+
 		/*
 		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
 		 */
@@ -92,12 +116,13 @@
 		 * @param {String[]/null} [whitelist=null] Array of contexts to be returned, e.g. `[ 'refresh', 'elements' ]`.
 		 * If `null` white listing is ignored and all contexts are returned.
 		 * @param {Boolean} [autoRefresh=false] If `true` created contexts will be refreshed right after being created.
+		 * @param {Object} [additionalMappings] Additional context mappings, see the code for more details.
 		 * @return {Object} A dictionary of created contexts.
 		 * @return {CKEDITOR.plugins.inlinetoolbar.context} return.refresh A context with `options.refresh` that always returns `true`.
 		 * @return {CKEDITOR.plugins.inlinetoolbar.context} return.widgets A context with `options.widgets` alone set.
 		 * @return {CKEDITOR.plugins.inlinetoolbar.context} return.elements A context with `options.elements` alone set.
 		 */
-		_createContexts: function( whitelist, autoRefresh ) {
+		_createContexts: function( whitelist, autoRefresh, additionalMappings ) {
 			var optionsMapping = {
 					refresh: {
 						buttons: 'Bold,Italic',
@@ -109,13 +134,18 @@
 					},
 					elements: {
 						buttons: 'Bold,Italic',
-						elements: 'a,strong,u'
+						elements: 'a;strong;u'
 					}
 				},
 				ret = {},
 				i;
 
 			whitelist = CKEDITOR.tools.isArray( whitelist ) ? whitelist : CKEDITOR.tools.objectKeys( optionsMapping );
+
+			// Eventually one might provide even more mappings.
+			if ( additionalMappings ) {
+				optionsMapping = CKEDITOR.tools.extend( optionsMapping, additionalMappings, true );
+			}
 
 			for ( i in optionsMapping ) {
 				if ( CKEDITOR.tools.array.indexOf( whitelist, i ) !== -1 ) {
