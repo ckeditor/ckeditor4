@@ -171,7 +171,7 @@
 	/**
 	 * Class representing inline toolbar context in the editor.
 	 *
-	 * @class
+	 * @class CKEDITOR.plugins.inlinetoolbar.context
 	 * @constructor Creates an inline toolbar context instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
@@ -202,7 +202,6 @@
 		 * Destroy inline toolbar context
 		 */
 		destroy: function() {
-
 			if ( this.toolbar ) {
 				this.toolbar.destroy();
 			}
@@ -312,6 +311,86 @@
 					this.toolbar.addItem( name, this.editor.ui.create( name ) );
 				}, this );
 			}
+		}
+	};
+
+
+	/**
+	 * Class for managers that take care of handling multiple contexts.
+	 *
+	 * Making sure that only one is active at a time and implementing the logic, used to determine
+	 * best fitting context for a given selection.
+	 *
+	 * @class CKEDITOR.plugins.inlinetoolbar.contextManager
+	 * @constructor
+	 * @since 4.8
+	 * @param {CKEDITOR.editor} editor The editor instance which the toolbar is created for.
+	 */
+	function ContextManager( editor ) {
+		/**
+		 * Editor for which the manager was created for.
+		 *
+		 * @property {CKEDITOR.editor}
+		 */
+		this.editor = editor;
+
+		/**
+		 * List of contexts controlled by this manager.
+		 *
+		 * @private
+		 * @property {CKEDITOR.plugins.inlinetoolbar.context}
+		 */
+		this._contexts = [];
+
+		this._attachListeners();
+	}
+
+	ContextManager.prototype = {
+		/**
+		 * Adds a `context` to the tracked contexts list.
+		 *
+		 * @param {CKEDITOR.plugins.inlinetoolbar.context} context
+		 */
+		add: function( context ) {
+			this._contexts.push( context );
+		},
+
+		check: function( selection ) {
+			if ( !selection ) {
+				selection = this.editor.getSelection();
+			}
+		},
+
+		/**
+		 * Hides every visible context controlled by manager.
+		 */
+		hide: function() {
+		},
+
+		/**
+		 * Destroys every context controlled by the manager.
+		 */
+		destroy: function() {
+		},
+
+		_attachListeners: function() {
+			this.editor.on( 'destroy', function() {
+				this.destroy();
+			}, this );
+
+			this.editor.on( 'selectionChange', function() {
+				this.check();
+			}, this );
+
+			this.editor.on( 'mode', function() {
+				// this.toolbar.hide();
+				this.hide();
+			}, this, null, 9999 );
+
+			this.editor.on( 'blur', function() {
+				// this.toolbar.hide();
+				this.hide();
+			}, this, null, 9999 );
 		}
 	};
 
@@ -542,6 +621,7 @@
 	 */
 	CKEDITOR.plugins.inlinetoolbar = {
 		context: Context,
+		contextManager: ContextManager,
 
 		/**
 		 * Converts a given element into a style definition that could be used to create an instance of {@link CKEDITOR.style}.
