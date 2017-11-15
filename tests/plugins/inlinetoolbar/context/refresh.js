@@ -5,9 +5,7 @@
 	'use strict';
 
 	bender.editor = {
-		config: {
-			extraAllowedContent: 'div[*]'
-		}
+		config: {}
 	};
 
 	bender.test( {
