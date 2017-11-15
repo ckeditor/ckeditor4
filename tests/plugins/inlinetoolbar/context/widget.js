@@ -79,6 +79,46 @@
 				} );
 		},
 
+		'test matching with options.widgets as a string': function() {
+			var editor = this.editor,
+				context = this._getContextStub( 'foo,bar,baz' );
+
+			editor.widgets.add( 'bar' );
+
+			this.editorBot.setData(
+				'<p>foo</p><div data-widget="bar" id="w1">foo</div></p>',
+				function() {
+					var widget = widgetTestsTools.getWidgetById( editor, 'w1' );
+
+					widget.focus();
+
+					context.refresh();
+
+					assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
+					assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+				} );
+		},
+
+		'test negation with options.widgets as a string': function() {
+			var editor = this.editor,
+				context = this._getContextStub( 'foo,zbarz,baz' );
+
+			editor.widgets.add( 'bar' );
+
+			this.editorBot.setData(
+				'<p>foo</p><div data-widget="bar" id="w1">foo</div></p>',
+				function() {
+					var widget = widgetTestsTools.getWidgetById( editor, 'w1' );
+
+					widget.focus();
+
+					context.refresh();
+
+					assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
+					assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+				} );
+		},
+
 		/*
 		 * Returns a Context instance with toolbar show/hide methods stubbed.
 		 *

@@ -164,6 +164,10 @@
 			var widgetNames = this.options.widgets,
 				curWidgetName = this.editor.widgets && this.editor.widgets.focused && this.editor.widgets.focused.name;
 
+			if ( typeof widgetNames === 'string' ) {
+				widgetNames = widgetNames.split( ',' );
+			}
+
 			return CKEDITOR.tools.array.indexOf( widgetNames, curWidgetName ) !== -1;
 		},
 
@@ -249,7 +253,7 @@
 				/**
 				 * @param {Object} options Config object for Inline Toolbar.
 				 * @param {String} [options.elements] ACF selector. If any elements in the path matches against it, the toolbar will be shown.
-				 * @param {String[]} [options.widgets] An array of widget names that should trigger this toolbar.
+				 * @param {String[]/String} [options.widgets] An array of widget names that should trigger this toolbar. Alternatively can be passed as a comma-separated string.
 				 * @param {Function} [options.refresh] A function that determines whether the toolbar should be visible for a given `elementPath`.
 				 *
 				 * It gets following parameters:
