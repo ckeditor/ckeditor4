@@ -5,7 +5,10 @@
 	'use strict';
 
 	bender.editor = {
-		config: {}
+		config: {
+			// We're using various weird markup combinations, thus disabling ACF filtering.
+			allowedContent: true
+		}
 	};
 
 	bender.test( {
@@ -46,6 +49,39 @@
 
 			assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
 			assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+		},
+
+		'test ACF matching by attribute': function() {
+			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
+
+			var context = this._getContextStub( 'strong[data-foo-bar]' );
+
+			context.refresh();
+
+			assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
+			assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+		},
+
+		'test ACF reject by attribute': function() {
+			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
+
+			var context = this._getContextStub( 'strong' );
+
+			context.refresh();
+
+			assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
+			assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+		},
+
+		'test ACF reject by style': function() {
+			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1" style="text-decoration: underline">foo^ bar</strong></p>' );
+
+			var context = this._getContextStub( 'strong[data-foo-bar]' );
+
+			context.refresh();
+
+			assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
+			assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
 		},
 
 		/*

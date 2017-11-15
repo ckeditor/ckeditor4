@@ -251,10 +251,13 @@
 		 */
 		_matchElements: function( path ) {
 			var elems = path.elements,
+				filter = new CKEDITOR.filter( this.options.elements ),
 				matching;
 
-			matching = CKEDITOR.tools.array.filter( elems, function() {
-				return false;
+			matching = CKEDITOR.tools.array.filter( elems, function( elem ) {
+				var styleDef = CKEDITOR.plugins.inlinetoolbar._convertElementToStyleDef( elem );
+
+				return filter.check( new CKEDITOR.style( styleDef ), true, true );
 			} );
 
 			return matching.length > 0;
