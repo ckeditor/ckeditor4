@@ -44,7 +44,26 @@
 		return CKEDITOR.plugins.link.parseLinkAttributes( widget.editor, widget.parts.link );
 	}
 
+	function createCaption( widget ) {
+		var element = widget.element,
+			caption = element.getDocument().createElement( 'figcaption' ),
+			definition = widget.editor.widgets.registered[ widget.name ];
+
+		element.append( caption );
+		widget.initEditable( 'caption', definition.editables.caption );
+
+		return caption;
+	}
+
 	var featuresDefinitions = {
+		caption: {
+			init: function() {
+				if ( !this.parts.caption ) {
+					this.parts.caption = createCaption( this );
+				}
+			}
+		},
+
 		link: {
 			allowedContent: {
 				a: {
