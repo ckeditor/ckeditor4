@@ -241,7 +241,7 @@
 		},
 
 		/**
-		 * Registers all the needed listeners, like {@link CKEDITOR.editor#selectionChange} listener.
+		 * Registers all the needed listeners, like {@link CKEDITOR.editor#event-selectionChange} listener.
 		 *
 		 * @private
 		 */
@@ -498,8 +498,6 @@
 		}
 	} );
 
-
-
 	/**
 	 * Static API exposed by the [Inline Toolbar](https://ckeditor.com/cke4/addon/inlinetoolbar) plugin.
 	 *
@@ -507,6 +505,29 @@
 	 * @singleton
 	 */
 	CKEDITOR.plugins.inlinetoolbar = {
-		context: Context
+		context: Context,
+
+		/**
+		 * Converts a given element into a style definition that could be used to create an instance of {@link CKEDITOR.style}.
+		 *
+		 * Note that all definitions have a `type` property set to {@link CKEDITOR#STYLE_INLINE}.
+		 *
+		 * @param {CKEDITOR.dom.element} element The element to be converted.
+		 * @returns {Object} The style definition created from the element.
+		 * @private
+		 */
+		_convertElementToStyleDef: function( element ) {
+			// @todo: this function is taken out from Copy Formatting plugin. It should be extracted to a common place.
+			var tools = CKEDITOR.tools,
+				attributes = element.getAttributes( CKEDITOR.plugins.copyformatting.excludedAttributes ),
+				styles = tools.parseCssText( element.getAttribute( 'style' ), true, true );
+
+			return {
+				element: element.getName(),
+				type: CKEDITOR.STYLE_INLINE,
+				attributes: attributes,
+				styles: styles
+			};
+		}
 	};
 }() );
