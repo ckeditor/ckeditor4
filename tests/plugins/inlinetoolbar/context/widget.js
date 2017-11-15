@@ -8,7 +8,7 @@
 
 	bender.editor = {
 		config: {
-			extraAllowedContent: 'div[*]'
+			extraAllowedContent: 'div[*];strong'
 		}
 	};
 
@@ -46,7 +46,7 @@
 			editor.widgets.add( 'bar' );
 
 			this.editorBot.setData(
-				'<p>foo</p><div data-widget="bar" id="w1">foo</div></p>',
+				CKEDITOR.document.getById( 'simpleWidget' ).getHtml(),
 				function() {
 					var widget = widgetTestsTools.getWidgetById( editor, 'w1' );
 
@@ -86,7 +86,7 @@
 			editor.widgets.add( 'bar' );
 
 			this.editorBot.setData(
-				'<p>foo</p><div data-widget="bar" id="w1">foo</div></p>',
+				CKEDITOR.document.getById( 'simpleWidget' ).getHtml(),
 				function() {
 					var widget = widgetTestsTools.getWidgetById( editor, 'w1' );
 
@@ -106,11 +106,33 @@
 			editor.widgets.add( 'bar' );
 
 			this.editorBot.setData(
-				'<p>foo</p><div data-widget="bar" id="w1">foo</div></p>',
+				CKEDITOR.document.getById( 'simpleWidget' ).getHtml(),
 				function() {
 					var widget = widgetTestsTools.getWidgetById( editor, 'w1' );
 
 					widget.focus();
+
+					context.refresh();
+
+					assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
+					assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+				} );
+		},
+
+		'test widget selector does not trigger in nested editable': function() {
+			var editor = this.editor,
+				context = this._getContextStub( 'widgetWithEditable' );
+
+			editor.widgets.add( 'widgetWithEditable', {
+				editables: {
+					area: 'div.area'
+				}
+			} );
+
+			this.editorBot.setData(
+				CKEDITOR.document.getById( 'withCaption' ).getHtml(),
+				function() {
+					this.editor.getSelection().selectElement( this.editor.editable().findOne( 'strong' ) );
 
 					context.refresh();
 
