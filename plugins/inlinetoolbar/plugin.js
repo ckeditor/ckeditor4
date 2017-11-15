@@ -134,6 +134,8 @@
 				visibility = this.options.refresh( this.editor, path );
 			} else if ( this.options.widgets ) {
 				visibility = this._hasWidgetFocused();
+			} else if ( this.options.elements ) {
+				visibility = this._matchElements( path );
 			}
 
 			if ( visibility ) {
@@ -155,6 +157,24 @@
 				curWidgetName = this.editor.widgets && this.editor.widgets.focused && this.editor.widgets.focused.name;
 
 			return CKEDITOR.tools.array.indexOf( widgetNames, curWidgetName ) !== -1;
+		},
+
+		/**
+		 * Tests ACF query given in `options.elements` against current path. If any element matches, returns true.
+		 *
+		 * @private
+		 * @param {CKEDITOR.dom.elementPath} path
+		 * @returns {Boolean}
+		 */
+		_matchElements: function( path ) {
+			var elems = path.elements,
+				matching;
+
+			matching = CKEDITOR.tools.array.filter( elems, function() {
+				return false;
+			} );
+
+			return matching.length > 0;
 		},
 
 		/**
@@ -217,6 +237,7 @@
 			editor.plugins.inlinetoolbar = {
 				/**
 				 * @param {Object} options Config object for Inline Toolbar.
+				 * @param {String} [options.elements] ACF selector. If any elements in the path matches against it, the toolbar will be shown.
 				 * @param {String[]} [options.widgets] An array of widget names that should trigger this toolbar.
 				 * @param {Function} [options.refresh] A function that determines whether the toolbar should be visible for a given `elementPath`.
 				 *
@@ -471,21 +492,19 @@
 		/**
 		 * Converts a given element into a style definition that could be used to create an instance of {@link CKEDITOR.style}.
 		 *
-		 * Note that all definitions have a `type` property set to {@link CKEDITOR#STYLE_INLINE}.
-		 *
 		 * @param {CKEDITOR.dom.element} element The element to be converted.
 		 * @returns {Object} The style definition created from the element.
 		 * @private
 		 */
 		_convertElementToStyleDef: function( element ) {
 			// @todo: this function is taken out from Copy Formatting plugin. It should be extracted to a common place.
-			var tools = CKEDITOR.tools,
-				attributes = element.getAttributes( CKEDITOR.plugins.copyformatting.excludedAttributes ),
-				styles = tools.parseCssText( element.getAttribute( 'style' ), true, true );
+			// Note that this function already has some modifications compared to the original.
+			var attributes = element.getAttributes(),
+				styles = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ), true, true );
 
 			return {
 				element: element.getName(),
-				type: CKEDITOR.STYLE_INLINE,
+				type: CKEDITOR.dtd.$block[ element.getName() ] ? CKEDITOR.STYLE_BLOCK : CKEDITOR.STYLE_INLINE,
 				attributes: attributes,
 				styles: styles
 			};
