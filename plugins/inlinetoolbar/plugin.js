@@ -187,6 +187,14 @@
 		this._loadButtons();
 
 		this._attachListeners();
+
+		/**
+		 * A filter based on `options.elements` property. It's created only once at context construction time and cached.
+		 *
+		 * @private
+		 * @property {CKEDITOR.filter}
+		 */
+		this._filter = this.options.elements ? new CKEDITOR.filter( this.options.elements ) : null;
 	}
 
 	Context.prototype = {
@@ -251,7 +259,7 @@
 		 */
 		_matchElements: function( path ) {
 			var elems = path.elements,
-				filter = new CKEDITOR.filter( this.options.elements ),
+				filter = this._filter,
 				matching;
 
 			matching = CKEDITOR.tools.array.filter( elems, function( elem ) {
