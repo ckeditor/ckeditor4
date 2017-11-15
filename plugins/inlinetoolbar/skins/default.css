@@ -5,6 +5,35 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 
 .cke_balloon.cke_inlinetoolbar
 {
+	position: absolute;
+	z-index: 10000;
+	outline: none;
+}
+
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle
+{
+	position: absolute;
+	border-style: solid;
+	display: block;
+	width: 0;
+	height: 0;
+}
+
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_inner,
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer
+{
+	z-index: 0;
+}
+
+/* align: [ hcenter ] */
+.cke_balloon.cke_inlinetoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_align_hcenter
+{
+	left: 50%;
+	margin-left: -20px;
+}
+
+.cke_balloon.cke_inlinetoolbar
+{
 	background: #f8f8f8;
 	border: 1px solid #d1d1d1;
 }
