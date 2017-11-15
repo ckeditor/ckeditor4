@@ -3092,7 +3092,7 @@
 
 			// [IE] Use span for copybin and its container to avoid bug with expanding editable height by
 			// absolutely positioned element.
-		var copybinName = ( editor.blockless || CKEDITOR.env.ie ) ? 'span' : 'div',
+		var copybinName = ( editor.blockless || ( CKEDITOR.env.ie && CKEDITOR.env.version < 16 ) ) ? 'span' : 'div',
 			copybin = doc.createElement( copybinName ),
 			copybinContainer = doc.createElement( copybinName ),
 			// IE8 always jumps to the end of document.
