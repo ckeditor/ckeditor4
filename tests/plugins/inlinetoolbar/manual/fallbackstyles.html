@@ -25,6 +25,16 @@
 	<p>&nbsp;</p>
 	<p>&nbsp;</p>
 </div>
+<div contenteditable="true" id="editor3">
+	<p>Hello world</p>
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<img src="%BASE_PATH%_assets/lena.jpg">
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+</div>
 
 <script>
 	function instanceReadyListener( evt ) {
@@ -42,19 +52,51 @@
 
 		CKEDITOR.tools.array.forEach( images, function( image ) {
 			image.on( 'click', function() {
-				panel.create( this );
+				panel.attach( this );
 			} );
 		} );
 	}
+
+	var appendStyleSheet = sinon.stub( CKEDITOR.dom.document.prototype, 'appendStyleSheet', function( cssFileUrl ) {
+		// Simualate missing css in skin.
+		if ( cssFileUrl.indexOf( 'inlinetoolbar.css' ) > -1 || cssFileUrl.indexOf( 'balloonpanel.css' ) > -1 ) {
+			cssFileUrl = '';
+		}
+
+		if ( this.$.createStyleSheet ) {
+			this.$.createStyleSheet( cssFileUrl );
+
+		} else {
+			var link = new CKEDITOR.dom.element( 'link' );
+			link.setAttributes( {
+				rel: 'stylesheet',
+				type: 'text/css',
+				href: cssFileUrl
+			} );
+
+			this.getHead().append( link );
+		}
+	} );
+
+	window.onunload = function() {
+		appendStyleSheet.restore();
+	}
+
 	CKEDITOR.replace( 'editor1', {
-		skin: 'moono2,%BASE_PATH%_skins/moono2/',
+		skin: 'moono',
 		on: {
 			instanceReady: instanceReadyListener,
 		}
 	} );
 	CKEDITOR.replace( 'editor2', {
-		skin: 'moono2,%BASE_PATH%_skins/moono2/',
+		skin: 'moono',
 		extraPlugins: 'divarea',
+		on: {
+			instanceReady: instanceReadyListener,
+		}
+	} );
+	CKEDITOR.inline( 'editor3', {
+		skin: 'moono',
 		on: {
 			instanceReady: instanceReadyListener,
 		}
