@@ -15,9 +15,9 @@
   4. [Wrapped_image.docx](../generated/_fixtures/Wrapped_image/Wrapped_image.docx)
   5. [Image_alternative_text.docx](../generated/_fixtures/Image_alternative_text/Image_alternative_text.docx)
   6. [Image_reflection.docx](../generated/_fixtures/Image_reflection/Image_reflection.docx)
-  7. [Image_rotation.docx](../generated/_fixtures/Image_rotation/Image_rotation.docx)
+  7. [Image_rotation.docx](../generated/_fixtures/Image_rotation/Image_rotation.docx) - _Note: Image is pasted without rotation, what is totally fine._
 
 **Expected:** Images are pasted to the editor.<br>
-Note: Keep in mind that shapes (like last object in `Shapes_and_online_and_offline_image.docx`) will not be pasted.
+Note: Keep in mind that shapes (like last object in `Shapes_and_online_and_offline_image.docx`) won't be pasted.
 
 **Unexpected:** Images are not visible in the editor.
