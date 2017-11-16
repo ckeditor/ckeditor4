@@ -116,6 +116,14 @@
 				this._toggleCaption();
 			},
 
+			/**
+			 * Method used inside {@link CKEDITOR.editor#event-selectionChange} event to decide if caption for given widget
+			 * should be displayed and should contain placeholder text.
+			 *
+			 * @private
+			 * @member CKEDITOR.plugins.imagebase.featuresDefinitions.caption
+			 * @param {CKEDITOR.dom.element} sender Element, which triggered `selectionChange` event
+			 */
 			_toggleCaption: function( sender ) {
 				var isFocused = getFocusedWidget( this.editor ) === this,
 					caption = this.parts.caption,
