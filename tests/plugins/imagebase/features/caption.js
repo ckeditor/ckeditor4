@@ -125,7 +125,13 @@
 	}
 
 	function fillInCaption( widget, content ) {
+		var range = widget.editor.createRange();
+
+		range.setStart( widget.parts.caption.getChild( 0 ), 1 );
+		range.collapse();
+		range.select();
 		widget.parts.caption.focus();
+
 		widget.editables.caption.setData( content );
 	}
 
