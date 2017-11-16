@@ -116,7 +116,7 @@
 
 					if ( !editable.getData() ) {
 						caption.setAttribute( 'data-cke-placeholder', true );
-						editable.setData( 'Fill me' );
+						editable.setData( this.editor.lang.imagebase.captionPlaceholder );
 					} else if ( sender.equals( caption ) && sender.hasAttribute( 'data-cke-placeholder' ) ) {
 						editable.setData( '' );
 						caption.removeAttribute( 'data-cke-placeholder' );
