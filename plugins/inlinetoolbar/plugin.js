@@ -178,15 +178,26 @@
 	 * @param {Object} options Options object passed in the {@link CKEDITOR.editor.plugins.inlinetoolbar#create} method.
 	 */
 	function Context( editor, options ) {
+		/**
+		 * Editor instance.
+		 *
+		 * @property {CKEDITOR.editor}
+		 */
 		this.editor = editor;
 
+		/**
+		 * Options passed to the constructor.
+		 *
+		 * @property {Object}
+		 */
 		this.options = options;
 
+		/**
+		 * Toolbar instance pointed by context.
+		 *
+		 * @property {CKEDITOR.ui.inlineToolbar}
+		 */
 		this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
-
-		this._loadButtons();
-
-		this._attachListeners();
 
 		/**
 		 * A filter based on `options.elements` property. It's created only once at context construction time and cached.
@@ -195,6 +206,8 @@
 		 * @property {CKEDITOR.filter}
 		 */
 		this._filter = this.options.elements ? new CKEDITOR.filter( this.options.elements ) : null;
+
+		this._loadButtons();
 	}
 
 	Context.prototype = {
@@ -221,7 +234,7 @@
 				highlightElement = ( path && path.lastElement ) || this.editor.editable();
 
 			if ( this.options.refresh ) {
-				visibility = this.options.refresh( this.editor, path );
+				visibility = this._matchRefresh( path, this.editor.getSelection() );
 			} else if ( this.options.widgets ) {
 				visibility = this._hasWidgetFocused();
 			} else if ( this.options.elements ) {
@@ -237,12 +250,37 @@
 		},
 
 		/**
+		 * @param {CKEDITOR.dom.element} [pointedElement] Element that should be pointed by the inline toolbar.
+		 */
+		show: function( pointedElement ) {
+			if ( pointedElement ) {
+				this.toolbar.attach( pointedElement );
+			}
+
+			this.toolbar.show();
+		},
+
+		hide: function() {
+			this.toolbar.hide();
+		},
+
+		_matchRefresh: function( path, selection ) {
+			if ( this.options.refresh ) {
+				return this.options.refresh( this.editor, path, selection );
+			}
+		},
+
+		/**
 		 * Checks if any of `options.widgets` widgets is currently focused.
 		 *
 		 * @private
 		 * @returns {Boolean}
 		 */
 		_hasWidgetFocused: function() {
+			if ( !this.options.widgets ) {
+				return;
+			}
+
 			var widgetNames = this.options.widgets,
 				curWidgetName = this.editor.widgets && this.editor.widgets.focused && this.editor.widgets.focused.name;
 
@@ -262,39 +300,21 @@
 		 */
 		_matchElements: function( path ) {
 			var elems = path.elements,
-				filter = this._filter,
 				matching;
 
-			matching = CKEDITOR.tools.array.filter( elems, function( elem ) {
-				var styleDef = CKEDITOR.plugins.inlinetoolbar._convertElementToStyleDef( elem );
-
-				return filter.check( new CKEDITOR.style( styleDef ), true, true );
-			} );
+			matching = CKEDITOR.tools.array.filter( elems, this._matchElement, this );
 
 			return matching.length > 0;
 		},
 
-		/**
-		 * Registers all the needed listeners, like {@link CKEDITOR.editor#event-selectionChange} listener.
-		 *
-		 * @private
-		 */
-		_attachListeners: function() {
-			this.editor.on( 'destroy', function() {
-				this.destroy();
-			}, this );
+		_matchElement: function( elem ) {
+			if ( !this.options.elements ) {
+				return;
+			}
 
-			this.editor.on( 'selectionChange', function() {
-				this.refresh();
-			}, this );
+			var styleDef = CKEDITOR.plugins.inlinetoolbar._convertElementToStyleDef( elem );
 
-			this.editor.on( 'mode', function() {
-				this.toolbar.hide();
-			}, this, null, 9999 );
-
-			this.editor.on( 'blur', function() {
-				this.toolbar.hide();
-			}, this, null, 9999 );
+			return this._filter.check( new CKEDITOR.style( styleDef ), false, false );
 		},
 
 		/**
@@ -321,6 +341,12 @@
 	 * Making sure that only one is active at a time and implementing the logic, used to determine
 	 * best fitting context for a given selection.
 	 *
+	 * Context manager also implements logic for matching the best context. Priorities are as follows:
+	 *
+	 * 1. Callback - `options.refresh`
+	 * 1. Widgets matching - `options.widgets`
+	 * 1. ACF matching - `options.elements`
+	 *
 	 * @class CKEDITOR.plugins.inlinetoolbar.contextManager
 	 * @constructor
 	 * @since 4.8
@@ -342,6 +368,14 @@
 		 */
 		this._contexts = [];
 
+		/**
+		 * Array of event listener references, created by the manager.
+		 *
+		 * @private
+		 * @property {Object[]} _listeners An array of objects returned by {@link CKEDITOR.event#on} method.
+		 */
+		this._listeners = [];
+
 		this._attachListeners();
 	}
 
@@ -355,9 +389,66 @@
 			this._contexts.push( context );
 		},
 
+		/**
+		 * Check each registered context against `selection` to find the best match. By default only one
+		 * toolbar per manager will be shown.
+		 *
+		 * @param {CKEDITOR.dom.selection/null} [selection=null] Selection to be used for probing toolbar.
+		 */
 		check: function( selection ) {
 			if ( !selection ) {
 				selection = this.editor.getSelection();
+			}
+
+			if ( !selection ) {
+				return;
+			}
+
+			var forEach = CKEDITOR.tools.array.forEach,
+				mainRange = selection.getRanges()[ 0 ],
+				path = mainRange && mainRange.startPath(),
+				highlightElement = ( path && path.lastElement ) || this.editor.editable(),
+				contextMatched;
+
+			// Match callbacks.
+			forEach( this._contexts, function( curContext ) {
+				if ( !contextMatched && !!curContext._matchRefresh( path, selection ) ) {
+					contextMatched = curContext;
+				}
+			} );
+
+			// Match widgets.
+			if ( !contextMatched ) {
+				forEach( this._contexts, function( curContext ) {
+					if ( !contextMatched && !!curContext._hasWidgetFocused() ) {
+						contextMatched = curContext;
+					}
+				} );
+			}
+
+			// Match element selectors.
+			if ( !contextMatched ) {
+				for ( var i = 0; i < path.elements.length; i++ ) {
+					var curElement = path.elements[ i ];
+					if ( !curElement.isReadOnly() ) {
+						// Skip non-editable elements in the path.
+						forEach( this._contexts, function( curContext ) {
+							if ( !contextMatched && !!curContext._matchElement( curElement ) ) {
+								contextMatched = curContext;
+							}
+						} );
+
+						if ( contextMatched ) {
+							break;
+						}
+					}
+				}
+			}
+
+			this.hide();
+
+			if ( contextMatched ) {
+				contextMatched.show( highlightElement );
 			}
 		},
 
@@ -365,32 +456,55 @@
 		 * Hides every visible context controlled by manager.
 		 */
 		hide: function() {
+			CKEDITOR.tools.array.forEach( this._contexts, function( curContext ) {
+				curContext.hide();
+			} );
 		},
 
 		/**
-		 * Destroys every context controlled by the manager.
+		 * Destroys every context controlled by the manager and clears the context list.
 		 */
 		destroy: function() {
+			CKEDITOR.tools.array.forEach( this._listeners, function( listener ) {
+				listener.removeListener();
+			} );
+
+			this._listeners.splice( 0, this._listeners.length );
+
+			this._clear();
 		},
 
+		/**
+		 * Destroys any context in {@link #_contexts} and empties the managed contexts list.
+		 */
+		_clear: function() {
+			CKEDITOR.tools.array.forEach( this._contexts, function( curContext ) {
+				curContext.destroy();
+			} );
+
+			this._contexts.splice( 0, this._contexts.length );
+		},
+
+		/**
+		 * Adds a set of listeners integrating manager with the {@link #editor}, like {@link CKEDITOR.editor#event-selectionChange} listener.
+		 *
+		 * @private
+		 */
 		_attachListeners: function() {
-			this.editor.on( 'destroy', function() {
-				this.destroy();
-			}, this );
-
-			this.editor.on( 'selectionChange', function() {
-				this.check();
-			}, this );
-
-			this.editor.on( 'mode', function() {
-				// this.toolbar.hide();
-				this.hide();
-			}, this, null, 9999 );
-
-			this.editor.on( 'blur', function() {
-				// this.toolbar.hide();
-				this.hide();
-			}, this, null, 9999 );
+			this._listeners.push(
+				this.editor.on( 'destroy', function() {
+					this.destroy();
+				}, this ),
+				this.editor.on( 'selectionChange', function() {
+					this.check();
+				}, this ),
+				this.editor.on( 'mode', function() {
+					this.hide();
+				}, this, null, 9999 ),
+				this.editor.on( 'blur', function() {
+					this.hide();
+				}, this, null, 9999 )
+			);
 		}
 	};
 
@@ -439,37 +553,60 @@
 			/**
 			 * Set of instance-specific public APIs exposed by Inline Toolbar plugin.
 			 *
-			 * @class
+			 * @class CKEDITOR.editor.plugins.inlinetoolbar
 	 		 * @singleton
-			 * @member CKEDITOR.editor.plugins
 			 */
 			editor.plugins.inlinetoolbar = {
 				/**
+				 * @private
+				 * @property {CKEDITOR.plugins.inlinetoolbar.contextManager} manager
+				 */
+				_manager: new CKEDITOR.plugins.inlinetoolbar.contextManager( editor ),
+
+				/**
+				 * The simplest way to create an Inline Toolbar. The conditions to display the toolbar are configurable using `options` object.
+				 *
+				 * Following example will add a toolbar containing link/unlink buttons for any anchor or image:
+				 *
+				 *		editor.plugins.inlinetoolbar.create( {
+				 *			buttons: 'Link,Unlink',
+				 *			elements: 'a[href];img[*]'
+				 *		} );
+				 *
 				 * @param {Object} options Config object for Inline Toolbar.
 				 * @param {String} [options.elements] ACF selector. If any elements in the path matches against it, the toolbar will be shown.
 				 * @param {String[]/String} [options.widgets] An array of widget names that should trigger this toolbar. Alternatively can be passed as a comma-separated string.
 				 * @param {Function} [options.refresh] A function that determines whether the toolbar should be visible for a given `elementPath`.
 				 *
 				 * It gets following parameters:
+				 *
 				 * * `editor` - {@link CKEDITOR.editor} an editor that controls this context.
 				 * * `elementPath` - {@link CKEDITOR.dom.elementPath} path for probed selection.
+				 * * `selection` - {@link CKEDITOR.dom.selection} selection object used for probing.
 				 *
 				 * Function is expected to return `Boolean` value. Returning `true` means that the inline toolbar should be shown.
 				 *
 				 * An example below will show the toolbar only for paths containing `<strong>` elements.
 				 *
-				 *	// Assuming that editor is an CKEDITOR.editor instance.
-				 *	editor.plugins.inlinetoolbar.create( {
-				 *		buttons: 'Bold,Underline',
-				 *		refresh: function( editor, path ) {
-				 *			return path.contains( 'strong' );
-				 *		}
-				 *	} );
+				 *		// Assuming that editor is an CKEDITOR.editor instance.
+				 *		editor.plugins.inlinetoolbar.create( {
+				 *			buttons: 'Bold,Underline',
+				 *			refresh: function( editor, path ) {
+				 *				return path.contains( 'strong' );
+				 *			}
+				 *		} );
+				 *
+				 * **Note that context options have a different priority**, see more details in
+				 * {@link CKEDITOR.plugins.inlinetoolbar.contextManager}.
 				 *
 				 * @returns {CKEDITOR.plugins.inlinetoolbar.context} A context object created for this inline toolbar configuration.
 				 */
 				create: function( options ) {
-					return new CKEDITOR.plugins.inlinetoolbar.context( editor, options );
+					var ret = new CKEDITOR.plugins.inlinetoolbar.context( editor, options );
+
+					this._manager.add( ret );
+
+					return ret;
 				}
 			};
 
@@ -520,6 +657,7 @@
 			/**
 			 * @inheritdoc CKEDITOR.ui.balloonPanel#blur
 			 * @param {Boolean} [focusEditor=false] Whether the editor should be focused after blurring.
+			 * @member CKEDITOR.ui.inlineToolbarView
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.blur = function( focusEditor ) {
 				if ( !!focusEditor ) {
@@ -564,8 +702,8 @@
 			/**
 			 * Renders provided UI elements inside of the view.
 			 *
-			 * @member CKEDITOR.ui.inlineToolbarView
 			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items Array of UI elements objects.
+			 * @member CKEDITOR.ui.inlineToolbarView
 			 */
 			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
 				var output = [],
@@ -606,8 +744,10 @@
 				 * DOM element used by inline toolbar to attach to.
 				 *
 				 * @private
+				 * @member CKEDITOR.ui.inlineToolbarView
 				 */
 				this._pointedElement = element;
+
 				CKEDITOR.ui.balloonPanel.prototype.attach.call( this, element, options );
 			};
 		}
