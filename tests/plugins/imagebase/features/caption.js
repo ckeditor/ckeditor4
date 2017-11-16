@@ -48,21 +48,25 @@
 					focusTrap = editor.editable().findOne( 'p' ).getChild( 0 ),
 					range = editor.createRange();
 
-				assertVisibility( caption, options.initial, 'caption visibility (initial)' );
+				try {
+					assertVisibility( caption, options.initial, 'caption visibility (initial)' );
 
-				widget.focus();
+					widget.focus();
 
-				assertVisibility( caption, options.focus, 'caption visibility (focus)' );
+					assertVisibility( caption, options.focus, 'caption visibility (focus)' );
 
-				if ( options.onFocus ) {
-					options.onFocus( widget );
+					if ( options.onFocus ) {
+						options.onFocus( widget );
+					}
+
+					range.setStart( focusTrap, 1 );
+					range.collapse();
+					range.select();
+
+					assertVisibility( caption, options.blur, 'caption visibility (blur)' );
+				} catch ( error ) {
+					assert.fail( 'Error occured: ' + error );
 				}
-
-				range.setStart( focusTrap, 1 );
-				range.collapse();
-				range.select();
-
-				assertVisibility( caption, options.blur, 'caption visibility (blur)' );
 			} );
 		};
 	}
@@ -102,9 +106,12 @@
 			bot.setData( getFixture( options.fixture ), function() {
 				var widgets = getWidgets( editor, options.widgetsCount );
 
-				assertMultipleVisibility( widgets, options.initial, 'initial' );
-
-				assertOnFocus( widgets, options.focus );
+				try {
+					assertMultipleVisibility( widgets, options.initial, 'initial' );
+					assertOnFocus( widgets, options.focus );
+				} catch ( error ) {
+					assert.fail( 'Error occured: ' + error );
+				}
 			} );
 		};
 	}
@@ -186,6 +193,17 @@
 				[ true, true ],
 				[ true, true ]
 			]
+		} ),
+
+		'remove widget before changing selection': createToggleTest( {
+			fixture: 'toggleOne',
+			initial: true,
+			focus: true,
+			blur: true,
+
+			onFocus: function( widget ) {
+				widget.wrapper.remove();
+			}
 		} )
 	};
 
