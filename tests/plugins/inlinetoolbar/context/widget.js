@@ -13,10 +13,8 @@
 	};
 
 	bender.test( {
-		init: function() {
-			// Stub listener register method, as since it's called in a constructor and it adds
-			// selectionChange listener, it causes extra calls to toolbar hide/show methods.
-			sinon.stub( CKEDITOR.plugins.inlinetoolbar.context.prototype, '_attachListeners' );
+		tearDown: function() {
+			this.editor.plugins.inlinetoolbar._manager._clear();
 		},
 
 		'test simple positive matching with one item': function() {

@@ -12,10 +12,7 @@
 
 	bender.test( {
 		tearDown: function() {
-			if ( this.curContext ) {
-				this.curContext.destroy();
-				this.curContext = null;
-			}
+			this.editor.plugins.inlinetoolbar._manager._clear();
 		},
 
 		'test selectionChange with options.refresh': function() {
@@ -55,18 +52,18 @@
 
 		'test moving focus out of the editor hides the toolbar': function() {
 			// Note: this test is verified to fail with testing window blurred (e.g. when dev console window focused).
-			this.curContext = this.editor.plugins.inlinetoolbar.create( {
+			var context = this.editor.plugins.inlinetoolbar.create( {
 					buttons: 'Bold,Italic',
 					refresh: sinon.stub().returns( true )
 				} );
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^bar</strong></p>' );
 
-			this._assertToolbarVisible( true, this.curContext );
+			this._assertToolbarVisible( true, context );
 
 			this.editor.once( 'blur', function() {
 				resume( function() {
-					this._assertToolbarVisible( false, this.curContext, 'Toolbar visibility after blurring the editor' );
+					this._assertToolbarVisible( false, context, 'Toolbar visibility after blurring the editor' );
 				} );
 			}, this, null, 99999 );
 
@@ -79,19 +76,19 @@
 		'test switching source mode hides the toolbar': function() {
 			var initialMode = this.editor.mode;
 
-			this.curContext = this.editor.plugins.inlinetoolbar.create( {
+			var context = this.editor.plugins.inlinetoolbar.create( {
 				buttons: 'Bold,Italic',
 				refresh: sinon.stub().returns( true )
 			} );
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^bar</strong></p>' );
 
-			this._assertToolbarVisible( true, this.curContext );
+			this._assertToolbarVisible( true, context );
 
 			this.editor.setMode( 'source', function() {
 				resume( function() {
 					try {
-						this._assertToolbarVisible( false, this.curContext, 'Toolbar visibility after switching to source area' );
+						this._assertToolbarVisible( false, context, 'Toolbar visibility after switching to source area' );
 					} catch ( e ) {
 						// Propagate the exception.
 						throw e;
