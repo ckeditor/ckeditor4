@@ -51,6 +51,10 @@
 				try {
 					assertVisibility( caption, options.initial, 'caption visibility (initial)' );
 
+					if ( options.onInit ) {
+						options.onInit( widget );
+					}
+
 					widget.focus();
 
 					assertVisibility( caption, options.focus, 'caption visibility (focus)' );
@@ -64,6 +68,10 @@
 					range.select();
 
 					assertVisibility( caption, options.blur, 'caption visibility (blur)' );
+
+					if ( options.onBlur ) {
+						options.onBlur( widget );
+					}
 				} catch ( error ) {
 					assert.fail( 'Error occured: ' + error );
 				}
@@ -116,6 +124,23 @@
 		};
 	}
 
+	function fillInCaption( widget, content ) {
+		widget.parts.caption.focus();
+		widget.editables.caption.setData( content );
+	}
+
+	function assertPlaceholder( widget, isVisible ) {
+		var caption = widget.parts.caption,
+			editable = widget.editables.caption;
+
+		assert[ 'is' + ( isVisible ? 'True' : 'False' ) ]( caption.hasAttribute( 'data-cke-placeholder' ),
+			'Placeholder visibility' );
+
+		if ( isVisible ) {
+			assert.areSame( 'Fill me', editable.getData(), 'Placeholder value' );
+		}
+	}
+
 	var tests = {
 		'test upcasting widget without figcaption element': function( editor, bot ) {
 			addTestWidget( editor );
@@ -160,7 +185,8 @@
 			blur: true,
 
 			onFocus: function( widget ) {
-				widget.editables.caption.setData( 'Test' );
+				assertPlaceholder( widget, true );
+				fillInCaption( widget, 'Test' );
 			}
 		} ),
 
@@ -171,7 +197,8 @@
 			blur: false,
 
 			onFocus: function( widget ) {
-				widget.editables.caption.setData( '' );
+				assertPlaceholder( widget, false );
+				fillInCaption( widget, '' );
 			}
 		} ),
 
@@ -203,6 +230,44 @@
 
 			onFocus: function( widget ) {
 				widget.wrapper.remove();
+			}
+		} ),
+
+		'test placeholder visibility (widget with empty caption)': createToggleTest( {
+			fixture: 'toggleOneEmpty',
+			initial: false,
+			focus: true,
+			blur: false,
+
+			onInit: function( widget ) {
+				assertPlaceholder( widget, false );
+			},
+
+			onFocus: function( widget ) {
+				assertPlaceholder( widget, true );
+			},
+
+			onBlur: function( widget ) {
+				assertPlaceholder( widget, false );
+			}
+		} ),
+
+		'test placeholder visibility (widget with non-empty caption)': createToggleTest( {
+			fixture: 'toggleOne',
+			initial: true,
+			focus: true,
+			blur: true,
+
+			onInit: function( widget ) {
+				assertPlaceholder( widget, false );
+			},
+
+			onFocus: function( widget ) {
+				assertPlaceholder( widget, false );
+			},
+
+			onBlur: function( widget ) {
+				assertPlaceholder( widget, false );
 			}
 		} )
 	};
