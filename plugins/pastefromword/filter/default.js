@@ -136,7 +136,8 @@
 						return shapesIds.indexOf( shapeId ) > -1;
 					} );
 					if ( imgShapesIds.length && isShapeFromList ) {
-						element.attributes[ 'data-cke-is-shape' ] = true;
+						// As we don't know how to process shapes we can remove them.
+						return false;
 					}
 
 				},
