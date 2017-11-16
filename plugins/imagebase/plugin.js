@@ -80,19 +80,15 @@
 	var featuresDefinitions = {
 		caption: {
 			setUp: function( editor ) {
-				var lastWidget;
-
 				editor.on( 'selectionChange', function() {
-					var widget = getFocusedWidget( editor );
+					var widgets = editor.widgets.instances,
+						i;
 
-					if ( lastWidget ) {
-						lastWidget._toggleCaption();
-					}
-
-					if ( widget && CKEDITOR.tools.indexOf( widget.features, 'caption' ) !== -1 ) {
-						widget._toggleCaption();
-
-						lastWidget = widget;
+					for ( i in widgets ) {
+						if ( widgets[ i ].features &&
+							CKEDITOR.tools.array.indexOf( widgets[ i ].features, 'caption' ) !== -1 ) {
+							widgets[ i ]._toggleCaption();
+						}
 					}
 				} );
 			},
