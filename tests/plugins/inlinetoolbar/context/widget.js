@@ -34,8 +34,7 @@
 
 					context.refresh();
 
-					assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-					assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+					this._assertToolbarVisible( true, context );
 				} );
 		},
 
@@ -54,8 +53,7 @@
 
 					context.refresh();
 
-					assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-					assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+					this._assertToolbarVisible( true, context );
 				} );
 		},
 
@@ -74,8 +72,7 @@
 
 					context.refresh();
 
-					assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-					assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+					this._assertToolbarVisible( false, context );
 				} );
 		},
 
@@ -94,8 +91,7 @@
 
 					context.refresh();
 
-					assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-					assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+					this._assertToolbarVisible( true, context );
 				} );
 		},
 
@@ -114,8 +110,7 @@
 
 					context.refresh();
 
-					assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-					assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+					this._assertToolbarVisible( false, context );
 				} );
 		},
 
@@ -136,8 +131,7 @@
 
 					context.refresh();
 
-					assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-					assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+					this._assertToolbarVisible( false, context );
 				} );
 		},
 
@@ -148,14 +142,16 @@
 		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
 		 */
 		_getContextStub: function( widgetNames ) {
-			var ret = this.editor.plugins.inlinetoolbar.create( {
+			return this.editor.plugins.inlinetoolbar.create( {
 				widgets: widgetNames
 			} );
+		},
 
-			sinon.stub( ret.toolbar, 'hide' );
-			sinon.stub( ret.toolbar, 'show' );
-
-			return ret;
+		/*
+		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
+		 */
+		_assertToolbarVisible: function( expected, context, msg ) {
+			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), msg || 'Toolbar visibility' );
 		}
 	} );
 } )();
