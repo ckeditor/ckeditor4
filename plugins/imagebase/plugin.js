@@ -77,17 +77,22 @@
 		return caption;
 	}
 
+	function isEmptyOrHasPlaceholder( widget ) {
+
+		return !widget.editables.caption.getData() || widget.parts.caption.hasAttribute( 'data-cke-placeholder' );
+	}
+
 	var featuresDefinitions = {
 		caption: {
 			setUp: function( editor ) {
-				editor.on( 'selectionChange', function() {
+				editor.on( 'selectionChange', function( evt ) {
 					var widgets = editor.widgets.instances,
 						i;
 
 					for ( i in widgets ) {
 						if ( widgets[ i ].features &&
 							CKEDITOR.tools.array.indexOf( widgets[ i ].features, 'caption' ) !== -1 ) {
-							widgets[ i ]._toggleCaption();
+							widgets[ i ]._toggleCaption( evt.data.path.lastElement );
 						}
 					}
 				} );
@@ -101,13 +106,25 @@
 				this._toggleCaption();
 			},
 
-			_toggleCaption: function() {
-				var isFocused = getFocusedWidget( this.editor ) === this;
+			_toggleCaption: function( sender ) {
+				var isFocused = getFocusedWidget( this.editor ) === this,
+					caption = this.parts.caption,
+					editable = this.editables.caption;
 
 				if ( isFocused ) {
-					this.parts.caption.removeAttribute( 'data-cke-hidden' );
-				} else if ( !this.editables.caption.getData() ) {
-					this.parts.caption.setAttribute( 'data-cke-hidden', true );
+					caption.removeAttribute( 'data-cke-hidden' );
+
+					if ( !editable.getData() ) {
+						caption.setAttribute( 'data-cke-placeholder', true );
+						editable.setData( 'Fill me' );
+					} else if ( sender.equals( caption ) && sender.hasAttribute( 'data-cke-placeholder' ) ) {
+						editable.setData( '' );
+						caption.removeAttribute( 'data-cke-placeholder' );
+					}
+				} else if ( isEmptyOrHasPlaceholder( this ) ) {
+					caption.setAttribute( 'data-cke-hidden', true );
+					caption.removeAttribute( 'data-cke-placeholder' );
+					editable.setData( '' );
 				}
 			}
 		},
