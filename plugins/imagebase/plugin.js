@@ -6,8 +6,30 @@
 ( function() {
 	'use strict';
 
+	var stylesLoaded = false;
+
+	function loadStyles( editor, plugin ) {
+		if ( !stylesLoaded ) {
+			CKEDITOR.document.appendStyleSheet( plugin.path + 'styles/imagebase.css' );
+			stylesLoaded = true;
+		}
+
+		if ( editor.addContentsCss ) {
+			editor.addContentsCss( plugin.path + 'styles/imagebase.css' );
+		}
+	}
+
 	function getFocusedWidget( editor ) {
-		return editor.widgets.focused;
+		var widgets = editor.widgets,
+			currentActive = editor.focusManager.currentActive;
+
+		if ( widgets.focused ) {
+			return widgets.focused;
+		}
+
+		if ( currentActive instanceof CKEDITOR.plugins.widget.nestedEditable ) {
+			return widgets.getByElement( currentActive );
+		}
 	}
 
 	function getLinkFeature() {
@@ -476,9 +498,39 @@
 
 	var featuresDefinitions = {
 		caption: {
+			setUp: function( editor ) {
+				var lastWidget;
+
+				editor.on( 'selectionChange', function() {
+					var widget = getFocusedWidget( editor );
+
+					if ( lastWidget ) {
+						lastWidget._toggleCaption();
+					}
+
+					if ( widget && CKEDITOR.tools.indexOf( widget.features, 'caption' ) !== -1 ) {
+						widget._toggleCaption();
+
+						lastWidget = widget;
+					}
+				} );
+			},
+
 			init: function() {
 				if ( !this.parts.caption ) {
 					this.parts.caption = createCaption( this );
+				}
+
+				this._toggleCaption();
+			},
+
+			_toggleCaption: function() {
+				var isFocused = getFocusedWidget( this.editor ) === this;
+
+				if ( isFocused ) {
+					this.parts.caption.removeAttribute( 'data-cke-hidden' );
+				} else if ( !this.editables.caption.getData() ) {
+					this.parts.caption.setAttribute( 'data-cke-hidden', true );
 				}
 			}
 		},
@@ -709,7 +761,11 @@
 
 	CKEDITOR.plugins.add( 'imagebase', {
 		requires: 'widget,filetools',
-		lang: 'en'
+		lang: 'en',
+
+		init: function( editor ) {
+			loadStyles( editor, this );
+		}
 	} );
 
 	/**
