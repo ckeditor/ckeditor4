@@ -42,6 +42,16 @@
 						buttons: 'Bold,Underline',
 						elements: 'strong;em'
 					} );
+
+					evt.editor.plugins.inlinetoolbar.create( {
+						buttons: 'Link,Unlink',
+						elements: 'a[href];img[*]'
+					} );
+
+					evt.editor.plugins.inlinetoolbar.create( {
+						buttons: 'BulletedList,NumberedList',
+						elements: 'li[*]'
+					} );
 				}
 			}
 		};

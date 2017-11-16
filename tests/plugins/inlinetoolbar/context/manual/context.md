@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.8.0, feature, inlinetoolbar
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, floatingspace, inlinetoolbar, sourcearea, list, link, elementspath
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, floatingspace, inlinetoolbar, sourcearea, list, link, elementspath, language, stylescombo
 
 ## Inline Toolbar Context
 
