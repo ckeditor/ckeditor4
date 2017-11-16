@@ -67,36 +67,44 @@
 		};
 	}
 
-	function createDoubleToggleTest( options ) {
+	function createMultipleToggleTest( options ) {
 		return function( editor, bot ) {
+			var forEach = CKEDITOR.tools.array.forEach;
+
 			addTestWidget( editor );
 
+			function getWidgets( editor, amount ) {
+				var i,
+					widgets = [];
+
+				for ( i = 0; i < amount; i++ ) {
+					widgets.push( widgetTestsTools.getWidgetByDOMOffset( editor, i ) );
+				}
+
+				return widgets;
+			}
+
+			function assertMultipleVisibility( widgets, expected, msg ) {
+				forEach( widgets, function( widget, i ) {
+					assertVisibility( widget.parts.caption, expected[ i ],
+						'caption#' + i + ' visibility (' + msg + ')' );
+				} );
+			}
+
+			function assertOnFocus( widgets, expected ) {
+				forEach( widgets, function( widget, i ) {
+					widget.focus();
+
+					assertMultipleVisibility( widgets, expected[ i ], 'focus widget#' + i );
+				} );
+			}
+
 			bot.setData( getFixture( options.fixture ), function() {
-				var widget1 = widgetTestsTools.getWidgetByDOMOffset( editor, 0 ),
-					widget2 = widgetTestsTools.getWidgetByDOMOffset( editor, 1 ),
-					caption1 = widget1.parts.caption,
-					caption2 = widget2.parts.caption;
+				var widgets = getWidgets( editor, options.widgetsCount );
 
-				assertVisibility( caption1, options.initial[ 0 ], 'caption#1 visibility (initial)' );
-				assertVisibility( caption2, options.initial[ 1 ], 'caption#2 visibility (initial)' );
+				assertMultipleVisibility( widgets, options.initial, 'initial' );
 
-				widget1.focus();
-
-				assertVisibility( caption1, options.focus1[ 0 ], 'caption#1 visibility (focus widget#1)' );
-				assertVisibility( caption2, options.focus1[ 1 ], 'caption#2 visibility (focus widget#1)' );
-
-				if ( options.onFocus1 ) {
-					options.onFocus1( widget1 );
-				}
-
-				widget2.focus();
-
-				assertVisibility( caption1, options.focus2[ 0 ], 'caption#1 visibility (focus widget#2)' );
-				assertVisibility( caption2, options.focus2[ 1 ], 'caption#2 visibility (focus widget#2)' );
-
-				if ( options.onFocus2 ) {
-					options.onFocus2( widget2 );
-				}
+				assertOnFocus( widgets, options.focus );
 			} );
 		};
 	}
@@ -160,18 +168,24 @@
 			}
 		} ),
 
-		'test toggling captions (two widgets with empty captions)': createDoubleToggleTest( {
+		'test toggling captions (two widgets with empty captions)': createMultipleToggleTest( {
 			fixture: 'toggleTwoEmpty',
+			widgetsCount: 2,
 			initial: [ false, false ],
-			focus1: [ true, false ],
-			focus2: [ false, true ]
+			focus: [
+				[ true, false ],
+				[ false, true ]
+			]
 		} ),
 
-		'test toggling captions (two widgets with non-empty captions)': createDoubleToggleTest( {
+		'test toggling captions (two widgets with non-empty captions)': createMultipleToggleTest( {
 			fixture: 'toggleTwo',
+			widgetsCount: 2,
 			initial: [ true, true ],
-			focus1: [ true, true ],
-			focus2: [ true, true ]
+			focus: [
+				[ true, true ],
+				[ true, true ]
+			]
 		} )
 	};
 
