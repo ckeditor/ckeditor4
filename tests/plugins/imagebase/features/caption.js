@@ -137,7 +137,7 @@
 			'Placeholder visibility' );
 
 		if ( isVisible ) {
-			assert.areSame( 'Fill me', editable.getData(), 'Placeholder value' );
+			assert.areSame( widget.editor.lang.imagebase.captionPlaceholder, editable.getData(), 'Placeholder value' );
 		}
 	}
 
