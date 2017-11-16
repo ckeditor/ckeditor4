@@ -57,30 +57,14 @@
 		} );
 	}
 
-	var appendStyleSheet = sinon.stub( CKEDITOR.dom.document.prototype, 'appendStyleSheet', function( cssFileUrl ) {
-		// Simualate missing css in skin.
-		if ( cssFileUrl.indexOf( 'inlinetoolbar.css' ) > -1 || cssFileUrl.indexOf( 'balloonpanel.css' ) > -1 ) {
-			cssFileUrl = '';
+	// Overwrite prototype to simulate missing css file.
+	var oldFn = CKEDITOR.dom.document.prototype.appendStyleSheet;
+	CKEDITOR.dom.document.prototype.appendStyleSheet = function( cssFileUrl ) {
+		// Simulate missing css in skin.
+		if ( !cssFileUrl.match( /(inlinetoolbar|balloonpanel)\.css/ ) ) {
+			oldFn.call( CKEDITOR.document, cssFileUrl );
 		}
-
-		if ( this.$.createStyleSheet ) {
-			this.$.createStyleSheet( cssFileUrl );
-
-		} else {
-			var link = new CKEDITOR.dom.element( 'link' );
-			link.setAttributes( {
-				rel: 'stylesheet',
-				type: 'text/css',
-				href: cssFileUrl
-			} );
-
-			this.getHead().append( link );
-		}
-	} );
-
-	window.onunload = function() {
-		appendStyleSheet.restore();
-	}
+	};
 
 	CKEDITOR.replace( 'editor1', {
 		skin: 'moono',

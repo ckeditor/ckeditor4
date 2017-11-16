@@ -3,7 +3,7 @@
 @bender-ckeditor-plugins: wysiwygarea,toolbar,basicstyles,floatingspace,inlinetoolbar,link,image,resize,language,stylescombo
 
 Perform below steps in both editors:
-1. Click into image.
+1. Click image.
 1. Check how inline toolbar looks like.
 
 _Note:_ Please be aware that buttons in inline toolbar use main skin.
