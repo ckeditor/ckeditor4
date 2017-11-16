@@ -166,6 +166,8 @@
 			widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'link', widgetDefinition );
 		}
 
+		widgetDefinition = CKEDITOR.plugins.imagebase.addFeature( editor, 'caption', widgetDefinition );
+
 		CKEDITOR.plugins.imagebase.addImageWidget( editor, 'easyimage', widgetDefinition );
 	}
 
