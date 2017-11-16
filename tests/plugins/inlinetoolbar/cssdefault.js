@@ -34,6 +34,7 @@
 
 	// We need to set up skin at the very beginning before files start to load.
 	CKEDITOR.skinName = 'moono';
+
 	// Overwrite prototype to simulate missing css file.
 	var oldFn = CKEDITOR.dom.document.prototype.appendStyleSheet;
 	CKEDITOR.dom.document.prototype.appendStyleSheet = function( cssFileUrl ) {
@@ -43,10 +44,11 @@
 		}
 	};
 
-
 	var tests = {
-		'test check moono skin usage': function( editor ) {
-
+		'test check default.css file usage when skin miss adequate css': function( editor ) {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
 			var panel = new CKEDITOR.ui.inlineToolbar( editor );
 			panel.addItems( {
 				bold: new CKEDITOR.ui.button( {
@@ -55,8 +57,8 @@
 				} )
 			} );
 			panel.attach( editor.editable().findOne( 'p' ) );
-			assert.areSame( 'rgb(248, 248, 248)', panel._view.parts.panel.getComputedStyle( 'background-color' ),
-				'Default skin background color seems to be incorrect.' );
+			assert.areSame( 'background-color:#f8f8f8;', CKEDITOR.tools.normalizeCssText( 'background-color:' + panel._view.parts.panel.getComputedStyle( 'background-color' ) + ';' ),
+				'Default skin background color is incorrect.' );
 		}
 	};
 

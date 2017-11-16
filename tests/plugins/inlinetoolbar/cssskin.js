@@ -3,7 +3,6 @@
 
 ( function() {
 	'use strict';
-	// Please be aware that entire test suite has to use the same skin. That's why tests are separate between 2 files.
 
 	bender.editors = {
 		classic: {
@@ -37,7 +36,10 @@
 	CKEDITOR.skinName = 'moono';
 
 	var tests = {
-		'test check default css usage': function( editor ) {
+		'test check moono skin usage': function( editor ) {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
+				assert.ignore();
+			}
 
 			var panel = new CKEDITOR.ui.inlineToolbar( editor );
 			panel.addItems( {
@@ -47,8 +49,10 @@
 				} )
 			} );
 			panel.attach( editor.editable().findOne( 'p' ) );
-			assert.areSame( 'rgba(0, 0, 0, 0)', panel._view.parts.panel.getComputedStyle( 'background-color' ),
-				'Background color seems to be incorrect.' );
+			// IE use cke_reset styles, that' why there is transparent.
+			assert.areSame( CKEDITOR.env.ie ? 'background-color:transparent;' : 'background-color:#000000;',
+				CKEDITOR.tools.normalizeCssText( 'background-color:' + panel._view.parts.panel.getComputedStyle( 'background-color' ) + ';' ),
+				'Background color is incorrect.' );
 		}
 	};
 
