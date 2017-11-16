@@ -274,7 +274,8 @@
 		 * Checks if any of `options.widgets` widgets is currently focused.
 		 *
 		 * @private
-		 * @returns {Boolean}
+		 * @returns {Boolean/CKEDITOR.dom.element} `true` if currently selected widget matches any tracked by this
+		 * context. It could also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
 		 */
 		_hasWidgetFocused: function() {
 			if ( !this.options.widgets ) {
@@ -288,7 +289,11 @@
 				widgetNames = widgetNames.split( ',' );
 			}
 
-			return CKEDITOR.tools.array.indexOf( widgetNames, curWidgetName ) !== -1;
+			if ( CKEDITOR.tools.array.indexOf( widgetNames, curWidgetName ) !== -1 ) {
+				return this.editor.widgets.focused.element;
+			} else {
+				return false;
+			}
 		},
 
 		/**
@@ -420,8 +425,17 @@
 			// Match widgets.
 			if ( !contextMatched ) {
 				forEach( this._contexts, function( curContext ) {
-					if ( !contextMatched && !!curContext._hasWidgetFocused() ) {
-						contextMatched = curContext;
+					if ( !contextMatched ) {
+						var result = curContext._hasWidgetFocused();
+
+						if ( !!result ) {
+							// This method might return an element.
+							if ( result instanceof CKEDITOR.dom.element ) {
+								highlightElement = result;
+							}
+
+							contextMatched = curContext;
+						}
 					}
 				} );
 			}
