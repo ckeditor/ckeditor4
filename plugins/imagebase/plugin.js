@@ -54,11 +54,35 @@
 			parts: {
 				link: 'a'
 			},
+			init: function() {
+				if ( this.editor.plugins.link ) {
+					this.on( 'contextMenu', function( evt ) {
+						evt.data.link = this.editor.getCommand( 'link' ).state;
+						evt.data.unlink = this.editor.getCommand( 'unlink' ).state;
+					} );
+				}
+			},
 
 			setUp: function( editor ) {
 				if ( !editor.plugins.link ) {
 					// All of listeners registered later on make only sense when link plugin is loaded.
 					return;
+				}
+				if ( editor.addMenuItems ) {
+					editor.addMenuItems( {
+						link: {
+							label: editor.lang.link.menu,
+							command: 'link',
+							group: 'imagebase',
+							order: 1
+						},
+						unlink: {
+							label: editor.lang.link.unlink,
+							command: 'unlink',
+							group: 'imagebase',
+							order: 2
+						}
+					} );
 				}
 
 				editor.on( 'dialogShow', function( evt ) {
