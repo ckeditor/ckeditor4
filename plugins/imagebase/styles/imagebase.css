@@ -1,3 +1,7 @@
 [data-cke-hidden] {
 	display: none;
 }
+
+[data-cke-placeholder] {
+	color: rgba( 0, 0, 0, .4 );
+}
