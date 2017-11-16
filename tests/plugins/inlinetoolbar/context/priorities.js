@@ -14,18 +14,10 @@
 
 	bender.test( {
 		tearDown: function() {
-			if ( this.contexts.length ) {
-				// Destroy each registered context.
-				CKEDITOR.tools.array.filter( this.contexts, function( curContext ) {
-					curContext.destroy();
-					return false;
-				} );
-			}
+			this.editor.plugins.inlinetoolbar._manager._clear();
 		},
 
 		setUp: function() {
-			this.contexts = [];
-
 			this.editor.widgets.add( 'bar', {
 				editables: {
 					header: 'h1'
@@ -150,12 +142,11 @@
 			for ( i in optionsMapping ) {
 				if ( CKEDITOR.tools.array.indexOf( whitelist, i ) !== -1 ) {
 					ret[ i ] = this.editor.plugins.inlinetoolbar.create( optionsMapping[ i ] );
-					this.contexts.push( ret[ i ] );
-
-					if ( autoRefresh ) {
-						ret[ i ].refresh();
-					}
 				}
+			}
+
+			if ( autoRefresh ) {
+				this.editor.plugins.inlinetoolbar._manager.check();
 			}
 
 			return ret;
