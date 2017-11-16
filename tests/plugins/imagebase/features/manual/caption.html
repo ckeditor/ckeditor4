@@ -1,0 +1,34 @@
+<div id="classic">
+	<p>Widget with caption:</p>
+	<figure>
+		<img src="../../../image2/_assets/foo.png" alt="foo">
+	</figure>
+	<p>Widget with empty caption:</p>
+	<figure>
+		<a href="https://cksource.com">
+			<img src="../../../image2/_assets/foo.png" alt="foo">
+		</a>
+		<figcaption></figcaption>
+	</figure>
+	<p>Widget with caption:</p>
+	<figure>
+		<a href="https://cksource.com">
+			<img src="../../../image2/_assets/foo.png" alt="foo">
+		</a>
+		<figcaption>Test caption</figcaption>
+	</figure>
+</div>
+
+<script>
+	CKEDITOR.replace( 'classic', {
+		on: {
+			pluginsLoaded: function( evt ) {
+				var editor = evt.editor,
+					plugin = CKEDITOR.plugins.imagebase;
+
+				plugin.addImageWidget( editor, 'testWidget', plugin.addFeature( editor, 'caption', {} ) );
+			}
+		},
+		height: 500
+	} );
+</script>
