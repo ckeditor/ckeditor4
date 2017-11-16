@@ -398,11 +398,17 @@
 		 * Check each registered context against `selection` to find the best match. By default only one
 		 * toolbar per manager will be shown.
 		 *
-		 * @param {CKEDITOR.dom.selection/null} [selection=null] Selection to be used for probing toolbar.
+		 * @param {CKEDITOR.dom.selection/null} [selection=null] Selection to be used for probing toolbar. If none provided, a
+		 * _shrunk_ selection of current editor will be used.
 		 */
 		check: function( selection ) {
 			if ( !selection ) {
 				selection = this.editor.getSelection();
+
+				// Shrink the selection so that we're ensured innermost elements are available.
+				CKEDITOR.tools.array.forEach( selection.getRanges(), function( range ) {
+					range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
+				} );
 			}
 
 			if ( !selection ) {
