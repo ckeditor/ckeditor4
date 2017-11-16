@@ -1,5 +1,5 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: easyimage,toolbar, link */
+/* bender-ckeditor-plugins: imagebase,toolbar, link,contextmenu */
 
 ( function() {
 	'use strict';
@@ -19,8 +19,7 @@
 	};
 
 
-
-	var widgetHtml = '<figure class="image easyimage"><img src="../image2/_assets/foo.png" alt="foo"><figcaption>Test image</figcaption></figure>',
+	var widgetHtml = '<figure><img src="%BASE_PATH%_assets/logo.png"></figure>',
 		tests = {
 			tearDown: function() {
 				var currentDialog = CKEDITOR.dialog.getCurrent();
@@ -28,6 +27,13 @@
 				if ( currentDialog ) {
 					currentDialog.hide();
 				}
+			},
+			setUp: function() {
+				var plugin = CKEDITOR.plugins.imagebase,
+					editors = this.editors;
+				CKEDITOR.tools.array.forEach( CKEDITOR.tools.objectKeys( editors ), function( editor ) {
+					plugin.addImageWidget( editors[ editor ], 'testWidget', plugin.addFeature( editors[ editor ], 'link', {} ) );
+				} );
 			},
 
 			'test link option in context menu': function( editor, bot ) {
