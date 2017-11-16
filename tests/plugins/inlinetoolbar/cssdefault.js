@@ -3,7 +3,6 @@
 
 ( function() {
 	'use strict';
-	// Please be aware that entire test suite has to use the same skin. That's why tests are separate between 2 files.
 
 	bender.editors = {
 		classic: {
@@ -33,21 +32,20 @@
 		}
 	};
 
-	// We need to set up skin at the very beginning befor files start to load.
+	// We need to set up skin at the very beginning before files start to load.
 	CKEDITOR.skinName = 'moono';
-
 	// Overwrite prototype to simulate missing css file.
 	var oldFn = CKEDITOR.dom.document.prototype.appendStyleSheet;
 	CKEDITOR.dom.document.prototype.appendStyleSheet = function( cssFileUrl ) {
-		// Simualate missing css in skin.
-		if ( cssFileUrl.indexOf( 'inlinetoolbar.css' ) > -1 || cssFileUrl.indexOf( 'balloonpanel.css' ) > -1 ) {
-			cssFileUrl = '';
+		// Simulate missing css in skin.
+		if ( !cssFileUrl.match( /(inlinetoolbar|balloonpanel)\.css/ ) ) {
+			oldFn.call( CKEDITOR.document, cssFileUrl );
 		}
-		oldFn.call( CKEDITOR.document, cssFileUrl );
 	};
 
+
 	var tests = {
-		'test check default css usage': function( editor ) {
+		'test check moono skin usage': function( editor ) {
 
 			var panel = new CKEDITOR.ui.inlineToolbar( editor );
 			panel.addItems( {
