@@ -152,6 +152,14 @@
 			this.toolbar.hide();
 		},
 
+		/**
+		 * Performs matching against `options.refresh`.
+		 *
+		 * @param {CKEDITOR.dom.elementPath} path Element path to be checked.
+		 * @param {CKEDITOR.dom.selection} selection Selection object to be passed to the `refresh` function.
+		 * @returns {Boolean/undefined} Returns the result of a `options.refresh` options or `undefined` if there's no refresh
+		 * function provided.
+		 */
 		_matchRefresh: function( path, selection ) {
 			if ( this.options.refresh ) {
 				return this.options.refresh( this.editor, path, selection );
@@ -165,7 +173,7 @@
 		 * @returns {Boolean/CKEDITOR.dom.element} `true` if currently selected widget matches any tracked by this
 		 * context. It could also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
 		 */
-		_hasWidgetFocused: function() {
+		_matchWidget: function() {
 			if ( !this.options.widgets ) {
 				return;
 			}
@@ -304,7 +312,7 @@
 			if ( !contextMatched ) {
 				forEach( this._contexts, function( curContext ) {
 					if ( !contextMatched ) {
-						var result = curContext._hasWidgetFocused();
+						var result = curContext._matchWidget();
 
 						if ( !!result ) {
 							// This method might return an element.
@@ -407,7 +415,6 @@
 		},
 
 		init: function( editor ) {
-			// editor.inlineToolbar = new Context( editor );
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 
 			/**
