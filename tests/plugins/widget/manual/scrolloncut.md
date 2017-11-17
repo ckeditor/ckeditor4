@@ -1,6 +1,6 @@
 @bender-ui: collapsed
 @bender-tags: 4.8.0, 1160, bug
-@bender-ckeditor-plugins: wysiwygarea,toolbar,undo,elementspath,clipboard,floatingspace,sourcearea,htmlwriter,image2
+@bender-ckeditor-plugins: wysiwygarea,toolbar,undo,elementspath,clipboard,floatingspace,sourcearea,htmlwriter,image2,format,blockquote
 
 ## For each editor instance:
 
