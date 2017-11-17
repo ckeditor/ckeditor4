@@ -17,69 +17,51 @@
 		},
 
 		'test falsy matching': function() {
-			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
-
 			var context = this._getContextStub( 'video' );
 
-			context.refresh();
+			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
 
-			assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( false, context );
 		},
 
 		'test correct matching': function() {
-			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
-
 			var context = this._getContextStub( 'strong' );
 
-			context.refresh();
+			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
 
-			assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( true, context );
 		},
 
 		'test correct matching multiple': function() {
-			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
-
 			var context = this._getContextStub( 'em;strong;s' );
 
-			context.refresh();
+			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
 
-			assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( true, context );
 		},
 
 		'test ACF matching by attribute': function() {
-			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
-
 			var context = this._getContextStub( 'strong[data-foo-bar]' );
 
-			context.refresh();
+			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
 
-			assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( true, context );
 		},
 
 		'test ACF reject by attribute': function() {
-			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
-
 			var context = this._getContextStub( 'strong' );
 
-			context.refresh();
+			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
 
-			assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( false, context );
 		},
 
 		'test ACF reject by style': function() {
-			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1" style="text-decoration: underline">foo^ bar</strong></p>' );
-
 			var context = this._getContextStub( 'strong[data-foo-bar]' );
 
-			context.refresh();
+			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1" style="text-decoration: underline">foo^ bar</strong></p>' );
 
-			assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( false, context );
 		},
 
 		/*
@@ -89,14 +71,16 @@
 		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
 		 */
 		_getContextStub: function( selector ) {
-			var ret = this.editor.plugins.inlinetoolbar.create( {
+			return this.editor.plugins.inlinetoolbar.create( {
 				elements: selector
 			} );
+		},
 
-			sinon.stub( ret.toolbar, 'hide' );
-			sinon.stub( ret.toolbar, 'show' );
-
-			return ret;
+		/*
+			* @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
+			*/
+		_assertToolbarVisible: function( expected, context, msg ) {
+			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), msg || 'Toolbar visibility' );
 		}
 	} );
 } )();

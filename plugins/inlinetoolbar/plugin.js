@@ -221,35 +221,6 @@
 		},
 
 		/**
-		 * Function to be called in order to check whether inline toolbar visibility should change.
-		 *
-		 * @param {CKEDITOR.dom.elementPath} path
-		 */
-		refresh: function( path ) {
-			path = path || this.editor.elementPath();
-
-			var visibility = false,
-				// Element where the toolbar will be attached to.
-				// @todo: this will have to be adjusted to point matched element.
-				highlightElement = ( path && path.lastElement ) || this.editor.editable();
-
-			if ( this.options.refresh ) {
-				visibility = this._matchRefresh( path, this.editor.getSelection() );
-			} else if ( this.options.widgets ) {
-				visibility = this._hasWidgetFocused();
-			} else if ( this.options.elements ) {
-				visibility = this._matchElements( path );
-			}
-
-			if ( visibility ) {
-				this.toolbar.attach( highlightElement );
-				this.toolbar.show();
-			} else {
-				this.toolbar.hide();
-			}
-		},
-
-		/**
 		 * @param {CKEDITOR.dom.element} [pointedElement] Element that should be pointed by the inline toolbar.
 		 */
 		show: function( pointedElement ) {
@@ -294,22 +265,6 @@
 			} else {
 				return false;
 			}
-		},
-
-		/**
-		 * Tests ACF query given in `options.elements` against current path. If any element matches, returns true.
-		 *
-		 * @private
-		 * @param {CKEDITOR.dom.elementPath} path
-		 * @returns {Boolean}
-		 */
-		_matchElements: function( path ) {
-			var elems = path.elements,
-				matching;
-
-			matching = CKEDITOR.tools.array.filter( elems, this._matchElement, this );
-
-			return matching.length > 0;
 		},
 
 		_matchElement: function( elem ) {
@@ -447,7 +402,7 @@
 			}
 
 			// Match element selectors.
-			if ( !contextMatched ) {
+			if ( !contextMatched && path ) {
 				for ( var i = 0; i < path.elements.length; i++ ) {
 					var curElement = path.elements[ i ];
 					if ( !curElement.isReadOnly() ) {
