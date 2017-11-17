@@ -235,6 +235,14 @@
 			this.toolbar.hide();
 		},
 
+		/**
+		 * Performs matching against `options.refresh`.
+		 *
+		 * @param {CKEDITOR.dom.elementPath} path Element path to be checked.
+		 * @param {CKEDITOR.dom.selection} selection Selection object to be passed to the `refresh` function.
+		 * @returns {Boolean/undefined} Returns the result of a `options.refresh` options or `undefined` if there's no refresh
+		 * function provided.
+		 */
 		_matchRefresh: function( path, selection ) {
 			if ( this.options.refresh ) {
 				return this.options.refresh( this.editor, path, selection );
@@ -248,7 +256,7 @@
 		 * @returns {Boolean/CKEDITOR.dom.element} `true` if currently selected widget matches any tracked by this
 		 * context. It could also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
 		 */
-		_hasWidgetFocused: function() {
+		_matchWidget: function() {
 			if ( !this.options.widgets ) {
 				return;
 			}
@@ -387,7 +395,7 @@
 			if ( !contextMatched ) {
 				forEach( this._contexts, function( curContext ) {
 					if ( !contextMatched ) {
-						var result = curContext._hasWidgetFocused();
+						var result = curContext._matchWidget();
 
 						if ( !!result ) {
 							// This method might return an element.
@@ -493,37 +501,7 @@
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
 		},
 
-		/**
-		 * Create new inline toolbar
-		 *
-		 * @since 4.8
-		 * @class CKEDITOR.plugins.inlinetoolbar.create
-		 * @constructor Creates a class instance.
-		 */
-		create: function( params, editor ) {
-			if ( !params ) {
-				return;
-			}
-
-			this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
-
-			if ( params.buttons ) {
-				params.buttons = params.buttons.split( ',' );
-				CKEDITOR.tools.array.forEach( params.buttons, function( name ) {
-					if ( editor.ui.items[ name ] ) {
-						this.toolbar.addItem( name, new CKEDITOR.ui.button( {
-							command: editor.ui.items[ name ].command,
-							label: editor.ui.items[ name ].label
-						} ) );
-					}
-				} );
-			}
-
-			return this;
-		},
-
 		init: function( editor ) {
-			// editor.inlineToolbar = new Context( editor );
 
 			/**
 			 * Set of instance-specific public APIs exposed by Inline Toolbar plugin.
