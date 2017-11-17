@@ -30,8 +30,6 @@
 
 					widget.focus();
 
-					context.refresh();
-
 					this._assertToolbarVisible( true, context );
 				} );
 		},
@@ -48,8 +46,6 @@
 					var widget = widgetTestsTools.getWidgetById( editor, 'w1' );
 
 					widget.focus();
-
-					context.refresh();
 
 					this._assertToolbarVisible( true, context );
 				} );
@@ -68,8 +64,6 @@
 
 					widget.focus();
 
-					context.refresh();
-
 					this._assertToolbarVisible( false, context );
 				} );
 		},
@@ -87,8 +81,6 @@
 
 					widget.focus();
 
-					context.refresh();
-
 					this._assertToolbarVisible( true, context );
 				} );
 		},
@@ -105,8 +97,6 @@
 					var widget = widgetTestsTools.getWidgetById( editor, 'w1' );
 
 					widget.focus();
-
-					context.refresh();
 
 					this._assertToolbarVisible( false, context );
 				} );
@@ -126,8 +116,6 @@
 				CKEDITOR.document.getById( 'withCaption' ).getHtml(),
 				function() {
 					this.editor.getSelection().selectElement( this.editor.editable().findOne( 'strong' ) );
-
-					context.refresh();
 
 					this._assertToolbarVisible( false, context );
 				} );

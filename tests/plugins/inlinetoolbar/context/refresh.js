@@ -9,48 +9,53 @@
 	};
 
 	bender.test( {
+		tearDown: function() {
+			this.editor.plugins.inlinetoolbar._manager._clear();
+		},
+
 		'test refresh returning true': function() {
-			var context = this._getContextStub( sinon.stub().returns( true ) );
+			var context = this._getContextStub( sinon.stub().returns( true ), true );
 
-			context.refresh();
-
-			assert.areSame( 0, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 1, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( true, context );
 		},
 
 		'test refresh returning false': function() {
-			var context = this._getContextStub( sinon.stub().returns( false ) );
+			var context = this._getContextStub( sinon.stub().returns( false ), true );
 
-			context.refresh();
-
-			assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( false, context );
 		},
 
 		'test refresh returning falsy value': function() {
-			var context = this._getContextStub( sinon.stub().returns( 0 ) );
+			var context = this._getContextStub( sinon.stub().returns( 0 ), true );
 
-			context.refresh();
-
-			assert.areSame( 1, context.toolbar.hide.callCount, 'Toolbar hide calls' );
-			assert.areSame( 0, context.toolbar.show.callCount, 'Toolbar show calls' );
+			this._assertToolbarVisible( false, context );
 		},
 
 		/*
 		 * Returns a Context instance with toolbar show/hide methods stubbed.
 		 *
 		 * @param {Function} refreshCallback Function to be used as `options.refresh`.
+		 * @param {Boolean} [autoRefresh=false] Whether function should automatically force context
+		 * manager, to recheck all the contexts.
 		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
 		 */
-		_getContextStub: function( refreshCallback ) {
+		_getContextStub: function( refreshCallback, autoRefresh ) {
 			var ret = this.editor.plugins.inlinetoolbar.create( {
 				refresh: refreshCallback
 			} );
 
-			sinon.stub( ret.toolbar, 'hide' );
-			sinon.stub( ret.toolbar, 'show' );
+			if ( autoRefresh ) {
+				this.editor.plugins.inlinetoolbar._manager.check();
+			}
 
 			return ret;
+		},
+
+		/*
+		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
+		 */
+		_assertToolbarVisible: function( expected, context, msg ) {
+			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), msg || 'Toolbar visibility' );
 		}
 	} );
 } )();
