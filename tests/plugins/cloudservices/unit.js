@@ -81,6 +81,31 @@ bender.test( {
 			listener.removeListener();
 		}
 	},
+	'test no URL error': function() {
+		var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64, null, 'different_token' ),
+		listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
+		this.editor.config.cloudServices_url = undefined;
+		CKEDITOR.once( 'log', function( evt ) {
+			evt.cancel();
+			assert.areEqual( 'cloudservices-url-error', evt.data.errorCode, 'There should be URL error log.' );
+		} );
+		instance.upload();
+		this.editor.config.cloudServices_url = 'cs_url';
+		listener.removeListener();
+	},
+
+	'test no TOKEN error': function() {
+		var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64 ),
+		listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
+		this.editor.config.cloudServices_token = undefined;
+		CKEDITOR.once( 'log', function( evt ) {
+			evt.cancel();
+			assert.areEqual( 'cloudservices-token-error', evt.data.errorCode, 'There should be TOKEN error log.' );
+		} );
+		instance.upload();
+		listener.removeListener();
+		this.editor.config.cloudServices_token = 'cs_token';
+	},
 
 	// Common fileUploadRequest listener reused by tests.
 	commonRequestListener: function( evt ) {
