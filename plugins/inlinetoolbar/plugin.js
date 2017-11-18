@@ -207,6 +207,10 @@
 		 */
 		this._filter = this.options.elements ? new CKEDITOR.filter( this.options.elements ) : null;
 
+		if ( this.options && typeof this.options.priority === 'undefined' ) {
+			this.options.priority = CKEDITOR.plugins.inlinetoolbar.PRIORITY.MEDIUM;
+		}
+
 		this._loadButtons();
 	}
 
@@ -240,8 +244,9 @@
 		 *
 		 * @param {CKEDITOR.dom.elementPath} path Element path to be checked.
 		 * @param {CKEDITOR.dom.selection} selection Selection object to be passed to the `refresh` function.
-		 * @returns {Boolean/undefined} Returns the result of a `options.refresh` options or `undefined` if there's no refresh
-		 * function provided.
+		 * @returns {Boolean/CKEDITOR.dom.element} Returns the result of a `options.refresh`. It is expected to be
+		 * `true` if current path matches the context.
+		 * It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
 		 */
 		_matchRefresh: function( path, selection ) {
 			if ( this.options.refresh ) {
@@ -254,7 +259,7 @@
 		 *
 		 * @private
 		 * @returns {Boolean/CKEDITOR.dom.element} `true` if currently selected widget matches any tracked by this
-		 * context. It could also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
+		 * context. It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
 		 */
 		_matchWidget: function() {
 			if ( !this.options.widgets ) {
@@ -275,6 +280,14 @@
 			}
 		},
 
+		/**
+		 * Checks if given `element` matches `options.elements` selector.
+		 *
+		 * @private
+		 * @param {CKEDITOR.dom.element} `elem` Element to be tested.
+		 * @returns {Boolean/CKEDITOR.dom.element} `true` if a given element matches the selector.
+		 * It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
+		 */
 		_matchElement: function( elem ) {
 			if ( !this.options.elements ) {
 				return;
@@ -384,21 +397,15 @@
 				highlightElement = ( path && path.lastElement ) || this.editor.editable(),
 				contextMatched;
 
-			// Match callbacks.
-			forEach( this._contexts, function( curContext ) {
-				if ( !contextMatched && !!curContext._matchRefresh( path, selection ) ) {
-					contextMatched = curContext;
-				}
-			} );
-
-			// Match widgets.
-			if ( !contextMatched ) {
-				forEach( this._contexts, function( curContext ) {
-					if ( !contextMatched ) {
-						var result = curContext._matchWidget();
+			// This function encapsulates matching algorithm.
+			function matchEachContext( contexts, matchingFunction, matchingArg1 ) {
+				forEach( contexts, function( curContext ) {
+					// Execute only if there's no picked context yet, or if probed context has a higher priority than
+					// currently matched one.
+					if ( !contextMatched || contextMatched.options.priority > curContext.options.priority ) {
+						var result = matchingFunction( curContext, matchingArg1 );
 
 						if ( !!result ) {
-							// This method might return an element.
 							if ( result instanceof CKEDITOR.dom.element ) {
 								highlightElement = result;
 							}
@@ -409,21 +416,27 @@
 				} );
 			}
 
+			function elementsMatcher( curContext, curElement ) {
+				return curContext._matchElement( curElement );
+			}
+
+			// Match callbacks.
+			matchEachContext( this._contexts, function( curContext ) {
+				return curContext._matchRefresh( path, selection );
+			} );
+
+			// Match widgets.
+			matchEachContext( this._contexts, function( curContext ) {
+				return curContext._matchWidget();
+			} );
+
 			// Match element selectors.
-			if ( !contextMatched && path ) {
+			if ( path ) {
 				for ( var i = 0; i < path.elements.length; i++ ) {
 					var curElement = path.elements[ i ];
+					// Skip non-editable elements (e.g. widget internal structure).
 					if ( !curElement.isReadOnly() ) {
-						// Skip non-editable elements in the path.
-						forEach( this._contexts, function( curContext ) {
-							if ( !contextMatched && !!curContext._matchElement( curElement ) ) {
-								contextMatched = curContext;
-							}
-						} );
-
-						if ( contextMatched ) {
-							break;
-						}
+						matchEachContext( this._contexts, elementsMatcher, curElement );
 					}
 				}
 			}
@@ -552,6 +565,7 @@
 				 * **Note that context options have a different priority**, see more details in
 				 * {@link CKEDITOR.plugins.inlinetoolbar.contextManager}.
 				 *
+				 * @param {Number} [options.priority] A number based on {@link CKEDITOR.plugins.inlinetoolbar#PRIORITY}.
 				 * @returns {CKEDITOR.plugins.inlinetoolbar.context} A context object created for this inline toolbar configuration.
 				 */
 				create: function( options ) {
@@ -715,6 +729,17 @@
 	CKEDITOR.plugins.inlinetoolbar = {
 		context: Context,
 		contextManager: ContextManager,
+
+		/**
+		 * Context priority enumeration. `HIGH` priority context are checked first.
+		 *
+		 * @property
+		 */
+		PRIORITY: {
+			LOW: 999,
+			MEDIUM: 500,
+			HIGH: 10
+		},
 
 		/**
 		 * Converts a given element into a style definition that could be used to create an instance of {@link CKEDITOR.style}.

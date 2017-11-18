@@ -95,6 +95,45 @@
 			this._assertToolbarVisible( false, contexts.emContext, 'contexts.emContext visibility' );
 		},
 
+		'test options.elements with a HGIH priority takes the precedence': function() {
+			var additionalContextDefinitions = {
+				elements: {
+					buttons: 'Bold,Italic',
+					elements: 'a;strong;u',
+					priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.HIGH
+				},
+				citeContext: {
+					buttons: 'Bold,Italic',
+					elements: 'cite'
+				}
+			};
+
+			this.editorBot.setHtmlWithSelection( CKEDITOR.document.getById( 'nestedElements' ).getHtml() );
+
+			var contexts = this._createContexts( [ 'elements', 'citeContext', 'refresh' ], true, additionalContextDefinitions );
+
+			this._assertToolbarVisible( false, contexts.citeContext, 'contexts.citeContext visibility' );
+			this._assertToolbarVisible( true, contexts.elements, 'contexts.elements visibility' );
+			this._assertToolbarVisible( false, contexts.refresh, 'contexts.refresh visibility' );
+		},
+
+		'test options.elements with a LOW priority are less favorable': function() {
+			var additionalContextDefinitions = {
+				refresh: {
+					buttons: 'Bold,Italic',
+					refresh: sinon.stub().returns( true ),
+					priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.LOW
+				}
+			};
+
+			this.editorBot.setHtmlWithSelection( CKEDITOR.document.getById( 'nestedElements' ).getHtml() );
+
+			var contexts = this._createContexts( [ 'elements', 'refresh' ], true, additionalContextDefinitions );
+
+			this._assertToolbarVisible( false, contexts.refresh, 'contexts.refresh visibility' );
+			this._assertToolbarVisible( true, contexts.elements, 'contexts.elements visibility' );
+		},
+
 		/*
 		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
 		 */
