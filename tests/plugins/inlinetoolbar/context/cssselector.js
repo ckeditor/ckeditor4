@@ -33,14 +33,14 @@
 		},
 
 		'test correct matching multiple': function() {
-			var context = this._getContextStub( 'em;strong;s' );
+			var context = this._getContextStub( 'em, strong, s' );
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
 
 			this._assertToolbarVisible( true, context );
 		},
 
-		'test ACF matching by attribute': function() {
+		'test matching by attribute': function() {
 			var context = this._getContextStub( 'strong[data-foo-bar]' );
 
 			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
@@ -48,18 +48,10 @@
 			this._assertToolbarVisible( true, context );
 		},
 
-		'test ACF reject by attribute': function() {
-			var context = this._getContextStub( 'strong' );
+		'test reject by attribute': function() {
+			var context = this._getContextStub( 'strong:not([data-foo-bar])' );
 
 			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
-
-			this._assertToolbarVisible( false, context );
-		},
-
-		'test ACF reject by style': function() {
-			var context = this._getContextStub( 'strong[data-foo-bar]' );
-
-			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1" style="text-decoration: underline">foo^ bar</strong></p>' );
 
 			this._assertToolbarVisible( false, context );
 		},
@@ -72,7 +64,7 @@
 		 */
 		_getContextStub: function( selector ) {
 			return this.editor.plugins.inlinetoolbar.create( {
-				elements: selector
+				cssSelector: selector
 			} );
 		},
 
