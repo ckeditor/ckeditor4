@@ -40,13 +40,12 @@
 					// Register the toolbar for inline elements.
 					evt.editor.plugins.inlinetoolbar.create( {
 						buttons: 'Bold,Underline',
-						elements: 'strong;em'
+						cssSelector: 'strong, em'
 					} );
 				}
 			}
 		};
 
 	CKEDITOR.replace( 'editor1', config );
-
 	CKEDITOR.inline( 'editor2', config );
 </script>

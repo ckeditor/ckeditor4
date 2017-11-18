@@ -199,14 +199,6 @@
 		 */
 		this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
 
-		/**
-		 * A filter based on `options.elements` property. It's created only once at context construction time and cached.
-		 *
-		 * @private
-		 * @property {CKEDITOR.filter}
-		 */
-		this._filter = this.options.elements ? new CKEDITOR.filter( this.options.elements ) : null;
-
 		if ( this.options && typeof this.options.priority === 'undefined' ) {
 			this.options.priority = CKEDITOR.plugins.inlinetoolbar.PRIORITY.MEDIUM;
 		}
@@ -281,7 +273,7 @@
 		},
 
 		/**
-		 * Checks if given `element` matches `options.elements` selector.
+		 * Checks if given `element` matches `options.cssSelector` selector.
 		 *
 		 * @private
 		 * @param {CKEDITOR.dom.element} `elem` Element to be tested.
@@ -289,13 +281,11 @@
 		 * It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
 		 */
 		_matchElement: function( elem ) {
-			if ( !this.options.elements ) {
+			if ( !this.options.cssSelector ) {
 				return;
 			}
 
-			var styleDef = CKEDITOR.plugins.inlinetoolbar._convertElementToStyleDef( elem );
-
-			return this._filter.check( new CKEDITOR.style( styleDef ), false, false );
+			return !!elem.$.matches( this.options.cssSelector );
 		},
 
 		/**
@@ -326,7 +316,7 @@
 	 *
 	 * 1. Callback - `options.refresh`
 	 * 1. Widgets matching - `options.widgets`
-	 * 1. ACF matching - `options.elements`
+	 * 1. CSS matching - `options.cssSelector`
 	 *
 	 * @class CKEDITOR.plugins.inlinetoolbar.contextManager
 	 * @constructor
@@ -540,7 +530,7 @@
 				 *		} );
 				 *
 				 * @param {Object} options Config object for Inline Toolbar.
-				 * @param {String} [options.elements] ACF selector. If any elements in the path matches against it, the toolbar will be shown.
+				 * @param {String} [options.cssSelector] CSS selector. If any element in the path matches against it, the toolbar will be shown.
 				 * @param {String[]/String} [options.widgets] An array of widget names that should trigger this toolbar. Alternatively can be passed as a comma-separated string.
 				 * @param {Function} [options.refresh] A function that determines whether the toolbar should be visible for a given `elementPath`.
 				 *
