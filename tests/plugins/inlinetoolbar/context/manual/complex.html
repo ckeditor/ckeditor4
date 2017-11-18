@@ -40,23 +40,22 @@
 					// Register the toolbar for inline elements.
 					evt.editor.plugins.inlinetoolbar.create( {
 						buttons: 'Bold,Underline',
-						elements: 'strong;em'
+						cssSelector: 'strong, em'
 					} );
 
 					evt.editor.plugins.inlinetoolbar.create( {
 						buttons: 'Link,Unlink',
-						elements: 'a[href];img[*]'
+						cssSelector: 'a[href], img'
 					} );
 
 					evt.editor.plugins.inlinetoolbar.create( {
 						buttons: 'BulletedList,NumberedList',
-						elements: 'li[*]'
+						cssSelector: 'li'
 					} );
 				}
 			}
 		};
 
 	CKEDITOR.replace( 'editor1', config );
-
 	CKEDITOR.inline( 'editor2', config );
 </script>
