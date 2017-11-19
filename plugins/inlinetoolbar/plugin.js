@@ -526,7 +526,7 @@
 				 *
 				 *		editor.plugins.inlinetoolbar.create( {
 				 *			buttons: 'Link,Unlink',
-				 *			elements: 'a[href];img[*]'
+				 *			cssSelector: 'a[href], img'
 				 *		} );
 				 *
 				 * @param {Object} options Config object for Inline Toolbar.
