@@ -6,6 +6,4 @@
 1. Copy its contents and paste to the editor.
 1. Click button `getHtml` below editor.
 
-**Expected:**
-  * For browsers with good `text/html` clipboard processing (Firefox, Chrome, Safari): First image tag had additional attribute `data-cke-is-shape="true"`. Second image is pasted without this attribute.
-  * For other browsers (Edge, IE, Mobile): There won't be `data-cke-is-shape="true"`. Browser will behave in an old way: display blank place or embed image by it's own.
+**Expected:** Single image is pasted to the editor. Shape present in word document is removed during paste process.
