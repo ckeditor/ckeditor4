@@ -234,6 +234,7 @@
 		/**
 		 * Performs matching against `options.refresh`.
 		 *
+		 * @private
 		 * @param {CKEDITOR.dom.elementPath} path Element path to be checked.
 		 * @param {CKEDITOR.dom.selection} selection Selection object to be passed to the `refresh` function.
 		 * @returns {Boolean/CKEDITOR.dom.element} Returns the result of a `options.refresh`. It is expected to be
@@ -462,6 +463,8 @@
 
 		/**
 		 * Destroys any context in {@link #_contexts} and empties the managed contexts list.
+		 *
+		 * @private
 		 */
 		_clear: function() {
 			CKEDITOR.tools.array.forEach( this._contexts, function( curContext ) {
