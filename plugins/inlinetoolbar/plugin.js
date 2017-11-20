@@ -300,7 +300,11 @@
 			if ( buttons ) {
 				buttons = buttons.split( ',' );
 				CKEDITOR.tools.array.forEach( buttons, function( name ) {
-					this.toolbar.addItem( name, this.editor.ui.create( name ) );
+					var newUiItem = this.editor.ui.create( name );
+
+					if ( newUiItem ) {
+						this.toolbar.addItem( name, newUiItem );
+					}
 				}, this );
 			}
 		}
