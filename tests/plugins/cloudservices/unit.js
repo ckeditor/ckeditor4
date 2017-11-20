@@ -91,7 +91,7 @@
 				listener.removeListener();
 			}
 		},
-		'test no URL error': function() {//if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+		'test no URL error': function() {
 			igonreOnIE();
 			var instance = new this.cloudservices.cloudServicesLoader( this.editor, mockBase64, null, 'different_token' ),
 				listener = this.editor.once( 'fileUploadRequest', this.commonRequestListener, null, null, 0 );
