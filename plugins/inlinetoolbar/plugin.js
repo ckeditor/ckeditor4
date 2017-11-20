@@ -105,7 +105,7 @@
 		/**
 		 * Options passed to the constructor.
 		 *
-		 * @property {Object}
+		 * @property {CKEDITOR.plugins.inlinetoolbar.contextDefinition}
 		 */
 		this.options = options;
 
@@ -446,33 +446,7 @@
 				 *			cssSelector: 'a[href], img'
 				 *		} );
 				 *
-				 * @param {Object} options Config object for Inline Toolbar.
-				 * @param {String} [options.cssSelector] CSS selector. If any element in the path matches against it, the toolbar will be shown.
-				 * @param {String[]/String} [options.widgets] An array of widget names that should trigger this toolbar. Alternatively can be passed as a comma-separated string.
-				 * @param {Function} [options.refresh] A function that determines whether the toolbar should be visible for a given `elementPath`.
-				 *
-				 * It gets following parameters:
-				 *
-				 * * `editor` - {@link CKEDITOR.editor} an editor that controls this context.
-				 * * `elementPath` - {@link CKEDITOR.dom.elementPath} path for probed selection.
-				 * * `selection` - {@link CKEDITOR.dom.selection} selection object used for probing.
-				 *
-				 * Function is expected to return `Boolean` value. Returning `true` means that the inline toolbar should be shown.
-				 *
-				 * An example below will show the toolbar only for paths containing `<strong>` elements.
-				 *
-				 *		// Assuming that editor is an CKEDITOR.editor instance.
-				 *		editor.plugins.inlinetoolbar.create( {
-				 *			buttons: 'Bold,Underline',
-				 *			refresh: function( editor, path ) {
-				 *				return path.contains( 'strong' );
-				 *			}
-				 *		} );
-				 *
-				 * **Note that context options have a different priority**, see more details in
-				 * {@link CKEDITOR.plugins.inlinetoolbar.contextManager}.
-				 *
-				 * @param {Number} [options.priority] A number based on {@link CKEDITOR.plugins.inlinetoolbar#PRIORITY}.
+				 * @param {CKEDITOR.plugins.inlinetoolbar.contextDefinition} options Config object for the Inline Toolbar.
 				 * @returns {CKEDITOR.plugins.inlinetoolbar.context} A context object created for this inline toolbar configuration.
 				 */
 				create: function( options ) {
@@ -722,6 +696,7 @@
 		/**
 		 * Context priority enumeration. `HIGH` priority context are checked first.
 		 *
+		 * @readonly
 		 * @property
 		 */
 		PRIORITY: {
@@ -751,4 +726,52 @@
 			};
 		}
 	};
+
+	/**
+	 * This is an abstract class that describes the definition of a {@link CKEDITOR.plugins.inlinetoolbar.context Inline Toolbar Context}.
+	 *
+	 * **Note that context options have a different priority**, see more details in {@link CKEDITOR.plugins.inlinetoolbar.contextManager}.
+	 *
+	 * @class CKEDITOR.plugins.inlinetoolbar.contextDefinition
+	 * @abstract
+	 */
+
+	/**
+	 * A CSS selector. If any element in the path matches against it, the toolbar will be shown.
+	 *
+	 * @property {String/null} [cssSelector=null]
+	 */
+
+	/**
+	 * An array of widget names that should show related toolbar. Alternatively can be passed as a comma-separated string.
+	 *
+	 * @property {String[]/String/null} [widgets=null]
+	 */
+
+	/**
+	 * An **optional** function that determines whether the toolbar should be visible for a given `path`.
+	 *
+	 * An example below will show the toolbar only for paths containing `<strong>` elements.
+	 *
+	 *		// Assuming that editor is an CKEDITOR.editor instance.
+	 *		editor.plugins.inlinetoolbar.create( {
+	 *			buttons: 'Bold,Underline',
+	 *			refresh: function( editor, path ) {
+	 *				return path.contains( 'strong' );
+	 *			}
+	 *		} );
+	 *
+	 * @method refresh
+	 * @param {CKEDITOR.editor} editor An editor that controls this context.
+	 * @param {CKEDITOR.dom.elementPath} path Path for a currently probed selection.
+	 * @param {CKEDITOR.dom.selection} selection Selection object used for probing.
+	 * @returns {Boolean/CKEDITOR.dom.element} Function is expected to return `Boolean` value. Returning `true` means that the inline toolbar should be shown.
+	 * It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
+	 */
+
+	/**
+	 * A number based on {@link CKEDITOR.plugins.inlinetoolbar#PRIORITY}.
+	 *
+	 * @property {Number} [priority]
+	 */
 }() );
