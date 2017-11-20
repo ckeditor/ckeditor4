@@ -485,7 +485,8 @@
 
 				// For non-static parent elements we need to remove its margin offset from balloon panel (#1048).
 				var parent = this.parts.panel.getAscendant( function( el ) {
-						return el.getComputedStyle( 'position' ) !== 'static';
+						// Prevent of checking `computedStyle` of document.
+						return el.getComputedStyle ? el.getComputedStyle( 'position' ) !== 'static' : false;
 					} ),
 					parentMargin = {
 						left: parent ? parseInt( parent.getComputedStyle( 'margin-left' ), 10 ) : 0,
