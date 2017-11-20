@@ -276,7 +276,7 @@
 		 * Checks if given `element` matches `options.cssSelector` selector.
 		 *
 		 * @private
-		 * @param {CKEDITOR.dom.element} `elem` Element to be tested.
+		 * @param {CKEDITOR.dom.element} elem Element to be tested.
 		 * @returns {Boolean/CKEDITOR.dom.element} `true` if a given element matches the selector.
 		 * It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
 		 */
