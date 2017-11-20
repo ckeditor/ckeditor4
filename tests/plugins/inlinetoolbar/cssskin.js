@@ -1,5 +1,7 @@
 /* bender-tags: inlinetoolbar */
 /* bender-ckeditor-plugins: toolbar,inlinetoolbar,basicstyles */
+/* bender-include: ./_helpers/default.js */
+/* global convertRgbaToRgb */
 
 ( function() {
 	'use strict';
@@ -32,7 +34,7 @@
 		}
 	};
 
-	// We need to set up skin at the very beginning befor files start to load.
+	// We need to set up skin at the very beginning before loading files.
 	CKEDITOR.skinName = 'moono';
 
 	var tests = {
@@ -51,7 +53,7 @@
 			panel.attach( editor.editable().findOne( 'p' ) );
 			// IE use cke_reset styles, that' why there is transparent.
 			assert.areSame( CKEDITOR.env.ie ? 'background-color:transparent;' : 'background-color:#000000;',
-				CKEDITOR.tools.normalizeCssText( 'background-color:' + panel._view.parts.panel.getComputedStyle( 'background-color' ) + ';' ),
+				CKEDITOR.tools.normalizeCssText( 'background-color:' + convertRgbaToRgb( panel._view.parts.panel.getComputedStyle( 'background-color' ) ) + ';' ),
 				'Background color is incorrect.' );
 		}
 	};

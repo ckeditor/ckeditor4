@@ -61,13 +61,7 @@
 	}
 
 	// Overwrite prototype to simulate missing css file.
-	var oldFn = CKEDITOR.dom.document.prototype.appendStyleSheet;
-	CKEDITOR.dom.document.prototype.appendStyleSheet = function( cssFileUrl ) {
-		// Simulate missing css in skin.
-		if ( !cssFileUrl.match( /(inlinetoolbar|balloonpanel)\.css/ ) ) {
-			oldFn.call( CKEDITOR.document, cssFileUrl );
-		}
-	};
+	replaceAppendStyleSheet()
 
 	CKEDITOR.replace( 'editor1', {
 		skin: 'moono',
