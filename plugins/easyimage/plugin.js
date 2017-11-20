@@ -135,9 +135,6 @@
 						evt.data.easyimageFull = editor.getCommand( 'easyimageFull' ).state;
 						evt.data.easyimageSide = editor.getCommand( 'easyimageSide' ).state;
 						evt.data.easyimageAlt = editor.getCommand( 'easyimageAlt' ).state;
-						// if ( editor.plugins.link ) {
-						// 	evt.data.link = editor.getCommand( 'link' ).state;
-						// }
 					} );
 
 					if ( editor.config.easyimage_class ) {

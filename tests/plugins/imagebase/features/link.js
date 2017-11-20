@@ -1,5 +1,5 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: imagebase,link,toolbar */
+/* bender-ckeditor-plugins: imagebase,link,toolbar,contextmenu */
 /* bender-include: ../../widget/_helpers/tools.js */
 /* global widgetTestsTools */
 
@@ -388,6 +388,63 @@
 						editor: editor
 					} );
 				}
+			} );
+		},
+		'test link option in context menu': function( editor, bot ) {
+			addTestWidget( editor );
+			bot.setData( '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>', function() {
+				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+				widget.focus();
+				editor.contextMenu.open( editor.editable() );
+				var itemsExist = 0;
+				for ( var i = 0; i < editor.contextMenu.items.length; ++i ) {
+					if ( editor.contextMenu.items[ i ].command == 'link' ) {
+						itemsExist += 1;
+					}
+				}
+
+				editor.contextMenu.hide();
+
+				assert.areSame( 1, itemsExist, 'there is one link item in context menu' );
+			} );
+		},
+		'test unlink option in context menu': function( editor, bot ) {
+			addTestWidget( editor );
+			bot.setData( '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>', function() {
+				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+				widget.focus();
+				editor.contextMenu.open( editor.editable() );
+				var itemsExist = 0;
+				for ( var i = 0; i < editor.contextMenu.items.length; ++i ) {
+					if ( editor.contextMenu.items[ i ].command == 'unlink' ) {
+						itemsExist += 1;
+					}
+				}
+
+				editor.contextMenu.hide();
+
+				assert.areSame( 1, itemsExist, 'there is one link item in context menu' );
+			} );
+		},
+		'test no link option in context menu': function( editor, bot ) {
+			addTestWidget( editor );
+			bot.setData( '<figure><img src="%BASE_PATH%_assets/logo.png"></figure>', function() {
+				var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+				widget.focus();
+				editor.contextMenu.open( editor.editable() );
+				var itemsExist = 0;
+				for ( var i = 0; i < editor.contextMenu.items.length; ++i ) {
+					if ( editor.contextMenu.items[ i ].command == 'unlink' || editor.contextMenu.items[ i ].command == 'link' ) {
+						itemsExist += 1;
+					}
+				}
+
+				editor.contextMenu.hide();
+
+				assert.areSame( 0, itemsExist, 'there should not be any link option in contextmenu' );
 			} );
 		}
 	};
