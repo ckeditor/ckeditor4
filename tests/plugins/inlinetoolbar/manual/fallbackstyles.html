@@ -61,25 +61,25 @@
 	}
 
 	// Overwrite prototype to simulate missing css file.
-	replaceAppendStyleSheet()
+	replaceAppendStyleSheet();
 
 	CKEDITOR.replace( 'editor1', {
 		skin: 'moono',
 		on: {
-			instanceReady: instanceReadyListener,
+			instanceReady: instanceReadyListener
 		}
 	} );
 	CKEDITOR.replace( 'editor2', {
 		skin: 'moono',
 		extraPlugins: 'divarea',
 		on: {
-			instanceReady: instanceReadyListener,
+			instanceReady: instanceReadyListener
 		}
 	} );
 	CKEDITOR.inline( 'editor3', {
 		skin: 'moono',
 		on: {
-			instanceReady: instanceReadyListener,
+			instanceReady: instanceReadyListener
 		}
 	} );
 </script>
