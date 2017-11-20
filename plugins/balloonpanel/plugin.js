@@ -437,7 +437,8 @@
 					bottom: Math.min( editorRect.bottom, viewPaneSize.height + winGlobalScroll.y )
 				};
 
-				if ( isInline ) {
+				// Position balloon on entire view port only when it's real inline mode (#1048).
+				if ( isInline && this.editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ) {
 					// In inline we want to limit position within the window.
 					allowedRect = this._getViewPaneRect( winGlobal );
 
@@ -482,7 +483,16 @@
 					}
 				}
 
-				this.move( alignments[ minDifferenceAlignment ].top, alignments[ minDifferenceAlignment ].left );
+				// For non-static parent elements we need to remove its margin offset from balloon panel (#1048).
+				var parent = this.parts.panel.getAscendant( function( el ) {
+						return el.getComputedStyle( 'position' ) !== 'static';
+					} ),
+					parentMargin = {
+						left: parent ? parseInt( parent.getComputedStyle( 'margin-left' ), 10 ) : 0,
+						top: parent ? parseInt( parent.getComputedStyle( 'margin-top' ), 10 ) : 0
+					};
+
+				this.move( alignments[ minDifferenceAlignment ].top - parentMargin.top , alignments[ minDifferenceAlignment ].left - parentMargin.left );
 
 				minDifferenceAlignment = minDifferenceAlignment.split( ' ' );
 				this.setTriangle( triangleRelativePosition[ minDifferenceAlignment[ 0 ] ], minDifferenceAlignment[ 1 ] );
