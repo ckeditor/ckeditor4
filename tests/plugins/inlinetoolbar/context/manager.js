@@ -8,7 +8,7 @@
 
 	bender.test( {
 		tearDown: function() {
-			this.editor.plugins.inlinetoolbar._manager._clear();
+			this.editor.inlineToolbar._manager._clear();
 		},
 
 		'test manager uses custom selection if provided': function() {
@@ -21,11 +21,11 @@
 			rng.setStart( this.editor.editable().findOne( 'em' ).getFirst(), 1 );
 			rng.collapse( true );
 
-			this.editor.plugins.inlinetoolbar.create( {
+			this.editor.inlineToolbar.create( {
 				refresh: refreshStub
 			} );
 
-			this.editor.plugins.inlinetoolbar._manager.check( selectionClone );
+			this.editor.inlineToolbar._manager.check( selectionClone );
 
 			assert.areSame( 1, refreshStub.callCount, 'Refresh call count' );
 			assert.areSame( 'body,p,em', this._elementPathSerialize( refreshStub.args[ 0 ][ 1 ] ), 'Path provided to the options.refresh' );
@@ -38,11 +38,11 @@
 
 			var refreshStub = sinon.stub().returns( false );
 
-			this.editor.plugins.inlinetoolbar.create( {
+			this.editor.inlineToolbar.create( {
 				refresh: refreshStub
 			} );
 
-			this.editor.plugins.inlinetoolbar._manager.check();
+			this.editor.inlineToolbar._manager.check();
 
 			assert.areSame( 1, refreshStub.callCount, 'Refresh call count' );
 			assert.areSame( 'body,p,strong', this._elementPathSerialize( refreshStub.args[ 0 ][ 1 ] ), 'Path provided to options.refresh' );

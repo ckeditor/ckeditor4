@@ -13,7 +13,7 @@
 
 	bender.test( {
 		tearDown: function() {
-			this.editor.plugins.inlinetoolbar._manager._clear();
+			this.editor.inlineToolbar._manager._clear();
 		},
 
 		'test falsy matching': function() {
@@ -63,7 +63,7 @@
 		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
 		 */
 		_getContextStub: function( selector ) {
-			return this.editor.plugins.inlinetoolbar.create( {
+			return this.editor.inlineToolbar.create( {
 				cssSelector: selector
 			} );
 		},
