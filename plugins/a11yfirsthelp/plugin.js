@@ -24,6 +24,9 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
         helpTopicsKeys = Object.keys( helpTopics ),
         menuStyle = new CKEDITOR.style( { element: 'p' } );
 
+    // Load the showdown script
+    CKEDITOR.scriptLoader.load( this.path + 'js/showdown.min.js' );
+
     // Initialize A11yFirst Help dialog and command
     CKEDITOR.dialog.add( a11yFirstHelpDialogCmd, this.path + 'dialogs/a11yfirst-help.js' );
     editor.addCommand( a11yFirstHelpDialogCmd, new CKEDITOR.dialogCommand( a11yFirstHelpDialogCmd ) );
