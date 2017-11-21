@@ -11,12 +11,12 @@
 
 	bender.test( {
 		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+				assert.ignore();
+			}
 			this.cloudservices = CKEDITOR.plugins.cloudservices;
 			this.editor.config.cloudServices_token = 'cs_token';
 			this.editor.config.cloudServices_url = 'cs_url';
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
 		},
 
 		'test plugin exposes loader': function() {
