@@ -14,7 +14,7 @@
 
 	bender.test( {
 		tearDown: function() {
-			this.editor.plugins.inlinetoolbar._manager._clear();
+			this.editor.inlineToolbar._manager._clear();
 		},
 
 		setUp: function() {
@@ -180,12 +180,12 @@
 
 			for ( i in optionsMapping ) {
 				if ( CKEDITOR.tools.array.indexOf( whitelist, i ) !== -1 ) {
-					ret[ i ] = this.editor.plugins.inlinetoolbar.create( optionsMapping[ i ] );
+					ret[ i ] = this.editor.inlineToolbar.create( optionsMapping[ i ] );
 				}
 			}
 
 			if ( autoRefresh ) {
-				this.editor.plugins.inlinetoolbar._manager.check();
+				this.editor.inlineToolbar._manager.check();
 			}
 
 			return ret;

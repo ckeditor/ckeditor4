@@ -10,7 +10,7 @@
 
 	bender.test( {
 		tearDown: function() {
-			this.editor.plugins.inlinetoolbar._manager._clear();
+			this.editor.inlineToolbar._manager._clear();
 		},
 
 		'test refresh returning true': function() {
@@ -40,12 +40,12 @@
 		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
 		 */
 		_getContextStub: function( refreshCallback, autoRefresh ) {
-			var ret = this.editor.plugins.inlinetoolbar.create( {
+			var ret = this.editor.inlineToolbar.create( {
 				refresh: refreshCallback
 			} );
 
 			if ( autoRefresh ) {
-				this.editor.plugins.inlinetoolbar._manager.check();
+				this.editor.inlineToolbar._manager.check();
 			}
 
 			return ret;

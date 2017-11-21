@@ -8,10 +8,10 @@
 
 	bender.test( {
 		tearDown: function() {
-			this.editor.plugins.inlinetoolbar._manager._clear();
+			this.editor.inlineToolbar._manager._clear();
 		},
 
-		'test exposes editor.plugins.inlinetoolbar.create': function() {
+		'test exposes editor.inlineToolbar.create': function() {
 			var ContextTypeStub = sinon.stub( CKEDITOR.plugins.inlinetoolbar, 'context' ),
 				ret;
 
@@ -19,7 +19,7 @@
 			ContextTypeStub.prototype.hide = sinon.stub();
 			ContextTypeStub.prototype.destroy = sinon.stub();
 
-			ret = this.editor.plugins.inlinetoolbar.create( {} );
+			ret = this.editor.inlineToolbar.create( {} );
 
 			ContextTypeStub.restore();
 

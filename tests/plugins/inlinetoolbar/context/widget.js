@@ -14,7 +14,7 @@
 
 	bender.test( {
 		tearDown: function() {
-			this.editor.plugins.inlinetoolbar._manager._clear();
+			this.editor.inlineToolbar._manager._clear();
 		},
 
 		'test simple positive matching with one item': function() {
@@ -149,7 +149,7 @@
 		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
 		 */
 		_getContextStub: function( widgetNames ) {
-			return this.editor.plugins.inlinetoolbar.create( {
+			return this.editor.inlineToolbar.create( {
 				widgets: widgetNames
 			} );
 		},
