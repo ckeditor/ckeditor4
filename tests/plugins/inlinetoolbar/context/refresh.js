@@ -9,6 +9,12 @@
 	};
 
 	bender.test( {
+		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+				assert.ignore();
+			}
+		},
+
 		tearDown: function() {
 			this.editor.inlineToolbar._manager._clear();
 		},
