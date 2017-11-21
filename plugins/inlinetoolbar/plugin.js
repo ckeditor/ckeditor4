@@ -286,7 +286,7 @@
 				return;
 			}
 
-			return !!elem.$.matches( this.options.cssSelector );
+			return !!elem.$.matches( this.options.cssSelector ) ? elem : false;
 		},
 
 		/**
@@ -385,7 +385,7 @@
 			var forEach = CKEDITOR.tools.array.forEach,
 				mainRange = selection.getRanges()[ 0 ],
 				path = mainRange && mainRange.startPath(),
-				highlightElement = ( path && path.lastElement ) || this.editor.editable(),
+				highlightElement,
 				contextMatched;
 
 			// This function encapsulates matching algorithm.
@@ -399,6 +399,9 @@
 						if ( !!result ) {
 							if ( result instanceof CKEDITOR.dom.element ) {
 								highlightElement = result;
+							} else {
+								// Reset what could have been previously set highlight element, as it's no longer relevant.
+								highlightElement = null;
 							}
 
 							contextMatched = curContext;
@@ -435,6 +438,10 @@
 			this.hide();
 
 			if ( contextMatched ) {
+				if ( !highlightElement ) {
+					highlightElement = ( path && path.lastElement ) || this.editor.editable();
+				}
+
 				contextMatched.show( highlightElement );
 			}
 		},
