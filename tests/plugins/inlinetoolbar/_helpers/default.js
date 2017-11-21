@@ -1,17 +1,25 @@
-/* exported replaceAppendStyleSheet, convertRgbaToRgb */
+/* exported ReplacerAppendStyleSheet, convertRgbaToRgb */
 
 'use strict';
 
-function replaceAppendStyleSheet() {
-	// Overwrite prototype to simulate missing css file.
-	var oldFn = CKEDITOR.dom.document.prototype.appendStyleSheet;
-	CKEDITOR.dom.document.prototype.appendStyleSheet = function( cssFileUrl ) {
-		// Simulate missing css in skin.
-		if ( !cssFileUrl.match( /(inlinetoolbar|balloonpanel)\.css/ ) ) {
-			oldFn.call( CKEDITOR.document, cssFileUrl );
+var ReplacerAppendStyleSheet = function() {
+	var originFn = null;
+	return {
+		change: function() {
+			originFn = CKEDITOR.dom.document.prototype.appendStyleSheet;
+			CKEDITOR.dom.document.prototype.appendStyleSheet = function( cssFileUrl ) {
+				// Simulate missing css in skin.
+				if ( !cssFileUrl.match( /(inlinetoolbar|balloonpanel)\.css/ ) ) {
+					originFn.call( CKEDITOR.document, cssFileUrl );
+				}
+			};
+		},
+		unchange: function() {
+			CKEDITOR.dom.document.prototype.appendStyleSheet = originFn;
+			originFn = null;
 		}
 	};
-}
+};
 
 function convertRgbaToRgb( input ) {
 	var re = /^rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)$/gi;
