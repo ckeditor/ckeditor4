@@ -137,7 +137,10 @@
 
 			this._assertToolbarVisible( true, cssContext );
 
-			sinon.assert.calledWithExactly( showSpy, this.editor.editable().findOne( 'em' ) );
+			// Note can't be checked simply against this.editor.editable().findOne( '...' ) as it will be two different objects.
+			sinon.assert.alwaysCalledWithMatch( showSpy, function( el ) {
+				return el.getName() === 'em';
+			} );
 		},
 
 		'test correct highlighted with refresh after widget was matched': function() {
@@ -161,7 +164,10 @@
 
 			this._assertToolbarVisible( true, refreshContext );
 
-			sinon.assert.calledWithExactly( showSpy, this.editor.editable().findOne( 'strong' ) );
+			// Note can't be checked simply against this.editor.editable().findOne( '...' ) as it will be two different objects.
+			sinon.assert.alwaysCalledWithMatch( showSpy, function( el ) {
+				return el.getName() === 'strong';
+			} );
 		},
 
 		/*
