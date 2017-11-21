@@ -108,96 +108,96 @@ CKEDITOR.dialog.add( 'a11yFirstHelpDialog', function( editor ) {
     },
 
     contents: [
+      {
+        id: 'a11yFirstHelpTab',
+        label: lang.a11yFirstHelpLabel,
+        title: lang.a11yFirstHelpTitle,
+        expand: true,
+        padding: 0,
+        elements: [
           {
-            id: 'a11yFirstHelpTab',
-            label: lang.a11yFirstHelpLabel,
-            title: lang.a11yFirstHelpTitle,
-            expand: true,
-            padding: 0,
-            elements: [
+            type: 'hbox',
+            widths: [ '10%', '90%' ],
+            children: [
               {
-                type: 'hbox',
-                widths: [ '10%', '90%' ],
+                type: 'vbox',
+                align: 'left',
+                width: '200px',
                 children: [
                   {
-                    type: 'vbox',
-                    align: 'left',
-                    width: '200px',
-                    children: [
-                      {
-                        type: 'button',
-                        id: 'buttonHeadingHelp',
-                        style: buttonStyle,
-                        label: lang.headingHelp.label,
-                        title: lang.headingHelpTitle,
-                        onClick: function() {
-                            showHelpTopic( 'HeadingHelp' );
-                        },
-                      },
-                      {
-                        type: 'button',
-                        id: 'buttonBlockFormatHelp',
-                        style: buttonStyle,
-                        label: lang.blockFormatHelp.label,
-                        title: lang.blockFormatHelpTitle,
-                        onClick: function() {
-                            showHelpTopic( 'BlockFormatHelp' );
-                        },
-                      },
-                      {
-                        type: 'button',
-                        id: 'buttonInlineStyleHelp',
-                        style: buttonStyle,
-                        label: lang.inlineStyleHelp.label,
-                        title: lang.inlineStyleHelpTitle,
-                        onClick: function() {
-                            showHelpTopic( 'InlineStyleHelp' );
-                        },
-                      },
-                      {
-                        type: 'button',
-                        id: 'buttonLinkHelp',
-                        style: buttonStyle,
-                        label: lang.linkHelp.label,
-                        title: lang.linkHelpTitle,
-                        onClick: function() {
-                            showHelpTopic( 'LinkHelp' );
-                        },
-                      },
-                      {
-                        type: 'button',
-                        id: 'buttonAboutA11yFirst',
-                        style: buttonStyle,
-                        label: lang.aboutA11yFirst.label,
-                        title: lang.aboutA11yFirst.title,
-                        onClick: function() {
-                            showHelpTopic( 'AboutA11yFirst' );
-                        },
-                      }
-                    ],
+                    type: 'button',
+                    id: 'buttonHeadingHelp',
+                    style: buttonStyle,
+                    label: lang.headingHelp.label,
+                    title: lang.headingHelpTitle,
+                    onClick: function() {
+                        showHelpTopic( 'HeadingHelp' );
+                    },
                   },
                   {
-                    type: 'html',
-                    id: 'helpContentContainer',
-                    focus: function() {
-                      this.getElement().focus();
+                    type: 'button',
+                    id: 'buttonBlockFormatHelp',
+                    style: buttonStyle,
+                    label: lang.blockFormatHelp.label,
+                    title: lang.blockFormatHelpTitle,
+                    onClick: function() {
+                        showHelpTopic( 'BlockFormatHelp' );
                     },
-                    html:
-                      '<div tabindex="-1" class="a11yfirsthelpcontent" style="\
-                      margin: 0; margin-top: -1em; margin-left: -5.5em; \
-                      padding-left: 1em; border-left: 2px solid #ddd; \
-                      height: 400px; overflow: auto">\
-                        <div id="contentAboutA11yFirst"></div>\
-                        <div id="contentHeadingHelp"></div>\
-                        <div id="contentBlockFormatHelp"></div>\
-                        <div id="contentInlineStyleHelp"></div>\
-                        <div id="contentLinkHelp"></div>\
-                      </div>'
+                  },
+                  {
+                    type: 'button',
+                    id: 'buttonInlineStyleHelp',
+                    style: buttonStyle,
+                    label: lang.inlineStyleHelp.label,
+                    title: lang.inlineStyleHelpTitle,
+                    onClick: function() {
+                        showHelpTopic( 'InlineStyleHelp' );
+                    },
+                  },
+                  {
+                    type: 'button',
+                    id: 'buttonLinkHelp',
+                    style: buttonStyle,
+                    label: lang.linkHelp.label,
+                    title: lang.linkHelpTitle,
+                    onClick: function() {
+                        showHelpTopic( 'LinkHelp' );
+                    },
+                  },
+                  {
+                    type: 'button',
+                    id: 'buttonAboutA11yFirst',
+                    style: buttonStyle,
+                    label: lang.aboutA11yFirst.label,
+                    title: lang.aboutA11yFirst.title,
+                    onClick: function() {
+                        showHelpTopic( 'AboutA11yFirst' );
+                    },
                   }
-                ]
+                ],
+              },
+              {
+                type: 'html',
+                id: 'helpContentContainer',
+                focus: function() {
+                  this.getElement().focus();
+                },
+                html:
+                  '<div tabindex="-1" class="a11yfirsthelpcontent" style="\
+                  margin: 0; margin-top: -1em; margin-left: -5.5em; \
+                  padding-left: 1em; border-left: 2px solid #ddd; \
+                  height: 400px; overflow: auto">\
+                    <div id="contentAboutA11yFirst"></div>\
+                    <div id="contentHeadingHelp"></div>\
+                    <div id="contentBlockFormatHelp"></div>\
+                    <div id="contentInlineStyleHelp"></div>\
+                    <div id="contentLinkHelp"></div>\
+                  </div>'
               }
             ]
           }
+        ]
+      }
     ],
 
     buttons: [ CKEDITOR.dialog.okButton ]
