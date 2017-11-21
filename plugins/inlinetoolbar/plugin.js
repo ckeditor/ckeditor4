@@ -86,9 +86,9 @@
 		 * Menu items added to inline toolbar.
 		 *
 		 * @private
-		 * @property {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]}
+		 * @property {Object.<string, CKEDITOR.ui.button|CKEDITOR.ui.richCombo>}
 		 */
-		this._items = [];
+		this._items = {};
 	};
 
 	/**
