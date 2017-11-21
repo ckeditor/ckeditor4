@@ -118,7 +118,7 @@
 
 	// Register the plugin.
 	CKEDITOR.plugins.add( 'clipboard', {
-		requires: 'notification,toolbar',
+		requires: 'dialog,notification,toolbar',
 		// jscs:disable maximumLineLength
 		lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 		// jscs:enable maximumLineLength
@@ -143,6 +143,8 @@
 
 			initPasteClipboard( editor );
 			initDragDrop( editor );
+
+			CKEDITOR.dialog.add( 'paste', CKEDITOR.getUrl( this.path + 'dialogs/paste.js' ) );
 
 			// Convert image file (if present) to base64 string for Firefox. Do it as the first
 			// step as the conversion is asynchronous and should hold all further paste processing.
@@ -320,7 +322,7 @@
 				}
 
 				// Strip presentational markup & unify text markup.
-				// Forced plain text.
+				// Forced plain text (dialog or forcePAPT).
 				// Note: we do not check dontFilter option in this case, because forcePAPT was implemented
 				// before pasteFilter and pasteFilter is automatically used on Webkit&Blink since 4.5, so
 				// forcePAPT should have priority as it had before 4.5.
@@ -364,6 +366,17 @@
 					}, 0 );
 				}
 			}, null, null, 1000 );
+
+			editor.on( 'pasteDialog', function( evt ) {
+				// TODO it's possible that this setTimeout is not needed any more,
+				// because of changes introduced in the same commit as this comment.
+				// Editor.getClipboardData adds listener to the dialog's events which are
+				// fired after a while (not like 'showDialog').
+				setTimeout( function() {
+					// Open default paste dialog.
+					editor.openDialog( 'paste', evt.data );
+				}, 0 );
+			} );
 		}
 	} );
 
@@ -412,7 +425,7 @@
 		addButtonsCommands();
 
 		/**
-		 * Gets clipboard data by directly accessing the clipboard (IE only).
+		 * Gets clipboard data by directly accessing the clipboard (IE only) or opening the paste dialog window.
 		 *
 		 *		editor.getClipboardData( function( data ) {
 		 *			if ( data )
@@ -427,11 +440,20 @@
 		 * an upcoming major release.
 		 */
 		editor.getClipboardData = function( callbackOrOptions, callback ) {
+			var isDialogNeeded = false,
+				beforePasteNotCanceled = false,
+				dialogCommited = false,
+				dataType = 'auto';
+
 			// Options are optional - args shift.
 			if ( !callback ) {
 				callback = callbackOrOptions;
 				callbackOrOptions = null;
 			}
+
+			// Listen at the end of listeners chain to see if event wasn't canceled
+			// and to retrieve modified data.type.
+			editor.on( 'beforePaste', onBeforePaste, null, null, 1000 );
 
 			// Listen with maximum priority to handle content before everyone else.
 			// This callback will handle paste event that will be fired if direct
@@ -444,13 +466,56 @@
 				// Direct access to the clipboard wasn't successful so remove listener.
 				editor.removeListener( 'paste', onPaste );
 
-				callback( null );
+				// If beforePaste was canceled do not open dialog.
+				// Add listeners only if dialog really opened. 'pasteDialog' can be canceled.
+				if ( isDialogNeeded && beforePasteNotCanceled && editor.fire( 'pasteDialog', onDialogOpen ) ) {
+					editor.on( 'pasteDialogCommit', onDialogCommit );
+
+					// 'dialogHide' will be fired after 'pasteDialogCommit'.
+					editor.on( 'dialogHide', function( evt ) {
+						evt.removeListener();
+						evt.data.removeListener( 'pasteDialogCommit', onDialogCommit );
+
+						// Because Opera has to wait a while in pasteDialog we have to wait here.
+						setTimeout( function() {
+							// Notify even if user canceled dialog (clicked 'cancel', ESC, etc).
+							if ( !dialogCommited )
+								callback( null );
+						}, 10 );
+					} );
+				} else {
+					callback( null );
+				}
 			}
 
 			function onPaste( evt ) {
 				evt.removeListener();
 				evt.cancel();
 				callback( evt.data );
+			}
+
+			function onBeforePaste( evt ) {
+				evt.removeListener();
+				beforePasteNotCanceled = true;
+				dataType = evt.data.type;
+			}
+
+			function onDialogCommit( evt ) {
+				evt.removeListener();
+				// Cancel pasteDialogCommit so paste dialog won't automatically fire
+				// 'paste' evt by itself.
+				evt.cancel();
+				dialogCommited = true;
+				callback( {
+					type: dataType,
+					dataValue: evt.data.dataValue,
+					dataTransfer: evt.data.dataTransfer,
+					method: 'paste'
+				} );
+			}
+
+			function onDialogOpen() {
+				this.customTitle = ( typeof callbackOrOptions === 'object' && callbackOrOptions.title );
 			}
 		};
 
@@ -2947,6 +3012,16 @@
  *
  * @event afterPaste
  * @member CKEDITOR.editor
+ */
+
+/**
+ * Internal event to open the Paste dialog window.
+ *
+ * @private
+ * @event pasteDialog
+ * @member CKEDITOR.editor
+ * @param {CKEDITOR.editor} editor This editor instance.
+ * @param {Function} [data] Callback that will be passed to {@link CKEDITOR.editor#openDialog}.
  */
 
 /**
