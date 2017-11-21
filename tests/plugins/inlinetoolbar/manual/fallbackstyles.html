@@ -61,9 +61,8 @@
 	}
 
 	// Overwrite prototype to simulate missing css file.
-	var methodReplacer = new ReplacerAppendStyleSheet();
-	methodReplacer.change();
-	CKEDITOR.once( 'instanceReady', methodReplacer.unchange );
+	var stub = stubAppendStyleSheet();
+	CKEDITOR.once( 'instanceReady', stub.restore );
 
 	CKEDITOR.replace( 'editor1', {
 		skin: 'moono',

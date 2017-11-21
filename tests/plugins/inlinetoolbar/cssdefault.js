@@ -1,7 +1,7 @@
 /* bender-tags: inlinetoolbar */
 /* bender-ckeditor-plugins: toolbar,inlinetoolbar,basicstyles */
 /* bender-include: ./_helpers/default.js */
-/* global ReplacerAppendStyleSheet */
+/* global stubAppendStyleSheet */
 
 ( function() {
 	'use strict';
@@ -36,9 +36,8 @@
 
 	// We need to set up skin at the very beginning before loading files.
 	CKEDITOR.skinName = 'moono';
-	var methodReplacer = new ReplacerAppendStyleSheet();
-	methodReplacer.change();
-	CKEDITOR.once( 'instanceReady', methodReplacer.unchange );
+	var stub = stubAppendStyleSheet();
+	CKEDITOR.once( 'instanceReady', stub.restore );
 
 	var tests = {
 		'test check default.css file usage when skin miss adequate css': function( editor ) {
