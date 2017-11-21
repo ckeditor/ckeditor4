@@ -37,6 +37,10 @@
 	/**
 	 * Class representing instance of inline toolbar.
 	 *
+	 * The easiest way to create an inline toolbar is by using {@link CKEDITOR.editor.inlineToolbar#create} function.
+	 *
+	 * However it's possible to maintain it by manually, like below:
+	 *
 	 *		// Following example will show an inline toolbar on any selection change. The toolbar is anchored to the
 	 *		// last element in selection, assuming that editor variable is an instance of CKEDITOR.editor.
 	 *		editor.on( 'instanceReady', function() {
@@ -86,7 +90,11 @@
 	};
 
 	/**
-	 * Class representing inline toolbar context in the editor.
+	 * Class representing a single inline toolbar context in the editor.
+	 *
+	 * It can be configured with a various of conditions for showing up the toolbar using `options` parameter.
+	 *
+	 * Multiple contexts are handled by the {@link CKEDITOR.plugins.inlinetoolbar.contextManager Context Manager}.
 	 *
 	 * @class CKEDITOR.plugins.inlinetoolbar.context
 	 * @constructor Creates an inline toolbar context instance.
@@ -231,14 +239,17 @@
 	/**
 	 * Class for managers that take care of handling multiple contexts.
 	 *
-	 * Making sure that only one is active at a time and implementing the logic, used to determine
-	 * best fitting context for a given selection.
+	 * Manager also make sure that only one is active (per manager) at a time and implement the logic used to determine
+	 * the best fitting context for a given selection.
 	 *
-	 * Context manager also implements logic for matching the best context. Priorities are as follows:
+	 * Context manager also implements logic for matching the best context. Default priorities are as follows:
 	 *
 	 * 1. Callback - `options.refresh`
 	 * 1. Widgets matching - `options.widgets`
 	 * 1. CSS matching - `options.cssSelector`
+	 *
+	 * It's worth noting that priorities could be further customized by explicitly providing {@link CKEDITOR.plugins.inlinetoolbar.contextDefinition#priority},
+	 * so that it's possible to match a widget over a refresh callback.
 	 *
 	 * @class CKEDITOR.plugins.inlinetoolbar.contextManager
 	 * @constructor
@@ -444,22 +455,26 @@
 			 */
 			editor.inlineToolbar = {
 				/**
+				 * Inline toolbar instance for a given editor instance.
+				 *
+				 * Makes sure that there's only one instance active at a time.
+				 *
 				 * @private
 				 * @property {CKEDITOR.plugins.inlinetoolbar.contextManager} manager
 				 */
 				_manager: new CKEDITOR.plugins.inlinetoolbar.contextManager( editor ),
 
 				/**
-				 * The simplest way to create an Inline Toolbar. The conditions to display the toolbar are configurable using `options` object.
+				 * The simplest way to create an Inline Toolbar.
 				 *
-				 * Following example will add a toolbar containing link/unlink buttons for any anchor or image:
+				 * Following example will add a toolbar containing link and unlink buttons for any anchor or image:
 				 *
 				 *		editor.inlinetoolbar.create( {
 				 *			buttons: 'Link,Unlink',
 				 *			cssSelector: 'a[href], img'
 				 *		} );
 				 *
-				 * @param {CKEDITOR.plugins.inlinetoolbar.contextDefinition} options Config object for the Inline Toolbar.
+				 * @param {CKEDITOR.plugins.inlinetoolbar.contextDefinition} options Config object that determines the conditions used to display the toolbar.
 				 * @returns {CKEDITOR.plugins.inlinetoolbar.context} A context object created for this inline toolbar configuration.
 				 */
 				create: function( options ) {
@@ -743,7 +758,7 @@
 	/**
 	 * This is an abstract class that describes the definition of a {@link CKEDITOR.plugins.inlinetoolbar.context Inline Toolbar Context}.
 	 *
-	 * **Note that context options have a different priority**, see more details in {@link CKEDITOR.plugins.inlinetoolbar.contextManager}.
+	 * **Note that context matching options have a different priority by default**, see more details in {@link CKEDITOR.plugins.inlinetoolbar.contextManager}.
 	 *
 	 * @class CKEDITOR.plugins.inlinetoolbar.contextDefinition
 	 * @abstract
@@ -785,6 +800,20 @@
 	/**
 	 * A number based on {@link CKEDITOR.plugins.inlinetoolbar#PRIORITY}.
 	 *
-	 * @property {Number} [priority]
+	 *		var defA = {
+	 *			buttons: 'Bold',
+	 *			refresh: function() { return true; }
+	 *		};
+	 *
+	 *		// Even though previous definition uses refresh function, it will not take priority
+	 *		// over this definition, as it explicitly states high priority.
+	 *		var defB = {
+	 *			buttons: 'NumberedList,BulletedList',
+	 *			cssSelector: 'li',
+	 *			priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.HIGH
+	 *		};
+	 *
+	 *
+	 * @property {Number} [priority=CKEDITOR.plugins.inlinetoolbar.PRIORITY.MEDIUM]
 	 */
 }() );
