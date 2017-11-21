@@ -87,19 +87,81 @@
 
 			this.editor.setMode( 'source', function() {
 				resume( function() {
+					var storedException;
+
 					try {
 						this._assertToolbarVisible( false, context, 'Toolbar visibility after switching to source area' );
 					} catch ( e ) {
-						// Propagate the exception.
-						throw e;
+						// Propagate the exception. We can't just rethrow here... as  it's YUI and wait in finally block will... also
+						// throw an exception, which will make our tests silently to pass :D
+						// Thus exception need to be cached and thrown in the resume function.
+						storedException = e;
 					} finally {
 						// In any case, set the mode back to initial editor mode.
-						this.editor.setMode( initialMode );
+						this.editor.setMode( initialMode, function() {
+							resume( function() {
+								if ( storedException ) {
+									throw storedException;
+								}
+							} );
+						} );
+
+						wait();
 					}
 				} );
 			} );
 
 			wait();
+		},
+
+		'test correct highlighted element after overriding refresh': function() {
+			// In this test a low priority refresh will hint to put the toolbar on element A.
+			// However later on a cssSelector listener, will hint element B.
+			// Make sure B is pointed by the toolbar.
+
+			this.editorBot.setHtmlWithSelection( '<p><em>foo<strong>b^ar</strong>baz</em</p>' );
+
+			this.editor.plugins.inlinetoolbar.create( {
+				buttons: 'Bold,Italic',
+				refresh: sinon.stub().returns( this.editor.editable().findOne( 'p' ) ),
+				priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.LOW
+			} );
+
+			var cssContext = this.editor.plugins.inlinetoolbar.create( {
+					buttons: 'Bold,Italic',
+					cssSelector: 'em'
+				} ),
+				showSpy = sinon.spy( cssContext, 'show' );
+
+			this.editor.plugins.inlinetoolbar._manager.check();
+
+			this._assertToolbarVisible( true, cssContext );
+
+			sinon.assert.calledWithExactly( showSpy, this.editor.editable().findOne( 'em' ) );
+		},
+
+		'test correct highlighted with refresh after widget was matched': function() {
+			this.editorBot.setHtmlWithSelection( '<p><em>foo<strong>b^ar</strong>baz</em</p>' );
+
+			var widgetContext = this.editor.plugins.inlinetoolbar.create( {
+					buttons: 'Bold,Italic'
+				} ),
+				refreshContext = this.editor.plugins.inlinetoolbar.create( {
+					buttons: 'Bold,Italic',
+					// Since we're returning true, it should highlight default element, which is path's last element - a strong.
+					refresh: sinon.stub().returns( true )
+				} ),
+				showSpy = sinon.spy( refreshContext, 'show' );
+
+			// Also stub widget matcher for widgetContext, so that we don't have to go through all
+			// the hassle of faking a widget.
+			sinon.stub( widgetContext, '_matchWidget' ).returns( this.editor.editable().findOne( 'em' ) );
+
+			this.editor.plugins.inlinetoolbar._manager.check();
+
+			this._assertToolbarVisible( true, refreshContext );
+
+			sinon.assert.calledWithExactly( showSpy, this.editor.editable().findOne( 'strong' ) );
 		},
 
 		/*
