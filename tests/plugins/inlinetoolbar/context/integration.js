@@ -12,11 +12,11 @@
 
 	bender.test( {
 		tearDown: function() {
-			this.editor.plugins.inlinetoolbar._manager._clear();
+			this.editor.inlineToolbar._manager._clear();
 		},
 
 		'test selectionChange with options.refresh': function() {
-			var context = this.editor.plugins.inlinetoolbar.create( {
+			var context = this.editor.inlineToolbar.create( {
 					buttons: 'Bold,Italic,Underline',
 					refresh: function( editor, path ) {
 						return path.contains( 'em' );
@@ -52,7 +52,7 @@
 
 		'test moving focus out of the editor hides the toolbar': function() {
 			// Note: this test is verified to fail with testing window blurred (e.g. when dev console window focused).
-			var context = this.editor.plugins.inlinetoolbar.create( {
+			var context = this.editor.inlineToolbar.create( {
 					buttons: 'Bold,Italic',
 					refresh: sinon.stub().returns( true )
 				} );
@@ -74,7 +74,7 @@
 		},
 
 		'test invalid buttons wont break creation': function() {
-			var context = this.editor.plugins.inlinetoolbar.create( {
+			var context = this.editor.inlineToolbar.create( {
 				buttons: 'foo!,Bold,Boldzzz,|',
 				refresh: sinon.stub().returns( true )
 			} );
@@ -89,7 +89,7 @@
 		'test switching source mode hides the toolbar': function() {
 			var initialMode = this.editor.mode;
 
-			var context = this.editor.plugins.inlinetoolbar.create( {
+			var context = this.editor.inlineToolbar.create( {
 				buttons: 'Bold,Italic',
 				refresh: sinon.stub().returns( true )
 			} );
@@ -134,19 +134,19 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><em>foo<strong>b^ar</strong>baz</em</p>' );
 
-			this.editor.plugins.inlinetoolbar.create( {
+			this.editor.inlineToolbar.create( {
 				buttons: 'Bold,Italic',
 				refresh: sinon.stub().returns( this.editor.editable().findOne( 'p' ) ),
 				priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.LOW
 			} );
 
-			var cssContext = this.editor.plugins.inlinetoolbar.create( {
+			var cssContext = this.editor.inlineToolbar.create( {
 					buttons: 'Bold,Italic',
 					cssSelector: 'em'
 				} ),
 				showSpy = sinon.spy( cssContext, 'show' );
 
-			this.editor.plugins.inlinetoolbar._manager.check();
+			this.editor.inlineToolbar._manager.check();
 
 			this._assertToolbarVisible( true, cssContext );
 
@@ -159,10 +159,10 @@
 		'test correct highlighted with refresh after widget was matched': function() {
 			this.editorBot.setHtmlWithSelection( '<p><em>foo<strong>b^ar</strong>baz</em</p>' );
 
-			var widgetContext = this.editor.plugins.inlinetoolbar.create( {
+			var widgetContext = this.editor.inlineToolbar.create( {
 					buttons: 'Bold,Italic'
 				} ),
-				refreshContext = this.editor.plugins.inlinetoolbar.create( {
+				refreshContext = this.editor.inlineToolbar.create( {
 					buttons: 'Bold,Italic',
 					// Since we're returning true, it should highlight default element, which is path's last element - a strong.
 					refresh: sinon.stub().returns( true )
@@ -173,7 +173,7 @@
 			// the hassle of faking a widget.
 			sinon.stub( widgetContext, '_matchWidget' ).returns( this.editor.editable().findOne( 'em' ) );
 
-			this.editor.plugins.inlinetoolbar._manager.check();
+			this.editor.inlineToolbar._manager.check();
 
 			this._assertToolbarVisible( true, refreshContext );
 
