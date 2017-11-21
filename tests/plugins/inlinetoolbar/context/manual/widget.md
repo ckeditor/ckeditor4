@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.8.0, feature, inlinetoolbar
+@bender-tags: 4.8.0, feature, inlinetoolbar, 933
 @bender-ckeditor-plugins: wysiwygarea, basicstyles, floatingspace, inlinetoolbar, sourcearea, link, elementspath, image2, placeholder, codesnippet
 
 ## Inline Toolbar with Widgets
