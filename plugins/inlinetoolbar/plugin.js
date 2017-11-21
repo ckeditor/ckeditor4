@@ -6,6 +6,8 @@
 ( function() {
 	'use strict';
 
+	var matchingFunctionName = getElementMatchFuncitonName();
+
 	/**
 	 * Class representing view of inline toolbar, used by {@link CKEDITOR.ui.inlineToolbar}.
 	 *
@@ -294,7 +296,8 @@
 				return;
 			}
 
-			return !!elem.$.matches( this.options.cssSelector ) ? elem : false;
+			// Note that IE8 doesn't have matching function at all.
+			return matchingFunctionName && !!elem.$[ matchingFunctionName ]( this.options.cssSelector ) ? elem : false;
 		},
 
 		/**
@@ -758,6 +761,14 @@
 			};
 		}
 	};
+
+	function getElementMatchFuncitonName() {
+		// Temp solution, we'll extract it to CKEDITOR.dom.element.
+		return CKEDITOR.tools.array.filter( [ 'matches', 'msMatchesSelector', 'webkitMatchesSelector', 'mozMatchesSelector', 'oMatchesSelector' ], function( fnName ) {
+			// Note that only IE8 doesn't know HTMLElement,  nor it has msMatchesSelector so we can return false.
+			return window.HTMLElement ? fnName in HTMLElement.prototype : false;
+		} )[ 0 ];
+	}
 
 	/**
 	 * This is an abstract class that describes the definition of a {@link CKEDITOR.plugins.inlinetoolbar.context Inline Toolbar Context}.
