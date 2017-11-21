@@ -1,10 +1,10 @@
 @bender-ui: collapsed
-@bender-tags: 4.8.0, feature, inlinetoolbar
-@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, floatingspace, inlinetoolbar, sourcearea, list, link, elementspath, language, stylescombo
+@bender-tags: 4.8.0, feature, inlinetoolbar, 933
+@bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, floatingspace, inlinetoolbar, sourcearea, list, elementspath
 
 ## Inline Toolbar Context
 
-Inline toolbar should be shown only selections containing `strong` and `em` in its path.
+Inline toolbar should be shown only for selections containing `strong` and `em` in its path.
 
 Example test case:
 

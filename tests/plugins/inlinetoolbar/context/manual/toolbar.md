@@ -17,7 +17,7 @@ Put a selection in `Para^graph after the list.`
 
 A toolbar with many buttons is shown on top of the editor.
 
-#### Actual
+#### Unexpected
 
 * Toolbar has only 2 buttons.
 * Toolbar is displayed over the focused paragraph.
