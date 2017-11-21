@@ -39,12 +39,12 @@
 			on: {
 				instanceReady: function( evt ) {
 					// Register the toolbar for inline elements.
-					evt.editor.plugins.inlinetoolbar.create( {
+					evt.editor.inlineToolbar.create( {
 						buttons: 'Link,Unlink',
 						widgets: [ 'image', 'placeholder' ]
 					} );
 
-					evt.editor.plugins.inlinetoolbar.create( {
+					evt.editor.inlineToolbar.create( {
 						buttons: 'Bold,Underline',
 						cssSelector: 'strong, u'
 					} );
