@@ -13,16 +13,20 @@
 	};
 
 	bender.test( {
-		tearDown: function() {
-			this.editor.inlineToolbar._manager._clear();
-		},
-
 		setUp: function() {
+			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
+				assert.ignore();
+			}
+
 			this.editor.widgets.add( 'bar', {
 				editables: {
 					header: 'h1'
 				}
 			} );
+		},
+
+		tearDown: function() {
+			this.editor.inlineToolbar._manager._clear();
 		},
 
 		'test options.refresh has the highest priority': function() {
