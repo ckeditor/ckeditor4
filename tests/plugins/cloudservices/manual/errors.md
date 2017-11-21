@@ -5,8 +5,8 @@
 1. Open web inspector.
 1. Click `Test undefinded URL` button.
 
-In console we should have information about error with code `cloudservices-url-error`.
+In console we should have information about error with code `cloudservices-no-url`.
 
 1. Click `Test undefinded TOKEN` button.
 
-In console we should have information about error with code `cloudservices-token-error`.
+In console we should have information about error with code `cloudservices-no-token`.

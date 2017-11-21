@@ -56,7 +56,7 @@
 				url = url || this.editor.config.cloudServices_url;
 
 				if ( !url ) {
-					CKEDITOR.error( 'cloudservices-url-error' );
+					CKEDITOR.error( 'cloudservices-no-url' );
 					return;
 				}
 
@@ -85,7 +85,8 @@
 					delete reqData.upload;
 
 					if ( !( fileLoader.customToken || editor.config.cloudServices_token ) ) {
-						CKEDITOR.error( 'cloudservices-token-error' );
+						CKEDITOR.error( 'cloudservices-no-token' );
+						evt.cancel();
 						return;
 					}
 					// Add authorization token.
