@@ -68,6 +68,6 @@
 	};
 	CKEDITOR.replace( 'editor1', config );
 	CKEDITOR.inline( 'editor2', config );
-	CKEDITOR.replace( 'editor3', config );
+	CKEDITOR.replace( 'editor3', CKEDITOR.tools.extend( { extraPlugins: 'divarea' }, config ) );
 
 </script>
