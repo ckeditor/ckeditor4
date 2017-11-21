@@ -73,6 +73,19 @@
 			wait();
 		},
 
+		'test invalid buttons wont break creation': function() {
+			var context = this.editor.plugins.inlinetoolbar.create( {
+				buttons: 'foo!,Bold,Boldzzz,|',
+				refresh: sinon.stub().returns( true )
+			} );
+
+			this.editorBot.setHtmlWithSelection( '<p><strong>foo^bar</strong></p>' );
+
+			this._assertToolbarVisible( true, context );
+
+			arrayAssert.itemsAreSame( [ 'Bold' ], Object.keys( context.toolbar._items ) );
+		},
+
 		'test switching source mode hides the toolbar': function() {
 			var initialMode = this.editor.mode;
 
