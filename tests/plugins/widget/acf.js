@@ -97,7 +97,15 @@
 				var editor = bot.editor;
 
 				assert.areSame( 3, obj2Array( editor.widgets.instances ).length );
-				assert.areSame( '<p><b data-widget="test1">foo</b><i data-widget="test2" foo="1">bar</i><s class="test3">bim</s>bom</p>', editor.getData() );
+
+				// On Edge 16+ when test is run from the main bender panel the `<i>` tag attributes order
+				// is different so isInnerHtmlMatching should be used here.
+				assert.isInnerHtmlMatching(
+					'<p><b data-widget="test1">foo</b><i data-widget="test2" foo="1">bar</i><s class="test3">bim</s>bom</p>',
+					editor.getData(), {
+						fixNbsp: false,
+						fixZWS: false
+					} );
 			} );
 		},
 

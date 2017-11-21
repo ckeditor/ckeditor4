@@ -3082,7 +3082,8 @@
 
 	function copySingleWidget( widget, isCut ) {
 		var editor = widget.editor,
-			doc = editor.document;
+			doc = editor.document,
+			isEdge16 = CKEDITOR.env.edge && CKEDITOR.env.version >= 16;
 
 		// We're still handling previous copy/cut.
 		// When keystroke is used to copy/cut this will also prevent
@@ -3090,9 +3091,12 @@
 		if ( doc.getById( 'cke_copybin' ) )
 			return;
 
-			// [IE] Use span for copybin and its container to avoid bug with expanding editable height by
-			// absolutely positioned element.
-		var copybinName = ( editor.blockless || CKEDITOR.env.ie ) ? 'span' : 'div',
+		// [IE] Use span for copybin and its container to avoid bug with expanding
+		// editable height by absolutely positioned element.
+		// For Edge 16+ always use div as span causes scrolling to the end of the document
+		// on widget cut (also for blockless editor) (#1160).
+		// Edge 16+ workaround could be safetly removed after #1169 is fixed.
+		var copybinName = ( ( editor.blockless || CKEDITOR.env.ie ) && !isEdge16 ) ? 'span' : 'div',
 			copybin = doc.createElement( copybinName ),
 			copybinContainer = doc.createElement( copybinName ),
 			// IE8 always jumps to the end of document.
