@@ -11,14 +11,14 @@
 		cloudServices_token: 'cs_token',
 		height: 500
 	} );
-	document.getElementById('url').addEventListener('click', function( event ) {
+	document.getElementById( 'url' ).addEventListener( 'click', function( event ) {
 		var instance = new CKEDITOR.plugins.cloudservices.cloudServicesLoader( CKEDITOR.instances.classic, mockBase64 );
 		CKEDITOR.instances.classic.config.cloudServices_url = undefined;
 		CKEDITOR.instances.classic.config.cloudServices_token = 'cs_token';
 		
 		instance.upload();
 	} );
-	document.getElementById('token').addEventListener('click', function( event ) {
+	document.getElementById( 'token' ).addEventListener( 'click', function( event ) {
 		var instance = new CKEDITOR.plugins.cloudservices.cloudServicesLoader( CKEDITOR.instances.classic, mockBase64 );
 		CKEDITOR.instances.classic.config.cloudServices_url = 'cs_url';
 		CKEDITOR.instances.classic.config.cloudServices_token = undefined;
