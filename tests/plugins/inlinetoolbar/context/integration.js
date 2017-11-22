@@ -28,12 +28,9 @@
 						return path.contains( 'em' );
 					}
 				} ),
-				newRange = this.editor.createRange(),
-				emElem;
+				newRange = this.editor.createRange();
 
 			this.editorBot.setHtmlWithSelection( '<p>Test^ <strong>Foo</strong><em>bar</em></p>' );
-
-			emElem = this.editor.editable().findOne( 'em' );
 
 			// First set the selection in a place where inline toolbar should not be shown.
 			// Set range at <strong>F^oo</strong>.
@@ -46,7 +43,7 @@
 
 			// Now, change the selection to a place that should show the toolbar.
 			// For example: "<em>b^ar</em>".
-			newRange.setStartAt( emElem.getFirst(), 1 );
+			newRange.setStartAt( this.editor.editable().findOne( 'em' ).getFirst(), 1 );
 			newRange.collapse( true );
 
 			this.editor.getSelection().selectRanges( [ newRange ] );
@@ -138,7 +135,7 @@
 			// However later on a cssSelector listener, will hint element B.
 			// Make sure B is pointed by the toolbar.
 
-			this.editorBot.setHtmlWithSelection( '<p><em>foo<strong>b^ar</strong>baz</em</p>' );
+			this.editorBot.setHtmlWithSelection( '<p><em>foo<strong>b^ar</strong>baz</em></p>' );
 
 			this.editor.inlineToolbar.create( {
 				buttons: 'Bold,Italic',
