@@ -747,7 +747,7 @@
 	};
 
 	function getElementMatchFunctionName() {
-		// Temp solution, we'll extract it to CKEDITOR.dom.element.
+		// Temporary here, until #1205 is not resolved.
 		return CKEDITOR.tools.array.filter( [ 'matches', 'msMatchesSelector', 'webkitMatchesSelector', 'mozMatchesSelector', 'oMatchesSelector' ], function( fnName ) {
 			// Note that only IE8 doesn't know HTMLElement,  nor it has msMatchesSelector so we can return false.
 			return window.HTMLElement ? fnName in HTMLElement.prototype : false;
