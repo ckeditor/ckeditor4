@@ -18,6 +18,7 @@ $plugins = array(
     'taoqtitable',
     'taounderline',
     'taohighlight',
+    'taotooltip',
     'taoqtiinclude',
     'taoqtiprintedvariable'
 );
