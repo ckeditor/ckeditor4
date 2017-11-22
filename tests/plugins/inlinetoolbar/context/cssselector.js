@@ -32,6 +32,14 @@
 			contextTools._assertToolbarVisible( false, context );
 		},
 
+		'test falsy matching multiple': function() {
+			var context = this._getContextStub( 'video, audio, aside' );
+
+			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
+
+			contextTools._assertToolbarVisible( false, context );
+		},
+
 		'test correct matching': function() {
 			var context = this._getContextStub( 'strong' );
 
@@ -56,10 +64,26 @@
 			contextTools._assertToolbarVisible( true, context );
 		},
 
+		'test matching by class': function() {
+			var context = this._getContextStub( 'em.item' );
+
+			this.editorBot.setHtmlWithSelection( '<p><em class="multi item class">foo^ bar</em></p>' );
+
+			contextTools._assertToolbarVisible( true, context );
+		},
+
 		'test reject by attribute': function() {
 			var context = this._getContextStub( 'strong:not([data-foo-bar])' );
 
 			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
+
+			contextTools._assertToolbarVisible( false, context );
+		},
+
+		'test reject by class': function() {
+			var context = this._getContextStub( 'em:not(.multi)' );
+
+			this.editorBot.setHtmlWithSelection( '<p><em class="multi item class">foo^ bar</em></p>' );
 
 			contextTools._assertToolbarVisible( false, context );
 		},
