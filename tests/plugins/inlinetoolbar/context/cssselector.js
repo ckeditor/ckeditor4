@@ -1,5 +1,7 @@
 /* bender-tags: inlinetoolbar,context */
 /* bender-ckeditor-plugins: inlinetoolbar */
+/* bender-include: _helpers/tools.js */
+/* global contextTools */
 
 ( function() {
 	'use strict';
@@ -27,7 +29,7 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
 
-			this._assertToolbarVisible( false, context );
+			contextTools._assertToolbarVisible( false, context );
 		},
 
 		'test correct matching': function() {
@@ -35,7 +37,7 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
 
-			this._assertToolbarVisible( true, context );
+			contextTools._assertToolbarVisible( true, context );
 		},
 
 		'test correct matching multiple': function() {
@@ -43,7 +45,7 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^ bar</strong></p>' );
 
-			this._assertToolbarVisible( true, context );
+			contextTools._assertToolbarVisible( true, context );
 		},
 
 		'test matching by attribute': function() {
@@ -51,7 +53,7 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
 
-			this._assertToolbarVisible( true, context );
+			contextTools._assertToolbarVisible( true, context );
 		},
 
 		'test reject by attribute': function() {
@@ -59,26 +61,17 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><strong data-foo-bar="1">foo^ bar</strong></p>' );
 
-			this._assertToolbarVisible( false, context );
+			contextTools._assertToolbarVisible( false, context );
 		},
 
 		/*
-		 * Returns a Context instance with toolbar show/hide methods stubbed.
-		 *
 		 * @param {String} selector A selector to be used as `options.elements`.
-		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
+		 * @returns {CKEDITOR.plugins.inlinetoolbar.context} Context instance with `selector` used as a CSS selector.
 		 */
 		_getContextStub: function( selector ) {
 			return this.editor.inlineToolbar.create( {
 				cssSelector: selector
 			} );
-		},
-
-		/*
-		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
-		 */
-		_assertToolbarVisible: function( expected, context, msg ) {
-			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), msg || 'Toolbar visibility' );
 		}
 	} );
 } )();
