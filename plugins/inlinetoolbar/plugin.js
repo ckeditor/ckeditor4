@@ -694,13 +694,9 @@
 
 				this.parts.content.setHtml( output.join( '' ) );
 				this.parts.content.unselectable();
-				var element,
-					elements = this.parts.content.getElementsByTag( '*' );
-
-				for ( var i = 0, count = elements.count() ; i < count ; i++ ) {
-					element = elements.getItem( i );
+				CKEDITOR.tools.array.forEach( this.parts.content.find( 'a' ).toArray(), function( element ) {
 					element.setAttribute( 'draggable', 'false' );
-				}
+				} );
 			};
 
 			/**
