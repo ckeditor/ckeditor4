@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.dialog.add( 'about', function( editor ) {
@@ -64,7 +64,7 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 						'</p>' +
 						'<p>' +
 							lang.moreInfo + '<br>' +
-							'<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/license">https://ckeditor.com/license</a>' +
+							'<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/legal/ckeditor-oss-license/">https://ckeditor.com/legal/ckeditor-oss-license/</a>' +
 						'</p>' +
 						'<p>' +
 							lang.copy.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="https://cksource.com/">CKSource</a> - Frederico Knabben' ) +
