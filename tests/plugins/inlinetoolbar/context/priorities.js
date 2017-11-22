@@ -58,23 +58,6 @@
 			} );
 		},
 
-		// This case is yet to be decided.
-		// 'test options.widgets has the priority over options.cssSelector': function() {
-		// 	this.editorBot.setData( CKEDITOR.document.getById( 'widgetWithEditable' ).getHtml(), function() {
-		// 		var rng = this.editor.createRange();
-		// 		rng.setStart( this.editor.editable().findOne( 'strong' ).getFirst(), 1 );
-		// 		rng.collapse( true );
-
-		// 		this.editor.getSelection().selectRanges( [ rng ] );
-
-		// 		var contexts = this._createContexts( [ 'widgets', 'cssSelector' ], true );
-
-		// 		assert.isUndefined( contexts.refresh, 'context refresh is undefined' );
-		// 		this._assertToolbarVisible( true, contexts.widgets, 'contexts.widgets visibility' );
-		// 		this._assertToolbarVisible( false, contexts.cssSelector, 'contexts.cssSelector visibility' );
-		// 	} );
-		// },
-
 		'test options.cssSelector the top-most patch match wins': function() {
 			// If we have path like: "foo > bar > baz" and there are contexts matching "bar" and "baz", only the context
 			// that matches for "baz" should be shown.
