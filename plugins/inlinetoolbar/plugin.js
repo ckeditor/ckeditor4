@@ -6,7 +6,7 @@
 ( function() {
 	'use strict';
 
-	var matchingFunctionName = getElementMatchFuncitonName();
+	var matchingFunctionName = getElementMatchFunctionName();
 
 	/**
 	 * Class representing view of inline toolbar, used by {@link CKEDITOR.ui.inlineToolbar}.
@@ -746,7 +746,7 @@
 		}
 	};
 
-	function getElementMatchFuncitonName() {
+	function getElementMatchFunctionName() {
 		// Temp solution, we'll extract it to CKEDITOR.dom.element.
 		return CKEDITOR.tools.array.filter( [ 'matches', 'msMatchesSelector', 'webkitMatchesSelector', 'mozMatchesSelector', 'oMatchesSelector' ], function( fnName ) {
 			// Note that only IE8 doesn't know HTMLElement,  nor it has msMatchesSelector so we can return false.
