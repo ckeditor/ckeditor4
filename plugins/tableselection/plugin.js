@@ -16,6 +16,10 @@
 		insertRow,
 		insertColumn;
 
+	function _isWidget( element ) {
+		return CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( element );
+	}
+
 	function getCellsBetween( first, last ) {
 		var firstTable = first.getAscendant( 'table' ),
 			lastTable = last.getAscendant( 'table' ),
@@ -209,7 +213,7 @@
 			// but only in case if no other cell between mousedown and mouseup
 			// was selected.
 			// We don't want to clear selection if widget is event target (#1027).
-			if ( !fakeSelection.dirty && cells.length === 1 && !( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( evt.data.getTarget() ) ) ) {
+			if ( !fakeSelection.dirty && cells.length === 1 && !( _isWidget( evt.data.getTarget() ) ) ) {
 				return clearFakeCellSelection( editor, evt.name === 'mouseup' );
 			}
 
@@ -272,7 +276,7 @@
 		}
 		// Prevent of applying table selection when widget is selected.
 		// Mouseup remain possibility to finish table selection when user release mouse button above widget in table.
-		if ( evt.name !== 'mouseup' && CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( evt.data.getTarget() ) ) {
+		if ( evt.name !== 'mouseup' && _isWidget( evt.data.getTarget() ) ) {
 			return;
 		}
 

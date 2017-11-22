@@ -11,6 +11,10 @@
 		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' ),
 		isSelectingTable;
 
+	function _isWidget( element ) {
+		return CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( element );
+	}
+
 	// #### table selection : START
 	// @param {CKEDITOR.dom.range[]} ranges
 	// @param {Boolean} allowPartially Whether a collapsed selection within table is recognized to be a valid selection.
@@ -20,7 +24,7 @@
 			return false;
 		}
 		// It's not table selection when selected node is a widget (#1027).
-		if ( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( ranges[ 0 ].getEnclosedNode() ) ) {
+		if ( _isWidget( ranges[ 0 ].getEnclosedNode() ) ) {
 			return false;
 		}
 		var node,
@@ -99,8 +103,8 @@
 			return table.equals( fakeTable ) || fakeTable.contains( table );
 		}
 
-		// When widget is selected, then definately is not a table (#1027).
-		if ( CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( fakeSelection.getSelectedElement() ) ) {
+		// When widget is selected, then definitely is not a table (#1027).
+		if ( _isWidget( fakeSelection.getSelectedElement() ) ) {
 			return false;
 		}
 
@@ -234,7 +238,6 @@
 			realSel = this.getSelection( 1 );
 			// If real (not locked/stored) selection was moved from hidden container
 			// or is not a table one, then the fake-selection must be invalidated.
-
 			if ( !realSel || ( !realSel.isHidden() && !isRealTableSelection( realSel, sel ) ) ) {
 				// Remove the cache from fake-selection references in use elsewhere.
 				sel.reset();
