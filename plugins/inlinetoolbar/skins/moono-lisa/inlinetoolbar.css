@@ -72,6 +72,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 }
 
 .cke_balloon.cke_inlinetoolbar span:last-child a:last-child::after,
+.cke_balloon.cke_inlinetoolbar span:last-child a:last-child:hover::after,
 .cke_balloon.cke_inlinetoolbar span:last-child::after
 {
 	border-right: 0px;
