@@ -4,9 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'en', {
 	copy: 'Copyright &copy; $1. All rights reserved.',
-	dlgTitle: 'About CKEditor',
 	help: 'Check $1 for help.',
 	moreInfo: 'For licensing information please visit our web site:',
-	title: 'About CKEditor',
-	userGuide: 'CKEditor User\'s Guide'
+	userGuide: 'CKEditor User\'s Guide',
+	dialogTitle: 'About CKEditor 4'
 } );
