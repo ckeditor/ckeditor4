@@ -440,8 +440,7 @@
 		 * an upcoming major release.
 		 */
 		editor.getClipboardData = function( callbackOrOptions, callback ) {
-			var isDialogNeeded = false,
-				beforePasteNotCanceled = false,
+			var beforePasteNotCanceled = false,
 				dialogCommited = false,
 				dataType = 'auto';
 
@@ -468,11 +467,14 @@
 
 				// If beforePaste was canceled do not open dialog.
 				// Add listeners only if dialog really opened. 'pasteDialog' can be canceled.
-				if ( isDialogNeeded && beforePasteNotCanceled && editor.fire( 'pasteDialog', onDialogOpen ) ) {
+				if ( editor._.forcePasteDialog && beforePasteNotCanceled && editor.fire( 'pasteDialog', onDialogOpen ) ) {
 					editor.on( 'pasteDialogCommit', onDialogCommit );
 
 					// 'dialogHide' will be fired after 'pasteDialogCommit'.
 					editor.on( 'dialogHide', function( evt ) {
+						// Reset dialog mode (#595).
+						editor._.forcePasteDialog = false;
+
 						evt.removeListener();
 						evt.data.removeListener( 'pasteDialogCommit', onDialogCommit );
 
@@ -515,7 +517,7 @@
 			}
 
 			function onDialogOpen() {
-				this.customTitle = ( typeof callbackOrOptions === 'object' && callbackOrOptions.title );
+				this.customTitle = ( callbackOrOptions && typeof callbackOrOptions === 'object' && callbackOrOptions.title );
 			}
 		};
 
@@ -566,6 +568,19 @@
 						paste: stateFromNamedCommand( 'paste' )
 					};
 				} );
+			}
+
+			// Detect if paste button was touched. In such case we assume that user is using
+			// touch device and force displaying paste dialog (#595).
+			if ( editor.ui.addButton ) {
+				setTimeout( function() {
+					var pasteButton = editor.ui.get( 'Paste' ),
+						buttonElement = editor.container.findOne( '#' + pasteButton._.id );
+
+					buttonElement.on( 'touchend', function() {
+						editor._.forcePasteDialog = true;
+					} );
+				}, 0 );
 			}
 		}
 
