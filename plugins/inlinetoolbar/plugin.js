@@ -266,8 +266,8 @@
 		 * Checks if any of `options.widgets` widgets is currently focused.
 		 *
 		 * @private
-		 * @returns {Boolean/CKEDITOR.dom.element} `true` if currently selected widget matches any tracked by this
-		 * context. It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
+		 * @returns {Boolean/CKEDITOR.dom.element} Returns {@link CKEDITOR.dom.element} instance that toolbar should
+		 * point to, if any matched widget is focused. `false` otherwise, meaning no tracked widget was matched.
 		 */
 		_matchWidget: function() {
 			if ( !this.options.widgets ) {
