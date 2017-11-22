@@ -743,27 +743,6 @@
 			LOW: 999,
 			MEDIUM: 500,
 			HIGH: 10
-		},
-
-		/**
-		 * Converts a given element into a style definition that could be used to create an instance of {@link CKEDITOR.style}.
-		 *
-		 * @param {CKEDITOR.dom.element} element The element to be converted.
-		 * @returns {Object} The style definition created from the element.
-		 * @private
-		 */
-		_convertElementToStyleDef: function( element ) {
-			// @todo: this function is taken out from Copy Formatting plugin. It should be extracted to a common place.
-			// Note that this function already has some modifications compared to the original.
-			var attributes = element.getAttributes(),
-				styles = CKEDITOR.tools.parseCssText( element.getAttribute( 'style' ), true, true );
-
-			return {
-				element: element.getName(),
-				type: CKEDITOR.dtd.$block[ element.getName() ] ? CKEDITOR.STYLE_BLOCK : CKEDITOR.STYLE_INLINE,
-				attributes: attributes,
-				styles: styles
-			};
 		}
 	};
 
