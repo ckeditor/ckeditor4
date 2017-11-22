@@ -1,7 +1,7 @@
 /* bender-tags: inlinetoolbar, context */
 /* bender-ckeditor-plugins: inlinetoolbar, toolbar, basicstyles, sourcearea, widget */
-/* bender-include: ../../widget/_helpers/tools.js */
-/* global widgetTestsTools */
+/* bender-include: ../../widget/_helpers/tools.js, _helpers/tools.js */
+/* global widgetTestsTools, contextTools */
 
 ( function() {
 	'use strict';
@@ -39,9 +39,9 @@
 
 				var contexts = this._createContexts( null, true );
 
-				this._assertToolbarVisible( true, contexts.refresh, 'contexts.refresh visibility' );
-				this._assertToolbarVisible( false, contexts.widgets, 'contexts.widgets visibility' );
-				this._assertToolbarVisible( false, contexts.cssSelector, 'contexts.cssSelector visibility' );
+				contextTools._assertToolbarVisible( true, contexts.refresh, 'contexts.refresh visibility' );
+				contextTools._assertToolbarVisible( false, contexts.widgets, 'contexts.widgets visibility' );
+				contextTools._assertToolbarVisible( false, contexts.cssSelector, 'contexts.cssSelector visibility' );
 			} );
 		},
 
@@ -52,9 +52,9 @@
 
 				var contexts = this._createContexts( null, true );
 
-				this._assertToolbarVisible( true, contexts.refresh, 'contexts.refresh visibility' );
-				this._assertToolbarVisible( false, contexts.widgets, 'contexts.widgets visibility' );
-				this._assertToolbarVisible( false, contexts.cssSelector, 'contexts.cssSelector visibility' );
+				contextTools._assertToolbarVisible( true, contexts.refresh, 'contexts.refresh visibility' );
+				contextTools._assertToolbarVisible( false, contexts.widgets, 'contexts.widgets visibility' );
+				contextTools._assertToolbarVisible( false, contexts.cssSelector, 'contexts.cssSelector visibility' );
 			} );
 		},
 
@@ -76,10 +76,10 @@
 
 			var contexts = this._createContexts( [ 'cssSelector', 'emContext', 'citeContext' ], true, additionalContextDefinitions );
 
-			this._assertToolbarVisible( true, contexts.citeContext, 'contexts.citeContext visibility' );
+			contextTools._assertToolbarVisible( true, contexts.citeContext, 'contexts.citeContext visibility' );
 
-			this._assertToolbarVisible( false, contexts.cssSelector, 'contexts.cssSelector visibility' );
-			this._assertToolbarVisible( false, contexts.emContext, 'contexts.emContext visibility' );
+			contextTools._assertToolbarVisible( false, contexts.cssSelector, 'contexts.cssSelector visibility' );
+			contextTools._assertToolbarVisible( false, contexts.emContext, 'contexts.emContext visibility' );
 		},
 
 		'test options.cssSelector with a HGIH priority takes the precedence': function() {
@@ -99,9 +99,9 @@
 
 			var contexts = this._createContexts( [ 'cssSelector', 'citeContext', 'refresh' ], true, additionalContextDefinitions );
 
-			this._assertToolbarVisible( false, contexts.citeContext, 'contexts.citeContext visibility' );
-			this._assertToolbarVisible( true, contexts.cssSelector, 'contexts.cssSelector visibility' );
-			this._assertToolbarVisible( false, contexts.refresh, 'contexts.refresh visibility' );
+			contextTools._assertToolbarVisible( false, contexts.citeContext, 'contexts.citeContext visibility' );
+			contextTools._assertToolbarVisible( true, contexts.cssSelector, 'contexts.cssSelector visibility' );
+			contextTools._assertToolbarVisible( false, contexts.refresh, 'contexts.refresh visibility' );
 		},
 
 		'test options.cssSelector with a LOW priority are less favorable': function() {
@@ -117,15 +117,8 @@
 
 			var contexts = this._createContexts( [ 'cssSelector', 'refresh' ], true, additionalContextDefinitions );
 
-			this._assertToolbarVisible( false, contexts.refresh, 'contexts.refresh visibility' );
-			this._assertToolbarVisible( true, contexts.cssSelector, 'contexts.cssSelector visibility' );
-		},
-
-		/*
-		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
-		 */
-		_assertToolbarVisible: function( expected, context, msg ) {
-			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), msg || 'Toolbar visibility' );
+			contextTools._assertToolbarVisible( false, contexts.refresh, 'contexts.refresh visibility' );
+			contextTools._assertToolbarVisible( true, contexts.cssSelector, 'contexts.cssSelector visibility' );
 		},
 
 		/*

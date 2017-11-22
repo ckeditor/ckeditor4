@@ -1,7 +1,7 @@
 /* bender-tags: inlinetoolbar,context */
 /* bender-ckeditor-plugins: inlinetoolbar,button,widget */
-/* bender-include: ../../widget/_helpers/tools.js */
-/* global widgetTestsTools */
+/* bender-include: ../../widget/_helpers/tools.js, _helpers/tools.js */
+/* global widgetTestsTools, contextTools */
 
 ( function() {
 	'use strict';
@@ -36,7 +36,7 @@
 
 					widget.focus();
 
-					this._assertToolbarVisible( true, context );
+					contextTools._assertToolbarVisible( true, context );
 				} );
 		},
 
@@ -53,7 +53,7 @@
 
 					widget.focus();
 
-					this._assertToolbarVisible( true, context );
+					contextTools._assertToolbarVisible( true, context );
 				} );
 		},
 
@@ -70,7 +70,7 @@
 
 					widget.focus();
 
-					this._assertToolbarVisible( false, context );
+					contextTools._assertToolbarVisible( false, context );
 				} );
 		},
 
@@ -87,7 +87,7 @@
 
 					widget.focus();
 
-					this._assertToolbarVisible( true, context );
+					contextTools._assertToolbarVisible( true, context );
 				} );
 		},
 
@@ -104,7 +104,7 @@
 
 					widget.focus();
 
-					this._assertToolbarVisible( false, context );
+					contextTools._assertToolbarVisible( false, context );
 				} );
 		},
 
@@ -123,7 +123,7 @@
 				function() {
 					this.editor.getSelection().selectElement( this.editor.editable().findOne( 'strong' ) );
 
-					this._assertToolbarVisible( false, context );
+					contextTools._assertToolbarVisible( false, context );
 				} );
 		},
 
@@ -158,13 +158,6 @@
 			return this.editor.inlineToolbar.create( {
 				widgets: widgetNames
 			} );
-		},
-
-		/*
-		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
-		 */
-		_assertToolbarVisible: function( expected, context, msg ) {
-			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), msg || 'Toolbar visibility' );
 		}
 	} );
 } )();
