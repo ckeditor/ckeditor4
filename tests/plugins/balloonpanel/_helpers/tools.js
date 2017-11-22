@@ -57,5 +57,72 @@ var balloonTestsTools = {
 			return document.location.protocol + '//' + document.location.hostname + ( document.location.port ? ':' + document.location.port : '' );
 		}
 		return document.location.origin;
+	},
+
+	getAbsoluteRect: function( editor, element ) {
+		var elementRect = element.getClientRect(),
+			winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition(),
+			frame = editor.window.getFrame(),
+			frameRect;
+
+		if ( editor.editable().isInline() || element.equals( frame ) ) {
+			elementRect.top = elementRect.top + winGlobalScroll.y;
+			elementRect.left = elementRect.left + winGlobalScroll.x;
+			elementRect.right = elementRect.left + elementRect.width;
+			elementRect.bottom = elementRect.top + elementRect.height;
+		} else {
+			frameRect = frame.getClientRect();
+
+			elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
+			elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
+			elementRect.right = elementRect.left + elementRect.width;
+			elementRect.bottom = elementRect.top + elementRect.height;
+		}
+
+		return elementRect;
+	},
+
+	getTriangleTipPosition: function( balloon ) {
+		var pos = {
+			x: balloon.rect.left,
+			y: balloon.rect.top
+		};
+
+		switch ( balloon.triangleSide + ' ' + balloon.triangleAlign ) {
+			case 'right vcenter':
+				pos.x = pos.x + balloon.rect.width + balloon.triangleWidth;
+				pos.y = pos.y + balloon.rect.height / 2;
+				break;
+			case 'left vcenter':
+				pos.x = pos.x - balloon.triangleWidth;
+				pos.y = pos.y + balloon.rect.height / 2;
+				break;
+			case 'top hcenter':
+				pos.x = pos.x + balloon.rect.width / 2;
+				pos.y = pos.y - balloon.triangleHeight;
+				break;
+			case 'top left':
+				pos.x = pos.x + balloon.triangleMinDistance;
+				pos.y = pos.y - balloon.triangleHeight;
+				break;
+			case 'top right':
+				pos.x = pos.x + balloon.rect.width - balloon.triangleMinDistance;
+				pos.y = pos.y - balloon.triangleHeight;
+				break;
+			case 'bottom hcenter':
+				pos.x = pos.x + balloon.rect.width / 2;
+				pos.y = pos.y + balloon.height + balloon.triangleHeight;
+				break;
+			case 'bottom left':
+				pos.x = pos.x + balloon.triangleMinDistance;
+				pos.y = pos.y + balloon.height + balloon.triangleHeight;
+				break;
+			case 'bottom right':
+				pos.x = pos.x + balloon.rect.width - balloon.triangleMinDistance;
+				pos.y = pos.y + balloon.height + balloon.triangleHeight;
+				break;
+		}
+		return pos;
 	}
+
 };
