@@ -1,5 +1,7 @@
 /* bender-tags: inlinetoolbar, context */
 /* bender-ckeditor-plugins: inlinetoolbar, toolbar, basicstyles, sourcearea */
+/* bender-include: _helpers/tools.js */
+/* global contextTools */
 
 ( function() {
 	'use strict';
@@ -39,16 +41,16 @@
 
 			this.editor.getSelection().selectRanges( [ newRange ] );
 
-			this._assertToolbarVisible( false, context );
+			contextTools._assertToolbarVisible( false, context );
 
 			// Now, change the selection to a place that should show the toolbar.
 			// For example: "<em>b^ar</em>".
-			newRange.setStartAt( this.editor.editable().findOne( 'em' ).getFirst(), 1 );
+			newRange.setStart( this.editor.editable().findOne( 'em' ).getFirst(), 1 );
 			newRange.collapse( true );
 
 			this.editor.getSelection().selectRanges( [ newRange ] );
 
-			this._assertToolbarVisible( true, context );
+			contextTools._assertToolbarVisible( true, context );
 
 			context.destroy();
 		},
@@ -62,11 +64,11 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^bar</strong></p>' );
 
-			this._assertToolbarVisible( true, context );
+			contextTools._assertToolbarVisible( true, context );
 
 			this.editor.once( 'blur', function() {
 				resume( function() {
-					this._assertToolbarVisible( false, context, 'Toolbar visibility after blurring the editor' );
+					contextTools._assertToolbarVisible( false, context, 'Toolbar visibility after blurring the editor' );
 				} );
 			}, this, null, 99999 );
 
@@ -84,7 +86,7 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^bar</strong></p>' );
 
-			this._assertToolbarVisible( true, context );
+			contextTools._assertToolbarVisible( true, context );
 
 			arrayAssert.itemsAreSame( [ 'Bold' ], Object.keys( context.toolbar._items ) );
 		},
@@ -99,14 +101,14 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><strong>foo^bar</strong></p>' );
 
-			this._assertToolbarVisible( true, context );
+			contextTools._assertToolbarVisible( true, context );
 
 			this.editor.setMode( 'source', function() {
 				resume( function() {
 					var storedException;
 
 					try {
-						this._assertToolbarVisible( false, context, 'Toolbar visibility after switching to source area' );
+						contextTools._assertToolbarVisible( false, context, 'Toolbar visibility after switching to source area' );
 					} catch ( e ) {
 						// Propagate the exception. We can't just rethrow here... as  it's YUI and wait in finally block will... also
 						// throw an exception, which will make our tests silently to pass :D
@@ -151,7 +153,7 @@
 
 			this.editor.inlineToolbar._manager.check();
 
-			this._assertToolbarVisible( true, cssContext );
+			contextTools._assertToolbarVisible( true, cssContext );
 
 			// Note can't be checked simply against this.editor.editable().findOne( '...' ) as it will be two different objects.
 			sinon.assert.alwaysCalledWithMatch( showSpy, function( el ) {
@@ -178,19 +180,12 @@
 
 			this.editor.inlineToolbar._manager.check();
 
-			this._assertToolbarVisible( true, refreshContext );
+			contextTools._assertToolbarVisible( true, refreshContext );
 
 			// Note can't be checked simply against this.editor.editable().findOne( '...' ) as it will be two different objects.
 			sinon.assert.alwaysCalledWithMatch( showSpy, function( el ) {
 				return el.getName() === 'strong';
 			} );
-		},
-
-		/*
-		 * @param {Boolean} expected What's the expected visibility? If `true` toolbar must be visible.
-		 */
-		_assertToolbarVisible: function( expected, context, msg ) {
-			assert.areSame( expected, context.toolbar._view.parts.panel.isVisible(), msg || 'Toolbar visibility' );
 		}
 	} );
 } )();
