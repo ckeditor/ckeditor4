@@ -114,11 +114,6 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			elements: [
 				{
 					type: 'html',
-					id: 'securityMsg',
-					html: '<div style="white-space:normal;width:340px">' + lang.securityMsg + '</div>'
-				},
-				{
-					type: 'html',
 					id: 'pasteMsg',
 					html: '<div style="white-space:normal;width:340px">' + lang.pasteMsg + '</div>'
 				},
