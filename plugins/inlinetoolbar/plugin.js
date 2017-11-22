@@ -41,7 +41,7 @@
 	 *
 	 * The easiest way to create an inline toolbar is by using {@link CKEDITOR.editor.inlineToolbar#create} function.
 	 *
-	 * However it's possible to maintain it by manually, like below:
+	 * However it's possible to maintain it manually, like below:
 	 *
 	 *		// Following example will show an inline toolbar on any selection change. The toolbar is anchored to the
 	 *		// last element in selection, assuming that editor variable is an instance of CKEDITOR.editor.
@@ -218,7 +218,7 @@
 
 	Context.prototype = {
 		/**
-		 * Destroy inline toolbar context
+		 * Destroys the toolbar maintained by this context.
 		 */
 		destroy: function() {
 			if ( this.toolbar ) {
@@ -227,6 +227,8 @@
 		},
 
 		/**
+		 * Shows the toolbar controlled by this context.
+		 *
 		 * @param {CKEDITOR.dom.element} [pointedElement] Element that should be pointed by the inline toolbar.
 		 */
 		show: function( pointedElement ) {
@@ -237,6 +239,9 @@
 			this.toolbar.show();
 		},
 
+		/**
+		 * Hides the toolbar controlled by this context.
+		 */
 		hide: function() {
 			this.toolbar.hide();
 		},
@@ -325,8 +330,8 @@
 	/**
 	 * Class for managers that take care of handling multiple contexts.
 	 *
-	 * Manager also make sure that only one is active (per manager) at a time and implement the logic used to determine
-	 * the best fitting context for a given selection.
+	 * Manager also make sure that only one toolbar is active (per manager) at a time and implement the logic used to
+	 * determine the best fitting context for a given selection.
 	 *
 	 * Context manager also implements logic for matching the best context. Default priorities are as follows:
 	 *
