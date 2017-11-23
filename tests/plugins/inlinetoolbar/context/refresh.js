@@ -57,6 +57,28 @@
 			} );
 		},
 
+		'test refresh subsequent negative matches will not override focus element': function() {
+			this.editorBot.setHtmlWithSelection( '<p>foo<strong>ba^r</strong>baz<em>em</em></p>' );
+
+			// Add a context that has a higher priority.
+			this._getContextStub( sinon.stub().returns( false ), false, CKEDITOR.plugins.inlinetoolbar.PRIORITY.HIGH );
+
+			var emElem = this.editor.editable().findOne( 'em' ),
+				context = this._getContextStub( sinon.stub().returns( emElem ) ),
+				managerShowSpy = sinon.spy( context, 'show' );
+
+			// Add a third context that has a higher priority, so that matching context is surrounded with unmatched contexts.
+			this._getContextStub( sinon.stub().returns( false ), false, CKEDITOR.plugins.inlinetoolbar.PRIORITY.HIGH );
+
+			this.editor.inlineToolbar._manager.check();
+
+			contextTools._assertToolbarVisible( true, context );
+
+			sinon.assert.calledWithMatch( managerShowSpy, function( actual ) {
+				return actual.equals( emElem );
+			} );
+		},
+
 		'test _matchRefresh return type': function() {
 			var contextFalse = this._getContextStub( sinon.stub().returns( false ) ),
 				contextTrue = this._getContextStub( sinon.stub().returns( true ) ),
@@ -71,13 +93,14 @@
 		 * Returns a Context instance with toolbar show/hide methods stubbed.
 		 *
 		 * @param {Function} refreshCallback Function to be used as `options.refresh`.
-		 * @param {Boolean} [autoRefresh=false] Whether function should automatically force context
-		 * manager, to recheck all the contexts.
+		 * @param {Boolean} [autoRefresh=false] Whether function should automatically force context manager, to recheck all the contexts.
+		 * @param {Number} [priority] Context priority based on {@link CKEDITOR.plugins.inlinetoolbar#PRIORITY}.
 		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
 		 */
-		_getContextStub: function( refreshCallback, autoRefresh ) {
+		_getContextStub: function( refreshCallback, autoRefresh, priority ) {
 			var ret = this.editor.inlineToolbar.create( {
-				refresh: refreshCallback
+				refresh: refreshCallback,
+				priority: priority
 			} );
 
 			if ( autoRefresh ) {
