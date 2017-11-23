@@ -781,6 +781,7 @@
 	 * An example below will show the toolbar only for paths containing `<strong>` elements.
 	 *
 	 *		// Assuming that editor is an CKEDITOR.editor instance.
+	 *		// Show the toolbar only if there's a strong in the path.
 	 *		editor.inlinetoolbar.create( {
 	 *			buttons: 'Bold,Underline',
 	 *			refresh: function( editor, path ) {
@@ -788,12 +789,22 @@
 	 *			}
 	 *		} );
 	 *
+	 *		// In this case toolbar will be always visible, pointing at the editable, despite the selection.
+	 *		editor.inlinetoolbar.create( {
+	 *			buttons: 'Bold,Underline',
+	 *			refresh: function( editor, path ) {
+	 *				return editor.editable();
+	 *			}
+	 *		} );
+	 *
 	 * @method refresh
 	 * @param {CKEDITOR.editor} editor An editor that controls this context.
 	 * @param {CKEDITOR.dom.elementPath} path Path for a currently probed selection.
 	 * @param {CKEDITOR.dom.selection} selection Selection object used for probing.
-	 * @returns {Boolean/CKEDITOR.dom.element} Function is expected to return `Boolean` value. Returning `true` means that the inline toolbar should be shown.
-	 * It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
+	 * @returns {Boolean/CKEDITOR.dom.element} Returning `true` means that the inline toolbar should be shown, pointing
+	 * at the last element in the selection. `false` means no toolbar should be shown.
+	 * It may also return a {@link CKEDITOR.dom.element} instance, in that case toolbar will be shown and point at given
+	 * element.
 	 */
 
 	/**
