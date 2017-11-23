@@ -4,8 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'el', {
 	copy: 'Πνευματικά δικαιώματα &copy; $1 Με επιφύλαξη παντός δικαιώματος.',
+	dlgTitle: 'About CKEditor 4', // MISSING
 	help: 'Ελέγξτε τις $1 για βοήθεια.',
 	moreInfo: 'Για πληροφορίες σχετικές με την άδεια χρήσης, παρακαλούμε επισκεφθείτε την ιστοσελίδα μας:',
-	userGuide: 'Οδηγίες Χρήστη CKEditor',
-	dialogTitle: 'About CKEditor 4' // MISSING
+	userGuide: 'Οδηγίες Χρήστη CKEditor'
 } );

@@ -4,8 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'sl', {
 	copy: 'Copyright &copy; $1. Vse pravice pridržane.',
+	dlgTitle: 'About CKEditor 4', // MISSING
 	help: 'Oglejte si $1 za pomoč.',
 	moreInfo: 'Za informacije o licenciranju prosimo obiščite našo spletno stran:',
-	userGuide: 'Uporabniški vodnik CKEditor',
-	dialogTitle: 'About CKEditor 4' // MISSING
+	userGuide: 'Uporabniški vodnik CKEditor'
 } );

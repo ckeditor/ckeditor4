@@ -4,8 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'vi', {
 	copy: 'Bản quyền &copy; $1. Giữ toàn quyền.',
+	dlgTitle: 'About CKEditor 4', // MISSING
 	help: 'Kiểm tra $1 để được giúp đỡ.',
 	moreInfo: 'Vui lòng ghé thăm trang web của chúng tôi để có thông tin về giấy phép:',
-	userGuide: 'Hướng dẫn sử dụng CKEditor',
-	dialogTitle: 'About CKEditor 4' // MISSING
+	userGuide: 'Hướng dẫn sử dụng CKEditor'
 } );
