@@ -266,12 +266,12 @@
 		 * Checks if any of `options.widgets` widgets is currently focused.
 		 *
 		 * @private
-		 * @returns {Boolean/CKEDITOR.dom.element} Returns {@link CKEDITOR.dom.element} instance that toolbar should
+		 * @returns {CKEDITOR.dom.element/null} Returns {@link CKEDITOR.dom.element} instance that toolbar should
 		 * point to, if any matched widget is focused. `false` otherwise, meaning no tracked widget was matched.
 		 */
 		_matchWidget: function() {
 			if ( !this.options.widgets ) {
-				return;
+				return null;
 			}
 
 			var widgetNames = this.options.widgets,
@@ -284,7 +284,7 @@
 			if ( CKEDITOR.tools.array.indexOf( widgetNames, curWidgetName ) !== -1 ) {
 				return this.editor.widgets.focused.element;
 			} else {
-				return false;
+				return null;
 			}
 		},
 
@@ -293,16 +293,16 @@
 		 *
 		 * @private
 		 * @param {CKEDITOR.dom.element} elem Element to be tested.
-		 * @returns {Boolean/CKEDITOR.dom.element} `true` if a given element matches the selector.
-		 * It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
+		 * @returns {CKEDITOR.dom.element/null} {@link CKEDITOR.dom.element} instance if an element was matched,
+		 * `null` otherwise.
 		 */
 		_matchElement: function( elem ) {
 			if ( !this.options.cssSelector ) {
-				return;
+				return null;
 			}
 
 			// Note that IE8 doesn't have matching function at all.
-			return matchingFunctionName && !!elem.$[ matchingFunctionName ]( this.options.cssSelector ) ? elem : false;
+			return matchingFunctionName && !!elem.$[ matchingFunctionName ]( this.options.cssSelector ) ? elem : null;
 		},
 
 		/**
