@@ -422,14 +422,8 @@
 					if ( !contextMatched || contextMatched.options.priority > curContext.options.priority ) {
 						var result = matchingFunction( curContext, matchingArg1 );
 
-						if ( !!result ) {
-							if ( result instanceof CKEDITOR.dom.element ) {
-								highlightElement = result;
-							} else {
-								// Reset what could have been previously set highlight element, as it's no longer relevant.
-								highlightElement = null;
-							}
-
+						if ( result instanceof CKEDITOR.dom.element ) {
+							highlightElement = result;
 							contextMatched = curContext;
 						}
 					}
