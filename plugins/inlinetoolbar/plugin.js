@@ -458,10 +458,6 @@
 			this.hide();
 
 			if ( contextMatched ) {
-				if ( !highlightElement ) {
-					highlightElement = ( path && path.lastElement ) || this.editor.editable();
-				}
-
 				contextMatched.show( highlightElement );
 			}
 		},
