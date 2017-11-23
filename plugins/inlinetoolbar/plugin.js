@@ -693,6 +693,10 @@
 				}
 
 				this.parts.content.setHtml( output.join( '' ) );
+				this.parts.content.unselectable();
+				CKEDITOR.tools.array.forEach( this.parts.content.find( 'a' ).toArray(), function( element ) {
+					element.setAttribute( 'draggable', 'false' );
+				} );
 			};
 
 			/**
