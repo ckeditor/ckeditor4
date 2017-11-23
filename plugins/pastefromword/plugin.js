@@ -16,7 +16,8 @@
 		init: function( editor ) {
 			// Flag indicate this command is actually been asked instead of a generic pasting.
 			var forceFromWord = 0,
-				path = this.path;
+				path = this.path,
+				configInlineImages = editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages;
 
 			editor.addCommand( 'pastefromword', {
 				// Snapshots are done manually by editable.insertXXX methods.
@@ -111,8 +112,8 @@
 			}, null, null, 3 );
 
 			// Paste From Word Image:
-			// RTF clipboard is required for embeding images working
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			// RTF clipboard is required for embeding images.
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages ) {
 				editor.filter.allow( 'img[src]' );
 				editor.on( 'afterPasteFromWord', pasteFromWordImageListener );
 			}
@@ -275,6 +276,16 @@
  *
  * @since 3.1
  * @cfg {String} [pasteFromWordCleanupFile=<plugin path> + 'filter/default.js']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Flag decides wheather emebeding images pasted with Word content is enabled or not.
+ *
+ * **Note:** Please be aware that emebeding images requires apropriate clipboard access in users' browser.
+ *
+ * @since 4.8.0
+ * @cfg {Boolean} [pasteFromWord_inlineImages=true]
  * @member CKEDITOR.config
  */
 
