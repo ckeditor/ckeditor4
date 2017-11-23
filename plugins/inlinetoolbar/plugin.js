@@ -276,22 +276,22 @@
 		 * point to, if any matched widget is focused. `false` otherwise, meaning no tracked widget was matched.
 		 */
 		_matchWidget: function() {
-			if ( !this.options.widgets ) {
-				return null;
-			}
-
 			var widgetNames = this.options.widgets,
-				curWidgetName = this.editor.widgets && this.editor.widgets.focused && this.editor.widgets.focused.name;
+				ret = null;
 
-			if ( typeof widgetNames === 'string' ) {
-				widgetNames = widgetNames.split( ',' );
+			if ( widgetNames ) {
+				var curWidgetName = this.editor.widgets && this.editor.widgets.focused && this.editor.widgets.focused.name;
+
+				if ( typeof widgetNames === 'string' ) {
+					widgetNames = widgetNames.split( ',' );
+				}
+
+				if ( CKEDITOR.tools.array.indexOf( widgetNames, curWidgetName ) !== -1 ) {
+					ret = this.editor.widgets.focused.element;
+				}
 			}
 
-			if ( CKEDITOR.tools.array.indexOf( widgetNames, curWidgetName ) !== -1 ) {
-				return this.editor.widgets.focused.element;
-			} else {
-				return null;
-			}
+			return ret;
 		},
 
 		/**
@@ -548,7 +548,7 @@
 			 * The main purpose is to {@link #create create} new toolbar contexts.
 			 *
 			 * @class CKEDITOR.editor.inlineToolbar
-	 		 * @singleton
+			 * @singleton
 			 */
 			editor.inlineToolbar = {
 				/**
