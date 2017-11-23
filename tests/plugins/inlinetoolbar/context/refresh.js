@@ -63,8 +63,8 @@
 				contextElem = this._getContextStub( sinon.stub().returns( new CKEDITOR.dom.element( 'p' ) ) );
 
 			assert.isNull( contextFalse._matchRefresh( null, null ) );
-			assert.isTrue( contextTrue._matchRefresh( null, null ) instanceof CKEDITOR.dom.element );
-			assert.isTrue( contextElem._matchRefresh( null, null ) instanceof CKEDITOR.dom.element );
+			assert.isInstanceOf( CKEDITOR.dom.element, contextTrue._matchRefresh( null, null ), 'contextTrue return type' );
+			assert.isInstanceOf( CKEDITOR.dom.element, contextElem._matchRefresh( null, null ), 'contextTrue return type' );
 		},
 
 		/*
