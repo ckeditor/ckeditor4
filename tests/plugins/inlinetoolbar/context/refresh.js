@@ -57,6 +57,16 @@
 			} );
 		},
 
+		'test _matchRefresh return type': function() {
+			var contextFalse = this._getContextStub( sinon.stub().returns( false ) ),
+				contextTrue = this._getContextStub( sinon.stub().returns( true ) ),
+				contextElem = this._getContextStub( sinon.stub().returns( new CKEDITOR.dom.element( 'p' ) ) );
+
+			assert.isNull( contextFalse._matchRefresh( null, null ) );
+			assert.isTrue( contextTrue._matchRefresh( null, null ) instanceof CKEDITOR.dom.element );
+			assert.isTrue( contextElem._matchRefresh( null, null ) instanceof CKEDITOR.dom.element );
+		},
+
 		/*
 		 * Returns a Context instance with toolbar show/hide methods stubbed.
 		 *
