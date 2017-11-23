@@ -172,12 +172,6 @@
 		}
 	}
 
-	/**
-	 * Help methods used by paste from word plugin.
-	 *
-	 * @since 4.8.0
-	 * @class CKEDITOR.plugins.pastefromwordimage
-	 */
 	CKEDITOR.plugins.pastefromword = CKEDITOR.plugins.pastefromword || {};
 
 	// There is possible situation that filter will be loaded before plugin (e.g. heuristics and functions unit tests).
@@ -187,6 +181,7 @@
 		 *
 		 * @private
 		 * @since 4.8.0
+		 * @member CKEDITOR.plugins.pastefromword
 		 * @param {String} rtfContent RTF content to be checked for images.
 		 * @returns {Object[]} An array of images found in the `rtfContent`.
 		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
@@ -226,13 +221,13 @@
 
 		/**
 		 * Method extracts array of src attributes in img tags from given HTML. Img tags belong to VML shapes are removed.
-		 * Method base on `data-cke-is-shape="true"` attribute, which is add to shapes by Paste From Word plugin.
 		 *
-		 *		CKEDITOR.plugins.pastefromwordimage.extractImgTagsFromHtmlString( html );
-		 * 		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
+		 *		CKEDITOR.plugins.pastefromword.extractImgTagsFromHtmlString( html );
+		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
 		 *
 		 * @private
 		 * @since 4.8.0
+		 * @member CKEDITOR.plugins.pastefromword
 		 * @param {String} html String represent HTML code.
 		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
 		 */
