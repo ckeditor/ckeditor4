@@ -6,6 +6,29 @@
 'use strict';
 
 ( function() {
+	var counter = 0,
+		// Black rectangle which is shown before image is loaded.
+		loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
+
+	// Returns number as a string. If a number has 1 digit only it returns it prefixed with an extra 0.
+	function padDate( input ) {
+		if ( input <= 9 ) {
+			input = '0' + input;
+		}
+
+		return String( input );
+	}
+
+	// Returns an unique image file name.
+	function getUniqueImageFileName( type ) {
+		var date = new Date(),
+			dateParts = [ date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds() ];
+
+		counter += 1;
+
+		return 'image-' + CKEDITOR.tools.array.map( dateParts, padDate ).join( '' ) + '-' + counter + '.' + type;
+	}
+
 	CKEDITOR.plugins.add( 'uploadimage', {
 		requires: 'uploadwidget',
 
@@ -89,13 +112,22 @@
 				for ( i = 0; i < imgs.count(); i++ ) {
 					img = imgs.getItem( i );
 
-					// Image have to contain src=data:...
-					var isDataInSrc = img.getAttribute( 'src' ) && img.getAttribute( 'src' ).substring( 0, 5 ) == 'data:',
+					// Assign src once, as it might be a big string, so there's no point in duplicating it all over the place.
+					var imgSrc = img.getAttribute( 'src' ),
+						// Image have to contain src=data:...
+						isDataInSrc = imgSrc && imgSrc.substring( 0, 5 ) == 'data:',
 						isRealObject = img.data( 'cke-realelement' ) === null;
 
 					// We are not uploading images in non-editable blocs and fake objects (https://dev.ckeditor.com/ticket/13003).
 					if ( isDataInSrc && isRealObject && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
-						var loader = editor.uploadRepository.create( img.getAttribute( 'src' ) );
+						// Note normally we'd extract this logic into a separate function, but we should not duplicate this string, as it might
+						// be large.
+						var imgFormat = imgSrc.match( /image\/([a-z]+?);/i ),
+							loader;
+
+						imgFormat = ( imgFormat && imgFormat[ 1 ] ) || 'jpg';
+
+						loader = editor.uploadRepository.create( imgSrc, getUniqueImageFileName( imgFormat ) );
 						loader.upload( uploadUrl );
 
 						fileTools.markElement( img, 'uploadimage', loader.id );
@@ -108,11 +140,6 @@
 			} );
 		}
 	} );
-
-	// jscs:disable maximumLineLength
-	// Black rectangle which is shown before image is loaded.
-	var loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
-	// jscs:enable maximumLineLength
 
 	/**
 	 * The URL where images should be uploaded.
