@@ -113,8 +113,8 @@
 
 			// Paste From Word Image:
 			// RTF clipboard is required for embeding images.
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages ) {
-				editor.filter.allow( 'img[src]' );
+			// If img tags are not allowed there is no point to process images.
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages && editor.filter.check( 'img[src]' ) ) {
 				editor.on( 'afterPasteFromWord', pasteFromWordImageListener );
 			}
 		}
