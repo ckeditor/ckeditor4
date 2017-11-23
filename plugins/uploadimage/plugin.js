@@ -6,12 +6,12 @@
 'use strict';
 
 ( function() {
-	var counter = 0,
+	var uniqueNameCounter = 0,
 		// Black rectangle which is shown before image is loaded.
 		loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
 
 	// Returns number as a string. If a number has 1 digit only it returns it prefixed with an extra 0.
-	function padDate( input ) {
+	function padNumber( input ) {
 		if ( input <= 9 ) {
 			input = '0' + input;
 		}
@@ -24,9 +24,9 @@
 		var date = new Date(),
 			dateParts = [ date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds() ];
 
-		counter += 1;
+		uniqueNameCounter += 1;
 
-		return 'image-' + CKEDITOR.tools.array.map( dateParts, padDate ).join( '' ) + '-' + counter + '.' + type;
+		return 'image-' + CKEDITOR.tools.array.map( dateParts, padNumber ).join( '' ) + '-' + uniqueNameCounter + '.' + type;
 	}
 
 	CKEDITOR.plugins.add( 'uploadimage', {
