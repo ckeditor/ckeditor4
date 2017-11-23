@@ -178,7 +178,10 @@
 	 * @since 4.8.0
 	 * @class CKEDITOR.plugins.pastefromwordimage
 	 */
-	CKEDITOR.plugins.pastefromword = {
+	CKEDITOR.plugins.pastefromword = CKEDITOR.plugins.pastefromword || {};
+
+	// There is possible situation that filter will be loaded before plugin (e.g. heuristics and functions unit tests).
+	CKEDITOR.tools.extend( CKEDITOR.plugins.pastefromword, {
 		/**
 		 * Method parses RTF content to find embedded images. Please be aware that method should only return `png` and `jpeg` images.
 		 *
@@ -245,7 +248,7 @@
 			return ret;
 		}
 
-	};
+	} );
 
 } )();
 
