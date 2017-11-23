@@ -3,6 +3,4 @@
 
 copy = CKEditor copyright note.
 dlgTitle = Label for the About CKEditor dialog window.
-help = Information about where to find CKEditor documentation.
 moreInfo = Caption for licensing information.
-userGuide = CKEditor User's Guide title.

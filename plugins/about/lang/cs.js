@@ -5,7 +5,5 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'about', 'cs', {
 	copy: 'Copyright &copy; $1. All rights reserved.',
 	dlgTitle: 'About CKEditor 4', // MISSING
-	help: 'Prohlédněte si $1 pro nápovědu.',
-	moreInfo: 'Pro informace o lincenci navštivte naši webovou stránku:',
-	userGuide: 'Uživatelská příručka CKEditor'
+	moreInfo: 'Pro informace o lincenci navštivte naši webovou stránku:'
 } );

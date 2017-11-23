@@ -5,7 +5,5 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'about', 'cy', {
 	copy: 'Hawlfraint &copy; $1. Cedwir pob hawl.',
 	dlgTitle: 'About CKEditor 4', // MISSING
-	help: 'Gwirio $1 am gymorth.',
-	moreInfo: 'Am wybodaeth ynghylch trwyddedau, ewch i\'n gwefan:',
-	userGuide: 'Canllawiau Defnyddiwr CKEditor'
+	moreInfo: 'Am wybodaeth ynghylch trwyddedau, ewch i\'n gwefan:'
 } );

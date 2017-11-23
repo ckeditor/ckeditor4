@@ -5,7 +5,5 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 CKEDITOR.plugins.setLang( 'about', 'hu', {
 	copy: 'Copyright &copy; $1. Minden jog fenntartva.',
 	dlgTitle: 'About CKEditor 4', // MISSING
-	help: 'Itt találsz segítséget: $1',
-	moreInfo: 'Licenszelési információkért kérjük látogassa meg weboldalunkat:',
-	userGuide: 'CKEditor Felhasználói útmutató'
+	moreInfo: 'Licenszelési információkért kérjük látogassa meg weboldalunkat:'
 } );
