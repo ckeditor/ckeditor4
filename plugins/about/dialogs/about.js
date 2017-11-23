@@ -8,7 +8,7 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 		imagePath = CKEDITOR.getUrl( CKEDITOR.plugins.get( 'about' ).path + 'dialogs/' + ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) + 'logo_ckeditor.png' );
 
 	return {
-		title: lang.dialogTitle,
+		title: lang.dlgTitle,
 		minWidth: 390,
 		minHeight: 230,
 		contents: [ {
@@ -47,7 +47,8 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 							'color:#00B2CE !important;' +
 							'text-decoration:underline !important;' +
 						'}' +
-						'.cke_about_container > p' +
+						'.cke_about_container > p,' +
+						'.cke_rtl .cke_about_container > p' +
 						'{' +
 							'text-align:center;' +
 						'}' +
