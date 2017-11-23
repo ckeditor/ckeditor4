@@ -4,9 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'ro', {
 	copy: 'Copyright &copy; $1. Toate drepturile rezervate.',
-	dlgTitle: 'Despre CKEeditor',
+	dlgTitle: 'About CKEditor 4', // MISSING
 	help: 'Citește  $1 pentru ajutor.',
 	moreInfo: 'Pentru informații despre licență, vă rugăm vizitați web site-ul nostru:',
-	title: 'Despre CKEditor',
 	userGuide: 'CKEditor Ghid Utilizator'
 } );

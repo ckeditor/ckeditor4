@@ -4,9 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'az', {
 	copy: 'Copyright &copy; $1. Bütün hüquqlar qorunur.',
-	dlgTitle: 'CKEditor haqqında',
+	dlgTitle: 'About CKEditor 4', // MISSING
 	help: 'Kömək üçün  $1 seçin',
 	moreInfo: 'Lisenziya informasiyası üçün zəhmət olmasa saytımızı ziyarət edin:',
-	title: 'CKEditor haqqında',
 	userGuide: 'CKEditor İstifadəçilər üçün kitabça'
 } );

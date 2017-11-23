@@ -8,7 +8,7 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 		imagePath = CKEDITOR.getUrl( CKEDITOR.plugins.get( 'about' ).path + 'dialogs/' + ( CKEDITOR.env.hidpi ? 'hidpi/' : '' ) + 'logo_ckeditor.png' );
 
 	return {
-		title: CKEDITOR.env.ie ? lang.dlgTitle : lang.title,
+		title: lang.dlgTitle,
 		minWidth: 390,
 		minHeight: 230,
 		contents: [ {
@@ -36,7 +36,7 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 							'height:81px;' +
 							'background-color:#fff;' +
 							'background-image:url(' + imagePath + ');' +
-							( CKEDITOR.env.hidpi ? 'background-size:163px 58px;' : '' ) +
+							( CKEDITOR.env.hidpi ? 'background-size:194px 58px;' : '' ) +
 							'background-position:center; ' +
 							'background-repeat:no-repeat;' +
 							'margin-bottom:10px;' +
@@ -46,6 +46,11 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 							'cursor:pointer !important;' +
 							'color:#00B2CE !important;' +
 							'text-decoration:underline !important;' +
+						'}' +
+						'.cke_about_container > p,' +
+						'.cke_rtl .cke_about_container > p' +
+						'{' +
+							'text-align:center;' +
 						'}' +
 						'</style>' +
 						'<div class="cke_about_container">' +

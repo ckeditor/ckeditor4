@@ -4,9 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'af', {
 	copy: 'Kopiereg &copy; $1. Alle regte voorbehou.',
-	dlgTitle: 'Meer oor CKEditor',
+	dlgTitle: 'About CKEditor 4', // MISSING
 	help: 'Slaan $1 na vir hulp.',
 	moreInfo: 'Vir lisensie-informasie, besoek asb. ons webwerf:',
-	title: 'Meer oor CKEditor',
 	userGuide: 'CKEditor Gebruikers gits'
 } );

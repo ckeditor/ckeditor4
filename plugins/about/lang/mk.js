@@ -4,9 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'mk', {
 	copy: 'Авторски права &copy; $1. Сите права се задржани.',
-	dlgTitle: 'За CKEditor',
+	dlgTitle: 'About CKEditor 4', // MISSING
 	help: 'Отворете $1 за помош.',
 	moreInfo: 'За информации околу лиценцата, ве молиме посетете го нашиот веб-сајт: ',
-	title: 'За CKEditor',
 	userGuide: 'CKEditor упатство за корисници'
 } );

@@ -4,9 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'about', 'ku', {
 	copy: 'مافی لەبەرگەرتنەوەی &copy; $1. گشتی پارێزراوه. ورگێڕانی بۆ کوردی لەلایەن هۆژە کۆیی.',
-	dlgTitle: 'دەربارەی CKEditor',
+	dlgTitle: 'About CKEditor 4', // MISSING
 	help: 'سەیری $1 بکه بۆ یارمەتی.',
 	moreInfo: 'بۆ زانیاری زیاتر دەربارەی مۆڵەتی بەکارهێنان، تکایه سەردانی ماڵپەڕەکەمان بکه:',
-	title: 'دەربارەی CKEditor',
 	userGuide: 'ڕێپیشاندەری CKEditors'
 } );
