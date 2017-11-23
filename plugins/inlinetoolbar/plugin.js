@@ -258,7 +258,7 @@
 			var ret = null;
 
 			if ( this.options.refresh ) {
-				ret = this.options.refresh( this.editor, path, selection );
+				ret = this.options.refresh( this.editor, path, selection ) || null;
 
 				if ( ret && ret instanceof CKEDITOR.dom.element === false ) {
 					ret = ( path && path.lastElement ) || this.editor.editable();
