@@ -10,7 +10,7 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 	return {
 		title: lang.dlgTitle,
 		minWidth: 390,
-		minHeight: 230,
+		minHeight: 210,
 		contents: [ {
 			id: 'tab1',
 			label: '',
@@ -58,9 +58,6 @@ CKEDITOR.dialog.add( 'about', function( editor ) {
 						'<p>' +
 							'CKEditor ' + CKEDITOR.version + ' (revision ' + CKEDITOR.revision + ')<br>' +
 							'<a target="_blank" rel="noopener noreferrer" href="https://ckeditor.com/">https://ckeditor.com</a>' +
-						'</p>' +
-						'<p>' +
-							lang.help.replace( '$1', '<a target="_blank" rel="noopener noreferrer" href="https://docs.ckeditor.com/ckeditor4/docs/">' + lang.userGuide + '</a>' ) +
 						'</p>' +
 						'<p>' +
 							lang.moreInfo + '<br>' +
