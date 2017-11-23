@@ -297,12 +297,9 @@
 		 * `null` otherwise.
 		 */
 		_matchElement: function( elem ) {
-			if ( !this.options.cssSelector ) {
-				return null;
-			}
-
 			// Note that IE8 doesn't have matching function at all.
-			return matchingFunctionName && !!elem.$[ matchingFunctionName ]( this.options.cssSelector ) ? elem : null;
+			return this.options.cssSelector && matchingFunctionName && !!elem.$[ matchingFunctionName ]( this.options.cssSelector ) ?
+				elem : null;
 		},
 
 		/**
