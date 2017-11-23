@@ -68,8 +68,6 @@
 
 				this.responseData = {};
 			};
-
-			// sinon.spy( CKEDITOR.fileTools.fileLoader.prototype, 'upload' );
 		},
 
 		setUp: function() {
@@ -548,6 +546,7 @@
 
 			editor.once( 'afterPaste', function() {
 				resume( function() {
+					createspy.restore();
 					assert.isTrue( createspy.notCalled );
 				} );
 			} );
@@ -567,6 +566,7 @@
 
 			editor.once( 'afterPaste', function() {
 				resume( function() {
+					createSpy.restore();
 					assert.areSame( 3, createSpy.callCount, 'create call count' );
 
 					assert.isMatching( /image-\d+-\d+\.gif/, createSpy.args[ 0 ][ 1 ], 'file name passed to first call' );
