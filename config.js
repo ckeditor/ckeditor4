@@ -47,7 +47,6 @@ CKEDITOR.editorConfig = function( config ) {
 		'newpage,' +
 		'pagebreak,' +
 		'pastefromword,' +
-		'pastefromwordimage,' +
 		'pastetext,' +
 		'preview,' +
 		'print,' +
