@@ -7,7 +7,9 @@
 	'use strict';
 
 	bender.editor = {
-		config: {}
+		config: {
+			extraAllowedContent: true
+		}
 	};
 
 	bender.test( {
@@ -37,6 +39,22 @@
 			var context = this._getContextStub( sinon.stub().returns( 0 ), true );
 
 			contextTools._assertToolbarVisible( false, context );
+		},
+
+		'test refresh returning custom element': function() {
+			this.editorBot.setHtmlWithSelection( '<p>foo<strong>ba^r</strong>baz<em>em</em></p>' );
+
+			var emElem = this.editor.editable().findOne( 'em' ),
+				context = this._getContextStub( sinon.stub().returns( emElem ) ),
+				showSpy = sinon.spy( context, 'show' );
+
+			this.editor.inlineToolbar._manager.check();
+
+			contextTools._assertToolbarVisible( true, context );
+
+			sinon.assert.calledWithMatch( showSpy, function( actual ) {
+				return actual.equals( emElem );
+			} );
 		},
 
 		/*

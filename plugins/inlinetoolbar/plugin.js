@@ -252,14 +252,20 @@
 		 * @private
 		 * @param {CKEDITOR.dom.elementPath} path Element path to be checked.
 		 * @param {CKEDITOR.dom.selection} selection Selection object to be passed to the `refresh` function.
-		 * @returns {Boolean/CKEDITOR.dom.element} Returns the result of a `options.refresh`. It is expected to be
-		 * `true` if current path matches the context.
-		 * It may also return {@link CKEDITOR.dom.element} instance, that the toolbar should point to.
+		 * @returns {CKEDITOR.dom.element/null} Returns a {@link CKEDITOR.dom.element} if matched by `options.refresh`, `null` otherwise.
 		 */
 		_matchRefresh: function( path, selection ) {
+			var ret = null;
+
 			if ( this.options.refresh ) {
-				return this.options.refresh( this.editor, path, selection );
+				ret = this.options.refresh( this.editor, path, selection );
+
+				if ( ret && ret instanceof CKEDITOR.dom.element === false ) {
+					ret = ( path && path.lastElement ) || this.editor.editable();
+				}
 			}
+
+			return ret;
 		},
 
 		/**
