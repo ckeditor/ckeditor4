@@ -68,6 +68,8 @@
 
 				this.responseData = {};
 			};
+
+			// sinon.spy( CKEDITOR.fileTools.fileLoader.prototype, 'upload' );
 		},
 
 		setUp: function() {
@@ -547,6 +549,30 @@
 			editor.once( 'afterPaste', function() {
 				resume( function() {
 					assert.isTrue( createspy.notCalled );
+				} );
+			} );
+
+			wait();
+		},
+
+		'test uploads generate unique names (#1213)': function() {
+			var editor = this.editors.inline,
+				createSpy = sinon.spy( editor.uploadRepository, 'create' );
+
+			editor.fire( 'paste', {
+				dataValue: '<img src="data:image/gif;base64,aw==" alt="gif" />' +
+					'<img src="data:image/gif;base64,aw==" alt="gif" />' +
+					'<img src="data:image/png;base64,aw==" alt="png" />'
+			} );
+
+			editor.once( 'afterPaste', function() {
+				resume( function() {
+					assert.areSame( 3, createSpy.callCount, 'create call count' );
+
+					assert.isMatching( /image-\d+-\d+\.gif/, createSpy.args[ 0 ][ 1 ], 'file name passed to first call' );
+					assert.isMatching( /image-\d+-\d+\.gif/, createSpy.args[ 1 ][ 1 ], 'file name passed to second call' );
+					assert.areNotSame( createSpy.args[ 0 ][ 1 ], createSpy.args[ 1 ][ 1 ], 'first and second call names are different' );
+					assert.isMatching( /image-\d+-\d+\.png/, createSpy.args[ 2 ][ 1 ], 'png type is recognized' );
 				} );
 			} );
 
