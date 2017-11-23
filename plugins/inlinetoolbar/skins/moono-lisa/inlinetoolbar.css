@@ -12,7 +12,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .cke_balloon.cke_inlinetoolbar .cke_balloon_content
 {
 	min-height: 10px;
-	padding: 3px 4px 3px 9px;
+	padding: 5px 0px 5px 5px;
 }
 
 /* side: [ bottom, top ] */

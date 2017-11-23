@@ -8,12 +8,13 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	border: 1px solid #D3D3D3;
 	background: #fff url(images/sprites.png) repeat-x 0 -500px;
 	background: linear-gradient(to bottom, #fff, #d3d3d3 20px);
+	padding: 0px;
 }
 
 .cke_balloon.cke_inlinetoolbar .cke_balloon_content
 {
 	min-height: 10px;
-	padding: 3px 3px 3px 9px;
+	padding: 6px 0px 6px 6px;
 }
 
 /* side: [ bottom, top ] */
