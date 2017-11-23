@@ -11,7 +11,7 @@
 		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' ),
 		isSelectingTable;
 
-	function _isWidget( element ) {
+	function isWidget( element ) {
 		return CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( element );
 	}
 
@@ -24,7 +24,7 @@
 			return false;
 		}
 		// It's not table selection when selected node is a widget (#1027).
-		if ( _isWidget( ranges[ 0 ].getEnclosedNode() ) ) {
+		if ( isWidget( ranges[ 0 ].getEnclosedNode() ) ) {
 			return false;
 		}
 		var node,
@@ -104,7 +104,7 @@
 		}
 
 		// When widget is selected, then definitely is not a table (#1027).
-		if ( _isWidget( fakeSelection.getSelectedElement() ) ) {
+		if ( isWidget( fakeSelection.getSelectedElement() ) ) {
 			return false;
 		}
 
