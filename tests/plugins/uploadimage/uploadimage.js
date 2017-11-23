@@ -538,7 +538,7 @@
 
 		'test prevent upload fake elements (https://dev.ckeditor.com/ticket/13003)': function() {
 			var editor = this.editors.inline,
-				createspy = sinon.spy( editor.uploadRepository, 'create' );
+				createSpy = sinon.spy( editor.uploadRepository, 'create' );
 
 			editor.fire( 'paste', {
 				dataValue: '<img src="data:image/gif;base64,aw==" alt="nothing" data-cke-realelement="some" />'
@@ -546,8 +546,8 @@
 
 			editor.once( 'afterPaste', function() {
 				resume( function() {
-					createspy.restore();
-					assert.isTrue( createspy.notCalled );
+					createSpy.restore();
+					assert.isTrue( createSpy.notCalled );
 				} );
 			} );
 
