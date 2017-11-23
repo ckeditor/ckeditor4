@@ -525,7 +525,7 @@
 			// Load fallback styles.
 			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
 
-			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/inlinetoolbar.css' );
+			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/inlinetoolbar.css' );
 		},
 
 		init: function( editor ) {
