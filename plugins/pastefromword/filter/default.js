@@ -38,7 +38,7 @@
 	 * @private
 	 * @member CKEDITOR.plugins
 	 */
-	CKEDITOR.plugins.pastefromword = {};
+	CKEDITOR.plugins.pastefromword = CKEDITOR.plugins.pastefromword || {};
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
