@@ -334,9 +334,7 @@
 	 * Class for managers that take care of handling multiple contexts.
 	 *
 	 * Manager also make sure that only one toolbar is active (per manager) at a time and implement the logic used to
-	 * determine the best fitting context for a given selection.
-	 *
-	 * Context manager also implements logic for matching the best context. Default priorities are as follows:
+	 * determine the best fitting context for a given selection. Default priorities are as follows:
 	 *
 	 * 1. Callback - `options.refresh`
 	 * 1. Widgets matching - `options.widgets`
