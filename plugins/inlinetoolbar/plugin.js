@@ -518,14 +518,18 @@
 		}
 	};
 
-	var pluginInit = false;
+	var pluginInit = false,
+		CSSLoaded = false;
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
-		onLoad: function() {
-			// Load fallback styles.
-			CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
 
-			CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/inlinetoolbar.css' );
+		beforeInit: function() {
+			if ( !CSSLoaded ) {
+				// Load fallback styles.
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/inlinetoolbar.css' );
+				CSSLoaded = true;
+			}
 		},
 
 		init: function( editor ) {
