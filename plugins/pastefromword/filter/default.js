@@ -83,7 +83,7 @@
 		},
 
 		/**
-		 * Method extracts array of src attributes in img tags from given HTML. Img tags belong to VML shapes are removed.
+		 * Method extracts array of src attributes in img tags from given HTML. Img tags belonging to VML shapes are removed.
 		 *
 		 *		CKEDITOR.plugins.pastefromword.extractImgTagsFromHtml( html );
 		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
