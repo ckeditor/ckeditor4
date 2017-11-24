@@ -16,7 +16,7 @@
 				CKEDITOR.ajax.load( './_fixtures/' + name + '.rtf?' + cacheBuster(), function( rtf ) {
 					CKEDITOR.ajax.load( './_fixtures/' + name + '.json?' + cacheBuster(), function( json ) {
 						resume( function() {
-							var actualResult = CKEDITOR.plugins.pastefromword.extractImagesFromRtf( rtf ),
+							var actualResult = CKEDITOR.plugins.pastefromword.images.extractFromRtf( rtf ),
 								expectedResult = JSON.parse( json );
 							assert.areSame( expectedResult.length, actualResult.length );
 							for ( var i = 0; i < actualResult.length; i++ ) {
@@ -57,7 +57,7 @@
 			for ( i = 0; i < sourceLength; i++ ) {
 				bender.tools.testInputOut( 'source' + i, function( input, output ) {
 					var expectedResult = JSON.parse( output ),
-						actualResult = CKEDITOR.plugins.pastefromword.extractImgTagsFromHtml( input ),
+						actualResult = CKEDITOR.plugins.pastefromword.images.extractTagsFromHtml( input ),
 						j;
 					assert.areSame( expectedResult.length, actualResult.length );
 					for ( j = 0; j < actualResult.length; j++ ) {
