@@ -2037,6 +2037,7 @@
 		 * @returns {Object[]} An array of images found in the `rtfContent`.
 		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
 		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'.
+		 * @member CKEDITOR.plugins.pastefromword.images
 		 */
 		extractFromRtf: function( rtfContent ) {
 			var ret = [],
@@ -2077,9 +2078,9 @@
 		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
 		 *
 		 * @private
-		 * @member CKEDITOR.plugins.pastefromword
 		 * @param {String} html String represent HTML code.
 		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
+		 * @member CKEDITOR.plugins.pastefromword.images
 		 */
 		extractTagsFromHtml: function( html ) {
 			var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
