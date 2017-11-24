@@ -490,6 +490,30 @@ bender.test( {
 		objectAssert.areEqual( {}, dataTransferFallback._getFallbackTypeData() );
 	},
 
+	'test getData with getNative with custom type': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock ),
+			html = '<s>html</s>';
+
+		dataTransfer.setData( 'cke/custom', 'cke-custom data' );
+		dataTransfer.setData( 'custom/tag', '<p>custom html tag</p>' );
+		dataTransfer.setData( 'text/html', html );
+
+		assert.areSame( 'cke-custom data', dataTransfer.getData( 'cke/custom', true ) );
+		assert.areSame( '<p>custom html tag</p>', dataTransfer.getData( 'custom/tag', true ) );
+
+		if ( CKEDITOR.env.ie && CKEDITOR.env.version >= 16 ) {
+			html = '<!--cke-data:' + encodeURIComponent( JSON.stringify( {
+				'cke/id': dataTransfer.id,
+				'cke/custom': 'cke-custom data',
+				'custom/tag': '<p>custom html tag</p>'
+			} ) ) + '-->' + html;
+		}
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+
+	},
+
 	assertDataTransferType: function( dataTransfer, type, value, customValue ) {
 		if ( CKEDITOR.env.ie && CKEDITOR.env.version >= 16 && customValue ) {
 			value = '<!--cke-data:' + encodeURIComponent( JSON.stringify( customValue ) ) + '-->' + value;
