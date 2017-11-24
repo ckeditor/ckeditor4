@@ -119,13 +119,14 @@
 			}
 
 			function imagePastingListener( evt ) {
-				var pfw = CKEDITOR.plugins.pastefromword,
+				var pfw = CKEDITOR.plugins.pastefromword && CKEDITOR.plugins.pastefromword.images,
 					imgTags,
 					hexImages,
 					newSrcValues = [],
 					i;
-				// If img tags are not allowed we simply skip adding images.
-				if ( !evt.editor.filter.check( 'img[src]' ) ) {
+
+				// If pfw images namespace is unavailable or img tags are not allowed we simply skip adding images.
+				if ( !pfw || !evt.editor.filter.check( 'img[src]' ) ) {
 					return;
 				}
 
@@ -133,12 +134,12 @@
 					return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
 				}
 
-				imgTags = pfw.extractImgTagsFromHtml( evt.data.dataValue );
+				imgTags = pfw.extractTagsFromHtml( evt.data.dataValue );
 				if ( imgTags.length === 0 ) {
 					return;
 				}
 
-				hexImages = pfw.extractImagesFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
+				hexImages = pfw.extractFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
 				if ( hexImages.length === 0 ) {
 					return;
 				}
