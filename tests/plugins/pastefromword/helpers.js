@@ -1,5 +1,6 @@
 /* bender-tags: editor,pastefromword */
 /* bender-ckeditor-plugins: pastefromword,ajax */
+/* bender-include: ../../../plugins/pastefromword/filter/default.js */
 
 ( function() {
 	'use strict';
