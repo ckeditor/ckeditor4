@@ -11,7 +11,7 @@
 	bender.test( {
 		'test loading css with path': function() {
 			assert.areSame( 'kama,/apps/ckeditor/skins/kama/', CKEDITOR.skinName, 'config skinName should be with path' );
-			sinon.assert.calledWith( spy, 'http://127.0.0.1:1030/apps/ckeditor/plugins/balloonpanel/skins/kama/balloonpanel.css' );
+			sinon.assert.calledWith( spy, document.location.origin + '/apps/ckeditor/plugins/balloonpanel/skins/kama/balloonpanel.css' );
 		}
 	} );
 } )();
