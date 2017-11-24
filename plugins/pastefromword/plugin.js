@@ -65,7 +65,7 @@
 						data.dataTransfer.getData( 'text/html', true ) : null,
 					// Required in paste from word image plugin (#662).
 					dataTransferRtf = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
-						data.dataTransfer.getData( 'text/rtf', true ) : null,
+						data.dataTransfer.getData( 'text/rtf' ) : null,
 					// Some commands fire paste event without setting dataTransfer property. In such case
 					// dataValue should be used.
 					mswordHtml = dataTransferHtml || data.dataValue,
@@ -114,7 +114,7 @@
 			// Paste From Word Image:
 			// RTF clipboard is required for embeding images.
 			// If img tags are not allowed there is no point to process images.
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages && editor.filter.check( 'img[src]' ) ) {
+			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages ) {
 				editor.on( 'afterPasteFromWord', pasteFromWordImageListener );
 			}
 		}
@@ -137,114 +137,8 @@
 	}
 
 	function pasteFromWordImageListener( evt ) {
-
-		var pfw = CKEDITOR.plugins.pastefromword,
-			imgTags,
-			hexImages,
-			newSrcValues = [],
-			i;
-
-		function createSrcWithBase64( img ) {
-			return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
-		}
-
-		imgTags = pfw.extractImgTagsFromHtml( evt.data.dataValue );
-		if ( imgTags.length === 0 ) {
-			return;
-		}
-
-		hexImages = pfw.extractImagesFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
-		if ( hexImages.length === 0 ) {
-			return;
-		}
-
-		CKEDITOR.tools.array.forEach( hexImages, function( img ) {
-			newSrcValues.push( createSrcWithBase64( img ) );
-		}, this );
-
-		// Assumption there is equal amount of Images in RTF and HTML source, so we can match them accordingly to existing order.
-		if ( imgTags.length === newSrcValues.length ) {
-			for ( i = 0; i < imgTags.length; i++ ) {
-				// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-				if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
-					evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
-				}
-			}
-		}
+		CKEDITOR.plugins.pastefromword._.pasteFromWordImageListener( evt );
 	}
-
-	CKEDITOR.plugins.pastefromword = CKEDITOR.plugins.pastefromword || {};
-
-	// There is possible situation that filter will be loaded before plugin (e.g. heuristics and functions unit tests).
-	CKEDITOR.tools.extend( CKEDITOR.plugins.pastefromword, {
-		/**
-		 * Method parses RTF content to find embedded images. Please be aware that method should only return `png` and `jpeg` images.
-		 *
-		 * @private
-		 * @since 4.8.0
-		 * @member CKEDITOR.plugins.pastefromword
-		 * @param {String} rtfContent RTF content to be checked for images.
-		 * @returns {Object[]} An array of images found in the `rtfContent`.
-		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
-		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'
-		 */
-		extractImagesFromRtf: function( rtfContent ) {
-			var ret = [],
-				rePictureHeader = /\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
-				rePicture = new RegExp( '(?:(' + rePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
-				wholeImages,
-				imageType;
-
-			wholeImages = rtfContent.match( rePicture );
-			if ( !wholeImages ) {
-				return ret;
-			}
-
-			for ( var i = 0; i < wholeImages.length; i++ ) {
-				if ( rePictureHeader.test( wholeImages[ i ] ) ) {
-					if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
-						imageType = 'image/png';
-					} else if ( wholeImages[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
-						imageType = 'image/jpeg';
-					} else {
-						continue;
-					}
-
-					ret.push( {
-						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
-						type: imageType
-					} );
-				}
-			}
-
-			return ret;
-		},
-
-		/**
-		 * Method extracts array of src attributes in img tags from given HTML. Img tags belong to VML shapes are removed.
-		 *
-		 *		CKEDITOR.plugins.pastefromword.extractImgTagsFromHtmlString( html );
-		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
-		 *
-		 * @private
-		 * @since 4.8.0
-		 * @member CKEDITOR.plugins.pastefromword
-		 * @param {String} html String represent HTML code.
-		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
-		 */
-		extractImgTagsFromHtml: function( html ) {
-			var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
-				ret = [],
-				item;
-
-			while ( item = regexp.exec( html ) ) {
-				ret.push( item[ 1 ] );
-			}
-
-			return ret;
-		}
-
-	} );
 
 } )();
 
@@ -282,7 +176,9 @@
 /**
  * Flag decides wheather emebeding images pasted with Word content is enabled or not.
  *
- * **Note:** Please be aware that emebeding images requires apropriate clipboard access in users' browser.
+ * **Note:** Please be aware that emebeding images requires Clipboard API available only in modern browsers. {@link CKEDITOR.plugins.clipboard#isCustomDataTypesSupported}
+ *	// Disable embeding images pasted from Word.
+ * 	config.pasteFromWord_inlineImages = false;
  *
  * @since 4.8.0
  * @cfg {Boolean} [pasteFromWord_inlineImages=true]
