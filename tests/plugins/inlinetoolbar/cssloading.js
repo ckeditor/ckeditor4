@@ -1,5 +1,5 @@
 /* bender-tags: inlinetoolbar */
-/* bender-ckeditor-plugins: inlinetoolbar,button,richcombo, wysiwygarea */
+/* bender-ckeditor-plugins: inlinetoolbar */
 
 ( function() {
 	'use strict';
@@ -13,7 +13,7 @@
 	bender.test( {
 		'test loading CSS with path': function() {
 			assert.areSame( 'kama,/apps/ckeditor/skins/kama/', CKEDITOR.skinName, 'Config skinName should be with path' );
-			sinon.assert.calledWith( spy, 'http://127.0.0.1:1030/apps/ckeditor/plugins/inlinetoolbar/skins/kama/inlinetoolbar.css' );
+			sinon.assert.calledWith( spy, document.location.origin + '/apps/ckeditor/plugins/inlinetoolbar/skins/kama/inlinetoolbar.css' );
 		}
 	} );
 } )();
