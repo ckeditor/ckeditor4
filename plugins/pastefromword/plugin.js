@@ -112,13 +112,13 @@
 			}, null, null, 3 );
 
 			// Paste From Word Image:
-			// RTF clipboard is required for embeding images.
+			// RTF clipboard is required for embedding images.
 			// If img tags are not allowed there is no point to process images.
 			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages ) {
-				editor.on( 'afterPasteFromWord', pasteFromWordImageListener );
+				editor.on( 'afterPasteFromWord', imagePastingListener );
 			}
 
-			function pasteFromWordImageListener( evt ) {
+			function imagePastingListener( evt ) {
 				var pfw = CKEDITOR.plugins.pastefromword,
 					imgTags,
 					hexImages,
@@ -175,7 +175,6 @@
 
 		return !isLoaded;
 	}
-
 } )();
 
 
@@ -210,11 +209,13 @@
  */
 
 /**
- * Flag decides wheather emebeding images pasted with Word content is enabled or not.
+ * Flag decides whether embedding images pasted with Word content is enabled or not.
  *
- * **Note:** Please be aware that emebeding images requires Clipboard API available only in modern browsers. {@link CKEDITOR.plugins.clipboard#isCustomDataTypesSupported}
- *	// Disable embeding images pasted from Word.
- * 	config.pasteFromWord_inlineImages = false;
+ * **Note:** Please be aware that embedding images requires Clipboard API support, available only in modern browsers, that is indicated by
+ * {@link CKEDITOR.plugins.clipboard#isCustomDataTypesSupported} flag.
+ *
+ *		// Disable embedding images pasted from Word.
+ *		config.pasteFromWord_inlineImages = false;
  *
  * @since 4.8.0
  * @cfg {Boolean} [pasteFromWord_inlineImages=true]
