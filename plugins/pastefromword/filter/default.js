@@ -48,7 +48,7 @@
 		 * @param {String} rtfContent RTF content to be checked for images.
 		 * @returns {Object[]} An array of images found in the `rtfContent`.
 		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
-		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'
+		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'.
 		 */
 		extractImagesFromRtf: function( rtfContent ) {
 			var ret = [],
@@ -85,15 +85,15 @@
 		/**
 		 * Method extracts array of src attributes in img tags from given HTML. Img tags belong to VML shapes are removed.
 		 *
-		 *		CKEDITOR.plugins.pastefromword.extractImgTagsFromHtmlString( html );
-		*		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
-		*
-		* @private
-		* @since 4.8.0
-		* @member CKEDITOR.plugins.pastefromword
-		* @param {String} html String represent HTML code.
-		* @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
-		*/
+		 *		CKEDITOR.plugins.pastefromword.extractImgTagsFromHtml( html );
+		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
+		 *
+		 * @private
+		 * @since 4.8.0
+		 * @member CKEDITOR.plugins.pastefromword
+		 * @param {String} html String represent HTML code.
+		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
+		 */
 		extractImgTagsFromHtml: function( html ) {
 			var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
 				ret = [],
