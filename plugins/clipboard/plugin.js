@@ -2160,6 +2160,9 @@
 			data: {},
 			files: [],
 
+			// Stores full html so it can be accessed asynchronously with `getData( 'text/html', true )`.
+			nativeHtmlCache: '',
+
 			normalizeType: function( type ) {
 				type = type.toLowerCase();
 
@@ -2298,49 +2301,24 @@
 
 			type = this._.normalizeType( type );
 
-			var data,
-				result;
+			var data = type == 'text/html' && getNative ? this._.nativeHtmlCache : this._.data[ type ];
 
-			if ( getNative ) {
-				try {
-					data = this.$.getData( type ) || '';
-				} catch ( e ) {
-					data = '';
-				}
-			} else {
-				data = this._.data[ type ];
-				if ( isEmpty( data ) ) {
-					if ( this._.fallbackDataTransfer.isRequired() ) {
-						data = this._.fallbackDataTransfer.getData( type );
-					} else {
-						try {
-							data = this.$.getData( type ) || '';
-						} catch ( e ) {
-							data = '';
-						}
+			if ( isEmpty( data ) ) {
+				if ( this._.fallbackDataTransfer.isRequired() ) {
+					data = this._.fallbackDataTransfer.getData( type, getNative );
+				} else {
+					try {
+						data = this.$.getData( type ) || '';
+					} catch ( e ) {
+						data = '';
 					}
 				}
-			}
 
-			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
-			// or surround it with <html><head>...</head><body>(some content)<!--StartFragment--> and <!--EndFragment-->(some content)</body></html>
-			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
-			// some significant content may be placed outside Start/EndFragment comments so it's kept.
-			//
-			// See https://dev.ckeditor.com/ticket/13583 for more details.
-			// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
-			if ( type == 'text/html' && !getNative ) {
-				data = data.replace( this._.metaRegExp, '' );
-
-				// Keep only contents of the <body> element
-				result = this._.bodyRegExp.exec( data );
-				if ( result && result.length ) {
-					data = result[ 1 ];
-
-					// Remove also comments.
-					data = data.replace( this._.fragmentRegExp, '' );
+				if ( type == 'text/html' && !getNative ) {
+					data = this._stripHtml( data );
 				}
 			}
+
 			// Firefox on Linux put files paths as a text/plain data if there are files
 			// in the dataTransfer object. We need to hide it, because files should be
 			// handled on paste only if dataValue is empty.
@@ -2362,6 +2340,10 @@
 			type = this._.normalizeType( type );
 
 			this._.data[ type ] = value;
+			// Reset so next time it will be fetched from native data.
+			if ( type == 'text/html' ) {
+				this._.nativeHtmlCache = null;
+			}
 
 			// There is "Unexpected call to method or property access." error if you try
 			// to set data of unsupported type on IE.
@@ -2432,7 +2414,14 @@
 			function getAndSetData( type ) {
 				type = that._.normalizeType( type );
 
-				var data = that.getData( type, !that._.fallbackDataTransfer.isRequired() );
+				var data = that.getData( type );
+
+				// Cache full html.
+				if ( type == 'text/html' ) {
+					that._.nativeHtmlCache = that.getData( type, true );
+					data = that._stripHtml( data );
+				}
+
 				if ( data ) {
 					that._.data[ type ] = data;
 				}
@@ -2575,6 +2564,36 @@
 			}
 
 			return undefined;
+		},
+
+		/**
+		 * Removes meta tags and returns only the contents of the <body> element if found for the given html.
+		 *
+		 * @private
+		 * @param {String} data
+		 * @returns {String}
+		 */
+		_stripHtml: function( data ) {
+			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
+			// or surround it with <html><head>...</head><body>(some content)<!--StartFragment--> and <!--EndFragment-->(some content)</body></html>
+			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
+			// some significant content may be placed outside Start/EndFragment comments so it's kept.
+			//
+			// See https://dev.ckeditor.com/ticket/13583 for more details.
+			// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
+			var result = data.replace( this._.metaRegExp, '' ),
+				match;
+
+			// Keep only contents of the <body> element
+			match = this._.bodyRegExp.exec( result );
+			if ( match && match.length ) {
+				result = match[ 1 ];
+
+				// Remove also comments.
+				result = result.replace( this._.fragmentRegExp, '' );
+			}
+
+			return result;
 		}
 	};
 
@@ -2680,13 +2699,19 @@
 		 * is the same as {@link #_customDataFallbackType} the whole data without special comment is returned.
 		 *
 		 * @param {String} type
+		 * @param {Boolean} [getNative=false] Indicates if the whole, original content of the dataTransfer should be returned.
 		 * @returns {String}
 		 */
-		getData: function( type ) {
+		getData: function( type, getNative ) {
 			// As cache is already checked in CKEDITOR.plugins.clipboard.dataTransfer#getData it is skipped
 			// here. So the assumption is the given type is not in cache.
 
-			var dataComment = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ),
+			var nativeData = this._getData( this._customDataFallbackType, true );
+			if ( getNative ) {
+				return nativeData;
+			}
+
+			var dataComment = this._extractDataComment( nativeData ),
 				value = null;
 
 			// If we are getting the same type which may store custom data we need to extract content only.
