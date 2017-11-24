@@ -519,16 +519,17 @@
 	};
 
 	var pluginInit = false,
-		CSSLoaded = false;
+		cssLoaded = false;
+
 	CKEDITOR.plugins.add( 'inlinetoolbar', {
 		requires: 'balloonpanel',
 
 		beforeInit: function() {
-			if ( !CSSLoaded ) {
+			if ( !cssLoaded ) {
 				// Load fallback styles.
 				CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
 				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/inlinetoolbar.css' );
-				CSSLoaded = true;
+				cssLoaded = true;
 			}
 		},
 
