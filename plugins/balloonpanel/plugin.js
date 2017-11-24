@@ -17,7 +17,7 @@
 	CKEDITOR.plugins.add( 'balloonpanel', {
 		init: function() {
 			if ( !stylesLoaded ) {
-				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/balloonpanel.css' );
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/balloonpanel.css' );
 				stylesLoaded = true;
 			}
 		}
