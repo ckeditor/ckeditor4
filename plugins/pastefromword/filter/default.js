@@ -107,62 +107,6 @@
 		}
 	};
 
-	/**
-	 * Set of private Paste from Word plugin helpers.
-	 *
-	 * @since 4.8.0
-	 * @private
-	 * @member CKEDITOR.plugins.pastefromword
-	 */
-	CKEDITOR.plugins.pastefromword._ = {
-		/**
-		 * Paste listener used in plugin. Process emebeding images pasted from word.
-		 *
-		 * @since 4.8.0
-		 * @private
-		 * @member CKEDITOR.plugins.pastefromword._
-		 */
-		pasteFromWordImageListener: function( evt ) {
-			var pfw = CKEDITOR.plugins.pastefromword,
-				imgTags,
-				hexImages,
-				newSrcValues = [],
-				i;
-			// If img tags are not allowed we simply skip adding images.
-			if ( !evt.editor.filter.check( 'img[src]' ) ) {
-				return;
-			}
-
-			function createSrcWithBase64( img ) {
-				return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
-			}
-
-			imgTags = pfw.extractImgTagsFromHtml( evt.data.dataValue );
-			if ( imgTags.length === 0 ) {
-				return;
-			}
-
-			hexImages = pfw.extractImagesFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
-			if ( hexImages.length === 0 ) {
-				return;
-			}
-
-			CKEDITOR.tools.array.forEach( hexImages, function( img ) {
-				newSrcValues.push( createSrcWithBase64( img ) );
-			}, this );
-
-			// Assumption there is equal amount of Images in RTF and HTML source, so we can match them accordingly to existing order.
-			if ( imgTags.length === newSrcValues.length ) {
-				for ( i = 0; i < imgTags.length; i++ ) {
-					// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-					if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
-						evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
-					}
-				}
-			}
-		}
-	};
-
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
 		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
 			shapesIds = [];

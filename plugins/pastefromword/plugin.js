@@ -117,6 +117,46 @@
 			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages ) {
 				editor.on( 'afterPasteFromWord', pasteFromWordImageListener );
 			}
+
+			function pasteFromWordImageListener( evt ) {
+				var pfw = CKEDITOR.plugins.pastefromword,
+					imgTags,
+					hexImages,
+					newSrcValues = [],
+					i;
+				// If img tags are not allowed we simply skip adding images.
+				if ( !evt.editor.filter.check( 'img[src]' ) ) {
+					return;
+				}
+
+				function createSrcWithBase64( img ) {
+					return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
+				}
+
+				imgTags = pfw.extractImgTagsFromHtml( evt.data.dataValue );
+				if ( imgTags.length === 0 ) {
+					return;
+				}
+
+				hexImages = pfw.extractImagesFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
+				if ( hexImages.length === 0 ) {
+					return;
+				}
+
+				CKEDITOR.tools.array.forEach( hexImages, function( img ) {
+					newSrcValues.push( createSrcWithBase64( img ) );
+				}, this );
+
+				// Assumption there is equal amount of Images in RTF and HTML source, so we can match them accordingly to existing order.
+				if ( imgTags.length === newSrcValues.length ) {
+					for ( i = 0; i < imgTags.length; i++ ) {
+						// Replace only `file` urls of images ( shapes get newSrcValue with null ).
+						if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
+							evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
+						}
+					}
+				}
+			}
 		}
 
 	} );
@@ -134,10 +174,6 @@
 		}
 
 		return !isLoaded;
-	}
-
-	function pasteFromWordImageListener( evt ) {
-		CKEDITOR.plugins.pastefromword._.pasteFromWordImageListener( evt );
 	}
 
 } )();
