@@ -472,9 +472,6 @@
 
 					// 'dialogHide' will be fired after 'pasteDialogCommit'.
 					editor.on( 'dialogHide', function( evt ) {
-						// Reset dialog mode (#595).
-						editor._.forcePasteDialog = false;
-
 						evt.removeListener();
 						evt.data.removeListener( 'pasteDialogCommit', onDialogCommit );
 
@@ -818,9 +815,12 @@
 							}
 
 							firePasteEvents( editor, data, withBeforePaste );
-						} else if ( notification ) {
+						} else if ( notification && !editor._.forcePasteDialog ) {
 							editor.showNotification( msg, 'info', editor.config.clipboard_notificationDuration );
 						}
+
+						// Reset dialog mode (#595).
+						editor._.forcePasteDialog = false;
 
 						editor.fire( 'afterCommandExec', {
 							name: 'paste',
