@@ -4,7 +4,12 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			// Force language to avoid issues with missing dialog's title.
+			language: 'en'
+		}
+	};
 
 	bender.test( {
 		setUp: function() {
@@ -33,50 +38,18 @@
 			tc.wait();
 		},
 
-		'paste html': CKEDITOR.env.ie ?
-		function() {
-			var tc = this,
-				editor = this.editor;
+		'paste html': function() {
+			if ( CKEDITOR.env.ie ) {
+				assert.ignore();
+			}
 
-			editor.on( 'pasteDialogCommit', function( evt ) {
-				evt.removeListener();
-
-				tc.resume( function() {
-					assert.areEqual( 'abc<b>def</b>', evt.data.dataValue.toLowerCase() );
-				} );
-			} );
-
-			editor.on( 'dialogShow', function( evt ) {
-				evt.removeListener();
-
-				tc.resume( function() {
-					var dialog = editor._.storedDialogs.paste;
-					assert.isTrue( !!dialog );
-
-					var frameDoc = dialog.getContentElement( 'general', 'editing_area' )
-						.getInputElement().getFrameDocument();
-
-					// IE needs some time to create editable body.
-					setTimeout( function() {
-						frameDoc.getBody().setHtml( 'abc<b>def</b>' );
-
-						dialog.fire( 'ok' );
-						dialog.hide();
-					}, 10 );
-
-					tc.wait();
-				} );
-			} );
-
-			// Editor.execCommand( 'paste' ) opens IE security alert which breaks tests.
-			editor.openDialog( 'paste' );
-			tc.wait();
-		}
-		:
-		function() {
 			var tc = this,
 				editor = this.editor,
-				beforePasteFired = false;
+				beforePasteFired = false,
+				notificationSpy = sinon.spy(),
+				notificationListener;
+
+			notificationListener = editor.on( 'notificationShow', notificationSpy );
 
 			editor.on( 'beforePaste', function( evt ) {
 				evt.removeListener();
@@ -95,6 +68,16 @@
 					assert.isTrue( beforePasteFired );
 					assert.areEqual( 'html', evt.data.type );
 					assert.areEqual( 'abc<b>def</b>', evt.data.dataValue );
+
+					tc.wait();
+				} );
+			} );
+
+			editor.on( 'afterPaste', function() {
+				tc.resume( function() {
+					notificationListener.removeListener();
+
+					assert.areSame( 0, notificationSpy.callCount, 'notifications count' );
 				} );
 			} );
 
@@ -118,6 +101,8 @@
 			} );
 
 			setTimeout( function() {
+				//Force dialog.
+				editor._.forcePasteDialog = true;
 				editor.execCommand( 'paste' );
 			} );
 			tc.wait();
