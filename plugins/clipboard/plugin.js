@@ -526,6 +526,12 @@
 			addButtonCommand( 'Copy', 'copy', createCutCopyCmd( 'copy' ), 20, 4 );
 			addButtonCommand( 'Paste', 'paste', createPasteCmd(), 30, 8 );
 
+			// Force adding touchend handler to paste button (#595).
+			if ( !editor._.pasteButtons ) {
+				editor._.pasteButtons = [];
+			}
+			editor._.pasteButtons.push( 'Paste' );
+
 			function addButtonCommand( buttonName, commandName, command, toolbarOrder, ctxMenuOrder ) {
 				var lang = editor.lang.clipboard[ commandName ];
 
@@ -570,17 +576,27 @@
 				} );
 			}
 
-			// Detect if paste button was touched. In such case we assume that user is using
+			// Detect if any of paste buttons was touched. In such case we assume that user is using
 			// touch device and force displaying paste dialog (#595).
 			if ( editor.ui.addButton ) {
-				setTimeout( function() {
-					var pasteButton = editor.ui.get( 'Paste' ),
-						buttonElement = editor.container.findOne( '#' + pasteButton._.id );
+				// Waiting for editor instance to be ready seems to be the most reliable way to
+				// be sure that paste buttons are already created.
+				editor.once( 'instanceReady', function() {
+					if ( !editor._.pasteButtons ) {
+						return;
+					}
 
-					buttonElement.on( 'touchend', function() {
-						editor._.forcePasteDialog = true;
+					CKEDITOR.tools.array.forEach( editor._.pasteButtons, function( name ) {
+						var pasteButton = editor.ui.get( name ),
+							buttonElement = CKEDITOR.document.getById( pasteButton._.id );
+
+						buttonElement.on( 'touchend', function() {
+							editor._.forcePasteDialog = true;
+						} );
 					} );
-				}, 0 );
+
+					delete editor._.pasteButtons;
+				} );
 			}
 		}
 
@@ -1630,6 +1646,28 @@
 		 * @property {String}
 		 */
 		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
+
+		/**
+		 * Adds new paste button to the editor.
+		 *
+		 * @since 4.8.0
+		 * @param {CKEDITOR.editor} editor The editor instance.
+		 * @param {String} name Name of the button.
+		 * @param {Object} definition Definition of the button.
+		 */
+		addPasteButton: function( editor, name, definition ) {
+			if ( !editor.ui.addButton ) {
+				return;
+			}
+
+			editor.ui.addButton( name, definition );
+
+			if ( !editor._.pasteButtons ) {
+				editor._.pasteButtons = [];
+			}
+
+			editor._.pasteButtons.push( name );
+		},
 
 		/**
 		 * Returns `true` if it is expected that a browser provides HTML data through the Clipboard API.
