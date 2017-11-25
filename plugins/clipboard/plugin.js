@@ -441,7 +441,6 @@
 		 */
 		editor.getClipboardData = function( callbackOrOptions, callback ) {
 			var beforePasteNotCanceled = false,
-				dialogCommited = false,
 				dataType = 'auto';
 
 			// Options are optional - args shift.
@@ -478,8 +477,9 @@
 						// Because Opera has to wait a while in pasteDialog we have to wait here.
 						setTimeout( function() {
 							// Notify even if user canceled dialog (clicked 'cancel', ESC, etc).
-							if ( !dialogCommited )
+							if ( !evt.data._.commited ) {
 								callback( null );
+							}
 						}, 10 );
 					} );
 				} else {
@@ -504,7 +504,7 @@
 				// Cancel pasteDialogCommit so paste dialog won't automatically fire
 				// 'paste' evt by itself.
 				evt.cancel();
-				dialogCommited = true;
+
 				callback( {
 					type: dataType,
 					dataValue: evt.data.dataValue,

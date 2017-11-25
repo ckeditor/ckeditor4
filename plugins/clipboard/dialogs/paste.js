@@ -97,6 +97,9 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 			// If custom title not set, use default one.
 			this.parts.title.setHtml( this.customTitle || lang.title );
 			this.customTitle = null;
+
+			// Reset commited indicator.
+			this._.commited = false;
 		},
 
 		onLoad: function() {
@@ -223,6 +226,8 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						// Saving the contents so changes until paste is complete will not take place (#7500)
 						html = body.getHtml();
+
+						this.getDialog()._.commited = true;
 
 						// Opera needs some time to think about what has happened and what it should do now.
 						setTimeout( function() {
