@@ -14,18 +14,18 @@
 		},
 
 		tearDown: function() {
-			this.editor.inlineToolbar._manager._clear();
+			this.editor.balloonToolbar._manager._clear();
 		},
 
-		'test exposes editor.inlineToolbar.create': function() {
-			var ContextTypeStub = sinon.stub( CKEDITOR.plugins.inlinetoolbar, 'context' ),
+		'test exposes editor.balloonToolbar.create': function() {
+			var ContextTypeStub = sinon.stub( CKEDITOR.plugins.balloontoolbar, 'context' ),
 				ret;
 
 			ContextTypeStub.prototype.show = sinon.stub();
 			ContextTypeStub.prototype.hide = sinon.stub();
 			ContextTypeStub.prototype.destroy = sinon.stub();
 
-			ret = this.editor.inlineToolbar.create( {} );
+			ret = this.editor.balloonToolbar.create( {} );
 
 			ContextTypeStub.restore();
 

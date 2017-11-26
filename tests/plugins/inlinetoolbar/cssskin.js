@@ -43,7 +43,7 @@
 				assert.ignore();
 			}
 
-			var panel = new CKEDITOR.ui.inlineToolbar( editor );
+			var panel = new CKEDITOR.ui.balloonToolbar( editor );
 			panel.addItems( {
 				bold: new CKEDITOR.ui.button( {
 					label: 'test',

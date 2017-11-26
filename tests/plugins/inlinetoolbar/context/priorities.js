@@ -26,7 +26,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.inlineToolbar._manager._clear();
+			this.editor.balloonToolbar._manager._clear();
 		},
 
 		'test options.refresh has the highest priority': function() {
@@ -87,7 +87,7 @@
 				cssSelector: {
 					buttons: 'Bold,Italic',
 					cssSelector: 'a, strong, u',
-					priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.HIGH
+					priority: CKEDITOR.plugins.balloontoolbar.PRIORITY.HIGH
 				},
 				citeContext: {
 					buttons: 'Bold,Italic',
@@ -109,7 +109,7 @@
 				refresh: {
 					buttons: 'Bold,Italic',
 					refresh: sinon.stub().returns( true ),
-					priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.LOW
+					priority: CKEDITOR.plugins.balloontoolbar.PRIORITY.LOW
 				}
 			};
 
@@ -129,9 +129,9 @@
 		 * @param {Boolean} [autoRefresh=false] If `true` created contexts will be refreshed right after being created.
 		 * @param {Object} [additionalMappings] Additional context mappings, see the code for more details.
 		 * @return {Object} A dictionary of created contexts.
-		 * @return {CKEDITOR.plugins.inlinetoolbar.context} return.refresh A context with `options.refresh` that always returns `true`.
-		 * @return {CKEDITOR.plugins.inlinetoolbar.context} return.widgets A context with `options.widgets` alone set.
-		 * @return {CKEDITOR.plugins.inlinetoolbar.context} return.cssSelector A context with `options.cssSelector` alone set.
+		 * @return {CKEDITOR.plugins.balloontoolbar.context} return.refresh A context with `options.refresh` that always returns `true`.
+		 * @return {CKEDITOR.plugins.balloontoolbar.context} return.widgets A context with `options.widgets` alone set.
+		 * @return {CKEDITOR.plugins.balloontoolbar.context} return.cssSelector A context with `options.cssSelector` alone set.
 		 */
 		_createContexts: function( whitelist, autoRefresh, additionalMappings ) {
 			var optionsMapping = {
@@ -160,12 +160,12 @@
 
 			for ( i in optionsMapping ) {
 				if ( CKEDITOR.tools.array.indexOf( whitelist, i ) !== -1 ) {
-					ret[ i ] = this.editor.inlineToolbar.create( optionsMapping[ i ] );
+					ret[ i ] = this.editor.balloonToolbar.create( optionsMapping[ i ] );
 				}
 			}
 
 			if ( autoRefresh ) {
-				this.editor.inlineToolbar._manager.check();
+				this.editor.balloonToolbar._manager.check();
 			}
 
 			return ret;

@@ -21,7 +21,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.inlineToolbar._manager._clear();
+			this.editor.balloonToolbar._manager._clear();
 		},
 
 		'test falsy matching': function() {
@@ -90,10 +90,10 @@
 
 		/*
 		 * @param {String} selector A selector to be used as `options.elements`.
-		 * @returns {CKEDITOR.plugins.inlinetoolbar.context} Context instance with `selector` used as a CSS selector.
+		 * @returns {CKEDITOR.plugins.balloontoolbar.context} Context instance with `selector` used as a CSS selector.
 		 */
 		_getContextStub: function( selector ) {
-			return this.editor.inlineToolbar.create( {
+			return this.editor.balloonToolbar.create( {
 				cssSelector: selector
 			} );
 		}

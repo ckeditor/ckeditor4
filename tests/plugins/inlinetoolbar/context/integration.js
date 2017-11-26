@@ -20,11 +20,11 @@
 		},
 
 		tearDown: function() {
-			this.editor.inlineToolbar._manager._clear();
+			this.editor.balloonToolbar._manager._clear();
 		},
 
 		'test selectionChange with options.refresh': function() {
-			var context = this.editor.inlineToolbar.create( {
+			var context = this.editor.balloonToolbar.create( {
 					buttons: 'Bold,Italic,Underline',
 					refresh: function( editor, path ) {
 						return path.contains( 'em' );
@@ -34,7 +34,7 @@
 
 			this.editorBot.setHtmlWithSelection( '<p>Test^ <strong>Foo</strong><em>bar</em></p>' );
 
-			// First set the selection in a place where inline toolbar should not be shown.
+			// First set the selection in a place where Balloon Toolbar should not be shown.
 			// Set range at <strong>F^oo</strong>.
 			newRange.setStart( this.editor.editable().findOne( 'strong' ).getFirst(), 1 );
 			newRange.collapse( true );
@@ -57,7 +57,7 @@
 
 		'test moving focus out of the editor hides the toolbar': function() {
 			// Note: this test is verified to fail with testing window blurred (e.g. when dev console window focused).
-			var context = this.editor.inlineToolbar.create( {
+			var context = this.editor.balloonToolbar.create( {
 					buttons: 'Bold,Italic',
 					refresh: sinon.stub().returns( true )
 				} );
@@ -79,7 +79,7 @@
 		},
 
 		'test invalid buttons wont break creation': function() {
-			var context = this.editor.inlineToolbar.create( {
+			var context = this.editor.balloonToolbar.create( {
 				buttons: 'foo!,Bold,Boldzzz,|',
 				refresh: sinon.stub().returns( true )
 			} );
@@ -94,7 +94,7 @@
 		'test switching source mode hides the toolbar': function() {
 			var initialMode = this.editor.mode;
 
-			var context = this.editor.inlineToolbar.create( {
+			var context = this.editor.balloonToolbar.create( {
 				buttons: 'Bold,Italic',
 				refresh: sinon.stub().returns( true )
 			} );
@@ -139,19 +139,19 @@
 
 			this.editorBot.setHtmlWithSelection( '<p><em>foo<strong>b^ar</strong>baz</em></p>' );
 
-			this.editor.inlineToolbar.create( {
+			this.editor.balloonToolbar.create( {
 				buttons: 'Bold,Italic',
 				refresh: sinon.stub().returns( this.editor.editable().findOne( 'p' ) ),
-				priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.LOW
+				priority: CKEDITOR.plugins.balloontoolbar.PRIORITY.LOW
 			} );
 
-			var cssContext = this.editor.inlineToolbar.create( {
+			var cssContext = this.editor.balloonToolbar.create( {
 					buttons: 'Bold,Italic',
 					cssSelector: 'em'
 				} ),
 				showSpy = sinon.spy( cssContext, 'show' );
 
-			this.editor.inlineToolbar._manager.check();
+			this.editor.balloonToolbar._manager.check();
 
 			contextTools._assertToolbarVisible( true, cssContext );
 
@@ -164,10 +164,10 @@
 		'test correct highlighted with refresh after widget was matched': function() {
 			this.editorBot.setHtmlWithSelection( '<p><em>foo<strong>b^ar</strong>baz</em</p>' );
 
-			var widgetContext = this.editor.inlineToolbar.create( {
+			var widgetContext = this.editor.balloonToolbar.create( {
 					buttons: 'Bold,Italic'
 				} ),
-				refreshContext = this.editor.inlineToolbar.create( {
+				refreshContext = this.editor.balloonToolbar.create( {
 					buttons: 'Bold,Italic',
 					// Since we're returning true, it should highlight default element, which is path's last element - a strong.
 					refresh: sinon.stub().returns( true )
@@ -178,7 +178,7 @@
 			// the hassle of faking a widget.
 			sinon.stub( widgetContext, '_matchWidget' ).returns( this.editor.editable().findOne( 'em' ) );
 
-			this.editor.inlineToolbar._manager.check();
+			this.editor.balloonToolbar._manager.check();
 
 			contextTools._assertToolbarVisible( true, refreshContext );
 
