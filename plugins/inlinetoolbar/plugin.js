@@ -9,12 +9,12 @@
 	var matchingFunctionName = getElementMatchFunctionName();
 
 	/**
-	 * Class representing view of inline toolbar, used by {@link CKEDITOR.ui.inlineToolbar}.
+	 * Class representing a view of Balloon Toolbar, used by {@link CKEDITOR.ui.inlineToolbar}.
 	 *
 	 * @class
 	 * @private
 	 * @extends CKEDITOR.ui.balloonPanel
-	 * @constructor Creates an inline toolbar view instance.
+	 * @constructor Creates a Balloon Toolbar view instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {Object} definition An object containing the toolbar definition. See {@link CKEDITOR.ui.balloonPanel}
@@ -37,13 +37,13 @@
 	};
 
 	/**
-	 * Class representing instance of inline toolbar.
+	 * Class representing instance of Balloon Toolbar.
 	 *
-	 * The easiest way to create an inline toolbar is by using {@link CKEDITOR.editor.inlineToolbar#create} function.
+	 * The easiest way to create a Balloon Toolbar is by using {@link CKEDITOR.editor.inlineToolbar#create} function.
 	 *
 	 * However it's possible to maintain it manually, like below:
 	 *
-	 *		// Following example will show an inline toolbar on any selection change. The toolbar is anchored to the
+	 *		// Following example will show a Balloon Toolbar on any selection change. The toolbar is anchored to the
 	 *		// last element in selection, assuming that editor variable is an instance of CKEDITOR.editor.
 	 *		editor.on( 'instanceReady', function() {
 	 *			var toolbar = new CKEDITOR.ui.inlineToolbar( editor );
@@ -67,7 +67,7 @@
 	 *		} );
 	 *
 	 * @class
-	 * @constructor Creates an inline toolbar instance.
+	 * @constructor Creates a Balloon Toolbar instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {Object} definition An object containing the panel definition. See {@link CKEDITOR.ui.balloonPanel}
@@ -75,7 +75,7 @@
 	 */
 	CKEDITOR.ui.inlineToolbar = function( editor, definition ) {
 		/**
-		 * View instance of inline toolbar.
+		 * View instance of Balloon Toolbar.
 		 *
 		 * @private
 		 * @property {CKEDITOR.ui.inlineToolbarView}
@@ -83,7 +83,7 @@
 		this._view = new CKEDITOR.ui.inlineToolbarView( editor, definition );
 
 		/**
-		 * Menu items added to inline toolbar.
+		 * Menu items added to Balloon Toolbar.
 		 *
 		 * @private
 		 * @property {Object.<String, CKEDITOR.ui.button/CKEDITOR.ui.richCombo>}
@@ -92,10 +92,10 @@
 	};
 
 	/**
-	 * Displays the inline toolbar, pointing it to the `element`.
+	 * Displays the Balloon Toolbar, pointing it to the `element`.
 	 *
 	 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
-	 * @param {Boolean} [hidden=false] Do not show inline toolbar after attach.
+	 * @param {Boolean} [hidden=false] Do not show Balloon Toolbar after attach.
 	 * @member CKEDITOR.ui.inlineToolbar
 	 */
 	CKEDITOR.ui.inlineToolbar.prototype.attach = function( element, hidden ) {
@@ -107,7 +107,7 @@
 	};
 
 	/**
-	 * Show inline toolbar.
+	 * Shows the Balloon Toolbar.
 	 *
 	 * @member CKEDITOR.ui.inlineToolbar
 	 */
@@ -116,7 +116,7 @@
 	};
 
 	/**
-	 * Hide inline toolbar.
+	 * Hides the Balloon Toolbar.
 	 *
 	 * @member CKEDITOR.ui.inlineToolbar
 	 */
@@ -125,7 +125,7 @@
 	};
 
 	/**
-	 * Adds an item to the inline toolbar.
+	 * Adds an item to the Balloon Toolbar.
 	 *
 	 * @param {String} name The menu item name.
 	 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} element Instance of ui element.
@@ -135,7 +135,7 @@
 	};
 
 	/**
-	 * Adds one or more items to the inline toolbar.
+	 * Adds one or more items to the Balloon Toolbar.
 	 *
 	 * @param {Object} elements Object where keys are used as itemName and corresponding values as definition for a {@link #addItem} call.
 	 */
@@ -146,7 +146,7 @@
 	};
 
 	/**
-	 * Retrieves a particular menu item from the inline toolbar.
+	 * Retrieves a particular menu item from the Balloon Toolbar.
 	 *
 	 * @param {String} name The name of the desired menu item.
 	 * @returns {CKEDITOR.ui.button/CKEDITOR.ui.richCombo}
@@ -156,7 +156,7 @@
 	};
 
 	/**
-	 * Removes a particular menu item from the inline toolbar.
+	 * Removes a particular menu item from the Balloon Toolbar.
 	 *
 	 * @param {String} name The name of the item menu to be deleted.
 	 */
@@ -175,14 +175,14 @@
 	};
 
 	/**
-	 * Class representing a single inline toolbar context in the editor.
+	 * Class representing a single Balloon Toolbar context in the editor.
 	 *
 	 * It can be configured with a various of conditions for showing up the toolbar using `options` parameter.
 	 *
 	 * Multiple contexts are handled by the {@link CKEDITOR.plugins.inlinetoolbar.contextManager Context Manager}.
 	 *
 	 * @class CKEDITOR.plugins.inlinetoolbar.context
-	 * @constructor Creates an inline toolbar context instance.
+	 * @constructor Creates a Balloon Toolbar context instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
 	 * @param {CKEDITOR.plugins.inlinetoolbar.contextDefinition} options A set of options, defining context behavior.
@@ -229,7 +229,7 @@
 		/**
 		 * Shows the toolbar controlled by this context.
 		 *
-		 * @param {CKEDITOR.dom.element} [pointedElement] Element that should be pointed by the inline toolbar.
+		 * @param {CKEDITOR.dom.element} [pointedElement] Element that should be pointed by the Balloon Toolbar.
 		 */
 		show: function( pointedElement ) {
 			if ( pointedElement ) {
@@ -536,7 +536,7 @@
 		init: function( editor ) {
 
 			/**
-			 * Set of instance-specific public APIs exposed by the [Inline Toolbar](https://ckeditor.com/cke4/addon/inlinetoolbar) plugin.
+			 * Set of instance-specific public APIs exposed by the [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) plugin.
 			 *
 			 * The main purpose is to {@link #create create} new toolbar contexts.
 			 *
@@ -545,9 +545,9 @@
 			 */
 			editor.inlineToolbar = {
 				/**
-				 * Inline toolbar instance for a given editor instance.
+				 * Balloon Toolbar manager for a given editor instance.
 				 *
-				 * Makes sure that there's only one instance active at a time.
+				 * It ensures that there's only one toolbar visible at a time.
 				 *
 				 * @private
 				 * @property {CKEDITOR.plugins.inlinetoolbar.contextManager} manager
@@ -555,7 +555,7 @@
 				_manager: new CKEDITOR.plugins.inlinetoolbar.contextManager( editor ),
 
 				/**
-				 * The simplest way to create an Inline Toolbar.
+				 * The simplest way to create a Balloon Toolbar.
 				 *
 				 * Following example will add a toolbar containing link and unlink buttons for any anchor or image:
 				 *
@@ -565,7 +565,7 @@
 				 *		} );
 				 *
 				 * @param {CKEDITOR.plugins.inlinetoolbar.contextDefinition} options Config object that determines the conditions used to display the toolbar.
-				 * @returns {CKEDITOR.plugins.inlinetoolbar.context} A context object created for this inline toolbar configuration.
+				 * @returns {CKEDITOR.plugins.inlinetoolbar.context} A context object created for this Balloon Toolbar configuration.
 				 */
 				create: function( options ) {
 					var ret = new CKEDITOR.plugins.inlinetoolbar.context( editor, options );
@@ -584,7 +584,7 @@
 			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 
 			/**
-			 * Build inline toolbar DOM representation.
+			 * Builds Balloon Toolbar DOM representation.
 			 *
 			 * @member CKEDITOR.ui.inlineToolbarView
 			 */
@@ -711,7 +711,7 @@
 			CKEDITOR.ui.inlineToolbarView.prototype.attach = function( element, options ) {
 
 				/**
-				 * DOM element used by inline toolbar to attach to.
+				 * DOM element used by Balloon Toolbar to attach to.
 				 *
 				 * @private
 				 * @member CKEDITOR.ui.inlineToolbarView
@@ -724,7 +724,7 @@
 	} );
 
 	/**
-	 * Static API exposed by the [Inline Toolbar](https://ckeditor.com/cke4/addon/inlinetoolbar) plugin.
+	 * Static API exposed by the [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) plugin.
 	 *
 	 * @class
 	 * @singleton
@@ -755,7 +755,7 @@
 	}
 
 	/**
-	 * This is an abstract class that describes the definition of a {@link CKEDITOR.plugins.inlinetoolbar.context Inline Toolbar Context}.
+	 * This is an abstract class that describes the definition of a {@link CKEDITOR.plugins.inlinetoolbar.context Balloon Toolbar Context}.
 	 *
 	 * **Note that context matching options have a different priority by default**, see more details in {@link CKEDITOR.plugins.inlinetoolbar.contextManager}.
 	 *
@@ -801,7 +801,7 @@
 	 * @param {CKEDITOR.editor} editor An editor that controls this context.
 	 * @param {CKEDITOR.dom.elementPath} path Path for a currently probed selection.
 	 * @param {CKEDITOR.dom.selection} selection Selection object used for probing.
-	 * @returns {Boolean/CKEDITOR.dom.element} Returning `true` means that the inline toolbar should be shown, pointing
+	 * @returns {Boolean/CKEDITOR.dom.element} Returning `true` means that the Balloon Toolbar should be shown, pointing
 	 * at the last element in the selection. `false` means no toolbar should be shown.
 	 * It may also return a {@link CKEDITOR.dom.element} instance, in that case toolbar will be shown and point at given
 	 * element.

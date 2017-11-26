@@ -4,7 +4,7 @@
 
 ## Complex Context Sample
 
-There are several inline toolbar listeners (from highest priority):
+There are several Balloon Toolbar listeners (from highest priority):
 
 1. `strong, em` selection should show `Bold,Underline` buttons.
 1. `a[href], img` selection should show `Link,Unlink` buttons.

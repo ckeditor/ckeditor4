@@ -2,9 +2,9 @@
 @bender-tags: 4.8.0, feature, inlinetoolbar, 933
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, floatingspace, inlinetoolbar, sourcearea, list, elementspath
 
-## Inline Toolbar Context
+## Balloon Toolbar Context
 
-Inline toolbar should be shown only for selections containing `strong` and `em` in its path.
+Balloon Toolbar should be shown only for selections containing `strong` and `em` in its path.
 
 Example test case:
 
@@ -12,10 +12,10 @@ Example test case:
 
 	### Expected
 
-	Inline toolbar is shown.
+	Balloon Toolbar is shown.
 
 1. Put selection in "underline" element.
 
 	### Expected
 
-	Inline toolbar is hidden.
+	Balloon Toolbar is hidden.
