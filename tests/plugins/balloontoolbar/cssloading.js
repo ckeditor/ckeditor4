@@ -13,7 +13,7 @@
 	bender.test( {
 		'test loading CSS with path': function() {
 			assert.areSame( 'kama,/apps/ckeditor/skins/kama/', CKEDITOR.skinName, 'Config skinName should be with path' );
-			sinon.assert.calledWith( spy, document.location.origin + '/apps/ckeditor/plugins/balloontoolbar/skins/kama/inlinetoolbar.css' );
+			sinon.assert.calledWith( spy, document.location.origin + '/apps/ckeditor/plugins/balloontoolbar/skins/kama/balloontoolbar.css' );
 		}
 	} );
 } )();

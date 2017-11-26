@@ -103,7 +103,7 @@
 			balloonToolbar = null;
 		},
 
-		'test panel adds cke_inlinetoolbar class': function( editor ) {
+		'test panel adds cke_balloontoolbar class': function( editor ) {
 			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 				width: 100,
 				height: 200
@@ -111,7 +111,7 @@
 				markerElement = editor.editable().findOne( '#marker' );
 			balloonToolbar.attach( markerElement );
 
-			assert.isTrue( balloonToolbar.parts.panel.hasClass( 'cke_inlinetoolbar' ), 'Panel has a cke_inlinetoolbar class' );
+			assert.isTrue( balloonToolbar.parts.panel.hasClass( 'cke_balloontoolbar' ), 'Panel has a cke_balloontoolbar class' );
 			assert.isTrue( balloonToolbar.parts.panel.hasClass( 'cke_balloon' ), 'Class cke_balloon class was not removed' );
 			balloonToolbar.destroy();
 			balloonToolbar = null;

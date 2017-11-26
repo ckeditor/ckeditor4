@@ -528,7 +528,7 @@
 			if ( !cssLoaded ) {
 				// Load fallback styles.
 				CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
-				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/inlinetoolbar.css' );
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/balloontoolbar.css' );
 				cssLoaded = true;
 			}
 		},
@@ -590,7 +590,7 @@
 			 */
 			CKEDITOR.ui.balloonToolbarView.prototype.build = function() {
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
-				this.parts.panel.addClass( 'cke_inlinetoolbar' );
+				this.parts.panel.addClass( 'cke_balloontoolbar' );
 				this.parts.title.remove();
 				this.parts.close.remove();
 			};

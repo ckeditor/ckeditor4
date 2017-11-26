@@ -1,56 +1,38 @@
 /*
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or https://ckeditor.com/license
+For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
 .cke_balloon.cke_balloontoolbar
 {
-	position: absolute;
-	z-index: 10000;
-	outline: none;
-	background: #f8f8f8;
-	border: 1px solid #d1d1d1;
-}
-
-.cke_balloon.cke_balloontoolbar .cke_balloon_triangle
-{
-	position: absolute;
-	border-style: solid;
-	display: block;
-	width: 0;
-	height: 0;
-}
-
-.cke_balloon.cke_balloontoolbar .cke_balloon_triangle_inner,
-.cke_balloon.cke_balloontoolbar .cke_balloon_triangle_outer
-{
-	z-index: 0;
-}
-
-/* align: [ hcenter ] */
-.cke_balloon.cke_balloontoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_align_hcenter
-{
-	left: 50%;
-	margin-left: -10px;
+	border: 1px solid #D3D3D3;
+	background: #fff url(images/sprites.png) repeat-x 0 -500px;
+	background: linear-gradient(to bottom, #fff, #d3d3d3 20px);
+	padding: 0px;
 }
 
 .cke_balloon.cke_balloontoolbar .cke_balloon_content
 {
 	min-height: 10px;
-	padding: 3px;
+	padding: 6px 0px 6px 6px;
 }
 
 /* side: [ bottom, top ] */
 .cke_balloon.cke_balloontoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_bottom,
-.cke_balloon.cke_balloontoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_top
+.cke_balloon.cke_balloontoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_top,
+.cke_balloon.cke_balloontoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_bottom
 {
-	border-color: #d1d1d1 transparent;
+	border-color: #D3D3D3 transparent;
+}
+
+.cke_balloon.cke_balloontoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_top
+{
+	border-color: #fff transparent;
 }
 
 .cke_balloon.cke_balloontoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_bottom,
 .cke_balloon.cke_balloontoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_top
 {
-	border-color: #f8f8f8 transparent;
 	left: -10px;
 }
 
@@ -77,4 +59,16 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 .cke_balloon.cke_balloontoolbar .cke_balloon_triangle_inner.cke_balloon_triangle_top
 {
 	border-width: 0 10px 10px;
+}
+
+/* align: [ hcenter ] */
+.cke_balloon.cke_balloontoolbar .cke_balloon_triangle_outer.cke_balloon_triangle_align_hcenter
+{
+	margin-left: -10px;
+}
+
+.cke_balloon.cke_balloontoolbar .cke_toolgroup,
+.cke_balloon.cke_balloontoolbar .cke_combo_button
+{
+	margin-bottom: 0px;
 }
