@@ -6,7 +6,7 @@
 
 ## Expected
 
-There is no error with inlinetoolbar CSS loading, like: `GET http://tests.ckeditor.test:1030/apps/ckeditor/plugins/inlinetoolbar/skins/kama,/apps/ckeditor/skins/kama//inlinetoolbar.css net::ERR_ABORTED`
+There is no error with balloontoolbar CSS loading, like: `GET http://tests.ckeditor.test:1030/apps/ckeditor/plugins/inlinetoolbar/skins/kama,/apps/ckeditor/skins/kama//inlinetoolbar.css net::ERR_ABORTED`
 
 ## Unexpected
 
@@ -14,4 +14,4 @@ An error regarding `plugins/inlinetoolbar/skins/kama,/apps/ckeditor/skins/kama//
 
 ## Note
 
-There might be one error logged regarding balloon panel, which should be fixed by [#1221](https://github.com/ckeditor/ckeditor-dev/issues/1221). It's the same issue but it's originating from **balloonpanel** plugin, not inlinetoolbar.
+There might be one error logged regarding balloon panel, which should be fixed by [#1221](https://github.com/ckeditor/ckeditor-dev/issues/1221). It's the same issue but it's originating from **balloonpanel** plugin, not balloontoolbar.
