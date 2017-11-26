@@ -6,11 +6,11 @@
 
 ## Expected
 
-There is no error with balloontoolbar CSS loading, like: `GET http://tests.ckeditor.test:1030/apps/ckeditor/plugins/inlinetoolbar/skins/kama,/apps/ckeditor/skins/kama//inlinetoolbar.css net::ERR_ABORTED`
+There is no error with balloontoolbar CSS loading, like: `GET http://tests.ckeditor.test:1030/apps/ckeditor/plugins/balloontoolbar/skins/kama,/apps/ckeditor/skins/kama//balloontoolbar.css net::ERR_ABORTED`
 
 ## Unexpected
 
-An error regarding `plugins/inlinetoolbar/skins/kama,/apps/ckeditor/skins/kama//inlinetoolbar.css` file is thrown.
+An error regarding `plugins/balloontoolbar/skins/kama,/apps/ckeditor/skins/kama//balloontoolbar.css` file is thrown.
 
 ## Note
 
