@@ -20,7 +20,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.inlineToolbar._manager._clear();
+			this.editor.balloonToolbar._manager._clear();
 		},
 
 		'test refresh returning true': function() {
@@ -48,7 +48,7 @@
 				context = this._getContextStub( sinon.stub().returns( emElem ) ),
 				showSpy = sinon.spy( context, 'show' );
 
-			this.editor.inlineToolbar._manager.check();
+			this.editor.balloonToolbar._manager.check();
 
 			contextTools._assertToolbarVisible( true, context );
 
@@ -61,16 +61,16 @@
 			this.editorBot.setHtmlWithSelection( '<p>foo<strong>ba^r</strong>baz<em>em</em></p>' );
 
 			// Add a context that has a higher priority.
-			this._getContextStub( sinon.stub().returns( false ), false, CKEDITOR.plugins.inlinetoolbar.PRIORITY.HIGH );
+			this._getContextStub( sinon.stub().returns( false ), false, CKEDITOR.plugins.balloontoolbar.PRIORITY.HIGH );
 
 			var emElem = this.editor.editable().findOne( 'em' ),
 				context = this._getContextStub( sinon.stub().returns( emElem ) ),
 				managerShowSpy = sinon.spy( context, 'show' );
 
 			// Add a third context that has a higher priority, so that matching context is surrounded with unmatched contexts.
-			this._getContextStub( sinon.stub().returns( false ), false, CKEDITOR.plugins.inlinetoolbar.PRIORITY.HIGH );
+			this._getContextStub( sinon.stub().returns( false ), false, CKEDITOR.plugins.balloontoolbar.PRIORITY.HIGH );
 
-			this.editor.inlineToolbar._manager.check();
+			this.editor.balloonToolbar._manager.check();
 
 			contextTools._assertToolbarVisible( true, context );
 
@@ -94,17 +94,17 @@
 		 *
 		 * @param {Function} refreshCallback Function to be used as `options.refresh`.
 		 * @param {Boolean} [autoRefresh=false] Whether function should automatically force context manager, to recheck all the contexts.
-		 * @param {Number} [priority] Context priority based on {@link CKEDITOR.plugins.inlinetoolbar#PRIORITY}.
-		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
+		 * @param {Number} [priority] Context priority based on {@link CKEDITOR.plugins.balloontoolbar#PRIORITY}.
+		 * @returns {CKEDITOR.plugins.balloontoolbar.context}
 		 */
 		_getContextStub: function( refreshCallback, autoRefresh, priority ) {
-			var ret = this.editor.inlineToolbar.create( {
+			var ret = this.editor.balloonToolbar.create( {
 				refresh: refreshCallback,
 				priority: priority
 			} );
 
 			if ( autoRefresh ) {
-				this.editor.inlineToolbar._manager.check();
+				this.editor.balloonToolbar._manager.check();
 			}
 
 			return ret;

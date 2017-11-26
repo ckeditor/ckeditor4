@@ -44,7 +44,7 @@
 			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 11 ) {
 				assert.ignore();
 			}
-			var panel = new CKEDITOR.ui.inlineToolbar( editor );
+			var panel = new CKEDITOR.ui.balloonToolbar( editor );
 			panel.addItems( {
 				bold: new CKEDITOR.ui.button( {
 					label: 'test',

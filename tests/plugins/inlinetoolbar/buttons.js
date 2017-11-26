@@ -8,7 +8,7 @@
 
 	bender.test( {
 		'test adding buttion': function() {
-			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
+			var panel = new CKEDITOR.ui.balloonToolbar( this.editor );
 			panel.addItems( {
 				cut: new CKEDITOR.ui.button( {
 					label: 'test',
@@ -19,7 +19,7 @@
 		},
 
 		'test removing buttion': function() {
-			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
+			var panel = new CKEDITOR.ui.balloonToolbar( this.editor );
 			panel.addItems( {
 				cut: new CKEDITOR.ui.button( {
 					label: 'test',
@@ -32,7 +32,7 @@
 		},
 
 		'test button group wrapping': function() {
-			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
+			var panel = new CKEDITOR.ui.balloonToolbar( this.editor );
 			panel.addItems( {
 				cut: new CKEDITOR.ui.button( {
 					label: 'test',
@@ -44,7 +44,7 @@
 		},
 
 		'test group wrapping omitting rich combo': function() {
-			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
+			var panel = new CKEDITOR.ui.balloonToolbar( this.editor );
 			panel.addItems( {
 				rich: new CKEDITOR.ui.richCombo( {
 					className: 'richCombo',
@@ -62,7 +62,7 @@
 		},
 
 		'test group wrapping omiting rich combo at the beginning': function() {
-			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
+			var panel = new CKEDITOR.ui.balloonToolbar( this.editor );
 			panel.addItems( {
 				rich: new CKEDITOR.ui.richCombo( {
 					className: 'richCombo',
@@ -86,7 +86,7 @@
 		},
 
 		'test mixed group': function() {
-			var panel = new CKEDITOR.ui.inlineToolbar( this.editor );
+			var panel = new CKEDITOR.ui.balloonToolbar( this.editor );
 			panel.addItems( {
 				test: new CKEDITOR.ui.button( {
 					label: 'test',

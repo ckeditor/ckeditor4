@@ -20,7 +20,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.inlineToolbar._manager._clear();
+			this.editor.balloonToolbar._manager._clear();
 		},
 
 		'test simple positive matching with one item': function() {
@@ -152,10 +152,10 @@
 		 * Returns a Context instance with toolbar show/hide methods stubbed.
 		 *
 		 * @param {String[]} widgetNames List of widget names to be set as `options.widgets`.
-		 * @returns {CKEDITOR.plugins.inlinetoolbar.context}
+		 * @returns {CKEDITOR.plugins.balloontoolbar.context}
 		 */
 		_getContextStub: function( widgetNames ) {
-			return this.editor.inlineToolbar.create( {
+			return this.editor.balloonToolbar.create( {
 				widgets: widgetNames
 			} );
 		}

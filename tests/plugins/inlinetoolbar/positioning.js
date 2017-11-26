@@ -56,25 +56,25 @@
 				assert.ignore();
 			}
 
-			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
+			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 					width: 100,
 					height: 200
 				} ),
 				markerElement = editor.editable().findOne( '#marker' ),
 				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
 				elementFrame = markerElement.getClientRect(),
-				inlineToolbarRect;
+				balloonToolbarRect;
 
-			inlineToolbar.attach( markerElement );
-			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
+			balloonToolbar.attach( markerElement );
+			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
 
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
-			assert.areEqual( expectedLeft, inlineToolbarRect.left.toFixed( 2 ), 'left align' );
+			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
 			// We have to add 1px because of border.
-			assert.areEqual( ( inlineToolbarRect.top + inlineToolbar.height + inlineToolbar.triangleHeight + 1 ).toFixed( 2 ),
+			assert.areEqual( ( balloonToolbarRect.top + balloonToolbar.height + balloonToolbar.triangleHeight + 1 ).toFixed( 2 ),
 				( frame.top + frame.height ).toFixed( 2 ), 'top align' );
-			inlineToolbar.destroy();
-			inlineToolbar = null;
+			balloonToolbar.destroy();
+			balloonToolbar = null;
 		},
 
 		'test divaera - out of view - hcenter top': function( editor ) {
@@ -83,38 +83,38 @@
 				assert.ignore();
 			}
 
-			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
+			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 					width: 100,
 					height: 200
 				} ),
 				markerElement = editor.editable().findOne( '#marker' ),
 				frame = editor.editable().isInline() ? editor.editable().getClientRect() : editor.window.getFrame().getClientRect(),
 				elementFrame = markerElement.getClientRect(),
-				inlineToolbarRect;
+				balloonToolbarRect;
 
 			markerElement.getParent().getNext().scrollIntoView( true );
-			inlineToolbar.attach( markerElement );
-			inlineToolbarRect = inlineToolbar.parts.panel.getClientRect();
+			balloonToolbar.attach( markerElement );
+			balloonToolbarRect = balloonToolbar.parts.panel.getClientRect();
 
 			var expectedLeft = makeExpectedLeft( frame.left + elementFrame.left + elementFrame.width / 2 - 50 );
-			assert.areEqual( expectedLeft, inlineToolbarRect.left.toFixed( 2 ), 'left align' );
-			assert.areEqual( frame.top.toFixed( 2 ), ( inlineToolbarRect.top - inlineToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
-			inlineToolbar.destroy();
-			inlineToolbar = null;
+			assert.areEqual( expectedLeft, balloonToolbarRect.left.toFixed( 2 ), 'left align' );
+			assert.areEqual( frame.top.toFixed( 2 ), ( balloonToolbarRect.top - balloonToolbar.triangleHeight ).toFixed( 2 ), 'top align' );
+			balloonToolbar.destroy();
+			balloonToolbar = null;
 		},
 
 		'test panel adds cke_inlinetoolbar class': function( editor ) {
-			var inlineToolbar = new CKEDITOR.ui.inlineToolbarView( editor, {
+			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
 				width: 100,
 				height: 200
 			} ),
 				markerElement = editor.editable().findOne( '#marker' );
-			inlineToolbar.attach( markerElement );
+			balloonToolbar.attach( markerElement );
 
-			assert.isTrue( inlineToolbar.parts.panel.hasClass( 'cke_inlinetoolbar' ), 'Panel has a cke_inlinetoolbar class' );
-			assert.isTrue( inlineToolbar.parts.panel.hasClass( 'cke_balloon' ), 'Class cke_balloon class was not removed' );
-			inlineToolbar.destroy();
-			inlineToolbar = null;
+			assert.isTrue( balloonToolbar.parts.panel.hasClass( 'cke_inlinetoolbar' ), 'Panel has a cke_inlinetoolbar class' );
+			assert.isTrue( balloonToolbar.parts.panel.hasClass( 'cke_balloon' ), 'Class cke_balloon class was not removed' );
+			balloonToolbar.destroy();
+			balloonToolbar = null;
 		}
 	};
 

@@ -48,26 +48,26 @@
 			on: {
 				instanceReady: function( evt ) {
 					// Register the toolbar for inline elements.
-					evt.editor.inlineToolbar.create( {
+					evt.editor.balloonToolbar.create( {
 						buttons: 'Strike,Underline',
 						cssSelector: 'u, s'
 					} );
 
 
-					evt.editor.inlineToolbar.create( {
+					evt.editor.balloonToolbar.create( {
 						buttons: 'BulletedList,NumberedList',
 						cssSelector: 'li'
 					} );
 
-					var inlineToolbarContext = evt.editor.inlineToolbar.create( {
+					var balloonToolbarContext = evt.editor.balloonToolbar.create( {
 						buttons: 'Source,Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Bold,Italic,Underline,Strike,Subscript,Superscript,CopyFormatting,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,BidiRtl,Language,Link,Unlink,Anchor,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Styles,Format,Font,FontSize,TextColor,BGColor,Maximize,ShowBlocks,About',
 						refresh: function( editor ) { return editor.editable(); },
-						priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.LOW
+						priority: CKEDITOR.plugins.balloontoolbar.PRIORITY.LOW
 					} );
 
 					// Only for that single toolbar, customize the alignment, so that it's always top hcenter.
-					inlineToolbarContext.toolbar._view._getAlignments = function( elementRect, panelWidth, panelHeight ) {
-						var ret = CKEDITOR.ui.inlineToolbarView.prototype._getAlignments.call( this, elementRect, panelWidth, panelHeight );
+					balloonToolbarContext.toolbar._view._getAlignments = function( elementRect, panelWidth, panelHeight ) {
+						var ret = CKEDITOR.ui.balloonToolbarView.prototype._getAlignments.call( this, elementRect, panelWidth, panelHeight );
 
 						return {
 							'top hcenter': ret[ 'top hcenter' ]

@@ -44,17 +44,17 @@
 			on: {
 				instanceReady: function( evt ) {
 					// Register the toolbar for inline elements.
-					evt.editor.inlineToolbar.create( {
+					evt.editor.balloonToolbar.create( {
 						buttons: 'Bold,Underline',
 						cssSelector: 'strong, em'
 					} );
 
-					evt.editor.inlineToolbar.create( {
+					evt.editor.balloonToolbar.create( {
 						buttons: 'Link,Unlink',
 						cssSelector: 'a[href], img'
 					} );
 
-					evt.editor.inlineToolbar.create( {
+					evt.editor.balloonToolbar.create( {
 						buttons: 'BulletedList,NumberedList',
 						cssSelector: 'li'
 					} );

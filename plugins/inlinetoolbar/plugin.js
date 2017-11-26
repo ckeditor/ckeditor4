@@ -9,7 +9,7 @@
 	var matchingFunctionName = getElementMatchFunctionName();
 
 	/**
-	 * Class representing a view of Balloon Toolbar, used by {@link CKEDITOR.ui.inlineToolbar}.
+	 * Class representing a view of Balloon Toolbar, used by {@link CKEDITOR.ui.balloonToolbar}.
 	 *
 	 * @class
 	 * @private
@@ -20,7 +20,7 @@
 	 * @param {Object} definition An object containing the toolbar definition. See {@link CKEDITOR.ui.balloonPanel}
 	 * docs for an example definition.
 	 */
-	CKEDITOR.ui.inlineToolbarView = function( editor, definition ) {
+	CKEDITOR.ui.balloonToolbarView = function( editor, definition ) {
 		definition = CKEDITOR.tools.extend( definition || {}, {
 			width: 'auto',
 			triangleWidth: 10,
@@ -39,14 +39,14 @@
 	/**
 	 * Class representing instance of Balloon Toolbar.
 	 *
-	 * The easiest way to create a Balloon Toolbar is by using {@link CKEDITOR.editor.inlineToolbar#create} function.
+	 * The easiest way to create a Balloon Toolbar is by using {@link CKEDITOR.editor.balloonToolbar#create} function.
 	 *
 	 * However it's possible to maintain it manually, like below:
 	 *
 	 *		// Following example will show a Balloon Toolbar on any selection change. The toolbar is anchored to the
 	 *		// last element in selection, assuming that editor variable is an instance of CKEDITOR.editor.
 	 *		editor.on( 'instanceReady', function() {
-	 *			var toolbar = new CKEDITOR.ui.inlineToolbar( editor );
+	 *			var toolbar = new CKEDITOR.ui.balloonToolbar( editor );
 	 *
 	 *			toolbar.addItems( {
 	 *				link: new CKEDITOR.ui.button( {
@@ -73,14 +73,14 @@
 	 * @param {Object} definition An object containing the panel definition. See {@link CKEDITOR.ui.balloonPanel}
 	 * docs for an example definition.
 	 */
-	CKEDITOR.ui.inlineToolbar = function( editor, definition ) {
+	CKEDITOR.ui.balloonToolbar = function( editor, definition ) {
 		/**
 		 * View instance of Balloon Toolbar.
 		 *
 		 * @private
-		 * @property {CKEDITOR.ui.inlineToolbarView}
+		 * @property {CKEDITOR.ui.balloonToolbarView}
 		 */
-		this._view = new CKEDITOR.ui.inlineToolbarView( editor, definition );
+		this._view = new CKEDITOR.ui.balloonToolbarView( editor, definition );
 
 		/**
 		 * Menu items added to Balloon Toolbar.
@@ -96,9 +96,9 @@
 	 *
 	 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
 	 * @param {Boolean} [hidden=false] Do not show Balloon Toolbar after attach.
-	 * @member CKEDITOR.ui.inlineToolbar
+	 * @member CKEDITOR.ui.balloonToolbar
 	 */
-	CKEDITOR.ui.inlineToolbar.prototype.attach = function( element, hidden ) {
+	CKEDITOR.ui.balloonToolbar.prototype.attach = function( element, hidden ) {
 		this._view.renderItems( this._items );
 		this._view.attach( element, {
 			focusElement: false,
@@ -109,18 +109,18 @@
 	/**
 	 * Shows the Balloon Toolbar.
 	 *
-	 * @member CKEDITOR.ui.inlineToolbar
+	 * @member CKEDITOR.ui.balloonToolbar
 	 */
-	CKEDITOR.ui.inlineToolbar.prototype.show = function() {
+	CKEDITOR.ui.balloonToolbar.prototype.show = function() {
 		this._view.show();
 	};
 
 	/**
 	 * Hides the Balloon Toolbar.
 	 *
-	 * @member CKEDITOR.ui.inlineToolbar
+	 * @member CKEDITOR.ui.balloonToolbar
 	 */
-	CKEDITOR.ui.inlineToolbar.prototype.hide = function() {
+	CKEDITOR.ui.balloonToolbar.prototype.hide = function() {
 		this._view.hide();
 	};
 
@@ -130,7 +130,7 @@
 	 * @param {String} name The menu item name.
 	 * @param {CKEDITOR.ui.button/CKEDITOR.ui.richCombo} element Instance of ui element.
 	 */
-	CKEDITOR.ui.inlineToolbar.prototype.addItem = function( name, element ) {
+	CKEDITOR.ui.balloonToolbar.prototype.addItem = function( name, element ) {
 		this._items[ name ] = element;
 	};
 
@@ -139,7 +139,7 @@
 	 *
 	 * @param {Object} elements Object where keys are used as itemName and corresponding values as definition for a {@link #addItem} call.
 	 */
-	CKEDITOR.ui.inlineToolbar.prototype.addItems = function( elements ) {
+	CKEDITOR.ui.balloonToolbar.prototype.addItems = function( elements ) {
 		for ( var itemName in elements ) {
 			this.addItem( itemName, elements[ itemName ] );
 		}
@@ -151,7 +151,7 @@
 	 * @param {String} name The name of the desired menu item.
 	 * @returns {CKEDITOR.ui.button/CKEDITOR.ui.richCombo}
 	 */
-	CKEDITOR.ui.inlineToolbar.prototype.getItem = function( name ) {
+	CKEDITOR.ui.balloonToolbar.prototype.getItem = function( name ) {
 		return this._items[ name ];
 	};
 
@@ -160,7 +160,7 @@
 	 *
 	 * @param {String} name The name of the item menu to be deleted.
 	 */
-	CKEDITOR.ui.inlineToolbar.prototype.deleteItem = function( name ) {
+	CKEDITOR.ui.balloonToolbar.prototype.deleteItem = function( name ) {
 		if ( this._items[ name ] ) {
 			delete this._items[ name ];
 		}
@@ -169,7 +169,7 @@
 	/**
 	 * Hides the toolbar and removes it from the DOM.
 	 */
-	CKEDITOR.ui.inlineToolbar.prototype.destroy = function() {
+	CKEDITOR.ui.balloonToolbar.prototype.destroy = function() {
 		this._pointedElement = null;
 		this._view.destroy();
 	};
@@ -179,13 +179,13 @@
 	 *
 	 * It can be configured with a various of conditions for showing up the toolbar using `options` parameter.
 	 *
-	 * Multiple contexts are handled by the {@link CKEDITOR.plugins.inlinetoolbar.contextManager Context Manager}.
+	 * Multiple contexts are handled by the {@link CKEDITOR.plugins.balloontoolbar.contextManager Context Manager}.
 	 *
-	 * @class CKEDITOR.plugins.inlinetoolbar.context
+	 * @class CKEDITOR.plugins.balloontoolbar.context
 	 * @constructor Creates a Balloon Toolbar context instance.
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance for which the toolbar is created.
-	 * @param {CKEDITOR.plugins.inlinetoolbar.contextDefinition} options A set of options, defining context behavior.
+	 * @param {CKEDITOR.plugins.balloontoolbar.contextDefinition} options A set of options, defining context behavior.
 	 */
 	function Context( editor, options ) {
 		/**
@@ -198,19 +198,19 @@
 		/**
 		 * Options passed to the constructor.
 		 *
-		 * @property {CKEDITOR.plugins.inlinetoolbar.contextDefinition}
+		 * @property {CKEDITOR.plugins.balloontoolbar.contextDefinition}
 		 */
 		this.options = options;
 
 		/**
 		 * Toolbar instance pointed by context.
 		 *
-		 * @property {CKEDITOR.ui.inlineToolbar}
+		 * @property {CKEDITOR.ui.balloonToolbar}
 		 */
-		this.toolbar = new CKEDITOR.ui.inlineToolbar( editor );
+		this.toolbar = new CKEDITOR.ui.balloonToolbar( editor );
 
 		if ( this.options && typeof this.options.priority === 'undefined' ) {
-			this.options.priority = CKEDITOR.plugins.inlinetoolbar.PRIORITY.MEDIUM;
+			this.options.priority = CKEDITOR.plugins.balloontoolbar.PRIORITY.MEDIUM;
 		}
 
 		this._loadButtons();
@@ -340,10 +340,10 @@
 	 * 1. Widgets matching - `options.widgets`
 	 * 1. CSS matching - `options.cssSelector`
 	 *
-	 * It's worth noting that priorities could be further customized by explicitly providing {@link CKEDITOR.plugins.inlinetoolbar.contextDefinition#priority},
+	 * It's worth noting that priorities could be further customized by explicitly providing {@link CKEDITOR.plugins.balloontoolbar.contextDefinition#priority},
 	 * so that it's possible to match a widget over a refresh callback.
 	 *
-	 * @class CKEDITOR.plugins.inlinetoolbar.contextManager
+	 * @class CKEDITOR.plugins.balloontoolbar.contextManager
 	 * @constructor
 	 * @since 4.8
 	 * @param {CKEDITOR.editor} editor The editor instance which the toolbar is created for.
@@ -360,7 +360,7 @@
 		 * List of contexts controlled by this manager.
 		 *
 		 * @private
-		 * @property {CKEDITOR.plugins.inlinetoolbar.context}
+		 * @property {CKEDITOR.plugins.balloontoolbar.context}
 		 */
 		this._contexts = [];
 
@@ -379,7 +379,7 @@
 		/**
 		 * Adds a `context` to the tracked contexts list.
 		 *
-		 * @param {CKEDITOR.plugins.inlinetoolbar.context} context
+		 * @param {CKEDITOR.plugins.balloontoolbar.context} context
 		 */
 		add: function( context ) {
 			this._contexts.push( context );
@@ -540,35 +540,35 @@
 			 *
 			 * The main purpose is to {@link #create create} new toolbar contexts.
 			 *
-			 * @class CKEDITOR.editor.inlineToolbar
+			 * @class CKEDITOR.editor.balloonToolbar
 			 * @singleton
 			 */
-			editor.inlineToolbar = {
+			editor.balloonToolbar = {
 				/**
 				 * Balloon Toolbar manager for a given editor instance.
 				 *
 				 * It ensures that there's only one toolbar visible at a time.
 				 *
 				 * @private
-				 * @property {CKEDITOR.plugins.inlinetoolbar.contextManager} manager
+				 * @property {CKEDITOR.plugins.balloontoolbar.contextManager} manager
 				 */
-				_manager: new CKEDITOR.plugins.inlinetoolbar.contextManager( editor ),
+				_manager: new CKEDITOR.plugins.balloontoolbar.contextManager( editor ),
 
 				/**
 				 * The simplest way to create a Balloon Toolbar.
 				 *
 				 * Following example will add a toolbar containing link and unlink buttons for any anchor or image:
 				 *
-				 *		editor.inlinetoolbar.create( {
+				 *		editor.balloontoolbar.create( {
 				 *			buttons: 'Link,Unlink',
 				 *			cssSelector: 'a[href], img'
 				 *		} );
 				 *
-				 * @param {CKEDITOR.plugins.inlinetoolbar.contextDefinition} options Config object that determines the conditions used to display the toolbar.
-				 * @returns {CKEDITOR.plugins.inlinetoolbar.context} A context object created for this Balloon Toolbar configuration.
+				 * @param {CKEDITOR.plugins.balloontoolbar.contextDefinition} options Config object that determines the conditions used to display the toolbar.
+				 * @returns {CKEDITOR.plugins.balloontoolbar.context} A context object created for this Balloon Toolbar configuration.
 				 */
 				create: function( options ) {
-					var ret = new CKEDITOR.plugins.inlinetoolbar.context( editor, options );
+					var ret = new CKEDITOR.plugins.balloontoolbar.context( editor, options );
 
 					this._manager.add( ret );
 
@@ -581,21 +581,21 @@
 				return;
 			}
 			pluginInit = true;
-			CKEDITOR.ui.inlineToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
+			CKEDITOR.ui.balloonToolbarView.prototype = CKEDITOR.tools.extend( {}, CKEDITOR.ui.balloonPanel.prototype );
 
 			/**
 			 * Builds Balloon Toolbar DOM representation.
 			 *
-			 * @member CKEDITOR.ui.inlineToolbarView
+			 * @member CKEDITOR.ui.balloonToolbarView
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.build = function() {
+			CKEDITOR.ui.balloonToolbarView.prototype.build = function() {
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
 				this.parts.panel.addClass( 'cke_inlinetoolbar' );
 				this.parts.title.remove();
 				this.parts.close.remove();
 			};
 
-			CKEDITOR.ui.inlineToolbarView.prototype.show = function() {
+			CKEDITOR.ui.balloonToolbarView.prototype.show = function() {
 				if ( this.rect.visible ) {
 					return;
 				}
@@ -615,7 +615,7 @@
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
 			};
 
-			CKEDITOR.ui.inlineToolbarView.prototype.hide = function() {
+			CKEDITOR.ui.balloonToolbarView.prototype.hide = function() {
 				this._detachListeners();
 				CKEDITOR.ui.balloonPanel.prototype.hide.call( this );
 			};
@@ -623,9 +623,9 @@
 			/**
 			 * @inheritdoc CKEDITOR.ui.balloonPanel#blur
 			 * @param {Boolean} [focusEditor=false] Whether the editor should be focused after blurring.
-			 * @member CKEDITOR.ui.inlineToolbarView
+			 * @member CKEDITOR.ui.balloonToolbarView
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.blur = function( focusEditor ) {
+			CKEDITOR.ui.balloonToolbarView.prototype.blur = function( focusEditor ) {
 				if ( !!focusEditor ) {
 					// This is actually different behavior from standard balloonpanel, where it always puts the focus back to editor.
 					// We don't want to do it here, as e.g. we hide the toolbar as user leaves the editor (tabs out). Forcing focus
@@ -634,7 +634,7 @@
 				}
 			};
 
-			CKEDITOR.ui.inlineToolbarView.prototype._getAlignments = function( elementRect, panelWidth, panelHeight ) {
+			CKEDITOR.ui.balloonToolbarView.prototype._getAlignments = function( elementRect, panelWidth, panelHeight ) {
 				var filter = [ 'top hcenter', 'bottom hcenter' ],
 					alignments = CKEDITOR.ui.balloonPanel.prototype._getAlignments.call( this, elementRect, panelWidth, panelHeight );
 				for ( var a in alignments ) {
@@ -649,9 +649,9 @@
 			 * Detaches all listeners.
 			 *
 			 * @private
-			 * @member CKEDITOR.ui.inlineToolbarView
+			 * @member CKEDITOR.ui.balloonToolbarView
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype._detachListeners = function() {
+			CKEDITOR.ui.balloonToolbarView.prototype._detachListeners = function() {
 				if ( this._listeners.length ) {
 					CKEDITOR.tools.array.forEach( this._listeners, function( listener ) {
 						listener.removeListener();
@@ -660,7 +660,7 @@
 				}
 			};
 
-			CKEDITOR.ui.inlineToolbarView.prototype.destroy = function() {
+			CKEDITOR.ui.balloonToolbarView.prototype.destroy = function() {
 				CKEDITOR.ui.balloonPanel.prototype.destroy.call( this );
 				this._detachListeners();
 			};
@@ -669,9 +669,9 @@
 			 * Renders provided UI elements inside of the view.
 			 *
 			 * @param {CKEDITOR.ui.button[]/CKEDITOR.ui.richCombo[]} items Array of UI elements objects.
-			 * @member CKEDITOR.ui.inlineToolbarView
+			 * @member CKEDITOR.ui.balloonToolbarView
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.renderItems = function( items ) {
+			CKEDITOR.ui.balloonToolbarView.prototype.renderItems = function( items ) {
 				var output = [],
 					keys = CKEDITOR.tools.objectKeys( items ),
 					groupStarted = false;
@@ -706,15 +706,15 @@
 
 			/**
 			 * @inheritdoc CKEDITOR.ui.balloonPanel#attach
-			 * @member CKEDITOR.ui.inlineToolbarView
+			 * @member CKEDITOR.ui.balloonToolbarView
 			 */
-			CKEDITOR.ui.inlineToolbarView.prototype.attach = function( element, options ) {
+			CKEDITOR.ui.balloonToolbarView.prototype.attach = function( element, options ) {
 
 				/**
 				 * DOM element used by Balloon Toolbar to attach to.
 				 *
 				 * @private
-				 * @member CKEDITOR.ui.inlineToolbarView
+				 * @member CKEDITOR.ui.balloonToolbarView
 				 */
 				this._pointedElement = element;
 
@@ -729,7 +729,7 @@
 	 * @class
 	 * @singleton
 	 */
-	CKEDITOR.plugins.inlinetoolbar = {
+	CKEDITOR.plugins.balloontoolbar = {
 		context: Context,
 		contextManager: ContextManager,
 
@@ -755,11 +755,11 @@
 	}
 
 	/**
-	 * This is an abstract class that describes the definition of a {@link CKEDITOR.plugins.inlinetoolbar.context Balloon Toolbar Context}.
+	 * This is an abstract class that describes the definition of a {@link CKEDITOR.plugins.balloontoolbar.context Balloon Toolbar Context}.
 	 *
-	 * **Note that context matching options have a different priority by default**, see more details in {@link CKEDITOR.plugins.inlinetoolbar.contextManager}.
+	 * **Note that context matching options have a different priority by default**, see more details in {@link CKEDITOR.plugins.balloontoolbar.contextManager}.
 	 *
-	 * @class CKEDITOR.plugins.inlinetoolbar.contextDefinition
+	 * @class CKEDITOR.plugins.balloontoolbar.contextDefinition
 	 * @abstract
 	 */
 
@@ -782,7 +782,7 @@
 	 *
 	 *		// Assuming that editor is an CKEDITOR.editor instance.
 	 *		// Show the toolbar only if there's a strong in the path.
-	 *		editor.inlinetoolbar.create( {
+	 *		editor.balloontoolbar.create( {
 	 *			buttons: 'Bold,Underline',
 	 *			refresh: function( editor, path ) {
 	 *				return path.contains( 'strong' );
@@ -790,7 +790,7 @@
 	 *		} );
 	 *
 	 *		// In this case toolbar will be always visible, pointing at the editable, despite the selection.
-	 *		editor.inlinetoolbar.create( {
+	 *		editor.balloontoolbar.create( {
 	 *			buttons: 'Bold,Underline',
 	 *			refresh: function( editor, path ) {
 	 *				return editor.editable();
@@ -808,7 +808,7 @@
 	 */
 
 	/**
-	 * A number based on {@link CKEDITOR.plugins.inlinetoolbar#PRIORITY}.
+	 * A number based on {@link CKEDITOR.plugins.balloontoolbar#PRIORITY}.
 	 *
 	 *		var defA = {
 	 *			buttons: 'Bold',
@@ -820,10 +820,10 @@
 	 *		var defB = {
 	 *			buttons: 'NumberedList,BulletedList',
 	 *			cssSelector: 'li',
-	 *			priority: CKEDITOR.plugins.inlinetoolbar.PRIORITY.HIGH
+	 *			priority: CKEDITOR.plugins.balloontoolbar.PRIORITY.HIGH
 	 *		};
 	 *
 	 *
-	 * @property {Number} [priority=CKEDITOR.plugins.inlinetoolbar.PRIORITY.MEDIUM]
+	 * @property {Number} [priority=CKEDITOR.plugins.balloontoolbar.PRIORITY.MEDIUM]
 	 */
 }() );
