@@ -376,9 +376,16 @@
 	}
 
 	ContextManager.prototype = {
-
 		/**
-		 * Creates {@link CKEDITOR.plugins.balloontoolbar.context} from the given options.
+		 * Creates a toolbar context based on provided `options`, registers it in the manager and returns.
+		 *
+		 *		// Shows bold and underline button for any selection.
+		 *		var context = contextManager.create( {
+		 *			buttons: 'Bold,Underline',
+		 *			refresh: function() {
+		 *			 	return true;
+		 *			}
+		 *		} );
 		 *
 		 * @param {CKEDITOR.plugins.balloontoolbar.contextDefinition} options Config object that determines the conditions used to display the toolbar.
 		 * @returns {CKEDITOR.plugins.balloontoolbar.context} A context object created for this Balloon Toolbar configuration.
@@ -549,11 +556,10 @@
 		},
 
 		init: function( editor ) {
-
 			/**
 			 * Balloon Toolbar manager for a given editor instance. It ensures that there's only one toolbar visible at a time.
 			 *
-			 * It is the simplest way to create a Balloon Toolbar. It uses {@link CKEDITOR.plugins.balloontoolbar.contextManager#create} underneath.
+			 * Use {@link CKEDITOR.plugins.balloontoolbar.contextManager#create} method to register a new toolbar context.
 			 *
 			 * Following example will add a toolbar containing link and unlink buttons for any anchor or image:
 			 *
