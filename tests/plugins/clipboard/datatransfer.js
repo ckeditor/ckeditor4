@@ -522,6 +522,54 @@ bender.test( {
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
 	},
 
+	'test asynchronous full HTML overwrite (with cached data)': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+			'<head></head>' +
+			'<BODY>' +
+			'<!--StartFragment--><p>Foo</p>' +
+			'<p>Bar</p><!--EndFragment-->' +
+			'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<h1>foobar</h1>' );
+		dataTransfer.cacheData();
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
+		nativeData.clearData( 'text/html' );
+
+		// Change HTML value after original data transfer is no longer available.
+		dataTransfer.setData( 'text/html', html );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ), 'Native HTML' );
+		assert.areSame( '<p>Foo</p><p>Bar</p>', dataTransfer.getData( 'text/html' ), 'Inner HTML' );
+	},
+
+	'test asynchronous simple HTML overwrite (with cached data)': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<p>Foo</p><p>Bar</p>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<h1>foobar</h1>' );
+		dataTransfer.cacheData();
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
+		nativeData.clearData( 'text/html' );
+
+		// Change HTML value after original data transfer is no longer available.
+		dataTransfer.setData( 'text/html', html );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ), 'Native HTML' );
+		assert.areSame( html, dataTransfer.getData( 'text/html' ), 'Inner HTML' );
+	},
+
 	// https://dev.ckeditor.com/ticket/16847
 	'test getData with filter after caching': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
