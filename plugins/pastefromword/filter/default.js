@@ -2021,6 +2021,81 @@
 	List = CKEDITOR.plugins.pastefromword.lists;
 
 	/**
+	 * Namespace containing a set of image helper methods.
+	 *
+	 * @private
+	 * @since 4.8.0
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
+	CKEDITOR.plugins.pastefromword.images = {
+		/**
+		 * Method parses RTF content to find embedded images. Please be aware that method should only return `png` and `jpeg` images.
+		 *
+		 * @private
+		 * @since 4.8.0
+		 * @param {String} rtfContent RTF content to be checked for images.
+		 * @returns {Object[]} An array of images found in the `rtfContent`.
+		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
+		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'.
+		 * @member CKEDITOR.plugins.pastefromword.images
+		 */
+		extractFromRtf: function( rtfContent ) {
+			var ret = [],
+				rePictureHeader = /\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
+				rePicture = new RegExp( '(?:(' + rePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
+				wholeImages,
+				imageType;
+
+			wholeImages = rtfContent.match( rePicture );
+			if ( !wholeImages ) {
+				return ret;
+			}
+
+			for ( var i = 0; i < wholeImages.length; i++ ) {
+				if ( rePictureHeader.test( wholeImages[ i ] ) ) {
+					if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
+						imageType = 'image/png';
+					} else if ( wholeImages[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
+						imageType = 'image/jpeg';
+					} else {
+						continue;
+					}
+
+					ret.push( {
+						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
+						type: imageType
+					} );
+				}
+			}
+
+			return ret;
+		},
+
+		/**
+		 * Method extracts array of src attributes in img tags from given HTML. Img tags belonging to VML shapes are removed.
+		 *
+		 *		CKEDITOR.plugins.pastefromword.images.extractTagsFromHtml( html );
+		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
+		 *
+		 * @private
+		 * @param {String} html String represent HTML code.
+		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
+		 * @member CKEDITOR.plugins.pastefromword.images
+		 */
+		extractTagsFromHtml: function( html ) {
+			var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
+				ret = [],
+				item;
+
+			while ( item = regexp.exec( html ) ) {
+				ret.push( item[ 1 ] );
+			}
+
+			return ret;
+		}
+	};
+
+	/**
 	 * Namespace containing methods used to process the pasted content using heuristics.
 	 *
 	 * @private
