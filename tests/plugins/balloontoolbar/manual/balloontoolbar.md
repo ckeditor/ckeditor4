@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.8.0, feature balloontoolbar
+@bender-tags: 4.8.0, feature, 933, balloontoolbar
 @bender-ckeditor-plugins: wysiwygarea,toolbar,undo,basicstyles,notification,floatingspace,balloontoolbar,sourcearea,list,link
 
 Play with the `balloontoolbar` plugin.
