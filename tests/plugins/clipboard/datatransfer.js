@@ -474,6 +474,54 @@ bender.test( {
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
 	},
 
+	// (#1223)
+	'test asynchronous getData with getNative flag after setData used': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<p>foo bar baz</p>' );
+		dataTransfer.setData( 'text/html', '<h1>foobar</h1>' );
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
+		nativeData.clearData( 'text/html' );
+
+		assert.areSame( '<h1>foobar</h1>', dataTransfer.getData( 'text/html', true ) );
+	},
+
+	// (#1223)
+	'test asynchronous getData with getNative flag after caching after setData used': function() {
+		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
+			return assert.ignore();
+		}
+
+		var html = '<html>' +
+			'<head>' +
+			'<meta charset="UTF-8">' +
+			'<meta name="foo" content=bar>' +
+			'<STYLE>h1 { color: red; }</style>' +
+			'</head>' +
+			'<BODY>' +
+			'<!--StartFragment--><p>Foo</p>' +
+			'<p>Bar</p><!--EndFragment-->' +
+			'</body>' +
+			'</html>',
+			nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
+
+		nativeData.setData( 'text/html', '<h1>foobar</h1>' );
+		dataTransfer.cacheData();
+		dataTransfer.setData( 'text/html', html );
+
+		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
+		nativeData.clearData( 'text/html' );
+
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+	},
+
 	// https://dev.ckeditor.com/ticket/16847
 	'test getData with filter after caching': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
