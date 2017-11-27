@@ -14,7 +14,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.balloonToolbar._manager._clear();
+			this.editor.balloonToolbars._clear();
 		},
 
 		'test exposes editor.balloonToolbar.create': function() {
@@ -25,7 +25,7 @@
 			ContextTypeStub.prototype.hide = sinon.stub();
 			ContextTypeStub.prototype.destroy = sinon.stub();
 
-			ret = this.editor.balloonToolbar.create( {} );
+			ret = this.editor.balloonToolbars.create( {} );
 
 			ContextTypeStub.restore();
 
