@@ -11,6 +11,10 @@
 		fillingCharSequenceRegExp = new RegExp( fillingCharSequence + '( )?', 'g' ),
 		isSelectingTable;
 
+	function isWidget( element ) {
+		return CKEDITOR.plugins.widget && CKEDITOR.plugins.widget.isDomWidget( element );
+	}
+
 	// #### table selection : START
 	// @param {CKEDITOR.dom.range[]} ranges
 	// @param {Boolean} allowPartially Whether a collapsed selection within table is recognized to be a valid selection.
@@ -19,7 +23,10 @@
 		if ( ranges.length === 0 ) {
 			return false;
 		}
-
+		// It's not table selection when selected node is a widget (#1027).
+		if ( isWidget( ranges[ 0 ].getEnclosedNode() ) ) {
+			return false;
+		}
 		var node,
 			i;
 
@@ -94,6 +101,11 @@
 			}
 
 			return table.equals( fakeTable ) || fakeTable.contains( table );
+		}
+
+		// When widget is selected, then definitely is not a table (#1027).
+		if ( isWidget( fakeSelection.getSelectedElement() ) ) {
+			return false;
 		}
 
 		if ( isValidTableSelection( table, fakeTable, ranges, fakeRanges ) ) {
@@ -1907,7 +1919,6 @@
 				// faked or its clone.
 				if ( this.rev == editor._.fakeSelection.rev ) {
 					delete editor._.fakeSelection;
-
 					removeHiddenSelectionContainer( editor );
 				}
 				else {

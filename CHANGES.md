@@ -34,6 +34,7 @@ Fixed Issues:
 * [#1213](https://github.com/ckeditor/ckeditor-dev/issues/1213): Fixed: Multiple images uploaded using [Upload Image](https://ckeditor.com/cke4/addon/uploadimage) plugin are randomly duplicated or mangled.
 * [#532](https://github.com/ckeditor/ckeditor-dev/issues/532): Fixed: Removed an outdated user guide link from the [About](https://ckeditor.com/cke4/addon/about) dialog.
 * [#1221](https://github.com/ckeditor/ckeditor-dev/issues/1221): Fixed: Invalid CSS loaded by [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) plugin when [`config.skin`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-skin) is loaded using a custom path.
+* [#522](https://github.com/ckeditor/ckeditor-dev/issues/522): Fixed: Widget selection is not removed when widget is inside table cell with [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin enabled. Fixes also [#1027](https://github.com/ckeditor/ckeditor-dev/issues/1027).
 
 API Changes:
 
