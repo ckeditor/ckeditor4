@@ -607,7 +607,8 @@
 						focusElement: false
 					} );
 				}, this ) );
-				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
+				var document = this.editor.plugins.divarea ? editable : editable.getDocument();
+				this._listeners.push( editable.attachListener( document, 'scroll', function() {
 					this.attach( this._pointedElement, {
 						focusElement: false
 					} );
