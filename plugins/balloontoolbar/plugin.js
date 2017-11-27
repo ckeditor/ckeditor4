@@ -39,7 +39,7 @@
 	/**
 	 * Class representing instance of Balloon Toolbar.
 	 *
-	 * The easiest way to create a Balloon Toolbar is by using {@link CKEDITOR.editor.balloonToolbars} with `create` function.
+	 * The easiest way to create a Balloon Toolbar is by using {@link CKEDITOR.editor#balloonToolbars} `create` method.
 	 *
 	 * However it's possible to maintain it manually, like below:
 	 *
@@ -378,16 +378,7 @@
 	ContextManager.prototype = {
 
 		/**
-		 * Creates {@link CKEDITOR.plugins.balloontoolbar.context} from the given options. The
-		 * {@link CKEDITOR.plugins.balloontoolbar.context} initializes Balloon Toolbar which means this is
-		 * the simplest way to create one.
-		 *
-		 * Following example will add a toolbar containing link and unlink buttons for any anchor or image:
-		 *
-		 *		contextManager.create( {
-		 *			buttons: 'Link,Unlink',
-		 *			cssSelector: 'a[href], img'
-		 *		} );
+		 * Creates {@link CKEDITOR.plugins.balloontoolbar.context} from the given options.
 		 *
 		 * @param {CKEDITOR.plugins.balloontoolbar.contextDefinition} options Config object that determines the conditions used to display the toolbar.
 		 * @returns {CKEDITOR.plugins.balloontoolbar.context} A context object created for this Balloon Toolbar configuration.
