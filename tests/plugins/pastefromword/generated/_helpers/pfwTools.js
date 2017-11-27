@@ -14,6 +14,16 @@
 				'unicode-bidi,direction,dir,lang,page-break-after};td[valign]',
 			disallowedContent: 'td{vertical-align}'
 		},
+		// Preferred editor config for generated tests with PFW Image.
+		imageDefaultConfig: {
+			language: 'en',
+			removePlugins: 'dialogadvtab,flash,showborders,horizontalrule',
+			colorButton_normalizeBackground: false,
+			extraAllowedContent: 'span{line-height,background,font-weight,font-size,font-style,text-decoration,text-underline,display,' +
+				'page-break-before,height,tab-stops,layout-grid-mode,text-justify,-ms-layout-grid-mode,-ms-text-justify,' +
+				'unicode-bidi,direction,dir,lang,page-break-after};td[valign];img[src,alt]{height,width,float};a[href];td[colspan,rowspan]',
+			disallowedContent: 'td{vertical-align};*[data-cke-*];span{font-family}'
+		},
 
 		// Filters for use in compatHtml in tests.
 		filters: {

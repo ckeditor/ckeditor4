@@ -1,0 +1,36 @@
+<!-- Expected value is JSON -->
+<textarea id="source0">
+	<p><img src="http://example-picture.com/random.png" /></p>
+	=>
+	[
+		"http://example-picture.com/random.png"
+	]
+</textarea>
+<textarea id="source1">
+	<p><img class="border" width="400" height="300" data-custom="something" src="http://example-picture.com/random.png?parameter=2" /></p>
+	=>
+[
+	"http://example-picture.com/random.png?parameter=2"
+]
+</textarea>
+<textarea id="source2">
+	<p><img src="file:///Some/Path/To/Local/Resources/kitty.jpeg" class="invisible" /></p>
+	=>
+	[
+		"file:///Some/Path/To/Local/Resources/kitty.jpeg"
+	]
+</textarea>
+<textarea id="source3">
+	<p><img class="one" src="//example.com/pic1.png" /></p><p>Hello world</p><p><img src="//example.com/pic2.gif" class="two" /></p><div><span class="something"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg==" /></span></div>
+	=>
+	[
+		"//example.com/pic1.png",
+		"//example.com/pic2.gif",
+		"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYGBgAAAABAABJzQnCgAAAABJRU5ErkJggg=="
+	]
+</textarea>
+<textarea id="source4">
+	<p>There is no img</p>
+	=>
+	[]
+</textarea>

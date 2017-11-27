@@ -6,12 +6,15 @@ function assertWordFilter( editor, compareRawData ) {
 			dataTransfer;
 
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-			nativeDataTransfer.setData( 'text/html', input );
+			nativeDataTransfer.setData( 'text/html', input[ 'text/html' ] );
+			if ( input[ 'text/rtf' ] ) {
+				nativeDataTransfer.setData( 'text/rtf', input[ 'text/rtf' ] );
+			}
 		}
 
 		dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeDataTransfer );
 
-		return promisePasteEvent( editor, { dataValue: input, dataTransfer: dataTransfer } )
+		return promisePasteEvent( editor, { dataValue: input[ 'text/html' ], dataTransfer: dataTransfer } )
 			.then( function( data ) {
 				return [
 					// Lowercase, since old IE versions paste the HTML tags in uppercase.

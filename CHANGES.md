@@ -5,6 +5,7 @@
 
 New Features:
 
+* [#662](https://github.com/ckeditor/ckeditor-dev/issues/662): Introduced image inlining for the [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
 * [#468](https://github.com/ckeditor/ckeditor-dev/issues/468): [Edge] Introduced support for the Clipboard API.
 * [#607](https://github.com/ckeditor/ckeditor-dev/issues/607): Manually inserted Hex color is prefixed with a hash character (`#`) if needed. It ensures a valid Hex color value is used when setting the table cell border or background color with the [Color Dialog](https://ckeditor.com/cke4/addon/colordialog) window.
 * [#584](https://github.com/ckeditor/ckeditor-dev/issues/584): [Font size and Family](https://ckeditor.com/cke4/addon/font) and [Format](https://ckeditor.com/cke4/addon/format) drop-downs are not toggleable anymore. Default option to reset styles added.
@@ -36,6 +37,8 @@ Fixed Issues:
 * [#1221](https://github.com/ckeditor/ckeditor-dev/issues/1221): Fixed: Invalid CSS loaded by [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) plugin when [`config.skin`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-skin) is loaded using a custom path.
 * [#522](https://github.com/ckeditor/ckeditor-dev/issues/522): Fixed: Widget selection is not removed when widget is inside table cell with [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin enabled.
 * [#1027](https://github.com/ckeditor/ckeditor-dev/issues/1027): Fixed: Cannot add multiple images to the table with [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin in certain situations.
+* [#1069](https://github.com/ckeditor/ckeditor-dev/issues/1069): Fixed: Wrong shape processing by [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+* [#995](https://github.com/ckeditor/ckeditor-dev/issues/995): Fixed: Hyperlinked image gets inserted twice by [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
 
 API Changes:
 

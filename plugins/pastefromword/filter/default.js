@@ -18,6 +18,16 @@
 			'meta',
 			'link'
 		],
+		shapeTags = [
+			'v:arc',
+			'v:curve',
+			'v:line',
+			'v:oval',
+			'v:polyline',
+			'v:rect',
+			'v:roundrect',
+			'v:group'
+		],
 		links = {},
 		inComment = 0;
 
@@ -31,7 +41,15 @@
 	CKEDITOR.plugins.pastefromword = {};
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
-		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
+		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
+			shapesIds = [];
+
+		function shapeTagging( element ) {
+			// Check if regular or canvas shape (#1088).
+			if ( element.attributes[ 'o:gfxdata' ] || element.parent.name === 'v:group' ) {
+				shapesIds.push( element.attributes.id );
+			}
+		}
 
 		// Before filtering inline all the styles to allow because some of them are available only in style
 		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (https://dev.ckeditor.com/ticket/16847)
@@ -44,7 +62,7 @@
 
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
 
-		filter = new CKEDITOR.htmlParser.filter( {
+		var filterDefinition = {
 			root: function( element ) {
 				element.filterChildren( filter );
 
@@ -110,6 +128,18 @@
 						element.attributes.alt && element.attributes.alt.match( /^https?:\/\// ) ) {
 						element.attributes.src = element.attributes.alt;
 					}
+
+					var imgShapesIds = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
+					// Check whether attribute contains shapes recognised earlier (stored in global list of shapesIds).
+					// If so, add additional data-attribute to img tag.
+					var isShapeFromList = CKEDITOR.tools.array.every( imgShapesIds, function( shapeId ) {
+						return shapesIds.indexOf( shapeId ) > -1;
+					} );
+					if ( imgShapesIds.length && isShapeFromList ) {
+						// As we don't know how to process shapes we can remove them.
+						return false;
+					}
+
 				},
 				'p': function( element ) {
 					element.filterChildren( filter );
@@ -363,31 +393,62 @@
 				'v:imagedata': remove,
 				// This is how IE8 presents images.
 				'v:shape': function( element ) {
-					// In chrome a <v:shape> element may be followed by an <img> element with the same content.
-					var duplicate = false;
-					element.parent.getFirst( function( child ) {
-						if ( child.name == 'img' &&
-							child.attributes &&
+					// There are 3 paths:
+					// 1. There is regular `v:shape` (no `v:imagedata` inside).
+					// 2. There is a simple situation with `v:shape` with `v:imagedata` inside. We can remove such element and rely on `img` tag found later on.
+					// 3. There is complicated situation where we cannot find proper `img` tag after `v:shape` or there is some canvas element.
+					// 		a) If shape is a child of v:group, then most probably it belongs to canvas, so we need to treat it as in path 1.
+					// 		b) In other cases, most probably there is no related `img` tag. We need to transform `v:shape` into `img` tag (IE8 integration).
+
+					var duplicate = false,
+						child = element.getFirst( 'v:imagedata' );
+
+					// Path 1:
+					if ( child === null ) {
+						shapeTagging( element );
+						return;
+					}
+
+					// Path 2:
+					// Sometimes child with proper ID might be nested in other tag.
+					element.parent.find( function( child ) {
+						if ( child.name == 'img' && child.attributes &&
 							child.attributes[ 'v:shapes' ] == element.attributes.id ) {
+
 							duplicate = true;
 						}
-					} );
+					}, true );
 
-					if ( duplicate ) return false;
+					if ( duplicate ) {
+						return false;
+					} else {
 
-					var src = '';
-					element.forEach( function( child ) {
-						if ( child.attributes && child.attributes.src ) {
-							src = child.attributes.src;
+						// Path 3:
+						var src = '';
+
+						// 3.a) Filter out situation when canvas is used. In such scenario there is v:group containing v:shape containing v:imagedata.
+						// Such v:shapes we treat as in Path 1.
+						if ( element.parent.name === 'v:group' ) {
+							shapeTagging( element );
+							return;
 						}
-					}, CKEDITOR.NODE_ELEMENT, true );
 
-					element.filterChildren( filter );
+						// 3.b) Most probably there is no img tag later on, so we need to transform this v:shape into img. This should only happen on IE8.
+						element.forEach( function( child ) {
+							if ( child.attributes && child.attributes.src ) {
+								src = child.attributes.src;
+							}
+						}, CKEDITOR.NODE_ELEMENT, true );
 
-					element.name = 'img';
-					element.attributes.src = element.attributes.src || src;
+						element.filterChildren( filter );
 
-					delete element.attributes.type;
+						element.name = 'img';
+						element.attributes.src = element.attributes.src || src;
+
+						delete element.attributes.type;
+					}
+
+					return;
 				},
 
 				'style': function() {
@@ -439,7 +500,14 @@
 
 				return content;
 			}
+		};
+
+		// Add shape processing to filter definition.
+		CKEDITOR.tools.array.forEach( shapeTags, function( shapeTag ) {
+			filterDefinition.elements[ shapeTag ] = shapeTagging;
 		} );
+
+		filter = new CKEDITOR.htmlParser.filter( filterDefinition );
 
 		var writer = new CKEDITOR.htmlParser.basicWriter();
 
@@ -1951,6 +2019,81 @@
 		}
 	};
 	List = CKEDITOR.plugins.pastefromword.lists;
+
+	/**
+	 * Namespace containing a set of image helper methods.
+	 *
+	 * @private
+	 * @since 4.8.0
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
+	CKEDITOR.plugins.pastefromword.images = {
+		/**
+		 * Method parses RTF content to find embedded images. Please be aware that method should only return `png` and `jpeg` images.
+		 *
+		 * @private
+		 * @since 4.8.0
+		 * @param {String} rtfContent RTF content to be checked for images.
+		 * @returns {Object[]} An array of images found in the `rtfContent`.
+		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
+		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'.
+		 * @member CKEDITOR.plugins.pastefromword.images
+		 */
+		extractFromRtf: function( rtfContent ) {
+			var ret = [],
+				rePictureHeader = /\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
+				rePicture = new RegExp( '(?:(' + rePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
+				wholeImages,
+				imageType;
+
+			wholeImages = rtfContent.match( rePicture );
+			if ( !wholeImages ) {
+				return ret;
+			}
+
+			for ( var i = 0; i < wholeImages.length; i++ ) {
+				if ( rePictureHeader.test( wholeImages[ i ] ) ) {
+					if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
+						imageType = 'image/png';
+					} else if ( wholeImages[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
+						imageType = 'image/jpeg';
+					} else {
+						continue;
+					}
+
+					ret.push( {
+						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
+						type: imageType
+					} );
+				}
+			}
+
+			return ret;
+		},
+
+		/**
+		 * Method extracts array of src attributes in img tags from given HTML. Img tags belonging to VML shapes are removed.
+		 *
+		 *		CKEDITOR.plugins.pastefromword.images.extractTagsFromHtml( html );
+		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
+		 *
+		 * @private
+		 * @param {String} html String represent HTML code.
+		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
+		 * @member CKEDITOR.plugins.pastefromword.images
+		 */
+		extractTagsFromHtml: function( html ) {
+			var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
+				ret = [],
+				item;
+
+			while ( item = regexp.exec( html ) ) {
+				ret.push( item[ 1 ] );
+			}
+
+			return ret;
+		}
+	};
 
 	/**
 	 * Namespace containing methods used to process the pasted content using heuristics.
