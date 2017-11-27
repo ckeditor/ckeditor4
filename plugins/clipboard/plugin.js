@@ -2322,7 +2322,7 @@
 			// Firefox on Linux put files paths as a text/plain data if there are files
 			// in the dataTransfer object. We need to hide it, because files should be
 			// handled on paste only if dataValue is empty.
-			else if ( type == 'Text' && CKEDITOR.env.gecko && this.getFilesCount() &&
+			if ( type == 'Text' && CKEDITOR.env.gecko && this.getFilesCount() &&
 				data.substring( 0, 7 ) == 'file://' ) {
 				data = '';
 			}
