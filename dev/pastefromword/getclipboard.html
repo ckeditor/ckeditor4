@@ -22,8 +22,8 @@
 	<script src="../../ckeditor.js"></script>
 </head>
 <body>
-    <p>Paste Inside the Editor:</p>
-    <div><textarea id="input"></textarea></div>
+	<p>Paste Inside the Editor:</p>
+	<div><textarea id="input"></textarea></div>
 	<div>
 		<div style="float: left; width: 49%">
 			<p>Raw HTML Data Received: <span id="emHtml"></span></p>
@@ -49,8 +49,8 @@
 	} );
 
 	editor.on( 'paste', function( evt ) {
+		// Clipboard text/html processing.
 		var val = evt.data.dataValue;
-
 		if ( evt.data.dataTransfer && evt.data.dataTransfer.getData( 'text/html', true ) ) {
 			val = evt.data.dataTransfer.getData( 'text/html', true );
 			document.getElementById( 'emHtml' ).innerHTML = '<br />Data from: <code>dataTransfer.getData( \'text/html\', true )</code>.';
@@ -58,9 +58,10 @@
 			document.getElementById( 'emHtml' ).innerHTML = '<br /><code>dataTransfer.getData( \'text/html\', true )</code> was empty.' +
 			'<br /><span class="marker">Data from: <code>evt.data.dataValue</code>.</span>';
 		}
-		val = '';
-
 		document.getElementById( 'rawHtml' ).value = val;
+
+		// Clipboard text/rtf processing.
+		val = '';
 		if ( evt.data.dataTransfer && evt.data.dataTransfer.getData( 'text/rtf' ) ) {
 			val = evt.data.dataTransfer.getData( 'text/rtf', true );
 			document.getElementById( 'emRtf' ).innerHTML = '<br />Data from: <code>dataTransfer.getData( \'text/rtf\', true )</code>.';
