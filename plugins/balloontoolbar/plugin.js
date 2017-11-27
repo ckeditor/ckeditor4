@@ -39,7 +39,7 @@
 	/**
 	 * Class representing instance of Balloon Toolbar.
 	 *
-	 * The easiest way to create a Balloon Toolbar is by using {@link CKEDITOR.editor.balloonToolbar#create} function.
+	 * The easiest way to create a Balloon Toolbar is by using {@link CKEDITOR.editor.balloonToolbars} with `create` function.
 	 *
 	 * However it's possible to maintain it manually, like below:
 	 *
@@ -376,6 +376,30 @@
 	}
 
 	ContextManager.prototype = {
+
+		/**
+		 * Creates {@link CKEDITOR.plugins.balloontoolbar.context} from the given options. The
+		 * {@link CKEDITOR.plugins.balloontoolbar.context} initializes Balloon Toolbar which means this is
+		 * the simplest way to create one.
+		 *
+		 * Following example will add a toolbar containing link and unlink buttons for any anchor or image:
+		 *
+		 *		contextManager.create( {
+		 *			buttons: 'Link,Unlink',
+		 *			cssSelector: 'a[href], img'
+		 *		} );
+		 *
+		 * @param {CKEDITOR.plugins.balloontoolbar.contextDefinition} options Config object that determines the conditions used to display the toolbar.
+		 * @returns {CKEDITOR.plugins.balloontoolbar.context} A context object created for this Balloon Toolbar configuration.
+		 */
+		create: function( options ) {
+			var context = new CKEDITOR.plugins.balloontoolbar.context( this.editor, options );
+
+			this.add( context );
+
+			return context;
+		},
+
 		/**
 		 * Adds a `context` to the tracked contexts list.
 		 *
@@ -536,45 +560,23 @@
 		init: function( editor ) {
 
 			/**
-			 * Set of instance-specific public APIs exposed by the [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) plugin.
+			 * Balloon Toolbar manager for a given editor instance. It ensures that there's only one toolbar visible at a time.
 			 *
-			 * The main purpose is to {@link #create create} new toolbar contexts.
+			 * It is the simplest way to create a Balloon Toolbar. It uses {@link CKEDITOR.plugins.balloontoolbar.contextManager#create} underneath.
 			 *
-			 * @class CKEDITOR.editor.balloonToolbar
-			 * @singleton
+			 * Following example will add a toolbar containing link and unlink buttons for any anchor or image:
+			 *
+			 *		editor.balloonToolbars.create( {
+			 *			buttons: 'Link,Unlink',
+			 *			cssSelector: 'a[href], img'
+			 *		} );
+			 *
+			 * @since 4.8
+			 * @readonly
+			 * @property {CKEDITOR.plugins.balloontoolbar.contextManager} balloonToolbars
+			 * @member CKEDITOR.editor
 			 */
-			editor.balloonToolbar = {
-				/**
-				 * Balloon Toolbar manager for a given editor instance.
-				 *
-				 * It ensures that there's only one toolbar visible at a time.
-				 *
-				 * @private
-				 * @property {CKEDITOR.plugins.balloontoolbar.contextManager} manager
-				 */
-				_manager: new CKEDITOR.plugins.balloontoolbar.contextManager( editor ),
-
-				/**
-				 * The simplest way to create a Balloon Toolbar.
-				 *
-				 * Following example will add a toolbar containing link and unlink buttons for any anchor or image:
-				 *
-				 *		editor.balloontoolbar.create( {
-				 *			buttons: 'Link,Unlink',
-				 *			cssSelector: 'a[href], img'
-				 *		} );
-				 *
-				 * @param {CKEDITOR.plugins.balloontoolbar.contextDefinition} options Config object that determines the conditions used to display the toolbar.
-				 * @returns {CKEDITOR.plugins.balloontoolbar.context} A context object created for this Balloon Toolbar configuration.
-				 */
-				create: function( options ) {
-					var ret = new CKEDITOR.plugins.balloontoolbar.context( editor, options );
-
-					this._manager.add( ret );
-
-					return ret;
-				}
-			};
+			editor.balloonToolbars = new CKEDITOR.plugins.balloontoolbar.contextManager( editor );
 
 			// Awful hack for overwriting prototypes of inilineToolbarView (#1142).
 			if ( pluginInit ) {
