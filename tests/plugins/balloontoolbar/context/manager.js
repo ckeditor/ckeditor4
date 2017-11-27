@@ -14,7 +14,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.balloonToolbar._manager._clear();
+			this.editor.balloonToolbars._clear();
 		},
 
 		'test manager uses custom selection if provided': function() {
@@ -27,11 +27,11 @@
 			rng.setStart( this.editor.editable().findOne( 'em' ).getFirst(), 1 );
 			rng.collapse( true );
 
-			this.editor.balloonToolbar.create( {
+			this.editor.balloonToolbars.create( {
 				refresh: refreshStub
 			} );
 
-			this.editor.balloonToolbar._manager.check( selectionClone );
+			this.editor.balloonToolbars.check( selectionClone );
 
 			assert.areSame( 1, refreshStub.callCount, 'Refresh call count' );
 			assert.areSame( 'body,p,em', this._elementPathSerialize( refreshStub.args[ 0 ][ 1 ] ), 'Path provided to the options.refresh' );
@@ -44,11 +44,11 @@
 
 			var refreshStub = sinon.stub().returns( false );
 
-			this.editor.balloonToolbar.create( {
+			this.editor.balloonToolbars.create( {
 				refresh: refreshStub
 			} );
 
-			this.editor.balloonToolbar._manager.check();
+			this.editor.balloonToolbars.check();
 
 			assert.areSame( 1, refreshStub.callCount, 'Refresh call count' );
 			assert.areSame( 'body,p,strong', this._elementPathSerialize( refreshStub.args[ 0 ][ 1 ] ), 'Path provided to options.refresh' );
