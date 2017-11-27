@@ -360,7 +360,7 @@
 		 * List of contexts controlled by this manager.
 		 *
 		 * @private
-		 * @property {CKEDITOR.plugins.balloontoolbar.context}
+		 * @property {CKEDITOR.plugins.balloontoolbar.context[]}
 		 */
 		this._contexts = [];
 
@@ -576,7 +576,7 @@
 				}
 			};
 
-			// Awful hack for overwriting prototypes of inilineToolbarView (#1142).
+			// Awful hack for overwriting prototypes of balloonToolbarView (#1142).
 			if ( pluginInit ) {
 				return;
 			}
