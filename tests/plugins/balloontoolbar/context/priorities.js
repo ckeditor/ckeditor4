@@ -26,7 +26,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.balloonToolbar._manager._clear();
+			this.editor.balloonToolbars._clear();
 		},
 
 		'test options.refresh has the highest priority': function() {
@@ -160,12 +160,12 @@
 
 			for ( i in optionsMapping ) {
 				if ( CKEDITOR.tools.array.indexOf( whitelist, i ) !== -1 ) {
-					ret[ i ] = this.editor.balloonToolbar.create( optionsMapping[ i ] );
+					ret[ i ] = this.editor.balloonToolbars.create( optionsMapping[ i ] );
 				}
 			}
 
 			if ( autoRefresh ) {
-				this.editor.balloonToolbar._manager.check();
+				this.editor.balloonToolbars.check();
 			}
 
 			return ret;
