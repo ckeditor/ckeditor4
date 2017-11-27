@@ -437,7 +437,7 @@
 					bottom: Math.min( editorRect.bottom, viewPaneSize.height + winGlobalScroll.y )
 				};
 
-				if ( isInline ) {
+				if ( isInline && !this.editor.plugins.divarea ) {
 					// In inline we want to limit position within the window.
 					allowedRect = this._getViewPaneRect( winGlobal );
 
