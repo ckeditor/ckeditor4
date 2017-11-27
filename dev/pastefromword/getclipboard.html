@@ -12,7 +12,12 @@
             overflow: auto;
             margin-bottom: 20px;;
         }
-
+		span {
+			background-color: #88FFAA;
+		}
+		.marker {
+			background-color: #FF9999;
+		}
     </style>
 	<script src="../../ckeditor.js"></script>
 </head>
@@ -21,12 +26,12 @@
     <div><textarea id="input"></textarea></div>
 	<div>
 		<div style="float: left; width: 49%">
-			<p>Raw HTML Data Received:</p>
+			<p>Raw HTML Data Received: <span id="emHtml"></span></p>
 			<textarea data-name="input.html" id="rawHtml" readonly="readonly"></textarea>
 			<button id="htmlData">Save HTML Data</button>
 		</div>
 		<div style="float: right; width: 49%">
-			<p>Raw RTF Data Received:</p>
+			<p>Raw RTF Data Received: <span id="emRtf"></span></p>
 			<textarea data-name="input.rtf" id="rawRtf" readonly="readonly"></textarea>
 			<button id="rtfData">Save RTF Data</button>
 		</div>
@@ -48,11 +53,19 @@
 
 		if ( evt.data.dataTransfer && evt.data.dataTransfer.getData( 'text/html', true ) ) {
 			val = evt.data.dataTransfer.getData( 'text/html', true );
+			document.getElementById( 'emHtml' ).innerHTML = '<br />Data from: <code>dataTransfer.getData( \'text/html\', true )</code>.';
+		} else {
+			document.getElementById( 'emHtml' ).innerHTML = '<br /><code>dataTransfer.getData( \'text/html\', true )</code> was empty.' +
+			'<br /><span class="marker">Data from: <code>evt.data.dataValue</code>.</span>';
 		}
-		document.getElementById( 'rawHtml' ).value = val;
+		val = '';
 
+		document.getElementById( 'rawHtml' ).value = val;
 		if ( evt.data.dataTransfer && evt.data.dataTransfer.getData( 'text/rtf' ) ) {
-			val = evt.data.dataTransfer.getData( 'text/rtf' );
+			val = evt.data.dataTransfer.getData( 'text/rtf', true );
+			document.getElementById( 'emRtf' ).innerHTML = '<br />Data from: <code>dataTransfer.getData( \'text/rtf\', true )</code>.';
+		} else {
+			document.getElementById( 'emRtf' ).innerHTML = '<br /><code>dataTransfer.getData( \'text/rtf\', true )</code> was empty';
 		}
 		document.getElementById( 'rawRtf' ).value = val;
 
