@@ -2340,9 +2340,9 @@
 			type = this._.normalizeType( type );
 
 			this._.data[ type ] = value;
-			// Reset so next time it will be fetched from native data.
+			// If 'text/html' is set manually we also store it in `nativeHtmlCache` without modifications.
 			if ( type == 'text/html' ) {
-				this._.nativeHtmlCache = null;
+				this._.nativeHtmlCache = value;
 			}
 
 			// There is "Unexpected call to method or property access." error if you try
@@ -2358,7 +2358,11 @@
 			}
 
 			if ( this._.fallbackDataTransfer.isRequired() ) {
-				this._.fallbackDataTransfer.setData( type, value );
+				var data = this._.fallbackDataTransfer.setData( type, value );
+				// If fallback used, the native data is different so we overwrite `nativeHtmlCache` here.
+				if ( type == 'text/html' ) {
+					this._.nativeHtmlCache = data;
+				}
 
 			} else {
 				try {
@@ -2570,10 +2574,10 @@
 		 * Removes meta tags and returns only the contents of the <body> element if found for the given html.
 		 *
 		 * @private
-		 * @param {String} data
+		 * @param {String} html
 		 * @returns {String}
 		 */
-		_stripHtml: function( data ) {
+		_stripHtml: function( html ) {
 			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
 			// or surround it with <html><head>...</head><body>(some content)<!--StartFragment--> and <!--EndFragment-->(some content)</body></html>
 			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
@@ -2581,7 +2585,7 @@
 			//
 			// See https://dev.ckeditor.com/ticket/13583 for more details.
 			// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
-			var result = data.replace( this._.metaRegExp, '' ),
+			var result = html.replace( this._.metaRegExp, '' ),
 				match;
 
 			// Keep only contents of the <body> element
@@ -2741,6 +2745,7 @@
 		 *
 		 * @param {String} type
 		 * @param {String} value
+		 * @returns {String} The value which was set.
 		 */
 		setData: function( type, value ) {
 			// In case of fallbackDataTransfer, cache does not reflect native data one-to-one. For example, having
@@ -2766,8 +2771,9 @@
 				value = this._applyDataComment( value, this._getFallbackTypeData() );
 			}
 
+			var data = value;
 			try {
-				this._nativeDataTransfer.setData( type, value );
+				this._nativeDataTransfer.setData( type, data );
 			} catch ( e ) {
 				if ( this._isUnsupportedMimeTypeError( e ) ) {
 					var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
@@ -2779,16 +2785,19 @@
 					var fallbackTypeContent = this._getFallbackTypeContent(),
 						fallbackTypeData = this._getFallbackTypeData();
 
-					fallbackTypeData[ type ] = value;
+					fallbackTypeData[ type ] = data;
 
 					try {
-						this._nativeDataTransfer.setData( this._customDataFallbackType,
-							this._applyDataComment( fallbackTypeContent, fallbackTypeData ) );
+						data = this._applyDataComment( fallbackTypeContent, fallbackTypeData );
+						this._nativeDataTransfer.setData( this._customDataFallbackType, data );
 					} catch ( e ) {
+						data = '';
 						// Some dev logger should be added here.
 					}
 				}
 			}
+
+			return data;
 		},
 
 		/**
@@ -2839,8 +2848,14 @@
 				fallbackTypeData = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).data || {};
 
 			CKEDITOR.tools.array.forEach( fallbackTypes, function( type ) {
-				fallbackTypeData[ type ] = this._cache[ type ] !== undefined ? this._cache[ type ] : fallbackTypeData[ type ];
+				if ( this._cache[ type ] !== undefined ) {
+					fallbackTypeData[ type ] = this._cache[ type ];
+
+				} else if ( fallbackTypeData[ type ] !== undefined ) {
+					fallbackTypeData[ type ] = fallbackTypeData[ type ];
+				}
 			}, this );
+
 			return fallbackTypeData;
 		},
 
