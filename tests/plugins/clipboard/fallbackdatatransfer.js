@@ -4,6 +4,8 @@
 
 'use strict';
 
+var isEdge16 = CKEDITOR.env.ie && CKEDITOR.env.version >= 16;
+
 bender.test( {
 	init: function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
@@ -252,6 +254,26 @@ bender.test( {
 		} );
 	},
 
+	'test setData returns value which was set - fallbackDataTransfer': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._.fallbackDataTransfer,
+			setValue;
+
+		setValue = dataTransferFallback.setData( 'cke/custom', 'custom data' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
+		assert.areSame( setValue, isEdge16 ? getHtmlContent( '', { 'cke/custom': 'custom data' } ) : 'custom data' );
+
+		setValue = dataTransferFallback.setData( 'text/html', '<h1>Header1</h1>' );
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h1>Header1</h1>' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
+		assert.areSame( setValue, getHtmlContent( '<h1>Header1</h1>', isEdge16 ? { 'cke/custom': 'custom data' } : null ) );
+
+		setValue = dataTransferFallback.setData( 'text/html', '<h2>Header2</h2>' );
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h2>Header2</h2>' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
+		assert.areSame( setValue, getHtmlContent( '<h2>Header2</h2>', isEdge16 ? { 'cke/custom': 'custom data' } : null ) );
+	},
+
 	'test getting "text/html" and "cke/test" from cache': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
@@ -490,6 +512,18 @@ bender.test( {
 		objectAssert.areEqual( {}, dataTransferFallback._getFallbackTypeData() );
 	},
 
+	'test getFallbackTypeData for empty content in both cache and native data with `_customTypes` set': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._.fallbackDataTransfer,
+			data;
+
+		CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes = [ 'cke/id', 'cke/data' ];
+		data = dataTransferFallback._getFallbackTypeData();
+		CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes = [];
+
+		objectAssert.areEqual( {}, data );
+	},
+
 	'test getData with getNative with custom type': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
@@ -503,20 +537,20 @@ bender.test( {
 		assert.areSame( 'cke-custom data', dataTransfer.getData( 'cke/custom', true ) );
 		assert.areSame( '<p>custom html tag</p>', dataTransfer.getData( 'custom/tag', true ) );
 
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version >= 16 ) {
-			html = '<!--cke-data:' + encodeURIComponent( JSON.stringify( {
+		if ( isEdge16 ) {
+			html = getHtmlContent( html, {
 				'cke/id': dataTransfer.id,
 				'cke/custom': 'cke-custom data',
 				'custom/tag': '<p>custom html tag</p>'
-			} ) ) + '-->' + html;
+			} );
 		}
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
 
 	},
 
 	assertDataTransferType: function( dataTransfer, type, value, customValue ) {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version >= 16 && customValue ) {
-			value = '<!--cke-data:' + encodeURIComponent( JSON.stringify( customValue ) ) + '-->' + value;
+		if ( isEdge16 && customValue ) {
+			value = getHtmlContent( value, customValue );
 		}
 
 		var nativeDataTransfer = dataTransfer.$ || dataTransfer._nativeDataTransfer;
@@ -531,4 +565,11 @@ bender.test( {
 // Gets data with omitting the cache.
 function getDataNoCache( dataTransfer, type ) {
 	return dataTransfer._.fallbackDataTransfer.getData( type );
+}
+
+function getHtmlContent( htmlValue, customValue ) {
+	if ( customValue ) {
+		return '<!--cke-data:' + encodeURIComponent( JSON.stringify( customValue ) ) + '-->' + htmlValue;
+	}
+	return htmlValue;
 }
