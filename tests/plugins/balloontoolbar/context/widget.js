@@ -20,7 +20,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.balloonToolbar._manager._clear();
+			this.editor.balloonToolbars._clear();
 		},
 
 		'test simple positive matching with one item': function() {
@@ -155,7 +155,7 @@
 		 * @returns {CKEDITOR.plugins.balloontoolbar.context}
 		 */
 		_getContextStub: function( widgetNames ) {
-			return this.editor.balloonToolbar.create( {
+			return this.editor.balloonToolbars.create( {
 				widgets: widgetNames
 			} );
 		}

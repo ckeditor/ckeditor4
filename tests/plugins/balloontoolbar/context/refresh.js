@@ -20,7 +20,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.balloonToolbar._manager._clear();
+			this.editor.balloonToolbars._clear();
 		},
 
 		'test refresh returning true': function() {
@@ -48,7 +48,7 @@
 				context = this._getContextStub( sinon.stub().returns( emElem ) ),
 				showSpy = sinon.spy( context, 'show' );
 
-			this.editor.balloonToolbar._manager.check();
+			this.editor.balloonToolbars.check();
 
 			contextTools._assertToolbarVisible( true, context );
 
@@ -70,7 +70,7 @@
 			// Add a third context that has a higher priority, so that matching context is surrounded with unmatched contexts.
 			this._getContextStub( sinon.stub().returns( false ), false, CKEDITOR.plugins.balloontoolbar.PRIORITY.HIGH );
 
-			this.editor.balloonToolbar._manager.check();
+			this.editor.balloonToolbars.check();
 
 			contextTools._assertToolbarVisible( true, context );
 
@@ -98,13 +98,13 @@
 		 * @returns {CKEDITOR.plugins.balloontoolbar.context}
 		 */
 		_getContextStub: function( refreshCallback, autoRefresh, priority ) {
-			var ret = this.editor.balloonToolbar.create( {
+			var ret = this.editor.balloonToolbars.create( {
 				refresh: refreshCallback,
 				priority: priority
 			} );
 
 			if ( autoRefresh ) {
-				this.editor.balloonToolbar._manager.check();
+				this.editor.balloonToolbars.check();
 			}
 
 			return ret;
