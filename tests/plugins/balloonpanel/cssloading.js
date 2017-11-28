@@ -12,8 +12,9 @@
 	bender.test( {
 		_should: {
 			ignore: {
-				// As we don't have straight way to recognise editor's built version,
-				// such trick must be used.
+				// Our release version is built with moono-lisa skin inlined, thus we can't
+				// test it against other skin. We don't have straight way to recognise editor's
+				// built version, such trick must be used (#1251).
 				'test loading css with path': CKEDITOR.revision !== '%REV%'
 			}
 		},
