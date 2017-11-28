@@ -552,7 +552,7 @@ bender.test( {
 			value = getHtmlWithCustomData( value, customValue );
 		}
 
-		var nativeDataTransfer = dataTransfer.$ || dataTransfer._nativeDataTransfer;
+		var nativeDataTransfer = dataTransfer.$ || dataTransfer._dataTransfer.$;
 		assert.areSame( value, nativeDataTransfer.getData( type ) );
 	},
 
