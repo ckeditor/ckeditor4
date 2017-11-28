@@ -2365,7 +2365,6 @@
 				if ( type == 'text/html' ) {
 					this._.nativeHtmlCache = data;
 				}
-
 			} else {
 				try {
 					this.$.setData( type, value );
@@ -2625,12 +2624,13 @@
 		this._cache = dataTransfer._.data;
 
 		/**
-		 * A native dataTransfer object.
+		 * DataTransfer object which internal cache and
+		 * {@link CKEDITOR.plugins.clipboard.dataTransfer#$ data transfer} objects will be modified if needed.
 		 *
 		 * @private
-		 * @property {Object} _nativeDataTransfer
+		 * @property {CKEDITOR.plugins.clipboard.dataTransfer} _dataTransfer
 		 */
-		this._nativeDataTransfer = dataTransfer.$;
+		this._dataTransfer = dataTransfer;
 
 		/**
 		 * A MIME type used for storing custom MIME types.
@@ -2677,12 +2677,13 @@
 		 * @returns {Boolean}
 		 */
 		isRequired: function() {
-			var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
+			var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer,
+				nativeDataTransfer = this._dataTransfer.$;
 
 			if ( fallbackDataTransfer._isCustomMimeTypeSupported === null ) {
 				// If there is no `dataTransfer` we cannot detect if fallback is needed.
 				// Method returns `false` so regular flow will be applied.
-				if ( !this._nativeDataTransfer ) {
+				if ( !nativeDataTransfer ) {
 					return false;
 				} else {
 					var testValue = 'cke test value',
@@ -2691,9 +2692,9 @@
 					fallbackDataTransfer._isCustomMimeTypeSupported = false;
 
 					try {
-						this._nativeDataTransfer.setData( testType, testValue );
-						fallbackDataTransfer._isCustomMimeTypeSupported = this._nativeDataTransfer.getData( testType ) === testValue;
-						this._nativeDataTransfer.clearData( testType );
+						nativeDataTransfer.setData( testType, testValue );
+						fallbackDataTransfer._isCustomMimeTypeSupported = nativeDataTransfer.getData( testType ) === testValue;
+						nativeDataTransfer.clearData( testType );
 					} catch ( e ) {}
 				}
 			}
@@ -2773,9 +2774,11 @@
 				value = this._applyDataComment( value, this._getFallbackTypeData() );
 			}
 
-			var data = value;
+			var data = value,
+				nativeDataTransfer = this._dataTransfer.$;
+
 			try {
-				this._nativeDataTransfer.setData( type, data );
+				nativeDataTransfer.setData( type, data );
 			} catch ( e ) {
 				if ( this._isUnsupportedMimeTypeError( e ) ) {
 					var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
@@ -2791,7 +2794,7 @@
 
 					try {
 						data = this._applyDataComment( fallbackTypeContent, fallbackTypeData );
-						this._nativeDataTransfer.setData( this._customDataFallbackType, data );
+						nativeDataTransfer.setData( this._customDataFallbackType, data );
 					} catch ( e ) {
 						data = '';
 						// Some dev logger should be added here.
@@ -2815,7 +2818,7 @@
 				return this._cache[ type ];
 			} else {
 				try {
-					return this._nativeDataTransfer.getData( type );
+					return this._dataTransfer.$.getData( type );
 				} catch ( e ) {
 					return null;
 				}
