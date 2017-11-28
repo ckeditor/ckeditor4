@@ -260,18 +260,18 @@ bender.test( {
 			setValue;
 
 		setValue = dataTransferFallback.setData( 'cke/custom', 'custom data' );
-		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
-		assert.areSame( setValue, isEdge16 ? getHtmlWithCustomData( '', { 'cke/custom': 'custom data' } ) : 'custom data' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data', 'cke/custom 1' );
+		assert.areSame( setValue, isEdge16 ? getHtmlWithCustomData( '', { 'cke/custom': 'custom data' } ) : 'custom data', 'return val 1' );
 
 		setValue = dataTransferFallback.setData( 'text/html', '<h1>Header1</h1>' );
-		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h1>Header1</h1>' );
-		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
-		assert.areSame( setValue, getHtmlWithCustomData( '<h1>Header1</h1>', isEdge16 ? { 'cke/custom': 'custom data' } : null ) );
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h1>Header1</h1>', 'text/html 2' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data', 'cke/custom 2' );
+		assert.areSame( setValue, getHtmlWithCustomData( '<h1>Header1</h1>', isEdge16 ? { 'cke/custom': 'custom data' } : null ), 'return val 2' );
 
 		setValue = dataTransferFallback.setData( 'text/html', '<h2>Header2</h2>' );
-		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h2>Header2</h2>' );
-		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
-		assert.areSame( setValue, getHtmlWithCustomData( '<h2>Header2</h2>', isEdge16 ? { 'cke/custom': 'custom data' } : null ) );
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h2>Header2</h2>', 'text/html 3' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data', 'cke/custom 3' );
+		assert.areSame( setValue, getHtmlWithCustomData( '<h2>Header2</h2>', isEdge16 ? { 'cke/custom': 'custom data' } : null ), 'return val 3' );
 	},
 
 	'test getting "text/html" and "cke/test" from cache': function() {
@@ -534,8 +534,8 @@ bender.test( {
 		dataTransfer.setData( 'custom/tag', '<p>custom html tag</p>' );
 		dataTransfer.setData( 'text/html', html );
 
-		assert.areSame( 'cke-custom data', dataTransfer.getData( 'cke/custom', true ) );
-		assert.areSame( '<p>custom html tag</p>', dataTransfer.getData( 'custom/tag', true ) );
+		assert.areSame( 'cke-custom data', dataTransfer.getData( 'cke/custom', true ), 'cke/custom value' );
+		assert.areSame( '<p>custom html tag</p>', dataTransfer.getData( 'custom/tag', true ), 'custom/tag value' );
 
 		if ( isEdge16 ) {
 			html = getHtmlWithCustomData( html, {
@@ -544,8 +544,7 @@ bender.test( {
 				'custom/tag': '<p>custom html tag</p>'
 			} );
 		}
-		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
-
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ), 'text/html value' );
 	},
 
 	assertDataTransferType: function( dataTransfer, type, value, customValue ) {
