@@ -2360,11 +2360,7 @@
 			}
 
 			if ( this._.fallbackDataTransfer.isRequired() ) {
-				var data = this._.fallbackDataTransfer.setData( type, value );
-				// If fallback used, the native data is different so we overwrite `nativeHtmlCache` here.
-				if ( type == 'text/html' ) {
-					this._.nativeHtmlCache = data;
-				}
+				this._.fallbackDataTransfer.setData( type, value );
 			} else {
 				try {
 					this.$.setData( type, value );
@@ -2761,8 +2757,9 @@
 			//
 			// This way, accessing cache will always return proper value for a given type without a need for further processing.
 			// Cache is already set in CKEDITOR.plugins.clipboard.dataTransfer#setData so it is skipped here.
+			var isFallbackDataType = type === this._customDataFallbackType;
 
-			if ( type === this._customDataFallbackType ) {
+			if ( isFallbackDataType ) {
 				value = this._applyDataComment( value, this._getFallbackTypeData() );
 			}
 
@@ -2771,6 +2768,11 @@
 
 			try {
 				nativeDataTransfer.setData( type, data );
+
+				if ( isFallbackDataType ) {
+					// If fallback type used, the native data is different so we overwrite `nativeHtmlCache` here.
+					this._dataTransfer._.nativeHtmlCache = data;
+				}
 			} catch ( e ) {
 				if ( this._isUnsupportedMimeTypeError( e ) ) {
 					var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
@@ -2787,6 +2789,8 @@
 					try {
 						data = this._applyDataComment( fallbackTypeContent, fallbackTypeData );
 						nativeDataTransfer.setData( this._customDataFallbackType, data );
+						// Again, fallback type was changed, so we need to refresh the cache.
+						this._dataTransfer._.nativeHtmlCache = data;
 					} catch ( e ) {
 						data = '';
 						// Some dev logger should be added here.

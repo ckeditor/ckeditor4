@@ -549,6 +549,30 @@ bender.test( {
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ), 'text/html value' );
 	},
 
+	'test getData with getNative with custom type other sequence': function() {
+		// This test has a different setData sequence than the "test getData with getNative with custom type" test.
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock ),
+			html = '<s>html</s>';
+
+		dataTransfer.setData( 'cke/custom', 'cke-custom data' );
+		dataTransfer.setData( 'text/html', html );
+		dataTransfer.setData( 'custom/tag', '<p>custom html tag</p>' );
+
+		assert.areSame( 'cke-custom data', dataTransfer.getData( 'cke/custom', true ), 'cke/custom value' );
+		assert.areSame( '<p>custom html tag</p>', dataTransfer.getData( 'custom/tag', true ), 'custom/tag value' );
+
+		if ( isEdge16 ) {
+			html = getHtmlWithCustomData( html, {
+				'cke/id': dataTransfer.id,
+				'cke/custom': 'cke-custom data',
+				'custom/tag': '<p>custom html tag</p>'
+			} );
+		}
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ), 'text/html value' );
+	},
+
 	assertDataTransferType: function( dataTransfer, type, value, customValue ) {
 		if ( isEdge16 && customValue ) {
 			value = getHtmlWithCustomData( value, customValue );
