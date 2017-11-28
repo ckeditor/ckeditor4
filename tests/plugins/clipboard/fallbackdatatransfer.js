@@ -455,9 +455,10 @@ bender.test( {
 
 	'test getFallbackTypeContent prioritize cache': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._.fallbackDataTransfer;
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			dataTransferFallback = dataTransfer._.fallbackDataTransfer;
 
-		dataTransferFallback._cache[ dataTransferFallback._customDataFallbackType ] = 'cache value';
+		dataTransfer._.data[ dataTransferFallback._customDataFallbackType ] = 'cache value';
 		nativeData.setData( dataTransferFallback._customDataFallbackType, 'native value' );
 
 		assert.areEqual( 'cache value', dataTransferFallback._getFallbackTypeContent() );
@@ -481,9 +482,10 @@ bender.test( {
 
 	'test getFallbackTypeData prioritize cache': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._.fallbackDataTransfer;
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			dataTransferFallback = dataTransfer._.fallbackDataTransfer;
 
-		dataTransferFallback._cache[ 'cke/id' ] = 'cache value';
+		dataTransfer._.data[ 'cke/id' ] = 'cache value';
 		CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes.push( 'cke/id' );
 		nativeData.setData( dataTransferFallback._customDataFallbackType,
 			dataTransferFallback._applyDataComment( 'html', { 'cke/id': 'native value' } ) );
