@@ -24,8 +24,8 @@
 	var scrl = function( top, left ) {
 		return function() {
 			var editable = editor.editable();
-			editable.setScroll( top, left );
-			var scroll = editable.getScroll();
+			editable.setScrollPosition( top, left );
+			var scroll = editable.getScrollPosition();
 			val.innerHTML = '<p>Scroll Top: ' + scroll.scrollTop + '</p>' +
 				'<p>Scroll Left: ' + scroll.scrollLeft + '</p>';
 		}

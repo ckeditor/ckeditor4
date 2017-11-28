@@ -3165,7 +3165,7 @@
 			listener2 = widget.repository.on( 'checkSelection', cancel, null, null, 0 );
 
 		if ( needsScrollHack ) {
-			var scrollTop = editor.editable().getDocumentScroll( true );
+			var scrollTop = editor.editable().getDocumentScrollPosition().scrollTop;
 		}
 
 		// Once the clone of the widget is inside of copybin, select
@@ -3176,7 +3176,7 @@
 		range.select();
 
 		if ( needsScrollHack ) {
-			editor.editable().setDocumentScroll( scrollTop );
+			editor.editable().setDocumentScrollPosition( scrollTop );
 		}
 
 		setTimeout( function() {

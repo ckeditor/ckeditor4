@@ -24,8 +24,8 @@
 	var scrl = function( top, left ) {
 		return function() {
 			var element = editor.editable().findOne( '#nested' );
-			element.setDocumentScroll( top, left );
-			var scroll = element.getDocumentScroll();
+			element.setDocumentScrollPosition( top, left );
+			var scroll = element.getDocumentScrollPosition();
 			val.innerHTML = '<p>Scroll Top: ' + scroll.scrollTop + '</p>' +
 				'<p>Scroll Left: ' + scroll.scrollLeft + '</p>';
 		}

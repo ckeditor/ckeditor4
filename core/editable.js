@@ -78,7 +78,7 @@
 				// causes unexpected scroll. Store scrollTop value so it can be restored after focusing editor.
 				// Scroll only happens if the editor is focused for the first time. (https://dev.ckeditor.com/ticket/14825)
 				if ( CKEDITOR.env.edge && CKEDITOR.env.version > 14 && !this.hasFocus && this.getDocument().equals( CKEDITOR.document ) ) {
-					this.editor._.previousScrollTop = this.getEditableScroll( true );
+					this.editor._.previousScrollTop = this.getEditableScrollPosition().scrollTop;
 				}
 
 				// [IE] Use instead "setActive" method to focus the editable if it belongs to the host page document,
@@ -90,9 +90,9 @@
 						// We have no control over exactly what happens when the native `focus` method is called,
 						// so save the scroll position and restore it later.
 						if ( CKEDITOR.env.chrome ) {
-							var scrollPos = this.getEditableScroll( true );
+							var scrollPos = this.getEditableScrollPosition().scrollTop;
 							this.$.focus();
-							this.setEditableScroll( scrollPos );
+							this.setEditableScrollPosition( scrollPos );
 						} else {
 							this.$.focus();
 						}
@@ -802,11 +802,10 @@
 			 * Returns scroll position of editable.
 			 *
 			* @since 4.8.0
-			* @param {Boolean} [onlyScrollTop] If set to `true` returns only scrollTop value
 			* @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
 			*/
-			getEditableScroll: function( onlyScrollTop ) {
-				return this.isInline() ? this.getScroll( onlyScrollTop ) : this.getDocumentScroll( onlyScrollTop );
+			getEditableScrollPosition: function() {
+				return this.isInline() ? this.getScrollPosition() : this.getDocumentScrollPosition();
 			},
 
 			/**
@@ -816,8 +815,8 @@
 			 * @param {Number} scrollTop number of pixels that an element's document is scrolled vertically.
 			 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
 			 */
-			setEditableScroll: function( scrollTop, scrollLeft ) {
-				this.isInline() ? this.setScroll( scrollTop, scrollLeft ) : this.setDocumentScroll( scrollTop, scrollLeft );
+			setEditableScrollPosition: function( scrollTop, scrollLeft ) {
+				this.isInline() ? this.setScrollPosition( scrollTop, scrollLeft ) : this.setDocumentScrollPosition( scrollTop, scrollLeft );
 			},
 
 
@@ -917,7 +916,7 @@
 				if ( CKEDITOR.env.webkit ) {
 					// [WebKit] Save scrollTop value so it can be used when restoring locked selection. (https://dev.ckeditor.com/ticket/14659)
 					this.on( 'scroll', function() {
-						editor._.previousScrollTop = editor.editable().getEditableScroll( true );
+						editor._.previousScrollTop = editor.editable().getEditableScrollPosition().scrollTop;
 					}, null, null, -1 );
 				}
 
@@ -929,7 +928,7 @@
 						var editable = editor.editable();
 
 						if ( editor._.previousScrollTop != null && editable.getDocument().equals( CKEDITOR.document ) ) {
-							editable.setEditableScroll( editor._.previousScrollTop );
+							editable.setEditableScrollPosition( editor._.previousScrollTop );
 							editor._.previousScrollTop = null;
 							this.removeListener( 'scroll', fixScrollOnFocus );
 						}

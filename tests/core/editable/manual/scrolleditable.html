@@ -49,8 +49,8 @@
 				val = values2;
 			}
 			var editable = editor.editable();
-			editable.setEditableScroll( top, left );
-			var scroll = editable.getEditableScroll();
+			editable.setEditableScrollPosition( top, left );
+			var scroll = editable.getEditableScrollPosition();
 			val.innerHTML = '<p>Scroll Top: ' + scroll.scrollTop + '</p>' +
 				'<p>Scroll Left: ' + scroll.scrollLeft + '</p>';
 		}

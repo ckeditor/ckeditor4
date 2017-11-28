@@ -9,7 +9,7 @@
 			assert.areSame( expected.y, actual.scrollTop );
 		},
 
-		'test getDocumentScroll': function() {
+		'test getDocumentScrollPosition': function() {
 			var element = document.getElementById( 'small' ),
 				ckEl = new CKEDITOR.dom.element( element ),
 				doc,
@@ -23,29 +23,25 @@
 			ckEl.$.scrollLeft = 0;
 
 			// document no-scroll, element no-scroll
-			assert.areSame( 0, ckEl.getDocumentScroll( true ) );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScroll() );
+			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScrollPosition() );
 
 			// document no-scroll, element scroll
 			ckEl.$.scrollTop = 123;
 			ckEl.$.scrollLeft = 123;
-			assert.areSame( 0, ckEl.getDocumentScroll( true ) );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScroll() );
+			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScrollPosition() );
 
 			// document scroll, element scroll
 			docEl.scrollTop = 20;
 			docEl.scrollLeft = 20;
-			assert.areSame( 20, ckEl.getDocumentScroll( true ) );
-			this._assertBothScrolls( { x: 20, y: 20 }, ckEl.getDocumentScroll() );
+			this._assertBothScrolls( { x: 20, y: 20 }, ckEl.getDocumentScrollPosition() );
 
 			// document scroll, element no-scroll
 			ckEl.$.scrollTop = 0;
 			ckEl.$.scrollLeft = 0;
-			assert.areSame( 20, ckEl.getDocumentScroll( true ) );
-			this._assertBothScrolls( { x: 20, y: 20 }, ckEl.getDocumentScroll() );
+			this._assertBothScrolls( { x: 20, y: 20 }, ckEl.getDocumentScrollPosition() );
 		},
 
-		'test getScroll': function() {
+		'test getScrollPosition': function() {
 			var element = document.getElementById( 'small' ),
 				ckEl = new CKEDITOR.dom.element( element ),
 				doc,
@@ -60,66 +56,62 @@
 			ckEl.$.scrollLeft = 0;
 
 			// document no-scroll, element no-scroll
-			assert.areSame( 0, ckEl.getScroll( true ) );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScroll() );
+			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScrollPosition() );
 
 			// document no-scroll, element scroll
 			ckEl.$.scrollTop = 321;
 			ckEl.$.scrollLeft = 321;
-			assert.areSame( 321, ckEl.getScroll( true ) );
-			this._assertBothScrolls( { x: 321, y: 321 }, ckEl.getScroll() );
+			this._assertBothScrolls( { x: 321, y: 321 }, ckEl.getScrollPosition() );
 
 			// document scroll, element scroll
 			docEl.scrollTop = 20;
 			docEl.scrollLeft = 20;
-			assert.areSame( 321, ckEl.getScroll( true ) );
-			this._assertBothScrolls( { x: 321, y: 321 }, ckEl.getScroll() );
+			this._assertBothScrolls( { x: 321, y: 321 }, ckEl.getScrollPosition() );
 
 			// document scroll, element no-scroll
 			ckEl.$.scrollTop = 0;
 			ckEl.$.scrollLeft = 0;
-			assert.areSame( 0, ckEl.getScroll( true ) );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScroll() );
+			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScrollPosition() );
 		},
 
-		'test setDocumentScroll': function() {
+		'test setDocumentScrollPosition': function() {
 			var element = document.getElementById( 'small' ),
 				ckEl = new CKEDITOR.dom.element( element );
 
-			ckEl.setDocumentScroll( 0, 0 );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScroll() );
+			ckEl.setDocumentScrollPosition( 0, 0 );
+			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScrollPosition() );
 
-			ckEl.setDocumentScroll( 100 );
-			this._assertBothScrolls( { x: 0, y: 100 }, ckEl.getDocumentScroll() );
+			ckEl.setDocumentScrollPosition( 100 );
+			this._assertBothScrolls( { x: 0, y: 100 }, ckEl.getDocumentScrollPosition() );
 
-			ckEl.setDocumentScroll( 123, 23 );
-			this._assertBothScrolls( { x: 23, y: 123 }, ckEl.getDocumentScroll() );
+			ckEl.setDocumentScrollPosition( 123, 23 );
+			this._assertBothScrolls( { x: 23, y: 123 }, ckEl.getDocumentScrollPosition() );
 
-			ckEl.setDocumentScroll( 0 );
-			this._assertBothScrolls( { x: 23, y: 0 }, ckEl.getDocumentScroll() );
+			ckEl.setDocumentScrollPosition( 0 );
+			this._assertBothScrolls( { x: 23, y: 0 }, ckEl.getDocumentScrollPosition() );
 
-			ckEl.setDocumentScroll( 0, 0 );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScroll() );
+			ckEl.setDocumentScrollPosition( 0, 0 );
+			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getDocumentScrollPosition() );
 		},
 
-		'test setScroll': function() {
+		'test setScrollPosition': function() {
 			var element = document.getElementById( 'small' ),
 				ckEl = new CKEDITOR.dom.element( element );
 
-			ckEl.setScroll( 0, 0 );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScroll() );
+			ckEl.setScrollPosition( 0, 0 );
+			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScrollPosition() );
 
-			ckEl.setScroll( 100 );
-			this._assertBothScrolls( { x: 0, y: 100 }, ckEl.getScroll() );
+			ckEl.setScrollPosition( 100 );
+			this._assertBothScrolls( { x: 0, y: 100 }, ckEl.getScrollPosition() );
 
-			ckEl.setScroll( 123, 23 );
-			this._assertBothScrolls( { x: 23, y: 123 }, ckEl.getScroll() );
+			ckEl.setScrollPosition( 123, 23 );
+			this._assertBothScrolls( { x: 23, y: 123 }, ckEl.getScrollPosition() );
 
-			ckEl.setScroll( 0 );
-			this._assertBothScrolls( { x: 23, y: 0 }, ckEl.getScroll() );
+			ckEl.setScrollPosition( 0 );
+			this._assertBothScrolls( { x: 23, y: 0 }, ckEl.getScrollPosition() );
 
-			ckEl.setScroll( 0, 0 );
-			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScroll() );
+			ckEl.setScrollPosition( 0, 0 );
+			this._assertBothScrolls( { x: 0, y: 0 }, ckEl.getScrollPosition() );
 		}
 
 	} );
