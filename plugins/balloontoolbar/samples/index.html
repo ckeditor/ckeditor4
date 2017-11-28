@@ -63,7 +63,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	<script>
 	CKEDITOR.replace( 'editor', {
 		extraPlugins: 'balloontoolbar',
-		plugins: 'sourcearea,basicstyles,link,liststyle,table,tableselection,wysiwygarea,image',
+		plugins: 'sourcearea,basicstyles,link,list,table,wysiwygarea,image,toolbar',
+		removePlugins: 'contextmenu',
 		height: 200,
 		on: {
 			instanceReady: function( evt ) {
