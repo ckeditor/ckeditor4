@@ -14,10 +14,9 @@
 				ckEl = new CKEDITOR.dom.element( element ),
 				doc,
 				docEl;
-
 			// Reset position with native methods
 			doc = ckEl.getDocument();
-			docEl = doc.$.documentElement || doc.$.body;
+			docEl = doc.$.scrollingElement || doc.$.documentElement || doc.$.body;
 			docEl.scrollTop = 0;
 			docEl.scrollLeft = 0;
 			ckEl.$.scrollTop = 0;
@@ -54,7 +53,7 @@
 
 			// Reset position with native methods
 			doc = ckEl.getDocument();
-			docEl = doc.$.documentElement || doc.$.body;
+			docEl = doc.$.scrollingElement || doc.$.documentElement || doc.$.body;
 			docEl.scrollTop = 0;
 			docEl.scrollLeft = 0;
 			ckEl.$.scrollTop = 0;
