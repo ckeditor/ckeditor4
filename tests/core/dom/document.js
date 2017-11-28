@@ -136,31 +136,17 @@ bender.test( appendDomObjectTests(
 			assert.areSame( $frag, CKEDITOR.document._getHtml5ShivFrag(), 'Document fragment is cached' );
 		},
 
-		// #910
+		// (#910)
 		'test getScrollingElement': function() {
-			// IE doesn't support `scrollingElement`
-			if ( CKEDITOR.env.ie ) {
-				assert.ignore();
+			var scrollingElement = CKEDITOR.document.getScrollingElement(),
+				nativeEl = document.scrollingElement || document.documentElement || document.body;
+
+			if ( !( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) ) {
+				// IE8 doesn't support isEqualNode
+				assert.isTrue( scrollingElement.$.isEqualNode( nativeEl ) );
 			}
 
-			var doc = CKEDITOR.document;
-
-			assert.isTrue( doc.getScrollingElement().$.isEqualNode( document.scrollingElement ) );
-			assert.isTrue( doc.getScrollingElement().equals( new CKEDITOR.dom.element( document.scrollingElement ) ) );
-		},
-
-		// #910
-		'test scrollingElement is not present': function() {
-			if ( !CKEDITOR.env.ie ) {
-				assert.ignore();
-			}
-
-			var doc = CKEDITOR.document;
-			if ( CKEDITOR.env.version > 8 ) {
-				// isEqualNode is suported in IE9+
-				assert.isTrue( doc.getScrollingElement().$.isEqualNode( document.documentElement || document.body ) );
-			}
-			assert.isTrue( doc.getScrollingElement().equals( new CKEDITOR.dom.element( document.documentElement || document.body ) ) );
+			assert.isTrue( scrollingElement.equals( new CKEDITOR.dom.element( nativeEl ) ) );
 		}
 
 	}
