@@ -73,7 +73,7 @@
 
 					// Extract raw HTML, see
 					if ( CKEDITOR.tools.array.indexOf( types, 'text/html' ) != -1 ) {
-						// Native 'getData' needs to be used here as 'ckDataTransfer.getData'
+						// Native 'getData' needs to be used here since 'ckDataTransfer.getData'
 						// strips special comment which we would like to show here too.
 						output += getRow( 'Native HTML data', ckDataTransfer.getData( 'text/html', true ), 'raw' );
 					}

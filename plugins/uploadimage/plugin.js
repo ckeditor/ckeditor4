@@ -7,7 +7,7 @@
 
 ( function() {
 	var uniqueNameCounter = 0,
-		// Black rectangle which is shown before image is loaded.
+		// Black rectangle which is shown before the image is loaded.
 		loadingImage = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=';
 
 	// Returns number as a string. If a number has 1 digit only it returns it prefixed with an extra 0.
@@ -19,7 +19,7 @@
 		return String( input );
 	}
 
-	// Returns an unique image file name.
+	// Returns a unique image file name.
 	function getUniqueImageFileName( type ) {
 		var date = new Date(),
 			dateParts = [ date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds() ];
@@ -119,7 +119,7 @@
 
 					// We are not uploading images in non-editable blocs and fake objects (https://dev.ckeditor.com/ticket/13003).
 					if ( isDataInSrc && isRealObject && !img.data( 'cke-upload-id' ) && !img.isReadOnly( 1 ) ) {
-						// Note normally we'd extract this logic into a separate function, but we should not duplicate this string, as it might
+						// Note that normally we'd extract this logic into a separate function, but we should not duplicate this string, as it might
 						// be large.
 						var imgFormat = imgSrc.match( /image\/([a-z]+?);/i ),
 							loader;

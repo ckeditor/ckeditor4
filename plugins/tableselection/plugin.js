@@ -274,8 +274,8 @@
 		if ( !evt.data.getTarget().getName ) {
 			return;
 		}
-		// Prevent of applying table selection when widget is selected.
-		// Mouseup remain possibility to finish table selection when user release mouse button above widget in table.
+		// Prevent applying table selection when widget is selected.
+		// Mouseup remains a possibility to finish table selection when user release mouse button above widget in table.
 		if ( evt.name !== 'mouseup' && isWidget( evt.data.getTarget() ) ) {
 			return;
 		}

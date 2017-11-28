@@ -103,7 +103,7 @@
 			return table.equals( fakeTable ) || fakeTable.contains( table );
 		}
 
-		// When widget is selected, then definitely is not a table (#1027).
+		// When widget is selected, then definitely it's not a table (#1027).
 		if ( isWidget( fakeSelection.getSelectedElement() ) ) {
 			return false;
 		}

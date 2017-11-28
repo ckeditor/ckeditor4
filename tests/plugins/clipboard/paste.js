@@ -1187,7 +1187,7 @@
 
 			editable.fire( 'cut', pasteEventMock );
 
-			// As Edge stores custom data in text/html it needs to be assert differently - we need to extract content part (#962).
+			// As Edge stores custom data in text/html it needs to be asserted differently - we need to extract content part (#962).
 			if ( CKEDITOR.env.edge ) {
 				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
 				assert.areSame( 'b<b>a</b>r', dataTransfer._.fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
@@ -1212,7 +1212,7 @@
 
 			editable.fire( 'copy', pasteEventMock );
 
-			// As Edge stores custom data in text/html it needs to be assert differently - we need to extract content part (#962).
+			// As Edge stores custom data in text/html it needs to be asserted differently - we need to extract content part (#962).
 			if ( CKEDITOR.env.edge ) {
 				var dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( {}, editor );
 				assert.areSame( 'b<b>a</b>r', dataTransfer._.fallbackDataTransfer._extractDataComment( pasteEventMock.$.clipboardData.getData( 'text/html' ) ).content, 'HTML text' );
@@ -1304,7 +1304,7 @@
 				assert.ignore();
 
 			var editor = this.editor,
-				// As dataTransfer mock is used in `bender.tools.emulatePaste` we need to pass type which is acceptable in Edge
+				// As dataTransfer mock is used in `bender.tools.emulatePaste` we need to pass a type which is acceptable in Edge
 				// as it does not support custom types (#962).
 				customType = CKEDITOR.env.edge ? 'application/xml' : 'cke/custom',
 				initialData = {};

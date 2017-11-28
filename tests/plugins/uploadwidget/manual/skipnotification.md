@@ -5,11 +5,11 @@
 
 ## Skipping Notifications
 
-1. Paste or drag and drop an image into editor.
+1. Paste or drag and drop an image into the editor.
 
 ## Expected
 
-* No progress/success notification are shown.
+* No progress/success notifications are shown.
 * Image is changed to Lena (after ~4 secs).
 
-**Note:** This test use upload mock which will show you *Lena* instead of the real uploaded image.
+**Note:** This test uses upload mock which will show you *Lena* instead of the real uploaded image.
