@@ -2160,7 +2160,7 @@
 			data: {},
 			files: [],
 
-			// Stores full html so it can be accessed asynchronously with `getData( 'text/html', true )`.
+			// Stores full HTML so it can be accessed asynchronously with `getData( 'text/html', true )`.
 			nativeHtmlCache: '',
 
 			normalizeType: function( type ) {
@@ -2573,18 +2573,18 @@
 		},
 
 		/**
-		 * Removes meta tags and returns only the contents of the <body> element if found for the given html.
+		 * This function removes this meta information and returns only the contents of the `<body>` element if found.
+		 *
+		 * Various environments use miscellaneous meta tags in HTML clipboard, e.g.
+		 *
+		 * * `<meta http-equiv="content-type" content="text/html; charset=utf-8">` at the begging of the HTML data.
+		 * * Surrounding HTML with `<!--StartFragment-->` and `<!--EndFragment-->` nested within `<html><body>` elements.
 		 *
 		 * @private
 		 * @param {String} html
 		 * @returns {String}
 		 */
 		_stripHtml: function( html ) {
-			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
-			// or surround it with <html><head>...</head><body>(some content)<!--StartFragment--> and <!--EndFragment-->(some content)</body></html>
-			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
-			// some significant content may be placed outside Start/EndFragment comments so it's kept.
-			//
 			// See https://dev.ckeditor.com/ticket/13583 for more details.
 			// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
 			var result = html.replace( this._.metaRegExp, '' ),
