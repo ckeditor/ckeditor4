@@ -535,7 +535,10 @@
 				}, this, null, 9999 ),
 				this.editor.on( 'blur', function() {
 					this.hide();
-				}, this, null, 9999 )
+				}, this, null, 9999 ),
+				CKEDITOR.document.getWindow().on( 'resize', function() {
+					this.check();
+				}, this )
 			);
 		}
 	};
