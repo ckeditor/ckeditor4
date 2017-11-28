@@ -634,14 +634,12 @@
 			};
 
 			CKEDITOR.ui.balloonToolbarView.prototype._getAlignments = function( elementRect, panelWidth, panelHeight ) {
-				var filter = [ 'top hcenter', 'bottom hcenter' ],
-					alignments = CKEDITOR.ui.balloonPanel.prototype._getAlignments.call( this, elementRect, panelWidth, panelHeight );
-				for ( var a in alignments ) {
-					if ( CKEDITOR.tools.indexOf( filter, a ) === -1 ) {
-						delete alignments[ a ];
-					}
-				}
-				return alignments;
+				var alignments = CKEDITOR.ui.balloonPanel.prototype._getAlignments.call( this, elementRect, panelWidth, panelHeight );
+
+				return {
+					'bottom hcenter': alignments[ 'bottom hcenter' ],
+					'top hcenter': alignments[ 'top hcenter' ]
+				};
 			};
 
 			/**
