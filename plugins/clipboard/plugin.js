@@ -2616,14 +2616,6 @@
 	 */
 	CKEDITOR.plugins.clipboard.fallbackDataTransfer = function( dataTransfer ) {
 		/**
-		 * Cache object. Shared with {@link CKEDITOR.plugins.clipboard.dataTransfer} instance.
-		 *
-		 * @private
-		 * @property {Object} _cache
-		 */
-		this._cache = dataTransfer._.data;
-
-		/**
 		 * DataTransfer object which internal cache and
 		 * {@link CKEDITOR.plugins.clipboard.dataTransfer#$ data transfer} objects will be modified if needed.
 		 *
@@ -2814,8 +2806,10 @@
 		 * @returns {String|null}
 		 */
 		_getData: function( type, skipCache ) {
-			if ( !skipCache && this._cache[ type ] ) {
-				return this._cache[ type ];
+			var cache = this._dataTransfer._.data;
+
+			if ( !skipCache && cache[ type ] ) {
+				return cache[ type ];
 			} else {
 				try {
 					return this._dataTransfer.$.getData( type );
@@ -2833,7 +2827,7 @@
 		 * @returns {String}
 		 */
 		_getFallbackTypeContent: function() {
-			var fallbackTypeContent = this._cache[ this._customDataFallbackType ];
+			var fallbackTypeContent = this._dataTransfer._.data[ this._customDataFallbackType ];
 
 			if ( !fallbackTypeContent ) {
 				fallbackTypeContent = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).content;
@@ -2850,11 +2844,12 @@
 		 */
 		_getFallbackTypeData: function() {
 			var fallbackTypes = CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes,
-				fallbackTypeData = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).data || {};
+				fallbackTypeData = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).data || {},
+				cache = this._dataTransfer._.data;
 
 			CKEDITOR.tools.array.forEach( fallbackTypes, function( type ) {
-				if ( this._cache[ type ] !== undefined ) {
-					fallbackTypeData[ type ] = this._cache[ type ];
+				if ( cache[ type ] !== undefined ) {
+					fallbackTypeData[ type ] = cache[ type ];
 
 				} else if ( fallbackTypeData[ type ] !== undefined ) {
 					fallbackTypeData[ type ] = fallbackTypeData[ type ];
