@@ -21,7 +21,7 @@
 		},
 
 		tearDown: function() {
-			this.editor.balloonToolbar._manager._clear();
+			this.editor.balloonToolbars._clear();
 		},
 
 		'test falsy matching': function() {
@@ -93,7 +93,7 @@
 		 * @returns {CKEDITOR.plugins.balloontoolbar.context} Context instance with `selector` used as a CSS selector.
 		 */
 		_getContextStub: function( selector ) {
-			return this.editor.balloonToolbar.create( {
+			return this.editor.balloonToolbars.create( {
 				cssSelector: selector
 			} );
 		}
