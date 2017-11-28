@@ -2339,10 +2339,12 @@
 		setData: function( type, value ) {
 			type = this._.normalizeType( type );
 
-			this._.data[ type ] = value;
-			// If 'text/html' is set manually we also store it in `nativeHtmlCache` without modifications.
 			if ( type == 'text/html' ) {
+				this._.data[ type ] = this._stripHtml( value );
+				// If 'text/html' is set manually we also store it in `nativeHtmlCache` without modifications.
 				this._.nativeHtmlCache = value;
+			} else {
+				this._.data[ type ] = value;
 			}
 
 			// There is "Unexpected call to method or property access." error if you try
