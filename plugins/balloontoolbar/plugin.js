@@ -23,8 +23,8 @@
 	CKEDITOR.ui.balloonToolbarView = function( editor, definition ) {
 		definition = CKEDITOR.tools.extend( definition || {}, {
 			width: 'auto',
-			triangleWidth: 10,
-			triangleHeight: 10
+			triangleWidth: 7,
+			triangleHeight: 7
 		} );
 		CKEDITOR.ui.balloonPanel.call( this, editor, definition );
 
