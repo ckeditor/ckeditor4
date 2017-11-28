@@ -7,7 +7,15 @@
 ( function() {
 	'use strict';
 
-	bender.editor = true;
+	bender.editor = {
+		config: {
+			// Built version of editor includes plugins that allow too much markup.
+			// Also indenting list on built version is wrecking test.
+			// Therefore all rogue plugins and indentation are switched off (#1252).
+			removePlugins: 'liststyle,font,div,format',
+			indentClasses: []
+		}
+	};
 
 	bender.test( createTestSuite( {
 		browsers: [
