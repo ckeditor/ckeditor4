@@ -351,31 +351,6 @@
 				return newRect;
 			}
 
-			// Returns element rect absolute to the top-most document, e.g. it considers
-			// outer window scroll position, inner window scroll position (framed editor) and
-			// frame position (framed editor) in the top-most document.
-			function getAbsoluteRect( element ) {
-				var elementRect = element.getClientRect(),
-					winGlobalScroll = winGlobal.getScrollPosition(),
-					frameRect;
-
-				if ( isInline || element.equals( frame ) ) {
-					elementRect.top = elementRect.top + winGlobalScroll.y;
-					elementRect.left = elementRect.left + winGlobalScroll.x;
-					elementRect.right = elementRect.left + elementRect.width;
-					elementRect.bottom = elementRect.top + elementRect.height;
-				} else {
-					frameRect = frame.getClientRect();
-
-					elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
-					elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
-					elementRect.right = elementRect.left + elementRect.width;
-					elementRect.bottom = elementRect.top + elementRect.height;
-				}
-
-				return elementRect;
-			}
-
 			var triangleRelativePosition = {
 				right: 'left',
 				top: 'bottom',
@@ -410,8 +385,8 @@
 				var panelWidth = this.getWidth(),
 					panelHeight = this.getHeight(),
 
-					elementRect = getAbsoluteRect( element ),
-					editorRect = getAbsoluteRect( isInline ? editable : frame ),
+					elementRect = this._getAbsoluteRect( element ),
+					editorRect = this._getAbsoluteRect( isInline ? editable : frame ),
 
 					viewPaneSize = winGlobal.getViewPaneSize(),
 					winGlobalScroll = winGlobal.getScrollPosition();
@@ -485,8 +460,7 @@
 
 				// For non-static parent elements we need to remove its margin offset from balloon panel (#1048).
 				var parent = this.parts.panel.getAscendant( function( el ) {
-						// Prevent of checking `computedStyle` of document.
-						return el.getComputedStyle ? el.getComputedStyle( 'position' ) !== 'static' : false;
+						return el instanceof CKEDITOR.dom.document ? false : el.getComputedStyle( 'position' ) !== 'static';
 					} ),
 					parentMargin = {
 						left: parent ? parseInt( parent.getComputedStyle( 'margin-left' ), 10 ) : 0,
@@ -810,6 +784,41 @@
 				left: pos.x,
 				right: pos.x + viewSize.width
 			};
+		},
+
+		/**
+		 * Method returns element's position on screen.
+		 *
+		 * @since 4.8.0
+		 * @private
+		 * @param {CKEDITOR.dom.element} element Element which position is calculated.
+		 * @returns {Object} Returns element position, taking scroll into account
+		 * @returns {Number} return.top
+		 * @returns {Number} return.bottom
+		 * @returns {Number} return.left
+		 * @returns {Number} return.right
+		 */
+		_getAbsoluteRect: function( element ) {
+			var elementRect = element.getClientRect(),
+				winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition(),
+				frame = this.editor.window.getFrame(),
+				frameRect;
+
+			if ( this.editor.editable().isInline() || element.equals( frame ) ) {
+				elementRect.top = elementRect.top + winGlobalScroll.y;
+				elementRect.left = elementRect.left + winGlobalScroll.x;
+				elementRect.right = elementRect.left + elementRect.width;
+				elementRect.bottom = elementRect.top + elementRect.height;
+			} else {
+				frameRect = frame.getClientRect();
+
+				elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
+				elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
+				elementRect.right = elementRect.left + elementRect.width;
+				elementRect.bottom = elementRect.top + elementRect.height;
+			}
+
+			return elementRect;
 		}
 	};
 
