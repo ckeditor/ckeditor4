@@ -535,10 +535,7 @@
 				}, this, null, 9999 ),
 				this.editor.on( 'blur', function() {
 					this.hide();
-				}, this, null, 9999 ),
-				CKEDITOR.document.getWindow().on( 'resize', function() {
-					this.check();
-				}, this )
+				}, this, null, 9999 )
 			);
 		}
 	};
@@ -614,6 +611,12 @@
 						focusElement: false
 					} );
 				}, this ) );
+				this._listeners.push( CKEDITOR.document.getWindow().on( 'resize', function() {
+					this.attach( this._pointedElement, {
+						focusElement: false
+					} );
+				}, this ) );
+
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
 			};
 
