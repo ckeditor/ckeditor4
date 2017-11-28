@@ -4,6 +4,8 @@
 
 'use strict';
 
+var isEdge16 = CKEDITOR.env.ie && CKEDITOR.env.version >= 16;
+
 bender.test( {
 	init: function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
@@ -252,6 +254,26 @@ bender.test( {
 		} );
 	},
 
+	'test setData returns value which was set - fallbackDataTransfer': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._.fallbackDataTransfer,
+			setValue;
+
+		setValue = dataTransferFallback.setData( 'cke/custom', 'custom data' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data', 'cke/custom 1' );
+		assert.areSame( setValue, isEdge16 ? getHtmlWithCustomData( '', { 'cke/custom': 'custom data' } ) : 'custom data', 'return val 1' );
+
+		setValue = dataTransferFallback.setData( 'text/html', '<h1>Header1</h1>' );
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h1>Header1</h1>', 'text/html 2' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data', 'cke/custom 2' );
+		assert.areSame( setValue, getHtmlWithCustomData( '<h1>Header1</h1>', isEdge16 ? { 'cke/custom': 'custom data' } : null ), 'return val 2' );
+
+		setValue = dataTransferFallback.setData( 'text/html', '<h2>Header2</h2>' );
+		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h2>Header2</h2>', 'text/html 3' );
+		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data', 'cke/custom 3' );
+		assert.areSame( setValue, getHtmlWithCustomData( '<h2>Header2</h2>', isEdge16 ? { 'cke/custom': 'custom data' } : null ), 'return val 3' );
+	},
+
 	'test getting "text/html" and "cke/test" from cache': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
 			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
@@ -433,9 +455,10 @@ bender.test( {
 
 	'test getFallbackTypeContent prioritize cache': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._.fallbackDataTransfer;
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			dataTransferFallback = dataTransfer._.fallbackDataTransfer;
 
-		dataTransferFallback._cache[ dataTransferFallback._customDataFallbackType ] = 'cache value';
+		dataTransfer._.data[ dataTransferFallback._customDataFallbackType ] = 'cache value';
 		nativeData.setData( dataTransferFallback._customDataFallbackType, 'native value' );
 
 		assert.areEqual( 'cache value', dataTransferFallback._getFallbackTypeContent() );
@@ -459,9 +482,10 @@ bender.test( {
 
 	'test getFallbackTypeData prioritize cache': function() {
 		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._.fallbackDataTransfer;
+			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData ),
+			dataTransferFallback = dataTransfer._.fallbackDataTransfer;
 
-		dataTransferFallback._cache[ 'cke/id' ] = 'cache value';
+		dataTransfer._.data[ 'cke/id' ] = 'cache value';
 		CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes.push( 'cke/id' );
 		nativeData.setData( dataTransferFallback._customDataFallbackType,
 			dataTransferFallback._applyDataComment( 'html', { 'cke/id': 'native value' } ) );
@@ -490,12 +514,71 @@ bender.test( {
 		objectAssert.areEqual( {}, dataTransferFallback._getFallbackTypeData() );
 	},
 
+	'test getFallbackTypeData for empty content in both cache and native data with `_customTypes` set': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			dataTransferFallback = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData )._.fallbackDataTransfer,
+			data;
+
+		CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes = [ 'cke/id', 'cke/data' ];
+		data = dataTransferFallback._getFallbackTypeData();
+		CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes = [];
+
+		objectAssert.areEqual( {}, data );
+	},
+
+	'test getData with getNative with custom type': function() {
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock ),
+			html = '<s>html</s>';
+
+		dataTransfer.setData( 'cke/custom', 'cke-custom data' );
+		dataTransfer.setData( 'custom/tag', '<p>custom html tag</p>' );
+		dataTransfer.setData( 'text/html', html );
+
+		assert.areSame( 'cke-custom data', dataTransfer.getData( 'cke/custom', true ), 'cke/custom value' );
+		assert.areSame( '<p>custom html tag</p>', dataTransfer.getData( 'custom/tag', true ), 'custom/tag value' );
+
+		if ( isEdge16 ) {
+			html = getHtmlWithCustomData( html, {
+				'cke/id': dataTransfer.id,
+				'cke/custom': 'cke-custom data',
+				'custom/tag': '<p>custom html tag</p>'
+			} );
+		}
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ), 'text/html value' );
+	},
+
+	'test getData with getNative with custom type other sequence': function() {
+		// This test has a different setData sequence than the "test getData with getNative with custom type" test.
+		var nativeData = bender.tools.mockNativeDataTransfer(),
+			eventMock = { data: { $: { clipboardData: nativeData } }, name: 'copy' },
+			dataTransfer = CKEDITOR.plugins.clipboard.initPasteDataTransfer( eventMock ),
+			html = '<s>html</s>';
+
+		dataTransfer.setData( 'cke/custom', 'cke-custom data' );
+		dataTransfer.setData( 'text/html', html );
+		dataTransfer.setData( 'custom/tag', '<p>custom html tag</p>' );
+
+		assert.areSame( 'cke-custom data', dataTransfer.getData( 'cke/custom', true ), 'cke/custom value' );
+		assert.areSame( '<p>custom html tag</p>', dataTransfer.getData( 'custom/tag', true ), 'custom/tag value' );
+
+		if ( isEdge16 ) {
+			html = getHtmlWithCustomData( html, {
+				'cke/id': dataTransfer.id,
+				'cke/custom': 'cke-custom data',
+				'custom/tag': '<p>custom html tag</p>'
+			} );
+		}
+		assert.areSame( html, dataTransfer.getData( 'text/html', true ), 'text/html value' );
+	},
+
 	assertDataTransferType: function( dataTransfer, type, value, customValue ) {
-		if ( CKEDITOR.env.ie && CKEDITOR.env.version >= 16 && customValue ) {
-			value = '<!--cke-data:' + encodeURIComponent( JSON.stringify( customValue ) ) + '-->' + value;
+		if ( isEdge16 && customValue ) {
+			value = getHtmlWithCustomData( value, customValue );
 		}
 
-		var nativeDataTransfer = dataTransfer.$ || dataTransfer._nativeDataTransfer;
+		var nativeDataTransfer = dataTransfer.$ || dataTransfer._dataTransfer.$;
 		assert.areSame( value, nativeDataTransfer.getData( type ) );
 	},
 
@@ -507,4 +590,11 @@ bender.test( {
 // Gets data with omitting the cache.
 function getDataNoCache( dataTransfer, type ) {
 	return dataTransfer._.fallbackDataTransfer.getData( type );
+}
+
+function getHtmlWithCustomData( htmlValue, customValue ) {
+	if ( customValue ) {
+		return '<!--cke-data:' + encodeURIComponent( JSON.stringify( customValue ) ) + '-->' + htmlValue;
+	}
+	return htmlValue;
 }

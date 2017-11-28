@@ -2160,6 +2160,9 @@
 			data: {},
 			files: [],
 
+			// Stores full HTML so it can be accessed asynchronously with `getData( 'text/html', true )`.
+			nativeHtmlCache: '',
+
 			normalizeType: function( type ) {
 				type = type.toLowerCase();
 
@@ -2298,53 +2301,28 @@
 
 			type = this._.normalizeType( type );
 
-			var data,
-				result;
+			var data = type == 'text/html' && getNative ? this._.nativeHtmlCache : this._.data[ type ];
 
-			if ( getNative ) {
-				try {
-					data = this.$.getData( type ) || '';
-				} catch ( e ) {
-					data = '';
-				}
-			} else {
-				data = this._.data[ type ];
-				if ( isEmpty( data ) ) {
-					if ( this._.fallbackDataTransfer.isRequired() ) {
-						data = this._.fallbackDataTransfer.getData( type );
-					} else {
-						try {
-							data = this.$.getData( type ) || '';
-						} catch ( e ) {
-							data = '';
-						}
+			if ( isEmpty( data ) ) {
+				if ( this._.fallbackDataTransfer.isRequired() ) {
+					data = this._.fallbackDataTransfer.getData( type, getNative );
+				} else {
+					try {
+						data = this.$.getData( type ) || '';
+					} catch ( e ) {
+						data = '';
 					}
 				}
-			}
 
-			// Some browsers add <meta http-equiv="content-type" content="text/html; charset=utf-8"> at the begging of the HTML data
-			// or surround it with <html><head>...</head><body>(some content)<!--StartFragment--> and <!--EndFragment-->(some content)</body></html>
-			// This code removes meta tags and returns only the contents of the <body> element if found. Note that
-			// some significant content may be placed outside Start/EndFragment comments so it's kept.
-			//
-			// See https://dev.ckeditor.com/ticket/13583 for more details.
-			// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
-			if ( type == 'text/html' && !getNative ) {
-				data = data.replace( this._.metaRegExp, '' );
-
-				// Keep only contents of the <body> element
-				result = this._.bodyRegExp.exec( data );
-				if ( result && result.length ) {
-					data = result[ 1 ];
-
-					// Remove also comments.
-					data = data.replace( this._.fragmentRegExp, '' );
+				if ( type == 'text/html' && !getNative ) {
+					data = this._stripHtml( data );
 				}
 			}
+
 			// Firefox on Linux put files paths as a text/plain data if there are files
 			// in the dataTransfer object. We need to hide it, because files should be
 			// handled on paste only if dataValue is empty.
-			else if ( type == 'Text' && CKEDITOR.env.gecko && this.getFilesCount() &&
+			if ( type == 'Text' && CKEDITOR.env.gecko && this.getFilesCount() &&
 				data.substring( 0, 7 ) == 'file://' ) {
 				data = '';
 			}
@@ -2361,7 +2339,13 @@
 		setData: function( type, value ) {
 			type = this._.normalizeType( type );
 
-			this._.data[ type ] = value;
+			if ( type == 'text/html' ) {
+				this._.data[ type ] = this._stripHtml( value );
+				// If 'text/html' is set manually we also store it in `nativeHtmlCache` without modifications.
+				this._.nativeHtmlCache = value;
+			} else {
+				this._.data[ type ] = value;
+			}
 
 			// There is "Unexpected call to method or property access." error if you try
 			// to set data of unsupported type on IE.
@@ -2377,7 +2361,6 @@
 
 			if ( this._.fallbackDataTransfer.isRequired() ) {
 				this._.fallbackDataTransfer.setData( type, value );
-
 			} else {
 				try {
 					this.$.setData( type, value );
@@ -2432,7 +2415,14 @@
 			function getAndSetData( type ) {
 				type = that._.normalizeType( type );
 
-				var data = that.getData( type, !that._.fallbackDataTransfer.isRequired() );
+				var data = that.getData( type );
+
+				// Cache full html.
+				if ( type == 'text/html' ) {
+					that._.nativeHtmlCache = that.getData( type, true );
+					data = that._stripHtml( data );
+				}
+
 				if ( data ) {
 					that._.data[ type ] = data;
 				}
@@ -2575,6 +2565,36 @@
 			}
 
 			return undefined;
+		},
+
+		/**
+		 * This function removes this meta information and returns only the contents of the `<body>` element if found.
+		 *
+		 * Various environments use miscellaneous meta tags in HTML clipboard, e.g.
+		 *
+		 * * `<meta http-equiv="content-type" content="text/html; charset=utf-8">` at the begging of the HTML data.
+		 * * Surrounding HTML with `<!--StartFragment-->` and `<!--EndFragment-->` nested within `<html><body>` elements.
+		 *
+		 * @private
+		 * @param {String} html
+		 * @returns {String}
+		 */
+		_stripHtml: function( html ) {
+			// See https://dev.ckeditor.com/ticket/13583 for more details.
+			// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
+			var result = html.replace( this._.metaRegExp, '' ),
+				match;
+
+			// Keep only contents of the <body> element
+			match = this._.bodyRegExp.exec( result );
+			if ( match && match.length ) {
+				result = match[ 1 ];
+
+				// Remove also comments.
+				result = result.replace( this._.fragmentRegExp, '' );
+			}
+
+			return result;
 		}
 	};
 
@@ -2592,20 +2612,13 @@
 	 */
 	CKEDITOR.plugins.clipboard.fallbackDataTransfer = function( dataTransfer ) {
 		/**
-		 * Cache object. Shared with {@link CKEDITOR.plugins.clipboard.dataTransfer} instance.
+		 * DataTransfer object which internal cache and
+		 * {@link CKEDITOR.plugins.clipboard.dataTransfer#$ data transfer} objects will be modified if needed.
 		 *
 		 * @private
-		 * @property {Object} _cache
+		 * @property {CKEDITOR.plugins.clipboard.dataTransfer} _dataTransfer
 		 */
-		this._cache = dataTransfer._.data;
-
-		/**
-		 * A native dataTransfer object.
-		 *
-		 * @private
-		 * @property {Object} _nativeDataTransfer
-		 */
-		this._nativeDataTransfer = dataTransfer.$;
+		this._dataTransfer = dataTransfer;
 
 		/**
 		 * A MIME type used for storing custom MIME types.
@@ -2652,12 +2665,13 @@
 		 * @returns {Boolean}
 		 */
 		isRequired: function() {
-			var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
+			var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer,
+				nativeDataTransfer = this._dataTransfer.$;
 
 			if ( fallbackDataTransfer._isCustomMimeTypeSupported === null ) {
 				// If there is no `dataTransfer` we cannot detect if fallback is needed.
 				// Method returns `false` so regular flow will be applied.
-				if ( !this._nativeDataTransfer ) {
+				if ( !nativeDataTransfer ) {
 					return false;
 				} else {
 					var testValue = 'cke test value',
@@ -2666,9 +2680,9 @@
 					fallbackDataTransfer._isCustomMimeTypeSupported = false;
 
 					try {
-						this._nativeDataTransfer.setData( testType, testValue );
-						fallbackDataTransfer._isCustomMimeTypeSupported = this._nativeDataTransfer.getData( testType ) === testValue;
-						this._nativeDataTransfer.clearData( testType );
+						nativeDataTransfer.setData( testType, testValue );
+						fallbackDataTransfer._isCustomMimeTypeSupported = nativeDataTransfer.getData( testType ) === testValue;
+						nativeDataTransfer.clearData( testType );
 					} catch ( e ) {}
 				}
 			}
@@ -2680,13 +2694,19 @@
 		 * is the same as {@link #_customDataFallbackType} the whole data without special comment is returned.
 		 *
 		 * @param {String} type
+		 * @param {Boolean} [getNative=false] Indicates if the whole, original content of the dataTransfer should be returned.
 		 * @returns {String}
 		 */
-		getData: function( type ) {
+		getData: function( type, getNative ) {
 			// As cache is already checked in CKEDITOR.plugins.clipboard.dataTransfer#getData it is skipped
 			// here. So the assumption is the given type is not in cache.
 
-			var dataComment = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ),
+			var nativeData = this._getData( this._customDataFallbackType, true );
+			if ( getNative ) {
+				return nativeData;
+			}
+
+			var dataComment = this._extractDataComment( nativeData ),
 				value = null;
 
 			// If we are getting the same type which may store custom data we need to extract content only.
@@ -2716,6 +2736,7 @@
 		 *
 		 * @param {String} type
 		 * @param {String} value
+		 * @returns {String} The value which was set.
 		 */
 		setData: function( type, value ) {
 			// In case of fallbackDataTransfer, cache does not reflect native data one-to-one. For example, having
@@ -2736,13 +2757,22 @@
 			//
 			// This way, accessing cache will always return proper value for a given type without a need for further processing.
 			// Cache is already set in CKEDITOR.plugins.clipboard.dataTransfer#setData so it is skipped here.
+			var isFallbackDataType = type === this._customDataFallbackType;
 
-			if ( type === this._customDataFallbackType ) {
+			if ( isFallbackDataType ) {
 				value = this._applyDataComment( value, this._getFallbackTypeData() );
 			}
 
+			var data = value,
+				nativeDataTransfer = this._dataTransfer.$;
+
 			try {
-				this._nativeDataTransfer.setData( type, value );
+				nativeDataTransfer.setData( type, data );
+
+				if ( isFallbackDataType ) {
+					// If fallback type used, the native data is different so we overwrite `nativeHtmlCache` here.
+					this._dataTransfer._.nativeHtmlCache = data;
+				}
 			} catch ( e ) {
 				if ( this._isUnsupportedMimeTypeError( e ) ) {
 					var fallbackDataTransfer = CKEDITOR.plugins.clipboard.fallbackDataTransfer;
@@ -2754,16 +2784,21 @@
 					var fallbackTypeContent = this._getFallbackTypeContent(),
 						fallbackTypeData = this._getFallbackTypeData();
 
-					fallbackTypeData[ type ] = value;
+					fallbackTypeData[ type ] = data;
 
 					try {
-						this._nativeDataTransfer.setData( this._customDataFallbackType,
-							this._applyDataComment( fallbackTypeContent, fallbackTypeData ) );
+						data = this._applyDataComment( fallbackTypeContent, fallbackTypeData );
+						nativeDataTransfer.setData( this._customDataFallbackType, data );
+						// Again, fallback type was changed, so we need to refresh the cache.
+						this._dataTransfer._.nativeHtmlCache = data;
 					} catch ( e ) {
+						data = '';
 						// Some dev logger should be added here.
 					}
 				}
 			}
+
+			return data;
 		},
 
 		/**
@@ -2775,11 +2810,13 @@
 		 * @returns {String|null}
 		 */
 		_getData: function( type, skipCache ) {
-			if ( !skipCache && this._cache[ type ] ) {
-				return this._cache[ type ];
+			var cache = this._dataTransfer._.data;
+
+			if ( !skipCache && cache[ type ] ) {
+				return cache[ type ];
 			} else {
 				try {
-					return this._nativeDataTransfer.getData( type );
+					return this._dataTransfer.$.getData( type );
 				} catch ( e ) {
 					return null;
 				}
@@ -2794,7 +2831,7 @@
 		 * @returns {String}
 		 */
 		_getFallbackTypeContent: function() {
-			var fallbackTypeContent = this._cache[ this._customDataFallbackType ];
+			var fallbackTypeContent = this._dataTransfer._.data[ this._customDataFallbackType ];
 
 			if ( !fallbackTypeContent ) {
 				fallbackTypeContent = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).content;
@@ -2811,11 +2848,18 @@
 		 */
 		_getFallbackTypeData: function() {
 			var fallbackTypes = CKEDITOR.plugins.clipboard.fallbackDataTransfer._customTypes,
-				fallbackTypeData = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).data || {};
+				fallbackTypeData = this._extractDataComment( this._getData( this._customDataFallbackType, true ) ).data || {},
+				cache = this._dataTransfer._.data;
 
 			CKEDITOR.tools.array.forEach( fallbackTypes, function( type ) {
-				fallbackTypeData[ type ] = this._cache[ type ] !== undefined ? this._cache[ type ] : fallbackTypeData[ type ];
+				if ( cache[ type ] !== undefined ) {
+					fallbackTypeData[ type ] = cache[ type ];
+
+				} else if ( fallbackTypeData[ type ] !== undefined ) {
+					fallbackTypeData[ type ] = fallbackTypeData[ type ];
+				}
 			}, this );
+
 			return fallbackTypeData;
 		},
 
