@@ -115,6 +115,16 @@
 			assert.isTrue( balloonToolbar.parts.panel.hasClass( 'cke_balloon' ), 'Class cke_balloon class was not removed' );
 			balloonToolbar.destroy();
 			balloonToolbar = null;
+		},
+
+		'test panel prefers bottom positioning': function( editor ) {
+			var balloonToolbar = new CKEDITOR.ui.balloonToolbarView( editor, {
+					width: 100,
+					height: 200
+				} ),
+				res = balloonToolbar._getAlignments( editor.editable().getFirst().getClientRect(), 10, 10 );
+
+			arrayAssert.itemsAreEqual( [ 'bottom hcenter', 'top hcenter' ], CKEDITOR.tools.objectKeys( res ) );
 		}
 	};
 
