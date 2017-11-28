@@ -2109,8 +2109,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @returns {Object/Number} Object with keys: `scrollTop` and `scrollLeft`, or Number represent scrollTop
 		 */
 		getDocumentScrollPosition: function() {
-			var doc = this.getDocument(),
-				scrollingElement = doc.getScrollingElement();
+			var	scrollingElement = this.getDocument().getScrollingElement();
 
 			return { 'scrollTop': scrollingElement.$.scrollTop, 'scrollLeft': scrollingElement.$.scrollLeft };
 		},
@@ -2123,11 +2122,12 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
 		 */
 		setDocumentScrollPosition: function( scrollTop, scrollLeft ) {
-			var doc = this.getDocument(),
-				scrollingElement = doc.getScrollingElement();
+			var scrollingElement = this.getDocument().getScrollingElement();
 
+			if ( scrollLeft !== undefined ) {
+				scrollingElement.$.scrollLeft = scrollLeft;
+			}
 			scrollingElement.$.scrollTop = scrollTop;
-			scrollingElement.$.scrollLeft = scrollLeft !== undefined ? scrollLeft : scrollingElement.$.scrollLeft;
 		},
 
 		/**
@@ -2148,8 +2148,10 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		 * @param {Number} [scrollLeft] number of pixels that an element's contentt is scrolled horizontally.
 		 */
 		setScrollPosition: function( scrollTop, scrollLeft ) {
+			if ( scrollLeft !== undefined ) {
+				this.$.scrollLeft = scrollLeft;
+			}
 			this.$.scrollTop = scrollTop;
-			this.$.scrollLeft = scrollLeft !== undefined ? scrollLeft : this.$.scrollLeft;
 		}
 	} );
 
