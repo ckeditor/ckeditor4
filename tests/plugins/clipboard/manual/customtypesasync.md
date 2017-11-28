@@ -13,3 +13,6 @@
 
 1. Table contains 4 types: `Text`, `text/html`, `foo-bar`, `baz`.
 1. Each type has a value: `<type> value`, e.g. `foo-bar` has `foo-bar value`.
+
+_In Edge 16+, `Native HTML data` contains also special comment with custom MIME types encoded. e.g.:
+`<!--cke-data:%7B%22type%22%3A%22value%22%7D-->text/html value`_

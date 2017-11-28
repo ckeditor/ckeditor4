@@ -429,24 +429,7 @@ bender.test( {
 	},
 
 	// (#1223)
-	'test asynchronous getData with getNative flag': function() {
-		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
-			return assert.ignore();
-		}
-
-		var nativeData = bender.tools.mockNativeDataTransfer(),
-			dataTransfer = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData );
-
-		nativeData.setData( 'text/html', '<p>foo bar baz</p>' );
-
-		// When asynchronously accessing native data transfer it is unavailable. Here we simulate it by removing stored data.
-		nativeData.clearData( 'text/html' );
-
-		assert.isTrue( dataTransfer.getData( 'text/html', true ) === '', 'Native text/html data is empty' );
-	},
-
-	// (#1223)
-	'test asynchronous getData with getNative flag after caching': function() {
+	'test asynchronous getData after caching': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
 		}
@@ -472,10 +455,11 @@ bender.test( {
 		nativeData.clearData( 'text/html' );
 
 		assert.areSame( html, dataTransfer.getData( 'text/html', true ) );
+		assert.areSame( '<p>Foo</p><p>Bar</p>', dataTransfer.getData( 'text/html' ) );
 	},
 
 	// (#1223)
-	'test asynchronous getData with getNative flag after setData used': function() {
+	'test asynchronous HTML getData with change': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
 		}
@@ -493,7 +477,7 @@ bender.test( {
 	},
 
 	// (#1223)
-	'test asynchronous getData with getNative flag after caching after setData used': function() {
+	'test asynchronous HTML getData with change after cache': function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			return assert.ignore();
 		}

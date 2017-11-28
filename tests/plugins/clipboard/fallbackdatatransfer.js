@@ -261,17 +261,17 @@ bender.test( {
 
 		setValue = dataTransferFallback.setData( 'cke/custom', 'custom data' );
 		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
-		assert.areSame( setValue, isEdge16 ? getHtmlContent( '', { 'cke/custom': 'custom data' } ) : 'custom data' );
+		assert.areSame( setValue, isEdge16 ? getHtmlWithCustomData( '', { 'cke/custom': 'custom data' } ) : 'custom data' );
 
 		setValue = dataTransferFallback.setData( 'text/html', '<h1>Header1</h1>' );
 		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h1>Header1</h1>' );
 		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
-		assert.areSame( setValue, getHtmlContent( '<h1>Header1</h1>', isEdge16 ? { 'cke/custom': 'custom data' } : null ) );
+		assert.areSame( setValue, getHtmlWithCustomData( '<h1>Header1</h1>', isEdge16 ? { 'cke/custom': 'custom data' } : null ) );
 
 		setValue = dataTransferFallback.setData( 'text/html', '<h2>Header2</h2>' );
 		assert.areSame( dataTransferFallback.getData( 'text/html' ), '<h2>Header2</h2>' );
 		assert.areSame( dataTransferFallback.getData( 'cke/custom' ), 'custom data' );
-		assert.areSame( setValue, getHtmlContent( '<h2>Header2</h2>', isEdge16 ? { 'cke/custom': 'custom data' } : null ) );
+		assert.areSame( setValue, getHtmlWithCustomData( '<h2>Header2</h2>', isEdge16 ? { 'cke/custom': 'custom data' } : null ) );
 	},
 
 	'test getting "text/html" and "cke/test" from cache': function() {
@@ -538,7 +538,7 @@ bender.test( {
 		assert.areSame( '<p>custom html tag</p>', dataTransfer.getData( 'custom/tag', true ) );
 
 		if ( isEdge16 ) {
-			html = getHtmlContent( html, {
+			html = getHtmlWithCustomData( html, {
 				'cke/id': dataTransfer.id,
 				'cke/custom': 'cke-custom data',
 				'custom/tag': '<p>custom html tag</p>'
@@ -550,7 +550,7 @@ bender.test( {
 
 	assertDataTransferType: function( dataTransfer, type, value, customValue ) {
 		if ( isEdge16 && customValue ) {
-			value = getHtmlContent( value, customValue );
+			value = getHtmlWithCustomData( value, customValue );
 		}
 
 		var nativeDataTransfer = dataTransfer.$ || dataTransfer._nativeDataTransfer;
@@ -567,7 +567,7 @@ function getDataNoCache( dataTransfer, type ) {
 	return dataTransfer._.fallbackDataTransfer.getData( type );
 }
 
-function getHtmlContent( htmlValue, customValue ) {
+function getHtmlWithCustomData( htmlValue, customValue ) {
 	if ( customValue ) {
 		return '<!--cke-data:' + encodeURIComponent( JSON.stringify( customValue ) ) + '-->' + htmlValue;
 	}
