@@ -28,7 +28,8 @@
 
 			view.renderItems( items );
 
-			assert.areSame( '<span class="cke_toolgroup">aabb</span>', view.parts.content.getHtml() );
+			var expectedOutput = CKEDITOR.env.ie ? '<span class="cke_toolgroup" unselectable="on">aabb</span>' : '<span class="cke_toolgroup">aabb</span>';
+			assert.areSame( expectedOutput, view.parts.content.getHtml() );
 		},
 
 		'test balloonToolbarView.render empty list': function() {
