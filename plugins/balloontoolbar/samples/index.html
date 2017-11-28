@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CKEditor Sample</title>
+	<script src="../../../ckeditor.js"></script>
+	<link rel="stylesheet" href="../../../samples/css/samples.css">
+	<link rel="stylesheet" href="../../../samples/toolbarconfigurator/lib/codemirror/neo.css">
+</head>
+<body id="main">
+
+<nav class="navigation-a">
+	<div class="grid-container">
+		<ul class="navigation-a-left grid-width-70">
+			<li><a href="http://ckeditor.com">Project Homepage</a></li>
+			<li><a href="https://github.com/ckeditor/ckeditor-dev/issues">I found a bug</a></li>
+			<li><a href="http://github.com/ckeditor/ckeditor-dev" class="icon-pos-right icon-navigation-a-github">Fork CKEditor on GitHub</a></li>
+		</ul>
+		<ul class="navigation-a-right grid-width-30">
+			<li><a href="http://ckeditor.com/blog-list">CKEditor Blog</a></li>
+		</ul>
+	</div>
+</nav>
+
+<main>
+	<div class="adjoined-top">
+		<div class="grid-container">
+			<div class="content grid-width-100">
+				<h2>Balloon Toolbar Sample</h2>
+				<p>There are different toolbars depending on your selection:</p>
+				<ul>
+					<li>Image, Link and Unlink buttons are shown for image elements.</li>
+					<li>Link and Unlink buttons are shown for link elements.</li>
+					<li>Bold, Underline, Italic and Strike buttons are shown for <code>strong, em, u, s</code> elements.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="adjoined-bottom">
+		<div class="grid-container">
+			<div class="grid-width-100">
+				<div id="editor">
+					<img alt="Saturn V carrying Apollo 11" class="right" src="../../../samples/old/assets/sample.jpg" height="150" width="120" />
+					<p>Sample paragraph with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+					<ol>
+						<li>List item with a plain text only.</li>
+						<li>
+							<p>List item with <em>emphasize</em>, <strong>strong</strong>, <u>underline</u> and <s>strikethrough</s>.</p>
+						</li>
+						<li>List item with a plain text only.</li>
+					</ol>
+					<p>Last paragraph with an <a href="#">example link</a>.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+	CKEDITOR.replace( 'editor', {
+		extraPlugins: 'balloontoolbar',
+		plugins: 'sourcearea,basicstyles,link,liststyle,table,tableselection,wysiwygarea,image',
+		height: 200,
+		on: {
+			instanceReady: function( evt ) {
+				// Register the toolbar for inline elements.
+				evt.editor.balloonToolbars.create( {
+					buttons: 'Bold,Underline,Italic,Strike',
+					cssSelector: 'strong, em, u, s'
+				} );
+
+				evt.editor.balloonToolbars.create( {
+					buttons: 'Link,Unlink',
+					cssSelector: 'a[href]'
+				} );
+
+				evt.editor.balloonToolbars.create( {
+					buttons: 'Image,Link,Unlink',
+					refresh: function( editor, path, sel ) {
+						var selElement = sel.getSelectedElement();
+
+						if ( selElement && selElement.getName() == 'img' ) {
+							return selElement;
+						}
+					}
+				} );
+			}
+		}
+	} );
+	</script>
+</main>
+
+<footer class="footer-a grid-container">
+	<div class="grid-container">
+		<p class="grid-width-100">
+			CKEditor &ndash; The text editor for the Internet &ndash; <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p class="grid-width-100" id="copy">
+			Copyright &copy; 2003-2017, <a class="samples" href="http://cksource.com/">CKSource</a> &ndash; Frederico Knabben. All rights reserved.
+		</p>
+	</div>
+</footer>
+
+</body>
+</html>
