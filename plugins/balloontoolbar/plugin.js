@@ -468,6 +468,12 @@
 
 			// Match element selectors.
 			if ( path ) {
+				var selectedElem = selection.getSelectedElement();
+
+				if ( selectedElem && !selectedElem.isReadOnly() ) {
+					matchEachContext( this._contexts, elementsMatcher, selectedElem );
+				}
+
 				for ( var i = 0; i < path.elements.length; i++ ) {
 					var curElement = path.elements[ i ];
 					// Skip non-editable elements (e.g. widget internal structure).
