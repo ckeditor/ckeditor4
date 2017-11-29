@@ -50,7 +50,6 @@
 				uploadUrl = fileTools.getUploadUrl( editor.config, 'image' );
 
 			if ( !uploadUrl ) {
-				CKEDITOR.error( 'uploadimage-config' );
 				return;
 			}
 
