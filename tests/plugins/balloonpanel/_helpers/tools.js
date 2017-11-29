@@ -49,5 +49,13 @@ var balloonTestsTools = {
 		balloon.attach( elem );
 		// For some reason cke_reset_all overrides balloon styling in tests.
 		balloon.parts.panel.removeClass( 'cke_reset_all' );
+	},
+
+	getDocumentOrigin: function() {
+		// The `document.location.origin` is not available on IE8-10 (#1276).
+		if ( !document.location.origin ) {
+			return document.location.protocol + '//' + document.location.hostname + ( document.location.port ? ':' + document.location.port : '' );
+		}
+		return document.location.origin;
 	}
 };
