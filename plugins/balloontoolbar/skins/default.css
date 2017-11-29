@@ -21,6 +21,23 @@ For licensing, see LICENSE.md or https://ckeditor.com/license
 	height: 0;
 }
 
+/* The .cke_balloon_content container height will be stretched to children height, so padding is properly applied. */
+.cke_balloon.cke_balloontoolbar .cke_balloon_content {
+	float: left;
+}
+
+/* Removes bottom margins from buttons/combos so only '.cke_balloon_content' padding decides about balloon toolbar padding. */
+.cke_balloon.cke_balloontoolbar .cke_toolgroup,
+.cke_balloon.cke_balloontoolbar .cke_combo_button {
+	margin-bottom: 0px;
+}
+
+.cke_balloon.cke_balloontoolbar .cke_balloon_content > span:last-child > a.cke_combo_button,
+.cke_balloon.cke_balloontoolbar .cke_balloon_content > span:last-child.cke_toolgroup {
+	margin-right: 0;
+	padding-right: 0;
+}
+
 .cke_balloon.cke_balloontoolbar .cke_balloon_triangle_inner,
 .cke_balloon.cke_balloontoolbar .cke_balloon_triangle_outer
 {

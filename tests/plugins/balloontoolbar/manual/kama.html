@@ -44,16 +44,16 @@
 
 		image.on( 'click', function() {
 			panel.addItems( {
-				bold: new CKEDITOR.ui.button( {
-					label: 'test',
-					command: 'bold'
-				} ),
-				language: evt.editor.ui.create('Language'),
 				Styles: evt.editor.ui.create( 'Styles' ),
 				italic: new CKEDITOR.ui.button( {
 					label: 'test',
 					command: 'italic'
-				} )
+				} ),
+				bold: new CKEDITOR.ui.button( {
+					label: 'test',
+					command: 'bold'
+				} ),
+				language: evt.editor.ui.create('Language')
 			} );
 			panel.attach( this );
 		} );
