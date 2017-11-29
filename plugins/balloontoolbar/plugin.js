@@ -611,6 +611,12 @@
 						focusElement: false
 					} );
 				}, this ) );
+				this._listeners.push( CKEDITOR.document.getWindow().on( 'resize', function() {
+					this.attach( this._pointedElement, {
+						focusElement: false
+					} );
+				}, this ) );
+
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
 			};
 
