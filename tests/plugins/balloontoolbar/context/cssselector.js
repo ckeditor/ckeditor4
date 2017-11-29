@@ -88,6 +88,22 @@
 			contextTools._assertToolbarVisible( false, context );
 		},
 
+		'test matching images': function() {
+			var context = this._getContextStub( 'img' );
+
+			this.editorBot.setHtmlWithSelection( '<p>foo [<img src="%BASE_PATH%_assets/lena.jpg" alt="">] bar</p>' );
+
+			contextTools._assertToolbarVisible( true, context );
+		},
+
+		'test matching link': function() {
+			var context = this._getContextStub( 'a' );
+
+			this.editorBot.setHtmlWithSelection( '<p>foo [<a href="#">bar</a>] baz</p>' );
+
+			contextTools._assertToolbarVisible( true, context );
+		},
+
 		/*
 		 * @param {String} selector A selector to be used as `options.elements`.
 		 * @returns {CKEDITOR.plugins.balloontoolbar.context} Context instance with `selector` used as a CSS selector.
