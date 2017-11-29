@@ -52,7 +52,7 @@ var balloonTestsTools = {
 	},
 
 	getDocumentOrigin: function() {
-		// The `document.location.origin` is not available on IE8-10.
+		// The `document.location.origin` is not available on IE8-10 (#1276).
 		if ( !document.location.origin ) {
 			return document.location.protocol + '//' + document.location.hostname + ( document.location.port ? ':' + document.location.port : '' );
 		}
