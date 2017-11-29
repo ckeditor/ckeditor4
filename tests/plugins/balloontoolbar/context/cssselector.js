@@ -88,6 +88,7 @@
 			contextTools._assertToolbarVisible( false, context );
 		},
 
+		// #1274
 		'test matching images': function() {
 			var context = this._getContextStub( 'img' );
 
