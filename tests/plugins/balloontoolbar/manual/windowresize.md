@@ -8,7 +8,7 @@
 
 _Perform for each editor instance._
 
-1. Click inside an element (`strong`, `em`, `a`, `li`) so balloon toolbar appears.
+1. Click inside an element (`strong`, `em`, `a` or `li`) so balloon toolbar appears.
 1. Resize the whole window.
 
 #### Expected
@@ -23,4 +23,4 @@ If element moves on the window resize, balloon toolbar should move with the elem
 
 #### Expected
 
-Window is resized, no new toolbars are shown.
+Window is resized, no toolbars are shown.
