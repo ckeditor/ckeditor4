@@ -2825,7 +2825,7 @@
 
 		/**
 		 * Returns content stored in {@link #\_customDataFallbackType}. Content is always first retrieved
-		 * from {@link #_cache} and then from native `dataTransfer` object.
+		 * from {@link #_dataTransfer} cache and then from native `dataTransfer` object.
 		 *
 		 * @private
 		 * @returns {String}
@@ -2841,7 +2841,7 @@
 
 		/**
 		 * Returns custom data stored in {@link #\_customDataFallbackType}. Custom data is always first retrieved
-		 * from {@link #_cache} and then from native `dataTransfer` object.
+		 * from {@link #_dataTransfer} cache and then from native `dataTransfer` object.
 		 *
 		 * @private
 		 * @returns {Object}
