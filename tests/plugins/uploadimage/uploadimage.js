@@ -577,6 +577,20 @@
 			} );
 
 			wait();
+		},
+
+		'test no error if missing configuration': function() {
+			var spy = sinon.spy( CKEDITOR, 'error' );
+
+			bender.editorBot.create( {
+				name: 'configerror_test',
+				extraPlugins: 'uploadimage'
+			}, function( bot ) {
+				spy.restore();
+
+				assert.areSame( 0, spy.callCount, 'CKEDITOR.error call count' );
+				assert.isFalse( !!bot.editor.widgets.registered.uploadimage, 'uploadimage widget' );
+			} );
 		}
 	} );
 } )();
