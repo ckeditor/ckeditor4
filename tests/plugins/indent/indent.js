@@ -175,7 +175,7 @@
 				t.s( 2, 2 );
 				t.o( '<p>x^</p>',																				'Outdent it back again.' );
 				t.s( 2, 0 );
-				t.o( '<p>x^</p>',																				'Remaining at minimum intent level.' );
+				t.o( '<p>x^</p>',																				'Remaining at minimum indent level.' );
 				t.s( 2, 0 );
 			} );
 		},
@@ -193,7 +193,7 @@
 				t.s( 2, 2 );
 				t.o( '<p>xx[x</p><p>yy]y</p>',																	'Outdent it back again.' );
 				t.s( 2, 0 );
-				t.o( '<p>xx[x</p><p>yy]y</p>',																	'Remaining at minimum intent level.' );
+				t.o( '<p>xx[x</p><p>yy]y</p>',																	'Remaining at minimum indent level.' );
 				t.s( 2, 0 );
 			} );
 		},
@@ -480,7 +480,7 @@
 				t.s( 2, 2 );
 				t.o( '<div>x^</div>',																			'Outdent it back again.' );
 				t.s( 2, 0 );
-				t.o( '<div>x^</div>',																			'Remaining at minimum intent level.' );
+				t.o( '<div>x^</div>',																			'Remaining at minimum indent level.' );
 				t.s( 2, 0 );
 			} );
 		},
@@ -498,7 +498,7 @@
 				t.s( 2, 2 );
 				t.o( '<div><div>x^</div></div>',																'Outdent it back again.' );
 				t.s( 2, 0 );
-				t.o( '<div><div>x^</div></div>',																'Remaining at minimum intent level.' );
+				t.o( '<div><div>x^</div></div>',																'Remaining at minimum indent level.' );
 				t.s( 2, 0 );
 			} );
 		},
@@ -516,7 +516,7 @@
 				t.s( 2, 2 );
 				t.o( '<div><p>x[x</p><div>y]y</div></div>',														'Outdent it back again.' );
 				t.s( 2, 0 );
-				t.o( '<div><p>x[x</p><div>y]y</div></div>',														'Remaining at minimum intent level.' );
+				t.o( '<div><p>x[x</p><div>y]y</div></div>',														'Remaining at minimum indent level.' );
 				t.s( 2, 0 );
 			} );
 		},
@@ -534,7 +534,7 @@
 				t.s( 2, 2 );
 				t.o( '<dl><dt>x^</dt><dd>y</dd></dl>',															'Outdent it back again.' );
 				t.s( 2, 0 );
-				t.o( '<dl><dt>x^</dt><dd>y</dd></dl>',															'Remaining at minimum intent level.' );
+				t.o( '<dl><dt>x^</dt><dd>y</dd></dl>',															'Remaining at minimum indent level.' );
 				t.s( 2, 0 );
 			} );
 		},
@@ -552,7 +552,7 @@
 				t.s( 2, 2 );
 				t.o( '<dl><dt>x[x</dt><dd>y]y</dd></dl>',														'Outdent it back again.' );
 				t.s( 2, 0 );
-				t.o( '<dl><dt>x[x</dt><dd>y]y</dd></dl>',														'Remaining at minimum intent level.' );
+				t.o( '<dl><dt>x[x</dt><dd>y]y</dd></dl>',														'Remaining at minimum indent level.' );
 				t.s( 2, 0 );
 			} );
 		},
@@ -612,7 +612,7 @@
 				t.s( 2, 2 );
 				t.o( '<p>x^</p>',																				'Outdent it back again.' );
 				t.s( 2, 0 );
-				t.o( '<p>x^</p>',																				'Remaining at minimum intent level.' );
+				t.o( '<p>x^</p>',																				'Remaining at minimum indent level.' );
 				t.s( 2, 0 );
 			} );
 		},

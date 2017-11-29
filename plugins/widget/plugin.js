@@ -3105,7 +3105,7 @@
 
 		// [IE] Use span for copybin and its container to avoid bug with expanding
 		// editable height by absolutely positioned element.
-		// For Edge 16+ always use div as span causes scrolling to the end of the document
+		// For Edge 16+ always use div, as span causes scrolling to the end of the document
 		// on widget cut (also for blockless editor) (#1160).
 		// Edge 16+ workaround could be safetly removed after #1169 is fixed.
 		var copybinName = ( ( editor.blockless || CKEDITOR.env.ie ) && !isEdge16 ) ? 'span' : 'div',

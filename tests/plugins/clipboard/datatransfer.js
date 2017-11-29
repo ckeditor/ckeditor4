@@ -40,7 +40,7 @@ bender.test( {
 			dataTransfer1b,
 			dataTransfer2;
 
-		// Setting id was moved from dataTransfer constructor to functions which initializes dataTransfer object
+		// Setting id was moved from dataTransfer constructor to functions which initialize dataTransfer object
 		// only on specific events so we need to simulate these behaviour here too (#962).
 		dataTransfer1a = new CKEDITOR.plugins.clipboard.dataTransfer( nativeData1 );
 		dataTransfer1a.storeId();
@@ -624,7 +624,7 @@ bender.test( {
 			// Emulate native clipboard.
 			nativeData = bender.tools.mockNativeDataTransfer();
 
-		// This test uses mocked `setData` which does not applies fallback
+		// This test uses mocked `setData` which does not apply fallback
 		// for Edge >= 16 (because it skips `CKEDITOR.plugins.clipboard.dataTransfer` wrapper)
 		// so it works as if `isCustomDataTypesSupported` flag was turned off for Edge (#962).
 		if ( isCustomDataTypesSupported && !CKEDITOR.env.edge ) {

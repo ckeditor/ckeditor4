@@ -13,7 +13,7 @@
 			var tested = CKEDITOR.plugins.pastefromword.styles.inliner.parse( styles );
 
 			// In `CKEDITOR.plugins.pastefromword.styles.inliner.parse#createIsolatedStylesheet`
-			// function Edge camelcases the selectors so we need to lowercase it (#1042).
+			// function Edge camelcases the selectors so we need to lowercase them (#1042).
 			if ( CKEDITOR.plugins.clipboard.isCustomCopyCutSupported && CKEDITOR.env.edge ) {
 				CKEDITOR.tools.array.forEach( tested, function( item ) {
 					item.selector = item.selector.toLowerCase();

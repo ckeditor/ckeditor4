@@ -4,11 +4,11 @@
 
 ## For each editor instance:
 
- * Select widget inside editor.
+ * Select widget inside the editor.
  * Cut widget (`Ctrl/Cmd + X` or `Cut` button).
 
 ### Expected:
 
-Widget is cut. Editor content does not scroll upon cut or scrolls in a way that after widget is removed, caret is still visible near top of the content.
+Widget is cut. Editor content does not scroll upon cut or scrolls in a way that after the widget is removed, caret is still visible near the top of the content.
 
 

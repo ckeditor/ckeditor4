@@ -1591,7 +1591,7 @@
 				return true;
 			}
 
-			// In older Safari and IE HTML data is not available though the Clipboard API.
+			// In older Safari and IE HTML data is not available through the Clipboard API.
 			// In older Edge version things are also a bit messy -
 			// https://connect.microsoft.com/IE/feedback/details/1572456/edge-clipboard-api-text-html-content-messed-up-in-event-clipboarddata
 			// It is safer to use the paste bin in unknown cases.
@@ -2092,7 +2092,7 @@
 		 */
 		initPasteDataTransfer: function( evt, sourceEditor ) {
 			if ( !this.isCustomCopyCutSupported ) {
-				// Edge < 16 does not support custom copy/cut, but it have some useful data in the clipboardData (https://dev.ckeditor.com/ticket/13755).
+				// Edge < 16 does not support custom copy/cut, but it has some useful data in the clipboardData (https://dev.ckeditor.com/ticket/13755).
 				return new this.dataTransfer( ( CKEDITOR.env.edge && evt && evt.data.$ && evt.data.$.clipboardData ) || null, sourceEditor );
 			} else if ( evt && evt.data && evt.data.$ ) {
 				var clipboardData = evt.data.$.clipboardData,
@@ -2633,8 +2633,8 @@
 	 * True if the environment supports custom MIME types in {@link CKEDITOR.plugins.clipboard.dataTransfer#getData}
 	 * and {@link CKEDITOR.plugins.clipboard.dataTransfer#setData} methods.
 	 *
-	 * Introduced to distinguish browsers which supports only some whitelisted types (like `text/html`, `application/xml`),
-	 * but does not support custom MIME types (like `cke/id`). When the value of this property equals `null`
+	 * Introduced to distinguish between browsers which support only some whitelisted types (like `text/html`, `application/xml`),
+	 * but do not support custom MIME types (like `cke/id`). When the value of this property equals `null`
 	 * it means it was not yet initialized.
 	 *
 	 * This property should not be accessed directly, use {@link #isRequired} method instead.
