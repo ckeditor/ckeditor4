@@ -5,7 +5,7 @@
 
 **Important Notes:**
 
-* [#1249](https://github.com/ckeditor/ckeditor-dev/issues/1249): Enabled the [Upload Image](https://ckeditor.com/cke4/addon/uploadimage) plugin by default in standard and full presets. Also it will no longer log an error in case of missing [`config.imageUploadUrl`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-imageUploadUrl) property.
+* [#1249](https://github.com/ckeditor/ckeditor-dev/issues/1249): Enabled the [Upload Image](https://ckeditor.com/cke4/addon/uploadimage) plugin by default in standard and full presets. Also, it will no longer log an error in case of missing [`config.imageUploadUrl`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-imageUploadUrl) property.
 
 New Features:
 

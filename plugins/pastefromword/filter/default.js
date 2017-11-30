@@ -396,7 +396,7 @@
 					// There are 3 paths:
 					// 1. There is regular `v:shape` (no `v:imagedata` inside).
 					// 2. There is a simple situation with `v:shape` with `v:imagedata` inside. We can remove such element and rely on `img` tag found later on.
-					// 3. There is complicated situation where we cannot find proper `img` tag after `v:shape` or there is some canvas element.
+					// 3. There is a complicated situation where we cannot find proper `img` tag after `v:shape` or there is some canvas element.
 					// 		a) If shape is a child of v:group, then most probably it belongs to canvas, so we need to treat it as in path 1.
 					// 		b) In other cases, most probably there is no related `img` tag. We need to transform `v:shape` into `img` tag (IE8 integration).
 
@@ -410,7 +410,7 @@
 					}
 
 					// Path 2:
-					// Sometimes child with proper ID might be nested in other tag.
+					// Sometimes a child with proper ID might be nested in other tag.
 					element.parent.find( function( child ) {
 						if ( child.name == 'img' && child.attributes &&
 							child.attributes[ 'v:shapes' ] == element.attributes.id ) {
@@ -427,7 +427,7 @@
 						var src = '';
 
 						// 3.a) Filter out situation when canvas is used. In such scenario there is v:group containing v:shape containing v:imagedata.
-						// Such v:shapes we treat as in Path 1.
+						// We streat such v:shapes as in Path 1.
 						if ( element.parent.name === 'v:group' ) {
 							shapeTagging( element );
 							return;
@@ -2029,7 +2029,7 @@
 	 */
 	CKEDITOR.plugins.pastefromword.images = {
 		/**
-		 * Method parses RTF content to find embedded images. Please be aware that method should only return `png` and `jpeg` images.
+		 * Method parses RTF content to find embedded images. Please be aware that this method should only return `png` and `jpeg` images.
 		 *
 		 * @private
 		 * @since 4.8.0
