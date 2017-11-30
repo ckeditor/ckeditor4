@@ -43,6 +43,7 @@ Fixed Issues:
 * [#1027](https://github.com/ckeditor/ckeditor-dev/issues/1027): Fixed: Cannot add multiple images to the table with [Table Selection](https://ckeditor.com/cke4/addon/tableselection) plugin in certain situations.
 * [#1069](https://github.com/ckeditor/ckeditor-dev/issues/1069): Fixed: Wrong shape processing by [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
 * [#995](https://github.com/ckeditor/ckeditor-dev/issues/995): Fixed: Hyperlinked image gets inserted twice by [Paste from Word](https://ckeditor.com/cke4/addon/pastefromword) plugin.
+* [#1287](https://github.com/ckeditor/ckeditor-dev/issues/1287): Fixed: [Widget](https://ckeditor.com/cke4/addon/widget) plugin throws exception if included in editor build but not loaded into editor's instance.
 
 API Changes:
 
