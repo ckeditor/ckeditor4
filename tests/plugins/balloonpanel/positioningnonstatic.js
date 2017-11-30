@@ -6,7 +6,7 @@
 ( function() {
 	'use strict';
 
-	var stubs = [];
+	var getViewPaneSizeStub;
 
 	bender.editors = {
 		classic: {
@@ -60,19 +60,15 @@
 
 	var tests = {
 		setUp: function() {
-			// Stub view port.
-			var stub = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' );
-			stubs.push( stub );
-			stub.returns( {
+			// Stub view port size.
+			getViewPaneSizeStub = sinon.stub( CKEDITOR.dom.window.prototype, 'getViewPaneSize' );
+			getViewPaneSizeStub.returns( {
 				width: 2000,
 				height: 3000
 			} );
 		},
 		tearDown: function() {
-			var stub;
-			while ( stub = stubs.pop() ) {
-				stub.restore();
-			}
+			getViewPaneSizeStub.restore();
 			CKEDITOR.document.getBody().removeStyle( 'min-width' );
 			CKEDITOR.document.getBody().removeStyle( 'min-height' );
 		},

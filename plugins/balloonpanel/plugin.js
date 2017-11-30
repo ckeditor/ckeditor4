@@ -789,7 +789,7 @@
 		/**
 		 * Returns element position on screen.
 		 *
-		 * @since 4.8.0
+		 * @since 4.8.1
 		 * @private
 		 * @param {CKEDITOR.dom.element} element Element which position is calculated.
 		 * @returns {Object} Element position (scroll position included).
