@@ -787,16 +787,16 @@
 		},
 
 		/**
-		 * Method returns element's position on screen.
+		 * Returns element position on screen.
 		 *
 		 * @since 4.8.0
 		 * @private
 		 * @param {CKEDITOR.dom.element} element Element which position is calculated.
-		 * @returns {Object} Returns element position, taking scroll into account
-		 * @returns {Number} return.top
-		 * @returns {Number} return.bottom
-		 * @returns {Number} return.left
-		 * @returns {Number} return.right
+		 * @returns {Object} Element position (scroll position included).
+		 * @returns {Number} return.top Top offset.
+		 * @returns {Number} return.bottom Bottom offset.
+		 * @returns {Number} return.left Left offset.
+		 * @returns {Number} return.right Right offset.
 		 */
 		_getAbsoluteRect: function( element ) {
 			var elementRect = element.getClientRect(),
