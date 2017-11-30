@@ -6,13 +6,24 @@
 ( function() {
 	'use strict';
 
+	// Remove `widgetselection` plugin due to upstream widget issue (#1277).
 	bender.editors = {
-		classic: {},
+		classic: {
+			config: {
+				removePlugins: 'widgetselection,widget,uploadimage,uploadwidget'
+			}
+		},
 		divarea: {
-			extraPlugins: 'divarea'
+			config: {
+				extraPlugins: 'divarea',
+				removePlugins: 'widgetselection,widget,uploadimage,uploadwidget'
+			}
 		},
 		inline: {
-			creator: 'inline'
+			creator: 'inline',
+			config: {
+				removePlugins: 'widgetselection,widget,uploadimage,uploadwidget'
+			}
 		}
 	};
 
