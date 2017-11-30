@@ -80,6 +80,8 @@
 					'cursor:move !important' +
 				'}'
 			);
+
+			addCustomStyleHandler();
 		},
 
 		beforeInit: function( editor ) {
@@ -3588,7 +3590,7 @@
 	// WIDGET STYLE HANDLER ---------------------------------------------------
 	//
 
-	( function() {
+	function addCustomStyleHandler() {
 		// Styles categorized by group. It is used to prevent applying styles for the same group being used together.
 		var styleGroups = {};
 
@@ -3843,7 +3845,7 @@
 			}
 		}
 
-	} )();
+	}
 
 	//
 	// EXPOSE PUBLIC API ------------------------------------------------------
