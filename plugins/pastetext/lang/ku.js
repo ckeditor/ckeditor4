@@ -4,5 +4,5 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'ku', {
 	button: 'لکاندنی وەك دەقی ڕوون',
-	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'وێبگەڕەکەت ڕێگەت پێنادات بۆ لکاندنی تێکست بە ڕێگایە. کلیکی %1 بۆ لکاندن.'
 } );

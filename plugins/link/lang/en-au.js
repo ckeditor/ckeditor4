@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'en-au', {
 	anchorName: 'By Anchor Name',
 	charset: 'Linked Resource Charset',
 	cssClasses: 'Stylesheet Classes',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'Force Download',
+	displayText: 'Display Text',
 	emailAddress: 'E-Mail Address',
 	emailBody: 'Message Body',
 	emailSubject: 'Message Subject',
@@ -47,7 +47,7 @@ CKEDITOR.plugins.setLang( 'link', 'en-au', {
 	popupStatusBar: 'Status Bar',
 	popupToolbar: 'Toolbar',
 	popupTop: 'Top Position',
-	rel: 'Relationship', // MISSING
+	rel: 'Relationship',
 	selectAnchor: 'Select an Anchor',
 	styles: 'Style',
 	tabIndex: 'Tab Index',

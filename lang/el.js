@@ -104,11 +104,11 @@ CKEDITOR.lang[ 'el' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Κενό',
 			35: 'End',
 			36: 'Home',
 			46: 'Delete',
-			224: 'Command' // MISSING
+			224: 'Εντολή'
 		},
 
 		// Prepended to ARIA labels with shortcuts.

@@ -21,12 +21,12 @@ CKEDITOR.plugins.setLang( 'flash', 'en-au', {
 	properties: 'Flash Properties',
 	propertiesTab: 'Properties',
 	quality: 'Quality',
-	qualityAutoHigh: 'Auto High', // MISSING
-	qualityAutoLow: 'Auto Low', // MISSING
-	qualityBest: 'Best', // MISSING
-	qualityHigh: 'High', // MISSING
-	qualityLow: 'Low', // MISSING
-	qualityMedium: 'Medium', // MISSING
+	qualityAutoHigh: 'Auto High',
+	qualityAutoLow: 'Auto Low',
+	qualityBest: 'Best',
+	qualityHigh: 'High',
+	qualityLow: 'Low',
+	qualityMedium: 'Medium',
 	scale: 'Scale',
 	scaleAll: 'Show all',
 	scaleFit: 'Exact Fit',
@@ -37,7 +37,7 @@ CKEDITOR.plugins.setLang( 'flash', 'en-au', {
 	validateSrc: 'URL must not be empty.',
 	validateVSpace: 'VSpace must be a number.',
 	windowMode: 'Window mode',
-	windowModeOpaque: 'Opaque', // MISSING
-	windowModeTransparent: 'Transparent', // MISSING
-	windowModeWindow: 'Window' // MISSING
+	windowModeOpaque: 'Opaque',
+	windowModeTransparent: 'Transparent',
+	windowModeWindow: 'Window'
 } );

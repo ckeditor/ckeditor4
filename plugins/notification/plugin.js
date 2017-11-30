@@ -13,7 +13,7 @@
 ( function() {
 
 	CKEDITOR.plugins.add( 'notification', {
-		lang: 'az,ca,cs,da,de,de-ch,en,eo,es,es-mx,eu,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,oc,pl,pt,pt-br,ru,sk,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
+		lang: 'az,ca,cs,da,de,de-ch,en,en-au,eo,es,es-mx,eu,fr,gl,hr,hu,id,it,ja,km,ko,ku,nb,nl,oc,pl,pt,pt-br,ro,ru,sk,sv,tr,ug,uk,zh,zh-cn', // %REMOVE_LINE_CORE%
 
 		init: function( editor ) {
 			editor._.notificationArea = new Area( editor );

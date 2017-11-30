@@ -16,7 +16,7 @@ CKEDITOR.plugins.setLang( 'forms', 'el', {
 		radioTitle: 'Ιδιότητες Κουμπιού Επιλογής',
 		value: 'Τιμή',
 		selected: 'Επιλεγμένο',
-		required: 'Required' // MISSING
+		required: 'Απαιτείται'
 	},
 	form: {
 		title: 'Ιδιότητες Φόρμας',

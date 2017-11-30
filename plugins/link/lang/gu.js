@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'gu', {
 	anchorName: 'ઍંકર નામથી પસંદ કરો',
 	charset: 'લિંક રિસૉર્સ કૅરિક્ટર સેટ',
 	cssClasses: 'સ્ટાઇલ-શીટ ક્લાસ',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'ડાઉનલોડ કરો',
+	displayText: 'લખાણ દેખાડો',
 	emailAddress: 'ઈ-મેલ સરનામું',
 	emailBody: 'સંદેશ',
 	emailSubject: 'ઈ-મેલ વિષય',

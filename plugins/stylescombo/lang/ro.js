@@ -4,8 +4,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'stylescombo', 'ro', {
 	label: 'Stil',
-	panelTitle: 'Formatarea stilurilor',
-	panelTitle1: 'Block Styles', // MISSING
-	panelTitle2: 'Inline Styles', // MISSING
-	panelTitle3: 'Object Styles' // MISSING
+	panelTitle: 'Formatare stilurilor',
+	panelTitle1: 'Bloc stiluri',
+	panelTitle2: 'Stiluri înșiruite',
+	panelTitle3: 'Stiluri obiect'
 } );

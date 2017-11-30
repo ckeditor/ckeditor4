@@ -81,9 +81,9 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'sk', {
 			legend: 'Stlačte ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'Vložiť ako čistý text',
+			legend: 'Stlačte ${pastetext}',
+			legendEdge: 'Stlačte ${pastetext} a potom ${paste}'
 		}
 		]
 	}

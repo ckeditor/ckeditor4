@@ -5,9 +5,9 @@
 
 CKEDITOR.plugins.setLang( 'uicolor', 'fr', {
 	title: 'Sélecteur de couleur',
-	options: 'Color Options', // MISSING
-	highlight: 'Highlight', // MISSING
-	selected: 'Selected Color', // MISSING
+	options: 'Option de couleur',
+	highlight: 'Surligner',
+	selected: 'Couleur sélectionnée',
 	predefined: 'Palettes de couleurs prédéfinies',
 	config: 'Collez ce texte dans votre fichier config.js'
 } );
