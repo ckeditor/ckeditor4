@@ -63,7 +63,7 @@
 				var data = evt.data,
 					dataTransferHtml = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
 						data.dataTransfer.getData( 'text/html', true ) : null,
-					// Required in paste from word image plugin (#662).
+					// Required in Paste from Word Image plugin (#662).
 					dataTransferRtf = CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ?
 						data.dataTransfer.getData( 'text/rtf' ) : null,
 					// Some commands fire paste event without setting dataTransfer property. In such case
@@ -148,7 +148,7 @@
 					newSrcValues.push( createSrcWithBase64( img ) );
 				}, this );
 
-				// Assumption there is equal amount of Images in RTF and HTML source, so we can match them accordingly to existing order.
+				// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
 				if ( imgTags.length === newSrcValues.length ) {
 					for ( i = 0; i < imgTags.length; i++ ) {
 						// Replace only `file` urls of images ( shapes get newSrcValue with null ).
