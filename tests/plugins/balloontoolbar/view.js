@@ -1,5 +1,7 @@
 /* bender-tags: balloontoolbar */
 /* bender-ckeditor-plugins: balloontoolbar */
+/* bender-include: _helpers/default.js */
+/* global ignoreUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
@@ -10,7 +12,7 @@
 		}
 	};
 
-	bender.test( {
+	var tests = {
 		'test balloonToolbarView.render': function() {
 			var view = new CKEDITOR.ui.balloonToolbarView( this.editor ),
 				items = {
@@ -85,5 +87,8 @@
 				view.destroy();
 			} );
 		}
-	} );
+	};
+
+	ignoreUnsupportedEnvironment( tests );
+	bender.test( tests );
 } )();

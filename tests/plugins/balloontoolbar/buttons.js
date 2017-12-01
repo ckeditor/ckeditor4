@@ -1,12 +1,14 @@
 /* bender-tags: balloontoolbar */
 /* bender-ckeditor-plugins: balloontoolbar,button,richcombo */
+/* bender-include: _helpers/default.js */
+/* global ignoreUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
 
 	bender.editor = {};
 
-	bender.test( {
+	var tests = {
 		'test adding buttion': function() {
 			var panel = new CKEDITOR.ui.balloonToolbar( this.editor );
 			panel.addItems( {
@@ -110,5 +112,8 @@
 			panel._view.renderItems( panel._items );
 			assert.areEqual( 2, panel._view.parts.content.find( '.cke_toolgroup' ).count(), 'There should be two toolgroups' );
 		}
-	} );
+	};
+
+	ignoreUnsupportedEnvironment( tests );
+	bender.test( tests );
 } )();
