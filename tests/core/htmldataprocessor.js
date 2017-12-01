@@ -77,6 +77,18 @@
 		return proto + ': text/html,<html><head><title>Test</title></head><body><script>' + code + ';<\/script></body></html>';
 	}
 
+	function isBrowserDisplayingAlert() {
+		// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in few browsers.
+		// 1. IE8 treats it as an URL and opens it which reloads the whole page.
+		// 2. While on Edge and IE11 (starting from Windows 8) the test passes, the browser prompts with "open as" dialog (which may break subsequent tests).
+		// 3. On Chrome Linux it prompts `Open xdg-open?` dialog, which gains focus so other tests requiring focus fails.
+		// 4. Opeara throw an error about "unsuported protocol"
+		return ( CKEDITOR.env.ie && ( CKEDITOR.env.version == 8 || CKEDITOR.env.version == 11 ) ) ||
+				CKEDITOR.env.edge ||
+				( CKEDITOR.env.chrome && bender.tools.env.linux ) ||
+				bender.tools.env.opera;
+	}
+
 	bender.editor = {
 		name: 'test_editor',
 		config: {
@@ -1324,15 +1336,9 @@
 	addXssTC( tcs, 'iframe with src=javascript 3',
 		'<p><iframe src="   jAvAsCrIpT:window.parent.%xss%;"></iframe></p>',
 		// Only Safari and Opera removes preceding spaces in the attribute (#1070).
-		'<p><iframe src="' + ( bender.tools.env.opera || CKEDITOR.env.safari ? '' : '   ' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
+		'<p><iframe src="' + ( CKEDITOR.env.safari ? '' : '   ' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
 
-	// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in few browsers.
-	// IE8 treats it as an URL and opens it which reloads the whole page.
-	// While on Edge and IE11 (starting from Windows 8) the test passes, the browser prompts with "open as" dialog (which may break subsequent tests).
-	// On Chrome Linux it prompts `Open xdg-open?` dialog, which gains focus so other tests requiring focus fails.
-	if ( !( CKEDITOR.env.ie && ( CKEDITOR.env.version == 8 || CKEDITOR.env.version == 11 ) ) &&
-		!( CKEDITOR.env.edge ) &&
-		!( CKEDITOR.env.chrome && bender.tools.env.linux ) ) {
+	if ( !isBrowserDisplayingAlert() ) {
 		addXssTC( tcs, 'iframe with src=javascript 4',
 			'<p><iframe src="&#10;&#106;javascript:window.parent.%xss%;"></iframe></p>',
 			// In IE9 the new line entity (&#10;) is removed.
