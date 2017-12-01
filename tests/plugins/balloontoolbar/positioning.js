@@ -54,7 +54,7 @@
 
 		'test divaera - out of view - bottom center': function( editor ) {
 			// Due to a high unstability of this test, that fails on mobile devices, small screens
-			// and when devtools are open, it's disabled for 4.8.0 release (#1296)
+			// and when devtools are open, it's disabled for 4.8.0 release (#1295)
 			assert.ignore();
 
 			if ( editor.name == 'divarea' ) {
@@ -85,7 +85,7 @@
 
 		'test divaera - out of view - hcenter top': function( editor ) {
 			// Due to a high unstability of this test, that fails on mobile devices, small screens
-			// and when devtools are open, it's disabled for 4.8.0 release (#1296)
+			// and when devtools are open, it's disabled for 4.8.0 release (#1295)
 			assert.ignore();
 
 			if ( editor.name == 'divarea' ) {
