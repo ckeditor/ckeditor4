@@ -4,13 +4,20 @@
 
 'use strict';
 
-var isEdge16 = CKEDITOR.env.ie && CKEDITOR.env.version >= 16;
+var isEdge16 = CKEDITOR.env.ie && CKEDITOR.env.version >= 16,
+	nativeDataTransferAvailableOnPaste;
 
 bender.test( {
 	init: function() {
 		if ( !CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			assert.ignore();
 		}
+
+		// Browsers which does not support custom copy cut (CKEDITOR.plugins.clipboard.isCustomCopyCutSupported),
+		// does not have native data transfer object passed to our wrapper (CKEDITOR.plugins.clipboard.dataTransfer),
+		// because it is not available on paste. Checking values directly from native dataTransfer without cache
+		// object (`getDataNoCache`) will simply not work returning empty values (#1296).
+		nativeDataTransferAvailableOnPaste = CKEDITOR.plugins.clipboard.isCustomCopyCutSupported;
 	},
 
 	setUp: function() {
@@ -578,8 +585,12 @@ bender.test( {
 			value = getHtmlWithCustomData( value, customValue );
 		}
 
-		var nativeDataTransfer = dataTransfer.$ || dataTransfer._dataTransfer.$;
-		assert.areSame( value, nativeDataTransfer.getData( type ) );
+		var useDataTransfer = dataTransfer;
+		if ( nativeDataTransferAvailableOnPaste ) {
+			// If native data transfer is available, we use it.
+			useDataTransfer = dataTransfer.$ || dataTransfer._dataTransfer.$;
+		}
+		assert.areSame( value, useDataTransfer.getData( type ) );
 	},
 
 	assertApplyDataComment: function( content, data, dataTransferFallback, expected ) {
@@ -589,7 +600,8 @@ bender.test( {
 
 // Gets data with omitting the cache.
 function getDataNoCache( dataTransfer, type ) {
-	return dataTransfer._.fallbackDataTransfer.getData( type );
+	// For browsers where `nativeDataTransferAvailableOnPaste` is false, there is no native dataTransfer so we must read from cache.
+	return nativeDataTransferAvailableOnPaste ? dataTransfer._.fallbackDataTransfer.getData( type ) : dataTransfer.getData( type );
 }
 
 function getHtmlWithCustomData( htmlValue, customValue ) {
