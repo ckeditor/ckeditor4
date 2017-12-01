@@ -53,6 +53,10 @@
 		},
 
 		'test divaera - out of view - bottom center': function( editor ) {
+			// Due to a high unstability of this test, that fails on mobile devices, small screens
+			// and when devtools are open, it's disabled for 4.8.0 release (#1296)
+			assert.ignore();
+
 			if ( editor.name == 'divarea' ) {
 				// divarea tests are failing, it's an upstream issue from balloonpanel (#1064).
 				assert.ignore();
@@ -80,6 +84,10 @@
 		},
 
 		'test divaera - out of view - hcenter top': function( editor ) {
+			// Due to a high unstability of this test, that fails on mobile devices, small screens
+			// and when devtools are open, it's disabled for 4.8.0 release (#1296)
+			assert.ignore();
+
 			if ( editor.name == 'divarea' ) {
 				// divarea tests are failing, it's an upstream issue from balloonpanel (#1064).
 				assert.ignore();
