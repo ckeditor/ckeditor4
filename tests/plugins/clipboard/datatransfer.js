@@ -1186,7 +1186,8 @@ bender.test( {
 		assert.isTrue( dt1._.data !== dt2._.data, 'caches should not be equal' );
 	},
 
-	'test if dataTransfer._stripHtml can handle empty data and does not modify it': function() {
+	// (#1299)
+	'test dataTransfer._stripHtml empty values': function() {
 		var dt1 = new CKEDITOR.plugins.clipboard.dataTransfer();
 
 		assert.areSame( '', dt1._stripHtml( '' ), 'Empty html' );
