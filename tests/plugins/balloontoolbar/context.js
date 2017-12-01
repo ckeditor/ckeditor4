@@ -9,12 +9,6 @@
 	bender.editor = {};
 
 	var tests = {
-		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
-				assert.ignore();
-			}
-		},
-
 		tearDown: function() {
 			this.editor.balloonToolbars._clear();
 		},
