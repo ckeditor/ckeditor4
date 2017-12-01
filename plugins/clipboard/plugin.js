@@ -2580,18 +2580,22 @@
 		 * @returns {String}
 		 */
 		_stripHtml: function( html ) {
-			// See https://dev.ckeditor.com/ticket/13583 for more details.
-			// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
-			var result = html.replace( this._.metaRegExp, '' ),
-				match;
+			var result = html;
 
-			// Keep only contents of the <body> element
-			match = this._.bodyRegExp.exec( result );
-			if ( match && match.length ) {
-				result = match[ 1 ];
+			// Passed html may be empty or null. There is no need to stripping such values (#1299).
+			if ( result && result.length ) {
+				// See https://dev.ckeditor.com/ticket/13583 for more details.
+				// Additionally https://dev.ckeditor.com/ticket/16847 adds a flag allowing to get the whole, original content.
+				result = result.replace( this._.metaRegExp, '' );
 
-				// Remove also comments.
-				result = result.replace( this._.fragmentRegExp, '' );
+				// Keep only contents of the <body> element
+				var match = this._.bodyRegExp.exec( result );
+				if ( match && match.length ) {
+					result = match[ 1 ];
+
+					// Remove also comments.
+					result = result.replace( this._.fragmentRegExp, '' );
+				}
 			}
 
 			return result;
