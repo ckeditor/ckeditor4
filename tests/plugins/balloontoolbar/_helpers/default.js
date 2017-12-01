@@ -18,7 +18,7 @@ function convertRgbaToRgb( input ) {
 }
 
 function ignoreUnsupportedEnvironment( testSuite, check ) {
-	var isSupported = CKEDITOR.env.ie && CKEDITOR.env.version > 8;
+	var isSupported = !CKEDITOR.env.ie || CKEDITOR.env.version > 8;
 
 	testSuite._should = testSuite._should || {};
 	testSuite._should.ignore = testSuite._should.ignore || {};
