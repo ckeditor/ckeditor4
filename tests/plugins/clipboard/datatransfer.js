@@ -1184,5 +1184,14 @@ bender.test( {
 
 		assert.isObject( dt1._.data, 'cache should be initialized' );
 		assert.isTrue( dt1._.data !== dt2._.data, 'caches should not be equal' );
+	},
+
+	// (#1299)
+	'test dataTransfer._stripHtml empty values': function() {
+		var dt1 = new CKEDITOR.plugins.clipboard.dataTransfer();
+
+		assert.areSame( '', dt1._stripHtml( '' ), 'Empty html' );
+		assert.isUndefined( dt1._stripHtml( undefined ), 'Undefined' );
+		assert.isNull( dt1._stripHtml( null ), 'Null' );
 	}
 } );
