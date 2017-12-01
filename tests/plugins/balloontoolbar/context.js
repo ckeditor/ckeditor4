@@ -1,18 +1,14 @@
 /* bender-tags: balloontoolbar, context */
 /* bender-ckeditor-plugins: balloontoolbar */
+/* bender-include: _helpers/default.js */
+/* global ignoreUnsupportedEnvironment */
 
 ( function() {
 	'use strict';
 
 	bender.editor = {};
 
-	bender.test( {
-		setUp: function() {
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version === 8 ) {
-				assert.ignore();
-			}
-		},
-
+	var tests = {
 		tearDown: function() {
 			this.editor.balloonToolbars._clear();
 		},
@@ -32,5 +28,8 @@
 			assert.isInstanceOf( ContextTypeStub, ret, 'Ret type' );
 			sinon.assert.calledWithExactly( ContextTypeStub, this.editor, {} );
 		}
-	} );
+	};
+
+	ignoreUnsupportedEnvironment( tests );
+	bender.test( tests );
 } )();

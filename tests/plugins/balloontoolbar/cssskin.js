@@ -1,7 +1,7 @@
 /* bender-tags: balloontoolbar */
 /* bender-ckeditor-plugins: toolbar,balloontoolbar,basicstyles */
 /* bender-include: ./_helpers/default.js */
-/* global convertRgbaToRgb */
+/* global ignoreUnsupportedEnvironment, convertRgbaToRgb */
 
 ( function() {
 	'use strict';
@@ -59,5 +59,6 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	ignoreUnsupportedEnvironment( tests );
 	bender.test( tests );
 } )();
