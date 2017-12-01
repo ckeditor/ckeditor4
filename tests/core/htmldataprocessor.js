@@ -77,7 +77,7 @@
 		return proto + ': text/html,<html><head><title>Test</title></head><body><script>' + code + ';<\/script></body></html>';
 	}
 
-	function isBrowserDisplayAlert() {
+	function isBrowserDisplayingAlert() {
 		// The `src="&#10;&#106;javascript:..."` is treated as some different protocol in few browsers.
 		// 1. IE8 treats it as an URL and opens it which reloads the whole page.
 		// 2. While on Edge and IE11 (starting from Windows 8) the test passes, the browser prompts with "open as" dialog (which may break subsequent tests).
@@ -1338,7 +1338,7 @@
 		// Only Safari and Opera removes preceding spaces in the attribute (#1070).
 		'<p><iframe src="' + ( CKEDITOR.env.safari ? '' : '   ' ) + 'javascript:window.parent.%xss%;"></iframe></p>' ); // jshint ignore:line
 
-	if ( !isBrowserDisplayAlert() ) {
+	if ( !isBrowserDisplayingAlert() ) {
 		addXssTC( tcs, 'iframe with src=javascript 4',
 			'<p><iframe src="&#10;&#106;javascript:window.parent.%xss%;"></iframe></p>',
 			// In IE9 the new line entity (&#10;) is removed.
