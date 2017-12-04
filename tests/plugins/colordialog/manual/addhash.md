@@ -1,4 +1,4 @@
-@bender-tags: tc, feature, colordialog, 565, 4.8.0
+@bender-tags: feature, colordialog, 565, 4.8.0
 @bender-ui: collapsed
 @bender-ckeditor-plugins: table,tabletools,colordialog,toolbar,wysiwygarea,sourcearea,contextmenu
 
