@@ -18,6 +18,10 @@
 		// jscs:enable maximumLineLength
 		requires: 'lineutils,clipboard,widgetselection',
 		onLoad: function() {
+			// Widgets require querySelectorAll for proper work (#1319).
+			if ( CKEDITOR.document.$.querySelectorAll === undefined ) {
+				return;
+			}
 			CKEDITOR.addCss(
 				'.cke_widget_wrapper{' +
 					'position:relative;' +
@@ -85,6 +89,10 @@
 		},
 
 		beforeInit: function( editor ) {
+			// Widgets require querySelectorAll for proper work (#1319).
+			if ( CKEDITOR.document.$.querySelectorAll === undefined ) {
+				return;
+			}
 			/**
 			 * An instance of widget repository. It contains all
 			 * {@link CKEDITOR.plugins.widget.repository#registered registered widget definitions} and
@@ -105,6 +113,10 @@
 		},
 
 		afterInit: function( editor ) {
+			// Widgets require querySelectorAll for proper work (#1319).
+			if ( CKEDITOR.document.$.querySelectorAll === undefined ) {
+				return;
+			}
 			addWidgetButtons( editor );
 			setupContextMenu( editor );
 		}
