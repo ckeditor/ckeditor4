@@ -601,6 +601,11 @@
 				var editable = this.editor.editable();
 				this._detachListeners();
 
+				this._listeners.push( this.editor.on( 'change', function() {
+					this.attach( this._pointedElement, {
+						focusElement: false
+					} );
+				}, this ) );
 				this._listeners.push( this.editor.on( 'resize', function() {
 					this.attach( this._pointedElement, {
 						focusElement: false
