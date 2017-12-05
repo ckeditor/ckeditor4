@@ -13,7 +13,7 @@
     endIndex;
 
   CKEDITOR.plugins.add( 'a11yheading', {
-    requires: 'a11yfirst,a11yfirsthelp,menubutton',
+    requires: 'a11yfirsthelp,menubutton',
 
     // jscs:disable maximumLineLength
     lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -35,8 +35,8 @@
       startIndex = oneLevel1 && headings[0] === 'h1' ? 1 : 0;
       endIndex = headings.length - 1;
 
-      // Change behavior of menubutton with text label
-      CKEDITOR.plugins.get( 'a11yfirst' ).overrideButtonSetState();
+      // Load the override script to change behavior of menubutton with text label
+      CKEDITOR.scriptLoader.load( this.path + 'js/override.js' );
 
       // Register heading command
       editor.addCommand( 'heading', {

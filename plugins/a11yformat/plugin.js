@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.add( 'a11yformat', {
-  requires: 'a11yfirst,a11yfirsthelp,richcombo',
+  requires: 'a11yfirsthelp,richcombo',
 
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -16,6 +16,9 @@ CKEDITOR.plugins.add( 'a11yformat', {
     var config = editor.config,
       lang = editor.lang.a11yformat,
       helpValue = 'blockFormatHelp';
+
+    // Load the separator script
+    CKEDITOR.scriptLoader.load( this.path + 'js/separator.js' );
 
     // Gets the list of tags from the settings.
     var tags = config.format_tags.split( ';' );

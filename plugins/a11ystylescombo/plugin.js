@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.add( 'a11ystylescombo', {
-  requires: 'a11yfirst,a11yfirsthelp,richcombo,removeformat',
+  requires: 'a11yfirsthelp,richcombo,removeformat',
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
   // jscs:enable maximumLineLength
@@ -15,6 +15,9 @@ CKEDITOR.plugins.add( 'a11ystylescombo', {
       stylesList = [],
       combo,
       allowedContent = [];
+
+    // Load the separator script
+    CKEDITOR.scriptLoader.load( this.path + 'js/separator.js' );
 
     var menuStyle = new CKEDITOR.style( { element: 'p' } ),
       removeStylesCmd = 'removeFormat', // Defined in removeformat plugin

@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.add( 'a11yfirsthelp', {
-  requires: 'a11yfirst,richcombo',
+  requires: 'richcombo',
 
   // jscs:disable maximumLineLength
   lang: 'en,en-au,en-ca,en-gb', // %REMOVE_LINE_CORE%
@@ -23,6 +23,9 @@ CKEDITOR.plugins.add( 'a11yfirsthelp', {
         helpTopics = config.a11yFirstHelpTopics,
         helpTopicsKeys = Object.keys( helpTopics ),
         menuStyle = new CKEDITOR.style( { element: 'p' } );
+
+    // Load the separator script
+    CKEDITOR.scriptLoader.load( this.path + 'js/separator.js' );
 
     // Load the showdown script
     CKEDITOR.scriptLoader.load( this.path + 'js/showdown.min.js' );
