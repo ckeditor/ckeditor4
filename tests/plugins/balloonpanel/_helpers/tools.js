@@ -59,29 +59,6 @@ var balloonTestsTools = {
 		return document.location.origin;
 	},
 
-	getAbsoluteRect: function( editor, element ) {
-		var elementRect = element.getClientRect(),
-			winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition(),
-			frame = editor.window.getFrame(),
-			frameRect;
-
-		if ( editor.editable().isInline() || element.equals( frame ) ) {
-			elementRect.top = elementRect.top + winGlobalScroll.y;
-			elementRect.left = elementRect.left + winGlobalScroll.x;
-			elementRect.right = elementRect.left + elementRect.width;
-			elementRect.bottom = elementRect.top + elementRect.height;
-		} else {
-			frameRect = frame.getClientRect();
-
-			elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
-			elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
-			elementRect.right = elementRect.left + elementRect.width;
-			elementRect.bottom = elementRect.top + elementRect.height;
-		}
-
-		return elementRect;
-	},
-
 	getTriangleTipPosition: function( balloon ) {
 		var pos = {
 			x: balloon.rect.left,
