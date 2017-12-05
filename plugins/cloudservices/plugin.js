@@ -55,6 +55,11 @@
 			CloudServicesLoader.prototype.upload = function( url, additionalRequestParameters ) {
 				url = url || this.editor.config.cloudServices_url;
 
+				if ( !url ) {
+					CKEDITOR.error( 'cloudservices-no-url' );
+					return;
+				}
+
 				FileLoader.prototype.upload.call( this, url, additionalRequestParameters );
 			};
 
@@ -79,6 +84,11 @@
 					reqData.file = reqData.upload;
 					delete reqData.upload;
 
+					if ( !( fileLoader.customToken || editor.config.cloudServices_token ) ) {
+						CKEDITOR.error( 'cloudservices-no-token' );
+						evt.cancel();
+						return;
+					}
 					// Add authorization token.
 					evt.data.fileLoader.xhr.setRequestHeader( 'Authorization', fileLoader.customToken || editor.config.cloudServices_token );
 				}
