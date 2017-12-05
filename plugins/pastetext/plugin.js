@@ -90,10 +90,13 @@
  * editor, loosing any formatting information possibly available in the source
  * text.
  *
- * **Note:** paste from word (dialog) is not affected by this configuration.
- *
  *		config.forcePasteAsPlainText = true;
  *
- * @cfg {Boolean} [forcePasteAsPlainText=false]
+ * This setting accepts also third value - `ignore-word`. In such case content pasted from Word
+ * will keep its formatting while any other content will be pasted as plain text.
+ *
+ * 		config.forcePasteAsPlainText = 'ignore-word';
+ *
+ * @cfg {Boolean|String} [forcePasteAsPlainText=false]
  * @member CKEDITOR.config
  */

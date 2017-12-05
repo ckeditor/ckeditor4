@@ -101,7 +101,7 @@
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
 
 						data.dataValue = pfwEvtData.dataValue;
-						// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content.
+						// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content (#1013).
 						if ( editor.config.forcePasteAsPlainText === true ) {
 							data.type = 'text';
 						}
