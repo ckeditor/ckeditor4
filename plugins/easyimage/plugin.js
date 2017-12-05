@@ -397,6 +397,8 @@
 	CKEDITOR.plugins.add( 'easyimage', {
 		requires: 'imagebase,uploadwidget,balloontoolbar,dialog,cloudservices',
 		lang: 'en',
+		icons: 'easyimagefull,easyimageside,easyimagealt', // %REMOVE_LINE_CORE%
+		hidpi: true, // %REMOVE_LINE_CORE%
 
 		onLoad: function() {
 			CKEDITOR.dialog.add( 'easyimageAlt', this.path + 'dialogs/easyimagealt.js' );
