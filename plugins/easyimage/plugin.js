@@ -97,6 +97,10 @@
 	}
 
 	function addMenuItems( editor ) {
+		if ( !editor.plugins.contextmenu ) {
+			return;
+		}
+
 		editor.addMenuGroup( 'easyimage' );
 		editor.addMenuItems( {
 			easyimageFull: {
@@ -391,7 +395,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'imagebase,uploadwidget,balloontoolbar,contextmenu,dialog,cloudservices',
+		requires: 'imagebase,uploadwidget,balloontoolbar,dialog,cloudservices',
 		lang: 'en',
 
 		onLoad: function() {
