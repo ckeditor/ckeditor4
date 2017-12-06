@@ -5,8 +5,10 @@ span.cke_toolbar_font_color {
 	position: absolute;
 	left: 7px;
 	top: 19px;
-	opacity: 0.5;
-	border-radius: 3px;
+}
+
+.cke_button__textcolor span.cke_toolbar_font_color {
+	/* outline: 1px solid #999999; */
 }
 
 a.cke_button:hover span.cke_toolbar_font_color {
@@ -15,6 +17,8 @@ a.cke_button:hover span.cke_toolbar_font_color {
 }
 
 .cke_button__bgcolor span.cke_toolbar_font_color {
+	border-radius: 3px;
+	opacity: 0.5;
 	height: 14px;
 	width: 14px;
 	top: 6px;
