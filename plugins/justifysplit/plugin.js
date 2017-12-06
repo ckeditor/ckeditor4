@@ -19,23 +19,9 @@
 				return;
 			}
 
-			// TODO add allowedContent and requiredContent from each command to ACF manually.
-			// TODO there might be problem with refresh so split button should manually refresh commands.
-			// TODO See #678.
-			// // Registers command.
-			// editor.addCommand( 'justifysplit', {
-			// 	contextSensitive: true,
-			// 	refresh: function( editor, path ) {
-			// 		for ( var prop in items ) {
-			// 			editor.getCommand( 'justifyright' ).refresh( editor, path );
-			// 		}
-			// 	}
-			// } );
-
 			var lang = editor.lang.justifysplit;
 			editor.ui.add( 'Justify', CKEDITOR.UI_SPLITBUTTON, {
 				label: lang.justify,
-				name: 'justify_splitbutton',
 				toolbar: 'align,10',
 				items: [ {
 					label: lang.left,

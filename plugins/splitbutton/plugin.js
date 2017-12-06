@@ -20,18 +20,28 @@ CKEDITOR.plugins.add( 'splitbutton', {
 			 * @constructor
 			 * @param Object definition
 			 */
-			$: function( definition, items ) {
+			$: function( definition, allItems ) {
+
 				var groups = {},
 					button = this,
 					defaultIcon,
 					activeItem = null,
+					items = {},
 					item;
 
-				for ( var i in items ) {
-					item = items[ i ];
+				// Items are required to only have label and command.
+				// Group is optional. If not assigned 'default' group is added.
+				// If item has `default=true` property, its icon is used as default splitbutton icon.
+				// Item id is generated automatically for internal purposes.
+				// Item role is automatically set to 'menuitemcheckbox'.
+				// Item onClick method is automatically added, it calls item.command on click.
+				// On 'state' listener is automatically added, so splitbutton icon is updated when command is called
+				// or selection changes (which causes commands to refresh so they fire state event).
+				for ( var i in allItems ) {
+					item = allItems[ i ];
 
 					if ( !item.group ) {
-						item.group = 'default';
+						item.group = definition.label + '_default';
 					}
 
 					if ( groups[ item.group ] === undefined ) {
@@ -67,7 +77,22 @@ CKEDITOR.plugins.add( 'splitbutton', {
 							}
 						};
 					} )() );
+
+					items[ item.id ] = item;
 				}
+
+				// TODO add allowedContent and requiredContent from each command to ACF manually.
+				// TODO there might be problem with refresh so split button should manually refresh commands.
+				// TODO See #678.
+				// // Registers command.
+				// editor.addCommand( 'justifysplit', {
+				// 	contextSensitive: true,
+				// 	refresh: function( editor, path ) {
+				// 		for ( var prop in items ) {
+				// 			editor.getCommand( 'justifyright' ).refresh( editor, path );
+				// 		}
+				// 	}
+				// } );
 
 				if ( !definition.onMenu ) {
 					definition.onMenu = function() {
@@ -83,9 +108,6 @@ CKEDITOR.plugins.add( 'splitbutton', {
 				if ( !definition.icon && defaultIcon ) {
 					definition.icon = defaultIcon;
 				}
-
-				editor.addCommand( definition.label + '_group', {} );
-
 
 				this.base( definition );
 
