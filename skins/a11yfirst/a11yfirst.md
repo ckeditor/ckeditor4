@@ -1,37 +1,10 @@
 # Notes on maintaining the `a11yfirst` skin
 
-This skin is based on the moono-lisa skin with the following file modifications:
+* The `a11yfirst` skin is based on the `moono-lisa` skin.
 
-## `menu.css`
+* Our modifications are in `a11yfirst.css`, which is loaded by `editor.css`.
 
-The following code has been added:
+* See `a11yfirst.css` for further documentation on specific changes.
 
-```css
-/* Use checkmark as menubutton icon to indicate active item */
-.cke_menubutton_on .cke_menubutton_icon:after {
-  content: '✓';
-  font-weight: bold;
-  font-size: 110%;
-  position: relative;
-  left: -0.9em;
-  top: .05em;
-}
-
-/* Make disabled menubutton items appear slightly darker */
-.cke_menubutton_disabled .cke_menubutton_label {
-  opacity: 0.4;
-  filter: alpha(opacity=40);
-}
-```
-
-## `dialog.css`
-
-The following code has been added:
-
-```css
-/* Add border to dialog box */
-.cke_dialog
-{
-    border: 1px solid #d1d1d1;
-}
-```
+* The only `moono-lisa` file we have modified is `editor.css`. It loads one
+  additional file: `a11yfirst.css`.
