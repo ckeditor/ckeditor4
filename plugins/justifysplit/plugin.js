@@ -13,37 +13,11 @@
 		// jscs:enable maximumLineLength
 		icons: 'justifyblock,justifycenter,justifyleft,justifyright', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
-		requires: 'menubutton,justifycore',
+		requires: 'splitbutton,justifycore',
 		init: function( editor ) {
 			if ( editor.plugins.justify ) {
 				return;
 			}
-
-			var alignments = [ 'left', 'center', 'right', 'block' ],
-				items = {},
-				alignment,
-				i;
-
-			for ( i = 0; i < alignments.length; i++ ) {
-
-				alignment = alignments[ i ];
-
-				items[ alignment + '_id' ] = {
-					label: editor.lang.justifysplit[ alignment ],
-					group: 'justifysplit',
-					order: i,
-					alignment: 'justify' + alignment,
-					icon: 'justify' + alignment,
-					onClick: function() {
-						editor.execCommand( this.alignment );
-					},
-					role: 'menuitemcheckbox'
-				};
-			}
-
-			// Initialize groups for menu.
-			editor.addMenuGroup( 'justifysplit', 1 );
-			editor.addMenuItems( items );
 
 			// TODO add allowedContent and requiredContent from each command to ACF manually.
 			// TODO there might be problem with refresh so split button should manually refresh commands.
@@ -58,18 +32,29 @@
 			// 	}
 			// } );
 
-			editor.ui.add( 'Justify', CKEDITOR.UI_MENUBUTTON, {
-				label: editor.lang.justifysplit.justify,
+			var lang = editor.lang.justifysplit;
+			editor.ui.add( 'Justify', CKEDITOR.UI_SPLITBUTTON, {
+				label: lang.justify,
+				name: 'justify_splitbutton',
 				toolbar: 'align,10',
-				icon: 'justifyleft',
-				onMenu: function() {
-					var activeItems = {};
-					for ( var prop in items ) {
-						activeItems[ prop ] = CKEDITOR.TRISTATE_OFF;
-					}
-
-					return activeItems;
-				}
+				items: [ {
+					label: lang.left,
+					command: 'justifyleft',
+					icon: 'justifyleft',
+					'default': true
+				}, {
+					label: lang.center,
+					command: 'justifycenter',
+					icon: 'justifycenter'
+				}, {
+					label: lang.right,
+					command: 'justifyright',
+					icon: 'justifyright'
+				}, {
+					label: lang.block,
+					command: 'justifyblock',
+					icon: 'justifyblock'
+				} ]
 			} );
 		}
 	} );
