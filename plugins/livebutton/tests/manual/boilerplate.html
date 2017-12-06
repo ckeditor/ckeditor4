@@ -1,9 +1,13 @@
 <textarea id="editor1">
 	<p>
 		This is an example text with
-		<span style="color:#ff0000">red color</span>.
+		<span style="color:#ff0000">red</span>,
+		<span style="color:#00ff00">green</span> and
+		<span style="color:#0000ff">blue</span> color.
 	</p>
 </textarea>
 <script>
-	 CKEDITOR.replace( 'editor1' );
+	 CKEDITOR.replace( 'editor1', {
+		 removeButtons: 'BGColor'
+	 } );
 </script>

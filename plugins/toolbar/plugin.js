@@ -518,6 +518,10 @@
 					if ( !removeButtons || CKEDITOR.tools.indexOf( removeButtons, name ) == -1 ) {
 						item = editor.ui.create( name );
 
+						if ( item.bind ) {
+							item.bind( editor );
+						}
+
 						if ( !item )
 							continue;
 

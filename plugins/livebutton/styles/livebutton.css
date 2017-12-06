@@ -1,0 +1,14 @@
+span.cke_toolbar_font_color {
+	display: block;
+	height: 2px;
+	width: 15px;
+	background: red;
+	position: absolute;
+	left: 7px;
+	top: 19px;
+}
+
+a.cke_button:hover span.cke_toolbar_font_color {
+	left: 6px;
+	top: 18px;
+}
