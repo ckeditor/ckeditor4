@@ -1421,6 +1421,10 @@
 			if ( this._.cache.nativeSel !== undefined )
 				return this._.cache.nativeSel;
 
+			if ( this.root.getShadowRoot && this.root.getShadowRoot() ) {
+				return this._.cache.nativeSel = this.root.getShadowRoot().$.getSelection();
+			}
+
 			return ( this._.cache.nativeSel = isMSSelection ? this.document.$.selection : this.document.getWindow().$.getSelection() );
 		},
 
