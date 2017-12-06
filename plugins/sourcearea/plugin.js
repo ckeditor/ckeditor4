@@ -43,10 +43,13 @@
 
 				textarea.addClass( 'cke_source' ).addClass( 'cke_reset' ).addClass( 'cke_enable_context_menu' );
 
-				editor.ui.space( 'contents' ).append( textarea );
+				if ( contentsSpace.$.shadowRoot ) {
+					contentsSpace.$.shadowRoot.appendChild( textarea.$ );
+				} else {
+					contentsSpace.append( textarea );
+				}
 
 				var editable = editor.editable( new sourceEditable( editor, textarea ) );
-
 				// Fill the textarea with the current editor data.
 				editable.setData( editor.getData( 1 ) );
 
