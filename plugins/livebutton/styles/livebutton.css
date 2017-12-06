@@ -2,13 +2,27 @@ span.cke_toolbar_font_color {
 	display: block;
 	height: 2px;
 	width: 15px;
-	background: red;
 	position: absolute;
 	left: 7px;
 	top: 19px;
+	opacity: 0.5;
+	border-radius: 3px;
 }
 
 a.cke_button:hover span.cke_toolbar_font_color {
 	left: 6px;
 	top: 18px;
+}
+
+.cke_button__bgcolor span.cke_toolbar_font_color {
+	height: 14px;
+	width: 14px;
+	top: 6px;
+	left: 7px;
+}
+
+.cke_button__bgcolor.cke_button:hover span.cke_toolbar_font_color {
+	height: 15px;
+	top: 5px;
+	left: 6px;
 }
