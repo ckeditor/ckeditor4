@@ -219,21 +219,3 @@ Special outer level classes used in this file:
 	vertical-align: middle;
 	display: inline;
 }
-
-/* The following are A11yFirst modifications */
-
-/* Use checkmark as menubutton icon to indicate active item */
-.cke_menubutton_on .cke_menubutton_icon:after {
-  content: '✓';
-  font-weight: bold;
-  font-size: 110%;
-  position: relative;
-  left: -0.9em;
-  top: .05em;
-}
-
-/* Make disabled menubutton items appear slightly darker */
-.cke_menubutton_disabled .cke_menubutton_label {
-  opacity: 0.4;
-  filter: alpha(opacity=40);
-}
