@@ -84,7 +84,8 @@ CKEDITOR.plugins.add( 'colorbuttontest', {
 		}
 
 		function addButton( name, type, title, order, options ) {
-			var style = new CKEDITOR.style( config[ 'colorButton_' + type + 'Style' ] ),
+			var styleDefinition = config[ 'colorButton_' + type + 'Style' ],
+				style = new CKEDITOR.style( styleDefinition ),
 				colorBoxId = CKEDITOR.tools.getNextId() + '_colorBox',
 				panelBlock;
 
@@ -99,6 +100,12 @@ CKEDITOR.plugins.add( 'colorbuttontest', {
 				allowedContent: style,
 				requiredContent: style,
 				contentTransformations: options.contentTransformations,
+
+				parts: {
+					color: {
+						colorStyle: CKEDITOR.tools.objectKeys( styleDefinition.styles )[ 0 ]
+					}
+				},
 
 				panel: {
 					css: CKEDITOR.skin.getPath( 'editor' ),

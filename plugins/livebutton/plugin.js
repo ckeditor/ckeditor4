@@ -32,23 +32,21 @@
 					colorPart.hide(); // By default start with a hidden indicator.
 
 					this.parts.color = {
+						colorStyle: definition.parts && definition.parts.color && definition.parts.color.colorStyle,
 						element: colorPart,
 						refresh: function( sel, path ) {
-
-							function getColor( el ) {
-								return el.getStyle( 'color' ) || el.getStyle( 'background-color' );
-							}
+							var colorStyle = this.colorStyle || 'color';
 
 							var colorIndicator = this.element,
 								matches = CKEDITOR.tools.array.filter( path.elements, function( el ) {
 									var isCorrectElement = el && el.getName && el.getName() == 'span',
-										color = isCorrectElement && getColor( el );
+										color = isCorrectElement && el.getStyle( colorStyle );
 
 									return isCorrectElement && color;
 								} );
 
 							if ( matches.length ) {
-								colorIndicator.setStyle( 'background-color', getColor( matches[ 0 ] ) );
+								colorIndicator.setStyle( 'background-color', matches[ 0 ].getStyle( colorStyle ) );
 								colorIndicator.show();
 							} else {
 								colorIndicator.hide();
