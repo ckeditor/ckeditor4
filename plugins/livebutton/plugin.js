@@ -52,6 +52,42 @@
 							}
 						}
 					};
+
+					this.parts.icon = {
+						selector: '.cke_button_icon',
+						refresh: function( sel, path ) {
+							var colorStyle = 'color',
+								iconHolder = this.element,
+								matches = CKEDITOR.tools.array.filter( path.elements, function( el ) {
+									var isCorrectElement = el && el.getName && el.getName() == 'span',
+										color = isCorrectElement && el.getStyle( colorStyle );
+
+									return isCorrectElement && color;
+								} );
+
+							// Only green font color will trigger the function.
+							if ( matches.length && matches[ 0 ].getStyle( 'color' ) == 'rgb(0, 255, 0)' ) {
+								var buttonNameMatch = /^cke_button__(.+)_icon$/,
+									iconName = Array.from( iconHolder.$.classList )
+									.filter( function( className ) {
+										return className.match( buttonNameMatch );
+									} )
+									.map( function( className ) {
+										return className.match( buttonNameMatch )[ 1 ];
+									} );
+
+								iconName = iconName && iconName[ 0 ];
+
+								iconHolder.data( 'initial-icon', iconName );
+
+								iconHolder.setAttribute( 'style', CKEDITOR.skin.getIconStyle( 'numberedlist', false, this.icon, this.iconOffset ) );
+							} else if ( iconHolder.data( 'initial-icon' ) ) {
+								// Rollback the default icon.
+								iconHolder.setAttribute( 'style', CKEDITOR.skin.getIconStyle( iconHolder.data( 'initial-icon' ), false, this.icon, this.iconOffset ) );
+								iconHolder.data( 'initial-icon', false );
+							}
+						}
+					};
 				},
 
 				proto: {
@@ -97,8 +133,11 @@
 							var curPart = this.parts[ i ],
 								element = curPart.element;
 
-							if ( !element.getParent() ) {
+							// Part element could be provided either as an element, or a selector that should match it from existing markup.
+							if ( element && !element.getParent() ) {
 								buttonRoot.append( element );
+							} else if ( !element && curPart.selector ) {
+								curPart.element = buttonRoot.findOne( curPart.selector );
 							}
 						}
 					}
