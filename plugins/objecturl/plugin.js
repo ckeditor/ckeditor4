@@ -1,39 +1,45 @@
 ( function() {
 	'use strict';
 
-	CKEDITOR.plugins.add( 'objecturl', {
-		init: function( editor ) {
-			editor.on( 'getData', getDataListener );
-			editor.on( 'toHtml', function( evt ) {
-				evt.data.dataValue = base64ToBlob( evt.data.dataValue );
-			}, null, null, 20 );
+	var blobs = {};
+
+	var htmlFilter = new CKEDITOR.htmlParser.filter( {
+		elements: {
+			img: function( element ) {
+				if ( element.attributes.src && element.attributes.src.indexOf( 'data:' ) === 0 ) {
+					element.attributes.src = base64ToBlob( element.attributes.src );
+					if ( element.attributes[ 'data-cke-saved-src' ] ) {
+						element.attributes[ 'data-cke-saved-src' ] = element.attributes.src;
+					}
+				}
+			}
 		}
 	} );
 
-	var blobs = [];
-
-	function escapeRegExp( str ) {
-		return str.replace( /([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1' );
-	}
-
-	function getDataListener( evt ) {
-		evt.data.dataValue = blobToBase64( evt.data.dataValue );
-	}
-
-	function blobToBase64( data ) {
-		CKEDITOR.tools.array.forEach( blobs, function( blob ) {
-			data = data.replace( new RegExp( escapeRegExp( blob.blob ), 'g' ), blob.base64 );
-		} );
-		return data;
-	}
-
-
-	function base64ToBlob( data ) {
-		function base64extractor( input ) {
-			var re = /data:(\S+?);base64,([^"]+)/g;
-			return input.match( re );
+	var dataFormatFilter = new CKEDITOR.htmlParser.filter( {
+		elements: {
+			img: function( element ) {
+				if ( element.attributes.src && element.attributes.src.indexOf( 'blob:' ) === 0 ) {
+					element.attributes.src = blobToBase64( element.attributes.src );
+					if ( element.attributes[ 'data-cke-saved-src' ] ) {
+						element.attributes[ 'data-cke-saved-src' ] = element.attributes.src;
+					}
+				}
+			}
 		}
+	} );
 
+	function blobToBase64( blobUrl ) {
+		return blobs[ blobUrl ];
+	}
+
+	/**
+	 * Function transform base64 into blob URL in browsers. Also set up reference between blob url ans base64.
+	 *
+	 * @param {String} dataSrc String in form of base64
+	 * @returns blobUrl
+	 */
+	function base64ToBlob( dataSrc ) {
 		// https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
 		function b64toBlob( b64Data, contentType, sliceSize ) {
 			contentType = contentType || '';
@@ -58,24 +64,26 @@
 			var blob = new Blob( byteArrays, { type: contentType } );
 			return blob;
 		}
+		// Cxtract vlaues necessary for blob
+		var blob = b64toBlob( dataSrc.slice( dataSrc.indexOf( ',' ) + 1, dataSrc.length ) );
+		var type = dataSrc.slice( dataSrc.indexOf( ':' ) + 1, dataSrc.indexOf( ';' ) );
+		var blobUrl = URL.createObjectURL( blob, type );
 
-		var images = base64extractor( data );
-		if ( images ) {
+		// Store Blob reference to have possibility to switch it back.
+		blobs[ blobUrl ] = dataSrc;
 
-			CKEDITOR.tools.array.forEach( images, function( image ) {
-				var blob = b64toBlob( image.slice( image.indexOf( ',' ) + 1, image.length ) );
-				var type = image.slice( image.indexOf( ':' ) + 1, image.indexOf( ';' ) );
-				blobs.push( {
-					base64: image,
-					blob: URL.createObjectURL( blob, type )
-				} );
-			}, this );
-
-			CKEDITOR.tools.array.forEach( blobs, function( blob ) {
-				data = data.replace( new RegExp( escapeRegExp( blob.base64 ), 'g' ), blob.blob );
-			} );
-		}
-		return data;
+		return blobUrl;
 	}
+
+	CKEDITOR.plugins.add( 'objecturl', {
+		init: function( editor ) {
+			editor.on( 'toHtml', function( evt ) {
+				htmlFilter.applyTo( evt.data.dataValue );
+			}, null, null, 10 );
+			editor.on( 'toDataFormat', function( evt ) {
+				dataFormatFilter.applyTo( evt.data.dataValue );
+			}, null, null, 10 );
+		}
+	} );
 
 } )();
