@@ -14,6 +14,23 @@ CKEDITOR.dom.shadowRoot = CKEDITOR.tools.createClass( {
 	},
 
 	proto: {
+		addCss: function( paths ) {
+			if ( typeof paths === 'string' ) {
+				paths = [ paths ];
+			}
+
+			CKEDITOR.tools.array.forEach( paths, function( path ) {
+				if ( this.$.querySelector( 'link[href="' + path + '"]' ) ) {
+					return;
+				}
+
+				var link = document.createElement( 'link' );
+				link.href = path;
+				link.rel = 'stylesheet';
+
+				this.$.appendChild( link );
+			}, this );
+		}
 	}
 } );
 
@@ -34,10 +51,22 @@ CKEDITOR.dom.node.prototype.getShadowRoot = function() {
 
 CKEDITOR.dom.element.prototype.createShadowRoot = function() {
 	if ( this.$.shadowRoot ) {
-		return this.$.shadowRoot;
+		return new CKEDITOR.dom.shadowRoot( this.$.shadowRoot );
 	}
 
-	return this.$.attachShadow( { mode: 'open' } );
+	return new CKEDITOR.dom.shadowRoot( this.$.attachShadow( { mode: 'open' } ) );
+};
+
+CKEDITOR.editor.prototype.addContentsCss = function( cssPath ) {
+	var cfg = this.config,
+		curContentsCss = cfg.contentsCss;
+
+	// Convert current value into array.
+	if ( !CKEDITOR.tools.isArray( curContentsCss ) ) {
+		cfg.contentsCss = curContentsCss ? [ curContentsCss ] : [];
+	}
+
+	cfg.contentsCss.push( cssPath );
 };
 
 CKEDITOR.plugins.add( 'shadowarea', {
@@ -51,7 +80,8 @@ CKEDITOR.plugins.add( 'shadowarea', {
 					'<div class="cke_wysiwyg_div cke_reset cke_enable_context_menu" hidefocus="true"></div>'
 				);
 
-			contentSpace.appendChild( editingBlock.$ );
+			contentSpace.addCss( editor.config.contentsCss );
+			contentSpace.$.appendChild( editingBlock.$ );
 
 			editingBlock = editor.editable( editingBlock );
 
