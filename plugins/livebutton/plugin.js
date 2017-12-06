@@ -35,9 +35,8 @@
 						colorStyle: definition.parts && definition.parts.color && definition.parts.color.colorStyle,
 						element: colorPart,
 						refresh: function( sel, path ) {
-							var colorStyle = this.colorStyle || 'color';
-
-							var colorIndicator = this.element,
+							var colorStyle = this.colorStyle || 'color',
+								colorIndicator = this.element,
 								matches = CKEDITOR.tools.array.filter( path.elements, function( el ) {
 									var isCorrectElement = el && el.getName && el.getName() == 'span',
 										color = isCorrectElement && el.getStyle( colorStyle );
