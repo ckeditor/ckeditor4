@@ -73,6 +73,12 @@
 	 * @param {Object} definition The button definition.
 	 */
 	CKEDITOR.ui.button = function( definition ) {
+		/**
+		 * @property {Object.<string, Object>} parts A dictionary of parts identified in the button.
+		 * @since 4.9.0
+		 */
+		this.parts = this.parts || {};
+
 		CKEDITOR.tools.extend( this, definition,
 		// Set defaults.
 		{
@@ -84,6 +90,16 @@
 		} );
 
 		this._ = {};
+
+		if ( !this.parts.icon ) {
+			this.parts.icon = {
+				selector: '.cke_button_icon'
+			};
+		}
+
+		if ( definition.parts ) {
+			this.parts = CKEDITOR.tools.object.merge( this.parts, definition.parts );
+		}
 	};
 
 	/**
@@ -362,6 +378,54 @@
 				feature = editor.getCommand( this.command ) || feature;
 
 			return this._.feature = feature;
+		},
+
+		/**
+		 * Temp function to check whether button parts are appended to the button.
+		 *
+		 * @since 4.9.0
+		 */
+		checkParts: function() {
+			var document = this.document || CKEDITOR.document,
+				buttonRoot = document.getById( this._.id );
+
+			if ( !buttonRoot ) {
+				// Button is either not loaded yet, or simply removed.
+				return;
+			}
+
+			for ( var i in this.parts ) {
+				var curPart = this.parts[ i ],
+					element = curPart.element;
+
+				// Part element could be provided either as an element, or a selector that should match it from existing markup.
+				if ( element && !element.getParent() ) {
+					buttonRoot.append( element );
+				} else if ( !element && curPart.selector ) {
+					curPart.element = buttonRoot.findOne( curPart.selector );
+				}
+			}
+		},
+
+		/**
+		 * Binds the button to the editor, so that it can attach it's runtime listeners.
+		 */
+		bind: function( editor ) {
+			editor.on( 'selectionChange', function( evt ) {
+				this.checkParts();
+
+				for ( var i in this.parts ) {
+					var curPart = this.parts[ i ];
+
+					if ( curPart.refresh ) {
+						curPart.refresh( evt.data.selection, evt.data.path );
+					}
+				}
+			}, this );
+
+			editor.on( 'contentDom', function() {
+				this.checkParts();
+			}, this );
 		}
 	};
 
