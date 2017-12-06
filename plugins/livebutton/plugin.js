@@ -98,7 +98,6 @@
 								element = curPart.element;
 
 							if ( !element.getParent() ) {
-								// console.log( `Adding ${i} button part` );
 								buttonRoot.append( element );
 							}
 						}
