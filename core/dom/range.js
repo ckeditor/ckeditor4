@@ -603,6 +603,19 @@ CKEDITOR.dom.range = function( root ) {
 
 	CKEDITOR.dom.range.prototype = {
 		/**
+		 * Get the element that contains selection.
+		 *
+		 * @returns {CKEDITOR.dom.document/CKEDITOR.dom.shadowRoot}
+		 */
+		getSelectionContainer: function() {
+			if ( this.root.getShadowRoot && this.root.getShadowRoot() ) {
+				return this.root.getShadowRoot();
+			}
+
+			return this.document;
+		},
+
+		/**
 		 * Clones this range.
 		 *
 		 * @returns {CKEDITOR.dom.range}
@@ -963,11 +976,11 @@ CKEDITOR.dom.range = function( root ) {
 			// Created with createBookmark2().
 			if ( bookmark.is2 ) {
 				// Get the start information.
-				var startContainer = this.document.getByAddress( bookmark.start, bookmark.normalized ),
+				var startContainer = this.getSelectionContainer().getByAddress( bookmark.start, bookmark.normalized ),
 					startOffset = bookmark.startOffset;
 
 				// Get the end information.
-				var endContainer = bookmark.end && this.document.getByAddress( bookmark.end, bookmark.normalized ),
+				var endContainer = bookmark.end && this.getSelectionContainer().getByAddress( bookmark.end, bookmark.normalized ),
 					endOffset = bookmark.endOffset;
 
 				// Set the start boundary.
@@ -982,8 +995,8 @@ CKEDITOR.dom.range = function( root ) {
 			// Created with createBookmark().
 			else {
 				var serializable = bookmark.serializable,
-					startNode = serializable ? this.document.getById( bookmark.startNode ) : bookmark.startNode,
-					endNode = serializable ? this.document.getById( bookmark.endNode ) : bookmark.endNode;
+					startNode = serializable ? this.getSelectionContainer().getById( bookmark.startNode ) : bookmark.startNode,
+					endNode = serializable ? this.getSelectionContainer().getById( bookmark.endNode ) : bookmark.endNode;
 
 				// Set the range start at the bookmark start node position.
 				this.setStartBefore( startNode );

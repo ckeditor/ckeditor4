@@ -30,6 +30,43 @@ CKEDITOR.dom.shadowRoot = CKEDITOR.tools.createClass( {
 
 				this.$.appendChild( link );
 			}, this );
+		},
+
+		getById: function( id ) {
+			var element = this.$.querySelector( '#' + id );
+
+			return new CKEDITOR.dom.element( element );
+		},
+
+		getByAddress: function( address, normalized ) {
+			var $ = this.$;
+
+			for ( var i = 0; $ && i < address.length; i++ ) {
+				var target = address[ i ];
+
+				if ( !normalized ) {
+					$ = $.childNodes[ target ];
+					continue;
+				}
+
+				var currentIndex = -1;
+
+				for ( var j = 0; j < $.childNodes.length; j++ ) {
+					var candidate = $.childNodes[ j ];
+
+					if ( normalized === true && candidate.nodeType == 3 && candidate.previousSibling && candidate.previousSibling.nodeType == 3 )
+						continue;
+
+					currentIndex++;
+
+					if ( currentIndex == target ) {
+						$ = candidate;
+						break;
+					}
+				}
+			}
+
+			return $ ? new CKEDITOR.dom.node( $ ) : null;
 		}
 	}
 } );
