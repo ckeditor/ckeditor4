@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CKEditor Sample</title>
+	<script src="../../../ckeditor.js"></script>
+	<link rel="stylesheet" href="../../../samples/css/samples.css">
+	<link rel="stylesheet" href="../../../samples/toolbarconfigurator/lib/codemirror/neo.css">
+</head>
+<body id="main">
+
+<nav class="navigation-a">
+	<div class="grid-container">
+		<ul class="navigation-a-left grid-width-70">
+			<li><a href="http://ckeditor.com">Project Homepage</a></li>
+			<li><a href="https://github.com/ckeditor/ckeditor-dev/issues">I found a bug</a></li>
+			<li><a href="http://github.com/ckeditor/ckeditor-dev" class="icon-pos-right icon-navigation-a-github">Fork CKEditor on GitHub</a></li>
+		</ul>
+		<ul class="navigation-a-right grid-width-30">
+			<li><a href="http://ckeditor.com/blog-list">CKEditor Blog</a></li>
+		</ul>
+	</div>
+</nav>
+
+<main>
+	<div class="adjoined-top">
+		<div class="grid-container">
+			<div class="content grid-width-100">
+				<h2>Live Button Sample</h2>
+				<p>This example uses <code>colorbutton</code> plugin, which register buttons that are reflecting current selection color/background in the icon.</p>
+
+				<p>This is achieved using <em>button living parts</em> feature.</p>
+			</div>
+		</div>
+	</div>
+	<div class="adjoined-bottom">
+		<div class="grid-container">
+			<div class="grid-width-100">
+				<div id="editor">
+					<p>
+						This is an example text with
+						<span style="color:#ff0000">red</span>,
+						<span style="color:#00ff00">green</span> and
+						<span style="color:#0000ff">blue</span> color.
+					</p>
+					<p>
+						Here come the backgrounds:
+						<span style="background-color:#ff0000">red</span>,
+						<span style="background-color:#00ff00">green</span> and
+						<span style="background-color:#0000ff; color: #ffffff">blue</span> color.
+					</p>
+				</div>
+			</div>
+		</div>
+		<br>
+	</div>
+
+	<script>
+	CKEDITOR.replace( 'editor', {
+		plugins: 'sourcearea,toolbar,colorbuttontest,undo,wysiwygarea',
+		removePlugins: 'contextmenu',
+		height: 200
+	} );
+	</script>
+</main>
+
+<footer class="footer-a grid-container">
+	<div class="grid-container">
+		<p class="grid-width-100">
+			CKEditor &ndash; The text editor for the Internet &ndash; <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+		</p>
+		<p class="grid-width-100" id="copy">
+			Copyright &copy; 2003-2017, <a class="samples" href="http://cksource.com/">CKSource</a> &ndash; Frederico Knabben. All rights reserved.
+		</p>
+	</div>
+</footer>
+
+</body>
+</html>
