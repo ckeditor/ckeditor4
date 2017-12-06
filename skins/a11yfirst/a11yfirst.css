@@ -1,0 +1,127 @@
+/* ---------------------------------------------------------------- */
+/*                      menu.css modifications                      */
+/* ---------------------------------------------------------------- */
+
+/* Use checkmark as menubutton icon to indicate active item */
+.cke_menubutton_on .cke_menubutton_icon:after {
+  content: '✓';
+  font-weight: bold;
+  font-size: 110%;
+  position: relative;
+  left: -0.9em;
+  top: .05em;
+}
+
+/* Make disabled menubutton items appear slightly darker */
+.cke_menubutton_disabled .cke_menubutton_label {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+
+/* ---------------------------------------------------------------- */
+/*                   richcombo.css modifications                    */
+/* ---------------------------------------------------------------- */
+
+/* all richcombo button labels */
+.cke_combo_text.cke_combo_inlinelabel {
+  width: auto;
+}
+
+/* ---------------------------------------------------------------- */
+/*                    toolbar.css modifications                     */
+/* ---------------------------------------------------------------- */
+
+/* heading menubutton with text label */
+.cke_button.cke_button__heading .cke_button_arrow {
+  margin-left: 10px;
+}
+.cke_button_icon.cke_button__heading_icon {
+  display: none;
+}
+.cke_button_label.cke_button__heading_label {
+  display: inline;
+}
+
+/* ---------------------------------------------------------------- */
+/*                     dialog.css modifications                     */
+/* ---------------------------------------------------------------- */
+
+/* Add border to dialog box */
+.cke_dialog
+{
+  border: 1px solid #d1d1d1;
+}
+
+.cke_dialog_title
+{
+  font-size: 15px;
+}
+
+/* Styling of the selected button */
+
+.cke_dialog_ui_button.selected {
+  background-color: #d1d1d1;
+}
+
+.cke_dialog_ui_button > span {
+  padding-left: 16px;
+}
+
+.cke_dialog_ui_button.selected > span:before {
+  background-image: url('images/right-arrow.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+/* Changes to button styling from default moono-lisa */
+
+a.cke_dialog_ui_button.a11yfirsthelp:hover
+{
+  background-color: #d1d1d1;
+}
+
+.cke_dialog_ui_vbox_child.a11yfirsthelp {
+  padding: 3px 0px;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent * {
+  white-space: normal;
+  font-size: 13px;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent h2 {
+  margin-top: 1em;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent h3 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent ul,
+.cke_dialog_ui_hbox .a11yfirsthelpcontent ol {
+  padding-left: 1.25em;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent p,
+.cke_dialog_ui_hbox .a11yfirsthelpcontent li,
+.cke_dialog_ui_hbox .a11yfirsthelpcontent li > p {
+  margin-bottom: 1em;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent a {
+  text-decoration: underline;
+  color: blue;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent strong {
+  font-weight: bold;
+}
+
+.cke_dialog_ui_hbox .a11yfirsthelpcontent em {
+  font-style: italic;
+}
