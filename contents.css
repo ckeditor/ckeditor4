@@ -3,7 +3,7 @@ Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/terms-of-use/#open-source-licences
 */
 
-body
+body, .cke_wysiwyg_shadow
 {
 	/* Font */
 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
@@ -16,6 +16,8 @@ body
 	background-color: #fff;
 
 	margin: 20px;
+
+	outline: none;
 }
 
 .cke_editable
@@ -25,6 +27,10 @@ body
 
 	/* Fix for missing scrollbars with RTL texts. (#10488) */
 	word-wrap: break-word;
+}
+
+:host(.cke_contents) {
+	overflow: auto !important;
 }
 
 blockquote

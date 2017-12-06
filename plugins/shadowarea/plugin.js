@@ -114,7 +114,7 @@ CKEDITOR.plugins.add( 'shadowarea', {
 		editor.addMode( 'wysiwyg', function( callback ) {
 			var contentSpace = editor.ui.space( 'contents' ).createShadowRoot(),
 				editingBlock = CKEDITOR.dom.element.createFromHtml(
-					'<div class="cke_wysiwyg_div cke_reset cke_enable_context_menu" hidefocus="true"></div>'
+					'<div class="cke_wysiwyg_div cke_wysiwyg_shadow cke_reset cke_enable_context_menu" hidefocus="true"></div>'
 				);
 
 			contentSpace.addCss( editor.config.contentsCss );
