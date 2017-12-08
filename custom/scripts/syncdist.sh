@@ -14,20 +14,38 @@ if [ ! -d $DISTPATH ]; then
   exit
 fi
 
-FOLDERS=(
-  custom
-  plugins/a11yfirsthelp
-  plugins/a11yformat
-  plugins/a11yheading
-  plugins/a11ystylescombo
-  plugins/balloonpanel/skins/a11yfirst
-  skins/a11yfirst
+PLUGINS=(
+  a11yfirsthelp
+  a11yformat
+  a11yheading
+  a11ystylescombo
 )
 
-for FOLDER in "${FOLDERS[@]}"
+RSYNC="rsync -av --delete-excluded --exclude='.DS_Store'"
+
+FOLDER="custom"
+CMD="$RSYNC $SRC/$FOLDER $DISTPATH"
+echo
+echo $CMD
+eval $CMD
+
+FOLDER="plugins"
+for PLUGIN in "${PLUGINS[@]}"
 do
-  CMD="rsync -av $SRC/$FOLDER $DISTPATH/$FOLDER"
+  CMD="$RSYNC $SRC/$FOLDER/$PLUGIN $DISTPATH/$FOLDER"
   echo
   echo $CMD
   eval $CMD
 done
+
+FOLDER="plugins/balloonpanel/skins"
+CMD="$RSYNC $SRC/$FOLDER/a11yfirst $DISTPATH/$FOLDER"
+echo
+echo $CMD
+eval $CMD
+
+FOLDER="skins"
+CMD="$RSYNC $SRC/$FOLDER/a11yfirst $DISTPATH/$FOLDER"
+echo
+echo $CMD
+eval $CMD
