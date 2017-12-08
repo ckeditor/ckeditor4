@@ -7,7 +7,7 @@ if [ $# -eq 0 ]; then
 fi
 
 DISTPATH=$1
-SRC="/Users/nhoyt/Sites/plugins-dev"
+SRC="$HOME/Sites/plugins-dev"
 
 if [ ! -d $DISTPATH ]; then
   echo "Error: $DISTPATH not found"
