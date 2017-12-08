@@ -63,7 +63,14 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 	CKEDITOR.replace( 'editor', {
 		plugins: 'sourcearea,toolbar,colorbuttontest,undo,wysiwygarea',
 		removePlugins: 'contextmenu',
-		height: 200
+		height: 200,
+		toolbar: [ {
+			name: 'document',
+			items: [ 'Source', '-', 'Undo', 'Redo' ]
+		}, {
+			name: 'basicstyles',
+			items: [ 'TextColor', 'BGColor' ]
+		} ]
 	} );
 	</script>
 </main>
