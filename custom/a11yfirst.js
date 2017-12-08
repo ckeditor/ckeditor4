@@ -7,14 +7,14 @@ CKEDITOR.editorConfig = function ( config ) {
   config.skin = 'a11yfirst';
   config.startupFocus = true;
 
-  // Standard plus a11ychecker, find, language, liststyle, showblocks,
-  // minus format, stylescombo and two spell checkers (scayt and wsc)
-  // minus filebrowser, horizontalrule, htmlwriter and maximize.
-  // Note: When filebrowser is deselected, popup is automatically
-  // removed, but does not need to be added back into the list.
-  // Note: When format and stylescombo are deselected, listblock and
-  // richcombo are automatically removed. They do need to be added
-  // back into the list because a11yfirst plugins depend on them.
+  // In Builder, select the Standard preset. Then add and remove the
+  // plugins specified in the three steps listed below. Note: The
+  // removal of filebrowser, format and stylescombo causes their
+  // dependencies (popup, listblock and richcombo) to be removed.
+  // 1. Add a11ychecker, find, language, liststyle, showblocks
+  // 2. Remove filebrowser, floatingspace, format, horizontalrule,
+  //    htmlwriter, maximize, scayt, stylescombo, wsc (spellchecker)
+  // 3. Add listblock, richcombo (a11yfirst dependencies)
   config.plugins =
     'a11ychecker,' +
     'a11yhelp,' +
@@ -31,12 +31,8 @@ CKEDITOR.editorConfig = function ( config ) {
     'enterkey,' +
     'entities,' +
     'fakeobjects,' +
-    'filebrowser,' +
     'find,' +
-    'floatingspace,' +
     'floatpanel,' +
-    'horizontalrule,' +
-    'htmlwriter,' +
     'image,' +
     'indent,' +
     'indentlist,' +
@@ -46,14 +42,12 @@ CKEDITOR.editorConfig = function ( config ) {
     'listblock,' +
     'liststyle,' +
     'magicline,' +
-    'maximize,' +
     'menu,' +
     'menubutton,' +
     'notification,' +
     'panel,' +
     'pastefromword,' +
     'pastetext,' +
-    'popup,' +
     'removeformat,' +
     'resize,' +
     'richcombo,' +
@@ -84,18 +78,19 @@ CKEDITOR.editorConfig = function ( config ) {
     'tableselection,' +   // yes
     'tabletools';         // yes
 
+  var removeFromStandard =
+    'filebrowser,' +
+    'floatingspace,' +
+    'horizontalrule,' +
+    'htmlwriter,' +
+    'maximize,' +
+    'popup';
+
   config.extraPlugins =
     'a11yfirsthelp,' +
     'a11yformat,' +
     'a11yheading,' +
     'a11ystylescombo';
-
-  config.removePlugins =
-    'filebrowser,' +
-    'horizontalrule,' +
-    'htmlwriter,' +
-    'maximize,' +
-    'popup';
 
   config.language_list = [
     'ar:Arabic:rtl',
