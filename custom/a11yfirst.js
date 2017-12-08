@@ -7,6 +7,14 @@ CKEDITOR.editorConfig = function ( config ) {
   config.skin = 'a11yfirst';
   config.startupFocus = true;
 
+  // Standard plus a11ychecker, find, language, liststyle, showblocks,
+  // minus format, stylescombo and two spell checkers (scayt and wsc)
+  // minus filebrowser, horizontalrule, htmlwriter and maximize.
+  // Note: When filebrowser is deselected, popup is automatically
+  // removed, but does not need to be added back into the list.
+  // Note: When format and stylescombo are deselected, listblock and
+  // richcombo are automatically removed. They do need to be added
+  // back into the list because a11yfirst plugins depend on them.
   config.plugins =
     'a11ychecker,' +
     'a11yhelp,' +
@@ -35,6 +43,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'language,' +
     'link,' +
     'list,' +
+    'listblock,' +
     'liststyle,' +
     'magicline,' +
     'maximize,' +
@@ -47,6 +56,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'popup,' +
     'removeformat,' +
     'resize,' +
+    'richcombo,' +
     'showblocks,' +
     'showborders,' +
     'sourcearea,' +
@@ -57,13 +67,35 @@ CKEDITOR.editorConfig = function ( config ) {
     'tabletools,' +
     'toolbar,' +
     'undo,' +
-    'wysiwygarea,';
+    'wysiwygarea';
+
+  var standardMinusBasic =
+    'elementspath,' +     // yes
+    'filebrowser,' +      // no
+    'horizontalrule,' +   // no
+    'htmlwriter,' +       // no
+    'magicline,' +        // yes
+    'maximize,' +         // no
+    'popup,' +            // no
+    'resize,' +           // yes
+    'showborders,' +      // yes
+    'sourcearea,' +       // yes
+    'tab,' +              // yes
+    'tableselection,' +   // yes
+    'tabletools';         // yes
 
   config.extraPlugins =
     'a11yfirsthelp,' +
     'a11yformat,' +
     'a11yheading,' +
     'a11ystylescombo';
+
+  config.removePlugins =
+    'filebrowser,' +
+    'horizontalrule,' +
+    'htmlwriter,' +
+    'maximize,' +
+    'popup';
 
   config.language_list = [
     'ar:Arabic:rtl',
