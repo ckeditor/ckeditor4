@@ -1,20 +1,27 @@
 /**
 * Copyright (c) 2017 University of Illinois - Jon Gunderson and Nicholas Hoyt. All rights reserved.
 * For licensing, see LICENSE.md or http://ckeditor.com/license
+*
+* To use the CKEditor Builder tool, start by selecting the Standard preset.
+* Then add and remove plugins as specified in the three steps listed below.
+*
+* Note: When filebrowser, format and stylescombo are removed, their
+* dependencies (popup, listblock and richcombo) are also removed.
+*
+* 1. Add a11ychecker, find, language, liststyle, showblocks
+*
+* 2. Remove filebrowser, floatingspace, format, horizontalrule, htmlwriter,
+*    maximize, scayt (spellchecker), stylescombo and wsc (spellchecker)
+*
+* 3. Add listblock, richcombo (a11yfirst dependencies)
+*
 */
+
 CKEDITOR.editorConfig = function ( config ) {
   config.height = 480;
-  config.skin = 'a11yfirst';
+//  config.skin = 'a11yfirst';
   config.startupFocus = true;
 
-  // In Builder, select the Standard preset. Then add and remove the
-  // plugins specified in the three steps listed below. Note: The
-  // removal of filebrowser, format and stylescombo causes their
-  // dependencies (popup, listblock and richcombo) to be removed.
-  // 1. Add a11ychecker, find, language, liststyle, showblocks
-  // 2. Remove filebrowser, floatingspace, format, horizontalrule,
-  //    htmlwriter, maximize, scayt, stylescombo, wsc (spellchecker)
-  // 3. Add listblock, richcombo (a11yfirst dependencies)
   config.plugins =
     'a11ychecker,' +
     'a11yhelp,' +
@@ -81,10 +88,12 @@ CKEDITOR.editorConfig = function ( config ) {
   var removeFromStandard =
     'filebrowser,' +
     'floatingspace,' +
+    'format,' +
     'horizontalrule,' +
     'htmlwriter,' +
     'maximize,' +
-    'popup';
+    'popup,' +
+    'stylescombo';
 
   config.extraPlugins =
     'a11yfirsthelp,' +
