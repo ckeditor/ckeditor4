@@ -20,19 +20,13 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	<form action="../../../samples/sample_posteddata.php" method="post">
 		<div class="description">
 			<p>
-				This editor is using a <code>&lt;div&gt;</code> element-based editing area, provided by the <strong>Divarea</strong> plugin.
+				This sample shows a difference between <code>divarea</code> and <code>shadowarea</code> plugin. It shows that no global styling "leaks" into div editable due to shadow element.
 			</p>
-<pre class="samples">
-CKEDITOR.replace( '<em>textarea_id</em>', {
-	extraPlugins: 'divarea'
-});</pre>
+
+			<p>
+				This page has a global styling for all paragarphs, using a very <em>peculiar</em> font.
+			</p>
 		</div>
-
-		<h1><code>shadowarea</code> editor</h1>
-
-		<textarea cols="80" id="editor1" name="editor1" rows="10">
-			&lt;p&gt;This is an example paragraph.&lt;/p&gt;
-		</textarea>
 
 		<h1><code>divarea</code> editor</h1>
 
@@ -40,8 +34,17 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 			&lt;p&gt;This is an example paragraph.&lt;/p&gt;
 		</textarea>
 
+		<h1><code>shadowarea</code> editor</h1>
+
+		<textarea cols="80" id="editor1" name="editor1" rows="10">
+			&lt;p&gt;This is an example paragraph.&lt;/p&gt;
+		</textarea>
+
 		<style>
-			p { outline: 1px solid red !important; }
+			p {
+				font-family: Comic Sans MS, Comic Sans, cursive;
+				font-size: 1.5em;
+			}
 		</style>
 
 		<script>
@@ -50,7 +53,7 @@ CKEDITOR.replace( '<em>textarea_id</em>', {
 			// <textarea>, or inside a <head><script> in a
 			// window.onload event handler.
 
-			var plugins = 'toolbar,basicstyles,link,sourcearea',
+			var plugins = 'toolbar,basicstyles,link,sourcearea,elementspath',
 				toolbar = [ {
 					name: 'document',
 					items: [ 'Source', '-', 'Save', 'NewPage',
