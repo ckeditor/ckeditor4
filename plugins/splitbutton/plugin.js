@@ -68,12 +68,15 @@ CKEDITOR.plugins.add( 'splitbutton', {
 					editor.getCommand( item.command ).on( 'state', ( function() {
 						var currentItem = item;
 						return function() {
+							var buttonEl = CKEDITOR.document.getById( button._.id ).findOne( '.cke_button_icon' );
 							if ( this.state === CKEDITOR.TRISTATE_ON ) {
-								var buttonEl = CKEDITOR.document.getById( button._.id ).findOne( '.cke_button_icon' );
 								if ( buttonEl ) {
 									activeItem = currentItem;
 									buttonEl.setAttribute( 'style', CKEDITOR.skin.getIconStyle( currentItem.icon, ( editor.lang.dir == 'rtl' ) ) );
 								}
+							} else {
+								activeItem = null;
+								buttonEl.setAttribute( 'style', CKEDITOR.skin.getIconStyle( defaultIcon, ( editor.lang.dir == 'rtl' ) ) );
 							}
 						};
 					} )() );
