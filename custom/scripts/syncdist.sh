@@ -48,30 +48,38 @@ PLUGINS=(
 )
 
 RSYNC="rsync -av --delete-excluded --exclude='.DS_Store'"
+COUNT=0
 
-FOLDER="custom"
-CMD="$RSYNC $SRC/$FOLDER $DISTPATH"
+COUNT=$((COUNT + 1))
+SRCPATH="$SRC/custom"
+CMD="$RSYNC $SRCPATH $DISTPATH"
 echo
-echo $CMD
+echo "$COUNT. $SRCPATH"
 eval $CMD
 
-FOLDER="plugins"
+PARENT="plugins"
 for PLUGIN in "${PLUGINS[@]}"
 do
-  CMD="$RSYNC $SRC/$FOLDER/$PLUGIN $DISTPATH/$FOLDER"
+  COUNT=$((COUNT + 1))
+  SRCPATH="$SRC/$PARENT/$PLUGIN"
+  CMD="$RSYNC $SRCPATH $DISTPATH/$PARENT"
   echo
-  echo $CMD
+  echo "$COUNT. $SRCPATH"
   eval $CMD
 done
 
-FOLDER="plugins/balloonpanel/skins"
-CMD="$RSYNC $SRC/$FOLDER/a11yfirst $DISTPATH/$FOLDER"
+COUNT=$((COUNT + 1))
+PARENT="plugins/balloonpanel/skins"
+SRCPATH="$SRC/$PARENT/a11yfirst"
+CMD="$RSYNC $SRCPATH $DISTPATH/$PARENT"
 echo
-echo $CMD
+echo "$COUNT. $SRCPATH"
 eval $CMD
 
-FOLDER="skins"
-CMD="$RSYNC $SRC/$FOLDER/a11yfirst $DISTPATH/$FOLDER"
+COUNT=$((COUNT + 1))
+PARENT="skins"
+SRCPATH="$SRC/$PARENT/a11yfirst"
+CMD="$RSYNC $SRCPATH $DISTPATH/$PARENT"
 echo
-echo $CMD
+echo "$COUNT. $SRCPATH"
 eval $CMD
