@@ -1,23 +1,30 @@
 #!/usr/bin/env bash
 
-# This script uses rsync to synchronize (copy or update) the A11yFirst code
-# to the file hierarchy of the CKBuilder output (top-level DISTPATH specified
-# by the first argument) from the development source files in the A11yFirst
-# plugins-dev repository (specified herein as SRC).
+# This script uses rsync to add the A11yFirst plugins and supporting files
+# to the distribution files hierarchy produced by the CKBuilder tool.
 
-# Note: You may need to update the value of the SRC variable to match the
-# location of your plugins-dev checkout.
+# The location of the distribution files is specified as the first argument
+# to the script and saved in the DISTPATH variable.
+
+# The location of the source files, which is typically a clone or checkout
+# of the a11yfirst branch of the A11yFirst plugins-dev repository, is
+# specified herein as the value of the SRC variable.
+
+# Note: You may need to change the value of the SRC variable to match the
+# location of your plugins-dev working copy.
 
 # For more information on the  distribution build process, see the
 # custom/a11yfirst.js config file.
 
-# custom
-# plugins/a11yfirsthelp
-# plugins/a11yformat
-# plugins/a11yheading
-# plugins/a11ystylescombo
-# plugins/balloonpanel/skins/a11yfirst
-# skins/a11yfirst
+# The folders, relative to the top-level folder, that are synchronized:
+
+# 1. custom
+# 2. plugins/a11yfirsthelp
+# 3. plugins/a11yformat
+# 4. plugins/a11yheading
+# 5. plugins/a11ystylescombo
+# 6. plugins/balloonpanel/skins/a11yfirst
+# 7. skins/a11yfirst
 
 if [ $# -eq 0 ]; then
   echo "Syntax:"
