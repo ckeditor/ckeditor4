@@ -47,7 +47,7 @@ PLUGINS=(
   a11ystylescombo
 )
 
-RSYNC="rsync -av --delete-excluded --exclude='.DS_Store'"
+RSYNC="rsync -av --delete --delete-excluded --exclude='.DS_Store'"
 COUNT=0
 
 COUNT=$((COUNT + 1))
