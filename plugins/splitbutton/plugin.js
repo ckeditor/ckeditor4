@@ -25,9 +25,18 @@ CKEDITOR.plugins.add( 'splitbutton', {
 				var groups = {},
 					button = this,
 					defaultIcon,
-					activeItem = null,
 					items = {},
 					item;
+
+				function getLastActiveCommands( allItems ) {
+					var activeItem = null;
+					for ( var i in allItems ) {
+						if ( editor.getCommand( allItems[ i ].command ).state === CKEDITOR.TRISTATE_ON ) {
+							activeItem = allItems[ i ];
+						}
+					}
+					return activeItem;
+				}
 
 				// Items are required to only have label and command.
 				// Group is optional. If not assigned 'default' group is added.
@@ -68,15 +77,14 @@ CKEDITOR.plugins.add( 'splitbutton', {
 					editor.getCommand( item.command ).on( 'state', ( function() {
 						var currentItem = item;
 						return function() {
-							var buttonEl = CKEDITOR.document.getById( button._.id ).findOne( '.cke_button_icon' );
-							if ( this.state === CKEDITOR.TRISTATE_ON ) {
-								if ( buttonEl ) {
-									activeItem = currentItem;
-									buttonEl.setAttribute( 'style', CKEDITOR.skin.getIconStyle( currentItem.icon, ( editor.lang.dir == 'rtl' ) ) );
+							var activeItem = getLastActiveCommands( allItems, currentItem ),
+								buttonEl = CKEDITOR.document.getById( button._.id ).findOne( '.cke_button_icon' );
+							if ( buttonEl ) {
+								if ( activeItem ) {
+									buttonEl.setAttribute( 'style', CKEDITOR.skin.getIconStyle( activeItem.icon, ( editor.lang.dir == 'rtl' ) ) );
+								} else {
+									buttonEl.setAttribute( 'style', CKEDITOR.skin.getIconStyle( defaultIcon, ( editor.lang.dir == 'rtl' ) ) );
 								}
-							} else {
-								activeItem = null;
-								buttonEl.setAttribute( 'style', CKEDITOR.skin.getIconStyle( defaultIcon, ( editor.lang.dir == 'rtl' ) ) );
 							}
 						};
 					} )() );
@@ -101,7 +109,7 @@ CKEDITOR.plugins.add( 'splitbutton', {
 					definition.onMenu = function() {
 						var activeItems = {};
 						for ( var i in items ) {
-							activeItems[ i ] = ( activeItem && items[ i ].id === activeItem.id ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
+							activeItems[ i ] = ( editor.getCommand( items[ i ].command ).state === CKEDITOR.TRISTATE_ON ) ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF;
 						}
 
 						return activeItems;
