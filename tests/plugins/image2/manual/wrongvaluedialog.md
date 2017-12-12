@@ -1,6 +1,6 @@
 @bender-tags: 4.8.1, bug, 889
 @bender-ui: collapsed
-@bender-ckeditor-plugins: wysiwygarea, toolbar, image
+@bender-ckeditor-plugins: wysiwygarea, toolbar, image2
 
 **Please note**: You can use such link: `/tests/_assets/lena.jpg`.
 
