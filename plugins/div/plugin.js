@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -126,7 +126,7 @@
 		getSurroundDiv: function( editor, start ) {
 			var path = editor.elementPath( start );
 			return editor.elementPath( path.blockLimit ).contains( function( node ) {
-				// Avoid read-only (i.e. contenteditable="false") divs (http://dev.ckeditor.com/ticket/11083).
+				// Avoid read-only (i.e. contenteditable="false") divs (https://dev.ckeditor.com/ticket/11083).
 				return node.is( 'div' ) && !node.isReadOnly();
 			}, 1 );
 		}

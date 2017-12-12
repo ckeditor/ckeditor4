@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /*
@@ -35,7 +35,7 @@ CKEDITOR.skin.name = 'kama';
 
 // 2. Register browser specific skin files
 // -----------------------------------------
-// (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Browser_Hacks)
+// (https://docs.ckeditor.com/ckeditor4/docs/#!/guide/skin_sdk_browser_hacks)
 //
 // To help implementing browser specific "hacks" to the skin files and have it
 // easy to maintain, it is possible to have dedicated files for such browsers,
@@ -47,7 +47,7 @@ CKEDITOR.skin.name = 'kama';
 // The accepted browser names must match the CKEDITOR.env properties. The most
 // common names are: ie, opera, webkit and gecko. Check the documentation for
 // the complete list:
-// http://docs.ckeditor.com/#!/api/CKEDITOR.env
+// https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.env
 //
 // Internet explorer is an expection and the browser version is also accepted
 // (ie7, ie8, ie9, ie10), as well as a special name for IE in Quirks mode (iequirks).
@@ -60,7 +60,7 @@ CKEDITOR.skin.ua_dialog = 'ie,iequirks,ie7,ie8';
 
 // 3. Define the "Chameleon" feature
 // -----------------------------------
-// (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Chameleon)
+// (https://docs.ckeditor.com/ckeditor4/docs/#!/guide/skin_sdk_chameleon)
 //
 // "Chameleon" is a unique feature available in CKEditor. It makes it possible
 // to end users to specify which color to use as the basis for the editor UI.
@@ -205,7 +205,7 @@ CKEDITOR.skin.chameleon = function( editor, part ) {
 
 // 4. Register the skin icons for development purposes only
 // ----------------------------------------------------------
-// (http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Icons)
+// (https://docs.ckeditor.com/ckeditor4/docs/#!/guide/skin_sdk_icons)
 //
 // This code is here just to make the skin work fully when using its "source"
 // version. Without this, the skin will still work, but its icons will not be

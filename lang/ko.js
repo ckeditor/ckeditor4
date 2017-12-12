@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -112,6 +112,8 @@ CKEDITOR.lang[ 'ko' ] = {
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: '키보드 단축키'
+		keyboardShortcut: '키보드 단축키',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

@@ -2,7 +2,7 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, basicstyles, colorbutton, font, list, table, image, pastefromword, sourcearea, elementspath
 
-Testing [`config.pasteFromWordRemoveFontStyles`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveFontStyles) set to `true`.
+Testing [`config.pasteFromWordRemoveFontStyles`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-pasteFromWordRemoveFontStyles) set to `true`.
 
 1. Paste some content from Word that contains following font styling:
 	* font size;

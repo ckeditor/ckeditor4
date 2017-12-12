@@ -54,7 +54,7 @@
 			assert.isNull( CKEDITOR.document.findOne( '#baz' ).getEditor( false ), 'Editor-less node' );
 		},
 
-		// http://dev.ckeditor.com/ticket/16600
+		// https://dev.ckeditor.com/ticket/16600
 		'test element.getEditor deoptimized with uninitialized editor': function() {
 			CKEDITOR.document.getBody().append( CKEDITOR.dom.element.createFromHtml( '<textarea id="editor1" name="editor1"></textarea>' ) );
 			CKEDITOR.replace( 'editor1' );

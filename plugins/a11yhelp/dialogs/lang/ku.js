@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
@@ -18,7 +18,7 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 			{
 			name: 'دیالۆگی دەستكاریكەر',
 			legend:
-				'Inside a dialog, press TAB to navigate to the next dialog element, press SHIFT+TAB to move to the previous dialog element, press ENTER to submit the dialog, press ESC to cancel the dialog. When a dialog has multiple tabs, the tab list can be reached either with ALT+F10 or with TAB as part of the dialog tabbing order. With tab list focused, move to the next and previous tab with RIGHT and LEFT ARROW, respectively.' 
+				'لەناوەوەی دیالۆگ, کلیکی کلیلی TAB بۆ ڕابەری دیالۆگێکی تر, داگرتنی کلیلی SHIFT + TAB بۆ گواستنەوەی بۆ دیالۆگی پێشووتر, کلیكی کلیلی ENTER بۆ ڕازیکردنی دیالۆگەکە, کلیكی کلیلی ESC بۆ هەڵوەشاندنەوەی دیالۆگەکە. بۆ دیالۆگی بازدەری (تابی) زیاتر, کلیكی کلیلی ALT + F10 بۆ ڕابه‌ری لیستی بازده‌ره‌کان، یان کلیكی کلیلی TAB. بۆچوونه‌ بازده‌ری تابی پێشوو  یان دوواتر کلیلی تیری دەستی ڕاست یان چەپ بکە.' 
 		},
 
 			{
@@ -81,27 +81,27 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 			legend: 'کلیك ${a11yHelp}'
 		},
 			{
-			name: ' Paste as plain text', // MISSING
-			legend: 'Press ${pastetext}', // MISSING
-			legendEdge: 'Press ${pastetext}, followed by ${paste}' // MISSING
+			name: 'لکاندنی وەك دەقی ڕوون',
+			legend: 'کلیکی ${pastetext}',
+			legendEdge: 'کلیکی ${pastetext}، شوێنکەوتکراوە بە ${paste}'
 		}
 		]
 	}
 	],
-	tab: 'Tab',
-	pause: 'Pause',
-	capslock: 'Caps Lock',
-	escape: 'Escape',
-	pageUp: 'Page Up',
-	pageDown: 'Page Down',
-	leftArrow: 'Left Arrow',
-	upArrow: 'Up Arrow',
-	rightArrow: 'Right Arrow',
-	downArrow: 'Down Arrow',
-	insert: 'Insert',
+	tab: 'تاب',
+	pause: 'پشوو',
+	capslock: 'قفڵدانی پیتی گەورە',
+	escape: 'چوونە دەرەوە',
+	pageUp: 'پەڕە بەرەوسەر',
+	pageDown: 'پەڕە بەرەوخوار',
+	leftArrow: 'تیری دەستی چەپ',
+	upArrow: 'تیری بەرەوسەر',
+	rightArrow: 'تیری دەستی ڕاست',
+	downArrow: 'تیری بەرەوخوار',
+	insert: 'خستنە ناو',
 	leftWindowKey: 'پەنجەرەی چەپ',
 	rightWindowKey: 'پەنجەرەی ڕاست',
-	selectKey: 'Select',
+	selectKey: 'هەڵبژێرە',
 	numpad0: 'Numpad 0', // MISSING
 	numpad1: '1',
 	numpad2: '2',
@@ -129,8 +129,8 @@ CKEDITOR.plugins.setLang( 'a11yhelp', 'ku', {
 	f10: 'F10',
 	f11: 'F11',
 	f12: 'F12',
-	numLock: 'Num Lock',
-	scrollLock: 'Scroll Lock',
+	numLock: 'قفڵدانی ژمارە',
+	scrollLock: 'قفڵدانی هێڵی هاتووچۆپێکردن',
 	semiColon: ';',
 	equalSign: '=',
 	comma: ',',

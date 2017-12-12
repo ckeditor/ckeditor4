@@ -5,7 +5,7 @@ bender.editor = true;
 
 bender.test(
 {
-	// http://dev.ckeditor.com/ticket/4355
+	// https://dev.ckeditor.com/ticket/4355
 	'test command exec not require editor focus': function() {
 		var bot = this.editorBot, editor = this.editor;
 

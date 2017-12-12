@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /* globals CKEDITOR */
@@ -18,6 +18,16 @@
 			'meta',
 			'link'
 		],
+		shapeTags = [
+			'v:arc',
+			'v:curve',
+			'v:line',
+			'v:oval',
+			'v:polyline',
+			'v:rect',
+			'v:roundrect',
+			'v:group'
+		],
 		links = {},
 		inComment = 0;
 
@@ -31,10 +41,18 @@
 	CKEDITOR.plugins.pastefromword = {};
 
 	CKEDITOR.cleanWord = function( mswordHtml, editor ) {
-		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) );
+		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
+			shapesIds = [];
+
+		function shapeTagging( element ) {
+			// Check if regular or canvas shape (#1088).
+			if ( element.attributes[ 'o:gfxdata' ] || element.parent.name === 'v:group' ) {
+				shapesIds.push( element.attributes.id );
+			}
+		}
 
 		// Before filtering inline all the styles to allow because some of them are available only in style
-		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (http://dev.ckeditor.com/ticket/16847)
+		// sheets. This step is skipped in IEs due to their flaky support for custom types in dataTransfer. (https://dev.ckeditor.com/ticket/16847)
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported ) {
 			mswordHtml = CKEDITOR.plugins.pastefromword.styles.inliner.inline( mswordHtml ).getBody().getHtml();
 		}
@@ -44,7 +62,7 @@
 
 		var fragment = CKEDITOR.htmlParser.fragment.fromHtml( mswordHtml );
 
-		filter = new CKEDITOR.htmlParser.filter( {
+		var filterDefinition = {
 			root: function( element ) {
 				element.filterChildren( filter );
 
@@ -95,7 +113,7 @@
 						}
 					};
 
-					// If the parent is DocumentFragment it does not have any attributes. (http://dev.ckeditor.com/ticket/16912)
+					// If the parent is DocumentFragment it does not have any attributes. (https://dev.ckeditor.com/ticket/16912)
 					if ( element.parent && element.parent.attributes ) {
 						var attrs = element.parent.attributes,
 							style = attrs.style || attrs.STYLE;
@@ -110,6 +128,18 @@
 						element.attributes.alt && element.attributes.alt.match( /^https?:\/\// ) ) {
 						element.attributes.src = element.attributes.alt;
 					}
+
+					var imgShapesIds = element.attributes[ 'v:shapes' ] ? element.attributes[ 'v:shapes' ].split( ' ' ) : [];
+					// Check whether attribute contains shapes recognised earlier (stored in global list of shapesIds).
+					// If so, add additional data-attribute to img tag.
+					var isShapeFromList = CKEDITOR.tools.array.every( imgShapesIds, function( shapeId ) {
+						return shapesIds.indexOf( shapeId ) > -1;
+					} );
+					if ( imgShapesIds.length && isShapeFromList ) {
+						// As we don't know how to process shapes we can remove them.
+						return false;
+					}
+
 				},
 				'p': function( element ) {
 					element.filterChildren( filter );
@@ -125,7 +155,7 @@
 
 						List.convertToFakeListItem( editor, element );
 
-						// IE pastes nested paragraphs in list items, which is different from other browsers. (http://dev.ckeditor.com/ticket/16826)
+						// IE pastes nested paragraphs in list items, which is different from other browsers. (https://dev.ckeditor.com/ticket/16826)
 						// There's a possibility that list item will contain multiple paragraphs, in that case we want
 						// to split them with BR.
 						tools.array.reduce( element.children, function( paragraphsReplaced, node ) {
@@ -225,7 +255,7 @@
 				},
 				'ul': function( element ) {
 					if ( !msoListsDetected ) {
-						// List should only be processed if we're sure we're working with Word. (http://dev.ckeditor.com/ticket/16593)
+						// List should only be processed if we're sure we're working with Word. (https://dev.ckeditor.com/ticket/16593)
 						return;
 					}
 
@@ -250,7 +280,7 @@
 				},
 				'ol': function( element ) {
 					if ( !msoListsDetected ) {
-						// List should only be processed if we're sure we're working with Word. (http://dev.ckeditor.com/ticket/16593)
+						// List should only be processed if we're sure we're working with Word. (https://dev.ckeditor.com/ticket/16593)
 						return;
 					}
 
@@ -307,7 +337,7 @@
 						parentChildren,
 						i;
 
-					// In case parent div has only align attr, move it to the table element (http://dev.ckeditor.com/ticket/16811).
+					// In case parent div has only align attr, move it to the table element (https://dev.ckeditor.com/ticket/16811).
 					if ( parent.name && parent.name === 'div' && parent.attributes.align &&
 						tools.objectKeys( parent.attributes ).length === 1 && parent.children.length === 1 ) {
 						// If align is the only attribute of parent.
@@ -363,31 +393,62 @@
 				'v:imagedata': remove,
 				// This is how IE8 presents images.
 				'v:shape': function( element ) {
-					// In chrome a <v:shape> element may be followed by an <img> element with the same content.
-					var duplicate = false;
-					element.parent.getFirst( function( child ) {
-						if ( child.name == 'img' &&
-							child.attributes &&
+					// There are 3 paths:
+					// 1. There is regular `v:shape` (no `v:imagedata` inside).
+					// 2. There is a simple situation with `v:shape` with `v:imagedata` inside. We can remove such element and rely on `img` tag found later on.
+					// 3. There is a complicated situation where we cannot find proper `img` tag after `v:shape` or there is some canvas element.
+					// 		a) If shape is a child of v:group, then most probably it belongs to canvas, so we need to treat it as in path 1.
+					// 		b) In other cases, most probably there is no related `img` tag. We need to transform `v:shape` into `img` tag (IE8 integration).
+
+					var duplicate = false,
+						child = element.getFirst( 'v:imagedata' );
+
+					// Path 1:
+					if ( child === null ) {
+						shapeTagging( element );
+						return;
+					}
+
+					// Path 2:
+					// Sometimes a child with proper ID might be nested in other tag.
+					element.parent.find( function( child ) {
+						if ( child.name == 'img' && child.attributes &&
 							child.attributes[ 'v:shapes' ] == element.attributes.id ) {
+
 							duplicate = true;
 						}
-					} );
+					}, true );
 
-					if ( duplicate ) return false;
+					if ( duplicate ) {
+						return false;
+					} else {
 
-					var src = '';
-					element.forEach( function( child ) {
-						if ( child.attributes && child.attributes.src ) {
-							src = child.attributes.src;
+						// Path 3:
+						var src = '';
+
+						// 3.a) Filter out situation when canvas is used. In such scenario there is v:group containing v:shape containing v:imagedata.
+						// We streat such v:shapes as in Path 1.
+						if ( element.parent.name === 'v:group' ) {
+							shapeTagging( element );
+							return;
 						}
-					}, CKEDITOR.NODE_ELEMENT, true );
 
-					element.filterChildren( filter );
+						// 3.b) Most probably there is no img tag later on, so we need to transform this v:shape into img. This should only happen on IE8.
+						element.forEach( function( child ) {
+							if ( child.attributes && child.attributes.src ) {
+								src = child.attributes.src;
+							}
+						}, CKEDITOR.NODE_ELEMENT, true );
 
-					element.name = 'img';
-					element.attributes.src = element.attributes.src || src;
+						element.filterChildren( filter );
 
-					delete element.attributes.type;
+						element.name = 'img';
+						element.attributes.src = element.attributes.src || src;
+
+						delete element.attributes.type;
+					}
+
+					return;
 				},
 
 				'style': function() {
@@ -398,7 +459,7 @@
 				'object': function( element ) {
 					// The specs about object `data` attribute:
 					// 		Address of the resource as a valid URL. At least one of data and type must be defined.
-					// If there is not `data`, skip the object element. (http://dev.ckeditor.com/ticket/17001)
+					// If there is not `data`, skip the object element. (https://dev.ckeditor.com/ticket/17001)
 					return !!( element.attributes && element.attributes.data );
 				}
 			},
@@ -439,7 +500,14 @@
 
 				return content;
 			}
+		};
+
+		// Add shape processing to filter definition.
+		CKEDITOR.tools.array.forEach( shapeTags, function( shapeTag ) {
+			filterDefinition.elements[ shapeTag ] = shapeTagging;
 		} );
+
+		filter = new CKEDITOR.htmlParser.filter( filterDefinition );
 
 		var writer = new CKEDITOR.htmlParser.basicWriter();
 
@@ -508,7 +576,7 @@
 					'mso-',
 					'text-indent',
 					'visibility:visible',
-					'div:border:none' // This one stays because http://dev.ckeditor.com/ticket/6241
+					'div:border:none' // This one stays because https://dev.ckeditor.com/ticket/6241
 				],
 				textStyles = [
 					'font-family',
@@ -1085,7 +1153,8 @@
 				symbol = element.attributes[ 'cke-symbol' ];
 
 			element.forEach( function( node ) {
-				if ( !removed && node.value.match( symbol.replace( ')', '\\)' ).replace( '(', '' ) ) ) {
+				// Since symbol may contains special characters we use `indexOf` (instead of RegExp) which is sufficient (#877).
+				if ( !removed && node.value.indexOf( symbol ) > -1 ) {
 
 					node.value = node.value.replace( symbol, '' );
 
@@ -1751,7 +1820,7 @@
 					if (
 						// If the last list was a different list type then chop it!
 						lastSymbol.type != currentSymbol.type ||
-						// If those are logically different lists, and current list is not a continuation (http://dev.ckeditor.com/ticket/7918):
+						// If those are logically different lists, and current list is not a continuation (https://dev.ckeditor.com/ticket/7918):
 						( lastListInfo && currentListInfo.id != lastListInfo.id && !this.isAListContinuation( list[ i ] ) ) ) {
 						choppedLists.push( [] );
 					}
@@ -1788,7 +1857,7 @@
 		 * It would return `true` &mdash; meaning it is a continuation, and should not be chopped. However, if any paragraph or
 		 * anything else appears in between, it should be broken into different lists.
 		 *
-		 * You can see fixtures from issue http://dev.ckeditor.com/ticket/7918 as an example.
+		 * You can see fixtures from issue https://dev.ckeditor.com/ticket/7918 as an example.
 		 *
 		 * @private
 		 * @param {CKEDITOR.htmlParser.element} listElement The list to be checked.
@@ -1950,6 +2019,81 @@
 		}
 	};
 	List = CKEDITOR.plugins.pastefromword.lists;
+
+	/**
+	 * Namespace containing a set of image helper methods.
+	 *
+	 * @private
+	 * @since 4.8.0
+	 * @member CKEDITOR.plugins.pastefromword
+	 */
+	CKEDITOR.plugins.pastefromword.images = {
+		/**
+		 * Method parses RTF content to find embedded images. Please be aware that this method should only return `png` and `jpeg` images.
+		 *
+		 * @private
+		 * @since 4.8.0
+		 * @param {String} rtfContent RTF content to be checked for images.
+		 * @returns {Object[]} An array of images found in the `rtfContent`.
+		 * @returns {String} return.hex Hexadecimal string of an image embedded in `rtfContent`.
+		 * @returns {String} return.type String represent type of image, allowed values: 'image/png', 'image/jpeg'.
+		 * @member CKEDITOR.plugins.pastefromword.images
+		 */
+		extractFromRtf: function( rtfContent ) {
+			var ret = [],
+				rePictureHeader = /\{\\pict[\s\S]+?\\bliptag\-?\d+(\\blipupi\-?\d+)?(\{\\\*\\blipuid\s?[\da-fA-F]+)?[\s\}]*?/,
+				rePicture = new RegExp( '(?:(' + rePictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' ),
+				wholeImages,
+				imageType;
+
+			wholeImages = rtfContent.match( rePicture );
+			if ( !wholeImages ) {
+				return ret;
+			}
+
+			for ( var i = 0; i < wholeImages.length; i++ ) {
+				if ( rePictureHeader.test( wholeImages[ i ] ) ) {
+					if ( wholeImages[ i ].indexOf( '\\pngblip' ) !== -1 ) {
+						imageType = 'image/png';
+					} else if ( wholeImages[ i ].indexOf( '\\jpegblip' ) !== -1 ) {
+						imageType = 'image/jpeg';
+					} else {
+						continue;
+					}
+
+					ret.push( {
+						hex: imageType ? wholeImages[ i ].replace( rePictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ) : null,
+						type: imageType
+					} );
+				}
+			}
+
+			return ret;
+		},
+
+		/**
+		 * Method extracts array of src attributes in img tags from given HTML. Img tags belonging to VML shapes are removed.
+		 *
+		 *		CKEDITOR.plugins.pastefromword.images.extractTagsFromHtml( html );
+		 *		// Returns: [ 'http://example-picture.com/random.png', 'http://example-picture.com/another.png' ]
+		 *
+		 * @private
+		 * @param {String} html String represent HTML code.
+		 * @returns {String[]} Array of strings represent src attribute of img tags found in `html`.
+		 * @member CKEDITOR.plugins.pastefromword.images
+		 */
+		extractTagsFromHtml: function( html ) {
+			var regexp = /<img[^>]+src="([^"]+)[^>]+/g,
+				ret = [],
+				item;
+
+			while ( item = regexp.exec( html ) ) {
+				ret.push( item[ 1 ] );
+			}
+
+			return ret;
+		}
+	};
 
 	/**
 	 * Namespace containing methods used to process the pasted content using heuristics.
@@ -2164,7 +2308,8 @@
 				} );
 
 				CKEDITOR.tools.array.forEach( listChildren, function( child ) {
-					element.add( child, 0 );
+					// `Add` method without index always append child at the end (#796).
+					element.add( child );
 				} );
 
 				delete element.name;

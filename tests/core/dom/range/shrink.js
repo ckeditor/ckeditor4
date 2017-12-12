@@ -43,7 +43,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		// http://dev.ckeditor.com/ticket/4513
+		// https://dev.ckeditor.com/ticket/4513
 		test_shrink_text3: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_L1' ), CKEDITOR.POSITION_BEFORE_START );
@@ -59,7 +59,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// http://dev.ckeditor.com/ticket/4513
+		// https://dev.ckeditor.com/ticket/4513
 		test_shrink_text4: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_B2' ), CKEDITOR.POSITION_BEFORE_START );
@@ -75,7 +75,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// http://dev.ckeditor.com/ticket/4513
+		// https://dev.ckeditor.com/ticket/4513
 		test_shrink_text5: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStartAt( doc.getById( '_I2' ), CKEDITOR.POSITION_BEFORE_END );
@@ -91,7 +91,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// http://dev.ckeditor.com/ticket/4513
+		// https://dev.ckeditor.com/ticket/4513
 		test_shrink_text6: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_L1' ).getFirst(), 2 );
@@ -108,7 +108,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// http://dev.ckeditor.com/ticket/4513
+		// https://dev.ckeditor.com/ticket/4513
 		test_shrink_text7: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_L1' ).getFirst(), 2 );
@@ -125,7 +125,7 @@
 			assert.areSame( 1, range.endOffset );
 		},
 
-		// http://dev.ckeditor.com/ticket/4513
+		// https://dev.ckeditor.com/ticket/4513
 		test_shrink_text8: function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( '_L1' ).getFirst(), 2 );
@@ -327,7 +327,7 @@
 			assert.areSame( source, bender.tools.getHtmlWithRanges( ct, new CKEDITOR.dom.rangeList( [ range ] ) ) );
 		},
 
-		// (http://dev.ckeditor.com/ticket/17010)
+		// (https://dev.ckeditor.com/ticket/17010)
 		'test shrink with skipBogus param - SHRINK_TEXT': function() {
 			// Test does not make sense in the environment, which does not use <br> as bogus.
 			if ( !CKEDITOR.env.needsBrFiller ) {
@@ -342,7 +342,7 @@
 			assert.areSame( 'Cell 1.1', range.cloneContents().getHtml() );
 		},
 
-		// (http://dev.ckeditor.com/ticket/17010)
+		// (https://dev.ckeditor.com/ticket/17010)
 		'test shrink with skipBogus param - SHRINK_ELEMENT': function() {
 			// Test does not make sense in the environment, which does not use <br> as bogus.
 			if ( !CKEDITOR.env.needsBrFiller ) {

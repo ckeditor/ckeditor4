@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -98,7 +98,7 @@
 			align: realElement.getAttribute( 'align' ) || ''
 		};
 
-		// Do not set "src" on high-contrast so the alt text is displayed. (http://dev.ckeditor.com/ticket/8945)
+		// Do not set "src" on high-contrast so the alt text is displayed. (https://dev.ckeditor.com/ticket/8945)
 		if ( !CKEDITOR.env.hc )
 			attributes.src = CKEDITOR.tools.transparentImageData;
 
@@ -149,7 +149,7 @@
 			align: realElement.attributes.align || ''
 		};
 
-		// Do not set "src" on high-contrast so the alt text is displayed. (http://dev.ckeditor.com/ticket/8945)
+		// Do not set "src" on high-contrast so the alt text is displayed. (https://dev.ckeditor.com/ticket/8945)
 		if ( !CKEDITOR.env.hc )
 			attributes.src = CKEDITOR.tools.transparentImageData;
 

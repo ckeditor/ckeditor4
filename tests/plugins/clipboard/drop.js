@@ -359,7 +359,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/13453
+		// https://dev.ckeditor.com/ticket/13453
 		'test drop inside drag range has no effect': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
@@ -383,7 +383,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
-		// Integration test (http://dev.ckeditor.com/ticket/12806).
+		// Integration test (https://dev.ckeditor.com/ticket/12806).
 		'test drop part of the link': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();
@@ -493,7 +493,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/13468
+		// https://dev.ckeditor.com/ticket/13468
 		'test drop custom type from external source': function( editor ) {
 			var bot = bender.editorBots[ editor.name ],
 				evt = {};
@@ -635,7 +635,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/13879
+		// https://dev.ckeditor.com/ticket/13879
 		'test prevent drop': function( editor, bot ) {
 			var evt = bender.tools.mockDropEvent();
 
@@ -741,7 +741,7 @@ var testsForMultipleEditor = {
 			assert.isInnerHtmlMatching( '<p class="p">lorem^ ipsum sit amet.@</p>', getWithHtml( editor ), htmlMatchOpts );
 		},
 
-		'test fix split nodes 2 (http://dev.ckeditor.com/ticket/13011)': function() {
+		'test fix split nodes 2 (https://dev.ckeditor.com/ticket/13011)': function() {
 			// <p id="p"> " f o o " " b a r " <img /> </p>
 			//                     ^         [       ]
 			//                     drop      drag
@@ -908,7 +908,7 @@ var testsForMultipleEditor = {
 			assert.isFalse( CKEDITOR.plugins.clipboard.isDropRangeAffectedByDragRange( dragRange, dropRange ) );
 		},
 
-		'test isDropRangeAffectedByDragRange adjacent positions (http://dev.ckeditor.com/ticket/13140)': function() {
+		'test isDropRangeAffectedByDragRange adjacent positions (https://dev.ckeditor.com/ticket/13140)': function() {
 			var editor = this.editors.framed,
 				bot = this.editorBots[ editor.name ],
 				dragRange = editor.createRange(),
@@ -1132,7 +1132,7 @@ var testsForMultipleEditor = {
 			} );
 		},
 
-		'test drop on non editable (http://dev.ckeditor.com/ticket/13015)': function() {
+		'test drop on non editable (https://dev.ckeditor.com/ticket/13015)': function() {
 			var editor = this.editors.divarea,
 				bot = this.editorBots[ editor.name ],
 				evt = bender.tools.mockDropEvent();

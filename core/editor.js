@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -29,7 +29,7 @@
 		// Call the CKEDITOR.event constructor to initialize this instance.
 		CKEDITOR.event.call( this );
 
-		// Make a clone of the config object, to avoid having it touched by our code. (http://dev.ckeditor.com/ticket/9636)
+		// Make a clone of the config object, to avoid having it touched by our code. (https://dev.ckeditor.com/ticket/9636)
 		instanceConfig = instanceConfig && CKEDITOR.tools.clone( instanceConfig );
 
 		// if editor is created off one page element.
@@ -223,7 +223,7 @@
 	function updateCommandsContext( editor, path, forceRefresh ) {
 		// Commands cannot be refreshed without a path. In edge cases
 		// it may happen that there's no selection when this function is executed.
-		// For example when active filter is changed in http://dev.ckeditor.com/ticket/10877.
+		// For example when active filter is changed in https://dev.ckeditor.com/ticket/10877.
 		if ( !path )
 			return;
 
@@ -270,7 +270,7 @@
 		} else {
 			// Load the custom configuration file.
 			// To resolve customConfig race conflicts, use scriptLoader#queue
-			// instead of scriptLoader#load (http://dev.ckeditor.com/ticket/6504).
+			// instead of scriptLoader#load (https://dev.ckeditor.com/ticket/6504).
 			CKEDITOR.scriptLoader.queue( customConfig, function() {
 				// If the CKEDITOR.editorConfig function has been properly
 				// defined in the custom configuration file, cache it.
@@ -655,7 +655,7 @@
 	}
 
 	// Create DocumentFragment from specified ranges. For now it handles only tables
-	// and returns DocumentFragment from the 1. range for other cases. (http://dev.ckeditor.com/ticket/13884)
+	// and returns DocumentFragment from the 1. range for other cases. (https://dev.ckeditor.com/ticket/13884)
 	function createDocumentFragmentFromRanges( ranges, editable ) {
 		var docFragment = new CKEDITOR.dom.documentFragment(),
 			tableClone,
@@ -742,7 +742,7 @@
 			// This guarantees that commands added before first editor#mode
 			// aren't immediately updated, but waits for editor#mode and that
 			// commands added later are immediately refreshed, even when added
-			// before instanceReady. http://dev.ckeditor.com/ticket/10103, http://dev.ckeditor.com/ticket/10249
+			// before instanceReady. https://dev.ckeditor.com/ticket/10103, https://dev.ckeditor.com/ticket/10249
 			if ( this.mode )
 				updateCommand( this, cmd );
 
@@ -786,7 +786,7 @@
 						} );
 					}
 
-					// Remove 'submit' events registered on form element before destroying.(http://dev.ckeditor.com/ticket/3988)
+					// Remove 'submit' events registered on form element before destroying.(https://dev.ckeditor.com/ticket/3988)
 					editor.on( 'destroy', function() {
 						form.removeListener( 'submit', onSubmit );
 					} );
@@ -796,7 +796,7 @@
 			function onSubmit( evt ) {
 				editor.updateElement();
 
-				// http://dev.ckeditor.com/ticket/8031 If textarea had required attribute and editor is empty fire 'required' event and if
+				// https://dev.ckeditor.com/ticket/8031 If textarea had required attribute and editor is empty fire 'required' event and if
 				// it was cancelled, prevent submitting the form.
 				if ( editor._.required && !element.getValue() && editor.fire( 'required' ) === false ) {
 					// When user press save button event (evt) is undefined (see save plugin).
@@ -992,7 +992,7 @@
 				}
 				else {
 					// If we don't have a proper element, set data to an empty string,
-					// as this method is expected to return a string. (http://dev.ckeditor.com/ticket/13385)
+					// as this method is expected to return a string. (https://dev.ckeditor.com/ticket/13385)
 					data = '';
 				}
 			}
@@ -1094,7 +1094,7 @@
 				this.readOnly = isReadOnly;
 
 				// Block or release BACKSPACE key according to current read-only
-				// state to prevent browser's history navigation (http://dev.ckeditor.com/ticket/9761).
+				// state to prevent browser's history navigation (https://dev.ckeditor.com/ticket/9761).
 				this.keystrokeHandler.blockedKeystrokes[ 8 ] = +isReadOnly;
 
 				this.editable().setReadOnly( isReadOnly );
@@ -1476,7 +1476,7 @@
 		/**
 		 * Shows a notification to the user.
 		 *
-		 * If the [Notification](http://ckeditor.com/addons/notification) plugin is not enabled, this function shows
+		 * If the [Notification](https://ckeditor.com/cke4/addon/notification) plugin is not enabled, this function shows
 		 * a normal alert with the given `message`. The `type` and `progressOrDuration` parameters are supported
 		 * only by the Notification plugin.
 		 *
@@ -1553,7 +1553,7 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
  * if the linked `<textarea>` element has the `disabled` attribute.
  *
  * Read more in the [documentation](#!/guide/dev_readonly)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/readonly.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/readonly.html).
  *
  *		config.readOnly = true;
  *

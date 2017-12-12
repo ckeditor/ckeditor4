@@ -237,7 +237,7 @@
 			assert.isFalse( range.collapsed, 'range.collapsed' );
 		},
 
-		// http://dev.ckeditor.com/ticket/11586
+		// https://dev.ckeditor.com/ticket/11586
 		'test cloneContents does not split text nodes': function() {
 			var root = doc.createElement( 'div' ),
 				range = new CKEDITOR.dom.range( doc );
@@ -259,7 +259,7 @@
 			assert.isInnerHtmlMatching( 'o<b>b</b>', clone.getHtml() );
 		},
 
-		// http://dev.ckeditor.com/ticket/11586
+		// https://dev.ckeditor.com/ticket/11586
 		'test cloneContents does not affect selection': function() {
 			var editor = bender.editors.classic,
 				range = editor.createRange(),
@@ -526,7 +526,7 @@
 			assert.areSame( 1, range.endOffset, 'range.startOffset' );
 		},
 
-		// http://dev.ckeditor.com/ticket/13568.
+		// https://dev.ckeditor.com/ticket/13568.
 		'test cloneContents - bogus br': function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( 'bogus' ), 0 ); // <p>

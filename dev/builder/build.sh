@@ -1,6 +1,6 @@
-#!/bin/bash
+﻿#!/bin/bash
 # Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.md or http://ckeditor.com/license
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 # Build CKEditor using the default settings (and build.js).
 
@@ -57,7 +57,7 @@ echo "Starting CKBuilder..."
 
 JAVA_ARGS=${ARGS// -t / } # Remove -t from args.
 
-VERSION=`node -pe "require('./../../package.json').version"`
+VERSION=$(grep '"version":' ./../../package.json | sed $'s/[\t\",: ]//g; s/version//g' | tr -d '[[:space:]]')
 REVISION=$(git rev-parse --verify --short HEAD)
 
 # If the current revision is not tagged with any CKE version, it means it's a "dirty" build. We

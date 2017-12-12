@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 
 /*
@@ -20,7 +20,7 @@ editors:
 	   also its child elements.
 
 To understand why "reset" is needed, check the CKEditor Skin SDK:
-http://docs.cksource.com/CKEditor_4.x/Skin_SDK/Reset
+https://docs.ckeditor.com/ckeditor4/docs/#!/guide/skin_sdk_reset
 */
 
 /* Reset for single elements, not their children. */

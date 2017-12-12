@@ -1,6 +1,6 @@
 ﻿/*
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'link', 'gu', {
 	acccessKey: 'ઍક્સેસ કી',
@@ -19,8 +19,8 @@ CKEDITOR.plugins.setLang( 'link', 'gu', {
 	anchorName: 'ઍંકર નામથી પસંદ કરો',
 	charset: 'લિંક રિસૉર્સ કૅરિક્ટર સેટ',
 	cssClasses: 'સ્ટાઇલ-શીટ ક્લાસ',
-	download: 'Force Download', // MISSING
-	displayText: 'Display Text', // MISSING
+	download: 'ડાઉનલોડ કરો',
+	displayText: 'લખાણ દેખાડો',
 	emailAddress: 'ઈ-મેલ સરનામું',
 	emailBody: 'સંદેશ',
 	emailSubject: 'ઈ-મેલ વિષય',

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function( bender ) {
@@ -90,7 +90,12 @@
 			/*
 			 * Whether current OS is a Linux environment.
 			 */
-			linux: navigator.userAgent.toLowerCase().indexOf( 'linux' ) !== -1
+			linux: navigator.userAgent.toLowerCase().indexOf( 'linux' ) !== -1,
+
+			/*
+			 * Whether current environment is Opera browser.
+			 */
+			opera: navigator.userAgent.toLowerCase().indexOf( ' opr/' ) !== -1
 		},
 
 		fixHtml: function( html, stripLineBreaks, toLowerCase ) {
@@ -468,7 +473,7 @@
 				element = isEditor ? editorOrElement.editable() : editorOrElement;
 
 			if ( isEditor ) {
-				// (http://dev.ckeditor.com/ticket/9848) Prevent additional selectionChange due to editor.focus().
+				// (https://dev.ckeditor.com/ticket/9848) Prevent additional selectionChange due to editor.focus().
 				// This fix isn't required by IE < 9.
 				if ( CKEDITOR.env.ie ? CKEDITOR.env.version > 8 : 1 ) {
 					editorOrElement.once( 'selectionChange', function( event ) {
@@ -626,7 +631,7 @@
 			// has been replace, which will otherwise bother parser.
 			html = bender.tools.compatHtml( html );
 
-			// Avoid having IE drop the comment nodes before any actual text. (http://dev.ckeditor.com/ticket/3801)
+			// Avoid having IE drop the comment nodes before any actual text. (https://dev.ckeditor.com/ticket/3801)
 			if ( CKEDITOR.env.ie && ( document.documentMode || CKEDITOR.env.version ) < 9 ) {
 				element.setHtml( '<span>a</span>' + html );
 				element.getFirst().remove();
@@ -816,13 +821,26 @@
 				types: [],
 				files: CKEDITOR.env.ie && CKEDITOR.env.version < 10 ? undefined : [],
 				_data: {},
-				// Emulate browsers native behavior for getDeta/setData.
+				// Emulate browsers native behavior for getData/setData.
 				setData: function( type, data ) {
-					if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 16 && type != 'Text' && type != 'URL' ) {
 						throw 'Unexpected call to method or property access.';
+					}
 
-					if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' )
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version > 9 && type == 'URL' ) {
 						return;
+					}
+
+					// While Edge 16+ supports Clipboard API, it does not support custom mime types
+					// in `setData` and throws `Element not found.` if such are used.
+					if ( CKEDITOR.env.edge && CKEDITOR.env.version >= 16 &&
+						CKEDITOR.tools.indexOf( [ 'Text', 'URL', 'text/plain', 'text/html', 'application/xml' ], type ) === -1 ) {
+
+						throw {
+							name: 'Error',
+							message: 'Element not found.'
+						};
+					}
 
 					if ( type == 'text/plain' || type == 'Text' ) {
 						this._data[ 'text/plain' ] = data;
@@ -834,13 +852,23 @@
 					this.types.push( type );
 				},
 				getData: function( type ) {
-					if ( CKEDITOR.env.ie && type != 'Text' && type != 'URL' )
+					if ( CKEDITOR.env.ie && CKEDITOR.env.version < 16 && type != 'Text' && type != 'URL' ) {
 						throw 'Invalid argument.';
+					}
 
-					if ( typeof this._data[ type ] === 'undefined' || this._data[ type ] === null )
+					if ( typeof this._data[ type ] === 'undefined' || this._data[ type ] === null ) {
 						return '';
+					}
 
 					return this._data[ type ];
+				},
+				clearData: function( type ) {
+					var index = CKEDITOR.tools.indexOf( this.types, type );
+
+					if ( index !== -1 ) {
+						delete this._data[ type ];
+						this.types.splice( index, 1 );
+					}
 				}
 			};
 		},
@@ -884,7 +912,7 @@
 			return {
 				$: {
 					ctrlKey: true,
-					clipboardData: CKEDITOR.env.ie ? undefined : dataTransfer
+					clipboardData: ( CKEDITOR.env.ie && CKEDITOR.env.version < 16 ) ? undefined : dataTransfer
 				},
 				preventDefault: function() {
 					// noop
@@ -1231,7 +1259,7 @@
 				html = html.replace( markerReplaceRegex, '<!--cke-range-marker-$1-->' );
 
 				// Set clean HTML without {, }, [, ] but with adequate comments.
-				// Prevent IE from purging comment nodes before any actual text (http://dev.ckeditor.com/ticket/3801).
+				// Prevent IE from purging comment nodes before any actual text (https://dev.ckeditor.com/ticket/3801).
 				if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
 					element.setHtml( '<span>!</span>' + html );
 					element.getFirst().remove();
@@ -1307,7 +1335,7 @@
 				if ( node.type == CKEDITOR.NODE_TEXT ) {
 					return new CKEDITOR.dom.text( node.getText() );
 				} else {
-					// Make sure ids are cloned (http://dev.ckeditor.com/ticket/12130).
+					// Make sure ids are cloned (https://dev.ckeditor.com/ticket/12130).
 					clone = node.clone( 0, 1 );
 				}
 
@@ -1347,7 +1375,7 @@
 				//       It joins adjacent text nodes when using deep clone, which is pretty annoying.
 				// Note: IE9-11 aren't any better. They lose empty text nodes between elements when cloning.
 				// See 'test special #1' in tests.
-				// Make sure ids are cloned (http://dev.ckeditor.com/ticket/12130).
+				// Make sure ids are cloned (https://dev.ckeditor.com/ticket/12130).
 				clone = CKEDITOR.env.ie ? cloneNode( element ) : element.clone( 1, 1 );
 
 				startContainer = clone.getChild( startAddress );

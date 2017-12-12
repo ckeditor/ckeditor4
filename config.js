@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/terms-of-use/#open-source-licences
  */
 
 CKEDITOR.editorConfig = function( config ) {
@@ -67,6 +67,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'templates,' +
 		'toolbar,' +
 		'undo,' +
+		'uploadimage,' +
 		'wysiwygarea';
 	// %REMOVE_END%
 };

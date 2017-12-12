@@ -140,7 +140,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', 'x<table><tbody><tr><td><p>foo</p><p>&nbsp;</p></td></tr></tbody></table>x' );
 		},
 
-		// http://dev.ckeditor.com/ticket/11798
+		// https://dev.ckeditor.com/ticket/11798
 		'test wrapping contents stops at non-editable block and block limit': function() {
 			var editable = this.editor.editable(),
 				range = this.editor.createRange();
@@ -151,7 +151,7 @@
 			this.assertFixBlock( this.editor, range, true, 'p', 'x<table><tbody><tr><td><p contenteditable="false">foo</p><p>&nbsp;</p></td></tr></tbody></table>x' );
 		},
 
-		// http://dev.ckeditor.com/ticket/13001
+		// https://dev.ckeditor.com/ticket/13001
 		// See comments in the fixBlock() method.
 		'test fixing empty, focused editable': function() {
 			var editable = this.editor.editable(),

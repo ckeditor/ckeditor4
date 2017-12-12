@@ -149,7 +149,7 @@
 
 		// Code of this test is poor (checking isVisible and operations on DOM), but that's caused
 		// by very closed and poor dialog API.
-		// http://dev.ckeditor.com/ticket/12546
+		// https://dev.ckeditor.com/ticket/12546
 		'test dialog\'s HTML field always count as allowed field unless requiredContent is specified': function() {
 			var ed = this.editor;
 

@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -36,6 +36,7 @@
 			label: lang.label,
 			title: lang.panelTitle,
 			toolbar: 'styles,' + order,
+			defaultValue: 'cke-default',
 			allowedContent: style,
 			requiredContent: style,
 			contentTransformations: [
@@ -87,11 +88,16 @@
 			},
 
 			init: function() {
+				var name,
+					defaultText = '(' + editor.lang.common.optionDefault + ')';
+
 				this.startGroup( lang.panelTitle );
 
-				for ( var i = 0; i < names.length; i++ ) {
-					var name = names[ i ];
+				// Add `(Default)` item as a first element on the drop-down list.
+				this.add( this.defaultValue, defaultText, defaultText );
 
+				for ( var i = 0; i < names.length; i++ ) {
+					name = names[ i ];
 					// Add the tag entry to the panel list.
 					this.add( name, styles[ name ].buildPreview(), name );
 				}
@@ -102,27 +108,34 @@
 				editor.fire( 'saveSnapshot' );
 
 				var previousValue = this.getValue(),
-					style = styles[ value ];
+					style = styles[ value ],
+					previousStyle,
+					range,
+					path,
+					matching,
+					startBoundary,
+					endBoundary,
+					node,
+					bm;
 
-				// When applying one style over another, first remove the previous one (http://dev.ckeditor.com/ticket/12403).
-				// NOTE: This is only a temporary fix. It will be moved to the styles system (http://dev.ckeditor.com/ticket/12687).
+				// When applying one style over another, first remove the previous one (https://dev.ckeditor.com/ticket/12403).
+				// NOTE: This is only a temporary fix. It will be moved to the styles system (https://dev.ckeditor.com/ticket/12687).
 				if ( previousValue && value != previousValue ) {
-					var previousStyle = styles[ previousValue ],
-						range = editor.getSelection().getRanges()[ 0 ];
+					previousStyle = styles[ previousValue ];
+					range = editor.getSelection().getRanges()[ 0 ];
 
 					// If the range is collapsed we can't simply use the editor.removeStyle method
 					// because it will remove the entire element and we want to split it instead.
 					if ( range.collapsed ) {
-						var path = editor.elementPath(),
-							// Find the style element.
-							matching = path.contains( function( el ) {
-								return previousStyle.checkElementRemovable( el );
-							} );
+						path = editor.elementPath();
+						// Find the style element.
+						matching = path.contains( function( el ) {
+							return previousStyle.checkElementRemovable( el );
+						} );
 
 						if ( matching ) {
-							var startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START ),
-								endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END ),
-								node, bm;
+							startBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.START );
+							endBoundary = range.checkBoundaryOfElement( matching, CKEDITOR.END );
 
 							// If we are at both boundaries it means that the element is empty.
 							// Remove it but in a way that we won't lose other empty inline elements inside it.
@@ -157,7 +170,13 @@
 					}
 				}
 
-				editor[ previousValue == value ? 'removeStyle' : 'applyStyle' ]( style );
+				if ( value === this.defaultValue ) {
+					if ( previousStyle ) {
+						editor.removeStyle( previousStyle );
+					}
+				} else {
+					editor.applyStyle( style );
+				}
 
 				editor.fire( 'saveSnapshot' );
 			},

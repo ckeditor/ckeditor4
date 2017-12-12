@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -17,7 +17,7 @@
 	CKEDITOR.plugins.add( 'balloonpanel', {
 		init: function() {
 			if ( !stylesLoaded ) {
-				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skinName + '/balloonpanel.css' );
+				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/balloonpanel.css' );
 				stylesLoaded = true;
 			}
 		}
@@ -320,10 +320,14 @@
 		 *
 		 * @method attach
 		 * @param {CKEDITOR.dom.element} element The element to which the panel is attached.
-		 * @param {CKEDITOR.dom.element/Boolean} [focusElement] The element to be focused after the panel
+		 * @param {Object/CKEDITOR.dom.element/Boolean} [options] **Since 4.8.0** this parameter works as an `options` object.
+		 *
+		 * If a `{@link CKEDITOR.dom.element}/Boolean` instance is given, this parameter acts as an `options.focusElement`.
+		 * @param {CKEDITOR.dom.element/Boolean} [options.focusElement] The element to be focused after the panel
 		 * is attached. By default the `panel` property of {@link #parts} will be focused. You might specify the element
 		 * to be focused by passing any {@link CKEDITOR.dom.element} instance.
 		 * You can also prevent changing focus at all by setting it to `false`.
+		 * @param {Boolean} [options.show=true] Defines if the balloon panel should be shown after being attached.
 		 */
 		attach: ( function() {
 			var winGlobal, frame, editable, isInline;
@@ -383,8 +387,18 @@
 				left: 'right'
 			};
 
-			return function( element, focusElement ) {
-				this.show();
+			return function( element, options ) {
+				if ( options instanceof CKEDITOR.dom.element || !options ) {
+					options = { focusElement: options };
+				}
+
+				options = CKEDITOR.tools.extend( options, {
+					show: true
+				} );
+
+				if ( options.show === true ) {
+					this.show();
+				}
 
 				this.fire( 'attach' );
 
@@ -474,8 +488,8 @@
 				this.setTriangle( triangleRelativePosition[ minDifferenceAlignment[ 0 ] ], minDifferenceAlignment[ 1 ] );
 
 				// Set focus to proper element.
-				if ( focusElement !== false ) {
-					( focusElement || this.parts.panel ).focus();
+				if ( options.focusElement !== false ) {
+					( options.focusElement || this.parts.panel ).focus();
 				}
 			};
 		} )(),

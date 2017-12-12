@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -19,8 +19,8 @@
  */
 CKEDITOR.lang[ 'ro' ] = {
 	// ARIA description.
-	editor: 'Rich Text Editor',
-	editorPanel: 'Rich Text Editor panel', // MISSING
+	editor: 'Editor de text îmbogățit',
+	editorPanel: 'Panoul editorului de text îmbogățit',
 
 	// Common messages and labels.
 	common: {
@@ -28,7 +28,7 @@ CKEDITOR.lang[ 'ro' ] = {
 		// of reading non-English words. So be careful while translating it.
 		editorHelp: 'Apasă ALT 0 pentru ajutor',
 
-		browseServer: 'Răsfoieşte server',
+		browseServer: 'Răsfoiește fișiere',
 		url: 'URL',
 		protocol: 'Protocol',
 		upload: 'Încarcă',
@@ -44,14 +44,14 @@ CKEDITOR.lang[ 'ro' ] = {
 		button: 'Buton',
 		select: 'Câmp selecţie (SelectionField)',
 		imageButton: 'Buton imagine (ImageButton)',
-		notSet: '<nesetat>',
-		id: 'Id',
+		notSet: 'fără setări',
+		id: 'identificator',
 		name: 'Nume',
 		langDir: 'Direcţia cuvintelor',
-		langDirLtr: 'stânga-dreapta (LTR)',
-		langDirRtl: 'dreapta-stânga (RTL)',
+		langDirLtr: 'de la stânga la dreapta (LTR)',
+		langDirRtl: 'de la dreapta la stânga (RTL)',
 		langCode: 'Codul limbii',
-		longDescr: 'Descrierea lungă URL',
+		longDescr: 'Descrierea completă URL',
 		cssClass: 'Clasele cu stilul paginii (CSS)',
 		advisoryTitle: 'Titlul consultativ',
 		cssStyle: 'Stil',
@@ -59,12 +59,12 @@ CKEDITOR.lang[ 'ro' ] = {
 		cancel: 'Anulare',
 		close: 'Închide',
 		preview: 'Previzualizare',
-		resize: 'Trage pentru a redimensiona',
+		resize: 'Redimensionează',
 		generalTab: 'General',
 		advancedTab: 'Avansat',
-		validateNumberFailed: 'Această valoare nu este un număr.',
+		validateNumberFailed: 'Această valoare nu este un număr!',
 		confirmNewPage: 'Orice modificări nesalvate ale acestui conținut, vor fi pierdute. Sigur doriți încărcarea unei noi pagini?',
-		confirmCancel: 'Câteva opțiuni au fost schimbate. Sigur doriți să închideți dialogul?',
+		confirmCancel: 'Ai schimbat câteva opțiuni. Ești sigur că dorești să închiz fereastra de dialog?',
 		options: 'Opțiuni',
 		target: 'Țintă',
 		targetNew: 'Fereastră nouă (_blank)',
@@ -74,44 +74,46 @@ CKEDITOR.lang[ 'ro' ] = {
 		langDirLTR: 'Stânga spre Dreapta (LTR)',
 		langDirRTL: 'Dreapta spre Stânga (RTL)',
 		styles: 'Stil',
-		cssClasses: 'Stylesheet Classes',
+		cssClasses: 'Clase foaie de stil',
 		width: 'Lăţime',
 		height: 'Înălţime',
 		align: 'Aliniere',
-		alignLeft: 'Mărește Bara',
-		alignRight: 'Dreapta',
-		alignCenter: 'Centru',
-		alignJustify: 'Aliniere în bloc (Block Justify)',
-		alignTop: 'Sus',
-		alignMiddle: 'Mijloc',
-		alignBottom: 'Jos',
-		alignNone: 'None', // MISSING
+		alignLeft: 'Aliniază la stânga',
+		alignRight: 'Aliniază la dreapta',
+		alignCenter: 'Aliniază pe centru',
+		alignJustify: 'Aliniere în bloc (Justify)',
+		alignTop: 'Aliniere sus',
+		alignMiddle: 'Aliniere la mijloc',
+		alignBottom: 'Aliniere jos',
+		alignNone: 'Fără aliniere',
 		invalidValue: 'Valoare invalidă',
 		invalidHeight: 'Înălțimea trebuie să fie un număr.',
 		invalidWidth: 'Lățimea trebuie să fie un număr.',
-		invalidCssLength: 'Valoarea specificată pentru câmpul "%1" trebuie să fie un număr pozitiv cu sau fără o unitate de măsură CSS (px, %, in, cm, mm, em, ex, pt, sau pc).',
-		invalidHtmlLength: 'Valoarea specificată pentru câmpul "%1" trebuie să fie un număr pozitiv cu sau fără o unitate de măsură HTML (px sau %).',
+		invalidCssLength: 'Valoarea specificată pentru câmpul "%1" trebuie să fie un număr pozitiv cu sau fără o unitate de măsură validă CSS (px, %, in, cm, mm, em, ex, pt, sau pc).',
+		invalidHtmlLength: 'Valoarea specificată pentru câmpul "%1" trebuie să fie un număr pozitiv cu sau fără o unitate de măsură validă HTML (px sau %).',
 		invalidInlineStyle: 'Valoarea specificată pentru stil trebuie să conțină una sau mai multe construcții de tipul "name : value", separate prin punct și virgulă.',
-		cssLengthTooltip: 'Introduceți un număr în pixeli sau un număr cu o unitate de măsură CSS (px, %, in, cm, mm, em, ex, pt, sau pc).',
+		cssLengthTooltip: 'Introdu un număr pentru o valoare în pixeli sau un număr pentru o unitate de măsură validă CSS (px, %, in, cm, mm, em, ex, pt, sau pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable: '%1<span class="cke_accessibility">, nu este disponibil</span>',
 
 		// Keyboard keys translations used for creating shortcuts descriptions in tooltips, context menus and ARIA labels.
 		keyboard: {
-			8: 'Backspace', // MISSING
-			13: 'Enter', // MISSING
-			16: 'Shift', // MISSING
-			17: 'Ctrl', // MISSING
-			18: 'Alt', // MISSING
-			32: 'Space', // MISSING
-			35: 'End', // MISSING
-			36: 'Home', // MISSING
-			46: 'Delete', // MISSING
-			224: 'Command' // MISSING
+			8: 'Backspace',
+			13: 'Enter',
+			16: 'Shift',
+			17: 'Ctrl',
+			18: 'Alt',
+			32: 'Bară spațiu',
+			35: 'End',
+			36: 'Home',
+			46: 'Delete',
+			224: 'Command'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Keyboard shortcut' // MISSING
+		keyboardShortcut: 'Scurtături tastatură',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

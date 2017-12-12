@@ -1,12 +1,9 @@
 /*
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'about', 'cs', {
 	copy: 'Copyright &copy; $1. All rights reserved.',
-	dlgTitle: 'O aplikaci CKEditor',
-	help: 'Prohlédněte si $1 pro nápovědu.',
-	moreInfo: 'Pro informace o lincenci navštivte naši webovou stránku:',
-	title: 'O aplikaci CKEditor',
-	userGuide: 'Uživatelská příručka CKEditor'
+	dlgTitle: 'O aplikaci CKEditor 4',
+	moreInfo: 'Pro informace o lincenci navštivte naši webovou stránku:'
 } );

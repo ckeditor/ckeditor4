@@ -1,5 +1,5 @@
 # Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-# For licensing, see LICENSE.md or http://ckeditor.com/license
+# For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 editor = ARIA description for the editor.
 editorPanel = ARIA description for the editor panel.
@@ -81,3 +81,4 @@ common.keyboard.36 = Label for the "Home" key.
 common.keyboard.46 = Label for the "Delete" key.
 common.keyboard.224 = Label for the "Command" key.
 common.keyboardShortcut = ARIA message for keyboard shortcuts.
+common.optionDefault = Label for the "(Default)" option in the text styling drop-downs. Using such option restores the default styling.

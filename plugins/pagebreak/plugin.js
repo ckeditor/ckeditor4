@@ -1,6 +1,6 @@
 ﻿/**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -99,7 +99,7 @@
 							// The "internal form" of a pagebreak is pasted from clipboard.
 							// ACF may have distorted the HTML because "internal form" is
 							// different than "data form". Make sure that element remains valid
-							// by re-upcasting it (http://dev.ckeditor.com/ticket/11133).
+							// by re-upcasting it (https://dev.ckeditor.com/ticket/11133).
 							if ( element.attributes[ 'data-cke-pagebreak' ] )
 								upcastPageBreak( element );
 

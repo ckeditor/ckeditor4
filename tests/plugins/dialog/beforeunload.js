@@ -21,7 +21,7 @@
 
 	bender.editor = {};
 
-	// http://dev.ckeditor.com/ticket/9958
+	// https://dev.ckeditor.com/ticket/9958
 	bender.test( {
 		'test ok button': function() {
 			window.onbeforeunload = sinon.spy();

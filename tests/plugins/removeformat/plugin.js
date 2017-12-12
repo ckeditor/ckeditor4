@@ -130,7 +130,7 @@ bender.test(
 		bender.assert.isInnerHtmlMatching( expected, data );
 	},
 
-	// http://dev.ckeditor.com/ticket/12311
+	// https://dev.ckeditor.com/ticket/12311
 	'test remove format for cite element': function() {
 		this.editorBot.setHtmlWithSelection( '<p>[foo <cite>bar</cite> baz]</p>' );
 		this.editor.execCommand( 'removeFormat' );

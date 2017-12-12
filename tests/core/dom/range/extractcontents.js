@@ -371,7 +371,7 @@
 			assert.isTrue( range.collapsed, 'range.collapsed' );
 		},
 
-		// http://dev.ckeditor.com/ticket/13568.
+		// https://dev.ckeditor.com/ticket/13568.
 		'test extractContents - bogus br': function() {
 			var range = new CKEDITOR.dom.range( doc );
 			range.setStart( doc.getById( 'bogus' ), 0 ); // <p>

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
  /** @class CKEDITOR */
@@ -200,7 +200,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 			// If data has not been modified in the mode which we are currently leaving,
 			// avoid making snapshot right after initializing new mode.
-			// http://dev.ckeditor.com/ticket/5217#comment:20
+			// https://dev.ckeditor.com/ticket/5217#comment:20
 			// Tested by:
 			// 'test switch mode with unrecoreded, inner HTML specific content (boguses)'
 			// 'test switch mode with unrecoreded, inner HTML specific content (boguses) plus changes in source mode'
@@ -280,10 +280,10 @@ CKEDITOR.replaceClass = 'ckeditor';
 			outer = container;
 		}
 
-		// Set as border box width. (http://dev.ckeditor.com/ticket/5353)
+		// Set as border box width. (https://dev.ckeditor.com/ticket/5353)
 		outer.setSize( 'width', width, true );
 
-		// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (http://dev.ckeditor.com/ticket/8348)
+		// WebKit needs to refresh the iframe size to avoid rendering issues. (1/2) (https://dev.ckeditor.com/ticket/8348)
 		contentsFrame && ( contentsFrame.style.width = '1%' );
 
 		// Get the height delta between the outer table and the content area.
@@ -295,7 +295,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 		contents.setStyle( 'height', resultContentsHeight + 'px' );
 
-		// WebKit needs to refresh the iframe size to avoid rendering issues. (2/2) (http://dev.ckeditor.com/ticket/8348)
+		// WebKit needs to refresh the iframe size to avoid rendering issues. (2/2) (https://dev.ckeditor.com/ticket/8348)
 		contentsFrame && ( contentsFrame.style.width = '100%' );
 
 		// Emit a resize event.
@@ -309,7 +309,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 
 	/**
 	 * Gets the element that can be used to check the editor size. This method
-	 * is mainly used by the [Editor Resize](http://ckeditor.com/addon/resize) plugin, which adds
+	 * is mainly used by the [Editor Resize](https://ckeditor.com/cke4/addon/resize) plugin, which adds
 	 * a UI handle that can be used to resize the editor.
 	 *
 	 * @param {Boolean} forContents Whether to return the "contents" part of the theme instead of the container.
@@ -337,7 +337,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			// replacement will be done later in the editor creation lifecycle.
 			element.setStyle( 'visibility', 'hidden' );
 
-			// http://dev.ckeditor.com/ticket/8031 Remember if textarea was required and remove the attribute.
+			// https://dev.ckeditor.com/ticket/8031 Remember if textarea was required and remove the attribute.
 			editor._.required = element.hasAttribute( 'required' );
 			element.removeAttribute( 'required' );
 		}
@@ -422,7 +422,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 			topHtml: topHtml ? '<span id="' + editor.ui.spaceId( 'top' ) + '" class="cke_top cke_reset_all" role="presentation" style="height:auto">' + topHtml + '</span>' : '',
 			contentId: editor.ui.spaceId( 'contents' ),
 			bottomHtml: bottomHtml ? '<span id="' + editor.ui.spaceId( 'bottom' ) + '" class="cke_bottom cke_reset_all" role="presentation">' + bottomHtml + '</span>' : '',
-			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// http://dev.ckeditor.com/ticket/9571
+			outerEl: CKEDITOR.env.ie ? 'span' : 'div'	// https://dev.ckeditor.com/ticket/9571
 		} ) );
 
 		if ( elementMode == CKEDITOR.ELEMENT_MODE_REPLACE ) {
@@ -451,7 +451,7 @@ CKEDITOR.replaceClass = 'ckeditor';
 		// Disable browser context menu for editor's chrome.
 		container.disableContextMenu();
 
-		// Redirect the focus into editor for webkit. (http://dev.ckeditor.com/ticket/5713)
+		// Redirect the focus into editor for webkit. (https://dev.ckeditor.com/ticket/5713)
 		CKEDITOR.env.webkit && container.on( 'focus', function() {
 			editor.focus();
 		} );

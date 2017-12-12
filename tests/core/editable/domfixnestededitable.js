@@ -10,7 +10,7 @@
 	};
 
 	bender.test( {
-		// (http://dev.ckeditor.com/ticket/12162)
+		// (https://dev.ckeditor.com/ticket/12162)
 		'test autoparagraphing in nested editable': function() {
 			var editor = this.editors.editor1,
 				editable = editor.editable(),

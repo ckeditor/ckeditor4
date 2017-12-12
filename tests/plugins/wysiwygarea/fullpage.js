@@ -76,7 +76,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/9137
+		// https://dev.ckeditor.com/ticket/9137
 		'test base tag is correctly added when head has an attribute': function() {
 			var bot = this.editorBots.editor_basehref;
 

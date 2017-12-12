@@ -127,7 +127,32 @@
 
 				return acc;
 			}, [ 1 ] ) );
+		},
+
+		'test array.every array': function() {
+			assert.isTrue( this.array.every( [], function() {} ) );
+
+			assert.isTrue( this.array.every( [ 11, 12, 34, 35, 546546 ], function( item ) {
+				return item > 10;
+			} ) );
+			assert.isFalse( this.array.every( [ 10, 12, 34, 35, 546546 ], function( item ) {
+				return item > 10;
+			} ) );
+
+			assert.isTrue( this.array.every( [ 'a', 'asdas', 'asdas', 'adsadas' ], function( item ) {
+				return item.charAt( 0 ) === 'a';
+			} ) );
+			assert.isFalse( this.array.every( [ 'a', 'asdas', 'asdas', 'cdsadas' ], function( item ) {
+				return item.charAt( 0 ) === 'a';
+			} ) );
+
+			this.array.every( [ 1234 ], function( item, index, array ) {
+				assert.areSame( 1234, item );
+				assert.areSame( 0, index );
+				arrayAssert.itemsAreSame( [ 1234 ], array );
+			} );
 		}
+
 	} );
 
 } )();

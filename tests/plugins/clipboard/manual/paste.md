@@ -19,23 +19,23 @@
 ### General:
 
 * For data type `Files` no data is logged.
-* Everything should works as described in [this research](http://dev.ckeditor.com/ticket/11526#comment:7) or better.
+* Everything should works as described in [this research](https://dev.ckeditor.com/ticket/11526#comment:7) or better.
 
 ### Safari
 
-* There's no `text/html` data for external paste. Hence, pastebin is used. Hence, data type always equals `html` (see: [`config.clipboard_defaultContentType`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-clipboard_defaultContentType)).
+* There's no `text/html` data for external paste. Hence, pastebin is used. Hence, data type always equals `html` (see: [`config.clipboard_defaultContentType`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-clipboard_defaultContentType)).
 * Content pasted from Word isn’t cleaned as well as on other browsers.
 * Fragment of an image is pasted as an <img> element with webkit-fake-url.
 
 ### Firefox
 
-* There's no `text/html` data for external paste. Hence, pastebin is used. Hence, data type always equals `html` (see: [`config.clipboard_defaultContentType`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-clipboard_defaultContentType)).
+* There's no `text/html` data for external paste. Hence, pastebin is used. Hence, data type always equals `html` (see: [`config.clipboard_defaultContentType`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-clipboard_defaultContentType)).
 * Paste is always recognized as external.
 
 ### IE
 
 * Paste is always recognized as external.
-* There's no `text/html` data for external paste. Hence, pastebin is used. Hence, data type always equals `html` (see: [`config.clipboard_defaultContentType`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-clipboard_defaultContentType)).
+* There's no `text/html` data for external paste. Hence, pastebin is used. Hence, data type always equals `html` (see: [`config.clipboard_defaultContentType`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.config-cfg-clipboard_defaultContentType)).
 * IE8-9: No support for files. (TODO: waiting for upload image to verify how it works on IE10-11 - can you paste files?).
 
 ### Chrome Android

@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.dialog.add( 'radio', function( editor ) {
@@ -26,10 +26,9 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 				editor = this.getParentEditor();
 				element = editor.document.createElement( 'input' );
 				element.setAttribute( 'type', 'radio' );
+				editor.insertElement( element );
 			}
 
-			if ( isInsertMode )
-				editor.insertElement( element );
 			this.commitContent( { element: element } );
 		},
 		contents: [ {
@@ -89,7 +88,7 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 
 					if ( !CKEDITOR.env.ie ) {
 						var value = this.getValue();
-						// Blink/Webkit needs to change checked property, not attribute. (http://dev.ckeditor.com/ticket/12465)
+						// Blink/Webkit needs to change checked property, not attribute. (https://dev.ckeditor.com/ticket/12465)
 						if ( CKEDITOR.env.webkit ) {
 							element.$.checked = value;
 						}
@@ -107,6 +106,12 @@ CKEDITOR.dialog.add( 'radio', function( editor ) {
 								'></input>', editor.document );
 							element.copyAttributes( replace, { type: 1, checked: 1 } );
 							replace.replace( element );
+
+							// Ugly hack which fix IE issues with radiobuttons (#834).
+							if ( isChecked ) {
+								replace.setAttribute( 'checked', 'checked' );
+							}
+
 							editor.getSelection().selectElement( replace );
 							data.element = replace;
 						}

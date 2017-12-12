@@ -97,7 +97,7 @@
 
 			for ( var i = 0; i < navigationKeyCodes.length; i++ ) {
 				editor.editable().fire( 'keydown', new CKEDITOR.dom.event( { keyCode: navigationKeyCodes[ i ] } ) );
-				// Firefox will fire keypress for all of these keys (http://dev.ckeditor.com/ticket/11611).
+				// Firefox will fire keypress for all of these keys (https://dev.ckeditor.com/ticket/11611).
 				if ( CKEDITOR.env.gecko ) {
 					editor.editable().fire( 'keypress', new CKEDITOR.dom.event( { keyCode: navigationKeyCodes[ i ] } ) );
 				}
@@ -163,7 +163,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/12300
+		// https://dev.ckeditor.com/ticket/12300
 		'test change event not fired after navigation key': function() {
 			this.editorBot.setHtmlWithSelection( '<p>foo^</p>' );
 

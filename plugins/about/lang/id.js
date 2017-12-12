@@ -1,12 +1,9 @@
 /*
 Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
-For licensing, see LICENSE.md or http://ckeditor.com/license
+For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'about', 'id', {
 	copy: 'Hak cipta &copy; $1. All rights reserved.',
-	dlgTitle: 'Tentang CKEditor',
-	help: 'Cel $1 untuk bantuan.',
-	moreInfo: 'Untuk informasi lisensi silahkan kunjungi web site kami:',
-	title: 'Tentang CKEditor',
-	userGuide: 'Petunjuk Pengguna CKEditor'
+	dlgTitle: 'Tentang CKEditor 4',
+	moreInfo: 'Untuk informasi lisensi silahkan kunjungi web site kami:'
 } );

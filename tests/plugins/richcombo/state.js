@@ -32,7 +32,7 @@ bender.test( {
 		} );
 	},
 
-	// http://dev.ckeditor.com/ticket/11793
+	// https://dev.ckeditor.com/ticket/11793
 	'test clicking while editor is blurred': function() {
 		bender.editorBot.create( {
 			name: 'blurred'

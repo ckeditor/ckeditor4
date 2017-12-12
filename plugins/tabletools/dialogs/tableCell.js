@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
@@ -10,6 +10,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 		validate = CKEDITOR.dialog.validate,
 		widthPattern = /^(\d+(?:\.\d+)?)(px|%)$/,
 		spacer = { type: 'html', html: '&nbsp;' },
+		hiddenSpacer,
 		rtl = editor.lang.dir == 'rtl',
 		colorDialog = editor.plugins.colordialog;
 
@@ -81,6 +82,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							type: 'text',
 							id: 'width',
 							width: '100px',
+							requiredContent: 'td{width,height}',
 							label: langCommon.width,
 							validate: validate.number( langCell.invalidWidth ),
 
@@ -107,7 +109,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									// There might be no widthType value, i.e. when multiple cells are
 									// selected but some of them have width expressed in pixels and some
 									// of them in percent. Try to re-read the unit from the cell in such
-									// case (http://dev.ckeditor.com/ticket/11439).
+									// case (https://dev.ckeditor.com/ticket/11439).
 									unit = this.getDialog().getValueOf( 'info', 'widthType' ) || getCellWidthType( element );
 
 								if ( !isNaN( value ) )
@@ -122,6 +124,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						{
 							type: 'select',
 							id: 'widthType',
+							requiredContent: 'td{width,height}',
 							label: editor.lang.table.widthUnit,
 							labelStyle: 'visibility:hidden',
 							'default': 'px',
@@ -138,6 +141,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						children: [ {
 							type: 'text',
 							id: 'height',
+							requiredContent: 'td{width,height}',
 							label: langCommon.height,
 							width: '100px',
 							'default': '',
@@ -149,6 +153,13 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 									labelElement = heightType.getElement(),
 									inputElement = this.getInputElement(),
 									ariaLabelledByAttr = inputElement.getAttribute( 'aria-labelledby' );
+
+								if ( this.getDialog().getContentElement( 'info', 'height' ).isVisible() ) {
+									labelElement.setHtml( '<br />' + langTable.widthPx );
+									labelElement.setStyle( 'display', 'block' );
+
+									this.getDialog().getContentElement( 'info', 'hiddenSpacer' ).getElement().setStyle( 'display', 'block' );
+								}
 
 								inputElement.setAttribute( 'aria-labelledby', [ ariaLabelledByAttr, labelElement.$.id ].join( ' ' ) );
 							},
@@ -174,10 +185,16 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 						{
 							id: 'htmlHeightType',
 							type: 'html',
-							html: '<br />' + langTable.widthPx
+							html: '',
+							style: 'display: none'
 						} ]
 					},
-					spacer,
+					hiddenSpacer = {
+						type: 'html',
+						id: 'hiddenSpacer',
+						html: '&nbsp;',
+						style: 'display: none'
+					},
 					{
 						type: 'select',
 						id: 'wordWrap',
@@ -366,7 +383,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							'class': 'colorChooser', // jshint ignore:line
 							label: langCell.chooseColor,
 							onLoad: function() {
-								// Stick the element to the bottom (http://dev.ckeditor.com/ticket/5587)
+								// Stick the element to the bottom (https://dev.ckeditor.com/ticket/5587)
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
@@ -412,7 +429,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 							label: langCell.chooseColor,
 							style: ( rtl ? 'margin-right' : 'margin-left' ) + ': 10px',
 							onLoad: function() {
-								// Stick the element to the bottom (http://dev.ckeditor.com/ticket/5587)
+								// Stick the element to the bottom (https://dev.ckeditor.com/ticket/5587)
 								this.getElement().getParent().setStyle( 'vertical-align', 'bottom' );
 							},
 							onClick: function() {
@@ -448,7 +465,7 @@ CKEDITOR.dialog.add( 'cellProperties', function( editor ) {
 
 			// Prevent from changing cell properties when the field's value
 			// remains unaltered, i.e. when selected multiple cells and dialog loaded
-			// only the properties of the first cell (http://dev.ckeditor.com/ticket/11439).
+			// only the properties of the first cell (https://dev.ckeditor.com/ticket/11439).
 			this.foreach( function( field ) {
 				if ( !field.setup || !field.commit )
 					return;

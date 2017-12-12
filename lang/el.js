@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -104,14 +104,16 @@ CKEDITOR.lang[ 'el' ] = {
 			16: 'Shift',
 			17: 'Ctrl',
 			18: 'Alt',
-			32: 'Space', // MISSING
+			32: 'Κενό',
 			35: 'End',
 			36: 'Home',
 			46: 'Delete',
-			224: 'Command' // MISSING
+			224: 'Εντολή'
 		},
 
 		// Prepended to ARIA labels with shortcuts.
-		keyboardShortcut: 'Συντόμευση πληκτρολογίου'
+		keyboardShortcut: 'Συντόμευση πληκτρολογίου',
+
+		optionDefault: 'Default' // MISSING
 	}
 };

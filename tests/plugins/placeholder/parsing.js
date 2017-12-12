@@ -131,7 +131,7 @@
 			} );
 		},
 
-		// http://dev.ckeditor.com/ticket/14701
+		// https://dev.ckeditor.com/ticket/14701
 		'test label': function() {
 			assertWidget( {
 				html: '<p>[[just example]]</p>',

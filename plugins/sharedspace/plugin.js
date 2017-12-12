@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -115,7 +115,7 @@
  * will be displayed.
  *
  * Read more in the [documentation](#!/guide/dev_sharedspace)
- * and see the [SDK sample](http://sdk.ckeditor.com/samples/sharedspace.html).
+ * and see the [SDK sample](https://sdk.ckeditor.com/samples/sharedspace.html).
  *
  *		// Place the toolbar inside the element with an ID of "someElementId" and the
  *		// elements path into the element with an  ID of "anotherId".
@@ -138,7 +138,7 @@
  *			top: htmlElement
  *		};
  *
- * **Note:** The [Maximize](http://ckeditor.com/addon/maximize) and [Editor Resize](http://ckeditor.com/addon/resize)
+ * **Note:** The [Maximize](https://ckeditor.com/cke4/addon/maximize) and [Editor Resize](https://ckeditor.com/cke4/addon/resize)
  * features are not supported in the shared space environment and should be disabled in this context.
  *
  *		config.removePlugins = 'maximize,resize';

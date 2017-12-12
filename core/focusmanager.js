@@ -1,6 +1,6 @@
 /**
  * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 /**
@@ -85,7 +85,7 @@
 		 * {@link CKEDITOR.editor#method-focus} instead.
 		 *
 		 *		var editor = CKEDITOR.instances.editor1;
-		 *		editor.focusManage.focus( editor.editable() );
+		 *		editor.focusManager.focus( editor.editable() );
 		 *
 		 * @param {CKEDITOR.dom.element} [currentActive] The new value of the {@link #currentActive} property.
 		 * @member CKEDITOR.focusManager
