@@ -114,6 +114,7 @@
  */
 
 ( function() {
+	'use strict';
 	// Default input element name for CSRF protection token.
 	var TOKEN_INPUT_NAME = 'ckCsrfToken';
 
@@ -200,7 +201,7 @@
 		}
 	}
 
-	// The onlick function assigned to the 'Upload' button. Makes the final
+	// The onclick function assigned to the 'Upload' button. Makes the final
 	// decision whether form is really submitted and updates target field when
 	// file is uploaded.
 	//
@@ -297,22 +298,41 @@
 				if ( url ) {
 					var onClick = element.onClick;
 					element.onClick = function( evt ) {
-						// "element" here means the definition object, so we need to find the correct
-						// button to scope the event call
 						var sender = evt.sender;
-						if ( onClick && onClick.call( sender, evt ) === false )
+						var fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement();
+						// Backward compatibility for IE8 and IE9 (https://cksource.tpondemand.com/entity/3117).
+						if ( editor.config.filebrowser_forceSubmit || !( CKEDITOR.plugins.clipboard && CKEDITOR.plugins.clipboard.isFileApiSupported ) ) {
+							// "element" here means the definition object, so we need to find the correct
+							// button to scope the event call
+							if ( onClick && onClick.call( sender, evt ) === false ) {
+								return false;
+							}
+
+							if ( uploadFile.call( sender, evt ) ) {
+								// Append token preventing CSRF attacks.
+								appendToken( fileInput );
+								return true;
+							}
+
 							return false;
+						} else {
+							if ( uploadFile.call( sender, evt ) ) {
+								var loader = editor.uploadRepository.create( fileInput.$.files[ 0 ] );
+								// loader.loadAndUpload( sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).action );
 
-						if ( uploadFile.call( sender, evt ) ) {
-							var fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement();
+								loader.on( 'uploaded', function( evt ) {
+									var response = evt.sender.responseData;
 
-							// Append token preventing CSRF attacks.
-							appendToken( fileInput );
-							return true;
+									setUrl.call( evt.sender.editor, response.url, response.message );
+
+								} );
+
+								loader.loadAndUpload( CKEDITOR.fileTools.getUploadUrl( editor.config, 'image' ) );
+								// Return false to not trigger submit option in dialogui.
+
+							}
+							return false;
 						}
-
-
-						return false;
 					};
 
 					element.filebrowser.url = url;

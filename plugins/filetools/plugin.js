@@ -48,7 +48,8 @@
 			editor.on( 'fileUploadRequest', function( evt ) {
 				var fileLoader = evt.data.fileLoader,
 					$formData = new FormData(),
-					requestData = evt.data.requestData;
+					requestData = evt.data.requestData,
+					header;
 
 				for ( var name in requestData ) {
 					var value = requestData[ name ];
@@ -63,6 +64,12 @@
 				}
 				// Append token preventing CSRF attacks.
 				$formData.append( 'ckCsrfToken', CKEDITOR.tools.getCsrfToken() );
+
+				if ( editor.config.xmlHttpRequestHeaders ) {
+					for ( header in editor.config.xmlHttpRequestHeaders ) {
+						fileLoader.xhr.setRequestHeader( header, editor.config.xmlHttpRequestHeaders[ header ] );
+					}
+				}
 
 				fileLoader.xhr.send( $formData );
 			}, null, null, 999 );

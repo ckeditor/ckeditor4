@@ -743,6 +743,7 @@ CKEDITOR.plugins.add( 'dialogui', {
 				myDefinition.className = ( myDefinition.className ? myDefinition.className + ' ' : '' ) + 'cke_dialog_ui_button';
 				myDefinition.onClick = function( evt ) {
 					var target = elementDefinition[ 'for' ]; // [ pageId, elementId ]
+					// onClick.call() will create XHR request (if possible) and prevent of using submit method.
 					if ( !onClick || onClick.call( this, evt ) !== false ) {
 						dialog.getContentElement( target[ 0 ], target[ 1 ] ).submit();
 						this.disable();
