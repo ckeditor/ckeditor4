@@ -101,9 +101,13 @@
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
 
 						data.dataValue = pfwEvtData.dataValue;
-						// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content (#1013).
 						if ( editor.config.forcePasteAsPlainText === true ) {
+							// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content (#1013).
 							data.type = 'text';
+						} else if ( CKEDITOR.env.ie && editor.config.forcePasteAsPlainText === 'ignore-word' ) {
+							// In IE when pasting from Word, evt.dat.type is 'auto' (not 'html') so it gets converted
+							// by 'pastetext' plugin to 'text'. We need to restore 'html' type (#1013).
+							data.type = 'html';
 						}
 					}
 

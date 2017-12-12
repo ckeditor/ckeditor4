@@ -72,8 +72,9 @@
 				editor.on( 'beforePaste', function( evt ) {
 					// Do NOT overwrite if HTML format is explicitly requested.
 					// This allows pastefromword dominates over pastetext.
-					if ( evt.data.type != 'html' )
+					if ( evt.data.type != 'html' ) {
 						evt.data.type = 'text';
+					}
 				} );
 			}
 
