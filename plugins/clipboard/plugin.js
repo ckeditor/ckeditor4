@@ -1508,8 +1508,7 @@
 				// Cancel native drop.
 				evt.data.preventDefault();
 
-				// #808
-				// We shouldn't start drop action when editor is in read only mode
+				// We shouldn't start drop action when editor is in read only mode (#808).
 				if ( editor.readOnly ) {
 					return;
 				}
