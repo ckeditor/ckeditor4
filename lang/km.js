@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'km' ] = {
 		invalidValue: 'តម្លៃ​មិន​ត្រឹម​ត្រូវ។',
 		invalidHeight: 'តម្លៃ​កំពស់​ត្រូវ​តែ​ជា​លេខ។',
 		invalidWidth: 'តម្លៃ​ទទឹង​ត្រូវ​តែ​ជា​លេខ។',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit ("%2").', // MISSING
 		invalidCssLength: 'តម្លៃ​កំណត់​សម្រាប់​វាល "%1" ត្រូវ​តែ​ជា​លេខ​វិជ្ជមាន​ ដោយ​ភ្ជាប់ឬ​មិន​ភ្ជាប់​ជាមួយ​នឹង​ឯកតា​រង្វាស់​របស់ CSS (px, %, in, cm, mm, em, ex, pt ឬ pc) ។',
 		invalidHtmlLength: 'តម្លៃ​កំណត់​សម្រាប់​វាល "%1" ត្រូវ​តែ​ជា​លេខ​វិជ្ជមាន ដោយ​ភ្ជាប់​ឬ​មិន​ភ្ជាប់​ជាមួយ​នឹង​ឯកតា​រង្វាស់​របស់ HTML (px ឬ %) ។',
 		invalidInlineStyle: 'តម្លៃ​កំណត់​សម្រាប់​រចនាបថ​ក្នុង​តួ ត្រូវ​តែ​មាន​មួយ​ឬ​ធាតុ​ច្រើន​ដោយ​មាន​ទ្រង់ទ្រាយ​ជា "ឈ្មោះ : តម្លៃ" ហើយ​ញែក​ចេញ​ពី​គ្នា​ដោយ​ចុច​ក្បៀស។',

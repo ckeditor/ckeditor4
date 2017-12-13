@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'ms' ] = {
 		invalidValue: 'Nilai tidak sah.',
 		invalidHeight: 'Height must be a number.', // MISSING
 		invalidWidth: 'Width must be a number.', // MISSING
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit ("%2").', // MISSING
 		invalidCssLength: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
 		invalidHtmlLength: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 		invalidInlineStyle: 'Value specified for the inline style must consist of one or more tuples with the format of "name : value", separated by semi-colons.', // MISSING

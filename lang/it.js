@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'it' ] = {
 		invalidValue: 'Valore non valido.',
 		invalidHeight: 'L\'altezza dev\'essere un numero',
 		invalidWidth: 'La Larghezza dev\'essere un numero',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit ("%2").', // MISSING
 		invalidCssLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le classi CSS (px, %, in, cm, mm, em, ex, pt, o pc).',
 		invalidHtmlLength: 'Il valore indicato per il campo "%1" deve essere un numero positivo con o senza indicazione di una valida unità di misura per le pagine HTML (px o %).',
 		invalidInlineStyle: 'Il valore specificato per lo stile inline deve consistere in una o più tuple con il formato di "name : value", separati da semicolonne.',

@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'ja' ] = {
 		invalidValue: '不正な値です。',
 		invalidHeight: '高さは数値で入力してください。',
 		invalidWidth: '幅は数値で入力してください。',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit ("%2").', // MISSING
 		invalidCssLength: '入力された "%1" 項目の値は、CSSの大きさ(px, %, in, cm, mm, em, ex, pt, または pc)が正しいものである/ないに関わらず、正の値である必要があります。',
 		invalidHtmlLength: '入力された "%1" 項目の値は、HTMLの大きさ(px または %)が正しいものである/ないに関わらず、正の値である必要があります。',
 		invalidInlineStyle: '入力されたインラインスタイルの値は、"名前 : 値" のフォーマットのセットで、複数の場合はセミコロンで区切られている形式である必要があります。',

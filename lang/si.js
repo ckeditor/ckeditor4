@@ -88,6 +88,7 @@ CKEDITOR.lang[ 'si' ] = {
 		invalidValue: 'වැරදී වටිනාකමකි',
 		invalidHeight: 'උස අංකයක් විය යුතුය',
 		invalidWidth: 'පළල අංකයක් විය යුතුය',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit ("%2").', // MISSING
 		invalidCssLength: 'වටිනාකමක් නිරූපණය කිරීම "%1" ප්‍රදේශය ධන සංක්‍යාත්මක වටිනාකමක් හෝ  නිවරදි නොවන  CSS මිනුම් එකක(px, %, in, cm, mm, em, ex, pt, pc)',
 		invalidHtmlLength: 'වටිනාකමක් නිරූපණය කිරීම "%1" ප්‍රදේශය ධන සංක්‍යාත්මක වටිනාකමක් හෝ  නිවරදි නොවන  HTML මිනුම් එකක (px හෝ %).',
 		invalidInlineStyle: 'වටිනාකමක් නිරූපණය කිරීම  පේළි විලාසයයට ආකෘතිය  අනතර්ග විය යුතය  "නම : වටිනාකම", තිත් කොමාවකින් වෙන් වෙන ලද.',

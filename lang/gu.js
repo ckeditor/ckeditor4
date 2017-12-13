@@ -89,6 +89,7 @@ CKEDITOR.lang[ 'gu' ] = {
 		invalidValue: 'અનુચિત મૂલ્ય',
 		invalidHeight: 'ઉંચાઈ એક આંકડો હોવો જોઈએ.',
 		invalidWidth: 'પોહળ ઈ એક આંકડો હોવો જોઈએ.',
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit ("%2").', // MISSING
 		invalidCssLength: '"%1" ની વેલ્યુ એક પોસીટીવ આંકડો હોવો જોઈએ અથવા CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc) વગર.',
 		invalidHtmlLength: '"%1" ની વેલ્યુ એક પોસીટીવ આંકડો હોવો જોઈએ અથવા HTML measurement unit (px or %) વગર.',
 		invalidInlineStyle: 'ઈનલાઈન  સ્ટાઈલ ની વેલ્યુ  "name : value" ના ફોર્મેટ માં હોવી જોઈએ, વચ્ચે સેમી-કોલોન જોઈએ.',

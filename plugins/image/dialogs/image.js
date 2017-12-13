@@ -620,7 +620,7 @@
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
 												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
-												alert( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.width ) ); // jshint ignore:line
+												alert( editor.lang.common.invalidLength.replace( '%1', editor.lang.common.width ).replace( '%2', 'px, %' ) ); // jshint ignore:line
 											return isValid;
 										},
 										setup: setupDimension,
@@ -661,7 +661,7 @@
 											var aMatch = this.getValue().match( regexGetSizeOrEmpty ),
 												isValid = !!( aMatch && parseInt( aMatch[ 1 ], 10 ) !== 0 );
 											if ( !isValid )
-												alert( editor.lang.common.invalidHtmlLength.replace( '%1', editor.lang.common.height ) ); // jshint ignore:line
+												alert( editor.lang.common.invalidLength.replace( '%1', editor.lang.common.height ).replace( '%2', 'px, %' ) ); // jshint ignore:line
 											return isValid;
 										},
 										setup: setupDimension,
