@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'hr', {
 	cut: 'Izreži',
 	cutError: 'Sigurnosne postavke Vašeg pretraživača ne dozvoljavaju operacije automatskog izrezivanja. Molimo koristite kraticu na tipkovnici (Ctrl/Cmd+X).',
 	paste: 'Zalijepi',
-	pasteNotification: 'Vaš preglednik Vam ne dozvoljava lijepljenje na ovaj način. Za lijepljenje, pritisnite %1.'
+	pasteNotification: 'Vaš preglednik Vam ne dozvoljava lijepljenje na ovaj način. Za lijepljenje, pritisnite %1.',
+	pasteArea: 'Prostor za ljepljenje',
+	pasteMsg: 'Molimo zaljepite unutar doljnjeg okvira koristeći tipkovnicu (<STRONG>Ctrl/Cmd+V</STRONG>) i kliknite <STRONG>OK</STRONG>.',
+	title: 'Zalijepi'
 } );

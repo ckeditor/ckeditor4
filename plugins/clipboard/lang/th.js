@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'th', {
 	cut: 'ตัด',
 	cutError: 'ไม่สามารถตัดข้อความที่เลือกไว้ได้เนื่องจากการกำหนดค่าระดับความปลอดภัย. กรุณาใช้ปุ่มลัดเพื่อวางข้อความแทน (กดปุ่ม Ctrl/Cmd และตัว X พร้อมกัน).',
 	paste: 'วาง',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.', // MISSING
+	pasteArea: 'Paste Area', // MISSING
+	pasteMsg: 'กรุณาใช้คีย์บอร์ดเท่านั้น โดยกดปุ๋ม (<strong>Ctrl/Cmd และ V</strong>)พร้อมๆกัน และกด <strong>OK</strong>.',
+	title: 'วาง'
 } );

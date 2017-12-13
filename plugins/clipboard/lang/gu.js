@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'gu', {
 	cut: 'કાપવું',
 	cutError: 'તમારા બ્રાઉઝર ની સુરક્ષિત સેટિંગસ કટ કરવાની પરવાનગી નથી આપતી. (Ctrl/Cmd+X) નો ઉપયોગ કરો.',
 	paste: 'પેસ્ટ',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.', // MISSING
+	pasteArea: 'પેસ્ટ કરવાની જગ્યા',
+	pasteMsg: 'Ctrl/Cmd+V નો પ્રયોગ કરી પેસ્ટ કરો',
+	title: 'પેસ્ટ'
 } );

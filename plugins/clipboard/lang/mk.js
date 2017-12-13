@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'mk', {
 	cut: 'Исечи (Cut)',
 	cutError: 'Опциите за безбедност на вашиот прелистувач не дозволуваат уредувачот автоматски да изврши сечење. Ве молиме употребете ја тастатурата. (Ctrl/Cmd+C)',
 	paste: 'Залепи (Paste)',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.', // MISSING
+	pasteArea: 'Простор за залепување',
+	pasteMsg: 'Ве молиме да залепите во следниот квадрат користејќи ја тастатурата (<string>Ctrl/Cmd+V</string>) и да притиснете OK',
+	title: 'Залепи (Paste)'
 } );

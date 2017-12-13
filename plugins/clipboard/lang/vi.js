@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'vi', {
 	cut: 'Cắt',
 	cutError: 'Các thiết lập bảo mật của trình duyệt không cho phép trình biên tập tự động thực thi lệnh cắt. Hãy sử dụng bàn phím cho lệnh này (Ctrl/Cmd+X).',
 	paste: 'Dán',
-	pasteNotification: 'Trình duyệt của bạn không cho phép bạn dán theo cách này. Nhấn %1 để dán'
+	pasteNotification: 'Trình duyệt của bạn không cho phép bạn dán theo cách này. Nhấn %1 để dán',
+	pasteArea: 'Khu vực dán',
+	pasteMsg: 'Hãy dán nội dung vào trong khung bên dưới, sử dụng tổ hợp phím (<STRONG>Ctrl/Cmd+V</STRONG>) và nhấn vào nút <STRONG>Đồng ý</STRONG>.',
+	title: 'Dán'
 } );

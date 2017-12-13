@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'sq', {
 	cut: 'Preje',
 	cutError: 'Të dhënat e sigurisë së shfletuesit tuaj nuk lejojnë që redaktuesi automatikisht të kryej veprimin e prerjes. Ju lutemi shfrytëzoni tastierën për këtë veprim (Ctrl/Cmd+X).',
 	paste: 'Hidhe',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.', // MISSING
+	pasteArea: 'Hapësira Hedhëse',
+	pasteMsg: 'Ju lutemi hidhni brenda kutizës në vijim duke shfrytëzuar tastierën (<strong>Ctrl/Cmd+V</strong>) dhe shtypni Mirë.',
+	title: 'Hidhe'
 } );

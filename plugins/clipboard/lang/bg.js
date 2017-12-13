@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'bg', {
 	cut: 'Отрежи',
 	cutError: 'Настройките за сигурност на Вашия браузър не позволяват на редактора автоматично да изъплни действията за отрязване. Моля ползвайте клавиатурните команди за целта (ctrl+x).',
 	paste: 'Вмъкни',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.', // MISSING
+	pasteArea: 'Зона за вмъкване',
+	pasteMsg: 'Вмъкнете тук съдъжанието с клавиатуарата (<STRONG>Ctrl/Cmd+V</STRONG>) и натиснете <STRONG>OK</STRONG>.',
+	title: 'Вмъкни'
 } );

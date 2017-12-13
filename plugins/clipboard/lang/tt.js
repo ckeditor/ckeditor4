@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'tt', {
 	cut: 'Кисеп алу',
 	cutError: 'Браузерыгызның иминлек үзлекләре автоматик рәвештә күчермәләү үтәүне тыя. Тиз төймәләрне (Ctrl/Cmd+C) кулланыгыз.',
 	paste: 'Өстәү',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.', // MISSING
+	pasteArea: 'Өстәү мәйданы',
+	pasteMsg: 'Please paste inside the following box using the keyboard (<strong>Ctrl/Cmd+V</strong>) and hit OK', // MISSING
+	title: 'Өстәү'
 } );

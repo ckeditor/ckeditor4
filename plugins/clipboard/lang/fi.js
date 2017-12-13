@@ -8,5 +8,8 @@ CKEDITOR.plugins.setLang( 'clipboard', 'fi', {
 	cut: 'Leikkaa',
 	cutError: 'Selaimesi turva-asetukset eivät salli editorin toteuttaa leikkaamista. Käytä näppäimistöä leikkaamiseen (Ctrl+X).',
 	paste: 'Liitä',
-	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser doesn\'t allow you to paste this way. Press %1 to paste.', // MISSING
+	pasteArea: 'Leikealue',
+	pasteMsg: 'Liitä painamalla (<STRONG>Ctrl+V</STRONG>) ja painamalla <STRONG>OK</STRONG>.',
+	title: 'Liitä'
 } );
