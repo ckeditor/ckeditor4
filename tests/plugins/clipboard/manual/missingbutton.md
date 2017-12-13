@@ -1,4 +1,4 @@
-@bender-tags: bug, 4.8.0, 595
+@bender-tags: bug, 4.8.1, 595
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, toolbar, clipboard, floatingspace, htmlwriter
 
@@ -10,4 +10,4 @@ No error is thrown.
 
 ## Actual
 
-`plugin.js:588 Uncaught TypeError: Cannot read property '_' of undefined` error is logged.
+The `plugin.js:588 Uncaught TypeError: Cannot read property '_' of undefined` error is logged.

@@ -150,6 +150,32 @@
 			} );
 
 			editor.fire( 'pasteDialogCommit', { dataValue: 'foo', dataTransfer: dataTransfer } );
+		},
+
+		'test paste dialog with some paste buttons removed': function() {
+			bender.editorBot.create( {
+				name: 'some_paste_buttons',
+				config: {
+					language: 'en',
+					extraPlugins: 'pastetext,pastefromword',
+					removeButtons: 'Paste,PasteText'
+				}
+			}, function( bot ) {
+				assert.isUndefined( bot.editor._.pasteButtons );
+			} );
+		},
+
+		'test paste dialog with all paste buttons removed': function() {
+			bender.editorBot.create( {
+				name: 'no_paste_buttons',
+				config: {
+					language: 'en',
+					extraPlugins: 'pastetext',
+					removeButtons: 'Paste,PasteText'
+				}
+			}, function( bot ) {
+				assert.isUndefined( bot.editor._.pasteButtons );
+			} );
 		}
 	} );
 } )();
