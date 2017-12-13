@@ -297,42 +297,39 @@
 
 				if ( url ) {
 					var onClick = element.onClick;
+
+					// "element" here means the definition object, so we need to find the correct
+					// button to scope the event call
 					element.onClick = function( evt ) {
 						var sender = evt.sender;
 						var fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement();
-						// Backward compatibility for IE8 and IE9 (https://cksource.tpondemand.com/entity/3117).
-						if ( editor.config.filebrowser_forceSubmit || !( CKEDITOR.plugins.clipboard && CKEDITOR.plugins.clipboard.isFileApiSupported ) ) {
-							// "element" here means the definition object, so we need to find the correct
-							// button to scope the event call
-							if ( onClick && onClick.call( sender, evt ) === false ) {
-								return false;
-							}
 
-							if ( uploadFile.call( sender, evt ) ) {
+						if ( onClick && onClick.call( sender, evt ) === false ) {
+							return false;
+						}
+
+						if ( uploadFile.call( sender, evt ) ) {
+
+							// Backward compatibility for IE8 and IE9 (https://cksource.tpondemand.com/entity/3117).
+							if ( editor.config.filebrowser_forceSubmit || !( CKEDITOR.plugins.clipboard && CKEDITOR.plugins.clipboard.isFileApiSupported ) ) {
 								// Append token preventing CSRF attacks.
 								appendToken( fileInput );
-								return true;
-							}
+								return 'form';
 
-							return false;
-						} else {
-							if ( uploadFile.call( sender, evt ) ) {
+							} else {
 								var loader = editor.uploadRepository.create( fileInput.$.files[ 0 ] );
-								// loader.loadAndUpload( sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).action );
 
 								loader.on( 'uploaded', function( evt ) {
 									var response = evt.sender.responseData;
-
 									setUrl.call( evt.sender.editor, response.url, response.message );
-
 								} );
 
 								loader.loadAndUpload( CKEDITOR.fileTools.getUploadUrl( editor.config, 'image' ) );
-								// Return false to not trigger submit option in dialogui.
 
+								return 'xhr';
 							}
-							return false;
 						}
+						return false;
 					};
 
 					element.filebrowser.url = url;
