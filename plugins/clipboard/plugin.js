@@ -474,13 +474,10 @@
 						evt.removeListener();
 						evt.data.removeListener( 'pasteDialogCommit', onDialogCommit );
 
-						// Because Opera has to wait a while in pasteDialog we have to wait here.
-						setTimeout( function() {
-							// Notify even if user canceled dialog (clicked 'cancel', ESC, etc).
-							if ( !evt.data._.commited ) {
-								callback( null );
-							}
-						}, 10 );
+						// Notify even if user canceled dialog (clicked 'cancel', ESC, etc).
+						if ( !evt.data._.commited ) {
+							callback( null );
+						}
 					} );
 				} else {
 					callback( null );

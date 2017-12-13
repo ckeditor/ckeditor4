@@ -72,13 +72,14 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 	// then fire paste event.
 	// Do not use editor#paste, because it would start from beforePaste event.
 	editor.on( 'pasteDialogCommit', function( evt ) {
-		if ( evt.data )
+		if ( evt.data ) {
 			editor.fire( 'paste', {
 				type: 'auto',
 				dataValue: evt.data.dataValue,
 				method: 'paste',
 				dataTransfer: evt.data.dataTransfer || clipboard.initPasteDataTransfer()
 			} );
+		}
 	}, null, null, 1000 );
 
 	return {
@@ -229,14 +230,11 @@ CKEDITOR.dialog.add( 'paste', function( editor ) {
 
 						this.getDialog()._.commited = true;
 
-						// Opera needs some time to think about what has happened and what it should do now.
-						setTimeout( function() {
-							editor.fire( 'pasteDialogCommit', {
-								dataValue: html,
-								// Avoid error if there was no paste so lastDataTransfer is null.
-								dataTransfer: lastDataTransfer || clipboard.initPasteDataTransfer()
-							} );
-						}, 0 );
+						editor.fire( 'pasteDialogCommit', {
+							dataValue: html,
+							// Avoid error if there was no paste so lastDataTransfer is null.
+							dataTransfer: lastDataTransfer || clipboard.initPasteDataTransfer()
+						} );
 					}
 				}
 			]
