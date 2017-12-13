@@ -14,7 +14,12 @@
 		testFile, lastFormData,
 		listeners = [],
 		editorMock = {
-			config: {}
+			config: {
+				xmlHttpRequestHeaders: {
+					foo: 'bar',
+					hello: 'world'
+				}
+			}
 		},
 		editorMockDefaultFileName = {
 			config: {
@@ -160,6 +165,11 @@
 						setTimeout( function() {
 							xhr.onabort();
 						}, 0 );
+					},
+
+					setRequestHeader: function( key, value ) {
+						this.requestHeaders = this.requestHeaders || {};
+						this.requestHeaders[ key ] = value;
 					}
 				};
 
@@ -1215,6 +1225,18 @@
 			loader.status = 'abort';
 
 			assert.isTrue( loader.isFinished() );
+		},
+
+		'text custom XHR headers': function() {
+			var loader = new FileLoader( editorMock, pngBase64 );
+
+			createXMLHttpRequestMock( [ 'load' ] );
+			loader.loadAndUpload( 'http://example.com' );
+
+			resumeAfter( loader, 'uploaded', function( evt ) {
+				objectAssert.areEqual( { 'foo': 'bar', 'hello': 'world' }, evt.sender.xhr.requestHeaders, 'XHR headers are not equal.' );
+			} );
+			wait();
 		}
 	} );
 } )();
