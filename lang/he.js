@@ -89,7 +89,7 @@ CKEDITOR.lang[ 'he' ] = {
 		invalidValue: 'ערך לא חוקי.',
 		invalidHeight: 'הגובה חייב להיות מספר.',
 		invalidWidth: 'הרוחב חייב להיות מספר.',
-		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit ("%2").', // MISSING
+		invalidLength: 'Value specified for the "%1" field must be a positive number with or without a valid measurement unit (%2).', // MISSING
 		invalidCssLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של CSS (px, %, in, cm, mm, em, ex, pt, או pc).',
 		invalidHtmlLength: 'הערך שצוין לשדה "%1" חייב להיות מספר חיובי עם או ללא יחידת מידה חוקית של HTML (px או %).',
 		invalidInlineStyle: 'הערך שצויין לשדה הסגנון חייב להכיל זוג ערכים אחד או יותר בפורמט "שם : ערך", מופרדים על ידי נקודה-פסיק.',
