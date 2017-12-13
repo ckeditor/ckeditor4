@@ -584,12 +584,15 @@
 					}
 
 					CKEDITOR.tools.array.forEach( editor._.pasteButtons, function( name ) {
-						var pasteButton = editor.ui.get( name ),
-							buttonElement = CKEDITOR.document.getById( pasteButton._.id );
+						var pasteButton = editor.ui.get( name );
+						// Check if button was not removed by `removeButtons` config.
+						if ( pasteButton ) {
+							var buttonElement = CKEDITOR.document.getById( pasteButton._.id );
 
-						buttonElement.on( 'touchend', function() {
-							editor._.forcePasteDialog = true;
-						} );
+							buttonElement.on( 'touchend', function() {
+								editor._.forcePasteDialog = true;
+							} );
+						}
 					} );
 
 					delete editor._.pasteButtons;
@@ -1653,7 +1656,8 @@
 		mainPasteEvent: ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) ? 'beforepaste' : 'paste',
 
 		/**
-		 * Adds new paste button to the editor.
+		 * Adds new paste button to the editor. In order for the button
+		 * to displayPaste Dialog on mobile devices it should be added via this method.
 		 *
 		 * @since 4.8.0
 		 * @param {CKEDITOR.editor} editor The editor instance.
@@ -1670,7 +1674,6 @@
 			if ( !editor._.pasteButtons ) {
 				editor._.pasteButtons = [];
 			}
-
 			editor._.pasteButtons.push( name );
 		},
 
