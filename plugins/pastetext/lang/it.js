@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'it', {
 	button: 'Incolla come testo semplice',
-	pasteNotification: 'Il browser non permette di incollare il testo semplice in questo modo. Premere %1 per incollare.'
+	pasteNotification: 'Il browser non permette di incollare il testo semplice in questo modo. Premere %1 per incollare.',
+	title: 'Incolla come testo semplice'
 } );

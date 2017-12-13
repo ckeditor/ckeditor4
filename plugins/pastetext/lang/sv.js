@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'sv', {
 	button: 'Klistra in som vanlig text',
-	pasteNotification: 'Din webbläsare tillåter dig inte att klistra in vanlig text på detta vis. Tryck på %1 för att klistra in.'
+	pasteNotification: 'Din webbläsare tillåter dig inte att klistra in vanlig text på detta vis. Tryck på %1 för att klistra in.',
+	title: 'Klistra in som vanlig text'
 } );

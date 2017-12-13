@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'ku', {
 	button: 'لکاندنی وەك دەقی ڕوون',
-	pasteNotification: 'وێبگەڕەکەت ڕێگەت پێنادات بۆ لکاندنی تێکست بە ڕێگایە. کلیکی %1 بۆ لکاندن.'
+	pasteNotification: 'وێبگەڕەکەت ڕێگەت پێنادات بۆ لکاندنی تێکست بە ڕێگایە. کلیکی %1 بۆ لکاندن.',
+	title: 'لکاندنی وەك دەقی ڕوون'
 } );

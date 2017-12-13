@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'pl', {
 	button: 'Wklej jako czysty tekst',
-	pasteNotification: 'Twoja przeglądarka nie pozwala na wklejanie treści w ten sposób. Naciśnij %1 by wkleić tekst.'
+	pasteNotification: 'Twoja przeglądarka nie pozwala na wklejanie treści w ten sposób. Naciśnij %1 by wkleić tekst.',
+	title: 'Wklej jako czysty tekst'
 } );

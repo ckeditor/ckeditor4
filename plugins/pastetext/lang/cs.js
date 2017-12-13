@@ -4,5 +4,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 */
 CKEDITOR.plugins.setLang( 'pastetext', 'cs', {
 	button: 'Vložit jako čistý text',
-	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.' // MISSING
+	pasteNotification: 'Your browser does not allow you to paste plain text this way. Press %1 to paste.', // MISSING
+	title: 'Vložit jako čistý text'
 } );
