@@ -1,0 +1,45 @@
+<style>
+	body {
+		margin-left: 0px;
+		padding-left: 400px;
+	}
+</style>
+
+<div id="editor1" contenteditable="true">
+	<p>Apollo 11</p>
+	<p><strong>Apollo 11</strong></p>
+	<p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p>
+	<p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p>
+	<p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p>
+	<p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p><p>Sample text </p>
+</div>
+<button id="attach">Attach balloon panel</button>
+<script>
+	CKEDITOR.disableAutoInline = true;
+
+	function instanceReadyListener( evt ) {
+		var strong = this.editable().findOne( 'strong' ),
+			panel = new CKEDITOR.ui.balloonPanel( this, {
+				width: 'auto',
+				height: 200,
+				content: 'Editor test'
+			} );
+
+		panel.setTitle( 'Title' );
+		document.getElementById('attach').addEventListener( 'click', function() {
+			panel.attach( strong );
+			panel.parts.content.setHtml( '<p style="padding: 10px">Clicked element: ' + strong.getName() + ' ("' + strong.getText() + '")</p>' );
+		} );
+		strong.setStyle( 'background', 'pink' );
+		strong.setStyle( 'outline', '4px solid red' );
+	}
+
+	CKEDITOR.replace( 'editor1', {
+		extraPlugins: 'balloonpanel',
+		height: 300,
+		width: 600,
+		on: {
+			instanceReady: instanceReadyListener
+		}
+	} );
+</script>
