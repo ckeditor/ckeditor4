@@ -405,12 +405,15 @@ CKEDITOR.plugins.add( 'menu', {
 				CKEDITOR.ui.fire( 'ready', this );
 
 				// Show the panel.
-				if ( this.parent )
+				if ( this.parent ) {
 					this.parent._.panel.showAsChild( panel, this.id, offsetParent, corner, offsetX, offsetY );
-				else
+				} else {
 					panel.showBlock( this.id, offsetParent, corner, offsetX, offsetY );
+				}
 
-				editor.fire( 'menuShow', [ panel ] );
+				var data = [ panel ];
+				data.menu = this;
+				editor.fire( 'menuShow', data );
 			},
 
 			/**
@@ -435,6 +438,35 @@ CKEDITOR.plugins.add( 'menu', {
 			hide: function( returnFocus ) {
 				this._.onHide && this._.onHide();
 				this._.panel && this._.panel.hide( returnFocus );
+			},
+
+			/**
+			 * Finds menu item corresponding to a given command.
+			 *
+			 * **Notice**: keep in mind that menu is rerendered on each open so caching items (especially DOM elements)
+			 * may not work. Also executing this method when menu is not visible may result in unexpected results as the
+			 * items may not be rendered.
+			 *
+			 * @param {String} commandName
+			 * @returns {Object|null} return Object containing given item. If item was not found, null is returned.
+			 * @returns {CKEDITOR.menuItem} return.item Item definition.
+			 * @returns {CKEDITOR.dom.element} return.element Rendered element representing item in the menu.
+			 */
+			findItemByCommandName: function( commandName ) {
+				var commands = CKEDITOR.tools.array.filter( this.items, function( item ) {
+					return commandName === item.command;
+				} );
+
+				if ( commands.length ) {
+					var commandItem = commands[ 0 ];
+
+					return {
+						item: commandItem,
+						element: this._.element.findOne( '.' + commandItem.className )
+					};
+				}
+
+				return null;
 			}
 		}
 	} );
@@ -553,6 +585,7 @@ CKEDITOR.plugins.add( 'menu', {
  * @member CKEDITOR.editor
  * @param {CKEDITOR.editor} editor This editor instance.
  * @param {CKEDITOR.ui.panel[]} data
+ * @param {CKEDITOR.menu} data.menu
  */
 
 /**
