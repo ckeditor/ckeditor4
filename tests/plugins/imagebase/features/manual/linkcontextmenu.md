@@ -1,9 +1,10 @@
-@bender-tags: 4.8.0, feature, 932
+@bender-tags: 4.8.1, feature, 932
 @bender-ui: collapsed
 @bender-ckeditor-plugins: sourcearea, wysiwygarea, floatingspace, toolbar, imagebase, link, htmlwriter, elementspath, contextmenu
 
 
-1. Right click to to add link.
+1. Focus widget.
+1. Add link using `link` option in top bar menu.
 1. Click "Source" button to check output.
 
 ## Expected
