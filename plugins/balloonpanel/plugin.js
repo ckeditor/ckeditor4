@@ -351,31 +351,6 @@
 				return newRect;
 			}
 
-			// Returns element rect absolute to the top-most document, e.g. it considers
-			// outer window scroll position, inner window scroll position (framed editor) and
-			// frame position (framed editor) in the top-most document.
-			function getAbsoluteRect( element ) {
-				var elementRect = element.getClientRect(),
-					winGlobalScroll = winGlobal.getScrollPosition(),
-					frameRect;
-
-				if ( isInline || element.equals( frame ) ) {
-					elementRect.top = elementRect.top + winGlobalScroll.y;
-					elementRect.left = elementRect.left + winGlobalScroll.x;
-					elementRect.right = elementRect.left + elementRect.width;
-					elementRect.bottom = elementRect.top + elementRect.height;
-				} else {
-					frameRect = frame.getClientRect();
-
-					elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
-					elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
-					elementRect.right = elementRect.left + elementRect.width;
-					elementRect.bottom = elementRect.top + elementRect.height;
-				}
-
-				return elementRect;
-			}
-
 			var triangleRelativePosition = {
 				right: 'left',
 				top: 'bottom',
@@ -410,8 +385,8 @@
 				var panelWidth = this.getWidth(),
 					panelHeight = this.getHeight(),
 
-					elementRect = getAbsoluteRect( element ),
-					editorRect = getAbsoluteRect( isInline ? editable : frame ),
+					elementRect = this._getAbsoluteRect( element ),
+					editorRect = this._getAbsoluteRect( isInline ? editable : frame ),
 
 					viewPaneSize = winGlobal.getViewPaneSize(),
 					winGlobalScroll = winGlobal.getScrollPosition();
@@ -437,7 +412,8 @@
 					bottom: Math.min( editorRect.bottom, viewPaneSize.height + winGlobalScroll.y )
 				};
 
-				if ( isInline ) {
+				// Position balloon on entire view port only when it's real inline mode (#1048).
+				if ( isInline && this.editor.elementMode === CKEDITOR.ELEMENT_MODE_INLINE ) {
 					// In inline we want to limit position within the window.
 					allowedRect = this._getViewPaneRect( winGlobal );
 
@@ -482,7 +458,16 @@
 					}
 				}
 
-				this.move( alignments[ minDifferenceAlignment ].top, alignments[ minDifferenceAlignment ].left );
+				// For non-static parent elements we need to remove its margin offset from balloon panel (#1048).
+				var parent = this.parts.panel.getAscendant( function( el ) {
+						return el instanceof CKEDITOR.dom.document ? false : el.getComputedStyle( 'position' ) !== 'static';
+					} ),
+					parentMargin = {
+						left: parent ? parseInt( parent.getComputedStyle( 'margin-left' ), 10 ) : 0,
+						top: parent ? parseInt( parent.getComputedStyle( 'margin-top' ), 10 ) : 0
+					};
+
+				this.move( alignments[ minDifferenceAlignment ].top - parentMargin.top , alignments[ minDifferenceAlignment ].left - parentMargin.left );
 
 				minDifferenceAlignment = minDifferenceAlignment.split( ' ' );
 				this.setTriangle( triangleRelativePosition[ minDifferenceAlignment[ 0 ] ], minDifferenceAlignment[ 1 ] );
@@ -799,6 +784,41 @@
 				left: pos.x,
 				right: pos.x + viewSize.width
 			};
+		},
+
+		/**
+		 * Returns element position on screen.
+		 *
+		 * @since 4.8.1
+		 * @private
+		 * @param {CKEDITOR.dom.element} element Element which position is calculated.
+		 * @returns {Object} Element position (scroll position included).
+		 * @returns {Number} return.top Top offset.
+		 * @returns {Number} return.bottom Bottom offset.
+		 * @returns {Number} return.left Left offset.
+		 * @returns {Number} return.right Right offset.
+		 */
+		_getAbsoluteRect: function( element ) {
+			var elementRect = element.getClientRect(),
+				winGlobalScroll = CKEDITOR.document.getWindow().getScrollPosition(),
+				frame = this.editor.window.getFrame(),
+				frameRect;
+
+			if ( this.editor.editable().isInline() || element.equals( frame ) ) {
+				elementRect.top = elementRect.top + winGlobalScroll.y;
+				elementRect.left = elementRect.left + winGlobalScroll.x;
+				elementRect.right = elementRect.left + elementRect.width;
+				elementRect.bottom = elementRect.top + elementRect.height;
+			} else {
+				frameRect = frame.getClientRect();
+
+				elementRect.top = frameRect.top + elementRect.top + winGlobalScroll.y;
+				elementRect.left = frameRect.left + elementRect.left + winGlobalScroll.x;
+				elementRect.right = elementRect.left + elementRect.width;
+				elementRect.bottom = elementRect.top + elementRect.height;
+			}
+
+			return elementRect;
 		}
 	};
 

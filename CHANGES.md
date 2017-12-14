@@ -3,6 +3,10 @@
 
 ## CKEditor 4.8.1
 
+Fixed Issues:
+
+* [#1048](https://github.com/ckeditor/ckeditor-dev/issues/1048): Fixed: [Balloon Panel](https://ckeditor.com/cke4/addon/balloonpanel) is not properly positioned when margin added to its non-static parent.
+
 ## CKEditor 4.8
 
 **Important Notes:**
