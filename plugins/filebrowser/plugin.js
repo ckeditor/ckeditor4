@@ -313,7 +313,7 @@
 							if ( editor.config.filebrowser_forceFormSubmit || !CKEDITOR.fileTools.isFileUploadSupported ) {
 								// Append token preventing CSRF attacks.
 								appendToken( fileInput );
-								return 'form';
+								return true;
 
 							} else {
 								var loader = editor.uploadRepository.create( fileInput.$.files[ 0 ] );
@@ -323,7 +323,7 @@
 									setUrl.call( evt.sender.editor, response.url, response.message );
 								} );
 
-								loader.loadAndUpload( CKEDITOR.fileTools.getUploadUrl( editor.config, 'image' ) );
+								loader.loadAndUpload( url );
 
 								return 'xhr';
 							}

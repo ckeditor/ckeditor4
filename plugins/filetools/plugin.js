@@ -876,7 +876,8 @@
 				typeof ( new FileReader() ).readAsDataURL === 'function' &&
 				typeof FormData === 'function' &&
 				typeof ( new FormData() ).append === 'function' &&
-				typeof XMLHttpRequest === 'function' && typeof Blob === 'function' ) {
+				typeof XMLHttpRequest === 'function' &&
+				typeof Blob === 'function' ) {
 
 				return true;
 			}
