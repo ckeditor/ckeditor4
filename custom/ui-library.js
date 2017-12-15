@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.replace( 'editor', {
-  customConfig: CKEDITOR.basePath + 'custom/a11yfirst.js',
+  customConfig: CKEDITOR.basePath + 'custom/config.js',
 
   a11yfirst: {
     organization: 'University of Illinois Library',
