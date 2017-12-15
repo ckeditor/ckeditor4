@@ -49,6 +49,7 @@
 				var fileLoader = evt.data.fileLoader,
 					$formData = new FormData(),
 					requestData = evt.data.requestData,
+					configXHRHeaders = editor.config.xmlHttpRequestHeaders,
 					header;
 
 				for ( var name in requestData ) {
@@ -65,9 +66,9 @@
 				// Append token preventing CSRF attacks.
 				$formData.append( 'ckCsrfToken', CKEDITOR.tools.getCsrfToken() );
 
-				if ( editor.config.xmlHttpRequestHeaders ) {
-					for ( header in editor.config.xmlHttpRequestHeaders ) {
-						fileLoader.xhr.setRequestHeader( header, editor.config.xmlHttpRequestHeaders[ header ] );
+				if ( configXHRHeaders ) {
+					for ( header in configXHRHeaders ) {
+						fileLoader.xhr.setRequestHeader( header, configXHRHeaders[ header ] );
 					}
 				}
 
@@ -863,7 +864,24 @@
 		 */
 		isTypeSupported: function( file, supportedTypes ) {
 			return !!file.type.match( supportedTypes );
-		}
+		},
+
+		/**
+		 * Property inform if current browser poses native methods used by {@link CKEDITOR.fileTools} to upload files.
+		 *
+		 * @property {Boolean} isFileUploadSupported
+		 */
+		isFileUploadSupported: ( function() {
+			if ( typeof FileReader === 'function' &&
+				typeof ( new FileReader() ).readAsDataURL === 'function' &&
+				typeof FormData === 'function' &&
+				typeof ( new FormData() ).append === 'function' &&
+				typeof XMLHttpRequest === 'function' && typeof Blob === 'function' ) {
+
+				return true;
+			}
+			return false;
+		} )()
 	} );
 } )();
 

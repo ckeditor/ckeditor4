@@ -745,10 +745,10 @@ CKEDITOR.plugins.add( 'dialogui', {
 					var target = elementDefinition[ 'for' ]; // [ pageId, elementId ]
 
 					// If exists onClick in elementDefinition, then it is called and checked response type.
-					// If it's posiblle, then XHR is used, what prevents of using submit.
-					var responseType = onClick && onClick.call( this, evt );
+					// If it's possible, then XHR is used, what prevents of using submit.
+					var responseType = onClick ? onClick.call( this, evt ) : false;
 
-					if ( !onClick || responseType !== false ) {
+					if ( responseType !== false ) {
 						if ( responseType === 'form' ) {
 							dialog.getContentElement( target[ 0 ], target[ 1 ] ).submit();
 						}

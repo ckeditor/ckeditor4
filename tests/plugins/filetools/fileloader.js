@@ -167,10 +167,7 @@
 						}, 0 );
 					},
 
-					setRequestHeader: function( key, value ) {
-						this.requestHeaders = this.requestHeaders || {};
-						this.requestHeaders[ key ] = value;
-					}
+					setRequestHeader: sinon.stub()
 				};
 
 			return xhr;
@@ -1234,7 +1231,12 @@
 			loader.loadAndUpload( 'http://example.com' );
 
 			resumeAfter( loader, 'uploaded', function( evt ) {
-				objectAssert.areEqual( { 'foo': 'bar', 'hello': 'world' }, evt.sender.xhr.requestHeaders, 'XHR headers are not equal.' );
+				var setRequestHeaderStub = evt.sender.xhr.setRequestHeader;
+
+				sinon.assert.calledWithExactly( setRequestHeaderStub, 'foo', 'bar' );
+				sinon.assert.calledWithExactly( setRequestHeaderStub, 'hello', 'world' );
+
+				assert.areSame( 2, setRequestHeaderStub.callCount, 'setRequestHeader call count' );
 			} );
 			wait();
 		}

@@ -309,9 +309,8 @@
 						}
 
 						if ( uploadFile.call( sender, evt ) ) {
-
 							// Backward compatibility for IE8 and IE9 (https://cksource.tpondemand.com/entity/3117).
-							if ( editor.config.filebrowser_forceFormSubmit || CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
+							if ( editor.config.filebrowser_forceFormSubmit || !CKEDITOR.fileTools.isFileUploadSupported ) {
 								// Append token preventing CSRF attacks.
 								appendToken( fileInput );
 								return 'form';
