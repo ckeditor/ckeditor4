@@ -601,26 +601,17 @@
 				var editable = this.editor.editable();
 				this._detachListeners();
 
-				this._listeners.push( this.editor.on( 'change', function() {
+				function attachListener() {
 					this.attach( this._pointedElement, {
 						focusElement: false
 					} );
-				}, this ) );
-				this._listeners.push( this.editor.on( 'resize', function() {
-					this.attach( this._pointedElement, {
-						focusElement: false
-					} );
-				}, this ) );
-				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll', function() {
-					this.attach( this._pointedElement, {
-						focusElement: false
-					} );
-				}, this ) );
-				this._listeners.push( CKEDITOR.document.getWindow().on( 'resize', function() {
-					this.attach( this._pointedElement, {
-						focusElement: false
-					} );
-				}, this ) );
+				}
+
+				this._listeners.push( this.editor.on( 'change', attachListener, this ) );
+				this._listeners.push( this.editor.on( 'resize', attachListener, this ) );
+				this._listeners.push( editable.attachListener( editable.getDocument(), 'scroll',
+					attachListener, this ) );
+				this._listeners.push( CKEDITOR.document.getWindow().on( 'resize', attachListener, this ) );
 
 				CKEDITOR.ui.balloonPanel.prototype.show.call( this );
 			};
