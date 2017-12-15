@@ -1,5 +1,5 @@
 /* bender-tags: editor */
-/* bender-ckeditor-plugins: link,toolbar */
+/* bender-ckeditor-plugins: link,toolbar,image */
 
 ( function() {
 	'use strict';
@@ -546,6 +546,22 @@
 			editor.ui.get( 'Unlink' ).click( editor );
 
 			assert.areSame( '<p>I am<a href="http://foo"> an </a>in<a href="http://bar">sta</a>nce of ^<s>CKEditor</s>.</p>', bot.htmlWithSelection() );
+		},
+
+		// 859
+		'test edit link with selection': function() {
+			var bot = this.editorBot;
+
+			bot.setData( '<p><a class="linkClass" href="linkUrl"><img src="someUrl"/>some button text</a>some text</p>', function() {
+				var editable = bot.editor.editable();
+
+				bot.editor.getSelection().selectElement( editable.findOne( 'a' ) );
+
+				bot.dialog( 'link', function( dialog ) {
+					assert.areSame( dialog.getValueOf( 'info', 'url' ), 'linkUrl' );
+					dialog.hide();
+				} );
+			} );
 		}
 	} );
 } )();

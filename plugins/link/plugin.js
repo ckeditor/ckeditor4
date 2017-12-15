@@ -335,7 +335,8 @@
 				range = selection.getRanges()[ i ];
 
 				// Skip bogus to cover cases of multiple selection inside tables (#tp2245).
-				range.shrink( CKEDITOR.SHRINK_TEXT, false, { skipBogus: true } );
+				// Shrink to element to prevent losing anchor (#859).
+				range.shrink( CKEDITOR.SHRINK_ELEMENT, true, { skipBogus: true } );
 				link = editor.elementPath( range.getCommonAncestor() ).contains( 'a', 1 );
 
 				if ( link && returnMultiple ) {
