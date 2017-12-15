@@ -39,7 +39,7 @@
 		submit: {
 			config: {
 				filebrowserUploadUrl: 'foo',
-				filebrowser_forceSubmit: true
+				filebrowser_forceFormSubmit: true
 			}
 		}
 	};

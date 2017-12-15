@@ -311,7 +311,7 @@
 						if ( uploadFile.call( sender, evt ) ) {
 
 							// Backward compatibility for IE8 and IE9 (https://cksource.tpondemand.com/entity/3117).
-							if ( editor.config.filebrowser_forceSubmit || CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
+							if ( editor.config.filebrowser_forceFormSubmit || CKEDITOR.env.ie && CKEDITOR.env.version <= 9 ) {
 								// Append token preventing CSRF attacks.
 								appendToken( fileInput );
 								return 'form';
@@ -586,5 +586,14 @@
  *		config.filebrowserWindowHeight = '50%';
  *
  * @cfg {Number/String} [filebrowserWindowHeight='70%']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Force filebrowser plugin to use form submit action instead of XHR request when file is uploaded in dialogs.
+ *
+ * 		config.filebrowser_forceFormSubmit = true
+ *
+ * @cfg {Boolean} [filebrowser_forceFormSubmit=false]
  * @member CKEDITOR.config
  */
