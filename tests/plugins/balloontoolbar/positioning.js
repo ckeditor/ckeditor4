@@ -37,10 +37,6 @@
 
 	var tests = {
 		setUp: function() {
-			// In IE8 tests are run in very small window which breaks positioning assertions and tests fails (#1076).
-			if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 ) {
-				assert.ignore();
-			}
 			if ( parentFrame ) {
 				parentFrame.style.height = '900px';
 			}
@@ -168,6 +164,7 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+	// In IE8 tests are run in very small window which breaks positioning assertions and tests fails (#1076).
 	ignoreUnsupportedEnvironment( tests );
 	bender.test( tests );
 } )();
