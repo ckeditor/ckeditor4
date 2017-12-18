@@ -10,6 +10,11 @@
 </textarea>
 
 <script>
+	if ( CKEDITOR.env.iOS ) {
+		// Ignore as there is no custom context menu on iOS.
+		bender.ignore();
+	}
+
 	CKEDITOR.replace( 'classic', {
 		language: 'en',
 		allowedContent: true
