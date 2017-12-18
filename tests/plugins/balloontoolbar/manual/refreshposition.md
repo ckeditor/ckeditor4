@@ -5,7 +5,7 @@
 ## Procedure
 
 1. Click image.
-2. Wait 5 seconds for image to change position.
+2. Wait 2 seconds for image to change position.
 3. Look at balloon toolbar.
 
 ## Expected:
