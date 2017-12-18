@@ -1,0 +1,50 @@
+<textarea id="classic">
+
+</textarea>
+
+<div id="output" style="background-color:lightgreen;"></div>
+
+<script>
+	var xhr, requests;
+
+	CKEDITOR.on( 'instanceLoaded', function() {
+		if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+			bender.ignore();
+		} else {
+			// Mock XHR
+			xhr = sinon.useFakeXMLHttpRequest();
+			requests = [];
+			xhr.onCreate = function( xhr ) {
+				requests.push( xhr );
+			};
+			window.onunload = function() {
+				xhr.restore();
+				server.restore();
+			}
+		}
+	} );
+
+	var classic = CKEDITOR.replace( 'classic', {
+		xmlHttpRequestHeaders: {
+			'hello': 'world',
+			'foo': 'bar'
+		},
+		filebrowserUploadUrl: 'fake-url'
+	} );
+
+	// Display XHR details when CKEDITOR process entire request.
+	classic.on( 'fileUploadRequest', function( evt ) {
+		var output = document.getElementById( 'output' );
+		var outputString = CKEDITOR.tools.array.reduce( requests, function( acc, item ) {
+			var line = '';
+			for ( header in item.requestHeaders ) {
+				if ( item.requestHeaders.hasOwnProperty( header ) ) {
+					line += '| <code>header: ' + header + ', value: ' + item.requestHeaders[ header ] + '</code> |';
+				}
+			}
+			acc += '<li>' + line + '</li>';
+			return acc;
+		}, '' );
+		output.innerHTML = '<ol>' + outputString + '</ol>';
+	}, null, null, 1000 )
+</script>
