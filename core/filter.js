@@ -2160,35 +2160,13 @@
 				return;
 			}
 
-			var widths = element.styles.border.match( /([\.\d]+\w+)/g ) || [ '0px' ];
-			switch ( widths.length ) {
-				case 1:
-					element.styles[ 'border-width' ] = widths[0];
-					break;
-				case 2:
-					mapStyles( [ 0, 1, 0, 1 ] );
-					break;
-				case 3:
-					mapStyles( [ 0, 1, 2, 1 ] );
-					break;
-				case 4:
-					mapStyles( [ 0, 1, 2, 3 ] );
-					break;
-			}
+			var borderSplittedStyles = CKEDITOR.tools.style.parse.border( element.styles.border ) ;
 
-			element.styles[ 'border-style' ] = element.styles[ 'border-style' ] ||
-				( element.styles.border.match( /(none|hidden|dotted|dashed|solid|double|groove|ridge|inset|outset|initial|inherit)/ ) || [] )[ 0 ];
-			if ( !element.styles[ 'border-style' ] )
-				delete element.styles[ 'border-style' ];
+			element.styles[ 'border-color' ] = borderSplittedStyles.color;
+			element.styles[ 'border-style' ] = borderSplittedStyles.style;
+			element.styles[ 'border-width' ] = borderSplittedStyles.width;
 
 			delete element.styles.border;
-
-			function mapStyles( map ) {
-				element.styles['border-top-width'] = widths[ map[0] ];
-				element.styles['border-right-width'] = widths[ map[1] ];
-				element.styles['border-bottom-width'] = widths[ map[2] ];
-				element.styles['border-left-width'] = widths[ map[3] ];
-			}
 		},
 
 		listTypeToStyle: function( element ) {
