@@ -5,8 +5,8 @@
 ----
 
 1. Click into `emphasize` or `strong` element.
-2. When ballon toolbar show click into unselected button and keep mosedown for a few seconds.
+2. When balloon toolbar show click into unselected button and keep mousedown for a few seconds.
 
-**Expected:** Ballon toolbar will remain on screen.
+**Expected:** balloon toolbar remains on the screen.
 
 **Unexpected:** Balloon toolbar disappears.
