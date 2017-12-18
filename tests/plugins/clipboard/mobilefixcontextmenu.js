@@ -56,6 +56,10 @@
 			}, null, null, 999 );
 
 			menuItem.element.fire( 'touchend' );
+			if ( CKEDITOR.env.edge ) {
+				// Trigger Paste command directly as button click does not trigger it on Edge.
+				editor.execCommand( 'paste' );
+			}
 			menuItem.element.$.click();
 
 			wait();
@@ -70,10 +74,17 @@
 
 			menuItem.element.once( 'click', function() {
 				assert.isFalse( editor._.forcePasteDialog, 'Forcing paste dialog' );
-				assert.areSame( 1, notificationSpy.callCount, 'Notification shown' );
+				if ( !CKEDITOR.env.ie || CKEDITOR.env.edge ) {
+					// There are no paste notifications on IE browsers.
+					assert.areSame( 1, notificationSpy.callCount, 'Notification shown' );
+				}
 				notificationSpy.restore();
 			}, null, null, 999 );
 
+			if ( CKEDITOR.env.edge ) {
+				// Trigger Paste command directly as button click does not trigger it on Edge.
+				editor.execCommand( 'paste' );
+			}
 			menuItem.element.$.click();
 		} );
 	}
@@ -91,6 +102,10 @@
 		},
 
 		'test force dialog when button is touched': function( editor ) {
+			if ( CKEDITOR.env.ie && !CKEDITOR.env.edge ) {
+				// Ignore `touchend` tests for IE as there is not paste dialog due to different flow.
+				assert.ignore();
+			}
 			assertTouchEnd( editorBots[ editor.name ], editor );
 		},
 
