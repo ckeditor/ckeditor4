@@ -1,5 +1,5 @@
 /* bender-tags: editor,widget */
-/* bender-ckeditor-plugins: imagebase,link,toolbar */
+/* bender-ckeditor-plugins: imagebase,link,toolbar,contextmenu */
 /* bender-include: ../../widget/_helpers/tools.js */
 /* global widgetTestsTools */
 
@@ -143,6 +143,26 @@
 
 			editor.execCommand( 'unlink' );
 			wait();
+		} );
+	}
+
+	function testLinkOptionInContextMenu( editor, bot, data, testCase, cb ) {
+		addTestWidget( editor );
+		bot.setData( data, function() {
+			var widget = editor.widgets.getByElement( editor.editable().findOne( 'figure' ) );
+
+			widget.focus();
+			editor.contextMenu.open( editor.editable() );
+			var itemsExist = 0;
+			for ( var i = 0; i < editor.contextMenu.items.length; ++i ) {
+				if ( testCase( editor, i ) ) {
+					itemsExist += 1;
+				}
+			}
+
+			editor.contextMenu.hide();
+
+			cb( itemsExist );
 		} );
 	}
 
@@ -388,6 +408,27 @@
 						editor: editor
 					} );
 				}
+			} );
+		},
+		'test link option in context menu': function( editor, bot ) {
+			testLinkOptionInContextMenu( editor, bot, '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>', function( editor, index ) {
+				return editor.contextMenu.items[ index ].command == 'link';
+			}, function( itemsExist ) {
+				assert.areSame( 1, itemsExist, 'there is one link item in context menu' );
+			} );
+		},
+		'test unlink option in context menu': function( editor, bot ) {
+			testLinkOptionInContextMenu( editor, bot, '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>', function( editor, index ) {
+				return editor.contextMenu.items[ index ].command == 'unlink';
+			}, function( itemsExist ) {
+				assert.areSame( 1, itemsExist, 'there is one unlink item in context menu' );
+			} );
+		},
+		'test no link option in context menu': function( editor, bot ) {
+			testLinkOptionInContextMenu( editor, bot, '<figure><img src="%BASE_PATH%_assets/logo.png"></figure>', function( editor, index ) {
+				return editor.contextMenu.items[ index ].command == 'unlink' || editor.contextMenu.items[ index ].command == 'link';
+			}, function( itemsExist ) {
+				assert.areSame( 0, itemsExist, 'there is one link item in context menu' );
 			} );
 		}
 	};

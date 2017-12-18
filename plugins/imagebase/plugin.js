@@ -54,11 +54,30 @@
 			parts: {
 				link: 'a'
 			},
+			init: function() {
+				if ( this.editor.plugins.link && this.editor.contextMenu ) {
+					this.on( 'contextMenu', function( evt ) {
+						if ( this.parts.link ) {
+							evt.data.link = evt.data.unlink = CKEDITOR.TRISTATE_OFF;
+						}
+					} );
+				}
+			},
 
 			setUp: function( editor ) {
 				if ( !editor.plugins.link ) {
 					// All of listeners registered later on make only sense when link plugin is loaded.
 					return;
+				}
+
+				if ( editor.contextMenu ) {
+					editor.addMenuGroup( 'imagebase', 10 );
+
+					editor.addMenuItem( 'imagebase', {
+						label: editor.lang.link.menu,
+						command: 'link',
+						group: 'imagebase'
+					} );
 				}
 
 				editor.on( 'dialogShow', function( evt ) {
