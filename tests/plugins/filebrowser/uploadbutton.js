@@ -100,8 +100,8 @@
 
 			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
 			bot.dialog( 'testDialog', function( dialog ) {
-				var sendButton = dialog.getContentElement( 'Upload', 'uploadButton' );
-				var inputStub = mockInput( dialog );
+				var sendButton = dialog.getContentElement( 'Upload', 'uploadButton' ),
+					inputStub = mockInput( dialog );
 
 				// Execute just after XHR request is generated;
 				editor.on( 'fileUploadRequest', function() {
@@ -116,7 +116,6 @@
 				sendButton.click();
 				wait();
 			} );
-
 		},
 
 		'test for submit form': function() {
@@ -125,9 +124,10 @@
 
 			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
 			bot.dialog( 'testDialog', function( dialog ) {
-				var sendButton = dialog.getContentElement( 'Upload', 'uploadButton' );
-				var mockSubmit = sinon.spy();
-				var inputStub = mockInput( dialog, mockSubmit );
+				var sendButton = dialog.getContentElement( 'Upload', 'uploadButton' ),
+					mockSubmit = sinon.spy(),
+					inputStub = mockInput( dialog, mockSubmit );
+
 				sendButton.click();
 				assert.isTrue( mockSubmit.called, 'Submit method should be used.' );
 				inputStub.restore();
