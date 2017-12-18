@@ -429,6 +429,28 @@
 					'<h1 style="margin-left:4px; margin-top:1px">A</h1>',
 					'margin shortcut 4 members' );
 			} );
+		},
+
+		'test splitBorderShorthand transformation': function() {
+			bender.editorBot.create( {
+				name: 'test_splitBorderShorthand_transformation',
+				config: {
+					extraAllowedContent: 'p{border,border-*}'
+				}
+			}, function( bot ) {
+				var editor = bot.editor;
+
+				editor.filter.addTransformations( [
+					[ 'p: splitBorderShorthand' ]
+				] );
+
+				assertToHtml( editor, '<p style="border: 1px solid red">A</p>',
+					'<p style="border-color:red; border-style:solid; border-width:1px">A</p>', 'border split shorthand 1' );
+				assertToHtml( editor, '<p style="border: 20% dashed rgb(23, 45, 89)">A</p>',
+					'<p style="border-color:#172d59; border-style:dashed; border-width:20%">A</p>', 'border split shorthand 2' );
+				assertToHtml( editor, '<p style="border: 2em dotted #345678">A</p>',
+					'<p style="border-color:#345678; border-style:dotted; border-width:2em">A</p>', 'border split shorthand 3' );
+			} );
 		}
 	} );
 } )();
