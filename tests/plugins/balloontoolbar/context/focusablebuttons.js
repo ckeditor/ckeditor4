@@ -12,29 +12,27 @@
 	};
 
 	bender.test( {
-		'test check if balloon toolbar elements are registered as focusable': function() {
+		'test if balloon toolbar elements are registered as focusable': function() {
 			var editor = this.editor,
 				toolbar = new CKEDITOR.ui.balloonToolbar( editor ),
-				before,
-				afterAdding,
-				afterDeleting;
+				oldFocusables;
 
 			toolbar.addItem( 'Bold', new CKEDITOR.ui.button( {
 				label: 'Bold',
 				command: 'bold'
 			} ) );
 
-			before = CKEDITOR.tools.objectKeys( toolbar._view.focusables );
-
+			oldFocusables = CKEDITOR.tools.objectKeys( toolbar._view.focusables );
 			toolbar.attach( editor.editable().findOne( 'strong' ) );
-			afterAdding = CKEDITOR.tools.objectKeys( toolbar._view.focusables );
+			assert.isFalse( CKEDITOR.tools.arrayCompare( oldFocusables, CKEDITOR.tools.objectKeys( toolbar._view.focusables ) ),
+				'With new button, its element should appear in focusables' );
 
+
+			oldFocusables = CKEDITOR.tools.objectKeys( toolbar._view.focusables );
 			toolbar.deleteItem( 'Bold' );
-			afterDeleting = CKEDITOR.tools.objectKeys( toolbar._view.focusables );
+			assert.isFalse( CKEDITOR.tools.arrayCompare( oldFocusables, CKEDITOR.tools.objectKeys( toolbar._view.focusables ) ),
+				'With removing button, its element should be removed from focusables' );
 
-			assert.isFalse( CKEDITOR.tools.arrayCompare( before, afterAdding ), 'After adding new button, there should appear new focusables.' );
-			assert.isFalse( CKEDITOR.tools.arrayCompare( afterAdding, afterDeleting ), 'After removing button, there should be removed focusables.' );
-			assert.isTrue( CKEDITOR.tools.arrayCompare( before, afterDeleting ), 'After adding and then removing button, focusables should be the same.' );
 			toolbar.destroy();
 		},
 
@@ -44,13 +42,16 @@
 					buttons: 'Bold,Italic',
 					cssSelector: 'strong'
 				} ),
-				blurSpy = sinon.spy();
+				blurSpy = sinon.spy(),
+				boldButton;
 
 			editor.focus();
 			editor.on( 'blur', blurSpy, null, null, 10000 );
 
 			context.show( editor.editable().findOne( 'strong' ) );
-			context.toolbar._view._focusablesItems[ 0 ].once( 'focus', function() {
+			boldButton = context.toolbar._view.parts.content.findOne( '#' + context.toolbar._items.Bold._.id );
+
+			boldButton.once( 'focus', function() {
 				// Blur is delayed a little bit, that's why, it's necessary to wait more than this delay to check result.
 				// https://github.com/ckeditor/ckeditor-dev/blob/230f715926634e4056a87a572c94707c4190921c/core/focusmanager.js#L72
 				setTimeout( function() {
@@ -62,7 +63,7 @@
 			} );
 
 			setTimeout( function() {
-				context.toolbar._view._focusablesItems[ 0 ].focus();
+				boldButton.focus();
 			}, 0 );
 			wait();
 		},
@@ -72,15 +73,25 @@
 				context = editor.balloonToolbars.create( {
 					buttons: 'Bold,Italic',
 					cssSelector: 'strong'
-				} );
+				} ),
+				focusables,
+				buttonList = [];
 
 			editor.focus();
 			context.show( editor.editable().findOne( 'strong' ) );
-
-			arrayAssert.isNotEmpty( context.toolbar._view._focusablesItems );
-
 			context.destroy();
-			arrayAssert.isEmpty( context.toolbar._view._focusablesItems );
+
+			focusables = context.toolbar._view.focusables;
+			// Create list of buttons element in balloontoolbar.
+			for ( var id in focusables ) {
+				if ( focusables.hasOwnProperty( id ) ) {
+					if ( focusables[ id ].getId() ) {
+						buttonList.push( id );
+					}
+				}
+			}
+
+			arrayAssert.isEmpty( buttonList, 'Balloontoolbar should be empty' );
 		}
 	} );
 
