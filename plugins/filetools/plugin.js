@@ -911,3 +911,16 @@
  * @cfg {String} [fileTools_defaultFileName='']
  * @member CKEDITOR.config
  */
+
+/**
+ * Additional headers of XMLHttpRequest used during file upload with plugins: {@link CKEDITOR.fileTools} and filebrowser.
+ *
+ * 	config.xmlHttpRequestHeaders = {
+ * 		'Cache-Control': 'no-cache',
+ * 		'X-CUSTOM': 'HEADER'
+ * 	};
+ *
+ * @since 4.8.1
+ * @cfg {Object} [xmlHttpRequestHeaders=null]
+ * @member CKEDITOR.config
+ */

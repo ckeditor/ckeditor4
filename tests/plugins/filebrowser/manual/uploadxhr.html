@@ -7,29 +7,28 @@
 <script>
 	var xhr, requests;
 
-	CKEDITOR.on( 'instanceLoaded', function() {
-		if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
-			bender.ignore();
-		} else {
-			// Mock XHR
-			xhr = sinon.useFakeXMLHttpRequest();
-			requests = [];
-			xhr.onCreate = function( xhr ) {
-				requests.push( xhr );
-			};
-			window.onunload = function() {
-				xhr.restore();
-				server.restore();
-			}
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+		bender.ignore();
+	} else {
+		// Mock XHR
+		xhr = sinon.useFakeXMLHttpRequest();
+		requests = [];
+		xhr.onCreate = function( xhr ) {
+			requests.push( xhr );
+		};
+		window.onunload = function() {
+			xhr.restore();
+			server.restore();
 		}
-	} );
+	}
 
 	var classic = CKEDITOR.replace( 'classic', {
 		xmlHttpRequestHeaders: {
 			'hello': 'world',
 			'foo': 'bar'
 		},
-		filebrowserUploadUrl: 'fake-url'
+		filebrowserUploadUrl: 'fake-url',
+		filebrowserUploadMethod: 'xhr'
 	} );
 
 	// Display XHR details when CKEDITOR process entire request.
@@ -39,7 +38,7 @@
 			var line = '';
 			for ( header in item.requestHeaders ) {
 				if ( item.requestHeaders.hasOwnProperty( header ) ) {
-					line += '| <code>header: ' + header + ', value: ' + item.requestHeaders[ header ] + '</code> |';
+					line += ' | <code>header: ' + header + ', value: ' + item.requestHeaders[ header ] + '</code> |';
 				}
 			}
 			acc += '<li>' + line + '</li>';

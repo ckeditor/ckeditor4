@@ -310,7 +310,8 @@
 
 						if ( uploadFile.call( sender, evt ) ) {
 							// Backward compatibility for IE8 and IE9 (https://cksource.tpondemand.com/entity/3117).
-							if ( editor.config.filebrowser_forceFormSubmit || !CKEDITOR.fileTools.isFileUploadSupported ) {
+							// With version 4.9.0 change: `!== 'xhr'` to `=== 'form'`.
+							if ( editor.config.filebrowserUploadMethod !== 'xhr' || !( CKEDITOR.fileTools && CKEDITOR.fileTools.isFileUploadSupported ) ) {
 								// Append token preventing CSRF attacks.
 								appendToken( fileInput );
 								return true;
@@ -589,10 +590,24 @@
  */
 
 /**
- * Force filebrowser plugin to use form submit action instead of XHR request when file is uploaded in dialogs.
+ * Define preferred option to submit file upload with filebrowser plugin. If value is not specified,
+ * `'form'` option is used. Additional XHR headers might be set up with {@link CKEDITOR.config#xmlHttpRequestHeaders}.
  *
- * 		config.filebrowser_forceFormSubmit = true
+ * Available values:
  *
- * @cfg {Boolean} [filebrowser_forceFormSubmit=false]
+ *	* `'xhr'` - XMLHttpRequest is used to upload file
+ *	* `'form'` - Form submit is used to upload file
+ *	* `undefiend` - when configuration option is not specified `'form'` configuration is used
+ *
+ * Note: please be aware that `'xhr'` requires {@link CKEDITOR.fileTools} for proper work. Missing this plugins
+ * or using browsers which isn't supported {@link CKEDITOR.fileTools#isFileUploadSupported},
+ * will force using `'form'` behaviour despite configuration option.
+ *
+ * 	// Modern browsers will use XMLHttpRequest to upload files.
+ * 	// IE8 and IE9 will use form submit even tough config option is set to 'xhr'.
+ * 	config.filebrowserUploadMethod = 'xhr';
+ *
+ * @since 4.8.1
+ * @cfg {Boolean} [filebrowserUploadMethod=undefined]
  * @member CKEDITOR.config
  */
