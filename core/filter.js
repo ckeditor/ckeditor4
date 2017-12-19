@@ -2162,9 +2162,15 @@
 
 			var borderSplittedStyles = CKEDITOR.tools.style.parse.border( element.styles.border ) ;
 
-			element.styles[ 'border-color' ] = borderSplittedStyles.color;
-			element.styles[ 'border-style' ] = borderSplittedStyles.style;
-			element.styles[ 'border-width' ] = borderSplittedStyles.width;
+			if ( borderSplittedStyles.color ) {
+				element.styles[ 'border-color' ] = borderSplittedStyles.color;
+			}
+			if ( borderSplittedStyles.style ) {
+				element.styles[ 'border-style' ] = borderSplittedStyles.style;
+			}
+			if ( borderSplittedStyles.width ) {
+				element.styles[ 'border-width' ] = borderSplittedStyles.width;
+			}
 
 			delete element.styles.border;
 		},

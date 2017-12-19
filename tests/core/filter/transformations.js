@@ -450,6 +450,8 @@
 					'<p style="border-color:#172d59; border-style:dashed; border-width:20%">A</p>', 'border split shorthand 2' );
 				assertToHtml( editor, '<p style="border: 2em dotted #345678">A</p>',
 					'<p style="border-color:#345678; border-style:dotted; border-width:2em">A</p>', 'border split shorthand 3' );
+				assertToHtml( editor, '<p style="border: 3px double">A</p>',
+					'<p style="border-style:double; border-width:3px">A</p>', 'border split shorthand 4' );
 			} );
 		}
 	} );
