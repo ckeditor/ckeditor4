@@ -98,6 +98,6 @@
  *
  * 		config.forcePasteAsPlainText = 'allow-word';
  *
- * @cfg {Boolean|String} [forcePasteAsPlainText=false]
+ * @cfg {Boolean/String} [forcePasteAsPlainText=false]
  * @member CKEDITOR.config
  */
