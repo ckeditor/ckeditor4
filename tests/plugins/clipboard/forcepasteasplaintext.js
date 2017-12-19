@@ -23,7 +23,7 @@
 		force_ignoreword: {
 			config: {
 				language: 'en',
-				forcePasteAsPlainText: 'ignore-word'
+				forcePasteAsPlainText: 'allow-word'
 			}
 		}
 	};
@@ -174,7 +174,7 @@
 		var expected = 'plain';
 
 		// Default editor (with forcePasteAsPlainText=false) always pastes rich content.
-		// Editor with forcePasteAsPlainText='ignore-word' only pastes rich context if it is copied from Word.
+		// Editor with forcePasteAsPlainText='allow-word' only pastes rich context if it is copied from Word.
 		if ( !forcePlain && ( editorName === 'force_default' || ( editorName === 'force_ignoreword' && fixtureName === 'pasteWord' ) ) ) {
 			expected = 'data';
 		}

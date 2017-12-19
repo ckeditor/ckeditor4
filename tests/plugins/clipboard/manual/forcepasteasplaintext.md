@@ -12,7 +12,7 @@ Perform below scenario with both HTML and Word copied content.
 **Expected:**
 * `forcePasteAsPlainText=false` only after _Paste as plain text_ content is pasted as plain text.
 * `forcePasteAsPlainText=true` content is always pasted as plain text.
-* `forcePasteAsPlainText=ignore-word` only Word content after using _Paste from Word_ is pasted as rich text.
+* `forcePasteAsPlainText=allow-word` only Word content after using _Paste from Word_ is pasted as rich text.
 
 **Important:**
 After pressing _Paste as plain text_ and then pasting content from Word via `Ctrl + V` it is still pasted
