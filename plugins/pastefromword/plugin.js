@@ -95,11 +95,20 @@
 					if ( isLazyLoad ) {
 						editor.fire( 'paste', data );
 					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
+
 						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
 
 						data.dataValue = pfwEvtData.dataValue;
+						if ( editor.config.forcePasteAsPlainText === true ) {
+							// If `config.forcePasteAsPlainText` set to true, force plain text even on Word content (#1013).
+							data.type = 'text';
+						} else if ( CKEDITOR.env.ie && editor.config.forcePasteAsPlainText === 'allow-word' ) {
+							// In IE when pasting from Word, evt.data.type is 'auto' (not 'html') so it gets converted
+							// by 'pastetext' plugin to 'text'. We need to restore 'html' type (#1013).
+							data.type = 'html';
+						}
 					}
 
 					// Reset forceFromWord.
