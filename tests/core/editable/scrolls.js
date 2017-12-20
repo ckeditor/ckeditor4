@@ -18,6 +18,14 @@
 				height: 300,
 				width: 300
 			}
+		},
+		inline: {
+			creator: 'inline',
+			name: 'inline',
+			config: {
+				height: 300,
+				width: 300
+			}
 		}
 	};
 
