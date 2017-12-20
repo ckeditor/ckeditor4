@@ -31,6 +31,11 @@
 
 	var tests = {
 		'test getEditableScrollPosition': function( editor ) {
+			// iOS cannot scroll iframe content.
+			// Upstream: https://bugs.webkit.org/show_bug.cgi?id=172854
+			if ( CKEDITOR.env.iOS ) {
+				assert.ignore();
+			}
 			var sel = bender.tools.selection.setWithHtml( editor, '<div style="width:4000px;height:4000px;border:1px solid blue;"></div><p style="margin-left:3800px">[selection]</p>' ),
 				editable = editor.editable(),
 				doc,
@@ -57,6 +62,11 @@
 		},
 
 		'test setEditableScrollPosition': function( editor ) {
+			// iOS cannot scroll iframe content.
+			// Upstream: https://bugs.webkit.org/show_bug.cgi?id=172854
+			if ( CKEDITOR.env.iOS ) {
+				assert.ignore();
+			}
 			bender.tools.selection.setWithHtml( editor, '<div style="width:2000px;height:4000px;border:1px solid blue;"></div>' );
 			var editable = editor.editable();
 

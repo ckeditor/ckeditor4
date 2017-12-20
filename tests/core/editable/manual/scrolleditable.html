@@ -18,6 +18,10 @@
 <button id="id7">Scroll diveditor left-up</button>
 <button id="id8">Scroll diveditor right-up</button>
 <script>
+	// Upstream: https://bugs.webkit.org/show_bug.cgi?id=172854
+	if ( CKEDITOR.end.iOS ) {
+		bender.ignore();
+	}
 	var classic = CKEDITOR.replace( 'classic', {
 		width: 300,
 		height: 200,
