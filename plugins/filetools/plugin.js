@@ -913,12 +913,16 @@
  */
 
 /**
- * Additional headers of XMLHttpRequest used during file upload with plugins: {@link CKEDITOR.fileTools} and filebrowser.
+ * Allows to add extra headers for every request made using {@link CKEDITOR.fileTools} API.
  *
- * 	config.xmlHttpRequestHeaders = {
- * 		'Cache-Control': 'no-cache',
- * 		'X-CUSTOM': 'HEADER'
- * 	};
+ * Note that headers can still be customized per a single request, using the
+ * [`fileUploadRequest`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.editor-event-fileUploadRequest)
+ * event.
+ *
+ *		config.xmlHttpRequestHeaders = {
+ *			'X-Requested-With': 'XMLHttpRequest',
+ *			'Custom-Header': 'header value'
+ *		};
  *
  * @since 4.8.1
  * @cfg {Object} [xmlHttpRequestHeaders=null]
