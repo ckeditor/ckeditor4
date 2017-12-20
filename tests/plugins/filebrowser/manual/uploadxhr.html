@@ -1,11 +1,10 @@
-<textarea id="classic">
+<textarea id="classic"></textarea>
 
-</textarea>
-
-<div id="output" style="background-color:lightgreen;"></div>
+<pre id="output" style="background-color:lightgreen;"></pre>
 
 <script>
-	var xhr, requests;
+	var xhr,
+		requests;
 
 	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
 		bender.ignore();
@@ -32,17 +31,11 @@
 
 	// Display XHR details when CKEDITOR process entire request.
 	classic.on( 'fileUploadRequest', function( evt ) {
-		var output = document.getElementById( 'output' );
-		var outputString = CKEDITOR.tools.array.reduce( requests, function( acc, item ) {
-			var line = '';
-			for ( header in item.requestHeaders ) {
-				if ( item.requestHeaders.hasOwnProperty( header ) ) {
-					line += ' | <code>header: ' + header + ', value: ' + item.requestHeaders[ header ] + '</code> |';
-				}
-			}
-			acc += '<li>' + line + '</li>';
-			return acc;
-		}, '' );
+		var output = document.getElementById( 'output' ),
+			outputString = CKEDITOR.tools.array.reduce( requests, function( acc, item ) {
+				return acc + '<li>' + JSON.stringify( item.requestHeaders, null, 4 ) + '</li>';
+			}, '' );
+
 		output.innerHTML = '<ol>' + outputString + '</ol>';
 	}, null, null, 1000 )
 </script>
