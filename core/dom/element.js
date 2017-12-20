@@ -2105,7 +2105,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		/**
 		 * Returns scroll position of the element's document.
 		 *
-		 * @since 4.8.0
+		 * @since 4.8.1
 		 * @returns {Object/Number} Object with keys: `scrollTop` and `scrollLeft`, or Number represent scrollTop
 		 */
 		getDocumentScrollPosition: function() {
@@ -2117,7 +2117,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		/**
 		 * Set scroll position of element's document.
 		 *
-		 * @since 4.8.0
+		 * @since 4.8.1
 		 * @param {Number} scrollTop number of pixels that an element's document is scrolled vertically.
 		 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
 		 */
@@ -2133,7 +2133,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		/**
 		 * Returns scroll position of the element itself.
 		 *
-		 * @since 4.8.0
+		 * @since 4.8.1
 		 * @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
 		 */
 		getScrollPosition: function() {
@@ -2143,7 +2143,7 @@ CKEDITOR.dom.element.clearMarkers = function( database, element, removeFromDatab
 		/**
 		 * Set scroll position of element itself.
 		 *
-		 * @since 4.8.0
+		 * @since 4.8.1
 		 * @param {Number} scrollTop number of pixels that an element's contentt is scrolled vertically.
 		 * @param {Number} [scrollLeft] number of pixels that an element's contentt is scrolled horizontally.
 		 */

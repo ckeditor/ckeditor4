@@ -801,7 +801,7 @@
 			/**
 			 * Returns scroll position of editable.
 			 *
-			* @since 4.8.0
+			* @since 4.8.1
 			* @returns {Object} Object with keys: `scrollTop` and `scrollLeft`
 			*/
 			getEditableScrollPosition: function() {
@@ -811,7 +811,7 @@
 			/**
 			 * Set scroll position of editable.
 			 *
-			 * @since 4.8.0
+			 * @since 4.8.1
 			 * @param {Number} scrollTop number of pixels that an element's document is scrolled vertically.
 			 * @param {Number} [scrollLeft] number of pixels that an element's document is scrolled horizontally.
 			 */

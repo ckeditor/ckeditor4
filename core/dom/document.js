@@ -250,7 +250,7 @@ CKEDITOR.tools.extend( CKEDITOR.dom.document.prototype, {
 	/**
 	 * Gets the DOM scrolling element for this document. Scrolling element allows for using `scrollTop` and `scrollLeft` on entire document.
 	 *
-	 * @since 4.8.0
+	 * @since 4.8.1
 	 * @returns {CKEDITOR.dom.element} Scrolling element.
 	 */
 	getScrollingElement: function() {
