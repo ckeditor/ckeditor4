@@ -301,8 +301,9 @@
 					// "element" here means the definition object, so we need to find the correct
 					// button to scope the event call
 					element.onClick = function( evt ) {
-						var sender = evt.sender;
-						var fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement();
+						var sender = evt.sender,
+							fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement(),
+							isFileUploadApiSupported = CKEDITOR.fileTools && CKEDITOR.fileTools.isFileUploadSupported;
 
 						if ( onClick && onClick.call( sender, evt ) === false ) {
 							return false;
@@ -311,7 +312,7 @@
 						if ( uploadFile.call( sender, evt ) ) {
 							// Backward compatibility for IE8 and IE9 (https://cksource.tpondemand.com/entity/3117).
 							// With version 4.9.0 change: `!== 'xhr'` to `=== 'form'`.
-							if ( editor.config.filebrowserUploadMethod !== 'xhr' || !( CKEDITOR.fileTools && CKEDITOR.fileTools.isFileUploadSupported ) ) {
+							if ( editor.config.filebrowserUploadMethod !== 'xhr' || !isFileUploadApiSupported ) {
 								// Append token preventing CSRF attacks.
 								appendToken( fileInput );
 								return true;
