@@ -29,7 +29,7 @@
 	bender.editors = {
 		xhr: {
 			config: {
-				xmlHttpRequestHeaders: {
+				fileTools_requestHeaders: {
 					foo: 'bar',
 					hello: 'world'
 				},

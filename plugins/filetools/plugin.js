@@ -49,7 +49,7 @@
 				var fileLoader = evt.data.fileLoader,
 					$formData = new FormData(),
 					requestData = evt.data.requestData,
-					configXHRHeaders = editor.config.xmlHttpRequestHeaders,
+					configXHRHeaders = editor.config.fileTools_requestHeaders,
 					header;
 
 				for ( var name in requestData ) {
@@ -919,12 +919,12 @@
  * [`fileUploadRequest`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.editor-event-fileUploadRequest)
  * event.
  *
- *		config.xmlHttpRequestHeaders = {
+ *		config.fileTools_requestHeaders = {
  *			'X-Requested-With': 'XMLHttpRequest',
  *			'Custom-Header': 'header value'
  *		};
  *
  * @since 4.8.1
- * @cfg {Object} [xmlHttpRequestHeaders=null]
+ * @cfg {Object} [fileTools_requestHeaders]
  * @member CKEDITOR.config
  */

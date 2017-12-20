@@ -15,7 +15,7 @@
 		listeners = [],
 		editorMock = {
 			config: {
-				xmlHttpRequestHeaders: {
+				fileTools_requestHeaders: {
 					foo: 'bar',
 					hello: 'world'
 				}
