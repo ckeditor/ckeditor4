@@ -324,6 +324,11 @@
 									setUrl.call( evt.sender.editor, response.url, response.message );
 								} );
 
+								// Return non-false value will disable fileButton in dialogui,
+								// below listeners takes care of such situation and re-enable "send" button.
+								loader.on( 'error', xhrUploadErrorHandler.bind( this ) );
+								loader.on( 'abort', xhrUploadErrorHandler.bind( this ) );
+
 								loader.loadAndUpload( url );
 
 								return 'xhr';
@@ -338,6 +343,12 @@
 				}
 			}
 		}
+	}
+
+	function xhrUploadErrorHandler( evt ) {
+		// `this` is a reference to ui.dialog.fileButton.
+		this.enable();
+		alert( evt.sender.message ); // jshint ignore:line
 	}
 
 	// Updates the target element with the url of uploaded/selected file.

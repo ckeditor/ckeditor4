@@ -1,0 +1,18 @@
+<textarea id="classic">
+
+</textarea>
+
+<div id="output" style="background-color:lightgreen;"></div>
+
+<script>
+	var xhr, requests;
+
+	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+		bender.ignore();
+	}
+
+	var classic = CKEDITOR.replace( 'classic', {
+		filebrowserUploadUrl: 'fake-url',
+		filebrowserUploadMethod: 'xhr'
+	} );
+</script>

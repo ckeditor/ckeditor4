@@ -33,13 +33,15 @@
 					foo: 'bar',
 					hello: 'world'
 				},
-				filebrowserUploadUrl: 'foo'
+				filebrowserUploadUrl: 'foo',
+				filebrowserUploadMethod: 'xhr',
+				lang: 'en'
 			}
 		},
 		submit: {
 			config: {
 				filebrowserUploadUrl: 'foo',
-				filebrowser_forceFormSubmit: true
+				filebrowserUploadMethod: 'form'
 			}
 		}
 	};
@@ -94,7 +96,7 @@
 			this.xhr.restore();
 		},
 
-		'test for XHR request': function() {
+		'test for xhr request': function() {
 			var editor = this.editors.xhr,
 				bot = this.editorBots.xhr;
 
@@ -104,7 +106,7 @@
 					inputStub = mockInput( dialog );
 
 				// Execute just after XHR request is generated;
-				editor.on( 'fileUploadRequest', function() {
+				editor.once( 'fileUploadRequest', function() {
 					resume( function() {
 						arrayAssert.isNotEmpty( this.requests );
 						objectAssert.areEqual( { 'foo': 'bar', 'hello': 'world' }, this.requests[ 0 ].requestHeaders );
@@ -132,6 +134,76 @@
 				assert.isTrue( mockSubmit.called, 'Submit method should be used.' );
 				inputStub.restore();
 				dialog.hide();
+			} );
+		},
+
+		'test for xhr loader error': function() {
+			var editor = this.editors.xhr,
+				bot = this.editorBots.xhr;
+
+			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
+			bot.dialog( 'testDialog', function( dialog ) {
+				var sendButton = dialog.getContentElement( 'Upload', 'uploadButton' ),
+					inputStub = mockInput( dialog );
+
+				var alertStub = sinon.stub( window, 'alert' );
+
+				editor.once( 'fileUploadRequest', function( evt ) {
+					var loader = evt.data.fileLoader;
+					loader.once( 'error', function() {
+						resume( function() {
+							sinon.assert.calledWithExactly( alertStub, 'HTTP error occurred during file upload (403: Forbidden).' );
+							assert.isTrue( sendButton.isEnabled(), 'Button should be enabled after error' );
+
+							dialog.hide();
+							inputStub.restore();
+							alertStub.restore();
+						} );
+					} );
+
+					assert.isFalse( sendButton.isEnabled(), 'Button should be disabled during upload' );
+
+					// Simulate loading error
+					loader.xhr.status = 403;
+					loader.xhr.onload();
+				} );
+
+				sendButton.click();
+				wait();
+			} );
+		},
+
+		'test for xhr loader abort': function() {
+			var editor = this.editors.xhr,
+				bot = this.editorBots.xhr;
+
+			editor.addCommand( 'testDialog', new CKEDITOR.dialogCommand( 'testDialog' ) );
+			bot.dialog( 'testDialog', function( dialog ) {
+				var sendButton = dialog.getContentElement( 'Upload', 'uploadButton' ),
+					inputStub = mockInput( dialog );
+
+				var alertStub = sinon.stub( window, 'alert' );
+
+				editor.once( 'fileUploadRequest', function( evt ) {
+					var loader = evt.data.fileLoader;
+					loader.once( 'abort', function() {
+						resume( function() {
+							assert.isTrue( alertStub.called, 'Abort message should appear' );
+							assert.isTrue( sendButton.isEnabled(), 'Button should be enabled after abort' );
+
+							dialog.hide();
+							inputStub.restore();
+							alertStub.restore();
+						} );
+					} );
+
+					assert.isFalse( sendButton.isEnabled(), 'Button should be disabled during upload' );
+
+					loader.changeStatus( 'abort' );
+				} );
+
+				sendButton.click();
+				wait();
 			} );
 		}
 	} );
