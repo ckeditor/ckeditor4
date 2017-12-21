@@ -11,27 +11,36 @@
 		}
 	};
 
+	// Looks for a key of an element in a given dictionary.
+	// @param {Object.<string, CKEDITOR.dom.element>} dict
+	// @param {CKEDITOR.dom.element} needle
+	// @returns {string/undefined}
+	function indexOfElement( dict, needle ) {
+		return CKEDITOR.tools.array.filter( CKEDITOR.tools.objectKeys( dict ), function( key ) {
+			return needle.equals( dict[ key ] );
+		} )[ 0 ];
+	}
+
 	bender.test( {
 		'test if balloon toolbar elements are registered as focusable': function() {
 			var editor = this.editor,
 				toolbar = new CKEDITOR.ui.balloonToolbar( editor ),
-				oldFocusables;
+				focusables,
+				boldButton;
 
 			toolbar.addItem( 'Bold', new CKEDITOR.ui.button( {
 				label: 'Bold',
 				command: 'bold'
 			} ) );
 
-			oldFocusables = CKEDITOR.tools.objectKeys( toolbar._view.focusables );
 			toolbar.attach( editor.editable().findOne( 'strong' ) );
-			assert.isFalse( CKEDITOR.tools.arrayCompare( oldFocusables, CKEDITOR.tools.objectKeys( toolbar._view.focusables ) ),
-				'With new button, its element should appear in focusables' );
+			boldButton = toolbar._view.parts.panel.findOne( '.cke_button__bold' );
+			focusables = toolbar._view.focusables;
 
+			assert.isNotUndefined( -1, indexOfElement( focusables, boldButton ), 'Button is contained in focusable list' );
 
-			oldFocusables = CKEDITOR.tools.objectKeys( toolbar._view.focusables );
 			toolbar.deleteItem( 'Bold' );
-			assert.isFalse( CKEDITOR.tools.arrayCompare( oldFocusables, CKEDITOR.tools.objectKeys( toolbar._view.focusables ) ),
-				'With removing button, its element should be removed from focusables' );
+			assert.isUndefined( indexOfElement( focusables, boldButton ), 'Button was removed from focusable list' );
 
 			toolbar.destroy();
 		},
@@ -74,24 +83,23 @@
 					buttons: 'Bold,Italic',
 					cssSelector: 'strong'
 				} ),
-				focusables,
-				buttonList = [];
+				buttonList = [],
+				focusables;
 
 			editor.focus();
 			context.show( editor.editable().findOne( 'strong' ) );
 			context.destroy();
 
 			focusables = context.toolbar._view.focusables;
+
 			// Create list of buttons element in balloontoolbar.
 			for ( var id in focusables ) {
-				if ( focusables.hasOwnProperty( id ) ) {
-					if ( focusables[ id ].getId() ) {
-						buttonList.push( id );
-					}
+				if ( focusables[ id ].getName() == 'a' ) {
+					buttonList.push( focusables[ id ] );
 				}
 			}
 
-			arrayAssert.isEmpty( buttonList, 'Balloontoolbar should be empty' );
+			arrayAssert.isEmpty( buttonList, 'Focusable list should be empty' );
 		}
 	} );
 

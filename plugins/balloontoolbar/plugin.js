@@ -663,7 +663,7 @@
 			};
 
 			CKEDITOR.ui.balloonToolbarView.prototype.destroy = function() {
-				this.deregisterFocusableItems();
+				this._deregisterItemFocusables();
 				CKEDITOR.ui.balloonPanel.prototype.destroy.call( this );
 				this._detachListeners();
 			};
@@ -680,7 +680,7 @@
 					groupStarted = false;
 
 				// When we rerender toolbar we want to clear focusable in case of removing some items.
-				this.deregisterFocusableItems();
+				this._deregisterItemFocusables();
 
 				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
 
@@ -728,19 +728,17 @@
 			};
 
 			/**
-			 * Method deregister all focusable items from balloontoolbar.
+			 * Method deregisters {@link #focusables} registered by UI items, like buttons.
 			 *
 			 * @private
 			 * @since 4.8.1
 			 * @member CKEDITOR.ui.balloonToolbarView
 			 */
-			CKEDITOR.ui.balloonToolbarView.prototype.deregisterFocusableItems = function() {
+			CKEDITOR.ui.balloonToolbarView.prototype._deregisterItemFocusables = function() {
 				var focusables = this.focusables;
 				for ( var id in focusables ) {
-					if ( focusables.hasOwnProperty( id ) ) {
-						if ( focusables[ id ].getId() && focusables[ id ].getName() === 'a' ) {
-							this.deregisterFocusable( focusables[ id ] );
-						}
+					if ( this.parts.content.contains( focusables[ id ] ) ) {
+						this.deregisterFocusable( focusables[ id ] );
 					}
 				}
 			};
