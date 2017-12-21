@@ -6,7 +6,7 @@
 	var xhr,
 		requests;
 
-	if ( CKEDITOR.env.ie && CKEDITOR.env.version < 10 ) {
+	if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
 		bender.ignore();
 	} else {
 		// Mock XHR
