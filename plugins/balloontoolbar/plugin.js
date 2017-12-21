@@ -593,6 +593,8 @@
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
 				this.parts.panel.addClass( 'cke_balloontoolbar' );
 				this.parts.title.remove();
+				// Following workaround is needed until #1370 is resolved.
+				this.deregisterFocusable( this.parts.close );
 				this.parts.close.remove();
 			};
 
