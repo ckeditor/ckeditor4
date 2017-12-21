@@ -3,6 +3,10 @@
 
 ## CKEditor 4.8.1
 
+New Features:
+
+* [#933](https://github.com/ckeditor/ckeditor-dev/issues/933): [File Browser](https://ckeditor.com/cke4/addon/filetools) plugin can now upload files using XHR requests. This allows for setting custom HTTP headers using [`config.fileTools_requestHeaders`](http://docs.ckeditor.test/#!/api/CKEDITOR.config-cfg-fileTools_requestHeaders) configuration option.
+
 Fixed Issues:
 
 * [#1342](https://github.com/ckeditor/ckeditor-dev/issues/1342): Fixed: [Balloon Toolbar](https://ckeditor.com/cke4/addon/balloontoolbar) should be re-positioned after a [change](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.editor-event-change) event.
