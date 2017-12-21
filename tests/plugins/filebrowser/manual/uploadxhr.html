@@ -3,21 +3,15 @@
 <pre id="output" style="background-color:lightgreen;"></pre>
 
 <script>
-	var xhr,
-		requests;
-
-	if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
-		bender.ignore();
-	} else {
-		// Mock XHR
-		xhr = sinon.useFakeXMLHttpRequest();
+	// Mock XHR
+	var xhr = sinon.useFakeXMLHttpRequest();
 		requests = [];
-		xhr.onCreate = function( xhr ) {
-			requests.push( xhr );
-		};
-		window.onunload = function() {
-			xhr.restore();
-		}
+
+	xhr.onCreate = function( xhr ) {
+		requests.push( xhr );
+	};
+	window.onunload = function() {
+		xhr.restore();
 	}
 
 	var classic = CKEDITOR.replace( 'classic', {
@@ -26,7 +20,14 @@
 			'foo': 'bar'
 		},
 		filebrowserUploadUrl: 'fake-url',
-		filebrowserUploadMethod: 'xhr'
+		filebrowserUploadMethod: 'xhr',
+		on: {
+			instanceReady: function() {
+				if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+					bender.ignore();
+				}
+			}
+		}
 	} );
 
 	// Display XHR details when CKEDITOR process entire request.
