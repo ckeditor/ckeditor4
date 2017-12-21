@@ -9,4 +9,4 @@
 
 **Expected:** balloon toolbar remains on the screen.
 
-**Unexpected:** Balloon toolbar disappears.
+**Unexpected:** balloon toolbar disappears.
