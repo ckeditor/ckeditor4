@@ -1,9 +1,14 @@
 /* bender-tags: editor,clipboard,filetools */
 /* bender-ckeditor-plugins: filetools */
+/* bender-include: _helpers/tools.js */
+/* global fileTools */
 
 'use strict';
 
 ( function() {
+	// IE/Edge doesn't support File constructor, so there is a need to mimic it.
+	fileTools.mockFileType();
+
 	var File = window.File,
 		Blob = window.Blob,
 		FormData = window.FormData,
@@ -26,15 +31,6 @@
 				fileTools_defaultFileName: 'default-file-name'
 			}
 		};
-
-	function createFileMock() {
-		window.File = File = function( data, name ) {
-			var file = new Blob( data , {} );
-			file.name = name;
-
-			return file;
-		};
-	}
 
 	function createFormDataMock() {
 		window.FormData = function() {
@@ -242,10 +238,6 @@
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
 			}
-
-			// IE doesn't support File constructor, so there is a need to mimic it.
-			if ( typeof MSBlobBuilder === 'function' )
-				createFileMock();
 
 			// FormData in IE & Chrome 47- supports only adding data, not getting it, so mocking (polyfilling?) is required.
 			// Note that mocking is needed only for tests, as CKEditor.fileTools uses only append method

@@ -1,17 +1,10 @@
 /* bender-tags: editor */
 /* bender-ckeditor-plugins: dialog,filebrowser,filetools,clipboard */
+/* bender-include: ../filetools/_helpers/tools.js */
+/* global fileTools */
 
 ( function() {
 	'use strict';
-
-	function createFileMock() {
-		window.File = function( data, name ) {
-			var file = new Blob( data , {} );
-			file.name = name;
-
-			return file;
-		};
-	}
 
 	function mockInput( dialog, submit ) {
 		return sinon.stub( dialog, 'getContentElement' ).returns( {
@@ -91,8 +84,7 @@
 
 	bender.test( {
 		setUp: function() {
-			if ( typeof MSBlobBuilder === 'function' || !window.File )
-				createFileMock();
+			fileTools.mockFileType();
 
 			this.xhr = sinon.useFakeXMLHttpRequest();
 			var requests = this.requests = [];
