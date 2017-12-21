@@ -310,8 +310,7 @@
 						}
 
 						if ( uploadFile.call( sender, evt ) ) {
-							// Backward compatibility for IE8 and IE9 (https://cksource.tpondemand.com/entity/3117).
-							// With version 4.9.0 change: `!== 'xhr'` to `=== 'form'`.
+							// Use one of two upload strategies, either form or XHR based (#643).
 							if ( editor.config.filebrowserUploadMethod !== 'xhr' || !isFileUploadApiSupported ) {
 								// Append token preventing CSRF attacks.
 								appendToken( fileInput );
