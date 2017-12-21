@@ -163,6 +163,8 @@
 	CKEDITOR.ui.balloonToolbar.prototype.deleteItem = function( name ) {
 		if ( this._items[ name ] ) {
 			delete this._items[ name ];
+			// Redraw balloon toolbar when item is removed.
+			this._view.renderItems( this._items );
 		}
 	};
 
@@ -591,6 +593,8 @@
 				CKEDITOR.ui.balloonPanel.prototype.build.call( this );
 				this.parts.panel.addClass( 'cke_balloontoolbar' );
 				this.parts.title.remove();
+				// Following workaround is needed until #1370 is resolved.
+				this.deregisterFocusable( this.parts.close );
 				this.parts.close.remove();
 			};
 
@@ -659,6 +663,7 @@
 			};
 
 			CKEDITOR.ui.balloonToolbarView.prototype.destroy = function() {
+				this._deregisterItemFocusables();
 				CKEDITOR.ui.balloonPanel.prototype.destroy.call( this );
 				this._detachListeners();
 			};
@@ -674,6 +679,9 @@
 					keys = CKEDITOR.tools.objectKeys( items ),
 					groupStarted = false;
 
+				// When we rerender toolbar we want to clear focusable in case of removing some items.
+				this._deregisterItemFocusables();
+
 				CKEDITOR.tools.array.forEach( keys, function( itemKey ) {
 
 					// If next element to render is richCombo and we have already opened group we have to close it.
@@ -685,7 +693,6 @@
 						groupStarted = true;
 						output.push( '<span class="cke_toolgroup">' );
 					}
-
 					// Now we can render element.
 					items[ itemKey ].render( this.editor, output );
 				}, this );
@@ -699,7 +706,8 @@
 				this.parts.content.unselectable();
 				CKEDITOR.tools.array.forEach( this.parts.content.find( 'a' ).toArray(), function( element ) {
 					element.setAttribute( 'draggable', 'false' );
-				} );
+					this.registerFocusable( element );
+				}, this );
 			};
 
 			/**
@@ -717,6 +725,22 @@
 				this._pointedElement = element;
 
 				CKEDITOR.ui.balloonPanel.prototype.attach.call( this, element, options );
+			};
+
+			/**
+			 * Method deregisters {@link #focusables} registered by UI items, like buttons.
+			 *
+			 * @private
+			 * @since 4.8.1
+			 * @member CKEDITOR.ui.balloonToolbarView
+			 */
+			CKEDITOR.ui.balloonToolbarView.prototype._deregisterItemFocusables = function() {
+				var focusables = this.focusables;
+				for ( var id in focusables ) {
+					if ( this.parts.content.contains( focusables[ id ] ) ) {
+						this.deregisterFocusable( focusables[ id ] );
+					}
+				}
 			};
 		}
 	} );
