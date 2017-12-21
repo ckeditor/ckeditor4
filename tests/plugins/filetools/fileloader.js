@@ -1224,7 +1224,7 @@
 			assert.isTrue( loader.isFinished() );
 		},
 
-		'text custom XHR headers': function() {
+		'test custom XHR headers': function() {
 			var loader = new FileLoader( editorMock, pngBase64 );
 
 			createXMLHttpRequestMock( [ 'load' ] );

@@ -4,25 +4,38 @@
 ( function() {
 	'use strict';
 
+	function createFileMock() {
+		window.File = function( data, name ) {
+			var file = new Blob( data , {} );
+			file.name = name;
+
+			return file;
+		};
+	}
+
 	function mockInput( dialog, submit ) {
-		return sinon.stub( dialog, 'getContentElement', function() {
-			return {
-				getInputElement: function() {
-					return {
-						$: {
-							files: [
-								new File( [ '' ], 'sample.png' )
-							],
-							value: 'C:\\fakepath\\sample.gif',
-							form: ( new CKEDITOR.dom.element( 'form' ) ).$
-						}
-					};
-				},
-				getAction: function() {
-					return 'http://url-to-php-form';
-				},
-				submit: submit
-			};
+		return sinon.stub( dialog, 'getContentElement' ).returns( {
+			getInputElement: function() {
+				var ret = {
+					$: {
+						value: 'C:\\fakepath\\sample.gif',
+						form: ( new CKEDITOR.dom.element( 'form' ) ).$
+					}
+				};
+
+				if ( CKEDITOR.fileTools.isFileUploadSupported ) {
+					// Only modern browsers will contain files property.
+					ret.$.files = [
+						new File( [ '' ], 'sample.png' )
+					];
+				}
+
+				return ret;
+			},
+			getAction: function() {
+				return 'http://url-to-php-form';
+			},
+			submit: submit
 		} );
 	}
 
@@ -77,13 +90,10 @@
 	} );
 
 	bender.test( {
-		_should: {
-			ignore: {
-				'test for XHR request': CKEDITOR.env.ie && CKEDITOR.env.version < 9
-			}
-		},
-
 		setUp: function() {
+			if ( typeof MSBlobBuilder === 'function' || !window.File )
+				createFileMock();
+
 			this.xhr = sinon.useFakeXMLHttpRequest();
 			var requests = this.requests = [];
 
@@ -96,7 +106,11 @@
 			this.xhr.restore();
 		},
 
-		'test for xhr request': function() {
+		'test for XHR request': function() {
+			if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+				assert.ignore();
+			}
+
 			var editor = this.editors.xhr,
 				bot = this.editorBots.xhr;
 
@@ -134,10 +148,15 @@
 				assert.isTrue( mockSubmit.called, 'Submit method should be used.' );
 				inputStub.restore();
 				dialog.hide();
+				assert.isTrue( true );
 			} );
 		},
 
 		'test for xhr loader error': function() {
+			if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+				assert.ignore();
+			}
+
 			var editor = this.editors.xhr,
 				bot = this.editorBots.xhr;
 
@@ -174,6 +193,10 @@
 		},
 
 		'test for xhr loader abort': function() {
+			if ( !CKEDITOR.fileTools.isFileUploadSupported ) {
+				assert.ignore();
+			}
+
 			var editor = this.editors.xhr,
 				bot = this.editorBots.xhr;
 
