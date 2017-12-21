@@ -9,6 +9,6 @@
 3. Switch to wysiwyg mode.
 4. Check TD element's style.
 
-**Expected:** Border color (red) is preserved during pasting and switching between sourcemode and wysiwygarea.
+**Expected:** Border color (red) is preserved during pasting and switching between source mode and wysiwygarea.
 
 **Unexpected:** Border color has default color (grey / black). In source mode there is no border-color style.
