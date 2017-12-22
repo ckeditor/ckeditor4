@@ -41,7 +41,7 @@
 				},
 				filebrowserUploadUrl: 'foo',
 				filebrowserUploadMethod: 'xhr',
-				lang: 'en'
+				language: 'en'
 			}
 		},
 		submit: {
