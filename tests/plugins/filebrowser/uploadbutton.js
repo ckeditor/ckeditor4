@@ -140,7 +140,6 @@
 				assert.isTrue( mockSubmit.called, 'Submit method should be used.' );
 				inputStub.restore();
 				dialog.hide();
-				assert.isTrue( true );
 			} );
 		},
 
