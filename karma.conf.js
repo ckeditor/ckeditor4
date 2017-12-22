@@ -11,36 +11,37 @@ module.exports = function( config ) {
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: [ 'ckeditor4-yui-to-chai', 'mocha' ],
+		frameworks: [ 'ckeditor4-yui-to-chai', 'mocha', 'ckeditor4-bender-iframes' ],
 
 		// list of files / patterns to load in the browser
 		files: [
-			{ pattern: 'ckeditor.js', included: true, served: true, watched: false, nocache: true },
+			{ pattern: 'ckeditor.js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: '+(core|plugins|skins|lang)/**/*', included: false, served: true, watched: false, nocache: true },
 			{ pattern: '+(config|styles).js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: 'contents.css', included: false, served: true, watched: false, nocache: true },
 
 			// Load karma files.
-			'tests/_karma/init.js',
-			'tests/_karma/**/*.js',
+			{ pattern: 'tests/_karma/runner.js', included: false, served: true, watched: false, nocache: true },
+			{ pattern: 'tests/_karma/**/*.js', included: false, served: true, watched: false, nocache: true },
 
 			// Load html fixtures. - 'tests/**/*.html'
 			'tests/core/**/*.html',
 
 			// Load helpers. - 'tests/**/_helpers/*.js'
-			'tests/core/**/_helpers/*.js',
+			{ pattern: 'tests/core/**/_helpers/*.js', included: false, served: true, watched: false, nocache: true },
 
 			// Tests.
 			'tests/core/ckeditor/ckeditor.js',
 			'tests/core/tools/**/*.js',
-			'tests/core/command/**/*.js',
-
-			'tests/core/dom/*.js',
-			'tests/core/dom/element/*.js',
-			'tests/core/dom/elementpath/*.js',
-			'tests/core/creators/setmode.js',
-			'tests/core/creators/themedui.js',
-			'tests/core/editable/aria.js'
+			'tests/core/command/**/*.js'
+			//
+			// 'tests/core/dom/*.js',
+			// 'tests/core/dom/element/*.js',
+			// 'tests/core/dom/elementpath/*.js',
+			// 'tests/core/creators/setmode.js',
+			// 'tests/core/creators/themedui.js',
+			// 'tests/core/editable/aria.js'
+			// 'tests/plugins/clipboard/paste.js'
 		],
 
 
@@ -83,6 +84,7 @@ module.exports = function( config ) {
 			'karma-chrome-launcher',
 			'karma-ckeditor4-yui-to-chai',
 			'karma-ckeditor4-preprocessor',
+			'karma-ckeditor4-bender-iframes',
 			'karma-html2js-preprocessor'
 		],
 
