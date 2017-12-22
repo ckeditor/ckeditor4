@@ -1,9 +1,14 @@
 /* bender-tags: editor,clipboard,filetools */
 /* bender-ckeditor-plugins: filetools */
+/* bender-include: _helpers/tools.js */
+/* global fileTools */
 
 'use strict';
 
 ( function() {
+	// IE/Edge doesn't support File constructor, so there is a need to mimic it.
+	fileTools.mockFileType();
+
 	var File = window.File,
 		Blob = window.Blob,
 		FormData = window.FormData,
@@ -14,22 +19,18 @@
 		testFile, lastFormData,
 		listeners = [],
 		editorMock = {
-			config: {}
+			config: {
+				fileTools_requestHeaders: {
+					foo: 'bar',
+					hello: 'world'
+				}
+			}
 		},
 		editorMockDefaultFileName = {
 			config: {
 				fileTools_defaultFileName: 'default-file-name'
 			}
 		};
-
-	function createFileMock() {
-		window.File = File = function( data, name ) {
-			var file = new Blob( data , {} );
-			file.name = name;
-
-			return file;
-		};
-	}
 
 	function createFormDataMock() {
 		window.FormData = function() {
@@ -160,7 +161,9 @@
 						setTimeout( function() {
 							xhr.onabort();
 						}, 0 );
-					}
+					},
+
+					setRequestHeader: sinon.stub()
 				};
 
 			return xhr;
@@ -235,10 +238,6 @@
 			if ( !CKEDITOR.plugins.clipboard.isFileApiSupported ) {
 				assert.ignore();
 			}
-
-			// IE doesn't support File constructor, so there is a need to mimic it.
-			if ( typeof MSBlobBuilder === 'function' )
-				createFileMock();
 
 			// FormData in IE & Chrome 47- supports only adding data, not getting it, so mocking (polyfilling?) is required.
 			// Note that mocking is needed only for tests, as CKEditor.fileTools uses only append method
@@ -1215,6 +1214,23 @@
 			loader.status = 'abort';
 
 			assert.isTrue( loader.isFinished() );
+		},
+
+		'test custom XHR headers': function() {
+			var loader = new FileLoader( editorMock, pngBase64 );
+
+			createXMLHttpRequestMock( [ 'load' ] );
+			loader.loadAndUpload( 'http://example.com' );
+
+			resumeAfter( loader, 'uploaded', function( evt ) {
+				var setRequestHeaderStub = evt.sender.xhr.setRequestHeader;
+
+				sinon.assert.calledWithExactly( setRequestHeaderStub, 'foo', 'bar' );
+				sinon.assert.calledWithExactly( setRequestHeaderStub, 'hello', 'world' );
+
+				assert.areSame( 2, setRequestHeaderStub.callCount, 'setRequestHeader call count' );
+			} );
+			wait();
 		}
 	} );
 } )();

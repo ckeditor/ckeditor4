@@ -114,6 +114,7 @@
  */
 
 ( function() {
+	'use strict';
 	// Default input element name for CSRF protection token.
 	var TOKEN_INPUT_NAME = 'ckCsrfToken';
 
@@ -200,7 +201,7 @@
 		}
 	}
 
-	// The onlick function assigned to the 'Upload' button. Makes the final
+	// The onclick function assigned to the 'Upload' button. Makes the final
 	// decision whether form is really submitted and updates target field when
 	// file is uploaded.
 	//
@@ -296,22 +297,42 @@
 
 				if ( url ) {
 					var onClick = element.onClick;
+
+					// "element" here means the definition object, so we need to find the correct
+					// button to scope the event call
 					element.onClick = function( evt ) {
-						// "element" here means the definition object, so we need to find the correct
-						// button to scope the event call
-						var sender = evt.sender;
-						if ( onClick && onClick.call( sender, evt ) === false )
+						var sender = evt.sender,
+							fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement(),
+							isFileUploadApiSupported = CKEDITOR.fileTools && CKEDITOR.fileTools.isFileUploadSupported;
+
+						if ( onClick && onClick.call( sender, evt ) === false ) {
 							return false;
-
-						if ( uploadFile.call( sender, evt ) ) {
-							var fileInput = sender.getDialog().getContentElement( this[ 'for' ][ 0 ], this[ 'for' ][ 1 ] ).getInputElement();
-
-							// Append token preventing CSRF attacks.
-							appendToken( fileInput );
-							return true;
 						}
 
+						if ( uploadFile.call( sender, evt ) ) {
+							// Use one of two upload strategies, either form or XHR based (#643).
+							if ( editor.config.filebrowserUploadMethod !== 'xhr' || !isFileUploadApiSupported ) {
+								// Append token preventing CSRF attacks.
+								appendToken( fileInput );
+								return true;
+							} else {
+								var loader = editor.uploadRepository.create( fileInput.$.files[ 0 ] );
 
+								loader.on( 'uploaded', function( evt ) {
+									var response = evt.sender.responseData;
+									setUrl.call( evt.sender.editor, response.url, response.message );
+								} );
+
+								// Return non-false value will disable fileButton in dialogui,
+								// below listeners takes care of such situation and re-enable "send" button.
+								loader.on( 'error', xhrUploadErrorHandler.bind( this ) );
+								loader.on( 'abort', xhrUploadErrorHandler.bind( this ) );
+
+								loader.loadAndUpload( url );
+
+								return 'xhr';
+							}
+						}
 						return false;
 					};
 
@@ -321,6 +342,12 @@
 				}
 			}
 		}
+	}
+
+	function xhrUploadErrorHandler( evt ) {
+		// `this` is a reference to ui.dialog.fileButton.
+		this.enable();
+		alert( evt.sender.message ); // jshint ignore:line
 	}
 
 	// Updates the target element with the url of uploaded/selected file.
@@ -569,5 +596,29 @@
  *		config.filebrowserWindowHeight = '50%';
  *
  * @cfg {Number/String} [filebrowserWindowHeight='70%']
+ * @member CKEDITOR.config
+ */
+
+/**
+ * Defines a preferred option for file uploading in the [File Browser](https://ckeditor.com/cke4/addon/filebrowser) plugin.
+ *
+ * Available values:
+ *
+ *	* `'xhr'` - XMLHttpRequest is used to upload file. Using this option allows to set up with Additional XHR headers with
+ * {@link CKEDITOR.config#fileTools_requestHeaders} option.
+ *	* `'form'` - (default) File is uploaded by submitting a traditional `<form>` element.
+ *	* `null` - The default method is used.
+ *
+ * Note: please be aware that `'xhr'` requires the [File Tools](https://ckeditor.com/cke4/addon/filetools) plugin to work
+ * properly. Without the plugin or using a browser that does not support
+ * {@link CKEDITOR.fileTools#isFileUploadSupported file uploading}, will fallback to the `'form'` method despite configuration
+ * option.
+ *
+ *		// Modern browsers will use XMLHttpRequest to upload files.
+ *		// IE8 and IE9 will use form submit even though the config option is set to 'xhr'.
+ *		config.filebrowserUploadMethod = 'xhr';
+ *
+ * @since 4.8.1
+ * @cfg {String/null} [filebrowserUploadMethod=null]
  * @member CKEDITOR.config
  */
