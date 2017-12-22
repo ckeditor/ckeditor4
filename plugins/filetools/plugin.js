@@ -49,7 +49,7 @@
 				var fileLoader = evt.data.fileLoader,
 					$formData = new FormData(),
 					requestData = evt.data.requestData,
-					configXHRHeaders = editor.config.xmlHttpRequestHeaders,
+					configXhrHeaders = editor.config.fileTools_requestHeaders,
 					header;
 
 				for ( var name in requestData ) {
@@ -66,9 +66,9 @@
 				// Append token preventing CSRF attacks.
 				$formData.append( 'ckCsrfToken', CKEDITOR.tools.getCsrfToken() );
 
-				if ( configXHRHeaders ) {
-					for ( header in configXHRHeaders ) {
-						fileLoader.xhr.setRequestHeader( header, configXHRHeaders[ header ] );
+				if ( configXhrHeaders ) {
+					for ( header in configXhrHeaders ) {
+						fileLoader.xhr.setRequestHeader( header, configXhrHeaders[ header ] );
 					}
 				}
 
@@ -867,21 +867,18 @@
 		},
 
 		/**
-		 * Property inform if current browser poses native methods used by {@link CKEDITOR.fileTools} to upload files.
+		 * Feature detection indicating whether current browser supports methods essential to send files over XHR request.
 		 *
+		 * @since 4.8.1
 		 * @property {Boolean} isFileUploadSupported
 		 */
 		isFileUploadSupported: ( function() {
-			if ( typeof FileReader === 'function' &&
+			return typeof FileReader === 'function' &&
 				typeof ( new FileReader() ).readAsDataURL === 'function' &&
 				typeof FormData === 'function' &&
 				typeof ( new FormData() ).append === 'function' &&
 				typeof XMLHttpRequest === 'function' &&
-				typeof Blob === 'function' ) {
-
-				return true;
-			}
-			return false;
+				typeof Blob === 'function';
 		} )()
 	} );
 } )();
@@ -913,14 +910,18 @@
  */
 
 /**
- * Additional headers of XMLHttpRequest used during file upload with plugins: {@link CKEDITOR.fileTools} and filebrowser.
+ * Allows to add extra headers for every request made using {@link CKEDITOR.fileTools} API.
  *
- * 	config.xmlHttpRequestHeaders = {
- * 		'Cache-Control': 'no-cache',
- * 		'X-CUSTOM': 'HEADER'
- * 	};
+ * Note that headers can still be customized per a single request, using the
+ * [`fileUploadRequest`](https://docs.ckeditor.com/ckeditor4/docs/#!/api/CKEDITOR.editor-event-fileUploadRequest)
+ * event.
+ *
+ *		config.fileTools_requestHeaders = {
+ *			'X-Requested-With': 'XMLHttpRequest',
+ *			'Custom-Header': 'header value'
+ *		};
  *
  * @since 4.8.1
- * @cfg {Object} [xmlHttpRequestHeaders=null]
+ * @cfg {Object} [fileTools_requestHeaders]
  * @member CKEDITOR.config
  */
