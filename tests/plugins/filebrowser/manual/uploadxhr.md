@@ -8,8 +8,14 @@
 3. Select some image and send it to server
 4. Close dialog (There might appear warning that image url is not set up)
 
-**Expected:** Below editor will appear green div with listed headers attempted to send. There are 2 headers in single line:
-`hello: world, foo: bar`.
+**Expected:** Below editor will appear green div with listed headers attempted to send. You should see following headers for each case:
+
+```
+{
+    "hello": "world",
+    "foo": "bar"
+}
+```
 
 **Unexpected:** Headers are not listed below.
 
