@@ -183,6 +183,9 @@
 					} else {
 						this.removeClass( editor.config.easyimage_sideClass );
 					}
+
+					editor.getCommand( 'easyimageFull' ).refresh( editor );
+					editor.getCommand( 'easyimageSide' ).refresh( editor );
 				}
 			};
 
