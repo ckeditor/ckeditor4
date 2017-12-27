@@ -468,6 +468,8 @@
 
 			// Match element selectors.
 			if ( path ) {
+				// First check the outermost element (if any was selected), since the selection got shrinked
+				// it would be otherwise skipped (#1274).
 				var selectedElem = selection.getSelectedElement();
 
 				if ( selectedElem && !selectedElem.isReadOnly() ) {

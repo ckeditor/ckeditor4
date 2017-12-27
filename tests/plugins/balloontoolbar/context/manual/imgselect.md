@@ -1,5 +1,5 @@
 @bender-ui: collapsed
-@bender-tags: 4.8.1, bug, balloontoolbar, 1274
+@bender-tags: 4.8.1, bug, 1274, balloontoolbar
 @bender-ckeditor-plugins: wysiwygarea, toolbar, undo, floatingspace, balloontoolbar, sourcearea, link, elementspath, image
 
 # Image Selection
@@ -12,4 +12,4 @@ Toolbar is shown.
 
 ## Unexpected
 
-No toolbar is visible.
+No toolbar is not visible.
