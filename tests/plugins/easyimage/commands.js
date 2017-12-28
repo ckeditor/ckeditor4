@@ -143,26 +143,23 @@
 						toolbar = editor.balloonToolbars._contexts[ 0 ].toolbar;
 
 					toolbar._view.once( 'show', function() {
-						resume( function() {
-							assertCommandsState( editor, {
-								easyimageFull: CKEDITOR.TRISTATE_ON,
-								easyimageSide: CKEDITOR.TRISTATE_OFF,
-								easyimageAlt: CKEDITOR.TRISTATE_OFF
-							} );
+						assertCommandsState( editor, {
+							easyimageFull: CKEDITOR.TRISTATE_ON,
+							easyimageSide: CKEDITOR.TRISTATE_OFF,
+							easyimageAlt: CKEDITOR.TRISTATE_OFF
+						} );
 
-							editor.once( 'afterCommandExec', function() {
-								resume( function() {
-									assertCommandsState( editor, {
-										easyimageFull: CKEDITOR.TRISTATE_OFF,
-										easyimageSide: CKEDITOR.TRISTATE_ON,
-										easyimageAlt: CKEDITOR.TRISTATE_OFF
-									} );
+						editor.once( 'afterCommandExec', function() {
+							resume( function() {
+								assertCommandsState( editor, {
+									easyimageFull: CKEDITOR.TRISTATE_OFF,
+									easyimageSide: CKEDITOR.TRISTATE_ON,
+									easyimageAlt: CKEDITOR.TRISTATE_OFF
 								} );
 							} );
-
-							editor.execCommand( 'easyimageSide' );
-							wait();
 						} );
+
+						editor.execCommand( 'easyimageSide' );
 					} );
 
 					widget.focus();
