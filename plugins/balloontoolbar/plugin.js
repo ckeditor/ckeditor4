@@ -421,7 +421,7 @@
 				selection = this.editor.getSelection();
 
 				// Shrink the selection so that we're ensured innermost elements are available, so that path for
-				// selection like `foo [<em>bar</em>] baz` also contains `em` element
+				// selection like `foo [<em>bar</em>] baz` also contains `em` element.
 				CKEDITOR.tools.array.forEach( selection.getRanges(), function( range ) {
 					range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
 				} );
