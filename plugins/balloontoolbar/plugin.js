@@ -420,7 +420,8 @@
 			if ( !selection ) {
 				selection = this.editor.getSelection();
 
-				// Shrink the selection so that we're ensured innermost elements are available.
+				// Shrink the selection so that we're ensured innermost elements are available, so that path for
+				// selection like `foo [<em>bar</em>] baz` also contains `em` element.
 				CKEDITOR.tools.array.forEach( selection.getRanges(), function( range ) {
 					range.shrink( CKEDITOR.SHRINK_ELEMENT, true );
 				} );
@@ -468,6 +469,14 @@
 
 			// Match element selectors.
 			if ( path ) {
+				// First check the outermost element (if any was selected), since the selection got shrinked
+				// it would be otherwise skipped (#1274).
+				var selectedElem = selection.getSelectedElement();
+
+				if ( selectedElem && !selectedElem.isReadOnly() ) {
+					matchEachContext( this._contexts, elementsMatcher, selectedElem );
+				}
+
 				for ( var i = 0; i < path.elements.length; i++ ) {
 					var curElement = path.elements[ i ];
 					// Skip non-editable elements (e.g. widget internal structure).
