@@ -275,6 +275,15 @@
 			onBlur: function( widget ) {
 				assertPlaceholder( widget, false );
 			}
+		} ),
+
+		'test caption placeholder is not outputted': createToggleTest( {
+			fixture: 'toggleOneEmpty',
+			focus: true,
+
+			onFocus: function( widget ) {
+				assert.isNotMatching( /Enter image caption/, widget.editor.getData() );
+			}
 		} )
 	};
 
