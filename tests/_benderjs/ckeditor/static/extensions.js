@@ -43,15 +43,31 @@
 		);
 	}
 
-	bender.assert.isMatching = function( expected, actual, message ) {
+	/*
+	 * @param {RegExp} expected RegExp that must be matched.
+	 * @param {String} actual String value to be tested.
+	 * @param {String} [message]
+	 * @param {Boolean} [reversed=false] If `true` will reverse assertion, and ensure that pattern is not included.
+	 */
+	bender.assert.isMatching = function( expected, actual, message, reversed ) {
 		YTest.Assert._increment();
+		var desiredMatchResult = reversed ? false : true;
 		// Using regexp.test may lead to unpredictable bugs when using global flag for regexp.
-		if ( typeof actual != 'string' || !actual.match( expected ) ) {
+		if ( typeof actual != 'string' || !!actual.match( expected ) !== desiredMatchResult ) {
 			throw new YTest.ComparisonFailure(
 				YTest.Assert._formatMessage( message, 'Value should match expected pattern.' ),
 				expected.toString(), actual
 			);
 		}
+	};
+
+	/*
+	 * @param {RegExp} expected RegExp that **must not** be matched.
+	 * @param {String} actual String value to be tested.
+	 * @param {String} [message]
+	 */
+	bender.assert.isNotMatching = function( expected, actual, message ) {
+		this.isMatching( expected, actual, message || 'Value can not match the pattern.', true );
 	};
 
 	/**
