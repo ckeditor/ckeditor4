@@ -33,7 +33,7 @@
 			};
 		}
 
-		function createCommand( exec, refreshCheck ) {
+		function createCommand( exec, refreshCheck, forceSelectionCheck ) {
 			return {
 				startDisabled: true,
 				contextSensitive: true,
@@ -43,9 +43,12 @@
 
 					exec( widget );
 
-					// We have to manually force refresh commands as refresh seems
-					// to be executed prior to exec.
-					editor.forceNextSelectionCheck();
+					if ( forceSelectionCheck ) {
+						// We have to manually force refresh commands as refresh seems to be executed prior to exec.
+						// Without this command states would be outdated.
+						editor.forceNextSelectionCheck();
+						editor.selectionChange( true );
+					}
 				},
 
 				refresh: createCommandRefresh( refreshCheck )
@@ -56,13 +59,13 @@
 			widget.setData( 'type', 'full' );
 		}, function( widget ) {
 			return isFullImage( widget );
-		} ) );
+		}, true ) );
 
 		editor.addCommand( 'easyimageSide', createCommand( function( widget ) {
 			widget.setData( 'type', 'side' );
 		}, function( widget ) {
 			return isSideImage( widget );
-		} ) );
+		}, true ) );
 
 		editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
 			startDisabled: true,
@@ -71,7 +74,36 @@
 		} ) );
 	}
 
+	function addToolbar( editor ) {
+		editor.ui.addButton( 'EasyimageFull', {
+			label: editor.lang.easyimage.commands.fullImage,
+			command: 'easyimageFull',
+			toolbar: 'easyimage,1'
+		} );
+
+		editor.ui.addButton( 'EasyimageSide', {
+			label: editor.lang.easyimage.commands.sideImage,
+			command: 'easyimageSide',
+			toolbar: 'easyimage,2'
+		} );
+
+		editor.ui.addButton( 'EasyimageAlt', {
+			label: editor.lang.easyimage.commands.altText,
+			command: 'easyimageAlt',
+			toolbar: 'easyimage,3'
+		} );
+
+		editor.balloonToolbars.create( {
+			buttons: 'EasyimageFull,EasyimageSide,EasyimageAlt',
+			widgets: [ 'easyimage' ]
+		} );
+	}
+
 	function addMenuItems( editor ) {
+		if ( !editor.plugins.contextmenu ) {
+			return;
+		}
+
 		editor.addMenuGroup( 'easyimage' );
 		editor.addMenuItems( {
 			easyimageFull: {
@@ -364,7 +396,7 @@
 	};
 
 	CKEDITOR.plugins.add( 'easyimage', {
-		requires: 'imagebase,uploadwidget,contextmenu,dialog,cloudservices',
+		requires: 'imagebase,uploadwidget,balloontoolbar,button,dialog,cloudservices',
 		lang: 'en',
 		icons: 'easyimagefull,easyimageside,easyimagealt', // %REMOVE_LINE_CORE%
 		hidpi: true, // %REMOVE_LINE_CORE%
@@ -384,6 +416,7 @@
 		afterInit: function( editor ) {
 			registerWidget( editor );
 			registerUploadWidget( editor );
+			addToolbar( editor );
 		}
 	} );
 
