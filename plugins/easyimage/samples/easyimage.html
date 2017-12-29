@@ -40,7 +40,6 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 			<div class="content grid-width-100">
 				<h1>Easy Image Demo</h1>
 				<p>It shows our progress of work on Easy Image plugin.</p>
-				<p>At the moment commands could be invoked via context menu.</p>
 			</div>
 		</div>
 	</div>
@@ -50,7 +49,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				<div id="editor">
 					<h1>Apollo 11</h1>
 					<p><strong>Apollo 11</strong> was the spaceflight that landed the first humans, Americans <a href="http://en.wikipedia.org/wiki/Neil_Armstrong">Neil Armstrong</a> and <a href="http://en.wikipedia.org/wiki/Buzz_Aldrin">Buzz Aldrin</a>, on the Moon on July 20, 1969, at 20:18 UTC. Armstrong became the first to step onto the lunar surface 6 hours later on July 21 at 02:56 UTC.</p>
-					<figure class="image easyimage">
+					<figure class="easyimage easyimage-side">
 						<img alt="Saturn V carrying Apollo 11" src="../../image2/samples/assets/image1.jpg">
 						<figcaption>Saturn V carrying Apollo 11</figcaption>
 					</figure>
@@ -109,6 +108,14 @@ function getToken( callback ) {
 
 getToken( function( token ) {
 	CKEDITOR.replace( 'editor', {
+		plugins: 'sourcearea,toolbar,undo,wysiwygarea,list,liststyle,format,link,basicstyles',
+		toolbar: [
+			{ name: 'document', items: [ 'Source', 'Undo', 'Redo' ] },
+			{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
+			{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList' ] },
+			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+			{ name: 'styles', items: [ 'Format' ] }
+		],
 		extraPlugins: 'easyimage',
 		cloudServices_url: 'https://files.cke-cs.com/upload/',
 		cloudServices_token: token,
