@@ -170,6 +170,21 @@
 	}
 
 	function registerUploadWidget( editor ) {
+		// Natural width of the image can be fetched only after image is loaded.
+		// However cached images won't fire `load` event, but just mark themselves
+		// as complete.
+		function getNaturalWidth( image, callback ) {
+			var $image = image.$;
+
+			if ( $image.complete && $image.naturalWidth ) {
+				return callback( $image.naturalWidth );
+			}
+
+			image.once( 'load', function() {
+				callback( $image.naturalWidth );
+			} );
+		}
+
 		var uploadWidgetDefinition = {
 			supportedTypes: /image\/(jpeg|png|gif|bmp)/,
 
@@ -198,10 +213,12 @@
 
 			onUploaded: function( upload ) {
 				var srcset = CKEDITOR.plugins.easyimage._parseSrcSet( upload.responseData.response ),
-					width = this.parts.img.$.naturalWidth;
+					widget = this;
 
-				this.replaceWith( '<figure class="' + ( editor.config.easyimage_class || '' ) + '"><img src="' +
+				getNaturalWidth( widget.parts.img, function( width ) {
+					widget.replaceWith( '<figure class="' + ( editor.config.easyimage_class || '' ) + '"><img src="' +
 					upload.responseData.response[ 'default' ] + '" srcset="' + srcset + '" sizes="100vw" width="' + width + '"><figcaption></figcaption></figure>' );
+				} );
 			}
 		};
 
