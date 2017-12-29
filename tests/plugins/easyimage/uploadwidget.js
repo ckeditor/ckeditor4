@@ -12,7 +12,7 @@
 		DATA_IMG = 'data:',
 		BLOB_IMG = 'blob:',
 		WIDGET_HTML = '<figure class="easyimage">' +
-				'<img src="' + IMG_URL + '" srcset="' + IMG_URL + ' 100w, ' + IMG_URL + ' 200w" />' +
+				'<img src="' + IMG_URL + '" srcset="' + IMG_URL + ' 100w, ' + IMG_URL + ' 200w" sizes="100vw" width="1" />' +
 				'<figcaption></figcaption>' +
 			'</figure>',
 		commonConfig = {
@@ -141,7 +141,7 @@
 				loader.url = IMG_URL;
 				loader.changeStatus( 'uploaded' );
 
-				assert.sameData( WIDGET_HTML, editor.getData() );
+				assert.beautified.html( WIDGET_HTML, editor.getData() );
 				assert.areSame( 1, editor.editable().find( '[data-widget="easyimage"]' ).count(), 'Easy Image widgets count' );
 
 				assert.areSame( 0, loadAndUploadCount );
@@ -170,7 +170,7 @@
 					loader.url = IMG_URL;
 					loader.changeStatus( 'uploaded' );
 
-					assert.sameData( '<p>x</p>' + WIDGET_HTML + '<p>x</p>', editor.getData() );
+					assert.beautified.html( '<p>x</p>' + WIDGET_HTML + '<p>x</p>', editor.getData() );
 					assert.areSame( 1, editor.editable().find( '[data-widget="easyimage"]' ).count() );
 
 					assert.areSame( 0, loadAndUploadCount );
