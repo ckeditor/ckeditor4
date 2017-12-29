@@ -33,7 +33,7 @@
 			};
 		}
 
-		function createCommand( exec, refreshCheck ) {
+		function createCommand( exec, refreshCheck, forceSelectionCheck ) {
 			return {
 				startDisabled: true,
 				contextSensitive: true,
@@ -43,9 +43,12 @@
 
 					exec( widget );
 
-					// We have to manually force refresh commands as refresh seems
-					// to be executed prior to exec.
-					editor.forceNextSelectionCheck();
+					if ( forceSelectionCheck ) {
+						// We have to manually force refresh commands as refresh seems to be executed prior to exec.
+						// Without this command states would be outdated.
+						editor.forceNextSelectionCheck();
+						editor.selectionChange( true );
+					}
 				},
 
 				refresh: createCommandRefresh( refreshCheck )
@@ -56,13 +59,13 @@
 			widget.setData( 'type', 'full' );
 		}, function( widget ) {
 			return isFullImage( widget );
-		} ) );
+		}, true ) );
 
 		editor.addCommand( 'easyimageSide', createCommand( function( widget ) {
 			widget.setData( 'type', 'side' );
 		}, function( widget ) {
 			return isSideImage( widget );
-		} ) );
+		}, true ) );
 
 		editor.addCommand( 'easyimageAlt', new CKEDITOR.dialogCommand( 'easyimageAlt', {
 			startDisabled: true,
@@ -183,9 +186,6 @@
 					} else {
 						this.removeClass( editor.config.easyimage_sideClass );
 					}
-
-					editor.getCommand( 'easyimageFull' ).refresh( editor );
-					editor.getCommand( 'easyimageSide' ).refresh( editor );
 				}
 			};
 
