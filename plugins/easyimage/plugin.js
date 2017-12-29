@@ -115,7 +115,7 @@
 					},
 
 					img: {
-						attributes: '!src,srcset,alt'
+						attributes: '!src,srcset,alt,width,sizes'
 					}
 				},
 
@@ -197,10 +197,11 @@
 			},
 
 			onUploaded: function( upload ) {
-				var srcset = CKEDITOR.plugins.easyimage._parseSrcSet( upload.responseData.response );
+				var srcset = CKEDITOR.plugins.easyimage._parseSrcSet( upload.responseData.response ),
+					width = this.parts.img.$.naturalWidth;
 
 				this.replaceWith( '<figure class="' + ( editor.config.easyimage_class || '' ) + '"><img src="' +
-					upload.responseData.response[ 'default' ] + '" srcset="' + srcset + '" sizes="100vw"><figcaption></figcaption></figure>' );
+					upload.responseData.response[ 'default' ] + '" srcset="' + srcset + '" sizes="100vw" width="' + width + '"><figcaption></figcaption></figure>' );
 			}
 		};
 
