@@ -32,8 +32,12 @@
 		}
 	}
 
+	function hasWidgetFeature( widget, feature ) {
+		return widget.features && CKEDITOR.tools.array.indexOf( widget.features, feature ) !== -1;
+	}
+
 	function isLinkable( widget ) {
-		return widget && widget.features && CKEDITOR.tools.array.indexOf( widget.features, 'link' ) !== -1;
+		return widget && hasWidgetFeature( widget, 'link' );
 	}
 
 	function addLinkAttributes( editor, linkElement, linkData ) {
@@ -100,8 +104,7 @@
 						i;
 
 					for ( i in widgets ) {
-						if ( widgets[ i ].features &&
-							CKEDITOR.tools.array.indexOf( widgets[ i ].features, 'caption' ) !== -1 ) {
+						if ( hasWidgetFeature( widgets[ i ], 'caption' ) ) {
 							widgets[ i ]._toggleCaption( evt.data.path.lastElement );
 						}
 					}
