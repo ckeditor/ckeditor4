@@ -95,22 +95,30 @@
 			widget.editables.caption.setData( '' );
 		}
 
+		function toggleVisibility( caption, isVisible ) {
+			caption.data( 'cke-active', isVisible );
+			caption.data( 'cke-hidden', !isVisible );
+		}
+
 		return {
 			setUp: function( editor ) {
 				var listener;
 
 				listener = editor.on( 'selectionChange', function( evt ) {
-					var widgets = editor.widgets.instances,
-						i;
+					var widgets = editor.widgets,
+						focused = widgets.focused,
+						previous = widgets.getByElement( editor.editable().findOne( 'figcaption[data-cke-active]' ) );
 
 					if ( !editor.filter.check( 'figcaption' ) ) {
 						return listener.removeListener();
 					}
 
-					for ( i in widgets ) {
-						if ( hasWidgetFeature( widgets[ i ], 'caption' ) ) {
-							widgets[ i ]._refreshCaption( evt.data.path.lastElement );
-						}
+					if ( focused && hasWidgetFeature( focused, 'caption' ) ) {
+						focused._refreshCaption( evt.data.path.lastElement );
+					}
+
+					if ( previous && hasWidgetFeature( previous, 'caption' ) ) {
+						previous._refreshCaption( evt.data.path.lastElement );
 					}
 				} );
 			},
@@ -141,7 +149,7 @@
 					editable = this.editables.caption;
 
 				if ( isFocused ) {
-					caption.data( 'cke-hidden', false );
+					toggleVisibility( caption, true );
 
 					if ( !editable.getData() ) {
 						addPlaceholder( this );
@@ -149,7 +157,7 @@
 						removePlaceholder( this );
 					}
 				} else if ( isEmptyOrHasPlaceholder( this ) ) {
-					caption.data( 'cke-hidden', true );
+					toggleVisibility( caption, false );
 					removePlaceholder( this );
 				}
 			}
