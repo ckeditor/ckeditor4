@@ -109,7 +109,7 @@
 
 					for ( i in widgets ) {
 						if ( hasWidgetFeature( widgets[ i ], 'caption' ) ) {
-							widgets[ i ]._toggleCaption( evt.data.path.lastElement );
+							widgets[ i ]._refreshCaption( evt.data.path.lastElement );
 						}
 					}
 				} );
@@ -124,7 +124,7 @@
 					this.parts.caption = createCaption( this );
 				}
 
-				this._toggleCaption();
+				this._refreshCaption();
 			},
 
 			/**
@@ -135,7 +135,7 @@
 			 * @member CKEDITOR.plugins.imagebase.featuresDefinitions.caption
 			 * @param {CKEDITOR.dom.element} sender Element, which triggered `selectionChange` event
 			 */
-			_toggleCaption: function( sender ) {
+			_refreshCaption: function( sender ) {
 				var isFocused = getFocusedWidget( this.editor ) === this,
 					caption = this.parts.caption,
 					editable = this.editables.caption;
