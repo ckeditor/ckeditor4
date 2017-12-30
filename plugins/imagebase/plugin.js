@@ -70,34 +70,33 @@
 		return CKEDITOR.plugins.link.parseLinkAttributes( widget.editor, widget.parts.link );
 	}
 
-	function createCaption( widget ) {
-		var element = widget.element,
-			caption = element.getDocument().createElement( 'figcaption' ),
-			definition = widget.editor.widgets.registered[ widget.name ];
+	function getCaptionFeature() {
+		function createCaption( widget ) {
+			var element = widget.element,
+				caption = element.getDocument().createElement( 'figcaption' ),
+				definition = widget.editor.widgets.registered[ widget.name ];
 
-		element.append( caption );
-		widget.initEditable( 'caption', definition.editables.caption );
+			element.append( caption );
+			widget.initEditable( 'caption', definition.editables.caption );
 
-		return caption;
-	}
+			return caption;
+		}
 
-	function isEmptyOrHasPlaceholder( widget ) {
+		function isEmptyOrHasPlaceholder( widget ) {
+			return !widget.editables.caption.getData() || widget.parts.caption.hasAttribute( 'data-cke-placeholder' );
+		}
 
-		return !widget.editables.caption.getData() || widget.parts.caption.hasAttribute( 'data-cke-placeholder' );
-	}
+		function addPlaceholder( widget ) {
+			widget.parts.caption.setAttribute( 'data-cke-placeholder', true );
+			widget.editables.caption.setData( widget.editor.lang.imagebase.captionPlaceholder );
+		}
 
-	function addPlaceholder( widget ) {
-		widget.parts.caption.setAttribute( 'data-cke-placeholder', true );
-		widget.editables.caption.setData( widget.editor.lang.imagebase.captionPlaceholder );
-	}
+		function removePlaceholder( widget ) {
+			widget.parts.caption.removeAttribute( 'data-cke-placeholder' );
+			widget.editables.caption.setData( '' );
+		}
 
-	function removePlaceholder( widget ) {
-		widget.parts.caption.removeAttribute( 'data-cke-placeholder' );
-		widget.editables.caption.setData( '' );
-	}
-
-	var featuresDefinitions = {
-		caption: {
+		return {
 			setUp: function( editor ) {
 				editor.on( 'selectionChange', function( evt ) {
 					var widgets = editor.widgets.instances,
@@ -145,7 +144,11 @@
 					removePlaceholder( this );
 				}
 			}
-		},
+		};
+	}
+
+	var featuresDefinitions = {
+		caption: getCaptionFeature(),
 
 		link: {
 			allowedContent: {
