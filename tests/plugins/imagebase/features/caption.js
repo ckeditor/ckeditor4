@@ -288,5 +288,23 @@
 	};
 
 	tests = bender.tools.createTestsForEditors( CKEDITOR.tools.objectKeys( bender.editors ), tests );
+
+	tests[ 'test integration with ACF' ] = function() {
+		bender.editorBot.create( {
+			name: 'acf_integration',
+			config: {
+				disallowedContent: 'figcaption'
+			}
+		}, function( bot ) {
+			var editor = bot.editor;
+
+			addTestWidget( editor );
+
+			bot.setData( getFixture( 'toggleOneEmpty' ), function() {
+				assert.isFalse( !!widgetTestsTools.getWidgetByDOMOffset( editor, 0 ).parts.caption, 'Caption presence' );
+			} );
+		} );
+	};
+
 	bender.test( tests );
 } )();

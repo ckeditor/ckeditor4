@@ -97,9 +97,15 @@
 
 		return {
 			setUp: function( editor ) {
-				editor.on( 'selectionChange', function( evt ) {
+				var listener;
+
+				listener = editor.on( 'selectionChange', function( evt ) {
 					var widgets = editor.widgets.instances,
 						i;
+
+					if ( !editor.filter.check( 'figcaption' ) ) {
+						return listener.removeListener();
+					}
 
 					for ( i in widgets ) {
 						if ( hasWidgetFeature( widgets[ i ], 'caption' ) ) {
@@ -110,6 +116,10 @@
 			},
 
 			init: function() {
+				if ( !this.editor.filter.check( 'figcaption' ) ) {
+					return;
+				}
+
 				if ( !this.parts.caption ) {
 					this.parts.caption = createCaption( this );
 				}
