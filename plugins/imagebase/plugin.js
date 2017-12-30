@@ -149,16 +149,16 @@
 					editable = this.editables.caption;
 
 				if ( isFocused ) {
-					toggleVisibility( caption, true );
-
 					if ( !editable.getData() ) {
 						addPlaceholder( this );
 					} else if ( sender.equals( caption ) && sender.data( 'cke-placeholder' ) ) {
 						removePlaceholder( this );
 					}
+
+					toggleVisibility( caption, true );
 				} else if ( isEmptyOrHasPlaceholder( this ) ) {
-					toggleVisibility( caption, false );
 					removePlaceholder( this );
+					toggleVisibility( caption, false );
 				}
 			}
 		};
