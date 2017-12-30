@@ -83,16 +83,16 @@
 		}
 
 		function isEmptyOrHasPlaceholder( widget ) {
-			return !widget.editables.caption.getData() || widget.parts.caption.hasAttribute( 'data-cke-placeholder' );
+			return !widget.editables.caption.getData() || widget.parts.caption.data( 'cke-placeholder' );
 		}
 
 		function addPlaceholder( widget ) {
-			widget.parts.caption.setAttribute( 'data-cke-placeholder', true );
+			widget.parts.caption.data( 'cke-placeholder', true );
 			widget.editables.caption.setData( widget.editor.lang.imagebase.captionPlaceholder );
 		}
 
 		function removePlaceholder( widget ) {
-			widget.parts.caption.removeAttribute( 'data-cke-placeholder' );
+			widget.parts.caption.data( 'cke-placeholder', false );
 			widget.editables.caption.setData( '' );
 		}
 
@@ -132,15 +132,15 @@
 					editable = this.editables.caption;
 
 				if ( isFocused ) {
-					caption.removeAttribute( 'data-cke-hidden' );
+					caption.data( 'cke-hidden', false );
 
 					if ( !editable.getData() ) {
 						addPlaceholder( this );
-					} else if ( sender.equals( caption ) && sender.hasAttribute( 'data-cke-placeholder' ) ) {
+					} else if ( sender.equals( caption ) && sender.data( 'cke-placeholder' ) ) {
 						removePlaceholder( this );
 					}
 				} else if ( isEmptyOrHasPlaceholder( this ) ) {
-					caption.setAttribute( 'data-cke-hidden', true );
+					caption.data( 'cke-hidden', true );
 					removePlaceholder( this );
 				}
 			}

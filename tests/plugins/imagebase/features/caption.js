@@ -35,7 +35,7 @@
 	}
 
 	function assertVisibility( caption, isVisible, msg ) {
-		assert[ 'is' + ( isVisible ? 'False' : 'True' ) ]( caption.hasAttribute( 'data-cke-hidden' ), msg );
+		assert[ 'is' + ( isVisible ? 'False' : 'True' ) ]( !!caption.data( 'cke-hidden' ), msg );
 	}
 
 	function createToggleTest( options ) {
@@ -139,7 +139,7 @@
 		var caption = widget.parts.caption,
 			editable = widget.editables.caption;
 
-		assert[ 'is' + ( isVisible ? 'True' : 'False' ) ]( caption.hasAttribute( 'data-cke-placeholder' ),
+		assert[ 'is' + ( isVisible ? 'True' : 'False' ) ]( !!caption.data( 'cke-placeholder' ),
 			'Placeholder visibility' );
 
 		if ( isVisible ) {
