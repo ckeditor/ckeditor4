@@ -73,11 +73,10 @@
 	function getCaptionFeature() {
 		function createCaption( widget ) {
 			var element = widget.element,
-				caption = element.getDocument().createElement( 'figcaption' ),
-				definition = widget.editor.widgets.registered[ widget.name ];
+				caption = element.getDocument().createElement( 'figcaption' );
 
 			element.append( caption );
-			widget.initEditable( 'caption', definition.editables.caption );
+			widget.initEditable( 'caption', widget.definition.editables.caption );
 
 			return caption;
 		}
