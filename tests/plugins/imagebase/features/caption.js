@@ -140,14 +140,12 @@
 	}
 
 	function assertPlaceholder( widget, isVisible ) {
-		var caption = widget.parts.caption,
-			editable = widget.editables.caption;
+		var placeholder = widget.parts.caption.data( 'cke-placeholder' );
 
-		assert[ 'is' + ( isVisible ? 'True' : 'False' ) ]( !!caption.data( 'cke-placeholder' ),
-			'Placeholder visibility' );
+		assert[ 'is' + ( isVisible ? 'True' : 'False' ) ]( !!placeholder, 'Placeholder visibility' );
 
 		if ( isVisible ) {
-			assert.areSame( widget.editor.lang.imagebase.captionPlaceholder, editable.getData(), 'Placeholder value' );
+			assert.areSame( widget.editor.lang.imagebase.captionPlaceholder, placeholder, 'Placeholder value' );
 		}
 	}
 
