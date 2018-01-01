@@ -5,3 +5,8 @@
 [data-cke-placeholder] {
 	color: rgba( 0, 0, 0, .4 );
 }
+
+[data-cke-placeholder]::before {
+	display: inline;
+	content: attr( data-cke-placeholder );
+}
