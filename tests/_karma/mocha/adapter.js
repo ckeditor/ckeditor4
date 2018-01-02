@@ -99,8 +99,13 @@
 			bender.setupEditors( ts, function() {
 				if ( ts.init ) {
 					ts.init();
+					done();
+				} else if ( ts[ 'async:init' ] ) {
+					ts.callback = done;
+					ts[ 'async:init' ]();
+				} else {
+					done();
 				}
-				done();
 			} );
 		};
 	};

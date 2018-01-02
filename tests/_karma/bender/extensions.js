@@ -23,11 +23,16 @@
 		return bender._plugins;
 	};
 
-	bender.setBenderPlugins = function( plugins, removePlugins) {
+	bender.setBenderPlugins = function( plugins, removePlugins ) {
 		bender._plugins = {
 			plugins: plugins,
 			removePlugins: removePlugins
 		};
+
+		// Set also `bender.plugins` as it is also used directly in some tests.
+		if ( plugins && plugins.length ) {
+			bender.plugins = plugins.split( ',' );
+		}
 	};
 
 	bender.resetCKEditorSettings = function() {
