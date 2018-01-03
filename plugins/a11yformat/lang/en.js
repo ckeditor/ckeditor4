@@ -3,11 +3,11 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'a11yformat', 'en', {
-  label:       'Block Format',
-  panelTitle:  'Select block format',
+  label:       'Paragraph Format',
+  panelTitle:  'Select paragraph format',
   tag_address: 'Address',
   tag_div:     'Normal (DIV)',
-  tag_p:       'Normal text',
-  tag_pre:     'Preformatted text',
+  tag_p:       'Normal',
+  tag_pre:     'Preformatted',
   helpLabel:   'Help'
 } );

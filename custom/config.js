@@ -43,6 +43,7 @@ CKEDITOR.editorConfig = function ( config ) {
     'image,' +
     'indent,' +
     'indentlist,' +
+    'justify,' +
     'language,' +
     'link,' +
     'list,' +
@@ -136,21 +137,21 @@ CKEDITOR.editorConfig = function ( config ) {
   config.toolbar = [
     { name: 'heading',        items: [ 'Heading' ] },
     { name: 'list',           items: [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent' ] },
-    { name: 'link',           items: [ 'Link', 'Unlink', 'Anchor' ] },
     { name: 'blockformat',    items: [ 'BlockFormat' ] },
     { name: 'blockquote',     items: [ 'Blockquote', 'ShowBlocks' ] },
     { name: 'paragraph',      items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
     { name: 'misc1',          items: [ 'Image', 'Table' ] },
-    { name: 'a11ychecker',    items: [ 'A11ychecker' ] },
     { name: 'a11yfirsthelp',  items: [ 'A11yFirstHelp'] },
     '/',
     { name: 'undoredo',       items: [ 'Undo', 'Redo'] },
     { name: 'clipboard',      items: [ 'Cut', 'Copy', 'Paste', 'PasteFromWord' ] },
     { name: 'search',         items: [ 'Find', 'Replace' ] },
     { name: 'basicstyles',    items: [ 'Bold', 'Italic'] },
-    { name: 'removeformat',   items: [ 'RemoveFormat' ] },
     { name: 'inlinestyle',    items: [ 'InlineStyle' ] },
-    { name: 'misc2',          items: [ 'Language', 'SpecialChar' ] }
+    { name: 'removeformat',   items: [ 'RemoveFormat' ] },
+    { name: 'link',           items: [ 'Link', 'Unlink', 'Anchor' ] },
+    { name: 'misc2',          items: [ 'Language', 'SpecialChar' ] },
+    { name: 'a11ychecker',    items: [ 'A11ychecker' ] }
   ];
 
 };

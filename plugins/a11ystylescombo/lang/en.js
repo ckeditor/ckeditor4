@@ -3,7 +3,7 @@
 * For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 CKEDITOR.plugins.setLang( 'a11ystylescombo', 'en', {
-  label:             'Inline Style',
+  label:             'Character Style',
   helpLabel:         'Help',
   removeStylesLabel: 'Remove styles',
   panelTitle:        'Select inline style',
