@@ -1,4 +1,4 @@
-# Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
+# Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
 # For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 label = Generic template for a label, read by a screen reader once the widget gets focused. %1 sequence is replaced either with a widget path name or it's main element tag name.
