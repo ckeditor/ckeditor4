@@ -69,10 +69,10 @@ text or understand images.\n\
 * **Heading**: Assists you in choosing the proper heading levels to make the\n\
 heading structure in your document more meaningful to readers.\n\
 \n\
-* **Block Format**: Provides special formatting for blocks of text (e.g.\n\
+* **Paragraph Format**: Provides special formatting for blocks of text (e.g.\n\
 paragraphs) within your document.\n\
 \n\
-* **Inline Style**: Provides styling to highlight or emphasize a word or group\n\
+* **Character Style**: Provides styling to highlight or emphasize a word or group\n\
 of words (i.e. characters) within a block of text.\n\
 \n\
 ### Project Information\n\
@@ -161,88 +161,93 @@ Style` options.\n\
   },
 
   blockFormatHelp: {
-    'menu':  'Block Format',
-    'label': 'Block Format',
-    'title': 'Block Format Help',
+    'menu':  'Paragraph Format',
+    'label': 'Paragraph Format',
+    'title': 'Paragraph Format Help',
     'content': '\
-## Block Format\n\
+## Paragraph Format\n\
 \n\
 ### How it works\n\
 \n\
-* A block format can be applied by placing your cursor within a text block and\n\
-selecting an item from the *Block Format* menu.\n\
+* A paragraph format can be applied by placing your cursor within a text\n\
+block and selecting an item from the *Paragraph Format* menu.\n\
 \n\
-* The baseline block format is *Normal text*, which is a simple paragraph.\n\
+* The baseline format is *Normal*, which is a simple paragraph. When a\n\
+paragraph has no other active format applied, its format is Normal.\n\
 \n\
-* To remove an active block format, either toggle it off by selecting it in the\n\
-menu, or select the *Normal text* option from the menu.\n\
+* To remove one of the other paragraph formats such as *Preformatted* or\n\
+*Address*, either toggle it off by selecting it in the menu, or select the\n\
+*Normal* option from the menu.\n\
 \n\
-* Headings are a specialized type of block format used to label other text\n\
-blocks, and are specified using the *Heading* menu.\n\
+* Headings are a specialized type of paragraph format used to label logical\n\
+sections of a document, or to specify the document title, and are selected\n\
+using the *Heading* menu.\n\
 \n\
 ### Why it\'s important\n\
 \n\
-* Thinking in terms of blocks within your document is a higher-level approach\n\
-to providing structure and semantics that are important for all users.\n\
+* Thinking in terms of blocks such as paragraphs and section headings within\n\
+your document is a higher-level approach to providing structure and semantics\n\
+that are important for all users.\n\
 \n\
-* When block formats are used properly (e.g. *Preformatted text* or *Address*),\n\
-they help users of assistive technologies understand the intended role of the\n\
-content.\n\
+* When paragraph formats are used properly (e.g. *Preformatted text* or\n\
+*Address*), they help users of assistive technologies understand the intended\n\
+role of the content.\n\
 \n\
-* Visual styling for block formats is predetermined by your organization, thus\n\
-freeing up your time and energy for concentrating on the structure and meaning\n\
-of the content within your document.\n\
+* Visual styling for paragraph formats is predetermined by your organization,\n\
+thus freeing up your time and energy for concentrating on the structure and\n\
+meaning of the content within your document.\n\
 \n\
 ### More information\n\
 \n\
 * <a href="https://en.wikiversity.org/wiki/Technical_writing" target="_resource">Wikiversity: Technical writing</a>\n\
 \n\
 * <a href="https://en.wikipedia.org/wiki/Chunking_&lpar;writing&rpar;" target="_resource">Chunking (writing)</a>\n\
-\n\
 '
   },
 
   inlineStyleHelp: {
-    'menu':  'Inline Style',
-    'label': 'Inline Style',
-    'title': 'Inline Style Help',
+    'menu':  'Character Style',
+    'label': 'Character Style',
+    'title': 'Character Style Help',
     'content': '\
-## Inline Style\n\
+## Character Style\n\
 \n\
 ### How it works\n\
 \n\
-* Inline styles have a different purpose than block formats. They are used\n\
-at a lower level to highlight words or phrases within blocks of text.\n\
+* Character styles have a different purpose than paragraph formats. They are\n\
+used at a lower level to highlight words or phrases within blocks of text.\n\
 \n\
-* To apply an inline style to existing text, select a range of text and then\n\
+* To apply a character style to existing text, select a range of text and then\n\
 choose an option from the menu.\n\
 \n\
-* To apply inline styles to text you are about to type, choose an option from\n\
-the menu and begin typing. The style will continue to be applied until you\n\
-choose another option or move the cursor to a different point in the document.\n\
+* To apply a character style to text you are about to type, choose an option\n\
+from the menu and begin typing. The style will continue to be applied until\n\
+you choose another option or move the cursor to a different point in the\n\
+document.\n\
 \n\
-* Multiple inline styles can be applied to selected text.\n\
+* Multiple character styles can be applied to selected text.\n\
 \n\
 ### Why it\'s important\n\
 \n\
-* Thinking in terms of block formats first, and then using inline styles to\n\
-emphasize key words or phrases within text blocks, results in documents that\n\
-are easier to read and understand.\n\
+* Thinking in terms of headings, lists and paragraph formats first, and then\n\
+using character styles to emphasize key words or phrases within text blocks,\n\
+results in documents that are easier to read and understand.\n\
 \n\
-* Inline styles, when used properly, help screen reader users better understand\n\
-the types and meanings of lower-level stylistic changes within blocks of text.\n\
+* Character styles, when used properly, help screen reader users better\n\
+understand the types and meanings of lower-level stylistic changes within\n\
+blocks of text.\n\
 \n\
-* When block formats are considered as primary, and inline styles secondary,\n\
-many visual styling decisions are already made by default.\n\
+* When headings, lists and paragraph formats are considered as primary, and\n\
+character styles secondary, many visual styling decisions can be avoided, as\n\
+they are already made by default.\n\
 \n\
-* When inline styles are used to change the styling of blocks of text, it\n\
-makes the document more difficult to read and understand within the context of\n\
-the website.\n\
+* When character styles are used to change the styling of blocks of text\n\
+without regard to whether the block is a heading, list item or other type of\n\
+paragraph format, it makes the document more difficult to read and understand\n\
+within the context of the website.\n\
 \n\
-* Using block formats and inline styles properly will make it easier for you to\n\
-maintain stylistic consistency.\n\
-\n\
-\n\
+* Using headings, lists, paragraph formats and character styles properly will\n\
+make it easier for you to maintain stylistic consistency.\n\
 '
   },
 

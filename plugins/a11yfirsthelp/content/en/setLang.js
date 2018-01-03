@@ -56,18 +56,18 @@ HEADINGHELP\
   },
 
   blockFormatHelp: {
-    'menu':  'Block Format',
-    'label': 'Block Format',
-    'title': 'Block Format Help',
+    'menu':  'Paragraph Format',
+    'label': 'Paragraph Format',
+    'title': 'Paragraph Format Help',
     'content': '\
 BLOCKFORMATHELP\
 '
   },
 
   inlineStyleHelp: {
-    'menu':  'Inline Style',
-    'label': 'Inline Style',
-    'title': 'Inline Style Help',
+    'menu':  'Character Style',
+    'label': 'Character Style',
+    'title': 'Character Style Help',
     'content': '\
 INLINESTYLEHELP\
 '
