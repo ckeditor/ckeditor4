@@ -6,7 +6,7 @@ CKEDITOR.plugins.setLang( 'a11ystylescombo', 'en', {
   label:             'Character Style',
   helpLabel:         'Help',
   removeStylesLabel: 'Remove styles',
-  panelTitle:        'Select inline style',
+  panelTitle:        'Select character style',
   panelTitle1:       'Block Styles',
   panelTitle2:       'Inline Styles',
   panelTitle3:       'Object Styles'
