@@ -153,6 +153,10 @@ CKEDITOR.plugins.add( 'a11ystylescombo', {
               if ( styles[ value ].checkElementRemovable( element, true, editor ) ) {
                 if ( value != currentValue )
                   this.setValue( value );
+                // Reinstate the CSS class that richcombo setValue removes to prevent
+                // truncation of label text
+                var textElement = this.document.getById( 'cke_' + this.id + '_text' );
+                textElement.addClass( 'cke_combo_inlinelabel' );
                 return;
               }
             }
