@@ -557,13 +557,16 @@
 	CKEDITOR.plugins.add( 'balloontoolbar', {
 		requires: 'balloonpanel',
 
-		beforeInit: function() {
+		beforeInit: function( editor ) {
 			if ( !cssLoaded ) {
 				// Load fallback styles.
 				CKEDITOR.document.appendStyleSheet( this.path + 'skins/default.css' );
 				CKEDITOR.document.appendStyleSheet( this.path + 'skins/' + CKEDITOR.skin.name + '/balloontoolbar.css' );
 				cssLoaded = true;
 			}
+
+			// enable context api in plugin.init()
+			editor.balloonToolbars = new CKEDITOR.plugins.balloontoolbar.contextManager( editor );
 		},
 
 		init: function( editor ) {
