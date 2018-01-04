@@ -9,10 +9,10 @@
 
 	var uploadCount, loadAndUploadCount, resumeAfter, tests,
 		IMG_URL = '%BASE_PATH%_assets/logo.png',
-		DATA_IMG = 'data:',
-		BLOB_IMG = 'blob:',
+		DATA_IMG = 'data:image/gif;base64,R0lGODlhDgAOAIAAAAAAAP///yH5BAAAAAAALAAAAAAOAA4AAAIMhI+py+0Po5y02qsKADs=',
+		BLOB_IMG = /^blob\:.+\-.+\-.+\-.+\-.+$/,
 		WIDGET_HTML = '<figure class="easyimage">' +
-				'<img src="' + IMG_URL + '" srcset="' + IMG_URL + ' 100w, ' + IMG_URL + ' 200w" sizes="100vw" width="1" />' +
+				'<img src="' + IMG_URL + '" srcset="' + IMG_URL + ' 100w, ' + IMG_URL + ' 200w" sizes="100vw" width="14" />' +
 				'<figcaption></figcaption>' +
 			'</figure>',
 		commonConfig = {
@@ -60,8 +60,10 @@
 		assert.areSame( 1, widgets.length, 'Created widgets count' );
 		assert.areSame( '0', widgets[ 0 ].element.getAttribute( 'data-cke-upload-id' ) );
 
-		if ( typeof options.expectedSrc !== 'undefined' ) {
-			assert.areSame( options.expectedSrc, widgets[ 0 ].element.getAttribute( 'src' ).substring( 0, 5 ) );
+		if ( options.expectedSrc instanceof RegExp ) {
+			assert.isMatching( options.expectedSrc, widgets[ 0 ].element.getAttribute( 'src' ), 'widget src' );
+		} else if ( typeof options.expectedSrc !== 'undefined' ) {
+			assert.areSame( options.expectedSrc, widgets[ 0 ].element.getAttribute( 'src' ), 'widget src' );
 		}
 
 		if ( options.callback ) {
@@ -121,26 +123,32 @@
 		},
 
 		'test classic with easyimage (integration test)': function( editor ) {
-			pasteFiles( editor, [ bender.tools.getTestPngFile() ] );
+			var file = bender.tools.srcToFile( DATA_IMG );
+			file.name = 'foo.gif';
+			pasteFiles( editor, [ file ] );
 
 			assertUploadingWidgets( editor, DATA_IMG );
 			assert.areSame( '', editor.getData(), 'getData on loading.' );
 
 			var loader = editor.uploadRepository.loaders[ 0 ];
 
-			loader.data = bender.tools.pngBase64;
+			loader.data = DATA_IMG;
 			loader.uploadTotal = 10;
 			loader.changeStatus( 'uploading' );
 
-			assertUploadingWidgets( editor, BLOB_IMG );
+			assertUploadingWidgets( editor, {
+				expectedSrc: BLOB_IMG
+			} );
 			assert.areSame( '', editor.getData(), 'getData on uploading.' );
 
 			var image = editor.editable().find( 'img[data-widget="uploadeasyimage"]' ).getItem( 0 );
 
-			waitForImage( image, function() {
-				loader.url = IMG_URL;
-				loader.changeStatus( 'uploaded' );
+			// Loader has to be triggered before the image is actually loaded, to reproduce case reported in:
+			// https://github.com/ckeditor/ckeditor-dev/pull/1387#pullrequestreview-85952913
+			loader.url = IMG_URL;
+			loader.changeStatus( 'uploaded' );
 
+			waitForImage( image, function() {
 				assert.beautified.html( WIDGET_HTML, editor.getData() );
 				assert.areSame( 1, editor.editable().find( '[data-widget="easyimage"]' ).count(), 'Easy Image widgets count' );
 
@@ -151,17 +159,19 @@
 
 		'test paste img as html (integration test)': function( editor, bot ) {
 			bot.setData( '', function() {
-				pasteFiles( editor, [], '<p>x<img src="' + bender.tools.pngBase64 + '">x</p>' );
+				pasteFiles( editor, [], '<p>x<img src="' + DATA_IMG + '">x</p>' );
 
 				assertUploadingWidgets( editor, DATA_IMG );
 				assert.areSame( '<p>x</p><p>x</p>', editor.getData(), 'getData on loading.' );
 
 				var loader = editor.uploadRepository.loaders[ 0 ];
 
-				loader.data = bender.tools.pngBase64;
+				loader.data = DATA_IMG;
 				loader.changeStatus( 'uploading' );
 
-				assertUploadingWidgets( editor, BLOB_IMG );
+				assertUploadingWidgets( editor, {
+					expectedSrc: BLOB_IMG
+				} );
 				assert.areSame( '<p>x</p><p>x</p>', editor.getData(), 'getData on uploading.' );
 
 				var image = editor.editable().find( 'img[data-widget="uploadeasyimage"]' ).getItem( 0 );
@@ -439,7 +449,7 @@
 			var createspy = sinon.spy( editor.uploadRepository, 'create' );
 
 			editor.fire( 'paste', {
-				dataValue: '<img src="data:image/gif;base64,aw==" alt="nothing" data-cke-realelement="some" />'
+				dataValue: '<img src="' + DATA_IMG + '" alt="nothing" data-cke-realelement="some" />'
 			} );
 
 			editor.once( 'afterPaste', function() {
