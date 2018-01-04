@@ -1,0 +1,16 @@
+<textarea id="editor1">
+	<p>Some text</p>
+	<ul>
+		<li>One</li>
+		<li>Two<ol>
+	</ul>
+
+	<div><div>Div inside div</div></div>
+
+</textarea>
+
+<script>
+	CKEDITOR.replace( 'editor1', {
+		allowedContent: true
+	} );
+</script>

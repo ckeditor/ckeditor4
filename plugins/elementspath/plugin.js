@@ -47,6 +47,7 @@
 		' title="{label}"' +
 		extra +
 		' hidefocus="true" ' +
+		' draggable="false" ' +
 		' onkeydown="return CKEDITOR.tools.callFunction({keyDownFn},{index}, event );"' +
 		' onclick="CKEDITOR.tools.callFunction({clickFn},{index}); return false;"' +
 		' role="button" aria-label="{label}">' +
