@@ -8,13 +8,31 @@
 * Note: When filebrowser, format and stylescombo are removed, their
 * dependencies (popup, listblock and richcombo) are also removed.
 *
-* 1. Add a11ychecker, find, language, liststyle, showblocks
+* 1. Add a11ychecker, find, justify, language, liststyle, showblocks
 *
 * 2. Remove filebrowser, floatingspace, format, horizontalrule, htmlwriter,
 *    maximize, scayt (spellchecker), stylescombo and wsc (spellchecker)
 *
 * 3. Add listblock, richcombo (a11yfirst dependencies)
 *
+* Note: To determine which plugins to include in our distribution, an analysis
+* of the differences between the Basic and Standard presets was performed. The
+* following are the additional plugins provided by Standard over Basic, with
+* comments specifying whether to include each:
+*
+*   elementspath     // yes
+*   filebrowser      // no
+*   horizontalrule   // no
+*   htmlwriter       // no
+*   magicline        // yes
+*   maximize         // no
+*   popup            // no
+*   resize           // yes
+*   showborders      // yes
+*   sourcearea       // yes
+*   tab              // yes
+*   tableselection   // yes
+*   tabletools       // yes
 */
 
 CKEDITOR.editorConfig = function ( config ) {
@@ -70,31 +88,6 @@ CKEDITOR.editorConfig = function ( config ) {
     'toolbar,' +
     'undo,' +
     'wysiwygarea';
-
-  var standardMinusBasic =
-    'elementspath,' +     // yes
-    'filebrowser,' +      // no
-    'horizontalrule,' +   // no
-    'htmlwriter,' +       // no
-    'magicline,' +        // yes
-    'maximize,' +         // no
-    'popup,' +            // no
-    'resize,' +           // yes
-    'showborders,' +      // yes
-    'sourcearea,' +       // yes
-    'tab,' +              // yes
-    'tableselection,' +   // yes
-    'tabletools';         // yes
-
-  var removeFromStandard =
-    'filebrowser,' +
-    'floatingspace,' +
-    'format,' +
-    'horizontalrule,' +
-    'htmlwriter,' +
-    'maximize,' +
-    'popup,' +
-    'stylescombo';
 
   config.extraPlugins =
     'a11yfirsthelp,' +
