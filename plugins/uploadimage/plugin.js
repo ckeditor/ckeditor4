@@ -19,6 +19,12 @@
 		return String( input );
 	}
 
+	function supportedTypes( types ) {
+		types = types || [ 'jpeg', 'png', 'gif', 'bmp' ];
+		var regexStr = 'image\/(' + types.join( '|' ) + ')';
+		return new RegExp( regexStr );
+	}
+
 	// Returns a unique image file name.
 	function getUniqueImageFileName( type ) {
 		var date = new Date(),
@@ -55,7 +61,7 @@
 
 			// Handle images which are available in the dataTransfer.
 			fileTools.addUploadWidget( editor, 'uploadimage', {
-				supportedTypes: /image\/(jpeg|png|gif|bmp)/,
+				supportedTypes: supportedTypes( editor.config.uploadImage_supportedTypes ),
 
 				uploadUrl: uploadUrl,
 
@@ -145,6 +151,11 @@
 	 *
 	 * @since 4.5
 	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]
+	 * @member CKEDITOR.config
+	 *
+	 * This setting allows to configure custom types for image upload. If not provided default types will be used.
+	 * @since 4.8.1
+	 * @cfg {String[]} [uploadImage_supportedTypes=['jpeg', 'png', 'gif', 'bmp'] (empty array = disabled) ]
 	 * @member CKEDITOR.config
 	 */
 } )();
