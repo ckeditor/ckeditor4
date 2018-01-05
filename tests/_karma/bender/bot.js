@@ -15,12 +15,11 @@
 		var creator = profile.creator || 'replace',
 			name = profile.name || 'test_editor',
 			tc = bender.getTestSuite().getBenderTestCase(),
-			editorsWrapper = CKEDITOR.document.getById( 'editors-wrapper' ),
 			benderPlugins = bender.getBenderPlugins(),
 			element,
 			config;
 
-		element = CKEDITOR.document.getById( name ) || editorsWrapper.append(
+		element = CKEDITOR.document.getById( name ) || CKEDITOR.document.getBody().append(
 			CKEDITOR.dom.element.createFromHtml( creator == 'replace' ?
 				'<textarea id="' + name + '"' + '></textarea>' :
 				'<div id="' + name + '"' + ' contenteditable="true"></div>' )

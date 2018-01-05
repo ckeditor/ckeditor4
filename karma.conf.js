@@ -13,35 +13,38 @@ module.exports = function( config ) {
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 		frameworks: [ 'ckeditor4-yui-to-chai', 'mocha', 'ckeditor4-bender-iframes' ],
 
-		// list of files / patterns to load in the browser
 		files: [
+			// Serve CKEditor files.
 			{ pattern: 'ckeditor.js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: '+(core|plugins|skins|lang)/**/*', included: false, served: true, watched: false, nocache: true },
 			{ pattern: '+(config|styles).js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: 'contents.css', included: false, served: true, watched: false, nocache: true },
 
-			// Load karma files.
+			// Serve karma files.
 			{ pattern: 'tests/_karma/runner.js', included: false, served: true, watched: false, nocache: true },
 			{ pattern: 'tests/_karma/**/*.js', included: false, served: true, watched: false, nocache: true },
 
-			// Load html fixtures. - 'tests/**/*.html'
+			// Serve helpers - 'tests/**/_helpers/*.js'. Do not load helpers for manual tests.
+			{ pattern: 'tests/**/manual/**/_helpers/*.js', included: false, served: false, watched: false, nocache: false },
+			{ pattern: 'tests/**/_helpers/*.js', included: false, served: true, watched: false, nocache: false },
+
+			// Serve assets - 'tests/**/_assets/**/*.js'.
+			{ pattern: 'tests/**/_assets/**/*', included: false, served: true, watched: false, nocache: false },
+
+			// Skip manual tests '.html' files so they won't be included via 'tests/**/*.html'.
+			{ pattern: 'tests/core/**/manual/**/*.html', included: false, served: false, watched: false, nocache: false },
+			// Load html fixtures - 'tests/**/*.html'.
 			'tests/core/**/*.html',
 
-			// Load helpers. - 'tests/**/_helpers/*.js'
-			{ pattern: 'tests/core/**/_helpers/*.js', included: false, served: true, watched: false, nocache: true },
+			// Load tests.
+			'tests/core/editor/editor.js'
 
-			// Tests.
-			'tests/core/ckeditor/ckeditor.js',
-			'tests/core/tools/**/*.js',
-			'tests/core/command/**/*.js'
-			//
-			// 'tests/core/dom/*.js',
-			// 'tests/core/dom/element/*.js',
-			// 'tests/core/dom/elementpath/*.js',
-			// 'tests/core/creators/setmode.js',
-			// 'tests/core/creators/themedui.js',
-			// 'tests/core/editable/aria.js'
-			// 'tests/plugins/clipboard/paste.js'
+			// 'tests/adapters/**/*.js',
+			// 'tests/core/**/*.js'
+			// 'tests/tickets/**/*.js',
+			// 'tests/utils/**/*.js'
+
+			// 'tests/plugins/**/*.js'
 		],
 
 
@@ -101,7 +104,10 @@ module.exports = function( config ) {
 			useIframe: false,
 			clearContext: true,
 			__filenameOverride: __dirname + '/../index.html',
-			timeout: 20000
+			timeout: 20000,
+			mocha: {
+				timeout: 5000 // single test timeout
+			}
 		}
 	} );
 };
