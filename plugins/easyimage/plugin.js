@@ -216,8 +216,11 @@
 					widget = this;
 
 				getNaturalWidth( widget.parts.img, function( width ) {
-					widget.replaceWith( '<figure class="' + ( editor.config.easyimage_class || '' ) + '"><img src="' +
-					upload.responseData.response[ 'default' ] + '" srcset="' + srcset + '" sizes="100vw" width="' + width + '"><figcaption></figcaption></figure>' );
+					widget.replaceWith( '<figure class="' + ( editor.config.easyimage_class || '' ) + '">' +
+							'<img src="' + upload.responseData.response[ 'default' ] + '" srcset="' + srcset +
+								'" sizes="100vw" width="' + width + '">' +
+							'<figcaption></figcaption>' +
+						'</figure>' );
 				} );
 			}
 		};
