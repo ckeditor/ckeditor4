@@ -48,32 +48,28 @@
 					focusTrap = editor.editable().findOne( 'p' ).getChild( 0 ),
 					range = editor.createRange();
 
-				try {
-					assertVisibility( caption, options.initial, 'caption visibility (initial)' );
+				assertVisibility( caption, options.initial, 'caption visibility (initial)' );
 
-					if ( options.onInit ) {
-						options.onInit( widget );
-					}
+				if ( options.onInit ) {
+					options.onInit( widget );
+				}
 
-					widget.focus();
+				widget.focus();
 
-					assertVisibility( caption, options.focus, 'caption visibility (focus)' );
+				assertVisibility( caption, options.focus, 'caption visibility (focus)' );
 
-					if ( options.onFocus ) {
-						options.onFocus( widget );
-					}
+				if ( options.onFocus ) {
+					options.onFocus( widget );
+				}
 
-					range.setStart( focusTrap, 1 );
-					range.collapse();
-					range.select();
+				range.setStart( focusTrap, 1 );
+				range.collapse();
+				range.select();
 
-					assertVisibility( caption, options.blur, 'caption visibility (blur)' );
+				assertVisibility( caption, options.blur, 'caption visibility (blur)' );
 
-					if ( options.onBlur ) {
-						options.onBlur( widget );
-					}
-				} catch ( error ) {
-					assert.fail( 'Error occured: ' + error );
+				if ( options.onBlur ) {
+					options.onBlur( widget );
 				}
 			} );
 		};
@@ -105,21 +101,22 @@
 
 			function assertOnFocus( widgets, expected ) {
 				forEach( widgets, function( widget, i ) {
-					widget.focus();
+					setTimeout( function() {
+						resume( function() {
+							assertMultipleVisibility( widgets, expected[ i ], 'focus widget#' + i );
+						} );
+					}, 50 );
 
-					assertMultipleVisibility( widgets, expected[ i ], 'focus widget#' + i );
+					widget.focus();
+					wait();
 				} );
 			}
 
 			bot.setData( getFixture( options.fixture ), function() {
 				var widgets = getWidgets( editor, options.widgetsCount );
 
-				try {
-					assertMultipleVisibility( widgets, options.initial, 'initial' );
-					assertOnFocus( widgets, options.focus );
-				} catch ( error ) {
-					assert.fail( 'Error occured: ' + error );
-				}
+				assertMultipleVisibility( widgets, options.initial, 'initial' );
+				assertOnFocus( widgets, options.focus );
 			} );
 		};
 	}
@@ -127,12 +124,19 @@
 	function fillInCaption( widget, content ) {
 		var range = widget.editor.createRange();
 
+		setTimeout( function() {
+			resume( function() {
+				widget.editables.caption.setData( content );
+			} );
+		}, 50 );
+
+		// Simulate user clicking inside the caption.
 		range.setStart( widget.parts.caption.getChild( 0 ), 1 );
 		range.collapse();
 		range.select();
-		widget.parts.caption.focus();
 
-		widget.editables.caption.setData( content );
+		widget.parts.caption.focus();
+		wait();
 	}
 
 	function assertPlaceholder( widget, isVisible ) {
