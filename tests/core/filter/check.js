@@ -92,6 +92,7 @@
 
 			test( true, 'p(cl1)' );
 			test( true, 'p(cl1,cl2)' );
+			test( true, 'p(cl2,cl1)' );
 			test( true, 'p(cl2,cl3,cl3c)' );
 			test( true, 'p' );
 
