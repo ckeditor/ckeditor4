@@ -153,7 +153,8 @@
 	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]
 	 * @member CKEDITOR.config
 	 *
-	 * This setting allows to configure custom types for image upload. If not provided default types will be used.
+	 * Since 4.8.1 version this setting allows to configure custom types for image upload. If not provided default types will be used (jpeg, png, gif, bmp).
+	 * Warning: some browsers does not support custom types eg. Google Chrome and Firefox cannot display `TIF` images.
 	 * @since 4.8.1
 	 * @cfg {String[]} [uploadImage_supportedTypes=['jpeg', 'png', 'gif', 'bmp'] (empty array = disabled) ]
 	 * @member CKEDITOR.config
