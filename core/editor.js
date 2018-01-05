@@ -170,14 +170,15 @@
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
-			if ( this.config.startupFocus === 'end' ) {
-				var range =  this.createRange();
-				range.selectNodeContents( this.editable() );
-				range.shrink( CKEDITOR.SHRINK_TEXT , true );
-				range.collapse();
-				this.getSelection().selectRanges( [range] );
-			} else {
-				this.config.startupFocus && this.focus();
+			if ( this.config.startupFocus ) {
+				if ( this.config.startupFocus === 'end' ) {
+					var range =  this.createRange();
+					range.selectNodeContents( this.editable() );
+					range.shrink( CKEDITOR.SHRINK_TEXT , true );
+					range.collapse();
+					this.getSelection().selectRanges( [range] );
+				}
+				this.focus();
 			}
 		} );
 
