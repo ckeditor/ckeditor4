@@ -85,7 +85,7 @@
 		widget = assertLinkWidgetStatus( options );
 
 		assert.isNull( widget.parts.link, 'Widget does not have link part' );
-		assert.isNull( widget.data.link, 'Widget does not have link data' );
+		assert.isUndefined( widget.data.link, 'Widget does not have link data' );
 	}
 
 	function testLinkCommand( options ) {
@@ -410,6 +410,33 @@
 				}
 			} );
 		},
+
+		// #tp3298
+		'test unlink with data callback after it': function( editor, bot ) {
+			addTestWidget( editor );
+
+			testUnlinkCommand( {
+				bot: bot,
+				html: '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>',
+
+				callback: function( evt, widget ) {
+					assertUnlinkWidget( {
+						widget: widget,
+						editor: editor
+					} );
+
+					widget.once( 'data', function( evt ) {
+						resume( function() {
+							assert.isUndefined( evt.data.link, 'link data type' );
+						} );
+					} );
+
+					widget.setData( 'test', '' );
+					wait();
+				}
+			} );
+		},
+
 		'test link option in context menu': function( editor, bot ) {
 			testLinkOptionInContextMenu( editor, bot, '<figure><a href="http://foo"><img src="%BASE_PATH%_assets/logo.png"></a></figure>', function( editor, index ) {
 				return editor.contextMenu.items[ index ].command == 'link';
