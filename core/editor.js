@@ -170,7 +170,15 @@
 
 		// Handle startup focus.
 		this.on( 'instanceReady', function() {
-			this.config.startupFocus && this.focus();
+			if ( this.config.startupFocus === 'end' ) {
+				var range =  this.createRange();
+				range.selectNodeContents( this.editable() );
+				range.shrink( CKEDITOR.SHRINK_TEXT , true );
+				range.collapse();
+				this.getSelection().selectRanges( [range] );
+			} else {
+				this.config.startupFocus && this.focus();
+			}
 		} );
 
 		CKEDITOR.fire( 'instanceCreated', null, this );
@@ -1566,9 +1574,13 @@ CKEDITOR.ELEMENT_MODE_INLINE = 3;
 /**
  * Whether an editable element should have focus when the editor is loading for the first time.
  *
+ *		// Focus at the beginning of editable.
  *		config.startupFocus = true;
  *
- * @cfg {Boolean} [startupFocus=false]
+ *		// Focus at the end of editable.
+ *		config.startupFocus = 'end';
+ *
+ * @cfg {String/Boolean} [startupFocus=false]
  * @member CKEDITOR.config
  */
 
