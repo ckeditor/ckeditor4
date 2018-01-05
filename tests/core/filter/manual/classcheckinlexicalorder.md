@@ -19,4 +19,4 @@ Repeat below steps in all editors.
 3. Do not change selection or reselect the same text
 3. Re-open stylescombo
 
-**Expected:** Stylescombo shows selected `Marker 2` style. If it's possible you can check sourcemode. There should be visible `span` with classes `a-test b-test` applied to selected fragment.
+**Expected:** Stylescombo shows selected `Marker 2` style. If it's possible you can check sourcemode. There should be visible `span` with classes `b-test a-test` applied to selected fragment.
