@@ -740,7 +740,8 @@
 			// Make a deep copy.
 			var clone = CKEDITOR.tools.clone( element ),
 				toBeRemoved = [],
-				transformations;
+				transformations,
+				elementAttrClass;
 
 			// Apply transformations to original element.
 			// Transformations will be applied to clone by the filter function.
@@ -764,11 +765,31 @@
 			// Element has been marked for removal.
 			if ( toBeRemoved.length > 0 ) {
 				result = false;
-			// Compare only left to right, because clone may be only trimmed version of original element.
-			} else if ( !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) ) {
-				result = false;
-			} else {
-				result = true;
+			}
+			else {
+				// Class might be stored as attribute in different order.
+				if ( element.attributes[ 'class' ] && clone.attributes[ 'class' ] ) {
+					elementAttrClass = element.attributes[ 'class' ];
+					if ( !CKEDITOR.tools.arrayCompare( element.attributes[ 'class' ].split( ' ' ).sort(), clone.attributes[ 'class' ].split( ' ' ).sort() ) ) {
+						result = false;
+					}
+					delete element.attributes[ 'class' ];
+					delete clone.attributes[ 'class' ];
+				}
+
+				// Compare only left to right, because clone may be only trimmed version of original element.
+				// We don't want to overwrite result if was given by comparing classes.
+				if ( result === false || !CKEDITOR.tools.objectCompare( element.attributes, clone.attributes, true ) ) {
+					result = false;
+				}
+				else {
+					result = true;
+				}
+			}
+
+			// Restoring attribute class if it was removed previously
+			if ( elementAttrClass ) {
+				element.attributes[ 'class' ] = elementAttrClass;
 			}
 
 			// Cache result of this test - we can build cache only for string tests.
