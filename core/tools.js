@@ -1877,7 +1877,9 @@
 				 */
 				border: function( value ) {
 					var ret = {},
-						input = value.split( /\s+/ );
+						// remove every white space after comma from color eg. rbg(10, 20, 30, .75)
+						trimmedValue = value.replace( /,\s+/g, ',' ),
+						input = trimmedValue.split( /\s+/ );
 
 					CKEDITOR.tools.array.forEach( input, function( val ) {
 						if ( !ret.color ) {
