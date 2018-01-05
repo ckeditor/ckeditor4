@@ -68,6 +68,13 @@
 				name: 'editor_default',
 				expected: '<p>foo</p><p>foo</p>'
 			} );
+		},
+		'test startup focus "start"': function() {
+			botInitializer( {
+				name: 'editor_start',
+				startupFocus: 'start',
+				expected: '<p>{}foo</p>'
+			} );
 		}
 	} );
 } )();

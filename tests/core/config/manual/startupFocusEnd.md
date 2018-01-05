@@ -2,9 +2,6 @@
 @bender-ui: collapsed
 @bender-ckeditor-plugins: wysiwygarea, elementspath, resize, list
 
-Test
+Editor startup focus end
 
-1. Test
-2. Test
-
-**Expected result:** test
+**Expected result:** On page load editables should be focused at the end of its content
