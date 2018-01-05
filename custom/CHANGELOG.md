@@ -33,7 +33,7 @@ All notable changes to the A11yFirst project will be documented in this file.
 ### Fixes
 
 * Include the `justify` plugin in the list of plugins in `config.js`, which had been
-  inadvertantly omitted from the CKBuilder process (not included by default in Basic
+  inadvertently omitted from the CKBuilder process (not included by default in Basic
   or Standard preset)
 
 * Add the `Justify` button after the previously configured three (Align Left, Center
