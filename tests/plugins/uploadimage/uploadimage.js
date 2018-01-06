@@ -22,7 +22,19 @@
 				imageUploadUrl: 'http://foo/upload',
 				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
 				pasteFilter: null,
-				uploadImage_supportedTypes: [ 'tiff', 'tif' ]
+				uploadImage_supportedTypes: [ 'png', 'tif' ]
+			}
+		},
+		customDisabled: {
+			name: 'custom_disabled',
+			creator: 'replace',
+			config: {
+				extraPlugins: 'uploadimage,image',
+				removePlugins: 'image2',
+				imageUploadUrl: 'http://foo/upload',
+				// Disable pasteFilter on Webkits (pasteFilter defaults semantic-text on Webkits).
+				pasteFilter: null,
+				uploadImage_supportedTypes: []
 			}
 		},
 		classic: {
@@ -337,10 +349,32 @@
 
 			bot.setData( '', function() {
 				resumeAfter( editor, 'paste', function() {
-					assert.areSame( 1, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
+					assert.areSame( 2, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
 				} );
 
-				pasteFiles( editor, [ { name: 'test.tiff', type: 'image/tiff' } ] );
+				pasteFiles( editor, [
+					{ name: 'test.tif', type: 'image/tif' },
+					{ name: 'test.png', type: 'image/png' }
+				] );
+
+				wait();
+			} );
+		},
+
+		'test disabled uploadImage_supportedTypes': function() {
+			var bot = this.editorBots.customDisabled,
+				editor = this.editors.customDisabled;
+
+			bot.setData( '', function() {
+				resumeAfter( editor, 'paste', function() {
+					assert.areSame( 0, editor.editable().find( 'img[data-widget="uploadimage"]' ).count() );
+				} );
+
+				pasteFiles( editor, [
+					{ name: 'test.gif', type: 'image/gif' },
+					{ name: 'test.png', type: 'image/png' },
+					{ name: 'test.jpg', type: 'image/jpg' }
+				] );
 
 				wait();
 			} );

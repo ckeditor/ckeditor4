@@ -19,9 +19,9 @@
 		return String( input );
 	}
 
-	function supportedTypes( types ) {
-		types = types || [ 'jpeg', 'png', 'gif', 'bmp' ];
-		var regexStr = 'image\/(' + types.join( '|' ) + ')';
+	function getSupportedTypes( types ) {
+		// Matches given types if provided.
+		var regexStr = types.length ? 'image\/(' + types.join( '|' ) + ')' : '(?!.*)';
 		return new RegExp( regexStr );
 	}
 
@@ -61,7 +61,7 @@
 
 			// Handle images which are available in the dataTransfer.
 			fileTools.addUploadWidget( editor, 'uploadimage', {
-				supportedTypes: supportedTypes( editor.config.uploadImage_supportedTypes ),
+				supportedTypes: getSupportedTypes( editor.config.uploadImage_supportedTypes ),
 
 				uploadUrl: uploadUrl,
 
@@ -152,11 +152,16 @@
 	 * @since 4.5
 	 * @cfg {String} [imageUploadUrl='' (empty string = disabled)]
 	 * @member CKEDITOR.config
+	 */
+
+	/**
+	 * This setting allows to configure custom types for image upload. If not provided default types will be used.
+	 * Warning: some browsers does not support all custom types eg. Google Chrome and Firefox cannot display `TIF` images.
 	 *
-	 * Since 4.8.1 version this setting allows to configure custom types for image upload. If not provided default types will be used (jpeg, png, gif, bmp).
-	 * Warning: some browsers does not support custom types eg. Google Chrome and Firefox cannot display `TIF` images.
 	 * @since 4.8.1
-	 * @cfg {String[]} [uploadImage_supportedTypes=['jpeg', 'png', 'gif', 'bmp'] (empty array = disabled) ]
+	 * @cfg {String[]} [uploadImage_supportedTypes=['jpeg', 'png', 'gif', 'bmp'] (empty array = disabled)]
 	 * @member CKEDITOR.config
 	 */
+	CKEDITOR.config.uploadImage_supportedTypes = [ 'jpeg', 'png', 'gif', 'bmp' ];
+
 } )();
