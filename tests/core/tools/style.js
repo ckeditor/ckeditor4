@@ -171,8 +171,8 @@
 		},
 
 		'test style.parse.border with color white spaces': function() {
-			objectAssert.areEqual( { style: 'solid', color: 'rgba(10,20,30,.75)', width: '1px' }, CKEDITOR.tools.style.parse.border( '1px solid rgba(10,  20, 30,  .75)' ) );
+			objectAssert.areEqual( { style: 'solid', color: 'rgba(10,  20, 30,  .75)', width: '1px' },
+				CKEDITOR.tools.style.parse.border( '1px solid rgba(10,  20, 30,  .75)' ) );
 		}
-
 	} );
 } )();
