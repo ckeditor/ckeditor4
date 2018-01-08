@@ -412,7 +412,7 @@
 		},
 
 		// #tp3298
-		'test unlink with data callback after it': function( editor, bot ) {
+		'test calling setData after unlink keeps correct data.link': function( editor, bot ) {
 			addTestWidget( editor );
 
 			testUnlinkCommand( {
