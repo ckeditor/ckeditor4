@@ -8,7 +8,7 @@
 
 	function testOutput( name, editor ) {
 		bender.tools.testInputOut( name, function( input, output ) {
-			bender.assert.beautified.html( output, CKEDITOR.cleanWord( input, editor ) , name );
+			bender.assert.beautified.html( output, CKEDITOR.cleanWord( { dataValue: input }, editor ) , name );
 		} );
 	}
 

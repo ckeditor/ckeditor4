@@ -95,7 +95,7 @@
 						editor.fire( 'paste', data );
 					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
 
-						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor, pfwEvtData.dataTransfer );
+						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData, editor );
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
 

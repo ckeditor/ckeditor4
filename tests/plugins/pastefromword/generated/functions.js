@@ -171,7 +171,7 @@
 			filter.applyTo( fragment );
 			fragment.writeHtml( writer );
 
-			assert.areSame( CKEDITOR.cleanWord( html, this.editor ), writer.getHtml() );
+			assert.areSame( CKEDITOR.cleanWord( { dataValue: html }, this.editor ), writer.getHtml() );
 		},
 		'test dissolving lists': function() {
 			var editorStub = {
@@ -216,7 +216,7 @@
 				'<li ><span style="tab-stops:list 1.0in"><span lang="EN-GB" style="font-size:10.0pt">' +
 				'<span style="font-family:&quot;Verdana&quot;,sans-serif">This one is size 10</span></span></span></li></ul></li></ul>' +
 				'<p><span style="color:green"></span></p>',
-				CKEDITOR.cleanWord( html, editorStub ), { sortAttributes: true } );
+				CKEDITOR.cleanWord( { dataValue: html }, editorStub ), { sortAttributes: true } );
 		},
 
 		'test isAListContinuation': function() {

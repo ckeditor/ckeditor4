@@ -29,7 +29,20 @@
 			'v:group'
 		],
 		links = {},
-		state = new State();
+		state = {
+			inComment: false,
+			inVml: false,
+			allEnd: function() {
+				this.inComment = false;
+				this.inVml = false;
+			},
+			commentStart: function() {
+				this.inComment = true;
+			},
+			vmlStart: function() {
+				this.inVml = true;
+			}
+		};
 
 	/**
 	 * Set of Paste from Word plugin helpers.
@@ -40,8 +53,17 @@
 	 */
 	CKEDITOR.plugins.pastefromword = {};
 
-	CKEDITOR.cleanWord = function( mswordHtml, editor, evtDataTransfer ) {
-		var msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
+	/**
+	 * Global method which fiter out pasted content from MS Word.
+	 *
+	 * @param {Object} pfwEvtData paste event data
+	 * @param {CKEDITOR.editor} editor current {@link CKEDITOR.editor} instance
+	 * @returns {String} HTML with data pasted from word after filtration
+	 *
+	 */
+	CKEDITOR.cleanWord = function( pfwEvtData, editor ) {
+		var mswordHtml = pfwEvtData.dataValue,
+			msoListsDetected = Boolean( mswordHtml.match( /mso-list:\s*l\d+\s+level\d+\s+lfo\d+/ ) ),
 			shapesIds = [],
 			configInlineImages = editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages;
 
@@ -522,7 +544,7 @@
 		var ret = writer.getHtml();
 
 		if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages ) {
-			ret = imageProcessor( ret, evtDataTransfer, editor );
+			ret = imageProcessor( ret, pfwEvtData.dataTransfer, editor );
 		}
 
 		return ret;
@@ -2421,27 +2443,6 @@
 	CKEDITOR.plugins.pastefromword.createAttributeStack = createAttributeStack;
 
 	// ----> Help Methods <----
-
-	/**
-	 * Simple object to store information, what kind of comments we are currnetly on.
-	 */
-	function State() {
-		// Nested comments are forbidden.
-		return {
-			inComment: false,
-			inVml: false,
-			allEnd: function() {
-				this.inComment = false;
-				this.inVml = false;
-			},
-			commentStart: function() {
-				this.inComment = true;
-			},
-			vmlStart: function() {
-				this.inVml = true;
-			}
-		};
-	}
 
 	function imageProcessor( html, rtf, editor ) {
 		var pfw = CKEDITOR.plugins.pastefromword && CKEDITOR.plugins.pastefromword.images,
