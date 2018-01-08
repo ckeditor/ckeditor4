@@ -176,7 +176,9 @@
 		'test dissolving lists': function() {
 			var editorStub = {
 					fire: sinon.stub(),
-					config: {}
+					config: {
+						pasteFromWord_inlineImages: false
+					}
 				};
 
 			var html = '<p class="MsoNormal"><span style="color:red">The list below does not copy + paste correctly:<o:p></o:p></span></p>' +

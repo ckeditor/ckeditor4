@@ -16,8 +16,7 @@
 		init: function( editor ) {
 			// Flag indicate this command is actually been asked instead of a generic pasting.
 			var forceFromWord = 0,
-				path = this.path,
-				configInlineImages = editor.config.pasteFromWord_inlineImages === undefined ? true : editor.config.pasteFromWord_inlineImages;
+				path = this.path;
 
 			editor.addCommand( 'pastefromword', {
 				// Snapshots are done manually by editable.insertXXX methods.
@@ -96,7 +95,7 @@
 						editor.fire( 'paste', data );
 					} else if ( !editor.config.pasteFromWordPromptCleanup || ( forceFromWord || confirm( editor.lang.pastefromword.confirmCleanup ) ) ) {
 
-						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor );
+						pfwEvtData.dataValue = CKEDITOR.cleanWord( pfwEvtData.dataValue, editor, pfwEvtData.dataTransfer );
 
 						editor.fire( 'afterPasteFromWord', pfwEvtData );
 
@@ -120,53 +119,6 @@
 				isLazyLoad && evt.cancel();
 			}, null, null, 3 );
 
-			// Paste From Word Image:
-			// RTF clipboard is required for embedding images.
-			// If img tags are not allowed there is no point to process images.
-			if ( CKEDITOR.plugins.clipboard.isCustomDataTypesSupported && configInlineImages ) {
-				editor.on( 'afterPasteFromWord', imagePastingListener );
-			}
-
-			function imagePastingListener( evt ) {
-				var pfw = CKEDITOR.plugins.pastefromword && CKEDITOR.plugins.pastefromword.images,
-					imgTags,
-					hexImages,
-					newSrcValues = [],
-					i;
-
-				// If pfw images namespace is unavailable or img tags are not allowed we simply skip adding images.
-				if ( !pfw || !evt.editor.filter.check( 'img[src]' ) ) {
-					return;
-				}
-
-				function createSrcWithBase64( img ) {
-					return img.type ? 'data:' + img.type + ';base64,' + CKEDITOR.tools.convertBytesToBase64( CKEDITOR.tools.convertHexStringToBytes( img.hex ) ) : null;
-				}
-
-				imgTags = pfw.extractTagsFromHtml( evt.data.dataValue );
-				if ( imgTags.length === 0 ) {
-					return;
-				}
-
-				hexImages = pfw.extractFromRtf( evt.data.dataTransfer[ 'text/rtf' ] );
-				if ( hexImages.length === 0 ) {
-					return;
-				}
-
-				CKEDITOR.tools.array.forEach( hexImages, function( img ) {
-					newSrcValues.push( createSrcWithBase64( img ) );
-				}, this );
-
-				// Assuming there is equal amount of Images in RTF and HTML source, so we can match them accordingly to the existing order.
-				if ( imgTags.length === newSrcValues.length ) {
-					for ( i = 0; i < imgTags.length; i++ ) {
-						// Replace only `file` urls of images ( shapes get newSrcValue with null ).
-						if ( ( imgTags[ i ].indexOf( 'file://' ) === 0 ) && newSrcValues[ i ] ) {
-							evt.data.dataValue = evt.data.dataValue.replace( imgTags[ i ], newSrcValues[ i ] );
-						}
-					}
-				}
-			}
 		}
 
 	} );
