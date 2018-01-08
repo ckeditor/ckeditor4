@@ -1877,19 +1877,14 @@
 				 */
 				border: function( value ) {
 					var ret = {},
-						// Remove every white space after comma from color eg. rbg(10, 20, 30, .75) to rbg(10,20,30,.75).
-						trimmedValue = value.replace( /,\s+/g, ',' ),
-						input = trimmedValue.split( /\s+/ );
+						input = value.split( /\s+/g );
+
+					var parseColor = CKEDITOR.tools.style.parse._findColor( value );
+					if ( parseColor.length ) {
+						ret.color = parseColor[0];
+					}
 
 					CKEDITOR.tools.array.forEach( input, function( val ) {
-						if ( !ret.color ) {
-							var parseColor = CKEDITOR.tools.style.parse._findColor( val );
-							if ( parseColor.length ) {
-								ret.color = parseColor[ 0 ];
-								return;
-							}
-						}
-
 						if ( !ret.style ) {
 							if ( CKEDITOR.tools.indexOf( CKEDITOR.tools.style.parse._borderStyle, val ) !== -1 ) {
 								ret.style = val;
