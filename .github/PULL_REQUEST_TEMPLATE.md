@@ -18,3 +18,7 @@ in the official CKEditor documentation.
 ## What changes did you make?
 
 *Give an overview…*
+
+### Suggested changelog entry (see [changelog](https://github.com/ckeditor/ckeditor-dev/blob/master/CHANGES.md) for examples)
+
+*Descriptive and easy to understand changes summary...*
